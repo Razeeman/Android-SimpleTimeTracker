@@ -20,4 +20,8 @@ class TimePeriodRepo @Inject constructor(
             timePeriod.let(timePeriodMapper::map)
         )
     }
+
+    override suspend fun clear() {
+        timePeriodDao.clear()
+    }
 }

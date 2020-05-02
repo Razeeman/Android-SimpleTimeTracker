@@ -43,6 +43,9 @@ class MainFragment : Fragment() {
         btnAdd.setOnClickListener {
             viewModel.add()
         }
+        btnClear.setOnClickListener {
+            viewModel.clear()
+        }
     }
 
     companion object {

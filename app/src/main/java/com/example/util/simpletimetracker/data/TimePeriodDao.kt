@@ -12,4 +12,7 @@ interface TimePeriodDao {
 
     @Insert
     suspend fun insert(timePeriod: TimePeriodDBO)
+
+    @Query("DELETE FROM timePeriods")
+    suspend fun clear()
 }

@@ -7,9 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.domain.TimePeriod
 import com.example.util.simpletimetracker.domain.TimePeriodInteractor
 import com.example.util.simpletimetracker.domain.orTrue
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class MainViewModel : ViewModel() {
@@ -41,12 +39,18 @@ class MainViewModel : ViewModel() {
         }
     }
 
+    fun clear() {
+        viewModelScope.launch {
+            timerPeriodInteractor.clear()
+            update()
+        }
+    }
+
     private suspend fun update() {
         periodsLiveData.postValue(load())
     }
 
-    private suspend fun load(): List<TimePeriod> =
-        withContext(Dispatchers.IO) {
-            timerPeriodInteractor.getAll()
-        }
+    private suspend fun load(): List<TimePeriod> {
+        return timerPeriodInteractor.getAll()
+    }
 }
