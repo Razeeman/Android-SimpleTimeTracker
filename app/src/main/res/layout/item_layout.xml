@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="4dp">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvItemId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="1" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvItemName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        tools:text="item name" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvItemTimeStarted"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="100" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvItemTimeEnded"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="200" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>
