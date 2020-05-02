@@ -2,18 +2,20 @@ package com.example.util.simpletimetracker.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.example.util.simpletimetracker.data.TimePeriodDBO
-import com.example.util.simpletimetracker.data.TimePeriodDao
+import androidx.lifecycle.liveData
+import com.example.util.simpletimetracker.domain.TimePeriod
+import com.example.util.simpletimetracker.domain.TimePeriodInteractor
 import javax.inject.Inject
 
 class MainViewModel : ViewModel() {
 
     @Inject
-    lateinit var timePeriodDao: TimePeriodDao
+    lateinit var timerPeriodInteractor: TimePeriodInteractor
 
-    private val periodsLiveData: LiveData<List<TimePeriodDBO>> by lazy {
-        return@lazy timePeriodDao.getAll()
+    private val periodsLiveData: LiveData<List<TimePeriod>> = liveData {
+        val data = timerPeriodInteractor.getAll()
+        emit(data)
     }
 
-    val periods: LiveData<List<TimePeriodDBO>> get() = periodsLiveData
+    val periods: LiveData<List<TimePeriod>> get() = periodsLiveData
 }

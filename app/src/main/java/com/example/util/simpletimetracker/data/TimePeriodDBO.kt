@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "timePeriods")
 data class TimePeriodDBO(
     @PrimaryKey(autoGenerate = true)
-    var id: Long = 0,
+    var id: Long,
 
     @ColumnInfo(name = "name")
     var name: String,

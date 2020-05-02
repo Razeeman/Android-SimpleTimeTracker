@@ -4,12 +4,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.util.simpletimetracker.R
-import com.example.util.simpletimetracker.data.TimePeriodDBO
+import com.example.util.simpletimetracker.domain.TimePeriod
 import kotlinx.android.synthetic.main.item_layout.view.*
 
 class MainAdapter : RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
 
-    private val items: MutableList<TimePeriodDBO> = mutableListOf()
+    private val items: MutableList<TimePeriod> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
         return MainViewHolder(parent)
@@ -22,12 +22,12 @@ class MainAdapter : RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
         holder.bind(items[position])
     }
 
-    fun add(newItems: List<TimePeriodDBO>) {
+    fun add(newItems: List<TimePeriod>) {
         items.addAll(newItems)
         notifyDataSetChanged()
     }
 
-    fun add(newItem: TimePeriodDBO) {
+    fun add(newItem: TimePeriod) {
         items.add(newItem)
         notifyItemInserted(items.lastIndex)
     }
@@ -37,7 +37,7 @@ class MainAdapter : RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
     ) : RecyclerView.ViewHolder(
         LayoutInflater.from(parent.context).inflate(R.layout.item_layout, parent, false)
     ) {
-        fun bind(item: TimePeriodDBO) = with(itemView) {
+        fun bind(item: TimePeriod) = with(itemView) {
             tvItemId.text = item.id.toString()
             tvItemName.text = item.name
             tvItemTimeStarted.text = item.timeStarted.toString()

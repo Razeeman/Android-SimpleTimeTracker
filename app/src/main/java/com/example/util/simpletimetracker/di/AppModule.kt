@@ -5,6 +5,8 @@ import androidx.room.Room
 import com.example.util.simpletimetracker.TimeTrackerApp
 import com.example.util.simpletimetracker.data.AppDatabase
 import com.example.util.simpletimetracker.data.TimePeriodDao
+import com.example.util.simpletimetracker.data.TimePeriodRepo
+import com.example.util.simpletimetracker.domain.BaseTimePeriodRepo
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -35,7 +37,13 @@ class AppModule(application: TimeTrackerApp) {
 
     @Provides
     @Singleton
-    fun getItemDao(database: AppDatabase): TimePeriodDao {
+    fun getTimerPeriodDao(database: AppDatabase): TimePeriodDao {
         return database.timePeriodDao()
+    }
+
+    // TODO binds?
+    @Provides
+    fun getTimePeriodRepo(timePeriodRepo: TimePeriodRepo): BaseTimePeriodRepo {
+        return timePeriodRepo
     }
 }
