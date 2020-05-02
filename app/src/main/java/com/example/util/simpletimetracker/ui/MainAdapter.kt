@@ -22,7 +22,8 @@ class MainAdapter : RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
         holder.bind(items[position])
     }
 
-    fun add(newItems: List<TimePeriod>) {
+    fun replace(newItems: List<TimePeriod>) {
+        items.clear()
         items.addAll(newItems)
         notifyDataSetChanged()
     }

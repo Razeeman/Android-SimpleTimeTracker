@@ -18,10 +18,6 @@ class MainFragment : Fragment() {
 
     private val adapter: MainAdapter = MainAdapter()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -40,8 +36,12 @@ class MainFragment : Fragment() {
 
         TimeTrackerApp.appComponent?.inject(viewModel)
 
-        viewModel.periods.observe(viewLifecycleOwner) {
-            adapter.add(it)
+        viewModel.getPeriods().observe(viewLifecycleOwner) {
+            adapter.replace(it)
+        }
+
+        btnAdd.setOnClickListener {
+            viewModel.add()
         }
     }
 
