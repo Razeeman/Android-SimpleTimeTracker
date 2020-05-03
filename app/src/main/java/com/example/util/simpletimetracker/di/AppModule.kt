@@ -3,9 +3,9 @@ package com.example.util.simpletimetracker.di
 import android.content.Context
 import androidx.room.Room
 import com.example.util.simpletimetracker.TimeTrackerApp
-import com.example.util.simpletimetracker.data.AppDatabase
-import com.example.util.simpletimetracker.data.RecordDao
-import com.example.util.simpletimetracker.data.RecordRepo
+import com.example.util.simpletimetracker.data_local.AppDatabase
+import com.example.util.simpletimetracker.data_local.RecordDao
+import com.example.util.simpletimetracker.data_local.RecordRepo
 import com.example.util.simpletimetracker.domain.BaseRecordRepo
 import dagger.Module
 import dagger.Provides

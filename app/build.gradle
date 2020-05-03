@@ -37,6 +37,7 @@ android {
 
 dependencies {
     implementation project(':domain')
+    implementation project(':data_local')
 
     implementation deps.androidx.appcompat
     implementation deps.androidx.constraintlayout
@@ -50,13 +51,10 @@ dependencies {
     implementation deps.ktx.livedata_core
     implementation deps.ktx.livedata
     implementation deps.ktx.viewmodel
-    implementation deps.ktx.room
 
-    kapt deps.kapt.room
     kapt deps.kapt.dagger
 
     testImplementation deps.test.junit
-
     androidTestImplementation deps.uitest.junit
     androidTestImplementation deps.uitest.espresso
 }

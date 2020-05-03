@@ -1,3 +1,4 @@
 rootProject.name='Simple Time Tracker'
 include ':app'
 include ':domain'
+include ':data_local'

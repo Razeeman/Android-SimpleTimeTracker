@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.data
+package com.example.util.simpletimetracker.data_local
 
 import com.example.util.simpletimetracker.domain.BaseRecordRepo
 import com.example.util.simpletimetracker.domain.Record
