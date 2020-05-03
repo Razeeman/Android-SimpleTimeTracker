@@ -1,0 +1,74 @@
+ext {
+    base = [
+            'versionCode': 1,
+            'versionName': "1.0",
+            'minSDK'     : 19,
+            'currentSDK' : 29
+    ]
+
+    versions = [
+            'gradle'              : '3.6.3',
+            'kotlin'              : '1.3.71',
+
+            'appcompat'           : '1.1.0',
+            'constraintLayout'    : '1.1.3',
+            'recyclerview'        : '1.1.0',
+            'lifecycle_extensions': '2.2.0',
+            'room'                : '2.2.5',
+            'dagger'              : '2.24',
+
+            'fragment_ktx'        : '1.2.0',
+            'core_ktx'            : '1.2.0',
+            'livedata_core_ktx'   : '2.2.0',
+            'livedata_ktx'        : '2.2.0',
+            'viewmodel_ktx'       : '2.2.0',
+            'room_ktx'            : '2.2.5',
+
+            'junit'               : '4.12',
+            'junit_ui'            : '1.1.1',
+            'espresso'            : '3.2.0'
+    ]
+
+    deps = [
+            'androidx': [
+                    'appcompat'           : "androidx.appcompat:appcompat:${versions.appcompat}",
+                    'constraintlayout'    : "androidx.constraintlayout:constraintlayout:${versions.constraintLayout}",
+                    'recyclerview'        : "androidx.recyclerview:recyclerview:${versions.recyclerview}",
+                    'lifecycle_extensions': "androidx.lifecycle:lifecycle-extensions:${versions.lifecycle_extensions}",
+                    'room'                : "androidx.room:room-runtime:${versions.room}",
+            ],
+
+            'google'  : [
+                    'dagger': "com.google.dagger:dagger:${versions.dagger}"
+            ],
+
+            'ktx'     : [
+                    'core'         : "androidx.core:core-ktx:${versions.core_ktx}",
+                    'fragment'     : "androidx.fragment:fragment-ktx:${versions.fragment_ktx}",
+                    'livedata_core': "androidx.lifecycle:lifecycle-livedata-core-ktx:${versions.livedata_core_ktx}",
+                    'livedata'     : "androidx.lifecycle:lifecycle-livedata-ktx:${versions.livedata_ktx}",
+                    'viewmodel'    : "androidx.lifecycle:lifecycle-viewmodel-ktx:${versions.viewmodel_ktx}",
+                    'room'         : "androidx.room:room-ktx:${versions.room_ktx}"
+            ],
+
+            'kapt'    : [
+                    'room'  : "androidx.room:room-compiler:$versions.room",
+                    'dagger': "com.google.dagger:dagger-compiler:${versions.dagger}"
+            ],
+
+            'test'    : [
+                    'junit': "junit:junit:${versions.junit}"
+            ],
+
+            'uitest'  : [
+                    'junit'   : "androidx.test.ext:junit:${versions.junit_ui}",
+                    'espresso': "androidx.test.espresso:espresso-core:${versions.espresso}"
+
+            ]
+    ]
+
+    buildPlugins = [
+            'gradle': "com.android.tools.build:gradle:${versions.gradle}",
+            'kotlin': "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}",
+    ]
+}

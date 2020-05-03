@@ -1,18 +1,19 @@
+apply from: "$rootDir/deps.gradle"
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+    compileSdkVersion base.currentSDK
 
     defaultConfig {
         applicationId "com.example.util.simpletimetracker"
-        minSdkVersion 19
-        targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion base.minSDK
+        targetSdkVersion base.currentSDK
+        versionCode base.versionCode
+        versionName base.versionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -35,23 +36,25 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.core:core-ktx:1.2.0'
-    implementation 'androidx.fragment:fragment-ktx:1.2.4'
-    implementation "androidx.lifecycle:lifecycle-livedata-core-ktx:2.2.0"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0"
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation "androidx.recyclerview:recyclerview:1.1.0"
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
-    implementation 'androidx.room:room-runtime:2.2.5'
-    implementation 'androidx.room:room-ktx:2.2.5'
-    kapt "androidx.room:room-compiler:2.2.5"
-    implementation 'com.google.dagger:dagger:2.24'
-    kapt "com.google.dagger:dagger-compiler:2.24"
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    implementation deps.androidx.appcompat
+    implementation deps.androidx.constraintlayout
+    implementation deps.androidx.recyclerview
+    implementation deps.androidx.room
+    implementation deps.androidx.lifecycle_extensions
+    implementation deps.google.dagger
+
+    implementation deps.ktx.core
+    implementation deps.ktx.fragment
+    implementation deps.ktx.livedata_core
+    implementation deps.ktx.livedata
+    implementation deps.ktx.viewmodel
+    implementation deps.ktx.room
+
+    kapt deps.kapt.room
+    kapt deps.kapt.dagger
+
+    testImplementation deps.test.junit
+
+    androidTestImplementation deps.uitest.junit
+    androidTestImplementation deps.uitest.espresso
 }

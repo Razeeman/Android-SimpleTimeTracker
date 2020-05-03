@@ -11,7 +11,6 @@ import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
-
 @Module
 class AppModule(application: TimeTrackerApp) {
 
@@ -20,13 +19,13 @@ class AppModule(application: TimeTrackerApp) {
     @Provides
     @Singleton
     @AppContext
-    fun get(): Context {
+    fun getAppContext(): Context {
         return appContext
     }
 
     @Provides
     @Singleton
-    fun get(@AppContext context: Context): AppDatabase {
+    fun getAppDatabase(@AppContext context: Context): AppDatabase {
         return Room
             .databaseBuilder(
                 context,
@@ -37,13 +36,13 @@ class AppModule(application: TimeTrackerApp) {
 
     @Provides
     @Singleton
-    fun get(database: AppDatabase): RecordDao {
+    fun getRecordDao(database: AppDatabase): RecordDao {
         return database.recordDao()
     }
 
     // TODO binds?
     @Provides
-    fun get(recordRepo: RecordRepo): BaseRecordRepo {
+    fun getRecordRepo(recordRepo: RecordRepo): BaseRecordRepo {
         return recordRepo
     }
 }
