@@ -1,0 +1,24 @@
+apply from: "$rootDir/deps.gradle"
+
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion base.currentSDK
+
+    defaultConfig {
+        minSdkVersion base.minSDK
+        targetSdkVersion base.currentSDK
+        versionCode base.versionCode
+        versionName base.versionName
+    }
+}
+
+dependencies {
+    api deps.javax
+    api deps.coroutines
+
+    testImplementation deps.test.junit
+}
