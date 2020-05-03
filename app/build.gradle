@@ -37,7 +37,9 @@ android {
 
 dependencies {
     implementation project(':domain')
+    implementation project(':core')
     implementation project(':data_local')
+    implementation project(':feature_running_records')
 
     implementation deps.androidx.appcompat
     implementation deps.androidx.constraintlayout

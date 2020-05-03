@@ -10,20 +10,20 @@ import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.util.simpletimetracker.R
 import com.example.util.simpletimetracker.TimeTrackerApp
-import kotlinx.android.synthetic.main.main_fragment.*
+import kotlinx.android.synthetic.main.running_records_fragment.*
 
-class MainFragment : Fragment() {
+class RunningRecordsFragment : Fragment() {
 
-    private val viewModel: MainViewModel by viewModels()
+    private val viewModel: RunningRecordsViewModel by viewModels()
 
-    private val adapter: MainAdapter = MainAdapter()
+    private val adapter: RunningRecordsAdapter = RunningRecordsAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.main_fragment, container, false)
+        return inflater.inflate(R.layout.running_records_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -31,7 +31,7 @@ class MainFragment : Fragment() {
 
         rvMainContent.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = this@MainFragment.adapter
+            adapter = this@RunningRecordsFragment.adapter
         }
 
         TimeTrackerApp.appComponent?.inject(viewModel)
@@ -49,6 +49,6 @@ class MainFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance() = MainFragment()
+        fun newInstance() = RunningRecordsFragment()
     }
 }

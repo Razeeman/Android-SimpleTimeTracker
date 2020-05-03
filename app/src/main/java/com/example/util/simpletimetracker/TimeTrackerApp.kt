@@ -7,7 +7,6 @@ import com.example.util.simpletimetracker.di.DaggerAppComponent
 
 class TimeTrackerApp : Application() {
 
-
     override fun onCreate() {
         super.onCreate()
 

@@ -7,7 +7,7 @@ import com.example.util.simpletimetracker.R
 import com.example.util.simpletimetracker.domain.model.Record
 import kotlinx.android.synthetic.main.item_layout.view.*
 
-class MainAdapter : RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
+class RunningRecordsAdapter : RecyclerView.Adapter<RunningRecordsAdapter.MainViewHolder>() {
 
     private val items: MutableList<Record> = mutableListOf()
 

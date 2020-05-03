@@ -9,7 +9,7 @@ import com.example.util.simpletimetracker.domain.model.Record
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class MainViewModel : ViewModel() {
+class RunningRecordsViewModel : ViewModel() {
 
     @Inject
     lateinit var recordInteractor: RecordInteractor

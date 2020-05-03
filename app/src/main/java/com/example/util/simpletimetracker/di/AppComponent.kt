@@ -1,7 +1,7 @@
 package com.example.util.simpletimetracker.di
 
 import com.example.util.simpletimetracker.data_local.di.DataLocalModule
-import com.example.util.simpletimetracker.ui.MainViewModel
+import com.example.util.simpletimetracker.ui.RunningRecordsViewModel
 import dagger.Component
 import javax.inject.Singleton
 
@@ -13,5 +13,5 @@ import javax.inject.Singleton
 )
 interface AppComponent {
 
-    fun inject(viewModel: MainViewModel)
+    fun inject(viewModel: RunningRecordsViewModel)
 }

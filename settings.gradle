@@ -1,4 +1,6 @@
 rootProject.name='Simple Time Tracker'
 include ':app'
 include ':domain'
+include ':core'
 include ':data_local'
+include ':feature_running_records'
