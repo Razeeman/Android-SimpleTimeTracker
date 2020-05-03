@@ -1,8 +1,9 @@
-package com.example.util.simpletimetracker.data_local
+package com.example.util.simpletimetracker.data_local.database
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import com.example.util.simpletimetracker.data_local.model.RecordDBO
 
 @Dao
 interface RecordDao {

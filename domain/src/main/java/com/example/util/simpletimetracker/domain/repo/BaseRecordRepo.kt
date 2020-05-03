@@ -1,4 +1,6 @@
-package com.example.util.simpletimetracker.domain
+package com.example.util.simpletimetracker.domain.repo
+
+import com.example.util.simpletimetracker.domain.model.Record
 
 interface BaseRecordRepo {
 

@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.util.simpletimetracker.domain.Record
-import com.example.util.simpletimetracker.domain.RecordInteractor
-import com.example.util.simpletimetracker.domain.orTrue
+import com.example.util.simpletimetracker.domain.model.Record
+import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
+import com.example.util.simpletimetracker.domain.extension.orTrue
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

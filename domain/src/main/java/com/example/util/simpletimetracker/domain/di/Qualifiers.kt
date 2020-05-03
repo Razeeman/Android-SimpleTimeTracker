@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.di
+package com.example.util.simpletimetracker.domain.di
 
 import javax.inject.Qualifier
 

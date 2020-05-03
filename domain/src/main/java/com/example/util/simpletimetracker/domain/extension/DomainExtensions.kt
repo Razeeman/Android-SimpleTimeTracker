@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.domain
+package com.example.util.simpletimetracker.domain.extension
 
 fun Boolean?.orFalse() = this ?: false
 

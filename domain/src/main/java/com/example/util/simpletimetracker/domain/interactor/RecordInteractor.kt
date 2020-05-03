@@ -1,5 +1,7 @@
-package com.example.util.simpletimetracker.domain
+package com.example.util.simpletimetracker.domain.interactor
 
+import com.example.util.simpletimetracker.domain.model.Record
+import com.example.util.simpletimetracker.domain.repo.BaseRecordRepo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

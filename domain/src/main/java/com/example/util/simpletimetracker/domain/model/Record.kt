@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.domain
+package com.example.util.simpletimetracker.domain.model
 
 data class Record(
     var id: Long = 0,

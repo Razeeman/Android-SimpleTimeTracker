@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.data_local
+package com.example.util.simpletimetracker.data_local.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

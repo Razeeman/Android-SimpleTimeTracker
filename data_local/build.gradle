@@ -21,7 +21,9 @@ dependencies {
 
     implementation deps.androidx.room
     implementation deps.ktx.room
+    implementation deps.google.dagger
     kapt deps.kapt.room
+    kapt deps.kapt.dagger
 
     testImplementation deps.test.junit
     androidTestImplementation deps.uitest.junit

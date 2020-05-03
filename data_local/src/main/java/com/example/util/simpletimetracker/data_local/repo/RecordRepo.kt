@@ -1,7 +1,9 @@
-package com.example.util.simpletimetracker.data_local
+package com.example.util.simpletimetracker.data_local.repo
 
-import com.example.util.simpletimetracker.domain.BaseRecordRepo
-import com.example.util.simpletimetracker.domain.Record
+import com.example.util.simpletimetracker.data_local.database.RecordDao
+import com.example.util.simpletimetracker.data_local.mapper.RecordDataLocalMapper
+import com.example.util.simpletimetracker.domain.repo.BaseRecordRepo
+import com.example.util.simpletimetracker.domain.model.Record
 import javax.inject.Inject
 import javax.inject.Singleton
 

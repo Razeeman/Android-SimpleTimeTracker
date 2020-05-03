@@ -45,13 +45,11 @@ dependencies {
     implementation deps.androidx.room
     implementation deps.androidx.lifecycle_extensions
     implementation deps.google.dagger
-
     implementation deps.ktx.core
     implementation deps.ktx.fragment
     implementation deps.ktx.livedata_core
     implementation deps.ktx.livedata
     implementation deps.ktx.viewmodel
-
     kapt deps.kapt.dagger
 
     testImplementation deps.test.junit

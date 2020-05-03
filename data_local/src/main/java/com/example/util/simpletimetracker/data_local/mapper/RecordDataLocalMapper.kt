@@ -1,6 +1,7 @@
-package com.example.util.simpletimetracker.data_local
+package com.example.util.simpletimetracker.data_local.mapper
 
-import com.example.util.simpletimetracker.domain.Record
+import com.example.util.simpletimetracker.data_local.model.RecordDBO
+import com.example.util.simpletimetracker.domain.model.Record
 import javax.inject.Inject
 
 class RecordDataLocalMapper @Inject constructor() {
