@@ -1,9 +1,8 @@
-package com.example.util.simpletimetracker.ui
+package com.example.util.simpletimetracker.feature_running_records
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.util.simpletimetracker.R
 import com.example.util.simpletimetracker.domain.model.Record
 import kotlinx.android.synthetic.main.item_layout.view.*
 

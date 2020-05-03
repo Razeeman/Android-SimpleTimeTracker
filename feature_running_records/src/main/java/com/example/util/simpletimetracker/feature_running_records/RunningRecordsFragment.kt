@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.ui
+package com.example.util.simpletimetracker.feature_running_records
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,8 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.util.simpletimetracker.R
-import com.example.util.simpletimetracker.TimeTrackerApp
+import com.example.util.simpletimetracker.feature_running_records.di.RunningRecordsComponentProvider
 import kotlinx.android.synthetic.main.running_records_fragment.*
 
 class RunningRecordsFragment : Fragment() {
@@ -34,7 +33,9 @@ class RunningRecordsFragment : Fragment() {
             adapter = this@RunningRecordsFragment.adapter
         }
 
-        TimeTrackerApp.appComponent?.inject(viewModel)
+        (activity?.application as RunningRecordsComponentProvider)
+            .provideRunningRecordsComponent()
+            ?.inject(viewModel)
 
         viewModel.records.observe(viewLifecycleOwner) {
             adapter.replace(it)

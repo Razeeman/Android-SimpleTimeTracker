@@ -14,10 +14,23 @@ android {
         versionCode base.versionCode
         versionName base.versionName
     }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
 }
 
 dependencies {
     implementation project(':domain')
+
+    implementation deps.androidx.appcompat
+    implementation deps.androidx.constraintlayout
+    implementation deps.androidx.recyclerview
+    implementation deps.google.dagger
+    implementation deps.ktx.fragment
+    implementation deps.ktx.livedata
+    implementation deps.ktx.viewmodel
+    kapt deps.kapt.dagger
 
     testImplementation deps.test.junit
     androidTestImplementation deps.uitest.junit

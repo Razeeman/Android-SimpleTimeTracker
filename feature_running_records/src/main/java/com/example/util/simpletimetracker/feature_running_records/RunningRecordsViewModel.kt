@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.ui
+package com.example.util.simpletimetracker.feature_running_records
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

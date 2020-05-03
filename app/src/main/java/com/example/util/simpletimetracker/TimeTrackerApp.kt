@@ -1,21 +1,24 @@
 package com.example.util.simpletimetracker
 
 import android.app.Application
-import com.example.util.simpletimetracker.di.AppComponent
 import com.example.util.simpletimetracker.di.AppModule
 import com.example.util.simpletimetracker.di.DaggerAppComponent
+import com.example.util.simpletimetracker.di.FeatureComponentProvider
+import com.example.util.simpletimetracker.feature_running_records.di.RunningRecordsComponent
 
-class TimeTrackerApp : Application() {
+class TimeTrackerApp : Application(), FeatureComponentProvider {
+
+    var runningRecordsComponent: RunningRecordsComponent? = null
 
     override fun onCreate() {
         super.onCreate()
 
-        appComponent = DaggerAppComponent.builder()
+        val appComponent = DaggerAppComponent.builder()
             .appModule(AppModule(this))
             .build()
+        runningRecordsComponent = appComponent
+            ?.plusRunningRecordsComponent()
     }
 
-    companion object {
-        var appComponent: AppComponent? = null
-    }
+    override fun provideRunningRecordsComponent() = runningRecordsComponent
 }
