@@ -36,7 +36,7 @@ class MainFragment : Fragment() {
 
         TimeTrackerApp.appComponent?.inject(viewModel)
 
-        viewModel.getPeriods().observe(viewLifecycleOwner) {
+        viewModel.getRecords().observe(viewLifecycleOwner) {
             adapter.replace(it)
         }
 

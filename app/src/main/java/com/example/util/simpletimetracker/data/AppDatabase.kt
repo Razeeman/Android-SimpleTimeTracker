@@ -3,8 +3,12 @@ package com.example.util.simpletimetracker.data
 import androidx.room.Database
 import androidx.room.RoomDatabase
 
-@Database(entities = [TimePeriodDBO::class], version = 1)
+@Database(entities = [RecordDBO::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
 
-    abstract fun timePeriodDao(): TimePeriodDao
+    abstract fun recordDao(): RecordDao
+
+    companion object {
+        const val DATABASE_NAME = "simpleTimeTrackerDB"
+    }
 }

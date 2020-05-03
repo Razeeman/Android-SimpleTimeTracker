@@ -1,6 +1,6 @@
 package com.example.util.simpletimetracker.domain
 
-data class TimePeriod(
+data class Record(
     var id: Long = 0,
     var name: String,
     var timeStarted: Long,

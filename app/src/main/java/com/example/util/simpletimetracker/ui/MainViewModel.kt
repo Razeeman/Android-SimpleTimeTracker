@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.util.simpletimetracker.domain.TimePeriod
-import com.example.util.simpletimetracker.domain.TimePeriodInteractor
+import com.example.util.simpletimetracker.domain.Record
+import com.example.util.simpletimetracker.domain.RecordInteractor
 import com.example.util.simpletimetracker.domain.orTrue
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -13,44 +13,44 @@ import javax.inject.Inject
 class MainViewModel : ViewModel() {
 
     @Inject
-    lateinit var timerPeriodInteractor: TimePeriodInteractor
+    lateinit var recordInteractor: RecordInteractor
 
-    private val periodsLiveData: MutableLiveData<List<TimePeriod>> = MutableLiveData()
+    private val recordsLiveData: MutableLiveData<List<Record>> = MutableLiveData()
 
-    fun getPeriods(): LiveData<List<TimePeriod>> {
-        if (periodsLiveData.value?.isEmpty().orTrue()) {
+    fun getRecords(): LiveData<List<Record>> {
+        if (recordsLiveData.value?.isEmpty().orTrue()) {
             viewModelScope.launch {
                 update()
             }
         }
-        return periodsLiveData
+        return recordsLiveData
     }
 
     fun add() {
-        val period = TimePeriod(
+        val record = Record(
             name = "name" + (0..10).random(),
             timeStarted = (0..100L).random(),
             timeEnded = (100..200L).random()
         )
 
         viewModelScope.launch {
-            timerPeriodInteractor.add(period)
+            recordInteractor.add(record)
             update()
         }
     }
 
     fun clear() {
         viewModelScope.launch {
-            timerPeriodInteractor.clear()
+            recordInteractor.clear()
             update()
         }
     }
 
     private suspend fun update() {
-        periodsLiveData.postValue(load())
+        recordsLiveData.postValue(load())
     }
 
-    private suspend fun load(): List<TimePeriod> {
-        return timerPeriodInteractor.getAll()
+    private suspend fun load(): List<Record> {
+        return recordInteractor.getAll()
     }
 }

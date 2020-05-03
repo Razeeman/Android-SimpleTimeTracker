@@ -1,12 +1,12 @@
 package com.example.util.simpletimetracker.data
 
-import com.example.util.simpletimetracker.domain.TimePeriod
+import com.example.util.simpletimetracker.domain.Record
 import javax.inject.Inject
 
-class TimePeriodMapper @Inject constructor() {
+class RecordDataLocalMapper @Inject constructor() {
 
-    fun map(dbo: TimePeriodDBO): TimePeriod {
-        return TimePeriod(
+    fun map(dbo: RecordDBO): Record {
+        return Record(
             id = dbo.id,
             name = dbo.name,
             timeStarted = dbo.timeStarted,
@@ -14,8 +14,8 @@ class TimePeriodMapper @Inject constructor() {
         )
     }
 
-    fun map(domain: TimePeriod): TimePeriodDBO {
-        return TimePeriodDBO(
+    fun map(domain: Record): RecordDBO {
+        return RecordDBO(
             id = 0,
             name = domain.name,
             timeStarted = domain.timeStarted,
