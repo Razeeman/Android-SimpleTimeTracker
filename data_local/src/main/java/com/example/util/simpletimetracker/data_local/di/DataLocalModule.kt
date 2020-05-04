@@ -4,15 +4,18 @@ import android.content.Context
 import androidx.room.Room
 import com.example.util.simpletimetracker.data_local.database.AppDatabase
 import com.example.util.simpletimetracker.data_local.database.RecordDao
+import com.example.util.simpletimetracker.data_local.database.RecordTypeDao
 import com.example.util.simpletimetracker.data_local.repo.RecordRepo
-import com.example.util.simpletimetracker.domain.repo.BaseRecordRepo
+import com.example.util.simpletimetracker.data_local.repo.RecordTypeRepo
 import com.example.util.simpletimetracker.domain.di.AppContext
+import com.example.util.simpletimetracker.domain.repo.BaseRecordRepo
+import com.example.util.simpletimetracker.domain.repo.BaseRecordTypeRepo
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-class DataLocalModule() {
+class DataLocalModule {
 
     @Provides
     @Singleton
@@ -35,5 +38,17 @@ class DataLocalModule() {
     @Provides
     fun getRecordRepo(recordRepo: RecordRepo): BaseRecordRepo {
         return recordRepo
+    }
+
+    @Provides
+    @Singleton
+    fun getRecordTypeDao(database: AppDatabase): RecordTypeDao {
+        return database.recordTypeDao()
+    }
+
+    // TODO binds?
+    @Provides
+    fun getRecordTypeRepo(recordTypeRepo: RecordTypeRepo): BaseRecordTypeRepo {
+        return recordTypeRepo
     }
 }
