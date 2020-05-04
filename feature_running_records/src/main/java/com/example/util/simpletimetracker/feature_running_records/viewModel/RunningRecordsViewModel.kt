@@ -12,6 +12,7 @@ import com.example.util.simpletimetracker.feature_running_records.adapter.record
 import com.example.util.simpletimetracker.feature_running_records.adapter.runningRecord.RunningRecordViewData
 import com.example.util.simpletimetracker.feature_running_records.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.feature_running_records.mapper.RunningRecordViewDataMapper
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.random.Random
@@ -29,8 +30,13 @@ class RunningRecordsViewModel : ViewModel() {
 
     private val random = Random(1)
 
-    private val runningRecordsLiveData: MutableLiveData<List<RunningRecordViewData>> =
-        MutableLiveData()
+    private val runningRecordsLiveData: MutableLiveData<List<RunningRecordViewData>> by lazy {
+        return@lazy MutableLiveData<List<RunningRecordViewData>>().let { initial ->
+            viewModelScope.launch { initial.value = loadRunningRecords() }
+            startUpdate()
+            initial
+        }
+    }
     private val recordTypesLiveData: MutableLiveData<List<RecordTypeViewData>> by lazy {
         return@lazy MutableLiveData<List<RecordTypeViewData>>().let { initial ->
             viewModelScope.launch { initial.value = loadRecordTypes() }
@@ -102,6 +108,16 @@ class RunningRecordsViewModel : ViewModel() {
     }
 
     private fun startUpdate() {
-        // TODO
+        viewModelScope.launch {
+            delay(TIMER_UPDATE)
+            while (true) {
+                delay(TIMER_UPDATE)
+                updateRunningRecords()
+            }
+        }
+    }
+
+    companion object {
+        private const val TIMER_UPDATE = 1000L
     }
 }
