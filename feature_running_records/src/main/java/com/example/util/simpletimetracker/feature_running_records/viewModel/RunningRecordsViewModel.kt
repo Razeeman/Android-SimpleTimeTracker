@@ -4,54 +4,78 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
-import com.example.util.simpletimetracker.domain.model.Record
-import com.example.util.simpletimetracker.feature_running_records.adapter.RunningRecordViewData
-import com.example.util.simpletimetracker.feature_running_records.mapper.RunningRecordMapper
+import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
+import com.example.util.simpletimetracker.domain.model.RecordType
+import com.example.util.simpletimetracker.domain.model.RunningRecord
+import com.example.util.simpletimetracker.feature_running_records.adapter.recordType.RecordTypeViewData
+import com.example.util.simpletimetracker.feature_running_records.adapter.runningRecord.RunningRecordViewData
+import com.example.util.simpletimetracker.feature_running_records.mapper.RecordTypeViewDataMapper
+import com.example.util.simpletimetracker.feature_running_records.mapper.RunningRecordViewDataMapper
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.random.Random
 
 class RunningRecordsViewModel : ViewModel() {
 
     @Inject
-    lateinit var recordInteractor: RecordInteractor
+    lateinit var recordTypeInteractor: RecordTypeInteractor
     @Inject
-    lateinit var runningRecordMapper: RunningRecordMapper
+    lateinit var recordTypeViewDataMapper: RecordTypeViewDataMapper
+    @Inject
+    lateinit var runningRecordViewDataMapper: RunningRecordViewDataMapper
 
-    private val recordsLiveData: MutableLiveData<List<RunningRecordViewData>> by lazy {
-        return@lazy MutableLiveData<List<RunningRecordViewData>>().let { initial ->
+    private val random = Random(1)
+
+    private val runningRecordsLiveData: MutableLiveData<List<RunningRecordViewData>> =
+        MutableLiveData()
+    private val recordTypesLiveData: MutableLiveData<List<RecordTypeViewData>> by lazy {
+        return@lazy MutableLiveData<List<RecordTypeViewData>>().let { initial ->
             viewModelScope.launch { initial.value = load() }
             initial
         }
     }
 
-    val records: LiveData<List<RunningRecordViewData>> get() = recordsLiveData
+    val runningRecords: LiveData<List<RunningRecordViewData>>
+        get() = runningRecordsLiveData
+    val recordTypes: LiveData<List<RecordTypeViewData>>
+        get() = recordTypesLiveData
 
-    fun add() {
-        val record = Record(
+    fun addRecordType() {
+        val recordType = RecordType(
             name = "name" + (0..10).random(),
-            timeStarted = (0..100L).random(),
-            timeEnded = (100..200L).random()
+            color = random.nextInt()
         )
 
         viewModelScope.launch {
-            recordInteractor.add(record)
+            recordTypeInteractor.add(recordType)
             update()
         }
     }
 
-    fun clear() {
+    fun clearRecordTypes() {
         viewModelScope.launch {
-            recordInteractor.clear()
+            recordTypeInteractor.clear()
             update()
         }
+    }
+
+    fun onRecordTypeClick(item: RecordTypeViewData) {
+        val record = RunningRecord(
+            name = item.name,
+            timeStarted = System.currentTimeMillis()
+        )
+
+        listOf(record.let(runningRecordViewDataMapper::map))
+            .let(runningRecordsLiveData::setValue)
     }
 
     private suspend fun update() {
-        recordsLiveData.value = load()
+        recordTypesLiveData.value = load()
     }
 
-    private suspend fun load(): List<RunningRecordViewData> {
-        return recordInteractor.getAll().map(runningRecordMapper::map)
+    private suspend fun load(): List<RecordTypeViewData> {
+        return recordTypeInteractor
+            .getAll()
+            .map(recordTypeViewDataMapper::map)
     }
 }

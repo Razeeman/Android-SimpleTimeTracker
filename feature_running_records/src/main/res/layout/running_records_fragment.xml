@@ -17,6 +17,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvRunningRecordsList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/message"
+        tools:itemCount="2"
+        tools:layout_height="200dp"
+        tools:listitem="@layout/running_record_item_layout" />
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnAdd"
         android:layout_width="0dp"
@@ -27,7 +39,7 @@
         android:text="Add"
         app:layout_constraintEnd_toStartOf="@id/btnClear"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/message" />
+        app:layout_constraintTop_toBottomOf="@id/rvRunningRecordsList" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnClear"
@@ -39,10 +51,10 @@
         android:text="Clear"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/btnAdd"
-        app:layout_constraintTop_toBottomOf="@id/message" />
+        app:layout_constraintTop_toBottomOf="@id/rvRunningRecordsList" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvMainContent"
+        android:id="@+id/rvRecordTypesList"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
@@ -51,6 +63,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnAdd"
         tools:itemCount="10"
-        tools:listitem="@layout/item_layout" />
+        tools:listitem="@layout/record_type_item_layout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

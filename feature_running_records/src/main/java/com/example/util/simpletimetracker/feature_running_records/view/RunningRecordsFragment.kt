@@ -9,46 +9,62 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.util.simpletimetracker.feature_running_records.R
-import com.example.util.simpletimetracker.feature_running_records.viewModel.RunningRecordsViewModel
-import com.example.util.simpletimetracker.feature_running_records.adapter.RunningRecordsAdapter
+import com.example.util.simpletimetracker.feature_running_records.adapter.recordType.RecordTypeAdapter
+import com.example.util.simpletimetracker.feature_running_records.adapter.runningRecord.RunningRecordAdapter
 import com.example.util.simpletimetracker.feature_running_records.di.RunningRecordsComponentProvider
+import com.example.util.simpletimetracker.feature_running_records.viewModel.RunningRecordsViewModel
 import kotlinx.android.synthetic.main.running_records_fragment.*
 
 class RunningRecordsFragment : Fragment() {
 
     private val viewModel: RunningRecordsViewModel by viewModels()
-
-    private val adapter: RunningRecordsAdapter = RunningRecordsAdapter()
+    private val runningRecordsAdapter: RunningRecordAdapter by lazy {
+        RunningRecordAdapter()
+    }
+    private val recordTypesAdapter: RecordTypeAdapter by lazy {
+        RecordTypeAdapter(viewModel::onRecordTypeClick)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.running_records_fragment, container, false)
+        return inflater.inflate(
+            R.layout.running_records_fragment,
+            container,
+            false
+        )
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        rvMainContent.apply {
+        rvRunningRecordsList.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = this@RunningRecordsFragment.adapter
+            adapter = runningRecordsAdapter
+        }
+        rvRecordTypesList.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = recordTypesAdapter
         }
 
         (activity?.application as RunningRecordsComponentProvider)
             .provideRunningRecordsComponent()
             ?.inject(viewModel)
 
-        viewModel.records.observe(viewLifecycleOwner) {
-            adapter.replace(it)
+        viewModel.recordTypes.observe(viewLifecycleOwner) {
+            recordTypesAdapter.replace(it)
+        }
+        viewModel.runningRecords.observe(viewLifecycleOwner) {
+            runningRecordsAdapter.replace(it)
         }
 
         btnAdd.setOnClickListener {
-            viewModel.add()
+            viewModel.addRecordType()
         }
         btnClear.setOnClickListener {
-            viewModel.clear()
+            viewModel.clearRecordTypes()
         }
     }
 
