@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.feature_running_records
+package com.example.util.simpletimetracker.feature_running_records.viewModel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.model.Record
+import com.example.util.simpletimetracker.feature_running_records.adapter.RunningRecordViewData
+import com.example.util.simpletimetracker.feature_running_records.mapper.RunningRecordMapper
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -13,15 +15,17 @@ class RunningRecordsViewModel : ViewModel() {
 
     @Inject
     lateinit var recordInteractor: RecordInteractor
+    @Inject
+    lateinit var runningRecordMapper: RunningRecordMapper
 
-    private val recordsLiveData: MutableLiveData<List<Record>> by lazy {
-        return@lazy MutableLiveData<List<Record>>().let { initial ->
+    private val recordsLiveData: MutableLiveData<List<RunningRecordViewData>> by lazy {
+        return@lazy MutableLiveData<List<RunningRecordViewData>>().let { initial ->
             viewModelScope.launch { initial.value = load() }
             initial
         }
     }
 
-    val records: LiveData<List<Record>> get() = recordsLiveData
+    val records: LiveData<List<RunningRecordViewData>> get() = recordsLiveData
 
     fun add() {
         val record = Record(
@@ -47,7 +51,7 @@ class RunningRecordsViewModel : ViewModel() {
         recordsLiveData.value = load()
     }
 
-    private suspend fun load(): List<Record> {
-        return recordInteractor.getAll()
+    private suspend fun load(): List<RunningRecordViewData> {
+        return recordInteractor.getAll().map(runningRecordMapper::map)
     }
 }

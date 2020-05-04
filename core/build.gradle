@@ -18,4 +18,6 @@ android {
 
 dependencies {
     implementation project(':domain')
+
+    implementation deps.androidx.recyclerview
 }
