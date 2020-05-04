@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
+import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.feature_running_records.adapter.recordType.RecordTypeViewData
@@ -20,6 +21,8 @@ class RunningRecordsViewModel : ViewModel() {
     @Inject
     lateinit var recordTypeInteractor: RecordTypeInteractor
     @Inject
+    lateinit var runningRecordInteractor: RunningRecordInteractor
+    @Inject
     lateinit var recordTypeViewDataMapper: RecordTypeViewDataMapper
     @Inject
     lateinit var runningRecordViewDataMapper: RunningRecordViewDataMapper
@@ -30,7 +33,7 @@ class RunningRecordsViewModel : ViewModel() {
         MutableLiveData()
     private val recordTypesLiveData: MutableLiveData<List<RecordTypeViewData>> by lazy {
         return@lazy MutableLiveData<List<RecordTypeViewData>>().let { initial ->
-            viewModelScope.launch { initial.value = load() }
+            viewModelScope.launch { initial.value = loadRecordTypes() }
             initial
         }
     }
@@ -48,14 +51,14 @@ class RunningRecordsViewModel : ViewModel() {
 
         viewModelScope.launch {
             recordTypeInteractor.add(recordType)
-            update()
+            updateRecordTypes()
         }
     }
 
     fun clearRecordTypes() {
         viewModelScope.launch {
             recordTypeInteractor.clear()
-            update()
+            updateRecordTypes()
         }
     }
 
@@ -65,17 +68,40 @@ class RunningRecordsViewModel : ViewModel() {
             timeStarted = System.currentTimeMillis()
         )
 
-        listOf(record.let(runningRecordViewDataMapper::map))
-            .let(runningRecordsLiveData::setValue)
+        viewModelScope.launch {
+            runningRecordInteractor.add(record)
+            updateRunningRecords()
+        }
     }
 
-    private suspend fun update() {
-        recordTypesLiveData.value = load()
+    fun onRunningRecordClick(item: RunningRecordViewData) {
+        viewModelScope.launch {
+            runningRecordInteractor.remove(item.id)
+            updateRunningRecords()
+        }
     }
 
-    private suspend fun load(): List<RecordTypeViewData> {
+    private suspend fun updateRunningRecords() {
+        runningRecordsLiveData.value = loadRunningRecords()
+    }
+
+    private suspend fun updateRecordTypes() {
+        recordTypesLiveData.value = loadRecordTypes()
+    }
+
+    private suspend fun loadRunningRecords(): List<RunningRecordViewData> {
+        return runningRecordInteractor
+            .getAll()
+            .map(runningRecordViewDataMapper::map)
+    }
+
+    private suspend fun loadRecordTypes(): List<RecordTypeViewData> {
         return recordTypeInteractor
             .getAll()
             .map(recordTypeViewDataMapper::map)
+    }
+
+    private fun startUpdate() {
+        // TODO
     }
 }

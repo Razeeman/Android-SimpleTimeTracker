@@ -3,9 +3,9 @@ package com.example.util.simpletimetracker.feature_running_records.adapter.runni
 import com.example.util.simpletimetracker.core.di.adapter.ViewHolderType
 
 data class RunningRecordViewData(
-    var id: Long = 0,
+    var id: Long,
     var name: String,
-    var timeStarted: Long
+    var timeString: String
 ) : ViewHolderType {
 
     override fun getViewType(): Int = ViewHolderType.VIEW

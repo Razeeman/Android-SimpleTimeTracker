@@ -1,34 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layoutRunningRecordItem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="4dp">
+    android:paddingStart="8dp"
+    android:paddingTop="16dp"
+    android:paddingEnd="8dp"
+    android:paddingBottom="16dp">
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvItemId"
+        android:id="@+id/tvRunningRecordItemId"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:text="1" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvItemName"
+        android:id="@+id/tvRunningRecordItemName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textStyle="bold"
-        tools:text="item name" />
+        tools:text="Item name" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvItemTimeStarted"
+        android:id="@+id/tvRunningRecordItemTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="100" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvItemTimeEnded"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:text="200" />
+        tools:text="05:14" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

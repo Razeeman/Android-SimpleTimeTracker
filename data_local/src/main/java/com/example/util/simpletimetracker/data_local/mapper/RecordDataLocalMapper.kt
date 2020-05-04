@@ -17,7 +17,7 @@ class RecordDataLocalMapper @Inject constructor() {
 
     fun map(domain: Record): RecordDBO {
         return RecordDBO(
-            id = 0,
+            id = domain.id,
             name = domain.name,
             timeStarted = domain.timeStarted,
             timeEnded = domain.timeEnded

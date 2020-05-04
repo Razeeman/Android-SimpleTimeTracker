@@ -1,0 +1,22 @@
+package com.example.util.simpletimetracker.data_local.database
+
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.Query
+import com.example.util.simpletimetracker.data_local.model.RunningRecordDBO
+
+@Dao
+interface RunningRecordDao {
+
+    @Query("SELECT * FROM runningRecords")
+    suspend fun getAll(): List<RunningRecordDBO>
+
+    @Insert
+    suspend fun insert(record: RunningRecordDBO)
+
+    @Query("DELETE FROM runningRecords WHERE id = :id")
+    suspend fun delete(id: Long)
+
+    @Query("DELETE FROM runningRecords")
+    suspend fun clear()
+}

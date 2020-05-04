@@ -4,6 +4,7 @@ import androidx.annotation.ColorInt
 import com.example.util.simpletimetracker.core.di.adapter.ViewHolderType
 
 data class RecordTypeViewData(
+    var id: Long,
     var name: String,
     @ColorInt var color: Int
 ) : ViewHolderType {

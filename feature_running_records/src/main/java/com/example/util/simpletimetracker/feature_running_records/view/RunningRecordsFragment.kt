@@ -19,7 +19,7 @@ class RunningRecordsFragment : Fragment() {
 
     private val viewModel: RunningRecordsViewModel by viewModels()
     private val runningRecordsAdapter: RunningRecordAdapter by lazy {
-        RunningRecordAdapter()
+        RunningRecordAdapter(viewModel::onRunningRecordClick)
     }
     private val recordTypesAdapter: RecordTypeAdapter by lazy {
         RecordTypeAdapter(viewModel::onRecordTypeClick)

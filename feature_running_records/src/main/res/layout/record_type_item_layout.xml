@@ -6,7 +6,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="4dp">
+    android:paddingStart="8dp"
+    android:paddingTop="16dp"
+    android:paddingEnd="8dp"
+    android:paddingBottom="16dp">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ivRecordTypeItemColor"
@@ -19,7 +22,7 @@
         android:id="@+id/tvRecordTypeItemName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="8dp"
         android:textStyle="bold"
         tools:text="Item name" />
 
