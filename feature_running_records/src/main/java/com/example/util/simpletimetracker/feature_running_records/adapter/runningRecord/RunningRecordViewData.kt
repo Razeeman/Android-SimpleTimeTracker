@@ -6,7 +6,8 @@ import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 
 data class RunningRecordViewData(
     var name: String,
-    var timeString: String,
+    var timeStarted: String,
+    var timer: String,
     @DrawableRes val iconId: Int,
     @ColorInt val color: Int
 ) : ViewHolderType {

@@ -23,7 +23,8 @@ class RunningRecordAdapterDelegate(
             layoutRunningRecordItem.setCardBackgroundColor(item.color)
             ivRunningRecordItemIcon.setBackgroundResource(item.iconId)
             tvRunningRecordItemName.text = item.name
-            tvRunningRecordItemTime.text = item.timeString
+            tvRunningRecordItemTimeStarted.text = item.timeStarted
+            tvRunningRecordItemTimer.text = item.timer
 
             layoutRunningRecordItem.setOnClickListener {
                 onItemClick.invoke(item)
