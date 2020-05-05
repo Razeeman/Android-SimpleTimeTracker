@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.core.di.adapter
+package com.example.util.simpletimetracker.core.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

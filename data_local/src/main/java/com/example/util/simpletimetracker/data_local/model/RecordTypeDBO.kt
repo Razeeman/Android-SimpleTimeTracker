@@ -12,6 +12,9 @@ data class RecordTypeDBO(
     @ColumnInfo(name = "name")
     var name: String,
 
+    @ColumnInfo(name = "icon")
+    var icon: Int,
+
     @ColumnInfo(name = "color")
     var color: Int
 )

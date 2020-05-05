@@ -1,29 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layoutRecordTypeItem"
-    android:layout_width="match_parent"
+    android:layout_width="70dp"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:paddingStart="8dp"
-    android:paddingTop="16dp"
-    android:paddingEnd="8dp"
-    android:paddingBottom="16dp">
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginBottom="4dp"
+    android:background="@drawable/round_corners_background"
+    android:paddingBottom="8dp">
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/ivRecordTypeItemColor"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:id="@+id/ivRecordTypeItemBorder"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="12dp"
         android:background="@drawable/circle_drawable"
-        app:backgroundTint="@android:color/darker_gray" />
+        app:layout_constraintDimensionRatio="w,1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:backgroundTint="@color/black" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivRecordTypeItemIcon"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="12dp"
+        android:background="@drawable/ic_unknown"
+        app:backgroundTint="@color/white"
+        app:layout_constraintBottom_toBottomOf="@id/ivRecordTypeItemBorder"
+        app:layout_constraintEnd_toEndOf="@id/ivRecordTypeItemBorder"
+        app:layout_constraintStart_toStartOf="@id/ivRecordTypeItemBorder"
+        app:layout_constraintTop_toTopOf="@id/ivRecordTypeItemBorder" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvRecordTypeItemName"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="4dp"
+        android:ellipsize="marquee"
+        android:gravity="center_horizontal"
+        android:singleLine="true"
+        android:textColor="@color/black"
         android:textStyle="bold"
-        tools:text="Item name" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivRecordTypeItemBorder"
+        tools:text="Item long name" />
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.constraintlayout.widget.ConstraintLayout>

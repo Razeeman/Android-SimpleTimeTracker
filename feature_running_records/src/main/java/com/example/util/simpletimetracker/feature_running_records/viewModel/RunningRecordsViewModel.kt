@@ -52,6 +52,7 @@ class RunningRecordsViewModel : ViewModel() {
     fun addRecordType() {
         val recordType = RecordType(
             name = "name" + (0..10).random(),
+            icon = 0,
             color = random.nextInt()
         )
 

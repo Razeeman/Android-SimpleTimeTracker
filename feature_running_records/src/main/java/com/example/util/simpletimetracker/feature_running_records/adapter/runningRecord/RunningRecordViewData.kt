@@ -1,6 +1,6 @@
 package com.example.util.simpletimetracker.feature_running_records.adapter.runningRecord
 
-import com.example.util.simpletimetracker.core.di.adapter.ViewHolderType
+import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 
 data class RunningRecordViewData(
     var id: Long,
