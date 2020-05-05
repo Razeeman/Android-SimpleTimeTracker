@@ -26,12 +26,12 @@
             android:layout_height="0dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:background="@drawable/ic_unknown"
             app:backgroundTint="@color/white"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:background="@drawable/ic_unknown" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvRecordTypeItemName"

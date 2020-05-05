@@ -54,7 +54,7 @@ class RunningRecordsViewModel : ViewModel() {
 
     fun addRecordType() {
         val recordType = RecordType(
-            name = "name" + (0..1000).random(),
+            name = "name" + (0..9).random(),
             icon = 0,
             color = (0 until RandomMaterialColorMapper.NUMBER_OF_COLORS)
                 .random()
@@ -103,9 +103,18 @@ class RunningRecordsViewModel : ViewModel() {
     }
 
     private suspend fun loadRunningRecords(): List<RunningRecordViewData> {
-        return runningRecordInteractor
-            .getAll()
-            .map(runningRecordViewDataMapper::map)
+        val recordTypes = recordTypeInteractor.getAll()
+            .map { it.name to it }
+            .toMap()
+        val runningRecords = runningRecordInteractor.getAll()
+
+        return runningRecords
+            .mapNotNull { runningRecord ->
+                recordTypes[runningRecord.name]?.let { type -> runningRecord to type }
+            }
+            .map { (runningRecord, recordType) ->
+                runningRecordViewDataMapper.map(runningRecord, recordType)
+            }
     }
 
     private suspend fun loadRecordTypes(): List<RecordTypeViewData> {

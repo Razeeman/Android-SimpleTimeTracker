@@ -20,6 +20,8 @@ class RunningRecordAdapterDelegate(
         override fun bind(item: ViewHolderType) = with(itemView) {
             item as RunningRecordViewData
 
+            layoutRunningRecordItem.setCardBackgroundColor(item.color)
+            ivRunningRecordItemIcon.setBackgroundResource(item.iconId)
             tvRunningRecordItemName.text = item.name
             tvRunningRecordItemTime.text = item.timeString
 
