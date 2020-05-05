@@ -20,7 +20,6 @@ class RunningRecordAdapterDelegate(
         override fun bind(item: ViewHolderType) = with(itemView) {
             item as RunningRecordViewData
 
-            tvRunningRecordItemId.text = item.id.toString()
             tvRunningRecordItemName.text = item.name
             tvRunningRecordItemTime.text = item.timeString
 

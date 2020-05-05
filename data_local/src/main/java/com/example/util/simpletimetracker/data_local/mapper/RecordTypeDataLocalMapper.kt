@@ -8,7 +8,6 @@ class RecordTypeDataLocalMapper @Inject constructor() {
 
     fun map(dbo: RecordTypeDBO): RecordType {
         return RecordType(
-            id = dbo.id,
             name = dbo.name,
             icon = dbo.icon,
             color = dbo.color
@@ -17,7 +16,6 @@ class RecordTypeDataLocalMapper @Inject constructor() {
 
     fun map(domain: RecordType): RecordTypeDBO {
         return RecordTypeDBO(
-            id = domain.id,
             name = domain.name,
             icon = domain.icon,
             color = domain.color

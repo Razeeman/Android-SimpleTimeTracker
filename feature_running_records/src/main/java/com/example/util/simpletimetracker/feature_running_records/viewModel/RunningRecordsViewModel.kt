@@ -89,7 +89,7 @@ class RunningRecordsViewModel : ViewModel() {
 
     fun onRunningRecordClick(item: RunningRecordViewData) {
         viewModelScope.launch {
-            runningRecordInteractor.remove(item.id)
+            runningRecordInteractor.remove(item.name)
             updateRunningRecords()
         }
     }

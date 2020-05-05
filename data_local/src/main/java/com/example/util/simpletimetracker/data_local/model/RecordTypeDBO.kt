@@ -6,9 +6,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "recordTypes")
 data class RecordTypeDBO(
-    @PrimaryKey(autoGenerate = true)
-    var id: Long,
-
+    @PrimaryKey
     @ColumnInfo(name = "name")
     var name: String,
 

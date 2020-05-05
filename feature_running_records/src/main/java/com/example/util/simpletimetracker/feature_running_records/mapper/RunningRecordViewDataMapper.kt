@@ -9,7 +9,6 @@ class RunningRecordViewDataMapper @Inject constructor() {
 
     fun map(runningRecord: RunningRecord): RunningRecordViewData {
         return RunningRecordViewData(
-            id = runningRecord.id,
             name = runningRecord.name,
             timeString = runningRecord.timeStarted.let(::formatInterval)
         )

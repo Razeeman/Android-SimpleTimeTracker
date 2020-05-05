@@ -5,6 +5,7 @@ import javax.inject.Inject
 
 class RandomMaterialColorMapper @Inject constructor() {
 
+    // TODO remove after switching to ADD fragment
     fun mapToColorResId(random: Int): Int {
         return when (random) {
             0 -> R.color.red_600

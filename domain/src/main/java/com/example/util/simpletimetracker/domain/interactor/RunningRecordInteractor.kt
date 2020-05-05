@@ -18,8 +18,8 @@ class RunningRecordInteractor @Inject constructor(
         runningRecordRepo.add(runningRecord)
     }
 
-    suspend fun remove(id: Long) = withContext(Dispatchers.IO) {
-        runningRecordRepo.remove(id)
+    suspend fun remove(name: String) = withContext(Dispatchers.IO) {
+        runningRecordRepo.remove(name)
     }
 
     suspend fun clear() = withContext(Dispatchers.IO) {
