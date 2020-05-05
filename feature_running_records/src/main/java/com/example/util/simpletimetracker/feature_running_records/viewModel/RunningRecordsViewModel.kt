@@ -4,11 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RunningRecord
+import com.example.util.simpletimetracker.feature_running_records.adapter.recordType.RecordTypeAddViewData
 import com.example.util.simpletimetracker.feature_running_records.adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_running_records.adapter.runningRecord.RunningRecordViewData
 import com.example.util.simpletimetracker.feature_running_records.mapper.RandomMaterialColorMapper
@@ -35,38 +37,22 @@ class RunningRecordsViewModel : ViewModel() {
 
     private val runningRecordsLiveData: MutableLiveData<List<RunningRecordViewData>> by lazy {
         return@lazy MutableLiveData<List<RunningRecordViewData>>().let { initial ->
-            viewModelScope.launch { initial.value = loadRunningRecords() }
+            viewModelScope.launch { initial.value = loadRunningRecordsViewData() }
             startUpdate()
             initial
         }
     }
-    private val recordTypesLiveData: MutableLiveData<List<RecordTypeViewData>> by lazy {
-        return@lazy MutableLiveData<List<RecordTypeViewData>>().let { initial ->
-            viewModelScope.launch { initial.value = loadRecordTypes() }
+    private val recordTypesLiveData: MutableLiveData<List<ViewHolderType>> by lazy {
+        return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
+            viewModelScope.launch { initial.value = loadRecordTypesViewData() }
             initial
         }
     }
 
     val runningRecords: LiveData<List<RunningRecordViewData>>
         get() = runningRecordsLiveData
-    val recordTypes: LiveData<List<RecordTypeViewData>>
+    val recordTypes: LiveData<List<ViewHolderType>>
         get() = recordTypesLiveData
-
-    fun addRecordType() {
-        val recordType = RecordType(
-            name = "name" + (0..9).random(),
-            icon = 0,
-            color = (0 until RandomMaterialColorMapper.NUMBER_OF_COLORS)
-                .random()
-                .let(randomMaterialColorMapper::mapToColorResId)
-                .let(resourceRepo::getColor)
-        )
-
-        viewModelScope.launch {
-            recordTypeInteractor.add(recordType)
-            updateRecordTypes()
-        }
-    }
 
     fun clearRecordTypes() {
         viewModelScope.launch {
@@ -87,6 +73,22 @@ class RunningRecordsViewModel : ViewModel() {
         }
     }
 
+    fun onAddRecordTypeClick() {
+        val recordType = RecordType(
+            name = "name" + (0..9).random(),
+            icon = 0,
+            color = (0 until RandomMaterialColorMapper.NUMBER_OF_COLORS)
+                .random()
+                .let(randomMaterialColorMapper::mapToColorResId)
+                .let(resourceRepo::getColor)
+        )
+
+        viewModelScope.launch {
+            recordTypeInteractor.add(recordType)
+            updateRecordTypes()
+        }
+    }
+
     fun onRunningRecordClick(item: RunningRecordViewData) {
         viewModelScope.launch {
             runningRecordInteractor.remove(item.name)
@@ -95,14 +97,14 @@ class RunningRecordsViewModel : ViewModel() {
     }
 
     private suspend fun updateRunningRecords() {
-        runningRecordsLiveData.value = loadRunningRecords()
+        runningRecordsLiveData.value = loadRunningRecordsViewData()
     }
 
     private suspend fun updateRecordTypes() {
-        recordTypesLiveData.value = loadRecordTypes()
+        recordTypesLiveData.value = loadRecordTypesViewData()
     }
 
-    private suspend fun loadRunningRecords(): List<RunningRecordViewData> {
+    private suspend fun loadRunningRecordsViewData(): List<RunningRecordViewData> {
         val recordTypes = recordTypeInteractor.getAll()
             .map { it.name to it }
             .toMap()
@@ -117,10 +119,10 @@ class RunningRecordsViewModel : ViewModel() {
             }
     }
 
-    private suspend fun loadRecordTypes(): List<RecordTypeViewData> {
+    private suspend fun loadRecordTypesViewData(): List<ViewHolderType> {
         return recordTypeInteractor
             .getAll()
-            .map(recordTypeViewDataMapper::map)
+            .map(recordTypeViewDataMapper::map) + RecordTypeAddViewData()
     }
 
     private fun startUpdate() {

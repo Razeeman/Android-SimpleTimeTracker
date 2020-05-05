@@ -23,10 +23,15 @@ class RunningRecordsFragment : Fragment() {
 
     private val viewModel: RunningRecordsViewModel by viewModels()
     private val runningRecordsAdapter: RunningRecordAdapter by lazy {
-        RunningRecordAdapter(viewModel::onRunningRecordClick)
+        RunningRecordAdapter(
+            viewModel::onRunningRecordClick
+        )
     }
     private val recordTypesAdapter: RecordTypeAdapter by lazy {
-        RecordTypeAdapter(viewModel::onRecordTypeClick)
+        RecordTypeAdapter(
+            viewModel::onRecordTypeClick,
+            viewModel::onAddRecordTypeClick
+        )
     }
 
     override fun onCreateView(
@@ -68,9 +73,6 @@ class RunningRecordsFragment : Fragment() {
             runningRecordsAdapter.replace(it)
         }
 
-        btnAdd.setOnClickListener {
-            viewModel.addRecordType()
-        }
         btnClear.setOnClickListener {
             viewModel.clearRecordTypes()
         }
