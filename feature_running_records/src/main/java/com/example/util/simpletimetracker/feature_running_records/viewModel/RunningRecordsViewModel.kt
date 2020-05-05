@@ -4,21 +4,24 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.feature_running_records.adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_running_records.adapter.runningRecord.RunningRecordViewData
+import com.example.util.simpletimetracker.feature_running_records.mapper.RandomMaterialColorMapper
 import com.example.util.simpletimetracker.feature_running_records.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.feature_running_records.mapper.RunningRecordViewDataMapper
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.random.Random
 
 class RunningRecordsViewModel : ViewModel() {
 
+    @Inject
+    lateinit var resourceRepo: ResourceRepo
     @Inject
     lateinit var recordTypeInteractor: RecordTypeInteractor
     @Inject
@@ -27,8 +30,8 @@ class RunningRecordsViewModel : ViewModel() {
     lateinit var recordTypeViewDataMapper: RecordTypeViewDataMapper
     @Inject
     lateinit var runningRecordViewDataMapper: RunningRecordViewDataMapper
-
-    private val random = Random(1)
+    @Inject
+    lateinit var randomMaterialColorMapper: RandomMaterialColorMapper
 
     private val runningRecordsLiveData: MutableLiveData<List<RunningRecordViewData>> by lazy {
         return@lazy MutableLiveData<List<RunningRecordViewData>>().let { initial ->
@@ -51,9 +54,12 @@ class RunningRecordsViewModel : ViewModel() {
 
     fun addRecordType() {
         val recordType = RecordType(
-            name = "name" + (0..10).random(),
+            name = "name" + (0..1000).random(),
             icon = 0,
-            color = random.nextInt()
+            color = (0 until RandomMaterialColorMapper.NUMBER_OF_COLORS)
+                .random()
+                .let(randomMaterialColorMapper::mapToColorResId)
+                .let(resourceRepo::getColor)
         )
 
         viewModelScope.launch {

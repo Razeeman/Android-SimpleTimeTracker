@@ -18,6 +18,8 @@ ext {
             'room'                : '2.2.5',
             'dagger'              : '2.24',
             'viewpager2'          : '1.0.0',
+            'flexBox'             : '1.0.0',
+            'cardView'            : '1.0.0',
 
             'fragment_ktx'        : '1.2.0',
             'core_ktx'            : '1.2.0',
@@ -42,11 +44,13 @@ ext {
                     'recyclerview'        : "androidx.recyclerview:recyclerview:${versions.recyclerview}",
                     'lifecycle_extensions': "androidx.lifecycle:lifecycle-extensions:${versions.lifecycle_extensions}",
                     'room'                : "androidx.room:room-runtime:${versions.room}",
-                    'viewpager2'          : "androidx.viewpager2:viewpager2:${versions.viewpager2}"
+                    'viewpager2'          : "androidx.viewpager2:viewpager2:${versions.viewpager2}",
+                    'cardView'            : "androidx.cardview:cardview:${versions.cardView}"
             ],
 
             'google'    : [
-                    'dagger': "com.google.dagger:dagger:${versions.dagger}"
+                    'dagger' : "com.google.dagger:dagger:${versions.dagger}",
+                    'flexBox': "com.google.android:flexbox:${versions.flexBox}"
             ],
 
             'ktx'       : [

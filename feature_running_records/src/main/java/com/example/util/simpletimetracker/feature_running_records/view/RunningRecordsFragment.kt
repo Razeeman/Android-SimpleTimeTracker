@@ -13,6 +13,10 @@ import com.example.util.simpletimetracker.feature_running_records.adapter.record
 import com.example.util.simpletimetracker.feature_running_records.adapter.runningRecord.RunningRecordAdapter
 import com.example.util.simpletimetracker.feature_running_records.di.RunningRecordsComponentProvider
 import com.example.util.simpletimetracker.feature_running_records.viewModel.RunningRecordsViewModel
+import com.google.android.flexbox.FlexDirection
+import com.google.android.flexbox.FlexWrap
+import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.android.flexbox.JustifyContent
 import kotlinx.android.synthetic.main.running_records_fragment.*
 
 class RunningRecordsFragment : Fragment() {
@@ -45,7 +49,11 @@ class RunningRecordsFragment : Fragment() {
             adapter = runningRecordsAdapter
         }
         rvRecordTypesList.apply {
-            layoutManager = LinearLayoutManager(context)
+            layoutManager = FlexboxLayoutManager(requireContext()).apply {
+                flexDirection = FlexDirection.ROW
+                justifyContent = JustifyContent.CENTER
+                flexWrap = FlexWrap.WRAP
+            }
             adapter = recordTypesAdapter
         }
 

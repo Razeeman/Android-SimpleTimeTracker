@@ -1,7 +1,6 @@
 package com.example.util.simpletimetracker.feature_running_records.adapter.recordType
 
 import android.annotation.SuppressLint
-import android.content.res.ColorStateList
 import android.view.ViewGroup
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerViewHolder
@@ -23,7 +22,7 @@ class RecordTypeAdapterDelegate(
         override fun bind(item: ViewHolderType) = with(itemView) {
             item as RecordTypeViewData
 
-            ivRecordTypeItemBorder.supportBackgroundTintList = ColorStateList.valueOf(item.color)
+            layoutRecordTypeItem.setCardBackgroundColor(item.color)
             ivRecordTypeItemIcon.setBackgroundResource(item.iconId)
             tvRecordTypeItemName.text = item.name
 
