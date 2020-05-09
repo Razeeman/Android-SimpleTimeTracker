@@ -89,7 +89,7 @@ class RunningRecordsViewModel : ViewModel() {
     fun onAddRecordTypeClick() {
         val recordType = RecordType(
             name = "name" + (0..9).random(),
-            icon = 0,
+            icon = (2..6).random(),
             color = (0 until RandomMaterialColorMapper.NUMBER_OF_COLORS)
                 .random()
                 .let(randomMaterialColorMapper::mapToColorResId)
