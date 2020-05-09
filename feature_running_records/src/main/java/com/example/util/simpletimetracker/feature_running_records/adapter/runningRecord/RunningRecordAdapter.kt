@@ -9,5 +9,6 @@ class RunningRecordAdapter(
 
     init {
         delegates[ViewHolderType.VIEW] = RunningRecordAdapterDelegate(onItemClick)
+        // TODO add empty list item "click on item to start"
     }
 }
