@@ -122,6 +122,13 @@ class RunningRecordsViewModel : ViewModel() {
         }
     }
 
+    fun onVisible() {
+        viewModelScope.launch {
+            updateRunningRecords()
+            updateRecordTypes()
+        }
+    }
+
     private suspend fun updateRunningRecords() {
         runningRecordsLiveData.value = loadRunningRecordsViewData()
     }

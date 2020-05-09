@@ -80,6 +80,11 @@ class RunningRecordsFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.onVisible()
+    }
+
     companion object {
         fun newInstance() = RunningRecordsFragment()
     }
