@@ -5,11 +5,12 @@ import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 
 class RecordTypeAdapter(
     onItemClick: ((RecordTypeViewData) -> Unit),
+    onItemLongClick: ((RecordTypeViewData) -> Unit),
     onAddClick: (() -> Unit)
 ) : BaseRecyclerAdapter() {
 
     init {
-        delegates[ViewHolderType.VIEW] = RecordTypeAdapterDelegate(onItemClick)
+        delegates[ViewHolderType.VIEW] = RecordTypeAdapterDelegate(onItemClick, onItemLongClick)
         delegates[ViewHolderType.FOOTER] = RecordTypeAddAdapterDelegate(onAddClick)
     }
 }

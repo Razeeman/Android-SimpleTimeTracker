@@ -9,7 +9,8 @@ import com.example.util.simpletimetracker.feature_running_records.R
 import kotlinx.android.synthetic.main.record_type_item_layout.view.*
 
 class RecordTypeAdapterDelegate(
-    private val onItemClick: ((RecordTypeViewData) -> Unit)
+    private val onItemClick: ((RecordTypeViewData) -> Unit),
+    private val onItemLongClick: ((RecordTypeViewData) -> Unit)
 ) : BaseRecyclerAdapterDelegate() {
 
     override fun onCreateViewHolder(parent: ViewGroup): BaseRecyclerViewHolder =
@@ -28,6 +29,10 @@ class RecordTypeAdapterDelegate(
 
             layoutRecordTypeItem.setOnClickListener {
                 onItemClick.invoke(item)
+            }
+            layoutRecordTypeItem.setOnLongClickListener {
+                onItemLongClick.invoke(item)
+                true
             }
         }
     }

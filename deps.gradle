@@ -27,6 +27,7 @@ ext {
             'livedata_ktx'        : '2.2.0',
             'viewmodel_ktx'       : '2.2.0',
             'room_ktx'            : '2.2.5',
+            'navigation_ktx'      : '2.3.0-alpha06',
 
             'junit'               : '4.12',
             'junit_ui'            : '1.1.1',
@@ -54,12 +55,14 @@ ext {
             ],
 
             'ktx'       : [
-                    'core'         : "androidx.core:core-ktx:${versions.core_ktx}",
-                    'fragment'     : "androidx.fragment:fragment-ktx:${versions.fragment_ktx}",
-                    'livedata_core': "androidx.lifecycle:lifecycle-livedata-core-ktx:${versions.livedata_core_ktx}",
-                    'livedata'     : "androidx.lifecycle:lifecycle-livedata-ktx:${versions.livedata_ktx}",
-                    'viewmodel'    : "androidx.lifecycle:lifecycle-viewmodel-ktx:${versions.viewmodel_ktx}",
-                    'room'         : "androidx.room:room-ktx:${versions.room_ktx}"
+                    'core'               : "androidx.core:core-ktx:${versions.core_ktx}",
+                    'fragment'           : "androidx.fragment:fragment-ktx:${versions.fragment_ktx}",
+                    'livedata_core'      : "androidx.lifecycle:lifecycle-livedata-core-ktx:${versions.livedata_core_ktx}",
+                    'livedata'           : "androidx.lifecycle:lifecycle-livedata-ktx:${versions.livedata_ktx}",
+                    'viewmodel'          : "androidx.lifecycle:lifecycle-viewmodel-ktx:${versions.viewmodel_ktx}",
+                    'room'               : "androidx.room:room-ktx:${versions.room_ktx}",
+                    'navigation_fragment': "androidx.navigation:navigation-fragment-ktx:${versions.navigation_ktx}",
+                    'navigation_ui'      : "androidx.navigation:navigation-ui-ktx:${versions.navigation_ktx}"
             ],
 
             'kapt'      : [

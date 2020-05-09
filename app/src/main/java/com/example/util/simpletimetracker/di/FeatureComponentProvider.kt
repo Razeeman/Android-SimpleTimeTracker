@@ -5,4 +5,7 @@ import com.example.util.simpletimetracker.feature_running_records.di.RunningReco
 
 interface FeatureComponentProvider :
     RunningRecordsComponentProvider,
-    RecordsComponentProvider
+    RecordsComponentProvider {
+
+    var appComponent: AppComponent?
+}

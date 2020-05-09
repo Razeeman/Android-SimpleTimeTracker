@@ -18,12 +18,16 @@ import com.example.util.simpletimetracker.feature_running_records.adapter.runnin
 import com.example.util.simpletimetracker.feature_running_records.mapper.RandomMaterialColorMapper
 import com.example.util.simpletimetracker.feature_running_records.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.feature_running_records.mapper.RunningRecordViewDataMapper
+import com.example.util.simpletimetracker.navigation.Router
+import com.example.util.simpletimetracker.navigation.Screen
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class RunningRecordsViewModel : ViewModel() {
 
+    @Inject
+    lateinit var router: Router
     @Inject
     lateinit var resourceRepo: ResourceRepo
     @Inject
@@ -75,6 +79,10 @@ class RunningRecordsViewModel : ViewModel() {
             runningRecordInteractor.add(record)
             updateRunningRecords()
         }
+    }
+
+    fun onRecordTypeLongClick(item: RecordTypeViewData) {
+        router.navigate(Screen.CHANGE_RECORD_TYPE)
     }
 
     fun onAddRecordTypeClick() {

@@ -30,6 +30,7 @@ class RunningRecordsFragment : Fragment() {
     private val recordTypesAdapter: RecordTypeAdapter by lazy {
         RecordTypeAdapter(
             viewModel::onRecordTypeClick,
+            viewModel::onRecordTypeLongClick,
             viewModel::onAddRecordTypeClick
         )
     }

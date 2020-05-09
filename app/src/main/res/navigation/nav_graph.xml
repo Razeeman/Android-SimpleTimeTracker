@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.example.util.simpletimetracker.feature_main.MainFragment"
+        android:label="MainFragment"
+        tools:layout="@layout/main_fragment">
+        <action
+            android:id="@+id/action_mainFragment_to_changeRecordTypeFragment"
+            app:destination="@id/changeRecordTypeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/changeRecordTypeFragment"
+        android:name="com.example.util.simpletimetracker.feature_change_record_type.ChangeRecordTypeFragment"
+        android:label="ChangeRecordTypeFragment"
+        tools:layout="@layout/change_record_type_fragment" />
+</navigation>

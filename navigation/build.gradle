@@ -23,17 +23,10 @@ android {
 dependencies {
     implementation project(':domain')
     implementation project(':core')
-    implementation project(':navigation')
 
-    implementation deps.androidx.appcompat
-    implementation deps.androidx.constraintlayout
-    implementation deps.androidx.recyclerview
-    implementation deps.androidx.cardView
     implementation deps.google.dagger
-    implementation deps.google.flexBox
-    implementation deps.ktx.fragment
-    implementation deps.ktx.livedata
-    implementation deps.ktx.viewmodel
+    implementation deps.ktx.navigation_fragment
+    implementation deps.ktx.navigation_ui
     kapt deps.kapt.dagger
 
     testImplementation deps.test.junit
