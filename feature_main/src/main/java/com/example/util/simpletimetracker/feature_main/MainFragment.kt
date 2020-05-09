@@ -26,6 +26,17 @@ class MainFragment : Fragment() {
 
         // TODO replace with ViewPager2
         mainPager.adapter = adapter
+        mainTabs.setupWithViewPager(mainPager)
+        (0..mainTabs.tabCount).forEach { index ->
+            when (index) {
+                0 -> R.drawable.ic_tab_running_records
+                1 -> R.drawable.ic_tab_records
+                2 -> R.drawable.ic_tab_statistics
+                else -> R.drawable.ic_unknown
+            }.let { iconId ->
+                mainTabs.getTabAt(index)?.setIcon(iconId)
+            }
+        }
     }
 
     companion object {

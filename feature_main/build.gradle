@@ -26,6 +26,7 @@ dependencies {
     implementation deps.androidx.constraintlayout
     implementation deps.androidx.recyclerview
     implementation deps.androidx.viewpager2
+    implementation deps.androidx.material
 
     testImplementation deps.test.junit
     androidTestImplementation deps.uitest.junit
