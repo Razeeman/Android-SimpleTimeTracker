@@ -2,7 +2,7 @@ package com.example.util.simpletimetracker.feature_main
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentStatePagerAdapter
-import com.example.util.simpletimetracker.feature_records.RecordsFragment
+import com.example.util.simpletimetracker.feature_records.view.RecordsFragment
 import com.example.util.simpletimetracker.feature_running_records.view.RunningRecordsFragment
 
 class MainContentAdapter(fragment: Fragment) :

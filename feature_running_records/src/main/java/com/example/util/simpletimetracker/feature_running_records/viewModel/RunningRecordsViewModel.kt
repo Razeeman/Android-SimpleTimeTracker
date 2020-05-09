@@ -6,8 +6,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
+import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.feature_running_records.adapter.recordType.RecordTypeAddViewData
@@ -28,6 +30,8 @@ class RunningRecordsViewModel : ViewModel() {
     lateinit var recordTypeInteractor: RecordTypeInteractor
     @Inject
     lateinit var runningRecordInteractor: RunningRecordInteractor
+    @Inject
+    lateinit var recordInteractor: RecordInteractor
     @Inject
     lateinit var recordTypeViewDataMapper: RecordTypeViewDataMapper
     @Inject
@@ -91,6 +95,19 @@ class RunningRecordsViewModel : ViewModel() {
 
     fun onRunningRecordClick(item: RunningRecordViewData) {
         viewModelScope.launch {
+            val runningRecord = runningRecordInteractor.getAll() // TODO get by name
+                .firstOrNull {
+                    it.name == item.name
+                }
+            runningRecord?.let {
+                recordInteractor.add(
+                    Record(
+                        name = runningRecord.name,
+                        timeStarted = runningRecord.timeStarted,
+                        timeEnded = System.currentTimeMillis()
+                    )
+                )
+            }
             runningRecordInteractor.remove(item.name)
             updateRunningRecords()
         }

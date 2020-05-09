@@ -8,5 +8,7 @@ interface BaseRecordRepo {
 
     suspend fun add(record: Record)
 
+    suspend fun remove(id: Long)
+
     suspend fun clear()
 }

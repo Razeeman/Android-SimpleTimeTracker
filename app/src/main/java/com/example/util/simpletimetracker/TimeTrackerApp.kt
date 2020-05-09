@@ -4,11 +4,14 @@ import android.app.Application
 import com.example.util.simpletimetracker.di.AppModule
 import com.example.util.simpletimetracker.di.DaggerAppComponent
 import com.example.util.simpletimetracker.di.FeatureComponentProvider
+import com.example.util.simpletimetracker.feature_records.di.RecordsComponent
 import com.example.util.simpletimetracker.feature_running_records.di.RunningRecordsComponent
 
 class TimeTrackerApp : Application(), FeatureComponentProvider {
 
-    var runningRecordsComponent: RunningRecordsComponent? = null
+    // TODO provide in the function right away
+    private var runningRecordsComponent: RunningRecordsComponent? = null
+    private var recordsComponent: RecordsComponent? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -18,7 +21,11 @@ class TimeTrackerApp : Application(), FeatureComponentProvider {
             .build()
         runningRecordsComponent = appComponent
             ?.plusRunningRecordsComponent()
+        recordsComponent = appComponent
+            ?.plusRecordsComponent()
     }
 
     override fun provideRunningRecordsComponent() = runningRecordsComponent
+
+    override fun provideRecordsComponent() = recordsComponent
 }

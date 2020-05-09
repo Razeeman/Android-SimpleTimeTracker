@@ -53,6 +53,7 @@ class RunningRecordsFragment : Fragment() {
             layoutManager = LinearLayoutManager(context)
             adapter = runningRecordsAdapter
         }
+
         rvRecordTypesList.apply {
             layoutManager = FlexboxLayoutManager(requireContext()).apply {
                 flexDirection = FlexDirection.ROW
@@ -69,6 +70,7 @@ class RunningRecordsFragment : Fragment() {
         viewModel.recordTypes.observe(viewLifecycleOwner) {
             recordTypesAdapter.replace(it)
         }
+
         viewModel.runningRecords.observe(viewLifecycleOwner) {
             runningRecordsAdapter.replace(it)
         }

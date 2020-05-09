@@ -14,6 +14,9 @@ interface RecordDao {
     @Insert
     suspend fun insert(record: RecordDBO)
 
+    @Query("DELETE FROM records WHERE id = :id")
+    suspend fun delete(id: Long)
+
     @Query("DELETE FROM records")
     suspend fun clear()
 }
