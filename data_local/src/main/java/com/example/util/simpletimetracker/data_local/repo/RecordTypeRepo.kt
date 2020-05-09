@@ -23,6 +23,10 @@ class RecordTypeRepo @Inject constructor(
         )
     }
 
+    override suspend fun remove(name: String) {
+        recordTypeDao.delete(name)
+    }
+
     override suspend fun clear() {
         recordTypeDao.clear()
     }

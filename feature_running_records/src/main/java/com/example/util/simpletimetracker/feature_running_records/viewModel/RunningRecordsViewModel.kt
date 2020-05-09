@@ -20,6 +20,7 @@ import com.example.util.simpletimetracker.feature_running_records.mapper.RecordT
 import com.example.util.simpletimetracker.feature_running_records.mapper.RunningRecordViewDataMapper
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
+import com.example.util.simpletimetracker.navigation.params.ChangeRecordTypeParams
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -82,7 +83,7 @@ class RunningRecordsViewModel : ViewModel() {
     }
 
     fun onRecordTypeLongClick(item: RecordTypeViewData) {
-        router.navigate(Screen.CHANGE_RECORD_TYPE)
+        router.navigate(Screen.CHANGE_RECORD_TYPE, ChangeRecordTypeParams(item.name))
     }
 
     fun onAddRecordTypeClick() {

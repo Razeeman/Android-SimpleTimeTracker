@@ -18,6 +18,10 @@ class RecordTypeInteractor @Inject constructor(
         recordTypeRepo.add(recordType)
     }
 
+    suspend fun remove(name: String) = withContext(Dispatchers.IO) {
+        recordTypeRepo.remove(name)
+    }
+
     suspend fun clear() = withContext(Dispatchers.IO) {
         recordTypeRepo.clear()
     }
