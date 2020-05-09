@@ -10,24 +10,21 @@ import com.example.util.simpletimetracker.feature_running_records.di.RunningReco
 
 class TimeTrackerApp : Application(), FeatureComponentProvider {
 
-    // TODO provide in the function right away
     override var appComponent: AppComponent? = null
-    private var runningRecordsComponent: RunningRecordsComponent? = null
-    private var recordsComponent: RecordsComponent? = null
+    override var runningRecordsComponent: RunningRecordsComponent? = null
+    override var recordsComponent: RecordsComponent? = null
 
     override fun onCreate() {
         super.onCreate()
-
-        appComponent = DaggerAppComponent.builder()
-            .appModule(AppModule(this))
-            .build()
-        runningRecordsComponent = appComponent
-            ?.plusRunningRecordsComponent()
-        recordsComponent = appComponent
-            ?.plusRecordsComponent()
+        initDi()
     }
 
-    override fun provideRunningRecordsComponent() = runningRecordsComponent
-
-    override fun provideRecordsComponent() = recordsComponent
+    private fun initDi() {
+        appComponent = DaggerAppComponent
+            .builder()
+            .appModule(AppModule(this))
+            .build()
+        runningRecordsComponent = appComponent?.plusRunningRecordsComponent()
+        recordsComponent = appComponent?.plusRecordsComponent()
+    }
 }

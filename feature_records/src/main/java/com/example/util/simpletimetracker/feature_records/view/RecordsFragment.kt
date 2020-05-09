@@ -44,8 +44,7 @@ class RecordsFragment : Fragment() {
         }
 
         (activity?.application as RecordsComponentProvider)
-            .provideRecordsComponent()
-            ?.inject(viewModel)
+            .recordsComponent?.inject(viewModel)
 
         viewModel.records.observe(viewLifecycleOwner) {
             recordsAdapter.replace(it)

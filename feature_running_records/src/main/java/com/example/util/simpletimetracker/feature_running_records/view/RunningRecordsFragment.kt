@@ -65,8 +65,7 @@ class RunningRecordsFragment : Fragment() {
         }
 
         (activity?.application as RunningRecordsComponentProvider)
-            .provideRunningRecordsComponent()
-            ?.inject(viewModel)
+            .runningRecordsComponent?.inject(viewModel)
 
         viewModel.recordTypes.observe(viewLifecycleOwner) {
             recordTypesAdapter.replace(it)
