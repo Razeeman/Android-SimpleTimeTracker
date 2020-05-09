@@ -15,11 +15,22 @@ class RecordTypeInteractor @Inject constructor(
     }
 
     suspend fun add(recordType: RecordType) = withContext(Dispatchers.IO) {
-        recordTypeRepo.add(recordType)
+        var newRecord = recordType
+
+        // If there is already an item with this name - override
+        recordTypeRepo.getAll()
+            .firstOrNull { saved ->
+                saved.name == recordType.name
+            }
+            ?.let { saved ->
+                newRecord = recordType.copy(id = saved.id)
+            }
+
+        recordTypeRepo.add(newRecord)
     }
 
-    suspend fun remove(name: String) = withContext(Dispatchers.IO) {
-        recordTypeRepo.remove(name)
+    suspend fun remove(id: Long) = withContext(Dispatchers.IO) {
+        recordTypeRepo.remove(id)
     }
 
     suspend fun clear() = withContext(Dispatchers.IO) {

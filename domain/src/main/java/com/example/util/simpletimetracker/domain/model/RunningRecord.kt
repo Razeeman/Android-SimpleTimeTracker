@@ -1,6 +1,6 @@
 package com.example.util.simpletimetracker.domain.model
 
 data class RunningRecord(
-    var name: String,
-    var timeStarted: Long
+    val id: Long,
+    val timeStarted: Long
 )

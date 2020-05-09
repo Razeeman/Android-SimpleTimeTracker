@@ -5,9 +5,10 @@ import androidx.annotation.DrawableRes
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 
 data class RunningRecordViewData(
-    var name: String,
-    var timeStarted: String,
-    var timer: String,
+    val id: Long,
+    val name: String,
+    val timeStarted: String,
+    val timer: String,
     @DrawableRes val iconId: Int,
     @ColorInt val color: Int
 ) : ViewHolderType {

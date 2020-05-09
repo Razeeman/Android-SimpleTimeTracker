@@ -7,9 +7,9 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "runningRecords")
 data class RunningRecordDBO(
     @PrimaryKey
-    @ColumnInfo(name = "name")
-    var name: String,
+    @ColumnInfo(name = "id")
+    val id: Long,
 
     @ColumnInfo(name = "time_started")
-    var timeStarted: Long
+    val timeStarted: Long
 )

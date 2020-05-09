@@ -8,7 +8,7 @@ interface BaseRunningRecordRepo {
 
     suspend fun add(runningRecord: RunningRecord)
 
-    suspend fun remove(name: String)
+    suspend fun remove(id: Long)
 
     suspend fun clear()
 }

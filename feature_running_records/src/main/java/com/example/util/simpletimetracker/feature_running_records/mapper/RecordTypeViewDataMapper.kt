@@ -11,6 +11,7 @@ class RecordTypeViewDataMapper @Inject constructor(
 
     fun map(recordType: RecordType): RecordTypeViewData {
         return RecordTypeViewData(
+            id = recordType.id,
             name = recordType.name,
             iconId = recordType.icon.let(iconMapper::mapToDrawableId),
             color = recordType.color

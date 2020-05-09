@@ -6,13 +6,16 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "recordTypes")
 data class RecordTypeDBO(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
+    val id: Long,
+
     @ColumnInfo(name = "name")
-    var name: String,
+    val name: String,
 
     @ColumnInfo(name = "icon")
-    var icon: Int,
+    val icon: Int,
 
     @ColumnInfo(name = "color")
-    var color: Int
+    val color: Int
 )

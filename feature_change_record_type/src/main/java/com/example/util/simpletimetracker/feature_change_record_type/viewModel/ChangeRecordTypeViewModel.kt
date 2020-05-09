@@ -39,8 +39,6 @@ class ChangeRecordTypeViewModel(private val name: String) : ViewModel() {
                 .firstOrNull { it.name == name }
                 ?.copy(name = newName)
                 ?.let {
-                    // TODO update
-                    recordTypeInteractor.remove(name)
                     recordTypeInteractor.add(it)
                 }
         }

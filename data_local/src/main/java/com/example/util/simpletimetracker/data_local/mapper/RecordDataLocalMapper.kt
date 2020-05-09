@@ -9,7 +9,7 @@ class RecordDataLocalMapper @Inject constructor() {
     fun map(dbo: RecordDBO): Record {
         return Record(
             id = dbo.id,
-            name = dbo.name,
+            typeId = dbo.typeId,
             timeStarted = dbo.timeStarted,
             timeEnded = dbo.timeEnded
         )
@@ -18,7 +18,7 @@ class RecordDataLocalMapper @Inject constructor() {
     fun map(domain: Record): RecordDBO {
         return RecordDBO(
             id = domain.id,
-            name = domain.name,
+            typeId = domain.typeId,
             timeStarted = domain.timeStarted,
             timeEnded = domain.timeEnded
         )

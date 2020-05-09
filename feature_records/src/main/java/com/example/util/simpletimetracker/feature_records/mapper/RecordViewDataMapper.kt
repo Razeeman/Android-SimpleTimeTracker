@@ -19,7 +19,7 @@ class RecordViewDataMapper @Inject constructor(
     ): RecordViewData {
         return RecordViewData(
             id = record.id,
-            name = record.name,
+            name = recordType.name,
             timeStarted = record.timeStarted.let(::formatTime),
             timeFinished = record.timeEnded.let(::formatTime),
             duration = (record.timeEnded - record.timeStarted).let(::formatInterval),

@@ -7,14 +7,15 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "records")
 data class RecordDBO(
     @PrimaryKey(autoGenerate = true)
-    var id: Long,
+    @ColumnInfo(name = "id")
+    val id: Long,
 
-    @ColumnInfo(name = "name")
-    var name: String,
+    @ColumnInfo(name = "type_id")
+    val typeId: Long,
 
     @ColumnInfo(name = "time_started")
-    var timeStarted: Long,
+    val timeStarted: Long,
 
     @ColumnInfo(name = "time_ended")
-    var timeEnded: Long
+    val timeEnded: Long
 )

@@ -72,7 +72,7 @@ class RunningRecordsViewModel : ViewModel() {
 
     fun onRecordTypeClick(item: RecordTypeViewData) {
         val record = RunningRecord(
-            name = item.name,
+            id = item.id,
             timeStarted = System.currentTimeMillis()
         )
 
@@ -106,18 +106,18 @@ class RunningRecordsViewModel : ViewModel() {
         viewModelScope.launch {
             val runningRecord = runningRecordInteractor.getAll() // TODO get by name
                 .firstOrNull {
-                    it.name == item.name
+                    it.id == item.id
                 }
             runningRecord?.let {
                 recordInteractor.add(
                     Record(
-                        name = runningRecord.name,
+                        typeId = runningRecord.id,
                         timeStarted = runningRecord.timeStarted,
                         timeEnded = System.currentTimeMillis()
                     )
                 )
             }
-            runningRecordInteractor.remove(item.name)
+            runningRecordInteractor.remove(item.id)
             updateRunningRecords()
         }
     }
@@ -132,13 +132,13 @@ class RunningRecordsViewModel : ViewModel() {
 
     private suspend fun loadRunningRecordsViewData(): List<RunningRecordViewData> {
         val recordTypes = recordTypeInteractor.getAll()
-            .map { it.name to it }
+            .map { it.id to it }
             .toMap()
         val runningRecords = runningRecordInteractor.getAll()
 
         return runningRecords
             .mapNotNull { runningRecord ->
-                recordTypes[runningRecord.name]?.let { type -> runningRecord to type }
+                recordTypes[runningRecord.id]?.let { type -> runningRecord to type }
             }
             .map { (runningRecord, recordType) ->
                 runningRecordViewDataMapper.map(runningRecord, recordType)

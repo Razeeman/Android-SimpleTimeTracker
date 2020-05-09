@@ -23,8 +23,8 @@ class RunningRecordRepo @Inject constructor(
         )
     }
 
-    override suspend fun remove(name: String) {
-        runningRecordDao.delete(name)
+    override suspend fun remove(id: Long) {
+        runningRecordDao.delete(id)
     }
 
     override suspend fun clear() {

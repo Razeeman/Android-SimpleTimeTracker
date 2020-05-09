@@ -8,14 +8,14 @@ class RunningRecordDataLocalMapper @Inject constructor() {
 
     fun map(dbo: RunningRecordDBO): RunningRecord {
         return RunningRecord(
-            name = dbo.name,
+            id = dbo.id,
             timeStarted = dbo.timeStarted
         )
     }
 
     fun map(domain: RunningRecord): RunningRecordDBO {
         return RunningRecordDBO(
-            name = domain.name,
+            id = domain.id,
             timeStarted = domain.timeStarted
         )
     }

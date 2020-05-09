@@ -18,7 +18,8 @@ class RunningRecordViewDataMapper @Inject constructor(
         recordType: RecordType
     ): RunningRecordViewData {
         return RunningRecordViewData(
-            name = runningRecord.name,
+            id = runningRecord.id,
+            name = recordType.name,
             timeStarted = runningRecord.timeStarted.let(::formatTime),
             timer = runningRecord.timeStarted.let(::formatInterval),
             iconId = recordType.icon.let(iconMapper::mapToDrawableId),

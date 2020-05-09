@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.feature_records.adapter.RecordViewData
@@ -57,13 +56,13 @@ class RecordsViewModel : ViewModel() {
 
     private suspend fun loadRecordsViewData(): List<RecordViewData> {
         val recordTypes = recordTypeInteractor.getAll()
-            .map { it.name to it }
+            .map { it.id to it }
             .toMap()
         val records = recordInteractor.getAll()
 
         return records
             .mapNotNull { record ->
-                recordTypes[record.name]?.let { type -> record to type }
+                recordTypes[record.typeId]?.let { type -> record to type }
             }
             .map { (record, recordType) ->
                 recordViewDataMapper.map(record, recordType)

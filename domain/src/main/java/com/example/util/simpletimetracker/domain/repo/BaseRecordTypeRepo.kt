@@ -8,7 +8,7 @@ interface BaseRecordTypeRepo {
 
     suspend fun add(recordType: RecordType)
 
-    suspend fun remove(name: String)
+    suspend fun remove(id: Long)
 
     suspend fun clear()
 }

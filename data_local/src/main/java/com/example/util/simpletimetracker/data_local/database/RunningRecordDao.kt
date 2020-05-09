@@ -15,8 +15,8 @@ interface RunningRecordDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(record: RunningRecordDBO)
 
-    @Query("DELETE FROM runningRecords WHERE name = :name")
-    suspend fun delete(name: String)
+    @Query("DELETE FROM runningRecords WHERE id = :id")
+    suspend fun delete(id: Long)
 
     @Query("DELETE FROM runningRecords")
     suspend fun clear()

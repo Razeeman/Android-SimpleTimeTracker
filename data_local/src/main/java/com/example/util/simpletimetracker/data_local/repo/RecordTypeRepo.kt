@@ -23,8 +23,8 @@ class RecordTypeRepo @Inject constructor(
         )
     }
 
-    override suspend fun remove(name: String) {
-        recordTypeDao.delete(name)
+    override suspend fun remove(id: Long) {
+        recordTypeDao.delete(id)
     }
 
     override suspend fun clear() {
