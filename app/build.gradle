@@ -42,6 +42,7 @@ dependencies {
     implementation project(':feature_main')
     implementation project(':feature_running_records')
     implementation project(':feature_records')
+    implementation project(':feature_change_record_type')
 
     implementation deps.androidx.appcompat
     implementation deps.androidx.constraintlayout
@@ -54,6 +55,8 @@ dependencies {
     implementation deps.ktx.livedata_core
     implementation deps.ktx.livedata
     implementation deps.ktx.viewmodel
+    implementation deps.ktx.navigation_fragment
+    implementation deps.ktx.navigation_ui
     kapt deps.kapt.dagger
 
     testImplementation deps.test.junit

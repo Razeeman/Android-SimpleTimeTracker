@@ -1,0 +1,40 @@
+apply from: "$rootDir/deps.gradle"
+
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion base.currentSDK
+
+    defaultConfig {
+        minSdkVersion base.minSDK
+        targetSdkVersion base.currentSDK
+        versionCode base.versionCode
+        versionName base.versionName
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+}
+
+dependencies {
+    implementation project(':domain')
+    implementation project(':core')
+
+    implementation deps.androidx.appcompat
+    implementation deps.androidx.constraintlayout
+    implementation deps.androidx.recyclerview
+    implementation deps.androidx.cardView
+    implementation deps.google.dagger
+    implementation deps.ktx.fragment
+    implementation deps.ktx.livedata
+    implementation deps.ktx.viewmodel
+    kapt deps.kapt.dagger
+
+    testImplementation deps.test.junit
+    androidTestImplementation deps.uitest.junit
+    androidTestImplementation deps.uitest.espresso
+}
