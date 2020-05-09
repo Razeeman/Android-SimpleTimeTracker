@@ -44,6 +44,7 @@ dependencies {
     implementation project(':feature_running_records')
     implementation project(':feature_records')
     implementation project(':feature_change_record_type')
+    implementation project(':feature_statistics')
 
     implementation deps.androidx.appcompat
     implementation deps.androidx.constraintlayout

@@ -44,6 +44,7 @@ class RecordViewDataMapper @Inject constructor(
             interval - TimeUnit.HOURS.toMillis(hr) - TimeUnit.MINUTES.toMillis(min)
         )
 
-        return String.format("%02d:%02d:%02d", hr, min, sec)
+        // TODO remove 0s if empty
+        return String.format("%2dh %2dm %2ds", hr, min, sec)
     }
 }

@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.di.FeatureComponentProvider
 import com.example.util.simpletimetracker.feature_records.di.RecordsComponent
 import com.example.util.simpletimetracker.feature_change_record_type.di.ChangeRecordTypeComponent
 import com.example.util.simpletimetracker.feature_running_records.di.RunningRecordsComponent
+import com.example.util.simpletimetracker.feature_statistics.di.StatisticsComponent
 
 class TimeTrackerApp : Application(), FeatureComponentProvider {
 
@@ -15,6 +16,7 @@ class TimeTrackerApp : Application(), FeatureComponentProvider {
     override var runningRecordsComponent: RunningRecordsComponent? = null
     override var recordsComponent: RecordsComponent? = null
     override var changeRecordTypeComponent: ChangeRecordTypeComponent? = null
+    override var statisticsComponent: StatisticsComponent? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -29,5 +31,6 @@ class TimeTrackerApp : Application(), FeatureComponentProvider {
         runningRecordsComponent = appComponent?.plusRunningRecordsComponent()
         recordsComponent = appComponent?.plusRecordsComponent()
         changeRecordTypeComponent = appComponent?.plusChangeRecordTypeComponent()
+        statisticsComponent = appComponent?.plusStatisticsComponent()
     }
 }
