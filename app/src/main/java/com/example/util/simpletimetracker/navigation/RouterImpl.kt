@@ -23,6 +23,10 @@ class RouterImpl @Inject constructor(): Router() {
         }
     }
 
+    override fun back() {
+        navController?.popBackStack()
+    }
+
     override fun bind(activity: Activity) {
         navController = activity.findNavController(R.id.container)
     }

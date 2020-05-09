@@ -6,5 +6,7 @@ abstract class Router {
 
     abstract fun navigate(screen: Screen, data: Any? = null)
 
+    abstract fun back()
+
     abstract fun bind(activity: Activity)
 }

@@ -7,11 +7,14 @@ import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.feature_change_record_type.mapper.ChangeRecordTypeViewDataMapper
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeViewData
+import com.example.util.simpletimetracker.navigation.Router
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ChangeRecordTypeViewModel(private val name: String) : ViewModel() {
 
+    @Inject
+    lateinit var router: Router
     @Inject
     lateinit var recordTypeInteractor: RecordTypeInteractor
     @Inject
@@ -40,6 +43,7 @@ class ChangeRecordTypeViewModel(private val name: String) : ViewModel() {
                 ?.copy(name = newName)
                 ?.let {
                     recordTypeInteractor.add(it)
+                    router.back()
                 }
         }
     }
