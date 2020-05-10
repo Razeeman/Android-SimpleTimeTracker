@@ -10,12 +10,11 @@ import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.model.Record
-import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.feature_running_records.adapter.recordType.RecordTypeAddViewData
 import com.example.util.simpletimetracker.feature_running_records.adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_running_records.adapter.runningRecord.RunningRecordViewData
-import com.example.util.simpletimetracker.feature_running_records.mapper.RandomMaterialColorMapper
+import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.feature_running_records.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.feature_running_records.mapper.RunningRecordViewDataMapper
 import com.example.util.simpletimetracker.navigation.Router
@@ -42,7 +41,7 @@ class RunningRecordsViewModel : ViewModel() {
     @Inject
     lateinit var runningRecordViewDataMapper: RunningRecordViewDataMapper
     @Inject
-    lateinit var randomMaterialColorMapper: RandomMaterialColorMapper
+    lateinit var colorMapper: ColorMapper
 
     private val runningRecordsLiveData: MutableLiveData<List<RunningRecordViewData>> by lazy {
         return@lazy MutableLiveData<List<RunningRecordViewData>>().let { initial ->
@@ -83,23 +82,11 @@ class RunningRecordsViewModel : ViewModel() {
     }
 
     fun onRecordTypeLongClick(item: RecordTypeViewData) {
-        router.navigate(Screen.CHANGE_RECORD_TYPE, ChangeRecordTypeParams(item.name))
+        router.navigate(Screen.CHANGE_RECORD_TYPE, ChangeRecordTypeParams(item.id))
     }
 
     fun onAddRecordTypeClick() {
-        val recordType = RecordType(
-            name = "name" + (0..9).random(),
-            icon = (2..6).random(),
-            color = (0 until RandomMaterialColorMapper.NUMBER_OF_COLORS)
-                .random()
-                .let(randomMaterialColorMapper::mapToColorResId)
-                .let(resourceRepo::getColor)
-        )
-
-        viewModelScope.launch {
-            recordTypeInteractor.add(recordType)
-            updateRecordTypes()
-        }
+        router.navigate(Screen.CHANGE_RECORD_TYPE)
     }
 
     fun onRunningRecordClick(item: RunningRecordViewData) {

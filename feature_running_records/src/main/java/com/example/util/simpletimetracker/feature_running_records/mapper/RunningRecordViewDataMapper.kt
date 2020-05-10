@@ -1,6 +1,8 @@
 package com.example.util.simpletimetracker.feature_running_records.mapper
 
+import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
+import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.feature_running_records.adapter.runningRecord.RunningRecordViewData
@@ -10,7 +12,9 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class RunningRecordViewDataMapper @Inject constructor(
-    private val iconMapper: IconMapper
+    private val iconMapper: IconMapper,
+    private val colorMapper: ColorMapper,
+    private val resourceRepo: ResourceRepo
 ) {
 
     fun map(
@@ -20,10 +24,15 @@ class RunningRecordViewDataMapper @Inject constructor(
         return RunningRecordViewData(
             id = runningRecord.id,
             name = recordType.name,
-            timeStarted = runningRecord.timeStarted.let(::formatTime),
-            timer = runningRecord.timeStarted.let(::formatInterval),
-            iconId = recordType.icon.let(iconMapper::mapToDrawableId),
+            timeStarted = runningRecord.timeStarted
+                .let(::formatTime),
+            timer = runningRecord.timeStarted
+                .let(::formatInterval),
+            iconId = recordType.icon
+                .let(iconMapper::mapToDrawableResId),
             color = recordType.color
+                .let(colorMapper::mapToColorResId)
+                .let(resourceRepo::getColor)
         )
     }
 

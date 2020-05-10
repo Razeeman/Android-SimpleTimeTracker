@@ -8,6 +8,7 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
+import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_change_record_type.R
 import com.example.util.simpletimetracker.feature_change_record_type.di.ChangeRecordTypeComponentProvider
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeViewData
@@ -21,7 +22,7 @@ class ChangeRecordTypeFragment : Fragment() {
     private val viewModel: ChangeRecordTypeViewModel by viewModels(
         factoryProducer = {
             ChangeRecordTypeViewModelFactory(
-                arguments?.getString(ARGS_RECORD_NAME).orEmpty()
+                arguments?.getLong(ARGS_RECORD_ID).orZero()
             )
         }
     )
@@ -63,11 +64,11 @@ class ChangeRecordTypeFragment : Fragment() {
     }
 
     companion object {
-        private const val ARGS_RECORD_NAME = "name"
+        private const val ARGS_RECORD_ID = "record_id"
 
         fun createBundle(data: Any?): Bundle = Bundle().apply {
             when (data) {
-                is ChangeRecordTypeParams -> putString(ARGS_RECORD_NAME, data.name)
+                is ChangeRecordTypeParams -> putLong(ARGS_RECORD_ID, data.id)
             }
         }
     }

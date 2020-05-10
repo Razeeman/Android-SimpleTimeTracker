@@ -5,28 +5,50 @@
     android:layout_height="match_parent"
     android:paddingStart="8dp"
     android:paddingTop="8dp"
-    android:paddingEnd="8dp">
+    android:paddingEnd="8dp"
+    android:paddingBottom="8dp">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvChangeRecordTypeName"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Name"
-        android:textStyle="bold"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/btnChangeRecordTypeSave"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/etChangeRecordTypeName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter new name"
-        app:layout_constraintTop_toBottomOf="@id/tvChangeRecordTypeName" />
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvChangeRecordTypeName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Name"
+                android:textStyle="bold" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etChangeRecordTypeName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter new name" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvChangeRecordTypeIcon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Icon"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.core.widget.NestedScrollView>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnChangeRecordTypeSave"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
         android:gravity="center"
         android:text="Save"
         app:layout_constraintBottom_toBottomOf="parent" />

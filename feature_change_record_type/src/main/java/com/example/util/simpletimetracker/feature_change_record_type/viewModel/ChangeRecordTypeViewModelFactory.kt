@@ -4,10 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 
 class ChangeRecordTypeViewModelFactory(
-    private val name: String
+    private val id: Long
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return ChangeRecordTypeViewModel(name) as T
+        return ChangeRecordTypeViewModel(id) as T
     }
 }

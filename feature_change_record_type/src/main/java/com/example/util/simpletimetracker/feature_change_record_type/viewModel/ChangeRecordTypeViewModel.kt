@@ -4,14 +4,18 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
+import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_change_record_type.mapper.ChangeRecordTypeViewDataMapper
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeViewData
 import com.example.util.simpletimetracker.navigation.Router
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class ChangeRecordTypeViewModel(private val name: String) : ViewModel() {
+class ChangeRecordTypeViewModel(
+    private val id: Long
+) : ViewModel() {
 
     @Inject
     lateinit var router: Router
@@ -20,7 +24,9 @@ class ChangeRecordTypeViewModel(private val name: String) : ViewModel() {
     @Inject
     lateinit var changeRecordTypeViewDataMapper: ChangeRecordTypeViewDataMapper
 
-    private var newName: String = ""
+    private var newName: String = "Name"
+    private var newIconId: Int = 0
+    private var newColorId: Int = (0..ColorMapper.colorsNumber).random()
 
     private val recordTypeLiveData: MutableLiveData<ChangeRecordTypeViewData> by lazy {
         return@lazy MutableLiveData<ChangeRecordTypeViewData>().let { initial ->
@@ -38,13 +44,15 @@ class ChangeRecordTypeViewModel(private val name: String) : ViewModel() {
 
     fun onSaveClick() {
         viewModelScope.launch {
-            recordTypeInteractor.getAll()
-                .firstOrNull { it.name == name }
-                ?.copy(name = newName)
-                ?.let {
-                    recordTypeInteractor.add(it)
-                    router.back()
-                }
+            RecordType(
+                id = id,
+                name = newName,
+                icon = newIconId,
+                color = newColorId
+            ).let {
+                recordTypeInteractor.add(it)
+                router.back()
+            }
         }
     }
 
@@ -53,14 +61,14 @@ class ChangeRecordTypeViewModel(private val name: String) : ViewModel() {
     }
 
     private suspend fun loadRecordTypeViewData(): ChangeRecordTypeViewData {
-        return recordTypeInteractor
+        return (recordTypeInteractor
             .getAll()
-            .firstOrNull {
-                it.name == name
-            }
-            ?.let(changeRecordTypeViewDataMapper::map)
-            ?: ChangeRecordTypeViewData(
-                name = ""
-            )
+            .firstOrNull { it.id == id }
+            ?: RecordType(
+                name = newName,
+                icon = newIconId,
+                color = newColorId
+            ))
+            .let(changeRecordTypeViewDataMapper::map)
     }
 }

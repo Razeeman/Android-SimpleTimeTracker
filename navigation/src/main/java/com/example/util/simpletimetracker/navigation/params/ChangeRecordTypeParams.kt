@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.navigation.params
 
 data class ChangeRecordTypeParams(
-    val name: String?
+    // id of the RecordType to change, if no id - creating new one.
+    val id: Long = 0
 )
