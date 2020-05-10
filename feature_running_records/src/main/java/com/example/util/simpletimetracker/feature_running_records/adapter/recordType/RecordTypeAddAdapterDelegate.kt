@@ -20,6 +20,7 @@ class RecordTypeAddAdapterDelegate(
         override fun bind(item: ViewHolderType) = with(itemView) {
             item as RecordTypeAddViewData
 
+            // TODO set icon and color here not in layout
             layoutRecordTypeItemAdd.setOnClickListener {
                 onItemClick.invoke()
             }

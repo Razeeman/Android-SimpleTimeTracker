@@ -19,5 +19,8 @@ android {
 dependencies {
     implementation project(':domain')
 
+    implementation deps.androidx.appcompat
     implementation deps.androidx.recyclerview
+    implementation deps.androidx.constraintlayout
+    implementation deps.androidx.cardView
 }
