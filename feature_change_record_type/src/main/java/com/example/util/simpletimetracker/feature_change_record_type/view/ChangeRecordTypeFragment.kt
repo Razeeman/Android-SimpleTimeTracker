@@ -106,7 +106,11 @@ class ChangeRecordTypeFragment : Fragment() {
     }
 
     private fun updatePreview(item: ChangeRecordTypeViewData) {
-        // TODO update preview
+        with(previewChangeRecordType) {
+            setName(item.name)
+            setIcon(item.icon)
+            setColor(item.color)
+        }
     }
 
     companion object {

@@ -4,10 +4,8 @@ import android.view.ViewGroup
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerViewHolder
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
-import com.example.util.simpletimetracker.core.extension.ivRecordTypeItemIcon
-import com.example.util.simpletimetracker.core.extension.layoutRecordTypeItem
-import com.example.util.simpletimetracker.core.extension.tvRecordTypeItemName
 import com.example.util.simpletimetracker.feature_running_records.R
+import kotlinx.android.synthetic.main.record_type_item_layout.view.*
 
 class RecordTypeAdapterDelegate(
     private val onItemClick: ((RecordTypeViewData) -> Unit),
@@ -20,17 +18,16 @@ class RecordTypeAdapterDelegate(
     inner class RunningRecordsViewHolder(parent: ViewGroup) :
         BaseRecyclerViewHolder(parent, R.layout.record_type_item_layout) {
 
-        override fun bind(item: ViewHolderType) = with(itemView) {
+        override fun bind(item: ViewHolderType) = with(itemView.viewRecordTypeItem) {
             item as RecordTypeViewData
 
-            layoutRecordTypeItem.setCardBackgroundColor(item.color)
-            ivRecordTypeItemIcon.setBackgroundResource(item.iconId)
-            tvRecordTypeItemName.text = item.name
-
-            layoutRecordTypeItem.setOnClickListener {
+            setColor(item.color)
+            setIcon(item.iconId)
+            setName(item.name)
+            setOnClickListener {
                 onItemClick.invoke(item)
             }
-            layoutRecordTypeItem.setOnLongClickListener {
+            setOnLongClickListener {
                 onItemLongClick.invoke(item)
                 true
             }
