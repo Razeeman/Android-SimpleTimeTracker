@@ -10,7 +10,7 @@ class ColorMapper @Inject constructor() {
     }
 
     companion object {
-        private val availableColors: List<Int> = listOf(
+        val availableColors: List<Int> = listOf(
             R.color.black,
             R.color.red_600,
             R.color.pink_600,

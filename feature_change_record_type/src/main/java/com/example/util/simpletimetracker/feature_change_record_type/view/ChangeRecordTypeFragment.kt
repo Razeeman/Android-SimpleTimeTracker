@@ -8,13 +8,19 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
+import com.example.util.simpletimetracker.core.extension.observeOnce
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_change_record_type.R
+import com.example.util.simpletimetracker.feature_change_record_type.adapter.ChangeRecordTypeAdapter
 import com.example.util.simpletimetracker.feature_change_record_type.di.ChangeRecordTypeComponentProvider
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewModel.ChangeRecordTypeViewModel
 import com.example.util.simpletimetracker.feature_change_record_type.viewModel.ChangeRecordTypeViewModelFactory
 import com.example.util.simpletimetracker.navigation.params.ChangeRecordTypeParams
+import com.google.android.flexbox.FlexDirection
+import com.google.android.flexbox.FlexWrap
+import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.android.flexbox.JustifyContent
 import kotlinx.android.synthetic.main.change_record_type_fragment.*
 
 class ChangeRecordTypeFragment : Fragment() {
@@ -26,6 +32,12 @@ class ChangeRecordTypeFragment : Fragment() {
             )
         }
     )
+    private val colorsAdapter: ChangeRecordTypeAdapter by lazy {
+        ChangeRecordTypeAdapter(viewModel::onColorClick, viewModel::onIconClick)
+    }
+    private val iconsAdapter: ChangeRecordTypeAdapter by lazy {
+        ChangeRecordTypeAdapter(viewModel::onColorClick, viewModel::onIconClick)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,8 +57,38 @@ class ChangeRecordTypeFragment : Fragment() {
         (activity?.application as ChangeRecordTypeComponentProvider)
             .changeRecordTypeComponent?.inject(viewModel)
 
-        viewModel.recordType.observe(viewLifecycleOwner) {
+        rvChangeRecordTypeColor.apply {
+            layoutManager = FlexboxLayoutManager(requireContext()).apply {
+                flexDirection = FlexDirection.ROW
+                justifyContent = JustifyContent.CENTER
+                flexWrap = FlexWrap.WRAP
+            }
+            adapter = colorsAdapter
+        }
+
+        rvChangeRecordTypeIcon.apply {
+            layoutManager = FlexboxLayoutManager(requireContext()).apply {
+                flexDirection = FlexDirection.ROW
+                justifyContent = JustifyContent.CENTER
+                flexWrap = FlexWrap.WRAP
+            }
+            adapter = iconsAdapter
+        }
+
+        viewModel.recordType.observeOnce(viewLifecycleOwner) {
             updateUi(it)
+        }
+
+        viewModel.recordType.observe(viewLifecycleOwner) {
+            updatePreview(it)
+        }
+
+        viewModel.colors.observe(viewLifecycleOwner) {
+            colorsAdapter.replace(it)
+        }
+
+        viewModel.icons.observe(viewLifecycleOwner) {
+            iconsAdapter.replace(it)
         }
 
         etChangeRecordTypeName.doAfterTextChanged {
@@ -61,6 +103,10 @@ class ChangeRecordTypeFragment : Fragment() {
     private fun updateUi(item: ChangeRecordTypeViewData) {
         etChangeRecordTypeName.setText(item.name)
         etChangeRecordTypeName.setSelection(item.name.length)
+    }
+
+    private fun updatePreview(item: ChangeRecordTypeViewData) {
+        // TODO update preview
     }
 
     companion object {

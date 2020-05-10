@@ -6,6 +6,7 @@ interface ViewHolderType {
 
     companion object {
         const val VIEW = 1
-        const val FOOTER = 2
+        const val VIEW2 = 2
+        const val FOOTER = 3
     }
 }

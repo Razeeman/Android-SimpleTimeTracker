@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingStart="8dp"
@@ -14,33 +15,43 @@
         app:layout_constraintBottom_toTopOf="@id/btnChangeRecordTypeSave"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.appcompat.widget.LinearLayoutCompat
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvChangeRecordTypeName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Name"
-                android:textStyle="bold" />
+            <include
+                android:id="@+id/previewChangeRecordType"
+                layout="@layout/record_type_item_layout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/etChangeRecordTypeName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Enter new name" />
+                android:hint="Enter new name"
+                app:layout_constraintTop_toBottomOf="@id/previewChangeRecordType" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvChangeRecordTypeIcon"
-                android:layout_width="match_parent"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvChangeRecordTypeColor"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Icon"
-                android:textStyle="bold"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintEnd_toStartOf="@id/rvChangeRecordTypeIcon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/etChangeRecordTypeName"
+                tools:listitem="@layout/change_record_type_color_item_layout" />
 
-        </androidx.appcompat.widget.LinearLayoutCompat>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvChangeRecordTypeIcon"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/rvChangeRecordTypeColor"
+                app:layout_constraintTop_toBottomOf="@id/etChangeRecordTypeName"
+                tools:listitem="@layout/change_record_type_icon_item_layout" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
 

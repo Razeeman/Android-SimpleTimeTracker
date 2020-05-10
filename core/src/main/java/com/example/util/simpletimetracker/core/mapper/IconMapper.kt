@@ -10,7 +10,7 @@ class IconMapper @Inject constructor() {
     }
 
     companion object {
-        private val availableIcons: List<Int> = listOf(
+        val availableIcons: List<Int> = listOf(
             R.drawable.ic_unknown,
             R.drawable.ic_bed,
             R.drawable.ic_briefcase,
