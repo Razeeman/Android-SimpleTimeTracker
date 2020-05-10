@@ -4,13 +4,30 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.BlendModeColorFilterCompat
+import androidx.core.graphics.BlendModeCompat
 import androidx.fragment.app.Fragment
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.main_fragment.*
 
 class MainFragment : Fragment() {
 
-    private val adapter: MainContentAdapter by lazy {
-        MainContentAdapter(this)
+    private val selectedColorFilter by lazy {
+        BlendModeColorFilterCompat
+            .createBlendModeColorFilterCompat(
+                ContextCompat.getColor(requireContext(), R.color.black),
+                BlendModeCompat.SRC_IN
+            )
+    }
+
+    private val unselectedColorFilter by lazy {
+        BlendModeColorFilterCompat
+            .createBlendModeColorFilterCompat(
+                ContextCompat.getColor(requireContext(), R.color.grey_400),
+                BlendModeCompat.SRC_IN
+            )
     }
 
     override fun onCreateView(
@@ -23,23 +40,40 @@ class MainFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        setupPager()
+    }
 
-        // TODO replace with ViewPager2
-        mainPager.adapter = adapter
-        mainTabs.setupWithViewPager(mainPager)
-        (0..mainTabs.tabCount).forEach { index ->
-            when (index) {
+    private fun setupPager() {
+        mainPager.adapter = MainContentAdapter(this)
+        mainPager.offscreenPageLimit = 2
+
+        TabLayoutMediator(mainTabs, mainPager) { tab, position ->
+            when (position) {
                 0 -> R.drawable.ic_tab_running_records
                 1 -> R.drawable.ic_tab_records
                 2 -> R.drawable.ic_tab_statistics
                 else -> R.drawable.ic_unknown
-            }.let { iconId ->
-                mainTabs.getTabAt(index)?.setIcon(iconId)
-            }
-        }
-    }
+            }.let(tab::setIcon)
 
-    companion object {
-        fun newInstance() = MainFragment()
+            tab.icon?.colorFilter = if (position == 0) {
+                selectedColorFilter
+            } else {
+                unselectedColorFilter
+            }
+        }.attach()
+
+        mainTabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+                // Do nothing
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+                tab?.icon?.colorFilter = unselectedColorFilter
+            }
+
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                tab?.icon?.colorFilter = selectedColorFilter
+            }
+        })
     }
 }

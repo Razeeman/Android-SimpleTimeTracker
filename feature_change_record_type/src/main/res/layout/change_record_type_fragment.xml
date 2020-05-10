@@ -41,7 +41,7 @@
                 app:layout_constraintEnd_toStartOf="@id/rvChangeRecordTypeIcon"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/etChangeRecordTypeName"
-                tools:listitem="@layout/change_record_type_color_item_layout" />
+                tools:listitem="@layout/change_record_type_item_color_layout" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvChangeRecordTypeIcon"
@@ -50,7 +50,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/rvChangeRecordTypeColor"
                 app:layout_constraintTop_toBottomOf="@id/etChangeRecordTypeName"
-                tools:listitem="@layout/change_record_type_icon_item_layout" />
+                tools:listitem="@layout/change_record_type_item_icon_layout" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
