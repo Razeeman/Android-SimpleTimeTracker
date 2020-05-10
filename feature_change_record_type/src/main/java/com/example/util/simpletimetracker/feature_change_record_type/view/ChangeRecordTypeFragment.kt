@@ -107,9 +107,9 @@ class ChangeRecordTypeFragment : Fragment() {
 
     private fun updatePreview(item: ChangeRecordTypeViewData) {
         with(previewChangeRecordType) {
-            setName(item.name)
-            setIcon(item.icon)
-            setColor(item.color)
+            name = item.name
+            icon = item.icon
+            color = item.color
         }
     }
 

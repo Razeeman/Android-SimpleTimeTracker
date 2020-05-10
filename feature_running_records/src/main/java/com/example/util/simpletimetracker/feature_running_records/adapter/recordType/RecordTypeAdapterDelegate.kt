@@ -21,9 +21,9 @@ class RecordTypeAdapterDelegate(
         override fun bind(item: ViewHolderType) = with(itemView.viewRecordTypeItem) {
             item as RecordTypeViewData
 
-            setColor(item.color)
-            setIcon(item.iconId)
-            setName(item.name)
+            color = item.color
+            icon = item.iconId
+            name = item.name
             setOnClickListener {
                 onItemClick.invoke(item)
             }
