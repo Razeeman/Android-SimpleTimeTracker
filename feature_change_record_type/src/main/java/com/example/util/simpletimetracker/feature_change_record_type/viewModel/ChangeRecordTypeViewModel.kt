@@ -48,7 +48,7 @@ class ChangeRecordTypeViewModel(
     }
     val deleteIconVisibility: LiveData<Boolean> = MutableLiveData(id != 0L)
 
-    private var newName: String = "Name"
+    private var newName: String = ""
     private var newIconId: Int = 0
     private var newColorId: Int = (0..ColorMapper.colorsNumber).random()
 

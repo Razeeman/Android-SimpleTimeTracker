@@ -8,10 +8,7 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
-import com.example.util.simpletimetracker.core.extension.animateFlip
-import com.example.util.simpletimetracker.core.extension.flipVisibility
-import com.example.util.simpletimetracker.core.extension.observeOnce
-import com.example.util.simpletimetracker.core.extension.visible
+import com.example.util.simpletimetracker.core.extension.*
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_change_record_type.R
 import com.example.util.simpletimetracker.feature_change_record_type.adapter.ChangeRecordTypeAdapter
@@ -106,12 +103,14 @@ class ChangeRecordTypeFragment : Fragment() {
             rvChangeRecordTypeColor.flipVisibility()
             rvChangeRecordTypeIcon.visible = false
             arrowChangeRecordTypeColor.animateFlip()
+            hideKeyboard()
         }
 
         fieldChangeRecordTypeIcon.setOnClickListener {
             rvChangeRecordTypeIcon.flipVisibility()
             rvChangeRecordTypeColor.visible = false
             arrowChangeRecordTypeIcon.animateFlip()
+            hideKeyboard()
         }
 
         btnChangeRecordTypeDelete.setOnClickListener {
@@ -128,6 +127,8 @@ class ChangeRecordTypeFragment : Fragment() {
     private fun updateUi(item: ChangeRecordTypeViewData) {
         etChangeRecordTypeName.setText(item.name)
         etChangeRecordTypeName.setSelection(item.name.length)
+        // TODO don't show keyboard on edit
+        showKeyboard(etChangeRecordTypeName)
     }
 
     private fun updatePreview(item: ChangeRecordTypeViewData) {
