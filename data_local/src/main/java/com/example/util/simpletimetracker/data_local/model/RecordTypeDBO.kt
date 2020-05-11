@@ -17,5 +17,8 @@ data class RecordTypeDBO(
     val icon: Int,
 
     @ColumnInfo(name = "color")
-    val color: Int
+    val color: Int,
+
+    @ColumnInfo(name = "hidden")
+    val hidden: Boolean
 )

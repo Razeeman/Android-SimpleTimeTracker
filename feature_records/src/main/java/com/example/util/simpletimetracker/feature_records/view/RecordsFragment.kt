@@ -49,10 +49,6 @@ class RecordsFragment : Fragment() {
         viewModel.records.observe(viewLifecycleOwner) {
             recordsAdapter.replace(it)
         }
-
-        btnClear.setOnClickListener {
-            viewModel.clearRecordTypes()
-        }
     }
 
     override fun onResume() {

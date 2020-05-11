@@ -20,20 +20,10 @@ class RecordsViewModel : ViewModel() {
     @Inject
     lateinit var recordViewDataMapper: RecordViewDataMapper
 
-    private val recordsLiveData: MutableLiveData<List<RecordViewData>> by lazy {
+    val records: LiveData<List<RecordViewData>> by lazy {
         return@lazy MutableLiveData<List<RecordViewData>>().let { initial ->
             viewModelScope.launch { initial.value = loadRecordsViewData() }
             initial
-        }
-    }
-
-    val records: LiveData<List<RecordViewData>>
-        get() = recordsLiveData
-
-    fun clearRecordTypes() {
-        viewModelScope.launch {
-            recordInteractor.clear()
-            updateRecords()
         }
     }
 
@@ -51,7 +41,7 @@ class RecordsViewModel : ViewModel() {
     }
 
     private suspend fun updateRecords() {
-        recordsLiveData.value = loadRecordsViewData()
+        (records as MutableLiveData).value = loadRecordsViewData()
     }
 
     private suspend fun loadRecordsViewData(): List<RecordViewData> {

@@ -4,5 +4,6 @@ data class RecordType(
     val id: Long = 0,
     val name: String,
     val icon: Int,
-    val color: Int
+    val color: Int,
+    val hidden: Boolean = false
 )

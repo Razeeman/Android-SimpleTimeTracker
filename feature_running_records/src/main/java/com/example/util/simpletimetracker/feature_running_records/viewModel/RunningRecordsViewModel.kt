@@ -5,19 +5,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
-import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RunningRecord
-import com.example.util.simpletimetracker.feature_running_records.viewData.RecordTypeAddViewData
-import com.example.util.simpletimetracker.feature_running_records.viewData.RecordTypeViewData
-import com.example.util.simpletimetracker.feature_running_records.viewData.RunningRecordViewData
-import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.feature_running_records.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.feature_running_records.mapper.RunningRecordViewDataMapper
+import com.example.util.simpletimetracker.feature_running_records.viewData.RecordTypeAddViewData
+import com.example.util.simpletimetracker.feature_running_records.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_running_records.viewData.RunningRecordEmptyViewData
+import com.example.util.simpletimetracker.feature_running_records.viewData.RunningRecordViewData
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
 import com.example.util.simpletimetracker.navigation.params.ChangeRecordTypeParams
@@ -30,8 +28,6 @@ class RunningRecordsViewModel : ViewModel() {
     @Inject
     lateinit var router: Router
     @Inject
-    lateinit var resourceRepo: ResourceRepo
-    @Inject
     lateinit var recordTypeInteractor: RecordTypeInteractor
     @Inject
     lateinit var runningRecordInteractor: RunningRecordInteractor
@@ -41,8 +37,6 @@ class RunningRecordsViewModel : ViewModel() {
     lateinit var recordTypeViewDataMapper: RecordTypeViewDataMapper
     @Inject
     lateinit var runningRecordViewDataMapper: RunningRecordViewDataMapper
-    @Inject
-    lateinit var colorMapper: ColorMapper
 
     val runningRecords: LiveData<List<ViewHolderType>> by lazy {
         return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
@@ -65,6 +59,7 @@ class RunningRecordsViewModel : ViewModel() {
         )
 
         viewModelScope.launch {
+            // TODO record previous if already running?
             runningRecordInteractor.add(record)
             updateRunningRecords()
         }
@@ -114,6 +109,7 @@ class RunningRecordsViewModel : ViewModel() {
     }
 
     private suspend fun loadRunningRecordsViewData(): List<ViewHolderType> {
+        // TODO stop running records that are hidden?
         val recordTypes = recordTypeInteractor.getAll()
             .map { it.id to it }
             .toMap()
@@ -134,6 +130,7 @@ class RunningRecordsViewModel : ViewModel() {
     private suspend fun loadRecordTypesViewData(): List<ViewHolderType> {
         return recordTypeInteractor
             .getAll()
+            .filter { !it.hidden }
             .map(recordTypeViewDataMapper::map) + RecordTypeAddViewData()
     }
 
