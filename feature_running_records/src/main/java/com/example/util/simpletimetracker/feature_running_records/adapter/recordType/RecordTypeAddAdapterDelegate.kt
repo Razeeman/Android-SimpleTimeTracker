@@ -5,7 +5,8 @@ import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapterDelega
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerViewHolder
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_running_records.R
-import kotlinx.android.synthetic.main.record_type_item_add_layout.view.*
+import com.example.util.simpletimetracker.feature_running_records.viewData.RecordTypeAddViewData
+import kotlinx.android.synthetic.main.item_record_type_add_layout.view.*
 
 class RecordTypeAddAdapterDelegate(
     private val onItemClick: (() -> Unit)
@@ -15,7 +16,7 @@ class RecordTypeAddAdapterDelegate(
         RunningRecordsViewHolder(parent)
 
     inner class RunningRecordsViewHolder(parent: ViewGroup) :
-        BaseRecyclerViewHolder(parent, R.layout.record_type_item_add_layout) {
+        BaseRecyclerViewHolder(parent, R.layout.item_record_type_add_layout) {
 
         override fun bind(item: ViewHolderType) = with(itemView) {
             item as RecordTypeAddViewData

@@ -8,5 +8,6 @@ interface ViewHolderType {
         const val VIEW = 1
         const val VIEW2 = 2
         const val FOOTER = 3
+        const val HEADER = 4
     }
 }

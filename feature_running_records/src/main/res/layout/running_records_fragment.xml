@@ -18,7 +18,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:itemCount="2"
-            tools:listitem="@layout/running_record_item_layout" />
+            tools:listitem="@layout/item_running_record_layout" />
 
         <View
             android:id="@+id/dividerRunningRecords"

@@ -5,7 +5,7 @@ import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RunningRecord
-import com.example.util.simpletimetracker.feature_running_records.adapter.runningRecord.RunningRecordViewData
+import com.example.util.simpletimetracker.feature_running_records.viewData.RunningRecordViewData
 import java.text.DateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit

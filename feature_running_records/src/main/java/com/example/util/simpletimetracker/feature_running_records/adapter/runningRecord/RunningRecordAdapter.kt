@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.feature_running_records.adapter.runni
 
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_running_records.viewData.RunningRecordViewData
 
 class RunningRecordAdapter(
     onItemClick: ((RunningRecordViewData) -> Unit)
@@ -9,6 +10,6 @@ class RunningRecordAdapter(
 
     init {
         delegates[ViewHolderType.VIEW] = RunningRecordAdapterDelegate(onItemClick)
-        // TODO add empty list item "click on item to start"
+        delegates[ViewHolderType.HEADER] = RunningRecordEmptyAdapterDelegate()
     }
 }

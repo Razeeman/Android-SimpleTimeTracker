@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layoutRunningRecordEmptyItem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginBottom="4dp"
+    app:cardBackgroundColor="@color/blue_grey_200"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvRunningRecordEmptyItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:layout_marginStart="8dp"
+        android:text="Click on activity to start"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
+
+</androidx.cardview.widget.CardView>

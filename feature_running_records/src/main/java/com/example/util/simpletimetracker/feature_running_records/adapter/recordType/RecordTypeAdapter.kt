@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.feature_running_records.adapter.recor
 
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_running_records.viewData.RecordTypeViewData
 
 class RecordTypeAdapter(
     onItemClick: ((RecordTypeViewData) -> Unit),

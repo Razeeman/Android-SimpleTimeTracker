@@ -11,12 +11,13 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RunningRecord
-import com.example.util.simpletimetracker.feature_running_records.adapter.recordType.RecordTypeAddViewData
-import com.example.util.simpletimetracker.feature_running_records.adapter.recordType.RecordTypeViewData
-import com.example.util.simpletimetracker.feature_running_records.adapter.runningRecord.RunningRecordViewData
+import com.example.util.simpletimetracker.feature_running_records.viewData.RecordTypeAddViewData
+import com.example.util.simpletimetracker.feature_running_records.viewData.RecordTypeViewData
+import com.example.util.simpletimetracker.feature_running_records.viewData.RunningRecordViewData
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.feature_running_records.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.feature_running_records.mapper.RunningRecordViewDataMapper
+import com.example.util.simpletimetracker.feature_running_records.viewData.RunningRecordEmptyViewData
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
 import com.example.util.simpletimetracker.navigation.params.ChangeRecordTypeParams
@@ -43,24 +44,19 @@ class RunningRecordsViewModel : ViewModel() {
     @Inject
     lateinit var colorMapper: ColorMapper
 
-    private val runningRecordsLiveData: MutableLiveData<List<RunningRecordViewData>> by lazy {
-        return@lazy MutableLiveData<List<RunningRecordViewData>>().let { initial ->
+    val runningRecords: LiveData<List<ViewHolderType>> by lazy {
+        return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
             viewModelScope.launch { initial.value = loadRunningRecordsViewData() }
             startUpdate()
             initial
         }
     }
-    private val recordTypesLiveData: MutableLiveData<List<ViewHolderType>> by lazy {
+    val recordTypes: LiveData<List<ViewHolderType>> by lazy {
         return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
             viewModelScope.launch { initial.value = loadRecordTypesViewData() }
             initial
         }
     }
-
-    val runningRecords: LiveData<List<RunningRecordViewData>>
-        get() = runningRecordsLiveData
-    val recordTypes: LiveData<List<ViewHolderType>>
-        get() = recordTypesLiveData
 
     fun onRecordTypeClick(item: RecordTypeViewData) {
         val record = RunningRecord(
@@ -110,18 +106,21 @@ class RunningRecordsViewModel : ViewModel() {
     }
 
     private suspend fun updateRunningRecords() {
-        runningRecordsLiveData.value = loadRunningRecordsViewData()
+        (runningRecords as MutableLiveData).value = loadRunningRecordsViewData()
     }
 
     private suspend fun updateRecordTypes() {
-        recordTypesLiveData.value = loadRecordTypesViewData()
+        (recordTypes as MutableLiveData).value = loadRecordTypesViewData()
     }
 
-    private suspend fun loadRunningRecordsViewData(): List<RunningRecordViewData> {
+    private suspend fun loadRunningRecordsViewData(): List<ViewHolderType> {
         val recordTypes = recordTypeInteractor.getAll()
             .map { it.id to it }
             .toMap()
         val runningRecords = runningRecordInteractor.getAll()
+
+        if (recordTypes.isEmpty()) return emptyList()
+        if (runningRecords.isEmpty()) return listOf(RunningRecordEmptyViewData())
 
         return runningRecords
             .mapNotNull { runningRecord ->
