@@ -95,22 +95,32 @@ class ChangeRecordTypeFragment : Fragment() {
             iconsAdapter.replace(it)
         }
 
+        viewModel.flipColorChooser.observe(viewLifecycleOwner) { opened ->
+            rvChangeRecordTypeColor.visible = opened
+            arrowChangeRecordTypeColor.apply {
+                if (opened) rotateDown() else rotateUp()
+            }
+            hideKeyboard()
+        }
+
+        viewModel.flipIconChooser.observe(viewLifecycleOwner) { opened ->
+            rvChangeRecordTypeIcon.visible = opened
+            arrowChangeRecordTypeIcon.apply {
+                if (opened) rotateDown() else rotateUp()
+            }
+            hideKeyboard()
+        }
+
         etChangeRecordTypeName.doAfterTextChanged {
             viewModel.onNameChange(it.toString())
         }
 
         fieldChangeRecordTypeColor.setOnClickListener {
-            rvChangeRecordTypeColor.flipVisibility()
-            rvChangeRecordTypeIcon.visible = false
-            arrowChangeRecordTypeColor.animateFlip()
-            hideKeyboard()
+            viewModel.onColorChooserClick()
         }
 
         fieldChangeRecordTypeIcon.setOnClickListener {
-            rvChangeRecordTypeIcon.flipVisibility()
-            rvChangeRecordTypeColor.visible = false
-            arrowChangeRecordTypeIcon.animateFlip()
-            hideKeyboard()
+            viewModel.onIconChooserClick()
         }
 
         btnChangeRecordTypeDelete.setOnClickListener {

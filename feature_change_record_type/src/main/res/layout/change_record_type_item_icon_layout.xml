@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layoutChangeRecordTypeIconItem"
     style="@style/ChangeRecordTypeItem"
-    app:cardBackgroundColor="@color/blue_grey_300">
+    tools:cardBackgroundColor="@color/black">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

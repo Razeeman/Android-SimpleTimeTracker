@@ -1,10 +1,15 @@
 package com.example.util.simpletimetracker.feature_change_record_type.viewModel
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.domain.extension.flip
+import com.example.util.simpletimetracker.domain.extension.orTrue
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_change_record_type.mapper.ChangeRecordTypeViewDataMapper
@@ -27,6 +32,8 @@ class ChangeRecordTypeViewModel(
     lateinit var changeRecordTypeViewDataMapper: ChangeRecordTypeViewDataMapper
     @Inject
     lateinit var resourceRepo: ResourceRepo
+    @Inject
+    lateinit var colorMapper: ColorMapper
 
     val recordType: LiveData<ChangeRecordTypeViewData> by lazy {
         return@lazy MutableLiveData<ChangeRecordTypeViewData>().let { initial ->
@@ -46,6 +53,8 @@ class ChangeRecordTypeViewModel(
             initial
         }
     }
+    val flipColorChooser: LiveData<Boolean> = MutableLiveData()
+    val flipIconChooser: LiveData<Boolean> = MutableLiveData()
     val deleteIconVisibility: LiveData<Boolean> = MutableLiveData(id != 0L)
 
     private var newName: String = ""
@@ -61,11 +70,30 @@ class ChangeRecordTypeViewModel(
         }
     }
 
+    fun onColorChooserClick() {
+        (flipColorChooser as MutableLiveData).value = flipColorChooser.value
+            ?.flip().orTrue()
+
+        if (flipIconChooser.value == true) {
+            (flipIconChooser as MutableLiveData).value = false
+        }
+    }
+
+    fun onIconChooserClick() {
+        (flipIconChooser as MutableLiveData).value = flipIconChooser.value
+            ?.flip().orTrue()
+
+        if (flipColorChooser.value == true) {
+            (flipColorChooser as MutableLiveData).value = false
+        }
+    }
+
     fun onColorClick(item: ChangeRecordTypeColorViewData) {
         viewModelScope.launch {
             if (item.colorId != newColorId) {
                 newColorId = item.colorId
                 updateRecordType()
+                updateIcons()
             }
         }
     }
@@ -112,6 +140,7 @@ class ChangeRecordTypeViewModel(
                 newName = it.name
                 newIconId = it.icon
                 newColorId = it.color
+                updateIcons()
             }
         return RecordType(
             name = newName,
@@ -141,12 +170,19 @@ class ChangeRecordTypeViewModel(
             }
     }
 
+    private fun updateIcons() {
+        (icons as MutableLiveData).value = loadIconsViewData()
+    }
+
     private fun loadIconsViewData(): List<ViewHolderType> {
         return IconMapper.availableIcons
             .mapIndexed { iconId, iconResId ->
                 ChangeRecordTypeIconViewData(
                     iconId = iconId,
-                    iconResId = iconResId
+                    iconResId = iconResId,
+                    colorInt = newColorId
+                        .let(colorMapper::mapToColorResId)
+                        .let(resourceRepo::getColor)
                 )
             }
     }

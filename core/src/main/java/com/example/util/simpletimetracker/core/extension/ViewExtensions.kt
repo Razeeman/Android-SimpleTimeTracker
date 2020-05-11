@@ -12,20 +12,19 @@ var View.visible: Boolean
         return visibility == View.VISIBLE
     }
 
-fun View.flipVisibility() {
-    visibility = if (this.visibility == View.VISIBLE) View.GONE else View.VISIBLE
-}
-
-fun View.animateFlip(duration: Long = 300) {
-    ObjectAnimator.ofFloat(
-        this,
-        "rotation",
-        this.rotation,
-        this.rotation + 180
-    ).apply {
+fun View.rotate(from: Float, to: Float, duration: Long = 300) {
+    ObjectAnimator.ofFloat(this, "rotation", from, to).apply {
         this.duration = duration
         repeatCount = 0
         interpolator = LinearInterpolator()
         start()
     }
+}
+
+fun View.rotateDown() {
+    this.rotate(from = 0f, to = 180f)
+}
+
+fun View.rotateUp() {
+    this.rotate(from = 180f, to = 360f)
 }

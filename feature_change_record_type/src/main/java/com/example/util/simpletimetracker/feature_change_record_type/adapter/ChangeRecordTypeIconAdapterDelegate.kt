@@ -21,6 +21,7 @@ class ChangeRecordTypeIconAdapterDelegate(
         override fun bind(item: ViewHolderType) = with(itemView) {
             item as ChangeRecordTypeIconViewData
 
+            layoutChangeRecordTypeIconItem.setCardBackgroundColor(item.colorInt)
             ivChangeRecordTypeIconItem.setBackgroundResource(item.iconResId)
             layoutChangeRecordTypeIconItem.setOnClickListener {
                 onIconItemClick.invoke(item)
