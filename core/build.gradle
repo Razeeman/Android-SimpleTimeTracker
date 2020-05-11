@@ -23,4 +23,5 @@ dependencies {
     implementation deps.androidx.recyclerview
     implementation deps.androidx.constraintlayout
     implementation deps.androidx.cardView
+    implementation deps.androidx.material
 }
