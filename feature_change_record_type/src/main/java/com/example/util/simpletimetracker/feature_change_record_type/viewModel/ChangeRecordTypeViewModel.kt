@@ -1,9 +1,6 @@
 package com.example.util.simpletimetracker.feature_change_record_type.viewModel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
@@ -31,35 +28,29 @@ class ChangeRecordTypeViewModel(
     @Inject
     lateinit var resourceRepo: ResourceRepo
 
-    private var newName: String = "Name"
-    private var newIconId: Int = 0
-    private var newColorId: Int = (0..ColorMapper.colorsNumber).random()
-
-    private val recordTypeLiveData: MutableLiveData<ChangeRecordTypeViewData> by lazy {
+    val recordType: LiveData<ChangeRecordTypeViewData> by lazy {
         return@lazy MutableLiveData<ChangeRecordTypeViewData>().let { initial ->
             viewModelScope.launch { initial.value = loadRecordTypeViewData() }
             initial
         }
     }
-    private val colorsLiveData: MutableLiveData<List<ViewHolderType>> by lazy {
+    val colors: LiveData<List<ViewHolderType>> by lazy {
         return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
             viewModelScope.launch { initial.value = loadColorsViewData() }
             initial
         }
     }
-    private val iconsLiveData: MutableLiveData<List<ViewHolderType>> by lazy {
+    val icons: LiveData<List<ViewHolderType>> by lazy {
         return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
             viewModelScope.launch { initial.value = loadIconsViewData() }
             initial
         }
     }
+    val deleteIconVisibility: LiveData<Boolean> = MutableLiveData(id != 0L)
 
-    val recordType: LiveData<ChangeRecordTypeViewData>
-        get() = recordTypeLiveData
-    val colors: LiveData<List<ViewHolderType>>
-        get() = colorsLiveData
-    val icons: LiveData<List<ViewHolderType>>
-        get() = iconsLiveData
+    private var newName: String = "Name"
+    private var newIconId: Int = 0
+    private var newColorId: Int = (0..ColorMapper.colorsNumber).random()
 
     fun onNameChange(name: String) {
         viewModelScope.launch {
@@ -88,6 +79,13 @@ class ChangeRecordTypeViewModel(
         }
     }
 
+    fun onDeleteClick() {
+        viewModelScope.launch {
+            if (id != 0L) recordTypeInteractor.remove(id)
+            router.back()
+        }
+    }
+
     fun onSaveClick() {
         viewModelScope.launch {
             RecordType(
@@ -103,7 +101,7 @@ class ChangeRecordTypeViewModel(
     }
 
     private fun updateRecordType() {
-        recordTypeLiveData.value = loadRecordPreviewViewData()
+        (recordType as MutableLiveData).value = loadRecordPreviewViewData()
     }
 
     private suspend fun loadRecordTypeViewData(): ChangeRecordTypeViewData {

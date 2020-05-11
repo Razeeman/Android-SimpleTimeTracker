@@ -74,10 +74,6 @@ class RunningRecordsFragment : Fragment() {
         viewModel.runningRecords.observe(viewLifecycleOwner) {
             runningRecordsAdapter.replace(it)
         }
-
-        btnClear.setOnClickListener {
-            viewModel.clearRecordTypes()
-        }
     }
 
     override fun onResume() {

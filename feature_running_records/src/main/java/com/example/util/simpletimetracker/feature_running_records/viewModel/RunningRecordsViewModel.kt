@@ -62,13 +62,6 @@ class RunningRecordsViewModel : ViewModel() {
     val recordTypes: LiveData<List<ViewHolderType>>
         get() = recordTypesLiveData
 
-    fun clearRecordTypes() {
-        viewModelScope.launch {
-            recordTypeInteractor.clear()
-            updateRecordTypes()
-        }
-    }
-
     fun onRecordTypeClick(item: RecordTypeViewData) {
         val record = RunningRecord(
             id = item.id,

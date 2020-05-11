@@ -78,6 +78,10 @@ class ChangeRecordTypeFragment : Fragment() {
             adapter = iconsAdapter
         }
 
+        viewModel.deleteIconVisibility.observeOnce(viewLifecycleOwner) {
+            btnChangeRecordTypeDelete.visible = it
+        }
+
         viewModel.recordType.observeOnce(viewLifecycleOwner) {
             updateUi(it)
         }
@@ -110,7 +114,13 @@ class ChangeRecordTypeFragment : Fragment() {
             arrowChangeRecordTypeIcon.animateFlip()
         }
 
+        btnChangeRecordTypeDelete.setOnClickListener {
+            it.isEnabled = false
+            viewModel.onDeleteClick()
+        }
+
         btnChangeRecordTypeSave.setOnClickListener {
+            it.isEnabled = false
             viewModel.onSaveClick()
         }
     }
