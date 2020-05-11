@@ -8,6 +8,7 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
+import com.example.util.simpletimetracker.core.extension.animateFlip
 import com.example.util.simpletimetracker.core.extension.flipVisibility
 import com.example.util.simpletimetracker.core.extension.observeOnce
 import com.example.util.simpletimetracker.core.extension.visible
@@ -100,11 +101,13 @@ class ChangeRecordTypeFragment : Fragment() {
         fieldChangeRecordTypeColor.setOnClickListener {
             rvChangeRecordTypeColor.flipVisibility()
             rvChangeRecordTypeIcon.visible = false
+            arrowChangeRecordTypeColor.animateFlip()
         }
 
         fieldChangeRecordTypeIcon.setOnClickListener {
             rvChangeRecordTypeIcon.flipVisibility()
             rvChangeRecordTypeColor.visible = false
+            arrowChangeRecordTypeIcon.animateFlip()
         }
 
         btnChangeRecordTypeSave.setOnClickListener {

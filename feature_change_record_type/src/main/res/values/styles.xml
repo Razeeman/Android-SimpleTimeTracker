@@ -13,10 +13,10 @@
     </style>
 
     <style name="ChangeRecordTypeInputField" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="boxCornerRadiusBottomEnd">8dp</item>
-        <item name="boxCornerRadiusBottomStart">8dp</item>
-        <item name="boxCornerRadiusTopEnd">8dp</item>
-        <item name="boxCornerRadiusTopStart">8dp</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/input_field_corner_radius</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/input_field_corner_radius</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/input_field_corner_radius</item>
+        <item name="boxCornerRadiusTopStart">@dimen/input_field_corner_radius</item>
         <item name="boxStrokeColor">@color/blue_grey_50</item>
         <item name="errorTextAppearance">@style/ChangeRecordTypeItemErrorStyle</item>
         <item name="hintTextAppearance">@style/ChangeRecordTypeItemHintStyle</item>
@@ -32,12 +32,28 @@
         <item name="android:textSize">12sp</item>
     </style>
 
+    <style name="ChangeRecordTypeInputFieldCard">
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:foreground">?selectableItemBackground</item>
+        <item name="cardCornerRadius">@dimen/input_field_corner_radius</item>
+        <item name="cardElevation">0dp</item>
+    </style>
+
     <style name="ChangeRecordTypeEditText">
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">16sp</item>
         <item name="android:inputType">text</item>
         <item name="android:maxLines">1</item>
         <item name="android:textColorHint">@color/blue_grey_300</item>
+    </style>
+
+    <style name="ChangeRecordTypeText">
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:paddingEnd">10dp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
 </resources>

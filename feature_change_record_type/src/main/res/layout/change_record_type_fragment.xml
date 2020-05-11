@@ -3,17 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingStart="8dp"
-    android:paddingTop="8dp"
-    android:paddingEnd="8dp"
-    android:paddingBottom="8dp">
+    android:animateLayoutChanges="true"
+    android:layout_height="match_parent">
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/ic_delete"
-        app:backgroundTint="@color/blue_grey_300"
+        android:id="@+id/btnChangeRecordTypeDelete"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="?selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/ic_delete"
+        android:tint="@color/blue_grey_300"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -21,6 +24,7 @@
         android:id="@+id/previewChangeRecordType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -31,9 +35,9 @@
         style="@style/ChangeRecordTypeInputField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="@dimen/input_field_margin"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="@dimen/input_field_margin"
         app:layout_constraintTop_toBottomOf="@id/previewChangeRecordType">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -45,37 +49,56 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <androidx.cardview.widget.CardView
         android:id="@+id/fieldChangeRecordTypeColor"
+        style="@style/ChangeRecordTypeInputFieldCard"
         android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="20dp"
+        android:layout_height="@dimen/input_field_height"
+        android:layout_marginStart="@dimen/input_field_margin"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="4dp"
-        android:background="@drawable/bg_input_field_border"
-        android:gravity="center_vertical"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
-        android:text="Color"
-        android:textColor="@color/black"
-        android:textSize="16sp"
         app:layout_constraintEnd_toStartOf="@id/fieldChangeRecordTypeIcon"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/inputChangeRecordTypeName" />
+        app:layout_constraintTop_toBottomOf="@id/inputChangeRecordTypeName">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_input_field_border">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/ChangeRecordTypeText"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="Color"
+                app:layout_constraintEnd_toStartOf="@id/arrowChangeRecordTypeColor"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <ImageView
+                android:id="@+id/arrowChangeRecordTypeColor"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="8dp"
+                android:background="?selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_arrow"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/fieldChangeRecordTypeIcon"
+        style="@style/ChangeRecordTypeInputFieldCard"
         android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_height="@dimen/input_field_height"
         android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="20dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:foreground="?selectableItemBackground"
-        android:orientation="horizontal"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="0dp"
+        android:layout_marginEnd="@dimen/input_field_margin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/fieldChangeRecordTypeColor"
         app:layout_constraintTop_toBottomOf="@id/inputChangeRecordTypeName">
@@ -86,19 +109,16 @@
             android:background="@drawable/bg_input_field_border">
 
             <androidx.appcompat.widget.AppCompatTextView
+                style="@style/ChangeRecordTypeText"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
                 android:text="Icon"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toStartOf="@id/arrow"
+                app:layout_constraintEnd_toStartOf="@id/arrowChangeRecordTypeIcon"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <ImageView
-                android:id="@+id/arrow"
+                android:id="@+id/arrowChangeRecordTypeIcon"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginEnd="8dp"
@@ -106,7 +126,8 @@
                 android:src="@drawable/ic_arrow"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -116,7 +137,10 @@
         android:id="@+id/rvChangeRecordTypeColor"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:overScrollMode="never"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/btnChangeRecordTypeSave"
         app:layout_constraintStart_toStartOf="parent"
@@ -130,7 +154,10 @@
         android:id="@+id/rvChangeRecordTypeIcon"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:overScrollMode="never"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/btnChangeRecordTypeSave"
         app:layout_constraintEnd_toEndOf="parent"
@@ -144,7 +171,10 @@
         android:id="@+id/btnChangeRecordTypeSave"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:gravity="center"
         android:text="Save"
         app:layout_constraintBottom_toBottomOf="parent" />
