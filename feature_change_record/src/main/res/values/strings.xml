@@ -2,4 +2,5 @@
 <resources>
     <string name="record_removed">Record removed</string>
     <string name="message_choose_type">Select activity</string>
+    <string name="change_record_type_field">Activity</string>
 </resources>

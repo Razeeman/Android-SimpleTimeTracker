@@ -8,7 +8,7 @@ import com.example.util.simpletimetracker.feature_records.R
 import kotlinx.android.synthetic.main.record_item_layout.view.*
 
 class RecordAdapterDelegate(
-    private val onItemClick: ((RecordViewData) -> Unit)
+    private val onItemLongClick: ((RecordViewData) -> Unit)
 ) : BaseRecyclerAdapterDelegate() {
 
     override fun onCreateViewHolder(parent: ViewGroup): BaseRecyclerViewHolder =
@@ -27,8 +27,9 @@ class RecordAdapterDelegate(
             timeEnded = item.timeFinished
             duration = item.duration
 
-            setOnClickListener {
-                onItemClick.invoke(item)
+            setOnLongClickListener {
+                onItemLongClick.invoke(item)
+                true
             }
         }
     }
