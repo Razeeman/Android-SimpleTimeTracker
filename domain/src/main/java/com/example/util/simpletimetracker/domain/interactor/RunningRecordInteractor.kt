@@ -18,8 +18,13 @@ class RunningRecordInteractor @Inject constructor(
         runningRecordRepo.get(id)
     }
 
-    suspend fun add(runningRecord: RunningRecord) = withContext(Dispatchers.IO) {
-        runningRecordRepo.add(runningRecord)
+    suspend fun add(typeId: Long) = withContext(Dispatchers.IO) {
+        val record = RunningRecord(
+            id = typeId,
+            timeStarted = System.currentTimeMillis()
+        ).let {
+            runningRecordRepo.add(it)
+        }
     }
 
     suspend fun remove(id: Long) = withContext(Dispatchers.IO) {

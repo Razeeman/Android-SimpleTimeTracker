@@ -8,7 +8,6 @@ import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
-import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.feature_running_records.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.feature_running_records.mapper.RunningRecordViewDataMapper
 import com.example.util.simpletimetracker.feature_running_records.viewData.RecordTypeAddViewData
@@ -52,15 +51,11 @@ class RunningRecordsViewModel : ViewModel() {
     }
 
     fun onRecordTypeClick(item: RecordTypeViewData) {
-        val record = RunningRecord(
-            id = item.id,
-            timeStarted = System.currentTimeMillis()
-        )
-
         viewModelScope.launch {
-            // TODO record previous if already running?
-            runningRecordInteractor.add(record)
-            updateRunningRecords()
+            if (runningRecordInteractor.get(item.id) == null) {
+                runningRecordInteractor.add(item.id)
+                updateRunningRecords()
+            }
         }
     }
 
@@ -101,7 +96,6 @@ class RunningRecordsViewModel : ViewModel() {
     }
 
     private suspend fun loadRunningRecordsViewData(): List<ViewHolderType> {
-        // TODO stop running records that are hidden?
         val recordTypes = recordTypeInteractor.getAll()
             .map { it.id to it }
             .toMap()
