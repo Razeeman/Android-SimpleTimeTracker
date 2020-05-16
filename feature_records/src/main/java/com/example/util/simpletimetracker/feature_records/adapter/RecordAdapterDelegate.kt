@@ -17,17 +17,17 @@ class RecordAdapterDelegate(
     inner class RunningRecordsViewHolder(parent: ViewGroup) :
         BaseRecyclerViewHolder(parent, R.layout.record_item_layout) {
 
-        override fun bind(item: ViewHolderType) = with(itemView) {
+        override fun bind(item: ViewHolderType) = with(itemView.viewRecordItem) {
             item as RecordViewData
 
-            layoutRecordItem.setCardBackgroundColor(item.color)
-            ivRecordItemIcon.setBackgroundResource(item.iconId)
-            tvRecordItemName.text = item.name
-            tvRecordItemTimeStarted.text = item.timeStarted
-            tvRecordItemTimeFinished.text = item.timeFinished
-            tvRecordItemDuration.text = item.duration
+            color = item.color
+            icon = item.iconId
+            name = item.name
+            timeStarted = item.timeStarted
+            timeEnded = item.timeFinished
+            duration = item.duration
 
-            layoutRecordItem.setOnClickListener {
+            setOnClickListener {
                 onItemClick.invoke(item)
             }
         }

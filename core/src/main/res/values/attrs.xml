@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="RecordTypeView">
-        <attr name="name" format="string"/>
-        <attr name="icon" format="reference"/>
-        <attr name="color" format="color"/>
+        <attr name="name" format="string" />
+        <attr name="icon" format="reference" />
+        <attr name="color" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="RecordView">
+        <attr name="name" />
+        <attr name="icon" />
+        <attr name="color" />
+        <attr name="timeStarted" format="string" />
+        <attr name="timeEnded" format="string" />
+        <attr name="duration" format="string" />
     </declare-styleable>
 </resources>
