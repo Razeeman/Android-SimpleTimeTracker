@@ -66,5 +66,6 @@ class RecordsViewModel : ViewModel() {
             .map { (record, recordType) ->
                 recordViewDataMapper.map(record, recordType)
             }
+            .sortedByDescending { it.timeStarted }
     }
 }

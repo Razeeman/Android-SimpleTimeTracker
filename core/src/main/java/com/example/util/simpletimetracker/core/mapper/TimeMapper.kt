@@ -25,7 +25,7 @@ class TimeMapper @Inject constructor() {
         var res = ""
         if (hr > 0) res += "${hr}h "
         if (hr > 0 || min > 0) res += "${min}m "
-        if (hr > 0 || min > 0 || sec > 0) res += "${sec}sec"
+        res += "${sec}sec"
 
         return res
     }
