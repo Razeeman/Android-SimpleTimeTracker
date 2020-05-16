@@ -47,11 +47,13 @@
         app:layout_constraintTop_toBottomOf="@id/previewChangeRecord">
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvChangeRecordTimeStarted"
             style="@style/ChangeRecordTypeText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/bg_input_field_border"
             android:gravity="center_vertical"
+            android:maxLines="1"
             app:autoSizeMaxTextSize="16sp"
             app:autoSizeTextType="uniform"
             tools:text="15.02.2020 07:35" />
@@ -71,6 +73,7 @@
         app:layout_constraintTop_toBottomOf="@id/previewChangeRecord">
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvChangeRecordTimeEnded"
             style="@style/ChangeRecordTypeText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

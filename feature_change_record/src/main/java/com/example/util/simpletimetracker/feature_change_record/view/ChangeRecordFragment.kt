@@ -18,6 +18,7 @@ import com.example.util.simpletimetracker.feature_change_record.di.ChangeRecordC
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordViewData
 import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordViewModel
 import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordViewModelFactory
+import com.example.util.simpletimetracker.feature_dialogs.DateTimeListener
 import com.example.util.simpletimetracker.navigation.params.ChangeRecordParams
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
@@ -25,7 +26,7 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import kotlinx.android.synthetic.main.change_record_fragment.*
 
-class ChangeRecordFragment : Fragment() {
+class ChangeRecordFragment : Fragment(), DateTimeListener {
 
     private val viewModel: ChangeRecordViewModel by viewModels(
         factoryProducer = {
@@ -110,6 +111,10 @@ class ChangeRecordFragment : Fragment() {
         }
     }
 
+    override fun onDateTimeSet(timestamp: Long, tag: String?) {
+        viewModel.onDateTimeSet(timestamp, tag)
+    }
+
     private fun updatePreview(item: ChangeRecordViewData) {
         with(previewChangeRecord) {
             name = item.name
@@ -119,6 +124,8 @@ class ChangeRecordFragment : Fragment() {
             timeEnded = item.timeFinished
             duration = item.duration
         }
+        tvChangeRecordTimeStarted.text = item.timeStarted
+        tvChangeRecordTimeEnded.text = item.timeFinished
     }
 
     companion object {

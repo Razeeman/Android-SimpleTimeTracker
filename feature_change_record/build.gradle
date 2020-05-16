@@ -24,6 +24,7 @@ dependencies {
     implementation project(':domain')
     implementation project(':core')
     implementation project(':navigation')
+    implementation project(':feature_dialogs')
 
     implementation deps.androidx.appcompat
     implementation deps.androidx.constraintlayout

@@ -19,6 +19,7 @@ import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeR
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordViewData
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
+import com.example.util.simpletimetracker.navigation.params.DateTimeDialogParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -67,12 +68,24 @@ class ChangeRecordViewModel(
             ?.flip().orTrue()
     }
 
-    fun onTimeStartedClick(){
-        router.navigate(Screen.DATE_TIME_DIALOG)
+    fun onTimeStartedClick() {
+        router.navigate(
+            Screen.DATE_TIME_DIALOG,
+            DateTimeDialogParams(
+                tag = TIME_STARTED_TAG,
+                timestamp = newTimeStarted
+            )
+        )
     }
 
-    fun onTimeEndedClick(){
-        router.navigate(Screen.DATE_TIME_DIALOG)
+    fun onTimeEndedClick() {
+        router.navigate(
+            Screen.DATE_TIME_DIALOG,
+            DateTimeDialogParams(
+                tag = TIME_ENDED_TAG,
+                timestamp = newTimeEnded
+            )
+        )
     }
 
     fun onDeleteClick() {
@@ -115,6 +128,25 @@ class ChangeRecordViewModel(
         }
     }
 
+    fun onDateTimeSet(timestamp: Long, tag: String?) {
+        viewModelScope.launch {
+            when (tag) {
+                TIME_STARTED_TAG -> {
+                    if (timestamp != newTimeStarted) {
+                        newTimeStarted = timestamp
+                        updatePreview()
+                    }
+                }
+                TIME_ENDED_TAG -> {
+                    if (timestamp != newTimeEnded) {
+                        newTimeEnded = timestamp
+                        updatePreview()
+                    }
+                }
+            }
+        }
+    }
+
     private suspend fun updatePreview() {
         (record as MutableLiveData).value = loadPreviewViewData()
     }
@@ -143,5 +175,10 @@ class ChangeRecordViewModel(
         return recordTypeInteractor.getAll()
             .filter { !it.hidden }
             .map(changeRecordTypeViewDataMapper::map)
+    }
+
+    companion object {
+        private const val TIME_STARTED_TAG = "time_started_tag"
+        private const val TIME_ENDED_TAG = "time_ended_tag"
     }
 }

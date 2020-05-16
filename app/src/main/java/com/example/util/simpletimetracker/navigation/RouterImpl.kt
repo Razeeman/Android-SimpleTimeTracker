@@ -9,6 +9,7 @@ import androidx.navigation.findNavController
 import com.example.util.simpletimetracker.domain.di.AppContext
 import com.example.util.simpletimetracker.feature_change_record.view.ChangeRecordFragment
 import com.example.util.simpletimetracker.feature_change_record_type.view.ChangeRecordTypeFragment
+import com.example.util.simpletimetracker.feature_dialogs.DateTimeDialogFragment
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -37,7 +38,8 @@ class RouterImpl @Inject constructor(
                 )
             Screen.DATE_TIME_DIALOG ->
                 navController?.navigate(
-                    R.id.dateTimeDialog
+                    R.id.dateTimeDialog,
+                    DateTimeDialogFragment.createBundle(data)
                 )
         }
     }
