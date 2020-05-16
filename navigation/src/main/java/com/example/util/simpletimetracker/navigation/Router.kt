@@ -4,9 +4,11 @@ import android.app.Activity
 
 abstract class Router {
 
+    abstract fun bind(activity: Activity)
+
     abstract fun navigate(screen: Screen, data: Any? = null)
 
     abstract fun back()
 
-    abstract fun bind(activity: Activity)
+    abstract fun showSystemMessage(message: String)
 }

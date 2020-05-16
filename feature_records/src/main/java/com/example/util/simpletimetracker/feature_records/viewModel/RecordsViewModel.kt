@@ -4,15 +4,22 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
+import com.example.util.simpletimetracker.feature_records.R
 import com.example.util.simpletimetracker.feature_records.adapter.RecordViewData
 import com.example.util.simpletimetracker.feature_records.mapper.RecordViewDataMapper
+import com.example.util.simpletimetracker.navigation.Router
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class RecordsViewModel : ViewModel() {
 
+    @Inject
+    lateinit var router: Router
+    @Inject
+    lateinit var resourceRepo: ResourceRepo
     @Inject
     lateinit var recordInteractor: RecordInteractor
     @Inject
@@ -31,6 +38,8 @@ class RecordsViewModel : ViewModel() {
         viewModelScope.launch {
             recordInteractor.remove(item.id)
             updateRecords()
+            resourceRepo.getString(R.string.record_removed)
+                .let(router::showSystemMessage)
         }
     }
 

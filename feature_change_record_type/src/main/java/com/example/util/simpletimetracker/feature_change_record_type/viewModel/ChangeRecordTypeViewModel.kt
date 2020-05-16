@@ -12,6 +12,7 @@ import com.example.util.simpletimetracker.domain.extension.flip
 import com.example.util.simpletimetracker.domain.extension.orTrue
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.RecordType
+import com.example.util.simpletimetracker.feature_change_record_type.R
 import com.example.util.simpletimetracker.feature_change_record_type.mapper.ChangeRecordTypeViewDataMapper
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeColorViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconViewData
@@ -109,8 +110,12 @@ class ChangeRecordTypeViewModel(
 
     fun onDeleteClick() {
         viewModelScope.launch {
-            if (id != 0L) recordTypeInteractor.remove(id)
-            router.back()
+            if (id != 0L) {
+                recordTypeInteractor.remove(id)
+                resourceRepo.getString(R.string.record_type_removed)
+                    .let(router::showSystemMessage)
+                router.back()
+            }
         }
     }
 
