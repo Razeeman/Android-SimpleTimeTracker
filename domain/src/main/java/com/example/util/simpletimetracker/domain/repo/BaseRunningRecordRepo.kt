@@ -6,6 +6,8 @@ interface BaseRunningRecordRepo {
 
     suspend fun getAll(): List<RunningRecord>
 
+    suspend fun get(id: Long): RunningRecord?
+
     suspend fun add(runningRecord: RunningRecord)
 
     suspend fun remove(id: Long)

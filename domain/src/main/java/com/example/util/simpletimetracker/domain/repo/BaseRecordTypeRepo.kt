@@ -6,6 +6,8 @@ interface BaseRecordTypeRepo {
 
     suspend fun getAll(): List<RecordType>
 
+    suspend fun get(id: Long): RecordType?
+
     suspend fun add(recordType: RecordType)
 
     suspend fun remove(id: Long)

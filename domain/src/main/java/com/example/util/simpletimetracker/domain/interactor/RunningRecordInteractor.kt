@@ -14,6 +14,10 @@ class RunningRecordInteractor @Inject constructor(
         runningRecordRepo.getAll()
     }
 
+    suspend fun get(id: Long): RunningRecord? = withContext(Dispatchers.IO) {
+        runningRecordRepo.get(id)
+    }
+
     suspend fun add(runningRecord: RunningRecord) = withContext(Dispatchers.IO) {
         runningRecordRepo.add(runningRecord)
     }

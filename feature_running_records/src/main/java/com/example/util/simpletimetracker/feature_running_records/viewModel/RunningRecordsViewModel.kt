@@ -75,11 +75,8 @@ class RunningRecordsViewModel : ViewModel() {
 
     fun onRunningRecordClick(item: RunningRecordViewData) {
         viewModelScope.launch {
-            val runningRecord = runningRecordInteractor.getAll() // TODO get by name
-                .firstOrNull {
-                    it.id == item.id
-                }
-            runningRecord?.let {
+            runningRecordInteractor.get(item.id)?.let { runningRecord ->
+                // TODO move to mapper
                 recordInteractor.add(
                     Record(
                         typeId = runningRecord.id,

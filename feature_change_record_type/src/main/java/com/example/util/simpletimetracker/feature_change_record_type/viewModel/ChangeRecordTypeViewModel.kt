@@ -138,9 +138,7 @@ class ChangeRecordTypeViewModel(
     }
 
     private suspend fun loadRecordTypeViewData(): ChangeRecordTypeViewData {
-        recordTypeInteractor
-            .getAll()
-            .firstOrNull { it.id == id }
+        recordTypeInteractor.get(id)
             ?.let {
                 newName = it.name
                 newIconId = it.icon

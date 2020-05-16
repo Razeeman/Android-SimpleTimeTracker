@@ -14,6 +14,10 @@ class RecordTypeInteractor @Inject constructor(
         recordTypeRepo.getAll()
     }
 
+    suspend fun get(id: Long): RecordType? = withContext(Dispatchers.IO) {
+        recordTypeRepo.get(id)
+    }
+
     suspend fun add(recordType: RecordType) = withContext(Dispatchers.IO) {
         var newRecord = recordType
 

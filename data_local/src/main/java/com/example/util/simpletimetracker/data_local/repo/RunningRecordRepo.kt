@@ -17,6 +17,10 @@ class RunningRecordRepo @Inject constructor(
         return runningRecordDao.getAll().map(runningRunningRecordLocalMapper::map)
     }
 
+    override suspend fun get(id: Long): RunningRecord? {
+        return runningRecordDao.get(id)?.let(runningRunningRecordLocalMapper::map)
+    }
+
     override suspend fun add(runningRecord: RunningRecord) {
         runningRecordDao.insert(
             runningRecord.let(runningRunningRecordLocalMapper::map)

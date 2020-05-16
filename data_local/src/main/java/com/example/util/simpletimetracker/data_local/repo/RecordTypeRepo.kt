@@ -17,6 +17,10 @@ class RecordTypeRepo @Inject constructor(
         return recordTypeDao.getAll().map(recordTypeDataLocalMapper::map)
     }
 
+    override suspend fun get(id: Long): RecordType? {
+        return recordTypeDao.get(id)?.let(recordTypeDataLocalMapper::map)
+    }
+
     override suspend fun add(recordType: RecordType) {
         recordTypeDao.insert(
             recordType.let(recordTypeDataLocalMapper::map)
