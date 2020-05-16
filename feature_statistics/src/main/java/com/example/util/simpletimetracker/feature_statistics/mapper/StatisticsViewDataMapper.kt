@@ -4,8 +4,8 @@ import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
-import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordType
+import com.example.util.simpletimetracker.domain.model.Statistics
 import com.example.util.simpletimetracker.feature_statistics.adapter.StatisticsViewData
 import javax.inject.Inject
 
@@ -17,44 +17,35 @@ class StatisticsViewDataMapper @Inject constructor(
 ) {
 
     fun map(
-        records: List<Record>,
+        statistics: List<Statistics>,
         recordTypes: List<RecordType>
     ): List<StatisticsViewData> {
         val recordTypesMap = recordTypes
             .map { it.id to it }
             .toMap()
-        val recordsMap = records
-            .groupBy { it.typeId }
 
-        return recordsMap
-            .mapNotNull { entry ->
+        return statistics
+            .sortedByDescending { it.duration }
+            .mapNotNull {
                 map(
-                    records = entry.value,
-                    recordType = recordTypesMap[entry.key] ?: return@mapNotNull null
+                    statistics = it,
+                    recordType = recordTypesMap[it.typeId] ?: return@mapNotNull null
                 )
             }
-            .sortedByDescending { it.duration }
     }
 
     private fun map(
-        records: List<Record>,
+        statistics: Statistics,
         recordType: RecordType
     ): StatisticsViewData {
         return StatisticsViewData(
             name = recordType.name,
-            duration = mapToDuration(records),
+            duration = statistics.duration.let(timeMapper::formatInterval),
             iconId = recordType.icon
                 .let(iconMapper::mapToDrawableResId),
             color = recordType.color
                 .let(colorMapper::mapToColorResId)
                 .let(resourceRepo::getColor)
         )
-    }
-
-    private fun mapToDuration(records: List<Record>): String {
-        return records
-            .map { it.timeEnded - it.timeStarted }
-            .sum()
-            .let(timeMapper::formatInterval)
     }
 }

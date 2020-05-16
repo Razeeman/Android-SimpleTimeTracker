@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
+import com.example.util.simpletimetracker.domain.interactor.StatisticsInteractor
 import com.example.util.simpletimetracker.feature_statistics.adapter.StatisticsViewData
 import com.example.util.simpletimetracker.feature_statistics.mapper.StatisticsViewDataMapper
 import kotlinx.coroutines.launch
@@ -17,6 +18,8 @@ class StatisticsViewModel : ViewModel() {
     lateinit var recordInteractor: RecordInteractor
     @Inject
     lateinit var recordTypeInteractor: RecordTypeInteractor
+    @Inject
+    lateinit var statisticsInteractor: StatisticsInteractor
     @Inject
     lateinit var statisticsViewDataMapper: StatisticsViewDataMapper
 
@@ -42,7 +45,7 @@ class StatisticsViewModel : ViewModel() {
 
     private suspend fun loadStatisticsViewData(): List<StatisticsViewData> {
         return statisticsViewDataMapper.map(
-            records = recordInteractor.getAll(),
+            statistics = statisticsInteractor.getAll(),
             recordTypes = recordTypeInteractor.getAll()
         )
     }
