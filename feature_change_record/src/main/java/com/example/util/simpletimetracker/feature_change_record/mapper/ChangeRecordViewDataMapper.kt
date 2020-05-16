@@ -17,32 +17,25 @@ class ChangeRecordViewDataMapper @Inject constructor(
     private val resourceRepo: ResourceRepo
 ) {
 
-    fun map(record: Record, recordType: RecordType): ChangeRecordViewData {
+    fun map(record: Record?, recordType: RecordType?): ChangeRecordViewData {
         return ChangeRecordViewData(
-            name = recordType.name,
-            timeStarted = record.timeStarted
-                .let(timeMapper::formatTime),
-            timeFinished = record.timeEnded
-                .let(timeMapper::formatTime),
-            duration = (record.timeEnded - record.timeStarted)
-                .let(timeMapper::formatInterval),
-            iconId = recordType.icon
-                .let(iconMapper::mapToDrawableResId),
-            color = recordType.color
-                .let(colorMapper::mapToColorResId)
-                .let(resourceRepo::getColor)
-        )
-    }
-
-    fun mapToEmpty(): ChangeRecordViewData {
-        return ChangeRecordViewData(
-            name = "",
-            timeStarted = "",
-            timeFinished = "",
-            duration = "",
-            iconId = R.drawable.ic_unknown,
-            color = ColorMapper.availableColors
-                .random()
+            name = recordType?.name.orEmpty(),
+            timeStarted = record?.timeStarted
+                ?.let(timeMapper::formatTime)
+                .orEmpty(),
+            timeFinished = record?.timeEnded
+                ?.let(timeMapper::formatTime)
+                .orEmpty(),
+            duration = record
+                ?.let { it.timeEnded - it.timeStarted }
+                ?.let(timeMapper::formatInterval)
+                .orEmpty(),
+            iconId = recordType?.icon
+                ?.let(iconMapper::mapToDrawableResId)
+                ?: R.drawable.ic_unknown,
+            color = (recordType?.color
+                ?.let(colorMapper::mapToColorResId)
+                ?: ColorMapper.availableColors.random())
                 .let(resourceRepo::getColor)
         )
     }
