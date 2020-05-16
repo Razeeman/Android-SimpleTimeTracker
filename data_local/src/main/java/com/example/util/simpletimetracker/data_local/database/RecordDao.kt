@@ -11,6 +11,9 @@ interface RecordDao {
     @Query("SELECT * FROM records")
     suspend fun getAll(): List<RecordDBO>
 
+    @Query("SELECT * FROM records WHERE id = :id LIMIT 1")
+    suspend fun get(id: Long): RecordDBO?
+
     @Insert
     suspend fun insert(record: RecordDBO)
 

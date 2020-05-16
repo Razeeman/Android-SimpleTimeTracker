@@ -7,10 +7,11 @@ import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
-import com.example.util.simpletimetracker.feature_records.R
 import com.example.util.simpletimetracker.feature_records.adapter.RecordViewData
 import com.example.util.simpletimetracker.feature_records.mapper.RecordViewDataMapper
 import com.example.util.simpletimetracker.navigation.Router
+import com.example.util.simpletimetracker.navigation.Screen
+import com.example.util.simpletimetracker.navigation.params.ChangeRecordParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -35,12 +36,11 @@ class RecordsViewModel : ViewModel() {
     }
 
     fun onRecordClick(item: RecordViewData) {
-        viewModelScope.launch {
-            recordInteractor.remove(item.id)
-            updateRecords()
-            resourceRepo.getString(R.string.record_removed)
-                .let(router::showSystemMessage)
-        }
+        router.navigate(Screen.CHANGE_RECORD, ChangeRecordParams(item.id))
+    }
+
+    fun onRecordAddClick() {
+        router.navigate(screen = Screen.CHANGE_RECORD)
     }
 
     fun onVisible() {

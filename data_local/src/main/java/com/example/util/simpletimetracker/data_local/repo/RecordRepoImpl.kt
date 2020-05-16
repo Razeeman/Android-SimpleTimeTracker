@@ -17,6 +17,10 @@ class RecordRepoImpl @Inject constructor(
         return recordDao.getAll().map(recordDataLocalMapper::map)
     }
 
+    override suspend fun get(id: Long): Record? {
+        return recordDao.get(id)?.let(recordDataLocalMapper::map)
+    }
+
     override suspend fun add(record: Record) {
         recordDao.insert(
             record.let(recordDataLocalMapper::map)

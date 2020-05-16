@@ -49,6 +49,10 @@ class RecordsFragment : Fragment() {
         viewModel.records.observe(viewLifecycleOwner) {
             recordsAdapter.replace(it)
         }
+
+        btnRecordAdd.setOnClickListener {
+            viewModel.onRecordAddClick()
+        }
     }
 
     override fun onResume() {

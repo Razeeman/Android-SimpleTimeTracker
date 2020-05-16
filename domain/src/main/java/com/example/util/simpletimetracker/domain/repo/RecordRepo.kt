@@ -6,6 +6,8 @@ interface RecordRepo {
 
     suspend fun getAll(): List<Record>
 
+    suspend fun get(id: Long): Record?
+
     suspend fun add(record: Record)
 
     suspend fun remove(id: Long)

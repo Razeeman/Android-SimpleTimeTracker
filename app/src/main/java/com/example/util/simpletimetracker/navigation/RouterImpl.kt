@@ -7,6 +7,7 @@ import androidx.navigation.NavController
 import com.example.util.simpletimetracker.R
 import androidx.navigation.findNavController
 import com.example.util.simpletimetracker.domain.di.AppContext
+import com.example.util.simpletimetracker.feature_change_record.view.ChangeRecordFragment
 import com.example.util.simpletimetracker.feature_change_record_type.view.ChangeRecordTypeFragment
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -28,6 +29,11 @@ class RouterImpl @Inject constructor(
                 navController?.navigate(
                     R.id.changeRecordTypeFragment,
                     ChangeRecordTypeFragment.createBundle(data)
+                )
+            Screen.CHANGE_RECORD ->
+                navController?.navigate(
+                    R.id.changeRecordFragment,
+                    ChangeRecordFragment.createBundle(data)
                 )
         }
     }

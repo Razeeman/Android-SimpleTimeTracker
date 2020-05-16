@@ -13,10 +13,18 @@
         <action
             android:id="@+id/action_mainFragment_to_changeRecordTypeFragment"
             app:destination="@id/changeRecordTypeFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_changeRecordFragment"
+            app:destination="@id/changeRecordFragment" />
     </fragment>
     <fragment
         android:id="@+id/changeRecordTypeFragment"
         android:name="com.example.util.simpletimetracker.feature_change_record_type.view.ChangeRecordTypeFragment"
         android:label="ChangeRecordTypeFragment"
         tools:layout="@layout/change_record_type_fragment" />
+    <fragment
+        android:id="@+id/changeRecordFragment"
+        android:name="com.example.util.simpletimetracker.feature_change_record.view.ChangeRecordFragment"
+        android:label="ChangeRecordFragment"
+        tools:layout="@layout/change_record_fragment" />
 </navigation>

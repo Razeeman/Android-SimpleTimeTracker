@@ -19,8 +19,12 @@ android {
     }
 
     buildTypes {
+        debug {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -42,8 +46,9 @@ dependencies {
     implementation project(':data_local')
     implementation project(':feature_main')
     implementation project(':feature_running_records')
-    implementation project(':feature_records')
     implementation project(':feature_change_record_type')
+    implementation project(':feature_records')
+    implementation project(':feature_change_record')
     implementation project(':feature_statistics')
 
     implementation deps.androidx.appcompat
