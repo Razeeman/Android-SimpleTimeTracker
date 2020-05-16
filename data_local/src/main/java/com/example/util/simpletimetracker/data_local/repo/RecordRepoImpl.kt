@@ -2,16 +2,16 @@ package com.example.util.simpletimetracker.data_local.repo
 
 import com.example.util.simpletimetracker.data_local.database.RecordDao
 import com.example.util.simpletimetracker.data_local.mapper.RecordDataLocalMapper
-import com.example.util.simpletimetracker.domain.repo.BaseRecordRepo
+import com.example.util.simpletimetracker.domain.repo.RecordRepo
 import com.example.util.simpletimetracker.domain.model.Record
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class RecordRepo @Inject constructor(
+class RecordRepoImpl @Inject constructor(
     private val recordDao: RecordDao,
     private val recordDataLocalMapper: RecordDataLocalMapper
-) : BaseRecordRepo {
+) : RecordRepo {
 
     override suspend fun getAll(): List<Record> {
         return recordDao.getAll().map(recordDataLocalMapper::map)

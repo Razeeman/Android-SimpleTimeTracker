@@ -2,7 +2,7 @@ package com.example.util.simpletimetracker.domain.repo
 
 import com.example.util.simpletimetracker.domain.model.RunningRecord
 
-interface BaseRunningRecordRepo {
+interface RunningRecordRepo {
 
     suspend fun getAll(): List<RunningRecord>
 

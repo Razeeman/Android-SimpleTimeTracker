@@ -3,15 +3,15 @@ package com.example.util.simpletimetracker.data_local.repo
 import com.example.util.simpletimetracker.data_local.database.RecordTypeDao
 import com.example.util.simpletimetracker.data_local.mapper.RecordTypeDataLocalMapper
 import com.example.util.simpletimetracker.domain.model.RecordType
-import com.example.util.simpletimetracker.domain.repo.BaseRecordTypeRepo
+import com.example.util.simpletimetracker.domain.repo.RecordTypeRepo
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class RecordTypeRepo @Inject constructor(
+class RecordTypeRepoImpl @Inject constructor(
     private val recordTypeDao: RecordTypeDao,
     private val recordTypeDataLocalMapper: RecordTypeDataLocalMapper
-) : BaseRecordTypeRepo {
+) : RecordTypeRepo {
 
     override suspend fun getAll(): List<RecordType> {
         return recordTypeDao.getAll().map(recordTypeDataLocalMapper::map)

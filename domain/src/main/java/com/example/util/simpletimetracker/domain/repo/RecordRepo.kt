@@ -2,8 +2,7 @@ package com.example.util.simpletimetracker.domain.repo
 
 import com.example.util.simpletimetracker.domain.model.Record
 
-// TODO rename to RecordRepo
-interface BaseRecordRepo {
+interface RecordRepo {
 
     suspend fun getAll(): List<Record>
 

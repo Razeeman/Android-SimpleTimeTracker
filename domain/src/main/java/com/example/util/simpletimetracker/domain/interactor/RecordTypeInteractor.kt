@@ -1,13 +1,13 @@
 package com.example.util.simpletimetracker.domain.interactor
 
 import com.example.util.simpletimetracker.domain.model.RecordType
-import com.example.util.simpletimetracker.domain.repo.BaseRecordTypeRepo
+import com.example.util.simpletimetracker.domain.repo.RecordTypeRepo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class RecordTypeInteractor @Inject constructor(
-    private val recordTypeRepo: BaseRecordTypeRepo
+    private val recordTypeRepo: RecordTypeRepo
 ) {
 
     suspend fun getAll(): List<RecordType> = withContext(Dispatchers.IO) {

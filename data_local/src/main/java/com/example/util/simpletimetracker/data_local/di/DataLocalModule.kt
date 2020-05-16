@@ -6,13 +6,13 @@ import com.example.util.simpletimetracker.data_local.database.AppDatabase
 import com.example.util.simpletimetracker.data_local.database.RecordDao
 import com.example.util.simpletimetracker.data_local.database.RecordTypeDao
 import com.example.util.simpletimetracker.data_local.database.RunningRecordDao
-import com.example.util.simpletimetracker.data_local.repo.RecordRepo
-import com.example.util.simpletimetracker.data_local.repo.RecordTypeRepo
-import com.example.util.simpletimetracker.data_local.repo.RunningRecordRepo
+import com.example.util.simpletimetracker.data_local.repo.RecordRepoImpl
+import com.example.util.simpletimetracker.data_local.repo.RecordTypeRepoImpl
+import com.example.util.simpletimetracker.data_local.repo.RunningRecordRepoImpl
 import com.example.util.simpletimetracker.domain.di.AppContext
-import com.example.util.simpletimetracker.domain.repo.BaseRecordRepo
-import com.example.util.simpletimetracker.domain.repo.BaseRecordTypeRepo
-import com.example.util.simpletimetracker.domain.repo.BaseRunningRecordRepo
+import com.example.util.simpletimetracker.domain.repo.RecordRepo
+import com.example.util.simpletimetracker.domain.repo.RecordTypeRepo
+import com.example.util.simpletimetracker.domain.repo.RunningRecordRepo
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -39,8 +39,8 @@ class DataLocalModule {
 
     // TODO binds?
     @Provides
-    fun getRecordRepo(recordRepo: RecordRepo): BaseRecordRepo {
-        return recordRepo
+    fun getRecordRepo(recordRepoImpl: RecordRepoImpl): RecordRepo {
+        return recordRepoImpl
     }
 
     @Provides
@@ -51,8 +51,8 @@ class DataLocalModule {
 
     // TODO binds?
     @Provides
-    fun getRecordTypeRepo(recordTypeRepo: RecordTypeRepo): BaseRecordTypeRepo {
-        return recordTypeRepo
+    fun getRecordTypeRepo(recordTypeRepoImpl: RecordTypeRepoImpl): RecordTypeRepo {
+        return recordTypeRepoImpl
     }
 
     @Provides
@@ -63,7 +63,7 @@ class DataLocalModule {
 
     // TODO binds?
     @Provides
-    fun getRunningRecordRepo(runningRecordRepo: RunningRecordRepo): BaseRunningRecordRepo {
-        return runningRecordRepo
+    fun getRunningRecordRepo(runningRecordRepoImpl: RunningRecordRepoImpl): RunningRecordRepo {
+        return runningRecordRepoImpl
     }
 }

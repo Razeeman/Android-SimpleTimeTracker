@@ -2,13 +2,13 @@ package com.example.util.simpletimetracker.domain.interactor
 
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.Statistics
-import com.example.util.simpletimetracker.domain.repo.BaseRecordRepo
+import com.example.util.simpletimetracker.domain.repo.RecordRepo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class StatisticsInteractor @Inject constructor(
-    private val recordRepo: BaseRecordRepo
+    private val recordRepo: RecordRepo
 ) {
 
     suspend fun getAll(): List<Statistics> = withContext(Dispatchers.IO) {
