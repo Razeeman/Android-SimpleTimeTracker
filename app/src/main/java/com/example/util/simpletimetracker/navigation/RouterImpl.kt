@@ -35,6 +35,10 @@ class RouterImpl @Inject constructor(
                     R.id.changeRecordFragment,
                     ChangeRecordFragment.createBundle(data)
                 )
+            Screen.DATE_TIME_DIALOG ->
+                navController?.navigate(
+                    R.id.dateTimeDialog
+                )
         }
     }
 

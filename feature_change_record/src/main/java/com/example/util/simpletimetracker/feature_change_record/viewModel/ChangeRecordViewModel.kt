@@ -18,6 +18,7 @@ import com.example.util.simpletimetracker.feature_change_record.mapper.ChangeRec
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordTypeViewData
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordViewData
 import com.example.util.simpletimetracker.navigation.Router
+import com.example.util.simpletimetracker.navigation.Screen
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -64,6 +65,14 @@ class ChangeRecordViewModel(
     fun onTypeChooserClick() {
         (flipTypesChooser as MutableLiveData).value = flipTypesChooser.value
             ?.flip().orTrue()
+    }
+
+    fun onTimeStartedClick(){
+        router.navigate(Screen.DATE_TIME_DIALOG)
+    }
+
+    fun onTimeEndedClick(){
+        router.navigate(Screen.DATE_TIME_DIALOG)
     }
 
     fun onDeleteClick() {

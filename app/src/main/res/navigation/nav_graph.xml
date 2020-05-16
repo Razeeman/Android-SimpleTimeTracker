@@ -26,5 +26,14 @@
         android:id="@+id/changeRecordFragment"
         android:name="com.example.util.simpletimetracker.feature_change_record.view.ChangeRecordFragment"
         android:label="ChangeRecordFragment"
-        tools:layout="@layout/change_record_fragment" />
+        tools:layout="@layout/change_record_fragment" >
+        <action
+            android:id="@+id/action_changeRecordFragment_to_dateTimeDialog"
+            app:destination="@id/dateTimeDialog" />
+    </fragment>
+    <dialog
+        android:id="@+id/dateTimeDialog"
+        android:name="com.example.util.simpletimetracker.feature_dialogs.DateTimeDialogFragment"
+        android:label="DateTimeDialog"
+        tools:layout="@layout/date_dialog_fragment" />
 </navigation>

@@ -92,6 +92,14 @@ class ChangeRecordFragment : Fragment() {
             viewModel.onTypeChooserClick()
         }
 
+        fieldChangeRecordTimeStarted.setOnClickListener {
+            viewModel.onTimeStartedClick()
+        }
+
+        fieldChangeRecordTimeEnded.setOnClickListener {
+            viewModel.onTimeEndedClick()
+        }
+
         btnChangeRecordDelete.setOnClickListener {
             it.isEnabled = false
             viewModel.onDeleteClick()

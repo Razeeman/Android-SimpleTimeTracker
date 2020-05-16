@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.core.extension
 import android.animation.ObjectAnimator
 import android.view.View
 import android.view.animation.LinearInterpolator
+import com.google.android.material.tabs.TabLayout
 
 var View.visible: Boolean
     set(value) {
@@ -27,4 +28,22 @@ fun View.rotateDown() {
 
 fun View.rotateUp() {
     this.rotate(from = 180f, to = 360f)
+}
+
+// TODO setOnClick
+
+fun TabLayout.onTabSelected(func: (TabLayout.Tab) -> Unit) {
+    this.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+        override fun onTabReselected(tab: TabLayout.Tab?) {
+            // Do nothing
+        }
+
+        override fun onTabUnselected(tab: TabLayout.Tab?) {
+            // Do nothing
+        }
+
+        override fun onTabSelected(tab: TabLayout.Tab?) {
+            tab?.let(func::invoke)
+        }
+    })
 }
