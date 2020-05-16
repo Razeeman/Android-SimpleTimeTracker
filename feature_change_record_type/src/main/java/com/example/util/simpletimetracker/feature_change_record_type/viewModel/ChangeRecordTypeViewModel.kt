@@ -57,6 +57,7 @@ class ChangeRecordTypeViewModel(
     val flipColorChooser: LiveData<Boolean> = MutableLiveData()
     val flipIconChooser: LiveData<Boolean> = MutableLiveData()
     val deleteIconVisibility: LiveData<Boolean> = MutableLiveData(id != 0L)
+    val keyboardVisibility: LiveData<Boolean> = MutableLiveData(id == 0L)
 
     private var newName: String = ""
     private var newIconId: Int = 0
@@ -72,6 +73,7 @@ class ChangeRecordTypeViewModel(
     }
 
     fun onColorChooserClick() {
+        (keyboardVisibility as MutableLiveData).value = false
         (flipColorChooser as MutableLiveData).value = flipColorChooser.value
             ?.flip().orTrue()
 
@@ -81,6 +83,7 @@ class ChangeRecordTypeViewModel(
     }
 
     fun onIconChooserClick() {
+        (keyboardVisibility as MutableLiveData).value = false
         (flipIconChooser as MutableLiveData).value = flipIconChooser.value
             ?.flip().orTrue()
 
@@ -114,6 +117,7 @@ class ChangeRecordTypeViewModel(
                 recordTypeInteractor.remove(id)
                 resourceRepo.getString(R.string.record_type_removed)
                     .let(router::showSystemMessage)
+                (keyboardVisibility as MutableLiveData).value = false
                 router.back()
             }
         }
@@ -128,6 +132,7 @@ class ChangeRecordTypeViewModel(
                 color = newColorId
             ).let {
                 recordTypeInteractor.add(it)
+                (keyboardVisibility as MutableLiveData).value = false
                 router.back()
             }
         }

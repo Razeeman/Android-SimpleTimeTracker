@@ -100,7 +100,6 @@ class ChangeRecordTypeFragment : Fragment() {
             arrowChangeRecordTypeColor.apply {
                 if (opened) rotateDown() else rotateUp()
             }
-            hideKeyboard()
         }
 
         viewModel.flipIconChooser.observe(viewLifecycleOwner) { opened ->
@@ -108,7 +107,10 @@ class ChangeRecordTypeFragment : Fragment() {
             arrowChangeRecordTypeIcon.apply {
                 if (opened) rotateDown() else rotateUp()
             }
-            hideKeyboard()
+        }
+
+        viewModel.keyboardVisibility.observe(viewLifecycleOwner) { visible ->
+            if (visible) showKeyboard(etChangeRecordTypeName) else hideKeyboard()
         }
 
         etChangeRecordTypeName.doAfterTextChanged {
@@ -137,8 +139,6 @@ class ChangeRecordTypeFragment : Fragment() {
     private fun updateUi(item: ChangeRecordTypeViewData) {
         etChangeRecordTypeName.setText(item.name)
         etChangeRecordTypeName.setSelection(item.name.length)
-        // TODO don't show keyboard on edit
-        showKeyboard(etChangeRecordTypeName)
     }
 
     private fun updatePreview(item: ChangeRecordTypeViewData) {
