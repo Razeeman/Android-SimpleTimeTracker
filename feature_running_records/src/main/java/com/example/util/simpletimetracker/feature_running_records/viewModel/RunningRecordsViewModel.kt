@@ -8,7 +8,6 @@ import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
-import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.feature_running_records.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.feature_running_records.mapper.RunningRecordViewDataMapper
@@ -76,13 +75,9 @@ class RunningRecordsViewModel : ViewModel() {
     fun onRunningRecordClick(item: RunningRecordViewData) {
         viewModelScope.launch {
             runningRecordInteractor.get(item.id)?.let { runningRecord ->
-                // TODO move to mapper
                 recordInteractor.add(
-                    Record(
-                        typeId = runningRecord.id,
-                        timeStarted = runningRecord.timeStarted,
-                        timeEnded = System.currentTimeMillis()
-                    )
+                    typeId = runningRecord.id,
+                    timeStarted = runningRecord.timeStarted
                 )
             }
             runningRecordInteractor.remove(item.id)

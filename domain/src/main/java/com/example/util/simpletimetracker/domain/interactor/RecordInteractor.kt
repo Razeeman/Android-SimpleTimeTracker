@@ -14,8 +14,14 @@ class RecordInteractor @Inject constructor(
         recordRepo.getAll()
     }
 
-    suspend fun add(record: Record) = withContext(Dispatchers.IO) {
-        recordRepo.add(record)
+    suspend fun add(typeId: Long, timeStarted: Long) = withContext(Dispatchers.IO) {
+        Record(
+            typeId = typeId,
+            timeStarted = timeStarted,
+            timeEnded = System.currentTimeMillis()
+        ).let {
+            recordRepo.add(it)
+        }
     }
 
     suspend fun remove(id: Long) = withContext(Dispatchers.IO) {

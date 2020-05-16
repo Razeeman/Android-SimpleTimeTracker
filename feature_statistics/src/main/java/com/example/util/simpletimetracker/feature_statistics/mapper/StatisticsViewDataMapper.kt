@@ -2,17 +2,18 @@ package com.example.util.simpletimetracker.feature_statistics.mapper
 
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
+import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_statistics.adapter.StatisticsViewData
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class StatisticsViewDataMapper @Inject constructor(
     private val iconMapper: IconMapper,
     private val colorMapper: ColorMapper,
-    private val resourceRepo: ResourceRepo
+    private val resourceRepo: ResourceRepo,
+    private val timeMapper: TimeMapper
 ) {
 
     fun map(
@@ -54,22 +55,6 @@ class StatisticsViewDataMapper @Inject constructor(
         return records
             .map { it.timeEnded - it.timeStarted }
             .sum()
-            .let(::formatInterval)
-    }
-
-    // TODO move to core mapper
-    private fun formatInterval(interval: Long): String {
-        val hr: Long = TimeUnit.MILLISECONDS.toHours(
-            interval
-        )
-        val min: Long = TimeUnit.MILLISECONDS.toMinutes(
-            interval - TimeUnit.HOURS.toMillis(hr)
-        )
-        val sec: Long = TimeUnit.MILLISECONDS.toSeconds(
-            interval - TimeUnit.HOURS.toMillis(hr) - TimeUnit.MINUTES.toMillis(min)
-        )
-
-        // TODO remove 0s if empty
-        return String.format("%2dh %2dm %2ds", hr, min, sec)
+            .let(timeMapper::formatInterval)
     }
 }
