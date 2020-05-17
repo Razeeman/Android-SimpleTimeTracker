@@ -8,6 +8,8 @@ interface RecordRepo {
 
     suspend fun get(id: Long): Record?
 
+    suspend fun getFromRange(start: Long, end: Long): List<Record>
+
     suspend fun add(record: Record)
 
     suspend fun remove(id: Long)

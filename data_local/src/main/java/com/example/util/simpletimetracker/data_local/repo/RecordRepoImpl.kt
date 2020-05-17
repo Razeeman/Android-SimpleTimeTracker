@@ -14,11 +14,18 @@ class RecordRepoImpl @Inject constructor(
 ) : RecordRepo {
 
     override suspend fun getAll(): List<Record> {
-        return recordDao.getAll().map(recordDataLocalMapper::map)
+        return recordDao.getAll()
+            .map(recordDataLocalMapper::map)
     }
 
     override suspend fun get(id: Long): Record? {
-        return recordDao.get(id)?.let(recordDataLocalMapper::map)
+        return recordDao.get(id)
+            ?.let(recordDataLocalMapper::map)
+    }
+
+    override suspend fun getFromRange(start: Long, end: Long): List<Record> {
+        return recordDao.getFromRange(start, end)
+            .map(recordDataLocalMapper::map)
     }
 
     override suspend fun add(record: Record) {

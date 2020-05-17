@@ -15,6 +15,9 @@ interface RecordDao {
     @Query("SELECT * FROM records WHERE id = :id LIMIT 1")
     suspend fun get(id: Long): RecordDBO?
 
+    @Query("SELECT * FROM records WHERE time_started < :end AND time_ended > :start")
+    suspend fun getFromRange(start: Long, end: Long): List<RecordDBO>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(record: RecordDBO)
 

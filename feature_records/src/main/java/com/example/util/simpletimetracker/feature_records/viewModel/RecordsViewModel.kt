@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
@@ -15,7 +16,10 @@ import com.example.util.simpletimetracker.navigation.params.ChangeRecordParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class RecordsViewModel : ViewModel() {
+class RecordsViewModel(
+    private val start: Long,
+    private val end: Long
+) : ViewModel() {
 
     @Inject
     lateinit var router: Router
@@ -27,6 +31,8 @@ class RecordsViewModel : ViewModel() {
     lateinit var recordTypeInteractor: RecordTypeInteractor
     @Inject
     lateinit var recordViewDataMapper: RecordViewDataMapper
+    @Inject
+    lateinit var timeMapper: TimeMapper
 
     val records: LiveData<List<RecordViewData>> by lazy {
         return@lazy MutableLiveData<List<RecordViewData>>().let { initial ->
@@ -57,7 +63,11 @@ class RecordsViewModel : ViewModel() {
         val recordTypes = recordTypeInteractor.getAll()
             .map { it.id to it }
             .toMap()
-        val records = recordInteractor.getAll()
+        val records = if (start != 0L && end != 0L) {
+            recordInteractor.getFromRange(start, end)
+        } else {
+            recordInteractor.getAll()
+        }
 
         return records
             .mapNotNull { record ->

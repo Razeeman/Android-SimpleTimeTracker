@@ -18,6 +18,10 @@ class RecordInteractor @Inject constructor(
         recordRepo.get(id)
     }
 
+    suspend fun getFromRange(start: Long, end: Long): List<Record> = withContext(Dispatchers.IO) {
+        recordRepo.getFromRange(start, end)
+    }
+
     suspend fun add(typeId: Long, timeStarted: Long) = withContext(Dispatchers.IO) {
         Record(
             typeId = typeId,

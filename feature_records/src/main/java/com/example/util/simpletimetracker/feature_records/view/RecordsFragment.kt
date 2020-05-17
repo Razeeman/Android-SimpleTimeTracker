@@ -8,15 +8,25 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_records.R
 import com.example.util.simpletimetracker.feature_records.adapter.RecordAdapter
 import com.example.util.simpletimetracker.feature_records.di.RecordsComponentProvider
 import com.example.util.simpletimetracker.feature_records.viewModel.RecordsViewModel
+import com.example.util.simpletimetracker.feature_records.viewModel.RecordsViewModelFactory
+import com.example.util.simpletimetracker.navigation.params.RecordsParams
 import kotlinx.android.synthetic.main.records_fragment.*
 
 class RecordsFragment : Fragment() {
 
-    private val viewModel: RecordsViewModel by viewModels()
+    private val viewModel: RecordsViewModel by viewModels(
+        factoryProducer = {
+            RecordsViewModelFactory(
+                rangeStart = arguments?.getLong(ARGS_RANGE_START).orZero(),
+                rangeEnd = arguments?.getLong(ARGS_RANGE_END).orZero()
+            )
+        }
+    )
     private val recordsAdapter: RecordAdapter by lazy {
         RecordAdapter(
             viewModel::onRecordClick
@@ -61,6 +71,18 @@ class RecordsFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance() = RecordsFragment()
+        private const val ARGS_RANGE_START = "args_range_start"
+        private const val ARGS_RANGE_END = "args_range_end"
+
+        fun newInstance(data: Any?): RecordsFragment = RecordsFragment().apply {
+            val bundle = Bundle()
+            when (data) {
+                is RecordsParams -> {
+                    bundle.putLong(ARGS_RANGE_START, data.rangeStart)
+                    bundle.putLong(ARGS_RANGE_END, data.rangeEnd)
+                }
+            }
+            arguments = bundle
+        }
     }
 }
