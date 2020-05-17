@@ -132,7 +132,7 @@ class PieChartView @JvmOverloads constructor(
     private fun drawIcons(canvas: Canvas, w: Float, r: Float) {
         if (!drawIcons || segments.isEmpty()) return
         val iconWidth = 60
-        val iconPaddingTop = 10
+        val iconPadding = 10
         var rotation: Float
         val bounds = Rect(-iconWidth / 2, -iconWidth / 2, iconWidth / 2, iconWidth / 2)
 
@@ -141,9 +141,15 @@ class PieChartView @JvmOverloads constructor(
         var center = canvas.save()
 
         segments.forEach {
+            // circleCircumference = 2 * Math.PI * r
+            // segmentRatio = it.sweepAngle / 360f
+            // segmentLength = circleCircumference * segmentRatio
+            val segmentLength = 2 * Math.PI * r * it.sweepAngle / 360f
+            if (segmentLength < iconWidth + 2 * iconPadding) return@forEach
+
             rotation = it.startAngle + it.sweepAngle / 2f
             canvas.rotate(rotation)
-            canvas.translate(0f, -r + iconWidth / 2 + iconPaddingTop)
+            canvas.translate(0f, -r + iconWidth / 2 + iconPadding)
             canvas.rotate(-rotation)
             it.drawable?.bounds = bounds
             it.drawable?.draw(canvas)
