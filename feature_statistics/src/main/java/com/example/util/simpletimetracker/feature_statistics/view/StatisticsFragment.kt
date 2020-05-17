@@ -10,6 +10,8 @@ import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.util.simpletimetracker.feature_statistics.R
 import com.example.util.simpletimetracker.feature_statistics.adapter.StatisticsAdapter
+import com.example.util.simpletimetracker.feature_statistics.adapter.StatisticsViewData
+import com.example.util.simpletimetracker.feature_statistics.customView.PiePortion
 import com.example.util.simpletimetracker.feature_statistics.di.StatisticsComponentProvider
 import com.example.util.simpletimetracker.feature_statistics.viewModel.StatisticsViewModel
 import kotlinx.android.synthetic.main.statistics_fragment.*
@@ -46,7 +48,18 @@ class StatisticsFragment : Fragment() {
 
         viewModel.statistics.observe(viewLifecycleOwner) {
             statisticsAdapter.replace(it)
+            setPieChart(it)
         }
+    }
+
+    private fun setPieChart(statistics: List<StatisticsViewData>) {
+        statistics.map {
+            PiePortion(
+                value = it.duration.length.toLong(), // TODO
+                colorInt = it.color,
+                iconId = it.iconId
+            )
+        }.let(pieChartStatistics::setSegments)
     }
 
     override fun onResume() {

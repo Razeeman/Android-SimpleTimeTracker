@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="PieChartView">
+        <attr name="segmentCount" format="integer"/>
+        <attr name="dividerWidth" format="dimension" />
+        <attr name="innerRadiusRatio" format="float" />
+        <attr name="drawIcons" format="boolean" />
+    </declare-styleable>
+</resources>
