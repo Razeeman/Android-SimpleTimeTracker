@@ -8,6 +8,8 @@ import android.util.Log
 import android.view.View
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import com.example.util.simpletimetracker.feature_statistics.R
+import kotlin.math.max
+import kotlin.math.min
 
 class PieChartView @JvmOverloads constructor(
     context: Context,
@@ -23,46 +25,16 @@ class PieChartView @JvmOverloads constructor(
     private val paint: Paint = Paint()
     private var innerRadiusRatio: Float = 0.0f
     private var dividerWidth: Int = 0
+    private var iconPadding: Int = 0
+    private var iconMaxSize: Int = 0
     private var segments: List<Arc> = emptyList()
     private var segmentCount: Int = 0
     private var drawIcons: Boolean = false
 
     init {
-        context
-            .obtainStyledAttributes(
-                attrs,
-                R.styleable.PieChartView, defStyleAttr, 0
-            )
-            .run {
-                innerRadiusRatio =
-                    getFloat(R.styleable.PieChartView_innerRadiusRatio, 0f)
-                dividerWidth =
-                    getDimensionPixelSize(R.styleable.PieChartView_dividerWidth, 0)
-                segmentCount =
-                    getInt(R.styleable.PieChartView_segmentCount, 0)
-                drawIcons =
-                    getBoolean(R.styleable.PieChartView_drawIcons, false)
-                recycle()
-            }
-
-        if (segmentCount != 0) {
-            val segmentPercent: Float = 360f / segmentCount
-            var drawable: VectorDrawableCompat? = null
-            if (drawIcons) {
-                drawable = VectorDrawableCompat.create(
-                    context.resources, R.drawable.ic_unknown, null
-                )
-                drawable?.setTintList(ColorStateList.valueOf(Color.WHITE))
-            }
-            segments = (0..segmentCount).map {
-                Arc(
-                    color = Color.BLACK,
-                    drawable = drawable,
-                    startAngle = it * segmentPercent,
-                    sweepAngle = segmentPercent
-                )
-            }
-        }
+        initArgs(context, attrs, defStyleAttr)
+        if (segmentCount != 0) populateChart()
+        paint.isAntiAlias = true
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -88,6 +60,66 @@ class PieChartView @JvmOverloads constructor(
         drawDividers(canvas, w, r)
         drawInnerCircle(canvas, w, r)
         drawIcons(canvas, w, r)
+    }
+
+    fun setSegments(data: List<PiePortion>) {
+        val res = mutableListOf<Arc>()
+        val valuesSum = data.map(PiePortion::value).sum()
+        var segmentPercent: Float
+        var startAngle = 0f
+        var sweepAngle: Float
+        var drawable: VectorDrawableCompat? = null
+
+        data.forEach { segment ->
+            if (drawIcons && segment.iconId != null) {
+                drawable = VectorDrawableCompat
+                    .create(context.resources, segment.iconId, null)
+                    ?.apply {
+                        setTintList(ColorStateList.valueOf(Color.WHITE))
+                    }
+            }
+            segmentPercent = segment.value.toFloat() / valuesSum
+            sweepAngle = 360 * segmentPercent
+            res.add(
+                Arc(
+                    color = segment.colorInt,
+                    drawable = drawable,
+                    startAngle = startAngle,
+                    sweepAngle = sweepAngle
+                )
+            )
+            startAngle += sweepAngle
+        }
+
+        segments = res
+        invalidate()
+    }
+
+    private fun initArgs(
+        context: Context,
+        attrs: AttributeSet? = null,
+        defStyleAttr: Int = 0
+    ) {
+        context
+            .obtainStyledAttributes(
+                attrs,
+                R.styleable.PieChartView, defStyleAttr, 0
+            )
+            .run {
+                innerRadiusRatio =
+                    getFloat(R.styleable.PieChartView_innerRadiusRatio, 0f)
+                dividerWidth =
+                    getDimensionPixelSize(R.styleable.PieChartView_dividerWidth, 0)
+                iconPadding =
+                    getDimensionPixelSize(R.styleable.PieChartView_iconPadding, 0)
+                iconMaxSize =
+                    getDimensionPixelSize(R.styleable.PieChartView_iconMaxSize, 0)
+                segmentCount =
+                    getInt(R.styleable.PieChartView_segmentCount, 0)
+                drawIcons =
+                    getBoolean(R.styleable.PieChartView_drawIcons, false)
+                recycle()
+            }
     }
 
     private fun drawSegments(canvas: Canvas, w: Float, r: Float) {
@@ -131,10 +163,13 @@ class PieChartView @JvmOverloads constructor(
 
     private fun drawIcons(canvas: Canvas, w: Float, r: Float) {
         if (!drawIcons || segments.isEmpty()) return
-        val iconWidth = 60
-        val iconPadding = 10
+        val iconSize = calculateIconSize(r)
+        val bounds = Rect(
+            -iconSize / 2, -iconSize / 2,
+            iconSize / 2, iconSize / 2
+        )
         var rotation: Float
-        val bounds = Rect(-iconWidth / 2, -iconWidth / 2, iconWidth / 2, iconWidth / 2)
+        val iconPositionFromCenter = r - r * (1 - innerRadiusRatio) / 2
 
         val initial = canvas.save()
         canvas.translate(w / 2, r)
@@ -144,12 +179,12 @@ class PieChartView @JvmOverloads constructor(
             // circleCircumference = 2 * Math.PI * r
             // segmentRatio = it.sweepAngle / 360f
             // segmentLength = circleCircumference * segmentRatio
-            val segmentLength = 2 * Math.PI * r * it.sweepAngle / 360f
-            if (segmentLength < iconWidth + 2 * iconPadding) return@forEach
+            val segmentLength = 2 * Math.PI * iconPositionFromCenter * it.sweepAngle / 360f
+            if (segmentLength < iconSize + 2 * iconPadding) return@forEach
 
             rotation = it.startAngle + it.sweepAngle / 2f
             canvas.rotate(rotation)
-            canvas.translate(0f, -r + iconWidth / 2 + iconPadding)
+            canvas.translate(0f, -iconPositionFromCenter)
             canvas.rotate(-rotation)
             it.drawable?.bounds = bounds
             it.drawable?.draw(canvas)
@@ -166,36 +201,24 @@ class PieChartView @JvmOverloads constructor(
         canvas.drawCircle(w / 2f, r, r * innerRadiusRatio, paint)
     }
 
-    fun setSegments(data: List<PiePortion>) {
-        val res = mutableListOf<Arc>()
-        val valuesSum = data.map(PiePortion::value).sum()
-        var segmentPercent: Float
-        var startAngle = 0f
-        var sweepAngle: Float
-        var drawable: VectorDrawableCompat? = null
+    private fun calculateIconSize(r: Float): Int {
+        val availableIconSize = max(0, (r - r * innerRadiusRatio - 2 * iconPadding).toInt())
 
-        data.forEach { segment ->
-            if (drawIcons && segment.iconId != null) {
-                drawable = VectorDrawableCompat.create(
-                    context.resources, segment.iconId, null
-                )
-                drawable?.setTintList(ColorStateList.valueOf(Color.WHITE))
-            }
-            segmentPercent = segment.value.toFloat() / valuesSum
-            sweepAngle = 360 * segmentPercent
-            res.add(
-                Arc(
-                    color = segment.colorInt,
-                    drawable = drawable,
-                    startAngle = startAngle,
-                    sweepAngle = sweepAngle
-                )
-            )
-            startAngle += sweepAngle
+        return if (iconMaxSize == 0) {
+            availableIconSize
+        } else {
+            min(iconMaxSize, availableIconSize)
         }
+    }
 
-        segments = res
-        invalidate()
+    private fun populateChart() {
+        (segmentCount downTo 1).map {
+            PiePortion(
+                value = it.toLong(),
+                colorInt = Color.BLACK,
+                iconId = R.drawable.ic_unknown
+            )
+        }.let(::setSegments)
     }
 
     inner class Arc(
