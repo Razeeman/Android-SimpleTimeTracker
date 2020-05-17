@@ -4,10 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.StatisticsInteractor
-import com.example.util.simpletimetracker.feature_statistics.adapter.StatisticsViewData
 import com.example.util.simpletimetracker.feature_statistics.mapper.StatisticsViewDataMapper
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -23,15 +23,12 @@ class StatisticsViewModel : ViewModel() {
     @Inject
     lateinit var statisticsViewDataMapper: StatisticsViewDataMapper
 
-    private val statisticsLiveData: MutableLiveData<List<StatisticsViewData>> by lazy {
-        return@lazy MutableLiveData<List<StatisticsViewData>>().let { initial ->
+    val statistics: LiveData<List<ViewHolderType>> by lazy {
+        return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
             viewModelScope.launch { initial.value = loadStatisticsViewData() }
             initial
         }
     }
-
-    val statistics: LiveData<List<StatisticsViewData>>
-        get() = statisticsLiveData
 
     fun onVisible() {
         viewModelScope.launch {
@@ -40,13 +37,16 @@ class StatisticsViewModel : ViewModel() {
     }
 
     private suspend fun updateStatistics() {
-        statisticsLiveData.value = loadStatisticsViewData()
+        (statistics as MutableLiveData).value = loadStatisticsViewData()
     }
 
-    private suspend fun loadStatisticsViewData(): List<StatisticsViewData> {
-        return statisticsViewDataMapper.map(
-            statistics = statisticsInteractor.getAll(),
-            recordTypes = recordTypeInteractor.getAll()
-        )
+    private suspend fun loadStatisticsViewData(): List<ViewHolderType> {
+        val statistics = statisticsInteractor.getAll()
+        val types = recordTypeInteractor.getAll()
+
+        val list = statisticsViewDataMapper.map(statistics, types)
+        val chart = statisticsViewDataMapper.mapToChart(statistics, types)
+
+        return mutableListOf(chart).apply { addAll(list) }
     }
 }

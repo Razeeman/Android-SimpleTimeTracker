@@ -1,12 +1,15 @@
 package com.example.util.simpletimetracker.feature_statistics.mapper
 
+import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.Statistics
-import com.example.util.simpletimetracker.feature_statistics.adapter.StatisticsViewData
+import com.example.util.simpletimetracker.feature_statistics.customView.PiePortion
+import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsChartViewData
+import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsViewData
 import javax.inject.Inject
 
 class StatisticsViewDataMapper @Inject constructor(
@@ -19,7 +22,7 @@ class StatisticsViewDataMapper @Inject constructor(
     fun map(
         statistics: List<Statistics>,
         recordTypes: List<RecordType>
-    ): List<StatisticsViewData> {
+    ): List<ViewHolderType> {
         val recordTypesMap = recordTypes
             .map { it.id to it }
             .toMap()
@@ -32,6 +35,31 @@ class StatisticsViewDataMapper @Inject constructor(
                     recordType = recordTypesMap[it.typeId] ?: return@mapNotNull null
                 )
             }
+    }
+
+    fun mapToChart(
+        statistics: List<Statistics>,
+        recordTypes: List<RecordType>
+    ): ViewHolderType {
+        val recordTypesMap = recordTypes
+            .map { it.id to it }
+            .toMap()
+
+        return StatisticsChartViewData(
+            statistics
+                .sortedByDescending { it.duration }
+                .mapNotNull {
+                PiePortion(
+                    value = it.duration,
+                    colorInt = recordTypesMap[it.typeId]?.color
+                        ?.let(colorMapper::mapToColorResId)
+                        ?.let(resourceRepo::getColor)
+                        ?: return@mapNotNull null,
+                    iconId = recordTypesMap[it.typeId]?.icon
+                        ?.let(iconMapper::mapToDrawableResId)
+                )
+            }
+        )
     }
 
     private fun map(
