@@ -21,8 +21,11 @@ class PieChartView @JvmOverloads constructor(
     defStyleAttr
 ) {
 
+    private val segmentPaint: Paint = Paint()
+    private val shadowPaint: Paint = Paint()
+    private val dividerPaint: Paint = Paint()
+
     private val bounds: RectF = RectF(0f, 0f, 0f, 0f)
-    private val paint: Paint = Paint()
     private var innerRadiusRatio: Float = 0.0f
     private var dividerWidth: Int = 0
     private var iconPadding: Int = 0
@@ -30,11 +33,14 @@ class PieChartView @JvmOverloads constructor(
     private var segments: List<Arc> = emptyList()
     private var segmentCount: Int = 0
     private var drawIcons: Boolean = false
+    private var shadowColor: Int = 0x40000000
+    private var dividerColor: Int = 0xFFEEEEEE.toInt()
 
     init {
         initArgs(context, attrs, defStyleAttr)
+        initPaint()
         if (segmentCount != 0) populateChart()
-        paint.isAntiAlias = true
+        setLayerType(LAYER_TYPE_SOFTWARE, null)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -54,12 +60,13 @@ class PieChartView @JvmOverloads constructor(
         if (canvas == null || segments.isEmpty()) return
 
         val w = width.toFloat()
-        val r = height / 2f
+        val h = height.toFloat()
+        val r = height / 2f - 12
 
-        drawSegments(canvas, w, r)
-        drawDividers(canvas, w, r)
-        drawInnerCircle(canvas, w, r)
-        drawIcons(canvas, w, r)
+        drawShadow(canvas, w, h, r)
+        drawSegments(canvas, w, h, r)
+        drawDividers(canvas, w, h, r)
+        drawIcons(canvas, w, h, r)
     }
 
     fun setSegments(data: List<PiePortion>) {
@@ -122,46 +129,89 @@ class PieChartView @JvmOverloads constructor(
             }
     }
 
-    private fun drawSegments(canvas: Canvas, w: Float, r: Float) {
-        canvas.save()
-        canvas.rotate(-90f, w / 2, r)
+    private fun initPaint() {
+        segmentPaint.apply {
+            isAntiAlias = true
+            style = Paint.Style.STROKE
+        }
+        shadowPaint.apply {
+            isAntiAlias = true
+            color = shadowColor
+            maskFilter = BlurMaskFilter(12f, BlurMaskFilter.Blur.NORMAL)
+            style = Paint.Style.STROKE
+        }
+        dividerPaint.apply {
+            isAntiAlias = true
+            color = dividerColor
+            strokeWidth = dividerWidth.toFloat()
+            style = Paint.Style.STROKE
+        }
+    }
 
-        bounds.set(w / 2 - r, 0f, w / 2 + r, 2 * r)
+    private fun drawShadow(canvas: Canvas, w: Float, h: Float, r: Float) {
+        val segmentWidth = r - r * innerRadiusRatio
+        val segmentCenterLine = r - segmentWidth / 2
+        shadowPaint.strokeWidth = segmentWidth
+
+        bounds.set(
+            w / 2 - segmentCenterLine, h / 2 - segmentCenterLine,
+            w / 2 + segmentCenterLine, h / 2 + segmentCenterLine
+        )
+        canvas.drawArc(
+            bounds,
+            0f,
+            360f,
+            false,
+            shadowPaint
+        )
+    }
+
+    private fun drawSegments(canvas: Canvas, w: Float, h: Float, r: Float) {
+        // TODO rounded corners?
+        val segmentWidth = r - r * innerRadiusRatio
+        val segmentCenterLine = r - segmentWidth / 2
+        segmentPaint.strokeWidth = segmentWidth
+
+        canvas.save()
+        canvas.rotate(-90f, w / 2, h / 2)
+
+        bounds.set(
+            w / 2 - segmentCenterLine, h / 2 - segmentCenterLine,
+            w / 2 + segmentCenterLine, h / 2 + segmentCenterLine
+        )
         segments.forEach {
-            paint.color = it.color
+            segmentPaint.color = it.color
             canvas.drawArc(
                 bounds,
                 it.startAngle,
                 it.sweepAngle,
-                true,
-                paint
+                false,
+                segmentPaint
             )
         }
 
         canvas.restore()
     }
 
-    private fun drawDividers(canvas: Canvas, w: Float, r: Float) {
+    private fun drawDividers(canvas: Canvas, w: Float, h: Float, r: Float) {
         if (segments.size < 2) return
-        canvas.save()
 
-        paint.color = Color.WHITE
-        paint.strokeWidth = dividerWidth.toFloat()
+        canvas.save()
+        canvas.translate(w / 2, h / 2)
         segments.forEach {
             canvas.drawLine(
-                w / 2,
-                r,
-                w / 2,
                 0f,
-                paint
+                -r * innerRadiusRatio + 1,
+                0f,
+                -r - 1,
+                dividerPaint
             )
-            canvas.rotate(it.sweepAngle, w / 2, r)
+            canvas.rotate(it.sweepAngle)
         }
-
         canvas.restore()
     }
 
-    private fun drawIcons(canvas: Canvas, w: Float, r: Float) {
+    private fun drawIcons(canvas: Canvas, w: Float, h: Float, r: Float) {
         if (!drawIcons || segments.isEmpty()) return
         val iconSize = calculateIconSize(r)
         val bounds = Rect(
@@ -172,7 +222,7 @@ class PieChartView @JvmOverloads constructor(
         val iconPositionFromCenter = r - r * (1 - innerRadiusRatio) / 2
 
         val initial = canvas.save()
-        canvas.translate(w / 2, r)
+        canvas.translate(w / 2, h / 2)
         var center = canvas.save()
 
         segments.forEach {
@@ -194,11 +244,6 @@ class PieChartView @JvmOverloads constructor(
         }
 
         canvas.restoreToCount(initial)
-    }
-
-    private fun drawInnerCircle(canvas: Canvas, w: Float, r: Float) {
-        paint.color = Color.WHITE
-        canvas.drawCircle(w / 2f, r, r * innerRadiusRatio, paint)
     }
 
     private fun calculateIconSize(r: Float): Int {
