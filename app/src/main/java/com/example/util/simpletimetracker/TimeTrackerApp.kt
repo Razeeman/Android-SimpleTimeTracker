@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker
 
 import android.app.Application
+import android.os.StrictMode
 import com.example.util.simpletimetracker.di.AppComponent
 import com.example.util.simpletimetracker.di.AppModule
 import com.example.util.simpletimetracker.di.DaggerAppComponent
@@ -26,6 +27,13 @@ class TimeTrackerApp : Application(), FeatureComponentProvider {
         super.onCreate()
         initLog()
         initDi()
+        initStrictMode()
+    }
+
+    private fun initLog() {
+        if (BuildConfig.DEBUG) {
+            Timber.plant(DebugTree())
+        }
     }
 
     private fun initDi() {
@@ -40,9 +48,21 @@ class TimeTrackerApp : Application(), FeatureComponentProvider {
         statisticsComponent = appComponent?.plusStatisticsComponent()
     }
 
-    private fun initLog() {
+    private fun initStrictMode() {
         if (BuildConfig.DEBUG) {
-            Timber.plant(DebugTree())
+            StrictMode.setThreadPolicy(
+                StrictMode.ThreadPolicy.Builder()
+                    .detectAll()
+                    .penaltyLog()
+                    .penaltyDialog()
+                    .build()
+            )
+            StrictMode.setVmPolicy(
+                StrictMode.VmPolicy.Builder()
+                    .detectAll()
+                    .penaltyLog()
+                    .build()
+            )
         }
     }
 }
