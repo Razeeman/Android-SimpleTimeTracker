@@ -3,6 +3,8 @@ package com.example.util.simpletimetracker.feature_statistics.customView
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.*
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.util.AttributeSet
 import android.view.View
@@ -76,7 +78,7 @@ class PieChartView @JvmOverloads constructor(
         var segmentPercent: Float
         var startAngle = 0f
         var sweepAngle: Float
-        var drawable: VectorDrawableCompat? = null
+        var drawable: Drawable? = null
 
         data.forEach { segment ->
             if (drawIcons && segment.iconId != null) {
@@ -263,19 +265,22 @@ class PieChartView @JvmOverloads constructor(
         }.let(::setSegments)
     }
 
-    private fun getIconDrawable(iconId: Int): VectorDrawableCompat? {
+    private fun getIconDrawable(iconId: Int): Drawable? {
+        // TODO is where an easier way?
         return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            (AppCompatResources.getDrawable(context, iconId) as? VectorDrawableCompat)
+            (AppCompatResources.getDrawable(context, iconId) as? BitmapDrawable)?.apply {
+                colorFilter = PorterDuffColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
+            }
         } else {
-            VectorDrawableCompat.create(resources, iconId, context.theme)
-        }?.apply {
-            setTintList(ColorStateList.valueOf(Color.WHITE))
+            VectorDrawableCompat.create(resources, iconId, context.theme)?.apply {
+                setTintList(ColorStateList.valueOf(Color.WHITE))
+            }
         }
     }
 
-    inner class Arc(
+    private inner class Arc(
         val color: Int,
-        val drawable: VectorDrawableCompat? = null,
+        val drawable: Drawable? = null,
         val startAngle: Float,
         val sweepAngle: Float
     )
