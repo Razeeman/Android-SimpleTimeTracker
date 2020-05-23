@@ -7,6 +7,7 @@ import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 data class StatisticsViewData(
     var name: String,
     var duration: String,
+    var percent: String,
     @DrawableRes val iconId: Int,
     @ColorInt val color: Int
 ) : ViewHolderType {

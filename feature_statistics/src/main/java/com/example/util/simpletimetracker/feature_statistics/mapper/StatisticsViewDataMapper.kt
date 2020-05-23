@@ -27,11 +27,14 @@ class StatisticsViewDataMapper @Inject constructor(
             .map { it.id to it }
             .toMap()
 
+        val sumDuration = statistics.map(Statistics::duration).sum()
+
         return statistics
             .sortedByDescending { it.duration }
             .mapNotNull {
                 map(
                     statistics = it,
+                    sumDuration = sumDuration,
                     recordType = recordTypesMap[it.typeId] ?: return@mapNotNull null
                 )
             }
@@ -64,11 +67,14 @@ class StatisticsViewDataMapper @Inject constructor(
 
     private fun map(
         statistics: Statistics,
+        sumDuration: Long,
         recordType: RecordType
     ): StatisticsViewData {
+        val durationPercent = (statistics.duration * 100 / sumDuration)
         return StatisticsViewData(
             name = recordType.name,
             duration = statistics.duration.let(timeMapper::formatInterval),
+            percent = "$durationPercent%",
             iconId = recordType.icon
                 .let(iconMapper::mapToDrawableResId),
             color = recordType.color
