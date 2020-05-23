@@ -1,12 +1,9 @@
 package com.example.util.simpletimetracker.feature_change_record.view
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
+import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.extension.*
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_change_record.R
@@ -23,7 +20,9 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import kotlinx.android.synthetic.main.change_record_fragment.*
 
-class ChangeRecordFragment : Fragment(), DateTimeListener {
+class ChangeRecordFragment : BaseFragment(), DateTimeListener {
+
+    override val layoutId: Int = R.layout.change_record_fragment
 
     private val viewModel: ChangeRecordViewModel by viewModels(
         factoryProducer = {
@@ -33,28 +32,19 @@ class ChangeRecordFragment : Fragment(), DateTimeListener {
             )
         }
     )
+
     private val typesAdapter: ChangeRecordAdapter by lazy {
         ChangeRecordAdapter(viewModel::onTypeClick)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        return inflater.inflate(
-            R.layout.change_record_fragment,
-            container,
-            false
-        )
+    override fun initDi() {
+        val component = (activity?.application as ChangeRecordComponentProvider)
+            .changeRecordComponent
+
+        component?.inject(viewModel)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        (activity?.application as ChangeRecordComponentProvider)
-            .changeRecordComponent?.inject(viewModel)
-
+    override fun initUi() {
         rvChangeRecordType.apply {
             layoutManager = FlexboxLayoutManager(requireContext()).apply {
                 flexDirection = FlexDirection.ROW
@@ -63,30 +53,29 @@ class ChangeRecordFragment : Fragment(), DateTimeListener {
             }
             adapter = typesAdapter
         }
+    }
 
-        viewModel.deleteIconVisibility
-            .observeOnce(viewLifecycleOwner, btnChangeRecordDelete::visible::set)
-        viewModel.record
-            .observe(viewLifecycleOwner, ::updatePreview)
-        viewModel.types
-            .observe(viewLifecycleOwner, typesAdapter::replace)
-        viewModel.saveButtonEnabled
-            .observe(viewLifecycleOwner, btnChangeRecordSave::setEnabled)
-        viewModel.deleteButtonEnabled
-            .observe(viewLifecycleOwner, btnChangeRecordDelete::setEnabled)
-        viewModel.flipTypesChooser
-            .observe(viewLifecycleOwner) { opened ->
-                rvChangeRecordType.visible = opened
-                arrowChangeRecordType.apply {
-                    if (opened) rotateDown() else rotateUp()
-                }
-            }
-
+    override fun initUx() {
         fieldChangeRecordType.setOnClick(viewModel::onTypeChooserClick)
         fieldChangeRecordTimeStarted.setOnClick(viewModel::onTimeStartedClick)
         fieldChangeRecordTimeEnded.setOnClick(viewModel::onTimeEndedClick)
         btnChangeRecordSave.setOnClick(viewModel::onSaveClick)
         btnChangeRecordDelete.setOnClick(viewModel::onDeleteClick)
+    }
+
+    override fun initViewModel() = with(viewModel) {
+        deleteIconVisibility.observeOnce(viewLifecycleOwner, btnChangeRecordDelete::visible::set)
+        record.observe(viewLifecycleOwner, ::updatePreview)
+        types.observe(viewLifecycleOwner, typesAdapter::replace)
+        saveButtonEnabled.observe(viewLifecycleOwner, btnChangeRecordSave::setEnabled)
+        deleteButtonEnabled.observe(viewLifecycleOwner, btnChangeRecordDelete::setEnabled)
+        flipTypesChooser.observe(viewLifecycleOwner) { opened ->
+            rvChangeRecordType.visible = opened
+            arrowChangeRecordType.apply {
+                if (opened) rotateDown() else rotateUp()
+            }
+        }
+        Unit
     }
 
     override fun onDateTimeSet(timestamp: Long, tag: String?) {

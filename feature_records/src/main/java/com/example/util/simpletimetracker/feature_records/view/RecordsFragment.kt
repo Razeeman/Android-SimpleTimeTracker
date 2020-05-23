@@ -1,13 +1,10 @@
 package com.example.util.simpletimetracker.feature_records.view
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_records.R
 import com.example.util.simpletimetracker.feature_records.adapter.RecordAdapter
@@ -17,7 +14,9 @@ import com.example.util.simpletimetracker.feature_records.viewModel.RecordsViewM
 import com.example.util.simpletimetracker.navigation.params.RecordsParams
 import kotlinx.android.synthetic.main.records_fragment.*
 
-class RecordsFragment : Fragment() {
+class RecordsFragment : BaseFragment() {
+
+    override val layoutId: Int = R.layout.records_fragment
 
     private val viewModel: RecordsViewModel by viewModels(
         factoryProducer = {
@@ -33,32 +32,22 @@ class RecordsFragment : Fragment() {
         )
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        return inflater.inflate(
-            R.layout.records_fragment,
-            container,
-            false
-        )
+    override fun initDi() {
+        val component = (activity?.application as RecordsComponentProvider)
+            .recordsComponent
+
+        component?.inject(viewModel)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
+    override fun initUi() {
         rvRecordsList.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = recordsAdapter
         }
+    }
 
-        (activity?.application as RecordsComponentProvider)
-            .recordsComponent?.inject(viewModel)
-
-        viewModel.records.observe(viewLifecycleOwner) {
-            recordsAdapter.replace(it)
-        }
+    override fun initViewModel() {
+        viewModel.records.observe(viewLifecycleOwner, recordsAdapter::replace)
     }
 
     override fun onResume() {

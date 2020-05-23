@@ -1,13 +1,10 @@
 package com.example.util.simpletimetracker.feature_change_record_type.view
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.core.widget.doAfterTextChanged
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
+import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.extension.*
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_change_record_type.R
@@ -23,7 +20,9 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import kotlinx.android.synthetic.main.change_record_type_fragment.*
 
-class ChangeRecordTypeFragment : Fragment() {
+class ChangeRecordTypeFragment : BaseFragment() {
+
+    override val layoutId: Int = R.layout.change_record_type_fragment
 
     private val viewModel: ChangeRecordTypeViewModel by viewModels(
         factoryProducer = {
@@ -39,24 +38,14 @@ class ChangeRecordTypeFragment : Fragment() {
         ChangeRecordTypeAdapter(viewModel::onColorClick, viewModel::onIconClick)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        return inflater.inflate(
-            R.layout.change_record_type_fragment,
-            container,
-            false
-        )
+    override fun initDi() {
+        val component = (activity?.application as ChangeRecordTypeComponentProvider)
+            .changeRecordTypeComponent
+
+        component?.inject(viewModel)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        (activity?.application as ChangeRecordTypeComponentProvider)
-            .changeRecordTypeComponent?.inject(viewModel)
-
+    override fun initUi() {
         rvChangeRecordTypeColor.apply {
             layoutManager = FlexboxLayoutManager(requireContext()).apply {
                 flexDirection = FlexDirection.ROW
@@ -74,48 +63,44 @@ class ChangeRecordTypeFragment : Fragment() {
             }
             adapter = iconsAdapter
         }
+    }
 
-        viewModel.deleteIconVisibility
-            .observeOnce(viewLifecycleOwner, btnChangeRecordTypeDelete::visible::set)
-        viewModel.saveButtonEnabled
-            .observe(viewLifecycleOwner, btnChangeRecordTypeSave::setEnabled)
-        viewModel.deleteButtonEnabled
-            .observe(viewLifecycleOwner, btnChangeRecordTypeDelete::setEnabled)
-        viewModel.recordType
-            .observeOnce(viewLifecycleOwner, ::updateUi)
-        viewModel.recordType
-            .observe(viewLifecycleOwner, ::updatePreview)
-        viewModel.colors
-            .observe(viewLifecycleOwner, colorsAdapter::replace)
-        viewModel.icons
-            .observe(viewLifecycleOwner, iconsAdapter::replace)
-        viewModel.flipColorChooser
-            .observe(viewLifecycleOwner) { opened ->
-                rvChangeRecordTypeColor.visible = opened
-                arrowChangeRecordTypeColor.apply {
-                    if (opened) rotateDown() else rotateUp()
-                }
-            }
-        viewModel.flipIconChooser
-            .observe(viewLifecycleOwner) { opened ->
-                rvChangeRecordTypeIcon.visible = opened
-                arrowChangeRecordTypeIcon.apply {
-                    if (opened) rotateDown() else rotateUp()
-                }
-            }
-        viewModel.keyboardVisibility
-            .observe(viewLifecycleOwner) { visible ->
-                if (visible) showKeyboard(etChangeRecordTypeName) else hideKeyboard()
-            }
-
+    override fun initUx() {
         etChangeRecordTypeName.doAfterTextChanged {
             viewModel.onNameChange(it.toString())
         }
-
         fieldChangeRecordTypeColor.setOnClick(viewModel::onColorChooserClick)
         fieldChangeRecordTypeIcon.setOnClick(viewModel::onIconChooserClick)
         btnChangeRecordTypeSave.setOnClick(viewModel::onSaveClick)
         btnChangeRecordTypeDelete.setOnClick(viewModel::onDeleteClick)
+    }
+
+    override fun initViewModel() = with(viewModel) {
+        deleteIconVisibility.observeOnce(
+            viewLifecycleOwner, btnChangeRecordTypeDelete::visible::set
+        )
+        saveButtonEnabled.observe(viewLifecycleOwner, btnChangeRecordTypeSave::setEnabled)
+        deleteButtonEnabled.observe(viewLifecycleOwner, btnChangeRecordTypeDelete::setEnabled)
+        recordType.observeOnce(viewLifecycleOwner, ::updateUi)
+        recordType.observe(viewLifecycleOwner, ::updatePreview)
+        colors.observe(viewLifecycleOwner, colorsAdapter::replace)
+        icons.observe(viewLifecycleOwner, iconsAdapter::replace)
+        flipColorChooser.observe(viewLifecycleOwner) { opened ->
+            rvChangeRecordTypeColor.visible = opened
+            arrowChangeRecordTypeColor.apply {
+                if (opened) rotateDown() else rotateUp()
+            }
+        }
+        flipIconChooser.observe(viewLifecycleOwner) { opened ->
+            rvChangeRecordTypeIcon.visible = opened
+            arrowChangeRecordTypeIcon.apply {
+                if (opened) rotateDown() else rotateUp()
+            }
+        }
+        keyboardVisibility.observe(viewLifecycleOwner) { visible ->
+            if (visible) showKeyboard(etChangeRecordTypeName) else hideKeyboard()
+        }
+        Unit
     }
 
     private fun updateUi(item: ChangeRecordTypeViewData) {

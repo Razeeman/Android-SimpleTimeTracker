@@ -1,12 +1,8 @@
 package com.example.util.simpletimetracker.feature_records.view
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
+import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.core.extension.setOnLongClick
 import com.example.util.simpletimetracker.feature_records.R
@@ -15,39 +11,35 @@ import com.example.util.simpletimetracker.feature_records.di.RecordsComponentPro
 import com.example.util.simpletimetracker.feature_records.viewModel.RecordsContainerViewModel
 import kotlinx.android.synthetic.main.records_container_fragment.*
 
-class RecordsContainerFragment : Fragment() {
+class RecordsContainerFragment : BaseFragment() {
+
+    override val layoutId: Int = R.layout.records_container_fragment
 
     private val viewModel: RecordsContainerViewModel by viewModels()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        return inflater.inflate(
-            R.layout.records_container_fragment,
-            container,
-            false
-        )
+    override fun initDi() {
+        val component = (activity?.application as RecordsComponentProvider)
+            .recordsComponent
+
+        component?.inject(viewModel)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        (activity?.application as RecordsComponentProvider)
-            .recordsComponent?.inject(viewModel)
-
+    override fun initUi() {
         setupPager()
+    }
 
-        viewModel.title.observe(viewLifecycleOwner, ::updateTitle)
-        viewModel.position.observe(viewLifecycleOwner) {
-            pagerRecordsContainer.currentItem = it + RecordsContainerAdapter.FIRST
-        }
-
+    override fun initUx() {
         btnRecordAdd.setOnClick(viewModel::onRecordAddClick)
         btnRecordsContainerPrevious.setOnClick(viewModel::onPreviousClick)
         btnRecordsContainerNext.setOnClick(viewModel::onNextClick)
         btnRecordsContainerToday.setOnLongClick(viewModel::onTodayClick)
+    }
+
+    override fun initViewModel() {
+        viewModel.title.observe(viewLifecycleOwner, ::updateTitle)
+        viewModel.position.observe(viewLifecycleOwner) {
+            pagerRecordsContainer.currentItem = it + RecordsContainerAdapter.FIRST
+        }
     }
 
     private fun setupPager() {

@@ -1,13 +1,9 @@
 package com.example.util.simpletimetracker.feature_running_records.view
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.feature_running_records.R
 import com.example.util.simpletimetracker.feature_running_records.adapter.recordType.RecordTypeAdapter
 import com.example.util.simpletimetracker.feature_running_records.adapter.runningRecord.RunningRecordAdapter
@@ -19,7 +15,9 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import kotlinx.android.synthetic.main.running_records_fragment.*
 
-class RunningRecordsFragment : Fragment() {
+class RunningRecordsFragment : BaseFragment() {
+
+    override val layoutId: Int = R.layout.running_records_fragment
 
     private val viewModel: RunningRecordsViewModel by viewModels()
     private val runningRecordsAdapter: RunningRecordAdapter by lazy {
@@ -35,21 +33,14 @@ class RunningRecordsFragment : Fragment() {
         )
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        return inflater.inflate(
-            R.layout.running_records_fragment,
-            container,
-            false
-        )
+    override fun initDi() {
+        val component = (activity?.application as RunningRecordsComponentProvider)
+            .runningRecordsComponent
+
+        component?.inject(viewModel)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
+    override fun initUi() {
         rvRunningRecordsList.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = runningRecordsAdapter
@@ -63,17 +54,11 @@ class RunningRecordsFragment : Fragment() {
             }
             adapter = recordTypesAdapter
         }
+    }
 
-        (activity?.application as RunningRecordsComponentProvider)
-            .runningRecordsComponent?.inject(viewModel)
-
-        viewModel.recordTypes.observe(viewLifecycleOwner) {
-            recordTypesAdapter.replace(it)
-        }
-
-        viewModel.runningRecords.observe(viewLifecycleOwner) {
-            runningRecordsAdapter.replace(it)
-        }
+    override fun initViewModel() {
+        viewModel.recordTypes.observe(viewLifecycleOwner, recordTypesAdapter::replace)
+        viewModel.runningRecords.observe(viewLifecycleOwner, runningRecordsAdapter::replace)
     }
 
     override fun onResume() {

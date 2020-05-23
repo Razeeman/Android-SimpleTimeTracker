@@ -1,12 +1,8 @@
 package com.example.util.simpletimetracker.feature_statistics.view
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
+import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.extension.flipVisibility
 import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.core.extension.setOnLongClick
@@ -18,33 +14,21 @@ import com.example.util.simpletimetracker.feature_statistics.viewData.RangeLengt
 import com.example.util.simpletimetracker.feature_statistics.viewModel.StatisticsContainerViewModel
 import kotlinx.android.synthetic.main.statistics_container_fragment.*
 
-class StatisticsContainerFragment : Fragment() {
+class StatisticsContainerFragment : BaseFragment() {
+
+    override val layoutId: Int = R.layout.statistics_container_fragment
 
     private val viewModel: StatisticsContainerViewModel by viewModels()
     private var adapter: StatisticsContainerAdapter? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        return inflater.inflate(
-            R.layout.statistics_container_fragment,
-            container,
-            false
-        )
+    override fun initDi() {
+        val component = (activity?.application as StatisticsComponentProvider)
+            .statisticsComponent
+
+        component?.inject(viewModel)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        (activity?.application as StatisticsComponentProvider)
-            .statisticsComponent?.inject(viewModel)
-
-        viewModel.title.observe(viewLifecycleOwner, ::updateTitle)
-        viewModel.rangeLength.observe(viewLifecycleOwner, ::updateRange)
-        viewModel.position.observe(viewLifecycleOwner, ::updatePosition)
-
+    override fun initUx() {
         btnStatisticsContainerPrevious.setOnClick(viewModel::onPreviousClick)
         btnStatisticsContainerNext.setOnClick(viewModel::onNextClick)
         btnStatisticsContainerToday.setOnClick(layoutStatisticsContainerButtons::flipVisibility)
@@ -54,6 +38,12 @@ class StatisticsContainerFragment : Fragment() {
         btnStatisticsContainerRange2.setOnClick { viewModel.onRangeClick(2) }
         btnStatisticsContainerRange3.setOnClick { viewModel.onRangeClick(3) }
         btnStatisticsContainerRange4.setOnClick { viewModel.onRangeClick(4) }
+    }
+
+    override fun initViewModel() {
+        viewModel.title.observe(viewLifecycleOwner, ::updateTitle)
+        viewModel.rangeLength.observe(viewLifecycleOwner, ::updateRange)
+        viewModel.position.observe(viewLifecycleOwner, ::updatePosition)
     }
 
     private fun setupPager(rangeLength: RangeLength) {

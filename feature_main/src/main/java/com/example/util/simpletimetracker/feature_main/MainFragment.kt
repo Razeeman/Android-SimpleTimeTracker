@@ -1,18 +1,16 @@
 package com.example.util.simpletimetracker.feature_main
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
-import androidx.fragment.app.Fragment
+import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.main_fragment.*
 
-class MainFragment : Fragment() {
+class MainFragment : BaseFragment() {
+
+    override val layoutId: Int = R.layout.main_fragment
 
     private val selectedColorFilter by lazy {
         BlendModeColorFilterCompat
@@ -30,16 +28,7 @@ class MainFragment : Fragment() {
             )
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        return inflater.inflate(R.layout.main_fragment, container, false)
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun initUi() {
         setupPager()
     }
 
