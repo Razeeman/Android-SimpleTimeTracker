@@ -57,11 +57,29 @@ class TimeMapper @Inject constructor(
             -1 -> resourceRepo.getString(R.string.title_yesterday)
             0 -> resourceRepo.getString(R.string.title_today)
             1 -> resourceRepo.getString(R.string.title_tomorrow)
-            else -> toDateTitle(daysFromToday)
+            else -> toDayDateTitle(daysFromToday)
         }
     }
 
-    private fun toDateTitle(daysFromToday: Int): String {
+    fun toWeekTitle(weeksFromToday: Int): String {
+        return when (weeksFromToday) {
+            -1 -> resourceRepo.getString(R.string.title_prev_week)
+            0 -> resourceRepo.getString(R.string.title_this_week)
+            1 -> resourceRepo.getString(R.string.title_next_week)
+            else -> toWeekDateTitle(weeksFromToday)
+        }
+    }
+
+    fun toMonthTitle(monthsFromToday: Int): String {
+        return when (monthsFromToday) {
+            -1 -> resourceRepo.getString(R.string.title_prev_month)
+            0 -> resourceRepo.getString(R.string.title_this_month)
+            1 -> resourceRepo.getString(R.string.title_next_month)
+            else -> toMonthDateTitle(monthsFromToday)
+        }
+    }
+
+    private fun toDayDateTitle(daysFromToday: Int): String {
         val calendar = Calendar.getInstance().apply {
             timeInMillis = System.currentTimeMillis()
             set(Calendar.HOUR_OF_DAY, 0)
@@ -72,6 +90,34 @@ class TimeMapper @Inject constructor(
         }
 
         return SimpleDateFormat("E, MMMM d", Locale.US)
+            .format(Date(calendar.timeInMillis))
+    }
+
+    private fun toWeekDateTitle(weeksFromToday: Int): String {
+        val calendar = Calendar.getInstance().apply {
+            timeInMillis = System.currentTimeMillis()
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+            set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+            add(Calendar.DATE, weeksFromToday * 7)
+        }
+        val rangeStart = calendar.timeInMillis
+        val rangeEnd = calendar.apply { add(Calendar.DATE, 7) }.timeInMillis
+
+        return SimpleDateFormat("MMM d", Locale.US).format(Date(rangeStart)) +
+                " - " + SimpleDateFormat("MMM d", Locale.US).format(Date(rangeEnd))
+
+    }
+
+    private fun toMonthDateTitle(monthsFromToday: Int): String {
+        val calendar = Calendar.getInstance().apply {
+            timeInMillis = System.currentTimeMillis()
+            add(Calendar.MONTH, monthsFromToday)
+        }
+
+        return SimpleDateFormat("MMMM", Locale.US)
             .format(Date(calendar.timeInMillis))
     }
 }

@@ -58,4 +58,56 @@
         app:layout_constraintStart_toEndOf="@id/btnStatisticsContainerToday"
         app:layout_constraintTop_toTopOf="@id/btnStatisticsContainerToday" />
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/layoutStatisticsContainerButtons"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:cardBackgroundColor="@color/colorPrimary"
+        app:cardCornerRadius="4dp"
+        app:layout_constraintBottom_toTopOf="@id/btnStatisticsContainerToday"
+        app:layout_constraintEnd_toEndOf="@id/btnStatisticsContainerToday"
+        app:layout_constraintStart_toStartOf="@id/btnStatisticsContainerToday"
+        tools:visibility="visible">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnStatisticsContainerRange4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/title_overall"
+                app:cornerRadius="0dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnStatisticsContainerRange3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-9dp"
+                android:text="@string/title_this_month"
+                app:cornerRadius="0dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnStatisticsContainerRange2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-9dp"
+                android:text="@string/title_this_week"
+                app:cornerRadius="0dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnStatisticsContainerRange1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-9dp"
+                android:text="@string/title_today"
+                app:cornerRadius="0dp" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.cardview.widget.CardView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

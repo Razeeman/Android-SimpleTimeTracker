@@ -13,6 +13,10 @@ var View.visible: Boolean
         return visibility == View.VISIBLE
     }
 
+fun View.flipVisibility() {
+    visibility = if (visibility == View.VISIBLE) View.GONE else View.VISIBLE
+}
+
 fun View.rotate(from: Float, to: Float, duration: Long = 300) {
     ObjectAnimator.ofFloat(this, "rotation", from, to).apply {
         this.duration = duration
@@ -30,7 +34,13 @@ fun View.rotateUp() {
     this.rotate(from = 180f, to = 360f)
 }
 
-// TODO setOnClick
+fun View.setOnClick(listener: (() -> Unit)) {
+    setOnClickListener { listener.invoke() }
+}
+
+fun View.setOnLongClick(listener: (() -> Unit)) {
+    setOnLongClickListener { listener.invoke(); true }
+}
 
 fun TabLayout.onTabSelected(func: (TabLayout.Tab) -> Unit) {
     this.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {

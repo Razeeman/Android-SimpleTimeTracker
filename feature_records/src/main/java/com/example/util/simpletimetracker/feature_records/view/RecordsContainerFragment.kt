@@ -53,8 +53,9 @@ class RecordsContainerFragment : Fragment() {
             viewModel.onPreviousClick()
         }
 
-        btnRecordsContainerToday.setOnClickListener {
+        btnRecordsContainerToday.setOnLongClickListener {
             viewModel.onTodayClick()
+            true
         }
 
         btnRecordsContainerNext.setOnClickListener {
