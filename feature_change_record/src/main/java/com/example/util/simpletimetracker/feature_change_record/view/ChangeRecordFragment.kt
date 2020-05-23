@@ -31,7 +31,8 @@ class ChangeRecordFragment : Fragment(), DateTimeListener {
     private val viewModel: ChangeRecordViewModel by viewModels(
         factoryProducer = {
             ChangeRecordViewModelFactory(
-                arguments?.getLong(ARGS_RECORD_ID).orZero()
+                id = arguments?.getLong(ARGS_RECORD_ID).orZero(),
+                daysFromToday = arguments?.getInt(ARGS_DAYS_FROM_TODAY).orZero()
             )
         }
     )
@@ -124,16 +125,20 @@ class ChangeRecordFragment : Fragment(), DateTimeListener {
             timeEnded = item.timeFinished
             duration = item.duration
         }
-        tvChangeRecordTimeStarted.text = item.timeStarted
-        tvChangeRecordTimeEnded.text = item.timeFinished
+        tvChangeRecordTimeStarted.text = item.dateTimeStarted
+        tvChangeRecordTimeEnded.text = item.dateTimeFinished
     }
 
     companion object {
-        private const val ARGS_RECORD_ID = "record_id"
+        private const val ARGS_RECORD_ID = "args_record_id"
+        private const val ARGS_DAYS_FROM_TODAY = "args_days_from_today"
 
         fun createBundle(data: Any?): Bundle = Bundle().apply {
             when (data) {
-                is ChangeRecordParams -> putLong(ARGS_RECORD_ID, data.id)
+                is ChangeRecordParams -> {
+                    putLong(ARGS_RECORD_ID, data.id)
+                    putInt(ARGS_DAYS_FROM_TODAY, data.daysFromToday)
+                }
             }
         }
     }

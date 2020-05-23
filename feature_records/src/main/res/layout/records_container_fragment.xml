@@ -9,9 +9,21 @@
         android:id="@+id/pagerRecordsContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="4dp"
         app:layout_constraintBottom_toTopOf="@id/btnRecordsContainerToday"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnRecordAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/ic_add"
+        app:backgroundTint="@color/blue_grey_300"
+        app:fabSize="normal"
+        app:layout_constraintBottom_toTopOf="@id/btnRecordsContainerToday"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="@color/white" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnRecordsContainerPrevious"

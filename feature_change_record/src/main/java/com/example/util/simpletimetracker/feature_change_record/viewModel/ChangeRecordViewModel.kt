@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.extension.flip
 import com.example.util.simpletimetracker.domain.extension.orTrue
@@ -24,7 +25,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ChangeRecordViewModel(
-    private val id: Long
+    private val id: Long,
+    private val daysFromToday: Int
 ) : ViewModel() {
 
     @Inject
@@ -33,6 +35,8 @@ class ChangeRecordViewModel(
     lateinit var recordInteractor: RecordInteractor
     @Inject
     lateinit var recordTypeInteractor: RecordTypeInteractor
+    @Inject
+    lateinit var timeMapper: TimeMapper
     @Inject
     lateinit var changeRecordViewDataMapper: ChangeRecordViewDataMapper
     @Inject
@@ -60,8 +64,8 @@ class ChangeRecordViewModel(
     val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
 
     private var newTypeId: Long = 0
-    private var newTimeStarted: Long = System.currentTimeMillis() - 1000 * 60 * 60
-    private var newTimeEnded: Long = System.currentTimeMillis()
+    private var newTimeEnded: Long = 0
+    private var newTimeStarted: Long = 0
 
     fun onTypeChooserClick() {
         (flipTypesChooser as MutableLiveData).value = flipTypesChooser.value
@@ -147,6 +151,10 @@ class ChangeRecordViewModel(
         }
     }
 
+    private fun getInitialDate(): Long {
+        return timeMapper.toTimestampShifted(daysFromToday)
+    }
+
     private suspend fun updatePreview() {
         (record as MutableLiveData).value = loadPreviewViewData()
     }
@@ -158,6 +166,9 @@ class ChangeRecordViewModel(
                 newTimeStarted = record.timeStarted
                 newTimeEnded = record.timeEnded
             }
+        } else {
+            newTimeEnded = getInitialDate()
+            newTimeStarted = newTimeEnded - ONE_HOUR
         }
     }
 
@@ -180,5 +191,7 @@ class ChangeRecordViewModel(
     companion object {
         private const val TIME_STARTED_TAG = "time_started_tag"
         private const val TIME_ENDED_TAG = "time_ended_tag"
+
+        private const val ONE_HOUR: Int = 60 * 60 * 1000
     }
 }

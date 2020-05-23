@@ -7,6 +7,8 @@ data class ChangeRecordViewData(
     var name: String,
     var timeStarted: String,
     var timeFinished: String,
+    var dateTimeStarted: String,
+    var dateTimeFinished: String,
     var duration: String,
     @DrawableRes val iconId: Int,
     @ColorInt val color: Int

@@ -45,6 +45,10 @@ class RecordsContainerFragment : Fragment() {
             pagerRecordsContainer.currentItem = it + RecordsContainerAdapter.FIRST
         }
 
+        btnRecordAdd.setOnClickListener {
+            viewModel.onRecordAddClick()
+        }
+
         btnRecordsContainerPrevious.setOnClickListener {
             viewModel.onPreviousClick()
         }

@@ -31,8 +31,8 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:duration="5h 23m 3s"
         tools:name="Name"
-        tools:timeEnded="15.02.2020 11:58"
-        tools:timeStarted="15.02.2020 07:35" />
+        tools:timeEnded="11:58"
+        tools:timeStarted="07:35" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/fieldChangeRecordTimeStarted"

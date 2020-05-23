@@ -13,6 +13,10 @@ class TimeMapper @Inject constructor(
 ) {
 
     fun formatTime(time: Long): String {
+        return DateFormat.getTimeInstance().format(Date(time))
+    }
+
+    fun formatDateTime(time: Long): String {
         return DateFormat.getDateTimeInstance().format(Date(time))
     }
 
@@ -33,6 +37,19 @@ class TimeMapper @Inject constructor(
         res += "${sec}s"
 
         return res
+    }
+
+    fun toTimestampShifted(daysFromToday: Int): Long {
+        return if (daysFromToday != 0) {
+            Calendar.getInstance()
+                .apply {
+                    timeInMillis = System.currentTimeMillis()
+                    add(Calendar.DATE, daysFromToday)
+                }
+                .timeInMillis
+        } else {
+            return System.currentTimeMillis()
+        }
     }
 
     fun toDayTitle(daysFromToday: Int): String {

@@ -44,10 +44,6 @@ class RecordsViewModel(
         router.navigate(Screen.CHANGE_RECORD, ChangeRecordParams(item.id))
     }
 
-    fun onRecordAddClick() {
-        router.navigate(screen = Screen.CHANGE_RECORD)
-    }
-
     fun onVisible() {
         viewModelScope.launch {
             updateRecords()

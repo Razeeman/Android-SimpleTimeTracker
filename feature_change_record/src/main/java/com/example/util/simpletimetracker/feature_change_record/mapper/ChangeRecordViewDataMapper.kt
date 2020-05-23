@@ -26,6 +26,12 @@ class ChangeRecordViewDataMapper @Inject constructor(
             timeFinished = record?.timeEnded
                 ?.let(timeMapper::formatTime)
                 .orEmpty(),
+            dateTimeStarted = record?.timeStarted
+                ?.let(timeMapper::formatDateTime)
+                .orEmpty(),
+            dateTimeFinished = record?.timeEnded
+                ?.let(timeMapper::formatDateTime)
+                .orEmpty(),
             duration = record
                 ?.let { it.timeEnded - it.timeStarted }
                 ?.let(timeMapper::formatInterval)

@@ -5,10 +5,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.navigation.Router
+import com.example.util.simpletimetracker.navigation.Screen
+import com.example.util.simpletimetracker.navigation.params.ChangeRecordParams
 import javax.inject.Inject
 
 class RecordsContainerViewModel : ViewModel() {
 
+    @Inject
+    lateinit var router: Router
     @Inject
     lateinit var timeMapper: TimeMapper
 
@@ -18,6 +23,13 @@ class RecordsContainerViewModel : ViewModel() {
 
     val position: LiveData<Int> by lazy {
         return@lazy MutableLiveData(0)
+    }
+
+    fun onRecordAddClick() {
+        router.navigate(
+            Screen.CHANGE_RECORD,
+            ChangeRecordParams(daysFromToday = position.value.orZero())
+        )
     }
 
     fun onPreviousClick() {
