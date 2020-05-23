@@ -20,9 +20,7 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import kotlinx.android.synthetic.main.change_record_type_fragment.*
 
-class ChangeRecordTypeFragment : BaseFragment() {
-
-    override val layoutId: Int = R.layout.change_record_type_fragment
+class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragment) {
 
     private val viewModel: ChangeRecordTypeViewModel by viewModels(
         factoryProducer = {

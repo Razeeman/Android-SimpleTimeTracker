@@ -14,9 +14,7 @@ import com.example.util.simpletimetracker.feature_statistics.viewModel.Statistic
 import com.example.util.simpletimetracker.navigation.params.StatisticsParams
 import kotlinx.android.synthetic.main.statistics_fragment.*
 
-class StatisticsFragment : BaseFragment() {
-
-    override val layoutId: Int = R.layout.statistics_fragment
+class StatisticsFragment : BaseFragment(R.layout.statistics_fragment) {
 
     private val viewModel: StatisticsViewModel by viewModels(
         factoryProducer = {

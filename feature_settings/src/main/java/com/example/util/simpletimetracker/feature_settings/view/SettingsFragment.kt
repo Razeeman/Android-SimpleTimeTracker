@@ -14,10 +14,8 @@ import com.example.util.simpletimetracker.navigation.RequestCode.REQUEST_CODE_CR
 import com.example.util.simpletimetracker.navigation.RequestCode.REQUEST_CODE_OPEN_FILE
 import kotlinx.android.synthetic.main.settings_fragment.*
 
-class SettingsFragment : BaseFragment(),
+class SettingsFragment : BaseFragment(R.layout.settings_fragment),
     StandardDialogListener {
-
-    override val layoutId: Int = R.layout.settings_fragment
 
     private val viewModel: SettingsViewModel by viewModels()
 

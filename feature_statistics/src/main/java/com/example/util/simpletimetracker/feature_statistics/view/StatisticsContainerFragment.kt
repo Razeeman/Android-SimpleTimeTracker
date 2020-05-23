@@ -14,9 +14,7 @@ import com.example.util.simpletimetracker.feature_statistics.viewData.RangeLengt
 import com.example.util.simpletimetracker.feature_statistics.viewModel.StatisticsContainerViewModel
 import kotlinx.android.synthetic.main.statistics_container_fragment.*
 
-class StatisticsContainerFragment : BaseFragment() {
-
-    override val layoutId: Int = R.layout.statistics_container_fragment
+class StatisticsContainerFragment : BaseFragment(R.layout.statistics_container_fragment) {
 
     private val viewModel: StatisticsContainerViewModel by viewModels()
     private var adapter: StatisticsContainerAdapter? = null

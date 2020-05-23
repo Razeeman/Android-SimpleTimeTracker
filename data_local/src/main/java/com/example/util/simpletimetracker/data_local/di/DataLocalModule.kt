@@ -41,7 +41,6 @@ class DataLocalModule {
         return database.recordDao()
     }
 
-    // TODO binds?
     @Provides
     fun getRecordRepo(recordRepoImpl: RecordRepoImpl): RecordRepo {
         return recordRepoImpl
@@ -58,7 +57,6 @@ class DataLocalModule {
         return database.recordTypeDao()
     }
 
-    // TODO binds?
     @Provides
     fun getRecordTypeRepo(recordTypeRepoImpl: RecordTypeRepoImpl): RecordTypeRepo {
         return recordTypeRepoImpl
@@ -70,7 +68,6 @@ class DataLocalModule {
         return database.runningRecordDao()
     }
 
-    // TODO binds?
     @Provides
     fun getRunningRecordRepo(runningRecordRepoImpl: RunningRecordRepoImpl): RunningRecordRepo {
         return runningRecordRepoImpl

@@ -15,9 +15,7 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import kotlinx.android.synthetic.main.running_records_fragment.*
 
-class RunningRecordsFragment : BaseFragment() {
-
-    override val layoutId: Int = R.layout.running_records_fragment
+class RunningRecordsFragment : BaseFragment(R.layout.running_records_fragment) {
 
     private val viewModel: RunningRecordsViewModel by viewModels()
     private val runningRecordsAdapter: RunningRecordAdapter by lazy {

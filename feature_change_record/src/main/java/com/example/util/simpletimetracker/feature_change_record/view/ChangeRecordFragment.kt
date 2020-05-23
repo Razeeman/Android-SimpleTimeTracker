@@ -20,10 +20,8 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import kotlinx.android.synthetic.main.change_record_fragment.*
 
-class ChangeRecordFragment : BaseFragment(),
+class ChangeRecordFragment : BaseFragment(R.layout.change_record_fragment),
     DateTimeDialogListener {
-
-    override val layoutId: Int = R.layout.change_record_fragment
 
     private val viewModel: ChangeRecordViewModel by viewModels(
         factoryProducer = {

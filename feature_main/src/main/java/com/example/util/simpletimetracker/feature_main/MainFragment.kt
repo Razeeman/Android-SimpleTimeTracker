@@ -8,9 +8,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.main_fragment.*
 
-class MainFragment : BaseFragment() {
-
-    override val layoutId: Int = R.layout.main_fragment
+class MainFragment : BaseFragment(R.layout.main_fragment) {
 
     private val selectedColorFilter by lazy {
         BlendModeColorFilterCompat

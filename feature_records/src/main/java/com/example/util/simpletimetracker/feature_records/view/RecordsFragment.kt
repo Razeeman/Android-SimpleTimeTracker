@@ -14,9 +14,7 @@ import com.example.util.simpletimetracker.feature_records.viewModel.RecordsViewM
 import com.example.util.simpletimetracker.navigation.params.RecordsParams
 import kotlinx.android.synthetic.main.records_fragment.*
 
-class RecordsFragment : BaseFragment() {
-
-    override val layoutId: Int = R.layout.records_fragment
+class RecordsFragment : BaseFragment(R.layout.records_fragment) {
 
     private val viewModel: RecordsViewModel by viewModels(
         factoryProducer = {
