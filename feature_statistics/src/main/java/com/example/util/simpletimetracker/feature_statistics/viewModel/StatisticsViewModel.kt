@@ -5,26 +5,21 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
-import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
+import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.StatisticsInteractor
+import com.example.util.simpletimetracker.feature_statistics.extra.StatisticsExtra
 import com.example.util.simpletimetracker.feature_statistics.mapper.StatisticsViewDataMapper
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class StatisticsViewModel(
-    private val start: Long,
-    private val end: Long
+class StatisticsViewModel @Inject constructor(
+    private var recordTypeInteractor: RecordTypeInteractor,
+    private var statisticsInteractor: StatisticsInteractor,
+    private var statisticsViewDataMapper: StatisticsViewDataMapper
 ) : ViewModel() {
 
-    @Inject
-    lateinit var recordInteractor: RecordInteractor
-    @Inject
-    lateinit var recordTypeInteractor: RecordTypeInteractor
-    @Inject
-    lateinit var statisticsInteractor: StatisticsInteractor
-    @Inject
-    lateinit var statisticsViewDataMapper: StatisticsViewDataMapper
+    var extra: StatisticsExtra? = null
 
     val statistics: LiveData<List<ViewHolderType>> by lazy {
         return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
@@ -44,8 +39,8 @@ class StatisticsViewModel(
     }
 
     private suspend fun loadStatisticsViewData(): List<ViewHolderType> {
-        val statistics = if (start != 0L && end != 0L) {
-            statisticsInteractor.getFromRange(start, end)
+        val statistics = if (extra?.start.orZero() != 0L && extra?.end.orZero() != 0L) {
+            statisticsInteractor.getFromRange(extra?.start.orZero(), extra?.end.orZero())
         } else {
             statisticsInteractor.getAll()
         }

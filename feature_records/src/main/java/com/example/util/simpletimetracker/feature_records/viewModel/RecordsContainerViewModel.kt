@@ -10,12 +10,10 @@ import com.example.util.simpletimetracker.navigation.Screen
 import com.example.util.simpletimetracker.navigation.params.ChangeRecordParams
 import javax.inject.Inject
 
-class RecordsContainerViewModel : ViewModel() {
-
-    @Inject
-    lateinit var router: Router
-    @Inject
-    lateinit var timeMapper: TimeMapper
+class RecordsContainerViewModel @Inject constructor(
+    private var router: Router,
+    private var timeMapper: TimeMapper
+) : ViewModel() {
 
     val title: LiveData<String> by lazy {
         return@lazy MutableLiveData<String>(loadTitle())

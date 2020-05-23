@@ -8,17 +8,12 @@ import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_statistics.R
 import com.example.util.simpletimetracker.feature_statistics.viewData.RangeLength
-import com.example.util.simpletimetracker.navigation.Router
 import javax.inject.Inject
 
-class StatisticsContainerViewModel : ViewModel() {
-
-    @Inject
-    lateinit var router: Router
-    @Inject
-    lateinit var timeMapper: TimeMapper
-    @Inject
-    lateinit var resourceRepo: ResourceRepo
+class StatisticsContainerViewModel @Inject constructor(
+    private val timeMapper: TimeMapper,
+    private val resourceRepo: ResourceRepo
+) : ViewModel() {
 
     val title: LiveData<String> by lazy {
         return@lazy MutableLiveData<String>(loadTitle())
@@ -31,10 +26,6 @@ class StatisticsContainerViewModel : ViewModel() {
     val rangeLength: LiveData<RangeLength> by lazy {
         return@lazy MutableLiveData(RangeLength.DAY)
     }
-
-    private var additionalRanges: List<RangeLength> = listOf(
-        RangeLength.ALL, RangeLength.MONTH, RangeLength.WEEK
-    )
 
     fun onPreviousClick() {
         updatePosition(position.value.orZero() - 1)

@@ -5,34 +5,34 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.util.simpletimetracker.core.base.BaseFragment
+import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_statistics.R
 import com.example.util.simpletimetracker.feature_statistics.adapter.StatisticsAdapter
 import com.example.util.simpletimetracker.feature_statistics.di.StatisticsComponentProvider
+import com.example.util.simpletimetracker.feature_statistics.extra.StatisticsExtra
 import com.example.util.simpletimetracker.feature_statistics.viewModel.StatisticsViewModel
-import com.example.util.simpletimetracker.feature_statistics.viewModel.StatisticsViewModelFactory
 import com.example.util.simpletimetracker.navigation.params.StatisticsParams
 import kotlinx.android.synthetic.main.statistics_fragment.*
+import javax.inject.Inject
 
 class StatisticsFragment : BaseFragment(R.layout.statistics_fragment) {
 
+    @Inject
+    lateinit var viewModelFactory: BaseViewModelFactory<StatisticsViewModel>
+
     private val viewModel: StatisticsViewModel by viewModels(
-        factoryProducer = {
-            StatisticsViewModelFactory(
-                rangeStart = arguments?.getLong(ARGS_RANGE_START).orZero(),
-                rangeEnd = arguments?.getLong(ARGS_RANGE_END).orZero()
-            )
-        }
+        factoryProducer = { viewModelFactory }
     )
+
     private val statisticsAdapter: StatisticsAdapter by lazy {
         StatisticsAdapter()
     }
 
     override fun initDi() {
-        val component = (activity?.application as StatisticsComponentProvider)
+        (activity?.application as StatisticsComponentProvider)
             .statisticsComponent
-
-        component?.inject(viewModel)
+            ?.inject(this)
     }
 
     override fun initUi() {
@@ -42,8 +42,12 @@ class StatisticsFragment : BaseFragment(R.layout.statistics_fragment) {
         }
     }
 
-    override fun initViewModel() {
-        viewModel.statistics.observe(viewLifecycleOwner, statisticsAdapter::replace)
+    override fun initViewModel(): Unit = with(viewModel) {
+        extra = StatisticsExtra(
+            start = arguments?.getLong(ARGS_RANGE_START).orZero(),
+            end = arguments?.getLong(ARGS_RANGE_END).orZero()
+        )
+        statistics.observe(viewLifecycleOwner, statisticsAdapter::replace)
     }
 
     override fun onResume() {

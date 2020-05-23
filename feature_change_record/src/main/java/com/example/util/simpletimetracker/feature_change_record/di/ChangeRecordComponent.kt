@@ -1,10 +1,10 @@
 package com.example.util.simpletimetracker.feature_change_record.di
 
-import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordViewModel
+import com.example.util.simpletimetracker.feature_change_record.view.ChangeRecordFragment
 import dagger.Subcomponent
 
-@Subcomponent
+@Subcomponent(modules = [ChangeRecordModule::class])
 interface ChangeRecordComponent {
 
-    fun inject(viewModel: ChangeRecordViewModel)
+    fun inject(fragment: ChangeRecordFragment)
 }

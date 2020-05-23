@@ -4,6 +4,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.util.simpletimetracker.core.base.BaseFragment
+import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.feature_running_records.R
 import com.example.util.simpletimetracker.feature_running_records.adapter.recordType.RecordTypeAdapter
 import com.example.util.simpletimetracker.feature_running_records.adapter.runningRecord.RunningRecordAdapter
@@ -14,10 +15,17 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import kotlinx.android.synthetic.main.running_records_fragment.*
+import javax.inject.Inject
 
 class RunningRecordsFragment : BaseFragment(R.layout.running_records_fragment) {
 
-    private val viewModel: RunningRecordsViewModel by viewModels()
+    @Inject
+    lateinit var viewModelFactory: BaseViewModelFactory<RunningRecordsViewModel>
+
+    private val viewModel: RunningRecordsViewModel by viewModels(
+        factoryProducer = { viewModelFactory }
+    )
+
     private val runningRecordsAdapter: RunningRecordAdapter by lazy {
         RunningRecordAdapter(
             viewModel::onRunningRecordClick
@@ -32,10 +40,9 @@ class RunningRecordsFragment : BaseFragment(R.layout.running_records_fragment) {
     }
 
     override fun initDi() {
-        val component = (activity?.application as RunningRecordsComponentProvider)
+        (activity?.application as RunningRecordsComponentProvider)
             .runningRecordsComponent
-
-        component?.inject(viewModel)
+            ?.inject(this)
     }
 
     override fun initUi() {
@@ -54,9 +61,9 @@ class RunningRecordsFragment : BaseFragment(R.layout.running_records_fragment) {
         }
     }
 
-    override fun initViewModel() {
-        viewModel.recordTypes.observe(viewLifecycleOwner, recordTypesAdapter::replace)
-        viewModel.runningRecords.observe(viewLifecycleOwner, runningRecordsAdapter::replace)
+    override fun initViewModel(): Unit = with(viewModel) {
+        recordTypes.observe(viewLifecycleOwner, recordTypesAdapter::replace)
+        runningRecords.observe(viewLifecycleOwner, runningRecordsAdapter::replace)
     }
 
     override fun onResume() {

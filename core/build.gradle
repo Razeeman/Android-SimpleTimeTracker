@@ -14,6 +14,10 @@ android {
         versionCode base.versionCode
         versionName base.versionName
     }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
 }
 
 dependencies {
@@ -24,4 +28,8 @@ dependencies {
     implementation deps.androidx.constraintlayout
     implementation deps.androidx.cardView
     implementation deps.androidx.material
+
+    testImplementation deps.test.junit
+    androidTestImplementation deps.uitest.junit
+    androidTestImplementation deps.uitest.espresso
 }

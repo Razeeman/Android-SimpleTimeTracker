@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.feature_statistics.view
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import com.example.util.simpletimetracker.core.base.BaseFragment
+import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.extension.flipVisibility
 import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.core.extension.setOnLongClick
@@ -13,17 +14,23 @@ import com.example.util.simpletimetracker.feature_statistics.di.StatisticsCompon
 import com.example.util.simpletimetracker.feature_statistics.viewData.RangeLength
 import com.example.util.simpletimetracker.feature_statistics.viewModel.StatisticsContainerViewModel
 import kotlinx.android.synthetic.main.statistics_container_fragment.*
+import javax.inject.Inject
 
 class StatisticsContainerFragment : BaseFragment(R.layout.statistics_container_fragment) {
 
-    private val viewModel: StatisticsContainerViewModel by viewModels()
+    @Inject
+    lateinit var viewModelFactory: BaseViewModelFactory<StatisticsContainerViewModel>
+
+    private val viewModel: StatisticsContainerViewModel by viewModels(
+        factoryProducer = { viewModelFactory }
+    )
+
     private var adapter: StatisticsContainerAdapter? = null
 
     override fun initDi() {
-        val component = (activity?.application as StatisticsComponentProvider)
+        (activity?.application as StatisticsComponentProvider)
             .statisticsComponent
-
-        component?.inject(viewModel)
+            ?.inject(this)
     }
 
     override fun initUx() {
@@ -38,10 +45,10 @@ class StatisticsContainerFragment : BaseFragment(R.layout.statistics_container_f
         btnStatisticsContainerRange4.setOnClick { viewModel.onRangeClick(4) }
     }
 
-    override fun initViewModel() {
-        viewModel.title.observe(viewLifecycleOwner, ::updateTitle)
-        viewModel.rangeLength.observe(viewLifecycleOwner, ::updateRange)
-        viewModel.position.observe(viewLifecycleOwner, ::updatePosition)
+    override fun initViewModel(): Unit = with(viewModel) {
+        title.observe(viewLifecycleOwner, ::updateTitle)
+        rangeLength.observe(viewLifecycleOwner, ::updateRange)
+        position.observe(viewLifecycleOwner, ::updatePosition)
     }
 
     private fun setupPager(rangeLength: RangeLength) {

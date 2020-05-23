@@ -13,6 +13,7 @@ import com.example.util.simpletimetracker.domain.extension.orTrue
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_change_record_type.R
+import com.example.util.simpletimetracker.feature_change_record_type.extra.ChangeRecordTypeExtra
 import com.example.util.simpletimetracker.feature_change_record_type.mapper.ChangeRecordTypeViewDataMapper
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeColorViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconViewData
@@ -21,20 +22,15 @@ import com.example.util.simpletimetracker.navigation.Router
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class ChangeRecordTypeViewModel(
-    private val id: Long
+class ChangeRecordTypeViewModel @Inject constructor(
+    private var router: Router,
+    private var recordTypeInteractor: RecordTypeInteractor,
+    private var changeRecordTypeViewDataMapper: ChangeRecordTypeViewDataMapper,
+    private var resourceRepo: ResourceRepo,
+    private var colorMapper: ColorMapper
 ) : ViewModel() {
 
-    @Inject
-    lateinit var router: Router
-    @Inject
-    lateinit var recordTypeInteractor: RecordTypeInteractor
-    @Inject
-    lateinit var changeRecordTypeViewDataMapper: ChangeRecordTypeViewDataMapper
-    @Inject
-    lateinit var resourceRepo: ResourceRepo
-    @Inject
-    lateinit var colorMapper: ColorMapper
+    lateinit var extra: ChangeRecordTypeExtra
 
     val recordType: LiveData<ChangeRecordTypeViewData> by lazy {
         return@lazy MutableLiveData<ChangeRecordTypeViewData>().let { initial ->
@@ -56,10 +52,10 @@ class ChangeRecordTypeViewModel(
     }
     val flipColorChooser: LiveData<Boolean> = MutableLiveData()
     val flipIconChooser: LiveData<Boolean> = MutableLiveData()
-    val deleteIconVisibility: LiveData<Boolean> = MutableLiveData(id != 0L)
     val deleteButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
-    val keyboardVisibility: LiveData<Boolean> = MutableLiveData(id == 0L)
+    val deleteIconVisibility: LiveData<Boolean> get() = MutableLiveData(extra.id != 0L)
+    val keyboardVisibility: LiveData<Boolean> get() = MutableLiveData(extra.id == 0L)
 
     private var newName: String = ""
     private var newIconId: Int = 0
@@ -116,8 +112,8 @@ class ChangeRecordTypeViewModel(
     fun onDeleteClick() {
         (deleteButtonEnabled as MutableLiveData).value = false
         viewModelScope.launch {
-            if (id != 0L) {
-                recordTypeInteractor.remove(id)
+            if (extra.id != 0L) {
+                recordTypeInteractor.remove(extra.id)
                 resourceRepo.getString(R.string.record_type_removed)
                     .let(router::showSystemMessage)
                 (keyboardVisibility as MutableLiveData).value = false
@@ -130,7 +126,7 @@ class ChangeRecordTypeViewModel(
         (saveButtonEnabled as MutableLiveData).value = false
         viewModelScope.launch {
             RecordType(
-                id = id,
+                id = extra.id,
                 name = newName,
                 icon = newIconId,
                 color = newColorId
@@ -147,7 +143,7 @@ class ChangeRecordTypeViewModel(
     }
 
     private suspend fun loadRecordTypeViewData(): ChangeRecordTypeViewData {
-        recordTypeInteractor.get(id)
+        recordTypeInteractor.get(extra.id)
             ?.let {
                 newName = it.name
                 newIconId = it.icon

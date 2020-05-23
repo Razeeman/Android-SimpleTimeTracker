@@ -14,6 +14,7 @@ import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.feature_change_record.R
+import com.example.util.simpletimetracker.feature_change_record.extra.ChangeRecordExtra
 import com.example.util.simpletimetracker.feature_change_record.mapper.ChangeRecordTypeViewDataMapper
 import com.example.util.simpletimetracker.feature_change_record.mapper.ChangeRecordViewDataMapper
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordTypeViewData
@@ -24,25 +25,17 @@ import com.example.util.simpletimetracker.navigation.params.DateTimeDialogParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class ChangeRecordViewModel(
-    private val id: Long,
-    private val daysFromToday: Int
+class ChangeRecordViewModel @Inject constructor(
+    private var router: Router,
+    private var recordInteractor: RecordInteractor,
+    private var recordTypeInteractor: RecordTypeInteractor,
+    private var timeMapper: TimeMapper,
+    private var changeRecordViewDataMapper: ChangeRecordViewDataMapper,
+    private var changeRecordTypeViewDataMapper: ChangeRecordTypeViewDataMapper,
+    private var resourceRepo: ResourceRepo
 ) : ViewModel() {
 
-    @Inject
-    lateinit var router: Router
-    @Inject
-    lateinit var recordInteractor: RecordInteractor
-    @Inject
-    lateinit var recordTypeInteractor: RecordTypeInteractor
-    @Inject
-    lateinit var timeMapper: TimeMapper
-    @Inject
-    lateinit var changeRecordViewDataMapper: ChangeRecordViewDataMapper
-    @Inject
-    lateinit var changeRecordTypeViewDataMapper: ChangeRecordTypeViewDataMapper
-    @Inject
-    lateinit var resourceRepo: ResourceRepo
+    lateinit var extra: ChangeRecordExtra
 
     val record: LiveData<ChangeRecordViewData> by lazy {
         return@lazy MutableLiveData<ChangeRecordViewData>().let { initial ->
@@ -60,9 +53,9 @@ class ChangeRecordViewModel(
         }
     }
     val flipTypesChooser: LiveData<Boolean> = MutableLiveData()
-    val deleteIconVisibility: LiveData<Boolean> = MutableLiveData(id != 0L)
     val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val deleteButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
+    val deleteIconVisibility: LiveData<Boolean> get() = MutableLiveData(extra.id != 0L)
 
     private var newTypeId: Long = 0
     private var newTimeEnded: Long = 0
@@ -96,8 +89,8 @@ class ChangeRecordViewModel(
     fun onDeleteClick() {
         (deleteButtonEnabled as MutableLiveData).value = false
         viewModelScope.launch {
-            if (id != 0L) {
-                recordInteractor.remove(id)
+            if (extra.id != 0L) {
+                recordInteractor.remove(extra.id)
                 resourceRepo.getString(R.string.record_removed)
                     .let(router::showSystemMessage)
                 router.back()
@@ -114,7 +107,7 @@ class ChangeRecordViewModel(
         (saveButtonEnabled as MutableLiveData).value = false
         viewModelScope.launch {
             Record(
-                id = id,
+                id = extra.id,
                 typeId = newTypeId,
                 timeStarted = newTimeStarted,
                 timeEnded = newTimeEnded
@@ -154,7 +147,7 @@ class ChangeRecordViewModel(
     }
 
     private fun getInitialDate(): Long {
-        return timeMapper.toTimestampShifted(daysFromToday)
+        return timeMapper.toTimestampShifted(extra.daysFromToday.orZero())
     }
 
     private suspend fun updatePreview() {
@@ -162,8 +155,8 @@ class ChangeRecordViewModel(
     }
 
     private suspend fun initializePreviewViewData() {
-        if (id != 0L) {
-            recordInteractor.get(id)?.let { record ->
+        if (extra.id != 0L) {
+            recordInteractor.get(extra.id)?.let { record ->
                 newTypeId = record.typeId.orZero()
                 newTimeStarted = record.timeStarted
                 newTimeEnded = record.timeEnded

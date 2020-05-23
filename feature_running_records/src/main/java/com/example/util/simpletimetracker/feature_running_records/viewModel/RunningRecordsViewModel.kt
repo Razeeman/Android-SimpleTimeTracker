@@ -21,20 +21,14 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class RunningRecordsViewModel : ViewModel() {
-
-    @Inject
-    lateinit var router: Router
-    @Inject
-    lateinit var recordTypeInteractor: RecordTypeInteractor
-    @Inject
-    lateinit var runningRecordInteractor: RunningRecordInteractor
-    @Inject
-    lateinit var recordInteractor: RecordInteractor
-    @Inject
-    lateinit var recordTypeViewDataMapper: RecordTypeViewDataMapper
-    @Inject
-    lateinit var runningRecordViewDataMapper: RunningRecordViewDataMapper
+class RunningRecordsViewModel @Inject constructor(
+    private var router: Router,
+    private var recordTypeInteractor: RecordTypeInteractor,
+    private var runningRecordInteractor: RunningRecordInteractor,
+    private var recordInteractor: RecordInteractor,
+    private var recordTypeViewDataMapper: RecordTypeViewDataMapper,
+    private var runningRecordViewDataMapper: RunningRecordViewDataMapper
+) : ViewModel() {
 
     val runningRecords: LiveData<List<ViewHolderType>> by lazy {
         return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->

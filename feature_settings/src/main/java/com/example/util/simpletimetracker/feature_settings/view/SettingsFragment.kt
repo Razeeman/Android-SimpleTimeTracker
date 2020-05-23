@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseFragment
+import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.core.dialog.StandardDialogListener
 import com.example.util.simpletimetracker.feature_settings.R
@@ -13,17 +14,22 @@ import com.example.util.simpletimetracker.feature_settings.viewModel.SettingsVie
 import com.example.util.simpletimetracker.navigation.RequestCode.REQUEST_CODE_CREATE_FILE
 import com.example.util.simpletimetracker.navigation.RequestCode.REQUEST_CODE_OPEN_FILE
 import kotlinx.android.synthetic.main.settings_fragment.*
+import javax.inject.Inject
 
 class SettingsFragment : BaseFragment(R.layout.settings_fragment),
     StandardDialogListener {
 
-    private val viewModel: SettingsViewModel by viewModels()
+    @Inject
+    lateinit var viewModelFactory: BaseViewModelFactory<SettingsViewModel>
+
+    private val viewModel: SettingsViewModel by viewModels(
+        factoryProducer = { viewModelFactory }
+    )
 
     override fun initDi() {
-        val component = (activity?.application as SettingsComponentProvider)
+        (activity?.application as SettingsComponentProvider)
             .settingsComponent
-
-        component?.inject(viewModel)
+            ?.inject(this)
     }
 
     override fun initUx() {

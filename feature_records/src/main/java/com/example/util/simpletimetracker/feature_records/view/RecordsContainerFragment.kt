@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.feature_records.view
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import com.example.util.simpletimetracker.core.base.BaseFragment
+import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.core.extension.setOnLongClick
 import com.example.util.simpletimetracker.feature_records.R
@@ -10,16 +11,21 @@ import com.example.util.simpletimetracker.feature_records.adapter.RecordsContain
 import com.example.util.simpletimetracker.feature_records.di.RecordsComponentProvider
 import com.example.util.simpletimetracker.feature_records.viewModel.RecordsContainerViewModel
 import kotlinx.android.synthetic.main.records_container_fragment.*
+import javax.inject.Inject
 
 class RecordsContainerFragment : BaseFragment(R.layout.records_container_fragment) {
 
-    private val viewModel: RecordsContainerViewModel by viewModels()
+    @Inject
+    lateinit var viewModelFactory: BaseViewModelFactory<RecordsContainerViewModel>
+
+    private val viewModel: RecordsContainerViewModel by viewModels(
+        factoryProducer = { viewModelFactory }
+    )
 
     override fun initDi() {
-        val component = (activity?.application as RecordsComponentProvider)
+        (activity?.application as RecordsComponentProvider)
             .recordsComponent
-
-        component?.inject(viewModel)
+            ?.inject(this)
     }
 
     override fun initUi() {
@@ -33,9 +39,9 @@ class RecordsContainerFragment : BaseFragment(R.layout.records_container_fragmen
         btnRecordsContainerToday.setOnLongClick(viewModel::onTodayClick)
     }
 
-    override fun initViewModel() {
-        viewModel.title.observe(viewLifecycleOwner, ::updateTitle)
-        viewModel.position.observe(viewLifecycleOwner) {
+    override fun initViewModel(): Unit = with(viewModel) {
+        title.observe(viewLifecycleOwner, ::updateTitle)
+        position.observe(viewLifecycleOwner) {
             pagerRecordsContainer.currentItem = it + RecordsContainerAdapter.FIRST
         }
     }

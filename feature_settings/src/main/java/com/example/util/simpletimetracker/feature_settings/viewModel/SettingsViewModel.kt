@@ -13,14 +13,11 @@ import com.example.util.simpletimetracker.navigation.params.StandardDialogParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class SettingsViewModel() : ViewModel() {
-
-    @Inject
-    lateinit var router: Router
-    @Inject
-    lateinit var resourceRepo: ResourceRepo
-    @Inject
-    lateinit var backupInteractor: BackupInteractor
+class SettingsViewModel @Inject constructor(
+    private var router: Router,
+    private var resourceRepo: ResourceRepo,
+    private var backupInteractor: BackupInteractor
+) : ViewModel() {
 
     fun onSaveClick() {
         router.navigate(

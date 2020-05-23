@@ -5,24 +5,24 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.util.simpletimetracker.core.base.BaseFragment
+import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_records.R
 import com.example.util.simpletimetracker.feature_records.adapter.RecordAdapter
 import com.example.util.simpletimetracker.feature_records.di.RecordsComponentProvider
+import com.example.util.simpletimetracker.feature_records.extra.RecordsExtra
 import com.example.util.simpletimetracker.feature_records.viewModel.RecordsViewModel
-import com.example.util.simpletimetracker.feature_records.viewModel.RecordsViewModelFactory
 import com.example.util.simpletimetracker.navigation.params.RecordsParams
 import kotlinx.android.synthetic.main.records_fragment.*
+import javax.inject.Inject
 
 class RecordsFragment : BaseFragment(R.layout.records_fragment) {
 
+    @Inject
+    lateinit var viewModelFactory: BaseViewModelFactory<RecordsViewModel>
+
     private val viewModel: RecordsViewModel by viewModels(
-        factoryProducer = {
-            RecordsViewModelFactory(
-                rangeStart = arguments?.getLong(ARGS_RANGE_START).orZero(),
-                rangeEnd = arguments?.getLong(ARGS_RANGE_END).orZero()
-            )
-        }
+        factoryProducer = { viewModelFactory }
     )
     private val recordsAdapter: RecordAdapter by lazy {
         RecordAdapter(
@@ -31,10 +31,9 @@ class RecordsFragment : BaseFragment(R.layout.records_fragment) {
     }
 
     override fun initDi() {
-        val component = (activity?.application as RecordsComponentProvider)
+        (activity?.application as RecordsComponentProvider)
             .recordsComponent
-
-        component?.inject(viewModel)
+            ?.inject(this)
     }
 
     override fun initUi() {
@@ -44,7 +43,11 @@ class RecordsFragment : BaseFragment(R.layout.records_fragment) {
         }
     }
 
-    override fun initViewModel() {
+    override fun initViewModel(): Unit = with(viewModel) {
+        extra = RecordsExtra(
+            rangeStart = arguments?.getLong(ARGS_RANGE_START).orZero(),
+            rangeEnd = arguments?.getLong(ARGS_RANGE_END).orZero()
+        )
         viewModel.records.observe(viewLifecycleOwner, recordsAdapter::replace)
     }
 

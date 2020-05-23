@@ -5,29 +5,30 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import com.example.util.simpletimetracker.core.base.BaseFragment
+import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.extension.*
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_change_record_type.R
 import com.example.util.simpletimetracker.feature_change_record_type.adapter.ChangeRecordTypeAdapter
 import com.example.util.simpletimetracker.feature_change_record_type.di.ChangeRecordTypeComponentProvider
+import com.example.util.simpletimetracker.feature_change_record_type.extra.ChangeRecordTypeExtra
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewModel.ChangeRecordTypeViewModel
-import com.example.util.simpletimetracker.feature_change_record_type.viewModel.ChangeRecordTypeViewModelFactory
 import com.example.util.simpletimetracker.navigation.params.ChangeRecordTypeParams
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import kotlinx.android.synthetic.main.change_record_type_fragment.*
+import javax.inject.Inject
 
 class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragment) {
 
+    @Inject
+    lateinit var viewModelFactory: BaseViewModelFactory<ChangeRecordTypeViewModel>
+
     private val viewModel: ChangeRecordTypeViewModel by viewModels(
-        factoryProducer = {
-            ChangeRecordTypeViewModelFactory(
-                arguments?.getLong(ARGS_RECORD_ID).orZero()
-            )
-        }
+        factoryProducer = { viewModelFactory }
     )
     private val colorsAdapter: ChangeRecordTypeAdapter by lazy {
         ChangeRecordTypeAdapter(viewModel::onColorClick, viewModel::onIconClick)
@@ -37,10 +38,9 @@ class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragme
     }
 
     override fun initDi() {
-        val component = (activity?.application as ChangeRecordTypeComponentProvider)
+        (activity?.application as ChangeRecordTypeComponentProvider)
             .changeRecordTypeComponent
-
-        component?.inject(viewModel)
+            ?.inject(this)
     }
 
     override fun initUi() {
@@ -73,7 +73,10 @@ class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragme
         btnChangeRecordTypeDelete.setOnClick(viewModel::onDeleteClick)
     }
 
-    override fun initViewModel() = with(viewModel) {
+    override fun initViewModel(): Unit = with(viewModel) {
+        extra = ChangeRecordTypeExtra(
+            id = arguments?.getLong(ARGS_RECORD_ID).orZero()
+        )
         deleteIconVisibility.observeOnce(
             viewLifecycleOwner, btnChangeRecordTypeDelete::visible::set
         )
@@ -98,7 +101,6 @@ class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragme
         keyboardVisibility.observe(viewLifecycleOwner) { visible ->
             if (visible) showKeyboard(etChangeRecordTypeName) else hideKeyboard()
         }
-        Unit
     }
 
     private fun updateUi(item: ChangeRecordTypeViewData) {

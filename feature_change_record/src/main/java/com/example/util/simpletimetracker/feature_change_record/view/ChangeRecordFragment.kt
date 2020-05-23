@@ -2,34 +2,34 @@ package com.example.util.simpletimetracker.feature_change_record.view
 
 import android.os.Bundle
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import com.example.util.simpletimetracker.core.base.BaseFragment
+import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
 import com.example.util.simpletimetracker.core.extension.*
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_change_record.R
 import com.example.util.simpletimetracker.feature_change_record.adapter.ChangeRecordAdapter
 import com.example.util.simpletimetracker.feature_change_record.di.ChangeRecordComponentProvider
+import com.example.util.simpletimetracker.feature_change_record.extra.ChangeRecordExtra
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordViewData
 import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordViewModel
-import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordViewModelFactory
-import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
 import com.example.util.simpletimetracker.navigation.params.ChangeRecordParams
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import kotlinx.android.synthetic.main.change_record_fragment.*
+import javax.inject.Inject
 
 class ChangeRecordFragment : BaseFragment(R.layout.change_record_fragment),
     DateTimeDialogListener {
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
     private val viewModel: ChangeRecordViewModel by viewModels(
-        factoryProducer = {
-            ChangeRecordViewModelFactory(
-                id = arguments?.getLong(ARGS_RECORD_ID).orZero(),
-                daysFromToday = arguments?.getInt(ARGS_DAYS_FROM_TODAY).orZero()
-            )
-        }
+        factoryProducer = { viewModelFactory }
     )
 
     private val typesAdapter: ChangeRecordAdapter by lazy {
@@ -37,10 +37,9 @@ class ChangeRecordFragment : BaseFragment(R.layout.change_record_fragment),
     }
 
     override fun initDi() {
-        val component = (activity?.application as ChangeRecordComponentProvider)
+        (activity?.application as ChangeRecordComponentProvider)
             .changeRecordComponent
-
-        component?.inject(viewModel)
+            ?.inject(this)
     }
 
     override fun initUi() {
@@ -62,7 +61,11 @@ class ChangeRecordFragment : BaseFragment(R.layout.change_record_fragment),
         btnChangeRecordDelete.setOnClick(viewModel::onDeleteClick)
     }
 
-    override fun initViewModel() = with(viewModel) {
+    override fun initViewModel(): Unit = with(viewModel) {
+        extra = ChangeRecordExtra(
+            id = arguments?.getLong(ARGS_RECORD_ID).orZero(),
+            daysFromToday = arguments?.getInt(ARGS_DAYS_FROM_TODAY).orZero()
+        )
         deleteIconVisibility.observeOnce(viewLifecycleOwner, btnChangeRecordDelete::visible::set)
         record.observe(viewLifecycleOwner, ::updatePreview)
         types.observe(viewLifecycleOwner, typesAdapter::replace)
@@ -74,7 +77,6 @@ class ChangeRecordFragment : BaseFragment(R.layout.change_record_fragment),
                 if (opened) rotateDown() else rotateUp()
             }
         }
-        Unit
     }
 
     override fun onDateTimeSet(timestamp: Long, tag: String?) {
