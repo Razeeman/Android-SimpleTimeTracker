@@ -6,6 +6,7 @@ import android.net.Uri
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.extension.setOnClick
+import com.example.util.simpletimetracker.core.dialog.StandardDialogListener
 import com.example.util.simpletimetracker.feature_settings.R
 import com.example.util.simpletimetracker.feature_settings.di.SettingsComponentProvider
 import com.example.util.simpletimetracker.feature_settings.viewModel.SettingsViewModel
@@ -13,7 +14,8 @@ import com.example.util.simpletimetracker.navigation.RequestCode.REQUEST_CODE_CR
 import com.example.util.simpletimetracker.navigation.RequestCode.REQUEST_CODE_OPEN_FILE
 import kotlinx.android.synthetic.main.settings_fragment.*
 
-class SettingsFragment : BaseFragment() {
+class SettingsFragment : BaseFragment(),
+    StandardDialogListener {
 
     override val layoutId: Int = R.layout.settings_fragment
 
@@ -48,6 +50,10 @@ class SettingsFragment : BaseFragment() {
                 }
             }
         }
+    }
+
+    override fun onPositiveClick(tag: String?) {
+        viewModel.onPositiveDialogClick(tag)
     }
 
     companion object {

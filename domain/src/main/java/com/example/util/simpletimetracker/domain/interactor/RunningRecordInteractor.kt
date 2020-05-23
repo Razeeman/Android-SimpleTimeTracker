@@ -17,7 +17,7 @@ class RunningRecordInteractor @Inject constructor(
     }
 
     suspend fun add(typeId: Long) {
-        val record = RunningRecord(
+        RunningRecord(
             id = typeId,
             timeStarted = System.currentTimeMillis()
         ).let {

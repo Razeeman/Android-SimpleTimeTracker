@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.feature_dialogs
+package com.example.util.simpletimetracker.feature_dialogs.dateTime
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.feature_dialogs.R
 import kotlinx.android.synthetic.main.date_dialog_fragment.*
 import java.util.*
 

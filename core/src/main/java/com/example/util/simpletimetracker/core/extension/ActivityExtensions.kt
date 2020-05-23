@@ -24,8 +24,6 @@ fun Activity?.showKeyboard(view: View) {
 }
 
 fun FragmentActivity.getAllFragments(): List<Fragment> {
-    val fm = this.supportFragmentManager
-    return (fm.fragments + fm.fragments
-        .mapNotNull { it.childFragmentManager.fragments }
-        .flatten())
+    val fm = supportFragmentManager
+    return fm.fragments + fm.fragments.map(Fragment::getAllFragments).flatten()
 }

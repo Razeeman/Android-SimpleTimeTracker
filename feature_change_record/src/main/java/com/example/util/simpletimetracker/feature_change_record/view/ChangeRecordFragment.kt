@@ -12,7 +12,7 @@ import com.example.util.simpletimetracker.feature_change_record.di.ChangeRecordC
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordViewData
 import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordViewModel
 import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordViewModelFactory
-import com.example.util.simpletimetracker.feature_dialogs.DateTimeListener
+import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
 import com.example.util.simpletimetracker.navigation.params.ChangeRecordParams
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
@@ -20,7 +20,8 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import kotlinx.android.synthetic.main.change_record_fragment.*
 
-class ChangeRecordFragment : BaseFragment(), DateTimeListener {
+class ChangeRecordFragment : BaseFragment(),
+    DateTimeDialogListener {
 
     override val layoutId: Int = R.layout.change_record_fragment
 

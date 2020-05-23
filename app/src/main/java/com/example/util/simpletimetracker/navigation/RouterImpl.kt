@@ -8,7 +8,8 @@ import androidx.navigation.findNavController
 import com.example.util.simpletimetracker.R
 import com.example.util.simpletimetracker.feature_change_record.view.ChangeRecordFragment
 import com.example.util.simpletimetracker.feature_change_record_type.view.ChangeRecordTypeFragment
-import com.example.util.simpletimetracker.feature_dialogs.DateTimeDialogFragment
+import com.example.util.simpletimetracker.feature_dialogs.dateTime.DateTimeDialogFragment
+import com.example.util.simpletimetracker.feature_dialogs.standard.StandardDialogFragment
 import com.example.util.simpletimetracker.navigation.RequestCode.REQUEST_CODE_CREATE_FILE
 import com.example.util.simpletimetracker.navigation.RequestCode.REQUEST_CODE_OPEN_FILE
 import com.example.util.simpletimetracker.navigation.params.FileChooserParams
@@ -39,6 +40,11 @@ class RouterImpl @Inject constructor() : Router() {
                 navController?.navigate(
                     R.id.changeRecordFragment,
                     ChangeRecordFragment.createBundle(data)
+                )
+            Screen.STANDARD_DIALOG ->
+                navController?.navigate(
+                    R.id.standardDialogFragment,
+                    StandardDialogFragment.createBundle(data)
                 )
             Screen.DATE_TIME_DIALOG ->
                 navController?.navigate(

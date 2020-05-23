@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.feature_dialogs
+package com.example.util.simpletimetracker.feature_dialogs.dateTime
 
 import android.content.Context
 import android.os.Bundle
@@ -8,30 +8,32 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.fragment.app.commit
+import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
 import com.example.util.simpletimetracker.core.extension.getAllFragments
 import com.example.util.simpletimetracker.core.extension.onTabSelected
 import com.example.util.simpletimetracker.core.extension.visible
 import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.feature_dialogs.R
 import com.example.util.simpletimetracker.navigation.params.DateTimeDialogParams
 import kotlinx.android.synthetic.main.date_time_dialog_fragment.*
 
 class DateTimeDialogFragment : AppCompatDialogFragment() {
 
-    private var dateTimeListener: DateTimeListener? = null
+    private var dateTimeDialogListener: DateTimeDialogListener? = null
     private val dialogTag: String? by lazy { arguments?.getString(ARGS_TAG) }
     private var newTimestamp: Long = 0
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         when (context) {
-            is DateTimeListener -> {
-                dateTimeListener = context
+            is DateTimeDialogListener -> {
+                dateTimeDialogListener = context
                 return
             }
             is AppCompatActivity -> {
                 context.getAllFragments()
-                    .firstOrNull { it is DateTimeListener }
-                    ?.let { dateTimeListener = it as? DateTimeListener }
+                    .firstOrNull { it is DateTimeDialogListener }
+                    ?.let { dateTimeDialogListener = it as? DateTimeDialogListener }
             }
         }
     }
@@ -80,7 +82,7 @@ class DateTimeDialogFragment : AppCompatDialogFragment() {
         }
 
         btnDateTimeDialogPositive.setOnClickListener {
-            dateTimeListener?.onDateTimeSet(newTimestamp, dialogTag)
+            dateTimeDialogListener?.onDateTimeSet(newTimestamp, dialogTag)
             dismiss()
         }
     }

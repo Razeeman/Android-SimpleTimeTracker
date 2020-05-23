@@ -9,6 +9,7 @@ import com.example.util.simpletimetracker.feature_settings.R
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
 import com.example.util.simpletimetracker.navigation.params.FileChooserParams
+import com.example.util.simpletimetracker.navigation.params.StandardDialogParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -28,6 +29,27 @@ class SettingsViewModel() : ViewModel() {
         )
     }
 
+    fun onRestoreClick() {
+        router.navigate(
+            Screen.STANDARD_DIALOG,
+            StandardDialogParams(
+                tag = ALERT_DIALOG_TAG,
+                message = resourceRepo.getString(R.string.settings_dialog_message),
+                btnPositive = resourceRepo.getString(R.string.ok),
+                btnNegative = resourceRepo.getString(R.string.cancel)
+            )
+        )
+    }
+
+    fun onPositiveDialogClick(tag: String?) {
+        when (tag) {
+            ALERT_DIALOG_TAG -> router.navigate(
+                Screen.OPEN_FILE,
+                FileChooserParams(::onFileOpenError)
+            )
+        }
+    }
+
     fun onSaveBackup(uriString: String) = viewModelScope.launch {
         val resultCode = backupInteractor.saveBackupFile(uriString)
 
@@ -38,15 +60,7 @@ class SettingsViewModel() : ViewModel() {
         }.let(::showMessage)
     }
 
-    fun onRestoreClick() {
-        router.navigate(
-            Screen.OPEN_FILE,
-            FileChooserParams(::onFileOpenError)
-        )
-    }
-
     fun onRestoreBackup(uriString: String) = viewModelScope.launch {
-        // TODO dialog
         val resultCode = backupInteractor.restoreBackupFile(uriString)
 
         if (resultCode == BackupRepo.ResultCode.SUCCESS) {
@@ -62,5 +76,9 @@ class SettingsViewModel() : ViewModel() {
 
     private fun showMessage(stringResId: Int) {
         stringResId.let(resourceRepo::getString).let(router::showSystemMessage)
+    }
+
+    companion object {
+        private const val ALERT_DIALOG_TAG = "alert_dialog_tag"
     }
 }

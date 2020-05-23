@@ -8,4 +8,6 @@
     <string name="settings_save_error">Error saving backup</string>
     <string name="settings_restore_error">Error restoring backup</string>
     <string name="settings_file_error">Error opening file</string>
+
+    <string name="settings_dialog_message">Restore backup?</string>
 </resources>
