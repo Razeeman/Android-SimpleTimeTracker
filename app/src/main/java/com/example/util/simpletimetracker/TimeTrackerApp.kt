@@ -10,6 +10,7 @@ import com.example.util.simpletimetracker.feature_change_record.di.ChangeRecordC
 import com.example.util.simpletimetracker.feature_change_record_type.di.ChangeRecordTypeComponent
 import com.example.util.simpletimetracker.feature_records.di.RecordsComponent
 import com.example.util.simpletimetracker.feature_running_records.di.RunningRecordsComponent
+import com.example.util.simpletimetracker.feature_settings.view.SettingsComponent
 import com.example.util.simpletimetracker.feature_statistics.di.StatisticsComponent
 import timber.log.Timber
 import timber.log.Timber.DebugTree
@@ -22,6 +23,7 @@ class TimeTrackerApp : Application(), FeatureComponentProvider {
     override var recordsComponent: RecordsComponent? = null
     override var changeRecordComponent: ChangeRecordComponent? = null
     override var statisticsComponent: StatisticsComponent? = null
+    override var settingsComponent: SettingsComponent? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -46,6 +48,7 @@ class TimeTrackerApp : Application(), FeatureComponentProvider {
         recordsComponent = appComponent?.plusRecordsComponent()
         changeRecordComponent = appComponent?.plusChangeRecordComponent()
         statisticsComponent = appComponent?.plusStatisticsComponent()
+        settingsComponent = appComponent?.plusSettingComponent()
     }
 
     private fun initStrictMode() {

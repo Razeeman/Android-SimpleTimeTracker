@@ -10,11 +10,13 @@ import com.example.util.simpletimetracker.data_local.repo.RecordCacheRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.RecordRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.RecordTypeRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.RunningRecordRepoImpl
+import com.example.util.simpletimetracker.data_local.resolver.BackupRepoImpl
 import com.example.util.simpletimetracker.domain.di.AppContext
 import com.example.util.simpletimetracker.domain.repo.RecordCacheRepo
 import com.example.util.simpletimetracker.domain.repo.RecordRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeRepo
 import com.example.util.simpletimetracker.domain.repo.RunningRecordRepo
+import com.example.util.simpletimetracker.domain.resolver.BackupRepo
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -72,5 +74,11 @@ class DataLocalModule {
     @Provides
     fun getRunningRecordRepo(runningRecordRepoImpl: RunningRecordRepoImpl): RunningRecordRepo {
         return runningRecordRepoImpl
+    }
+
+    @Provides
+    @Singleton
+    fun getBackupResolver(backupResolverImpl: BackupRepoImpl): BackupRepo {
+        return backupResolverImpl
     }
 }

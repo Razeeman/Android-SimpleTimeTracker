@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.core.base
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -26,6 +27,13 @@ abstract class BaseFragment : Fragment() {
         initUi()
         initUx()
         initViewModel()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        childFragmentManager.fragments.forEach {
+            it.onActivityResult(requestCode, resultCode, data)
+        }
     }
 
     open fun initDi() {

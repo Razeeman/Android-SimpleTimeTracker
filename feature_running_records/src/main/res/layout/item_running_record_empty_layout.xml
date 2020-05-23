@@ -12,6 +12,6 @@
     android:paddingTop="16dp"
     android:paddingEnd="8dp"
     android:paddingBottom="16dp"
-    android:text="Click on activity to start"
+    android:text="@string/running_records_empty"
     android:textColor="@color/black"
     android:textStyle="bold" />

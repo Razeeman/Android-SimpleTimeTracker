@@ -34,13 +34,14 @@ class MainFragment : BaseFragment() {
 
     private fun setupPager() {
         mainPager.adapter = MainContentAdapter(this)
-        mainPager.offscreenPageLimit = 2
+        mainPager.offscreenPageLimit = 3
 
         TabLayoutMediator(mainTabs, mainPager) { tab, position ->
             when (position) {
                 0 -> R.drawable.ic_tab_running_records
                 1 -> R.drawable.ic_tab_records
                 2 -> R.drawable.ic_tab_statistics
+                3 -> R.drawable.ic_tab_settings
                 else -> R.drawable.ic_unknown
             }.let(tab::setIcon)
 

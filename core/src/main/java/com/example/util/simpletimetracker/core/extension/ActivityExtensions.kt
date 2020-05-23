@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 
 fun FragmentActivity.hideKeyboard() {
@@ -20,4 +21,11 @@ fun Activity?.showKeyboard(view: View) {
             view.requestFocus()
             showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
         }
+}
+
+fun FragmentActivity.getAllFragments(): List<Fragment> {
+    val fm = this.supportFragmentManager
+    return (fm.fragments + fm.fragments
+        .mapNotNull { it.childFragmentManager.fragments }
+        .flatten())
 }

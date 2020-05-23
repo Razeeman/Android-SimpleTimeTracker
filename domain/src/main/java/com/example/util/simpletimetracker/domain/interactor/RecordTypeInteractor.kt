@@ -20,7 +20,7 @@ class RecordTypeInteractor @Inject constructor(
         var newRecord = recordType
 
         // If there is already an item with this name - override
-        recordTypeRepo.getAll()
+        recordTypeRepo.getAll() // TODO get by name
             .firstOrNull { saved ->
                 saved.name == recordType.name
             }

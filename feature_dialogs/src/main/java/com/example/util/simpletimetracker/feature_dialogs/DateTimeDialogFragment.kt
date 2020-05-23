@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.fragment.app.commit
+import com.example.util.simpletimetracker.core.extension.getAllFragments
 import com.example.util.simpletimetracker.core.extension.onTabSelected
 import com.example.util.simpletimetracker.core.extension.visible
 import com.example.util.simpletimetracker.domain.extension.orZero
@@ -28,10 +29,7 @@ class DateTimeDialogFragment : AppCompatDialogFragment() {
                 return
             }
             is AppCompatActivity -> {
-                val fm = context.supportFragmentManager
-                (fm.fragments + fm.fragments
-                    .mapNotNull { it.childFragmentManager.fragments }
-                    .flatten())
+                context.getAllFragments()
                     .firstOrNull { it is DateTimeListener }
                     ?.let { dateTimeListener = it as? DateTimeListener }
             }

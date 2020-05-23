@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.di
 
+import android.content.ContentResolver
 import android.content.Context
 import com.example.util.simpletimetracker.TimeTrackerApp
 import com.example.util.simpletimetracker.domain.di.AppContext
@@ -22,7 +23,14 @@ class AppModule(application: TimeTrackerApp) {
     }
 
     @Provides
+    @Singleton
     fun getRouter(routerImpl: RouterImpl): Router {
         return routerImpl
+    }
+
+    @Provides
+    @Singleton
+    fun getContentResolver(@AppContext context: Context): ContentResolver {
+        return context.contentResolver
     }
 }

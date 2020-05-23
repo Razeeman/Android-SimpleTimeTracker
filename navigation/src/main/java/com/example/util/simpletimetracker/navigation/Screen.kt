@@ -4,5 +4,8 @@ enum class Screen {
     CHANGE_RECORD_TYPE,
     CHANGE_RECORD,
 
-    DATE_TIME_DIALOG
+    DATE_TIME_DIALOG,
+
+    CREATE_FILE,
+    OPEN_FILE
 }
