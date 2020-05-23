@@ -48,7 +48,11 @@ class StatisticsViewModel @Inject constructor(
 
     private suspend fun loadStatisticsViewData(): List<ViewHolderType> {
         val statistics = if (extra?.start.orZero() != 0L && extra?.end.orZero() != 0L) {
-            statisticsInteractor.getFromRange(extra?.start.orZero(), extra?.end.orZero())
+            statisticsInteractor.getFromRange(
+                start = extra?.start.orZero(),
+                end = extra?.end.orZero(),
+                addUntracked = true // TODO settings by prefs
+            )
         } else {
             statisticsInteractor.getAll()
         }

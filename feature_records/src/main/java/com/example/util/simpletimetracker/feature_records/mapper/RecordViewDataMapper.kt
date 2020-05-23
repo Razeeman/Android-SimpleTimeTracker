@@ -24,6 +24,7 @@ class RecordViewDataMapper @Inject constructor(
         rangeStart: Long = 0L,
         rangeEnd: Long = 0L
     ): RecordViewData {
+        // Remove parts of the record that is not in the range
         val timeStarted = if (rangeStart != 0L) {
             max(record.timeStarted, rangeStart)
         } else {

@@ -7,6 +7,7 @@ import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.Statistics
+import com.example.util.simpletimetracker.feature_statistics.R
 import com.example.util.simpletimetracker.feature_statistics.customView.PiePortion
 import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsChartViewData
 import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsViewData
@@ -30,14 +31,12 @@ class StatisticsViewDataMapper @Inject constructor(
         val sumDuration = statistics.map(Statistics::duration).sum()
 
         return statistics
-            .sortedByDescending { it.duration }
-            .mapNotNull {
-                map(
-                    statistics = it,
-                    sumDuration = sumDuration,
-                    recordType = recordTypesMap[it.typeId] ?: return@mapNotNull null
-                )
+            .mapNotNull { statistic ->
+                (map(statistic, sumDuration, recordTypesMap[statistic.typeId])
+                    ?: return@mapNotNull null) to statistic.duration
             }
+            .sortedByDescending { it.second }
+            .map { it.first }
     }
 
     fun mapToChart(
@@ -52,36 +51,79 @@ class StatisticsViewDataMapper @Inject constructor(
 
         return StatisticsChartViewData(
             statistics
-                .sortedByDescending { it.duration }
-                .mapNotNull {
-                PiePortion(
-                    value = it.duration,
-                    colorInt = recordTypesMap[it.typeId]?.color
-                        ?.let(colorMapper::mapToColorResId)
-                        ?.let(resourceRepo::getColor)
-                        ?: return@mapNotNull null,
-                    iconId = recordTypesMap[it.typeId]?.icon
-                        ?.let(iconMapper::mapToDrawableResId)
-                )
-            }
+                .mapNotNull { statistic ->
+                    (mapToChart(statistic, recordTypesMap[statistic.typeId])
+                        ?: return@mapNotNull null) to statistic.duration
+                }
+                .sortedByDescending { it.second }
+                .map { it.first }
         )
     }
 
     private fun map(
         statistics: Statistics,
         sumDuration: Long,
-        recordType: RecordType
-    ): StatisticsViewData {
+        recordType: RecordType?
+    ): StatisticsViewData? {
         val durationPercent = (statistics.duration * 100 / sumDuration)
-        return StatisticsViewData(
-            name = recordType.name,
-            duration = statistics.duration.let(timeMapper::formatInterval),
-            percent = "$durationPercent%",
-            iconId = recordType.icon
-                .let(iconMapper::mapToDrawableResId),
-            color = recordType.color
-                .let(colorMapper::mapToColorResId)
-                .let(resourceRepo::getColor)
-        )
+
+        when {
+            statistics.typeId == -1L -> {
+                return StatisticsViewData(
+                    name = "Untracked",
+                    duration = statistics.duration
+                        .let(timeMapper::formatInterval),
+                    percent = "$durationPercent%",
+                    iconId = R.drawable.ic_unknown,
+                    color = R.color.blue_grey_200
+                        .let(resourceRepo::getColor)
+                )
+            }
+            recordType != null -> {
+                return StatisticsViewData(
+                    name = recordType.name,
+                    duration = statistics.duration
+                        .let(timeMapper::formatInterval),
+                    percent = "$durationPercent%",
+                    iconId = recordType.icon
+                        .let(iconMapper::mapToDrawableResId),
+                    color = recordType.color
+                        .let(colorMapper::mapToColorResId)
+                        .let(resourceRepo::getColor)
+                )
+            }
+            else -> {
+                return null
+            }
+        }
+    }
+
+    private fun mapToChart(
+        statistics: Statistics,
+        recordType: RecordType?
+    ): PiePortion? {
+        return when {
+            statistics.typeId == -1L -> {
+                PiePortion(
+                    value = statistics.duration,
+                    colorInt = R.color.blue_grey_200
+                        .let(resourceRepo::getColor),
+                    iconId = R.drawable.ic_unknown
+                )
+            }
+            recordType != null -> {
+                PiePortion(
+                    value = statistics.duration,
+                    colorInt = recordType.color
+                        .let(colorMapper::mapToColorResId)
+                        .let(resourceRepo::getColor),
+                    iconId = recordType.icon
+                        .let(iconMapper::mapToDrawableResId)
+                )
+            }
+            else -> {
+                null
+            }
+        }
     }
 }

@@ -1,9 +1,8 @@
 package com.example.util.simpletimetracker.domain.interactor
 
+import com.example.util.simpletimetracker.domain.mapper.CoveredRangeMapper
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.Statistics
-import com.example.util.simpletimetracker.domain.repo.RecordCacheRepo
-import com.example.util.simpletimetracker.domain.repo.RecordRepo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -11,12 +10,12 @@ import kotlin.math.max
 import kotlin.math.min
 
 class StatisticsInteractor @Inject constructor(
-    private val recordRepo: RecordRepo,
-    private val recordCacheRepo: RecordCacheRepo
+    private val recordInteractor: RecordInteractor,
+    private val coveredRangeMapper: CoveredRangeMapper
 ) {
 
     suspend fun getAll(): List<Statistics> {
-        return recordRepo.getAll()
+        return recordInteractor.getAll()
             .groupBy { it.typeId }
             .map { entry ->
                 Statistics(
@@ -26,9 +25,13 @@ class StatisticsInteractor @Inject constructor(
             }
     }
 
-    suspend fun getFromRange(start: Long, end: Long): List<Statistics> =
+    suspend fun getFromRange(start: Long, end: Long, addUntracked: Boolean): List<Statistics> =
         withContext(Dispatchers.IO) {
-            getRecords(start, end)
+            var untrackedTime = 0L
+            recordInteractor.getFromRange(start, end)
+                .also { records ->
+                    if (addUntracked) untrackedTime = calculateUntracked(records, start, end)
+                }
                 .groupBy { it.typeId }
                 .map { entry ->
                     Statistics(
@@ -36,12 +39,27 @@ class StatisticsInteractor @Inject constructor(
                         duration = mapToDurationFromRange(entry.value, start, end)
                     )
                 }
+                .apply {
+                    if (addUntracked) {
+                        this as MutableList
+                        add(
+                            Statistics(
+                                typeId = -1L,
+                                duration = untrackedTime
+                            )
+                        )
+                    }
+                }
         }
 
-    private suspend fun getRecords(start: Long, end: Long): List<Record> {
-        return recordCacheRepo.getFromRange(start, end)
-            ?: recordRepo.getFromRange(start, end)
-                .also { recordCacheRepo.putWithRange(start, end, it) }
+    private fun calculateUntracked(records: List<Record>, start: Long, end: Long): Long {
+        return records
+            // Remove parts of the record that is not in the range
+            .map { max(it.timeStarted, start) to min(it.timeEnded, end) }
+            // Calculate covered range
+            .let(coveredRangeMapper::map)
+            // Calculate uncovered range
+            .let { end - start - it }
     }
 
     private fun mapToDuration(records: List<Record>): Long {
@@ -52,6 +70,7 @@ class StatisticsInteractor @Inject constructor(
 
     private fun mapToDurationFromRange(records: List<Record>, start: Long, end: Long): Long {
         return records
+            // Remove parts of the record that is not in the range
             .map { min(it.timeEnded, end) - max(it.timeStarted, start) }
             .sum()
     }
