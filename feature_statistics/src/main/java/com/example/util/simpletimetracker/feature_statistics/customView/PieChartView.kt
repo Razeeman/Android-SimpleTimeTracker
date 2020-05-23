@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.feature_statistics.customView
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.*
+import android.os.Build
 import android.util.AttributeSet
 import android.view.View
 import androidx.appcompat.content.res.AppCompatResources
@@ -79,11 +80,7 @@ class PieChartView @JvmOverloads constructor(
 
         data.forEach { segment ->
             if (drawIcons && segment.iconId != null) {
-                drawable = (AppCompatResources.getDrawable(
-                    context, segment.iconId
-                ) as? VectorDrawableCompat)?.apply {
-                    setTintList(ColorStateList.valueOf(Color.WHITE))
-                }
+                drawable = getIconDrawable(segment.iconId)
             }
             segmentPercent = segment.value.toFloat() / valuesSum
             sweepAngle = 360 * segmentPercent
@@ -264,6 +261,16 @@ class PieChartView @JvmOverloads constructor(
                 iconId = R.drawable.ic_unknown
             )
         }.let(::setSegments)
+    }
+
+    private fun getIconDrawable(iconId: Int): VectorDrawableCompat? {
+        return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            (AppCompatResources.getDrawable(context, iconId) as? VectorDrawableCompat)
+        } else {
+            VectorDrawableCompat.create(resources, iconId, context.theme)
+        }?.apply {
+            setTintList(ColorStateList.valueOf(Color.WHITE))
+        }
     }
 
     inner class Arc(
