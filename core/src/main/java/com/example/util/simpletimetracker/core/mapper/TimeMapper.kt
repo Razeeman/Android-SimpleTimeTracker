@@ -2,7 +2,6 @@ package com.example.util.simpletimetracker.core.mapper
 
 import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
-import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -12,36 +11,30 @@ class TimeMapper @Inject constructor(
     private val resourceRepo: ResourceRepo
 ) {
 
+    private val calendar = Calendar.getInstance()
+    private val timeFormat = SimpleDateFormat("kk:mm", Locale.US)
+    private val dateFormat = SimpleDateFormat("MMM d kk:mm", Locale.US)
+    private val dayTitleFormat = SimpleDateFormat("E, MMM d", Locale.US)
+    private val weekTitleFormat = SimpleDateFormat("MMM d", Locale.US)
+    private val monthTitleFormat = SimpleDateFormat("MMMM", Locale.US)
+
     fun formatTime(time: Long): String {
-        return DateFormat.getTimeInstance().format(Date(time))
+        return timeFormat.format(time)
     }
 
     fun formatDateTime(time: Long): String {
-        return DateFormat.getDateTimeInstance().format(Date(time))
+        return dateFormat.format(time)
     }
 
-    fun formatInterval(interval: Long): String {
-        val hr: Long = TimeUnit.MILLISECONDS.toHours(
-            interval
-        )
-        val min: Long = TimeUnit.MILLISECONDS.toMinutes(
-            interval - TimeUnit.HOURS.toMillis(hr)
-        )
-        val sec: Long = TimeUnit.MILLISECONDS.toSeconds(
-            interval - TimeUnit.HOURS.toMillis(hr) - TimeUnit.MINUTES.toMillis(min)
-        )
+    fun formatInterval(interval: Long): String =
+        formatInterval(interval, withSeconds = false)
 
-        var res = ""
-        if (hr != 0L) res += "${hr}h "
-        if (hr != 0L || min != 0L) res += "${min}m "
-        res += "${sec}s"
-
-        return res
-    }
+    fun formatIntervalWithSeconds(interval: Long): String =
+        formatInterval(interval, withSeconds = true)
 
     fun toTimestampShifted(daysFromToday: Int): Long {
         return if (daysFromToday != 0) {
-            Calendar.getInstance()
+            calendar
                 .apply {
                     timeInMillis = System.currentTimeMillis()
                     add(Calendar.DATE, daysFromToday)
@@ -63,24 +56,39 @@ class TimeMapper @Inject constructor(
 
     fun toWeekTitle(weeksFromToday: Int): String {
         return when (weeksFromToday) {
-            -1 -> resourceRepo.getString(R.string.title_prev_week)
             0 -> resourceRepo.getString(R.string.title_this_week)
-            1 -> resourceRepo.getString(R.string.title_next_week)
             else -> toWeekDateTitle(weeksFromToday)
         }
     }
 
     fun toMonthTitle(monthsFromToday: Int): String {
         return when (monthsFromToday) {
-            -1 -> resourceRepo.getString(R.string.title_prev_month)
             0 -> resourceRepo.getString(R.string.title_this_month)
-            1 -> resourceRepo.getString(R.string.title_next_month)
             else -> toMonthDateTitle(monthsFromToday)
         }
     }
 
+    private fun formatInterval(interval: Long, withSeconds: Boolean): String {
+        val hr: Long = TimeUnit.MILLISECONDS.toHours(
+            interval
+        )
+        val min: Long = TimeUnit.MILLISECONDS.toMinutes(
+            interval - TimeUnit.HOURS.toMillis(hr)
+        )
+        val sec: Long = TimeUnit.MILLISECONDS.toSeconds(
+            interval - TimeUnit.HOURS.toMillis(hr) - TimeUnit.MINUTES.toMillis(min)
+        )
+
+        var res = ""
+        if (hr != 0L) res += "${hr}h"
+        if (hr != 0L || min != 0L || !withSeconds) res += " ${min}m"
+        if (withSeconds) res += " ${sec}s"
+
+        return res
+    }
+
     private fun toDayDateTitle(daysFromToday: Int): String {
-        val calendar = Calendar.getInstance().apply {
+        calendar.apply {
             timeInMillis = System.currentTimeMillis()
             set(Calendar.HOUR_OF_DAY, 0)
             set(Calendar.MINUTE, 0)
@@ -89,12 +97,11 @@ class TimeMapper @Inject constructor(
             add(Calendar.DATE, daysFromToday)
         }
 
-        return SimpleDateFormat("E, MMMM d", Locale.US)
-            .format(Date(calendar.timeInMillis))
+        return dayTitleFormat.format(calendar.timeInMillis)
     }
 
     private fun toWeekDateTitle(weeksFromToday: Int): String {
-        val calendar = Calendar.getInstance().apply {
+        calendar.apply {
             timeInMillis = System.currentTimeMillis()
             set(Calendar.HOUR_OF_DAY, 0)
             set(Calendar.MINUTE, 0)
@@ -104,20 +111,18 @@ class TimeMapper @Inject constructor(
             add(Calendar.DATE, weeksFromToday * 7)
         }
         val rangeStart = calendar.timeInMillis
-        val rangeEnd = calendar.apply { add(Calendar.DATE, 7) }.timeInMillis
+        val rangeEnd = calendar.apply { add(Calendar.DATE, 6) }.timeInMillis
 
-        return SimpleDateFormat("MMM d", Locale.US).format(Date(rangeStart)) +
-                " - " + SimpleDateFormat("MMM d", Locale.US).format(Date(rangeEnd))
+        return weekTitleFormat.format(rangeStart) + " - " + weekTitleFormat.format(rangeEnd)
 
     }
 
     private fun toMonthDateTitle(monthsFromToday: Int): String {
-        val calendar = Calendar.getInstance().apply {
+        calendar.apply {
             timeInMillis = System.currentTimeMillis()
             add(Calendar.MONTH, monthsFromToday)
         }
 
-        return SimpleDateFormat("MMMM", Locale.US)
-            .format(Date(calendar.timeInMillis))
+        return monthTitleFormat.format(calendar.timeInMillis)
     }
 }

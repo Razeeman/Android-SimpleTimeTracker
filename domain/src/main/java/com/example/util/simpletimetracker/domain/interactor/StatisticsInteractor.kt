@@ -15,8 +15,8 @@ class StatisticsInteractor @Inject constructor(
     private val recordCacheRepo: RecordCacheRepo
 ) {
 
-    suspend fun getAll(): List<Statistics> = withContext(Dispatchers.IO) {
-        recordRepo.getAll()
+    suspend fun getAll(): List<Statistics> {
+        return recordRepo.getAll()
             .groupBy { it.typeId }
             .map { entry ->
                 Statistics(

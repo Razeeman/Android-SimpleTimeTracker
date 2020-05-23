@@ -26,7 +26,7 @@ class RunningRecordViewDataMapper @Inject constructor(
             timeStarted = runningRecord.timeStarted
                 .let(timeMapper::formatTime),
             timer = (System.currentTimeMillis() - runningRecord.timeStarted)
-                .let(timeMapper::formatInterval),
+                .let(timeMapper::formatIntervalWithSeconds),
             iconId = recordType.icon
                 .let(iconMapper::mapToDrawableResId),
             color = recordType.color
