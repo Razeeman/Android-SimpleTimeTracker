@@ -62,6 +62,7 @@ class ChangeRecordViewModel(
     val flipTypesChooser: LiveData<Boolean> = MutableLiveData()
     val deleteIconVisibility: LiveData<Boolean> = MutableLiveData(id != 0L)
     val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
+    val deleteButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
 
     private var newTypeId: Long = 0
     private var newTimeEnded: Long = 0
@@ -93,6 +94,7 @@ class ChangeRecordViewModel(
     }
 
     fun onDeleteClick() {
+        (deleteButtonEnabled as MutableLiveData).value = false
         viewModelScope.launch {
             if (id != 0L) {
                 recordInteractor.remove(id)

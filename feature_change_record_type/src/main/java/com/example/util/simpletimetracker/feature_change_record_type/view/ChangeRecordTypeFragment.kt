@@ -75,65 +75,47 @@ class ChangeRecordTypeFragment : Fragment() {
             adapter = iconsAdapter
         }
 
-        viewModel.deleteIconVisibility.observeOnce(viewLifecycleOwner) {
-            btnChangeRecordTypeDelete.visible = it
-        }
-
-        viewModel.recordType.observeOnce(viewLifecycleOwner) {
-            updateUi(it)
-        }
-
-        viewModel.recordType.observe(viewLifecycleOwner) {
-            updatePreview(it)
-        }
-
-        viewModel.colors.observe(viewLifecycleOwner) {
-            colorsAdapter.replace(it)
-        }
-
-        viewModel.icons.observe(viewLifecycleOwner) {
-            iconsAdapter.replace(it)
-        }
-
-        viewModel.flipColorChooser.observe(viewLifecycleOwner) { opened ->
-            rvChangeRecordTypeColor.visible = opened
-            arrowChangeRecordTypeColor.apply {
-                if (opened) rotateDown() else rotateUp()
+        viewModel.deleteIconVisibility
+            .observeOnce(viewLifecycleOwner, btnChangeRecordTypeDelete::visible::set)
+        viewModel.saveButtonEnabled
+            .observe(viewLifecycleOwner, btnChangeRecordTypeSave::setEnabled)
+        viewModel.deleteButtonEnabled
+            .observe(viewLifecycleOwner, btnChangeRecordTypeDelete::setEnabled)
+        viewModel.recordType
+            .observeOnce(viewLifecycleOwner, ::updateUi)
+        viewModel.recordType
+            .observe(viewLifecycleOwner, ::updatePreview)
+        viewModel.colors
+            .observe(viewLifecycleOwner, colorsAdapter::replace)
+        viewModel.icons
+            .observe(viewLifecycleOwner, iconsAdapter::replace)
+        viewModel.flipColorChooser
+            .observe(viewLifecycleOwner) { opened ->
+                rvChangeRecordTypeColor.visible = opened
+                arrowChangeRecordTypeColor.apply {
+                    if (opened) rotateDown() else rotateUp()
+                }
             }
-        }
-
-        viewModel.flipIconChooser.observe(viewLifecycleOwner) { opened ->
-            rvChangeRecordTypeIcon.visible = opened
-            arrowChangeRecordTypeIcon.apply {
-                if (opened) rotateDown() else rotateUp()
+        viewModel.flipIconChooser
+            .observe(viewLifecycleOwner) { opened ->
+                rvChangeRecordTypeIcon.visible = opened
+                arrowChangeRecordTypeIcon.apply {
+                    if (opened) rotateDown() else rotateUp()
+                }
             }
-        }
-
-        viewModel.keyboardVisibility.observe(viewLifecycleOwner) { visible ->
-            if (visible) showKeyboard(etChangeRecordTypeName) else hideKeyboard()
-        }
+        viewModel.keyboardVisibility
+            .observe(viewLifecycleOwner) { visible ->
+                if (visible) showKeyboard(etChangeRecordTypeName) else hideKeyboard()
+            }
 
         etChangeRecordTypeName.doAfterTextChanged {
             viewModel.onNameChange(it.toString())
         }
 
-        fieldChangeRecordTypeColor.setOnClickListener {
-            viewModel.onColorChooserClick()
-        }
-
-        fieldChangeRecordTypeIcon.setOnClickListener {
-            viewModel.onIconChooserClick()
-        }
-
-        btnChangeRecordTypeDelete.setOnClickListener {
-            it.isEnabled = false
-            viewModel.onDeleteClick()
-        }
-
-        btnChangeRecordTypeSave.setOnClickListener {
-            it.isEnabled = false
-            viewModel.onSaveClick()
-        }
+        fieldChangeRecordTypeColor.setOnClick(viewModel::onColorChooserClick)
+        fieldChangeRecordTypeIcon.setOnClick(viewModel::onIconChooserClick)
+        btnChangeRecordTypeSave.setOnClick(viewModel::onSaveClick)
+        btnChangeRecordTypeDelete.setOnClick(viewModel::onDeleteClick)
     }
 
     private fun updateUi(item: ChangeRecordTypeViewData) {

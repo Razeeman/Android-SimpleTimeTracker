@@ -4,6 +4,7 @@ import android.view.ViewGroup
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerViewHolder
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.core.extension.setOnClickWith
 import com.example.util.simpletimetracker.feature_change_record_type.R
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeColorViewData
 import kotlinx.android.synthetic.main.change_record_type_item_color_layout.view.*
@@ -22,9 +23,7 @@ class ChangeRecordTypeColorAdapterDelegate(
             item as ChangeRecordTypeColorViewData
 
             layoutChangeRecordTypeColorItem.setCardBackgroundColor(item.colorInt)
-            layoutChangeRecordTypeColorItem.setOnClickListener {
-                onColorItemClick.invoke(item)
-            }
+            layoutChangeRecordTypeColorItem.setOnClickWith(item, onColorItemClick)
         }
     }
 }

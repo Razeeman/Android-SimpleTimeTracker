@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
+import com.example.util.simpletimetracker.core.extension.setOnClick
+import com.example.util.simpletimetracker.core.extension.setOnLongClick
 import com.example.util.simpletimetracker.feature_records.R
 import com.example.util.simpletimetracker.feature_records.adapter.RecordsContainerAdapter
 import com.example.util.simpletimetracker.feature_records.di.RecordsComponentProvider
@@ -37,30 +39,15 @@ class RecordsContainerFragment : Fragment() {
 
         setupPager()
 
-        viewModel.title.observe(viewLifecycleOwner) {
-            updateTitle(it)
-        }
-
+        viewModel.title.observe(viewLifecycleOwner, ::updateTitle)
         viewModel.position.observe(viewLifecycleOwner) {
             pagerRecordsContainer.currentItem = it + RecordsContainerAdapter.FIRST
         }
 
-        btnRecordAdd.setOnClickListener {
-            viewModel.onRecordAddClick()
-        }
-
-        btnRecordsContainerPrevious.setOnClickListener {
-            viewModel.onPreviousClick()
-        }
-
-        btnRecordsContainerToday.setOnLongClickListener {
-            viewModel.onTodayClick()
-            true
-        }
-
-        btnRecordsContainerNext.setOnClickListener {
-            viewModel.onNextClick()
-        }
+        btnRecordAdd.setOnClick(viewModel::onRecordAddClick)
+        btnRecordsContainerPrevious.setOnClick(viewModel::onPreviousClick)
+        btnRecordsContainerNext.setOnClick(viewModel::onNextClick)
+        btnRecordsContainerToday.setOnLongClick(viewModel::onTodayClick)
     }
 
     private fun setupPager() {

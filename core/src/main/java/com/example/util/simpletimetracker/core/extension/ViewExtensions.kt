@@ -38,8 +38,16 @@ fun View.setOnClick(listener: (() -> Unit)) {
     setOnClickListener { listener.invoke() }
 }
 
+inline fun <T> View.setOnClickWith(item: T, crossinline listener: ((T) -> Unit)) {
+    setOnClickListener { listener.invoke(item) }
+}
+
 fun View.setOnLongClick(listener: (() -> Unit)) {
     setOnLongClickListener { listener.invoke(); true }
+}
+
+inline fun <T> View.setOnLongClickWith(item: T, crossinline listener: ((T) -> Unit)) {
+    setOnLongClickListener { listener.invoke(item); true }
 }
 
 fun TabLayout.onTabSelected(func: (TabLayout.Tab) -> Unit) {

@@ -4,6 +4,7 @@ import android.view.ViewGroup
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerViewHolder
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.core.extension.setOnClickWith
 import com.example.util.simpletimetracker.feature_change_record.R
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordTypeViewData
 import kotlinx.android.synthetic.main.item_record_layout.view.*
@@ -24,9 +25,7 @@ class ChangeRecordAdapterDelegate(
             color = item.color
             icon = item.icon
             name = item.name
-            setOnClickListener {
-                onItemClick.invoke(item)
-            }
+            setOnClickWith(item, onItemClick)
         }
     }
 }

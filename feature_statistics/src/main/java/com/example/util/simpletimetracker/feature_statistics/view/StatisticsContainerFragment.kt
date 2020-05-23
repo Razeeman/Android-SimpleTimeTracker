@@ -68,7 +68,6 @@ class StatisticsContainerFragment : Fragment() {
     private fun updateRange(rangeLength: RangeLength) {
         // TODO avoid recreation, implement update
         setupPager(rangeLength)
-        layoutStatisticsContainerButtons.visible = false
         if (rangeLength == RangeLength.ALL) {
             btnStatisticsContainerPrevious.visible = false
             btnStatisticsContainerNext.visible = false
@@ -79,6 +78,7 @@ class StatisticsContainerFragment : Fragment() {
     }
 
     private fun updateTitle(title: String) {
+        layoutStatisticsContainerButtons.visible = false
         btnStatisticsContainerToday.text = title
     }
 
