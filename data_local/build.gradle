@@ -14,10 +14,15 @@ android {
         versionCode base.versionCode
         versionName base.versionName
     }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
 }
 
 dependencies {
     implementation project(':domain')
+    implementation project(':core')
 
     implementation deps.androidx.room
     implementation deps.ktx.room

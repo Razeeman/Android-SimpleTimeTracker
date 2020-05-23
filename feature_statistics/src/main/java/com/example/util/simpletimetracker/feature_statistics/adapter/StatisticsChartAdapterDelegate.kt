@@ -11,9 +11,9 @@ import kotlinx.android.synthetic.main.item_statistics_chart_layout.view.*
 class StatisticsChartAdapterDelegate() : BaseRecyclerAdapterDelegate() {
 
     override fun onCreateViewHolder(parent: ViewGroup): BaseRecyclerViewHolder =
-        RunningRecordsViewHolder(parent)
+        StatisticsChartViewHolder(parent)
 
-    inner class RunningRecordsViewHolder(parent: ViewGroup) :
+    inner class StatisticsChartViewHolder(parent: ViewGroup) :
         BaseRecyclerViewHolder(parent, R.layout.item_statistics_chart_layout) {
 
         override fun bind(item: ViewHolderType) = with(itemView) {

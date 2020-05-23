@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.feature_dialogs.chartFilter
+package com.example.util.simpletimetracker.feature_dialogs.chartFilter.viewData
 
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes

@@ -8,7 +8,7 @@ import com.example.util.simpletimetracker.di.DaggerAppComponent
 import com.example.util.simpletimetracker.di.FeatureComponentProvider
 import com.example.util.simpletimetracker.feature_change_record.di.ChangeRecordComponent
 import com.example.util.simpletimetracker.feature_change_record_type.di.ChangeRecordTypeComponent
-import com.example.util.simpletimetracker.feature_dialogs.chartFilter.ChartFilterComponent
+import com.example.util.simpletimetracker.feature_dialogs.chartFilter.di.ChartFilterComponent
 import com.example.util.simpletimetracker.feature_records.di.RecordsComponent
 import com.example.util.simpletimetracker.feature_running_records.di.RunningRecordsComponent
 import com.example.util.simpletimetracker.feature_settings.di.SettingsComponent

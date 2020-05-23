@@ -6,6 +6,7 @@ import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
+import com.example.util.simpletimetracker.core.dialog.ChartFilterDialogListener
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_statistics.R
 import com.example.util.simpletimetracker.feature_statistics.adapter.StatisticsAdapter
@@ -16,7 +17,8 @@ import com.example.util.simpletimetracker.navigation.params.StatisticsParams
 import kotlinx.android.synthetic.main.statistics_fragment.*
 import javax.inject.Inject
 
-class StatisticsFragment : BaseFragment(R.layout.statistics_fragment) {
+class StatisticsFragment : BaseFragment(R.layout.statistics_fragment),
+    ChartFilterDialogListener {
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<StatisticsViewModel>
@@ -53,6 +55,10 @@ class StatisticsFragment : BaseFragment(R.layout.statistics_fragment) {
     override fun onResume() {
         super.onResume()
         viewModel.onVisible()
+    }
+
+    override fun onChartFilterDialogDismissed() {
+        viewModel.onFilterApplied()
     }
 
     companion object {

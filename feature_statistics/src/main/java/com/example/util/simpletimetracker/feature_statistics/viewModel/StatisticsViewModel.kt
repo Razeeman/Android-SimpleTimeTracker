@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordTypesFilteredInteractor
 import com.example.util.simpletimetracker.domain.interactor.StatisticsInteractor
 import com.example.util.simpletimetracker.feature_statistics.extra.StatisticsExtra
 import com.example.util.simpletimetracker.feature_statistics.mapper.StatisticsViewDataMapper
@@ -14,9 +15,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class StatisticsViewModel @Inject constructor(
-    private var recordTypeInteractor: RecordTypeInteractor,
-    private var statisticsInteractor: StatisticsInteractor,
-    private var statisticsViewDataMapper: StatisticsViewDataMapper
+    private val recordTypeInteractor: RecordTypeInteractor,
+    private val statisticsInteractor: StatisticsInteractor,
+    private val recordTypesFilteredInteractor: RecordTypesFilteredInteractor,
+    private val statisticsViewDataMapper: StatisticsViewDataMapper
 ) : ViewModel() {
 
     var extra: StatisticsExtra? = null
@@ -34,6 +36,12 @@ class StatisticsViewModel @Inject constructor(
         }
     }
 
+    fun onFilterApplied() {
+        viewModelScope.launch {
+            updateStatistics()
+        }
+    }
+
     private suspend fun updateStatistics() {
         (statistics as MutableLiveData).value = loadStatisticsViewData()
     }
@@ -45,9 +53,10 @@ class StatisticsViewModel @Inject constructor(
             statisticsInteractor.getAll()
         }
         val types = recordTypeInteractor.getAll()
+        val typesFiltered = recordTypesFilteredInteractor.getFilteredTypes()
 
         val list = statisticsViewDataMapper.map(statistics, types)
-        val chart = statisticsViewDataMapper.mapToChart(statistics, types)
+        val chart = statisticsViewDataMapper.mapToChart(statistics, types, typesFiltered)
 
         return mutableListOf(chart).apply { addAll(list) }
     }

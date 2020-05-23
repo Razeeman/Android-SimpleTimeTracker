@@ -42,9 +42,11 @@ class StatisticsViewDataMapper @Inject constructor(
 
     fun mapToChart(
         statistics: List<Statistics>,
-        recordTypes: List<RecordType>
+        recordTypes: List<RecordType>,
+        recordTypesFiltered: List<Long>
     ): ViewHolderType {
         val recordTypesMap = recordTypes
+            .filterNot { it.id in recordTypesFiltered }
             .map { it.id to it }
             .toMap()
 

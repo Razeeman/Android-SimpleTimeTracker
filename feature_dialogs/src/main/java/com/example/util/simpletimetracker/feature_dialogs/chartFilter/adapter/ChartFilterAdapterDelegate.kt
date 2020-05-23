@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.feature_dialogs.chartFilter
+package com.example.util.simpletimetracker.feature_dialogs.chartFilter.adapter
 
 import android.view.ViewGroup
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapterDelegate
@@ -6,6 +6,7 @@ import com.example.util.simpletimetracker.core.adapter.BaseRecyclerViewHolder
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.extension.setOnClickWith
 import com.example.util.simpletimetracker.feature_dialogs.R
+import com.example.util.simpletimetracker.feature_dialogs.chartFilter.viewData.ChartFilterRecordTypeViewData
 import kotlinx.android.synthetic.main.item_chart_filter_record_type_layout.view.*
 
 class ChartFilterAdapterDelegate(

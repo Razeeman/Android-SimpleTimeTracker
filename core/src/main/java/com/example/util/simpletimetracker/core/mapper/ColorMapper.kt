@@ -30,7 +30,7 @@ class ColorMapper @Inject constructor() {
             R.color.deep_orange_600,
             R.color.brown_600,
             R.color.blue_grey_600,
-            R.color.grey_900
+            R.color.grey_600
         )
         val colorsNumber = availableColors.size
     }

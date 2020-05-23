@@ -1,15 +1,23 @@
-package com.example.util.simpletimetracker.feature_dialogs.chartFilter
+package com.example.util.simpletimetracker.feature_dialogs.chartFilter.view
 
+import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
+import com.example.util.simpletimetracker.core.dialog.ChartFilterDialogListener
+import com.example.util.simpletimetracker.core.extension.getAllFragments
 import com.example.util.simpletimetracker.feature_dialogs.R
+import com.example.util.simpletimetracker.feature_dialogs.chartFilter.viewModel.ChartFilterViewModel
+import com.example.util.simpletimetracker.feature_dialogs.chartFilter.adapter.ChartFilterAdapter
+import com.example.util.simpletimetracker.feature_dialogs.chartFilter.di.ChartFilterComponentProvider
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
@@ -19,7 +27,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.chart_filter_dialog_fragment.*
 import javax.inject.Inject
 
-class ChartFilerDialogFragment : BottomSheetDialogFragment() {
+class ChartFilterDialogFragment : BottomSheetDialogFragment() {
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<ChartFilterViewModel>
@@ -29,10 +37,13 @@ class ChartFilerDialogFragment : BottomSheetDialogFragment() {
     )
 
     private val recordTypesAdapter: ChartFilterAdapter by lazy {
-        ChartFilterAdapter(viewModel::onRecordTypeClick)
+        ChartFilterAdapter(
+            viewModel::onRecordTypeClick
+        )
     }
 
     private var behavior: BottomSheetBehavior<View>? = null
+    private var chartFilterDialogListener: ChartFilterDialogListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +70,26 @@ class ChartFilerDialogFragment : BottomSheetDialogFragment() {
         initUi()
         initUx()
         initViewModel()
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        when (context) {
+            is ChartFilterDialogListener -> {
+                chartFilterDialogListener = context
+                return
+            }
+            is AppCompatActivity -> {
+                context.getAllFragments()
+                    .firstOrNull { it is ChartFilterDialogListener && it.isResumed }
+                    ?.let { chartFilterDialogListener = it as? ChartFilterDialogListener }
+            }
+        }
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        chartFilterDialogListener?.onChartFilterDialogDismissed()
     }
 
     private fun initDialog() {
