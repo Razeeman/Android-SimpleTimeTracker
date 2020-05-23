@@ -12,8 +12,17 @@ class RecordsContainerAdapter(fragment: Fragment) : FragmentStateAdapter(fragmen
         Int.MAX_VALUE
 
     override fun createFragment(position: Int): Fragment {
-        val shift = position - FIRST
+        val range = getRange(position)
+        return RecordsFragment.newInstance(
+            RecordsParams(
+                rangeStart = range.first,
+                rangeEnd = range.second
+            )
+        )
+    }
 
+    private fun getRange(position: Int): Pair<Long, Long> {
+        val shift = position - FIRST
         val calendar = Calendar.getInstance().apply {
             timeInMillis = System.currentTimeMillis()
             set(Calendar.HOUR_OF_DAY, 0)
@@ -22,13 +31,10 @@ class RecordsContainerAdapter(fragment: Fragment) : FragmentStateAdapter(fragmen
             set(Calendar.MILLISECOND, 0)
             add(Calendar.DATE, shift)
         }
+        val rangeStart = calendar.timeInMillis
+        val rangeEnd = calendar.apply { add(Calendar.DATE, 1) }.timeInMillis
 
-        return RecordsFragment.newInstance(
-            RecordsParams(
-                rangeStart = calendar.timeInMillis,
-                rangeEnd = calendar.apply { add(Calendar.DATE, 1) }.timeInMillis
-            )
-        )
+        return rangeStart to rangeEnd
     }
 
     companion object {

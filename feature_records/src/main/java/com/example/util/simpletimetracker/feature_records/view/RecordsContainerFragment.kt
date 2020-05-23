@@ -5,11 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.observe
 import com.example.util.simpletimetracker.feature_records.R
 import com.example.util.simpletimetracker.feature_records.adapter.RecordsContainerAdapter
+import com.example.util.simpletimetracker.feature_records.di.RecordsComponentProvider
+import com.example.util.simpletimetracker.feature_records.viewModel.RecordsContainerViewModel
 import kotlinx.android.synthetic.main.records_container_fragment.*
 
 class RecordsContainerFragment : Fragment() {
+
+    private val viewModel: RecordsContainerViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,18 +31,30 @@ class RecordsContainerFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        (activity?.application as RecordsComponentProvider)
+            .recordsComponent?.inject(viewModel)
+
         setupPager()
 
+        viewModel.title.observe(viewLifecycleOwner) {
+            updateTitle(it)
+        }
+
+        viewModel.position.observe(viewLifecycleOwner) {
+            pagerRecordsContainer.currentItem = it + RecordsContainerAdapter.FIRST
+        }
+
         btnRecordsContainerPrevious.setOnClickListener {
-            pagerRecordsContainer.currentItem -= 1
+            viewModel.onPreviousClick()
         }
 
         btnRecordsContainerToday.setOnClickListener {
-            pagerRecordsContainer.currentItem = RecordsContainerAdapter.FIRST
+            viewModel.onTodayClick()
         }
 
         btnRecordsContainerNext.setOnClickListener {
-            pagerRecordsContainer.currentItem += 1
+            viewModel.onNextClick()
         }
     }
 
@@ -44,10 +62,13 @@ class RecordsContainerFragment : Fragment() {
         val adapter = RecordsContainerAdapter(this)
         pagerRecordsContainer.apply {
             this.adapter = adapter
-            currentItem = RecordsContainerAdapter.FIRST
             offscreenPageLimit = 2
             isUserInputEnabled = false
         }
+    }
+
+    private fun updateTitle(title: String) {
+        btnRecordsContainerToday.text = title
     }
 
     companion object {

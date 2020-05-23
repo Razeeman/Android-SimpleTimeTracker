@@ -7,3 +7,5 @@ fun Boolean?.orTrue() = this ?: true
 fun Boolean.flip() = !this
 
 fun Long?.orZero() = this ?: 0
+
+fun Int?.orZero() = this ?: 0

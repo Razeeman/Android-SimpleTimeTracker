@@ -35,9 +35,8 @@ class RecordsViewModel(
     lateinit var timeMapper: TimeMapper
 
     val records: LiveData<List<RecordViewData>> by lazy {
-        return@lazy MutableLiveData<List<RecordViewData>>().let { initial ->
-            viewModelScope.launch { initial.value = loadRecordsViewData() }
-            initial
+        return@lazy MutableLiveData<List<RecordViewData>>().apply {
+            viewModelScope.launch { value = loadRecordsViewData() }
         }
     }
 
