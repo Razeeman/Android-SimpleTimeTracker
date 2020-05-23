@@ -69,7 +69,7 @@ class RecordsViewModel(
                 recordTypes[record.typeId]?.let { type -> record to type }
             }
             .map { (record, recordType) ->
-                recordViewDataMapper.map(record, recordType)
+                recordViewDataMapper.map(record, recordType, start, end)
             }
             .sortedByDescending { it.timeStarted }
     }

@@ -8,6 +8,8 @@ import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_records.adapter.RecordViewData
 import javax.inject.Inject
+import kotlin.math.max
+import kotlin.math.min
 
 class RecordViewDataMapper @Inject constructor(
     private val iconMapper: IconMapper,
@@ -18,16 +20,29 @@ class RecordViewDataMapper @Inject constructor(
 
     fun map(
         record: Record,
-        recordType: RecordType
+        recordType: RecordType,
+        rangeStart: Long = 0L,
+        rangeEnd: Long = 0L
     ): RecordViewData {
+        val timeStarted = if (rangeStart != 0L) {
+            max(record.timeStarted, rangeStart)
+        } else {
+            record.timeStarted
+        }
+        val timeEnded = if (rangeEnd != 0L) {
+            min(record.timeEnded, rangeEnd)
+        } else {
+            record.timeEnded
+        }
+
         return RecordViewData(
             id = record.id,
             name = recordType.name,
-            timeStarted = record.timeStarted
+            timeStarted = timeStarted
                 .let(timeMapper::formatTime),
-            timeFinished = record.timeEnded
+            timeFinished = timeEnded
                 .let(timeMapper::formatTime),
-            duration = (record.timeEnded - record.timeStarted)
+            duration = (timeEnded - timeStarted)
                 .let(timeMapper::formatInterval),
             iconId = recordType.icon
                 .let(iconMapper::mapToDrawableResId),
