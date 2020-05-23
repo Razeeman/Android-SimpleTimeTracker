@@ -12,7 +12,10 @@ import com.example.util.simpletimetracker.feature_statistics.mapper.StatisticsVi
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class StatisticsViewModel : ViewModel() {
+class StatisticsViewModel(
+    private val start: Long,
+    private val end: Long
+) : ViewModel() {
 
     @Inject
     lateinit var recordInteractor: RecordInteractor
@@ -41,7 +44,11 @@ class StatisticsViewModel : ViewModel() {
     }
 
     private suspend fun loadStatisticsViewData(): List<ViewHolderType> {
-        val statistics = statisticsInteractor.getAll()
+        val statistics = if (start != 0L && end != 0L) {
+            statisticsInteractor.getFromRange(start, end)
+        } else {
+            statisticsInteractor.getAll()
+        }
         val types = recordTypeInteractor.getAll()
 
         val list = statisticsViewDataMapper.map(statistics, types)
