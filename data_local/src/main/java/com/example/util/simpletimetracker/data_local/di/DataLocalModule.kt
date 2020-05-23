@@ -6,10 +6,12 @@ import com.example.util.simpletimetracker.data_local.database.AppDatabase
 import com.example.util.simpletimetracker.data_local.database.RecordDao
 import com.example.util.simpletimetracker.data_local.database.RecordTypeDao
 import com.example.util.simpletimetracker.data_local.database.RunningRecordDao
+import com.example.util.simpletimetracker.data_local.repo.RecordCacheRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.RecordRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.RecordTypeRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.RunningRecordRepoImpl
 import com.example.util.simpletimetracker.domain.di.AppContext
+import com.example.util.simpletimetracker.domain.repo.RecordCacheRepo
 import com.example.util.simpletimetracker.domain.repo.RecordRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeRepo
 import com.example.util.simpletimetracker.domain.repo.RunningRecordRepo
@@ -41,6 +43,11 @@ class DataLocalModule {
     @Provides
     fun getRecordRepo(recordRepoImpl: RecordRepoImpl): RecordRepo {
         return recordRepoImpl
+    }
+
+    @Provides
+    fun getRecordCacheRepo(recordCacheRepoImpl: RecordCacheRepoImpl): RecordCacheRepo {
+        return recordCacheRepoImpl
     }
 
     @Provides

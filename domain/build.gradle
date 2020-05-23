@@ -19,6 +19,7 @@ android {
 dependencies {
     api deps.javax
     api deps.coroutines
+    api deps.timber
 
     testImplementation deps.test.junit
 }

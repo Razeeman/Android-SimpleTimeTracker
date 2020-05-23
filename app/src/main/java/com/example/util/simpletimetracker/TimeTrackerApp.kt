@@ -6,10 +6,12 @@ import com.example.util.simpletimetracker.di.AppModule
 import com.example.util.simpletimetracker.di.DaggerAppComponent
 import com.example.util.simpletimetracker.di.FeatureComponentProvider
 import com.example.util.simpletimetracker.feature_change_record.di.ChangeRecordComponent
-import com.example.util.simpletimetracker.feature_records.di.RecordsComponent
 import com.example.util.simpletimetracker.feature_change_record_type.di.ChangeRecordTypeComponent
+import com.example.util.simpletimetracker.feature_records.di.RecordsComponent
 import com.example.util.simpletimetracker.feature_running_records.di.RunningRecordsComponent
 import com.example.util.simpletimetracker.feature_statistics.di.StatisticsComponent
+import timber.log.Timber
+import timber.log.Timber.DebugTree
 
 class TimeTrackerApp : Application(), FeatureComponentProvider {
 
@@ -22,6 +24,7 @@ class TimeTrackerApp : Application(), FeatureComponentProvider {
 
     override fun onCreate() {
         super.onCreate()
+        initLog()
         initDi()
     }
 
@@ -35,5 +38,11 @@ class TimeTrackerApp : Application(), FeatureComponentProvider {
         recordsComponent = appComponent?.plusRecordsComponent()
         changeRecordComponent = appComponent?.plusChangeRecordComponent()
         statisticsComponent = appComponent?.plusStatisticsComponent()
+    }
+
+    private fun initLog() {
+        if (BuildConfig.DEBUG) {
+            Timber.plant(DebugTree())
+        }
     }
 }

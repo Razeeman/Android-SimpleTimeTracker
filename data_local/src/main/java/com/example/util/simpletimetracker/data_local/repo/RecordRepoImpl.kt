@@ -2,8 +2,11 @@ package com.example.util.simpletimetracker.data_local.repo
 
 import com.example.util.simpletimetracker.data_local.database.RecordDao
 import com.example.util.simpletimetracker.data_local.mapper.RecordDataLocalMapper
-import com.example.util.simpletimetracker.domain.repo.RecordRepo
 import com.example.util.simpletimetracker.domain.model.Record
+import com.example.util.simpletimetracker.domain.repo.RecordRepo
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -13,32 +16,39 @@ class RecordRepoImpl @Inject constructor(
     private val recordDataLocalMapper: RecordDataLocalMapper
 ) : RecordRepo {
 
-    override suspend fun getAll(): List<Record> {
-        return recordDao.getAll()
+    override suspend fun getAll(): List<Record> = withContext(Dispatchers.IO) {
+        Timber.d("getAll")
+        recordDao.getAll()
             .map(recordDataLocalMapper::map)
     }
 
-    override suspend fun get(id: Long): Record? {
-        return recordDao.get(id)
+    override suspend fun get(id: Long): Record? = withContext(Dispatchers.IO) {
+        Timber.d("get")
+        recordDao.get(id)
             ?.let(recordDataLocalMapper::map)
     }
 
-    override suspend fun getFromRange(start: Long, end: Long): List<Record> {
-        return recordDao.getFromRange(start, end)
-            .map(recordDataLocalMapper::map)
-    }
+    override suspend fun getFromRange(start: Long, end: Long): List<Record> =
+        withContext(Dispatchers.IO) {
+            Timber.d("getFromRange")
+            recordDao.getFromRange(start, end)
+                .map(recordDataLocalMapper::map)
+        }
 
-    override suspend fun add(record: Record) {
+    override suspend fun add(record: Record) = withContext(Dispatchers.IO) {
+        Timber.d("add")
         recordDao.insert(
             record.let(recordDataLocalMapper::map)
         )
     }
 
-    override suspend fun remove(id: Long) {
+    override suspend fun remove(id: Long) = withContext(Dispatchers.IO) {
+        Timber.d("remove")
         recordDao.delete(id)
     }
 
-    override suspend fun clear() {
+    override suspend fun clear() = withContext(Dispatchers.IO) {
+        Timber.d("clear")
         recordDao.clear()
     }
 }

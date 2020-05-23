@@ -4,8 +4,8 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.*
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import com.example.util.simpletimetracker.feature_statistics.R
 import kotlin.math.max
@@ -45,10 +45,10 @@ class PieChartView @JvmOverloads constructor(
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         // TODO remove logs
-        Log.d("PieChart", "onMeasure w: " + MeasureSpec.toString(widthMeasureSpec))
-        Log.d("PieChart", "onMeasure h: " + MeasureSpec.toString(heightMeasureSpec))
-        Log.d("PieChart", "onMeasure suggestedMinimumWidth: $suggestedMinimumWidth")
-        Log.d("PieChart", "onMeasure suggestedMinimumHeight: $suggestedMinimumHeight")
+//        Log.d("PieChart", "onMeasure w: " + MeasureSpec.toString(widthMeasureSpec))
+//        Log.d("PieChart", "onMeasure h: " + MeasureSpec.toString(heightMeasureSpec))
+//        Log.d("PieChart", "onMeasure suggestedMinimumWidth: $suggestedMinimumWidth")
+//        Log.d("PieChart", "onMeasure suggestedMinimumHeight: $suggestedMinimumHeight")
 
         val w = resolveSize(0, widthMeasureSpec)
         val h = resolveSize(w, heightMeasureSpec)
@@ -79,11 +79,11 @@ class PieChartView @JvmOverloads constructor(
 
         data.forEach { segment ->
             if (drawIcons && segment.iconId != null) {
-                drawable = VectorDrawableCompat
-                    .create(context.resources, segment.iconId, null)
-                    ?.apply {
-                        setTintList(ColorStateList.valueOf(Color.WHITE))
-                    }
+                drawable = (AppCompatResources.getDrawable(
+                    context, segment.iconId
+                ) as? VectorDrawableCompat)?.apply {
+                    setTintList(ColorStateList.valueOf(Color.WHITE))
+                }
             }
             segmentPercent = segment.value.toFloat() / valuesSum
             sweepAngle = 360 * segmentPercent
