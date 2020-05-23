@@ -51,6 +51,10 @@ class RouterImpl @Inject constructor() : Router() {
                     R.id.dateTimeDialog,
                     DateTimeDialogFragment.createBundle(data)
                 )
+            Screen.CHART_FILTER_DIALOG ->
+                navController?.navigate(
+                    R.id.chartFilerDialogFragment
+                )
             Screen.CREATE_FILE -> {
                 val timeString = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())
                     .format(Date())

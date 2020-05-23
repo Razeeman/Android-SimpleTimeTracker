@@ -8,11 +8,14 @@ import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_statistics.R
 import com.example.util.simpletimetracker.feature_statistics.viewData.RangeLength
+import com.example.util.simpletimetracker.navigation.Router
+import com.example.util.simpletimetracker.navigation.Screen
 import javax.inject.Inject
 
 class StatisticsContainerViewModel @Inject constructor(
     private val timeMapper: TimeMapper,
-    private val resourceRepo: ResourceRepo
+    private val resourceRepo: ResourceRepo,
+    private val router: Router
 ) : ViewModel() {
 
     val title: LiveData<String> by lazy {
@@ -25,6 +28,10 @@ class StatisticsContainerViewModel @Inject constructor(
 
     val rangeLength: LiveData<RangeLength> by lazy {
         return@lazy MutableLiveData(RangeLength.DAY)
+    }
+
+    fun onFilterClick() {
+        router.navigate(Screen.CHART_FILTER_DIALOG)
     }
 
     fun onPreviousClick() {

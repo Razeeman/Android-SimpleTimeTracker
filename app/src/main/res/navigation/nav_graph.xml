@@ -40,4 +40,8 @@
         android:id="@+id/standardDialogFragment"
         android:name="com.example.util.simpletimetracker.feature_dialogs.standard.StandardDialogFragment"
         android:label="StandardDialogFragment" />
+    <dialog
+        android:id="@+id/chartFilerDialogFragment"
+        android:name="com.example.util.simpletimetracker.feature_dialogs.chartFilter.ChartFilerDialogFragment"
+        android:label="ChartFilerDialogFragment" />
 </navigation>

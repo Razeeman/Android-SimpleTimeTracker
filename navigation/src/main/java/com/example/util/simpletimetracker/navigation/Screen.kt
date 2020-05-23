@@ -6,6 +6,7 @@ enum class Screen {
 
     STANDARD_DIALOG,
     DATE_TIME_DIALOG,
+    CHART_FILTER_DIALOG,
 
     CREATE_FILE,
     OPEN_FILE

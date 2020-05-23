@@ -29,6 +29,8 @@ dependencies {
     implementation deps.androidx.constraintlayout
     implementation deps.androidx.material
     implementation deps.androidx.viewpager2
+    implementation deps.google.flexBox
+    implementation deps.google.dagger
     implementation deps.ktx.fragment
     implementation deps.ktx.livedata
     implementation deps.ktx.viewmodel

@@ -34,6 +34,7 @@ class StatisticsContainerFragment : BaseFragment(R.layout.statistics_container_f
     }
 
     override fun initUx() {
+        btnStatisticsContainerFilter.setOnClick(viewModel::onFilterClick)
         btnStatisticsContainerPrevious.setOnClick(viewModel::onPreviousClick)
         btnStatisticsContainerNext.setOnClick(viewModel::onNextClick)
         btnStatisticsContainerToday.setOnClick(layoutStatisticsContainerButtons::flipVisibility)
