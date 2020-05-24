@@ -5,6 +5,7 @@ import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.Statistics
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.util.*
 import javax.inject.Inject
 import kotlin.math.max
 import kotlin.math.min
@@ -40,7 +41,7 @@ class StatisticsInteractor @Inject constructor(
                     )
                 }
                 .apply {
-                    if (addUntracked) {
+                    if (addUntracked && untrackedTime > 0L) {
                         this as MutableList
                         add(
                             Statistics(
@@ -53,13 +54,27 @@ class StatisticsInteractor @Inject constructor(
         }
 
     private fun calculateUntracked(records: List<Record>, start: Long, end: Long): Long {
+        // Bound end range of calculation to today's day end,
+        // to not show untracked time in the future
+        val todayEnd = Calendar.getInstance().apply {
+            timeInMillis = System.currentTimeMillis()
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+            add(Calendar.DATE, 1)
+        }.timeInMillis
+
+        val untrackedTimeEndRange = min(todayEnd, end)
+        if (start > untrackedTimeEndRange) return 0L
+
         return records
-            // Remove parts of the record that is not in the range
-            .map { max(it.timeStarted, start) to min(it.timeEnded, end) }
+            // Remove parts of the record that are not in the range
+            .map { max(it.timeStarted, start) to min(it.timeEnded, untrackedTimeEndRange) }
             // Calculate covered range
             .let(coveredRangeMapper::map)
             // Calculate uncovered range
-            .let { end - start - it }
+            .let { untrackedTimeEndRange - start - it }
     }
 
     private fun mapToDuration(records: List<Record>): Long {
