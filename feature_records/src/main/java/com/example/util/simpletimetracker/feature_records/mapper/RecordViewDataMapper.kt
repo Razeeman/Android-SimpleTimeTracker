@@ -1,12 +1,15 @@
 package com.example.util.simpletimetracker.feature_records.mapper
 
+import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordType
-import com.example.util.simpletimetracker.feature_records.adapter.RecordViewData
+import com.example.util.simpletimetracker.feature_records.R
+import com.example.util.simpletimetracker.feature_records.viewData.RecordEmptyViewData
+import com.example.util.simpletimetracker.feature_records.viewData.RecordViewData
 import javax.inject.Inject
 import kotlin.math.max
 import kotlin.math.min
@@ -23,7 +26,7 @@ class RecordViewDataMapper @Inject constructor(
         recordType: RecordType,
         rangeStart: Long = 0L,
         rangeEnd: Long = 0L
-    ): RecordViewData {
+    ): ViewHolderType {
         // Remove parts of the record that is not in the range
         val timeStarted = if (rangeStart != 0L) {
             max(record.timeStarted, rangeStart)
@@ -50,6 +53,12 @@ class RecordViewDataMapper @Inject constructor(
             color = recordType.color
                 .let(colorMapper::mapToColorResId)
                 .let(resourceRepo::getColor)
+        )
+    }
+
+    fun mapToEmpty(): ViewHolderType {
+        return RecordEmptyViewData(
+            message = R.string.records_empty.let(resourceRepo::getString)
         )
     }
 }

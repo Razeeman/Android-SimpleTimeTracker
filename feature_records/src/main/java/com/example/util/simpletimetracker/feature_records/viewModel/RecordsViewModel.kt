@@ -4,9 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
-import com.example.util.simpletimetracker.feature_records.adapter.RecordViewData
+import com.example.util.simpletimetracker.feature_records.viewData.RecordViewData
 import com.example.util.simpletimetracker.feature_records.extra.RecordsExtra
 import com.example.util.simpletimetracker.feature_records.mapper.RecordViewDataMapper
 import com.example.util.simpletimetracker.navigation.Router
@@ -24,8 +25,8 @@ class RecordsViewModel @Inject constructor(
 
     lateinit var extra: RecordsExtra
 
-    val records: LiveData<List<RecordViewData>> by lazy {
-        return@lazy MutableLiveData<List<RecordViewData>>().apply {
+    val records: LiveData<List<ViewHolderType>> by lazy {
+        return@lazy MutableLiveData<List<ViewHolderType>>().apply {
             viewModelScope.launch { value = loadRecordsViewData() }
         }
     }
@@ -44,7 +45,7 @@ class RecordsViewModel @Inject constructor(
         (records as MutableLiveData).value = loadRecordsViewData()
     }
 
-    private suspend fun loadRecordsViewData(): List<RecordViewData> {
+    private suspend fun loadRecordsViewData(): List<ViewHolderType> {
         val recordTypes = recordTypeInteractor.getAll()
             .map { it.id to it }
             .toMap()
@@ -63,6 +64,9 @@ class RecordsViewModel @Inject constructor(
             }
             .map { (record, recordType) ->
                 recordViewDataMapper.map(record, recordType, extra.rangeStart, extra.rangeEnd)
+            }
+            .ifEmpty {
+                return listOf(recordViewDataMapper.mapToEmpty())
             }
     }
 }

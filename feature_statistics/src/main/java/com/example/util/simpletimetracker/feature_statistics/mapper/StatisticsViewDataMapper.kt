@@ -10,6 +10,7 @@ import com.example.util.simpletimetracker.domain.model.Statistics
 import com.example.util.simpletimetracker.feature_statistics.R
 import com.example.util.simpletimetracker.feature_statistics.customView.PiePortion
 import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsChartViewData
+import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsEmptyViewData
 import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsViewData
 import javax.inject.Inject
 
@@ -63,6 +64,12 @@ class StatisticsViewDataMapper @Inject constructor(
                 }
                 .sortedByDescending { (_, duration) -> duration }
                 .map { (statistics, _) -> statistics }
+        )
+    }
+
+    fun mapToEmpty(): ViewHolderType {
+        return StatisticsEmptyViewData(
+            message = R.string.statistics_empty.let(resourceRepo::getString)
         )
     }
 

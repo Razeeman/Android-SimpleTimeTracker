@@ -11,6 +11,6 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         tools:itemCount="10"
-        tools:listitem="@layout/record_item_layout" />
+        tools:listitem="@layout/item_record_layout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

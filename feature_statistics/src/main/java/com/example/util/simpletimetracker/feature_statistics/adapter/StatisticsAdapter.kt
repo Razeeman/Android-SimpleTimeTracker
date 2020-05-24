@@ -8,5 +8,6 @@ class StatisticsAdapter() : BaseRecyclerAdapter() {
     init {
         delegates[ViewHolderType.HEADER] = StatisticsChartAdapterDelegate()
         delegates[ViewHolderType.VIEW] = StatisticsAdapterDelegate()
+        delegates[ViewHolderType.FOOTER] = StatisticsEmptyAdapterDelegate()
     }
 }

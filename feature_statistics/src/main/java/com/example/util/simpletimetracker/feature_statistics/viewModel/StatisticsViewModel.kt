@@ -65,6 +65,7 @@ class StatisticsViewModel @Inject constructor(
         val list = statisticsViewDataMapper.map(statistics, types, typesFiltered, showDuration)
         val chart = statisticsViewDataMapper.mapToChart(statistics, types, typesFiltered)
 
-        return mutableListOf(chart).apply { addAll(list) }
+        if (list.isEmpty()) return listOf(statisticsViewDataMapper.mapToEmpty())
+        return listOf(chart) + list
     }
 }

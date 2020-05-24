@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="records_empty">Nothing to show</string>
+    <string name="statistics_empty">Nothing to show</string>
 </resources>

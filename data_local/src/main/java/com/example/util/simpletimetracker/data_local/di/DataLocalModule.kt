@@ -3,7 +3,7 @@ package com.example.util.simpletimetracker.data_local.di
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.room.Room
-import com.example.util.simpletimetracker.core.extension.allowDiskRead
+import com.example.util.simpletimetracker.core.extension.allowDiskWrite
 import com.example.util.simpletimetracker.data_local.database.AppDatabase
 import com.example.util.simpletimetracker.data_local.database.RecordDao
 import com.example.util.simpletimetracker.data_local.database.RecordTypeDao
@@ -39,7 +39,7 @@ class DataLocalModule {
     @Provides
     @Singleton
     fun getSharedPrefs(@AppContext context: Context): SharedPreferences {
-        allowDiskRead {
+        allowDiskWrite {
             return context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         }
     }
