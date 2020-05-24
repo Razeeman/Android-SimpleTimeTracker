@@ -9,9 +9,6 @@ class ChartFilterAdapter(
 ) : BaseRecyclerAdapter() {
 
     init {
-        delegates[ViewHolderType.VIEW] =
-            ChartFilterAdapterDelegate(
-                onItemClick
-            )
+        delegates[ViewHolderType.VIEW] = ChartFilterAdapterDelegate(onItemClick)
     }
 }

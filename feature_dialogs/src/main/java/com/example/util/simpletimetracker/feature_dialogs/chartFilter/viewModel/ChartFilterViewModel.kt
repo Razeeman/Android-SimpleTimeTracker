@@ -46,9 +46,12 @@ class ChartFilterViewModel @Inject constructor(
 
     private fun updateRecordTypes() {
         viewModelScope.launch {
-            (recordTypes as MutableLiveData).value = types.map { type ->
-                chartFilterViewDataMapper.map(type, typeIdsFiltered)
-            }
+            (recordTypes as MutableLiveData).value = types
+                .map { type -> chartFilterViewDataMapper.map(type, typeIdsFiltered) }
+                .apply {
+                    this as MutableList
+                    add(chartFilterViewDataMapper.mapToUntrackedItem(typeIdsFiltered))
+                }
         }
     }
 
@@ -63,5 +66,9 @@ class ChartFilterViewModel @Inject constructor(
             .filter { it.id in typesInStatistics }
             .also { types = it }
             .map { types -> chartFilterViewDataMapper.map(types, typeIdsFiltered) }
+            .apply {
+                this as MutableList
+                add(chartFilterViewDataMapper.mapToUntrackedItem(typeIdsFiltered))
+            }
     }
 }

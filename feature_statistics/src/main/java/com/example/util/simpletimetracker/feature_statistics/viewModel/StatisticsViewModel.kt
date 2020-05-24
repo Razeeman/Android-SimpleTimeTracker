@@ -47,19 +47,19 @@ class StatisticsViewModel @Inject constructor(
     }
 
     private suspend fun loadStatisticsViewData(): List<ViewHolderType> {
+        val types = recordTypeInteractor.getAll()
+        val typesFiltered = recordTypesFilteredInteractor.getFilteredTypes()
         val statistics = if (extra?.start.orZero() != 0L && extra?.end.orZero() != 0L) {
             statisticsInteractor.getFromRange(
                 start = extra?.start.orZero(),
                 end = extra?.end.orZero(),
-                addUntracked = true // TODO settings by prefs
+                addUntracked = !typesFiltered.contains(-1L)
             )
         } else {
             statisticsInteractor.getAll()
         }
-        val types = recordTypeInteractor.getAll()
-        val typesFiltered = recordTypesFilteredInteractor.getFilteredTypes()
 
-        val list = statisticsViewDataMapper.map(statistics, types)
+        val list = statisticsViewDataMapper.map(statistics, types, typesFiltered)
         val chart = statisticsViewDataMapper.mapToChart(statistics, types, typesFiltered)
 
         return mutableListOf(chart).apply { addAll(list) }

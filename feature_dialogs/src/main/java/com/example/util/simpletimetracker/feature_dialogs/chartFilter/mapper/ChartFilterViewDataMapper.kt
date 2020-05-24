@@ -24,14 +24,26 @@ class ChartFilterViewDataMapper @Inject constructor(
             iconId = recordType.icon
                 .let(iconMapper::mapToDrawableResId),
             color = if (recordType.id in typeIdsFiltered) {
-                filteredColorResId
+                R.color.filtered_color
             } else {
                 recordType.color.let(colorMapper::mapToColorResId)
             }.let(resourceRepo::getColor)
         )
     }
 
-    companion object {
-        private val filteredColorResId = R.color.blue_grey_200
+    fun mapToUntrackedItem(
+        typeIdsFiltered: List<Long>
+    ): ChartFilterRecordTypeViewData {
+        return ChartFilterRecordTypeViewData(
+            id = -1L,
+            name = R.string.untracked_time_name
+                .let(resourceRepo::getString),
+            iconId = R.drawable.ic_unknown,
+            color = if (-1L in typeIdsFiltered) {
+                R.color.filtered_color
+            } else {
+                R.color.untracked_time_color
+            }.let(resourceRepo::getColor)
+        )
     }
 }

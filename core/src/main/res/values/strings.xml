@@ -9,4 +9,6 @@
 
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
+
+    <string name="untracked_time_name">Untracked</string>
 </resources>

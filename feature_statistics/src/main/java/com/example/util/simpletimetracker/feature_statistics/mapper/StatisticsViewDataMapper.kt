@@ -22,21 +22,26 @@ class StatisticsViewDataMapper @Inject constructor(
 
     fun map(
         statistics: List<Statistics>,
-        recordTypes: List<RecordType>
+        recordTypes: List<RecordType>,
+        recordTypesFiltered: List<Long>
     ): List<ViewHolderType> {
         val recordTypesMap = recordTypes
             .map { it.id to it }
             .toMap()
 
-        val sumDuration = statistics.map(Statistics::duration).sum()
+        val sumDuration = statistics
+            .filterNot { it.typeId in recordTypesFiltered }
+            .map(Statistics::duration)
+            .sum()
 
         return statistics
+            .filterNot { it.typeId in recordTypesFiltered }
             .mapNotNull { statistic ->
                 (map(statistic, sumDuration, recordTypesMap[statistic.typeId])
                     ?: return@mapNotNull null) to statistic.duration
             }
-            .sortedByDescending { it.second }
-            .map { it.first }
+            .sortedByDescending { (_, duration) -> duration }
+            .map { (statistics, _) -> statistics }
     }
 
     fun mapToChart(
@@ -45,18 +50,18 @@ class StatisticsViewDataMapper @Inject constructor(
         recordTypesFiltered: List<Long>
     ): ViewHolderType {
         val recordTypesMap = recordTypes
-            .filterNot { it.id in recordTypesFiltered }
             .map { it.id to it }
             .toMap()
 
         return StatisticsChartViewData(
             statistics
+                .filterNot { it.typeId in recordTypesFiltered }
                 .mapNotNull { statistic ->
                     (mapToChart(statistic, recordTypesMap[statistic.typeId])
                         ?: return@mapNotNull null) to statistic.duration
                 }
-                .sortedByDescending { it.second }
-                .map { it.first }
+                .sortedByDescending { (_, duration) -> duration }
+                .map { (statistics, _) -> statistics }
         )
     }
 
@@ -70,12 +75,13 @@ class StatisticsViewDataMapper @Inject constructor(
         when {
             statistics.typeId == -1L -> {
                 return StatisticsViewData(
-                    name = "Untracked",
+                    name = R.string.untracked_time_name
+                        .let(resourceRepo::getString),
                     duration = statistics.duration
                         .let(timeMapper::formatInterval),
                     percent = "$durationPercent%",
                     iconId = R.drawable.ic_unknown,
-                    color = R.color.blue_grey_200
+                    color = R.color.untracked_time_color
                         .let(resourceRepo::getColor)
                 )
             }
@@ -106,7 +112,7 @@ class StatisticsViewDataMapper @Inject constructor(
             statistics.typeId == -1L -> {
                 PiePortion(
                     value = statistics.duration,
-                    colorInt = R.color.blue_grey_200
+                    colorInt = R.color.untracked_time_color
                         .let(resourceRepo::getColor),
                     iconId = R.drawable.ic_unknown
                 )
