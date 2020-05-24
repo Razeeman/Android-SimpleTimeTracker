@@ -38,7 +38,7 @@ class ChartFilterViewDataMapper @Inject constructor(
             id = -1L,
             name = R.string.untracked_time_name
                 .let(resourceRepo::getString),
-            iconId = R.drawable.ic_unknown,
+            iconId = R.drawable.unknown,
             color = if (-1L in typeIdsFiltered) {
                 R.color.filtered_color
             } else {

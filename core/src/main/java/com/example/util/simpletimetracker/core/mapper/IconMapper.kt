@@ -1,22 +1,31 @@
 package com.example.util.simpletimetracker.core.mapper
 
+import android.content.Context
 import com.example.util.simpletimetracker.core.R
+import com.example.util.simpletimetracker.domain.di.AppContext
 import javax.inject.Inject
 
-class IconMapper @Inject constructor() {
+class IconMapper @Inject constructor(
+    @AppContext private val context: Context
+) {
 
-    fun mapToDrawableResId(iconId: Int): Int {
-        return availableIcons.getOrNull(iconId) ?: R.drawable.ic_unknown
+    val availableIcons: List<Int> by lazy {
+        val res = mutableListOf<Int>()
+        val ta = context.resources.obtainTypedArray(R.array.available_icons)
+        (0 until ta.length()).forEach {
+            res.add(ta.getResourceId(it, R.drawable.unknown))
+        }
+        ta.recycle()
+        res
     }
 
-    companion object {
-        val availableIcons: List<Int> = listOf(
-            R.drawable.ic_unknown,
-            R.drawable.ic_bed,
-            R.drawable.ic_briefcase,
-            R.drawable.ic_food,
-            R.drawable.ic_cart,
-            R.drawable.ic_music
-        )
+    // TODO save drawable name to prevent position shift after array changes
+    fun mapToDrawableResId(iconId: Int): Int {
+        var res: Int
+        context.resources
+            .obtainTypedArray(R.array.available_icons)
+            .also { res = it.getResourceId(iconId, R.drawable.unknown) }
+            .recycle()
+        return res
     }
 }

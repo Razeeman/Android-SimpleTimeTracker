@@ -260,7 +260,7 @@ class PieChartView @JvmOverloads constructor(
             PiePortion(
                 value = it.toLong(),
                 colorInt = Color.BLACK,
-                iconId = R.drawable.ic_unknown
+                iconId = R.drawable.unknown
             )
         }.let(::setSegments)
     }

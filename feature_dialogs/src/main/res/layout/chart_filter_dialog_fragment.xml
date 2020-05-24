@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="8dp"
-        android:src="@drawable/ic_statistics_filter_dialog_arrow" />
+        android:src="@drawable/statistics_filter_dialog_arrow" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvChartFilterContainer"

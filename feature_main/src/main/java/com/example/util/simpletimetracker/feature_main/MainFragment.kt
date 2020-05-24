@@ -40,7 +40,7 @@ class MainFragment : BaseFragment(R.layout.main_fragment) {
                 1 -> R.drawable.ic_tab_records
                 2 -> R.drawable.ic_tab_statistics
                 3 -> R.drawable.ic_tab_settings
-                else -> R.drawable.ic_unknown
+                else -> R.drawable.unknown
             }.let(tab::setIcon)
 
             tab.icon?.colorFilter = if (position == 0) {

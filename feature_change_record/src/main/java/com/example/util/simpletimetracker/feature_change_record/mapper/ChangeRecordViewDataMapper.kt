@@ -38,7 +38,7 @@ class ChangeRecordViewDataMapper @Inject constructor(
                 .orEmpty(),
             iconId = recordType?.icon
                 ?.let(iconMapper::mapToDrawableResId)
-                ?: R.drawable.ic_unknown,
+                ?: R.drawable.unknown,
             color = (recordType?.color
                 ?.let(colorMapper::mapToColorResId)
                 ?: ColorMapper.availableColors.random())

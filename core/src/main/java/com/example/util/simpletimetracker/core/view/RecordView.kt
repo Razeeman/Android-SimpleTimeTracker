@@ -26,7 +26,7 @@ class RecordView @JvmOverloads constructor(
             .run {
                 name = getString(R.styleable.RecordView_name).orEmpty()
                 color = getColor(R.styleable.RecordView_color, Color.BLACK)
-                icon = getResourceId(R.styleable.RecordView_icon, R.drawable.ic_unknown)
+                icon = getResourceId(R.styleable.RecordView_icon, R.drawable.unknown)
                 timeStarted = getString(R.styleable.RecordView_timeStarted).orEmpty()
                 timeEnded = getString(R.styleable.RecordView_timeEnded).orEmpty()
                 duration = getString(R.styleable.RecordView_duration).orEmpty()

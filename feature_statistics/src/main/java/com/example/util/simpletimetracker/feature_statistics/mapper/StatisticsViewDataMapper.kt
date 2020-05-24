@@ -89,7 +89,7 @@ class StatisticsViewDataMapper @Inject constructor(
                     duration = statistics.duration
                         .let(timeMapper::formatInterval),
                     percent = "$durationPercent%",
-                    iconId = R.drawable.ic_unknown,
+                    iconId = R.drawable.unknown,
                     color = R.color.untracked_time_color
                         .let(resourceRepo::getColor)
                 )
@@ -126,7 +126,7 @@ class StatisticsViewDataMapper @Inject constructor(
                     value = statistics.duration,
                     colorInt = R.color.untracked_time_color
                         .let(resourceRepo::getColor),
-                    iconId = R.drawable.ic_unknown
+                    iconId = R.drawable.unknown
                 )
             }
             recordType != null -> {

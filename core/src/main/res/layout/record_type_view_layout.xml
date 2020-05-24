@@ -31,7 +31,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:background="@drawable/ic_unknown" />
+            tools:background="@drawable/unknown" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvRecordTypeItemName"

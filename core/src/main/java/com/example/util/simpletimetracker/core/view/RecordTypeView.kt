@@ -26,7 +26,7 @@ class RecordTypeView @JvmOverloads constructor(
             .run {
                 name = getString(R.styleable.RecordTypeView_name).orEmpty()
                 color = getColor(R.styleable.RecordTypeView_color, Color.BLACK)
-                icon = getResourceId(R.styleable.RecordTypeView_icon, R.drawable.ic_unknown)
+                icon = getResourceId(R.styleable.RecordTypeView_icon, R.drawable.unknown)
                 recycle()
             }
     }

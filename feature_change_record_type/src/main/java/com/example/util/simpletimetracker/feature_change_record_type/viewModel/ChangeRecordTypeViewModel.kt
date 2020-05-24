@@ -23,11 +23,12 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ChangeRecordTypeViewModel @Inject constructor(
-    private var router: Router,
-    private var recordTypeInteractor: RecordTypeInteractor,
-    private var changeRecordTypeViewDataMapper: ChangeRecordTypeViewDataMapper,
-    private var resourceRepo: ResourceRepo,
-    private var colorMapper: ColorMapper
+    private val router: Router,
+    private val recordTypeInteractor: RecordTypeInteractor,
+    private val changeRecordTypeViewDataMapper: ChangeRecordTypeViewDataMapper,
+    private val resourceRepo: ResourceRepo,
+    private val colorMapper: ColorMapper,
+    private val iconMapper: IconMapper
 ) : ViewModel() {
 
     lateinit var extra: ChangeRecordTypeExtra
@@ -183,7 +184,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     }
 
     private fun loadIconsViewData(): List<ViewHolderType> {
-        return IconMapper.availableIcons
+        return iconMapper.availableIcons
             .mapIndexed { iconId, iconResId ->
                 ChangeRecordTypeIconViewData(
                     iconId = iconId,
