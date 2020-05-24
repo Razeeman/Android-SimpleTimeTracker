@@ -7,7 +7,7 @@ import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.extension.setOnClickWith
 import com.example.util.simpletimetracker.feature_change_record.R
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordTypeViewData
-import kotlinx.android.synthetic.main.item_record_layout.view.*
+import kotlinx.android.synthetic.main.item_change_record_type_layout.view.*
 
 class ChangeRecordAdapterDelegate(
     private val onItemClick: ((ChangeRecordTypeViewData) -> Unit)
@@ -17,9 +17,9 @@ class ChangeRecordAdapterDelegate(
         RunningRecordsViewHolder(parent)
 
     inner class RunningRecordsViewHolder(parent: ViewGroup) :
-        BaseRecyclerViewHolder(parent, R.layout.item_record_layout) {
+        BaseRecyclerViewHolder(parent, R.layout.item_change_record_type_layout) {
 
-        override fun bind(item: ViewHolderType) = with(itemView.viewRecordTypeItem) {
+        override fun bind(item: ViewHolderType) = with(itemView.viewChangeRecordTypeItem) {
             item as ChangeRecordTypeViewData
 
             color = item.color

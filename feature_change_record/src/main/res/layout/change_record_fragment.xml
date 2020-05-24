@@ -140,7 +140,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/fieldChangeRecordType"
         tools:itemCount="3"
-        tools:listitem="@layout/item_record_layout"
+        tools:listitem="@layout/item_change_record_type_layout"
         tools:visibility="visible" />
 
     <com.google.android.material.button.MaterialButton
