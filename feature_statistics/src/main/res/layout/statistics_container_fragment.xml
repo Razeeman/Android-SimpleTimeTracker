@@ -21,7 +21,7 @@
         android:background="?selectableItemBackgroundBorderless"
         android:clickable="true"
         android:focusable="true"
-        android:src="@drawable/internal_ic_filter"
+        android:src="@drawable/ic_filter"
         android:tint="@color/blue_grey_300"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

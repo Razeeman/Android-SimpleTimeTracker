@@ -18,6 +18,5 @@ class IconMapper @Inject constructor() {
             R.drawable.ic_cart,
             R.drawable.ic_music
         )
-        val iconsNumber = availableIcons.size
     }
 }
