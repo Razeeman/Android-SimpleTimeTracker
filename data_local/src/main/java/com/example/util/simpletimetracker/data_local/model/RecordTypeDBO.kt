@@ -14,7 +14,7 @@ data class RecordTypeDBO(
     val name: String,
 
     @ColumnInfo(name = "icon")
-    val icon: Int,
+    val icon: String,
 
     @ColumnInfo(name = "color")
     val color: Int,

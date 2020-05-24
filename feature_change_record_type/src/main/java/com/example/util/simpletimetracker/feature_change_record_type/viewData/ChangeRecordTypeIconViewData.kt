@@ -5,7 +5,7 @@ import androidx.annotation.DrawableRes
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 
 data class ChangeRecordTypeIconViewData(
-    val iconId: Int,
+    val iconName: String,
     @DrawableRes val iconResId: Int,
     @ColorInt val colorInt: Int
 ) : ViewHolderType {

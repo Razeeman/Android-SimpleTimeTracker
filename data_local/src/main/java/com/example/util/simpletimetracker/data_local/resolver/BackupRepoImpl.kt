@@ -143,7 +143,7 @@ class BackupRepoImpl @Inject constructor(
         return RecordType(
             id = parts.getOrNull(1)?.toLongOrNull().orZero(),
             name = parts.getOrNull(2).orEmpty(),
-            icon = parts.getOrNull(3)?.toIntOrNull().orZero(),
+            icon = parts.getOrNull(3).orEmpty(),
             color = parts.getOrNull(4)?.toIntOrNull().orZero(),
             hidden = parts.getOrNull(5)?.toIntOrNull() == 1
         )

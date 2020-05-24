@@ -4,10 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.room.Room
 import com.example.util.simpletimetracker.core.extension.allowDiskWrite
-import com.example.util.simpletimetracker.data_local.database.AppDatabase
-import com.example.util.simpletimetracker.data_local.database.RecordDao
-import com.example.util.simpletimetracker.data_local.database.RecordTypeDao
-import com.example.util.simpletimetracker.data_local.database.RunningRecordDao
+import com.example.util.simpletimetracker.data_local.database.*
 import com.example.util.simpletimetracker.data_local.repo.*
 import com.example.util.simpletimetracker.data_local.resolver.BackupRepoImpl
 import com.example.util.simpletimetracker.domain.di.AppContext
@@ -32,6 +29,9 @@ class DataLocalModule {
             .databaseBuilder(
                 context,
                 AppDatabase::class.java, AppDatabase.DATABASE_NAME
+            )
+            .addMigrations(
+                AppDatabaseMigrations.migration_1_2
             )
             .build()
     }

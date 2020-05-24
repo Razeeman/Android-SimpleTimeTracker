@@ -59,7 +59,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     val keyboardVisibility: LiveData<Boolean> get() = MutableLiveData(extra.id == 0L)
 
     private var newName: String = ""
-    private var newIconId: Int = 0
+    private var newIconName: String = ""
     private var newColorId: Int = (0..ColorMapper.colorsNumber).random()
 
     fun onNameChange(name: String) {
@@ -103,8 +103,8 @@ class ChangeRecordTypeViewModel @Inject constructor(
 
     fun onIconClick(item: ChangeRecordTypeIconViewData) {
         viewModelScope.launch {
-            if (item.iconId != newIconId) {
-                newIconId = item.iconId
+            if (item.iconName != newIconName) {
+                newIconName = item.iconName
                 updateRecordType()
             }
         }
@@ -129,7 +129,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
             RecordType(
                 id = extra.id,
                 name = newName,
-                icon = newIconId,
+                icon = newIconName,
                 color = newColorId
             ).let {
                 recordTypeInteractor.add(it)
@@ -147,13 +147,13 @@ class ChangeRecordTypeViewModel @Inject constructor(
         recordTypeInteractor.get(extra.id)
             ?.let {
                 newName = it.name
-                newIconId = it.icon
+                newIconName = it.icon
                 newColorId = it.color
                 updateIcons()
             }
         return RecordType(
             name = newName,
-            icon = newIconId,
+            icon = newIconName,
             color = newColorId
         ).let(changeRecordTypeViewDataMapper::map)
     }
@@ -161,7 +161,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     private fun loadRecordPreviewViewData(): ChangeRecordTypeViewData {
         return RecordType(
             name = newName,
-            icon = newIconId,
+            icon = newIconName,
             color = newColorId
         ).let(changeRecordTypeViewDataMapper::map)
     }
@@ -184,10 +184,10 @@ class ChangeRecordTypeViewModel @Inject constructor(
     }
 
     private fun loadIconsViewData(): List<ViewHolderType> {
-        return iconMapper.availableIcons
-            .mapIndexed { iconId, iconResId ->
+        return iconMapper.availableIconsNames
+            .map { (iconName, iconResId) ->
                 ChangeRecordTypeIconViewData(
-                    iconId = iconId,
+                    iconName = iconName,
                     iconResId = iconResId,
                     colorInt = newColorId
                         .let(colorMapper::mapToColorResId)
