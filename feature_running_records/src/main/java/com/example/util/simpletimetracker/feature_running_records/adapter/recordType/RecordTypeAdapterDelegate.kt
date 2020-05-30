@@ -27,9 +27,9 @@ class RecordTypeAdapterDelegate(
         ) = with(itemView.viewRecordTypeItem) {
             item as RecordTypeViewData
 
-            color = item.color
-            icon = item.iconId
-            name = item.name
+            itemColor = item.color
+            itemIcon = item.iconId
+            itemName = item.name
             setOnClickWith(item, onItemClick)
             setOnLongClickWith(item, onItemLongClick)
         }

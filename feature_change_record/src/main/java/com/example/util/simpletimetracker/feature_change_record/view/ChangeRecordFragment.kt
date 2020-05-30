@@ -85,12 +85,12 @@ class ChangeRecordFragment : BaseFragment(R.layout.change_record_fragment),
 
     private fun updatePreview(item: ChangeRecordViewData) {
         with(previewChangeRecord) {
-            name = item.name
-            icon = item.iconId
-            color = item.color
-            timeStarted = item.timeStarted
-            timeEnded = item.timeFinished
-            duration = item.duration
+            itemName = item.name
+            itemIcon = item.iconId
+            itemColor = item.color
+            itemTimeStarted = item.timeStarted
+            itemTimeEnded = item.timeFinished
+            itemDuration = item.duration
         }
         tvChangeRecordTimeStarted.text = item.dateTimeStarted
         tvChangeRecordTimeEnded.text = item.dateTimeFinished

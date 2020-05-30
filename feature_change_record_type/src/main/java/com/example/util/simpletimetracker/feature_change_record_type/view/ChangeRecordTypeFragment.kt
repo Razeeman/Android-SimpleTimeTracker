@@ -110,9 +110,9 @@ class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragme
 
     private fun updatePreview(item: ChangeRecordTypeViewData) {
         with(previewChangeRecordType) {
-            name = item.name
-            icon = item.icon
-            color = item.color
+            itemName = item.name
+            itemIcon = item.icon
+            itemColor = item.color
         }
     }
 

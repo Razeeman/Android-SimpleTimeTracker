@@ -24,12 +24,12 @@ class RecordAdapterDelegate(
         ) = with(itemView.viewRecordItem) {
             item as RecordViewData
 
-            color = item.color
-            icon = item.iconId
-            name = item.name
-            timeStarted = item.timeStarted
-            timeEnded = item.timeFinished
-            duration = item.duration
+            itemColor = item.color
+            itemIcon = item.iconId
+            itemName = item.name
+            itemTimeStarted = item.timeStarted
+            itemTimeEnded = item.timeFinished
+            itemDuration = item.duration
 
             setOnLongClickListener {
                 onItemLongClick.invoke(item)

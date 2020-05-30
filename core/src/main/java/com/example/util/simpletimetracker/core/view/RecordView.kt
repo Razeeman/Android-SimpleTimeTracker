@@ -24,47 +24,47 @@ class RecordView @JvmOverloads constructor(
 
         context.obtainStyledAttributes(attrs, R.styleable.RecordView, defStyleAttr, 0)
             .run {
-                name = getString(R.styleable.RecordView_name).orEmpty()
-                color = getColor(R.styleable.RecordView_color, Color.BLACK)
-                icon = getResourceId(R.styleable.RecordView_icon, R.drawable.unknown)
-                timeStarted = getString(R.styleable.RecordView_timeStarted).orEmpty()
-                timeEnded = getString(R.styleable.RecordView_timeEnded).orEmpty()
-                duration = getString(R.styleable.RecordView_duration).orEmpty()
+                itemName = getString(R.styleable.RecordView_itemName).orEmpty()
+                itemColor = getColor(R.styleable.RecordView_itemColor, Color.BLACK)
+                itemIcon = getResourceId(R.styleable.RecordView_itemIcon, R.drawable.unknown)
+                itemTimeStarted = getString(R.styleable.RecordView_itemTimeStarted).orEmpty()
+                itemTimeEnded = getString(R.styleable.RecordView_itemTimeEnded).orEmpty()
+                itemDuration = getString(R.styleable.RecordView_itemDuration).orEmpty()
                 recycle()
             }
     }
 
-    var name: String = ""
+    var itemName: String = ""
         set(value) {
             tvRecordItemName.text = value
             field = value
         }
 
-    var color: Int = 0
+    var itemColor: Int = 0
         set(value) {
             layoutRecordItem.setCardBackgroundColor(value)
             field = value
         }
 
-    var icon: Int = 0
+    var itemIcon: Int = 0
         set(value) {
             ivRecordItemIcon.setBackgroundResource(value)
             field = value
         }
 
-    var timeStarted: String = ""
+    var itemTimeStarted: String = ""
         set(value) {
             tvRecordItemTimeStarted.text = value
             field = value
         }
 
-    var timeEnded: String = ""
+    var itemTimeEnded: String = ""
         set(value) {
             tvRecordItemTimeFinished.text = value
             field = value
         }
 
-    var duration: String = ""
+    var itemDuration: String = ""
         set(value) {
             tvRecordItemDuration.text = value
             field = value

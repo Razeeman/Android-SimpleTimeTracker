@@ -30,10 +30,10 @@
         app:layout_constraintEnd_toStartOf="@id/btnChangeRecordDelete"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:duration="5h 23m 3s"
-        tools:name="Name"
-        tools:timeEnded="11:58"
-        tools:timeStarted="07:35" />
+        tools:itemDuration="5h 23m 3s"
+        tools:itemName="Name"
+        tools:itemTimeEnded="11:58"
+        tools:itemTimeStarted="07:35" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/fieldChangeRecordTimeStarted"

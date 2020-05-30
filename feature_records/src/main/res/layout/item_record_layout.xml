@@ -4,7 +4,7 @@
     android:id="@+id/viewRecordItem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:duration="5h 23m 3s"
-    tools:name="Item name"
-    tools:timeEnded="11:58"
-    tools:timeStarted="07:35" />
+    tools:itemDuration="5h 23m 3s"
+    tools:itemName="Item name"
+    tools:itemTimeEnded="11:58"
+    tools:itemTimeStarted="07:35" />

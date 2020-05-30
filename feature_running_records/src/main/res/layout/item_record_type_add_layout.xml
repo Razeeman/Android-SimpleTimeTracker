@@ -2,8 +2,7 @@
 <com.example.util.simpletimetracker.core.view.RecordTypeView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/viewRecordTypeAddItem"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    app:color="@color/blue_grey_200"
-    app:icon="@drawable/add"
-    app:name="Add" />
+    style="@style/RecordTypeItem"
+    app:itemColor="@color/blue_grey_200"
+    app:itemIcon="@drawable/add"
+    app:itemName="Add" />

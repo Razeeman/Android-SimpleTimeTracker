@@ -25,9 +25,9 @@ class ChangeRecordAdapterDelegate(
         ) = with(itemView.viewChangeRecordTypeItem) {
             item as ChangeRecordTypeViewData
 
-            color = item.color
-            icon = item.icon
-            name = item.name
+            itemColor = item.color
+            itemIcon = item.icon
+            itemName = item.name
             setOnClickWith(item, onItemClick)
         }
     }

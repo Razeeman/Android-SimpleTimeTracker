@@ -5,35 +5,50 @@ import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.graphics.Color
+import android.view.ContextThemeWrapper
+import android.view.LayoutInflater
+import android.view.View
+import android.view.View.MeasureSpec
 import android.widget.RemoteViews
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.core.view.RecordTypeView
 import com.example.util.simpletimetracker.domain.interactor.*
 import com.example.util.simpletimetracker.feature_widget.R
 import com.example.util.simpletimetracker.feature_widget.di.WidgetComponentProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 class WidgetProvider : AppWidgetProvider() {
 
     @Inject
     lateinit var runningRecordInteractor: RunningRecordInteractor
+
     @Inject
     lateinit var recordTypeInteractor: RecordTypeInteractor
+
     @Inject
     lateinit var recordInteractor: RecordInteractor
+
     @Inject
     lateinit var widgetInteractor: WidgetInteractor
+
     @Inject
     lateinit var colorMapper: ColorMapper
+
     @Inject
     lateinit var iconMapper: IconMapper
+
     @Inject
     lateinit var resourceRepo: ResourceRepo
+
     @Inject
     lateinit var prefsInteractor: PrefsInteractor
 
@@ -71,48 +86,82 @@ class WidgetProvider : AppWidgetProvider() {
     ) {
         if (context == null || appWidgetManager == null) return
 
-        CoroutineScope(Dispatchers.Main).launch {
-            val views = RemoteViews(
-                context.packageName,
-                R.layout.widget_layout
-            )
+        val view = prepareView(context, appWidgetId)
+        measureView(context, view)
+        val bitmap = getBitmapFromView(view)
 
-            val recordTypeId = prefsInteractor.getWidget(appWidgetId)
-            val recordType = recordTypeInteractor.get(recordTypeId)
-                ?.takeUnless { it.hidden }
-            val runningRecord = runningRecordInteractor.get(recordTypeId)
+        val views = RemoteViews(context.packageName, R.layout.widget_layout)
+        views.setImageViewBitmap(R.id.ivWidgetBackground, bitmap)
+        views.setOnClickPendingIntent(R.id.btnWidget, getPendingSelfIntent(context, appWidgetId))
 
-            val icon = recordType?.icon
-                ?.let(iconMapper::mapToDrawableResId)
-                ?: R.drawable.unknown
+        appWidgetManager.updateAppWidget(appWidgetId, views)
+    }
 
-            val name = recordType?.name
-                ?: R.string.widget_load_error.let(resourceRepo::getString)
+    private fun prepareView(
+        context: Context,
+        appWidgetId: Int
+    ): View = runBlocking {
+        val recordTypeId = prefsInteractor.getWidget(appWidgetId)
+        val recordType = recordTypeInteractor.get(recordTypeId)?.takeUnless { it.hidden }
+        val runningRecord = runningRecordInteractor.get(recordTypeId)
 
-            val color = if (runningRecord != null && recordType != null) {
-                recordType.color
-                    .let(colorMapper::mapToColorResId)
-                    .let(resourceRepo::getColor)
-            } else {
-                Color.BLACK
-            }
+        val icon = recordType?.icon
+            ?.let(iconMapper::mapToDrawableResId)
+            ?: R.drawable.unknown
 
-            val alpha = if (runningRecord != null && recordType != null) {
-                ENABLED_ALPHA
-            } else {
-                DISABLED_ALPHA
-            }
+        val name = recordType?.name
+            ?: R.string.widget_load_error.let(resourceRepo::getString)
 
-            views.setTextViewText(R.id.widgetText, name)
-            views.setImageViewResource(R.id.ivWidgetIcon, icon)
-            views.setInt(R.id.ivWidgetBackground, "setColorFilter", color)
-            views.setInt(R.id.ivWidgetBackground, "setImageAlpha", alpha)
-            views.setOnClickPendingIntent(
-                R.id.ivWidgetBackground,
-                getPendingSelfIntent(context, appWidgetId)
-            )
+        val color = if (runningRecord != null && recordType != null) {
+            recordType.color
+                .let(colorMapper::mapToColorResId)
+                .let(resourceRepo::getColor)
+        } else {
+            Color.BLACK
+        }
 
-            appWidgetManager.updateAppWidget(appWidgetId, views)
+        val alpha = if (runningRecord != null && recordType != null) {
+            ENABLED_ALPHA
+        } else {
+            DISABLED_ALPHA
+        }
+
+        RecordTypeView(ContextThemeWrapper(context, R.style.AppTheme)).apply {
+            itemPadding = 0
+            itemIcon = icon
+            itemName = name
+            itemColor = color
+            itemAlpha = alpha
+        }
+    }
+
+    private fun measureView(context: Context, view: View) {
+        var width = context.resources.getDimensionPixelSize(R.dimen.record_type_card_width)
+        var height = context.resources.getDimensionPixelSize(R.dimen.record_type_card_height)
+        val inflater = LayoutInflater.from(context)
+
+        val entireView: View = inflater.inflate(R.layout.widget_layout, null)
+        var specWidth = MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY)
+        var specHeight = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY)
+        entireView.measure(specWidth, specHeight)
+        entireView.layout(0, 0, entireView.measuredWidth, entireView.measuredHeight)
+
+        val imageView = entireView.findViewById<View>(R.id.ivWidgetBackground)
+        width = imageView.measuredWidth
+        height = imageView.measuredHeight
+        specWidth = MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY)
+        specHeight = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY)
+        view.measure(specWidth, specHeight)
+        view.layout(0, 0, view.measuredWidth, view.measuredHeight)
+    }
+
+    private fun getBitmapFromView(view: View): Bitmap {
+        return Bitmap.createBitmap(
+            view.measuredWidth,
+            view.measuredHeight,
+            Bitmap.Config.ARGB_8888
+        ).also {
+            view.draw(Canvas(it))
         }
     }
 
@@ -160,7 +209,7 @@ class WidgetProvider : AppWidgetProvider() {
             "com.example.util.simpletimetracker.feature_widget.widget.onclick"
         private const val ARGS_WIDGET_ID = "widgetId"
 
-        private const val ENABLED_ALPHA = 255
-        private const val DISABLED_ALPHA = 100
+        private const val ENABLED_ALPHA = 1f
+        private const val DISABLED_ALPHA = 0.5f
     }
 }
