@@ -4,6 +4,10 @@ import javax.inject.Inject
 
 class CoveredRangeMapper @Inject constructor() {
 
+    /**
+     * Implementation of Klee's algorithm for length of union of segments,
+     * taken from here https://www.geeksforgeeks.org/klees-algorithm-length-union-segments-line/
+     */
     fun map(segments: List<Pair<Long, Long>>): Long {
         if (segments.isEmpty()) return 0L
 

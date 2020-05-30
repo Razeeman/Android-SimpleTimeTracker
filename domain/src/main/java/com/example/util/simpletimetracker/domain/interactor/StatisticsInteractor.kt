@@ -5,7 +5,6 @@ import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.Statistics
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.util.*
 import javax.inject.Inject
 import kotlin.math.max
 import kotlin.math.min
@@ -54,16 +53,9 @@ class StatisticsInteractor @Inject constructor(
         }
 
     private fun calculateUntracked(records: List<Record>, start: Long, end: Long): Long {
-        // Bound end range of calculation to today's day end,
+        // Bound end range of calculation to current time,
         // to not show untracked time in the future
-        val todayEnd = Calendar.getInstance().apply {
-            timeInMillis = System.currentTimeMillis()
-            set(Calendar.HOUR_OF_DAY, 0)
-            set(Calendar.MINUTE, 0)
-            set(Calendar.SECOND, 0)
-            set(Calendar.MILLISECOND, 0)
-            add(Calendar.DATE, 1)
-        }.timeInMillis
+        val todayEnd = System.currentTimeMillis()
 
         val untrackedTimeEndRange = min(todayEnd, end)
         if (start > untrackedTimeEndRange) return 0L
