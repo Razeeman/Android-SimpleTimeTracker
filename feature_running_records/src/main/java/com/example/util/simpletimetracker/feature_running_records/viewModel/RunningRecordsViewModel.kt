@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
@@ -19,16 +20,20 @@ import com.example.util.simpletimetracker.navigation.Screen
 import com.example.util.simpletimetracker.navigation.params.ChangeRecordTypeParams
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.util.*
 import javax.inject.Inject
 
 class RunningRecordsViewModel @Inject constructor(
-    private var router: Router,
-    private var recordTypeInteractor: RecordTypeInteractor,
-    private var runningRecordInteractor: RunningRecordInteractor,
-    private var recordInteractor: RecordInteractor,
-    private var recordTypeViewDataMapper: RecordTypeViewDataMapper,
-    private var runningRecordViewDataMapper: RunningRecordViewDataMapper
+    private val router: Router,
+    private val prefsInteractor: PrefsInteractor,
+    private val recordTypeInteractor: RecordTypeInteractor,
+    private val runningRecordInteractor: RunningRecordInteractor,
+    private val recordInteractor: RecordInteractor,
+    private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
+    private val runningRecordViewDataMapper: RunningRecordViewDataMapper
 ) : ViewModel() {
+
+    private val locale: Locale = Locale.getDefault()
 
     val runningRecords: LiveData<List<ViewHolderType>> by lazy {
         return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
@@ -99,6 +104,9 @@ class RunningRecordsViewModel @Inject constructor(
         if (runningRecords.isEmpty()) return listOf(RunningRecordEmptyViewData())
 
         return runningRecords
+            .sortedByDescending {
+                it.timeStarted
+            }
             .mapNotNull { runningRecord ->
                 recordTypes[runningRecord.id]?.let { type -> runningRecord to type }
             }
@@ -111,6 +119,13 @@ class RunningRecordsViewModel @Inject constructor(
         return recordTypeInteractor
             .getAll()
             .filter { !it.hidden }
+            .run {
+                if (prefsInteractor.getSortRecordTypesByColor()) {
+                    sortedBy { it.color }
+                } else {
+                    sortedBy { it.name.toLowerCase(locale) }
+                }
+            }
             .map(recordTypeViewDataMapper::map) + RecordTypeAddViewData()
     }
 

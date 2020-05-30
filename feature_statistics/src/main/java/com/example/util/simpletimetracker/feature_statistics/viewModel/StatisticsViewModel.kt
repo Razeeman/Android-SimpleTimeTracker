@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
-import com.example.util.simpletimetracker.domain.interactor.RecordTypesFilteredInteractor
+import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.StatisticsInteractor
 import com.example.util.simpletimetracker.feature_statistics.extra.StatisticsExtra
 import com.example.util.simpletimetracker.feature_statistics.mapper.StatisticsViewDataMapper
@@ -17,7 +17,7 @@ import javax.inject.Inject
 class StatisticsViewModel @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
     private val statisticsInteractor: StatisticsInteractor,
-    private val recordTypesFilteredInteractor: RecordTypesFilteredInteractor,
+    private val prefsInteractor: PrefsInteractor,
     private val statisticsViewDataMapper: StatisticsViewDataMapper
 ) : ViewModel() {
 
@@ -49,7 +49,7 @@ class StatisticsViewModel @Inject constructor(
     private suspend fun loadStatisticsViewData(): List<ViewHolderType> {
         val showDuration: Boolean
         val types = recordTypeInteractor.getAll()
-        val typesFiltered = recordTypesFilteredInteractor.getFilteredTypes()
+        val typesFiltered = prefsInteractor.getFilteredTypes()
         val statistics = if (extra?.start.orZero() != 0L && extra?.end.orZero() != 0L) {
             showDuration = true
             statisticsInteractor.getFromRange(

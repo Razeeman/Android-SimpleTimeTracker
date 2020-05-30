@@ -5,7 +5,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class RecordTypesFilteredInteractor @Inject constructor(
+class PrefsInteractor @Inject constructor(
     private val prefsRepo: PrefsRepo
 ) {
 
@@ -17,5 +17,13 @@ class RecordTypesFilteredInteractor @Inject constructor(
     suspend fun setFilteredTypes(typeIdsFiltered: List<Long>) = withContext(Dispatchers.IO) {
         prefsRepo.recordTypesFilteredOnChart = typeIdsFiltered
             .map(Long::toString).toSet()
+    }
+
+    suspend fun getSortRecordTypesByColor(): Boolean = withContext(Dispatchers.IO) {
+        prefsRepo.sortRecordTypesByColor
+    }
+
+    suspend fun setSortRecordTypesByColor(isEnabled: Boolean) = withContext(Dispatchers.IO) {
+        prefsRepo.sortRecordTypesByColor = isEnabled
     }
 }

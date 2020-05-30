@@ -15,7 +15,12 @@ class PrefsRepoImpl @Inject constructor(
         KEY_RECORD_TYPES_FILTERED_ON_CHART, emptySet()
     )
 
+    override var sortRecordTypesByColor: Boolean by prefs.delegate(
+        KEY_SORT_RECORD_TYPES_BY_COLOR, false
+    )
+
     companion object {
         private const val KEY_RECORD_TYPES_FILTERED_ON_CHART = "recordTypesFilteredOnChart"
+        private const val KEY_SORT_RECORD_TYPES_BY_COLOR = "sortRecordTypesByColor"
     }
 }

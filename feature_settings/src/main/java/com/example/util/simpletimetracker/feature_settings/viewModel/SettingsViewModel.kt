@@ -1,9 +1,12 @@
 package com.example.util.simpletimetracker.feature_settings.viewModel
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.interactor.BackupInteractor
+import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.resolver.BackupRepo
 import com.example.util.simpletimetracker.feature_settings.R
 import com.example.util.simpletimetracker.navigation.Router
@@ -14,10 +17,20 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SettingsViewModel @Inject constructor(
-    private var router: Router,
-    private var resourceRepo: ResourceRepo,
-    private var backupInteractor: BackupInteractor
+    private val router: Router,
+    private val resourceRepo: ResourceRepo,
+    private val prefsInteractor: PrefsInteractor,
+    private val backupInteractor: BackupInteractor
 ) : ViewModel() {
+
+    val sortRecordTypes: LiveData<Boolean> by lazy {
+        return@lazy MutableLiveData<Boolean>().let { initial ->
+            viewModelScope.launch {
+                initial.value = prefsInteractor.getSortRecordTypesByColor()
+            }
+            initial
+        }
+    }
 
     fun onSaveClick() {
         router.navigate(
@@ -36,6 +49,12 @@ class SettingsViewModel @Inject constructor(
                 btnNegative = resourceRepo.getString(R.string.cancel)
             )
         )
+    }
+
+    fun onRecordTypeSortChanged(isEnabled: Boolean) {
+        viewModelScope.launch {
+            prefsInteractor.setSortRecordTypesByColor(isEnabled)
+        }
     }
 
     fun onPositiveDialogClick(tag: String?) {

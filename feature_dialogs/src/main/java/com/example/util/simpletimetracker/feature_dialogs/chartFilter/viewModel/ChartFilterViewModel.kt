@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
-import com.example.util.simpletimetracker.domain.interactor.RecordTypesFilteredInteractor
+import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_dialogs.chartFilter.mapper.ChartFilterViewDataMapper
@@ -18,7 +18,7 @@ import javax.inject.Inject
 class ChartFilterViewModel @Inject constructor(
     private val recordInteractor: RecordInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
-    private val recordTypesFilteredInteractor: RecordTypesFilteredInteractor,
+    private val prefsInteractor: PrefsInteractor,
     private val chartFilterViewDataMapper: ChartFilterViewDataMapper
 ) : ViewModel() {
 
@@ -39,7 +39,7 @@ class ChartFilterViewModel @Inject constructor(
             } else {
                 typeIdsFiltered.add(item.id)
             }
-            recordTypesFilteredInteractor.setFilteredTypes(typeIdsFiltered)
+            prefsInteractor.setFilteredTypes(typeIdsFiltered)
             updateRecordTypes()
         }
     }
@@ -59,7 +59,7 @@ class ChartFilterViewModel @Inject constructor(
         val typesInStatistics = recordInteractor.getAll()
             .map(Record::typeId)
             .toSet()
-        typeIdsFiltered = recordTypesFilteredInteractor.getFilteredTypes()
+        typeIdsFiltered = prefsInteractor.getFilteredTypes()
             .toMutableList()
 
         return recordTypeInteractor.getAll()
