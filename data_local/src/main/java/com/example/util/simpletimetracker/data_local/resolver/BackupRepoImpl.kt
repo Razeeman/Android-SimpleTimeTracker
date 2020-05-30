@@ -120,22 +120,22 @@ class BackupRepoImpl @Inject constructor(
 
     private fun toBackupString(recordType: RecordType): String {
         return String.format(
-            "$ROW_RECORD_TYPE\t%d\t%s\t%d\t%d\t%d\n",
-            recordType.id,
+            "$ROW_RECORD_TYPE\t%s\t%s\t%s\t%s\t%s\n",
+            recordType.id.toString(),
             recordType.name.replace("[\n\t]", ""),
             recordType.icon,
-            recordType.color,
-            if (recordType.hidden) 1 else 0
+            recordType.color.toString(),
+            (if (recordType.hidden) 1 else 0).toString()
         )
     }
 
     private fun toBackupString(record: Record): String {
         return String.format(
-            "$ROW_RECORD\t%d\t%d\t%d\t%d\n",
-            record.id,
-            record.typeId,
-            record.timeStarted,
-            record.timeEnded
+            "$ROW_RECORD\t%s\t%s\t%s\t%s\n",
+            record.id.toString(),
+            record.typeId.toString(),
+            record.timeStarted.toString(),
+            record.timeEnded.toString()
         )
     }
 
