@@ -1,17 +1,21 @@
 package com.example.util.simpletimetracker.domain.interactor
 
 import com.example.util.simpletimetracker.domain.model.RecordType
+import com.example.util.simpletimetracker.domain.repo.RecordTypeCacheRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeRepo
 import java.util.*
 import javax.inject.Inject
 
 class RecordTypeInteractor @Inject constructor(
     private val recordTypeRepo: RecordTypeRepo,
+    private val recordTypeCacheRepo: RecordTypeCacheRepo,
     private val prefsInteractor: PrefsInteractor
 ) {
 
     suspend fun getAll(): List<RecordType> {
-        return recordTypeRepo.getAll()
+        return (recordTypeCacheRepo.getAll()
+            .takeIf(List<RecordType>::isNotEmpty)
+            ?: recordTypeRepo.getAll().also(recordTypeCacheRepo::addAll))
             .sortedBy { it.name.toLowerCase(Locale.getDefault()) }
             .let {
                 if (prefsInteractor.getSortRecordTypesByColor()) {
@@ -39,13 +43,16 @@ class RecordTypeInteractor @Inject constructor(
             }
 
         recordTypeRepo.add(newRecord)
+        recordTypeCacheRepo.clear()
     }
 
     suspend fun remove(id: Long) {
         recordTypeRepo.remove(id)
+        recordTypeCacheRepo.clear()
     }
 
     suspend fun clear() {
         recordTypeRepo.clear()
+        recordTypeCacheRepo.clear()
     }
 }

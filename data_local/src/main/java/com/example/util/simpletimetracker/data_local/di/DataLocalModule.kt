@@ -78,6 +78,10 @@ class DataLocalModule {
 
         @Binds
         @Singleton
+        abstract fun getRecordTypeCacheRepo(impl: RecordTypeCacheRepoImpl): RecordTypeCacheRepo
+
+        @Binds
+        @Singleton
         abstract fun getRunningRecordRepo(impl: RunningRecordRepoImpl): RunningRecordRepo
 
         @Binds

@@ -71,6 +71,11 @@ class RunningRecordsFragment : BaseFragment(R.layout.running_records_fragment) {
         viewModel.onVisible()
     }
 
+    override fun onPause() {
+        super.onPause()
+        viewModel.onHidden()
+    }
+
     companion object {
         fun newInstance() = RunningRecordsFragment()
     }

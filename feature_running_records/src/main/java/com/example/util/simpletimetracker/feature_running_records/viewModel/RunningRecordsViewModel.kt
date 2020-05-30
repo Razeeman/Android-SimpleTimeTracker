@@ -17,8 +17,7 @@ import com.example.util.simpletimetracker.feature_running_records.viewData.Runni
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
 import com.example.util.simpletimetracker.navigation.params.ChangeRecordTypeParams
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import javax.inject.Inject
 
 class RunningRecordsViewModel @Inject constructor(
@@ -43,6 +42,8 @@ class RunningRecordsViewModel @Inject constructor(
             initial
         }
     }
+
+    private var timerJob: Job? = null
 
     fun onRecordTypeClick(item: RecordTypeViewData) {
         viewModelScope.launch {
@@ -76,9 +77,13 @@ class RunningRecordsViewModel @Inject constructor(
 
     fun onVisible() {
         viewModelScope.launch {
-            updateRunningRecords()
             updateRecordTypes()
         }
+        startUpdate()
+    }
+
+    fun onHidden() {
+        stopUpdate()
     }
 
     private suspend fun updateRunningRecords() {
@@ -118,12 +123,18 @@ class RunningRecordsViewModel @Inject constructor(
     }
 
     private fun startUpdate() {
-        viewModelScope.launch {
-            delay(TIMER_UPDATE)
-            while (true) {
-                delay(TIMER_UPDATE)
+        timerJob = viewModelScope.launch {
+            timerJob?.cancelAndJoin()
+            while (isActive) {
                 updateRunningRecords()
+                delay(TIMER_UPDATE)
             }
+        }
+    }
+
+    private fun stopUpdate() {
+        viewModelScope.launch {
+            timerJob?.cancelAndJoin()
         }
     }
 

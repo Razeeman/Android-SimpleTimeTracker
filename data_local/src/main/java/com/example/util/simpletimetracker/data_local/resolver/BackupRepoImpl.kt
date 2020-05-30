@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.repo.RecordCacheRepo
 import com.example.util.simpletimetracker.domain.repo.RecordRepo
+import com.example.util.simpletimetracker.domain.repo.RecordTypeCacheRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeRepo
 import com.example.util.simpletimetracker.domain.resolver.BackupRepo
 import kotlinx.coroutines.Dispatchers
@@ -21,6 +22,7 @@ import javax.inject.Singleton
 class BackupRepoImpl @Inject constructor(
     private val contentResolver: ContentResolver,
     private val recordTypeRepo: RecordTypeRepo,
+    private val recordTypeCacheRepo: RecordTypeCacheRepo,
     private val recordRepo: RecordRepo,
     private val recordCacheRepo: RecordCacheRepo
 ) : BackupRepo {
@@ -70,6 +72,7 @@ class BackupRepoImpl @Inject constructor(
     override suspend fun restoreBackupFile(uriString: String): BackupRepo.ResultCode =
         withContext(Dispatchers.IO) {
             recordTypeRepo.clear()
+            recordTypeCacheRepo.clear()
             recordRepo.clear()
             recordCacheRepo.clear()
 
