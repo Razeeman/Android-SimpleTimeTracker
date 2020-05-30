@@ -1,1 +1,5 @@
-<manifest package="com.example.util.simpletimetracker.feature_main" />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.util.simpletimetracker.feature_main">
+
+    <application android:theme="@style/AppTheme" />
+</manifest>

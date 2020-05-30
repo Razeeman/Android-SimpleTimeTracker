@@ -16,12 +16,12 @@
         app:drawIcons="true"
         app:iconMaxSize="24dp"
         app:iconPadding="4dp"
-        app:innerRadiusRatio="0.65"
+        app:innerRadiusRatio="0.625"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent="0.5"
+        app:layout_constraintWidth_percent="0.55"
         tools:segmentCount="5" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

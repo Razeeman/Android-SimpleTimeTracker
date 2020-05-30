@@ -13,7 +13,7 @@ class MainFragment : BaseFragment(R.layout.main_fragment) {
     private val selectedColorFilter by lazy {
         BlendModeColorFilterCompat
             .createBlendModeColorFilterCompat(
-                ContextCompat.getColor(requireContext(), R.color.black),
+                ContextCompat.getColor(requireContext(), R.color.tab_selected),
                 BlendModeCompat.SRC_IN
             )
     }
@@ -21,7 +21,7 @@ class MainFragment : BaseFragment(R.layout.main_fragment) {
     private val unselectedColorFilter by lazy {
         BlendModeColorFilterCompat
             .createBlendModeColorFilterCompat(
-                ContextCompat.getColor(requireContext(), R.color.grey_400),
+                ContextCompat.getColor(requireContext(), R.color.tab_unselected),
                 BlendModeCompat.SRC_IN
             )
     }
