@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_load_error">Not found</string>
+    <string name="widget_empty">Nothing to show</string>
+</resources>

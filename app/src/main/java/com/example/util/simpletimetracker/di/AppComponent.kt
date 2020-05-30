@@ -8,6 +8,8 @@ import com.example.util.simpletimetracker.feature_records.di.RecordsComponent
 import com.example.util.simpletimetracker.feature_running_records.di.RunningRecordsComponent
 import com.example.util.simpletimetracker.feature_settings.di.SettingsComponent
 import com.example.util.simpletimetracker.feature_statistics.di.StatisticsComponent
+import com.example.util.simpletimetracker.feature_widget.di.WidgetComponent
+import com.example.util.simpletimetracker.feature_widget.di.WidgetModule
 import com.example.util.simpletimetracker.ui.MainActivity
 import dagger.Component
 import javax.inject.Singleton
@@ -16,7 +18,8 @@ import javax.inject.Singleton
 @Component(
     modules = [
         AppModule::class,
-        DataLocalModule::class
+        DataLocalModule::class,
+        WidgetModule::class
     ]
 )
 interface AppComponent {
@@ -30,4 +33,5 @@ interface AppComponent {
     fun plusStatisticsComponent(): StatisticsComponent
     fun plusSettingComponent(): SettingsComponent
     fun plusChartFilterComponent(): ChartFilterComponent
+    fun plusWidgetComponent(): WidgetComponent
 }

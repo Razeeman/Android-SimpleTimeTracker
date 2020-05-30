@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
+import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.feature_running_records.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.feature_running_records.mapper.RunningRecordViewDataMapper
 import com.example.util.simpletimetracker.feature_running_records.viewData.RecordTypeAddViewData
@@ -25,6 +26,7 @@ class RunningRecordsViewModel @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
     private val recordInteractor: RecordInteractor,
+    private val widgetInteractor: WidgetInteractor,
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
     private val runningRecordViewDataMapper: RunningRecordViewDataMapper
 ) : ViewModel() {
@@ -47,10 +49,9 @@ class RunningRecordsViewModel @Inject constructor(
 
     fun onRecordTypeClick(item: RecordTypeViewData) {
         viewModelScope.launch {
-            if (runningRecordInteractor.get(item.id) == null) {
-                runningRecordInteractor.add(item.id)
-                updateRunningRecords()
-            }
+            runningRecordInteractor.add(item.id)
+            widgetInteractor.updateWidgets()
+            updateRunningRecords()
         }
     }
 
@@ -69,8 +70,9 @@ class RunningRecordsViewModel @Inject constructor(
                     typeId = runningRecord.id,
                     timeStarted = runningRecord.timeStarted
                 )
+                runningRecordInteractor.remove(item.id)
+                widgetInteractor.updateWidgets()
             }
-            runningRecordInteractor.remove(item.id)
             updateRunningRecords()
         }
     }

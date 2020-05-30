@@ -10,7 +10,10 @@ import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.extension.flip
 import com.example.util.simpletimetracker.domain.extension.orTrue
+import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
+import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
+import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_change_record_type.R
 import com.example.util.simpletimetracker.feature_change_record_type.extra.ChangeRecordTypeExtra
@@ -25,6 +28,9 @@ import javax.inject.Inject
 class ChangeRecordTypeViewModel @Inject constructor(
     private val router: Router,
     private val recordTypeInteractor: RecordTypeInteractor,
+    private val recordInteractor: RecordInteractor,
+    private val runningRecordInteractor: RunningRecordInteractor,
+    private val widgetInteractor: WidgetInteractor,
     private val changeRecordTypeViewDataMapper: ChangeRecordTypeViewDataMapper,
     private val resourceRepo: ResourceRepo,
     private val colorMapper: ColorMapper,
@@ -115,6 +121,14 @@ class ChangeRecordTypeViewModel @Inject constructor(
         viewModelScope.launch {
             if (extra.id != 0L) {
                 recordTypeInteractor.remove(extra.id)
+                runningRecordInteractor.get(extra.id)?.let { runningRecord ->
+                    recordInteractor.add(
+                        typeId = runningRecord.id,
+                        timeStarted = runningRecord.timeStarted
+                    )
+                    runningRecordInteractor.remove(extra.id)
+                }
+                widgetInteractor.updateWidgets()
                 resourceRepo.getString(R.string.record_type_removed)
                     .let(router::showSystemMessage)
                 (keyboardVisibility as MutableLiveData).value = false

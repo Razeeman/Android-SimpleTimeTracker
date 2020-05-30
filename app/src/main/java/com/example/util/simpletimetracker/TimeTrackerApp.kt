@@ -13,6 +13,7 @@ import com.example.util.simpletimetracker.feature_records.di.RecordsComponent
 import com.example.util.simpletimetracker.feature_running_records.di.RunningRecordsComponent
 import com.example.util.simpletimetracker.feature_settings.di.SettingsComponent
 import com.example.util.simpletimetracker.feature_statistics.di.StatisticsComponent
+import com.example.util.simpletimetracker.feature_widget.di.WidgetComponent
 import timber.log.Timber
 import timber.log.Timber.DebugTree
 
@@ -26,6 +27,7 @@ class TimeTrackerApp : Application(), FeatureComponentProvider {
     override var statisticsComponent: StatisticsComponent? = null
     override var settingsComponent: SettingsComponent? = null
     override var chartFilterComponent: ChartFilterComponent? = null
+    override var widgetComponent: WidgetComponent? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -52,6 +54,7 @@ class TimeTrackerApp : Application(), FeatureComponentProvider {
         statisticsComponent = appComponent?.plusStatisticsComponent()
         settingsComponent = appComponent?.plusSettingComponent()
         chartFilterComponent = appComponent?.plusChartFilterComponent()
+        widgetComponent = appComponent?.plusWidgetComponent()
     }
 
     private fun initStrictMode() {

@@ -52,6 +52,7 @@ dependencies {
     implementation project(':feature_statistics')
     implementation project(':feature_settings')
     implementation project(':feature_dialogs')
+    implementation project(':feature_widget')
 
     implementation deps.androidx.appcompat
     implementation deps.androidx.constraintlayout

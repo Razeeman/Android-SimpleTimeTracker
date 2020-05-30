@@ -7,6 +7,7 @@ import com.example.util.simpletimetracker.feature_records.di.RecordsComponentPro
 import com.example.util.simpletimetracker.feature_running_records.di.RunningRecordsComponentProvider
 import com.example.util.simpletimetracker.feature_settings.di.SettingsComponentProvider
 import com.example.util.simpletimetracker.feature_statistics.di.StatisticsComponentProvider
+import com.example.util.simpletimetracker.feature_widget.di.WidgetComponentProvider
 
 interface FeatureComponentProvider :
     RunningRecordsComponentProvider,
@@ -15,7 +16,8 @@ interface FeatureComponentProvider :
     ChangeRecordComponentProvider,
     StatisticsComponentProvider,
     SettingsComponentProvider,
-    ChartFilterComponentProvider {
+    ChartFilterComponentProvider,
+    WidgetComponentProvider {
 
     var appComponent: AppComponent?
 }

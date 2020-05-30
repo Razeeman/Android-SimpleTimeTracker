@@ -26,4 +26,16 @@ class PrefsInteractor @Inject constructor(
     suspend fun setSortRecordTypesByColor(isEnabled: Boolean) = withContext(Dispatchers.IO) {
         prefsRepo.sortRecordTypesByColor = isEnabled
     }
+
+    suspend fun setWidget(widgetId: Int, recordType: Long) = withContext(Dispatchers.IO) {
+        prefsRepo.setWidget(widgetId, recordType)
+    }
+
+    suspend fun getWidget(widgetId: Int): Long = withContext(Dispatchers.IO) {
+        prefsRepo.getWidget(widgetId)
+    }
+
+    suspend fun removeWidget(widgetId: Int) = withContext(Dispatchers.IO) {
+        prefsRepo.removeWidget(widgetId)
+    }
 }
