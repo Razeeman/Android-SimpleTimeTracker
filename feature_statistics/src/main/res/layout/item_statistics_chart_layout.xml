@@ -4,6 +4,20 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/btnStatisticsChartFilter"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="?selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/filter"
+        android:tint="@color/blue_grey_300"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <com.example.util.simpletimetracker.feature_statistics.customView.PieChartView
         android:id="@+id/chartStatisticsItem"
         android:layout_width="0dp"

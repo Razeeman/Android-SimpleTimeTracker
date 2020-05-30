@@ -11,10 +11,13 @@ import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.StatisticsInteractor
 import com.example.util.simpletimetracker.feature_statistics.extra.StatisticsExtra
 import com.example.util.simpletimetracker.feature_statistics.mapper.StatisticsViewDataMapper
+import com.example.util.simpletimetracker.navigation.Router
+import com.example.util.simpletimetracker.navigation.Screen
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class StatisticsViewModel @Inject constructor(
+    private val router: Router,
     private val recordTypeInteractor: RecordTypeInteractor,
     private val statisticsInteractor: StatisticsInteractor,
     private val prefsInteractor: PrefsInteractor,
@@ -34,6 +37,10 @@ class StatisticsViewModel @Inject constructor(
         viewModelScope.launch {
             updateStatistics()
         }
+    }
+
+    fun onFilterClick() {
+        router.navigate(Screen.CHART_FILTER_DIALOG)
     }
 
     fun onFilterApplied() {

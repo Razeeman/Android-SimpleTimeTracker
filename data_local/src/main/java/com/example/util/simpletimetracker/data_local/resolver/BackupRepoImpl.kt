@@ -71,11 +71,6 @@ class BackupRepoImpl @Inject constructor(
 
     override suspend fun restoreBackupFile(uriString: String): BackupRepo.ResultCode =
         withContext(Dispatchers.IO) {
-            recordTypeRepo.clear()
-            recordTypeCacheRepo.clear()
-            recordRepo.clear()
-            recordCacheRepo.clear()
-
             var inputStream: InputStream? = null
             var reader: BufferedReader? = null
 
@@ -90,6 +85,11 @@ class BackupRepoImpl @Inject constructor(
                 // Check file identification
                 line = reader?.readLine().orEmpty()
                 if (line != BACKUP_IDENTIFICATION) return@withContext BackupRepo.ResultCode.ERROR
+
+                recordTypeRepo.clear()
+                recordTypeCacheRepo.clear()
+                recordRepo.clear()
+                recordCacheRepo.clear()
 
                 // Read data
                 while (reader?.readLine()?.also { line = it } != null) {

@@ -4,11 +4,14 @@ import android.view.ViewGroup
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerViewHolder
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.feature_statistics.R
 import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsChartViewData
 import kotlinx.android.synthetic.main.item_statistics_chart_layout.view.*
 
-class StatisticsChartAdapterDelegate() : BaseRecyclerAdapterDelegate() {
+class StatisticsChartAdapterDelegate(
+    private val onFilterClick: (() -> Unit)
+) : BaseRecyclerAdapterDelegate() {
 
     override fun onCreateViewHolder(parent: ViewGroup): BaseRecyclerViewHolder =
         StatisticsChartViewHolder(parent)
@@ -23,6 +26,7 @@ class StatisticsChartAdapterDelegate() : BaseRecyclerAdapterDelegate() {
             item as StatisticsChartViewData
 
             chartStatisticsItem.setSegments(item.data)
+            btnStatisticsChartFilter.setOnClick(onFilterClick)
         }
     }
 }

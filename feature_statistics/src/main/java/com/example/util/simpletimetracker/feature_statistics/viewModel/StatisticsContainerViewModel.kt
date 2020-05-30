@@ -14,8 +14,7 @@ import javax.inject.Inject
 
 class StatisticsContainerViewModel @Inject constructor(
     private val timeMapper: TimeMapper,
-    private val resourceRepo: ResourceRepo,
-    private val router: Router
+    private val resourceRepo: ResourceRepo
 ) : ViewModel() {
 
     val title: LiveData<String> by lazy {
@@ -28,10 +27,6 @@ class StatisticsContainerViewModel @Inject constructor(
 
     val rangeLength: LiveData<RangeLength> by lazy {
         return@lazy MutableLiveData(RangeLength.DAY)
-    }
-
-    fun onFilterClick() {
-        router.navigate(Screen.CHART_FILTER_DIALOG)
     }
 
     fun onPreviousClick() {

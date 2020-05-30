@@ -28,7 +28,9 @@ class StatisticsFragment : BaseFragment(R.layout.statistics_fragment),
     )
 
     private val statisticsAdapter: StatisticsAdapter by lazy {
-        StatisticsAdapter()
+        StatisticsAdapter(
+            onFilterClick = viewModel::onFilterClick
+        )
     }
 
     override fun initDi() {
