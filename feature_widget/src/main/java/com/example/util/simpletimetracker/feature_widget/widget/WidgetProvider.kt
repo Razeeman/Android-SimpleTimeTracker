@@ -123,7 +123,7 @@ class WidgetProvider : AppWidgetProvider() {
             // If recordType removed - update widget and exit
             recordTypeInteractor.get(recordTypeId)
                 ?.takeUnless { it.hidden }
-                ?.run {
+                ?: run {
                     widgetInteractor.updateWidget(widgetId)
                     return@launch
                 }
