@@ -2,14 +2,24 @@ package com.example.util.simpletimetracker.domain.interactor
 
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.repo.RecordTypeRepo
+import java.util.*
 import javax.inject.Inject
 
 class RecordTypeInteractor @Inject constructor(
-    private val recordTypeRepo: RecordTypeRepo
+    private val recordTypeRepo: RecordTypeRepo,
+    private val prefsInteractor: PrefsInteractor
 ) {
 
     suspend fun getAll(): List<RecordType> {
         return recordTypeRepo.getAll()
+            .sortedBy { it.name.toLowerCase(Locale.getDefault()) }
+            .let {
+                if (prefsInteractor.getSortRecordTypesByColor()) {
+                    it.sortedBy(RecordType::color)
+                } else {
+                    it
+                }
+            }
     }
 
     suspend fun get(id: Long): RecordType? {
