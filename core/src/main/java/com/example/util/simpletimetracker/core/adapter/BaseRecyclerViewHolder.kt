@@ -12,7 +12,5 @@ abstract class BaseRecyclerViewHolder(
     LayoutInflater.from(parent.context).inflate(layoutId, parent, false)
 ) {
 
-    abstract fun bind(item: ViewHolderType)
-
-    open fun bind(item: ViewHolderType, payloads: List<Any>) = bind(item)
+    abstract fun bind(item: ViewHolderType, payloads: List<Any>)
 }

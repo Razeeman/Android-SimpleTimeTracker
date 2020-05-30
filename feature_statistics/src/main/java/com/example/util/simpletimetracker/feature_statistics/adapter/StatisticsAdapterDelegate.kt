@@ -13,12 +13,15 @@ import kotlinx.android.synthetic.main.item_statistics_layout.view.*
 class StatisticsAdapterDelegate() : BaseRecyclerAdapterDelegate() {
 
     override fun onCreateViewHolder(parent: ViewGroup): BaseRecyclerViewHolder =
-        RunningRecordsViewHolder(parent)
+        StatisticsViewHolder(parent)
 
-    inner class RunningRecordsViewHolder(parent: ViewGroup) :
+    inner class StatisticsViewHolder(parent: ViewGroup) :
         BaseRecyclerViewHolder(parent, R.layout.item_statistics_layout) {
 
-        override fun bind(item: ViewHolderType) = with(itemView) {
+        override fun bind(
+            item: ViewHolderType,
+            payloads: List<Any>
+        ) = with(itemView) {
             item as StatisticsViewData
 
             layoutStatisticsItem.setCardBackgroundColor(item.color)

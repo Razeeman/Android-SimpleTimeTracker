@@ -16,7 +16,10 @@ class StatisticsChartAdapterDelegate() : BaseRecyclerAdapterDelegate() {
     inner class StatisticsChartViewHolder(parent: ViewGroup) :
         BaseRecyclerViewHolder(parent, R.layout.item_statistics_chart_layout) {
 
-        override fun bind(item: ViewHolderType) = with(itemView) {
+        override fun bind(
+            item: ViewHolderType,
+            payloads: List<Any>
+        ) = with(itemView) {
             item as StatisticsChartViewData
 
             chartStatisticsItem.setSegments(item.data)

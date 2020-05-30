@@ -14,12 +14,15 @@ class ChangeRecordTypeColorAdapterDelegate(
 ) : BaseRecyclerAdapterDelegate() {
 
     override fun onCreateViewHolder(parent: ViewGroup): BaseRecyclerViewHolder =
-        RunningRecordsViewHolder(parent)
+        ChangeRecordTypeColorViewHolder(parent)
 
-    inner class RunningRecordsViewHolder(parent: ViewGroup) :
+    inner class ChangeRecordTypeColorViewHolder(parent: ViewGroup) :
         BaseRecyclerViewHolder(parent, R.layout.change_record_type_item_color_layout) {
 
-        override fun bind(item: ViewHolderType) = with(itemView) {
+        override fun bind(
+            item: ViewHolderType,
+            payloads: List<Any>
+        ) = with(itemView) {
             item as ChangeRecordTypeColorViewData
 
             layoutChangeRecordTypeColorItem.setCardBackgroundColor(item.colorInt)

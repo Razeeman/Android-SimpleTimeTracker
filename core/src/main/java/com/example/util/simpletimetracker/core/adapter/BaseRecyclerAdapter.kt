@@ -18,7 +18,7 @@ open class BaseRecyclerAdapter : RecyclerView.Adapter<BaseRecyclerViewHolder>() 
     override fun onBindViewHolder(
         holder: BaseRecyclerViewHolder,
         position: Int
-    ) = holder.bind(items[position])
+    ) = holder.bind(items[position], emptyList())
 
     override fun onBindViewHolder(
         holder: BaseRecyclerViewHolder,

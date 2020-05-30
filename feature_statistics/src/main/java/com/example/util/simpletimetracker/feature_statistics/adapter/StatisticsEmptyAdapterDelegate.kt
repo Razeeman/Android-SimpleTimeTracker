@@ -16,7 +16,10 @@ class StatisticsEmptyAdapterDelegate() : BaseRecyclerAdapterDelegate() {
     inner class StatisticsEmptyViewHolder(parent: ViewGroup) :
         BaseRecyclerViewHolder(parent, R.layout.item_statistics_empty_layout) {
 
-        override fun bind(item: ViewHolderType) = with(itemView) {
+        override fun bind(
+            item: ViewHolderType,
+            payloads: List<Any>
+        ) = with(itemView) {
             item as StatisticsEmptyViewData
 
             tvStatisticsEmptyItem.text = item.message

@@ -14,12 +14,15 @@ class RecordTypeAddAdapterDelegate(
 ) : BaseRecyclerAdapterDelegate() {
 
     override fun onCreateViewHolder(parent: ViewGroup): BaseRecyclerViewHolder =
-        RunningRecordsViewHolder(parent)
+        RecordTypeAddViewHolder(parent)
 
-    inner class RunningRecordsViewHolder(parent: ViewGroup) :
+    inner class RecordTypeAddViewHolder(parent: ViewGroup) :
         BaseRecyclerViewHolder(parent, R.layout.item_record_type_add_layout) {
 
-        override fun bind(item: ViewHolderType) = with(itemView) {
+        override fun bind(
+            item: ViewHolderType,
+            payloads: List<Any>
+        ) = with(itemView) {
             item as RecordTypeAddViewData
 
             viewRecordTypeAddItem.setOnClick(onItemClick)

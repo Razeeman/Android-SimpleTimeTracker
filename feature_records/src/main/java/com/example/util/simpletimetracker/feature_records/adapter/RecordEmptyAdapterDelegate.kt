@@ -11,12 +11,15 @@ import kotlinx.android.synthetic.main.item_record_empty_layout.view.*
 class RecordEmptyAdapterDelegate() : BaseRecyclerAdapterDelegate() {
 
     override fun onCreateViewHolder(parent: ViewGroup): BaseRecyclerViewHolder =
-        StatisticsEmptyViewHolder(parent)
+        RecordEmptyViewHolder(parent)
 
-    inner class StatisticsEmptyViewHolder(parent: ViewGroup) :
+    inner class RecordEmptyViewHolder(parent: ViewGroup) :
         BaseRecyclerViewHolder(parent, R.layout.item_record_empty_layout) {
 
-        override fun bind(item: ViewHolderType) = with(itemView) {
+        override fun bind(
+            item: ViewHolderType,
+            payloads: List<Any>
+        ) = with(itemView) {
             item as RecordEmptyViewData
 
             tvRecordEmptyItem.text = item.message

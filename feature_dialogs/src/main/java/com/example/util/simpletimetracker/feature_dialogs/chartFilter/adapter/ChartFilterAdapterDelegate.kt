@@ -14,12 +14,15 @@ class ChartFilterAdapterDelegate(
 ) : BaseRecyclerAdapterDelegate() {
 
     override fun onCreateViewHolder(parent: ViewGroup): BaseRecyclerViewHolder =
-        ViewHolder(parent)
+        ChartFilterViewHolder(parent)
 
-    inner class ViewHolder(parent: ViewGroup) :
+    inner class ChartFilterViewHolder(parent: ViewGroup) :
         BaseRecyclerViewHolder(parent, R.layout.item_chart_filter_record_type_layout) {
 
-        override fun bind(item: ViewHolderType) = with(itemView.viewRecordTypeItem) {
+        override fun bind(
+            item: ViewHolderType,
+            payloads: List<Any>
+        ) = with(itemView.viewRecordTypeItem) {
             item as ChartFilterRecordTypeViewData
 
             color = item.color

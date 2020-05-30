@@ -16,12 +16,15 @@ class RecordTypeAdapterDelegate(
 ) : BaseRecyclerAdapterDelegate() {
 
     override fun onCreateViewHolder(parent: ViewGroup): BaseRecyclerViewHolder =
-        RunningRecordsViewHolder(parent)
+        RecordTypeViewHolder(parent)
 
-    inner class RunningRecordsViewHolder(parent: ViewGroup) :
+    inner class RecordTypeViewHolder(parent: ViewGroup) :
         BaseRecyclerViewHolder(parent, R.layout.item_record_type_layout) {
 
-        override fun bind(item: ViewHolderType) = with(itemView.viewRecordTypeItem) {
+        override fun bind(
+            item: ViewHolderType,
+            payloads: List<Any>
+        ) = with(itemView.viewRecordTypeItem) {
             item as RecordTypeViewData
 
             color = item.color
