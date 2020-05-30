@@ -7,4 +7,8 @@ data class RecordEmptyViewData(
 ) : ViewHolderType {
 
     override fun getViewType(): Int = ViewHolderType.FOOTER
+
+    override fun getUniqueId(): Long? = 1L
+
+    override fun areContentsTheSame(other: ViewHolderType): Boolean = true
 }

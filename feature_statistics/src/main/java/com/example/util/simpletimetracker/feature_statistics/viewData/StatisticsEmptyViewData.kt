@@ -7,4 +7,6 @@ data class StatisticsEmptyViewData(
 ) : ViewHolderType {
 
     override fun getViewType(): Int = ViewHolderType.FOOTER
+
+    override fun getUniqueId(): Long? = 1L
 }

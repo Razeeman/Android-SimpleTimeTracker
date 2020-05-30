@@ -1,8 +1,8 @@
 package com.example.util.simpletimetracker.core.adapter
 
-interface ViewHolderType {
+import android.os.Bundle
 
-    fun getViewType(): Int
+interface ViewHolderType {
 
     companion object {
         const val VIEW = 1
@@ -10,4 +10,18 @@ interface ViewHolderType {
         const val FOOTER = 3
         const val HEADER = 4
     }
+
+    fun getViewType(): Int
+
+    fun getUniqueId(): Long? = null
+
+    fun areItemsTheSame(other: ViewHolderType): Boolean {
+        return this.getViewType() == other.getViewType() &&
+                this.getUniqueId() != null && other.getUniqueId() != null &&
+                this.getUniqueId() == other.getUniqueId()
+    }
+
+    fun areContentsTheSame(other: ViewHolderType): Boolean = this == other
+
+    fun getChangePayload(other: ViewHolderType): Any? = Bundle()
 }

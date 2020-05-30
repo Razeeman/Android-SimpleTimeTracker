@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.core.adapter
 
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 
 open class BaseRecyclerAdapter : RecyclerView.Adapter<BaseRecyclerViewHolder>() {
@@ -11,13 +12,19 @@ open class BaseRecyclerAdapter : RecyclerView.Adapter<BaseRecyclerViewHolder>() 
     private val items: MutableList<ViewHolderType> =
         mutableListOf()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseRecyclerViewHolder {
-        return delegates[viewType]!!.onCreateViewHolder(parent)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseRecyclerViewHolder =
+        delegates[viewType]!!.onCreateViewHolder(parent)
 
-    override fun onBindViewHolder(holder: BaseRecyclerViewHolder, position: Int) {
-        holder.bind(items[position])
-    }
+    override fun onBindViewHolder(
+        holder: BaseRecyclerViewHolder,
+        position: Int
+    ) = holder.bind(items[position])
+
+    override fun onBindViewHolder(
+        holder: BaseRecyclerViewHolder,
+        position: Int,
+        payloads: MutableList<Any>
+    ) = holder.bind(items[position], payloads)
 
     override fun getItemCount(): Int =
         items.size
@@ -26,13 +33,10 @@ open class BaseRecyclerAdapter : RecyclerView.Adapter<BaseRecyclerViewHolder>() 
         items[position].getViewType()
 
     fun replace(newItems: List<ViewHolderType>) {
+        val oldItems = items.toList()
         items.clear()
         items.addAll(newItems)
-        notifyDataSetChanged()
-    }
-
-    fun add(newItem: ViewHolderType) {
-        items.add(newItem)
-        notifyItemInserted(items.lastIndex)
+        DiffUtil.calculateDiff(DiffUtilCallback(oldItems, items))
+            .dispatchUpdatesTo(this)
     }
 }

@@ -13,4 +13,6 @@ data class StatisticsViewData(
 ) : ViewHolderType {
 
     override fun getViewType(): Int = ViewHolderType.VIEW
+
+    override fun getUniqueId(): Long? = name.hashCode().toLong()
 }

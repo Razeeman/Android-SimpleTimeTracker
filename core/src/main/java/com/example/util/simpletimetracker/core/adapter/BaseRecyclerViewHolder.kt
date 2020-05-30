@@ -13,4 +13,6 @@ abstract class BaseRecyclerViewHolder(
 ) {
 
     abstract fun bind(item: ViewHolderType)
+
+    open fun bind(item: ViewHolderType, payloads: List<Any>) = bind(item)
 }

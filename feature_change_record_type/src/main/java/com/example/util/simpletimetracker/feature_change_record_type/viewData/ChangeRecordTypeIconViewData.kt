@@ -11,4 +11,6 @@ data class ChangeRecordTypeIconViewData(
 ) : ViewHolderType {
 
     override fun getViewType(): Int = ViewHolderType.VIEW2
+
+    override fun getUniqueId(): Long? = iconName.hashCode().toLong()
 }

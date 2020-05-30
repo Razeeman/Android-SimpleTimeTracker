@@ -8,4 +8,6 @@ data class StatisticsChartViewData(
 ) : ViewHolderType {
 
     override fun getViewType(): Int = ViewHolderType.HEADER
+
+    override fun getUniqueId(): Long? = 1L
 }

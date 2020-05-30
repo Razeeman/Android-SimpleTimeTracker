@@ -15,4 +15,6 @@ data class RecordViewData(
 ) : ViewHolderType {
 
     override fun getViewType(): Int = ViewHolderType.VIEW
+
+    override fun getUniqueId(): Long? = id
 }
