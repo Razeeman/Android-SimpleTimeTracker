@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="date_time_dialog_date">Date</string>
+    <string name="date_time_dialog_time">Time</string>
+</resources>

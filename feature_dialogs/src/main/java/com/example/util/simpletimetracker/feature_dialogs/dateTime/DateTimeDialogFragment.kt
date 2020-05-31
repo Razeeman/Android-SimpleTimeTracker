@@ -16,12 +16,16 @@ import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_dialogs.R
 import com.example.util.simpletimetracker.navigation.params.DateTimeDialogParams
 import kotlinx.android.synthetic.main.date_time_dialog_fragment.*
+import java.util.*
 
-class DateTimeDialogFragment : AppCompatDialogFragment() {
+class DateTimeDialogFragment : AppCompatDialogFragment(),
+    DateDialogFragment.OnDateSetListener,
+    TimeDialogFragment.OnTimeSetListener {
 
     private var dateTimeDialogListener: DateTimeDialogListener? = null
     private val dialogTag: String? by lazy { arguments?.getString(ARGS_TAG) }
     private var newTimestamp: Long = 0
+    private val calendar = Calendar.getInstance()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -56,14 +60,14 @@ class DateTimeDialogFragment : AppCompatDialogFragment() {
             replace(
                 R.id.datePickerContainer,
                 DateDialogFragment.newInstance(timestamp)
-                    .apply { onDateSetListener = { newTimestamp = it } }
+                    .apply { listener = this@DateTimeDialogFragment }
             )
         }
         childFragmentManager.commit {
             replace(
                 R.id.timePickerContainer,
                 TimeDialogFragment.newInstance(timestamp)
-                    .apply { onTimeSetListener = { newTimestamp = it } }
+                    .apply { listener = this@DateTimeDialogFragment }
             )
         }
 
@@ -85,6 +89,25 @@ class DateTimeDialogFragment : AppCompatDialogFragment() {
             dateTimeDialogListener?.onDateTimeSet(newTimestamp, dialogTag)
             dismiss()
         }
+    }
+
+    override fun onDateSet(year: Int, monthOfYear: Int, dayOfMonth: Int) {
+        calendar.timeInMillis = newTimestamp
+
+        calendar.set(Calendar.YEAR, year)
+        calendar.set(Calendar.MONTH, monthOfYear)
+        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+
+        newTimestamp = calendar.timeInMillis
+    }
+
+    override fun onTimeSet(hourOfDay: Int, minute: Int) {
+        calendar.timeInMillis = newTimestamp
+
+        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
+        calendar.set(Calendar.MINUTE, minute)
+
+        newTimestamp = calendar.timeInMillis
     }
 
     companion object {

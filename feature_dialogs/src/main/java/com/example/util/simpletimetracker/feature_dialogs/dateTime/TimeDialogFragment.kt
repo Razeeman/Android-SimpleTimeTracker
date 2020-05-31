@@ -12,7 +12,11 @@ import java.util.*
 
 class TimeDialogFragment : Fragment() {
 
-    var onTimeSetListener: ((Long) -> Unit)? = null
+    interface OnTimeSetListener {
+        fun onTimeSet(hourOfDay: Int, minute: Int)
+    }
+
+    var listener: OnTimeSetListener? = null
 
     private val timestamp: Long by lazy {
         arguments?.getLong(ARGS_TIMESTAMP, 0).orZero()
@@ -36,13 +40,13 @@ class TimeDialogFragment : Fragment() {
         val calendar = Calendar.getInstance()
             .apply { timeInMillis = timestamp }
 
-        timePicker.setIs24HourView(true)
-        timePicker.currentHour = calendar.get(Calendar.HOUR_OF_DAY)
-        timePicker.currentMinute = calendar.get(Calendar.MINUTE)
-        timePicker.setOnTimeChangedListener { _, hourOfDay, minute ->
-            calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
-            calendar.set(Calendar.MINUTE, minute)
-            onTimeSetListener?.invoke(calendar.timeInMillis)
+        timePicker.apply {
+            setIs24HourView(true)
+            currentHour = calendar.get(Calendar.HOUR_OF_DAY)
+            currentMinute = calendar.get(Calendar.MINUTE)
+            setOnTimeChangedListener { _, hourOfDay, minute ->
+                listener?.onTimeSet(hourOfDay, minute)
+            }
         }
     }
 

@@ -12,7 +12,11 @@ import java.util.*
 
 class DateDialogFragment : Fragment() {
 
-    var onDateSetListener: ((Long) -> Unit)? = null
+    interface OnDateSetListener {
+        fun onDateSet(year: Int, monthOfYear: Int, dayOfMonth: Int)
+    }
+
+    var listener: OnDateSetListener? = null
 
     private val timestamp: Long by lazy {
         arguments?.getLong(ARGS_TIMESTAMP, 0).orZero()
@@ -41,10 +45,7 @@ class DateDialogFragment : Fragment() {
             calendar.get(Calendar.MONTH),
             calendar.get(Calendar.DAY_OF_MONTH)
         ) { _, year, monthOfYear, dayOfMonth ->
-            calendar.set(Calendar.YEAR, year)
-            calendar.set(Calendar.MONTH, monthOfYear)
-            calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-            onDateSetListener?.invoke(calendar.timeInMillis)
+            listener?.onDateSet(year, monthOfYear, dayOfMonth)
         }
     }
 
