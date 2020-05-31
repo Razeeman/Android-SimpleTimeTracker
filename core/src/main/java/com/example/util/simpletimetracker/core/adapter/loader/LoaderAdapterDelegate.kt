@@ -1,18 +1,18 @@
-package com.example.util.simpletimetracker.feature_running_records.adapter.runningRecord
+package com.example.util.simpletimetracker.core.adapter.loader
 
 import android.view.ViewGroup
+import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerViewHolder
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
-import com.example.util.simpletimetracker.feature_running_records.R
 
-class RunningRecordEmptyAdapterDelegate() : BaseRecyclerAdapterDelegate() {
+class LoaderAdapterDelegate() : BaseRecyclerAdapterDelegate() {
 
     override fun onCreateViewHolder(parent: ViewGroup): BaseRecyclerViewHolder =
-        RunningRecordEmptyViewHolder(parent)
+        LoaderViewHolder(parent)
 
-    inner class RunningRecordEmptyViewHolder(parent: ViewGroup) :
-        BaseRecyclerViewHolder(parent, R.layout.item_running_record_empty_layout) {
+    inner class LoaderViewHolder(parent: ViewGroup) :
+        BaseRecyclerViewHolder(parent, R.layout.item_loader_layout) {
 
         override fun bind(
             item: ViewHolderType,

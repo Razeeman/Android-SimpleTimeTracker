@@ -66,15 +66,14 @@ class WidgetConfigureActivity : AppCompatActivity() {
     }
 
     private fun initViewModel(): Unit = with(viewModel) {
-        extra =
-            WidgetExtra(
-                widgetId = intent?.extras
-                    ?.getInt(
-                        AppWidgetManager.EXTRA_APPWIDGET_ID,
-                        AppWidgetManager.INVALID_APPWIDGET_ID
-                    )
-                    ?: AppWidgetManager.INVALID_APPWIDGET_ID
+        val widgetId = intent?.extras
+            ?.getInt(
+                AppWidgetManager.EXTRA_APPWIDGET_ID,
+                AppWidgetManager.INVALID_APPWIDGET_ID
             )
+            ?: AppWidgetManager.INVALID_APPWIDGET_ID
+
+        extra = WidgetExtra(widgetId)
         recordTypes.observe(this@WidgetConfigureActivity, typesAdapter::replace)
         handled.observe(this@WidgetConfigureActivity, ::exit)
     }

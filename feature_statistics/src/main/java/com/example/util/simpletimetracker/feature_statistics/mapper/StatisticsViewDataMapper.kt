@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.feature_statistics.mapper
 
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.core.adapter.empty.EmptyViewData
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
@@ -10,7 +11,6 @@ import com.example.util.simpletimetracker.domain.model.Statistics
 import com.example.util.simpletimetracker.feature_statistics.R
 import com.example.util.simpletimetracker.feature_statistics.customView.PiePortion
 import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsChartViewData
-import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsEmptyViewData
 import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsViewData
 import javax.inject.Inject
 
@@ -68,7 +68,7 @@ class StatisticsViewDataMapper @Inject constructor(
     }
 
     fun mapToEmpty(): ViewHolderType {
-        return StatisticsEmptyViewData(
+        return EmptyViewData(
             message = R.string.statistics_empty.let(resourceRepo::getString)
         )
     }

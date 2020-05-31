@@ -1,11 +1,14 @@
 package com.example.util.simpletimetracker.feature_running_records.mapper
 
+import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.core.adapter.empty.EmptyViewData
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RunningRecord
+import com.example.util.simpletimetracker.feature_running_records.R
 import com.example.util.simpletimetracker.feature_running_records.viewData.RunningRecordViewData
 import javax.inject.Inject
 
@@ -32,6 +35,12 @@ class RunningRecordViewDataMapper @Inject constructor(
             color = recordType.color
                 .let(colorMapper::mapToColorResId)
                 .let(resourceRepo::getColor)
+        )
+    }
+
+    fun mapToEmpty(): ViewHolderType {
+        return EmptyViewData(
+            message = R.string.running_records_empty.let(resourceRepo::getString)
         )
     }
 }

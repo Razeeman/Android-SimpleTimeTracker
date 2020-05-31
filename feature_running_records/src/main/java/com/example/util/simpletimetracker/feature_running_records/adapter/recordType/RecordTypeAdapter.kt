@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.feature_running_records.adapter.recor
 
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.core.adapter.loader.LoaderAdapterDelegate
 import com.example.util.simpletimetracker.feature_running_records.viewData.RecordTypeViewData
 
 class RecordTypeAdapter(
@@ -13,5 +14,6 @@ class RecordTypeAdapter(
     init {
         delegates[ViewHolderType.VIEW] = RecordTypeAdapterDelegate(onItemClick, onItemLongClick)
         delegates[ViewHolderType.FOOTER] = RecordTypeAddAdapterDelegate(onAddClick)
+        delegates[ViewHolderType.LOADER] = LoaderAdapterDelegate()
     }
 }

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.core.adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -27,16 +28,12 @@ class StatisticsViewModel @Inject constructor(
     var extra: StatisticsExtra? = null
 
     val statistics: LiveData<List<ViewHolderType>> by lazy {
-        return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
-            viewModelScope.launch { initial.value = loadStatisticsViewData() }
-            initial
-        }
+        updateStatistics()
+        MutableLiveData(listOf(LoaderViewData() as ViewHolderType))
     }
 
     fun onVisible() {
-        viewModelScope.launch {
-            updateStatistics()
-        }
+        updateStatistics()
     }
 
     fun onFilterClick() {
@@ -44,12 +41,10 @@ class StatisticsViewModel @Inject constructor(
     }
 
     fun onFilterApplied() {
-        viewModelScope.launch {
-            updateStatistics()
-        }
+        updateStatistics()
     }
 
-    private suspend fun updateStatistics() {
+    private fun updateStatistics() = viewModelScope.launch {
         (statistics as MutableLiveData).value = loadStatisticsViewData()
     }
 

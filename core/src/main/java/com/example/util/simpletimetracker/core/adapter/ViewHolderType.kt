@@ -9,6 +9,8 @@ interface ViewHolderType {
         const val VIEW2 = 2
         const val FOOTER = 3
         const val HEADER = 4
+        const val LOADER = 5
+        const val EMPTY = 6
     }
 
     fun getViewType(): Int

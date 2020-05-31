@@ -1,12 +1,12 @@
-package com.example.util.simpletimetracker.feature_records.viewData
+package com.example.util.simpletimetracker.core.adapter.empty
 
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 
-data class RecordEmptyViewData(
+data class EmptyViewData(
     var message: String
 ) : ViewHolderType {
 
-    override fun getViewType(): Int = ViewHolderType.FOOTER
+    override fun getViewType(): Int = ViewHolderType.EMPTY
 
     override fun getUniqueId(): Long? = 1L
 

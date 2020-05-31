@@ -1,6 +1,9 @@
 package com.example.util.simpletimetracker.feature_widget.configure.viewModel
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
@@ -21,7 +24,7 @@ class WidgetViewModel @Inject constructor(
     lateinit var extra: WidgetExtra
 
     val recordTypes: LiveData<List<ViewHolderType>> by lazy {
-        return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
+        MutableLiveData<List<ViewHolderType>>().let { initial ->
             viewModelScope.launch { initial.value = loadRecordTypesViewData() }
             initial
         }

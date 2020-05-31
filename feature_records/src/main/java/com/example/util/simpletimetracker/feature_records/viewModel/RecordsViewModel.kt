@@ -5,11 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.core.adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
-import com.example.util.simpletimetracker.feature_records.viewData.RecordViewData
 import com.example.util.simpletimetracker.feature_records.extra.RecordsExtra
 import com.example.util.simpletimetracker.feature_records.mapper.RecordViewDataMapper
+import com.example.util.simpletimetracker.feature_records.viewData.RecordViewData
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
 import com.example.util.simpletimetracker.navigation.params.ChangeRecordParams
@@ -26,9 +27,8 @@ class RecordsViewModel @Inject constructor(
     lateinit var extra: RecordsExtra
 
     val records: LiveData<List<ViewHolderType>> by lazy {
-        return@lazy MutableLiveData<List<ViewHolderType>>().apply {
-            viewModelScope.launch { value = loadRecordsViewData() }
-        }
+        updateRecords()
+        MutableLiveData(listOf(LoaderViewData() as ViewHolderType))
     }
 
     fun onRecordClick(item: RecordViewData) {
@@ -36,12 +36,10 @@ class RecordsViewModel @Inject constructor(
     }
 
     fun onVisible() {
-        viewModelScope.launch {
-            updateRecords()
-        }
+        updateRecords()
     }
 
-    private suspend fun updateRecords() {
+    private fun updateRecords() = viewModelScope.launch {
         (records as MutableLiveData).value = loadRecordsViewData()
     }
 

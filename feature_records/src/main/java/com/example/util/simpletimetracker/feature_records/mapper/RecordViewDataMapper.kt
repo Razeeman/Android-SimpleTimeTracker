@@ -8,7 +8,7 @@ import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_records.R
-import com.example.util.simpletimetracker.feature_records.viewData.RecordEmptyViewData
+import com.example.util.simpletimetracker.core.adapter.empty.EmptyViewData
 import com.example.util.simpletimetracker.feature_records.viewData.RecordViewData
 import javax.inject.Inject
 import kotlin.math.max
@@ -57,7 +57,7 @@ class RecordViewDataMapper @Inject constructor(
     }
 
     fun mapToEmpty(): ViewHolderType {
-        return RecordEmptyViewData(
+        return EmptyViewData(
             message = R.string.records_empty.let(resourceRepo::getString)
         )
     }

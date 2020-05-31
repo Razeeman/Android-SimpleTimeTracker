@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.core.adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
@@ -11,10 +12,7 @@ import com.example.util.simpletimetracker.domain.interactor.RunningRecordInterac
 import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.feature_running_records.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.feature_running_records.mapper.RunningRecordViewDataMapper
-import com.example.util.simpletimetracker.feature_running_records.viewData.RecordTypeAddViewData
-import com.example.util.simpletimetracker.feature_running_records.viewData.RecordTypeViewData
-import com.example.util.simpletimetracker.feature_running_records.viewData.RunningRecordEmptyViewData
-import com.example.util.simpletimetracker.feature_running_records.viewData.RunningRecordViewData
+import com.example.util.simpletimetracker.feature_running_records.viewData.*
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
 import com.example.util.simpletimetracker.navigation.params.ChangeRecordTypeParams
@@ -32,17 +30,13 @@ class RunningRecordsViewModel @Inject constructor(
 ) : ViewModel() {
 
     val runningRecords: LiveData<List<ViewHolderType>> by lazy {
-        return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
-            viewModelScope.launch { initial.value = loadRunningRecordsViewData() }
-            startUpdate()
-            initial
-        }
+        startUpdate()
+        MutableLiveData(listOf(LoaderViewData() as ViewHolderType))
     }
+
     val recordTypes: LiveData<List<ViewHolderType>> by lazy {
-        return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
-            viewModelScope.launch { initial.value = loadRecordTypesViewData() }
-            initial
-        }
+        updateRecordTypes()
+        MutableLiveData(listOf(LoaderViewData() as ViewHolderType))
     }
 
     private var timerJob: Job? = null
@@ -78,9 +72,7 @@ class RunningRecordsViewModel @Inject constructor(
     }
 
     fun onVisible() {
-        viewModelScope.launch {
-            updateRecordTypes()
-        }
+        updateRecordTypes()
         startUpdate()
     }
 
@@ -88,11 +80,11 @@ class RunningRecordsViewModel @Inject constructor(
         stopUpdate()
     }
 
-    private suspend fun updateRunningRecords() {
+    private fun updateRunningRecords() = viewModelScope.launch {
         (runningRecords as MutableLiveData).value = loadRunningRecordsViewData()
     }
 
-    private suspend fun updateRecordTypes() {
+    private fun updateRecordTypes() = viewModelScope.launch {
         (recordTypes as MutableLiveData).value = loadRecordTypesViewData()
     }
 
@@ -103,7 +95,7 @@ class RunningRecordsViewModel @Inject constructor(
         val runningRecords = runningRecordInteractor.getAll()
 
         if (recordTypes.isEmpty()) return emptyList()
-        if (runningRecords.isEmpty()) return listOf(RunningRecordEmptyViewData())
+        if (runningRecords.isEmpty()) return listOf(runningRecordViewDataMapper.mapToEmpty())
 
         return runningRecords
             .sortedByDescending {

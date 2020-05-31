@@ -1,12 +1,12 @@
 package com.example.util.simpletimetracker.feature_widget.configure.mapper
 
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.core.adapter.empty.EmptyViewData
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_widget.R
-import com.example.util.simpletimetracker.feature_widget.configure.viewData.WidgetEmptyViewData
 import com.example.util.simpletimetracker.feature_widget.configure.viewData.WidgetRecordTypeViewData
 import javax.inject.Inject
 
@@ -29,7 +29,7 @@ class WidgetViewDataMapper @Inject constructor(
     }
 
     fun mapToEmpty(): ViewHolderType {
-        return WidgetEmptyViewData(
+        return EmptyViewData(
             message = R.string.widget_empty.let(resourceRepo::getString)
         )
     }

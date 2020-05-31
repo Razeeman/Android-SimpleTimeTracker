@@ -5,9 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.core.adapter.loader.LoaderViewData
+import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
-import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_dialogs.chartFilter.mapper.ChartFilterViewDataMapper
@@ -23,10 +24,8 @@ class ChartFilterViewModel @Inject constructor(
 ) : ViewModel() {
 
     val recordTypes: LiveData<List<ViewHolderType>> by lazy {
-        return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
-            viewModelScope.launch { initial.value = loadRecordTypesViewData() }
-            initial
-        }
+        updateRecordTypes()
+        MutableLiveData(listOf(LoaderViewData() as ViewHolderType))
     }
 
     private var types: List<RecordType> = emptyList()
@@ -44,18 +43,17 @@ class ChartFilterViewModel @Inject constructor(
         }
     }
 
-    private fun updateRecordTypes() {
-        viewModelScope.launch {
-            (recordTypes as MutableLiveData).value = types
-                .map { type -> chartFilterViewDataMapper.map(type, typeIdsFiltered) }
-                .apply {
-                    this as MutableList
-                    add(chartFilterViewDataMapper.mapToUntrackedItem(typeIdsFiltered))
-                }
-        }
+    private fun updateRecordTypes() = viewModelScope.launch {
+        if (types.isEmpty()) types = loadRecordTypes()
+        (recordTypes as MutableLiveData).value = types
+            .map { type -> chartFilterViewDataMapper.map(type, typeIdsFiltered) }
+            .apply {
+                this as MutableList
+                add(chartFilterViewDataMapper.mapToUntrackedItem(typeIdsFiltered))
+            }
     }
 
-    private suspend fun loadRecordTypesViewData(): List<ViewHolderType> {
+    private suspend fun loadRecordTypes(): List<RecordType> {
         val typesInStatistics = recordInteractor.getAll()
             .map(Record::typeId)
             .toSet()
@@ -64,11 +62,5 @@ class ChartFilterViewModel @Inject constructor(
 
         return recordTypeInteractor.getAll()
             .filter { it.id in typesInStatistics }
-            .also { types = it }
-            .map { types -> chartFilterViewDataMapper.map(types, typeIdsFiltered) }
-            .apply {
-                this as MutableList
-                add(chartFilterViewDataMapper.mapToUntrackedItem(typeIdsFiltered))
-            }
     }
 }
