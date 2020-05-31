@@ -3,11 +3,5 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layoutChangeRecordTypeColorItem"
     style="@style/ChangeRecordTypeItem"
-    tools:cardBackgroundColor="@color/black">
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="?selectableItemBackgroundBorderless" />
-
-</com.google.android.material.card.MaterialCardView>
+    android:background="?selectableItemBackgroundBorderless"
+    tools:cardBackgroundColor="@color/black" />

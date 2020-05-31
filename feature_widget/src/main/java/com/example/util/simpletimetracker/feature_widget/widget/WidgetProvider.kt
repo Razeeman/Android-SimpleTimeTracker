@@ -127,7 +127,7 @@ class WidgetProvider : AppWidgetProvider() {
         }
 
         RecordTypeView(ContextThemeWrapper(context, R.style.AppTheme)).apply {
-            itemPadding = 0
+            itemUseCompatPadding = false
             itemIcon = icon
             itemName = name
             itemColor = color

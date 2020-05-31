@@ -129,7 +129,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
                     runningRecordInteractor.remove(extra.id)
                 }
                 widgetInteractor.updateWidgets()
-                resourceRepo.getString(R.string.record_type_removed)
+                resourceRepo.getString(R.string.change_record_type_removed)
                     .let(router::showSystemMessage)
                 (keyboardVisibility as MutableLiveData).value = false
                 router.back()

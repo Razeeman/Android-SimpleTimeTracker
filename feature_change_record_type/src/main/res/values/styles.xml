@@ -2,12 +2,12 @@
 <resources>
 
     <style name="ChangeRecordTypeItem">
-        <item name="android:layout_width">@dimen/item_size</item>
-        <item name="android:layout_height">@dimen/item_size</item>
+        <item name="android:layout_width">@dimen/item_width</item>
+        <item name="android:layout_height">@dimen/item_height</item>
         <item name="android:layout_marginStart">@dimen/item_margin</item>
-        <item name="android:layout_marginTop">@dimen/item_margin</item>
         <item name="android:layout_marginEnd">@dimen/item_margin</item>
-        <item name="android:layout_marginBottom">@dimen/item_margin</item>
+        <item name="cardPreventCornerOverlap">false</item>
+        <item name="cardUseCompatPadding">true</item>
         <item name="cardCornerRadius">@dimen/item_corner_radius</item>
         <item name="cardElevation">@dimen/item_elevation</item>
     </style>

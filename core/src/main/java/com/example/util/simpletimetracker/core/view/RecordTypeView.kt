@@ -22,15 +22,25 @@ class RecordTypeView @JvmOverloads constructor(
         // TODO Merge layout?
         View.inflate(context, R.layout.record_type_view_layout, this)
 
-        val defaultPadding = resources.getDimensionPixelOffset(R.dimen.record_type_card_margin)
         context.obtainStyledAttributes(attrs, R.styleable.RecordTypeView, defStyleAttr, 0)
             .run {
-                itemName = getString(R.styleable.RecordTypeView_itemName).orEmpty()
-                itemColor = getColor(R.styleable.RecordTypeView_itemColor, Color.BLACK)
-                itemIcon = getResourceId(R.styleable.RecordTypeView_itemIcon, R.drawable.unknown)
-                itemAlpha = getFloat(R.styleable.RecordTypeView_itemAlpha, 1f)
+                itemName = getString(
+                    R.styleable.RecordTypeView_itemName
+                ).orEmpty()
+                itemColor = getColor(
+                    R.styleable.RecordTypeView_itemColor, Color.BLACK
+                )
+                itemIcon = getResourceId(
+                    R.styleable.RecordTypeView_itemIcon, R.drawable.unknown
+                )
+                itemAlpha = getFloat(
+                    R.styleable.RecordTypeView_itemAlpha, 1f
+                )
+                itemUseCompatPadding = getBoolean(
+                    R.styleable.RecordTypeView_itemUseCompatPadding, true
+                )
                 itemPadding = getDimensionPixelSize(
-                    R.styleable.RecordTypeView_itemPadding, defaultPadding
+                    R.styleable.RecordTypeView_itemPadding, 0
                 )
                 recycle()
             }
@@ -57,6 +67,12 @@ class RecordTypeView @JvmOverloads constructor(
     var itemAlpha: Float = 1f
         set(value) {
             layoutRecordTypeItem.alpha = value
+            field = value
+        }
+
+    var itemUseCompatPadding: Boolean = true
+        set(value) {
+            layoutRecordTypeItem.useCompatPadding = value
             field = value
         }
 

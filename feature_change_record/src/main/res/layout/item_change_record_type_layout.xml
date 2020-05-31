@@ -3,4 +3,4 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/viewChangeRecordTypeItem"
     style="@style/RecordTypeItem"
-    tools:name="Item name" />
+    tools:itemName="Item name" />
