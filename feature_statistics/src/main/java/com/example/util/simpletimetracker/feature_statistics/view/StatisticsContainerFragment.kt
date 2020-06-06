@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.feature_statistics.view
 
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.extension.flipVisibility
@@ -10,6 +11,7 @@ import com.example.util.simpletimetracker.core.extension.setOnLongClick
 import com.example.util.simpletimetracker.core.extension.visible
 import com.example.util.simpletimetracker.feature_statistics.R
 import com.example.util.simpletimetracker.feature_statistics.adapter.StatisticsContainerAdapter
+import com.example.util.simpletimetracker.feature_statistics.adapter.StatisticsRangeAdapter
 import com.example.util.simpletimetracker.feature_statistics.di.StatisticsComponentProvider
 import com.example.util.simpletimetracker.feature_statistics.viewData.RangeLength
 import com.example.util.simpletimetracker.feature_statistics.viewModel.StatisticsContainerViewModel
@@ -26,6 +28,16 @@ class StatisticsContainerFragment : BaseFragment(R.layout.statistics_container_f
     )
 
     private var adapter: StatisticsContainerAdapter? = null
+    private val adapterRange: StatisticsRangeAdapter by lazy {
+        StatisticsRangeAdapter(viewModel::onRangeClick)
+    }
+
+    override fun initUi() {
+        rvStatisticsRanges.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = adapterRange
+        }
+    }
 
     override fun initDi() {
         (activity?.application as StatisticsComponentProvider)
@@ -38,16 +50,12 @@ class StatisticsContainerFragment : BaseFragment(R.layout.statistics_container_f
         btnStatisticsContainerNext.setOnClick(viewModel::onNextClick)
         btnStatisticsContainerToday.setOnClick(layoutStatisticsContainerButtons::flipVisibility)
         btnStatisticsContainerToday.setOnLongClick(viewModel::onTodayClick)
-        // TODO recycler?
-        btnStatisticsContainerRange1.setOnClick { viewModel.onRangeClick(1) }
-        btnStatisticsContainerRange2.setOnClick { viewModel.onRangeClick(2) }
-        btnStatisticsContainerRange3.setOnClick { viewModel.onRangeClick(3) }
-        btnStatisticsContainerRange4.setOnClick { viewModel.onRangeClick(4) }
     }
 
     override fun initViewModel(): Unit = with(viewModel) {
         title.observe(viewLifecycleOwner, ::updateTitle)
         rangeLength.observe(viewLifecycleOwner, ::updateRange)
+        ranges.observe(viewLifecycleOwner, adapterRange::replace)
         position.observe(viewLifecycleOwner, ::updatePosition)
     }
 

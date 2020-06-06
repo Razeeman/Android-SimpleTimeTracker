@@ -10,7 +10,9 @@ import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.Statistics
 import com.example.util.simpletimetracker.feature_statistics.R
 import com.example.util.simpletimetracker.feature_statistics.customView.PiePortion
+import com.example.util.simpletimetracker.feature_statistics.viewData.RangeLength
 import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsChartViewData
+import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsRangeViewData
 import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsViewData
 import javax.inject.Inject
 
@@ -71,6 +73,20 @@ class StatisticsViewDataMapper @Inject constructor(
         return EmptyViewData(
             message = R.string.statistics_empty.let(resourceRepo::getString)
         )
+    }
+
+    fun mapToRanges(): List<StatisticsRangeViewData> {
+        return listOf(
+            RangeLength.ALL,
+            RangeLength.MONTH,
+            RangeLength.WEEK,
+            RangeLength.DAY
+        ).map {
+            StatisticsRangeViewData(
+                rangeLength = it,
+                name = mapToRangeName(it)
+            )
+        }
     }
 
     private fun map(
@@ -143,5 +159,14 @@ class StatisticsViewDataMapper @Inject constructor(
                 null
             }
         }
+    }
+
+    private fun mapToRangeName(rangeLength: RangeLength): String {
+        return when (rangeLength) {
+            RangeLength.DAY -> R.string.title_today
+            RangeLength.WEEK -> R.string.title_this_week
+            RangeLength.MONTH -> R.string.title_this_month
+            RangeLength.ALL -> R.string.title_overall
+        }.let(resourceRepo::getString)
     }
 }

@@ -70,43 +70,14 @@
         app:layout_constraintStart_toStartOf="@id/btnStatisticsContainerToday"
         tools:visibility="visible">
 
-        <androidx.appcompat.widget.LinearLayoutCompat
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvStatisticsRanges"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnStatisticsContainerRange4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/title_overall"
-                app:cornerRadius="0dp" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnStatisticsContainerRange3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="-9dp"
-                android:text="@string/title_this_month"
-                app:cornerRadius="0dp" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnStatisticsContainerRange2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="-9dp"
-                android:text="@string/title_this_week"
-                app:cornerRadius="0dp" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnStatisticsContainerRange1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="-9dp"
-                android:text="@string/title_today"
-                app:cornerRadius="0dp" />
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
+            android:orientation="vertical"
+            android:paddingTop="6dp"
+            tools:itemCount="4"
+            tools:listitem="@layout/item_statistics_range_layout" />
 
     </androidx.cardview.widget.CardView>
 

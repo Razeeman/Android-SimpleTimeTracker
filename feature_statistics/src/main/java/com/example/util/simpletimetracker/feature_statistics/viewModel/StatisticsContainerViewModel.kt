@@ -7,18 +7,19 @@ import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_statistics.R
+import com.example.util.simpletimetracker.feature_statistics.mapper.StatisticsViewDataMapper
 import com.example.util.simpletimetracker.feature_statistics.viewData.RangeLength
-import com.example.util.simpletimetracker.navigation.Router
-import com.example.util.simpletimetracker.navigation.Screen
+import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsRangeViewData
 import javax.inject.Inject
 
 class StatisticsContainerViewModel @Inject constructor(
     private val timeMapper: TimeMapper,
-    private val resourceRepo: ResourceRepo
+    private val resourceRepo: ResourceRepo,
+    private val statisticsViewDataMapper: StatisticsViewDataMapper
 ) : ViewModel() {
 
     val title: LiveData<String> by lazy {
-        return@lazy MutableLiveData<String>(loadTitle())
+        return@lazy MutableLiveData(loadTitle())
     }
 
     val position: LiveData<Int> by lazy {
@@ -27,6 +28,10 @@ class StatisticsContainerViewModel @Inject constructor(
 
     val rangeLength: LiveData<RangeLength> by lazy {
         return@lazy MutableLiveData(RangeLength.DAY)
+    }
+
+    val ranges: LiveData<List<StatisticsRangeViewData>> by lazy {
+        return@lazy MutableLiveData(statisticsViewDataMapper.mapToRanges())
     }
 
     fun onPreviousClick() {
@@ -41,15 +46,8 @@ class StatisticsContainerViewModel @Inject constructor(
         updatePosition(position.value.orZero() + 1)
     }
 
-    fun onRangeClick(range: Int) {
-        updateRangeLength(
-            when (range) {
-                1 -> RangeLength.DAY
-                2 -> RangeLength.WEEK
-                3 -> RangeLength.MONTH
-                else -> RangeLength.ALL
-            }
-        )
+    fun onRangeClick(rangeData: StatisticsRangeViewData) {
+        updateRangeLength(rangeData.rangeLength)
     }
 
     private fun updateRangeLength(newRangeLength: RangeLength) {
