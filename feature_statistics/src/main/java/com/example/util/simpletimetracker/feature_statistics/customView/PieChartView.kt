@@ -49,7 +49,7 @@ class PieChartView @JvmOverloads constructor(
     init {
         initArgs(context, attrs, defStyleAttr)
         initPaint()
-        if (segmentCount != 0) populateChart()
+        initEditMode()
         setLayerType(LAYER_TYPE_SOFTWARE, null)
     }
 
@@ -256,14 +256,18 @@ class PieChartView @JvmOverloads constructor(
         }
     }
 
-    private fun populateChart() {
-        (segmentCount downTo 1).map {
-            PiePortion(
-                value = it.toLong(),
-                colorInt = Color.BLACK,
-                iconId = R.drawable.unknown
-            )
-        }.let(::setSegments)
+    private fun initEditMode() {
+        val segments = segmentCount.takeIf { it != 0 } ?: 5
+        if (isInEditMode) {
+            (segments downTo 1)
+                .map {
+                    PiePortion(
+                        value = it.toLong(),
+                        colorInt = Color.BLACK,
+                        iconId = R.drawable.unknown
+                    )
+                }.let(::setSegments)
+        }
     }
 
     private fun getIconDrawable(iconId: Int): Drawable? {
