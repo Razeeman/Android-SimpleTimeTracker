@@ -3,7 +3,7 @@ package com.example.util.simpletimetracker.domain.interactor
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.repo.RecordTypeCacheRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeRepo
-import java.util.*
+import java.util.Locale
 import javax.inject.Inject
 
 class RecordTypeInteractor @Inject constructor(

@@ -2,7 +2,7 @@ package com.example.util.simpletimetracker.core.adapter.loader
 
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 
-class LoaderViewData: ViewHolderType {
+class LoaderViewData : ViewHolderType {
 
     override fun getViewType(): Int = ViewHolderType.LOADER
 

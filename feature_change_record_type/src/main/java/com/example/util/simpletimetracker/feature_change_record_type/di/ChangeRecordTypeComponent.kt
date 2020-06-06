@@ -1,7 +1,6 @@
 package com.example.util.simpletimetracker.feature_change_record_type.di
 
 import com.example.util.simpletimetracker.feature_change_record_type.view.ChangeRecordTypeFragment
-import com.example.util.simpletimetracker.feature_change_record_type.viewModel.ChangeRecordTypeViewModel
 import dagger.Subcomponent
 
 @Subcomponent

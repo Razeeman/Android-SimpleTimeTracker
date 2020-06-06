@@ -3,7 +3,8 @@ package com.example.util.simpletimetracker.core.mapper
 import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Locale
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -114,7 +115,6 @@ class TimeMapper @Inject constructor(
         val rangeEnd = calendar.apply { add(Calendar.DATE, 6) }.timeInMillis
 
         return weekTitleFormat.format(rangeStart) + " - " + weekTitleFormat.format(rangeEnd)
-
     }
 
     private fun toMonthDateTitle(monthsFromToday: Int): String {

@@ -5,7 +5,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.util.simpletimetracker.feature_statistics.view.StatisticsFragment
 import com.example.util.simpletimetracker.feature_statistics.viewData.RangeLength
 import com.example.util.simpletimetracker.navigation.params.StatisticsParams
-import java.util.*
+import java.util.Calendar
 
 class StatisticsContainerAdapter(
     fragment: Fragment,

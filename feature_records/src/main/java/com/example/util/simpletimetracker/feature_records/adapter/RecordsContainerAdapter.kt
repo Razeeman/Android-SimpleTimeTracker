@@ -4,7 +4,7 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.util.simpletimetracker.feature_records.view.RecordsFragment
 import com.example.util.simpletimetracker.navigation.params.RecordsParams
-import java.util.*
+import java.util.Calendar
 
 class RecordsContainerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 

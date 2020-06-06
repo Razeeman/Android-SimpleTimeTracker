@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_dialogs.R
 import kotlinx.android.synthetic.main.date_dialog_fragment.*
-import java.util.*
+import java.util.Calendar
 
 class DateDialogFragment : Fragment() {
 
