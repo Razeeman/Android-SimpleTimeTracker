@@ -4,15 +4,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.util.simpletimetracker.core.adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.core.adapter.loader.LoaderViewData
+import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
+import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
-import com.example.util.simpletimetracker.feature_running_records.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.feature_running_records.mapper.RunningRecordViewDataMapper
-import com.example.util.simpletimetracker.feature_running_records.viewData.*
+import com.example.util.simpletimetracker.feature_running_records.viewData.RunningRecordViewData
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
 import com.example.util.simpletimetracker.navigation.params.ChangeRecordTypeParams
@@ -113,7 +114,7 @@ class RunningRecordsViewModel @Inject constructor(
         return recordTypeInteractor
             .getAll()
             .filter { !it.hidden }
-            .map(recordTypeViewDataMapper::map) + RecordTypeAddViewData()
+            .map(recordTypeViewDataMapper::map) + runningRecordViewDataMapper.mapToAddItem()
     }
 
     private fun startUpdate() {

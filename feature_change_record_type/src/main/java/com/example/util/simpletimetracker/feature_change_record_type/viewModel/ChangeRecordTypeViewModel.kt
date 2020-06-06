@@ -7,7 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
+import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.extension.flip
 import com.example.util.simpletimetracker.domain.extension.orTrue
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
@@ -17,10 +19,8 @@ import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_change_record_type.R
 import com.example.util.simpletimetracker.feature_change_record_type.extra.ChangeRecordTypeExtra
-import com.example.util.simpletimetracker.feature_change_record_type.mapper.ChangeRecordTypeViewDataMapper
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeColorViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconViewData
-import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeViewData
 import com.example.util.simpletimetracker.navigation.Router
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -31,7 +31,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     private val recordInteractor: RecordInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
     private val widgetInteractor: WidgetInteractor,
-    private val changeRecordTypeViewDataMapper: ChangeRecordTypeViewDataMapper,
+    private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
     private val resourceRepo: ResourceRepo,
     private val colorMapper: ColorMapper,
     private val iconMapper: IconMapper
@@ -39,8 +39,8 @@ class ChangeRecordTypeViewModel @Inject constructor(
 
     lateinit var extra: ChangeRecordTypeExtra
 
-    val recordType: LiveData<ChangeRecordTypeViewData> by lazy {
-        return@lazy MutableLiveData<ChangeRecordTypeViewData>().let { initial ->
+    val recordType: LiveData<RecordTypeViewData> by lazy {
+        return@lazy MutableLiveData<RecordTypeViewData>().let { initial ->
             viewModelScope.launch { initial.value = loadRecordTypeViewData() }
             initial
         }
@@ -157,7 +157,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
         (recordType as MutableLiveData).value = loadRecordPreviewViewData()
     }
 
-    private suspend fun loadRecordTypeViewData(): ChangeRecordTypeViewData {
+    private suspend fun loadRecordTypeViewData(): RecordTypeViewData {
         recordTypeInteractor.get(extra.id)
             ?.let {
                 newName = it.name
@@ -169,15 +169,15 @@ class ChangeRecordTypeViewModel @Inject constructor(
             name = newName,
             icon = newIconName,
             color = newColorId
-        ).let(changeRecordTypeViewDataMapper::map)
+        ).let(recordTypeViewDataMapper::map)
     }
 
-    private fun loadRecordPreviewViewData(): ChangeRecordTypeViewData {
+    private fun loadRecordPreviewViewData(): RecordTypeViewData {
         return RecordType(
             name = newName,
             icon = newIconName,
             color = newColorId
-        ).let(changeRecordTypeViewDataMapper::map)
+        ).let(recordTypeViewDataMapper::map)
     }
 
     private fun loadColorsViewData(): List<ViewHolderType> {

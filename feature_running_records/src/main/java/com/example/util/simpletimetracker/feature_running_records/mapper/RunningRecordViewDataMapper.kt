@@ -9,6 +9,7 @@ import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.feature_running_records.R
+import com.example.util.simpletimetracker.feature_running_records.viewData.RecordTypeAddViewData
 import com.example.util.simpletimetracker.feature_running_records.viewData.RunningRecordViewData
 import javax.inject.Inject
 
@@ -41,6 +42,15 @@ class RunningRecordViewDataMapper @Inject constructor(
     fun mapToEmpty(): ViewHolderType {
         return EmptyViewData(
             message = R.string.running_records_empty.let(resourceRepo::getString)
+        )
+    }
+
+    fun mapToAddItem(): RecordTypeAddViewData {
+        return RecordTypeAddViewData(
+            name = "Add",
+            iconId = R.drawable.add,
+            color = R.color.blue_grey_200
+                .let(resourceRepo::getColor)
         )
     }
 }

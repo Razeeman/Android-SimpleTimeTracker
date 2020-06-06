@@ -7,7 +7,7 @@ import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.feature_running_records.R
 import com.example.util.simpletimetracker.feature_running_records.viewData.RecordTypeAddViewData
-import kotlinx.android.synthetic.main.item_record_type_add_layout.view.*
+import kotlinx.android.synthetic.main.item_record_type_layout.view.*
 
 class RecordTypeAddAdapterDelegate(
     private val onItemClick: (() -> Unit)
@@ -17,15 +17,18 @@ class RecordTypeAddAdapterDelegate(
         RecordTypeAddViewHolder(parent)
 
     inner class RecordTypeAddViewHolder(parent: ViewGroup) :
-        BaseRecyclerViewHolder(parent, R.layout.item_record_type_add_layout) {
+        BaseRecyclerViewHolder(parent, R.layout.item_record_type_layout) {
 
         override fun bind(
             item: ViewHolderType,
             payloads: List<Any>
-        ) = with(itemView) {
+        ) = with(itemView.viewRecordTypeItem) {
             item as RecordTypeAddViewData
 
-            viewRecordTypeAddItem.setOnClick(onItemClick)
+            itemColor = item.color
+            itemIcon = item.iconId
+            itemName = item.name
+            setOnClick(onItemClick)
         }
     }
 }

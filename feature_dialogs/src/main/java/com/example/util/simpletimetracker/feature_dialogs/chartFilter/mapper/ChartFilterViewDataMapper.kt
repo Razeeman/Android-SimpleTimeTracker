@@ -3,9 +3,9 @@ package com.example.util.simpletimetracker.feature_dialogs.chartFilter.mapper
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_dialogs.R
-import com.example.util.simpletimetracker.feature_dialogs.chartFilter.viewData.ChartFilterRecordTypeViewData
 import javax.inject.Inject
 
 class ChartFilterViewDataMapper @Inject constructor(
@@ -17,8 +17,8 @@ class ChartFilterViewDataMapper @Inject constructor(
     fun map(
         recordType: RecordType,
         typeIdsFiltered: List<Long>
-    ): ChartFilterRecordTypeViewData {
-        return ChartFilterRecordTypeViewData(
+    ): RecordTypeViewData {
+        return RecordTypeViewData(
             id = recordType.id,
             name = recordType.name,
             iconId = recordType.icon
@@ -33,8 +33,8 @@ class ChartFilterViewDataMapper @Inject constructor(
 
     fun mapToUntrackedItem(
         typeIdsFiltered: List<Long>
-    ): ChartFilterRecordTypeViewData {
-        return ChartFilterRecordTypeViewData(
+    ): RecordTypeViewData {
+        return RecordTypeViewData(
             id = -1L,
             name = R.string.untracked_time_name
                 .let(resourceRepo::getString),

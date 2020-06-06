@@ -7,12 +7,12 @@ import androidx.lifecycle.observe
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.extension.*
+import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_change_record_type.R
 import com.example.util.simpletimetracker.feature_change_record_type.adapter.ChangeRecordTypeAdapter
 import com.example.util.simpletimetracker.feature_change_record_type.di.ChangeRecordTypeComponentProvider
 import com.example.util.simpletimetracker.feature_change_record_type.extra.ChangeRecordTypeExtra
-import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewModel.ChangeRecordTypeViewModel
 import com.example.util.simpletimetracker.navigation.params.ChangeRecordTypeParams
 import com.google.android.flexbox.FlexDirection
@@ -103,15 +103,15 @@ class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragme
         }
     }
 
-    private fun updateUi(item: ChangeRecordTypeViewData) {
+    private fun updateUi(item: RecordTypeViewData) {
         etChangeRecordTypeName.setText(item.name)
         etChangeRecordTypeName.setSelection(item.name.length)
     }
 
-    private fun updatePreview(item: ChangeRecordTypeViewData) {
+    private fun updatePreview(item: RecordTypeViewData) {
         with(previewChangeRecordType) {
             itemName = item.name
-            itemIcon = item.icon
+            itemIcon = item.iconId
             itemColor = item.color
         }
     }

@@ -5,12 +5,12 @@ import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapterDelega
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerViewHolder
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.extension.setOnClickWith
+import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_widget.R
-import com.example.util.simpletimetracker.feature_widget.configure.viewData.WidgetRecordTypeViewData
 import kotlinx.android.synthetic.main.item_widget_record_type_layout.view.*
 
 class WidgetAdapterDelegate(
-    private val onItemClick: ((WidgetRecordTypeViewData) -> Unit)
+    private val onItemClick: ((RecordTypeViewData) -> Unit)
 ) : BaseRecyclerAdapterDelegate() {
 
     override fun onCreateViewHolder(parent: ViewGroup): BaseRecyclerViewHolder =
@@ -23,7 +23,7 @@ class WidgetAdapterDelegate(
             item: ViewHolderType,
             payloads: List<Any>
         ) = with(itemView.viewRecordTypeItem) {
-            item as WidgetRecordTypeViewData
+            item as RecordTypeViewData
 
             itemColor = item.color
             itemIcon = item.iconId

@@ -6,8 +6,8 @@ import com.example.util.simpletimetracker.core.adapter.BaseRecyclerViewHolder
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.extension.setOnClickWith
 import com.example.util.simpletimetracker.core.extension.setOnLongClickWith
+import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_running_records.R
-import com.example.util.simpletimetracker.feature_running_records.viewData.RecordTypeViewData
 import kotlinx.android.synthetic.main.item_record_type_layout.view.*
 
 class RecordTypeAdapterDelegate(

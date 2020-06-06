@@ -1,10 +1,8 @@
-package com.example.util.simpletimetracker.feature_running_records.mapper
+package com.example.util.simpletimetracker.core.mapper
 
-import com.example.util.simpletimetracker.core.mapper.ColorMapper
-import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.model.RecordType
-import com.example.util.simpletimetracker.feature_running_records.viewData.RecordTypeViewData
 import javax.inject.Inject
 
 class RecordTypeViewDataMapper @Inject constructor(

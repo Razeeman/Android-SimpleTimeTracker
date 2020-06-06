@@ -6,13 +6,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.loader.LoaderViewData
+import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_dialogs.chartFilter.mapper.ChartFilterViewDataMapper
-import com.example.util.simpletimetracker.feature_dialogs.chartFilter.viewData.ChartFilterRecordTypeViewData
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -31,7 +31,7 @@ class ChartFilterViewModel @Inject constructor(
     private var types: List<RecordType> = emptyList()
     private var typeIdsFiltered: MutableList<Long> = mutableListOf()
 
-    fun onRecordTypeClick(item: ChartFilterRecordTypeViewData) {
+    fun onRecordTypeClick(item: RecordTypeViewData) {
         viewModelScope.launch {
             if (item.id in typeIdsFiltered) {
                 typeIdsFiltered.remove(item.id)

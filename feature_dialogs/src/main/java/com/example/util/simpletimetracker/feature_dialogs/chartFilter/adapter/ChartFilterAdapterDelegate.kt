@@ -5,12 +5,12 @@ import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapterDelega
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerViewHolder
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.extension.setOnClickWith
+import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_dialogs.R
-import com.example.util.simpletimetracker.feature_dialogs.chartFilter.viewData.ChartFilterRecordTypeViewData
 import kotlinx.android.synthetic.main.item_chart_filter_record_type_layout.view.*
 
 class ChartFilterAdapterDelegate(
-    private val onItemClick: ((ChartFilterRecordTypeViewData) -> Unit)
+    private val onItemClick: ((RecordTypeViewData) -> Unit)
 ) : BaseRecyclerAdapterDelegate() {
 
     override fun onCreateViewHolder(parent: ViewGroup): BaseRecyclerViewHolder =
@@ -23,7 +23,7 @@ class ChartFilterAdapterDelegate(
             item: ViewHolderType,
             payloads: List<Any>
         ) = with(itemView.viewRecordTypeItem) {
-            item as ChartFilterRecordTypeViewData
+            item as RecordTypeViewData
 
             itemColor = item.color
             itemIcon = item.iconId
