@@ -8,6 +8,8 @@ interface RecordTypeRepo {
 
     suspend fun get(id: Long): RecordType?
 
+    suspend fun get(name: String): RecordType?
+
     suspend fun add(recordType: RecordType)
 
     suspend fun remove(id: Long)

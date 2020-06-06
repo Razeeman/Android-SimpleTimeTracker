@@ -47,12 +47,6 @@ class PieChartView @JvmOverloads constructor(
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        // TODO remove logs
-//        Log.d("PieChart", "onMeasure w: " + MeasureSpec.toString(widthMeasureSpec))
-//        Log.d("PieChart", "onMeasure h: " + MeasureSpec.toString(heightMeasureSpec))
-//        Log.d("PieChart", "onMeasure suggestedMinimumWidth: $suggestedMinimumWidth")
-//        Log.d("PieChart", "onMeasure suggestedMinimumHeight: $suggestedMinimumHeight")
-
         val w = resolveSize(0, widthMeasureSpec)
         val h = resolveSize(w, heightMeasureSpec)
 
@@ -266,7 +260,6 @@ class PieChartView @JvmOverloads constructor(
     }
 
     private fun getIconDrawable(iconId: Int): Drawable? {
-        // TODO is where an easier way?
         return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             (AppCompatResources.getDrawable(context, iconId) as? BitmapDrawable)?.apply {
                 colorFilter = PorterDuffColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)

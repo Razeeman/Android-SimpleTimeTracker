@@ -97,7 +97,7 @@ class BackupRepoImpl @Inject constructor(
                     when (parts[0]) {
                         ROW_RECORD_TYPE -> {
                             recordTypeFromBackupString(parts).let {
-                                recordTypeRepo.add(it) // TODO addAll
+                                recordTypeRepo.add(it)
                             }
                         }
                         ROW_RECORD -> {

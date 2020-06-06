@@ -64,11 +64,9 @@ class ChartFilterDialogFragment : BottomSheetDialogFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        // TODO move to base
         initDialog()
         initDi()
         initUi()
-        initUx()
         initViewModel()
     }
 
@@ -118,10 +116,6 @@ class ChartFilterDialogFragment : BottomSheetDialogFragment() {
             }
             adapter = recordTypesAdapter
         }
-    }
-
-    private fun initUx() {
-        // TODO
     }
 
     private fun initViewModel(): Unit = with(viewModel) {
