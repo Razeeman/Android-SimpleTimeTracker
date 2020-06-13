@@ -1,18 +1,15 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    apply from: "deps.gradle"
-
     repositories {
         google()
         jcenter()
-        maven { url "https://plugins.gradle.org/m2/" }
-
+        maven("https://plugins.gradle.org/m2/")
     }
     dependencies {
-        classpath buildPlugins.gradle
-        classpath buildPlugins.kotlin
-        classpath buildPlugins.ktlint
+        classpath(com.example.util.simpletimetracker.BuildPlugins.gradle)
+        classpath(com.example.util.simpletimetracker.BuildPlugins.kotlin)
+        classpath(com.example.util.simpletimetracker.BuildPlugins.ktlint)
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -23,12 +20,13 @@ allprojects {
     repositories {
         google()
         jcenter()
-
     }
 
-    apply plugin: "org.jlleitschuh.gradle.ktlint"
+    apply(plugin = "org.jlleitschuh.gradle.ktlint")
 }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
+tasks {
+    val clean by registering(Delete::class) {
+        delete(buildDir)
+    }
 }
