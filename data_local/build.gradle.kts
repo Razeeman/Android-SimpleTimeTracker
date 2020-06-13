@@ -1,5 +1,5 @@
 import com.example.util.simpletimetracker.Base
-import com.example.util.simpletimetracker.deps
+import com.example.util.simpletimetracker.Deps
 
 plugins {
     id("com.android.library")
@@ -23,13 +23,13 @@ dependencies {
     implementation(project(":domain"))
     implementation(project(":core"))
 
-    implementation(deps.androidx.room)
-    implementation(deps.ktx.room)
-    implementation(deps.google.dagger)
-    kapt(deps.kapt.room)
-    kapt(deps.kapt.dagger)
+    implementation(Deps.Androidx.room)
+    implementation(Deps.Ktx.room)
+    implementation(Deps.Google.dagger)
+    kapt(Deps.Kapt.room)
+    kapt(Deps.Kapt.dagger)
 
-    testImplementation(deps.test.junit)
-    androidTestImplementation(deps.uitest.junit)
-    androidTestImplementation(deps.uitest.espresso)
+    testImplementation(Deps.Test.junit)
+    androidTestImplementation(Deps.UiTest.junit)
+    androidTestImplementation(Deps.UiTest.espresso)
 }

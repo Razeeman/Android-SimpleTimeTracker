@@ -1,5 +1,5 @@
 import com.example.util.simpletimetracker.Base
-import com.example.util.simpletimetracker.deps
+import com.example.util.simpletimetracker.Deps
 
 plugins {
     id("com.android.application")
@@ -54,22 +54,22 @@ dependencies {
     implementation(project(":feature_dialogs"))
     implementation(project(":feature_widget"))
 
-    implementation(deps.androidx.appcompat)
-    implementation(deps.androidx.constraintlayout)
-    implementation(deps.androidx.recyclerview)
-    implementation(deps.androidx.room)
-    implementation(deps.androidx.lifecycle_extensions)
-    implementation(deps.google.dagger)
-    implementation(deps.ktx.core)
-    implementation(deps.ktx.fragment)
-    implementation(deps.ktx.livedata_core)
-    implementation(deps.ktx.livedata)
-    implementation(deps.ktx.viewmodel)
-    implementation(deps.ktx.navigation_fragment)
-    implementation(deps.ktx.navigation_ui)
-    kapt(deps.kapt.dagger)
+    implementation(Deps.Androidx.appcompat)
+    implementation(Deps.Androidx.constraintLayout)
+    implementation(Deps.Androidx.recyclerView)
+    implementation(Deps.Androidx.room)
+    implementation(Deps.Androidx.lifecycleExtensions)
+    implementation(Deps.Google.dagger)
+    implementation(Deps.Ktx.core)
+    implementation(Deps.Ktx.fragment)
+    implementation(Deps.Ktx.liveDataCore)
+    implementation(Deps.Ktx.liveData)
+    implementation(Deps.Ktx.viewModel)
+    implementation(Deps.Ktx.navigationFragment)
+    implementation(Deps.Ktx.navigationUi)
+    kapt(Deps.Kapt.dagger)
 
-    testImplementation(deps.test.junit)
-    androidTestImplementation(deps.uitest.junit)
-    androidTestImplementation(deps.uitest.espresso)
+    testImplementation(Deps.Test.junit)
+    androidTestImplementation(Deps.UiTest.junit)
+    androidTestImplementation(Deps.UiTest.espresso)
 }

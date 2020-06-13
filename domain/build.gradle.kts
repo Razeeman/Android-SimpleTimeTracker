@@ -1,5 +1,5 @@
 import com.example.util.simpletimetracker.Base
-import com.example.util.simpletimetracker.deps
+import com.example.util.simpletimetracker.Deps
 
 plugins {
     id("com.android.library")
@@ -20,9 +20,9 @@ android {
 }
 
 dependencies {
-    api(deps.javax)
-    api(deps.coroutines)
-    api(deps.timber)
+    api(Deps.javax)
+    api(Deps.coroutines)
+    api(Deps.timber)
 
-    testImplementation(deps.test.junit)
+    testImplementation(Deps.Test.junit)
 }
