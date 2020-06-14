@@ -5,7 +5,7 @@ import androidx.lifecycle.observe
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.feature_running_records.R
-import com.example.util.simpletimetracker.feature_running_records.adapter.runningRecord.RunningRecordAdapter
+import com.example.util.simpletimetracker.feature_running_records.adapter.RunningRecordAdapter
 import com.example.util.simpletimetracker.feature_running_records.di.RunningRecordsComponentProvider
 import com.example.util.simpletimetracker.feature_running_records.viewModel.RunningRecordsViewModel
 import com.google.android.flexbox.FlexDirection

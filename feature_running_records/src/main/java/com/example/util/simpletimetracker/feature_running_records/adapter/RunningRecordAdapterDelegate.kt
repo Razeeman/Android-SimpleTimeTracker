@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.feature_running_records.adapter.runningRecord
+package com.example.util.simpletimetracker.feature_running_records.adapter
 
 import android.view.ViewGroup
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapterDelegate
