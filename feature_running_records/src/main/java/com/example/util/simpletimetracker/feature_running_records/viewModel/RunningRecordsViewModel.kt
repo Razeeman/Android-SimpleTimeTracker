@@ -13,11 +13,16 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.feature_running_records.mapper.RunningRecordViewDataMapper
+import com.example.util.simpletimetracker.feature_running_records.viewData.RunningRecordDividerViewData
 import com.example.util.simpletimetracker.feature_running_records.viewData.RunningRecordViewData
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
 import com.example.util.simpletimetracker.navigation.params.ChangeRecordTypeParams
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancelAndJoin
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class RunningRecordsViewModel @Inject constructor(
@@ -32,11 +37,6 @@ class RunningRecordsViewModel @Inject constructor(
 
     val runningRecords: LiveData<List<ViewHolderType>> by lazy {
         startUpdate()
-        MutableLiveData(listOf(LoaderViewData() as ViewHolderType))
-    }
-
-    val recordTypes: LiveData<List<ViewHolderType>> by lazy {
-        updateRecordTypes()
         MutableLiveData(listOf(LoaderViewData() as ViewHolderType))
     }
 
@@ -73,7 +73,6 @@ class RunningRecordsViewModel @Inject constructor(
     }
 
     fun onVisible() {
-        updateRecordTypes()
         startUpdate()
     }
 
@@ -85,36 +84,35 @@ class RunningRecordsViewModel @Inject constructor(
         (runningRecords as MutableLiveData).value = loadRunningRecordsViewData()
     }
 
-    private fun updateRecordTypes() = viewModelScope.launch {
-        (recordTypes as MutableLiveData).value = loadRecordTypesViewData()
-    }
-
     private suspend fun loadRunningRecordsViewData(): List<ViewHolderType> {
         val recordTypes = recordTypeInteractor.getAll()
+        val recordTypesMap = recordTypes
             .map { it.id to it }
             .toMap()
         val runningRecords = runningRecordInteractor.getAll()
 
-        if (recordTypes.isEmpty()) return emptyList()
-        if (runningRecords.isEmpty()) return listOf(runningRecordViewDataMapper.mapToEmpty())
+        val runningRecordsViewData = when {
+            recordTypes.isEmpty() -> emptyList()
+            runningRecords.isEmpty() -> listOf(runningRecordViewDataMapper.mapToEmpty())
+            else -> runningRecords
+                .sortedByDescending {
+                    it.timeStarted
+                }
+                .mapNotNull { runningRecord ->
+                    recordTypesMap[runningRecord.id]?.let { type -> runningRecord to type }
+                }
+                .map { (runningRecord, recordType) ->
+                    runningRecordViewDataMapper.map(runningRecord, recordType)
+                }
+        }
 
-        return runningRecords
-            .sortedByDescending {
-                it.timeStarted
-            }
-            .mapNotNull { runningRecord ->
-                recordTypes[runningRecord.id]?.let { type -> runningRecord to type }
-            }
-            .map { (runningRecord, recordType) ->
-                runningRecordViewDataMapper.map(runningRecord, recordType)
-            }
-    }
-
-    private suspend fun loadRecordTypesViewData(): List<ViewHolderType> {
-        return recordTypeInteractor
-            .getAll()
+        val recordTypesViewData = recordTypes
             .filter { !it.hidden }
             .map(recordTypeViewDataMapper::map) + runningRecordViewDataMapper.mapToAddItem()
+
+        return runningRecordsViewData +
+            listOf(RunningRecordDividerViewData) +
+            recordTypesViewData
     }
 
     private fun startUpdate() {

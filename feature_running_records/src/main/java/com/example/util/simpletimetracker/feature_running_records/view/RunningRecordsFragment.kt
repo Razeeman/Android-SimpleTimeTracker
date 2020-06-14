@@ -2,11 +2,9 @@ package com.example.util.simpletimetracker.feature_running_records.view
 
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.feature_running_records.R
-import com.example.util.simpletimetracker.feature_running_records.adapter.recordType.RecordTypeAdapter
 import com.example.util.simpletimetracker.feature_running_records.adapter.runningRecord.RunningRecordAdapter
 import com.example.util.simpletimetracker.feature_running_records.di.RunningRecordsComponentProvider
 import com.example.util.simpletimetracker.feature_running_records.viewModel.RunningRecordsViewModel
@@ -28,11 +26,7 @@ class RunningRecordsFragment : BaseFragment(R.layout.running_records_fragment) {
 
     private val runningRecordsAdapter: RunningRecordAdapter by lazy {
         RunningRecordAdapter(
-            viewModel::onRunningRecordClick
-        )
-    }
-    private val recordTypesAdapter: RecordTypeAdapter by lazy {
-        RecordTypeAdapter(
+            viewModel::onRunningRecordClick,
             viewModel::onRecordTypeClick,
             viewModel::onRecordTypeLongClick,
             viewModel::onAddRecordTypeClick
@@ -47,22 +41,17 @@ class RunningRecordsFragment : BaseFragment(R.layout.running_records_fragment) {
 
     override fun initUi() {
         rvRunningRecordsList.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = runningRecordsAdapter
-        }
-
-        rvRecordTypesList.apply {
             layoutManager = FlexboxLayoutManager(requireContext()).apply {
                 flexDirection = FlexDirection.ROW
                 justifyContent = JustifyContent.CENTER
                 flexWrap = FlexWrap.WRAP
             }
-            adapter = recordTypesAdapter
+            adapter = runningRecordsAdapter
+            setHasFixedSize(true)
         }
     }
 
     override fun initViewModel(): Unit = with(viewModel) {
-        recordTypes.observe(viewLifecycleOwner, recordTypesAdapter::replace)
         runningRecords.observe(viewLifecycleOwner, runningRecordsAdapter::replace)
     }
 

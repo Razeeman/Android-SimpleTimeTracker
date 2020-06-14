@@ -11,6 +11,7 @@ interface ViewHolderType {
         const val HEADER = 4
         const val LOADER = 5
         const val EMPTY = 6
+        const val DIVIDER = 7
     }
 
     fun getViewType(): Int
