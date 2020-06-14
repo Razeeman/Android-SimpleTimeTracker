@@ -2,12 +2,12 @@
 
 Simple app that helps track how much time you spend on all the useless activities in the world.
 
-## Start new timers by clicking on activities on main screen
+## Track different activities
 
 [![main_thumb]][main]
 <br>
 
-## Add, change or delete activity
+## Add, change or delete activities
 
 [![change_record_type_color_thumb]][change_record_type_color]
 [![change_record_type_icon_thumb]][change_record_type_icon]
