@@ -50,16 +50,15 @@ Simple app that helps track how much time you spend on all the useless activitie
 
 ## Technology stack
 - Kotlin
-- Androidx
 - MVVM
 - Jetpack ViewModel + LiveData
-- JetPack Navigation
+- Jetpack Navigation
 - Dagger
 - Room
 - Coroutines
 - Gradle Kotlin DSL
 - Custom Pie Chart View
-- Recycler with custom Adapter Delegates,
+- Recycler with custom Adapter Delegates
 - DiffUtils with payloads
 
 [change_record_activity_thumb]: dev_files/screens/change_record_activity_thumb.png
