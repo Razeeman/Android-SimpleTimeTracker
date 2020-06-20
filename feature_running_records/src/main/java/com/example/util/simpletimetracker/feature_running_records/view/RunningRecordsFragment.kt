@@ -40,6 +40,8 @@ class RunningRecordsFragment : BaseFragment(R.layout.running_records_fragment) {
     }
 
     override fun initUi() {
+        parentFragment?.postponeEnterTransition()
+
         rvRunningRecordsList.apply {
             layoutManager = FlexboxLayoutManager(requireContext()).apply {
                 flexDirection = FlexDirection.ROW
@@ -48,6 +50,10 @@ class RunningRecordsFragment : BaseFragment(R.layout.running_records_fragment) {
             }
             adapter = runningRecordsAdapter
             setHasFixedSize(true)
+            viewTreeObserver.addOnPreDrawListener {
+                parentFragment?.startPostponedEnterTransition()
+                true
+            }
         }
     }
 
