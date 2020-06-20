@@ -50,8 +50,12 @@ class RunningRecordsViewModel @Inject constructor(
         }
     }
 
-    fun onRecordTypeLongClick(item: RecordTypeViewData) {
-        router.navigate(Screen.CHANGE_RECORD_TYPE, ChangeRecordTypeParams(item.id))
+    fun onRecordTypeLongClick(item: RecordTypeViewData, sharedElements: Map<Any, String>) {
+        router.navigate(
+            screen = Screen.CHANGE_RECORD_TYPE,
+            data = ChangeRecordTypeParams(item.id),
+            sharedElements = sharedElements
+        )
     }
 
     fun onAddRecordTypeClick() {

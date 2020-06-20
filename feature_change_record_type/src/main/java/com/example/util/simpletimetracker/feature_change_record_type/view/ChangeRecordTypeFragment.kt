@@ -1,9 +1,12 @@
 package com.example.util.simpletimetracker.feature_change_record_type.view
 
+import android.os.Build
 import android.os.Bundle
+import androidx.core.view.ViewCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
+import androidx.transition.TransitionInflater
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.extension.hideKeyboard
@@ -42,6 +45,7 @@ class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragme
     private val iconsAdapter: ChangeRecordTypeAdapter by lazy {
         ChangeRecordTypeAdapter(viewModel::onColorClick, viewModel::onIconClick)
     }
+    private val typeId: Long by lazy { arguments?.getLong(ARGS_RECORD_ID).orZero() }
 
     override fun initDi() {
         (activity?.application as ChangeRecordTypeComponentProvider)
@@ -50,6 +54,13 @@ class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragme
     }
 
     override fun initUi() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            sharedElementEnterTransition = TransitionInflater.from(context)
+                .inflateTransition(android.R.transition.move)
+        }
+
+        ViewCompat.setTransitionName(previewChangeRecordType, typeId.toString())
+
         rvChangeRecordTypeColor.apply {
             layoutManager = FlexboxLayoutManager(requireContext()).apply {
                 flexDirection = FlexDirection.ROW
@@ -81,7 +92,7 @@ class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragme
 
     override fun initViewModel(): Unit = with(viewModel) {
         extra = ChangeRecordTypeExtra(
-            id = arguments?.getLong(ARGS_RECORD_ID).orZero()
+            id = typeId
         )
         deleteIconVisibility.observeOnce(
             viewLifecycleOwner, btnChangeRecordTypeDelete::visible::set

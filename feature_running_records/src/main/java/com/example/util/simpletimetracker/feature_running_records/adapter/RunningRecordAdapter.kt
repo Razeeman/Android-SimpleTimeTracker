@@ -10,14 +10,16 @@ import com.example.util.simpletimetracker.feature_running_records.viewData.Runni
 class RunningRecordAdapter(
     onRecordClick: ((RunningRecordViewData) -> Unit),
     onTypeClick: ((RecordTypeViewData) -> Unit),
-    onTypeLongClick: ((RecordTypeViewData) -> Unit),
+    onTypeLongClick: ((RecordTypeViewData, Map<Any, String>) -> Unit),
     onAddClick: (() -> Unit)
 ) : BaseRecyclerAdapter() {
 
     init {
         delegates[ViewHolderType.VIEW] = RunningRecordAdapterDelegate(onRecordClick)
         delegates[ViewHolderType.DIVIDER] = RunningRecordDividerAdapterDelegate()
-        delegates[ViewHolderType.VIEW2] = RunningRecordTypeAdapterDelegate(onTypeClick, onTypeLongClick)
+        delegates[ViewHolderType.VIEW2] = RunningRecordTypeAdapterDelegate(
+            onTypeClick, onTypeLongClick
+        )
         delegates[ViewHolderType.LOADER] = LoaderAdapterDelegate()
         delegates[ViewHolderType.EMPTY] = EmptyAdapterDelegate()
         delegates[ViewHolderType.FOOTER] = RunningRecordTypeAddAdapterDelegate(onAddClick)

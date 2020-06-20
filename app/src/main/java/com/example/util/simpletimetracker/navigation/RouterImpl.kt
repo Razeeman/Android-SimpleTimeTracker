@@ -2,9 +2,12 @@ package com.example.util.simpletimetracker.navigation
 
 import android.app.Activity
 import android.content.Intent
+import android.view.View
 import android.widget.Toast
 import androidx.navigation.NavController
+import androidx.navigation.Navigator
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.FragmentNavigator
 import com.example.util.simpletimetracker.R
 import com.example.util.simpletimetracker.feature_change_record.view.ChangeRecordFragment
 import com.example.util.simpletimetracker.feature_change_record_type.view.ChangeRecordTypeFragment
@@ -30,31 +33,44 @@ class RouterImpl @Inject constructor() : Router() {
         this.activity = activity
     }
 
-    override fun navigate(screen: Screen, data: Any?) {
+    override fun navigate(screen: Screen, data: Any?, sharedElements: Map<Any, String>?) {
+        val navExtras = toNavExtras(sharedElements)
+
         when (screen) {
             Screen.CHANGE_RECORD_TYPE ->
                 navController?.navigate(
                     R.id.changeRecordTypeFragment,
-                    ChangeRecordTypeFragment.createBundle(data)
+                    ChangeRecordTypeFragment.createBundle(data),
+                    null,
+                    navExtras
                 )
             Screen.CHANGE_RECORD ->
                 navController?.navigate(
                     R.id.changeRecordFragment,
-                    ChangeRecordFragment.createBundle(data)
+                    ChangeRecordFragment.createBundle(data),
+                    null,
+                    navExtras
                 )
             Screen.STANDARD_DIALOG ->
                 navController?.navigate(
                     R.id.standardDialogFragment,
-                    StandardDialogFragment.createBundle(data)
+                    StandardDialogFragment.createBundle(data),
+                    null,
+                    navExtras
                 )
             Screen.DATE_TIME_DIALOG ->
                 navController?.navigate(
                     R.id.dateTimeDialog,
-                    DateTimeDialogFragment.createBundle(data)
+                    DateTimeDialogFragment.createBundle(data),
+                    null,
+                    navExtras
                 )
             Screen.CHART_FILTER_DIALOG ->
                 navController?.navigate(
-                    R.id.chartFilerDialogFragment
+                    R.id.chartFilerDialogFragment,
+                    null,
+                    null,
+                    navExtras
                 )
             Screen.CREATE_FILE -> {
                 val timeString = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())
@@ -87,10 +103,22 @@ class RouterImpl @Inject constructor() : Router() {
     }
 
     override fun back() {
-        navController?.popBackStack()
+        navController?.navigateUp()
     }
 
     override fun showSystemMessage(message: String) {
         Toast.makeText(activity?.applicationContext, message, Toast.LENGTH_LONG).show()
+    }
+
+    private fun toNavExtras(sharedElements: Map<Any, String>?): Navigator.Extras {
+        return FragmentNavigator.Extras
+            .Builder()
+            .apply {
+                sharedElements?.forEach { (key, value) ->
+                    (key as? View)?.let { view ->
+                        addSharedElement(view, value)
+                    }
+                }
+            }.build()
     }
 }

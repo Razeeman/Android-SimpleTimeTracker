@@ -6,7 +6,11 @@ abstract class Router {
 
     abstract fun bind(activity: Activity)
 
-    abstract fun navigate(screen: Screen, data: Any? = null)
+    abstract fun navigate(
+        screen: Screen,
+        data: Any? = null,
+        sharedElements: Map<Any, String>? = null
+    )
 
     abstract fun back()
 
