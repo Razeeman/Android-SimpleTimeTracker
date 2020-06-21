@@ -47,7 +47,7 @@ class RunningRecordViewDataMapper @Inject constructor(
 
     fun mapToAddItem(): RunningRecordTypeAddViewData {
         return RunningRecordTypeAddViewData(
-            name = "Add",
+            name = R.string.running_records_add_type.let(resourceRepo::getString),
             iconId = R.drawable.add,
             color = R.color.blue_grey_200
                 .let(resourceRepo::getColor)
