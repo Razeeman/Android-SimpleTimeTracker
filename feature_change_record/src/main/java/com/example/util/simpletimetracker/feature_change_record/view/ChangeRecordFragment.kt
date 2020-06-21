@@ -1,9 +1,11 @@
 package com.example.util.simpletimetracker.feature_change_record.view
 
 import android.os.Bundle
+import androidx.core.view.ViewCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
+import androidx.transition.TransitionInflater
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
 import com.example.util.simpletimetracker.core.extension.observeOnce
@@ -11,6 +13,7 @@ import com.example.util.simpletimetracker.core.extension.rotateDown
 import com.example.util.simpletimetracker.core.extension.rotateUp
 import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.core.extension.visible
+import com.example.util.simpletimetracker.core.utils.BuildVersions
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_change_record.R
 import com.example.util.simpletimetracker.feature_change_record.adapter.ChangeRecordAdapter
@@ -35,10 +38,10 @@ class ChangeRecordFragment : BaseFragment(R.layout.change_record_fragment),
     private val viewModel: ChangeRecordViewModel by viewModels(
         factoryProducer = { viewModelFactory }
     )
-
     private val typesAdapter: ChangeRecordAdapter by lazy {
         ChangeRecordAdapter(viewModel::onTypeClick)
     }
+    private val recordId: Long by lazy { arguments?.getLong(ARGS_RECORD_ID).orZero() }
 
     override fun initDi() {
         (activity?.application as ChangeRecordComponentProvider)
@@ -47,6 +50,13 @@ class ChangeRecordFragment : BaseFragment(R.layout.change_record_fragment),
     }
 
     override fun initUi() {
+        if (BuildVersions.isLollipopOrHigher()) {
+            sharedElementEnterTransition = TransitionInflater.from(context)
+                .inflateTransition(android.R.transition.move)
+        }
+
+        ViewCompat.setTransitionName(previewChangeRecord, recordId.toString())
+
         rvChangeRecordType.apply {
             layoutManager = FlexboxLayoutManager(requireContext()).apply {
                 flexDirection = FlexDirection.ROW
@@ -67,7 +77,7 @@ class ChangeRecordFragment : BaseFragment(R.layout.change_record_fragment),
 
     override fun initViewModel(): Unit = with(viewModel) {
         extra = ChangeRecordExtra(
-            id = arguments?.getLong(ARGS_RECORD_ID).orZero(),
+            id = recordId,
             daysFromToday = arguments?.getInt(ARGS_DAYS_FROM_TODAY).orZero()
         )
         deleteIconVisibility.observeOnce(viewLifecycleOwner, btnChangeRecordDelete::visible::set)

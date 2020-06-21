@@ -50,6 +50,7 @@ class RunningRecordsFragment : BaseFragment(R.layout.running_records_fragment) {
             }
             adapter = runningRecordsAdapter
             setHasFixedSize(true)
+
             viewTreeObserver.addOnPreDrawListener {
                 parentFragment?.startPostponedEnterTransition()
                 true

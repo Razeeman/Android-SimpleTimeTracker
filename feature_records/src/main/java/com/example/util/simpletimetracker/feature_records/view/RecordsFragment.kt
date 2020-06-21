@@ -37,9 +37,16 @@ class RecordsFragment : BaseFragment(R.layout.records_fragment) {
     }
 
     override fun initUi() {
+        parentFragment?.postponeEnterTransition()
+
         rvRecordsList.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = recordsAdapter
+
+            viewTreeObserver.addOnPreDrawListener {
+                parentFragment?.startPostponedEnterTransition()
+                true
+            }
         }
     }
 

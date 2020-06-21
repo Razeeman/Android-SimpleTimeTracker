@@ -1,15 +1,17 @@
 package com.example.util.simpletimetracker.feature_records.adapter
 
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerViewHolder
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.core.extension.setOnLongClick
 import com.example.util.simpletimetracker.feature_records.R
 import com.example.util.simpletimetracker.feature_records.viewData.RecordViewData
 import kotlinx.android.synthetic.main.item_record_layout.view.*
 
 class RecordAdapterDelegate(
-    private val onItemLongClick: ((RecordViewData) -> Unit)
+    private val onItemLongClick: ((RecordViewData, Map<Any, String>) -> Unit)
 ) : BaseRecyclerAdapterDelegate() {
 
     override fun onCreateViewHolder(parent: ViewGroup): BaseRecyclerViewHolder =
@@ -23,6 +25,7 @@ class RecordAdapterDelegate(
             payloads: List<Any>
         ) = with(itemView.viewRecordItem) {
             item as RecordViewData
+            val transitionName = item.id.toString()
 
             itemColor = item.color
             itemIcon = item.iconId
@@ -31,10 +34,8 @@ class RecordAdapterDelegate(
             itemTimeEnded = item.timeFinished
             itemDuration = item.duration
 
-            setOnLongClickListener {
-                onItemLongClick.invoke(item)
-                true
-            }
+            setOnLongClick { onItemLongClick(item, mapOf(this to transitionName)) }
+            ViewCompat.setTransitionName(this, transitionName)
         }
     }
 }

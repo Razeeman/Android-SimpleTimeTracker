@@ -7,7 +7,7 @@ import com.example.util.simpletimetracker.core.adapter.loader.LoaderAdapterDeleg
 import com.example.util.simpletimetracker.feature_records.viewData.RecordViewData
 
 class RecordAdapter(
-    onItemLongClick: ((RecordViewData) -> Unit)
+    onItemLongClick: ((RecordViewData, Map<Any, String>) -> Unit)
 ) : BaseRecyclerAdapter() {
 
     init {

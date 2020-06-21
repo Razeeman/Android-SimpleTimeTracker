@@ -31,8 +31,12 @@ class RecordsViewModel @Inject constructor(
         MutableLiveData(listOf(LoaderViewData() as ViewHolderType))
     }
 
-    fun onRecordClick(item: RecordViewData) {
-        router.navigate(Screen.CHANGE_RECORD, ChangeRecordParams(item.id))
+    fun onRecordClick(item: RecordViewData, sharedElements: Map<Any, String>) {
+        router.navigate(
+            screen = Screen.CHANGE_RECORD,
+            data = ChangeRecordParams(item.id),
+            sharedElements = sharedElements
+        )
     }
 
     fun onVisible() {
