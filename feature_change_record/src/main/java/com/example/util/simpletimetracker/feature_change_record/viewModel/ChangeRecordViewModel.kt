@@ -5,8 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.extension.flip
 import com.example.util.simpletimetracker.domain.extension.orTrue
 import com.example.util.simpletimetracker.domain.extension.orZero
@@ -15,9 +17,7 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.feature_change_record.R
 import com.example.util.simpletimetracker.feature_change_record.extra.ChangeRecordExtra
-import com.example.util.simpletimetracker.feature_change_record.mapper.ChangeRecordTypeViewDataMapper
 import com.example.util.simpletimetracker.feature_change_record.mapper.ChangeRecordViewDataMapper
-import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordTypeViewData
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordViewData
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
@@ -31,7 +31,7 @@ class ChangeRecordViewModel @Inject constructor(
     private var recordTypeInteractor: RecordTypeInteractor,
     private var timeMapper: TimeMapper,
     private var changeRecordViewDataMapper: ChangeRecordViewDataMapper,
-    private var changeRecordTypeViewDataMapper: ChangeRecordTypeViewDataMapper,
+    private var recordTypeViewDataMapper: RecordTypeViewDataMapper,
     private var resourceRepo: ResourceRepo
 ) : ViewModel() {
 
@@ -118,7 +118,7 @@ class ChangeRecordViewModel @Inject constructor(
         }
     }
 
-    fun onTypeClick(item: ChangeRecordTypeViewData) {
+    fun onTypeClick(item: RecordTypeViewData) {
         viewModelScope.launch {
             if (item.id != newTypeId) {
                 newTypeId = item.id
@@ -180,7 +180,7 @@ class ChangeRecordViewModel @Inject constructor(
     private suspend fun loadTypesViewData(): List<ViewHolderType> {
         return recordTypeInteractor.getAll()
             .filter { !it.hidden }
-            .map(changeRecordTypeViewDataMapper::map)
+            .map(recordTypeViewDataMapper::map)
     }
 
     companion object {
