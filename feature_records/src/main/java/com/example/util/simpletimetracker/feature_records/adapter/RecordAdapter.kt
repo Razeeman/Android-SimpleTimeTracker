@@ -11,7 +11,7 @@ class RecordAdapter(
 ) : BaseRecyclerAdapter() {
 
     init {
-        delegates[ViewHolderType.VIEW] = RecordAdapterDelegate(onItemLongClick)
+        delegates[ViewHolderType.RECORD] = RecordAdapterDelegate(onItemLongClick)
         delegates[ViewHolderType.EMPTY] = EmptyAdapterDelegate()
         delegates[ViewHolderType.LOADER] = LoaderAdapterDelegate()
     }

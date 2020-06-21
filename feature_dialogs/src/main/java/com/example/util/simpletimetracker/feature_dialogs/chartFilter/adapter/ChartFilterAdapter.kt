@@ -10,7 +10,7 @@ class ChartFilterAdapter(
 ) : BaseRecyclerAdapter() {
 
     init {
-        delegates[ViewHolderType.VIEW] = ChartFilterAdapterDelegate(onItemClick)
+        delegates[ViewHolderType.RECORD_TYPE] = ChartFilterAdapterDelegate(onItemClick)
         delegates[ViewHolderType.LOADER] = LoaderAdapterDelegate()
     }
 }

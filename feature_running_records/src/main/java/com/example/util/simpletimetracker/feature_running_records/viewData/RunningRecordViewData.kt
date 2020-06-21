@@ -13,7 +13,7 @@ data class RunningRecordViewData(
     @ColorInt val color: Int
 ) : ViewHolderType {
 
-    override fun getViewType(): Int = ViewHolderType.VIEW
+    override fun getViewType(): Int = ViewHolderType.RUNNING_RECORD
 
     override fun getUniqueId(): Long? = id
 

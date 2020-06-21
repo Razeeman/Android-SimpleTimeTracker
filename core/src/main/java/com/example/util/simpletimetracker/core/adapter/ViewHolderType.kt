@@ -5,13 +5,16 @@ import android.os.Bundle
 interface ViewHolderType {
 
     companion object {
-        const val VIEW = 1
-        const val VIEW2 = 2
-        const val FOOTER = 3
-        const val HEADER = 4
-        const val LOADER = 5
-        const val EMPTY = 6
-        const val DIVIDER = 7
+        const val RECORD_TYPE = 1
+        const val RUNNING_RECORD = 2
+        const val RECORD = 3
+        const val VIEW = 4
+        const val VIEW2 = 5
+        const val FOOTER = 6
+        const val HEADER = 7
+        const val LOADER = 8
+        const val EMPTY = 9
+        const val DIVIDER = 10
     }
 
     fun getViewType(): Int

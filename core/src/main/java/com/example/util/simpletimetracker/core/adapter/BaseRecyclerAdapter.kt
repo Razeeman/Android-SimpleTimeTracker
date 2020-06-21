@@ -13,7 +13,8 @@ open class BaseRecyclerAdapter : RecyclerView.Adapter<BaseRecyclerViewHolder>() 
         mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseRecyclerViewHolder =
-        delegates[viewType]!!.onCreateViewHolder(parent)
+        delegates[viewType]?.onCreateViewHolder(parent)
+            ?: throw IllegalStateException("No delegate found for $viewType")
 
     override fun onBindViewHolder(
         holder: BaseRecyclerViewHolder,

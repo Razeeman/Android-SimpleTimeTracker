@@ -11,7 +11,7 @@ data class RecordTypeViewData(
     @ColorInt val color: Int
 ) : ViewHolderType {
 
-    override fun getViewType(): Int = ViewHolderType.VIEW2
+    override fun getViewType(): Int = ViewHolderType.RECORD_TYPE
 
     override fun getUniqueId(): Long? = id
 }

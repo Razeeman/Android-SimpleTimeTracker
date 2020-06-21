@@ -11,7 +11,7 @@ class WidgetAdapter(
 ) : BaseRecyclerAdapter() {
 
     init {
-        delegates[ViewHolderType.VIEW] = WidgetAdapterDelegate(onItemClick)
+        delegates[ViewHolderType.RECORD_TYPE] = WidgetAdapterDelegate(onItemClick)
         delegates[ViewHolderType.EMPTY] = EmptyAdapterDelegate()
         delegates[ViewHolderType.LOADER] = LoaderAdapterDelegate()
     }
