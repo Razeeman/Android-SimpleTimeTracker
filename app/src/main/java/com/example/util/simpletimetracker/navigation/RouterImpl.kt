@@ -39,14 +39,14 @@ class RouterImpl @Inject constructor() : Router() {
         when (screen) {
             Screen.CHANGE_RECORD_TYPE ->
                 navController?.navigate(
-                    R.id.changeRecordTypeFragment,
+                    R.id.action_mainFragment_to_changeRecordTypeFragment,
                     ChangeRecordTypeFragment.createBundle(data),
                     null,
                     navExtras
                 )
             Screen.CHANGE_RECORD ->
                 navController?.navigate(
-                    R.id.changeRecordFragment,
+                    R.id.action_mainFragment_to_changeRecordFragment,
                     ChangeRecordFragment.createBundle(data),
                     null,
                     navExtras
