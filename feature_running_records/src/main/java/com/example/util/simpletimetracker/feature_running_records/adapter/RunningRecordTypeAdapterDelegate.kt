@@ -7,6 +7,7 @@ import com.example.util.simpletimetracker.core.adapter.BaseRecyclerViewHolder
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.extension.setOnClickWith
 import com.example.util.simpletimetracker.core.extension.setOnLongClick
+import com.example.util.simpletimetracker.core.view.TransitionNames
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_running_records.R
 import kotlinx.android.synthetic.main.item_running_record_type_layout.view.*
@@ -27,7 +28,7 @@ class RunningRecordTypeAdapterDelegate(
             payloads: List<Any>
         ) = with(itemView.viewRecordTypeItem) {
             item as RecordTypeViewData
-            val transitionName = item.id.toString()
+            val transitionName = TransitionNames.RECORD_TYPE + item.id
 
             itemColor = item.color
             itemIcon = item.iconId

@@ -14,6 +14,7 @@ import com.example.util.simpletimetracker.core.extension.rotateUp
 import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.core.extension.visible
 import com.example.util.simpletimetracker.core.utils.BuildVersions
+import com.example.util.simpletimetracker.core.view.TransitionNames
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_change_record.R
 import com.example.util.simpletimetracker.feature_change_record.adapter.ChangeRecordAdapter
@@ -55,7 +56,10 @@ class ChangeRecordFragment : BaseFragment(R.layout.change_record_fragment),
                 .inflateTransition(android.R.transition.move)
         }
 
-        ViewCompat.setTransitionName(previewChangeRecord, recordId.toString())
+        ViewCompat.setTransitionName(
+            previewChangeRecord,
+            TransitionNames.RECORD + recordId
+        )
 
         rvChangeRecordType.apply {
             layoutManager = FlexboxLayoutManager(requireContext()).apply {
