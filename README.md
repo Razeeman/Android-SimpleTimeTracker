@@ -60,6 +60,8 @@ Simple app that helps track how much time you spend on all the useless activitie
 - Custom Pie Chart View
 - Recycler with custom Adapter Delegates
 - DiffUtils with payloads
+- Shared ViewModels
+- Snackbars with Action
 
 [change_record_activity_thumb]: dev_files/screens/change_record_activity_thumb.png
 [change_record_activity]: dev_files/screens/change_record_activity.png
