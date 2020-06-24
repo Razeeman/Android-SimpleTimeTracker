@@ -7,8 +7,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
-import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.core.dialog.StandardDialogListener
+import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.feature_settings.R
 import com.example.util.simpletimetracker.feature_settings.di.SettingsComponentProvider
 import com.example.util.simpletimetracker.feature_settings.viewModel.SettingsViewModel
@@ -36,15 +36,11 @@ class SettingsFragment : BaseFragment(R.layout.settings_fragment),
     override fun initUx() {
         tvSettingsSaveBackup.setOnClick(viewModel::onSaveClick)
         tvSettingsRestoreBackup.setOnClick(viewModel::onRestoreClick)
-        checkboxSettingsRecordTypeSort.setOnCheckedChangeListener { _, isChecked ->
-            viewModel.onRecordTypeSortChanged(isChecked)
-        }
+        checkboxSettingsRecordTypeSort.setOnClick(viewModel::onRecordTypeSortClicked)
     }
 
     override fun initViewModel(): Unit = with(viewModel) {
-        sortRecordTypes.observe(viewLifecycleOwner) {
-            checkboxSettingsRecordTypeSort.apply { post { isChecked = it } }
-        }
+        sortRecordTypes.observe(viewLifecycleOwner, checkboxSettingsRecordTypeSort::setChecked)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

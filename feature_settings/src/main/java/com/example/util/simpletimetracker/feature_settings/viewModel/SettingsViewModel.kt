@@ -51,9 +51,11 @@ class SettingsViewModel @Inject constructor(
         )
     }
 
-    fun onRecordTypeSortChanged(isEnabled: Boolean) {
+    fun onRecordTypeSortClicked() {
         viewModelScope.launch {
-            prefsInteractor.setSortRecordTypesByColor(isEnabled)
+            val newValue = !prefsInteractor.getSortRecordTypesByColor()
+            prefsInteractor.setSortRecordTypesByColor(newValue)
+            (sortRecordTypes as MutableLiveData).value = newValue
         }
     }
 
