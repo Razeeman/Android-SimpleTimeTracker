@@ -5,7 +5,7 @@ object Versions {
     const val kotlin = "1.3.71"
     const val ktlint = "9.2.1"
 
-    const val coroutines = "1.3.2"
+    const val coroutines = "1.3.6"
     const val timber = "4.7.1"
     const val javax = "1"
 

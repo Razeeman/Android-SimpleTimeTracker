@@ -18,10 +18,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class RecordsViewModel @Inject constructor(
-    private var router: Router,
-    private var recordInteractor: RecordInteractor,
-    private var recordTypeInteractor: RecordTypeInteractor,
-    private var recordViewDataMapper: RecordViewDataMapper
+    private val router: Router,
+    private val recordInteractor: RecordInteractor,
+    private val recordTypeInteractor: RecordTypeInteractor,
+    private val recordViewDataMapper: RecordViewDataMapper
 ) : ViewModel() {
 
     lateinit var extra: RecordsExtra
@@ -40,6 +40,10 @@ class RecordsViewModel @Inject constructor(
     }
 
     fun onVisible() {
+        updateRecords()
+    }
+
+    fun onNeedUpdate() {
         updateRecords()
     }
 

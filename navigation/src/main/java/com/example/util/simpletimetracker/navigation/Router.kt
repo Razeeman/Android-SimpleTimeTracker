@@ -1,6 +1,8 @@
 package com.example.util.simpletimetracker.navigation
 
 import android.app.Activity
+import android.view.View
+import com.example.util.simpletimetracker.core.model.SnackBarMessage
 
 abstract class Router {
 
@@ -15,4 +17,9 @@ abstract class Router {
     abstract fun back()
 
     abstract fun showSystemMessage(message: String)
+
+    abstract fun showSnackBar(
+        view: View,
+        snackBarMessage: SnackBarMessage
+    )
 }

@@ -26,13 +26,13 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ChangeRecordViewModel @Inject constructor(
-    private var router: Router,
-    private var recordInteractor: RecordInteractor,
-    private var recordTypeInteractor: RecordTypeInteractor,
-    private var timeMapper: TimeMapper,
-    private var changeRecordViewDataMapper: ChangeRecordViewDataMapper,
-    private var recordTypeViewDataMapper: RecordTypeViewDataMapper,
-    private var resourceRepo: ResourceRepo
+    private val router: Router,
+    private val recordInteractor: RecordInteractor,
+    private val recordTypeInteractor: RecordTypeInteractor,
+    private val timeMapper: TimeMapper,
+    private val changeRecordViewDataMapper: ChangeRecordViewDataMapper,
+    private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
+    private val resourceRepo: ResourceRepo
 ) : ViewModel() {
 
     lateinit var extra: ChangeRecordExtra
@@ -54,8 +54,6 @@ class ChangeRecordViewModel @Inject constructor(
     }
     val flipTypesChooser: LiveData<Boolean> = MutableLiveData()
     val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
-    val deleteButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
-    val deleteIconVisibility: LiveData<Boolean> get() = MutableLiveData(extra.id != 0L)
 
     private var newTypeId: Long = 0
     private var newTimeEnded: Long = 0
@@ -87,15 +85,7 @@ class ChangeRecordViewModel @Inject constructor(
     }
 
     fun onDeleteClick() {
-        (deleteButtonEnabled as MutableLiveData).value = false
-        viewModelScope.launch {
-            if (extra.id != 0L) {
-                recordInteractor.remove(extra.id)
-                resourceRepo.getString(R.string.record_removed)
-                    .let(router::showSystemMessage)
-                router.back()
-            }
-        }
+        router.back()
     }
 
     fun onSaveClick() {

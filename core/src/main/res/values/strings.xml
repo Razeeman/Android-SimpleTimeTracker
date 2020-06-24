@@ -11,4 +11,7 @@
     <string name="cancel">Cancel</string>
 
     <string name="untracked_time_name">Untracked</string>
+
+    <string name="record_removed">Record %s removed</string>
+    <string name="record_removed_undo">Undo</string>
 </resources>

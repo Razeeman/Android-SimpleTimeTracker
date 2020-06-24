@@ -1,20 +1,22 @@
 package com.example.util.simpletimetracker.feature_change_record.view
 
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.transition.TransitionInflater
 import com.example.util.simpletimetracker.core.base.BaseFragment
+import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
-import com.example.util.simpletimetracker.core.extension.observeOnce
 import com.example.util.simpletimetracker.core.extension.rotateDown
 import com.example.util.simpletimetracker.core.extension.rotateUp
 import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.core.extension.visible
 import com.example.util.simpletimetracker.core.utils.BuildVersions
 import com.example.util.simpletimetracker.core.view.TransitionNames
+import com.example.util.simpletimetracker.core.viewModel.RemoveRecordViewModel
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_change_record.R
 import com.example.util.simpletimetracker.feature_change_record.adapter.ChangeRecordAdapter
@@ -36,8 +38,15 @@ class ChangeRecordFragment : BaseFragment(R.layout.change_record_fragment),
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
+    @Inject
+    lateinit var removeRecordViewModelFactory: BaseViewModelFactory<RemoveRecordViewModel>
+
     private val viewModel: ChangeRecordViewModel by viewModels(
         factoryProducer = { viewModelFactory }
+    )
+    private val removeRecordViewModel: RemoveRecordViewModel by viewModels(
+        ownerProducer = { activity as AppCompatActivity },
+        factoryProducer = { removeRecordViewModelFactory }
     )
     private val typesAdapter: ChangeRecordAdapter by lazy {
         ChangeRecordAdapter(viewModel::onTypeClick)
@@ -76,24 +85,32 @@ class ChangeRecordFragment : BaseFragment(R.layout.change_record_fragment),
         fieldChangeRecordTimeStarted.setOnClick(viewModel::onTimeStartedClick)
         fieldChangeRecordTimeEnded.setOnClick(viewModel::onTimeEndedClick)
         btnChangeRecordSave.setOnClick(viewModel::onSaveClick)
-        btnChangeRecordDelete.setOnClick(viewModel::onDeleteClick)
+        btnChangeRecordDelete.setOnClick {
+            viewModel.onDeleteClick()
+            removeRecordViewModel.onDeleteClick()
+        }
     }
 
-    override fun initViewModel(): Unit = with(viewModel) {
-        extra = ChangeRecordExtra(
-            id = recordId,
-            daysFromToday = arguments?.getInt(ARGS_DAYS_FROM_TODAY).orZero()
-        )
-        deleteIconVisibility.observeOnce(viewLifecycleOwner, btnChangeRecordDelete::visible::set)
-        record.observe(viewLifecycleOwner, ::updatePreview)
-        types.observe(viewLifecycleOwner, typesAdapter::replace)
-        saveButtonEnabled.observe(viewLifecycleOwner, btnChangeRecordSave::setEnabled)
-        deleteButtonEnabled.observe(viewLifecycleOwner, btnChangeRecordDelete::setEnabled)
-        flipTypesChooser.observe(viewLifecycleOwner) { opened ->
-            rvChangeRecordType.visible = opened
-            arrowChangeRecordType.apply {
-                if (opened) rotateDown() else rotateUp()
+    override fun initViewModel() {
+        with(viewModel) {
+            extra = ChangeRecordExtra(
+                id = recordId,
+                daysFromToday = arguments?.getInt(ARGS_DAYS_FROM_TODAY).orZero()
+            )
+            record.observe(viewLifecycleOwner, ::updatePreview)
+            types.observe(viewLifecycleOwner, typesAdapter::replace)
+            saveButtonEnabled.observe(viewLifecycleOwner, btnChangeRecordSave::setEnabled)
+            flipTypesChooser.observe(viewLifecycleOwner) { opened ->
+                rvChangeRecordType.visible = opened
+                arrowChangeRecordType.apply {
+                    if (opened) rotateDown() else rotateUp()
+                }
             }
+        }
+        with(removeRecordViewModel) {
+            prepare(recordId)
+            deleteButtonEnabled.observe(viewLifecycleOwner, btnChangeRecordDelete::setEnabled)
+            deleteIconVisibility.observe(viewLifecycleOwner, btnChangeRecordDelete::visible::set)
         }
     }
 

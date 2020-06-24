@@ -1,11 +1,13 @@
 package com.example.util.simpletimetracker.feature_records.view
 
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
+import com.example.util.simpletimetracker.core.viewModel.RemoveRecordViewModel
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_records.R
 import com.example.util.simpletimetracker.feature_records.adapter.RecordAdapter
@@ -20,9 +22,15 @@ class RecordsFragment : BaseFragment(R.layout.records_fragment) {
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<RecordsViewModel>
+    @Inject
+    lateinit var removeRecordViewModelFactory: BaseViewModelFactory<RemoveRecordViewModel>
 
     private val viewModel: RecordsViewModel by viewModels(
         factoryProducer = { viewModelFactory }
+    )
+    private val removeRecordViewModel: RemoveRecordViewModel by viewModels(
+        ownerProducer = { activity as AppCompatActivity },
+        factoryProducer = { removeRecordViewModelFactory }
     )
     private val recordsAdapter: RecordAdapter by lazy {
         RecordAdapter(
@@ -50,12 +58,22 @@ class RecordsFragment : BaseFragment(R.layout.records_fragment) {
         }
     }
 
-    override fun initViewModel(): Unit = with(viewModel) {
-        extra = RecordsExtra(
-            rangeStart = arguments?.getLong(ARGS_RANGE_START).orZero(),
-            rangeEnd = arguments?.getLong(ARGS_RANGE_END).orZero()
-        )
-        viewModel.records.observe(viewLifecycleOwner, recordsAdapter::replace)
+    override fun initViewModel() {
+        with(viewModel) {
+            extra = RecordsExtra(
+                rangeStart = arguments?.getLong(ARGS_RANGE_START).orZero(),
+                rangeEnd = arguments?.getLong(ARGS_RANGE_END).orZero()
+            )
+            records.observe(viewLifecycleOwner, recordsAdapter::replace)
+        }
+        with(removeRecordViewModel) {
+            needUpdate.observe(viewLifecycleOwner) {
+                if (it && this@RecordsFragment.isResumed) {
+                    viewModel.onNeedUpdate()
+                    removeRecordViewModel.onUpdated()
+                }
+            }
+        }
     }
 
     override fun onResume() {

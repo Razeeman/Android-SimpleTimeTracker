@@ -27,6 +27,8 @@ dependencies {
     implementation(Deps.Androidx.constraintLayout)
     implementation(Deps.Androidx.cardView)
     implementation(Deps.Androidx.material)
+    implementation(Deps.Ktx.liveData)
+    implementation(Deps.Ktx.viewModel)
 
     testImplementation(Deps.Test.junit)
     androidTestImplementation(Deps.UiTest.junit)

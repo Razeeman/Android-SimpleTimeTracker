@@ -6,6 +6,7 @@
         <item name="colorPrimaryVariant">@color/colorPrimaryVariant</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorSecondary">@color/colorSecondary</item>
+        <item name="snackbarStyle">@style/Widget.MaterialComponents.Snackbar.FullWidth</item>
     </style>
 
     <style name="ChangeRecordTypeInputFieldCard">
