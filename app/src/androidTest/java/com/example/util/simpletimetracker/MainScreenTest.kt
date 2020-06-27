@@ -53,7 +53,6 @@ class MainScreenTest {
 
         NavUtils.openRecordsScreen()
 
-        Thread.sleep(1000)
         onView(withId(R.id.btnRecordsContainerPrevious)).perform(click())
         onView(withId(R.id.btnRecordsContainerPrevious)).perform(click())
         onView(withId(R.id.btnRecordsContainerToday)).perform(longClick())
@@ -65,7 +64,6 @@ class MainScreenTest {
 
         NavUtils.openStatisticsScreen()
 
-        Thread.sleep(1000)
         onView(withId(R.id.btnStatisticsContainerPrevious)).perform(click())
         onView(withId(R.id.btnStatisticsContainerPrevious)).perform(click())
         onView(withId(R.id.btnStatisticsContainerToday)).perform(longClick())

@@ -72,5 +72,6 @@ dependencies {
     testImplementation(Deps.Test.junit)
     androidTestImplementation(Deps.UiTest.junit)
     androidTestImplementation(Deps.UiTest.espresso)
+    androidTestImplementation(Deps.UiTest.espressoContrib)
     kaptAndroidTest(Deps.Kapt.dagger)
 }

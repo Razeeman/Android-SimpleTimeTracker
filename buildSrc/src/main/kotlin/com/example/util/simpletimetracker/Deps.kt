@@ -72,5 +72,7 @@ object Deps {
             "androidx.test.ext:junit:${Versions.junitUi}"
         const val espresso =
             "androidx.test.espresso:espresso-core:${Versions.espresso}"
+        const val espressoContrib =
+            "androidx.test.espresso:espresso-contrib:${Versions.espresso}"
     }
 }
