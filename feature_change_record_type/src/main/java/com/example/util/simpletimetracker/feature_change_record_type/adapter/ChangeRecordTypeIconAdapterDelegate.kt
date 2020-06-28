@@ -27,6 +27,7 @@ class ChangeRecordTypeIconAdapterDelegate(
 
             layoutChangeRecordTypeIconItem.setCardBackgroundColor(item.colorInt)
             ivChangeRecordTypeIconItem.setBackgroundResource(item.iconResId)
+            ivChangeRecordTypeIconItem.tag = item.iconResId
             layoutChangeRecordTypeIconItem.setOnClickWith(item, onIconItemClick)
         }
     }

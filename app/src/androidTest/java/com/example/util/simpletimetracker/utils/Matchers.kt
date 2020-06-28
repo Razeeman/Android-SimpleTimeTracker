@@ -9,9 +9,9 @@ import org.hamcrest.Matcher
 
 fun withCardColor(expectedId: Int): Matcher<View> =
     object : BoundedMatcher<View, CardView>(CardView::class.java) {
-        override fun matchesSafely(cardView: CardView): Boolean {
-            val colorInt: Int = ContextCompat.getColor(cardView.context, expectedId)
-            return cardView.cardBackgroundColor.defaultColor == colorInt
+        override fun matchesSafely(view: CardView): Boolean {
+            val colorInt: Int = ContextCompat.getColor(view.context, expectedId)
+            return view.cardBackgroundColor.defaultColor == colorInt
         }
 
         override fun describeTo(description: Description) {

@@ -1,26 +1,31 @@
 package com.example.util.simpletimetracker
 
+import android.view.View
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
-import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.action.ViewActions.typeText
-import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withTagValue
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
+import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.utils.TestUtils
 import com.example.util.simpletimetracker.di.AppModule
 import com.example.util.simpletimetracker.di.DaggerTestAppComponent
 import com.example.util.simpletimetracker.ui.MainActivity
 import com.example.util.simpletimetracker.utils.NavUtils
+import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
+import com.example.util.simpletimetracker.utils.checkViewIsNotDisplayed
+import com.example.util.simpletimetracker.utils.clickOnRecyclerItem
+import com.example.util.simpletimetracker.utils.clickOnView
+import com.example.util.simpletimetracker.utils.scrollToPosition
+import com.example.util.simpletimetracker.utils.typeTextIntoView
 import com.example.util.simpletimetracker.utils.withCardColor
 import org.hamcrest.CoreMatchers.allOf
-import org.hamcrest.CoreMatchers.not
+import org.hamcrest.CoreMatchers.equalTo
+import org.hamcrest.Matcher
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -32,6 +37,9 @@ class AddRecordTypeTest {
 
     @Inject
     lateinit var testUtils: TestUtils
+
+    @Inject
+    lateinit var iconMapper: IconMapper
 
     @Rule
     @JvmField
@@ -51,56 +59,65 @@ class AddRecordTypeTest {
     @Test
     fun addTest() {
         val name = "Test"
-        val firstColor = ColorMapper.availableColors[0]
-        val lastColor = ColorMapper.availableColors.let { it[it.size - 1] }
+        val firstColor = ColorMapper.availableColors.first()
+        val lastColor = ColorMapper.availableColors.last()
+        val lastColorPosition = ColorMapper.availableColors.size - 1
+        val firstIcon = iconMapper.availableIconsNames.values.first()
+        val lastIcon = iconMapper.availableIconsNames.values.last()
+        val lastIconPosition = iconMapper.availableIconsNames.size - 1
 
         NavUtils.openRunningRecordsScreen()
-        onView(withText(R.string.running_records_add_type)).perform(click())
+        clickOnView(withText(R.string.running_records_add_type))
 
         // Choosers are empty
-        onView(withId(R.id.rvChangeRecordTypeColor))
-            .check(matches(not(isDisplayed())))
-        onView(withId(R.id.rvChangeRecordTypeIcon))
-            .check(matches(not(isDisplayed())))
+        checkViewIsNotDisplayed(withId(R.id.rvChangeRecordTypeColor))
+        checkViewIsNotDisplayed(withId(R.id.rvChangeRecordTypeIcon))
 
         // Typing name
-        onView(withId(R.id.etChangeRecordTypeName))
-            .perform(typeText(name))
-        onView(allOf(isDescendantOfA(withId(R.id.previewChangeRecordType)), withText(name)))
-            .check(matches(isDisplayed()))
+        typeTextIntoView(R.id.etChangeRecordTypeName, name)
+        checkPreviewUpdated(withText(name))
 
         // Hide keyboard
         pressBack()
 
         // Open color chooser
-        onView(withText(R.string.change_record_type_color_hint))
-            .perform(click())
-        onView(withId(R.id.rvChangeRecordTypeColor))
-            .check(matches(isDisplayed()))
-        onView(withId(R.id.rvChangeRecordTypeIcon))
-            .check(matches(not(isDisplayed())))
+        clickOnView(withText(R.string.change_record_type_color_hint))
+        checkViewIsDisplayed(withId(R.id.rvChangeRecordTypeColor))
+        checkViewIsNotDisplayed(withId(R.id.rvChangeRecordTypeIcon))
 
         // Selecting color
-        onView(withCardColor(firstColor)).perform(click())
-        onView(
-            allOf(isDescendantOfA(withId(R.id.previewChangeRecordType)), withCardColor(firstColor))
-        ).check(matches(isDisplayed()))
-        onView(withCardColor(lastColor)).perform(click())
-        onView(
-            allOf(isDescendantOfA(withId(R.id.previewChangeRecordType)), withCardColor(lastColor))
-        ).check(matches(isDisplayed()))
+        clickOnRecyclerItem(R.id.rvChangeRecordTypeColor, withCardColor(firstColor))
+        checkPreviewUpdated(withCardColor(firstColor))
+
+        // Selecting color
+        scrollToPosition(R.id.rvChangeRecordTypeColor, lastColorPosition)
+        clickOnRecyclerItem(R.id.rvChangeRecordTypeColor, withCardColor(lastColor))
+        checkPreviewUpdated(withCardColor(lastColor))
 
         // Open icon chooser
-        onView(withText(R.string.change_record_type_icon_hint))
-            .perform(click())
-        onView(withId(R.id.rvChangeRecordTypeColor))
-            .check(matches(not(isDisplayed())))
-        onView(withId(R.id.rvChangeRecordTypeIcon))
-            .check(matches(isDisplayed()))
+        clickOnView(withText(R.string.change_record_type_icon_hint))
+        checkViewIsNotDisplayed(withId(R.id.rvChangeRecordTypeColor))
+        checkViewIsDisplayed(withId(R.id.rvChangeRecordTypeIcon))
 
-        // TODO select icon
+        // Selecting icon
+        clickOnRecyclerItem(R.id.rvChangeRecordTypeIcon, withTagValue(equalTo(firstIcon)))
+        checkPreviewUpdated(withTagValue(equalTo(firstIcon)))
 
-        onView(withText(R.string.change_record_type_save))
-            .perform(click())
+        // Selecting icon
+        scrollToPosition(R.id.rvChangeRecordTypeIcon, lastIconPosition)
+        clickOnRecyclerItem(R.id.rvChangeRecordTypeIcon, withTagValue(equalTo(lastIcon)))
+        checkPreviewUpdated(withTagValue(equalTo(lastIcon)))
+
+        clickOnView(withText(R.string.change_record_type_save))
+
+        // Record type added
+        checkViewIsDisplayed(withText(name))
+        checkViewIsDisplayed(withCardColor(lastColor))
+        checkViewIsDisplayed(withTagValue(equalTo(lastIcon)))
     }
+
+    private fun checkPreviewUpdated(matcher: Matcher<View>) =
+        checkViewIsDisplayed(
+            allOf(isDescendantOfA(withId(R.id.previewChangeRecordType)), matcher)
+        )
 }
