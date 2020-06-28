@@ -49,7 +49,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Sort activities by color"
+        android:text="@string/settings_sort_by_color"
         app:layout_constraintEnd_toStartOf="@id/checkboxSettingsRecordTypeSort"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/dividerSettingsRestoreBackup" />

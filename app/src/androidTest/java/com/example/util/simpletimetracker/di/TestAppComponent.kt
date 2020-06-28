@@ -6,6 +6,7 @@ import com.example.util.simpletimetracker.ChangeRecordTest
 import com.example.util.simpletimetracker.ChangeRecordTypeTest
 import com.example.util.simpletimetracker.DeleteRecordTest
 import com.example.util.simpletimetracker.DeleteRecordTypeTest
+import com.example.util.simpletimetracker.MainScreenEmptyTest
 import com.example.util.simpletimetracker.MainScreenTest
 import com.example.util.simpletimetracker.RecordsRangesTest
 import com.example.util.simpletimetracker.StartRecordTest
@@ -28,6 +29,7 @@ import javax.inject.Singleton
 interface TestAppComponent: AppComponent {
 
     fun inject(into: MainScreenTest)
+    fun inject(into: MainScreenEmptyTest)
     fun inject(into: AddRecordTypeTest)
     fun inject(into: ChangeRecordTypeTest)
     fun inject(into: DeleteRecordTypeTest)

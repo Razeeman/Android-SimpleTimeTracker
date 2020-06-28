@@ -2,6 +2,7 @@
 <resources>
     <string name="settings_save_backup">Save backup</string>
     <string name="settings_restore_backup">Restore backup</string>
+    <string name="settings_sort_by_color">Sort activities by color</string>
 
     <string name="settings_backup_saved">Backup saved</string>
     <string name="settings_backup_restored">Backup restored</string>
