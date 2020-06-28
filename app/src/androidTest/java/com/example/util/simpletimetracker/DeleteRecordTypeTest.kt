@@ -3,7 +3,6 @@ package com.example.util.simpletimetracker
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.matcher.ViewMatchers.withTagValue
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -21,7 +20,7 @@ import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.longClickOnView
 import com.example.util.simpletimetracker.utils.withCardColor
-import org.hamcrest.CoreMatchers.equalTo
+import com.example.util.simpletimetracker.utils.withTag
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -77,6 +76,6 @@ class DeleteRecordTypeTest {
         // Record type is deleted
         checkViewDoesNotExist(withText(name))
         checkViewDoesNotExist(withCardColor(color))
-        checkViewDoesNotExist(withTagValue(equalTo(icon)))
+        checkViewDoesNotExist(withTag(icon))
     }
 }

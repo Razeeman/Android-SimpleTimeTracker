@@ -38,4 +38,8 @@ class PrefsInteractor @Inject constructor(
     suspend fun removeWidget(widgetId: Int) = withContext(Dispatchers.IO) {
         prefsRepo.removeWidget(widgetId)
     }
+
+    suspend fun clear() = withContext(Dispatchers.IO) {
+        prefsRepo.clear()
+    }
 }

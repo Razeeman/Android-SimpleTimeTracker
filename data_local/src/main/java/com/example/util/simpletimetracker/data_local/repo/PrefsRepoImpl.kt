@@ -31,6 +31,10 @@ class PrefsRepoImpl @Inject constructor(
         prefs.edit().remove(KEY_WIDGET + widgetId).apply()
     }
 
+    override fun clear() {
+        prefs.edit().clear().apply()
+    }
+
     companion object {
         private const val KEY_RECORD_TYPES_FILTERED_ON_CHART = "recordTypesFilteredOnChart"
         private const val KEY_SORT_RECORD_TYPES_BY_COLOR = "sortRecordTypesByColor"

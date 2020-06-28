@@ -11,4 +11,6 @@ interface PrefsRepo {
     fun getWidget(widgetId: Int): Long
 
     fun removeWidget(widgetId: Int)
+
+    fun clear()
 }

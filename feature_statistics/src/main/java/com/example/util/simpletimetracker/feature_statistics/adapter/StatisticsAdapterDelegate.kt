@@ -26,6 +26,7 @@ class StatisticsAdapterDelegate() : BaseRecyclerAdapterDelegate() {
 
             layoutStatisticsItem.setCardBackgroundColor(item.color)
             ivStatisticsItemIcon.setBackgroundResource(item.iconId)
+            ivStatisticsItemIcon.tag = item.iconId
             tvStatisticsItemName.text = item.name
             tvStatisticsItemDuration.text = item.duration
             tvStatisticsItemPercent.text = item.percent

@@ -3,7 +3,6 @@ package com.example.util.simpletimetracker
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.matcher.ViewMatchers.withTagValue
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,7 +18,7 @@ import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.longClickOnView
 import com.example.util.simpletimetracker.utils.withCardColor
-import org.hamcrest.CoreMatchers.equalTo
+import com.example.util.simpletimetracker.utils.withTag
 import org.hamcrest.Matchers.allOf
 import org.junit.Before
 import org.junit.Rule
@@ -75,7 +74,7 @@ class DeleteRecordTest {
         // Record is deleted
         checkViewDoesNotExist(allOf(withText(name), isCompletelyDisplayed()))
         checkViewDoesNotExist(allOf(withCardColor(color), isCompletelyDisplayed()))
-        checkViewDoesNotExist(allOf(withTagValue(equalTo(icon)), isCompletelyDisplayed()))
+        checkViewDoesNotExist(allOf(withTag(icon), isCompletelyDisplayed()))
 
         // TODO check undo
     }

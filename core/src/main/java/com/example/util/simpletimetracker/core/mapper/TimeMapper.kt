@@ -108,7 +108,7 @@ class TimeMapper @Inject constructor(
             set(Calendar.MINUTE, 0)
             set(Calendar.SECOND, 0)
             set(Calendar.MILLISECOND, 0)
-            set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+            set(Calendar.DAY_OF_WEEK, firstDayOfWeek)
             add(Calendar.DATE, weeksFromToday * 7)
         }
         val rangeStart = calendar.timeInMillis

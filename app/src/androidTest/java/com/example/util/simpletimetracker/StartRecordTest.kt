@@ -5,7 +5,6 @@ import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.matcher.ViewMatchers.withTagValue
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -22,8 +21,8 @@ import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
 import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.withCardColor
+import com.example.util.simpletimetracker.utils.withTag
 import org.hamcrest.CoreMatchers.allOf
-import org.hamcrest.CoreMatchers.equalTo
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -79,7 +78,7 @@ class StartRecordTest {
                 withId(R.id.layoutRunningRecordItem),
                 withCardColor(firstColor),
                 hasDescendant(withText(name)),
-                hasDescendant(withTagValue(equalTo(firstIcon))),
+                hasDescendant(withTag(firstIcon)),
                 hasDescendant(withText(timeStarted))
             )
         )
@@ -93,7 +92,7 @@ class StartRecordTest {
                 withId(R.id.layoutRunningRecordItem),
                 withCardColor(lastColor),
                 hasDescendant(withText(newName)),
-                hasDescendant(withTagValue(equalTo(lastIcon))),
+                hasDescendant(withTag(lastIcon)),
                 hasDescendant(withText(timeStarted))
             )
         )

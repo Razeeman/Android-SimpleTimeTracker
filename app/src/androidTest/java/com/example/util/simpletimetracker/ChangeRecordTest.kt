@@ -10,7 +10,6 @@ import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.withClassName
 import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.matcher.ViewMatchers.withTagValue
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -30,6 +29,7 @@ import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.longClickOnView
 import com.example.util.simpletimetracker.utils.withCardColor
+import com.example.util.simpletimetracker.utils.withTag
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.Matcher
@@ -113,7 +113,7 @@ class ChangeRecordTest {
         // Preview is updated
         checkPreviewUpdated(withText(name))
         checkPreviewUpdated(withCardColor(firstColor))
-        checkPreviewUpdated(withTagValue(equalTo(firstIcon)))
+        checkPreviewUpdated(withTag(firstIcon))
         checkPreviewUpdated(withText(timeStartedPreview))
         checkPreviewUpdated(withText(timeEndedPreview))
         checkPreviewUpdated(withText(timeRangePreview))
@@ -180,7 +180,7 @@ class ChangeRecordTest {
         // Preview is updated
         checkPreviewUpdated(withText(newName))
         checkPreviewUpdated(withCardColor(lastColor))
-        checkPreviewUpdated(withTagValue(equalTo(lastIcon)))
+        checkPreviewUpdated(withTag(lastIcon))
         checkPreviewUpdated(withText(timeStartedPreview))
         checkPreviewUpdated(withText(timeEndedPreview))
         checkPreviewUpdated(withText(timeRangePreview))
@@ -192,7 +192,7 @@ class ChangeRecordTest {
         clickOnViewWithId(R.id.btnRecordsContainerPrevious)
         checkViewIsDisplayed(allOf(withText(newName), isCompletelyDisplayed()))
         checkViewIsDisplayed(allOf(withCardColor(lastColor), isCompletelyDisplayed()))
-        checkViewIsDisplayed(allOf(withTagValue(equalTo(lastIcon)), isCompletelyDisplayed()))
+        checkViewIsDisplayed(allOf(withTag(lastIcon), isCompletelyDisplayed()))
         checkViewIsDisplayed(allOf(withText(timeStartedPreview), isCompletelyDisplayed()))
         checkViewIsDisplayed(allOf(withText(timeEndedPreview), isCompletelyDisplayed()))
         checkViewIsDisplayed(allOf(withText(timeRangePreview), isCompletelyDisplayed()))

@@ -5,7 +5,6 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.matcher.ViewMatchers.withTagValue
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -23,8 +22,8 @@ import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.scrollRecyclerToPosition
 import com.example.util.simpletimetracker.utils.typeTextIntoView
 import com.example.util.simpletimetracker.utils.withCardColor
+import com.example.util.simpletimetracker.utils.withTag
 import org.hamcrest.CoreMatchers.allOf
-import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.Matcher
 import org.junit.Before
 import org.junit.Rule
@@ -101,20 +100,20 @@ class AddRecordTypeTest {
         checkViewIsDisplayed(withId(R.id.rvChangeRecordTypeIcon))
 
         // Selecting icon
-        clickOnRecyclerItem(R.id.rvChangeRecordTypeIcon, withTagValue(equalTo(firstIcon)))
-        checkPreviewUpdated(withTagValue(equalTo(firstIcon)))
+        clickOnRecyclerItem(R.id.rvChangeRecordTypeIcon, withTag(firstIcon))
+        checkPreviewUpdated(withTag(firstIcon))
 
         // Selecting icon
         scrollRecyclerToPosition(R.id.rvChangeRecordTypeIcon, lastIconPosition)
-        clickOnRecyclerItem(R.id.rvChangeRecordTypeIcon, withTagValue(equalTo(lastIcon)))
-        checkPreviewUpdated(withTagValue(equalTo(lastIcon)))
+        clickOnRecyclerItem(R.id.rvChangeRecordTypeIcon, withTag(lastIcon))
+        checkPreviewUpdated(withTag(lastIcon))
 
         clickOnViewWithText(R.string.change_record_type_save)
 
         // Record type added
         checkViewIsDisplayed(withText(name))
         checkViewIsDisplayed(withCardColor(lastColor))
-        checkViewIsDisplayed(withTagValue(equalTo(lastIcon)))
+        checkViewIsDisplayed(withTag(lastIcon))
     }
 
     private fun checkPreviewUpdated(matcher: Matcher<View>) =

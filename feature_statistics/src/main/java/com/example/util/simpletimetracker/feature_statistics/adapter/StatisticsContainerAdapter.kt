@@ -45,7 +45,7 @@ class StatisticsContainerAdapter(
                 rangeEnd = calendar.apply { add(Calendar.DATE, 1) }.timeInMillis
             }
             RangeLength.WEEK -> {
-                calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+                calendar.set(Calendar.DAY_OF_WEEK, calendar.firstDayOfWeek)
                 calendar.add(Calendar.DATE, shift * 7)
                 rangeStart = calendar.timeInMillis
                 rangeEnd = calendar.apply { add(Calendar.DATE, 7) }.timeInMillis

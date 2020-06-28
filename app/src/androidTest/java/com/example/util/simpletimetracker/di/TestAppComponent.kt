@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.DeleteRecordTest
 import com.example.util.simpletimetracker.DeleteRecordTypeTest
 import com.example.util.simpletimetracker.MainScreenTest
 import com.example.util.simpletimetracker.StartRecordTest
+import com.example.util.simpletimetracker.StatisticsTest
 import com.example.util.simpletimetracker.data_local.di.DataLocalModule
 import com.example.util.simpletimetracker.feature_widget.di.WidgetModule
 import dagger.Component
@@ -31,4 +32,5 @@ interface TestAppComponent: AppComponent {
     fun inject(into: ChangeRecordTest)
     fun inject(into: DeleteRecordTest)
     fun inject(into: StartRecordTest)
+    fun inject(into: StatisticsTest)
 }
