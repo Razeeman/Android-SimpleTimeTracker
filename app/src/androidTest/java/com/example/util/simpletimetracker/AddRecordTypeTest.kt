@@ -73,7 +73,6 @@ class AddRecordTypeTest {
         checkViewIsNotDisplayed(withId(R.id.btnChangeRecordTypeDelete))
         checkViewIsNotDisplayed(withId(R.id.rvChangeRecordTypeColor))
         checkViewIsNotDisplayed(withId(R.id.rvChangeRecordTypeIcon))
-        checkViewIsNotDisplayed(withId(R.id.btnChangeRecordTypeDelete))
 
         // Typing name
         typeTextIntoView(R.id.etChangeRecordTypeName, name)

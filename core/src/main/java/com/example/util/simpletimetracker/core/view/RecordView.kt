@@ -49,6 +49,7 @@ class RecordView @JvmOverloads constructor(
     var itemIcon: Int = 0
         set(value) {
             ivRecordItemIcon.setBackgroundResource(value)
+            ivRecordItemIcon.tag = value
             field = value
         }
 

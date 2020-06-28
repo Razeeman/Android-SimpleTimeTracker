@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.di
 
+import com.example.util.simpletimetracker.AddRecordTest
 import com.example.util.simpletimetracker.AddRecordTypeTest
 import com.example.util.simpletimetracker.ChangeRecordTypeTest
 import com.example.util.simpletimetracker.DeleteRecordTypeTest
@@ -23,4 +24,5 @@ interface TestAppComponent: AppComponent {
     fun inject(into: AddRecordTypeTest)
     fun inject(into: ChangeRecordTypeTest)
     fun inject(into: DeleteRecordTypeTest)
+    fun inject(into: AddRecordTest)
 }
