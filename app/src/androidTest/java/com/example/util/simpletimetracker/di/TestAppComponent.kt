@@ -1,6 +1,8 @@
 package com.example.util.simpletimetracker.di
 
 import com.example.util.simpletimetracker.AddRecordTypeTest
+import com.example.util.simpletimetracker.ChangeRecordTypeTest
+import com.example.util.simpletimetracker.DeleteRecordTypeTest
 import com.example.util.simpletimetracker.MainScreenTest
 import com.example.util.simpletimetracker.data_local.di.DataLocalModule
 import com.example.util.simpletimetracker.feature_widget.di.WidgetModule
@@ -17,6 +19,8 @@ import javax.inject.Singleton
 )
 interface TestAppComponent: AppComponent {
 
-    fun inject(mainScreenTest: MainScreenTest)
-    fun inject(addRecordTypeTest: AddRecordTypeTest)
+    fun inject(into: MainScreenTest)
+    fun inject(into: AddRecordTypeTest)
+    fun inject(into: ChangeRecordTypeTest)
+    fun inject(into: DeleteRecordTypeTest)
 }
