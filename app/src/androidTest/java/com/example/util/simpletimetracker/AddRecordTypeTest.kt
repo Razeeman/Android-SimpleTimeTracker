@@ -65,7 +65,6 @@ class AddRecordTypeTest {
         val lastIcon = iconMapper.availableIconsNames.values.last()
         val lastIconPosition = iconMapper.availableIconsNames.size - 1
 
-        NavUtils.openRunningRecordsScreen()
         clickOnViewWithText(R.string.running_records_add_type)
 
         // View is set up

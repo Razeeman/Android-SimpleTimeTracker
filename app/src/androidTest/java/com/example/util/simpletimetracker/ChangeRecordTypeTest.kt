@@ -66,7 +66,6 @@ class ChangeRecordTypeTest {
         val lastIcon = iconMapper.availableIconsNames.values.last()
 
         // Add item
-        NavUtils.openRunningRecordsScreen()
         NavUtils.addActivity(name, firstColor, firstIcon)
 
         longClickOnView(withText(name))

@@ -77,7 +77,6 @@ class ChangeRecordTest {
         val lastIcon = iconMapper.availableIconsNames.values.last()
 
         // Add activities
-        NavUtils.openRunningRecordsScreen()
         NavUtils.addActivity(name, firstColor, firstIcon)
         NavUtils.addActivity(newName, lastColor, lastIcon)
 

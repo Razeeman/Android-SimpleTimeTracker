@@ -57,7 +57,6 @@ class DeleteRecordTypeTest {
         val color = ColorMapper.availableColors.first()
         val icon = iconMapper.availableIconsNames.values.first()
 
-        NavUtils.openRunningRecordsScreen()
         clickOnViewWithText(R.string.running_records_add_type)
         checkViewIsNotDisplayed(withId(R.id.btnChangeRecordTypeDelete))
         pressBack()

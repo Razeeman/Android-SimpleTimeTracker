@@ -72,7 +72,6 @@ class AddRecordTest {
         val icon = iconMapper.availableIconsNames.values.first()
 
         // Add activity
-        NavUtils.openRunningRecordsScreen()
         NavUtils.addActivity(name, color, icon)
 
         // Add record
