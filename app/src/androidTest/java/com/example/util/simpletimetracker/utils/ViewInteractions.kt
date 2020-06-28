@@ -37,6 +37,9 @@ fun clickOnViewWithId(id: Int): ViewInteraction =
 fun clickOnViewWithText(textId: Int): ViewInteraction =
     onView(withText(textId)).perform(click())
 
+fun clickOnViewWithText(text: String): ViewInteraction =
+    onView(withText(text)).perform(click())
+
 fun clickOnView(matcher: Matcher<View>): ViewInteraction =
     onView(matcher).perform(click())
 

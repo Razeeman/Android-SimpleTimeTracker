@@ -40,6 +40,7 @@ class RunningRecordAdapterDelegate(
             }
             if (rebind || updates.contains(RunningRecordViewData.UPDATE_ICON).orFalse()) {
                 ivRunningRecordItemIcon.setBackgroundResource(item.iconId)
+                ivRunningRecordItemIcon.tag = item.iconId
             }
             if (rebind || updates.contains(RunningRecordViewData.UPDATE_COLOR).orFalse()) {
                 layoutRunningRecordItem.setCardBackgroundColor(item.color)
