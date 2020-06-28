@@ -152,7 +152,6 @@ class AddRecordTest {
         checkViewIsDisplayed(allOf(withText(name), isCompletelyDisplayed()))
         checkViewIsDisplayed(allOf(withCardColor(color), isCompletelyDisplayed()))
         checkViewIsDisplayed(allOf(withTagValue(equalTo(icon)), isCompletelyDisplayed()))
-
         checkViewIsDisplayed(allOf(withText(timeStartedPreview), isCompletelyDisplayed()))
         checkViewIsDisplayed(allOf(withText(timeEndedPreview), isCompletelyDisplayed()))
         checkViewIsDisplayed(allOf(withText("2h 3m"), isCompletelyDisplayed()))
