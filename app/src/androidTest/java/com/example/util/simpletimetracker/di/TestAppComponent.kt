@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.di
 import com.example.util.simpletimetracker.AddRecordTest
 import com.example.util.simpletimetracker.AddRecordTypeTest
 import com.example.util.simpletimetracker.ChangeRecordTypeTest
+import com.example.util.simpletimetracker.DeleteRecordTest
 import com.example.util.simpletimetracker.DeleteRecordTypeTest
 import com.example.util.simpletimetracker.MainScreenTest
 import com.example.util.simpletimetracker.data_local.di.DataLocalModule
@@ -25,4 +26,5 @@ interface TestAppComponent: AppComponent {
     fun inject(into: ChangeRecordTypeTest)
     fun inject(into: DeleteRecordTypeTest)
     fun inject(into: AddRecordTest)
+    fun inject(into: DeleteRecordTest)
 }
