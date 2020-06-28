@@ -4,6 +4,8 @@ import android.view.View
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.test.espresso.matcher.BoundedMatcher
+import androidx.test.espresso.matcher.ViewMatchers.withTagValue
+import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 
@@ -19,3 +21,6 @@ fun withCardColor(expectedId: Int): Matcher<View> =
             description.appendValue(expectedId)
         }
     }
+
+fun withTag(tagValueMatcher: Int): Matcher<View> =
+    withTagValue(equalTo(tagValueMatcher))

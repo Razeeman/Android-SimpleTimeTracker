@@ -2,9 +2,9 @@ package com.example.util.simpletimetracker
 
 import android.view.View
 import androidx.test.core.app.ApplicationProvider
+import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.matcher.ViewMatchers.withTagValue
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -20,11 +20,11 @@ import com.example.util.simpletimetracker.utils.checkViewIsNotDisplayed
 import com.example.util.simpletimetracker.utils.clickOnRecyclerItem
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.longClickOnView
-import com.example.util.simpletimetracker.utils.scrollToPosition
+import com.example.util.simpletimetracker.utils.scrollRecyclerToView
 import com.example.util.simpletimetracker.utils.typeTextIntoView
 import com.example.util.simpletimetracker.utils.withCardColor
+import com.example.util.simpletimetracker.utils.withTag
 import org.hamcrest.CoreMatchers.allOf
-import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.Matcher
 import org.junit.Before
 import org.junit.Rule
@@ -57,26 +57,17 @@ class ChangeRecordTypeTest {
     }
 
     @Test
-    fun changeTest() {
+    fun test() {
         val name = "Test"
         val newName = "Updated"
         val firstColor = ColorMapper.availableColors.first()
         val lastColor = ColorMapper.availableColors.last()
-        val lastColorPosition = ColorMapper.availableColors.size - 1
         val firstIcon = iconMapper.availableIconsNames.values.first()
         val lastIcon = iconMapper.availableIconsNames.values.last()
-        val lastIconPosition = iconMapper.availableIconsNames.size - 1
-
-        NavUtils.openRunningRecordsScreen()
-        clickOnViewWithText(R.string.running_records_add_type)
 
         // Add item
-        typeTextIntoView(R.id.etChangeRecordTypeName, name)
-        clickOnViewWithText(R.string.change_record_type_color_hint)
-        clickOnRecyclerItem(R.id.rvChangeRecordTypeColor, withCardColor(firstColor))
-        clickOnViewWithText(R.string.change_record_type_icon_hint)
-        clickOnRecyclerItem(R.id.rvChangeRecordTypeIcon, withTagValue(equalTo(firstIcon)))
-        clickOnViewWithText(R.string.change_record_type_save)
+        NavUtils.openRunningRecordsScreen()
+        NavUtils.addActivity(name, firstColor, firstIcon)
 
         longClickOnView(withText(name))
 
@@ -89,28 +80,28 @@ class ChangeRecordTypeTest {
         // Preview is updated
         checkPreviewUpdated(withText(name))
         checkPreviewUpdated(withCardColor(firstColor))
-        checkPreviewUpdated(withTagValue(equalTo(firstIcon)))
+        checkPreviewUpdated(withTag(firstIcon))
 
         // Change item
         typeTextIntoView(R.id.etChangeRecordTypeName, newName)
         checkPreviewUpdated(withText(newName))
 
         clickOnViewWithText(R.string.change_record_type_color_hint)
-        scrollToPosition(R.id.rvChangeRecordTypeColor, lastColorPosition)
+        scrollRecyclerToView(R.id.rvChangeRecordTypeColor, withCardColor(lastColor))
         clickOnRecyclerItem(R.id.rvChangeRecordTypeColor, withCardColor(lastColor))
         checkPreviewUpdated(withCardColor(lastColor))
 
         clickOnViewWithText(R.string.change_record_type_icon_hint)
-        scrollToPosition(R.id.rvChangeRecordTypeIcon, lastIconPosition)
-        clickOnRecyclerItem(R.id.rvChangeRecordTypeIcon, withTagValue(equalTo(lastIcon)))
-        checkPreviewUpdated(withTagValue(equalTo(lastIcon)))
+        scrollRecyclerToView(R.id.rvChangeRecordTypeIcon, hasDescendant(withTag(lastIcon)))
+        clickOnRecyclerItem(R.id.rvChangeRecordTypeIcon, withTag(lastIcon))
+        checkPreviewUpdated(withTag(lastIcon))
 
         clickOnViewWithText(R.string.change_record_type_save)
 
         // Record type updated
         checkViewIsDisplayed(withText(newName))
         checkViewIsDisplayed(withCardColor(lastColor))
-        checkViewIsDisplayed(withTagValue(equalTo(lastIcon)))
+        checkViewIsDisplayed(withTag(lastIcon))
     }
 
     private fun checkPreviewUpdated(matcher: Matcher<View>) =

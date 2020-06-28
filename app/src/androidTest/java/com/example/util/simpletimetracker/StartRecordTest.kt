@@ -1,7 +1,6 @@
 package com.example.util.simpletimetracker
 
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
@@ -20,11 +19,8 @@ import com.example.util.simpletimetracker.ui.MainActivity
 import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
-import com.example.util.simpletimetracker.utils.clickOnRecyclerItem
 import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
-import com.example.util.simpletimetracker.utils.scrollToPosition
-import com.example.util.simpletimetracker.utils.typeTextIntoView
 import com.example.util.simpletimetracker.utils.withCardColor
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.equalTo
@@ -62,37 +58,17 @@ class StartRecordTest {
     }
 
     @Test
-    fun changeTest() {
+    fun test() {
         val name = "Test1"
         val newName = "Test2"
         val firstColor = ColorMapper.availableColors.first()
         val lastColor = ColorMapper.availableColors.last()
-        val lastColorPosition = ColorMapper.availableColors.size - 1
         val firstIcon = iconMapper.availableIconsNames.values.first()
         val lastIcon = iconMapper.availableIconsNames.values.last()
-        val lastIconPosition = iconMapper.availableIconsNames.size - 1
 
         // Add activities
-        NavUtils.openRunningRecordsScreen()
-        clickOnViewWithText(R.string.running_records_add_type)
-        typeTextIntoView(R.id.etChangeRecordTypeName, name)
-        pressBack()
-        clickOnViewWithText(R.string.change_record_type_color_hint)
-        clickOnRecyclerItem(R.id.rvChangeRecordTypeColor, withCardColor(firstColor))
-        clickOnViewWithText(R.string.change_record_type_icon_hint)
-        clickOnRecyclerItem(R.id.rvChangeRecordTypeIcon, withTagValue(equalTo(firstIcon)))
-        clickOnViewWithText(R.string.change_record_type_save)
-
-        clickOnViewWithText(R.string.running_records_add_type)
-        typeTextIntoView(R.id.etChangeRecordTypeName, newName)
-        pressBack()
-        clickOnViewWithText(R.string.change_record_type_color_hint)
-        scrollToPosition(R.id.rvChangeRecordTypeColor, lastColorPosition)
-        clickOnRecyclerItem(R.id.rvChangeRecordTypeColor, withCardColor(lastColor))
-        clickOnViewWithText(R.string.change_record_type_icon_hint)
-        scrollToPosition(R.id.rvChangeRecordTypeIcon, lastIconPosition)
-        clickOnRecyclerItem(R.id.rvChangeRecordTypeIcon, withTagValue(equalTo(lastIcon)))
-        clickOnViewWithText(R.string.change_record_type_save)
+        NavUtils.addActivity(name, firstColor, firstIcon)
+        NavUtils.addActivity(newName, lastColor, lastIcon)
 
         // Start timer
         clickOnViewWithText(name)
@@ -146,7 +122,5 @@ class StartRecordTest {
         // Record is added
         NavUtils.openRecordsScreen()
         checkViewIsDisplayed(allOf(withText(newName), isCompletelyDisplayed()))
-
-
     }
 }

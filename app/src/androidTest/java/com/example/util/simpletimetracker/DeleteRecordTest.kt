@@ -1,7 +1,6 @@
 package com.example.util.simpletimetracker
 
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.espresso.Espresso
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withTagValue
@@ -17,11 +16,8 @@ import com.example.util.simpletimetracker.ui.MainActivity
 import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
-import com.example.util.simpletimetracker.utils.clickOnRecyclerItem
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
-import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.longClickOnView
-import com.example.util.simpletimetracker.utils.typeTextIntoView
 import com.example.util.simpletimetracker.utils.withCardColor
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.Matchers.allOf
@@ -56,28 +52,18 @@ class DeleteRecordTest {
     }
 
     @Test
-    fun deleteTest() {
+    fun test() {
         val name = "Name"
         val color = ColorMapper.availableColors.first()
         val icon = iconMapper.availableIconsNames.values.first()
 
         // Add activity
         NavUtils.openRunningRecordsScreen()
-        clickOnViewWithText(R.string.running_records_add_type)
-        typeTextIntoView(R.id.etChangeRecordTypeName, name)
-        Espresso.pressBack()
-        clickOnViewWithText(R.string.change_record_type_color_hint)
-        clickOnRecyclerItem(R.id.rvChangeRecordTypeColor, withCardColor(color))
-        clickOnViewWithText(R.string.change_record_type_icon_hint)
-        clickOnRecyclerItem(R.id.rvChangeRecordTypeIcon, withTagValue(equalTo(icon)))
-        clickOnViewWithText(R.string.change_record_type_save)
+        NavUtils.addActivity(name, color, icon)
 
         // Add record
         NavUtils.openRecordsScreen()
-        clickOnViewWithId(R.id.btnRecordAdd)
-        clickOnViewWithText(R.string.change_record_type_field)
-        clickOnRecyclerItem(R.id.rvChangeRecordType, withText(name))
-        clickOnViewWithText(R.string.change_record_save)
+        NavUtils.addRecord(name)
 
         // Delete item
         longClickOnView(allOf(withText(name), isCompletelyDisplayed()))
@@ -90,5 +76,7 @@ class DeleteRecordTest {
         checkViewDoesNotExist(allOf(withText(name), isCompletelyDisplayed()))
         checkViewDoesNotExist(allOf(withCardColor(color), isCompletelyDisplayed()))
         checkViewDoesNotExist(allOf(withTagValue(equalTo(icon)), isCompletelyDisplayed()))
+
+        // TODO check undo
     }
 }

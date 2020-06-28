@@ -9,7 +9,8 @@ import androidx.test.espresso.action.ViewActions.replaceText
 import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.contrib.RecyclerViewActions
+import androidx.test.espresso.contrib.RecyclerViewActions.scrollTo
+import androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -49,6 +50,8 @@ fun longClickOnView(matcher: Matcher<View>): ViewInteraction =
 fun clickOnRecyclerItem(id: Int, matcher: Matcher<View>): ViewInteraction =
     onView(allOf(isDescendantOfA(withId(id)), matcher)).perform(click())
 
-fun scrollToPosition(id: Int, position: Int): ViewInteraction =
-    onView(withId(id))
-        .perform(RecyclerViewActions.scrollToPosition<BaseRecyclerViewHolder>(position))
+fun scrollRecyclerToPosition(id: Int, position: Int): ViewInteraction =
+    onView(withId(id)).perform(scrollToPosition<BaseRecyclerViewHolder>(position))
+
+fun scrollRecyclerToView(id: Int, matcher: Matcher<View>): ViewInteraction =
+    onView(withId(id)).perform(scrollTo<BaseRecyclerViewHolder>(matcher))

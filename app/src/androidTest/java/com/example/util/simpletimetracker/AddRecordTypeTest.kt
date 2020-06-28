@@ -20,7 +20,7 @@ import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
 import com.example.util.simpletimetracker.utils.checkViewIsNotDisplayed
 import com.example.util.simpletimetracker.utils.clickOnRecyclerItem
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
-import com.example.util.simpletimetracker.utils.scrollToPosition
+import com.example.util.simpletimetracker.utils.scrollRecyclerToPosition
 import com.example.util.simpletimetracker.utils.typeTextIntoView
 import com.example.util.simpletimetracker.utils.withCardColor
 import org.hamcrest.CoreMatchers.allOf
@@ -57,7 +57,7 @@ class AddRecordTypeTest {
     }
 
     @Test
-    fun addTest() {
+    fun test() {
         val name = "Test"
         val firstColor = ColorMapper.availableColors.first()
         val lastColor = ColorMapper.availableColors.last()
@@ -91,7 +91,7 @@ class AddRecordTypeTest {
         checkPreviewUpdated(withCardColor(firstColor))
 
         // Selecting color
-        scrollToPosition(R.id.rvChangeRecordTypeColor, lastColorPosition)
+        scrollRecyclerToPosition(R.id.rvChangeRecordTypeColor, lastColorPosition)
         clickOnRecyclerItem(R.id.rvChangeRecordTypeColor, withCardColor(lastColor))
         checkPreviewUpdated(withCardColor(lastColor))
 
@@ -105,7 +105,7 @@ class AddRecordTypeTest {
         checkPreviewUpdated(withTagValue(equalTo(firstIcon)))
 
         // Selecting icon
-        scrollToPosition(R.id.rvChangeRecordTypeIcon, lastIconPosition)
+        scrollRecyclerToPosition(R.id.rvChangeRecordTypeIcon, lastIconPosition)
         clickOnRecyclerItem(R.id.rvChangeRecordTypeIcon, withTagValue(equalTo(lastIcon)))
         checkPreviewUpdated(withTagValue(equalTo(lastIcon)))
 

@@ -5,7 +5,7 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.longClick
-import androidx.test.espresso.action.ViewActions.typeText
+import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.rules.ActivityScenarioRule
@@ -15,6 +15,10 @@ import com.example.util.simpletimetracker.di.AppModule
 import com.example.util.simpletimetracker.di.DaggerTestAppComponent
 import com.example.util.simpletimetracker.ui.MainActivity
 import com.example.util.simpletimetracker.utils.NavUtils
+import com.example.util.simpletimetracker.utils.clickOnView
+import com.example.util.simpletimetracker.utils.clickOnViewWithText
+import com.example.util.simpletimetracker.utils.typeTextIntoView
+import org.hamcrest.CoreMatchers.allOf
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -43,13 +47,15 @@ class MainScreenTest {
     }
 
     @Test
-    fun baseTest() {
-        NavUtils.openRunningRecordsScreen()
+    fun test() {
+        val name = "Test"
 
-        onView(withText(R.string.running_records_add_type)).perform(click())
-        onView(withId(R.id.etChangeRecordTypeName)).perform(typeText("Test"))
+        clickOnView(withText(R.string.running_records_add_type))
+        typeTextIntoView(R.id.etChangeRecordTypeName, name)
         pressBack()
-        onView(withText(R.string.change_record_type_save)).perform(click())
+        clickOnView(withText(R.string.change_record_type_save))
+        clickOnViewWithText(name)
+        clickOnView(allOf(isDescendantOfA(withId(R.id.layoutRunningRecordItem)), withText(name)))
 
         NavUtils.openRecordsScreen()
 
