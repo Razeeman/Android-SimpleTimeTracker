@@ -47,6 +47,9 @@ fun clickOnView(matcher: Matcher<View>): ViewInteraction =
 fun longClickOnView(matcher: Matcher<View>): ViewInteraction =
     onView(matcher).perform(longClick())
 
+fun longClickOnViewWithId(id: Int): ViewInteraction =
+    onView(withId(id)).perform(longClick())
+
 fun clickOnRecyclerItem(id: Int, matcher: Matcher<View>): ViewInteraction =
     onView(allOf(isDescendantOfA(withId(id)), matcher)).perform(click())
 

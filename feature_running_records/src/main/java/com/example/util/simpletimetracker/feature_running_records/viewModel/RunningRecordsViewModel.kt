@@ -96,7 +96,7 @@ class RunningRecordsViewModel @Inject constructor(
         val runningRecords = runningRecordInteractor.getAll()
 
         val runningRecordsViewData = when {
-            recordTypes.isEmpty() -> emptyList()
+            recordTypes.filterNot { it.hidden }.isEmpty() -> emptyList()
             runningRecords.isEmpty() -> listOf(runningRecordViewDataMapper.mapToEmpty())
             else -> runningRecords
                 .sortedByDescending {
