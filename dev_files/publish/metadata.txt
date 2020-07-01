@@ -9,12 +9,15 @@ Productivity
 ------------------------------------------------------------------------------------------
 
 Short Description
+
+Track how much time you spend on different activities during the day.
+
 Description
 
 Simple Time Tracker helps you track how much time you spend during the day on different activities. Start new activities with one click. View previous records and statistics over time. The app is completely ad-free, open source and it respects your privacy.
 
 Simple interface
-App has a minimalistic interface that is very easy to use and follows the material design guidelines.
+App has a minimalistic interface that is very easy to use and follows design guidelines.
 
 Widgets
 Track your activities directly from your home screen.
