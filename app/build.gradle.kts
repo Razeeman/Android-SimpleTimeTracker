@@ -12,7 +12,7 @@ android {
     compileSdkVersion(Base.currentSDK)
 
     defaultConfig {
-        applicationId = "com.example.util.simpletimetracker"
+        applicationId = "com.razeeman.util.simpletimetracker"
         minSdkVersion(Base.minSDK)
         targetSdkVersion(Base.currentSDK)
         versionCode = Base.versionCode
