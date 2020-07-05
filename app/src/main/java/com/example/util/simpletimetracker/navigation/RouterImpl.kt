@@ -12,6 +12,7 @@ import com.example.util.simpletimetracker.R
 import com.example.util.simpletimetracker.core.model.SnackBarMessage
 import com.example.util.simpletimetracker.feature_change_record.view.ChangeRecordFragment
 import com.example.util.simpletimetracker.feature_change_record_type.view.ChangeRecordTypeFragment
+import com.example.util.simpletimetracker.feature_change_running_record.view.ChangeRunningRecordFragment
 import com.example.util.simpletimetracker.feature_dialogs.dateTime.DateTimeDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.standard.StandardDialogFragment
 import com.example.util.simpletimetracker.navigation.RequestCode.REQUEST_CODE_CREATE_FILE
@@ -43,6 +44,13 @@ class RouterImpl @Inject constructor() : Router() {
                 navController?.navigate(
                     R.id.action_mainFragment_to_changeRecordTypeFragment,
                     ChangeRecordTypeFragment.createBundle(data),
+                    null,
+                    navExtras
+                )
+            Screen.CHANGE_RECORD_RUNNING ->
+                navController?.navigate(
+                    R.id.action_mainFragment_to_changeRunningRecordFragment,
+                    ChangeRunningRecordFragment.createBundle(data),
                     null,
                     navExtras
                 )

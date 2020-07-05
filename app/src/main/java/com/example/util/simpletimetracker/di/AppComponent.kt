@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.di
 import com.example.util.simpletimetracker.data_local.di.DataLocalModule
 import com.example.util.simpletimetracker.feature_change_record.di.ChangeRecordComponent
 import com.example.util.simpletimetracker.feature_change_record_type.di.ChangeRecordTypeComponent
+import com.example.util.simpletimetracker.feature_change_running_record.di.ChangeRunningRecordComponent
 import com.example.util.simpletimetracker.feature_dialogs.chartFilter.di.ChartFilterComponent
 import com.example.util.simpletimetracker.feature_records.di.RecordsComponent
 import com.example.util.simpletimetracker.feature_running_records.di.RunningRecordsComponent
@@ -30,6 +31,7 @@ interface AppComponent {
     fun plusChangeRecordTypeComponent(): ChangeRecordTypeComponent
     fun plusRecordsComponent(): RecordsComponent
     fun plusChangeRecordComponent(): ChangeRecordComponent
+    fun plusChangeRunningRecordComponent(): ChangeRunningRecordComponent
     fun plusStatisticsComponent(): StatisticsComponent
     fun plusSettingComponent(): SettingsComponent
     fun plusChartFilterComponent(): ChartFilterComponent

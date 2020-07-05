@@ -27,6 +27,7 @@ class RunningRecordsFragment : BaseFragment(R.layout.running_records_fragment) {
     private val runningRecordsAdapter: RunningRecordAdapter by lazy {
         RunningRecordAdapter(
             viewModel::onRunningRecordClick,
+            viewModel::onRunningRecordLongClick,
             viewModel::onRecordTypeClick,
             viewModel::onRecordTypeLongClick,
             viewModel::onAddRecordTypeClick

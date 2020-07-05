@@ -1,17 +1,21 @@
 package com.example.util.simpletimetracker.feature_running_records.adapter
 
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerViewHolder
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.extension.setOnClickWith
+import com.example.util.simpletimetracker.core.extension.setOnLongClick
+import com.example.util.simpletimetracker.core.view.TransitionNames
 import com.example.util.simpletimetracker.domain.extension.orFalse
 import com.example.util.simpletimetracker.feature_running_records.R
 import com.example.util.simpletimetracker.feature_running_records.viewData.RunningRecordViewData
 import kotlinx.android.synthetic.main.item_running_record_layout.view.*
 
 class RunningRecordAdapterDelegate(
-    private val onItemClick: ((RunningRecordViewData) -> Unit)
+    private val onItemClick: ((RunningRecordViewData) -> Unit),
+    private val onItemLongClick: ((RunningRecordViewData, Map<Any, String>) -> Unit)
 ) : BaseRecyclerAdapterDelegate() {
 
     override fun onCreateViewHolder(parent: ViewGroup): BaseRecyclerViewHolder =
@@ -25,6 +29,7 @@ class RunningRecordAdapterDelegate(
             payloads: List<Any>
         ) = with(itemView) {
             item as RunningRecordViewData
+            val transitionName = TransitionNames.RECORD_RUNNING + item.id
 
             val rebind: Boolean = payloads.isEmpty() || payloads.first() !is List<*>
             val updates = (payloads.firstOrNull() as? List<*>) ?: emptyList<Int>()
@@ -42,10 +47,12 @@ class RunningRecordAdapterDelegate(
                 viewRunningRecordItem.itemIcon = item.iconId
             }
             if (rebind || updates.contains(RunningRecordViewData.UPDATE_COLOR).orFalse()) {
-                viewRunningRecordItem.itemColor= item.color
+                viewRunningRecordItem.itemColor = item.color
             }
             if (rebind) {
-                viewRunningRecordItem.setOnClickWith(item, onItemClick)
+                setOnClickWith(item, onItemClick)
+                setOnLongClick { onItemLongClick(item, mapOf(this to transitionName)) }
+                ViewCompat.setTransitionName(this, transitionName)
             }
         }
     }

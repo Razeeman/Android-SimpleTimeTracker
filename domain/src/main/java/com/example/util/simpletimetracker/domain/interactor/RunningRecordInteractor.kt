@@ -16,11 +16,11 @@ class RunningRecordInteractor @Inject constructor(
         return runningRecordRepo.get(id)
     }
 
-    suspend fun add(typeId: Long) {
+    suspend fun add(typeId: Long, timeStarted: Long? = null) {
         if (get(typeId) == null) {
             RunningRecord(
                 id = typeId,
-                timeStarted = System.currentTimeMillis()
+                timeStarted = timeStarted ?: System.currentTimeMillis()
             ).let { runningRecordRepo.add(it) }
         }
     }

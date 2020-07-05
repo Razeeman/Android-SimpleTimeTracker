@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.di.DaggerAppComponent
 import com.example.util.simpletimetracker.di.FeatureComponentProvider
 import com.example.util.simpletimetracker.feature_change_record.di.ChangeRecordComponent
 import com.example.util.simpletimetracker.feature_change_record_type.di.ChangeRecordTypeComponent
+import com.example.util.simpletimetracker.feature_change_running_record.di.ChangeRunningRecordComponent
 import com.example.util.simpletimetracker.feature_dialogs.chartFilter.di.ChartFilterComponent
 import com.example.util.simpletimetracker.feature_records.di.RecordsComponent
 import com.example.util.simpletimetracker.feature_running_records.di.RunningRecordsComponent
@@ -24,6 +25,7 @@ class TimeTrackerApp : Application(), FeatureComponentProvider {
     override var changeRecordTypeComponent: ChangeRecordTypeComponent? = null
     override var recordsComponent: RecordsComponent? = null
     override var changeRecordComponent: ChangeRecordComponent? = null
+    override var changeRunningRecordComponent: ChangeRunningRecordComponent? = null
     override var statisticsComponent: StatisticsComponent? = null
     override var settingsComponent: SettingsComponent? = null
     override var chartFilterComponent: ChartFilterComponent? = null
@@ -51,6 +53,7 @@ class TimeTrackerApp : Application(), FeatureComponentProvider {
         changeRecordTypeComponent = appComponent?.plusChangeRecordTypeComponent()
         recordsComponent = appComponent?.plusRecordsComponent()
         changeRecordComponent = appComponent?.plusChangeRecordComponent()
+        changeRunningRecordComponent = appComponent?.plusChangeRunningRecordComponent()
         statisticsComponent = appComponent?.plusStatisticsComponent()
         settingsComponent = appComponent?.plusSettingComponent()
         chartFilterComponent = appComponent?.plusChartFilterComponent()

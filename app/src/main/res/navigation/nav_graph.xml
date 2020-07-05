@@ -24,6 +24,13 @@
             app:exitAnim="@anim/fragment_close_exit"
             app:popEnterAnim="@anim/fragment_open_enter"
             app:popExitAnim="@anim/fragment_close_exit" />
+        <action
+            android:id="@+id/action_mainFragment_to_changeRunningRecordFragment"
+            app:destination="@id/changeRunningRecordFragment"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_close_exit"
+            app:popEnterAnim="@anim/fragment_open_enter"
+            app:popExitAnim="@anim/fragment_close_exit" />
     </fragment>
     <fragment
         android:id="@+id/changeRecordTypeFragment"
@@ -37,6 +44,15 @@
         tools:layout="@layout/change_record_fragment">
         <action
             android:id="@+id/action_changeRecordFragment_to_dateTimeDialog"
+            app:destination="@id/dateTimeDialog" />
+    </fragment>
+    <fragment
+        android:id="@+id/changeRunningRecordFragment"
+        android:name="com.example.util.simpletimetracker.feature_change_running_record.view.ChangeRunningRecordFragment"
+        android:label="ChangeRunningRecordFragment"
+        tools:layout="@layout/change_running_record_fragment">
+        <action
+            android:id="@+id/action_changeRunningRecordFragment_to_dateTimeDialog"
             app:destination="@id/dateTimeDialog" />
     </fragment>
     <dialog

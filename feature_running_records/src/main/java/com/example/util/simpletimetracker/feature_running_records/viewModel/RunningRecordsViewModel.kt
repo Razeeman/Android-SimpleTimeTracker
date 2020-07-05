@@ -18,6 +18,7 @@ import com.example.util.simpletimetracker.feature_running_records.viewData.Runni
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
 import com.example.util.simpletimetracker.navigation.params.ChangeRecordTypeParams
+import com.example.util.simpletimetracker.navigation.params.ChangeRunningRecordParams
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.delay
@@ -74,6 +75,14 @@ class RunningRecordsViewModel @Inject constructor(
             }
             updateRunningRecords()
         }
+    }
+
+    fun onRunningRecordLongClick(item: RunningRecordViewData, sharedElements: Map<Any, String>) {
+        router.navigate(
+            screen = Screen.CHANGE_RECORD_RUNNING,
+            data = ChangeRunningRecordParams(item.id),
+            sharedElements = sharedElements
+        )
     }
 
     fun onVisible() {

@@ -50,6 +50,7 @@ dependencies {
     implementation(project(":feature_change_record_type"))
     implementation(project(":feature_records"))
     implementation(project(":feature_change_record"))
+    implementation(project(":feature_change_running_record"))
     implementation(project(":feature_statistics"))
     implementation(project(":feature_settings"))
     implementation(project(":feature_dialogs"))
