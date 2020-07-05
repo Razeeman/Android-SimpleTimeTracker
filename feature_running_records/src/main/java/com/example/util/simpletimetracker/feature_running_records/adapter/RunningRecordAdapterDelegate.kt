@@ -30,23 +30,22 @@ class RunningRecordAdapterDelegate(
             val updates = (payloads.firstOrNull() as? List<*>) ?: emptyList<Int>()
 
             if (rebind || updates.contains(RunningRecordViewData.UPDATE_NAME).orFalse()) {
-                tvRunningRecordItemName.text = item.name
+                viewRunningRecordItem.itemName = item.name
             }
             if (rebind || updates.contains(RunningRecordViewData.UPDATE_TIME_STARTED).orFalse()) {
-                tvRunningRecordItemTimeStarted.text = item.timeStarted
+                viewRunningRecordItem.itemTimeStarted = item.timeStarted
             }
             if (rebind || updates.contains(RunningRecordViewData.UPDATE_TIMER).orFalse()) {
-                tvRunningRecordItemTimer.text = item.timer
+                viewRunningRecordItem.itemTimer = item.timer
             }
             if (rebind || updates.contains(RunningRecordViewData.UPDATE_ICON).orFalse()) {
-                ivRunningRecordItemIcon.setBackgroundResource(item.iconId)
-                ivRunningRecordItemIcon.tag = item.iconId
+                viewRunningRecordItem.itemIcon = item.iconId
             }
             if (rebind || updates.contains(RunningRecordViewData.UPDATE_COLOR).orFalse()) {
-                layoutRunningRecordItem.setCardBackgroundColor(item.color)
+                viewRunningRecordItem.itemColor= item.color
             }
             if (rebind) {
-                layoutRunningRecordItem.setOnClickWith(item, onItemClick)
+                viewRunningRecordItem.setOnClickWith(item, onItemClick)
             }
         }
     }

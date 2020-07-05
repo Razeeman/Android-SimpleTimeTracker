@@ -17,4 +17,12 @@
         <attr name="itemTimeEnded" format="string" />
         <attr name="itemDuration" format="string" />
     </declare-styleable>
+
+    <declare-styleable name="RunningRecordView">
+        <attr name="itemName" />
+        <attr name="itemIcon" />
+        <attr name="itemColor" />
+        <attr name="itemTimeStarted" />
+        <attr name="itemTimer" format="string" />
+    </declare-styleable>
 </resources>
