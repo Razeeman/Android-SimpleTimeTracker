@@ -7,6 +7,7 @@ include(
     "data_local",
     "feature_main",
     "feature_running_records",
+    "feature_change_running_record",
     "feature_change_record_type",
     "feature_records",
     "feature_change_record",
