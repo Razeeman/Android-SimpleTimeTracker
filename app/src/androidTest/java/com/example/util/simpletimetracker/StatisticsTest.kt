@@ -1,57 +1,27 @@
 package com.example.util.simpletimetracker
 
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withSubstring
 import androidx.test.espresso.matcher.ViewMatchers.withText
-import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
-import com.example.util.simpletimetracker.core.mapper.IconMapper
-import com.example.util.simpletimetracker.core.utils.TestUtils
-import com.example.util.simpletimetracker.di.AppModule
-import com.example.util.simpletimetracker.di.DaggerTestAppComponent
-import com.example.util.simpletimetracker.ui.MainActivity
+import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
 import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
+import com.example.util.simpletimetracker.utils.unconstrainedClickOnView
 import com.example.util.simpletimetracker.utils.withCardColor
 import com.example.util.simpletimetracker.utils.withTag
 import org.hamcrest.CoreMatchers.allOf
-import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import javax.inject.Inject
 
 @RunWith(AndroidJUnit4::class)
-class StatisticsTest {
-
-    @Inject
-    lateinit var testUtils: TestUtils
-
-    @Inject
-    lateinit var iconMapper: IconMapper
-
-    @Rule
-    @JvmField
-    val activityScenarioRule = ActivityScenarioRule(MainActivity::class.java)
-
-    @Before
-    fun setUp() {
-        val app = ApplicationProvider.getApplicationContext() as TimeTrackerApp
-        DaggerTestAppComponent.builder()
-            .appModule(AppModule(app))
-            .build()
-            .inject(this)
-
-        testUtils.clearDatabase()
-        testUtils.clearPrefs()
-    }
+class StatisticsTest : BaseUiTest() {
 
     @Test
     fun test() {
@@ -174,7 +144,7 @@ class StatisticsTest {
 
         // Switch to overall range
         clickOnView(allOf(withText(R.string.title_this_month), isCompletelyDisplayed()))
-        clickOnViewWithText(R.string.title_overall)
+        unconstrainedClickOnView(withText(R.string.title_overall))
 
         checkViewDoesNotExist(
             allOf(

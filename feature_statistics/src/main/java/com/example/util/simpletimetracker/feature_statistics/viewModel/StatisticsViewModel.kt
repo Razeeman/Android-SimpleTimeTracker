@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.loader.LoaderViewData
+import com.example.util.simpletimetracker.core.utils.CountingIdlingResourceProvider
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -45,7 +46,9 @@ class StatisticsViewModel @Inject constructor(
     }
 
     private fun updateStatistics() = viewModelScope.launch {
+        CountingIdlingResourceProvider.increment()
         (statistics as MutableLiveData).value = loadStatisticsViewData()
+        CountingIdlingResourceProvider.decrement()
     }
 
     private suspend fun loadStatisticsViewData(): List<ViewHolderType> {

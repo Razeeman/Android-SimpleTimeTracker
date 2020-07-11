@@ -15,6 +15,7 @@ import com.example.util.simpletimetracker.StatisticsRangesTest
 import com.example.util.simpletimetracker.StatisticsTest
 import com.example.util.simpletimetracker.data_local.di.DataLocalModule
 import com.example.util.simpletimetracker.feature_widget.di.WidgetModule
+import com.example.util.simpletimetracker.utils.BaseUiTest
 import dagger.Component
 import javax.inject.Singleton
 
@@ -28,6 +29,7 @@ import javax.inject.Singleton
 )
 interface TestAppComponent: AppComponent {
 
+    fun inject(into: BaseUiTest)
     fun inject(into: MainScreenTest)
     fun inject(into: MainScreenEmptyTest)
     fun inject(into: AddRecordTypeTest)

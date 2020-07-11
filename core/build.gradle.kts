@@ -29,6 +29,7 @@ dependencies {
     implementation(Deps.Androidx.material)
     implementation(Deps.Ktx.liveData)
     implementation(Deps.Ktx.viewModel)
+    implementation(Deps.UiTest.espressoIdling)
 
     testImplementation(Deps.Test.junit)
     androidTestImplementation(Deps.UiTest.junit)

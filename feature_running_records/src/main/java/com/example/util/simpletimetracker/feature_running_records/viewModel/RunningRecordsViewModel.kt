@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
+import com.example.util.simpletimetracker.core.utils.CountingIdlingResourceProvider
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
@@ -94,7 +95,9 @@ class RunningRecordsViewModel @Inject constructor(
     }
 
     private fun updateRunningRecords() = viewModelScope.launch {
+        CountingIdlingResourceProvider.increment()
         (runningRecords as MutableLiveData).value = loadRunningRecordsViewData()
+        CountingIdlingResourceProvider.decrement()
     }
 
     private suspend fun loadRunningRecordsViewData(): List<ViewHolderType> {

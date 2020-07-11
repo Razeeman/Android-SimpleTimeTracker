@@ -86,10 +86,11 @@ class StatisticsContainerFragment : BaseFragment(R.layout.statistics_container_f
     }
 
     private fun updatePosition(position: Int) {
-        pagerStatisticsContainer.currentItem = position + StatisticsContainerAdapter.FIRST
+        pagerStatisticsContainer.setCurrentItem(position + StatisticsContainerAdapter.FIRST, viewPagerSmoothScroll)
     }
 
     companion object {
+        var viewPagerSmoothScroll: Boolean = true
         fun newInstance() = StatisticsContainerFragment()
     }
 }

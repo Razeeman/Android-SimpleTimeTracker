@@ -44,6 +44,9 @@ fun clickOnViewWithText(text: String): ViewInteraction =
 fun clickOnView(matcher: Matcher<View>): ViewInteraction =
     onView(matcher).perform(click())
 
+fun unconstrainedClickOnView(matcher: Matcher<View>): ViewInteraction =
+    onView(matcher).perform(unconstrainedClick())
+
 fun longClickOnView(matcher: Matcher<View>): ViewInteraction =
     onView(matcher).perform(longClick())
 

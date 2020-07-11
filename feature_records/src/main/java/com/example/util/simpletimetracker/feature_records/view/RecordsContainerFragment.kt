@@ -55,7 +55,7 @@ class RecordsContainerFragment : BaseFragment(R.layout.records_container_fragmen
         with(viewModel) {
             title.observe(viewLifecycleOwner, ::updateTitle)
             position.observe(viewLifecycleOwner) {
-                pagerRecordsContainer.currentItem = it + RecordsContainerAdapter.FIRST
+                pagerRecordsContainer.setCurrentItem(it + RecordsContainerAdapter.FIRST, viewPagerSmoothScroll)
             }
         }
         with(removeRecordViewModel) {
@@ -84,6 +84,7 @@ class RecordsContainerFragment : BaseFragment(R.layout.records_container_fragmen
     }
 
     companion object {
+        var viewPagerSmoothScroll: Boolean = true
         fun newInstance() = RecordsContainerFragment()
     }
 }
