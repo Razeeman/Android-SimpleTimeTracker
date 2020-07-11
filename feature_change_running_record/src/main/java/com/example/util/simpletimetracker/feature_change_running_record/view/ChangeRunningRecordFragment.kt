@@ -119,7 +119,7 @@ class ChangeRunningRecordFragment : BaseFragment(R.layout.change_running_record_
             itemTimeStarted = item.timeStarted
             itemTimer = item.duration
         }
-        tvChangeRecordTimeStarted.text = item.dateTimeStarted
+        tvChangeRunningRecordTimeStarted.text = item.dateTimeStarted
     }
 
     companion object {
