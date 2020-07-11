@@ -29,6 +29,7 @@ android {
                 getDefaultProguardFile("proguard-android.txt"),
                 "proguard-debug-rules.pro"
             )
+            testProguardFile("proguard-test-rules.pro")
         }
         getByName("release") {
             isMinifyEnabled = true
