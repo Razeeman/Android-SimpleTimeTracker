@@ -41,6 +41,9 @@ class AddRecordTypeTest : BaseUiTest() {
         checkViewIsNotDisplayed(withId(R.id.rvChangeRecordTypeColor))
         checkViewIsNotDisplayed(withId(R.id.rvChangeRecordTypeIcon))
 
+        // Name is not selected
+        clickOnViewWithText(R.string.change_record_type_save)
+
         // Typing name
         typeTextIntoView(R.id.etChangeRecordTypeName, name)
         checkPreviewUpdated(withText(name))

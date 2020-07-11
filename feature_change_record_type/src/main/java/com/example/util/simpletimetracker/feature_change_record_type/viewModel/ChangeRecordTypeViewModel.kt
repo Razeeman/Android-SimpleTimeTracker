@@ -138,6 +138,11 @@ class ChangeRecordTypeViewModel @Inject constructor(
     }
 
     fun onSaveClick() {
+        if (newName.isEmpty()) {
+            resourceRepo.getString(R.string.change_record_message_choose_name)
+                .let(router::showSystemMessage)
+            return
+        }
         (saveButtonEnabled as MutableLiveData).value = false
         viewModelScope.launch {
             RecordType(

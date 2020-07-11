@@ -91,6 +91,9 @@ class AddRecordTest : BaseUiTest() {
         checkPreviewUpdated(withText(timeEndedPreview))
         checkPreviewUpdated(withText("2h 3m"))
 
+        // Activity not selected
+        clickOnViewWithText(R.string.change_record_save)
+
         // Open activity chooser
         clickOnViewWithText(R.string.change_record_type_field)
         checkViewIsDisplayed(withId(R.id.rvChangeRecordType))
