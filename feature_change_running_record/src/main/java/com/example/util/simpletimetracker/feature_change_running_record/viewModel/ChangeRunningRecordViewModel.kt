@@ -115,12 +115,13 @@ class ChangeRunningRecordViewModel @Inject constructor(
     }
 
     fun onDateTimeSet(timestamp: Long, tag: String?) {
-        // TODO check if more than current time
+        // TODO block selection on chooser or show message if timestamp in the future?
+        val currentTime = System.currentTimeMillis()
         viewModelScope.launch {
             when (tag) {
                 TIME_STARTED_TAG -> {
                     if (timestamp != newTimeStarted) {
-                        newTimeStarted = timestamp
+                        newTimeStarted = timestamp.takeIf { it < currentTime } ?: currentTime
                         updatePreview()
                     }
                 }
