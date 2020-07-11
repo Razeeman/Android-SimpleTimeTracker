@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker
 
+import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
@@ -29,7 +30,7 @@ class DeleteRecordTypeTest : BaseUiTest() {
 
         clickOnViewWithText(R.string.running_records_add_type)
         checkViewIsNotDisplayed(withId(R.id.btnChangeRecordTypeDelete))
-        pressBack()
+        closeSoftKeyboard()
         pressBack()
 
         // Add item

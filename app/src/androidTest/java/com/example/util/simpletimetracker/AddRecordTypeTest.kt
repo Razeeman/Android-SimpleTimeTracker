@@ -1,7 +1,6 @@
 package com.example.util.simpletimetracker
 
 import android.view.View
-import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
@@ -47,9 +46,6 @@ class AddRecordTypeTest : BaseUiTest() {
         // Typing name
         typeTextIntoView(R.id.etChangeRecordTypeName, name)
         checkPreviewUpdated(withText(name))
-
-        // Hide keyboard
-        pressBack()
 
         // Open color chooser
         clickOnViewWithText(R.string.change_record_type_color_hint)

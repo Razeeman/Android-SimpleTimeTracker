@@ -1,7 +1,6 @@
 package com.example.util.simpletimetracker.utils
 
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
@@ -34,9 +33,6 @@ object NavUtils {
 
         // Name
         typeTextIntoView(R.id.etChangeRecordTypeName, name)
-
-        // Hide keyboard
-        pressBack()
 
         // Color
         clickOnViewWithText(R.string.change_record_type_color_hint)

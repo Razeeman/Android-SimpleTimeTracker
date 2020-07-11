@@ -31,7 +31,6 @@ class StatisticsRangesTest : BaseUiTest() {
         NavUtils.openRunningRecordsScreen()
         clickOnView(withText(R.string.running_records_add_type))
         typeTextIntoView(R.id.etChangeRecordTypeName, name)
-        pressBack()
         clickOnView(withText(R.string.change_record_type_save))
 
         // Start timer

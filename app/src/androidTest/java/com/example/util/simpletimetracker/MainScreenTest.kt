@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker
 
+import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
@@ -28,12 +29,11 @@ class MainScreenTest : BaseUiTest() {
 
         // Add activity
         clickOnView(withText(R.string.running_records_add_type))
-        pressBack()
+        closeSoftKeyboard()
         pressBack()
 
         clickOnView(withText(R.string.running_records_add_type))
         typeTextIntoView(R.id.etChangeRecordTypeName, name)
-        pressBack()
         clickOnView(withText(R.string.change_record_type_save))
 
         // Start timer

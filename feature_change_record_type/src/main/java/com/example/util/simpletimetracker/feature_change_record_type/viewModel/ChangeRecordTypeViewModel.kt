@@ -61,8 +61,8 @@ class ChangeRecordTypeViewModel @Inject constructor(
     val flipIconChooser: LiveData<Boolean> = MutableLiveData()
     val deleteButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
-    val deleteIconVisibility: LiveData<Boolean> get() = MutableLiveData(extra.id != 0L)
-    val keyboardVisibility: LiveData<Boolean> get() = MutableLiveData(extra.id == 0L)
+    val deleteIconVisibility: LiveData<Boolean> by lazy { MutableLiveData(extra.id != 0L) }
+    val keyboardVisibility: LiveData<Boolean> by lazy { MutableLiveData(extra.id == 0L) }
 
     private var newName: String = ""
     private var newIconName: String = ""

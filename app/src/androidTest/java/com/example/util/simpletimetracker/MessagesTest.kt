@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker
 
+import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.util.simpletimetracker.utils.BaseUiTest
@@ -19,7 +20,7 @@ class MessagesTest : BaseUiTest() {
         clickOnViewWithText(R.string.running_records_add_type)
         clickOnViewWithText(R.string.change_record_type_save)
         toastTextShowing(R.string.change_record_message_choose_name)
-        pressBack()
+        closeSoftKeyboard()
         pressBack()
 
         // Add record
