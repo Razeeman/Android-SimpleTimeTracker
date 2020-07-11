@@ -5,4 +5,10 @@
     <string name="settings_sort_by_color">Sort activities by color</string>
     <string name="settings_file_error">Error opening file</string>
     <string name="settings_dialog_message">Restore backup?</string>
+    <string name="settings_restore_description">Before saving, make sure that you have the latest version of the app installed to avoid conflicts.</string>
+    <string name="settings_rate">Rate us</string>
+    <string name="settings_rate_description">Rate the app and leave a review.</string>
+    <string name="settings_feedback">Feedback</string>
+    <string name="settings_feedback_description">Have a suggestion? Found a bug? Want to talk? Write us!</string>
+    <string name="settings_version">Version</string>
 </resources>

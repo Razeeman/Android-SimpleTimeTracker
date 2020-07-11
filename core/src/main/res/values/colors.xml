@@ -6,6 +6,9 @@
     <color name="colorPrimaryDark">#212121</color>
     <color name="colorSecondary">#FF4081</color>
 
+    <color name="textPrimary">#191919</color>
+    <color name="textSecondary">#969696</color>
+
     <color name="black">#000000</color>
     <color name="white">#ffffff</color>
     <color name="transparent">#00000000</color>

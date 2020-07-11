@@ -9,12 +9,17 @@
     </style>
 
     <style name="SettingsText">
-        <item name="android:layout_marginStart">8dp</item>
-        <item name="android:layout_marginEnd">8dp</item>
-        <item name="android:padding">8dp</item>
-        <item name="android:text">@string/settings_save_backup</item>
-        <item name="android:textColor">@color/black</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:textColor">@color/textPrimary</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="SettingsSecondaryText">
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:textColor">@color/textSecondary</item>
+        <item name="android:textSize">14sp</item>
     </style>
 </resources>

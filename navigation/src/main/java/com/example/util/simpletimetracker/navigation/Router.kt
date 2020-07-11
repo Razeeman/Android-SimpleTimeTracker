@@ -14,6 +14,11 @@ abstract class Router {
         sharedElements: Map<Any, String>? = null
     )
 
+    abstract fun execute(
+        action: Action,
+        data: Any? = null
+    )
+
     abstract fun back()
 
     abstract fun showSystemMessage(message: String)

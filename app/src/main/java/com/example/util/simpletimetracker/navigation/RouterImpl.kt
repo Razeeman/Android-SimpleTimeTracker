@@ -1,7 +1,9 @@
 package com.example.util.simpletimetracker.navigation
 
 import android.app.Activity
+import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.net.Uri
 import android.view.View
 import android.widget.Toast
 import androidx.navigation.NavController
@@ -9,7 +11,7 @@ import androidx.navigation.Navigator
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigator
 import com.example.util.simpletimetracker.R
-import com.example.util.simpletimetracker.navigation.model.SnackBarMessage
+import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.feature_change_record.view.ChangeRecordFragment
 import com.example.util.simpletimetracker.feature_change_record_type.view.ChangeRecordTypeFragment
 import com.example.util.simpletimetracker.feature_change_running_record.view.ChangeRunningRecordFragment
@@ -17,6 +19,7 @@ import com.example.util.simpletimetracker.feature_dialogs.dateTime.DateTimeDialo
 import com.example.util.simpletimetracker.feature_dialogs.standard.StandardDialogFragment
 import com.example.util.simpletimetracker.navigation.RequestCode.REQUEST_CODE_CREATE_FILE
 import com.example.util.simpletimetracker.navigation.RequestCode.REQUEST_CODE_OPEN_FILE
+import com.example.util.simpletimetracker.navigation.model.SnackBarMessage
 import com.example.util.simpletimetracker.navigation.params.FileChooserParams
 import com.google.android.material.snackbar.Snackbar
 import java.text.SimpleDateFormat
@@ -25,8 +28,11 @@ import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton
 
+
 @Singleton
-class RouterImpl @Inject constructor() : Router() {
+class RouterImpl @Inject constructor(
+    private val resourceRepo: ResourceRepo
+) : Router() {
 
     private var navController: NavController? = null
     private var activity: Activity? = null
@@ -112,6 +118,17 @@ class RouterImpl @Inject constructor() : Router() {
         }
     }
 
+    override fun execute(action: Action, data: Any?) {
+        when (action) {
+            Action.GOOGLE_PLAY -> {
+                openMarket()
+            }
+            Action.EMAIL -> {
+                openEmail()
+            }
+        }
+    }
+
     override fun back() {
         navController?.navigateUp()
     }
@@ -158,5 +175,40 @@ class RouterImpl @Inject constructor() : Router() {
                 }
             }
             .build()
+    }
+
+    private fun openMarket() {
+        // TODO move packageName to params
+        val packageName = activity?.applicationContext?.packageName
+        val uri = Uri.parse("market://details?id=$packageName")
+        val intent = Intent(Intent.ACTION_VIEW, uri)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+        try {
+            activity?.startActivity(intent)
+        } catch (e: ActivityNotFoundException) {
+            activity?.startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("http://play.google.com/store/apps/details?id=$packageName")
+                )
+            )
+        }
+    }
+
+    private fun openEmail() {
+        // TODO move email data to params
+        val intent = Intent(Intent.ACTION_SENDTO).apply {
+            data = Uri.parse("mailto:")
+            putExtra(Intent.EXTRA_EMAIL, arrayOf("devrazeeman@gmail.com"))
+            putExtra(Intent.EXTRA_SUBJECT, "Simple Time Tracker, feedback")
+            putExtra(Intent.EXTRA_TEXT, "")
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+
+        try {
+            activity?.startActivity(Intent.createChooser(intent, "Send with..."))
+        } catch (e: ActivityNotFoundException) {
+            resourceRepo.getString(R.string.message_app_not_found).let(::showSystemMessage)
+        }
     }
 }

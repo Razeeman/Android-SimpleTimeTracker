@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.feature_settings.R
+import com.example.util.simpletimetracker.navigation.Action
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
 import com.example.util.simpletimetracker.navigation.params.FileChooserParams
@@ -46,6 +47,14 @@ class SettingsViewModel @Inject constructor(
                 btnNegative = resourceRepo.getString(R.string.cancel)
             )
         )
+    }
+
+    fun onRateClick() {
+        router.execute(Action.GOOGLE_PLAY)
+    }
+
+    fun onFeedbackClick() {
+        router.execute(Action.EMAIL)
     }
 
     fun onRecordTypeSortClicked() {
