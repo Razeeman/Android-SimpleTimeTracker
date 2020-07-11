@@ -39,7 +39,7 @@
         android:layout_height="@dimen/input_field_height"
         android:layout_marginStart="@dimen/input_field_margin"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="4dp"
+        android:layout_marginEnd="@dimen/input_field_margin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/previewChangeRunningRecord">
