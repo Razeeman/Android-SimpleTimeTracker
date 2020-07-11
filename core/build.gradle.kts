@@ -21,6 +21,7 @@ android {
 
 dependencies {
     implementation(project(":domain"))
+    implementation(project(":navigation"))
 
     implementation(Deps.Androidx.appcompat)
     implementation(Deps.Androidx.recyclerView)

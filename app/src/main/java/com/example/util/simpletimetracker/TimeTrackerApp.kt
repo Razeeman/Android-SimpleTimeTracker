@@ -10,6 +10,7 @@ import com.example.util.simpletimetracker.feature_change_record.di.ChangeRecordC
 import com.example.util.simpletimetracker.feature_change_record_type.di.ChangeRecordTypeComponent
 import com.example.util.simpletimetracker.feature_change_running_record.di.ChangeRunningRecordComponent
 import com.example.util.simpletimetracker.feature_dialogs.chartFilter.di.ChartFilterComponent
+import com.example.util.simpletimetracker.feature_main.di.MainComponent
 import com.example.util.simpletimetracker.feature_records.di.RecordsComponent
 import com.example.util.simpletimetracker.feature_running_records.di.RunningRecordsComponent
 import com.example.util.simpletimetracker.feature_settings.di.SettingsComponent
@@ -21,6 +22,7 @@ import timber.log.Timber.DebugTree
 class TimeTrackerApp : Application(), FeatureComponentProvider {
 
     override var appComponent: AppComponent? = null
+    override var mainComponent: MainComponent? = null
     override var runningRecordsComponent: RunningRecordsComponent? = null
     override var changeRecordTypeComponent: ChangeRecordTypeComponent? = null
     override var recordsComponent: RecordsComponent? = null
@@ -49,6 +51,7 @@ class TimeTrackerApp : Application(), FeatureComponentProvider {
             .builder()
             .appModule(AppModule(this))
             .build()
+        mainComponent = appComponent?.plusMainComponent()
         runningRecordsComponent = appComponent?.plusRunningRecordsComponent()
         changeRecordTypeComponent = appComponent?.plusChangeRecordTypeComponent()
         recordsComponent = appComponent?.plusRecordsComponent()

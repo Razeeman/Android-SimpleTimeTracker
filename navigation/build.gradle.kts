@@ -21,7 +21,6 @@ android {
 
 dependencies {
     implementation(project(":domain"))
-    implementation(project(":core"))
 
     implementation(Deps.Google.dagger)
     implementation(Deps.Ktx.navigationFragment)

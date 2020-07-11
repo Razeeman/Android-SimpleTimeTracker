@@ -17,6 +17,10 @@ android {
         versionCode = Base.versionCode
         versionName = Base.versionName
     }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
 }
 
 dependencies {
@@ -32,6 +36,11 @@ dependencies {
     implementation(Deps.Androidx.recyclerView)
     implementation(Deps.Androidx.viewpager2)
     implementation(Deps.Androidx.material)
+    implementation(Deps.Google.dagger)
+    implementation(Deps.Ktx.fragment)
+    implementation(Deps.Ktx.liveData)
+    implementation(Deps.Ktx.viewModel)
+    kapt(Deps.Kapt.dagger)
 
     testImplementation(Deps.Test.junit)
     androidTestImplementation(Deps.UiTest.junit)

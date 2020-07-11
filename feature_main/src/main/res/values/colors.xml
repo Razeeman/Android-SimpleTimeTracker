@@ -5,4 +5,5 @@
     <color name="tab_ripple">@color/grey_400</color>
     <color name="tab_selected">@color/colorPrimaryDark</color>
     <color name="tab_unselected">@color/grey_400</color>
+    <color name="main_progress_background">#80000000</color>
 </resources>

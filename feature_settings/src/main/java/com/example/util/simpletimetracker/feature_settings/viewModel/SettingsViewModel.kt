@@ -5,9 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
-import com.example.util.simpletimetracker.domain.interactor.BackupInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
-import com.example.util.simpletimetracker.domain.resolver.BackupRepo
 import com.example.util.simpletimetracker.feature_settings.R
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
@@ -19,8 +17,7 @@ import javax.inject.Inject
 class SettingsViewModel @Inject constructor(
     private val router: Router,
     private val resourceRepo: ResourceRepo,
-    private val prefsInteractor: PrefsInteractor,
-    private val backupInteractor: BackupInteractor
+    private val prefsInteractor: PrefsInteractor
 ) : ViewModel() {
 
     val sortRecordTypes: LiveData<Boolean> by lazy {
@@ -66,26 +63,6 @@ class SettingsViewModel @Inject constructor(
                 FileChooserParams(::onFileOpenError)
             )
         }
-    }
-
-    fun onSaveBackup(uriString: String) = viewModelScope.launch {
-        val resultCode = backupInteractor.saveBackupFile(uriString)
-
-        if (resultCode == BackupRepo.ResultCode.SUCCESS) {
-            R.string.settings_backup_saved
-        } else {
-            R.string.settings_save_error
-        }.let(::showMessage)
-    }
-
-    fun onRestoreBackup(uriString: String) = viewModelScope.launch {
-        val resultCode = backupInteractor.restoreBackupFile(uriString)
-
-        if (resultCode == BackupRepo.ResultCode.SUCCESS) {
-            R.string.settings_backup_restored
-        } else {
-            R.string.settings_restore_error
-        }.let(::showMessage)
     }
 
     private fun onFileOpenError() {

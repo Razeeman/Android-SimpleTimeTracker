@@ -2,7 +2,7 @@ package com.example.util.simpletimetracker.navigation
 
 import android.app.Activity
 import android.view.View
-import com.example.util.simpletimetracker.core.model.SnackBarMessage
+import com.example.util.simpletimetracker.navigation.model.SnackBarMessage
 
 abstract class Router {
 

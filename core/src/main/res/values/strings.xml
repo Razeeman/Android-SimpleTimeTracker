@@ -14,4 +14,9 @@
 
     <string name="record_removed">Record %s removed</string>
     <string name="record_removed_undo">Undo</string>
+
+    <string name="message_backup_saved">Backup saved</string>
+    <string name="message_backup_restored">Backup restored</string>
+    <string name="message_save_error">Error saving backup</string>
+    <string name="message_restore_error">Error restoring backup</string>
 </resources>

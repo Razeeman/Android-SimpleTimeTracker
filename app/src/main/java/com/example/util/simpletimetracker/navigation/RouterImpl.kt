@@ -9,7 +9,7 @@ import androidx.navigation.Navigator
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigator
 import com.example.util.simpletimetracker.R
-import com.example.util.simpletimetracker.core.model.SnackBarMessage
+import com.example.util.simpletimetracker.navigation.model.SnackBarMessage
 import com.example.util.simpletimetracker.feature_change_record.view.ChangeRecordFragment
 import com.example.util.simpletimetracker.feature_change_record_type.view.ChangeRecordTypeFragment
 import com.example.util.simpletimetracker.feature_change_running_record.view.ChangeRunningRecordFragment
@@ -85,7 +85,7 @@ class RouterImpl @Inject constructor() : Router() {
             Screen.CREATE_FILE -> {
                 val timeString = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())
                     .format(Date())
-                val fileName = "backup_$timeString.str"
+                val fileName = "stt_$timeString.backup"
 
                 val intent = Intent(Intent.ACTION_CREATE_DOCUMENT)
                 intent.addCategory(Intent.CATEGORY_OPENABLE)

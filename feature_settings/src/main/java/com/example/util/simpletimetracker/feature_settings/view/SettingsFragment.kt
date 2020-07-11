@@ -3,12 +3,14 @@ package com.example.util.simpletimetracker.feature_settings.view
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.StandardDialogListener
 import com.example.util.simpletimetracker.core.extension.setOnClick
+import com.example.util.simpletimetracker.core.viewModel.BackupViewModel
 import com.example.util.simpletimetracker.feature_settings.R
 import com.example.util.simpletimetracker.feature_settings.di.SettingsComponentProvider
 import com.example.util.simpletimetracker.feature_settings.viewModel.SettingsViewModel
@@ -23,8 +25,16 @@ class SettingsFragment : BaseFragment(R.layout.settings_fragment),
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<SettingsViewModel>
 
+    @Inject
+    lateinit var backupViewModelFactory: BaseViewModelFactory<BackupViewModel>
+
     private val viewModel: SettingsViewModel by viewModels(
         factoryProducer = { viewModelFactory }
+    )
+
+    private val backupViewModel: BackupViewModel by viewModels(
+        ownerProducer = { activity as AppCompatActivity },
+        factoryProducer = { backupViewModelFactory }
     )
 
     override fun initDi() {
@@ -51,12 +61,12 @@ class SettingsFragment : BaseFragment(R.layout.settings_fragment),
                 REQUEST_CODE_CREATE_FILE -> {
                     data.data
                         ?.let(Uri::toString)
-                        ?.let(viewModel::onSaveBackup)
+                        ?.let(backupViewModel::onSaveBackup)
                 }
                 REQUEST_CODE_OPEN_FILE -> {
                     data.data
                         ?.let(Uri::toString)
-                        ?.let(viewModel::onRestoreBackup)
+                        ?.let(backupViewModel::onRestoreBackup)
                 }
             }
         }

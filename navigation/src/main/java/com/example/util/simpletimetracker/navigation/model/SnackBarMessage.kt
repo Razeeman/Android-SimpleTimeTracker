@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.core.model
+package com.example.util.simpletimetracker.navigation.model
 
 data class SnackBarMessage(
     val message: String,

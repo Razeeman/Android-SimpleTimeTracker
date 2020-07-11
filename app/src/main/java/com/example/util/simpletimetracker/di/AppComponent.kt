@@ -5,6 +5,7 @@ import com.example.util.simpletimetracker.feature_change_record.di.ChangeRecordC
 import com.example.util.simpletimetracker.feature_change_record_type.di.ChangeRecordTypeComponent
 import com.example.util.simpletimetracker.feature_change_running_record.di.ChangeRunningRecordComponent
 import com.example.util.simpletimetracker.feature_dialogs.chartFilter.di.ChartFilterComponent
+import com.example.util.simpletimetracker.feature_main.di.MainComponent
 import com.example.util.simpletimetracker.feature_records.di.RecordsComponent
 import com.example.util.simpletimetracker.feature_running_records.di.RunningRecordsComponent
 import com.example.util.simpletimetracker.feature_settings.di.SettingsComponent
@@ -27,6 +28,7 @@ interface AppComponent {
 
     fun inject(mainActivity: MainActivity)
 
+    fun plusMainComponent(): MainComponent
     fun plusRunningRecordsComponent(): RunningRecordsComponent
     fun plusChangeRecordTypeComponent(): ChangeRecordTypeComponent
     fun plusRecordsComponent(): RecordsComponent
