@@ -5,6 +5,7 @@ import androidx.test.espresso.IdlingRegistry
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.example.util.simpletimetracker.TimeTrackerApp
 import com.example.util.simpletimetracker.core.mapper.IconMapper
+import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.utils.CountingIdlingResourceProvider
 import com.example.util.simpletimetracker.core.utils.TestUtils
 import com.example.util.simpletimetracker.di.AppModule
@@ -14,6 +15,7 @@ import com.example.util.simpletimetracker.feature_statistics.view.StatisticsCont
 import com.example.util.simpletimetracker.ui.MainActivity
 import org.junit.After
 import org.junit.Before
+import org.junit.BeforeClass
 import org.junit.Rule
 import javax.inject.Inject
 
@@ -25,13 +27,19 @@ open class BaseUiTest {
     @Inject
     lateinit var iconMapper: IconMapper
 
+    @Inject
+    lateinit var timeMapper: TimeMapper
+
     @Rule
     @JvmField
     val activityScenarioRule = ActivityScenarioRule(MainActivity::class.java)
 
+    init {
+        inject()
+    }
+
     @Before
     fun setUp() {
-        inject()
         clearData()
         disableAnimations()
         registerIdlingResource()
