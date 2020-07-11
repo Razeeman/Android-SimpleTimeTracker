@@ -13,13 +13,16 @@ Simple app that helps track how much time you spend on all the useless activitie
 [![change_record_type_icon_thumb]][change_record_type_icon]
 <br>
 
+## Change or delete running timers
+
+[![change_running_record_thumb]][change_running_record]
+
 ## View previous records
 
 [![records_thumb]][records]
 <br>
 
 ## Add, change or delete records
-
 
 [![change_record_activity_thumb]][change_record_activity]
 [![change_record_date_thumb]][change_record_date]
@@ -50,18 +53,21 @@ Simple app that helps track how much time you spend on all the useless activitie
 
 ## Technology stack
 - Kotlin
+- Multi module
+- Single Activity
 - MVVM
 - Jetpack ViewModel + LiveData
 - Jetpack Navigation
 - Dagger
 - Room
 - Coroutines
-- Gradle Kotlin DSL
+- Widgets
 - Custom Pie Chart View
 - Recycler with custom Adapter Delegates
 - DiffUtils with payloads
 - Shared ViewModels
 - Snackbars with Action
+- Gradle Kotlin DSL
 
 [change_record_activity_thumb]: dev_files/screens/change_record_activity_thumb.png
 [change_record_activity]: dev_files/screens/change_record_activity.png
@@ -74,6 +80,9 @@ Simple app that helps track how much time you spend on all the useless activitie
 [change_record_type_color]: dev_files/screens/change_record_type_color.png
 [change_record_type_icon_thumb]: dev_files/screens/change_record_type_icon_thumb.png
 [change_record_type_icon]: dev_files/screens/change_record_type_icon.png
+
+[change_running_record_thumb]: dev_files/screens/change_running_record_thumb.png
+[change_running_record]: dev_files/screens/change_running_record.png
 
 [main_thumb]: dev_files/screens/main_thumb.png
 [main]: dev_files/screens/main.png
