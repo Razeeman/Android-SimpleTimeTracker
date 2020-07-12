@@ -64,16 +64,32 @@ class RecordsViewModel @Inject constructor(
             recordInteractor.getAll()
         }
 
+        // TODO move to interactor
         return records
             .mapNotNull { record ->
                 recordTypes[record.typeId]?.let { type -> record to type }
             }
-            .sortedByDescending { (record, _) ->
-                record.timeStarted
-            }
             .map { (record, recordType) ->
-                recordViewDataMapper.map(record, recordType, extra.rangeStart, extra.rangeEnd)
+                record.timeStarted to
+                    recordViewDataMapper.map(record, recordType, extra.rangeStart, extra.rangeEnd)
             }
+            .let { trackedRecords ->
+                recordInteractor.getUntrackedFromRange(extra.rangeStart, extra.rangeEnd)
+                    .filter {
+                        // Filter only untracked records that are longer than a minute
+                        (it.timeEnded - it.timeStarted) >= 60 * 1000L
+                    }
+                    .map { untrackedRecord ->
+                        untrackedRecord.timeStarted to recordViewDataMapper.mapToUntracked(
+                            untrackedRecord,
+                            extra.rangeStart,
+                            extra.rangeEnd
+                        )
+                    }
+                    .let { trackedRecords + it }
+            }
+            .sortedByDescending { (timeStarted, _) -> timeStarted }
+            .map { (_, records) -> records }
             .ifEmpty {
                 return listOf(recordViewDataMapper.mapToEmpty())
             }

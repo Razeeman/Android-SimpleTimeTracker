@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.feature_records.mapper
 
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.core.adapter.empty.EmptyViewData
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
@@ -8,7 +9,6 @@ import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_records.R
-import com.example.util.simpletimetracker.core.adapter.empty.EmptyViewData
 import com.example.util.simpletimetracker.feature_records.viewData.RecordViewData
 import javax.inject.Inject
 import kotlin.math.max
@@ -24,20 +24,10 @@ class RecordViewDataMapper @Inject constructor(
     fun map(
         record: Record,
         recordType: RecordType,
-        rangeStart: Long = 0L,
-        rangeEnd: Long = 0L
+        rangeStart: Long,
+        rangeEnd: Long
     ): ViewHolderType {
-        // Remove parts of the record that is not in the range
-        val timeStarted = if (rangeStart != 0L) {
-            max(record.timeStarted, rangeStart)
-        } else {
-            record.timeStarted
-        }
-        val timeEnded = if (rangeEnd != 0L) {
-            min(record.timeEnded, rangeEnd)
-        } else {
-            record.timeEnded
-        }
+        val (timeStarted, timeEnded) = clampToRange(record, rangeStart, rangeEnd)
 
         return RecordViewData(
             id = record.id,
@@ -56,9 +46,52 @@ class RecordViewDataMapper @Inject constructor(
         )
     }
 
+    fun mapToUntracked(
+        record: Record,
+        rangeStart: Long,
+        rangeEnd: Long
+    ): RecordViewData {
+        val (timeStarted, timeEnded) = clampToRange(record, rangeStart, rangeEnd)
+
+        // TODO different viewData with unique id?
+        return RecordViewData(
+            id = record.id,
+            name = R.string.untracked_time_name
+                .let(resourceRepo::getString),
+            timeStarted = timeStarted
+                .let(timeMapper::formatTime),
+            timeFinished = timeEnded
+                .let(timeMapper::formatTime),
+            duration = (timeEnded - timeStarted)
+                .let(timeMapper::formatInterval),
+            iconId = R.drawable.unknown,
+            color = R.color.untracked_time_color
+                .let(resourceRepo::getColor)
+        )
+    }
+
     fun mapToEmpty(): ViewHolderType {
         return EmptyViewData(
             message = R.string.records_empty.let(resourceRepo::getString)
         )
+    }
+
+    private fun clampToRange(
+        record: Record,
+        rangeStart: Long,
+        rangeEnd: Long
+    ): Pair<Long, Long> {
+        val timeStarted = if (rangeStart != 0L) {
+            max(record.timeStarted, rangeStart)
+        } else {
+            record.timeStarted
+        }
+        val timeEnded = if (rangeEnd != 0L) {
+            min(record.timeEnded, rangeEnd)
+        } else {
+            record.timeEnded
+        }
+
+        return timeStarted to timeEnded
     }
 }
