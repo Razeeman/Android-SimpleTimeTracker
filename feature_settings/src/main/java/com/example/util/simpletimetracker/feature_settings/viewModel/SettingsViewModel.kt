@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.core.provider.PackageNameProvider
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.feature_settings.R
@@ -11,6 +12,8 @@ import com.example.util.simpletimetracker.navigation.Action
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
 import com.example.util.simpletimetracker.navigation.params.FileChooserParams
+import com.example.util.simpletimetracker.navigation.params.OpenMarketParams
+import com.example.util.simpletimetracker.navigation.params.SendEmailParams
 import com.example.util.simpletimetracker.navigation.params.StandardDialogParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -18,7 +21,8 @@ import javax.inject.Inject
 class SettingsViewModel @Inject constructor(
     private val router: Router,
     private val resourceRepo: ResourceRepo,
-    private val prefsInteractor: PrefsInteractor
+    private val prefsInteractor: PrefsInteractor,
+    private val packageNameProvider: PackageNameProvider
 ) : ViewModel() {
 
     val sortRecordTypes: LiveData<Boolean> by lazy {
@@ -50,11 +54,23 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun onRateClick() {
-        router.execute(Action.GOOGLE_PLAY)
+        router.execute(
+            action = Action.OPEN_MARKET,
+            data = OpenMarketParams(
+                packageName = packageNameProvider.getPackageName()
+            )
+        )
     }
 
     fun onFeedbackClick() {
-        router.execute(Action.EMAIL)
+        router.execute(
+            action = Action.SEND_EMAIL,
+            data = SendEmailParams(
+                email = resourceRepo.getString(R.string.support_email),
+                subject = resourceRepo.getString(R.string.support_email_subject),
+                chooserTitle = resourceRepo.getString(R.string.settings_email_chooser_title)
+            )
+        )
     }
 
     fun onRecordTypeSortClicked() {

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="change_running_record_message_choose_type">Select activity</string>
-    <string name="change_running_record_removed">Running record removed</string>
+    <string name="change_running_record_removed">Running activity removed</string>
     <string name="change_running_record_type_field">Activity</string>
     <string name="change_running_record_save">Save</string>
 </resources>

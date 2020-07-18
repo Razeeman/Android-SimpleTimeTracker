@@ -19,6 +19,8 @@
     <string name="message_backup_restored">Backup restored</string>
     <string name="message_save_error">Error saving backup</string>
     <string name="message_restore_error">Error restoring backup</string>
-
     <string name="message_app_not_found">Application not found</string>
+
+    <string name="support_email" translatable="false">devrazeeman@gmail.com</string>
+    <string name="support_email_subject" translatable="false">Simple Time Tracker, feedback</string>
 </resources>

@@ -21,6 +21,8 @@ import com.example.util.simpletimetracker.navigation.RequestCode.REQUEST_CODE_CR
 import com.example.util.simpletimetracker.navigation.RequestCode.REQUEST_CODE_OPEN_FILE
 import com.example.util.simpletimetracker.navigation.model.SnackBarMessage
 import com.example.util.simpletimetracker.navigation.params.FileChooserParams
+import com.example.util.simpletimetracker.navigation.params.OpenMarketParams
+import com.example.util.simpletimetracker.navigation.params.SendEmailParams
 import com.google.android.material.snackbar.Snackbar
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -120,11 +122,11 @@ class RouterImpl @Inject constructor(
 
     override fun execute(action: Action, data: Any?) {
         when (action) {
-            Action.GOOGLE_PLAY -> {
-                openMarket()
+            Action.OPEN_MARKET -> {
+                openMarket(data)
             }
-            Action.EMAIL -> {
-                openEmail()
+            Action.SEND_EMAIL -> {
+                sendEmail(data)
             }
         }
     }
@@ -177,10 +179,10 @@ class RouterImpl @Inject constructor(
             .build()
     }
 
-    private fun openMarket() {
-        // TODO move packageName to params
-        val packageName = activity?.applicationContext?.packageName
-        val uri = Uri.parse("market://details?id=$packageName")
+    private fun openMarket(params: Any?) {
+        if (params !is OpenMarketParams) return
+
+        val uri = Uri.parse(MARKET_INTENT + params.packageName)
         val intent = Intent(Intent.ACTION_VIEW, uri)
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
         try {
@@ -189,26 +191,33 @@ class RouterImpl @Inject constructor(
             activity?.startActivity(
                 Intent(
                     Intent.ACTION_VIEW,
-                    Uri.parse("http://play.google.com/store/apps/details?id=$packageName")
+                    Uri.parse(MARKET_LINK + params.packageName)
                 )
             )
         }
     }
 
-    private fun openEmail() {
-        // TODO move email data to params
+    private fun sendEmail(params: Any?) {
+        if (params !is SendEmailParams) return
+
         val intent = Intent(Intent.ACTION_SENDTO).apply {
-            data = Uri.parse("mailto:")
-            putExtra(Intent.EXTRA_EMAIL, arrayOf("devrazeeman@gmail.com"))
-            putExtra(Intent.EXTRA_SUBJECT, "Simple Time Tracker, feedback")
-            putExtra(Intent.EXTRA_TEXT, "")
+            data = Uri.parse(EMAIL_URI)
+            params.email?.let { putExtra(Intent.EXTRA_EMAIL, arrayOf(it)) }
+            params.subject?.let { putExtra(Intent.EXTRA_SUBJECT, it) }
+            params.body?.let { putExtra(Intent.EXTRA_TEXT, it) }
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
 
         try {
-            activity?.startActivity(Intent.createChooser(intent, "Send with..."))
+            activity?.startActivity(Intent.createChooser(intent, params.chooserTitle))
         } catch (e: ActivityNotFoundException) {
             resourceRepo.getString(R.string.message_app_not_found).let(::showSystemMessage)
         }
+    }
+
+    companion object {
+        private const val MARKET_INTENT = "market://details?id="
+        private const val MARKET_LINK = "http://play.google.com/store/apps/details?id="
+        private const val EMAIL_URI = "mailto:"
     }
 }

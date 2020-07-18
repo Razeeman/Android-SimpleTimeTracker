@@ -11,4 +11,5 @@
     <string name="settings_feedback">Feedback</string>
     <string name="settings_feedback_description">Have a suggestion? Found a bug? Want to talk? Write us!</string>
     <string name="settings_version">Version</string>
+    <string name="settings_email_chooser_title">Send with…</string>
 </resources>
