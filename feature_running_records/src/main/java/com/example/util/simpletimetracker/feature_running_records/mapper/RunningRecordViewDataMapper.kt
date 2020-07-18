@@ -6,6 +6,7 @@ import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.feature_running_records.R
@@ -36,6 +37,23 @@ class RunningRecordViewDataMapper @Inject constructor(
             color = recordType.color
                 .let(colorMapper::mapToColorResId)
                 .let(resourceRepo::getColor)
+        )
+    }
+
+    fun map(
+        recordType: RecordType,
+        isFiltered: Boolean
+    ): RecordTypeViewData {
+        return RecordTypeViewData(
+            id = recordType.id,
+            name = recordType.name,
+            iconId = recordType.icon
+                .let(iconMapper::mapToDrawableResId),
+            color = if (isFiltered) {
+                R.color.filtered_color
+            } else {
+                recordType.color.let(colorMapper::mapToColorResId)
+            }.let(resourceRepo::getColor)
         )
     }
 
