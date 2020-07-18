@@ -41,7 +41,7 @@ class ChangeRecordViewDataMapper @Inject constructor(
                 ?: R.drawable.unknown,
             color = (recordType?.color
                 ?.let(colorMapper::mapToColorResId)
-                ?: ColorMapper.availableColors.random())
+                ?: R.color.untracked_time_color)
                 .let(resourceRepo::getColor)
         )
     }

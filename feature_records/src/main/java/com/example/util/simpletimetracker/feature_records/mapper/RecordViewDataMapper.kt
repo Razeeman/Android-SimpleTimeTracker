@@ -29,7 +29,7 @@ class RecordViewDataMapper @Inject constructor(
     ): ViewHolderType {
         val (timeStarted, timeEnded) = clampToRange(record, rangeStart, rangeEnd)
 
-        return RecordViewData(
+        return RecordViewData.Tracked(
             id = record.id,
             name = recordType.name,
             timeStarted = timeStarted
@@ -53,15 +53,15 @@ class RecordViewDataMapper @Inject constructor(
     ): RecordViewData {
         val (timeStarted, timeEnded) = clampToRange(record, rangeStart, rangeEnd)
 
-        // TODO different viewData with unique id?
-        return RecordViewData(
-            id = record.id,
+        return RecordViewData.Untracked(
             name = R.string.untracked_time_name
                 .let(resourceRepo::getString),
             timeStarted = timeStarted
                 .let(timeMapper::formatTime),
+            timeStartedTimestamp = timeStarted,
             timeFinished = timeEnded
                 .let(timeMapper::formatTime),
+            timeEndedTimestamp = timeEnded,
             duration = (timeEnded - timeStarted)
                 .let(timeMapper::formatInterval),
             iconId = R.drawable.unknown,

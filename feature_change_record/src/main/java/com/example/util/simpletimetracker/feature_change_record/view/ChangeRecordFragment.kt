@@ -15,7 +15,6 @@ import com.example.util.simpletimetracker.core.extension.rotateUp
 import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.core.extension.visible
 import com.example.util.simpletimetracker.core.utils.BuildVersions
-import com.example.util.simpletimetracker.core.view.TransitionNames
 import com.example.util.simpletimetracker.core.viewModel.RemoveRecordViewModel
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_change_record.R
@@ -51,7 +50,9 @@ class ChangeRecordFragment : BaseFragment(R.layout.change_record_fragment),
     private val typesAdapter: ChangeRecordAdapter by lazy {
         ChangeRecordAdapter(viewModel::onTypeClick)
     }
-    private val recordId: Long by lazy { arguments?.getLong(ARGS_RECORD_ID).orZero() }
+    private val extra: ChangeRecordExtra by lazy {
+        arguments?.getParcelable<ChangeRecordExtra>(ARGS_EXTRA) ?: ChangeRecordExtra.New()
+    }
 
     override fun initDi() {
         (activity?.application as ChangeRecordComponentProvider)
@@ -65,10 +66,12 @@ class ChangeRecordFragment : BaseFragment(R.layout.change_record_fragment),
                 .inflateTransition(android.R.transition.move)
         }
 
-        ViewCompat.setTransitionName(
-            previewChangeRecord,
-            TransitionNames.RECORD + recordId
-        )
+        val transitionName: String = when (extra) {
+            is ChangeRecordExtra.Tracked -> (extra as? ChangeRecordExtra.Tracked)?.transitionName.orEmpty()
+            is ChangeRecordExtra.Untracked -> (extra as? ChangeRecordExtra.Untracked)?.transitionName.orEmpty()
+            else -> ""
+        }
+        ViewCompat.setTransitionName(previewChangeRecord, transitionName)
 
         rvChangeRecordType.apply {
             layoutManager = FlexboxLayoutManager(requireContext()).apply {
@@ -93,10 +96,7 @@ class ChangeRecordFragment : BaseFragment(R.layout.change_record_fragment),
 
     override fun initViewModel() {
         with(viewModel) {
-            extra = ChangeRecordExtra(
-                id = recordId,
-                daysFromToday = arguments?.getInt(ARGS_DAYS_FROM_TODAY).orZero()
-            )
+            extra = this@ChangeRecordFragment.extra
             record.observe(viewLifecycleOwner, ::updatePreview)
             types.observe(viewLifecycleOwner, typesAdapter::replace)
             saveButtonEnabled.observe(viewLifecycleOwner, btnChangeRecordSave::setEnabled)
@@ -108,7 +108,7 @@ class ChangeRecordFragment : BaseFragment(R.layout.change_record_fragment),
             }
         }
         with(removeRecordViewModel) {
-            prepare(recordId)
+            prepare((extra as? ChangeRecordExtra.Tracked)?.id.orZero())
             deleteButtonEnabled.observe(viewLifecycleOwner, btnChangeRecordDelete::setEnabled)
             deleteIconVisibility.observe(viewLifecycleOwner, btnChangeRecordDelete::visible::set)
         }
@@ -132,14 +132,30 @@ class ChangeRecordFragment : BaseFragment(R.layout.change_record_fragment),
     }
 
     companion object {
-        private const val ARGS_RECORD_ID = "args_record_id"
-        private const val ARGS_DAYS_FROM_TODAY = "args_days_from_today"
+        private const val ARGS_EXTRA = "args_extra"
 
         fun createBundle(data: Any?): Bundle = Bundle().apply {
             when (data) {
                 is ChangeRecordParams -> {
-                    putLong(ARGS_RECORD_ID, data.id)
-                    putInt(ARGS_DAYS_FROM_TODAY, data.daysFromToday)
+                    val extra = when (data) {
+                        is ChangeRecordParams.Tracked -> {
+                            ChangeRecordExtra.Tracked(
+                                transitionName = data.transitionName,
+                                id = data.id
+                            )
+                        }
+                        is ChangeRecordParams.Untracked -> {
+                            ChangeRecordExtra.Untracked(
+                                transitionName = data.transitionName,
+                                timeStarted = data.timeStarted,
+                                timeEnded = data.timeEnded
+                            )
+                        }
+                        is ChangeRecordParams.New -> {
+                            ChangeRecordExtra.New(data.daysFromToday)
+                        }
+                    }
+                    putParcelable(ARGS_EXTRA, extra)
                 }
             }
         }

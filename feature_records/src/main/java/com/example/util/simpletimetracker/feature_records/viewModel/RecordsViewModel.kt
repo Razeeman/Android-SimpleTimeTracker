@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.core.utils.CountingIdlingResourceProvider
+import com.example.util.simpletimetracker.core.view.TransitionNames
 import com.example.util.simpletimetracker.feature_records.extra.RecordsExtra
 import com.example.util.simpletimetracker.feature_records.interactor.RecordsViewDataInteractor
 import com.example.util.simpletimetracker.feature_records.viewData.RecordViewData
@@ -29,9 +30,20 @@ class RecordsViewModel @Inject constructor(
     }
 
     fun onRecordClick(item: RecordViewData, sharedElements: Map<Any, String>) {
+        val params = when (item) {
+            is RecordViewData.Tracked -> ChangeRecordParams.Tracked(
+                transitionName = TransitionNames.RECORD + item.id,
+                id = item.id
+            )
+            is RecordViewData.Untracked -> ChangeRecordParams.Untracked(
+                transitionName = TransitionNames.RECORD + item.getUniqueId(),
+                timeStarted = item.timeStartedTimestamp,
+                timeEnded = item.timeEndedTimestamp
+            )
+        }
         router.navigate(
             screen = Screen.CHANGE_RECORD,
-            data = ChangeRecordParams(item.id),
+            data = params,
             sharedElements = sharedElements
         )
     }

@@ -1,7 +1,19 @@
 package com.example.util.simpletimetracker.navigation.params
 
-data class ChangeRecordParams(
-    // id of the Record to change, if no id - creating new one.
-    val id: Long = 0,
-    val daysFromToday: Int = 0
-)
+sealed class ChangeRecordParams {
+
+    data class Tracked(
+        val transitionName: String,
+        val id: Long
+    ) : ChangeRecordParams()
+
+    data class Untracked(
+        val transitionName: String,
+        val timeStarted: Long,
+        val timeEnded: Long
+    ) : ChangeRecordParams()
+
+    data class New(
+        val daysFromToday: Int
+    ) : ChangeRecordParams()
+}

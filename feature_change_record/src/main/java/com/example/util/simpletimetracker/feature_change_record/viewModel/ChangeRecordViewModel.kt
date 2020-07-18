@@ -96,8 +96,10 @@ class ChangeRecordViewModel @Inject constructor(
         }
         (saveButtonEnabled as MutableLiveData).value = false
         viewModelScope.launch {
+            // Zero id creates new record
+            val id = (extra as? ChangeRecordExtra.Tracked)?.id.orZero()
             Record(
-                id = extra.id,
+                id = id,
                 typeId = newTypeId,
                 timeStarted = newTimeStarted,
                 timeEnded = newTimeEnded
@@ -138,8 +140,8 @@ class ChangeRecordViewModel @Inject constructor(
         }
     }
 
-    private fun getInitialDate(): Long {
-        return timeMapper.toTimestampShifted(extra.daysFromToday.orZero())
+    private fun getInitialDate(daysFromToday: Int): Long {
+        return timeMapper.toTimestampShifted(daysFromToday)
     }
 
     private suspend fun updatePreview() {
@@ -147,15 +149,22 @@ class ChangeRecordViewModel @Inject constructor(
     }
 
     private suspend fun initializePreviewViewData() {
-        if (extra.id != 0L) {
-            recordInteractor.get(extra.id)?.let { record ->
-                newTypeId = record.typeId.orZero()
-                newTimeStarted = record.timeStarted
-                newTimeEnded = record.timeEnded
+        when (extra) {
+            is ChangeRecordExtra.Tracked -> {
+                recordInteractor.get((extra as ChangeRecordExtra.Tracked).id)?.let { record ->
+                    newTypeId = record.typeId.orZero()
+                    newTimeStarted = record.timeStarted
+                    newTimeEnded = record.timeEnded
+                }
             }
-        } else {
-            newTimeEnded = getInitialDate()
-            newTimeStarted = newTimeEnded - ONE_HOUR
+            is ChangeRecordExtra.Untracked -> {
+                newTimeStarted = (extra as ChangeRecordExtra.Untracked).timeStarted
+                newTimeEnded = (extra as ChangeRecordExtra.Untracked).timeEnded
+            }
+            is ChangeRecordExtra.New -> {
+                newTimeEnded = getInitialDate((extra as ChangeRecordExtra.New).daysFromToday)
+                newTimeStarted = newTimeEnded - ONE_HOUR
+            }
         }
     }
 

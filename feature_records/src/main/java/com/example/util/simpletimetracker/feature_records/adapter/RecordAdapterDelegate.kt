@@ -26,7 +26,7 @@ class RecordAdapterDelegate(
             payloads: List<Any>
         ) = with(itemView.viewRecordItem) {
             item as RecordViewData
-            val transitionName = TransitionNames.RECORD + item.id
+            val transitionName = TransitionNames.RECORD + item.getUniqueId()
 
             itemColor = item.color
             itemIcon = item.iconId
