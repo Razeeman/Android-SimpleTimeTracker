@@ -121,16 +121,16 @@ class ChangeRecordViewModel @Inject constructor(
         viewModelScope.launch {
             when (tag) {
                 TIME_STARTED_TAG -> {
-                    // TODO check if bigger than ended, update ended
                     if (timestamp != newTimeStarted) {
                         newTimeStarted = timestamp
+                        if (timestamp > newTimeEnded) newTimeEnded = timestamp
                         updatePreview()
                     }
                 }
                 TIME_ENDED_TAG -> {
-                    // TODO check if lower than started, update started
                     if (timestamp != newTimeEnded) {
                         newTimeEnded = timestamp
+                        if (timestamp < newTimeStarted) newTimeStarted = timestamp
                         updatePreview()
                     }
                 }
