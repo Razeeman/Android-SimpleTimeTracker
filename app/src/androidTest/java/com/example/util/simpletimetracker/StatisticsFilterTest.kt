@@ -70,8 +70,15 @@ class StatisticsFilterTest : BaseUiTest() {
         checkViewDoesNotExist(allOf(withText(name), isCompletelyDisplayed()))
         checkViewIsDisplayed(allOf(withText(newName), isCompletelyDisplayed()))
 
-        // Remove filters
+        // Filter all
         clickOnViewWithId(R.id.btnStatisticsChartFilter)
+        clickOnView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(newName)))
+        pressBack()
+        checkViewDoesNotExist(allOf(withText(newName), isCompletelyDisplayed()))
+        checkViewIsDisplayed(allOf(withText(R.string.statistics_empty), isCompletelyDisplayed()))
+
+        // Remove filters
+        clickOnViewWithId(R.id.btnStatisticsEmptyFilter)
         clickOnView(
             allOf(
                 isDescendantOfA(withId(R.id.layoutRecordTypeItem)),
@@ -79,6 +86,7 @@ class StatisticsFilterTest : BaseUiTest() {
             )
         )
         clickOnView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name)))
+        clickOnView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(newName)))
         pressBack()
         checkViewIsDisplayed(allOf(withText(R.string.untracked_time_name), isCompletelyDisplayed()))
         checkViewIsDisplayed(allOf(withText(name), isCompletelyDisplayed()))
