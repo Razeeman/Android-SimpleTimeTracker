@@ -5,6 +5,7 @@ import android.widget.DatePicker
 import android.widget.TimePicker
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.contrib.PickerActions
+import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.withClassName
@@ -57,7 +58,7 @@ class ChangeRecordTest : BaseUiTest() {
         var timeEnded = timeMapper.formatDateTime(timeEndedTimestamp)
         var timeStartedPreview = timeStartedTimestamp
             .let(timeMapper::formatTime)
-        var timeEndedPreview = timeStartedTimestamp
+        var timeEndedPreview = timeEndedTimestamp
             .let(timeMapper::formatTime)
         var timeRangePreview = (timeEndedTimestamp - timeStartedTimestamp)
             .let(timeMapper::formatInterval)
@@ -134,7 +135,7 @@ class ChangeRecordTest : BaseUiTest() {
         timeEnded = timeEndedTimestamp.let(timeMapper::formatDateTime)
         timeStartedPreview = timeStartedTimestamp
             .let(timeMapper::formatTime)
-        timeEndedPreview = timeStartedTimestamp
+        timeEndedPreview = timeEndedTimestamp
             .let(timeMapper::formatTime)
         timeRangePreview = (timeEndedTimestamp - timeStartedTimestamp)
             .let(timeMapper::formatInterval)
@@ -155,12 +156,18 @@ class ChangeRecordTest : BaseUiTest() {
         // Record updated
         checkViewDoesNotExist(allOf(withText(newName), isCompletelyDisplayed()))
         clickOnViewWithId(R.id.btnRecordsContainerPrevious)
-        checkViewIsDisplayed(allOf(withText(newName), isCompletelyDisplayed()))
-        checkViewIsDisplayed(allOf(withCardColor(lastColor), isCompletelyDisplayed()))
-        checkViewIsDisplayed(allOf(withTag(lastIcon), isCompletelyDisplayed()))
-        checkViewIsDisplayed(allOf(withText(timeStartedPreview), isCompletelyDisplayed()))
-        checkViewIsDisplayed(allOf(withText(timeEndedPreview), isCompletelyDisplayed()))
-        checkViewIsDisplayed(allOf(withText(timeRangePreview), isCompletelyDisplayed()))
+        checkViewIsDisplayed(
+            allOf(
+                withId(R.id.viewRecordItem),
+                ViewMatchers.hasDescendant(withText(newName)),
+                ViewMatchers.hasDescendant(withCardColor(lastColor)),
+                ViewMatchers.hasDescendant(withTag(lastIcon)),
+                ViewMatchers.hasDescendant(withText(timeStartedPreview)),
+                ViewMatchers.hasDescendant(withText(timeEndedPreview)),
+                ViewMatchers.hasDescendant(withText(timeRangePreview)),
+                isCompletelyDisplayed()
+            )
+        )
     }
 
     private fun checkPreviewUpdated(matcher: Matcher<View>) =

@@ -4,6 +4,7 @@ import android.view.View
 import android.widget.TimePicker
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.contrib.PickerActions
+import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.withClassName
@@ -86,7 +87,7 @@ class AddRecordTest : BaseUiTest() {
 
         // Preview is updated
         val timeStartedPreview = timeStartedTimestamp.let(timeMapper::formatTime)
-        val timeEndedPreview = timeStartedTimestamp.let(timeMapper::formatTime)
+        val timeEndedPreview = timeEndedTimestamp.let(timeMapper::formatTime)
         checkPreviewUpdated(withText(timeStartedPreview))
         checkPreviewUpdated(withText(timeEndedPreview))
         checkPreviewUpdated(withText("2h 3m"))
@@ -107,12 +108,18 @@ class AddRecordTest : BaseUiTest() {
         clickOnViewWithText(R.string.change_record_save)
 
         // Record added
-        checkViewIsDisplayed(allOf(withText(name), isCompletelyDisplayed()))
-        checkViewIsDisplayed(allOf(withCardColor(color), isCompletelyDisplayed()))
-        checkViewIsDisplayed(allOf(withTag(icon), isCompletelyDisplayed()))
-        checkViewIsDisplayed(allOf(withText(timeStartedPreview), isCompletelyDisplayed()))
-        checkViewIsDisplayed(allOf(withText(timeEndedPreview), isCompletelyDisplayed()))
-        checkViewIsDisplayed(allOf(withText("2h 3m"), isCompletelyDisplayed()))
+        checkViewIsDisplayed(
+            allOf(
+                withId(R.id.viewRecordItem),
+                hasDescendant(withText(name)),
+                hasDescendant(withCardColor(color)),
+                hasDescendant(withTag(icon)),
+                hasDescendant(withText(timeStartedPreview)),
+                hasDescendant(withText(timeEndedPreview)),
+                hasDescendant(withText("2h 3m")),
+                isCompletelyDisplayed()
+            )
+        )
     }
 
     private fun checkPreviewUpdated(matcher: Matcher<View>) =

@@ -1,6 +1,6 @@
 package com.example.util.simpletimetracker
 
-import androidx.test.espresso.Espresso.pressBack
+import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -40,9 +40,21 @@ class RecordsRangesTest : BaseUiTest() {
         checkViewIsDisplayed(allOf(withText(name), isCompletelyDisplayed()))
 
         clickOnViewWithId(R.id.btnRecordsContainerPrevious)
-        checkViewIsDisplayed(allOf(withText(R.string.records_empty), isCompletelyDisplayed()))
+        checkViewIsDisplayed(
+            allOf(
+                withId(R.id.layoutRecordItem),
+                ViewMatchers.hasDescendant(withText(R.string.untracked_time_name)),
+                isCompletelyDisplayed()
+            )
+        )
         clickOnViewWithId(R.id.btnRecordsContainerPrevious)
-        checkViewIsDisplayed(allOf(withText(R.string.records_empty), isCompletelyDisplayed()))
+        checkViewIsDisplayed(
+            allOf(
+                withId(R.id.layoutRecordItem),
+                ViewMatchers.hasDescendant(withText(R.string.untracked_time_name)),
+                isCompletelyDisplayed()
+            )
+        )
 
         longClickOnViewWithId(R.id.btnRecordsContainerToday)
         checkViewIsDisplayed(allOf(withText(name), isCompletelyDisplayed()))

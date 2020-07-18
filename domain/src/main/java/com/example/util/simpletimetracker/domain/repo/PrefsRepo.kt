@@ -6,6 +6,8 @@ interface PrefsRepo {
 
     var sortRecordTypesByColor: Boolean
 
+    var showUntrackedInRecords: Boolean
+
     fun setWidget(widgetId: Int, recordType: Long)
 
     fun getWidget(widgetId: Int): Long

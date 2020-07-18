@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.feature_records.interactor
 
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.feature_records.mapper.RecordViewDataMapper
@@ -9,6 +10,7 @@ import javax.inject.Inject
 class RecordsViewDataInteractor @Inject constructor(
     private val recordInteractor: RecordInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
+    private val prefsInteractor: PrefsInteractor,
     private val recordViewDataMapper: RecordViewDataMapper
 ) {
 
@@ -31,6 +33,8 @@ class RecordsViewDataInteractor @Inject constructor(
                     recordViewDataMapper.map(record, recordType, rangeStart, rangeEnd)
             }
             .let { trackedRecords ->
+                if (!prefsInteractor.getShowUntrackedInRecords()) return@let trackedRecords
+
                 recordInteractor.getUntrackedFromRange(rangeStart, rangeEnd)
                     .filter {
                         // Filter only untracked records that are longer than a minute
@@ -40,7 +44,7 @@ class RecordsViewDataInteractor @Inject constructor(
                         untrackedRecord.timeStarted to
                             recordViewDataMapper.mapToUntracked(untrackedRecord, rangeStart, rangeEnd)
                     }
-                    .let { trackedRecords + it }
+                    .let { untrackedRecords -> trackedRecords + untrackedRecords }
             }
             .sortedByDescending { (timeStarted, _) -> timeStarted }
             .map { (_, records) -> records }

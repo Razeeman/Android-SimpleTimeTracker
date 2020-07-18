@@ -27,6 +27,14 @@ class PrefsInteractor @Inject constructor(
         prefsRepo.sortRecordTypesByColor = isEnabled
     }
 
+    suspend fun getShowUntrackedInRecords(): Boolean = withContext(Dispatchers.IO) {
+        prefsRepo.showUntrackedInRecords
+    }
+
+    suspend fun setShowUntrackedInRecords(isEnabled: Boolean) = withContext(Dispatchers.IO) {
+        prefsRepo.showUntrackedInRecords = isEnabled
+    }
+
     suspend fun setWidget(widgetId: Int, recordType: Long) = withContext(Dispatchers.IO) {
         prefsRepo.setWidget(widgetId, recordType)
     }

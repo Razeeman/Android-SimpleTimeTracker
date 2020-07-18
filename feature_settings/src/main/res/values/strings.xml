@@ -3,6 +3,7 @@
     <string name="settings_save_backup">Save backup</string>
     <string name="settings_restore_backup">Restore backup</string>
     <string name="settings_sort_by_color">Sort activities by color</string>
+    <string name="settings_show_untracked_time">Show untracked time in records</string>
     <string name="settings_file_error">Error opening file</string>
     <string name="settings_dialog_message">Restore backup?</string>
     <string name="settings_restore_description">Before saving, make sure that you have the latest version of the app installed to avoid conflicts.</string>

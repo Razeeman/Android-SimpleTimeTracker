@@ -47,6 +47,7 @@ class SettingsFragment : BaseFragment(R.layout.settings_fragment),
 
     override fun initUx() {
         checkboxSettingsRecordTypeSort.setOnClick(viewModel::onRecordTypeSortClicked)
+        checkboxSettingsShowUntracked.setOnClick(viewModel::onShowUntrackedClicked)
         layoutSettingsSaveBackup.setOnClick(viewModel::onSaveClick)
         tvSettingsRestoreBackup.setOnClick(viewModel::onRestoreClick)
         layoutSettingsRate.setOnClick(viewModel::onRateClick)
@@ -54,12 +55,14 @@ class SettingsFragment : BaseFragment(R.layout.settings_fragment),
     }
 
     override fun initViewModel(): Unit = with(viewModel) {
-        sortRecordTypes.observe(viewLifecycleOwner, checkboxSettingsRecordTypeSort::setChecked)
+        sortRecordTypesCheckbox.observe(viewLifecycleOwner, checkboxSettingsRecordTypeSort::setChecked)
+        showUntrackedCheckbox.observe(viewLifecycleOwner, checkboxSettingsShowUntracked::setChecked)
     }
 
     override fun onResume() {
         super.onResume()
         checkboxSettingsRecordTypeSort.jumpDrawablesToCurrentState()
+        checkboxSettingsShowUntracked.jumpDrawablesToCurrentState()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

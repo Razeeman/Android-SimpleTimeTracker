@@ -1,6 +1,5 @@
 package com.example.util.simpletimetracker
 
-import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
@@ -33,9 +32,22 @@ class MainScreenEmptyTest : BaseUiTest() {
 
         // Empty records
         NavUtils.openRecordsScreen()
-        checkViewIsDisplayed(allOf(withText(R.string.records_empty), isCompletelyDisplayed()))
+        checkViewIsDisplayed(
+            allOf(
+                withId(R.id.layoutRecordItem),
+                hasDescendant(withText(R.string.untracked_time_name)),
+                isCompletelyDisplayed()
+            )
+        )
         clickOnViewWithId(R.id.btnRecordsContainerPrevious)
-        checkViewIsDisplayed(allOf(withText(R.string.records_empty), isCompletelyDisplayed()))
+        checkViewIsDisplayed(
+            allOf(
+                withId(R.id.layoutRecordItem),
+                hasDescendant(withText(R.string.untracked_time_name)),
+                hasDescendant(withSubstring("24h 0m")),
+                isCompletelyDisplayed()
+            )
+        )
         clickOnViewWithId(R.id.btnRecordsContainerNext)
         clickOnViewWithId(R.id.btnRecordsContainerNext)
         checkViewIsDisplayed(allOf(withText(R.string.records_empty), isCompletelyDisplayed()))

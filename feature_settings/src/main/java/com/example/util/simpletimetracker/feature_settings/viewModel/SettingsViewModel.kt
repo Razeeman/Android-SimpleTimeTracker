@@ -25,10 +25,19 @@ class SettingsViewModel @Inject constructor(
     private val packageNameProvider: PackageNameProvider
 ) : ViewModel() {
 
-    val sortRecordTypes: LiveData<Boolean> by lazy {
+    val sortRecordTypesCheckbox: LiveData<Boolean> by lazy {
         return@lazy MutableLiveData<Boolean>().let { initial ->
             viewModelScope.launch {
                 initial.value = prefsInteractor.getSortRecordTypesByColor()
+            }
+            initial
+        }
+    }
+
+    val showUntrackedCheckbox: LiveData<Boolean> by lazy {
+        return@lazy MutableLiveData<Boolean>().let { initial ->
+            viewModelScope.launch {
+                initial.value = prefsInteractor.getShowUntrackedInRecords()
             }
             initial
         }
@@ -77,7 +86,15 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch {
             val newValue = !prefsInteractor.getSortRecordTypesByColor()
             prefsInteractor.setSortRecordTypesByColor(newValue)
-            (sortRecordTypes as MutableLiveData).value = newValue
+            (sortRecordTypesCheckbox as MutableLiveData).value = newValue
+        }
+    }
+
+    fun onShowUntrackedClicked() {
+        viewModelScope.launch {
+            val newValue = !prefsInteractor.getShowUntrackedInRecords()
+            prefsInteractor.setShowUntrackedInRecords(newValue)
+            (showUntrackedCheckbox as MutableLiveData).value = newValue
         }
     }
 
