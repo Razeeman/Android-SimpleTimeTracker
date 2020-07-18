@@ -12,6 +12,7 @@ include(
     "feature_records",
     "feature_change_record",
     "feature_statistics",
+    "feature_statistics_detail",
     "feature_dialogs",
     "feature_settings",
     "feature_widget"

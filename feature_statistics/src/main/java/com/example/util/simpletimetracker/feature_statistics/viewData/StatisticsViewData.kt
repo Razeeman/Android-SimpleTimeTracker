@@ -5,9 +5,10 @@ import androidx.annotation.DrawableRes
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 
 data class StatisticsViewData(
-    var name: String,
-    var duration: String,
-    var percent: String,
+    val typeId: Long,
+    val name: String,
+    val duration: String,
+    val percent: String,
     @DrawableRes val iconId: Int,
     @ColorInt val color: Int
 ) : ViewHolderType {

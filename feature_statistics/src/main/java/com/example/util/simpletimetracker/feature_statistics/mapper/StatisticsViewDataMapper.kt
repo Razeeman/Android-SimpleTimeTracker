@@ -100,6 +100,7 @@ class StatisticsViewDataMapper @Inject constructor(
         when {
             statistics.typeId == -1L -> {
                 return StatisticsViewData(
+                    typeId = statistics.typeId,
                     name = R.string.untracked_time_name
                         .let(resourceRepo::getString),
                     duration = statistics.duration
@@ -112,6 +113,7 @@ class StatisticsViewDataMapper @Inject constructor(
             }
             recordType != null -> {
                 return StatisticsViewData(
+                    typeId = statistics.typeId,
                     name = recordType.name,
                     duration = if (showDuration) {
                         statistics.duration.let(timeMapper::formatInterval)

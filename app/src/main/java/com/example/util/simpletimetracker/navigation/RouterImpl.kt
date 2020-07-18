@@ -17,6 +17,7 @@ import com.example.util.simpletimetracker.feature_change_record_type.view.Change
 import com.example.util.simpletimetracker.feature_change_running_record.view.ChangeRunningRecordFragment
 import com.example.util.simpletimetracker.feature_dialogs.dateTime.DateTimeDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.standard.StandardDialogFragment
+import com.example.util.simpletimetracker.feature_statistics_detail.view.StatisticsDetailFragment
 import com.example.util.simpletimetracker.navigation.RequestCode.REQUEST_CODE_CREATE_FILE
 import com.example.util.simpletimetracker.navigation.RequestCode.REQUEST_CODE_OPEN_FILE
 import com.example.util.simpletimetracker.navigation.model.SnackBarMessage
@@ -69,6 +70,13 @@ class RouterImpl @Inject constructor(
                     null,
                     navExtras
                 )
+            Screen.STATISTICS_DETAIL ->
+                navController?.navigate(
+                    R.id.action_mainFragment_to_statisticsDetailFragment,
+                    StatisticsDetailFragment.createBundle(data),
+                    null,
+                    navExtras
+                )
             Screen.STANDARD_DIALOG ->
                 navController?.navigate(
                     R.id.standardDialogFragment,
@@ -90,6 +98,7 @@ class RouterImpl @Inject constructor(
                     null,
                     navExtras
                 )
+            // TODO move to Action
             Screen.CREATE_FILE -> {
                 val timeString = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())
                     .format(Date())
