@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="statistics_detail_times_tracked">Times tracked</string>
-    <string name="statistics_detail_total_duration">Total time tracked</string>
+    <string name="statistics_detail_times_tracked">Records</string>
+    <string name="statistics_detail_total_duration">Total</string>
+    <string name="statistics_detail_chart_description">Duration by day</string>
 </resources>
