@@ -14,21 +14,31 @@ Track how much time you spend on different activities during the day.
 
 Description
 
-Simple Time Tracker helps you track how much time you spend during the day on different activities. Start new activities with one click. View previous records and statistics over time. The app is completely ad-free, open source and it respects your privacy.
+Simple Time Tracker helps you track how much time you spend during the day on different activities. Start new activities with one click. View previous records and statistics over time. The app is completely ad-free and open source. Also widgets and backups.
 
-Simple interface
-App has a minimalistic interface that is very easy to use and follows design guidelines.
+<b>Simple interface</b>
+App has a minimalistic interface that is very easy to use.
 
-Widgets
+<b>Widgets</b>
 Track your activities directly from your home screen.
 
-Completely ad-free and open source
+<b>Completely ad-free and open source</b>
 There are absolutely no advertisements, inapp purchases, annoying notifications or intrusive permissions. The complete source code is also available.
 
-Works offline and respects your privacy
+<b>Works offline and respects your privacy</b>
 App doesn't require an Internet connection or account registration. Your data never leaves your phone. Neither the developers nor any third-parties have access to it.
 
 ------------------------------------------------------------------------------------------
 
 Version 1.0:
 - Initial release
+
+Version 1.1:
+- Add ability to change running timers
+- Add feedback form to settings
+- General bug fixes and improvements
+
+Version 1.2:
+- Show untracked time in records
+- Add ability to change untracked time into a record
+- General bug fixes and improvements
