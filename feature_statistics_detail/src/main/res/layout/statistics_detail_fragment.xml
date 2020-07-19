@@ -17,12 +17,12 @@
             android:layout_marginStart="4dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="4dp"
-            app:cardBackgroundColor="@color/black"
             app:cardCornerRadius="8dp"
             app:cardElevation="4dp"
             app:cardPreventCornerOverlap="false"
             app:cardUseCompatPadding="true"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            tools:cardBackgroundColor="@color/black">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -119,6 +119,22 @@
                 tools:text="453" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            style="@style/StatisticsDivider"
+            android:layout_width="match_parent" />
+
+        <com.example.util.simpletimetracker.feature_statistics_detail.customView.BarChartView
+            android:id="@+id/chartStatisticsDetail"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            app:barCornerRadius="8dp"
+            app:dividerWidth="2dp"
+            tools:barColor="@color/black"
+            tools:segmentCount="14" />
 
     </LinearLayout>
 

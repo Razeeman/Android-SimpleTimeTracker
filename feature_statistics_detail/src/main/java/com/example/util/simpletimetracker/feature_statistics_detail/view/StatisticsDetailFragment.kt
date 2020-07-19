@@ -67,6 +67,8 @@ class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragmen
 
         tvStatisticsDetailTotalDuration.text = viewData.totalDuration
         tvStatisticsDetailTimesTracked.text = viewData.timesTracked
+        chartStatisticsDetail.setBarColor(viewData.color)
+        chartStatisticsDetail.setBars(viewData.durations)
     }
 
     companion object {

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="BarChartView">
+        <!-- Used for layout preview -->
+        <attr name="barCount" format="integer" />
+        <attr name="dividerWidth" format="dimension" />
+        <attr name="barCornerRadius" format="dimension" />
+        <attr name="barColor" format="color" />
+    </declare-styleable>
+</resources>
