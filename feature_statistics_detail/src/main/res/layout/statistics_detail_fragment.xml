@@ -134,7 +134,12 @@
             app:barCornerRadius="8dp"
             app:dividerWidth="2dp"
             tools:barColor="@color/black"
-            tools:segmentCount="14" />
+            tools:barCount="14" />
+
+        <View
+            style="@style/StatisticsDivider"
+            android:layout_width="match_parent"
+            android:layout_marginTop="0dp" />
 
     </LinearLayout>
 

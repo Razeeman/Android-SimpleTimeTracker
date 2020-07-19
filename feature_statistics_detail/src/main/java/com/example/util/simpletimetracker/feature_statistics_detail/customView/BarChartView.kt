@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.Path
 import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
@@ -20,6 +21,8 @@ class BarChartView @JvmOverloads constructor(
 ) {
 
     private val bounds: RectF = RectF(0f, 0f, 0f, 0f)
+    private var radiusArr: FloatArray = floatArrayOf(0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f)
+    private var barPath: Path = Path()
     private var dividerWidth: Int = 0
     private var barCornerRadius: Float = 0f
     private var barColor: Int = 0
@@ -106,20 +109,24 @@ class BarChartView @JvmOverloads constructor(
     }
 
     private fun drawBars(canvas: Canvas, w: Float, h: Float, barWidth: Float) {
+        radiusArr = floatArrayOf(
+            barCornerRadius, barCornerRadius,
+            barCornerRadius, barCornerRadius,
+            0f, 0f,
+            0f, 0f
+        )
+
         canvas.save()
 
-        bounds.set(
-            0f, 0f,
-            barWidth, h
-        )
         bars.forEach {
             bounds.set(
                 0f + dividerWidth / 2, h * (1f - it),
                 barWidth - dividerWidth / 2, h
             )
-            canvas.drawRoundRect(
-                bounds, barCornerRadius, barCornerRadius, barPaint
-            )
+            barPath = Path().apply {
+                addRoundRect(bounds, radiusArr, Path.Direction.CW)
+            }
+            canvas.drawPath(barPath, barPaint)
             canvas.translate(barWidth, 0f)
         }
 
