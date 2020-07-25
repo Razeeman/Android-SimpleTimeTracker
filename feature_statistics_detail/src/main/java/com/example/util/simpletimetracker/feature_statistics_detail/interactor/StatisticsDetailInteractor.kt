@@ -14,9 +14,9 @@ class StatisticsDetailInteractor @Inject constructor(
     suspend fun getDurations(
         typeId: Long,
         grouping: ChartGrouping,
-        numberOfGroups: Int
+        rangeLength: RangeLength
     ): List<Long> {
-        if (numberOfGroups == 0) return emptyList()
+        val numberOfGroups = getNumberOfGroups(rangeLength)
 
         val ranges = when (grouping) {
             ChartGrouping.DAILY -> getDailyGrouping(numberOfGroups)
@@ -40,12 +40,22 @@ class StatisticsDetailInteractor @Inject constructor(
             .map(::mapToDuration)
     }
 
+    private fun getNumberOfGroups(
+        rangeLength: RangeLength
+    ): Int {
+        return when (rangeLength) {
+            RangeLength.TEN -> 10
+            RangeLength.FIFTY -> 50
+            RangeLength.HUNDRED -> 100
+        }
+    }
+
     private fun getDailyGrouping(
         numberOfDays: Int
     ): List<Pair<Long, Long>> {
         val calendar = Calendar.getInstance()
 
-        return (numberOfDays downTo 0).map { shift ->
+        return (numberOfDays - 1 downTo 0).map { shift ->
             calendar.apply {
                 timeInMillis = System.currentTimeMillis()
                 set(Calendar.HOUR_OF_DAY, 0)
@@ -65,7 +75,7 @@ class StatisticsDetailInteractor @Inject constructor(
     ): List<Pair<Long, Long>> {
         val calendar = Calendar.getInstance()
 
-        return (numberOfWeeks downTo 0).map { shift ->
+        return (numberOfWeeks - 1 downTo 0).map { shift ->
             calendar.apply {
                 timeInMillis = System.currentTimeMillis()
                 set(Calendar.HOUR_OF_DAY, 0)
@@ -82,11 +92,11 @@ class StatisticsDetailInteractor @Inject constructor(
     }
 
     private fun getMonthlyGrouping(
-        numberOfWeeks: Int
+        numberOfMonths: Int
     ): List<Pair<Long, Long>> {
         val calendar = Calendar.getInstance()
 
-        return (numberOfWeeks downTo 0).map { shift ->
+        return (numberOfMonths - 1 downTo 0).map { shift ->
             calendar.apply {
                 timeInMillis = System.currentTimeMillis()
                 set(Calendar.HOUR_OF_DAY, 0)

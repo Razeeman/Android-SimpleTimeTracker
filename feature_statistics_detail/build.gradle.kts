@@ -33,6 +33,7 @@ dependencies {
     implementation(Deps.Androidx.recyclerView)
     implementation(Deps.Androidx.cardView)
     implementation(Deps.Androidx.material)
+    implementation(Deps.Google.flexBox)
     implementation(Deps.Google.dagger)
     implementation(Deps.Ktx.fragment)
     implementation(Deps.Ktx.liveData)

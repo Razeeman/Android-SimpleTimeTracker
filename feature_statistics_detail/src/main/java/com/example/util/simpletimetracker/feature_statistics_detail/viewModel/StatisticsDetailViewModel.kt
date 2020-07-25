@@ -4,13 +4,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.extra.StatisticsDetailExtra
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.ChartGrouping
+import com.example.util.simpletimetracker.feature_statistics_detail.interactor.RangeLength
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.StatisticsDetailViewDataMapper
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailRangeViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailViewData
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -36,8 +39,15 @@ class StatisticsDetailViewModel @Inject constructor(
             initial
         }
     }
+    val rangesViewData: LiveData<List<ViewHolderType>> by lazy {
+        return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
+            initial.value = loadChartRangesViewData()
+            initial
+        }
+    }
 
     private var chartGrouping: ChartGrouping = ChartGrouping.DAILY
+    private var chartRange: RangeLength = RangeLength.TEN
 
     fun onChartDailyClick() {
         chartGrouping = ChartGrouping.DAILY
@@ -54,8 +64,18 @@ class StatisticsDetailViewModel @Inject constructor(
         updateChartViewData()
     }
 
+    fun onRangeClick(range: StatisticsDetailRangeViewData) {
+        chartRange = range.rangeLength
+        updateChartRangesViewData()
+        updateChartViewData()
+    }
+
     private fun updateChartViewData() = viewModelScope.launch {
         (chartViewData as MutableLiveData).value = loadChartViewData()
+    }
+
+    private fun updateChartRangesViewData() {
+        (rangesViewData as MutableLiveData).value = loadChartRangesViewData()
     }
 
     private suspend fun loadPreviewViewData(): StatisticsDetailViewData {
@@ -76,10 +96,14 @@ class StatisticsDetailViewModel @Inject constructor(
             statisticsDetailInteractor.getDurations(
                 typeId = extra.typeId,
                 grouping = chartGrouping,
-                numberOfGroups = 14
+                rangeLength = chartRange
             )
         }
 
         return statisticsDetailViewDataMapper.mapToChartViewData(data, chartGrouping)
+    }
+
+    private fun loadChartRangesViewData() : List<ViewHolderType> {
+        return statisticsDetailViewDataMapper.mapToRangesViewData(chartRange)
     }
 }

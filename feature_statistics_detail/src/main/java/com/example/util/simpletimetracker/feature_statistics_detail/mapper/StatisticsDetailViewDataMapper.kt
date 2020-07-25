@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_statistics_detail.mapper
 
+import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
@@ -8,7 +9,9 @@ import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_statistics_detail.R
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.ChartGrouping
+import com.example.util.simpletimetracker.feature_statistics_detail.interactor.RangeLength
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailRangeViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailViewData
 import javax.inject.Inject
 
@@ -61,6 +64,28 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             weeklyButtonColor = mapToSelected(grouping == ChartGrouping.WEEKLY),
             monthlyButtonColor = mapToSelected(grouping == ChartGrouping.MONTHLY)
         )
+    }
+
+    fun mapToRangesViewData(rangeLength: RangeLength): List<ViewHolderType> {
+        return listOf(
+            RangeLength.TEN,
+            RangeLength.FIFTY,
+            RangeLength.HUNDRED
+        ).map {
+            StatisticsDetailRangeViewData(
+                rangeLength = it,
+                name = mapToRangeName(it),
+                color = mapToSelected(it == rangeLength)
+            )
+        }
+    }
+
+    private fun mapToRangeName(rangeLength: RangeLength): String {
+        return when (rangeLength) {
+            RangeLength.TEN -> R.string.statistics_detail_range_ten
+            RangeLength.FIFTY -> R.string.statistics_detail_range_fifty
+            RangeLength.HUNDRED -> R.string.statistics_detail_range_hundred
+        }.let(resourceRepo::getString)
     }
 
     private fun mapToSelected(isSelected: Boolean): Int {

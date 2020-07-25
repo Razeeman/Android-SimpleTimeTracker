@@ -14,12 +14,17 @@ import com.example.util.simpletimetracker.core.utils.BuildVersions
 import com.example.util.simpletimetracker.core.view.TransitionNames
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_statistics_detail.R
+import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailRangeAdapter
 import com.example.util.simpletimetracker.feature_statistics_detail.di.StatisticsDetailComponentProvider
 import com.example.util.simpletimetracker.feature_statistics_detail.extra.StatisticsDetailExtra
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewModel.StatisticsDetailViewModel
 import com.example.util.simpletimetracker.navigation.params.StatisticsDetailParams
+import com.google.android.flexbox.FlexDirection
+import com.google.android.flexbox.FlexWrap
+import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.android.flexbox.JustifyContent
 import kotlinx.android.synthetic.main.statistics_detail_fragment.*
 import javax.inject.Inject
 
@@ -32,6 +37,11 @@ class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragmen
     private val viewModel: StatisticsDetailViewModel by viewModels(
         factoryProducer = { viewModelFactory }
     )
+    private val rangesAdapter: StatisticsDetailRangeAdapter by lazy {
+        StatisticsDetailRangeAdapter(
+            viewModel::onRangeClick
+        )
+    }
     private val typeId: Long by lazy { arguments?.getLong(ARGS_TYPE_ID).orZero() }
 
     override fun initDi() {
@@ -50,6 +60,15 @@ class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragmen
             layoutStatisticsDetailItem,
             TransitionNames.STATISTICS_DETAIL + typeId
         )
+
+        rvStatisticsDetailChartRange.apply {
+            layoutManager = FlexboxLayoutManager(requireContext()).apply {
+                flexDirection = FlexDirection.ROW
+                justifyContent = JustifyContent.CENTER
+                flexWrap = FlexWrap.NOWRAP
+            }
+            adapter = rangesAdapter
+        }
     }
 
     override fun initUx() {
@@ -64,6 +83,7 @@ class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragmen
         )
         viewData.observe(viewLifecycleOwner, ::updateViewData)
         chartViewData.observe(viewLifecycleOwner, ::updateChartViewData)
+        rangesViewData.observe(viewLifecycleOwner, rangesAdapter::replace)
     }
 
     private fun updateViewData(viewData: StatisticsDetailViewData) {
