@@ -9,9 +9,9 @@ import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_statistics_detail.R
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.ChartGrouping
-import com.example.util.simpletimetracker.feature_statistics_detail.interactor.RangeLength
+import com.example.util.simpletimetracker.feature_statistics_detail.interactor.ChartLength
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartViewData
-import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailRangeViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartLengthViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailViewData
 import javax.inject.Inject
 
@@ -66,25 +66,25 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         )
     }
 
-    fun mapToRangesViewData(rangeLength: RangeLength): List<ViewHolderType> {
+    fun mapToChartLengthViewData(chartLength: ChartLength): List<ViewHolderType> {
         return listOf(
-            RangeLength.TEN,
-            RangeLength.FIFTY,
-            RangeLength.HUNDRED
+            ChartLength.TEN,
+            ChartLength.FIFTY,
+            ChartLength.HUNDRED
         ).map {
-            StatisticsDetailRangeViewData(
-                rangeLength = it,
+            StatisticsDetailChartLengthViewData(
+                chartLength = it,
                 name = mapToRangeName(it),
-                color = mapToSelected(it == rangeLength)
+                color = mapToSelected(it == chartLength)
             )
         }
     }
 
-    private fun mapToRangeName(rangeLength: RangeLength): String {
-        return when (rangeLength) {
-            RangeLength.TEN -> R.string.statistics_detail_range_ten
-            RangeLength.FIFTY -> R.string.statistics_detail_range_fifty
-            RangeLength.HUNDRED -> R.string.statistics_detail_range_hundred
+    private fun mapToRangeName(chartLength: ChartLength): String {
+        return when (chartLength) {
+            ChartLength.TEN -> R.string.statistics_detail_length_ten
+            ChartLength.FIFTY -> R.string.statistics_detail_length_fifty
+            ChartLength.HUNDRED -> R.string.statistics_detail_length_hundred
         }.let(resourceRepo::getString)
     }
 

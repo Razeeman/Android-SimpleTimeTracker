@@ -14,9 +14,9 @@ class StatisticsDetailInteractor @Inject constructor(
     suspend fun getDurations(
         typeId: Long,
         grouping: ChartGrouping,
-        rangeLength: RangeLength
+        chartLength: ChartLength
     ): List<Long> {
-        val numberOfGroups = getNumberOfGroups(rangeLength)
+        val numberOfGroups = getNumberOfGroups(chartLength)
 
         val ranges = when (grouping) {
             ChartGrouping.DAILY -> getDailyGrouping(numberOfGroups)
@@ -41,12 +41,12 @@ class StatisticsDetailInteractor @Inject constructor(
     }
 
     private fun getNumberOfGroups(
-        rangeLength: RangeLength
+        chartLength: ChartLength
     ): Int {
-        return when (rangeLength) {
-            RangeLength.TEN -> 10
-            RangeLength.FIFTY -> 50
-            RangeLength.HUNDRED -> 100
+        return when (chartLength) {
+            ChartLength.TEN -> 10
+            ChartLength.FIFTY -> 50
+            ChartLength.HUNDRED -> 100
         }
     }
 

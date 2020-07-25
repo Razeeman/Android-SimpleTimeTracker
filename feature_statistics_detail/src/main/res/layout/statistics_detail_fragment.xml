@@ -218,14 +218,14 @@
             app:constraint_referenced_ids="btnStatisticsDetailChartDaily, btnStatisticsDetailChartWeekly, btnStatisticsDetailChartMonthly" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvStatisticsDetailChartRange"
+            android:id="@+id/rvStatisticsDetailChartLength"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:layout_marginEnd="4dp"
             app:layout_constraintTop_toBottomOf="@id/barrierStatisticsChartGrouping"
             tools:itemCount="1"
-            tools:listitem="@layout/item_statistics_detail_range_layout" />
+            tools:listitem="@layout/item_statistics_detail__chart_length_layout" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

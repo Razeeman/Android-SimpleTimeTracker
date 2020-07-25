@@ -14,7 +14,7 @@ import com.example.util.simpletimetracker.core.utils.BuildVersions
 import com.example.util.simpletimetracker.core.view.TransitionNames
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_statistics_detail.R
-import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailRangeAdapter
+import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailChartLengthAdapter
 import com.example.util.simpletimetracker.feature_statistics_detail.di.StatisticsDetailComponentProvider
 import com.example.util.simpletimetracker.feature_statistics_detail.extra.StatisticsDetailExtra
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartViewData
@@ -37,8 +37,8 @@ class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragmen
     private val viewModel: StatisticsDetailViewModel by viewModels(
         factoryProducer = { viewModelFactory }
     )
-    private val rangesAdapter: StatisticsDetailRangeAdapter by lazy {
-        StatisticsDetailRangeAdapter(
+    private val chartLengthAdapter: StatisticsDetailChartLengthAdapter by lazy {
+        StatisticsDetailChartLengthAdapter(
             viewModel::onRangeClick
         )
     }
@@ -61,13 +61,13 @@ class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragmen
             TransitionNames.STATISTICS_DETAIL + typeId
         )
 
-        rvStatisticsDetailChartRange.apply {
+        rvStatisticsDetailChartLength.apply {
             layoutManager = FlexboxLayoutManager(requireContext()).apply {
                 flexDirection = FlexDirection.ROW
                 justifyContent = JustifyContent.CENTER
                 flexWrap = FlexWrap.NOWRAP
             }
-            adapter = rangesAdapter
+            adapter = chartLengthAdapter
         }
     }
 
@@ -83,7 +83,7 @@ class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragmen
         )
         viewData.observe(viewLifecycleOwner, ::updateViewData)
         chartViewData.observe(viewLifecycleOwner, ::updateChartViewData)
-        rangesViewData.observe(viewLifecycleOwner, rangesAdapter::replace)
+        chartLengthViewData.observe(viewLifecycleOwner, chartLengthAdapter::replace)
     }
 
     private fun updateViewData(viewData: StatisticsDetailViewData) {

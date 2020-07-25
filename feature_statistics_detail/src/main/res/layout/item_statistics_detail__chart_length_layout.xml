@@ -2,10 +2,10 @@
 <com.google.android.material.button.MaterialButton xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/btnStatisticsDetailItemRange"
+    android:id="@+id/btnStatisticsDetailItemLength"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="4dp"
     android:layout_marginEnd="4dp"
     app:backgroundTint="@color/blue_grey_300"
-    tools:text="Range name" />
+    tools:text="Length name" />
