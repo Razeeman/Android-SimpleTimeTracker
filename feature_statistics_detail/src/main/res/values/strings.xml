@@ -2,7 +2,6 @@
 <resources>
     <string name="statistics_detail_times_tracked">Records</string>
     <string name="statistics_detail_total_duration">Total</string>
-    <string name="statistics_detail_chart_description">Duration by day</string>
     <string name="statistics_detail_chart_daily">daily</string>
     <string name="statistics_detail_chart_weekly">weekly</string>
     <string name="statistics_detail_chart_monthly">monthly</string>

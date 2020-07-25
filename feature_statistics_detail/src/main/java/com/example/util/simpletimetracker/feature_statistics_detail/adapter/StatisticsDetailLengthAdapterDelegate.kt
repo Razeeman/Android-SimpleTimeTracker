@@ -8,9 +8,9 @@ import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.extension.setOnClickWith
 import com.example.util.simpletimetracker.feature_statistics_detail.R
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartLengthViewData
-import kotlinx.android.synthetic.main.item_statistics_detail__chart_length_layout.view.*
+import kotlinx.android.synthetic.main.item_statistics_detail_length_layout.view.*
 
-class StatisticsDetailChartLengthAdapterDelegate(
+class StatisticsDetailLengthAdapterDelegate(
     private val onRangeClick: ((StatisticsDetailChartLengthViewData) -> Unit)
 ) : BaseRecyclerAdapterDelegate() {
 
@@ -18,7 +18,7 @@ class StatisticsDetailChartLengthAdapterDelegate(
         StatisticsRangeViewHolder(parent)
 
     inner class StatisticsRangeViewHolder(parent: ViewGroup) :
-        BaseRecyclerViewHolder(parent, R.layout.item_statistics_detail__chart_length_layout) {
+        BaseRecyclerViewHolder(parent, R.layout.item_statistics_detail_length_layout) {
 
         override fun bind(
             item: ViewHolderType,

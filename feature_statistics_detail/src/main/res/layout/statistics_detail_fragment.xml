@@ -164,68 +164,26 @@
             android:layout_width="match_parent"
             app:layout_constraintTop_toBottomOf="@id/chartStatisticsDetail" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvStatisticsDetailChartDescription"
-            style="@style/StatisticsSecondaryText"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvStatisticsDetailGrouping"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
             android:layout_marginTop="8dp"
-            android:gravity="center"
-            android:text="@string/statistics_detail_chart_description"
-            app:layout_constraintTop_toBottomOf="@id/chartStatisticsDetail" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnStatisticsDetailChartDaily"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:layout_marginEnd="4dp"
-            android:text="@string/statistics_detail_chart_daily"
-            app:backgroundTint="@color/blue_grey_300"
-            app:layout_constraintEnd_toStartOf="@id/btnStatisticsDetailChartWeekly"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvStatisticsDetailChartDescription" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnStatisticsDetailChartWeekly"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="4dp"
-            android:text="@string/statistics_detail_chart_weekly"
-            app:backgroundTint="@color/blue_grey_300"
-            app:layout_constraintEnd_toStartOf="@id/btnStatisticsDetailChartMonthly"
-            app:layout_constraintStart_toEndOf="@id/btnStatisticsDetailChartDaily"
-            app:layout_constraintTop_toBottomOf="@id/tvStatisticsDetailChartDescription" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnStatisticsDetailChartMonthly"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="8dp"
-            android:text="@string/statistics_detail_chart_monthly"
-            app:backgroundTint="@color/blue_grey_300"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/btnStatisticsDetailChartWeekly"
-            app:layout_constraintTop_toBottomOf="@id/tvStatisticsDetailChartDescription" />
-
-        <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/barrierStatisticsChartGrouping"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:barrierDirection="bottom"
-            app:constraint_referenced_ids="btnStatisticsDetailChartDaily, btnStatisticsDetailChartWeekly, btnStatisticsDetailChartMonthly" />
+            app:layout_constraintTop_toBottomOf="@id/chartStatisticsDetail"
+            tools:itemCount="1"
+            tools:listitem="@layout/item_statistics_detail_grouping_layout" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvStatisticsDetailChartLength"
+            android:id="@+id/rvStatisticsDetailLength"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:layout_marginEnd="4dp"
-            app:layout_constraintTop_toBottomOf="@id/barrierStatisticsChartGrouping"
+            app:layout_constraintTop_toBottomOf="@id/rvStatisticsDetailGrouping"
             tools:itemCount="1"
-            tools:listitem="@layout/item_statistics_detail__chart_length_layout" />
+            tools:listitem="@layout/item_statistics_detail_length_layout" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

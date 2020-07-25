@@ -14,6 +14,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.interactor.S
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.StatisticsDetailViewDataMapper
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartLengthViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailGroupingViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailViewData
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -39,6 +40,12 @@ class StatisticsDetailViewModel @Inject constructor(
             initial
         }
     }
+    val chartGroupingViewData: LiveData<List<ViewHolderType>> by lazy {
+        return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
+            initial.value = loadChartGroupingViewData()
+            initial
+        }
+    }
     val chartLengthViewData: LiveData<List<ViewHolderType>> by lazy {
         return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
             initial.value = loadChartLengthViewData()
@@ -49,24 +56,15 @@ class StatisticsDetailViewModel @Inject constructor(
     private var chartGrouping: ChartGrouping = ChartGrouping.DAILY
     private var chartLength: ChartLength = ChartLength.TEN
 
-    fun onChartDailyClick() {
-        chartGrouping = ChartGrouping.DAILY
+    fun onChartGroupingClick(grouping: StatisticsDetailGroupingViewData) {
+        this.chartGrouping = grouping.chartGrouping
+        updateChartGroupingViewData()
         updateChartViewData()
     }
 
-    fun onChartWeeklyClick() {
-        chartGrouping = ChartGrouping.WEEKLY
-        updateChartViewData()
-    }
-
-    fun onChartMonthlyClick() {
-        chartGrouping = ChartGrouping.MONTHLY
-        updateChartViewData()
-    }
-
-    fun onRangeClick(chartLength: StatisticsDetailChartLengthViewData) {
+    fun onChartLengthClick(chartLength: StatisticsDetailChartLengthViewData) {
         this.chartLength = chartLength.chartLength
-        updateChartRangesViewData()
+        updateChartLengthViewData()
         updateChartViewData()
     }
 
@@ -74,7 +72,11 @@ class StatisticsDetailViewModel @Inject constructor(
         (chartViewData as MutableLiveData).value = loadChartViewData()
     }
 
-    private fun updateChartRangesViewData() {
+    private fun updateChartGroupingViewData() {
+        (chartGroupingViewData as MutableLiveData).value = loadChartGroupingViewData()
+    }
+
+    private fun updateChartLengthViewData() {
         (chartLengthViewData as MutableLiveData).value = loadChartLengthViewData()
     }
 
@@ -100,7 +102,11 @@ class StatisticsDetailViewModel @Inject constructor(
             )
         }
 
-        return statisticsDetailViewDataMapper.mapToChartViewData(data, chartGrouping)
+        return statisticsDetailViewDataMapper.mapToChartViewData(data)
+    }
+
+    private fun loadChartGroupingViewData() : List<ViewHolderType> {
+        return statisticsDetailViewDataMapper.mapToChartGroupingViewData(chartGrouping)
     }
 
     private fun loadChartLengthViewData() : List<ViewHolderType> {

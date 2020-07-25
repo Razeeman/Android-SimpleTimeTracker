@@ -10,8 +10,9 @@ import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_statistics_detail.R
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.ChartGrouping
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.ChartLength
-import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartLengthViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailGroupingViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailViewData
 import javax.inject.Inject
 
@@ -55,15 +56,25 @@ class StatisticsDetailViewDataMapper @Inject constructor(
     }
 
     fun mapToChartViewData(
-        data: List<Long>,
-        grouping: ChartGrouping
+        data: List<Long>
     ): StatisticsDetailChartViewData {
         return StatisticsDetailChartViewData(
-            data = data,
-            dailyButtonColor = mapToSelected(grouping == ChartGrouping.DAILY),
-            weeklyButtonColor = mapToSelected(grouping == ChartGrouping.WEEKLY),
-            monthlyButtonColor = mapToSelected(grouping == ChartGrouping.MONTHLY)
+            data = data
         )
+    }
+
+    fun mapToChartGroupingViewData(chartGrouping: ChartGrouping): List<ViewHolderType> {
+        return listOf(
+            ChartGrouping.DAILY,
+            ChartGrouping.WEEKLY,
+            ChartGrouping.MONTHLY
+        ).map {
+            StatisticsDetailGroupingViewData(
+                chartGrouping = it,
+                name = mapToGroupingName(it),
+                color = mapToSelected(it == chartGrouping)
+            )
+        }
     }
 
     fun mapToChartLengthViewData(chartLength: ChartLength): List<ViewHolderType> {
@@ -74,13 +85,21 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         ).map {
             StatisticsDetailChartLengthViewData(
                 chartLength = it,
-                name = mapToRangeName(it),
+                name = mapToLengthName(it),
                 color = mapToSelected(it == chartLength)
             )
         }
     }
 
-    private fun mapToRangeName(chartLength: ChartLength): String {
+    private fun mapToGroupingName(chartGrouping: ChartGrouping): String {
+        return when (chartGrouping) {
+            ChartGrouping.DAILY -> R.string.statistics_detail_chart_daily
+            ChartGrouping.WEEKLY -> R.string.statistics_detail_chart_weekly
+            ChartGrouping.MONTHLY -> R.string.statistics_detail_chart_monthly
+        }.let(resourceRepo::getString)
+    }
+
+    private fun mapToLengthName(chartLength: ChartLength): String {
         return when (chartLength) {
             ChartLength.TEN -> R.string.statistics_detail_length_ten
             ChartLength.FIFTY -> R.string.statistics_detail_length_fifty
