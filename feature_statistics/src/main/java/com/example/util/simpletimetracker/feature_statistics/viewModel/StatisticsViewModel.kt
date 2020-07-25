@@ -44,8 +44,6 @@ class StatisticsViewModel @Inject constructor(
     }
 
     fun onItemClick(item: StatisticsViewData, sharedElements: Map<Any, String>) {
-        return // TODO statistics detail is wip
-
         if (item.typeId == -1L) return // TODO untracked detailed statistics
 
         router.navigate(

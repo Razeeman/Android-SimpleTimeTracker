@@ -11,12 +11,41 @@ class StatisticsDetailInteractor @Inject constructor(
     private val recordInteractor: RecordInteractor
 ) {
 
-    suspend fun getDurations(typeId: Long, numberOfDays: Int): List<Long> {
-        if (numberOfDays == 0) return emptyList()
+    suspend fun getDurations(
+        typeId: Long,
+        grouping: ChartGrouping,
+        numberOfGroups: Int
+    ): List<Long> {
+        if (numberOfGroups == 0) return emptyList()
 
+        val ranges = when (grouping) {
+            ChartGrouping.DAILY -> getDailyGrouping(numberOfGroups)
+            ChartGrouping.WEEKLY -> getWeeklyGrouping(numberOfGroups)
+            ChartGrouping.MONTHLY -> getMonthlyGrouping(numberOfGroups)
+        }
+
+        val records = recordInteractor.getFromRange(
+            start = ranges.first().first,
+            end = ranges.last().second
+        ).filter { it.typeId == typeId }
+
+        if (records.isEmpty()) return LongArray(numberOfGroups) { 0L }.toList()
+
+        return ranges
+            .map { (start, end) ->
+                getRecordsFromRange(records, start, end).map { record ->
+                    clampToRange(record, start, end)
+                }
+            }
+            .map(::mapToDuration)
+    }
+
+    private fun getDailyGrouping(
+        numberOfDays: Int
+    ): List<Pair<Long, Long>> {
         val calendar = Calendar.getInstance()
 
-        val ranges = (numberOfDays downTo 0).map { shift ->
+        return (numberOfDays downTo 0).map { shift ->
             calendar.apply {
                 timeInMillis = System.currentTimeMillis()
                 set(Calendar.HOUR_OF_DAY, 0)
@@ -29,21 +58,48 @@ class StatisticsDetailInteractor @Inject constructor(
             val rangeEnd = calendar.apply { add(Calendar.DATE, 1) }.timeInMillis
             rangeStart to rangeEnd
         }
+    }
 
-        val records = recordInteractor.getFromRange(
-            start = ranges.first().first,
-            end = ranges.last().second
-        ).filter { it.typeId == typeId }
+    private fun getWeeklyGrouping(
+        numberOfWeeks: Int
+    ): List<Pair<Long, Long>> {
+        val calendar = Calendar.getInstance()
 
-        if (records.isEmpty()) return LongArray(numberOfDays) { 0L }.toList()
-
-        return ranges
-            .map { (start, end) ->
-                getRecordsFromRange(records, start, end).map { record ->
-                    clampToRange(record, start, end)
-                }
+        return (numberOfWeeks downTo 0).map { shift ->
+            calendar.apply {
+                timeInMillis = System.currentTimeMillis()
+                set(Calendar.HOUR_OF_DAY, 0)
+                set(Calendar.MINUTE, 0)
+                set(Calendar.SECOND, 0)
+                set(Calendar.MILLISECOND, 0)
             }
-            .map(::mapToDuration)
+            calendar.set(Calendar.DAY_OF_WEEK, calendar.firstDayOfWeek)
+            calendar.add(Calendar.DATE, -shift * 7)
+            val rangeStart = calendar.timeInMillis
+            val rangeEnd = calendar.apply { add(Calendar.DATE, 7) }.timeInMillis
+            rangeStart to rangeEnd
+        }
+    }
+
+    private fun getMonthlyGrouping(
+        numberOfWeeks: Int
+    ): List<Pair<Long, Long>> {
+        val calendar = Calendar.getInstance()
+
+        return (numberOfWeeks downTo 0).map { shift ->
+            calendar.apply {
+                timeInMillis = System.currentTimeMillis()
+                set(Calendar.HOUR_OF_DAY, 0)
+                set(Calendar.MINUTE, 0)
+                set(Calendar.SECOND, 0)
+                set(Calendar.MILLISECOND, 0)
+            }
+            calendar.set(Calendar.DAY_OF_MONTH, 1)
+            calendar.add(Calendar.MONTH, -shift)
+            val rangeStart = calendar.timeInMillis
+            val rangeEnd = calendar.apply { add(Calendar.MONTH, 1) }.timeInMillis
+            rangeStart to rangeEnd
+        }
     }
 
     private fun getRecordsFromRange(
