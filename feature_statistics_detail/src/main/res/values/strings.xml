@@ -10,4 +10,7 @@
     <string name="statistics_detail_length_hundred">100</string>
     <string name="statistics_detail_legend_minute_suffix">m</string>
     <string name="statistics_detail_legend_hour_suffix">h</string>
+    <string name="statistics_detail_shortest_record">Shortest</string>
+    <string name="statistics_detail_average_record">Average</string>
+    <string name="statistics_Detail_longest_record">Longest</string>
 </resources>

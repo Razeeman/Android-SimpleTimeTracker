@@ -29,11 +29,19 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         records: List<Record>,
         recordType: RecordType?
     ): StatisticsDetailViewData {
-        val totalDuration = records.let(::mapToDuration)
+        val recordsSorted = records.sortedBy { it.timeStarted }
+        val durations = records.map(::mapToDuration)
+        val totalDuration = durations.sum()
         val timesTracked = records.size.toLong()
+        val shortest = durations.min().orZero()
+        val average = durations.sum() / durations.size
+        val longest = durations.max().orZero()
+        val first = recordsSorted.firstOrNull()?.timeStarted
+        val last = recordsSorted.lastOrNull()?.timeEnded
 
         return StatisticsDetailViewData(
-            name = recordType?.name.orEmpty(),
+            name = recordType?.name
+                .orEmpty(),
             iconId = recordType?.icon
                 ?.let(iconMapper::mapToDrawableResId)
                 ?: R.drawable.unknown,
@@ -43,7 +51,19 @@ class StatisticsDetailViewDataMapper @Inject constructor(
                 .let(resourceRepo::getColor),
             totalDuration = totalDuration
                 .let(timeMapper::formatInterval),
-            timesTracked = timesTracked.toString()
+            timesTracked = timesTracked.toString(),
+            shortestRecord = shortest
+                .let(timeMapper::formatInterval),
+            averageRecord = average
+                .let(timeMapper::formatInterval),
+            longestRecord = longest
+                .let(timeMapper::formatInterval),
+            firstRecord = first
+                ?.let(timeMapper::formatDateYearTime)
+                .orEmpty(),
+            lastRecord = last
+                ?.let(timeMapper::formatDateYearTime)
+                .orEmpty()
         )
     }
 
@@ -53,7 +73,12 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             iconId = R.drawable.unknown,
             color = R.color.untracked_time_color.let(resourceRepo::getColor),
             totalDuration = "",
-            timesTracked = "0"
+            timesTracked = "",
+            shortestRecord = "",
+            averageRecord = "",
+            longestRecord = "",
+            firstRecord = "",
+            lastRecord = ""
         )
     }
 
@@ -141,9 +166,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             .let(resourceRepo::getColor)
     }
 
-    private fun mapToDuration(records: List<Record>): Long {
-        return records
-            .map { it.timeEnded - it.timeStarted }
-            .sum()
+    private fun mapToDuration(record: Record): Long {
+        return record.let { it.timeEnded - it.timeStarted }
     }
 }

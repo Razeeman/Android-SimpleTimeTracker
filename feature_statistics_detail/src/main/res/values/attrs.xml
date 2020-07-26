@@ -10,4 +10,9 @@
         <attr name="legendTextSize" format="dimension" />
         <attr name="legendTextColor" format="color" />
     </declare-styleable>
+
+    <declare-styleable name="StatisticsDetailCardView">
+        <attr name="itemValue" format="string" />
+        <attr name="itemDescription" format="string" />
+    </declare-styleable>
 </resources>

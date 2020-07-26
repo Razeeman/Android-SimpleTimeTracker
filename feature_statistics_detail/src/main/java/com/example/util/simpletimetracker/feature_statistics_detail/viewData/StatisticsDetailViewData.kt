@@ -8,5 +8,10 @@ data class StatisticsDetailViewData(
     @DrawableRes val iconId: Int,
     @ColorInt val color: Int,
     val totalDuration: String,
-    val timesTracked: String
+    val timesTracked: String,
+    val shortestRecord: String,
+    val averageRecord: String,
+    val longestRecord: String,
+    val firstRecord: String,
+    val lastRecord: String
 )

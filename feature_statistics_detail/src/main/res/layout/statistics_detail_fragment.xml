@@ -59,93 +59,6 @@
 
         </androidx.cardview.widget.CardView>
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardStatisticsDetailTotalDuration"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="2dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="4dp"
-            app:cardPreventCornerOverlap="false"
-            app:cardUseCompatPadding="true"
-            app:layout_constraintEnd_toStartOf="@id/cardStatisticsDetailTimesTracked"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layoutStatisticsDetailItem">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="8dp">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvStatisticsDetailTotalDuration"
-                    style="@style/StatisticsText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    tools:text="213h 19m" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvStatisticsDetailTotalDurationDescription"
-                    style="@style/StatisticsSecondaryText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/statistics_detail_total_duration" />
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardStatisticsDetailTimesTracked"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="2dp"
-            android:layout_marginEnd="4dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="4dp"
-            app:cardPreventCornerOverlap="false"
-            app:cardUseCompatPadding="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/cardStatisticsDetailTotalDuration"
-            app:layout_constraintTop_toBottomOf="@+id/layoutStatisticsDetailItem">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="8dp">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvStatisticsDetailTimesTracked"
-                    style="@style/StatisticsText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    tools:text="453" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvStatisticsDetailTimesTrackedDescription"
-                    style="@style/StatisticsSecondaryText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/statistics_detail_times_tracked" />
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/barrierStatisticsDetail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:barrierDirection="bottom"
-            app:constraint_referenced_ids="cardStatisticsDetailTimesTracked, cardStatisticsDetailTotalDuration" />
-
         <com.example.util.simpletimetracker.feature_statistics_detail.customView.BarChartView
             android:id="@+id/chartStatisticsDetail"
             android:layout_width="match_parent"
@@ -155,7 +68,7 @@
             android:layout_marginEnd="8dp"
             app:barCornerRadius="8dp"
             app:dividerWidth="2dp"
-            app:layout_constraintTop_toBottomOf="@id/barrierStatisticsDetail"
+            app:layout_constraintTop_toBottomOf="@id/layoutStatisticsDetailItem"
             app:legendTextColor="@color/textSecondary"
             app:legendTextSize="14sp"
             tools:barColor="@color/black"
@@ -182,6 +95,96 @@
             app:layout_constraintTop_toBottomOf="@id/rvStatisticsDetailGrouping"
             tools:itemCount="1"
             tools:listitem="@layout/item_statistics_detail_length_layout" />
+
+        <com.example.util.simpletimetracker.feature_statistics_detail.customView.StatisticsDetailCardView
+            android:id="@+id/cardStatisticsDetailTotal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            app:itemDescription="@string/statistics_detail_total_duration"
+            app:layout_constraintEnd_toStartOf="@id/cardStatisticsDetailRecords"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rvStatisticsDetailLength"
+            tools:itemValue="213h 19m" />
+
+        <com.example.util.simpletimetracker.feature_statistics_detail.customView.StatisticsDetailCardView
+            android:id="@+id/cardStatisticsDetailRecords"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            app:itemDescription="@string/statistics_detail_times_tracked"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/cardStatisticsDetailTotal"
+            app:layout_constraintTop_toBottomOf="@+id/rvStatisticsDetailLength"
+            tools:itemValue="453" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrierStatisticsDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="cardStatisticsDetailRecords, @+id/cardStatisticsDetailTotal" />
+
+        <com.example.util.simpletimetracker.feature_statistics_detail.customView.StatisticsDetailCardView
+            android:id="@+id/cardStatisticsDetailShortest"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            app:itemDescription="@string/statistics_detail_shortest_record"
+            app:layout_constraintEnd_toStartOf="@id/cardStatisticsDetailAverage"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/barrierStatisticsDetail"
+            tools:itemValue="19m" />
+
+        <com.example.util.simpletimetracker.feature_statistics_detail.customView.StatisticsDetailCardView
+            android:id="@+id/cardStatisticsDetailAverage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:itemDescription="@string/statistics_detail_average_record"
+            app:layout_constraintEnd_toStartOf="@id/cardStatisticsDetailLongest"
+            app:layout_constraintStart_toEndOf="@id/cardStatisticsDetailShortest"
+            app:layout_constraintTop_toBottomOf="@+id/barrierStatisticsDetail"
+            tools:itemValue="6h 21m" />
+
+        <com.example.util.simpletimetracker.feature_statistics_detail.customView.StatisticsDetailCardView
+            android:id="@+id/cardStatisticsDetailLongest"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            app:itemDescription="@string/statistics_Detail_longest_record"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/cardStatisticsDetailAverage"
+            app:layout_constraintTop_toBottomOf="@+id/barrierStatisticsDetail"
+            tools:itemValue="23h 15m" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrierStatisticsDetailRecordLength"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="cardStatisticsDetailShortest, cardStatisticsDetailAverage, cardStatisticsDetailLongest" />
+
+        <com.example.util.simpletimetracker.feature_statistics_detail.customView.StatisticsDetailCardView
+            android:id="@+id/cardStatisticsDetailFirst"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            app:itemDescription="First"
+            app:layout_constraintEnd_toStartOf="@id/cardStatisticsDetailRecords"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/barrierStatisticsDetailRecordLength"
+            tools:itemValue="Jun 23 2019 07:13 " />
+
+        <com.example.util.simpletimetracker.feature_statistics_detail.customView.StatisticsDetailCardView
+            android:id="@+id/cardStatisticsDetailLast"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            app:itemDescription="Last"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/cardStatisticsDetailTotal"
+            app:layout_constraintTop_toBottomOf="@+id/barrierStatisticsDetailRecordLength"
+            tools:itemValue="Jul 29 2019 23:18" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

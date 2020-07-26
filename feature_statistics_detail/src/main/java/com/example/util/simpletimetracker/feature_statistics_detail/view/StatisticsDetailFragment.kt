@@ -98,8 +98,13 @@ class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragmen
         layoutStatisticsDetailItem.setCardBackgroundColor(viewData.color)
         ivStatisticsDetailItemIcon.setBackgroundResource(viewData.iconId)
 
-        tvStatisticsDetailTotalDuration.text = viewData.totalDuration
-        tvStatisticsDetailTimesTracked.text = viewData.timesTracked
+        cardStatisticsDetailTotal.itemValue = viewData.totalDuration
+        cardStatisticsDetailRecords.itemValue = viewData.timesTracked
+        cardStatisticsDetailShortest.itemValue = viewData.shortestRecord
+        cardStatisticsDetailAverage.itemValue = viewData.averageRecord
+        cardStatisticsDetailLongest.itemValue = viewData.longestRecord
+        cardStatisticsDetailFirst.itemValue = viewData.firstRecord
+        cardStatisticsDetailLast.itemValue = viewData.lastRecord
         chartStatisticsDetail.setBarColor(viewData.color)
     }
 
