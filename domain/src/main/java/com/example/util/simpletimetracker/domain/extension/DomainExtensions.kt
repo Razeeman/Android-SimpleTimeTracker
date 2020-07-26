@@ -1,11 +1,13 @@
 package com.example.util.simpletimetracker.domain.extension
 
-fun Boolean?.orFalse() = this ?: false
+fun Boolean?.orFalse(): Boolean = this ?: false
 
-fun Boolean?.orTrue() = this ?: true
+fun Boolean?.orTrue(): Boolean = this ?: true
 
-fun Boolean.flip() = !this
+fun Boolean.flip(): Boolean = !this
 
-fun Long?.orZero() = this ?: 0
+fun Long?.orZero(): Long = this ?: 0
 
-fun Int?.orZero() = this ?: 0
+fun Int?.orZero(): Int = this ?: 0
+
+fun Float?.orZero(): Float = this ?: 0f

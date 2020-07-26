@@ -6,5 +6,8 @@
         <attr name="dividerWidth" format="dimension" />
         <attr name="barCornerRadius" format="dimension" />
         <attr name="barColor" format="color" />
+        <attr name="legendTextSuffix" format="string" />
+        <attr name="legendTextSize" format="dimension" />
+        <attr name="legendTextColor" format="color" />
     </declare-styleable>
 </resources>

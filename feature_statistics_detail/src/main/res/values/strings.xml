@@ -8,4 +8,6 @@
     <string name="statistics_detail_length_ten">10</string>
     <string name="statistics_detail_length_fifty">50</string>
     <string name="statistics_detail_length_hundred">100</string>
+    <string name="statistics_detail_legend_minute_suffix">m</string>
+    <string name="statistics_detail_legend_hour_suffix">h</string>
 </resources>

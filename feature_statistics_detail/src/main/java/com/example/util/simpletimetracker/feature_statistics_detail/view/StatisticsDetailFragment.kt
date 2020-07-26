@@ -105,6 +105,7 @@ class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragmen
 
     private fun updateChartViewData(viewData: StatisticsDetailChartViewData) {
         chartStatisticsDetail.setBars(viewData.data)
+        chartStatisticsDetail.setLegendTextSuffix(viewData.legendSuffix)
     }
 
     companion object {

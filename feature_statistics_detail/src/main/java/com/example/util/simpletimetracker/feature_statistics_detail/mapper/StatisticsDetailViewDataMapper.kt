@@ -5,6 +5,7 @@ import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_statistics_detail.R
@@ -14,6 +15,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.viewData.Sta
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailGroupingViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailViewData
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class StatisticsDetailViewDataMapper @Inject constructor(
@@ -58,8 +60,17 @@ class StatisticsDetailViewDataMapper @Inject constructor(
     fun mapToChartViewData(
         data: List<Long>
     ): StatisticsDetailChartViewData {
+        val isMinutes = data.max().orZero()
+            .let(TimeUnit.MILLISECONDS::toHours) == 0L
+        val legendSuffix = if (isMinutes) {
+            resourceRepo.getString(R.string.statistics_detail_legend_minute_suffix)
+        } else {
+            resourceRepo.getString(R.string.statistics_detail_legend_hour_suffix)
+        }
+
         return StatisticsDetailChartViewData(
-            data = data
+            data = data.map { formatInterval(it, isMinutes) },
+            legendSuffix = legendSuffix
         )
     }
 
@@ -88,6 +99,24 @@ class StatisticsDetailViewDataMapper @Inject constructor(
                 name = mapToLengthName(it),
                 color = mapToSelected(it == chartLength)
             )
+        }
+    }
+
+    private fun formatInterval(interval: Long, isMinutes: Boolean): Float {
+        val hr: Long = TimeUnit.MILLISECONDS.toHours(
+            interval
+        )
+        val min: Long = TimeUnit.MILLISECONDS.toMinutes(
+            interval - TimeUnit.HOURS.toMillis(hr)
+        )
+        val sec: Long = TimeUnit.MILLISECONDS.toSeconds(
+            interval - TimeUnit.HOURS.toMillis(hr) - TimeUnit.MINUTES.toMillis(min)
+        )
+
+        return if (isMinutes) {
+            min + sec / 60f
+        } else {
+            hr + min / 60f
         }
     }
 
