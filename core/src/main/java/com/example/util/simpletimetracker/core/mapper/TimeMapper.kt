@@ -15,7 +15,7 @@ class TimeMapper @Inject constructor(
     private val calendar = Calendar.getInstance()
     private val timeFormat = SimpleDateFormat("kk:mm", Locale.US)
     private val dateFormat = SimpleDateFormat("MMM d kk:mm", Locale.US)
-    private val dateYearFormat = SimpleDateFormat("MMM d YYYY kk:mm", Locale.US)
+    private val dateYearFormat = SimpleDateFormat("MMM d yyyy kk:mm", Locale.US)
     private val dayTitleFormat = SimpleDateFormat("E, MMM d", Locale.US)
     private val weekTitleFormat = SimpleDateFormat("MMM d", Locale.US)
     private val monthTitleFormat = SimpleDateFormat("MMMM", Locale.US)

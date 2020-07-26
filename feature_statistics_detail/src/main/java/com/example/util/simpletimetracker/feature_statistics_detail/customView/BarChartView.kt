@@ -30,6 +30,7 @@ class BarChartView @JvmOverloads constructor(
     private var legendTextSuffix = ""
     private var legendTextSize: Float = 0f
     private var legendTextColor: Int = 0
+    private var legendLineColor: Int = 0
 
     private val bounds: RectF = RectF(0f, 0f, 0f, 0f)
     private var radiusArr: FloatArray = floatArrayOf(0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f)
@@ -70,8 +71,8 @@ class BarChartView @JvmOverloads constructor(
         val h = height.toFloat()
 
         drawText(canvas, w, h)
-        drawBars(canvas, h)
         drawLines(canvas, h)
+        drawBars(canvas, h)
     }
 
     fun setBars(data: List<Float>) {
@@ -116,6 +117,8 @@ class BarChartView @JvmOverloads constructor(
                     getDimensionPixelSize(R.styleable.BarChartView_legendTextSize, 14).toFloat()
                 legendTextColor =
                     getColor(R.styleable.BarChartView_legendTextColor, Color.BLACK)
+                legendLineColor =
+                    getColor(R.styleable.BarChartView_legendLineColor, Color.BLACK)
                 recycle()
             }
     }
@@ -133,7 +136,7 @@ class BarChartView @JvmOverloads constructor(
         }
         linePaint.apply {
             isAntiAlias = true
-            color = legendTextColor
+            color = legendLineColor
         }
     }
 

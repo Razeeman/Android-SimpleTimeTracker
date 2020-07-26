@@ -9,6 +9,7 @@
         <attr name="legendTextSuffix" format="string" />
         <attr name="legendTextSize" format="dimension" />
         <attr name="legendTextColor" format="color" />
+        <attr name="legendLineColor" format="color" />
     </declare-styleable>
 
     <declare-styleable name="StatisticsDetailCardView">
