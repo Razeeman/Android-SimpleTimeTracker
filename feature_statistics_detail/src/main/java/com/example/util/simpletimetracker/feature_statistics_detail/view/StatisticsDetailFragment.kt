@@ -97,13 +97,14 @@ class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragmen
         tvStatisticsDetailItemName.text = viewData.name
         layoutStatisticsDetailItem.setCardBackgroundColor(viewData.color)
         ivStatisticsDetailItemIcon.setBackgroundResource(viewData.iconId)
+        ivStatisticsDetailItemIcon.tag = viewData.iconId
 
         chartStatisticsDetail.setBarColor(viewData.color)
 
         cardStatisticsDetailTotal.items = viewData.totalDuration
         cardStatisticsDetailRecords.items = viewData.timesTracked
         cardStatisticsDetailAverage.items = viewData.averageRecord
-        cardStatisticsDetailFirst.items = viewData.datesTracked
+        cardStatisticsDetailDates.items = viewData.datesTracked
     }
 
     private fun updateChartViewData(viewData: StatisticsDetailChartViewData) {
