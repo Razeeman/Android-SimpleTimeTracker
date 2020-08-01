@@ -5,32 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardCornerRadius="8dp"
-    app:cardElevation="4dp"
+    app:cardElevation="3dp"
     app:cardPreventCornerOverlap="false"
     app:cardUseCompatPadding="true">
 
-    <LinearLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvStatisticsDetailCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="8dp">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvStatisticsDetailCardValue"
-            style="@style/StatisticsText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            tools:text="Value" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvStatisticsDetailCardDescription"
-            style="@style/StatisticsSecondaryText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            tools:text="Description" />
-
-    </LinearLayout>
+        tools:itemCount="1"
+        tools:listitem="@layout/statistics_detail_card_item" />
 
 </androidx.cardview.widget.CardView>

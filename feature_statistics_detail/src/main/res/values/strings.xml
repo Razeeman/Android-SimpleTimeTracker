@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="statistics_detail_times_tracked">Records</string>
-    <string name="statistics_detail_total_duration">Total</string>
     <string name="statistics_detail_chart_daily">daily</string>
     <string name="statistics_detail_chart_weekly">weekly</string>
     <string name="statistics_detail_chart_monthly">monthly</string>
@@ -10,7 +8,11 @@
     <string name="statistics_detail_length_hundred">100</string>
     <string name="statistics_detail_legend_minute_suffix">m</string>
     <string name="statistics_detail_legend_hour_suffix">h</string>
+    <string name="statistics_detail_times_tracked">Records</string>
+    <string name="statistics_detail_total_duration">Total</string>
     <string name="statistics_detail_shortest_record">Shortest</string>
     <string name="statistics_detail_average_record">Average</string>
-    <string name="statistics_Detail_longest_record">Longest</string>
+    <string name="statistics_detail_longest_record">Longest</string>
+    <string name="statistics_detail_first_record">First</string>
+    <string name="statistics_detail_last_record">Last</string>
 </resources>

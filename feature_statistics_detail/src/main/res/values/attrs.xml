@@ -13,7 +13,7 @@
     </declare-styleable>
 
     <declare-styleable name="StatisticsDetailCardView">
-        <attr name="itemValue" format="string" />
-        <attr name="itemDescription" format="string" />
+        <!-- Used for layout preview -->
+        <attr name="itemCount" format="integer" />
     </declare-styleable>
 </resources>
