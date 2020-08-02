@@ -51,6 +51,36 @@ class TimeMapper @Inject constructor(
         }
     }
 
+    fun toTimestampShift(toTime: Long): Long {
+        val current = System.currentTimeMillis()
+        var result = 0
+
+        calendar.timeInMillis = toTime
+        result += calendar.get(Calendar.DAY_OF_YEAR)
+
+        calendar.timeInMillis = current
+        result -= calendar.get(Calendar.DAY_OF_YEAR)
+
+        val yearInFuture: Int
+        val shiftDirection: Int
+        if (toTime < current) {
+            yearInFuture = calendar.apply { timeInMillis = current }.get(Calendar.YEAR)
+            calendar.apply { timeInMillis = toTime }
+            shiftDirection = 1
+        } else {
+            yearInFuture = calendar.apply { timeInMillis = toTime }.get(Calendar.YEAR)
+            calendar.apply { timeInMillis = current }
+            shiftDirection = -1
+        }
+
+        while (calendar.get(Calendar.YEAR) != yearInFuture) {
+            result -= shiftDirection * calendar.getActualMaximum(Calendar.DAY_OF_YEAR)
+            calendar.add(Calendar.YEAR, 1)
+        }
+
+        return result.toLong()
+    }
+
     fun toDayTitle(daysFromToday: Int): String {
         return when (daysFromToday) {
             -1 -> resourceRepo.getString(R.string.title_yesterday)

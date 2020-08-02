@@ -5,24 +5,28 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
+import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
 import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.core.extension.setOnLongClick
-import com.example.util.simpletimetracker.navigation.model.SnackBarMessage
 import com.example.util.simpletimetracker.core.viewModel.RemoveRecordViewModel
 import com.example.util.simpletimetracker.feature_records.R
 import com.example.util.simpletimetracker.feature_records.adapter.RecordsContainerAdapter
 import com.example.util.simpletimetracker.feature_records.di.RecordsComponentProvider
 import com.example.util.simpletimetracker.feature_records.viewModel.RecordsContainerViewModel
 import com.example.util.simpletimetracker.navigation.Router
+import com.example.util.simpletimetracker.navigation.model.SnackBarMessage
 import kotlinx.android.synthetic.main.records_container_fragment.*
 import javax.inject.Inject
 
-class RecordsContainerFragment : BaseFragment(R.layout.records_container_fragment) {
+class RecordsContainerFragment : BaseFragment(R.layout.records_container_fragment),
+    DateTimeDialogListener {
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<RecordsContainerViewModel>
+
     @Inject
     lateinit var removeRecordViewModelFactory: BaseViewModelFactory<RemoveRecordViewModel>
+
     @Inject
     lateinit var router: Router
 
@@ -48,19 +52,27 @@ class RecordsContainerFragment : BaseFragment(R.layout.records_container_fragmen
         btnRecordAdd.setOnClick(viewModel::onRecordAddClick)
         btnRecordsContainerPrevious.setOnClick(viewModel::onPreviousClick)
         btnRecordsContainerNext.setOnClick(viewModel::onNextClick)
-        btnRecordsContainerToday.setOnLongClick(viewModel::onTodayClick)
+        btnRecordsContainerToday.setOnClick(viewModel::onTodayClick)
+        btnRecordsContainerToday.setOnLongClick(viewModel::onTodayLongClick)
     }
 
     override fun initViewModel() {
         with(viewModel) {
             title.observe(viewLifecycleOwner, ::updateTitle)
             position.observe(viewLifecycleOwner) {
-                pagerRecordsContainer.setCurrentItem(it + RecordsContainerAdapter.FIRST, viewPagerSmoothScroll)
+                pagerRecordsContainer.setCurrentItem(
+                    it + RecordsContainerAdapter.FIRST,
+                    viewPagerSmoothScroll
+                )
             }
         }
         with(removeRecordViewModel) {
             message.observe(viewLifecycleOwner, ::showMessage)
         }
+    }
+
+    override fun onDateTimeSet(timestamp: Long, tag: String?) {
+        viewModel.onDateTimeSet(timestamp, tag)
     }
 
     private fun setupPager() {

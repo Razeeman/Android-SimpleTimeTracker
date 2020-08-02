@@ -48,20 +48,12 @@
         android:id="@+id/changeRecordFragment"
         android:name="com.example.util.simpletimetracker.feature_change_record.view.ChangeRecordFragment"
         android:label="ChangeRecordFragment"
-        tools:layout="@layout/change_record_fragment">
-        <action
-            android:id="@+id/action_changeRecordFragment_to_dateTimeDialog"
-            app:destination="@id/dateTimeDialog" />
-    </fragment>
+        tools:layout="@layout/change_record_fragment" />
     <fragment
         android:id="@+id/changeRunningRecordFragment"
         android:name="com.example.util.simpletimetracker.feature_change_running_record.view.ChangeRunningRecordFragment"
         android:label="ChangeRunningRecordFragment"
-        tools:layout="@layout/change_running_record_fragment">
-        <action
-            android:id="@+id/action_changeRunningRecordFragment_to_dateTimeDialog"
-            app:destination="@id/dateTimeDialog" />
-    </fragment>
+        tools:layout="@layout/change_running_record_fragment" />
     <fragment
         android:id="@+id/statisticsDetailFragment"
         android:name="com.example.util.simpletimetracker.feature_statistics_detail.view.StatisticsDetailFragment"
@@ -79,5 +71,6 @@
     <dialog
         android:id="@+id/chartFilerDialogFragment"
         android:name="com.example.util.simpletimetracker.feature_dialogs.chartFilter.view.ChartFilterDialogFragment"
-        android:label="ChartFilerDialogFragment" />
+        android:label="ChartFilerDialogFragment"
+        tools:layout="@layout/chart_filter_dialog_fragment" />
 </navigation>

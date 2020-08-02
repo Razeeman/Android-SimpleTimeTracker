@@ -8,6 +8,8 @@ import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
 import com.example.util.simpletimetracker.navigation.params.ChangeRecordParams
+import com.example.util.simpletimetracker.navigation.params.DateTimeDialogParams
+import com.example.util.simpletimetracker.navigation.params.DateTimeDialogType
 import javax.inject.Inject
 
 class RecordsContainerViewModel @Inject constructor(
@@ -34,11 +36,34 @@ class RecordsContainerViewModel @Inject constructor(
     }
 
     fun onTodayClick() {
+        val current = timeMapper.toTimestampShifted(position.value.orZero())
+        router.navigate(
+            Screen.DATE_TIME_DIALOG,
+            DateTimeDialogParams(
+                tag = DATE_TAG,
+                type = DateTimeDialogType.DATE,
+                timestamp = current
+            )
+        )
+    }
+
+    fun onTodayLongClick() {
         updatePosition(0)
     }
 
     fun onNextClick() {
         updatePosition(position.value.orZero() + 1)
+    }
+
+    fun onDateTimeSet(timestamp: Long, tag: String?) {
+        when (tag) {
+            DATE_TAG -> {
+                timestamp
+                    .let(timeMapper::toTimestampShift)
+                    .toInt()
+                    .let(::updatePosition)
+            }
+        }
     }
 
     private fun updatePosition(newPosition: Int) {
@@ -48,5 +73,9 @@ class RecordsContainerViewModel @Inject constructor(
 
     private fun loadTitle(): String {
         return timeMapper.toDayTitle(position.value.orZero())
+    }
+
+    companion object {
+        private const val DATE_TAG = "date_tag"
     }
 }

@@ -15,6 +15,7 @@ import com.example.util.simpletimetracker.core.extension.visible
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_dialogs.R
 import com.example.util.simpletimetracker.navigation.params.DateTimeDialogParams
+import com.example.util.simpletimetracker.navigation.params.DateTimeDialogType
 import kotlinx.android.synthetic.main.date_time_dialog_fragment.*
 import java.util.Calendar
 
@@ -23,7 +24,16 @@ class DateTimeDialogFragment : AppCompatDialogFragment(),
     TimeDialogFragment.OnTimeSetListener {
 
     private var dateTimeDialogListener: DateTimeDialogListener? = null
-    private val dialogTag: String? by lazy { arguments?.getString(ARGS_TAG) }
+    private val dialogTag: String? by lazy {
+        arguments?.getString(ARGS_TAG)
+    }
+    private val type: DateTimeDialogType by lazy {
+        arguments?.getSerializable(ARGS_TYPE) as? DateTimeDialogType
+            ?: DateTimeDialogType.DATETIME
+    }
+    private val timestamp: Long by lazy {
+        arguments?.getLong(ARGS_TIMESTAMP, 0).orZero()
+    }
     private var newTimestamp: Long = 0
     private val calendar = Calendar.getInstance()
 
@@ -53,37 +63,9 @@ class DateTimeDialogFragment : AppCompatDialogFragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val timestamp: Long = arguments?.getLong(ARGS_TIMESTAMP, 0).orZero()
         newTimestamp = timestamp
-
-        childFragmentManager.commit {
-            replace(
-                R.id.datePickerContainer,
-                DateDialogFragment.newInstance(timestamp)
-                    .apply { listener = this@DateTimeDialogFragment }
-            )
-        }
-        childFragmentManager.commit {
-            replace(
-                R.id.timePickerContainer,
-                TimeDialogFragment.newInstance(timestamp)
-                    .apply { listener = this@DateTimeDialogFragment }
-            )
-        }
-
-        tabsDateTimeDialog.getTabAt(1)?.select()
-        tabsDateTimeDialog.onTabSelected { tab ->
-            when (tab.position) {
-                0 -> {
-                    datePickerContainer.visible = true
-                    timePickerContainer.visible = false
-                }
-                1 -> {
-                    datePickerContainer.visible = false
-                    timePickerContainer.visible = true
-                }
-            }
-        }
+        initFragments()
+        initTabs()
 
         btnDateTimeDialogPositive.setOnClickListener {
             dateTimeDialogListener?.onDateTimeSet(newTimestamp, dialogTag)
@@ -110,14 +92,61 @@ class DateTimeDialogFragment : AppCompatDialogFragment(),
         newTimestamp = calendar.timeInMillis
     }
 
+    private fun initFragments() {
+        childFragmentManager.commit {
+            replace(
+                R.id.datePickerContainer,
+                DateDialogFragment.newInstance(timestamp)
+                    .apply { listener = this@DateTimeDialogFragment }
+            )
+        }
+
+        if (type == DateTimeDialogType.DATETIME) {
+            childFragmentManager.commit {
+                replace(
+                    R.id.timePickerContainer,
+                    TimeDialogFragment.newInstance(timestamp)
+                        .apply { listener = this@DateTimeDialogFragment }
+                )
+            }
+        }
+    }
+
+    private fun initTabs() {
+        when (type) {
+            DateTimeDialogType.DATE -> {
+                tabsDateTimeDialog.visible = false
+                datePickerContainer.visible = true
+                timePickerContainer.visible = false
+            }
+            DateTimeDialogType.DATETIME -> {
+                tabsDateTimeDialog.getTabAt(1)?.select()
+                tabsDateTimeDialog.onTabSelected { tab ->
+                    when (tab.position) {
+                        0 -> {
+                            datePickerContainer.visible = true
+                            timePickerContainer.visible = false
+                        }
+                        1 -> {
+                            datePickerContainer.visible = false
+                            timePickerContainer.visible = true
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     companion object {
         private const val ARGS_TAG = "tag"
+        private const val ARGS_TYPE = "type"
         private const val ARGS_TIMESTAMP = "timestamp"
 
         fun createBundle(data: Any?): Bundle = Bundle().apply {
             when (data) {
                 is DateTimeDialogParams -> {
                     putString(ARGS_TAG, data.tag)
+                    putSerializable(ARGS_TYPE, data.type)
                     putLong(ARGS_TIMESTAMP, data.timestamp)
                 }
             }
