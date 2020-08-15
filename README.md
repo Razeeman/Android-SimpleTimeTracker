@@ -1,3 +1,5 @@
+<a href='https://play.google.com/store/apps/details?id=com.razeeman.util.simpletimetracker&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' height='75px'/></a>
+
 # Simple Time Tracker
 
 Simple app that helps track how much time you spend on all the useless activities in the world.
@@ -41,6 +43,11 @@ Simple app that helps track how much time you spend on all the useless activitie
 [![statistics_filter_thumb]][statistics_filter]
 <br>
 
+## View detailed statistics
+
+[![statistics_detail_thumb]][statistics_detail]
+<br>
+
 ## Settings
 
 [![settings_thumb]][settings]
@@ -63,6 +70,7 @@ Simple app that helps track how much time you spend on all the useless activitie
 - Coroutines
 - Widgets
 - Custom Pie Chart View
+- Custom Bar Chart View
 - Recycler with custom Adapter Delegates
 - DiffUtils with payloads
 - Shared ViewModels
@@ -104,6 +112,9 @@ Simple app that helps track how much time you spend on all the useless activitie
 
 [statistics_range_thumb]: dev_files/screens/statistics_range_thumb.png
 [statistics_range]: dev_files/screens/statistics_range.png
+
+[statistics_detail_thumb]: dev_files/screens/statistics_detail_thumb.png
+[statistics_detail]: dev_files/screens/statistics_detail.png
 
 [widgets_thumb]: dev_files/screens/widgets_thumb.png
 [widgets]: dev_files/screens/widgets.png
