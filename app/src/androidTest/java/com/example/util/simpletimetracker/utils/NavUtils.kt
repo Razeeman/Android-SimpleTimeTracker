@@ -28,21 +28,25 @@ object NavUtils {
         Thread.sleep(500)
     }
 
-    fun addActivity(name: String, color: Int, icon: Int) {
+    fun addActivity(name: String, color: Int? = null, icon: Int? = null) {
         clickOnViewWithText(R.string.running_records_add_type)
 
         // Name
         typeTextIntoView(R.id.etChangeRecordTypeName, name)
 
         // Color
-        clickOnViewWithText(R.string.change_record_type_color_hint)
-        scrollRecyclerToView(R.id.rvChangeRecordTypeColor, withCardColor(color))
-        clickOnRecyclerItem(R.id.rvChangeRecordTypeColor, withCardColor(color))
+        if (color != null) {
+            clickOnViewWithText(R.string.change_record_type_color_hint)
+            scrollRecyclerToView(R.id.rvChangeRecordTypeColor, withCardColor(color))
+            clickOnRecyclerItem(R.id.rvChangeRecordTypeColor, withCardColor(color))
+        }
 
         // Icon
-        clickOnViewWithText(R.string.change_record_type_icon_hint)
-        scrollRecyclerToView(R.id.rvChangeRecordTypeIcon, hasDescendant(withTag(icon)))
-        clickOnRecyclerItem(R.id.rvChangeRecordTypeIcon, withTag(icon))
+        if (icon != null) {
+            clickOnViewWithText(R.string.change_record_type_icon_hint)
+            scrollRecyclerToView(R.id.rvChangeRecordTypeIcon, hasDescendant(withTag(icon)))
+            clickOnRecyclerItem(R.id.rvChangeRecordTypeIcon, withTag(icon))
+        }
 
         clickOnViewWithText(R.string.change_record_type_save)
     }

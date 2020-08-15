@@ -56,9 +56,18 @@ class SettingsFragment : BaseFragment(R.layout.settings_fragment),
     }
 
     override fun initViewModel(): Unit = with(viewModel) {
-        sortRecordTypesCheckbox.observe(viewLifecycleOwner, checkboxSettingsRecordTypeSort::setChecked)
-        showUntrackedCheckbox.observe(viewLifecycleOwner, checkboxSettingsShowUntracked::setChecked)
-        allowMultitaskingCheckbox.observe(viewLifecycleOwner, checkboxSettingsAllowMultitasking::setChecked)
+        sortRecordTypesCheckbox.observe(
+            viewLifecycleOwner,
+            checkboxSettingsRecordTypeSort::setChecked
+        )
+        showUntrackedCheckbox.observe(
+            viewLifecycleOwner,
+            checkboxSettingsShowUntracked::setChecked
+        )
+        allowMultitaskingCheckbox.observe(
+            viewLifecycleOwner,
+            checkboxSettingsAllowMultitasking::setChecked
+        )
     }
 
     override fun onResume() {
