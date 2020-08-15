@@ -43,6 +43,15 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    val allowMultitaskingCheckbox: LiveData<Boolean> by lazy {
+        return@lazy MutableLiveData<Boolean>().let { initial ->
+            viewModelScope.launch {
+                initial.value = prefsInteractor.getAllowMultitasking()
+            }
+            initial
+        }
+    }
+
     fun onSaveClick() {
         router.navigate(
             Screen.CREATE_FILE,
@@ -95,6 +104,14 @@ class SettingsViewModel @Inject constructor(
             val newValue = !prefsInteractor.getShowUntrackedInRecords()
             prefsInteractor.setShowUntrackedInRecords(newValue)
             (showUntrackedCheckbox as MutableLiveData).value = newValue
+        }
+    }
+
+    fun onAllowMultitaskingClicked() {
+        viewModelScope.launch {
+            val newValue = !prefsInteractor.getAllowMultitasking()
+            prefsInteractor.setAllowMultitasking(newValue)
+            (allowMultitaskingCheckbox as MutableLiveData).value = newValue
         }
     }
 

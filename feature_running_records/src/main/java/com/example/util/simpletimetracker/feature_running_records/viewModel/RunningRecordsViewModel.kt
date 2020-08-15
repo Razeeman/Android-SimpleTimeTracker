@@ -8,9 +8,11 @@ import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.core.utils.CountingIdlingResourceProvider
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
+import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
+import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.feature_running_records.interactor.RunningRecordsViewDataInteractor
 import com.example.util.simpletimetracker.feature_running_records.viewData.RunningRecordViewData
 import com.example.util.simpletimetracker.navigation.Router
@@ -28,6 +30,7 @@ class RunningRecordsViewModel @Inject constructor(
     private val router: Router,
     private val runningRecordInteractor: RunningRecordInteractor,
     private val recordInteractor: RecordInteractor,
+    private val prefsInteractor: PrefsInteractor,
     private val widgetInteractor: WidgetInteractor,
     private val runningRecordsViewDataInteractor: RunningRecordsViewDataInteractor
 ) : ViewModel() {
@@ -41,6 +44,11 @@ class RunningRecordsViewModel @Inject constructor(
 
     fun onRecordTypeClick(item: RecordTypeViewData) {
         viewModelScope.launch {
+            if (!prefsInteractor.getAllowMultitasking()) {
+                runningRecordInteractor.getAll()
+                    .filter { it.id != item.id }
+                    .forEach { handleRunningRecordRemove(it) }
+            }
             runningRecordInteractor.add(item.id)
             widgetInteractor.updateWidgets()
             updateRunningRecords()
@@ -61,14 +69,9 @@ class RunningRecordsViewModel @Inject constructor(
 
     fun onRunningRecordClick(item: RunningRecordViewData) {
         viewModelScope.launch {
-            runningRecordInteractor.get(item.id)?.let { runningRecord ->
-                recordInteractor.add(
-                    typeId = runningRecord.id,
-                    timeStarted = runningRecord.timeStarted
-                )
-                runningRecordInteractor.remove(item.id)
-                widgetInteractor.updateWidgets()
-            }
+            runningRecordInteractor.get(item.id)
+                ?.let { handleRunningRecordRemove(it) }
+            widgetInteractor.updateWidgets()
             updateRunningRecords()
         }
     }
@@ -97,6 +100,14 @@ class RunningRecordsViewModel @Inject constructor(
 
     private suspend fun loadRunningRecordsViewData(): List<ViewHolderType> {
         return runningRecordsViewDataInteractor.getViewData()
+    }
+
+    private suspend fun handleRunningRecordRemove(runningRecord: RunningRecord) {
+        recordInteractor.add(
+            typeId = runningRecord.id,
+            timeStarted = runningRecord.timeStarted
+        )
+        runningRecordInteractor.remove(runningRecord.id)
     }
 
     private fun startUpdate() {

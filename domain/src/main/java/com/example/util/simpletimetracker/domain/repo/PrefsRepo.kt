@@ -8,6 +8,8 @@ interface PrefsRepo {
 
     var showUntrackedInRecords: Boolean
 
+    var allowMultitasking: Boolean
+
     fun setWidget(widgetId: Int, recordType: Long)
 
     fun getWidget(widgetId: Int): Long

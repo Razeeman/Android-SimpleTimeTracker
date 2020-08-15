@@ -35,6 +35,14 @@ class PrefsInteractor @Inject constructor(
         prefsRepo.showUntrackedInRecords = isEnabled
     }
 
+    suspend fun getAllowMultitasking(): Boolean = withContext(Dispatchers.IO) {
+        prefsRepo.allowMultitasking
+    }
+
+    suspend fun setAllowMultitasking(isEnabled: Boolean) = withContext(Dispatchers.IO) {
+        prefsRepo.allowMultitasking = isEnabled
+    }
+
     suspend fun setWidget(widgetId: Int, recordType: Long) = withContext(Dispatchers.IO) {
         prefsRepo.setWidget(widgetId, recordType)
     }

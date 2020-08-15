@@ -23,6 +23,10 @@ class PrefsRepoImpl @Inject constructor(
         KEY_SHOW_UNTRACKED_IN_RECORDS, true
     )
 
+    override var allowMultitasking: Boolean by prefs.delegate(
+        ALLOW_MULTITASKING, true
+    )
+
     override fun setWidget(widgetId: Int, recordType: Long) {
         prefs.edit().putLong(KEY_WIDGET + widgetId, recordType).apply()
     }
@@ -43,6 +47,7 @@ class PrefsRepoImpl @Inject constructor(
         private const val KEY_RECORD_TYPES_FILTERED_ON_CHART = "recordTypesFilteredOnChart"
         private const val KEY_SORT_RECORD_TYPES_BY_COLOR = "sortRecordTypesByColor"
         private const val KEY_SHOW_UNTRACKED_IN_RECORDS = "showUntrackedInRecords"
+        private const val ALLOW_MULTITASKING = "allowMultitasking"
         private const val KEY_WIDGET = "widget_"
     }
 }

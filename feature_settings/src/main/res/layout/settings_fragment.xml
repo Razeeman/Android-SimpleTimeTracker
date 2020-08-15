@@ -44,7 +44,7 @@
                     <androidx.appcompat.widget.AppCompatCheckBox
                         android:id="@+id/checkboxSettingsRecordTypeSort"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="0dp"
                         app:layout_constraintBottom_toBottomOf="@id/tvSettingsRecordTypeSort"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@id/tvSettingsRecordTypeSort" />
@@ -53,12 +53,13 @@
 
                 <View
                     style="@style/SettingsDivider"
-                    android:layout_width="match_parent" />
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="8dp" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_marginTop="8dp"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tvSettingsShowUntracked"
@@ -73,7 +74,7 @@
                     <androidx.appcompat.widget.AppCompatCheckBox
                         android:id="@+id/checkboxSettingsShowUntracked"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="0dp"
                         app:layout_constraintBottom_toBottomOf="@id/tvSettingsShowUntracked"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@id/tvSettingsShowUntracked" />
@@ -82,7 +83,47 @@
 
                 <View
                     style="@style/SettingsDivider"
-                    android:layout_width="match_parent" />
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="8dp" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvSettingsAllowMultitasking"
+                        style="@style/SettingsText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_allow_multitasking"
+                        app:layout_constraintEnd_toStartOf="@id/checkboxSettingsAllowMultitasking"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/SettingsSecondaryText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_allow_multitasking_hint"
+                        app:layout_constraintEnd_toStartOf="@id/checkboxSettingsAllowMultitasking"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvSettingsAllowMultitasking" />
+
+                    <androidx.appcompat.widget.AppCompatCheckBox
+                        android:id="@+id/checkboxSettingsAllowMultitasking"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        app:layout_constraintBottom_toBottomOf="@id/tvSettingsAllowMultitasking"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tvSettingsAllowMultitasking" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <View
+                    style="@style/SettingsDivider"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="8dp" />
 
                 <LinearLayout
                     android:id="@+id/layoutSettingsSaveBackup"
