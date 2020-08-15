@@ -22,6 +22,7 @@ import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
+import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.feature_widget.R
 import com.example.util.simpletimetracker.feature_widget.di.WidgetComponentProvider
 import kotlinx.coroutines.CoroutineScope
@@ -184,18 +185,28 @@ class WidgetProvider : AppWidgetProvider() {
             val runningRecord = runningRecordInteractor.get(recordTypeId)
             if (runningRecord != null) {
                 // Stop running record, add new record
-                recordInteractor.add(
-                    typeId = recordTypeId,
-                    timeStarted = runningRecord.timeStarted
-                )
-                runningRecordInteractor.remove(runningRecord.id)
+                handleRunningRecordRemove(runningRecord)
             } else {
+                // Stop other activities if necessary
+                if (!prefsInteractor.getAllowMultitasking()) {
+                    runningRecordInteractor.getAll()
+                        .forEach { handleRunningRecordRemove(it) }
+                    widgetInteractor.updateWidgets()
+                }
                 // Add new running record
                 runningRecordInteractor.add(recordTypeId)
             }
 
             widgetInteractor.updateWidget(widgetId)
         }
+    }
+
+    private suspend fun handleRunningRecordRemove(runningRecord: RunningRecord) {
+        recordInteractor.add(
+            typeId = runningRecord.id,
+            timeStarted = runningRecord.timeStarted
+        )
+        runningRecordInteractor.remove(runningRecord.id)
     }
 
     private fun getPendingSelfIntent(
