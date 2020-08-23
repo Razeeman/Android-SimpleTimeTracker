@@ -35,18 +35,22 @@
     </style>
 
     <style name="RecordTypeIcon">
-        <item name="android:layout_marginStart">16dp</item>
-        <item name="android:layout_marginEnd">16dp</item>
+        <item name="android:layout_marginStart">2dp</item>
+        <item name="android:layout_marginEnd">2dp</item>
         <item name="backgroundTint">@color/white</item>
     </style>
 
     <style name="RecordTypeText">
-        <item name="android:ellipsize">marquee</item>
-        <item name="android:gravity">center</item>
+        <item name="android:layout_marginStart">2dp</item>
+        <item name="android:layout_marginEnd">2dp</item>
         <item name="android:layout_marginTop">4dp</item>
-        <item name="android:maxLines">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:maxLines">2</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textStyle">bold</item>
+        <item name="autoSizeMaxTextSize">14sp</item>
+        <item name="autoSizeMinTextSize">4sp</item>
+        <item name="autoSizeTextType">uniform</item>
     </style>
 
     <style name="RecordTypeItem">
