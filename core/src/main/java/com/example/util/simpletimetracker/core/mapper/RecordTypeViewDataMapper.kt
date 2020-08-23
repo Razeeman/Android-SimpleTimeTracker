@@ -11,6 +11,7 @@ class RecordTypeViewDataMapper @Inject constructor(
     private val resourceRepo: ResourceRepo
 ) {
 
+    // TODO remove
     fun map(recordType: RecordType): RecordTypeViewData {
         return RecordTypeViewData(
             id = recordType.id,
@@ -20,6 +21,19 @@ class RecordTypeViewDataMapper @Inject constructor(
             color = recordType.color
                 .let(colorMapper::mapToColorResId)
                 .let(resourceRepo::getColor)
+        )
+    }
+
+    fun map(recordType: RecordType, width: Int): RecordTypeViewData {
+        return RecordTypeViewData(
+            id = recordType.id,
+            name = recordType.name,
+            iconId = recordType.icon
+                .let(iconMapper::mapToDrawableResId),
+            color = recordType.color
+                .let(colorMapper::mapToColorResId)
+                .let(resourceRepo::getColor),
+            width = width
         )
     }
 }

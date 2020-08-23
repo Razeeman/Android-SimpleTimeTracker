@@ -4,6 +4,7 @@
     <dimen name="input_field_height">58dp</dimen>
     <dimen name="input_field_margin">18dp</dimen>
 
+    <dimen name="record_type_card_min_width">50dp</dimen>
     <dimen name="record_type_card_width">75dp</dimen>
     <dimen name="record_type_card_height">94dp</dimen>
     <dimen name="record_type_card_corner_radius">8dp</dimen>

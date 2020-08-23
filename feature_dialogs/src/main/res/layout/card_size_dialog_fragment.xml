@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/ivChartFilterArrow"
+        android:id="@+id/ivCardSizeArrow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -15,12 +15,21 @@
         android:src="@drawable/statistics_filter_dialog_arrow" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvChartFilterContainer"
+        android:id="@+id/rvCardSizeContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="32dp"
         android:layout_marginBottom="32dp"
         android:layout_weight="1"
         tools:listitem="@layout/item_record_type_layout" />
+
+    <SeekBar
+        android:id="@+id/seekbarCardSize"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="32dp"
+        android:max="100" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

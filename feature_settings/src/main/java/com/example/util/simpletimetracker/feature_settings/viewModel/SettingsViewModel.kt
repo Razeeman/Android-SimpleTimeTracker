@@ -114,6 +114,10 @@ class SettingsViewModel @Inject constructor(
             (allowMultitaskingCheckbox as MutableLiveData).value = newValue
         }
     }
+    
+    fun onChangeCardSizeClick() {
+        router.navigate(Screen.CARD_SIZE_DIALOG)
+    }
 
     fun onPositiveDialogClick(tag: String?) {
         when (tag) {

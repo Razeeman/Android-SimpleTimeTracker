@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.core.extension
 import android.animation.ObjectAnimator
 import android.view.View
 import android.view.animation.LinearInterpolator
+import android.widget.SeekBar
 import com.google.android.material.tabs.TabLayout
 
 var View.visible: Boolean
@@ -62,6 +63,22 @@ fun TabLayout.onTabSelected(func: (TabLayout.Tab) -> Unit) {
 
         override fun onTabSelected(tab: TabLayout.Tab?) {
             tab?.let(func::invoke)
+        }
+    })
+}
+
+fun SeekBar.onProgressChanged(func: (Int) -> Unit) {
+    this.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+        override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+            func(progress)
+        }
+
+        override fun onStartTrackingTouch(seekBar: SeekBar?) {
+            // Do nothing
+        }
+
+        override fun onStopTrackingTouch(seekBar: SeekBar?) {
+            // Do nothing
         }
     })
 }

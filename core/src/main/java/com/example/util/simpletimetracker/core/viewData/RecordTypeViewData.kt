@@ -8,7 +8,8 @@ data class RecordTypeViewData(
     val id: Long,
     val name: String,
     @DrawableRes val iconId: Int,
-    @ColorInt val color: Int
+    @ColorInt val color: Int,
+    val width: Int? = null
 ) : ViewHolderType {
 
     override fun getViewType(): Int = ViewHolderType.RECORD_TYPE

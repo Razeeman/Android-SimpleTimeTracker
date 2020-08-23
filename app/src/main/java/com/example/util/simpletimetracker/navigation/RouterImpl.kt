@@ -98,6 +98,13 @@ class RouterImpl @Inject constructor(
                     null,
                     navExtras
                 )
+            Screen.CARD_SIZE_DIALOG ->
+                navController?.navigate(
+                    R.id.cardSizeDialogFragment,
+                    null,
+                    null,
+                    navExtras
+                )
             // TODO move to Action
             Screen.CREATE_FILE -> {
                 val timeString = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())

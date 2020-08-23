@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.di
 import com.example.util.simpletimetracker.feature_change_record.di.ChangeRecordComponentProvider
 import com.example.util.simpletimetracker.feature_change_record_type.di.ChangeRecordTypeComponentProvider
 import com.example.util.simpletimetracker.feature_change_running_record.di.ChangeRunningRecordComponentProvider
+import com.example.util.simpletimetracker.feature_dialogs.cardSize.di.CardSizeComponentProvider
 import com.example.util.simpletimetracker.feature_dialogs.chartFilter.di.ChartFilterComponentProvider
 import com.example.util.simpletimetracker.feature_main.di.MainComponentProvider
 import com.example.util.simpletimetracker.feature_records.di.RecordsComponentProvider
@@ -23,6 +24,7 @@ interface FeatureComponentProvider :
     StatisticsDetailComponentProvider,
     SettingsComponentProvider,
     ChartFilterComponentProvider,
+    CardSizeComponentProvider,
     WidgetComponentProvider {
 
     var appComponent: AppComponent?
