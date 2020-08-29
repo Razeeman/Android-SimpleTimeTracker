@@ -6,10 +6,9 @@ import android.util.AttributeSet
 import android.view.Gravity
 import android.view.View
 import android.widget.FrameLayout
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import com.example.util.simpletimetracker.core.R
-import com.example.util.simpletimetracker.core.extension.dpToPx
+import com.example.util.simpletimetracker.core.extension.setMargins
 import kotlinx.android.synthetic.main.record_type_view_layout.view.layoutRecordTypeItem
 import kotlinx.android.synthetic.main.record_type_view_vertical.view.constraintRecordTypeItem
 import kotlinx.android.synthetic.main.record_type_view_vertical.view.ivRecordTypeItemIcon
@@ -94,21 +93,17 @@ class RecordTypeView @JvmOverloads constructor(
         if (isRow) {
             val setRow = ConstraintSet().apply { clone(context, R.layout.record_type_view_horizontal) }
             setRow.applyTo(constraintRecordTypeItem)
-            tvRecordTypeItemName.apply {
-                gravity = Gravity.START or Gravity.CENTER_VERTICAL
-                layoutParams = layoutParams.also {
-                    (it as? ConstraintLayout.LayoutParams)?.topMargin = 0
-                }
-            }
+
+            ivRecordTypeItemIcon.setMargins(start = 6)
+            tvRecordTypeItemName.gravity = Gravity.START or Gravity.CENTER_VERTICAL
+            tvRecordTypeItemName.setMargins(top = 0, start = 8)
         } else {
             val setRow = ConstraintSet().apply { clone(context, R.layout.record_type_view_vertical) }
             setRow.applyTo(constraintRecordTypeItem)
-            tvRecordTypeItemName.apply {
-                gravity = Gravity.CENTER
-                layoutParams = layoutParams.also {
-                    (it as? ConstraintLayout.LayoutParams)?.topMargin = 4.dpToPx()
-                }
-            }
+
+            ivRecordTypeItemIcon.setMargins(start = 0)
+            tvRecordTypeItemName.gravity = Gravity.CENTER
+            tvRecordTypeItemName.setMargins(top = 4, start = 0)
         }
     }
 }

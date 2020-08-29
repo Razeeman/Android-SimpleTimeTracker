@@ -5,6 +5,7 @@ import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.empty.EmptyAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.loader.LoaderAdapterDelegate
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
+import com.example.util.simpletimetracker.feature_running_records.viewData.RunningRecordTypeAddViewData
 import com.example.util.simpletimetracker.feature_running_records.viewData.RunningRecordViewData
 
 class RunningRecordAdapter(
@@ -12,7 +13,7 @@ class RunningRecordAdapter(
     onRecordLongClick: ((RunningRecordViewData, Map<Any, String>) -> Unit),
     onTypeClick: ((RecordTypeViewData) -> Unit),
     onTypeLongClick: ((RecordTypeViewData, Map<Any, String>) -> Unit),
-    onAddClick: (() -> Unit)
+    onAddClick: ((RunningRecordTypeAddViewData) -> Unit)
 ) : BaseRecyclerAdapter() {
 
     init {

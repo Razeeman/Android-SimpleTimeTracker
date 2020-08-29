@@ -8,7 +8,9 @@ class RunningRecordTypeAddViewData(
     val name: String,
     @DrawableRes val iconId: Int,
     @ColorInt val color: Int,
-    val width: Int? = null
+    val width: Int,
+    val height: Int,
+    val asRow: Boolean = false
 ) : ViewHolderType {
 
     override fun getViewType(): Int = ViewHolderType.FOOTER

@@ -6,7 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?selectableItemBackground"
-    android:paddingTop="12dp"
+    android:paddingStart="2dp"
+    android:paddingTop="8dp"
+    android:paddingEnd="2dp"
     android:paddingBottom="8dp"
     tools:background="@color/black">
 
@@ -15,6 +17,7 @@
         style="@style/RecordTypeIcon"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginStart="0dp"
         app:layout_constraintBottom_toTopOf="@id/guideRecordTypeItem"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
@@ -34,6 +37,7 @@
         style="@style/RecordTypeText"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginStart="0dp"
         android:layout_marginTop="4dp"
         android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"

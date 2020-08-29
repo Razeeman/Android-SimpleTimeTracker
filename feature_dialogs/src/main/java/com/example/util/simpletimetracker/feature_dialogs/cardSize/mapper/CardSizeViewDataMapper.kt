@@ -1,6 +1,5 @@
 package com.example.util.simpletimetracker.feature_dialogs.cardSize.mapper
 
-import com.example.util.simpletimetracker.core.RecordTypeCardWidthMapper
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
@@ -13,17 +12,11 @@ import javax.inject.Inject
 
 class CardSizeViewDataMapper @Inject constructor(
     private val resourceRepo: ResourceRepo,
-    private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
-    private val recordTypeCardWidthMapper: RecordTypeCardWidthMapper
+    private val recordTypeViewDataMapper: RecordTypeViewDataMapper
 ) {
 
     fun toToRecordTypeViewData(recordType: RecordType, numberOfCards: Int): RecordTypeViewData {
-        return recordTypeViewDataMapper.map(
-            recordType = recordType,
-            width = recordTypeCardWidthMapper.toCardWidth(numberOfCards),
-            height = recordTypeCardWidthMapper.toCardHeight(numberOfCards),
-            asRow = recordTypeCardWidthMapper.toCardAsRow(numberOfCards)
-        )
+        return recordTypeViewDataMapper.map(recordType, numberOfCards)
     }
 
     fun toToButtonsViewData(numberOfCards: Int): List<ViewHolderType> {

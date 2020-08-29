@@ -6,6 +6,7 @@
     <string name="settings_show_untracked_time">Show untracked time in records</string>
     <string name="settings_allow_multitasking">Allow multitasking</string>
     <string name="settings_allow_multitasking_hint">If disabled starting new timer will automatically stop other activities.</string>
+    <string name="settings_change_card_size">Change activity card size</string>
     <string name="settings_file_error">Error opening file</string>
     <string name="settings_dialog_message">Restore backup?</string>
     <string name="settings_restore_description">Before saving, make sure that you have the latest version of the app installed to avoid conflicts.</string>

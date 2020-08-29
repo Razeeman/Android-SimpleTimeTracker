@@ -1,6 +1,5 @@
 package com.example.util.simpletimetracker.feature_running_records.interactor
 
-import com.example.util.simpletimetracker.core.RecordTypeCardWidthMapper
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
@@ -13,8 +12,7 @@ class RunningRecordsViewDataInteractor @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
-    private val runningRecordViewDataMapper: RunningRecordViewDataMapper,
-    private val recordTypeCardWidthMapper: RecordTypeCardWidthMapper
+    private val runningRecordViewDataMapper: RunningRecordViewDataMapper
 ) {
 
     suspend fun getViewData(): List<ViewHolderType> {
@@ -23,9 +21,6 @@ class RunningRecordsViewDataInteractor @Inject constructor(
         val runningRecords = runningRecordInteractor.getAll()
         val recordTypesRunning = runningRecords.map { it.id }
         val numberOfCards = prefsInteractor.getNumberOfCards()
-        val recordTypeWidth = recordTypeCardWidthMapper.toCardWidth(numberOfCards)
-        val recordTypeHeight = recordTypeCardWidthMapper.toCardHeight(numberOfCards)
-        val recordTypeAsRow = recordTypeCardWidthMapper.toCardAsRow(numberOfCards)
 
         val runningRecordsViewData = when {
             recordTypes.filterNot { it.hidden }.isEmpty() -> emptyList()
@@ -50,12 +45,10 @@ class RunningRecordsViewDataInteractor @Inject constructor(
                 runningRecordViewDataMapper.map(
                     recordType = it,
                     isFiltered = it.id in recordTypesRunning,
-                    width = recordTypeWidth,
-                    height = recordTypeHeight,
-                    asRow = recordTypeAsRow
+                    numberOfCards = numberOfCards
                 )
             }
-            .plus(runningRecordViewDataMapper.mapToAddItem(recordTypeWidth))
+            .plus(runningRecordViewDataMapper.mapToAddItem(numberOfCards))
 
         return runningRecordsViewData +
             listOf(RunningRecordDividerViewData) +

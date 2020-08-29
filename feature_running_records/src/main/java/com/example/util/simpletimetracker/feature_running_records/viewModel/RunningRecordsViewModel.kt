@@ -14,6 +14,7 @@ import com.example.util.simpletimetracker.domain.interactor.RunningRecordInterac
 import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.feature_running_records.interactor.RunningRecordsViewDataInteractor
+import com.example.util.simpletimetracker.feature_running_records.viewData.RunningRecordTypeAddViewData
 import com.example.util.simpletimetracker.feature_running_records.viewData.RunningRecordViewData
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
@@ -58,13 +59,16 @@ class RunningRecordsViewModel @Inject constructor(
     fun onRecordTypeLongClick(item: RecordTypeViewData, sharedElements: Map<Any, String>) {
         router.navigate(
             screen = Screen.CHANGE_RECORD_TYPE,
-            data = ChangeRecordTypeParams(item.id),
+            data = ChangeRecordTypeParams(item.id, item.width, item.height, item.asRow),
             sharedElements = sharedElements
         )
     }
 
-    fun onAddRecordTypeClick() {
-        router.navigate(Screen.CHANGE_RECORD_TYPE)
+    fun onAddRecordTypeClick(item: RunningRecordTypeAddViewData) {
+        router.navigate(
+            screen = Screen.CHANGE_RECORD_TYPE,
+            data = ChangeRecordTypeParams(0, item.width, item.height, item.asRow)
+        )
     }
 
     fun onRunningRecordClick(item: RunningRecordViewData) {

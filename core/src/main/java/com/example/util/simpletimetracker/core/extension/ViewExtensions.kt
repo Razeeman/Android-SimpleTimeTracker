@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.core.extension
 
 import android.animation.ObjectAnimator
 import android.view.View
+import android.view.ViewGroup
 import android.view.animation.LinearInterpolator
 import android.widget.SeekBar
 import com.google.android.material.tabs.TabLayout
@@ -81,4 +82,20 @@ fun SeekBar.onProgressChanged(func: (Int) -> Unit) {
             // Do nothing
         }
     })
+}
+
+fun View.setMargins(
+    top: Int? = null,
+    bottom: Int? = null,
+    start: Int? = null,
+    end: Int? = null
+) {
+    layoutParams = layoutParams.also { params ->
+        (params as? ViewGroup.MarginLayoutParams)?.let {
+            top?.dpToPx()?.let { params.topMargin = it }
+            bottom?.dpToPx()?.let { params.bottomMargin = it }
+            start?.dpToPx()?.let { params.marginStart = it }
+            end?.dpToPx()?.let { params.marginEnd = it }
+        }
+    }
 }

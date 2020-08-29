@@ -8,7 +8,8 @@ import javax.inject.Inject
 class RecordTypeViewDataMapper @Inject constructor(
     private val iconMapper: IconMapper,
     private val colorMapper: ColorMapper,
-    private val resourceRepo: ResourceRepo
+    private val resourceRepo: ResourceRepo,
+    private val recordTypeCardSizeMapper: RecordTypeCardSizeMapper
 ) {
 
     // TODO remove
@@ -24,7 +25,7 @@ class RecordTypeViewDataMapper @Inject constructor(
         )
     }
 
-    fun map(recordType: RecordType, width: Int, height: Int, asRow: Boolean): RecordTypeViewData {
+    fun map(recordType: RecordType, numberOfCards: Int): RecordTypeViewData {
         return RecordTypeViewData(
             id = recordType.id,
             name = recordType.name,
@@ -33,9 +34,9 @@ class RecordTypeViewDataMapper @Inject constructor(
             color = recordType.color
                 .let(colorMapper::mapToColorResId)
                 .let(resourceRepo::getColor),
-            width = width,
-            height = height,
-            asRow = asRow
+            width = recordTypeCardSizeMapper.toCardWidth(numberOfCards),
+            height = recordTypeCardSizeMapper.toCardHeight(numberOfCards),
+            asRow = recordTypeCardSizeMapper.toCardAsRow(numberOfCards)
         )
     }
 }

@@ -8,8 +8,10 @@ import androidx.lifecycle.observe
 import androidx.transition.TransitionInflater
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
+import com.example.util.simpletimetracker.core.extension.dpToPx
 import com.example.util.simpletimetracker.core.extension.hideKeyboard
 import com.example.util.simpletimetracker.core.extension.observeOnce
+import com.example.util.simpletimetracker.core.extension.pxToDp
 import com.example.util.simpletimetracker.core.extension.rotateDown
 import com.example.util.simpletimetracker.core.extension.rotateUp
 import com.example.util.simpletimetracker.core.extension.setOnClick
@@ -18,7 +20,6 @@ import com.example.util.simpletimetracker.core.extension.visible
 import com.example.util.simpletimetracker.core.utils.BuildVersions
 import com.example.util.simpletimetracker.core.view.TransitionNames
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
-import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_change_record_type.R
 import com.example.util.simpletimetracker.feature_change_record_type.adapter.ChangeRecordTypeAdapter
 import com.example.util.simpletimetracker.feature_change_record_type.di.ChangeRecordTypeComponentProvider
@@ -29,7 +30,16 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
-import kotlinx.android.synthetic.main.change_record_type_fragment.*
+import kotlinx.android.synthetic.main.change_record_type_fragment.arrowChangeRecordTypeColor
+import kotlinx.android.synthetic.main.change_record_type_fragment.arrowChangeRecordTypeIcon
+import kotlinx.android.synthetic.main.change_record_type_fragment.btnChangeRecordTypeDelete
+import kotlinx.android.synthetic.main.change_record_type_fragment.btnChangeRecordTypeSave
+import kotlinx.android.synthetic.main.change_record_type_fragment.etChangeRecordTypeName
+import kotlinx.android.synthetic.main.change_record_type_fragment.fieldChangeRecordTypeColor
+import kotlinx.android.synthetic.main.change_record_type_fragment.fieldChangeRecordTypeIcon
+import kotlinx.android.synthetic.main.change_record_type_fragment.previewChangeRecordType
+import kotlinx.android.synthetic.main.change_record_type_fragment.rvChangeRecordTypeColor
+import kotlinx.android.synthetic.main.change_record_type_fragment.rvChangeRecordTypeIcon
 import javax.inject.Inject
 
 class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragment) {
@@ -46,7 +56,9 @@ class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragme
     private val iconsAdapter: ChangeRecordTypeAdapter by lazy {
         ChangeRecordTypeAdapter(viewModel::onColorClick, viewModel::onIconClick)
     }
-    private val typeId: Long by lazy { arguments?.getLong(ARGS_RECORD_ID).orZero() }
+    private val params: ChangeRecordTypeParams by lazy {
+        arguments?.getParcelable(ARGS_PARAMS) ?: ChangeRecordTypeParams()
+    }
 
     override fun initDi() {
         (activity?.application as ChangeRecordTypeComponentProvider)
@@ -55,6 +67,8 @@ class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragme
     }
 
     override fun initUi() {
+        updatePreviewSize()
+
         if (BuildVersions.isLollipopOrHigher()) {
             sharedElementEnterTransition = TransitionInflater.from(context)
                 .inflateTransition(android.R.transition.move)
@@ -62,7 +76,7 @@ class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragme
 
         ViewCompat.setTransitionName(
             previewChangeRecordType,
-            TransitionNames.RECORD_TYPE + typeId
+            TransitionNames.RECORD_TYPE + params.id
         )
 
         rvChangeRecordTypeColor.apply {
@@ -95,12 +109,8 @@ class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragme
     }
 
     override fun initViewModel(): Unit = with(viewModel) {
-        extra = ChangeRecordTypeExtra(
-            id = typeId
-        )
-        deleteIconVisibility.observeOnce(
-            viewLifecycleOwner, btnChangeRecordTypeDelete::visible::set
-        )
+        extra = ChangeRecordTypeExtra(params.id, params.width, params.height, params.asRow)
+        deleteIconVisibility.observeOnce(viewLifecycleOwner, btnChangeRecordTypeDelete::visible::set)
         saveButtonEnabled.observe(viewLifecycleOwner, btnChangeRecordTypeSave::setEnabled)
         deleteButtonEnabled.observe(viewLifecycleOwner, btnChangeRecordTypeDelete::setEnabled)
         recordType.observeOnce(viewLifecycleOwner, ::updateUi)
@@ -137,12 +147,25 @@ class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragme
         }
     }
 
+    private fun updatePreviewSize() {
+        val maxWidth = resources.displayMetrics.widthPixels.pxToDp() - DELETE_BUTTON_SIZE
+
+        with(previewChangeRecordType) {
+            itemIsRow = params.asRow
+            layoutParams = layoutParams.also { layoutParams ->
+                params.width?.coerceAtMost(maxWidth)?.dpToPx()?.let { layoutParams.width = it }
+                params.height?.dpToPx()?.let { layoutParams.height = it }
+            }
+        }
+    }
+
     companion object {
-        private const val ARGS_RECORD_ID = "record_id"
+        private const val ARGS_PARAMS = "args_params"
+        private const val DELETE_BUTTON_SIZE = 72 // TODO get from dimens or viewModel
 
         fun createBundle(data: Any?): Bundle = Bundle().apply {
             when (data) {
-                is ChangeRecordTypeParams -> putLong(ARGS_RECORD_ID, data.id)
+                is ChangeRecordTypeParams -> putParcelable(ARGS_PARAMS, data)
             }
         }
     }

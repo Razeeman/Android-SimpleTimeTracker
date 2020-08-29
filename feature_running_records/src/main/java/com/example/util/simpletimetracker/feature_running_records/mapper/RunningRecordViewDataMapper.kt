@@ -4,6 +4,8 @@ import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.empty.EmptyViewData
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
+import com.example.util.simpletimetracker.core.mapper.RecordTypeCardSizeMapper
+import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
@@ -18,7 +20,9 @@ class RunningRecordViewDataMapper @Inject constructor(
     private val iconMapper: IconMapper,
     private val colorMapper: ColorMapper,
     private val resourceRepo: ResourceRepo,
-    private val timeMapper: TimeMapper
+    private val timeMapper: TimeMapper,
+    private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
+    private val recordTypeCardSizeMapper: RecordTypeCardSizeMapper
 ) {
 
     fun map(
@@ -43,23 +47,14 @@ class RunningRecordViewDataMapper @Inject constructor(
     fun map(
         recordType: RecordType,
         isFiltered: Boolean,
-        width: Int,
-        height: Int,
-        asRow: Boolean
+        numberOfCards: Int
     ): RecordTypeViewData {
-        return RecordTypeViewData(
-            id = recordType.id,
-            name = recordType.name,
-            iconId = recordType.icon
-                .let(iconMapper::mapToDrawableResId),
+        return recordTypeViewDataMapper.map(recordType, numberOfCards).copy(
             color = if (isFiltered) {
                 R.color.filtered_color
             } else {
                 recordType.color.let(colorMapper::mapToColorResId)
-            }.let(resourceRepo::getColor),
-            width = width,
-            height = height,
-            asRow = asRow
+            }.let(resourceRepo::getColor)
         )
     }
 
@@ -69,13 +64,17 @@ class RunningRecordViewDataMapper @Inject constructor(
         )
     }
 
-    fun mapToAddItem(width: Int): RunningRecordTypeAddViewData {
+    fun mapToAddItem(
+        numberOfCards: Int
+    ): RunningRecordTypeAddViewData {
         return RunningRecordTypeAddViewData(
             name = R.string.running_records_add_type.let(resourceRepo::getString),
             iconId = R.drawable.add,
             color = R.color.blue_grey_200
                 .let(resourceRepo::getColor),
-            width = width
+            width = recordTypeCardSizeMapper.toCardWidth(numberOfCards),
+            height = recordTypeCardSizeMapper.toCardHeight(numberOfCards),
+            asRow = recordTypeCardSizeMapper.toCardAsRow(numberOfCards)
         )
     }
 }
