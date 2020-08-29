@@ -76,52 +76,18 @@
             tools:barCount="14"
             tools:legendTextSuffix="h" />
 
-        <!-- TODO replace with ButtonsRowView -->
-        <com.google.android.material.button.MaterialButton
-            style="@style/Widget.AppCompat.Button.Borderless"
+        <com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowView
+            android:id="@+id/buttonsStatisticsDetailGrouping"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
-            android:layout_marginEnd="8dp"
-            android:clickable="false"
-            android:focusable="false"
-            app:backgroundTint="@color/blue_grey_300"
             app:layout_constraintTop_toBottomOf="@id/chartStatisticsDetail" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvStatisticsDetailGrouping"
+        <com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowView
+            android:id="@+id/buttonsStatisticsDetailLength"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="8dp"
-            android:overScrollMode="never"
-            app:layout_constraintTop_toBottomOf="@id/chartStatisticsDetail"
-            tools:itemCount="1"
-            tools:listitem="@layout/item_statistics_detail_grouping_layout" />
-
-        <com.google.android.material.button.MaterialButton
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:clickable="false"
-            android:focusable="false"
-            app:backgroundTint="@color/blue_grey_300"
-            app:layout_constraintTop_toBottomOf="@id/rvStatisticsDetailGrouping" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvStatisticsDetailLength"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:overScrollMode="never"
-            app:layout_constraintTop_toBottomOf="@id/rvStatisticsDetailGrouping"
-            tools:itemCount="1"
-            tools:listitem="@layout/item_statistics_detail_length_layout" />
+            app:layout_constraintTop_toBottomOf="@id/buttonsStatisticsDetailGrouping" />
 
         <com.example.util.simpletimetracker.feature_statistics_detail.customView.StatisticsDetailCardView
             android:id="@+id/cardStatisticsDetailTotal"
@@ -132,7 +98,7 @@
             app:itemCount="1"
             app:layout_constraintEnd_toStartOf="@id/cardStatisticsDetailRecords"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rvStatisticsDetailLength" />
+            app:layout_constraintTop_toBottomOf="@+id/buttonsStatisticsDetailLength" />
 
         <com.example.util.simpletimetracker.feature_statistics_detail.customView.StatisticsDetailCardView
             android:id="@+id/cardStatisticsDetailRecords"
@@ -143,7 +109,7 @@
             app:itemCount="1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/cardStatisticsDetailTotal"
-            app:layout_constraintTop_toBottomOf="@+id/rvStatisticsDetailLength" />
+            app:layout_constraintTop_toBottomOf="@+id/buttonsStatisticsDetailLength" />
 
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/barrierStatisticsDetail"

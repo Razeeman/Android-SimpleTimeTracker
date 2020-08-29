@@ -12,18 +12,12 @@ import com.example.util.simpletimetracker.core.utils.BuildVersions
 import com.example.util.simpletimetracker.core.view.TransitionNames
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_statistics_detail.R
-import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailGroupingAdapter
-import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailLengthAdapter
 import com.example.util.simpletimetracker.feature_statistics_detail.di.StatisticsDetailComponentProvider
 import com.example.util.simpletimetracker.feature_statistics_detail.extra.StatisticsDetailExtra
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewModel.StatisticsDetailViewModel
 import com.example.util.simpletimetracker.navigation.params.StatisticsDetailParams
-import com.google.android.flexbox.FlexDirection
-import com.google.android.flexbox.FlexWrap
-import com.google.android.flexbox.FlexboxLayoutManager
-import com.google.android.flexbox.JustifyContent
 import kotlinx.android.synthetic.main.statistics_detail_fragment.*
 import javax.inject.Inject
 
@@ -36,16 +30,6 @@ class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragmen
     private val viewModel: StatisticsDetailViewModel by viewModels(
         factoryProducer = { viewModelFactory }
     )
-    private val chartGroupingAdapter: StatisticsDetailGroupingAdapter by lazy {
-        StatisticsDetailGroupingAdapter(
-            viewModel::onChartGroupingClick
-        )
-    }
-    private val chartLengthAdapter: StatisticsDetailLengthAdapter by lazy {
-        StatisticsDetailLengthAdapter(
-            viewModel::onChartLengthClick
-        )
-    }
     private val typeId: Long by lazy { arguments?.getLong(ARGS_TYPE_ID).orZero() }
 
     override fun initDi() {
@@ -64,23 +48,11 @@ class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragmen
             layoutStatisticsDetailItem,
             TransitionNames.STATISTICS_DETAIL + typeId
         )
+    }
 
-        rvStatisticsDetailGrouping.apply {
-            layoutManager = FlexboxLayoutManager(requireContext()).apply {
-                flexDirection = FlexDirection.ROW
-                justifyContent = JustifyContent.CENTER
-                flexWrap = FlexWrap.NOWRAP
-            }
-            adapter = chartGroupingAdapter
-        }
-        rvStatisticsDetailLength.apply {
-            layoutManager = FlexboxLayoutManager(requireContext()).apply {
-                flexDirection = FlexDirection.ROW
-                justifyContent = JustifyContent.CENTER
-                flexWrap = FlexWrap.NOWRAP
-            }
-            adapter = chartLengthAdapter
-        }
+    override fun initUx() {
+        buttonsStatisticsDetailGrouping.listener = viewModel::onChartGroupingClick
+        buttonsStatisticsDetailLength.listener = viewModel::onChartLengthClick
     }
 
     override fun initViewModel(): Unit = with(viewModel) {
@@ -89,8 +61,8 @@ class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragmen
         )
         viewData.observe(viewLifecycleOwner, ::updateViewData)
         chartViewData.observe(viewLifecycleOwner, ::updateChartViewData)
-        chartGroupingViewData.observe(viewLifecycleOwner, chartGroupingAdapter::replace)
-        chartLengthViewData.observe(viewLifecycleOwner, chartLengthAdapter::replace)
+        chartGroupingViewData.observe(viewLifecycleOwner, buttonsStatisticsDetailGrouping.adapter::replace)
+        chartLengthViewData.observe(viewLifecycleOwner, buttonsStatisticsDetailLength.adapter::replace)
     }
 
     private fun updateViewData(viewData: StatisticsDetailViewData) {

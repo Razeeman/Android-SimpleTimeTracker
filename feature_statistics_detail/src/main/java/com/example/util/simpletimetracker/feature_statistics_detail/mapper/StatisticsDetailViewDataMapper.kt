@@ -128,7 +128,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             StatisticsDetailGroupingViewData(
                 chartGrouping = it,
                 name = mapToGroupingName(it),
-                color = mapToSelected(it == chartGrouping)
+                isSelected = it == chartGrouping
             )
         }
     }
@@ -142,7 +142,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             StatisticsDetailChartLengthViewData(
                 chartLength = it,
                 name = mapToLengthName(it),
-                color = mapToSelected(it == chartLength)
+                isSelected = it == chartLength
             )
         }
     }
@@ -179,11 +179,6 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             ChartLength.FIFTY -> R.string.statistics_detail_length_fifty
             ChartLength.HUNDRED -> R.string.statistics_detail_length_hundred
         }.let(resourceRepo::getString)
-    }
-
-    private fun mapToSelected(isSelected: Boolean): Int {
-        return (if (isSelected) R.color.colorPrimary else R.color.transparent)
-            .let(resourceRepo::getColor)
     }
 
     private fun mapToDuration(record: Record): Long {

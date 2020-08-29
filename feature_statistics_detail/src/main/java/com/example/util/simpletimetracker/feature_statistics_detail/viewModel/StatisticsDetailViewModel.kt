@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.extra.StatisticsDetailExtra
@@ -56,14 +57,16 @@ class StatisticsDetailViewModel @Inject constructor(
     private var chartGrouping: ChartGrouping = ChartGrouping.DAILY
     private var chartLength: ChartLength = ChartLength.TEN
 
-    fun onChartGroupingClick(grouping: StatisticsDetailGroupingViewData) {
-        this.chartGrouping = grouping.chartGrouping
+    fun onChartGroupingClick(viewData: ButtonsRowViewData) {
+        if (viewData !is StatisticsDetailGroupingViewData) return
+        this.chartGrouping = viewData.chartGrouping
         updateChartGroupingViewData()
         updateChartViewData()
     }
 
-    fun onChartLengthClick(chartLength: StatisticsDetailChartLengthViewData) {
-        this.chartLength = chartLength.chartLength
+    fun onChartLengthClick(viewData: ButtonsRowViewData) {
+        if (viewData !is StatisticsDetailChartLengthViewData) return
+        this.chartLength = viewData.chartLength
         updateChartLengthViewData()
         updateChartViewData()
     }
