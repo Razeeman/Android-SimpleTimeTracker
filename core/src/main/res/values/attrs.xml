@@ -5,8 +5,8 @@
         <attr name="itemIcon" format="reference" />
         <attr name="itemColor" format="color" />
         <attr name="itemUseCompatPadding" format="boolean" />
-        <attr name="itemPadding" format="dimension" />
         <attr name="itemAlpha" format="float" />
+        <attr name="itemIsRow" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="RecordView">

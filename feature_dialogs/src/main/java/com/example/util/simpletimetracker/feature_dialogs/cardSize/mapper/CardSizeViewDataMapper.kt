@@ -1,8 +1,11 @@
 package com.example.util.simpletimetracker.feature_dialogs.cardSize.mapper
 
+import com.example.util.simpletimetracker.core.RecordTypeCardWidthMapper
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
-import com.example.util.simpletimetracker.core.repo.DeviceRepo
+import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
+import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_dialogs.R
 import com.example.util.simpletimetracker.feature_dialogs.cardSize.viewData.CardSizeButtonsViewData
 import com.example.util.simpletimetracker.feature_dialogs.cardSize.viewData.CardSizeDefaultButtonViewData
@@ -10,22 +13,20 @@ import javax.inject.Inject
 
 class CardSizeViewDataMapper @Inject constructor(
     private val resourceRepo: ResourceRepo,
-    private val deviceRepo: DeviceRepo
+    private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
+    private val recordTypeCardWidthMapper: RecordTypeCardWidthMapper
 ) {
 
-    private val screenWidth: Int by lazy {
-        deviceRepo.getScreenWidthInDp()
-    }
-    private val defaultCardWidth: Int by lazy {
-        resourceRepo.getDimenInDp(R.dimen.record_type_card_width)
-    }
-
-    fun numberOfCardsToWidth(numberOfCards: Int): Int {
-        if (numberOfCards <= 0) return defaultCardWidth
-        return screenWidth / numberOfCards
+    fun toToRecordTypeViewData(recordType: RecordType, numberOfCards: Int): RecordTypeViewData {
+        return recordTypeViewDataMapper.map(
+            recordType = recordType,
+            width = recordTypeCardWidthMapper.toCardWidth(numberOfCards),
+            height = recordTypeCardWidthMapper.toCardHeight(numberOfCards),
+            asRow = recordTypeCardWidthMapper.toCardAsRow(numberOfCards)
+        )
     }
 
-    fun mapToButtonsViewData(numberOfCards: Int): List<ViewHolderType> {
+    fun toToButtonsViewData(numberOfCards: Int): List<ViewHolderType> {
         return (1..6).map { buttonNumber ->
             CardSizeButtonsViewData(
                 numberOfCards = buttonNumber,

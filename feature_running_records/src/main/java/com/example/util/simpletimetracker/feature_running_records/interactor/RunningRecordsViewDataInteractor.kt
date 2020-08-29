@@ -1,7 +1,8 @@
 package com.example.util.simpletimetracker.feature_running_records.interactor
 
-import com.example.util.simpletimetracker.core.RecordTypeCardWidthInteractor
+import com.example.util.simpletimetracker.core.RecordTypeCardWidthMapper
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.feature_running_records.mapper.RunningRecordViewDataMapper
@@ -9,10 +10,11 @@ import com.example.util.simpletimetracker.feature_running_records.viewData.Runni
 import javax.inject.Inject
 
 class RunningRecordsViewDataInteractor @Inject constructor(
+    private val prefsInteractor: PrefsInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
     private val runningRecordViewDataMapper: RunningRecordViewDataMapper,
-    private val recordTypeCardWidthInteractor: RecordTypeCardWidthInteractor
+    private val recordTypeCardWidthMapper: RecordTypeCardWidthMapper
 ) {
 
     suspend fun getViewData(): List<ViewHolderType> {
@@ -20,7 +22,10 @@ class RunningRecordsViewDataInteractor @Inject constructor(
         val recordTypesMap = recordTypes.map { it.id to it }.toMap()
         val runningRecords = runningRecordInteractor.getAll()
         val recordTypesRunning = runningRecords.map { it.id }
-        val recordTypeWidth = recordTypeCardWidthInteractor.getCardWidth()
+        val numberOfCards = prefsInteractor.getNumberOfCards()
+        val recordTypeWidth = recordTypeCardWidthMapper.toCardWidth(numberOfCards)
+        val recordTypeHeight = recordTypeCardWidthMapper.toCardHeight(numberOfCards)
+        val recordTypeAsRow = recordTypeCardWidthMapper.toCardAsRow(numberOfCards)
 
         val runningRecordsViewData = when {
             recordTypes.filterNot { it.hidden }.isEmpty() -> emptyList()
@@ -45,7 +50,9 @@ class RunningRecordsViewDataInteractor @Inject constructor(
                 runningRecordViewDataMapper.map(
                     recordType = it,
                     isFiltered = it.id in recordTypesRunning,
-                    width = recordTypeWidth
+                    width = recordTypeWidth,
+                    height = recordTypeHeight,
+                    asRow = recordTypeAsRow
                 )
             }
             .plus(runningRecordViewDataMapper.mapToAddItem(recordTypeWidth))

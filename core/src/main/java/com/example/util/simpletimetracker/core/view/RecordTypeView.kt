@@ -3,10 +3,17 @@ package com.example.util.simpletimetracker.core.view
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
+import android.view.Gravity
 import android.view.View
 import android.widget.FrameLayout
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
 import com.example.util.simpletimetracker.core.R
-import kotlinx.android.synthetic.main.record_type_view_layout.view.*
+import com.example.util.simpletimetracker.core.extension.dpToPx
+import kotlinx.android.synthetic.main.record_type_view_layout.view.layoutRecordTypeItem
+import kotlinx.android.synthetic.main.record_type_view_vertical.view.constraintRecordTypeItem
+import kotlinx.android.synthetic.main.record_type_view_vertical.view.ivRecordTypeItemIcon
+import kotlinx.android.synthetic.main.record_type_view_vertical.view.tvRecordTypeItemName
 
 class RecordTypeView @JvmOverloads constructor(
     context: Context,
@@ -39,8 +46,8 @@ class RecordTypeView @JvmOverloads constructor(
                 itemUseCompatPadding = getBoolean(
                     R.styleable.RecordTypeView_itemUseCompatPadding, true
                 )
-                itemPadding = getDimensionPixelSize(
-                    R.styleable.RecordTypeView_itemPadding, 0
+                itemIsRow = getBoolean(
+                    R.styleable.RecordTypeView_itemIsRow, false
                 )
                 recycle()
             }
@@ -77,14 +84,31 @@ class RecordTypeView @JvmOverloads constructor(
             field = value
         }
 
-    var itemPadding: Int = 0
+    var itemIsRow: Boolean = false
         set(value) {
-            layoutRecordTypeItem.apply {
-                layoutParams = layoutParams.apply {
-                    this as LayoutParams
-                    setMargins(value, value, value, value)
-                }
-            }
+            changeConstraints(value)
             field = value
         }
+
+    private fun changeConstraints(isRow: Boolean) {
+        if (isRow) {
+            val setRow = ConstraintSet().apply { clone(context, R.layout.record_type_view_horizontal) }
+            setRow.applyTo(constraintRecordTypeItem)
+            tvRecordTypeItemName.apply {
+                gravity = Gravity.START or Gravity.CENTER_VERTICAL
+                layoutParams = layoutParams.also {
+                    (it as? ConstraintLayout.LayoutParams)?.topMargin = 0
+                }
+            }
+        } else {
+            val setRow = ConstraintSet().apply { clone(context, R.layout.record_type_view_vertical) }
+            setRow.applyTo(constraintRecordTypeItem)
+            tvRecordTypeItemName.apply {
+                gravity = Gravity.CENTER
+                layoutParams = layoutParams.also {
+                    (it as? ConstraintLayout.LayoutParams)?.topMargin = 4.dpToPx()
+                }
+            }
+        }
+    }
 }

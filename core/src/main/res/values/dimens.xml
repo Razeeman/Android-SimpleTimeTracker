@@ -6,5 +6,6 @@
 
     <dimen name="record_type_card_width">75dp</dimen>
     <dimen name="record_type_card_height">94dp</dimen>
+    <dimen name="record_type_card_height_row">60dp</dimen>
     <dimen name="record_type_card_corner_radius">8dp</dimen>
 </resources>

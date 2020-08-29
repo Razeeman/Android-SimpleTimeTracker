@@ -31,12 +31,12 @@ class RunningRecordTypeAdapterDelegate(
             item as RecordTypeViewData
             val transitionName = TransitionNames.RECORD_TYPE + item.id
 
-            item.width?.let {  itemWidth ->
-                layoutParams = layoutParams.also {
-                    it.width = itemWidth.dpToPx()
-                }
+            layoutParams = layoutParams.also { params ->
+                item.width?.dpToPx()?.let { params.width = it}
+                item.height?.dpToPx()?.let { params.height = it}
             }
 
+            itemIsRow = item.asRow
             itemColor = item.color
             itemIcon = item.iconId
             itemName = item.name

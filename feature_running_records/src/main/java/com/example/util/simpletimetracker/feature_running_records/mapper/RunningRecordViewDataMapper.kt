@@ -43,7 +43,9 @@ class RunningRecordViewDataMapper @Inject constructor(
     fun map(
         recordType: RecordType,
         isFiltered: Boolean,
-        width: Int
+        width: Int,
+        height: Int,
+        asRow: Boolean
     ): RecordTypeViewData {
         return RecordTypeViewData(
             id = recordType.id,
@@ -55,7 +57,9 @@ class RunningRecordViewDataMapper @Inject constructor(
             } else {
                 recordType.color.let(colorMapper::mapToColorResId)
             }.let(resourceRepo::getColor),
-            width = width
+            width = width,
+            height = height,
+            asRow = asRow
         )
     }
 

@@ -24,7 +24,7 @@ class RecordTypeViewDataMapper @Inject constructor(
         )
     }
 
-    fun map(recordType: RecordType, width: Int): RecordTypeViewData {
+    fun map(recordType: RecordType, width: Int, height: Int, asRow: Boolean): RecordTypeViewData {
         return RecordTypeViewData(
             id = recordType.id,
             name = recordType.name,
@@ -33,7 +33,9 @@ class RecordTypeViewDataMapper @Inject constructor(
             color = recordType.color
                 .let(colorMapper::mapToColorResId)
                 .let(resourceRepo::getColor),
-            width = width
+            width = width,
+            height = height,
+            asRow = asRow
         )
     }
 }

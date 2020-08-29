@@ -23,12 +23,12 @@ class CardSizeAdapterDelegate : BaseRecyclerAdapterDelegate() {
         ) = with(itemView.viewRecordTypeItem) {
             item as RecordTypeViewData
 
-            item.width?.let {  itemWidth ->
-                layoutParams = layoutParams.also {
-                    it.width = itemWidth.dpToPx()
-                }
+            layoutParams = layoutParams.also { params ->
+                item.width?.dpToPx()?.let { params.width = it}
+                item.height?.dpToPx()?.let { params.height = it}
             }
 
+            itemIsRow = item.asRow
             itemColor = item.color
             itemIcon = item.iconId
             itemName = item.name
