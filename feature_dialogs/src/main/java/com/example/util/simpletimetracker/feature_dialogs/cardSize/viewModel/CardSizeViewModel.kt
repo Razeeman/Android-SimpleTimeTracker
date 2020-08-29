@@ -13,6 +13,7 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_dialogs.cardSize.mapper.CardSizeViewDataMapper
 import com.example.util.simpletimetracker.feature_dialogs.cardSize.viewData.CardSizeButtonsViewData
+import com.example.util.simpletimetracker.feature_dialogs.cardSize.viewData.CardSizeDefaultButtonViewData
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
@@ -28,62 +29,68 @@ class CardSizeViewModel @Inject constructor(
         updateRecordTypes()
         MutableLiveData(listOf(LoaderViewData() as ViewHolderType))
     }
-    val progress: LiveData<Int> by lazy {
-        MutableLiveData<Int>().let { initial ->
-            initial.value = loadProgress()
-            initial
-        }
-    }
-    val buttonsViewData: LiveData<List<ViewHolderType>> by lazy {
+    val buttons: LiveData<List<ViewHolderType>> by lazy {
         MutableLiveData<List<ViewHolderType>>().let { initial ->
             initial.value = loadButtonsViewData()
             initial
         }
     }
-
-    private var currentWidth: Int = runBlocking { prefsInteractor.getCardSize() } // TODO remove blocking call
-    private var types: List<RecordType> = emptyList()
-
-    fun onProgressChanged(progress: Int) {
-        currentWidth = cardSizeViewDataMapper.progressToWidth(progress)
-        updateRecordTypes()
-        updateButtonsViewData()
+    val defaultButton: LiveData<CardSizeDefaultButtonViewData> by lazy {
+        MutableLiveData<CardSizeDefaultButtonViewData>().let { initial ->
+            initial.value = loadDefaultButtonViewData()
+            initial
+        }
     }
+
+    private var numberOfCards: Int = runBlocking { prefsInteractor.getNumberOfCards() }
+    private var types: List<RecordType> = emptyList()
 
     fun onDismiss() {
         viewModelScope.launch {
-            prefsInteractor.setCardSize(currentWidth)
+            prefsInteractor.setNumberOfCards(numberOfCards)
         }
     }
 
     fun onButtonClick(viewData: ButtonsRowViewData) {
         if (viewData !is CardSizeButtonsViewData) return
-        currentWidth = cardSizeViewDataMapper.buttonTypeToWidth(viewData.type)
-        updateProgress()
+        numberOfCards = viewData.numberOfCards
         updateRecordTypes()
         updateButtonsViewData()
+        updateDefaultButton()
     }
 
-    private fun updateProgress() {
-        (progress as MutableLiveData).value = loadProgress()
+    fun onDefaultButtonClick() {
+        numberOfCards = 0
+        updateRecordTypes()
+        updateButtonsViewData()
+        updateDefaultButton()
     }
 
     private fun updateButtonsViewData() {
-        (buttonsViewData as MutableLiveData).value = loadButtonsViewData()
+        (buttons as MutableLiveData).value = loadButtonsViewData()
+    }
+
+    private fun updateDefaultButton() {
+        (defaultButton as MutableLiveData).value = loadDefaultButtonViewData()
     }
 
     private fun updateRecordTypes() = viewModelScope.launch {
         if (types.isEmpty()) types = loadRecordTypes()
         (recordTypes as MutableLiveData).value = types
-            .map { type -> recordTypeViewDataMapper.map(type, currentWidth) }
+            .map { type ->
+                recordTypeViewDataMapper.map(
+                    recordType = type,
+                    width = cardSizeViewDataMapper.numberOfCardsToWidth(numberOfCards)
+                )
+            }
     }
 
-    private fun loadProgress() : Int {
-        return cardSizeViewDataMapper.widthToProgress(currentWidth)
+    private fun loadButtonsViewData(): List<ViewHolderType> {
+        return cardSizeViewDataMapper.mapToButtonsViewData(numberOfCards)
     }
 
-    private fun loadButtonsViewData() : List<ViewHolderType> {
-        return cardSizeViewDataMapper.mapToButtonsViewData(currentWidth)
+    private fun loadDefaultButtonViewData() : CardSizeDefaultButtonViewData {
+        return cardSizeViewDataMapper.toDefaultButtonViewData(numberOfCards)
     }
 
     private suspend fun loadRecordTypes(): List<RecordType> {

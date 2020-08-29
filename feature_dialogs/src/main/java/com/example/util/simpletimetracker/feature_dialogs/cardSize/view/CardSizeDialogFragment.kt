@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.feature_dialogs.cardSize.view
 
 import android.content.DialogInterface
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,10 +11,11 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
-import com.example.util.simpletimetracker.core.extension.onProgressChanged
+import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.feature_dialogs.R
 import com.example.util.simpletimetracker.feature_dialogs.cardSize.adapter.CardSizeAdapter
 import com.example.util.simpletimetracker.feature_dialogs.cardSize.di.CardSizeComponentProvider
+import com.example.util.simpletimetracker.feature_dialogs.cardSize.viewData.CardSizeDefaultButtonViewData
 import com.example.util.simpletimetracker.feature_dialogs.cardSize.viewModel.CardSizeViewModel
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
@@ -21,9 +23,9 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import kotlinx.android.synthetic.main.card_size_dialog_fragment.btnCardSizeDefault
 import kotlinx.android.synthetic.main.card_size_dialog_fragment.buttonsCardSize
 import kotlinx.android.synthetic.main.card_size_dialog_fragment.rvCardSizeContainer
-import kotlinx.android.synthetic.main.card_size_dialog_fragment.seekbarCardSize
 import javax.inject.Inject
 
 class CardSizeDialogFragment : BottomSheetDialogFragment() {
@@ -97,13 +99,17 @@ class CardSizeDialogFragment : BottomSheetDialogFragment() {
     }
 
     private fun initUx() {
-        seekbarCardSize.onProgressChanged(viewModel::onProgressChanged)
         buttonsCardSize.listener = viewModel::onButtonClick
+        btnCardSizeDefault.setOnClick(viewModel::onDefaultButtonClick)
     }
 
     private fun initViewModel(): Unit = with(viewModel) {
         recordTypes.observe(viewLifecycleOwner, recordTypesAdapter::replace)
-        progress.observe(viewLifecycleOwner, seekbarCardSize::setProgress)
-        buttonsViewData.observe(viewLifecycleOwner, buttonsCardSize.adapter::replace)
+        buttons.observe(viewLifecycleOwner, buttonsCardSize.adapter::replace)
+        defaultButton.observe(viewLifecycleOwner, ::updateDefaultButton)
+    }
+
+    private fun updateDefaultButton(viewData: CardSizeDefaultButtonViewData) {
+        btnCardSizeDefault.backgroundTintList = ColorStateList.valueOf(viewData.color)
     }
 }

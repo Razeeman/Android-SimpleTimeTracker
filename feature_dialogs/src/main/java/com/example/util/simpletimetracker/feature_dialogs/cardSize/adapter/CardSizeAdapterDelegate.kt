@@ -9,7 +9,7 @@ import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_dialogs.R
 import kotlinx.android.synthetic.main.item_record_type_layout.view.*
 
-class CardSizeAdapterDelegate() : BaseRecyclerAdapterDelegate() {
+class CardSizeAdapterDelegate : BaseRecyclerAdapterDelegate() {
 
     override fun onCreateViewHolder(parent: ViewGroup): BaseRecyclerViewHolder =
         CardSizeViewHolder(parent)

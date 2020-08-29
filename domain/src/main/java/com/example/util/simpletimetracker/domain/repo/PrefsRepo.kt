@@ -10,7 +10,7 @@ interface PrefsRepo {
 
     var allowMultitasking: Boolean
 
-    var cardSize: Int
+    var numberOfCards: Int
 
     fun setWidget(widgetId: Int, recordType: Long)
 

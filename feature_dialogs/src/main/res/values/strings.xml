@@ -2,8 +2,5 @@
 <resources>
     <string name="date_time_dialog_date">Date</string>
     <string name="date_time_dialog_time">Time</string>
-
-    <string name="card_size_min">Min</string>
     <string name="card_size_default">Default</string>
-    <string name="card_size_max">Max</string>
 </resources>
