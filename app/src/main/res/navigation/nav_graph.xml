@@ -78,4 +78,9 @@
         android:name="com.example.util.simpletimetracker.feature_dialogs.cardSize.view.CardSizeDialogFragment"
         android:label="CardSizeDialogFragment"
         tools:layout="@layout/card_size_dialog_fragment" />
+    <dialog
+        android:id="@+id/cardOrderDialogFragment"
+        android:name="com.example.util.simpletimetracker.feature_dialogs.cardOrder.view.CardOrderDialogFragment"
+        android:label="CardSizeDialogFragment"
+        tools:layout="@layout/card_order_dialog_fragment" />
 </navigation>

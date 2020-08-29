@@ -9,6 +9,7 @@ import com.example.util.simpletimetracker.di.FeatureComponentProvider
 import com.example.util.simpletimetracker.feature_change_record.di.ChangeRecordComponent
 import com.example.util.simpletimetracker.feature_change_record_type.di.ChangeRecordTypeComponent
 import com.example.util.simpletimetracker.feature_change_running_record.di.ChangeRunningRecordComponent
+import com.example.util.simpletimetracker.feature_dialogs.cardOrder.di.CardOrderComponent
 import com.example.util.simpletimetracker.feature_dialogs.cardSize.di.CardSizeComponent
 import com.example.util.simpletimetracker.feature_dialogs.chartFilter.di.ChartFilterComponent
 import com.example.util.simpletimetracker.feature_main.di.MainComponent
@@ -35,6 +36,7 @@ class TimeTrackerApp : Application(), FeatureComponentProvider {
     override var settingsComponent: SettingsComponent? = null
     override var chartFilterComponent: ChartFilterComponent? = null
     override var cardSizeComponent: CardSizeComponent? = null
+    override var cardOrderComponent: CardOrderComponent? = null
     override var widgetComponent: WidgetComponent? = null
 
     override fun onCreate() {
@@ -66,6 +68,7 @@ class TimeTrackerApp : Application(), FeatureComponentProvider {
         settingsComponent = appComponent?.plusSettingComponent()
         chartFilterComponent = appComponent?.plusChartFilterComponent()
         cardSizeComponent = appComponent?.plusCardSizeComponent()
+        cardOrderComponent = appComponent?.plusCardOrderComponent()
         widgetComponent = appComponent?.plusWidgetComponent()
     }
 

@@ -50,6 +50,7 @@ class SettingsFragment : BaseFragment(R.layout.settings_fragment),
         checkboxSettingsShowUntracked.setOnClick(viewModel::onShowUntrackedClicked)
         checkboxSettingsAllowMultitasking.setOnClick(viewModel::onAllowMultitaskingClicked)
         tvSettingsChangeCardSize.setOnClick(viewModel::onChangeCardSizeClick)
+        tvSettingsChangeCardOrder.setOnClick(viewModel::onChangeCardOrderClick)
         layoutSettingsSaveBackup.setOnClick(viewModel::onSaveClick)
         tvSettingsRestoreBackup.setOnClick(viewModel::onRestoreClick)
         layoutSettingsRate.setOnClick(viewModel::onRateClick)
