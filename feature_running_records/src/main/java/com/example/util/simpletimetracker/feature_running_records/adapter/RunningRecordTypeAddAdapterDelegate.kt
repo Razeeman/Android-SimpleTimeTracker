@@ -4,6 +4,7 @@ import android.view.ViewGroup
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerViewHolder
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.core.extension.dpToPx
 import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.feature_running_records.R
 import com.example.util.simpletimetracker.feature_running_records.viewData.RunningRecordTypeAddViewData
@@ -24,6 +25,12 @@ class RunningRecordTypeAddAdapterDelegate(
             payloads: List<Any>
         ) = with(itemView.viewRecordTypeItem) {
             item as RunningRecordTypeAddViewData
+
+            item.width?.let {  itemWidth ->
+                layoutParams = layoutParams.also {
+                    it.width = itemWidth.dpToPx()
+                }
+            }
 
             itemColor = item.color
             itemIcon = item.iconId

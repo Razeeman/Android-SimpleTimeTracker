@@ -42,7 +42,8 @@ class RunningRecordViewDataMapper @Inject constructor(
 
     fun map(
         recordType: RecordType,
-        isFiltered: Boolean
+        isFiltered: Boolean,
+        width: Int
     ): RecordTypeViewData {
         return RecordTypeViewData(
             id = recordType.id,
@@ -53,7 +54,8 @@ class RunningRecordViewDataMapper @Inject constructor(
                 R.color.filtered_color
             } else {
                 recordType.color.let(colorMapper::mapToColorResId)
-            }.let(resourceRepo::getColor)
+            }.let(resourceRepo::getColor),
+            width = width
         )
     }
 
@@ -63,12 +65,13 @@ class RunningRecordViewDataMapper @Inject constructor(
         )
     }
 
-    fun mapToAddItem(): RunningRecordTypeAddViewData {
+    fun mapToAddItem(width: Int): RunningRecordTypeAddViewData {
         return RunningRecordTypeAddViewData(
             name = R.string.running_records_add_type.let(resourceRepo::getString),
             iconId = R.drawable.add,
             color = R.color.blue_grey_200
-                .let(resourceRepo::getColor)
+                .let(resourceRepo::getColor),
+            width = width
         )
     }
 }

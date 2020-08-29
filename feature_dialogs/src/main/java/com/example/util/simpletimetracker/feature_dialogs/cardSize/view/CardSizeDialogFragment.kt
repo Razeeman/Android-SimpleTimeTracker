@@ -21,7 +21,9 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import kotlinx.android.synthetic.main.card_size_dialog_fragment.*
+import kotlinx.android.synthetic.main.card_size_dialog_fragment.buttonsCardSize
+import kotlinx.android.synthetic.main.card_size_dialog_fragment.rvCardSizeContainer
+import kotlinx.android.synthetic.main.card_size_dialog_fragment.seekbarCardSize
 import javax.inject.Inject
 
 class CardSizeDialogFragment : BottomSheetDialogFragment() {
@@ -68,7 +70,7 @@ class CardSizeDialogFragment : BottomSheetDialogFragment() {
 
     private fun initDialog() {
         dialog?.findViewById<FrameLayout>(R.id.design_bottom_sheet)?.let { bottomSheet ->
-            behavior = BottomSheetBehavior.from<View>(bottomSheet)
+            behavior = BottomSheetBehavior.from(bottomSheet)
         }
         behavior?.apply {
             peekHeight = 0
@@ -96,9 +98,12 @@ class CardSizeDialogFragment : BottomSheetDialogFragment() {
 
     private fun initUx() {
         seekbarCardSize.onProgressChanged(viewModel::onProgressChanged)
+        buttonsCardSize.listener = viewModel::onButtonClick
     }
 
     private fun initViewModel(): Unit = with(viewModel) {
         recordTypes.observe(viewLifecycleOwner, recordTypesAdapter::replace)
+        progress.observe(viewLifecycleOwner, seekbarCardSize::setProgress)
+        buttonsViewData.observe(viewLifecycleOwner, buttonsCardSize.adapter::replace)
     }
 }

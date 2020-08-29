@@ -13,6 +13,7 @@
         android:id="@+id/rvStatisticsDetailCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:overScrollMode="never"
         tools:itemCount="1"
         tools:listitem="@layout/statistics_detail_card_item" />
 

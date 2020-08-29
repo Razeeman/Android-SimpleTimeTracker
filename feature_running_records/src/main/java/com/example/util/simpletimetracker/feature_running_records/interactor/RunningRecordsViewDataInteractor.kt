@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.feature_running_records.interactor
 
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.feature_running_records.mapper.RunningRecordViewDataMapper
@@ -10,7 +11,8 @@ import javax.inject.Inject
 class RunningRecordsViewDataInteractor @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
-    private val runningRecordViewDataMapper: RunningRecordViewDataMapper
+    private val runningRecordViewDataMapper: RunningRecordViewDataMapper,
+    private val prefsInteractor: PrefsInteractor
 ) {
 
     suspend fun getViewData(): List<ViewHolderType> {
@@ -18,6 +20,7 @@ class RunningRecordsViewDataInteractor @Inject constructor(
         val recordTypesMap = recordTypes.map { it.id to it }.toMap()
         val runningRecords = runningRecordInteractor.getAll()
         val recordTypesRunning = runningRecords.map { it.id }
+        val recordTypeWidth = prefsInteractor.getCardSize()
 
         val runningRecordsViewData = when {
             recordTypes.filterNot { it.hidden }.isEmpty() -> emptyList()
@@ -39,9 +42,13 @@ class RunningRecordsViewDataInteractor @Inject constructor(
                 it.hidden
             }
             .map {
-                runningRecordViewDataMapper.map(it, it.id in recordTypesRunning)
+                runningRecordViewDataMapper.map(
+                    recordType = it,
+                    isFiltered = it.id in recordTypesRunning,
+                    width = recordTypeWidth
+                )
             }
-            .plus(runningRecordViewDataMapper.mapToAddItem())
+            .plus(runningRecordViewDataMapper.mapToAddItem(recordTypeWidth))
 
         return runningRecordsViewData +
             listOf(RunningRecordDividerViewData) +

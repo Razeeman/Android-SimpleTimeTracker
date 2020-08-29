@@ -70,7 +70,7 @@ fun TabLayout.onTabSelected(func: (TabLayout.Tab) -> Unit) {
 fun SeekBar.onProgressChanged(func: (Int) -> Unit) {
     this.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
         override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-            func(progress)
+            if (fromUser) func(progress)
         }
 
         override fun onStartTrackingTouch(seekBar: SeekBar?) {

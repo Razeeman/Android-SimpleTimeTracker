@@ -43,6 +43,14 @@ class PrefsInteractor @Inject constructor(
         prefsRepo.allowMultitasking = isEnabled
     }
 
+    suspend fun getCardSize(): Int = withContext(Dispatchers.IO) {
+        prefsRepo.cardSize
+    }
+
+    suspend fun setCardSize(cardSize: Int) = withContext(Dispatchers.IO) {
+        prefsRepo.cardSize = cardSize
+    }
+
     suspend fun setWidget(widgetId: Int, recordType: Long) = withContext(Dispatchers.IO) {
         prefsRepo.setWidget(widgetId, recordType)
     }

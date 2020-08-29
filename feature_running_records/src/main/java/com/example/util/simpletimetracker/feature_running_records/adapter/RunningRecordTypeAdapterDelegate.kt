@@ -5,6 +5,7 @@ import androidx.core.view.ViewCompat
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerViewHolder
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.core.extension.dpToPx
 import com.example.util.simpletimetracker.core.extension.setOnClickWith
 import com.example.util.simpletimetracker.core.extension.setOnLongClick
 import com.example.util.simpletimetracker.core.view.TransitionNames
@@ -29,6 +30,12 @@ class RunningRecordTypeAdapterDelegate(
         ) = with(itemView.viewRecordTypeItem) {
             item as RecordTypeViewData
             val transitionName = TransitionNames.RECORD_TYPE + item.id
+
+            item.width?.let {  itemWidth ->
+                layoutParams = layoutParams.also {
+                    it.width = itemWidth.dpToPx()
+                }
+            }
 
             itemColor = item.color
             itemIcon = item.iconId

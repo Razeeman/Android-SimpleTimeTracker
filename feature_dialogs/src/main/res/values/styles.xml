@@ -3,6 +3,7 @@
 
     <style name="BottomSheetDialog" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/BottomSheetStyleWrapper</item>
+        <item name="colorSecondary">@color/colorSecondary</item>
     </style>
 
     <style name="BottomSheetStyleWrapper" parent="Widget.Design.BottomSheet.Modal">

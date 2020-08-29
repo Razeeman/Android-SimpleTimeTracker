@@ -32,4 +32,9 @@
         android:layout_marginBottom="32dp"
         android:max="100" />
 
+    <com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowView
+        android:id="@+id/buttonsCardSize"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
 </androidx.appcompat.widget.LinearLayoutCompat>
