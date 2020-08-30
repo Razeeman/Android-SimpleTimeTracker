@@ -6,7 +6,7 @@ import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatSpinner
 import com.example.util.simpletimetracker.feature_settings.R
 
-class SettingsSpinner @JvmOverloads constructor(
+class FullWidthSpinner @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = R.attr.spinnerStyle,
@@ -18,12 +18,12 @@ class SettingsSpinner @JvmOverloads constructor(
     private var popupMarginTop: Int = 0
 
     init {
-        context.obtainStyledAttributes(attrs, R.styleable.SettingsSpinner, defStyleAttr, 0)
+        context.obtainStyledAttributes(attrs, R.styleable.FullWidthSpinner, defStyleAttr, 0)
             .run {
                 popupUnderSpinner =
-                    getBoolean(R.styleable.SettingsSpinner_popupUnderSpinner, false)
+                    getBoolean(R.styleable.FullWidthSpinner_popupUnderSpinner, false)
                 popupMarginTop =
-                    getDimensionPixelSize(R.styleable.SettingsSpinner_popupUnderMarginTop, 0)
+                    getDimensionPixelSize(R.styleable.FullWidthSpinner_popupUnderMarginTop, 0)
                 recycle()
             }
     }
