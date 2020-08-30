@@ -5,6 +5,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.LinearInterpolator
 import android.widget.SeekBar
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
+import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.google.android.material.tabs.TabLayout
 
 var View.visible: Boolean
@@ -82,6 +85,34 @@ fun SeekBar.onProgressChanged(func: (Int) -> Unit) {
             // Do nothing
         }
     })
+}
+
+fun RecyclerView.onItemMoved(func: (Int, Int) -> Unit) {
+    val dragDirections =
+        ItemTouchHelper.DOWN or ItemTouchHelper.UP or ItemTouchHelper.START or ItemTouchHelper.END
+
+    ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(dragDirections, 0) {
+        override fun onMove(
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder,
+            target: RecyclerView.ViewHolder
+        ): Boolean {
+            val fromPosition = viewHolder.adapterPosition
+            val toPosition = target.adapterPosition
+
+            func(fromPosition, toPosition)
+            (adapter as? BaseRecyclerAdapter)?.apply {
+                onMove(fromPosition, toPosition)
+                notifyItemMoved(fromPosition, toPosition)
+            }
+
+            return true
+        }
+
+        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+            // Do nothing
+        }
+    }).attachToRecyclerView(this)
 }
 
 fun View.setMargins(

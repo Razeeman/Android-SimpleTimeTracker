@@ -16,7 +16,7 @@ object Versions {
     const val room = "2.2.5"
     const val dagger = "2.24"
     const val viewpager2 = "1.0.0"
-    const val flexBox = "1.0.0"
+    const val flexBox = "2.0.1"
     const val cardView = "1.0.0"
     const val material = "1.1.0"
 

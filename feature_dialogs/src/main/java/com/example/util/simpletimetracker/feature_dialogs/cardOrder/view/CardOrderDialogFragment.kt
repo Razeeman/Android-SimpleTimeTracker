@@ -10,9 +10,8 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.RecyclerView
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
+import com.example.util.simpletimetracker.core.extension.onItemMoved
 import com.example.util.simpletimetracker.feature_dialogs.R
 import com.example.util.simpletimetracker.feature_dialogs.cardOrder.adapter.CardOrderAdapter
 import com.example.util.simpletimetracker.feature_dialogs.cardOrder.di.CardOrderComponentProvider
@@ -23,7 +22,7 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import kotlinx.android.synthetic.main.card_order_dialog_fragment.rvCardOrderContainer
+import kotlinx.android.synthetic.main.card_order_dialog_fragment.*
 import javax.inject.Inject
 
 class CardOrderDialogFragment : BottomSheetDialogFragment() {
@@ -59,6 +58,7 @@ class CardOrderDialogFragment : BottomSheetDialogFragment() {
         initDialog()
         initDi()
         initUi()
+        initUx()
         initViewModel()
     }
 
@@ -100,29 +100,13 @@ class CardOrderDialogFragment : BottomSheetDialogFragment() {
                 flexWrap = FlexWrap.WRAP
             }
             adapter = recordTypesAdapter
+            itemAnimator = null
         }
-        ItemTouchHelper(callback()).attachToRecyclerView(rvCardOrderContainer)
     }
 
-    private fun callback() =
-        object : ItemTouchHelper.SimpleCallback(
-            ItemTouchHelper.DOWN or ItemTouchHelper.UP or ItemTouchHelper.START or ItemTouchHelper.END,
-            0
-        ) {
-            override fun onMove(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder
-            ): Boolean {
-                viewModel.onCardMoved(viewHolder.adapterPosition, target.adapterPosition)
-                recordTypesAdapter.notifyItemMoved(viewHolder.adapterPosition, target.adapterPosition)
-                return true
-            }
-
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                // DO nothing
-            }
-        }
+    private fun initUx() {
+        rvCardOrderContainer.onItemMoved(viewModel::onCardMoved)
+    }
 
     private fun initViewModel(): Unit = with(viewModel) {
         recordTypes.observe(viewLifecycleOwner, recordTypesAdapter::replace)
