@@ -20,8 +20,8 @@ class PrefsInteractor @Inject constructor(
             .map(Long::toString).toSet()
     }
 
-    suspend fun getRecordTypesOrder(): CardOrder = withContext(Dispatchers.IO) {
-        when (prefsRepo.recordTypesOrder) {
+    suspend fun getCardOrder(): CardOrder = withContext(Dispatchers.IO) {
+        when (prefsRepo.cardOrder) {
             0 -> CardOrder.NAME
             1 -> CardOrder.COLOR
             2 -> CardOrder.MANUAL
@@ -29,8 +29,8 @@ class PrefsInteractor @Inject constructor(
         }
     }
 
-    suspend fun setRecordTypesOrder(cardOrder: CardOrder) = withContext(Dispatchers.IO) {
-        prefsRepo.recordTypesOrder = when (cardOrder) {
+    suspend fun setCardOrder(cardOrder: CardOrder) = withContext(Dispatchers.IO) {
+        prefsRepo.cardOrder = when (cardOrder) {
             CardOrder.NAME -> 0
             CardOrder.COLOR -> 1
             CardOrder.MANUAL -> 2
@@ -73,12 +73,12 @@ class PrefsInteractor @Inject constructor(
         prefsRepo.removeWidget(widgetId)
     }
 
-    suspend fun setCardsOrderManual(cardsOrder: Map<Long, Long>) = withContext(Dispatchers.IO) {
-        prefsRepo.setRecordTypesOrderManual(cardsOrder)
+    suspend fun setCardOrderManual(cardsOrder: Map<Long, Long>) = withContext(Dispatchers.IO) {
+        prefsRepo.setCardOrderManual(cardsOrder)
     }
 
-    suspend fun getCardsOrderManual(): Map<Long, Long> = withContext(Dispatchers.IO) {
-        prefsRepo.getRecordTypesOrderManual()
+    suspend fun getCardOrderManual(): Map<Long, Long> = withContext(Dispatchers.IO) {
+        prefsRepo.getCardOrderManual()
     }
 
     suspend fun clear() = withContext(Dispatchers.IO) {

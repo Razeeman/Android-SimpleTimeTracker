@@ -17,24 +17,7 @@ class RecordTypeInteractor @Inject constructor(
         return (recordTypeCacheRepo.getAll()
             .takeIf(List<RecordType>::isNotEmpty)
             ?: recordTypeRepo.getAll().also(recordTypeCacheRepo::addAll))
-            .sortedBy { it.name.toLowerCase(Locale.getDefault()) }
-            .let {
-                when (prefsInteractor.getRecordTypesOrder()) {
-                    CardOrder.COLOR -> {
-                        it.sortedBy(RecordType::color)
-                    }
-                    CardOrder.MANUAL -> {
-                        val order = prefsInteractor.getCardsOrderManual()
-                        it
-                            .map { type -> type to order.getOrElse(type.id, { 0 }) }
-                            .sortedBy { (_, order) -> order }
-                            .map { (type, _) -> type }
-                    }
-                    CardOrder.NAME -> {
-                        it
-                    }
-                }
-            }
+            .let{ sort(it) }
     }
 
     suspend fun get(id: Long): RecordType? {
@@ -62,5 +45,33 @@ class RecordTypeInteractor @Inject constructor(
     suspend fun clear() {
         recordTypeRepo.clear()
         recordTypeCacheRepo.clear()
+    }
+
+    private suspend fun sort(records: List<RecordType>): List<RecordType> {
+        return records
+            .let(::sortByName)
+            .let {
+                when (prefsInteractor.getCardOrder()) {
+                    CardOrder.COLOR -> sortByColor(it)
+                    CardOrder.MANUAL -> sortByManualOrder(it)
+                    CardOrder.NAME -> it
+                }
+            }
+    }
+
+    private fun sortByName(records: List<RecordType>): List<RecordType> {
+        return records.sortedBy { it.name.toLowerCase(Locale.getDefault()) }
+    }
+
+    private fun sortByColor(records: List<RecordType>): List<RecordType> {
+        return records.sortedBy(RecordType::color)
+    }
+
+    private suspend fun sortByManualOrder(records: List<RecordType>): List<RecordType> {
+        val order = prefsInteractor.getCardOrderManual()
+        return records
+            .map { type -> type to order.getOrElse(type.id, { 0 }) }
+            .sortedBy { (_, order) -> order }
+            .map { (type, _) -> type }
     }
 }

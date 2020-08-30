@@ -37,20 +37,32 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:text="@string/settings_sort_order"
-                        app:layout_constraintEnd_toStartOf="@id/spinnerSettingsRecordTypeSort"
+                        app:layout_constraintEnd_toStartOf="@id/btnCardOrderManual"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <com.example.util.simpletimetracker.feature_settings.customView.SettingsSpinner
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/btnCardOrderManual"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_marginEnd="4dp"
+                        android:background="?selectableItemBackgroundBorderless"
+                        android:src="@drawable/ic_settings"
+                        android:tint="@color/blue_grey_300"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="@id/tvSettingsRecordTypeSort"
+                        app:layout_constraintEnd_toStartOf="@id/spinnerSettingsRecordTypeSort"
+                        app:layout_constraintTop_toTopOf="@id/tvSettingsRecordTypeSort"
+                        tools:ignore="ContentDescription"
+                        tools:visibility="visible" />
+
+                    <com.example.util.simpletimetracker.feature_settings.customView.CustomSpinner
                         android:id="@+id/spinnerSettingsRecordTypeSort"
                         android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:popupBackground="@drawable/bg_spinner_popup"
-                        android:spinnerMode="dropdown"
+                        android:layout_height="0dp"
                         app:layout_constraintBottom_toBottomOf="@id/tvSettingsRecordTypeSort"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/tvSettingsRecordTypeSort"
-                        tools:listitem="@layout/item_spinner_layout" />
+                        app:layout_constraintTop_toTopOf="@id/tvSettingsRecordTypeSort" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -138,22 +150,6 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:text="@string/settings_change_card_size" />
-
-                <View
-                    style="@style/SettingsDivider"
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="8dp" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvSettingsChangeCardOrder"
-                    style="@style/SettingsText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:background="?selectableItemBackground"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:text="Change card order" />
 
                 <View
                     style="@style/SettingsDivider"

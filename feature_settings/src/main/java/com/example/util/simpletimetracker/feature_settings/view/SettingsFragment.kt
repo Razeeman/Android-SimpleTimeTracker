@@ -3,20 +3,19 @@ package com.example.util.simpletimetracker.feature_settings.view
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
-import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.StandardDialogListener
-import com.example.util.simpletimetracker.core.extension.observeOnce
-import com.example.util.simpletimetracker.core.extension.onItemSelected
 import com.example.util.simpletimetracker.core.extension.setOnClick
+import com.example.util.simpletimetracker.core.extension.visible
 import com.example.util.simpletimetracker.core.viewModel.BackupViewModel
 import com.example.util.simpletimetracker.feature_settings.BuildConfig
 import com.example.util.simpletimetracker.feature_settings.R
 import com.example.util.simpletimetracker.feature_settings.di.SettingsComponentProvider
+import com.example.util.simpletimetracker.feature_settings.viewData.CardOrderViewData
 import com.example.util.simpletimetracker.feature_settings.viewModel.SettingsViewModel
 import com.example.util.simpletimetracker.navigation.RequestCode.REQUEST_CODE_CREATE_FILE
 import com.example.util.simpletimetracker.navigation.RequestCode.REQUEST_CODE_OPEN_FILE
@@ -41,8 +40,6 @@ class SettingsFragment : BaseFragment(R.layout.settings_fragment),
         factoryProducer = { backupViewModelFactory }
     )
 
-    private var recordTypesSortOrderAdapter: ArrayAdapter<String>? = null
-
     override fun initDi() {
         (activity?.application as SettingsComponentProvider)
             .settingsComponent
@@ -50,17 +47,12 @@ class SettingsFragment : BaseFragment(R.layout.settings_fragment),
         tvSettingsVersionName.text = BuildConfig.VERSION_NAME
     }
 
-    override fun initUi() {
-        recordTypesSortOrderAdapter = ArrayAdapter(requireContext(), R.layout.item_spinner_layout)
-        spinnerSettingsRecordTypeSort.adapter = recordTypesSortOrderAdapter
-    }
-
     override fun initUx() {
-        spinnerSettingsRecordTypeSort.onItemSelected(viewModel::onRecordTypeOrderSelected)
+        spinnerSettingsRecordTypeSort.onItemSelected = viewModel::onRecordTypeOrderSelected
+        btnCardOrderManual.setOnClick(viewModel::onCardOrderManualClick)
         checkboxSettingsShowUntracked.setOnClick(viewModel::onShowUntrackedClicked)
         checkboxSettingsAllowMultitasking.setOnClick(viewModel::onAllowMultitaskingClicked)
         tvSettingsChangeCardSize.setOnClick(viewModel::onChangeCardSizeClick)
-        tvSettingsChangeCardOrder.setOnClick(viewModel::onChangeCardOrderClick)
         layoutSettingsSaveBackup.setOnClick(viewModel::onSaveClick)
         tvSettingsRestoreBackup.setOnClick(viewModel::onRestoreClick)
         layoutSettingsRate.setOnClick(viewModel::onRateClick)
@@ -68,12 +60,13 @@ class SettingsFragment : BaseFragment(R.layout.settings_fragment),
     }
 
     override fun initViewModel(): Unit = with(viewModel) {
-        recordTypesOrderViewData.observeOnce(viewLifecycleOwner) {
-            recordTypesSortOrderAdapter?.addAll(it)
-        }
-        recordTypesOrder.observe(
+        cardOrderViewData.observe(
             viewLifecycleOwner,
-            spinnerSettingsRecordTypeSort::setSelection
+            ::updateCardOrderViewData
+        )
+        btnCardOrderManualVisibility.observe(
+            viewLifecycleOwner,
+            btnCardOrderManual::visible::set
         )
         showUntrackedCheckbox.observe(
             viewLifecycleOwner,
@@ -113,6 +106,11 @@ class SettingsFragment : BaseFragment(R.layout.settings_fragment),
 
     override fun onPositiveClick(tag: String?) {
         viewModel.onPositiveDialogClick(tag)
+    }
+
+    private fun updateCardOrderViewData(viewData: CardOrderViewData) {
+        btnCardOrderManual.visible = viewData.isManualConfigButtonVisible
+        spinnerSettingsRecordTypeSort.setData(viewData.items, viewData.selectedPosition)
     }
 
     companion object {

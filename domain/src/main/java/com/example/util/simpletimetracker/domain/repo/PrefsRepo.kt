@@ -4,7 +4,7 @@ interface PrefsRepo {
 
     var recordTypesFilteredOnChart: Set<String>
 
-    var recordTypesOrder: Int
+    var cardOrder: Int
 
     var showUntrackedInRecords: Boolean
 
@@ -18,9 +18,9 @@ interface PrefsRepo {
 
     fun removeWidget(widgetId: Int)
 
-    fun setRecordTypesOrderManual(cardOrder: Map<Long, Long>)
+    fun setCardOrderManual(cardOrder: Map<Long, Long>)
 
-    fun getRecordTypesOrderManual(): Map<Long, Long>
+    fun getCardOrderManual(): Map<Long, Long>
 
     fun clear()
 }

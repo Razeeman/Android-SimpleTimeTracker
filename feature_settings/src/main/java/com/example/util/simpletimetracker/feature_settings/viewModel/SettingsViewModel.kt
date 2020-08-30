@@ -7,8 +7,10 @@ import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.provider.PackageNameProvider
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
+import com.example.util.simpletimetracker.domain.model.CardOrder
 import com.example.util.simpletimetracker.feature_settings.R
 import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
+import com.example.util.simpletimetracker.feature_settings.viewData.CardOrderViewData
 import com.example.util.simpletimetracker.navigation.Action
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
@@ -27,22 +29,26 @@ class SettingsViewModel @Inject constructor(
     private val packageNameProvider: PackageNameProvider
 ) : ViewModel() {
 
-    val recordTypesOrder: LiveData<Int> by lazy {
-        return@lazy MutableLiveData<Int>().let { initial ->
+    val cardOrderViewData: LiveData<CardOrderViewData> by lazy {
+        MutableLiveData<CardOrderViewData>().let { initial ->
             viewModelScope.launch {
-                initial.value = prefsInteractor.getRecordTypesOrder()
-                    .let(settingsMapper::toPosition)
+                initial.value = loadCardOrderViewData()
             }
             initial
         }
     }
 
-    val recordTypesOrderViewData: LiveData<List<String>> by lazy {
-        MutableLiveData<List<String>>(settingsMapper.toCardOrderViewData())
+    val btnCardOrderManualVisibility: LiveData<Boolean> by lazy {
+        MutableLiveData<Boolean>().let { initial ->
+            viewModelScope.launch {
+                initial.value = prefsInteractor.getCardOrder() == CardOrder.MANUAL
+            }
+            initial
+        }
     }
 
     val showUntrackedCheckbox: LiveData<Boolean> by lazy {
-        return@lazy MutableLiveData<Boolean>().let { initial ->
+        MutableLiveData<Boolean>().let { initial ->
             viewModelScope.launch {
                 initial.value = prefsInteractor.getShowUntrackedInRecords()
             }
@@ -51,7 +57,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     val allowMultitaskingCheckbox: LiveData<Boolean> by lazy {
-        return@lazy MutableLiveData<Boolean>().let { initial ->
+        MutableLiveData<Boolean>().let { initial ->
             viewModelScope.launch {
                 initial.value = prefsInteractor.getAllowMultitasking()
             }
@@ -99,9 +105,21 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun onRecordTypeOrderSelected(position: Int) {
+        val newOrder = settingsMapper.toCardOrder(position)
+
+        (btnCardOrderManualVisibility as MutableLiveData).value = newOrder == CardOrder.MANUAL
+
         viewModelScope.launch {
-            prefsInteractor.setRecordTypesOrder(settingsMapper.toCardOrder(position))
+            if (newOrder == CardOrder.MANUAL) {
+                openCardOrderDialog()
+            } else {
+                prefsInteractor.setCardOrder(newOrder)
+            }
         }
+    }
+
+    fun onCardOrderManualClick() {
+        openCardOrderDialog()
     }
 
     fun onShowUntrackedClicked() {
@@ -124,10 +142,6 @@ class SettingsViewModel @Inject constructor(
         router.navigate(Screen.CARD_SIZE_DIALOG)
     }
 
-    fun onChangeCardOrderClick() {
-        router.navigate(Screen.CARD_ORDER_DIALOG)
-    }
-
     fun onPositiveDialogClick(tag: String?) {
         when (tag) {
             ALERT_DIALOG_TAG -> router.navigate(
@@ -137,12 +151,20 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    private fun openCardOrderDialog() {
+        router.navigate(Screen.CARD_ORDER_DIALOG)
+    }
+
     private fun onFileOpenError() {
         showMessage(R.string.settings_file_error)
     }
 
     private fun showMessage(stringResId: Int) {
         stringResId.let(resourceRepo::getString).let(router::showSystemMessage)
+    }
+
+    private suspend fun loadCardOrderViewData(): CardOrderViewData {
+        return prefsInteractor.getCardOrder().let(settingsMapper::toCardOrderViewData)
     }
 
     companion object {

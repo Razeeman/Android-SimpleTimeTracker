@@ -10,6 +10,7 @@ import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
+import com.example.util.simpletimetracker.domain.model.CardOrder
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.util.Collections
@@ -48,7 +49,10 @@ class CardOrderViewModel @Inject constructor(
                     recordTypeViewData.id to index.toLong()
                 }
                 ?.toMap()
-                ?.let { prefsInteractor.setCardsOrderManual(it) }
+                ?.let {
+                    prefsInteractor.setCardOrder(CardOrder.MANUAL)
+                    prefsInteractor.setCardOrderManual(it)
+                }
         }
     }
 

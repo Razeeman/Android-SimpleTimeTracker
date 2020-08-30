@@ -16,8 +16,8 @@ class PrefsRepoImpl @Inject constructor(
         KEY_RECORD_TYPES_FILTERED_ON_CHART, emptySet()
     )
 
-    override var recordTypesOrder: Int by prefs.delegate(
-        KEY_RECORD_TYPES_ORDER, 0
+    override var cardOrder: Int by prefs.delegate(
+        KEY_CARD_ORDER, 0
     )
 
     override var showUntrackedInRecords: Boolean by prefs.delegate(
@@ -44,16 +44,16 @@ class PrefsRepoImpl @Inject constructor(
         prefs.edit().remove(KEY_WIDGET + widgetId).apply()
     }
 
-    override fun setRecordTypesOrderManual(cardOrder: Map<Long, Long>) {
+    override fun setCardOrderManual(cardOrder: Map<Long, Long>) {
         val set = cardOrder.map { (typeId, order) ->
             "$typeId$CARDS_ORDER_DELIMITER${order.toShort()}"
         }.toSet()
 
-        prefs.edit().putStringSet(KEY_RECORD_TYPES_ORDER_MANUAL, set).apply()
+        prefs.edit().putStringSet(KEY_CARD_ORDER_MANUAL, set).apply()
     }
 
-    override fun getRecordTypesOrderManual(): Map<Long, Long> {
-        val set = prefs.getStringSet(KEY_RECORD_TYPES_ORDER_MANUAL, emptySet())
+    override fun getCardOrderManual(): Map<Long, Long> {
+        val set = prefs.getStringSet(KEY_CARD_ORDER_MANUAL, emptySet())
 
         return set
             ?.map { string ->
@@ -75,12 +75,12 @@ class PrefsRepoImpl @Inject constructor(
         private const val CARDS_ORDER_DELIMITER = "_"
 
         private const val KEY_RECORD_TYPES_FILTERED_ON_CHART = "recordTypesFilteredOnChart"
-        private const val KEY_RECORD_TYPES_ORDER = "recordTypesOrder"
+        private const val KEY_CARD_ORDER = "cardOrder"
         private const val KEY_SHOW_UNTRACKED_IN_RECORDS = "showUntrackedInRecords"
         private const val KEY_ALLOW_MULTITASKING = "allowMultitasking"
         private const val KEY_NUMBER_OF_CARDS = "numberOfCards" // 0 - default width
         private const val KEY_WIDGET = "widget_"
-        private const val KEY_RECORD_TYPES_ORDER_MANUAL = "recordTypesOrderManual"
+        private const val KEY_CARD_ORDER_MANUAL = "cardOrderManual"
 
         // Removed
         @Suppress("unused")
