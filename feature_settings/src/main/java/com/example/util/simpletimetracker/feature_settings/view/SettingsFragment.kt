@@ -3,12 +3,15 @@ package com.example.util.simpletimetracker.feature_settings.view
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
+import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.StandardDialogListener
+import com.example.util.simpletimetracker.core.extension.observeOnce
+import com.example.util.simpletimetracker.core.extension.onItemSelected
 import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.core.viewModel.BackupViewModel
 import com.example.util.simpletimetracker.feature_settings.BuildConfig
@@ -38,6 +41,8 @@ class SettingsFragment : BaseFragment(R.layout.settings_fragment),
         factoryProducer = { backupViewModelFactory }
     )
 
+    private var recordTypesSortOrderAdapter: ArrayAdapter<String>? = null
+
     override fun initDi() {
         (activity?.application as SettingsComponentProvider)
             .settingsComponent
@@ -45,8 +50,13 @@ class SettingsFragment : BaseFragment(R.layout.settings_fragment),
         tvSettingsVersionName.text = BuildConfig.VERSION_NAME
     }
 
+    override fun initUi() {
+        recordTypesSortOrderAdapter = ArrayAdapter(requireContext(), R.layout.item_spinner_layout)
+        spinnerSettingsRecordTypeSort.adapter = recordTypesSortOrderAdapter
+    }
+
     override fun initUx() {
-        checkboxSettingsRecordTypeSort.setOnClick(viewModel::onRecordTypeSortClicked)
+        spinnerSettingsRecordTypeSort.onItemSelected(viewModel::onRecordTypeOrderSelected)
         checkboxSettingsShowUntracked.setOnClick(viewModel::onShowUntrackedClicked)
         checkboxSettingsAllowMultitasking.setOnClick(viewModel::onAllowMultitaskingClicked)
         tvSettingsChangeCardSize.setOnClick(viewModel::onChangeCardSizeClick)
@@ -58,9 +68,12 @@ class SettingsFragment : BaseFragment(R.layout.settings_fragment),
     }
 
     override fun initViewModel(): Unit = with(viewModel) {
-        sortRecordTypesCheckbox.observe(
+        recordTypesOrderViewData.observeOnce(viewLifecycleOwner) {
+            recordTypesSortOrderAdapter?.addAll(it)
+        }
+        recordTypesOrder.observe(
             viewLifecycleOwner,
-            checkboxSettingsRecordTypeSort::setChecked
+            spinnerSettingsRecordTypeSort::setSelection
         )
         showUntrackedCheckbox.observe(
             viewLifecycleOwner,
@@ -74,7 +87,7 @@ class SettingsFragment : BaseFragment(R.layout.settings_fragment),
 
     override fun onResume() {
         super.onResume()
-        checkboxSettingsRecordTypeSort.jumpDrawablesToCurrentState()
+        spinnerSettingsRecordTypeSort.jumpDrawablesToCurrentState()
         checkboxSettingsShowUntracked.jumpDrawablesToCurrentState()
         checkboxSettingsAllowMultitasking.jumpDrawablesToCurrentState()
     }

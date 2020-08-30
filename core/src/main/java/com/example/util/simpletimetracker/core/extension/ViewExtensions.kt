@@ -4,7 +4,9 @@ import android.animation.ObjectAnimator
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.LinearInterpolator
+import android.widget.AdapterView
 import android.widget.SeekBar
+import androidx.appcompat.widget.AppCompatSpinner
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
@@ -69,6 +71,23 @@ fun TabLayout.onTabSelected(func: (TabLayout.Tab) -> Unit) {
             tab?.let(func::invoke)
         }
     })
+}
+
+fun AppCompatSpinner.onItemSelected(func: (Int) -> Unit) {
+    onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        override fun onNothingSelected(parent: AdapterView<*>?) {
+            // Do nothing
+        }
+
+        override fun onItemSelected(
+            parent: AdapterView<*>?,
+            view: View?,
+            position: Int,
+            id: Long
+        ) {
+            func(position)
+        }
+    }
 }
 
 fun SeekBar.onProgressChanged(func: (Int) -> Unit) {

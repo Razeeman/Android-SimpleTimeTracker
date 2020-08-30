@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.domain.interactor
 
+import com.example.util.simpletimetracker.domain.model.CardOrder
 import com.example.util.simpletimetracker.domain.repo.PrefsRepo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -19,12 +20,21 @@ class PrefsInteractor @Inject constructor(
             .map(Long::toString).toSet()
     }
 
-    suspend fun getSortRecordTypesByColor(): Boolean = withContext(Dispatchers.IO) {
-        prefsRepo.sortRecordTypesByColor
+    suspend fun getRecordTypesOrder(): CardOrder = withContext(Dispatchers.IO) {
+        when (prefsRepo.recordTypesOrder) {
+            0 -> CardOrder.NAME
+            1 -> CardOrder.COLOR
+            2 -> CardOrder.MANUAL
+            else -> CardOrder.NAME
+        }
     }
 
-    suspend fun setSortRecordTypesByColor(isEnabled: Boolean) = withContext(Dispatchers.IO) {
-        prefsRepo.sortRecordTypesByColor = isEnabled
+    suspend fun setRecordTypesOrder(cardOrder: CardOrder) = withContext(Dispatchers.IO) {
+        prefsRepo.recordTypesOrder = when (cardOrder) {
+            CardOrder.NAME -> 0
+            CardOrder.COLOR -> 1
+            CardOrder.MANUAL -> 2
+        }
     }
 
     suspend fun getShowUntrackedInRecords(): Boolean = withContext(Dispatchers.IO) {
@@ -63,16 +73,12 @@ class PrefsInteractor @Inject constructor(
         prefsRepo.removeWidget(widgetId)
     }
 
-    suspend fun setCardsOrder(cardsOrder: Map<Long, Long>) = withContext(Dispatchers.IO) {
-        prefsRepo.setCardsOrder(cardsOrder)
+    suspend fun setCardsOrderManual(cardsOrder: Map<Long, Long>) = withContext(Dispatchers.IO) {
+        prefsRepo.setRecordTypesOrderManual(cardsOrder)
     }
 
-    suspend fun getCardsOrder(): Map<Long, Long> = withContext(Dispatchers.IO) {
-        prefsRepo.getCardsOrder()
-    }
-
-    suspend fun removeCardsOrder() = withContext(Dispatchers.IO) {
-        prefsRepo.removeCardsOrder()
+    suspend fun getCardsOrderManual(): Map<Long, Long> = withContext(Dispatchers.IO) {
+        prefsRepo.getRecordTypesOrderManual()
     }
 
     suspend fun clear() = withContext(Dispatchers.IO) {

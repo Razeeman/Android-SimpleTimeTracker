@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.core.provider.PackageNameProvider
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.feature_settings.R
+import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
 import com.example.util.simpletimetracker.navigation.Action
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
@@ -22,16 +23,22 @@ class SettingsViewModel @Inject constructor(
     private val router: Router,
     private val resourceRepo: ResourceRepo,
     private val prefsInteractor: PrefsInteractor,
+    private val settingsMapper: SettingsMapper,
     private val packageNameProvider: PackageNameProvider
 ) : ViewModel() {
 
-    val sortRecordTypesCheckbox: LiveData<Boolean> by lazy {
-        return@lazy MutableLiveData<Boolean>().let { initial ->
+    val recordTypesOrder: LiveData<Int> by lazy {
+        return@lazy MutableLiveData<Int>().let { initial ->
             viewModelScope.launch {
-                initial.value = prefsInteractor.getSortRecordTypesByColor()
+                initial.value = prefsInteractor.getRecordTypesOrder()
+                    .let(settingsMapper::toPosition)
             }
             initial
         }
+    }
+
+    val recordTypesOrderViewData: LiveData<List<String>> by lazy {
+        MutableLiveData<List<String>>(settingsMapper.toCardOrderViewData())
     }
 
     val showUntrackedCheckbox: LiveData<Boolean> by lazy {
@@ -91,11 +98,9 @@ class SettingsViewModel @Inject constructor(
         )
     }
 
-    fun onRecordTypeSortClicked() {
+    fun onRecordTypeOrderSelected(position: Int) {
         viewModelScope.launch {
-            val newValue = !prefsInteractor.getSortRecordTypesByColor()
-            prefsInteractor.setSortRecordTypesByColor(newValue)
-            (sortRecordTypesCheckbox as MutableLiveData).value = newValue
+            prefsInteractor.setRecordTypesOrder(settingsMapper.toCardOrder(position))
         }
     }
 

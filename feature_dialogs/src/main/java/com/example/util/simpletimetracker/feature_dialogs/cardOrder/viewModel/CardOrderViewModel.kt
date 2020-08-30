@@ -48,7 +48,7 @@ class CardOrderViewModel @Inject constructor(
                     recordTypeViewData.id to index.toLong()
                 }
                 ?.toMap()
-                ?.let { prefsInteractor.setCardsOrder(it) }
+                ?.let { prefsInteractor.setCardsOrderManual(it) }
         }
     }
 

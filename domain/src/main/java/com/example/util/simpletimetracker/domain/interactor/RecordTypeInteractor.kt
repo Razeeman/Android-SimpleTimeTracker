@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.domain.interactor
 
+import com.example.util.simpletimetracker.domain.model.CardOrder
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.repo.RecordTypeCacheRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeRepo
@@ -18,19 +19,21 @@ class RecordTypeInteractor @Inject constructor(
             ?: recordTypeRepo.getAll().also(recordTypeCacheRepo::addAll))
             .sortedBy { it.name.toLowerCase(Locale.getDefault()) }
             .let {
-                if (prefsInteractor.getSortRecordTypesByColor()) {
-                    it.sortedBy(RecordType::color)
-                } else {
-                    it
+                when (prefsInteractor.getRecordTypesOrder()) {
+                    CardOrder.COLOR -> {
+                        it.sortedBy(RecordType::color)
+                    }
+                    CardOrder.MANUAL -> {
+                        val order = prefsInteractor.getCardsOrderManual()
+                        it
+                            .map { type -> type to order.getOrElse(type.id, { 0 }) }
+                            .sortedBy { (_, order) -> order }
+                            .map { (type, _) -> type }
+                    }
+                    CardOrder.NAME -> {
+                        it
+                    }
                 }
-            }
-            .let { types ->
-                // TODO remove debug
-                val order = prefsInteractor.getCardsOrder()
-                types
-                    .map { type -> type to order.getOrElse(type.id, { 0 }) }
-                    .sortedBy { (_, order) -> order }
-                    .map { (type, _) -> type }
             }
     }
 

@@ -16,8 +16,8 @@ class PrefsRepoImpl @Inject constructor(
         KEY_RECORD_TYPES_FILTERED_ON_CHART, emptySet()
     )
 
-    override var sortRecordTypesByColor: Boolean by prefs.delegate(
-        KEY_SORT_RECORD_TYPES_BY_COLOR, false
+    override var recordTypesOrder: Int by prefs.delegate(
+        KEY_RECORD_TYPES_ORDER, 0
     )
 
     override var showUntrackedInRecords: Boolean by prefs.delegate(
@@ -44,16 +44,16 @@ class PrefsRepoImpl @Inject constructor(
         prefs.edit().remove(KEY_WIDGET + widgetId).apply()
     }
 
-    override fun setCardsOrder(cardOrder: Map<Long, Long>) {
+    override fun setRecordTypesOrderManual(cardOrder: Map<Long, Long>) {
         val set = cardOrder.map { (typeId, order) ->
             "$typeId$CARDS_ORDER_DELIMITER${order.toShort()}"
         }.toSet()
 
-        prefs.edit().putStringSet(KEY_CARDS_ORDER, set).apply()
+        prefs.edit().putStringSet(KEY_RECORD_TYPES_ORDER_MANUAL, set).apply()
     }
 
-    override fun getCardsOrder(): Map<Long, Long> {
-        val set = prefs.getStringSet(KEY_CARDS_ORDER, emptySet())
+    override fun getRecordTypesOrderManual(): Map<Long, Long> {
+        val set = prefs.getStringSet(KEY_RECORD_TYPES_ORDER_MANUAL, emptySet())
 
         return set
             ?.map { string ->
@@ -67,10 +67,6 @@ class PrefsRepoImpl @Inject constructor(
             ?: emptyMap()
     }
 
-    override fun removeCardsOrder() {
-        prefs.edit().remove(CARDS_ORDER_DELIMITER).apply()
-    }
-
     override fun clear() {
         prefs.edit().clear().apply()
     }
@@ -79,11 +75,15 @@ class PrefsRepoImpl @Inject constructor(
         private const val CARDS_ORDER_DELIMITER = "_"
 
         private const val KEY_RECORD_TYPES_FILTERED_ON_CHART = "recordTypesFilteredOnChart"
-        private const val KEY_SORT_RECORD_TYPES_BY_COLOR = "sortRecordTypesByColor"
+        private const val KEY_RECORD_TYPES_ORDER = "recordTypesOrder"
         private const val KEY_SHOW_UNTRACKED_IN_RECORDS = "showUntrackedInRecords"
         private const val KEY_ALLOW_MULTITASKING = "allowMultitasking"
         private const val KEY_NUMBER_OF_CARDS = "numberOfCards" // 0 - default width
         private const val KEY_WIDGET = "widget_"
-        private const val KEY_CARDS_ORDER = "cardsOrder"
+        private const val KEY_RECORD_TYPES_ORDER_MANUAL = "recordTypesOrderManual"
+
+        // Removed
+        @Suppress("unused")
+        private const val KEY_SORT_RECORD_TYPES_BY_COLOR = "sortRecordTypesByColor" // Boolean
     }
 }
