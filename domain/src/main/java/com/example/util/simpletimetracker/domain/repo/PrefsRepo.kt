@@ -18,5 +18,11 @@ interface PrefsRepo {
 
     fun removeWidget(widgetId: Int)
 
+    fun setCardsOrder(cardOrder: Map<Long, Long>)
+
+    fun getCardsOrder(): Map<Long, Long>
+
+    fun removeCardsOrder()
+
     fun clear()
 }

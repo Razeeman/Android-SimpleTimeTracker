@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.data_local.repo
 
 import android.content.SharedPreferences
 import com.example.util.simpletimetracker.data_local.extension.delegate
+import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.repo.PrefsRepo
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -24,11 +25,11 @@ class PrefsRepoImpl @Inject constructor(
     )
 
     override var allowMultitasking: Boolean by prefs.delegate(
-        ALLOW_MULTITASKING, true
+        KEY_ALLOW_MULTITASKING, true
     )
 
     override var numberOfCards: Int by prefs.delegate(
-        NUMBER_OF_CARDS, 0
+        KEY_NUMBER_OF_CARDS, 0
     )
 
     override fun setWidget(widgetId: Int, recordType: Long) {
@@ -43,16 +44,46 @@ class PrefsRepoImpl @Inject constructor(
         prefs.edit().remove(KEY_WIDGET + widgetId).apply()
     }
 
+    override fun setCardsOrder(cardOrder: Map<Long, Long>) {
+        val set = cardOrder.map { (typeId, order) ->
+            "$typeId$CARDS_ORDER_DELIMITER${order.toShort()}"
+        }.toSet()
+
+        prefs.edit().putStringSet(KEY_CARDS_ORDER, set).apply()
+    }
+
+    override fun getCardsOrder(): Map<Long, Long> {
+        val set = prefs.getStringSet(KEY_CARDS_ORDER, emptySet())
+
+        return set
+            ?.map { string ->
+                string.split(CARDS_ORDER_DELIMITER).let { parts ->
+                    parts.getOrNull(0).orEmpty() to parts.getOrNull(1).orEmpty()
+                }
+            }
+            ?.toMap()
+            ?.mapKeys { it.key.toLongOrNull().orZero() }
+            ?.mapValues { it.value.toLongOrNull().orZero() }
+            ?: emptyMap()
+    }
+
+    override fun removeCardsOrder() {
+        prefs.edit().remove(CARDS_ORDER_DELIMITER).apply()
+    }
+
     override fun clear() {
         prefs.edit().clear().apply()
     }
 
     companion object {
+        private const val CARDS_ORDER_DELIMITER = "_"
+
         private const val KEY_RECORD_TYPES_FILTERED_ON_CHART = "recordTypesFilteredOnChart"
         private const val KEY_SORT_RECORD_TYPES_BY_COLOR = "sortRecordTypesByColor"
         private const val KEY_SHOW_UNTRACKED_IN_RECORDS = "showUntrackedInRecords"
-        private const val ALLOW_MULTITASKING = "allowMultitasking"
-        private const val NUMBER_OF_CARDS = "numberOfCards" // 0 - default width
+        private const val KEY_ALLOW_MULTITASKING = "allowMultitasking"
+        private const val KEY_NUMBER_OF_CARDS = "numberOfCards" // 0 - default width
         private const val KEY_WIDGET = "widget_"
+        private const val KEY_CARDS_ORDER = "cardsOrder"
     }
 }

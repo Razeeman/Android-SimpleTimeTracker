@@ -63,6 +63,18 @@ class PrefsInteractor @Inject constructor(
         prefsRepo.removeWidget(widgetId)
     }
 
+    suspend fun setCardsOrder(cardsOrder: Map<Long, Long>) = withContext(Dispatchers.IO) {
+        prefsRepo.setCardsOrder(cardsOrder)
+    }
+
+    suspend fun getCardsOrder(): Map<Long, Long> = withContext(Dispatchers.IO) {
+        prefsRepo.getCardsOrder()
+    }
+
+    suspend fun removeCardsOrder() = withContext(Dispatchers.IO) {
+        prefsRepo.removeCardsOrder()
+    }
+
     suspend fun clear() = withContext(Dispatchers.IO) {
         prefsRepo.clear()
     }

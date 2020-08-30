@@ -24,6 +24,14 @@ class RecordTypeInteractor @Inject constructor(
                     it
                 }
             }
+            .let { types ->
+                // TODO remove debug
+                val order = prefsInteractor.getCardsOrder()
+                types
+                    .map { type -> type to order.getOrElse(type.id, { 0 }) }
+                    .sortedBy { (_, order) -> order }
+                    .map { (type, _) -> type }
+            }
     }
 
     suspend fun get(id: Long): RecordType? {

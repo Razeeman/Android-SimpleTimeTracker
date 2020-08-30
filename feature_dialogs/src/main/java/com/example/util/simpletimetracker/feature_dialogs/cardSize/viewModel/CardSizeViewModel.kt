@@ -13,6 +13,7 @@ import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_dialogs.cardSize.mapper.CardSizeViewDataMapper
 import com.example.util.simpletimetracker.feature_dialogs.cardSize.viewData.CardSizeButtonsViewData
 import com.example.util.simpletimetracker.feature_dialogs.cardSize.viewData.CardSizeDefaultButtonViewData
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
@@ -44,7 +45,7 @@ class CardSizeViewModel @Inject constructor(
     private var types: List<RecordType> = emptyList()
 
     fun onDismiss() {
-        viewModelScope.launch {
+        GlobalScope.launch {
             prefsInteractor.setNumberOfCards(numberOfCards)
         }
     }

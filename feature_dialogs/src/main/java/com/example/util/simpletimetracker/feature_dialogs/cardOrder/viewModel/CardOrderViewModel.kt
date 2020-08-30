@@ -7,11 +7,12 @@ import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
+import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
-import com.example.util.simpletimetracker.domain.model.RecordType
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import java.util.Collections
 import javax.inject.Inject
 
 class CardOrderViewModel @Inject constructor(
@@ -25,24 +26,43 @@ class CardOrderViewModel @Inject constructor(
         MutableLiveData(listOf(LoaderViewData() as ViewHolderType))
     }
 
-    private var numberOfCards: Int = runBlocking { prefsInteractor.getNumberOfCards() }
-    private var types: List<RecordType> = emptyList()
+    private var types: List<RecordTypeViewData> = emptyList()
 
-    fun onCardMoved(from: Int, to: Int) {
-        // TODO update inner order
+    fun onCardMoved(fromPosition: Int, toPosition: Int) {
+        if (fromPosition < toPosition) {
+            for (i in fromPosition until toPosition) {
+                Collections.swap(types, i, i + 1)
+            }
+        } else {
+            for (i in fromPosition downTo toPosition + 1) {
+                Collections.swap(types, i, i - 1)
+            }
+        }
     }
 
     fun onDismiss() {
-        // TODO save prefs
+        GlobalScope.launch {
+            types
+                .takeIf(List<RecordTypeViewData>::isNotEmpty)
+                ?.mapIndexed { index, recordTypeViewData ->
+                    recordTypeViewData.id to index.toLong()
+                }
+                ?.toMap()
+                ?.let { prefsInteractor.setCardsOrder(it) }
+        }
     }
 
     private fun updateRecordTypes() = viewModelScope.launch {
-        if (types.isEmpty()) types = loadRecordTypes()
+        val types = loadRecordTypes()
         (recordTypes as MutableLiveData).value = types
-            .map { type -> recordTypeViewDataMapper.map(type, numberOfCards) }
     }
 
-    private suspend fun loadRecordTypes(): List<RecordType> {
-        return recordTypeInteractor.getAll().filter { !it.hidden }
+    private suspend fun loadRecordTypes(): List<RecordTypeViewData> {
+        val numberOfCards: Int = prefsInteractor.getNumberOfCards()
+
+        return recordTypeInteractor.getAll()
+            .filter { !it.hidden }
+            .map { type -> recordTypeViewDataMapper.map(type, numberOfCards) }
+            .also { types = it }
     }
 }
