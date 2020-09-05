@@ -20,9 +20,15 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="32dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="24dp"
         android:layout_weight="1"
         tools:listitem="@layout/item_record_type_layout" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/card_size_hint" />
 
     <com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowView
         android:id="@+id/buttonsCardSize"

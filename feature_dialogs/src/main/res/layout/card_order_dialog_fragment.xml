@@ -13,11 +13,17 @@
         android:layout_marginTop="8dp"
         android:src="@drawable/statistics_filter_dialog_arrow" />
 
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/card_order_hint" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvCardOrderContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         android:layout_marginBottom="32dp"
         android:layout_weight="1"
         tools:listitem="@layout/item_record_type_layout" />

@@ -3,9 +3,9 @@
     <string name="settings_save_backup">Save backup</string>
     <string name="settings_restore_backup">Restore backup</string>
     <string name="settings_sort_order">Sort activities</string>
-    <string name="settings_sort_by_name">name</string>
-    <string name="settings_sort_by_color">color</string>
-    <string name="settings_sort_manually">manually</string>
+    <string name="settings_sort_by_name">Name</string>
+    <string name="settings_sort_by_color">Color</string>
+    <string name="settings_sort_manually">Manually</string>
     <string name="settings_show_untracked_time">Show untracked time in records</string>
     <string name="settings_allow_multitasking">Allow multitasking</string>
     <string name="settings_allow_multitasking_hint">If disabled starting new timer will automatically stop other activities.</string>
