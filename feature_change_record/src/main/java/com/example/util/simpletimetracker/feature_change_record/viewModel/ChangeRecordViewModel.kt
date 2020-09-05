@@ -12,6 +12,7 @@ import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.extension.flip
 import com.example.util.simpletimetracker.domain.extension.orTrue
 import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.Record
@@ -32,7 +33,8 @@ class ChangeRecordViewModel @Inject constructor(
     private val timeMapper: TimeMapper,
     private val changeRecordViewDataMapper: ChangeRecordViewDataMapper,
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
-    private val resourceRepo: ResourceRepo
+    private val resourceRepo: ResourceRepo,
+    private val prefsInteractor: PrefsInteractor
 ) : ViewModel() {
 
     lateinit var extra: ChangeRecordExtra
@@ -179,9 +181,10 @@ class ChangeRecordViewModel @Inject constructor(
     }
 
     private suspend fun loadTypesViewData(): List<ViewHolderType> {
+        val numberOfCards = prefsInteractor.getNumberOfCards()
         return recordTypeInteractor.getAll()
             .filter { !it.hidden }
-            .map(recordTypeViewDataMapper::map)
+            .map { recordTypeViewDataMapper.map(it, numberOfCards) }
     }
 
     companion object {

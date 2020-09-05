@@ -12,7 +12,6 @@ class RecordTypeViewDataMapper @Inject constructor(
     private val recordTypeCardSizeMapper: RecordTypeCardSizeMapper
 ) {
 
-    // TODO remove
     fun map(recordType: RecordType): RecordTypeViewData {
         return RecordTypeViewData(
             id = recordType.id,

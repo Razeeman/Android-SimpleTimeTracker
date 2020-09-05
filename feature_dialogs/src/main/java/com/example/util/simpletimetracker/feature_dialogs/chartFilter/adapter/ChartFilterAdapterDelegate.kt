@@ -4,6 +4,7 @@ import android.view.ViewGroup
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerViewHolder
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.core.extension.dpToPx
 import com.example.util.simpletimetracker.core.extension.setOnClickWith
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_dialogs.R
@@ -25,6 +26,12 @@ class ChartFilterAdapterDelegate(
         ) = with(itemView.viewRecordTypeItem) {
             item as RecordTypeViewData
 
+            layoutParams = layoutParams.also { params ->
+                item.width?.dpToPx()?.let { params.width = it}
+                item.height?.dpToPx()?.let { params.height = it}
+            }
+
+            itemIsRow = item.asRow
             itemColor = item.color
             itemIcon = item.iconId
             itemName = item.name
