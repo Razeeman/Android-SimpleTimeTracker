@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<com.example.util.simpletimetracker.core.view.RecordTypeView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/viewChangeRecordTypeItem"
-    style="@style/RecordTypeItem"
-    tools:itemName="Item name" />
