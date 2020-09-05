@@ -1,6 +1,9 @@
 package com.example.util.simpletimetracker
 
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.Espresso.pressBack
+import androidx.test.espresso.assertion.PositionAssertions.isCompletelyAbove
+import androidx.test.espresso.assertion.PositionAssertions.isCompletelyLeftOf
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isChecked
@@ -12,11 +15,14 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.utils.BaseUiTest
+import com.example.util.simpletimetracker.utils.Direction
 import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
 import com.example.util.simpletimetracker.utils.clickOnView
+import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
+import com.example.util.simpletimetracker.utils.drag
 import com.example.util.simpletimetracker.utils.unconstrainedClickOnView
 import org.hamcrest.CoreMatchers.allOf
 import org.junit.Test
@@ -198,5 +204,176 @@ class SettingsTest : BaseUiTest() {
         checkViewIsDisplayed(allOf(withText(name1), isCompletelyDisplayed()))
         checkViewIsDisplayed(allOf(withText(name2), isCompletelyDisplayed()))
         checkViewIsDisplayed(allOf(withText(name3), isCompletelyDisplayed()))
+    }
+
+    @Test
+    fun cardSizeTest() {
+        val name1 = "Test1"
+        val name2 = "Test2"
+        val name3 = "Test3"
+
+        // Add activities
+        NavUtils.addActivity(name1)
+        NavUtils.addActivity(name2)
+        NavUtils.addActivity(name3)
+
+        onView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name1)))
+            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name2))))
+        onView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name2)))
+            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name3))))
+
+        // Open settings
+        NavUtils.openSettingsScreen()
+        clickOnViewWithText(R.string.settings_change_card_size)
+
+        // Check order
+        onView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name1)))
+            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name2))))
+        onView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name2)))
+            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name3))))
+
+        // Change setting
+        clickOnViewWithText("6")
+        clickOnViewWithText("5")
+        clickOnViewWithText("4")
+        clickOnViewWithText("3")
+        clickOnViewWithText("2")
+        clickOnViewWithText("1")
+
+        // Check new order
+        onView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name1)))
+            .check(isCompletelyAbove(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name2))))
+        onView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name2)))
+            .check(isCompletelyAbove(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name3))))
+
+        // Check order on main
+        pressBack()
+        NavUtils.openRunningRecordsScreen()
+        onView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name1)))
+            .check(isCompletelyAbove(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name2))))
+        onView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name2)))
+            .check(isCompletelyAbove(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name3))))
+
+        // Change back
+        NavUtils.openSettingsScreen()
+        clickOnViewWithText(R.string.settings_change_card_size)
+        onView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name1)))
+            .check(isCompletelyAbove(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name2))))
+        onView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name2)))
+            .check(isCompletelyAbove(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name3))))
+        clickOnViewWithText(R.string.card_size_default)
+
+        // Check order
+        onView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name1)))
+            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name2))))
+        onView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name2)))
+            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name3))))
+        pressBack()
+        NavUtils.openRunningRecordsScreen()
+        onView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name1)))
+            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name2))))
+        onView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name2)))
+            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name3))))
+    }
+
+    @Test
+    fun cardOrderByName() {
+        val name1 = "Test1"
+        val name2 = "Test2"
+        val color1 = ColorMapper.availableColors.first()
+        val color2 = ColorMapper.availableColors.last()
+
+        // Add activities
+        NavUtils.addActivity(name1, color2)
+        NavUtils.addActivity(name2, color1)
+
+        // Check order
+        onView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name1)))
+            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name2))))
+
+        // Check settings
+        NavUtils.openSettingsScreen()
+        checkViewIsDisplayed(
+            allOf(
+                isDescendantOfA(withId(R.id.spinnerSettingsRecordTypeSort)),
+                withId(R.id.tvCustomSpinner),
+                withText(R.string.settings_sort_by_name)
+            )
+        )
+    }
+
+    @Test
+    fun cardOrderByColor() {
+        val name1 = "Test1"
+        val name2 = "Test2"
+        val color1 = ColorMapper.availableColors.first()
+        val color2 = ColorMapper.availableColors.last()
+
+        // Add activities
+        NavUtils.addActivity(name1, color2)
+        NavUtils.addActivity(name2, color1)
+
+        // Change settings
+        NavUtils.openSettingsScreen()
+        clickOnViewWithId(R.id.spinnerSettingsRecordTypeSort)
+        clickOnViewWithText(R.string.settings_sort_by_color)
+
+        // Check new order
+        NavUtils.openRunningRecordsScreen()
+        onView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name2)))
+            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name1))))
+    }
+
+    @Test
+    fun cardOrderManual() {
+        val name1 = "Test1"
+        val name2 = "Test2"
+        val name3 = "Test3"
+
+        // Add activities
+        NavUtils.addActivity(name1)
+        NavUtils.addActivity(name2)
+        NavUtils.addActivity(name3)
+
+        // Change settings
+        NavUtils.openSettingsScreen()
+        clickOnViewWithId(R.id.spinnerSettingsRecordTypeSort)
+        clickOnViewWithText(R.string.settings_sort_manually)
+
+        // Check old order
+        onView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name1)))
+            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name2))))
+        onView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name2)))
+            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name3))))
+
+        // Drag
+        onView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name2)))
+            .perform(drag(Direction.LEFT, 300))
+
+        // Check new order
+        pressBack()
+        NavUtils.openRunningRecordsScreen()
+        onView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name2)))
+            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name1))))
+        onView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name1)))
+            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name3))))
+
+        // Change order
+        NavUtils.openSettingsScreen()
+        clickOnViewWithId(R.id.btnCardOrderManual)
+        onView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name2)))
+            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name1))))
+        onView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name1)))
+            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name3))))
+        onView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name1)))
+            .perform(drag(Direction.RIGHT, 300))
+
+        // Check new order
+        pressBack()
+        NavUtils.openRunningRecordsScreen()
+        onView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name2)))
+            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name3))))
+        onView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name3)))
+            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name1))))
     }
 }
