@@ -65,6 +65,13 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    fun onVisible() {
+        // Need to update card order because it changes on card order dialog
+        viewModelScope.launch {
+            updateCardOrderViewData()
+        }
+    }
+
     fun onSaveClick() {
         router.navigate(
             Screen.CREATE_FILE,
@@ -161,6 +168,10 @@ class SettingsViewModel @Inject constructor(
 
     private fun showMessage(stringResId: Int) {
         stringResId.let(resourceRepo::getString).let(router::showSystemMessage)
+    }
+
+    private suspend fun updateCardOrderViewData() {
+        (cardOrderViewData as MutableLiveData).value = loadCardOrderViewData()
     }
 
     private suspend fun loadCardOrderViewData(): CardOrderViewData {

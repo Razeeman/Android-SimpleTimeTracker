@@ -40,6 +40,7 @@ class CustomSpinner @JvmOverloads constructor(
 
     fun setData(items: List<String>, selectedPosition: Int) {
         this.selectedPosition = selectedPosition
+        adapter.clear()
         adapter.addAll(items)
         customSpinner.setSelection(selectedPosition)
     }

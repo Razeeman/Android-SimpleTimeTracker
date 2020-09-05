@@ -83,6 +83,7 @@ class SettingsFragment : BaseFragment(R.layout.settings_fragment),
         spinnerSettingsRecordTypeSort.jumpDrawablesToCurrentState()
         checkboxSettingsShowUntracked.jumpDrawablesToCurrentState()
         checkboxSettingsAllowMultitasking.jumpDrawablesToCurrentState()
+        viewModel.onVisible()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
