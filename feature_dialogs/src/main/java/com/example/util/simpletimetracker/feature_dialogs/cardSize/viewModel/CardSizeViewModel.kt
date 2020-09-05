@@ -5,8 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
-import com.example.util.simpletimetracker.core.adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
+import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.RecordType
@@ -24,9 +24,12 @@ class CardSizeViewModel @Inject constructor(
     private val cardSizeViewDataMapper: CardSizeViewDataMapper
 ) : ViewModel() {
 
+    // TODO fix loader
     val recordTypes: LiveData<List<ViewHolderType>> by lazy {
-        updateRecordTypes()
-        MutableLiveData(listOf(LoaderViewData() as ViewHolderType))
+        MutableLiveData<List<ViewHolderType>>().let { initial ->
+            viewModelScope.launch { initial.value = loadRecordTypes() }
+            initial
+        }
     }
     val buttons: LiveData<List<ViewHolderType>> by lazy {
         MutableLiveData<List<ViewHolderType>>().let { initial ->
@@ -74,20 +77,23 @@ class CardSizeViewModel @Inject constructor(
     }
 
     private fun updateRecordTypes() = viewModelScope.launch {
-        if (types.isEmpty()) types = loadRecordTypes()
-        (recordTypes as MutableLiveData).value = types
-            .map { type -> cardSizeViewDataMapper.toToRecordTypeViewData(type, numberOfCards) }
+        (recordTypes as MutableLiveData).value = loadRecordTypes()
     }
 
     private fun loadButtonsViewData(): List<ViewHolderType> {
         return cardSizeViewDataMapper.toToButtonsViewData(numberOfCards)
     }
 
-    private fun loadDefaultButtonViewData() : CardSizeDefaultButtonViewData {
+    private fun loadDefaultButtonViewData(): CardSizeDefaultButtonViewData {
         return cardSizeViewDataMapper.toDefaultButtonViewData(numberOfCards)
     }
 
-    private suspend fun loadRecordTypes(): List<RecordType> {
-        return recordTypeInteractor.getAll().filter { !it.hidden }
+    private suspend fun loadRecordTypes(): List<RecordTypeViewData> {
+        if (types.isEmpty()) {
+            types = recordTypeInteractor.getAll().filter { !it.hidden }
+        }
+        return types.map { type ->
+            cardSizeViewDataMapper.toToRecordTypeViewData(type, numberOfCards)
+        }
     }
 }
