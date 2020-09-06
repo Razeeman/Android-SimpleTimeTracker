@@ -51,6 +51,18 @@ Simple app that helps track how much time you spend on all the useless activitie
 ## Settings
 
 [![settings_thumb]][settings]
+[![card_order_dialog_thumb]][card_order_dialog]
+<br>
+
+## Reorder activity cards manually
+
+[![card_order_manual_thumb]][card_order_manual]
+<br>
+
+## Change activity card size
+
+[![card_size_big_thumb]][card_size_big]
+[![card_size_small_thumb]][card_size_small]
 <br>
 
 ## Start activities from widgets
@@ -73,6 +85,7 @@ Simple app that helps track how much time you spend on all the useless activitie
 - Custom Bar Chart View
 - Recycler with custom Adapter Delegates
 - DiffUtils with payloads
+- Drag and Drop
 - Shared ViewModels
 - Snackbars with Action
 - Gradle Kotlin DSL
@@ -118,3 +131,14 @@ Simple app that helps track how much time you spend on all the useless activitie
 
 [widgets_thumb]: dev_files/screens/widgets_thumb.png
 [widgets]: dev_files/screens/widgets.png
+
+[card_order_dialog_thumb]: dev_files/screens/card_order_dialog_thumb.png
+[card_order_dialog]: dev_files/screens/card_order_dialog.png
+
+[card_order_manual_thumb]: dev_files/screens/card_order_manual_thumb.png
+[card_order_manual]: dev_files/screens/card_order_manual.png
+
+[card_size_big_thumb]: dev_files/screens/card_size_big_thumb.png
+[card_size_big]: dev_files/screens/card_size_big.png
+[card_size_small_thumb]: dev_files/screens/card_size_small_thumb.png
+[card_size_small]: dev_files/screens/card_size_small.png
