@@ -32,10 +32,13 @@ class NotificationManagerImpl @Inject constructor(
     }
 
     private fun buildNotification(params: NotificationParams): Notification {
+        val startIntent = Intent(context, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+        }
         val contentIntent = PendingIntent.getActivity(
             context,
             0,
-            Intent(context, MainActivity::class.java),
+            startIntent,
             PendingIntent.FLAG_UPDATE_CURRENT
         )
         val builder = NotificationCompat.Builder(context, REMINDERS_CHANNEL_ID)
@@ -43,7 +46,7 @@ class NotificationManagerImpl @Inject constructor(
             .setContentTitle("Simple Time Tracker")
             .setContentText(params.text)
             .setContentIntent(contentIntent)
-        // TODO not closable
+            .setOngoing(true)
         return builder.build()
     }
 
