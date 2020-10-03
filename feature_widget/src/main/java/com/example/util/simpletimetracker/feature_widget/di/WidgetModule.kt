@@ -1,6 +1,6 @@
 package com.example.util.simpletimetracker.feature_widget.di
 
-import com.example.util.simpletimetracker.domain.manager.WidgetManager
+import com.example.util.simpletimetracker.core.manager.WidgetManager
 import com.example.util.simpletimetracker.feature_widget.widget.WidgetManagerImpl
 import dagger.Binds
 import dagger.Module

@@ -5,7 +5,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import com.example.util.simpletimetracker.domain.di.AppContext
-import com.example.util.simpletimetracker.domain.manager.WidgetManager
+import com.example.util.simpletimetracker.core.manager.WidgetManager
 import javax.inject.Inject
 import javax.inject.Singleton
 

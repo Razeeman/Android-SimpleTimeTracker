@@ -3,9 +3,11 @@ package com.example.util.simpletimetracker.di
 import android.content.ContentResolver
 import android.content.Context
 import com.example.util.simpletimetracker.TimeTrackerApp
+import com.example.util.simpletimetracker.core.manager.NotificationManager
 import com.example.util.simpletimetracker.domain.di.AppContext
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.RouterImpl
+import com.example.util.simpletimetracker.notification.NotificationManagerImpl
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -26,6 +28,12 @@ class AppModule(application: TimeTrackerApp) {
     @Singleton
     fun getRouter(routerImpl: RouterImpl): Router {
         return routerImpl
+    }
+
+    @Provides
+    @Singleton
+    fun getNotificationController(notificationControllerImpl: NotificationManagerImpl): NotificationManager {
+        return notificationControllerImpl
     }
 
     @Provides

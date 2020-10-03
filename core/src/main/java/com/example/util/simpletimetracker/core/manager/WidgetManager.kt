@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.domain.manager
+package com.example.util.simpletimetracker.core.manager
 
 interface WidgetManager {
 

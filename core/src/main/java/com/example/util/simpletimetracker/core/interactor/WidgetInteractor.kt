@@ -1,6 +1,6 @@
-package com.example.util.simpletimetracker.domain.interactor
+package com.example.util.simpletimetracker.core.interactor
 
-import com.example.util.simpletimetracker.domain.manager.WidgetManager
+import com.example.util.simpletimetracker.core.manager.WidgetManager
 import javax.inject.Inject
 
 class WidgetInteractor @Inject constructor(
