@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.core.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.core.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
@@ -27,6 +28,7 @@ import javax.inject.Inject
 
 class ChangeRecordTypeViewModel @Inject constructor(
     private val router: Router,
+    private val removeRunningRecordMediator: RemoveRunningRecordMediator,
     private val recordTypeInteractor: RecordTypeInteractor,
     private val recordInteractor: RecordInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
@@ -126,9 +128,8 @@ class ChangeRecordTypeViewModel @Inject constructor(
                         typeId = runningRecord.id,
                         timeStarted = runningRecord.timeStarted
                     )
-                    runningRecordInteractor.remove(extra.id)
+                    removeRunningRecordMediator.remove(extra.id)
                 }
-                widgetInteractor.updateWidgets()
                 resourceRepo.getString(R.string.change_record_type_removed)
                     .let(router::showSystemMessage)
                 (keyboardVisibility as MutableLiveData).value = false

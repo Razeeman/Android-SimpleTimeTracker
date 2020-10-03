@@ -5,7 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
-import com.example.util.simpletimetracker.core.interactor.WidgetInteractor
+import com.example.util.simpletimetracker.core.interactor.AddRunningRecordMediator
+import com.example.util.simpletimetracker.core.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
@@ -32,9 +33,10 @@ import javax.inject.Inject
 
 class ChangeRunningRecordViewModel @Inject constructor(
     private val router: Router,
+    private val addRunningRecordMediator: AddRunningRecordMediator,
+    private val removeRunningRecordMediator: RemoveRunningRecordMediator,
     private val runningRecordInteractor: RunningRecordInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
-    private val widgetInteractor: WidgetInteractor,
     private val changeRunningRecordViewDataMapper: ChangeRunningRecordViewDataMapper,
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
     private val resourceRepo: ResourceRepo,
@@ -84,8 +86,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
     fun onDeleteClick() {
         (deleteButtonEnabled as MutableLiveData).value = false
         viewModelScope.launch {
-            runningRecordInteractor.remove(extra.id)
-            widgetInteractor.updateWidgets()
+            removeRunningRecordMediator.remove(extra.id)
             resourceRepo.getString(R.string.change_running_record_removed)
                 .let(router::showSystemMessage)
             router.back()
@@ -100,9 +101,8 @@ class ChangeRunningRecordViewModel @Inject constructor(
         }
         (saveButtonEnabled as MutableLiveData).value = false
         viewModelScope.launch {
-            runningRecordInteractor.remove(extra.id)
-            runningRecordInteractor.add(newTypeId, newTimeStarted)
-            widgetInteractor.updateWidgets()
+            removeRunningRecordMediator.remove(extra.id)
+            addRunningRecordMediator.add(newTypeId, newTimeStarted)
             router.back()
         }
     }

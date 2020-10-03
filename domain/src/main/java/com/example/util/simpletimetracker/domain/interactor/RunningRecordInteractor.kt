@@ -16,13 +16,8 @@ class RunningRecordInteractor @Inject constructor(
         return runningRecordRepo.get(id)
     }
 
-    suspend fun add(typeId: Long, timeStarted: Long? = null) {
-        if (get(typeId) == null) {
-            RunningRecord(
-                id = typeId,
-                timeStarted = timeStarted ?: System.currentTimeMillis()
-            ).let { runningRecordRepo.add(it) }
-        }
+    suspend fun add(runningRecord: RunningRecord) {
+        runningRecordRepo.add(runningRecord)
     }
 
     suspend fun remove(id: Long) {

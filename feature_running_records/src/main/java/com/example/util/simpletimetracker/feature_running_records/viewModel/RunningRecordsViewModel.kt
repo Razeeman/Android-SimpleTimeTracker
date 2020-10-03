@@ -6,7 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.loader.LoaderViewData
-import com.example.util.simpletimetracker.core.interactor.WidgetInteractor
+import com.example.util.simpletimetracker.core.interactor.AddRunningRecordMediator
+import com.example.util.simpletimetracker.core.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.core.utils.CountingIdlingResourceProvider
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -29,10 +30,11 @@ import javax.inject.Inject
 
 class RunningRecordsViewModel @Inject constructor(
     private val router: Router,
+    private val addRunningRecordMediator: AddRunningRecordMediator,
+    private val removeRunningRecordMediator: RemoveRunningRecordMediator,
     private val runningRecordInteractor: RunningRecordInteractor,
     private val recordInteractor: RecordInteractor,
     private val prefsInteractor: PrefsInteractor,
-    private val widgetInteractor: WidgetInteractor,
     private val runningRecordsViewDataInteractor: RunningRecordsViewDataInteractor
 ) : ViewModel() {
 
@@ -50,8 +52,7 @@ class RunningRecordsViewModel @Inject constructor(
                     .filter { it.id != item.id }
                     .forEach { handleRunningRecordRemove(it) }
             }
-            runningRecordInteractor.add(item.id)
-            widgetInteractor.updateWidgets()
+            addRunningRecordMediator.add(item.id)
             updateRunningRecords()
         }
     }
@@ -75,7 +76,6 @@ class RunningRecordsViewModel @Inject constructor(
         viewModelScope.launch {
             runningRecordInteractor.get(item.id)
                 ?.let { handleRunningRecordRemove(it) }
-            widgetInteractor.updateWidgets()
             updateRunningRecords()
         }
     }
@@ -111,7 +111,7 @@ class RunningRecordsViewModel @Inject constructor(
             typeId = runningRecord.id,
             timeStarted = runningRecord.timeStarted
         )
-        runningRecordInteractor.remove(runningRecord.id)
+        removeRunningRecordMediator.remove(runningRecord.id)
     }
 
     private fun startUpdate() {

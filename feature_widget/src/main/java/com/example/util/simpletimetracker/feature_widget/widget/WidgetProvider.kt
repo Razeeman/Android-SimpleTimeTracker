@@ -13,6 +13,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.View.MeasureSpec
 import android.widget.RemoteViews
+import com.example.util.simpletimetracker.core.interactor.AddRunningRecordMediator
+import com.example.util.simpletimetracker.core.interactor.RemoveRunningRecordMediator
+import com.example.util.simpletimetracker.core.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
@@ -21,7 +24,6 @@ import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
-import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.feature_widget.R
 import com.example.util.simpletimetracker.feature_widget.di.WidgetComponentProvider
@@ -32,6 +34,12 @@ import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 class WidgetProvider : AppWidgetProvider() {
+
+    @Inject
+    lateinit var addRunningRecordMediator: AddRunningRecordMediator
+
+    @Inject
+    lateinit var removeRunningRecordMediator: RemoveRunningRecordMediator
 
     @Inject
     lateinit var runningRecordInteractor: RunningRecordInteractor
@@ -191,13 +199,10 @@ class WidgetProvider : AppWidgetProvider() {
                 if (!prefsInteractor.getAllowMultitasking()) {
                     runningRecordInteractor.getAll()
                         .forEach { handleRunningRecordRemove(it) }
-                    widgetInteractor.updateWidgets()
                 }
                 // Add new running record
-                runningRecordInteractor.add(recordTypeId)
+                addRunningRecordMediator.add(recordTypeId)
             }
-
-            widgetInteractor.updateWidget(widgetId)
         }
     }
 
@@ -206,7 +211,7 @@ class WidgetProvider : AppWidgetProvider() {
             typeId = runningRecord.id,
             timeStarted = runningRecord.timeStarted
         )
-        runningRecordInteractor.remove(runningRecord.id)
+        removeRunningRecordMediator.remove(runningRecord.id)
     }
 
     private fun getPendingSelfIntent(
