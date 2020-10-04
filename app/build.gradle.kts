@@ -42,9 +42,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":domain"))
     implementation(project(":core"))
-    implementation(project(":navigation"))
     implementation(project(":data_local"))
     implementation(project(":feature_main"))
     implementation(project(":feature_running_records"))
@@ -59,24 +57,10 @@ dependencies {
     implementation(project(":feature_widget"))
     implementation(project(":feature_notification"))
 
-    implementation(Deps.Androidx.appcompat)
-    implementation(Deps.Androidx.constraintLayout)
-    implementation(Deps.Androidx.recyclerView)
     implementation(Deps.Androidx.room)
-    implementation(Deps.Androidx.lifecycleExtensions)
-    implementation(Deps.Google.dagger)
-    implementation(Deps.Ktx.core)
-    implementation(Deps.Ktx.fragment)
-    implementation(Deps.Ktx.liveDataCore)
-    implementation(Deps.Ktx.liveData)
-    implementation(Deps.Ktx.viewModel)
     implementation(Deps.Ktx.navigationFragment)
     implementation(Deps.Ktx.navigationUi)
-    kapt(Deps.Kapt.dagger)
 
-    testImplementation(Deps.Test.junit)
-    androidTestImplementation(Deps.UiTest.junit)
-    androidTestImplementation(Deps.UiTest.espresso)
-    androidTestImplementation(Deps.UiTest.espressoContrib)
+    kapt(Deps.Kapt.dagger)
     kaptAndroidTest(Deps.Kapt.dagger)
 }

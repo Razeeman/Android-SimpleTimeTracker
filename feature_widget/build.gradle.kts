@@ -24,22 +24,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":domain"))
     implementation(project(":core"))
 
-    implementation(Deps.Androidx.appcompat)
-    implementation(Deps.Androidx.recyclerView)
-    implementation(Deps.Androidx.constraintLayout)
-    implementation(Deps.Androidx.cardView)
-    implementation(Deps.Androidx.material)
-    implementation(Deps.Google.dagger)
-    implementation(Deps.Google.flexBox)
-    implementation(Deps.Ktx.fragment)
-    implementation(Deps.Ktx.liveData)
-    implementation(Deps.Ktx.viewModel)
     kapt(Deps.Kapt.dagger)
-
-    testImplementation(Deps.Test.junit)
-    androidTestImplementation(Deps.UiTest.junit)
-    androidTestImplementation(Deps.UiTest.espresso)
 }

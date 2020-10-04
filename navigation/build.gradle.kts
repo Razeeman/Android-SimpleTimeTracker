@@ -22,12 +22,6 @@ android {
 dependencies {
     implementation(project(":domain"))
 
-    implementation(Deps.Google.dagger)
     implementation(Deps.Ktx.navigationFragment)
     implementation(Deps.Ktx.navigationUi)
-    kapt(Deps.Kapt.dagger)
-
-    testImplementation(Deps.Test.junit)
-    androidTestImplementation(Deps.UiTest.junit)
-    androidTestImplementation(Deps.UiTest.espresso)
 }

@@ -20,16 +20,11 @@ android {
 }
 
 dependencies {
-    implementation(project(":domain"))
     implementation(project(":core"))
 
     implementation(Deps.Androidx.room)
     implementation(Deps.Ktx.room)
-    implementation(Deps.Google.dagger)
+
     kapt(Deps.Kapt.room)
     kapt(Deps.Kapt.dagger)
-
-    testImplementation(Deps.Test.junit)
-    androidTestImplementation(Deps.UiTest.junit)
-    androidTestImplementation(Deps.UiTest.espresso)
 }

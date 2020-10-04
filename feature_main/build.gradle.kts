@@ -24,25 +24,11 @@ android {
 }
 
 dependencies {
-    implementation(project(":domain"))
     implementation(project(":core"))
     implementation(project(":feature_running_records"))
     implementation(project(":feature_records"))
     implementation(project(":feature_statistics"))
     implementation(project(":feature_settings"))
 
-    implementation(Deps.Androidx.appcompat)
-    implementation(Deps.Androidx.constraintLayout)
-    implementation(Deps.Androidx.recyclerView)
-    implementation(Deps.Androidx.viewpager2)
-    implementation(Deps.Androidx.material)
-    implementation(Deps.Google.dagger)
-    implementation(Deps.Ktx.fragment)
-    implementation(Deps.Ktx.liveData)
-    implementation(Deps.Ktx.viewModel)
     kapt(Deps.Kapt.dagger)
-
-    testImplementation(Deps.Test.junit)
-    androidTestImplementation(Deps.UiTest.junit)
-    androidTestImplementation(Deps.UiTest.espresso)
 }
