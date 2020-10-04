@@ -9,17 +9,27 @@ import androidx.lifecycle.observe
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.extension.visible
+import com.example.util.simpletimetracker.core.interactor.NotificationInteractor
+import com.example.util.simpletimetracker.core.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.core.viewModel.BackupViewModel
 import com.example.util.simpletimetracker.feature_main.di.MainComponentProvider
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.main_fragment.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class MainFragment : BaseFragment(R.layout.main_fragment) {
 
     @Inject
     lateinit var backupViewModelFactory: BaseViewModelFactory<BackupViewModel>
+
+    @Inject
+    lateinit var notificationInteractor: NotificationInteractor
+
+    @Inject
+    lateinit var widgetInteractor: WidgetInteractor
 
     private val backupViewModel: BackupViewModel by viewModels(
         ownerProducer = { activity as AppCompatActivity },
@@ -49,6 +59,7 @@ class MainFragment : BaseFragment(R.layout.main_fragment) {
     }
 
     override fun initUi() {
+        syncState()
         setupPager()
     }
 
@@ -89,5 +100,12 @@ class MainFragment : BaseFragment(R.layout.main_fragment) {
                 tab?.icon?.colorFilter = selectedColorFilter
             }
         })
+    }
+
+    private fun syncState() {
+        GlobalScope.launch {
+            notificationInteractor.showAllNotifications()
+            widgetInteractor.updateWidgets()
+        }
     }
 }

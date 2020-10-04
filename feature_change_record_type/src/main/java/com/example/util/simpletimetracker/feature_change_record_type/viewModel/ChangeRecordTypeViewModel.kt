@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.core.interactor.NotificationInteractor
 import com.example.util.simpletimetracker.core.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.core.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
@@ -33,6 +34,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     private val recordInteractor: RecordInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
     private val widgetInteractor: WidgetInteractor,
+    private val notificationInteractor: NotificationInteractor,
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
     private val resourceRepo: ResourceRepo,
     private val colorMapper: ColorMapper,
@@ -153,6 +155,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
                 color = newColorId
             ).let {
                 recordTypeInteractor.add(it)
+                notificationInteractor.showNotification(it.id)
                 widgetInteractor.updateWidgets()
                 (keyboardVisibility as MutableLiveData).value = false
                 router.back()
