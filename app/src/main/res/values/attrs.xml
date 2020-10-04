@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="NotificationIconView">
+        <attr name="itemColor" format="color" />
+        <attr name="itemIcon" format="reference" />
+    </declare-styleable>
+
+</resources>

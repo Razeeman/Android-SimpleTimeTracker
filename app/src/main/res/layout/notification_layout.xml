@@ -7,25 +7,13 @@
     android:paddingBottom="4dp">
 
     <ImageView
-        android:id="@+id/ivNotificationIconBackground"
+        android:id="@+id/ivNotificationIcon"
         android:layout_width="34dp"
         android:layout_height="34dp"
         android:layout_centerVertical="true"
         tools:background="@drawable/circle_drawable"
-        tools:backgroundTint="@color/red_400" />
-
-    <ImageView
-        android:id="@+id/ivNotificationIcon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@id/ivNotificationIconBackground"
-        android:layout_alignTop="@id/ivNotificationIconBackground"
-        android:layout_alignEnd="@id/ivNotificationIconBackground"
-        android:layout_alignBottom="@id/ivNotificationIconBackground"
-        android:layout_margin="6dp"
-        android:scaleType="fitXY"
-        tools:background="@drawable/unknown"
-        tools:backgroundTint="@color/white" />
+        tools:backgroundTint="@color/red_400"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/tvNotificationName"

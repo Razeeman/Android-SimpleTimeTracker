@@ -6,22 +6,16 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffColorFilter
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
 import android.os.Build
+import android.view.ContextThemeWrapper
+import android.view.View
 import android.widget.RemoteViews
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.core.content.ContextCompat
-import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import com.example.util.simpletimetracker.R
+import com.example.util.simpletimetracker.core.extension.dpToPx
 import com.example.util.simpletimetracker.core.manager.NotificationParams
 import com.example.util.simpletimetracker.domain.di.AppContext
 import com.example.util.simpletimetracker.ui.MainActivity
@@ -33,6 +27,14 @@ class NotificationManagerImpl @Inject constructor(
 
     private val notificationManager: NotificationManagerCompat =
         NotificationManagerCompat.from(context)
+    private val iconView = NotificationIconView(
+        ContextThemeWrapper(context, R.style.AppTheme)
+    ).apply {
+        val specWidth = View.MeasureSpec.makeMeasureSpec(34.dpToPx(), View.MeasureSpec.EXACTLY)
+        val specHeight = View.MeasureSpec.makeMeasureSpec(34.dpToPx(), View.MeasureSpec.EXACTLY)
+        measure(specWidth, specHeight)
+        layout(0, 0, measuredWidth, measuredHeight)
+    }
 
     override fun show(params: NotificationParams) {
         val notification: Notification = buildNotification(params)
@@ -45,17 +47,7 @@ class NotificationManagerImpl @Inject constructor(
     }
 
     private fun buildNotification(params: NotificationParams): Notification {
-        val notificationLayout = RemoteViews(context.packageName, R.layout.notification_layout)
-        notificationLayout.setTextViewText(R.id.tvNotificationName, params.text)
-
-        // TODO add runCatching everywhere
-        val icon = getVectorDrawable(params.icon)
-        val iconBackground = ContextCompat.getDrawable(context, R.drawable.circle_drawable)
-            ?.apply { colorFilter = PorterDuffColorFilter(params.color, PorterDuff.Mode.SRC_IN) }
-            ?.let { getBitmap(it) }
-
-        notificationLayout.setImageViewBitmap(R.id.ivNotificationIcon, icon)
-        notificationLayout.setImageViewBitmap(R.id.ivNotificationIconBackground, iconBackground)
+        val notificationLayout = prepareView(params)
 
         val startIntent = Intent(context, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
@@ -86,33 +78,26 @@ class NotificationManagerImpl @Inject constructor(
         }
     }
 
-    // TODO move to utils and from pie chart?
-    private fun getVectorDrawable(iconId: Int): Bitmap? {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            (AppCompatResources.getDrawable(context, iconId) as? BitmapDrawable)?.apply {
-                colorFilter = PorterDuffColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
-                return bitmap
-            }
-        } else {
-            VectorDrawableCompat.create(context.resources, iconId, context.theme)?.apply {
-                setTintList(ColorStateList.valueOf(Color.WHITE))
-                return getBitmap(this)
-            }
-        }
+    private fun prepareView(params: NotificationParams): RemoteViews {
+        val iconBitmap = iconView.apply {
+            itemIcon = params.icon
+            itemColor = params.color
+        }.let(::getBitmapFromView)
 
-        return null
+        return RemoteViews(context.packageName, R.layout.notification_layout).apply {
+            setTextViewText(R.id.tvNotificationName, params.text)
+            setImageViewBitmap(R.id.ivNotificationIcon, iconBitmap)
+        }
     }
 
-    private fun getBitmap(drawable: Drawable): Bitmap {
-        val bitmap = Bitmap.createBitmap(
-            drawable.intrinsicWidth,
-            drawable.intrinsicHeight,
+    private fun getBitmapFromView(view: View): Bitmap {
+        return Bitmap.createBitmap(
+            view.measuredWidth,
+            view.measuredHeight,
             Bitmap.Config.ARGB_8888
-        )
-        val canvas = Canvas(bitmap)
-        drawable.setBounds(0, 0, canvas.width, canvas.height)
-        drawable.draw(canvas)
-        return bitmap
+        ).also {
+            view.draw(Canvas(it))
+        }
     }
 
     companion object {
