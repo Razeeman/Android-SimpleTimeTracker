@@ -4,6 +4,7 @@ import com.example.util.simpletimetracker.core.manager.NotificationManager
 import com.example.util.simpletimetracker.core.manager.NotificationParams
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
+import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
@@ -16,6 +17,7 @@ class NotificationInteractor @Inject constructor(
     private val runningRecordInteractor: RunningRecordInteractor,
     private val iconMapper: IconMapper,
     private val colorMapper: ColorMapper,
+    private val timeMapper: TimeMapper,
     private val resourceRepo: ResourceRepo
 ) {
 
@@ -42,7 +44,9 @@ class NotificationInteractor @Inject constructor(
                 color = recordType.color
                     .let(colorMapper::mapToColorResId)
                     .let(resourceRepo::getColor),
-                text = recordType.name
+                text = recordType.name,
+                description = runningRecord.timeStarted
+                    .let(timeMapper::formatTime)
             )
         )
     }

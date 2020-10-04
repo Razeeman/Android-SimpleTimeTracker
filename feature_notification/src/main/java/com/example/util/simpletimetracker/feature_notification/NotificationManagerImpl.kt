@@ -61,21 +61,22 @@ class NotificationManagerImpl @Inject constructor(
             startIntent,
             PendingIntent.FLAG_UPDATE_CURRENT
         )
-        val builder = NotificationCompat.Builder(context, REMINDERS_CHANNEL_ID)
+        val builder = NotificationCompat.Builder(context, NOTIFICATIONS_CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_notification)
             .setContentIntent(contentIntent)
             .setOngoing(true)
             .setCustomContentView(notificationLayout)
             .setStyle(NotificationCompat.DecoratedCustomViewStyle())
+            .setPriority(NotificationCompat.PRIORITY_LOW) // no sound
         return builder.build()
     }
 
     private fun createAndroidNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
-                REMINDERS_CHANNEL_ID,
-                REMINDERS_CHANNEL_NAME,
-                NotificationManager.IMPORTANCE_DEFAULT
+                NOTIFICATIONS_CHANNEL_ID,
+                NOTIFICATIONS_CHANNEL_NAME,
+                NotificationManager.IMPORTANCE_LOW // no sound
             )
             notificationManager.createNotificationChannel(channel)
         }
@@ -88,7 +89,8 @@ class NotificationManagerImpl @Inject constructor(
         }.let(::getBitmapFromView)
 
         return RemoteViews(context.packageName, R.layout.notification_layout).apply {
-            setTextViewText(R.id.tvNotificationName, params.text)
+            setTextViewText(R.id.tvNotificationText, params.text)
+            setTextViewText(R.id.tvNotificationDescription, params.description)
             setImageViewBitmap(R.id.ivNotificationIcon, iconBitmap)
         }
     }
@@ -104,7 +106,7 @@ class NotificationManagerImpl @Inject constructor(
     }
 
     companion object {
-        private const val REMINDERS_CHANNEL_ID = "REMINDERS"
-        private const val REMINDERS_CHANNEL_NAME = "Notifications"
+        private const val NOTIFICATIONS_CHANNEL_ID = "NOTIFICATIONS"
+        private const val NOTIFICATIONS_CHANNEL_NAME = "Notifications"
     }
 }

@@ -2,28 +2,35 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingTop="4dp"
-    android:paddingBottom="4dp">
+    android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/ivNotificationIcon"
         android:layout_width="@dimen/notification_icon_size"
         android:layout_height="@dimen/notification_icon_size"
         android:layout_centerVertical="true"
+        android:layout_marginEnd="8dp"
         tools:background="@drawable/circle_drawable"
         tools:backgroundTint="@color/red_400"
         tools:ignore="ContentDescription" />
 
     <TextView
-        android:id="@+id/tvNotificationName"
+        android:id="@+id/tvNotificationText"
         style="@style/TextAppearance.Compat.Notification.Title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginStart="8dp"
         android:layout_toEndOf="@id/ivNotificationIcon"
         android:gravity="center_vertical"
         tools:text="Activity name" />
+
+    <TextView
+        android:id="@+id/tvNotificationDescription"
+        style="@style/TextAppearance.Compat.Notification.Info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvNotificationText"
+        android:layout_toEndOf="@id/ivNotificationIcon"
+        android:gravity="center_vertical"
+        tools:text="Activity description" />
 
 </RelativeLayout>
