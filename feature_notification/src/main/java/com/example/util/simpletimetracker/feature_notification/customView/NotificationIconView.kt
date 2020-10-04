@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.notification
+package com.example.util.simpletimetracker.feature_notification.customView
 
 import android.content.Context
 import android.graphics.Color
@@ -7,7 +7,7 @@ import android.graphics.PorterDuffColorFilter
 import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
-import com.example.util.simpletimetracker.R
+import com.example.util.simpletimetracker.feature_notification.R
 import kotlinx.android.synthetic.main.notification_icon_view_layout.view.*
 
 class NotificationIconView @JvmOverloads constructor(
@@ -23,14 +23,15 @@ class NotificationIconView @JvmOverloads constructor(
     init {
         View.inflate(context, R.layout.notification_icon_view_layout, this)
 
-        context.obtainStyledAttributes(attrs, R.styleable.NotificationIconView, defStyleAttr, 0)
-            .run {
-                itemColor =
-                    getColor(R.styleable.NotificationIconView_itemColor, Color.BLACK)
-                itemIcon =
-                    getResourceId(R.styleable.NotificationIconView_itemIcon, R.drawable.unknown)
-                recycle()
-            }
+        context.obtainStyledAttributes(
+            attrs, R.styleable.NotificationIconView, defStyleAttr, 0
+        ).run {
+            itemColor =
+                getColor(R.styleable.NotificationIconView_itemColor, Color.BLACK)
+            itemIcon =
+                getResourceId(R.styleable.NotificationIconView_itemIcon, R.drawable.unknown)
+            recycle()
+        }
     }
 
     var itemColor: Int = 0

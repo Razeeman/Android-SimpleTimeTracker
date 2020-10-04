@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.feature_dialogs.cardOrder.di.CardOrder
 import com.example.util.simpletimetracker.feature_dialogs.cardSize.di.CardSizeComponent
 import com.example.util.simpletimetracker.feature_dialogs.chartFilter.di.ChartFilterComponent
 import com.example.util.simpletimetracker.feature_main.di.MainComponent
+import com.example.util.simpletimetracker.feature_notification.di.NotificationModule
 import com.example.util.simpletimetracker.feature_records.di.RecordsComponent
 import com.example.util.simpletimetracker.feature_running_records.di.RunningRecordsComponent
 import com.example.util.simpletimetracker.feature_settings.di.SettingsComponent
@@ -24,7 +25,8 @@ import javax.inject.Singleton
     modules = [
         AppModule::class,
         DataLocalModule::class,
-        WidgetModule::class
+        WidgetModule::class,
+        NotificationModule::class
     ]
 )
 interface AppComponent {

@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.navigation
 
 import android.app.Activity
 import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.view.View
@@ -12,6 +13,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigator
 import com.example.util.simpletimetracker.R
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.domain.di.AppContext
 import com.example.util.simpletimetracker.feature_change_record.view.ChangeRecordFragment
 import com.example.util.simpletimetracker.feature_change_record_type.view.ChangeRecordTypeFragment
 import com.example.util.simpletimetracker.feature_change_running_record.view.ChangeRunningRecordFragment
@@ -24,6 +26,7 @@ import com.example.util.simpletimetracker.navigation.model.SnackBarMessage
 import com.example.util.simpletimetracker.navigation.params.FileChooserParams
 import com.example.util.simpletimetracker.navigation.params.OpenMarketParams
 import com.example.util.simpletimetracker.navigation.params.SendEmailParams
+import com.example.util.simpletimetracker.ui.MainActivity
 import com.google.android.material.snackbar.Snackbar
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -34,7 +37,8 @@ import javax.inject.Singleton
 
 @Singleton
 class RouterImpl @Inject constructor(
-    private val resourceRepo: ResourceRepo
+    private val resourceRepo: ResourceRepo,
+    @AppContext private val context: Context
 ) : Router() {
 
     private var navController: NavController? = null
@@ -187,6 +191,10 @@ class RouterImpl @Inject constructor(
         }
 
         snackBar.show()
+    }
+
+    override fun getMainStartIntent(): Intent {
+        return Intent(context, MainActivity::class.java)
     }
 
     private fun toNavExtras(sharedElements: Map<Any, String>?): Navigator.Extras {

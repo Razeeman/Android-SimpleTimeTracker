@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.notification
+package com.example.util.simpletimetracker.feature_notification
 
 import android.app.Notification
 import android.app.NotificationChannel
@@ -14,15 +14,17 @@ import android.view.View
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.example.util.simpletimetracker.R
-import com.example.util.simpletimetracker.core.extension.dpToPx
 import com.example.util.simpletimetracker.core.manager.NotificationParams
 import com.example.util.simpletimetracker.domain.di.AppContext
-import com.example.util.simpletimetracker.ui.MainActivity
+import com.example.util.simpletimetracker.feature_notification.customView.NotificationIconView
+import com.example.util.simpletimetracker.navigation.Router
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class NotificationManagerImpl @Inject constructor(
-    @AppContext private val context: Context
+    @AppContext private val context: Context,
+    private val router: Router
 ) : com.example.util.simpletimetracker.core.manager.NotificationManager {
 
     private val notificationManager: NotificationManagerCompat =
@@ -30,8 +32,9 @@ class NotificationManagerImpl @Inject constructor(
     private val iconView = NotificationIconView(
         ContextThemeWrapper(context, R.style.AppTheme)
     ).apply {
-        val specWidth = View.MeasureSpec.makeMeasureSpec(34.dpToPx(), View.MeasureSpec.EXACTLY)
-        val specHeight = View.MeasureSpec.makeMeasureSpec(34.dpToPx(), View.MeasureSpec.EXACTLY)
+        val size = context.resources.getDimensionPixelSize(R.dimen.notification_icon_size)
+        val specWidth = View.MeasureSpec.makeMeasureSpec(size, View.MeasureSpec.EXACTLY)
+        val specHeight = View.MeasureSpec.makeMeasureSpec(size, View.MeasureSpec.EXACTLY)
         measure(specWidth, specHeight)
         layout(0, 0, measuredWidth, measuredHeight)
     }
@@ -49,7 +52,7 @@ class NotificationManagerImpl @Inject constructor(
     private fun buildNotification(params: NotificationParams): Notification {
         val notificationLayout = prepareView(params)
 
-        val startIntent = Intent(context, MainActivity::class.java).apply {
+        val startIntent = router.getMainStartIntent().apply {
             flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
         }
         val contentIntent = PendingIntent.getActivity(

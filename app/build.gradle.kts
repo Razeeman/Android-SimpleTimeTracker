@@ -57,6 +57,7 @@ dependencies {
     implementation(project(":feature_settings"))
     implementation(project(":feature_dialogs"))
     implementation(project(":feature_widget"))
+    implementation(project(":feature_notification"))
 
     implementation(Deps.Androidx.appcompat)
     implementation(Deps.Androidx.constraintLayout)

@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.navigation
 
 import android.app.Activity
+import android.content.Intent
 import android.view.View
 import com.example.util.simpletimetracker.navigation.model.SnackBarMessage
 
@@ -27,4 +28,6 @@ abstract class Router {
         view: View,
         snackBarMessage: SnackBarMessage
     )
+
+    abstract fun getMainStartIntent(): Intent
 }

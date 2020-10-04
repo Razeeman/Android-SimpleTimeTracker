@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/ivNotificationIcon"
-        android:layout_width="34dp"
-        android:layout_height="34dp"
+        android:layout_width="@dimen/notification_icon_size"
+        android:layout_height="@dimen/notification_icon_size"
         android:layout_centerVertical="true"
         tools:background="@drawable/circle_drawable"
         tools:backgroundTint="@color/red_400"

@@ -15,5 +15,6 @@ include(
     "feature_statistics_detail",
     "feature_dialogs",
     "feature_settings",
-    "feature_widget"
+    "feature_widget",
+    "feature_notification"
 )

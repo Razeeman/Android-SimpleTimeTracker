@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:layout_height="64dp"
-    tools:layout_width="64dp"
+    tools:layout_height="@dimen/notification_icon_size"
+    tools:layout_width="@dimen/notification_icon_size"
     tools:parentTag="android.widget.FrameLayout">
 
     <androidx.appcompat.widget.AppCompatImageView
