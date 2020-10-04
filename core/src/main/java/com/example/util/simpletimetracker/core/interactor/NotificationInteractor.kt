@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
+import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RunningRecord
 import javax.inject.Inject
 
@@ -21,18 +22,24 @@ class NotificationInteractor @Inject constructor(
     private val resourceRepo: ResourceRepo
 ) {
 
-    suspend fun showAllNotifications() {
+    suspend fun showAll() {
         runningRecordInteractor.getAll()
             .map(RunningRecord::id)
-            .forEach { typeId -> showNotification(typeId) }
+            .forEach { typeId -> show(typeId) }
     }
 
-    suspend fun showNotification(typeId: Long) {
+    suspend fun hideAll() {
+        recordTypeInteractor.getAll()
+            .map(RecordType::id)
+            .forEach { typeId -> hide(typeId) }
+    }
+
+    suspend fun show(typeId: Long) {
         val recordType = recordTypeInteractor.get(typeId)
         val runningRecord = runningRecordInteractor.get(typeId)
 
         if (recordType == null || runningRecord == null) {
-            hideNotification(typeId)
+            hide(typeId)
             return
         }
 
@@ -51,7 +58,7 @@ class NotificationInteractor @Inject constructor(
         )
     }
 
-    fun hideNotification(typeId: Long) {
+    fun hide(typeId: Long) {
         notificationManager.hide(typeId.toInt())
     }
 }

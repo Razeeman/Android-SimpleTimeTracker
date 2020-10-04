@@ -11,7 +11,7 @@ class RemoveRunningRecordMediator @Inject constructor(
 
     suspend fun remove(typeId: Long) {
         runningRecordInteractor.remove(typeId)
-        notificationInteractor.hideNotification(typeId)
+        notificationInteractor.hide(typeId)
         widgetInteractor.updateWidgets()
     }
 }

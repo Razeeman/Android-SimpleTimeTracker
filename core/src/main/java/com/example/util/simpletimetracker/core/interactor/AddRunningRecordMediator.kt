@@ -17,7 +17,7 @@ class AddRunningRecordMediator @Inject constructor(
                 timeStarted = timeStarted ?: System.currentTimeMillis()
             ).let {
                 runningRecordInteractor.add(it)
-                notificationInteractor.showNotification(typeId)
+                notificationInteractor.show(typeId)
                 widgetInteractor.updateWidgets()
             }
         }

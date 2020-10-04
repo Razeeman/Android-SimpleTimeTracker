@@ -104,7 +104,7 @@ class MainFragment : BaseFragment(R.layout.main_fragment) {
 
     private fun syncState() {
         GlobalScope.launch {
-            notificationInteractor.showAllNotifications()
+            notificationInteractor.showAll()
             widgetInteractor.updateWidgets()
         }
     }

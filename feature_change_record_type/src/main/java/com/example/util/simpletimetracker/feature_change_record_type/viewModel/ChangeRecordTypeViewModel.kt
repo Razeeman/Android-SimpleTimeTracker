@@ -155,7 +155,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
                 color = newColorId
             ).let {
                 recordTypeInteractor.add(it)
-                notificationInteractor.showNotification(it.id)
+                notificationInteractor.show(it.id)
                 widgetInteractor.updateWidgets()
                 (keyboardVisibility as MutableLiveData).value = false
                 router.back()
