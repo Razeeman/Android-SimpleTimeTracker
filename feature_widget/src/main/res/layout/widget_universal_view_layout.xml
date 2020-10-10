@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:cardBackgroundColor="@color/widget_universal_background_color"
+    app:cardCornerRadius="@dimen/widget_universal_corner_radius"
+    app:cardElevation="0dp"
+    app:cardPreventCornerOverlap="false"
+    app:cardUseCompatPadding="false"
+    tools:parentTag="androidx.cardview.widget.CardView">
+
+    <com.example.util.simpletimetracker.feature_widget.universal.customView.IconStackView
+        android:id="@+id/iconsWidgetUniversal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="2dp"
+        android:layout_marginVertical="4dp"
+        app:iconBackgroundPadding="1dp"
+        app:iconCountInEdit="1"
+        app:iconPadding="0dp" />
+
+</merge>

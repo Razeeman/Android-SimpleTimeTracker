@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="widget_width">@dimen/record_type_card_width</dimen>
+    <dimen name="widget_height">@dimen/record_type_card_height</dimen>
+
+    <dimen name="widget_universal_corner_radius">8dp</dimen>
+</resources>

@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import com.example.util.simpletimetracker.domain.di.AppContext
 import com.example.util.simpletimetracker.core.manager.WidgetManager
+import com.example.util.simpletimetracker.feature_widget.universal.WidgetUniversalProvider
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -22,11 +23,14 @@ class WidgetManagerImpl @Inject constructor(
     }
 
     override fun updateWidgets() {
-        val intent = Intent(context, WidgetProvider::class.java)
-        intent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
-        val ids = AppWidgetManager.getInstance(context)
-            .getAppWidgetIds(ComponentName(context, WidgetProvider::class.java))
-        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
-        context.sendBroadcast(intent)
+        val providers = listOf(WidgetProvider::class.java, WidgetUniversalProvider::class.java)
+
+        providers.forEach { provider ->
+            val intent = Intent(context, provider)
+            intent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
+            val ids = AppWidgetManager.getInstance(context).getAppWidgetIds(ComponentName(context, provider))
+            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
+            context.sendBroadcast(intent)
+        }
     }
 }
