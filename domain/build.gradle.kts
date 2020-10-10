@@ -24,5 +24,5 @@ dependencies {
     api(Deps.coroutines)
     api(Deps.timber)
 
-    testApi(Deps.Test.junit)
+    testImplementation(Deps.Test.junit)
 }

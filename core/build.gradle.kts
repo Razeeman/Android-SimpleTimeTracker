@@ -40,8 +40,4 @@ dependencies {
     api(Deps.Ktx.liveData)
     api(Deps.Ktx.viewModel)
     api(Deps.UiTest.espressoIdling)
-
-    androidTestApi(Deps.UiTest.junit)
-    androidTestApi(Deps.UiTest.espresso)
-    androidTestApi(Deps.UiTest.espressoContrib)
 }

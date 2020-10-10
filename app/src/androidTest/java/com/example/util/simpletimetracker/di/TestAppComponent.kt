@@ -14,6 +14,7 @@ import com.example.util.simpletimetracker.StatisticsFilterTest
 import com.example.util.simpletimetracker.StatisticsRangesTest
 import com.example.util.simpletimetracker.StatisticsTest
 import com.example.util.simpletimetracker.data_local.di.DataLocalModule
+import com.example.util.simpletimetracker.feature_notification.di.NotificationModule
 import com.example.util.simpletimetracker.feature_widget.di.WidgetModule
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import dagger.Component
@@ -24,7 +25,8 @@ import javax.inject.Singleton
     modules = [
         AppModule::class,
         DataLocalModule::class,
-        WidgetModule::class
+        WidgetModule::class,
+        NotificationModule::class
     ]
 )
 interface TestAppComponent: AppComponent {

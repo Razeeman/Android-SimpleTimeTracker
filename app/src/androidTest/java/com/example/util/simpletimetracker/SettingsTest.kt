@@ -127,7 +127,6 @@ class SettingsTest : BaseUiTest() {
 
         // Click on already running
         NavUtils.openRunningRecordsScreen()
-        Thread.sleep(1000)
         clickOnView(
             allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name1))
         )
@@ -179,7 +178,6 @@ class SettingsTest : BaseUiTest() {
 
         // Start another timer
         NavUtils.openRunningRecordsScreen()
-        Thread.sleep(1000)
         clickOnView(
             allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name3))
         )
@@ -375,5 +373,37 @@ class SettingsTest : BaseUiTest() {
             .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name3))))
         onView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name3)))
             .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name1))))
+    }
+
+    @Test
+    fun enableNotifications() {
+        val name1 = "Test1"
+        val name2 = "Test2"
+
+        // Add activities
+        NavUtils.addActivity(name1)
+        NavUtils.addActivity(name2)
+
+        // Start one timer
+        clickOnViewWithText(name1)
+
+        // Change settings
+        NavUtils.openSettingsScreen()
+        onView(withId(R.id.checkboxSettingsShowNotifications)).check(matches(isNotChecked()))
+        unconstrainedClickOnView(withId(R.id.checkboxSettingsShowNotifications))
+        onView(withId(R.id.checkboxSettingsShowNotifications)).check(matches(isChecked()))
+
+        // Stop first timer
+        NavUtils.openRunningRecordsScreen()
+        clickOnView(allOf(withId(R.id.layoutRunningRecordItem), hasDescendant(withText(name1))))
+
+        // Start another timer
+        clickOnViewWithText(name2)
+
+        // Change settings
+        NavUtils.openSettingsScreen()
+        onView(withId(R.id.checkboxSettingsShowNotifications)).check(matches(isChecked()))
+        unconstrainedClickOnView(withId(R.id.checkboxSettingsShowNotifications))
+        onView(withId(R.id.checkboxSettingsShowNotifications)).check(matches(isNotChecked()))
     }
 }

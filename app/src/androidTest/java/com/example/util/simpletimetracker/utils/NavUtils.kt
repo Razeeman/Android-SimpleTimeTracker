@@ -29,6 +29,8 @@ object NavUtils {
     }
 
     fun addActivity(name: String, color: Int? = null, icon: Int? = null) {
+        Thread.sleep(1000)
+
         clickOnViewWithText(R.string.running_records_add_type)
 
         // Name
