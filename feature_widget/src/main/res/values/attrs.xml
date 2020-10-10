@@ -2,6 +2,7 @@
 <resources>
     <declare-styleable name="IconStackView">
         <attr name="iconCountInEdit" format="integer" />
+        <attr name="iconColor" format="color" />
         <attr name="iconPadding" format="dimension" />
         <attr name="iconBackgroundPadding" format="dimension" />
     </declare-styleable>

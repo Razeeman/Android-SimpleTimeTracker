@@ -28,8 +28,9 @@ class WidgetUniversalView @JvmOverloads constructor(
         useCompatPadding = false
     }
 
-    fun setData(data: List<Pair<Int, Int>>) {
-        iconsWidgetUniversal.setData(data)
+    fun setData(viewData: WidgetUniversalViewData) {
+        iconsWidgetUniversal.setIconColor(viewData.iconColor)
+        iconsWidgetUniversal.setData(viewData.data)
         invalidate()
     }
 }

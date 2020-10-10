@@ -32,12 +32,13 @@ class IconStackView @JvmOverloads constructor(
 
     // Attrs
     private var iconCountInEdit: Int = 0
+    private var iconColor: Int = Color.WHITE
     private var iconPadding: Int = 0
     private var iconBackgroundPadding: Int = 0
     // End of attrs
 
     private var data: List<Pair<Int, Int>> = emptyList()
-    private val iconPaint: Paint = Paint()
+    private val iconBackgroundPaint: Paint = Paint()
 
     init {
         initArgs(context, attrs, defStyleAttr)
@@ -67,6 +68,11 @@ class IconStackView @JvmOverloads constructor(
 
     fun setData(data: List<Pair<Int, Int>>) {
         this.data = data
+        invalidate()
+    }
+
+    fun setIconColor(iconColor: Int) {
+        this.iconColor = iconColor
         invalidate()
     }
 
@@ -136,10 +142,10 @@ class IconStackView @JvmOverloads constructor(
 
     private fun drawIcon(data: Pair<Int, Int>, canvas: Canvas, radius: Float) {
         val backgroundRadius = radius - iconBackgroundPadding
-        iconPaint.color = data.second
+        iconBackgroundPaint.color = data.second
 
         // Draw background
-        canvas.drawCircle(0f, 0f, backgroundRadius, iconPaint)
+        canvas.drawCircle(0f, 0f, backgroundRadius, iconBackgroundPaint)
 
         // Draw icon
         getIconDrawable(data.first)?.apply {
@@ -153,11 +159,11 @@ class IconStackView @JvmOverloads constructor(
     private fun getIconDrawable(iconId: Int): Drawable? {
         return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             (AppCompatResources.getDrawable(context, iconId) as? BitmapDrawable)?.apply {
-                colorFilter = PorterDuffColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
+                colorFilter = PorterDuffColorFilter(iconColor, PorterDuff.Mode.SRC_IN)
             }
         } else {
             VectorDrawableCompat.create(resources, iconId, context.theme)?.apply {
-                setTintList(ColorStateList.valueOf(Color.WHITE))
+                setTintList(ColorStateList.valueOf(iconColor))
             }
         }
     }
@@ -170,6 +176,7 @@ class IconStackView @JvmOverloads constructor(
         context.obtainStyledAttributes(attrs, R.styleable.IconStackView, defStyleAttr, 0)
             .run {
                 iconCountInEdit = getInt(R.styleable.IconStackView_iconCountInEdit, 0)
+                iconColor = getColor(R.styleable.IconStackView_iconColor, Color.WHITE)
                 iconPadding = getDimensionPixelOffset(R.styleable.IconStackView_iconPadding, 0)
                 iconBackgroundPadding = getDimensionPixelOffset(R.styleable.IconStackView_iconBackgroundPadding, 0)
                 recycle()
@@ -177,7 +184,7 @@ class IconStackView @JvmOverloads constructor(
     }
 
     private fun initPaint() {
-        iconPaint.apply {
+        iconBackgroundPaint.apply {
             isAntiAlias = true
             color = Color.BLACK
             style = Paint.Style.FILL

@@ -7,35 +7,22 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.graphics.Color
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.MeasureSpec
 import android.widget.RemoteViews
-import com.example.util.simpletimetracker.core.interactor.AddRunningRecordMediator
-import com.example.util.simpletimetracker.core.interactor.RemoveRunningRecordMediator
-import com.example.util.simpletimetracker.core.interactor.WidgetInteractor
-import com.example.util.simpletimetracker.core.mapper.ColorMapper
-import com.example.util.simpletimetracker.core.mapper.IconMapper
-import com.example.util.simpletimetracker.core.repo.ResourceRepo
-import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.feature_widget.R
 import com.example.util.simpletimetracker.feature_widget.di.WidgetComponentProvider
 import com.example.util.simpletimetracker.feature_widget.universal.activity.view.WidgetUniversalActivity
 import com.example.util.simpletimetracker.feature_widget.universal.customView.WidgetUniversalView
+import com.example.util.simpletimetracker.feature_widget.universal.mapper.WidgetUniversalViewDataMapper
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 class WidgetUniversalProvider : AppWidgetProvider() {
-
-    @Inject
-    lateinit var addRunningRecordMediator: AddRunningRecordMediator
-
-    @Inject
-    lateinit var removeRunningRecordMediator: RemoveRunningRecordMediator
 
     @Inject
     lateinit var runningRecordInteractor: RunningRecordInteractor
@@ -44,19 +31,7 @@ class WidgetUniversalProvider : AppWidgetProvider() {
     lateinit var recordTypeInteractor: RecordTypeInteractor
 
     @Inject
-    lateinit var recordInteractor: RecordInteractor
-
-    @Inject
-    lateinit var widgetInteractor: WidgetInteractor
-
-    @Inject
-    lateinit var colorMapper: ColorMapper
-
-    @Inject
-    lateinit var iconMapper: IconMapper
-
-    @Inject
-    lateinit var resourceRepo: ResourceRepo
+    lateinit var widgetUniversalViewDataMapper: WidgetUniversalViewDataMapper
 
     override fun onReceive(context: Context?, intent: Intent?) {
         (context?.applicationContext as? WidgetComponentProvider)
@@ -99,23 +74,13 @@ class WidgetUniversalProvider : AppWidgetProvider() {
     ): View = runBlocking {
         val runningRecords = runningRecordInteractor.getAll()
         val recordTypes = recordTypeInteractor.getAll().map { it.id to it }.toMap()
-        val data = runningRecords.map { runningRecord ->
-            val recordType = recordTypes[runningRecord.id]
 
-            val icon = recordType?.icon
-                ?.let(iconMapper::mapToDrawableResId)
-                ?: R.drawable.unknown
-            val color = recordType?.color
-                ?.let(colorMapper::mapToColorResId)
-                ?.let(resourceRepo::getColor)
-                ?: Color.BLACK
+        val data = runningRecords
+            .let { widgetUniversalViewDataMapper.mapToWidgetViewData(it, recordTypes) }
+            .takeUnless { it.data.isEmpty() }
+            ?: widgetUniversalViewDataMapper.mapToEmptyWidgetViewData()
 
-            icon to color
-        }
-
-        WidgetUniversalView(
-            ContextThemeWrapper(context, R.style.AppTheme)
-        ).apply {
+        WidgetUniversalView(ContextThemeWrapper(context, R.style.AppTheme)).apply {
             setData(data)
         }
     }
