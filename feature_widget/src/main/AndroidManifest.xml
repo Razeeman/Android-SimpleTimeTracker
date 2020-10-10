@@ -15,7 +15,9 @@
             android:excludeFromRecents="true"
             android:noHistory="true" />
 
-        <receiver android:name=".widget.WidgetProvider">
+        <receiver
+            android:name=".widget.WidgetProvider"
+            android:label="@string/widget_name">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -24,7 +26,9 @@
                 android:resource="@xml/widget_info" />
         </receiver>
 
-        <receiver android:name=".universal.WidgetUniversalProvider">
+        <receiver
+            android:name=".universal.WidgetUniversalProvider"
+            android:label="@string/widget_universal_name">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
