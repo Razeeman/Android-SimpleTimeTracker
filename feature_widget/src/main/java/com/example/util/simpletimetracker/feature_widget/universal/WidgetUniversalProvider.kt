@@ -152,7 +152,6 @@ class WidgetUniversalProvider : AppWidgetProvider() {
 
     private fun getPendingIntent(context: Context): PendingIntent {
         val intent = Intent(context, WidgetUniversalActivity::class.java)
-        // TODO prevent main activity opening after closing this one
         return PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 }

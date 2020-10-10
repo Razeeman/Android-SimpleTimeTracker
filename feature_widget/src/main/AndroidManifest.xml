@@ -9,7 +9,11 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".universal.activity.view.WidgetUniversalActivity" />
+        <activity
+            android:name=".universal.activity.view.WidgetUniversalActivity"
+            android:documentLaunchMode="intoExisting"
+            android:excludeFromRecents="true"
+            android:noHistory="true" />
 
         <receiver android:name=".widget.WidgetProvider">
             <intent-filter>
