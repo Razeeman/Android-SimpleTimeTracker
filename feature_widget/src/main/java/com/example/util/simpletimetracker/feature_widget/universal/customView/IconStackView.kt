@@ -79,7 +79,7 @@ class IconStackView @JvmOverloads constructor(
     private fun drawOne(data: List<Pair<Int, Int>>, canvas: Canvas, w: Float, h: Float) {
         if (data.isEmpty()) return
 
-        val radius = min(w / 2, h / 2)
+        val radius = min(w / 2, h / 2) * ONE_ICON_RADIUS_RATIO
 
         // Move to center
         canvas.translate(w / 2, h / 2)
@@ -197,5 +197,9 @@ class IconStackView @JvmOverloads constructor(
 
             (0 until segments).map { R.drawable.ic_desktop_windows_24px to Color.RED }.let(::setData)
         }
+    }
+
+    companion object {
+        private const val ONE_ICON_RADIUS_RATIO = 0.7f
     }
 }
