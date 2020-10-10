@@ -65,10 +65,13 @@ class NotificationManagerImpl @Inject constructor(
             .setSmallIcon(R.drawable.ic_notification)
             .setContentIntent(contentIntent)
             .setOngoing(true)
+            .setAutoCancel(false)
             .setCustomContentView(notificationLayout)
             .setStyle(NotificationCompat.DecoratedCustomViewStyle())
             .setPriority(NotificationCompat.PRIORITY_LOW) // no sound
-        return builder.build()
+        return builder.build().apply {
+            flags = flags or Notification.FLAG_NO_CLEAR
+        }
     }
 
     private fun createAndroidNotificationChannel() {

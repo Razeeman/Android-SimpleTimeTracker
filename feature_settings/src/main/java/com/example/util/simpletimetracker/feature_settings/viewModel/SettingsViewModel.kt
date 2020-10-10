@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.core.interactor.NotificationInteractor
 import com.example.util.simpletimetracker.core.provider.PackageNameProvider
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -26,7 +27,8 @@ class SettingsViewModel @Inject constructor(
     private val resourceRepo: ResourceRepo,
     private val prefsInteractor: PrefsInteractor,
     private val settingsMapper: SettingsMapper,
-    private val packageNameProvider: PackageNameProvider
+    private val packageNameProvider: PackageNameProvider,
+    private val notificationInteractor: NotificationInteractor
 ) : ViewModel() {
 
     val cardOrderViewData: LiveData<CardOrderViewData> by lazy {
@@ -60,6 +62,15 @@ class SettingsViewModel @Inject constructor(
         MutableLiveData<Boolean>().let { initial ->
             viewModelScope.launch {
                 initial.value = prefsInteractor.getAllowMultitasking()
+            }
+            initial
+        }
+    }
+
+    val showNotificationsCheckbox: LiveData<Boolean> by lazy {
+        MutableLiveData<Boolean>().let { initial ->
+            viewModelScope.launch {
+                initial.value = prefsInteractor.getShowNotifications()
             }
             initial
         }
@@ -142,6 +153,15 @@ class SettingsViewModel @Inject constructor(
             val newValue = !prefsInteractor.getAllowMultitasking()
             prefsInteractor.setAllowMultitasking(newValue)
             (allowMultitaskingCheckbox as MutableLiveData).value = newValue
+        }
+    }
+
+    fun onShowNotificationsClicked() {
+        viewModelScope.launch {
+            val newValue = !prefsInteractor.getShowNotifications()
+            prefsInteractor.setShowNotifications(newValue)
+            (showNotificationsCheckbox as MutableLiveData).value = newValue
+            notificationInteractor.updateNotifications()
         }
     }
 

@@ -52,6 +52,7 @@ class SettingsFragment : BaseFragment(R.layout.settings_fragment),
         btnCardOrderManual.setOnClick(viewModel::onCardOrderManualClick)
         checkboxSettingsShowUntracked.setOnClick(viewModel::onShowUntrackedClicked)
         checkboxSettingsAllowMultitasking.setOnClick(viewModel::onAllowMultitaskingClicked)
+        checkboxSettingsShowNotifications.setOnClick(viewModel::onShowNotificationsClicked)
         tvSettingsChangeCardSize.setOnClick(viewModel::onChangeCardSizeClick)
         layoutSettingsSaveBackup.setOnClick(viewModel::onSaveClick)
         tvSettingsRestoreBackup.setOnClick(viewModel::onRestoreClick)
@@ -76,6 +77,10 @@ class SettingsFragment : BaseFragment(R.layout.settings_fragment),
             viewLifecycleOwner,
             checkboxSettingsAllowMultitasking::setChecked
         )
+        showNotificationsCheckbox.observe(
+            viewLifecycleOwner,
+            checkboxSettingsShowNotifications::setChecked
+        )
     }
 
     override fun onResume() {
@@ -83,6 +88,7 @@ class SettingsFragment : BaseFragment(R.layout.settings_fragment),
         spinnerSettingsRecordTypeSort.jumpDrawablesToCurrentState()
         checkboxSettingsShowUntracked.jumpDrawablesToCurrentState()
         checkboxSettingsAllowMultitasking.jumpDrawablesToCurrentState()
+        checkboxSettingsShowNotifications.jumpDrawablesToCurrentState()
         viewModel.onVisible()
     }
 

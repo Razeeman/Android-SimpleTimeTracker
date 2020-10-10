@@ -53,6 +53,14 @@ class PrefsInteractor @Inject constructor(
         prefsRepo.allowMultitasking = isEnabled
     }
 
+    suspend fun getShowNotifications(): Boolean = withContext(Dispatchers.IO) {
+        prefsRepo.showNotifications
+    }
+
+    suspend fun setShowNotifications(isEnabled: Boolean) = withContext(Dispatchers.IO) {
+        prefsRepo.showNotifications = isEnabled
+    }
+
     suspend fun getNumberOfCards(): Int = withContext(Dispatchers.IO) {
         prefsRepo.numberOfCards
     }

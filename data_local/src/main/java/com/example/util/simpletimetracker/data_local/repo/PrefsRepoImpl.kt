@@ -28,6 +28,10 @@ class PrefsRepoImpl @Inject constructor(
         KEY_ALLOW_MULTITASKING, true
     )
 
+    override var showNotifications: Boolean by prefs.delegate(
+        KEY_SHOW_NOTIFICATIONS, false
+    )
+
     override var numberOfCards: Int by prefs.delegate(
         KEY_NUMBER_OF_CARDS, 0
     )
@@ -78,6 +82,7 @@ class PrefsRepoImpl @Inject constructor(
         private const val KEY_CARD_ORDER = "cardOrder"
         private const val KEY_SHOW_UNTRACKED_IN_RECORDS = "showUntrackedInRecords"
         private const val KEY_ALLOW_MULTITASKING = "allowMultitasking"
+        private const val KEY_SHOW_NOTIFICATIONS = "showNotifications"
         private const val KEY_NUMBER_OF_CARDS = "numberOfCards" // 0 - default width
         private const val KEY_WIDGET = "widget_"
         private const val KEY_CARD_ORDER_MANUAL = "cardOrderManual"
