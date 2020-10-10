@@ -13,6 +13,7 @@ import com.example.util.simpletimetracker.feature_dialogs.cardOrder.di.CardOrder
 import com.example.util.simpletimetracker.feature_dialogs.cardSize.di.CardSizeComponent
 import com.example.util.simpletimetracker.feature_dialogs.chartFilter.di.ChartFilterComponent
 import com.example.util.simpletimetracker.feature_main.di.MainComponent
+import com.example.util.simpletimetracker.feature_notification.di.NotificationComponent
 import com.example.util.simpletimetracker.feature_records.di.RecordsComponent
 import com.example.util.simpletimetracker.feature_running_records.di.RunningRecordsComponent
 import com.example.util.simpletimetracker.feature_settings.di.SettingsComponent
@@ -38,6 +39,7 @@ class TimeTrackerApp : Application(), FeatureComponentProvider {
     override var cardSizeComponent: CardSizeComponent? = null
     override var cardOrderComponent: CardOrderComponent? = null
     override var widgetComponent: WidgetComponent? = null
+    override var notificationComponent: NotificationComponent? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -70,6 +72,7 @@ class TimeTrackerApp : Application(), FeatureComponentProvider {
         cardSizeComponent = appComponent?.plusCardSizeComponent()
         cardOrderComponent = appComponent?.plusCardOrderComponent()
         widgetComponent = appComponent?.plusWidgetComponent()
+        notificationComponent = appComponent?.plusNotificationComponent()
     }
 
     private fun initStrictMode() {

@@ -7,6 +7,7 @@ import com.example.util.simpletimetracker.feature_dialogs.cardOrder.di.CardOrder
 import com.example.util.simpletimetracker.feature_dialogs.cardSize.di.CardSizeComponentProvider
 import com.example.util.simpletimetracker.feature_dialogs.chartFilter.di.ChartFilterComponentProvider
 import com.example.util.simpletimetracker.feature_main.di.MainComponentProvider
+import com.example.util.simpletimetracker.feature_notification.di.NotificationComponentProvider
 import com.example.util.simpletimetracker.feature_records.di.RecordsComponentProvider
 import com.example.util.simpletimetracker.feature_running_records.di.RunningRecordsComponentProvider
 import com.example.util.simpletimetracker.feature_settings.di.SettingsComponentProvider
@@ -27,7 +28,8 @@ interface FeatureComponentProvider :
     ChartFilterComponentProvider,
     CardSizeComponentProvider,
     CardOrderComponentProvider,
-    WidgetComponentProvider {
+    WidgetComponentProvider,
+    NotificationComponentProvider {
 
     var appComponent: AppComponent?
 }
