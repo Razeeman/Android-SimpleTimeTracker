@@ -10,8 +10,8 @@
     <color name="textPrimaryDark">@color/grey_400</color>
     <color name="textSecondary">#737373</color>
 
-    <color name="textLight">@color/grey_100</color>
-    <color name="textLightDark">@color/grey_400</color>
+    <color name="textLight">@color/grey_50</color>
+    <color name="textLightDark">@color/grey_100</color>
 
     <color name="textHint">#A1A1A1</color>
     <color name="textHintDark">#4D4D4D</color>
