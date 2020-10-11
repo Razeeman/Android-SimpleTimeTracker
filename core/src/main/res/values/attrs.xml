@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <attr name="appTextColor" format="reference" />
+    <attr name="appTextPrimaryColor" format="reference" />
+    <attr name="appBackgroundColor" format="reference" />
+    <attr name="appDialogBackground" format="reference" />
+    <attr name="appTextHintColor" format="reference" />
+    <attr name="appArrow" format="reference" />
+    <attr name="appDialogArrow" format="reference" />
+    <attr name="appDividerColor" format="reference" />
+    <attr name="appDivider" format="reference" />
+    <attr name="appInputFieldBorder" format="reference" />
+    <attr name="appPieChartDividerColor" format="reference" />
+    <attr name="appCardBackgroundColor" format="reference" />
+    <attr name="appPopupBackground" format="reference" />
+    <attr name="appPopupItemBackground" format="reference" />
+
     <declare-styleable name="RecordTypeView">
         <attr name="itemName" format="string" />
         <attr name="itemIcon" format="reference" />

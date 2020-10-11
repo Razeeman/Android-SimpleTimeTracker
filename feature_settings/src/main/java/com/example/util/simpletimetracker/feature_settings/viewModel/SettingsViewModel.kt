@@ -76,6 +76,17 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    val darkModeCheckbox: LiveData<Boolean> by lazy {
+        MutableLiveData<Boolean>().let { initial ->
+            viewModelScope.launch {
+                initial.value = prefsInteractor.getDarkMode()
+            }
+            initial
+        }
+    }
+
+    val themeChanged: LiveData<Boolean> = MutableLiveData(false)
+
     fun onVisible() {
         // Need to update card order because it changes on card order dialog
         viewModelScope.launch {
@@ -165,6 +176,15 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    fun onDarkModeClicked() {
+        viewModelScope.launch {
+            val newValue = !prefsInteractor.getDarkMode()
+            prefsInteractor.setDarkMode(newValue)
+            (darkModeCheckbox as MutableLiveData).value = newValue
+            (themeChanged as MutableLiveData).value = true
+        }
+    }
+
     fun onChangeCardSizeClick() {
         router.navigate(Screen.CARD_SIZE_DIALOG)
     }
@@ -176,6 +196,10 @@ class SettingsViewModel @Inject constructor(
                 FileChooserParams(::onFileOpenError)
             )
         }
+    }
+
+    fun onThemeChanged() {
+        (themeChanged as MutableLiveData).value = false
     }
 
     private fun openCardOrderDialog() {

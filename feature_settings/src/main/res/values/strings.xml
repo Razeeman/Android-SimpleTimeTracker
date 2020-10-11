@@ -10,6 +10,7 @@
     <string name="settings_allow_multitasking">Allow multitasking</string>
     <string name="settings_allow_multitasking_hint">If disabled starting new timer will automatically stop other activities.</string>
     <string name="settings_show_notifications">Show timer notifications</string>
+    <string name="settings_dark_mode">Dark mode</string>
     <string name="settings_show_notifications_hint">Show notifications when timers are running.</string>
     <string name="settings_change_card_size">Change activity card size</string>
     <string name="settings_file_error">Error opening file</string>

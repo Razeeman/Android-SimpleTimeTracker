@@ -4,11 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="40dp"
     android:layout_margin="0dp"
-    android:background="@drawable/bg_states_spinner_item"
+    android:background="?appPopupItemBackground"
     android:checkMark="@drawable/states_spinner_check_mark"
     android:checked="false"
     android:gravity="center"
     android:paddingStart="8dp"
     android:paddingEnd="8dp"
     android:singleLine="true"
+    android:textColor="?appTextPrimaryColor"
     tools:text="@string/settings_sort_manually" />

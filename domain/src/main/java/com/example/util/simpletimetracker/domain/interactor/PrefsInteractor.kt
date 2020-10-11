@@ -61,6 +61,14 @@ class PrefsInteractor @Inject constructor(
         prefsRepo.showNotifications = isEnabled
     }
 
+    suspend fun getDarkMode(): Boolean = withContext(Dispatchers.IO) {
+        prefsRepo.darkMode
+    }
+
+    suspend fun setDarkMode(isEnabled: Boolean) = withContext(Dispatchers.IO) {
+        prefsRepo.darkMode = isEnabled
+    }
+
     suspend fun getNumberOfCards(): Int = withContext(Dispatchers.IO) {
         prefsRepo.numberOfCards
     }

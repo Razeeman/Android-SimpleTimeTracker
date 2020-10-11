@@ -37,7 +37,13 @@ class StatisticsDetailCardView @JvmOverloads constructor(
     init {
         View.inflate(context, R.layout.statistics_detail_card_view, this)
 
-        val dividerDrawable = ResourcesCompat.getDrawable(resources, R.drawable.divider_drawable, context.theme)
+        var dividerDrawable = ResourcesCompat.getDrawable(resources, R.drawable.divider_drawable, context.theme)
+        runCatching {
+            context.theme.obtainStyledAttributes(intArrayOf(R.attr.appDivider)).run {
+                dividerDrawable = getDrawable(0)
+                recycle()
+            }
+        }
         val itemDecoration = FlexboxItemDecoration(context).apply {
             setDrawable(dividerDrawable)
         }

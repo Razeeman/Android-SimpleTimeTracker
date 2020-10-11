@@ -32,6 +32,10 @@ class PrefsRepoImpl @Inject constructor(
         KEY_SHOW_NOTIFICATIONS, false
     )
 
+    override var darkMode: Boolean by prefs.delegate(
+        DARK_MODE, false
+    )
+
     override var numberOfCards: Int by prefs.delegate(
         KEY_NUMBER_OF_CARDS, 0
     )
@@ -83,6 +87,7 @@ class PrefsRepoImpl @Inject constructor(
         private const val KEY_SHOW_UNTRACKED_IN_RECORDS = "showUntrackedInRecords"
         private const val KEY_ALLOW_MULTITASKING = "allowMultitasking"
         private const val KEY_SHOW_NOTIFICATIONS = "showNotifications"
+        private const val DARK_MODE = "darkMode"
         private const val KEY_NUMBER_OF_CARDS = "numberOfCards" // 0 - default width
         private const val KEY_WIDGET = "widget_"
         private const val KEY_CARD_ORDER_MANUAL = "cardOrderManual"

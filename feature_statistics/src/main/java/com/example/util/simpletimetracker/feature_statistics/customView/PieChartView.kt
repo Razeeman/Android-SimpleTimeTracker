@@ -31,20 +31,23 @@ class PieChartView @JvmOverloads constructor(
     defStyleAttr
 ) {
 
+    // Attrs
+    private var innerRadiusRatio: Float = 0.0f
+    private var dividerWidth: Int = 0
+    private var dividerColor: Int = Color.WHITE
+    private var iconPadding: Int = 0
+    private var iconMaxSize: Int = 0
+    private var segmentCount: Int = 0
+    private var drawIcons: Boolean = false
+    // End of attrs
+
     private val segmentPaint: Paint = Paint()
     private val shadowPaint: Paint = Paint()
     private val dividerPaint: Paint = Paint()
 
     private val bounds: RectF = RectF(0f, 0f, 0f, 0f)
-    private var innerRadiusRatio: Float = 0.0f
-    private var dividerWidth: Int = 0
-    private var iconPadding: Int = 0
-    private var iconMaxSize: Int = 0
     private var segments: List<Arc> = emptyList()
-    private var segmentCount: Int = 0
-    private var drawIcons: Boolean = false
     private var shadowColor: Int = 0x40000000
-    private var dividerColor: Int = 0xFFEEEEEE.toInt()
 
     init {
         initArgs(context, attrs, defStyleAttr)
@@ -117,6 +120,8 @@ class PieChartView @JvmOverloads constructor(
                     getFloat(R.styleable.PieChartView_innerRadiusRatio, 0f)
                 dividerWidth =
                     getDimensionPixelSize(R.styleable.PieChartView_dividerWidth, 0)
+                dividerColor =
+                    getColor(R.styleable.PieChartView_dividerColor, Color.WHITE)
                 iconPadding =
                     getDimensionPixelSize(R.styleable.PieChartView_iconPadding, 0)
                 iconMaxSize =

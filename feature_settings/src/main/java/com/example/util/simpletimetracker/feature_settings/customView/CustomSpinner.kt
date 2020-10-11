@@ -43,5 +43,6 @@ class CustomSpinner @JvmOverloads constructor(
         adapter.clear()
         adapter.addAll(items)
         customSpinner.setSelection(selectedPosition)
+        tvCustomSpinner.text = adapter.getItem(selectedPosition)
     }
 }

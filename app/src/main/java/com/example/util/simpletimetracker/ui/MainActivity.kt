@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.util.simpletimetracker.R
 import com.example.util.simpletimetracker.TimeTrackerApp
 import com.example.util.simpletimetracker.core.extension.getAllFragments
+import com.example.util.simpletimetracker.core.manager.ThemeManager
 import com.example.util.simpletimetracker.navigation.Router
 import timber.log.Timber
 import javax.inject.Inject
@@ -15,11 +16,15 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var router: Router
 
+    @Inject
+    lateinit var themeManager: ThemeManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.main_activity)
 
         (application as TimeTrackerApp).appComponent?.inject(this)
+        themeManager.setTheme(this)
+        setContentView(R.layout.main_activity)
         router.bind(this)
     }
 

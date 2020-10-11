@@ -13,12 +13,9 @@
         android:paddingEnd="8dp">
 
         <androidx.cardview.widget.CardView
+            style="@style/SettingsCard"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="4dp"
-            app:cardPreventCornerOverlap="false"
-            app:cardUseCompatPadding="true">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -101,16 +98,16 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:paddingTop="12dp"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:paddingTop="12dp">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tvSettingsAllowMultitasking"
                         style="@style/SettingsText"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:paddingBottom="0dp"
                         android:paddingTop="0dp"
+                        android:paddingBottom="0dp"
                         android:text="@string/settings_allow_multitasking"
                         app:layout_constraintEnd_toStartOf="@id/checkboxSettingsAllowMultitasking"
                         app:layout_constraintStart_toStartOf="parent"
@@ -141,16 +138,16 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:paddingTop="12dp"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:paddingTop="12dp">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tvSettingsShowNotifications"
                         style="@style/SettingsText"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:paddingBottom="0dp"
                         android:paddingTop="0dp"
+                        android:paddingBottom="0dp"
                         android:text="@string/settings_show_notifications"
                         app:layout_constraintEnd_toStartOf="@id/checkboxSettingsShowNotifications"
                         app:layout_constraintStart_toStartOf="parent"
@@ -179,6 +176,34 @@
                     style="@style/SettingsDivider"
                     android:layout_width="match_parent" />
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvSettingsDarkMode"
+                        style="@style/SettingsText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_dark_mode"
+                        app:layout_constraintEnd_toStartOf="@id/checkboxSettingsDarkMode"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatCheckBox
+                        android:id="@+id/checkboxSettingsDarkMode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        app:layout_constraintBottom_toBottomOf="@id/tvSettingsDarkMode"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tvSettingsDarkMode" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <View
+                    style="@style/SettingsDivider"
+                    android:layout_width="match_parent" />
+
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvSettingsChangeCardSize"
                     style="@style/SettingsText"
@@ -194,12 +219,9 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            style="@style/SettingsCard"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="4dp"
-            app:cardPreventCornerOverlap="false"
-            app:cardUseCompatPadding="true">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -290,12 +312,9 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            style="@style/SettingsCard"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="4dp"
-            app:cardPreventCornerOverlap="false"
-            app:cardUseCompatPadding="true">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="match_parent"

@@ -12,6 +12,8 @@ interface PrefsRepo {
 
     var showNotifications: Boolean
 
+    var darkMode: Boolean
+
     var numberOfCards: Int
 
     fun setWidget(widgetId: Int, recordType: Long)

@@ -6,4 +6,4 @@
     android:layout_marginTop="8dp"
     android:layout_marginEnd="8dp"
     android:layout_marginBottom="6dp"
-    android:background="@color/blue_grey_50" />
+    android:background="?appDividerColor" />

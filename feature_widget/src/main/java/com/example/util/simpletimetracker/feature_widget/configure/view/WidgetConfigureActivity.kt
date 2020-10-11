@@ -8,6 +8,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.observe
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
+import com.example.util.simpletimetracker.core.manager.ThemeManager
 import com.example.util.simpletimetracker.feature_widget.R
 import com.example.util.simpletimetracker.feature_widget.configure.adapter.WidgetAdapter
 import com.example.util.simpletimetracker.feature_widget.di.WidgetComponentProvider
@@ -25,6 +26,9 @@ class WidgetConfigureActivity : AppCompatActivity() {
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<WidgetViewModel>
 
+    @Inject
+    lateinit var themeManager: ThemeManager
+
     private val viewModel: WidgetViewModel by viewModels(
         factoryProducer = { viewModelFactory }
     )
@@ -37,11 +41,9 @@ class WidgetConfigureActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         // Set the result to CANCELED.  This will cause the widget host to cancel
         // out of the widget placement if they press the back button.
         setResult(RESULT_CANCELED)
-        setContentView(R.layout.widget_configure_activity)
 
         initDi()
         initUi()
@@ -55,6 +57,9 @@ class WidgetConfigureActivity : AppCompatActivity() {
     }
 
     private fun initUi() {
+        themeManager.setTheme(this)
+        setContentView(R.layout.widget_configure_activity)
+
         rvWidgetConfigureRecordType.apply {
             layoutManager = FlexboxLayoutManager(context).apply {
                 flexDirection = FlexDirection.ROW

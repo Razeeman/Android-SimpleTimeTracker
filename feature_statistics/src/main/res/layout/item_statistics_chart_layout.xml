@@ -27,6 +27,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         app:dividerWidth="2dp"
+        app:dividerColor="?appPieChartDividerColor"
         app:drawIcons="true"
         app:iconMaxSize="24dp"
         app:iconPadding="4dp"

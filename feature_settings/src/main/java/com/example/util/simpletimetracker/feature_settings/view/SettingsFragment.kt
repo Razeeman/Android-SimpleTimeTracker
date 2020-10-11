@@ -53,6 +53,7 @@ class SettingsFragment : BaseFragment(R.layout.settings_fragment),
         checkboxSettingsShowUntracked.setOnClick(viewModel::onShowUntrackedClicked)
         checkboxSettingsAllowMultitasking.setOnClick(viewModel::onAllowMultitaskingClicked)
         checkboxSettingsShowNotifications.setOnClick(viewModel::onShowNotificationsClicked)
+        checkboxSettingsDarkMode.setOnClick(viewModel::onDarkModeClicked)
         tvSettingsChangeCardSize.setOnClick(viewModel::onChangeCardSizeClick)
         layoutSettingsSaveBackup.setOnClick(viewModel::onSaveClick)
         tvSettingsRestoreBackup.setOnClick(viewModel::onRestoreClick)
@@ -81,6 +82,14 @@ class SettingsFragment : BaseFragment(R.layout.settings_fragment),
             viewLifecycleOwner,
             checkboxSettingsShowNotifications::setChecked
         )
+        darkModeCheckbox.observe(
+            viewLifecycleOwner,
+            checkboxSettingsDarkMode::setChecked
+        )
+        themeChanged.observe(
+            viewLifecycleOwner,
+            ::changeTheme
+        )
     }
 
     override fun onResume() {
@@ -89,6 +98,7 @@ class SettingsFragment : BaseFragment(R.layout.settings_fragment),
         checkboxSettingsShowUntracked.jumpDrawablesToCurrentState()
         checkboxSettingsAllowMultitasking.jumpDrawablesToCurrentState()
         checkboxSettingsShowNotifications.jumpDrawablesToCurrentState()
+        checkboxSettingsDarkMode.jumpDrawablesToCurrentState()
         viewModel.onVisible()
     }
 
@@ -118,6 +128,15 @@ class SettingsFragment : BaseFragment(R.layout.settings_fragment),
     private fun updateCardOrderViewData(viewData: CardOrderViewData) {
         btnCardOrderManual.visible = viewData.isManualConfigButtonVisible
         spinnerSettingsRecordTypeSort.setData(viewData.items, viewData.selectedPosition)
+    }
+
+    private fun changeTheme(themeChanged: Boolean) {
+        if (themeChanged) {
+            viewModel.onThemeChanged()
+            activity?.recreate()
+            // TODO fix fade and save scroll
+            activity?.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+        }
     }
 
     companion object {

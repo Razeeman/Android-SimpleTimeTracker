@@ -7,13 +7,26 @@
     <color name="colorSecondary">#FF4081</color>
 
     <color name="textPrimary">#191919</color>
+    <color name="textPrimaryDark">#E6E6E6</color>
     <color name="textSecondary">#737373</color>
+    <color name="textHint">#A1A1A1</color>
+    <color name="textHintDark">#4D4D4D</color>
+
+    <color name="colorBackground">#FFFFFF</color>
+    <color name="colorBackgroundDark">#121212</color>
+
+    <color name="pieChartDivider">#EEEEEE</color>
+    <color name="pieChartDividerDark">#121212</color>
+
+    <color name="cardBackground">#FFFFFF</color>
+    <color name="cardBackgroundDark">#242424</color>
+
+    <color name="colorDialogBackground">#FFFFFF</color>
+    <color name="colorDialogBackgroundDark">#242424</color>
 
     <color name="black">#000000</color>
     <color name="white">#ffffff</color>
     <color name="transparent">#00000000</color>
-
-    <color name="light_grey">#f5f5f5</color>
 
     <color name="untracked_time_color">@color/blue_grey_300</color>
     <color name="filtered_color">@color/blue_grey_100</color>

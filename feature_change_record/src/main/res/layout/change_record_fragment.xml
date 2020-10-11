@@ -52,7 +52,7 @@
             style="@style/ChangeRecordTypeText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/bg_input_field_border"
+            android:background="?appInputFieldBorder"
             android:gravity="center_vertical"
             android:maxLines="1"
             app:autoSizeMaxTextSize="16sp"
@@ -78,7 +78,7 @@
             style="@style/ChangeRecordTypeText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/bg_input_field_border"
+            android:background="?appInputFieldBorder"
             android:gravity="center_vertical"
             android:maxLines="1"
             app:autoSizeMaxTextSize="16sp"
@@ -100,7 +100,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/bg_input_field_border">
+            android:background="?appInputFieldBorder">
 
             <androidx.appcompat.widget.AppCompatTextView
                 style="@style/ChangeRecordTypeText"
@@ -117,7 +117,7 @@
                 android:layout_height="24dp"
                 android:layout_marginEnd="8dp"
                 android:background="?selectableItemBackgroundBorderless"
-                android:src="@drawable/arrow"
+                android:src="?appArrow"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -138,7 +138,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/fieldChangeRecordType"
         tools:itemCount="3"
-        tools:listitem="@layout/item_change_record_type_layout"
+        tools:listitem="@layout/item_record_type_layout"
         tools:visibility="visible" />
 
     <com.google.android.material.button.MaterialButton
@@ -151,6 +151,7 @@
         android:layout_marginBottom="8dp"
         android:gravity="center"
         android:text="@string/change_record_save"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

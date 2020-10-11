@@ -7,9 +7,48 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorSecondary">@color/colorSecondary</item>
         <item name="snackbarStyle">@style/Widget.MaterialComponents.Snackbar.FullWidth</item>
+        <item name="android:windowBackground">@color/colorBackground</item>
+        <item name="appTextColor">@color/black</item>
+        <item name="appTextPrimaryColor">@color/textPrimary</item>
+        <item name="appBackgroundColor">@color/colorBackground</item>
+        <item name="appDialogBackground">@drawable/bg_rounded_bottom_sheet</item>
+        <item name="appTextHintColor">@color/textHint</item>
+        <item name="appArrow">@drawable/arrow</item>
+        <item name="appDialogArrow">@drawable/dialog_arrow</item>
+        <item name="appDividerColor">@color/blue_grey_50</item>
+        <item name="appDivider">@drawable/divider_drawable</item>
+        <item name="appInputFieldBorder">@drawable/bg_input_field_border</item>
+        <item name="appPieChartDividerColor">@color/pieChartDivider</item>
+        <item name="appCardBackgroundColor">@color/cardBackground</item>
+        <item name="appPopupBackground">@drawable/bg_spinner_popup</item>
+        <item name="appPopupItemBackground">@drawable/bg_states_spinner_item</item>
+    </style>
+
+    <style name="AppThemeDark" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryVariant">@color/colorPrimaryVariant</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorSecondary">@color/colorSecondary</item>
+        <item name="snackbarStyle">@style/Widget.MaterialComponents.Snackbar.FullWidth</item>
+        <item name="android:windowBackground">@color/colorBackgroundDark</item>
+        <item name="appTextColor">@color/white</item>
+        <item name="appTextPrimaryColor">@color/textPrimaryDark</item>
+        <item name="appBackgroundColor">@color/colorBackgroundDark</item>
+        <item name="appDialogBackground">@drawable/bg_rounded_bottom_sheet_dark</item>
+        <item name="appTextHintColor">@color/textHintDark</item>
+        <item name="appArrow">@drawable/arrow_dark</item>
+        <item name="appDialogArrow">@drawable/dialog_arrow_dark</item>
+        <item name="appDividerColor">@color/grey_900</item>
+        <item name="appDivider">@drawable/divider_drawable_dark</item>
+        <item name="appInputFieldBorder">@drawable/bg_input_field_border_dark</item>
+        <item name="appPieChartDividerColor">@color/pieChartDividerDark</item>
+        <item name="appCardBackgroundColor">@color/cardBackgroundDark</item>
+        <item name="appPopupBackground">@drawable/bg_spinner_popup_dark</item>
+        <item name="appPopupItemBackground">@drawable/bg_states_spinner_item_dark</item>
     </style>
 
     <style name="ChangeRecordTypeInputFieldCard">
+        <item name="cardBackgroundColor">?appBackgroundColor</item>
         <item name="cardPreventCornerOverlap">false</item>
         <item name="cardUseCompatPadding">true</item>
         <item name="android:clickable">true</item>
@@ -23,7 +62,7 @@
         <item name="android:gravity">center_vertical</item>
         <item name="android:paddingStart">10dp</item>
         <item name="android:paddingEnd">10dp</item>
-        <item name="android:textColor">@color/black</item>
+        <item name="android:textColor">?appTextColor</item>
         <item name="android:textSize">16sp</item>
     </style>
 
