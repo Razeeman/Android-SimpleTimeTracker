@@ -65,9 +65,20 @@ Simple app that helps track how much time you spend on all the useless activitie
 [![card_size_small_thumb]][card_size_small]
 <br>
 
-## Start activities from widgets
+## Start and stop activities from widgets
 
 [![widgets_thumb]][widgets]
+<br>
+
+## Start and stop any activity from one widget
+
+[![widget_universal_thumb]][widget_universal]
+[![widget_universal_activity_thumb]][widget_universal_activity]
+<br>
+
+## Notifications
+
+[![notifications_thumb]][notifications]
 <br>
 
 ## Technology stack
@@ -80,11 +91,12 @@ Simple app that helps track how much time you spend on all the useless activitie
 - Dagger
 - Room
 - Coroutines
-- Widgets
+- Several Widgets
+- Notifications
 - Custom Pie Chart View
 - Custom Bar Chart View
 - Recycler with custom Adapter Delegates
-- DiffUtils with payloads
+- DiffUtils with Payloads
 - Drag and Drop
 - Shared ViewModels
 - Snackbars with Action
@@ -132,6 +144,12 @@ Simple app that helps track how much time you spend on all the useless activitie
 [widgets_thumb]: dev_files/screens/widgets_thumb.png
 [widgets]: dev_files/screens/widgets.png
 
+[widget_universal_thumb]: dev_files/screens/widget_universal_thumb.png
+[widget_universal]: dev_files/screens/widget_universal.png
+
+[widget_universal_activity_thumb]: dev_files/screens/widget_universal_activity_thumb.png
+[widget_universal_activity]: dev_files/screens/widget_universal_activity.png
+
 [card_order_dialog_thumb]: dev_files/screens/card_order_dialog_thumb.png
 [card_order_dialog]: dev_files/screens/card_order_dialog.png
 
@@ -142,3 +160,6 @@ Simple app that helps track how much time you spend on all the useless activitie
 [card_size_big]: dev_files/screens/card_size_big.png
 [card_size_small_thumb]: dev_files/screens/card_size_small_thumb.png
 [card_size_small]: dev_files/screens/card_size_small.png
+
+[notifications_thumb]: dev_files/screens/notifications_thumb.png
+[notifications]: dev_files/screens/notifications.png
