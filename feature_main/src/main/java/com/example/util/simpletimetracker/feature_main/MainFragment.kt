@@ -37,19 +37,37 @@ class MainFragment : BaseFragment(R.layout.main_fragment) {
     )
 
     private val selectedColorFilter by lazy {
-        BlendModeColorFilterCompat
-            .createBlendModeColorFilterCompat(
-                ContextCompat.getColor(requireContext(), R.color.tab_selected),
-                BlendModeCompat.SRC_IN
-            )
+        val defaultColor = ContextCompat.getColor(requireContext(), R.color.colorTabSelected)
+        var colorSelected = defaultColor
+
+        runCatching {
+            context?.theme?.obtainStyledAttributes(intArrayOf(R.attr.appTabSelectedColor))?.run {
+                colorSelected = getColor(0, defaultColor)
+                recycle()
+            }
+        }
+
+        BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
+            colorSelected,
+            BlendModeCompat.SRC_IN
+        )
     }
 
     private val unselectedColorFilter by lazy {
-        BlendModeColorFilterCompat
-            .createBlendModeColorFilterCompat(
-                ContextCompat.getColor(requireContext(), R.color.tab_unselected),
-                BlendModeCompat.SRC_IN
-            )
+        val defaultColor = ContextCompat.getColor(requireContext(), R.color.colorTabUnselected)
+        var colorUnselected = defaultColor
+
+        runCatching {
+            context?.theme?.obtainStyledAttributes(intArrayOf(R.attr.appTabUnselectedColor))?.run {
+                colorUnselected = getColor(0, defaultColor)
+                recycle()
+            }
+        }
+
+        BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
+            colorUnselected,
+            BlendModeCompat.SRC_IN
+        )
     }
 
     override fun initDi() {

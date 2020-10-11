@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <attr name="appTextColor" format="reference" />
     <attr name="appTextPrimaryColor" format="reference" />
+    <attr name="appLightTextColor" format="reference" />
     <attr name="appBackgroundColor" format="reference" />
     <attr name="appDialogBackground" format="reference" />
     <attr name="appTextHintColor" format="reference" />
@@ -14,6 +14,8 @@
     <attr name="appCardBackgroundColor" format="reference" />
     <attr name="appPopupBackground" format="reference" />
     <attr name="appPopupItemBackground" format="reference" />
+    <attr name="appTabSelectedColor" format="reference" />
+    <attr name="appTabUnselectedColor" format="reference" />
 
     <declare-styleable name="RecordTypeView">
         <attr name="itemName" format="string" />

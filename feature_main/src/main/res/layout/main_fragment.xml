@@ -9,9 +9,8 @@
         android:id="@+id/mainTabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:backgroundTint="@color/tab_background"
         app:layout_constraintTop_toTopOf="parent"
-        app:tabIndicatorColor="@color/tab_indicator"
+        app:tabIndicatorColor="?appTabSelectedColor"
         app:tabRippleColor="@color/tab_ripple" />
 
     <androidx.viewpager2.widget.ViewPager2

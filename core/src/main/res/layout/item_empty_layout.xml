@@ -10,6 +10,6 @@
     android:paddingTop="16dp"
     android:paddingEnd="8dp"
     android:paddingBottom="16dp"
-    android:textColor="?appTextColor"
+    android:textColor="?appTextPrimaryColor"
     android:textStyle="bold"
     tools:text="Message" />

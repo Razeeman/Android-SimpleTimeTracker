@@ -7,22 +7,35 @@
     <color name="colorSecondary">#FF4081</color>
 
     <color name="textPrimary">#191919</color>
-    <color name="textPrimaryDark">#E6E6E6</color>
+    <color name="textPrimaryDark">@color/grey_400</color>
     <color name="textSecondary">#737373</color>
+
+    <color name="textLight">@color/grey_100</color>
+    <color name="textLightDark">@color/grey_400</color>
+
     <color name="textHint">#A1A1A1</color>
     <color name="textHintDark">#4D4D4D</color>
 
     <color name="colorBackground">#FFFFFF</color>
-    <color name="colorBackgroundDark">#121212</color>
+    <color name="colorBackgroundDark">@color/grey_950</color>
 
     <color name="pieChartDivider">#EEEEEE</color>
-    <color name="pieChartDividerDark">#121212</color>
+    <color name="pieChartDividerDark">@color/grey_950</color>
 
     <color name="cardBackground">#FFFFFF</color>
-    <color name="cardBackgroundDark">#242424</color>
+    <color name="cardBackgroundDark">@color/grey_900</color>
 
     <color name="colorDialogBackground">#FFFFFF</color>
-    <color name="colorDialogBackgroundDark">#242424</color>
+    <color name="colorDialogBackgroundDark">@color/grey_900</color>
+
+    <color name="colorDivider">@color/blue_grey_50</color>
+    <color name="colorDividerDark">#1F1F1F</color>
+
+    <color name="colorTabSelected">@color/grey_900</color>
+    <color name="colorTabSelectedDark">@color/grey_200</color>
+
+    <color name="colorTabUnselected">@color/grey_400</color>
+    <color name="colorTabUnselectedDark">@color/grey_800</color>
 
     <color name="black">#000000</color>
     <color name="white">#ffffff</color>

@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="tab_background">@color/white</color>
-    <color name="tab_indicator">@color/colorPrimaryDark</color>
     <color name="tab_ripple">@color/grey_400</color>
-    <color name="tab_selected">@color/colorPrimaryDark</color>
-    <color name="tab_unselected">@color/grey_400</color>
     <color name="main_progress_background">#80000000</color>
 </resources>
