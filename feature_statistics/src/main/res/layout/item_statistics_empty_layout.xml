@@ -27,7 +27,7 @@
         android:paddingTop="16dp"
         android:paddingEnd="8dp"
         android:paddingBottom="16dp"
-        android:textColor="@color/black"
+        android:textColor="?appTextPrimaryColor"
         android:textStyle="bold"
         tools:text="Message" />
 
