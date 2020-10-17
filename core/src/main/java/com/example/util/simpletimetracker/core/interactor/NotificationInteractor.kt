@@ -30,7 +30,8 @@ class NotificationInteractor @Inject constructor(
 
         val recordType = recordTypeInteractor.get(typeId)
         val runningRecord = runningRecordInteractor.get(typeId)
-        show(recordType, runningRecord)
+        val isDarkTheme = prefsInteractor.getDarkMode()
+        show(recordType, runningRecord, isDarkTheme)
     }
 
     suspend fun checkAndHide(typeId: Long) {
@@ -55,9 +56,10 @@ class NotificationInteractor @Inject constructor(
 
     private suspend fun showAll() {
         val recordTypes = recordTypeInteractor.getAll().map { it.id to it }.toMap()
+        val isDarkTheme = prefsInteractor.getDarkMode()
 
         runningRecordInteractor.getAll()
-            .forEach { runningRecord -> show(recordTypes[runningRecord.id], runningRecord) }
+            .forEach { runningRecord -> show(recordTypes[runningRecord.id], runningRecord, isDarkTheme) }
     }
 
     private suspend fun hideAll() {
@@ -66,7 +68,7 @@ class NotificationInteractor @Inject constructor(
             .forEach { typeId -> hide(typeId) }
     }
 
-    private fun show(recordType: RecordType?, runningRecord: RunningRecord?) {
+    private fun show(recordType: RecordType?, runningRecord: RunningRecord?, isDarkTheme: Boolean) {
         if (recordType == null || runningRecord == null) {
             return
         }
@@ -77,7 +79,7 @@ class NotificationInteractor @Inject constructor(
                 icon = recordType.icon
                     .let(iconMapper::mapToDrawableResId),
                 color = recordType.color
-                    .let(colorMapper::mapToColorResId)
+                    .let { colorMapper.mapToColorResId(it, isDarkTheme) }
                     .let(resourceRepo::getColor),
                 text = recordType.name,
                 description = runningRecord.timeStarted

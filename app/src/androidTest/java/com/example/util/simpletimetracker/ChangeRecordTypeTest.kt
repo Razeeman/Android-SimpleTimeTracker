@@ -30,8 +30,8 @@ class ChangeRecordTypeTest : BaseUiTest() {
     fun test() {
         val name = "Test"
         val newName = "Updated"
-        val firstColor = ColorMapper.availableColors.first()
-        val lastColor = ColorMapper.availableColors.last()
+        val firstColor = ColorMapper.getAvailableColors().first()
+        val lastColor = ColorMapper.getAvailableColors().last()
         val firstIcon = iconMapper.availableIconsNames.values.first()
         val lastIcon = iconMapper.availableIconsNames.values.last()
 

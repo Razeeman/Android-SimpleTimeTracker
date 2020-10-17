@@ -70,6 +70,7 @@ class WidgetUniversalViewModel @Inject constructor(
         val runningRecords = runningRecordInteractor.getAll()
         val recordTypesRunning = runningRecords.map { it.id }
         val numberOfCards = prefsInteractor.getNumberOfCards()
+        val isDarkTheme = prefsInteractor.getDarkMode()
 
         return recordTypeInteractor.getAll()
             .filterNot { it.hidden }
@@ -77,7 +78,8 @@ class WidgetUniversalViewModel @Inject constructor(
                 widgetUniversalViewDataMapper.map(
                     recordType = it,
                     isFiltered = it.id in recordTypesRunning,
-                    numberOfCards = numberOfCards
+                    numberOfCards = numberOfCards,
+                    isDarkTheme = isDarkTheme
                 )
             }
             .takeUnless { it.isEmpty() }

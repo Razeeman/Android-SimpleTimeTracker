@@ -89,11 +89,13 @@ class CardSizeViewModel @Inject constructor(
     }
 
     private suspend fun loadRecordTypes(): List<RecordTypeViewData> {
+        val isDarkTheme = prefsInteractor.getDarkMode()
+
         if (types.isEmpty()) {
             types = recordTypeInteractor.getAll().filter { !it.hidden }
         }
         return types.map { type ->
-            cardSizeViewDataMapper.toToRecordTypeViewData(type, numberOfCards)
+            cardSizeViewDataMapper.toToRecordTypeViewData(type, numberOfCards, isDarkTheme)
         }
     }
 }

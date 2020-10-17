@@ -34,7 +34,7 @@ class SettingsTest : BaseUiTest() {
     @Test
     fun showUntrackedSetting() {
         val name = "Test"
-        val color = ColorMapper.availableColors.first()
+        val color = ColorMapper.getAvailableColors().first()
         val icon = iconMapper.availableIconsNames.values.first()
 
         // Add activity
@@ -278,8 +278,8 @@ class SettingsTest : BaseUiTest() {
     fun cardOrderByName() {
         val name1 = "Test1"
         val name2 = "Test2"
-        val color1 = ColorMapper.availableColors.first()
-        val color2 = ColorMapper.availableColors.last()
+        val color1 = ColorMapper.getAvailableColors().first()
+        val color2 = ColorMapper.getAvailableColors().last()
 
         // Add activities
         NavUtils.addActivity(name1, color2)
@@ -304,8 +304,8 @@ class SettingsTest : BaseUiTest() {
     fun cardOrderByColor() {
         val name1 = "Test1"
         val name2 = "Test2"
-        val color1 = ColorMapper.availableColors.first()
-        val color2 = ColorMapper.availableColors.last()
+        val color1 = ColorMapper.getAvailableColors().first()
+        val color2 = ColorMapper.getAvailableColors().last()
 
         // Add activities
         NavUtils.addActivity(name1, color2)

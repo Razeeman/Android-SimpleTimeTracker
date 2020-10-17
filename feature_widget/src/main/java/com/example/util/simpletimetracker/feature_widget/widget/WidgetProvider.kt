@@ -117,6 +117,7 @@ class WidgetProvider : AppWidgetProvider() {
         val recordTypeId = prefsInteractor.getWidget(appWidgetId)
         val recordType = recordTypeInteractor.get(recordTypeId)?.takeUnless { it.hidden }
         val runningRecord = runningRecordInteractor.get(recordTypeId)
+        val isDarkTheme = prefsInteractor.getDarkMode()
 
         val icon = recordType?.icon
             ?.let(iconMapper::mapToDrawableResId)
@@ -127,7 +128,7 @@ class WidgetProvider : AppWidgetProvider() {
 
         val color = if (runningRecord != null && recordType != null) {
             recordType.color
-                .let(colorMapper::mapToColorResId)
+                .let { colorMapper.mapToColorResId(it, isDarkTheme) }
                 .let(resourceRepo::getColor)
         } else {
             Color.BLACK

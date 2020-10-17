@@ -159,14 +159,18 @@ class ChangeRunningRecordViewModel @Inject constructor(
         )
         // TODO add record type cache
         val type = recordTypeInteractor.get(newTypeId)
-        return changeRunningRecordViewDataMapper.map(record, type)
+        val isDarkTheme = prefsInteractor.getDarkMode()
+
+        return changeRunningRecordViewDataMapper.map(record, type, isDarkTheme)
     }
 
     private suspend fun loadTypesViewData(): List<ViewHolderType> {
         val numberOfCards = prefsInteractor.getNumberOfCards()
+        val isDarkTheme = prefsInteractor.getDarkMode()
+
         return recordTypeInteractor.getAll()
             .filter { !it.hidden }
-            .map { recordTypeViewDataMapper.map(it, numberOfCards) }
+            .map { recordTypeViewDataMapper.map(it, numberOfCards, isDarkTheme) }
     }
 
     private fun startUpdate() {

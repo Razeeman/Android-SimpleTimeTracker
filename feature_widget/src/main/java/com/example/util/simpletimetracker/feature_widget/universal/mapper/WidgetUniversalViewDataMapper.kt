@@ -24,13 +24,14 @@ class WidgetUniversalViewDataMapper @Inject constructor(
     fun map(
         recordType: RecordType,
         isFiltered: Boolean,
-        numberOfCards: Int
+        numberOfCards: Int,
+        isDarkTheme: Boolean
     ): RecordTypeViewData {
-        return recordTypeViewDataMapper.map(recordType, numberOfCards).copy(
+        return recordTypeViewDataMapper.map(recordType, numberOfCards, isDarkTheme).copy(
             color = if (isFiltered) {
                 R.color.filtered_color
             } else {
-                recordType.color.let(colorMapper::mapToColorResId)
+                recordType.color.let { colorMapper.mapToColorResId(it, isDarkTheme) }
             }.let(resourceRepo::getColor)
         )
     }
@@ -43,7 +44,8 @@ class WidgetUniversalViewDataMapper @Inject constructor(
 
     fun mapToWidgetViewData(
         runningRecords: List<RunningRecord>,
-        recordTypes: Map<Long, RecordType>
+        recordTypes: Map<Long, RecordType>,
+        isDarkTheme: Boolean
     ): WidgetUniversalViewData {
         val data = runningRecords.map { runningRecord ->
             val recordType = recordTypes[runningRecord.id]
@@ -52,7 +54,7 @@ class WidgetUniversalViewDataMapper @Inject constructor(
                 ?.let(iconMapper::mapToDrawableResId)
                 ?: R.drawable.unknown
             val color = recordType?.color
-                ?.let(colorMapper::mapToColorResId)
+                ?.let { colorMapper.mapToColorResId(it, isDarkTheme) }
                 ?.let(resourceRepo::getColor)
                 ?: Color.BLACK
 

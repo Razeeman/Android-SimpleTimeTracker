@@ -17,7 +17,7 @@ class ChangeRecordViewDataMapper @Inject constructor(
     private val resourceRepo: ResourceRepo
 ) {
 
-    fun map(record: Record?, recordType: RecordType?): ChangeRecordViewData {
+    fun map(record: Record?, recordType: RecordType?, isDarkTheme: Boolean): ChangeRecordViewData {
         return ChangeRecordViewData(
             name = recordType?.name.orEmpty(),
             timeStarted = record?.timeStarted
@@ -40,7 +40,7 @@ class ChangeRecordViewDataMapper @Inject constructor(
                 ?.let(iconMapper::mapToDrawableResId)
                 ?: R.drawable.unknown,
             color = (recordType?.color
-                ?.let(colorMapper::mapToColorResId)
+                ?.let { colorMapper.mapToColorResId(it, isDarkTheme) }
                 ?: R.color.untracked_time_color)
                 .let(resourceRepo::getColor)
         )

@@ -21,6 +21,7 @@ class RunningRecordsViewDataInteractor @Inject constructor(
         val runningRecords = runningRecordInteractor.getAll()
         val recordTypesRunning = runningRecords.map { it.id }
         val numberOfCards = prefsInteractor.getNumberOfCards()
+        val isDarkTheme = prefsInteractor.getDarkMode()
 
         val runningRecordsViewData = when {
             recordTypes.filterNot { it.hidden }.isEmpty() -> emptyList()
@@ -33,7 +34,7 @@ class RunningRecordsViewDataInteractor @Inject constructor(
                     recordTypesMap[runningRecord.id]?.let { type -> runningRecord to type }
                 }
                 .map { (runningRecord, recordType) ->
-                    runningRecordViewDataMapper.map(runningRecord, recordType)
+                    runningRecordViewDataMapper.map(runningRecord, recordType, isDarkTheme)
                 }
         }
 
@@ -45,7 +46,8 @@ class RunningRecordsViewDataInteractor @Inject constructor(
                 runningRecordViewDataMapper.map(
                     recordType = it,
                     isFiltered = it.id in recordTypesRunning,
-                    numberOfCards = numberOfCards
+                    numberOfCards = numberOfCards,
+                    isDarkTheme = isDarkTheme
                 )
             }
             .plus(runningRecordViewDataMapper.mapToAddItem(numberOfCards))

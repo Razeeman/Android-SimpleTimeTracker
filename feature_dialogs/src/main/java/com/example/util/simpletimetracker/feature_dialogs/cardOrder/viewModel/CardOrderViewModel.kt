@@ -60,10 +60,11 @@ class CardOrderViewModel @Inject constructor(
 
     private suspend fun loadRecordTypes(): List<RecordTypeViewData> {
         val numberOfCards: Int = prefsInteractor.getNumberOfCards()
+        val isDarkTheme = prefsInteractor.getDarkMode()
 
         return recordTypeInteractor.getAll()
             .filter { !it.hidden }
-            .map { type -> recordTypeViewDataMapper.map(type, numberOfCards) }
+            .map { type -> recordTypeViewDataMapper.map(type, numberOfCards, isDarkTheme) }
             .also { types = it }
     }
 }

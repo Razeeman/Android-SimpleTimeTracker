@@ -26,9 +26,9 @@ class AddRecordTypeTest : BaseUiTest() {
     @Test
     fun test() {
         val name = "Test"
-        val firstColor = ColorMapper.availableColors.first()
-        val lastColor = ColorMapper.availableColors.last()
-        val lastColorPosition = ColorMapper.availableColors.size - 1
+        val firstColor = ColorMapper.getAvailableColors().first()
+        val lastColor = ColorMapper.getAvailableColors().last()
+        val lastColorPosition = ColorMapper.getAvailableColors().size - 1
         val firstIcon = iconMapper.availableIconsNames.values.first()
         val lastIcon = iconMapper.availableIconsNames.values.last()
         val lastIconPosition = iconMapper.availableIconsNames.size - 1

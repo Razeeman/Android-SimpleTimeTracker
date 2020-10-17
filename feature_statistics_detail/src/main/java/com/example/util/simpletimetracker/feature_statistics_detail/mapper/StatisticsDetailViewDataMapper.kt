@@ -28,7 +28,8 @@ class StatisticsDetailViewDataMapper @Inject constructor(
 
     fun map(
         records: List<Record>,
-        recordType: RecordType?
+        recordType: RecordType?,
+        isDarkTheme: Boolean
     ): StatisticsDetailViewData {
         val recordsSorted = records.sortedBy { it.timeStarted }
         val durations = records.map(::mapToDuration)
@@ -47,7 +48,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
                 ?.let(iconMapper::mapToDrawableResId)
                 ?: R.drawable.unknown,
             color = (recordType?.color
-                ?.let(colorMapper::mapToColorResId)
+                ?.let { colorMapper.mapToColorResId(it, isDarkTheme) }
                 ?: R.color.untracked_time_color)
                 .let(resourceRepo::getColor),
             totalDuration = listOf(

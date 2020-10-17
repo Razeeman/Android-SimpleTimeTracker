@@ -25,7 +25,7 @@ class DeleteRecordTypeTest : BaseUiTest() {
     @Test
     fun test() {
         val name = "Test"
-        val color = ColorMapper.availableColors.first()
+        val color = ColorMapper.getAvailableColors().first()
         val icon = iconMapper.availableIconsNames.values.first()
 
         clickOnViewWithText(R.string.running_records_add_type)

@@ -12,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.View.MeasureSpec
 import android.widget.RemoteViews
+import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.feature_widget.R
@@ -32,6 +33,9 @@ class WidgetUniversalProvider : AppWidgetProvider() {
 
     @Inject
     lateinit var widgetUniversalViewDataMapper: WidgetUniversalViewDataMapper
+
+    @Inject
+    lateinit var prefsInteractor: PrefsInteractor
 
     override fun onReceive(context: Context?, intent: Intent?) {
         (context?.applicationContext as? WidgetComponentProvider)
@@ -74,9 +78,10 @@ class WidgetUniversalProvider : AppWidgetProvider() {
     ): View = runBlocking {
         val runningRecords = runningRecordInteractor.getAll()
         val recordTypes = recordTypeInteractor.getAll().map { it.id to it }.toMap()
+        val isDarkTheme = prefsInteractor.getDarkMode()
 
         val data = runningRecords
-            .let { widgetUniversalViewDataMapper.mapToWidgetViewData(it, recordTypes) }
+            .let { widgetUniversalViewDataMapper.mapToWidgetViewData(it, recordTypes, isDarkTheme) }
             .takeUnless { it.data.isEmpty() }
             ?: widgetUniversalViewDataMapper.mapToEmptyWidgetViewData()
 

@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
+import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.extra.StatisticsDetailExtra
@@ -24,6 +25,7 @@ class StatisticsDetailViewModel @Inject constructor(
     private val recordInteractor: RecordInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
     private val statisticsDetailInteractor: StatisticsDetailInteractor,
+    private val prefsInteractor: PrefsInteractor,
     private val statisticsDetailViewDataMapper: StatisticsDetailViewDataMapper
 ) : ViewModel() {
 
@@ -84,13 +86,15 @@ class StatisticsDetailViewModel @Inject constructor(
     }
 
     private suspend fun loadPreviewViewData(): StatisticsDetailViewData {
+        val isDarkTheme = prefsInteractor.getDarkMode()
+
         return if (extra.typeId == -1L) {
             statisticsDetailViewDataMapper.mapToUntracked()
         } else {
             val records = recordInteractor.getAll() // TODO get by typeId
                 .filter { it.typeId == extra.typeId }
             val recordType = recordTypeInteractor.get(extra.typeId)
-            statisticsDetailViewDataMapper.map(records, recordType)
+            statisticsDetailViewDataMapper.map(records, recordType, isDarkTheme)
         }
     }
 

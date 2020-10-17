@@ -15,6 +15,7 @@ import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.extension.flip
 import com.example.util.simpletimetracker.domain.extension.orTrue
+import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
@@ -35,6 +36,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     private val runningRecordInteractor: RunningRecordInteractor,
     private val widgetInteractor: WidgetInteractor,
     private val notificationInteractor: NotificationInteractor,
+    private val prefsInteractor: PrefsInteractor,
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
     private val resourceRepo: ResourceRepo,
     private val colorMapper: ColorMapper,
@@ -163,7 +165,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
         }
     }
 
-    private fun updateRecordType() {
+    private fun updateRecordType() = viewModelScope.launch {
         (recordType as MutableLiveData).value = loadRecordPreviewViewData()
     }
 
@@ -175,23 +177,29 @@ class ChangeRecordTypeViewModel @Inject constructor(
                 newColorId = it.color
                 updateIcons()
             }
+        val isDarkTheme = prefsInteractor.getDarkMode()
+
         return RecordType(
             name = newName,
             icon = newIconName,
             color = newColorId
-        ).let(recordTypeViewDataMapper::map)
+        ).let { recordTypeViewDataMapper.map(it, isDarkTheme) }
     }
 
-    private fun loadRecordPreviewViewData(): RecordTypeViewData {
+    private suspend fun loadRecordPreviewViewData(): RecordTypeViewData {
+        val isDarkTheme = prefsInteractor.getDarkMode()
+
         return RecordType(
             name = newName,
             icon = newIconName,
             color = newColorId
-        ).let(recordTypeViewDataMapper::map)
+        ).let { recordTypeViewDataMapper.map(it, isDarkTheme) }
     }
 
-    private fun loadColorsViewData(): List<ViewHolderType> {
-        return ColorMapper.availableColors
+    private suspend fun loadColorsViewData(): List<ViewHolderType> {
+        val isDarkTheme = prefsInteractor.getDarkMode()
+
+        return ColorMapper.getAvailableColors(isDarkTheme)
             .mapIndexed { colorId, colorResId ->
                 colorId to resourceRepo.getColor(colorResId)
             }
@@ -203,18 +211,20 @@ class ChangeRecordTypeViewModel @Inject constructor(
             }
     }
 
-    private fun updateIcons() {
+    private fun updateIcons() = viewModelScope.launch {
         (icons as MutableLiveData).value = loadIconsViewData()
     }
 
-    private fun loadIconsViewData(): List<ViewHolderType> {
+    private suspend fun loadIconsViewData(): List<ViewHolderType> {
+        val isDarkTheme = prefsInteractor.getDarkMode()
+
         return iconMapper.availableIconsNames
             .map { (iconName, iconResId) ->
                 ChangeRecordTypeIconViewData(
                     iconName = iconName,
                     iconResId = iconResId,
                     colorInt = newColorId
-                        .let(colorMapper::mapToColorResId)
+                        .let { colorMapper.mapToColorResId(it, isDarkTheme) }
                         .let(resourceRepo::getColor)
                 )
             }

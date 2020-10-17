@@ -67,6 +67,7 @@ class StatisticsViewModel @Inject constructor(
         val showDuration: Boolean
         val types = recordTypeInteractor.getAll()
         val typesFiltered = prefsInteractor.getFilteredTypes()
+        val isDarkTheme = prefsInteractor.getDarkMode()
         val statistics = if (extra?.start.orZero() != 0L && extra?.end.orZero() != 0L) {
             showDuration = true
             statisticsInteractor.getFromRange(
@@ -79,8 +80,8 @@ class StatisticsViewModel @Inject constructor(
             statisticsInteractor.getAll()
         }
 
-        val list = statisticsViewDataMapper.map(statistics, types, typesFiltered, showDuration)
-        val chart = statisticsViewDataMapper.mapToChart(statistics, types, typesFiltered)
+        val list = statisticsViewDataMapper.map(statistics, types, typesFiltered, showDuration, isDarkTheme)
+        val chart = statisticsViewDataMapper.mapToChart(statistics, types, typesFiltered, isDarkTheme)
 
         if (list.isEmpty()) return listOf(statisticsViewDataMapper.mapToEmpty())
         return listOf(chart) + list

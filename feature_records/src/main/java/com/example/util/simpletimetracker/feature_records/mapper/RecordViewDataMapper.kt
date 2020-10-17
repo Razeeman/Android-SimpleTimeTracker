@@ -25,7 +25,8 @@ class RecordViewDataMapper @Inject constructor(
         record: Record,
         recordType: RecordType,
         rangeStart: Long,
-        rangeEnd: Long
+        rangeEnd: Long,
+        isDarkTheme: Boolean
     ): ViewHolderType {
         val (timeStarted, timeEnded) = clampToRange(record, rangeStart, rangeEnd)
 
@@ -41,7 +42,7 @@ class RecordViewDataMapper @Inject constructor(
             iconId = recordType.icon
                 .let(iconMapper::mapToDrawableResId),
             color = recordType.color
-                .let(colorMapper::mapToColorResId)
+                .let { colorMapper.mapToColorResId(it, isDarkTheme) }
                 .let(resourceRepo::getColor)
         )
     }

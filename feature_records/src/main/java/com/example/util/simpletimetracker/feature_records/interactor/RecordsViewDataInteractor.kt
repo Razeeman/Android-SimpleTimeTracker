@@ -15,6 +15,7 @@ class RecordsViewDataInteractor @Inject constructor(
 ) {
 
     suspend fun getViewData(rangeStart: Long, rangeEnd: Long): List<ViewHolderType> {
+        val isDarkTheme = prefsInteractor.getDarkMode()
         val recordTypes = recordTypeInteractor.getAll()
             .map { it.id to it }
             .toMap()
@@ -30,7 +31,7 @@ class RecordsViewDataInteractor @Inject constructor(
             }
             .map { (record, recordType) ->
                 record.timeStarted to
-                    recordViewDataMapper.map(record, recordType, rangeStart, rangeEnd)
+                    recordViewDataMapper.map(record, recordType, rangeStart, rangeEnd, isDarkTheme)
             }
             .let { trackedRecords ->
                 if (!prefsInteractor.getShowUntrackedInRecords()) return@let trackedRecords

@@ -36,8 +36,8 @@ class ChangeRunningRecordTest : BaseUiTest() {
     fun test() {
         val name = "Test1"
         val newName = "Test2"
-        val firstColor = ColorMapper.availableColors.first()
-        val lastColor = ColorMapper.availableColors.last()
+        val firstColor = ColorMapper.getAvailableColors().first()
+        val lastColor = ColorMapper.getAvailableColors().last()
         val firstIcon = iconMapper.availableIconsNames.values.first()
         val lastIcon = iconMapper.availableIconsNames.values.last()
 

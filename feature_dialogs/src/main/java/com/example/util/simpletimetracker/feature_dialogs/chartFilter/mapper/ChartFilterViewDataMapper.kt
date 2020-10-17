@@ -19,13 +19,14 @@ class ChartFilterViewDataMapper @Inject constructor(
     fun map(
         recordType: RecordType,
         typeIdsFiltered: List<Long>,
-        numberOfCards: Int
+        numberOfCards: Int,
+        isDarkTheme: Boolean
     ): RecordTypeViewData {
-        return recordTypeViewDataMapper.map(recordType, numberOfCards).copy(
+        return recordTypeViewDataMapper.map(recordType, numberOfCards, isDarkTheme).copy(
             color = if (recordType.id in typeIdsFiltered) {
                 R.color.filtered_color
             } else {
-                recordType.color.let(colorMapper::mapToColorResId)
+                recordType.color.let { colorMapper.mapToColorResId(it, isDarkTheme) }
             }.let(resourceRepo::getColor)
         )
     }

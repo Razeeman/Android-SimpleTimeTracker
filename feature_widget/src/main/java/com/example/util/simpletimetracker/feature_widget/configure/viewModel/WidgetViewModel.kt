@@ -42,9 +42,11 @@ class WidgetViewModel @Inject constructor(
     }
 
     private suspend fun loadRecordTypesViewData(): List<ViewHolderType> {
+        val isDarkTheme = prefsInteractor.getDarkMode()
+
         return recordTypeInteractor.getAll()
             .filter { !it.hidden }
-            .map(recordTypeViewDataMapper::map)
+            .map { recordTypeViewDataMapper.map(it, isDarkTheme) }
             .takeUnless { it.isEmpty() }
             ?: listOf(widgetViewDataMapper.mapToEmpty())
     }

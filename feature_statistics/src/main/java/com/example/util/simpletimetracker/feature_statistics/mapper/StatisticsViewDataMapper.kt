@@ -27,7 +27,8 @@ class StatisticsViewDataMapper @Inject constructor(
         statistics: List<Statistics>,
         recordTypes: List<RecordType>,
         recordTypesFiltered: List<Long>,
-        showDuration: Boolean
+        showDuration: Boolean,
+        isDarkTheme: Boolean
     ): List<ViewHolderType> {
         val recordTypesMap = recordTypes
             .map { it.id to it }
@@ -41,7 +42,7 @@ class StatisticsViewDataMapper @Inject constructor(
         return statistics
             .filterNot { it.typeId in recordTypesFiltered }
             .mapNotNull { statistic ->
-                (map(statistic, sumDuration, recordTypesMap[statistic.typeId], showDuration)
+                (map(statistic, sumDuration, recordTypesMap[statistic.typeId], showDuration, isDarkTheme)
                     ?: return@mapNotNull null) to statistic.duration
             }
             .sortedByDescending { (_, duration) -> duration }
@@ -51,7 +52,8 @@ class StatisticsViewDataMapper @Inject constructor(
     fun mapToChart(
         statistics: List<Statistics>,
         recordTypes: List<RecordType>,
-        recordTypesFiltered: List<Long>
+        recordTypesFiltered: List<Long>,
+        isDarkTheme: Boolean
     ): ViewHolderType {
         val recordTypesMap = recordTypes
             .map { it.id to it }
@@ -61,7 +63,7 @@ class StatisticsViewDataMapper @Inject constructor(
             statistics
                 .filterNot { it.typeId in recordTypesFiltered }
                 .mapNotNull { statistic ->
-                    (mapToChart(statistic, recordTypesMap[statistic.typeId])
+                    (mapToChart(statistic, recordTypesMap[statistic.typeId], isDarkTheme)
                         ?: return@mapNotNull null) to statistic.duration
                 }
                 .sortedByDescending { (_, duration) -> duration }
@@ -93,7 +95,8 @@ class StatisticsViewDataMapper @Inject constructor(
         statistics: Statistics,
         sumDuration: Long,
         recordType: RecordType?,
-        showDuration: Boolean
+        showDuration: Boolean,
+        isDarkTheme: Boolean
     ): StatisticsViewData? {
         val durationPercent = (statistics.duration * 100 / sumDuration)
 
@@ -124,7 +127,7 @@ class StatisticsViewDataMapper @Inject constructor(
                     iconId = recordType.icon
                         .let(iconMapper::mapToDrawableResId),
                     color = recordType.color
-                        .let(colorMapper::mapToColorResId)
+                        .let { colorMapper.mapToColorResId(it, isDarkTheme) }
                         .let(resourceRepo::getColor)
                 )
             }
@@ -136,7 +139,8 @@ class StatisticsViewDataMapper @Inject constructor(
 
     private fun mapToChart(
         statistics: Statistics,
-        recordType: RecordType?
+        recordType: RecordType?,
+        isDarkTheme: Boolean
     ): PiePortion? {
         return when {
             statistics.typeId == -1L -> {
@@ -151,7 +155,7 @@ class StatisticsViewDataMapper @Inject constructor(
                 PiePortion(
                     value = statistics.duration,
                     colorInt = recordType.color
-                        .let(colorMapper::mapToColorResId)
+                        .let { colorMapper.mapToColorResId(it, isDarkTheme) }
                         .let(resourceRepo::getColor),
                     iconId = recordType.icon
                         .let(iconMapper::mapToDrawableResId)

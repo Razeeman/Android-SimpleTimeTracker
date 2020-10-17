@@ -45,9 +45,11 @@ class ChartFilterViewModel @Inject constructor(
 
     private fun updateRecordTypes() = viewModelScope.launch {
         val numberOfCards = prefsInteractor.getNumberOfCards()
+        val isDarkTheme = prefsInteractor.getDarkMode()
+
         if (types.isEmpty()) types = loadRecordTypes()
         (recordTypes as MutableLiveData).value = types
-            .map { type -> chartFilterViewDataMapper.map(type, typeIdsFiltered, numberOfCards) }
+            .map { type -> chartFilterViewDataMapper.map(type, typeIdsFiltered, numberOfCards, isDarkTheme) }
             .apply {
                 this as MutableList
                 add(chartFilterViewDataMapper.mapToUntrackedItem(typeIdsFiltered, numberOfCards))

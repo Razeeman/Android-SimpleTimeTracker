@@ -5,12 +5,16 @@ import javax.inject.Inject
 
 class ColorMapper @Inject constructor() {
 
-    fun mapToColorResId(colorId: Int): Int {
-        return availableColors.getOrNull(colorId) ?: R.color.black
+    fun mapToColorResId(colorId: Int, isDarkTheme: Boolean): Int {
+        return getAvailableColors(isDarkTheme).getOrNull(colorId) ?: R.color.black
     }
 
     companion object {
-        val availableColors: List<Int> = listOf(
+        fun getAvailableColors(isDarkTheme: Boolean = false): List<Int> {
+            return if (isDarkTheme) availableColorsDark else availableColors
+        }
+
+        private val availableColors: List<Int> = listOf(
             R.color.black,
             R.color.red_500,
             R.color.pink_500,
@@ -31,6 +35,29 @@ class ColorMapper @Inject constructor() {
             R.color.brown_500,
             R.color.blue_grey_500
         )
+
+        private val availableColorsDark: List<Int> = listOf(
+            R.color.black,
+            R.color.red_800,
+            R.color.pink_800,
+            R.color.purple_800,
+            R.color.deep_purple_800,
+            R.color.indigo_800,
+            R.color.blue_800,
+            R.color.light_blue_800,
+            R.color.cyan_800,
+            R.color.teal_800,
+            R.color.green_800,
+            R.color.light_green_800,
+            R.color.lime_800,
+            R.color.yellow_800,
+            R.color.amber_800,
+            R.color.orange_800,
+            R.color.deep_orange_800,
+            R.color.brown_800,
+            R.color.blue_grey_800
+        )
+
         val colorsNumber = availableColors.size
     }
 }

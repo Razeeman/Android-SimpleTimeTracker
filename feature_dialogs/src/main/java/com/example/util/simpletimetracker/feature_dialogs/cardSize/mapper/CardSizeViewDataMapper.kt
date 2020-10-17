@@ -15,8 +15,8 @@ class CardSizeViewDataMapper @Inject constructor(
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper
 ) {
 
-    fun toToRecordTypeViewData(recordType: RecordType, numberOfCards: Int): RecordTypeViewData {
-        return recordTypeViewDataMapper.map(recordType, numberOfCards)
+    fun toToRecordTypeViewData(recordType: RecordType, numberOfCards: Int, isDarkTheme: Boolean): RecordTypeViewData {
+        return recordTypeViewDataMapper.map(recordType, numberOfCards, isDarkTheme)
     }
 
     fun toToButtonsViewData(numberOfCards: Int): List<ViewHolderType> {

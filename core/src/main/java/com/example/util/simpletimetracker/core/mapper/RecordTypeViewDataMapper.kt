@@ -12,26 +12,26 @@ class RecordTypeViewDataMapper @Inject constructor(
     private val recordTypeCardSizeMapper: RecordTypeCardSizeMapper
 ) {
 
-    fun map(recordType: RecordType): RecordTypeViewData {
+    fun map(recordType: RecordType, isDarkTheme: Boolean): RecordTypeViewData {
         return RecordTypeViewData(
             id = recordType.id,
             name = recordType.name,
             iconId = recordType.icon
                 .let(iconMapper::mapToDrawableResId),
             color = recordType.color
-                .let(colorMapper::mapToColorResId)
+                .let { colorMapper.mapToColorResId(it, isDarkTheme) }
                 .let(resourceRepo::getColor)
         )
     }
 
-    fun map(recordType: RecordType, numberOfCards: Int): RecordTypeViewData {
+    fun map(recordType: RecordType, numberOfCards: Int, isDarkTheme: Boolean): RecordTypeViewData {
         return RecordTypeViewData(
             id = recordType.id,
             name = recordType.name,
             iconId = recordType.icon
                 .let(iconMapper::mapToDrawableResId),
             color = recordType.color
-                .let(colorMapper::mapToColorResId)
+                .let { colorMapper.mapToColorResId(it, isDarkTheme) }
                 .let(resourceRepo::getColor),
             width = recordTypeCardSizeMapper.toCardWidth(numberOfCards),
             height = recordTypeCardSizeMapper.toCardHeight(numberOfCards),
