@@ -27,6 +27,8 @@
         <item name="appPopupItemBackground">@drawable/bg_states_spinner_item</item>
         <item name="appTabSelectedColor">@color/colorTabSelected</item>
         <item name="appTabUnselectedColor">@color/colorTabUnselected</item>
+        <item name="appActiveColor">@color/colorActive</item>
+        <item name="appInactiveColor">@color/colorInactive</item>
     </style>
 
     <style name="AppThemeDark" parent="Theme.MaterialComponents.NoActionBar">
@@ -55,6 +57,8 @@
         <item name="appPopupItemBackground">@drawable/bg_states_spinner_item_dark</item>
         <item name="appTabSelectedColor">@color/colorTabSelectedDark</item>
         <item name="appTabUnselectedColor">@color/colorTabUnselectedDark</item>
+        <item name="appActiveColor">@color/colorActiveDark</item>
+        <item name="appInactiveColor">@color/colorInactiveDark</item>
     </style>
 
     <style name="AppTheme.Dialog" parent="Theme.MaterialComponents.Light.Dialog.Alert">

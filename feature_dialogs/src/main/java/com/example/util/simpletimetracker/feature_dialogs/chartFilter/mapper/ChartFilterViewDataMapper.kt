@@ -24,16 +24,19 @@ class ChartFilterViewDataMapper @Inject constructor(
     ): RecordTypeViewData {
         return recordTypeViewDataMapper.map(recordType, numberOfCards, isDarkTheme).copy(
             color = if (recordType.id in typeIdsFiltered) {
-                R.color.filtered_color
+                colorMapper.toFilteredColor(isDarkTheme)
             } else {
-                recordType.color.let { colorMapper.mapToColorResId(it, isDarkTheme) }
-            }.let(resourceRepo::getColor)
+                recordType.color
+                    .let { colorMapper.mapToColorResId(it, isDarkTheme) }
+                    .let(resourceRepo::getColor)
+            }
         )
     }
 
     fun mapToUntrackedItem(
         typeIdsFiltered: List<Long>,
-        numberOfCards: Int
+        numberOfCards: Int,
+        isDarkTheme: Boolean
     ): RecordTypeViewData {
         return RecordTypeViewData(
             id = -1L,
@@ -41,10 +44,10 @@ class ChartFilterViewDataMapper @Inject constructor(
                 .let(resourceRepo::getString),
             iconId = R.drawable.unknown,
             color = if (-1L in typeIdsFiltered) {
-                R.color.filtered_color
+                colorMapper.toFilteredColor(isDarkTheme)
             } else {
-                R.color.untracked_time_color
-            }.let(resourceRepo::getColor),
+                colorMapper.toUntrackedColor(isDarkTheme)
+            },
             width = recordTypeCardSizeMapper.toCardWidth(numberOfCards),
             height = recordTypeCardSizeMapper.toCardHeight(numberOfCards),
             asRow = recordTypeCardSizeMapper.toCardAsRow(numberOfCards)

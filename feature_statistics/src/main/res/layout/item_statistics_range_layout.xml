@@ -7,5 +7,6 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="-9dp"
     android:textColor="@color/white"
+    app:backgroundTint="?appActiveColor"
     app:cornerRadius="0dp"
     tools:text="Range name" />

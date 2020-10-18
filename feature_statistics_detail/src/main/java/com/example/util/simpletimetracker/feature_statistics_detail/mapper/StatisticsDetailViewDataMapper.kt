@@ -47,10 +47,10 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             iconId = recordType?.icon
                 ?.let(iconMapper::mapToDrawableResId)
                 ?: R.drawable.unknown,
-            color = (recordType?.color
+            color = recordType?.color
                 ?.let { colorMapper.mapToColorResId(it, isDarkTheme) }
-                ?: R.color.untracked_time_color)
-                .let(resourceRepo::getColor),
+                ?.let(resourceRepo::getColor)
+                ?: colorMapper.toUntrackedColor(isDarkTheme),
             totalDuration = listOf(
                 StatisticsDetailCardViewData(
                     title = totalDuration.let(timeMapper::formatInterval),
@@ -90,12 +90,14 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         )
     }
 
-    fun mapToUntracked(): StatisticsDetailViewData {
+    fun mapToUntracked(
+        isDarkTheme: Boolean
+    ): StatisticsDetailViewData {
         val empty = StatisticsDetailCardViewData("", "")
         return StatisticsDetailViewData(
             name = resourceRepo.getString(R.string.untracked_time_name),
             iconId = R.drawable.unknown,
-            color = R.color.untracked_time_color.let(resourceRepo::getColor),
+            color = colorMapper.toUntrackedColor(isDarkTheme),
             totalDuration = listOf(empty),
             timesTracked = listOf(empty),
             averageRecord = listOf(empty),

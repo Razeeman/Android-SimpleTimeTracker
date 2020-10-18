@@ -29,10 +29,12 @@ class WidgetUniversalViewDataMapper @Inject constructor(
     ): RecordTypeViewData {
         return recordTypeViewDataMapper.map(recordType, numberOfCards, isDarkTheme).copy(
             color = if (isFiltered) {
-                R.color.filtered_color
+                colorMapper.toFilteredColor(isDarkTheme)
             } else {
-                recordType.color.let { colorMapper.mapToColorResId(it, isDarkTheme) }
-            }.let(resourceRepo::getColor)
+                recordType.color
+                    .let { colorMapper.mapToColorResId(it, isDarkTheme) }
+                    .let(resourceRepo::getColor)
+            }
         )
     }
 

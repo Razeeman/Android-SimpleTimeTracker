@@ -45,6 +45,6 @@
         android:layout_marginEnd="8dp"
         android:text="@string/card_size_default"
         android:textColor="@color/white"
-        app:backgroundTint="@color/blue_grey_300" />
+        app:backgroundTint="?appInactiveColor" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

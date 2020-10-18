@@ -16,7 +16,7 @@
         android:clickable="true"
         android:focusable="true"
         android:src="@drawable/delete"
-        android:tint="@color/blue_grey_300"
+        android:tint="?appInactiveColor"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -179,6 +179,7 @@
         android:gravity="center"
         android:text="@string/change_record_type_save"
         android:textColor="?appLightTextColor"
+        app:backgroundTint="?appActiveColor"
         app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

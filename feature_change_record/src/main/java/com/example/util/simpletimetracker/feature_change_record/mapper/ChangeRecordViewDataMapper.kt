@@ -39,10 +39,10 @@ class ChangeRecordViewDataMapper @Inject constructor(
             iconId = recordType?.icon
                 ?.let(iconMapper::mapToDrawableResId)
                 ?: R.drawable.unknown,
-            color = (recordType?.color
+            color = recordType?.color
                 ?.let { colorMapper.mapToColorResId(it, isDarkTheme) }
-                ?: R.color.untracked_time_color)
-                .let(resourceRepo::getColor)
+                ?.let(resourceRepo::getColor)
+                ?: colorMapper.toUntrackedColor(isDarkTheme)
         )
     }
 }

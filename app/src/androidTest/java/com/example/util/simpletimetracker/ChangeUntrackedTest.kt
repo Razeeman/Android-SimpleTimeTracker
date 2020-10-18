@@ -43,7 +43,7 @@ class ChangeUntrackedTest : BaseUiTest() {
         // View is set up
         checkViewIsNotDisplayed(withId(R.id.btnChangeRecordDelete))
         checkViewIsNotDisplayed(withId(R.id.rvChangeRecordType))
-        checkPreviewUpdated(withCardColor(R.color.untracked_time_color))
+        checkPreviewUpdated(withCardColor(R.color.colorUntracked))
 
         // Change item
         clickOnViewWithText(R.string.change_record_type_field)

@@ -43,7 +43,12 @@ class RecordsViewDataInteractor @Inject constructor(
                     }
                     .map { untrackedRecord ->
                         untrackedRecord.timeStarted to
-                            recordViewDataMapper.mapToUntracked(untrackedRecord, rangeStart, rangeEnd)
+                            recordViewDataMapper.mapToUntracked(
+                                untrackedRecord,
+                                rangeStart,
+                                rangeEnd,
+                                isDarkTheme
+                            )
                     }
                     .let { untrackedRecords -> trackedRecords + untrackedRecords }
             }

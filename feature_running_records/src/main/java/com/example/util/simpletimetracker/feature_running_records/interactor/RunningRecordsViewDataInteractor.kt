@@ -50,7 +50,12 @@ class RunningRecordsViewDataInteractor @Inject constructor(
                     isDarkTheme = isDarkTheme
                 )
             }
-            .plus(runningRecordViewDataMapper.mapToAddItem(numberOfCards))
+            .plus(
+                runningRecordViewDataMapper.mapToAddItem(
+                    numberOfCards,
+                    isDarkTheme
+                )
+            )
 
         return runningRecordsViewData +
             listOf(RunningRecordDividerViewData) +

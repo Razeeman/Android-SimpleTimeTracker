@@ -39,7 +39,9 @@ class CardSizeViewModel @Inject constructor(
     }
     val defaultButton: LiveData<CardSizeDefaultButtonViewData> by lazy {
         MutableLiveData<CardSizeDefaultButtonViewData>().let { initial ->
-            initial.value = loadDefaultButtonViewData()
+            viewModelScope.launch {
+                initial.value = loadDefaultButtonViewData()
+            }
             initial
         }
     }
@@ -72,7 +74,7 @@ class CardSizeViewModel @Inject constructor(
         (buttons as MutableLiveData).value = loadButtonsViewData()
     }
 
-    private fun updateDefaultButton() {
+    private fun updateDefaultButton() = viewModelScope.launch {
         (defaultButton as MutableLiveData).value = loadDefaultButtonViewData()
     }
 
@@ -84,8 +86,10 @@ class CardSizeViewModel @Inject constructor(
         return cardSizeViewDataMapper.toToButtonsViewData(numberOfCards)
     }
 
-    private fun loadDefaultButtonViewData(): CardSizeDefaultButtonViewData {
-        return cardSizeViewDataMapper.toDefaultButtonViewData(numberOfCards)
+    private suspend fun loadDefaultButtonViewData(): CardSizeDefaultButtonViewData {
+        val isDarkTheme = prefsInteractor.getDarkMode()
+
+        return cardSizeViewDataMapper.toDefaultButtonViewData(numberOfCards, isDarkTheme)
     }
 
     private suspend fun loadRecordTypes(): List<RecordTypeViewData> {

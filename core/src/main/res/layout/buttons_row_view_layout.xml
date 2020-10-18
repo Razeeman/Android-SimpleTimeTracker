@@ -13,7 +13,7 @@
         android:layout_marginEnd="8dp"
         android:clickable="false"
         android:focusable="false"
-        app:backgroundTint="@color/blue_grey_300" />
+        app:backgroundTint="?appInactiveColor" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvButtonsRowView"

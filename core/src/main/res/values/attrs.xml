@@ -16,6 +16,8 @@
     <attr name="appPopupItemBackground" format="reference" />
     <attr name="appTabSelectedColor" format="reference" />
     <attr name="appTabUnselectedColor" format="reference" />
+    <attr name="appActiveColor" format="reference" />
+    <attr name="appInactiveColor" format="reference" />
 
     <declare-styleable name="RecordTypeView">
         <attr name="itemName" format="string" />

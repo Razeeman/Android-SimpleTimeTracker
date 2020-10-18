@@ -10,7 +10,7 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
-import kotlinx.android.synthetic.main.buttons_row_view_layout.view.rvButtonsRowView
+import kotlinx.android.synthetic.main.buttons_row_view_layout.view.*
 
 class ButtonsRowView @JvmOverloads constructor(
     context: Context,
@@ -29,7 +29,14 @@ class ButtonsRowView @JvmOverloads constructor(
     }
 
     private val selectedColor by lazy {
-        ContextCompat.getColor(context, R.color.colorPrimary)
+        var defaultColor = ContextCompat.getColor(context, R.color.colorPrimary)
+        runCatching {
+            context.theme?.obtainStyledAttributes(intArrayOf(R.attr.appActiveColor))?.run {
+                defaultColor = getColor(0, defaultColor)
+                recycle()
+            }
+        }
+        defaultColor
     }
 
     init {

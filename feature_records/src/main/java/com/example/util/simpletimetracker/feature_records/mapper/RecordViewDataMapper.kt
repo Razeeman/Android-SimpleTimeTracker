@@ -50,7 +50,8 @@ class RecordViewDataMapper @Inject constructor(
     fun mapToUntracked(
         record: Record,
         rangeStart: Long,
-        rangeEnd: Long
+        rangeEnd: Long,
+        isDarkTheme: Boolean
     ): RecordViewData {
         val (timeStarted, timeEnded) = clampToRange(record, rangeStart, rangeEnd)
 
@@ -66,8 +67,7 @@ class RecordViewDataMapper @Inject constructor(
             duration = (timeEnded - timeStarted)
                 .let(timeMapper::formatInterval),
             iconId = R.drawable.unknown,
-            color = R.color.untracked_time_color
-                .let(resourceRepo::getColor)
+            color = colorMapper.toUntrackedColor(isDarkTheme)
         )
     }
 

@@ -1,12 +1,47 @@
 package com.example.util.simpletimetracker.core.mapper
 
 import com.example.util.simpletimetracker.core.R
+import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import javax.inject.Inject
 
-class ColorMapper @Inject constructor() {
+class ColorMapper @Inject constructor(
+    private val resourceRepo: ResourceRepo
+) {
 
     fun mapToColorResId(colorId: Int, isDarkTheme: Boolean): Int {
         return getAvailableColors(isDarkTheme).getOrNull(colorId) ?: R.color.black
+    }
+
+    fun toUntrackedColor(isDarkTheme: Boolean): Int {
+        return if (isDarkTheme) {
+            R.color.colorUntrackedDark
+        } else {
+            R.color.colorUntracked
+        }.let(resourceRepo::getColor)
+    }
+
+    fun toFilteredColor(isDarkTheme: Boolean): Int {
+        return if (isDarkTheme) {
+            R.color.colorFilteredDark
+        } else {
+            R.color.colorFiltered
+        }.let(resourceRepo::getColor)
+    }
+
+    fun toActiveColor(isDarkTheme: Boolean): Int {
+        return if (isDarkTheme) {
+            R.color.colorActiveDark
+        } else {
+            R.color.colorActive
+        }.let(resourceRepo::getColor)
+    }
+
+    fun toInactiveColor(isDarkTheme: Boolean): Int {
+        return if (isDarkTheme) {
+            R.color.colorInactiveDark
+        } else {
+            R.color.colorInactive
+        }.let(resourceRepo::getColor)
     }
 
     companion object {

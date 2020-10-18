@@ -110,8 +110,7 @@ class StatisticsViewDataMapper @Inject constructor(
                         .let(timeMapper::formatInterval),
                     percent = "$durationPercent%",
                     iconId = R.drawable.unknown,
-                    color = R.color.untracked_time_color
-                        .let(resourceRepo::getColor)
+                    color = colorMapper.toUntrackedColor(isDarkTheme)
                 )
             }
             recordType != null -> {
@@ -146,8 +145,7 @@ class StatisticsViewDataMapper @Inject constructor(
             statistics.typeId == -1L -> {
                 PiePortion(
                     value = statistics.duration,
-                    colorInt = R.color.untracked_time_color
-                        .let(resourceRepo::getColor),
+                    colorInt = colorMapper.toUntrackedColor(isDarkTheme),
                     iconId = R.drawable.unknown
                 )
             }

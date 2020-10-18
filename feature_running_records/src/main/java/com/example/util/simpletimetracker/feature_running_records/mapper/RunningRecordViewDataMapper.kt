@@ -53,10 +53,12 @@ class RunningRecordViewDataMapper @Inject constructor(
     ): RecordTypeViewData {
         return recordTypeViewDataMapper.map(recordType, numberOfCards, isDarkTheme).copy(
             color = if (isFiltered) {
-                R.color.filtered_color
+                colorMapper.toFilteredColor(isDarkTheme)
             } else {
-                recordType.color.let { colorMapper.mapToColorResId(it, isDarkTheme) }
-            }.let(resourceRepo::getColor)
+                recordType.color
+                    .let { colorMapper.mapToColorResId(it, isDarkTheme) }
+                    .let(resourceRepo::getColor)
+            }
         )
     }
 
@@ -67,13 +69,13 @@ class RunningRecordViewDataMapper @Inject constructor(
     }
 
     fun mapToAddItem(
-        numberOfCards: Int
+        numberOfCards: Int,
+        isDarkTheme: Boolean
     ): RunningRecordTypeAddViewData {
         return RunningRecordTypeAddViewData(
             name = R.string.running_records_add_type.let(resourceRepo::getString),
             iconId = R.drawable.add,
-            color = R.color.blue_grey_200
-                .let(resourceRepo::getColor),
+            color = colorMapper.toInactiveColor(isDarkTheme),
             width = recordTypeCardSizeMapper.toCardWidth(numberOfCards),
             height = recordTypeCardSizeMapper.toCardHeight(numberOfCards),
             asRow = recordTypeCardSizeMapper.toCardAsRow(numberOfCards)

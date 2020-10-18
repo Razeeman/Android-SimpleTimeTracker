@@ -14,7 +14,7 @@
         android:clickable="true"
         android:focusable="true"
         android:src="@drawable/filter"
-        android:tint="@color/blue_grey_300"
+        android:tint="?appInactiveColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

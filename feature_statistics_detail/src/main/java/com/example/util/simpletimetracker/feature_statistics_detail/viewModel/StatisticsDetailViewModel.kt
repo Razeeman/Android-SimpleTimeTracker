@@ -89,7 +89,7 @@ class StatisticsDetailViewModel @Inject constructor(
         val isDarkTheme = prefsInteractor.getDarkMode()
 
         return if (extra.typeId == -1L) {
-            statisticsDetailViewDataMapper.mapToUntracked()
+            statisticsDetailViewDataMapper.mapToUntracked(isDarkTheme)
         } else {
             val records = recordInteractor.getAll() // TODO get by typeId
                 .filter { it.typeId == extra.typeId }
