@@ -7,7 +7,8 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorSecondary">@color/colorSecondary</item>
 
-        <item name="snackbarStyle">@style/Widget.MaterialComponents.Snackbar.FullWidth</item>
+        <item name="snackbarStyle">@style/AppTheme.Snackbar</item>
+        <item name="snackbarButtonStyle">@style/AppTheme.SnackbarButton</item>
         <item name="alertDialogTheme">@style/AppTheme.Dialog</item>
         <item name="android:windowBackground">@color/colorBackground</item>
 
@@ -37,7 +38,8 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorSecondary">@color/colorSecondary</item>
 
-        <item name="snackbarStyle">@style/Widget.MaterialComponents.Snackbar.FullWidth</item>
+        <item name="snackbarStyle">@style/AppTheme.Snackbar</item>
+        <item name="snackbarButtonStyle">@style/AppTheme.SnackbarButton</item>
         <item name="alertDialogTheme">@style/AppTheme.Dialog.Dark</item>
         <item name="android:windowBackground">@color/colorBackgroundDark</item>
 
@@ -83,6 +85,14 @@
 
     <style name="AppTheme.DialogButton.Dark" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
         <item name="android:textColor">@color/colorSecondary</item>
+    </style>
+
+    <style name="AppTheme.Snackbar" parent="Widget.MaterialComponents.Snackbar.FullWidth">
+        <item name="actionTextColorAlpha">1</item>
+    </style>
+
+    <style name="AppTheme.SnackbarButton" parent="Widget.MaterialComponents.Button.TextButton.Snackbar">
+        <item name="android:textColor">?colorSecondary</item>
     </style>
 
     <style name="ChangeRecordTypeInputFieldCard">

@@ -4,8 +4,10 @@ import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.navigation.NavController
 import androidx.navigation.Navigator
@@ -171,6 +173,9 @@ class RouterImpl @Inject constructor(
         snackBarMessage: SnackBarMessage
     ) = with(snackBarMessage) {
         val snackBar = Snackbar.make(view, message, 5000)
+
+        val textViewId = com.google.android.material.R.id.snackbar_text
+        snackBar.view.findViewById<TextView>(textViewId)?.setTextColor(Color.WHITE)
 
         if (anchorToView) {
             snackBar.anchorView = view
