@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker
 
+import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
@@ -10,9 +11,11 @@ import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
+import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.longClickOnView
 import com.example.util.simpletimetracker.utils.withCardColor
 import com.example.util.simpletimetracker.utils.withTag
+import org.hamcrest.CoreMatchers
 import org.hamcrest.Matchers.allOf
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -38,13 +41,31 @@ class DeleteRecordTest : BaseUiTest() {
         checkViewIsDisplayed(withId(R.id.btnChangeRecordDelete))
         clickOnViewWithId(R.id.btnChangeRecordDelete)
 
-        // TODO check message
+        // Check message
+        checkViewIsDisplayed(
+            allOf(
+                withText("Record Name removed"),
+                withId(com.google.android.material.R.id.snackbar_text)
+            )
+        )
 
         // Record is deleted
         checkViewDoesNotExist(allOf(withText(name), isCompletelyDisplayed()))
         checkViewDoesNotExist(allOf(withCardColor(color), isCompletelyDisplayed()))
         checkViewDoesNotExist(allOf(withTag(icon), isCompletelyDisplayed()))
 
-        // TODO check undo
+        // Check undo
+        clickOnViewWithText(R.string.record_removed_undo)
+
+        // Record is back
+        checkViewIsDisplayed(
+            CoreMatchers.allOf(
+                withId(R.id.viewRecordItem),
+                hasDescendant(withText(name)),
+                hasDescendant(withCardColor(color)),
+                hasDescendant(withTag(icon)),
+                isCompletelyDisplayed()
+            )
+        )
     }
 }
