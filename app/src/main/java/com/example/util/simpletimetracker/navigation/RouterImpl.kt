@@ -36,7 +36,6 @@ import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton
 
-
 @Singleton
 class RouterImpl @Inject constructor(
     private val resourceRepo: ResourceRepo,

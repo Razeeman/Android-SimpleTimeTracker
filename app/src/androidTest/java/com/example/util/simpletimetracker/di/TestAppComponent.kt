@@ -29,7 +29,7 @@ import javax.inject.Singleton
         NotificationModule::class
     ]
 )
-interface TestAppComponent: AppComponent {
+interface TestAppComponent : AppComponent {
 
     fun inject(into: BaseUiTest)
     fun inject(into: MainScreenTest)

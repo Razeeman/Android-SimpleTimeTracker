@@ -15,7 +15,6 @@ import com.example.util.simpletimetracker.feature_statistics.view.StatisticsCont
 import com.example.util.simpletimetracker.ui.MainActivity
 import org.junit.After
 import org.junit.Before
-import org.junit.BeforeClass
 import org.junit.Rule
 import javax.inject.Inject
 

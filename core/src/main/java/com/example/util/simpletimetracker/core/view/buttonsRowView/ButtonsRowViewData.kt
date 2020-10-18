@@ -2,7 +2,7 @@ package com.example.util.simpletimetracker.core.view.buttonsRowView
 
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 
-abstract class ButtonsRowViewData: ViewHolderType {
+abstract class ButtonsRowViewData : ViewHolderType {
 
     abstract val id: Long
     abstract val name: String

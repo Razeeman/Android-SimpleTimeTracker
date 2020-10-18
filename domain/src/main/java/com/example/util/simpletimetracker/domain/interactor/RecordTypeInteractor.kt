@@ -17,7 +17,7 @@ class RecordTypeInteractor @Inject constructor(
         return (recordTypeCacheRepo.getAll()
             .takeIf(List<RecordType>::isNotEmpty)
             ?: recordTypeRepo.getAll().also(recordTypeCacheRepo::addAll))
-            .let{ sort(it) }
+            .let { sort(it) }
     }
 
     suspend fun get(id: Long): RecordType? {

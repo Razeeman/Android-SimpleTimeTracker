@@ -6,10 +6,9 @@ import com.example.util.simpletimetracker.core.adapter.BaseRecyclerViewHolder
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_statistics_detail.R
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailCardViewData
-import kotlinx.android.synthetic.main.statistics_detail_card_item.view.tvStatisticsDetailCardDescription
-import kotlinx.android.synthetic.main.statistics_detail_card_item.view.tvStatisticsDetailCardValue
+import kotlinx.android.synthetic.main.statistics_detail_card_item.view.*
 
-class StatisticsDetailCardAdapterDelegate: BaseRecyclerAdapterDelegate() {
+class StatisticsDetailCardAdapterDelegate : BaseRecyclerAdapterDelegate() {
 
     override fun onCreateViewHolder(parent: ViewGroup): BaseRecyclerViewHolder =
         StatisticsCardViewHolder(parent)
