@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="settings_save_backup">Save backup</string>
-    <string name="settings_restore_backup">Restore backup</string>
     <string name="settings_sort_order">Sort activities</string>
     <string name="settings_sort_by_name">Name</string>
     <string name="settings_sort_by_color">Color</string>
@@ -14,12 +12,17 @@
     <string name="settings_show_notifications_hint">Show notifications when timers are running.</string>
     <string name="settings_change_card_size">Change activity card size</string>
     <string name="settings_file_error">Error opening file</string>
-    <string name="settings_dialog_message">Restore backup?</string>
-    <string name="settings_restore_description">Before saving, make sure that you have the latest version of the app installed to avoid conflicts.</string>
     <string name="settings_rate">Rate us</string>
     <string name="settings_rate_description">Rate the app and leave a review.</string>
     <string name="settings_feedback">Feedback</string>
     <string name="settings_feedback_description">Have a suggestion? Found a bug? Want to talk? Write us!</string>
     <string name="settings_version">Version</string>
     <string name="settings_email_chooser_title">Send with…</string>
+
+    <string name="settings_save_backup">Save backup</string>
+    <string name="settings_save_description">Before saving, make sure that you have the latest version of the app installed to avoid conflicts.</string>
+    <string name="settings_restore_backup">Restore backup</string>
+    <string name="settings_restore_description">Current data will be lost.</string>
+    <string name="settings_dialog_message">Restore backup?</string>
+
 </resources>

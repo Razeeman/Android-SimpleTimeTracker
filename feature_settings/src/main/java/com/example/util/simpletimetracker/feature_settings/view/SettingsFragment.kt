@@ -56,7 +56,7 @@ class SettingsFragment : BaseFragment(R.layout.settings_fragment),
         checkboxSettingsDarkMode.setOnClick(viewModel::onDarkModeClicked)
         tvSettingsChangeCardSize.setOnClick(viewModel::onChangeCardSizeClick)
         layoutSettingsSaveBackup.setOnClick(viewModel::onSaveClick)
-        tvSettingsRestoreBackup.setOnClick(viewModel::onRestoreClick)
+        layoutSettingsRestoreBackup.setOnClick(viewModel::onRestoreClick)
         layoutSettingsRate.setOnClick(viewModel::onRateClick)
         layoutSettingsFeedback.setOnClick(viewModel::onFeedbackClick)
     }

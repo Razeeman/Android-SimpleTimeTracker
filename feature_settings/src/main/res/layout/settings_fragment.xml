@@ -344,7 +344,7 @@
                         style="@style/SettingsSecondaryText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/settings_restore_description" />
+                        android:text="@string/settings_save_description" />
 
                 </LinearLayout>
 
@@ -352,15 +352,29 @@
                     style="@style/SettingsDivider"
                     android:layout_width="match_parent" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvSettingsRestoreBackup"
-                    style="@style/SettingsText"
+                <LinearLayout
+                    android:id="@+id/layoutSettingsRestoreBackup"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="?selectableItemBackground"
                     android:clickable="true"
                     android:focusable="true"
-                    android:text="@string/settings_restore_backup" />
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/SettingsText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="0dp"
+                        android:text="@string/settings_restore_backup" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/SettingsSecondaryText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_restore_description" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
