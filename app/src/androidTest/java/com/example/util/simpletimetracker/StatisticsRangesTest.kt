@@ -1,7 +1,7 @@
 package com.example.util.simpletimetracker
 
 import android.widget.DatePicker
-import androidx.test.espresso.Espresso
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.contrib.PickerActions
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
@@ -58,7 +58,7 @@ class StatisticsRangesTest : BaseUiTest() {
 
         // Switch to week range
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        checkViewIsDisplayed(withText(R.string.title_select_date))
+        checkViewIsDisplayed(withText(R.string.title_select_day))
         clickOnViewWithText(R.string.title_this_week)
         checkViewIsDisplayed(allOf(withText(name), isCompletelyDisplayed()))
         clickOnViewWithId(R.id.btnStatisticsContainerPrevious)
@@ -71,7 +71,7 @@ class StatisticsRangesTest : BaseUiTest() {
 
         // Switch to month range
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        checkViewIsDisplayed(withText(R.string.title_select_date))
+        checkViewIsDisplayed(withText(R.string.title_select_week))
         clickOnViewWithText(R.string.title_this_month)
         checkViewIsDisplayed(allOf(withText(name), isCompletelyDisplayed()))
         clickOnViewWithId(R.id.btnStatisticsContainerPrevious)
@@ -84,7 +84,7 @@ class StatisticsRangesTest : BaseUiTest() {
 
         // Switch to overall range
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        checkViewIsDisplayed(withText(R.string.title_select_date))
+        checkViewIsDisplayed(withText(R.string.title_select_month))
         clickOnViewWithText(R.string.title_overall)
         Thread.sleep(1000)
         checkViewIsDisplayed(allOf(withText(name), isCompletelyDisplayed()))
@@ -93,10 +93,12 @@ class StatisticsRangesTest : BaseUiTest() {
 
         // Switch back to day
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        checkViewDoesNotExist(withText(R.string.title_select_date))
+        checkViewDoesNotExist(withText(R.string.title_select_day))
+        checkViewDoesNotExist(withText(R.string.title_select_week))
+        checkViewDoesNotExist(withText(R.string.title_select_month))
         clickOnView(allOf(withId(R.id.btnStatisticsItemRange), withText(R.string.title_today)))
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        checkViewIsDisplayed(withText(R.string.title_select_date))
+        checkViewIsDisplayed(withText(R.string.title_select_day))
     }
 
     @Test
@@ -112,8 +114,8 @@ class StatisticsRangesTest : BaseUiTest() {
 
         // Check yesterday
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        unconstrainedClickOnView(withText(R.string.title_select_date)) // unconstrained because buttons have negative margin
-        Espresso.onView(withClassName(equalTo(DatePicker::class.java.name)))
+        unconstrainedClickOnView(withText(R.string.title_select_day)) // unconstrained because buttons have negative margin
+        onView(withClassName(equalTo(DatePicker::class.java.name)))
             .perform(
                 PickerActions.setDate(
                     calendarPrev.get(Calendar.YEAR),
@@ -132,8 +134,8 @@ class StatisticsRangesTest : BaseUiTest() {
 
         // Check tomorrow
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        unconstrainedClickOnView(withText(R.string.title_select_date))
-        Espresso.onView(withClassName(equalTo(DatePicker::class.java.name)))
+        unconstrainedClickOnView(withText(R.string.title_select_day))
+        onView(withClassName(equalTo(DatePicker::class.java.name)))
             .perform(
                 PickerActions.setDate(
                     calendarNext.get(Calendar.YEAR),
@@ -170,8 +172,8 @@ class StatisticsRangesTest : BaseUiTest() {
 
         // Check prev date
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        unconstrainedClickOnView(withText(R.string.title_select_date))
-        Espresso.onView(withClassName(equalTo(DatePicker::class.java.name)))
+        unconstrainedClickOnView(withText(R.string.title_select_day))
+        onView(withClassName(equalTo(DatePicker::class.java.name)))
             .perform(
                 PickerActions.setDate(
                     calendarPrev.get(Calendar.YEAR),
@@ -190,8 +192,8 @@ class StatisticsRangesTest : BaseUiTest() {
 
         // Check next date
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        unconstrainedClickOnView(withText(R.string.title_select_date))
-        Espresso.onView(withClassName(equalTo(DatePicker::class.java.name)))
+        unconstrainedClickOnView(withText(R.string.title_select_day))
+        onView(withClassName(equalTo(DatePicker::class.java.name)))
             .perform(
                 PickerActions.setDate(
                     calendarNext.get(Calendar.YEAR),
@@ -225,8 +227,9 @@ class StatisticsRangesTest : BaseUiTest() {
         // Check prev week
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         clickOnViewWithText(R.string.title_this_week)
-        unconstrainedClickOnView(withText(R.string.title_select_date))
-        Espresso.onView(withClassName(equalTo(DatePicker::class.java.name)))
+        clickOnViewWithId(R.id.btnStatisticsContainerToday)
+        unconstrainedClickOnView(withText(R.string.title_select_week))
+        onView(withClassName(equalTo(DatePicker::class.java.name)))
             .perform(
                 PickerActions.setDate(
                     calendarPrev.get(Calendar.YEAR),
@@ -245,8 +248,8 @@ class StatisticsRangesTest : BaseUiTest() {
 
         // Check next week
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        unconstrainedClickOnView(withText(R.string.title_select_date))
-        Espresso.onView(withClassName(equalTo(DatePicker::class.java.name)))
+        unconstrainedClickOnView(withText(R.string.title_select_week))
+        onView(withClassName(equalTo(DatePicker::class.java.name)))
             .perform(
                 PickerActions.setDate(
                     calendarNext.get(Calendar.YEAR),
@@ -280,8 +283,9 @@ class StatisticsRangesTest : BaseUiTest() {
         // Check prev date
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         clickOnViewWithText(R.string.title_this_week)
-        unconstrainedClickOnView(withText(R.string.title_select_date))
-        Espresso.onView(withClassName(equalTo(DatePicker::class.java.name)))
+        clickOnViewWithId(R.id.btnStatisticsContainerToday)
+        unconstrainedClickOnView(withText(R.string.title_select_week))
+        onView(withClassName(equalTo(DatePicker::class.java.name)))
             .perform(
                 PickerActions.setDate(
                     calendarPrev.get(Calendar.YEAR),
@@ -300,8 +304,8 @@ class StatisticsRangesTest : BaseUiTest() {
 
         // Check next date
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        unconstrainedClickOnView(withText(R.string.title_select_date))
-        Espresso.onView(withClassName(equalTo(DatePicker::class.java.name)))
+        unconstrainedClickOnView(withText(R.string.title_select_week))
+        onView(withClassName(equalTo(DatePicker::class.java.name)))
             .perform(
                 PickerActions.setDate(
                     calendarNext.get(Calendar.YEAR),
@@ -335,8 +339,9 @@ class StatisticsRangesTest : BaseUiTest() {
         // Check prev months
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         clickOnViewWithText(R.string.title_this_month)
-        unconstrainedClickOnView(withText(R.string.title_select_date))
-        Espresso.onView(withClassName(equalTo(DatePicker::class.java.name)))
+        clickOnViewWithId(R.id.btnStatisticsContainerToday)
+        unconstrainedClickOnView(withText(R.string.title_select_month))
+        onView(withClassName(equalTo(DatePicker::class.java.name)))
             .perform(
                 PickerActions.setDate(
                     calendarPrev.get(Calendar.YEAR),
@@ -355,8 +360,8 @@ class StatisticsRangesTest : BaseUiTest() {
 
         // Check next month
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        unconstrainedClickOnView(withText(R.string.title_select_date))
-        Espresso.onView(withClassName(equalTo(DatePicker::class.java.name)))
+        unconstrainedClickOnView(withText(R.string.title_select_month))
+        onView(withClassName(equalTo(DatePicker::class.java.name)))
             .perform(
                 PickerActions.setDate(
                     calendarNext.get(Calendar.YEAR),
@@ -394,8 +399,9 @@ class StatisticsRangesTest : BaseUiTest() {
         // Check prev date
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         clickOnViewWithText(R.string.title_this_month)
-        unconstrainedClickOnView(withText(R.string.title_select_date))
-        Espresso.onView(withClassName(equalTo(DatePicker::class.java.name)))
+        clickOnViewWithId(R.id.btnStatisticsContainerToday)
+        unconstrainedClickOnView(withText(R.string.title_select_month))
+        onView(withClassName(equalTo(DatePicker::class.java.name)))
             .perform(
                 PickerActions.setDate(
                     calendarPrev.get(Calendar.YEAR),
@@ -414,8 +420,8 @@ class StatisticsRangesTest : BaseUiTest() {
 
         // Check next date
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        unconstrainedClickOnView(withText(R.string.title_select_date))
-        Espresso.onView(withClassName(equalTo(DatePicker::class.java.name)))
+        unconstrainedClickOnView(withText(R.string.title_select_month))
+        onView(withClassName(equalTo(DatePicker::class.java.name)))
             .perform(
                 PickerActions.setDate(
                     calendarNext.get(Calendar.YEAR),

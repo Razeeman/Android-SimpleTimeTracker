@@ -106,7 +106,7 @@ class StatisticsContainerViewModel @Inject constructor(
 
     private fun loadButtons(): List<ViewHolderType> {
         return statisticsViewDataMapper.mapToButtons(
-            addSelectDate = rangeLength.value != RangeLength.ALL
+            rangeLength.value ?: RangeLength.DAY
         )
     }
 

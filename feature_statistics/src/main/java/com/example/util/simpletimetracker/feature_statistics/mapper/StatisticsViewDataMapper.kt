@@ -78,12 +78,11 @@ class StatisticsViewDataMapper @Inject constructor(
         )
     }
 
-    fun mapToButtons(addSelectDate: Boolean): List<ViewHolderType> {
-        val selectDateButton = if (addSelectDate) {
-            listOf(StatisticsSelectDateViewData(name = "Select date"))
-        } else {
-            emptyList()
-        }
+    fun mapToButtons(currentRange: RangeLength): List<ViewHolderType> {
+        val selectDateButton = mapToSelectDateName(currentRange)
+            ?.let(::StatisticsSelectDateViewData)
+            ?.let(::listOf)
+            ?: emptyList()
 
         return selectDateButton + listOf(
             RangeLength.ALL,
@@ -179,5 +178,14 @@ class StatisticsViewDataMapper @Inject constructor(
             RangeLength.MONTH -> R.string.title_this_month
             RangeLength.ALL -> R.string.title_overall
         }.let(resourceRepo::getString)
+    }
+
+    private fun mapToSelectDateName(rangeLength: RangeLength): String? {
+        return when (rangeLength) {
+            RangeLength.DAY -> R.string.title_select_day
+            RangeLength.WEEK -> R.string.title_select_week
+            RangeLength.MONTH -> R.string.title_select_month
+            else -> null
+        }?.let(resourceRepo::getString)
     }
 }
