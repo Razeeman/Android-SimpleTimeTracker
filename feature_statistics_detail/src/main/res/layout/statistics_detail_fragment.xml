@@ -95,7 +95,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:layout_marginTop="16dp"
+            android:layout_marginEnd="4dp"
             app:itemCount="1"
+            app:itemTitleTextSize="22sp"
             app:layout_constraintEnd_toStartOf="@id/cardStatisticsDetailRecords"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/buttonsStatisticsDetailLength" />
@@ -104,8 +106,10 @@
             android:id="@+id/cardStatisticsDetailRecords"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="4dp"
+            app:itemTitleTextSize="22sp"
             app:itemCount="1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/cardStatisticsDetailTotal"
@@ -116,13 +120,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:barrierDirection="bottom"
-            app:constraint_referenced_ids="cardStatisticsDetailRecords, @+id/cardStatisticsDetailTotal" />
+            app:constraint_referenced_ids="cardStatisticsDetailTotal, cardStatisticsDetailRecords" />
 
         <com.example.util.simpletimetracker.feature_statistics_detail.customView.StatisticsDetailCardView
             android:id="@+id/cardStatisticsDetailAverage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
             android:layout_marginEnd="4dp"
             app:itemCount="3"
             app:layout_constraintTop_toBottomOf="@+id/barrierStatisticsDetail" />
@@ -132,6 +137,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
             android:layout_marginEnd="4dp"
             app:itemCount="2"
             app:layout_constraintTop_toBottomOf="@+id/cardStatisticsDetailAverage" />

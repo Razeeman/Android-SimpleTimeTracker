@@ -5,6 +5,9 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
 import androidx.core.content.res.ResourcesCompat
+import com.example.util.simpletimetracker.core.extension.dpToPx
+import com.example.util.simpletimetracker.core.extension.spToPx
+import com.example.util.simpletimetracker.core.extension.updatePadding
 import com.example.util.simpletimetracker.feature_statistics_detail.R
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailCardAdapter
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailCardViewData
@@ -32,10 +35,14 @@ class StatisticsDetailCardView @JvmOverloads constructor(
         }
 
     private var itemsCount: Int
-    private val typesAdapter: StatisticsDetailCardAdapter by lazy { StatisticsDetailCardAdapter() }
+    private var titleTextSize: Int = 16.spToPx()
+    private val typesAdapter: StatisticsDetailCardAdapter by lazy { StatisticsDetailCardAdapter(titleTextSize) }
 
     init {
         View.inflate(context, R.layout.statistics_detail_card_view, this)
+
+        updatePadding(bottom = 2.dpToPx())
+        clipToPadding = false
 
         var dividerDrawable = ResourcesCompat.getDrawable(resources, R.drawable.divider_drawable, context.theme)
         runCatching {
@@ -48,6 +55,19 @@ class StatisticsDetailCardView @JvmOverloads constructor(
             setDrawable(dividerDrawable)
         }
 
+        context.obtainStyledAttributes(
+            attrs,
+            R.styleable.StatisticsDetailCardView,
+            defStyleAttr,
+            0
+        ).run {
+            itemsCount =
+                getInt(R.styleable.StatisticsDetailCardView_itemCount, DEFAULT_ITEM_COUNT)
+            titleTextSize =
+                getDimensionPixelSize(R.styleable.StatisticsDetailCardView_itemTitleTextSize, 16.spToPx())
+            recycle()
+        }
+
         rvStatisticsDetailCard.apply {
             layoutManager = FlexboxLayoutManager(context).apply {
                 flexDirection = FlexDirection.ROW
@@ -56,16 +76,6 @@ class StatisticsDetailCardView @JvmOverloads constructor(
                 addItemDecoration(itemDecoration)
             }
             adapter = typesAdapter
-        }
-
-        context.obtainStyledAttributes(
-            attrs,
-            R.styleable.StatisticsDetailCardView,
-            defStyleAttr,
-            0
-        ).run {
-            itemsCount = getInt(R.styleable.StatisticsDetailCardView_itemCount, DEFAULT_ITEM_COUNT)
-            recycle()
         }
 
         if (isInEditMode) {

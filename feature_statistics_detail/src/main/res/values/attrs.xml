@@ -15,5 +15,6 @@
     <declare-styleable name="StatisticsDetailCardView">
         <!-- Used for layout preview -->
         <attr name="itemCount" format="integer" />
+        <attr name="itemTitleTextSize" format="dimension" />
     </declare-styleable>
 </resources>
