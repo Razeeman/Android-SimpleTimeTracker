@@ -13,5 +13,6 @@ enum class Screen {
     CARD_ORDER_DIALOG,
 
     CREATE_FILE,
-    OPEN_FILE
+    OPEN_FILE,
+    CREATE_CSV_FILE,
 }

@@ -16,6 +16,7 @@ import com.example.util.simpletimetracker.data_local.repo.RecordTypeCacheRepoImp
 import com.example.util.simpletimetracker.data_local.repo.RecordTypeRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.RunningRecordRepoImpl
 import com.example.util.simpletimetracker.data_local.resolver.BackupRepoImpl
+import com.example.util.simpletimetracker.data_local.resolver.CsvRepoImpl
 import com.example.util.simpletimetracker.domain.di.AppContext
 import com.example.util.simpletimetracker.domain.repo.PrefsRepo
 import com.example.util.simpletimetracker.domain.repo.RecordCacheRepo
@@ -24,6 +25,7 @@ import com.example.util.simpletimetracker.domain.repo.RecordTypeCacheRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeRepo
 import com.example.util.simpletimetracker.domain.repo.RunningRecordRepo
 import com.example.util.simpletimetracker.domain.resolver.BackupRepo
+import com.example.util.simpletimetracker.domain.resolver.CsvRepo
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -104,6 +106,10 @@ class DataLocalModule {
 
         @Binds
         @Singleton
-        abstract fun getBackupResolver(impl: BackupRepoImpl): BackupRepo
+        abstract fun getBackupRepo(impl: BackupRepoImpl): BackupRepo
+
+        @Binds
+        @Singleton
+        abstract fun getCsvRepo(impl: CsvRepoImpl): CsvRepo
     }
 }

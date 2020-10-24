@@ -22,6 +22,7 @@ import com.example.util.simpletimetracker.feature_change_running_record.view.Cha
 import com.example.util.simpletimetracker.feature_dialogs.dateTime.DateTimeDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.standard.StandardDialogFragment
 import com.example.util.simpletimetracker.feature_statistics_detail.view.StatisticsDetailFragment
+import com.example.util.simpletimetracker.navigation.RequestCode.REQUEST_CODE_CREATE_CSV_FILE
 import com.example.util.simpletimetracker.navigation.RequestCode.REQUEST_CODE_CREATE_FILE
 import com.example.util.simpletimetracker.navigation.RequestCode.REQUEST_CODE_OPEN_FILE
 import com.example.util.simpletimetracker.navigation.model.SnackBarMessage
@@ -141,6 +142,22 @@ class RouterImpl @Inject constructor(
 
                 if (activity?.packageManager?.let(intent::resolveActivity) != null) {
                     activity?.startActivityForResult(intent, REQUEST_CODE_OPEN_FILE)
+                } else {
+                    (data as? FileChooserParams)?.notHandledCallback?.invoke()
+                }
+            }
+            Screen.CREATE_CSV_FILE -> {
+                val timeString = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())
+                    .format(Date())
+                val fileName = "stt_records_$timeString.csv"
+
+                val intent = Intent(Intent.ACTION_CREATE_DOCUMENT)
+                intent.addCategory(Intent.CATEGORY_OPENABLE)
+                intent.type = "text/csv"
+                intent.putExtra(Intent.EXTRA_TITLE, fileName)
+
+                if (activity?.packageManager?.let(intent::resolveActivity) != null) {
+                    activity?.startActivityForResult(intent, REQUEST_CODE_CREATE_CSV_FILE)
                 } else {
                     (data as? FileChooserParams)?.notHandledCallback?.invoke()
                 }

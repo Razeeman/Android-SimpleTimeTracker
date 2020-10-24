@@ -97,7 +97,7 @@ class SettingsViewModel @Inject constructor(
     fun onSaveClick() {
         router.navigate(
             Screen.CREATE_FILE,
-            FileChooserParams(::onFileOpenError)
+            FileChooserParams(::onFileCreateError)
         )
     }
 
@@ -110,6 +110,13 @@ class SettingsViewModel @Inject constructor(
                 btnPositive = resourceRepo.getString(R.string.ok),
                 btnNegative = resourceRepo.getString(R.string.cancel)
             )
+        )
+    }
+
+    fun onExportCsvClick() {
+        router.navigate(
+            Screen.CREATE_CSV_FILE,
+            FileChooserParams(::onFileCreateError)
         )
     }
 
@@ -207,7 +214,11 @@ class SettingsViewModel @Inject constructor(
     }
 
     private fun onFileOpenError() {
-        showMessage(R.string.settings_file_error)
+        showMessage(R.string.settings_file_open_error)
+    }
+
+    private fun onFileCreateError() {
+        showMessage(R.string.settings_file_create_error)
     }
 
     private fun showMessage(stringResId: Int) {

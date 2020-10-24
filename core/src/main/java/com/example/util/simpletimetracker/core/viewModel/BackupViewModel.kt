@@ -7,7 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.interactor.BackupInteractor
+import com.example.util.simpletimetracker.domain.interactor.CsvExportInteractor
 import com.example.util.simpletimetracker.domain.resolver.BackupRepo
+import com.example.util.simpletimetracker.domain.resolver.CsvRepo
 import com.example.util.simpletimetracker.navigation.Router
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -15,7 +17,8 @@ import javax.inject.Inject
 class BackupViewModel @Inject constructor(
     private val resourceRepo: ResourceRepo,
     private val router: Router,
-    private val backupInteractor: BackupInteractor
+    private val backupInteractor: BackupInteractor,
+    private val csvExportInteractor: CsvExportInteractor
 ) : ViewModel() {
 
     val progressVisibility: LiveData<Boolean> = MutableLiveData(false)
@@ -43,6 +46,20 @@ class BackupViewModel @Inject constructor(
             R.string.message_backup_restored
         } else {
             R.string.message_restore_error
+        }.let(::showMessage)
+
+        showProgress(false)
+    }
+
+    fun onSaveCsvFile(uriString: String) = viewModelScope.launch {
+        showProgress(true)
+
+        val resultCode = csvExportInteractor.saveCsvFile(uriString)
+
+        if (resultCode == CsvRepo.ResultCode.SUCCESS) {
+            R.string.message_csv_export_complete
+        } else {
+            R.string.message_csv_export_error
         }.let(::showMessage)
 
         showProgress(false)

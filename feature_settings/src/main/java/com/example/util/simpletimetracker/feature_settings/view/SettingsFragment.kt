@@ -17,6 +17,7 @@ import com.example.util.simpletimetracker.feature_settings.R
 import com.example.util.simpletimetracker.feature_settings.di.SettingsComponentProvider
 import com.example.util.simpletimetracker.feature_settings.viewData.CardOrderViewData
 import com.example.util.simpletimetracker.feature_settings.viewModel.SettingsViewModel
+import com.example.util.simpletimetracker.navigation.RequestCode.REQUEST_CODE_CREATE_CSV_FILE
 import com.example.util.simpletimetracker.navigation.RequestCode.REQUEST_CODE_CREATE_FILE
 import com.example.util.simpletimetracker.navigation.RequestCode.REQUEST_CODE_OPEN_FILE
 import kotlinx.android.synthetic.main.settings_fragment.*
@@ -57,6 +58,7 @@ class SettingsFragment : BaseFragment(R.layout.settings_fragment),
         tvSettingsChangeCardSize.setOnClick(viewModel::onChangeCardSizeClick)
         layoutSettingsSaveBackup.setOnClick(viewModel::onSaveClick)
         layoutSettingsRestoreBackup.setOnClick(viewModel::onRestoreClick)
+        layoutSettingsExportCsv.setOnClick(viewModel::onExportCsvClick)
         layoutSettingsRate.setOnClick(viewModel::onRateClick)
         layoutSettingsFeedback.setOnClick(viewModel::onFeedbackClick)
     }
@@ -116,6 +118,11 @@ class SettingsFragment : BaseFragment(R.layout.settings_fragment),
                     data.data
                         ?.let(Uri::toString)
                         ?.let(backupViewModel::onRestoreBackup)
+                }
+                REQUEST_CODE_CREATE_CSV_FILE -> {
+                    data.data
+                        ?.let(Uri::toString)
+                        ?.let(backupViewModel::onSaveCsvFile)
                 }
             }
         }
