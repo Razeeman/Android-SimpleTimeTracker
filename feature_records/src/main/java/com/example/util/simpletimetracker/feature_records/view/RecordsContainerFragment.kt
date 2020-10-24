@@ -13,8 +13,9 @@ import com.example.util.simpletimetracker.feature_records.R
 import com.example.util.simpletimetracker.feature_records.adapter.RecordsContainerAdapter
 import com.example.util.simpletimetracker.feature_records.di.RecordsComponentProvider
 import com.example.util.simpletimetracker.feature_records.viewModel.RecordsContainerViewModel
+import com.example.util.simpletimetracker.navigation.Notification
 import com.example.util.simpletimetracker.navigation.Router
-import com.example.util.simpletimetracker.navigation.model.SnackBarMessage
+import com.example.util.simpletimetracker.navigation.params.SnackBarParams
 import kotlinx.android.synthetic.main.records_container_fragment.*
 import javax.inject.Inject
 
@@ -88,9 +89,9 @@ class RecordsContainerFragment : BaseFragment(R.layout.records_container_fragmen
         btnRecordsContainerToday.text = title
     }
 
-    private fun showMessage(message: SnackBarMessage?) {
+    private fun showMessage(message: SnackBarParams?) {
         message?.let {
-            router.showSnackBar(btnRecordAdd, message)
+            router.show(Notification.SNACK_BAR, message, btnRecordAdd)
             removeRecordViewModel.onMessageShown()
         }
     }

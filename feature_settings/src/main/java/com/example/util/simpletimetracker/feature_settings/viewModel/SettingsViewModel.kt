@@ -13,12 +13,14 @@ import com.example.util.simpletimetracker.feature_settings.R
 import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
 import com.example.util.simpletimetracker.feature_settings.viewData.CardOrderViewData
 import com.example.util.simpletimetracker.navigation.Action
+import com.example.util.simpletimetracker.navigation.Notification
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
 import com.example.util.simpletimetracker.navigation.params.FileChooserParams
 import com.example.util.simpletimetracker.navigation.params.OpenMarketParams
 import com.example.util.simpletimetracker.navigation.params.SendEmailParams
 import com.example.util.simpletimetracker.navigation.params.StandardDialogParams
+import com.example.util.simpletimetracker.navigation.params.ToastParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -95,8 +97,8 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun onSaveClick() {
-        router.navigate(
-            Screen.CREATE_FILE,
+        router.execute(
+            Action.CREATE_FILE,
             FileChooserParams(::onFileCreateError)
         )
     }
@@ -114,8 +116,8 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun onExportCsvClick() {
-        router.navigate(
-            Screen.CREATE_CSV_FILE,
+        router.execute(
+            Action.CREATE_CSV_FILE,
             FileChooserParams(::onFileCreateError)
         )
     }
@@ -135,7 +137,8 @@ class SettingsViewModel @Inject constructor(
             data = SendEmailParams(
                 email = resourceRepo.getString(R.string.support_email),
                 subject = resourceRepo.getString(R.string.support_email_subject),
-                chooserTitle = resourceRepo.getString(R.string.settings_email_chooser_title)
+                chooserTitle = resourceRepo.getString(R.string.settings_email_chooser_title),
+                notHandledCallback = { R.string.message_app_not_found.let(::showMessage) }
             )
         )
     }
@@ -198,8 +201,8 @@ class SettingsViewModel @Inject constructor(
 
     fun onPositiveDialogClick(tag: String?) {
         when (tag) {
-            ALERT_DIALOG_TAG -> router.navigate(
-                Screen.OPEN_FILE,
+            ALERT_DIALOG_TAG -> router.execute(
+                Action.OPEN_FILE,
                 FileChooserParams(::onFileOpenError)
             )
         }
@@ -222,7 +225,9 @@ class SettingsViewModel @Inject constructor(
     }
 
     private fun showMessage(stringResId: Int) {
-        stringResId.let(resourceRepo::getString).let(router::showSystemMessage)
+        stringResId
+            .let(resourceRepo::getString)
+            .let { router.show(Notification.TOAST, ToastParams(it)) }
     }
 
     private suspend fun updateCardOrderViewData() {

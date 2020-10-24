@@ -4,5 +4,6 @@ data class SendEmailParams(
     val email: String? = "",
     val subject: String? = "",
     val body: String? = "",
-    val chooserTitle: String? = null
+    val chooserTitle: String? = null,
+    val notHandledCallback: (() -> Unit)?
 )

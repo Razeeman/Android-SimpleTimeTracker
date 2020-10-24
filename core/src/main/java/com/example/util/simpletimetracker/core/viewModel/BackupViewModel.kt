@@ -10,7 +10,9 @@ import com.example.util.simpletimetracker.domain.interactor.BackupInteractor
 import com.example.util.simpletimetracker.domain.interactor.CsvExportInteractor
 import com.example.util.simpletimetracker.domain.resolver.BackupRepo
 import com.example.util.simpletimetracker.domain.resolver.CsvRepo
+import com.example.util.simpletimetracker.navigation.Notification
 import com.example.util.simpletimetracker.navigation.Router
+import com.example.util.simpletimetracker.navigation.params.ToastParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -66,7 +68,9 @@ class BackupViewModel @Inject constructor(
     }
 
     private fun showMessage(stringResId: Int) {
-        stringResId.let(resourceRepo::getString).let(router::showSystemMessage)
+        stringResId
+            .let(resourceRepo::getString)
+            .let { router.show(Notification.TOAST, ToastParams(it)) }
     }
 
     private fun showProgress(isVisible: Boolean) {

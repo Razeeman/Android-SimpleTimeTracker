@@ -4,8 +4,6 @@ import android.content.ContentResolver
 import android.content.Context
 import com.example.util.simpletimetracker.TimeTrackerApp
 import com.example.util.simpletimetracker.domain.di.AppContext
-import com.example.util.simpletimetracker.navigation.Router
-import com.example.util.simpletimetracker.navigation.RouterImpl
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -20,12 +18,6 @@ class AppModule(application: TimeTrackerApp) {
     @AppContext
     fun getAppContext(): Context {
         return appContext
-    }
-
-    @Provides
-    @Singleton
-    fun getRouter(routerImpl: RouterImpl): Router {
-        return routerImpl
     }
 
     @Provides

@@ -24,6 +24,7 @@ import javax.inject.Singleton
 @Component(
     modules = [
         AppModule::class,
+        NavigationModule::class,
         DataLocalModule::class,
         WidgetModule::class,
         NotificationModule::class

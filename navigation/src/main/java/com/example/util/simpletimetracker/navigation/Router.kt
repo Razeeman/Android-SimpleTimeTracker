@@ -2,32 +2,29 @@ package com.example.util.simpletimetracker.navigation
 
 import android.app.Activity
 import android.content.Intent
-import android.view.View
-import com.example.util.simpletimetracker.navigation.model.SnackBarMessage
 
-abstract class Router {
+interface Router {
 
-    abstract fun bind(activity: Activity)
+    fun bind(activity: Activity)
 
-    abstract fun navigate(
+    fun navigate(
         screen: Screen,
         data: Any? = null,
         sharedElements: Map<Any, String>? = null
     )
 
-    abstract fun execute(
+    fun execute(
         action: Action,
         data: Any? = null
     )
 
-    abstract fun back()
-
-    abstract fun showSystemMessage(message: String)
-
-    abstract fun showSnackBar(
-        view: View,
-        snackBarMessage: SnackBarMessage
+    fun show(
+        notification: Notification,
+        data: Any? = null,
+        anchor: Any? = null // should be a view
     )
 
-    abstract fun getMainStartIntent(): Intent
+    fun back()
+
+    fun getMainStartIntent(): Intent
 }

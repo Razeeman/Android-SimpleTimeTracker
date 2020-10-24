@@ -1,6 +1,6 @@
-package com.example.util.simpletimetracker.navigation.model
+package com.example.util.simpletimetracker.navigation.params
 
-data class SnackBarMessage(
+data class SnackBarParams(
     val message: String,
     val anchorToView: Boolean = true,
     val dismissedListener: (() -> Unit)? = null,

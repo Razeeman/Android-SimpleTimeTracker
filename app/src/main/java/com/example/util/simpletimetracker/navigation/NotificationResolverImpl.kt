@@ -1,0 +1,56 @@
+package com.example.util.simpletimetracker.navigation
+
+import android.app.Activity
+import android.graphics.Color
+import android.view.View
+import android.widget.TextView
+import android.widget.Toast
+import com.example.util.simpletimetracker.navigation.params.SnackBarParams
+import com.example.util.simpletimetracker.navigation.params.ToastParams
+import com.google.android.material.snackbar.Snackbar
+import javax.inject.Inject
+
+class NotificationResolverImpl @Inject constructor() : NotificationResolver {
+
+    override fun show(activity: Activity?, notification: Notification, data: Any?, anchor: Any?) {
+        when (notification) {
+            Notification.TOAST -> showSystemMessage(activity, data)
+            Notification.SNACK_BAR -> showSnackBar(data, anchor)
+        }
+    }
+
+    private fun showSystemMessage(activity: Activity?, data: Any?) {
+        if (data !is ToastParams) return
+
+        Toast.makeText(activity?.applicationContext, data.message, Toast.LENGTH_LONG).show()
+    }
+
+    private fun showSnackBar(data: Any?, anchor: Any?) {
+        if (data !is SnackBarParams || anchor !is View) return
+
+        val snackBar = Snackbar.make(anchor, data.message, 5000)
+
+        val textViewId = com.google.android.material.R.id.snackbar_text
+        snackBar.view.findViewById<TextView>(textViewId)?.setTextColor(Color.WHITE)
+
+        if (data.anchorToView) {
+            snackBar.anchorView = anchor
+        }
+
+        snackBar.addCallback(object : Snackbar.Callback() {
+            override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                if (event != DISMISS_EVENT_ACTION) {
+                    data.dismissedListener?.invoke()
+                }
+            }
+        })
+
+        if (data.actionText.isNotEmpty()) {
+            data.actionListener?.let {
+                snackBar.setAction(data.actionText) { it() }
+            }
+        }
+
+        snackBar.show()
+    }
+}

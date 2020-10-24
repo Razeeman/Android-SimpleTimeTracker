@@ -24,7 +24,9 @@ import com.example.util.simpletimetracker.feature_change_record_type.R
 import com.example.util.simpletimetracker.feature_change_record_type.extra.ChangeRecordTypeExtra
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeColorViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconViewData
+import com.example.util.simpletimetracker.navigation.Notification
 import com.example.util.simpletimetracker.navigation.Router
+import com.example.util.simpletimetracker.navigation.params.ToastParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -134,8 +136,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
                     )
                     removeRunningRecordMediator.remove(extra.id)
                 }
-                resourceRepo.getString(R.string.change_record_type_removed)
-                    .let(router::showSystemMessage)
+                showMessage(R.string.change_record_type_removed)
                 (keyboardVisibility as MutableLiveData).value = false
                 router.back()
             }
@@ -144,8 +145,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
 
     fun onSaveClick() {
         if (newName.isEmpty()) {
-            resourceRepo.getString(R.string.change_record_message_choose_name)
-                .let(router::showSystemMessage)
+            showMessage(R.string.change_record_message_choose_name)
             return
         }
         (saveButtonEnabled as MutableLiveData).value = false
@@ -228,5 +228,11 @@ class ChangeRecordTypeViewModel @Inject constructor(
                         .let(resourceRepo::getColor)
                 )
             }
+    }
+
+    private fun showMessage(stringResId: Int) {
+        stringResId
+            .let(resourceRepo::getString)
+            .let { router.show(Notification.TOAST, ToastParams(it)) }
     }
 }

@@ -21,9 +21,11 @@ import com.example.util.simpletimetracker.feature_change_running_record.R
 import com.example.util.simpletimetracker.feature_change_running_record.extra.ChangeRunningRecordExtra
 import com.example.util.simpletimetracker.feature_change_running_record.mapper.ChangeRunningRecordViewDataMapper
 import com.example.util.simpletimetracker.feature_change_running_record.viewData.ChangeRunningRecordViewData
+import com.example.util.simpletimetracker.navigation.Notification
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
 import com.example.util.simpletimetracker.navigation.params.DateTimeDialogParams
+import com.example.util.simpletimetracker.navigation.params.ToastParams
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.delay
@@ -87,16 +89,14 @@ class ChangeRunningRecordViewModel @Inject constructor(
         (deleteButtonEnabled as MutableLiveData).value = false
         viewModelScope.launch {
             removeRunningRecordMediator.remove(extra.id)
-            resourceRepo.getString(R.string.change_running_record_removed)
-                .let(router::showSystemMessage)
+            showMessage(R.string.change_running_record_removed)
             router.back()
         }
     }
 
     fun onSaveClick() {
         if (newTypeId == 0L) {
-            resourceRepo.getString(R.string.change_running_record_message_choose_type)
-                .let(router::showSystemMessage)
+            showMessage(R.string.change_running_record_message_choose_type)
             return
         }
         (saveButtonEnabled as MutableLiveData).value = false
@@ -187,6 +187,12 @@ class ChangeRunningRecordViewModel @Inject constructor(
         viewModelScope.launch {
             timerJob?.cancelAndJoin()
         }
+    }
+
+    private fun showMessage(stringResId: Int) {
+        stringResId
+            .let(resourceRepo::getString)
+            .let { router.show(Notification.TOAST, ToastParams(it)) }
     }
 
     companion object {

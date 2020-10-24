@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.R
-import com.example.util.simpletimetracker.navigation.model.SnackBarMessage
+import com.example.util.simpletimetracker.navigation.params.SnackBarParams
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
@@ -21,7 +21,7 @@ class RemoveRecordViewModel @Inject constructor(
 
     val deleteButtonEnabled: LiveData<Boolean> = MutableLiveData()
     val deleteIconVisibility: LiveData<Boolean> = MutableLiveData()
-    val message: LiveData<SnackBarMessage?> = MutableLiveData()
+    val message: LiveData<SnackBarParams?> = MutableLiveData()
     val needUpdate: LiveData<Boolean> = MutableLiveData()
 
     private var recordId: Long = 0
@@ -45,7 +45,7 @@ class RemoveRecordViewModel @Inject constructor(
                 recordInteractor.remove(recordId)
                 (needUpdate as MutableLiveData).value = true
 
-                (message as MutableLiveData).value = SnackBarMessage(
+                (message as MutableLiveData).value = SnackBarParams(
                     message = resourceRepo.getString(R.string.record_removed, removedName),
                     actionText = R.string.record_removed_undo.let(resourceRepo::getString),
                     actionListener = { removedRecord?.let(::onAction) }

@@ -20,9 +20,11 @@ import com.example.util.simpletimetracker.feature_change_record.R
 import com.example.util.simpletimetracker.feature_change_record.extra.ChangeRecordExtra
 import com.example.util.simpletimetracker.feature_change_record.mapper.ChangeRecordViewDataMapper
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordViewData
+import com.example.util.simpletimetracker.navigation.Notification
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
 import com.example.util.simpletimetracker.navigation.params.DateTimeDialogParams
+import com.example.util.simpletimetracker.navigation.params.ToastParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -92,8 +94,7 @@ class ChangeRecordViewModel @Inject constructor(
 
     fun onSaveClick() {
         if (newTypeId == 0L) {
-            resourceRepo.getString(R.string.message_choose_type)
-                .let(router::showSystemMessage)
+            showMessage(R.string.message_choose_type)
             return
         }
         (saveButtonEnabled as MutableLiveData).value = false
@@ -189,6 +190,12 @@ class ChangeRecordViewModel @Inject constructor(
         return recordTypeInteractor.getAll()
             .filter { !it.hidden }
             .map { recordTypeViewDataMapper.map(it, numberOfCards, isDarkTheme) }
+    }
+
+    private fun showMessage(stringResId: Int) {
+        stringResId
+            .let(resourceRepo::getString)
+            .let { router.show(Notification.TOAST, ToastParams(it)) }
     }
 
     companion object {
