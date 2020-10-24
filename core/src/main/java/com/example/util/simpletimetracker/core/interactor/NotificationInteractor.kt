@@ -84,7 +84,8 @@ class NotificationInteractor @Inject constructor(
                 text = recordType.name,
                 description = runningRecord.timeStarted
                     .let(timeMapper::formatTime)
-                    .let { resourceRepo.getString(R.string.notification_time_started, it) }
+                    .let { resourceRepo.getString(R.string.notification_time_started, it) },
+                startedTimeStamp = runningRecord.timeStarted
             )
         )
     }

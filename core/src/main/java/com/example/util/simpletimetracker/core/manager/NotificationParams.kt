@@ -5,5 +5,6 @@ data class NotificationParams(
     val icon: Int,
     val color: Int,
     val text: String,
-    val description: String
+    val description: String,
+    val startedTimeStamp: Long
 )

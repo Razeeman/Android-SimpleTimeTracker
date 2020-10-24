@@ -69,6 +69,8 @@ class NotificationManagerImpl @Inject constructor(
             .setCustomContentView(notificationLayout)
             .setStyle(NotificationCompat.DecoratedCustomViewStyle())
             .setPriority(NotificationCompat.PRIORITY_LOW) // no sound
+            .setUsesChronometer(true)
+            .setWhen(params.startedTimeStamp)
         return builder.build().apply {
             flags = flags or Notification.FLAG_NO_CLEAR
         }
