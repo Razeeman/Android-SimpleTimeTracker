@@ -23,7 +23,7 @@ import org.junit.runner.RunWith
 class StartRecordTest : BaseUiTest() {
 
     @Test
-    fun test() {
+    fun startRecord() {
         val name = "Test1"
         val newName = "Test2"
         val firstColor = ColorMapper.getAvailableColors().first()

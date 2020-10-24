@@ -23,7 +23,7 @@ import org.junit.runner.RunWith
 class StatisticsRangesTest : BaseUiTest() {
 
     @Test
-    fun test() {
+    fun statisticsRanges() {
         val name = "Test"
 
         // Add activity

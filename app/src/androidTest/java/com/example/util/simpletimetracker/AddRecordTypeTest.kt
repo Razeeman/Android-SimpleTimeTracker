@@ -24,7 +24,7 @@ import org.junit.runner.RunWith
 class AddRecordTypeTest : BaseUiTest() {
 
     @Test
-    fun test() {
+    fun addRecordType() {
         val name = "Test"
         val firstColor = ColorMapper.getAvailableColors().first()
         val lastColor = ColorMapper.getAvailableColors().last()

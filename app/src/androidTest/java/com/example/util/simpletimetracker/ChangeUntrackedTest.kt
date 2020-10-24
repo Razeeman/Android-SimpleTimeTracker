@@ -28,7 +28,7 @@ import org.junit.runner.RunWith
 class ChangeUntrackedTest : BaseUiTest() {
 
     @Test
-    fun test() {
+    fun changeUntracked() {
         val name = "Test"
         val color = ColorMapper.getAvailableColors().first()
         val icon = iconMapper.availableIconsNames.values.first()

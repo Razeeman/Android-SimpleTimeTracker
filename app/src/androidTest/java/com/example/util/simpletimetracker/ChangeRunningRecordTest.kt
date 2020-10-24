@@ -33,7 +33,7 @@ import java.util.Calendar
 class ChangeRunningRecordTest : BaseUiTest() {
 
     @Test
-    fun test() {
+    fun changeRunningRecord() {
         val name = "Test1"
         val newName = "Test2"
         val firstColor = ColorMapper.getAvailableColors().first()

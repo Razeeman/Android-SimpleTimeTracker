@@ -32,7 +32,7 @@ import java.util.Calendar
 class AddRecordTest : BaseUiTest() {
 
     @Test
-    fun test() {
+    fun addRecord() {
         val name = "Name"
         val color = ColorMapper.getAvailableColors().first()
         val icon = iconMapper.availableIconsNames.values.first()

@@ -24,7 +24,7 @@ import org.junit.runner.RunWith
 class StatisticsTest : BaseUiTest() {
 
     @Test
-    fun test() {
+    fun statistics() {
         val name = "Test1"
         val newName = "Test2"
         val firstColor = ColorMapper.getAvailableColors().first()

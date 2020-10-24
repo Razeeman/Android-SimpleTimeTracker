@@ -15,7 +15,7 @@ import org.junit.runner.RunWith
 class MessagesTest : BaseUiTest() {
 
     @Test
-    fun test() {
+    fun messages() {
         // Activity with no name
         clickOnViewWithText(R.string.running_records_add_type)
         clickOnViewWithText(R.string.change_record_type_save)

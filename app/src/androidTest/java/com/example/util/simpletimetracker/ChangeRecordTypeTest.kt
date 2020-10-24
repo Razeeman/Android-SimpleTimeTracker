@@ -27,7 +27,7 @@ import org.junit.runner.RunWith
 class ChangeRecordTypeTest : BaseUiTest() {
 
     @Test
-    fun test() {
+    fun changeRecordType() {
         val name = "Test"
         val newName = "Updated"
         val firstColor = ColorMapper.getAvailableColors().first()

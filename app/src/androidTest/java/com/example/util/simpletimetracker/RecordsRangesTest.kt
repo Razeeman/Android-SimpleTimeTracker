@@ -29,7 +29,7 @@ import java.util.Locale
 class RecordsRangesTest : BaseUiTest() {
 
     @Test
-    fun ranges() {
+    fun recordsRanges() {
         val name = "Test"
 
         // Add activity

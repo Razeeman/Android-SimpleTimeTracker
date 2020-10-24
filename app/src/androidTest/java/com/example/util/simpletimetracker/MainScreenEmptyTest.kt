@@ -24,7 +24,7 @@ import org.junit.runner.RunWith
 class MainScreenEmptyTest : BaseUiTest() {
 
     @Test
-    fun test() {
+    fun mainScreenEmpty() {
         val name = "Test"
 
         // Empty main

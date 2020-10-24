@@ -31,7 +31,7 @@ import org.junit.runner.RunWith
 class StatisticsDetailTest : BaseUiTest() {
 
     @Test
-    fun test() {
+    fun statisticsDetail() {
         val name = "Test"
         val color = ColorMapper.getAvailableColors().first()
         val icon = iconMapper.availableIconsNames.values.first()

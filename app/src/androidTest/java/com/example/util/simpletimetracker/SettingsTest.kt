@@ -406,4 +406,40 @@ class SettingsTest : BaseUiTest() {
         unconstrainedClickOnView(withId(R.id.checkboxSettingsShowNotifications))
         onView(withId(R.id.checkboxSettingsShowNotifications)).check(matches(isNotChecked()))
     }
+
+    @Test
+    fun enableEnableDarkMode() {
+        val name1 = "Test1"
+        val name2 = "Test2"
+
+        // Add activities
+        NavUtils.addActivity(name1)
+        NavUtils.addActivity(name2)
+
+        // Start one timer
+        clickOnViewWithText(name1)
+
+        // Change settings
+        NavUtils.openSettingsScreen()
+        onView(withId(R.id.checkboxSettingsDarkMode)).check(matches(isNotChecked()))
+        unconstrainedClickOnView(withId(R.id.checkboxSettingsDarkMode))
+        onView(withId(R.id.checkboxSettingsDarkMode)).check(matches(isChecked()))
+
+        // Check screens
+        NavUtils.openRunningRecordsScreen()
+        NavUtils.openRecordsScreen()
+        NavUtils.openStatisticsScreen()
+
+        // Change settings
+        NavUtils.openSettingsScreen()
+        onView(withId(R.id.checkboxSettingsDarkMode)).check(matches(isChecked()))
+        unconstrainedClickOnView(withId(R.id.checkboxSettingsDarkMode))
+        onView(withId(R.id.checkboxSettingsDarkMode)).check(matches(isNotChecked()))
+
+        // Check screens
+        NavUtils.openRunningRecordsScreen()
+        NavUtils.openRecordsScreen()
+        NavUtils.openStatisticsScreen()
+        NavUtils.openSettingsScreen()
+    }
 }

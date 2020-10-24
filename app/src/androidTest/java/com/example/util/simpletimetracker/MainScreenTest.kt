@@ -24,7 +24,7 @@ import org.junit.runner.RunWith
 class MainScreenTest : BaseUiTest() {
 
     @Test
-    fun test() {
+    fun mainScreen() {
         val name = "Test"
 
         // Add activity

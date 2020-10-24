@@ -23,7 +23,7 @@ import org.junit.runner.RunWith
 class DeleteRecordTypeTest : BaseUiTest() {
 
     @Test
-    fun test() {
+    fun deleteRecordType() {
         val name = "Test"
         val color = ColorMapper.getAvailableColors().first()
         val icon = iconMapper.availableIconsNames.values.first()
