@@ -40,4 +40,6 @@ dependencies {
     api(Deps.Ktx.liveData)
     api(Deps.Ktx.viewModel)
     api(Deps.UiTest.espressoIdling)
+
+    testImplementation(Deps.Test.junit)
 }

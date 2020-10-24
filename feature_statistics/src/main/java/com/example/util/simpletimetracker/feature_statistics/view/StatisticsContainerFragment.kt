@@ -5,6 +5,7 @@ import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
+import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
 import com.example.util.simpletimetracker.core.extension.flipVisibility
 import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.core.extension.setOnLongClick
@@ -18,7 +19,8 @@ import com.example.util.simpletimetracker.feature_statistics.viewModel.Statistic
 import kotlinx.android.synthetic.main.statistics_container_fragment.*
 import javax.inject.Inject
 
-class StatisticsContainerFragment : BaseFragment(R.layout.statistics_container_fragment) {
+class StatisticsContainerFragment : BaseFragment(R.layout.statistics_container_fragment),
+    DateTimeDialogListener {
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<StatisticsContainerViewModel>
@@ -28,14 +30,14 @@ class StatisticsContainerFragment : BaseFragment(R.layout.statistics_container_f
     )
 
     private var adapter: StatisticsContainerAdapter? = null
-    private val adapterRange: StatisticsRangeAdapter by lazy {
-        StatisticsRangeAdapter(viewModel::onRangeClick)
+    private val adapterButtons: StatisticsRangeAdapter by lazy {
+        StatisticsRangeAdapter(viewModel::onRangeClick, viewModel::onSelectDateClick)
     }
 
     override fun initUi() {
         rvStatisticsRanges.apply {
             layoutManager = LinearLayoutManager(requireContext())
-            adapter = adapterRange
+            adapter = adapterButtons
         }
     }
 
@@ -52,10 +54,14 @@ class StatisticsContainerFragment : BaseFragment(R.layout.statistics_container_f
         btnStatisticsContainerToday.setOnLongClick(viewModel::onTodayClick)
     }
 
+    override fun onDateTimeSet(timestamp: Long, tag: String?) {
+        viewModel.onDateTimeSet(timestamp, tag)
+    }
+
     override fun initViewModel(): Unit = with(viewModel) {
         title.observe(viewLifecycleOwner, ::updateTitle)
         rangeLength.observe(viewLifecycleOwner, ::updateRange)
-        ranges.observe(viewLifecycleOwner, adapterRange::replace)
+        buttons.observe(viewLifecycleOwner, adapterButtons::replaceAsNew)
         position.observe(viewLifecycleOwner, ::updatePosition)
     }
 

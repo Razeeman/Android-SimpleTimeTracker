@@ -6,6 +6,7 @@
     <string name="title_this_week">This week</string>
     <string name="title_this_month">This month</string>
     <string name="title_overall">Overall</string>
+    <string name="title_select_date">Select date</string>
 
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>

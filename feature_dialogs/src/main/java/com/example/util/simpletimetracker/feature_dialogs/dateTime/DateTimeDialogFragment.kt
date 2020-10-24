@@ -23,7 +23,7 @@ class DateTimeDialogFragment : AppCompatDialogFragment(),
     DateDialogFragment.OnDateSetListener,
     TimeDialogFragment.OnTimeSetListener {
 
-    private var dateTimeDialogListener: DateTimeDialogListener? = null
+    private var dateTimeDialogListeners: MutableList<DateTimeDialogListener> = mutableListOf()
     private val dialogTag: String? by lazy {
         arguments?.getString(ARGS_TAG)
     }
@@ -41,13 +41,13 @@ class DateTimeDialogFragment : AppCompatDialogFragment(),
         super.onAttach(context)
         when (context) {
             is DateTimeDialogListener -> {
-                dateTimeDialogListener = context
+                dateTimeDialogListeners.add(context)
                 return
             }
             is AppCompatActivity -> {
-                context.getAllFragments()
-                    .firstOrNull { it is DateTimeDialogListener }
-                    ?.let { dateTimeDialogListener = it as? DateTimeDialogListener }
+                context.getAllFragments().forEach {
+                    (it as? DateTimeDialogListener)?.let(dateTimeDialogListeners::add)
+                }
             }
         }
     }
@@ -68,7 +68,7 @@ class DateTimeDialogFragment : AppCompatDialogFragment(),
         initTabs()
 
         btnDateTimeDialogPositive.setOnClickListener {
-            dateTimeDialogListener?.onDateTimeSet(newTimestamp, dialogTag)
+            dateTimeDialogListeners.forEach { it.onDateTimeSet(newTimestamp, dialogTag) }
             dismiss()
         }
     }

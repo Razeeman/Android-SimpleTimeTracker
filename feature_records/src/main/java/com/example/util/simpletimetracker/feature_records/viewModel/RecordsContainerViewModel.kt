@@ -36,7 +36,8 @@ class RecordsContainerViewModel @Inject constructor(
     }
 
     fun onTodayClick() {
-        val current = timeMapper.toTimestampShifted(position.value.orZero())
+        val current = timeMapper.toTimestampShifted(position.value.orZero(), TimeMapper.Range.DAY)
+
         router.navigate(
             Screen.DATE_TIME_DIALOG,
             DateTimeDialogParams(
@@ -59,7 +60,7 @@ class RecordsContainerViewModel @Inject constructor(
         when (tag) {
             DATE_TAG -> {
                 timestamp
-                    .let(timeMapper::toTimestampShift)
+                    .let{ timeMapper.toTimestampShift(it, TimeMapper.Range.DAY) }
                     .toInt()
                     .let(::updatePosition)
             }
@@ -76,6 +77,6 @@ class RecordsContainerViewModel @Inject constructor(
     }
 
     companion object {
-        private const val DATE_TAG = "date_tag"
+        private const val DATE_TAG = "records_date_tag"
     }
 }

@@ -12,6 +12,10 @@ class TimeMapper @Inject constructor(
     private val resourceRepo: ResourceRepo
 ) {
 
+    enum class Range {
+        DAY, WEEK, MONTH
+    }
+
     private val calendar = Calendar.getInstance()
     private val timeFormat = SimpleDateFormat("kk:mm", Locale.US)
     private val dateFormat = SimpleDateFormat("MMM d kk:mm", Locale.US)
@@ -38,12 +42,18 @@ class TimeMapper @Inject constructor(
     fun formatIntervalWithSeconds(interval: Long): String =
         formatInterval(interval, withSeconds = true)
 
-    fun toTimestampShifted(daysFromToday: Int): Long {
-        return if (daysFromToday != 0) {
+    fun toTimestampShifted(rangesFromToday: Int, range: Range): Long {
+        val calendarStep = when (range) {
+            Range.DAY -> Calendar.DAY_OF_YEAR
+            Range.WEEK -> Calendar.WEEK_OF_YEAR
+            Range.MONTH -> Calendar.MONTH
+        }
+
+        return if (rangesFromToday != 0) {
             calendar
                 .apply {
                     timeInMillis = System.currentTimeMillis()
-                    add(Calendar.DATE, daysFromToday)
+                    add(calendarStep, rangesFromToday)
                 }
                 .timeInMillis
         } else {
@@ -51,15 +61,23 @@ class TimeMapper @Inject constructor(
         }
     }
 
-    fun toTimestampShift(toTime: Long): Long {
+    fun toTimestampShift(toTime: Long, range: Range): Long {
+        val calendarStep = when (range) {
+            Range.DAY -> Calendar.DAY_OF_YEAR
+            Range.WEEK -> Calendar.WEEK_OF_YEAR
+            Range.MONTH -> Calendar.MONTH
+        }
+
         val current = System.currentTimeMillis()
-        var result = 0
+        var result = 0L
 
         calendar.timeInMillis = toTime
-        result += calendar.get(Calendar.DAY_OF_YEAR)
+        result += calendar.get(calendarStep)
+        if (calendarStep == Calendar.MONTH) result++
 
         calendar.timeInMillis = current
-        result -= calendar.get(Calendar.DAY_OF_YEAR)
+        result -= calendar.get(calendarStep)
+        if (calendarStep == Calendar.MONTH) result--
 
         val yearInFuture: Int
         val shiftDirection: Int
@@ -74,11 +92,12 @@ class TimeMapper @Inject constructor(
         }
 
         while (calendar.get(Calendar.YEAR) != yearInFuture) {
-            result -= shiftDirection * calendar.getActualMaximum(Calendar.DAY_OF_YEAR)
+            result -= shiftDirection * calendar.getActualMaximum(calendarStep)
+            if (calendarStep == Calendar.MONTH) result -= shiftDirection
             calendar.add(Calendar.YEAR, 1)
         }
 
-        return result.toLong()
+        return result
     }
 
     fun toDayTitle(daysFromToday: Int): String {

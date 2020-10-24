@@ -13,6 +13,7 @@ import com.example.util.simpletimetracker.feature_statistics.customView.PiePorti
 import com.example.util.simpletimetracker.feature_statistics.viewData.RangeLength
 import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsChartViewData
 import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsRangeViewData
+import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsSelectDateViewData
 import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsViewData
 import javax.inject.Inject
 
@@ -77,8 +78,14 @@ class StatisticsViewDataMapper @Inject constructor(
         )
     }
 
-    fun mapToRanges(): List<StatisticsRangeViewData> {
-        return listOf(
+    fun mapToButtons(addSelectDate: Boolean): List<ViewHolderType> {
+        val selectDateButton = if (addSelectDate) {
+            listOf(StatisticsSelectDateViewData(name = "Select date"))
+        } else {
+            emptyList()
+        }
+
+        return selectDateButton + listOf(
             RangeLength.ALL,
             RangeLength.MONTH,
             RangeLength.WEEK,

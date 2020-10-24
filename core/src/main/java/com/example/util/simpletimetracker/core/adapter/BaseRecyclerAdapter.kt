@@ -53,4 +53,10 @@ open class BaseRecyclerAdapter : RecyclerView.Adapter<BaseRecyclerViewHolder>() 
         DiffUtil.calculateDiff(DiffUtilCallback(oldItems, items))
             .dispatchUpdatesTo(this)
     }
+
+    fun replaceAsNew(newItems: List<ViewHolderType>) {
+        items.clear()
+        items.addAll(newItems)
+        notifyDataSetChanged()
+    }
 }

@@ -1,11 +1,12 @@
 package com.example.util.simpletimetracker
 
 import android.widget.DatePicker
-import androidx.test.espresso.Espresso
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.contrib.PickerActions
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
+import androidx.test.espresso.matcher.ViewMatchers.withClassName
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -17,8 +18,8 @@ import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.longClickOnViewWithId
 import com.example.util.simpletimetracker.utils.typeTextIntoView
-import org.hamcrest.CoreMatchers
 import org.hamcrest.CoreMatchers.allOf
+import org.hamcrest.CoreMatchers.equalTo
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.text.SimpleDateFormat
@@ -85,7 +86,7 @@ class RecordsRangesTest : BaseUiTest() {
 
         // Check yesterday
         clickOnViewWithId(R.id.btnRecordsContainerToday)
-        Espresso.onView(ViewMatchers.withClassName(CoreMatchers.equalTo(DatePicker::class.java.name)))
+        onView(withClassName(equalTo(DatePicker::class.java.name)))
             .perform(
                 PickerActions.setDate(
                     calendarPrev.get(Calendar.YEAR),
@@ -104,7 +105,7 @@ class RecordsRangesTest : BaseUiTest() {
 
         // Check tomorrow
         clickOnViewWithId(R.id.btnRecordsContainerToday)
-        Espresso.onView(ViewMatchers.withClassName(CoreMatchers.equalTo(DatePicker::class.java.name)))
+        onView(withClassName(equalTo(DatePicker::class.java.name)))
             .perform(
                 PickerActions.setDate(
                     calendarNext.get(Calendar.YEAR),
@@ -141,7 +142,7 @@ class RecordsRangesTest : BaseUiTest() {
 
         // Check prev date
         clickOnViewWithId(R.id.btnRecordsContainerToday)
-        Espresso.onView(ViewMatchers.withClassName(CoreMatchers.equalTo(DatePicker::class.java.name)))
+        onView(withClassName(equalTo(DatePicker::class.java.name)))
             .perform(
                 PickerActions.setDate(
                     calendarPrev.get(Calendar.YEAR),
@@ -160,7 +161,7 @@ class RecordsRangesTest : BaseUiTest() {
 
         // Check next date
         clickOnViewWithId(R.id.btnRecordsContainerToday)
-        Espresso.onView(ViewMatchers.withClassName(CoreMatchers.equalTo(DatePicker::class.java.name)))
+        onView(withClassName(equalTo(DatePicker::class.java.name)))
             .perform(
                 PickerActions.setDate(
                     calendarNext.get(Calendar.YEAR),
