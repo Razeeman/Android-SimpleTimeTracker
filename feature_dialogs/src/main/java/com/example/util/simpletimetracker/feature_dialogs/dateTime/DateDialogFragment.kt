@@ -49,6 +49,10 @@ class DateDialogFragment : Fragment() {
         }
     }
 
+    fun getSelectedDate(): Triple<Int, Int, Int> {
+        return Triple(datePicker.year, datePicker.month, datePicker.dayOfMonth)
+    }
+
     companion object {
         private const val ARGS_TIMESTAMP = "args_timestamp"
 

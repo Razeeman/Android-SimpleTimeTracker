@@ -50,6 +50,10 @@ class TimeDialogFragment : Fragment() {
         }
     }
 
+    fun getSelectedTime(): Pair<Int, Int> {
+        return timePicker.currentHour to timePicker.currentMinute
+    }
+
     companion object {
         private const val ARGS_TIMESTAMP = "args_timestamp"
 

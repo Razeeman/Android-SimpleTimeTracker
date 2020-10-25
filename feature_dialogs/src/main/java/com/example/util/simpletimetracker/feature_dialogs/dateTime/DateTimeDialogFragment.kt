@@ -23,6 +23,8 @@ class DateTimeDialogFragment : AppCompatDialogFragment(),
     DateDialogFragment.OnDateSetListener,
     TimeDialogFragment.OnTimeSetListener {
 
+    private var timeDialogFragment: TimeDialogFragment? = null
+    private var dateDialogFragment: DateDialogFragment? = null
     private var dateTimeDialogListeners: MutableList<DateTimeDialogListener> = mutableListOf()
     private val dialogTag: String? by lazy {
         arguments?.getString(ARGS_TAG)
@@ -68,6 +70,12 @@ class DateTimeDialogFragment : AppCompatDialogFragment(),
         initTabs()
 
         btnDateTimeDialogPositive.setOnClickListener {
+            timeDialogFragment?.getSelectedTime()?.let { (hour, minute) ->
+                onTimeSet(hour, minute)
+            }
+            dateDialogFragment?.getSelectedDate()?.let { (year, month, day) ->
+                onDateSet(year, month, day)
+            }
             dateTimeDialogListeners.forEach { it.onDateTimeSet(newTimestamp, dialogTag) }
             dismiss()
         }
@@ -98,6 +106,7 @@ class DateTimeDialogFragment : AppCompatDialogFragment(),
                 R.id.datePickerContainer,
                 DateDialogFragment.newInstance(timestamp)
                     .apply { listener = this@DateTimeDialogFragment }
+                    .also { dateDialogFragment = it }
             )
         }
 
@@ -107,6 +116,7 @@ class DateTimeDialogFragment : AppCompatDialogFragment(),
                     R.id.timePickerContainer,
                     TimeDialogFragment.newInstance(timestamp)
                         .apply { listener = this@DateTimeDialogFragment }
+                        .also { timeDialogFragment = it }
                 )
             }
         }
