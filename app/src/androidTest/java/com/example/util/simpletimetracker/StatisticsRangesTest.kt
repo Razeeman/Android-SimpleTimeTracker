@@ -272,13 +272,13 @@ class StatisticsRangesTest : BaseUiTest() {
         NavUtils.openStatisticsScreen()
 
         val calendarPrev = Calendar.getInstance().apply {
-            add(Calendar.WEEK_OF_YEAR, -10000)
+            add(Calendar.WEEK_OF_YEAR, -2500)
         }
-        val titlePrev = timeMapper.toWeekTitle(-10000)
+        val titlePrev = timeMapper.toWeekTitle(-2500)
         val calendarNext = Calendar.getInstance().apply {
-            add(Calendar.WEEK_OF_YEAR, 10000)
+            add(Calendar.WEEK_OF_YEAR, 2500)
         }
-        val titleNext = timeMapper.toWeekTitle(10000)
+        val titleNext = timeMapper.toWeekTitle(2500)
 
         // Check prev date
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
