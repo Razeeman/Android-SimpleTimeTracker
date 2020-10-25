@@ -81,6 +81,14 @@ Simple app that helps track how much time you spend on all the useless activitie
 [![notifications_thumb]][notifications]
 <br>
 
+## Dark mode
+
+[![darkmode1_thumb]][darkmode1]
+[![darkmode2_thumb]][darkmode2]
+[![darkmode3_thumb]][darkmode3]
+[![darkmode4_thumb]][darkmode4]
+<br>
+
 ## Technology stack
 - Kotlin
 - Multi module
@@ -101,6 +109,9 @@ Simple app that helps track how much time you spend on all the useless activitie
 - Shared ViewModels
 - Snackbars with Action
 - Gradle Kotlin DSL
+- Database backup and restore
+- Database export to csv
+- Dark mode
 
 [change_record_activity_thumb]: dev_files/screens/change_record_activity_thumb.png
 [change_record_activity]: dev_files/screens/change_record_activity.png
@@ -163,3 +174,12 @@ Simple app that helps track how much time you spend on all the useless activitie
 
 [notifications_thumb]: dev_files/screens/notifications_thumb.png
 [notifications]: dev_files/screens/notifications.png
+
+[darkmode1_thumb]: dev_files/screens/darkmode1_thumb.png
+[darkmode1]: dev_files/screens/darkmode1.png
+[darkmode2_thumb]: dev_files/screens/darkmode2_thumb.png
+[darkmode2]: dev_files/screens/darkmode2.png
+[darkmode3_thumb]: dev_files/screens/darkmode3_thumb.png
+[darkmode3]: dev_files/screens/darkmode3.png
+[darkmode4_thumb]: dev_files/screens/darkmode4_thumb.png
+[darkmode4]: dev_files/screens/darkmode4.png
