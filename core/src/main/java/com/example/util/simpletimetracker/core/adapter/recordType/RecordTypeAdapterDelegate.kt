@@ -34,6 +34,7 @@ class RecordTypeAdapterDelegate(
             itemIsRow = item.asRow
             itemColor = item.color
             itemIcon = item.iconId
+            itemIconColor = item.iconColor
             itemName = item.name
             onItemClick?.let { setOnClickWith(item, onItemClick) }
         }

@@ -16,16 +16,16 @@
     <color name="textHint">#A1A1A1</color>
     <color name="textHintDark">#4D4D4D</color>
 
-    <color name="colorBackground">#FFFFFF</color>
+    <color name="colorBackground">@color/white</color>
     <color name="colorBackgroundDark">@color/grey_950</color>
 
     <color name="pieChartDivider">#EEEEEE</color>
     <color name="pieChartDividerDark">@color/grey_950</color>
 
-    <color name="cardBackground">#FFFFFF</color>
+    <color name="cardBackground">@color/white</color>
     <color name="cardBackgroundDark">@color/grey_900</color>
 
-    <color name="colorDialogBackground">#FFFFFF</color>
+    <color name="colorDialogBackground">@color/white</color>
     <color name="colorDialogBackgroundDark">@color/grey_900</color>
 
     <color name="colorDivider">@color/blue_grey_50</color>
@@ -44,8 +44,14 @@
     <color name="colorUntracked">@color/blue_grey_300</color>
     <color name="colorUntrackedDark">@color/blue_grey_700</color>
 
+    <color name="colorIcon">@color/grey_50</color>
+    <color name="colorIconDark">@color/grey_100</color>
+
     <color name="colorFiltered">@color/blue_grey_100</color>
-    <color name="colorFilteredDark">@color/blue_grey_400</color>
+    <color name="colorFilteredDark">@color/grey_900</color>
+
+    <color name="colorIconFiltered">@color/grey_50</color>
+    <color name="colorIconFilteredDark">@color/grey_800</color>
 
     <color name="colorActive">@color/blue_grey_800</color>
     <color name="colorActiveDark">@color/blue_grey_900</color>

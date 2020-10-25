@@ -18,18 +18,24 @@ class RecordTypeViewDataMapper @Inject constructor(
             name = recordType.name,
             iconId = recordType.icon
                 .let(iconMapper::mapToDrawableResId),
+            iconColor = colorMapper.toIconColor(isDarkTheme),
             color = recordType.color
                 .let { colorMapper.mapToColorResId(it, isDarkTheme) }
                 .let(resourceRepo::getColor)
         )
     }
 
-    fun map(recordType: RecordType, numberOfCards: Int, isDarkTheme: Boolean): RecordTypeViewData {
+    fun map(
+        recordType: RecordType,
+        numberOfCards: Int,
+        isDarkTheme: Boolean
+    ): RecordTypeViewData {
         return RecordTypeViewData(
             id = recordType.id,
             name = recordType.name,
             iconId = recordType.icon
                 .let(iconMapper::mapToDrawableResId),
+            iconColor = colorMapper.toIconColor(isDarkTheme),
             color = recordType.color
                 .let { colorMapper.mapToColorResId(it, isDarkTheme) }
                 .let(resourceRepo::getColor),
@@ -37,5 +43,23 @@ class RecordTypeViewDataMapper @Inject constructor(
             height = recordTypeCardSizeMapper.toCardHeight(numberOfCards),
             asRow = recordTypeCardSizeMapper.toCardAsRow(numberOfCards)
         )
+    }
+
+    fun mapFiltered(
+        recordType: RecordType,
+        numberOfCards: Int,
+        isDarkTheme: Boolean,
+        isFiltered: Boolean
+    ): RecordTypeViewData {
+        val default = map(recordType, numberOfCards, isDarkTheme)
+
+        return if (isFiltered) {
+            default.copy(
+                color = colorMapper.toFilteredColor(isDarkTheme),
+                iconColor = colorMapper.toFilteredIconColor(isDarkTheme)
+            )
+        } else {
+            default
+        }
     }
 }

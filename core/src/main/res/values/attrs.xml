@@ -18,10 +18,12 @@
     <attr name="appTabUnselectedColor" format="reference" />
     <attr name="appActiveColor" format="reference" />
     <attr name="appInactiveColor" format="reference" />
+    <attr name="appIconColor" format="reference" />
 
     <declare-styleable name="RecordTypeView">
         <attr name="itemName" format="string" />
         <attr name="itemIcon" format="reference" />
+        <attr name="itemIconColor" format="color" />
         <attr name="itemColor" format="color" />
         <attr name="itemUseCompatPadding" format="boolean" />
         <attr name="itemAlpha" format="float" />

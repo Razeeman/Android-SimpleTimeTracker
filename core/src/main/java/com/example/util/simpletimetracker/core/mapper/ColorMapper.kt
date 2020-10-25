@@ -20,11 +20,27 @@ class ColorMapper @Inject constructor(
         }.let(resourceRepo::getColor)
     }
 
+    fun toIconColor(isDarkTheme: Boolean): Int {
+        return if (isDarkTheme) {
+            R.color.colorIconDark
+        } else {
+            R.color.colorIcon
+        }.let(resourceRepo::getColor)
+    }
+
     fun toFilteredColor(isDarkTheme: Boolean): Int {
         return if (isDarkTheme) {
             R.color.colorFilteredDark
         } else {
             R.color.colorFiltered
+        }.let(resourceRepo::getColor)
+    }
+
+    fun toFilteredIconColor(isDarkTheme: Boolean): Int {
+        return if (isDarkTheme) {
+            R.color.colorIconFilteredDark
+        } else {
+            R.color.colorIconFiltered
         }.let(resourceRepo::getColor)
     }
 

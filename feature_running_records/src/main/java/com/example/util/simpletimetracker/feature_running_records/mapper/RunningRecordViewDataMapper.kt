@@ -51,14 +51,11 @@ class RunningRecordViewDataMapper @Inject constructor(
         numberOfCards: Int,
         isDarkTheme: Boolean
     ): RecordTypeViewData {
-        return recordTypeViewDataMapper.map(recordType, numberOfCards, isDarkTheme).copy(
-            color = if (isFiltered) {
-                colorMapper.toFilteredColor(isDarkTheme)
-            } else {
-                recordType.color
-                    .let { colorMapper.mapToColorResId(it, isDarkTheme) }
-                    .let(resourceRepo::getColor)
-            }
+        return recordTypeViewDataMapper.mapFiltered(
+            recordType,
+            numberOfCards,
+            isDarkTheme,
+            isFiltered
         )
     }
 

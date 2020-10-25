@@ -8,6 +8,7 @@ data class RecordTypeViewData(
     val id: Long,
     val name: String,
     @DrawableRes val iconId: Int,
+    @ColorInt val iconColor: Int,
     @ColorInt val color: Int,
     val width: Int? = null,
     val height: Int? = null,

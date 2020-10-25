@@ -22,14 +22,11 @@ class ChartFilterViewDataMapper @Inject constructor(
         numberOfCards: Int,
         isDarkTheme: Boolean
     ): RecordTypeViewData {
-        return recordTypeViewDataMapper.map(recordType, numberOfCards, isDarkTheme).copy(
-            color = if (recordType.id in typeIdsFiltered) {
-                colorMapper.toFilteredColor(isDarkTheme)
-            } else {
-                recordType.color
-                    .let { colorMapper.mapToColorResId(it, isDarkTheme) }
-                    .let(resourceRepo::getColor)
-            }
+        return recordTypeViewDataMapper.mapFiltered(
+            recordType,
+            numberOfCards,
+            isDarkTheme,
+            recordType.id in typeIdsFiltered
         )
     }
 
@@ -43,6 +40,11 @@ class ChartFilterViewDataMapper @Inject constructor(
             name = R.string.untracked_time_name
                 .let(resourceRepo::getString),
             iconId = R.drawable.unknown,
+            iconColor = if (-1L in typeIdsFiltered) {
+                colorMapper.toFilteredIconColor(isDarkTheme)
+            } else {
+                colorMapper.toIconColor(isDarkTheme)
+            },
             color = if (-1L in typeIdsFiltered) {
                 colorMapper.toFilteredColor(isDarkTheme)
             } else {

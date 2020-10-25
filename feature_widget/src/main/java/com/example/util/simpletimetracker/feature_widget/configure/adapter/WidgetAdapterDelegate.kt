@@ -27,6 +27,7 @@ class WidgetAdapterDelegate(
 
             itemColor = item.color
             itemIcon = item.iconId
+            itemIconColor = item.iconColor
             itemName = item.name
             setOnClickWith(item, onItemClick)
         }

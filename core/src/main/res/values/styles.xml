@@ -30,6 +30,7 @@
         <item name="appTabUnselectedColor">@color/colorTabUnselected</item>
         <item name="appActiveColor">@color/colorActive</item>
         <item name="appInactiveColor">@color/colorInactive</item>
+        <item name="appIconColor">@color/colorIcon</item>
     </style>
 
     <style name="AppThemeDark" parent="Theme.MaterialComponents.NoActionBar">
@@ -61,6 +62,7 @@
         <item name="appTabUnselectedColor">@color/colorTabUnselectedDark</item>
         <item name="appActiveColor">@color/colorActiveDark</item>
         <item name="appInactiveColor">@color/colorInactiveDark</item>
+        <item name="appIconColor">@color/colorIconDark</item>
     </style>
 
     <style name="AppTheme.Dialog" parent="Theme.MaterialComponents.Light.Dialog.Alert">
@@ -122,12 +124,12 @@
     </style>
 
     <style name="RecordTypeIcon">
-        <item name="backgroundTint">?appLightTextColor</item>
+        <item name="backgroundTint">?appIconColor</item>
     </style>
 
     <style name="RecordTypeText">
         <item name="android:maxLines">2</item>
-        <item name="android:textColor">?appLightTextColor</item>
+        <item name="android:textColor">?appIconColor</item>
         <item name="android:textStyle">bold</item>
         <item name="autoSizeMaxTextSize">14sp</item>
         <item name="autoSizeMinTextSize">4sp</item>

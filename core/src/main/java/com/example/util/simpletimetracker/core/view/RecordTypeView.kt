@@ -1,18 +1,18 @@
 package com.example.util.simpletimetracker.core.view
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.View
 import android.widget.FrameLayout
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.view.ViewCompat
 import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.extension.setMargins
-import kotlinx.android.synthetic.main.record_type_view_layout.view.layoutRecordTypeItem
-import kotlinx.android.synthetic.main.record_type_view_vertical.view.constraintRecordTypeItem
-import kotlinx.android.synthetic.main.record_type_view_vertical.view.ivRecordTypeItemIcon
-import kotlinx.android.synthetic.main.record_type_view_vertical.view.tvRecordTypeItemName
+import kotlinx.android.synthetic.main.record_type_view_layout.view.*
+import kotlinx.android.synthetic.main.record_type_view_vertical.view.*
 
 class RecordTypeView @JvmOverloads constructor(
     context: Context,
@@ -30,6 +30,7 @@ class RecordTypeView @JvmOverloads constructor(
 
         context.obtainStyledAttributes(attrs, R.styleable.RecordTypeView, defStyleAttr, 0)
             .run {
+                // TODO check hasValue first to avoid double work
                 itemName = getString(
                     R.styleable.RecordTypeView_itemName
                 ).orEmpty()
@@ -39,6 +40,11 @@ class RecordTypeView @JvmOverloads constructor(
                 itemIcon = getResourceId(
                     R.styleable.RecordTypeView_itemIcon, R.drawable.unknown
                 )
+                if (hasValue(R.styleable.RecordTypeView_itemIconColor)) {
+                    itemIconColor = getColor(
+                        R.styleable.RecordTypeView_itemIconColor, Color.WHITE
+                    )
+                }
                 itemAlpha = getFloat(
                     R.styleable.RecordTypeView_itemAlpha, 1f
                 )
@@ -68,6 +74,13 @@ class RecordTypeView @JvmOverloads constructor(
         set(value) {
             ivRecordTypeItemIcon.setBackgroundResource(value)
             ivRecordTypeItemIcon.tag = value
+            field = value
+        }
+
+    var itemIconColor: Int = 0
+        set(value) {
+            tvRecordTypeItemName.setTextColor(value)
+            ViewCompat.setBackgroundTintList(ivRecordTypeItemIcon, ColorStateList.valueOf(value))
             field = value
         }
 
