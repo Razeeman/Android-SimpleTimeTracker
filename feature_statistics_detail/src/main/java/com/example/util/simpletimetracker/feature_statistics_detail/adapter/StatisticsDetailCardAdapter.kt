@@ -4,10 +4,11 @@ import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 
 class StatisticsDetailCardAdapter(
-    titleTextSize: Int
+    titleTextSize: Int,
+    onItemClick: () -> Unit
 ) : BaseRecyclerAdapter() {
 
     init {
-        delegates[ViewHolderType.VIEW] = StatisticsDetailCardAdapterDelegate(titleTextSize)
+        delegates[ViewHolderType.VIEW] = StatisticsDetailCardAdapterDelegate(titleTextSize, onItemClick)
     }
 }

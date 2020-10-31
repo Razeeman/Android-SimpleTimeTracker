@@ -90,7 +90,7 @@ class RecordsContainerFragment : BaseFragment(R.layout.records_container_fragmen
     }
 
     private fun showMessage(message: SnackBarParams?) {
-        message?.let {
+        if (message != null && this.isResumed) {
             router.show(Notification.SNACK_BAR, message, btnRecordAdd)
             removeRecordViewModel.onMessageShown()
         }

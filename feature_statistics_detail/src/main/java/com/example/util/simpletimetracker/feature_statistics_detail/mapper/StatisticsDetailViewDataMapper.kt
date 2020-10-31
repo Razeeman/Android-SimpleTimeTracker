@@ -60,7 +60,8 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             timesTracked = listOf(
                 StatisticsDetailCardViewData(
                     title = timesTracked.toString(),
-                    subtitle = resourceRepo.getString(R.string.statistics_detail_times_tracked)
+                    subtitle = resourceRepo.getString(R.string.statistics_detail_times_tracked),
+                    icon = R.drawable.ic_list_24px // TODO change icon
                 )
             ),
             averageRecord = listOf(

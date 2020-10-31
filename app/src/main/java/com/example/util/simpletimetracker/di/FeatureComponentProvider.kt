@@ -9,6 +9,7 @@ import com.example.util.simpletimetracker.feature_dialogs.chartFilter.di.ChartFi
 import com.example.util.simpletimetracker.feature_main.di.MainComponentProvider
 import com.example.util.simpletimetracker.feature_notification.di.NotificationComponentProvider
 import com.example.util.simpletimetracker.feature_records.di.RecordsComponentProvider
+import com.example.util.simpletimetracker.feature_records_all.di.RecordsAllComponentProvider
 import com.example.util.simpletimetracker.feature_running_records.di.RunningRecordsComponentProvider
 import com.example.util.simpletimetracker.feature_settings.di.SettingsComponentProvider
 import com.example.util.simpletimetracker.feature_statistics.di.StatisticsComponentProvider
@@ -20,6 +21,7 @@ interface FeatureComponentProvider :
     RunningRecordsComponentProvider,
     ChangeRecordTypeComponentProvider,
     RecordsComponentProvider,
+    RecordsAllComponentProvider,
     ChangeRecordComponentProvider,
     ChangeRunningRecordComponentProvider,
     StatisticsComponentProvider,

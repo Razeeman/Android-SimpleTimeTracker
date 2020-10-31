@@ -18,10 +18,14 @@ import com.example.util.simpletimetracker.feature_statistics_detail.viewData.Sta
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailGroupingViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailViewData
+import com.example.util.simpletimetracker.navigation.Router
+import com.example.util.simpletimetracker.navigation.Screen
+import com.example.util.simpletimetracker.navigation.params.RecordsAllParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class StatisticsDetailViewModel @Inject constructor(
+    private val router: Router,
     private val recordInteractor: RecordInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
     private val statisticsDetailInteractor: StatisticsDetailInteractor,
@@ -71,6 +75,13 @@ class StatisticsDetailViewModel @Inject constructor(
         this.chartLength = viewData.chartLength
         updateChartLengthViewData()
         updateChartViewData()
+    }
+
+    fun onRecordsClick() {
+        router.navigate(
+            Screen.RECORDS_ALL,
+            RecordsAllParams(extra.typeId)
+        )
     }
 
     private fun updateChartViewData() = viewModelScope.launch {

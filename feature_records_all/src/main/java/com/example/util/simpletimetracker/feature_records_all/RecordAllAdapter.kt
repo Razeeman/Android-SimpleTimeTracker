@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.feature_records.adapter
+package com.example.util.simpletimetracker.feature_records_all
 
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
@@ -7,7 +7,7 @@ import com.example.util.simpletimetracker.core.adapter.loader.LoaderAdapterDeleg
 import com.example.util.simpletimetracker.core.adapter.record.RecordAdapterDelegate
 import com.example.util.simpletimetracker.core.viewData.RecordViewData
 
-class RecordAdapter(
+class RecordAllAdapter(
     onItemLongClick: ((RecordViewData, Map<Any, String>) -> Unit)
 ) : BaseRecyclerAdapter() {
 

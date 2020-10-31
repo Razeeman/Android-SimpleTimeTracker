@@ -18,7 +18,16 @@ import com.example.util.simpletimetracker.feature_statistics_detail.viewData.Sta
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewModel.StatisticsDetailViewModel
 import com.example.util.simpletimetracker.navigation.params.StatisticsDetailParams
-import kotlinx.android.synthetic.main.statistics_detail_fragment.*
+import kotlinx.android.synthetic.main.statistics_detail_fragment.buttonsStatisticsDetailGrouping
+import kotlinx.android.synthetic.main.statistics_detail_fragment.buttonsStatisticsDetailLength
+import kotlinx.android.synthetic.main.statistics_detail_fragment.cardStatisticsDetailAverage
+import kotlinx.android.synthetic.main.statistics_detail_fragment.cardStatisticsDetailDates
+import kotlinx.android.synthetic.main.statistics_detail_fragment.cardStatisticsDetailRecords
+import kotlinx.android.synthetic.main.statistics_detail_fragment.cardStatisticsDetailTotal
+import kotlinx.android.synthetic.main.statistics_detail_fragment.chartStatisticsDetail
+import kotlinx.android.synthetic.main.statistics_detail_fragment.ivStatisticsDetailItemIcon
+import kotlinx.android.synthetic.main.statistics_detail_fragment.layoutStatisticsDetailItem
+import kotlinx.android.synthetic.main.statistics_detail_fragment.tvStatisticsDetailItemName
 import javax.inject.Inject
 
 class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragment),
@@ -53,6 +62,7 @@ class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragmen
     override fun initUx() {
         buttonsStatisticsDetailGrouping.listener = viewModel::onChartGroupingClick
         buttonsStatisticsDetailLength.listener = viewModel::onChartLengthClick
+        cardStatisticsDetailRecords.listener = viewModel::onRecordsClick
     }
 
     override fun initViewModel(): Unit = with(viewModel) {

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.recyclerview.widget.RecyclerView xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/rvRecordsAllList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:itemCount="15"
+        tools:listitem="@layout/item_record_layout" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

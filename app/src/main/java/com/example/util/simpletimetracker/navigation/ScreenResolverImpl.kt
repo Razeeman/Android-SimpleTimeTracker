@@ -10,6 +10,7 @@ import com.example.util.simpletimetracker.feature_change_record_type.view.Change
 import com.example.util.simpletimetracker.feature_change_running_record.view.ChangeRunningRecordFragment
 import com.example.util.simpletimetracker.feature_dialogs.dateTime.DateTimeDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.standard.StandardDialogFragment
+import com.example.util.simpletimetracker.feature_records_all.RecordsAllFragment
 import com.example.util.simpletimetracker.feature_statistics_detail.view.StatisticsDetailFragment
 import javax.inject.Inject
 
@@ -38,9 +39,16 @@ class ScreenResolverImpl @Inject constructor() : ScreenResolver {
                     null,
                     navExtras
                 )
-            Screen.CHANGE_RECORD ->
+            Screen.CHANGE_RECORD_FROM_MAIN ->
                 navController?.navigate(
                     R.id.action_mainFragment_to_changeRecordFragment,
+                    ChangeRecordFragment.createBundle(data),
+                    null,
+                    navExtras
+                )
+            Screen.CHANGE_RECORD_FROM_RECORDS_ALL ->
+                navController?.navigate(
+                    R.id.action_recordsAllFragment_to_changeRecordFragment,
                     ChangeRecordFragment.createBundle(data),
                     null,
                     navExtras
@@ -49,6 +57,13 @@ class ScreenResolverImpl @Inject constructor() : ScreenResolver {
                 navController?.navigate(
                     R.id.action_mainFragment_to_statisticsDetailFragment,
                     StatisticsDetailFragment.createBundle(data),
+                    null,
+                    navExtras
+                )
+            Screen.RECORDS_ALL ->
+                navController?.navigate(
+                    R.id.action_statisticsDetailFragment_to_recordsAllFragment,
+                    RecordsAllFragment.createBundle(data),
                     null,
                     navExtras
                 )

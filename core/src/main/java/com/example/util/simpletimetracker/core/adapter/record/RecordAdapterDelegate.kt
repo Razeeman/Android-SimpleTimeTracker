@@ -1,14 +1,14 @@
-package com.example.util.simpletimetracker.feature_records.adapter
+package com.example.util.simpletimetracker.core.adapter.record
 
 import android.view.ViewGroup
 import androidx.core.view.ViewCompat
+import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerViewHolder
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.extension.setOnLongClick
 import com.example.util.simpletimetracker.core.view.TransitionNames
-import com.example.util.simpletimetracker.feature_records.R
-import com.example.util.simpletimetracker.feature_records.viewData.RecordViewData
+import com.example.util.simpletimetracker.core.viewData.RecordViewData
 import kotlinx.android.synthetic.main.item_record_layout.view.*
 
 class RecordAdapterDelegate(

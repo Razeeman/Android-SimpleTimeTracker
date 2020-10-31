@@ -48,6 +48,7 @@ dependencies {
     implementation(project(":feature_running_records"))
     implementation(project(":feature_change_record_type"))
     implementation(project(":feature_records"))
+    implementation(project(":feature_records_all"))
     implementation(project(":feature_change_record"))
     implementation(project(":feature_change_running_record"))
     implementation(project(":feature_statistics"))

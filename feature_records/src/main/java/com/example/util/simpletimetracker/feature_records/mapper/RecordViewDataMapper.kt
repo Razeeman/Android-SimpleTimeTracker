@@ -9,7 +9,7 @@ import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_records.R
-import com.example.util.simpletimetracker.feature_records.viewData.RecordViewData
+import com.example.util.simpletimetracker.core.viewData.RecordViewData
 import javax.inject.Inject
 import kotlin.math.max
 import kotlin.math.min

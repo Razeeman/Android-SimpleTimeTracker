@@ -26,7 +26,7 @@ class RecordsContainerViewModel @Inject constructor(
 
     fun onRecordAddClick() {
         router.navigate(
-            Screen.CHANGE_RECORD,
+            Screen.CHANGE_RECORD_FROM_MAIN,
             ChangeRecordParams.New(daysFromToday = position.value.orZero())
         )
     }

@@ -30,4 +30,6 @@
 
     <string name="support_email" translatable="false">devrazeeman@gmail.com</string>
     <string name="support_email_subject" translatable="false">Simple Time Tracker, feedback</string>
+
+    <string name="records_empty">Nothing to show</string>
 </resources>

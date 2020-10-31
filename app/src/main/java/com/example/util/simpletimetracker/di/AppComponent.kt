@@ -11,6 +11,7 @@ import com.example.util.simpletimetracker.feature_main.di.MainComponent
 import com.example.util.simpletimetracker.feature_notification.di.NotificationComponent
 import com.example.util.simpletimetracker.feature_notification.di.NotificationModule
 import com.example.util.simpletimetracker.feature_records.di.RecordsComponent
+import com.example.util.simpletimetracker.feature_records_all.di.RecordsAllComponent
 import com.example.util.simpletimetracker.feature_running_records.di.RunningRecordsComponent
 import com.example.util.simpletimetracker.feature_settings.di.SettingsComponent
 import com.example.util.simpletimetracker.feature_statistics.di.StatisticsComponent
@@ -39,6 +40,7 @@ interface AppComponent {
     fun plusRunningRecordsComponent(): RunningRecordsComponent
     fun plusChangeRecordTypeComponent(): ChangeRecordTypeComponent
     fun plusRecordsComponent(): RecordsComponent
+    fun plusRecordsAllComponent(): RecordsAllComponent
     fun plusChangeRecordComponent(): ChangeRecordComponent
     fun plusChangeRunningRecordComponent(): ChangeRunningRecordComponent
     fun plusStatisticsComponent(): StatisticsComponent

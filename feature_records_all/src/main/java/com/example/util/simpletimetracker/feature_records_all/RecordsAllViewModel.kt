@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.feature_records.viewModel
+package com.example.util.simpletimetracker.feature_records_all
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -7,8 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.core.view.TransitionNames
-import com.example.util.simpletimetracker.feature_records.extra.RecordsExtra
-import com.example.util.simpletimetracker.feature_records.interactor.RecordsViewDataInteractor
 import com.example.util.simpletimetracker.core.viewData.RecordViewData
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
@@ -16,12 +14,12 @@ import com.example.util.simpletimetracker.navigation.params.ChangeRecordParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class RecordsViewModel @Inject constructor(
+class RecordsAllViewModel @Inject constructor(
     private val router: Router,
-    private val recordsViewDataInteractor: RecordsViewDataInteractor
+    private val recordsAllViewDataInteractor: RecordsAllViewDataInteractor
 ) : ViewModel() {
 
-    lateinit var extra: RecordsExtra
+    lateinit var extra: RecordsAllExtra
 
     val records: LiveData<List<ViewHolderType>> by lazy {
         updateRecords()
@@ -29,22 +27,18 @@ class RecordsViewModel @Inject constructor(
     }
 
     fun onRecordClick(item: RecordViewData, sharedElements: Map<Any, String>) {
-        val params = when (item) {
-            is RecordViewData.Tracked -> ChangeRecordParams.Tracked(
+        if (item is RecordViewData.Tracked) {
+            ChangeRecordParams.Tracked(
                 transitionName = TransitionNames.RECORD + item.id,
                 id = item.id
-            )
-            is RecordViewData.Untracked -> ChangeRecordParams.Untracked(
-                transitionName = TransitionNames.RECORD + item.getUniqueId(),
-                timeStarted = item.timeStartedTimestamp,
-                timeEnded = item.timeEndedTimestamp
-            )
+            ).let { params ->
+                router.navigate(
+                    screen = Screen.CHANGE_RECORD_FROM_RECORDS_ALL,
+                    data = params,
+                    sharedElements = sharedElements
+                )
+            }
         }
-        router.navigate(
-            screen = Screen.CHANGE_RECORD_FROM_MAIN,
-            data = params,
-            sharedElements = sharedElements
-        )
     }
 
     fun onVisible() {
@@ -60,6 +54,6 @@ class RecordsViewModel @Inject constructor(
     }
 
     private suspend fun loadRecordsViewData(): List<ViewHolderType> {
-        return recordsViewDataInteractor.getViewData(extra.rangeStart, extra.rangeEnd)
+        return recordsAllViewDataInteractor.getViewData(extra.typeId)
     }
 }

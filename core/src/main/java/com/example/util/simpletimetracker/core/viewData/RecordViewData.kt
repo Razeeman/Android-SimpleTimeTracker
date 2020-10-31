@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.feature_records.viewData
+package com.example.util.simpletimetracker.core.viewData
 
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes

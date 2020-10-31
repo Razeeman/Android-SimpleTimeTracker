@@ -3,8 +3,10 @@ package com.example.util.simpletimetracker.navigation
 enum class Screen {
     CHANGE_RECORD_TYPE,
     CHANGE_RECORD_RUNNING,
-    CHANGE_RECORD,
+    CHANGE_RECORD_FROM_MAIN,
+    CHANGE_RECORD_FROM_RECORDS_ALL,
     STATISTICS_DETAIL,
+    RECORDS_ALL,
 
     STANDARD_DIALOG,
     DATE_TIME_DIALOG,

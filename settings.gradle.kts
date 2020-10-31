@@ -10,6 +10,7 @@ include(
     "feature_change_running_record",
     "feature_change_record_type",
     "feature_records",
+    "feature_records_all",
     "feature_change_record",
     "feature_statistics",
     "feature_statistics_detail",

@@ -28,6 +28,7 @@ class StatisticsDetailCardView @JvmOverloads constructor(
     defStyleAttr
 ) {
 
+    var listener: (() -> Unit)? = null
     var items: List<StatisticsDetailCardViewData> = emptyList()
         set(value) {
             typesAdapter.replace(value)
@@ -36,7 +37,9 @@ class StatisticsDetailCardView @JvmOverloads constructor(
 
     private var itemsCount: Int
     private var titleTextSize: Int = 16.spToPx()
-    private val typesAdapter: StatisticsDetailCardAdapter by lazy { StatisticsDetailCardAdapter(titleTextSize) }
+    private val typesAdapter: StatisticsDetailCardAdapter by lazy {
+        StatisticsDetailCardAdapter(titleTextSize, ::onItemClick)
+    }
 
     init {
         View.inflate(context, R.layout.statistics_detail_card_view, this)
@@ -83,6 +86,10 @@ class StatisticsDetailCardView @JvmOverloads constructor(
                 .map { StatisticsDetailCardViewData("$DEFAULT_TITLE$it", "$DEFAULT_SUBTITLE$it") }
                 .let { items = it }
         }
+    }
+
+    private fun onItemClick() {
+        listener?.invoke()
     }
 
     companion object {
