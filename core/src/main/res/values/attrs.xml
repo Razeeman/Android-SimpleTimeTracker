@@ -46,4 +46,9 @@
         <attr name="itemTimeStarted" />
         <attr name="itemTimer" format="string" />
     </declare-styleable>
+
+    <declare-styleable name="FullWidthSpinner">
+        <attr name="popupUnderSpinner" format="boolean" />
+        <attr name="popupUnderMarginTop" format="dimension" />
+    </declare-styleable>
 </resources>

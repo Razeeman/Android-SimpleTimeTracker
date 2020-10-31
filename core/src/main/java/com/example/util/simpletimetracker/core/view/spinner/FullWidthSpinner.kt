@@ -1,10 +1,10 @@
-package com.example.util.simpletimetracker.feature_settings.customView
+package com.example.util.simpletimetracker.core.view.spinner
 
 import android.content.Context
 import android.content.res.Resources
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatSpinner
-import com.example.util.simpletimetracker.feature_settings.R
+import com.example.util.simpletimetracker.core.R
 
 class FullWidthSpinner @JvmOverloads constructor(
     context: Context,

@@ -1,13 +1,13 @@
-package com.example.util.simpletimetracker.feature_settings.customView
+package com.example.util.simpletimetracker.core.view.spinner
 
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.FrameLayout
+import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.extension.onItemSelected
 import com.example.util.simpletimetracker.core.extension.setOnClick
-import com.example.util.simpletimetracker.feature_settings.R
 import kotlinx.android.synthetic.main.spinner_layout.view.*
 
 class CustomSpinner @JvmOverloads constructor(

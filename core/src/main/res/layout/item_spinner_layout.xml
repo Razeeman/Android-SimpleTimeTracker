@@ -12,4 +12,4 @@
     android:paddingEnd="8dp"
     android:singleLine="true"
     android:textColor="?appTextPrimaryColor"
-    tools:text="@string/settings_sort_manually" />
+    tools:text="Spinner Item" />

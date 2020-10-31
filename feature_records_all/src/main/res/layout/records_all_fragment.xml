@@ -1,8 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/rvRecordsAllList"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:itemCount="15"
-    tools:listitem="@layout/item_record_layout" />
+    android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+        style="@style/RecordsAllCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="4dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvRecordsAllSort"
+                style="@style/RecordsAllText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/records_all_sort_order"
+                app:layout_constraintEnd_toStartOf="@id/spinnerRecordsAllSort"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.example.util.simpletimetracker.core.view.spinner.CustomSpinner
+                android:id="@+id/spinnerRecordsAllSort"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintBottom_toBottomOf="@id/tvRecordsAllSort"
+                app:layout_constraintEnd_toStartOf="@id/cardRecordsAllFilter"
+                app:layout_constraintTop_toTopOf="@id/tvRecordsAllSort" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardRecordsAllFilter"
+                style="@style/RecordsAllCard"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:foreground="?selectableItemBackground"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="h,1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="center"
+                    android:src="@drawable/ic_filter_list_24px"
+                    android:tint="?appInactiveColor" />
+
+            </androidx.cardview.widget.CardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvRecordsAllList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:itemCount="15"
+        tools:listitem="@layout/item_record_layout" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>

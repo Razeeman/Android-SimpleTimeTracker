@@ -54,7 +54,7 @@
                         tools:ignore="ContentDescription"
                         tools:visibility="visible" />
 
-                    <com.example.util.simpletimetracker.feature_settings.customView.CustomSpinner
+                    <com.example.util.simpletimetracker.core.view.spinner.CustomSpinner
                         android:id="@+id/spinnerSettingsRecordTypeSort"
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"

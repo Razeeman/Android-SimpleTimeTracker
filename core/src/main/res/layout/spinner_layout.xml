@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.example.util.simpletimetracker.feature_settings.customView.FullWidthSpinner
+    <com.example.util.simpletimetracker.core.view.spinner.FullWidthSpinner
         android:id="@+id/customSpinner"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

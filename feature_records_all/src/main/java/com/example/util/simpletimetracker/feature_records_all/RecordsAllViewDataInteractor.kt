@@ -15,7 +15,7 @@ class RecordsAllViewDataInteractor @Inject constructor(
     private val recordsAllViewDataMapper: RecordsAllViewDataMapper
 ) {
 
-    suspend fun getViewData(typeId: Long): List<ViewHolderType> {
+    suspend fun getViewData(sortOrder: RecordsAllSortOrder, typeId: Long): List<ViewHolderType> {
         val isDarkTheme = prefsInteractor.getDarkMode()
         val recordTypes = recordTypeInteractor.getAll()
             .map { it.id to it }
@@ -29,11 +29,19 @@ class RecordsAllViewDataInteractor @Inject constructor(
                     recordTypes[record.typeId]?.let { type -> record to type }
                 }
                 .map { (record, recordType) ->
-                    record.timeStarted to
+                    Triple(
+                        record.timeStarted,
+                        record.timeEnded - record.timeStarted,
                         recordsAllViewDataMapper.map(record, recordType, isDarkTheme)
+                    )
                 }
-                .sortedByDescending { (timeStarted, _) -> timeStarted }
-                .map { (_, records) -> records }
+                .sortedByDescending { (timeStarted, duration, _) ->
+                    when (sortOrder) {
+                        RecordsAllSortOrder.TIME_STARTED -> timeStarted
+                        RecordsAllSortOrder.DURATION -> duration
+                    }
+                }
+                .map { (_, _, records) -> records }
                 .ifEmpty {
                     listOf(recordsAllViewDataMapper.mapToEmpty())
                 }
