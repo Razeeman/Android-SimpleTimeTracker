@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.feature_records_all
+package com.example.util.simpletimetracker.feature_records_all.adapter
 
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType

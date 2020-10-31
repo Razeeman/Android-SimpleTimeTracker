@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
-        style="@style/RecordsAllCard"
+        style="@style/SettingsCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -18,7 +18,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvRecordsAllSort"
-                style="@style/RecordsAllText"
+                style="@style/SettingsText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/records_all_sort_order"
@@ -37,7 +37,7 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardRecordsAllFilter"
-                style="@style/RecordsAllCard"
+                style="@style/SettingsCard"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:foreground="?selectableItemBackground"

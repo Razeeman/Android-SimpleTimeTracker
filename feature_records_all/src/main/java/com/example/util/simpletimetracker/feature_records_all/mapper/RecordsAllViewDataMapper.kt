@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.feature_records_all
+package com.example.util.simpletimetracker.feature_records_all.mapper
 
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.empty.EmptyViewData
@@ -10,6 +10,8 @@ import com.example.util.simpletimetracker.core.viewData.RecordViewData
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordType
+import com.example.util.simpletimetracker.feature_records_all.R
+import com.example.util.simpletimetracker.feature_records_all.model.RecordsAllSortOrder
 import com.example.util.simpletimetracker.feature_records_all.viewData.RecordsAllSortOrderViewData
 import javax.inject.Inject
 

@@ -93,7 +93,7 @@
         tools:layout="@layout/card_order_dialog_fragment" />
     <fragment
         android:id="@+id/recordsAllFragment"
-        android:name="com.example.util.simpletimetracker.feature_records_all.RecordsAllFragment"
+        android:name="com.example.util.simpletimetracker.feature_records_all.view.RecordsAllFragment"
         android:label="RecordsAllFragment"
         tools:layout="@layout/records_all_fragment">
         <action

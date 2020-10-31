@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.feature_records_all
+package com.example.util.simpletimetracker.feature_records_all.view
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -10,7 +10,11 @@ import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.core.viewModel.RemoveRecordViewModel
 import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.feature_records_all.R
+import com.example.util.simpletimetracker.feature_records_all.viewModel.RecordsAllViewModel
+import com.example.util.simpletimetracker.feature_records_all.adapter.RecordAllAdapter
 import com.example.util.simpletimetracker.feature_records_all.di.RecordsAllComponentProvider
+import com.example.util.simpletimetracker.feature_records_all.extra.RecordsAllExtra
 import com.example.util.simpletimetracker.feature_records_all.viewData.RecordsAllSortOrderViewData
 import com.example.util.simpletimetracker.navigation.Notification
 import com.example.util.simpletimetracker.navigation.Router

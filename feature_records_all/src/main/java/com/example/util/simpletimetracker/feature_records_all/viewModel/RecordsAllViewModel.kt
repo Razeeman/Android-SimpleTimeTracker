@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.feature_records_all
+package com.example.util.simpletimetracker.feature_records_all.viewModel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,6 +8,10 @@ import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.core.view.TransitionNames
 import com.example.util.simpletimetracker.core.viewData.RecordViewData
+import com.example.util.simpletimetracker.feature_records_all.interactor.RecordsAllViewDataInteractor
+import com.example.util.simpletimetracker.feature_records_all.mapper.RecordsAllViewDataMapper
+import com.example.util.simpletimetracker.feature_records_all.extra.RecordsAllExtra
+import com.example.util.simpletimetracker.feature_records_all.model.RecordsAllSortOrder
 import com.example.util.simpletimetracker.feature_records_all.viewData.RecordsAllSortOrderViewData
 import com.example.util.simpletimetracker.navigation.Notification
 import com.example.util.simpletimetracker.navigation.Router
@@ -59,7 +63,6 @@ class RecordsAllViewModel @Inject constructor(
     }
 
     fun onNeedUpdate() {
-        // TODO unnecessary because onVisible?
         updateRecords()
     }
 
