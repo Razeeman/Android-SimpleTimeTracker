@@ -15,7 +15,7 @@ class NotificationResolverImpl @Inject constructor() : NotificationResolver {
     override fun show(activity: Activity?, notification: Notification, data: Any?, anchor: Any?) {
         when (notification) {
             Notification.TOAST -> showSystemMessage(activity, data)
-            Notification.SNACK_BAR -> showSnackBar(data, anchor)
+            Notification.SNACK_BAR -> showSnackBar(activity, data, anchor)
         }
     }
 
@@ -25,15 +25,15 @@ class NotificationResolverImpl @Inject constructor() : NotificationResolver {
         Toast.makeText(activity?.applicationContext, data.message, Toast.LENGTH_LONG).show()
     }
 
-    private fun showSnackBar(data: Any?, anchor: Any?) {
-        if (data !is SnackBarParams || anchor !is View) return
+    private fun showSnackBar(activity: Activity?, data: Any?, anchor: Any?) {
+        if (data !is SnackBarParams || activity == null) return
 
-        val snackBar = Snackbar.make(anchor, data.message, 5000)
+        val snackBar = Snackbar.make(activity.findViewById(android.R.id.content), data.message, 5000)
 
         val textViewId = com.google.android.material.R.id.snackbar_text
         snackBar.view.findViewById<TextView>(textViewId)?.setTextColor(Color.WHITE)
 
-        if (data.anchorToView) {
+        if (anchor is View) {
             snackBar.anchorView = anchor
         }
 

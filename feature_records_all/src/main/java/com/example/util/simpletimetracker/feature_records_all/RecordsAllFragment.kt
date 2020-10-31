@@ -84,10 +84,9 @@ class RecordsAllFragment : BaseFragment(R.layout.records_all_fragment) {
         viewModel.onVisible()
     }
 
-    // TODO fix snack bar not showing
     private fun showMessage(message: SnackBarParams?) {
         if (message != null && this.isResumed) {
-            router.show(Notification.SNACK_BAR, message, view)
+            router.show(Notification.SNACK_BAR, message)
             removeRecordViewModel.onMessageShown()
         }
     }
