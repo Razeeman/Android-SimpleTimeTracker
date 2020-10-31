@@ -80,11 +80,11 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             ),
             datesTracked = listOf(
                 StatisticsDetailCardViewData(
-                    title = first?.let(timeMapper::formatDateYearTime).orEmpty(),
+                    title = first?.let(timeMapper::formatDateTimeYear).orEmpty(),
                     subtitle = resourceRepo.getString(R.string.statistics_detail_first_record)
                 ),
                 StatisticsDetailCardViewData(
-                    title = last?.let(timeMapper::formatDateYearTime).orEmpty(),
+                    title = last?.let(timeMapper::formatDateTimeYear).orEmpty(),
                     subtitle = resourceRepo.getString(R.string.statistics_detail_last_record)
                 )
             )

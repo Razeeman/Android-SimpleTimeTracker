@@ -10,6 +10,7 @@ import com.example.util.simpletimetracker.feature_change_record_type.view.Change
 import com.example.util.simpletimetracker.feature_change_running_record.view.ChangeRunningRecordFragment
 import com.example.util.simpletimetracker.feature_dialogs.dateTime.DateTimeDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.standard.StandardDialogFragment
+import com.example.util.simpletimetracker.feature_dialogs.typesFilter.view.TypesFilterDialogFragment
 import com.example.util.simpletimetracker.feature_records_all.view.RecordsAllFragment
 import com.example.util.simpletimetracker.feature_statistics_detail.view.StatisticsDetailFragment
 import javax.inject.Inject
@@ -85,6 +86,13 @@ class ScreenResolverImpl @Inject constructor() : ScreenResolver {
                 navController?.navigate(
                     R.id.chartFilerDialogFragment,
                     null,
+                    null,
+                    navExtras
+                )
+            Screen.TYPES_FILTER_DIALOG ->
+                navController?.navigate(
+                    R.id.typesFilterDialogFragment,
+                    TypesFilterDialogFragment.createBundle(data),
                     null,
                     navExtras
                 )

@@ -7,6 +7,7 @@ import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
+import com.example.util.simpletimetracker.core.dialog.TypesFilterDialogListener
 import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.core.viewModel.RemoveRecordViewModel
 import com.example.util.simpletimetracker.domain.extension.orZero
@@ -25,7 +26,8 @@ import kotlinx.android.synthetic.main.records_all_fragment.rvRecordsAllList
 import kotlinx.android.synthetic.main.records_all_fragment.spinnerRecordsAllSort
 import javax.inject.Inject
 
-class RecordsAllFragment : BaseFragment(R.layout.records_all_fragment) {
+class RecordsAllFragment : BaseFragment(R.layout.records_all_fragment),
+    TypesFilterDialogListener {
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<RecordsAllViewModel>
@@ -75,7 +77,7 @@ class RecordsAllFragment : BaseFragment(R.layout.records_all_fragment) {
     override fun initViewModel() {
         with(viewModel) {
             extra = RecordsAllExtra(arguments?.getLong(ARGS_TYPE_ID).orZero())
-            records.observe(viewLifecycleOwner, recordsAdapter::replace)
+            records.observe(viewLifecycleOwner, recordsAdapter::replaceAsNew)
             sortOrderViewData.observe(viewLifecycleOwner, ::updateCardOrderViewData)
         }
         with(removeRecordViewModel) {
@@ -88,6 +90,10 @@ class RecordsAllFragment : BaseFragment(R.layout.records_all_fragment) {
         super.onResume()
         viewModel.onVisible()
         spinnerRecordsAllSort.jumpDrawablesToCurrentState()
+    }
+
+    override fun onTypesSelected(typesSelected: List<Long>) {
+        viewModel.onTypesSelected(typesSelected)
     }
 
     private fun showMessage(message: SnackBarParams?) {

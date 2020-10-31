@@ -17,9 +17,12 @@ class TimeMapper @Inject constructor(
     }
 
     private val calendar = Calendar.getInstance()
+
     private val timeFormat = SimpleDateFormat("kk:mm", Locale.US)
-    private val dateFormat = SimpleDateFormat("MMM d kk:mm", Locale.US)
-    private val dateYearFormat = SimpleDateFormat("MMM d yyyy kk:mm", Locale.US)
+    private val dateTimeFormat = SimpleDateFormat("MMM d kk:mm", Locale.US)
+    private val dateTimeYearFormat = SimpleDateFormat("MMM d yyyy kk:mm", Locale.US)
+    private val dateYearFormat = SimpleDateFormat("MMM d yyyy", Locale.US)
+
     private val dayTitleFormat = SimpleDateFormat("E, MMM d", Locale.US)
     private val weekTitleFormat = SimpleDateFormat("MMM d", Locale.US)
     private val monthTitleFormat = SimpleDateFormat("MMMM", Locale.US)
@@ -29,10 +32,14 @@ class TimeMapper @Inject constructor(
     }
 
     fun formatDateTime(time: Long): String {
-        return dateFormat.format(time)
+        return dateTimeFormat.format(time)
     }
 
-    fun formatDateYearTime(time: Long): String {
+    fun formatDateTimeYear(time: Long): String {
+        return dateTimeYearFormat.format(time)
+    }
+
+    fun formatDateYear(time: Long): String {
         return dateYearFormat.format(time)
     }
 
@@ -121,6 +128,18 @@ class TimeMapper @Inject constructor(
             0 -> resourceRepo.getString(R.string.title_this_month)
             else -> toMonthDateTitle(monthsFromToday)
         }
+    }
+
+    fun sameDay(date1: Long, date2: Long): Boolean {
+        calendar.apply { timeInMillis = date1 }
+        val year1: Int = calendar.get(Calendar.YEAR)
+        val day1: Int = calendar.get(Calendar.DAY_OF_YEAR)
+
+        calendar.apply { timeInMillis = date2 }
+        val year2: Int = calendar.get(Calendar.YEAR)
+        val day2: Int = calendar.get(Calendar.DAY_OF_YEAR)
+
+        return year1 == year2 && day1 == day2
     }
 
     private fun formatInterval(interval: Long, withSeconds: Boolean): String {

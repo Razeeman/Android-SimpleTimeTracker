@@ -5,4 +5,6 @@
     <string name="card_size_default">Default width</string>
     <string name="card_size_hint">Number of cards in a row</string>
     <string name="card_order_hint">Drag and drop to reorder</string>
+    <string name="types_filter_show_all">Show all</string>
+    <string name="types_filter_hide_all">Hide all</string>
 </resources>

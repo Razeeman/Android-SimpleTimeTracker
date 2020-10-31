@@ -8,16 +8,15 @@ import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.core.view.TransitionNames
 import com.example.util.simpletimetracker.core.viewData.RecordViewData
+import com.example.util.simpletimetracker.feature_records_all.extra.RecordsAllExtra
 import com.example.util.simpletimetracker.feature_records_all.interactor.RecordsAllViewDataInteractor
 import com.example.util.simpletimetracker.feature_records_all.mapper.RecordsAllViewDataMapper
-import com.example.util.simpletimetracker.feature_records_all.extra.RecordsAllExtra
 import com.example.util.simpletimetracker.feature_records_all.model.RecordsAllSortOrder
 import com.example.util.simpletimetracker.feature_records_all.viewData.RecordsAllSortOrderViewData
-import com.example.util.simpletimetracker.navigation.Notification
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
 import com.example.util.simpletimetracker.navigation.params.ChangeRecordParams
-import com.example.util.simpletimetracker.navigation.params.ToastParams
+import com.example.util.simpletimetracker.navigation.params.TypesFilterDialogParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -42,6 +41,7 @@ class RecordsAllViewModel @Inject constructor(
     }
 
     private var sortOrder: RecordsAllSortOrder = RecordsAllSortOrder.TIME_STARTED
+    private val typesSelected: MutableList<Long> by lazy { mutableListOf(extra.typeId) }
 
     fun onRecordClick(item: RecordViewData, sharedElements: Map<Any, String>) {
         if (item is RecordViewData.Tracked) {
@@ -72,7 +72,16 @@ class RecordsAllViewModel @Inject constructor(
     }
 
     fun onFilterClick() {
-        router.show(Notification.TOAST, ToastParams("Filter clicked!"))
+        router.navigate(
+            Screen.TYPES_FILTER_DIALOG,
+            TypesFilterDialogParams(typesSelected)
+        )
+    }
+
+    fun onTypesSelected(newTypes: List<Long>) {
+        typesSelected.clear()
+        typesSelected.addAll(newTypes)
+        updateRecords()
     }
 
     private fun updateRecords() = viewModelScope.launch {
@@ -80,7 +89,7 @@ class RecordsAllViewModel @Inject constructor(
     }
 
     private suspend fun loadRecordsViewData(): List<ViewHolderType> {
-        return recordsAllViewDataInteractor.getViewData(sortOrder, extra.typeId)
+        return recordsAllViewDataInteractor.getViewData(typesSelected, sortOrder)
     }
 
     private fun loadSortOrderViewData(): RecordsAllSortOrderViewData {

@@ -13,6 +13,7 @@ class RecordAllAdapter(
 
     init {
         delegates[ViewHolderType.RECORD] = RecordAdapterDelegate(onItemLongClick)
+        delegates[ViewHolderType.DIVIDER] = RecordAllDateAdapterDelegate()
         delegates[ViewHolderType.EMPTY] = EmptyAdapterDelegate()
         delegates[ViewHolderType.LOADER] = LoaderAdapterDelegate()
     }
