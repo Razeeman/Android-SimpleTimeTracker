@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_statistics_detail.customView
 
+import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
@@ -56,6 +57,8 @@ class BarChartView @JvmOverloads constructor(
     private val selectedBarTextPadding: Int = 6.dpToPx()
     private val selectedBarBackgroundPadding: Int = 4.dpToPx()
     private val selectedBarBackgroundRadius: Float = 4.dpToPx().toFloat()
+    private var barAnimationScale: Float = 1f
+    private val barAnimationDuration: Long = 300L // ms
 
     private val barPaint: Paint = Paint()
     private val selectedBarBackgroundPaint: Paint = Paint()
@@ -108,6 +111,7 @@ class BarChartView @JvmOverloads constructor(
         maxValue = data.max() ?: 1f
         selectedBar = -1
         invalidate()
+        if (!isInEditMode) animateBars()
     }
 
     fun setBarColor(color: Int) {
@@ -247,7 +251,7 @@ class BarChartView @JvmOverloads constructor(
 
         bars.forEach {
             // Normalize bar values to max legend line value
-            val scaled = it / valueUpperBound
+            val scaled = it * barAnimationScale / valueUpperBound
             bounds.set(
                 0f + barDividerWidth / 2,
                 pixelTopBound + chartHeight * (1f - scaled),
@@ -360,5 +364,15 @@ class BarChartView @JvmOverloads constructor(
 
         selectedBar = -1
         invalidate()
+    }
+
+    private fun animateBars() {
+        val animator = ValueAnimator.ofFloat(0f, 1f)
+        animator.duration = barAnimationDuration
+        animator.addUpdateListener { animation ->
+            barAnimationScale = animation.animatedValue as Float
+            invalidate()
+        }
+        animator.start()
     }
 }
