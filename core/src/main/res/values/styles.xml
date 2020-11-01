@@ -32,6 +32,7 @@
         <item name="appActiveColor">@color/colorActive</item>
         <item name="appInactiveColor">@color/colorInactive</item>
         <item name="appIconColor">@color/colorIcon</item>
+        <item name="appLegendColor">@color/colorLegend</item>
     </style>
 
     <style name="AppThemeDark" parent="Theme.MaterialComponents.NoActionBar">
@@ -65,6 +66,7 @@
         <item name="appActiveColor">@color/colorActiveDark</item>
         <item name="appInactiveColor">@color/colorInactiveDark</item>
         <item name="appIconColor">@color/colorIconDark</item>
+        <item name="appLegendColor">@color/colorLegendDark</item>
     </style>
 
     <style name="AppTheme.Dialog" parent="Theme.MaterialComponents.Light.Dialog.Alert">

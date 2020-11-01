@@ -62,4 +62,7 @@
     <color name="colorInactive">@color/blue_grey_300</color>
     <color name="colorInactiveDark">@color/blue_grey_700</color>
 
+    <color name="colorLegend">@color/blue_grey_100</color>
+    <color name="colorLegendDark">@color/grey_900</color>
+
 </resources>

@@ -20,6 +20,7 @@
     <attr name="appActiveColor" format="reference" />
     <attr name="appInactiveColor" format="reference" />
     <attr name="appIconColor" format="reference" />
+    <attr name="appLegendColor" format="reference" />
 
     <declare-styleable name="RecordTypeView">
         <attr name="itemName" format="string" />
