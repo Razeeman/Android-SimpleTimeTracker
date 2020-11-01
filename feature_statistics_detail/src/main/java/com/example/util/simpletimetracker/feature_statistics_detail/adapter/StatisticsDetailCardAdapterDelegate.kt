@@ -1,7 +1,9 @@
 package com.example.util.simpletimetracker.feature_statistics_detail.adapter
 
+import android.content.res.ColorStateList
 import android.util.TypedValue
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerViewHolder
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
@@ -37,7 +39,11 @@ class StatisticsDetailCardAdapterDelegate(
 
             if (item.icon != null) {
                 cardStatisticsDetailCardIcon.visible = true
-                ivStatisticsDetailCardIcon.setBackgroundResource(item.icon)
+                ivStatisticsDetailCardIcon.setBackgroundResource(item.icon.iconDrawable)
+                ViewCompat.setBackgroundTintList(
+                    ivStatisticsDetailCardIcon,
+                    ColorStateList.valueOf(item.icon.iconColor)
+                )
                 setOnClick(onItemClick)
             } else {
                 cardStatisticsDetailCardIcon.visible = false

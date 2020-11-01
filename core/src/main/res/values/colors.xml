@@ -25,6 +25,9 @@
     <color name="cardBackground">@color/white</color>
     <color name="cardBackgroundDark">@color/grey_900</color>
 
+    <color name="buttonOnCardBackground">@color/white</color>
+    <color name="buttonOnCardBackgroundDark">@color/grey_950</color>
+
     <color name="colorDialogBackground">@color/white</color>
     <color name="colorDialogBackgroundDark">@color/grey_900</color>
 

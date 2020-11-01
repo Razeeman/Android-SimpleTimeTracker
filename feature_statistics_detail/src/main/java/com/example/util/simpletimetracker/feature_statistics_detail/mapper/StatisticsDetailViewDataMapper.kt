@@ -61,7 +61,14 @@ class StatisticsDetailViewDataMapper @Inject constructor(
                 StatisticsDetailCardViewData(
                     title = timesTracked.toString(),
                     subtitle = resourceRepo.getString(R.string.statistics_detail_times_tracked),
-                    icon = R.drawable.ic_list_24px // TODO change icon
+                    icon = StatisticsDetailCardViewData.Icon(
+                        iconDrawable = R.drawable.statistics_detail_records_all,
+                        iconColor = if (isDarkTheme) {
+                            R.color.colorInactiveDark
+                        } else {
+                            R.color.colorInactive
+                        }.let(resourceRepo::getColor)
+                    )
                 )
             ),
             averageRecord = listOf(

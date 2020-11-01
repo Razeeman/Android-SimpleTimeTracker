@@ -24,6 +24,7 @@
         <item name="appInputFieldBorder">@drawable/bg_input_field_border</item>
         <item name="appPieChartDividerColor">@color/pieChartDivider</item>
         <item name="appCardBackgroundColor">@color/cardBackground</item>
+        <item name="appButtonOnCardBackgroundColor">@color/buttonOnCardBackground</item>
         <item name="appPopupBackground">@drawable/bg_spinner_popup</item>
         <item name="appPopupItemBackground">@drawable/bg_states_spinner_item</item>
         <item name="appTabSelectedColor">@color/colorTabSelected</item>
@@ -56,6 +57,7 @@
         <item name="appInputFieldBorder">@drawable/bg_input_field_border_dark</item>
         <item name="appPieChartDividerColor">@color/pieChartDividerDark</item>
         <item name="appCardBackgroundColor">@color/cardBackgroundDark</item>
+        <item name="appButtonOnCardBackgroundColor">@color/buttonOnCardBackgroundDark</item>
         <item name="appPopupBackground">@drawable/bg_spinner_popup_dark</item>
         <item name="appPopupItemBackground">@drawable/bg_states_spinner_item_dark</item>
         <item name="appTabSelectedColor">@color/colorTabSelectedDark</item>

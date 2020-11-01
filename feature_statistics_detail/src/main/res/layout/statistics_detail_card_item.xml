@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:foreground="?selectableItemBackground"
         android:visibility="gone"
-        app:cardBackgroundColor="?appCardBackgroundColor"
+        app:cardBackgroundColor="?appButtonOnCardBackgroundColor"
         app:cardCornerRadius="8dp"
         app:cardElevation="2dp"
         app:cardPreventCornerOverlap="false"
@@ -44,14 +44,15 @@
         app:contentPadding="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivStatisticsDetailCardIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:tint="?appTextPrimaryColor"
-            tools:src="@drawable/ic_list_24px" />
+            tools:src="@drawable/ic_list_24px"
+            tools:tint="?appInactiveColor" />
 
     </androidx.cardview.widget.CardView>
 
