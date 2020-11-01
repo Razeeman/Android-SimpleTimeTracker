@@ -10,6 +10,8 @@
         <attr name="legendTextSize" format="dimension" />
         <attr name="legendTextColor" format="color" />
         <attr name="legendLineColor" format="color" />
+        <attr name="selectedBarBackgroundColor" format="color" />
+        <attr name="selectedBarTextColor" format="color" />
     </declare-styleable>
 
     <declare-styleable name="StatisticsDetailCardView">

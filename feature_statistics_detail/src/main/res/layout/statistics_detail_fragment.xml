@@ -72,6 +72,8 @@
             app:legendLineColor="?appLegendColor"
             app:legendTextColor="@color/textSecondary"
             app:legendTextSize="14sp"
+            app:selectedBarBackgroundColor="?appInactiveColor"
+            app:selectedBarTextColor="?appLightTextColor"
             tools:barColor="@color/black"
             tools:barCount="14"
             tools:legendTextSuffix="h" />

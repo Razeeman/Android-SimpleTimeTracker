@@ -8,6 +8,4 @@ fun Float.pxToDp(): Int = (this / Resources.getSystem().displayMetrics.density).
 
 fun Int.pxToDp(): Int = (this / Resources.getSystem().displayMetrics.density).toInt()
 
-fun Float.spToPx(): Float = (this * Resources.getSystem().displayMetrics.scaledDensity)
-
 fun Int.spToPx(): Int = (this * Resources.getSystem().displayMetrics.scaledDensity).toInt()
