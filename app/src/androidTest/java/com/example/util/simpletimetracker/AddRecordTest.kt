@@ -6,7 +6,6 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.contrib.PickerActions
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
-import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.withClassName
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
@@ -88,9 +87,9 @@ class AddRecordTest : BaseUiTest() {
         // Preview is updated
         val timeStartedPreview = timeStartedTimestamp.let(timeMapper::formatTime)
         val timeEndedPreview = timeEndedTimestamp.let(timeMapper::formatTime)
-        checkPreviewUpdated(withText(timeStartedPreview))
-        checkPreviewUpdated(withText(timeEndedPreview))
-        checkPreviewUpdated(withText("2h 3m"))
+        checkPreviewUpdated(hasDescendant(withText(timeStartedPreview)))
+        checkPreviewUpdated(hasDescendant(withText(timeEndedPreview)))
+        checkPreviewUpdated(hasDescendant(withText("2h 3m")))
 
         // Activity not selected
         clickOnViewWithText(R.string.change_record_save)
@@ -101,9 +100,9 @@ class AddRecordTest : BaseUiTest() {
 
         // Selecting activity
         clickOnRecyclerItem(R.id.rvChangeRecordType, withText(name))
-        checkPreviewUpdated(withText(name))
+        checkPreviewUpdated(hasDescendant(withText(name)))
         checkPreviewUpdated(withCardColor(color))
-        checkPreviewUpdated(withTag(icon))
+        checkPreviewUpdated(hasDescendant(withTag(icon)))
 
         clickOnViewWithText(R.string.change_record_save)
 
@@ -111,8 +110,8 @@ class AddRecordTest : BaseUiTest() {
         checkViewIsDisplayed(
             allOf(
                 withId(R.id.viewRecordItem),
+                withCardColor(color),
                 hasDescendant(withText(name)),
-                hasDescendant(withCardColor(color)),
                 hasDescendant(withTag(icon)),
                 hasDescendant(withText(timeStartedPreview)),
                 hasDescendant(withText(timeEndedPreview)),
@@ -123,7 +122,5 @@ class AddRecordTest : BaseUiTest() {
     }
 
     private fun checkPreviewUpdated(matcher: Matcher<View>) =
-        checkViewIsDisplayed(
-            allOf(isDescendantOfA(withId(R.id.previewChangeRecord)), matcher)
-        )
+        checkViewIsDisplayed(allOf(withId(R.id.previewChangeRecord), matcher))
 }

@@ -90,21 +90,21 @@ class SettingsTest : BaseUiTest() {
         var startTime = System.currentTimeMillis().let(timeMapper::formatTime)
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.layoutRunningRecordItem),
+                withId(R.id.viewRunningRecordItem),
                 hasDescendant(withText(name1)),
                 hasDescendant(withText(startTime))
             )
         )
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.layoutRunningRecordItem),
+                withId(R.id.viewRunningRecordItem),
                 hasDescendant(withText(name2)),
                 hasDescendant(withText(startTime))
             )
         )
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.layoutRunningRecordItem),
+                withId(R.id.viewRunningRecordItem),
                 hasDescendant(withText(name3)),
                 hasDescendant(withText(startTime))
             )
@@ -112,7 +112,7 @@ class SettingsTest : BaseUiTest() {
 
         // Click on already running
         clickOnView(
-            allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name1))
+            allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1))
         )
         NavUtils.openRecordsScreen()
         checkViewDoesNotExist(allOf(withText(name1), isCompletelyDisplayed()))
@@ -128,20 +128,20 @@ class SettingsTest : BaseUiTest() {
         // Click on already running
         NavUtils.openRunningRecordsScreen()
         clickOnView(
-            allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name1))
+            allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1))
         )
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.layoutRunningRecordItem),
+                withId(R.id.viewRunningRecordItem),
                 hasDescendant(withText(name1)),
                 hasDescendant(withText(startTime))
             )
         )
         checkViewDoesNotExist(
-            allOf(withId(R.id.layoutRunningRecordItem), hasDescendant(withText(name2)))
+            allOf(withId(R.id.viewRunningRecordItem), hasDescendant(withText(name2)))
         )
         checkViewDoesNotExist(
-            allOf(withId(R.id.layoutRunningRecordItem), hasDescendant(withText(name3)))
+            allOf(withId(R.id.viewRunningRecordItem), hasDescendant(withText(name3)))
         )
 
         // Records added
@@ -152,18 +152,18 @@ class SettingsTest : BaseUiTest() {
         // Click another
         NavUtils.openRunningRecordsScreen()
         clickOnView(
-            allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name2))
+            allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2))
         )
         startTime = System.currentTimeMillis().let(timeMapper::formatTime)
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.layoutRunningRecordItem),
+                withId(R.id.viewRunningRecordItem),
                 hasDescendant(withText(name2)),
                 hasDescendant(withText(startTime))
             )
         )
         checkViewDoesNotExist(
-            allOf(withId(R.id.layoutRunningRecordItem), hasDescendant(withText(name1)))
+            allOf(withId(R.id.viewRunningRecordItem), hasDescendant(withText(name1)))
         )
 
         // Record added
@@ -179,19 +179,19 @@ class SettingsTest : BaseUiTest() {
         // Start another timer
         NavUtils.openRunningRecordsScreen()
         clickOnView(
-            allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name3))
+            allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name3))
         )
         val newStartTime = System.currentTimeMillis().let(timeMapper::formatTime)
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.layoutRunningRecordItem),
+                withId(R.id.viewRunningRecordItem),
                 hasDescendant(withText(name2)),
                 hasDescendant(withText(startTime))
             )
         )
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.layoutRunningRecordItem),
+                withId(R.id.viewRunningRecordItem),
                 hasDescendant(withText(name3)),
                 hasDescendant(withText(newStartTime))
             )
@@ -215,20 +215,20 @@ class SettingsTest : BaseUiTest() {
         NavUtils.addActivity(name2)
         NavUtils.addActivity(name3)
 
-        onView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name1)))
-            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name2))))
-        onView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name2)))
-            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name3))))
+        onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1)))
+            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2))))
+        onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2)))
+            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name3))))
 
         // Open settings
         NavUtils.openSettingsScreen()
         clickOnViewWithText(R.string.settings_change_card_size)
 
         // Check order
-        onView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name1)))
-            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name2))))
-        onView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name2)))
-            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name3))))
+        onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1)))
+            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2))))
+        onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2)))
+            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name3))))
 
         // Change setting
         clickOnViewWithText("6")
@@ -239,39 +239,39 @@ class SettingsTest : BaseUiTest() {
         clickOnViewWithText("1")
 
         // Check new order
-        onView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name1)))
-            .check(isCompletelyAbove(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name2))))
-        onView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name2)))
-            .check(isCompletelyAbove(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name3))))
+        onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1)))
+            .check(isCompletelyAbove(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2))))
+        onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2)))
+            .check(isCompletelyAbove(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name3))))
 
         // Check order on main
         pressBack()
         NavUtils.openRunningRecordsScreen()
-        onView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name1)))
-            .check(isCompletelyAbove(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name2))))
-        onView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name2)))
-            .check(isCompletelyAbove(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name3))))
+        onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1)))
+            .check(isCompletelyAbove(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2))))
+        onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2)))
+            .check(isCompletelyAbove(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name3))))
 
         // Change back
         NavUtils.openSettingsScreen()
         clickOnViewWithText(R.string.settings_change_card_size)
-        onView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name1)))
-            .check(isCompletelyAbove(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name2))))
-        onView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name2)))
-            .check(isCompletelyAbove(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name3))))
+        onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1)))
+            .check(isCompletelyAbove(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2))))
+        onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2)))
+            .check(isCompletelyAbove(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name3))))
         clickOnViewWithText(R.string.card_size_default)
 
         // Check order
-        onView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name1)))
-            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name2))))
-        onView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name2)))
-            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name3))))
+        onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1)))
+            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2))))
+        onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2)))
+            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name3))))
         pressBack()
         NavUtils.openRunningRecordsScreen()
-        onView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name1)))
-            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name2))))
-        onView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name2)))
-            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name3))))
+        onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1)))
+            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2))))
+        onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2)))
+            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name3))))
     }
 
     @Test
@@ -286,8 +286,8 @@ class SettingsTest : BaseUiTest() {
         NavUtils.addActivity(name2, color1)
 
         // Check order
-        onView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name1)))
-            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name2))))
+        onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1)))
+            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2))))
 
         // Check settings
         NavUtils.openSettingsScreen()
@@ -318,8 +318,8 @@ class SettingsTest : BaseUiTest() {
 
         // Check new order
         NavUtils.openRunningRecordsScreen()
-        onView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name2)))
-            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name1))))
+        onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2)))
+            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1))))
     }
 
     @Test
@@ -339,40 +339,40 @@ class SettingsTest : BaseUiTest() {
         clickOnViewWithText(R.string.settings_sort_manually)
 
         // Check old order
-        onView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name1)))
-            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name2))))
-        onView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name2)))
-            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name3))))
+        onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1)))
+            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2))))
+        onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2)))
+            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name3))))
 
         // Drag
-        onView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name2)))
+        onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2)))
             .perform(drag(Direction.LEFT, 300))
 
         // Check new order
         pressBack()
         NavUtils.openRunningRecordsScreen()
-        onView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name2)))
-            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name1))))
-        onView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name1)))
-            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name3))))
+        onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2)))
+            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1))))
+        onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1)))
+            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name3))))
 
         // Change order
         NavUtils.openSettingsScreen()
         clickOnViewWithId(R.id.btnCardOrderManual)
-        onView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name2)))
-            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name1))))
-        onView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name1)))
-            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name3))))
-        onView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name1)))
+        onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2)))
+            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1))))
+        onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1)))
+            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name3))))
+        onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1)))
             .perform(drag(Direction.RIGHT, 300))
 
         // Check new order
         pressBack()
         NavUtils.openRunningRecordsScreen()
-        onView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name2)))
-            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name3))))
-        onView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name3)))
-            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name1))))
+        onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2)))
+            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name3))))
+        onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name3)))
+            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1))))
     }
 
     @Test
@@ -395,7 +395,7 @@ class SettingsTest : BaseUiTest() {
 
         // Stop first timer
         NavUtils.openRunningRecordsScreen()
-        clickOnView(allOf(withId(R.id.layoutRunningRecordItem), hasDescendant(withText(name1))))
+        clickOnView(allOf(withId(R.id.viewRunningRecordItem), hasDescendant(withText(name1))))
 
         // Start another timer
         clickOnViewWithText(name2)

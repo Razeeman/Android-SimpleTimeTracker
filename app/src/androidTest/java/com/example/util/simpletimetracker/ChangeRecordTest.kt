@@ -5,9 +5,8 @@ import android.widget.DatePicker
 import android.widget.TimePicker
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.contrib.PickerActions
-import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
-import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.withClassName
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
@@ -77,12 +76,12 @@ class ChangeRecordTest : BaseUiTest() {
         checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeEnded), withText(timeEnded)))
 
         // Preview is updated
-        checkPreviewUpdated(withText(name))
+        checkPreviewUpdated(hasDescendant(withText(name)))
         checkPreviewUpdated(withCardColor(firstColor))
-        checkPreviewUpdated(withTag(firstIcon))
-        checkPreviewUpdated(withText(timeStartedPreview))
-        checkPreviewUpdated(withText(timeEndedPreview))
-        checkPreviewUpdated(withText(timeRangePreview))
+        checkPreviewUpdated(hasDescendant(withTag(firstIcon)))
+        checkPreviewUpdated(hasDescendant(withText(timeStartedPreview)))
+        checkPreviewUpdated(hasDescendant(withText(timeEndedPreview)))
+        checkPreviewUpdated(hasDescendant(withText(timeRangePreview)))
 
         // Change item
         clickOnViewWithText(R.string.change_record_type_field)
@@ -144,12 +143,12 @@ class ChangeRecordTest : BaseUiTest() {
         checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeEnded), withText(timeEnded)))
 
         // Preview is updated
-        checkPreviewUpdated(withText(newName))
+        checkPreviewUpdated(hasDescendant(withText(newName)))
         checkPreviewUpdated(withCardColor(lastColor))
-        checkPreviewUpdated(withTag(lastIcon))
-        checkPreviewUpdated(withText(timeStartedPreview))
-        checkPreviewUpdated(withText(timeEndedPreview))
-        checkPreviewUpdated(withText(timeRangePreview))
+        checkPreviewUpdated(hasDescendant(withTag(lastIcon)))
+        checkPreviewUpdated(hasDescendant(withText(timeStartedPreview)))
+        checkPreviewUpdated(hasDescendant(withText(timeEndedPreview)))
+        checkPreviewUpdated(hasDescendant(withText(timeRangePreview)))
 
         clickOnViewWithText(R.string.change_record_type_save)
 
@@ -159,19 +158,17 @@ class ChangeRecordTest : BaseUiTest() {
         checkViewIsDisplayed(
             allOf(
                 withId(R.id.viewRecordItem),
-                ViewMatchers.hasDescendant(withText(newName)),
-                ViewMatchers.hasDescendant(withCardColor(lastColor)),
-                ViewMatchers.hasDescendant(withTag(lastIcon)),
-                ViewMatchers.hasDescendant(withText(timeStartedPreview)),
-                ViewMatchers.hasDescendant(withText(timeEndedPreview)),
-                ViewMatchers.hasDescendant(withText(timeRangePreview)),
+                withCardColor(lastColor),
+                hasDescendant(withText(newName)),
+                hasDescendant(withTag(lastIcon)),
+                hasDescendant(withText(timeStartedPreview)),
+                hasDescendant(withText(timeEndedPreview)),
+                hasDescendant(withText(timeRangePreview)),
                 isCompletelyDisplayed()
             )
         )
     }
 
     private fun checkPreviewUpdated(matcher: Matcher<View>) =
-        checkViewIsDisplayed(
-            allOf(isDescendantOfA(withId(R.id.previewChangeRecord)), matcher)
-        )
+        checkViewIsDisplayed(allOf(withId(R.id.previewChangeRecord), matcher))
 }

@@ -3,7 +3,7 @@ package com.example.util.simpletimetracker
 import android.widget.DatePicker
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.contrib.PickerActions
-import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.withClassName
@@ -41,7 +41,7 @@ class RecordsRangesTest : BaseUiTest() {
 
         // Start timer
         clickOnViewWithText(name)
-        clickOnView(allOf(isDescendantOfA(withId(R.id.layoutRunningRecordItem)), withText(name)))
+        clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name)))
 
         // Records
         NavUtils.openRecordsScreen()
@@ -50,16 +50,16 @@ class RecordsRangesTest : BaseUiTest() {
         clickOnViewWithId(R.id.btnRecordsContainerPrevious)
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.layoutRecordItem),
-                ViewMatchers.hasDescendant(withText(R.string.untracked_time_name)),
+                withId(R.id.viewRecordItem),
+                hasDescendant(withText(R.string.untracked_time_name)),
                 isCompletelyDisplayed()
             )
         )
         clickOnViewWithId(R.id.btnRecordsContainerPrevious)
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.layoutRecordItem),
-                ViewMatchers.hasDescendant(withText(R.string.untracked_time_name)),
+                withId(R.id.viewRecordItem),
+                hasDescendant(withText(R.string.untracked_time_name)),
                 isCompletelyDisplayed()
             )
         )

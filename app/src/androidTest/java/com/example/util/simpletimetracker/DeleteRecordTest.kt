@@ -61,8 +61,8 @@ class DeleteRecordTest : BaseUiTest() {
         checkViewIsDisplayed(
             CoreMatchers.allOf(
                 withId(R.id.viewRecordItem),
+                withCardColor(color),
                 hasDescendant(withText(name)),
-                hasDescendant(withCardColor(color)),
                 hasDescendant(withTag(icon)),
                 isCompletelyDisplayed()
             )

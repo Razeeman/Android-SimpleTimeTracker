@@ -1,7 +1,7 @@
 package com.example.util.simpletimetracker
 
 import android.view.View
-import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
+import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -45,7 +45,7 @@ class AddRecordTypeTest : BaseUiTest() {
 
         // Typing name
         typeTextIntoView(R.id.etChangeRecordTypeName, name)
-        checkPreviewUpdated(withText(name))
+        checkPreviewUpdated(hasDescendant(withText(name)))
 
         // Open color chooser
         clickOnViewWithText(R.string.change_record_type_color_hint)
@@ -68,12 +68,12 @@ class AddRecordTypeTest : BaseUiTest() {
 
         // Selecting icon
         clickOnRecyclerItem(R.id.rvChangeRecordTypeIcon, withTag(firstIcon))
-        checkPreviewUpdated(withTag(firstIcon))
+        checkPreviewUpdated(hasDescendant(withTag(firstIcon)))
 
         // Selecting icon
         scrollRecyclerToPosition(R.id.rvChangeRecordTypeIcon, lastIconPosition)
         clickOnRecyclerItem(R.id.rvChangeRecordTypeIcon, withTag(lastIcon))
-        checkPreviewUpdated(withTag(lastIcon))
+        checkPreviewUpdated(hasDescendant(withTag(lastIcon)))
 
         clickOnViewWithText(R.string.change_record_type_save)
 
@@ -84,7 +84,5 @@ class AddRecordTypeTest : BaseUiTest() {
     }
 
     private fun checkPreviewUpdated(matcher: Matcher<View>) =
-        checkViewIsDisplayed(
-            allOf(isDescendantOfA(withId(R.id.previewChangeRecordType)), matcher)
-        )
+        checkViewIsDisplayed(allOf(withId(R.id.previewChangeRecordType), matcher))
 }

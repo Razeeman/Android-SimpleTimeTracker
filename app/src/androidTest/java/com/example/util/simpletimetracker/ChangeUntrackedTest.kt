@@ -1,9 +1,8 @@
 package com.example.util.simpletimetracker
 
 import android.view.View
-import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
-import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -50,9 +49,9 @@ class ChangeUntrackedTest : BaseUiTest() {
         clickOnRecyclerItem(R.id.rvChangeRecordType, withText(name))
 
         // Preview is updated
-        checkPreviewUpdated(withText(name))
+        checkPreviewUpdated(hasDescendant(withText(name)))
         checkPreviewUpdated(withCardColor(color))
-        checkPreviewUpdated(withTag(icon))
+        checkPreviewUpdated(hasDescendant(withTag(icon)))
 
         // Save
         clickOnViewWithText(R.string.change_record_type_save)
@@ -62,9 +61,9 @@ class ChangeUntrackedTest : BaseUiTest() {
         checkViewIsDisplayed(
             allOf(
                 withId(R.id.viewRecordItem),
-                ViewMatchers.hasDescendant(withText(name)),
-                ViewMatchers.hasDescendant(withCardColor(color)),
-                ViewMatchers.hasDescendant(withTag(icon)),
+                withCardColor(color),
+                hasDescendant(withText(name)),
+                hasDescendant(withTag(icon)),
                 isCompletelyDisplayed()
             )
         )
@@ -79,7 +78,5 @@ class ChangeUntrackedTest : BaseUiTest() {
     }
 
     private fun checkPreviewUpdated(matcher: Matcher<View>) =
-        checkViewIsDisplayed(
-            allOf(isDescendantOfA(withId(R.id.previewChangeRecord)), matcher)
-        )
+        checkViewIsDisplayed(allOf(withId(R.id.previewChangeRecord), matcher))
 }

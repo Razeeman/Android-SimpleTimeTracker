@@ -50,7 +50,7 @@ class StatisticsFilterTest : BaseUiTest() {
         Thread.sleep(1000)
         clickOnView(
             allOf(
-                isDescendantOfA(withId(R.id.layoutRecordTypeItem)),
+                isDescendantOfA(withId(R.id.viewRecordTypeItem)),
                 withText(R.string.untracked_time_name)
             )
         )
@@ -64,7 +64,7 @@ class StatisticsFilterTest : BaseUiTest() {
         // Filter activity
         clickOnViewWithId(R.id.btnStatisticsChartFilter)
         Thread.sleep(1000)
-        clickOnView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name)))
+        clickOnView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name)))
         pressBack()
         checkViewDoesNotExist(
             allOf(withText(R.string.untracked_time_name), isCompletelyDisplayed())
@@ -75,7 +75,7 @@ class StatisticsFilterTest : BaseUiTest() {
         // Filter all
         clickOnViewWithId(R.id.btnStatisticsChartFilter)
         Thread.sleep(1000)
-        clickOnView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(newName)))
+        clickOnView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(newName)))
         pressBack()
         checkViewDoesNotExist(allOf(withText(newName), isCompletelyDisplayed()))
         checkViewIsDisplayed(allOf(withText(R.string.statistics_empty), isCompletelyDisplayed()))
@@ -84,12 +84,12 @@ class StatisticsFilterTest : BaseUiTest() {
         clickOnViewWithId(R.id.btnStatisticsEmptyFilter)
         clickOnView(
             allOf(
-                isDescendantOfA(withId(R.id.layoutRecordTypeItem)),
+                isDescendantOfA(withId(R.id.viewRecordTypeItem)),
                 withText(R.string.untracked_time_name)
             )
         )
-        clickOnView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name)))
-        clickOnView(allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(newName)))
+        clickOnView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name)))
+        clickOnView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(newName)))
         pressBack()
         checkViewIsDisplayed(allOf(withText(R.string.untracked_time_name), isCompletelyDisplayed()))
         checkViewIsDisplayed(allOf(withText(name), isCompletelyDisplayed()))

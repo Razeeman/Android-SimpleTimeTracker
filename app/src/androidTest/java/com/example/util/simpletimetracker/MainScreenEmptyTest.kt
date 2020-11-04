@@ -34,7 +34,7 @@ class MainScreenEmptyTest : BaseUiTest() {
         NavUtils.openRecordsScreen()
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.layoutRecordItem),
+                withId(R.id.viewRecordItem),
                 hasDescendant(withText(R.string.untracked_time_name)),
                 isCompletelyDisplayed()
             )
@@ -42,7 +42,7 @@ class MainScreenEmptyTest : BaseUiTest() {
         clickOnViewWithId(R.id.btnRecordsContainerPrevious)
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.layoutRecordItem),
+                withId(R.id.viewRecordItem),
                 hasDescendant(withText(R.string.untracked_time_name)),
                 hasDescendant(withSubstring("24h 0m")),
                 isCompletelyDisplayed()
@@ -122,7 +122,7 @@ class MainScreenEmptyTest : BaseUiTest() {
         // Start timer
         clickOnViewWithText(name)
         checkViewDoesNotExist(withText(R.string.running_records_empty))
-        clickOnView(allOf(isDescendantOfA(withId(R.id.layoutRunningRecordItem)), withText(name)))
+        clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name)))
         checkViewIsDisplayed(withText(R.string.running_records_empty))
     }
 }

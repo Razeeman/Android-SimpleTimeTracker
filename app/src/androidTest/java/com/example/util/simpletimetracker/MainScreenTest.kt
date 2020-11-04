@@ -40,7 +40,7 @@ class MainScreenTest : BaseUiTest() {
         clickOnViewWithText(name)
 
         // Stop timer
-        clickOnView(allOf(isDescendantOfA(withId(R.id.layoutRunningRecordItem)), withText(name)))
+        clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name)))
 
         // Records
         NavUtils.openRecordsScreen()

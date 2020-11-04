@@ -43,7 +43,7 @@ class StatisticsRangesTest : BaseUiTest() {
 
         // Start timer
         clickOnViewWithText(name)
-        clickOnView(allOf(isDescendantOfA(withId(R.id.layoutRunningRecordItem)), withText(name)))
+        clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name)))
 
         // Statistics
         NavUtils.openStatisticsScreen()

@@ -41,7 +41,7 @@ class StartRecordTest : BaseUiTest() {
         var timeStarted = timeMapper.formatTime(currentTime)
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.layoutRunningRecordItem),
+                withId(R.id.viewRunningRecordItem),
                 withCardColor(firstColor),
                 hasDescendant(withText(name)),
                 hasDescendant(withTag(firstIcon)),
@@ -55,7 +55,7 @@ class StartRecordTest : BaseUiTest() {
         timeStarted = timeMapper.formatTime(currentTime)
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.layoutRunningRecordItem),
+                withId(R.id.viewRunningRecordItem),
                 withCardColor(lastColor),
                 hasDescendant(withText(newName)),
                 hasDescendant(withTag(lastIcon)),
@@ -65,7 +65,7 @@ class StartRecordTest : BaseUiTest() {
 
         // Click on already running
         clickOnView(
-            allOf(isDescendantOfA(withId(R.id.layoutRecordTypeItem)), withText(name))
+            allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name))
         )
         NavUtils.openRecordsScreen()
         checkViewDoesNotExist(allOf(withText(name), isCompletelyDisplayed()))
@@ -73,10 +73,10 @@ class StartRecordTest : BaseUiTest() {
         // Stop timer
         NavUtils.openRunningRecordsScreen()
         clickOnView(
-            allOf(isDescendantOfA(withId(R.id.layoutRunningRecordItem)), withText(name))
+            allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name))
         )
         checkViewDoesNotExist(
-            allOf(isDescendantOfA(withId(R.id.layoutRunningRecordItem)), withText(name))
+            allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name))
         )
 
         // Record is added
@@ -86,10 +86,10 @@ class StartRecordTest : BaseUiTest() {
         // Stop timer
         NavUtils.openRunningRecordsScreen()
         clickOnView(
-            allOf(isDescendantOfA(withId(R.id.layoutRunningRecordItem)), withText(newName))
+            allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(newName))
         )
         checkViewDoesNotExist(
-            allOf(isDescendantOfA(withId(R.id.layoutRunningRecordItem)), withText(newName))
+            allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(newName))
         )
 
         // Record is added

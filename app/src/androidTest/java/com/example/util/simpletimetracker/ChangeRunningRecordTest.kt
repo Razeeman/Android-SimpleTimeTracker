@@ -5,6 +5,7 @@ import android.widget.DatePicker
 import android.widget.TimePicker
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.contrib.PickerActions
+import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.withClassName
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -56,7 +57,7 @@ class ChangeRunningRecordTest : BaseUiTest() {
         checkRunningRecordDisplayed(name, firstColor, firstIcon, timeStartedPreview)
 
         // Open edit view
-        longClickOnView(allOf(isDescendantOfA(withId(R.id.layoutRunningRecordItem)), withText(name)))
+        longClickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name)))
 
         // View is set up
         checkViewIsDisplayed(withId(R.id.btnChangeRunningRecordDelete))
@@ -64,10 +65,10 @@ class ChangeRunningRecordTest : BaseUiTest() {
         checkViewIsDisplayed(allOf(withId(R.id.tvChangeRunningRecordTimeStarted), withText(timeStarted)))
 
         // Preview is updated
-        checkPreviewUpdated(withText(name))
+        checkPreviewUpdated(hasDescendant(withText(name)))
         checkPreviewUpdated(withCardColor(firstColor))
-        checkPreviewUpdated(withTag(firstIcon))
-        checkPreviewUpdated(withText(timeStartedPreview))
+        checkPreviewUpdated(hasDescendant(withTag(firstIcon)))
+        checkPreviewUpdated(hasDescendant(withText(timeStartedPreview)))
 
         // Change item
         clickOnViewWithText(R.string.change_running_record_type_field)
@@ -105,27 +106,25 @@ class ChangeRunningRecordTest : BaseUiTest() {
         checkViewIsDisplayed(allOf(withId(R.id.tvChangeRunningRecordTimeStarted), withText(timeStarted)))
 
         // Preview is updated
-        checkPreviewUpdated(withText(newName))
+        checkPreviewUpdated(hasDescendant(withText(newName)))
         checkPreviewUpdated(withCardColor(lastColor))
-        checkPreviewUpdated(withTag(lastIcon))
-        checkPreviewUpdated(withText(timeStartedPreview))
+        checkPreviewUpdated(hasDescendant(withTag(lastIcon)))
+        checkPreviewUpdated(hasDescendant(withText(timeStartedPreview)))
 
         // Save
         clickOnViewWithText(R.string.change_running_record_save)
 
         // Record updated
-        checkViewDoesNotExist(allOf(isDescendantOfA(withId(R.id.layoutRunningRecordItem)), withText(name)))
+        checkViewDoesNotExist(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name)))
         checkRunningRecordDisplayed(newName, lastColor, lastIcon, timeStartedPreview)
     }
 
     private fun checkPreviewUpdated(matcher: Matcher<View>) =
-        checkViewIsDisplayed(
-            allOf(isDescendantOfA(withId(R.id.previewChangeRunningRecord)), matcher)
-        )
+        checkViewIsDisplayed(allOf(withId(R.id.previewChangeRunningRecord), matcher))
 
     private fun checkRunningRecordDisplayed(name: String, color: Int, icon: Int, timeStarted: String) {
         checkViewIsDisplayed(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name)))
-        checkViewIsDisplayed(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withCardColor(color)))
+        checkViewIsDisplayed(allOf(withId(R.id.viewRunningRecordItem), withCardColor(color)))
         checkViewIsDisplayed(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withTag(icon)))
         checkViewIsDisplayed(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(timeStarted)))
     }
