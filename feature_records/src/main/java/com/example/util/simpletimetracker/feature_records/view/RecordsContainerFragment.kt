@@ -80,7 +80,7 @@ class RecordsContainerFragment : BaseFragment(R.layout.records_container_fragmen
         val adapter = RecordsContainerAdapter(this)
         pagerRecordsContainer.apply {
             this.adapter = adapter
-            offscreenPageLimit = 2
+            offscreenPageLimit = 1
             isUserInputEnabled = false
         }
     }

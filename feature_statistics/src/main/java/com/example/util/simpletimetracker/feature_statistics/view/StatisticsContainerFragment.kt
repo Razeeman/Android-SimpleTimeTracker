@@ -69,7 +69,7 @@ class StatisticsContainerFragment : BaseFragment(R.layout.statistics_container_f
         adapter = StatisticsContainerAdapter(this, rangeLength)
         pagerStatisticsContainer.apply {
             this.adapter = this@StatisticsContainerFragment.adapter
-            offscreenPageLimit = 2
+            offscreenPageLimit = 1
             isUserInputEnabled = false
         }
     }

@@ -7,11 +7,7 @@ import android.view.View
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import com.example.util.simpletimetracker.core.R
-import kotlinx.android.synthetic.main.record_view_layout.view.ivRecordItemIcon
-import kotlinx.android.synthetic.main.record_view_layout.view.tvRecordItemDuration
-import kotlinx.android.synthetic.main.record_view_layout.view.tvRecordItemName
-import kotlinx.android.synthetic.main.record_view_layout.view.tvRecordItemTimeFinished
-import kotlinx.android.synthetic.main.record_view_layout.view.tvRecordItemTimeStarted
+import kotlinx.android.synthetic.main.record_view_layout.view.*
 
 class RecordView @JvmOverloads constructor(
     context: Context,
@@ -35,12 +31,24 @@ class RecordView @JvmOverloads constructor(
 
         context.obtainStyledAttributes(attrs, R.styleable.RecordView, defStyleAttr, 0)
             .run {
-                itemName = getString(R.styleable.RecordView_itemName).orEmpty()
-                itemColor = getColor(R.styleable.RecordView_itemColor, Color.BLACK)
-                itemIcon = getResourceId(R.styleable.RecordView_itemIcon, R.drawable.unknown)
-                itemTimeStarted = getString(R.styleable.RecordView_itemTimeStarted).orEmpty()
-                itemTimeEnded = getString(R.styleable.RecordView_itemTimeEnded).orEmpty()
-                itemDuration = getString(R.styleable.RecordView_itemDuration).orEmpty()
+                if (hasValue(R.styleable.RecordView_itemName)) itemName =
+                    getString(R.styleable.RecordView_itemName).orEmpty()
+
+                if (hasValue(R.styleable.RecordView_itemColor)) itemColor =
+                    getColor(R.styleable.RecordView_itemColor, Color.BLACK)
+
+                if (hasValue(R.styleable.RecordView_itemIcon)) itemIcon =
+                    getResourceId(R.styleable.RecordView_itemIcon, R.drawable.unknown)
+
+                if (hasValue(R.styleable.RecordView_itemTimeStarted)) itemTimeStarted =
+                    getString(R.styleable.RecordView_itemTimeStarted).orEmpty()
+
+                if (hasValue(R.styleable.RecordView_itemTimeEnded)) itemTimeEnded =
+                    getString(R.styleable.RecordView_itemTimeEnded).orEmpty()
+
+                if (hasValue(R.styleable.RecordView_itemDuration)) itemDuration =
+                    getString(R.styleable.RecordView_itemDuration).orEmpty()
+
                 recycle()
             }
     }
