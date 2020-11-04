@@ -6,54 +6,58 @@ import android.graphics.Color
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.View
-import android.widget.FrameLayout
+import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.extension.setMargins
-import kotlinx.android.synthetic.main.record_type_view_layout.view.*
-import kotlinx.android.synthetic.main.record_type_view_vertical.view.*
+import kotlinx.android.synthetic.main.record_type_view_vertical.view.constraintRecordTypeItem
+import kotlinx.android.synthetic.main.record_type_view_vertical.view.ivRecordTypeItemIcon
+import kotlinx.android.synthetic.main.record_type_view_vertical.view.tvRecordTypeItemName
 
 class RecordTypeView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-) : FrameLayout(
+) : CardView(
     context,
     attrs,
     defStyleAttr
 ) {
 
     init {
-        // TODO Merge layout?
         View.inflate(context, R.layout.record_type_view_layout, this)
+
+        ContextCompat.getColor(context, R.color.black).let(::setCardBackgroundColor)
+        radius = resources.getDimensionPixelOffset(R.dimen.record_type_card_corner_radius).toFloat()
+        // TODO doesn't work here for some reason, need to set in the layout
+        cardElevation = resources.getDimensionPixelOffset(R.dimen.record_type_card_elevation).toFloat()
+        preventCornerOverlap = false
+        useCompatPadding = true
 
         context.obtainStyledAttributes(attrs, R.styleable.RecordTypeView, defStyleAttr, 0)
             .run {
-                // TODO check hasValue first to avoid double work
-                itemName = getString(
-                    R.styleable.RecordTypeView_itemName
-                ).orEmpty()
-                itemColor = getColor(
-                    R.styleable.RecordTypeView_itemColor, Color.BLACK
-                )
-                itemIcon = getResourceId(
-                    R.styleable.RecordTypeView_itemIcon, R.drawable.unknown
-                )
-                if (hasValue(R.styleable.RecordTypeView_itemIconColor)) {
-                    itemIconColor = getColor(
-                        R.styleable.RecordTypeView_itemIconColor, Color.WHITE
-                    )
+                if (hasValue(R.styleable.RecordTypeView_itemName)) {
+                    itemName = getString(R.styleable.RecordTypeView_itemName).orEmpty()
                 }
-                itemAlpha = getFloat(
-                    R.styleable.RecordTypeView_itemAlpha, 1f
-                )
-                itemUseCompatPadding = getBoolean(
-                    R.styleable.RecordTypeView_itemUseCompatPadding, true
-                )
-                itemIsRow = getBoolean(
-                    R.styleable.RecordTypeView_itemIsRow, false
-                )
+
+                if (hasValue(R.styleable.RecordTypeView_itemColor)) {
+                    itemColor = getColor(R.styleable.RecordTypeView_itemColor, Color.BLACK)
+                }
+
+                if (hasValue(R.styleable.RecordTypeView_itemIcon)) {
+                    itemIcon = getResourceId(R.styleable.RecordTypeView_itemIcon, R.drawable.unknown)
+                }
+
+                if (hasValue(R.styleable.RecordTypeView_itemIconColor)) {
+                    itemIconColor = getColor(R.styleable.RecordTypeView_itemIconColor, Color.WHITE)
+                }
+
+                if (hasValue(R.styleable.RecordTypeView_itemIsRow)) {
+                    itemIsRow = getBoolean(R.styleable.RecordTypeView_itemIsRow, false)
+                }
+
                 recycle()
             }
     }
@@ -66,7 +70,7 @@ class RecordTypeView @JvmOverloads constructor(
 
     var itemColor: Int = 0
         set(value) {
-            layoutRecordTypeItem.setCardBackgroundColor(value)
+            setCardBackgroundColor(value)
             field = value
         }
 
@@ -81,18 +85,6 @@ class RecordTypeView @JvmOverloads constructor(
         set(value) {
             tvRecordTypeItemName.setTextColor(value)
             ViewCompat.setBackgroundTintList(ivRecordTypeItemIcon, ColorStateList.valueOf(value))
-            field = value
-        }
-
-    var itemAlpha: Float = 1f
-        set(value) {
-            layoutRecordTypeItem.alpha = value
-            field = value
-        }
-
-    var itemUseCompatPadding: Boolean = true
-        set(value) {
-            layoutRecordTypeItem.useCompatPadding = value
             field = value
         }
 

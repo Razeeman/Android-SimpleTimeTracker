@@ -12,6 +12,7 @@ import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.MeasureSpec
+import android.widget.FrameLayout
 import android.widget.RemoteViews
 import com.example.util.simpletimetracker.core.interactor.AddRunningRecordMediator
 import com.example.util.simpletimetracker.core.interactor.RemoveRunningRecordMediator
@@ -134,19 +135,24 @@ class WidgetProvider : AppWidgetProvider() {
             Color.BLACK
         }
 
-        val alpha = if (runningRecord != null && recordType != null) {
+        val viewAlpha = if (runningRecord != null && recordType != null) {
             ENABLED_ALPHA
         } else {
             DISABLED_ALPHA
         }
 
+        // TODO setting alpha on cardView doesn't work for some reason, wrap in layout before setting
+        val container = FrameLayout(ContextThemeWrapper(context, R.style.AppTheme))
         RecordTypeView(ContextThemeWrapper(context, R.style.AppTheme)).apply {
-            itemUseCompatPadding = false
+            cardElevation = 0f
+            useCompatPadding = false
             itemIcon = icon
             itemName = name
             itemColor = color
-            itemAlpha = alpha
-        }
+            alpha = viewAlpha
+        }.let(container::addView)
+
+        container
     }
 
     private fun measureView(context: Context, view: View) {
