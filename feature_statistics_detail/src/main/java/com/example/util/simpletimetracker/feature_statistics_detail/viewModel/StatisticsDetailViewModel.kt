@@ -47,6 +47,12 @@ class StatisticsDetailViewModel @Inject constructor(
             initial
         }
     }
+    val dailyChartViewData: LiveData<StatisticsDetailChartViewData> by lazy {
+        return@lazy MutableLiveData<StatisticsDetailChartViewData>().let { initial ->
+            viewModelScope.launch { initial.value = loadDailyChartViewData() }
+            initial
+        }
+    }
     val chartGroupingViewData: LiveData<List<ViewHolderType>> by lazy {
         return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
             initial.value = loadChartGroupingViewData()
@@ -62,6 +68,13 @@ class StatisticsDetailViewModel @Inject constructor(
 
     private var chartGrouping: ChartGrouping = ChartGrouping.DAILY
     private var chartLength: ChartLength = ChartLength.TEN
+
+    fun onVisible() {
+        return // TODO fix crash after going to records all list and back very fast
+        updateChartViewData()
+        updatePreviewViewData()
+        updateDailyChartViewData()
+    }
 
     fun onChartGroupingClick(viewData: ButtonsRowViewData) {
         if (viewData !is StatisticsDetailGroupingViewData) return
@@ -84,8 +97,16 @@ class StatisticsDetailViewModel @Inject constructor(
         )
     }
 
+    private fun updatePreviewViewData() = viewModelScope.launch {
+        (viewData as MutableLiveData).value = loadPreviewViewData()
+    }
+
     private fun updateChartViewData() = viewModelScope.launch {
         (chartViewData as MutableLiveData).value = loadChartViewData()
+    }
+
+    private fun updateDailyChartViewData() = viewModelScope.launch {
+        (dailyChartViewData as MutableLiveData).value = loadDailyChartViewData()
     }
 
     private fun updateChartGroupingViewData() {
@@ -121,6 +142,16 @@ class StatisticsDetailViewModel @Inject constructor(
         }
 
         return statisticsDetailViewDataMapper.mapToChartViewData(data)
+    }
+
+    private suspend fun loadDailyChartViewData(): StatisticsDetailChartViewData {
+        val data = if (extra.typeId == -1L) {
+            emptyMap()
+        } else {
+            statisticsDetailInteractor.getDailyDurations(typeId = extra.typeId)
+        }
+
+        return statisticsDetailViewDataMapper.mapToDailyChartViewData(data)
     }
 
     private fun loadChartGroupingViewData() : List<ViewHolderType> {

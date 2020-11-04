@@ -25,6 +25,7 @@ import kotlinx.android.synthetic.main.statistics_detail_fragment.cardStatisticsD
 import kotlinx.android.synthetic.main.statistics_detail_fragment.cardStatisticsDetailRecords
 import kotlinx.android.synthetic.main.statistics_detail_fragment.cardStatisticsDetailTotal
 import kotlinx.android.synthetic.main.statistics_detail_fragment.chartStatisticsDetail
+import kotlinx.android.synthetic.main.statistics_detail_fragment.chartStatisticsDetailDaily
 import kotlinx.android.synthetic.main.statistics_detail_fragment.ivStatisticsDetailItemIcon
 import kotlinx.android.synthetic.main.statistics_detail_fragment.layoutStatisticsDetailItem
 import kotlinx.android.synthetic.main.statistics_detail_fragment.tvStatisticsDetailItemName
@@ -71,8 +72,14 @@ class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragmen
         )
         viewData.observe(viewLifecycleOwner, ::updateViewData)
         chartViewData.observe(viewLifecycleOwner, ::updateChartViewData)
+        dailyChartViewData.observe(viewLifecycleOwner, ::updateDailyChartViewData)
         chartGroupingViewData.observe(viewLifecycleOwner, buttonsStatisticsDetailGrouping.adapter::replace)
         chartLengthViewData.observe(viewLifecycleOwner, buttonsStatisticsDetailLength.adapter::replace)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.onVisible()
     }
 
     private fun updateViewData(viewData: StatisticsDetailViewData) {
@@ -82,6 +89,7 @@ class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragmen
         ivStatisticsDetailItemIcon.tag = viewData.iconId
 
         chartStatisticsDetail.setBarColor(viewData.color)
+        chartStatisticsDetailDaily.setBarColor(viewData.color)
 
         cardStatisticsDetailTotal.items = viewData.totalDuration
         cardStatisticsDetailRecords.items = viewData.timesTracked
@@ -92,6 +100,11 @@ class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragmen
     private fun updateChartViewData(viewData: StatisticsDetailChartViewData) {
         chartStatisticsDetail.setBars(viewData.data)
         chartStatisticsDetail.setLegendTextSuffix(viewData.legendSuffix)
+    }
+
+    private fun updateDailyChartViewData(viewData: StatisticsDetailChartViewData) {
+        chartStatisticsDetailDaily.setBars(viewData.data)
+        chartStatisticsDetailDaily.setLegendTextSuffix(viewData.legendSuffix)
     }
 
     companion object {

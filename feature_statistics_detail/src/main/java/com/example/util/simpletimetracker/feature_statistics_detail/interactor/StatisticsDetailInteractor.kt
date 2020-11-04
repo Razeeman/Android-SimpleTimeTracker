@@ -1,5 +1,7 @@
 package com.example.util.simpletimetracker.feature_statistics_detail.interactor
 
+import com.example.util.simpletimetracker.core.mapper.TimeMapper
+import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.model.Record
 import java.util.Calendar
@@ -8,7 +10,8 @@ import kotlin.math.max
 import kotlin.math.min
 
 class StatisticsDetailInteractor @Inject constructor(
-    private val recordInteractor: RecordInteractor
+    private val recordInteractor: RecordInteractor,
+    private val timeMapper: TimeMapper
 ) {
 
     suspend fun getDurations(
@@ -38,6 +41,77 @@ class StatisticsDetailInteractor @Inject constructor(
                 }
             }
             .map(::mapToDuration)
+    }
+
+    suspend fun getDailyDurations(typeId: Long): Map<DailyChartGrouping, Long> {
+        val calendar = Calendar.getInstance()
+        val data: MutableMap<DailyChartGrouping, Long> = mutableMapOf()
+
+        val records = recordInteractor.getAll()
+            .filter { it.typeId == typeId }
+
+        processRecords(calendar, records).forEach {
+            val day = mapToDailyGrouping(calendar, it)
+            val duration = it.timeEnded - it.timeStarted
+            data[day] = data[day].orZero() + duration
+        }
+
+        return data
+    }
+
+    private fun processRecords(calendar: Calendar, records: List<Record>): List<Record> {
+        val processedRecords: MutableList<Record> = mutableListOf()
+
+        records.forEach { record ->
+            splitIntoRecords(calendar, record).forEach { processedRecords.add(it) }
+        }
+
+        return processedRecords
+    }
+
+    private fun mapToDailyGrouping(calendar: Calendar, record: Record): DailyChartGrouping {
+        val day = calendar
+            .apply { timeInMillis = record.timeStarted }
+            .get(Calendar.DAY_OF_WEEK)
+
+        return when (day) {
+            Calendar.MONDAY -> DailyChartGrouping.MONDAY
+            Calendar.TUESDAY -> DailyChartGrouping.TUESDAY
+            Calendar.WEDNESDAY -> DailyChartGrouping.WEDNESDAY
+            Calendar.THURSDAY -> DailyChartGrouping.THURSDAY
+            Calendar.FRIDAY -> DailyChartGrouping.FRIDAY
+            Calendar.SATURDAY -> DailyChartGrouping.SATURDAY
+            else -> DailyChartGrouping.SUNDAY
+        }
+    }
+
+    private tailrec fun splitIntoRecords(
+        calendar: Calendar,
+        record: Record,
+        splitRecords: MutableList<Record> = mutableListOf()
+    ): List<Record> {
+        if (timeMapper.sameDay(record.timeStarted, record.timeEnded)) return splitRecords.also { it.add(record) }
+
+        val adjustedCalendar = calendar.apply {
+            timeInMillis = record.timeStarted
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }
+        val rangeEnd = adjustedCalendar.apply { add(Calendar.DATE, 1) }.timeInMillis
+
+        val firstRecord = record.copy(
+            timeStarted = record.timeStarted,
+            timeEnded = rangeEnd
+        )
+        val secondRecord = record.copy(
+            timeStarted = rangeEnd,
+            timeEnded = record.timeEnded
+        )
+        splitRecords.add(firstRecord)
+
+        return splitIntoRecords(calendar, secondRecord, splitRecords)
     }
 
     private fun getNumberOfGroups(

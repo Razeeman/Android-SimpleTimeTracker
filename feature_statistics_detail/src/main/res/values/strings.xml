@@ -15,4 +15,12 @@
     <string name="statistics_detail_longest_record">Longest</string>
     <string name="statistics_detail_first_record">First</string>
     <string name="statistics_detail_last_record">Last</string>
+
+    <string name="statistics_detail_chart_monday">Mon</string>
+    <string name="statistics_detail_chart_tuesday">Tue</string>
+    <string name="statistics_detail_chart_wednesday">Wed</string>
+    <string name="statistics_detail_chart_thursday">Thu</string>
+    <string name="statistics_detail_chart_friday">Fri</string>
+    <string name="statistics_detail_chart_saturday">Sat</string>
+    <string name="statistics_detail_chart_sunday">Sun</string>
 </resources>

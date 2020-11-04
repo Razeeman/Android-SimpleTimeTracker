@@ -7,6 +7,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:paddingBottom="16dp"
         android:layout_height="wrap_content">
 
         <androidx.cardview.widget.CardView
@@ -143,6 +144,24 @@
             android:layout_marginEnd="4dp"
             app:itemCount="2"
             app:layout_constraintTop_toBottomOf="@+id/cardStatisticsDetailAverage" />
+
+        <com.example.util.simpletimetracker.feature_statistics_detail.customView.BarChartView
+            android:id="@+id/chartStatisticsDetailDaily"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            app:barCornerRadius="8dp"
+            app:dividerWidth="2dp"
+            app:layout_constraintTop_toBottomOf="@id/cardStatisticsDetailDates"
+            app:legendLineColor="?appLegendColor"
+            app:legendTextColor="@color/textSecondary"
+            app:legendTextSize="14sp"
+            app:selectedBarBackgroundColor="?appInactiveColor"
+            app:selectedBarTextColor="?appLightTextColor"
+            tools:barColor="@color/black"
+            tools:barCount="7" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

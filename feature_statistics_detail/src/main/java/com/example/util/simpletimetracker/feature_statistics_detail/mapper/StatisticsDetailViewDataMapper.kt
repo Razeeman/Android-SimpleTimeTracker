@@ -9,8 +9,10 @@ import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_statistics_detail.R
+import com.example.util.simpletimetracker.feature_statistics_detail.customView.BarChartView
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.ChartGrouping
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.ChartLength
+import com.example.util.simpletimetracker.feature_statistics_detail.interactor.DailyChartGrouping
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailCardViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartLengthViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartViewData
@@ -116,16 +118,51 @@ class StatisticsDetailViewDataMapper @Inject constructor(
     fun mapToChartViewData(
         data: List<Long>
     ): StatisticsDetailChartViewData {
-        val isMinutes = data.max().orZero()
-            .let(TimeUnit.MILLISECONDS::toHours) == 0L
+        val isMinutes = data.max().orZero().let(TimeUnit.MILLISECONDS::toHours) == 0L
+
         val legendSuffix = if (isMinutes) {
-            resourceRepo.getString(R.string.statistics_detail_legend_minute_suffix)
+            R.string.statistics_detail_legend_minute_suffix
         } else {
-            resourceRepo.getString(R.string.statistics_detail_legend_hour_suffix)
-        }
+            R.string.statistics_detail_legend_hour_suffix
+        }.let(resourceRepo::getString)
 
         return StatisticsDetailChartViewData(
-            data = data.map { formatInterval(it, isMinutes) },
+            data = data.map { formatInterval(it, isMinutes) }.map { BarChartView.ViewData(it) },
+            legendSuffix = legendSuffix
+        )
+    }
+
+    fun mapToDailyChartViewData(
+        data: Map<DailyChartGrouping, Long>
+    ): StatisticsDetailChartViewData {
+        val isMinutes = data.values.max().orZero().let(TimeUnit.MILLISECONDS::toHours) == 0L
+
+        val legendSuffix = if (isMinutes) {
+            R.string.statistics_detail_legend_minute_suffix
+        } else {
+            R.string.statistics_detail_legend_hour_suffix
+        }.let(resourceRepo::getString)
+
+        val dayLegends = mapOf(
+            DailyChartGrouping.MONDAY to R.string.statistics_detail_chart_monday,
+            DailyChartGrouping.TUESDAY to R.string.statistics_detail_chart_tuesday,
+            DailyChartGrouping.WEDNESDAY to R.string.statistics_detail_chart_wednesday,
+            DailyChartGrouping.THURSDAY to R.string.statistics_detail_chart_thursday,
+            DailyChartGrouping.FRIDAY to R.string.statistics_detail_chart_friday,
+            DailyChartGrouping.SATURDAY to R.string.statistics_detail_chart_saturday,
+            DailyChartGrouping.SUNDAY to R.string.statistics_detail_chart_sunday
+        )
+
+        val viewData = dayLegends
+            .map { (day, legendResId) ->
+                BarChartView.ViewData(
+                    value = formatInterval(data[day].orZero(), isMinutes),
+                    legend = legendResId.let(resourceRepo::getString)
+                )
+            }
+
+        return StatisticsDetailChartViewData(
+            data = viewData,
             legendSuffix = legendSuffix
         )
     }

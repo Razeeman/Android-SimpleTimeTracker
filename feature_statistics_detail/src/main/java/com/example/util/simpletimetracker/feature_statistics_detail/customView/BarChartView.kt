@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.feature_statistics_detail.customView
 
 import android.animation.ValueAnimator
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
@@ -43,15 +44,19 @@ class BarChartView @JvmOverloads constructor(
     private val bounds: RectF = RectF(0f, 0f, 0f, 0f)
     private var radiusArr: FloatArray = floatArrayOf(0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f)
     private var barPath: Path = Path()
-    private var bars: List<Float> = emptyList()
+    private var bars: List<ViewData> = emptyList()
     private var maxValue: Float = 0f
     private var valueUpperBound: Long = 0
     private var nearestUpperStep: Long = 0
     private var pixelTopBound: Float = 0f
+    private var pixelBottomBound: Float = 0f
     private var pixelRightBound: Float = 0f
+    private var chartWidth: Float = 0f
+    private var chartHeight: Float = 0f
+    private var barWidth: Float = 0f
     private val legendTextPadding = 8.dpToPx()
     private val legendTextStartPadding = 4.dpToPx()
-    private var legendLinesCount: Int = 0
+    private var longestTextWidth: Float = 0f
     private var legendLinesPixelStep: Float = 0f
     private var selectedBar: Int = -1 // -1 nothing is selected
     private val selectedBarTextPadding: Int = 6.dpToPx()
@@ -90,12 +95,14 @@ class BarChartView @JvmOverloads constructor(
         val w = width.toFloat()
         val h = height.toFloat()
 
+        calculateDimensions(w, h)
         drawText(canvas, w, h)
-        drawLines(canvas, h)
-        drawBars(canvas, h)
-        drawSelectedBar(canvas, h)
+        drawLines(canvas)
+        drawBars(canvas)
+        drawSelectedBarIcon(canvas)
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
         var handled = false
 
@@ -106,9 +113,9 @@ class BarChartView @JvmOverloads constructor(
         return handled or singleTapDetector.onTouchEvent(event)
     }
 
-    fun setBars(data: List<Float>) {
-        bars = data.takeUnless { it.isEmpty() } ?: listOf(0f)
-        maxValue = data.max() ?: 1f
+    fun setBars(data: List<ViewData>) {
+        bars = data.takeUnless { it.isEmpty() } ?: listOf(ViewData(0f))
+        maxValue = data.map(ViewData::value).max() ?: 1f
         selectedBar = -1
         invalidate()
         if (!isInEditMode) animateBars()
@@ -189,7 +196,7 @@ class BarChartView @JvmOverloads constructor(
         }
     }
 
-    private fun drawText(canvas: Canvas, w: Float, h: Float) {
+    private fun calculateDimensions(w: Float, h: Float) {
         // Min value change between legend lines
         val minDivider = if (maxValue > 5f) 5L else 1L
 
@@ -208,34 +215,59 @@ class BarChartView @JvmOverloads constructor(
         // Max legend line value
         valueUpperBound = nearestUpper(nearestUpperStep, maxValue)
 
-        val longestTextWidth = textPaint.measureText("$valueUpperBound$legendTextSuffix")
+        longestTextWidth = textPaint.measureText("$valueUpperBound$legendTextSuffix")
+
+        // Bar chart bounds
+        pixelBottomBound = if (bars.mapNotNull(ViewData::legend).isEmpty()) {
+            h.toFloat()
+        } else {
+            h - legendTextSize
+        }
+        pixelTopBound = legendTextSize
+        pixelRightBound = w - longestTextWidth - legendTextStartPadding
+
+        // Bar chart size
+        chartWidth = pixelRightBound
+        chartHeight = pixelBottomBound - pixelTopBound
+        barWidth = chartWidth / bars.size
 
         // Legend lines value points
         val points = (0..valueUpperBound step nearestUpperStep).toList()
 
-        legendLinesCount = points.size
+        // How many legend lines need to draw
+        val legendLinesCount = points.size
 
         // Pixel step between legend lines
-        legendLinesPixelStep = (h - legendTextSize) / (legendLinesCount - 1)
+        legendLinesPixelStep = chartHeight / (legendLinesCount - 1)
+    }
 
-        // Bar chart upper bound
-        pixelTopBound = legendTextSize
-
-        // Bar chart right bound
-        pixelRightBound = w - longestTextWidth - legendTextStartPadding
+    private fun drawText(canvas: Canvas, w: Float, h: Float) {
+        // Legend lines value points
+        val points = (0..valueUpperBound step nearestUpperStep).toList()
 
         points.forEachIndexed { index, point ->
             val pointText = "$point$legendTextSuffix"
             canvas.drawText(
                 pointText,
                 w - textPaint.measureText(pointText) / 2 - longestTextWidth / 2,
-                h - legendLinesPixelStep * index,
+                pixelBottomBound - legendLinesPixelStep * index,
+                textPaint
+            )
+        }
+
+        bars.map(ViewData::legend).forEachIndexed { index, legend ->
+            if (legend.isNullOrEmpty()) return@forEachIndexed
+
+            canvas.drawText(
+                legend,
+                barWidth * index + barWidth / 2 - textPaint.measureText(legend) / 2,
+                h,
                 textPaint
             )
         }
     }
 
-    private fun drawBars(canvas: Canvas, h: Float) {
+    private fun drawBars(canvas: Canvas) {
         radiusArr = floatArrayOf(
             barCornerRadius, barCornerRadius,
             barCornerRadius, barCornerRadius,
@@ -243,20 +275,16 @@ class BarChartView @JvmOverloads constructor(
             0f, 0f
         )
 
-        val chartWidth = pixelRightBound
-        val chartHeight = h - pixelTopBound
-        val barWidth = chartWidth / bars.size
-
         canvas.save()
 
         bars.forEach {
             // Normalize bar values to max legend line value
-            val scaled = it * barAnimationScale / valueUpperBound
+            val scaled = it.value * barAnimationScale / valueUpperBound
             bounds.set(
                 0f + barDividerWidth / 2,
                 pixelTopBound + chartHeight * (1f - scaled),
                 barWidth - barDividerWidth / 2,
-                h
+                pixelBottomBound
             )
             barPath = Path().apply {
                 addRoundRect(bounds, radiusArr, Path.Direction.CW)
@@ -268,25 +296,22 @@ class BarChartView @JvmOverloads constructor(
         canvas.restore()
     }
 
-    private fun drawLines(canvas: Canvas, h: Float) {
+    private fun drawLines(canvas: Canvas) {
         val points = (0..valueUpperBound step nearestUpperStep).toList()
         points.forEachIndexed { index, _ ->
             canvas.drawLine(
                 0f,
-                h - legendLinesPixelStep * index,
+                pixelBottomBound - legendLinesPixelStep * index,
                 pixelRightBound,
-                h - legendLinesPixelStep * index,
+                pixelBottomBound - legendLinesPixelStep * index,
                 linePaint
             )
         }
     }
 
-    private fun drawSelectedBar(canvas: Canvas, h: Float) {
-        val barValue = bars.getOrNull(selectedBar) ?: return
+    private fun drawSelectedBarIcon(canvas: Canvas) {
+        val barValue = bars.getOrNull(selectedBar)?.value ?: return
 
-        val chartWidth = pixelRightBound
-        val chartHeight = h - pixelTopBound
-        val barWidth = chartWidth / bars.size
         val scaled = barValue / valueUpperBound
         val barTop = pixelTopBound + chartHeight * (1f - scaled)
         val pointText = barValue.toInt().toString()
@@ -336,26 +361,20 @@ class BarChartView @JvmOverloads constructor(
     private fun initEditMode() {
         if (isInEditMode) {
             val segments = barCountInEdit.takeIf { it != 0 } ?: 5
-            (segments downTo 1).toList().map(Int::toFloat).let(::setBars)
+            (segments downTo 1).toList().map { ViewData(it.toFloat(), it.toString()) }.let(::setBars)
             selectedBar = barCountInEdit / 2
         }
     }
 
     private fun onClick(x: Float, y: Float) {
-        val h = height.toFloat()
-
-        val chartWidth = pixelRightBound
-        val chartHeight = h - pixelTopBound
-        val barWidth = chartWidth / bars.size
-
         val clickedAroundBar = floor(x / barWidth).toInt()
 
         bars.getOrNull(clickedAroundBar)?.let {
             // Normalize bar values to max legend line value
-            val scaled = it / valueUpperBound
+            val scaled = it.value / valueUpperBound
             val barTop = pixelTopBound + chartHeight * (1f - scaled)
 
-            if (y > barTop) {
+            if (y > barTop && y < pixelBottomBound) {
                 selectedBar = clickedAroundBar
                 invalidate()
                 return
@@ -375,4 +394,9 @@ class BarChartView @JvmOverloads constructor(
         }
         animator.start()
     }
+
+    data class ViewData(
+        val value: Float,
+        val legend: String? = null
+    )
 }
