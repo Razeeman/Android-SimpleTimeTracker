@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.example.util.simpletimetracker.core.view.RecordView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/viewRecordItem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginStart="4dp"
+    android:layout_marginEnd="4dp"
+    app:cardElevation="@dimen/record_type_card_elevation"
     tools:itemDuration="5h 23m 3s"
     tools:itemName="Item name"
     tools:itemTimeEnded="11:58"
