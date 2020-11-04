@@ -135,14 +135,6 @@ class StatisticsDetailViewDataMapper @Inject constructor(
     fun mapToDailyChartViewData(
         data: Map<DailyChartGrouping, Long>
     ): StatisticsDetailChartViewData {
-        val isMinutes = data.values.max().orZero().let(TimeUnit.MILLISECONDS::toHours) == 0L
-
-        val legendSuffix = if (isMinutes) {
-            R.string.statistics_detail_legend_minute_suffix
-        } else {
-            R.string.statistics_detail_legend_hour_suffix
-        }.let(resourceRepo::getString)
-
         val dayLegends = mapOf(
             DailyChartGrouping.MONDAY to R.string.statistics_detail_chart_monday,
             DailyChartGrouping.TUESDAY to R.string.statistics_detail_chart_tuesday,
@@ -156,14 +148,14 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         val viewData = dayLegends
             .map { (day, legendResId) ->
                 BarChartView.ViewData(
-                    value = formatInterval(data[day].orZero(), isMinutes),
+                    value = data[day].orZero().toFloat(),
                     legend = legendResId.let(resourceRepo::getString)
                 )
             }
 
         return StatisticsDetailChartViewData(
             data = viewData,
-            legendSuffix = legendSuffix
+            legendSuffix = "%"
         )
     }
 
