@@ -16,6 +16,10 @@ class RecordInteractor @Inject constructor(
         return recordRepo.getAll()
     }
 
+    suspend fun getByType(typeIds: List<Long>): List<Record> {
+        return recordRepo.getByType(typeIds)
+    }
+
     suspend fun get(id: Long): Record? {
         return recordRepo.get(id)
     }

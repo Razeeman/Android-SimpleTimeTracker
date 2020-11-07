@@ -28,8 +28,7 @@ class RecordsAllViewDataInteractor @Inject constructor(
         val recordTypes = recordTypeInteractor.getAll()
             .map { it.id to it }
             .toMap()
-        val records = recordInteractor.getAll() // TODO get records by typeId
-            .filter { it.typeId in typesSelected }
+        val records = recordInteractor.getByType(typesSelected)
 
         return withContext(Dispatchers.Default) {
             records

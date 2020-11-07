@@ -22,6 +22,12 @@ class RecordRepoImpl @Inject constructor(
             .map(recordDataLocalMapper::map)
     }
 
+    override suspend fun getByType(typeIds: List<Long>): List<Record> = withContext(Dispatchers.IO) {
+        Timber.d("getByType")
+        recordDao.getByType(typeIds)
+            .map(recordDataLocalMapper::map)
+    }
+
     override suspend fun get(id: Long): Record? = withContext(Dispatchers.IO) {
         Timber.d("get")
         recordDao.get(id)

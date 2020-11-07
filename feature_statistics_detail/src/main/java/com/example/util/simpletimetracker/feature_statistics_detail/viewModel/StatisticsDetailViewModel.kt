@@ -116,8 +116,7 @@ class StatisticsDetailViewModel @Inject constructor(
         return if (extra.typeId == -1L) {
             statisticsDetailViewDataMapper.map(emptyList(), isDarkTheme)
         } else {
-            val records = recordInteractor.getAll() // TODO get by typeId
-                .filter { it.typeId == extra.typeId }
+            val records = recordInteractor.getByType(listOf(extra.typeId))
             statisticsDetailViewDataMapper.map(records, isDarkTheme)
         }
     }

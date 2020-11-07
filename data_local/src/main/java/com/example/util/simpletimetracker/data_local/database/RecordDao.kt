@@ -12,6 +12,9 @@ interface RecordDao {
     @Query("SELECT * FROM records")
     suspend fun getAll(): List<RecordDBO>
 
+    @Query("SELECT * FROM records WHERE type_id IN (:typesIds)")
+    suspend fun getByType(typesIds: List<Long>): List<RecordDBO>
+
     @Query("SELECT * FROM records WHERE id = :id LIMIT 1")
     suspend fun get(id: Long): RecordDBO?
 
