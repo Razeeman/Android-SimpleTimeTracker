@@ -9,7 +9,9 @@ import com.example.util.simpletimetracker.core.adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
+import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_dialogs.typesFilter.extra.TypesFilterExtra
 import kotlinx.coroutines.launch
@@ -17,6 +19,7 @@ import javax.inject.Inject
 
 class TypesFilterViewModel @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
+    private val recordInteractor: RecordInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper
 ) : ViewModel() {
@@ -63,7 +66,7 @@ class TypesFilterViewModel @Inject constructor(
         val isDarkTheme = prefsInteractor.getDarkMode()
         val typesSelected = typesSelected.value.orEmpty()
 
-        if (types.isEmpty()) types = recordTypeInteractor.getAll()
+        if (types.isEmpty()) types = loadRecordTypes()
 
         (recordTypes as MutableLiveData).value = types.map { type ->
             recordTypeViewDataMapper.mapFiltered(
@@ -73,5 +76,14 @@ class TypesFilterViewModel @Inject constructor(
                 type.id !in typesSelected
             )
         }
+    }
+
+    private suspend fun loadRecordTypes(): List<RecordType> {
+        val typesWithRecords = recordInteractor.getAll()
+            .map(Record::typeId)
+            .toSet()
+
+        return recordTypeInteractor.getAll()
+            .filter { it.id in typesWithRecords }
     }
 }
