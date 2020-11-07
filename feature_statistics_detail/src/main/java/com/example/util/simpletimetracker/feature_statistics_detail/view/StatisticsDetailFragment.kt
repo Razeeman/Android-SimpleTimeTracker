@@ -15,6 +15,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.R
 import com.example.util.simpletimetracker.feature_statistics_detail.di.StatisticsDetailComponentProvider
 import com.example.util.simpletimetracker.feature_statistics_detail.extra.StatisticsDetailExtra
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewModel.StatisticsDetailViewModel
 import com.example.util.simpletimetracker.navigation.params.StatisticsDetailParams
@@ -67,10 +68,9 @@ class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragmen
     }
 
     override fun initViewModel(): Unit = with(viewModel) {
-        extra = StatisticsDetailExtra(
-            typeId = typeId
-        )
-        viewData.observe(viewLifecycleOwner, ::updateViewData)
+        extra = StatisticsDetailExtra(typeId = typeId)
+        previewViewData.observe(viewLifecycleOwner, ::setPreviewViewData)
+        viewData.observe(viewLifecycleOwner, ::setViewData)
         chartViewData.observe(viewLifecycleOwner, ::updateChartViewData)
         dailyChartViewData.observe(viewLifecycleOwner, ::updateDailyChartViewData)
         chartGroupingViewData.observe(viewLifecycleOwner, buttonsStatisticsDetailGrouping.adapter::replace)
@@ -82,15 +82,16 @@ class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragmen
         viewModel.onVisible()
     }
 
-    private fun updateViewData(viewData: StatisticsDetailViewData) {
+    private fun setPreviewViewData(viewData: StatisticsDetailPreviewViewData) {
         tvStatisticsDetailItemName.text = viewData.name
         layoutStatisticsDetailItem.setCardBackgroundColor(viewData.color)
         ivStatisticsDetailItemIcon.setBackgroundResource(viewData.iconId)
         ivStatisticsDetailItemIcon.tag = viewData.iconId
-
         chartStatisticsDetail.setBarColor(viewData.color)
         chartStatisticsDetailDaily.setBarColor(viewData.color)
+    }
 
+    private fun setViewData(viewData: StatisticsDetailViewData) {
         cardStatisticsDetailTotal.items = viewData.totalDuration
         cardStatisticsDetailRecords.items = viewData.timesTracked
         cardStatisticsDetailAverage.items = viewData.averageRecord

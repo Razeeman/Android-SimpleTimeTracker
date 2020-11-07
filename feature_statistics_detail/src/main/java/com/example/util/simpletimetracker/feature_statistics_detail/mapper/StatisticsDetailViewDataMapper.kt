@@ -17,6 +17,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.viewData.Sta
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartLengthViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailGroupingViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailViewData
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -30,7 +31,6 @@ class StatisticsDetailViewDataMapper @Inject constructor(
 
     fun map(
         records: List<Record>,
-        recordType: RecordType?,
         isDarkTheme: Boolean
     ): StatisticsDetailViewData {
         val recordsSorted = records.sortedBy { it.timeStarted }
@@ -38,12 +38,50 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         val totalDuration = durations.sum()
         val timesTracked = records.size.toLong()
         val shortest = durations.min().orZero()
-        val average = durations.sum() / durations.size
+        val average = if (records.isNotEmpty()) durations.sum() / durations.size else 0
         val longest = durations.max().orZero()
         val first = recordsSorted.firstOrNull()?.timeStarted
         val last = recordsSorted.lastOrNull()?.timeEnded
 
-        return StatisticsDetailViewData(
+        val recordsAllIcon = StatisticsDetailCardViewData.Icon(
+            iconDrawable = R.drawable.statistics_detail_records_all,
+            iconColor = if (isDarkTheme) {
+                R.color.colorInactiveDark
+            } else {
+                R.color.colorInactive
+            }.let(resourceRepo::getColor)
+        )
+
+        return mapToViewData(
+            totalDuration = totalDuration.let(timeMapper::formatInterval),
+            timesTracked = timesTracked.toString(),
+            timesTrackedIcon = recordsAllIcon,
+            shortestRecord = shortest.let(timeMapper::formatInterval),
+            averageRecord = average.let(timeMapper::formatInterval),
+            longestRecord = longest.let(timeMapper::formatInterval),
+            firstRecord = first?.let(timeMapper::formatDateTimeYear).orEmpty(),
+            lastRecord = last?.let(timeMapper::formatDateTimeYear).orEmpty()
+        )
+    }
+
+    fun mapToEmptyViewData(): StatisticsDetailViewData {
+        return mapToViewData(
+            totalDuration = "",
+            timesTracked = "",
+            timesTrackedIcon = null,
+            shortestRecord = "",
+            averageRecord = "",
+            longestRecord = "",
+            firstRecord = "",
+            lastRecord = ""
+        )
+    }
+
+    fun mapToPreview(
+        recordType: RecordType?,
+        isDarkTheme: Boolean
+    ): StatisticsDetailPreviewViewData {
+        return StatisticsDetailPreviewViewData(
             name = recordType?.name
                 .orEmpty(),
             iconId = recordType?.icon
@@ -52,66 +90,17 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             color = recordType?.color
                 ?.let { colorMapper.mapToColorResId(it, isDarkTheme) }
                 ?.let(resourceRepo::getColor)
-                ?: colorMapper.toUntrackedColor(isDarkTheme),
-            totalDuration = listOf(
-                StatisticsDetailCardViewData(
-                    title = totalDuration.let(timeMapper::formatInterval),
-                    subtitle = resourceRepo.getString(R.string.statistics_detail_total_duration)
-                )
-            ),
-            timesTracked = listOf(
-                StatisticsDetailCardViewData(
-                    title = timesTracked.toString(),
-                    subtitle = resourceRepo.getString(R.string.statistics_detail_times_tracked),
-                    icon = StatisticsDetailCardViewData.Icon(
-                        iconDrawable = R.drawable.statistics_detail_records_all,
-                        iconColor = if (isDarkTheme) {
-                            R.color.colorInactiveDark
-                        } else {
-                            R.color.colorInactive
-                        }.let(resourceRepo::getColor)
-                    )
-                )
-            ),
-            averageRecord = listOf(
-                StatisticsDetailCardViewData(
-                    title = shortest.let(timeMapper::formatInterval),
-                    subtitle = resourceRepo.getString(R.string.statistics_detail_shortest_record)
-                ),
-                StatisticsDetailCardViewData(
-                    title = average.let(timeMapper::formatInterval),
-                    subtitle = resourceRepo.getString(R.string.statistics_detail_average_record)
-                ),
-                StatisticsDetailCardViewData(
-                    title = longest.let(timeMapper::formatInterval),
-                    subtitle = resourceRepo.getString(R.string.statistics_detail_longest_record)
-                )
-            ),
-            datesTracked = listOf(
-                StatisticsDetailCardViewData(
-                    title = first?.let(timeMapper::formatDateTimeYear).orEmpty(),
-                    subtitle = resourceRepo.getString(R.string.statistics_detail_first_record)
-                ),
-                StatisticsDetailCardViewData(
-                    title = last?.let(timeMapper::formatDateTimeYear).orEmpty(),
-                    subtitle = resourceRepo.getString(R.string.statistics_detail_last_record)
-                )
-            )
+                ?: colorMapper.toUntrackedColor(isDarkTheme)
         )
     }
 
-    fun mapToUntracked(
+    fun mapToPreviewUntracked(
         isDarkTheme: Boolean
-    ): StatisticsDetailViewData {
-        val empty = StatisticsDetailCardViewData("", "")
-        return StatisticsDetailViewData(
+    ): StatisticsDetailPreviewViewData {
+        return StatisticsDetailPreviewViewData(
             name = resourceRepo.getString(R.string.untracked_time_name),
             iconId = R.drawable.unknown,
-            color = colorMapper.toUntrackedColor(isDarkTheme),
-            totalDuration = listOf(empty),
-            timesTracked = listOf(empty),
-            averageRecord = listOf(empty),
-            datesTracked = listOf(empty)
+            color = colorMapper.toUntrackedColor(isDarkTheme)
         )
     }
 
@@ -185,6 +174,57 @@ class StatisticsDetailViewDataMapper @Inject constructor(
                 isSelected = it == chartLength
             )
         }
+    }
+
+    private fun mapToViewData(
+        totalDuration: String,
+        timesTracked: String,
+        timesTrackedIcon: StatisticsDetailCardViewData.Icon?,
+        shortestRecord: String,
+        averageRecord: String,
+        longestRecord: String,
+        firstRecord: String,
+        lastRecord: String
+    ): StatisticsDetailViewData {
+        return StatisticsDetailViewData(
+            totalDuration = listOf(
+                StatisticsDetailCardViewData(
+                    title = totalDuration,
+                    subtitle = resourceRepo.getString(R.string.statistics_detail_total_duration)
+                )
+            ),
+            timesTracked = listOf(
+                StatisticsDetailCardViewData(
+                    title = timesTracked,
+                    subtitle = resourceRepo.getString(R.string.statistics_detail_times_tracked),
+                    icon = timesTrackedIcon
+                )
+            ),
+            averageRecord = listOf(
+                StatisticsDetailCardViewData(
+                    title = shortestRecord,
+                    subtitle = resourceRepo.getString(R.string.statistics_detail_shortest_record)
+                ),
+                StatisticsDetailCardViewData(
+                    title = averageRecord,
+                    subtitle = resourceRepo.getString(R.string.statistics_detail_average_record)
+                ),
+                StatisticsDetailCardViewData(
+                    title = longestRecord,
+                    subtitle = resourceRepo.getString(R.string.statistics_detail_longest_record)
+                )
+            ),
+            datesTracked = listOf(
+                StatisticsDetailCardViewData(
+                    title = firstRecord,
+                    subtitle = resourceRepo.getString(R.string.statistics_detail_first_record)
+                ),
+                StatisticsDetailCardViewData(
+                    title = lastRecord,
+                    subtitle = resourceRepo.getString(R.string.statistics_detail_last_record)
+                )
+            )
+        )
     }
 
     private fun formatInterval(interval: Long, isMinutes: Boolean): Float {

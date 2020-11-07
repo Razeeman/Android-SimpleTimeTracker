@@ -31,7 +31,7 @@ class StatisticsDetailCardView @JvmOverloads constructor(
     var listener: (() -> Unit)? = null
     var items: List<StatisticsDetailCardViewData> = emptyList()
         set(value) {
-            typesAdapter.replace(value)
+            typesAdapter.replaceAsNew(value)
             field = value
         }
 
