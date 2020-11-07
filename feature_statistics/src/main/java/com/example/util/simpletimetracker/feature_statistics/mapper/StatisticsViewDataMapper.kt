@@ -40,10 +40,14 @@ class StatisticsViewDataMapper @Inject constructor(
             .map(Statistics::duration)
             .sum()
 
+        val statisticsSize = statistics
+            .filterNot { it.typeId in recordTypesFiltered }
+            .size
+
         return statistics
             .filterNot { it.typeId in recordTypesFiltered }
             .mapNotNull { statistic ->
-                (map(statistic, sumDuration, recordTypesMap[statistic.typeId], showDuration, isDarkTheme)
+                (map(statistic, sumDuration, recordTypesMap[statistic.typeId], showDuration, isDarkTheme, statisticsSize)
                     ?: return@mapNotNull null) to statistic.duration
             }
             .sortedByDescending { (_, duration) -> duration }
@@ -102,9 +106,14 @@ class StatisticsViewDataMapper @Inject constructor(
         sumDuration: Long,
         recordType: RecordType?,
         showDuration: Boolean,
-        isDarkTheme: Boolean
+        isDarkTheme: Boolean,
+        statisticsSize: Int
     ): StatisticsViewData? {
-        val durationPercent = (statistics.duration * 100 / sumDuration)
+        val durationPercent: Long = if (sumDuration != 0L) {
+            statistics.duration * 100 / sumDuration
+        } else {
+            100L / statisticsSize
+        }
 
         when {
             statistics.typeId == -1L -> {

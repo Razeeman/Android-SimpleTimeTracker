@@ -91,7 +91,11 @@ class PieChartView @JvmOverloads constructor(
             if (drawIcons && segment.iconId != null) {
                 drawable = getIconDrawable(segment.iconId)
             }
-            segmentPercent = segment.value.toFloat() / valuesSum
+            segmentPercent = if (valuesSum != 0L) {
+                segment.value.toFloat() / valuesSum
+            } else {
+                1f / data.size
+            }
             res.add(
                 Arc(
                     color = segment.colorInt,

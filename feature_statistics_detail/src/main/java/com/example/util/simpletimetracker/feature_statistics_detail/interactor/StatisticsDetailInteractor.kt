@@ -45,7 +45,8 @@ class StatisticsDetailInteractor @Inject constructor(
 
     suspend fun getDailyDurations(typeId: Long): Map<DailyChartGrouping, Long> {
         val calendar = Calendar.getInstance()
-        val data: MutableMap<DailyChartGrouping, Long> = mutableMapOf()
+        val dataDurations: MutableMap<DailyChartGrouping, Long> = mutableMapOf()
+        val dataTimesTracked: MutableMap<DailyChartGrouping, Long> = mutableMapOf()
 
         val records = recordInteractor.getByType(listOf(typeId))
         val totalTracked = records.map { it.timeEnded - it.timeStarted }.sum()
@@ -53,11 +54,18 @@ class StatisticsDetailInteractor @Inject constructor(
         processRecords(calendar, records).forEach {
             val day = mapToDailyGrouping(calendar, it)
             val duration = it.timeEnded - it.timeStarted
-            data[day] = data[day].orZero() + duration
+            dataDurations[day] = dataDurations[day].orZero() + duration
+            dataTimesTracked[day] = dataTimesTracked[day].orZero() + 1
         }
 
-        return data.mapValues { (_, duration) ->
-            duration * 100 / totalTracked
+        val daysTracked = dataTimesTracked.values.filter { it != 0L }.size
+
+        return dataDurations.mapValues { (_, duration) ->
+            when {
+                totalTracked != 0L -> duration * 100 / totalTracked
+                daysTracked != 0 -> 100L / daysTracked
+                else -> 100L
+            }
         }
     }
 
