@@ -264,13 +264,7 @@ class RecordsAllTest : BaseUiTest() {
         checkViewIsDisplayed(withId(R.id.btnChangeRecordDelete))
         clickOnViewWithId(R.id.btnChangeRecordDelete)
 
-        // Check message
-        checkViewIsDisplayed(
-            allOf(
-                withText("Record Test removed"),
-                withId(com.google.android.material.R.id.snackbar_text)
-            )
-        )
+        // TODO Check message
 
         // Record is deleted
         checkViewDoesNotExist(firstRecord)

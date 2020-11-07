@@ -33,6 +33,7 @@ class AddRecordTypeTest : BaseUiTest() {
         val lastIcon = iconMapper.availableIconsNames.values.last()
         val lastIconPosition = iconMapper.availableIconsNames.size - 1
 
+        Thread.sleep(1000)
         clickOnViewWithText(R.string.running_records_add_type)
 
         // View is set up
