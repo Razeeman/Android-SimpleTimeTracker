@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_statistics.customView
 
+import android.animation.ValueAnimator
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.BlurMaskFilter
@@ -45,9 +46,13 @@ class PieChartView @JvmOverloads constructor(
     private val shadowPaint: Paint = Paint()
     private val dividerPaint: Paint = Paint()
 
+    private val animator = ValueAnimator.ofFloat(0f, 1f)
     private val bounds: RectF = RectF(0f, 0f, 0f, 0f)
     private var segments: List<Arc> = emptyList()
     private var shadowColor: Int = 0x40000000
+    private var segmentAnimationScale: Float = 1f
+    private val segmentAnimationDuration: Long = 200L // ms
+    private var shouldAnimate: Boolean = true
 
     init {
         initArgs(context, attrs, defStyleAttr)
@@ -80,8 +85,6 @@ class PieChartView @JvmOverloads constructor(
         val res = mutableListOf<Arc>()
         val valuesSum = data.map(PiePortion::value).sum()
         var segmentPercent: Float
-        var startAngle = 0f
-        var sweepAngle: Float
         var drawable: Drawable? = null
 
         data.forEach { segment ->
@@ -89,20 +92,18 @@ class PieChartView @JvmOverloads constructor(
                 drawable = getIconDrawable(segment.iconId)
             }
             segmentPercent = segment.value.toFloat() / valuesSum
-            sweepAngle = 360 * segmentPercent
             res.add(
                 Arc(
                     color = segment.colorInt,
                     drawable = drawable,
-                    startAngle = startAngle,
-                    sweepAngle = sweepAngle
+                    arcPercent = segmentPercent
                 )
             )
-            startAngle += sweepAngle
         }
 
         segments = res
         invalidate()
+        if (!isInEditMode) animateSegments()
     }
 
     private fun initArgs(
@@ -164,17 +165,18 @@ class PieChartView @JvmOverloads constructor(
         )
         canvas.drawArc(
             bounds,
-            0f,
-            360f,
+            -90f,
+            360f * segmentAnimationScale,
             false,
             shadowPaint
         )
     }
 
     private fun drawSegments(canvas: Canvas, w: Float, h: Float, r: Float) {
-        // TODO rounded corners?
         val segmentWidth = r - r * innerRadiusRatio
         val segmentCenterLine = r - segmentWidth / 2
+        var currentSweepAngle = 0f
+        var sweepAngle: Float
         segmentPaint.strokeWidth = segmentWidth
 
         canvas.save()
@@ -185,14 +187,16 @@ class PieChartView @JvmOverloads constructor(
             w / 2 + segmentCenterLine, h / 2 + segmentCenterLine
         )
         segments.forEach {
+            sweepAngle = it.arcPercent * 360f * segmentAnimationScale
             segmentPaint.color = it.color
             canvas.drawArc(
                 bounds,
-                it.startAngle,
-                it.sweepAngle,
+                currentSweepAngle,
+                sweepAngle,
                 false,
                 segmentPaint
             )
+            currentSweepAngle += sweepAngle
         }
 
         canvas.restore()
@@ -201,9 +205,12 @@ class PieChartView @JvmOverloads constructor(
     private fun drawDividers(canvas: Canvas, w: Float, h: Float, r: Float) {
         if (segments.size < 2) return
 
+        var sweepAngle: Float
+
         canvas.save()
         canvas.translate(w / 2, h / 2)
         segments.forEach {
+            sweepAngle = it.arcPercent * 360f * segmentAnimationScale
             canvas.drawLine(
                 0f,
                 -r * innerRadiusRatio + 1,
@@ -211,13 +218,14 @@ class PieChartView @JvmOverloads constructor(
                 -r - 1,
                 dividerPaint
             )
-            canvas.rotate(it.sweepAngle)
+            canvas.rotate(sweepAngle)
         }
         canvas.restore()
     }
 
     private fun drawIcons(canvas: Canvas, w: Float, h: Float, r: Float) {
         if (!drawIcons || segments.isEmpty()) return
+
         val iconSize = calculateIconSize(r)
         val bounds = Rect(
             -iconSize / 2, -iconSize / 2,
@@ -225,6 +233,8 @@ class PieChartView @JvmOverloads constructor(
         )
         var rotation: Float
         val iconPositionFromCenter = r - r * (1 - innerRadiusRatio) / 2
+        var currentSweepAngle = 0f
+        var sweepAngle: Float
 
         val initial = canvas.save()
         canvas.translate(w / 2, h / 2)
@@ -234,16 +244,18 @@ class PieChartView @JvmOverloads constructor(
             // circleCircumference = 2 * Math.PI * r
             // segmentRatio = it.sweepAngle / 360f
             // segmentLength = circleCircumference * segmentRatio
-            val segmentLength = 2 * Math.PI * iconPositionFromCenter * it.sweepAngle / 360f
+            sweepAngle = it.arcPercent * 360f * segmentAnimationScale
+            val segmentLength = 2 * Math.PI * iconPositionFromCenter * sweepAngle / 360f
             if (segmentLength < iconSize + 2 * iconPadding) return@forEach
 
-            rotation = it.startAngle + it.sweepAngle / 2f
+            rotation = currentSweepAngle + sweepAngle / 2f
             canvas.rotate(rotation)
             canvas.translate(0f, -iconPositionFromCenter)
             canvas.rotate(-rotation)
             it.drawable?.bounds = bounds
             it.drawable?.draw(canvas)
 
+            currentSweepAngle += sweepAngle
             canvas.restoreToCount(center)
             center = canvas.save()
         }
@@ -287,10 +299,21 @@ class PieChartView @JvmOverloads constructor(
         }
     }
 
+    private fun animateSegments() {
+        if (shouldAnimate) {
+            animator.duration = segmentAnimationDuration
+            animator.addUpdateListener { animation ->
+                segmentAnimationScale = animation.animatedValue as Float
+                invalidate()
+            }
+            animator.start()
+            shouldAnimate = false
+        }
+    }
+
     private inner class Arc(
         val color: Int,
         val drawable: Drawable? = null,
-        val startAngle: Float,
-        val sweepAngle: Float
+        val arcPercent: Float
     )
 }

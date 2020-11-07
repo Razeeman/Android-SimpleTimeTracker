@@ -30,7 +30,7 @@ class StatisticsViewModel @Inject constructor(
     var extra: StatisticsExtra? = null
 
     val statistics: LiveData<List<ViewHolderType>> by lazy {
-        updateStatistics()
+        updateStatistics() // TODO remove because update in onVisible, but fix infinite loader
         MutableLiveData(listOf(LoaderViewData() as ViewHolderType))
     }
 
