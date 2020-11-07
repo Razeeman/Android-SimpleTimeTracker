@@ -1,10 +1,14 @@
 package com.example.util.simpletimetracker.utils
 
+import android.widget.TimePicker
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.contrib.PickerActions
+import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.example.util.simpletimetracker.R
+import org.hamcrest.CoreMatchers
 
 object NavUtils {
 
@@ -55,6 +59,34 @@ object NavUtils {
 
     fun addRecord(name: String) {
         clickOnViewWithId(R.id.btnRecordAdd)
+
+        // Activity
+        clickOnViewWithText(R.string.change_record_type_field)
+        clickOnRecyclerItem(R.id.rvChangeRecordType, withText(name))
+
+        clickOnViewWithText(R.string.change_record_save)
+    }
+
+    fun addRecordWithTime(
+        name: String,
+        hourStarted: Int,
+        minutesStarted: Int,
+        hourEnded: Int,
+        minutesEnded: Int
+    ) {
+        clickOnViewWithId(R.id.btnRecordAdd)
+
+        // Time started
+        clickOnViewWithId(R.id.tvChangeRecordTimeStarted)
+        onView(ViewMatchers.withClassName(CoreMatchers.equalTo(TimePicker::class.java.name)))
+            .perform(PickerActions.setTime(hourStarted, minutesStarted))
+        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+
+        // Time ended
+        clickOnViewWithId(R.id.tvChangeRecordTimeEnded)
+        onView(ViewMatchers.withClassName(CoreMatchers.equalTo(TimePicker::class.java.name)))
+            .perform(PickerActions.setTime(hourEnded, minutesEnded))
+        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
 
         // Activity
         clickOnViewWithText(R.string.change_record_type_field)
