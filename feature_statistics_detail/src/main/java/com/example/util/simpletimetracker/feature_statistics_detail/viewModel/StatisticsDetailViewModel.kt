@@ -10,10 +10,10 @@ import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.extra.StatisticsDetailExtra
-import com.example.util.simpletimetracker.feature_statistics_detail.interactor.ChartGrouping
-import com.example.util.simpletimetracker.feature_statistics_detail.interactor.ChartLength
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.StatisticsDetailViewDataMapper
+import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartGrouping
+import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartLength
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartLengthViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailGroupingViewData

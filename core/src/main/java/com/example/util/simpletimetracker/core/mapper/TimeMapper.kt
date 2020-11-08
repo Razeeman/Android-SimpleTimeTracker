@@ -22,6 +22,8 @@ class TimeMapper @Inject constructor(
     private val dateTimeFormat = SimpleDateFormat("MMM d kk:mm", Locale.US)
     private val dateTimeYearFormat = SimpleDateFormat("MMM d yyyy kk:mm", Locale.US)
     private val dateYearFormat = SimpleDateFormat("MMM d yyyy", Locale.US)
+    private val shortDayFormat = SimpleDateFormat("dd.MM", Locale.US)
+    private val shortMonthFormat = SimpleDateFormat("MMM", Locale.US)
 
     private val dayTitleFormat = SimpleDateFormat("E, MMM d", Locale.US)
     private val weekTitleFormat = SimpleDateFormat("MMM d", Locale.US)
@@ -41,6 +43,14 @@ class TimeMapper @Inject constructor(
 
     fun formatDateYear(time: Long): String {
         return dateYearFormat.format(time)
+    }
+
+    fun formatShortDay(time: Long): String {
+        return shortDayFormat.format(time)
+    }
+
+    fun formatShortMonth(time: Long): String {
+        return shortMonthFormat.format(time)
     }
 
     fun formatInterval(interval: Long): String =

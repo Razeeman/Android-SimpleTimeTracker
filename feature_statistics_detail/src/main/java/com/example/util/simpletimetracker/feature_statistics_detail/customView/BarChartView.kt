@@ -56,8 +56,11 @@ class BarChartView @JvmOverloads constructor(
     private var barWidth: Float = 0f
     private val legendTextPadding = 8.dpToPx()
     private val legendTextStartPadding = 4.dpToPx()
+    private val legendHorizontalTextPadding = 2.dpToPx()
     private var longestTextWidth: Float = 0f
     private var legendLinesPixelStep: Float = 0f
+    private var horizontalLegendsSkipCount: Int = 1
+    private var shouldDrawHorizontalLegends: Boolean = false
     private var selectedBar: Int = -1 // -1 nothing is selected
     private val selectedBarTextPadding: Int = 6.dpToPx()
     private val selectedBarBackgroundPadding: Int = 4.dpToPx()
@@ -96,7 +99,7 @@ class BarChartView @JvmOverloads constructor(
         val h = height.toFloat()
 
         calculateDimensions(w, h)
-        drawText(canvas, w, h)
+        drawText(canvas, w)
         drawLines(canvas)
         drawBars(canvas)
         drawSelectedBarIcon(canvas)
@@ -114,7 +117,7 @@ class BarChartView @JvmOverloads constructor(
     }
 
     fun setBars(data: List<ViewData>) {
-        bars = data.takeUnless { it.isEmpty() } ?: listOf(ViewData(0f))
+        bars = data.takeUnless { it.isEmpty() } ?: listOf(ViewData(0f, ""))
         maxValue = data.map(ViewData::value).max() ?: 1f
         selectedBar = -1
         invalidate()
@@ -217,11 +220,16 @@ class BarChartView @JvmOverloads constructor(
 
         longestTextWidth = textPaint.measureText("$valueUpperBound$legendTextSuffix")
 
+        // Horizontal legends
+        val legends = bars.map(ViewData::legend).filter { it.isNotEmpty() }
+        shouldDrawHorizontalLegends = legends.isNotEmpty()
+
         // Bar chart bounds
-        pixelBottomBound = if (bars.mapNotNull(ViewData::legend).isEmpty()) {
-            h.toFloat()
+        val textHeight = textPaint.fontMetrics.let { it.descent - it.ascent }
+        pixelBottomBound = if (shouldDrawHorizontalLegends) {
+            h - textHeight
         } else {
-            h - legendTextSize
+            h
         }
         pixelTopBound = legendTextSize
         pixelRightBound = w - longestTextWidth - legendTextStartPadding
@@ -239,9 +247,21 @@ class BarChartView @JvmOverloads constructor(
 
         // Pixel step between legend lines
         legendLinesPixelStep = chartHeight / (legendLinesCount - 1)
+
+        // Horizontal legends size
+        val maxHorizontalLegendValue: String = legends.maxBy { it.length }.orEmpty()
+        val maxHorizontalLegendSize = textPaint.measureText(maxHorizontalLegendValue) +
+            2 * legendHorizontalTextPadding
+        if (maxHorizontalLegendSize > 0f) {
+            val canFit = floor(chartWidth / maxHorizontalLegendSize)
+            if (canFit > 0f) {
+                horizontalLegendsSkipCount = ceil(bars.size / canFit).toInt()
+            }
+        }
+        if (horizontalLegendsSkipCount == 0) horizontalLegendsSkipCount = 1
     }
 
-    private fun drawText(canvas: Canvas, w: Float, h: Float) {
+    private fun drawText(canvas: Canvas, w: Float) {
         // Legend lines value points
         val points = (0..valueUpperBound step nearestUpperStep).toList()
 
@@ -255,15 +275,20 @@ class BarChartView @JvmOverloads constructor(
             )
         }
 
-        bars.map(ViewData::legend).forEachIndexed { index, legend ->
-            if (legend.isNullOrEmpty()) return@forEachIndexed
+        if (!shouldDrawHorizontalLegends) return
+        bars.map(ViewData::legend).reversed().forEachIndexed { index, legend ->
+            if (legend.isNotEmpty() && index % horizontalLegendsSkipCount == 0) {
+                val textStart = pixelRightBound -
+                    barWidth * index - barWidth / 2 -
+                    textPaint.measureText(legend) / 2
 
-            canvas.drawText(
-                legend,
-                barWidth * index + barWidth / 2 - textPaint.measureText(legend) / 2,
-                h,
-                textPaint
-            )
+                if (textStart >= 0) canvas.drawText(
+                    legend,
+                    textStart,
+                    pixelBottomBound + legendTextSize,
+                    textPaint
+                )
+            }
         }
     }
 
@@ -321,7 +346,10 @@ class BarChartView @JvmOverloads constructor(
         val backgroundWidth = textWidth + 2 * selectedBarTextPadding
         val backgroundHeight = textHeight + 2 * selectedBarTextPadding
         val backgroundCenterX = barWidth * selectedBar + barWidth / 2
-        val backgroundCenterY = max(barTop - selectedBarBackgroundPadding - backgroundHeight / 2, backgroundHeight / 2)
+        val backgroundCenterY = max(
+            barTop - selectedBarBackgroundPadding - backgroundHeight / 2,
+            backgroundHeight / 2
+        )
 
         canvas.save()
 
@@ -361,7 +389,9 @@ class BarChartView @JvmOverloads constructor(
     private fun initEditMode() {
         if (isInEditMode) {
             val segments = barCountInEdit.takeIf { it != 0 } ?: 5
-            (segments downTo 1).toList().map { ViewData(it.toFloat(), it.toString()) }.let(::setBars)
+            (segments downTo 1).toList()
+                .map { ViewData(it.toFloat(), it.toString()) }
+                .let(::setBars)
             selectedBar = barCountInEdit / 2
         }
     }
@@ -397,6 +427,6 @@ class BarChartView @JvmOverloads constructor(
 
     data class ViewData(
         val value: Float,
-        val legend: String? = null
+        val legend: String
     )
 }

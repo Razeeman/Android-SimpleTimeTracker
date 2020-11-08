@@ -10,9 +10,10 @@ import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_statistics_detail.R
 import com.example.util.simpletimetracker.feature_statistics_detail.customView.BarChartView
-import com.example.util.simpletimetracker.feature_statistics_detail.interactor.ChartGrouping
-import com.example.util.simpletimetracker.feature_statistics_detail.interactor.ChartLength
-import com.example.util.simpletimetracker.feature_statistics_detail.interactor.DailyChartGrouping
+import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartBarDataDuration
+import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartGrouping
+import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartLength
+import com.example.util.simpletimetracker.feature_statistics_detail.model.DailyChartGrouping
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailCardViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartLengthViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartViewData
@@ -105,9 +106,11 @@ class StatisticsDetailViewDataMapper @Inject constructor(
     }
 
     fun mapToChartViewData(
-        data: List<Long>
+        data: List<ChartBarDataDuration>
     ): StatisticsDetailChartViewData {
-        val isMinutes = data.max().orZero().let(TimeUnit.MILLISECONDS::toHours) == 0L
+        val isMinutes = data.map(ChartBarDataDuration::duration)
+            .max().orZero()
+            .let(TimeUnit.MILLISECONDS::toHours) == 0L
 
         val legendSuffix = if (isMinutes) {
             R.string.statistics_detail_legend_minute_suffix
@@ -116,7 +119,12 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         }.let(resourceRepo::getString)
 
         return StatisticsDetailChartViewData(
-            data = data.map { formatInterval(it, isMinutes) }.map { BarChartView.ViewData(it) },
+            data = data.map {
+                BarChartView.ViewData(
+                    value = formatInterval(it.duration, isMinutes),
+                    legend = it.legend
+                )
+            },
             legendSuffix = legendSuffix
         )
     }

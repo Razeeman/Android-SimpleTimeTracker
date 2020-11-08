@@ -1,7 +1,7 @@
 package com.example.util.simpletimetracker.feature_statistics_detail.viewData
 
 import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
-import com.example.util.simpletimetracker.feature_statistics_detail.interactor.ChartGrouping
+import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartGrouping
 
 data class StatisticsDetailGroupingViewData(
     val chartGrouping: ChartGrouping,

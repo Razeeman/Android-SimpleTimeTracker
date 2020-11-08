@@ -4,6 +4,11 @@ import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.model.Record
+import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartBarDataDuration
+import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartBarDataRange
+import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartGrouping
+import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartLength
+import com.example.util.simpletimetracker.feature_statistics_detail.model.DailyChartGrouping
 import java.util.Calendar
 import javax.inject.Inject
 import kotlin.math.max
@@ -18,29 +23,38 @@ class StatisticsDetailInteractor @Inject constructor(
         typeId: Long,
         grouping: ChartGrouping,
         chartLength: ChartLength
-    ): List<Long> {
+    ): List<ChartBarDataDuration> {
         val numberOfGroups = getNumberOfGroups(chartLength)
 
-        val ranges = when (grouping) {
+        val ranges: List<ChartBarDataRange> = when (grouping) {
             ChartGrouping.DAILY -> getDailyGrouping(numberOfGroups)
             ChartGrouping.WEEKLY -> getWeeklyGrouping(numberOfGroups)
             ChartGrouping.MONTHLY -> getMonthlyGrouping(numberOfGroups)
         }
 
         val records = recordInteractor.getFromRange(
-            start = ranges.first().first,
-            end = ranges.last().second
+            start = ranges.first().rangeStart,
+            end = ranges.last().rangeEnd
         ).filter { it.typeId == typeId }
 
-        if (records.isEmpty()) return LongArray(numberOfGroups) { 0L }.toList()
+        if (records.isEmpty()) return ranges.map {
+            ChartBarDataDuration(
+                legend = it.legend,
+                duration = 0L
+            )
+        }
 
         return ranges
-            .map { (start, end) ->
-                getRecordsFromRange(records, start, end).map { record ->
-                    clampToRange(record, start, end)
-                }
+            .map { data ->
+                val duration = getRecordsFromRange(records, data.rangeStart, data.rangeEnd)
+                    .map { record -> clampToRange(record, data.rangeStart, data.rangeEnd) }
+                    .let(::mapToDuration)
+
+                ChartBarDataDuration(
+                    legend = data.legend,
+                    duration = duration
+                )
             }
-            .map(::mapToDuration)
     }
 
     suspend fun getDailyDurations(typeId: Long): Map<DailyChartGrouping, Long> {
@@ -136,7 +150,7 @@ class StatisticsDetailInteractor @Inject constructor(
 
     private fun getDailyGrouping(
         numberOfDays: Int
-    ): List<Pair<Long, Long>> {
+    ): List<ChartBarDataRange> {
         val calendar = Calendar.getInstance()
 
         return (numberOfDays - 1 downTo 0).map { shift ->
@@ -148,15 +162,26 @@ class StatisticsDetailInteractor @Inject constructor(
                 set(Calendar.MILLISECOND, 0)
             }
             calendar.add(Calendar.DATE, -shift)
+
+            val legend = if (numberOfDays <= 10) {
+                timeMapper.formatShortDay(calendar.timeInMillis)
+            } else {
+                ""
+            }
             val rangeStart = calendar.timeInMillis
             val rangeEnd = calendar.apply { add(Calendar.DATE, 1) }.timeInMillis
-            rangeStart to rangeEnd
+
+            ChartBarDataRange(
+                legend = legend,
+                rangeStart = rangeStart,
+                rangeEnd = rangeEnd
+            )
         }
     }
 
     private fun getWeeklyGrouping(
         numberOfWeeks: Int
-    ): List<Pair<Long, Long>> {
+    ): List<ChartBarDataRange> {
         val calendar = Calendar.getInstance()
 
         return (numberOfWeeks - 1 downTo 0).map { shift ->
@@ -169,15 +194,26 @@ class StatisticsDetailInteractor @Inject constructor(
             }
             calendar.set(Calendar.DAY_OF_WEEK, calendar.firstDayOfWeek)
             calendar.add(Calendar.DATE, -shift * 7)
+
+            val legend = if (numberOfWeeks <= 10) {
+                timeMapper.formatShortMonth(calendar.timeInMillis)
+            } else {
+                ""
+            }
             val rangeStart = calendar.timeInMillis
             val rangeEnd = calendar.apply { add(Calendar.DATE, 7) }.timeInMillis
-            rangeStart to rangeEnd
+
+            ChartBarDataRange(
+                legend = legend,
+                rangeStart = rangeStart,
+                rangeEnd = rangeEnd
+            )
         }
     }
 
     private fun getMonthlyGrouping(
         numberOfMonths: Int
-    ): List<Pair<Long, Long>> {
+    ): List<ChartBarDataRange> {
         val calendar = Calendar.getInstance()
 
         return (numberOfMonths - 1 downTo 0).map { shift ->
@@ -190,9 +226,20 @@ class StatisticsDetailInteractor @Inject constructor(
             }
             calendar.set(Calendar.DAY_OF_MONTH, 1)
             calendar.add(Calendar.MONTH, -shift)
+
+            val legend = if (numberOfMonths <= 10) {
+                timeMapper.formatShortMonth(calendar.timeInMillis)
+            } else {
+                ""
+            }
             val rangeStart = calendar.timeInMillis
             val rangeEnd = calendar.apply { add(Calendar.MONTH, 1) }.timeInMillis
-            rangeStart to rangeEnd
+
+            ChartBarDataRange(
+                legend = legend,
+                rangeStart = rangeStart,
+                rangeEnd = rangeEnd
+            )
         }
     }
 

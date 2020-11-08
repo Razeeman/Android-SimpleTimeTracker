@@ -1,7 +1,7 @@
 package com.example.util.simpletimetracker.feature_statistics_detail.viewData
 
 import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
-import com.example.util.simpletimetracker.feature_statistics_detail.interactor.ChartLength
+import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartLength
 
 data class StatisticsDetailChartLengthViewData(
     val chartLength: ChartLength,
