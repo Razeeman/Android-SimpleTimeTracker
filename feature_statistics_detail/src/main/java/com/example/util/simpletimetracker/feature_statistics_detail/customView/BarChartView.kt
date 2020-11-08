@@ -339,13 +339,16 @@ class BarChartView @JvmOverloads constructor(
 
         val scaled = barValue / valueUpperBound
         val barTop = pixelTopBound + chartHeight * (1f - scaled)
-        val pointText = barValue.toInt().toString()
+        val pointText = "%.1f".format(barValue)
         val textWidth = selectedBarTextPaint.measureText(pointText)
         val textHeight = selectedBarTextPaint.fontMetrics.let { it.descent - it.ascent }
 
         val backgroundWidth = textWidth + 2 * selectedBarTextPadding
         val backgroundHeight = textHeight + 2 * selectedBarTextPadding
-        val backgroundCenterX = barWidth * selectedBar + barWidth / 2
+        val backgroundCenterX = max(
+            barWidth * selectedBar + barWidth / 2,
+            backgroundWidth / 2
+        )
         val backgroundCenterY = max(
             barTop - selectedBarBackgroundPadding - backgroundHeight / 2,
             backgroundHeight / 2
