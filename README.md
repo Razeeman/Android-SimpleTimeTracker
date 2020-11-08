@@ -45,7 +45,15 @@ Simple app that helps track how much time you spend on all the useless activitie
 
 ## View detailed statistics
 
-[![statistics_detail_thumb]][statistics_detail]
+[![statistics_detail1_thumb]][statistics_detail1]
+[![statistics_detail2_thumb]][statistics_detail2]
+<br>
+
+## View all records
+
+[![records_all_thumb]][records_all]
+[![records_all_sort_thumb]][records_all_sort]
+[![records_all_filter_thumb]][records_all_filter]
 <br>
 
 ## Settings
@@ -149,8 +157,17 @@ Simple app that helps track how much time you spend on all the useless activitie
 [statistics_range_thumb]: dev_files/screens/statistics_range_thumb.png
 [statistics_range]: dev_files/screens/statistics_range.png
 
-[statistics_detail_thumb]: dev_files/screens/statistics_detail_thumb.png
-[statistics_detail]: dev_files/screens/statistics_detail.png
+[statistics_detail1_thumb]: dev_files/screens/statistics_detail1_thumb.png
+[statistics_detail1]: dev_files/screens/statistics_detail1.png
+[statistics_detail2_thumb]: dev_files/screens/statistics_detail2_thumb.png
+[statistics_detail2]: dev_files/screens/statistics_detail2.png
+
+[records_all_thumb]: dev_files/screens/records_all_thumb.png
+[records_all]: dev_files/screens/records_all.png
+[records_all_sort_thumb]: dev_files/screens/records_all_sort_thumb.png
+[records_all_sort]: dev_files/screens/records_all_sort.png
+[records_all_filter_thumb]: dev_files/screens/records_all_filter_thumb.png
+[records_all_filter]: dev_files/screens/records_all_filter.png
 
 [widgets_thumb]: dev_files/screens/widgets_thumb.png
 [widgets]: dev_files/screens/widgets.png
