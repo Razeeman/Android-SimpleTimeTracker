@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.core.adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.core.interactor.AddRunningRecordMediator
 import com.example.util.simpletimetracker.core.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
@@ -28,11 +29,8 @@ class WidgetUniversalViewModel @Inject constructor(
 ) : ViewModel() {
 
     val recordTypes: LiveData<List<ViewHolderType>> by lazy {
-        MutableLiveData<List<ViewHolderType>>().let { initial ->
-            // TODO add loader
-            viewModelScope.launch { initial.value = loadRecordTypesViewData() }
-            initial
-        }
+        updateRecordTypesViewData()
+        MutableLiveData(listOf(LoaderViewData() as ViewHolderType))
     }
 
     fun onRecordTypeClick(item: RecordTypeViewData) {
@@ -63,7 +61,8 @@ class WidgetUniversalViewModel @Inject constructor(
     }
 
     private fun updateRecordTypesViewData() = viewModelScope.launch {
-        (recordTypes as MutableLiveData).value = loadRecordTypesViewData()
+        val data = loadRecordTypesViewData()
+        (recordTypes as MutableLiveData).value = data
     }
 
     private suspend fun loadRecordTypesViewData(): List<ViewHolderType> {

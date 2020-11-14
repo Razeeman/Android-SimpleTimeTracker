@@ -49,7 +49,7 @@ class ChartFilterViewModel @Inject constructor(
 
         if (types.isEmpty()) types = loadRecordTypes()
 
-        (recordTypes as MutableLiveData).value = types
+        val data = types
             .map { type ->
                 chartFilterViewDataMapper
                     .map(type, typeIdsFiltered, numberOfCards, isDarkTheme)
@@ -60,6 +60,8 @@ class ChartFilterViewModel @Inject constructor(
                     .mapToUntrackedItem(typeIdsFiltered, numberOfCards, isDarkTheme)
                     .let(::add)
             }
+
+        (recordTypes as MutableLiveData).value = data
     }
 
     private suspend fun loadRecordTypes(): List<RecordType> {
