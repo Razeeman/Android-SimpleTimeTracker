@@ -1,43 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="ChangeRecordTypeItem">
-        <item name="android:layout_width">@dimen/item_width</item>
-        <item name="android:layout_height">@dimen/item_height</item>
-        <item name="android:layout_marginStart">@dimen/item_margin</item>
-        <item name="android:layout_marginEnd">@dimen/item_margin</item>
-        <item name="cardPreventCornerOverlap">false</item>
-        <item name="cardUseCompatPadding">true</item>
-        <item name="cardCornerRadius">@dimen/item_corner_radius</item>
-        <item name="cardElevation">@dimen/item_elevation</item>
-    </style>
-
-    <style name="ChangeRecordTypeInputField" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="boxCornerRadiusBottomEnd">@dimen/input_field_corner_radius</item>
-        <item name="boxCornerRadiusBottomStart">@dimen/input_field_corner_radius</item>
-        <item name="boxCornerRadiusTopEnd">@dimen/input_field_corner_radius</item>
-        <item name="boxCornerRadiusTopStart">@dimen/input_field_corner_radius</item>
-        <item name="boxStrokeColor">@color/blue_grey_50</item>
-        <item name="errorTextAppearance">@style/ChangeRecordTypeItemErrorStyle</item>
-        <item name="hintTextAppearance">@style/ChangeRecordTypeItemHintStyle</item>
-        <item name="hintTextColor">@color/blue_grey_300</item>
-    </style>
-
-    <style name="ChangeRecordTypeItemHintStyle">
-        <item name="android:textSize">12sp</item>
-    </style>
-
-    <style name="ChangeRecordTypeItemErrorStyle">
-        <item name="android:textColor">@color/red_600</item>
-        <item name="android:textSize">12sp</item>
-    </style>
-
-    <style name="ChangeRecordTypeEditText">
-        <item name="android:textColor">?appTextPrimaryColor</item>
-        <item name="android:textSize">16sp</item>
-        <item name="android:inputType">text</item>
-        <item name="android:maxLines">1</item>
-        <item name="android:textColorHint">@color/blue_grey_300</item>
-    </style>
-
 </resources>

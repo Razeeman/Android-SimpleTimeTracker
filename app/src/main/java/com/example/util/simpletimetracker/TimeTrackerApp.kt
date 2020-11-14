@@ -7,6 +7,7 @@ import com.example.util.simpletimetracker.di.AppModule
 import com.example.util.simpletimetracker.di.DaggerAppComponent
 import com.example.util.simpletimetracker.di.FeatureComponentProvider
 import com.example.util.simpletimetracker.feature_categories.di.CategoriesComponent
+import com.example.util.simpletimetracker.feature_change_category.di.ChangeCategoryComponent
 import com.example.util.simpletimetracker.feature_change_record.di.ChangeRecordComponent
 import com.example.util.simpletimetracker.feature_change_record_type.di.ChangeRecordTypeComponent
 import com.example.util.simpletimetracker.feature_change_running_record.di.ChangeRunningRecordComponent
@@ -46,6 +47,7 @@ class TimeTrackerApp : Application(), FeatureComponentProvider {
     override var widgetComponent: WidgetComponent? = null
     override var notificationComponent: NotificationComponent? = null
     override var categoriesComponent: CategoriesComponent? = null
+    override var changeCategoryComponent: ChangeCategoryComponent? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -82,6 +84,7 @@ class TimeTrackerApp : Application(), FeatureComponentProvider {
         widgetComponent = appComponent?.plusWidgetComponent()
         notificationComponent = appComponent?.plusNotificationComponent()
         categoriesComponent = appComponent?.plusCategoriesComponent()
+        changeCategoryComponent = appComponent?.plusChangeCategoryComponent()
     }
 
     private fun initStrictMode() {

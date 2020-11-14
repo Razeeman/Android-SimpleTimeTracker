@@ -6,7 +6,11 @@ interface CategoryRepo {
 
     suspend fun getAll(): List<Category>
 
+    suspend fun get(id: Long): Category?
+
     suspend fun add(category: Category)
+
+    suspend fun remove(id: Long)
 
     suspend fun clear()
 }

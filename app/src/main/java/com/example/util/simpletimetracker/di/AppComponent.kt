@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.di
 
 import com.example.util.simpletimetracker.data_local.di.DataLocalModule
 import com.example.util.simpletimetracker.feature_categories.di.CategoriesComponent
+import com.example.util.simpletimetracker.feature_change_category.di.ChangeCategoryComponent
 import com.example.util.simpletimetracker.feature_change_record.di.ChangeRecordComponent
 import com.example.util.simpletimetracker.feature_change_record_type.di.ChangeRecordTypeComponent
 import com.example.util.simpletimetracker.feature_change_running_record.di.ChangeRunningRecordComponent
@@ -55,4 +56,5 @@ interface AppComponent {
     fun plusWidgetComponent(): WidgetComponent
     fun plusNotificationComponent(): NotificationComponent
     fun plusCategoriesComponent(): CategoriesComponent
+    fun plusChangeCategoryComponent(): ChangeCategoryComponent
 }

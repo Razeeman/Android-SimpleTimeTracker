@@ -8,7 +8,7 @@ import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.extension.setOnLongClick
 import com.example.util.simpletimetracker.core.view.TransitionNames
 import com.example.util.simpletimetracker.feature_categories.R
-import com.example.util.simpletimetracker.feature_categories.viewData.CategoryViewData
+import com.example.util.simpletimetracker.core.viewData.CategoryViewData
 import kotlinx.android.synthetic.main.item_category_layout.view.*
 
 class CategoryAdapterDelegate(

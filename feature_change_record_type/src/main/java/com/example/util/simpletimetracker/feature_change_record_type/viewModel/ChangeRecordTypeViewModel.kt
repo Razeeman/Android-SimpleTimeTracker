@@ -12,6 +12,7 @@ import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.core.viewData.ColorViewData
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.extension.flip
 import com.example.util.simpletimetracker.domain.extension.orTrue
@@ -22,7 +23,6 @@ import com.example.util.simpletimetracker.domain.interactor.RunningRecordInterac
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_change_record_type.R
 import com.example.util.simpletimetracker.feature_change_record_type.extra.ChangeRecordTypeExtra
-import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeColorViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconViewData
 import com.example.util.simpletimetracker.navigation.Notification
 import com.example.util.simpletimetracker.navigation.Router
@@ -105,7 +105,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
         }
     }
 
-    fun onColorClick(item: ChangeRecordTypeColorViewData) {
+    fun onColorClick(item: ColorViewData) {
         viewModelScope.launch {
             if (item.colorId != newColorId) {
                 newColorId = item.colorId
@@ -204,7 +204,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
                 colorId to resourceRepo.getColor(colorResId)
             }
             .map { (colorId, colorInt) ->
-                ChangeRecordTypeColorViewData(
+                ColorViewData(
                     colorId = colorId,
                     colorInt = colorInt
                 )

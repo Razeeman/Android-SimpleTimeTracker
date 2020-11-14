@@ -6,19 +6,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.loader.LoaderViewData
-import com.example.util.simpletimetracker.core.repo.ResourceRepo
-import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
-import com.example.util.simpletimetracker.feature_categories.R
-import com.example.util.simpletimetracker.feature_categories.viewData.CategoryAddViewData
-import com.example.util.simpletimetracker.feature_categories.viewData.CategoryViewData
+import com.example.util.simpletimetracker.core.viewData.CategoryViewData
+import com.example.util.simpletimetracker.feature_categories.interactor.CategoriesViewDataInteractor
 import com.example.util.simpletimetracker.navigation.Router
+import com.example.util.simpletimetracker.navigation.Screen
+import com.example.util.simpletimetracker.navigation.params.ChangeCategoryParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class CategoriesViewModel @Inject constructor(
-    private val resourceRepo: ResourceRepo,
     private val router: Router,
-    private val categoryInteractor: CategoryInteractor
+    private val categoriesViewDataInteractor: CategoriesViewDataInteractor
 ) : ViewModel() {
 
     val categories: LiveData<List<ViewHolderType>> by lazy {
@@ -26,18 +24,19 @@ class CategoriesViewModel @Inject constructor(
     }
 
     fun onCategoryLongClick(item: CategoryViewData, sharedElements: Map<Any, String>) {
-//        router.navigate(
-//            screen = Screen.CHANGE_RECORD_TYPE,
-//            data = ChangeRecordTypeParams(item.id),
-//            sharedElements = sharedElements
-//        )
+        // TODO change to dialog?
+        router.navigate(
+            screen = Screen.CHANGE_CATEGORY,
+            data = ChangeCategoryParams(item.id),
+            sharedElements = sharedElements
+        )
     }
 
-    fun onAddRecordTypeClick() {
-//        router.navigate(
-//            screen = Screen.CHANGE_RECORD_TYPE,
-//            data = ChangeRecordTypeParams(0)
-//        )
+    fun onAddCategoryClick() {
+        router.navigate(
+            screen = Screen.CHANGE_CATEGORY,
+            data = ChangeCategoryParams(0)
+        )
     }
 
     fun onVisible() {
@@ -50,16 +49,6 @@ class CategoriesViewModel @Inject constructor(
     }
 
     private suspend fun loadCategoriesViewData(): List<ViewHolderType> {
-        return categoryInteractor.getAll().map {
-            CategoryViewData(
-                id = it.id,
-                name = it.name,
-                textColor = resourceRepo.getColor(R.color.white),
-                color = resourceRepo.getColor(R.color.black)
-            )
-        } + CategoryAddViewData(
-            name = "Add new category",
-            color = resourceRepo.getColor(R.color.colorInactive)
-        )
+        return categoriesViewDataInteractor.getViewData()
     }
 }

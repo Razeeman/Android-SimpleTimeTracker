@@ -1,9 +1,9 @@
-package com.example.util.simpletimetracker.feature_change_record_type.viewData
+package com.example.util.simpletimetracker.core.viewData
 
 import androidx.annotation.ColorInt
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 
-data class ChangeRecordTypeColorViewData(
+data class ColorViewData(
     val colorId: Int,
     @ColorInt val colorInt: Int
 ) : ViewHolderType {

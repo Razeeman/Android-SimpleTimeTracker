@@ -22,11 +22,21 @@ class CategoryRepoImpl @Inject constructor(
             .map(categoryDataLocalMapper::map)
     }
 
+    override suspend fun get(id: Long): Category? = withContext(Dispatchers.IO) {
+        Timber.d("get id")
+        categoryDao.get(id)?.let(categoryDataLocalMapper::map)
+    }
+
     override suspend fun add(category: Category) = withContext(Dispatchers.IO) {
         Timber.d("add")
         categoryDao.insert(
             category.let(categoryDataLocalMapper::map)
         )
+    }
+
+    override suspend fun remove(id: Long) = withContext(Dispatchers.IO) {
+        Timber.d("remove")
+        categoryDao.delete(id)
     }
 
     override suspend fun clear() = withContext(Dispatchers.IO) {

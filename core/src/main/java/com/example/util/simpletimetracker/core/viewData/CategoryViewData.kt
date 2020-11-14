@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.feature_categories.viewData
+package com.example.util.simpletimetracker.core.viewData
 
 import androidx.annotation.ColorInt
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType

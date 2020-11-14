@@ -27,7 +27,7 @@ class CategoriesFragment : BaseFragment(R.layout.categories_fragment) {
     private val categoriesAdapter: CategoriesAdapter by lazy {
         CategoriesAdapter(
             viewModel::onCategoryLongClick,
-            viewModel::onAddRecordTypeClick
+            viewModel::onAddCategoryClick
         )
     }
 
