@@ -224,6 +224,20 @@
                     android:focusable="true"
                     android:text="@string/settings_change_card_size" />
 
+                <View
+                    style="@style/SettingsDivider"
+                    android:layout_width="match_parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSettingsEditCategories"
+                    style="@style/SettingsText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:text="@string/settings_edit_categories" />
+
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>

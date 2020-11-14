@@ -199,6 +199,10 @@ class SettingsViewModel @Inject constructor(
         router.navigate(Screen.CARD_SIZE_DIALOG)
     }
 
+    fun onEditCategoriesClick() {
+        router.navigate(Screen.CATEGORIES)
+    }
+
     fun onPositiveDialogClick(tag: String?) {
         when (tag) {
             ALERT_DIALOG_TAG -> router.execute(

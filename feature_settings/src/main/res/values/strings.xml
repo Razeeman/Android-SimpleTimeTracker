@@ -11,6 +11,7 @@
     <string name="settings_dark_mode">Dark mode</string>
     <string name="settings_show_notifications_hint">Show notifications when timers are running.</string>
     <string name="settings_change_card_size">Change activity card size</string>
+    <string name="settings_edit_categories">Edit categories</string>
     <string name="settings_rate">Rate us</string>
     <string name="settings_rate_description">Rate the app and leave a review.</string>
     <string name="settings_feedback">Feedback</string>

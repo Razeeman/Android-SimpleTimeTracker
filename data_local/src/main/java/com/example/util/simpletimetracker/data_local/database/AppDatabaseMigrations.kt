@@ -25,5 +25,13 @@ class AppDatabaseMigrations {
                 database.execSQL("ALTER TABLE recordTypes_new RENAME TO recordTypes")
             }
         }
+
+        val migration_2_3 = object : Migration(2, 3) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL(
+                    "CREATE TABLE IF NOT EXISTS `categories` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `color` INTEGER NOT NULL)"
+                )
+            }
+        }
     }
 }

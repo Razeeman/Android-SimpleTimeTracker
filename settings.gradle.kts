@@ -17,5 +17,7 @@ include(
     "feature_dialogs",
     "feature_settings",
     "feature_widget",
-    "feature_notification"
+    "feature_notification",
+    "feature_categories",
+    "feature_change_category"
 )

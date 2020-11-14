@@ -47,6 +47,11 @@
         <attr name="itemTimer" format="string" />
     </declare-styleable>
 
+    <declare-styleable name="CategoryView">
+        <attr name="itemName" />
+        <attr name="itemColor" />
+    </declare-styleable>
+
     <declare-styleable name="FullWidthSpinner">
         <attr name="popupUnderSpinner" format="boolean" />
         <attr name="popupUnderMarginTop" format="dimension" />

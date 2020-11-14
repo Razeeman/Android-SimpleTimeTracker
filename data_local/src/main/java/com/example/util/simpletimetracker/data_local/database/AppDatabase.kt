@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.data_local.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import com.example.util.simpletimetracker.data_local.model.CategoryDBO
 import com.example.util.simpletimetracker.data_local.model.RecordDBO
 import com.example.util.simpletimetracker.data_local.model.RecordTypeDBO
 import com.example.util.simpletimetracker.data_local.model.RunningRecordDBO
@@ -10,9 +11,10 @@ import com.example.util.simpletimetracker.data_local.model.RunningRecordDBO
     entities = [
         RecordDBO::class,
         RecordTypeDBO::class,
-        RunningRecordDBO::class
+        RunningRecordDBO::class,
+        CategoryDBO::class
     ],
-    version = 2
+    version = 3
 )
 abstract class AppDatabase : RoomDatabase() {
 
@@ -21,6 +23,8 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun recordTypeDao(): RecordTypeDao
 
     abstract fun runningRecordDao(): RunningRecordDao
+
+    abstract fun categoryDao(): CategoryDao
 
     companion object {
         const val DATABASE_NAME = "simpleTimeTrackerDB"

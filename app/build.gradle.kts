@@ -57,6 +57,8 @@ dependencies {
     implementation(project(":feature_dialogs"))
     implementation(project(":feature_widget"))
     implementation(project(":feature_notification"))
+    implementation(project(":feature_categories"))
+    implementation(project(":feature_change_category"))
 
     implementation(Deps.Androidx.room)
     implementation(Deps.Ktx.navigationFragment)

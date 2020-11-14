@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.core.utils
 
+import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
@@ -11,6 +12,7 @@ class TestUtils @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
     private val recordInteractor: RecordInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
+    private val categoryInteractor: CategoryInteractor,
     private val prefsInteractor: PrefsInteractor
 ) {
 
@@ -18,6 +20,7 @@ class TestUtils @Inject constructor(
         recordTypeInteractor.clear()
         recordInteractor.clear()
         runningRecordInteractor.clear()
+        categoryInteractor.clear()
     }
 
     fun clearPrefs() = runBlocking {

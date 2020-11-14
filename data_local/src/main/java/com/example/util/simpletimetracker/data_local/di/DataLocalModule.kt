@@ -6,9 +6,11 @@ import androidx.room.Room
 import com.example.util.simpletimetracker.core.extension.allowDiskWrite
 import com.example.util.simpletimetracker.data_local.database.AppDatabase
 import com.example.util.simpletimetracker.data_local.database.AppDatabaseMigrations
+import com.example.util.simpletimetracker.data_local.database.CategoryDao
 import com.example.util.simpletimetracker.data_local.database.RecordDao
 import com.example.util.simpletimetracker.data_local.database.RecordTypeDao
 import com.example.util.simpletimetracker.data_local.database.RunningRecordDao
+import com.example.util.simpletimetracker.data_local.repo.CategoryRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.RecordCacheRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.RecordRepoImpl
@@ -18,6 +20,7 @@ import com.example.util.simpletimetracker.data_local.repo.RunningRecordRepoImpl
 import com.example.util.simpletimetracker.data_local.resolver.BackupRepoImpl
 import com.example.util.simpletimetracker.data_local.resolver.CsvRepoImpl
 import com.example.util.simpletimetracker.domain.di.AppContext
+import com.example.util.simpletimetracker.domain.repo.CategoryRepo
 import com.example.util.simpletimetracker.domain.repo.PrefsRepo
 import com.example.util.simpletimetracker.domain.repo.RecordCacheRepo
 import com.example.util.simpletimetracker.domain.repo.RecordRepo
@@ -47,7 +50,8 @@ class DataLocalModule {
                 AppDatabase::class.java, AppDatabase.DATABASE_NAME
             )
             .addMigrations(
-                AppDatabaseMigrations.migration_1_2
+                AppDatabaseMigrations.migration_1_2,
+                AppDatabaseMigrations.migration_2_3
             )
             .build()
     }
@@ -78,8 +82,14 @@ class DataLocalModule {
         return database.runningRecordDao()
     }
 
+    @Provides
+    @Singleton
+    fun getCategoryDao(database: AppDatabase): CategoryDao {
+        return database.categoryDao()
+    }
+
     @Module
-    abstract inner class DataLocalModuleBinds() {
+    abstract inner class DataLocalModuleBinds {
         @Binds
         @Singleton
         abstract fun getRecordRepo(impl: RecordRepoImpl): RecordRepo
@@ -111,5 +121,9 @@ class DataLocalModule {
         @Binds
         @Singleton
         abstract fun getCsvRepo(impl: CsvRepoImpl): CsvRepo
+
+        @Binds
+        @Singleton
+        abstract fun getCategoryRepo(impl: CategoryRepoImpl): CategoryRepo
     }
 }

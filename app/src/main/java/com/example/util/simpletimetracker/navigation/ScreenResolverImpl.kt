@@ -26,6 +26,7 @@ class ScreenResolverImpl @Inject constructor() : ScreenResolver {
         val navExtras = toNavExtras(sharedElements)
 
         when (screen) {
+            // Screens
             Screen.CHANGE_RECORD_TYPE ->
                 navController?.navigate(
                     R.id.action_mainFragment_to_changeRecordTypeFragment,
@@ -68,6 +69,15 @@ class ScreenResolverImpl @Inject constructor() : ScreenResolver {
                     null,
                     navExtras
                 )
+            Screen.CATEGORIES ->
+                navController?.navigate(
+                    R.id.action_mainFragment_to_categoriesFragment,
+                    null,
+                    null,
+                    navExtras
+                )
+
+            // Dialogs
             Screen.STANDARD_DIALOG ->
                 navController?.navigate(
                     R.id.standardDialogFragment,
