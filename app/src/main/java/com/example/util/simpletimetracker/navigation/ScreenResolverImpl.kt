@@ -77,13 +77,6 @@ class ScreenResolverImpl @Inject constructor() : ScreenResolver {
                     null,
                     navExtras
                 )
-            Screen.CHANGE_CATEGORY ->
-                navController?.navigate(
-                    R.id.action_categoriesFragment_to_changeCategoryFragment,
-                    ChangeCategoryFragment.createBundle(data),
-                    null,
-                    navExtras
-                )
 
             // Dialogs
             Screen.STANDARD_DIALOG ->
@@ -125,6 +118,13 @@ class ScreenResolverImpl @Inject constructor() : ScreenResolver {
                 navController?.navigate(
                     R.id.cardOrderDialogFragment,
                     null,
+                    null,
+                    navExtras
+                )
+            Screen.CHANGE_CATEGORY ->
+                navController?.navigate(
+                    R.id.changeCategoryFragment,
+                    ChangeCategoryFragment.createBundle(data),
                     null,
                     navExtras
                 )
