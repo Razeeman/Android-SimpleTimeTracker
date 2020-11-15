@@ -67,45 +67,6 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/fieldChangeCategoryColor"
-        style="@style/ChangeRecordTypeInputFieldCard"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/input_field_height"
-        android:layout_marginStart="@dimen/input_field_margin"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="@dimen/input_field_margin">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="?appInputFieldBorder">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                style="@style/ChangeRecordTypeText"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:text="@string/change_category_color_hint"
-                app:layout_constraintEnd_toStartOf="@id/arrowChangeCategoryColor"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <ImageView
-                android:id="@+id/arrowChangeCategoryColor"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginEnd="8dp"
-                android:background="?selectableItemBackgroundBorderless"
-                android:src="?appArrow"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="ContentDescription" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.cardview.widget.CardView>
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvChangeCategoryColor"
         android:layout_width="match_parent"
@@ -115,10 +76,8 @@
         android:layout_marginEnd="8dp"
         android:layout_weight="1"
         android:overScrollMode="never"
-        android:visibility="gone"
         tools:itemCount="3"
-        tools:listitem="@layout/item_color_layout"
-        tools:visibility="visible" />
+        tools:listitem="@layout/item_color_layout" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnChangeCategorySave"

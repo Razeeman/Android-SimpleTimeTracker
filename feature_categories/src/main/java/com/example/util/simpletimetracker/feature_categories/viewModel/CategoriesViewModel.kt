@@ -20,11 +20,12 @@ class CategoriesViewModel @Inject constructor(
 ) : ViewModel() {
 
     val categories: LiveData<List<ViewHolderType>> by lazy {
+        updateCategories()
         MutableLiveData(listOf(LoaderViewData() as ViewHolderType))
     }
 
     fun onCategoryLongClick(item: CategoryViewData, sharedElements: Map<Any, String>) {
-        // TODO change to dialog?
+        // TODO fix or remove sharedElements
         router.navigate(
             screen = Screen.CHANGE_CATEGORY,
             data = ChangeCategoryParams(item.id),
@@ -39,7 +40,7 @@ class CategoriesViewModel @Inject constructor(
         )
     }
 
-    fun onVisible() {
+    fun onUpdateNeeded() {
         updateCategories()
     }
 

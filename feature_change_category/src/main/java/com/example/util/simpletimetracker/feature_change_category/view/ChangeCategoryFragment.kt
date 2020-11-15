@@ -1,10 +1,13 @@
 package com.example.util.simpletimetracker.feature_change_category.view
 
+import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.DialogFragment
@@ -12,10 +15,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.transition.TransitionInflater
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
+import com.example.util.simpletimetracker.core.dialog.ChangeCategoryDialogListener
+import com.example.util.simpletimetracker.core.extension.getAllFragments
 import com.example.util.simpletimetracker.core.extension.hideKeyboard
 import com.example.util.simpletimetracker.core.extension.observeOnce
-import com.example.util.simpletimetracker.core.extension.rotateDown
-import com.example.util.simpletimetracker.core.extension.rotateUp
 import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.core.extension.showKeyboard
 import com.example.util.simpletimetracker.core.extension.visible
@@ -52,6 +55,7 @@ class ChangeCategoryFragment : BottomSheetDialogFragment() {
         arguments?.getParcelable(ARGS_PARAMS) ?: ChangeCategoryParams()
     }
     private var behavior: BottomSheetBehavior<View>? = null
+    private var listener: ChangeCategoryDialogListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,6 +77,26 @@ class ChangeCategoryFragment : BottomSheetDialogFragment() {
         initUi()
         initUx()
         initViewModel()
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        when (context) {
+            is ChangeCategoryDialogListener -> {
+                listener = context
+                return
+            }
+            is AppCompatActivity -> {
+                context.getAllFragments()
+                    .firstOrNull { it is ChangeCategoryDialogListener && it.isResumed }
+                    ?.let { listener = it as? ChangeCategoryDialogListener }
+            }
+        }
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        listener?.onChangeCategoryDialogDismissed()
     }
 
     private fun initDialog() {
@@ -115,7 +139,6 @@ class ChangeCategoryFragment : BottomSheetDialogFragment() {
 
     private fun initUx() {
         etChangeCategoryName.doAfterTextChanged { viewModel.onNameChange(it.toString()) }
-        fieldChangeCategoryColor.setOnClick(viewModel::onColorChooserClick)
         btnChangeCategorySave.setOnClick(viewModel::onSaveClick)
         btnChangeCategoryDelete.setOnClick(viewModel::onDeleteClick)
     }
@@ -128,12 +151,6 @@ class ChangeCategoryFragment : BottomSheetDialogFragment() {
         categoryPreview.observeOnce(viewLifecycleOwner, ::updateUi)
         categoryPreview.observe(viewLifecycleOwner, ::updatePreview)
         colors.observe(viewLifecycleOwner, colorsAdapter::replace)
-        flipColorChooser.observe(viewLifecycleOwner) { opened ->
-            rvChangeCategoryColor.visible = opened
-            arrowChangeCategoryColor.apply {
-                if (opened) rotateDown() else rotateUp()
-            }
-        }
         keyboardVisibility.observe(viewLifecycleOwner) { visible ->
             if (visible) showKeyboard(etChangeCategoryName) else hideKeyboard()
         }
