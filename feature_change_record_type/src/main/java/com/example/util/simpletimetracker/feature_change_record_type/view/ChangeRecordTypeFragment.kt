@@ -44,7 +44,6 @@ import kotlinx.android.synthetic.main.change_record_type_fragment.previewChangeR
 import kotlinx.android.synthetic.main.change_record_type_fragment.rvChangeRecordTypeCategories
 import kotlinx.android.synthetic.main.change_record_type_fragment.rvChangeRecordTypeColor
 import kotlinx.android.synthetic.main.change_record_type_fragment.rvChangeRecordTypeIcon
-import kotlinx.android.synthetic.main.change_record_type_fragment.rvChangeRecordTypeSelectedCategories
 import javax.inject.Inject
 
 class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragment) {
@@ -55,9 +54,6 @@ class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragme
     private val viewModel: ChangeRecordTypeViewModel by viewModels(
         factoryProducer = { viewModelFactory }
     )
-    private val selectedCategoriesAdapter: ChangeRecordTypeCategoriesAdapter by lazy {
-        ChangeRecordTypeCategoriesAdapter(viewModel::onSelectedCategoryClick)
-    }
     private val colorsAdapter: ChangeRecordTypeAdapter by lazy {
         ChangeRecordTypeAdapter(viewModel::onColorClick, viewModel::onIconClick)
     }
@@ -89,15 +85,6 @@ class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragme
             previewChangeRecordType,
             TransitionNames.RECORD_TYPE + params.id
         )
-
-        rvChangeRecordTypeSelectedCategories.apply {
-            layoutManager = FlexboxLayoutManager(requireContext()).apply {
-                flexDirection = FlexDirection.ROW
-                justifyContent = JustifyContent.CENTER
-                flexWrap = FlexWrap.WRAP
-            }
-            adapter = selectedCategoriesAdapter
-        }
 
         rvChangeRecordTypeColor.apply {
             layoutManager = FlexboxLayoutManager(requireContext()).apply {
@@ -145,7 +132,6 @@ class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragme
         deleteButtonEnabled.observe(viewLifecycleOwner, btnChangeRecordTypeDelete::setEnabled)
         recordType.observeOnce(viewLifecycleOwner, ::updateUi)
         recordType.observe(viewLifecycleOwner, ::updatePreview)
-        selectedCategories.observe(viewLifecycleOwner, selectedCategoriesAdapter::replace)
         colors.observe(viewLifecycleOwner, colorsAdapter::replace)
         icons.observe(viewLifecycleOwner, iconsAdapter::replace)
         categories.observe(viewLifecycleOwner, categoriesAdapter::replace)

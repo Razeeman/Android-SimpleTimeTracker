@@ -63,15 +63,6 @@ class ChangeRecordTypeViewModel @Inject constructor(
             initial
         }
     }
-    val selectedCategories: LiveData<List<ViewHolderType>> by lazy {
-        return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
-            viewModelScope.launch {
-                initializeSelectedCategories()
-                initial.value = loadSelectedCategoriesViewData()
-            }
-            initial
-        }
-    }
     val colors: LiveData<List<ViewHolderType>> by lazy {
         return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
             viewModelScope.launch { initial.value = loadColorsViewData() }
@@ -86,7 +77,10 @@ class ChangeRecordTypeViewModel @Inject constructor(
     }
     val categories: LiveData<List<ViewHolderType>> by lazy {
         return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
-            viewModelScope.launch { initial.value = loadCategoriesViewData() }
+            viewModelScope.launch {
+                initializeSelectedCategories()
+                initial.value = loadCategoriesViewData()
+            }
             initial
         }
     }
@@ -173,17 +167,12 @@ class ChangeRecordTypeViewModel @Inject constructor(
 
     fun onCategoryClick(item: CategoryViewData) {
         viewModelScope.launch {
-            if (item.id !in newCategories) {
+            if (item.id in newCategories) {
+                newCategories.remove(item.id)
+            } else {
                 newCategories.add(item.id)
-                updateSelectedCategoriesViewData()
             }
-        }
-    }
-
-    fun onSelectedCategoryClick(item: CategoryViewData) {
-        viewModelScope.launch {
-            newCategories.remove(item.id)
-            updateSelectedCategoriesViewData()
+            updateCategoriesViewData()
         }
     }
 
@@ -256,21 +245,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
             .let {
                 newCategories = it.toMutableList()
                 initialCategories = it
-                updateSelectedCategoriesViewData()
             }
-    }
-
-    private fun updateSelectedCategoriesViewData() = viewModelScope.launch {
-        val data = loadSelectedCategoriesViewData()
-        (selectedCategories as MutableLiveData).value = data
-    }
-
-    private suspend fun loadSelectedCategoriesViewData(): List<ViewHolderType> {
-        val isDarkTheme = prefsInteractor.getDarkMode()
-
-        return categoryInteractor.getAll()
-            .filter { it.id in newCategories }
-            .map { categoryViewDataMapper.map(it, isDarkTheme) }
     }
 
     private fun updateRecordPreviewViewData() = viewModelScope.launch {
@@ -321,11 +296,22 @@ class ChangeRecordTypeViewModel @Inject constructor(
             }
     }
 
+    private fun updateCategoriesViewData() = viewModelScope.launch {
+        val data = loadCategoriesViewData()
+        (categories as MutableLiveData).value = data
+    }
+
     private suspend fun loadCategoriesViewData(): List<ViewHolderType> {
         val isDarkTheme = prefsInteractor.getDarkMode()
 
         return categoryInteractor.getAll()
-            .map { categoryViewDataMapper.map(it, isDarkTheme) }
+            .map {
+                categoryViewDataMapper.mapFiltered(
+                    category = it,
+                    isDarkTheme = isDarkTheme,
+                    isFiltered = it.id in newCategories
+                )
+            }
     }
 
     private fun showMessage(stringResId: Int) {
