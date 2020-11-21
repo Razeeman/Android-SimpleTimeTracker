@@ -22,6 +22,7 @@ import com.example.util.simpletimetracker.core.view.TransitionNames
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_change_record_type.R
 import com.example.util.simpletimetracker.feature_change_record_type.adapter.ChangeRecordTypeAdapter
+import com.example.util.simpletimetracker.feature_change_record_type.adapter.ChangeRecordTypeCategoriesAdapter
 import com.example.util.simpletimetracker.feature_change_record_type.di.ChangeRecordTypeComponentProvider
 import com.example.util.simpletimetracker.feature_change_record_type.extra.ChangeRecordTypeExtra
 import com.example.util.simpletimetracker.feature_change_record_type.viewModel.ChangeRecordTypeViewModel
@@ -30,16 +31,20 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
+import kotlinx.android.synthetic.main.change_record_type_fragment.arrowChangeRecordTypeCategory
 import kotlinx.android.synthetic.main.change_record_type_fragment.arrowChangeRecordTypeColor
 import kotlinx.android.synthetic.main.change_record_type_fragment.arrowChangeRecordTypeIcon
 import kotlinx.android.synthetic.main.change_record_type_fragment.btnChangeRecordTypeDelete
 import kotlinx.android.synthetic.main.change_record_type_fragment.btnChangeRecordTypeSave
 import kotlinx.android.synthetic.main.change_record_type_fragment.etChangeRecordTypeName
+import kotlinx.android.synthetic.main.change_record_type_fragment.fieldChangeRecordTypeCategory
 import kotlinx.android.synthetic.main.change_record_type_fragment.fieldChangeRecordTypeColor
 import kotlinx.android.synthetic.main.change_record_type_fragment.fieldChangeRecordTypeIcon
 import kotlinx.android.synthetic.main.change_record_type_fragment.previewChangeRecordType
+import kotlinx.android.synthetic.main.change_record_type_fragment.rvChangeRecordTypeCategories
 import kotlinx.android.synthetic.main.change_record_type_fragment.rvChangeRecordTypeColor
 import kotlinx.android.synthetic.main.change_record_type_fragment.rvChangeRecordTypeIcon
+import kotlinx.android.synthetic.main.change_record_type_fragment.rvChangeRecordTypeSelectedCategories
 import javax.inject.Inject
 
 class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragment) {
@@ -50,11 +55,17 @@ class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragme
     private val viewModel: ChangeRecordTypeViewModel by viewModels(
         factoryProducer = { viewModelFactory }
     )
+    private val selectedCategoriesAdapter: ChangeRecordTypeCategoriesAdapter by lazy {
+        ChangeRecordTypeCategoriesAdapter(viewModel::onSelectedCategoryClick)
+    }
     private val colorsAdapter: ChangeRecordTypeAdapter by lazy {
         ChangeRecordTypeAdapter(viewModel::onColorClick, viewModel::onIconClick)
     }
     private val iconsAdapter: ChangeRecordTypeAdapter by lazy {
         ChangeRecordTypeAdapter(viewModel::onColorClick, viewModel::onIconClick)
+    }
+    private val categoriesAdapter: ChangeRecordTypeCategoriesAdapter by lazy {
+        ChangeRecordTypeCategoriesAdapter(viewModel::onCategoryClick)
     }
     private val params: ChangeRecordTypeParams by lazy {
         arguments?.getParcelable(ARGS_PARAMS) ?: ChangeRecordTypeParams()
@@ -79,6 +90,15 @@ class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragme
             TransitionNames.RECORD_TYPE + params.id
         )
 
+        rvChangeRecordTypeSelectedCategories.apply {
+            layoutManager = FlexboxLayoutManager(requireContext()).apply {
+                flexDirection = FlexDirection.ROW
+                justifyContent = JustifyContent.CENTER
+                flexWrap = FlexWrap.WRAP
+            }
+            adapter = selectedCategoriesAdapter
+        }
+
         rvChangeRecordTypeColor.apply {
             layoutManager = FlexboxLayoutManager(requireContext()).apply {
                 flexDirection = FlexDirection.ROW
@@ -96,6 +116,15 @@ class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragme
             }
             adapter = iconsAdapter
         }
+
+        rvChangeRecordTypeCategories.apply {
+            layoutManager = FlexboxLayoutManager(requireContext()).apply {
+                flexDirection = FlexDirection.ROW
+                justifyContent = JustifyContent.CENTER
+                flexWrap = FlexWrap.WRAP
+            }
+            adapter = categoriesAdapter
+        }
     }
 
     override fun initUx() {
@@ -104,6 +133,7 @@ class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragme
         }
         fieldChangeRecordTypeColor.setOnClick(viewModel::onColorChooserClick)
         fieldChangeRecordTypeIcon.setOnClick(viewModel::onIconChooserClick)
+        fieldChangeRecordTypeCategory.setOnClick(viewModel::onCategoryChooserClick)
         btnChangeRecordTypeSave.setOnClick(viewModel::onSaveClick)
         btnChangeRecordTypeDelete.setOnClick(viewModel::onDeleteClick)
     }
@@ -115,8 +145,10 @@ class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragme
         deleteButtonEnabled.observe(viewLifecycleOwner, btnChangeRecordTypeDelete::setEnabled)
         recordType.observeOnce(viewLifecycleOwner, ::updateUi)
         recordType.observe(viewLifecycleOwner, ::updatePreview)
+        selectedCategories.observe(viewLifecycleOwner, selectedCategoriesAdapter::replace)
         colors.observe(viewLifecycleOwner, colorsAdapter::replace)
         icons.observe(viewLifecycleOwner, iconsAdapter::replace)
+        categories.observe(viewLifecycleOwner, categoriesAdapter::replace)
         flipColorChooser.observe(viewLifecycleOwner) { opened ->
             rvChangeRecordTypeColor.visible = opened
             arrowChangeRecordTypeColor.apply {
@@ -126,6 +158,12 @@ class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragme
         flipIconChooser.observe(viewLifecycleOwner) { opened ->
             rvChangeRecordTypeIcon.visible = opened
             arrowChangeRecordTypeIcon.apply {
+                if (opened) rotateDown() else rotateUp()
+            }
+        }
+        flipCategoryChooser.observe(viewLifecycleOwner) { opened ->
+            rvChangeRecordTypeCategories.visible = opened
+            arrowChangeRecordTypeCategory.apply {
                 if (opened) rotateDown() else rotateUp()
             }
         }

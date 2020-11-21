@@ -4,6 +4,7 @@
     <string name="change_record_type_name_hint">Enter new name</string>
     <string name="change_record_type_color_hint">Color</string>
     <string name="change_record_type_icon_hint">Icon</string>
+    <string name="change_record_type_category_hint">Category</string>
     <string name="change_record_type_save">Save</string>
     <string name="change_record_message_choose_name">Choose a name</string>
 </resources>

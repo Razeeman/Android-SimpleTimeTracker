@@ -8,14 +8,17 @@ import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.interactor.NotificationInteractor
 import com.example.util.simpletimetracker.core.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.core.interactor.WidgetInteractor
+import com.example.util.simpletimetracker.core.mapper.CategoryViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.core.viewData.CategoryViewData
 import com.example.util.simpletimetracker.core.viewData.ColorViewData
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.extension.flip
 import com.example.util.simpletimetracker.domain.extension.orTrue
+import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
@@ -36,10 +39,12 @@ class ChangeRecordTypeViewModel @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
     private val recordInteractor: RecordInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
+    private val categoryInteractor: CategoryInteractor,
     private val widgetInteractor: WidgetInteractor,
     private val notificationInteractor: NotificationInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
+    private val categoryViewDataMapper: CategoryViewDataMapper,
     private val resourceRepo: ResourceRepo,
     private val colorMapper: ColorMapper,
     private val iconMapper: IconMapper
@@ -49,7 +54,19 @@ class ChangeRecordTypeViewModel @Inject constructor(
 
     val recordType: LiveData<RecordTypeViewData> by lazy {
         return@lazy MutableLiveData<RecordTypeViewData>().let { initial ->
-            viewModelScope.launch { initial.value = loadRecordTypeViewData() }
+            viewModelScope.launch {
+                initializeRecordTypeData()
+                initial.value = loadRecordPreviewViewData()
+            }
+            initial
+        }
+    }
+    val selectedCategories: LiveData<List<ViewHolderType>> by lazy {
+        return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
+            viewModelScope.launch {
+                initializeSelectedCategories()
+                initial.value = loadSelectedCategoriesViewData()
+            }
             initial
         }
     }
@@ -65,8 +82,15 @@ class ChangeRecordTypeViewModel @Inject constructor(
             initial
         }
     }
+    val categories: LiveData<List<ViewHolderType>> by lazy {
+        return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
+            viewModelScope.launch { initial.value = loadCategoriesViewData() }
+            initial
+        }
+    }
     val flipColorChooser: LiveData<Boolean> = MutableLiveData()
     val flipIconChooser: LiveData<Boolean> = MutableLiveData()
+    val flipCategoryChooser: LiveData<Boolean> = MutableLiveData()
     val deleteButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val deleteIconVisibility: LiveData<Boolean> by lazy { MutableLiveData(extra.id != 0L) }
@@ -74,13 +98,14 @@ class ChangeRecordTypeViewModel @Inject constructor(
 
     private var newName: String = ""
     private var newIconName: String = ""
+    private var newCategories: MutableList<Long> = mutableListOf()
     private var newColorId: Int = (0..ColorMapper.colorsNumber).random()
 
     fun onNameChange(name: String) {
         viewModelScope.launch {
             if (name != newName) {
                 newName = name
-                updateRecordType()
+                updateRecordPreviewViewData()
             }
         }
     }
@@ -93,6 +118,9 @@ class ChangeRecordTypeViewModel @Inject constructor(
         if (flipIconChooser.value == true) {
             (flipIconChooser as MutableLiveData).value = false
         }
+        if (flipCategoryChooser.value == true) {
+            (flipCategoryChooser as MutableLiveData).value = false
+        }
     }
 
     fun onIconChooserClick() {
@@ -103,13 +131,29 @@ class ChangeRecordTypeViewModel @Inject constructor(
         if (flipColorChooser.value == true) {
             (flipColorChooser as MutableLiveData).value = false
         }
+        if (flipCategoryChooser.value == true) {
+            (flipCategoryChooser as MutableLiveData).value = false
+        }
+    }
+
+    fun onCategoryChooserClick() {
+        (keyboardVisibility as MutableLiveData).value = false
+        (flipCategoryChooser as MutableLiveData).value = flipCategoryChooser.value
+            ?.flip().orTrue()
+
+        if (flipColorChooser.value == true) {
+            (flipColorChooser as MutableLiveData).value = false
+        }
+        if (flipIconChooser.value == true) {
+            (flipIconChooser as MutableLiveData).value = false
+        }
     }
 
     fun onColorClick(item: ColorViewData) {
         viewModelScope.launch {
             if (item.colorId != newColorId) {
                 newColorId = item.colorId
-                updateRecordType()
+                updateRecordPreviewViewData()
                 updateIcons()
             }
         }
@@ -119,8 +163,24 @@ class ChangeRecordTypeViewModel @Inject constructor(
         viewModelScope.launch {
             if (item.iconName != newIconName) {
                 newIconName = item.iconName
-                updateRecordType()
+                updateRecordPreviewViewData()
             }
+        }
+    }
+
+    fun onCategoryClick(item: CategoryViewData) {
+        viewModelScope.launch {
+            if (item.id !in newCategories) {
+                newCategories.add(item.id)
+                updateSelectedCategoriesViewData()
+            }
+        }
+    }
+
+    fun onSelectedCategoryClick(item: CategoryViewData) {
+        viewModelScope.launch {
+            newCategories.remove(item.id)
+            updateSelectedCategoriesViewData()
         }
     }
 
@@ -165,11 +225,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
         }
     }
 
-    private fun updateRecordType() = viewModelScope.launch {
-        (recordType as MutableLiveData).value = loadRecordPreviewViewData()
-    }
-
-    private suspend fun loadRecordTypeViewData(): RecordTypeViewData {
+    private suspend fun initializeRecordTypeData() {
         recordTypeInteractor.get(extra.id)
             ?.let {
                 newName = it.name
@@ -177,13 +233,28 @@ class ChangeRecordTypeViewModel @Inject constructor(
                 newColorId = it.color
                 updateIcons()
             }
+    }
+
+    private suspend fun initializeSelectedCategories() {
+        // TODO
+        newCategories = mutableListOf()
+    }
+
+    private fun updateSelectedCategoriesViewData() = viewModelScope.launch {
+        val data = loadSelectedCategoriesViewData()
+        (selectedCategories as MutableLiveData).value = data
+    }
+
+    private suspend fun loadSelectedCategoriesViewData(): List<ViewHolderType> {
         val isDarkTheme = prefsInteractor.getDarkMode()
 
-        return RecordType(
-            name = newName,
-            icon = newIconName,
-            color = newColorId
-        ).let { recordTypeViewDataMapper.map(it, isDarkTheme) }
+        return categoryInteractor.getAll()
+            .filter { it.id in newCategories }
+            .map { categoryViewDataMapper.map(it, isDarkTheme) }
+    }
+
+    private fun updateRecordPreviewViewData() = viewModelScope.launch {
+        (recordType as MutableLiveData).value = loadRecordPreviewViewData()
     }
 
     private suspend fun loadRecordPreviewViewData(): RecordTypeViewData {
@@ -228,6 +299,13 @@ class ChangeRecordTypeViewModel @Inject constructor(
                         .let(resourceRepo::getColor)
                 )
             }
+    }
+
+    private suspend fun loadCategoriesViewData(): List<ViewHolderType> {
+        val isDarkTheme = prefsInteractor.getDarkMode()
+
+        return categoryInteractor.getAll()
+            .map { categoryViewDataMapper.map(it, isDarkTheme) }
     }
 
     private fun showMessage(stringResId: Int) {
