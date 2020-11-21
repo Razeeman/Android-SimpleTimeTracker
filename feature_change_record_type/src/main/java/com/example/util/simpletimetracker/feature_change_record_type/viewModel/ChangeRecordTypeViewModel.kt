@@ -21,6 +21,7 @@ import com.example.util.simpletimetracker.domain.extension.orTrue
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.model.RecordType
@@ -40,6 +41,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     private val recordInteractor: RecordInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
     private val categoryInteractor: CategoryInteractor,
+    private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
     private val widgetInteractor: WidgetInteractor,
     private val notificationInteractor: NotificationInteractor,
     private val prefsInteractor: PrefsInteractor,
@@ -96,6 +98,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     val deleteIconVisibility: LiveData<Boolean> by lazy { MutableLiveData(extra.id != 0L) }
     val keyboardVisibility: LiveData<Boolean> by lazy { MutableLiveData(extra.id == 0L) }
 
+    private var initialCategories: List<Long> = emptyList()
     private var newName: String = ""
     private var newIconName: String = ""
     private var newCategories: MutableList<Long> = mutableListOf()
@@ -210,19 +213,32 @@ class ChangeRecordTypeViewModel @Inject constructor(
         }
         (saveButtonEnabled as MutableLiveData).value = false
         viewModelScope.launch {
-            RecordType(
-                id = extra.id,
-                name = newName,
-                icon = newIconName,
-                color = newColorId
-            ).let {
-                recordTypeInteractor.add(it)
-                notificationInteractor.checkAndShow(it.id)
-                widgetInteractor.updateWidgets()
-                (keyboardVisibility as MutableLiveData).value = false
-                router.back()
-            }
+            val addedId = saveRecordType()
+            saveCategories(addedId)
+            notificationInteractor.checkAndShow(extra.id)
+            widgetInteractor.updateWidgets()
+            (keyboardVisibility as MutableLiveData).value = false
+            router.back()
         }
+    }
+
+    private suspend fun saveRecordType(): Long {
+        val recordType = RecordType(
+            id = extra.id,
+            name = newName,
+            icon = newIconName,
+            color = newColorId
+        )
+
+        return recordTypeInteractor.add(recordType)
+    }
+
+    private suspend fun saveCategories(typeId: Long) {
+        val addedCategories = newCategories.filterNot { it in initialCategories }
+        val removedCategories = initialCategories.filterNot { it in newCategories }
+
+        recordTypeCategoryInteractor.add(typeId, addedCategories)
+        recordTypeCategoryInteractor.remove(typeId, removedCategories)
     }
 
     private suspend fun initializeRecordTypeData() {
@@ -236,8 +252,12 @@ class ChangeRecordTypeViewModel @Inject constructor(
     }
 
     private suspend fun initializeSelectedCategories() {
-        // TODO
-        newCategories = mutableListOf()
+        recordTypeCategoryInteractor.get(extra.id)
+            .let {
+                newCategories = it.toMutableList()
+                initialCategories = it
+                updateSelectedCategoriesViewData()
+            }
     }
 
     private fun updateSelectedCategoriesViewData() = viewModelScope.launch {

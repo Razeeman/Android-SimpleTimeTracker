@@ -24,7 +24,7 @@ class RecordTypeInteractor @Inject constructor(
         return recordTypeRepo.get(id)
     }
 
-    suspend fun add(recordType: RecordType) {
+    suspend fun add(recordType: RecordType): Long {
         var newRecord = recordType
 
         // If there is already an item with this name - override
@@ -33,8 +33,9 @@ class RecordTypeInteractor @Inject constructor(
                 newRecord = recordType.copy(id = saved.id)
             }
 
-        recordTypeRepo.add(newRecord)
+        val addedId = recordTypeRepo.add(newRecord)
         recordTypeCacheRepo.clear()
+        return addedId
     }
 
     suspend fun remove(id: Long) {

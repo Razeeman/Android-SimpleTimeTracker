@@ -31,9 +31,9 @@ class RecordTypeRepoImpl @Inject constructor(
         recordTypeDao.get(name)?.let(recordTypeDataLocalMapper::map)
     }
 
-    override suspend fun add(recordType: RecordType) = withContext(Dispatchers.IO) {
+    override suspend fun add(recordType: RecordType): Long = withContext(Dispatchers.IO) {
         Timber.d("add")
-        recordTypeDao.insert(
+        return@withContext recordTypeDao.insert(
             recordType.let(recordTypeDataLocalMapper::map)
         )
     }

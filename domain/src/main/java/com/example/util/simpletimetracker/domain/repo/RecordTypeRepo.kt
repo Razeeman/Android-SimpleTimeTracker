@@ -10,7 +10,7 @@ interface RecordTypeRepo {
 
     suspend fun get(name: String): RecordType?
 
-    suspend fun add(recordType: RecordType)
+    suspend fun add(recordType: RecordType): Long
 
     suspend fun remove(id: Long)
 

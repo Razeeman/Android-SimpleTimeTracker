@@ -19,7 +19,7 @@ interface RecordTypeDao {
     suspend fun get(name: String): RecordTypeDBO?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(record: RecordTypeDBO)
+    suspend fun insert(record: RecordTypeDBO): Long
 
     @Query("UPDATE recordTypes SET hidden = 1 WHERE id = :id")
     suspend fun delete(id: Long)
