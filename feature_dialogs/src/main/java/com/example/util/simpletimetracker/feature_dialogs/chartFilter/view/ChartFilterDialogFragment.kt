@@ -15,9 +15,9 @@ import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.ChartFilterDialogListener
 import com.example.util.simpletimetracker.core.extension.getAllFragments
 import com.example.util.simpletimetracker.feature_dialogs.R
-import com.example.util.simpletimetracker.feature_dialogs.chartFilter.viewModel.ChartFilterViewModel
 import com.example.util.simpletimetracker.feature_dialogs.chartFilter.adapter.ChartFilterAdapter
 import com.example.util.simpletimetracker.feature_dialogs.chartFilter.di.ChartFilterComponentProvider
+import com.example.util.simpletimetracker.feature_dialogs.chartFilter.viewModel.ChartFilterViewModel
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
@@ -38,7 +38,8 @@ class ChartFilterDialogFragment : BottomSheetDialogFragment() {
 
     private val recordTypesAdapter: ChartFilterAdapter by lazy {
         ChartFilterAdapter(
-            viewModel::onRecordTypeClick
+            viewModel::onRecordTypeClick,
+            viewModel::onCategoryClick
         )
     }
 
@@ -67,6 +68,7 @@ class ChartFilterDialogFragment : BottomSheetDialogFragment() {
         initDialog()
         initDi()
         initUi()
+        initUx()
         initViewModel()
     }
 
@@ -118,7 +120,12 @@ class ChartFilterDialogFragment : BottomSheetDialogFragment() {
         }
     }
 
+    private fun initUx() {
+        buttonsChartFilterType.listener = viewModel::onFilterTypeClick
+    }
+
     private fun initViewModel(): Unit = with(viewModel) {
-        recordTypes.observe(viewLifecycleOwner, recordTypesAdapter::replace)
+        filterTypeViewData.observe(viewLifecycleOwner, buttonsChartFilterType.adapter::replace)
+        types.observe(viewLifecycleOwner, recordTypesAdapter::replace)
     }
 }

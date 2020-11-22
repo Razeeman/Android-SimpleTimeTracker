@@ -4,6 +4,8 @@ interface PrefsRepo {
 
     var recordTypesFilteredOnChart: Set<String>
 
+    var categoriesFilteredOnChart: Set<String>
+
     var cardOrder: Int
 
     var showUntrackedInRecords: Boolean

@@ -4,6 +4,7 @@ import com.example.util.simpletimetracker.data_local.database.RecordTypeCategory
 import com.example.util.simpletimetracker.data_local.mapper.CategoryDataLocalMapper
 import com.example.util.simpletimetracker.data_local.mapper.RecordTypeCategoryDataLocalMapper
 import com.example.util.simpletimetracker.domain.model.Category
+import com.example.util.simpletimetracker.domain.model.RecordTypeCategory
 import com.example.util.simpletimetracker.domain.repo.RecordTypeCategoryRepo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -17,6 +18,12 @@ class RecordTypeCategoryRepoImpl @Inject constructor(
     private val categoryDataLocalMapper: CategoryDataLocalMapper,
     private val recordTypeCategoryDataLocalMapper: RecordTypeCategoryDataLocalMapper
 ) : RecordTypeCategoryRepo {
+
+    override suspend fun getAll(): List<RecordTypeCategory>  = withContext(Dispatchers.IO) {
+        Timber.d("get all")
+        recordTypeCategoryDao.getAll()
+            .map(recordTypeCategoryDataLocalMapper::map)
+    }
 
     override suspend fun getCategoriesByType(typeId: Long): List<Category> = withContext(Dispatchers.IO) {
         Timber.d("get categories")

@@ -20,6 +20,16 @@ class PrefsInteractor @Inject constructor(
             .map(Long::toString).toSet()
     }
 
+    suspend fun getFilteredCategories(): List<Long> = withContext(Dispatchers.IO) {
+        prefsRepo.categoriesFilteredOnChart
+            .mapNotNull(String::toLongOrNull)
+    }
+
+    suspend fun setFilteredCategories(categoryIdsFiltered: List<Long>) = withContext(Dispatchers.IO) {
+        prefsRepo.categoriesFilteredOnChart = categoryIdsFiltered
+            .map(Long::toString).toSet()
+    }
+
     suspend fun getCardOrder(): CardOrder = withContext(Dispatchers.IO) {
         when (prefsRepo.cardOrder) {
             0 -> CardOrder.NAME

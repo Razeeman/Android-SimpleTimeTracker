@@ -12,6 +12,9 @@ import com.example.util.simpletimetracker.data_local.model.RecordTypeWithCategor
 @Dao
 interface RecordTypeCategoryDao {
 
+    @Query("SELECT * FROM recordTypeCategory")
+    suspend fun getAll(): List<RecordTypeCategoryDBO>
+
     @Query("SELECT category_id FROM recordTypeCategory WHERE record_type_id = :typeId")
     suspend fun getCategoryIdsByType(typeId: Long): List<Long>
 

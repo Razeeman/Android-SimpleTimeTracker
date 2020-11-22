@@ -1,11 +1,16 @@
 package com.example.util.simpletimetracker.domain.interactor
 
+import com.example.util.simpletimetracker.domain.model.RecordTypeCategory
 import com.example.util.simpletimetracker.domain.repo.RecordTypeCategoryRepo
 import javax.inject.Inject
 
 class RecordTypeCategoryInteractor @Inject constructor(
     private val recordTypeCategoryRepo: RecordTypeCategoryRepo
 ) {
+
+    suspend fun getAll(): List<RecordTypeCategory> {
+        return recordTypeCategoryRepo.getAll()
+    }
 
     suspend fun getCategories(typeId: Long): List<Long> {
         return recordTypeCategoryRepo.getCategoryIdsByType(typeId)

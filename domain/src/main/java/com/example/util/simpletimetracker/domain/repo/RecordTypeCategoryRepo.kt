@@ -1,8 +1,11 @@
 package com.example.util.simpletimetracker.domain.repo
 
 import com.example.util.simpletimetracker.domain.model.Category
+import com.example.util.simpletimetracker.domain.model.RecordTypeCategory
 
 interface RecordTypeCategoryRepo {
+
+    suspend fun getAll(): List<RecordTypeCategory>
 
     suspend fun getCategoriesByType(typeId: Long): List<Category>
 

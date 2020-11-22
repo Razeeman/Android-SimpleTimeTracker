@@ -1,22 +1,29 @@
 package com.example.util.simpletimetracker.feature_dialogs.chartFilter.mapper
 
+import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.core.mapper.CategoryViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeCardSizeMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.core.viewData.CategoryViewData
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
+import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_dialogs.R
+import com.example.util.simpletimetracker.feature_dialogs.chartFilter.model.ChartFilterType
+import com.example.util.simpletimetracker.feature_dialogs.chartFilter.viewData.ChartFilterTypeViewData
 import javax.inject.Inject
 
 class ChartFilterViewDataMapper @Inject constructor(
     private val colorMapper: ColorMapper,
     private val resourceRepo: ResourceRepo,
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
-    private val recordTypeCardSizeMapper: RecordTypeCardSizeMapper
+    private val recordTypeCardSizeMapper: RecordTypeCardSizeMapper,
+    private val categoryViewDataMapper: CategoryViewDataMapper
 ) {
 
-    fun map(
+    fun mapRecordType(
         recordType: RecordType,
         typeIdsFiltered: List<Long>,
         numberOfCards: Int,
@@ -54,5 +61,37 @@ class ChartFilterViewDataMapper @Inject constructor(
             height = recordTypeCardSizeMapper.toCardHeight(numberOfCards),
             asRow = recordTypeCardSizeMapper.toCardAsRow(numberOfCards)
         )
+    }
+
+    fun mapCategory(
+        category: Category,
+        categoryIdsFiltered: List<Long>,
+        isDarkTheme: Boolean
+    ): CategoryViewData {
+        return categoryViewDataMapper.mapFiltered(
+            category,
+            isDarkTheme,
+            category.id in categoryIdsFiltered
+        )
+    }
+
+    fun mapToFilterTypeViewData(filterType: ChartFilterType): List<ViewHolderType> {
+        return listOf(
+            ChartFilterType.ACTIVITY,
+            ChartFilterType.CATEGORY
+        ).map {
+            ChartFilterTypeViewData(
+                filterType = it,
+                name = mapToFilterTypeName(it),
+                isSelected = it == filterType
+            )
+        }
+    }
+
+    private fun mapToFilterTypeName(filterType: ChartFilterType): String {
+        return when (filterType) {
+            ChartFilterType.ACTIVITY -> R.string.chart_filter_type_activity
+            ChartFilterType.CATEGORY -> R.string.chart_filter_type_category
+        }.let(resourceRepo::getString)
     }
 }

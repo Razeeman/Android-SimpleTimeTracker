@@ -16,6 +16,10 @@ class PrefsRepoImpl @Inject constructor(
         KEY_RECORD_TYPES_FILTERED_ON_CHART, emptySet()
     )
 
+    override var categoriesFilteredOnChart: Set<String> by prefs.delegate(
+        KEY_CATEGORIES_TYPES_FILTERED_ON_CHART, emptySet()
+    )
+
     override var cardOrder: Int by prefs.delegate(
         KEY_CARD_ORDER, 0
     )
@@ -83,6 +87,7 @@ class PrefsRepoImpl @Inject constructor(
         private const val CARDS_ORDER_DELIMITER = "_"
 
         private const val KEY_RECORD_TYPES_FILTERED_ON_CHART = "recordTypesFilteredOnChart"
+        private const val KEY_CATEGORIES_TYPES_FILTERED_ON_CHART = "categoriesFilteredOnChart"
         private const val KEY_CARD_ORDER = "cardOrder"
         private const val KEY_SHOW_UNTRACKED_IN_RECORDS = "showUntrackedInRecords"
         private const val KEY_ALLOW_MULTITASKING = "allowMultitasking"

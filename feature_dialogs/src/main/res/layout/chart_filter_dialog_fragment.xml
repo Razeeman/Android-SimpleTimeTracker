@@ -15,11 +15,16 @@
         android:src="@drawable/dialog_arrow"
         android:tint="?appContrastColor" />
 
+    <com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowView
+        android:id="@+id/buttonsChartFilterType"
+        android:layout_width="match_parent"
+        android:layout_marginTop="32dp"
+        android:layout_height="wrap_content" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvChartFilterContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="32dp"
         android:layout_marginBottom="32dp"
         android:layout_weight="1"
         tools:listitem="@layout/item_record_type_layout" />
