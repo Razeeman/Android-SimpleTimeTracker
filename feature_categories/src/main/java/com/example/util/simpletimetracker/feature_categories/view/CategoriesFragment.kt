@@ -4,7 +4,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
-import com.example.util.simpletimetracker.core.dialog.ChangeCategoryDialogListener
 import com.example.util.simpletimetracker.feature_categories.R
 import com.example.util.simpletimetracker.feature_categories.adapter.CategoriesAdapter
 import com.example.util.simpletimetracker.feature_categories.di.CategoriesComponentProvider
@@ -16,8 +15,7 @@ import com.google.android.flexbox.JustifyContent
 import kotlinx.android.synthetic.main.categories_fragment.*
 import javax.inject.Inject
 
-class CategoriesFragment : BaseFragment(R.layout.categories_fragment),
-    ChangeCategoryDialogListener {
+class CategoriesFragment : BaseFragment(R.layout.categories_fragment) {
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<CategoriesViewModel>
@@ -62,8 +60,9 @@ class CategoriesFragment : BaseFragment(R.layout.categories_fragment),
         categories.observe(viewLifecycleOwner, categoriesAdapter::replace)
     }
 
-    override fun onChangeCategoryDialogDismissed() {
-        viewModel.onUpdateNeeded()
+    override fun onResume() {
+        super.onResume()
+        viewModel.onVisible()
     }
 
     companion object {

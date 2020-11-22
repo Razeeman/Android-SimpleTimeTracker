@@ -103,11 +103,6 @@
         android:name="com.example.util.simpletimetracker.feature_dialogs.cardOrder.view.CardOrderDialogFragment"
         android:label="CardSizeDialogFragment"
         tools:layout="@layout/card_order_dialog_fragment" />
-    <dialog
-        android:id="@+id/changeCategoryFragment"
-        android:name="com.example.util.simpletimetracker.feature_change_category.view.ChangeCategoryFragment"
-        android:label="ChangeCategoryFragment"
-        tools:layout="@layout/change_category_fragment" />
     <fragment
         android:id="@+id/recordsAllFragment"
         android:name="com.example.util.simpletimetracker.feature_records_all.view.RecordsAllFragment"
@@ -125,5 +120,18 @@
         android:id="@+id/categoriesFragment"
         android:name="com.example.util.simpletimetracker.feature_categories.view.CategoriesFragment"
         android:label="CategoriesFragment"
-        tools:layout="@layout/categories_fragment" />
+        tools:layout="@layout/categories_fragment">
+        <action
+            android:id="@+id/action_categoriesFragment_to_changeCategoryFragment"
+            app:destination="@id/changeCategoryFragment"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_close_exit"
+            app:popEnterAnim="@anim/fragment_open_enter"
+            app:popExitAnim="@anim/fragment_close_exit" />
+    </fragment>
+    <fragment
+        android:id="@+id/changeCategoryFragment"
+        android:name="com.example.util.simpletimetracker.feature_change_category.view.ChangeCategoryFragment"
+        android:label="ChangeCategoryFragment"
+        tools:layout="@layout/change_category_fragment" />
 </navigation>

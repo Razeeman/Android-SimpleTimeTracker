@@ -10,6 +10,8 @@ import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.viewData.CategoryViewData
 import com.example.util.simpletimetracker.core.viewData.ColorViewData
+import com.example.util.simpletimetracker.domain.extension.flip
+import com.example.util.simpletimetracker.domain.extension.orTrue
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.model.Category
@@ -43,6 +45,7 @@ class ChangeCategoryViewModel @Inject constructor(
             initial
         }
     }
+    val flipColorChooser: LiveData<Boolean> = MutableLiveData()
     val deleteButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val deleteIconVisibility: LiveData<Boolean> by lazy { MutableLiveData(extra.id != 0L) }
@@ -58,6 +61,12 @@ class ChangeCategoryViewModel @Inject constructor(
                 updateCategoryPreview()
             }
         }
+    }
+
+    fun onColorChooserClick() {
+        (keyboardVisibility as MutableLiveData).value = false
+        (flipColorChooser as MutableLiveData).value = flipColorChooser.value
+            ?.flip().orTrue()
     }
 
     fun onColorClick(item: ColorViewData) {
