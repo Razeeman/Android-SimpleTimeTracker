@@ -226,8 +226,8 @@ class ChangeRecordTypeViewModel @Inject constructor(
         val addedCategories = newCategories.filterNot { it in initialCategories }
         val removedCategories = initialCategories.filterNot { it in newCategories }
 
-        recordTypeCategoryInteractor.add(typeId, addedCategories)
-        recordTypeCategoryInteractor.remove(typeId, removedCategories)
+        recordTypeCategoryInteractor.addCategories(typeId, addedCategories)
+        recordTypeCategoryInteractor.removeCategories(typeId, removedCategories)
     }
 
     private suspend fun initializeRecordTypeData() {
@@ -241,7 +241,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     }
 
     private suspend fun initializeSelectedCategories() {
-        recordTypeCategoryInteractor.get(extra.id)
+        recordTypeCategoryInteractor.getCategories(extra.id)
             .let {
                 newCategories = it.toMutableList()
                 initialCategories = it

@@ -8,7 +8,7 @@ interface CategoryRepo {
 
     suspend fun get(id: Long): Category?
 
-    suspend fun add(category: Category)
+    suspend fun add(category: Category): Long
 
     suspend fun remove(id: Long)
 

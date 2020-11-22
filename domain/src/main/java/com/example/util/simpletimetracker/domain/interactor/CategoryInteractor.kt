@@ -17,8 +17,8 @@ class CategoryInteractor @Inject constructor(
     suspend fun get(id: Long): Category? {
         return categoryRepo.get(id)
     }
-    suspend fun add(category: Category) {
-        categoryRepo.add(category)
+    suspend fun add(category: Category): Long {
+        return categoryRepo.add(category)
     }
 
     suspend fun remove(id: Long) {

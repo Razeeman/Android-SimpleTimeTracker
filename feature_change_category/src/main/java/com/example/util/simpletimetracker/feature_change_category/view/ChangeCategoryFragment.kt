@@ -19,7 +19,8 @@ import com.example.util.simpletimetracker.core.utils.BuildVersions
 import com.example.util.simpletimetracker.core.view.TransitionNames
 import com.example.util.simpletimetracker.core.viewData.CategoryViewData
 import com.example.util.simpletimetracker.feature_change_category.R
-import com.example.util.simpletimetracker.feature_change_category.adapter.ChangeCategoryAdapter
+import com.example.util.simpletimetracker.feature_change_category.adapter.ChangeCategoryColorAdapter
+import com.example.util.simpletimetracker.feature_change_category.adapter.ChangeCategoryTypeAdapter
 import com.example.util.simpletimetracker.feature_change_category.di.ChangeCategoryComponentProvider
 import com.example.util.simpletimetracker.feature_change_category.extra.ChangeCategoryExtra
 import com.example.util.simpletimetracker.feature_change_category.viewModel.ChangeCategoryViewModel
@@ -39,8 +40,11 @@ class ChangeCategoryFragment : BaseFragment(R.layout.change_category_fragment) {
     private val viewModel: ChangeCategoryViewModel by viewModels(
         factoryProducer = { viewModelFactory }
     )
-    private val colorsAdapter: ChangeCategoryAdapter by lazy {
-        ChangeCategoryAdapter(viewModel::onColorClick)
+    private val colorsAdapter: ChangeCategoryColorAdapter by lazy {
+        ChangeCategoryColorAdapter(viewModel::onColorClick)
+    }
+    private val typesAdapter: ChangeCategoryTypeAdapter by lazy {
+        ChangeCategoryTypeAdapter(viewModel::onTypeClick)
     }
     private val params: ChangeCategoryParams by lazy {
         arguments?.getParcelable(ARGS_PARAMS) ?: ChangeCategoryParams()
@@ -71,11 +75,21 @@ class ChangeCategoryFragment : BaseFragment(R.layout.change_category_fragment) {
             }
             adapter = colorsAdapter
         }
+
+        rvChangeCategoryType.apply {
+            layoutManager = FlexboxLayoutManager(requireContext()).apply {
+                flexDirection = FlexDirection.ROW
+                justifyContent = JustifyContent.CENTER
+                flexWrap = FlexWrap.WRAP
+            }
+            adapter = typesAdapter
+        }
     }
 
     override fun initUx() {
         etChangeCategoryName.doAfterTextChanged { viewModel.onNameChange(it.toString()) }
         fieldChangeCategoryColor.setOnClick(viewModel::onColorChooserClick)
+        fieldChangeCategoryType.setOnClick(viewModel::onTypeChooserClick)
         btnChangeCategorySave.setOnClick(viewModel::onSaveClick)
         btnChangeCategoryDelete.setOnClick(viewModel::onDeleteClick)
     }
@@ -88,9 +102,16 @@ class ChangeCategoryFragment : BaseFragment(R.layout.change_category_fragment) {
         categoryPreview.observeOnce(viewLifecycleOwner, ::updateUi)
         categoryPreview.observe(viewLifecycleOwner, ::updatePreview)
         colors.observe(viewLifecycleOwner, colorsAdapter::replace)
+        types.observe(viewLifecycleOwner, typesAdapter::replace)
         flipColorChooser.observe(viewLifecycleOwner) { opened ->
             rvChangeCategoryColor.visible = opened
             arrowChangeCategoryColor.apply {
+                if (opened) rotateDown() else rotateUp()
+            }
+        }
+        flipTypesChooser.observe(viewLifecycleOwner) { opened ->
+            rvChangeCategoryType.visible = opened
+            arrowChangeCategoryType.apply {
                 if (opened) rotateDown() else rotateUp()
             }
         }

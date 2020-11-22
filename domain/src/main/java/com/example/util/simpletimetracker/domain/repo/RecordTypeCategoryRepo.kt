@@ -8,9 +8,15 @@ interface RecordTypeCategoryRepo {
 
     suspend fun getCategoryIdsByType(typeId: Long): List<Long>
 
-    suspend fun add(typeId: Long, categoryIds: List<Long>)
+    suspend fun addCategories(typeId: Long, categoryIds: List<Long>)
 
-    suspend fun remove(typeId: Long, categoryIds: List<Long>)
+    suspend fun removeCategories(typeId: Long, categoryIds: List<Long>)
+
+    suspend fun getTypeIdsByCategory(categoryId: Long): List<Long>
+
+    suspend fun addTypes(categoryId: Long, typeIds: List<Long>)
+
+    suspend fun removeTypes(categoryId: Long, typeIds: List<Long>)
 
     suspend fun removeAll(categoryId: Long)
 

@@ -7,15 +7,28 @@ class RecordTypeCategoryInteractor @Inject constructor(
     private val recordTypeCategoryRepo: RecordTypeCategoryRepo
 ) {
 
-    suspend fun get(typeId: Long): List<Long> {
+    suspend fun getCategories(typeId: Long): List<Long> {
         return recordTypeCategoryRepo.getCategoryIdsByType(typeId)
     }
-    suspend fun add(typeId: Long, categoryIds: List<Long>) {
-        recordTypeCategoryRepo.add(typeId, categoryIds)
+
+    suspend fun addCategories(typeId: Long, categoryIds: List<Long>) {
+        recordTypeCategoryRepo.addCategories(typeId, categoryIds)
     }
 
-    suspend fun remove(typeId: Long, categoryIds: List<Long>) {
-        recordTypeCategoryRepo.remove(typeId, categoryIds)
+    suspend fun removeCategories(typeId: Long, categoryIds: List<Long>) {
+        recordTypeCategoryRepo.removeCategories(typeId, categoryIds)
+    }
+
+    suspend fun getTypes(categoryId: Long): List<Long> {
+        return recordTypeCategoryRepo.getTypeIdsByCategory(categoryId)
+    }
+
+    suspend fun addTypes(categoryId: Long, typeIds: List<Long>) {
+        recordTypeCategoryRepo.addTypes(categoryId, typeIds)
+    }
+
+    suspend fun removeTypes(categoryId: Long, typeIds: List<Long>) {
+        recordTypeCategoryRepo.removeTypes(categoryId, typeIds)
     }
 
     suspend fun clear() {

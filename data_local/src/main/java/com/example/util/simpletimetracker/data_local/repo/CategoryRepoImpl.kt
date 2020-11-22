@@ -27,9 +27,9 @@ class CategoryRepoImpl @Inject constructor(
         categoryDao.get(id)?.let(categoryDataLocalMapper::map)
     }
 
-    override suspend fun add(category: Category) = withContext(Dispatchers.IO) {
+    override suspend fun add(category: Category): Long = withContext(Dispatchers.IO) {
         Timber.d("add")
-        categoryDao.insert(
+        return@withContext categoryDao.insert(
             category.let(categoryDataLocalMapper::map)
         )
     }

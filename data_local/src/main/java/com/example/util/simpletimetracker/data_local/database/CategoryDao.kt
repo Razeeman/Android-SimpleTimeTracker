@@ -16,7 +16,7 @@ interface CategoryDao {
     suspend fun get(id: Long): CategoryDBO?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(category: CategoryDBO)
+    suspend fun insert(category: CategoryDBO): Long
 
     @Query("DELETE FROM categories WHERE id = :id")
     suspend fun delete(id: Long)

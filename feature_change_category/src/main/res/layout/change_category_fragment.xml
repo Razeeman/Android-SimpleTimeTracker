@@ -58,9 +58,8 @@
         android:layout_width="0dp"
         android:layout_height="@dimen/input_field_height"
         android:layout_marginStart="@dimen/input_field_margin"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="@dimen/input_field_margin"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toStartOf="@id/fieldChangeCategoryType"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/inputChangeCategoryName">
 
@@ -94,6 +93,47 @@
 
     </androidx.cardview.widget.CardView>
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/fieldChangeCategoryType"
+        style="@style/ChangeRecordTypeInputFieldCard"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/input_field_height"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="@dimen/input_field_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/fieldChangeCategoryColor"
+        app:layout_constraintTop_toBottomOf="@id/inputChangeCategoryName">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?appInputFieldBorder">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/ChangeRecordTypeText"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/change_category_type_hint"
+                app:layout_constraintEnd_toStartOf="@id/arrowChangeCategoryType"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <ImageView
+                android:id="@+id/arrowChangeCategoryType"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="8dp"
+                android:background="?selectableItemBackgroundBorderless"
+                android:src="?appArrow"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvChangeCategoryColor"
         android:layout_width="match_parent"
@@ -104,9 +144,28 @@
         android:overScrollMode="never"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/btnChangeCategorySave"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/fieldChangeCategoryColor"
         tools:itemCount="3"
+        tools:layout_width="100dp"
         tools:listitem="@layout/item_color_layout"
+        tools:visibility="visible" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvChangeCategoryType"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:overScrollMode="never"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/btnChangeCategorySave"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fieldChangeCategoryColor"
+        tools:itemCount="3"
+        tools:layout_width="100dp"
+        tools:listitem="@layout/item_record_type_layout"
         tools:visibility="visible" />
 
     <com.google.android.material.button.MaterialButton

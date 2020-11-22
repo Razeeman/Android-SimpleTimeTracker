@@ -31,19 +31,42 @@ class RecordTypeCategoryRepoImpl @Inject constructor(
         recordTypeCategoryDao.getCategoryIdsByType(typeId)
     }
 
-    override suspend fun add(typeId: Long, categoryIds: List<Long>) = withContext(Dispatchers.IO) {
-        Timber.d("add")
+    override suspend fun addCategories(typeId: Long, categoryIds: List<Long>) = withContext(Dispatchers.IO) {
+        Timber.d("add categories")
         categoryIds.map {
-            recordTypeCategoryDataLocalMapper.map(typeId, it)
+            recordTypeCategoryDataLocalMapper.map(typeId = typeId, categoryId = it)
         }.let {
             recordTypeCategoryDao.insert(it)
         }
     }
 
-    override suspend fun remove(typeId: Long, categoryIds: List<Long>) = withContext(Dispatchers.IO) {
-        Timber.d("remove")
+    override suspend fun removeCategories(typeId: Long, categoryIds: List<Long>) = withContext(Dispatchers.IO) {
+        Timber.d("remove categories")
         categoryIds.map {
-            recordTypeCategoryDataLocalMapper.map(typeId, it)
+            recordTypeCategoryDataLocalMapper.map(typeId = typeId, categoryId = it)
+        }.let {
+            recordTypeCategoryDao.delete(it)
+        }
+    }
+
+    override suspend fun getTypeIdsByCategory(categoryId: Long): List<Long> = withContext(Dispatchers.IO) {
+        Timber.d("get type ids")
+        recordTypeCategoryDao.getTypeIdsByCategory(categoryId)
+    }
+
+    override suspend fun addTypes(categoryId: Long, typeIds: List<Long>) = withContext(Dispatchers.IO) {
+        Timber.d("add types")
+        typeIds.map {
+            recordTypeCategoryDataLocalMapper.map(typeId = it, categoryId = categoryId)
+        }.let {
+            recordTypeCategoryDao.insert(it)
+        }
+    }
+
+    override suspend fun removeTypes(categoryId: Long, typeIds: List<Long>) = withContext(Dispatchers.IO) {
+        Timber.d("remove types")
+        typeIds.map {
+            recordTypeCategoryDataLocalMapper.map(typeId = it, categoryId = categoryId)
         }.let {
             recordTypeCategoryDao.delete(it)
         }

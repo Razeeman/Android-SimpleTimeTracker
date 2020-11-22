@@ -3,6 +3,7 @@
     <string name="change_category_removed">Category removed</string>
     <string name="change_category_name_hint">Enter new name</string>
     <string name="change_category_color_hint">Color</string>
+    <string name="change_category_type_hint">Activities</string>
     <string name="change_category_save">Save</string>
     <string name="change_category_message_choose_name">Choose a name</string>
 </resources>

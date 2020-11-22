@@ -5,7 +5,7 @@ import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.color.ColorAdapterDelegate
 import com.example.util.simpletimetracker.core.viewData.ColorViewData
 
-class ChangeCategoryAdapter(
+class ChangeCategoryColorAdapter(
     onColorItemClick: ((ColorViewData) -> Unit)
 ) : BaseRecyclerAdapter() {
 

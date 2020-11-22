@@ -15,6 +15,9 @@ interface RecordTypeCategoryDao {
     @Query("SELECT category_id FROM recordTypeCategory WHERE record_type_id = :typeId")
     suspend fun getCategoryIdsByType(typeId: Long): List<Long>
 
+    @Query("SELECT record_type_id FROM recordTypeCategory WHERE category_id = :categoryId")
+    suspend fun getTypeIdsByCategory(categoryId: Long): List<Long>
+
     @Transaction
     @Query("SELECT * FROM recordTypes WHERE id = :typeId LIMIT 1")
     fun getTypeWithCategories(typeId: Long): RecordTypeWithCategoriesDBO?
