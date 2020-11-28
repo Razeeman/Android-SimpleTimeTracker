@@ -10,7 +10,6 @@ import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_statistics.R
 import com.example.util.simpletimetracker.feature_statistics.mapper.StatisticsViewDataMapper
 import com.example.util.simpletimetracker.feature_statistics.viewData.RangeLength
-import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsRangeViewData
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
 import com.example.util.simpletimetracker.navigation.params.DateTimeDialogParams
@@ -32,13 +31,11 @@ class StatisticsContainerViewModel @Inject constructor(
         return@lazy MutableLiveData(0)
     }
 
-    val rangeLength: LiveData<RangeLength> by lazy {
-        return@lazy MutableLiveData(RangeLength.DAY)
-    }
-
     val buttons: LiveData<List<ViewHolderType>> by lazy {
         return@lazy MutableLiveData(loadButtons())
     }
+
+    private var rangeLength: RangeLength = RangeLength.DAY
 
     fun onPreviousClick() {
         updatePosition(position.value.orZero() - 1)
@@ -52,8 +49,9 @@ class StatisticsContainerViewModel @Inject constructor(
         updatePosition(position.value.orZero() + 1)
     }
 
-    fun onRangeClick(rangeData: StatisticsRangeViewData) {
-        updateRangeLength(rangeData.rangeLength)
+    fun onNewRange(newRangeLength: RangeLength) {
+        rangeLength = newRangeLength
+        updatePosition(0)
     }
 
     fun onSelectDateClick() {
@@ -83,11 +81,6 @@ class StatisticsContainerViewModel @Inject constructor(
         }
     }
 
-    private fun updateRangeLength(newRangeLength: RangeLength) {
-        (rangeLength as MutableLiveData).value = newRangeLength
-        updatePosition(0)
-    }
-
     private fun updatePosition(newPosition: Int) {
         (position as MutableLiveData).value = newPosition
         (title as MutableLiveData).value = loadTitle()
@@ -96,7 +89,7 @@ class StatisticsContainerViewModel @Inject constructor(
 
     private fun loadTitle(): String {
         val position = position.value.orZero()
-        return when (rangeLength.value ?: RangeLength.DAY) {
+        return when (rangeLength) {
             RangeLength.DAY -> timeMapper.toDayTitle(position)
             RangeLength.WEEK -> timeMapper.toWeekTitle(position)
             RangeLength.MONTH -> timeMapper.toMonthTitle(position)
@@ -105,13 +98,11 @@ class StatisticsContainerViewModel @Inject constructor(
     }
 
     private fun loadButtons(): List<ViewHolderType> {
-        return statisticsViewDataMapper.mapToButtons(
-            rangeLength.value ?: RangeLength.DAY
-        )
+        return statisticsViewDataMapper.mapToButtons(rangeLength)
     }
 
     private fun getMapperRange(): TimeMapper.Range? {
-        return when (rangeLength.value ?: RangeLength.DAY) {
+        return when (rangeLength) {
             RangeLength.DAY -> TimeMapper.Range.DAY
             RangeLength.WEEK -> TimeMapper.Range.WEEK
             RangeLength.MONTH -> TimeMapper.Range.MONTH

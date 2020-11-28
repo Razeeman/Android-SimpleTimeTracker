@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_statistics.view
 
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,6 +17,7 @@ import com.example.util.simpletimetracker.feature_statistics.adapter.StatisticsR
 import com.example.util.simpletimetracker.feature_statistics.di.StatisticsComponentProvider
 import com.example.util.simpletimetracker.feature_statistics.viewData.RangeLength
 import com.example.util.simpletimetracker.feature_statistics.viewModel.StatisticsContainerViewModel
+import com.example.util.simpletimetracker.feature_statistics.viewModel.StatisticsSettingsViewModel
 import kotlinx.android.synthetic.main.statistics_container_fragment.*
 import javax.inject.Inject
 
@@ -23,18 +25,29 @@ class StatisticsContainerFragment : BaseFragment(R.layout.statistics_container_f
     DateTimeDialogListener {
 
     @Inject
+    lateinit var settingsViewModelFactory: BaseViewModelFactory<StatisticsSettingsViewModel>
+
+    @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<StatisticsContainerViewModel>
 
+    private val settingsViewModel: StatisticsSettingsViewModel by viewModels(
+        ownerProducer = { activity as AppCompatActivity },
+        factoryProducer = { settingsViewModelFactory }
+    )
     private val viewModel: StatisticsContainerViewModel by viewModels(
         factoryProducer = { viewModelFactory }
     )
 
-    private var adapter: StatisticsContainerAdapter? = null
     private val adapterButtons: StatisticsRangeAdapter by lazy {
-        StatisticsRangeAdapter(viewModel::onRangeClick, viewModel::onSelectDateClick)
+        StatisticsRangeAdapter(settingsViewModel::onRangeClick, viewModel::onSelectDateClick)
     }
 
     override fun initUi() {
+        pagerStatisticsContainer.apply {
+            adapter = StatisticsContainerAdapter(this@StatisticsContainerFragment)
+            offscreenPageLimit = 1
+            isUserInputEnabled = false
+        }
         rvStatisticsRanges.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = adapterButtons
@@ -58,25 +71,19 @@ class StatisticsContainerFragment : BaseFragment(R.layout.statistics_container_f
         viewModel.onDateTimeSet(timestamp, tag)
     }
 
-    override fun initViewModel(): Unit = with(viewModel) {
-        title.observe(viewLifecycleOwner, ::updateTitle)
-        rangeLength.observe(viewLifecycleOwner, ::updateRange)
-        buttons.observe(viewLifecycleOwner, adapterButtons::replaceAsNew)
-        position.observe(viewLifecycleOwner, ::updatePosition)
-    }
-
-    private fun setupPager(rangeLength: RangeLength) {
-        adapter = StatisticsContainerAdapter(this, rangeLength)
-        pagerStatisticsContainer.apply {
-            this.adapter = this@StatisticsContainerFragment.adapter
-            offscreenPageLimit = 1
-            isUserInputEnabled = false
+    override fun initViewModel() {
+        with(viewModel) {
+            title.observe(viewLifecycleOwner, ::updateTitle)
+            buttons.observe(viewLifecycleOwner, adapterButtons::replaceAsNew)
+            position.observe(viewLifecycleOwner, ::updatePosition)
+        }
+        with(settingsViewModel) {
+            rangeLength.observe(viewLifecycleOwner, ::updateNavButtons)
+            rangeLength.observe(viewLifecycleOwner, viewModel::onNewRange)
         }
     }
 
-    private fun updateRange(rangeLength: RangeLength) {
-        // TODO avoid recreation, implement update
-        setupPager(rangeLength)
+    private fun updateNavButtons(rangeLength: RangeLength) {
         if (rangeLength == RangeLength.ALL) {
             btnStatisticsContainerPrevious.visible = false
             btnStatisticsContainerNext.visible = false
