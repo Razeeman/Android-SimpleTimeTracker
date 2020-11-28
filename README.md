@@ -106,6 +106,7 @@ Simple app that helps track how much time you spend on all the useless activitie
 - Jetpack Navigation
 - Dagger
 - Room
+- Room migrations
 - Coroutines
 - Several Widgets
 - Notifications
@@ -120,6 +121,7 @@ Simple app that helps track how much time you spend on all the useless activitie
 - Database backup and restore
 - Database export to csv
 - Dark mode
+- UI tests
 
 [change_record_activity_thumb]: dev_files/screens/change_record_activity_thumb.png
 [change_record_activity]: dev_files/screens/change_record_activity.png
