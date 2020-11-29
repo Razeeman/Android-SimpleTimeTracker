@@ -11,10 +11,10 @@ import com.example.util.simpletimetracker.domain.model.Statistics
 import com.example.util.simpletimetracker.feature_statistics.R
 import com.example.util.simpletimetracker.feature_statistics.customView.PiePortion
 import com.example.util.simpletimetracker.feature_statistics.viewData.RangeLength
+import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsActivityViewData
 import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsChartViewData
 import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsRangeViewData
 import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsSelectDateViewData
-import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsViewData
 import javax.inject.Inject
 
 class StatisticsViewDataMapper @Inject constructor(
@@ -24,7 +24,7 @@ class StatisticsViewDataMapper @Inject constructor(
     private val timeMapper: TimeMapper
 ) {
 
-    fun map(
+    fun mapActivity(
         statistics: List<Statistics>,
         recordTypes: List<RecordType>,
         recordTypesFiltered: List<Long>,
@@ -47,7 +47,7 @@ class StatisticsViewDataMapper @Inject constructor(
         return statistics
             .filterNot { it.typeId in recordTypesFiltered }
             .mapNotNull { statistic ->
-                (map(statistic, sumDuration, recordTypesMap[statistic.typeId], showDuration, isDarkTheme, statisticsSize)
+                (mapActivity(statistic, sumDuration, recordTypesMap[statistic.typeId], showDuration, isDarkTheme, statisticsSize)
                     ?: return@mapNotNull null) to statistic.duration
             }
             .sortedByDescending { (_, duration) -> duration }
@@ -101,14 +101,14 @@ class StatisticsViewDataMapper @Inject constructor(
         }
     }
 
-    private fun map(
+    private fun mapActivity(
         statistics: Statistics,
         sumDuration: Long,
         recordType: RecordType?,
         showDuration: Boolean,
         isDarkTheme: Boolean,
         statisticsSize: Int
-    ): StatisticsViewData? {
+    ): StatisticsActivityViewData? {
         val durationPercent: Long = if (sumDuration != 0L) {
             statistics.duration * 100 / sumDuration
         } else {
@@ -117,7 +117,7 @@ class StatisticsViewDataMapper @Inject constructor(
 
         when {
             statistics.typeId == -1L -> {
-                return StatisticsViewData(
+                return StatisticsActivityViewData(
                     typeId = statistics.typeId,
                     name = R.string.untracked_time_name
                         .let(resourceRepo::getString),
@@ -129,7 +129,7 @@ class StatisticsViewDataMapper @Inject constructor(
                 )
             }
             recordType != null -> {
-                return StatisticsViewData(
+                return StatisticsActivityViewData(
                     typeId = statistics.typeId,
                     name = recordType.name,
                     duration = if (showDuration) {

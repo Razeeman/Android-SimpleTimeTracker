@@ -7,13 +7,15 @@ import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.StatisticsInteractor
 import com.example.util.simpletimetracker.feature_statistics.extra.StatisticsExtra
 import com.example.util.simpletimetracker.feature_statistics.mapper.StatisticsViewDataMapper
 import com.example.util.simpletimetracker.feature_statistics.viewData.RangeLength
-import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsViewData
+import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsActivityViewData
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
 import com.example.util.simpletimetracker.navigation.params.StatisticsDetailParams
@@ -25,6 +27,8 @@ class StatisticsViewModel @Inject constructor(
     private val router: Router,
     private val recordTypeInteractor: RecordTypeInteractor,
     private val statisticsInteractor: StatisticsInteractor,
+    private val categoryInteractor: CategoryInteractor,
+    private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val statisticsViewDataMapper: StatisticsViewDataMapper
 ) : ViewModel() {
@@ -56,7 +60,7 @@ class StatisticsViewModel @Inject constructor(
         router.navigate(Screen.CHART_FILTER_DIALOG)
     }
 
-    fun onItemClick(item: StatisticsViewData, sharedElements: Map<Any, String>) {
+    fun onItemClick(item: StatisticsActivityViewData, sharedElements: Map<Any, String>) {
         if (item.typeId == -1L) return // TODO untracked detailed statistics
 
         router.navigate(
@@ -120,7 +124,10 @@ class StatisticsViewModel @Inject constructor(
 
     private suspend fun loadStatisticsViewData(): List<ViewHolderType> {
         val showDuration: Boolean
+        val filterType = prefsInteractor.getChartFilterType()
         val types = recordTypeInteractor.getAll()
+        val categories = categoryInteractor.getAll()
+        val recordTypeCategories = recordTypeCategoryInteractor.getAll()
         val typesFiltered = prefsInteractor.getFilteredTypes()
         val isDarkTheme = prefsInteractor.getDarkMode()
 
@@ -137,7 +144,7 @@ class StatisticsViewModel @Inject constructor(
             statisticsInteractor.getAll()
         }
 
-        val list = statisticsViewDataMapper.map(
+        val list = statisticsViewDataMapper.mapActivity(
             statistics, types, typesFiltered, showDuration, isDarkTheme
         )
         val chart = statisticsViewDataMapper.mapToChart(

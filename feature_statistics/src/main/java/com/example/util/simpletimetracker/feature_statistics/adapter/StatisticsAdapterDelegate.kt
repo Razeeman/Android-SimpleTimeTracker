@@ -10,11 +10,11 @@ import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.core.view.TransitionNames
 import com.example.util.simpletimetracker.feature_statistics.R
-import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsViewData
+import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsActivityViewData
 import kotlinx.android.synthetic.main.item_statistics_layout.view.*
 
 class StatisticsAdapterDelegate(
-    private val onItemClick: ((StatisticsViewData, Map<Any, String>) -> Unit)
+    private val onItemClick: ((StatisticsActivityViewData, Map<Any, String>) -> Unit)
 ) : BaseRecyclerAdapterDelegate() {
 
     override fun onCreateViewHolder(parent: ViewGroup): BaseRecyclerViewHolder =
@@ -27,7 +27,7 @@ class StatisticsAdapterDelegate(
             item: ViewHolderType,
             payloads: List<Any>
         ) = with(itemView) {
-            item as StatisticsViewData
+            item as StatisticsActivityViewData
             val transitionName = TransitionNames.STATISTICS_DETAIL + item.typeId
 
             layoutStatisticsItem.setCardBackgroundColor(item.color)
