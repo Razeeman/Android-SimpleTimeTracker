@@ -15,11 +15,11 @@ import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.Category
+import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RecordTypeCategory
 import com.example.util.simpletimetracker.feature_dialogs.chartFilter.mapper.ChartFilterViewDataMapper
-import com.example.util.simpletimetracker.feature_dialogs.chartFilter.model.ChartFilterType
 import com.example.util.simpletimetracker.feature_dialogs.chartFilter.viewData.ChartFilterTypeViewData
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -34,7 +34,13 @@ class ChartFilterViewModel @Inject constructor(
 ) : ViewModel() {
 
     val filterTypeViewData: LiveData<List<ViewHolderType>> by lazy {
-        return@lazy MutableLiveData(loadFilterTypeViewData())
+        return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
+            viewModelScope.launch {
+                initializeChartFilterType()
+                initial.value = loadFilterTypeViewData()
+            }
+            initial
+        }
     }
     val types: LiveData<List<ViewHolderType>> by lazy {
         viewModelScope.launch {
@@ -52,9 +58,12 @@ class ChartFilterViewModel @Inject constructor(
 
     fun onFilterTypeClick(viewData: ButtonsRowViewData) {
         if (viewData !is ChartFilterTypeViewData) return
-        this.filterType = viewData.filterType
-        updateFilterTypeViewData()
-        updateTypes()
+        viewModelScope.launch {
+            filterType = viewData.filterType
+            prefsInteractor.setChartFilterType(filterType)
+            updateFilterTypeViewData()
+            updateTypes()
+        }
     }
 
     fun onRecordTypeClick(item: RecordTypeViewData) {
@@ -82,7 +91,7 @@ class ChartFilterViewModel @Inject constructor(
     }
 
     private suspend fun initializeChartFilterType() {
-        filterType = ChartFilterType.ACTIVITY // TODO get from prefs
+        filterType = prefsInteractor.getChartFilterType()
     }
 
     private fun updateFilterTypeViewData() {

@@ -6,6 +6,8 @@ interface PrefsRepo {
 
     var categoriesFilteredOnChart: Set<String>
 
+    var chartFilterType: Int
+
     var cardOrder: Int
 
     var showUntrackedInRecords: Boolean

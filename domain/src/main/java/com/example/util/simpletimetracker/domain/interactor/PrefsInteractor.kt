@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.domain.interactor
 
 import com.example.util.simpletimetracker.domain.model.CardOrder
+import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.repo.PrefsRepo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -28,6 +29,21 @@ class PrefsInteractor @Inject constructor(
     suspend fun setFilteredCategories(categoryIdsFiltered: List<Long>) = withContext(Dispatchers.IO) {
         prefsRepo.categoriesFilteredOnChart = categoryIdsFiltered
             .map(Long::toString).toSet()
+    }
+
+    suspend fun getChartFilterType(): ChartFilterType = withContext(Dispatchers.IO) {
+        when (prefsRepo.chartFilterType) {
+            0 -> ChartFilterType.ACTIVITY
+            1 -> ChartFilterType.CATEGORY
+            else -> ChartFilterType.ACTIVITY
+        }
+    }
+
+    suspend fun setChartFilterType(chartFilterType: ChartFilterType) = withContext(Dispatchers.IO) {
+        prefsRepo.chartFilterType = when (chartFilterType) {
+            ChartFilterType.ACTIVITY -> 0
+            ChartFilterType.CATEGORY -> 1
+        }
     }
 
     suspend fun getCardOrder(): CardOrder = withContext(Dispatchers.IO) {

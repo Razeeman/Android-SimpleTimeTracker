@@ -1,7 +1,7 @@
 package com.example.util.simpletimetracker.feature_dialogs.chartFilter.viewData
 
 import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
-import com.example.util.simpletimetracker.feature_dialogs.chartFilter.model.ChartFilterType
+import com.example.util.simpletimetracker.domain.model.ChartFilterType
 
 data class ChartFilterTypeViewData(
     val filterType: ChartFilterType,
