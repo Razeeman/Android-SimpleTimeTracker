@@ -10,6 +10,7 @@ import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_statistics.R
 import com.example.util.simpletimetracker.feature_statistics.mapper.StatisticsViewDataMapper
 import com.example.util.simpletimetracker.feature_statistics.viewData.RangeLength
+import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsRangeViewData
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
 import com.example.util.simpletimetracker.navigation.params.DateTimeDialogParams
@@ -49,8 +50,8 @@ class StatisticsContainerViewModel @Inject constructor(
         updatePosition(position.value.orZero() + 1)
     }
 
-    fun onNewRange(newRangeLength: RangeLength) {
-        rangeLength = newRangeLength
+    fun onRangeClick(rangeData: StatisticsRangeViewData) {
+        rangeLength = rangeData.rangeLength
         updatePosition(0)
     }
 

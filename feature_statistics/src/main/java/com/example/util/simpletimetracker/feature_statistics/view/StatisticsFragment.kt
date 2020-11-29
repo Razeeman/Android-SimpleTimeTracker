@@ -71,6 +71,11 @@ class StatisticsFragment : BaseFragment(R.layout.statistics_fragment),
         viewModel.onVisible()
     }
 
+    override fun onPause() {
+        super.onPause()
+        viewModel.onHidden()
+    }
+
     override fun onChartFilterDialogDismissed() {
         viewModel.onFilterApplied()
     }

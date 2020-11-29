@@ -36,20 +36,20 @@ class StatisticsViewModel @Inject constructor(
     }
 
     private var rangeLength: RangeLength? = null
-    private var start: Long = 0
-    private var end: Long = 0
+    private var isVisible: Boolean = false
 
     fun onVisible() {
+        isVisible = true
         updateStatistics()
+    }
+
+    fun onHidden() {
+        isVisible = false
     }
 
     fun onNewRange(newRangeLength: RangeLength) {
         rangeLength = newRangeLength
-        getRange().let { (start, end) ->
-            this.start = start
-            this.end = end
-        }
-        updateStatistics()
+        if (isVisible) updateStatistics()
     }
 
     fun onFilterClick() {
@@ -123,6 +123,8 @@ class StatisticsViewModel @Inject constructor(
         val types = recordTypeInteractor.getAll()
         val typesFiltered = prefsInteractor.getFilteredTypes()
         val isDarkTheme = prefsInteractor.getDarkMode()
+
+        val (start, end) = getRange()
         val statistics = if (start.orZero() != 0L && end.orZero() != 0L) {
             showDuration = true
             statisticsInteractor.getFromRange(
@@ -135,8 +137,12 @@ class StatisticsViewModel @Inject constructor(
             statisticsInteractor.getAll()
         }
 
-        val list = statisticsViewDataMapper.map(statistics, types, typesFiltered, showDuration, isDarkTheme)
-        val chart = statisticsViewDataMapper.mapToChart(statistics, types, typesFiltered, isDarkTheme)
+        val list = statisticsViewDataMapper.map(
+            statistics, types, typesFiltered, showDuration, isDarkTheme
+        )
+        val chart = statisticsViewDataMapper.mapToChart(
+            statistics, types, typesFiltered, isDarkTheme
+        )
 
         if (list.isEmpty()) return listOf(statisticsViewDataMapper.mapToEmpty())
         return listOf(chart) + list

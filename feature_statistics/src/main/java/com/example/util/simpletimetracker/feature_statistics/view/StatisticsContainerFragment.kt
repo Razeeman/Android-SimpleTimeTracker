@@ -39,7 +39,13 @@ class StatisticsContainerFragment : BaseFragment(R.layout.statistics_container_f
     )
 
     private val adapterButtons: StatisticsRangeAdapter by lazy {
-        StatisticsRangeAdapter(settingsViewModel::onRangeClick, viewModel::onSelectDateClick)
+        StatisticsRangeAdapter(
+            onRangeClick = {
+                viewModel.onRangeClick(it)
+                settingsViewModel.onRangeClick(it)
+            },
+            onSelectDateClick = viewModel::onSelectDateClick
+        )
     }
 
     override fun initUi() {
@@ -79,7 +85,6 @@ class StatisticsContainerFragment : BaseFragment(R.layout.statistics_container_f
         }
         with(settingsViewModel) {
             rangeLength.observe(viewLifecycleOwner, ::updateNavButtons)
-            rangeLength.observe(viewLifecycleOwner, viewModel::onNewRange)
         }
     }
 
@@ -99,7 +104,10 @@ class StatisticsContainerFragment : BaseFragment(R.layout.statistics_container_f
     }
 
     private fun updatePosition(position: Int) {
-        pagerStatisticsContainer.setCurrentItem(position + StatisticsContainerAdapter.FIRST, viewPagerSmoothScroll)
+        pagerStatisticsContainer.setCurrentItem(
+            position + StatisticsContainerAdapter.FIRST,
+            viewPagerSmoothScroll
+        )
     }
 
     companion object {
