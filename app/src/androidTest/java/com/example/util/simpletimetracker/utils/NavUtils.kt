@@ -32,7 +32,12 @@ object NavUtils {
         Thread.sleep(1000)
     }
 
-    fun addActivity(name: String, color: Int? = null, icon: Int? = null) {
+    fun addActivity(
+        name: String,
+        color: Int? = null,
+        icon: Int? = null,
+        categories: List<String> = emptyList()
+    ) {
         Thread.sleep(1000)
 
         clickOnViewWithText(R.string.running_records_add_type)
@@ -54,6 +59,15 @@ object NavUtils {
             clickOnRecyclerItem(R.id.rvChangeRecordTypeIcon, withTag(icon))
         }
 
+        // Categories
+        clickOnViewWithText(R.string.change_record_type_category_hint)
+        categories.forEach { categoryName ->
+            scrollRecyclerToView(
+                R.id.rvChangeRecordTypeCategories, hasDescendant(withText(categoryName))
+            )
+            clickOnRecyclerItem(R.id.rvChangeRecordTypeCategories, withText(categoryName))
+        }
+
         clickOnViewWithText(R.string.change_record_type_save)
     }
 
@@ -64,7 +78,6 @@ object NavUtils {
     ) {
         Thread.sleep(1000)
 
-        clickOnViewWithText(R.string.settings_edit_categories)
         clickOnViewWithText(R.string.categories_add)
 
         // Name
