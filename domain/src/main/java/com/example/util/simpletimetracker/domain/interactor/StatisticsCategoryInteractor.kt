@@ -1,16 +1,15 @@
 package com.example.util.simpletimetracker.domain.interactor
 
-import com.example.util.simpletimetracker.domain.model.Record
+import com.example.util.simpletimetracker.domain.mapper.StatisticsMapper
 import com.example.util.simpletimetracker.domain.model.StatisticsCategory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
-import kotlin.math.max
-import kotlin.math.min
 
 class StatisticsCategoryInteractor @Inject constructor(
     private val recordInteractor: RecordInteractor,
-    private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor
+    private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
+    private val statisticsMapper: StatisticsMapper
 ) {
 
     // TODO simplify mappers?
@@ -27,7 +26,7 @@ class StatisticsCategoryInteractor @Inject constructor(
             .map { (categoryId, records) ->
                 StatisticsCategory(
                     categoryId = categoryId,
-                    duration = records.let(::mapToDuration)
+                    duration = records.let(statisticsMapper::mapToDuration)
                 )
             }
     }
@@ -45,22 +44,8 @@ class StatisticsCategoryInteractor @Inject constructor(
             .map { (categoryId, records) ->
                 StatisticsCategory(
                     categoryId = categoryId,
-                    duration = mapToDurationFromRange(records, start, end)
+                    duration = statisticsMapper.mapToDurationFromRange(records, start, end)
                 )
             }
-    }
-
-    // TODO move to mapper and from statistics interactor
-    private fun mapToDuration(records: List<Record>): Long {
-        return records
-            .map { it.timeEnded - it.timeStarted }
-            .sum()
-    }
-
-    private fun mapToDurationFromRange(records: List<Record>, start: Long, end: Long): Long {
-        return records
-            // Remove parts of the record that is not in the range
-            .map { min(it.timeEnded, end) - max(it.timeStarted, start) }
-            .sum()
     }
 }

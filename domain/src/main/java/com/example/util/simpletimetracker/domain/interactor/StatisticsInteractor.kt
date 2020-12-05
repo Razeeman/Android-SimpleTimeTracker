@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.domain.interactor
 
 import com.example.util.simpletimetracker.domain.mapper.CoveredRangeMapper
+import com.example.util.simpletimetracker.domain.mapper.StatisticsMapper
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.Statistics
 import kotlinx.coroutines.Dispatchers
@@ -11,7 +12,8 @@ import kotlin.math.min
 
 class StatisticsInteractor @Inject constructor(
     private val recordInteractor: RecordInteractor,
-    private val coveredRangeMapper: CoveredRangeMapper
+    private val coveredRangeMapper: CoveredRangeMapper,
+    private val statisticsMapper: StatisticsMapper
 ) {
 
     suspend fun getAll(): List<Statistics> {
@@ -20,7 +22,7 @@ class StatisticsInteractor @Inject constructor(
             .map { entry ->
                 Statistics(
                     typeId = entry.key,
-                    duration = entry.value.let(::mapToDuration)
+                    duration = entry.value.let(statisticsMapper::mapToDuration)
                 )
             }
     }
@@ -36,7 +38,7 @@ class StatisticsInteractor @Inject constructor(
                 .map { entry ->
                     Statistics(
                         typeId = entry.key,
-                        duration = mapToDurationFromRange(entry.value, start, end)
+                        duration = statisticsMapper.mapToDurationFromRange(entry.value, start, end)
                     )
                 }
                 .apply {
@@ -69,16 +71,5 @@ class StatisticsInteractor @Inject constructor(
             .let { untrackedTimeEndRange - start - it }
     }
 
-    private fun mapToDuration(records: List<Record>): Long {
-        return records
-            .map { it.timeEnded - it.timeStarted }
-            .sum()
-    }
 
-    private fun mapToDurationFromRange(records: List<Record>, start: Long, end: Long): Long {
-        return records
-            // Remove parts of the record that is not in the range
-            .map { min(it.timeEnded, end) - max(it.timeStarted, start) }
-            .sum()
-    }
 }
