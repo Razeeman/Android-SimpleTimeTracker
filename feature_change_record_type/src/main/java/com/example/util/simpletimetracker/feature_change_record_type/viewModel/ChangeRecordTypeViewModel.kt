@@ -27,6 +27,7 @@ import com.example.util.simpletimetracker.domain.interactor.RunningRecordInterac
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_change_record_type.R
 import com.example.util.simpletimetracker.feature_change_record_type.extra.ChangeRecordTypeExtra
+import com.example.util.simpletimetracker.feature_change_record_type.mapper.ChangeRecordTypeMapper
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconViewData
 import com.example.util.simpletimetracker.navigation.Notification
 import com.example.util.simpletimetracker.navigation.Router
@@ -47,6 +48,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
     private val categoryViewDataMapper: CategoryViewDataMapper,
+    private val changeRecordTypeMapper: ChangeRecordTypeMapper,
     private val resourceRepo: ResourceRepo,
     private val colorMapper: ColorMapper,
     private val iconMapper: IconMapper
@@ -312,6 +314,8 @@ class ChangeRecordTypeViewModel @Inject constructor(
                     isFiltered = it.id in newCategories
                 )
             }
+            .takeUnless(List<ViewHolderType>::isEmpty)
+            ?: changeRecordTypeMapper.mapToEmpty()
     }
 
     private fun showMessage(stringResId: Int) {

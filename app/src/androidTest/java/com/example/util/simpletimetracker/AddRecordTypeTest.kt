@@ -84,6 +84,15 @@ class AddRecordTypeTest : BaseUiTest() {
         checkViewIsDisplayed(withTag(lastIcon))
     }
 
+    @Test
+    fun addRecordTypeCategoriesEmpty() {
+        clickOnViewWithText(R.string.running_records_add_type)
+
+        // Open category chooser
+        clickOnViewWithText(R.string.change_record_type_category_hint)
+        checkViewIsDisplayed(withText(R.string.change_record_type_categories_empty))
+    }
+
     private fun checkPreviewUpdated(matcher: Matcher<View>) =
         checkViewIsDisplayed(allOf(withId(R.id.previewChangeRecordType), matcher))
 }
