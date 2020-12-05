@@ -39,7 +39,7 @@ class ChangeCategoryTest : BaseUiTest() {
         NavUtils.addActivity(typeName2)
 
         // Add category
-        NavUtils.openSettingsScreen()
+        NavUtils.openCategoriesScreen()
         NavUtils.addCategory(name, firstColor, listOf(typeName1))
 
         longClickOnView(withText(name))

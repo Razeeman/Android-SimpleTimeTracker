@@ -86,6 +86,7 @@ class AddRecordTypeTest : BaseUiTest() {
 
     @Test
     fun addRecordTypeCategoriesEmpty() {
+        Thread.sleep(1000)
         clickOnViewWithText(R.string.running_records_add_type)
 
         // Open category chooser

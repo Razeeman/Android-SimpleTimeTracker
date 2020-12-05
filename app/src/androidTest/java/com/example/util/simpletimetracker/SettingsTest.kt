@@ -223,6 +223,7 @@ class SettingsTest : BaseUiTest() {
         // Open settings
         NavUtils.openSettingsScreen()
         clickOnViewWithText(R.string.settings_change_card_size)
+        Thread.sleep(1000)
 
         // Check order
         onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1)))
@@ -337,6 +338,7 @@ class SettingsTest : BaseUiTest() {
         NavUtils.openSettingsScreen()
         clickOnViewWithId(R.id.spinnerSettingsRecordTypeSort)
         clickOnViewWithText(R.string.settings_sort_manually)
+        Thread.sleep(1000)
 
         // Check old order
         onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1)))

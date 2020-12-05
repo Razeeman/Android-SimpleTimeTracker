@@ -27,8 +27,7 @@ class RecordTypeCategoryTest : BaseUiTest() {
         val typeName2 = "Type2"
 
         // Add category
-        NavUtils.openSettingsScreen()
-        clickOnViewWithText(R.string.settings_edit_categories)
+        NavUtils.openCategoriesScreen()
         NavUtils.addCategory(categoryName1)
         NavUtils.addCategory(categoryName2)
         pressBack()
@@ -39,8 +38,7 @@ class RecordTypeCategoryTest : BaseUiTest() {
         NavUtils.addActivity(typeName2, categories = listOf(categoryName2))
 
         // Check first category
-        NavUtils.openSettingsScreen()
-        clickOnViewWithText(R.string.settings_edit_categories)
+        NavUtils.openCategoriesScreen()
 
         longClickOnView(withText(categoryName1))
         clickOnViewWithText(R.string.change_category_type_hint)
@@ -120,8 +118,7 @@ class RecordTypeCategoryTest : BaseUiTest() {
         clickOnViewWithText(R.string.change_record_type_save)
 
         // Check first category again
-        NavUtils.openSettingsScreen()
-        clickOnViewWithText(R.string.settings_edit_categories)
+        NavUtils.openCategoriesScreen()
 
         longClickOnView(withText(categoryName1))
         clickOnViewWithText(R.string.change_category_type_hint)

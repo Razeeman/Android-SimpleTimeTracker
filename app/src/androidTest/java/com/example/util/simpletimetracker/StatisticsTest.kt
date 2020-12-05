@@ -145,6 +145,7 @@ class StatisticsTest : BaseUiTest() {
         // Switch to overall range
         clickOnView(allOf(withText(R.string.title_this_month), isCompletelyDisplayed()))
         unconstrainedClickOnView(withText(R.string.title_overall))
+        Thread.sleep(1000)
 
         checkViewDoesNotExist(
             allOf(

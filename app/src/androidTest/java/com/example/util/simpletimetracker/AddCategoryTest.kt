@@ -37,8 +37,7 @@ class AddCategoryTest : BaseUiTest() {
         NavUtils.addActivity(typeName1)
         NavUtils.addActivity(typeName2)
 
-        NavUtils.openSettingsScreen()
-        clickOnViewWithText(R.string.settings_edit_categories)
+        NavUtils.openCategoriesScreen()
         clickOnViewWithText(R.string.categories_add)
 
         // View is set up
@@ -93,8 +92,7 @@ class AddCategoryTest : BaseUiTest() {
 
     @Test
     fun addCategoryTypesEmpty() {
-        NavUtils.openSettingsScreen()
-        clickOnViewWithText(R.string.settings_edit_categories)
+        NavUtils.openCategoriesScreen()
         clickOnViewWithText(R.string.categories_add)
 
         // Open activity chooser

@@ -28,6 +28,7 @@ class MainScreenTest : BaseUiTest() {
         val name = "Test"
 
         // Add activity
+        Thread.sleep(1000)
         clickOnView(withText(R.string.running_records_add_type))
         closeSoftKeyboard()
         pressBack()

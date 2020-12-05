@@ -32,6 +32,11 @@ object NavUtils {
         Thread.sleep(1000)
     }
 
+    fun openCategoriesScreen() {
+        openSettingsScreen()
+        clickOnViewWithText(R.string.settings_edit_categories)
+    }
+
     fun addActivity(
         name: String,
         color: Int? = null,

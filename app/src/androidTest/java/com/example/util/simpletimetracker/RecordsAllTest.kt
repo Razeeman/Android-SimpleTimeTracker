@@ -126,6 +126,7 @@ class RecordsAllTest : BaseUiTest() {
         NavUtils.openStatisticsScreen()
         clickOnView(allOf(withText(name1), isCompletelyDisplayed()))
         onView(withId(R.id.cardStatisticsDetailRecords)).perform(nestedScrollTo(), click())
+        Thread.sleep(1000)
 
         // Check records
         val record1 = allOf(withText(name1), isCompletelyDisplayed())
