@@ -21,6 +21,7 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.feature_change_category.R
 import com.example.util.simpletimetracker.feature_change_category.extra.ChangeCategoryExtra
+import com.example.util.simpletimetracker.feature_change_category.mapper.ChangeCategoryMapper
 import com.example.util.simpletimetracker.navigation.Notification
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.ToastParams
@@ -35,6 +36,7 @@ class ChangeCategoryViewModel @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val categoryViewDataMapper: CategoryViewDataMapper,
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
+    private val changeCategoryMapper: ChangeCategoryMapper,
     private val resourceRepo: ResourceRepo
 ) : ViewModel() {
 
@@ -93,6 +95,7 @@ class ChangeCategoryViewModel @Inject constructor(
     }
 
     fun onTypeChooserClick() {
+        (keyboardVisibility as MutableLiveData).value = false
         (flipTypesChooser as MutableLiveData).value = flipTypesChooser.value
             ?.flip().orTrue()
 
@@ -240,6 +243,8 @@ class ChangeCategoryViewModel @Inject constructor(
                     isFiltered = it.id in newTypes
                 )
             }
+            .takeUnless(List<ViewHolderType>::isEmpty)
+            ?: changeCategoryMapper.mapToEmpty()
     }
 
     private fun showMessage(stringResId: Int) {

@@ -57,6 +57,36 @@ object NavUtils {
         clickOnViewWithText(R.string.change_record_type_save)
     }
 
+    fun addCategory(
+        name: String,
+        color: Int? = null,
+        activities: List<String> = emptyList()
+    ) {
+        Thread.sleep(1000)
+
+        clickOnViewWithText(R.string.settings_edit_categories)
+        clickOnViewWithText(R.string.categories_add)
+
+        // Name
+        typeTextIntoView(R.id.etChangeCategoryName, name)
+
+        // Color
+        if (color != null) {
+            clickOnViewWithText(R.string.change_category_color_hint)
+            scrollRecyclerToView(R.id.rvChangeCategoryColor, withCardColor(color))
+            clickOnRecyclerItem(R.id.rvChangeCategoryColor, withCardColor(color))
+        }
+
+        // Activities
+        clickOnViewWithText(R.string.change_category_type_hint)
+        activities.forEach { typeName ->
+            scrollRecyclerToView(R.id.rvChangeCategoryType, hasDescendant(withText(typeName)))
+            clickOnRecyclerItem(R.id.rvChangeCategoryType, withText(typeName))
+        }
+
+        clickOnViewWithText(R.string.change_category_save)
+    }
+
     fun addRecord(name: String) {
         clickOnViewWithId(R.id.btnRecordAdd)
 

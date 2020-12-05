@@ -6,4 +6,5 @@
     <string name="change_category_type_hint">Activities</string>
     <string name="change_category_save">Save</string>
     <string name="change_category_message_choose_name">Choose a name</string>
+    <string name="change_category_types_empty">No activities added</string>
 </resources>
