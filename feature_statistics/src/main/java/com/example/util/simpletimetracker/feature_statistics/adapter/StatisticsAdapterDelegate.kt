@@ -8,13 +8,14 @@ import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapterDelega
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerViewHolder
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.extension.setOnClick
+import com.example.util.simpletimetracker.core.extension.visible
 import com.example.util.simpletimetracker.core.view.TransitionNames
 import com.example.util.simpletimetracker.feature_statistics.R
-import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsActivityViewData
+import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsViewData
 import kotlinx.android.synthetic.main.item_statistics_layout.view.*
 
 class StatisticsAdapterDelegate(
-    private val onItemClick: ((StatisticsActivityViewData, Map<Any, String>) -> Unit)
+    private val onItemClick: ((StatisticsViewData, Map<Any, String>) -> Unit)
 ) : BaseRecyclerAdapterDelegate() {
 
     override fun onCreateViewHolder(parent: ViewGroup): BaseRecyclerViewHolder =
@@ -27,17 +28,21 @@ class StatisticsAdapterDelegate(
             item: ViewHolderType,
             payloads: List<Any>
         ) = with(itemView) {
-            item as StatisticsActivityViewData
-            val transitionName = TransitionNames.STATISTICS_DETAIL + item.typeId
+            item as StatisticsViewData
+            val transitionName = TransitionNames.STATISTICS_DETAIL + item.id
 
             layoutStatisticsItem.setCardBackgroundColor(item.color)
-            ivStatisticsItemIcon.setBackgroundResource(item.iconId)
-            ivStatisticsItemIcon.tag = item.iconId
             tvStatisticsItemName.text = item.name
             tvStatisticsItemDuration.text = item.duration
             tvStatisticsItemPercent.text = item.percent
-            normalizeLightness(item.color)
-                .let(dividerStatisticsPercent::setBackgroundColor)
+            normalizeLightness(item.color).let(dividerStatisticsPercent::setBackgroundColor)
+            if (item is StatisticsViewData.StatisticsActivityViewData) {
+                ivStatisticsItemIcon.visible = true
+                ivStatisticsItemIcon.setBackgroundResource(item.iconId)
+                ivStatisticsItemIcon.tag = item.iconId
+            } else {
+                ivStatisticsItemIcon.visible = false
+            }
 
             setOnClick { onItemClick(item, mapOf(this to transitionName)) }
             ViewCompat.setTransitionName(this, transitionName)

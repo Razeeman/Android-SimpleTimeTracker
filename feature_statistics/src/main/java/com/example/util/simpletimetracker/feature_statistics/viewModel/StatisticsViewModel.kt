@@ -9,13 +9,16 @@ import com.example.util.simpletimetracker.core.adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
-import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
+import com.example.util.simpletimetracker.domain.interactor.StatisticsCategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.StatisticsInteractor
+import com.example.util.simpletimetracker.domain.model.ChartFilterType
+import com.example.util.simpletimetracker.domain.model.Statistics
+import com.example.util.simpletimetracker.domain.model.StatisticsCategory
 import com.example.util.simpletimetracker.feature_statistics.extra.StatisticsExtra
 import com.example.util.simpletimetracker.feature_statistics.mapper.StatisticsViewDataMapper
 import com.example.util.simpletimetracker.feature_statistics.viewData.RangeLength
-import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsActivityViewData
+import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsViewData
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
 import com.example.util.simpletimetracker.navigation.params.StatisticsDetailParams
@@ -27,8 +30,8 @@ class StatisticsViewModel @Inject constructor(
     private val router: Router,
     private val recordTypeInteractor: RecordTypeInteractor,
     private val statisticsInteractor: StatisticsInteractor,
+    private val statisticsCategoryInteractor: StatisticsCategoryInteractor,
     private val categoryInteractor: CategoryInteractor,
-    private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val statisticsViewDataMapper: StatisticsViewDataMapper
 ) : ViewModel() {
@@ -60,12 +63,13 @@ class StatisticsViewModel @Inject constructor(
         router.navigate(Screen.CHART_FILTER_DIALOG)
     }
 
-    fun onItemClick(item: StatisticsActivityViewData, sharedElements: Map<Any, String>) {
-        if (item.typeId == -1L) return // TODO untracked detailed statistics
+    fun onItemClick(item: StatisticsViewData, sharedElements: Map<Any, String>) {
+        // TODO untracked and category detailed statistics
+        if (item.id == -1L || item !is StatisticsViewData.StatisticsActivityViewData) return
 
         router.navigate(
             screen = Screen.STATISTICS_DETAIL,
-            data = StatisticsDetailParams(item.typeId),
+            data = StatisticsDetailParams(item.id),
             sharedElements = sharedElements
         )
     }
@@ -123,35 +127,69 @@ class StatisticsViewModel @Inject constructor(
     }
 
     private suspend fun loadStatisticsViewData(): List<ViewHolderType> {
-        val showDuration: Boolean
         val filterType = prefsInteractor.getChartFilterType()
-        val types = recordTypeInteractor.getAll()
-        val categories = categoryInteractor.getAll()
-        val recordTypeCategories = recordTypeCategoryInteractor.getAll()
-        val typesFiltered = prefsInteractor.getFilteredTypes()
         val isDarkTheme = prefsInteractor.getDarkMode()
-
         val (start, end) = getRange()
-        val statistics = if (start.orZero() != 0L && end.orZero() != 0L) {
-            showDuration = true
+        val showDuration = start.orZero() != 0L && end.orZero() != 0L
+
+        val list: List<ViewHolderType>
+        val chart: ViewHolderType
+
+        when (filterType) {
+            ChartFilterType.ACTIVITY -> {
+                val types = recordTypeInteractor.getAll()
+                val typesFiltered = prefsInteractor.getFilteredTypes()
+                val statistics = getStatistics(typesFiltered)
+
+                list = statisticsViewDataMapper.mapActivities(
+                    statistics, types, typesFiltered, showDuration, isDarkTheme
+                )
+                chart = statisticsViewDataMapper.mapActivitiesToChart(
+                    statistics, types, typesFiltered, isDarkTheme
+                )
+            }
+            ChartFilterType.CATEGORY -> {
+                val categories = categoryInteractor.getAll()
+                val categoriesFiltered = prefsInteractor.getFilteredCategories()
+                val statistics = getStatisticsCategory()
+
+                list = statisticsViewDataMapper.mapCategory(
+                    statistics, categories, categoriesFiltered, showDuration, isDarkTheme
+                )
+                chart = statisticsViewDataMapper.mapCategoriesToChart(
+                    statistics, categories, categoriesFiltered, isDarkTheme
+                )
+            }
+        }
+
+        if (list.isEmpty()) return listOf(statisticsViewDataMapper.mapToEmpty())
+        return listOf(chart) + list
+    }
+
+    private suspend fun getStatistics(typesFiltered: List<Long>): List<Statistics> {
+        val (start, end) = getRange()
+
+        return if (start.orZero() != 0L && end.orZero() != 0L) {
             statisticsInteractor.getFromRange(
                 start = start.orZero(),
                 end = end.orZero(),
                 addUntracked = !typesFiltered.contains(-1L)
             )
         } else {
-            showDuration = false
             statisticsInteractor.getAll()
         }
+    }
 
-        val list = statisticsViewDataMapper.mapActivity(
-            statistics, types, typesFiltered, showDuration, isDarkTheme
-        )
-        val chart = statisticsViewDataMapper.mapToChart(
-            statistics, types, typesFiltered, isDarkTheme
-        )
+    private suspend fun getStatisticsCategory(): List<StatisticsCategory> {
+        val (start, end) = getRange()
 
-        if (list.isEmpty()) return listOf(statisticsViewDataMapper.mapToEmpty())
-        return listOf(chart) + list
+        return if (start.orZero() != 0L && end.orZero() != 0L) {
+            statisticsCategoryInteractor.getFromRange(
+                start = start.orZero(),
+                end = end.orZero()
+            )
+        } else {
+            statisticsCategoryInteractor.getAll()
+        }
     }
 }
