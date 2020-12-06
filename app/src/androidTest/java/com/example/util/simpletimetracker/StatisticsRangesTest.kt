@@ -324,6 +324,126 @@ class StatisticsRangesTest : BaseUiTest() {
     }
 
     @Test
+    fun selectLastWeekOfYear() {
+        NavUtils.openStatisticsScreen()
+
+        val calendarPrev = Calendar.getInstance().apply {
+            set(Calendar.YEAR, 1960)
+            set(Calendar.MONTH, 11)
+            set(Calendar.DAY_OF_MONTH, 31)
+        }
+        val titlePrev = toWeekDateTitle(calendarPrev.timeInMillis)
+        val calendarNext = Calendar.getInstance().apply {
+            set(Calendar.YEAR, 2060)
+            set(Calendar.MONTH, 11)
+            set(Calendar.DAY_OF_MONTH, 31)
+        }
+        val titleNext = toWeekDateTitle(calendarNext.timeInMillis)
+
+        // Check prev date
+        clickOnViewWithId(R.id.btnStatisticsContainerToday)
+        clickOnViewWithText(R.string.title_this_week)
+        clickOnViewWithId(R.id.btnStatisticsContainerToday)
+        unconstrainedClickOnView(withText(R.string.title_select_week))
+        onView(withClassName(equalTo(DatePicker::class.java.name)))
+            .perform(
+                PickerActions.setDate(
+                    calendarPrev.get(Calendar.YEAR),
+                    calendarPrev.get(Calendar.MONTH) + 1,
+                    calendarPrev.get(Calendar.DAY_OF_MONTH)
+                )
+            )
+        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+
+        checkViewIsDisplayed(
+            allOf(
+                withText(titlePrev),
+                isCompletelyDisplayed()
+            )
+        )
+
+        // Check next date
+        clickOnViewWithId(R.id.btnStatisticsContainerToday)
+        unconstrainedClickOnView(withText(R.string.title_select_week))
+        onView(withClassName(equalTo(DatePicker::class.java.name)))
+            .perform(
+                PickerActions.setDate(
+                    calendarNext.get(Calendar.YEAR),
+                    calendarNext.get(Calendar.MONTH) + 1,
+                    calendarNext.get(Calendar.DAY_OF_MONTH)
+                )
+            )
+        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+
+        checkViewIsDisplayed(
+            allOf(
+                withText(titleNext),
+                isCompletelyDisplayed()
+            )
+        )
+    }
+
+    @Test
+    fun selectFirstWeekOfYear() {
+        NavUtils.openStatisticsScreen()
+
+        val calendarPrev = Calendar.getInstance().apply {
+            set(Calendar.YEAR, 1961)
+            set(Calendar.MONTH, 1)
+            set(Calendar.DAY_OF_MONTH, 1)
+        }
+        val titlePrev = toWeekDateTitle(calendarPrev.timeInMillis)
+        val calendarNext = Calendar.getInstance().apply {
+            set(Calendar.YEAR, 2061)
+            set(Calendar.MONTH, 1)
+            set(Calendar.DAY_OF_MONTH, 1)
+        }
+        val titleNext = toWeekDateTitle(calendarNext.timeInMillis)
+
+        // Check prev date
+        clickOnViewWithId(R.id.btnStatisticsContainerToday)
+        clickOnViewWithText(R.string.title_this_week)
+        clickOnViewWithId(R.id.btnStatisticsContainerToday)
+        unconstrainedClickOnView(withText(R.string.title_select_week))
+        onView(withClassName(equalTo(DatePicker::class.java.name)))
+            .perform(
+                PickerActions.setDate(
+                    calendarPrev.get(Calendar.YEAR),
+                    calendarPrev.get(Calendar.MONTH) + 1,
+                    calendarPrev.get(Calendar.DAY_OF_MONTH)
+                )
+            )
+        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+
+        checkViewIsDisplayed(
+            allOf(
+                withText(titlePrev),
+                isCompletelyDisplayed()
+            )
+        )
+
+        // Check next date
+        clickOnViewWithId(R.id.btnStatisticsContainerToday)
+        unconstrainedClickOnView(withText(R.string.title_select_week))
+        onView(withClassName(equalTo(DatePicker::class.java.name)))
+            .perform(
+                PickerActions.setDate(
+                    calendarNext.get(Calendar.YEAR),
+                    calendarNext.get(Calendar.MONTH) + 1,
+                    calendarNext.get(Calendar.DAY_OF_MONTH)
+                )
+            )
+        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+
+        checkViewIsDisplayed(
+            allOf(
+                withText(titleNext),
+                isCompletelyDisplayed()
+            )
+        )
+    }
+
+    @Test
     fun selectNearDateForMonths() {
         NavUtils.openStatisticsScreen()
 
@@ -439,8 +559,26 @@ class StatisticsRangesTest : BaseUiTest() {
         )
     }
 
+    private fun toWeekDateTitle(timestamp: Long): String {
+        val calendar = Calendar.getInstance()
+
+        calendar.apply {
+            timeInMillis = timestamp
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+            set(Calendar.DAY_OF_WEEK, firstDayOfWeek)
+        }
+        val rangeStart = calendar.timeInMillis
+        val rangeEnd = calendar.apply { add(Calendar.DATE, 6) }.timeInMillis
+
+        return weekTitleFormat.format(rangeStart) + " - " + weekTitleFormat.format(rangeEnd)
+    }
+
     companion object {
         private val dayTitleFormat = SimpleDateFormat("E, MMM d", Locale.US)
+        private val weekTitleFormat = SimpleDateFormat("MMM d", Locale.US)
         private val monthTitleFormat = SimpleDateFormat("MMMM", Locale.US)
     }
 }

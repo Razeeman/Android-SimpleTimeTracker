@@ -89,7 +89,12 @@ class TimeMapper @Inject constructor(
         var result = 0L
 
         calendar.timeInMillis = toTime
-        result += calendar.get(calendarStep)
+        result += if (calendarStep == Calendar.WEEK_OF_YEAR && isFirstWeekOfNextYear(calendar)) {
+            calendar.getActualMaximum(Calendar.WEEK_OF_YEAR) + 1
+        } else {
+            calendar.get(calendarStep)
+        }
+
         if (calendarStep == Calendar.MONTH) result++
 
         calendar.timeInMillis = current
@@ -207,5 +212,10 @@ class TimeMapper @Inject constructor(
         }
 
         return monthTitleFormat.format(calendar.timeInMillis)
+    }
+
+    private fun isFirstWeekOfNextYear(calendar: Calendar): Boolean {
+        return calendar.get(Calendar.WEEK_OF_YEAR) == 1 &&
+            calendar.get(Calendar.MONTH) == calendar.getActualMaximum(Calendar.MONTH)
     }
 }
