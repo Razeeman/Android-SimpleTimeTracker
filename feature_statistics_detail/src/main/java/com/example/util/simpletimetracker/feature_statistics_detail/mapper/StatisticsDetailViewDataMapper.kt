@@ -7,7 +7,6 @@ import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.model.Record
-import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_statistics_detail.R
 import com.example.util.simpletimetracker.feature_statistics_detail.customView.BarChartView
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartBarDataDuration
@@ -79,16 +78,17 @@ class StatisticsDetailViewDataMapper @Inject constructor(
     }
 
     fun mapToPreview(
-        recordType: RecordType?,
+        name: String?,
+        iconName: String?,
+        colorId: Int?,
         isDarkTheme: Boolean
     ): StatisticsDetailPreviewViewData {
         return StatisticsDetailPreviewViewData(
-            name = recordType?.name
+            name = name
                 .orEmpty(),
-            iconId = recordType?.icon
-                ?.let(iconMapper::mapToDrawableResId)
-                ?: R.drawable.unknown,
-            color = recordType?.color
+            iconId = iconName
+                ?.let(iconMapper::mapToDrawableResId),
+            color = colorId
                 ?.let { colorMapper.mapToColorResId(it, isDarkTheme) }
                 ?.let(resourceRepo::getColor)
                 ?: colorMapper.toUntrackedColor(isDarkTheme)

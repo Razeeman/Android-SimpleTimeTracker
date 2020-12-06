@@ -1,5 +1,8 @@
 package com.example.util.simpletimetracker.navigation.params
 
+import com.example.util.simpletimetracker.domain.model.ChartFilterType
+
 data class StatisticsDetailParams(
-    val typeId: Long = 0
+    val id: Long,
+    val filterType: ChartFilterType
 )

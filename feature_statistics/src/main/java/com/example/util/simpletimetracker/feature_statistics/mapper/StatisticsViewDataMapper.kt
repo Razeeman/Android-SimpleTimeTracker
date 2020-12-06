@@ -167,7 +167,7 @@ class StatisticsViewDataMapper @Inject constructor(
 
         when {
             statistics.typeId == -1L -> {
-                return StatisticsViewData.StatisticsActivityViewData(
+                return StatisticsViewData.Activity(
                     id = statistics.typeId,
                     name = R.string.untracked_time_name
                         .let(resourceRepo::getString),
@@ -179,7 +179,7 @@ class StatisticsViewDataMapper @Inject constructor(
                 )
             }
             recordType != null -> {
-                return StatisticsViewData.StatisticsActivityViewData(
+                return StatisticsViewData.Activity(
                     id = statistics.typeId,
                     name = recordType.name,
                     duration = if (showDuration) {
@@ -216,7 +216,7 @@ class StatisticsViewDataMapper @Inject constructor(
         }
 
         return if (category != null) {
-            StatisticsViewData.StatisticsCategoryViewData(
+            StatisticsViewData.Category(
                 id = statistics.categoryId,
                 name = category.name,
                 duration = if (showDuration) {

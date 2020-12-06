@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.feature_statistics.extra.StatisticsExtra
 import com.example.util.simpletimetracker.feature_statistics.interactor.StatisticsViewDataInteractor
 import com.example.util.simpletimetracker.feature_statistics.viewData.RangeLength
@@ -50,12 +51,17 @@ class StatisticsViewModel @Inject constructor(
     }
 
     fun onItemClick(item: StatisticsViewData, sharedElements: Map<Any, String>) {
-        // TODO untracked and category detailed statistics
-        if (item.id == -1L || item !is StatisticsViewData.StatisticsActivityViewData) return
+        // TODO untracked detailed statistics
+        if (item.id == -1L) return
+
+        val filterType = when (item) {
+            is StatisticsViewData.Activity -> ChartFilterType.ACTIVITY
+            is StatisticsViewData.Category -> ChartFilterType.CATEGORY
+        }
 
         router.navigate(
             screen = Screen.STATISTICS_DETAIL,
-            data = StatisticsDetailParams(item.id),
+            data = StatisticsDetailParams(item.id, filterType),
             sharedElements = sharedElements
         )
     }

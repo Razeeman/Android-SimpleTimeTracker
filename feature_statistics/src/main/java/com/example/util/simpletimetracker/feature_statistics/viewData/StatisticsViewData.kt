@@ -15,7 +15,7 @@ sealed class StatisticsViewData : ViewHolderType {
 
     override fun getUniqueId(): Long? = id
 
-    data class StatisticsActivityViewData(
+    data class Activity(
         override val id: Long,
         override val name: String,
         override val duration: String,
@@ -24,7 +24,7 @@ sealed class StatisticsViewData : ViewHolderType {
         @DrawableRes val iconId: Int
     ) : StatisticsViewData()
 
-    data class StatisticsCategoryViewData(
+    data class Category(
         override val id: Long,
         override val name: String,
         override val duration: String,

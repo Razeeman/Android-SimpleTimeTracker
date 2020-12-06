@@ -6,11 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
-import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
-import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
-import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.extra.StatisticsDetailExtra
-import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailInteractor
+import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailViewDataInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.StatisticsDetailViewDataMapper
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartGrouping
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartLength
@@ -27,11 +24,8 @@ import javax.inject.Inject
 
 class StatisticsDetailViewModel @Inject constructor(
     private val router: Router,
-    private val recordInteractor: RecordInteractor,
-    private val recordTypeInteractor: RecordTypeInteractor,
-    private val statisticsDetailInteractor: StatisticsDetailInteractor,
-    private val prefsInteractor: PrefsInteractor,
-    private val statisticsDetailViewDataMapper: StatisticsDetailViewDataMapper
+    private val interactor: StatisticsDetailViewDataInteractor,
+    private val mapper: StatisticsDetailViewDataMapper
 ) : ViewModel() {
 
     lateinit var extra: StatisticsDetailExtra
@@ -82,24 +76,30 @@ class StatisticsDetailViewModel @Inject constructor(
     fun onRecordsClick() {
         router.navigate(
             Screen.RECORDS_ALL,
-            RecordsAllParams(extra.typeId)
+            RecordsAllParams(extra.id)
         )
     }
 
     private fun updateViewData() = viewModelScope.launch {
-        (viewData as MutableLiveData).value = loadViewData()
+        val data = interactor.getViewData(extra.id, extra.filterType)
+        (viewData as MutableLiveData).value = data
     }
 
     private fun updatePreviewViewData() = viewModelScope.launch {
-        (previewViewData as MutableLiveData).value = loadPreviewViewData()
+        val data = interactor.getPreviewData(extra.id, extra.filterType)
+        (previewViewData as MutableLiveData).value = data
     }
 
     private fun updateChartViewData() = viewModelScope.launch {
-        (chartViewData as MutableLiveData).value = loadChartViewData()
+        val data = interactor.getChartViewData(
+            extra.id, chartGrouping, chartLength, extra.filterType
+        )
+        (chartViewData as MutableLiveData).value = data
     }
 
     private fun updateDailyChartViewData() = viewModelScope.launch {
-        (dailyChartViewData as MutableLiveData).value = loadDailyChartViewData()
+        val data = interactor.getDailyChartViewData(extra.id, extra.filterType)
+        (dailyChartViewData as MutableLiveData).value = data
     }
 
     private fun updateChartGroupingViewData() {
@@ -110,61 +110,15 @@ class StatisticsDetailViewModel @Inject constructor(
         (chartLengthViewData as MutableLiveData).value = loadChartLengthViewData()
     }
 
-    private suspend fun loadViewData(): StatisticsDetailViewData {
-        val isDarkTheme = prefsInteractor.getDarkMode()
-
-        return if (extra.typeId == -1L) {
-            statisticsDetailViewDataMapper.map(emptyList(), isDarkTheme)
-        } else {
-            val records = recordInteractor.getByType(listOf(extra.typeId))
-            statisticsDetailViewDataMapper.map(records, isDarkTheme)
-        }
-    }
-
     private fun loadInitialViewData(): StatisticsDetailViewData {
-        return statisticsDetailViewDataMapper.mapToEmptyViewData()
+        return mapper.mapToEmptyViewData()
     }
 
-    private suspend fun loadPreviewViewData(): StatisticsDetailPreviewViewData {
-        val isDarkTheme = prefsInteractor.getDarkMode()
-
-        return if (extra.typeId == -1L) {
-            statisticsDetailViewDataMapper.mapToPreviewUntracked(isDarkTheme)
-        } else {
-            val recordType = recordTypeInteractor.get(extra.typeId)
-            statisticsDetailViewDataMapper.mapToPreview(recordType, isDarkTheme)
-        }
+    private fun loadChartGroupingViewData(): List<ViewHolderType> {
+        return mapper.mapToChartGroupingViewData(chartGrouping)
     }
 
-    private suspend fun loadChartViewData(): StatisticsDetailChartViewData {
-        val data = if (extra.typeId == -1L) {
-            emptyList()
-        } else {
-            statisticsDetailInteractor.getDurations(
-                typeId = extra.typeId,
-                grouping = chartGrouping,
-                chartLength = chartLength
-            )
-        }
-
-        return statisticsDetailViewDataMapper.mapToChartViewData(data)
-    }
-
-    private suspend fun loadDailyChartViewData(): StatisticsDetailChartViewData {
-        val data = if (extra.typeId == -1L) {
-            emptyMap()
-        } else {
-            statisticsDetailInteractor.getDailyDurations(typeId = extra.typeId)
-        }
-
-        return statisticsDetailViewDataMapper.mapToDailyChartViewData(data)
-    }
-
-    private fun loadChartGroupingViewData() : List<ViewHolderType> {
-        return statisticsDetailViewDataMapper.mapToChartGroupingViewData(chartGrouping)
-    }
-
-    private fun loadChartLengthViewData() : List<ViewHolderType> {
-        return statisticsDetailViewDataMapper.mapToChartLengthViewData(chartLength)
+    private fun loadChartLengthViewData(): List<ViewHolderType> {
+        return mapper.mapToChartLengthViewData(chartLength)
     }
 }

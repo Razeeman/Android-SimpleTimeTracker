@@ -36,7 +36,7 @@ class StatisticsAdapterDelegate(
             tvStatisticsItemDuration.text = item.duration
             tvStatisticsItemPercent.text = item.percent
             normalizeLightness(item.color).let(dividerStatisticsPercent::setBackgroundColor)
-            if (item is StatisticsViewData.StatisticsActivityViewData) {
+            if (item is StatisticsViewData.Activity) {
                 ivStatisticsItemIcon.visible = true
                 ivStatisticsItemIcon.setBackgroundResource(item.iconId)
                 ivStatisticsItemIcon.tag = item.iconId

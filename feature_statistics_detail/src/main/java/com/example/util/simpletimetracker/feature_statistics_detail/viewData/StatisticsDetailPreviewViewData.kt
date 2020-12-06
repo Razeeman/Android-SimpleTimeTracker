@@ -5,6 +5,6 @@ import androidx.annotation.DrawableRes
 
 data class StatisticsDetailPreviewViewData(
     val name: String,
-    @DrawableRes val iconId: Int,
+    @DrawableRes val iconId: Int? = null,
     @ColorInt val color: Int
 )

@@ -20,7 +20,7 @@ class StatisticsDetailInteractor @Inject constructor(
 ) {
 
     suspend fun getDurations(
-        typeId: Long,
+        typeIds: List<Long>,
         grouping: ChartGrouping,
         chartLength: ChartLength
     ): List<ChartBarDataDuration> {
@@ -35,7 +35,7 @@ class StatisticsDetailInteractor @Inject constructor(
         val records = recordInteractor.getFromRange(
             start = ranges.first().rangeStart,
             end = ranges.last().rangeEnd
-        ).filter { it.typeId == typeId }
+        ).filter { it.typeId in typeIds }
 
         if (records.isEmpty()) return ranges.map {
             ChartBarDataDuration(
@@ -57,12 +57,12 @@ class StatisticsDetailInteractor @Inject constructor(
             }
     }
 
-    suspend fun getDailyDurations(typeId: Long): Map<DailyChartGrouping, Long> {
+    suspend fun getDailyDurations(typeIds: List<Long>): Map<DailyChartGrouping, Long> {
         val calendar = Calendar.getInstance()
         val dataDurations: MutableMap<DailyChartGrouping, Long> = mutableMapOf()
         val dataTimesTracked: MutableMap<DailyChartGrouping, Long> = mutableMapOf()
 
-        val records = recordInteractor.getByType(listOf(typeId))
+        val records = recordInteractor.getByType(typeIds)
         val totalTracked = records.map { it.timeEnded - it.timeStarted }.sum()
 
         processRecords(calendar, records).forEach {
