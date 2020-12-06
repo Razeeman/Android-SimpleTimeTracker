@@ -10,20 +10,17 @@ import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.TypesFilterDialogListener
 import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.core.viewModel.RemoveRecordViewModel
-import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_records_all.R
-import com.example.util.simpletimetracker.feature_records_all.viewModel.RecordsAllViewModel
 import com.example.util.simpletimetracker.feature_records_all.adapter.RecordAllAdapter
 import com.example.util.simpletimetracker.feature_records_all.di.RecordsAllComponentProvider
 import com.example.util.simpletimetracker.feature_records_all.extra.RecordsAllExtra
 import com.example.util.simpletimetracker.feature_records_all.viewData.RecordsAllSortOrderViewData
+import com.example.util.simpletimetracker.feature_records_all.viewModel.RecordsAllViewModel
 import com.example.util.simpletimetracker.navigation.Notification
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.RecordsAllParams
 import com.example.util.simpletimetracker.navigation.params.SnackBarParams
-import kotlinx.android.synthetic.main.records_all_fragment.cardRecordsAllFilter
-import kotlinx.android.synthetic.main.records_all_fragment.rvRecordsAllList
-import kotlinx.android.synthetic.main.records_all_fragment.spinnerRecordsAllSort
+import kotlinx.android.synthetic.main.records_all_fragment.*
 import javax.inject.Inject
 
 class RecordsAllFragment : BaseFragment(R.layout.records_all_fragment),
@@ -76,7 +73,7 @@ class RecordsAllFragment : BaseFragment(R.layout.records_all_fragment),
 
     override fun initViewModel() {
         with(viewModel) {
-            extra = RecordsAllExtra(arguments?.getLong(ARGS_TYPE_ID).orZero())
+            extra = RecordsAllExtra(arguments?.getLongArray(ARGS_TYPE_IDS)?.toList().orEmpty())
             records.observe(viewLifecycleOwner, recordsAdapter::replaceAsNew)
             sortOrderViewData.observe(viewLifecycleOwner, ::updateCardOrderViewData)
         }
@@ -115,11 +112,11 @@ class RecordsAllFragment : BaseFragment(R.layout.records_all_fragment),
     }
 
     companion object {
-        private const val ARGS_TYPE_ID = "args_type_id"
+        private const val ARGS_TYPE_IDS = "args_type_ids"
 
         fun createBundle(data: Any?): Bundle = Bundle().apply {
             when (data) {
-                is RecordsAllParams -> putLong(ARGS_TYPE_ID, data.typeId)
+                is RecordsAllParams -> putLongArray(ARGS_TYPE_IDS, data.typeIds.toLongArray())
             }
         }
     }

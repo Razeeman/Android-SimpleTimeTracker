@@ -11,3 +11,5 @@ fun Long?.orZero(): Long = this ?: 0
 fun Int?.orZero(): Int = this ?: 0
 
 fun Float?.orZero(): Float = this ?: 0f
+
+fun <T> List<T>?.orEmpty(): List<T> = this ?: emptyList()

@@ -41,7 +41,7 @@ class RecordsAllViewModel @Inject constructor(
     }
 
     private var sortOrder: RecordsAllSortOrder = RecordsAllSortOrder.TIME_STARTED
-    private val typesSelected: MutableList<Long> by lazy { mutableListOf(extra.typeId) }
+    private val typesSelected: MutableList<Long> by lazy { extra.typeIds.toMutableList() }
 
     fun onRecordClick(item: RecordViewData, sharedElements: Map<Any, String>) {
         if (item is RecordViewData.Tracked) {

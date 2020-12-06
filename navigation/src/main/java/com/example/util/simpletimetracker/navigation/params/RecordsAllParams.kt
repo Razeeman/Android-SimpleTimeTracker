@@ -1,5 +1,5 @@
 package com.example.util.simpletimetracker.navigation.params
 
 data class RecordsAllParams(
-    val typeId: Long = 0
+    val typeIds: List<Long>
 )

@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
+import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
+import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.feature_statistics_detail.extra.StatisticsDetailExtra
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailViewDataInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.StatisticsDetailViewDataMapper
@@ -25,6 +27,7 @@ import javax.inject.Inject
 class StatisticsDetailViewModel @Inject constructor(
     private val router: Router,
     private val interactor: StatisticsDetailViewDataInteractor,
+    private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
     private val mapper: StatisticsDetailViewDataMapper
 ) : ViewModel() {
 
@@ -74,10 +77,20 @@ class StatisticsDetailViewModel @Inject constructor(
     }
 
     fun onRecordsClick() {
-        router.navigate(
-            Screen.RECORDS_ALL,
-            RecordsAllParams(extra.id)
-        )
+        viewModelScope.launch {
+            val typeIds = when (extra.filterType) {
+                ChartFilterType.ACTIVITY -> {
+                    listOf(extra.id)
+                }
+                ChartFilterType.CATEGORY -> {
+                    recordTypeCategoryInteractor.getTypes(extra.id)
+                }
+            }
+            router.navigate(
+                Screen.RECORDS_ALL,
+                RecordsAllParams(typeIds)
+            )
+        }
     }
 
     private fun updateViewData() = viewModelScope.launch {
