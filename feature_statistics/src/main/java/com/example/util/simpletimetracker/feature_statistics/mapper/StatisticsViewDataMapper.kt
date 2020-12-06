@@ -14,6 +14,7 @@ import com.example.util.simpletimetracker.feature_statistics.R
 import com.example.util.simpletimetracker.feature_statistics.customView.PiePortion
 import com.example.util.simpletimetracker.feature_statistics.viewData.RangeLength
 import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsChartViewData
+import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsInfoViewData
 import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsRangeViewData
 import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsSelectDateViewData
 import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsViewData
@@ -53,7 +54,7 @@ class StatisticsViewDataMapper @Inject constructor(
             .map { (statistics, _) -> statistics }
     }
 
-    fun mapCategory(
+    fun mapCategories(
         statistics: List<StatisticsCategory>,
         categories: List<Category>,
         categoriesFiltered: List<Long>,
@@ -68,12 +69,12 @@ class StatisticsViewDataMapper @Inject constructor(
         return statisticsFiltered
             .mapNotNull { statistic ->
                 (mapCategory(
-                    statistic,
-                    sumDuration,
-                    categoriesMap[statistic.categoryId],
-                    showDuration,
-                    isDarkTheme,
-                    statisticsSize
+                    statistics = statistic,
+                    sumDuration = sumDuration,
+                    category = categoriesMap[statistic.categoryId],
+                    showDuration = showDuration,
+                    isDarkTheme = isDarkTheme,
+                    statisticsSize = statisticsSize
                 ) ?: return@mapNotNull null) to statistic.duration
             }
             .sortedByDescending { (_, duration) -> duration }
@@ -124,6 +125,27 @@ class StatisticsViewDataMapper @Inject constructor(
                 .sortedByDescending { (_, duration) -> duration }
                 .map { (statistics, _) -> statistics }
         )
+    }
+
+    // TODO statistics into sealed class and simplify
+    fun mapActivitiesTotalTracked(
+        statistics: List<Statistics>,
+        recordTypesFiltered: List<Long>
+    ): ViewHolderType {
+        val statisticsFiltered = statistics.filterNot { it.typeId in recordTypesFiltered }
+        val totalTracked = statisticsFiltered.map(Statistics::duration).sum()
+
+        return mapTotalTracked(totalTracked)
+    }
+
+    fun mapCategoriesTotalTracked(
+        statistics: List<StatisticsCategory>,
+        categoriesFiltered: List<Long>
+    ): ViewHolderType {
+        val statisticsFiltered = statistics.filterNot { it.categoryId in categoriesFiltered }
+        val totalTracked = statisticsFiltered.map(StatisticsCategory::duration).sum()
+
+        return mapTotalTracked(totalTracked)
     }
 
     fun mapToEmpty(): ViewHolderType {
@@ -296,5 +318,12 @@ class StatisticsViewDataMapper @Inject constructor(
             RangeLength.MONTH -> R.string.title_select_month
             else -> null
         }?.let(resourceRepo::getString)
+    }
+
+    private fun mapTotalTracked(totalTracked: Long) : ViewHolderType {
+        return StatisticsInfoViewData(
+            name = resourceRepo.getString(R.string.statistics_total_tracked),
+            text = totalTracked.let(timeMapper::formatInterval)
+        )
     }
 }

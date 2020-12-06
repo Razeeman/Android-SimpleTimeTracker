@@ -12,6 +12,7 @@ class StatisticsAdapter(
 
     init {
         delegates[ViewHolderType.HEADER] = StatisticsChartAdapterDelegate(onFilterClick)
+        delegates[ViewHolderType.INFO] = StatisticsInfoAdapterDelegate()
         delegates[ViewHolderType.VIEW] = StatisticsAdapterDelegate(onItemClick)
         delegates[ViewHolderType.EMPTY] = StatisticsEmptyAdapterDelegate(onFilterClick)
         delegates[ViewHolderType.LOADER] = LoaderAdapterDelegate()

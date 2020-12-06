@@ -31,6 +31,7 @@ class StatisticsViewDataInteractor @Inject constructor(
         val showDuration = start.orZero() != 0L && end.orZero() != 0L
 
         val list: List<ViewHolderType>
+        val totalTracked: ViewHolderType
         val chart: ViewHolderType
 
         when (filterType) {
@@ -45,23 +46,29 @@ class StatisticsViewDataInteractor @Inject constructor(
                 chart = statisticsViewDataMapper.mapActivitiesToChart(
                     statistics, types, typesFiltered, isDarkTheme
                 )
+                totalTracked = statisticsViewDataMapper.mapActivitiesTotalTracked(
+                    statistics, typesFiltered
+                )
             }
             ChartFilterType.CATEGORY -> {
                 val categories = categoryInteractor.getAll()
                 val categoriesFiltered = prefsInteractor.getFilteredCategories()
                 val statistics = getStatisticsCategory(rangeLength, shift)
 
-                list = statisticsViewDataMapper.mapCategory(
+                list = statisticsViewDataMapper.mapCategories(
                     statistics, categories, categoriesFiltered, showDuration, isDarkTheme
                 )
                 chart = statisticsViewDataMapper.mapCategoriesToChart(
                     statistics, categories, categoriesFiltered, isDarkTheme
                 )
+                totalTracked = statisticsViewDataMapper.mapCategoriesTotalTracked(
+                    statistics, categoriesFiltered
+                )
             }
         }
 
         if (list.isEmpty()) return listOf(statisticsViewDataMapper.mapToEmpty())
-        return listOf(chart) + list
+        return listOf(chart) + list + totalTracked
     }
 
     private suspend fun getStatistics(

@@ -8,14 +8,16 @@ interface ViewHolderType {
         const val RECORD_TYPE = 1
         const val RUNNING_RECORD = 2
         const val RECORD = 3
-        const val VIEW = 4
-        const val VIEW2 = 5
-        const val FOOTER = 6
-        const val HEADER = 7
-        const val LOADER = 8
-        const val EMPTY = 9
-        const val DIVIDER = 10
-        const val CATEGORY = 11
+        const val CATEGORY = 4
+
+        const val VIEW = 5
+        const val VIEW2 = 6
+        const val FOOTER = 7
+        const val HEADER = 8
+        const val LOADER = 9
+        const val EMPTY = 10
+        const val DIVIDER = 11
+        const val INFO = 12
     }
 
     fun getViewType(): Int
