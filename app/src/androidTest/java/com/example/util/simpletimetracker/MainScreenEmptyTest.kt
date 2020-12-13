@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker
 
+import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
@@ -14,6 +15,7 @@ import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
 import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
+import com.example.util.simpletimetracker.utils.longClickOnViewWithId
 import com.example.util.simpletimetracker.utils.typeTextIntoView
 import com.example.util.simpletimetracker.utils.unconstrainedClickOnView
 import org.hamcrest.CoreMatchers.allOf
@@ -96,6 +98,7 @@ class MainScreenEmptyTest : BaseUiTest() {
         // Overall range
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         unconstrainedClickOnView(withText(R.string.title_overall))
+        Thread.sleep(1000)
         checkViewIsDisplayed(allOf(withText(R.string.statistics_empty), isCompletelyDisplayed()))
 
         // Back to day range
@@ -112,6 +115,37 @@ class MainScreenEmptyTest : BaseUiTest() {
         clickOnViewWithId(R.id.btnStatisticsContainerNext)
         checkViewIsDisplayed(allOf(withText(R.string.statistics_empty), isCompletelyDisplayed()))
 
+        // Empty category statistics
+        clickOnViewWithId(R.id.btnStatisticsEmptyFilter)
+        clickOnViewWithText(R.string.chart_filter_type_category)
+        pressBack()
+
+        // Day range
+        clickOnViewWithId(R.id.btnStatisticsContainerToday)
+        clickOnViewWithText(R.string.title_today)
+        checkRanges()
+
+        // Week range
+        clickOnViewWithId(R.id.btnStatisticsContainerToday)
+        clickOnViewWithText(R.string.title_this_week)
+        checkRanges()
+
+        // Month range
+        clickOnViewWithId(R.id.btnStatisticsContainerToday)
+        clickOnViewWithText(R.string.title_this_month)
+        checkRanges()
+
+        // Overall range
+        clickOnViewWithId(R.id.btnStatisticsContainerToday)
+        unconstrainedClickOnView(withText(R.string.title_overall))
+        Thread.sleep(1000)
+        checkViewIsDisplayed(allOf(withText(R.string.statistics_empty), isCompletelyDisplayed()))
+
+        // Back to day range
+        clickOnViewWithId(R.id.btnStatisticsContainerToday)
+        clickOnViewWithText(R.string.title_today)
+        checkRanges()
+
         // Add activity
         NavUtils.openRunningRecordsScreen()
         clickOnView(withText(R.string.running_records_add_type))
@@ -124,5 +158,15 @@ class MainScreenEmptyTest : BaseUiTest() {
         checkViewDoesNotExist(withText(R.string.running_records_empty))
         clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name)))
         checkViewIsDisplayed(withText(R.string.running_records_empty))
+    }
+
+    private fun checkRanges() {
+        longClickOnViewWithId(R.id.btnStatisticsContainerToday)
+        clickOnViewWithId(R.id.btnStatisticsContainerPrevious)
+        checkViewIsDisplayed(allOf(withText(R.string.statistics_empty), isCompletelyDisplayed()))
+        clickOnViewWithId(R.id.btnStatisticsContainerNext)
+        checkViewIsDisplayed(allOf(withText(R.string.statistics_empty), isCompletelyDisplayed()))
+        clickOnViewWithId(R.id.btnStatisticsContainerNext)
+        checkViewIsDisplayed(allOf(withText(R.string.statistics_empty), isCompletelyDisplayed()))
     }
 }
