@@ -132,7 +132,8 @@ class StatisticsViewDataMapper @Inject constructor(
         statistics: List<Statistics>,
         recordTypesFiltered: List<Long>
     ): ViewHolderType {
-        val statisticsFiltered = statistics.filterNot { it.typeId in recordTypesFiltered }
+        val statisticsFiltered = statistics
+            .filterNot { it.typeId in recordTypesFiltered || it.typeId == -1L }
         val totalTracked = statisticsFiltered.map(Statistics::duration).sum()
 
         return mapTotalTracked(totalTracked)
@@ -142,7 +143,8 @@ class StatisticsViewDataMapper @Inject constructor(
         statistics: List<StatisticsCategory>,
         categoriesFiltered: List<Long>
     ): ViewHolderType {
-        val statisticsFiltered = statistics.filterNot { it.categoryId in categoriesFiltered }
+        val statisticsFiltered = statistics
+            .filterNot { it.categoryId in categoriesFiltered || it.categoryId == -1L}
         val totalTracked = statisticsFiltered.map(StatisticsCategory::duration).sum()
 
         return mapTotalTracked(totalTracked)

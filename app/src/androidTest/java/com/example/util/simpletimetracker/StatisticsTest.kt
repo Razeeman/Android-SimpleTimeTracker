@@ -75,6 +75,12 @@ class StatisticsTest : BaseUiTest() {
                 hasDescendant(withSubstring("%")),
                 isCompletelyDisplayed())
         )
+        checkViewIsDisplayed(
+            allOf(
+                withId(R.id.tvStatisticsInfoText),
+                withText("2h 0m")
+            )
+        )
 
         // Switch to week range
         clickOnView(allOf(withText(R.string.title_today), isCompletelyDisplayed()))
@@ -108,6 +114,12 @@ class StatisticsTest : BaseUiTest() {
                 hasDescendant(withText("1h 0m")),
                 hasDescendant(withSubstring("%")),
                 isCompletelyDisplayed())
+        )
+        checkViewIsDisplayed(
+            allOf(
+                withId(R.id.tvStatisticsInfoText),
+                withText("2h 0m")
+            )
         )
 
         // Switch to month range
@@ -143,6 +155,12 @@ class StatisticsTest : BaseUiTest() {
                 hasDescendant(withSubstring("%")),
                 isCompletelyDisplayed())
         )
+        checkViewIsDisplayed(
+            allOf(
+                withId(R.id.tvStatisticsInfoText),
+                withText("2h 0m")
+            )
+        )
 
         // Switch to overall range
         clickOnView(allOf(withText(R.string.title_this_month), isCompletelyDisplayed()))
@@ -174,6 +192,12 @@ class StatisticsTest : BaseUiTest() {
                 hasDescendant(withText(newName)),
                 hasDescendant(withSubstring("50%")),
                 isCompletelyDisplayed())
+        )
+        checkViewIsDisplayed(
+            allOf(
+                withId(R.id.tvStatisticsInfoText),
+                withText("2h 0m")
+            )
         )
     }
 
@@ -235,6 +259,12 @@ class StatisticsTest : BaseUiTest() {
                 hasDescendant(withSubstring("40%")),
                 isCompletelyDisplayed())
         )
+        checkViewIsDisplayed(
+            allOf(
+                withId(R.id.tvStatisticsInfoText),
+                withText("5h 0m")
+            )
+        )
         checkViewDoesNotExist(
             allOf(
                 withId(R.id.layoutStatisticsItem),
@@ -264,6 +294,12 @@ class StatisticsTest : BaseUiTest() {
                 hasDescendant(withText("2h 0m")),
                 hasDescendant(withSubstring("40%")),
                 isCompletelyDisplayed())
+        )
+        checkViewIsDisplayed(
+            allOf(
+                withId(R.id.tvStatisticsInfoText),
+                withText("5h 0m")
+            )
         )
         checkViewDoesNotExist(
             allOf(
@@ -295,6 +331,12 @@ class StatisticsTest : BaseUiTest() {
                 hasDescendant(withSubstring("40%")),
                 isCompletelyDisplayed())
         )
+        checkViewIsDisplayed(
+            allOf(
+                withId(R.id.tvStatisticsInfoText),
+                withText("5h 0m")
+            )
+        )
         checkViewDoesNotExist(
             allOf(
                 withId(R.id.layoutStatisticsItem),
@@ -324,6 +366,12 @@ class StatisticsTest : BaseUiTest() {
                 hasDescendant(withText(categoryName2)),
                 hasDescendant(withSubstring("40%")),
                 isCompletelyDisplayed())
+        )
+        checkViewIsDisplayed(
+            allOf(
+                withId(R.id.tvStatisticsInfoText),
+                withText("5h 0m")
+            )
         )
         checkViewDoesNotExist(
             allOf(
