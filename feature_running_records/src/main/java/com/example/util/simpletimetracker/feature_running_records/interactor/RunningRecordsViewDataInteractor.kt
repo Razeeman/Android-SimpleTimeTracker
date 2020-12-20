@@ -12,7 +12,7 @@ class RunningRecordsViewDataInteractor @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
-    private val runningRecordViewDataMapper: RunningRecordViewDataMapper
+    private val mapper: RunningRecordViewDataMapper
 ) {
 
     suspend fun getViewData(): List<ViewHolderType> {
@@ -24,8 +24,8 @@ class RunningRecordsViewDataInteractor @Inject constructor(
         val isDarkTheme = prefsInteractor.getDarkMode()
 
         val runningRecordsViewData = when {
-            recordTypes.filterNot { it.hidden }.isEmpty() -> emptyList()
-            runningRecords.isEmpty() -> listOf(runningRecordViewDataMapper.mapToEmpty())
+            recordTypes.filterNot { it.hidden }.isEmpty() -> listOf(mapper.mapToTypesEmpty())
+            runningRecords.isEmpty() -> listOf(mapper.mapToEmpty())
             else -> runningRecords
                 .sortedByDescending {
                     it.timeStarted
@@ -34,7 +34,7 @@ class RunningRecordsViewDataInteractor @Inject constructor(
                     recordTypesMap[runningRecord.id]?.let { type -> runningRecord to type }
                 }
                 .map { (runningRecord, recordType) ->
-                    runningRecordViewDataMapper.map(runningRecord, recordType, isDarkTheme)
+                    mapper.map(runningRecord, recordType, isDarkTheme)
                 }
         }
 
@@ -43,7 +43,7 @@ class RunningRecordsViewDataInteractor @Inject constructor(
                 it.hidden
             }
             .map {
-                runningRecordViewDataMapper.map(
+                mapper.map(
                     recordType = it,
                     isFiltered = it.id in recordTypesRunning,
                     numberOfCards = numberOfCards,
@@ -51,7 +51,7 @@ class RunningRecordsViewDataInteractor @Inject constructor(
                 )
             }
             .plus(
-                runningRecordViewDataMapper.mapToAddItem(
+                mapper.mapToAddItem(
                     numberOfCards,
                     isDarkTheme
                 )

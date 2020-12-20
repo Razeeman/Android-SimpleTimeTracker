@@ -30,6 +30,7 @@ class MainScreenEmptyTest : BaseUiTest() {
         val name = "Test"
 
         // Empty main
+        checkViewIsDisplayed(withText(R.string.running_records_types_empty))
         checkViewDoesNotExist(withText(R.string.running_records_empty))
 
         // Empty records
@@ -151,6 +152,7 @@ class MainScreenEmptyTest : BaseUiTest() {
         clickOnView(withText(R.string.running_records_add_type))
         typeTextIntoView(R.id.etChangeRecordTypeName, name)
         clickOnView(withText(R.string.change_record_type_save))
+        checkViewDoesNotExist(withText(R.string.running_records_types_empty))
         checkViewIsDisplayed(withText(R.string.running_records_empty))
 
         // Start timer

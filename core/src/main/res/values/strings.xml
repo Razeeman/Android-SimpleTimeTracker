@@ -79,7 +79,8 @@
     <string name="records_all_sort_duration">Duration</string>
 
     <!--  Running records  -->
-    <string name="running_records_empty">Click on activity to start</string>
+    <string name="running_records_types_empty">Add activities to start tracking</string>
+    <string name="running_records_empty">Click on activity to start tracking. Long click to edit</string>
     <string name="running_records_add_type">Add</string>
 
     <!--  Settings  -->

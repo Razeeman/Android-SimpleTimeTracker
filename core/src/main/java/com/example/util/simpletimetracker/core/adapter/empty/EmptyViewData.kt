@@ -9,6 +9,4 @@ data class EmptyViewData(
     override fun getViewType(): Int = ViewHolderType.EMPTY
 
     override fun getUniqueId(): Long? = 1L
-
-    override fun areContentsTheSame(other: ViewHolderType): Boolean = true
 }

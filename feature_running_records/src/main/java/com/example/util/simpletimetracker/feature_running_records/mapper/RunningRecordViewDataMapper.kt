@@ -59,6 +59,12 @@ class RunningRecordViewDataMapper @Inject constructor(
         )
     }
 
+    fun mapToTypesEmpty(): ViewHolderType {
+        return EmptyViewData(
+            message = R.string.running_records_types_empty.let(resourceRepo::getString)
+        )
+    }
+
     fun mapToEmpty(): ViewHolderType {
         return EmptyViewData(
             message = R.string.running_records_empty.let(resourceRepo::getString)
