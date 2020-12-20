@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="widget_name">Single Activity</string>
-    <string name="widget_universal_name">Universal</string>
-    <string name="widget_load_error">Not found</string>
-    <string name="widget_empty">No activities added</string>
-</resources>

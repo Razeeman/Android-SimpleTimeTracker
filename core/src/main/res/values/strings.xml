@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="title_yesterday">Yesterday</string>
     <string name="title_today">Today</string>
     <string name="title_tomorrow">Tomorrow</string>
@@ -14,9 +15,102 @@
     <string name="cancel">Cancel</string>
 
     <string name="untracked_time_name">Untracked</string>
-
     <string name="record_removed">Record %s removed</string>
     <string name="record_removed_undo">Undo</string>
+    <string name="notification_time_started">Started at %s</string>
+    <string name="records_empty">Nothing to show</string>
+
+    <!--  Statistics  -->
+    <string name="statistics_empty">Nothing to show</string>
+    <string name="statistics_total_tracked">Total tracked</string>
+
+    <!--  Categories  -->
+    <string name="categories_add">Add new category</string>
+
+    <!--  Change category  -->
+    <string name="change_category_removed">Category removed</string>
+    <string name="change_category_name_hint">Enter new name</string>
+    <string name="change_category_color_hint">Color</string>
+    <string name="change_category_type_hint">Activities</string>
+    <string name="change_category_save">Save</string>
+    <string name="change_category_message_choose_name">Choose a name</string>
+    <string name="change_category_types_empty">No activities added</string>
+
+    <!--  Change record  -->
+    <string name="message_choose_type">Select activity</string>
+    <string name="change_record_type_field">Activity</string>
+    <string name="change_record_save">Save</string>
+
+    <!--  Change record type  -->
+    <string name="change_record_type_removed">Activity removed</string>
+    <string name="change_record_type_name_hint">Enter new name</string>
+    <string name="change_record_type_color_hint">Color</string>
+    <string name="change_record_type_icon_hint">Icon</string>
+    <string name="change_record_type_category_hint">Category</string>
+    <string name="change_record_type_save">Save</string>
+    <string name="change_record_message_choose_name">Choose a name</string>
+    <string name="change_record_type_categories_empty">No categories added</string>
+
+    <!--  Change running record  -->
+    <string name="change_running_record_message_choose_type">Select activity</string>
+    <string name="change_running_record_removed">Running activity removed</string>
+    <string name="change_running_record_type_field">Activity</string>
+    <string name="change_running_record_save">Save</string>
+
+    <!--  Dialogs  -->
+    <string name="date_time_dialog_date">Date</string>
+    <string name="date_time_dialog_time">Time</string>
+    <string name="card_size_default">Default width</string>
+    <string name="card_size_hint">Number of cards in a row</string>
+    <string name="chart_filter_hint">Filter</string>
+    <string name="card_order_hint">Drag and drop to reorder</string>
+    <string name="types_filter_show_all">Show all</string>
+    <string name="types_filter_hide_all">Hide all</string>
+    <string name="chart_filter_type_activity">Activity</string>
+    <string name="chart_filter_type_category">Category</string>
+
+    <!--  Records all  -->
+    <string name="records_all_sort_order">Sort records</string>
+    <string name="records_all_filter">Filter activities</string>
+    <string name="records_all_sort_time_started">Time started</string>
+    <string name="records_all_sort_duration">Duration</string>
+
+    <!--  Running records  -->
+    <string name="running_records_empty">Click on activity to start</string>
+    <string name="running_records_add_type">Add</string>
+
+    <!--  Settings  -->
+    <string name="settings_sort_order">Sort activities</string>
+    <string name="settings_sort_by_name">Name</string>
+    <string name="settings_sort_by_color">Color</string>
+    <string name="settings_sort_manually">Manually</string>
+    <string name="settings_show_untracked_time">Show untracked time in records</string>
+    <string name="settings_allow_multitasking">Allow multitasking</string>
+    <string name="settings_allow_multitasking_hint">If disabled starting new timer will automatically stop other activities.</string>
+    <string name="settings_show_notifications">Show timer notifications</string>
+    <string name="settings_dark_mode">Dark mode</string>
+    <string name="settings_show_notifications_hint">Show notifications when timers are running.</string>
+    <string name="settings_change_card_size">Change activity card size</string>
+    <string name="settings_edit_categories">Edit categories</string>
+    <string name="settings_rate">Rate us</string>
+    <string name="settings_rate_description">Rate the app and leave a review.</string>
+    <string name="settings_feedback">Feedback</string>
+    <string name="settings_feedback_description">Have a suggestion? Found a bug? Want to talk? Write us!</string>
+    <string name="settings_version">Version</string>
+    <string name="settings_email_chooser_title">Send with…</string>
+
+    <string name="settings_save_backup">Save backup</string>
+    <string name="settings_save_description">Before saving, make sure that you have the latest version of the app installed to avoid conflicts.</string>
+    <string name="settings_restore_backup">Restore backup</string>
+    <string name="settings_restore_description">Current data will be lost.</string>
+    <string name="settings_dialog_message">Restore backup?</string>
+    <string name="settings_export_csv">Spreadsheet export</string>
+    <string name="settings_export_csv_description">Export activity records as a csv file to view in a preferred spreadsheet application.</string>
+    <string name="settings_file_open_error">Error opening file</string>
+    <string name="settings_file_create_error">Error creating file</string>
+
+    <string name="support_email" translatable="false">devrazeeman@gmail.com</string>
+    <string name="support_email_subject" translatable="false">Simple Time Tracker, feedback</string>
 
     <string name="message_backup_saved">Backup saved</string>
     <string name="message_backup_restored">Backup restored</string>
@@ -26,10 +120,35 @@
     <string name="message_csv_export_complete">Export completed</string>
     <string name="message_csv_export_error">Error exporting csv</string>
 
-    <string name="notification_time_started">Started at %s</string>
+    <!--  Statistics detail  -->
+    <string name="statistics_detail_chart_daily">daily</string>
+    <string name="statistics_detail_chart_weekly">weekly</string>
+    <string name="statistics_detail_chart_monthly">monthly</string>
+    <string name="statistics_detail_length_ten">10</string>
+    <string name="statistics_detail_length_fifty">50</string>
+    <string name="statistics_detail_length_hundred">100</string>
+    <string name="statistics_detail_legend_minute_suffix">m</string>
+    <string name="statistics_detail_legend_hour_suffix">h</string>
+    <string name="statistics_detail_times_tracked">Records</string>
+    <string name="statistics_detail_total_duration">Total</string>
+    <string name="statistics_detail_shortest_record">Shortest</string>
+    <string name="statistics_detail_average_record">Average</string>
+    <string name="statistics_detail_longest_record">Longest</string>
+    <string name="statistics_detail_first_record">First</string>
+    <string name="statistics_detail_last_record">Last</string>
 
-    <string name="support_email" translatable="false">devrazeeman@gmail.com</string>
-    <string name="support_email_subject" translatable="false">Simple Time Tracker, feedback</string>
+    <string name="statistics_detail_chart_monday">Mon</string>
+    <string name="statistics_detail_chart_tuesday">Tue</string>
+    <string name="statistics_detail_chart_wednesday">Wed</string>
+    <string name="statistics_detail_chart_thursday">Thu</string>
+    <string name="statistics_detail_chart_friday">Fri</string>
+    <string name="statistics_detail_chart_saturday">Sat</string>
+    <string name="statistics_detail_chart_sunday">Sun</string>
 
-    <string name="records_empty">Nothing to show</string>
+    <!--  Widget  -->
+    <string name="widget_name">Single Activity</string>
+    <string name="widget_universal_name">Universal</string>
+    <string name="widget_load_error">Not found</string>
+    <string name="widget_empty">No activities added</string>
+
 </resources>
