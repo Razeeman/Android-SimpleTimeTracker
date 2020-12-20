@@ -38,6 +38,15 @@ class RecordTypeCategoryRepoImpl @Inject constructor(
         recordTypeCategoryDao.getCategoryIdsByType(typeId)
     }
 
+    override suspend fun add(recordTypeCategory: RecordTypeCategory) = withContext(Dispatchers.IO){
+        Timber.d("add")
+        recordTypeCategory
+            .let(recordTypeCategoryDataLocalMapper::map)
+            .let {
+                recordTypeCategoryDao.insert(listOf(it))
+            }
+    }
+
     override suspend fun addCategories(typeId: Long, categoryIds: List<Long>) = withContext(Dispatchers.IO) {
         Timber.d("add categories")
         categoryIds.map {

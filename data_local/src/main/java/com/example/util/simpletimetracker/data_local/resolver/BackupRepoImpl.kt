@@ -4,11 +4,15 @@ import android.content.ContentResolver
 import android.net.Uri
 import android.os.ParcelFileDescriptor
 import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordType
+import com.example.util.simpletimetracker.domain.model.RecordTypeCategory
+import com.example.util.simpletimetracker.domain.repo.CategoryRepo
 import com.example.util.simpletimetracker.domain.repo.RecordCacheRepo
 import com.example.util.simpletimetracker.domain.repo.RecordRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeCacheRepo
+import com.example.util.simpletimetracker.domain.repo.RecordTypeCategoryRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeRepo
 import com.example.util.simpletimetracker.domain.resolver.BackupRepo
 import kotlinx.coroutines.Dispatchers
@@ -28,7 +32,9 @@ class BackupRepoImpl @Inject constructor(
     private val recordTypeRepo: RecordTypeRepo,
     private val recordTypeCacheRepo: RecordTypeCacheRepo,
     private val recordRepo: RecordRepo,
-    private val recordCacheRepo: RecordCacheRepo
+    private val recordCacheRepo: RecordCacheRepo,
+    private val categoryRepo: CategoryRepo,
+    private val recordTypeCategoryRepo: RecordTypeCategoryRepo
 ) : BackupRepo {
 
     override suspend fun saveBackupFile(uriString: String): BackupRepo.ResultCode =
@@ -52,6 +58,16 @@ class BackupRepoImpl @Inject constructor(
                     )
                 }
                 recordRepo.getAll().forEach {
+                    fileOutputStream?.write(
+                        it.let(::toBackupString).toByteArray()
+                    )
+                }
+                categoryRepo.getAll().forEach {
+                    fileOutputStream?.write(
+                        it.let(::toBackupString).toByteArray()
+                    )
+                }
+                recordTypeCategoryRepo.getAll().forEach {
                     fileOutputStream?.write(
                         it.let(::toBackupString).toByteArray()
                     )
@@ -94,6 +110,8 @@ class BackupRepoImpl @Inject constructor(
                 recordTypeCacheRepo.clear()
                 recordRepo.clear()
                 recordCacheRepo.clear()
+                categoryRepo.clear()
+                recordTypeCategoryRepo.clear()
 
                 // Read data
                 while (reader?.readLine()?.also { line = it } != null) {
@@ -107,6 +125,16 @@ class BackupRepoImpl @Inject constructor(
                         ROW_RECORD -> {
                             recordFromBackupString(parts).let {
                                 recordRepo.add(it)
+                            }
+                        }
+                        ROW_CATEGORY -> {
+                            categoryFromBackupString(parts).let {
+                                categoryRepo.add(it)
+                            }
+                        }
+                        ROW_TYPE_CATEGORY -> {
+                            typeCategoryFromBackupString(parts).let {
+                                recordTypeCategoryRepo.add(it)
                             }
                         }
                     }
@@ -146,6 +174,23 @@ class BackupRepoImpl @Inject constructor(
         )
     }
 
+    private fun toBackupString(category: Category): String {
+        return String.format(
+            "$ROW_CATEGORY\t%s\t%s\t%s\n",
+            category.id.toString(),
+            category.name.replace("[\n\t]", ""),
+            category.color.toString()
+        )
+    }
+
+    private fun toBackupString(recordTypeCategory: RecordTypeCategory): String {
+        return String.format(
+            "$ROW_TYPE_CATEGORY\t%s\t%s\n",
+            recordTypeCategory.recordTypeId.toString(),
+            recordTypeCategory.categoryId.toString()
+        )
+    }
+
     private fun recordTypeFromBackupString(parts: List<String>): RecordType {
         return RecordType(
             id = parts.getOrNull(1)?.toLongOrNull().orZero(),
@@ -165,9 +210,26 @@ class BackupRepoImpl @Inject constructor(
         )
     }
 
+    private fun categoryFromBackupString(parts: List<String>): Category {
+        return Category(
+            id = parts.getOrNull(1)?.toLongOrNull().orZero(),
+            name = parts.getOrNull(2).orEmpty(),
+            color = parts.getOrNull(3)?.toIntOrNull().orZero()
+        )
+    }
+
+    private fun typeCategoryFromBackupString(parts: List<String>): RecordTypeCategory {
+        return RecordTypeCategory(
+           recordTypeId  = parts.getOrNull(1)?.toLongOrNull().orZero(),
+           categoryId  = parts.getOrNull(2)?.toLongOrNull().orZero()
+        )
+    }
+
     companion object {
         private const val BACKUP_IDENTIFICATION = "app simple time tracker"
         private const val ROW_RECORD_TYPE = "recordType"
         private const val ROW_RECORD = "record"
+        private const val ROW_CATEGORY = "category"
+        private const val ROW_TYPE_CATEGORY = "typeCategory"
     }
 }

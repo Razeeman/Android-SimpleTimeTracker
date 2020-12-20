@@ -19,4 +19,11 @@ class RecordTypeCategoryDataLocalMapper @Inject constructor() {
             categoryId = categoryId
         )
     }
+
+    fun map(domain: RecordTypeCategory): RecordTypeCategoryDBO {
+        return RecordTypeCategoryDBO(
+            recordTypeId = domain.recordTypeId,
+            categoryId = domain.categoryId
+        )
+    }
 }
