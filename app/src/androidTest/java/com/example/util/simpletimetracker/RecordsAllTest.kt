@@ -22,6 +22,7 @@ import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.longClickOnView
 import com.example.util.simpletimetracker.utils.nestedScrollTo
 import com.example.util.simpletimetracker.utils.withCardColor
+import com.example.util.simpletimetracker.utils.withPluralText
 import org.hamcrest.CoreMatchers.allOf
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -250,7 +251,7 @@ class RecordsAllTest : BaseUiTest() {
         onView(withId(R.id.cardStatisticsDetailRecords)).perform(nestedScrollTo())
         checkViewIsDisplayed(
             allOf(
-                withText(R.string.statistics_detail_times_tracked),
+                withPluralText(R.plurals.statistics_detail_times_tracked, 2),
                 hasSibling(withText("2"))
             )
         )
@@ -278,7 +279,7 @@ class RecordsAllTest : BaseUiTest() {
         onView(withId(R.id.cardStatisticsDetailRecords)).perform(nestedScrollTo())
         checkViewIsDisplayed(
             allOf(
-                withText(R.string.statistics_detail_times_tracked),
+                withPluralText(R.plurals.statistics_detail_times_tracked, 1),
                 hasSibling(withText("1"))
             )
         )

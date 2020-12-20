@@ -133,7 +133,7 @@
     <string name="statistics_detail_length_hundred">100</string>
     <string name="statistics_detail_legend_minute_suffix">m</string>
     <string name="statistics_detail_legend_hour_suffix">h</string>
-    <string name="statistics_detail_times_tracked">Records</string>
+
     <string name="statistics_detail_total_duration">Total</string>
     <string name="statistics_detail_shortest_record">Shortest</string>
     <string name="statistics_detail_average_record">Average</string>
@@ -148,6 +148,15 @@
     <string name="statistics_detail_chart_friday">Fri</string>
     <string name="statistics_detail_chart_saturday">Sat</string>
     <string name="statistics_detail_chart_sunday">Sun</string>
+
+    <plurals name="statistics_detail_times_tracked">
+        <item quantity="zero">Records</item>
+        <item quantity="one">Record</item>
+        <item quantity="two">Records</item>
+        <item quantity="few">Records</item>
+        <item quantity="many">Records</item>
+        <item quantity="other">Records</item>
+    </plurals>
 
     <!--  Widget  -->
     <string name="widget_name">Single Activity</string>

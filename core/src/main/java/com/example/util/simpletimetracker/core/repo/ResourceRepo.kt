@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.core.repo
 import android.content.Context
 import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
+import androidx.annotation.PluralsRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import com.example.util.simpletimetracker.core.extension.pxToDp
@@ -23,6 +24,10 @@ class ResourceRepo @Inject constructor(
 
     fun getString(@StringRes stringResId: Int, vararg args: Any): String {
         return context.getString(stringResId, *args)
+    }
+
+    fun getQuantityString(@PluralsRes stringResId: Int, quantity: Int): String {
+        return context.resources.getQuantityString(stringResId, quantity)
     }
 
     fun getDimenInDp(@DimenRes dimenResId: Int): Int {

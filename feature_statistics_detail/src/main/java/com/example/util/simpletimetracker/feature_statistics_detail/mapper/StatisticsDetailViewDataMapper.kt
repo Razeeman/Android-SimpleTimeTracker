@@ -36,7 +36,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         val recordsSorted = records.sortedBy { it.timeStarted }
         val durations = records.map(::mapToDuration)
         val totalDuration = durations.sum()
-        val timesTracked = records.size.toLong()
+        val timesTracked = records.size
         val shortest = durations.min().orZero()
         val average = if (records.isNotEmpty()) durations.sum() / durations.size else 0
         val longest = durations.max().orZero()
@@ -54,7 +54,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
 
         return mapToViewData(
             totalDuration = totalDuration.let(timeMapper::formatInterval),
-            timesTracked = timesTracked.toString(),
+            timesTracked = timesTracked,
             timesTrackedIcon = recordsAllIcon,
             shortestRecord = shortest.let(timeMapper::formatInterval),
             averageRecord = average.let(timeMapper::formatInterval),
@@ -67,7 +67,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
     fun mapToEmptyViewData(): StatisticsDetailViewData {
         return mapToViewData(
             totalDuration = "",
-            timesTracked = "",
+            timesTracked = null,
             timesTrackedIcon = null,
             shortestRecord = "",
             averageRecord = "",
@@ -186,7 +186,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
 
     private fun mapToViewData(
         totalDuration: String,
-        timesTracked: String,
+        timesTracked: Int?,
         timesTrackedIcon: StatisticsDetailCardViewData.Icon?,
         shortestRecord: String,
         averageRecord: String,
@@ -203,8 +203,10 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             ),
             timesTracked = listOf(
                 StatisticsDetailCardViewData(
-                    title = timesTracked,
-                    subtitle = resourceRepo.getString(R.string.statistics_detail_times_tracked),
+                    title = timesTracked?.toString() ?: "",
+                    subtitle = resourceRepo.getQuantityString(
+                        R.plurals.statistics_detail_times_tracked, timesTracked.orZero()
+                    ),
                     icon = timesTrackedIcon
                 )
             ),

@@ -2,6 +2,8 @@ package com.example.util.simpletimetracker.utils
 
 import android.view.View
 import android.view.WindowManager
+import android.widget.TextView
+import androidx.annotation.PluralsRes
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.test.espresso.Root
@@ -40,3 +42,18 @@ fun isToast(): Matcher<Root> {
         }
     }
 }
+
+fun withPluralText(@PluralsRes expectedId: Int, quantity: Int): Matcher<View> =
+    object : BoundedMatcher<View, TextView>(TextView::class.java) {
+        override fun matchesSafely(view: TextView): Boolean {
+            val text: String = view.context.resources.getQuantityString(expectedId, quantity)
+            return view.text == text
+        }
+
+        override fun describeTo(description: Description) {
+            description.appendText("with plural text: ")
+            description.appendValue(expectedId)
+            description.appendText(" and quantity: ")
+            description.appendValue(quantity)
+        }
+    }

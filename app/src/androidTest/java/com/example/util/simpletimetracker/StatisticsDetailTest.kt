@@ -21,6 +21,7 @@ import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.nestedScrollTo
 import com.example.util.simpletimetracker.utils.withCardColor
+import com.example.util.simpletimetracker.utils.withPluralText
 import com.example.util.simpletimetracker.utils.withTag
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.equalTo
@@ -113,7 +114,7 @@ class StatisticsDetailTest : BaseUiTest() {
         onView(withId(R.id.cardStatisticsDetailRecords)).perform(nestedScrollTo())
         checkViewIsDisplayed(
             allOf(
-                withText(R.string.statistics_detail_times_tracked),
+                withPluralText(R.plurals.statistics_detail_times_tracked, 2),
                 hasSibling(withText("2"))
             )
         )
