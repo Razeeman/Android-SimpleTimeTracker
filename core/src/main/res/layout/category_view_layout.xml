@@ -17,14 +17,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="?selectableItemBackground"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp">
+        android:padding="12dp">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvCategoryItemName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="8dp"
             android:textColor="?appLightTextColor"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"

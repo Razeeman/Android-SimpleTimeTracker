@@ -7,7 +7,7 @@ import android.view.View
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import com.example.util.simpletimetracker.core.R
-import kotlinx.android.synthetic.main.category_view_layout.view.tvCategoryItemName
+import kotlinx.android.synthetic.main.category_view_layout.view.*
 
 class CategoryView @JvmOverloads constructor(
     context: Context,
@@ -23,10 +23,11 @@ class CategoryView @JvmOverloads constructor(
         View.inflate(context, R.layout.category_view_layout, this)
 
         ContextCompat.getColor(context, R.color.black).let(::setCardBackgroundColor)
-        radius = resources.getDimensionPixelOffset(R.dimen.record_type_card_corner_radius).toFloat()
+        radius = resources.getDimensionPixelOffset(R.dimen.record_type_card_corner_radius)
+            .toFloat()
         // TODO doesn't work here for some reason, need to set in the layout
-        cardElevation =
-            resources.getDimensionPixelOffset(R.dimen.record_type_card_elevation).toFloat()
+        cardElevation = resources.getDimensionPixelOffset(R.dimen.record_type_card_elevation)
+            .toFloat()
         preventCornerOverlap = false
         useCompatPadding = true
 
