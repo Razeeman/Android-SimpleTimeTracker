@@ -25,10 +25,10 @@
     <string name="statistics_total_tracked">Total tracked</string>
 
     <!--  Categories  -->
-    <string name="categories_add">Add new category</string>
+    <string name="categories_add">Add new tag</string>
 
     <!--  Change category  -->
-    <string name="change_category_removed">Category removed</string>
+    <string name="change_category_removed">Tag removed</string>
     <string name="change_category_name_hint">Enter new name</string>
     <string name="change_category_color_hint">Color</string>
     <string name="change_category_type_hint">Activities</string>
@@ -46,10 +46,10 @@
     <string name="change_record_type_name_hint">Enter new name</string>
     <string name="change_record_type_color_hint">Color</string>
     <string name="change_record_type_icon_hint">Icon</string>
-    <string name="change_record_type_category_hint">Category</string>
+    <string name="change_record_type_category_hint">Tags</string>
     <string name="change_record_type_save">Save</string>
     <string name="change_record_message_choose_name">Choose a name</string>
-    <string name="change_record_type_categories_empty">No categories added</string>
+    <string name="change_record_type_categories_empty">No tags added</string>
 
     <!--  Change running record  -->
     <string name="change_running_record_message_choose_type">Select activity</string>
@@ -60,14 +60,17 @@
     <!--  Dialogs  -->
     <string name="date_time_dialog_date">Date</string>
     <string name="date_time_dialog_time">Time</string>
+
     <string name="card_size_default">Default width</string>
     <string name="card_size_hint">Number of cards in a row</string>
-    <string name="chart_filter_hint">Filter</string>
+
     <string name="card_order_hint">Drag and drop to reorder</string>
+
+    <string name="chart_filter_hint">Filter</string>
     <string name="types_filter_show_all">Show all</string>
     <string name="types_filter_hide_all">Hide all</string>
     <string name="chart_filter_type_activity">Activity</string>
-    <string name="chart_filter_type_category">Category</string>
+    <string name="chart_filter_type_category">Tag</string>
 
     <!--  Records all  -->
     <string name="records_all_sort_order">Sort records</string>
@@ -91,7 +94,7 @@
     <string name="settings_dark_mode">Dark mode</string>
     <string name="settings_show_notifications_hint">Show notifications when timers are running.</string>
     <string name="settings_change_card_size">Change activity card size</string>
-    <string name="settings_edit_categories">Edit categories</string>
+    <string name="settings_edit_categories">Edit tags</string>
     <string name="settings_rate">Rate us</string>
     <string name="settings_rate_description">Rate the app and leave a review.</string>
     <string name="settings_feedback">Feedback</string>
