@@ -28,6 +28,7 @@ class DeleteRecordTypeTest : BaseUiTest() {
         val color = ColorMapper.getAvailableColors().first()
         val icon = iconMapper.availableIconsNames.values.first()
 
+        Thread.sleep(1000)
         clickOnViewWithText(R.string.running_records_add_type)
         checkViewIsNotDisplayed(withId(R.id.btnChangeRecordTypeDelete))
         closeSoftKeyboard()

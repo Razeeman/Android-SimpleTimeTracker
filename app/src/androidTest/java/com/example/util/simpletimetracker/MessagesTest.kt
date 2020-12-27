@@ -16,9 +16,8 @@ class MessagesTest : BaseUiTest() {
 
     @Test
     fun messages() {
-        Thread.sleep(1000)
-
         // Activity with no name
+        Thread.sleep(1000)
         clickOnViewWithText(R.string.running_records_add_type)
         clickOnViewWithText(R.string.change_record_type_save)
         toastTextShowing(R.string.change_record_message_choose_name)

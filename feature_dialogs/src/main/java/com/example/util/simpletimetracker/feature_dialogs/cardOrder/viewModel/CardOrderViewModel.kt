@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.loader.LoaderViewData
+import com.example.util.simpletimetracker.core.extension.post
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -58,7 +59,7 @@ class CardOrderViewModel @Inject constructor(
 
     private fun updateRecordTypes() = viewModelScope.launch {
         val data = loadRecordTypes()
-        (recordTypes as MutableLiveData).value = data
+        recordTypes.post(data)
     }
 
     private suspend fun loadRecordTypes(): List<RecordTypeViewData> {

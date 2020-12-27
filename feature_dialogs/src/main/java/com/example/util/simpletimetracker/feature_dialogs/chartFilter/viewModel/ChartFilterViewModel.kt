@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.loader.LoaderViewData
+import com.example.util.simpletimetracker.core.extension.post
 import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
 import com.example.util.simpletimetracker.core.viewData.CategoryViewData
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
@@ -95,7 +96,8 @@ class ChartFilterViewModel @Inject constructor(
     }
 
     private fun updateFilterTypeViewData() {
-        (filterTypeViewData as MutableLiveData).value = loadFilterTypeViewData()
+        val data = loadFilterTypeViewData()
+        filterTypeViewData.post(data)
     }
 
     private fun loadFilterTypeViewData() : List<ViewHolderType> {
@@ -127,7 +129,7 @@ class ChartFilterViewModel @Inject constructor(
                     .let(::add)
             }
 
-        (types as MutableLiveData).value = data
+        types.post(data)
     }
 
     private suspend fun loadRecordTypes(): List<RecordType> {
@@ -155,7 +157,7 @@ class ChartFilterViewModel @Inject constructor(
             .takeUnless { it.isEmpty() }
             ?: chartFilterViewDataMapper.mapCategoriesEmpty()
 
-        (types as MutableLiveData).value = data
+        types.post(data)
     }
 
     private suspend fun loadCategories(): List<Category> {
