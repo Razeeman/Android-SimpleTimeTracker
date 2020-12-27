@@ -98,7 +98,11 @@ class TimeMapper @Inject constructor(
         if (calendarStep == Calendar.MONTH) result++
 
         calendar.timeInMillis = current
-        result -= calendar.get(calendarStep)
+        result -= if (calendarStep == Calendar.WEEK_OF_YEAR && isFirstWeekOfNextYear(calendar)) {
+            calendar.getActualMaximum(Calendar.WEEK_OF_YEAR) + 1
+        } else {
+            calendar.get(calendarStep)
+        }
         if (calendarStep == Calendar.MONTH) result--
 
         val yearInFuture: Int
