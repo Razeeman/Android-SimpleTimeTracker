@@ -152,6 +152,8 @@ class ChartFilterViewModel @Inject constructor(
                 chartFilterViewDataMapper
                     .mapCategory(type, categoryIdsFiltered, isDarkTheme)
             }
+            .takeUnless { it.isEmpty() }
+            ?: chartFilterViewDataMapper.mapCategoriesEmpty()
 
         (types as MutableLiveData).value = data
     }

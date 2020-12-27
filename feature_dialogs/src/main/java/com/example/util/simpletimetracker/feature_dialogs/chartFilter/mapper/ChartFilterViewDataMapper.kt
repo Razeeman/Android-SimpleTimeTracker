@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.feature_dialogs.chartFilter.mapper
 
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.core.adapter.empty.EmptyViewData
 import com.example.util.simpletimetracker.core.mapper.CategoryViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeCardSizeMapper
@@ -9,9 +10,9 @@ import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.viewData.CategoryViewData
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.model.Category
+import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_dialogs.R
-import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.feature_dialogs.chartFilter.viewData.ChartFilterTypeViewData
 import javax.inject.Inject
 
@@ -73,6 +74,12 @@ class ChartFilterViewDataMapper @Inject constructor(
             isDarkTheme,
             category.id in categoryIdsFiltered
         )
+    }
+
+    fun mapCategoriesEmpty(): List<EmptyViewData> {
+        return EmptyViewData(
+            message = R.string.chart_filter_categories_empty.let(resourceRepo::getString)
+        ).let(::listOf)
     }
 
     fun mapToFilterTypeViewData(filterType: ChartFilterType): List<ViewHolderType> {

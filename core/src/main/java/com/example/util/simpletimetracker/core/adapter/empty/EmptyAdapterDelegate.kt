@@ -5,6 +5,7 @@ import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerViewHolder
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.core.extension.visible
 import kotlinx.android.synthetic.main.item_empty_layout.view.*
 
 class EmptyAdapterDelegate() : BaseRecyclerAdapterDelegate() {
@@ -22,6 +23,13 @@ class EmptyAdapterDelegate() : BaseRecyclerAdapterDelegate() {
             item as EmptyViewData
 
             tvEmptyItem.text = item.message
+
+            if (item.hint.isNotEmpty()) {
+                tvEmptyItemHint.visible = true
+                tvEmptyItemHint.text = item.hint
+            } else {
+                tvEmptyItemHint.visible = false
+            }
         }
     }
 }

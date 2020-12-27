@@ -71,6 +71,7 @@
     <string name="types_filter_hide_all">Hide all</string>
     <string name="chart_filter_type_activity">Activity</string>
     <string name="chart_filter_type_category">Tag</string>
+    <string name="chart_filter_categories_empty">No tags added</string>
 
     <!--  Records all  -->
     <string name="records_all_sort_order">Sort records</string>
@@ -80,7 +81,8 @@
 
     <!--  Running records  -->
     <string name="running_records_types_empty">Add activities to start tracking</string>
-    <string name="running_records_empty">Click on activity to start tracking. Long click to edit</string>
+    <string name="running_records_empty">Click on activity to start tracking</string>
+    <string name="running_records_empty_hint">Long click to edit</string>
     <string name="running_records_add_type">Add</string>
 
     <!--  Settings  -->
