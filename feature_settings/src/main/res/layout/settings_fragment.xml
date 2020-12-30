@@ -214,6 +214,34 @@
                     style="@style/SettingsDivider"
                     android:layout_width="match_parent" />
 
+                <LinearLayout
+                    android:id="@+id/layoutSettingsEditCategories"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/SettingsText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="0dp"
+                        android:text="@string/settings_edit_categories" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/SettingsSecondaryText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_edit_categories_hint" />
+
+                </LinearLayout>
+
+                <View
+                    style="@style/SettingsDivider"
+                    android:layout_width="match_parent" />
+
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvSettingsChangeCardSize"
                     style="@style/SettingsText"
@@ -223,20 +251,6 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:text="@string/settings_change_card_size" />
-
-                <View
-                    style="@style/SettingsDivider"
-                    android:layout_width="match_parent" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvSettingsEditCategories"
-                    style="@style/SettingsText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?selectableItemBackground"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:text="@string/settings_edit_categories" />
 
             </LinearLayout>
 
