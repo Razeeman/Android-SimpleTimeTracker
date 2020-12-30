@@ -7,7 +7,7 @@ import android.view.View
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import com.example.util.simpletimetracker.core.R
-import kotlinx.android.synthetic.main.category_view_layout.view.*
+import kotlinx.android.synthetic.main.category_view_layout.view.tvCategoryItemName
 
 class CategoryView @JvmOverloads constructor(
     context: Context,
@@ -52,6 +52,12 @@ class CategoryView @JvmOverloads constructor(
     var itemColor: Int = 0
         set(value) {
             setCardBackgroundColor(value)
+            field = value
+        }
+
+    var itemTextColor: Int = 0
+        set(value) {
+            tvCategoryItemName.setTextColor(value)
             field = value
         }
 }

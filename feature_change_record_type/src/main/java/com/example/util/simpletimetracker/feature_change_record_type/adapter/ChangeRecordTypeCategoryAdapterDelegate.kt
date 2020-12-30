@@ -27,6 +27,7 @@ class ChangeRecordTypeCategoryAdapterDelegate(
 
             itemColor = item.color
             itemName = item.name
+            itemTextColor = item.textColor
             setOnClickWith(item, onItemClick)
         }
     }
