@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.RecordType
+import com.example.util.simpletimetracker.domain.model.RecordTypeCategory
 import com.example.util.simpletimetracker.domain.model.Statistics
 import com.example.util.simpletimetracker.domain.model.StatisticsCategory
 import com.example.util.simpletimetracker.feature_statistics.R
@@ -107,6 +108,8 @@ class StatisticsViewDataMapper @Inject constructor(
     fun mapCategoriesToChart(
         statisticsCategory: List<StatisticsCategory>,
         categories: List<Category>,
+        types: List<RecordType>,
+        typeCategories: List<RecordTypeCategory>,
         categoriesFiltered: List<Long>,
         isDarkTheme: Boolean
     ): ViewHolderType {
@@ -116,10 +119,16 @@ class StatisticsViewDataMapper @Inject constructor(
             statisticsCategory
                 .filterNot { it.categoryId in categoriesFiltered }
                 .mapNotNull { statistic ->
+                    val type = typeCategories
+                        .firstOrNull { it.categoryId == statistic.categoryId }
+                        ?.recordTypeId
+                        ?.let { typeId -> types.firstOrNull { it.id == typeId } }
+
                     (mapCategoryToChart(
-                        statistic,
-                        categoriesMap[statistic.categoryId],
-                        isDarkTheme
+                        statisticsCategory = statistic,
+                        category = categoriesMap[statistic.categoryId],
+                        recordType = type,
+                        isDarkTheme = isDarkTheme
                     ) ?: return@mapNotNull null) to statistic.duration
                 }
                 .sortedByDescending { (_, duration) -> duration }
@@ -144,7 +153,7 @@ class StatisticsViewDataMapper @Inject constructor(
         categoriesFiltered: List<Long>
     ): ViewHolderType {
         val statisticsFiltered = statistics
-            .filterNot { it.categoryId in categoriesFiltered || it.categoryId == -1L}
+            .filterNot { it.categoryId in categoriesFiltered || it.categoryId == -1L }
         val totalTracked = statisticsFiltered.map(StatisticsCategory::duration).sum()
 
         return mapTotalTracked(totalTracked)
@@ -290,6 +299,7 @@ class StatisticsViewDataMapper @Inject constructor(
     private fun mapCategoryToChart(
         statisticsCategory: StatisticsCategory,
         category: Category?,
+        recordType: RecordType?,
         isDarkTheme: Boolean
     ): PiePortion? {
         return if (category != null) {
@@ -297,7 +307,9 @@ class StatisticsViewDataMapper @Inject constructor(
                 value = statisticsCategory.duration,
                 colorInt = category.color
                     .let { colorMapper.mapToColorResId(it, isDarkTheme) }
-                    .let(resourceRepo::getColor)
+                    .let(resourceRepo::getColor),
+                iconId = recordType?.icon
+                    ?.let(iconMapper::mapToDrawableResId)
             )
         } else {
             null
@@ -322,7 +334,7 @@ class StatisticsViewDataMapper @Inject constructor(
         }?.let(resourceRepo::getString)
     }
 
-    private fun mapTotalTracked(totalTracked: Long) : ViewHolderType {
+    private fun mapTotalTracked(totalTracked: Long): ViewHolderType {
         return StatisticsInfoViewData(
             name = resourceRepo.getString(R.string.statistics_total_tracked),
             text = totalTracked.let(timeMapper::formatInterval)

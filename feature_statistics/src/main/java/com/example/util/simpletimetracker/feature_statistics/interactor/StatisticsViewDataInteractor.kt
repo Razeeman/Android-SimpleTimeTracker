@@ -4,6 +4,7 @@ import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.StatisticsCategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.StatisticsInteractor
@@ -20,6 +21,7 @@ class StatisticsViewDataInteractor @Inject constructor(
     private val statisticsInteractor: StatisticsInteractor,
     private val statisticsCategoryInteractor: StatisticsCategoryInteractor,
     private val categoryInteractor: CategoryInteractor,
+    private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val statisticsViewDataMapper: StatisticsViewDataMapper
 ) {
@@ -52,6 +54,8 @@ class StatisticsViewDataInteractor @Inject constructor(
             }
             ChartFilterType.CATEGORY -> {
                 val categories = categoryInteractor.getAll()
+                val types = recordTypeInteractor.getAll()
+                val typeCategories = recordTypeCategoryInteractor.getAll()
                 val categoriesFiltered = prefsInteractor.getFilteredCategories()
                 val statistics = getStatisticsCategory(rangeLength, shift)
 
@@ -59,7 +63,7 @@ class StatisticsViewDataInteractor @Inject constructor(
                     statistics, categories, categoriesFiltered, showDuration, isDarkTheme
                 )
                 chart = statisticsViewDataMapper.mapCategoriesToChart(
-                    statistics, categories, categoriesFiltered, isDarkTheme
+                    statistics, categories, types, typeCategories, categoriesFiltered, isDarkTheme
                 )
                 totalTracked = statisticsViewDataMapper.mapCategoriesTotalTracked(
                     statistics, categoriesFiltered
