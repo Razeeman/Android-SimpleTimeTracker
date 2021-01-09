@@ -30,59 +30,6 @@
                     android:layout_height="wrap_content">
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tvSettingsRecordTypeSort"
-                        style="@style/SettingsText"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:text="@string/settings_sort_order"
-                        app:layout_constraintEnd_toStartOf="@id/btnCardOrderManual"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/btnCardOrderManual"
-                        style="@style/SettingsCard"
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:foreground="?selectableItemBackground"
-                        android:visibility="gone"
-                        app:cardBackgroundColor="?appButtonOnCardBackgroundColor"
-                        app:layout_constraintBottom_toBottomOf="@id/tvSettingsRecordTypeSort"
-                        app:layout_constraintDimensionRatio="h,1:1"
-                        app:layout_constraintEnd_toStartOf="@id/spinnerSettingsRecordTypeSort"
-                        app:layout_constraintTop_toTopOf="@id/tvSettingsRecordTypeSort"
-                        tools:visibility="visible">
-
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:scaleType="center"
-                            android:src="@drawable/ic_settings"
-                            android:tint="?appInactiveColor"
-                            tools:ignore="ContentDescription" />
-
-                    </androidx.cardview.widget.CardView>
-
-                    <com.example.util.simpletimetracker.core.view.spinner.CustomSpinner
-                        android:id="@+id/spinnerSettingsRecordTypeSort"
-                        android:layout_width="wrap_content"
-                        android:layout_height="0dp"
-                        android:layout_marginEnd="8dp"
-                        app:layout_constraintBottom_toBottomOf="@id/tvSettingsRecordTypeSort"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/tvSettingsRecordTypeSort" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <View
-                    style="@style/SettingsDivider"
-                    android:layout_width="match_parent" />
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tvSettingsShowUntracked"
                         style="@style/SettingsText"
                         android:layout_width="0dp"
@@ -186,6 +133,46 @@
                     style="@style/SettingsDivider"
                     android:layout_width="match_parent" />
 
+                <LinearLayout
+                    android:id="@+id/layoutSettingsEditCategories"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/SettingsText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="0dp"
+                        android:text="@string/settings_edit_categories" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/SettingsSecondaryText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_edit_categories_hint" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/SettingsCard" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp">
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -214,29 +201,54 @@
                     style="@style/SettingsDivider"
                     android:layout_width="match_parent" />
 
-                <LinearLayout
-                    android:id="@+id/layoutSettingsEditCategories"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?selectableItemBackground"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content">
 
                     <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvSettingsRecordTypeSort"
                         style="@style/SettingsText"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:paddingBottom="0dp"
-                        android:text="@string/settings_edit_categories" />
+                        android:text="@string/settings_sort_order"
+                        app:layout_constraintEnd_toStartOf="@id/btnCardOrderManual"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        style="@style/SettingsSecondaryText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/settings_edit_categories_hint" />
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/btnCardOrderManual"
+                        style="@style/SettingsCard"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:foreground="?selectableItemBackground"
+                        android:visibility="gone"
+                        app:cardBackgroundColor="?appButtonOnCardBackgroundColor"
+                        app:layout_constraintBottom_toBottomOf="@id/tvSettingsRecordTypeSort"
+                        app:layout_constraintDimensionRatio="h,1:1"
+                        app:layout_constraintEnd_toStartOf="@id/spinnerSettingsRecordTypeSort"
+                        app:layout_constraintTop_toTopOf="@id/tvSettingsRecordTypeSort"
+                        tools:visibility="visible">
 
-                </LinearLayout>
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="center"
+                            android:src="@drawable/ic_settings"
+                            android:tint="?appInactiveColor"
+                            tools:ignore="ContentDescription" />
+
+                    </androidx.cardview.widget.CardView>
+
+                    <com.example.util.simpletimetracker.core.view.spinner.CustomSpinner
+                        android:id="@+id/spinnerSettingsRecordTypeSort"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_marginEnd="8dp"
+                        app:layout_constraintBottom_toBottomOf="@id/tvSettingsRecordTypeSort"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tvSettingsRecordTypeSort" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <View
                     style="@style/SettingsDivider"
