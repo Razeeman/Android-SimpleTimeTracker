@@ -1,8 +1,6 @@
-package com.example.util.simpletimetracker.core.interactor
+package com.example.util.simpletimetracker.feature_notification.recordType.interactor
 
-import com.example.util.simpletimetracker.core.R
-import com.example.util.simpletimetracker.core.manager.NotificationManager
-import com.example.util.simpletimetracker.core.manager.NotificationParams
+import com.example.util.simpletimetracker.core.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
@@ -12,10 +10,13 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RunningRecord
+import com.example.util.simpletimetracker.feature_notification.R
+import com.example.util.simpletimetracker.feature_notification.recordType.manager.NotificationTypeManager
+import com.example.util.simpletimetracker.feature_notification.recordType.manager.NotificationTypeParams
 import javax.inject.Inject
 
-class NotificationInteractor @Inject constructor(
-    private val notificationManager: NotificationManager,
+class NotificationTypeInteractorImpl @Inject constructor(
+    private val notificationTypeManager: NotificationTypeManager,
     private val recordTypeInteractor: RecordTypeInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
     private val prefsInteractor: PrefsInteractor,
@@ -23,9 +24,9 @@ class NotificationInteractor @Inject constructor(
     private val colorMapper: ColorMapper,
     private val timeMapper: TimeMapper,
     private val resourceRepo: ResourceRepo
-) {
+) : NotificationTypeInteractor {
 
-    suspend fun checkAndShow(typeId: Long) {
+    override suspend fun checkAndShow(typeId: Long) {
         if (!prefsInteractor.getShowNotifications()) return
 
         val recordType = recordTypeInteractor.get(typeId)
@@ -34,19 +35,19 @@ class NotificationInteractor @Inject constructor(
         show(recordType, runningRecord, isDarkTheme)
     }
 
-    suspend fun checkAndHide(typeId: Long) {
+    override suspend fun checkAndHide(typeId: Long) {
         if (!prefsInteractor.getShowNotifications()) return
 
         hide(typeId)
     }
 
-    suspend fun checkAndShowAll() {
+    override suspend fun checkAndShowAll() {
         if (!prefsInteractor.getShowNotifications()) return
 
         showAll()
     }
 
-    suspend fun updateNotifications() {
+    override suspend fun updateNotifications() {
         if (prefsInteractor.getShowNotifications()) {
             showAll()
         } else {
@@ -73,8 +74,8 @@ class NotificationInteractor @Inject constructor(
             return
         }
 
-        notificationManager.show(
-            NotificationParams(
+        notificationTypeManager.show(
+            NotificationTypeParams(
                 id = recordType.id.toInt(),
                 icon = recordType.icon
                     .let(iconMapper::mapToDrawableResId),
@@ -91,6 +92,6 @@ class NotificationInteractor @Inject constructor(
     }
 
     private fun hide(typeId: Long) {
-        notificationManager.hide(typeId.toInt())
+        notificationTypeManager.hide(typeId.toInt())
     }
 }

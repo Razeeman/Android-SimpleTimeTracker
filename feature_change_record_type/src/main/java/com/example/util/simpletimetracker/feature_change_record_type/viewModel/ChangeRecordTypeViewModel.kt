@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
-import com.example.util.simpletimetracker.core.interactor.NotificationInteractor
+import com.example.util.simpletimetracker.core.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.core.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.core.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.core.mapper.CategoryViewDataMapper
@@ -44,7 +44,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     private val categoryInteractor: CategoryInteractor,
     private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
     private val widgetInteractor: WidgetInteractor,
-    private val notificationInteractor: NotificationInteractor,
+    private val notificationTypeInteractor: NotificationTypeInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
     private val categoryViewDataMapper: CategoryViewDataMapper,
@@ -206,7 +206,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
         viewModelScope.launch {
             val addedId = saveRecordType()
             saveCategories(addedId)
-            notificationInteractor.checkAndShow(extra.id)
+            notificationTypeInteractor.checkAndShow(extra.id)
             widgetInteractor.updateWidgets()
             (keyboardVisibility as MutableLiveData).value = false
             router.back()

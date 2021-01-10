@@ -168,4 +168,8 @@
     <string name="widget_load_error">Not found</string>
     <string name="widget_empty">No activities added</string>
 
+    <!--  Notification  -->
+    <string name="notification_inactivity_title">Inactivity reminder</string>
+    <string name="notification_inactivity_text">Don\'t forget to track your activity</string>
+
 </resources>

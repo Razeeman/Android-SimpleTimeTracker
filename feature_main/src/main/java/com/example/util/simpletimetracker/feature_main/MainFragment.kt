@@ -9,7 +9,7 @@ import androidx.lifecycle.observe
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.extension.visible
-import com.example.util.simpletimetracker.core.interactor.NotificationInteractor
+import com.example.util.simpletimetracker.core.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.core.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.core.viewModel.BackupViewModel
 import com.example.util.simpletimetracker.feature_main.di.MainComponentProvider
@@ -26,7 +26,7 @@ class MainFragment : BaseFragment(R.layout.main_fragment) {
     lateinit var backupViewModelFactory: BaseViewModelFactory<BackupViewModel>
 
     @Inject
-    lateinit var notificationInteractor: NotificationInteractor
+    lateinit var notificationTypeInteractor: NotificationTypeInteractor
 
     @Inject
     lateinit var widgetInteractor: WidgetInteractor
@@ -122,7 +122,7 @@ class MainFragment : BaseFragment(R.layout.main_fragment) {
 
     private fun syncState() {
         GlobalScope.launch {
-            notificationInteractor.checkAndShowAll()
+            notificationTypeInteractor.checkAndShowAll()
             widgetInteractor.updateWidgets()
         }
     }

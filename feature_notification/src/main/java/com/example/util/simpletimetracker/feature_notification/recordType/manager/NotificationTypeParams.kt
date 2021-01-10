@@ -1,6 +1,6 @@
-package com.example.util.simpletimetracker.core.manager
+package com.example.util.simpletimetracker.feature_notification.recordType.manager
 
-data class NotificationParams(
+data class NotificationTypeParams(
     val id: Int,
     val icon: Int,
     val color: Int,

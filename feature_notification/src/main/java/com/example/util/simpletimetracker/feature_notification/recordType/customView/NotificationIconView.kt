@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.feature_notification.customView
+package com.example.util.simpletimetracker.feature_notification.recordType.customView
 
 import android.content.Context
 import android.graphics.Color

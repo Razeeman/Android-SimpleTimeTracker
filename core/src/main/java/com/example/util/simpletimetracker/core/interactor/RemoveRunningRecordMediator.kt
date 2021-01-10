@@ -5,13 +5,15 @@ import javax.inject.Inject
 
 class RemoveRunningRecordMediator @Inject constructor(
     private val runningRecordInteractor: RunningRecordInteractor,
-    private val notificationInteractor: NotificationInteractor,
+    private val notificationTypeInteractor: NotificationTypeInteractor,
+    private val notificationInactivityInteractor: NotificationInactivityInteractor,
     private val widgetInteractor: WidgetInteractor
 ) {
 
     suspend fun remove(typeId: Long) {
         runningRecordInteractor.remove(typeId)
-        notificationInteractor.checkAndHide(typeId)
+        notificationTypeInteractor.checkAndHide(typeId)
+        notificationInactivityInteractor.checkAndSchedule()
         widgetInteractor.updateWidgets()
     }
 }

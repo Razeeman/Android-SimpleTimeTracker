@@ -1,15 +1,13 @@
 package com.example.util.simpletimetracker.feature_widget.di
 
-import com.example.util.simpletimetracker.core.manager.WidgetManager
-import com.example.util.simpletimetracker.feature_widget.widget.WidgetManagerImpl
+import com.example.util.simpletimetracker.core.interactor.WidgetInteractor
+import com.example.util.simpletimetracker.feature_widget.interactor.WidgetInteractorImpl
 import dagger.Binds
 import dagger.Module
-import javax.inject.Singleton
 
 @Module
 abstract class WidgetModule {
 
     @Binds
-    @Singleton
-    abstract fun getWidgetManager(impl: WidgetManagerImpl): WidgetManager
+    abstract fun getWidgetInteractor(impl: WidgetInteractorImpl): WidgetInteractor
 }

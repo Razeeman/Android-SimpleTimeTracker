@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.feature_notification
+package com.example.util.simpletimetracker.feature_notification.recordType.manager
 
 import android.app.Notification
 import android.app.NotificationChannel
@@ -14,18 +14,18 @@ import android.view.View
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.example.util.simpletimetracker.core.manager.NotificationParams
 import com.example.util.simpletimetracker.domain.di.AppContext
-import com.example.util.simpletimetracker.feature_notification.customView.NotificationIconView
+import com.example.util.simpletimetracker.feature_notification.R
+import com.example.util.simpletimetracker.feature_notification.recordType.customView.NotificationIconView
 import com.example.util.simpletimetracker.navigation.Router
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class NotificationManagerImpl @Inject constructor(
+class NotificationTypeManager @Inject constructor(
     @AppContext private val context: Context,
     private val router: Router
-) : com.example.util.simpletimetracker.core.manager.NotificationManager {
+) {
 
     private val notificationManager: NotificationManagerCompat =
         NotificationManagerCompat.from(context)
@@ -39,28 +39,30 @@ class NotificationManagerImpl @Inject constructor(
         layout(0, 0, measuredWidth, measuredHeight)
     }
 
-    override fun show(params: NotificationParams) {
+    fun show(params: NotificationTypeParams) {
         val notification: Notification = buildNotification(params)
         createAndroidNotificationChannel()
         notificationManager.notify(params.id, notification)
     }
 
-    override fun hide(id: Int) {
+    fun hide(id: Int) {
         notificationManager.cancel(id)
     }
 
-    private fun buildNotification(params: NotificationParams): Notification {
+    private fun buildNotification(params: NotificationTypeParams): Notification {
         val notificationLayout = prepareView(params)
 
         val startIntent = router.getMainStartIntent().apply {
             flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
         }
+
         val contentIntent = PendingIntent.getActivity(
             context,
             0,
             startIntent,
             PendingIntent.FLAG_UPDATE_CURRENT
         )
+
         val builder = NotificationCompat.Builder(context, NOTIFICATIONS_CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_notification)
             .setContentIntent(contentIntent)
@@ -87,7 +89,7 @@ class NotificationManagerImpl @Inject constructor(
         }
     }
 
-    private fun prepareView(params: NotificationParams): RemoteViews {
+    private fun prepareView(params: NotificationTypeParams): RemoteViews {
         val iconBitmap = iconView.apply {
             itemIcon = params.icon
             itemColor = params.color

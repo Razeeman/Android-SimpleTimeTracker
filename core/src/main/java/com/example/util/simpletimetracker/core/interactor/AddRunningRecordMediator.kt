@@ -6,7 +6,8 @@ import javax.inject.Inject
 
 class AddRunningRecordMediator @Inject constructor(
     private val runningRecordInteractor: RunningRecordInteractor,
-    private val notificationInteractor: NotificationInteractor,
+    private val notificationTypeInteractor: NotificationTypeInteractor,
+    private val notificationInactivityInteractor: NotificationInactivityInteractor,
     private val widgetInteractor: WidgetInteractor
 ) {
 
@@ -17,7 +18,8 @@ class AddRunningRecordMediator @Inject constructor(
                 timeStarted = timeStarted ?: System.currentTimeMillis()
             ).let {
                 runningRecordInteractor.add(it)
-                notificationInteractor.checkAndShow(typeId)
+                notificationTypeInteractor.checkAndShow(typeId)
+                notificationInactivityInteractor.cancel()
                 widgetInteractor.updateWidgets()
             }
         }
