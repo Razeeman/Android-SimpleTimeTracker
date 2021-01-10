@@ -14,6 +14,7 @@ import com.example.util.simpletimetracker.feature_change_running_record.di.Chang
 import com.example.util.simpletimetracker.feature_dialogs.cardOrder.di.CardOrderComponent
 import com.example.util.simpletimetracker.feature_dialogs.cardSize.di.CardSizeComponent
 import com.example.util.simpletimetracker.feature_dialogs.chartFilter.di.ChartFilterComponent
+import com.example.util.simpletimetracker.feature_dialogs.duration.di.DurationPickerComponent
 import com.example.util.simpletimetracker.feature_dialogs.typesFilter.di.TypesFilterComponent
 import com.example.util.simpletimetracker.feature_main.di.MainComponent
 import com.example.util.simpletimetracker.feature_notification.di.NotificationComponent
@@ -42,6 +43,7 @@ class TimeTrackerApp : Application(), FeatureComponentProvider {
     override var settingsComponent: SettingsComponent? = null
     override var chartFilterComponent: ChartFilterComponent? = null
     override var typesFilterComponent: TypesFilterComponent? = null
+    override var durationPickerComponent: DurationPickerComponent? = null
     override var cardSizeComponent: CardSizeComponent? = null
     override var cardOrderComponent: CardOrderComponent? = null
     override var widgetComponent: WidgetComponent? = null
@@ -79,6 +81,7 @@ class TimeTrackerApp : Application(), FeatureComponentProvider {
         settingsComponent = appComponent?.plusSettingComponent()
         chartFilterComponent = appComponent?.plusChartFilterComponent()
         typesFilterComponent = appComponent?.plusTypesFilterComponent()
+        durationPickerComponent = appComponent?.plusDurationPickerComponent()
         cardSizeComponent = appComponent?.plusCardSizeComponent()
         cardOrderComponent = appComponent?.plusCardOrderComponent()
         widgetComponent = appComponent?.plusWidgetComponent()

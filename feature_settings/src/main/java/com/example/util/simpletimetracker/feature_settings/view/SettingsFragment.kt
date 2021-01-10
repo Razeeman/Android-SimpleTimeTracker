@@ -8,6 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
+import com.example.util.simpletimetracker.core.dialog.DurationDialogListener
 import com.example.util.simpletimetracker.core.dialog.StandardDialogListener
 import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.core.extension.visible
@@ -24,7 +25,8 @@ import kotlinx.android.synthetic.main.settings_fragment.*
 import javax.inject.Inject
 
 class SettingsFragment : BaseFragment(R.layout.settings_fragment),
-    StandardDialogListener {
+    StandardDialogListener,
+    DurationDialogListener {
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<SettingsViewModel>
@@ -136,6 +138,14 @@ class SettingsFragment : BaseFragment(R.layout.settings_fragment),
 
     override fun onPositiveClick(tag: String?) {
         viewModel.onPositiveDialogClick(tag)
+    }
+
+    override fun onDurationSet(duration: Long, tag: String?) {
+        viewModel.onDurationSet(tag, duration)
+    }
+
+    override fun onDisable(tag: String?) {
+        viewModel.onDurationDisabled(tag)
     }
 
     private fun updateCardOrderViewData(viewData: CardOrderViewData) {

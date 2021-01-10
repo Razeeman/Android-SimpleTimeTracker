@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.feature_notification.inactivity.interactor
 
 import com.example.util.simpletimetracker.core.interactor.NotificationInactivityInteractor
+import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.feature_notification.inactivity.manager.NotificationInactivityManager
 import com.example.util.simpletimetracker.feature_notification.inactivity.scheduler.NotificationInactivityScheduler
@@ -9,12 +10,15 @@ import javax.inject.Inject
 class NotificationInactivityInteractorImpl @Inject constructor(
     private val manager: NotificationInactivityManager,
     private val scheduler: NotificationInactivityScheduler,
+    private val prefsInteractor: PrefsInteractor,
     private val runningRecordInteractor: RunningRecordInteractor
 ) : NotificationInactivityInteractor {
 
     override suspend fun checkAndSchedule() {
         if (runningRecordInteractor.getAll().isEmpty()) {
-            scheduler.schedule()
+            prefsInteractor.getInactivityReminderDuration()
+                .takeIf { it > 0 }
+                ?.let(scheduler::schedule)
         }
     }
 

@@ -9,6 +9,7 @@ import com.example.util.simpletimetracker.feature_change_running_record.di.Chang
 import com.example.util.simpletimetracker.feature_dialogs.cardOrder.di.CardOrderComponent
 import com.example.util.simpletimetracker.feature_dialogs.cardSize.di.CardSizeComponent
 import com.example.util.simpletimetracker.feature_dialogs.chartFilter.di.ChartFilterComponent
+import com.example.util.simpletimetracker.feature_dialogs.duration.di.DurationPickerComponent
 import com.example.util.simpletimetracker.feature_dialogs.typesFilter.di.TypesFilterComponent
 import com.example.util.simpletimetracker.feature_main.di.MainComponent
 import com.example.util.simpletimetracker.feature_notification.di.NotificationComponent
@@ -51,6 +52,7 @@ interface AppComponent {
     fun plusSettingComponent(): SettingsComponent
     fun plusChartFilterComponent(): ChartFilterComponent
     fun plusTypesFilterComponent(): TypesFilterComponent
+    fun plusDurationPickerComponent(): DurationPickerComponent
     fun plusCardSizeComponent(): CardSizeComponent
     fun plusCardOrderComponent(): CardOrderComponent
     fun plusWidgetComponent(): WidgetComponent

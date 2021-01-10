@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.core.interactor.NotificationInactivityInteractor
 import com.example.util.simpletimetracker.core.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.core.provider.PackageNameProvider
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
@@ -16,6 +17,7 @@ import com.example.util.simpletimetracker.navigation.Action
 import com.example.util.simpletimetracker.navigation.Notification
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
+import com.example.util.simpletimetracker.navigation.params.DurationDialogParams
 import com.example.util.simpletimetracker.navigation.params.FileChooserParams
 import com.example.util.simpletimetracker.navigation.params.OpenMarketParams
 import com.example.util.simpletimetracker.navigation.params.SendEmailParams
@@ -30,7 +32,8 @@ class SettingsViewModel @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val settingsMapper: SettingsMapper,
     private val packageNameProvider: PackageNameProvider,
-    private val notificationTypeInteractor: NotificationTypeInteractor
+    private val notificationTypeInteractor: NotificationTypeInteractor,
+    private val notificationInactivityInteractor: NotificationInactivityInteractor
 ) : ViewModel() {
 
     val cardOrderViewData: LiveData<CardOrderViewData> by lazy {
@@ -199,11 +202,9 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch {
             router.navigate(
                 Screen.DURATION_DIALOG,
-                StandardDialogParams(
+                DurationDialogParams(
                     tag = INACTIVITY_DURATION_DIALOG_TAG,
-                    message = resourceRepo.getString(R.string.settings_dialog_message),
-                    btnPositive = resourceRepo.getString(R.string.ok),
-                    btnNegative = resourceRepo.getString(R.string.cancel)
+                    duration = prefsInteractor.getInactivityReminderDuration()
                 )
             )
         }
@@ -240,7 +241,17 @@ class SettingsViewModel @Inject constructor(
             INACTIVITY_DURATION_DIALOG_TAG -> viewModelScope.launch {
                 prefsInteractor.setInactivityReminderDuration(duration)
                 updateInactivityReminderViewData()
-                // TODO check and schedule inactivity reminder or hide
+                // TODO check and schedule inactivity reminder or reschedule at new time?
+            }
+        }
+    }
+
+    fun onDurationDisabled(tag: String?) {
+        when (tag) {
+            INACTIVITY_DURATION_DIALOG_TAG -> viewModelScope.launch {
+                prefsInteractor.setInactivityReminderDuration(0)
+                updateInactivityReminderViewData()
+                notificationInactivityInteractor.cancel()
             }
         }
     }

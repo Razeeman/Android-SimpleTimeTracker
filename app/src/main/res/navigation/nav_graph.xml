@@ -79,6 +79,11 @@
         android:name="com.example.util.simpletimetracker.feature_dialogs.dateTime.DateTimeDialogFragment"
         android:label="DateTimeDialog"
         tools:layout="@layout/date_dialog_fragment" />
+     <dialog
+        android:id="@+id/durationDialog"
+        android:name="com.example.util.simpletimetracker.feature_dialogs.duration.view.DurationDialogFragment"
+        android:label="DurationDialog"
+        tools:layout="@layout/duration_dialog_fragment" />
     <dialog
         android:id="@+id/standardDialogFragment"
         android:name="com.example.util.simpletimetracker.feature_dialogs.standard.StandardDialogFragment"
