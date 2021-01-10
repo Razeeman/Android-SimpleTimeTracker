@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="8dp">
+
+    <TextView
+        android:id="@+id/tvNotificationInactivityText"
+        style="@style/TextAppearance.Compat.Notification.Title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:text="@string/notification_inactivity_title" />
+
+    <TextView
+        android:id="@+id/tvNotificationInactivityDescription"
+        style="@style/TextAppearance.Compat.Notification.Info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvNotificationInactivityText"
+        android:gravity="center_vertical"
+        android:text="@string/notification_inactivity_text" />
+
+</RelativeLayout>

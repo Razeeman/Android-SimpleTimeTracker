@@ -7,9 +7,9 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.di.AppContext
 import com.example.util.simpletimetracker.feature_notification.R
 import com.example.util.simpletimetracker.navigation.Router
@@ -19,8 +19,7 @@ import javax.inject.Singleton
 @Singleton
 class NotificationInactivityManager @Inject constructor(
     @AppContext private val context: Context,
-    private val router: Router,
-    private val resourceRepo: ResourceRepo
+    private val router: Router
 ) {
 
     private val notificationManager: NotificationManagerCompat =
@@ -37,20 +36,24 @@ class NotificationInactivityManager @Inject constructor(
     }
 
     private fun buildNotification(): Notification {
+        val notificationLayout = prepareView()
+
         val startIntent = router.getMainStartIntent().apply {
             flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
         }
+
         val contentIntent = PendingIntent.getActivity(
             context,
             0,
             startIntent,
             PendingIntent.FLAG_UPDATE_CURRENT
         )
+
         return NotificationCompat.Builder(context, NOTIFICATIONS_CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_notification)
             .setContentIntent(contentIntent)
-            .setContentTitle(resourceRepo.getString(R.string.notification_inactivity_title))
-            .setContentText(resourceRepo.getString(R.string.notification_inactivity_text))
+            .setCustomContentView(notificationLayout)
+            .setStyle(NotificationCompat.DecoratedCustomViewStyle())
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .build()
     }
@@ -64,6 +67,10 @@ class NotificationInactivityManager @Inject constructor(
             )
             notificationManager.createNotificationChannel(channel)
         }
+    }
+
+    private fun prepareView(): RemoteViews {
+        return RemoteViews(context.packageName, R.layout.notification_inactivity_layout)
     }
 
     companion object {

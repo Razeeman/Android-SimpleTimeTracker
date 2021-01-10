@@ -170,6 +170,6 @@
 
     <!--  Notification  -->
     <string name="notification_inactivity_title">Inactivity reminder</string>
-    <string name="notification_inactivity_text">Don\'t forget to track your activity</string>
+    <string name="notification_inactivity_text">Don\'t forget to track your time</string>
 
 </resources>
