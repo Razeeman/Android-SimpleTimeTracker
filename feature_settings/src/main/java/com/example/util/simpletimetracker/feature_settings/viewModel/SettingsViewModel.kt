@@ -78,6 +78,15 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    val inactivityReminderViewData: LiveData<String> by lazy {
+        MutableLiveData<String>().let { initial ->
+            viewModelScope.launch {
+                initial.value = loadInactivityReminderViewData()
+            }
+            initial
+        }
+    }
+
     val darkModeCheckbox: LiveData<Boolean> by lazy {
         MutableLiveData<Boolean>().let { initial ->
             viewModelScope.launch {
@@ -186,6 +195,20 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    fun onInactivityReminderClicked() {
+        viewModelScope.launch {
+            router.navigate(
+                Screen.DURATION_DIALOG,
+                StandardDialogParams(
+                    tag = INACTIVITY_DURATION_DIALOG_TAG,
+                    message = resourceRepo.getString(R.string.settings_dialog_message),
+                    btnPositive = resourceRepo.getString(R.string.ok),
+                    btnNegative = resourceRepo.getString(R.string.cancel)
+                )
+            )
+        }
+    }
+
     fun onDarkModeClicked() {
         viewModelScope.launch {
             val newValue = !prefsInteractor.getDarkMode()
@@ -212,6 +235,16 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    fun onDurationSet(tag: String?, duration: Long) {
+        when (tag) {
+            INACTIVITY_DURATION_DIALOG_TAG -> viewModelScope.launch {
+                prefsInteractor.setInactivityReminderDuration(duration)
+                updateInactivityReminderViewData()
+                // TODO check and schedule inactivity reminder or hide
+            }
+        }
+    }
+
     fun onThemeChanged() {
         (themeChanged as MutableLiveData).value = false
     }
@@ -235,14 +268,27 @@ class SettingsViewModel @Inject constructor(
     }
 
     private suspend fun updateCardOrderViewData() {
-        (cardOrderViewData as MutableLiveData).value = loadCardOrderViewData()
+        val data = loadCardOrderViewData()
+        (cardOrderViewData as MutableLiveData).value = data
     }
 
     private suspend fun loadCardOrderViewData(): CardOrderViewData {
-        return prefsInteractor.getCardOrder().let(settingsMapper::toCardOrderViewData)
+        return prefsInteractor.getCardOrder()
+            .let(settingsMapper::toCardOrderViewData)
+    }
+
+    private suspend fun updateInactivityReminderViewData() {
+        val data = loadInactivityReminderViewData()
+        (inactivityReminderViewData as MutableLiveData).value = data
+    }
+
+    private suspend fun loadInactivityReminderViewData(): String {
+        return prefsInteractor.getInactivityReminderDuration()
+            .let(settingsMapper::toInactivityReminderText)
     }
 
     companion object {
         private const val ALERT_DIALOG_TAG = "alert_dialog_tag"
+        private const val INACTIVITY_DURATION_DIALOG_TAG = "inactivity_duration_dialog_tag"
     }
 }

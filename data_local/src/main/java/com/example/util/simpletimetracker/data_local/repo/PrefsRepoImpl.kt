@@ -40,6 +40,10 @@ class PrefsRepoImpl @Inject constructor(
         KEY_SHOW_NOTIFICATIONS, false
     )
 
+    override var inactivityReminderDuration: Long by prefs.delegate(
+        KEY_INACTIVITY_REMINDER_DURATION, 0 // 0 is for disabled
+    )
+
     override var darkMode: Boolean by prefs.delegate(
         DARK_MODE, false
     )
@@ -97,6 +101,7 @@ class PrefsRepoImpl @Inject constructor(
         private const val KEY_SHOW_UNTRACKED_IN_RECORDS = "showUntrackedInRecords"
         private const val KEY_ALLOW_MULTITASKING = "allowMultitasking"
         private const val KEY_SHOW_NOTIFICATIONS = "showNotifications"
+        private const val KEY_INACTIVITY_REMINDER_DURATION = "inactivityReminderDuration"
         private const val DARK_MODE = "darkMode"
         private const val KEY_NUMBER_OF_CARDS = "numberOfCards" // 0 - default width
         private const val KEY_WIDGET = "widget_"

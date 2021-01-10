@@ -16,6 +16,8 @@ interface PrefsRepo {
 
     var showNotifications: Boolean
 
+    var inactivityReminderDuration: Long
+
     var darkMode: Boolean
 
     var numberOfCards: Int

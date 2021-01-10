@@ -13,6 +13,7 @@ inline fun <reified T> SharedPreferences.delegate(
         when (default) {
             is Boolean -> (getBoolean(key, default) as? T) ?: default
             is Int -> (getInt(key, default) as? T) ?: default
+            is Long -> (getLong(key, default) as? T) ?: default
             is String -> (getString(key, default) as? T) ?: default
             is Set<*> -> (getStringSet(key, default as? Set<String>)?.toSet() as? T) ?: default
             else -> throw IllegalArgumentException(
@@ -24,6 +25,7 @@ inline fun <reified T> SharedPreferences.delegate(
         when (value) {
             is Boolean -> putBoolean(key, value)
             is Int -> putInt(key, value)
+            is Long -> putLong(key, value)
             is String -> putString(key, value)
             is Set<*> -> putStringSet(key, value as? Set<String>)
             else -> throw IllegalArgumentException(

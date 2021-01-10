@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_settings.mapper
 
+import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.model.CardOrder
@@ -8,7 +9,8 @@ import com.example.util.simpletimetracker.feature_settings.viewData.CardOrderVie
 import javax.inject.Inject
 
 class SettingsMapper @Inject constructor(
-    private val resourceRepo: ResourceRepo
+    private val resourceRepo: ResourceRepo,
+    private val timeMapper: TimeMapper
 ) {
 
     private val cardOrderList: List<CardOrder> = listOf(
@@ -27,6 +29,14 @@ class SettingsMapper @Inject constructor(
 
     fun toCardOrder(position: Int): CardOrder {
         return cardOrderList.getOrElse(position) { cardOrderList.first() }
+    }
+
+    fun toInactivityReminderText(duration: Long): String {
+        return if (duration > 0) {
+            timeMapper.formatIntervalWithSeconds(duration) // TODO no seconds if not needed?
+        } else {
+            resourceRepo.getString(R.string.settings_inactivity_reminder_disabled)
+        }
     }
 
     private fun toPosition(cardOrder: CardOrder): Int {

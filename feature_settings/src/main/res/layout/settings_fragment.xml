@@ -133,6 +133,66 @@
                     style="@style/SettingsDivider"
                     android:layout_width="match_parent" />
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="12dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvSettingsInactivityReminder"
+                        style="@style/SettingsText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="0dp"
+                        android:paddingBottom="0dp"
+                        android:text="@string/settings_inactivity_reminder"
+                        app:layout_constraintEnd_toStartOf="@id/groupSettingsInactivityReminder"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/SettingsSecondaryText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_inactivity_reminder_hint"
+                        app:layout_constraintEnd_toStartOf="@id/groupSettingsInactivityReminder"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvSettingsInactivityReminder" />
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/groupSettingsInactivityReminder"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvSettingsInactivityReminderTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="end|center_vertical"
+                            android:paddingHorizontal="8dp"
+                            android:textColor="?appTextPrimaryColor"
+                            tools:text="99h 99m 99s" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/arrowSettingsInactivityReminder"
+                            android:layout_width="24dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="16dp"
+                            android:background="?selectableItemBackgroundBorderless"
+                            android:src="?appArrow"
+                            tools:ignore="ContentDescription" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <View
+                    style="@style/SettingsDivider"
+                    android:layout_width="match_parent" />
+
                 <LinearLayout
                     android:id="@+id/layoutSettingsEditCategories"
                     android:layout_width="match_parent"
@@ -162,9 +222,9 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            style="@style/SettingsCard"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/SettingsCard" >
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="match_parent"

@@ -87,6 +87,14 @@ class PrefsInteractor @Inject constructor(
         prefsRepo.showNotifications = isEnabled
     }
 
+    suspend fun getInactivityReminderDuration(): Long = withContext(Dispatchers.IO) {
+        prefsRepo.inactivityReminderDuration
+    }
+
+    suspend fun setInactivityReminderDuration(duration: Long) = withContext(Dispatchers.IO) {
+        prefsRepo.inactivityReminderDuration = duration
+    }
+
     suspend fun getDarkMode(): Boolean = withContext(Dispatchers.IO) {
         prefsRepo.darkMode
     }

@@ -54,6 +54,7 @@ class SettingsFragment : BaseFragment(R.layout.settings_fragment),
         checkboxSettingsShowUntracked.setOnClick(viewModel::onShowUntrackedClicked)
         checkboxSettingsAllowMultitasking.setOnClick(viewModel::onAllowMultitaskingClicked)
         checkboxSettingsShowNotifications.setOnClick(viewModel::onShowNotificationsClicked)
+        groupSettingsInactivityReminder.setOnClick(viewModel::onInactivityReminderClicked)
         checkboxSettingsDarkMode.setOnClick(viewModel::onDarkModeClicked)
         tvSettingsChangeCardSize.setOnClick(viewModel::onChangeCardSizeClick)
         layoutSettingsEditCategories.setOnClick(viewModel::onEditCategoriesClick)
@@ -84,6 +85,10 @@ class SettingsFragment : BaseFragment(R.layout.settings_fragment),
         showNotificationsCheckbox.observe(
             viewLifecycleOwner,
             checkboxSettingsShowNotifications::setChecked
+        )
+        inactivityReminderViewData.observe(
+            viewLifecycleOwner,
+            tvSettingsInactivityReminderTime::setText
         )
         darkModeCheckbox.observe(
             viewLifecycleOwner,
