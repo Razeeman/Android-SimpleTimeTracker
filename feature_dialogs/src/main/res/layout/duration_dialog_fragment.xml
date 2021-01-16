@@ -18,20 +18,22 @@
     <com.example.util.simpletimetracker.feature_dialogs.duration.customView.DurationView
         android:id="@+id/viewDurationPickerValue"
         android:layout_width="0dp"
-        android:layout_height="80dp"
-        android:layout_marginHorizontal="8dp"
-        android:layout_marginTop="32dp"
+        android:layout_height="0dp"
+        android:layout_marginVertical="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
         app:durationLegendTextSize="32sp"
         app:durationTextColor="?appTextPrimaryColor"
+        app:layout_constraintBottom_toTopOf="@id/guidelineDurationPicker"
         app:layout_constraintEnd_toStartOf="@id/ivDurationPickerDelete"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/arrowDurationPicker" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ivDurationPickerDelete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginEnd="16dp"
         android:background="?selectableItemBackgroundBorderless"
         android:src="@drawable/delete"
         android:tint="?appTextPrimaryColor"
@@ -39,16 +41,30 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/viewDurationPickerValue" />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineDurationPicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.25" />
+
+    <View
+        android:id="@+id/viewDurationPickerDivider"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginHorizontal="8dp"
+        android:background="?appDividerColor"
+        app:layout_constraintTop_toBottomOf="@id/guidelineDurationPicker" />
+
     <com.example.util.simpletimetracker.feature_dialogs.duration.customView.NumberKeyboardView
         android:id="@+id/viewDurationPickerNumberKeyboard"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginHorizontal="8dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginVertical="8dp"
         android:layout_weight="1"
         app:layout_constraintBottom_toTopOf="@id/containerDurationPickerButtons"
-        app:layout_constraintTop_toBottomOf="@id/viewDurationPickerValue"
+        app:layout_constraintTop_toBottomOf="@id/guidelineDurationPicker"
         app:numberKeyboardTextColor="?appTextPrimaryColor"
         app:numberKeyboardTextSize="32sp" />
 
@@ -56,6 +72,7 @@
         android:id="@+id/containerDurationPickerButtons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
         android:paddingHorizontal="4dp"
         app:layout_constraintBottom_toBottomOf="parent">
 

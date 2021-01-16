@@ -28,6 +28,8 @@ class DurationView @JvmOverloads constructor(
     private val textPaint: Paint = Paint()
     private val legendTextPaint: Paint = Paint()
     private var legendTextSize: Float = 0f
+    private var textStartHorizontal: Float = 0f
+    private var textStartVertical: Float = 0f
     private val bounds: Rect = Rect()
 
     init {
@@ -92,41 +94,47 @@ class DurationView @JvmOverloads constructor(
     }
 
     private fun calculateDimensions(w: Float, h: Float) {
-        legendTextPaint.getTextBounds("m", 0, 1, bounds)
-        val legendTextWidth = bounds.width()
-        val desiredSegmentWidth = min(w / 3 - legendTextWidth, h)
-        setTextSizeForWidth(textPaint, desiredSegmentWidth, "00")
+        val legendsTextWidth = listOf("h", "m", "s").map(legendTextPaint::measureText).sum()
+        val desiredSegmentWidth = min((w - legendsTextWidth) / 3, h)
+        textStartHorizontal = (w - desiredSegmentWidth * 3 - legendsTextWidth) / 2
+        setTextSizeForWidth(textPaint, desiredSegmentWidth)
+        textPaint.getTextBounds("0", 0, 1, bounds)
+        val textHeight = bounds.height()
+        textStartVertical = textHeight + (h - textHeight) / 2
     }
 
     private fun drawText(canvas: Canvas, w: Float, h: Float) {
         fun format(value: Int): String = min(value, 99).toString().padStart(2, '0')
 
+        // Center text
+        canvas.translate(textStartHorizontal, textStartVertical)
+
         var text = format(data.hours)
-        canvas.drawText(format(data.hours), 0f, h, textPaint)
+        canvas.drawText(format(data.hours), 0f, 0f, textPaint)
         canvas.translate(textPaint.measureText(text), 0f)
-        canvas.drawText("h", 0f, h, legendTextPaint)
+        canvas.drawText("h", 0f, 0f, legendTextPaint)
         canvas.translate(legendTextPaint.measureText("h"), 0f)
 
         text = format(data.minutes)
-        canvas.drawText(format(data.minutes), 0f, h, textPaint)
+        canvas.drawText(format(data.minutes), 0f, 0f, textPaint)
         canvas.translate(textPaint.measureText(text), 0f)
-        canvas.drawText("m", 0f, h, legendTextPaint)
+        canvas.drawText("m", 0f, 0f, legendTextPaint)
         canvas.translate(legendTextPaint.measureText("m"), 0f)
 
         text = format(data.hours)
-        canvas.drawText(format(data.seconds), 0f, h, textPaint)
+        canvas.drawText(format(data.seconds), 0f, 0f, textPaint)
         canvas.translate(textPaint.measureText(text), 0f)
-        canvas.drawText("s", 0f, h, legendTextPaint)
+        canvas.drawText("s", 0f, 0f, legendTextPaint)
         canvas.translate(legendTextPaint.measureText("s"), 0f)
     }
 
-    private fun setTextSizeForWidth(paint: Paint, desiredWidth: Float, text: String) {
+    private fun setTextSizeForWidth(paint: Paint, desiredWidth: Float) {
+        val text = "00"
         val testTextSize = 48f
         paint.textSize = testTextSize
+        val width = paint.measureText(text)
 
-        paint.getTextBounds(text, 0, text.length, bounds)
-
-        val desiredTextSize = testTextSize * desiredWidth / bounds.width()
+        val desiredTextSize = testTextSize * desiredWidth / width
         paint.textSize = desiredTextSize
     }
 
