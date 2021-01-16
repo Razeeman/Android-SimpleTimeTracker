@@ -172,6 +172,24 @@ class TimeMapper @Inject constructor(
             interval - TimeUnit.HOURS.toMillis(hr) - TimeUnit.MINUTES.toMillis(min)
         )
 
+        return formatTimeString(hr, min, sec, withSeconds)
+    }
+
+    fun formatSecondsInterval(interval: Long): String {
+        val hr: Long = TimeUnit.SECONDS.toHours(
+            interval
+        )
+        val min: Long = TimeUnit.SECONDS.toMinutes(
+            interval - TimeUnit.HOURS.toSeconds(hr)
+        )
+        val sec: Long = TimeUnit.SECONDS.toSeconds(
+            interval - TimeUnit.HOURS.toSeconds(hr) - TimeUnit.MINUTES.toSeconds(min)
+        )
+
+        return formatTimeString(hr, min, sec, withSeconds = true)
+    }
+
+    private fun formatTimeString(hr: Long, min: Long, sec: Long, withSeconds: Boolean): String {
         var res = ""
         if (hr != 0L) res += "${hr}h"
         if (hr != 0L || min != 0L || !withSeconds) res += " ${min}m"

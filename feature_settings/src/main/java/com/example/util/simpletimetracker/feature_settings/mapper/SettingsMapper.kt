@@ -33,7 +33,7 @@ class SettingsMapper @Inject constructor(
 
     fun toInactivityReminderText(duration: Long): String {
         return if (duration > 0) {
-            timeMapper.formatIntervalWithSeconds(duration) // TODO no seconds if not needed?
+            timeMapper.formatSecondsInterval(duration) // TODO no seconds if not needed?
         } else {
             resourceRepo.getString(R.string.settings_inactivity_reminder_disabled)
         }

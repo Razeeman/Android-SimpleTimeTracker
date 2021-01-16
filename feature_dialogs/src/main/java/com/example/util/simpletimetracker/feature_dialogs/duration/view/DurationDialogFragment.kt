@@ -7,11 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.observe
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.DurationDialogListener
 import com.example.util.simpletimetracker.core.extension.getAllFragments
+import com.example.util.simpletimetracker.core.extension.observeOnce
 import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_dialogs.R
@@ -87,6 +90,14 @@ class DurationDialogFragment : BottomSheetDialogFragment() {
             skipCollapsed = true
             state = BottomSheetBehavior.STATE_EXPANDED
         }
+
+        // Dialog parent is R.id.design_bottom_sheet from android material.
+        // It's a wrapper created around dialog to set bottom sheet behavior. By default it's created
+        // with wrap_content height, so we replace it here.
+        (view?.parent as? FrameLayout)?.apply {
+            layoutParams?.height = CoordinatorLayout.LayoutParams.MATCH_PARENT
+            requestLayout() // TODO necessary?
+        }
     }
 
     private fun initDi() {
@@ -96,25 +107,27 @@ class DurationDialogFragment : BottomSheetDialogFragment() {
     }
 
     private fun initUi() {
-        arguments?.getLong(ARGS_DURATION, 0)
-            .orZero().toString()
-            .let(etDurationPickerText::setText)
+        // Do nothing
     }
 
     private fun initUx() {
         btnDurationPickerSave.setOnClick(::onSaveClick)
         btnDurationPickerDisable.setOnClick(::onDisableClick)
+        viewDurationPickerNumberKeyboard.listener = viewModel::onNumberPressed
+        ivDurationPickerDelete.setOnClick(viewModel::onNumberDelete)
     }
 
     private fun initViewModel(): Unit = with(viewModel) {
         extra = DurationPickerExtra(arguments?.getLong(ARGS_DURATION).orZero())
+        durationViewData.observe(viewLifecycleOwner, viewDurationPickerValue::setData)
     }
 
     private fun onSaveClick() {
-        etDurationPickerText.text.toString().toLongOrNull()?.let { duration ->
+        viewModel.durationViewData.observeOnce(viewLifecycleOwner) { data ->
+            val duration = data.seconds + data.minutes * 60L + data.hours * 3600L
             dialogListener?.onDurationSet(duration, dialogTag)
+            dismiss()
         }
-        dismiss()
     }
 
     private fun onDisableClick() {

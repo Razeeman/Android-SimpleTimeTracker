@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="DurationView">
+        <attr name="durationTextColor" format="color" />
+        <attr name="durationLegendTextSize" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="NumberKeyboardView">
+        <attr name="numberKeyboardTextColor" format="color" />
+        <attr name="numberKeyboardTextSize" format="dimension" />
+    </declare-styleable>
+</resources>

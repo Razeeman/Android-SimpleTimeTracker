@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvNumberKeyboard1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:text="1"
+        app:layout_constraintBottom_toTopOf="@id/tvNumberKeyboard4"
+        app:layout_constraintEnd_toStartOf="@id/tvNumberKeyboard2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="HardcodedText"
+        tools:textColor="@color/black"
+        tools:textSize="32sp" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvNumberKeyboard2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:text="2"
+        app:layout_constraintBottom_toTopOf="@id/tvNumberKeyboard5"
+        app:layout_constraintEnd_toStartOf="@id/tvNumberKeyboard3"
+        app:layout_constraintStart_toEndOf="@id/tvNumberKeyboard1"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="HardcodedText"
+        tools:textColor="@color/black"
+        tools:textSize="32sp" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvNumberKeyboard3"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:text="3"
+        app:layout_constraintBottom_toTopOf="@id/tvNumberKeyboard6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tvNumberKeyboard2"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="HardcodedText"
+        tools:textColor="@color/black"
+        tools:textSize="32sp" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvNumberKeyboard4"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:text="4"
+        app:layout_constraintBottom_toTopOf="@id/tvNumberKeyboard7"
+        app:layout_constraintEnd_toStartOf="@id/tvNumberKeyboard5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvNumberKeyboard1"
+        tools:ignore="HardcodedText"
+        tools:textColor="@color/black"
+        tools:textSize="32sp" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvNumberKeyboard5"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:text="5"
+        app:layout_constraintBottom_toTopOf="@id/tvNumberKeyboard8"
+        app:layout_constraintEnd_toStartOf="@id/tvNumberKeyboard6"
+        app:layout_constraintStart_toEndOf="@id/tvNumberKeyboard4"
+        app:layout_constraintTop_toBottomOf="@id/tvNumberKeyboard2"
+        tools:ignore="HardcodedText"
+        tools:textColor="@color/black"
+        tools:textSize="32sp" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvNumberKeyboard6"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:text="6"
+        app:layout_constraintBottom_toTopOf="@id/tvNumberKeyboard9"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tvNumberKeyboard5"
+        app:layout_constraintTop_toBottomOf="@id/tvNumberKeyboard3"
+        tools:ignore="HardcodedText"
+        tools:textColor="@color/black"
+        tools:textSize="32sp" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvNumberKeyboard7"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:text="7"
+        app:layout_constraintBottom_toTopOf="@id/tvNumberKeyboard0"
+        app:layout_constraintEnd_toStartOf="@id/tvNumberKeyboard8"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvNumberKeyboard4"
+        tools:ignore="HardcodedText"
+        tools:textColor="@color/black"
+        tools:textSize="32sp" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvNumberKeyboard8"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:text="8"
+        app:layout_constraintBottom_toTopOf="@id/tvNumberKeyboard0"
+        app:layout_constraintEnd_toStartOf="@id/tvNumberKeyboard9"
+        app:layout_constraintStart_toEndOf="@id/tvNumberKeyboard7"
+        app:layout_constraintTop_toBottomOf="@id/tvNumberKeyboard5"
+        tools:ignore="HardcodedText"
+        tools:textColor="@color/black"
+        tools:textSize="32sp" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvNumberKeyboard9"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:text="9"
+        app:layout_constraintBottom_toTopOf="@id/tvNumberKeyboard0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tvNumberKeyboard8"
+        app:layout_constraintTop_toBottomOf="@id/tvNumberKeyboard6"
+        tools:ignore="HardcodedText"
+        tools:textColor="@color/black"
+        tools:textSize="32sp" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvNumberKeyboard0"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:text="0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tvNumberKeyboard9"
+        app:layout_constraintStart_toEndOf="@id/tvNumberKeyboard7"
+        app:layout_constraintTop_toBottomOf="@id/tvNumberKeyboard8"
+        tools:ignore="HardcodedText"
+        tools:textColor="@color/black"
+        tools:textSize="32sp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

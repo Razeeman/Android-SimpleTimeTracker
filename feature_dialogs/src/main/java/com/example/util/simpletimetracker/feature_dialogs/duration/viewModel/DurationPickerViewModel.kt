@@ -1,25 +1,75 @@
 package com.example.util.simpletimetracker.feature_dialogs.duration.viewModel
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
+import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.feature_dialogs.duration.customView.DurationView
 import com.example.util.simpletimetracker.feature_dialogs.duration.extra.DurationPickerExtra
+import kotlinx.coroutines.launch
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class DurationPickerViewModel @Inject constructor(
-    private val prefsInteractor: PrefsInteractor
-) : ViewModel() {
+class DurationPickerViewModel @Inject constructor() : ViewModel() {
 
     lateinit var extra: DurationPickerExtra
 
-    fun onTextChanged(text: String) {
-
+    val durationViewData: LiveData<DurationView.ViewData> by lazy {
+        MutableLiveData<DurationView.ViewData>().let { initial ->
+            viewModelScope.launch {
+                reformattedDuration = reformatDuration(extra.duration)
+                initial.value = loadDurationViewData()
+            }
+            initial
+        }
     }
 
-    fun onSaveClick() {
+    private var reformattedDuration: Long = 0
 
+    fun onNumberPressed(number: Int) {
+        if (reformattedDuration < 9_99_99) {
+            reformattedDuration = reformattedDuration * 10 + number
+            updateDurationViewData()
+        }
     }
 
-    fun onDisableClick() {
+    fun onNumberDelete() {
+        reformattedDuration /= 10
+        updateDurationViewData()
+    }
 
+    private fun updateDurationViewData() {
+        val data = loadDurationViewData()
+        (durationViewData as MutableLiveData).value = data
+    }
+
+    private fun loadDurationViewData(): DurationView.ViewData {
+        return mapToViewData(reformattedDuration)
+    }
+
+    private fun mapToViewData(durationString: Long): DurationView.ViewData {
+        val hours = (durationString / 10000) % 100
+        val minutes = (durationString / 100) % 100
+        val seconds = durationString % 100
+
+        return DurationView.ViewData(
+            hours.toInt(),
+            minutes.toInt(),
+            seconds.toInt()
+        )
+    }
+
+    private fun reformatDuration(duration: Long): Long {
+        fun format(value: Long): String = value.toString().padStart(2, '0')
+
+        val hr = duration
+            .let(TimeUnit.SECONDS::toHours)
+        val min = (duration - TimeUnit.HOURS.toSeconds(hr))
+            .let(TimeUnit.SECONDS::toMinutes)
+        val sec = (duration - TimeUnit.HOURS.toSeconds(hr) - TimeUnit.MINUTES.toSeconds(min))
+            .let(TimeUnit.SECONDS::toSeconds)
+
+        return (format(hr) + format(min) + format(sec)).toLongOrNull().orZero()
     }
 }
