@@ -22,12 +22,14 @@ class DurationView @JvmOverloads constructor(
 
     // Attrs
     private var textColor: Int = 0
+    private var legendTextColor: Int = 0
+    private var legendTextSize: Float = 0f
+    private var legendPadding: Float = 0f
     // End of attrs
 
     private var data: ViewData = ViewData()
     private val textPaint: Paint = Paint()
     private val legendTextPaint: Paint = Paint()
-    private var legendTextSize: Float = 0f
     private var textStartHorizontal: Float = 0f
     private var textStartVertical: Float = 0f
     private val bounds: Rect = Rect()
@@ -73,8 +75,14 @@ class DurationView @JvmOverloads constructor(
                 textColor = getColor(
                     R.styleable.DurationView_durationTextColor, Color.BLACK
                 )
+                legendTextColor = getColor(
+                    R.styleable.DurationView_durationLegendTextColor, Color.BLACK
+                )
                 legendTextSize = getDimensionPixelSize(
                     R.styleable.DurationView_durationLegendTextSize, 14
+                ).toFloat()
+                legendPadding = getDimensionPixelSize(
+                    R.styleable.DurationView_durationLegendPadding, 0
                 ).toFloat()
 
                 recycle()
@@ -88,15 +96,19 @@ class DurationView @JvmOverloads constructor(
         }
         legendTextPaint.apply {
             isAntiAlias = true
-            color = textColor
+            color = legendTextColor
             textSize = legendTextSize
         }
     }
 
     private fun calculateDimensions(w: Float, h: Float) {
-        val legendsTextWidth = listOf("h", "m", "s").map(legendTextPaint::measureText).sum()
-        val desiredSegmentWidth = min((w - legendsTextWidth) / 3, h)
-        textStartHorizontal = (w - desiredSegmentWidth * 3 - legendsTextWidth) / 2
+        val legendsTextWidth =
+            listOf("h", "m", "s").map(legendTextPaint::measureText).sum()
+        val desiredSegmentWidth =
+            min((w - legendsTextWidth - 2 * legendPadding) / 3, h)
+        textStartHorizontal =
+            (w - desiredSegmentWidth * 3 - legendsTextWidth - 2 * legendPadding) / 2
+
         setTextSizeForWidth(textPaint, desiredSegmentWidth)
         textPaint.getTextBounds("0", 0, 1, bounds)
         val textHeight = bounds.height()
@@ -113,13 +125,13 @@ class DurationView @JvmOverloads constructor(
         canvas.drawText(format(data.hours), 0f, 0f, textPaint)
         canvas.translate(textPaint.measureText(text), 0f)
         canvas.drawText("h", 0f, 0f, legendTextPaint)
-        canvas.translate(legendTextPaint.measureText("h"), 0f)
+        canvas.translate(legendTextPaint.measureText("h") + legendPadding, 0f)
 
         text = format(data.minutes)
         canvas.drawText(format(data.minutes), 0f, 0f, textPaint)
         canvas.translate(textPaint.measureText(text), 0f)
         canvas.drawText("m", 0f, 0f, legendTextPaint)
-        canvas.translate(legendTextPaint.measureText("m"), 0f)
+        canvas.translate(legendTextPaint.measureText("m") + legendPadding, 0f)
 
         text = format(data.hours)
         canvas.drawText(format(data.seconds), 0f, 0f, textPaint)

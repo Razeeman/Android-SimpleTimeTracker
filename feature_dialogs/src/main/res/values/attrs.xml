@@ -2,7 +2,9 @@
 <resources>
     <declare-styleable name="DurationView">
         <attr name="durationTextColor" format="color" />
+        <attr name="durationLegendTextColor" format="color" />
         <attr name="durationLegendTextSize" format="dimension" />
+        <attr name="durationLegendPadding" format="dimension" />
     </declare-styleable>
 
     <declare-styleable name="NumberKeyboardView">
