@@ -18,6 +18,7 @@ class NotificationInactivityInteractorImpl @Inject constructor(
         if (runningRecordInteractor.getAll().isEmpty()) {
             prefsInteractor.getInactivityReminderDuration()
                 .takeIf { it > 0 }
+                ?.let { it * 1000L }
                 ?.let(scheduler::schedule)
         }
     }

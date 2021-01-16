@@ -17,8 +17,8 @@ class NotificationInactivityScheduler @Inject constructor(
     private val alarmManager
         get() = context.getSystemService(Context.ALARM_SERVICE) as? AlarmManager
 
-    fun schedule(duration: Long) {
-        val timestamp = System.currentTimeMillis() + duration
+    fun schedule(durationMillis: Long) {
+        val timestamp = System.currentTimeMillis() + durationMillis
 
         scheduleAtTime(timestamp)
     }

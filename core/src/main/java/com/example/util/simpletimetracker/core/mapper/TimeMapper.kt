@@ -161,6 +161,35 @@ class TimeMapper @Inject constructor(
         return year1 == year2 && day1 == day2
     }
 
+    fun formatDuration(interval: Long): String {
+        val hr: Long = TimeUnit.SECONDS.toHours(
+            interval
+        )
+        val min: Long = TimeUnit.SECONDS.toMinutes(
+            interval - TimeUnit.HOURS.toSeconds(hr)
+        )
+        val sec: Long = TimeUnit.SECONDS.toSeconds(
+            interval - TimeUnit.HOURS.toSeconds(hr) - TimeUnit.MINUTES.toSeconds(min)
+        )
+
+        val hrString = "${hr}h"
+        val minString = min.toString().let {
+            if (hr != 0L) it.padStart(2, '0') else it
+        } + "m"
+        val secString = sec.toString().let {
+            if (hr != 0L || min != 0L) it.padStart(2, '0') else it
+        } + "s"
+
+        var res = ""
+        if (hr != 0L) res += hrString
+        if (hr != 0L && min != 0L) res += " "
+        if (min != 0L) res += minString
+        if ((hr != 0L || min != 0L) && sec != 0L) res += " "
+        if (sec != 0L) res += secString
+
+        return res
+    }
+
     private fun formatInterval(interval: Long, withSeconds: Boolean): String {
         val hr: Long = TimeUnit.MILLISECONDS.toHours(
             interval
@@ -172,24 +201,6 @@ class TimeMapper @Inject constructor(
             interval - TimeUnit.HOURS.toMillis(hr) - TimeUnit.MINUTES.toMillis(min)
         )
 
-        return formatTimeString(hr, min, sec, withSeconds)
-    }
-
-    fun formatSecondsInterval(interval: Long): String {
-        val hr: Long = TimeUnit.SECONDS.toHours(
-            interval
-        )
-        val min: Long = TimeUnit.SECONDS.toMinutes(
-            interval - TimeUnit.HOURS.toSeconds(hr)
-        )
-        val sec: Long = TimeUnit.SECONDS.toSeconds(
-            interval - TimeUnit.HOURS.toSeconds(hr) - TimeUnit.MINUTES.toSeconds(min)
-        )
-
-        return formatTimeString(hr, min, sec, withSeconds = true)
-    }
-
-    private fun formatTimeString(hr: Long, min: Long, sec: Long, withSeconds: Boolean): String {
         var res = ""
         if (hr != 0L) res += "${hr}h"
         if (hr != 0L || min != 0L || !withSeconds) res += " ${min}m"

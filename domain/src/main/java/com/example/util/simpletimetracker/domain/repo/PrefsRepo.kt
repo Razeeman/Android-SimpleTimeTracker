@@ -16,7 +16,7 @@ interface PrefsRepo {
 
     var showNotifications: Boolean
 
-    var inactivityReminderDuration: Long
+    var inactivityReminderDuration: Long // in seconds
 
     var darkMode: Boolean
 
