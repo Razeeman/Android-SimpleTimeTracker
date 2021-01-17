@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.mapper.CategoryViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
-import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.viewData.CategoryViewData
 import com.example.util.simpletimetracker.core.viewData.ColorViewData
@@ -17,11 +16,10 @@ import com.example.util.simpletimetracker.domain.extension.orTrue
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
-import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.feature_change_category.R
 import com.example.util.simpletimetracker.feature_change_category.extra.ChangeCategoryExtra
-import com.example.util.simpletimetracker.feature_change_category.mapper.ChangeCategoryMapper
+import com.example.util.simpletimetracker.feature_change_category.interactor.ChangeCategoryViewDataInteractor
 import com.example.util.simpletimetracker.navigation.Notification
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.ToastParams
@@ -30,13 +28,11 @@ import javax.inject.Inject
 
 class ChangeCategoryViewModel @Inject constructor(
     private val router: Router,
+    private val changeCategoryViewDataInteractor: ChangeCategoryViewDataInteractor,
     private val categoryInteractor: CategoryInteractor,
-    private val recordTypeInteractor: RecordTypeInteractor,
     private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val categoryViewDataMapper: CategoryViewDataMapper,
-    private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
-    private val changeCategoryMapper: ChangeCategoryMapper,
     private val resourceRepo: ResourceRepo
 ) : ViewModel() {
 
@@ -230,21 +226,7 @@ class ChangeCategoryViewModel @Inject constructor(
     }
 
     private suspend fun loadTypesViewData(): List<ViewHolderType> {
-        val numberOfCards = prefsInteractor.getNumberOfCards()
-        val isDarkTheme = prefsInteractor.getDarkMode()
-
-        return recordTypeInteractor.getAll()
-            .filter { !it.hidden }
-            .map {
-                recordTypeViewDataMapper.mapFiltered(
-                    recordType = it,
-                    numberOfCards = numberOfCards,
-                    isDarkTheme = isDarkTheme,
-                    isFiltered = it.id in newTypes
-                )
-            }
-            .takeUnless(List<ViewHolderType>::isEmpty)
-            ?: changeCategoryMapper.mapToEmpty()
+        return changeCategoryViewDataInteractor.getTypesViewData(newTypes)
     }
 
     private fun showMessage(stringResId: Int) {

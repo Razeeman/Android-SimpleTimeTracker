@@ -35,6 +35,8 @@
     <string name="change_category_save">Save</string>
     <string name="change_category_message_choose_name">Choose a name</string>
     <string name="change_category_types_empty">No activities added</string>
+    <string name="change_category_selected_types_empty">Not assigned to any activities</string>
+    <string name="change_category_selected_types_hint">Assigned to:</string>
 
     <!--  Change record  -->
     <string name="message_choose_type">Select activity</string>
