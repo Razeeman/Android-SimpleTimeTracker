@@ -8,5 +8,8 @@ data class HintViewData(
 
     override fun getViewType(): Int = ViewHolderType.INFO
 
-    override fun getUniqueId(): Long? = text.hashCode().toLong()
+    // Only one in recycler, add id if needed, but don't do text hashcode,
+    // otherwise tag recycler items on change type will disappear after selecting all and
+    // removing all (same in type selection in change category).
+    override fun getUniqueId(): Long? = 1L
 }
