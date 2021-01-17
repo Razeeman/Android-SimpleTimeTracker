@@ -8,7 +8,6 @@ import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.core.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.core.interactor.WidgetInteractor
-import com.example.util.simpletimetracker.core.mapper.CategoryViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
@@ -18,7 +17,6 @@ import com.example.util.simpletimetracker.core.viewData.ColorViewData
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.extension.flip
 import com.example.util.simpletimetracker.domain.extension.orTrue
-import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
@@ -27,7 +25,7 @@ import com.example.util.simpletimetracker.domain.interactor.RunningRecordInterac
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_change_record_type.R
 import com.example.util.simpletimetracker.feature_change_record_type.extra.ChangeRecordTypeExtra
-import com.example.util.simpletimetracker.feature_change_record_type.mapper.ChangeRecordTypeMapper
+import com.example.util.simpletimetracker.feature_change_record_type.interactor.ChangeRecordTypeViewDataInteractor
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconViewData
 import com.example.util.simpletimetracker.navigation.Notification
 import com.example.util.simpletimetracker.navigation.Router
@@ -41,14 +39,12 @@ class ChangeRecordTypeViewModel @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
     private val recordInteractor: RecordInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
-    private val categoryInteractor: CategoryInteractor,
+    private val changeRecordTypeViewDataInteractor: ChangeRecordTypeViewDataInteractor,
     private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
     private val widgetInteractor: WidgetInteractor,
     private val notificationTypeInteractor: NotificationTypeInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
-    private val categoryViewDataMapper: CategoryViewDataMapper,
-    private val changeRecordTypeMapper: ChangeRecordTypeMapper,
     private val resourceRepo: ResourceRepo,
     private val colorMapper: ColorMapper,
     private val iconMapper: IconMapper
@@ -304,18 +300,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     }
 
     private suspend fun loadCategoriesViewData(): List<ViewHolderType> {
-        val isDarkTheme = prefsInteractor.getDarkMode()
-
-        return categoryInteractor.getAll()
-            .map {
-                categoryViewDataMapper.mapFiltered(
-                    category = it,
-                    isDarkTheme = isDarkTheme,
-                    isFiltered = it.id in newCategories
-                )
-            }
-            .takeUnless(List<ViewHolderType>::isEmpty)
-            ?: changeRecordTypeMapper.mapToEmpty()
+        return changeRecordTypeViewDataInteractor.getCategoriesViewData(newCategories)
     }
 
     private fun showMessage(stringResId: Int) {

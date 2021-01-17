@@ -52,6 +52,8 @@
     <string name="change_record_type_save">Save</string>
     <string name="change_record_message_choose_name">Choose a name</string>
     <string name="change_record_type_categories_empty">No tags added</string>
+    <string name="change_record_type_selected_categories_empty">No tags assigned</string>
+    <string name="change_record_type_selected_categories_hint">Assigned tags:</string>
 
     <!--  Change running record  -->
     <string name="change_running_record_message_choose_type">Select activity</string>
