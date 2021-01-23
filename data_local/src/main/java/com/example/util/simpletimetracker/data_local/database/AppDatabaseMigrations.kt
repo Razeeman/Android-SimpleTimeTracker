@@ -36,5 +36,13 @@ class AppDatabaseMigrations {
                 )
             }
         }
+
+        val migration_3_4 = object : Migration(3, 4) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL(
+                    "ALTER TABLE recordTypes ADD COLUMN goal_time INTEGER NOT NULL DEFAULT 0"
+                )
+            }
+        }
     }
 }

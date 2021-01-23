@@ -214,7 +214,8 @@ class ChangeRecordTypeViewModel @Inject constructor(
             id = extra.id,
             name = newName,
             icon = newIconName,
-            color = newColorId
+            color = newColorId,
+            goalTime = 0
         )
 
         return recordTypeInteractor.add(recordType)
@@ -256,7 +257,8 @@ class ChangeRecordTypeViewModel @Inject constructor(
         return RecordType(
             name = newName,
             icon = newIconName,
-            color = newColorId
+            color = newColorId,
+            goalTime = 0
         ).let { recordTypeViewDataMapper.map(it, isDarkTheme) }
     }
 

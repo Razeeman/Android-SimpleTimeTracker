@@ -20,5 +20,8 @@ data class RecordTypeDBO(
     val color: Int,
 
     @ColumnInfo(name = "hidden")
-    val hidden: Boolean
+    val hidden: Boolean,
+
+    @ColumnInfo(name = "goal_time")
+    val goalTime: Long
 )

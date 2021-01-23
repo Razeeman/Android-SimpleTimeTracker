@@ -12,7 +12,8 @@ class RecordTypeDataLocalMapper @Inject constructor() {
             name = dbo.name,
             icon = dbo.icon,
             color = dbo.color,
-            hidden = dbo.hidden
+            hidden = dbo.hidden,
+            goalTime = dbo.goalTime
         )
     }
 
@@ -22,7 +23,8 @@ class RecordTypeDataLocalMapper @Inject constructor() {
             name = domain.name,
             icon = domain.icon,
             color = domain.color,
-            hidden = domain.hidden
+            hidden = domain.hidden,
+            goalTime = domain.goalTime
         )
     }
 }

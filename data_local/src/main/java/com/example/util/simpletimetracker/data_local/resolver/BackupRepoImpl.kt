@@ -155,12 +155,13 @@ class BackupRepoImpl @Inject constructor(
 
     private fun toBackupString(recordType: RecordType): String {
         return String.format(
-            "$ROW_RECORD_TYPE\t%s\t%s\t%s\t%s\t%s\n",
+            "$ROW_RECORD_TYPE\t%s\t%s\t%s\t%s\t%s\t%s\n",
             recordType.id.toString(),
             recordType.name.replace("[\n\t]", ""),
             recordType.icon,
             recordType.color.toString(),
-            (if (recordType.hidden) 1 else 0).toString()
+            (if (recordType.hidden) 1 else 0).toString(),
+            recordType.goalTime.toString()
         )
     }
 
@@ -197,7 +198,8 @@ class BackupRepoImpl @Inject constructor(
             name = parts.getOrNull(2).orEmpty(),
             icon = parts.getOrNull(3).orEmpty(),
             color = parts.getOrNull(4)?.toIntOrNull().orZero(),
-            hidden = parts.getOrNull(5)?.toIntOrNull() == 1
+            hidden = parts.getOrNull(5)?.toIntOrNull() == 1,
+            goalTime = parts.getOrNull(6)?.toLongOrNull().orZero()
         )
     }
 

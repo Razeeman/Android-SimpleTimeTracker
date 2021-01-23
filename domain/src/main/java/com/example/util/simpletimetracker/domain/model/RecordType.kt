@@ -5,5 +5,6 @@ data class RecordType(
     val name: String,
     val icon: String,
     val color: Int,
-    val hidden: Boolean = false
+    val hidden: Boolean = false,
+    val goalTime: Long
 )
