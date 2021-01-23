@@ -60,10 +60,7 @@ class RecordsFragment : BaseFragment(R.layout.records_fragment) {
 
     override fun initViewModel() {
         with(viewModel) {
-            extra = RecordsExtra(
-                rangeStart = arguments?.getLong(ARGS_RANGE_START).orZero(),
-                rangeEnd = arguments?.getLong(ARGS_RANGE_END).orZero()
-            )
+            extra = RecordsExtra(shift = arguments?.getInt(ARGS_POSITION).orZero())
             records.observe(viewLifecycleOwner, recordsAdapter::replace)
         }
         with(removeRecordViewModel) {
@@ -82,15 +79,13 @@ class RecordsFragment : BaseFragment(R.layout.records_fragment) {
     }
 
     companion object {
-        private const val ARGS_RANGE_START = "args_range_start"
-        private const val ARGS_RANGE_END = "args_range_end"
+        private const val ARGS_POSITION = "args_position"
 
         fun newInstance(data: Any?): RecordsFragment = RecordsFragment().apply {
             val bundle = Bundle()
             when (data) {
                 is RecordsParams -> {
-                    bundle.putLong(ARGS_RANGE_START, data.rangeStart)
-                    bundle.putLong(ARGS_RANGE_END, data.rangeEnd)
+                    bundle.putInt(ARGS_POSITION, data.shift)
                 }
             }
             arguments = bundle

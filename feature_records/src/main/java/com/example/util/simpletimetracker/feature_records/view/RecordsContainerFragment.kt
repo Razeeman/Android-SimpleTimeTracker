@@ -46,7 +46,11 @@ class RecordsContainerFragment : BaseFragment(R.layout.records_container_fragmen
     }
 
     override fun initUi() {
-        setupPager()
+        pagerRecordsContainer.apply {
+            adapter = RecordsContainerAdapter(this@RecordsContainerFragment)
+            offscreenPageLimit = 1
+            isUserInputEnabled = false
+        }
     }
 
     override fun initUx() {
@@ -74,15 +78,6 @@ class RecordsContainerFragment : BaseFragment(R.layout.records_container_fragmen
 
     override fun onDateTimeSet(timestamp: Long, tag: String?) {
         viewModel.onDateTimeSet(timestamp, tag)
-    }
-
-    private fun setupPager() {
-        val adapter = RecordsContainerAdapter(this)
-        pagerRecordsContainer.apply {
-            this.adapter = adapter
-            offscreenPageLimit = 1
-            isUserInputEnabled = false
-        }
     }
 
     private fun updateTitle(title: String) {

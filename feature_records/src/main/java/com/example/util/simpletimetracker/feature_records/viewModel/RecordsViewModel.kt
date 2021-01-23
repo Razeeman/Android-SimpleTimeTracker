@@ -7,9 +7,10 @@ import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.core.view.TransitionNames
+import com.example.util.simpletimetracker.core.viewData.RecordViewData
+import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_records.extra.RecordsExtra
 import com.example.util.simpletimetracker.feature_records.interactor.RecordsViewDataInteractor
-import com.example.util.simpletimetracker.core.viewData.RecordViewData
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
 import com.example.util.simpletimetracker.navigation.params.ChangeRecordParams
@@ -21,7 +22,7 @@ class RecordsViewModel @Inject constructor(
     private val recordsViewDataInteractor: RecordsViewDataInteractor
 ) : ViewModel() {
 
-    lateinit var extra: RecordsExtra
+    var extra: RecordsExtra? = null
 
     val records: LiveData<List<ViewHolderType>> by lazy {
         updateRecords()
@@ -60,6 +61,6 @@ class RecordsViewModel @Inject constructor(
     }
 
     private suspend fun loadRecordsViewData(): List<ViewHolderType> {
-        return recordsViewDataInteractor.getViewData(extra.rangeStart, extra.rangeEnd)
+        return recordsViewDataInteractor.getViewData(extra?.shift.orZero())
     }
 }

@@ -5,6 +5,7 @@ import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.feature_records.mapper.RecordViewDataMapper
+import java.util.Calendar
 import javax.inject.Inject
 
 class RecordsViewDataInteractor @Inject constructor(
@@ -14,11 +15,10 @@ class RecordsViewDataInteractor @Inject constructor(
     private val recordViewDataMapper: RecordViewDataMapper
 ) {
 
-    suspend fun getViewData(rangeStart: Long, rangeEnd: Long): List<ViewHolderType> {
+    suspend fun getViewData(shift: Int): List<ViewHolderType> {
         val isDarkTheme = prefsInteractor.getDarkMode()
-        val recordTypes = recordTypeInteractor.getAll()
-            .map { it.id to it }
-            .toMap()
+        val recordTypes = recordTypeInteractor.getAll().map { it.id to it }.toMap()
+        val (rangeStart, rangeEnd) = getRange(shift)
         val records = if (rangeStart != 0L && rangeEnd != 0L) {
             recordInteractor.getFromRange(rangeStart, rangeEnd)
         } else {
@@ -57,6 +57,21 @@ class RecordsViewDataInteractor @Inject constructor(
             .ifEmpty {
                 return listOf(recordViewDataMapper.mapToEmpty())
             }
+    }
+
+    private fun getRange(shift: Int): Pair<Long, Long> {
+        val calendar = Calendar.getInstance().apply {
+            timeInMillis = System.currentTimeMillis()
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+            add(Calendar.DATE, shift)
+        }
+        val rangeStart = calendar.timeInMillis
+        val rangeEnd = calendar.apply { add(Calendar.DATE, 1) }.timeInMillis
+
+        return rangeStart to rangeEnd
     }
 
     companion object {
