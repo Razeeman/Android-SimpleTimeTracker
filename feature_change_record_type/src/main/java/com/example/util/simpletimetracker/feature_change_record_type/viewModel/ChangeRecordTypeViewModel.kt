@@ -26,9 +26,12 @@ import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_change_record_type.R
 import com.example.util.simpletimetracker.feature_change_record_type.extra.ChangeRecordTypeExtra
 import com.example.util.simpletimetracker.feature_change_record_type.interactor.ChangeRecordTypeViewDataInteractor
+import com.example.util.simpletimetracker.feature_change_record_type.mapper.ChangeRecordTypeMapper
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconViewData
 import com.example.util.simpletimetracker.navigation.Notification
 import com.example.util.simpletimetracker.navigation.Router
+import com.example.util.simpletimetracker.navigation.Screen
+import com.example.util.simpletimetracker.navigation.params.DurationDialogParams
 import com.example.util.simpletimetracker.navigation.params.ToastParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -45,6 +48,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     private val notificationTypeInteractor: NotificationTypeInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
+    private val changeRecordTypeMapper: ChangeRecordTypeMapper,
     private val resourceRepo: ResourceRepo,
     private val colorMapper: ColorMapper,
     private val iconMapper: IconMapper
@@ -82,6 +86,14 @@ class ChangeRecordTypeViewModel @Inject constructor(
             initial
         }
     }
+    val goalTimeViewData: LiveData<String> by lazy {
+        MutableLiveData<String>().let { initial ->
+            viewModelScope.launch {
+                initial.value = loadGoalTimeViewData()
+            }
+            initial
+        }
+    }
     val flipColorChooser: LiveData<Boolean> = MutableLiveData()
     val flipIconChooser: LiveData<Boolean> = MutableLiveData()
     val flipCategoryChooser: LiveData<Boolean> = MutableLiveData()
@@ -95,6 +107,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     private var newIconName: String = ""
     private var newCategories: MutableList<Long> = mutableListOf()
     private var newColorId: Int = (0..ColorMapper.colorsNumber).random()
+    private var newGoalTime: Long = 0L
 
     fun onNameChange(name: String) {
         viewModelScope.launch {
@@ -163,6 +176,36 @@ class ChangeRecordTypeViewModel @Inject constructor(
         }
     }
 
+    fun onGoalTimeClick() {
+        router.navigate(
+            Screen.DURATION_DIALOG,
+            DurationDialogParams(
+                tag = GOAL_TIME_DIALOG_TAG,
+                duration = newGoalTime
+            )
+        )
+    }
+
+    fun onDurationSet(tag: String?, duration: Long) {
+        when (tag) {
+            GOAL_TIME_DIALOG_TAG -> viewModelScope.launch {
+                newGoalTime = duration
+                updateGoalTimeViewData()
+                // TODO reschedule?
+            }
+        }
+    }
+
+    fun onDurationDisabled(tag: String?) {
+        when (tag) {
+            GOAL_TIME_DIALOG_TAG -> viewModelScope.launch {
+                newGoalTime = 0
+                updateGoalTimeViewData()
+                // TODO cancel current reminder
+            }
+        }
+    }
+
     fun onCategoryClick(item: CategoryViewData) {
         viewModelScope.launch {
             if (item.id in newCategories) {
@@ -215,7 +258,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
             name = newName,
             icon = newIconName,
             color = newColorId,
-            goalTime = 0
+            goalTime = newGoalTime
         )
 
         return recordTypeInteractor.add(recordType)
@@ -235,7 +278,9 @@ class ChangeRecordTypeViewModel @Inject constructor(
                 newName = it.name
                 newIconName = it.icon
                 newColorId = it.color
+                newGoalTime = it.goalTime
                 updateIcons()
+                updateGoalTimeViewData()
             }
     }
 
@@ -278,7 +323,8 @@ class ChangeRecordTypeViewModel @Inject constructor(
     }
 
     private fun updateIcons() = viewModelScope.launch {
-        (icons as MutableLiveData).value = loadIconsViewData()
+        val data = loadIconsViewData()
+        (icons as MutableLiveData).value = data
     }
 
     private suspend fun loadIconsViewData(): List<ViewHolderType> {
@@ -305,9 +351,22 @@ class ChangeRecordTypeViewModel @Inject constructor(
         return changeRecordTypeViewDataInteractor.getCategoriesViewData(newCategories)
     }
 
+    private fun updateGoalTimeViewData() {
+        val data = loadGoalTimeViewData()
+        (goalTimeViewData as MutableLiveData).value = data
+    }
+
+    private fun loadGoalTimeViewData(): String {
+        return newGoalTime.let(changeRecordTypeMapper::toGoalTimeViewData)
+    }
+
     private fun showMessage(stringResId: Int) {
         stringResId
             .let(resourceRepo::getString)
             .let { router.show(Notification.TOAST, ToastParams(it)) }
+    }
+
+    companion object {
+        private const val GOAL_TIME_DIALOG_TAG = "goal_time_dialog_tag"
     }
 }

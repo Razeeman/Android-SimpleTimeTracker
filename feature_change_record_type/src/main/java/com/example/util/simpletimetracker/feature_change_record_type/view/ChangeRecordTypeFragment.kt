@@ -8,6 +8,7 @@ import androidx.lifecycle.observe
 import androidx.transition.TransitionInflater
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
+import com.example.util.simpletimetracker.core.dialog.DurationDialogListener
 import com.example.util.simpletimetracker.core.extension.dpToPx
 import com.example.util.simpletimetracker.core.extension.hideKeyboard
 import com.example.util.simpletimetracker.core.extension.observeOnce
@@ -31,22 +32,11 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
-import kotlinx.android.synthetic.main.change_record_type_fragment.arrowChangeRecordTypeCategory
-import kotlinx.android.synthetic.main.change_record_type_fragment.arrowChangeRecordTypeColor
-import kotlinx.android.synthetic.main.change_record_type_fragment.arrowChangeRecordTypeIcon
-import kotlinx.android.synthetic.main.change_record_type_fragment.btnChangeRecordTypeDelete
-import kotlinx.android.synthetic.main.change_record_type_fragment.btnChangeRecordTypeSave
-import kotlinx.android.synthetic.main.change_record_type_fragment.etChangeRecordTypeName
-import kotlinx.android.synthetic.main.change_record_type_fragment.fieldChangeRecordTypeCategory
-import kotlinx.android.synthetic.main.change_record_type_fragment.fieldChangeRecordTypeColor
-import kotlinx.android.synthetic.main.change_record_type_fragment.fieldChangeRecordTypeIcon
-import kotlinx.android.synthetic.main.change_record_type_fragment.previewChangeRecordType
-import kotlinx.android.synthetic.main.change_record_type_fragment.rvChangeRecordTypeCategories
-import kotlinx.android.synthetic.main.change_record_type_fragment.rvChangeRecordTypeColor
-import kotlinx.android.synthetic.main.change_record_type_fragment.rvChangeRecordTypeIcon
+import kotlinx.android.synthetic.main.change_record_type_fragment.*
 import javax.inject.Inject
 
-class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragment) {
+class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragment),
+    DurationDialogListener {
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<ChangeRecordTypeViewModel>
@@ -121,13 +111,17 @@ class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragme
         fieldChangeRecordTypeColor.setOnClick(viewModel::onColorChooserClick)
         fieldChangeRecordTypeIcon.setOnClick(viewModel::onIconChooserClick)
         fieldChangeRecordTypeCategory.setOnClick(viewModel::onCategoryChooserClick)
+//        .setOnClick(viewModel::onGoalTimeClick)
         btnChangeRecordTypeSave.setOnClick(viewModel::onSaveClick)
         btnChangeRecordTypeDelete.setOnClick(viewModel::onDeleteClick)
     }
 
     override fun initViewModel(): Unit = with(viewModel) {
         extra = ChangeRecordTypeExtra(params.id, params.width, params.height, params.asRow)
-        deleteIconVisibility.observeOnce(viewLifecycleOwner, btnChangeRecordTypeDelete::visible::set)
+        deleteIconVisibility.observeOnce(
+            viewLifecycleOwner,
+            btnChangeRecordTypeDelete::visible::set
+        )
         saveButtonEnabled.observe(viewLifecycleOwner, btnChangeRecordTypeSave::setEnabled)
         deleteButtonEnabled.observe(viewLifecycleOwner, btnChangeRecordTypeDelete::setEnabled)
         recordType.observeOnce(viewLifecycleOwner, ::updateUi)
@@ -135,6 +129,7 @@ class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragme
         colors.observe(viewLifecycleOwner, colorsAdapter::replace)
         icons.observe(viewLifecycleOwner, iconsAdapter::replace)
         categories.observe(viewLifecycleOwner, categoriesAdapter::replace)
+        goalTimeViewData.observe(viewLifecycleOwner, {})
         flipColorChooser.observe(viewLifecycleOwner) { opened ->
             rvChangeRecordTypeColor.visible = opened
             arrowChangeRecordTypeColor.apply {
@@ -156,6 +151,14 @@ class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragme
         keyboardVisibility.observe(viewLifecycleOwner) { visible ->
             if (visible) showKeyboard(etChangeRecordTypeName) else hideKeyboard()
         }
+    }
+
+    override fun onDurationSet(duration: Long, tag: String?) {
+        viewModel.onDurationSet(tag, duration)
+    }
+
+    override fun onDisable(tag: String?) {
+        viewModel.onDurationDisabled(tag)
     }
 
     private fun updateUi(item: RecordTypeViewData) {

@@ -54,6 +54,7 @@
     <string name="change_record_type_categories_empty">No tags added</string>
     <string name="change_record_type_selected_categories_empty">No tags assigned</string>
     <string name="change_record_type_selected_categories_hint">Assigned tags:</string>
+    <string name="change_record_type_goal_time_disabled">Disabled</string>
 
     <!--  Change running record  -->
     <string name="change_running_record_message_choose_type">Select activity</string>
