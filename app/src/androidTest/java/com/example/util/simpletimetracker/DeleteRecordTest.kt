@@ -10,9 +10,9 @@ import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
+import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
-import com.example.util.simpletimetracker.utils.longClickOnView
 import com.example.util.simpletimetracker.utils.withCardColor
 import com.example.util.simpletimetracker.utils.withTag
 import org.hamcrest.CoreMatchers
@@ -37,7 +37,7 @@ class DeleteRecordTest : BaseUiTest() {
         NavUtils.addRecord(name)
 
         // Delete item
-        longClickOnView(allOf(withText(name), isCompletelyDisplayed()))
+        clickOnView(allOf(withText(name), isCompletelyDisplayed()))
         checkViewIsDisplayed(withId(R.id.btnChangeRecordDelete))
         clickOnViewWithId(R.id.btnChangeRecordDelete)
 

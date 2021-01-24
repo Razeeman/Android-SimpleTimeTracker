@@ -13,9 +13,9 @@ import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
 import com.example.util.simpletimetracker.utils.checkViewIsNotDisplayed
 import com.example.util.simpletimetracker.utils.clickOnRecyclerItem
+import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
-import com.example.util.simpletimetracker.utils.longClickOnView
 import com.example.util.simpletimetracker.utils.withCardColor
 import com.example.util.simpletimetracker.utils.withTag
 import org.hamcrest.CoreMatchers.allOf
@@ -37,7 +37,7 @@ class ChangeUntrackedTest : BaseUiTest() {
 
         // Open edit view
         NavUtils.openRecordsScreen()
-        longClickOnView(allOf(withText(R.string.untracked_time_name), isCompletelyDisplayed()))
+        clickOnView(allOf(withText(R.string.untracked_time_name), isCompletelyDisplayed()))
 
         // View is set up
         checkViewIsNotDisplayed(withId(R.id.btnChangeRecordDelete))
@@ -69,7 +69,7 @@ class ChangeUntrackedTest : BaseUiTest() {
         )
 
         // Delete record
-        longClickOnView(allOf(withText(name), isCompletelyDisplayed()))
+        clickOnView(allOf(withText(name), isCompletelyDisplayed()))
         clickOnViewWithId(R.id.btnChangeRecordDelete)
 
         // Untracked is back

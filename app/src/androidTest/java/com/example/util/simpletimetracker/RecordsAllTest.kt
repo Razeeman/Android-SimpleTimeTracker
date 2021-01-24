@@ -264,7 +264,7 @@ class RecordsAllTest : BaseUiTest() {
         checkViewIsDisplayed(secondRecord)
 
         // Delete item
-        longClickOnView(firstRecord)
+        clickOnView(firstRecord)
         checkViewIsDisplayed(withId(R.id.btnChangeRecordDelete))
         clickOnViewWithId(R.id.btnChangeRecordDelete)
 

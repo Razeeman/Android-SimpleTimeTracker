@@ -8,11 +8,11 @@ import com.example.util.simpletimetracker.core.adapter.record.RecordAdapterDeleg
 import com.example.util.simpletimetracker.core.viewData.RecordViewData
 
 class RecordAllAdapter(
-    onItemLongClick: ((RecordViewData, Map<Any, String>) -> Unit)
+    onItemClick: ((RecordViewData, Map<Any, String>) -> Unit)
 ) : BaseRecyclerAdapter() {
 
     init {
-        delegates[ViewHolderType.RECORD] = RecordAdapterDelegate(onItemLongClick)
+        delegates[ViewHolderType.RECORD] = RecordAdapterDelegate(onItemClick)
         delegates[ViewHolderType.DIVIDER] = RecordAllDateAdapterDelegate()
         delegates[ViewHolderType.EMPTY] = EmptyAdapterDelegate()
         delegates[ViewHolderType.LOADER] = LoaderAdapterDelegate()

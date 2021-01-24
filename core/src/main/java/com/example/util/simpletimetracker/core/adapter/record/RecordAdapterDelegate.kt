@@ -6,13 +6,13 @@ import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerViewHolder
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
-import com.example.util.simpletimetracker.core.extension.setOnLongClick
+import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.core.view.TransitionNames
 import com.example.util.simpletimetracker.core.viewData.RecordViewData
 import kotlinx.android.synthetic.main.item_record_layout.view.*
 
 class RecordAdapterDelegate(
-    private val onItemLongClick: ((RecordViewData, Map<Any, String>) -> Unit)
+    private val onItemClick: ((RecordViewData, Map<Any, String>) -> Unit)
 ) : BaseRecyclerAdapterDelegate() {
 
     override fun onCreateViewHolder(parent: ViewGroup): BaseRecyclerViewHolder =
@@ -35,7 +35,7 @@ class RecordAdapterDelegate(
             itemTimeEnded = item.timeFinished
             itemDuration = item.duration
 
-            setOnLongClick { onItemLongClick(item, mapOf(this to transitionName)) }
+            setOnClick { onItemClick(item, mapOf(this to transitionName)) }
             ViewCompat.setTransitionName(this, transitionName)
         }
     }

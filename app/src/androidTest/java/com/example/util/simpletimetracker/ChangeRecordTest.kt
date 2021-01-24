@@ -18,9 +18,9 @@ import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
 import com.example.util.simpletimetracker.utils.checkViewIsNotDisplayed
 import com.example.util.simpletimetracker.utils.clickOnRecyclerItem
+import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
-import com.example.util.simpletimetracker.utils.longClickOnView
 import com.example.util.simpletimetracker.utils.withCardColor
 import com.example.util.simpletimetracker.utils.withTag
 import org.hamcrest.CoreMatchers.allOf
@@ -67,7 +67,7 @@ class ChangeRecordTest : BaseUiTest() {
         clickOnViewWithText(R.string.change_record_save)
 
         // Open edit view
-        longClickOnView(allOf(withText(name), isCompletelyDisplayed()))
+        clickOnView(allOf(withText(name), isCompletelyDisplayed()))
 
         // View is set up
         checkViewIsDisplayed(withId(R.id.btnChangeRecordDelete))

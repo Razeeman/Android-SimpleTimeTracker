@@ -13,7 +13,6 @@ import com.example.util.simpletimetracker.utils.clickOnRecyclerItem
 import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
-import com.example.util.simpletimetracker.utils.longClickOnView
 import com.example.util.simpletimetracker.utils.longClickOnViewWithId
 import com.example.util.simpletimetracker.utils.typeTextIntoView
 import org.hamcrest.CoreMatchers.allOf
@@ -46,7 +45,7 @@ class MainScreenTest : BaseUiTest() {
         // Records
         NavUtils.openRecordsScreen()
 
-        longClickOnView(allOf(withText(name), isCompletelyDisplayed()))
+        clickOnView(allOf(withText(name), isCompletelyDisplayed()))
         pressBack()
 
         clickOnViewWithId(R.id.btnRecordAdd)
