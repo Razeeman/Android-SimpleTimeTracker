@@ -60,7 +60,13 @@ class NotificationTypeInteractorImpl @Inject constructor(
         val isDarkTheme = prefsInteractor.getDarkMode()
 
         runningRecordInteractor.getAll()
-            .forEach { runningRecord -> show(recordTypes[runningRecord.id], runningRecord, isDarkTheme) }
+            .forEach { runningRecord ->
+                show(
+                    recordTypes[runningRecord.id],
+                    runningRecord,
+                    isDarkTheme
+                )
+            }
     }
 
     private suspend fun hideAll() {
@@ -74,21 +80,19 @@ class NotificationTypeInteractorImpl @Inject constructor(
             return
         }
 
-        notificationTypeManager.show(
-            NotificationTypeParams(
-                id = recordType.id.toInt(),
-                icon = recordType.icon
-                    .let(iconMapper::mapToDrawableResId),
-                color = recordType.color
-                    .let { colorMapper.mapToColorResId(it, isDarkTheme) }
-                    .let(resourceRepo::getColor),
-                text = recordType.name,
-                description = runningRecord.timeStarted
-                    .let(timeMapper::formatTime)
-                    .let { resourceRepo.getString(R.string.notification_time_started, it) },
-                startedTimeStamp = runningRecord.timeStarted
-            )
-        )
+        NotificationTypeParams(
+            id = recordType.id.toInt(),
+            icon = recordType.icon
+                .let(iconMapper::mapToDrawableResId),
+            color = recordType.color
+                .let { colorMapper.mapToColorResId(it, isDarkTheme) }
+                .let(resourceRepo::getColor),
+            text = recordType.name,
+            description = runningRecord.timeStarted
+                .let(timeMapper::formatTime)
+                .let { resourceRepo.getString(R.string.notification_time_started, it) },
+            startedTimeStamp = runningRecord.timeStarted
+        ).let(notificationTypeManager::show)
     }
 
     private fun hide(typeId: Long) {

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.core.interactor.NotificationGoalTimeInteractor
 import com.example.util.simpletimetracker.core.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.core.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.core.interactor.WidgetInteractor
@@ -46,6 +47,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
     private val widgetInteractor: WidgetInteractor,
     private val notificationTypeInteractor: NotificationTypeInteractor,
+    private val notificationGoalTimeInteractor: NotificationGoalTimeInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
     private val changeRecordTypeMapper: ChangeRecordTypeMapper,
@@ -191,7 +193,6 @@ class ChangeRecordTypeViewModel @Inject constructor(
             GOAL_TIME_DIALOG_TAG -> viewModelScope.launch {
                 newGoalTime = duration
                 updateGoalTimeViewData()
-                // TODO reschedule?
             }
         }
     }
@@ -201,7 +202,6 @@ class ChangeRecordTypeViewModel @Inject constructor(
             GOAL_TIME_DIALOG_TAG -> viewModelScope.launch {
                 newGoalTime = 0
                 updateGoalTimeViewData()
-                // TODO cancel current reminder
             }
         }
     }
@@ -246,6 +246,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
             val addedId = saveRecordType()
             saveCategories(addedId)
             notificationTypeInteractor.checkAndShow(extra.id)
+            notificationGoalTimeInteractor.checkAndReschedule(extra.id)
             widgetInteractor.updateWidgets()
             (keyboardVisibility as MutableLiveData).value = false
             router.back()

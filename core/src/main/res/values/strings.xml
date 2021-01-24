@@ -181,5 +181,6 @@
     <!--  Notification  -->
     <string name="notification_inactivity_title">Inactivity reminder</string>
     <string name="notification_inactivity_text">Don\'t forget to track your time</string>
+    <string name="notification_goal_time_description">%s goal time reached</string>
 
 </resources>

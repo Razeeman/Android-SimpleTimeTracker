@@ -7,6 +7,7 @@ class RemoveRunningRecordMediator @Inject constructor(
     private val runningRecordInteractor: RunningRecordInteractor,
     private val notificationTypeInteractor: NotificationTypeInteractor,
     private val notificationInactivityInteractor: NotificationInactivityInteractor,
+    private val notificationGoalTimeInteractor: NotificationGoalTimeInteractor,
     private val widgetInteractor: WidgetInteractor
 ) {
 
@@ -14,6 +15,7 @@ class RemoveRunningRecordMediator @Inject constructor(
         runningRecordInteractor.remove(typeId)
         notificationTypeInteractor.checkAndHide(typeId)
         notificationInactivityInteractor.checkAndSchedule()
+        notificationGoalTimeInteractor.cancel(typeId)
         widgetInteractor.updateWidgets()
     }
 }
