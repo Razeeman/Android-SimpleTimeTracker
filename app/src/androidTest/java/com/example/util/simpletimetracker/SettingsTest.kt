@@ -23,6 +23,7 @@ import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.drag
+import com.example.util.simpletimetracker.utils.nestedScrollTo
 import com.example.util.simpletimetracker.utils.unconstrainedClickOnView
 import org.hamcrest.CoreMatchers.allOf
 import org.junit.Test
@@ -46,6 +47,7 @@ class SettingsTest : BaseUiTest() {
 
         // Change setting
         NavUtils.openSettingsScreen()
+        onView(withId(R.id.checkboxSettingsShowUntracked)).perform(nestedScrollTo())
         onView(withId(R.id.checkboxSettingsShowUntracked)).check(matches(isChecked()))
         unconstrainedClickOnView(withId(R.id.checkboxSettingsShowUntracked))
         onView(withId(R.id.checkboxSettingsShowUntracked)).check(matches(isNotChecked()))
@@ -62,6 +64,7 @@ class SettingsTest : BaseUiTest() {
 
         // Change setting
         NavUtils.openSettingsScreen()
+        onView(withId(R.id.checkboxSettingsShowUntracked)).perform(nestedScrollTo())
         onView(withId(R.id.checkboxSettingsShowUntracked)).check(matches(isNotChecked()))
         unconstrainedClickOnView(withId(R.id.checkboxSettingsShowUntracked))
         onView(withId(R.id.checkboxSettingsShowUntracked)).check(matches(isChecked()))
@@ -121,6 +124,7 @@ class SettingsTest : BaseUiTest() {
 
         // Change setting
         NavUtils.openSettingsScreen()
+        onView(withId(R.id.checkboxSettingsAllowMultitasking)).perform(nestedScrollTo())
         onView(withId(R.id.checkboxSettingsAllowMultitasking)).check(matches(isChecked()))
         unconstrainedClickOnView(withId(R.id.checkboxSettingsAllowMultitasking))
         onView(withId(R.id.checkboxSettingsAllowMultitasking)).check(matches(isNotChecked()))
@@ -172,6 +176,7 @@ class SettingsTest : BaseUiTest() {
 
         // Change setting back
         NavUtils.openSettingsScreen()
+        onView(withId(R.id.checkboxSettingsAllowMultitasking)).perform(nestedScrollTo())
         onView(withId(R.id.checkboxSettingsAllowMultitasking)).check(matches(isNotChecked()))
         unconstrainedClickOnView(withId(R.id.checkboxSettingsAllowMultitasking))
         onView(withId(R.id.checkboxSettingsAllowMultitasking)).check(matches(isChecked()))
@@ -222,6 +227,7 @@ class SettingsTest : BaseUiTest() {
 
         // Open settings
         NavUtils.openSettingsScreen()
+        onView(withText(R.string.settings_change_card_size)).perform(nestedScrollTo())
         clickOnViewWithText(R.string.settings_change_card_size)
         Thread.sleep(1000)
 
@@ -255,7 +261,9 @@ class SettingsTest : BaseUiTest() {
 
         // Change back
         NavUtils.openSettingsScreen()
+        onView(withText(R.string.settings_change_card_size)).perform(nestedScrollTo())
         clickOnViewWithText(R.string.settings_change_card_size)
+        Thread.sleep(1000)
         onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1)))
             .check(isCompletelyAbove(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2))))
         onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2)))
@@ -292,6 +300,7 @@ class SettingsTest : BaseUiTest() {
 
         // Check settings
         NavUtils.openSettingsScreen()
+        onView(withId(R.id.spinnerSettingsRecordTypeSort)).perform(nestedScrollTo())
         checkViewIsDisplayed(
             allOf(
                 isDescendantOfA(withId(R.id.spinnerSettingsRecordTypeSort)),
@@ -314,6 +323,7 @@ class SettingsTest : BaseUiTest() {
 
         // Change settings
         NavUtils.openSettingsScreen()
+        onView(withId(R.id.spinnerSettingsRecordTypeSort)).perform(nestedScrollTo())
         clickOnViewWithId(R.id.spinnerSettingsRecordTypeSort)
         clickOnViewWithText(R.string.settings_sort_by_color)
 
@@ -336,6 +346,7 @@ class SettingsTest : BaseUiTest() {
 
         // Change settings
         NavUtils.openSettingsScreen()
+        onView(withId(R.id.spinnerSettingsRecordTypeSort)).perform(nestedScrollTo())
         clickOnViewWithId(R.id.spinnerSettingsRecordTypeSort)
         clickOnViewWithText(R.string.settings_sort_manually)
         Thread.sleep(1000)
@@ -360,6 +371,7 @@ class SettingsTest : BaseUiTest() {
 
         // Change order
         NavUtils.openSettingsScreen()
+        onView(withId(R.id.btnCardOrderManual)).perform(nestedScrollTo())
         clickOnViewWithId(R.id.btnCardOrderManual)
         onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2)))
             .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1))))
@@ -391,6 +403,7 @@ class SettingsTest : BaseUiTest() {
 
         // Change settings
         NavUtils.openSettingsScreen()
+        onView(withId(R.id.checkboxSettingsShowNotifications)).perform(nestedScrollTo())
         onView(withId(R.id.checkboxSettingsShowNotifications)).check(matches(isNotChecked()))
         unconstrainedClickOnView(withId(R.id.checkboxSettingsShowNotifications))
         onView(withId(R.id.checkboxSettingsShowNotifications)).check(matches(isChecked()))
@@ -404,6 +417,7 @@ class SettingsTest : BaseUiTest() {
 
         // Change settings
         NavUtils.openSettingsScreen()
+        onView(withId(R.id.checkboxSettingsShowNotifications)).perform(nestedScrollTo())
         onView(withId(R.id.checkboxSettingsShowNotifications)).check(matches(isChecked()))
         unconstrainedClickOnView(withId(R.id.checkboxSettingsShowNotifications))
         onView(withId(R.id.checkboxSettingsShowNotifications)).check(matches(isNotChecked()))
@@ -423,6 +437,7 @@ class SettingsTest : BaseUiTest() {
 
         // Change settings
         NavUtils.openSettingsScreen()
+        onView(withId(R.id.checkboxSettingsDarkMode)).perform(nestedScrollTo())
         onView(withId(R.id.checkboxSettingsDarkMode)).check(matches(isNotChecked()))
         unconstrainedClickOnView(withId(R.id.checkboxSettingsDarkMode))
         onView(withId(R.id.checkboxSettingsDarkMode)).check(matches(isChecked()))
@@ -434,6 +449,7 @@ class SettingsTest : BaseUiTest() {
 
         // Change settings
         NavUtils.openSettingsScreen()
+        onView(withId(R.id.checkboxSettingsDarkMode)).perform(nestedScrollTo())
         onView(withId(R.id.checkboxSettingsDarkMode)).check(matches(isChecked()))
         unconstrainedClickOnView(withId(R.id.checkboxSettingsDarkMode))
         onView(withId(R.id.checkboxSettingsDarkMode)).check(matches(isNotChecked()))
