@@ -1,18 +1,17 @@
 package com.example.util.simpletimetracker
 
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
-import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
+import androidx.test.espresso.assertion.PositionAssertions.isCompletelyAbove
+import androidx.test.espresso.assertion.PositionAssertions.isCompletelyBelow
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
-import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
-import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
 import com.example.util.simpletimetracker.utils.clickOnRecyclerItem
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.longClickOnView
-import com.example.util.simpletimetracker.utils.withCardColor
-import org.hamcrest.CoreMatchers.allOf
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -42,39 +41,26 @@ class RecordTypeCategoryTest : BaseUiTest() {
 
         longClickOnView(withText(categoryName1))
         clickOnViewWithText(R.string.change_category_type_hint)
-        checkViewIsDisplayed(
-            allOf(hasDescendant(withText(typeName1)), withCardColor(R.color.colorFiltered))
-        )
-        checkViewDoesNotExist(
-            allOf(hasDescendant(withText(typeName2)), withCardColor(R.color.colorFiltered))
-        )
+        onView(withText(typeName1)).check(isCompletelyAbove(withId(R.id.viewDividerItem)))
+        onView(withText(typeName2)).check(isCompletelyBelow(withId(R.id.viewDividerItem)))
+
         clickOnRecyclerItem(R.id.rvChangeCategoryType, withText(typeName1))
         clickOnRecyclerItem(R.id.rvChangeCategoryType, withText(typeName2))
-        checkViewDoesNotExist(
-            allOf(hasDescendant(withText(typeName1)), withCardColor(R.color.colorFiltered))
-        )
-        checkViewIsDisplayed(
-            allOf(hasDescendant(withText(typeName2)), withCardColor(R.color.colorFiltered))
-        )
+        onView(withText(typeName1)).check(isCompletelyBelow(withId(R.id.viewDividerItem)))
+        onView(withText(typeName2)).check(isCompletelyAbove(withId(R.id.viewDividerItem)))
         clickOnViewWithText(R.string.change_category_save)
 
         // Check second category
         longClickOnView(withText(categoryName2))
         clickOnViewWithText(R.string.change_category_type_hint)
-        checkViewDoesNotExist(
-            allOf(hasDescendant(withText(typeName1)), withCardColor(R.color.colorFiltered))
-        )
-        checkViewIsDisplayed(
-            allOf(hasDescendant(withText(typeName2)), withCardColor(R.color.colorFiltered))
-        )
+        onView(withText(typeName1)).check(isCompletelyBelow(withId(R.id.viewDividerItem)))
+        onView(withText(typeName2)).check(isCompletelyAbove(withId(R.id.viewDividerItem)))
+
         clickOnRecyclerItem(R.id.rvChangeCategoryType, withText(typeName1))
         clickOnRecyclerItem(R.id.rvChangeCategoryType, withText(typeName2))
-        checkViewIsDisplayed(
-            allOf(hasDescendant(withText(typeName1)), withCardColor(R.color.colorFiltered))
-        )
-        checkViewDoesNotExist(
-            allOf(hasDescendant(withText(typeName2)), withCardColor(R.color.colorFiltered))
-        )
+        onView(withText(typeName1)).check(isCompletelyAbove(withId(R.id.viewDividerItem)))
+        onView(withText(typeName2)).check(isCompletelyBelow(withId(R.id.viewDividerItem)))
+
         clickOnViewWithText(R.string.change_category_save)
         pressBack()
 
@@ -82,39 +68,27 @@ class RecordTypeCategoryTest : BaseUiTest() {
         NavUtils.openRunningRecordsScreen()
         longClickOnView(withText(typeName1))
         clickOnViewWithText(R.string.change_record_type_category_hint)
-        checkViewDoesNotExist(
-            allOf(hasDescendant(withText(categoryName1)), withCardColor(R.color.colorFiltered))
-        )
-        checkViewIsDisplayed(
-            allOf(hasDescendant(withText(categoryName2)), withCardColor(R.color.colorFiltered))
-        )
+        onView(withText(categoryName1)).check(isCompletelyBelow(withId(R.id.viewDividerItem)))
+        onView(withText(categoryName2)).check(isCompletelyAbove(withId(R.id.viewDividerItem)))
+
         clickOnRecyclerItem(R.id.rvChangeRecordTypeCategories, withText(categoryName1))
         clickOnRecyclerItem(R.id.rvChangeRecordTypeCategories, withText(categoryName2))
-        checkViewIsDisplayed(
-            allOf(hasDescendant(withText(categoryName1)), withCardColor(R.color.colorFiltered))
-        )
-        checkViewDoesNotExist(
-            allOf(hasDescendant(withText(categoryName2)), withCardColor(R.color.colorFiltered))
-        )
+        onView(withText(categoryName1)).check(isCompletelyAbove(withId(R.id.viewDividerItem)))
+        onView(withText(categoryName2)).check(isCompletelyBelow(withId(R.id.viewDividerItem)))
+
         clickOnViewWithText(R.string.change_record_type_save)
 
         // Check second activity
         longClickOnView(withText(typeName2))
         clickOnViewWithText(R.string.change_record_type_category_hint)
-        checkViewIsDisplayed(
-            allOf(hasDescendant(withText(categoryName1)), withCardColor(R.color.colorFiltered))
-        )
-        checkViewDoesNotExist(
-            allOf(hasDescendant(withText(categoryName2)), withCardColor(R.color.colorFiltered))
-        )
+        onView(withText(categoryName1)).check(isCompletelyAbove(withId(R.id.viewDividerItem)))
+        onView(withText(categoryName2)).check(isCompletelyBelow(withId(R.id.viewDividerItem)))
+
         clickOnRecyclerItem(R.id.rvChangeRecordTypeCategories, withText(categoryName1))
         clickOnRecyclerItem(R.id.rvChangeRecordTypeCategories, withText(categoryName2))
-        checkViewDoesNotExist(
-            allOf(hasDescendant(withText(categoryName1)), withCardColor(R.color.colorFiltered))
-        )
-        checkViewIsDisplayed(
-            allOf(hasDescendant(withText(categoryName2)), withCardColor(R.color.colorFiltered))
-        )
+        onView(withText(categoryName1)).check(isCompletelyBelow(withId(R.id.viewDividerItem)))
+        onView(withText(categoryName2)).check(isCompletelyAbove(withId(R.id.viewDividerItem)))
+
         clickOnViewWithText(R.string.change_record_type_save)
 
         // Check first category again
@@ -122,22 +96,15 @@ class RecordTypeCategoryTest : BaseUiTest() {
 
         longClickOnView(withText(categoryName1))
         clickOnViewWithText(R.string.change_category_type_hint)
-        checkViewIsDisplayed(
-            allOf(hasDescendant(withText(typeName1)), withCardColor(R.color.colorFiltered))
-        )
-        checkViewDoesNotExist(
-            allOf(hasDescendant(withText(typeName2)), withCardColor(R.color.colorFiltered))
-        )
+        onView(withText(typeName1)).check(isCompletelyAbove(withId(R.id.viewDividerItem)))
+        onView(withText(typeName2)).check(isCompletelyBelow(withId(R.id.viewDividerItem)))
+
         pressBack()
 
         // Check second category
         longClickOnView(withText(categoryName2))
         clickOnViewWithText(R.string.change_category_type_hint)
-        checkViewDoesNotExist(
-            allOf(hasDescendant(withText(typeName1)), withCardColor(R.color.colorFiltered))
-        )
-        checkViewIsDisplayed(
-            allOf(hasDescendant(withText(typeName2)), withCardColor(R.color.colorFiltered))
-        )
+        onView(withText(typeName1)).check(isCompletelyBelow(withId(R.id.viewDividerItem)))
+        onView(withText(typeName2)).check(isCompletelyAbove(withId(R.id.viewDividerItem)))
     }
 }

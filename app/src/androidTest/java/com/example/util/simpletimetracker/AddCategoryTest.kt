@@ -1,6 +1,9 @@
 package com.example.util.simpletimetracker
 
 import android.view.View
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.assertion.PositionAssertions.isCompletelyAbove
+import androidx.test.espresso.assertion.PositionAssertions.isCompletelyBelow
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
@@ -13,6 +16,7 @@ import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
 import com.example.util.simpletimetracker.utils.checkViewIsNotDisplayed
 import com.example.util.simpletimetracker.utils.clickOnRecyclerItem
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
+import com.example.util.simpletimetracker.utils.longClickOnView
 import com.example.util.simpletimetracker.utils.scrollRecyclerToPosition
 import com.example.util.simpletimetracker.utils.typeTextIntoView
 import com.example.util.simpletimetracker.utils.withCardColor
@@ -72,22 +76,45 @@ class AddCategoryTest : BaseUiTest() {
         checkViewIsDisplayed(withId(R.id.rvChangeCategoryType))
         checkViewIsDisplayed(withText(typeName1))
         checkViewIsDisplayed(withText(typeName2))
-        checkViewDoesNotExist(withCardColor(R.color.colorInactive))
+        checkViewIsDisplayed(withText(R.string.change_category_selected_types_empty))
+        checkViewIsDisplayed(withId(R.id.viewDividerItem))
+        onView(withText(typeName1)).check(isCompletelyBelow(withId(R.id.viewDividerItem)))
+        onView(withText(typeName2)).check(isCompletelyBelow(withId(R.id.viewDividerItem)))
 
         // Selecting activity
         clickOnRecyclerItem(R.id.rvChangeCategoryType, withText(typeName1))
-        checkViewIsDisplayed(
-            allOf(hasDescendant(withText(typeName1)), withCardColor(R.color.colorFiltered))
-        )
-        clickOnRecyclerItem(R.id.rvChangeCategoryType, withText(typeName1))
-        checkViewDoesNotExist(withCardColor(R.color.colorInactive))
-        clickOnRecyclerItem(R.id.rvChangeCategoryType, withText(typeName1))
+        checkViewIsDisplayed(withText(R.string.change_category_selected_types_hint))
+        checkViewIsDisplayed(withId(R.id.viewDividerItem))
+        onView(withText(typeName1)).check(isCompletelyAbove(withId(R.id.viewDividerItem)))
+        onView(withText(typeName2)).check(isCompletelyBelow(withId(R.id.viewDividerItem)))
 
+        clickOnRecyclerItem(R.id.rvChangeCategoryType, withText(typeName2))
+        checkViewIsDisplayed(withText(R.string.change_category_selected_types_hint))
+        checkViewDoesNotExist(withId(R.id.viewDividerItem))
+        checkViewIsDisplayed(withText(typeName1))
+        checkViewIsDisplayed(withText(typeName2))
+
+        clickOnRecyclerItem(R.id.rvChangeCategoryType, withText(typeName1))
+        clickOnRecyclerItem(R.id.rvChangeCategoryType, withText(typeName2))
+        checkViewIsDisplayed(withText(R.string.change_category_selected_types_empty))
+        checkViewIsDisplayed(withId(R.id.viewDividerItem))
+        onView(withText(typeName1)).check(isCompletelyBelow(withId(R.id.viewDividerItem)))
+        onView(withText(typeName2)).check(isCompletelyBelow(withId(R.id.viewDividerItem)))
+
+        clickOnRecyclerItem(R.id.rvChangeCategoryType, withText(typeName1))
         clickOnViewWithText(R.string.change_record_type_save)
 
         // Category type added
         checkViewIsDisplayed(withText(name))
         checkViewIsDisplayed(withCardColor(lastColor))
+
+        // Check types saved
+        longClickOnView(withText(name))
+        clickOnViewWithText(R.string.change_category_type_hint)
+        checkViewIsDisplayed(withText(R.string.change_category_selected_types_hint))
+        checkViewIsDisplayed(withId(R.id.viewDividerItem))
+        onView(withText(typeName1)).check(isCompletelyAbove(withId(R.id.viewDividerItem)))
+        onView(withText(typeName2)).check(isCompletelyBelow(withId(R.id.viewDividerItem)))
     }
 
     @Test

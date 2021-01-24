@@ -1,16 +1,23 @@
 package com.example.util.simpletimetracker
 
 import android.view.View
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.Espresso.pressBack
+import androidx.test.espresso.assertion.PositionAssertions.isCompletelyAbove
+import androidx.test.espresso.assertion.PositionAssertions.isCompletelyBelow
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.utils.BaseUiTest
+import com.example.util.simpletimetracker.utils.NavUtils
+import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
 import com.example.util.simpletimetracker.utils.checkViewIsNotDisplayed
 import com.example.util.simpletimetracker.utils.clickOnRecyclerItem
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
+import com.example.util.simpletimetracker.utils.longClickOnView
 import com.example.util.simpletimetracker.utils.scrollRecyclerToPosition
 import com.example.util.simpletimetracker.utils.typeTextIntoView
 import com.example.util.simpletimetracker.utils.withCardColor
@@ -26,6 +33,8 @@ class AddRecordTypeTest : BaseUiTest() {
     @Test
     fun addRecordType() {
         val name = "Test"
+        val categoryName1 = "category1"
+        val categoryName2 = "category2"
         val firstColor = ColorMapper.getAvailableColors().first()
         val lastColor = ColorMapper.getAvailableColors().last()
         val lastColorPosition = ColorMapper.getAvailableColors().size - 1
@@ -33,7 +42,12 @@ class AddRecordTypeTest : BaseUiTest() {
         val lastIcon = iconMapper.availableIconsNames.values.last()
         val lastIconPosition = iconMapper.availableIconsNames.size - 1
 
-        Thread.sleep(1000)
+        NavUtils.openCategoriesScreen()
+        NavUtils.addCategory(categoryName1)
+        NavUtils.addCategory(categoryName2)
+
+        pressBack()
+        NavUtils.openRunningRecordsScreen()
         clickOnViewWithText(R.string.running_records_add_type)
 
         // View is set up
@@ -76,12 +90,52 @@ class AddRecordTypeTest : BaseUiTest() {
         clickOnRecyclerItem(R.id.rvChangeRecordTypeIcon, withTag(lastIcon))
         checkPreviewUpdated(hasDescendant(withTag(lastIcon)))
 
+        // Open category chooser
+        clickOnViewWithText(R.string.change_record_type_category_hint)
+        checkViewIsNotDisplayed(withId(R.id.rvChangeRecordTypeIcon))
+        checkViewIsDisplayed(withId(R.id.rvChangeRecordTypeCategories))
+        checkViewIsDisplayed(withText(categoryName1))
+        checkViewIsDisplayed(withText(categoryName2))
+        checkViewIsDisplayed(withText(R.string.change_record_type_selected_categories_empty))
+        checkViewIsDisplayed(withId(R.id.viewDividerItem))
+        onView(withText(categoryName1)).check(isCompletelyBelow(withId(R.id.viewDividerItem)))
+        onView(withText(categoryName2)).check(isCompletelyBelow(withId(R.id.viewDividerItem)))
+
+        // Selecting category
+        clickOnRecyclerItem(R.id.rvChangeRecordTypeCategories, withText(categoryName1))
+        checkViewIsDisplayed(withText(R.string.change_record_type_selected_categories_hint))
+        checkViewIsDisplayed(withId(R.id.viewDividerItem))
+        onView(withText(categoryName1)).check(isCompletelyAbove(withId(R.id.viewDividerItem)))
+        onView(withText(categoryName2)).check(isCompletelyBelow(withId(R.id.viewDividerItem)))
+
+        clickOnRecyclerItem(R.id.rvChangeRecordTypeCategories, withText(categoryName2))
+        checkViewIsDisplayed(withText(R.string.change_record_type_selected_categories_hint))
+        checkViewDoesNotExist(withId(R.id.viewDividerItem))
+        checkViewIsDisplayed(withText(categoryName1))
+        checkViewIsDisplayed(withText(categoryName2))
+
+        clickOnRecyclerItem(R.id.rvChangeRecordTypeCategories, withText(categoryName1))
+        clickOnRecyclerItem(R.id.rvChangeRecordTypeCategories, withText(categoryName2))
+        checkViewIsDisplayed(withText(R.string.change_record_type_selected_categories_empty))
+        checkViewIsDisplayed(withId(R.id.viewDividerItem))
+        onView(withText(categoryName1)).check(isCompletelyBelow(withId(R.id.viewDividerItem)))
+        onView(withText(categoryName2)).check(isCompletelyBelow(withId(R.id.viewDividerItem)))
+
+        clickOnRecyclerItem(R.id.rvChangeRecordTypeCategories, withText(categoryName1))
         clickOnViewWithText(R.string.change_record_type_save)
 
         // Record type added
         checkViewIsDisplayed(withText(name))
         checkViewIsDisplayed(withCardColor(lastColor))
         checkViewIsDisplayed(withTag(lastIcon))
+
+        // Check categories saved
+        longClickOnView(withText(name))
+        clickOnViewWithText(R.string.change_record_type_category_hint)
+        checkViewIsDisplayed(withText(R.string.change_record_type_selected_categories_hint))
+        checkViewIsDisplayed(withId(R.id.viewDividerItem))
+        onView(withText(categoryName1)).check(isCompletelyAbove(withId(R.id.viewDividerItem)))
+        onView(withText(categoryName2)).check(isCompletelyBelow(withId(R.id.viewDividerItem)))
     }
 
     @Test
