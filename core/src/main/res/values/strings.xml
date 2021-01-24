@@ -55,6 +55,8 @@
     <string name="change_record_type_selected_categories_empty">No tags assigned</string>
     <string name="change_record_type_selected_categories_hint">Assigned tags:</string>
     <string name="change_record_type_goal_time_disabled">Disabled</string>
+    <string name="change_record_type_goal_time">Goal time</string>
+    <string name="change_record_type_goal_time_hint">Show notification after specified time of tracking this activity.</string>
 
     <!--  Change running record  -->
     <string name="change_running_record_message_choose_type">Select activity</string>

@@ -111,7 +111,7 @@ class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragme
         fieldChangeRecordTypeColor.setOnClick(viewModel::onColorChooserClick)
         fieldChangeRecordTypeIcon.setOnClick(viewModel::onIconChooserClick)
         fieldChangeRecordTypeCategory.setOnClick(viewModel::onCategoryChooserClick)
-//        .setOnClick(viewModel::onGoalTimeClick)
+        groupChangeRecordTypeGoalTime.setOnClick(viewModel::onGoalTimeClick)
         btnChangeRecordTypeSave.setOnClick(viewModel::onSaveClick)
         btnChangeRecordTypeDelete.setOnClick(viewModel::onDeleteClick)
     }
@@ -129,7 +129,7 @@ class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragme
         colors.observe(viewLifecycleOwner, colorsAdapter::replace)
         icons.observe(viewLifecycleOwner, iconsAdapter::replace)
         categories.observe(viewLifecycleOwner, categoriesAdapter::replace)
-        goalTimeViewData.observe(viewLifecycleOwner, {})
+        goalTimeViewData.observe(viewLifecycleOwner, tvChangeRecordTypeGoalTimeTime::setText)
         flipColorChooser.observe(viewLifecycleOwner) { opened ->
             rvChangeRecordTypeColor.visible = opened
             arrowChangeRecordTypeColor.apply {

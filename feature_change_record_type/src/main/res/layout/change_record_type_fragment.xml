@@ -177,57 +177,109 @@
 
     </androidx.cardview.widget.CardView>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/fieldChangeRecordTypeColor">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvChangeRecordTypeGoalTime"
+            style="@style/SettingsText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="0dp"
+            android:text="@string/change_record_type_goal_time"
+            app:layout_constraintEnd_toStartOf="@id/groupChangeRecordTypeGoalTime"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/SettingsSecondaryText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="0dp"
+            android:text="@string/change_record_type_goal_time_hint"
+            app:layout_constraintEnd_toStartOf="@id/groupChangeRecordTypeGoalTime"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvChangeRecordTypeGoalTime" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/groupChangeRecordTypeGoalTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvChangeRecordTypeGoalTimeTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end|center_vertical"
+                android:paddingHorizontal="8dp"
+                android:textColor="?appTextPrimaryColor"
+                tools:text="99h 99m 99s" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="24dp"
+                android:layout_height="match_parent"
+                android:background="?selectableItemBackgroundBorderless"
+                android:src="?appArrow"
+                tools:ignore="ContentDescription" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvChangeRecordTypeColor"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginHorizontal="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:background="?android:colorBackground"
         android:overScrollMode="never"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/btnChangeRecordTypeSave"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/fieldChangeRecordTypeColor"
         tools:itemCount="3"
-        tools:layout_width="100dp"
         tools:listitem="@layout/item_color_layout"
-        tools:visibility="visible" />
+        tools:visibility="gone" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvChangeRecordTypeIcon"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginHorizontal="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:background="?android:colorBackground"
         android:overScrollMode="never"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/btnChangeRecordTypeSave"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/fieldChangeRecordTypeIcon"
         tools:itemCount="3"
-        tools:layout_marginEnd="150dp"
-        tools:layout_width="100dp"
         tools:listitem="@layout/change_record_type_item_icon_layout"
-        tools:visibility="visible" />
+        tools:visibility="gone" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvChangeRecordTypeCategories"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginHorizontal="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:background="?android:colorBackground"
         android:overScrollMode="never"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/btnChangeRecordTypeSave"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/fieldChangeRecordTypeIcon"
         tools:itemCount="3"
-        tools:layout_width="100dp"
         tools:listitem="@layout/change_record_type_item_category_layout"
-        tools:visibility="visible" />
+        tools:visibility="gone" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnChangeRecordTypeSave"
