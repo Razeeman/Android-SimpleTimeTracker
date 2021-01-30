@@ -37,6 +37,11 @@ class RunningRecordViewDataMapper @Inject constructor(
                 .let(timeMapper::formatTime),
             timer = (System.currentTimeMillis() - runningRecord.timeStarted)
                 .let(timeMapper::formatIntervalWithSeconds),
+            goalTime = recordType.goalTime
+                .takeIf { it > 0 }
+                ?.let(timeMapper::formatDuration)
+                ?.let { resourceRepo.getString(R.string.running_record_goal_time, it) }
+                .orEmpty(),
             iconId = recordType.icon
                 .let(iconMapper::mapToDrawableResId),
             color = recordType.color

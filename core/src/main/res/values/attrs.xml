@@ -45,6 +45,7 @@
         <attr name="itemColor" />
         <attr name="itemTimeStarted" />
         <attr name="itemTimer" format="string" />
+        <attr name="itemGoalTime" format="string" />
     </declare-styleable>
 
     <declare-styleable name="CategoryView">

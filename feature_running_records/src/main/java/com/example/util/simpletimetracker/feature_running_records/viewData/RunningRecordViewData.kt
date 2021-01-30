@@ -9,6 +9,7 @@ data class RunningRecordViewData(
     val name: String,
     val timeStarted: String,
     val timer: String,
+    val goalTime: String,
     @DrawableRes val iconId: Int,
     @ColorInt val color: Int
 ) : ViewHolderType {
@@ -25,6 +26,7 @@ data class RunningRecordViewData(
         if (this.timer != other.timer) updates.add(UPDATE_TIMER)
         if (this.iconId != other.iconId) updates.add(UPDATE_ICON)
         if (this.color != other.color) updates.add(UPDATE_COLOR)
+        if (this.goalTime != other.goalTime) updates.add(UPDATE_GOAL_TIME)
 
         return updates.takeIf { it.isNotEmpty() }
     }
@@ -35,5 +37,6 @@ data class RunningRecordViewData(
         const val UPDATE_TIMER = 3
         const val UPDATE_ICON = 4
         const val UPDATE_COLOR = 5
+        const val UPDATE_GOAL_TIME = 6
     }
 }

@@ -43,6 +43,9 @@ class RunningRecordAdapterDelegate(
             if (rebind || updates.contains(RunningRecordViewData.UPDATE_TIMER).orFalse()) {
                 viewRunningRecordItem.itemTimer = item.timer
             }
+            if (rebind || updates.contains(RunningRecordViewData.UPDATE_GOAL_TIME).orFalse()) {
+                viewRunningRecordItem.itemGoalTime = item.goalTime
+            }
             if (rebind || updates.contains(RunningRecordViewData.UPDATE_ICON).orFalse()) {
                 viewRunningRecordItem.itemIcon = item.iconId
             }

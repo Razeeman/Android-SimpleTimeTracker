@@ -31,9 +31,8 @@
         app:layout_constraintEnd_toStartOf="@id/btnChangeRunningRecordDelete"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:itemName="Name"
-        tools:itemTimeStarted="07:35"
-        tools:itemTimer="5h 23m 3s" />
+        tools:itemColor="@color/red_800"
+        tools:itemName="Change running record" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/fieldChangeRunningRecordTimeStarted"

@@ -118,6 +118,7 @@ class ChangeRunningRecordFragment : BaseFragment(R.layout.change_running_record_
             itemColor = item.color
             itemTimeStarted = item.timeStarted
             itemTimer = item.duration
+            itemGoalTime = item.goalTime
         }
         tvChangeRunningRecordTimeStarted.text = item.dateTimeStarted
     }

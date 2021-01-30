@@ -27,6 +27,11 @@ class ChangeRunningRecordViewDataMapper @Inject constructor(
             duration = runningRecord
                 .let { System.currentTimeMillis() - it.timeStarted }
                 .let(timeMapper::formatIntervalWithSeconds),
+            goalTime = recordType?.goalTime
+                ?.takeIf { it > 0 }
+                ?.let(timeMapper::formatDuration)
+                ?.let { resourceRepo.getString(R.string.running_record_goal_time, it) }
+                .orEmpty(),
             iconId = recordType?.icon
                 ?.let(iconMapper::mapToDrawableResId)
                 ?: R.drawable.unknown,

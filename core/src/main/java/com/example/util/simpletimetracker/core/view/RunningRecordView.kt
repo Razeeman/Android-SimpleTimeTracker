@@ -7,6 +7,7 @@ import android.view.View
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import com.example.util.simpletimetracker.core.R
+import com.example.util.simpletimetracker.core.extension.visible
 import kotlinx.android.synthetic.main.record_running_view_layout.view.*
 
 class RunningRecordView @JvmOverloads constructor(
@@ -47,6 +48,9 @@ class RunningRecordView @JvmOverloads constructor(
                 if (hasValue(R.styleable.RunningRecordView_itemTimer)) itemTimer =
                     getString(R.styleable.RunningRecordView_itemTimer).orEmpty()
 
+                if (hasValue(R.styleable.RunningRecordView_itemGoalTime)) itemGoalTime =
+                    getString(R.styleable.RunningRecordView_itemGoalTime).orEmpty()
+
                 recycle()
             }
     }
@@ -79,6 +83,13 @@ class RunningRecordView @JvmOverloads constructor(
     var itemTimer: String = ""
         set(value) {
             tvRunningRecordItemTimer.text = value
+            field = value
+        }
+
+    var itemGoalTime: String = ""
+        set(value) {
+            tvRunningRecordItemGoalTime.text = value
+            tvRunningRecordItemGoalTime.visible = value.isNotEmpty()
             field = value
         }
 }
