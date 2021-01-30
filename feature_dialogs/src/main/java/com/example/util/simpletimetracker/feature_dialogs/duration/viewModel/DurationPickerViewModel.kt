@@ -28,7 +28,7 @@ class DurationPickerViewModel @Inject constructor() : ViewModel() {
     private var reformattedDuration: Long = 0
 
     fun onNumberPressed(number: Int) {
-        if (reformattedDuration < 9_99_99) {
+        if (reformattedDuration <= 9_99_99) {
             reformattedDuration = reformattedDuration * 10 + number
             updateDurationViewData()
         }

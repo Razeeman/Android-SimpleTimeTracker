@@ -1,7 +1,9 @@
 package com.example.util.simpletimetracker
 
+import android.view.View
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
+import androidx.test.espresso.ViewAssertion
 import androidx.test.espresso.assertion.PositionAssertions.isCompletelyAbove
 import androidx.test.espresso.assertion.PositionAssertions.isCompletelyLeftOf
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -26,6 +28,7 @@ import com.example.util.simpletimetracker.utils.drag
 import com.example.util.simpletimetracker.utils.nestedScrollTo
 import com.example.util.simpletimetracker.utils.unconstrainedClickOnView
 import org.hamcrest.CoreMatchers.allOf
+import org.hamcrest.Matcher
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -54,12 +57,16 @@ class SettingsTest : BaseUiTest() {
 
         // Untracked is not shown
         NavUtils.openRecordsScreen()
-        checkViewDoesNotExist(allOf(withText(R.string.untracked_time_name), isCompletelyDisplayed()))
+        checkViewDoesNotExist(
+            allOf(withText(R.string.untracked_time_name), isCompletelyDisplayed())
+        )
 
         // Add record
         NavUtils.openRecordsScreen()
         NavUtils.addRecord(name)
-        checkViewDoesNotExist(allOf(withText(R.string.untracked_time_name), isCompletelyDisplayed()))
+        checkViewDoesNotExist(
+            allOf(withText(R.string.untracked_time_name), isCompletelyDisplayed())
+        )
         checkViewIsDisplayed(allOf(withText(name), isCompletelyDisplayed()))
 
         // Change setting
@@ -220,10 +227,8 @@ class SettingsTest : BaseUiTest() {
         NavUtils.addActivity(name2)
         NavUtils.addActivity(name3)
 
-        onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1)))
-            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2))))
-        onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2)))
-            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name3))))
+        check(name1, name2) { matcher -> isCompletelyLeftOf(matcher) }
+        check(name2, name3) { matcher -> isCompletelyLeftOf(matcher) }
 
         // Open settings
         NavUtils.openSettingsScreen()
@@ -232,10 +237,8 @@ class SettingsTest : BaseUiTest() {
         Thread.sleep(1000)
 
         // Check order
-        onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1)))
-            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2))))
-        onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2)))
-            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name3))))
+        check(name1, name2) { matcher -> isCompletelyLeftOf(matcher) }
+        check(name2, name3) { matcher -> isCompletelyLeftOf(matcher) }
 
         // Change setting
         clickOnViewWithText("6")
@@ -246,41 +249,31 @@ class SettingsTest : BaseUiTest() {
         clickOnViewWithText("1")
 
         // Check new order
-        onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1)))
-            .check(isCompletelyAbove(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2))))
-        onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2)))
-            .check(isCompletelyAbove(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name3))))
+        check(name1, name2) { matcher -> isCompletelyAbove(matcher) }
+        check(name2, name3) { matcher -> isCompletelyAbove(matcher) }
 
         // Check order on main
         pressBack()
         NavUtils.openRunningRecordsScreen()
-        onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1)))
-            .check(isCompletelyAbove(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2))))
-        onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2)))
-            .check(isCompletelyAbove(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name3))))
+        check(name1, name2) { matcher -> isCompletelyAbove(matcher) }
+        check(name2, name3) { matcher -> isCompletelyAbove(matcher) }
 
         // Change back
         NavUtils.openSettingsScreen()
         onView(withText(R.string.settings_change_card_size)).perform(nestedScrollTo())
         clickOnViewWithText(R.string.settings_change_card_size)
         Thread.sleep(1000)
-        onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1)))
-            .check(isCompletelyAbove(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2))))
-        onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2)))
-            .check(isCompletelyAbove(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name3))))
+        check(name1, name2) { matcher -> isCompletelyAbove(matcher) }
+        check(name2, name3) { matcher -> isCompletelyAbove(matcher) }
         clickOnViewWithText(R.string.card_size_default)
 
         // Check order
-        onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1)))
-            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2))))
-        onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2)))
-            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name3))))
+        check(name1, name2) { matcher -> isCompletelyLeftOf(matcher) }
+        check(name2, name3) { matcher -> isCompletelyLeftOf(matcher) }
         pressBack()
         NavUtils.openRunningRecordsScreen()
-        onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1)))
-            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2))))
-        onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2)))
-            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name3))))
+        check(name1, name2) { matcher -> isCompletelyLeftOf(matcher) }
+        check(name2, name3) { matcher -> isCompletelyLeftOf(matcher) }
     }
 
     @Test
@@ -295,8 +288,7 @@ class SettingsTest : BaseUiTest() {
         NavUtils.addActivity(name2, color1)
 
         // Check order
-        onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1)))
-            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2))))
+        check(name1, name2) { matcher -> isCompletelyLeftOf(matcher) }
 
         // Check settings
         NavUtils.openSettingsScreen()
@@ -329,8 +321,7 @@ class SettingsTest : BaseUiTest() {
 
         // Check new order
         NavUtils.openRunningRecordsScreen()
-        onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2)))
-            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1))))
+        check(name2, name1) { matcher -> isCompletelyLeftOf(matcher) }
     }
 
     @Test
@@ -352,10 +343,8 @@ class SettingsTest : BaseUiTest() {
         Thread.sleep(1000)
 
         // Check old order
-        onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1)))
-            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2))))
-        onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2)))
-            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name3))))
+        check(name1, name2) { matcher -> isCompletelyLeftOf(matcher) }
+        check(name2, name3) { matcher -> isCompletelyLeftOf(matcher) }
 
         // Drag
         onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2)))
@@ -364,29 +353,23 @@ class SettingsTest : BaseUiTest() {
         // Check new order
         pressBack()
         NavUtils.openRunningRecordsScreen()
-        onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2)))
-            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1))))
-        onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1)))
-            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name3))))
+        check(name2, name1) { matcher -> isCompletelyLeftOf(matcher) }
+        check(name1, name3) { matcher -> isCompletelyLeftOf(matcher) }
 
         // Change order
         NavUtils.openSettingsScreen()
         onView(withId(R.id.btnCardOrderManual)).perform(nestedScrollTo())
         clickOnViewWithId(R.id.btnCardOrderManual)
-        onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2)))
-            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1))))
-        onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1)))
-            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name3))))
+        check(name2, name1) { matcher -> isCompletelyLeftOf(matcher) }
+        check(name1, name3) { matcher -> isCompletelyLeftOf(matcher) }
         onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1)))
             .perform(drag(Direction.RIGHT, 300))
 
         // Check new order
         pressBack()
         NavUtils.openRunningRecordsScreen()
-        onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2)))
-            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name3))))
-        onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name3)))
-            .check(isCompletelyLeftOf(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1))))
+        check(name2, name3) { matcher -> isCompletelyLeftOf(matcher) }
+        check(name3, name1) { matcher -> isCompletelyLeftOf(matcher) }
     }
 
     @Test
@@ -459,5 +442,91 @@ class SettingsTest : BaseUiTest() {
         NavUtils.openRecordsScreen()
         NavUtils.openStatisticsScreen()
         NavUtils.openSettingsScreen()
+    }
+
+    @Test
+    fun inactivityReminder() {
+        // Change settings
+        NavUtils.openSettingsScreen()
+        onView(withId(R.id.groupSettingsInactivityReminder)).perform(nestedScrollTo())
+        checkViewIsDisplayed(
+            allOf(
+                withId(R.id.tvSettingsInactivityReminderTime),
+                withText(R.string.settings_inactivity_reminder_disabled)
+            )
+        )
+
+        // 1s
+        clickOnViewWithId(R.id.groupSettingsInactivityReminder)
+        clickOnViewWithId(R.id.tvNumberKeyboard1)
+        clickOnViewWithText(R.string.duration_dialog_save)
+        checkViewIsDisplayed(withText("1s"))
+
+        // 1m
+        clickOnViewWithId(R.id.groupSettingsInactivityReminder)
+        clickOnViewWithId(R.id.tvNumberKeyboard0)
+        clickOnViewWithId(R.id.tvNumberKeyboard0)
+        clickOnViewWithText(R.string.duration_dialog_save)
+        checkViewIsDisplayed(withText("1m"))
+
+        // 1h
+        clickOnViewWithId(R.id.groupSettingsInactivityReminder)
+        clickOnViewWithId(R.id.tvNumberKeyboard0)
+        clickOnViewWithId(R.id.tvNumberKeyboard0)
+        clickOnViewWithText(R.string.duration_dialog_save)
+        checkViewIsDisplayed(withText("1h"))
+
+        // 1m 1s
+        clickOnViewWithId(R.id.groupSettingsInactivityReminder)
+        clickOnViewWithId(R.id.ivDurationPickerDelete)
+        clickOnViewWithId(R.id.ivDurationPickerDelete)
+        clickOnViewWithId(R.id.ivDurationPickerDelete)
+        clickOnViewWithId(R.id.tvNumberKeyboard1)
+        clickOnViewWithText(R.string.duration_dialog_save)
+        checkViewIsDisplayed(withText("1m 01s"))
+
+        // 1h 1m 1s
+        clickOnViewWithId(R.id.groupSettingsInactivityReminder)
+        clickOnViewWithId(R.id.tvNumberKeyboard0)
+        clickOnViewWithId(R.id.tvNumberKeyboard1)
+        clickOnViewWithText(R.string.duration_dialog_save)
+        checkViewIsDisplayed(withText("1h 01m 01s"))
+
+        // 1h 30m
+        clickOnViewWithId(R.id.groupSettingsInactivityReminder)
+        clearDuration()
+        clickOnViewWithId(R.id.tvNumberKeyboard9)
+        clickOnViewWithId(R.id.tvNumberKeyboard0)
+        clickOnViewWithId(R.id.tvNumberKeyboard0)
+        clickOnViewWithId(R.id.tvNumberKeyboard0)
+        clickOnViewWithText(R.string.duration_dialog_save)
+        checkViewIsDisplayed(withText("1h 30m"))
+
+        // 99h 99m 99s
+        clickOnViewWithId(R.id.groupSettingsInactivityReminder)
+        repeat(10) { clickOnViewWithId(R.id.ivDurationPickerDelete) }
+        repeat(10) { clickOnViewWithId(R.id.tvNumberKeyboard9) }
+        clickOnViewWithText(R.string.duration_dialog_save)
+        checkViewIsDisplayed(withText("100h 40m 39s"))
+
+        // Disable
+        clickOnViewWithId(R.id.groupSettingsInactivityReminder)
+        clickOnViewWithText(R.string.duration_dialog_disable)
+        checkViewIsDisplayed(
+            allOf(
+                withId(R.id.tvSettingsInactivityReminderTime),
+                withText(R.string.settings_inactivity_reminder_disabled)
+            )
+        )
+    }
+
+    private fun clearDuration() {
+        repeat(6) { clickOnViewWithId(R.id.ivDurationPickerDelete) }
+    }
+
+    private fun check(first: String, second: String, matcher: (Matcher<View>) -> ViewAssertion) {
+        onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(first))).check(
+            matcher(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(second)))
+        )
     }
 }
