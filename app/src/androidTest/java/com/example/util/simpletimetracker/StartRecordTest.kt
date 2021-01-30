@@ -4,6 +4,7 @@ import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withSubstring
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
@@ -30,9 +31,10 @@ class StartRecordTest : BaseUiTest() {
         val lastColor = ColorMapper.getAvailableColors().last()
         val firstIcon = iconMapper.availableIconsNames.values.first()
         val lastIcon = iconMapper.availableIconsNames.values.last()
+        val firstGoalTime = "1000"
 
         // Add activities
-        NavUtils.addActivity(name, firstColor, firstIcon)
+        NavUtils.addActivity(name, firstColor, firstIcon, goalTime = firstGoalTime)
         NavUtils.addActivity(newName, lastColor, lastIcon)
 
         // Start timer
@@ -45,7 +47,8 @@ class StartRecordTest : BaseUiTest() {
                 withCardColor(firstColor),
                 hasDescendant(withText(name)),
                 hasDescendant(withTag(firstIcon)),
-                hasDescendant(withText(timeStarted))
+                hasDescendant(withText(timeStarted)),
+                hasDescendant(withText("goal 10m"))
             )
         )
 
@@ -60,6 +63,13 @@ class StartRecordTest : BaseUiTest() {
                 hasDescendant(withText(newName)),
                 hasDescendant(withTag(lastIcon)),
                 hasDescendant(withText(timeStarted))
+            )
+        )
+        checkViewDoesNotExist(
+            allOf(
+                withId(R.id.viewRunningRecordItem),
+                hasDescendant(withText(newName)),
+                hasDescendant(withSubstring("goal"))
             )
         )
 

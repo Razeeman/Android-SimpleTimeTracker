@@ -41,7 +41,8 @@ object NavUtils {
         name: String,
         color: Int? = null,
         icon: Int? = null,
-        categories: List<String> = emptyList()
+        categories: List<String> = emptyList(),
+        goalTime: String? = null
     ) {
         Thread.sleep(1000)
 
@@ -71,6 +72,16 @@ object NavUtils {
                 R.id.rvChangeRecordTypeCategories, hasDescendant(withText(categoryName))
             )
             clickOnRecyclerItem(R.id.rvChangeRecordTypeCategories, withText(categoryName))
+        }
+        clickOnViewWithText(R.string.change_record_type_category_hint)
+
+        // Goal time
+        if (!goalTime.isNullOrEmpty()) {
+            clickOnViewWithId(R.id.groupChangeRecordTypeGoalTime)
+            goalTime.forEach { char ->
+                clickOnViewWithText(char.toString())
+            }
+            clickOnViewWithText(R.string.duration_dialog_save)
         }
 
         clickOnViewWithText(R.string.change_record_type_save)

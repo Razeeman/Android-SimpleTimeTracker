@@ -16,6 +16,7 @@ import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
 import com.example.util.simpletimetracker.utils.checkViewIsNotDisplayed
 import com.example.util.simpletimetracker.utils.clickOnRecyclerItem
+import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.longClickOnView
 import com.example.util.simpletimetracker.utils.scrollRecyclerToPosition
@@ -122,6 +123,17 @@ class AddRecordTypeTest : BaseUiTest() {
         onView(withText(categoryName2)).check(isCompletelyBelow(withId(R.id.viewDividerItem)))
 
         clickOnRecyclerItem(R.id.rvChangeRecordTypeCategories, withText(categoryName1))
+        clickOnViewWithText(R.string.change_record_type_category_hint)
+
+        // Selecting goal time
+        clickOnViewWithId(R.id.groupChangeRecordTypeGoalTime)
+        clickOnViewWithId(R.id.tvNumberKeyboard1)
+        clickOnViewWithId(R.id.tvNumberKeyboard0)
+        clickOnViewWithId(R.id.tvNumberKeyboard0)
+        clickOnViewWithId(R.id.tvNumberKeyboard0)
+        clickOnViewWithText(R.string.duration_dialog_save)
+        checkViewIsDisplayed(withText("10m"))
+
         clickOnViewWithText(R.string.change_record_type_save)
 
         // Record type added
@@ -142,6 +154,14 @@ class AddRecordTypeTest : BaseUiTest() {
     fun addRecordTypeCategoriesEmpty() {
         Thread.sleep(1000)
         clickOnViewWithText(R.string.running_records_add_type)
+
+        // Goal time is disabled
+        checkViewIsDisplayed(
+            allOf(
+                withId(R.id.tvChangeRecordTypeGoalTimeTime),
+                withText(R.string.change_record_type_goal_time_disabled)
+            )
+        )
 
         // Open category chooser
         clickOnViewWithText(R.string.change_record_type_category_hint)
