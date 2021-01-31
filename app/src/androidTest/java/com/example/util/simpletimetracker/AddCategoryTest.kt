@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker
 
 import android.view.View
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.assertion.PositionAssertions.isCompletelyAbove
 import androidx.test.espresso.assertion.PositionAssertions.isCompletelyBelow
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
@@ -43,6 +44,7 @@ class AddCategoryTest : BaseUiTest() {
 
         NavUtils.openCategoriesScreen()
         clickOnViewWithText(R.string.categories_add)
+        pressBack()
 
         // View is set up
         checkViewIsNotDisplayed(withId(R.id.btnChangeCategoryDelete))

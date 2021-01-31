@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.utils
 
 import android.widget.TimePicker
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.contrib.PickerActions
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
@@ -131,7 +132,8 @@ object NavUtils {
         hourStarted: Int,
         minutesStarted: Int,
         hourEnded: Int,
-        minutesEnded: Int
+        minutesEnded: Int,
+        comment: String? = null
     ) {
         clickOnViewWithId(R.id.btnRecordAdd)
 
@@ -146,6 +148,12 @@ object NavUtils {
         onView(ViewMatchers.withClassName(CoreMatchers.equalTo(TimePicker::class.java.name)))
             .perform(PickerActions.setTime(hourEnded, minutesEnded))
         clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+
+        // Comment
+        if (!comment.isNullOrEmpty()) {
+            typeTextIntoView(R.id.etChangeRecordComment, comment)
+            pressBack()
+        }
 
         // Activity
         clickOnViewWithText(R.string.change_record_type_field)

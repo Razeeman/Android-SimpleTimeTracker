@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker
 import android.view.View
 import android.widget.TimePicker
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.contrib.PickerActions
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
@@ -18,6 +19,7 @@ import com.example.util.simpletimetracker.utils.checkViewIsNotDisplayed
 import com.example.util.simpletimetracker.utils.clickOnRecyclerItem
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
+import com.example.util.simpletimetracker.utils.typeTextIntoView
 import com.example.util.simpletimetracker.utils.withCardColor
 import com.example.util.simpletimetracker.utils.withTag
 import org.hamcrest.CoreMatchers.allOf
@@ -35,6 +37,7 @@ class AddRecordTest : BaseUiTest() {
         val name = "Name"
         val color = ColorMapper.getAvailableColors().first()
         val icon = iconMapper.availableIconsNames.values.first()
+        val comment = "Comment"
 
         // Add activity
         NavUtils.addActivity(name, color, icon)
@@ -103,6 +106,12 @@ class AddRecordTest : BaseUiTest() {
         checkPreviewUpdated(hasDescendant(withText(name)))
         checkPreviewUpdated(withCardColor(color))
         checkPreviewUpdated(hasDescendant(withTag(icon)))
+        clickOnViewWithText(R.string.change_record_type_field)
+
+        // Set comment
+        typeTextIntoView(R.id.etChangeRecordComment, comment)
+        pressBack()
+        checkPreviewUpdated(hasDescendant(withText(comment)))
 
         clickOnViewWithText(R.string.change_record_save)
 
@@ -116,6 +125,7 @@ class AddRecordTest : BaseUiTest() {
                 hasDescendant(withText(timeStartedPreview)),
                 hasDescendant(withText(timeEndedPreview)),
                 hasDescendant(withText("2h 3m")),
+                hasDescendant(withText(comment)),
                 isCompletelyDisplayed()
             )
         )

@@ -4,6 +4,7 @@ import android.view.View
 import android.widget.DatePicker
 import android.widget.TimePicker
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.contrib.PickerActions
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
@@ -21,6 +22,7 @@ import com.example.util.simpletimetracker.utils.clickOnRecyclerItem
 import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
+import com.example.util.simpletimetracker.utils.typeTextIntoView
 import com.example.util.simpletimetracker.utils.withCardColor
 import com.example.util.simpletimetracker.utils.withTag
 import org.hamcrest.CoreMatchers.allOf
@@ -41,6 +43,8 @@ class ChangeRecordTest : BaseUiTest() {
         val lastColor = ColorMapper.getAvailableColors().last()
         val firstIcon = iconMapper.availableIconsNames.values.first()
         val lastIcon = iconMapper.availableIconsNames.values.last()
+        val comment = "comment"
+        val newComment = "new comment"
 
         // Add activities
         NavUtils.addActivity(name, firstColor, firstIcon)
@@ -62,6 +66,8 @@ class ChangeRecordTest : BaseUiTest() {
         var timeRangePreview = (timeEndedTimestamp - timeStartedTimestamp)
             .let(timeMapper::formatInterval)
 
+        typeTextIntoView(R.id.etChangeRecordComment, comment)
+        pressBack()
         clickOnViewWithText(R.string.change_record_type_field)
         clickOnRecyclerItem(R.id.rvChangeRecordType, withText(name))
         clickOnViewWithText(R.string.change_record_save)
@@ -74,6 +80,7 @@ class ChangeRecordTest : BaseUiTest() {
         checkViewIsNotDisplayed(withId(R.id.rvChangeRecordType))
         checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeStarted), withText(timeStarted)))
         checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeEnded), withText(timeEnded)))
+        checkViewIsDisplayed(allOf(withId(R.id.etChangeRecordComment), withText(comment)))
 
         // Preview is updated
         checkPreviewUpdated(hasDescendant(withText(name)))
@@ -82,10 +89,12 @@ class ChangeRecordTest : BaseUiTest() {
         checkPreviewUpdated(hasDescendant(withText(timeStartedPreview)))
         checkPreviewUpdated(hasDescendant(withText(timeEndedPreview)))
         checkPreviewUpdated(hasDescendant(withText(timeRangePreview)))
+        checkPreviewUpdated(hasDescendant(withText(comment)))
 
         // Change item
         clickOnViewWithText(R.string.change_record_type_field)
         clickOnRecyclerItem(R.id.rvChangeRecordType, withText(newName))
+        clickOnViewWithText(R.string.change_record_type_field)
 
         val calendar = Calendar.getInstance().apply {
             add(Calendar.DATE, -1)
@@ -142,6 +151,9 @@ class ChangeRecordTest : BaseUiTest() {
         checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeStarted), withText(timeStarted)))
         checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeEnded), withText(timeEnded)))
 
+        typeTextIntoView(R.id.etChangeRecordComment, newComment)
+        pressBack()
+
         // Preview is updated
         checkPreviewUpdated(hasDescendant(withText(newName)))
         checkPreviewUpdated(withCardColor(lastColor))
@@ -149,6 +161,7 @@ class ChangeRecordTest : BaseUiTest() {
         checkPreviewUpdated(hasDescendant(withText(timeStartedPreview)))
         checkPreviewUpdated(hasDescendant(withText(timeEndedPreview)))
         checkPreviewUpdated(hasDescendant(withText(timeRangePreview)))
+        checkPreviewUpdated(hasDescendant(withText(newComment)))
 
         clickOnViewWithText(R.string.change_record_type_save)
 
@@ -164,6 +177,7 @@ class ChangeRecordTest : BaseUiTest() {
                 hasDescendant(withText(timeStartedPreview)),
                 hasDescendant(withText(timeEndedPreview)),
                 hasDescendant(withText(timeRangePreview)),
+                hasDescendant(withText(newComment)),
                 isCompletelyDisplayed()
             )
         )

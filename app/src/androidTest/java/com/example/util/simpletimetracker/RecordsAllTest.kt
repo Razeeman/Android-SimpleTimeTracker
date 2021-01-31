@@ -33,6 +33,7 @@ class RecordsAllTest : BaseUiTest() {
     @Test
     fun recordsAll() {
         val name = "Test"
+        val comment = "comment"
 
         // Add activity
         NavUtils.addActivity(name)
@@ -64,13 +65,15 @@ class RecordsAllTest : BaseUiTest() {
             hourStarted = 17,
             minutesStarted = 0,
             hourEnded = 19,
-            minutesEnded = 0
+            minutesEnded = 0,
+            comment = comment
         )
 
         val secondRecord = allOf(
             withId(R.id.viewRecordItem),
             hasDescendant(withText(name)),
             hasDescendant(withText("2h 0m")),
+            hasDescendant(withText(comment)),
             isCompletelyDisplayed()
         )
 
