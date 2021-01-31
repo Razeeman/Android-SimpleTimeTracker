@@ -2,8 +2,8 @@ package com.example.util.simpletimetracker
 
 import android.view.View
 import android.widget.TimePicker
+import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.contrib.PickerActions
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
@@ -110,7 +110,7 @@ class AddRecordTest : BaseUiTest() {
 
         // Set comment
         typeTextIntoView(R.id.etChangeRecordComment, comment)
-        pressBack()
+        closeSoftKeyboard()
         checkPreviewUpdated(hasDescendant(withText(comment)))
 
         clickOnViewWithText(R.string.change_record_save)

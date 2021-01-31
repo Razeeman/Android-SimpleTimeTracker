@@ -3,8 +3,8 @@ package com.example.util.simpletimetracker
 import android.view.View
 import android.widget.DatePicker
 import android.widget.TimePicker
+import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.contrib.PickerActions
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
@@ -67,7 +67,7 @@ class ChangeRecordTest : BaseUiTest() {
             .let(timeMapper::formatInterval)
 
         typeTextIntoView(R.id.etChangeRecordComment, comment)
-        pressBack()
+        closeSoftKeyboard()
         clickOnViewWithText(R.string.change_record_type_field)
         clickOnRecyclerItem(R.id.rvChangeRecordType, withText(name))
         clickOnViewWithText(R.string.change_record_save)
@@ -152,7 +152,7 @@ class ChangeRecordTest : BaseUiTest() {
         checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeEnded), withText(timeEnded)))
 
         typeTextIntoView(R.id.etChangeRecordComment, newComment)
-        pressBack()
+        closeSoftKeyboard()
 
         // Preview is updated
         checkPreviewUpdated(hasDescendant(withText(newName)))
