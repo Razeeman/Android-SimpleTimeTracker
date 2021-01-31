@@ -11,7 +11,8 @@ class RecordDataLocalMapper @Inject constructor() {
             id = dbo.id,
             typeId = dbo.typeId,
             timeStarted = dbo.timeStarted,
-            timeEnded = dbo.timeEnded
+            timeEnded = dbo.timeEnded,
+            comment = dbo.comment
         )
     }
 
@@ -20,7 +21,8 @@ class RecordDataLocalMapper @Inject constructor() {
             id = domain.id,
             typeId = domain.typeId,
             timeStarted = domain.timeStarted,
-            timeEnded = domain.timeEnded
+            timeEnded = domain.timeEnded,
+            comment = domain.comment
         )
     }
 }

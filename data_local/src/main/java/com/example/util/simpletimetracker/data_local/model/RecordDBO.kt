@@ -17,5 +17,8 @@ data class RecordDBO(
     val timeStarted: Long,
 
     @ColumnInfo(name = "time_ended")
-    val timeEnded: Long
+    val timeEnded: Long,
+
+    @ColumnInfo(name = "comment")
+    val comment: String
 )

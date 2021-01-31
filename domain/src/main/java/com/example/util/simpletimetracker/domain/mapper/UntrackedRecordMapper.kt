@@ -18,7 +18,8 @@ class UntrackedRecordMapper @Inject constructor(
             Record(
                 typeId = -1,
                 timeStarted = it.first,
-                timeEnded = it.second
+                timeEnded = it.second,
+                comment = ""
             )
         }
     }

@@ -42,6 +42,9 @@ class AppDatabaseMigrations {
                 database.execSQL(
                     "ALTER TABLE recordTypes ADD COLUMN goal_time INTEGER NOT NULL DEFAULT 0"
                 )
+                database.execSQL(
+                    "ALTER TABLE records ADD COLUMN comment TEXT NOT NULL DEFAULT ''"
+                )
             }
         }
     }

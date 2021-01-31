@@ -62,6 +62,7 @@ class ChangeRecordViewModel @Inject constructor(
     private var newTypeId: Long = 0
     private var newTimeEnded: Long = 0
     private var newTimeStarted: Long = 0
+    private var newComment: String = ""
 
     fun onTypeChooserClick() {
         (flipTypesChooser as MutableLiveData).value = flipTypesChooser.value
@@ -105,7 +106,8 @@ class ChangeRecordViewModel @Inject constructor(
                 id = id,
                 typeId = newTypeId,
                 timeStarted = newTimeStarted,
-                timeEnded = newTimeEnded
+                timeEnded = newTimeEnded,
+                comment = newComment
             ).let {
                 recordInteractor.add(it)
                 router.back()
@@ -143,6 +145,15 @@ class ChangeRecordViewModel @Inject constructor(
         }
     }
 
+    fun onCommentChange(comment: String) {
+        viewModelScope.launch {
+            if (comment != newComment) {
+                newComment = comment
+                updatePreview()
+            }
+        }
+    }
+
     private fun getInitialDate(daysFromToday: Int): Long {
         return timeMapper.toTimestampShifted(daysFromToday, TimeMapper.Range.DAY)
     }
@@ -158,6 +169,7 @@ class ChangeRecordViewModel @Inject constructor(
                     newTypeId = record.typeId.orZero()
                     newTimeStarted = record.timeStarted
                     newTimeEnded = record.timeEnded
+                    newComment = record.comment
                 }
             }
             is ChangeRecordExtra.Untracked -> {
@@ -175,7 +187,8 @@ class ChangeRecordViewModel @Inject constructor(
         val record = Record(
             typeId = newTypeId,
             timeStarted = newTimeStarted,
-            timeEnded = newTimeEnded
+            timeEnded = newTimeEnded,
+            comment = newComment
         )
         val type = recordTypeInteractor.get(newTypeId)
         val isDarkTheme = prefsInteractor.getDarkMode()

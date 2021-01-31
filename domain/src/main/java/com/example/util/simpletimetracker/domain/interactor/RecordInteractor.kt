@@ -39,7 +39,8 @@ class RecordInteractor @Inject constructor(
         Record(
             typeId = typeId,
             timeStarted = timeStarted,
-            timeEnded = System.currentTimeMillis()
+            timeEnded = System.currentTimeMillis(),
+            comment = ""
         ).let {
             recordRepo.add(it)
             recordCacheRepo.clear()
