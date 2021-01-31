@@ -6,6 +6,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.media.RingtoneManager
 import android.os.Build
 import android.view.ContextThemeWrapper
 import android.view.View
@@ -70,6 +71,7 @@ class NotificationInactivityManager @Inject constructor(
             .setCustomContentView(notificationLayout)
             .setStyle(NotificationCompat.DecoratedCustomViewStyle())
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
             .build()
     }
 
