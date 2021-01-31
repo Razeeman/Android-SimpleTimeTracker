@@ -96,7 +96,8 @@ class NotificationTypeManager @Inject constructor(
 
         return RemoteViews(context.packageName, R.layout.notification_record_layout).apply {
             setTextViewText(R.id.tvNotificationText, params.text)
-            setTextViewText(R.id.tvNotificationDescription, params.description)
+            setTextViewText(R.id.tvNotificationTimeStarted, params.timeStarted)
+            setTextViewText(R.id.tvNotificationGoalTime, params.goalTime)
             setImageViewBitmap(R.id.ivNotificationIcon, iconBitmap)
         }
     }

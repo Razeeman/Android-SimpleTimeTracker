@@ -88,10 +88,15 @@ class NotificationTypeInteractorImpl @Inject constructor(
                 .let { colorMapper.mapToColorResId(it, isDarkTheme) }
                 .let(resourceRepo::getColor),
             text = recordType.name,
-            description = runningRecord.timeStarted
+            timeStarted = runningRecord.timeStarted
                 .let(timeMapper::formatTime)
                 .let { resourceRepo.getString(R.string.notification_time_started, it) },
-            startedTimeStamp = runningRecord.timeStarted
+            startedTimeStamp = runningRecord.timeStarted,
+            goalTime = recordType.goalTime
+                .takeIf { it > 0 }
+                ?.let(timeMapper::formatDuration)
+                ?.let { resourceRepo.getString(R.string.notification_record_type_goal_time, it) }
+                .orEmpty()
         ).let(notificationTypeManager::show)
     }
 

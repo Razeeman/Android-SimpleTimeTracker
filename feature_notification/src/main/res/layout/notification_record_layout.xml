@@ -24,13 +24,24 @@
         tools:text="Activity name" />
 
     <TextView
-        android:id="@+id/tvNotificationDescription"
+        android:id="@+id/tvNotificationTimeStarted"
         style="@style/TextAppearance.Compat.Notification.Info"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/tvNotificationText"
+        android:layout_toStartOf="@id/tvNotificationGoalTime"
         android:layout_toEndOf="@id/ivNotificationIcon"
         android:gravity="center_vertical"
         tools:text="Activity description" />
+
+    <TextView
+        android:id="@+id/tvNotificationGoalTime"
+        style="@style/TextAppearance.Compat.Notification.Info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvNotificationText"
+        android:layout_alignParentEnd="true"
+        android:gravity="center_vertical"
+        tools:text="goal 10m" />
 
 </RelativeLayout>

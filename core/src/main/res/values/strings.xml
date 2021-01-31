@@ -17,7 +17,6 @@
     <string name="untracked_time_name">Untracked</string>
     <string name="record_removed">Record %s removed</string>
     <string name="record_removed_undo">Undo</string>
-    <string name="notification_time_started">Started at %s</string>
     <string name="records_empty">Nothing to show</string>
     <string name="running_record_goal_time">goal %s</string>
 
@@ -186,5 +185,7 @@
     <string name="notification_inactivity_title">Inactivity reminder</string>
     <string name="notification_inactivity_text">Don\'t forget to track your time</string>
     <string name="notification_goal_time_description">%s goal time reached</string>
+    <string name="notification_time_started">Started at %s</string>
+    <string name="notification_record_type_goal_time">goal %s</string>
 
 </resources>
