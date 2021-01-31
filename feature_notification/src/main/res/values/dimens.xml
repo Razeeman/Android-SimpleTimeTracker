@@ -2,5 +2,6 @@
 <resources>
 
     <dimen name="notification_icon_size">34dp</dimen>
+    <dimen name="notification_icon_half_size">17dp</dimen>
 
 </resources>

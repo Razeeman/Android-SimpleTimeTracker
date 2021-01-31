@@ -10,6 +10,7 @@ import android.os.Build
 import android.view.ContextThemeWrapper
 import android.view.View
 import android.widget.RemoteViews
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.example.util.simpletimetracker.core.extension.getBitmapFromView
@@ -32,6 +33,15 @@ class NotificationGoalTimeManager @Inject constructor(
         ContextThemeWrapper(context, R.style.AppTheme)
     ).apply {
         val size = context.resources.getDimensionPixelSize(R.dimen.notification_icon_size)
+        val specWidth = View.MeasureSpec.makeMeasureSpec(size, View.MeasureSpec.EXACTLY)
+        val specHeight = View.MeasureSpec.makeMeasureSpec(size, View.MeasureSpec.EXACTLY)
+        measure(specWidth, specHeight)
+        layout(0, 0, measuredWidth, measuredHeight)
+    }
+    private val checkView = AppCompatImageView(
+        ContextThemeWrapper(context, R.style.AppTheme)
+    ).apply {
+        val size = context.resources.getDimensionPixelSize(R.dimen.notification_icon_half_size)
         val specWidth = View.MeasureSpec.makeMeasureSpec(size, View.MeasureSpec.EXACTLY)
         val specHeight = View.MeasureSpec.makeMeasureSpec(size, View.MeasureSpec.EXACTLY)
         measure(specWidth, specHeight)
@@ -87,11 +97,15 @@ class NotificationGoalTimeManager @Inject constructor(
             itemIcon = params.icon
             itemColor = params.color
         }.getBitmapFromView()
+        val checkBitmap = checkView.apply {
+            setBackgroundResource(R.drawable.spinner_check_mark)
+        }.getBitmapFromView()
 
         return RemoteViews(context.packageName, R.layout.notification_goal_time_layout).apply {
             setTextViewText(R.id.tvNotificationGoalTimeText, params.text)
             setTextViewText(R.id.tvNotificationGoalTimeDescription, params.description)
             setImageViewBitmap(R.id.ivNotificationGoalTimeIcon, iconBitmap)
+            setImageViewBitmap(R.id.ivNotificationGoalTimeCheck, checkBitmap)
         }
     }
 

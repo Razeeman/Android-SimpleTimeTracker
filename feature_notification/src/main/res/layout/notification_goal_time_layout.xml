@@ -14,6 +14,16 @@
         tools:backgroundTint="@color/red_400"
         tools:ignore="ContentDescription" />
 
+    <ImageView
+        android:id="@+id/ivNotificationGoalTimeCheck"
+        android:layout_width="@dimen/notification_icon_half_size"
+        android:layout_height="@dimen/notification_icon_half_size"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="8dp"
+        android:layout_toStartOf="@id/tvNotificationGoalTimeText"
+        tools:background="@drawable/spinner_check_mark"
+        tools:ignore="ContentDescription" />
+
     <TextView
         android:id="@+id/tvNotificationGoalTimeText"
         style="@style/TextAppearance.Compat.Notification.Title"
