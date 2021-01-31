@@ -105,9 +105,7 @@ class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragme
     }
 
     override fun initUx() {
-        etChangeRecordTypeName.doAfterTextChanged {
-            viewModel.onNameChange(it.toString())
-        }
+        etChangeRecordTypeName.doAfterTextChanged { viewModel.onNameChange(it.toString()) }
         fieldChangeRecordTypeColor.setOnClick(viewModel::onColorChooserClick)
         fieldChangeRecordTypeIcon.setOnClick(viewModel::onIconChooserClick)
         fieldChangeRecordTypeCategory.setOnClick(viewModel::onCategoryChooserClick)

@@ -42,7 +42,9 @@ class ChangeRecordViewDataMapper @Inject constructor(
             color = recordType?.color
                 ?.let { colorMapper.mapToColorResId(it, isDarkTheme) }
                 ?.let(resourceRepo::getColor)
-                ?: colorMapper.toUntrackedColor(isDarkTheme)
+                ?: colorMapper.toUntrackedColor(isDarkTheme),
+            comment = record?.comment
+                .orEmpty()
         )
     }
 }

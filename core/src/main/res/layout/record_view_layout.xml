@@ -85,6 +85,21 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="5h 23m 3s" />
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvRecordItemComment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textColor="?appLightTextColor"
+            android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@id/tvRecordItemDuration"
+            app:layout_constraintStart_toEndOf="@id/ivRecordItemIcon"
+            app:layout_constraintTop_toBottomOf="@id/tvRecordItemTimeSeparator"
+            tools:text="Record comment record comment record comment record comment"
+            tools:visibility="gone" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </merge>

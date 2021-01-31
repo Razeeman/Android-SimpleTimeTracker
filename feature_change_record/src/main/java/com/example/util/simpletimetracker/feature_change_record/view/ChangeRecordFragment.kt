@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.feature_change_record.view
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
@@ -10,6 +11,7 @@ import androidx.transition.TransitionInflater
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
+import com.example.util.simpletimetracker.core.extension.observeOnce
 import com.example.util.simpletimetracker.core.extension.rotateDown
 import com.example.util.simpletimetracker.core.extension.rotateUp
 import com.example.util.simpletimetracker.core.extension.setOnClick
@@ -84,6 +86,7 @@ class ChangeRecordFragment : BaseFragment(R.layout.change_record_fragment),
     }
 
     override fun initUx() {
+        etChangeRecordComment.doAfterTextChanged { viewModel.onCommentChange(it.toString()) }
         fieldChangeRecordType.setOnClick(viewModel::onTypeChooserClick)
         fieldChangeRecordTimeStarted.setOnClick(viewModel::onTimeStartedClick)
         fieldChangeRecordTimeEnded.setOnClick(viewModel::onTimeEndedClick)
@@ -97,6 +100,7 @@ class ChangeRecordFragment : BaseFragment(R.layout.change_record_fragment),
     override fun initViewModel() {
         with(viewModel) {
             extra = this@ChangeRecordFragment.extra
+            record.observeOnce(viewLifecycleOwner, ::updateUi)
             record.observe(viewLifecycleOwner, ::updatePreview)
             types.observe(viewLifecycleOwner, typesAdapter::replace)
             saveButtonEnabled.observe(viewLifecycleOwner, btnChangeRecordSave::setEnabled)
@@ -118,6 +122,11 @@ class ChangeRecordFragment : BaseFragment(R.layout.change_record_fragment),
         viewModel.onDateTimeSet(timestamp, tag)
     }
 
+    private fun updateUi(item: ChangeRecordViewData) {
+        etChangeRecordComment.setText(item.comment)
+        etChangeRecordComment.setSelection(item.comment.length)
+    }
+
     private fun updatePreview(item: ChangeRecordViewData) {
         with(previewChangeRecord) {
             itemName = item.name
@@ -126,6 +135,7 @@ class ChangeRecordFragment : BaseFragment(R.layout.change_record_fragment),
             itemTimeStarted = item.timeStarted
             itemTimeEnded = item.timeFinished
             itemDuration = item.duration
+            itemComment = item.comment
         }
         tvChangeRecordTimeStarted.text = item.dateTimeStarted
         tvChangeRecordTimeEnded.text = item.dateTimeFinished

@@ -34,6 +34,7 @@ class RecordAdapterDelegate(
             itemTimeStarted = item.timeStarted
             itemTimeEnded = item.timeFinished
             itemDuration = item.duration
+            itemComment = item.comment
 
             setOnClick { onItemClick(item, mapOf(this to transitionName)) }
             ViewCompat.setTransitionName(this, transitionName)

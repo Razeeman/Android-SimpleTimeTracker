@@ -6,37 +6,40 @@ import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 
 sealed class RecordViewData : ViewHolderType {
 
-    abstract var name: String
-    abstract var timeStarted: String
-    abstract var timeFinished: String
-    abstract var duration: String
+    abstract val name: String
+    abstract val timeStarted: String
+    abstract val timeFinished: String
+    abstract val duration: String
     abstract val iconId: Int
     abstract val color: Int
+    abstract val comment: String
 
     override fun getViewType(): Int = ViewHolderType.RECORD
 
     data class Tracked(
-        var id: Long,
-        override var name: String,
-        override var timeStarted: String,
-        override var timeFinished: String,
-        override var duration: String,
+        val id: Long,
+        override val name: String,
+        override val timeStarted: String,
+        override val timeFinished: String,
+        override val duration: String,
         @DrawableRes override val iconId: Int,
-        @ColorInt override val color: Int
+        @ColorInt override val color: Int,
+        override val comment: String
     ) : RecordViewData() {
 
         override fun getUniqueId(): Long? = id
     }
 
     data class Untracked(
-        var timeStartedTimestamp: Long,
-        var timeEndedTimestamp: Long,
-        override var name: String,
-        override var timeStarted: String,
-        override var timeFinished: String,
-        override var duration: String,
+        val timeStartedTimestamp: Long,
+        val timeEndedTimestamp: Long,
+        override val name: String,
+        override val timeStarted: String,
+        override val timeFinished: String,
+        override val duration: String,
         @DrawableRes override val iconId: Int,
-        @ColorInt override val color: Int
+        @ColorInt override val color: Int,
+        override val comment: String
     ) : RecordViewData() {
 
         override fun getUniqueId(): Long? {

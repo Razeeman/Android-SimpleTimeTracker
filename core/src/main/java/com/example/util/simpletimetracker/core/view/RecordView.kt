@@ -7,6 +7,7 @@ import android.view.View
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import com.example.util.simpletimetracker.core.R
+import com.example.util.simpletimetracker.core.extension.visible
 import kotlinx.android.synthetic.main.record_view_layout.view.*
 
 class RecordView @JvmOverloads constructor(
@@ -49,6 +50,9 @@ class RecordView @JvmOverloads constructor(
                 if (hasValue(R.styleable.RecordView_itemDuration)) itemDuration =
                     getString(R.styleable.RecordView_itemDuration).orEmpty()
 
+                if (hasValue(R.styleable.RecordView_itemComment)) itemComment =
+                    getString(R.styleable.RecordView_itemComment).orEmpty()
+
                 recycle()
             }
     }
@@ -87,6 +91,13 @@ class RecordView @JvmOverloads constructor(
     var itemDuration: String = ""
         set(value) {
             tvRecordItemDuration.text = value
+            field = value
+        }
+
+    var itemComment: String = ""
+        set(value) {
+            tvRecordItemComment.text = value
+            tvRecordItemComment.visible = value.isNotEmpty()
             field = value
         }
 }

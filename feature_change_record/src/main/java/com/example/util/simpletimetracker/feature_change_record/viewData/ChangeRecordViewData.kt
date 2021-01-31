@@ -4,12 +4,13 @@ import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 
 data class ChangeRecordViewData(
-    var name: String,
-    var timeStarted: String,
-    var timeFinished: String,
-    var dateTimeStarted: String,
-    var dateTimeFinished: String,
-    var duration: String,
+    val name: String,
+    val timeStarted: String,
+    val timeFinished: String,
+    val dateTimeStarted: String,
+    val dateTimeFinished: String,
+    val duration: String,
     @DrawableRes val iconId: Int,
-    @ColorInt val color: Int
+    @ColorInt val color: Int,
+    val comment: String
 )

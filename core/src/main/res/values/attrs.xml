@@ -37,6 +37,7 @@
         <attr name="itemTimeStarted" format="string" />
         <attr name="itemTimeEnded" format="string" />
         <attr name="itemDuration" format="string" />
+        <attr name="itemComment" format="string" />
     </declare-styleable>
 
     <declare-styleable name="RunningRecordView">

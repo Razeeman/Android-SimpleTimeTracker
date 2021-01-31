@@ -41,6 +41,7 @@
     <!--  Change record  -->
     <string name="message_choose_type">Select activity</string>
     <string name="change_record_type_field">Activity</string>
+    <string name="change_record_comment_hint">Enter new comment</string>
     <string name="change_record_save">Save</string>
 
     <!--  Change record type  -->

@@ -128,6 +128,13 @@
         <item name="android:textColorHint">@color/blue_grey_300</item>
     </style>
 
+    <style name="EditTextMultiLine">
+        <item name="android:textColor">?appTextPrimaryColor</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:inputType">textMultiLine</item>
+        <item name="android:textColorHint">@color/blue_grey_300</item>
+    </style>
+
     <style name="ChangeItemInputField" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="boxCornerRadiusBottomEnd">@dimen/input_field_corner_radius</item>
         <item name="boxCornerRadiusBottomStart">@dimen/input_field_corner_radius</item>

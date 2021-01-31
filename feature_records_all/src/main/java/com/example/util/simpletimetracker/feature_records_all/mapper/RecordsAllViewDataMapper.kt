@@ -47,7 +47,8 @@ class RecordsAllViewDataMapper @Inject constructor(
                 .let(iconMapper::mapToDrawableResId),
             color = recordType.color
                 .let { colorMapper.mapToColorResId(it, isDarkTheme) }
-                .let(resourceRepo::getColor)
+                .let(resourceRepo::getColor),
+            comment = record.comment
         )
     }
 
