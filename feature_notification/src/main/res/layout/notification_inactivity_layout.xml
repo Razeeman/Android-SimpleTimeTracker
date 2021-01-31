@@ -1,14 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingHorizontal="8dp">
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/ivNotificationInactivityIcon"
+        android:layout_width="@dimen/notification_icon_size"
+        android:layout_height="@dimen/notification_icon_size"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="8dp"
+        tools:background="@drawable/circle_drawable"
+        tools:backgroundTint="@color/red_400"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/tvNotificationInactivityText"
         style="@style/TextAppearance.Compat.Notification.Title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/ivNotificationInactivityIcon"
         android:gravity="center_vertical"
         android:text="@string/notification_inactivity_title" />
 
@@ -18,6 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/tvNotificationInactivityText"
+        android:layout_toEndOf="@id/ivNotificationInactivityIcon"
         android:gravity="center_vertical"
         android:text="@string/notification_inactivity_text" />
 

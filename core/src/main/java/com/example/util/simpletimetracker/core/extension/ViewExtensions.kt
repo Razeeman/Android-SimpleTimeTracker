@@ -1,6 +1,8 @@
 package com.example.util.simpletimetracker.core.extension
 
 import android.animation.ObjectAnimator
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.LinearInterpolator
@@ -157,4 +159,14 @@ fun View.updatePadding(
     bottom: Int = paddingBottom
 ) {
     setPadding(left, top, right, bottom)
+}
+
+fun View.getBitmapFromView(): Bitmap {
+    return Bitmap.createBitmap(
+        measuredWidth,
+        measuredHeight,
+        Bitmap.Config.ARGB_8888
+    ).also {
+        draw(Canvas(it))
+    }
 }

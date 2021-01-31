@@ -4,7 +4,10 @@ import com.example.util.simpletimetracker.core.interactor.NotificationInactivity
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.feature_notification.inactivity.manager.NotificationInactivityManager
+import com.example.util.simpletimetracker.feature_notification.inactivity.manager.NotificationInactivityParams
 import com.example.util.simpletimetracker.feature_notification.inactivity.scheduler.NotificationInactivityScheduler
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class NotificationInactivityInteractorImpl @Inject constructor(
@@ -29,6 +32,10 @@ class NotificationInactivityInteractorImpl @Inject constructor(
     }
 
     override fun show() {
-        manager.show()
+        GlobalScope.launch {
+            NotificationInactivityParams(
+                isDarkTheme = prefsInteractor.getDarkMode()
+            ).let(manager::show)
+        }
     }
 }

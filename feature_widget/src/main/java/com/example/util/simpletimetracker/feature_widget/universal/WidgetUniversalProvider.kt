@@ -5,13 +5,12 @@ import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.Canvas
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.MeasureSpec
 import android.widget.RemoteViews
+import com.example.util.simpletimetracker.core.extension.getBitmapFromView
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
@@ -64,7 +63,7 @@ class WidgetUniversalProvider : AppWidgetProvider() {
 
         val view = prepareView(context)
         measureView(context, view)
-        val bitmap = getBitmapFromView(view)
+        val bitmap = view.getBitmapFromView()
 
         val views = RemoteViews(context.packageName, R.layout.widget_layout)
         views.setImageViewBitmap(R.id.ivWidgetBackground, bitmap)
@@ -108,16 +107,6 @@ class WidgetUniversalProvider : AppWidgetProvider() {
         specHeight = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY)
         view.measure(specWidth, specHeight)
         view.layout(0, 0, view.measuredWidth, view.measuredHeight)
-    }
-
-    private fun getBitmapFromView(view: View): Bitmap {
-        return Bitmap.createBitmap(
-            view.measuredWidth,
-            view.measuredHeight,
-            Bitmap.Config.ARGB_8888
-        ).also {
-            view.draw(Canvas(it))
-        }
     }
 
     private fun getPendingIntent(context: Context): PendingIntent {

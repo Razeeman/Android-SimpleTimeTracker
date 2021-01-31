@@ -6,14 +6,13 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.Canvas
 import android.os.Build
 import android.view.ContextThemeWrapper
 import android.view.View
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import com.example.util.simpletimetracker.core.extension.getBitmapFromView
 import com.example.util.simpletimetracker.domain.di.AppContext
 import com.example.util.simpletimetracker.feature_notification.R
 import com.example.util.simpletimetracker.feature_notification.recordType.customView.NotificationIconView
@@ -93,22 +92,12 @@ class NotificationTypeManager @Inject constructor(
         val iconBitmap = iconView.apply {
             itemIcon = params.icon
             itemColor = params.color
-        }.let(::getBitmapFromView)
+        }.getBitmapFromView()
 
-        return RemoteViews(context.packageName, R.layout.notification_layout).apply {
+        return RemoteViews(context.packageName, R.layout.notification_record_layout).apply {
             setTextViewText(R.id.tvNotificationText, params.text)
             setTextViewText(R.id.tvNotificationDescription, params.description)
             setImageViewBitmap(R.id.ivNotificationIcon, iconBitmap)
-        }
-    }
-
-    private fun getBitmapFromView(view: View): Bitmap {
-        return Bitmap.createBitmap(
-            view.measuredWidth,
-            view.measuredHeight,
-            Bitmap.Config.ARGB_8888
-        ).also {
-            view.draw(Canvas(it))
         }
     }
 
