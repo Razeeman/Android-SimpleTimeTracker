@@ -100,7 +100,17 @@ class RunningRecordsViewModel @Inject constructor(
     fun onRunningRecordLongClick(item: RunningRecordViewData, sharedElements: Map<Any, String>) {
         router.navigate(
             screen = Screen.CHANGE_RECORD_RUNNING,
-            data = ChangeRunningRecordParams(item.id),
+            data = ChangeRunningRecordParams(
+                id = item.id,
+                preview = ChangeRunningRecordParams.Preview(
+                    name = item.name,
+                    timeStarted = item.timeStarted,
+                    duration = item.timer,
+                    goalTime = item.goalTime,
+                    iconId = item.iconId,
+                    color = item.color
+                )
+            ),
             sharedElements = sharedElements
         )
     }

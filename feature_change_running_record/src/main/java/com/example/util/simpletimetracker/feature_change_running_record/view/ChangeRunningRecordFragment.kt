@@ -14,11 +14,9 @@ import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.core.extension.visible
 import com.example.util.simpletimetracker.core.utils.BuildVersions
 import com.example.util.simpletimetracker.core.view.TransitionNames
-import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_change_running_record.R
 import com.example.util.simpletimetracker.feature_change_running_record.adapter.ChangeRunningRecordAdapter
 import com.example.util.simpletimetracker.feature_change_running_record.di.ChangeRunningRecordComponentProvider
-import com.example.util.simpletimetracker.feature_change_running_record.extra.ChangeRunningRecordExtra
 import com.example.util.simpletimetracker.feature_change_running_record.viewData.ChangeRunningRecordViewData
 import com.example.util.simpletimetracker.feature_change_running_record.viewModel.ChangeRunningRecordViewModel
 import com.example.util.simpletimetracker.navigation.params.ChangeRunningRecordParams
@@ -26,7 +24,14 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
-import kotlinx.android.synthetic.main.change_running_record_fragment.*
+import kotlinx.android.synthetic.main.change_running_record_fragment.arrowChangeRunningRecordType
+import kotlinx.android.synthetic.main.change_running_record_fragment.btnChangeRunningRecordDelete
+import kotlinx.android.synthetic.main.change_running_record_fragment.btnChangeRunningRecordSave
+import kotlinx.android.synthetic.main.change_running_record_fragment.fieldChangeRunningRecordTimeStarted
+import kotlinx.android.synthetic.main.change_running_record_fragment.fieldChangeRunningRecordType
+import kotlinx.android.synthetic.main.change_running_record_fragment.previewChangeRunningRecord
+import kotlinx.android.synthetic.main.change_running_record_fragment.rvChangeRunningRecordType
+import kotlinx.android.synthetic.main.change_running_record_fragment.tvChangeRunningRecordTimeStarted
 import javax.inject.Inject
 
 class ChangeRunningRecordFragment : BaseFragment(R.layout.change_running_record_fragment),
@@ -41,7 +46,9 @@ class ChangeRunningRecordFragment : BaseFragment(R.layout.change_running_record_
     private val typesAdapter: ChangeRunningRecordAdapter by lazy {
         ChangeRunningRecordAdapter(viewModel::onTypeClick)
     }
-    private val recordId: Long by lazy { arguments?.getLong(ARGS_RUNNING_RECORD_ID).orZero() }
+    private val params: ChangeRunningRecordParams by lazy {
+        arguments?.getParcelable(ARGS_PARAMS) ?: ChangeRunningRecordParams()
+    }
 
     override fun initDi() {
         (activity?.application as ChangeRunningRecordComponentProvider)
@@ -50,6 +57,8 @@ class ChangeRunningRecordFragment : BaseFragment(R.layout.change_running_record_
     }
 
     override fun initUi() {
+        setPreview()
+
         if (BuildVersions.isLollipopOrHigher()) {
             sharedElementEnterTransition = TransitionInflater.from(context)
                 .inflateTransition(android.R.transition.move)
@@ -57,7 +66,7 @@ class ChangeRunningRecordFragment : BaseFragment(R.layout.change_running_record_
 
         ViewCompat.setTransitionName(
             previewChangeRunningRecord,
-            TransitionNames.RECORD_RUNNING + recordId
+            TransitionNames.RECORD_RUNNING + params.id
         )
 
         rvChangeRunningRecordType.apply {
@@ -79,7 +88,7 @@ class ChangeRunningRecordFragment : BaseFragment(R.layout.change_running_record_
 
     override fun initViewModel() {
         with(viewModel) {
-            extra = ChangeRunningRecordExtra(id = recordId)
+            extra = params
             record.observe(viewLifecycleOwner, ::updatePreview)
             types.observe(viewLifecycleOwner, typesAdapter::replace)
             deleteButtonEnabled.observe(
@@ -111,6 +120,18 @@ class ChangeRunningRecordFragment : BaseFragment(R.layout.change_running_record_
         viewModel.onDateTimeSet(timestamp, tag)
     }
 
+    private fun setPreview() = params.preview?.run {
+        ChangeRunningRecordViewData(
+            name = name,
+            timeStarted = timeStarted,
+            dateTimeStarted = "",
+            duration = duration,
+            goalTime = goalTime,
+            iconId = iconId,
+            color = color
+        ).let(::updatePreview)
+    }
+
     private fun updatePreview(item: ChangeRunningRecordViewData) {
         with(previewChangeRunningRecord) {
             itemName = item.name
@@ -124,13 +145,11 @@ class ChangeRunningRecordFragment : BaseFragment(R.layout.change_running_record_
     }
 
     companion object {
-        private const val ARGS_RUNNING_RECORD_ID = "args_running_record_id"
+        private const val ARGS_PARAMS = "args_running_record_params"
 
         fun createBundle(data: Any?): Bundle = Bundle().apply {
             when (data) {
-                is ChangeRunningRecordParams -> {
-                    putLong(ARGS_RUNNING_RECORD_ID, data.id)
-                }
+                is ChangeRunningRecordParams -> putParcelable(ARGS_PARAMS, data)
             }
         }
     }
