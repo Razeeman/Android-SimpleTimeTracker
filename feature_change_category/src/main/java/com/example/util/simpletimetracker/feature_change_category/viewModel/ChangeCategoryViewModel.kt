@@ -18,10 +18,10 @@ import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.feature_change_category.R
-import com.example.util.simpletimetracker.feature_change_category.extra.ChangeCategoryExtra
 import com.example.util.simpletimetracker.feature_change_category.interactor.ChangeCategoryViewDataInteractor
 import com.example.util.simpletimetracker.navigation.Notification
 import com.example.util.simpletimetracker.navigation.Router
+import com.example.util.simpletimetracker.navigation.params.ChangeCategoryParams
 import com.example.util.simpletimetracker.navigation.params.ToastParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -36,7 +36,7 @@ class ChangeCategoryViewModel @Inject constructor(
     private val resourceRepo: ResourceRepo
 ) : ViewModel() {
 
-    lateinit var extra: ChangeCategoryExtra
+    lateinit var extra: ChangeCategoryParams
 
     val categoryPreview: LiveData<CategoryViewData> by lazy {
         return@lazy MutableLiveData<CategoryViewData>().let { initial ->

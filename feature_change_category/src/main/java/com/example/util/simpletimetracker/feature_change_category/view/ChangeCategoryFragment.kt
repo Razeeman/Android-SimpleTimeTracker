@@ -22,14 +22,22 @@ import com.example.util.simpletimetracker.feature_change_category.R
 import com.example.util.simpletimetracker.feature_change_category.adapter.ChangeCategoryColorAdapter
 import com.example.util.simpletimetracker.feature_change_category.adapter.ChangeCategoryTypeAdapter
 import com.example.util.simpletimetracker.feature_change_category.di.ChangeCategoryComponentProvider
-import com.example.util.simpletimetracker.feature_change_category.extra.ChangeCategoryExtra
 import com.example.util.simpletimetracker.feature_change_category.viewModel.ChangeCategoryViewModel
 import com.example.util.simpletimetracker.navigation.params.ChangeCategoryParams
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
-import kotlinx.android.synthetic.main.change_category_fragment.*
+import kotlinx.android.synthetic.main.change_category_fragment.arrowChangeCategoryColor
+import kotlinx.android.synthetic.main.change_category_fragment.arrowChangeCategoryType
+import kotlinx.android.synthetic.main.change_category_fragment.btnChangeCategoryDelete
+import kotlinx.android.synthetic.main.change_category_fragment.btnChangeCategorySave
+import kotlinx.android.synthetic.main.change_category_fragment.etChangeCategoryName
+import kotlinx.android.synthetic.main.change_category_fragment.fieldChangeCategoryColor
+import kotlinx.android.synthetic.main.change_category_fragment.fieldChangeCategoryType
+import kotlinx.android.synthetic.main.change_category_fragment.previewChangeCategory
+import kotlinx.android.synthetic.main.change_category_fragment.rvChangeCategoryColor
+import kotlinx.android.synthetic.main.change_category_fragment.rvChangeCategoryType
 import javax.inject.Inject
 
 class ChangeCategoryFragment : BaseFragment(R.layout.change_category_fragment) {
@@ -46,8 +54,9 @@ class ChangeCategoryFragment : BaseFragment(R.layout.change_category_fragment) {
     private val typesAdapter: ChangeCategoryTypeAdapter by lazy {
         ChangeCategoryTypeAdapter(viewModel::onTypeClick)
     }
+    // TODO by delegate?
     private val params: ChangeCategoryParams by lazy {
-        arguments?.getParcelable(ARGS_PARAMS) ?: ChangeCategoryParams()
+        arguments?.getParcelable<ChangeCategoryParams>(ARGS_PARAMS) ?: ChangeCategoryParams.New
     }
 
     override fun initDi() {
@@ -57,6 +66,9 @@ class ChangeCategoryFragment : BaseFragment(R.layout.change_category_fragment) {
     }
 
     override fun initUi() {
+        setPreview()
+
+        // TODO move to utils
         if (BuildVersions.isLollipopOrHigher()) {
             sharedElementEnterTransition = TransitionInflater.from(context)
                 .inflateTransition(android.R.transition.move)
@@ -95,7 +107,7 @@ class ChangeCategoryFragment : BaseFragment(R.layout.change_category_fragment) {
     }
 
     override fun initViewModel(): Unit = with(viewModel) {
-        extra = ChangeCategoryExtra(params.id)
+        extra = params
         deleteIconVisibility.observeOnce(viewLifecycleOwner, btnChangeCategoryDelete::visible::set)
         saveButtonEnabled.observe(viewLifecycleOwner, btnChangeCategorySave::setEnabled)
         deleteButtonEnabled.observe(viewLifecycleOwner, btnChangeCategoryDelete::setEnabled)
@@ -123,6 +135,15 @@ class ChangeCategoryFragment : BaseFragment(R.layout.change_category_fragment) {
     private fun updateUi(item: CategoryViewData) {
         etChangeCategoryName.setText(item.name)
         etChangeCategoryName.setSelection(item.name.length)
+    }
+
+    private fun setPreview() {
+        (params as? ChangeCategoryParams.Change)?.let { item ->
+            with(previewChangeCategory) {
+                itemName = item.name
+                itemColor = item.color
+            }
+        }
     }
 
     private fun updatePreview(item: CategoryViewData) {

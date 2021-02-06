@@ -23,11 +23,14 @@ class CategoriesViewModel @Inject constructor(
         MutableLiveData(listOf(LoaderViewData() as ViewHolderType))
     }
 
-    fun onCategoryLongClick(item: CategoryViewData, sharedElements: Map<Any, String>) {
-        // TODO change to dialog?
+    fun onCategoryClick(item: CategoryViewData, sharedElements: Map<Any, String>) {
         router.navigate(
             screen = Screen.CHANGE_CATEGORY,
-            data = ChangeCategoryParams(item.id),
+            data = ChangeCategoryParams.Change(
+                id = item.id,
+                name = item.name,
+                color = item.color
+            ),
             sharedElements = sharedElements
         )
     }
@@ -35,7 +38,7 @@ class CategoriesViewModel @Inject constructor(
     fun onAddCategoryClick() {
         router.navigate(
             screen = Screen.CHANGE_CATEGORY,
-            data = ChangeCategoryParams(0)
+            data = ChangeCategoryParams.New
         )
     }
 

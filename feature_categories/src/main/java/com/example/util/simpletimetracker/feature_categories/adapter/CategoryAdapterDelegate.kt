@@ -5,11 +5,11 @@ import androidx.core.view.ViewCompat
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerViewHolder
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
-import com.example.util.simpletimetracker.core.extension.setOnLongClick
+import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.core.view.TransitionNames
-import com.example.util.simpletimetracker.feature_categories.R
 import com.example.util.simpletimetracker.core.viewData.CategoryViewData
-import kotlinx.android.synthetic.main.item_category_layout.view.*
+import com.example.util.simpletimetracker.feature_categories.R
+import kotlinx.android.synthetic.main.item_category_layout.view.viewCategoryItem
 
 class CategoryAdapterDelegate(
     private val onItemLongClick: ((CategoryViewData, Map<Any, String>) -> Unit)
@@ -30,7 +30,7 @@ class CategoryAdapterDelegate(
 
             itemColor = item.color
             itemName = item.name
-            setOnLongClick { onItemLongClick(item, mapOf(this to transitionName)) }
+            setOnClick { onItemLongClick(item, mapOf(this to transitionName)) }
             ViewCompat.setTransitionName(this, transitionName)
         }
     }

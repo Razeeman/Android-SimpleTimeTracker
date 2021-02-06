@@ -7,12 +7,12 @@ import com.example.util.simpletimetracker.core.adapter.loader.LoaderAdapterDeleg
 import com.example.util.simpletimetracker.core.viewData.CategoryViewData
 
 class CategoriesAdapter(
-    onLongClick: ((CategoryViewData, Map<Any, String>) -> Unit),
+    onClick: ((CategoryViewData, Map<Any, String>) -> Unit),
     onAddClick: (() -> Unit)
 ) : BaseRecyclerAdapter() {
 
     init {
-        delegates[ViewHolderType.CATEGORY] = CategoryAdapterDelegate(onLongClick)
+        delegates[ViewHolderType.CATEGORY] = CategoryAdapterDelegate(onClick)
         delegates[ViewHolderType.LOADER] = LoaderAdapterDelegate()
         delegates[ViewHolderType.EMPTY] = EmptyAdapterDelegate()
         delegates[ViewHolderType.FOOTER] = CategoryAddAdapterDelegate(onAddClick)
