@@ -30,15 +30,27 @@ class RecordsViewModel @Inject constructor(
     }
 
     fun onRecordClick(item: RecordViewData, sharedElements: Map<Any, String>) {
+        val preview = ChangeRecordParams.Preview(
+            name = item.name,
+            timeStarted = item.timeStarted,
+            timeFinished = item.timeFinished,
+            duration = item.duration,
+            iconId = item.iconId,
+            color = item.color,
+            comment = item.comment
+        )
+
         val params = when (item) {
             is RecordViewData.Tracked -> ChangeRecordParams.Tracked(
                 transitionName = TransitionNames.RECORD + item.id,
-                id = item.id
+                id = item.id,
+                preview = preview
             )
             is RecordViewData.Untracked -> ChangeRecordParams.Untracked(
                 transitionName = TransitionNames.RECORD + item.getUniqueId(),
                 timeStarted = item.timeStartedTimestamp,
-                timeEnded = item.timeEndedTimestamp
+                timeEnded = item.timeEndedTimestamp,
+                preview = preview
             )
         }
         router.navigate(

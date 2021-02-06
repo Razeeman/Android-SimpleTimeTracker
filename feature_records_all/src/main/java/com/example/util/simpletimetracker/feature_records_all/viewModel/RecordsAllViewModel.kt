@@ -47,7 +47,16 @@ class RecordsAllViewModel @Inject constructor(
         if (item is RecordViewData.Tracked) {
             ChangeRecordParams.Tracked(
                 transitionName = TransitionNames.RECORD + item.id,
-                id = item.id
+                id = item.id,
+                preview = ChangeRecordParams.Preview(
+                    name = item.name,
+                    timeStarted = item.timeStarted,
+                    timeFinished = item.timeFinished,
+                    duration = item.duration,
+                    iconId = item.iconId,
+                    color = item.color,
+                    comment = item.comment
+                )
             ).let { params ->
                 router.navigate(
                     screen = Screen.CHANGE_RECORD_FROM_RECORDS_ALL,

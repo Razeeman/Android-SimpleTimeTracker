@@ -17,12 +17,12 @@ import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.feature_change_record.R
-import com.example.util.simpletimetracker.feature_change_record.extra.ChangeRecordExtra
 import com.example.util.simpletimetracker.feature_change_record.mapper.ChangeRecordViewDataMapper
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordViewData
 import com.example.util.simpletimetracker.navigation.Notification
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
+import com.example.util.simpletimetracker.navigation.params.ChangeRecordParams
 import com.example.util.simpletimetracker.navigation.params.DateTimeDialogParams
 import com.example.util.simpletimetracker.navigation.params.ToastParams
 import kotlinx.coroutines.launch
@@ -39,7 +39,7 @@ class ChangeRecordViewModel @Inject constructor(
     private val prefsInteractor: PrefsInteractor
 ) : ViewModel() {
 
-    lateinit var extra: ChangeRecordExtra
+    lateinit var extra: ChangeRecordParams
 
     val record: LiveData<ChangeRecordViewData> by lazy {
         return@lazy MutableLiveData<ChangeRecordViewData>().let { initial ->
@@ -101,7 +101,7 @@ class ChangeRecordViewModel @Inject constructor(
         (saveButtonEnabled as MutableLiveData).value = false
         viewModelScope.launch {
             // Zero id creates new record
-            val id = (extra as? ChangeRecordExtra.Tracked)?.id.orZero()
+            val id = (extra as? ChangeRecordParams.Tracked)?.id.orZero()
             Record(
                 id = id,
                 typeId = newTypeId,
@@ -164,20 +164,20 @@ class ChangeRecordViewModel @Inject constructor(
 
     private suspend fun initializePreviewViewData() {
         when (extra) {
-            is ChangeRecordExtra.Tracked -> {
-                recordInteractor.get((extra as ChangeRecordExtra.Tracked).id)?.let { record ->
+            is ChangeRecordParams.Tracked -> {
+                recordInteractor.get((extra as ChangeRecordParams.Tracked).id)?.let { record ->
                     newTypeId = record.typeId.orZero()
                     newTimeStarted = record.timeStarted
                     newTimeEnded = record.timeEnded
                     newComment = record.comment
                 }
             }
-            is ChangeRecordExtra.Untracked -> {
-                newTimeStarted = (extra as ChangeRecordExtra.Untracked).timeStarted
-                newTimeEnded = (extra as ChangeRecordExtra.Untracked).timeEnded
+            is ChangeRecordParams.Untracked -> {
+                newTimeStarted = (extra as ChangeRecordParams.Untracked).timeStarted
+                newTimeEnded = (extra as ChangeRecordParams.Untracked).timeEnded
             }
-            is ChangeRecordExtra.New -> {
-                newTimeEnded = getInitialDate((extra as ChangeRecordExtra.New).daysFromToday)
+            is ChangeRecordParams.New -> {
+                newTimeEnded = getInitialDate((extra as ChangeRecordParams.New).daysFromToday)
                 newTimeStarted = newTimeEnded - ONE_HOUR
             }
         }
