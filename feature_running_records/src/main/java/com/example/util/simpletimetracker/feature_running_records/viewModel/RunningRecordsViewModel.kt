@@ -59,7 +59,19 @@ class RunningRecordsViewModel @Inject constructor(
     fun onRecordTypeLongClick(item: RecordTypeViewData, sharedElements: Map<Any, String>) {
         router.navigate(
             screen = Screen.CHANGE_RECORD_TYPE,
-            data = ChangeRecordTypeParams(item.id, item.width, item.height, item.asRow),
+            data = ChangeRecordTypeParams.Change(
+                id = item.id,
+                sizePreview = ChangeRecordTypeParams.SizePreview(
+                    width = item.width,
+                    height = item.height,
+                    asRow = item.asRow
+                ),
+                preview = ChangeRecordTypeParams.Change.Preview(
+                    name = item.name,
+                    iconId = item.iconId,
+                    color = item.color
+                )
+            ),
             sharedElements = sharedElements
         )
     }
@@ -67,7 +79,13 @@ class RunningRecordsViewModel @Inject constructor(
     fun onAddRecordTypeClick(item: RunningRecordTypeAddViewData) {
         router.navigate(
             screen = Screen.CHANGE_RECORD_TYPE,
-            data = ChangeRecordTypeParams(0, item.width, item.height, item.asRow)
+            data = ChangeRecordTypeParams.New(
+                sizePreview = ChangeRecordTypeParams.SizePreview(
+                    width = item.width,
+                    height = item.height,
+                    asRow = item.asRow
+                )
+            )
         )
     }
 

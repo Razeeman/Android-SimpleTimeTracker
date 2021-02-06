@@ -25,13 +25,13 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_change_record_type.R
-import com.example.util.simpletimetracker.feature_change_record_type.extra.ChangeRecordTypeExtra
 import com.example.util.simpletimetracker.feature_change_record_type.interactor.ChangeRecordTypeViewDataInteractor
 import com.example.util.simpletimetracker.feature_change_record_type.mapper.ChangeRecordTypeMapper
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconViewData
 import com.example.util.simpletimetracker.navigation.Notification
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
+import com.example.util.simpletimetracker.navigation.params.ChangeRecordTypeParams
 import com.example.util.simpletimetracker.navigation.params.DurationDialogParams
 import com.example.util.simpletimetracker.navigation.params.ToastParams
 import kotlinx.coroutines.launch
@@ -56,7 +56,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     private val iconMapper: IconMapper
 ) : ViewModel() {
 
-    lateinit var extra: ChangeRecordTypeExtra
+    lateinit var extra: ChangeRecordTypeParams
 
     val recordType: LiveData<RecordTypeViewData> by lazy {
         return@lazy MutableLiveData<RecordTypeViewData>().let { initial ->

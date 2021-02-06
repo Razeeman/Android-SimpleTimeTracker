@@ -25,7 +25,6 @@ import com.example.util.simpletimetracker.feature_change_record_type.R
 import com.example.util.simpletimetracker.feature_change_record_type.adapter.ChangeRecordTypeAdapter
 import com.example.util.simpletimetracker.feature_change_record_type.adapter.ChangeRecordTypeCategoriesAdapter
 import com.example.util.simpletimetracker.feature_change_record_type.di.ChangeRecordTypeComponentProvider
-import com.example.util.simpletimetracker.feature_change_record_type.extra.ChangeRecordTypeExtra
 import com.example.util.simpletimetracker.feature_change_record_type.viewModel.ChangeRecordTypeViewModel
 import com.example.util.simpletimetracker.navigation.params.ChangeRecordTypeParams
 import com.google.android.flexbox.FlexDirection
@@ -54,7 +53,8 @@ class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragme
         ChangeRecordTypeCategoriesAdapter(viewModel::onCategoryClick)
     }
     private val params: ChangeRecordTypeParams by lazy {
-        arguments?.getParcelable(ARGS_PARAMS) ?: ChangeRecordTypeParams()
+        arguments?.getParcelable<ChangeRecordTypeParams>(ARGS_PARAMS)
+            ?: ChangeRecordTypeParams.New(ChangeRecordTypeParams.SizePreview())
     }
 
     override fun initDi() {
@@ -64,7 +64,7 @@ class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragme
     }
 
     override fun initUi() {
-        updatePreviewSize()
+        setPreview()
 
         if (BuildVersions.isLollipopOrHigher()) {
             sharedElementEnterTransition = TransitionInflater.from(context)
@@ -115,7 +115,7 @@ class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragme
     }
 
     override fun initViewModel(): Unit = with(viewModel) {
-        extra = ChangeRecordTypeExtra(params.id, params.width, params.height, params.asRow)
+        extra = params
         deleteIconVisibility.observeOnce(
             viewLifecycleOwner,
             btnChangeRecordTypeDelete::visible::set
@@ -172,14 +172,20 @@ class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragme
         }
     }
 
-    private fun updatePreviewSize() {
+    private fun setPreview() {
         val maxWidth = resources.displayMetrics.widthPixels.pxToDp() - DELETE_BUTTON_SIZE
 
         with(previewChangeRecordType) {
-            itemIsRow = params.asRow
+            itemIsRow = params.sizePreview.asRow
             layoutParams = layoutParams.also { layoutParams ->
-                params.width?.coerceAtMost(maxWidth)?.dpToPx()?.let { layoutParams.width = it }
-                params.height?.dpToPx()?.let { layoutParams.height = it }
+                params.sizePreview.width?.coerceAtMost(maxWidth)?.dpToPx()?.let { layoutParams.width = it }
+                params.sizePreview.height?.dpToPx()?.let { layoutParams.height = it }
+            }
+
+            (params as? ChangeRecordTypeParams.Change)?.preview?.let {
+                itemName = it.name
+                itemIcon = it.iconId
+                itemColor = it.color
             }
         }
     }
