@@ -8,7 +8,6 @@ import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
-import com.example.util.simpletimetracker.feature_statistics_detail.extra.StatisticsDetailExtra
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailViewDataInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.StatisticsDetailViewDataMapper
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartGrouping
@@ -21,6 +20,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.viewData.Sta
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
 import com.example.util.simpletimetracker.navigation.params.RecordsAllParams
+import com.example.util.simpletimetracker.navigation.params.StatisticsDetailParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -31,7 +31,7 @@ class StatisticsDetailViewModel @Inject constructor(
     private val mapper: StatisticsDetailViewDataMapper
 ) : ViewModel() {
 
-    lateinit var extra: StatisticsDetailExtra
+    lateinit var extra: StatisticsDetailParams
 
     val viewData: LiveData<StatisticsDetailViewData> by lazy {
         return@lazy MutableLiveData(loadInitialViewData())

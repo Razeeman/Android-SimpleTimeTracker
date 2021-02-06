@@ -28,8 +28,10 @@ class CategoriesViewModel @Inject constructor(
             screen = Screen.CHANGE_CATEGORY,
             data = ChangeCategoryParams.Change(
                 id = item.id,
-                name = item.name,
-                color = item.color
+                preview = ChangeCategoryParams.Change.Preview(
+                    name = item.name,
+                    color = item.color
+                )
             ),
             sharedElements = sharedElements
         )

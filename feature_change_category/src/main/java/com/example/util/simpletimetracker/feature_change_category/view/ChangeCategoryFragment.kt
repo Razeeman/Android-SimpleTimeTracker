@@ -54,6 +54,7 @@ class ChangeCategoryFragment : BaseFragment(R.layout.change_category_fragment) {
     private val typesAdapter: ChangeCategoryTypeAdapter by lazy {
         ChangeCategoryTypeAdapter(viewModel::onTypeClick)
     }
+
     // TODO by delegate?
     private val params: ChangeCategoryParams by lazy {
         arguments?.getParcelable<ChangeCategoryParams>(ARGS_PARAMS) ?: ChangeCategoryParams.New
@@ -137,12 +138,10 @@ class ChangeCategoryFragment : BaseFragment(R.layout.change_category_fragment) {
         etChangeCategoryName.setSelection(item.name.length)
     }
 
-    private fun setPreview() {
-        (params as? ChangeCategoryParams.Change)?.let { item ->
-            with(previewChangeCategory) {
-                itemName = item.name
-                itemColor = item.color
-            }
+    private fun setPreview() = (params as? ChangeCategoryParams.Change)?.preview?.run {
+        with(previewChangeCategory) {
+            itemName = name
+            itemColor = color
         }
     }
 

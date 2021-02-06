@@ -10,9 +10,15 @@ sealed class ChangeCategoryParams : Parcelable {
     @Parcelize
     data class Change(
         override val id: Long,
-        val name: String,
-        @ColorInt val color: Int
-    ) : ChangeCategoryParams()
+        val preview: Preview? = null
+    ) : ChangeCategoryParams() {
+
+        @Parcelize
+        data class Preview(
+            val name: String,
+            @ColorInt val color: Int
+        ) : Parcelable
+    }
 
     @Parcelize
     object New : ChangeCategoryParams() {

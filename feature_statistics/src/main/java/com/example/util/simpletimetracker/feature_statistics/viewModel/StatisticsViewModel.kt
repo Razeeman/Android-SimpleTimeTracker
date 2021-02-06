@@ -61,7 +61,15 @@ class StatisticsViewModel @Inject constructor(
 
         router.navigate(
             screen = Screen.STATISTICS_DETAIL,
-            data = StatisticsDetailParams(item.id, filterType),
+            data = StatisticsDetailParams(
+                id = item.id,
+                filterType = filterType,
+                preview = StatisticsDetailParams.Preview(
+                    name = item.name,
+                    iconId = (item as? StatisticsViewData.Activity)?.iconId,
+                    color = item.color
+                )
+            ),
             sharedElements = sharedElements
         )
     }

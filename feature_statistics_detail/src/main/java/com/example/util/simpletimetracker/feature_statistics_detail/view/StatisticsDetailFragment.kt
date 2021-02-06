@@ -11,11 +11,8 @@ import com.example.util.simpletimetracker.core.dialog.StandardDialogListener
 import com.example.util.simpletimetracker.core.extension.visible
 import com.example.util.simpletimetracker.core.utils.BuildVersions
 import com.example.util.simpletimetracker.core.view.TransitionNames
-import com.example.util.simpletimetracker.domain.extension.orZero
-import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.feature_statistics_detail.R
 import com.example.util.simpletimetracker.feature_statistics_detail.di.StatisticsDetailComponentProvider
-import com.example.util.simpletimetracker.feature_statistics_detail.extra.StatisticsDetailExtra
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailViewData
@@ -43,7 +40,9 @@ class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragmen
     private val viewModel: StatisticsDetailViewModel by viewModels(
         factoryProducer = { viewModelFactory }
     )
-    private val typeId: Long by lazy { arguments?.getLong(ARGS_ID).orZero() }
+    private val params: StatisticsDetailParams by lazy {
+        arguments?.getParcelable(ARGS_PARAMS) ?: StatisticsDetailParams()
+    }
 
     override fun initDi() {
         (activity?.application as StatisticsDetailComponentProvider)
@@ -52,6 +51,8 @@ class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragmen
     }
 
     override fun initUi() {
+        setPreview()
+
         if (BuildVersions.isLollipopOrHigher()) {
             sharedElementEnterTransition = TransitionInflater.from(context)
                 .inflateTransition(android.R.transition.move)
@@ -59,7 +60,7 @@ class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragmen
 
         ViewCompat.setTransitionName(
             layoutStatisticsDetailItem,
-            TransitionNames.STATISTICS_DETAIL + typeId
+            TransitionNames.STATISTICS_DETAIL + params.id
         )
     }
 
@@ -70,8 +71,7 @@ class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragmen
     }
 
     override fun initViewModel(): Unit = with(viewModel) {
-        val filterType = arguments?.getSerializable(ARGS_FILTER_TYPE) as? ChartFilterType
-        extra = StatisticsDetailExtra(typeId, filterType ?: ChartFilterType.ACTIVITY)
+        extra = params
         previewViewData.observe(viewLifecycleOwner, ::setPreviewViewData)
         viewData.observe(viewLifecycleOwner, ::setViewData)
         chartViewData.observe(viewLifecycleOwner, ::updateChartViewData)
@@ -83,6 +83,14 @@ class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragmen
     override fun onResume() {
         super.onResume()
         viewModel.onVisible()
+    }
+
+    private fun setPreview() = params.preview?.run {
+        StatisticsDetailPreviewViewData(
+            name = name,
+            iconId = iconId,
+            color = color
+        ).let(::setPreviewViewData)
     }
 
     private fun setPreviewViewData(viewData: StatisticsDetailPreviewViewData) {
@@ -117,15 +125,11 @@ class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragmen
     }
 
     companion object {
-        private const val ARGS_ID = "args_id"
-        private const val ARGS_FILTER_TYPE = "args_filter_type"
+        private const val ARGS_PARAMS = "args_params"
 
         fun createBundle(data: Any?): Bundle = Bundle().apply {
             when (data) {
-                is StatisticsDetailParams -> {
-                    putLong(ARGS_ID, data.id)
-                    putSerializable(ARGS_FILTER_TYPE, data.filterType)
-                }
+                is StatisticsDetailParams -> putParcelable(ARGS_PARAMS, data)
             }
         }
     }
