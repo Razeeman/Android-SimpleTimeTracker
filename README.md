@@ -11,8 +11,10 @@ Simple app that helps track how much time you spend on all the useless activitie
 
 ## Add, change or delete activities
 
+[![change_record_type_thumb]][change_record_type]
 [![change_record_type_color_thumb]][change_record_type_color]
 [![change_record_type_icon_thumb]][change_record_type_icon]
+[![change_record_type_tag_thumb]][change_record_type_tag]
 <br>
 
 ## Change or delete running timers
@@ -26,6 +28,7 @@ Simple app that helps track how much time you spend on all the useless activitie
 
 ## Add, change or delete records
 
+[![change_record_thumb]][change_record]
 [![change_record_activity_thumb]][change_record_activity]
 [![change_record_date_thumb]][change_record_date]
 [![change_record_time_thumb]][change_record_time]
@@ -40,7 +43,20 @@ Simple app that helps track how much time you spend on all the useless activitie
 
 ## Filter statistics by activities
 
-[![statistics_filter_thumb]][statistics_filter]
+[![statistics_filter_activity_thumb]][statistics_filter_activity]
+<br>
+
+## Add, change or delete tags
+
+[![tags_thumb]][tags]
+[![change_tag_color_thumb]][change_tag_color]
+[![change_tag_activity_thumb]][change_tag_activity]
+<br>
+
+## Filter statistics by tags
+
+[![statistics_tags_thumb]][statistics_tags]
+[![statistics_filter_tag_thumb]][statistics_filter_tag]
 <br>
 
 ## View detailed statistics
@@ -58,8 +74,10 @@ Simple app that helps track how much time you spend on all the useless activitie
 
 ## Settings
 
-[![settings_thumb]][settings]
-[![card_order_dialog_thumb]][card_order_dialog]
+[![settings1_thumb]][settings1]
+[![settings2_thumb]][settings2]
+[![settings_card_order_dialog_thumb]][settings_card_order_dialog]
+[![settings_duration_dialog_thumb]][settings_duration_dialog]
 <br>
 
 ## Reorder activity cards manually
@@ -86,7 +104,8 @@ Simple app that helps track how much time you spend on all the useless activitie
 
 ## Notifications
 
-[![notifications_thumb]][notifications]
+[![notifications_types_thumb]][notifications_types]
+[![notifications_inactivity_thumb]][notifications_inactivity]
 <br>
 
 ## Dark mode
@@ -123,6 +142,8 @@ Simple app that helps track how much time you spend on all the useless activitie
 - Dark mode
 - UI tests
 
+[change_record_thumb]: dev_files/screens/change_record_thumb.png
+[change_record]: dev_files/screens/change_record.png
 [change_record_activity_thumb]: dev_files/screens/change_record_activity_thumb.png
 [change_record_activity]: dev_files/screens/change_record_activity.png
 [change_record_date_thumb]: dev_files/screens/change_record_date_thumb.png
@@ -130,13 +151,25 @@ Simple app that helps track how much time you spend on all the useless activitie
 [change_record_time_thumb]: dev_files/screens/change_record_time_thumb.png
 [change_record_time]: dev_files/screens/change_record_time.png
 
+[change_record_type_thumb]: dev_files/screens/change_record_type_thumb.png
+[change_record_type]: dev_files/screens/change_record_type.png
 [change_record_type_color_thumb]: dev_files/screens/change_record_type_color_thumb.png
 [change_record_type_color]: dev_files/screens/change_record_type_color.png
 [change_record_type_icon_thumb]: dev_files/screens/change_record_type_icon_thumb.png
 [change_record_type_icon]: dev_files/screens/change_record_type_icon.png
+[change_record_type_tag_thumb]: dev_files/screens/change_record_type_tag_thumb.png
+[change_record_type_tag]: dev_files/screens/change_record_type_tag.png
 
 [change_running_record_thumb]: dev_files/screens/change_running_record_thumb.png
 [change_running_record]: dev_files/screens/change_running_record.png
+
+
+[tags_thumb]: dev_files/screens/tags_thumb.png
+[tags]: dev_files/screens/tags_thumb.png
+[change_tag_color_thumb]: dev_files/screens/change_tag_color_thumb.png
+[change_tag_color]: dev_files/screens/change_tag_color.png
+[change_tag_activity_thumb]: dev_files/screens/change_tag_activity_thumb.png
+[change_tag_activity]: dev_files/screens/change_tag_activity.png
 
 [main_thumb]: dev_files/screens/main_thumb.png
 [main]: dev_files/screens/main.png
@@ -144,14 +177,24 @@ Simple app that helps track how much time you spend on all the useless activitie
 [records_thumb]: dev_files/screens/records_thumb.png
 [records]: dev_files/screens/records.png
 
-[settings_thumb]: dev_files/screens/settings_thumb.png
-[settings]: dev_files/screens/settings.png
+[settings1_thumb]: dev_files/screens/settings1_thumb.png
+[settings1]: dev_files/screens/settings1.png
+[settings2_thumb]: dev_files/screens/settings2_thumb.png
+[settings2]: dev_files/screens/settings2.png
+[settings_card_order_dialog_thumb]: dev_files/screens/settings_card_order_dialog_thumb.png
+[settings_card_order_dialog]: dev_files/screens/settings_card_order_dialog.png
+[settings_duration_dialog_thumb]: dev_files/screens/settings_duration_dialog_thumb.png
+[settings_duration_dialog]: dev_files/screens/settings_duration_dialog.png
 
 [statistics_thumb]: dev_files/screens/statistics_thumb.png
 [statistics]: dev_files/screens/statistics.png
+[statistics_tags_thumb]: dev_files/screens/statistics_tags_thumb.png
+[statistics_tags]: dev_files/screens/statistics_tags.png
 
-[statistics_filter_thumb]: dev_files/screens/statistics_filter_thumb.png
-[statistics_filter]: dev_files/screens/statistics_filter.png
+[statistics_filter_activity_thumb]: dev_files/screens/statistics_filter_activity_thumb.png
+[statistics_filter_activity]: dev_files/screens/statistics_activity_filter.png
+[statistics_filter_tag_thumb]: dev_files/screens/statistics_filter_tag_thumb.png
+[statistics_filter_tag]: dev_files/screens/statistics_tag_filter.png
 
 [statistics_overall_thumb]: dev_files/screens/statistics_overall_thumb.png
 [statistics_overall]: dev_files/screens/statistics_overall.png
@@ -180,9 +223,6 @@ Simple app that helps track how much time you spend on all the useless activitie
 [widget_universal_activity_thumb]: dev_files/screens/widget_universal_activity_thumb.png
 [widget_universal_activity]: dev_files/screens/widget_universal_activity.png
 
-[card_order_dialog_thumb]: dev_files/screens/card_order_dialog_thumb.png
-[card_order_dialog]: dev_files/screens/card_order_dialog.png
-
 [card_order_manual_thumb]: dev_files/screens/card_order_manual_thumb.png
 [card_order_manual]: dev_files/screens/card_order_manual.png
 
@@ -191,8 +231,10 @@ Simple app that helps track how much time you spend on all the useless activitie
 [card_size_small_thumb]: dev_files/screens/card_size_small_thumb.png
 [card_size_small]: dev_files/screens/card_size_small.png
 
-[notifications_thumb]: dev_files/screens/notifications_thumb.png
-[notifications]: dev_files/screens/notifications.png
+[notifications_types_thumb]: dev_files/screens/notifications_types_thumb.png
+[notifications_types]: dev_files/screens/notifications_types.png
+[notifications_inactivity_thumb]: dev_files/screens/notifications_inactivity_thumb.png
+[notifications_inactivity]: dev_files/screens/notifications_inactivity.png
 
 [darkmode1_thumb]: dev_files/screens/darkmode1_thumb.png
 [darkmode1]: dev_files/screens/darkmode1.png
