@@ -115,6 +115,7 @@
     <string name="settings_inactivity_reminder_hint">Show notification after specified time if no timers are running.</string>
     <string name="settings_inactivity_reminder_disabled">Disabled</string>
     <string name="settings_dark_mode">Dark mode</string>
+    <string name="settings_use_military_time">Use 24-hour format</string>
     <string name="settings_change_card_size">Change activity card size</string>
     <string name="settings_edit_categories">Edit tags</string>
     <string name="settings_edit_categories_hint">Assign the same tag to different activities to view their grouped statistics.</string>

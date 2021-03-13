@@ -115,6 +115,7 @@
     <string name="settings_inactivity_reminder_hint">Показывать уведомление по истечении указанного времени, если таймеры не запущены.</string>
     <string name="settings_inactivity_reminder_disabled">Выкл.</string>
     <string name="settings_dark_mode">Темный режим</string>
+    <string name="settings_use_military_time">24-часовой формат</string>
     <string name="settings_change_card_size">Изменить размер карточки активности</string>
     <string name="settings_edit_categories">Редактировать теги</string>
     <string name="settings_edit_categories_hint">Назначьте один и тот же тег разным активностям, чтобы просматривать их сгруппированную статистику.</string>

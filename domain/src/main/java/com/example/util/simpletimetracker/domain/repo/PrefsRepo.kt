@@ -22,6 +22,8 @@ interface PrefsRepo {
 
     var numberOfCards: Int
 
+    var useMilitaryTimeFormat: Boolean
+
     fun setWidget(widgetId: Int, recordType: Long)
 
     fun getWidget(widgetId: Int): Long

@@ -45,11 +45,15 @@ class PrefsRepoImpl @Inject constructor(
     )
 
     override var darkMode: Boolean by prefs.delegate(
-        DARK_MODE, false
+        KEY_DARK_MODE, false
     )
 
     override var numberOfCards: Int by prefs.delegate(
         KEY_NUMBER_OF_CARDS, 0
+    )
+
+    override var useMilitaryTimeFormat: Boolean by prefs.delegate(
+        KEY_USE_MILITARY_TIME_FORMAT, true
     )
 
     override fun setWidget(widgetId: Int, recordType: Long) {
@@ -102,8 +106,9 @@ class PrefsRepoImpl @Inject constructor(
         private const val KEY_ALLOW_MULTITASKING = "allowMultitasking"
         private const val KEY_SHOW_NOTIFICATIONS = "showNotifications"
         private const val KEY_INACTIVITY_REMINDER_DURATION = "inactivityReminderDuration"
-        private const val DARK_MODE = "darkMode"
+        private const val KEY_DARK_MODE = "darkMode"
         private const val KEY_NUMBER_OF_CARDS = "numberOfCards" // 0 - default width
+        private const val KEY_USE_MILITARY_TIME_FORMAT = "useMilitaryTimeFormat"
         private const val KEY_WIDGET = "widget_"
         private const val KEY_CARD_ORDER_MANUAL = "cardOrderManual"
 

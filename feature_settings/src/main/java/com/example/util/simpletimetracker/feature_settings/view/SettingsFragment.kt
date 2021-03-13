@@ -58,6 +58,7 @@ class SettingsFragment : BaseFragment(R.layout.settings_fragment),
         checkboxSettingsShowNotifications.setOnClick(viewModel::onShowNotificationsClicked)
         groupSettingsInactivityReminder.setOnClick(viewModel::onInactivityReminderClicked)
         checkboxSettingsDarkMode.setOnClick(viewModel::onDarkModeClicked)
+        checkboxSettingsUseMilitaryTime.setOnClick(viewModel::onUseMilitaryTimeClicked)
         tvSettingsChangeCardSize.setOnClick(viewModel::onChangeCardSizeClick)
         layoutSettingsEditCategories.setOnClick(viewModel::onEditCategoriesClick)
         layoutSettingsSaveBackup.setOnClick(viewModel::onSaveClick)
@@ -96,6 +97,14 @@ class SettingsFragment : BaseFragment(R.layout.settings_fragment),
             viewLifecycleOwner,
             checkboxSettingsDarkMode::setChecked
         )
+        useMilitaryTimeCheckbox.observe(
+            viewLifecycleOwner,
+            checkboxSettingsUseMilitaryTime::setChecked
+        )
+        useMilitaryTimeHint.observe(
+            viewLifecycleOwner,
+            tvSettingsUseMilitaryTimeHint::setText
+        )
         themeChanged.observe(
             viewLifecycleOwner,
             ::changeTheme
@@ -109,6 +118,7 @@ class SettingsFragment : BaseFragment(R.layout.settings_fragment),
         checkboxSettingsAllowMultitasking.jumpDrawablesToCurrentState()
         checkboxSettingsShowNotifications.jumpDrawablesToCurrentState()
         checkboxSettingsDarkMode.jumpDrawablesToCurrentState()
+        checkboxSettingsUseMilitaryTime.jumpDrawablesToCurrentState()
         viewModel.onVisible()
     }
 

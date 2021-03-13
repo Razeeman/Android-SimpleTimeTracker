@@ -99,6 +99,24 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    val useMilitaryTimeCheckbox: LiveData<Boolean> by lazy {
+        MutableLiveData<Boolean>().let { initial ->
+            viewModelScope.launch {
+                initial.value = prefsInteractor.getUseMilitaryTimeFormat()
+            }
+            initial
+        }
+    }
+
+    val useMilitaryTimeHint: LiveData<String> by lazy {
+        MutableLiveData<String>().let { initial ->
+            viewModelScope.launch {
+                initial.value = loadUseMilitaryTimeViewData()
+            }
+            initial
+        }
+    }
+
     val themeChanged: LiveData<Boolean> = MutableLiveData(false)
 
     fun onVisible() {
@@ -219,6 +237,15 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    fun onUseMilitaryTimeClicked() {
+        viewModelScope.launch {
+            val newValue = !prefsInteractor.getUseMilitaryTimeFormat()
+            prefsInteractor.setUseMilitaryTimeFormat(newValue)
+            (useMilitaryTimeCheckbox as MutableLiveData).value = newValue
+            updateUseMilitaryTimeViewData()
+        }
+    }
+
     fun onChangeCardSizeClick() {
         router.navigate(Screen.CARD_SIZE_DIALOG)
     }
@@ -296,6 +323,16 @@ class SettingsViewModel @Inject constructor(
     private suspend fun loadInactivityReminderViewData(): String {
         return prefsInteractor.getInactivityReminderDuration()
             .let(settingsMapper::toInactivityReminderText)
+    }
+
+    private suspend fun updateUseMilitaryTimeViewData() {
+        val data = loadUseMilitaryTimeViewData()
+        (useMilitaryTimeHint as MutableLiveData).value = data
+    }
+
+    private suspend fun loadUseMilitaryTimeViewData(): String {
+        return prefsInteractor.getUseMilitaryTimeFormat()
+            .let(settingsMapper::toUseMilitaryTimeHint)
     }
 
     companion object {

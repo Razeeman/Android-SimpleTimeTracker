@@ -111,6 +111,14 @@ class PrefsInteractor @Inject constructor(
         prefsRepo.numberOfCards = cardSize
     }
 
+    suspend fun getUseMilitaryTimeFormat(): Boolean = withContext(Dispatchers.IO) {
+        prefsRepo.useMilitaryTimeFormat
+    }
+
+    suspend fun setUseMilitaryTimeFormat(isUsed: Boolean) = withContext(Dispatchers.IO) {
+        prefsRepo.useMilitaryTimeFormat = isUsed
+    }
+
     suspend fun setWidget(widgetId: Int, recordType: Long) = withContext(Dispatchers.IO) {
         prefsRepo.setWidget(widgetId, recordType)
     }

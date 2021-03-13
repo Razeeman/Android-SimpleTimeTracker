@@ -39,6 +39,10 @@ class SettingsMapper @Inject constructor(
         }
     }
 
+    fun toUseMilitaryTimeHint(useMilitaryTime: Boolean): String {
+        return if (useMilitaryTime) "13:00" else "1:00 PM" // TODO use time mapper
+    }
+
     private fun toPosition(cardOrder: CardOrder): Int {
         return cardOrderList.indexOf(cardOrder).takeUnless { it == -1 }.orZero()
     }
