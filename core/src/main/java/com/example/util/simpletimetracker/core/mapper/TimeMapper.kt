@@ -18,9 +18,9 @@ class TimeMapper @Inject constructor(
 
     private val calendar = Calendar.getInstance()
 
-    private val timeFormat = SimpleDateFormat("kk:mm", Locale.US)
-    private val dateTimeFormat = SimpleDateFormat("MMM d kk:mm", Locale.US)
-    private val dateTimeYearFormat = SimpleDateFormat("MMM d yyyy kk:mm", Locale.US)
+    private val timeFormat = SimpleDateFormat("HH:mm", Locale.US)
+    private val dateTimeFormat = SimpleDateFormat("MMM d HH:mm", Locale.US)
+    private val dateTimeYearFormat = SimpleDateFormat("MMM d yyyy HH:mm", Locale.US)
     private val dateYearFormat = SimpleDateFormat("MMM d yyyy", Locale.US)
     private val shortDayFormat = SimpleDateFormat("dd.MM", Locale.US)
     private val shortMonthFormat = SimpleDateFormat("MMM", Locale.US)
@@ -29,33 +29,41 @@ class TimeMapper @Inject constructor(
     private val weekTitleFormat = SimpleDateFormat("MMM d", Locale.US)
     private val monthTitleFormat = SimpleDateFormat("MMMM", Locale.US)
 
+    // 12:21
     fun formatTime(time: Long): String {
         return timeFormat.format(time)
     }
 
+    // Mar 11 12:21
     fun formatDateTime(time: Long): String {
         return dateTimeFormat.format(time)
     }
 
+    // Mar 12 2021 12:21
     fun formatDateTimeYear(time: Long): String {
         return dateTimeYearFormat.format(time)
     }
 
+    // Mar 12 2021
     fun formatDateYear(time: Long): String {
         return dateYearFormat.format(time)
     }
 
+    // 12.03
     fun formatShortDay(time: Long): String {
         return shortDayFormat.format(time)
     }
 
+    // Mar
     fun formatShortMonth(time: Long): String {
         return shortMonthFormat.format(time)
     }
 
+    // 1h 7m
     fun formatInterval(interval: Long): String =
         formatInterval(interval, withSeconds = false)
 
+    // 1h 7m 21s
     fun formatIntervalWithSeconds(interval: Long): String =
         formatInterval(interval, withSeconds = true)
 
@@ -126,6 +134,7 @@ class TimeMapper @Inject constructor(
         return result
     }
 
+    // Tue, Mar 12
     fun toDayTitle(daysFromToday: Int): String {
         return when (daysFromToday) {
             -1 -> resourceRepo.getString(R.string.title_yesterday)
@@ -135,6 +144,7 @@ class TimeMapper @Inject constructor(
         }
     }
 
+    // Mar 1 - Mar 7
     fun toWeekTitle(weeksFromToday: Int): String {
         return when (weeksFromToday) {
             0 -> resourceRepo.getString(R.string.title_this_week)
@@ -142,6 +152,7 @@ class TimeMapper @Inject constructor(
         }
     }
 
+    // March
     fun toMonthTitle(monthsFromToday: Int): String {
         return when (monthsFromToday) {
             0 -> resourceRepo.getString(R.string.title_this_month)
