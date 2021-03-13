@@ -163,9 +163,9 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch {
             if (newOrder == CardOrder.MANUAL) {
                 openCardOrderDialog()
-            } else {
-                prefsInteractor.setCardOrder(newOrder)
             }
+            prefsInteractor.setCardOrder(newOrder)
+            updateCardOrderViewData()
         }
     }
 

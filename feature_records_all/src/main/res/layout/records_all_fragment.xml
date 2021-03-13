@@ -24,29 +24,32 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text="@string/records_all_sort_order"
-                app:layout_constraintEnd_toStartOf="@id/spinnerRecordsAllSort"
+                app:layout_constraintEnd_toStartOf="@id/tvRecordsAllSortValue"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvRecordsAllSortValue"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:gravity="end|center_vertical"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:layout_marginEnd="32dp"
+                android:textColor="?appTextPrimaryColor"
+                app:layout_constraintBottom_toBottomOf="@id/spinnerRecordsAllSort"
+                app:layout_constraintEnd_toEndOf="@id/spinnerRecordsAllSort"
+                app:layout_constraintTop_toTopOf="@id/spinnerRecordsAllSort"
+                tools:text="@string/records_all_sort_time_started" />
 
             <com.example.util.simpletimetracker.core.view.spinner.CustomSpinner
                 android:id="@+id/spinnerRecordsAllSort"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
+                android:layout_marginEnd="8dp"
                 app:layout_constraintBottom_toBottomOf="@id/tvRecordsAllSort"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/tvRecordsAllSort" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvRecordsAllFilter"
-                style="@style/SettingsText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="@string/records_all_filter"
                 app:layout_constraintEnd_toStartOf="@id/cardRecordsAllFilter"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvRecordsAllSort" />
+                app:layout_constraintTop_toTopOf="@id/tvRecordsAllSort" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardRecordsAllFilter"
@@ -55,10 +58,10 @@
                 android:layout_height="44dp"
                 android:foreground="?selectableItemBackground"
                 app:cardBackgroundColor="?appButtonOnCardBackgroundColor"
-                app:layout_constraintBottom_toBottomOf="@id/tvRecordsAllFilter"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="h,1:1"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/tvRecordsAllFilter">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="match_parent"

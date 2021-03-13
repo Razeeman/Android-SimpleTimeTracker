@@ -78,6 +78,7 @@ class RecordsAllViewModel @Inject constructor(
     fun onRecordTypeOrderSelected(position: Int) {
         sortOrder = recordsAllViewDataMapper.toSortOrder(position)
         updateRecords()
+        updateSortOrderViewData()
     }
 
     fun onFilterClick() {
@@ -99,6 +100,11 @@ class RecordsAllViewModel @Inject constructor(
 
     private suspend fun loadRecordsViewData(): List<ViewHolderType> {
         return recordsAllViewDataInteractor.getViewData(typesSelected, sortOrder)
+    }
+
+    private fun updateSortOrderViewData() {
+        val data = loadSortOrderViewData()
+        (sortOrderViewData as MutableLiveData).value = data
     }
 
     private fun loadSortOrderViewData(): RecordsAllSortOrderViewData {

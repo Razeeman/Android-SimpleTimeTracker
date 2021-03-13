@@ -151,6 +151,7 @@ class SettingsFragment : BaseFragment(R.layout.settings_fragment),
     private fun updateCardOrderViewData(viewData: CardOrderViewData) {
         btnCardOrderManual.visible = viewData.isManualConfigButtonVisible
         spinnerSettingsRecordTypeSort.setData(viewData.items, viewData.selectedPosition)
+        tvSettingsRecordTypeSortValue.text = viewData.items.getOrNull(viewData.selectedPosition).orEmpty()
     }
 
     private fun changeTheme(themeChanged: Boolean) {

@@ -15,20 +15,6 @@
         android:visibility="invisible"
         tools:listitem="@layout/item_spinner_layout" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvCustomSpinner"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:gravity="end|center_vertical"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
-        android:textColor="?appTextPrimaryColor"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/arrowCustomSpinner"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="selected item" />
-
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/arrowCustomSpinner"
         android:layout_width="24dp"

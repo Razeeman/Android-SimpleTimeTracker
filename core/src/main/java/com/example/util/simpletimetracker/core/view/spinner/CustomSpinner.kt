@@ -29,7 +29,6 @@ class CustomSpinner @JvmOverloads constructor(
 
         customSpinner.adapter = adapter
         customSpinner.onItemSelected {
-            tvCustomSpinner.text = adapter.getItem(it)
             if (selectedPosition != it) {
                 selectedPosition = it
                 onItemSelected(it)
@@ -43,6 +42,5 @@ class CustomSpinner @JvmOverloads constructor(
         adapter.clear()
         adapter.addAll(items)
         customSpinner.setSelection(selectedPosition)
-        tvCustomSpinner.text = adapter.getItem(selectedPosition)
     }
 }

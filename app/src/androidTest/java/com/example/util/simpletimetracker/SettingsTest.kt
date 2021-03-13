@@ -294,11 +294,7 @@ class SettingsTest : BaseUiTest() {
         NavUtils.openSettingsScreen()
         onView(withId(R.id.spinnerSettingsRecordTypeSort)).perform(nestedScrollTo())
         checkViewIsDisplayed(
-            allOf(
-                isDescendantOfA(withId(R.id.spinnerSettingsRecordTypeSort)),
-                withId(R.id.tvCustomSpinner),
-                withText(R.string.settings_sort_by_name)
-            )
+            allOf(withId(R.id.tvSettingsRecordTypeSortValue), withText(R.string.settings_sort_by_name))
         )
     }
 
@@ -318,6 +314,9 @@ class SettingsTest : BaseUiTest() {
         onView(withId(R.id.spinnerSettingsRecordTypeSort)).perform(nestedScrollTo())
         clickOnViewWithId(R.id.spinnerSettingsRecordTypeSort)
         clickOnViewWithText(R.string.settings_sort_by_color)
+        checkViewIsDisplayed(
+            allOf(withId(R.id.tvSettingsRecordTypeSortValue), withText(R.string.settings_sort_by_color))
+        )
 
         // Check new order
         NavUtils.openRunningRecordsScreen()
@@ -352,6 +351,9 @@ class SettingsTest : BaseUiTest() {
 
         // Check new order
         pressBack()
+        checkViewIsDisplayed(
+            allOf(withId(R.id.tvSettingsRecordTypeSortValue), withText(R.string.settings_sort_manually))
+        )
         NavUtils.openRunningRecordsScreen()
         check(name2, name1) { matcher -> isCompletelyLeftOf(matcher) }
         check(name1, name3) { matcher -> isCompletelyLeftOf(matcher) }
