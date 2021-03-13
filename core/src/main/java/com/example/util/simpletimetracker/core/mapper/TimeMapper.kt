@@ -162,6 +162,10 @@ class TimeMapper @Inject constructor(
     }
 
     fun formatDuration(interval: Long): String {
+        val hourString = resourceRepo.getString(R.string.time_hour)
+        val minuteString = resourceRepo.getString(R.string.time_minute)
+        val secondString = resourceRepo.getString(R.string.time_second)
+
         val hr: Long = TimeUnit.SECONDS.toHours(
             interval
         )
@@ -172,13 +176,13 @@ class TimeMapper @Inject constructor(
             interval - TimeUnit.HOURS.toSeconds(hr) - TimeUnit.MINUTES.toSeconds(min)
         )
 
-        val hrString = "${hr}h"
+        val hrString = "$hr$hourString"
         val minString = min.toString().let {
             if (hr != 0L) it.padStart(2, '0') else it
-        } + "m"
+        } + minuteString
         val secString = sec.toString().let {
             if (hr != 0L || min != 0L) it.padStart(2, '0') else it
-        } + "s"
+        } + secondString
 
         var res = ""
         if (hr != 0L) res += hrString
@@ -191,6 +195,10 @@ class TimeMapper @Inject constructor(
     }
 
     private fun formatInterval(interval: Long, withSeconds: Boolean): String {
+        val hourString = resourceRepo.getString(R.string.time_hour)
+        val minuteString = resourceRepo.getString(R.string.time_minute)
+        val secondString = resourceRepo.getString(R.string.time_second)
+
         val hr: Long = TimeUnit.MILLISECONDS.toHours(
             interval
         )
@@ -202,9 +210,9 @@ class TimeMapper @Inject constructor(
         )
 
         var res = ""
-        if (hr != 0L) res += "${hr}h"
-        if (hr != 0L || min != 0L || !withSeconds) res += " ${min}m"
-        if (withSeconds) res += " ${sec}s"
+        if (hr != 0L) res += "$hr$hourString"
+        if (hr != 0L || min != 0L || !withSeconds) res += " $min$minuteString"
+        if (withSeconds) res += " $sec$secondString"
 
         return res
     }

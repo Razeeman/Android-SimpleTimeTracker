@@ -14,6 +14,10 @@
     <string name="ok">OK</string>
     <string name="cancel">Отмена</string>
 
+    <string name="time_hour">ч</string>
+    <string name="time_minute">м</string>
+    <string name="time_second">с</string>
+
     <string name="untracked_time_name">Без отслеживания</string>
     <string name="record_removed">Запись %s удалена</string>
     <string name="record_removed_undo">Отменить</string>

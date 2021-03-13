@@ -34,6 +34,10 @@ class DurationView @JvmOverloads constructor(
     private var textStartVertical: Float = 0f
     private val bounds: Rect = Rect()
 
+    private val hourString: String by lazy { context.getString(R.string.time_hour) }
+    private val minuteString: String by lazy { context.getString(R.string.time_minute) }
+    private val secondString: String by lazy { context.getString(R.string.time_second) }
+
     init {
         initArgs(context, attrs, defStyleAttr)
         initPaint()
@@ -103,7 +107,7 @@ class DurationView @JvmOverloads constructor(
 
     private fun calculateDimensions(w: Float, h: Float) {
         val legendsTextWidth =
-            listOf("h", "m", "s").map(legendTextPaint::measureText).sum()
+            listOf(hourString, minuteString, secondString).map(legendTextPaint::measureText).sum()
         val desiredSegmentWidth =
             min((w - legendsTextWidth - 2 * legendPadding) / 3, h)
         textStartHorizontal =
@@ -124,20 +128,20 @@ class DurationView @JvmOverloads constructor(
         var text = format(data.hours)
         canvas.drawText(format(data.hours), 0f, 0f, textPaint)
         canvas.translate(textPaint.measureText(text), 0f)
-        canvas.drawText("h", 0f, 0f, legendTextPaint)
-        canvas.translate(legendTextPaint.measureText("h") + legendPadding, 0f)
+        canvas.drawText(hourString, 0f, 0f, legendTextPaint)
+        canvas.translate(legendTextPaint.measureText(hourString) + legendPadding, 0f)
 
         text = format(data.minutes)
         canvas.drawText(format(data.minutes), 0f, 0f, textPaint)
         canvas.translate(textPaint.measureText(text), 0f)
-        canvas.drawText("m", 0f, 0f, legendTextPaint)
-        canvas.translate(legendTextPaint.measureText("m") + legendPadding, 0f)
+        canvas.drawText(minuteString, 0f, 0f, legendTextPaint)
+        canvas.translate(legendTextPaint.measureText(minuteString) + legendPadding, 0f)
 
         text = format(data.hours)
         canvas.drawText(format(data.seconds), 0f, 0f, textPaint)
         canvas.translate(textPaint.measureText(text), 0f)
-        canvas.drawText("s", 0f, 0f, legendTextPaint)
-        canvas.translate(legendTextPaint.measureText("s"), 0f)
+        canvas.drawText(secondString, 0f, 0f, legendTextPaint)
+        canvas.translate(legendTextPaint.measureText(secondString), 0f)
     }
 
     private fun setTextSizeForWidth(paint: Paint, desiredWidth: Float) {

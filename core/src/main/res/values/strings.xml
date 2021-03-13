@@ -14,6 +14,10 @@
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
 
+    <string name="time_hour">h</string>
+    <string name="time_minute">m</string>
+    <string name="time_second">s</string>
+
     <string name="untracked_time_name">Untracked</string>
     <string name="record_removed">Record %s removed</string>
     <string name="record_removed_undo">Undo</string>
