@@ -157,7 +157,7 @@ class BackupRepoImpl @Inject constructor(
         return String.format(
             "$ROW_RECORD_TYPE\t%s\t%s\t%s\t%s\t%s\t%s\n",
             recordType.id.toString(),
-            recordType.name.replace("[\n\t]", ""),
+            recordType.name.clean(),
             recordType.icon,
             recordType.color.toString(),
             (if (recordType.hidden) 1 else 0).toString(),
@@ -172,7 +172,7 @@ class BackupRepoImpl @Inject constructor(
             record.typeId.toString(),
             record.timeStarted.toString(),
             record.timeEnded.toString(),
-            record.comment.replace("[\n\t]", "")
+            record.comment.clean()
         )
     }
 
@@ -180,7 +180,7 @@ class BackupRepoImpl @Inject constructor(
         return String.format(
             "$ROW_CATEGORY\t%s\t%s\t%s\n",
             category.id.toString(),
-            category.name.replace("[\n\t]", ""),
+            category.name.clean(),
             category.color.toString()
         )
     }
@@ -228,6 +228,9 @@ class BackupRepoImpl @Inject constructor(
            categoryId  = parts.getOrNull(2)?.toLongOrNull().orZero()
         )
     }
+
+    private fun String.clean() =
+        replace("[\n\t]".toRegex(), " ")
 
     companion object {
         private const val BACKUP_IDENTIFICATION = "app simple time tracker"
