@@ -17,13 +17,9 @@ class RunningRecordAdapter(
 ) : BaseRecyclerAdapter() {
 
     init {
-        delegates[ViewHolderType.RUNNING_RECORD] = RunningRecordAdapterDelegate(
-            onRecordClick, onRecordLongClick
-        )
+        delegates[ViewHolderType.RUNNING_RECORD] = RunningRecordAdapterDelegate(onRecordClick, onRecordLongClick)
         delegates[ViewHolderType.DIVIDER] = RunningRecordDividerAdapterDelegate()
-        delegates[ViewHolderType.RECORD_TYPE] = RunningRecordTypeAdapterDelegate(
-            onTypeClick, onTypeLongClick
-        )
+        delegates[ViewHolderType.RECORD_TYPE] = RunningRecordTypeAdapterDelegate(onTypeClick, onTypeLongClick)
         delegates[ViewHolderType.LOADER] = LoaderAdapterDelegate()
         delegates[ViewHolderType.EMPTY] = EmptyAdapterDelegate()
         delegates[ViewHolderType.FOOTER] = RunningRecordTypeAddAdapterDelegate(onAddClick)

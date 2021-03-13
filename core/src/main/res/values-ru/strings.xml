@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="title_yesterday">Вчера</string>
+    <string name="title_today">Сегодня</string>
+    <string name="title_tomorrow">Завтра</string>
+    <string name="title_this_week">Неделя</string>
+    <string name="title_this_month">Месяц</string>
+    <string name="title_overall">Все время</string>
+    <string name="title_select_day">Выберите дату</string>
+    <string name="title_select_week">Выберите неделю</string>
+    <string name="title_select_month">Выберите месяц</string>
+
+    <string name="ok">OK</string>
+    <string name="cancel">Отмена</string>
+
+    <string name="untracked_time_name">Без отслеживания</string>
+    <string name="record_removed">Запись %s удалена</string>
+    <string name="record_removed_undo">Отменить</string>
+    <string name="records_empty">Нечего показать</string>
+    <string name="running_record_goal_time">цель %s</string>
+
+    <!--  Statistics  -->
+    <string name="statistics_empty">Нечего показать</string>
+    <string name="statistics_total_tracked">Всего отслежено</string>
+
+    <!--  Categories  -->
+    <string name="categories_add">Добавить новый тег</string>
+
+    <!--  Change category  -->
+    <string name="change_category_removed">Тег удален</string>
+    <string name="change_category_name_hint">Введите новое имя</string>
+    <string name="change_category_color_hint">Цвет</string>
+    <string name="change_category_type_hint">Активность</string>
+    <string name="change_category_save">Сохранить</string>
+    <string name="change_category_message_choose_name">Выберите имя</string>
+    <string name="change_category_types_empty">Активности не добавлены</string>
+    <string name="change_category_selected_types_empty">Не привязан ни к какой активности</string>
+    <string name="change_category_selected_types_hint">Присвоен:</string>
+
+    <!--  Change record  -->
+    <string name="message_choose_type">Выберите активность</string>
+    <string name="change_record_type_field">Активность</string>
+    <string name="change_record_comment_hint">Комментарий</string>
+    <string name="change_record_save">Сохранить</string>
+
+    <!--  Change record type  -->
+    <string name="change_record_type_removed">Активность удалена</string>
+    <string name="change_record_type_name_hint">Введите новое имя</string>
+    <string name="change_record_type_color_hint">Цвет</string>
+    <string name="change_record_type_icon_hint">Иконка</string>
+    <string name="change_record_type_category_hint">Теги</string>
+    <string name="change_record_type_save">Сохранить</string>
+    <string name="change_record_message_choose_name">Выберите имя</string>
+    <string name="change_record_type_categories_empty">Теги не добавлены</string>
+    <string name="change_record_type_selected_categories_empty">Теги не назначены</string>
+    <string name="change_record_type_selected_categories_hint">Назначенные теги:</string>
+    <string name="change_record_type_goal_time_disabled">Выкл.</string>
+    <string name="change_record_type_goal_time">Время цели</string>
+    <string name="change_record_type_goal_time_hint">Показывать уведомление после указанного времени отслеживания этой активности.</string>
+
+    <!--  Change running record  -->
+    <string name="change_running_record_message_choose_type">Выберите активность</string>
+    <string name="change_running_record_removed">Текущая активность удалена</string>
+    <string name="change_running_record_type_field">Активность</string>
+    <string name="change_running_record_save">Сохранить</string>
+
+    <!--  Dialogs  -->
+    <string name="date_time_dialog_date">Дата</string>
+    <string name="date_time_dialog_time">Время</string>
+
+    <string name="card_size_default">Ширина по умолчанию</string>
+    <string name="card_size_hint">Количество карточек в ряду</string>
+
+    <string name="card_order_hint">Перетащите, чтобы изменить порядок</string>
+
+    <string name="chart_filter_hint">Фильтр</string>
+    <string name="types_filter_show_all">Показать все</string>
+    <string name="types_filter_hide_all">Скрыть все</string>
+    <string name="chart_filter_type_hint">Тип статистики</string>
+    <string name="chart_filter_type_activity">Активности</string>
+    <string name="chart_filter_type_category">Теги</string>
+    <string name="chart_filter_categories_empty">Теги не добавлены</string>
+
+    <string name="duration_dialog_save">Сохранить</string>
+    <string name="duration_dialog_disable">Отключить</string>
+
+    <!--  Records all  -->
+    <string name="records_all_sort_order">Сортировка</string>
+    <string name="records_all_filter">Отфильтровать активности</string>
+    <string name="records_all_sort_time_started">Дата</string>
+    <string name="records_all_sort_duration">Продолж.</string>
+
+    <!--  Running records  -->
+    <string name="running_records_types_empty">Добавьте активности, чтобы начать отслеживание</string>
+    <string name="running_records_empty">Нажмите на активность, чтобы начать отслеживание</string>
+    <string name="running_records_empty_hint">Нажмите и удерживайте для редактирования</string>
+    <string name="running_records_add_type">Добав.</string>
+
+    <!--  Settings  -->
+    <string name="settings_sort_order">Сортировать активности</string>
+    <string name="settings_sort_by_name">Имя</string>
+    <string name="settings_sort_by_color">Цвет</string>
+    <string name="settings_sort_manually">Вручную</string>
+    <string name="settings_show_untracked_time">Показывать неотслеживаемое время в записях</string>
+    <string name="settings_allow_multitasking">Разрешить многозадачность</string>
+    <string name="settings_allow_multitasking_hint">Если отключено, запуск нового таймера автоматически остановит другие активности.</string>
+    <string name="settings_show_notifications">Показывать уведомления таймера</string>
+    <string name="settings_show_notifications_hint">Показывать уведомления, когда таймеры работают.</string>
+    <string name="settings_inactivity_reminder">Показать напоминание о бездействии</string>
+    <string name="settings_inactivity_reminder_hint">Показывать уведомление по истечении указанного времени, если таймеры не запущены.</string>
+    <string name="settings_inactivity_reminder_disabled">Выкл.</string>
+    <string name="settings_dark_mode">Темный режим</string>
+    <string name="settings_change_card_size">Изменить размер карточки активности</string>
+    <string name="settings_edit_categories">Редактировать теги</string>
+    <string name="settings_edit_categories_hint">Назначьте один и тот же тег разным активностям, чтобы просматривать их сгруппированную статистику.</string>
+    <string name="settings_rate">Оцените нас</string>
+    <string name="settings_rate_description">Оцените приложение и оставьте отзыв.</string>
+    <string name="settings_feedback">Обратная связь</string>
+    <string name="settings_feedback_description">Есть предложение? Нашли ошибку? Хотите поговорить? Напишите нам!</string>
+    <string name="settings_version">Версия</string>
+    <string name="settings_email_chooser_title">Отправить с помощью…</string>
+
+    <string name="settings_save_backup">Сохранить резервную копию</string>
+    <string name="settings_save_description">Перед сохранением убедитесь, что у вас установлена последняя версия приложения, чтобы избежать конфликтов.</string>
+    <string name="settings_restore_backup">Восстановление резервной копии</string>
+    <string name="settings_restore_description">Текущие данные будут потеряны.</string>
+    <string name="settings_dialog_message">Восстановить из резервной копии?</string>
+    <string name="settings_export_csv">Экспорт таблицы</string>
+    <string name="settings_export_csv_description">Экспортируйте записи в виде файла CSV для просмотра в предпочтительном приложении для работы с электронными таблицами.</string>
+    <string name="settings_file_open_error">Ошибка при открытии файла</string>
+    <string name="settings_file_create_error">Ошибка при создании файла</string>
+
+    <string name="message_backup_saved">Резервная копия сохранена</string>
+    <string name="message_backup_restored">Резервная копия восстановлена</string>
+    <string name="message_save_error">Ошибка при сохранении резервной копии</string>
+    <string name="message_restore_error">Ошибка восстановления резервной копии</string>
+    <string name="message_app_not_found">Приложение не найдено</string>
+    <string name="message_csv_export_complete">Экспорт завершен</string>
+    <string name="message_csv_export_error">Ошибка экспорта CSV</string>
+
+    <!--  Statistics detail  -->
+    <string name="statistics_detail_chart_daily">день</string>
+    <string name="statistics_detail_chart_weekly">неделя</string>
+    <string name="statistics_detail_chart_monthly">месяц</string>
+    <string name="statistics_detail_length_ten">10</string>
+    <string name="statistics_detail_length_fifty">50</string>
+    <string name="statistics_detail_length_hundred">100</string>
+    <string name="statistics_detail_legend_minute_suffix">м</string>
+    <string name="statistics_detail_legend_hour_suffix">ч</string>
+
+    <string name="statistics_detail_total_duration">Всего</string>
+    <string name="statistics_detail_shortest_record">Самая короткая</string>
+    <string name="statistics_detail_average_record">Средняя</string>
+    <string name="statistics_detail_longest_record">Самая длинная</string>
+    <string name="statistics_detail_first_record">Первая</string>
+    <string name="statistics_detail_last_record">Последняя</string>
+
+    <string name="statistics_detail_chart_monday">Пн</string>
+    <string name="statistics_detail_chart_tuesday">Вт</string>
+    <string name="statistics_detail_chart_wednesday">Ср</string>
+    <string name="statistics_detail_chart_thursday">Чт</string>
+    <string name="statistics_detail_chart_friday">Пт</string>
+    <string name="statistics_detail_chart_saturday">Сб</string>
+    <string name="statistics_detail_chart_sunday">Вс</string>
+
+    <plurals name="statistics_detail_times_tracked">
+        <item quantity="one">Запись</item>
+        <item quantity="few">Записи</item>
+        <item quantity="many">Записей</item>
+        <item quantity="other">Записей</item>
+    </plurals>
+
+    <!--  Widget  -->
+    <string name="widget_name">Одна активность</string>
+    <string name="widget_universal_name">Универсальный</string>
+    <string name="widget_load_error">Не найден</string>
+    <string name="widget_empty">Активности не добавлены</string>
+
+    <!--  Notification  -->
+    <string name="notification_inactivity_title">Напоминание о бездействии</string>
+    <string name="notification_inactivity_text">Не забывайте отслеживать свое время</string>
+    <string name="notification_goal_time_description">%s целевое время достигнуто</string>
+    <string name="notification_time_started">Начато в %s</string>
+    <string name="notification_record_type_goal_time">цель %s</string>
+
+</resources>
