@@ -17,20 +17,25 @@ class ChangeRecordViewDataMapper @Inject constructor(
     private val resourceRepo: ResourceRepo
 ) {
 
-    fun map(record: Record?, recordType: RecordType?, isDarkTheme: Boolean): ChangeRecordViewData {
+    fun map(
+        record: Record?,
+        recordType: RecordType?,
+        isDarkTheme: Boolean,
+        useMilitaryTime: Boolean
+    ): ChangeRecordViewData {
         return ChangeRecordViewData(
             name = recordType?.name.orEmpty(),
             timeStarted = record?.timeStarted
-                ?.let(timeMapper::formatTime)
+                ?.let { timeMapper.formatTime(it, useMilitaryTime) }
                 .orEmpty(),
             timeFinished = record?.timeEnded
-                ?.let(timeMapper::formatTime)
+                ?.let { timeMapper.formatTime(it, useMilitaryTime) }
                 .orEmpty(),
             dateTimeStarted = record?.timeStarted
-                ?.let(timeMapper::formatDateTime)
+                ?.let { timeMapper.formatDateTime(it, useMilitaryTime) }
                 .orEmpty(),
             dateTimeFinished = record?.timeEnded
-                ?.let(timeMapper::formatDateTime)
+                ?.let { timeMapper.formatDateTime(it, useMilitaryTime) }
                 .orEmpty(),
             duration = record
                 ?.let { it.timeEnded - it.timeStarted }

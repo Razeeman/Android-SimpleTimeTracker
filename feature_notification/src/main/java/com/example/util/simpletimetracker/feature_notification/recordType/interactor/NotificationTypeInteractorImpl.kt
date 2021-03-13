@@ -32,7 +32,14 @@ class NotificationTypeInteractorImpl @Inject constructor(
         val recordType = recordTypeInteractor.get(typeId)
         val runningRecord = runningRecordInteractor.get(typeId)
         val isDarkTheme = prefsInteractor.getDarkMode()
-        show(recordType, runningRecord, isDarkTheme)
+        val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
+
+        show(
+            recordType = recordType,
+            runningRecord = runningRecord,
+            isDarkTheme = isDarkTheme,
+            useMilitaryTime = useMilitaryTime
+        )
     }
 
     override suspend fun checkAndHide(typeId: Long) {
@@ -58,13 +65,15 @@ class NotificationTypeInteractorImpl @Inject constructor(
     private suspend fun showAll() {
         val recordTypes = recordTypeInteractor.getAll().map { it.id to it }.toMap()
         val isDarkTheme = prefsInteractor.getDarkMode()
+        val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
 
         runningRecordInteractor.getAll()
             .forEach { runningRecord ->
                 show(
-                    recordTypes[runningRecord.id],
-                    runningRecord,
-                    isDarkTheme
+                    recordType = recordTypes[runningRecord.id],
+                    runningRecord = runningRecord,
+                    isDarkTheme = isDarkTheme,
+                    useMilitaryTime = useMilitaryTime
                 )
             }
     }
@@ -75,7 +84,12 @@ class NotificationTypeInteractorImpl @Inject constructor(
             .forEach { typeId -> hide(typeId) }
     }
 
-    private fun show(recordType: RecordType?, runningRecord: RunningRecord?, isDarkTheme: Boolean) {
+    private fun show(
+        recordType: RecordType?,
+        runningRecord: RunningRecord?,
+        isDarkTheme: Boolean,
+        useMilitaryTime: Boolean
+    ) {
         if (recordType == null || runningRecord == null) {
             return
         }
@@ -89,7 +103,7 @@ class NotificationTypeInteractorImpl @Inject constructor(
                 .let(resourceRepo::getColor),
             text = recordType.name,
             timeStarted = runningRecord.timeStarted
-                .let(timeMapper::formatTime)
+                .let { timeMapper.formatTime(it, useMilitaryTime) }
                 .let { resourceRepo.getString(R.string.notification_time_started, it) },
             startedTimeStamp = runningRecord.timeStarted,
             goalTime = recordType.goalTime

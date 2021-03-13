@@ -192,8 +192,14 @@ class ChangeRecordViewModel @Inject constructor(
         )
         val type = recordTypeInteractor.get(newTypeId)
         val isDarkTheme = prefsInteractor.getDarkMode()
+        val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
 
-        return changeRecordViewDataMapper.map(record, type, isDarkTheme)
+        return changeRecordViewDataMapper.map(
+            record = record,
+            recordType = type,
+            isDarkTheme = isDarkTheme,
+            useMilitaryTime = useMilitaryTime
+        )
     }
 
     private suspend fun loadTypesViewData(): List<ViewHolderType> {

@@ -18,14 +18,14 @@ class TimeMapper @Inject constructor(
 
     private val calendar = Calendar.getInstance()
 
-    private val timeFormatMilitary = SimpleDateFormat("HH:mm", Locale.US)
     private val timeFormat = SimpleDateFormat("h:mm a", Locale.US)
+    private val timeFormatMilitary = SimpleDateFormat("HH:mm", Locale.US)
 
-    private val dateTimeFormatMilitary = SimpleDateFormat("MMM d HH:mm", Locale.US)
     private val dateTimeFormat = SimpleDateFormat("MMM d h:mm a", Locale.US)
+    private val dateTimeFormatMilitary = SimpleDateFormat("MMM d HH:mm", Locale.US)
 
-    private val dateTimeYearFormatMilitary = SimpleDateFormat("MMM d yyyy HH:mm", Locale.US)
     private val dateTimeYearFormat = SimpleDateFormat("MMM d yyyy h:mm a", Locale.US)
+    private val dateTimeYearFormatMilitary = SimpleDateFormat("MMM d yyyy HH:mm", Locale.US)
 
     private val dateYearFormat = SimpleDateFormat("MMM d yyyy", Locale.US)
     private val shortDayFormat = SimpleDateFormat("dd.MM", Locale.US)
@@ -36,18 +36,30 @@ class TimeMapper @Inject constructor(
     private val monthTitleFormat = SimpleDateFormat("MMMM", Locale.US)
 
     // 12:21
-    fun formatTime(time: Long): String {
-        return timeFormat.format(time)
+    fun formatTime(time: Long, useMilitaryTime: Boolean): String {
+        return if (useMilitaryTime) {
+            timeFormatMilitary
+        } else {
+            timeFormat
+        }.format(time)
     }
 
     // Mar 11 12:21
-    fun formatDateTime(time: Long): String {
-        return dateTimeFormat.format(time)
+    fun formatDateTime(time: Long, useMilitaryTime: Boolean): String {
+        return if (useMilitaryTime) {
+            dateTimeFormatMilitary
+        } else {
+            dateTimeFormat
+        }.format(time)
     }
 
     // Mar 12 2021 12:21
-    fun formatDateTimeYear(time: Long): String {
-        return dateTimeYearFormat.format(time)
+    fun formatDateTimeYear(time: Long, useMilitaryTime: Boolean): String {
+        return if (useMilitaryTime) {
+            dateTimeYearFormatMilitary
+        } else {
+            dateTimeYearFormat
+        }.format(time)
     }
 
     // Mar 12 2021

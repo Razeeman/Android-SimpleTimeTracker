@@ -29,7 +29,12 @@ class StatisticsDetailViewDataInteractor @Inject constructor(
         filter: ChartFilterType
     ): StatisticsDetailViewData {
         val isDarkTheme = prefsInteractor.getDarkMode()
-        if (id == -1L) return statisticsDetailViewDataMapper.map(emptyList(), isDarkTheme)
+        val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
+        if (id == -1L) return statisticsDetailViewDataMapper.map(
+            records = emptyList(),
+            isDarkTheme = isDarkTheme,
+            useMilitaryTime = useMilitaryTime
+        )
 
         val records = when (filter) {
             ChartFilterType.ACTIVITY -> {
@@ -41,7 +46,11 @@ class StatisticsDetailViewDataInteractor @Inject constructor(
             }
         }
 
-        return statisticsDetailViewDataMapper.map(records, isDarkTheme)
+        return statisticsDetailViewDataMapper.map(
+            records = records,
+            isDarkTheme = isDarkTheme,
+            useMilitaryTime = useMilitaryTime
+        )
     }
 
     suspend fun getPreviewData(

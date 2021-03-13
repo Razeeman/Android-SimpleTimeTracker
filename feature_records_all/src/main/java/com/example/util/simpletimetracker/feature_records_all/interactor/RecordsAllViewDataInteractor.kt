@@ -25,6 +25,7 @@ class RecordsAllViewDataInteractor @Inject constructor(
         sortOrder: RecordsAllSortOrder
     ): List<ViewHolderType> {
         val isDarkTheme = prefsInteractor.getDarkMode()
+        val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
         val recordTypes = recordTypeInteractor.getAll()
             .map { it.id to it }
             .toMap()
@@ -39,7 +40,12 @@ class RecordsAllViewDataInteractor @Inject constructor(
                     Triple(
                         record.timeStarted,
                         record.timeEnded - record.timeStarted,
-                        recordsAllViewDataMapper.map(record, recordType, isDarkTheme)
+                        recordsAllViewDataMapper.map(
+                            record = record,
+                            recordType = recordType,
+                            isDarkTheme = isDarkTheme,
+                            useMilitaryTime = useMilitaryTime
+                        )
                     )
                 }
                 .sortedByDescending { (timeStarted, duration, _) ->

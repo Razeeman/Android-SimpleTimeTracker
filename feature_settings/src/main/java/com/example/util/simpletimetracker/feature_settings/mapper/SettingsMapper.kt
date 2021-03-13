@@ -6,6 +6,7 @@ import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.model.CardOrder
 import com.example.util.simpletimetracker.feature_settings.R
 import com.example.util.simpletimetracker.feature_settings.viewData.CardOrderViewData
+import java.util.Calendar
 import javax.inject.Inject
 
 class SettingsMapper @Inject constructor(
@@ -40,7 +41,14 @@ class SettingsMapper @Inject constructor(
     }
 
     fun toUseMilitaryTimeHint(useMilitaryTime: Boolean): String {
-        return if (useMilitaryTime) "13:00" else "1:00 PM" // TODO use time mapper
+        val hintTime = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, 13)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }.timeInMillis
+
+        return timeMapper.formatTime(hintTime, useMilitaryTime)
     }
 
     private fun toPosition(cardOrder: CardOrder): Int {

@@ -28,13 +28,14 @@ class RunningRecordViewDataMapper @Inject constructor(
     fun map(
         runningRecord: RunningRecord,
         recordType: RecordType,
-        isDarkTheme: Boolean
+        isDarkTheme: Boolean,
+        useMilitaryTime: Boolean
     ): RunningRecordViewData {
         return RunningRecordViewData(
             id = runningRecord.id,
             name = recordType.name,
             timeStarted = runningRecord.timeStarted
-                .let(timeMapper::formatTime),
+                .let { timeMapper.formatTime(it, useMilitaryTime) },
             timer = (System.currentTimeMillis() - runningRecord.timeStarted)
                 .let(timeMapper::formatIntervalWithSeconds),
             goalTime = recordType.goalTime

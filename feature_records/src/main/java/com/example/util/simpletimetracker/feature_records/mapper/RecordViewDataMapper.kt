@@ -26,7 +26,8 @@ class RecordViewDataMapper @Inject constructor(
         recordType: RecordType,
         rangeStart: Long,
         rangeEnd: Long,
-        isDarkTheme: Boolean
+        isDarkTheme: Boolean,
+        useMilitaryTime: Boolean
     ): ViewHolderType {
         val (timeStarted, timeEnded) = clampToRange(record, rangeStart, rangeEnd)
 
@@ -34,9 +35,9 @@ class RecordViewDataMapper @Inject constructor(
             id = record.id,
             name = recordType.name,
             timeStarted = timeStarted
-                .let(timeMapper::formatTime),
+                .let { timeMapper.formatTime(it, useMilitaryTime) },
             timeFinished = timeEnded
-                .let(timeMapper::formatTime),
+                .let { timeMapper.formatTime(it, useMilitaryTime) },
             duration = (timeEnded - timeStarted)
                 .let(timeMapper::formatInterval),
             iconId = recordType.icon
@@ -52,7 +53,8 @@ class RecordViewDataMapper @Inject constructor(
         record: Record,
         rangeStart: Long,
         rangeEnd: Long,
-        isDarkTheme: Boolean
+        isDarkTheme: Boolean,
+        useMilitaryTime: Boolean
     ): RecordViewData {
         val (timeStarted, timeEnded) = clampToRange(record, rangeStart, rangeEnd)
 
@@ -60,10 +62,10 @@ class RecordViewDataMapper @Inject constructor(
             name = R.string.untracked_time_name
                 .let(resourceRepo::getString),
             timeStarted = timeStarted
-                .let(timeMapper::formatTime),
+                .let { timeMapper.formatTime(it, useMilitaryTime) },
             timeStartedTimestamp = timeStarted,
             timeFinished = timeEnded
-                .let(timeMapper::formatTime),
+                .let { timeMapper.formatTime(it, useMilitaryTime) },
             timeEndedTimestamp = timeEnded,
             duration = (timeEnded - timeStarted)
                 .let(timeMapper::formatInterval),

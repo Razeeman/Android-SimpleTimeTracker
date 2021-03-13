@@ -17,6 +17,7 @@ class RecordsViewDataInteractor @Inject constructor(
 
     suspend fun getViewData(shift: Int): List<ViewHolderType> {
         val isDarkTheme = prefsInteractor.getDarkMode()
+        val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
         val recordTypes = recordTypeInteractor.getAll().map { it.id to it }.toMap()
         val (rangeStart, rangeEnd) = getRange(shift)
         val records = if (rangeStart != 0L && rangeEnd != 0L) {
@@ -30,8 +31,14 @@ class RecordsViewDataInteractor @Inject constructor(
                 recordTypes[record.typeId]?.let { type -> record to type }
             }
             .map { (record, recordType) ->
-                record.timeStarted to
-                    recordViewDataMapper.map(record, recordType, rangeStart, rangeEnd, isDarkTheme)
+                record.timeStarted to recordViewDataMapper.map(
+                    record = record,
+                    recordType = recordType,
+                    rangeStart = rangeStart,
+                    rangeEnd = rangeEnd,
+                    isDarkTheme = isDarkTheme,
+                    useMilitaryTime = useMilitaryTime
+                )
             }
             .let { trackedRecords ->
                 if (!prefsInteractor.getShowUntrackedInRecords()) return@let trackedRecords
@@ -42,13 +49,13 @@ class RecordsViewDataInteractor @Inject constructor(
                         (it.timeEnded - it.timeStarted) >= UNTRACKED_RECORD_LENGTH_LIMIT
                     }
                     .map { untrackedRecord ->
-                        untrackedRecord.timeStarted to
-                            recordViewDataMapper.mapToUntracked(
-                                untrackedRecord,
-                                rangeStart,
-                                rangeEnd,
-                                isDarkTheme
-                            )
+                        untrackedRecord.timeStarted to recordViewDataMapper.mapToUntracked(
+                            record = untrackedRecord,
+                            rangeStart = rangeStart,
+                            rangeEnd = rangeEnd,
+                            isDarkTheme = isDarkTheme,
+                            useMilitaryTime = useMilitaryTime
+                        )
                     }
                     .let { untrackedRecords -> trackedRecords + untrackedRecords }
             }

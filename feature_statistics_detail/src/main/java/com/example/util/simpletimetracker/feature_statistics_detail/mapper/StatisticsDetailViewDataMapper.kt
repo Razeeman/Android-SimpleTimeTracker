@@ -31,7 +31,8 @@ class StatisticsDetailViewDataMapper @Inject constructor(
 
     fun map(
         records: List<Record>,
-        isDarkTheme: Boolean
+        isDarkTheme: Boolean,
+        useMilitaryTime: Boolean
     ): StatisticsDetailViewData {
         val recordsSorted = records.sortedBy { it.timeStarted }
         val durations = records.map(::mapToDuration)
@@ -53,14 +54,22 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         )
 
         return mapToViewData(
-            totalDuration = totalDuration.let(timeMapper::formatInterval),
+            totalDuration = totalDuration
+                .let(timeMapper::formatInterval),
             timesTracked = timesTracked,
             timesTrackedIcon = recordsAllIcon,
-            shortestRecord = shortest.let(timeMapper::formatInterval),
-            averageRecord = average.let(timeMapper::formatInterval),
-            longestRecord = longest.let(timeMapper::formatInterval),
-            firstRecord = first?.let(timeMapper::formatDateTimeYear).orEmpty(),
-            lastRecord = last?.let(timeMapper::formatDateTimeYear).orEmpty()
+            shortestRecord = shortest
+                .let(timeMapper::formatInterval),
+            averageRecord = average
+                .let(timeMapper::formatInterval),
+            longestRecord = longest
+                .let(timeMapper::formatInterval),
+            firstRecord = first
+                ?.let { timeMapper.formatDateTimeYear(it, useMilitaryTime) }
+                .orEmpty(),
+            lastRecord = last
+                ?.let { timeMapper.formatDateTimeYear(it, useMilitaryTime) }
+                .orEmpty()
         )
     }
 

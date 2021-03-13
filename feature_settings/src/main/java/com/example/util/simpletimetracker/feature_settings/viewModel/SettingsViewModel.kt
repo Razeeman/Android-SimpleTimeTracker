@@ -242,6 +242,7 @@ class SettingsViewModel @Inject constructor(
             val newValue = !prefsInteractor.getUseMilitaryTimeFormat()
             prefsInteractor.setUseMilitaryTimeFormat(newValue)
             (useMilitaryTimeCheckbox as MutableLiveData).value = newValue
+            notificationTypeInteractor.updateNotifications()
             updateUseMilitaryTimeViewData()
         }
     }

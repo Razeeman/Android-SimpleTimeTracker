@@ -17,13 +17,18 @@ class ChangeRunningRecordViewDataMapper @Inject constructor(
     private val resourceRepo: ResourceRepo
 ) {
 
-    fun map(runningRecord: RunningRecord, recordType: RecordType?, isDarkTheme: Boolean): ChangeRunningRecordViewData {
+    fun map(
+        runningRecord: RunningRecord,
+        recordType: RecordType?,
+        isDarkTheme: Boolean,
+        useMilitaryTime: Boolean
+    ): ChangeRunningRecordViewData {
         return ChangeRunningRecordViewData(
             name = recordType?.name.orEmpty(),
             timeStarted = runningRecord.timeStarted
-                .let(timeMapper::formatTime),
+                .let { timeMapper.formatTime(it, useMilitaryTime) },
             dateTimeStarted = runningRecord.timeStarted
-                .let(timeMapper::formatDateTime),
+                .let { timeMapper.formatDateTime(it, useMilitaryTime) },
             duration = runningRecord
                 .let { System.currentTimeMillis() - it.timeStarted }
                 .let(timeMapper::formatIntervalWithSeconds),

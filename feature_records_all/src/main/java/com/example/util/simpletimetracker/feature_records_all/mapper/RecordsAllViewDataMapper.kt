@@ -30,7 +30,8 @@ class RecordsAllViewDataMapper @Inject constructor(
     fun map(
         record: Record,
         recordType: RecordType,
-        isDarkTheme: Boolean
+        isDarkTheme: Boolean,
+        useMilitaryTime: Boolean
     ): ViewHolderType {
         val (timeStarted, timeEnded) = record.timeStarted to record.timeEnded
 
@@ -38,9 +39,9 @@ class RecordsAllViewDataMapper @Inject constructor(
             id = record.id,
             name = recordType.name,
             timeStarted = timeStarted
-                .let(timeMapper::formatTime),
+                .let { timeMapper.formatTime(it, useMilitaryTime) },
             timeFinished = timeEnded
-                .let(timeMapper::formatTime),
+                .let { timeMapper.formatTime(it, useMilitaryTime) },
             duration = (timeEnded - timeStarted)
                 .let(timeMapper::formatInterval),
             iconId = recordType.icon
