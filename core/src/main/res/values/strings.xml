@@ -125,6 +125,7 @@
     <string name="settings_feedback_description">Have a suggestion? Found a bug? Want to talk? Write us!</string>
     <string name="settings_version">Version</string>
     <string name="settings_email_chooser_title">Send with…</string>
+    <string name="settings_translators">Translators</string>
 
     <string name="settings_save_backup">Save backup</string>
     <string name="settings_save_description">Before saving, make sure that you have the latest version of the app installed to avoid conflicts.</string>
@@ -146,6 +147,10 @@
     <string name="message_app_not_found">Application not found</string>
     <string name="message_csv_export_complete">Export completed</string>
     <string name="message_csv_export_error">Error exporting csv</string>
+
+    <!--  Settings translators  -->
+    <string name="settings_translators_russian" translatable="false">Геннадий Щерба</string>
+    <string name="settings_translators_russian_language" translatable="false">Русский</string>
 
     <!--  Statistics detail  -->
     <string name="statistics_detail_chart_daily">daily</string>

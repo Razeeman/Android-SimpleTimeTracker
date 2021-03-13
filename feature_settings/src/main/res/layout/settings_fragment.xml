@@ -572,6 +572,8 @@
 
         </androidx.cardview.widget.CardView>
 
+        <include layout="@layout/settings_translators_layout" />
+
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>
