@@ -12,6 +12,7 @@ import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
 import com.example.util.simpletimetracker.core.extension.getAllFragments
 import com.example.util.simpletimetracker.core.extension.onTabSelected
 import com.example.util.simpletimetracker.core.extension.visible
+import com.example.util.simpletimetracker.domain.extension.orFalse
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_dialogs.R
 import com.example.util.simpletimetracker.navigation.params.DateTimeDialogParams
@@ -33,8 +34,11 @@ class DateTimeDialogFragment : AppCompatDialogFragment(),
         arguments?.getSerializable(ARGS_TYPE) as? DateTimeDialogType
             ?: DateTimeDialogType.DATETIME
     }
+    private val useMilitary: Boolean by lazy {
+        arguments?.getBoolean(ARGS_MILITARY).orFalse()
+    }
     private val timestamp: Long by lazy {
-        arguments?.getLong(ARGS_TIMESTAMP, 0).orZero()
+        arguments?.getLong(ARGS_TIMESTAMP).orZero()
     }
     private var newTimestamp: Long = 0
     private val calendar = Calendar.getInstance()
@@ -114,7 +118,7 @@ class DateTimeDialogFragment : AppCompatDialogFragment(),
             childFragmentManager.commit {
                 replace(
                     R.id.timePickerContainer,
-                    TimeDialogFragment.newInstance(timestamp)
+                    TimeDialogFragment.newInstance(timestamp, useMilitary)
                         .apply { listener = this@DateTimeDialogFragment }
                         .also { timeDialogFragment = it }
                 )
@@ -150,6 +154,7 @@ class DateTimeDialogFragment : AppCompatDialogFragment(),
     companion object {
         private const val ARGS_TAG = "tag"
         private const val ARGS_TYPE = "type"
+        private const val ARGS_MILITARY = "military"
         private const val ARGS_TIMESTAMP = "timestamp"
 
         fun createBundle(data: Any?): Bundle = Bundle().apply {
@@ -157,6 +162,7 @@ class DateTimeDialogFragment : AppCompatDialogFragment(),
                 is DateTimeDialogParams -> {
                     putString(ARGS_TAG, data.tag)
                     putSerializable(ARGS_TYPE, data.type)
+                    putBoolean(ARGS_MILITARY, data.useMilitaryTime)
                     putLong(ARGS_TIMESTAMP, data.timestamp)
                 }
             }
