@@ -13,7 +13,7 @@ class TimeMapper @Inject constructor(
 ) {
 
     enum class Range {
-        DAY, WEEK, MONTH
+        DAY, WEEK, MONTH, YEAR
     }
 
     private val calendar = Calendar.getInstance()
@@ -34,6 +34,7 @@ class TimeMapper @Inject constructor(
     private val dayTitleFormat = SimpleDateFormat("E, MMM d", Locale.US)
     private val weekTitleFormat = SimpleDateFormat("MMM d", Locale.US)
     private val monthTitleFormat = SimpleDateFormat("MMMM", Locale.US)
+    private val yearTitleFormat = SimpleDateFormat("yyyy", Locale.US)
 
     // 12:21
     fun formatTime(time: Long, useMilitaryTime: Boolean): String {
@@ -90,6 +91,7 @@ class TimeMapper @Inject constructor(
             Range.DAY -> Calendar.DAY_OF_YEAR
             Range.WEEK -> Calendar.WEEK_OF_YEAR
             Range.MONTH -> Calendar.MONTH
+            Range.YEAR -> Calendar.YEAR
         }
 
         return if (rangesFromToday != 0) {
@@ -109,6 +111,7 @@ class TimeMapper @Inject constructor(
             Range.DAY -> Calendar.DAY_OF_YEAR
             Range.WEEK -> Calendar.WEEK_OF_YEAR
             Range.MONTH -> Calendar.MONTH
+            Range.YEAR -> Calendar.YEAR
         }
 
         val current = System.currentTimeMillis()
@@ -130,6 +133,8 @@ class TimeMapper @Inject constructor(
             calendar.get(calendarStep)
         }
         if (calendarStep == Calendar.MONTH) result--
+
+        if (calendarStep == Calendar.YEAR) return result
 
         val yearInFuture: Int
         val shiftDirection: Int
@@ -175,6 +180,14 @@ class TimeMapper @Inject constructor(
         return when (monthsFromToday) {
             0 -> resourceRepo.getString(R.string.title_this_month)
             else -> toMonthDateTitle(monthsFromToday)
+        }
+    }
+
+    // 2021
+    fun toYearTitle(yearsFromToday: Int): String {
+        return when (yearsFromToday) {
+            0 -> resourceRepo.getString(R.string.title_this_year)
+            else -> toYearDateTitle(yearsFromToday)
         }
     }
 
@@ -282,6 +295,15 @@ class TimeMapper @Inject constructor(
         }
 
         return monthTitleFormat.format(calendar.timeInMillis)
+    }
+
+    private fun toYearDateTitle(yearsFromToday: Int): String {
+        calendar.apply {
+            timeInMillis = System.currentTimeMillis()
+            add(Calendar.YEAR, yearsFromToday)
+        }
+
+        return yearTitleFormat.format(calendar.timeInMillis)
     }
 
     private fun isFirstWeekOfNextYear(calendar: Calendar): Boolean {

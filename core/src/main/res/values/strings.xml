@@ -6,10 +6,12 @@
     <string name="title_tomorrow">Tomorrow</string>
     <string name="title_this_week">This week</string>
     <string name="title_this_month">This month</string>
+    <string name="title_this_year">This year</string>
     <string name="title_overall">Overall</string>
     <string name="title_select_day">Select date</string>
     <string name="title_select_week">Select week</string>
     <string name="title_select_month">Select month</string>
+    <string name="title_select_year">Select year</string>
 
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>

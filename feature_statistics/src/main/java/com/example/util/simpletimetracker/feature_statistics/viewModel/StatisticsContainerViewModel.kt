@@ -94,6 +94,7 @@ class StatisticsContainerViewModel @Inject constructor(
             RangeLength.DAY -> timeMapper.toDayTitle(position)
             RangeLength.WEEK -> timeMapper.toWeekTitle(position)
             RangeLength.MONTH -> timeMapper.toMonthTitle(position)
+            RangeLength.YEAR -> timeMapper.toYearTitle(position)
             RangeLength.ALL -> resourceRepo.getString(R.string.title_overall)
         }
     }
@@ -107,6 +108,7 @@ class StatisticsContainerViewModel @Inject constructor(
             RangeLength.DAY -> TimeMapper.Range.DAY
             RangeLength.WEEK -> TimeMapper.Range.WEEK
             RangeLength.MONTH -> TimeMapper.Range.MONTH
+            RangeLength.YEAR -> TimeMapper.Range.YEAR
             else -> null
         }
     }

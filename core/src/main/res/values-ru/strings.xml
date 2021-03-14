@@ -6,10 +6,12 @@
     <string name="title_tomorrow">Завтра</string>
     <string name="title_this_week">Неделя</string>
     <string name="title_this_month">Месяц</string>
+    <string name="title_this_year">Год</string>
     <string name="title_overall">Все время</string>
     <string name="title_select_day">Выберите дату</string>
     <string name="title_select_week">Выберите неделю</string>
     <string name="title_select_month">Выберите месяц</string>
+    <string name="title_select_year">Выберите год</string>
 
     <string name="ok">OK</string>
     <string name="cancel">Отмена</string>

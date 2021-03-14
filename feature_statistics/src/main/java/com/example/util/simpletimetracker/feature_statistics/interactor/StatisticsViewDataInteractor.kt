@@ -138,6 +138,12 @@ class StatisticsViewDataInteractor @Inject constructor(
                 rangeStart = calendar.timeInMillis
                 rangeEnd = calendar.apply { add(Calendar.MONTH, 1) }.timeInMillis
             }
+            RangeLength.YEAR -> {
+                calendar.set(Calendar.DAY_OF_YEAR, 1)
+                calendar.add(Calendar.YEAR, shift)
+                rangeStart = calendar.timeInMillis
+                rangeEnd = calendar.apply { add(Calendar.YEAR, 1) }.timeInMillis
+            }
             RangeLength.ALL -> {
                 rangeStart = 0L
                 rangeEnd = 0L

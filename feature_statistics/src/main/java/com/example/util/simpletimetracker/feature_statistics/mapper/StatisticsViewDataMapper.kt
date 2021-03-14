@@ -173,6 +173,7 @@ class StatisticsViewDataMapper @Inject constructor(
 
         return selectDateButton + listOf(
             RangeLength.ALL,
+            RangeLength.YEAR,
             RangeLength.MONTH,
             RangeLength.WEEK,
             RangeLength.DAY
@@ -321,6 +322,7 @@ class StatisticsViewDataMapper @Inject constructor(
             RangeLength.DAY -> R.string.title_today
             RangeLength.WEEK -> R.string.title_this_week
             RangeLength.MONTH -> R.string.title_this_month
+            RangeLength.YEAR -> R.string.title_this_year
             RangeLength.ALL -> R.string.title_overall
         }.let(resourceRepo::getString)
     }
@@ -330,6 +332,7 @@ class StatisticsViewDataMapper @Inject constructor(
             RangeLength.DAY -> R.string.title_select_day
             RangeLength.WEEK -> R.string.title_select_week
             RangeLength.MONTH -> R.string.title_select_month
+            RangeLength.YEAR -> R.string.title_select_year
             else -> null
         }?.let(resourceRepo::getString)
     }
