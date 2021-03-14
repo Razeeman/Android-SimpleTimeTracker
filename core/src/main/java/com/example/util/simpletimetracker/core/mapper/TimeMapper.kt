@@ -30,6 +30,7 @@ class TimeMapper @Inject constructor(
     private val dateYearFormat = SimpleDateFormat("MMM d yyyy", Locale.US)
     private val shortDayFormat = SimpleDateFormat("dd.MM", Locale.US)
     private val shortMonthFormat = SimpleDateFormat("MMM", Locale.US)
+    private val shortYearFormat = SimpleDateFormat("yy", Locale.US)
 
     private val dayTitleFormat = SimpleDateFormat("E, MMM d", Locale.US)
     private val weekTitleFormat = SimpleDateFormat("MMM d", Locale.US)
@@ -76,6 +77,11 @@ class TimeMapper @Inject constructor(
     // Mar
     fun formatShortMonth(time: Long): String {
         return shortMonthFormat.format(time)
+    }
+
+    // 21
+    fun formatShortYear(time: Long): String {
+        return shortYearFormat.format(time)
     }
 
     // 1h 7m

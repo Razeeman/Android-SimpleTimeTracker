@@ -30,6 +30,7 @@ class StatisticsDetailInteractor @Inject constructor(
             ChartGrouping.DAILY -> getDailyGrouping(numberOfGroups)
             ChartGrouping.WEEKLY -> getWeeklyGrouping(numberOfGroups)
             ChartGrouping.MONTHLY -> getMonthlyGrouping(numberOfGroups)
+            ChartGrouping.YEARLY -> getYearlyGrouping(numberOfGroups)
         }
 
         val records = recordInteractor.getFromRange(
@@ -234,6 +235,38 @@ class StatisticsDetailInteractor @Inject constructor(
             }
             val rangeStart = calendar.timeInMillis
             val rangeEnd = calendar.apply { add(Calendar.MONTH, 1) }.timeInMillis
+
+            ChartBarDataRange(
+                legend = legend,
+                rangeStart = rangeStart,
+                rangeEnd = rangeEnd
+            )
+        }
+    }
+
+    private fun getYearlyGrouping(
+        numberOfYears: Int
+    ): List<ChartBarDataRange> {
+        val calendar = Calendar.getInstance()
+
+        return (numberOfYears - 1 downTo 0).map { shift ->
+            calendar.apply {
+                timeInMillis = System.currentTimeMillis()
+                set(Calendar.HOUR_OF_DAY, 0)
+                set(Calendar.MINUTE, 0)
+                set(Calendar.SECOND, 0)
+                set(Calendar.MILLISECOND, 0)
+            }
+            calendar.set(Calendar.DAY_OF_YEAR, 1)
+            calendar.add(Calendar.YEAR, -shift)
+
+            val legend = if (numberOfYears <= 10) {
+                timeMapper.formatShortYear(calendar.timeInMillis)
+            } else {
+                ""
+            }
+            val rangeStart = calendar.timeInMillis
+            val rangeEnd = calendar.apply { add(Calendar.YEAR, 1) }.timeInMillis
 
             ChartBarDataRange(
                 legend = legend,

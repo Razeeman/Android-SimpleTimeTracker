@@ -169,7 +169,8 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         return listOf(
             ChartGrouping.DAILY,
             ChartGrouping.WEEKLY,
-            ChartGrouping.MONTHLY
+            ChartGrouping.MONTHLY,
+            ChartGrouping.YEARLY
         ).map {
             StatisticsDetailGroupingViewData(
                 chartGrouping = it,
@@ -269,6 +270,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             ChartGrouping.DAILY -> R.string.statistics_detail_chart_daily
             ChartGrouping.WEEKLY -> R.string.statistics_detail_chart_weekly
             ChartGrouping.MONTHLY -> R.string.statistics_detail_chart_monthly
+            ChartGrouping.YEARLY -> R.string.statistics_detail_chart_yearly
         }.let(resourceRepo::getString)
     }
 
