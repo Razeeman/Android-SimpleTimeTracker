@@ -6,6 +6,7 @@ import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.core.view.spinner.CustomSpinner
 import com.example.util.simpletimetracker.core.viewData.RecordViewData
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.model.Record
@@ -61,7 +62,7 @@ class RecordsAllViewDataMapper @Inject constructor(
 
     fun toSortOrderViewData(currentOrder: RecordsAllSortOrder): RecordsAllSortOrderViewData {
         return RecordsAllSortOrderViewData(
-            items = sortOrderList.map(::toSortOrderName),
+            items = sortOrderList.map(::toSortOrderName).map(CustomSpinner::CustomSpinnerTextItem),
             selectedPosition = toPosition(currentOrder)
         )
     }

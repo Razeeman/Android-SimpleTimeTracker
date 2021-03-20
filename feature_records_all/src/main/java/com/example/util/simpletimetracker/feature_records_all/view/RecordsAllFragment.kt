@@ -67,7 +67,7 @@ class RecordsAllFragment : BaseFragment(R.layout.records_all_fragment),
     }
 
     override fun initUx() {
-        spinnerRecordsAllSort.onItemSelected = viewModel::onRecordTypeOrderSelected
+        spinnerRecordsAllSort.onPositionSelected = viewModel::onRecordTypeOrderSelected
         cardRecordsAllFilter.setOnClick(viewModel::onFilterClick)
     }
 
@@ -109,7 +109,7 @@ class RecordsAllFragment : BaseFragment(R.layout.records_all_fragment),
 
     private fun updateCardOrderViewData(viewData: RecordsAllSortOrderViewData) {
         spinnerRecordsAllSort.setData(viewData.items, viewData.selectedPosition)
-        tvRecordsAllSortValue.text = viewData.items.getOrNull(viewData.selectedPosition).orEmpty()
+        tvRecordsAllSortValue.text = viewData.items.getOrNull(viewData.selectedPosition)?.text.orEmpty()
     }
 
     companion object {

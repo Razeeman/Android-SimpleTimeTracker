@@ -1,12 +1,7 @@
 package com.example.util.simpletimetracker.feature_statistics.viewData
 
-import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.core.view.spinner.CustomSpinner
 
 data class StatisticsSelectDateViewData(
-    val name: String
-) : ViewHolderType {
-
-    override fun getViewType(): Int = ViewHolderType.HEADER
-
-    override fun getUniqueId(): Long? = name.hashCode().toLong()
-}
+    override val text: String
+) : CustomSpinner.CustomSpinnerItem()

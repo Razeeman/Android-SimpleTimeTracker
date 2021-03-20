@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.feature_settings.mapper
 
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.core.view.spinner.CustomSpinner
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.model.CardOrder
 import com.example.util.simpletimetracker.feature_settings.R
@@ -22,7 +23,7 @@ class SettingsMapper @Inject constructor(
 
     fun toCardOrderViewData(currentOrder: CardOrder): CardOrderViewData {
         return CardOrderViewData(
-            items = cardOrderList.map(::toCardOrderName),
+            items = cardOrderList.map(::toCardOrderName).map(CustomSpinner::CustomSpinnerTextItem),
             selectedPosition = toPosition(currentOrder),
             isManualConfigButtonVisible = currentOrder == CardOrder.MANUAL
         )

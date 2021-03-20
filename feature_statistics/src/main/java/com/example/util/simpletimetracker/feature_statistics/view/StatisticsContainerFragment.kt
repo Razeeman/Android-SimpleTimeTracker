@@ -3,22 +3,24 @@ package com.example.util.simpletimetracker.feature_statistics.view
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
-import com.example.util.simpletimetracker.core.extension.flipVisibility
 import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.core.extension.setOnLongClick
 import com.example.util.simpletimetracker.core.extension.visible
 import com.example.util.simpletimetracker.feature_statistics.R
 import com.example.util.simpletimetracker.feature_statistics.adapter.StatisticsContainerAdapter
-import com.example.util.simpletimetracker.feature_statistics.adapter.StatisticsRangeAdapter
 import com.example.util.simpletimetracker.feature_statistics.di.StatisticsComponentProvider
 import com.example.util.simpletimetracker.feature_statistics.viewData.RangeLength
+import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsRangesViewData
 import com.example.util.simpletimetracker.feature_statistics.viewModel.StatisticsContainerViewModel
 import com.example.util.simpletimetracker.feature_statistics.viewModel.StatisticsSettingsViewModel
-import kotlinx.android.synthetic.main.statistics_container_fragment.*
+import kotlinx.android.synthetic.main.statistics_container_fragment.btnStatisticsContainerNext
+import kotlinx.android.synthetic.main.statistics_container_fragment.btnStatisticsContainerPrevious
+import kotlinx.android.synthetic.main.statistics_container_fragment.btnStatisticsContainerToday
+import kotlinx.android.synthetic.main.statistics_container_fragment.pagerStatisticsContainer
+import kotlinx.android.synthetic.main.statistics_container_fragment.spinnerStatisticsContainer
 import javax.inject.Inject
 
 class StatisticsContainerFragment : BaseFragment(R.layout.statistics_container_fragment),
@@ -38,25 +40,11 @@ class StatisticsContainerFragment : BaseFragment(R.layout.statistics_container_f
         factoryProducer = { viewModelFactory }
     )
 
-    private val adapterButtons: StatisticsRangeAdapter by lazy {
-        StatisticsRangeAdapter(
-            onRangeClick = {
-                viewModel.onRangeClick(it)
-                settingsViewModel.onRangeClick(it)
-            },
-            onSelectDateClick = viewModel::onSelectDateClick
-        )
-    }
-
     override fun initUi() {
         pagerStatisticsContainer.apply {
             adapter = StatisticsContainerAdapter(this@StatisticsContainerFragment)
             offscreenPageLimit = 1
             isUserInputEnabled = false
-        }
-        rvStatisticsRanges.apply {
-            layoutManager = LinearLayoutManager(requireContext())
-            adapter = adapterButtons
         }
     }
 
@@ -67,9 +55,13 @@ class StatisticsContainerFragment : BaseFragment(R.layout.statistics_container_f
     }
 
     override fun initUx() {
+        spinnerStatisticsContainer.onItemSelected = {
+            viewModel.onRangeClick(it)
+            settingsViewModel.onRangeClick(it)
+        }
         btnStatisticsContainerPrevious.setOnClick(viewModel::onPreviousClick)
         btnStatisticsContainerNext.setOnClick(viewModel::onNextClick)
-        btnStatisticsContainerToday.setOnClick(layoutStatisticsContainerButtons::flipVisibility)
+        btnStatisticsContainerToday.setOnClick { spinnerStatisticsContainer.performClick() }
         btnStatisticsContainerToday.setOnLongClick(viewModel::onTodayClick)
     }
 
@@ -80,7 +72,7 @@ class StatisticsContainerFragment : BaseFragment(R.layout.statistics_container_f
     override fun initViewModel() {
         with(viewModel) {
             title.observe(viewLifecycleOwner, ::updateTitle)
-            buttons.observe(viewLifecycleOwner, adapterButtons::replaceAsNew)
+            rangeItems.observe(viewLifecycleOwner, ::updateRangeItems)
             position.observe(viewLifecycleOwner, ::updatePosition)
         }
         with(settingsViewModel) {
@@ -98,8 +90,11 @@ class StatisticsContainerFragment : BaseFragment(R.layout.statistics_container_f
         }
     }
 
+    private fun updateRangeItems(viewData: StatisticsRangesViewData) {
+        spinnerStatisticsContainer.setData(viewData.items, viewData.selectedPosition)
+    }
+
     private fun updateTitle(title: String) {
-        layoutStatisticsContainerButtons.visible = false
         btnStatisticsContainerToday.text = title
     }
 

@@ -3,14 +3,16 @@ package com.example.util.simpletimetracker.feature_statistics.viewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.core.view.spinner.CustomSpinner
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_statistics.R
 import com.example.util.simpletimetracker.feature_statistics.mapper.StatisticsViewDataMapper
 import com.example.util.simpletimetracker.feature_statistics.viewData.RangeLength
 import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsRangeViewData
+import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsRangesViewData
+import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsSelectDateViewData
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
 import com.example.util.simpletimetracker.navigation.params.DateTimeDialogParams
@@ -32,8 +34,8 @@ class StatisticsContainerViewModel @Inject constructor(
         return@lazy MutableLiveData(0)
     }
 
-    val buttons: LiveData<List<ViewHolderType>> by lazy {
-        return@lazy MutableLiveData(loadButtons())
+    val rangeItems: LiveData<StatisticsRangesViewData> by lazy {
+        return@lazy MutableLiveData(loadRanges())
     }
 
     private var rangeLength: RangeLength = RangeLength.DAY
@@ -50,12 +52,31 @@ class StatisticsContainerViewModel @Inject constructor(
         updatePosition(position.value.orZero() + 1)
     }
 
-    fun onRangeClick(rangeData: StatisticsRangeViewData) {
-        rangeLength = rangeData.rangeLength
-        updatePosition(0)
+    fun onRangeClick(item: CustomSpinner.CustomSpinnerItem) {
+        when (item) {
+            is StatisticsSelectDateViewData -> {
+                onSelectDateClick()
+                updatePosition(0)
+            }
+            is StatisticsRangeViewData -> {
+                rangeLength = item.range
+                updatePosition(0)
+            }
+        }
     }
 
-    fun onSelectDateClick() {
+    fun onDateTimeSet(timestamp: Long, tag: String?) {
+        when (tag) {
+            DATE_TAG -> {
+                timestamp
+                    .let { timeMapper.toTimestampShift(it, getMapperRange() ?: return) }
+                    .toInt()
+                    .let(::updatePosition)
+            }
+        }
+    }
+
+    private fun onSelectDateClick() {
         val current = timeMapper.toTimestampShifted(
             position.value.orZero(),
             getMapperRange() ?: return
@@ -71,21 +92,10 @@ class StatisticsContainerViewModel @Inject constructor(
         )
     }
 
-    fun onDateTimeSet(timestamp: Long, tag: String?) {
-        when (tag) {
-            DATE_TAG -> {
-                timestamp
-                    .let { timeMapper.toTimestampShift(it, getMapperRange() ?: return) }
-                    .toInt()
-                    .let(::updatePosition)
-            }
-        }
-    }
-
     private fun updatePosition(newPosition: Int) {
         (position as MutableLiveData).value = newPosition
         (title as MutableLiveData).value = loadTitle()
-        (buttons as MutableLiveData).value = loadButtons()
+        (rangeItems as MutableLiveData).value = loadRanges()
     }
 
     private fun loadTitle(): String {
@@ -99,8 +109,8 @@ class StatisticsContainerViewModel @Inject constructor(
         }
     }
 
-    private fun loadButtons(): List<ViewHolderType> {
-        return statisticsViewDataMapper.mapToButtons(rangeLength)
+    private fun loadRanges(): StatisticsRangesViewData {
+        return statisticsViewDataMapper.mapToRanges(rangeLength)
     }
 
     private fun getMapperRange(): TimeMapper.Range? {

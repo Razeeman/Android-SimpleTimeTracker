@@ -51,7 +51,7 @@ class SettingsFragment : BaseFragment(R.layout.settings_fragment),
     }
 
     override fun initUx() {
-        spinnerSettingsRecordTypeSort.onItemSelected = viewModel::onRecordTypeOrderSelected
+        spinnerSettingsRecordTypeSort.onPositionSelected = viewModel::onRecordTypeOrderSelected
         btnCardOrderManual.setOnClick(viewModel::onCardOrderManualClick)
         checkboxSettingsShowUntracked.setOnClick(viewModel::onShowUntrackedClicked)
         checkboxSettingsAllowMultitasking.setOnClick(viewModel::onAllowMultitaskingClicked)
@@ -161,7 +161,7 @@ class SettingsFragment : BaseFragment(R.layout.settings_fragment),
     private fun updateCardOrderViewData(viewData: CardOrderViewData) {
         btnCardOrderManual.visible = viewData.isManualConfigButtonVisible
         spinnerSettingsRecordTypeSort.setData(viewData.items, viewData.selectedPosition)
-        tvSettingsRecordTypeSortValue.text = viewData.items.getOrNull(viewData.selectedPosition).orEmpty()
+        tvSettingsRecordTypeSortValue.text = viewData.items.getOrNull(viewData.selectedPosition)?.text.orEmpty()
     }
 
     private fun changeTheme(themeChanged: Boolean) {

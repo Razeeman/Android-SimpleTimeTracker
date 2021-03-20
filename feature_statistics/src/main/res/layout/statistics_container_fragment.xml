@@ -29,6 +29,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/btnStatisticsContainerToday" />
 
+    <com.example.util.simpletimetracker.core.view.spinner.CustomSpinner
+        android:id="@+id/spinnerStatisticsContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/btnStatisticsContainerToday"
+        app:layout_constraintEnd_toEndOf="@id/btnStatisticsContainerToday"
+        app:layout_constraintStart_toStartOf="@id/btnStatisticsContainerToday"
+        app:layout_constraintTop_toTopOf="@id/btnStatisticsContainerToday" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnStatisticsContainerToday"
         android:layout_width="0dp"
@@ -41,7 +50,7 @@
         app:layout_constraintEnd_toStartOf="@id/btnStatisticsContainerNext"
         app:layout_constraintHorizontal_weight="2"
         app:layout_constraintStart_toEndOf="@id/btnStatisticsContainerPrevious"
-        tools:text="Today" />
+        tools:text="@string/title_today" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnStatisticsContainerNext"
@@ -59,29 +68,5 @@
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toEndOf="@id/btnStatisticsContainerToday"
         app:layout_constraintTop_toTopOf="@id/btnStatisticsContainerToday" />
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/layoutStatisticsContainerButtons"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:cardBackgroundColor="?appActiveColor"
-        app:cardCornerRadius="4dp"
-        app:layout_constraintBottom_toTopOf="@id/btnStatisticsContainerToday"
-        app:layout_constraintEnd_toEndOf="@id/btnStatisticsContainerToday"
-        app:layout_constraintStart_toStartOf="@id/btnStatisticsContainerToday"
-        tools:visibility="visible">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvStatisticsRanges"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:overScrollMode="never"
-            android:paddingTop="6dp"
-            tools:itemCount="5"
-            tools:listitem="@layout/item_statistics_range_layout" />
-
-    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

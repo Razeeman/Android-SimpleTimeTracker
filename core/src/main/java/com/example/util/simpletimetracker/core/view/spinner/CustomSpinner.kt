@@ -20,9 +20,11 @@ class CustomSpinner @JvmOverloads constructor(
     defStyleAttr
 ) {
 
-    var onItemSelected: (Int) -> Unit = {}
+    var onItemSelected: (CustomSpinnerItem) -> Unit = {}
+    var onPositionSelected: (Int) -> Unit = {}
     private val adapter: ArrayAdapter<String> = ArrayAdapter(context, R.layout.item_spinner_layout)
     private var selectedPosition: Int = 0
+    private var items: List<CustomSpinnerItem> = emptyList()
 
     init {
         View.inflate(context, R.layout.spinner_layout, this)
@@ -31,16 +33,26 @@ class CustomSpinner @JvmOverloads constructor(
         customSpinner.onItemSelected {
             if (selectedPosition != it) {
                 selectedPosition = it
-                onItemSelected(it)
+                items.getOrNull(it)?.let(onItemSelected::invoke)
+                onPositionSelected(it)
             }
         }
-        layoutCustomSpinner.setOnClick { customSpinner.performClick() }
+        setOnClick { customSpinner.performClick() }
     }
 
-    fun setData(items: List<String>, selectedPosition: Int) {
+    fun setData(items: List<CustomSpinnerItem>, selectedPosition: Int) {
         this.selectedPosition = selectedPosition
+        this.items = items
         adapter.clear()
-        adapter.addAll(items)
+        adapter.addAll(items.map(CustomSpinnerItem::text))
         customSpinner.setSelection(selectedPosition)
     }
+
+    abstract class CustomSpinnerItem {
+        abstract val text: String
+    }
+
+    data class CustomSpinnerTextItem(
+        override val text: String
+    ): CustomSpinnerItem()
 }
