@@ -13,6 +13,7 @@ import com.example.util.simpletimetracker.domain.model.Statistics
 import com.example.util.simpletimetracker.domain.model.StatisticsCategory
 import com.example.util.simpletimetracker.feature_statistics.mapper.StatisticsViewDataMapper
 import com.example.util.simpletimetracker.feature_statistics.viewData.RangeLength
+import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsViewData
 import java.util.Calendar
 import javax.inject.Inject
 
@@ -32,9 +33,10 @@ class StatisticsViewDataInteractor @Inject constructor(
         val (start, end) = getRange(rangeLength, shift)
         val showDuration = start.orZero() != 0L && end.orZero() != 0L
 
-        val list: List<ViewHolderType>
+        val list: List<StatisticsViewData>
         val totalTracked: ViewHolderType
         val chart: ViewHolderType
+        val result: MutableList<ViewHolderType> = mutableListOf()
 
         when (filterType) {
             ChartFilterType.ACTIVITY -> {
@@ -70,9 +72,19 @@ class StatisticsViewDataInteractor @Inject constructor(
                 )
             }
         }
+        val hint = statisticsViewDataMapper.mapToHint()
 
-        if (list.isEmpty()) return listOf(statisticsViewDataMapper.mapToEmpty())
-        return listOf(chart) + list + totalTracked
+        if (list.isEmpty()) {
+            statisticsViewDataMapper.mapToEmpty().let(result::add)
+        } else {
+            chart.let(result::add)
+            list.let(result::addAll)
+            totalTracked.let(result::add)
+            // If has any activity or tag other than untracked
+            if (list.any { it.id != -1L }) hint.let(result::add)
+        }
+
+        return result
     }
 
     private suspend fun getStatistics(

@@ -15,6 +15,7 @@ import com.example.util.simpletimetracker.feature_statistics.R
 import com.example.util.simpletimetracker.feature_statistics.customView.PiePortion
 import com.example.util.simpletimetracker.feature_statistics.viewData.RangeLength
 import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsChartViewData
+import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsHintViewData
 import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsInfoViewData
 import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsRangeViewData
 import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsSelectDateViewData
@@ -34,7 +35,7 @@ class StatisticsViewDataMapper @Inject constructor(
         recordTypesFiltered: List<Long>,
         showDuration: Boolean,
         isDarkTheme: Boolean
-    ): List<ViewHolderType> {
+    ): List<StatisticsViewData> {
         val statisticsFiltered = statistics.filterNot { it.typeId in recordTypesFiltered }
         val recordTypesMap = recordTypes.map { it.id to it }.toMap()
         val sumDuration = statisticsFiltered.map(Statistics::duration).sum()
@@ -61,7 +62,7 @@ class StatisticsViewDataMapper @Inject constructor(
         categoriesFiltered: List<Long>,
         showDuration: Boolean,
         isDarkTheme: Boolean
-    ): List<ViewHolderType> {
+    ): List<StatisticsViewData> {
         val statisticsFiltered = statistics.filterNot { it.categoryId in categoriesFiltered }
         val categoriesMap = categories.map { it.id to it }.toMap()
         val sumDuration = statisticsFiltered.map(StatisticsCategory::duration).sum()
@@ -162,6 +163,12 @@ class StatisticsViewDataMapper @Inject constructor(
     fun mapToEmpty(): ViewHolderType {
         return EmptyViewData(
             message = R.string.statistics_empty.let(resourceRepo::getString)
+        )
+    }
+
+    fun mapToHint(): ViewHolderType {
+        return StatisticsHintViewData(
+            text = R.string.statistics_hint.let(resourceRepo::getString)
         )
     }
 

@@ -5,25 +5,24 @@ import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapterDelega
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerViewHolder
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_statistics.R
-import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsInfoViewData
-import kotlinx.android.synthetic.main.item_statistics_info_layout.view.*
+import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsHintViewData
+import kotlinx.android.synthetic.main.item_statistics_hint_layout.view.*
 
-class StatisticsInfoAdapterDelegate : BaseRecyclerAdapterDelegate() {
+class StatisticsHintAdapterDelegate : BaseRecyclerAdapterDelegate() {
 
     override fun onCreateViewHolder(parent: ViewGroup): BaseRecyclerViewHolder =
-        StatisticsInfoViewHolder(parent)
+        StatisticsHintViewHolder(parent)
 
-    inner class StatisticsInfoViewHolder(parent: ViewGroup) :
-        BaseRecyclerViewHolder(parent, R.layout.item_statistics_info_layout) {
+    inner class StatisticsHintViewHolder(parent: ViewGroup) :
+        BaseRecyclerViewHolder(parent, R.layout.item_statistics_hint_layout) {
 
         override fun bind(
             item: ViewHolderType,
             payloads: List<Any>
         ) = with(itemView) {
-            item as StatisticsInfoViewData
+            item as StatisticsHintViewData
 
-            tvStatisticsInfoName.text = item.name
-            tvStatisticsInfoText.text = item.text
+            tvStatisticsHintText.text = item.text
         }
     }
 }
