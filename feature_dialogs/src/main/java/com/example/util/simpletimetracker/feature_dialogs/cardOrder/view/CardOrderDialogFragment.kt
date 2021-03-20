@@ -10,6 +10,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
+import androidx.recyclerview.widget.RecyclerView
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.extension.onItemMoved
 import com.example.util.simpletimetracker.feature_dialogs.R
@@ -105,10 +106,34 @@ class CardOrderDialogFragment : BottomSheetDialogFragment() {
     }
 
     private fun initUx() {
-        rvCardOrderContainer.onItemMoved(viewModel::onCardMoved)
+        rvCardOrderContainer.onItemMoved(
+            onSelected = ::setItemSelected,
+            onClear = ::setItemUnselected,
+            onMoved = viewModel::onCardMoved
+        )
+    }
+
+    private fun setItemSelected(viewHolder: RecyclerView.ViewHolder?) = viewHolder?.run {
+        itemView.alpha = ITEM_ALPHA_SELECTED
+        itemView.scaleX = ITEM_SCALE_SELECTED
+        itemView.scaleY = ITEM_SCALE_SELECTED
+    } ?: Unit
+
+    private fun setItemUnselected(viewHolder: RecyclerView.ViewHolder) = viewHolder.run {
+        itemView.alpha = ITEM_ALPHA_DEFAULT
+        itemView.scaleX = ITEM_SCALE_DEFAULT
+        itemView.scaleY = ITEM_SCALE_DEFAULT
     }
 
     private fun initViewModel(): Unit = with(viewModel) {
         recordTypes.observe(viewLifecycleOwner, recordTypesAdapter::replace)
+    }
+
+    companion object {
+        private const val ITEM_ALPHA_SELECTED = 0.7f
+        private const val ITEM_ALPHA_DEFAULT = 1.0f
+
+        private const val ITEM_SCALE_SELECTED = 1.1f
+        private const val ITEM_SCALE_DEFAULT = 1.0f
     }
 }

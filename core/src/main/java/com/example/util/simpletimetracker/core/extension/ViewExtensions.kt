@@ -10,6 +10,7 @@ import android.widget.AdapterView
 import android.widget.SeekBar
 import androidx.appcompat.widget.AppCompatSpinner
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.ItemTouchHelper.ACTION_STATE_DRAG
 import androidx.recyclerview.widget.RecyclerView
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.google.android.material.tabs.TabLayout
@@ -108,7 +109,11 @@ fun SeekBar.onProgressChanged(func: (Int) -> Unit) {
     })
 }
 
-fun RecyclerView.onItemMoved(func: (Int, Int) -> Unit) {
+fun RecyclerView.onItemMoved(
+    onSelected: (RecyclerView.ViewHolder?) -> Unit = {},
+    onClear: (RecyclerView.ViewHolder) -> Unit = {},
+    onMoved: (Int, Int) -> Unit
+) {
     val dragDirections =
         ItemTouchHelper.DOWN or ItemTouchHelper.UP or ItemTouchHelper.START or ItemTouchHelper.END
 
@@ -121,7 +126,7 @@ fun RecyclerView.onItemMoved(func: (Int, Int) -> Unit) {
             val fromPosition = viewHolder.adapterPosition
             val toPosition = target.adapterPosition
 
-            func(fromPosition, toPosition)
+            onMoved(fromPosition, toPosition)
             (adapter as? BaseRecyclerAdapter)?.apply {
                 onMove(fromPosition, toPosition)
                 notifyItemMoved(fromPosition, toPosition)
@@ -132,6 +137,16 @@ fun RecyclerView.onItemMoved(func: (Int, Int) -> Unit) {
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
             // Do nothing
+        }
+
+        override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
+            super.onSelectedChanged(viewHolder, actionState)
+            if (actionState == ACTION_STATE_DRAG) onSelected(viewHolder)
+        }
+
+        override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
+            super.clearView(recyclerView, viewHolder)
+            onClear(viewHolder)
         }
     }).attachToRecyclerView(this)
 }
