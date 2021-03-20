@@ -6,7 +6,6 @@ import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
-import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RecordTypeCategory
@@ -14,13 +13,9 @@ import com.example.util.simpletimetracker.domain.model.Statistics
 import com.example.util.simpletimetracker.domain.model.StatisticsCategory
 import com.example.util.simpletimetracker.feature_statistics.R
 import com.example.util.simpletimetracker.feature_statistics.customView.PiePortion
-import com.example.util.simpletimetracker.feature_statistics.viewData.RangeLength
 import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsChartViewData
 import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsHintViewData
 import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsInfoViewData
-import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsRangeViewData
-import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsRangesViewData
-import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsSelectDateViewData
 import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsViewData
 import javax.inject.Inject
 
@@ -174,21 +169,6 @@ class StatisticsViewDataMapper @Inject constructor(
         )
     }
 
-    fun mapToRanges(currentRange: RangeLength): StatisticsRangesViewData {
-        val selectDateButton = mapToSelectDateName(currentRange)
-            ?.let(::listOf) ?: emptyList()
-
-        val data = selectDateButton + ranges.map(::mapToRangeName)
-        val selectedPosition = data.indexOfFirst {
-            (it as? StatisticsRangeViewData)?.range == currentRange
-        }.takeUnless { it == -1 }.orZero()
-
-        return StatisticsRangesViewData(
-            items = data,
-            selectedPosition = selectedPosition
-        )
-    }
-
     private fun mapActivity(
         statistics: Statistics,
         sumDuration: Long,
@@ -321,47 +301,10 @@ class StatisticsViewDataMapper @Inject constructor(
         }
     }
 
-    private fun mapToRangeName(rangeLength: RangeLength): StatisticsRangeViewData {
-        val text =  when (rangeLength) {
-            RangeLength.DAY -> R.string.title_today
-            RangeLength.WEEK -> R.string.title_this_week
-            RangeLength.MONTH -> R.string.title_this_month
-            RangeLength.YEAR -> R.string.title_this_year
-            RangeLength.ALL -> R.string.title_overall
-        }.let(resourceRepo::getString)
-
-        return StatisticsRangeViewData(
-            range = rangeLength,
-            text = text
-        )
-    }
-
-    private fun mapToSelectDateName(rangeLength: RangeLength): StatisticsSelectDateViewData? {
-        return when (rangeLength) {
-            RangeLength.DAY -> R.string.title_select_day
-            RangeLength.WEEK -> R.string.title_select_week
-            RangeLength.MONTH -> R.string.title_select_month
-            RangeLength.YEAR -> R.string.title_select_year
-            else -> null
-        }
-            ?.let(resourceRepo::getString)
-            ?.let(::StatisticsSelectDateViewData)
-    }
-
     private fun mapTotalTracked(totalTracked: Long): ViewHolderType {
         return StatisticsInfoViewData(
             name = resourceRepo.getString(R.string.statistics_total_tracked),
             text = totalTracked.let(timeMapper::formatInterval)
-        )
-    }
-
-    companion object {
-        private val ranges: List<RangeLength> = listOf(
-            RangeLength.ALL,
-            RangeLength.YEAR,
-            RangeLength.MONTH,
-            RangeLength.WEEK,
-            RangeLength.DAY
         )
     }
 }

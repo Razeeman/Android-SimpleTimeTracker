@@ -10,7 +10,7 @@ import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.feature_statistics.extra.StatisticsExtra
 import com.example.util.simpletimetracker.feature_statistics.interactor.StatisticsViewDataInteractor
-import com.example.util.simpletimetracker.feature_statistics.viewData.RangeLength
+import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsViewData
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen

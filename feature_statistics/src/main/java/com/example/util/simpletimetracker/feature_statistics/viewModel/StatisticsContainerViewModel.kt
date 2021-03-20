@@ -3,16 +3,14 @@ package com.example.util.simpletimetracker.feature_statistics.viewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.util.simpletimetracker.core.mapper.RangeMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
-import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.view.spinner.CustomSpinner
+import com.example.util.simpletimetracker.core.viewData.RangeViewData
+import com.example.util.simpletimetracker.core.viewData.RangesViewData
+import com.example.util.simpletimetracker.core.viewData.SelectDateViewData
 import com.example.util.simpletimetracker.domain.extension.orZero
-import com.example.util.simpletimetracker.feature_statistics.R
-import com.example.util.simpletimetracker.feature_statistics.mapper.StatisticsViewDataMapper
-import com.example.util.simpletimetracker.feature_statistics.viewData.RangeLength
-import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsRangeViewData
-import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsRangesViewData
-import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsSelectDateViewData
+import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
 import com.example.util.simpletimetracker.navigation.params.DateTimeDialogParams
@@ -22,8 +20,7 @@ import javax.inject.Inject
 class StatisticsContainerViewModel @Inject constructor(
     private val router: Router,
     private val timeMapper: TimeMapper,
-    private val resourceRepo: ResourceRepo,
-    private val statisticsViewDataMapper: StatisticsViewDataMapper
+    private val rangeMapper: RangeMapper
 ) : ViewModel() {
 
     val title: LiveData<String> by lazy {
@@ -34,7 +31,7 @@ class StatisticsContainerViewModel @Inject constructor(
         return@lazy MutableLiveData(0)
     }
 
-    val rangeItems: LiveData<StatisticsRangesViewData> by lazy {
+    val rangeItems: LiveData<RangesViewData> by lazy {
         return@lazy MutableLiveData(loadRanges())
     }
 
@@ -54,11 +51,11 @@ class StatisticsContainerViewModel @Inject constructor(
 
     fun onRangeClick(item: CustomSpinner.CustomSpinnerItem) {
         when (item) {
-            is StatisticsSelectDateViewData -> {
+            is SelectDateViewData -> {
                 onSelectDateClick()
                 updatePosition(0)
             }
-            is StatisticsRangeViewData -> {
+            is RangeViewData -> {
                 rangeLength = item.range
                 updatePosition(0)
             }
@@ -99,18 +96,11 @@ class StatisticsContainerViewModel @Inject constructor(
     }
 
     private fun loadTitle(): String {
-        val position = position.value.orZero()
-        return when (rangeLength) {
-            RangeLength.DAY -> timeMapper.toDayTitle(position)
-            RangeLength.WEEK -> timeMapper.toWeekTitle(position)
-            RangeLength.MONTH -> timeMapper.toMonthTitle(position)
-            RangeLength.YEAR -> timeMapper.toYearTitle(position)
-            RangeLength.ALL -> resourceRepo.getString(R.string.title_overall)
-        }
+        return rangeMapper.mapToTitle(rangeLength, position.value.orZero())
     }
 
-    private fun loadRanges(): StatisticsRangesViewData {
-        return statisticsViewDataMapper.mapToRanges(rangeLength)
+    private fun loadRanges(): RangesViewData {
+        return rangeMapper.mapToRanges(rangeLength)
     }
 
     private fun getMapperRange(): TimeMapper.Range? {

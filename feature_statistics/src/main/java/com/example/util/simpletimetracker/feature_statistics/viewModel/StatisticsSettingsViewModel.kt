@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.util.simpletimetracker.core.view.spinner.CustomSpinner
-import com.example.util.simpletimetracker.feature_statistics.viewData.RangeLength
-import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsRangeViewData
+import com.example.util.simpletimetracker.domain.model.RangeLength
+import com.example.util.simpletimetracker.core.viewData.RangeViewData
 import javax.inject.Inject
 
 class StatisticsSettingsViewModel @Inject constructor() : ViewModel() {
@@ -15,7 +15,7 @@ class StatisticsSettingsViewModel @Inject constructor() : ViewModel() {
     }
 
     fun onRangeClick(item: CustomSpinner.CustomSpinnerItem) {
-        (item as? StatisticsRangeViewData)?.range?.let {
+        (item as? RangeViewData)?.range?.let {
             (rangeLength as MutableLiveData).value = it
         }
     }

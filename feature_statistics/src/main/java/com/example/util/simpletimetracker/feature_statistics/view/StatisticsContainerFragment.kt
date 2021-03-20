@@ -9,11 +9,11 @@ import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
 import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.core.extension.setOnLongClick
 import com.example.util.simpletimetracker.core.extension.visible
+import com.example.util.simpletimetracker.core.viewData.RangesViewData
 import com.example.util.simpletimetracker.feature_statistics.R
 import com.example.util.simpletimetracker.feature_statistics.adapter.StatisticsContainerAdapter
 import com.example.util.simpletimetracker.feature_statistics.di.StatisticsComponentProvider
-import com.example.util.simpletimetracker.feature_statistics.viewData.RangeLength
-import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsRangesViewData
+import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.feature_statistics.viewModel.StatisticsContainerViewModel
 import com.example.util.simpletimetracker.feature_statistics.viewModel.StatisticsSettingsViewModel
 import kotlinx.android.synthetic.main.statistics_container_fragment.btnStatisticsContainerNext
@@ -90,7 +90,7 @@ class StatisticsContainerFragment : BaseFragment(R.layout.statistics_container_f
         }
     }
 
-    private fun updateRangeItems(viewData: StatisticsRangesViewData) {
+    private fun updateRangeItems(viewData: RangesViewData) {
         spinnerStatisticsContainer.setData(viewData.items, viewData.selectedPosition)
     }
 

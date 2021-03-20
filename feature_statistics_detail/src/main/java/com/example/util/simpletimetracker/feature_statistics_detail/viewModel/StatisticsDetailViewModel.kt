@@ -5,9 +5,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.core.mapper.RangeMapper
+import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
+import com.example.util.simpletimetracker.core.view.spinner.CustomSpinner
+import com.example.util.simpletimetracker.core.viewData.RangeViewData
+import com.example.util.simpletimetracker.core.viewData.RangesViewData
+import com.example.util.simpletimetracker.core.viewData.SelectDateViewData
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
+import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailViewDataInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.StatisticsDetailViewDataMapper
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartGrouping
@@ -19,6 +26,8 @@ import com.example.util.simpletimetracker.feature_statistics_detail.viewData.Sta
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailViewData
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
+import com.example.util.simpletimetracker.navigation.params.DateTimeDialogParams
+import com.example.util.simpletimetracker.navigation.params.DateTimeDialogType
 import com.example.util.simpletimetracker.navigation.params.RecordsAllParams
 import com.example.util.simpletimetracker.navigation.params.StatisticsDetailParams
 import kotlinx.coroutines.launch
@@ -28,7 +37,9 @@ class StatisticsDetailViewModel @Inject constructor(
     private val router: Router,
     private val interactor: StatisticsDetailViewDataInteractor,
     private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
-    private val mapper: StatisticsDetailViewDataMapper
+    private val mapper: StatisticsDetailViewDataMapper,
+    private val rangeMapper: RangeMapper,
+    private val timeMapper: TimeMapper
 ) : ViewModel() {
 
     lateinit var extra: StatisticsDetailParams
@@ -51,9 +62,20 @@ class StatisticsDetailViewModel @Inject constructor(
     val chartLengthViewData: LiveData<List<ViewHolderType>> by lazy {
         return@lazy MutableLiveData(loadChartLengthViewData())
     }
+    val title: LiveData<String> by lazy {
+        return@lazy MutableLiveData(loadTitle())
+    }
+    val rangeItems: LiveData<RangesViewData> by lazy {
+        return@lazy MutableLiveData(loadRanges())
+    }
+    val rangeButtonsVisibility: LiveData<Boolean> by lazy {
+        return@lazy MutableLiveData(loadButtonsVisibility())
+    }
 
     private var chartGrouping: ChartGrouping = ChartGrouping.DAILY
     private var chartLength: ChartLength = ChartLength.TEN
+    private var rangeLength: RangeLength = RangeLength.ALL
+    private var rangePosition: Int = 0
 
     fun onVisible() {
         updateViewData()
@@ -91,6 +113,65 @@ class StatisticsDetailViewModel @Inject constructor(
                 RecordsAllParams(typeIds)
             )
         }
+    }
+
+    fun onPreviousClick() {
+        updatePosition(rangePosition - 1)
+    }
+
+    fun onTodayClick() {
+        updatePosition(0)
+    }
+
+    fun onNextClick() {
+        updatePosition(rangePosition + 1)
+    }
+
+    fun onRangeClick(item: CustomSpinner.CustomSpinnerItem) {
+        when (item) {
+            is SelectDateViewData -> {
+                onSelectDateClick()
+                updatePosition(0)
+            }
+            is RangeViewData -> {
+                rangeLength = item.range
+                updatePosition(0)
+            }
+        }
+    }
+
+    fun onDateTimeSet(timestamp: Long, tag: String?) {
+        when (tag) {
+            DATE_TAG -> {
+                timestamp
+                    .let { timeMapper.toTimestampShift(toTime = it, range = getMapperRange() ?: return) }
+                    .toInt()
+                    .let(::updatePosition)
+            }
+        }
+    }
+
+    private fun onSelectDateClick() {
+        val current = timeMapper.toTimestampShifted(
+            rangesFromToday = rangePosition,
+            range = getMapperRange() ?: return
+        )
+
+        router.navigate(
+            Screen.DATE_TIME_DIALOG,
+            DateTimeDialogParams(
+                tag = DATE_TAG,
+                type = DateTimeDialogType.DATE,
+                timestamp = current
+            )
+        )
+    }
+
+    private fun updatePosition(newPosition: Int) {
+        rangePosition = newPosition
+        (title as MutableLiveData).value = loadTitle()
+        (rangeItems as MutableLiveData).value = loadRanges()
+        (rangeButtonsVisibility as MutableLiveData).value = loadButtonsVisibility()
     }
 
     private fun updateViewData() = viewModelScope.launch {
@@ -133,5 +214,32 @@ class StatisticsDetailViewModel @Inject constructor(
 
     private fun loadChartLengthViewData(): List<ViewHolderType> {
         return mapper.mapToChartLengthViewData(chartLength)
+    }
+
+    private fun loadTitle(): String {
+        return rangeMapper.mapToTitle(rangeLength, rangePosition)
+    }
+
+    private fun loadRanges(): RangesViewData {
+        return rangeMapper.mapToRanges(rangeLength)
+    }
+
+    private fun loadButtonsVisibility(): Boolean {
+        return rangeLength != RangeLength.ALL
+    }
+
+    // TODO same as statistics container. Remove?
+    private fun getMapperRange(): TimeMapper.Range? {
+        return when (rangeLength) {
+            RangeLength.DAY -> TimeMapper.Range.DAY
+            RangeLength.WEEK -> TimeMapper.Range.WEEK
+            RangeLength.MONTH -> TimeMapper.Range.MONTH
+            RangeLength.YEAR -> TimeMapper.Range.YEAR
+            else -> null
+        }
+    }
+
+    companion object {
+        private const val DATE_TAG = "statistics_detail_date_tag"
     }
 }

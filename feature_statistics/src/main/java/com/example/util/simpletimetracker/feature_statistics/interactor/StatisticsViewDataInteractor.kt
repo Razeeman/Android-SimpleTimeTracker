@@ -9,10 +9,10 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.StatisticsCategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.StatisticsInteractor
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
+import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.Statistics
 import com.example.util.simpletimetracker.domain.model.StatisticsCategory
 import com.example.util.simpletimetracker.feature_statistics.mapper.StatisticsViewDataMapper
-import com.example.util.simpletimetracker.feature_statistics.viewData.RangeLength
 import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsViewData
 import java.util.Calendar
 import javax.inject.Inject

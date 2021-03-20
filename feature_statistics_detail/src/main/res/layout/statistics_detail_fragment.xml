@@ -60,6 +60,63 @@
 
         </androidx.cardview.widget.CardView>
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnStatisticsDetailPrevious"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:background="?selectableItemBackground"
+            android:scaleType="fitXY"
+            app:backgroundTint="?appInactiveColor"
+            app:icon="@drawable/arrow_left"
+            app:iconGravity="start"
+            app:iconTint="@color/white"
+            app:layout_constraintBottom_toBottomOf="@id/btnStatisticsDetailToday"
+            app:layout_constraintEnd_toStartOf="@id/btnStatisticsDetailToday"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/btnStatisticsDetailToday" />
+
+        <com.example.util.simpletimetracker.core.view.spinner.CustomSpinner
+            android:id="@+id/spinnerStatisticsDetail"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/btnStatisticsDetailToday"
+            app:layout_constraintEnd_toEndOf="@id/btnStatisticsDetailToday"
+            app:layout_constraintStart_toStartOf="@id/btnStatisticsDetailToday"
+            app:layout_constraintTop_toTopOf="@id/btnStatisticsDetailToday" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnStatisticsDetailToday"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:textColor="@color/white"
+            app:backgroundTint="?appActiveColor"
+            app:layout_constraintTop_toBottomOf="@id/layoutStatisticsDetailItem"
+            app:layout_constraintEnd_toStartOf="@id/btnStatisticsDetailNext"
+            app:layout_constraintHorizontal_weight="2"
+            app:layout_constraintStart_toEndOf="@id/btnStatisticsDetailPrevious"
+            tools:text="@string/title_today" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnStatisticsDetailNext"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="8dp"
+            android:background="?selectableItemBackground"
+            android:scaleType="fitXY"
+            app:backgroundTint="?appInactiveColor"
+            app:icon="@drawable/arrow_right"
+            app:iconGravity="end"
+            app:iconTint="@color/white"
+            app:layout_constraintBottom_toBottomOf="@id/btnStatisticsDetailToday"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/btnStatisticsDetailToday"
+            app:layout_constraintTop_toTopOf="@id/btnStatisticsDetailToday" />
+
         <com.example.util.simpletimetracker.feature_statistics_detail.customView.BarChartView
             android:id="@+id/chartStatisticsDetail"
             android:layout_width="match_parent"
@@ -69,7 +126,7 @@
             android:layout_marginEnd="8dp"
             app:barCornerRadius="8dp"
             app:dividerWidth="2dp"
-            app:layout_constraintTop_toBottomOf="@id/layoutStatisticsDetailItem"
+            app:layout_constraintTop_toBottomOf="@id/btnStatisticsDetailToday"
             app:legendLineColor="?appLegendColor"
             app:legendTextColor="@color/textSecondary"
             app:legendTextSize="14sp"
