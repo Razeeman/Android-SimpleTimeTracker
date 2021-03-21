@@ -1,6 +1,5 @@
 package com.example.util.simpletimetracker.feature_statistics_detail.interactor
 
-import com.example.util.simpletimetracker.core.mapper.RangeMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
@@ -18,8 +17,7 @@ import kotlin.math.min
 
 class StatisticsDetailInteractor @Inject constructor(
     private val recordInteractor: RecordInteractor,
-    private val timeMapper: TimeMapper,
-    private val rangeMapper: RangeMapper
+    private val timeMapper: TimeMapper
 ) {
 
     suspend fun getDurations(
@@ -147,40 +145,40 @@ class StatisticsDetailInteractor @Inject constructor(
         return when (rangeLength) {
             RangeLength.DAY -> {
                 // TODO hourly
-                val startDate = rangeMapper.getRange(RangeLength.DAY, rangePosition).second - 1
+                val startDate = timeMapper.getRangeStartAndEnd(RangeLength.DAY, rangePosition).second - 1
                 val numberOfGroups = 1
                 getDailyGrouping(startDate, numberOfGroups)
             }
             RangeLength.WEEK -> {
-                val startDate = rangeMapper.getRange(RangeLength.WEEK, rangePosition).second - 1
+                val startDate = timeMapper.getRangeStartAndEnd(RangeLength.WEEK, rangePosition).second - 1
                 val numberOfGroups = 7
                 getDailyGrouping(startDate, numberOfGroups)
             }
             RangeLength.MONTH -> when (grouping) {
                 ChartGrouping.DAILY -> {
-                    val startDate = rangeMapper.getRange(RangeLength.MONTH, rangePosition).second - 1
+                    val startDate = timeMapper.getRangeStartAndEnd(RangeLength.MONTH, rangePosition).second - 1
                     val numberOfGroups = 30
                     getDailyGrouping(startDate, numberOfGroups)
                 }
                 else -> {
-                    val startDate = rangeMapper.getRange(RangeLength.MONTH, rangePosition).second - 1
+                    val startDate = timeMapper.getRangeStartAndEnd(RangeLength.MONTH, rangePosition).second - 1
                     val numberOfGroups = 4
                     getWeeklyGrouping(startDate, numberOfGroups)
                 }
             }
             RangeLength.YEAR -> when (grouping) {
                 ChartGrouping.DAILY -> {
-                    val startDate = rangeMapper.getRange(RangeLength.YEAR, rangePosition).second - 1
+                    val startDate = timeMapper.getRangeStartAndEnd(RangeLength.YEAR, rangePosition).second - 1
                     val numberOfGroups = 365
                     getDailyGrouping(startDate, numberOfGroups)
                 }
                 ChartGrouping.WEEKLY -> {
-                    val startDate = rangeMapper.getRange(RangeLength.YEAR, rangePosition).second - 1
+                    val startDate = timeMapper.getRangeStartAndEnd(RangeLength.YEAR, rangePosition).second - 1
                     val numberOfGroups = 52
                     getWeeklyGrouping(startDate, numberOfGroups)
                 }
                 else -> {
-                    val startDate = rangeMapper.getRange(RangeLength.YEAR, rangePosition).second - 1
+                    val startDate = timeMapper.getRangeStartAndEnd(RangeLength.YEAR, rangePosition).second - 1
                     val numberOfGroups = 12
                     getMonthlyGrouping(startDate, numberOfGroups)
                 }

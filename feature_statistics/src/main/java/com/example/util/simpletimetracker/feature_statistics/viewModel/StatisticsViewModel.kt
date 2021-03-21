@@ -8,9 +8,9 @@ import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
+import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.feature_statistics.extra.StatisticsExtra
 import com.example.util.simpletimetracker.feature_statistics.interactor.StatisticsViewDataInteractor
-import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsViewData
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
@@ -29,7 +29,7 @@ class StatisticsViewModel @Inject constructor(
         MutableLiveData(listOf(LoaderViewData() as ViewHolderType))
     }
 
-    private var rangeLength: RangeLength? = null
+    private var rangeLength: RangeLength = RangeLength.DAY
     private var isVisible: Boolean = false
 
     fun onVisible() {

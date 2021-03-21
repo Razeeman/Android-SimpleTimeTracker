@@ -1,7 +1,7 @@
 package com.example.util.simpletimetracker.feature_statistics.interactor
 
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
-import com.example.util.simpletimetracker.core.mapper.RangeMapper
+import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -25,14 +25,13 @@ class StatisticsViewDataInteractor @Inject constructor(
     private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val statisticsViewDataMapper: StatisticsViewDataMapper,
-    private val rangeMapper: RangeMapper
+    private val timeMapper: TimeMapper
 ) {
 
-    suspend fun getViewData(rangeLength: RangeLength?, shift: Int): List<ViewHolderType> {
+    suspend fun getViewData(rangeLength: RangeLength, shift: Int): List<ViewHolderType> {
         val filterType = prefsInteractor.getChartFilterType()
         val isDarkTheme = prefsInteractor.getDarkMode()
-        val (start, end) = rangeMapper.getRange(rangeLength, shift)
-        val showDuration = start.orZero() != 0L && end.orZero() != 0L
+        val showDuration = rangeLength != RangeLength.ALL
 
         val list: List<StatisticsViewData>
         val totalTracked: ViewHolderType
@@ -89,13 +88,13 @@ class StatisticsViewDataInteractor @Inject constructor(
     }
 
     private suspend fun getStatistics(
-        rangeLength: RangeLength?,
+        rangeLength: RangeLength,
         shift: Int,
         typesFiltered: List<Long>
     ): List<Statistics> {
-        val (start, end) = rangeMapper.getRange(rangeLength, shift)
+        val (start, end) = timeMapper.getRangeStartAndEnd(rangeLength, shift)
 
-        return if (start.orZero() != 0L && end.orZero() != 0L) {
+        return if (start != 0L && end != 0L) {
             statisticsInteractor.getFromRange(
                 start = start.orZero(),
                 end = end.orZero(),
@@ -107,12 +106,12 @@ class StatisticsViewDataInteractor @Inject constructor(
     }
 
     private suspend fun getStatisticsCategory(
-        rangeLength: RangeLength?,
+        rangeLength: RangeLength,
         shift: Int
     ): List<StatisticsCategory> {
-        val (start, end) = rangeMapper.getRange(rangeLength, shift)
+        val (start, end) = timeMapper.getRangeStartAndEnd(rangeLength, shift)
 
-        return if (start.orZero() != 0L && end.orZero() != 0L) {
+        return if (start != 0L && end != 0L) {
             statisticsCategoryInteractor.getFromRange(
                 start = start.orZero(),
                 end = end.orZero()
