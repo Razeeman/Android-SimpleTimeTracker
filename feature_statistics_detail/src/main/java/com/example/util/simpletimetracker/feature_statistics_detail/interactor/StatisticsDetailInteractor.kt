@@ -20,7 +20,7 @@ class StatisticsDetailInteractor @Inject constructor(
     private val timeMapper: TimeMapper
 ) {
 
-    suspend fun getDurations(
+    suspend fun getChartData(
         typeIds: List<Long>,
         grouping: ChartGrouping,
         chartLength: ChartLength,
@@ -145,42 +145,59 @@ class StatisticsDetailInteractor @Inject constructor(
         return when (rangeLength) {
             RangeLength.DAY -> {
                 // TODO hourly
-                val startDate = timeMapper.getRangeStartAndEnd(RangeLength.DAY, rangePosition).second - 1
+                val startDate = timeMapper.getRangeStartAndEnd(
+                    RangeLength.DAY, rangePosition
+                ).second - 1
                 val numberOfGroups = 1
                 getDailyGrouping(startDate, numberOfGroups)
             }
             RangeLength.WEEK -> {
-                val startDate = timeMapper.getRangeStartAndEnd(RangeLength.WEEK, rangePosition).second - 1
+                val startDate = timeMapper.getRangeStartAndEnd(
+                    RangeLength.WEEK, rangePosition
+                ).second - 1
                 val numberOfGroups = 7
                 getDailyGrouping(startDate, numberOfGroups)
             }
-            RangeLength.MONTH -> when (grouping) {
-                ChartGrouping.DAILY -> {
-                    val startDate = timeMapper.getRangeStartAndEnd(RangeLength.MONTH, rangePosition).second - 1
-                    val numberOfGroups = 30
-                    getDailyGrouping(startDate, numberOfGroups)
-                }
-                else -> {
-                    val startDate = timeMapper.getRangeStartAndEnd(RangeLength.MONTH, rangePosition).second - 1
-                    val numberOfGroups = 4
-                    getWeeklyGrouping(startDate, numberOfGroups)
+            RangeLength.MONTH -> {
+                val startDate = timeMapper.getRangeStartAndEnd(
+                    RangeLength.MONTH, rangePosition
+                ).second - 1
+                when (grouping) {
+                    ChartGrouping.DAILY -> {
+                        val numberOfGroups = Calendar.getInstance()
+                            .apply { timeInMillis = startDate }
+                            .getActualMaximum(Calendar.DAY_OF_MONTH)
+                        getDailyGrouping(startDate, numberOfGroups)
+                    }
+                    else -> {
+                        val numberOfGroups = Calendar.getInstance()
+                            .apply { timeInMillis = startDate }
+                            .getActualMaximum(Calendar.WEEK_OF_MONTH)
+                        getWeeklyGrouping(startDate, numberOfGroups)
+                    }
                 }
             }
-            RangeLength.YEAR -> when (grouping) {
-                ChartGrouping.DAILY -> {
-                    val startDate = timeMapper.getRangeStartAndEnd(RangeLength.YEAR, rangePosition).second - 1
-                    val numberOfGroups = 365
-                    getDailyGrouping(startDate, numberOfGroups)
-                }
-                ChartGrouping.WEEKLY -> {
-                    val startDate = timeMapper.getRangeStartAndEnd(RangeLength.YEAR, rangePosition).second - 1
-                    val numberOfGroups = 52
-                    getWeeklyGrouping(startDate, numberOfGroups)
-                }
-                else -> {
-                    val startDate = timeMapper.getRangeStartAndEnd(RangeLength.YEAR, rangePosition).second - 1
-                    val numberOfGroups = 12
-                    getMonthlyGrouping(startDate, numberOfGroups)
+            RangeLength.YEAR -> {
+                val startDate = timeMapper.getRangeStartAndEnd(
+                    RangeLength.YEAR, rangePosition
+                ).second - 1
+                when (grouping) {
+                    ChartGrouping.DAILY -> {
+                        val numberOfGroups = Calendar.getInstance()
+                            .apply { timeInMillis = startDate }
+                            .getActualMaximum(Calendar.DAY_OF_YEAR)
+                        getDailyGrouping(startDate, numberOfGroups)
+                    }
+                    ChartGrouping.WEEKLY -> {
+                        val numberOfGroups = Calendar.getInstance()
+                            .apply { timeInMillis = startDate }
+                            .getActualMaximum(Calendar.WEEK_OF_YEAR)
+                        getWeeklyGrouping(startDate, numberOfGroups)
+                    }
+                    else -> {
+                        val numberOfGroups = 12
+                        getMonthlyGrouping(startDate, numberOfGroups)
+                    }
                 }
             }
             RangeLength.ALL -> {

@@ -104,7 +104,7 @@ class StatisticsDetailViewDataInteractor @Inject constructor(
                 recordTypeCategoryInteractor.getTypes(categoryId = id)
             }
         }
-        val data = statisticsDetailInteractor.getDurations(
+        val data = statisticsDetailInteractor.getChartData(
             typeIds = typesIds,
             grouping = chartGrouping,
             chartLength = chartLength,
