@@ -55,7 +55,8 @@ class DataLocalModule {
             .addMigrations(
                 AppDatabaseMigrations.migration_1_2,
                 AppDatabaseMigrations.migration_2_3,
-                AppDatabaseMigrations.migration_3_4
+                AppDatabaseMigrations.migration_3_4,
+                AppDatabaseMigrations.migration_4_5
             )
             .build()
     }

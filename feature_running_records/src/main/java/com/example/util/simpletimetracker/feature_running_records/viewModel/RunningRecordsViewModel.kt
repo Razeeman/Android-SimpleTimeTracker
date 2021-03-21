@@ -51,7 +51,7 @@ class RunningRecordsViewModel @Inject constructor(
                     .filter { it.id != item.id }
                     .forEach { handleRunningRecordRemove(it) }
             }
-            addRunningRecordMediator.add(item.id)
+            addRunningRecordMediator.add(item.id, comment = item.comment)
             updateRunningRecords()
         }
     }
@@ -108,7 +108,8 @@ class RunningRecordsViewModel @Inject constructor(
                     duration = item.timer,
                     goalTime = item.goalTime,
                     iconId = item.iconId,
-                    color = item.color
+                    color = item.color,
+                    comment = item.comment
                 )
             ),
             sharedElements = sharedElements

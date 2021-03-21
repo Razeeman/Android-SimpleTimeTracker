@@ -11,7 +11,8 @@ data class RunningRecordViewData(
     val timer: String,
     val goalTime: String,
     @DrawableRes val iconId: Int,
-    @ColorInt val color: Int
+    @ColorInt val color: Int,
+    val comment: String
 ) : ViewHolderType {
 
     override fun getViewType(): Int = ViewHolderType.RUNNING_RECORD

@@ -12,11 +12,12 @@ class AddRunningRecordMediator @Inject constructor(
     private val widgetInteractor: WidgetInteractor
 ) {
 
-    suspend fun add(typeId: Long, timeStarted: Long? = null) {
+    suspend fun add(typeId: Long, timeStarted: Long? = null, comment: String) {
         if (runningRecordInteractor.get(typeId) == null) {
             RunningRecord(
                 id = typeId,
-                timeStarted = timeStarted ?: System.currentTimeMillis()
+                timeStarted = timeStarted ?: System.currentTimeMillis(),
+                comment = comment
             ).let {
                 runningRecordInteractor.add(it)
                 notificationTypeInteractor.checkAndShow(typeId)

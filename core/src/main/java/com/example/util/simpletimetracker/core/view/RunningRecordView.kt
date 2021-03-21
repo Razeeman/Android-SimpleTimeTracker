@@ -92,4 +92,11 @@ class RunningRecordView @JvmOverloads constructor(
             tvRunningRecordItemGoalTime.visible = value.isNotEmpty()
             field = value
         }
+
+    var itemComment: String = ""
+        set(value) {
+            tvRunningRecordItemComment.text = value
+            tvRunningRecordItemComment.visible = value.isNotEmpty()
+            field = value
+        }
 }

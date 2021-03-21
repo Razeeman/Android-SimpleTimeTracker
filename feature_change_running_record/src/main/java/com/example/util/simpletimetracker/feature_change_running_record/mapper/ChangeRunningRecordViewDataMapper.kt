@@ -43,7 +43,8 @@ class ChangeRunningRecordViewDataMapper @Inject constructor(
             color = (recordType?.color
                 ?.let { colorMapper.mapToColorResId(it, isDarkTheme) }
                 ?: ColorMapper.getAvailableColors(isDarkTheme).random())
-                .let(resourceRepo::getColor)
+                .let(resourceRepo::getColor),
+            comment = runningRecord.comment.orEmpty()
         )
     }
 }

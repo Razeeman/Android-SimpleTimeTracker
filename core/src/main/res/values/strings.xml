@@ -70,6 +70,7 @@
     <string name="change_running_record_message_choose_type">Select activity</string>
     <string name="change_running_record_removed">Running activity removed</string>
     <string name="change_running_record_type_field">Activity</string>
+    <string name="change_running_record_comment_hint">Comment</string>
     <string name="change_running_record_save">Save</string>
 
     <!--  Dialogs  -->
