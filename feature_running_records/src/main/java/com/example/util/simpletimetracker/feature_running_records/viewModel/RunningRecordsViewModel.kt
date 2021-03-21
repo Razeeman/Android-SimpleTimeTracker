@@ -135,7 +135,8 @@ class RunningRecordsViewModel @Inject constructor(
     private suspend fun handleRunningRecordRemove(runningRecord: RunningRecord) {
         recordInteractor.add(
             typeId = runningRecord.id,
-            timeStarted = runningRecord.timeStarted
+            timeStarted = runningRecord.timeStarted,
+            comment = runningRecord.comment
         )
         removeRunningRecordMediator.remove(runningRecord.id)
     }

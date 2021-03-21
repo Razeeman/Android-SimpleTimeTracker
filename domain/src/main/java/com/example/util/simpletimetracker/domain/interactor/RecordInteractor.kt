@@ -35,12 +35,12 @@ class RecordInteractor @Inject constructor(
             .let { untrackedRecordMapper.mapToUntrackedRecords(it, start, end) }
     }
 
-    suspend fun add(typeId: Long, timeStarted: Long) {
+    suspend fun add(typeId: Long, timeStarted: Long, comment: String) {
         Record(
             typeId = typeId,
             timeStarted = timeStarted,
             timeEnded = System.currentTimeMillis(),
-            comment = ""
+            comment = comment
         ).let {
             recordRepo.add(it)
             recordCacheRepo.clear()
