@@ -66,7 +66,7 @@ class StatisticsContainerViewModel @Inject constructor(
         when (tag) {
             DATE_TAG -> {
                 timestamp
-                    .let { timeMapper.toTimestampShift(it, getMapperRange() ?: return) }
+                    .let { timeMapper.toTimestampShift(toTime = it, range = rangeLength) }
                     .toInt()
                     .let(::updatePosition)
             }
@@ -75,8 +75,8 @@ class StatisticsContainerViewModel @Inject constructor(
 
     private fun onSelectDateClick() {
         val current = timeMapper.toTimestampShifted(
-            position.value.orZero(),
-            getMapperRange() ?: return
+            rangesFromToday = position.value.orZero(),
+            range = rangeLength
         )
 
         router.navigate(
@@ -101,16 +101,6 @@ class StatisticsContainerViewModel @Inject constructor(
 
     private fun loadRanges(): RangesViewData {
         return rangeMapper.mapToRanges(rangeLength)
-    }
-
-    private fun getMapperRange(): TimeMapper.Range? {
-        return when (rangeLength) {
-            RangeLength.DAY -> TimeMapper.Range.DAY
-            RangeLength.WEEK -> TimeMapper.Range.WEEK
-            RangeLength.MONTH -> TimeMapper.Range.MONTH
-            RangeLength.YEAR -> TimeMapper.Range.YEAR
-            else -> null
-        }
     }
 
     companion object {

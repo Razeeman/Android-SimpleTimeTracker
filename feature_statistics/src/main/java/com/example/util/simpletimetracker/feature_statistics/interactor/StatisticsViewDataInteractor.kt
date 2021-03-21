@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.feature_statistics.interactor
 
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.core.mapper.RangeMapper
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -14,7 +15,6 @@ import com.example.util.simpletimetracker.domain.model.Statistics
 import com.example.util.simpletimetracker.domain.model.StatisticsCategory
 import com.example.util.simpletimetracker.feature_statistics.mapper.StatisticsViewDataMapper
 import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsViewData
-import java.util.Calendar
 import javax.inject.Inject
 
 class StatisticsViewDataInteractor @Inject constructor(
@@ -24,13 +24,14 @@ class StatisticsViewDataInteractor @Inject constructor(
     private val categoryInteractor: CategoryInteractor,
     private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
     private val prefsInteractor: PrefsInteractor,
-    private val statisticsViewDataMapper: StatisticsViewDataMapper
+    private val statisticsViewDataMapper: StatisticsViewDataMapper,
+    private val rangeMapper: RangeMapper
 ) {
 
     suspend fun getViewData(rangeLength: RangeLength?, shift: Int): List<ViewHolderType> {
         val filterType = prefsInteractor.getChartFilterType()
         val isDarkTheme = prefsInteractor.getDarkMode()
-        val (start, end) = getRange(rangeLength, shift)
+        val (start, end) = rangeMapper.getRange(rangeLength, shift)
         val showDuration = start.orZero() != 0L && end.orZero() != 0L
 
         val list: List<StatisticsViewData>
@@ -92,7 +93,7 @@ class StatisticsViewDataInteractor @Inject constructor(
         shift: Int,
         typesFiltered: List<Long>
     ): List<Statistics> {
-        val (start, end) = getRange(rangeLength, shift)
+        val (start, end) = rangeMapper.getRange(rangeLength, shift)
 
         return if (start.orZero() != 0L && end.orZero() != 0L) {
             statisticsInteractor.getFromRange(
@@ -109,7 +110,7 @@ class StatisticsViewDataInteractor @Inject constructor(
         rangeLength: RangeLength?,
         shift: Int
     ): List<StatisticsCategory> {
-        val (start, end) = getRange(rangeLength, shift)
+        val (start, end) = rangeMapper.getRange(rangeLength, shift)
 
         return if (start.orZero() != 0L && end.orZero() != 0L) {
             statisticsCategoryInteractor.getFromRange(
@@ -119,53 +120,5 @@ class StatisticsViewDataInteractor @Inject constructor(
         } else {
             statisticsCategoryInteractor.getAll()
         }
-    }
-
-    private fun getRange(rangeLength: RangeLength?, shift: Int): Pair<Long, Long> {
-        val rangeStart: Long
-        val rangeEnd: Long
-        val calendar = Calendar.getInstance().apply {
-            timeInMillis = System.currentTimeMillis()
-            set(Calendar.HOUR_OF_DAY, 0)
-            set(Calendar.MINUTE, 0)
-            set(Calendar.SECOND, 0)
-            set(Calendar.MILLISECOND, 0)
-        }
-
-        when (rangeLength) {
-            RangeLength.DAY -> {
-                calendar.add(Calendar.DATE, shift)
-                rangeStart = calendar.timeInMillis
-                rangeEnd = calendar.apply { add(Calendar.DATE, 1) }.timeInMillis
-            }
-            RangeLength.WEEK -> {
-                calendar.set(Calendar.DAY_OF_WEEK, calendar.firstDayOfWeek)
-                calendar.add(Calendar.DATE, shift * 7)
-                rangeStart = calendar.timeInMillis
-                rangeEnd = calendar.apply { add(Calendar.DATE, 7) }.timeInMillis
-            }
-            RangeLength.MONTH -> {
-                calendar.set(Calendar.DAY_OF_MONTH, 1)
-                calendar.add(Calendar.MONTH, shift)
-                rangeStart = calendar.timeInMillis
-                rangeEnd = calendar.apply { add(Calendar.MONTH, 1) }.timeInMillis
-            }
-            RangeLength.YEAR -> {
-                calendar.set(Calendar.DAY_OF_YEAR, 1)
-                calendar.add(Calendar.YEAR, shift)
-                rangeStart = calendar.timeInMillis
-                rangeEnd = calendar.apply { add(Calendar.YEAR, 1) }.timeInMillis
-            }
-            RangeLength.ALL -> {
-                rangeStart = 0L
-                rangeEnd = 0L
-            }
-            else -> {
-                rangeStart = 0L
-                rangeEnd = 0L
-            }
-        }
-
-        return rangeStart to rangeEnd
     }
 }

@@ -7,6 +7,7 @@ import com.example.util.simpletimetracker.core.viewData.RangesViewData
 import com.example.util.simpletimetracker.core.viewData.SelectDateViewData
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.model.RangeLength
+import java.util.Calendar
 import javax.inject.Inject
 
 class RangeMapper @Inject constructor(
@@ -36,6 +37,54 @@ class RangeMapper @Inject constructor(
             RangeLength.YEAR -> timeMapper.toYearTitle(position)
             RangeLength.ALL -> resourceRepo.getString(R.string.title_overall)
         }
+    }
+
+    fun getRange(rangeLength: RangeLength?, shift: Int): Pair<Long, Long> {
+        val rangeStart: Long
+        val rangeEnd: Long
+        val calendar = Calendar.getInstance().apply {
+            timeInMillis = System.currentTimeMillis()
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }
+
+        when (rangeLength) {
+            RangeLength.DAY -> {
+                calendar.add(Calendar.DATE, shift)
+                rangeStart = calendar.timeInMillis
+                rangeEnd = calendar.apply { add(Calendar.DATE, 1) }.timeInMillis
+            }
+            RangeLength.WEEK -> {
+                calendar.set(Calendar.DAY_OF_WEEK, calendar.firstDayOfWeek)
+                calendar.add(Calendar.DATE, shift * 7)
+                rangeStart = calendar.timeInMillis
+                rangeEnd = calendar.apply { add(Calendar.DATE, 7) }.timeInMillis
+            }
+            RangeLength.MONTH -> {
+                calendar.set(Calendar.DAY_OF_MONTH, 1)
+                calendar.add(Calendar.MONTH, shift)
+                rangeStart = calendar.timeInMillis
+                rangeEnd = calendar.apply { add(Calendar.MONTH, 1) }.timeInMillis
+            }
+            RangeLength.YEAR -> {
+                calendar.set(Calendar.DAY_OF_YEAR, 1)
+                calendar.add(Calendar.YEAR, shift)
+                rangeStart = calendar.timeInMillis
+                rangeEnd = calendar.apply { add(Calendar.YEAR, 1) }.timeInMillis
+            }
+            RangeLength.ALL -> {
+                rangeStart = 0L
+                rangeEnd = 0L
+            }
+            else -> {
+                rangeStart = 0L
+                rangeEnd = 0L
+            }
+        }
+
+        return rangeStart to rangeEnd
     }
 
     private fun mapToRangeName(rangeLength: RangeLength): RangeViewData {

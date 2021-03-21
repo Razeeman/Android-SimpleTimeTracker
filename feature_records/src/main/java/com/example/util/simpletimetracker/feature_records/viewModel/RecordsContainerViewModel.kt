@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
 import com.example.util.simpletimetracker.navigation.params.ChangeRecordParams
@@ -36,7 +37,7 @@ class RecordsContainerViewModel @Inject constructor(
     }
 
     fun onTodayClick() {
-        val current = timeMapper.toTimestampShifted(position.value.orZero(), TimeMapper.Range.DAY)
+        val current = timeMapper.toTimestampShifted(position.value.orZero(), RangeLength.DAY)
 
         router.navigate(
             Screen.DATE_TIME_DIALOG,
@@ -60,7 +61,7 @@ class RecordsContainerViewModel @Inject constructor(
         when (tag) {
             DATE_TAG -> {
                 timestamp
-                    .let{ timeMapper.toTimestampShift(it, TimeMapper.Range.DAY) }
+                    .let{ timeMapper.toTimestampShift(it, RangeLength.DAY) }
                     .toInt()
                     .let(::updatePosition)
             }

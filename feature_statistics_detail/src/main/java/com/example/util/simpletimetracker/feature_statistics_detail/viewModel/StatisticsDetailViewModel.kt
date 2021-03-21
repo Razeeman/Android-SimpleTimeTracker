@@ -144,7 +144,7 @@ class StatisticsDetailViewModel @Inject constructor(
         when (tag) {
             DATE_TAG -> {
                 timestamp
-                    .let { timeMapper.toTimestampShift(toTime = it, range = getMapperRange() ?: return) }
+                    .let { timeMapper.toTimestampShift(toTime = it, range = rangeLength) }
                     .toInt()
                     .let(::updatePosition)
             }
@@ -154,7 +154,7 @@ class StatisticsDetailViewModel @Inject constructor(
     private fun onSelectDateClick() {
         val current = timeMapper.toTimestampShifted(
             rangesFromToday = rangePosition,
-            range = getMapperRange() ?: return
+            range = rangeLength
         )
 
         router.navigate(
@@ -199,13 +199,19 @@ class StatisticsDetailViewModel @Inject constructor(
     }
 
     private fun updateChartViewData() = viewModelScope.launch {
-        val data = interactor.getChartViewData(
+        val data = loadChartViewData()
+        (chartViewData as MutableLiveData).value = data
+    }
+
+    private suspend fun loadChartViewData(): StatisticsDetailChartViewData {
+        return interactor.getChartViewData(
             id = extra.id,
             chartGrouping = chartGrouping,
             chartLength = chartLength,
-            filter = extra.filterType
+            filter = extra.filterType,
+            rangeLength = rangeLength,
+            rangePosition = rangePosition
         )
-        (chartViewData as MutableLiveData).value = data
     }
 
     private fun updateDailyChartViewData() = viewModelScope.launch {
@@ -255,17 +261,6 @@ class StatisticsDetailViewModel @Inject constructor(
 
     private fun loadButtonsVisibility(): Boolean {
         return rangeLength != RangeLength.ALL
-    }
-
-    // TODO same as statistics container. Remove?
-    private fun getMapperRange(): TimeMapper.Range? {
-        return when (rangeLength) {
-            RangeLength.DAY -> TimeMapper.Range.DAY
-            RangeLength.WEEK -> TimeMapper.Range.WEEK
-            RangeLength.MONTH -> TimeMapper.Range.MONTH
-            RangeLength.YEAR -> TimeMapper.Range.YEAR
-            else -> null
-        }
     }
 
     companion object {

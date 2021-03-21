@@ -6,6 +6,7 @@ import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
+import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.StatisticsDetailViewDataMapper
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartGrouping
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartLength
@@ -86,25 +87,30 @@ class StatisticsDetailViewDataInteractor @Inject constructor(
         id: Long,
         chartGrouping: ChartGrouping,
         chartLength: ChartLength,
-        filter: ChartFilterType
+        filter: ChartFilterType,
+        rangeLength: RangeLength,
+        rangePosition: Int
     ): StatisticsDetailChartViewData {
-        val data = if (id == -1L) {
-            emptyList()
-        } else {
-            val typesIds = when(filter) {
-                ChartFilterType.ACTIVITY -> {
-                    listOf(id)
-                }
-                ChartFilterType.CATEGORY -> {
-                    recordTypeCategoryInteractor.getTypes(categoryId = id)
-                }
-            }
-            statisticsDetailInteractor.getDurations(
-                typeIds = typesIds,
-                grouping = chartGrouping,
-                chartLength = chartLength
-            )
+        // If untracked
+        if (id == -1L) {
+            statisticsDetailViewDataMapper.mapToChartViewData(emptyList())
         }
+
+        val typesIds = when (filter) {
+            ChartFilterType.ACTIVITY -> {
+                listOf(id)
+            }
+            ChartFilterType.CATEGORY -> {
+                recordTypeCategoryInteractor.getTypes(categoryId = id)
+            }
+        }
+        val data = statisticsDetailInteractor.getDurations(
+            typeIds = typesIds,
+            grouping = chartGrouping,
+            chartLength = chartLength,
+            rangeLength = rangeLength,
+            rangePosition = rangePosition
+        )
 
         return statisticsDetailViewDataMapper.mapToChartViewData(data)
     }
@@ -112,20 +118,23 @@ class StatisticsDetailViewDataInteractor @Inject constructor(
     suspend fun getDailyChartViewData(
         id: Long,
         filter: ChartFilterType
-    ) : StatisticsDetailChartViewData {
-        val data = if (id == -1L) {
-            emptyMap()
-        } else {
-            val typesIds = when(filter) {
-                ChartFilterType.ACTIVITY -> {
-                    listOf(id)
-                }
-                ChartFilterType.CATEGORY -> {
-                    recordTypeCategoryInteractor.getTypes(categoryId = id)
-                }
-            }
-            statisticsDetailInteractor.getDailyDurations(typesIds)
+    ): StatisticsDetailChartViewData {
+        // If untracked
+        if (id == -1L) {
+            statisticsDetailViewDataMapper.mapToDailyChartViewData(emptyMap())
         }
+
+        val typesIds = when (filter) {
+            ChartFilterType.ACTIVITY -> {
+                listOf(id)
+            }
+            ChartFilterType.CATEGORY -> {
+                recordTypeCategoryInteractor.getTypes(categoryId = id)
+            }
+        }
+        val data = statisticsDetailInteractor.getDailyDurations(
+            typeIds = typesIds
+        )
 
         return statisticsDetailViewDataMapper.mapToDailyChartViewData(data)
     }

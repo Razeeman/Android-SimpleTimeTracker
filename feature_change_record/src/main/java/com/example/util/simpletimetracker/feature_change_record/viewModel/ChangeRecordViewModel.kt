@@ -15,6 +15,7 @@ import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
+import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.feature_change_record.R
 import com.example.util.simpletimetracker.feature_change_record.mapper.ChangeRecordViewDataMapper
@@ -168,7 +169,7 @@ class ChangeRecordViewModel @Inject constructor(
     }
 
     private fun getInitialDate(daysFromToday: Int): Long {
-        return timeMapper.toTimestampShifted(daysFromToday, TimeMapper.Range.DAY)
+        return timeMapper.toTimestampShifted(daysFromToday, RangeLength.DAY)
     }
 
     private suspend fun updatePreview() {

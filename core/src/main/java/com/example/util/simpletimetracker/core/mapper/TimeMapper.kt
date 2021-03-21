@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.core.mapper
 
 import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.domain.model.RangeLength
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -11,10 +12,6 @@ import javax.inject.Inject
 class TimeMapper @Inject constructor(
     private val resourceRepo: ResourceRepo
 ) {
-
-    enum class Range {
-        DAY, WEEK, MONTH, YEAR
-    }
 
     private val calendar = Calendar.getInstance()
 
@@ -92,12 +89,13 @@ class TimeMapper @Inject constructor(
     fun formatIntervalWithSeconds(interval: Long): String =
         formatInterval(interval, withSeconds = true)
 
-    fun toTimestampShifted(rangesFromToday: Int, range: Range): Long {
+    fun toTimestampShifted(rangesFromToday: Int, range: RangeLength): Long {
         val calendarStep = when (range) {
-            Range.DAY -> Calendar.DAY_OF_YEAR
-            Range.WEEK -> Calendar.WEEK_OF_YEAR
-            Range.MONTH -> Calendar.MONTH
-            Range.YEAR -> Calendar.YEAR
+            RangeLength.DAY -> Calendar.DAY_OF_YEAR
+            RangeLength.WEEK -> Calendar.WEEK_OF_YEAR
+            RangeLength.MONTH -> Calendar.MONTH
+            RangeLength.YEAR -> Calendar.YEAR
+            RangeLength.ALL -> return 0
         }
 
         return if (rangesFromToday != 0) {
@@ -112,12 +110,13 @@ class TimeMapper @Inject constructor(
         }
     }
 
-    fun toTimestampShift(toTime: Long, range: Range): Long {
+    fun toTimestampShift(toTime: Long, range: RangeLength): Long {
         val calendarStep = when (range) {
-            Range.DAY -> Calendar.DAY_OF_YEAR
-            Range.WEEK -> Calendar.WEEK_OF_YEAR
-            Range.MONTH -> Calendar.MONTH
-            Range.YEAR -> Calendar.YEAR
+            RangeLength.DAY -> Calendar.DAY_OF_YEAR
+            RangeLength.WEEK -> Calendar.WEEK_OF_YEAR
+            RangeLength.MONTH -> Calendar.MONTH
+            RangeLength.YEAR -> Calendar.YEAR
+            RangeLength.ALL -> return 0
         }
 
         val current = System.currentTimeMillis()
