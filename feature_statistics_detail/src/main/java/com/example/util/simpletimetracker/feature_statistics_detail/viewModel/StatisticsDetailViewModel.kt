@@ -23,7 +23,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.viewData.Sta
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailGroupingViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewViewData
-import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStatsViewData
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
 import com.example.util.simpletimetracker.navigation.params.DateTimeDialogParams
@@ -44,16 +44,16 @@ class StatisticsDetailViewModel @Inject constructor(
 
     lateinit var extra: StatisticsDetailParams
 
-    val viewData: LiveData<StatisticsDetailViewData> by lazy {
-        return@lazy MutableLiveData(loadInitialViewData())
-    }
     val previewViewData: LiveData<StatisticsDetailPreviewViewData> by lazy {
-        return@lazy MutableLiveData<StatisticsDetailPreviewViewData>()
+        return@lazy MutableLiveData<StatisticsDetailPreviewViewData>().let { initial ->
+            viewModelScope.launch { initial.value = loadPreviewViewData() }
+            initial
+        }
+    }
+    val statsViewData: LiveData<StatisticsDetailStatsViewData> by lazy {
+        return@lazy MutableLiveData(loadEmptyStatsViewData())
     }
     val chartViewData: LiveData<StatisticsDetailChartViewData> by lazy {
-        return@lazy MutableLiveData<StatisticsDetailChartViewData>()
-    }
-    val dailyChartViewData: LiveData<StatisticsDetailChartViewData> by lazy {
         return@lazy MutableLiveData<StatisticsDetailChartViewData>()
     }
     val chartGroupingViewData: LiveData<List<ViewHolderType>> by lazy {
@@ -61,6 +61,9 @@ class StatisticsDetailViewModel @Inject constructor(
     }
     val chartLengthViewData: LiveData<List<ViewHolderType>> by lazy {
         return@lazy MutableLiveData(loadChartLengthViewData())
+    }
+    val dailyChartViewData: LiveData<StatisticsDetailChartViewData> by lazy {
+        return@lazy MutableLiveData<StatisticsDetailChartViewData>()
     }
     val title: LiveData<String> by lazy {
         return@lazy MutableLiveData(loadTitle())
@@ -79,9 +82,6 @@ class StatisticsDetailViewModel @Inject constructor(
 
     fun onVisible() {
         updateViewData()
-        updatePreviewViewData()
-        updateChartViewData()
-        updateDailyChartViewData()
     }
 
     fun onChartGroupingClick(viewData: ButtonsRowViewData) {
@@ -169,59 +169,88 @@ class StatisticsDetailViewModel @Inject constructor(
 
     private fun updatePosition(newPosition: Int) {
         rangePosition = newPosition
-        (title as MutableLiveData).value = loadTitle()
-        (rangeItems as MutableLiveData).value = loadRanges()
-        (rangeButtonsVisibility as MutableLiveData).value = loadButtonsVisibility()
+        updateTitle()
+        updateRanges()
+        updateButtonsVisibility()
+        updateViewData()
     }
 
-    private fun updateViewData() = viewModelScope.launch {
-        val data = interactor.getViewData(extra.id, extra.filterType)
-        (viewData as MutableLiveData).value = data
+    private fun updateViewData() {
+        updateStatsViewData()
+        updateChartViewData()
+        updateDailyChartViewData()
     }
 
-    private fun updatePreviewViewData() = viewModelScope.launch {
-        val data = interactor.getPreviewData(extra.id, extra.filterType)
-        (previewViewData as MutableLiveData).value = data
+    private suspend fun loadPreviewViewData() : StatisticsDetailPreviewViewData{
+        return interactor.getPreviewData(extra.id, extra.filterType)
+    }
+
+    private fun updateStatsViewData() = viewModelScope.launch {
+        val data = loadStatsViewData()
+        (statsViewData as MutableLiveData).value = data
+    }
+
+    private fun loadEmptyStatsViewData(): StatisticsDetailStatsViewData {
+        return mapper.mapToEmptyStatsViewData()
+    }
+
+    private suspend fun loadStatsViewData(): StatisticsDetailStatsViewData {
+        return interactor.getStatsViewData(extra.id, extra.filterType)
     }
 
     private fun updateChartViewData() = viewModelScope.launch {
         val data = interactor.getChartViewData(
-            extra.id, chartGrouping, chartLength, extra.filterType
+            id = extra.id,
+            chartGrouping = chartGrouping,
+            chartLength = chartLength,
+            filter = extra.filterType
         )
         (chartViewData as MutableLiveData).value = data
     }
 
     private fun updateDailyChartViewData() = viewModelScope.launch {
-        val data = interactor.getDailyChartViewData(extra.id, extra.filterType)
+        val data = loadDailyChartViewData()
         (dailyChartViewData as MutableLiveData).value = data
+    }
+
+    private suspend fun loadDailyChartViewData(): StatisticsDetailChartViewData {
+        return interactor.getDailyChartViewData(extra.id, extra.filterType)
     }
 
     private fun updateChartGroupingViewData() {
         (chartGroupingViewData as MutableLiveData).value = loadChartGroupingViewData()
     }
 
-    private fun updateChartLengthViewData() {
-        (chartLengthViewData as MutableLiveData).value = loadChartLengthViewData()
-    }
-
-    private fun loadInitialViewData(): StatisticsDetailViewData {
-        return mapper.mapToEmptyViewData()
-    }
-
     private fun loadChartGroupingViewData(): List<ViewHolderType> {
         return mapper.mapToChartGroupingViewData(chartGrouping)
+    }
+
+    private fun updateChartLengthViewData() {
+        (chartLengthViewData as MutableLiveData).value = loadChartLengthViewData()
     }
 
     private fun loadChartLengthViewData(): List<ViewHolderType> {
         return mapper.mapToChartLengthViewData(chartLength)
     }
 
+    private fun updateTitle() {
+        (title as MutableLiveData).value = loadTitle()
+    }
+
     private fun loadTitle(): String {
         return rangeMapper.mapToTitle(rangeLength, rangePosition)
     }
 
+    private fun updateRanges() {
+        (rangeItems as MutableLiveData).value = loadRanges()
+    }
+
     private fun loadRanges(): RangesViewData {
         return rangeMapper.mapToRanges(rangeLength)
+    }
+
+    private fun updateButtonsVisibility() {
+        (rangeButtonsVisibility as MutableLiveData).value = loadButtonsVisibility()
     }
 
     private fun loadButtonsVisibility(): Boolean {

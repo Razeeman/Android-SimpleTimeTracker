@@ -18,7 +18,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.viewData.Sta
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailGroupingViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewViewData
-import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStatsViewData
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -33,7 +33,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         records: List<Record>,
         isDarkTheme: Boolean,
         useMilitaryTime: Boolean
-    ): StatisticsDetailViewData {
+    ): StatisticsDetailStatsViewData {
         val recordsSorted = records.sortedBy { it.timeStarted }
         val durations = records.map(::mapToDuration)
         val totalDuration = durations.sum()
@@ -53,7 +53,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             }.let(resourceRepo::getColor)
         )
 
-        return mapToViewData(
+        return mapToStatsViewData(
             totalDuration = totalDuration
                 .let(timeMapper::formatInterval),
             timesTracked = timesTracked,
@@ -73,8 +73,8 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         )
     }
 
-    fun mapToEmptyViewData(): StatisticsDetailViewData {
-        return mapToViewData(
+    fun mapToEmptyStatsViewData(): StatisticsDetailStatsViewData {
+        return mapToStatsViewData(
             totalDuration = "",
             timesTracked = null,
             timesTrackedIcon = null,
@@ -194,7 +194,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         }
     }
 
-    private fun mapToViewData(
+    private fun mapToStatsViewData(
         totalDuration: String,
         timesTracked: Int?,
         timesTrackedIcon: StatisticsDetailCardViewData.Icon?,
@@ -203,8 +203,8 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         longestRecord: String,
         firstRecord: String,
         lastRecord: String
-    ): StatisticsDetailViewData {
-        return StatisticsDetailViewData(
+    ): StatisticsDetailStatsViewData {
+        return StatisticsDetailStatsViewData(
             totalDuration = listOf(
                 StatisticsDetailCardViewData(
                     title = totalDuration,

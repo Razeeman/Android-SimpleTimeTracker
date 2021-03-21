@@ -11,7 +11,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartG
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartLength
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewViewData
-import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStatsViewData
 import javax.inject.Inject
 
 class StatisticsDetailViewDataInteractor @Inject constructor(
@@ -24,10 +24,10 @@ class StatisticsDetailViewDataInteractor @Inject constructor(
     private val statisticsDetailViewDataMapper: StatisticsDetailViewDataMapper
 ) {
 
-    suspend fun getViewData(
+    suspend fun getStatsViewData(
         id: Long,
         filter: ChartFilterType
-    ): StatisticsDetailViewData {
+    ): StatisticsDetailStatsViewData {
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
         if (id == -1L) return statisticsDetailViewDataMapper.map(

@@ -19,24 +19,10 @@ import com.example.util.simpletimetracker.feature_statistics_detail.R
 import com.example.util.simpletimetracker.feature_statistics_detail.di.StatisticsDetailComponentProvider
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewViewData
-import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStatsViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewModel.StatisticsDetailViewModel
 import com.example.util.simpletimetracker.navigation.params.StatisticsDetailParams
-import kotlinx.android.synthetic.main.statistics_detail_fragment.btnStatisticsDetailNext
-import kotlinx.android.synthetic.main.statistics_detail_fragment.btnStatisticsDetailPrevious
-import kotlinx.android.synthetic.main.statistics_detail_fragment.btnStatisticsDetailToday
-import kotlinx.android.synthetic.main.statistics_detail_fragment.buttonsStatisticsDetailGrouping
-import kotlinx.android.synthetic.main.statistics_detail_fragment.buttonsStatisticsDetailLength
-import kotlinx.android.synthetic.main.statistics_detail_fragment.cardStatisticsDetailAverage
-import kotlinx.android.synthetic.main.statistics_detail_fragment.cardStatisticsDetailDates
-import kotlinx.android.synthetic.main.statistics_detail_fragment.cardStatisticsDetailRecords
-import kotlinx.android.synthetic.main.statistics_detail_fragment.cardStatisticsDetailTotal
-import kotlinx.android.synthetic.main.statistics_detail_fragment.chartStatisticsDetail
-import kotlinx.android.synthetic.main.statistics_detail_fragment.chartStatisticsDetailDaily
-import kotlinx.android.synthetic.main.statistics_detail_fragment.ivStatisticsDetailItemIcon
-import kotlinx.android.synthetic.main.statistics_detail_fragment.layoutStatisticsDetailItem
-import kotlinx.android.synthetic.main.statistics_detail_fragment.spinnerStatisticsDetail
-import kotlinx.android.synthetic.main.statistics_detail_fragment.tvStatisticsDetailItemName
+import kotlinx.android.synthetic.main.statistics_detail_fragment.*
 import javax.inject.Inject
 
 class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragment),
@@ -90,15 +76,25 @@ class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragmen
 
     override fun initViewModel(): Unit = with(viewModel) {
         extra = params
-        previewViewData.observe(viewLifecycleOwner, ::setPreviewViewData)
-        viewData.observe(viewLifecycleOwner, ::setViewData)
-        chartViewData.observe(viewLifecycleOwner, ::updateChartViewData)
-        dailyChartViewData.observe(viewLifecycleOwner, ::updateDailyChartViewData)
-        chartGroupingViewData.observe(viewLifecycleOwner, buttonsStatisticsDetailGrouping.adapter::replace)
-        chartLengthViewData.observe(viewLifecycleOwner, buttonsStatisticsDetailLength.adapter::replace)
-        title.observe(viewLifecycleOwner, btnStatisticsDetailToday::setText)
-        rangeItems.observe(viewLifecycleOwner, ::updateRangeItems)
-        rangeButtonsVisibility.observe(viewLifecycleOwner, ::updateRangeButtonsVisibility)
+
+        previewViewData
+            .observe(viewLifecycleOwner, ::setPreviewViewData)
+        statsViewData
+            .observe(viewLifecycleOwner, ::setStatsViewData)
+        chartViewData
+            .observe(viewLifecycleOwner, ::updateChartViewData)
+        dailyChartViewData
+            .observe(viewLifecycleOwner, ::updateDailyChartViewData)
+        chartGroupingViewData
+            .observe(viewLifecycleOwner, buttonsStatisticsDetailGrouping.adapter::replace)
+        chartLengthViewData
+            .observe(viewLifecycleOwner, buttonsStatisticsDetailLength.adapter::replace)
+        title
+            .observe(viewLifecycleOwner, btnStatisticsDetailToday::setText)
+        rangeItems
+            .observe(viewLifecycleOwner, ::updateRangeItems)
+        rangeButtonsVisibility
+            .observe(viewLifecycleOwner, ::updateRangeButtonsVisibility)
     }
 
     override fun onResume() {
@@ -128,11 +124,11 @@ class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragmen
         }
     }
 
-    private fun setViewData(viewData: StatisticsDetailViewData) {
-        cardStatisticsDetailTotal.items = viewData.totalDuration
-        cardStatisticsDetailRecords.items = viewData.timesTracked
-        cardStatisticsDetailAverage.items = viewData.averageRecord
-        cardStatisticsDetailDates.items = viewData.datesTracked
+    private fun setStatsViewData(statsViewData: StatisticsDetailStatsViewData) {
+        cardStatisticsDetailTotal.items = statsViewData.totalDuration
+        cardStatisticsDetailRecords.items = statsViewData.timesTracked
+        cardStatisticsDetailAverage.items = statsViewData.averageRecord
+        cardStatisticsDetailDates.items = statsViewData.datesTracked
     }
 
     private fun updateChartViewData(viewData: StatisticsDetailChartViewData) {
