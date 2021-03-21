@@ -28,6 +28,7 @@ data class RunningRecordViewData(
         if (this.iconId != other.iconId) updates.add(UPDATE_ICON)
         if (this.color != other.color) updates.add(UPDATE_COLOR)
         if (this.goalTime != other.goalTime) updates.add(UPDATE_GOAL_TIME)
+        if (this.comment != other.comment) updates.add(UPDATE_COMMENT)
 
         return updates.takeIf { it.isNotEmpty() }
     }
@@ -39,5 +40,6 @@ data class RunningRecordViewData(
         const val UPDATE_ICON = 4
         const val UPDATE_COLOR = 5
         const val UPDATE_GOAL_TIME = 6
+        const val UPDATE_COMMENT = 7
     }
 }
