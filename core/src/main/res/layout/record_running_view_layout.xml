@@ -88,6 +88,21 @@
             app:barrierDirection="start"
             app:constraint_referenced_ids="tvRunningRecordItemTimer, tvRunningRecordItemGoalTime" />
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvRunningRecordItemComment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textColor="?appLightTextColor"
+            android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@id/tvRunningRecordItemGoalTime"
+            app:layout_constraintStart_toEndOf="@id/ivRunningRecordItemIcon"
+            app:layout_constraintTop_toBottomOf="@id/tvRunningRecordItemTimeStarted"
+            tools:text="Record comment record comment record comment record comment"
+            tools:visibility="gone" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </merge>

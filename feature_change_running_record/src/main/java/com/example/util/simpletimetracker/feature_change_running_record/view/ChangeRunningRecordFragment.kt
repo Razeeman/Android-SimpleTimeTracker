@@ -1,17 +1,16 @@
 package com.example.util.simpletimetracker.feature_change_running_record.view
 
 import android.os.Bundle
+import android.text.SpannableStringBuilder
 import androidx.core.view.ViewCompat
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.transition.TransitionInflater
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
-import com.example.util.simpletimetracker.core.extension.rotateDown
-import com.example.util.simpletimetracker.core.extension.rotateUp
-import com.example.util.simpletimetracker.core.extension.setOnClick
-import com.example.util.simpletimetracker.core.extension.visible
+import com.example.util.simpletimetracker.core.extension.*
 import com.example.util.simpletimetracker.core.utils.BuildVersions
 import com.example.util.simpletimetracker.core.view.TransitionNames
 import com.example.util.simpletimetracker.feature_change_running_record.R
@@ -27,6 +26,7 @@ import com.google.android.flexbox.JustifyContent
 import kotlinx.android.synthetic.main.change_running_record_fragment.arrowChangeRunningRecordType
 import kotlinx.android.synthetic.main.change_running_record_fragment.btnChangeRunningRecordDelete
 import kotlinx.android.synthetic.main.change_running_record_fragment.btnChangeRunningRecordSave
+import kotlinx.android.synthetic.main.change_running_record_fragment.etChangeRunningRecordComment
 import kotlinx.android.synthetic.main.change_running_record_fragment.fieldChangeRunningRecordTimeStarted
 import kotlinx.android.synthetic.main.change_running_record_fragment.fieldChangeRunningRecordType
 import kotlinx.android.synthetic.main.change_running_record_fragment.previewChangeRunningRecord
@@ -80,6 +80,7 @@ class ChangeRunningRecordFragment : BaseFragment(R.layout.change_running_record_
     }
 
     override fun initUx() {
+        etChangeRunningRecordComment.doAfterTextChanged { viewModel.onCommentChange(it.toString()) }
         fieldChangeRunningRecordType.setOnClick(viewModel::onTypeChooserClick)
         fieldChangeRunningRecordTimeStarted.setOnClick(viewModel::onTimeStartedClick)
         btnChangeRunningRecordSave.setOnClick(viewModel::onSaveClick)
@@ -89,6 +90,7 @@ class ChangeRunningRecordFragment : BaseFragment(R.layout.change_running_record_
     override fun initViewModel() {
         with(viewModel) {
             extra = params
+            record.observeOnce(viewLifecycleOwner, ::updateUi)
             record.observe(viewLifecycleOwner, ::updatePreview)
             types.observe(viewLifecycleOwner, typesAdapter::replace)
             deleteButtonEnabled.observe(
@@ -120,6 +122,11 @@ class ChangeRunningRecordFragment : BaseFragment(R.layout.change_running_record_
         viewModel.onDateTimeSet(timestamp, tag)
     }
 
+    private fun updateUi(item: ChangeRunningRecordViewData) {
+        etChangeRunningRecordComment.setText(item.comment)
+        etChangeRunningRecordComment.setSelection(item.comment.length)
+    }
+
     private fun setPreview() = params.preview?.run {
         ChangeRunningRecordViewData(
             name = name,
@@ -128,7 +135,8 @@ class ChangeRunningRecordFragment : BaseFragment(R.layout.change_running_record_
             duration = duration,
             goalTime = goalTime,
             iconId = iconId,
-            color = color
+            color = color,
+            comment = comment
         ).let(::updatePreview)
     }
 
@@ -140,8 +148,10 @@ class ChangeRunningRecordFragment : BaseFragment(R.layout.change_running_record_
             itemTimeStarted = item.timeStarted
             itemTimer = item.duration
             itemGoalTime = item.goalTime
+            itemComment = item.comment
         }
         tvChangeRunningRecordTimeStarted.text = item.dateTimeStarted
+        etChangeRunningRecordComment.text = SpannableStringBuilder(item.comment)
     }
 
     companion object {

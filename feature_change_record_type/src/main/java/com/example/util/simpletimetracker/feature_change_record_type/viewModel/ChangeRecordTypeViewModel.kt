@@ -225,7 +225,8 @@ class ChangeRecordTypeViewModel @Inject constructor(
                 runningRecordInteractor.get(extra.id)?.let { runningRecord ->
                     recordInteractor.add(
                         typeId = runningRecord.id,
-                        timeStarted = runningRecord.timeStarted
+                        timeStarted = runningRecord.timeStarted,
+                        comment = runningRecord.comment
                     )
                     removeRunningRecordMediator.remove(extra.id)
                 }

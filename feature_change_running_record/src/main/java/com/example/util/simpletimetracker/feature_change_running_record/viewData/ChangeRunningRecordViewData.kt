@@ -10,5 +10,6 @@ data class ChangeRunningRecordViewData(
     var duration: String,
     var goalTime: String,
     @DrawableRes val iconId: Int,
-    @ColorInt val color: Int
+    @ColorInt val color: Int,
+    val comment: String
 )

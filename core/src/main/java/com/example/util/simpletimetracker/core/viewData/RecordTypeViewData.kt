@@ -12,7 +12,8 @@ data class RecordTypeViewData(
     @ColorInt val color: Int,
     val width: Int? = null,
     val height: Int? = null,
-    val asRow: Boolean = false
+    val asRow: Boolean = false,
+    val comment: String = ""
 ) : ViewHolderType {
 
     override fun getViewType(): Int = ViewHolderType.RECORD_TYPE

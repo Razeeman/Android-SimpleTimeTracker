@@ -100,11 +100,34 @@
 
     </androidx.cardview.widget.CardView>
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputChangeRunningRecordComment"
+        style="@style/ChangeItemInputField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constrainedHeight="true"
+        app:layout_constraintBottom_toTopOf="@id/btnChangeRunningRecordSave"
+        app:layout_constraintTop_toBottomOf="@id/fieldChangeRunningRecordType"
+        app:layout_constraintVertical_bias="0">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etChangeRunningRecordComment"
+            style="@style/EditTextMultiLine"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/change_running_record_comment_hint" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvChangeRunningRecordType"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
+        android:background="?android:colorBackground"
         android:overScrollMode="never"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/btnChangeRunningRecordSave"
@@ -112,7 +135,7 @@
         app:layout_constraintTop_toBottomOf="@id/fieldChangeRunningRecordType"
         tools:itemCount="3"
         tools:listitem="@layout/item_record_type_layout"
-        tools:visibility="visible" />
+        tools:visibility="gone" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnChangeRunningRecordSave"

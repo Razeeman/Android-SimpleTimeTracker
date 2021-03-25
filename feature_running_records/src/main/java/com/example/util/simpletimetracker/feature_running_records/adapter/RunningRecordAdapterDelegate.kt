@@ -52,6 +52,9 @@ class RunningRecordAdapterDelegate(
             if (rebind || updates.contains(RunningRecordViewData.UPDATE_COLOR).orFalse()) {
                 viewRunningRecordItem.itemColor = item.color
             }
+            if (rebind || updates.contains(RunningRecordViewData.UPDATE_COMMENT).orFalse()) {
+                viewRunningRecordItem.itemComment = item.comment
+            }
             if (rebind) {
                 setOnClickWith(item, onItemClick)
                 setOnLongClick { onItemLongClick(item, mapOf(this to transitionName)) }

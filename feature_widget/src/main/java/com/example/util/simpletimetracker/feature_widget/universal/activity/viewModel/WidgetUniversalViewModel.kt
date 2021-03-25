@@ -45,7 +45,7 @@ class WidgetUniversalViewModel @Inject constructor(
                     runningRecordInteractor.getAll().forEach { handleRunningRecordRemove(it) }
                 }
                 // Add new running record
-                addRunningRecordMediator.add(item.id)
+                addRunningRecordMediator.add(item.id, comment = item.comment)
             }
 
             updateRecordTypesViewData()
@@ -55,7 +55,8 @@ class WidgetUniversalViewModel @Inject constructor(
     private suspend fun handleRunningRecordRemove(runningRecord: RunningRecord) {
         recordInteractor.add(
             typeId = runningRecord.id,
-            timeStarted = runningRecord.timeStarted
+            timeStarted = runningRecord.timeStarted,
+            comment = runningRecord.comment
         )
         removeRunningRecordMediator.remove(runningRecord.id)
     }

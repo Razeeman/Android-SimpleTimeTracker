@@ -197,7 +197,7 @@ class WidgetProvider : AppWidgetProvider() {
                         .forEach { handleRunningRecordRemove(it) }
                 }
                 // Add new running record
-                addRunningRecordMediator.add(recordTypeId)
+                addRunningRecordMediator.add(recordTypeId, comment = runningRecord?.comment.orEmpty())
             }
         }
     }
@@ -205,7 +205,8 @@ class WidgetProvider : AppWidgetProvider() {
     private suspend fun handleRunningRecordRemove(runningRecord: RunningRecord) {
         recordInteractor.add(
             typeId = runningRecord.id,
-            timeStarted = runningRecord.timeStarted
+            timeStarted = runningRecord.timeStarted,
+            comment = runningRecord.comment
         )
         removeRunningRecordMediator.remove(runningRecord.id)
     }

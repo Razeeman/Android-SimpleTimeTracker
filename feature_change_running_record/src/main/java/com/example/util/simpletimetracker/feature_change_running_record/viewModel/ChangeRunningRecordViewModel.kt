@@ -70,6 +70,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
     private var newTypeId: Long = 0
     private var newTimeStarted: Long = 0
     private var timerJob: Job? = null
+    private var newComment: String = ""
 
     fun onTypeChooserClick() {
         (flipTypesChooser as MutableLiveData).value = flipTypesChooser.value
@@ -109,7 +110,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
         (saveButtonEnabled as MutableLiveData).value = false
         viewModelScope.launch {
             removeRunningRecordMediator.remove(extra.id)
-            addRunningRecordMediator.add(newTypeId, newTimeStarted)
+            addRunningRecordMediator.add(newTypeId, newTimeStarted, newComment)
             router.back()
         }
     }
@@ -138,6 +139,15 @@ class ChangeRunningRecordViewModel @Inject constructor(
         }
     }
 
+    fun onCommentChange(comment: String) {
+        viewModelScope.launch {
+            if (comment != newComment) {
+                newComment = comment
+                updatePreview()
+            }
+        }
+    }
+
     fun onVisible() {
         startUpdate()
     }
@@ -155,6 +165,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
             runningRecordInteractor.get(extra.id)?.let { record ->
                 newTypeId = record.id.orZero()
                 newTimeStarted = record.timeStarted
+                newComment = record.comment
             }
         }
     }
@@ -162,7 +173,8 @@ class ChangeRunningRecordViewModel @Inject constructor(
     private suspend fun loadPreviewViewData(): ChangeRunningRecordViewData {
         val record = RunningRecord(
             id = newTypeId,
-            timeStarted = newTimeStarted
+            timeStarted = newTimeStarted,
+            comment = newComment
         )
         // TODO add record type cache
         val type = recordTypeInteractor.get(newTypeId)
