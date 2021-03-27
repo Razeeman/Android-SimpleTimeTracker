@@ -65,6 +65,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
     val flipTypesChooser: LiveData<Boolean> = MutableLiveData()
     val deleteButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
+    val keyboardVisibility: LiveData<Boolean> = MutableLiveData(false)
 
     private var newTypeId: Long = 0
     private var newTimeStarted: Long = 0
@@ -72,6 +73,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
     private var newComment: String = ""
 
     fun onTypeChooserClick() {
+        (keyboardVisibility as MutableLiveData).value = false
         (flipTypesChooser as MutableLiveData).value = flipTypesChooser.value
             ?.flip().orTrue()
     }
@@ -97,6 +99,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
         viewModelScope.launch {
             removeRunningRecordMediator.remove(extra.id)
             showMessage(R.string.change_running_record_removed)
+            (keyboardVisibility as MutableLiveData).value = false
             router.back()
         }
     }
@@ -110,6 +113,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
         viewModelScope.launch {
             removeRunningRecordMediator.remove(extra.id)
             addRunningRecordMediator.add(newTypeId, newTimeStarted, newComment)
+            (keyboardVisibility as MutableLiveData).value = false
             router.back()
         }
     }

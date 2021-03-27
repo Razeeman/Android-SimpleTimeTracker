@@ -104,6 +104,9 @@ class ChangeRunningRecordFragment : BaseFragment(R.layout.change_running_record_
                     if (opened) rotateDown() else rotateUp()
                 }
             }
+            keyboardVisibility.observe(viewLifecycleOwner) { visible ->
+                if (visible) showKeyboard(etChangeRunningRecordComment) else hideKeyboard()
+            }
         }
     }
 

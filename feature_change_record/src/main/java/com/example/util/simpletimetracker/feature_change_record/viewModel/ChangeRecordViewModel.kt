@@ -60,6 +60,7 @@ class ChangeRecordViewModel @Inject constructor(
     }
     val flipTypesChooser: LiveData<Boolean> = MutableLiveData()
     val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
+    val keyboardVisibility: LiveData<Boolean> = MutableLiveData(false)
 
     private var newTypeId: Long = 0
     private var newTimeEnded: Long = 0
@@ -67,6 +68,7 @@ class ChangeRecordViewModel @Inject constructor(
     private var newComment: String = ""
 
     fun onTypeChooserClick() {
+        (keyboardVisibility as MutableLiveData).value = false
         (flipTypesChooser as MutableLiveData).value = flipTypesChooser.value
             ?.flip().orTrue()
     }
@@ -104,6 +106,7 @@ class ChangeRecordViewModel @Inject constructor(
     }
 
     fun onDeleteClick() {
+        (keyboardVisibility as MutableLiveData).value = false
         router.back()
     }
 
@@ -124,6 +127,7 @@ class ChangeRecordViewModel @Inject constructor(
                 comment = newComment
             ).let {
                 recordInteractor.add(it)
+                (keyboardVisibility as MutableLiveData).value = false
                 router.back()
             }
         }

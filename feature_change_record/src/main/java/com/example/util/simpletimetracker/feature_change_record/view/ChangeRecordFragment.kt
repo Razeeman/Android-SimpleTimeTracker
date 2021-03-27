@@ -11,10 +11,12 @@ import androidx.transition.TransitionInflater
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
+import com.example.util.simpletimetracker.core.extension.hideKeyboard
 import com.example.util.simpletimetracker.core.extension.observeOnce
 import com.example.util.simpletimetracker.core.extension.rotateDown
 import com.example.util.simpletimetracker.core.extension.rotateUp
 import com.example.util.simpletimetracker.core.extension.setOnClick
+import com.example.util.simpletimetracker.core.extension.showKeyboard
 import com.example.util.simpletimetracker.core.extension.visible
 import com.example.util.simpletimetracker.core.utils.BuildVersions
 import com.example.util.simpletimetracker.core.viewModel.RemoveRecordViewModel
@@ -120,6 +122,9 @@ class ChangeRecordFragment : BaseFragment(R.layout.change_record_fragment),
                 arrowChangeRecordType.apply {
                     if (opened) rotateDown() else rotateUp()
                 }
+            }
+            keyboardVisibility.observe(viewLifecycleOwner) { visible ->
+                if (visible) showKeyboard(etChangeRecordComment) else hideKeyboard()
             }
         }
         with(removeRecordViewModel) {
