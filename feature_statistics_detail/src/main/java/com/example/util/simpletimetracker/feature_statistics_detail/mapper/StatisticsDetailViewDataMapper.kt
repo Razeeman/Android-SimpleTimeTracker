@@ -6,6 +6,7 @@ import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.feature_statistics_detail.R
 import com.example.util.simpletimetracker.feature_statistics_detail.customView.BarChartView
@@ -165,13 +166,26 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         )
     }
 
-    fun mapToChartGroupingViewData(chartGrouping: ChartGrouping): List<ViewHolderType> {
-        return listOf(
-            ChartGrouping.DAILY,
-            ChartGrouping.WEEKLY,
-            ChartGrouping.MONTHLY,
-            ChartGrouping.YEARLY
-        ).map {
+    fun mapToChartGroupingViewData(
+        rangeLength: RangeLength,
+        chartGrouping: ChartGrouping
+    ): List<ViewHolderType> {
+        val groupings = when (rangeLength) {
+            RangeLength.YEAR -> listOf(
+                ChartGrouping.DAILY,
+                ChartGrouping.WEEKLY,
+                ChartGrouping.MONTHLY
+            )
+            RangeLength.ALL -> listOf(
+                ChartGrouping.DAILY,
+                ChartGrouping.WEEKLY,
+                ChartGrouping.MONTHLY,
+                ChartGrouping.YEARLY
+            )
+            else -> emptyList()
+        }
+
+        return groupings.map {
             StatisticsDetailGroupingViewData(
                 chartGrouping = it,
                 name = mapToGroupingName(it),
@@ -180,12 +194,20 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         }
     }
 
-    fun mapToChartLengthViewData(chartLength: ChartLength): List<ViewHolderType> {
-        return listOf(
-            ChartLength.TEN,
-            ChartLength.FIFTY,
-            ChartLength.HUNDRED
-        ).map {
+    fun mapToChartLengthViewData(
+        rangeLength: RangeLength,
+        chartLength: ChartLength
+    ): List<ViewHolderType> {
+        val lengths = when (rangeLength) {
+            RangeLength.ALL -> listOf(
+                ChartLength.TEN,
+                ChartLength.FIFTY,
+                ChartLength.HUNDRED
+            )
+            else -> emptyList()
+        }
+
+        return lengths.map {
             StatisticsDetailChartLengthViewData(
                 chartLength = it,
                 name = mapToLengthName(it),

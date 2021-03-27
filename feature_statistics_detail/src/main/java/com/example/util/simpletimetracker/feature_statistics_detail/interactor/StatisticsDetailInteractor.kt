@@ -162,20 +162,10 @@ class StatisticsDetailInteractor @Inject constructor(
                 val startDate = timeMapper.getRangeStartAndEnd(
                     RangeLength.MONTH, rangePosition
                 ).second - 1
-                when (grouping) {
-                    ChartGrouping.DAILY -> {
-                        val numberOfGroups = Calendar.getInstance()
-                            .apply { timeInMillis = startDate }
-                            .getActualMaximum(Calendar.DAY_OF_MONTH)
-                        getDailyGrouping(startDate, numberOfGroups)
-                    }
-                    else -> {
-                        val numberOfGroups = Calendar.getInstance()
-                            .apply { timeInMillis = startDate }
-                            .getActualMaximum(Calendar.WEEK_OF_MONTH)
-                        getWeeklyGrouping(startDate, numberOfGroups)
-                    }
-                }
+                val numberOfGroups = Calendar.getInstance()
+                    .apply { timeInMillis = startDate }
+                    .getActualMaximum(Calendar.DAY_OF_MONTH)
+                getDailyGrouping(startDate, numberOfGroups)
             }
             RangeLength.YEAR -> {
                 val startDate = timeMapper.getRangeStartAndEnd(
@@ -305,7 +295,7 @@ class StatisticsDetailInteractor @Inject constructor(
             calendar.set(Calendar.DAY_OF_MONTH, 1)
             calendar.add(Calendar.MONTH, -shift)
 
-            val legend = if (numberOfMonths <= 10) {
+            val legend = if (numberOfMonths <= 12) {
                 timeMapper.formatShortMonth(calendar.timeInMillis)
             } else {
                 ""

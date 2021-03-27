@@ -5,6 +5,7 @@ import androidx.core.view.ViewCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.transition.TransitionInflater
+import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
@@ -77,24 +78,15 @@ class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragmen
     override fun initViewModel(): Unit = with(viewModel) {
         extra = params
 
-        previewViewData
-            .observe(viewLifecycleOwner, ::setPreviewViewData)
-        statsViewData
-            .observe(viewLifecycleOwner, ::setStatsViewData)
-        chartViewData
-            .observe(viewLifecycleOwner, ::updateChartViewData)
-        dailyChartViewData
-            .observe(viewLifecycleOwner, ::updateDailyChartViewData)
-        chartGroupingViewData
-            .observe(viewLifecycleOwner, buttonsStatisticsDetailGrouping.adapter::replace)
-        chartLengthViewData
-            .observe(viewLifecycleOwner, buttonsStatisticsDetailLength.adapter::replace)
-        title
-            .observe(viewLifecycleOwner, btnStatisticsDetailToday::setText)
-        rangeItems
-            .observe(viewLifecycleOwner, ::updateRangeItems)
-        rangeButtonsVisibility
-            .observe(viewLifecycleOwner, ::updateRangeButtonsVisibility)
+        previewViewData.observe(viewLifecycleOwner, ::setPreviewViewData)
+        statsViewData.observe(viewLifecycleOwner, ::setStatsViewData)
+        chartViewData.observe(viewLifecycleOwner, ::updateChartViewData)
+        dailyChartViewData.observe(viewLifecycleOwner, ::updateDailyChartViewData)
+        chartGroupingViewData.observe(viewLifecycleOwner, ::updateChartGroupingData)
+        chartLengthViewData.observe(viewLifecycleOwner, ::updateChartLengthData)
+        title.observe(viewLifecycleOwner, btnStatisticsDetailToday::setText)
+        rangeItems.observe(viewLifecycleOwner, ::updateRangeItems)
+        rangeButtonsVisibility.observe(viewLifecycleOwner, ::updateRangeButtonsVisibility)
     }
 
     override fun onResume() {
@@ -134,6 +126,17 @@ class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragmen
     private fun updateChartViewData(viewData: StatisticsDetailChartViewData) {
         chartStatisticsDetail.setBars(viewData.data)
         chartStatisticsDetail.setLegendTextSuffix(viewData.legendSuffix)
+    }
+
+
+    private fun updateChartGroupingData(viewData: List<ViewHolderType>) {
+        buttonsStatisticsDetailGrouping.visible = viewData.isNotEmpty()
+        buttonsStatisticsDetailGrouping.adapter.replace(viewData)
+    }
+
+    private fun updateChartLengthData(viewData: List<ViewHolderType>) {
+        buttonsStatisticsDetailLength.visible = viewData.isNotEmpty()
+        buttonsStatisticsDetailLength.adapter.replace(viewData)
     }
 
     private fun updateDailyChartViewData(viewData: StatisticsDetailChartViewData) {

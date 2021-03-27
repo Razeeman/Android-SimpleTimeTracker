@@ -131,10 +131,12 @@ class StatisticsDetailViewModel @Inject constructor(
         when (item) {
             is SelectDateViewData -> {
                 onSelectDateClick()
-                updatePosition(0)
+                updateRanges()
             }
             is RangeViewData -> {
                 rangeLength = item.range
+                updateChartGroupingViewData()
+                updateChartLengthViewData()
                 updatePosition(0)
             }
         }
@@ -228,7 +230,7 @@ class StatisticsDetailViewModel @Inject constructor(
     }
 
     private fun loadChartGroupingViewData(): List<ViewHolderType> {
-        return mapper.mapToChartGroupingViewData(chartGrouping)
+        return mapper.mapToChartGroupingViewData(rangeLength, chartGrouping)
     }
 
     private fun updateChartLengthViewData() {
@@ -236,7 +238,7 @@ class StatisticsDetailViewModel @Inject constructor(
     }
 
     private fun loadChartLengthViewData(): List<ViewHolderType> {
-        return mapper.mapToChartLengthViewData(chartLength)
+        return mapper.mapToChartLengthViewData(rangeLength, chartLength)
     }
 
     private fun updateTitle() {
