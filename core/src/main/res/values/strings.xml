@@ -173,6 +173,7 @@
     <string name="statistics_detail_longest_record">Longest</string>
     <string name="statistics_detail_first_record">First</string>
     <string name="statistics_detail_last_record">Last</string>
+    <string name="statistics_detail_empty" translatable="false">-</string>
 
     <string name="statistics_detail_chart_monday">Mon</string>
     <string name="statistics_detail_chart_tuesday">Tue</string>

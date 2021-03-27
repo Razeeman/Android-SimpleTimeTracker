@@ -30,7 +30,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
     private val resourceRepo: ResourceRepo
 ) {
 
-    fun map(
+    fun mapStatsData(
         records: List<Record>,
         isDarkTheme: Boolean,
         useMilitaryTime: Boolean
@@ -44,6 +44,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         val longest = durations.max().orZero()
         val first = recordsSorted.firstOrNull()?.timeStarted
         val last = recordsSorted.lastOrNull()?.timeEnded
+        val emptyValue by lazy { resourceRepo.getString(R.string.statistics_detail_empty) }
 
         val recordsAllIcon = StatisticsDetailCardViewData.Icon(
             iconDrawable = R.drawable.statistics_detail_records_all,
@@ -67,10 +68,10 @@ class StatisticsDetailViewDataMapper @Inject constructor(
                 .let(timeMapper::formatInterval),
             firstRecord = first
                 ?.let { timeMapper.formatDateTimeYear(it, useMilitaryTime) }
-                .orEmpty(),
+                ?: emptyValue,
             lastRecord = last
                 ?.let { timeMapper.formatDateTimeYear(it, useMilitaryTime) }
-                .orEmpty()
+                ?: emptyValue
         )
     }
 
