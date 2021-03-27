@@ -140,6 +140,7 @@ class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragmen
     }
 
     private fun updateDailyChartViewData(viewData: StatisticsDetailChartViewData) {
+        chartStatisticsDetailDaily.visible = viewData.visible
         chartStatisticsDetailDaily.setBars(viewData.data)
         chartStatisticsDetailDaily.setLegendTextSuffix(viewData.legendSuffix)
     }

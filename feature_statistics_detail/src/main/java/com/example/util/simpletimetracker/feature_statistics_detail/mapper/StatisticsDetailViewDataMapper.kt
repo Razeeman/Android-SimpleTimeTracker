@@ -130,6 +130,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         }.let(resourceRepo::getString)
 
         return StatisticsDetailChartViewData(
+            visible = true,
             data = data.map {
                 BarChartView.ViewData(
                     value = formatInterval(it.duration, isMinutes),
@@ -141,7 +142,8 @@ class StatisticsDetailViewDataMapper @Inject constructor(
     }
 
     fun mapToDailyChartViewData(
-        data: Map<DailyChartGrouping, Long>
+        data: Map<DailyChartGrouping, Long>,
+        rangeLength: RangeLength
     ): StatisticsDetailChartViewData {
         val dayLegends = mapOf(
             DailyChartGrouping.MONDAY to R.string.statistics_detail_chart_monday,
@@ -162,6 +164,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             }
 
         return StatisticsDetailChartViewData(
+            visible = rangeLength != RangeLength.DAY,
             data = viewData,
             legendSuffix = "%"
         )

@@ -6,8 +6,12 @@ import com.example.util.simpletimetracker.core.viewData.RangeViewData
 import com.example.util.simpletimetracker.core.viewData.RangesViewData
 import com.example.util.simpletimetracker.core.viewData.SelectDateViewData
 import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RangeLength
+import com.example.util.simpletimetracker.domain.model.Record
 import javax.inject.Inject
+import kotlin.math.max
+import kotlin.math.min
 
 class RangeMapper @Inject constructor(
     private val resourceRepo: ResourceRepo,
@@ -38,8 +42,31 @@ class RangeMapper @Inject constructor(
         }
     }
 
+    fun getRecordsFromRange(
+        records: List<Record>,
+        rangeStart: Long,
+        rangeEnd: Long
+    ): List<Record> {
+        return records.filter { it.timeStarted < rangeEnd && it.timeEnded > rangeStart }
+    }
+
+    fun clampToRange(
+        record: Record,
+        rangeStart: Long,
+        rangeEnd: Long
+    ): Range {
+        return Range(
+            timeStarted = max(record.timeStarted, rangeStart),
+            timeEnded = min(record.timeEnded, rangeEnd)
+        )
+    }
+
+    fun mapToDuration(ranges: List<Range>): Long {
+        return ranges.map { it.timeEnded - it.timeStarted }.sum()
+    }
+
     private fun mapToRangeName(rangeLength: RangeLength): RangeViewData {
-        val text =  when (rangeLength) {
+        val text = when (rangeLength) {
             RangeLength.DAY -> R.string.title_today
             RangeLength.WEEK -> R.string.title_this_week
             RangeLength.MONTH -> R.string.title_this_month

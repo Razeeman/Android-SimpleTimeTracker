@@ -15,6 +15,7 @@ import com.example.util.simpletimetracker.core.viewData.SelectDateViewData
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.model.RangeLength
+import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailDailyChartInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailStatsInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailViewDataInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.StatisticsDetailViewDataMapper
@@ -38,6 +39,7 @@ class StatisticsDetailViewModel @Inject constructor(
     private val router: Router,
     private val interactor: StatisticsDetailViewDataInteractor,
     private val statsInteractor: StatisticsDetailStatsInteractor,
+    private val dailyChartInteractor: StatisticsDetailDailyChartInteractor,
     private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
     private val mapper: StatisticsDetailViewDataMapper,
     private val rangeMapper: RangeMapper,
@@ -229,7 +231,12 @@ class StatisticsDetailViewModel @Inject constructor(
     }
 
     private suspend fun loadDailyChartViewData(): StatisticsDetailChartViewData {
-        return interactor.getDailyChartViewData(extra.id, extra.filterType)
+        return dailyChartInteractor.getDailyChartViewData(
+            id = extra.id,
+            filter = extra.filterType,
+            rangeLength = rangeLength,
+            rangePosition = rangePosition
+        )
     }
 
     private fun updateChartGroupingViewData() {

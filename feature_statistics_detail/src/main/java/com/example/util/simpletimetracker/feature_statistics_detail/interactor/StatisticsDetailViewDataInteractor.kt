@@ -82,28 +82,4 @@ class StatisticsDetailViewDataInteractor @Inject constructor(
 
         return statisticsDetailViewDataMapper.mapToChartViewData(data)
     }
-
-    suspend fun getDailyChartViewData(
-        id: Long,
-        filter: ChartFilterType
-    ): StatisticsDetailChartViewData {
-        // If untracked
-        if (id == -1L) {
-            statisticsDetailViewDataMapper.mapToDailyChartViewData(emptyMap())
-        }
-
-        val typesIds = when (filter) {
-            ChartFilterType.ACTIVITY -> {
-                listOf(id)
-            }
-            ChartFilterType.CATEGORY -> {
-                recordTypeCategoryInteractor.getTypes(categoryId = id)
-            }
-        }
-        val data = statisticsDetailInteractor.getDailyDurations(
-            typeIds = typesIds
-        )
-
-        return statisticsDetailViewDataMapper.mapToDailyChartViewData(data)
-    }
 }
