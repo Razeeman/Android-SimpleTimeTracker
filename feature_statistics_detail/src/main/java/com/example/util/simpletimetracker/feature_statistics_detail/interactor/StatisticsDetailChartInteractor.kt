@@ -33,7 +33,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
     ): StatisticsDetailChartViewData {
         // If untracked
         if (id == -1L) {
-            statisticsDetailViewDataMapper.mapToChartViewData(emptyList())
+            statisticsDetailViewDataMapper.mapToChartViewData(emptyList(), rangeLength)
         }
 
         val typesIds = when (filter) {
@@ -52,7 +52,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
             rangePosition = rangePosition
         )
 
-        return statisticsDetailViewDataMapper.mapToChartViewData(data)
+        return statisticsDetailViewDataMapper.mapToChartViewData(data, rangeLength)
     }
 
     private suspend fun getChartData(

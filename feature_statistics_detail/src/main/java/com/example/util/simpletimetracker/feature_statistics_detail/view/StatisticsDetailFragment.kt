@@ -63,6 +63,7 @@ class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragmen
     override fun initUx() {
         buttonsStatisticsDetailGrouping.listener = viewModel::onChartGroupingClick
         buttonsStatisticsDetailLength.listener = viewModel::onChartLengthClick
+        buttonsStatisticsDetailSplitGrouping.listener = viewModel::onSplitChartGroupingClick
         cardStatisticsDetailRecords.listener = viewModel::onRecordsClick
         spinnerStatisticsDetail.onItemSelected = viewModel::onRangeClick
         btnStatisticsDetailPrevious.setOnClick(viewModel::onPreviousClick)
@@ -81,9 +82,10 @@ class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragmen
         previewViewData.observe(viewLifecycleOwner, ::setPreviewViewData)
         statsViewData.observe(viewLifecycleOwner, ::setStatsViewData)
         chartViewData.observe(viewLifecycleOwner, ::updateChartViewData)
-        dailyChartViewData.observe(viewLifecycleOwner, ::updateDailyChartViewData)
+        splitChartViewData.observe(viewLifecycleOwner, ::updateSplitChartViewData)
         chartGroupingViewData.observe(viewLifecycleOwner, ::updateChartGroupingData)
         chartLengthViewData.observe(viewLifecycleOwner, ::updateChartLengthData)
+        splitChartGroupingViewData.observe(viewLifecycleOwner, ::updateSplitChartGroupingData)
         title.observe(viewLifecycleOwner, btnStatisticsDetailToday::setText)
         rangeItems.observe(viewLifecycleOwner, ::updateRangeItems)
         rangeButtonsVisibility.observe(viewLifecycleOwner, ::updateRangeButtonsVisibility)
@@ -106,7 +108,7 @@ class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragmen
         tvStatisticsDetailItemName.text = viewData.name
         layoutStatisticsDetailItem.setCardBackgroundColor(viewData.color)
         chartStatisticsDetail.setBarColor(viewData.color)
-        chartStatisticsDetailDaily.setBarColor(viewData.color)
+        chartStatisticsDetailSplit.setBarColor(viewData.color)
         if (viewData.iconId != null) {
             ivStatisticsDetailItemIcon.visible = true
             ivStatisticsDetailItemIcon.setBackgroundResource(viewData.iconId)
@@ -124,14 +126,19 @@ class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragmen
     }
 
     private fun updateChartViewData(viewData: StatisticsDetailChartViewData) {
+        chartStatisticsDetail.visible = viewData.visible
         chartStatisticsDetail.setBars(viewData.data)
         chartStatisticsDetail.setLegendTextSuffix(viewData.legendSuffix)
     }
 
-
     private fun updateChartGroupingData(viewData: List<ViewHolderType>) {
         buttonsStatisticsDetailGrouping.visible = viewData.isNotEmpty()
         buttonsStatisticsDetailGrouping.adapter.replace(viewData)
+    }
+
+    private fun updateSplitChartGroupingData(viewData: List<ViewHolderType>) {
+        buttonsStatisticsDetailSplitGrouping.visible = viewData.isNotEmpty()
+        buttonsStatisticsDetailSplitGrouping.adapter.replace(viewData)
     }
 
     private fun updateChartLengthData(viewData: List<ViewHolderType>) {
@@ -139,10 +146,10 @@ class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragmen
         buttonsStatisticsDetailLength.adapter.replace(viewData)
     }
 
-    private fun updateDailyChartViewData(viewData: StatisticsDetailChartViewData) {
-        chartStatisticsDetailDaily.visible = viewData.visible
-        chartStatisticsDetailDaily.setBars(viewData.data)
-        chartStatisticsDetailDaily.setLegendTextSuffix(viewData.legendSuffix)
+    private fun updateSplitChartViewData(viewData: StatisticsDetailChartViewData) {
+        chartStatisticsDetailSplit.visible = viewData.visible
+        chartStatisticsDetailSplit.setBars(viewData.data)
+        chartStatisticsDetailSplit.setLegendTextSuffix(viewData.legendSuffix)
     }
 
     private fun updateRangeItems(viewData: RangesViewData) {

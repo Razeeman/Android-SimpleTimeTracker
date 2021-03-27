@@ -13,13 +13,15 @@ import com.example.util.simpletimetracker.feature_statistics_detail.customView.B
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartBarDataDuration
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartGrouping
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartLength
-import com.example.util.simpletimetracker.feature_statistics_detail.model.DailyChartGrouping
+import com.example.util.simpletimetracker.feature_statistics_detail.model.SplitChartGrouping
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailCardViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartLengthViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailGroupingViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailSplitGroupingViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStatsViewData
+import java.util.Calendar
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -39,9 +41,9 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         val durations = records.map(::mapToDuration)
         val totalDuration = durations.sum()
         val timesTracked = records.size
-        val shortest = durations.min().orZero()
-        val average = if (records.isNotEmpty()) durations.sum() / durations.size else 0
-        val longest = durations.max().orZero()
+        val shortest = durations.min()
+        val average = if (durations.isNotEmpty()) durations.sum() / durations.size else null
+        val longest = durations.max()
         val first = recordsSorted.firstOrNull()?.timeStarted
         val last = recordsSorted.lastOrNull()?.timeEnded
         val emptyValue by lazy { resourceRepo.getString(R.string.statistics_detail_empty) }
@@ -61,11 +63,14 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             timesTracked = timesTracked,
             timesTrackedIcon = recordsAllIcon,
             shortestRecord = shortest
-                .let(timeMapper::formatInterval),
+                ?.let(timeMapper::formatInterval)
+                ?: emptyValue,
             averageRecord = average
-                .let(timeMapper::formatInterval),
+                ?.let(timeMapper::formatInterval)
+                ?: emptyValue,
             longestRecord = longest
-                .let(timeMapper::formatInterval),
+                ?.let(timeMapper::formatInterval)
+                ?: emptyValue,
             firstRecord = first
                 ?.let { timeMapper.formatDateTimeYear(it, useMilitaryTime) }
                 ?: emptyValue,
@@ -117,7 +122,8 @@ class StatisticsDetailViewDataMapper @Inject constructor(
     }
 
     fun mapToChartViewData(
-        data: List<ChartBarDataDuration>
+        data: List<ChartBarDataDuration>,
+        rangeLength: RangeLength
     ): StatisticsDetailChartViewData {
         val isMinutes = data.map(ChartBarDataDuration::duration)
             .max().orZero()
@@ -130,7 +136,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         }.let(resourceRepo::getString)
 
         return StatisticsDetailChartViewData(
-            visible = true,
+            visible = rangeLength != RangeLength.DAY,
             data = data.map {
                 BarChartView.ViewData(
                     value = formatInterval(it.duration, isMinutes),
@@ -142,17 +148,16 @@ class StatisticsDetailViewDataMapper @Inject constructor(
     }
 
     fun mapToDailyChartViewData(
-        data: Map<DailyChartGrouping, Long>,
-        rangeLength: RangeLength
+        data: Map<Int, Long>
     ): StatisticsDetailChartViewData {
         val dayLegends = mapOf(
-            DailyChartGrouping.MONDAY to R.string.statistics_detail_chart_monday,
-            DailyChartGrouping.TUESDAY to R.string.statistics_detail_chart_tuesday,
-            DailyChartGrouping.WEDNESDAY to R.string.statistics_detail_chart_wednesday,
-            DailyChartGrouping.THURSDAY to R.string.statistics_detail_chart_thursday,
-            DailyChartGrouping.FRIDAY to R.string.statistics_detail_chart_friday,
-            DailyChartGrouping.SATURDAY to R.string.statistics_detail_chart_saturday,
-            DailyChartGrouping.SUNDAY to R.string.statistics_detail_chart_sunday
+            Calendar.MONDAY to R.string.statistics_detail_chart_monday,
+            Calendar.TUESDAY to R.string.statistics_detail_chart_tuesday,
+            Calendar.WEDNESDAY to R.string.statistics_detail_chart_wednesday,
+            Calendar.THURSDAY to R.string.statistics_detail_chart_thursday,
+            Calendar.FRIDAY to R.string.statistics_detail_chart_friday,
+            Calendar.SATURDAY to R.string.statistics_detail_chart_saturday,
+            Calendar.SUNDAY to R.string.statistics_detail_chart_sunday
         )
 
         val viewData = dayLegends
@@ -164,9 +169,31 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             }
 
         return StatisticsDetailChartViewData(
-            visible = rangeLength != RangeLength.DAY,
+            visible = true,
             data = viewData,
-            legendSuffix = "%"
+            legendSuffix = SPLIT_CHART_LEGEND
+        )
+    }
+
+    fun mapToHourlyChartViewData(
+        data: Map<Int, Long>
+    ): StatisticsDetailChartViewData {
+        val hourLegends = (0 until 24).map {
+            it to it.toString()
+        }
+
+        val viewData = hourLegends
+            .map { (hour, legend) ->
+                BarChartView.ViewData(
+                    value = data[hour].orZero().toFloat(),
+                    legend = legend
+                )
+            }
+
+        return StatisticsDetailChartViewData(
+            visible = true,
+            data = viewData,
+            legendSuffix = SPLIT_CHART_LEGEND
         )
     }
 
@@ -194,6 +221,27 @@ class StatisticsDetailViewDataMapper @Inject constructor(
                 chartGrouping = it,
                 name = mapToGroupingName(it),
                 isSelected = it == chartGrouping
+            )
+        }
+    }
+
+    fun mapToSplitChartGroupingViewData(
+        rangeLength: RangeLength,
+        splitChartGrouping: SplitChartGrouping
+    ): List<ViewHolderType> {
+        val groupings = when (rangeLength) {
+            RangeLength.DAY -> emptyList()
+            else -> listOf(
+                SplitChartGrouping.HOURLY,
+                SplitChartGrouping.DAILY
+            )
+        }
+
+        return groupings.map {
+            StatisticsDetailSplitGroupingViewData(
+                splitChartGrouping = it,
+                name = mapToSplitGroupingName(it),
+                isSelected = it == splitChartGrouping
             )
         }
     }
@@ -300,6 +348,13 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         }.let(resourceRepo::getString)
     }
 
+    private fun mapToSplitGroupingName(splitChartGrouping: SplitChartGrouping): String {
+        return when (splitChartGrouping) {
+            SplitChartGrouping.HOURLY -> R.string.statistics_detail_chart_hourly
+            SplitChartGrouping.DAILY -> R.string.statistics_detail_chart_daily
+        }.let(resourceRepo::getString)
+    }
+
     private fun mapToLengthName(chartLength: ChartLength): String {
         return when (chartLength) {
             ChartLength.TEN -> R.string.statistics_detail_length_ten
@@ -310,5 +365,9 @@ class StatisticsDetailViewDataMapper @Inject constructor(
 
     private fun mapToDuration(record: Record): Long {
         return record.let { it.timeEnded - it.timeStarted }
+    }
+
+    companion object {
+        private const val SPLIT_CHART_LEGEND = "%"
     }
 }

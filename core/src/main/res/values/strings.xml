@@ -157,6 +157,7 @@
     <string name="settings_translators_russian_language" translatable="false">Русский</string>
 
     <!--  Statistics detail  -->
+    <string name="statistics_detail_chart_hourly">hourly</string>
     <string name="statistics_detail_chart_daily">daily</string>
     <string name="statistics_detail_chart_weekly">weekly</string>
     <string name="statistics_detail_chart_monthly">monthly</string>

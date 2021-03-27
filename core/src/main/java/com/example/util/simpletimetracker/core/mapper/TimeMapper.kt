@@ -208,6 +208,20 @@ class TimeMapper @Inject constructor(
         return year1 == year2 && day1 == day2
     }
 
+    fun sameHour(date1: Long, date2: Long): Boolean {
+        calendar.apply { timeInMillis = date1 }
+        val year1: Int = calendar.get(Calendar.YEAR)
+        val day1: Int = calendar.get(Calendar.DAY_OF_YEAR)
+        val hour1: Int = calendar.get(Calendar.HOUR_OF_DAY)
+
+        calendar.apply { timeInMillis = date2 }
+        val year2: Int = calendar.get(Calendar.YEAR)
+        val day2: Int = calendar.get(Calendar.DAY_OF_YEAR)
+        val hour2: Int = calendar.get(Calendar.HOUR_OF_DAY)
+
+        return year1 == year2 && day1 == day2 && hour1 == hour2
+    }
+
     fun formatDuration(interval: Long): String {
         val hourString = resourceRepo.getString(R.string.time_hour)
         val minuteString = resourceRepo.getString(R.string.time_minute)

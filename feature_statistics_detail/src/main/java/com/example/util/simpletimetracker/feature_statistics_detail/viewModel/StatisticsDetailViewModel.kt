@@ -16,16 +16,18 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryIn
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailChartInteractor
-import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailDailyChartInteractor
+import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailSplitChartInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailPreviewInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailStatsInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.StatisticsDetailViewDataMapper
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartGrouping
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartLength
+import com.example.util.simpletimetracker.feature_statistics_detail.model.SplitChartGrouping
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartLengthViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailGroupingViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailSplitGroupingViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStatsViewData
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
@@ -41,7 +43,7 @@ class StatisticsDetailViewModel @Inject constructor(
     private val chartInteractor: StatisticsDetailChartInteractor,
     private val previewInteractor: StatisticsDetailPreviewInteractor,
     private val statsInteractor: StatisticsDetailStatsInteractor,
-    private val dailyChartInteractor: StatisticsDetailDailyChartInteractor,
+    private val splitChartInteractor: StatisticsDetailSplitChartInteractor,
     private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
     private val mapper: StatisticsDetailViewDataMapper,
     private val rangeMapper: RangeMapper,
@@ -68,7 +70,10 @@ class StatisticsDetailViewModel @Inject constructor(
     val chartLengthViewData: LiveData<List<ViewHolderType>> by lazy {
         return@lazy MutableLiveData(loadChartLengthViewData())
     }
-    val dailyChartViewData: LiveData<StatisticsDetailChartViewData> by lazy {
+    val splitChartGroupingViewData: LiveData<List<ViewHolderType>> by lazy {
+        return@lazy MutableLiveData(loadSplitChartGroupingViewData())
+    }
+    val splitChartViewData: LiveData<StatisticsDetailChartViewData> by lazy {
         return@lazy MutableLiveData<StatisticsDetailChartViewData>()
     }
     val title: LiveData<String> by lazy {
@@ -83,6 +88,7 @@ class StatisticsDetailViewModel @Inject constructor(
 
     private var chartGrouping: ChartGrouping = ChartGrouping.DAILY
     private var chartLength: ChartLength = ChartLength.TEN
+    private var splitChartGrouping: SplitChartGrouping = SplitChartGrouping.DAILY
     private var rangeLength: RangeLength = RangeLength.ALL
     private var rangePosition: Int = 0
 
@@ -102,6 +108,13 @@ class StatisticsDetailViewModel @Inject constructor(
         this.chartLength = viewData.chartLength
         updateChartLengthViewData()
         updateChartViewData()
+    }
+
+    fun onSplitChartGroupingClick(viewData: ButtonsRowViewData) {
+        if (viewData !is StatisticsDetailSplitGroupingViewData) return
+        this.splitChartGrouping = viewData.splitChartGrouping
+        updateSplitChartGroupingViewData()
+        updateSplitChartViewData()
     }
 
     fun onRecordsClick() {
@@ -149,6 +162,7 @@ class StatisticsDetailViewModel @Inject constructor(
                 rangeLength = item.range
                 updateChartGroupingViewData()
                 updateChartLengthViewData()
+                updateSplitChartGroupingViewData()
                 updatePosition(0)
             }
         }
@@ -192,7 +206,7 @@ class StatisticsDetailViewModel @Inject constructor(
     private fun updateViewData() {
         updateStatsViewData()
         updateChartViewData()
-        updateDailyChartViewData()
+        updateSplitChartViewData()
     }
 
     private suspend fun loadPreviewViewData() : StatisticsDetailPreviewViewData{
@@ -233,17 +247,18 @@ class StatisticsDetailViewModel @Inject constructor(
         )
     }
 
-    private fun updateDailyChartViewData() = viewModelScope.launch {
-        val data = loadDailyChartViewData()
-        (dailyChartViewData as MutableLiveData).value = data
+    private fun updateSplitChartViewData() = viewModelScope.launch {
+        val data = loadSplitChartViewData()
+        (splitChartViewData as MutableLiveData).value = data
     }
 
-    private suspend fun loadDailyChartViewData(): StatisticsDetailChartViewData {
-        return dailyChartInteractor.getDailyChartViewData(
+    private suspend fun loadSplitChartViewData(): StatisticsDetailChartViewData {
+        return splitChartInteractor.getSplitChartViewData(
             id = extra.id,
             filter = extra.filterType,
             rangeLength = rangeLength,
-            rangePosition = rangePosition
+            rangePosition = rangePosition,
+            splitChartGrouping = splitChartGrouping
         )
     }
 
@@ -261,6 +276,14 @@ class StatisticsDetailViewModel @Inject constructor(
 
     private fun loadChartLengthViewData(): List<ViewHolderType> {
         return mapper.mapToChartLengthViewData(rangeLength, chartLength)
+    }
+
+    private fun updateSplitChartGroupingViewData() {
+        (splitChartGroupingViewData as MutableLiveData).value = loadSplitChartGroupingViewData()
+    }
+
+    private fun loadSplitChartGroupingViewData(): List<ViewHolderType> {
+        return mapper.mapToSplitChartGroupingViewData(rangeLength, splitChartGrouping)
     }
 
     private fun updateTitle() {

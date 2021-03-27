@@ -150,6 +150,7 @@
     <string name="message_csv_export_error">Ошибка экспорта CSV</string>
 
     <!--  Statistics detail  -->
+    <string name="statistics_detail_chart_hourly">час</string>
     <string name="statistics_detail_chart_daily">день</string>
     <string name="statistics_detail_chart_weekly">неделя</string>
     <string name="statistics_detail_chart_monthly">месяц</string>

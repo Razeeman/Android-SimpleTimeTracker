@@ -10,12 +10,12 @@ import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.StatisticsDetailViewDataMapper
-import com.example.util.simpletimetracker.feature_statistics_detail.model.DailyChartGrouping
+import com.example.util.simpletimetracker.feature_statistics_detail.model.SplitChartGrouping
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartViewData
 import java.util.Calendar
 import javax.inject.Inject
 
-class StatisticsDetailDailyChartInteractor @Inject constructor(
+class StatisticsDetailSplitChartInteractor @Inject constructor(
     private val statisticsDetailViewDataMapper: StatisticsDetailViewDataMapper,
     private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
     private val recordInteractor: RecordInteractor,
@@ -23,48 +23,52 @@ class StatisticsDetailDailyChartInteractor @Inject constructor(
     private val rangeMapper: RangeMapper
 ) {
 
-    suspend fun getDailyChartViewData(
+    suspend fun getSplitChartViewData(
         id: Long,
         filter: ChartFilterType,
         rangeLength: RangeLength,
-        rangePosition: Int
+        rangePosition: Int,
+        splitChartGrouping: SplitChartGrouping
     ): StatisticsDetailChartViewData {
         // If untracked
         if (id == -1L) {
-            return statisticsDetailViewDataMapper.mapToDailyChartViewData(emptyMap(), rangeLength)
+            return when (splitChartGrouping) {
+                SplitChartGrouping.HOURLY -> statisticsDetailViewDataMapper.mapToHourlyChartViewData(emptyMap())
+                SplitChartGrouping.DAILY -> statisticsDetailViewDataMapper.mapToDailyChartViewData(emptyMap())
+            }
         }
 
         val range = timeMapper.getRangeStartAndEnd(rangeLength, rangePosition)
         val typesIds = when (filter) {
-            ChartFilterType.ACTIVITY -> {
-                listOf(id)
-            }
-            ChartFilterType.CATEGORY -> {
-                recordTypeCategoryInteractor.getTypes(categoryId = id)
-            }
+            ChartFilterType.ACTIVITY -> listOf(id)
+            ChartFilterType.CATEGORY -> recordTypeCategoryInteractor.getTypes(categoryId = id)
         }
-        val data = getDailyDurations(typesIds, range)
+        val data = getDurations(typesIds, range, splitChartGrouping)
 
-        return statisticsDetailViewDataMapper.mapToDailyChartViewData(data, rangeLength)
+        return when (splitChartGrouping) {
+            SplitChartGrouping.HOURLY -> statisticsDetailViewDataMapper.mapToHourlyChartViewData(data)
+            SplitChartGrouping.DAILY -> statisticsDetailViewDataMapper.mapToDailyChartViewData(data)
+        }
     }
 
-    private suspend fun getDailyDurations(
+    private suspend fun getDurations(
         typeIds: List<Long>,
-        range: Pair<Long, Long>
-    ): Map<DailyChartGrouping, Long> {
+        range: Pair<Long, Long>,
+        splitChartGrouping: SplitChartGrouping
+    ): Map<Int, Long> {
         val calendar = Calendar.getInstance()
-        val dataDurations: MutableMap<DailyChartGrouping, Long> = mutableMapOf()
-        val dataTimesTracked: MutableMap<DailyChartGrouping, Long> = mutableMapOf()
+        val dataDurations: MutableMap<Int, Long> = mutableMapOf()
+        val dataTimesTracked: MutableMap<Int, Long> = mutableMapOf()
 
         val records = recordInteractor.getByType(typeIds)
         val ranges = mapToRanges(records, range)
         val totalTracked = ranges.let(rangeMapper::mapToDuration)
 
-        processRecords(calendar, ranges).forEach {
-            val day = mapToDailyGrouping(calendar, it)
+        processRecords(calendar, ranges, splitChartGrouping).forEach {
+            val grouping = mapToGrouping(calendar, it, splitChartGrouping)
             val duration = it.timeEnded - it.timeStarted
-            dataDurations[day] = dataDurations[day].orZero() + duration
-            dataTimesTracked[day] = dataTimesTracked[day].orZero() + 1
+            dataDurations[grouping] = dataDurations[grouping].orZero() + duration
+            dataTimesTracked[grouping] = dataTimesTracked[grouping].orZero() + 1
         }
 
         val daysTracked = dataTimesTracked.values.filter { it != 0L }.size
@@ -87,52 +91,66 @@ class StatisticsDetailDailyChartInteractor @Inject constructor(
         }
     }
 
-    private fun processRecords(calendar: Calendar, records: List<Range>): List<Range> {
+    private fun processRecords(
+        calendar: Calendar,
+        records: List<Range>,
+        splitChartGrouping: SplitChartGrouping
+    ): List<Range> {
         val processedRecords: MutableList<Range> = mutableListOf()
 
         records.forEach { record ->
-            splitIntoRecords(calendar, record).forEach { processedRecords.add(it) }
+            splitIntoRecords(calendar, record, splitChartGrouping).forEach { processedRecords.add(it) }
         }
 
         return processedRecords
     }
 
-    private fun mapToDailyGrouping(calendar: Calendar, record: Range): DailyChartGrouping {
-        val day = calendar
+    private fun mapToGrouping(
+        calendar: Calendar,
+        record: Range,
+        splitChartGrouping: SplitChartGrouping
+    ): Int {
+        return calendar
             .apply { timeInMillis = record.timeStarted }
-            .get(Calendar.DAY_OF_WEEK)
-
-        return when (day) {
-            Calendar.MONDAY -> DailyChartGrouping.MONDAY
-            Calendar.TUESDAY -> DailyChartGrouping.TUESDAY
-            Calendar.WEDNESDAY -> DailyChartGrouping.WEDNESDAY
-            Calendar.THURSDAY -> DailyChartGrouping.THURSDAY
-            Calendar.FRIDAY -> DailyChartGrouping.FRIDAY
-            Calendar.SATURDAY -> DailyChartGrouping.SATURDAY
-            else -> DailyChartGrouping.SUNDAY
-        }
+            .let {
+                when (splitChartGrouping) {
+                    SplitChartGrouping.HOURLY -> it.get(Calendar.HOUR_OF_DAY)
+                    SplitChartGrouping.DAILY -> it.get(Calendar.DAY_OF_WEEK)
+                }
+            }
     }
 
+    // TODO splitting all records hourly probably is super expensive memory wise, find a better way?
     /**
-     * If a record is on several days - split into several records each within separate day range.
+     * If a record is on several days or hours - split into several records each within separate range.
      */
     private tailrec fun splitIntoRecords(
         calendar: Calendar,
         record: Range,
+        splitChartGrouping: SplitChartGrouping,
         splitRecords: MutableList<Range> = mutableListOf()
     ): List<Range> {
-        if (timeMapper.sameDay(record.timeStarted, record.timeEnded)) {
+        val rangeCheck = when (splitChartGrouping) {
+            SplitChartGrouping.HOURLY -> timeMapper.sameHour(record.timeStarted, record.timeEnded)
+            SplitChartGrouping.DAILY -> timeMapper.sameDay(record.timeStarted, record.timeEnded)
+        }
+        val rangeStep = when (splitChartGrouping) {
+            SplitChartGrouping.HOURLY -> Calendar.HOUR_OF_DAY
+            SplitChartGrouping.DAILY -> Calendar.DATE
+        }
+
+        if (rangeCheck) {
             return splitRecords.also { it.add(record) }
         }
 
         val adjustedCalendar = calendar.apply {
             timeInMillis = record.timeStarted
-            set(Calendar.HOUR_OF_DAY, 0)
+            if (splitChartGrouping == SplitChartGrouping.DAILY) set(Calendar.HOUR_OF_DAY, 0)
             set(Calendar.MINUTE, 0)
             set(Calendar.SECOND, 0)
             set(Calendar.MILLISECOND, 0)
         }
-        val rangeEnd = adjustedCalendar.apply { add(Calendar.DATE, 1) }.timeInMillis
+        val rangeEnd = adjustedCalendar.apply { add(rangeStep, 1) }.timeInMillis
 
         val firstRecord = record.copy(
             timeStarted = record.timeStarted,
@@ -144,6 +162,6 @@ class StatisticsDetailDailyChartInteractor @Inject constructor(
         )
         splitRecords.add(firstRecord)
 
-        return splitIntoRecords(calendar, secondRecord, splitRecords)
+        return splitIntoRecords(calendar, secondRecord, splitChartGrouping, splitRecords)
     }
 }
