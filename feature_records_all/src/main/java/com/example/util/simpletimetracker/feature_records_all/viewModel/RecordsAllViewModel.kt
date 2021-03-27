@@ -99,7 +99,12 @@ class RecordsAllViewModel @Inject constructor(
     }
 
     private suspend fun loadRecordsViewData(): List<ViewHolderType> {
-        return recordsAllViewDataInteractor.getViewData(typesSelected, sortOrder)
+        return recordsAllViewDataInteractor.getViewData(
+            typesSelected = typesSelected,
+            sortOrder = sortOrder,
+            rangeStart = extra.rangeStart,
+            rangeEnd = extra.rangeEnd
+        )
     }
 
     private fun updateSortOrderViewData() {

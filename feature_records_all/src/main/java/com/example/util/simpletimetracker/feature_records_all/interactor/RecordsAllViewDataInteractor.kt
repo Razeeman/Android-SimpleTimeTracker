@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.feature_records_all.interactor
 
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.core.mapper.RangeMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
@@ -17,19 +18,30 @@ class RecordsAllViewDataInteractor @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val recordsAllViewDataMapper: RecordsAllViewDataMapper,
-    private val timeMapper: TimeMapper
+    private val timeMapper: TimeMapper,
+    private val rangeMapper: RangeMapper
 ) {
 
     suspend fun getViewData(
         typesSelected: List<Long>,
-        sortOrder: RecordsAllSortOrder
+        sortOrder: RecordsAllSortOrder,
+        rangeStart: Long,
+        rangeEnd: Long
     ): List<ViewHolderType> {
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
         val recordTypes = recordTypeInteractor.getAll()
             .map { it.id to it }
             .toMap()
-        val records = recordInteractor.getByType(typesSelected)
+        val records = recordInteractor.getByType(typesSelected).let {
+            if (rangeStart != 0L && rangeEnd != 0L) {
+                rangeMapper.getRecordsFromRange(it, rangeStart, rangeEnd)
+                    // Skip records that started before this time range.
+                    .filter { record -> record.timeStarted > rangeStart }
+            } else {
+                it
+            }
+        }
 
         return withContext(Dispatchers.Default) {
             records

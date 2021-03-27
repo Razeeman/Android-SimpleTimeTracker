@@ -112,9 +112,15 @@ class StatisticsDetailViewModel @Inject constructor(
                     recordTypeCategoryInteractor.getTypes(extra.id)
                 }
             }
+            val range = timeMapper.getRangeStartAndEnd(rangeLength, rangePosition)
+
             router.navigate(
                 Screen.RECORDS_ALL,
-                RecordsAllParams(typeIds)
+                RecordsAllParams(
+                    typeIds = typeIds,
+                    rangeStart = range.first,
+                    rangeEnd = range.second
+                )
             )
         }
     }

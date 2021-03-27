@@ -20,7 +20,10 @@ import com.example.util.simpletimetracker.navigation.Notification
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.RecordsAllParams
 import com.example.util.simpletimetracker.navigation.params.SnackBarParams
-import kotlinx.android.synthetic.main.records_all_fragment.*
+import kotlinx.android.synthetic.main.records_all_fragment.cardRecordsAllFilter
+import kotlinx.android.synthetic.main.records_all_fragment.rvRecordsAllList
+import kotlinx.android.synthetic.main.records_all_fragment.spinnerRecordsAllSort
+import kotlinx.android.synthetic.main.records_all_fragment.tvRecordsAllSortValue
 import javax.inject.Inject
 
 class RecordsAllFragment : BaseFragment(R.layout.records_all_fragment),
@@ -44,6 +47,9 @@ class RecordsAllFragment : BaseFragment(R.layout.records_all_fragment),
     )
     private val recordsAdapter: RecordAllAdapter by lazy {
         RecordAllAdapter(viewModel::onRecordClick)
+    }
+    private val params: RecordsAllParams by lazy {
+        arguments?.getParcelable(ARGS_PARAMS) ?: RecordsAllParams()
     }
 
     override fun initDi() {
@@ -73,7 +79,7 @@ class RecordsAllFragment : BaseFragment(R.layout.records_all_fragment),
 
     override fun initViewModel() {
         with(viewModel) {
-            extra = RecordsAllExtra(arguments?.getLongArray(ARGS_TYPE_IDS)?.toList().orEmpty())
+            extra = RecordsAllExtra(params.typeIds, params.rangeStart, params.rangeEnd)
             records.observe(viewLifecycleOwner, recordsAdapter::replaceAsNew)
             sortOrderViewData.observe(viewLifecycleOwner, ::updateCardOrderViewData)
         }
@@ -113,11 +119,11 @@ class RecordsAllFragment : BaseFragment(R.layout.records_all_fragment),
     }
 
     companion object {
-        private const val ARGS_TYPE_IDS = "args_type_ids"
+        private const val ARGS_PARAMS = "args_params"
 
         fun createBundle(data: Any?): Bundle = Bundle().apply {
             when (data) {
-                is RecordsAllParams -> putLongArray(ARGS_TYPE_IDS, data.typeIds.toLongArray())
+                is RecordsAllParams -> putParcelable(ARGS_PARAMS, data)
             }
         }
     }
