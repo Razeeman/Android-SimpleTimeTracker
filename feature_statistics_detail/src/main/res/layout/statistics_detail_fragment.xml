@@ -176,7 +176,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnStatisticsDetailPrevious"
-        style="@style/StatisticsRangeButton"
+        style="@style/ContainerRangeButton"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
@@ -196,7 +196,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnStatisticsDetailToday"
-        style="@style/StatisticsRangeMainButton"
+        style="@style/ContainerRangeSelectableMainButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -206,7 +206,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnStatisticsDetailNext"
-        style="@style/StatisticsRangeButton"
+        style="@style/ContainerRangeButton"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginEnd="8dp"
