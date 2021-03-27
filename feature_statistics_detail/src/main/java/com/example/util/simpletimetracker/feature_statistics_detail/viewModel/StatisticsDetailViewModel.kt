@@ -209,7 +209,7 @@ class StatisticsDetailViewModel @Inject constructor(
         updateSplitChartViewData()
     }
 
-    private suspend fun loadPreviewViewData() : StatisticsDetailPreviewViewData{
+    private suspend fun loadPreviewViewData(): StatisticsDetailPreviewViewData {
         return previewInteractor.getPreviewData(extra.id, extra.filterType)
     }
 
@@ -253,12 +253,16 @@ class StatisticsDetailViewModel @Inject constructor(
     }
 
     private suspend fun loadSplitChartViewData(): StatisticsDetailChartViewData {
+        val grouping = splitChartGrouping
+            .takeUnless { rangeLength == RangeLength.DAY }
+            ?: SplitChartGrouping.HOURLY
+
         return splitChartInteractor.getSplitChartViewData(
             id = extra.id,
             filter = extra.filterType,
             rangeLength = rangeLength,
             rangePosition = rangePosition,
-            splitChartGrouping = splitChartGrouping
+            splitChartGrouping = grouping
         )
     }
 

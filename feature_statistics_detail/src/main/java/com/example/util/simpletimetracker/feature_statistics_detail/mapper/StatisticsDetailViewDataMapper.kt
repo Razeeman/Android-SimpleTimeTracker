@@ -148,7 +148,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
     }
 
     fun mapToDailyChartViewData(
-        data: Map<Int, Long>
+        data: Map<Int, Float>
     ): StatisticsDetailChartViewData {
         val dayLegends = mapOf(
             Calendar.MONDAY to R.string.statistics_detail_chart_monday,
@@ -163,7 +163,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         val viewData = dayLegends
             .map { (day, legendResId) ->
                 BarChartView.ViewData(
-                    value = data[day].orZero().toFloat(),
+                    value = data[day].orZero(),
                     legend = legendResId.let(resourceRepo::getString)
                 )
             }
@@ -176,7 +176,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
     }
 
     fun mapToHourlyChartViewData(
-        data: Map<Int, Long>
+        data: Map<Int, Float>
     ): StatisticsDetailChartViewData {
         val hourLegends = (0 until 24).map {
             it to it.toString()
@@ -185,7 +185,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         val viewData = hourLegends
             .map { (hour, legend) ->
                 BarChartView.ViewData(
-                    value = data[hour].orZero().toFloat(),
+                    value = data[hour].orZero(),
                     legend = legend
                 )
             }

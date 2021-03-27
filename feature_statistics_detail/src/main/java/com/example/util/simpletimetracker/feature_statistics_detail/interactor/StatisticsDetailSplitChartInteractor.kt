@@ -55,7 +55,7 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
         typeIds: List<Long>,
         range: Pair<Long, Long>,
         splitChartGrouping: SplitChartGrouping
-    ): Map<Int, Long> {
+    ): Map<Int, Float> {
         val calendar = Calendar.getInstance()
         val dataDurations: MutableMap<Int, Long> = mutableMapOf()
         val dataTimesTracked: MutableMap<Int, Long> = mutableMapOf()
@@ -75,9 +75,9 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
 
         return dataDurations.mapValues { (_, duration) ->
             when {
-                totalTracked != 0L -> duration * 100 / totalTracked
-                daysTracked != 0 -> 100L / daysTracked
-                else -> 100L
+                totalTracked != 0L -> duration * 100f / totalTracked
+                daysTracked != 0 -> 100f / daysTracked
+                else -> 100f
             }
         }
     }
