@@ -3,21 +3,59 @@ package com.example.util.simpletimetracker.feature_statistics_detail.interactor
 import com.example.util.simpletimetracker.core.mapper.RangeMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
+import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.model.RangeLength
+import com.example.util.simpletimetracker.feature_statistics_detail.mapper.StatisticsDetailViewDataMapper
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartBarDataDuration
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartBarDataRange
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartGrouping
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartLength
+import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartViewData
 import java.util.Calendar
 import javax.inject.Inject
 
-class StatisticsDetailInteractor @Inject constructor(
+class StatisticsDetailChartInteractor @Inject constructor(
     private val recordInteractor: RecordInteractor,
     private val timeMapper: TimeMapper,
-    private val rangeMapper: RangeMapper
+    private val rangeMapper: RangeMapper,
+    private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
+    private val statisticsDetailViewDataMapper: StatisticsDetailViewDataMapper
 ) {
 
-    suspend fun getChartData(
+    suspend fun getChartViewData(
+        id: Long,
+        chartGrouping: ChartGrouping,
+        chartLength: ChartLength,
+        filter: ChartFilterType,
+        rangeLength: RangeLength,
+        rangePosition: Int
+    ): StatisticsDetailChartViewData {
+        // If untracked
+        if (id == -1L) {
+            statisticsDetailViewDataMapper.mapToChartViewData(emptyList())
+        }
+
+        val typesIds = when (filter) {
+            ChartFilterType.ACTIVITY -> {
+                listOf(id)
+            }
+            ChartFilterType.CATEGORY -> {
+                recordTypeCategoryInteractor.getTypes(categoryId = id)
+            }
+        }
+        val data = getChartData(
+            typeIds = typesIds,
+            grouping = chartGrouping,
+            chartLength = chartLength,
+            rangeLength = rangeLength,
+            rangePosition = rangePosition
+        )
+
+        return statisticsDetailViewDataMapper.mapToChartViewData(data)
+    }
+
+    private suspend fun getChartData(
         typeIds: List<Long>,
         grouping: ChartGrouping,
         chartLength: ChartLength,

@@ -15,9 +15,10 @@ import com.example.util.simpletimetracker.core.viewData.SelectDateViewData
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.model.RangeLength
+import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailChartInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailDailyChartInteractor
+import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailPreviewInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailStatsInteractor
-import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailViewDataInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.StatisticsDetailViewDataMapper
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartGrouping
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartLength
@@ -37,7 +38,8 @@ import javax.inject.Inject
 
 class StatisticsDetailViewModel @Inject constructor(
     private val router: Router,
-    private val interactor: StatisticsDetailViewDataInteractor,
+    private val chartInteractor: StatisticsDetailChartInteractor,
+    private val previewInteractor: StatisticsDetailPreviewInteractor,
     private val statsInteractor: StatisticsDetailStatsInteractor,
     private val dailyChartInteractor: StatisticsDetailDailyChartInteractor,
     private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
@@ -194,7 +196,7 @@ class StatisticsDetailViewModel @Inject constructor(
     }
 
     private suspend fun loadPreviewViewData() : StatisticsDetailPreviewViewData{
-        return interactor.getPreviewData(extra.id, extra.filterType)
+        return previewInteractor.getPreviewData(extra.id, extra.filterType)
     }
 
     private fun updateStatsViewData() = viewModelScope.launch {
@@ -221,7 +223,7 @@ class StatisticsDetailViewModel @Inject constructor(
     }
 
     private suspend fun loadChartViewData(): StatisticsDetailChartViewData {
-        return interactor.getChartViewData(
+        return chartInteractor.getChartViewData(
             id = extra.id,
             chartGrouping = chartGrouping,
             chartLength = chartLength,
