@@ -13,9 +13,10 @@ class RecordTypeCardSizeMapper @Inject constructor(
     private val defaultWidth: Int by lazy { resourceRepo.getDimenInDp(R.dimen.record_type_card_width) }
     private val defaultHeight: Int by lazy { resourceRepo.getDimenInDp(R.dimen.record_type_card_height) }
     private val rowHeight: Int by lazy { resourceRepo.getDimenInDp(R.dimen.record_type_card_height_row) }
+    private val widthMargin: Int by lazy { resourceRepo.getDimenInDp(R.dimen.record_type_card_screen_width_margin) }
 
     fun toCardWidth(numberOfCards: Int): Int {
-        return if (numberOfCards == 0) defaultWidth else deviceRepo.getScreenWidthInDp() / numberOfCards
+        return if (numberOfCards == 0) defaultWidth else (deviceRepo.getScreenWidthInDp() - widthMargin) / numberOfCards
     }
 
     fun toCardHeight(numberOfCards: Int): Int {
