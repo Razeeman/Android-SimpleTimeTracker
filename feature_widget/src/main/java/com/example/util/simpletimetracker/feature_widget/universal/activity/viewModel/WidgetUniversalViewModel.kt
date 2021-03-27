@@ -45,7 +45,7 @@ class WidgetUniversalViewModel @Inject constructor(
                     runningRecordInteractor.getAll().forEach { handleRunningRecordRemove(it) }
                 }
                 // Add new running record
-                addRunningRecordMediator.add(item.id, comment = item.comment)
+                addRunningRecordMediator.add(item.id)
             }
 
             updateRecordTypesViewData()

@@ -97,7 +97,7 @@
             android:singleLine="true"
             android:textColor="?appLightTextColor"
             android:visibility="gone"
-            app:layout_constraintEnd_toStartOf="@id/tvRunningRecordItemGoalTime"
+            app:layout_constraintEnd_toStartOf="@id/barrierRunningRecord"
             app:layout_constraintStart_toEndOf="@id/ivRunningRecordItemIcon"
             app:layout_constraintTop_toBottomOf="@id/tvRunningRecordItemTimeStarted"
             tools:text="Record comment record comment record comment record comment"

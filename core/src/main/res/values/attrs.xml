@@ -47,6 +47,7 @@
         <attr name="itemTimeStarted" />
         <attr name="itemTimer" format="string" />
         <attr name="itemGoalTime" format="string" />
+        <attr name="itemComment" />
     </declare-styleable>
 
     <declare-styleable name="CategoryView">

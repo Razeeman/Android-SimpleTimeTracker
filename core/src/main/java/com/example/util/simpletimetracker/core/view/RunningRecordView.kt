@@ -26,8 +26,7 @@ class RunningRecordView @JvmOverloads constructor(
         ContextCompat.getColor(context, R.color.black).let(::setCardBackgroundColor)
         radius = resources.getDimensionPixelOffset(R.dimen.record_type_card_corner_radius).toFloat()
         // TODO doesn't work here for some reason, need to set in the layout
-        cardElevation =
-            resources.getDimensionPixelOffset(R.dimen.record_type_card_elevation).toFloat()
+        cardElevation = resources.getDimensionPixelOffset(R.dimen.record_type_card_elevation).toFloat()
         preventCornerOverlap = false
         useCompatPadding = true
 
@@ -50,6 +49,9 @@ class RunningRecordView @JvmOverloads constructor(
 
                 if (hasValue(R.styleable.RunningRecordView_itemGoalTime)) itemGoalTime =
                     getString(R.styleable.RunningRecordView_itemGoalTime).orEmpty()
+
+                if (hasValue(R.styleable.RunningRecordView_itemComment)) itemComment =
+                    getString(R.styleable.RunningRecordView_itemComment).orEmpty()
 
                 recycle()
             }

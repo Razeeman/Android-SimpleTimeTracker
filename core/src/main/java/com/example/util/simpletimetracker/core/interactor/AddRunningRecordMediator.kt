@@ -12,7 +12,7 @@ class AddRunningRecordMediator @Inject constructor(
     private val widgetInteractor: WidgetInteractor
 ) {
 
-    suspend fun add(typeId: Long, timeStarted: Long? = null, comment: String) {
+    suspend fun add(typeId: Long, timeStarted: Long? = null, comment: String = "") {
         if (runningRecordInteractor.get(typeId) == null) {
             RunningRecord(
                 id = typeId,

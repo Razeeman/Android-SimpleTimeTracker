@@ -197,7 +197,7 @@ class WidgetProvider : AppWidgetProvider() {
                         .forEach { handleRunningRecordRemove(it) }
                 }
                 // Add new running record
-                addRunningRecordMediator.add(recordTypeId, comment = runningRecord?.comment.orEmpty())
+                addRunningRecordMediator.add(recordTypeId)
             }
         }
     }

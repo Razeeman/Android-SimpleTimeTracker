@@ -51,7 +51,7 @@ class RunningRecordsViewModel @Inject constructor(
                     .filter { it.id != item.id }
                     .forEach { handleRunningRecordRemove(it) }
             }
-            addRunningRecordMediator.add(item.id, comment = item.comment)
+            addRunningRecordMediator.add(item.id)
             updateRunningRecords()
         }
     }

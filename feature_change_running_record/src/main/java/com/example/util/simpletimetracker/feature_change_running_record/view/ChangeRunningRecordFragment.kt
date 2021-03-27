@@ -1,7 +1,6 @@
 package com.example.util.simpletimetracker.feature_change_running_record.view
 
 import android.os.Bundle
-import android.text.SpannableStringBuilder
 import androidx.core.view.ViewCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
@@ -151,7 +150,6 @@ class ChangeRunningRecordFragment : BaseFragment(R.layout.change_running_record_
             itemComment = item.comment
         }
         tvChangeRunningRecordTimeStarted.text = item.dateTimeStarted
-        etChangeRunningRecordComment.text = SpannableStringBuilder(item.comment)
     }
 
     companion object {

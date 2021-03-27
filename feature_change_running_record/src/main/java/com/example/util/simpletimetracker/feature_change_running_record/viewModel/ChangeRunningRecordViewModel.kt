@@ -51,7 +51,6 @@ class ChangeRunningRecordViewModel @Inject constructor(
     val record: LiveData<ChangeRunningRecordViewData> by lazy {
         return@lazy MutableLiveData<ChangeRunningRecordViewData>().let { initial ->
             viewModelScope.launch {
-                initializePreviewViewData()
                 initial.value = loadPreviewViewData()
             }
             initial
@@ -171,6 +170,8 @@ class ChangeRunningRecordViewModel @Inject constructor(
     }
 
     private suspend fun loadPreviewViewData(): ChangeRunningRecordViewData {
+        if (newTypeId == 0L) initializePreviewViewData()
+
         val record = RunningRecord(
             id = newTypeId,
             timeStarted = newTimeStarted,
