@@ -15,24 +15,24 @@ class TimeMapper @Inject constructor(
 
     private val calendar = Calendar.getInstance()
 
-    private val timeFormat = SimpleDateFormat("h:mm a", Locale.US)
-    private val timeFormatMilitary = SimpleDateFormat("HH:mm", Locale.US)
+    private val timeFormat = SimpleDateFormat("h:mm a", Locale.getDefault())
+    private val timeFormatMilitary = SimpleDateFormat("HH:mm", Locale.getDefault())
 
-    private val dateTimeFormat = SimpleDateFormat("MMM d h:mm a", Locale.US)
-    private val dateTimeFormatMilitary = SimpleDateFormat("MMM d HH:mm", Locale.US)
+    private val dateTimeFormat = SimpleDateFormat("MMM d h:mm a", Locale.getDefault())
+    private val dateTimeFormatMilitary = SimpleDateFormat("MMM d HH:mm", Locale.getDefault())
 
-    private val dateTimeYearFormat = SimpleDateFormat("MMM d yyyy h:mm a", Locale.US)
-    private val dateTimeYearFormatMilitary = SimpleDateFormat("MMM d yyyy HH:mm", Locale.US)
+    private val dateTimeYearFormat = SimpleDateFormat("MMM d yyyy h:mm a", Locale.getDefault())
+    private val dateTimeYearFormatMilitary = SimpleDateFormat("MMM d yyyy HH:mm", Locale.getDefault())
 
-    private val dateYearFormat = SimpleDateFormat("MMM d yyyy", Locale.US)
-    private val shortDayFormat = SimpleDateFormat("dd.MM", Locale.US)
-    private val shortMonthFormat = SimpleDateFormat("MMM", Locale.US)
-    private val shortYearFormat = SimpleDateFormat("yy", Locale.US)
+    private val dateYearFormat = SimpleDateFormat("MMM d yyyy", Locale.getDefault())
+    private val shortDayFormat = SimpleDateFormat("dd.MM", Locale.getDefault())
+    private val shortMonthFormat = SimpleDateFormat("MMM", Locale.getDefault())
+    private val shortYearFormat = SimpleDateFormat("yy", Locale.getDefault())
 
-    private val dayTitleFormat = SimpleDateFormat("E, MMM d", Locale.US)
-    private val weekTitleFormat = SimpleDateFormat("MMM d", Locale.US)
-    private val monthTitleFormat = SimpleDateFormat("MMMM", Locale.US)
-    private val yearTitleFormat = SimpleDateFormat("yyyy", Locale.US)
+    private val dayTitleFormat = SimpleDateFormat("E, MMM d", Locale.getDefault())
+    private val weekTitleFormat = SimpleDateFormat("MMM d", Locale.getDefault())
+    private val monthTitleFormat = SimpleDateFormat("MMMM", Locale.getDefault())
+    private val yearTitleFormat = SimpleDateFormat("yyyy", Locale.getDefault())
 
     // 12:21
     fun formatTime(time: Long, useMilitaryTime: Boolean): String {
