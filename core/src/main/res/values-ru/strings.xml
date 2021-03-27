@@ -70,6 +70,7 @@
     <string name="change_running_record_message_choose_type">Выберите активность</string>
     <string name="change_running_record_removed">Текущая активность удалена</string>
     <string name="change_running_record_type_field">Активность</string>
+    <string name="change_running_record_comment_hint">Комментарий</string>
     <string name="change_running_record_save">Сохранить</string>
 
     <!--  Dialogs  -->

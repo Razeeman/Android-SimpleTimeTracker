@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!--  TODO switch to recycler  -->
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -175,18 +176,12 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnStatisticsDetailPrevious"
+        style="@style/StatisticsRangeButton"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
-        android:background="?selectableItemBackground"
-        android:scaleType="fitXY"
-        app:backgroundTint="?appInactiveColor"
-        app:icon="@drawable/arrow_left"
-        app:iconGravity="start"
-        app:iconTint="@color/white"
         app:layout_constraintBottom_toBottomOf="@id/btnStatisticsDetailToday"
         app:layout_constraintEnd_toStartOf="@id/btnStatisticsDetailToday"
-        app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/btnStatisticsDetailToday" />
 
@@ -201,32 +196,24 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnStatisticsDetailToday"
+        style="@style/StatisticsRangeMainButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:textColor="@color/white"
-        app:backgroundTint="?appActiveColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/btnStatisticsDetailNext"
-        app:layout_constraintHorizontal_weight="2"
         app:layout_constraintStart_toEndOf="@id/btnStatisticsDetailPrevious"
         tools:text="@string/title_today" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnStatisticsDetailNext"
+        style="@style/StatisticsRangeButton"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginEnd="8dp"
-        android:background="?selectableItemBackground"
-        android:scaleType="fitXY"
-        app:backgroundTint="?appInactiveColor"
         app:icon="@drawable/arrow_right"
         app:iconGravity="end"
-        app:iconTint="@color/white"
         app:layout_constraintBottom_toBottomOf="@id/btnStatisticsDetailToday"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toEndOf="@id/btnStatisticsDetailToday"
         app:layout_constraintTop_toTopOf="@id/btnStatisticsDetailToday" />
 

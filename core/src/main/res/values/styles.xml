@@ -222,4 +222,27 @@
         <item name="android:paddingTop">12dp</item>
     </style>
 
+    <style name="StatisticsRangeMainButton">
+        <item name="android:layout_marginStart">8dp</item>
+        <item name="android:layout_marginEnd">8dp</item>
+        <item name="android:padding">0dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="backgroundTint">?appActiveColor</item>
+        <item name="icon">@drawable/arrow</item>
+        <item name="iconGravity">end</item>
+        <item name="iconPadding">-24dp</item>
+        <item name="iconTint">@color/white</item>
+        <item name="layout_constraintHorizontal_weight">2</item>
+    </style>
+
+    <style name="StatisticsRangeButton">
+        <item name="android:background">?selectableItemBackground</item>
+        <item name="android:scaleType">fitXY</item>
+        <item name="backgroundTint">?appInactiveColor</item>
+        <item name="icon">@drawable/arrow_left</item>
+        <item name="iconGravity">start</item>
+        <item name="iconTint">@color/white</item>
+        <item name="layout_constraintHorizontal_weight">1</item>
+    </style>
+
 </resources>
