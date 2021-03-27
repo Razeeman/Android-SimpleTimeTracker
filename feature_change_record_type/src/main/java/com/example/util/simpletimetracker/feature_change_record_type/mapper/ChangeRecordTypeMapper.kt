@@ -2,7 +2,7 @@ package com.example.util.simpletimetracker.feature_change_record_type.mapper
 
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.empty.EmptyViewData
-import com.example.util.simpletimetracker.core.adapter.hint.HintViewData
+import com.example.util.simpletimetracker.core.adapter.info.InfoViewData
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.feature_change_record_type.R
@@ -20,7 +20,7 @@ class ChangeRecordTypeMapper @Inject constructor(
     }
 
     fun mapSelectedCategoriesHint(isEmpty: Boolean): ViewHolderType {
-        return HintViewData(
+        return InfoViewData(
             text = if (isEmpty) {
                 R.string.change_record_type_selected_categories_empty
             } else {

@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.feature_records.adapter
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.empty.EmptyAdapterDelegate
+import com.example.util.simpletimetracker.core.adapter.hint.HintAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.loader.LoaderAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.record.RecordAdapterDelegate
 import com.example.util.simpletimetracker.core.viewData.RecordViewData
@@ -15,5 +16,6 @@ class RecordAdapter(
         delegates[ViewHolderType.RECORD] = RecordAdapterDelegate(onItemClick)
         delegates[ViewHolderType.EMPTY] = EmptyAdapterDelegate()
         delegates[ViewHolderType.LOADER] = LoaderAdapterDelegate()
+        delegates[ViewHolderType.HINT] = HintAdapterDelegate()
     }
 }

@@ -21,10 +21,13 @@
     <string name="time_second">s</string>
 
     <string name="untracked_time_name">Untracked</string>
+    <string name="running_record_goal_time">goal %s</string>
+
+    <!--  Records  -->
     <string name="record_removed">Record %s removed</string>
     <string name="record_removed_undo">Undo</string>
     <string name="records_empty">Nothing to show</string>
-    <string name="running_record_goal_time">goal %s</string>
+    <string name="records_hint">Click on record to edit</string>
 
     <!--  Statistics  -->
     <string name="statistics_empty">Nothing to show</string>

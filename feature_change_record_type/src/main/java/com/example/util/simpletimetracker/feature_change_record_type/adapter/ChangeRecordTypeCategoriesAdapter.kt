@@ -4,7 +4,7 @@ import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.divider.DividerAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.empty.EmptyAdapterDelegate
-import com.example.util.simpletimetracker.core.adapter.hint.HintAdapterDelegate
+import com.example.util.simpletimetracker.core.adapter.info.InfoAdapterDelegate
 import com.example.util.simpletimetracker.core.viewData.CategoryViewData
 
 class ChangeRecordTypeCategoriesAdapter(
@@ -14,7 +14,7 @@ class ChangeRecordTypeCategoriesAdapter(
     init {
         delegates[ViewHolderType.CATEGORY] = ChangeRecordTypeCategoryAdapterDelegate(onItemClick)
         delegates[ViewHolderType.DIVIDER] = DividerAdapterDelegate()
-        delegates[ViewHolderType.INFO] = HintAdapterDelegate()
+        delegates[ViewHolderType.INFO] = InfoAdapterDelegate()
         delegates[ViewHolderType.EMPTY] = EmptyAdapterDelegate()
     }
 }

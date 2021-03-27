@@ -14,7 +14,7 @@ import com.example.util.simpletimetracker.domain.model.StatisticsCategory
 import com.example.util.simpletimetracker.feature_statistics.R
 import com.example.util.simpletimetracker.feature_statistics.customView.PiePortion
 import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsChartViewData
-import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsHintViewData
+import com.example.util.simpletimetracker.core.adapter.hint.HintViewData
 import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsInfoViewData
 import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsViewData
 import javax.inject.Inject
@@ -164,7 +164,7 @@ class StatisticsViewDataMapper @Inject constructor(
     }
 
     fun mapToHint(): ViewHolderType {
-        return StatisticsHintViewData(
+        return HintViewData(
             text = R.string.statistics_hint.let(resourceRepo::getString)
         )
     }

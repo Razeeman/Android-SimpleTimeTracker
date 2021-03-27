@@ -61,8 +61,12 @@ class RecordsViewDataInteractor @Inject constructor(
             }
             .sortedByDescending { (timeStarted, _) -> timeStarted }
             .map { (_, records) -> records }
-            .ifEmpty {
-                return listOf(recordViewDataMapper.mapToEmpty())
+            .let {
+                if (it.isEmpty()) {
+                    listOf(recordViewDataMapper.mapToEmpty())
+                } else {
+                    it + recordViewDataMapper.mapToHint()
+                }
             }
     }
 

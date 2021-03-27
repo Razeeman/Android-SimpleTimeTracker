@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.feature_records.mapper
 
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.empty.EmptyViewData
+import com.example.util.simpletimetracker.core.adapter.hint.HintViewData
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
@@ -78,6 +79,12 @@ class RecordViewDataMapper @Inject constructor(
     fun mapToEmpty(): ViewHolderType {
         return EmptyViewData(
             message = R.string.records_empty.let(resourceRepo::getString)
+        )
+    }
+
+    fun mapToHint(): ViewHolderType {
+        return HintViewData(
+            text = R.string.records_hint.let(resourceRepo::getString)
         )
     }
 

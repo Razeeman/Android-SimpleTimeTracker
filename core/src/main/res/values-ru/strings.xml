@@ -21,10 +21,13 @@
     <string name="time_second">с</string>
 
     <string name="untracked_time_name">Без отслеживания</string>
+    <string name="running_record_goal_time">цель %s</string>
+
+    <!--  Records  -->
     <string name="record_removed">Запись %s удалена</string>
     <string name="record_removed_undo">Отменить</string>
     <string name="records_empty">Нечего показать</string>
-    <string name="running_record_goal_time">цель %s</string>
+    <string name="records_hint">Нажмите на запись для редактирования</string>
 
     <!--  Statistics  -->
     <string name="statistics_empty">Нечего показать</string>
@@ -110,7 +113,7 @@
     <string name="settings_sort_by_name">Имя</string>
     <string name="settings_sort_by_color">Цвет</string>
     <string name="settings_sort_manually">Вручную</string>
-    <string name="settings_show_untracked_time">Показывать неотслеживаемое время в записях</string>
+    <string name="settings_show_untracked_time">Показывать неотслеженное время в записях</string>
     <string name="settings_allow_multitasking">Разрешить многозадачность</string>
     <string name="settings_allow_multitasking_hint">Если отключено, запуск нового таймера автоматически остановит другие активности.</string>
     <string name="settings_show_notifications">Показывать уведомления таймера</string>
