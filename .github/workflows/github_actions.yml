@@ -11,19 +11,29 @@ on:
     paths-ignore:
       - '**.md'
 jobs:
-  test:
+  style:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out source code
-        uses: actions/checkout@v2
-
-      - name: Setup Java
-        uses: actions/setup-java@v1
-        with:
-          java-version: 1.8
+      - uses: actions/checkout@v2
 
       - name: Run style check
         run: ./gradlew ktlintCheck
 
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
       - name: Run tests
         run: ./gradlew testDebug
+
+  android_tests:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Run tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 29
+          script: ./gradlew connectedDebugAndroidTest
