@@ -21,7 +21,7 @@ jobs:
         run: ./gradlew ktlintCheck
 
       - name: Run tests
-        run: ./gradlew testDebug
+        run: ./gradlew testDebug --stacktrace
 
   android_tests:
     runs-on: macos-latest
@@ -33,4 +33,10 @@ jobs:
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 29
-          script: ./gradlew app:connectedDebugAndroidTest
+          script: ./gradlew app:connectedDebugAndroidTest --stacktrace
+
+      - name: Upload tests results
+        uses: actions/upload-artifact@v1
+        with:
+          name: android_tests_results
+          path: app/build/reports/androidTests/connected/index.html
