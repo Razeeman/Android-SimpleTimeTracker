@@ -135,7 +135,11 @@ class ChangeRunningRecordTest : BaseUiTest() {
         checkViewIsDisplayed(allOf(withId(R.id.previewChangeRunningRecord), matcher))
 
     private fun checkRunningRecordDisplayed(
-        name: String, color: Int, icon: Int, timeStarted: String, goalTime: String
+        name: String,
+        color: Int,
+        icon: Int,
+        timeStarted: String,
+        goalTime: String
     ) {
         checkViewIsDisplayed(
             allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name))

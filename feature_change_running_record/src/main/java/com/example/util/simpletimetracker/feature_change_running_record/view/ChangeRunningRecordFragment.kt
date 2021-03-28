@@ -9,7 +9,13 @@ import androidx.transition.TransitionInflater
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
-import com.example.util.simpletimetracker.core.extension.*
+import com.example.util.simpletimetracker.core.extension.hideKeyboard
+import com.example.util.simpletimetracker.core.extension.observeOnce
+import com.example.util.simpletimetracker.core.extension.rotateDown
+import com.example.util.simpletimetracker.core.extension.rotateUp
+import com.example.util.simpletimetracker.core.extension.setOnClick
+import com.example.util.simpletimetracker.core.extension.showKeyboard
+import com.example.util.simpletimetracker.core.extension.visible
 import com.example.util.simpletimetracker.core.utils.BuildVersions
 import com.example.util.simpletimetracker.core.view.TransitionNames
 import com.example.util.simpletimetracker.feature_change_running_record.R
@@ -22,15 +28,7 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
-import kotlinx.android.synthetic.main.change_running_record_fragment.arrowChangeRunningRecordType
-import kotlinx.android.synthetic.main.change_running_record_fragment.btnChangeRunningRecordDelete
-import kotlinx.android.synthetic.main.change_running_record_fragment.btnChangeRunningRecordSave
-import kotlinx.android.synthetic.main.change_running_record_fragment.etChangeRunningRecordComment
-import kotlinx.android.synthetic.main.change_running_record_fragment.fieldChangeRunningRecordTimeStarted
-import kotlinx.android.synthetic.main.change_running_record_fragment.fieldChangeRunningRecordType
-import kotlinx.android.synthetic.main.change_running_record_fragment.previewChangeRunningRecord
-import kotlinx.android.synthetic.main.change_running_record_fragment.rvChangeRunningRecordType
-import kotlinx.android.synthetic.main.change_running_record_fragment.tvChangeRunningRecordTimeStarted
+import kotlinx.android.synthetic.main.change_running_record_fragment.*
 import javax.inject.Inject
 
 class ChangeRunningRecordFragment : BaseFragment(R.layout.change_running_record_fragment),

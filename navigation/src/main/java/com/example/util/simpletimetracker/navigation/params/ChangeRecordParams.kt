@@ -5,7 +5,7 @@ import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import kotlinx.android.parcel.Parcelize
 
-sealed class ChangeRecordParams: Parcelable {
+sealed class ChangeRecordParams : Parcelable {
 
     @Parcelize
     data class Tracked(
@@ -36,5 +36,5 @@ sealed class ChangeRecordParams: Parcelable {
         @DrawableRes val iconId: Int,
         @ColorInt val color: Int,
         val comment: String
-    ): Parcelable
+    ) : Parcelable
 }

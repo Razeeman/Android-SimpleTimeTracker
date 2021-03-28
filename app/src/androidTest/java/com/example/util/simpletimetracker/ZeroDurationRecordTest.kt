@@ -75,6 +75,5 @@ class ZeroDurationRecordTest : BaseUiTest() {
         // Check records all
         onView(withId(R.id.cardStatisticsDetailRecords)).perform(nestedScrollTo(), click())
         checkViewIsDisplayed(record)
-
     }
 }

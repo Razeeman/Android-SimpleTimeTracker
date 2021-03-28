@@ -54,5 +54,5 @@ class CustomSpinner @JvmOverloads constructor(
 
     data class CustomSpinnerTextItem(
         override val text: String
-    ): CustomSpinnerItem()
+    ) : CustomSpinnerItem()
 }

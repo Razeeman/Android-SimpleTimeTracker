@@ -224,8 +224,8 @@ class BackupRepoImpl @Inject constructor(
 
     private fun typeCategoryFromBackupString(parts: List<String>): RecordTypeCategory {
         return RecordTypeCategory(
-           recordTypeId  = parts.getOrNull(1)?.toLongOrNull().orZero(),
-           categoryId  = parts.getOrNull(2)?.toLongOrNull().orZero()
+            recordTypeId = parts.getOrNull(1)?.toLongOrNull().orZero(),
+            categoryId = parts.getOrNull(2)?.toLongOrNull().orZero()
         )
     }
 

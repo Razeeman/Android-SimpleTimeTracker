@@ -70,6 +70,4 @@ class StatisticsInteractor @Inject constructor(
             // Calculate uncovered range
             .let { untrackedTimeEndRange - start - it }
     }
-
-
 }
