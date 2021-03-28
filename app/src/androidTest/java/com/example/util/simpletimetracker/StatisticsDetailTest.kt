@@ -6,6 +6,7 @@ import androidx.test.espresso.contrib.PickerActions.setTime
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.hasSibling
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.withClassName
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withSubstring
@@ -91,10 +92,11 @@ class StatisticsDetailTest : BaseUiTest() {
         )
 
         // Buttons
-        clickOnViewWithText(R.string.statistics_detail_chart_daily)
-        clickOnViewWithText(R.string.statistics_detail_chart_weekly)
-        clickOnViewWithText(R.string.statistics_detail_chart_monthly)
-        clickOnViewWithText(R.string.statistics_detail_chart_daily)
+        clickOnChartGrouping(R.string.statistics_detail_chart_daily)
+        clickOnChartGrouping(R.string.statistics_detail_chart_weekly)
+        clickOnChartGrouping(R.string.statistics_detail_chart_monthly)
+        clickOnChartGrouping(R.string.statistics_detail_chart_yearly)
+        clickOnChartGrouping(R.string.statistics_detail_chart_daily)
 
         clickOnViewWithText(R.string.statistics_detail_length_ten)
         clickOnViewWithText(R.string.statistics_detail_length_fifty)
@@ -150,5 +152,14 @@ class StatisticsDetailTest : BaseUiTest() {
 
         // Last
         checkViewIsDisplayed(withText(R.string.statistics_detail_last_record))
+    }
+
+    private fun clickOnChartGrouping(withTextId: Int) {
+        clickOnView(
+            allOf(
+                isDescendantOfA(withId(R.id.buttonsStatisticsDetailGrouping)),
+                withText(withTextId)
+            )
+        )
     }
 }
