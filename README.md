@@ -141,6 +141,7 @@ Simple app that helps track how much time you spend on all the useless activitie
 - Database export to csv
 - Dark mode
 - UI tests
+- CI with github actions
 
 [change_record_thumb]: dev_files/screens/change_record_thumb.png
 [change_record]: dev_files/screens/change_record.png
