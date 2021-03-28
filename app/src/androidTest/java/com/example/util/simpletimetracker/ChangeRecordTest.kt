@@ -57,12 +57,12 @@ class ChangeRecordTest : BaseUiTest() {
         val currentTime = System.currentTimeMillis()
         var timeStartedTimestamp = currentTime - 60 * 60 * 1000
         var timeEndedTimestamp = currentTime
-        var timeStarted = timeMapper.formatDateTime(timeStartedTimestamp)
-        var timeEnded = timeMapper.formatDateTime(timeEndedTimestamp)
+        var timeStarted = timeMapper.formatDateTime(timeStartedTimestamp, true)
+        var timeEnded = timeMapper.formatDateTime(timeEndedTimestamp, true)
         var timeStartedPreview = timeStartedTimestamp
-            .let(timeMapper::formatTime)
+            .let { timeMapper.formatTime(it, true) }
         var timeEndedPreview = timeEndedTimestamp
-            .let(timeMapper::formatTime)
+            .let { timeMapper.formatTime(it, true) }
         var timeRangePreview = (timeEndedTimestamp - timeStartedTimestamp)
             .let(timeMapper::formatInterval)
 
@@ -139,12 +139,14 @@ class ChangeRecordTest : BaseUiTest() {
             set(Calendar.MINUTE, minutesEnded)
             timeInMillis
         }
-        timeStarted = timeStartedTimestamp.let(timeMapper::formatDateTime)
-        timeEnded = timeEndedTimestamp.let(timeMapper::formatDateTime)
+        timeStarted = timeStartedTimestamp
+            .let { timeMapper.formatDateTime(it, true) }
+        timeEnded = timeEndedTimestamp
+            .let { timeMapper.formatDateTime(it, true) }
         timeStartedPreview = timeStartedTimestamp
-            .let(timeMapper::formatTime)
+            .let { timeMapper.formatTime(it, true) }
         timeEndedPreview = timeEndedTimestamp
-            .let(timeMapper::formatTime)
+            .let { timeMapper.formatTime(it, true) }
         timeRangePreview = (timeEndedTimestamp - timeStartedTimestamp)
             .let(timeMapper::formatInterval)
 

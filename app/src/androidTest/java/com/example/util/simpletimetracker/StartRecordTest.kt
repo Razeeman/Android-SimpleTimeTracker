@@ -40,7 +40,7 @@ class StartRecordTest : BaseUiTest() {
         // Start timer
         clickOnViewWithText(name)
         var currentTime = System.currentTimeMillis()
-        var timeStarted = timeMapper.formatTime(currentTime)
+        var timeStarted = timeMapper.formatTime(currentTime, true)
         checkViewIsDisplayed(
             allOf(
                 withId(R.id.viewRunningRecordItem),
@@ -55,7 +55,7 @@ class StartRecordTest : BaseUiTest() {
         // Start timer
         clickOnViewWithText(newName)
         currentTime = System.currentTimeMillis()
-        timeStarted = timeMapper.formatTime(currentTime)
+        timeStarted = timeMapper.formatTime(currentTime, true)
         checkViewIsDisplayed(
             allOf(
                 withId(R.id.viewRunningRecordItem),

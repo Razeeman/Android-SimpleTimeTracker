@@ -97,7 +97,8 @@ class SettingsTest : BaseUiTest() {
         clickOnViewWithText(name1)
         clickOnViewWithText(name2)
         clickOnViewWithText(name3)
-        var startTime = System.currentTimeMillis().let(timeMapper::formatTime)
+        var startTime = System.currentTimeMillis()
+            .let { timeMapper.formatTime(it, true) }
         checkViewIsDisplayed(
             allOf(
                 withId(R.id.viewRunningRecordItem),
@@ -165,7 +166,8 @@ class SettingsTest : BaseUiTest() {
         clickOnView(
             allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2))
         )
-        startTime = System.currentTimeMillis().let(timeMapper::formatTime)
+        startTime = System.currentTimeMillis()
+            .let { timeMapper.formatTime(it, true) }
         checkViewIsDisplayed(
             allOf(
                 withId(R.id.viewRunningRecordItem),
@@ -193,7 +195,8 @@ class SettingsTest : BaseUiTest() {
         clickOnView(
             allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name3))
         )
-        val newStartTime = System.currentTimeMillis().let(timeMapper::formatTime)
+        val newStartTime = System.currentTimeMillis()
+            .let { timeMapper.formatTime(it, true) }
         checkViewIsDisplayed(
             allOf(
                 withId(R.id.viewRunningRecordItem),

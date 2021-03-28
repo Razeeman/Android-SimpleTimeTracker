@@ -50,8 +50,8 @@ class AddRecordTest : BaseUiTest() {
         checkViewIsNotDisplayed(withId(R.id.btnChangeRecordDelete))
         checkViewIsNotDisplayed(withId(R.id.rvChangeRecordType))
         val currentTime = System.currentTimeMillis()
-        var timeStarted = timeMapper.formatDateTime(currentTime - 60 * 60 * 1000)
-        var timeEnded = timeMapper.formatDateTime(currentTime)
+        var timeStarted = timeMapper.formatDateTime(currentTime - 60 * 60 * 1000, true)
+        var timeEnded = timeMapper.formatDateTime(currentTime, true)
         checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeStarted), withText(timeStarted)))
         checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeEnded), withText(timeEnded)))
 
@@ -68,7 +68,7 @@ class AddRecordTest : BaseUiTest() {
             set(Calendar.MINUTE, minutesStarted)
             timeInMillis
         }
-        timeStarted = timeStartedTimestamp.let(timeMapper::formatDateTime)
+        timeStarted = timeStartedTimestamp.let { timeMapper.formatDateTime(it, true) }
         checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeStarted), withText(timeStarted)))
 
         // Set time ended
@@ -84,12 +84,12 @@ class AddRecordTest : BaseUiTest() {
             set(Calendar.MINUTE, minutesEnded)
             timeInMillis
         }
-        timeEnded = timeEndedTimestamp.let(timeMapper::formatDateTime)
+        timeEnded = timeEndedTimestamp.let { timeMapper.formatDateTime(it, true) }
         checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeEnded), withText(timeEnded)))
 
         // Preview is updated
-        val timeStartedPreview = timeStartedTimestamp.let(timeMapper::formatTime)
-        val timeEndedPreview = timeEndedTimestamp.let(timeMapper::formatTime)
+        val timeStartedPreview = timeStartedTimestamp.let { timeMapper.formatTime(it, true) }
+        val timeEndedPreview = timeEndedTimestamp.let { timeMapper.formatTime(it, true) }
         checkPreviewUpdated(hasDescendant(withText(timeStartedPreview)))
         checkPreviewUpdated(hasDescendant(withText(timeEndedPreview)))
         checkPreviewUpdated(hasDescendant(withText("2h 3m")))

@@ -17,7 +17,6 @@ import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.longClickOnViewWithId
 import com.example.util.simpletimetracker.utils.typeTextIntoView
-import com.example.util.simpletimetracker.utils.unconstrainedClickOnView
 import org.hamcrest.CoreMatchers.allOf
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -30,6 +29,7 @@ class MainScreenEmptyTest : BaseUiTest() {
         val name = "Test"
 
         // Empty main
+        Thread.sleep(1000)
         checkViewIsDisplayed(withText(R.string.running_records_types_empty))
         checkViewDoesNotExist(withText(R.string.running_records_empty))
 
@@ -98,7 +98,7 @@ class MainScreenEmptyTest : BaseUiTest() {
 
         // Overall range
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        unconstrainedClickOnView(withText(R.string.title_overall))
+        clickOnViewWithText(R.string.title_overall)
         Thread.sleep(1000)
         checkViewIsDisplayed(allOf(withText(R.string.statistics_empty), isCompletelyDisplayed()))
 
@@ -138,7 +138,7 @@ class MainScreenEmptyTest : BaseUiTest() {
 
         // Overall range
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        unconstrainedClickOnView(withText(R.string.title_overall))
+        clickOnViewWithText(R.string.title_overall)
         Thread.sleep(1000)
         checkViewIsDisplayed(allOf(withText(R.string.statistics_empty), isCompletelyDisplayed()))
 

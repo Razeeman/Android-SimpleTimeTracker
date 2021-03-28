@@ -15,7 +15,6 @@ import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
 import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
-import com.example.util.simpletimetracker.utils.unconstrainedClickOnView
 import com.example.util.simpletimetracker.utils.withCardColor
 import com.example.util.simpletimetracker.utils.withTag
 import org.hamcrest.CoreMatchers.allOf
@@ -164,7 +163,7 @@ class StatisticsTest : BaseUiTest() {
 
         // Switch to overall range
         clickOnView(allOf(withText(R.string.title_this_month), isCompletelyDisplayed()))
-        unconstrainedClickOnView(withText(R.string.title_overall))
+        clickOnViewWithText(R.string.title_overall)
         Thread.sleep(1000)
 
         checkViewDoesNotExist(
@@ -346,7 +345,7 @@ class StatisticsTest : BaseUiTest() {
 
         // Switch to overall range
         clickOnView(allOf(withText(R.string.title_this_month), isCompletelyDisplayed()))
-        unconstrainedClickOnView(withText(R.string.title_overall))
+        clickOnViewWithText(R.string.title_overall)
         Thread.sleep(1000)
 
         checkViewDoesNotExist(allOf(withText("3h 0m"), isCompletelyDisplayed()))

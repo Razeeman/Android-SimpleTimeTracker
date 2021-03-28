@@ -50,9 +50,9 @@ class ChangeRunningRecordTest : BaseUiTest() {
 
         val currentTime = System.currentTimeMillis()
         var timeStartedTimestamp = currentTime
-        var timeStarted = timeMapper.formatDateTime(timeStartedTimestamp)
+        var timeStarted = timeMapper.formatDateTime(timeStartedTimestamp, true)
         var timeStartedPreview = timeStartedTimestamp
-            .let(timeMapper::formatTime)
+            .let { timeMapper.formatTime(it, true) }
 
         // Start timer
         clickOnViewWithText(name)
@@ -104,9 +104,10 @@ class ChangeRunningRecordTest : BaseUiTest() {
             set(Calendar.MINUTE, minutesStarted)
             timeInMillis
         }
-        timeStarted = timeStartedTimestamp.let(timeMapper::formatDateTime)
+        timeStarted = timeStartedTimestamp
+            .let { timeMapper.formatDateTime(it, true) }
         timeStartedPreview = timeStartedTimestamp
-            .let(timeMapper::formatTime)
+            .let { timeMapper.formatTime(it, true) }
 
         checkViewIsDisplayed(
             allOf(withId(R.id.tvChangeRunningRecordTimeStarted), withText(timeStarted))
