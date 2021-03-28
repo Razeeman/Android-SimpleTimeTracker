@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.loader.LoaderViewData
+import com.example.util.simpletimetracker.core.extension.post
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -27,8 +28,13 @@ class TypesFilterViewModel @Inject constructor(
     lateinit var extra: TypesFilterExtra
 
     val recordTypes: LiveData<List<ViewHolderType>> by lazy {
-        updateRecordTypes()
-        MutableLiveData(listOf(LoaderViewData() as ViewHolderType))
+        return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
+            viewModelScope.launch {
+                initial.value = listOf(LoaderViewData())
+                initial.value = loadRecordTypesViewData()
+            }
+            initial
+        }
     }
     val typesSelected: LiveData<List<Long>> by lazy {
         MutableLiveData(extra.selectedTypes)
@@ -47,33 +53,38 @@ class TypesFilterViewModel @Inject constructor(
             }
 
             (typesSelected as MutableLiveData).value = currentTypesSelected
-            updateRecordTypes()
+            updateRecordTypesViewData()
         }
     }
 
     fun onShowAllClick() {
         (typesSelected as MutableLiveData).value = types.map { it.id }
-        updateRecordTypes()
+        updateRecordTypesViewData()
     }
 
     fun onHideAllClick() {
         (typesSelected as MutableLiveData).value = emptyList()
-        updateRecordTypes()
+        updateRecordTypesViewData()
     }
 
-    private fun updateRecordTypes() = viewModelScope.launch {
+    private fun updateRecordTypesViewData() = viewModelScope.launch {
+        val data = loadRecordTypesViewData()
+        recordTypes.post(data)
+    }
+
+    private suspend fun loadRecordTypesViewData(): List<ViewHolderType> {
         val numberOfCards = prefsInteractor.getNumberOfCards()
         val isDarkTheme = prefsInteractor.getDarkMode()
         val typesSelected = typesSelected.value.orEmpty()
 
         if (types.isEmpty()) types = loadRecordTypes()
 
-        (recordTypes as MutableLiveData).value = types.map { type ->
+        return types.map { type ->
             recordTypeViewDataMapper.mapFiltered(
-                type,
-                numberOfCards,
-                isDarkTheme,
-                type.id !in typesSelected
+                recordType = type,
+                numberOfCards = numberOfCards,
+                isDarkTheme = isDarkTheme,
+                isFiltered = type.id !in typesSelected
             )
         }
     }

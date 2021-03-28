@@ -48,7 +48,6 @@ class StatisticsFilterTest : BaseUiTest() {
 
         // Filter untracked
         clickOnViewWithId(R.id.btnStatisticsChartFilter)
-        Thread.sleep(1000)
         clickOnView(
             allOf(
                 isDescendantOfA(withId(R.id.viewRecordTypeItem)),
@@ -65,7 +64,6 @@ class StatisticsFilterTest : BaseUiTest() {
 
         // Filter activity
         clickOnViewWithId(R.id.btnStatisticsChartFilter)
-        Thread.sleep(1000)
         clickOnView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name)))
         pressBack()
         checkViewDoesNotExist(
@@ -77,7 +75,6 @@ class StatisticsFilterTest : BaseUiTest() {
 
         // Filter all
         clickOnViewWithId(R.id.btnStatisticsChartFilter)
-        Thread.sleep(1000)
         clickOnView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(newName)))
         pressBack()
         checkViewDoesNotExist(allOf(withText(name), isCompletelyDisplayed()))
@@ -87,7 +84,6 @@ class StatisticsFilterTest : BaseUiTest() {
 
         // Remove filters
         clickOnViewWithId(R.id.btnStatisticsEmptyFilter)
-        Thread.sleep(1000)
         clickOnView(
             allOf(
                 isDescendantOfA(withId(R.id.viewRecordTypeItem)),

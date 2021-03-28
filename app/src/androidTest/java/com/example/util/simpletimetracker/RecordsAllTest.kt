@@ -145,7 +145,6 @@ class RecordsAllTest : BaseUiTest() {
 
         // Change filter
         clickOnViewWithId(R.id.cardRecordsAllFilter)
-        Thread.sleep(1000)
         checkViewIsDisplayed(
             allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1))
         )
@@ -167,7 +166,6 @@ class RecordsAllTest : BaseUiTest() {
 
         // Change filter
         clickOnViewWithId(R.id.cardRecordsAllFilter)
-        Thread.sleep(1000)
         clickOnView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1)))
         clickOnView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2)))
         pressBack()
@@ -180,7 +178,6 @@ class RecordsAllTest : BaseUiTest() {
 
         // Show all
         clickOnViewWithId(R.id.cardRecordsAllFilter)
-        Thread.sleep(1000)
         clickOnViewWithId(R.id.btnTypesFilterShowAll)
         pressBack()
 
@@ -191,7 +188,6 @@ class RecordsAllTest : BaseUiTest() {
 
         // Hide all
         clickOnViewWithId(R.id.cardRecordsAllFilter)
-        Thread.sleep(1000)
         clickOnViewWithId(R.id.btnTypesFilterHideAll)
         pressBack()
 
@@ -376,7 +372,6 @@ class RecordsAllTest : BaseUiTest() {
 
         // Check filter
         clickOnViewWithId(R.id.cardRecordsAllFilter)
-        Thread.sleep(1000)
         checkViewIsDisplayed(
             allOf(
                 withId(R.id.viewRecordTypeItem),

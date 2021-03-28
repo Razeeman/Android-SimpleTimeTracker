@@ -44,11 +44,14 @@ class ChartFilterViewModel @Inject constructor(
         }
     }
     val types: LiveData<List<ViewHolderType>> by lazy {
-        viewModelScope.launch {
-            initializeChartFilterType()
-            updateTypes()
+        return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
+            viewModelScope.launch {
+                initializeChartFilterType()
+                initial.value = listOf(LoaderViewData())
+                initial.value = loadTypesViewData()
+            }
+            initial
         }
-        MutableLiveData(listOf(LoaderViewData() as ViewHolderType))
     }
 
     private var filterType: ChartFilterType = ChartFilterType.ACTIVITY
@@ -63,7 +66,7 @@ class ChartFilterViewModel @Inject constructor(
             filterType = viewData.filterType
             prefsInteractor.setChartFilterType(filterType)
             updateFilterTypeViewData()
-            updateTypes()
+            updateTypesViewData()
         }
     }
 
@@ -75,7 +78,7 @@ class ChartFilterViewModel @Inject constructor(
                 typeIdsFiltered.add(item.id)
             }
             prefsInteractor.setFilteredTypes(typeIdsFiltered)
-            updateRecordTypes()
+            updateRecordTypesViewData()
         }
     }
 
@@ -87,7 +90,7 @@ class ChartFilterViewModel @Inject constructor(
                 categoryIdsFiltered.add(item.id)
             }
             prefsInteractor.setFilteredCategories(categoryIdsFiltered)
-            updateCategories()
+            updateCategoriesViewData()
         }
     }
 
@@ -100,24 +103,36 @@ class ChartFilterViewModel @Inject constructor(
         filterTypeViewData.post(data)
     }
 
-    private fun loadFilterTypeViewData() : List<ViewHolderType> {
+    private fun loadFilterTypeViewData(): List<ViewHolderType> {
         return chartFilterViewDataMapper.mapToFilterTypeViewData(filterType)
     }
 
-    private fun updateTypes() {
+    private fun updateTypesViewData() {
         when (filterType) {
-            ChartFilterType.ACTIVITY -> updateRecordTypes()
-            ChartFilterType.CATEGORY -> updateCategories()
+            ChartFilterType.ACTIVITY -> updateRecordTypesViewData()
+            ChartFilterType.CATEGORY -> updateCategoriesViewData()
         }
     }
 
-    private fun updateRecordTypes() = viewModelScope.launch {
+    private suspend fun loadTypesViewData(): List<ViewHolderType> {
+        return when (filterType) {
+            ChartFilterType.ACTIVITY -> loadRecordTypesViewData()
+            ChartFilterType.CATEGORY -> loadCategoriesViewData()
+        }
+    }
+
+    private fun updateRecordTypesViewData() = viewModelScope.launch {
+        val data = loadRecordTypesViewData()
+        types.post(data)
+    }
+
+    private suspend fun loadRecordTypesViewData(): List<ViewHolderType> {
         val numberOfCards = prefsInteractor.getNumberOfCards()
         val isDarkTheme = prefsInteractor.getDarkMode()
 
         if (recordTypes.isEmpty()) recordTypes = loadRecordTypes()
 
-        val data = recordTypes
+        return recordTypes
             .map { type ->
                 chartFilterViewDataMapper
                     .mapRecordType(type, typeIdsFiltered, numberOfCards, isDarkTheme)
@@ -128,8 +143,6 @@ class ChartFilterViewModel @Inject constructor(
                     .mapToUntrackedItem(typeIdsFiltered, numberOfCards, isDarkTheme)
                     .let(::add)
             }
-
-        types.post(data)
     }
 
     private suspend fun loadRecordTypes(): List<RecordType> {
@@ -143,21 +156,23 @@ class ChartFilterViewModel @Inject constructor(
             .filter { it.id in typesInStatistics }
     }
 
+    private fun updateCategoriesViewData() = viewModelScope.launch {
+        val data = loadCategoriesViewData()
+        types.post(data)
+    }
 
-    private fun updateCategories() = viewModelScope.launch {
+    private suspend fun loadCategoriesViewData(): List<ViewHolderType> {
         val isDarkTheme = prefsInteractor.getDarkMode()
 
         if (categories.isEmpty()) categories = loadCategories()
 
-        val data = categories
+        return categories
             .map { type ->
                 chartFilterViewDataMapper
                     .mapCategory(type, categoryIdsFiltered, isDarkTheme)
             }
             .takeUnless { it.isEmpty() }
             ?: chartFilterViewDataMapper.mapCategoriesEmpty()
-
-        types.post(data)
     }
 
     private suspend fun loadCategories(): List<Category> {
