@@ -11,18 +11,14 @@ on:
     paths-ignore:
       - '**.md'
 jobs:
-  style:
+  tests:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Check out code
+        uses: actions/checkout@v2
 
       - name: Run style check
         run: ./gradlew ktlintCheck
-
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
 
       - name: Run tests
         run: ./gradlew testDebug
@@ -30,7 +26,8 @@ jobs:
   android_tests:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Check out code
+        uses: actions/checkout@v2
 
       - name: Run tests
         uses: reactivecircus/android-emulator-runner@v2
