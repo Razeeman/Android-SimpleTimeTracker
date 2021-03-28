@@ -36,6 +36,7 @@ jobs:
           script: ./gradlew app:connectedDebugAndroidTest --stacktrace
 
       - name: Upload tests results
+        if: ${{ failure() }}
         uses: actions/upload-artifact@v1
         with:
           name: android_tests_results
