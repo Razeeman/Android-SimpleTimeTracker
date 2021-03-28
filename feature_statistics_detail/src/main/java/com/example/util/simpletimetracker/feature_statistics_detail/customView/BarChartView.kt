@@ -13,6 +13,8 @@ import android.view.MotionEvent
 import android.view.View
 import com.example.util.simpletimetracker.core.extension.dpToPx
 import com.example.util.simpletimetracker.core.utils.SingleTapDetector
+import com.example.util.simpletimetracker.core.utils.SwipeDetector
+import com.example.util.simpletimetracker.core.utils.isHorizontal
 import com.example.util.simpletimetracker.feature_statistics_detail.R
 import kotlin.math.abs
 import kotlin.math.ceil
@@ -74,9 +76,15 @@ class BarChartView @JvmOverloads constructor(
     private val selectedBarTextPaint: Paint = Paint()
     private val linePaint: Paint = Paint()
 
-    private val singleTapDetector = SingleTapDetector(context) { event ->
-        onClick(event.x, event.y)
-    }
+    private val singleTapDetector = SingleTapDetector(
+        context = context,
+        onSingleTap = ::onClick
+    )
+    private val swipeDetector = SwipeDetector(
+        context = context,
+        onSlide = ::onSwipe,
+        onSlideStop = ::onSwipeStop
+    )
 
     init {
         initArgs(context, attrs, defStyleAttr)
@@ -113,7 +121,7 @@ class BarChartView @JvmOverloads constructor(
             MotionEvent.ACTION_DOWN -> handled = true
         }
 
-        return handled or singleTapDetector.onTouchEvent(event)
+        return handled or singleTapDetector.onTouchEvent(event) or swipeDetector.onTouchEvent(event)
     }
 
     fun setBars(data: List<ViewData>) {
@@ -399,15 +407,13 @@ class BarChartView @JvmOverloads constructor(
         }
     }
 
-    private fun onClick(x: Float, y: Float) {
+    private fun onClick(event: MotionEvent) {
+        val x = event.x
+        val y = event.y
         val clickedAroundBar = floor(x / barWidth).toInt()
 
         bars.getOrNull(clickedAroundBar)?.let {
-            // Normalize bar values to max legend line value
-            val scaled = it.value / valueUpperBound
-            val barTop = pixelTopBound + chartHeight * (1f - scaled)
-
-            if (y > barTop && y < pixelBottomBound) {
+            if (y > pixelTopBound && y < pixelBottomBound) {
                 selectedBar = clickedAroundBar
                 invalidate()
                 return
@@ -416,6 +422,18 @@ class BarChartView @JvmOverloads constructor(
 
         selectedBar = -1
         invalidate()
+    }
+
+    @Suppress("UNUSED_PARAMETER")
+    private fun onSwipe(offset: Float, direction: SwipeDetector.Direction, event: MotionEvent) {
+        if (direction.isHorizontal()) {
+            parent.requestDisallowInterceptTouchEvent(true)
+            onClick(event)
+        }
+    }
+
+    private fun onSwipeStop() {
+        parent.requestDisallowInterceptTouchEvent(false)
     }
 
     private fun animateBars() {

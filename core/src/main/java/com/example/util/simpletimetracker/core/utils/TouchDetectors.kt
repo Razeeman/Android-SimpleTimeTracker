@@ -53,17 +53,17 @@ class SingleTapDetector(
 }
 
 /**
- * Recognizes up and down swipes and remembers initial swipe direction.
+ * Recognizes swipes and remembers initial swipe direction.
  */
 class SwipeDetector(
     context: Context,
     private val onSlideStart: () -> Unit = {},
-    onSlide: (offset: Float, initialDirection: Direction) -> Unit = { _, _ -> Unit },
+    onSlide: (offset: Float, initialDirection: Direction, event: MotionEvent) -> Unit = { _, _, _ -> Unit },
     private val onSlideStop: () -> Unit = {}
 ) {
 
     enum class Direction {
-        DOWN, UP
+        DOWN, UP, LEFT, RIGHT
     }
 
     private var isSliding = false
@@ -81,7 +81,17 @@ class SwipeDetector(
                         startSliding()
                         initialDirection = Direction.DOWN
                     }
-                    onSlide(e2.rawY - e1.rawY, initialDirection)
+                    onSlide(e2.rawY - e1.rawY, initialDirection, e2)
+                    return true
+                }
+
+                // Left
+                if (angle > 135 && angle <= 225) {
+                    if (!isSliding) {
+                        startSliding()
+                        initialDirection = Direction.LEFT
+                    }
+                    onSlide(e2.rawY - e1.rawY, initialDirection, e2)
                     return true
                 }
 
@@ -91,7 +101,17 @@ class SwipeDetector(
                         startSliding()
                         initialDirection = Direction.UP
                     }
-                    onSlide(e2.rawY - e1.rawY, initialDirection)
+                    onSlide(e2.rawY - e1.rawY, initialDirection, e2)
+                    return true
+                }
+
+                // Right
+                if (angle > -45 && angle <= 45) {
+                    if (!isSliding) {
+                        startSliding()
+                        initialDirection = Direction.RIGHT
+                    }
+                    onSlide(e2.rawY - e1.rawY, initialDirection, e2)
                     return true
                 }
 
@@ -117,3 +137,6 @@ class SwipeDetector(
         onSlideStop()
     }
 }
+
+fun SwipeDetector.Direction.isHorizontal(): Boolean =
+    this == SwipeDetector.Direction.LEFT || this == SwipeDetector.Direction.RIGHT
