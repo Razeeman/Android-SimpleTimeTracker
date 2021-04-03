@@ -13,13 +13,13 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
-import com.example.util.simpletimetracker.utils.RecyclerItemCount
 import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
 import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.nestedScrollTo
+import com.example.util.simpletimetracker.utils.recyclerItemCount
 import com.example.util.simpletimetracker.utils.withCardColor
 import com.example.util.simpletimetracker.utils.withPluralText
 import com.example.util.simpletimetracker.utils.withTag
@@ -474,7 +474,7 @@ class StatisticsDetailTest : BaseUiTest() {
 
     private fun checkAllRecords(count: Int) {
         onView(withId(R.id.cardStatisticsDetailRecords)).perform(nestedScrollTo(), click())
-        onView(withId(R.id.rvRecordsAllList)).check(RecyclerItemCount(count))
+        onView(withId(R.id.rvRecordsAllList)).check(recyclerItemCount(count))
         pressBack()
     }
 }
