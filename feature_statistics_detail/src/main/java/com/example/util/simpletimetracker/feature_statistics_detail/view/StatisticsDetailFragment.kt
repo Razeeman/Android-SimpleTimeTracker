@@ -129,6 +129,8 @@ class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragmen
         chartStatisticsDetail.visible = viewData.visible
         chartStatisticsDetail.setBars(viewData.data)
         chartStatisticsDetail.setLegendTextSuffix(viewData.legendSuffix)
+        chartStatisticsDetail.shouldAddLegendToSelectedBar(viewData.addLegendToSelectedBar)
+        chartStatisticsDetail.shouldDrawHorizontalLegends(viewData.shouldDrawHorizontalLegends)
     }
 
     private fun updateChartGroupingData(viewData: List<ViewHolderType>) {
@@ -150,6 +152,8 @@ class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragmen
         chartStatisticsDetailSplit.visible = viewData.visible
         chartStatisticsDetailSplit.setBars(viewData.data)
         chartStatisticsDetailSplit.setLegendTextSuffix(viewData.legendSuffix)
+        chartStatisticsDetailSplit.shouldAddLegendToSelectedBar(viewData.addLegendToSelectedBar)
+        chartStatisticsDetailSplit.shouldDrawHorizontalLegends(viewData.shouldDrawHorizontalLegends)
     }
 
     private fun updateRangeItems(viewData: RangesViewData) {

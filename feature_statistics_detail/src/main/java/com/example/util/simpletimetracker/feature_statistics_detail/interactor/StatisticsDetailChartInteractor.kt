@@ -96,7 +96,6 @@ class StatisticsDetailChartInteractor @Inject constructor(
     ): List<ChartBarDataRange> {
         return when (rangeLength) {
             RangeLength.DAY -> {
-                // TODO hourly
                 val startDate = timeMapper.getRangeStartAndEnd(
                     RangeLength.DAY, rangePosition
                 ).second - 1
@@ -181,11 +180,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
             }
             calendar.add(Calendar.DATE, -shift)
 
-            val legend = if (numberOfDays <= 10) {
-                timeMapper.formatShortDay(calendar.timeInMillis)
-            } else {
-                ""
-            }
+            val legend = timeMapper.formatShortDay(calendar.timeInMillis)
             val rangeStart = calendar.timeInMillis
             val rangeEnd = calendar.apply { add(Calendar.DATE, 1) }.timeInMillis
 
@@ -214,11 +209,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
             calendar.set(Calendar.DAY_OF_WEEK, calendar.firstDayOfWeek)
             calendar.add(Calendar.DATE, -shift * 7)
 
-            val legend = if (numberOfWeeks <= 10) {
-                timeMapper.formatShortMonth(calendar.timeInMillis)
-            } else {
-                ""
-            }
+            val legend = timeMapper.formatShortMonth(calendar.timeInMillis)
             val rangeStart = calendar.timeInMillis
             val rangeEnd = calendar.apply { add(Calendar.DATE, 7) }.timeInMillis
 
@@ -247,11 +238,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
             calendar.set(Calendar.DAY_OF_MONTH, 1)
             calendar.add(Calendar.MONTH, -shift)
 
-            val legend = if (numberOfMonths <= 12) {
-                timeMapper.formatShortMonth(calendar.timeInMillis)
-            } else {
-                ""
-            }
+            val legend = timeMapper.formatShortMonth(calendar.timeInMillis)
             val rangeStart = calendar.timeInMillis
             val rangeEnd = calendar.apply { add(Calendar.MONTH, 1) }.timeInMillis
 
@@ -279,11 +266,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
             calendar.set(Calendar.DAY_OF_YEAR, 1)
             calendar.add(Calendar.YEAR, -shift)
 
-            val legend = if (numberOfYears <= 10) {
-                timeMapper.formatShortYear(calendar.timeInMillis)
-            } else {
-                ""
-            }
+            val legend = timeMapper.formatShortYear(calendar.timeInMillis)
             val rangeStart = calendar.timeInMillis
             val rangeEnd = calendar.apply { add(Calendar.YEAR, 1) }.timeInMillis
 

@@ -56,6 +56,7 @@ class StatisticsAdapterDelegate(
     private fun normalizeLightness(@ColorInt color: Int): Int {
         return FloatArray(3).apply {
             Color.colorToHSV(color, this)
+            // change value
             if (this[2] > 0.5f) {
                 this[2] -= COLOR_NORMALIZATION
             } else {

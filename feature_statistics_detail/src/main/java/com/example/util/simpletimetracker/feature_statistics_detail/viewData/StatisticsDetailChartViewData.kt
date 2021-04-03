@@ -5,5 +5,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.customView.B
 data class StatisticsDetailChartViewData(
     val visible: Boolean,
     val data: List<BarChartView.ViewData>,
-    val legendSuffix: String
+    val legendSuffix: String,
+    val addLegendToSelectedBar: Boolean,
+    val shouldDrawHorizontalLegends: Boolean
 )

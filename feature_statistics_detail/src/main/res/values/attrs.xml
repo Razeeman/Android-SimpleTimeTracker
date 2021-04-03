@@ -12,6 +12,8 @@
         <attr name="legendLineColor" format="color" />
         <attr name="selectedBarBackgroundColor" format="color" />
         <attr name="selectedBarTextColor" format="color" />
+        <attr name="addLegendToSelectedBar" format="boolean" />
+        <attr name="shouldDrawHorizontalLegends" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="StatisticsDetailCardView">

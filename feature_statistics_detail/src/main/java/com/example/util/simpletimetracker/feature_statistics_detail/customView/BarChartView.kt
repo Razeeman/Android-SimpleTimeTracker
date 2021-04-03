@@ -11,6 +11,7 @@ import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import androidx.annotation.ColorInt
 import com.example.util.simpletimetracker.core.extension.dpToPx
 import com.example.util.simpletimetracker.core.utils.SingleTapDetector
 import com.example.util.simpletimetracker.core.utils.SwipeDetector
@@ -20,6 +21,7 @@ import kotlin.math.abs
 import kotlin.math.ceil
 import kotlin.math.floor
 import kotlin.math.max
+import kotlin.math.min
 
 class BarChartView @JvmOverloads constructor(
     context: Context,
@@ -41,6 +43,8 @@ class BarChartView @JvmOverloads constructor(
     private var legendLineColor: Int = 0
     private var selectedBarBackgroundColor: Int = 0
     private var selectedBarTextColor: Int = 0
+    private var addLegendToSelectedBar: Boolean = false
+    private var shouldDrawHorizontalLegends: Boolean = true
     // End of attrs
 
     private val bounds: RectF = RectF(0f, 0f, 0f, 0f)
@@ -62,15 +66,16 @@ class BarChartView @JvmOverloads constructor(
     private var longestTextWidth: Float = 0f
     private var legendLinesPixelStep: Float = 0f
     private var horizontalLegendsSkipCount: Int = 1
-    private var shouldDrawHorizontalLegends: Boolean = false
     private var selectedBar: Int = -1 // -1 nothing is selected
     private val selectedBarTextPadding: Int = 6.dpToPx()
     private val selectedBarBackgroundPadding: Int = 4.dpToPx()
     private val selectedBarBackgroundRadius: Float = 4.dpToPx().toFloat()
+    private val selectedBarArrowWidth: Float = 4.dpToPx().toFloat()
     private var barAnimationScale: Float = 1f
     private val barAnimationDuration: Long = 300L // ms
 
     private val barPaint: Paint = Paint()
+    private val selectedBarPaint: Paint = Paint()
     private val selectedBarBackgroundPaint: Paint = Paint()
     private val textPaint: Paint = Paint()
     private val selectedBarTextPaint: Paint = Paint()
@@ -78,7 +83,7 @@ class BarChartView @JvmOverloads constructor(
 
     private val singleTapDetector = SingleTapDetector(
         context = context,
-        onSingleTap = ::onClick
+        onSingleTap = { onTouch(it, isClick = true) }
     )
     private val swipeDetector = SwipeDetector(
         context = context,
@@ -143,6 +148,16 @@ class BarChartView @JvmOverloads constructor(
         invalidate()
     }
 
+    fun shouldAddLegendToSelectedBar(shouldAdd: Boolean) {
+        addLegendToSelectedBar = shouldAdd
+        invalidate()
+    }
+
+    fun shouldDrawHorizontalLegends(shouldDraw: Boolean) {
+        shouldDrawHorizontalLegends = shouldDraw
+        invalidate()
+    }
+
     private fun initArgs(
         context: Context,
         attrs: AttributeSet? = null,
@@ -176,6 +191,10 @@ class BarChartView @JvmOverloads constructor(
                     getColor(R.styleable.BarChartView_selectedBarBackgroundColor, Color.WHITE)
                 selectedBarTextColor =
                     getColor(R.styleable.BarChartView_selectedBarTextColor, Color.BLACK)
+                addLegendToSelectedBar =
+                    getBoolean(R.styleable.BarChartView_addLegendToSelectedBar, false)
+                shouldDrawHorizontalLegends =
+                    getBoolean(R.styleable.BarChartView_shouldDrawHorizontalLegends, true)
                 recycle()
             }
     }
@@ -184,6 +203,11 @@ class BarChartView @JvmOverloads constructor(
         barPaint.apply {
             isAntiAlias = true
             color = barColor
+            style = Paint.Style.FILL
+        }
+        selectedBarPaint.apply {
+            isAntiAlias = true
+            color = darkenColor(barColor)
             style = Paint.Style.FILL
         }
         selectedBarBackgroundPaint.apply {
@@ -230,7 +254,6 @@ class BarChartView @JvmOverloads constructor(
 
         // Horizontal legends
         val legends = bars.map(ViewData::legend).filter { it.isNotEmpty() }
-        shouldDrawHorizontalLegends = legends.isNotEmpty()
 
         // Bar chart bounds
         val textHeight = textPaint.fontMetrics.let { it.descent - it.ascent }
@@ -310,9 +333,9 @@ class BarChartView @JvmOverloads constructor(
 
         canvas.save()
 
-        bars.forEach {
+        bars.forEachIndexed { index, bar ->
             // Normalize bar values to max legend line value
-            val scaled = it.value * barAnimationScale / valueUpperBound
+            val scaled = bar.value * barAnimationScale / valueUpperBound
             bounds.set(
                 0f + barDividerWidth / 2,
                 pixelTopBound + chartHeight * (1f - scaled),
@@ -322,7 +345,7 @@ class BarChartView @JvmOverloads constructor(
             barPath = Path().apply {
                 addRoundRect(bounds, radiusArr, Path.Direction.CW)
             }
-            canvas.drawPath(barPath, barPaint)
+            canvas.drawPath(barPath, if (index == selectedBar) selectedBarPaint else barPaint)
             canvas.translate(barWidth, 0f)
         }
 
@@ -343,18 +366,20 @@ class BarChartView @JvmOverloads constructor(
     }
 
     private fun drawSelectedBarIcon(canvas: Canvas) {
-        val barValue = bars.getOrNull(selectedBar)?.value ?: return
+        val bar = bars.getOrNull(selectedBar) ?: return
+        val barValue = bar.value
 
         val scaled = barValue / valueUpperBound
         val barTop = pixelTopBound + chartHeight * (1f - scaled)
-        val pointText = "%.1f".format(barValue)
+        val barCenterX = barWidth * selectedBar + barWidth / 2
+        val pointText = getSelectedBarText(bar)
         val textWidth = selectedBarTextPaint.measureText(pointText)
         val textHeight = selectedBarTextPaint.fontMetrics.let { it.descent - it.ascent }
 
         val backgroundWidth = textWidth + 2 * selectedBarTextPadding
         val backgroundHeight = textHeight + 2 * selectedBarTextPadding
         val backgroundCenterX = max(
-            barWidth * selectedBar + barWidth / 2,
+            min(barCenterX, pixelRightBound - backgroundWidth / 2),
             backgroundWidth / 2
         )
         val backgroundCenterY = max(
@@ -366,6 +391,7 @@ class BarChartView @JvmOverloads constructor(
 
         canvas.translate(backgroundCenterX, backgroundCenterY)
 
+        // Draw background
         bounds.set(
             -backgroundWidth / 2,
             -backgroundHeight / 2,
@@ -378,12 +404,34 @@ class BarChartView @JvmOverloads constructor(
             selectedBarBackgroundRadius,
             selectedBarBackgroundPaint
         )
+
+        // Draw text
         canvas.drawText(
             pointText,
             bounds.left + selectedBarTextPadding,
             bounds.bottom - selectedBarTextPadding,
             selectedBarTextPaint
         )
+
+        canvas.restore()
+
+        canvas.translate(0f, backgroundCenterY)
+
+        // Draw arrow shape
+        //      ----
+        // _____|  |_____
+        //       \/
+        val path = Path()
+        val arrowLeft = barCenterX - selectedBarArrowWidth / 2
+        val arrowRight = barCenterX + selectedBarArrowWidth / 2
+        path.fillType = Path.FillType.EVEN_ODD
+        path.moveTo(arrowLeft, bounds.bottom - selectedBarBackgroundRadius)
+        path.lineTo(min(arrowRight, pixelRightBound), bounds.bottom - selectedBarBackgroundRadius)
+        path.lineTo(min(arrowRight, pixelRightBound), bounds.bottom)
+        path.lineTo(barCenterX, bounds.bottom + selectedBarBackgroundPadding)
+        path.lineTo(arrowLeft, bounds.bottom)
+        path.close()
+        canvas.drawPath(path, selectedBarBackgroundPaint)
 
         canvas.restore()
     }
@@ -407,14 +455,19 @@ class BarChartView @JvmOverloads constructor(
         }
     }
 
-    private fun onClick(event: MotionEvent) {
+    private fun onTouch(event: MotionEvent, isClick: Boolean) {
         val x = event.x
         val y = event.y
         val clickedAroundBar = floor(x / barWidth).toInt()
 
         bars.getOrNull(clickedAroundBar)?.let {
             if (y > pixelTopBound && y < pixelBottomBound) {
-                selectedBar = clickedAroundBar
+                // If clicked on the same bar - clear selection
+                selectedBar = if (isClick && selectedBar == clickedAroundBar) {
+                    -1
+                } else {
+                    clickedAroundBar
+                }
                 invalidate()
                 return
             }
@@ -428,7 +481,7 @@ class BarChartView @JvmOverloads constructor(
     private fun onSwipe(offset: Float, direction: SwipeDetector.Direction, event: MotionEvent) {
         if (direction.isHorizontal()) {
             parent.requestDisallowInterceptTouchEvent(true)
-            onClick(event)
+            onTouch(event, isClick = false)
         }
     }
 
@@ -444,6 +497,31 @@ class BarChartView @JvmOverloads constructor(
             invalidate()
         }
         animator.start()
+    }
+
+    private fun getSelectedBarText(bar: ViewData): String {
+        val barValue = bar.value
+        val barLegend = bar.legend
+
+        return "%.1f".format(barValue).let {
+            if (addLegendToSelectedBar && barLegend.isNotEmpty()) {
+                "$barLegend - $it"
+            } else {
+                it
+            }
+        }
+    }
+
+    /**
+     * Darkens color.
+     */
+    @ColorInt
+    private fun darkenColor(@ColorInt color: Int): Int {
+        return FloatArray(3).apply {
+            Color.colorToHSV(color, this)
+            // change value
+            this[2] -= 0.1f
+        }.let(Color::HSVToColor)
     }
 
     data class ViewData(

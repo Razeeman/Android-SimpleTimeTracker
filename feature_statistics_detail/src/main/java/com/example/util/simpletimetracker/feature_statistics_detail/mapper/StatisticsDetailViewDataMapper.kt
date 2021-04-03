@@ -143,7 +143,15 @@ class StatisticsDetailViewDataMapper @Inject constructor(
                     legend = it.legend
                 )
             },
-            legendSuffix = legendSuffix
+            legendSuffix = legendSuffix,
+            addLegendToSelectedBar = true,
+            shouldDrawHorizontalLegends = when (rangeLength) {
+                RangeLength.DAY -> false
+                RangeLength.WEEK -> true
+                RangeLength.MONTH -> false
+                RangeLength.YEAR -> data.size <= 12
+                RangeLength.ALL -> data.size <= 10
+            }
         )
     }
 
@@ -171,7 +179,9 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         return StatisticsDetailChartViewData(
             visible = true,
             data = viewData,
-            legendSuffix = SPLIT_CHART_LEGEND
+            legendSuffix = SPLIT_CHART_LEGEND,
+            addLegendToSelectedBar = false,
+            shouldDrawHorizontalLegends = true
         )
     }
 
@@ -193,7 +203,9 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         return StatisticsDetailChartViewData(
             visible = true,
             data = viewData,
-            legendSuffix = SPLIT_CHART_LEGEND
+            legendSuffix = SPLIT_CHART_LEGEND,
+            addLegendToSelectedBar = false,
+            shouldDrawHorizontalLegends = true
         )
     }
 
