@@ -14,7 +14,9 @@ import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
 import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
+import com.example.util.simpletimetracker.utils.longClickOnView
 import com.example.util.simpletimetracker.utils.tryAction
+import com.example.util.simpletimetracker.utils.typeTextIntoView
 import com.example.util.simpletimetracker.utils.withCardColor
 import com.example.util.simpletimetracker.utils.withTag
 import org.hamcrest.CoreMatchers.allOf
@@ -77,20 +79,14 @@ class StartRecordTest : BaseUiTest() {
         )
 
         // Click on already running
-        clickOnView(
-            allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name))
-        )
+        clickOnView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name)))
         NavUtils.openRecordsScreen()
         checkViewDoesNotExist(allOf(withText(name), isCompletelyDisplayed()))
 
         // Stop timer
         NavUtils.openRunningRecordsScreen()
-        clickOnView(
-            allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name))
-        )
-        checkViewDoesNotExist(
-            allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name))
-        )
+        clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name)))
+        checkViewDoesNotExist(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name)))
 
         // Record is added
         NavUtils.openRecordsScreen()
@@ -98,15 +94,44 @@ class StartRecordTest : BaseUiTest() {
 
         // Stop timer
         NavUtils.openRunningRecordsScreen()
-        clickOnView(
-            allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(newName))
-        )
-        checkViewDoesNotExist(
-            allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(newName))
-        )
+        clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(newName)))
+        checkViewDoesNotExist(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(newName)))
 
         // Record is added
         NavUtils.openRecordsScreen()
         checkViewIsDisplayed(allOf(withText(newName), isCompletelyDisplayed()))
+    }
+
+    @Test
+    fun commentTransferFromTimerToRecord() {
+        val name = "Test"
+        val comment = "comment"
+
+        // Add activities
+        NavUtils.addActivity(name)
+
+        // Start timer
+        clickOnViewWithText(name)
+
+        // Add comment
+        longClickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name)))
+        typeTextIntoView(R.id.etChangeRunningRecordComment, comment)
+        clickOnViewWithText(R.string.change_running_record_save)
+
+        // Stop timer
+        clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name)))
+
+        // Check record
+        NavUtils.openRecordsScreen()
+        checkViewIsDisplayed(
+            allOf(
+                withId(R.id.viewRecordItem),
+                hasDescendant(withText(name)),
+                hasDescendant(withText(comment)),
+                isCompletelyDisplayed()
+            )
+        )
+        clickOnView(allOf(withText(name), isCompletelyDisplayed()))
+        checkViewIsDisplayed(allOf(withId(R.id.etChangeRecordComment), withText(comment)))
     }
 }

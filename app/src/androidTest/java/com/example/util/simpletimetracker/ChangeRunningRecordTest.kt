@@ -14,7 +14,6 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.utils.BaseUiTest
-import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
 import com.example.util.simpletimetracker.utils.checkViewIsNotDisplayed
@@ -22,6 +21,8 @@ import com.example.util.simpletimetracker.utils.clickOnRecyclerItem
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.longClickOnView
+import com.example.util.simpletimetracker.utils.tryAction
+import com.example.util.simpletimetracker.utils.typeTextIntoView
 import com.example.util.simpletimetracker.utils.withCardColor
 import com.example.util.simpletimetracker.utils.withTag
 import org.hamcrest.CoreMatchers.allOf
@@ -30,6 +31,7 @@ import org.hamcrest.Matcher
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.util.Calendar
+import java.util.concurrent.TimeUnit
 
 @RunWith(AndroidJUnit4::class)
 class ChangeRunningRecordTest : BaseUiTest() {
@@ -42,21 +44,22 @@ class ChangeRunningRecordTest : BaseUiTest() {
         val lastColor = ColorMapper.getAvailableColors().last()
         val firstIcon = iconMapper.availableIconsNames.values.first()
         val lastIcon = iconMapper.availableIconsNames.values.last()
-        val firstGoalTime = "1000"
+        val firstGoalTime = TimeUnit.MINUTES.toSeconds(10)
+        val comment = "comment"
 
         // Add activities
-        NavUtils.addActivity(name, firstColor, firstIcon, goalTime = firstGoalTime)
-        NavUtils.addActivity(newName, lastColor, lastIcon)
+        testUtils.addActivity(name, firstColor, firstIcon, goalTime = firstGoalTime)
+        testUtils.addActivity(newName, lastColor, lastIcon)
 
+        // Start timer
+        tryAction { clickOnViewWithText(name) }
         val currentTime = System.currentTimeMillis()
         var timeStartedTimestamp = currentTime
         var timeStarted = timeMapper.formatDateTime(timeStartedTimestamp, true)
         var timeStartedPreview = timeStartedTimestamp
             .let { timeMapper.formatTime(it, true) }
 
-        // Start timer
-        clickOnViewWithText(name)
-        checkRunningRecordDisplayed(name, firstColor, firstIcon, timeStartedPreview, "10m")
+        checkRunningRecordDisplayed(name, firstColor, firstIcon, timeStartedPreview, "10m", "")
 
         // Open edit view
         longClickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name)))
@@ -64,9 +67,8 @@ class ChangeRunningRecordTest : BaseUiTest() {
         // View is set up
         checkViewIsDisplayed(withId(R.id.btnChangeRunningRecordDelete))
         checkViewIsNotDisplayed(withId(R.id.rvChangeRunningRecordType))
-        checkViewIsDisplayed(
-            allOf(withId(R.id.tvChangeRunningRecordTimeStarted), withText(timeStarted))
-        )
+        checkViewIsDisplayed(allOf(withId(R.id.tvChangeRunningRecordTimeStarted), withText(timeStarted)))
+        checkViewIsDisplayed(allOf(withId(R.id.etChangeRunningRecordComment), withText("")))
 
         // Preview is updated
         checkPreviewUpdated(hasDescendant(withText(name)))
@@ -78,6 +80,7 @@ class ChangeRunningRecordTest : BaseUiTest() {
         // Change item
         clickOnViewWithText(R.string.change_running_record_type_field)
         clickOnRecyclerItem(R.id.rvChangeRunningRecordType, withText(newName))
+        clickOnViewWithText(R.string.change_running_record_type_field)
 
         val calendar = Calendar.getInstance().apply {
             add(Calendar.DATE, -1)
@@ -109,15 +112,15 @@ class ChangeRunningRecordTest : BaseUiTest() {
         timeStartedPreview = timeStartedTimestamp
             .let { timeMapper.formatTime(it, true) }
 
-        checkViewIsDisplayed(
-            allOf(withId(R.id.tvChangeRunningRecordTimeStarted), withText(timeStarted))
-        )
+        checkViewIsDisplayed(allOf(withId(R.id.tvChangeRunningRecordTimeStarted), withText(timeStarted)))
+        typeTextIntoView(R.id.etChangeRunningRecordComment, comment)
 
         // Preview is updated
         checkPreviewUpdated(hasDescendant(withText(newName)))
         checkPreviewUpdated(withCardColor(lastColor))
         checkPreviewUpdated(hasDescendant(withTag(lastIcon)))
         checkPreviewUpdated(hasDescendant(withText(timeStartedPreview)))
+        checkPreviewUpdated(hasDescendant(withText(comment)))
         checkViewDoesNotExist(
             allOf(withId(R.id.previewChangeRunningRecord), hasDescendant(withSubstring("goal")))
         )
@@ -129,7 +132,7 @@ class ChangeRunningRecordTest : BaseUiTest() {
         checkViewDoesNotExist(
             allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name))
         )
-        checkRunningRecordDisplayed(newName, lastColor, lastIcon, timeStartedPreview, "")
+        checkRunningRecordDisplayed(newName, lastColor, lastIcon, timeStartedPreview, "", comment)
     }
 
     private fun checkPreviewUpdated(matcher: Matcher<View>) =
@@ -140,20 +143,13 @@ class ChangeRunningRecordTest : BaseUiTest() {
         color: Int,
         icon: Int,
         timeStarted: String,
-        goalTime: String
+        goalTime: String,
+        comment: String
     ) {
-        checkViewIsDisplayed(
-            allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name))
-        )
-        checkViewIsDisplayed(
-            allOf(withId(R.id.viewRunningRecordItem), withCardColor(color))
-        )
-        checkViewIsDisplayed(
-            allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withTag(icon))
-        )
-        checkViewIsDisplayed(
-            allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(timeStarted))
-        )
+        checkViewIsDisplayed(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name)))
+        checkViewIsDisplayed(allOf(withId(R.id.viewRunningRecordItem), withCardColor(color)))
+        checkViewIsDisplayed(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withTag(icon)))
+        checkViewIsDisplayed(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(timeStarted)))
         if (goalTime.isNotEmpty()) {
             checkViewIsDisplayed(
                 allOf(
@@ -166,6 +162,14 @@ class ChangeRunningRecordTest : BaseUiTest() {
                 allOf(
                     isDescendantOfA(withId(R.id.viewRunningRecordItem)),
                     withSubstring("goal")
+                )
+            )
+        }
+        if (comment.isNotEmpty()) {
+            checkViewIsDisplayed(
+                allOf(
+                    isDescendantOfA(withId(R.id.viewRunningRecordItem)),
+                    withText(comment)
                 )
             )
         }

@@ -78,9 +78,22 @@ class StatisticsRangesTest : BaseUiTest() {
         clickOnViewWithId(R.id.btnStatisticsContainerNext)
         checkViewIsDisplayed(allOf(withText(R.string.statistics_empty), isCompletelyDisplayed()))
 
-        // Switch to overall range
+        // Switch to year range
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         checkViewIsDisplayed(withText(R.string.title_select_month))
+        clickOnViewWithText(R.string.title_this_year)
+        checkViewIsDisplayed(allOf(withText(name), isCompletelyDisplayed()))
+        clickOnViewWithId(R.id.btnStatisticsContainerPrevious)
+        clickOnViewWithId(R.id.btnStatisticsContainerPrevious)
+        longClickOnViewWithId(R.id.btnStatisticsContainerToday)
+        clickOnViewWithId(R.id.btnStatisticsContainerNext)
+        checkViewIsDisplayed(allOf(withText(R.string.statistics_empty), isCompletelyDisplayed()))
+        clickOnViewWithId(R.id.btnStatisticsContainerNext)
+        checkViewIsDisplayed(allOf(withText(R.string.statistics_empty), isCompletelyDisplayed()))
+
+        // Switch to overall range
+        clickOnViewWithId(R.id.btnStatisticsContainerToday)
+        checkViewIsDisplayed(withText(R.string.title_select_year))
         clickOnViewWithText(R.string.title_overall)
         Thread.sleep(1000)
         checkViewIsDisplayed(allOf(withText(name), isCompletelyDisplayed()))
@@ -92,6 +105,7 @@ class StatisticsRangesTest : BaseUiTest() {
         checkViewDoesNotExist(withText(R.string.title_select_day))
         checkViewDoesNotExist(withText(R.string.title_select_week))
         checkViewDoesNotExist(withText(R.string.title_select_month))
+        checkViewDoesNotExist(withText(R.string.title_select_year))
         clickOnViewWithText(R.string.title_today)
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         checkViewIsDisplayed(withText(R.string.title_select_day))
@@ -555,6 +569,122 @@ class StatisticsRangesTest : BaseUiTest() {
         )
     }
 
+    @Test
+    fun selectNearDateForYears() {
+        NavUtils.openStatisticsScreen()
+
+        val calendarPrev = Calendar.getInstance().apply {
+            add(Calendar.YEAR, -1)
+        }
+        val titlePrev = yearTitleFormat.format(calendarPrev.timeInMillis)
+        val calendarNext = Calendar.getInstance().apply {
+            add(Calendar.YEAR, 1)
+        }
+        val titleNext = yearTitleFormat.format(calendarNext.timeInMillis)
+
+        // Check prev months
+        clickOnViewWithId(R.id.btnStatisticsContainerToday)
+        clickOnViewWithText(R.string.title_this_year)
+        clickOnViewWithId(R.id.btnStatisticsContainerToday)
+        clickOnViewWithText(R.string.title_select_year)
+        onView(withClassName(equalTo(DatePicker::class.java.name)))
+            .perform(
+                PickerActions.setDate(
+                    calendarPrev.get(Calendar.YEAR),
+                    calendarPrev.get(Calendar.MONTH) + 1,
+                    calendarPrev.get(Calendar.DAY_OF_MONTH)
+                )
+            )
+        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+
+        checkViewIsDisplayed(
+            allOf(
+                withText(titlePrev),
+                isCompletelyDisplayed()
+            )
+        )
+
+        // Check next month
+        clickOnViewWithId(R.id.btnStatisticsContainerToday)
+        clickOnViewWithText(R.string.title_select_year)
+        onView(withClassName(equalTo(DatePicker::class.java.name)))
+            .perform(
+                PickerActions.setDate(
+                    calendarNext.get(Calendar.YEAR),
+                    calendarNext.get(Calendar.MONTH) + 1,
+                    calendarNext.get(Calendar.DAY_OF_MONTH)
+                )
+            )
+        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+
+        checkViewIsDisplayed(
+            allOf(
+                withText(titleNext),
+                isCompletelyDisplayed()
+            )
+        )
+    }
+
+    @Test
+    fun selectFarDateForYears() {
+        NavUtils.openStatisticsScreen()
+
+        val calendarPrev = Calendar.getInstance().apply {
+            set(Calendar.YEAR, 1950)
+            set(Calendar.MONTH, 0)
+            set(Calendar.DAY_OF_MONTH, 1)
+        }
+        val titlePrev = yearTitleFormat.format(calendarPrev.timeInMillis)
+        val calendarNext = Calendar.getInstance().apply {
+            set(Calendar.YEAR, 2050)
+            set(Calendar.MONTH, 0)
+            set(Calendar.DAY_OF_MONTH, 1)
+        }
+        val titleNext = yearTitleFormat.format(calendarNext.timeInMillis)
+
+        // Check prev date
+        clickOnViewWithId(R.id.btnStatisticsContainerToday)
+        clickOnViewWithText(R.string.title_this_year)
+        clickOnViewWithId(R.id.btnStatisticsContainerToday)
+        clickOnViewWithText(R.string.title_select_year)
+        onView(withClassName(equalTo(DatePicker::class.java.name)))
+            .perform(
+                PickerActions.setDate(
+                    calendarPrev.get(Calendar.YEAR),
+                    calendarPrev.get(Calendar.MONTH) + 1,
+                    calendarPrev.get(Calendar.DAY_OF_MONTH)
+                )
+            )
+        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+
+        checkViewIsDisplayed(
+            allOf(
+                withText(titlePrev),
+                isCompletelyDisplayed()
+            )
+        )
+
+        // Check next date
+        clickOnViewWithId(R.id.btnStatisticsContainerToday)
+        clickOnViewWithText(R.string.title_select_year)
+        onView(withClassName(equalTo(DatePicker::class.java.name)))
+            .perform(
+                PickerActions.setDate(
+                    calendarNext.get(Calendar.YEAR),
+                    calendarNext.get(Calendar.MONTH) + 1,
+                    calendarNext.get(Calendar.DAY_OF_MONTH)
+                )
+            )
+        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+
+        checkViewIsDisplayed(
+            allOf(
+                withText(titleNext),
+                isCompletelyDisplayed()
+            )
+        )
+    }
+
     private fun toWeekDateTitle(timestamp: Long): String {
         val calendar = Calendar.getInstance()
 
@@ -576,5 +706,6 @@ class StatisticsRangesTest : BaseUiTest() {
         private val dayTitleFormat = SimpleDateFormat("E, MMM d", Locale.US)
         private val weekTitleFormat = SimpleDateFormat("MMM d", Locale.US)
         private val monthTitleFormat = SimpleDateFormat("MMMM", Locale.US)
+        private val yearTitleFormat = SimpleDateFormat("yyyy", Locale.getDefault())
     }
 }

@@ -315,6 +315,9 @@ class SettingsTest : BaseUiTest() {
         // Change settings
         NavUtils.openSettingsScreen()
         onView(withId(R.id.spinnerSettingsRecordTypeSort)).perform(nestedScrollTo())
+        // Double click to avoid failure on low api small screens
+        clickOnViewWithId(R.id.spinnerSettingsRecordTypeSort)
+        pressBack()
         clickOnViewWithId(R.id.spinnerSettingsRecordTypeSort)
         clickOnViewWithText(R.string.settings_sort_by_color)
         checkViewIsDisplayed(
@@ -340,6 +343,9 @@ class SettingsTest : BaseUiTest() {
         // Change settings
         NavUtils.openSettingsScreen()
         onView(withId(R.id.spinnerSettingsRecordTypeSort)).perform(nestedScrollTo())
+        // Double click to avoid failure on low api small screens
+        clickOnViewWithId(R.id.spinnerSettingsRecordTypeSort)
+        pressBack()
         clickOnViewWithId(R.id.spinnerSettingsRecordTypeSort)
         clickOnViewWithText(R.string.settings_sort_manually)
         Thread.sleep(1000)
@@ -527,6 +533,25 @@ class SettingsTest : BaseUiTest() {
                 withText(R.string.settings_inactivity_reminder_disabled)
             )
         )
+    }
+
+    @Test
+    fun militaryTime() {
+        // Check settings
+        NavUtils.openSettingsScreen()
+        onView(withId(R.id.tvSettingsUseMilitaryTimeHint)).perform(nestedScrollTo())
+        onView(withId(R.id.checkboxSettingsUseMilitaryTime)).check(matches(isChecked()))
+        checkViewIsDisplayed(allOf(withId(R.id.tvSettingsUseMilitaryTimeHint), withText("13:00")))
+
+        // Change settings
+        clickOnViewWithId(R.id.checkboxSettingsUseMilitaryTime)
+        onView(withId(R.id.checkboxSettingsUseMilitaryTime)).check(matches(isNotChecked()))
+        checkViewIsDisplayed(allOf(withId(R.id.tvSettingsUseMilitaryTimeHint), withText("1:00 PM")))
+
+        // Change settings
+        clickOnViewWithId(R.id.checkboxSettingsUseMilitaryTime)
+        onView(withId(R.id.checkboxSettingsUseMilitaryTime)).check(matches(isChecked()))
+        checkViewIsDisplayed(allOf(withId(R.id.tvSettingsUseMilitaryTimeHint), withText("13:00")))
     }
 
     private fun clearDuration() {

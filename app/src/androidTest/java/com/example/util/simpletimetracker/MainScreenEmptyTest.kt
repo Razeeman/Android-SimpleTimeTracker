@@ -43,6 +43,7 @@ class MainScreenEmptyTest : BaseUiTest() {
                 isCompletelyDisplayed()
             )
         )
+        checkViewIsDisplayed(allOf(withText(R.string.records_hint), isCompletelyDisplayed()))
         clickOnViewWithId(R.id.btnRecordsContainerPrevious)
         checkViewIsDisplayed(
             allOf(
@@ -52,50 +53,31 @@ class MainScreenEmptyTest : BaseUiTest() {
                 isCompletelyDisplayed()
             )
         )
+        checkViewIsDisplayed(allOf(withText(R.string.records_hint), isCompletelyDisplayed()))
         clickOnViewWithId(R.id.btnRecordsContainerNext)
         clickOnViewWithId(R.id.btnRecordsContainerNext)
         checkViewIsDisplayed(allOf(withText(R.string.records_empty), isCompletelyDisplayed()))
+        checkViewDoesNotExist(allOf(withText(R.string.records_hint), isCompletelyDisplayed()))
+        checkViewDoesNotExist(allOf(withText(R.string.untracked_time_name), isCompletelyDisplayed()))
 
         // Empty statistics
         NavUtils.openStatisticsScreen()
-        checkViewIsDisplayed(
-            allOf(
-                withId(R.id.layoutStatisticsItem),
-                hasDescendant(withText(R.string.untracked_time_name)),
-                hasDescendant(withSubstring("100%")),
-                isCompletelyDisplayed()
-            )
-        )
-        clickOnViewWithId(R.id.btnStatisticsContainerNext)
-        checkViewIsDisplayed(allOf(withText(R.string.statistics_empty), isCompletelyDisplayed()))
+        checkRanges()
 
         // Week range
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         clickOnViewWithText(R.string.title_this_week)
-        checkViewIsDisplayed(
-            allOf(
-                withId(R.id.layoutStatisticsItem),
-                hasDescendant(withText(R.string.untracked_time_name)),
-                hasDescendant(withSubstring("100%")),
-                isCompletelyDisplayed()
-            )
-        )
-        clickOnViewWithId(R.id.btnStatisticsContainerNext)
-        checkViewIsDisplayed(allOf(withText(R.string.statistics_empty), isCompletelyDisplayed()))
+        checkRanges()
 
         // Month range
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         clickOnViewWithText(R.string.title_this_month)
-        checkViewIsDisplayed(
-            allOf(
-                withId(R.id.layoutStatisticsItem),
-                hasDescendant(withText(R.string.untracked_time_name)),
-                hasDescendant(withSubstring("100%")),
-                isCompletelyDisplayed()
-            )
-        )
-        clickOnViewWithId(R.id.btnStatisticsContainerNext)
-        checkViewIsDisplayed(allOf(withText(R.string.statistics_empty), isCompletelyDisplayed()))
+        checkRanges()
+
+        // Year range
+        clickOnViewWithId(R.id.btnStatisticsContainerToday)
+        clickOnViewWithText(R.string.title_this_year)
+        checkRanges()
 
         // Overall range
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
@@ -106,16 +88,7 @@ class MainScreenEmptyTest : BaseUiTest() {
         // Back to day range
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         clickOnViewWithText(R.string.title_today)
-        checkViewIsDisplayed(
-            allOf(
-                withId(R.id.layoutStatisticsItem),
-                hasDescendant(withText(R.string.untracked_time_name)),
-                hasDescendant(withSubstring("100%")),
-                isCompletelyDisplayed()
-            )
-        )
-        clickOnViewWithId(R.id.btnStatisticsContainerNext)
-        checkViewIsDisplayed(allOf(withText(R.string.statistics_empty), isCompletelyDisplayed()))
+        checkRanges()
 
         // Empty category statistics
         clickOnViewWithIdOnPager(R.id.btnStatisticsEmptyFilter)
@@ -125,17 +98,22 @@ class MainScreenEmptyTest : BaseUiTest() {
         // Day range
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         clickOnViewWithText(R.string.title_today)
-        checkRanges()
+        checkCategoryRanges()
 
         // Week range
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         clickOnViewWithText(R.string.title_this_week)
-        checkRanges()
+        checkCategoryRanges()
 
         // Month range
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         clickOnViewWithText(R.string.title_this_month)
-        checkRanges()
+        checkCategoryRanges()
+
+        // Year range
+        clickOnViewWithId(R.id.btnStatisticsContainerToday)
+        clickOnViewWithText(R.string.title_this_year)
+        checkCategoryRanges()
 
         // Overall range
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
@@ -146,7 +124,7 @@ class MainScreenEmptyTest : BaseUiTest() {
         // Back to day range
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         clickOnViewWithText(R.string.title_today)
-        checkRanges()
+        checkCategoryRanges()
 
         // Add activity
         NavUtils.openRunningRecordsScreen()
@@ -164,6 +142,19 @@ class MainScreenEmptyTest : BaseUiTest() {
     }
 
     private fun checkRanges() {
+        checkViewIsDisplayed(
+            allOf(
+                withId(R.id.layoutStatisticsItem),
+                hasDescendant(withText(R.string.untracked_time_name)),
+                hasDescendant(withSubstring("100%")),
+                isCompletelyDisplayed()
+            )
+        )
+        clickOnViewWithId(R.id.btnStatisticsContainerNext)
+        checkViewIsDisplayed(allOf(withText(R.string.statistics_empty), isCompletelyDisplayed()))
+    }
+
+    private fun checkCategoryRanges() {
         longClickOnViewWithId(R.id.btnStatisticsContainerToday)
         clickOnViewWithId(R.id.btnStatisticsContainerPrevious)
         checkViewIsDisplayed(allOf(withText(R.string.statistics_empty), isCompletelyDisplayed()))

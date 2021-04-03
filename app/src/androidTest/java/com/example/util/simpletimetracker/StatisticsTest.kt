@@ -13,6 +13,7 @@ import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
 import com.example.util.simpletimetracker.utils.clickOnView
+import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithIdOnPager
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.withCardColor
@@ -45,124 +46,25 @@ class StatisticsTest : BaseUiTest() {
         NavUtils.openStatisticsScreen()
 
         // Check day range
-        checkViewIsDisplayed(
-            allOf(
-                withId(R.id.layoutStatisticsItem),
-                hasDescendant(withText(R.string.untracked_time_name)),
-                hasDescendant(withSubstring("%")),
-                isCompletelyDisplayed()
-            )
-        )
-        checkViewIsDisplayed(
-            allOf(
-                withId(R.id.layoutStatisticsItem),
-                withCardColor(firstColor),
-                hasDescendant(withTag(firstIcon)),
-                hasDescendant(withText(name)),
-                hasDescendant(withText("1h 0m")),
-                hasDescendant(withSubstring("%")),
-                isCompletelyDisplayed()
-            )
-        )
-        checkViewIsDisplayed(
-            allOf(
-                withId(R.id.layoutStatisticsItem),
-                withCardColor(lastColor),
-                hasDescendant(withTag(lastIcon)),
-                hasDescendant(withText(newName)),
-                hasDescendant(withText("1h 0m")),
-                hasDescendant(withSubstring("%")),
-                isCompletelyDisplayed())
-        )
-        checkViewIsDisplayed(
-            allOf(
-                withId(R.id.tvStatisticsInfoText),
-                withText("2h 0m")
-            )
-        )
+        checkRecordsRange(firstColor, lastColor, firstIcon, lastIcon, name, newName)
 
         // Switch to week range
         clickOnView(allOf(withText(R.string.title_today), isCompletelyDisplayed()))
         clickOnViewWithText(R.string.title_this_week)
-
-        checkViewIsDisplayed(
-            allOf(
-                withId(R.id.layoutStatisticsItem),
-                hasDescendant(withText(R.string.untracked_time_name)),
-                hasDescendant(withSubstring("%")),
-                isCompletelyDisplayed()
-            )
-        )
-        checkViewIsDisplayed(
-            allOf(
-                withId(R.id.layoutStatisticsItem),
-                withCardColor(firstColor),
-                hasDescendant(withTag(firstIcon)),
-                hasDescendant(withText(name)),
-                hasDescendant(withText("1h 0m")),
-                hasDescendant(withSubstring("%")),
-                isCompletelyDisplayed()
-            )
-        )
-        checkViewIsDisplayed(
-            allOf(
-                withId(R.id.layoutStatisticsItem),
-                withCardColor(lastColor),
-                hasDescendant(withTag(lastIcon)),
-                hasDescendant(withText(newName)),
-                hasDescendant(withText("1h 0m")),
-                hasDescendant(withSubstring("%")),
-                isCompletelyDisplayed())
-        )
-        checkViewIsDisplayed(
-            allOf(
-                withId(R.id.tvStatisticsInfoText),
-                withText("2h 0m")
-            )
-        )
+        checkRecordsRange(firstColor, lastColor, firstIcon, lastIcon, name, newName)
 
         // Switch to month range
         clickOnView(allOf(withText(R.string.title_this_week), isCompletelyDisplayed()))
         clickOnViewWithText(R.string.title_this_month)
+        checkRecordsRange(firstColor, lastColor, firstIcon, lastIcon, name, newName)
 
-        checkViewIsDisplayed(
-            allOf(
-                withId(R.id.layoutStatisticsItem),
-                hasDescendant(withText(R.string.untracked_time_name)),
-                hasDescendant(withSubstring("%")),
-                isCompletelyDisplayed()
-            )
-        )
-        checkViewIsDisplayed(
-            allOf(
-                withId(R.id.layoutStatisticsItem),
-                withCardColor(firstColor),
-                hasDescendant(withTag(firstIcon)),
-                hasDescendant(withText(name)),
-                hasDescendant(withText("1h 0m")),
-                hasDescendant(withSubstring("%")),
-                isCompletelyDisplayed()
-            )
-        )
-        checkViewIsDisplayed(
-            allOf(
-                withId(R.id.layoutStatisticsItem),
-                withCardColor(lastColor),
-                hasDescendant(withTag(lastIcon)),
-                hasDescendant(withText(newName)),
-                hasDescendant(withText("1h 0m")),
-                hasDescendant(withSubstring("%")),
-                isCompletelyDisplayed())
-        )
-        checkViewIsDisplayed(
-            allOf(
-                withId(R.id.tvStatisticsInfoText),
-                withText("2h 0m")
-            )
-        )
+        // Switch to year range
+        clickOnView(allOf(withText(R.string.title_this_month), isCompletelyDisplayed()))
+        clickOnViewWithText(R.string.title_this_year)
+        checkRecordsRange(firstColor, lastColor, firstIcon, lastIcon, name, newName)
 
         // Switch to overall range
-        clickOnView(allOf(withText(R.string.title_this_month), isCompletelyDisplayed()))
+        clickOnView(allOf(withText(R.string.title_this_year), isCompletelyDisplayed()))
         clickOnViewWithText(R.string.title_overall)
         Thread.sleep(1000)
 
@@ -190,12 +92,19 @@ class StatisticsTest : BaseUiTest() {
                 hasDescendant(withTag(lastIcon)),
                 hasDescendant(withText(newName)),
                 hasDescendant(withSubstring("50%")),
-                isCompletelyDisplayed())
+                isCompletelyDisplayed()
+            )
         )
         checkViewIsDisplayed(
             allOf(
                 withId(R.id.tvStatisticsInfoText),
                 withText("2h 0m")
+            )
+        )
+        checkViewIsDisplayed(
+            allOf(
+                withText(R.string.statistics_hint),
+                isCompletelyDisplayed()
             )
         )
     }
@@ -240,112 +149,25 @@ class StatisticsTest : BaseUiTest() {
         pressBack()
 
         // Check day range
-        checkViewIsDisplayed(
-            allOf(
-                withId(R.id.layoutStatisticsItem),
-                withCardColor(firstColor),
-                hasDescendant(withText(categoryName1)),
-                hasDescendant(withText("3h 0m")),
-                hasDescendant(withSubstring("60%")),
-                isCompletelyDisplayed()
-            )
-        )
-        checkViewIsDisplayed(
-            allOf(
-                withId(R.id.layoutStatisticsItem),
-                withCardColor(lastColor),
-                hasDescendant(withText(categoryName2)),
-                hasDescendant(withText("2h 0m")),
-                hasDescendant(withSubstring("40%")),
-                isCompletelyDisplayed())
-        )
-        checkViewIsDisplayed(
-            allOf(
-                withId(R.id.tvStatisticsInfoText),
-                withText("5h 0m")
-            )
-        )
-        checkViewDoesNotExist(
-            allOf(
-                withId(R.id.layoutStatisticsItem),
-                hasDescendant(withText(categoryName3))
-            )
-        )
+        checkCategoryRange(firstColor, lastColor, categoryName1, categoryName2, categoryName3)
 
         // Switch to week range
         clickOnView(allOf(withText(R.string.title_today), isCompletelyDisplayed()))
         clickOnViewWithText(R.string.title_this_week)
-
-        checkViewIsDisplayed(
-            allOf(
-                withId(R.id.layoutStatisticsItem),
-                withCardColor(firstColor),
-                hasDescendant(withText(categoryName1)),
-                hasDescendant(withText("3h 0m")),
-                hasDescendant(withSubstring("60%")),
-                isCompletelyDisplayed()
-            )
-        )
-        checkViewIsDisplayed(
-            allOf(
-                withId(R.id.layoutStatisticsItem),
-                withCardColor(lastColor),
-                hasDescendant(withText(categoryName2)),
-                hasDescendant(withText("2h 0m")),
-                hasDescendant(withSubstring("40%")),
-                isCompletelyDisplayed())
-        )
-        checkViewIsDisplayed(
-            allOf(
-                withId(R.id.tvStatisticsInfoText),
-                withText("5h 0m")
-            )
-        )
-        checkViewDoesNotExist(
-            allOf(
-                withId(R.id.layoutStatisticsItem),
-                hasDescendant(withText(categoryName3))
-            )
-        )
+        checkCategoryRange(firstColor, lastColor, categoryName1, categoryName2, categoryName3)
 
         // Switch to month range
         clickOnView(allOf(withText(R.string.title_this_week), isCompletelyDisplayed()))
         clickOnViewWithText(R.string.title_this_month)
+        checkCategoryRange(firstColor, lastColor, categoryName1, categoryName2, categoryName3)
 
-        checkViewIsDisplayed(
-            allOf(
-                withId(R.id.layoutStatisticsItem),
-                withCardColor(firstColor),
-                hasDescendant(withText(categoryName1)),
-                hasDescendant(withText("3h 0m")),
-                hasDescendant(withSubstring("60%")),
-                isCompletelyDisplayed()
-            )
-        )
-        checkViewIsDisplayed(
-            allOf(
-                withId(R.id.layoutStatisticsItem),
-                withCardColor(lastColor),
-                hasDescendant(withText(categoryName2)),
-                hasDescendant(withText("2h 0m")),
-                hasDescendant(withSubstring("40%")),
-                isCompletelyDisplayed())
-        )
-        checkViewIsDisplayed(
-            allOf(
-                withId(R.id.tvStatisticsInfoText),
-                withText("5h 0m")
-            )
-        )
-        checkViewDoesNotExist(
-            allOf(
-                withId(R.id.layoutStatisticsItem),
-                hasDescendant(withText(categoryName3))
-            )
-        )
+        // Switch to year range
+        clickOnView(allOf(withText(R.string.title_this_month), isCompletelyDisplayed()))
+        clickOnViewWithText(R.string.title_this_year)
+        checkCategoryRange(firstColor, lastColor, categoryName1, categoryName2, categoryName3)
 
         // Switch to overall range
-        clickOnView(allOf(withText(R.string.title_this_month), isCompletelyDisplayed()))
+        clickOnView(allOf(withText(R.string.title_this_year), isCompletelyDisplayed()))
         clickOnViewWithText(R.string.title_overall)
         Thread.sleep(1000)
 
@@ -365,7 +187,134 @@ class StatisticsTest : BaseUiTest() {
                 withCardColor(lastColor),
                 hasDescendant(withText(categoryName2)),
                 hasDescendant(withSubstring("40%")),
-                isCompletelyDisplayed())
+                isCompletelyDisplayed()
+            )
+        )
+        checkViewIsDisplayed(
+            allOf(
+                withId(R.id.tvStatisticsInfoText),
+                withText("5h 0m")
+            )
+        )
+        checkViewIsDisplayed(
+            allOf(
+                withText(R.string.statistics_hint),
+                isCompletelyDisplayed()
+            )
+        )
+        checkViewDoesNotExist(
+            allOf(
+                withId(R.id.layoutStatisticsItem),
+                hasDescendant(withText(categoryName3))
+            )
+        )
+    }
+
+    private fun checkRecordsRange(
+        firstColor: Int,
+        lastColor: Int,
+        firstIcon: Int,
+        lastIcon: Int,
+        name: String,
+        newName: String
+    ) {
+        checkViewIsDisplayed(
+            allOf(
+                withId(R.id.layoutStatisticsItem),
+                hasDescendant(withText(R.string.untracked_time_name)),
+                hasDescendant(withSubstring("%")),
+                isCompletelyDisplayed()
+            )
+        )
+        checkViewIsDisplayed(
+            allOf(
+                withId(R.id.layoutStatisticsItem),
+                withCardColor(firstColor),
+                hasDescendant(withTag(firstIcon)),
+                hasDescendant(withText(name)),
+                hasDescendant(withText("1h 0m")),
+                hasDescendant(withSubstring("%")),
+                isCompletelyDisplayed()
+            )
+        )
+        checkViewIsDisplayed(
+            allOf(
+                withId(R.id.layoutStatisticsItem),
+                withCardColor(lastColor),
+                hasDescendant(withTag(lastIcon)),
+                hasDescendant(withText(newName)),
+                hasDescendant(withText("1h 0m")),
+                hasDescendant(withSubstring("%")),
+                isCompletelyDisplayed()
+            )
+        )
+        checkViewIsDisplayed(
+            allOf(
+                withId(R.id.layoutStatisticsInfoItem),
+                hasDescendant(withText(R.string.statistics_total_tracked)),
+                hasDescendant(withText("2h 0m")),
+                isCompletelyDisplayed()
+            )
+        )
+        checkViewIsDisplayed(
+            allOf(
+                withText(R.string.statistics_hint),
+                isCompletelyDisplayed()
+            )
+        )
+        clickOnViewWithId(R.id.btnStatisticsContainerPrevious)
+        checkViewIsDisplayed(
+            allOf(
+                withId(R.id.layoutStatisticsItem),
+                hasDescendant(withText(R.string.untracked_time_name)),
+                hasDescendant(withText("100%")),
+                hasDescendant(withSubstring("h 0m")),
+                isCompletelyDisplayed()
+            )
+        )
+        checkViewIsDisplayed(
+            allOf(
+                withId(R.id.layoutStatisticsInfoItem),
+                hasDescendant(withText(R.string.statistics_total_tracked)),
+                hasDescendant(withText(" 0m")),
+                isCompletelyDisplayed()
+            )
+        )
+        checkViewDoesNotExist(
+            allOf(
+                withText(R.string.statistics_hint),
+                isCompletelyDisplayed()
+            )
+        )
+        clickOnViewWithId(R.id.btnStatisticsContainerNext)
+    }
+
+    private fun checkCategoryRange(
+        firstColor: Int,
+        lastColor: Int,
+        categoryName1: String,
+        categoryName2: String,
+        categoryName3: String
+    ) {
+        checkViewIsDisplayed(
+            allOf(
+                withId(R.id.layoutStatisticsItem),
+                withCardColor(firstColor),
+                hasDescendant(withText(categoryName1)),
+                hasDescendant(withText("3h 0m")),
+                hasDescendant(withSubstring("60%")),
+                isCompletelyDisplayed()
+            )
+        )
+        checkViewIsDisplayed(
+            allOf(
+                withId(R.id.layoutStatisticsItem),
+                withCardColor(lastColor),
+                hasDescendant(withText(categoryName2)),
+                hasDescendant(withText("2h 0m")),
+                hasDescendant(withSubstring("40%")),
+                isCompletelyDisplayed()
+            )
         )
         checkViewIsDisplayed(
             allOf(
@@ -379,5 +328,19 @@ class StatisticsTest : BaseUiTest() {
                 hasDescendant(withText(categoryName3))
             )
         )
+        checkViewIsDisplayed(
+            allOf(
+                withText(R.string.statistics_hint),
+                isCompletelyDisplayed()
+            )
+        )
+        clickOnViewWithId(R.id.btnStatisticsContainerPrevious)
+        checkViewIsDisplayed(
+            allOf(
+                withText(R.string.statistics_empty),
+                isCompletelyDisplayed()
+            )
+        )
+        clickOnViewWithId(R.id.btnStatisticsContainerNext)
     }
 }
