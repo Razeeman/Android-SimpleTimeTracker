@@ -37,10 +37,11 @@ class ChangeCategoryTest : BaseUiTest() {
         val lastColor = ColorMapper.getAvailableColors().last()
 
         // Add activities
-        NavUtils.addActivity(typeName1)
-        NavUtils.addActivity(typeName2)
+        testUtils.addActivity(typeName1)
+        testUtils.addActivity(typeName2)
 
         // Add category
+        NavUtils.openSettingsScreen()
         NavUtils.openCategoriesScreen()
         NavUtils.addCategory(name, firstColor, listOf(typeName1))
 

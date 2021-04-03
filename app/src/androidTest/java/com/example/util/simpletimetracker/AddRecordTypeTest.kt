@@ -44,6 +44,7 @@ class AddRecordTypeTest : BaseUiTest() {
         val lastIcon = iconMapper.availableIconsNames.values.last()
         val lastIconPosition = iconMapper.availableIconsNames.size - 1
 
+        NavUtils.openSettingsScreen()
         NavUtils.openCategoriesScreen()
         NavUtils.addCategory(categoryName1)
         NavUtils.addCategory(categoryName2)

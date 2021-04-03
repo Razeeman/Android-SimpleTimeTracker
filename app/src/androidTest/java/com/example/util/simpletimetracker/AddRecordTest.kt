@@ -40,7 +40,7 @@ class AddRecordTest : BaseUiTest() {
         val comment = "Comment"
 
         // Add activity
-        NavUtils.addActivity(name, color, icon)
+        testUtils.addActivity(name, color, icon)
 
         // Add record
         NavUtils.openRecordsScreen()

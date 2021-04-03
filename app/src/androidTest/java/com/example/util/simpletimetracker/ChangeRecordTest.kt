@@ -47,8 +47,8 @@ class ChangeRecordTest : BaseUiTest() {
         val newComment = "new comment"
 
         // Add activities
-        NavUtils.addActivity(name, firstColor, firstIcon)
-        NavUtils.addActivity(newName, lastColor, lastIcon)
+        testUtils.addActivity(name, firstColor, firstIcon)
+        testUtils.addActivity(newName, lastColor, lastIcon)
 
         // Add record
         NavUtils.openRecordsScreen()

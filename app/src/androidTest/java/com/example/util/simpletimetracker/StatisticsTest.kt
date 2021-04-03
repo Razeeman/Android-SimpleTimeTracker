@@ -34,13 +34,13 @@ class StatisticsTest : BaseUiTest() {
         val lastIcon = iconMapper.availableIconsNames.values.last()
 
         // Add activities
-        NavUtils.addActivity(name, firstColor, firstIcon)
-        NavUtils.addActivity(newName, lastColor, lastIcon)
+        testUtils.addActivity(name, firstColor, firstIcon)
+        testUtils.addActivity(newName, lastColor, lastIcon)
 
         // Add records
         NavUtils.openRecordsScreen()
-        NavUtils.addRecord(name)
-        NavUtils.addRecord(newName)
+        testUtils.addRecord(name)
+        testUtils.addRecord(newName)
 
         NavUtils.openStatisticsScreen()
 
@@ -213,6 +213,7 @@ class StatisticsTest : BaseUiTest() {
         val lastColor = ColorMapper.getAvailableColors().last()
 
         // Add categories
+        NavUtils.openSettingsScreen()
         NavUtils.openCategoriesScreen()
         NavUtils.addCategory(categoryName1, firstColor)
         NavUtils.addCategory(categoryName2, lastColor)
@@ -221,17 +222,17 @@ class StatisticsTest : BaseUiTest() {
 
         // Add activities
         NavUtils.openRunningRecordsScreen()
-        NavUtils.addActivity(typeName1, categories = listOf(categoryName1))
-        NavUtils.addActivity(typeName2, categories = listOf(categoryName1))
-        NavUtils.addActivity(typeName3, categories = listOf(categoryName2))
-        NavUtils.addActivity(typeName4, categories = listOf(categoryName1, categoryName2))
+        testUtils.addActivity(typeName1, categories = listOf(categoryName1))
+        testUtils.addActivity(typeName2, categories = listOf(categoryName1))
+        testUtils.addActivity(typeName3, categories = listOf(categoryName2))
+        testUtils.addActivity(typeName4, categories = listOf(categoryName1, categoryName2))
 
         // Add records
         NavUtils.openRecordsScreen()
-        NavUtils.addRecord(typeName1)
-        NavUtils.addRecord(typeName2)
-        NavUtils.addRecord(typeName3)
-        NavUtils.addRecord(typeName4)
+        testUtils.addRecord(typeName1)
+        testUtils.addRecord(typeName2)
+        testUtils.addRecord(typeName3)
+        testUtils.addRecord(typeName4)
 
         NavUtils.openStatisticsScreen()
         clickOnViewWithIdOnPager(R.id.btnStatisticsChartFilter)

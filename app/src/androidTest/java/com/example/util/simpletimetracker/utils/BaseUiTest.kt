@@ -33,6 +33,10 @@ open class BaseUiTest {
     @JvmField
     val activityScenarioRule = ActivityScenarioRule(MainActivity::class.java)
 
+    @Rule
+    @JvmField
+    val mRetryTestRule = RetryTestRule()
+
     init {
         inject()
     }

@@ -39,11 +39,11 @@ class StatisticsDetailTest : BaseUiTest() {
         val icon = iconMapper.availableIconsNames.values.first()
 
         // Add activity
-        NavUtils.addActivity(name, color, icon)
+        testUtils.addActivity(name, color, icon)
 
         // Add record
         NavUtils.openRecordsScreen()
-        NavUtils.addRecord(name)
+        testUtils.addRecord(name)
 
         // Add record
         clickOnViewWithId(R.id.btnRecordsContainerPrevious)

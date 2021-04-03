@@ -39,9 +39,10 @@ class AddCategoryTest : BaseUiTest() {
         val lastColorPosition = ColorMapper.getAvailableColors().size - 1
 
         // Add activities
-        NavUtils.addActivity(typeName1)
-        NavUtils.addActivity(typeName2)
+        testUtils.addActivity(typeName1)
+        testUtils.addActivity(typeName2)
 
+        NavUtils.openSettingsScreen()
         NavUtils.openCategoriesScreen()
         clickOnViewWithText(R.string.categories_add)
         closeSoftKeyboard()
@@ -121,6 +122,7 @@ class AddCategoryTest : BaseUiTest() {
 
     @Test
     fun addCategoryTypesEmpty() {
+        NavUtils.openSettingsScreen()
         NavUtils.openCategoriesScreen()
         clickOnViewWithText(R.string.categories_add)
 

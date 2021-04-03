@@ -30,13 +30,13 @@ class StatisticsFilterTest : BaseUiTest() {
         val lastIcon = iconMapper.availableIconsNames.values.last()
 
         // Add activities
-        NavUtils.addActivity(name, firstColor, firstIcon)
-        NavUtils.addActivity(newName, lastColor, lastIcon)
+        testUtils.addActivity(name, firstColor, firstIcon)
+        testUtils.addActivity(newName, lastColor, lastIcon)
 
         // Add records
         NavUtils.openRecordsScreen()
-        NavUtils.addRecord(name)
-        NavUtils.addRecord(newName)
+        testUtils.addRecord(name)
+        testUtils.addRecord(newName)
 
         NavUtils.openStatisticsScreen()
 

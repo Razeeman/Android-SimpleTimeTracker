@@ -35,7 +35,6 @@ object NavUtils {
     }
 
     fun openCategoriesScreen() {
-        openSettingsScreen()
         onView(withText(R.string.settings_edit_categories)).perform(nestedScrollTo(), click())
     }
 

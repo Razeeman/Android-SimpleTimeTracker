@@ -18,6 +18,7 @@ import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.longClickOnViewWithId
+import com.example.util.simpletimetracker.utils.tryAction
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.equalTo
 import org.junit.Test
@@ -34,10 +35,10 @@ class StatisticsRangesTest : BaseUiTest() {
         val name = "Test"
 
         // Add activity
-        NavUtils.addActivity(name)
+        testUtils.addActivity(name)
 
         // Start timer
-        clickOnViewWithText(name)
+        tryAction { clickOnViewWithText(name) }
         clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name)))
 
         // Statistics

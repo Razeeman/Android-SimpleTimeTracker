@@ -29,7 +29,7 @@ class ZeroDurationRecordTest : BaseUiTest() {
         val name = "Name"
 
         // Add activity
-        NavUtils.addActivity(name)
+        testUtils.addActivity(name)
 
         // Add record
         NavUtils.openRecordsScreen()

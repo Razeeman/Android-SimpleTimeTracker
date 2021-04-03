@@ -26,6 +26,7 @@ import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.drag
 import com.example.util.simpletimetracker.utils.nestedScrollTo
+import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.unconstrainedClickOnView
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.Matcher
@@ -42,7 +43,7 @@ class SettingsTest : BaseUiTest() {
         val icon = iconMapper.availableIconsNames.values.first()
 
         // Add activity
-        NavUtils.addActivity(name, color, icon)
+        testUtils.addActivity(name, color, icon)
 
         // Untracked is shown
         NavUtils.openRecordsScreen()
@@ -62,7 +63,6 @@ class SettingsTest : BaseUiTest() {
         )
 
         // Add record
-        NavUtils.openRecordsScreen()
         NavUtils.addRecord(name)
         checkViewDoesNotExist(
             allOf(withText(R.string.untracked_time_name), isCompletelyDisplayed())
@@ -89,12 +89,12 @@ class SettingsTest : BaseUiTest() {
         val name3 = "Test3"
 
         // Add activities
-        NavUtils.addActivity(name1)
-        NavUtils.addActivity(name2)
-        NavUtils.addActivity(name3)
+        testUtils.addActivity(name1)
+        testUtils.addActivity(name2)
+        testUtils.addActivity(name3)
 
         // Start timers
-        clickOnViewWithText(name1)
+        tryAction { clickOnViewWithText(name1) }
         clickOnViewWithText(name2)
         clickOnViewWithText(name3)
         var startTime = System.currentTimeMillis()
@@ -226,11 +226,11 @@ class SettingsTest : BaseUiTest() {
         val name3 = "Test3"
 
         // Add activities
-        NavUtils.addActivity(name1)
-        NavUtils.addActivity(name2)
-        NavUtils.addActivity(name3)
+        testUtils.addActivity(name1)
+        testUtils.addActivity(name2)
+        testUtils.addActivity(name3)
 
-        check(name1, name2) { matcher -> isCompletelyLeftOf(matcher) }
+        tryAction { check(name1, name2) { matcher -> isCompletelyLeftOf(matcher) } }
         check(name2, name3) { matcher -> isCompletelyLeftOf(matcher) }
 
         // Open settings
@@ -287,11 +287,11 @@ class SettingsTest : BaseUiTest() {
         val color2 = ColorMapper.getAvailableColors().last()
 
         // Add activities
-        NavUtils.addActivity(name1, color2)
-        NavUtils.addActivity(name2, color1)
+        testUtils.addActivity(name1, color2)
+        testUtils.addActivity(name2, color1)
 
         // Check order
-        check(name1, name2) { matcher -> isCompletelyLeftOf(matcher) }
+        tryAction { check(name1, name2) { matcher -> isCompletelyLeftOf(matcher) } }
 
         // Check settings
         NavUtils.openSettingsScreen()
@@ -309,8 +309,8 @@ class SettingsTest : BaseUiTest() {
         val color2 = ColorMapper.getAvailableColors().last()
 
         // Add activities
-        NavUtils.addActivity(name1, color2)
-        NavUtils.addActivity(name2, color1)
+        testUtils.addActivity(name1, color2)
+        testUtils.addActivity(name2, color1)
 
         // Change settings
         NavUtils.openSettingsScreen()
@@ -333,9 +333,9 @@ class SettingsTest : BaseUiTest() {
         val name3 = "Test3"
 
         // Add activities
-        NavUtils.addActivity(name1)
-        NavUtils.addActivity(name2)
-        NavUtils.addActivity(name3)
+        testUtils.addActivity(name1)
+        testUtils.addActivity(name2)
+        testUtils.addActivity(name3)
 
         // Change settings
         NavUtils.openSettingsScreen()
@@ -383,11 +383,11 @@ class SettingsTest : BaseUiTest() {
         val name2 = "Test2"
 
         // Add activities
-        NavUtils.addActivity(name1)
-        NavUtils.addActivity(name2)
+        testUtils.addActivity(name1)
+        testUtils.addActivity(name2)
 
         // Start one timer
-        clickOnViewWithText(name1)
+        tryAction { clickOnViewWithText(name1) }
 
         // Change settings
         NavUtils.openSettingsScreen()
@@ -417,11 +417,15 @@ class SettingsTest : BaseUiTest() {
         val name2 = "Test2"
 
         // Add activities
-        NavUtils.addActivity(name1)
-        NavUtils.addActivity(name2)
+        testUtils.addActivity(name1)
+        testUtils.addActivity(name2)
 
         // Start one timer
-        clickOnViewWithText(name1)
+        tryAction { clickOnViewWithText(name1) }
+
+        // Add record
+        testUtils.addRecord(name1)
+        testUtils.addRecord(name2)
 
         // Change settings
         NavUtils.openSettingsScreen()

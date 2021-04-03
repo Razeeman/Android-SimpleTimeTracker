@@ -22,6 +22,7 @@ import com.example.util.simpletimetracker.utils.clickOnViewWithIdOnPager
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.longClickOnView
 import com.example.util.simpletimetracker.utils.nestedScrollTo
+import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.withCardColor
 import com.example.util.simpletimetracker.utils.withPluralText
 import org.hamcrest.CoreMatchers.allOf
@@ -37,7 +38,7 @@ class RecordsAllTest : BaseUiTest() {
         val comment = "comment"
 
         // Add activity
-        NavUtils.addActivity(name)
+        testUtils.addActivity(name)
 
         // Add records
         NavUtils.openRecordsScreen()
@@ -109,20 +110,20 @@ class RecordsAllTest : BaseUiTest() {
         val name4 = "WithRecords"
 
         // Add activity
-        NavUtils.addActivity(name1)
-        NavUtils.addActivity(name2)
-        NavUtils.addActivity(name3)
-        NavUtils.addActivity(name4)
+        testUtils.addActivity(name1)
+        testUtils.addActivity(name2)
+        testUtils.addActivity(name3)
+        testUtils.addActivity(name4)
 
         // Delete one activity
-        longClickOnView(withText(name3))
+        tryAction { longClickOnView(withText(name3)) }
         clickOnViewWithId(R.id.btnChangeRecordTypeDelete)
 
         // Add records
         NavUtils.openRecordsScreen()
-        NavUtils.addRecord(name1)
-        NavUtils.addRecord(name2)
-        NavUtils.addRecord(name4)
+        testUtils.addRecord(name1)
+        testUtils.addRecord(name2)
+        testUtils.addRecord(name4)
 
         // Delete another activity
         NavUtils.openRunningRecordsScreen()
@@ -204,7 +205,7 @@ class RecordsAllTest : BaseUiTest() {
         val name = "Test"
 
         // Add activity
-        NavUtils.addActivity(name)
+        testUtils.addActivity(name)
 
         // Add records
         NavUtils.openRecordsScreen()
@@ -297,6 +298,7 @@ class RecordsAllTest : BaseUiTest() {
         val categoryName2 = "category2"
 
         // Add categories
+        NavUtils.openSettingsScreen()
         NavUtils.openCategoriesScreen()
         NavUtils.addCategory(categoryName1)
         NavUtils.addCategory(categoryName2)
@@ -304,9 +306,9 @@ class RecordsAllTest : BaseUiTest() {
 
         // Add activity
         NavUtils.openRunningRecordsScreen()
-        NavUtils.addActivity(typeName1, color1, categories = listOf(categoryName1))
-        NavUtils.addActivity(typeName2, color2, categories = listOf(categoryName1))
-        NavUtils.addActivity(typeName3, color3, categories = listOf(categoryName2))
+        testUtils.addActivity(typeName1, color1, categories = listOf(categoryName1))
+        testUtils.addActivity(typeName2, color2, categories = listOf(categoryName1))
+        testUtils.addActivity(typeName3, color3, categories = listOf(categoryName2))
 
         // Add records
         NavUtils.openRecordsScreen()
