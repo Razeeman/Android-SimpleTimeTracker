@@ -20,7 +20,13 @@ class CategoriesViewModel @Inject constructor(
 ) : ViewModel() {
 
     val categories: LiveData<List<ViewHolderType>> by lazy {
-        MutableLiveData(listOf(LoaderViewData() as ViewHolderType))
+        return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
+            viewModelScope.launch {
+                initial.value = listOf(LoaderViewData())
+                initial.value = loadCategoriesViewData()
+            }
+            initial
+        }
     }
 
     fun onCategoryClick(item: CategoryViewData, sharedElements: Map<Any, String>) {

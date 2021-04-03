@@ -29,8 +29,13 @@ class RecordsAllViewModel @Inject constructor(
     lateinit var extra: RecordsAllExtra
 
     val records: LiveData<List<ViewHolderType>> by lazy {
-        updateRecords()
-        MutableLiveData(listOf(LoaderViewData() as ViewHolderType))
+        return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
+            viewModelScope.launch {
+                initial.value = listOf(LoaderViewData())
+                initial.value = loadRecordsViewData()
+            }
+            initial
+        }
     }
 
     val sortOrderViewData: LiveData<RecordsAllSortOrderViewData> by lazy {
@@ -95,7 +100,8 @@ class RecordsAllViewModel @Inject constructor(
     }
 
     private fun updateRecords() = viewModelScope.launch {
-        (records as MutableLiveData).value = loadRecordsViewData()
+        val data = loadRecordsViewData()
+        (records as MutableLiveData).value = data
     }
 
     private suspend fun loadRecordsViewData(): List<ViewHolderType> {

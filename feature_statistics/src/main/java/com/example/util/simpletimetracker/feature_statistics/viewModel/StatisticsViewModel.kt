@@ -26,7 +26,13 @@ class StatisticsViewModel @Inject constructor(
     var extra: StatisticsExtra? = null
 
     val statistics: LiveData<List<ViewHolderType>> by lazy {
-        MutableLiveData(listOf(LoaderViewData() as ViewHolderType))
+        return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
+            viewModelScope.launch {
+                initial.value = listOf(LoaderViewData())
+                initial.value = loadStatisticsViewData()
+            }
+            initial
+        }
     }
 
     private var rangeLength: RangeLength = RangeLength.DAY

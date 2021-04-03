@@ -38,8 +38,13 @@ class RunningRecordsViewModel @Inject constructor(
 ) : ViewModel() {
 
     val runningRecords: LiveData<List<ViewHolderType>> by lazy {
-        startUpdate()
-        MutableLiveData(listOf(LoaderViewData() as ViewHolderType))
+        return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
+            viewModelScope.launch {
+                initial.value = listOf(LoaderViewData())
+                initial.value = loadRunningRecordsViewData()
+            }
+            initial
+        }
     }
 
     private var timerJob: Job? = null
@@ -125,7 +130,8 @@ class RunningRecordsViewModel @Inject constructor(
     }
 
     private fun updateRunningRecords() = viewModelScope.launch {
-        (runningRecords as MutableLiveData).value = loadRunningRecordsViewData()
+        val data = loadRunningRecordsViewData()
+        (runningRecords as MutableLiveData).value = data
     }
 
     private suspend fun loadRunningRecordsViewData(): List<ViewHolderType> {
