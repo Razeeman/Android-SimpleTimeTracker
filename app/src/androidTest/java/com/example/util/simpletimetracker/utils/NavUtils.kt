@@ -45,9 +45,7 @@ object NavUtils {
         categories: List<String> = emptyList(),
         goalTime: String? = null
     ) {
-        Thread.sleep(1000)
-
-        clickOnViewWithText(R.string.running_records_add_type)
+        tryAction { clickOnViewWithText(R.string.running_records_add_type) }
 
         // Name
         typeTextIntoView(R.id.etChangeRecordTypeName, name)
@@ -93,9 +91,7 @@ object NavUtils {
         color: Int? = null,
         activities: List<String> = emptyList()
     ) {
-        Thread.sleep(1000)
-
-        clickOnViewWithText(R.string.categories_add)
+        tryAction { clickOnViewWithText(R.string.categories_add) }
 
         // Name
         typeTextIntoView(R.id.etChangeCategoryName, name)
@@ -118,7 +114,7 @@ object NavUtils {
     }
 
     fun addRecord(name: String) {
-        clickOnViewWithId(R.id.btnRecordAdd)
+        tryAction { clickOnViewWithId(R.id.btnRecordAdd) }
 
         // Activity
         clickOnViewWithText(R.string.change_record_type_field)
@@ -135,7 +131,7 @@ object NavUtils {
         minutesEnded: Int,
         comment: String? = null
     ) {
-        clickOnViewWithId(R.id.btnRecordAdd)
+        tryAction { clickOnViewWithId(R.id.btnRecordAdd) }
 
         // Time started
         clickOnViewWithId(R.id.tvChangeRecordTimeStarted)

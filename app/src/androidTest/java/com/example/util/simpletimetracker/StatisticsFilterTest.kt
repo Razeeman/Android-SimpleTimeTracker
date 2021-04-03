@@ -12,7 +12,7 @@ import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
 import com.example.util.simpletimetracker.utils.clickOnView
-import com.example.util.simpletimetracker.utils.clickOnViewWithId
+import com.example.util.simpletimetracker.utils.clickOnViewWithIdOnPager
 import org.hamcrest.CoreMatchers.allOf
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -47,7 +47,7 @@ class StatisticsFilterTest : BaseUiTest() {
         checkViewIsDisplayed(allOf(withId(R.id.tvStatisticsInfoText), withText("2h 0m")))
 
         // Filter untracked
-        clickOnViewWithId(R.id.btnStatisticsChartFilter)
+        clickOnViewWithIdOnPager(R.id.btnStatisticsChartFilter)
         clickOnView(
             allOf(
                 isDescendantOfA(withId(R.id.viewRecordTypeItem)),
@@ -63,7 +63,7 @@ class StatisticsFilterTest : BaseUiTest() {
         checkViewIsDisplayed(allOf(withId(R.id.tvStatisticsInfoText), withText("2h 0m")))
 
         // Filter activity
-        clickOnViewWithId(R.id.btnStatisticsChartFilter)
+        clickOnViewWithIdOnPager(R.id.btnStatisticsChartFilter)
         clickOnView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name)))
         pressBack()
         checkViewDoesNotExist(
@@ -74,16 +74,16 @@ class StatisticsFilterTest : BaseUiTest() {
         checkViewIsDisplayed(allOf(withId(R.id.tvStatisticsInfoText), withText("1h 0m")))
 
         // Filter all
-        clickOnViewWithId(R.id.btnStatisticsChartFilter)
+        clickOnViewWithIdOnPager(R.id.btnStatisticsChartFilter)
         clickOnView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(newName)))
         pressBack()
         checkViewDoesNotExist(allOf(withText(name), isCompletelyDisplayed()))
         checkViewDoesNotExist(allOf(withText(newName), isCompletelyDisplayed()))
-        checkViewDoesNotExist(withId(R.id.tvStatisticsInfoText))
+        checkViewDoesNotExist(allOf(withId(R.id.tvStatisticsInfoText), isCompletelyDisplayed()))
         checkViewIsDisplayed(allOf(withText(R.string.statistics_empty), isCompletelyDisplayed()))
 
         // Remove filters
-        clickOnViewWithId(R.id.btnStatisticsEmptyFilter)
+        clickOnViewWithIdOnPager(R.id.btnStatisticsEmptyFilter)
         clickOnView(
             allOf(
                 isDescendantOfA(withId(R.id.viewRecordTypeItem)),
@@ -93,6 +93,7 @@ class StatisticsFilterTest : BaseUiTest() {
         clickOnView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name)))
         clickOnView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(newName)))
         pressBack()
+        Thread.sleep(1000)
         checkViewIsDisplayed(allOf(withText(R.string.untracked_time_name), isCompletelyDisplayed()))
         checkViewIsDisplayed(allOf(withText(name), isCompletelyDisplayed()))
         checkViewIsDisplayed(allOf(withText(newName), isCompletelyDisplayed()))

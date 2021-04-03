@@ -6,11 +6,11 @@ import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.longClick
 import androidx.test.espresso.action.ViewActions.replaceText
-import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions.scrollTo
 import androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition
+import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -30,10 +30,13 @@ fun checkViewIsDisplayed(matcher: Matcher<View>): ViewInteraction =
     onView(matcher).check(matches(isDisplayed()))
 
 fun typeTextIntoView(id: Int, text: String): ViewInteraction =
-    onView(withId(id)).perform(replaceText(""), typeText(text))
+    onView(withId(id)).perform(replaceText(text)) // typeText sometimes misses letters
 
 fun clickOnViewWithId(id: Int): ViewInteraction =
     onView(withId(id)).perform(click())
+
+fun clickOnViewWithIdOnPager(id: Int): ViewInteraction =
+    onView(allOf(isCompletelyDisplayed(), withId(id))).perform(click())
 
 fun clickOnViewWithText(textId: Int): ViewInteraction =
     onView(withText(textId)).perform(click())

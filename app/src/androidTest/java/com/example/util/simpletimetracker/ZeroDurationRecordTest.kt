@@ -14,7 +14,7 @@ import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
 import com.example.util.simpletimetracker.utils.clickOnView
-import com.example.util.simpletimetracker.utils.clickOnViewWithId
+import com.example.util.simpletimetracker.utils.clickOnViewWithIdOnPager
 import com.example.util.simpletimetracker.utils.nestedScrollTo
 import com.example.util.simpletimetracker.utils.withPluralText
 import org.hamcrest.CoreMatchers.allOf
@@ -52,7 +52,7 @@ class ZeroDurationRecordTest : BaseUiTest() {
 
         // Check statistics
         NavUtils.openStatisticsScreen()
-        clickOnViewWithId(R.id.btnStatisticsChartFilter)
+        clickOnViewWithIdOnPager(R.id.btnStatisticsChartFilter)
         Thread.sleep(1000)
         clickOnView(
             allOf(

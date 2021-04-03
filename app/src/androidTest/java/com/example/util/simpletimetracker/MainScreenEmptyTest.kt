@@ -14,8 +14,10 @@ import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
 import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
+import com.example.util.simpletimetracker.utils.clickOnViewWithIdOnPager
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.longClickOnViewWithId
+import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.typeTextIntoView
 import org.hamcrest.CoreMatchers.allOf
 import org.junit.Test
@@ -29,8 +31,7 @@ class MainScreenEmptyTest : BaseUiTest() {
         val name = "Test"
 
         // Empty main
-        Thread.sleep(1000)
-        checkViewIsDisplayed(withText(R.string.running_records_types_empty))
+        tryAction { checkViewIsDisplayed(withText(R.string.running_records_types_empty)) }
         checkViewDoesNotExist(withText(R.string.running_records_empty))
 
         // Empty records
@@ -117,7 +118,7 @@ class MainScreenEmptyTest : BaseUiTest() {
         checkViewIsDisplayed(allOf(withText(R.string.statistics_empty), isCompletelyDisplayed()))
 
         // Empty category statistics
-        clickOnViewWithId(R.id.btnStatisticsEmptyFilter)
+        clickOnViewWithIdOnPager(R.id.btnStatisticsEmptyFilter)
         clickOnViewWithText(R.string.chart_filter_type_category)
         pressBack()
 

@@ -13,7 +13,7 @@ import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
 import com.example.util.simpletimetracker.utils.clickOnView
-import com.example.util.simpletimetracker.utils.clickOnViewWithId
+import com.example.util.simpletimetracker.utils.clickOnViewWithIdOnPager
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.withCardColor
 import com.example.util.simpletimetracker.utils.withTag
@@ -234,7 +234,7 @@ class StatisticsTest : BaseUiTest() {
         NavUtils.addRecord(typeName4)
 
         NavUtils.openStatisticsScreen()
-        clickOnViewWithId(R.id.btnStatisticsChartFilter)
+        clickOnViewWithIdOnPager(R.id.btnStatisticsChartFilter)
         clickOnViewWithText(R.string.chart_filter_type_category)
         pressBack()
 

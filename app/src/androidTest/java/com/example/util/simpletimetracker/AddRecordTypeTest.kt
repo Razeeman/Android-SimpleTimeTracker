@@ -20,6 +20,7 @@ import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.longClickOnView
 import com.example.util.simpletimetracker.utils.scrollRecyclerToPosition
+import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.typeTextIntoView
 import com.example.util.simpletimetracker.utils.withCardColor
 import com.example.util.simpletimetracker.utils.withTag
@@ -152,8 +153,7 @@ class AddRecordTypeTest : BaseUiTest() {
 
     @Test
     fun addRecordTypeCategoriesEmpty() {
-        Thread.sleep(1000)
-        clickOnViewWithText(R.string.running_records_add_type)
+        tryAction { clickOnViewWithText(R.string.running_records_add_type) }
 
         // Goal time is disabled
         checkViewIsDisplayed(

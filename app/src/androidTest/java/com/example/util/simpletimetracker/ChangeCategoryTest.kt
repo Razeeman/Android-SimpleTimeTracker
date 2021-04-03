@@ -28,7 +28,7 @@ import org.junit.runner.RunWith
 class ChangeCategoryTest : BaseUiTest() {
 
     @Test
-    fun changeRecordType() {
+    fun changeCategory() {
         val name = "Test"
         val newName = "Updated"
         val typeName1 = "Type1"

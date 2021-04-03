@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.toastTextShowing
+import com.example.util.simpletimetracker.utils.tryAction
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -17,8 +18,7 @@ class MessagesTest : BaseUiTest() {
     @Test
     fun messages() {
         // Activity with no name
-        Thread.sleep(1000)
-        clickOnViewWithText(R.string.running_records_add_type)
+        tryAction { clickOnViewWithText(R.string.running_records_add_type) }
         clickOnViewWithText(R.string.change_record_type_save)
         toastTextShowing(R.string.change_record_message_choose_name)
         closeSoftKeyboard()

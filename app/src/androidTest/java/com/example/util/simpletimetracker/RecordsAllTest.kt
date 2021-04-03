@@ -18,6 +18,7 @@ import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
 import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
+import com.example.util.simpletimetracker.utils.clickOnViewWithIdOnPager
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.longClickOnView
 import com.example.util.simpletimetracker.utils.nestedScrollTo
@@ -350,7 +351,7 @@ class RecordsAllTest : BaseUiTest() {
 
         // Open statistics
         NavUtils.openStatisticsScreen()
-        clickOnViewWithId(R.id.btnStatisticsChartFilter)
+        clickOnViewWithIdOnPager(R.id.btnStatisticsChartFilter)
         clickOnViewWithText(R.string.chart_filter_type_category)
         pressBack()
         clickOnView(allOf(withText(categoryName1), isCompletelyDisplayed()))

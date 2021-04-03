@@ -159,3 +159,14 @@ fun drag(direction: Direction, offset: Int): ViewAction {
         }
     }
 }
+
+fun tryAction(action: () -> Unit) {
+    repeat(5) {
+        try {
+            action()
+            return
+        } catch (e: Throwable) {
+            Thread.sleep(1000)
+        }
+    }
+}

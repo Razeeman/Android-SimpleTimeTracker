@@ -12,8 +12,10 @@ import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.clickOnRecyclerItem
 import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
+import com.example.util.simpletimetracker.utils.clickOnViewWithIdOnPager
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.longClickOnViewWithId
+import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.typeTextIntoView
 import org.hamcrest.CoreMatchers.allOf
 import org.junit.Test
@@ -27,8 +29,7 @@ class MainScreenTest : BaseUiTest() {
         val name = "Test"
 
         // Add activity
-        Thread.sleep(1000)
-        clickOnView(withText(R.string.running_records_add_type))
+        tryAction { clickOnView(withText(R.string.running_records_add_type)) }
         closeSoftKeyboard()
         pressBack()
 
@@ -62,7 +63,7 @@ class MainScreenTest : BaseUiTest() {
 
         // Statistics
         NavUtils.openStatisticsScreen()
-        clickOnViewWithId(R.id.btnStatisticsChartFilter)
+        clickOnViewWithIdOnPager(R.id.btnStatisticsChartFilter)
         pressBack()
         clickOnViewWithId(R.id.btnStatisticsContainerPrevious)
         longClickOnViewWithId(R.id.btnStatisticsContainerToday)

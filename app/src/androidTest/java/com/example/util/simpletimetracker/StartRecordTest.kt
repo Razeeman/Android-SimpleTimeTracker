@@ -14,11 +14,13 @@ import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
 import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
+import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.withCardColor
 import com.example.util.simpletimetracker.utils.withTag
 import org.hamcrest.CoreMatchers.allOf
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.util.concurrent.TimeUnit
 
 @RunWith(AndroidJUnit4::class)
 class StartRecordTest : BaseUiTest() {
@@ -31,14 +33,15 @@ class StartRecordTest : BaseUiTest() {
         val lastColor = ColorMapper.getAvailableColors().last()
         val firstIcon = iconMapper.availableIconsNames.values.first()
         val lastIcon = iconMapper.availableIconsNames.values.last()
-        val firstGoalTime = "1000"
+        val firstGoalTime = TimeUnit.MINUTES.toSeconds(10)
 
         // Add activities
-        NavUtils.addActivity(name, firstColor, firstIcon, goalTime = firstGoalTime)
-        NavUtils.addActivity(newName, lastColor, lastIcon)
+        testUtils.addActivity(name, firstColor, firstIcon, firstGoalTime)
+        testUtils.addActivity(newName, lastColor, lastIcon)
 
         // Start timer
-        clickOnViewWithText(name)
+        tryAction { clickOnViewWithText(name) }
+
         var currentTime = System.currentTimeMillis()
         var timeStarted = timeMapper.formatTime(currentTime, true)
         checkViewIsDisplayed(

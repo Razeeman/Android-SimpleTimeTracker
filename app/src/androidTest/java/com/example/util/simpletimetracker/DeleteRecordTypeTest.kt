@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker
 
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.pressBack
+import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -14,8 +15,10 @@ import com.example.util.simpletimetracker.utils.checkViewIsNotDisplayed
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.longClickOnView
+import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.withCardColor
 import com.example.util.simpletimetracker.utils.withTag
+import org.hamcrest.CoreMatchers.allOf
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -28,14 +31,21 @@ class DeleteRecordTypeTest : BaseUiTest() {
         val color = ColorMapper.getAvailableColors().first()
         val icon = iconMapper.availableIconsNames.values.first()
 
-        Thread.sleep(1000)
-        clickOnViewWithText(R.string.running_records_add_type)
+        tryAction { clickOnViewWithText(R.string.running_records_add_type) }
         checkViewIsNotDisplayed(withId(R.id.btnChangeRecordTypeDelete))
         closeSoftKeyboard()
         pressBack()
 
         // Add item
         NavUtils.addActivity(name, color, icon)
+        checkViewIsDisplayed(
+            allOf(
+                withId(R.id.viewRecordTypeItem),
+                hasDescendant(withText(name)),
+                hasDescendant(withTag(icon)),
+                withCardColor(color)
+            )
+        )
 
         // Delete item
         longClickOnView(withText(name))
@@ -45,8 +55,13 @@ class DeleteRecordTypeTest : BaseUiTest() {
         // TODO check message
 
         // Record type is deleted
-        checkViewDoesNotExist(withText(name))
-        checkViewDoesNotExist(withCardColor(color))
-        checkViewDoesNotExist(withTag(icon))
+        checkViewDoesNotExist(
+            allOf(
+                withId(R.id.viewRecordTypeItem),
+                hasDescendant(withText(name)),
+                hasDescendant(withTag(icon)),
+                withCardColor(color)
+            )
+        )
     }
 }
