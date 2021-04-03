@@ -13,6 +13,8 @@ class RecordTypeCacheRepoImpl @Inject constructor() : RecordTypeCacheRepo {
 
     override fun getAll(): List<RecordType> {
         Timber.d("getAll")
+        // TODO cache is disabled to avoid synchronization issues, especially in tests
+        return emptyList()
         return recordTypes
     }
 

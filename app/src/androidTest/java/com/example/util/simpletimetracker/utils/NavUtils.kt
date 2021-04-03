@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.utils
 import android.widget.TimePicker
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.contrib.PickerActions
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
@@ -35,7 +36,7 @@ object NavUtils {
 
     fun openCategoriesScreen() {
         openSettingsScreen()
-        clickOnViewWithText(R.string.settings_edit_categories)
+        onView(withText(R.string.settings_edit_categories)).perform(nestedScrollTo(), click())
     }
 
     fun addActivity(

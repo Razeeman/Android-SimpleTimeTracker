@@ -14,6 +14,8 @@ class RecordCacheRepoImpl @Inject constructor() : RecordCacheRepo {
 
     override fun getFromRange(start: Long, end: Long): List<Record>? {
         Timber.d("getFromRange")
+        // TODO cache is disabled to avoid synchronization issues, especially in tests
+        return null
         return recordsByRange[start to end]
     }
 
