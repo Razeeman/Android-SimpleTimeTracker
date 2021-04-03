@@ -38,13 +38,7 @@ class RunningRecordsViewModel @Inject constructor(
 ) : ViewModel() {
 
     val runningRecords: LiveData<List<ViewHolderType>> by lazy {
-        return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
-            viewModelScope.launch {
-                initial.value = listOf(LoaderViewData())
-                initial.value = loadRunningRecordsViewData()
-            }
-            initial
-        }
+        MutableLiveData(listOf(LoaderViewData() as ViewHolderType))
     }
 
     private var timerJob: Job? = null

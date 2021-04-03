@@ -25,13 +25,7 @@ class RecordsViewModel @Inject constructor(
     var extra: RecordsExtra? = null
 
     val records: LiveData<List<ViewHolderType>> by lazy {
-        return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
-            viewModelScope.launch {
-                initial.value = listOf(LoaderViewData())
-                initial.value = loadRecordsViewData()
-            }
-            initial
-        }
+        MutableLiveData(listOf(LoaderViewData() as ViewHolderType))
     }
 
     fun onRecordClick(item: RecordViewData, sharedElements: Map<Any, String>) {
