@@ -75,15 +75,19 @@ class TestUtils @Inject constructor(
     }
 
     fun addRecord(
-        typeName: String
+        typeName: String,
+        timeStarted: Long? = null,
+        timeEnded: Long? = null
     ) = runBlocking {
         val type = recordTypeInteractor.getAll().firstOrNull { it.name == typeName }
             ?: return@runBlocking
 
         val data = Record(
             typeId = type.id,
-            timeStarted = System.currentTimeMillis() - TimeUnit.HOURS.toMillis(1),
-            timeEnded = System.currentTimeMillis(),
+            timeStarted = timeStarted
+                ?: (System.currentTimeMillis() - TimeUnit.HOURS.toMillis(1)),
+            timeEnded = timeEnded
+                ?: System.currentTimeMillis(),
             comment = ""
         )
 
