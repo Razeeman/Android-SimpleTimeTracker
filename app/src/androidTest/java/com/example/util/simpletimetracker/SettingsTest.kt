@@ -336,9 +336,9 @@ class SettingsTest : BaseUiTest() {
         val name3 = "Test3"
 
         // Add activities
-        testUtils.addActivity(name1)
-        testUtils.addActivity(name2)
         testUtils.addActivity(name3)
+        testUtils.addActivity(name2)
+        testUtils.addActivity(name1)
 
         // Change settings
         NavUtils.openSettingsScreen()

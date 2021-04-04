@@ -31,7 +31,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        api-level: [19, 21, 28, 29]
+        api-level: [19, 28, 29]
 
     steps:
       - name: Check out code

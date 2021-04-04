@@ -17,6 +17,7 @@ import com.example.util.simpletimetracker.feature_dialogs.R
 import com.example.util.simpletimetracker.feature_dialogs.cardOrder.adapter.CardOrderAdapter
 import com.example.util.simpletimetracker.feature_dialogs.cardOrder.di.CardOrderComponentProvider
 import com.example.util.simpletimetracker.feature_dialogs.cardOrder.viewModel.CardOrderViewModel
+import com.example.util.simpletimetracker.navigation.params.CardOrderDialogParams
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
@@ -34,11 +35,12 @@ class CardOrderDialogFragment : BottomSheetDialogFragment() {
     private val viewModel: CardOrderViewModel by viewModels(
         factoryProducer = { viewModelFactory }
     )
-
     private val recordTypesAdapter: CardOrderAdapter by lazy {
         CardOrderAdapter()
     }
-
+    private val extra: CardOrderDialogParams by lazy {
+        arguments?.getParcelable(ARGS_PARAMS) ?: CardOrderDialogParams()
+    }
     private var behavior: BottomSheetBehavior<View>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -126,6 +128,7 @@ class CardOrderDialogFragment : BottomSheetDialogFragment() {
     }
 
     private fun initViewModel(): Unit = with(viewModel) {
+        extra = this@CardOrderDialogFragment.extra
         recordTypes.observe(viewLifecycleOwner, recordTypesAdapter::replace)
     }
 
@@ -135,5 +138,13 @@ class CardOrderDialogFragment : BottomSheetDialogFragment() {
 
         private const val ITEM_SCALE_SELECTED = 1.1f
         private const val ITEM_SCALE_DEFAULT = 1.0f
+
+        private const val ARGS_PARAMS = "args_card_order_params"
+
+        fun createBundle(data: Any?): Bundle = Bundle().apply {
+            when (data) {
+                is CardOrderDialogParams -> putParcelable(ARGS_PARAMS, data)
+            }
+        }
     }
 }

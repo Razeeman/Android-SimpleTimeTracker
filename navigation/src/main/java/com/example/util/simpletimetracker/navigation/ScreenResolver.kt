@@ -4,5 +4,10 @@ import androidx.navigation.NavController
 
 interface ScreenResolver {
 
-    fun navigate(navController: NavController?, screen: Screen, data: Any?, sharedElements: Map<Any, String>?)
+    fun navigate(
+        navController: NavController?,
+        screen: Screen,
+        data: Any?,
+        sharedElements: Map<Any, String>?
+    )
 }

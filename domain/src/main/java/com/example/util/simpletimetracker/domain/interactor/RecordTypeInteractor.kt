@@ -13,11 +13,11 @@ class RecordTypeInteractor @Inject constructor(
     private val prefsInteractor: PrefsInteractor
 ) {
 
-    suspend fun getAll(): List<RecordType> {
+    suspend fun getAll(cardOrder: CardOrder? = null): List<RecordType> {
         return (recordTypeCacheRepo.getAll()
             .takeIf(List<RecordType>::isNotEmpty)
             ?: recordTypeRepo.getAll().also(recordTypeCacheRepo::addAll))
-            .let { sort(it) }
+            .let { sort(cardOrder, it) }
     }
 
     suspend fun get(id: Long): RecordType? {
@@ -48,11 +48,14 @@ class RecordTypeInteractor @Inject constructor(
         recordTypeCacheRepo.clear()
     }
 
-    private suspend fun sort(records: List<RecordType>): List<RecordType> {
+    private suspend fun sort(
+        cardOrder: CardOrder?,
+        records: List<RecordType>
+    ): List<RecordType> {
         return records
             .let(::sortByName)
             .let {
-                when (prefsInteractor.getCardOrder()) {
+                when (cardOrder ?: prefsInteractor.getCardOrder()) {
                     CardOrder.COLOR -> sortByColor(it)
                     CardOrder.MANUAL -> sortByManualOrder(it)
                     CardOrder.NAME -> it

@@ -17,6 +17,7 @@ import com.example.util.simpletimetracker.navigation.Action
 import com.example.util.simpletimetracker.navigation.Notification
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
+import com.example.util.simpletimetracker.navigation.params.CardOrderDialogParams
 import com.example.util.simpletimetracker.navigation.params.DurationDialogParams
 import com.example.util.simpletimetracker.navigation.params.FileChooserParams
 import com.example.util.simpletimetracker.navigation.params.OpenMarketParams
@@ -180,7 +181,7 @@ class SettingsViewModel @Inject constructor(
 
         viewModelScope.launch {
             if (newOrder == CardOrder.MANUAL) {
-                openCardOrderDialog()
+                openCardOrderDialog(prefsInteractor.getCardOrder())
             }
             prefsInteractor.setCardOrder(newOrder)
             updateCardOrderViewData()
@@ -188,7 +189,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun onCardOrderManualClick() {
-        openCardOrderDialog()
+        openCardOrderDialog(CardOrder.MANUAL)
     }
 
     fun onShowUntrackedClicked() {
@@ -288,8 +289,11 @@ class SettingsViewModel @Inject constructor(
         (themeChanged as MutableLiveData).value = false
     }
 
-    private fun openCardOrderDialog() {
-        router.navigate(Screen.CARD_ORDER_DIALOG)
+    private fun openCardOrderDialog(cardOrder: CardOrder) {
+        router.navigate(
+            Screen.CARD_ORDER_DIALOG,
+            CardOrderDialogParams(cardOrder)
+        )
     }
 
     private fun onFileOpenError() {

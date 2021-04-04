@@ -9,6 +9,7 @@ import com.example.util.simpletimetracker.feature_change_category.view.ChangeCat
 import com.example.util.simpletimetracker.feature_change_record.view.ChangeRecordFragment
 import com.example.util.simpletimetracker.feature_change_record_type.view.ChangeRecordTypeFragment
 import com.example.util.simpletimetracker.feature_change_running_record.view.ChangeRunningRecordFragment
+import com.example.util.simpletimetracker.feature_dialogs.cardOrder.view.CardOrderDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.dateTime.DateTimeDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.duration.view.DurationDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.standard.StandardDialogFragment
@@ -132,7 +133,7 @@ class ScreenResolverImpl @Inject constructor() : ScreenResolver {
             Screen.CARD_ORDER_DIALOG ->
                 navController?.navigate(
                     R.id.cardOrderDialogFragment,
-                    null,
+                    CardOrderDialogFragment.createBundle(data),
                     null,
                     navExtras
                 )
