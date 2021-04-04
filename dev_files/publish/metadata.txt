@@ -87,3 +87,27 @@ Version 1.6:
 - Add ability to export records to csv file
 - Add ability to select specific date on statistics screen
 - General bug fixes and improvements
+
+Version 1.7:
+- Add more detailed statistics
+- Add ability to view all records from detailed statistics
+- General bug fixes and improvements
+
+Version 1.8:
+- Add activity tags
+- Add total tracked time in statistics
+- General bug fixes and improvements
+
+Version 1.9:
+- Add activity goal time
+- Add record comments
+- Add inactivity reminder
+- General bug fixes and improvements
+
+Version 1.10:
+- Add tags and comments to csv export
+- Add am/pm time setting
+- Add time ranges to detailed statistics
+- Add ability to enter a comment for a running timer
+- Add some translations
+- General bug fixes and improvements
