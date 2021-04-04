@@ -6,6 +6,7 @@ Simple app that helps track how much time you spend on all the useless activitie
 
 ## Track different activities
 
+[![main_empty_thumb]][main_empty]
 [![main_thumb]][main]
 <br>
 
@@ -19,6 +20,7 @@ Simple app that helps track how much time you spend on all the useless activitie
 
 ## Change or delete running timers
 
+[![change_running_record_comment_thumb]][change_running_record_comment]
 [![change_running_record_thumb]][change_running_record]
 
 ## View previous records
@@ -63,6 +65,7 @@ Simple app that helps track how much time you spend on all the useless activitie
 
 [![statistics_detail1_thumb]][statistics_detail1]
 [![statistics_detail2_thumb]][statistics_detail2]
+[![statistics_detail3_thumb]][statistics_detail3]
 <br>
 
 ## View all records
@@ -161,9 +164,10 @@ Simple app that helps track how much time you spend on all the useless activitie
 [change_record_type_tag_thumb]: dev_files/screens/change_record_type_tag_thumb.png
 [change_record_type_tag]: dev_files/screens/change_record_type_tag.png
 
+[change_running_record_comment_thumb]: dev_files/screens/change_running_record_comment_thumb.png
+[change_running_record_comment]: dev_files/screens/change_running_record_comment.png
 [change_running_record_thumb]: dev_files/screens/change_running_record_thumb.png
 [change_running_record]: dev_files/screens/change_running_record.png
-
 
 [tags_thumb]: dev_files/screens/tags_thumb.png
 [tags]: dev_files/screens/tags_thumb.png
@@ -172,6 +176,8 @@ Simple app that helps track how much time you spend on all the useless activitie
 [change_tag_activity_thumb]: dev_files/screens/change_tag_activity_thumb.png
 [change_tag_activity]: dev_files/screens/change_tag_activity.png
 
+[main_empty_thumb]: dev_files/screens/main_empty_thumb.png
+[main_empty]: dev_files/screens/main_empty.png
 [main_thumb]: dev_files/screens/main_thumb.png
 [main]: dev_files/screens/main.png
 
@@ -207,6 +213,8 @@ Simple app that helps track how much time you spend on all the useless activitie
 [statistics_detail1]: dev_files/screens/statistics_detail1.png
 [statistics_detail2_thumb]: dev_files/screens/statistics_detail2_thumb.png
 [statistics_detail2]: dev_files/screens/statistics_detail2.png
+[statistics_detail3_thumb]: dev_files/screens/statistics_detail3_thumb.png
+[statistics_detail3]: dev_files/screens/statistics_detail3.png
 
 [records_all_thumb]: dev_files/screens/records_all_thumb.png
 [records_all]: dev_files/screens/records_all.png
