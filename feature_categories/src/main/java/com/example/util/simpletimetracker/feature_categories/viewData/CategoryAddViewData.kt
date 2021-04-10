@@ -8,8 +8,8 @@ class CategoryAddViewData(
     @ColorInt val color: Int
 ) : ViewHolderType {
 
-    override fun getViewType(): Int = ViewHolderType.FOOTER
-
     // Only one add item on screen
-    override fun getUniqueId(): Long? = 1L
+    override fun getUniqueId(): Long = 1L
+
+    override fun isValidType(other: ViewHolderType): Boolean = other is CategoryAddViewData
 }

@@ -1,32 +1,22 @@
 package com.example.util.simpletimetracker.feature_statistics.adapter
 
-import android.view.ViewGroup
-import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapterDelegate
-import com.example.util.simpletimetracker.core.adapter.BaseRecyclerViewHolder
-import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.core.adapter.createRecyclerAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.empty.EmptyViewData
 import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.feature_statistics.R
-import kotlinx.android.synthetic.main.item_statistics_empty_layout.view.*
+import kotlinx.android.synthetic.main.item_statistics_empty_layout.view.btnStatisticsEmptyFilter
+import kotlinx.android.synthetic.main.item_statistics_empty_layout.view.tvEmptyItem
 
-class StatisticsEmptyAdapterDelegate(
-    private val onFilterClick: (() -> Unit)
-) : BaseRecyclerAdapterDelegate() {
+fun createStatisticsEmptyAdapterDelegate(
+    onFilterClick: (() -> Unit)
+) = createRecyclerAdapterDelegate<EmptyViewData>(
+    R.layout.item_statistics_empty_layout
+) { itemView, item, _ ->
 
-    override fun onCreateViewHolder(parent: ViewGroup): BaseRecyclerViewHolder =
-        EmptyViewHolder(parent)
+    with(itemView) {
+        item as EmptyViewData
 
-    inner class EmptyViewHolder(parent: ViewGroup) :
-        BaseRecyclerViewHolder(parent, R.layout.item_statistics_empty_layout) {
-
-        override fun bind(
-            item: ViewHolderType,
-            payloads: List<Any>
-        ) = with(itemView) {
-            item as EmptyViewData
-
-            tvEmptyItem.text = item.message
-            btnStatisticsEmptyFilter.setOnClick(onFilterClick)
-        }
+        tvEmptyItem.text = item.message
+        btnStatisticsEmptyFilter.setOnClick(onFilterClick)
     }
 }

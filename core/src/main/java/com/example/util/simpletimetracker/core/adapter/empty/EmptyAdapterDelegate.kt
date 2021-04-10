@@ -1,35 +1,25 @@
 package com.example.util.simpletimetracker.core.adapter.empty
 
-import android.view.ViewGroup
 import com.example.util.simpletimetracker.core.R
-import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapterDelegate
-import com.example.util.simpletimetracker.core.adapter.BaseRecyclerViewHolder
-import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.core.adapter.createRecyclerAdapterDelegate
 import com.example.util.simpletimetracker.core.extension.visible
-import kotlinx.android.synthetic.main.item_empty_layout.view.*
+import kotlinx.android.synthetic.main.item_empty_layout.view.tvEmptyItem
+import kotlinx.android.synthetic.main.item_empty_layout.view.tvEmptyItemHint
 
-class EmptyAdapterDelegate : BaseRecyclerAdapterDelegate() {
+fun createEmptyAdapterDelegate() = createRecyclerAdapterDelegate<EmptyViewData>(
+    R.layout.item_empty_layout
+) { itemView, item, _ ->
 
-    override fun onCreateViewHolder(parent: ViewGroup): BaseRecyclerViewHolder =
-        EmptyViewHolder(parent)
+    with(itemView) {
+        item as EmptyViewData
 
-    inner class EmptyViewHolder(parent: ViewGroup) :
-        BaseRecyclerViewHolder(parent, R.layout.item_empty_layout) {
+        tvEmptyItem.text = item.message
 
-        override fun bind(
-            item: ViewHolderType,
-            payloads: List<Any>
-        ) = with(itemView) {
-            item as EmptyViewData
-
-            tvEmptyItem.text = item.message
-
-            if (item.hint.isNotEmpty()) {
-                tvEmptyItemHint.visible = true
-                tvEmptyItemHint.text = item.hint
-            } else {
-                tvEmptyItemHint.visible = false
-            }
+        if (item.hint.isNotEmpty()) {
+            tvEmptyItemHint.visible = true
+            tvEmptyItemHint.text = item.hint
+        } else {
+            tvEmptyItemHint.visible = false
         }
     }
 }

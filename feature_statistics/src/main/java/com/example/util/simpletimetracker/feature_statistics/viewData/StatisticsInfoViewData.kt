@@ -7,7 +7,7 @@ data class StatisticsInfoViewData(
     val text: String
 ) : ViewHolderType {
 
-    override fun getViewType(): Int = ViewHolderType.INFO
+    override fun getUniqueId(): Long = name.hashCode().toLong()
 
-    override fun getUniqueId(): Long? = name.hashCode().toLong()
+    override fun isValidType(other: ViewHolderType): Boolean = other is StatisticsInfoViewData
 }

@@ -8,6 +8,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.transition.TransitionInflater
+import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
+import com.example.util.simpletimetracker.core.adapter.recordType.createRecordTypeAdapterDelegate
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
@@ -22,7 +24,6 @@ import com.example.util.simpletimetracker.core.utils.BuildVersions
 import com.example.util.simpletimetracker.core.viewModel.RemoveRecordViewModel
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_change_record.R
-import com.example.util.simpletimetracker.feature_change_record.adapter.ChangeRecordAdapter
 import com.example.util.simpletimetracker.feature_change_record.di.ChangeRecordComponentProvider
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordViewData
 import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordViewModel
@@ -60,8 +61,10 @@ class ChangeRecordFragment : BaseFragment(R.layout.change_record_fragment),
         ownerProducer = { activity as AppCompatActivity },
         factoryProducer = { removeRecordViewModelFactory }
     )
-    private val typesAdapter: ChangeRecordAdapter by lazy {
-        ChangeRecordAdapter(viewModel::onTypeClick)
+    private val typesAdapter: BaseRecyclerAdapter by lazy {
+        BaseRecyclerAdapter(
+            createRecordTypeAdapterDelegate(viewModel::onTypeClick)
+        )
     }
     private val extra: ChangeRecordParams by lazy {
         arguments?.getParcelable<ChangeRecordParams>(ARGS_PARAMS) ?: ChangeRecordParams.New()

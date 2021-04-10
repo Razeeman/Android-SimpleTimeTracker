@@ -5,23 +5,28 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
+import com.example.util.simpletimetracker.core.adapter.empty.createEmptyAdapterDelegate
+import com.example.util.simpletimetracker.core.adapter.hint.createHintAdapterDelegate
+import com.example.util.simpletimetracker.core.adapter.loader.createLoaderAdapterDelegate
+import com.example.util.simpletimetracker.core.adapter.record.createRecordAdapterDelegate
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.viewModel.RemoveRecordViewModel
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_records.R
-import com.example.util.simpletimetracker.feature_records.adapter.RecordAdapter
 import com.example.util.simpletimetracker.feature_records.di.RecordsComponentProvider
 import com.example.util.simpletimetracker.feature_records.extra.RecordsExtra
 import com.example.util.simpletimetracker.feature_records.viewModel.RecordsViewModel
 import com.example.util.simpletimetracker.navigation.params.RecordsParams
-import kotlinx.android.synthetic.main.records_fragment.*
+import kotlinx.android.synthetic.main.records_fragment.rvRecordsList
 import javax.inject.Inject
 
 class RecordsFragment : BaseFragment(R.layout.records_fragment) {
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<RecordsViewModel>
+
     @Inject
     lateinit var removeRecordViewModelFactory: BaseViewModelFactory<RemoveRecordViewModel>
 
@@ -32,9 +37,13 @@ class RecordsFragment : BaseFragment(R.layout.records_fragment) {
         ownerProducer = { activity as AppCompatActivity },
         factoryProducer = { removeRecordViewModelFactory }
     )
-    private val recordsAdapter: RecordAdapter by lazy {
-        RecordAdapter(
-            viewModel::onRecordClick
+    private val recordsAdapter: BaseRecyclerAdapter by lazy {
+        BaseRecyclerAdapter(
+            createRecordAdapterDelegate(viewModel::onRecordClick),
+            createEmptyAdapterDelegate(),
+            createLoaderAdapterDelegate(),
+            createHintAdapterDelegate()
+
         )
     }
 

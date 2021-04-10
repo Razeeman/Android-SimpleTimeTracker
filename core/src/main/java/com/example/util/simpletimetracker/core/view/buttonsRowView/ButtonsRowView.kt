@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
 import com.example.util.simpletimetracker.core.R
+import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
@@ -24,8 +25,10 @@ class ButtonsRowView @JvmOverloads constructor(
 
     var listener: ((ButtonsRowViewData) -> Unit)? = null
 
-    val adapter: ButtonsRowViewAdapter by lazy {
-        ButtonsRowViewAdapter(selectedColor, ::onItemClick)
+    val adapter: BaseRecyclerAdapter by lazy {
+        BaseRecyclerAdapter(
+            createButtonsRowViewAdapterDelegate(selectedColor, ::onItemClick)
+        )
     }
 
     private val selectedColor by lazy {

@@ -6,7 +6,7 @@ data class RecordsAllDateViewData(
     var message: String
 ) : ViewHolderType {
 
-    override fun getViewType(): Int = ViewHolderType.DIVIDER
+    override fun getUniqueId(): Long = message.hashCode().toLong()
 
-    override fun getUniqueId(): Long? = message.hashCode().toLong()
+    override fun isValidType(other: ViewHolderType): Boolean = other is RecordsAllDateViewData
 }

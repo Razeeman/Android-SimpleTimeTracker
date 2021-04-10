@@ -1,27 +1,16 @@
 package com.example.util.simpletimetracker.core.adapter.info
 
-import android.view.ViewGroup
 import com.example.util.simpletimetracker.core.R
-import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapterDelegate
-import com.example.util.simpletimetracker.core.adapter.BaseRecyclerViewHolder
-import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.core.adapter.createRecyclerAdapterDelegate
 import kotlinx.android.synthetic.main.item_info_layout.view.tvInfoItemText
 
-class InfoAdapterDelegate : BaseRecyclerAdapterDelegate() {
+fun createInfoAdapterDelegate() = createRecyclerAdapterDelegate<InfoViewData>(
+    R.layout.item_info_layout
+) { itemView, item, _ ->
 
-    override fun onCreateViewHolder(parent: ViewGroup): BaseRecyclerViewHolder =
-        InfoViewHolder(parent)
+    with(itemView) {
+        item as InfoViewData
 
-    inner class InfoViewHolder(parent: ViewGroup) :
-        BaseRecyclerViewHolder(parent, R.layout.item_info_layout) {
-
-        override fun bind(
-            item: ViewHolderType,
-            payloads: List<Any>
-        ) = with(itemView) {
-            item as InfoViewData
-
-            tvInfoItemText.text = item.text
-        }
+        tvInfoItemText.text = item.text
     }
 }

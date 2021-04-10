@@ -10,12 +10,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
+import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
+import com.example.util.simpletimetracker.core.adapter.loader.createLoaderAdapterDelegate
+import com.example.util.simpletimetracker.core.adapter.recordType.createRecordTypeAdapterDelegate
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.TypesFilterDialogListener
 import com.example.util.simpletimetracker.core.extension.getAllFragments
 import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.feature_dialogs.R
-import com.example.util.simpletimetracker.feature_dialogs.typesFilter.adapter.TypesFilterAdapter
 import com.example.util.simpletimetracker.feature_dialogs.typesFilter.di.TypesFilterComponentProvider
 import com.example.util.simpletimetracker.feature_dialogs.typesFilter.extra.TypesFilterExtra
 import com.example.util.simpletimetracker.feature_dialogs.typesFilter.viewModel.TypesFilterViewModel
@@ -40,8 +42,11 @@ class TypesFilterDialogFragment : BottomSheetDialogFragment() {
         factoryProducer = { viewModelFactory }
     )
 
-    private val recordTypesAdapter: TypesFilterAdapter by lazy {
-        TypesFilterAdapter(viewModel::onRecordTypeClick)
+    private val recordTypesAdapter: BaseRecyclerAdapter by lazy {
+        BaseRecyclerAdapter(
+            createRecordTypeAdapterDelegate(viewModel::onRecordTypeClick),
+            createLoaderAdapterDelegate()
+        )
     }
 
     private var behavior: BottomSheetBehavior<View>? = null

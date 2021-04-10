@@ -2,17 +2,23 @@ package com.example.util.simpletimetracker.feature_running_records.view
 
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
+import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
+import com.example.util.simpletimetracker.core.adapter.empty.createEmptyAdapterDelegate
+import com.example.util.simpletimetracker.core.adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.feature_running_records.R
-import com.example.util.simpletimetracker.feature_running_records.adapter.RunningRecordAdapter
+import com.example.util.simpletimetracker.feature_running_records.adapter.createRunningRecordAdapterDelegate
+import com.example.util.simpletimetracker.feature_running_records.adapter.createRunningRecordDividerAdapterDelegate
+import com.example.util.simpletimetracker.feature_running_records.adapter.createRunningRecordTypeAdapterDelegate
+import com.example.util.simpletimetracker.feature_running_records.adapter.createRunningRecordTypeAddAdapterDelegate
 import com.example.util.simpletimetracker.feature_running_records.di.RunningRecordsComponentProvider
 import com.example.util.simpletimetracker.feature_running_records.viewModel.RunningRecordsViewModel
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
-import kotlinx.android.synthetic.main.running_records_fragment.*
+import kotlinx.android.synthetic.main.running_records_fragment.rvRunningRecordsList
 import javax.inject.Inject
 
 class RunningRecordsFragment : BaseFragment(R.layout.running_records_fragment) {
@@ -24,13 +30,14 @@ class RunningRecordsFragment : BaseFragment(R.layout.running_records_fragment) {
         factoryProducer = { viewModelFactory }
     )
 
-    private val runningRecordsAdapter: RunningRecordAdapter by lazy {
-        RunningRecordAdapter(
-            viewModel::onRunningRecordClick,
-            viewModel::onRunningRecordLongClick,
-            viewModel::onRecordTypeClick,
-            viewModel::onRecordTypeLongClick,
-            viewModel::onAddRecordTypeClick
+    private val runningRecordsAdapter: BaseRecyclerAdapter by lazy {
+        BaseRecyclerAdapter(
+            createRunningRecordAdapterDelegate(viewModel::onRunningRecordClick, viewModel::onRunningRecordLongClick),
+            createRunningRecordDividerAdapterDelegate(),
+            createRunningRecordTypeAdapterDelegate(viewModel::onRecordTypeClick, viewModel::onRecordTypeLongClick),
+            createLoaderAdapterDelegate(),
+            createEmptyAdapterDelegate(),
+            createRunningRecordTypeAddAdapterDelegate(viewModel::onAddRecordTypeClick)
         )
     }
 

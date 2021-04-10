@@ -10,7 +10,7 @@ data class ChangeRecordTypeIconViewData(
     @ColorInt val colorInt: Int
 ) : ViewHolderType {
 
-    override fun getViewType(): Int = ViewHolderType.VIEW2
+    override fun getUniqueId(): Long = iconName.hashCode().toLong()
 
-    override fun getUniqueId(): Long? = iconName.hashCode().toLong()
+    override fun isValidType(other: ViewHolderType): Boolean = other is ChangeRecordTypeIconViewData
 }

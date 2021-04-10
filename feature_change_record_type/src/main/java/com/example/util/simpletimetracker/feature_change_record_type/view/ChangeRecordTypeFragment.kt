@@ -6,6 +6,12 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.transition.TransitionInflater
+import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
+import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.core.adapter.color.createColorAdapterDelegate
+import com.example.util.simpletimetracker.core.adapter.divider.createDividerAdapterDelegate
+import com.example.util.simpletimetracker.core.adapter.empty.createEmptyAdapterDelegate
+import com.example.util.simpletimetracker.core.adapter.info.createInfoAdapterDelegate
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.DurationDialogListener
@@ -22,8 +28,8 @@ import com.example.util.simpletimetracker.core.utils.BuildVersions
 import com.example.util.simpletimetracker.core.view.TransitionNames
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_change_record_type.R
-import com.example.util.simpletimetracker.feature_change_record_type.adapter.ChangeRecordTypeAdapter
-import com.example.util.simpletimetracker.feature_change_record_type.adapter.ChangeRecordTypeCategoriesAdapter
+import com.example.util.simpletimetracker.feature_change_record_type.adapter.createChangeRecordTypeCategoryAdapterDelegate
+import com.example.util.simpletimetracker.feature_change_record_type.adapter.createChangeRecordTypeIconAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record_type.di.ChangeRecordTypeComponentProvider
 import com.example.util.simpletimetracker.feature_change_record_type.viewModel.ChangeRecordTypeViewModel
 import com.example.util.simpletimetracker.navigation.params.ChangeRecordTypeParams
@@ -31,7 +37,21 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
-import kotlinx.android.synthetic.main.change_record_type_fragment.*
+import kotlinx.android.synthetic.main.change_record_type_fragment.arrowChangeRecordTypeCategory
+import kotlinx.android.synthetic.main.change_record_type_fragment.arrowChangeRecordTypeColor
+import kotlinx.android.synthetic.main.change_record_type_fragment.arrowChangeRecordTypeIcon
+import kotlinx.android.synthetic.main.change_record_type_fragment.btnChangeRecordTypeDelete
+import kotlinx.android.synthetic.main.change_record_type_fragment.btnChangeRecordTypeSave
+import kotlinx.android.synthetic.main.change_record_type_fragment.etChangeRecordTypeName
+import kotlinx.android.synthetic.main.change_record_type_fragment.fieldChangeRecordTypeCategory
+import kotlinx.android.synthetic.main.change_record_type_fragment.fieldChangeRecordTypeColor
+import kotlinx.android.synthetic.main.change_record_type_fragment.fieldChangeRecordTypeIcon
+import kotlinx.android.synthetic.main.change_record_type_fragment.groupChangeRecordTypeGoalTime
+import kotlinx.android.synthetic.main.change_record_type_fragment.previewChangeRecordType
+import kotlinx.android.synthetic.main.change_record_type_fragment.rvChangeRecordTypeCategories
+import kotlinx.android.synthetic.main.change_record_type_fragment.rvChangeRecordTypeColor
+import kotlinx.android.synthetic.main.change_record_type_fragment.rvChangeRecordTypeIcon
+import kotlinx.android.synthetic.main.change_record_type_fragment.tvChangeRecordTypeGoalTimeTime
 import javax.inject.Inject
 
 class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragment),
@@ -43,14 +63,23 @@ class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragme
     private val viewModel: ChangeRecordTypeViewModel by viewModels(
         factoryProducer = { viewModelFactory }
     )
-    private val colorsAdapter: ChangeRecordTypeAdapter by lazy {
-        ChangeRecordTypeAdapter(viewModel::onColorClick, viewModel::onIconClick)
+    private val colorsAdapter: BaseRecyclerAdapter by lazy {
+        BaseRecyclerAdapter(
+            createColorAdapterDelegate(viewModel::onColorClick)
+        )
     }
-    private val iconsAdapter: ChangeRecordTypeAdapter by lazy {
-        ChangeRecordTypeAdapter(viewModel::onColorClick, viewModel::onIconClick)
+    private val iconsAdapter: BaseRecyclerAdapter by lazy {
+        BaseRecyclerAdapter(
+            createChangeRecordTypeIconAdapterDelegate(viewModel::onIconClick)
+        )
     }
-    private val categoriesAdapter: ChangeRecordTypeCategoriesAdapter by lazy {
-        ChangeRecordTypeCategoriesAdapter(viewModel::onCategoryClick)
+    private val categoriesAdapter: BaseRecyclerAdapter by lazy {
+        BaseRecyclerAdapter(
+            createChangeRecordTypeCategoryAdapterDelegate(viewModel::onCategoryClick),
+            createDividerAdapterDelegate(),
+            createInfoAdapterDelegate(),
+            createEmptyAdapterDelegate()
+        )
     }
     private val params: ChangeRecordTypeParams by lazy {
         arguments?.getParcelable<ChangeRecordTypeParams>(ARGS_PARAMS)

@@ -10,7 +10,7 @@ data class CategoryViewData(
     @ColorInt val color: Int
 ) : ViewHolderType {
 
-    override fun getViewType(): Int = ViewHolderType.CATEGORY
+    override fun getUniqueId(): Long = id
 
-    override fun getUniqueId(): Long? = id
+    override fun isValidType(other: ViewHolderType): Boolean = other is CategoryViewData
 }

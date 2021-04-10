@@ -7,7 +7,7 @@ data class EmptyViewData(
     val hint: String = ""
 ) : ViewHolderType {
 
-    override fun getViewType(): Int = ViewHolderType.EMPTY
+    override fun getUniqueId(): Long = 1L
 
-    override fun getUniqueId(): Long? = 1L
+    override fun isValidType(other: ViewHolderType): Boolean = other is EmptyViewData
 }

@@ -5,17 +5,16 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import java.util.Collections
 
-open class BaseRecyclerAdapter : RecyclerView.Adapter<BaseRecyclerViewHolder>() {
+class BaseRecyclerAdapter(
+    vararg delegatesList: RecyclerAdapterDelegate
+) : RecyclerView.Adapter<BaseRecyclerViewHolder>() {
 
-    protected val delegates: MutableMap<Int, BaseRecyclerAdapterDelegate> =
-        mutableMapOf()
-
-    private val items: MutableList<ViewHolderType> =
-        mutableListOf()
+    private val delegates: List<RecyclerAdapterDelegate> = delegatesList.toList()
+    private val items: MutableList<ViewHolderType> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseRecyclerViewHolder =
-        delegates[viewType]?.onCreateViewHolder(parent)
-            ?: throw IllegalStateException("No delegate found for $viewType")
+        delegates.getOrNull(viewType)?.onCreateViewHolder(parent)
+            ?: throw IllegalStateException(getErrorMessage(viewType))
 
     override fun onBindViewHolder(
         holder: BaseRecyclerViewHolder,
@@ -32,7 +31,7 @@ open class BaseRecyclerAdapter : RecyclerView.Adapter<BaseRecyclerViewHolder>() 
         items.size
 
     override fun getItemViewType(position: Int): Int =
-        items[position].getViewType()
+        delegates.indexOfFirst { it.isForValidType(items[position]) }
 
     fun onMove(fromPosition: Int, toPosition: Int) {
         if (fromPosition < toPosition) {
@@ -58,5 +57,10 @@ open class BaseRecyclerAdapter : RecyclerView.Adapter<BaseRecyclerViewHolder>() 
         items.clear()
         items.addAll(newItems)
         notifyDataSetChanged()
+    }
+
+    private fun getErrorMessage(viewType: Int): String {
+        return "No delegate found for viewType: $viewType items: ${items.map { it::class.java.simpleName }
+            .toSet()} delegates: ${delegates.map { it.getViewHolderTypeName() }}"
     }
 }

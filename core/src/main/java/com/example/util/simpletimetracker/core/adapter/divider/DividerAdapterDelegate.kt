@@ -1,24 +1,11 @@
 package com.example.util.simpletimetracker.core.adapter.divider
 
-import android.view.ViewGroup
 import com.example.util.simpletimetracker.core.R
-import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapterDelegate
-import com.example.util.simpletimetracker.core.adapter.BaseRecyclerViewHolder
-import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.core.adapter.createRecyclerAdapterDelegate
 
-class DividerAdapterDelegate : BaseRecyclerAdapterDelegate() {
+fun createDividerAdapterDelegate() = createRecyclerAdapterDelegate<DividerViewData>(
+    R.layout.item_divider_layout
+) { _, _, _ ->
 
-    override fun onCreateViewHolder(parent: ViewGroup): BaseRecyclerViewHolder =
-        DividerViewHolder(parent)
-
-    inner class DividerViewHolder(parent: ViewGroup) :
-        BaseRecyclerViewHolder(parent, R.layout.item_divider_layout) {
-
-        override fun bind(
-            item: ViewHolderType,
-            payloads: List<Any>
-        ) {
-            // Nothing to bind
-        }
-    }
+    // Nothing to bind
 }

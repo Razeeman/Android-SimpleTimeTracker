@@ -10,7 +10,9 @@ data class StatisticsDetailCardViewData(
     val icon: Icon? = null
 ) : ViewHolderType {
 
-    override fun getViewType(): Int = ViewHolderType.VIEW
+    override fun getUniqueId(): Long = title.hashCode().toLong()
+
+    override fun isValidType(other: ViewHolderType): Boolean = other is StatisticsDetailCardViewData
 
     data class Icon(
         @DrawableRes val iconDrawable: Int,

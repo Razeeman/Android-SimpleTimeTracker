@@ -6,6 +6,8 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.transition.TransitionInflater
+import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
+import com.example.util.simpletimetracker.core.adapter.recordType.createRecordTypeAdapterDelegate
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
@@ -19,7 +21,6 @@ import com.example.util.simpletimetracker.core.extension.visible
 import com.example.util.simpletimetracker.core.utils.BuildVersions
 import com.example.util.simpletimetracker.core.view.TransitionNames
 import com.example.util.simpletimetracker.feature_change_running_record.R
-import com.example.util.simpletimetracker.feature_change_running_record.adapter.ChangeRunningRecordAdapter
 import com.example.util.simpletimetracker.feature_change_running_record.di.ChangeRunningRecordComponentProvider
 import com.example.util.simpletimetracker.feature_change_running_record.viewData.ChangeRunningRecordViewData
 import com.example.util.simpletimetracker.feature_change_running_record.viewModel.ChangeRunningRecordViewModel
@@ -28,7 +29,15 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
-import kotlinx.android.synthetic.main.change_running_record_fragment.*
+import kotlinx.android.synthetic.main.change_running_record_fragment.arrowChangeRunningRecordType
+import kotlinx.android.synthetic.main.change_running_record_fragment.btnChangeRunningRecordDelete
+import kotlinx.android.synthetic.main.change_running_record_fragment.btnChangeRunningRecordSave
+import kotlinx.android.synthetic.main.change_running_record_fragment.etChangeRunningRecordComment
+import kotlinx.android.synthetic.main.change_running_record_fragment.fieldChangeRunningRecordTimeStarted
+import kotlinx.android.synthetic.main.change_running_record_fragment.fieldChangeRunningRecordType
+import kotlinx.android.synthetic.main.change_running_record_fragment.previewChangeRunningRecord
+import kotlinx.android.synthetic.main.change_running_record_fragment.rvChangeRunningRecordType
+import kotlinx.android.synthetic.main.change_running_record_fragment.tvChangeRunningRecordTimeStarted
 import javax.inject.Inject
 
 class ChangeRunningRecordFragment : BaseFragment(R.layout.change_running_record_fragment),
@@ -40,8 +49,10 @@ class ChangeRunningRecordFragment : BaseFragment(R.layout.change_running_record_
     private val viewModel: ChangeRunningRecordViewModel by viewModels(
         factoryProducer = { viewModelFactory }
     )
-    private val typesAdapter: ChangeRunningRecordAdapter by lazy {
-        ChangeRunningRecordAdapter(viewModel::onTypeClick)
+    private val typesAdapter: BaseRecyclerAdapter by lazy {
+        BaseRecyclerAdapter(
+            createRecordTypeAdapterDelegate(viewModel::onTypeClick)
+        )
     }
     private val params: ChangeRunningRecordParams by lazy {
         arguments?.getParcelable(ARGS_PARAMS) ?: ChangeRunningRecordParams()

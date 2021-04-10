@@ -11,10 +11,12 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.RecyclerView
+import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
+import com.example.util.simpletimetracker.core.adapter.loader.createLoaderAdapterDelegate
+import com.example.util.simpletimetracker.core.adapter.recordType.createRecordTypeAdapterDelegate
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.extension.onItemMoved
 import com.example.util.simpletimetracker.feature_dialogs.R
-import com.example.util.simpletimetracker.feature_dialogs.cardOrder.adapter.CardOrderAdapter
 import com.example.util.simpletimetracker.feature_dialogs.cardOrder.di.CardOrderComponentProvider
 import com.example.util.simpletimetracker.feature_dialogs.cardOrder.viewModel.CardOrderViewModel
 import com.example.util.simpletimetracker.navigation.params.CardOrderDialogParams
@@ -35,8 +37,11 @@ class CardOrderDialogFragment : BottomSheetDialogFragment() {
     private val viewModel: CardOrderViewModel by viewModels(
         factoryProducer = { viewModelFactory }
     )
-    private val recordTypesAdapter: CardOrderAdapter by lazy {
-        CardOrderAdapter()
+    private val recordTypesAdapter: BaseRecyclerAdapter by lazy {
+        BaseRecyclerAdapter(
+            createRecordTypeAdapterDelegate(),
+            createLoaderAdapterDelegate()
+        )
     }
     private val extra: CardOrderDialogParams by lazy {
         arguments?.getParcelable(ARGS_PARAMS) ?: CardOrderDialogParams()

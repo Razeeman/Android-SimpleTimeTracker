@@ -7,18 +7,21 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.observe
+import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
+import com.example.util.simpletimetracker.core.adapter.empty.createEmptyAdapterDelegate
+import com.example.util.simpletimetracker.core.adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.manager.ThemeManager
 import com.example.util.simpletimetracker.feature_widget.R
-import com.example.util.simpletimetracker.feature_widget.configure.adapter.WidgetAdapter
-import com.example.util.simpletimetracker.feature_widget.di.WidgetComponentProvider
+import com.example.util.simpletimetracker.feature_widget.configure.adapter.createWidgetAdapterDelegate
 import com.example.util.simpletimetracker.feature_widget.configure.extra.WidgetExtra
 import com.example.util.simpletimetracker.feature_widget.configure.viewModel.WidgetViewModel
+import com.example.util.simpletimetracker.feature_widget.di.WidgetComponentProvider
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
-import kotlinx.android.synthetic.main.widget_configure_activity.*
+import kotlinx.android.synthetic.main.widget_configure_activity.rvWidgetConfigureRecordType
 import javax.inject.Inject
 
 class WidgetConfigureActivity : AppCompatActivity() {
@@ -33,9 +36,11 @@ class WidgetConfigureActivity : AppCompatActivity() {
         factoryProducer = { viewModelFactory }
     )
 
-    private val typesAdapter: WidgetAdapter by lazy {
-        WidgetAdapter(
-            viewModel::onRecordTypeClick
+    private val typesAdapter: BaseRecyclerAdapter by lazy {
+        BaseRecyclerAdapter(
+            createWidgetAdapterDelegate(viewModel::onRecordTypeClick),
+            createEmptyAdapterDelegate(),
+            createLoaderAdapterDelegate()
         )
     }
 

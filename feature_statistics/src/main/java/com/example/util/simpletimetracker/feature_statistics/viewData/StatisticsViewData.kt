@@ -11,9 +11,9 @@ sealed class StatisticsViewData : ViewHolderType {
     abstract val percent: String
     abstract val color: Int
 
-    override fun getViewType(): Int = ViewHolderType.VIEW
+    override fun getUniqueId(): Long = id
 
-    override fun getUniqueId(): Long? = id
+    override fun isValidType(other: ViewHolderType): Boolean = other is StatisticsViewData
 
     data class Activity(
         override val id: Long,

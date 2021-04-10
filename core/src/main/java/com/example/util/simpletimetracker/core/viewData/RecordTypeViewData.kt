@@ -15,7 +15,7 @@ data class RecordTypeViewData(
     val asRow: Boolean = false
 ) : ViewHolderType {
 
-    override fun getViewType(): Int = ViewHolderType.RECORD_TYPE
+    override fun getUniqueId(): Long = id
 
-    override fun getUniqueId(): Long? = id
+    override fun isValidType(other: ViewHolderType): Boolean = other is RecordTypeViewData
 }

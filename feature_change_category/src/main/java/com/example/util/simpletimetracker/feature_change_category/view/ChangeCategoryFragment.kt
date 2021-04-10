@@ -6,6 +6,12 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.transition.TransitionInflater
+import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
+import com.example.util.simpletimetracker.core.adapter.color.createColorAdapterDelegate
+import com.example.util.simpletimetracker.core.adapter.divider.createDividerAdapterDelegate
+import com.example.util.simpletimetracker.core.adapter.empty.createEmptyAdapterDelegate
+import com.example.util.simpletimetracker.core.adapter.info.createInfoAdapterDelegate
+import com.example.util.simpletimetracker.core.adapter.recordType.createRecordTypeAdapterDelegate
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.extension.hideKeyboard
@@ -19,8 +25,6 @@ import com.example.util.simpletimetracker.core.utils.BuildVersions
 import com.example.util.simpletimetracker.core.view.TransitionNames
 import com.example.util.simpletimetracker.core.viewData.CategoryViewData
 import com.example.util.simpletimetracker.feature_change_category.R
-import com.example.util.simpletimetracker.feature_change_category.adapter.ChangeCategoryColorAdapter
-import com.example.util.simpletimetracker.feature_change_category.adapter.ChangeCategoryTypeAdapter
 import com.example.util.simpletimetracker.feature_change_category.di.ChangeCategoryComponentProvider
 import com.example.util.simpletimetracker.feature_change_category.viewModel.ChangeCategoryViewModel
 import com.example.util.simpletimetracker.navigation.params.ChangeCategoryParams
@@ -48,11 +52,18 @@ class ChangeCategoryFragment : BaseFragment(R.layout.change_category_fragment) {
     private val viewModel: ChangeCategoryViewModel by viewModels(
         factoryProducer = { viewModelFactory }
     )
-    private val colorsAdapter: ChangeCategoryColorAdapter by lazy {
-        ChangeCategoryColorAdapter(viewModel::onColorClick)
+    private val colorsAdapter: BaseRecyclerAdapter by lazy {
+        BaseRecyclerAdapter(
+            createColorAdapterDelegate(viewModel::onColorClick)
+        )
     }
-    private val typesAdapter: ChangeCategoryTypeAdapter by lazy {
-        ChangeCategoryTypeAdapter(viewModel::onTypeClick)
+    private val typesAdapter: BaseRecyclerAdapter by lazy {
+        BaseRecyclerAdapter(
+            createRecordTypeAdapterDelegate(viewModel::onTypeClick),
+            createDividerAdapterDelegate(),
+            createInfoAdapterDelegate(),
+            createEmptyAdapterDelegate()
+        )
     }
 
     // TODO by delegate?

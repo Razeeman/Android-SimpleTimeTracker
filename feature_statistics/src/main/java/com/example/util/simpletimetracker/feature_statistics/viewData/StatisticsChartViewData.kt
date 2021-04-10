@@ -7,7 +7,7 @@ data class StatisticsChartViewData(
     val data: List<PiePortion>
 ) : ViewHolderType {
 
-    override fun getViewType(): Int = ViewHolderType.HEADER
+    override fun getUniqueId(): Long = 1L
 
-    override fun getUniqueId(): Long? = 1L
+    override fun isValidType(other: ViewHolderType): Boolean = other is StatisticsChartViewData
 }

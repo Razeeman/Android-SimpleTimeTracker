@@ -5,11 +5,12 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
 import androidx.core.content.res.ResourcesCompat
+import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.extension.dpToPx
 import com.example.util.simpletimetracker.core.extension.spToPx
 import com.example.util.simpletimetracker.core.extension.updatePadding
 import com.example.util.simpletimetracker.feature_statistics_detail.R
-import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailCardAdapter
+import com.example.util.simpletimetracker.feature_statistics_detail.adapter.createStatisticsDetailCardAdapterDelegate
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailCardViewData
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
@@ -37,8 +38,10 @@ class StatisticsDetailCardView @JvmOverloads constructor(
 
     private var itemsCount: Int
     private var titleTextSize: Int = 16.spToPx()
-    private val typesAdapter: StatisticsDetailCardAdapter by lazy {
-        StatisticsDetailCardAdapter(titleTextSize, ::onItemClick)
+    private val typesAdapter: BaseRecyclerAdapter by lazy {
+        BaseRecyclerAdapter(
+            createStatisticsDetailCardAdapterDelegate(titleTextSize, ::onItemClick)
+        )
     }
 
     init {

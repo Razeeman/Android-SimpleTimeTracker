@@ -6,7 +6,7 @@ data class HintViewData(
     val text: String
 ) : ViewHolderType {
 
-    override fun getViewType(): Int = ViewHolderType.HINT
+    override fun getUniqueId(): Long = text.hashCode().toLong()
 
-    override fun getUniqueId(): Long? = text.hashCode().toLong()
+    override fun isValidType(other: ViewHolderType): Boolean = other is HintViewData
 }

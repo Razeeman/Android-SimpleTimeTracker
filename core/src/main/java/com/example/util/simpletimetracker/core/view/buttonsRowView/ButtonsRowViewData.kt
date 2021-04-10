@@ -8,7 +8,7 @@ abstract class ButtonsRowViewData : ViewHolderType {
     abstract val name: String
     abstract val isSelected: Boolean
 
-    override fun getViewType(): Int = ViewHolderType.VIEW
+    override fun getUniqueId(): Long = id
 
-    override fun getUniqueId(): Long? = id
+    override fun isValidType(other: ViewHolderType): Boolean = other is ButtonsRowViewData
 }

@@ -1,27 +1,16 @@
 package com.example.util.simpletimetracker.core.adapter.hint
 
-import android.view.ViewGroup
 import com.example.util.simpletimetracker.core.R
-import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapterDelegate
-import com.example.util.simpletimetracker.core.adapter.BaseRecyclerViewHolder
-import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.core.adapter.createRecyclerAdapterDelegate
 import kotlinx.android.synthetic.main.item_hint_layout.view.tvHintItemText
 
-class HintAdapterDelegate : BaseRecyclerAdapterDelegate() {
+fun createHintAdapterDelegate() = createRecyclerAdapterDelegate<HintViewData>(
+    R.layout.item_hint_layout
+) { itemView, item, _ ->
 
-    override fun onCreateViewHolder(parent: ViewGroup): BaseRecyclerViewHolder =
-        HintViewHolder(parent)
+    with(itemView) {
+        item as HintViewData
 
-    inner class HintViewHolder(parent: ViewGroup) :
-        BaseRecyclerViewHolder(parent, R.layout.item_hint_layout) {
-
-        override fun bind(
-            item: ViewHolderType,
-            payloads: List<Any>
-        ) = with(itemView) {
-            item as HintViewData
-
-            tvHintItemText.text = item.text
-        }
+        tvHintItemText.text = item.text
     }
 }

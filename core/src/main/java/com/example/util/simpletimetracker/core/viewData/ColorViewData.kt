@@ -8,7 +8,7 @@ data class ColorViewData(
     @ColorInt val colorInt: Int
 ) : ViewHolderType {
 
-    override fun getViewType(): Int = ViewHolderType.VIEW
+    override fun getUniqueId(): Long = colorId.toLong()
 
-    override fun getUniqueId(): Long? = colorId.toLong()
+    override fun isValidType(other: ViewHolderType): Boolean = other is ColorViewData
 }

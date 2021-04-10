@@ -5,13 +5,17 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
+import com.example.util.simpletimetracker.core.adapter.empty.createEmptyAdapterDelegate
+import com.example.util.simpletimetracker.core.adapter.loader.createLoaderAdapterDelegate
+import com.example.util.simpletimetracker.core.adapter.record.createRecordAdapterDelegate
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.TypesFilterDialogListener
 import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.core.viewModel.RemoveRecordViewModel
 import com.example.util.simpletimetracker.feature_records_all.R
-import com.example.util.simpletimetracker.feature_records_all.adapter.RecordAllAdapter
+import com.example.util.simpletimetracker.feature_records_all.adapter.createRecordAllDateAdapterDelegate
 import com.example.util.simpletimetracker.feature_records_all.di.RecordsAllComponentProvider
 import com.example.util.simpletimetracker.feature_records_all.extra.RecordsAllExtra
 import com.example.util.simpletimetracker.feature_records_all.viewData.RecordsAllSortOrderViewData
@@ -45,8 +49,13 @@ class RecordsAllFragment : BaseFragment(R.layout.records_all_fragment),
         ownerProducer = { activity as AppCompatActivity },
         factoryProducer = { removeRecordViewModelFactory }
     )
-    private val recordsAdapter: RecordAllAdapter by lazy {
-        RecordAllAdapter(viewModel::onRecordClick)
+    private val recordsAdapter: BaseRecyclerAdapter by lazy {
+        BaseRecyclerAdapter(
+            createRecordAdapterDelegate(viewModel::onRecordClick),
+            createRecordAllDateAdapterDelegate(),
+            createEmptyAdapterDelegate(),
+            createLoaderAdapterDelegate()
+        )
     }
     private val params: RecordsAllParams by lazy {
         arguments?.getParcelable(ARGS_PARAMS) ?: RecordsAllParams()

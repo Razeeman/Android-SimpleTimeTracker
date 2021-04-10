@@ -1,49 +1,38 @@
 package com.example.util.simpletimetracker.feature_running_records.adapter
 
-import android.view.ViewGroup
 import androidx.core.view.ViewCompat
-import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapterDelegate
-import com.example.util.simpletimetracker.core.adapter.BaseRecyclerViewHolder
-import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.core.adapter.createRecyclerAdapterDelegate
 import com.example.util.simpletimetracker.core.extension.dpToPx
 import com.example.util.simpletimetracker.core.extension.setOnClickWith
 import com.example.util.simpletimetracker.core.extension.setOnLongClick
 import com.example.util.simpletimetracker.core.view.TransitionNames
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_running_records.R
-import kotlinx.android.synthetic.main.item_running_record_type_layout.view.*
+import kotlinx.android.synthetic.main.item_running_record_type_layout.view.viewRecordTypeItem
 
-class RunningRecordTypeAdapterDelegate(
-    private val onItemClick: ((RecordTypeViewData) -> Unit),
-    private val onItemLongClick: ((RecordTypeViewData, Map<Any, String>) -> Unit)
-) : BaseRecyclerAdapterDelegate() {
+fun createRunningRecordTypeAdapterDelegate(
+    onItemClick: ((RecordTypeViewData) -> Unit),
+    onItemLongClick: ((RecordTypeViewData, Map<Any, String>) -> Unit)
+) = createRecyclerAdapterDelegate<RecordTypeViewData>(
+    R.layout.item_running_record_type_layout
+) { itemView, item, _ ->
 
-    override fun onCreateViewHolder(parent: ViewGroup): BaseRecyclerViewHolder =
-        RunningRecordTypeViewHolder(parent)
+    with(itemView.viewRecordTypeItem) {
+        item as RecordTypeViewData
+        val transitionName = TransitionNames.RECORD_TYPE + item.id
 
-    inner class RunningRecordTypeViewHolder(parent: ViewGroup) :
-        BaseRecyclerViewHolder(parent, R.layout.item_running_record_type_layout) {
-
-        override fun bind(
-            item: ViewHolderType,
-            payloads: List<Any>
-        ) = with(itemView.viewRecordTypeItem) {
-            item as RecordTypeViewData
-            val transitionName = TransitionNames.RECORD_TYPE + item.id
-
-            layoutParams = layoutParams.also { params ->
-                item.width?.dpToPx()?.let { params.width = it }
-                item.height?.dpToPx()?.let { params.height = it }
-            }
-
-            itemIsRow = item.asRow
-            itemColor = item.color
-            itemIcon = item.iconId
-            itemIconColor = item.iconColor
-            itemName = item.name
-            setOnClickWith(item, onItemClick)
-            setOnLongClick { onItemLongClick(item, mapOf(this to transitionName)) }
-            ViewCompat.setTransitionName(this, transitionName)
+        layoutParams = layoutParams.also { params ->
+            item.width?.dpToPx()?.let { params.width = it }
+            item.height?.dpToPx()?.let { params.height = it }
         }
+
+        itemIsRow = item.asRow
+        itemColor = item.color
+        itemIcon = item.iconId
+        itemIconColor = item.iconColor
+        itemName = item.name
+        setOnClickWith(item, onItemClick)
+        setOnLongClick { onItemLongClick(item, mapOf(this to transitionName)) }
+        ViewCompat.setTransitionName(this, transitionName)
     }
 }

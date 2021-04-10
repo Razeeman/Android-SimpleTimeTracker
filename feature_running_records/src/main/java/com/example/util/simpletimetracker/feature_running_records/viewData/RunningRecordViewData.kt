@@ -15,9 +15,9 @@ data class RunningRecordViewData(
     val comment: String
 ) : ViewHolderType {
 
-    override fun getViewType(): Int = ViewHolderType.RUNNING_RECORD
+    override fun getUniqueId(): Long = id
 
-    override fun getUniqueId(): Long? = id
+    override fun isValidType(other: ViewHolderType): Boolean = other is RunningRecordViewData
 
     override fun getChangePayload(other: ViewHolderType): Any? {
         other as RunningRecordViewData

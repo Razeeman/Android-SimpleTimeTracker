@@ -10,10 +10,12 @@ import android.widget.FrameLayout
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
+import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
+import com.example.util.simpletimetracker.core.adapter.loader.createLoaderAdapterDelegate
+import com.example.util.simpletimetracker.core.adapter.recordType.createRecordTypeAdapterDelegate
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.feature_dialogs.R
-import com.example.util.simpletimetracker.feature_dialogs.cardSize.adapter.CardSizeAdapter
 import com.example.util.simpletimetracker.feature_dialogs.cardSize.di.CardSizeComponentProvider
 import com.example.util.simpletimetracker.feature_dialogs.cardSize.viewData.CardSizeDefaultButtonViewData
 import com.example.util.simpletimetracker.feature_dialogs.cardSize.viewModel.CardSizeViewModel
@@ -37,8 +39,11 @@ class CardSizeDialogFragment : BottomSheetDialogFragment() {
         factoryProducer = { viewModelFactory }
     )
 
-    private val recordTypesAdapter: CardSizeAdapter by lazy {
-        CardSizeAdapter()
+    private val recordTypesAdapter: BaseRecyclerAdapter by lazy {
+        BaseRecyclerAdapter(
+            createRecordTypeAdapterDelegate(),
+            createLoaderAdapterDelegate()
+        )
     }
 
     private var behavior: BottomSheetBehavior<View>? = null
