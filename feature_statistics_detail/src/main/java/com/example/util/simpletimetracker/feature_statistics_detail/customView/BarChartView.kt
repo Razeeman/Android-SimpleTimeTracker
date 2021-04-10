@@ -16,6 +16,7 @@ import com.example.util.simpletimetracker.core.extension.dpToPx
 import com.example.util.simpletimetracker.core.utils.SingleTapDetector
 import com.example.util.simpletimetracker.core.utils.SwipeDetector
 import com.example.util.simpletimetracker.core.utils.isHorizontal
+import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_statistics_detail.R
 import kotlin.math.abs
 import kotlin.math.ceil
@@ -34,7 +35,7 @@ class BarChartView @JvmOverloads constructor(
 ) {
     // Attrs
     private var barCountInEdit: Int = 0
-    private var barDividerWidth: Int = 0
+    private var barDividerMaxWidth: Int = 0
     private var barCornerRadius: Float = 0f
     private var barColor: Int = 0
     private var legendTextSuffix = ""
@@ -60,6 +61,7 @@ class BarChartView @JvmOverloads constructor(
     private var chartWidth: Float = 0f
     private var chartHeight: Float = 0f
     private var barWidth: Float = 0f
+    private var barDividerWidth: Float = 0f
     private val legendTextPadding = 8.dpToPx()
     private val legendTextStartPadding = 4.dpToPx()
     private val legendHorizontalTextPadding = 2.dpToPx()
@@ -171,8 +173,8 @@ class BarChartView @JvmOverloads constructor(
             .run {
                 barCountInEdit =
                     getInt(R.styleable.BarChartView_barCount, 0)
-                barDividerWidth =
-                    getDimensionPixelSize(R.styleable.BarChartView_dividerWidth, 0)
+                barDividerMaxWidth =
+                    getDimensionPixelSize(R.styleable.BarChartView_dividerMaxWidth, 0)
                 barCornerRadius =
                     getDimensionPixelSize(R.styleable.BarChartView_barCornerRadius, 0).toFloat()
                 barColor =
@@ -269,6 +271,7 @@ class BarChartView @JvmOverloads constructor(
         chartWidth = pixelRightBound
         chartHeight = pixelBottomBound - pixelTopBound
         barWidth = chartWidth / bars.size
+        barDividerWidth = barDividerMaxWidth.takeIf { it < barWidth / 2 }?.toFloat().orZero()
 
         // Legend lines value points
         val points = (0..valueUpperBound step nearestUpperStep).toList()

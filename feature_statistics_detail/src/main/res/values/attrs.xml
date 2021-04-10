@@ -3,7 +3,7 @@
     <declare-styleable name="BarChartView">
         <!-- Used for layout preview -->
         <attr name="barCount" format="integer" />
-        <attr name="dividerWidth" format="dimension" />
+        <attr name="dividerMaxWidth" format="dimension" />
         <attr name="barCornerRadius" format="dimension" />
         <attr name="barColor" format="color" />
         <attr name="legendTextSuffix" format="string" />
