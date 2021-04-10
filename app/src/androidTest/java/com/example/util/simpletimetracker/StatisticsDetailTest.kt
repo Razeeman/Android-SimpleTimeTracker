@@ -138,7 +138,7 @@ class StatisticsDetailTest : BaseUiTest() {
         checkPreview(color, icon, name)
 
         // Switch range
-        clickOnView(allOf(withText(R.string.title_overall), isCompletelyDisplayed()))
+        clickOnView(allOf(withText(R.string.range_overall), isCompletelyDisplayed()))
         clickOnViewWithText(R.string.title_today)
 
         // Bar chart
@@ -209,7 +209,7 @@ class StatisticsDetailTest : BaseUiTest() {
         checkPreview(color, icon, name)
 
         // Switch range
-        clickOnView(allOf(withText(R.string.title_overall), isCompletelyDisplayed()))
+        clickOnView(allOf(withText(R.string.range_overall), isCompletelyDisplayed()))
         clickOnViewWithText(R.string.title_this_week)
 
         // Bar chart
@@ -280,7 +280,7 @@ class StatisticsDetailTest : BaseUiTest() {
         checkPreview(color, icon, name)
 
         // Switch range
-        clickOnView(allOf(withText(R.string.title_overall), isCompletelyDisplayed()))
+        clickOnView(allOf(withText(R.string.range_overall), isCompletelyDisplayed()))
         clickOnViewWithText(R.string.title_this_month)
 
         // Bar chart
@@ -351,7 +351,7 @@ class StatisticsDetailTest : BaseUiTest() {
         checkPreview(color, icon, name)
 
         // Switch range
-        clickOnView(allOf(withText(R.string.title_overall), isCompletelyDisplayed()))
+        clickOnView(allOf(withText(R.string.range_overall), isCompletelyDisplayed()))
         clickOnViewWithText(R.string.title_this_year)
 
         // Bar chart

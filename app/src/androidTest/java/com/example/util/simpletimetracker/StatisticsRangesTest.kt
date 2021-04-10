@@ -54,7 +54,7 @@ class StatisticsRangesTest : BaseUiTest() {
 
         // Switch to week range
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        checkViewIsDisplayed(withText(R.string.title_select_day))
+        checkViewIsDisplayed(withText(R.string.range_select_day))
         clickOnViewWithText(R.string.title_this_week)
         checkViewIsDisplayed(allOf(withText(name), isCompletelyDisplayed()))
         clickOnViewWithId(R.id.btnStatisticsContainerPrevious)
@@ -67,7 +67,7 @@ class StatisticsRangesTest : BaseUiTest() {
 
         // Switch to month range
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        checkViewIsDisplayed(withText(R.string.title_select_week))
+        checkViewIsDisplayed(withText(R.string.range_select_week))
         clickOnViewWithText(R.string.title_this_month)
         checkViewIsDisplayed(allOf(withText(name), isCompletelyDisplayed()))
         clickOnViewWithId(R.id.btnStatisticsContainerPrevious)
@@ -80,7 +80,7 @@ class StatisticsRangesTest : BaseUiTest() {
 
         // Switch to year range
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        checkViewIsDisplayed(withText(R.string.title_select_month))
+        checkViewIsDisplayed(withText(R.string.range_select_month))
         clickOnViewWithText(R.string.title_this_year)
         checkViewIsDisplayed(allOf(withText(name), isCompletelyDisplayed()))
         clickOnViewWithId(R.id.btnStatisticsContainerPrevious)
@@ -93,8 +93,8 @@ class StatisticsRangesTest : BaseUiTest() {
 
         // Switch to overall range
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        checkViewIsDisplayed(withText(R.string.title_select_year))
-        clickOnViewWithText(R.string.title_overall)
+        checkViewIsDisplayed(withText(R.string.range_select_year))
+        clickOnViewWithText(R.string.range_overall)
         Thread.sleep(1000)
         checkViewIsDisplayed(allOf(withText(name), isCompletelyDisplayed()))
         checkViewIsNotDisplayed(withId(R.id.btnStatisticsContainerPrevious))
@@ -102,13 +102,13 @@ class StatisticsRangesTest : BaseUiTest() {
 
         // Switch back to day
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        checkViewDoesNotExist(withText(R.string.title_select_day))
-        checkViewDoesNotExist(withText(R.string.title_select_week))
-        checkViewDoesNotExist(withText(R.string.title_select_month))
-        checkViewDoesNotExist(withText(R.string.title_select_year))
+        checkViewDoesNotExist(withText(R.string.range_select_day))
+        checkViewDoesNotExist(withText(R.string.range_select_week))
+        checkViewDoesNotExist(withText(R.string.range_select_month))
+        checkViewDoesNotExist(withText(R.string.range_select_year))
         clickOnViewWithText(R.string.title_today)
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        checkViewIsDisplayed(withText(R.string.title_select_day))
+        checkViewIsDisplayed(withText(R.string.range_select_day))
     }
 
     @Test
@@ -124,7 +124,7 @@ class StatisticsRangesTest : BaseUiTest() {
 
         // Check yesterday
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.title_select_day)
+        clickOnViewWithText(R.string.range_select_day)
         onView(withClassName(equalTo(DatePicker::class.java.name)))
             .perform(
                 PickerActions.setDate(
@@ -144,7 +144,7 @@ class StatisticsRangesTest : BaseUiTest() {
 
         // Check tomorrow
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.title_select_day)
+        clickOnViewWithText(R.string.range_select_day)
         onView(withClassName(equalTo(DatePicker::class.java.name)))
             .perform(
                 PickerActions.setDate(
@@ -182,7 +182,7 @@ class StatisticsRangesTest : BaseUiTest() {
 
         // Check prev date
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.title_select_day)
+        clickOnViewWithText(R.string.range_select_day)
         onView(withClassName(equalTo(DatePicker::class.java.name)))
             .perform(
                 PickerActions.setDate(
@@ -202,7 +202,7 @@ class StatisticsRangesTest : BaseUiTest() {
 
         // Check next date
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.title_select_day)
+        clickOnViewWithText(R.string.range_select_day)
         onView(withClassName(equalTo(DatePicker::class.java.name)))
             .perform(
                 PickerActions.setDate(
@@ -238,7 +238,7 @@ class StatisticsRangesTest : BaseUiTest() {
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         clickOnViewWithText(R.string.title_this_week)
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.title_select_week)
+        clickOnViewWithText(R.string.range_select_week)
         onView(withClassName(equalTo(DatePicker::class.java.name)))
             .perform(
                 PickerActions.setDate(
@@ -258,7 +258,7 @@ class StatisticsRangesTest : BaseUiTest() {
 
         // Check next week
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.title_select_week)
+        clickOnViewWithText(R.string.range_select_week)
         onView(withClassName(equalTo(DatePicker::class.java.name)))
             .perform(
                 PickerActions.setDate(
@@ -294,7 +294,7 @@ class StatisticsRangesTest : BaseUiTest() {
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         clickOnViewWithText(R.string.title_this_week)
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.title_select_week)
+        clickOnViewWithText(R.string.range_select_week)
         onView(withClassName(equalTo(DatePicker::class.java.name)))
             .perform(
                 PickerActions.setDate(
@@ -314,7 +314,7 @@ class StatisticsRangesTest : BaseUiTest() {
 
         // Check next date
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.title_select_week)
+        clickOnViewWithText(R.string.range_select_week)
         onView(withClassName(equalTo(DatePicker::class.java.name)))
             .perform(
                 PickerActions.setDate(
@@ -354,7 +354,7 @@ class StatisticsRangesTest : BaseUiTest() {
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         clickOnViewWithText(R.string.title_this_week)
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.title_select_week)
+        clickOnViewWithText(R.string.range_select_week)
         onView(withClassName(equalTo(DatePicker::class.java.name)))
             .perform(
                 PickerActions.setDate(
@@ -374,7 +374,7 @@ class StatisticsRangesTest : BaseUiTest() {
 
         // Check next date
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.title_select_week)
+        clickOnViewWithText(R.string.range_select_week)
         onView(withClassName(equalTo(DatePicker::class.java.name)))
             .perform(
                 PickerActions.setDate(
@@ -414,7 +414,7 @@ class StatisticsRangesTest : BaseUiTest() {
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         clickOnViewWithText(R.string.title_this_week)
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.title_select_week)
+        clickOnViewWithText(R.string.range_select_week)
         onView(withClassName(equalTo(DatePicker::class.java.name)))
             .perform(
                 PickerActions.setDate(
@@ -434,7 +434,7 @@ class StatisticsRangesTest : BaseUiTest() {
 
         // Check next date
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.title_select_week)
+        clickOnViewWithText(R.string.range_select_week)
         onView(withClassName(equalTo(DatePicker::class.java.name)))
             .perform(
                 PickerActions.setDate(
@@ -470,7 +470,7 @@ class StatisticsRangesTest : BaseUiTest() {
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         clickOnViewWithText(R.string.title_this_month)
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.title_select_month)
+        clickOnViewWithText(R.string.range_select_month)
         onView(withClassName(equalTo(DatePicker::class.java.name)))
             .perform(
                 PickerActions.setDate(
@@ -490,7 +490,7 @@ class StatisticsRangesTest : BaseUiTest() {
 
         // Check next month
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.title_select_month)
+        clickOnViewWithText(R.string.range_select_month)
         onView(withClassName(equalTo(DatePicker::class.java.name)))
             .perform(
                 PickerActions.setDate(
@@ -530,7 +530,7 @@ class StatisticsRangesTest : BaseUiTest() {
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         clickOnViewWithText(R.string.title_this_month)
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.title_select_month)
+        clickOnViewWithText(R.string.range_select_month)
         onView(withClassName(equalTo(DatePicker::class.java.name)))
             .perform(
                 PickerActions.setDate(
@@ -550,7 +550,7 @@ class StatisticsRangesTest : BaseUiTest() {
 
         // Check next date
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.title_select_month)
+        clickOnViewWithText(R.string.range_select_month)
         onView(withClassName(equalTo(DatePicker::class.java.name)))
             .perform(
                 PickerActions.setDate(
@@ -586,7 +586,7 @@ class StatisticsRangesTest : BaseUiTest() {
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         clickOnViewWithText(R.string.title_this_year)
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.title_select_year)
+        clickOnViewWithText(R.string.range_select_year)
         onView(withClassName(equalTo(DatePicker::class.java.name)))
             .perform(
                 PickerActions.setDate(
@@ -606,7 +606,7 @@ class StatisticsRangesTest : BaseUiTest() {
 
         // Check next month
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.title_select_year)
+        clickOnViewWithText(R.string.range_select_year)
         onView(withClassName(equalTo(DatePicker::class.java.name)))
             .perform(
                 PickerActions.setDate(
@@ -646,7 +646,7 @@ class StatisticsRangesTest : BaseUiTest() {
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         clickOnViewWithText(R.string.title_this_year)
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.title_select_year)
+        clickOnViewWithText(R.string.range_select_year)
         onView(withClassName(equalTo(DatePicker::class.java.name)))
             .perform(
                 PickerActions.setDate(
@@ -666,7 +666,7 @@ class StatisticsRangesTest : BaseUiTest() {
 
         // Check next date
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.title_select_year)
+        clickOnViewWithText(R.string.range_select_year)
         onView(withClassName(equalTo(DatePicker::class.java.name)))
             .perform(
                 PickerActions.setDate(

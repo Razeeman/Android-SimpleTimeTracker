@@ -38,7 +38,7 @@ class RangeMapper @Inject constructor(
             RangeLength.WEEK -> timeMapper.toWeekTitle(position)
             RangeLength.MONTH -> timeMapper.toMonthTitle(position)
             RangeLength.YEAR -> timeMapper.toYearTitle(position)
-            RangeLength.ALL -> resourceRepo.getString(R.string.title_overall)
+            RangeLength.ALL -> resourceRepo.getString(R.string.range_overall)
         }
     }
 
@@ -67,11 +67,11 @@ class RangeMapper @Inject constructor(
 
     private fun mapToRangeName(rangeLength: RangeLength): RangeViewData {
         val text = when (rangeLength) {
-            RangeLength.DAY -> R.string.title_today
-            RangeLength.WEEK -> R.string.title_this_week
-            RangeLength.MONTH -> R.string.title_this_month
-            RangeLength.YEAR -> R.string.title_this_year
-            RangeLength.ALL -> R.string.title_overall
+            RangeLength.DAY -> R.string.range_day
+            RangeLength.WEEK -> R.string.range_week
+            RangeLength.MONTH -> R.string.range_month
+            RangeLength.YEAR -> R.string.range_year
+            RangeLength.ALL -> R.string.range_overall
         }.let(resourceRepo::getString)
 
         return RangeViewData(
@@ -82,10 +82,10 @@ class RangeMapper @Inject constructor(
 
     private fun mapToSelectDateName(rangeLength: RangeLength): SelectDateViewData? {
         return when (rangeLength) {
-            RangeLength.DAY -> R.string.title_select_day
-            RangeLength.WEEK -> R.string.title_select_week
-            RangeLength.MONTH -> R.string.title_select_month
-            RangeLength.YEAR -> R.string.title_select_year
+            RangeLength.DAY -> R.string.range_select_day
+            RangeLength.WEEK -> R.string.range_select_week
+            RangeLength.MONTH -> R.string.range_select_month
+            RangeLength.YEAR -> R.string.range_select_year
             else -> null
         }
             ?.let(resourceRepo::getString)

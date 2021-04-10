@@ -1,17 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!--  Range selection  -->
     <string name="title_yesterday">Yesterday</string>
     <string name="title_today">Today</string>
     <string name="title_tomorrow">Tomorrow</string>
     <string name="title_this_week">This week</string>
     <string name="title_this_month">This month</string>
     <string name="title_this_year">This year</string>
-    <string name="title_overall">Overall</string>
-    <string name="title_select_day">Select date</string>
-    <string name="title_select_week">Select week</string>
-    <string name="title_select_month">Select month</string>
-    <string name="title_select_year">Select year</string>
+
+    <string name="range_day">Day</string>
+    <string name="range_week">Week</string>
+    <string name="range_month">Month</string>
+    <string name="range_year">Year</string>
+    <string name="range_overall">Overall</string>
+    <string name="range_select_day">Select date</string>
+    <string name="range_select_week">Select week</string>
+    <string name="range_select_month">Select month</string>
+    <string name="range_select_year">Select year</string>
 
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>

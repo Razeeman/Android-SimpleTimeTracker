@@ -65,7 +65,7 @@ class StatisticsTest : BaseUiTest() {
 
         // Switch to overall range
         clickOnView(allOf(withText(R.string.title_this_year), isCompletelyDisplayed()))
-        clickOnViewWithText(R.string.title_overall)
+        clickOnViewWithText(R.string.range_overall)
         Thread.sleep(1000)
 
         checkViewDoesNotExist(
@@ -168,7 +168,7 @@ class StatisticsTest : BaseUiTest() {
 
         // Switch to overall range
         clickOnView(allOf(withText(R.string.title_this_year), isCompletelyDisplayed()))
-        clickOnViewWithText(R.string.title_overall)
+        clickOnViewWithText(R.string.range_overall)
         Thread.sleep(1000)
 
         checkViewDoesNotExist(allOf(withText("3h 0m"), isCompletelyDisplayed()))
