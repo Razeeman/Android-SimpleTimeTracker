@@ -53,7 +53,7 @@ class StatisticsContainerViewModel @Inject constructor(
         when (item) {
             is SelectDateViewData -> {
                 onSelectDateClick()
-                updatePosition(0)
+                updateRanges()
             }
             is RangeViewData -> {
                 rangeLength = item.range
@@ -91,12 +91,20 @@ class StatisticsContainerViewModel @Inject constructor(
 
     private fun updatePosition(newPosition: Int) {
         (position as MutableLiveData).value = newPosition
+        updateTitle()
+        updateRanges()
+    }
+
+    private fun updateTitle() {
         (title as MutableLiveData).value = loadTitle()
-        (rangeItems as MutableLiveData).value = loadRanges()
     }
 
     private fun loadTitle(): String {
         return rangeMapper.mapToTitle(rangeLength, position.value.orZero())
+    }
+
+    private fun updateRanges() {
+        (rangeItems as MutableLiveData).value = loadRanges()
     }
 
     private fun loadRanges(): RangesViewData {
