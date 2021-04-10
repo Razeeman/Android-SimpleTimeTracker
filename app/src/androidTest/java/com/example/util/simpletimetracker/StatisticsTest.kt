@@ -50,17 +50,17 @@ class StatisticsTest : BaseUiTest() {
 
         // Switch to week range
         clickOnView(allOf(withText(R.string.title_today), isCompletelyDisplayed()))
-        clickOnViewWithText(R.string.title_this_week)
+        clickOnViewWithText(R.string.range_week)
         checkRecordsRange(firstColor, lastColor, firstIcon, lastIcon, name, newName)
 
         // Switch to month range
         clickOnView(allOf(withText(R.string.title_this_week), isCompletelyDisplayed()))
-        clickOnViewWithText(R.string.title_this_month)
+        clickOnViewWithText(R.string.range_month)
         checkRecordsRange(firstColor, lastColor, firstIcon, lastIcon, name, newName)
 
         // Switch to year range
         clickOnView(allOf(withText(R.string.title_this_month), isCompletelyDisplayed()))
-        clickOnViewWithText(R.string.title_this_year)
+        clickOnViewWithText(R.string.range_year)
         checkRecordsRange(firstColor, lastColor, firstIcon, lastIcon, name, newName)
 
         // Switch to overall range
@@ -153,17 +153,17 @@ class StatisticsTest : BaseUiTest() {
 
         // Switch to week range
         clickOnView(allOf(withText(R.string.title_today), isCompletelyDisplayed()))
-        clickOnViewWithText(R.string.title_this_week)
+        clickOnViewWithText(R.string.range_week)
         checkCategoryRange(firstColor, lastColor, categoryName1, categoryName2, categoryName3)
 
         // Switch to month range
         clickOnView(allOf(withText(R.string.title_this_week), isCompletelyDisplayed()))
-        clickOnViewWithText(R.string.title_this_month)
+        clickOnViewWithText(R.string.range_month)
         checkCategoryRange(firstColor, lastColor, categoryName1, categoryName2, categoryName3)
 
         // Switch to year range
         clickOnView(allOf(withText(R.string.title_this_month), isCompletelyDisplayed()))
-        clickOnViewWithText(R.string.title_this_year)
+        clickOnViewWithText(R.string.range_year)
         checkCategoryRange(firstColor, lastColor, categoryName1, categoryName2, categoryName3)
 
         // Switch to overall range

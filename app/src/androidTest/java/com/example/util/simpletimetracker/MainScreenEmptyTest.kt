@@ -66,17 +66,17 @@ class MainScreenEmptyTest : BaseUiTest() {
 
         // Week range
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.title_this_week)
+        clickOnViewWithText(R.string.range_week)
         checkRanges()
 
         // Month range
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.title_this_month)
+        clickOnViewWithText(R.string.range_month)
         checkRanges()
 
         // Year range
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.title_this_year)
+        clickOnViewWithText(R.string.range_year)
         checkRanges()
 
         // Overall range
@@ -87,7 +87,7 @@ class MainScreenEmptyTest : BaseUiTest() {
 
         // Back to day range
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.title_today)
+        clickOnViewWithText(R.string.range_day)
         checkRanges()
 
         // Empty category statistics
@@ -97,22 +97,22 @@ class MainScreenEmptyTest : BaseUiTest() {
 
         // Day range
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.title_today)
+        clickOnViewWithText(R.string.range_day)
         checkCategoryRanges()
 
         // Week range
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.title_this_week)
+        clickOnViewWithText(R.string.range_week)
         checkCategoryRanges()
 
         // Month range
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.title_this_month)
+        clickOnViewWithText(R.string.range_month)
         checkCategoryRanges()
 
         // Year range
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.title_this_year)
+        clickOnViewWithText(R.string.range_year)
         checkCategoryRanges()
 
         // Overall range
@@ -123,7 +123,7 @@ class MainScreenEmptyTest : BaseUiTest() {
 
         // Back to day range
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.title_today)
+        clickOnViewWithText(R.string.range_day)
         checkCategoryRanges()
 
         // Add activity

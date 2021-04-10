@@ -139,7 +139,7 @@ class StatisticsDetailTest : BaseUiTest() {
 
         // Switch range
         clickOnView(allOf(withText(R.string.range_overall), isCompletelyDisplayed()))
-        clickOnViewWithText(R.string.title_today)
+        clickOnViewWithText(R.string.range_day)
 
         // Bar chart
         checkViewDoesNotExist(
@@ -210,7 +210,7 @@ class StatisticsDetailTest : BaseUiTest() {
 
         // Switch range
         clickOnView(allOf(withText(R.string.range_overall), isCompletelyDisplayed()))
-        clickOnViewWithText(R.string.title_this_week)
+        clickOnViewWithText(R.string.range_week)
 
         // Bar chart
         checkViewIsDisplayed(
@@ -281,7 +281,7 @@ class StatisticsDetailTest : BaseUiTest() {
 
         // Switch range
         clickOnView(allOf(withText(R.string.range_overall), isCompletelyDisplayed()))
-        clickOnViewWithText(R.string.title_this_month)
+        clickOnViewWithText(R.string.range_month)
 
         // Bar chart
         checkViewIsDisplayed(
@@ -352,7 +352,7 @@ class StatisticsDetailTest : BaseUiTest() {
 
         // Switch range
         clickOnView(allOf(withText(R.string.range_overall), isCompletelyDisplayed()))
-        clickOnViewWithText(R.string.title_this_year)
+        clickOnViewWithText(R.string.range_year)
 
         // Bar chart
         checkViewIsDisplayed(

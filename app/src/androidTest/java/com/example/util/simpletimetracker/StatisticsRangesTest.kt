@@ -55,7 +55,7 @@ class StatisticsRangesTest : BaseUiTest() {
         // Switch to week range
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         checkViewIsDisplayed(withText(R.string.range_select_day))
-        clickOnViewWithText(R.string.title_this_week)
+        clickOnViewWithText(R.string.range_week)
         checkViewIsDisplayed(allOf(withText(name), isCompletelyDisplayed()))
         clickOnViewWithId(R.id.btnStatisticsContainerPrevious)
         clickOnViewWithId(R.id.btnStatisticsContainerPrevious)
@@ -68,7 +68,7 @@ class StatisticsRangesTest : BaseUiTest() {
         // Switch to month range
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         checkViewIsDisplayed(withText(R.string.range_select_week))
-        clickOnViewWithText(R.string.title_this_month)
+        clickOnViewWithText(R.string.range_month)
         checkViewIsDisplayed(allOf(withText(name), isCompletelyDisplayed()))
         clickOnViewWithId(R.id.btnStatisticsContainerPrevious)
         clickOnViewWithId(R.id.btnStatisticsContainerPrevious)
@@ -81,7 +81,7 @@ class StatisticsRangesTest : BaseUiTest() {
         // Switch to year range
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         checkViewIsDisplayed(withText(R.string.range_select_month))
-        clickOnViewWithText(R.string.title_this_year)
+        clickOnViewWithText(R.string.range_year)
         checkViewIsDisplayed(allOf(withText(name), isCompletelyDisplayed()))
         clickOnViewWithId(R.id.btnStatisticsContainerPrevious)
         clickOnViewWithId(R.id.btnStatisticsContainerPrevious)
@@ -106,7 +106,7 @@ class StatisticsRangesTest : BaseUiTest() {
         checkViewDoesNotExist(withText(R.string.range_select_week))
         checkViewDoesNotExist(withText(R.string.range_select_month))
         checkViewDoesNotExist(withText(R.string.range_select_year))
-        clickOnViewWithText(R.string.title_today)
+        clickOnViewWithText(R.string.range_day)
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         checkViewIsDisplayed(withText(R.string.range_select_day))
     }
@@ -236,7 +236,7 @@ class StatisticsRangesTest : BaseUiTest() {
 
         // Check prev week
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.title_this_week)
+        clickOnViewWithText(R.string.range_week)
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         clickOnViewWithText(R.string.range_select_week)
         onView(withClassName(equalTo(DatePicker::class.java.name)))
@@ -292,7 +292,7 @@ class StatisticsRangesTest : BaseUiTest() {
 
         // Check prev date
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.title_this_week)
+        clickOnViewWithText(R.string.range_week)
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         clickOnViewWithText(R.string.range_select_week)
         onView(withClassName(equalTo(DatePicker::class.java.name)))
@@ -352,7 +352,7 @@ class StatisticsRangesTest : BaseUiTest() {
 
         // Check prev date
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.title_this_week)
+        clickOnViewWithText(R.string.range_week)
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         clickOnViewWithText(R.string.range_select_week)
         onView(withClassName(equalTo(DatePicker::class.java.name)))
@@ -412,7 +412,7 @@ class StatisticsRangesTest : BaseUiTest() {
 
         // Check prev date
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.title_this_week)
+        clickOnViewWithText(R.string.range_week)
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         clickOnViewWithText(R.string.range_select_week)
         onView(withClassName(equalTo(DatePicker::class.java.name)))
@@ -468,7 +468,7 @@ class StatisticsRangesTest : BaseUiTest() {
 
         // Check prev months
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.title_this_month)
+        clickOnViewWithText(R.string.range_month)
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         clickOnViewWithText(R.string.range_select_month)
         onView(withClassName(equalTo(DatePicker::class.java.name)))
@@ -528,7 +528,7 @@ class StatisticsRangesTest : BaseUiTest() {
 
         // Check prev date
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.title_this_month)
+        clickOnViewWithText(R.string.range_month)
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         clickOnViewWithText(R.string.range_select_month)
         onView(withClassName(equalTo(DatePicker::class.java.name)))
@@ -584,7 +584,7 @@ class StatisticsRangesTest : BaseUiTest() {
 
         // Check prev months
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.title_this_year)
+        clickOnViewWithText(R.string.range_year)
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         clickOnViewWithText(R.string.range_select_year)
         onView(withClassName(equalTo(DatePicker::class.java.name)))
@@ -644,7 +644,7 @@ class StatisticsRangesTest : BaseUiTest() {
 
         // Check prev date
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.title_this_year)
+        clickOnViewWithText(R.string.range_year)
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         clickOnViewWithText(R.string.range_select_year)
         onView(withClassName(equalTo(DatePicker::class.java.name)))
