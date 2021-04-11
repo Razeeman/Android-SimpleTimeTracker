@@ -30,6 +30,8 @@ dependencies {
     api(Deps.Androidx.material)
     api(Deps.Androidx.lifecycleExtensions)
     api(Deps.Androidx.viewpager2)
+    api(Deps.Emoji.emojiCompat)
+    api(Deps.Emoji.emojiBundled)
     api(Deps.Google.flexBox)
     api(Deps.Google.dagger)
     api(Deps.Ktx.core)
@@ -40,10 +42,6 @@ dependencies {
     api(Deps.Ktx.liveData)
     api(Deps.Ktx.viewModel)
     api(Deps.UiTest.espressoIdling)
-
-    api("androidx.emoji:emoji:1.1.0")
-    api("androidx.emoji:emoji-appcompat:1.1.0")
-    api("androidx.emoji:emoji-bundled:1.1.0")
 
     testImplementation(Deps.Test.junit)
 }

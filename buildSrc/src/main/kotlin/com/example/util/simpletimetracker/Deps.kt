@@ -36,6 +36,15 @@ object Deps {
             "com.google.android:flexbox:${Versions.flexBox}"
     }
 
+    object Emoji {
+        const val emoji =
+            "androidx.emoji:emoji:${Versions.emoji}"
+        const val emojiCompat =
+            "androidx.emoji:emoji-appcompat:${Versions.emoji}"
+        const val emojiBundled =
+            "androidx.emoji:emoji-bundled:${Versions.emoji}"
+    }
+
     object Ktx {
         const val core =
             "androidx.core:core-ktx:${Versions.coreKtx}"
