@@ -10,9 +10,9 @@ import com.example.util.simpletimetracker.core.interactor.NotificationTypeIntera
 import com.example.util.simpletimetracker.core.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.core.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
-import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
 import com.example.util.simpletimetracker.core.viewData.CategoryViewData
 import com.example.util.simpletimetracker.core.viewData.ColorViewData
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
@@ -23,10 +23,13 @@ import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
+import com.example.util.simpletimetracker.domain.model.IconType
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_change_record_type.R
 import com.example.util.simpletimetracker.feature_change_record_type.interactor.ChangeRecordTypeViewDataInteractor
 import com.example.util.simpletimetracker.feature_change_record_type.mapper.ChangeRecordTypeMapper
+import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeEmojiViewData
+import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconTypeViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconViewData
 import com.example.util.simpletimetracker.navigation.Notification
 import com.example.util.simpletimetracker.navigation.Router
@@ -43,7 +46,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
     private val recordInteractor: RecordInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
-    private val changeRecordTypeViewDataInteractor: ChangeRecordTypeViewDataInteractor,
+    private val viewDataInteractor: ChangeRecordTypeViewDataInteractor,
     private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
     private val widgetInteractor: WidgetInteractor,
     private val notificationTypeInteractor: NotificationTypeInteractor,
@@ -51,9 +54,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
     private val changeRecordTypeMapper: ChangeRecordTypeMapper,
-    private val resourceRepo: ResourceRepo,
-    private val colorMapper: ColorMapper,
-    private val iconMapper: IconMapper
+    private val resourceRepo: ResourceRepo
 ) : ViewModel() {
 
     lateinit var extra: ChangeRecordTypeParams
@@ -104,6 +105,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     val deleteIconVisibility: LiveData<Boolean> by lazy { MutableLiveData(extra.id != 0L) }
     val keyboardVisibility: LiveData<Boolean> by lazy { MutableLiveData(extra.id == 0L) }
 
+    private var iconType: IconType = IconType.IMAGE
     private var initialCategories: List<Long> = emptyList()
     private var newName: String = ""
     private var newIconName: String = ""
@@ -169,10 +171,27 @@ class ChangeRecordTypeViewModel @Inject constructor(
         }
     }
 
+    fun onIconTypeClick(viewData: ButtonsRowViewData) {
+        if (viewData !is ChangeRecordTypeIconTypeViewData) return
+        viewModelScope.launch {
+            iconType = viewData.iconType
+            updateIcons()
+        }
+    }
+
     fun onIconClick(item: ChangeRecordTypeIconViewData) {
         viewModelScope.launch {
             if (item.iconName != newIconName) {
                 newIconName = item.iconName
+                updateRecordPreviewViewData()
+            }
+        }
+    }
+
+    fun onEmojiClick(item: ChangeRecordTypeEmojiViewData) {
+        viewModelScope.launch {
+            if (item.emojiText != newIconName) {
+                newIconName = item.emojiText
                 updateRecordPreviewViewData()
             }
         }
@@ -310,18 +329,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     }
 
     private suspend fun loadColorsViewData(): List<ViewHolderType> {
-        val isDarkTheme = prefsInteractor.getDarkMode()
-
-        return ColorMapper.getAvailableColors(isDarkTheme)
-            .mapIndexed { colorId, colorResId ->
-                colorId to resourceRepo.getColor(colorResId)
-            }
-            .map { (colorId, colorInt) ->
-                ColorViewData(
-                    colorId = colorId,
-                    colorInt = colorInt
-                )
-            }
+        return viewDataInteractor.getColorsViewData()
     }
 
     private fun updateIcons() = viewModelScope.launch {
@@ -330,18 +338,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     }
 
     private suspend fun loadIconsViewData(): List<ViewHolderType> {
-        val isDarkTheme = prefsInteractor.getDarkMode()
-
-        return iconMapper.availableIconsNames
-            .map { (iconName, iconResId) ->
-                ChangeRecordTypeIconViewData(
-                    iconName = iconName,
-                    iconResId = iconResId,
-                    colorInt = newColorId
-                        .let { colorMapper.mapToColorResId(it, isDarkTheme) }
-                        .let(resourceRepo::getColor)
-                )
-            }
+        return viewDataInteractor.getIconsViewData(newColorId, iconType)
     }
 
     private fun updateCategoriesViewData() = viewModelScope.launch {
@@ -350,7 +347,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     }
 
     private suspend fun loadCategoriesViewData(): List<ViewHolderType> {
-        return changeRecordTypeViewDataInteractor.getCategoriesViewData(newCategories)
+        return viewDataInteractor.getCategoriesViewData(newCategories)
     }
 
     private fun updateGoalTimeViewData() {

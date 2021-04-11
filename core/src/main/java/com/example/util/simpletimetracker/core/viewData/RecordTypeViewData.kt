@@ -1,13 +1,12 @@
 package com.example.util.simpletimetracker.core.viewData
 
 import androidx.annotation.ColorInt
-import androidx.annotation.DrawableRes
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 
 data class RecordTypeViewData(
     val id: Long,
     val name: String,
-    @DrawableRes val iconId: Int,
+    val iconId: RecordTypeIcon,
     @ColorInt val iconColor: Int,
     @ColorInt val color: Int,
     val width: Int? = null,

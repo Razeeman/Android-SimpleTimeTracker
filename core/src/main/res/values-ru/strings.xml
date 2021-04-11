@@ -65,6 +65,7 @@
     <string name="change_record_type_name_hint">Введите новое имя</string>
     <string name="change_record_type_color_hint">Цвет</string>
     <string name="change_record_type_icon_hint">Иконка</string>
+    <string name="change_record_type_emoji_hint">Эмодзи</string>
     <string name="change_record_type_category_hint">Теги</string>
     <string name="change_record_type_save">Сохранить</string>
     <string name="change_record_message_choose_name">Выберите имя</string>

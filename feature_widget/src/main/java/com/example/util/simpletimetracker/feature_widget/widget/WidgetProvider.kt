@@ -18,8 +18,10 @@ import com.example.util.simpletimetracker.core.interactor.RemoveRunningRecordMed
 import com.example.util.simpletimetracker.core.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
+import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.view.RecordTypeView
+import com.example.util.simpletimetracker.core.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
@@ -52,6 +54,9 @@ class WidgetProvider : AppWidgetProvider() {
 
     @Inject
     lateinit var widgetInteractor: WidgetInteractor
+
+    @Inject
+    lateinit var recordTypeViewDataMapper: RecordTypeViewDataMapper
 
     @Inject
     lateinit var colorMapper: ColorMapper
@@ -120,8 +125,8 @@ class WidgetProvider : AppWidgetProvider() {
         val isDarkTheme = prefsInteractor.getDarkMode()
 
         val icon = recordType?.icon
-            ?.let(iconMapper::mapToDrawableResId)
-            ?: R.drawable.unknown
+            ?.let(recordTypeViewDataMapper::mapIcon)
+            ?: RecordTypeIcon.Image(R.drawable.unknown)
 
         val name = recordType?.name
             ?: R.string.widget_load_error.let(resourceRepo::getString)

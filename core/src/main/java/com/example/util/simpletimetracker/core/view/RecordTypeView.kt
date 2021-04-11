@@ -12,8 +12,11 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.extension.setMargins
+import com.example.util.simpletimetracker.core.extension.visible
+import com.example.util.simpletimetracker.core.viewData.RecordTypeIcon
 import kotlinx.android.synthetic.main.record_type_view_vertical.view.constraintRecordTypeItem
 import kotlinx.android.synthetic.main.record_type_view_vertical.view.ivRecordTypeItemIcon
+import kotlinx.android.synthetic.main.record_type_view_vertical.view.tvRecordTypeItemEmoji
 import kotlinx.android.synthetic.main.record_type_view_vertical.view.tvRecordTypeItemName
 
 class RecordTypeView @JvmOverloads constructor(
@@ -30,9 +33,13 @@ class RecordTypeView @JvmOverloads constructor(
         View.inflate(context, R.layout.record_type_view_layout, this)
 
         ContextCompat.getColor(context, R.color.black).let(::setCardBackgroundColor)
-        radius = resources.getDimensionPixelOffset(R.dimen.record_type_card_corner_radius).toFloat()
+        radius = resources.getDimensionPixelOffset(
+            R.dimen.record_type_card_corner_radius
+        ).toFloat()
         // TODO doesn't work here for some reason, need to set in the layout
-        cardElevation = resources.getDimensionPixelOffset(R.dimen.record_type_card_elevation).toFloat()
+        cardElevation = resources.getDimensionPixelOffset(
+            R.dimen.record_type_card_elevation
+        ).toFloat()
         preventCornerOverlap = false
         useCompatPadding = true
 
@@ -47,7 +54,13 @@ class RecordTypeView @JvmOverloads constructor(
                 }
 
                 if (hasValue(R.styleable.RecordTypeView_itemIcon)) {
-                    itemIcon = getResourceId(R.styleable.RecordTypeView_itemIcon, R.drawable.unknown)
+                    val data = getResourceId(R.styleable.RecordTypeView_itemIcon, R.drawable.unknown)
+                    itemIcon = RecordTypeIcon.Image(data)
+                }
+
+                if (hasValue(R.styleable.RecordTypeView_itemEmoji)) {
+                    val data = getString(R.styleable.RecordTypeView_itemEmoji).orEmpty()
+                    itemIcon = RecordTypeIcon.Emoji(data)
                 }
 
                 if (hasValue(R.styleable.RecordTypeView_itemIconColor)) {
@@ -74,10 +87,12 @@ class RecordTypeView @JvmOverloads constructor(
             field = value
         }
 
-    var itemIcon: Int = 0
+    var itemIcon: RecordTypeIcon = RecordTypeIcon.Image(0)
         set(value) {
-            ivRecordTypeItemIcon.setBackgroundResource(value)
-            ivRecordTypeItemIcon.tag = value
+            when (value) {
+                is RecordTypeIcon.Image -> setImageIcon(value.iconId)
+                is RecordTypeIcon.Emoji -> setEmojiIcon(value.emojiText)
+            }
             field = value
         }
 
@@ -85,6 +100,7 @@ class RecordTypeView @JvmOverloads constructor(
         set(value) {
             tvRecordTypeItemName.setTextColor(value)
             ViewCompat.setBackgroundTintList(ivRecordTypeItemIcon, ColorStateList.valueOf(value))
+            tvRecordTypeItemEmoji.setTextColor(value)
             field = value
         }
 
@@ -94,19 +110,36 @@ class RecordTypeView @JvmOverloads constructor(
             field = value
         }
 
+    private fun setImageIcon(value: Int) {
+        ivRecordTypeItemIcon.setBackgroundResource(value)
+        ivRecordTypeItemIcon.tag = value
+        ivRecordTypeItemIcon.visible = true
+        tvRecordTypeItemEmoji.visible = false
+    }
+
+    private fun setEmojiIcon(value: String) {
+        tvRecordTypeItemEmoji.text = value
+        ivRecordTypeItemIcon.visibility = View.INVISIBLE
+        tvRecordTypeItemEmoji.visible = true
+    }
+
     private fun changeConstraints(isRow: Boolean) {
         if (isRow) {
-            val setRow = ConstraintSet().apply { clone(context, R.layout.record_type_view_horizontal) }
+            val setRow = ConstraintSet()
+                .apply { clone(context, R.layout.record_type_view_horizontal) }
             setRow.applyTo(constraintRecordTypeItem)
 
             ivRecordTypeItemIcon.setMargins(start = 6)
+            tvRecordTypeItemEmoji.setMargins(start = 6)
             tvRecordTypeItemName.gravity = Gravity.START or Gravity.CENTER_VERTICAL
             tvRecordTypeItemName.setMargins(top = 0, start = 8)
         } else {
-            val setRow = ConstraintSet().apply { clone(context, R.layout.record_type_view_vertical) }
+            val setRow = ConstraintSet()
+                .apply { clone(context, R.layout.record_type_view_vertical) }
             setRow.applyTo(constraintRecordTypeItem)
 
             ivRecordTypeItemIcon.setMargins(start = 0)
+            tvRecordTypeItemEmoji.setMargins(start = 0)
             tvRecordTypeItemName.gravity = Gravity.CENTER
             tvRecordTypeItemName.setMargins(top = 4, start = 0)
         }

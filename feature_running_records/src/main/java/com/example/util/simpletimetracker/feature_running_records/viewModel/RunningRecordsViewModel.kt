@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.loader.LoaderViewData
+import com.example.util.simpletimetracker.core.extension.toParams
 import com.example.util.simpletimetracker.core.interactor.AddRunningRecordMediator
 import com.example.util.simpletimetracker.core.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
@@ -67,7 +68,7 @@ class RunningRecordsViewModel @Inject constructor(
                 ),
                 preview = ChangeRecordTypeParams.Change.Preview(
                     name = item.name,
-                    iconId = item.iconId,
+                    iconId = item.iconId.toParams(),
                     color = item.color
                 )
             ),

@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.core.mapper.RecordTypeCardSizeMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.core.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RunningRecord
@@ -85,7 +86,7 @@ class RunningRecordViewDataMapper @Inject constructor(
     ): RunningRecordTypeAddViewData {
         return RunningRecordTypeAddViewData(
             name = R.string.running_records_add_type.let(resourceRepo::getString),
-            iconId = R.drawable.add,
+            iconId = RecordTypeIcon.Image(R.drawable.add),
             color = colorMapper.toInactiveColor(isDarkTheme),
             width = recordTypeCardSizeMapper.toCardWidth(numberOfCards),
             height = recordTypeCardSizeMapper.toCardHeight(numberOfCards),

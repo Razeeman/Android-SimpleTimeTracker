@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.core.mapper.RecordTypeCardSizeMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.viewData.CategoryViewData
+import com.example.util.simpletimetracker.core.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
@@ -47,7 +48,7 @@ class ChartFilterViewDataMapper @Inject constructor(
             id = -1L,
             name = R.string.untracked_time_name
                 .let(resourceRepo::getString),
-            iconId = R.drawable.unknown,
+            iconId = RecordTypeIcon.Image(R.drawable.unknown),
             iconColor = if (-1L in typeIdsFiltered) {
                 colorMapper.toFilteredIconColor(isDarkTheme)
             } else {

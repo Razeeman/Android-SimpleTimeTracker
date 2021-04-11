@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.core.mapper
 
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.core.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.model.RecordType
 import javax.inject.Inject
@@ -12,16 +13,16 @@ class RecordTypeViewDataMapper @Inject constructor(
     private val recordTypeCardSizeMapper: RecordTypeCardSizeMapper
 ) {
 
-    fun map(recordType: RecordType, isDarkTheme: Boolean): RecordTypeViewData {
+    fun map(
+        recordType: RecordType,
+        isDarkTheme: Boolean
+    ): RecordTypeViewData {
         return RecordTypeViewData(
             id = recordType.id,
             name = recordType.name,
-            iconId = recordType.icon
-                .let(iconMapper::mapToDrawableResId),
+            iconId = mapIcon(recordType.icon),
             iconColor = colorMapper.toIconColor(isDarkTheme),
-            color = recordType.color
-                .let { colorMapper.mapToColorResId(it, isDarkTheme) }
-                .let(resourceRepo::getColor)
+            color = mapColor(recordType.color, isDarkTheme)
         )
     }
 
@@ -33,12 +34,9 @@ class RecordTypeViewDataMapper @Inject constructor(
         return RecordTypeViewData(
             id = recordType.id,
             name = recordType.name,
-            iconId = recordType.icon
-                .let(iconMapper::mapToDrawableResId),
+            iconId = mapIcon(recordType.icon),
             iconColor = colorMapper.toIconColor(isDarkTheme),
-            color = recordType.color
-                .let { colorMapper.mapToColorResId(it, isDarkTheme) }
-                .let(resourceRepo::getColor),
+            color = mapColor(recordType.color, isDarkTheme),
             width = recordTypeCardSizeMapper.toCardWidth(numberOfCards),
             height = recordTypeCardSizeMapper.toCardHeight(numberOfCards),
             asRow = recordTypeCardSizeMapper.toCardAsRow(numberOfCards)
@@ -61,5 +59,19 @@ class RecordTypeViewDataMapper @Inject constructor(
         } else {
             default
         }
+    }
+
+    fun mapIcon(icon: String): RecordTypeIcon {
+        return if (icon.startsWith("ic_") || icon.isEmpty()) {
+            icon.let(iconMapper::mapToDrawableResId).let(RecordTypeIcon::Image)
+        } else {
+            RecordTypeIcon.Emoji(icon)
+        }
+    }
+
+    private fun mapColor(color: Int, isDarkTheme: Boolean): Int {
+        return color
+            .let { colorMapper.mapToColorResId(it, isDarkTheme) }
+            .let(resourceRepo::getColor)
     }
 }

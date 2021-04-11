@@ -41,5 +41,9 @@ dependencies {
     api(Deps.Ktx.viewModel)
     api(Deps.UiTest.espressoIdling)
 
+    api("androidx.emoji:emoji:1.1.0")
+    api("androidx.emoji:emoji-appcompat:1.1.0")
+    api("androidx.emoji:emoji-bundled:1.1.0")
+
     testImplementation(Deps.Test.junit)
 }

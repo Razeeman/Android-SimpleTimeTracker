@@ -2,6 +2,8 @@ package com.example.util.simpletimetracker
 
 import android.app.Application
 import android.os.StrictMode
+import androidx.emoji.bundled.BundledEmojiCompatConfig
+import androidx.emoji.text.EmojiCompat
 import com.example.util.simpletimetracker.di.AppComponent
 import com.example.util.simpletimetracker.di.AppModule
 import com.example.util.simpletimetracker.di.DaggerAppComponent
@@ -55,6 +57,7 @@ class TimeTrackerApp : Application(), FeatureComponentProvider {
         super.onCreate()
         initLog()
         initDi()
+        initLibraries()
         initStrictMode()
     }
 
@@ -88,6 +91,11 @@ class TimeTrackerApp : Application(), FeatureComponentProvider {
         notificationComponent = appComponent?.plusNotificationComponent()
         categoriesComponent = appComponent?.plusCategoriesComponent()
         changeCategoryComponent = appComponent?.plusChangeCategoryComponent()
+    }
+
+    private fun initLibraries() {
+        val config = BundledEmojiCompatConfig(applicationContext)
+        EmojiCompat.init(config)
     }
 
     private fun initStrictMode() {

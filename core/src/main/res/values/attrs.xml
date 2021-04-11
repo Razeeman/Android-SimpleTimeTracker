@@ -25,6 +25,7 @@
     <declare-styleable name="RecordTypeView">
         <attr name="itemName" format="string" />
         <attr name="itemIcon" format="reference" />
+        <attr name="itemEmoji" format="string" />
         <attr name="itemIconColor" format="color" />
         <attr name="itemColor" format="color" />
         <attr name="itemIsRow" format="boolean" />

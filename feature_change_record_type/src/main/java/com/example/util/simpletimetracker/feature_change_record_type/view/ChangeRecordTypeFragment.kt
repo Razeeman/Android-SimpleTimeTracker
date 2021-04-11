@@ -7,7 +7,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.transition.TransitionInflater
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
-import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.color.createColorAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.divider.createDividerAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.empty.createEmptyAdapterDelegate
@@ -23,13 +22,16 @@ import com.example.util.simpletimetracker.core.extension.rotateDown
 import com.example.util.simpletimetracker.core.extension.rotateUp
 import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.core.extension.showKeyboard
+import com.example.util.simpletimetracker.core.extension.toViewData
 import com.example.util.simpletimetracker.core.extension.visible
 import com.example.util.simpletimetracker.core.utils.BuildVersions
 import com.example.util.simpletimetracker.core.view.TransitionNames
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_change_record_type.R
 import com.example.util.simpletimetracker.feature_change_record_type.adapter.createChangeRecordTypeCategoryAdapterDelegate
+import com.example.util.simpletimetracker.feature_change_record_type.adapter.createChangeRecordTypeEmojiAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record_type.adapter.createChangeRecordTypeIconAdapterDelegate
+import com.example.util.simpletimetracker.feature_change_record_type.adapter.createChangeRecordTypeIconSwitchAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record_type.di.ChangeRecordTypeComponentProvider
 import com.example.util.simpletimetracker.feature_change_record_type.viewModel.ChangeRecordTypeViewModel
 import com.example.util.simpletimetracker.navigation.params.ChangeRecordTypeParams
@@ -70,7 +72,9 @@ class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragme
     }
     private val iconsAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
-            createChangeRecordTypeIconAdapterDelegate(viewModel::onIconClick)
+            createChangeRecordTypeIconSwitchAdapterDelegate(viewModel::onIconTypeClick),
+            createChangeRecordTypeIconAdapterDelegate(viewModel::onIconClick),
+            createChangeRecordTypeEmojiAdapterDelegate(viewModel::onEmojiClick)
         )
     }
     private val categoriesAdapter: BaseRecyclerAdapter by lazy {
@@ -213,7 +217,7 @@ class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragme
 
             (params as? ChangeRecordTypeParams.Change)?.preview?.let {
                 itemName = it.name
-                itemIcon = it.iconId
+                itemIcon = it.iconId.toViewData()
                 itemColor = it.color
             }
         }
