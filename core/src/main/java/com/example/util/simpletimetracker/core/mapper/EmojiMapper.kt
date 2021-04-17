@@ -9,8 +9,13 @@ class EmojiMapper @Inject constructor(
     private val repo: EmojiRepo
 ) {
 
+    // TODO return categories with names
     fun getAvailableEmojis(): List<List<Int>> =
-        (repo.getGroupSmileys() + repo.getGroupPeople())
+        repo.getGroupSmileys() +
+            repo.getGroupPeople() +
+            repo.getGroupAnimals() +
+            repo.getGroupFood() +
+            repo.getGroupTravel()
 
     fun hasSkinToneVariations(codes: List<Int>): Boolean =
         codes.any { it == EmojiRepo.SKIN_TONE }
