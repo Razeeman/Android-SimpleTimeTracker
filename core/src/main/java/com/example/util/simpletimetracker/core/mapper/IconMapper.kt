@@ -12,15 +12,26 @@ class IconMapper @Inject constructor(
 ) {
 
     val availableIconsNames: Map<String, Int> by lazy {
-        val res = mutableMapOf<String, Int>()
-        val ta = context.resources.obtainTypedArray(R.array.available_icons)
-        (0 until ta.length()).forEach {
-            ta.getResourceId(it, R.drawable.unknown).let { resId ->
-                res[context.resources.getResourceEntryName(resId)] = resId
-            }
-        }
-        ta.recycle()
-        res
+        getIcons(
+            listOf(
+                R.array.icon_action,
+                R.array.icon_alert,
+                R.array.icon_av,
+                R.array.icon_communication,
+                R.array.icon_content,
+                R.array.icon_device,
+                R.array.icon_editor,
+                R.array.icon_file,
+                R.array.icon_hardware,
+                R.array.icon_image,
+                R.array.icon_maps,
+                R.array.icon_navigation,
+                R.array.icon_notification,
+                R.array.icon_places,
+                R.array.icon_social,
+                R.array.icon_toggle
+            )
+        )
     }
 
     fun mapToDrawableResId(iconName: String): Int {
@@ -28,5 +39,21 @@ class IconMapper @Inject constructor(
             .getIdentifier(iconName, "drawable", context.packageName)
             .takeIf { it in availableIconsNames.values }
             ?: R.drawable.unknown
+    }
+
+    private fun getIcons(arrayResIds: List<Int>): Map<String, Int> {
+        val res = mutableMapOf<String, Int>()
+
+        arrayResIds.forEach { arrayResId ->
+            val ta = context.resources.obtainTypedArray(arrayResId)
+            (0 until ta.length()).forEach {
+                ta.getResourceId(it, R.drawable.unknown).let { resId ->
+                    res[context.resources.getResourceEntryName(resId)] = resId
+                }
+            }
+            ta.recycle()
+        }
+
+        return res
     }
 }
