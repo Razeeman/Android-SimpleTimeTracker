@@ -13,7 +13,6 @@ class EmojiRepo @Inject constructor(
         context.resources.getStringArray(R.array.emoji_smileys).toList()
 
     fun getGroupPeople(): List<String> =
-        // TODO add the rest
         context.resources.getStringArray(R.array.emoji_people).toList()
 
     fun getGroupAnimals(): List<String> =
@@ -24,6 +23,18 @@ class EmojiRepo @Inject constructor(
 
     fun getGroupTravel(): List<String> =
         context.resources.getStringArray(R.array.emoji_travel).toList()
+
+    fun getGroupActivities(): List<String> =
+        context.resources.getStringArray(R.array.emoji_activities).toList()
+
+    fun getGroupObjects(): List<String> =
+        context.resources.getStringArray(R.array.emoji_objects).toList()
+
+    fun getGroupSymbols(): List<String> =
+        context.resources.getStringArray(R.array.emoji_symbols).toList()
+
+    fun getGroupFlags(): List<String> =
+        context.resources.getStringArray(R.array.emoji_flags).toList()
 
     companion object {
         const val SKIN_TONE: String = "SKIN_TONE"

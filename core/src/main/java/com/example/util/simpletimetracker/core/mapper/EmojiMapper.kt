@@ -15,7 +15,11 @@ class EmojiMapper @Inject constructor(
             repo.getGroupPeople() +
             repo.getGroupAnimals() +
             repo.getGroupFood() +
-            repo.getGroupTravel()
+            repo.getGroupTravel() +
+            repo.getGroupActivities() +
+            repo.getGroupObjects() +
+            repo.getGroupSymbols() +
+            repo.getGroupFlags()
 
     fun hasSkinToneVariations(codes: String): Boolean =
         codes.contains(EmojiRepo.SKIN_TONE)

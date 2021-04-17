@@ -1128,4 +1128,919 @@
         <item>💧</item> #  E0.6 droplet
         <item>🌊</item> #  E0.6 water wave
     </string-array>
+
+    # group: Activities
+    <string-array name="emoji_activities">
+        # subgroup: event
+        <item>🎃</item> # E0.6 jack-o-lantern
+        <item>🎄</item> # E0.6 Christmas tree
+        <item>🎆</item> # E0.6 fireworks
+        <item>🎇</item> # E0.6 sparkler
+        <item>🧨</item> # E11.0 firecracker
+        <item>✨</item> # E0.6 sparkles
+        <item>🎈</item> # E0.6 balloon
+        <item>🎉</item> # E0.6 party popper
+        <item>🎊</item> # E0.6 confetti ball
+        <item>🎋</item> # E0.6 tanabata tree
+        <item>🎍</item> # E0.6 pine decoration
+        <item>🎎</item> # E0.6 Japanese dolls
+        <item>🎏</item> # E0.6 carp streamer
+        <item>🎐</item> # E0.6 wind chime
+        <item>🎑</item> # E0.6 moon viewing ceremony
+        <item>🧧</item> # E11.0 red envelope
+        <item>🎀</item> # E0.6 ribbon
+        <item>🎁</item> # E0.6 wrapped gift
+        <item>🎗️</item> # E0.7 reminder ribbon
+        <item>🎟️</item> # E0.7 admission tickets
+        <item>🎫</item> # E0.6 ticket
+
+        # subgroup: award-medal
+        <item>🎖️</item> # E0.7 military medal
+        <item>🏆</item> # E0.6 trophy
+        <item>🏅</item> # E1.0 sports medal
+        <item>🥇</item> # E3.0 1st place medal
+        <item>🥈</item> # E3.0 2nd place medal
+        <item>🥉</item> # E3.0 3rd place medal
+
+        # subgroup: sport
+        <item>⚽</item> # E0.6 soccer ball
+        <item>⚾</item> # E0.6 baseball
+        <item>🥎</item> # E11.0 softball
+        <item>🏀</item> # E0.6 basketball
+        <item>🏐</item> # E1.0 volleyball
+        <item>🏈</item> # E0.6 american football
+        <item>🏉</item> # E1.0 rugby football
+        <item>🎾</item> # E0.6 tennis
+        <item>🥏</item> # E11.0 flying disc
+        <item>🎳</item> # E0.6 bowling
+        <item>🏏</item> # E1.0 cricket game
+        <item>🏑</item> # E1.0 field hockey
+        <item>🏒</item> # E1.0 ice hockey
+        <item>🥍</item> # E11.0 lacrosse
+        <item>🏓</item> # E1.0 ping pong
+        <item>🏸</item> # E1.0 badminton
+        <item>🥊</item> # E3.0 boxing glove
+        <item>🥋</item> # E3.0 martial arts uniform
+        <item>🥅</item> # E3.0 goal net
+        <item>⛳</item> # E0.6 flag in hole
+        <item>⛸️</item> # E0.7 ice skate
+        <item>🎣</item> # E0.6 fishing pole
+        <item>🤿</item> # E12.0 diving mask
+        <item>🎽</item> # E0.6 running shirt
+        <item>🎿</item> # E0.6 skis
+        <item>🛷</item> # E5.0 sled
+        <item>🥌</item> # E5.0 curling stone
+
+        # subgroup: game
+        <item>🎯</item> # E0.6 bullseye
+        <item>🪀</item> # E12.0 yo-yo
+        <item>🪁</item> # E12.0 kite
+        <item>🎱</item> # E0.6 pool 8 ball
+        <item>🔮</item> # E0.6 crystal ball
+        <item>🪄</item> # E13.0 magic wand
+        <item>🧿</item> # E11.0 nazar amulet
+        <item>🎮</item> # E0.6 video game
+        <item>🕹️</item> # E0.7 joystick
+        <item>🎰</item> # E0.6 slot machine
+        <item>🎲</item> # E0.6 game die
+        <item>🧩</item> # E11.0 puzzle piece
+        <item>🧸</item> # E11.0 teddy bear
+        <item>🪅</item> # E13.0 piñata
+        <item>🪆</item> # E13.0 nesting dolls
+        <item>♠️</item> # E0.6 spade suit
+        <item>♥️</item> # E0.6 heart suit
+        <item>♦️</item> # E0.6 diamond suit
+        <item>♣️</item> # E0.6 club suit
+        <item>♟️</item> # E11.0 chess pawn
+        <item>🃏</item> # E0.6 joker
+        <item>🀄</item> # E0.6 mahjong red dragon
+        <item>🎴</item> # E0.6 flower playing cards
+
+        # subgroup: arts crafts
+        <item>🎭</item> # E0.6 performing arts
+        <item>🖼️</item> # E0.7 framed picture
+        <item>🎨</item> # E0.6 artist palette
+        <item>🧵</item> # E11.0 thread
+        <item>🪡</item> # E13.0 sewing needle
+        <item>🧶</item> # E11.0 yarn
+        <item>🪢</item> # E13.0 knot
+    </string-array>
+
+    # group: Objects
+    <string-array name="emoji_objects">
+        # subgroup: clothing
+        <item>👓</item> # E0.6 glasses
+        <item>🕶️</item> # E0.7 sunglasses
+        <item>🥽</item> # E11.0 goggles
+        <item>🥼</item> # E11.0 lab coat
+        <item>🦺</item> # E12.0 safety vest
+        <item>👔</item> # E0.6 necktie
+        <item>👕</item> # E0.6 t-shirt
+        <item>👖</item> # E0.6 jeans
+        <item>🧣</item> # E5.0 scarf
+        <item>🧤</item> # E5.0 gloves
+        <item>🧥</item> # E5.0 coat
+        <item>🧦</item> # E5.0 socks
+        <item>👗</item> # E0.6 dress
+        <item>👘</item> # E0.6 kimono
+        <item>🥻</item> # E12.0 sari
+        <item>🩱</item> # E12.0 one-piece swimsuit
+        <item>🩲</item> # E12.0 briefs
+        <item>🩳</item> # E12.0 shorts
+        <item>👙</item> # E0.6 bikini
+        <item>👚</item> # E0.6 woman’s clothes
+        <item>👛</item> # E0.6 purse
+        <item>👜</item> # E0.6 handbag
+        <item>👝</item> # E0.6 clutch bag
+        <item>🛍️</item> # E0.7 shopping bags
+        <item>🎒</item> # E0.6 backpack
+        <item>🩴</item> # E13.0 thong sandal
+        <item>👞</item> # E0.6 man’s shoe
+        <item>👟</item> # E0.6 running shoe
+        <item>🥾</item> # E11.0 hiking boot
+        <item>🥿</item> # E11.0 flat shoe
+        <item>👠</item> # E0.6 high-heeled shoe
+        <item>👡</item> # E0.6 woman’s sandal
+        <item>🩰</item> # E12.0 ballet shoes
+        <item>👢</item> # E0.6 woman’s boot
+        <item>👑</item> # E0.6 crown
+        <item>👒</item> # E0.6 woman’s hat
+        <item>🎩</item> # E0.6 top hat
+        <item>🎓</item> # E0.6 graduation cap
+        <item>🧢</item> # E5.0 billed cap
+        <item>🪖</item> # E13.0 military helmet
+        <item>⛑️</item> # E0.7 rescue worker’s helmet
+        <item>📿</item> # E1.0 prayer beads
+        <item>💄</item> # E0.6 lipstick
+        <item>💍</item> # E0.6 ring
+        <item>💎</item> # E0.6 gem stone
+
+        # subgroup: sound
+        <item>🔇</item> # E1.0 muted speaker
+        <item>🔈</item> # E0.7 speaker low volume
+        <item>🔉</item> # E1.0 speaker medium volume
+        <item>🔊</item> # E0.6 speaker high volume
+        <item>📢</item> # E0.6 loudspeaker
+        <item>📣</item> # E0.6 megaphone
+        <item>📯</item> # E1.0 postal horn
+        <item>🔔</item> # E0.6 bell
+        <item>🔕</item> # E1.0 bell with slash
+
+        # subgroup: music
+        <item>🎼</item> # E0.6 musical score
+        <item>🎵</item> # E0.6 musical note
+        <item>🎶</item> # E0.6 musical notes
+        <item>🎙️</item> # E0.7 studio microphone
+        <item>🎚️</item> # E0.7 level slider
+        <item>🎛️</item> # E0.7 control knobs
+        <item>🎤</item> # E0.6 microphone
+        <item>🎧</item> # E0.6 headphone
+        <item>📻</item> # E0.6 radio
+
+        # subgroup: musical-instrument
+        <item>🎷</item> # E0.6 saxophone
+        <item>🪗</item> # E13.0 accordion
+        <item>🎸</item> # E0.6 guitar
+        <item>🎹</item> # E0.6 musical keyboard
+        <item>🎺</item> # E0.6 trumpet
+        <item>🎻</item> # E0.6 violin
+        <item>🪕</item> # E12.0 banjo
+        <item>🥁</item> # E3.0 drum
+        <item>🪘</item> # E13.0 long drum
+
+        # subgroup: phone
+        <item>📱</item> # E0.6 mobile phone
+        <item>📲</item> # E0.6 mobile phone with arrow
+        <item>☎️</item> # E0.6 telephone
+        <item>📞</item> # E0.6 telephone receiver
+        <item>📟</item> # E0.6 pager
+        <item>📠</item> # E0.6 fax machine
+
+        # subgroup: computer
+        <item>🔋</item> # E0.6 battery
+        <item>🔌</item> # E0.6 electric plug
+        <item>💻</item> # E0.6 laptop
+        <item>🖥️</item> # E0.7 desktop computer
+        <item>🖨️</item> # E0.7 printer
+        <item>⌨️</item> # E1.0 keyboard
+        <item>🖱️</item> # E0.7 computer mouse
+        <item>🖲️</item> # E0.7 trackball
+        <item>💽</item> # E0.6 computer disk
+        <item>💾</item> # E0.6 floppy disk
+        <item>💿</item> # E0.6 optical disk
+        <item>📀</item> # E0.6 dvd
+        <item>🧮</item> # E11.0 abacus
+
+        # subgroup: light video
+        <item>🎥</item> # E0.6 movie camera
+        <item>🎞️</item> # E0.7 film frames
+        <item>📽️</item> # E0.7 film projector
+        <item>🎬</item> # E0.6 clapper board
+        <item>📺</item> # E0.6 television
+        <item>📷</item> # E0.6 camera
+        <item>📸</item> # E1.0 camera with flash
+        <item>📹</item> # E0.6 video camera
+        <item>📼</item> # E0.6 videocassette
+        <item>🔍</item> # E0.6 magnifying glass tilted left
+        <item>🔎</item> # E0.6 magnifying glass tilted right
+        <item>🕯️</item> # E0.7 candle
+        <item>💡</item> # E0.6 light bulb
+        <item>🔦</item> # E0.6 flashlight
+        <item>🏮</item> # E0.6 red paper lantern
+        <item>🪔</item> # E12.0 diya lamp
+
+        # subgroup: book-paper
+        <item>📔</item> # E0.6 notebook with decorative cover
+        <item>📕</item> # E0.6 closed book
+        <item>📖</item> # E0.6 open book
+        <item>📗</item> # E0.6 green book
+        <item>📘</item> # E0.6 blue book
+        <item>📙</item> # E0.6 orange book
+        <item>📚</item> # E0.6 books
+        <item>📓</item> # E0.6 notebook
+        <item>📒</item> # E0.6 ledger
+        <item>📃</item> # E0.6 page with curl
+        <item>📜</item> # E0.6 scroll
+        <item>📄</item> # E0.6 page facing up
+        <item>📰</item> # E0.6 newspaper
+        <item>🗞️</item> # E0.7 rolled-up newspaper
+        <item>📑</item> # E0.6 bookmark tabs
+        <item>🔖</item> # E0.6 bookmark
+        <item>🏷️</item> # E0.7 label
+
+        # subgroup: money
+        <item>💰</item> # E0.6 money bag
+        <item>🪙</item> # E13.0 coin
+        <item>💴</item> # E0.6 yen banknote
+        <item>💵</item> # E0.6 dollar banknote
+        <item>💶</item> # E1.0 euro banknote
+        <item>💷</item> # E1.0 pound banknote
+        <item>💸</item> # E0.6 money with wings
+        <item>💳</item> # E0.6 credit card
+        <item>🧾</item> # E11.0 receipt
+        <item>💹</item> # E0.6 chart increasing with yen
+
+        # subgroup: mail
+        <item>✉️</item> # E0.6 envelope
+        <item>📧</item> # E0.6 e-mail
+        <item>📨</item> # E0.6 incoming envelope
+        <item>📩</item> # E0.6 envelope with arrow
+        <item>📤</item> # E0.6 outbox tray
+        <item>📥</item> # E0.6 inbox tray
+        <item>📦</item> # E0.6 package
+        <item>📫</item> # E0.6 closed mailbox with raised flag
+        <item>📪</item> # E0.6 closed mailbox with lowered flag
+        <item>📬</item> # E0.7 open mailbox with raised flag
+        <item>📭</item> # E0.7 open mailbox with lowered flag
+        <item>📮</item> # E0.6 postbox
+        <item>🗳️</item> # E0.7 ballot box with ballot
+
+        # subgroup: writing
+        <item>✏️</item> # E0.6 pencil
+        <item>✒️</item> # E0.6 black nib
+        <item>🖋️</item> # E0.7 fountain pen
+        <item>🖊️</item> # E0.7 pen
+        <item>🖌️</item> # E0.7 paintbrush
+        <item>🖍️</item> # E0.7 crayon
+        <item>📝</item> # E0.6 memo
+
+        # subgroup: office
+        <item>💼</item> # E0.6 briefcase
+        <item>📁</item> # E0.6 file folder
+        <item>📂</item> # E0.6 open file folder
+        <item>🗂️</item> # E0.7 card index dividers
+        <item>📅</item> # E0.6 calendar
+        <item>📆</item> # E0.6 tear-off calendar
+        <item>🗒️</item> # E0.7 spiral notepad
+        <item>🗓️</item> # E0.7 spiral calendar
+        <item>📇</item> # E0.6 card index
+        <item>📈</item> # E0.6 chart increasing
+        <item>📉</item> # E0.6 chart decreasing
+        <item>📊</item> # E0.6 bar chart
+        <item>📋</item> # E0.6 clipboard
+        <item>📌</item> # E0.6 pushpin
+        <item>📍</item> # E0.6 round pushpin
+        <item>📎</item> # E0.6 paperclip
+        <item>🖇️</item> # E0.7 linked paperclips
+        <item>📏</item> # E0.6 straight ruler
+        <item>📐</item> # E0.6 triangular ruler
+        <item>✂️</item> # E0.6 scissors
+        <item>🗃️</item> # E0.7 card file box
+        <item>🗄️</item> # E0.7 file cabinet
+        <item>🗑️</item> # E0.7 wastebasket
+
+        # subgroup: lock
+        <item>🔒</item> # E0.6 locked
+        <item>🔓</item> # E0.6 unlocked
+        <item>🔏</item> # E0.6 locked with pen
+        <item>🔐</item> # E0.6 locked with key
+        <item>🔑</item> # E0.6 key
+        <item>🗝️</item> # E0.7 old key
+
+        # subgroup: tool
+        <item>🔨</item> # E0.6 hammer
+        <item>🪓</item> # E12.0 axe
+        <item>⛏️</item> # E0.7 pick
+        <item>⚒️</item> # E1.0 hammer and pick
+        <item>🛠️</item> # E0.7 hammer and wrench
+        <item>🗡️</item> # E0.7 dagger
+        <item>⚔️</item> # E1.0 crossed swords
+        <item>🔫</item> # E0.6 water pistol
+        <item>🪃</item> # E13.0 boomerang
+        <item>🏹</item> # E1.0 bow and arrow
+        <item>🛡️</item> # E0.7 shield
+        <item>🪚</item> # E13.0 carpentry saw
+        <item>🔧</item> # E0.6 wrench
+        <item>🪛</item> # E13.0 screwdriver
+        <item>🔩</item> # E0.6 nut and bolt
+        <item>⚙️</item> # E1.0 gear
+        <item>🗜️</item> # E0.7 clamp
+        <item>⚖️</item> # E1.0 balance scale
+        <item>🦯</item> # E12.0 white cane
+        <item>🔗</item> # E0.6 link
+        <item>⛓️</item> # E0.7 chains
+        <item>🪝</item> # E13.0 hook
+        <item>🧰</item> # E11.0 toolbox
+        <item>🧲</item> # E11.0 magnet
+        <item>🪜</item> # E13.0 ladder
+
+        # subgroup: science
+        <item>⚗️</item> # E1.0 alembic
+        <item>🧪</item> # E11.0 test tube
+        <item>🧫</item> # E11.0 petri dish
+        <item>🧬</item> # E11.0 dna
+        <item>🔬</item> # E1.0 microscope
+        <item>🔭</item> # E1.0 telescope
+        <item>📡</item> # E0.6 satellite antenna
+
+        # subgroup: medical
+        <item>💉</item> # E0.6 syringe
+        <item>🩸</item> # E12.0 drop of blood
+        <item>💊</item> # E0.6 pill
+        <item>🩹</item> # E12.0 adhesive bandage
+        <item>🩺</item> # E12.0 stethoscope
+
+        # subgroup: household
+        <item>🚪</item> # E0.6 door
+        <item>🛗</item> # E13.0 elevator
+        <item>🪞</item> # E13.0 mirror
+        <item>🪟</item> # E13.0 window
+        <item>🛏️</item> # E0.7 bed
+        <item>🛋️</item> # E0.7 couch and lamp
+        <item>🪑</item> # E12.0 chair
+        <item>🚽</item> # E0.6 toilet
+        <item>🪠</item> # E13.0 plunger
+        <item>🚿</item> # E1.0 shower
+        <item>🛁</item> # E1.0 bathtub
+        <item>🪤</item> # E13.0 mouse trap
+        <item>🪒</item> # E12.0 razor
+        <item>🧴</item> # E11.0 lotion bottle
+        <item>🧷</item> # E11.0 safety pin
+        <item>🧹</item> # E11.0 broom
+        <item>🧺</item> # E11.0 basket
+        <item>🧻</item> # E11.0 roll of paper
+        <item>🪣</item> # E13.0 bucket
+        <item>🧼</item> # E11.0 soap
+        <item>🪥</item> # E13.0 toothbrush
+        <item>🧽</item> # E11.0 sponge
+        <item>🧯</item> # E11.0 fire extinguisher
+        <item>🛒</item> # E3.0 shopping cart
+
+        # subgroup: other-object
+        <item>🚬</item> # E0.6 cigarette
+        <item>⚰️</item> # E1.0 coffin
+        <item>🪦</item> # E13.0 headstone
+        <item>⚱️</item> # E1.0 funeral urn
+        <item>🗿</item> # E0.6 moai
+        <item>🪧</item> # E13.0 placard
+    </string-array>
+
+    # group: Symbols
+    <string-array name="emoji_symbols">
+        # subgroup: transport-sign
+        <item>🏧</item> # E0.6 ATM sign
+        <item>🚮</item> # E1.0 litter in bin sign
+        <item>🚰</item> # E1.0 potable water
+        <item>♿</item> # E0.6 wheelchair symbol
+        <item>🚹</item> # E0.6 men’s room
+        <item>🚺</item> # E0.6 women’s room
+        <item>🚻</item> # E0.6 restroom
+        <item>🚼</item> # E0.6 baby symbol
+        <item>🚾</item> # E0.6 water closet
+        <item>🛂</item> # E1.0 passport control
+        <item>🛃</item> # E1.0 customs
+        <item>🛄</item> # E1.0 baggage claim
+        <item>🛅</item> # E1.0 left luggage
+
+        # subgroup: warning
+        <item>⚠️</item> # E0.6 warning
+        <item>🚸</item> # E1.0 children crossing
+        <item>⛔</item> # E0.6 no entry
+        <item>🚫</item> # E0.6 prohibited
+        <item>🚳</item> # E1.0 no bicycles
+        <item>🚭</item> # E0.6 no smoking
+        <item>🚯</item> # E1.0 no littering
+        <item>🚱</item> # E1.0 non-potable water
+        <item>🚷</item> # E1.0 no pedestrians
+        <item>📵</item> # E1.0 no mobile phones
+        <item>🔞</item> # E0.6 no one under eighteen
+        <item>☢️</item> # E1.0 radioactive
+        <item>☣️</item> # E1.0 biohazard
+
+        # subgroup: arrow
+        <item>⬆️</item> # E0.6 up arrow
+        <item>↗️</item> # E0.6 up-right arrow
+        <item>➡️</item> # E0.6 right arrow
+        <item>↘️</item> # E0.6 down-right arrow
+        <item>⬇️</item> # E0.6 down arrow
+        <item>↙️</item> # E0.6 down-left arrow
+        <item>⬅️</item> # E0.6 left arrow
+        <item>↖️</item> # E0.6 up-left arrow
+        <item>↕️</item> # E0.6 up-down arrow
+        <item>↔️</item> # E0.6 left-right arrow
+        <item>↩️</item> # E0.6 right arrow curving left
+        <item>↪️</item> # E0.6 left arrow curving right
+        <item>⤴️</item> # E0.6 right arrow curving up
+        <item>⤵️</item> # E0.6 right arrow curving down
+        <item>🔃</item> # E0.6 clockwise vertical arrows
+        <item>🔄</item> # E1.0 counterclockwise arrows button
+        <item>🔙</item> # E0.6 BACK arrow
+        <item>🔚</item> # E0.6 END arrow
+        <item>🔛</item> # E0.6 ON! arrow
+        <item>🔜</item> # E0.6 SOON arrow
+        <item>🔝</item> # E0.6 TOP arrow
+
+        # subgroup: religion
+        <item>🛐</item> # E1.0 place of worship
+        <item>⚛️</item> # E1.0 atom symbol
+        <item>🕉️</item> # E0.7 om
+        <item>✡️</item> # E0.7 star of David
+        <item>☸️</item> # E0.7 wheel of dharma
+        <item>☯️</item> # E0.7 yin yang
+        <item>✝️</item> # E0.7 latin cross
+        <item>☦️</item> # E1.0 orthodox cross
+        <item>☪️</item> # E0.7 star and crescent
+        <item>☮️</item> # E1.0 peace symbol
+        <item>🕎</item> # E1.0 menorah
+        <item>🔯</item> # E0.6 dotted six-pointed star
+
+        # subgroup: zodiac
+        <item>♈</item> # E0.6 Aries
+        <item>♉</item> # E0.6 Taurus
+        <item>♊</item> # E0.6 Gemini
+        <item>♋</item> # E0.6 Cancer
+        <item>♌</item> # E0.6 Leo
+        <item>♍</item> # E0.6 Virgo
+        <item>♎</item> # E0.6 Libra
+        <item>♏</item> # E0.6 Scorpio
+        <item>♐</item> # E0.6 Sagittarius
+        <item>♑</item> # E0.6 Capricorn
+        <item>♒</item> # E0.6 Aquarius
+        <item>♓</item> # E0.6 Pisces
+        <item>⛎</item> # E0.6 Ophiuchus
+
+        # subgroup: av-symbol
+        <item>🔀</item> # E1.0 shuffle tracks button
+        <item>🔁</item> # E1.0 repeat button
+        <item>🔂</item> # E1.0 repeat single button
+        <item>▶️</item> # E0.6 play button
+        <item>⏩</item> # E0.6 fast-forward button
+        <item>⏭️</item> # E0.7 next track button
+        <item>⏯️</item> # E1.0 play or pause button
+        <item>◀️</item> # E0.6 reverse button
+        <item>⏪</item> # E0.6 fast reverse button
+        <item>⏮️</item> # E0.7 last track button
+        <item>🔼</item> # E0.6 upwards button
+        <item>⏫</item> # E0.6 fast up button
+        <item>🔽</item> # E0.6 downwards button
+        <item>⏬</item> # E0.6 fast down button
+        <item>⏸️</item> # E0.7 pause button
+        <item>⏹️</item> # E0.7 stop button
+        <item>⏺️</item> # E0.7 record button
+        <item>⏏️</item> # E1.0 eject button
+        <item>🎦</item> # E0.6 cinema
+        <item>🔅</item> # E1.0 dim button
+        <item>🔆</item> # E1.0 bright button
+        <item>📶</item> # E0.6 antenna bars
+        <item>📳</item> # E0.6 vibration mode
+        <item>📴</item> # E0.6 mobile phone off
+
+        # subgroup: gender
+        <item>♀️</item> # E4.0 female sign
+        <item>♂️</item> # E4.0 male sign
+        <item>⚧️</item> # E13.0 transgender symbol
+
+        # subgroup: math
+        <item>✖️</item> # E0.6 multiply
+        <item>➕</item> # E0.6 plus
+        <item>➖</item> # E0.6 minus
+        <item>➗</item> # E0.6 divide
+        <item>♾️</item> # E11.0 infinity
+
+        # subgroup: punctuation
+        <item>‼️</item> # E0.6 double exclamation mark
+        <item>⁉️</item> # E0.6 exclamation question mark
+        <item>❓</item> # E0.6 red question mark
+        <item>❔</item> # E0.6 white question mark
+        <item>❕</item> # E0.6 white exclamation mark
+        <item>❗</item> # E0.6 red exclamation mark
+        <item>〰️</item> # E0.6 wavy dash
+
+        # subgroup: currency
+        <item>💱</item> # E0.6 currency exchange
+        <item>💲</item> # E0.6 heavy dollar sign
+
+        # subgroup: other-symbol
+        <item>⚕️</item> # E4.0 medical symbol
+        <item>♻️</item> # E0.6 recycling symbol
+        <item>⚜️</item> # E1.0 fleur-de-lis
+        <item>🔱</item> # E0.6 trident emblem
+        <item>📛</item> # E0.6 name badge
+        <item>🔰</item> # E0.6 Japanese symbol for beginner
+        <item>⭕</item> # E0.6 hollow red circle
+        <item>✅</item> # E0.6 check mark button
+        <item>☑️</item> # E0.6 check box with check
+        <item>✔️</item> # E0.6 check mark
+        <item>❌</item> # E0.6 cross mark
+        <item>❎</item> # E0.6 cross mark button
+        <item>➰</item> # E0.6 curly loop
+        <item>➿</item> # E1.0 double curly loop
+        <item>〽️</item> # E0.6 part alternation mark
+        <item>✳️</item> # E0.6 eight-spoked asterisk
+        <item>✴️</item> # E0.6 eight-pointed star
+        <item>❇️</item> # E0.6 sparkle
+        <item>©️</item> # E0.6 copyright
+        <item>®️</item> # E0.6 registered
+        <item>™️</item> # E0.6 trade mark
+
+        # subgroup: keycap
+        <item>#️⃣</item> # E0.6 keycap: #
+        <item>*️⃣</item> # E2.0 keycap: *
+        <item>0️⃣</item> # E0.6 keycap: 0
+        <item>1️⃣</item> # E0.6 keycap: 1
+        <item>2️⃣</item> # E0.6 keycap: 2
+        <item>3️⃣</item> # E0.6 keycap: 3
+        <item>4️⃣</item> # E0.6 keycap: 4
+        <item>5️⃣</item> # E0.6 keycap: 5
+        <item>6️⃣</item> # E0.6 keycap: 6
+        <item>7️⃣</item> # E0.6 keycap: 7
+        <item>8️⃣</item> # E0.6 keycap: 8
+        <item>9️⃣</item> # E0.6 keycap: 9
+        <item>🔟</item> # E0.6 keycap: 10
+
+        # subgroup: alphanum
+        <item>🔠</item> # E0.6 input latin uppercase
+        <item>🔡</item> # E0.6 input latin lowercase
+        <item>🔢</item> # E0.6 input numbers
+        <item>🔣</item> # E0.6 input symbols
+        <item>🔤</item> # E0.6 input latin letters
+        <item>🅰️</item> # E0.6 A button (blood type)
+        <item>🆎</item> # E0.6 AB button (blood type)
+        <item>🅱️</item> # E0.6 B button (blood type)
+        <item>🆑</item> # E0.6 CL button
+        <item>🆒</item> # E0.6 COOL button
+        <item>🆓</item> # E0.6 FREE button
+        <item>ℹ️</item> # E0.6 information
+        <item>🆔</item> # E0.6 ID button
+        <item>Ⓜ️</item> # E0.6 circled M
+        <item>🆕</item> # E0.6 NEW button
+        <item>🆖</item> # E0.6 NG button
+        <item>🅾️</item> # E0.6 O button (blood type)
+        <item>🆗</item> # E0.6 OK button
+        <item>🅿️</item> # E0.6 P button
+        <item>🆘</item> # E0.6 SOS button
+        <item>🆙</item> # E0.6 UP! button
+        <item>🆚</item> # E0.6 VS button
+        <item>🈁</item> # E0.6 Japanese “here” button
+        <item>🈂️</item> # E0.6 Japanese “service charge” button
+        <item>🈷️</item> # E0.6 Japanese “monthly amount” button
+        <item>🈶</item> # E0.6 Japanese “not free of charge” button
+        <item>🈯</item> # E0.6 Japanese “reserved” button
+        <item>🉐</item> # E0.6 Japanese “bargain” button
+        <item>🈹</item> # E0.6 Japanese “discount” button
+        <item>🈚</item> # E0.6 Japanese “free of charge” button
+        <item>🈲</item> # E0.6 Japanese “prohibited” button
+        <item>🉑</item> # E0.6 Japanese “acceptable” button
+        <item>🈸</item> # E0.6 Japanese “application” button
+        <item>🈴</item> # E0.6 Japanese “passing grade” button
+        <item>🈳</item> # E0.6 Japanese “vacancy” button
+        <item>㊗️</item> # E0.6 Japanese “congratulations” button
+        <item>㊙️</item> # E0.6 Japanese “secret” button
+        <item>🈺</item> # E0.6 Japanese “open for business” button
+        <item>🈵</item> # E0.6 Japanese “no vacancy” button
+
+        # subgroup: geometric
+        <item>🔴</item> # E0.6 red circle
+        <item>🟠</item> # E12.0 orange circle
+        <item>🟡</item> # E12.0 yellow circle
+        <item>🟢</item> # E12.0 green circle
+        <item>🔵</item> # E0.6 blue circle
+        <item>🟣</item> # E12.0 purple circle
+        <item>🟤</item> # E12.0 brown circle
+        <item>⚫</item> # E0.6 black circle
+        <item>⚪</item> # E0.6 white circle
+        <item>🟥</item> # E12.0 red square
+        <item>🟧</item> # E12.0 orange square
+        <item>🟨</item> # E12.0 yellow square
+        <item>🟩</item> # E12.0 green square
+        <item>🟦</item> # E12.0 blue square
+        <item>🟪</item> # E12.0 purple square
+        <item>🟫</item> # E12.0 brown square
+        <item>⬛</item> # E0.6 black large square
+        <item>⬜</item> # E0.6 white large square
+        <item>◼️</item> # E0.6 black medium square
+        <item>◻️</item> # E0.6 white medium square
+        <item>◾</item> # E0.6 black medium-small square
+        <item>◽</item> # E0.6 white medium-small square
+        <item>▪️</item> # E0.6 black small square
+        <item>▫️</item> # E0.6 white small square
+        <item>🔶</item> # E0.6 large orange diamond
+        <item>🔷</item> # E0.6 large blue diamond
+        <item>🔸</item> # E0.6 small orange diamond
+        <item>🔹</item> # E0.6 small blue diamond
+        <item>🔺</item> # E0.6 red triangle pointed up
+        <item>🔻</item> # E0.6 red triangle pointed down
+        <item>💠</item> # E0.6 diamond with a dot
+        <item>🔘</item> # E0.6 radio button
+        <item>🔳</item> # E0.6 white square button
+        <item>🔲</item> # E0.6 black square button
+    </string-array>
+
+    # group: Flags
+    <string-array name="emoji_flags">
+        # subgroup: flag
+        <item>🏁</item> # E0.6 chequered flag
+        <item>🚩</item> # E0.6 triangular flag
+        <item>🎌</item> # E0.6 crossed flags
+        <item>🏴</item> # E1.0 black flag
+        <item>🏳️</item> # E0.7 white flag
+        <item>🏳️‍🌈</item> # E4.0 rainbow flag
+        <item>🏳️‍⚧️</item> # E13.0 transgender flag
+        <item>🏴‍☠️</item> # E11.0 pirate flag
+
+        # subgroup: country-flag
+        <item>🇦🇨</item> # E2.0 flag: Ascension Island
+        <item>🇦🇩</item> # E2.0 flag: Andorra
+        <item>🇦🇪</item> # E2.0 flag: United Arab Emirates
+        <item>🇦🇫</item> # E2.0 flag: Afghanistan
+        <item>🇦🇬</item> # E2.0 flag: Antigua Barbuda
+        <item>🇦🇮</item> # E2.0 flag: Anguilla
+        <item>🇦🇱</item> # E2.0 flag: Albania
+        <item>🇦🇲</item> # E2.0 flag: Armenia
+        <item>🇦🇴</item> # E2.0 flag: Angola
+        <item>🇦🇶</item> # E2.0 flag: Antarctica
+        <item>🇦🇷</item> # E2.0 flag: Argentina
+        <item>🇦🇸</item> # E2.0 flag: American Samoa
+        <item>🇦🇹</item> # E2.0 flag: Austria
+        <item>🇦🇺</item> # E2.0 flag: Australia
+        <item>🇦🇼</item> # E2.0 flag: Aruba
+        <item>🇦🇽</item> # E2.0 flag: Åland Islands
+        <item>🇦🇿</item> # E2.0 flag: Azerbaijan
+        <item>🇧🇦</item> # E2.0 flag: Bosnia Herzegovina
+        <item>🇧🇧</item> # E2.0 flag: Barbados
+        <item>🇧🇩</item> # E2.0 flag: Bangladesh
+        <item>🇧🇪</item> # E2.0 flag: Belgium
+        <item>🇧🇫</item> # E2.0 flag: Burkina Faso
+        <item>🇧🇬</item> # E2.0 flag: Bulgaria
+        <item>🇧🇭</item> # E2.0 flag: Bahrain
+        <item>🇧🇮</item> # E2.0 flag: Burundi
+        <item>🇧🇯</item> # E2.0 flag: Benin
+        <item>🇧🇱</item> # E2.0 flag: St. Barthélemy
+        <item>🇧🇲</item> # E2.0 flag: Bermuda
+        <item>🇧🇳</item> # E2.0 flag: Brunei
+        <item>🇧🇴</item> # E2.0 flag: Bolivia
+        <item>🇧🇶</item> # E2.0 flag: Caribbean Netherlands
+        <item>🇧🇷</item> # E2.0 flag: Brazil
+        <item>🇧🇸</item> # E2.0 flag: Bahamas
+        <item>🇧🇹</item> # E2.0 flag: Bhutan
+        <item>🇧🇻</item> # E2.0 flag: Bouvet Island
+        <item>🇧🇼</item> # E2.0 flag: Botswana
+        <item>🇧🇾</item> # E2.0 flag: Belarus
+        <item>🇧🇿</item> # E2.0 flag: Belize
+        <item>🇨🇦</item> # E2.0 flag: Canada
+        <item>🇨🇨</item> # E2.0 flag: Cocos (Keeling) Islands
+        <item>🇨🇩</item> # E2.0 flag: Congo - Kinshasa
+        <item>🇨🇫</item> # E2.0 flag: Central African Republic
+        <item>🇨🇬</item> # E2.0 flag: Congo - Brazzaville
+        <item>🇨🇭</item> # E2.0 flag: Switzerland
+        <item>🇨🇮</item> # E2.0 flag: Côte d’Ivoire
+        <item>🇨🇰</item> # E2.0 flag: Cook Islands
+        <item>🇨🇱</item> # E2.0 flag: Chile
+        <item>🇨🇲</item> # E2.0 flag: Cameroon
+        <item>🇨🇳</item> # E0.6 flag: China
+        <item>🇨🇴</item> # E2.0 flag: Colombia
+        <item>🇨🇵</item> # E2.0 flag: Clipperton Island
+        <item>🇨🇷</item> # E2.0 flag: Costa Rica
+        <item>🇨🇺</item> # E2.0 flag: Cuba
+        <item>🇨🇻</item> # E2.0 flag: Cape Verde
+        <item>🇨🇼</item> # E2.0 flag: Curaçao
+        <item>🇨🇽</item> # E2.0 flag: Christmas Island
+        <item>🇨🇾</item> # E2.0 flag: Cyprus
+        <item>🇨🇿</item> # E2.0 flag: Czechia
+        <item>🇩🇪</item> # E0.6 flag: Germany
+        <item>🇩🇬</item> # E2.0 flag: Diego Garcia
+        <item>🇩🇯</item> # E2.0 flag: Djibouti
+        <item>🇩🇰</item> # E2.0 flag: Denmark
+        <item>🇩🇲</item> # E2.0 flag: Dominica
+        <item>🇩🇴</item> # E2.0 flag: Dominican Republic
+        <item>🇩🇿</item> # E2.0 flag: Algeria
+        <item>🇪🇦</item> # E2.0 flag: Ceuta Melilla
+        <item>🇪🇨</item> # E2.0 flag: Ecuador
+        <item>🇪🇪</item> # E2.0 flag: Estonia
+        <item>🇪🇬</item> # E2.0 flag: Egypt
+        <item>🇪🇭</item> # E2.0 flag: Western Sahara
+        <item>🇪🇷</item> # E2.0 flag: Eritrea
+        <item>🇪🇸</item> # E0.6 flag: Spain
+        <item>🇪🇹</item> # E2.0 flag: Ethiopia
+        <item>🇪🇺</item> # E2.0 flag: European Union
+        <item>🇫🇮</item> # E2.0 flag: Finland
+        <item>🇫🇯</item> # E2.0 flag: Fiji
+        <item>🇫🇰</item> # E2.0 flag: Falkland Islands
+        <item>🇫🇲</item> # E2.0 flag: Micronesia
+        <item>🇫🇴</item> # E2.0 flag: Faroe Islands
+        <item>🇫🇷</item> # E0.6 flag: France
+        <item>🇬🇦</item> # E2.0 flag: Gabon
+        <item>🇬🇧</item> # E0.6 flag: United Kingdom
+        <item>🇬🇩</item> # E2.0 flag: Grenada
+        <item>🇬🇪</item> # E2.0 flag: Georgia
+        <item>🇬🇫</item> # E2.0 flag: French Guiana
+        <item>🇬🇬</item> # E2.0 flag: Guernsey
+        <item>🇬🇭</item> # E2.0 flag: Ghana
+        <item>🇬🇮</item> # E2.0 flag: Gibraltar
+        <item>🇬🇱</item> # E2.0 flag: Greenland
+        <item>🇬🇲</item> # E2.0 flag: Gambia
+        <item>🇬🇳</item> # E2.0 flag: Guinea
+        <item>🇬🇵</item> # E2.0 flag: Guadeloupe
+        <item>🇬🇶</item> # E2.0 flag: Equatorial Guinea
+        <item>🇬🇷</item> # E2.0 flag: Greece
+        <item>🇬🇸</item> # E2.0 flag: South Georgia South Sandwich Islands
+        <item>🇬🇹</item> # E2.0 flag: Guatemala
+        <item>🇬🇺</item> # E2.0 flag: Guam
+        <item>🇬🇼</item> # E2.0 flag: Guinea-Bissau
+        <item>🇬🇾</item> # E2.0 flag: Guyana
+        <item>🇭🇰</item> # E2.0 flag: Hong Kong SAR China
+        <item>🇭🇲</item> # E2.0 flag: Heard McDonald Islands
+        <item>🇭🇳</item> # E2.0 flag: Honduras
+        <item>🇭🇷</item> # E2.0 flag: Croatia
+        <item>🇭🇹</item> # E2.0 flag: Haiti
+        <item>🇭🇺</item> # E2.0 flag: Hungary
+        <item>🇮🇨</item> # E2.0 flag: Canary Islands
+        <item>🇮🇩</item> # E2.0 flag: Indonesia
+        <item>🇮🇪</item> # E2.0 flag: Ireland
+        <item>🇮🇱</item> # E2.0 flag: Israel
+        <item>🇮🇲</item> # E2.0 flag: Isle of Man
+        <item>🇮🇳</item> # E2.0 flag: India
+        <item>🇮🇴</item> # E2.0 flag: British Indian Ocean Territory
+        <item>🇮🇶</item> # E2.0 flag: Iraq
+        <item>🇮🇷</item> # E2.0 flag: Iran
+        <item>🇮🇸</item> # E2.0 flag: Iceland
+        <item>🇮🇹</item> # E0.6 flag: Italy
+        <item>🇯🇪</item> # E2.0 flag: Jersey
+        <item>🇯🇲</item> # E2.0 flag: Jamaica
+        <item>🇯🇴</item> # E2.0 flag: Jordan
+        <item>🇯🇵</item> # E0.6 flag: Japan
+        <item>🇰🇪</item> # E2.0 flag: Kenya
+        <item>🇰🇬</item> # E2.0 flag: Kyrgyzstan
+        <item>🇰🇭</item> # E2.0 flag: Cambodia
+        <item>🇰🇮</item> # E2.0 flag: Kiribati
+        <item>🇰🇲</item> # E2.0 flag: Comoros
+        <item>🇰🇳</item> # E2.0 flag: St. Kitts Nevis
+        <item>🇰🇵</item> # E2.0 flag: North Korea
+        <item>🇰🇷</item> # E0.6 flag: South Korea
+        <item>🇰🇼</item> # E2.0 flag: Kuwait
+        <item>🇰🇾</item> # E2.0 flag: Cayman Islands
+        <item>🇰🇿</item> # E2.0 flag: Kazakhstan
+        <item>🇱🇦</item> # E2.0 flag: Laos
+        <item>🇱🇧</item> # E2.0 flag: Lebanon
+        <item>🇱🇨</item> # E2.0 flag: St. Lucia
+        <item>🇱🇮</item> # E2.0 flag: Liechtenstein
+        <item>🇱🇰</item> # E2.0 flag: Sri Lanka
+        <item>🇱🇷</item> # E2.0 flag: Liberia
+        <item>🇱🇸</item> # E2.0 flag: Lesotho
+        <item>🇱🇹</item> # E2.0 flag: Lithuania
+        <item>🇱🇺</item> # E2.0 flag: Luxembourg
+        <item>🇱🇻</item> # E2.0 flag: Latvia
+        <item>🇱🇾</item> # E2.0 flag: Libya
+        <item>🇲🇦</item> # E2.0 flag: Morocco
+        <item>🇲🇨</item> # E2.0 flag: Monaco
+        <item>🇲🇩</item> # E2.0 flag: Moldova
+        <item>🇲🇪</item> # E2.0 flag: Montenegro
+        <item>🇲🇫</item> # E2.0 flag: St. Martin
+        <item>🇲🇬</item> # E2.0 flag: Madagascar
+        <item>🇲🇭</item> # E2.0 flag: Marshall Islands
+        <item>🇲🇰</item> # E2.0 flag: North Macedonia
+        <item>🇲🇱</item> # E2.0 flag: Mali
+        <item>🇲🇲</item> # E2.0 flag: Myanmar (Burma)
+        <item>🇲🇳</item> # E2.0 flag: Mongolia
+        <item>🇲🇴</item> # E2.0 flag: Macao SAR China
+        <item>🇲🇵</item> # E2.0 flag: Northern Mariana Islands
+        <item>🇲🇶</item> # E2.0 flag: Martinique
+        <item>🇲🇷</item> # E2.0 flag: Mauritania
+        <item>🇲🇸</item> # E2.0 flag: Montserrat
+        <item>🇲🇹</item> # E2.0 flag: Malta
+        <item>🇲🇺</item> # E2.0 flag: Mauritius
+        <item>🇲🇻</item> # E2.0 flag: Maldives
+        <item>🇲🇼</item> # E2.0 flag: Malawi
+        <item>🇲🇽</item> # E2.0 flag: Mexico
+        <item>🇲🇾</item> # E2.0 flag: Malaysia
+        <item>🇲🇿</item> # E2.0 flag: Mozambique
+        <item>🇳🇦</item> # E2.0 flag: Namibia
+        <item>🇳🇨</item> # E2.0 flag: New Caledonia
+        <item>🇳🇪</item> # E2.0 flag: Niger
+        <item>🇳🇫</item> # E2.0 flag: Norfolk Island
+        <item>🇳🇬</item> # E2.0 flag: Nigeria
+        <item>🇳🇮</item> # E2.0 flag: Nicaragua
+        <item>🇳🇱</item> # E2.0 flag: Netherlands
+        <item>🇳🇴</item> # E2.0 flag: Norway
+        <item>🇳🇵</item> # E2.0 flag: Nepal
+        <item>🇳🇷</item> # E2.0 flag: Nauru
+        <item>🇳🇺</item> # E2.0 flag: Niue
+        <item>🇳🇿</item> # E2.0 flag: New Zealand
+        <item>🇴🇲</item> # E2.0 flag: Oman
+        <item>🇵🇦</item> # E2.0 flag: Panama
+        <item>🇵🇪</item> # E2.0 flag: Peru
+        <item>🇵🇫</item> # E2.0 flag: French Polynesia
+        <item>🇵🇬</item> # E2.0 flag: Papua New Guinea
+        <item>🇵🇭</item> # E2.0 flag: Philippines
+        <item>🇵🇰</item> # E2.0 flag: Pakistan
+        <item>🇵🇱</item> # E2.0 flag: Poland
+        <item>🇵🇲</item> # E2.0 flag: St. Pierre Miquelon
+        <item>🇵🇳</item> # E2.0 flag: Pitcairn Islands
+        <item>🇵🇷</item> # E2.0 flag: Puerto Rico
+        <item>🇵🇸</item> # E2.0 flag: Palestinian Territories
+        <item>🇵🇹</item> # E2.0 flag: Portugal
+        <item>🇵🇼</item> # E2.0 flag: Palau
+        <item>🇵🇾</item> # E2.0 flag: Paraguay
+        <item>🇶🇦</item> # E2.0 flag: Qatar
+        <item>🇷🇪</item> # E2.0 flag: Réunion
+        <item>🇷🇴</item> # E2.0 flag: Romania
+        <item>🇷🇸</item> # E2.0 flag: Serbia
+        <item>🇷🇺</item> # E0.6 flag: Russia
+        <item>🇷🇼</item> # E2.0 flag: Rwanda
+        <item>🇸🇦</item> # E2.0 flag: Saudi Arabia
+        <item>🇸🇧</item> # E2.0 flag: Solomon Islands
+        <item>🇸🇨</item> # E2.0 flag: Seychelles
+        <item>🇸🇩</item> # E2.0 flag: Sudan
+        <item>🇸🇪</item> # E2.0 flag: Sweden
+        <item>🇸🇬</item> # E2.0 flag: Singapore
+        <item>🇸🇭</item> # E2.0 flag: St. Helena
+        <item>🇸🇮</item> # E2.0 flag: Slovenia
+        <item>🇸🇯</item> # E2.0 flag: Svalbard Jan Mayen
+        <item>🇸🇰</item> # E2.0 flag: Slovakia
+        <item>🇸🇱</item> # E2.0 flag: Sierra Leone
+        <item>🇸🇲</item> # E2.0 flag: San Marino
+        <item>🇸🇳</item> # E2.0 flag: Senegal
+        <item>🇸🇴</item> # E2.0 flag: Somalia
+        <item>🇸🇷</item> # E2.0 flag: Suriname
+        <item>🇸🇸</item> # E2.0 flag: South Sudan
+        <item>🇸🇹</item> # E2.0 flag: São Tomé Príncipe
+        <item>🇸🇻</item> # E2.0 flag: El Salvador
+        <item>🇸🇽</item> # E2.0 flag: Sint Maarten
+        <item>🇸🇾</item> # E2.0 flag: Syria
+        <item>🇸🇿</item> # E2.0 flag: Eswatini
+        <item>🇹🇦</item> # E2.0 flag: Tristan da Cunha
+        <item>🇹🇨</item> # E2.0 flag: Turks Caicos Islands
+        <item>🇹🇩</item> # E2.0 flag: Chad
+        <item>🇹🇫</item> # E2.0 flag: French Southern Territories
+        <item>🇹🇬</item> # E2.0 flag: Togo
+        <item>🇹🇭</item> # E2.0 flag: Thailand
+        <item>🇹🇯</item> # E2.0 flag: Tajikistan
+        <item>🇹🇰</item> # E2.0 flag: Tokelau
+        <item>🇹🇱</item> # E2.0 flag: Timor-Leste
+        <item>🇹🇲</item> # E2.0 flag: Turkmenistan
+        <item>🇹🇳</item> # E2.0 flag: Tunisia
+        <item>🇹🇴</item> # E2.0 flag: Tonga
+        <item>🇹🇷</item> # E2.0 flag: Turkey
+        <item>🇹🇹</item> # E2.0 flag: Trinidad Tobago
+        <item>🇹🇻</item> # E2.0 flag: Tuvalu
+        <item>🇹🇼</item> # E2.0 flag: Taiwan
+        <item>🇹🇿</item> # E2.0 flag: Tanzania
+        <item>🇺🇦</item> # E2.0 flag: Ukraine
+        <item>🇺🇬</item> # E2.0 flag: Uganda
+        <item>🇺🇲</item> # E2.0 flag: U.S. Outlying Islands
+        <item>🇺🇳</item> # E4.0 flag: United Nations
+        <item>🇺🇸</item> # E0.6 flag: United States
+        <item>🇺🇾</item> # E2.0 flag: Uruguay
+        <item>🇺🇿</item> # E2.0 flag: Uzbekistan
+        <item>🇻🇦</item> # E2.0 flag: Vatican City
+        <item>🇻🇨</item> # E2.0 flag: St. Vincent Grenadines
+        <item>🇻🇪</item> # E2.0 flag: Venezuela
+        <item>🇻🇬</item> # E2.0 flag: British Virgin Islands
+        <item>🇻🇮</item> # E2.0 flag: U.S. Virgin Islands
+        <item>🇻🇳</item> # E2.0 flag: Vietnam
+        <item>🇻🇺</item> # E2.0 flag: Vanuatu
+        <item>🇼🇫</item> # E2.0 flag: Wallis Futuna
+        <item>🇼🇸</item> # E2.0 flag: Samoa
+        <item>🇽🇰</item> # E2.0 flag: Kosovo
+        <item>🇾🇪</item> # E2.0 flag: Yemen
+        <item>🇾🇹</item> # E2.0 flag: Mayotte
+        <item>🇿🇦</item> # E2.0 flag: South Africa
+        <item>🇿🇲</item> # E2.0 flag: Zambia
+        <item>🇿🇼</item> # E2.0 flag: Zimbabwe
+
+        # subgroup: subdivision-flag
+        <item>🏴󠁧󠁢󠁥󠁮󠁧󠁿</item> # E5.0 flag: England
+        <item>🏴󠁧󠁢󠁳󠁣󠁴󠁿</item> # E5.0 flag: Scotland
+        <item>🏴󠁧󠁢󠁷󠁬󠁳󠁿</item> # E5.0 flag: Wales
+    </string-array>
 </resources>
