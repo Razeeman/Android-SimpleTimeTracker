@@ -8,5 +8,5 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class EmojiSelectionDialogParams(
     @ColorInt val color: Int = Color.BLACK,
-    val emojiCodes: List<List<Int>> = emptyList()
+    val emojiCodes: List<String> = emptyList()
 ) : Parcelable

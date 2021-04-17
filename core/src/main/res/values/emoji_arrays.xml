@@ -1,0 +1,796 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ UNICODE, INC. LICENSE AGREEMENT - DATA FILES AND SOFTWARE
+  ~ See Terms of Use for definitions of Unicode Inc.'s
+  ~ Data Files and Software.
+  ~
+  ~ NOTICE TO USER: Carefully read the following legal agreement.
+  ~ BY DOWNLOADING, INSTALLING, COPYING OR OTHERWISE USING UNICODE INC.'S
+  ~ DATA FILES ("DATA FILES"), AND/OR SOFTWARE ("SOFTWARE"),
+  ~ YOU UNEQUIVOCALLY ACCEPT, AND AGREE TO BE BOUND BY, ALL OF THE
+  ~ TERMS AND CONDITIONS OF THIS AGREEMENT.
+  ~ IF YOU DO NOT AGREE, DO NOT DOWNLOAD, INSTALL, COPY, DISTRIBUTE OR USE
+  ~ THE DATA FILES OR SOFTWARE.
+  ~
+  ~ COPYRIGHT AND PERMISSION NOTICE
+  ~
+  ~ Copyright © 1991-2021 Unicode, Inc. All rights reserved.
+  ~ Distributed under the Terms of Use in https://www.unicode.org/copyright.html.
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining
+  ~ a copy of the Unicode data files and any associated documentation
+  ~ (the "Data Files") or Unicode software and any associated documentation
+  ~ (the "Software") to deal in the Data Files or Software
+  ~ without restriction, including without limitation the rights to use,
+  ~ copy, modify, merge, publish, distribute, and/or sell copies of
+  ~ the Data Files or Software, and to permit persons to whom the Data Files
+  ~ or Software are furnished to do so, provided that either
+  ~ (a) this copyright and permission notice appear with all copies
+  ~ of the Data Files or Software, or
+  ~ (b) this copyright and permission notice appear in associated
+  ~ Documentation.
+  ~
+  ~ THE DATA FILES AND SOFTWARE ARE PROVIDED "AS IS", WITHOUT WARRANTY OF
+  ~ ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+  ~ WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+  ~ NONINFRINGEMENT OF THIRD PARTY RIGHTS.
+  ~ IN NO EVENT SHALL THE COPYRIGHT HOLDER OR HOLDERS INCLUDED IN THIS
+  ~ NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL INDIRECT OR CONSEQUENTIAL
+  ~ DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE,
+  ~ DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+  ~ TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+  ~ PERFORMANCE OF THE DATA FILES OR SOFTWARE.
+  ~
+  ~ Except as contained in this notice, the name of a copyright holder
+  ~ shall not be used in advertising or otherwise to promote the sale,
+  ~ use or other dealings in these Data Files or Software without prior
+  ~ written authorization of the copyright holder.
+-->
+<resources>
+    # group: Smileys Emotion
+    <string-array name="emoji_smileys">
+        # subgroup: face-smiling
+        <item>😀</item> # E1.0 grinning face
+        <item>😃</item> # E0.6 grinning face with big eyes
+        <item>😄</item> # E0.6 grinning face with smiling eyes
+        <item>😁</item> # E0.6 beaming face with smiling eyes
+        <item>😆</item> # E0.6 grinning squinting face
+        <item>😅</item> # E0.6 grinning face with sweat
+        <item>🤣</item> # E3.0 rolling on the floor laughing
+        <item>😂</item> # E0.6 face with tears of joy
+        <item>🙂</item> # E1.0 slightly smiling face
+        <item>🙃</item> # E1.0 upside-down face
+        <item>😉</item> # E0.6 winking face
+        <item>😊</item> # E0.6 smiling face with smiling eyes
+        <item>😇</item> # E1.0 smiling face with halo
+
+        # subgroup: face-affection
+        <item>🥰</item> # E11.0 smiling face with hearts
+        <item>😍</item> # E0.6 smiling face with heart-eyes
+        <item>🤩</item> # E5.0 star-struck
+        <item>😘</item> # E0.6 face blowing a kiss
+        <item>😗</item> # E1.0 kissing face
+        <item>☺️</item> # E0.6 smiling face
+        <item>😚</item> # E0.6 kissing face with closed eyes
+        <item>😙</item> # E1.0 kissing face with smiling eyes
+        <item>🥲</item>  # E13.0 smiling face with tear
+
+        # subgroup: face-tongue
+        <item>😋</item> # E0.6 face savoring food
+        <item>😛</item> # E1.0 face with tongue
+        <item>😜</item> # E0.6 winking face with tongue
+        <item>🤪</item> # E5.0 zany face
+        <item>😝</item> # E0.6 squinting face with tongue
+        <item>🤑</item> # E1.0 money-mouth face
+
+        # subgroup: face-hand
+        <item>🤗</item> # E1.0 hugging face
+        <item>🤭</item> # E5.0 face with hand over mouth
+        <item>🤫</item> # E5.0 shushing face
+        <item>🤔</item> # E1.0 thinking face
+
+        # subgroup: face-neutral-skeptical
+        <item>🤐</item> # E1.0 zipper-mouth face
+        <item>🤨</item> # E5.0 face with raised eyebrow
+        <item>😐</item> # E0.7 neutral face
+        <item>😑</item> # E1.0 expressionless face
+        <item>😶</item> # E1.0 face without mouth
+        <item>😶‍🌫️</item> # E13.1 face in clouds
+        <item>😏</item> # E0.6 smirking face
+        <item>😒</item> # E0.6 unamused face
+        <item>🙄</item> # E1.0 face with rolling eyes
+        <item>😬</item> # E1.0 grimacing face
+        <item>😮‍💨</item> # E13.1 face exhaling
+        <item>🤥</item> # E3.0 lying face
+
+        # subgroup: face-sleepy
+        <item>😌</item> # E0.6 relieved face
+        <item>😔</item> # E0.6 pensive face
+        <item>😪</item> # E0.6 sleepy face
+        <item>🤤</item> # E3.0 drooling face
+        <item>😴</item> # E1.0 sleeping face
+
+        # subgroup: face-unwell
+        <item>😷</item> # E0.6 face with medical mask
+        <item>🤒</item> # E1.0 face with thermometer
+        <item>🤕</item> # E1.0 face with head-bandage
+        <item>🤢</item> # E3.0 nauseated face
+        <item>🤮</item> # E5.0 face vomiting
+        <item>🤧</item> # E3.0 sneezing face
+        <item>🥵</item> # E11.0 hot face
+        <item>🥶</item> # E11.0 cold face
+        <item>🥴</item> # E11.0 woozy face
+        <item>😵</item> # E0.6 knocked-out face
+        <item>😵‍💫</item> # E13.1 face with spiral eyes
+        <item>🤯</item> # E5.0 exploding head
+
+        # subgroup: face-hat
+        <item>🤠</item> # E3.0 cowboy hat face
+        <item>🥳</item> # E11.0 partying face
+        <item>🥸</item> # E13.0 disguised face
+
+        # subgroup: face-glasses
+        <item>😎</item> # E1.0 smiling face with sunglasses
+        <item>🤓</item> # E1.0 nerd face
+        <item>🧐</item> # E5.0 face with monocle
+
+        # subgroup: face-concerned
+        <item>😕</item> # E1.0 confused face
+        <item>😟</item> # E1.0 worried face
+        <item>🙁</item> # E1.0 slightly frowning face
+        <item>☹️</item> # E0.7 frowning face
+        <item>😮</item> # E1.0 face with open mouth
+        <item>😯</item> # E1.0 hushed face
+        <item>😲</item> # E0.6 astonished face
+        <item>😳</item> # E0.6 flushed face
+        <item>🥺</item> # E11.0 pleading face
+        <item>😦</item> # E1.0 frowning face with open mouth
+        <item>😧</item> # E1.0 anguished face
+        <item>😨</item> # E0.6 fearful face
+        <item>😰</item> # E0.6 anxious face with sweat
+        <item>😥</item> # E0.6 sad but relieved face
+        <item>😢</item> # E0.6 crying face
+        <item>😭</item> # E0.6 loudly crying face
+        <item>😱</item> # E0.6 face screaming in fear
+        <item>😖</item> # E0.6 confounded face
+        <item>😣</item> # E0.6 persevering face
+        <item>😞</item> # E0.6 disappointed face
+        <item>😓</item> # E0.6 downcast face with sweat
+        <item>😩</item> # E0.6 weary face
+        <item>😫</item> # E0.6 tired face
+        <item>🥱</item> # E12.0 yawning face
+
+        # subgroup: face-negative
+        <item>😤</item> # E0.6 face with steam from nose
+        <item>😡</item> # E0.6 pouting face
+        <item>😠</item> # E0.6 angry face
+        <item>🤬</item> # E5.0 face with symbols on mouth
+        <item>😈</item> # E1.0 smiling face with horns
+        <item>👿</item> # E0.6 angry face with horns
+        <item>💀</item> # E0.6 skull
+        <item>☠️</item> # E1.0 skull and crossbones
+
+        # subgroup: face-costume
+        <item>💩</item> # E0.6 pile of poo
+        <item>🤡</item> # E3.0 clown face
+        <item>👹</item> # E0.6 ogre
+        <item>👺</item> # E0.6 goblin
+        <item>👻</item> # E0.6 ghost
+        <item>👽</item> # E0.6 alien
+        <item>👾</item> # E0.6 alien monster
+        <item>🤖</item> # E1.0 robot
+
+        # subgroup: cat-face
+        <item>😺</item> # E0.6 grinning cat
+        <item>😸</item> # E0.6 grinning cat with smiling eyes
+        <item>😹</item> # E0.6 cat with tears of joy
+        <item>😻</item> # E0.6 smiling cat with heart-eyes
+        <item>😼</item> # E0.6 cat with wry smile
+        <item>😽</item> # E0.6 kissing cat
+        <item>🙀</item> # E0.6 weary cat
+        <item>😿</item> # E0.6 crying cat
+        <item>😾</item> # E0.6 pouting cat
+
+        # subgroup: monkey-face
+        <item>🙈</item> # E0.6 see-no-evil monkey
+        <item>🙉</item> # E0.6 hear-no-evil monkey
+        <item>🙊</item> # E0.6 speak-no-evil monkey
+
+        # subgroup: emotion
+        <item>💋</item> # E0.6 kiss mark
+        <item>💌</item> # E0.6 love letter
+        <item>💘</item> # E0.6 heart with arrow
+        <item>💝</item> # E0.6 heart with ribbon
+        <item>💖</item> # E0.6 sparkling heart
+        <item>💗</item> # E0.6 growing heart
+        <item>💓</item> # E0.6 beating heart
+        <item>💞</item> # E0.6 revolving hearts
+        <item>💕</item> # E0.6 two hearts
+        <item>💟</item> # E0.6 heart decoration
+        <item>❣️</item> # E1.0 heart exclamation
+        <item>💔</item> # E0.6 broken heart
+        <item>❤️‍🔥</item> # E13.1 heart on fire
+        <item>❤️‍🩹</item> # E13.1 mending heart
+        <item>❤️</item> # E0.6 red heart
+        <item>🧡</item> # E5.0 orange heart
+        <item>💛</item> # E0.6 yellow heart
+        <item>💚</item> # E0.6 green heart
+        <item>💙</item> # E0.6 blue heart
+        <item>💜</item> # E0.6 purple heart
+        <item>🤎</item> # E12.0 brown heart
+        <item>🖤</item> # E3.0 black heart
+        <item>🤍</item> # E12.0 white heart
+        <item>💯</item> # E0.6 hundred points
+        <item>💢</item> # E0.6 anger symbol
+        <item>💥</item> # E0.6 collision
+        <item>💫</item> # E0.6 dizzy
+        <item>💦</item> # E0.6 sweat droplets
+        <item>💨</item> # E0.6 dashing away
+        <item>🕳️</item> # E0.7 hole
+        <item>💣</item> # E0.6 bomb
+        <item>💬</item> # E0.6 speech balloon
+        <item>👁️‍🗨️</item> # E2.0 eye in speech bubble
+        <item>🗨️</item> # E2.0 left speech bubble
+        <item>🗯️</item> # E0.7 right anger bubble
+        <item>💭</item> # E1.0 thought balloon
+        <item>💤</item> # E0.6 zzz
+    </string-array>
+
+    # group: People Body
+    <string-array name="emoji_people">
+        # subgroup: hand-fingers-open
+        <item>👋SKIN_TONE</item> # E0.6 waving hand
+        <item>🤚SKIN_TONE</item> # E3.0 raised back of hand
+        <item>🖐SKIN_TONE</item> # E0.7 hand with fingers splayed
+        <item>✋SKIN_TONE</item> # E0.6 raised hand
+        <item>🖖SKIN_TONE</item>  # E1.0 vulcan salute
+        <!-- TODO add the rest-->
+    </string-array>
+
+    # group: Animals Nature
+    <string-array name="emoji_animals">
+        # subgroup: animal-mammal
+        <item>🐵</item> # E0.6 monkey face
+        <item>🐒</item> # E0.6 monkey
+        <item>🦍</item> # E3.0 gorilla
+        <item>🦧</item> # E12.0 orangutan
+        <item>🐶</item> # E0.6 dog face
+        <item>🐕</item> # E0.7 dog
+        <item>🦮</item> # E12.0 guide dog
+        <item>🐕‍🦺</item> # E12.0 service dog
+        <item>🐩</item> # E0.6 poodle
+        <item>🐺</item> # E0.6 wolf
+        <item>🦊</item> # E3.0 fox
+        <item>🦝</item> # E11.0 raccoon
+        <item>🐱</item> # E0.6 cat face
+        <item>🐈</item> # E0.7 cat
+        <item>🐈‍⬛</item> # E13.0 black cat
+        <item>🦁</item> # E1.0 lion
+        <item>🐯</item> # E0.6 tiger face
+        <item>🐅</item> # E1.0 tiger
+        <item>🐆</item> # E1.0 leopard
+        <item>🐴</item> # E0.6 horse face
+        <item>🐎</item> # E0.6 horse
+        <item>🦄</item> # E1.0 unicorn
+        <item>🦓</item> # E5.0 zebra
+        <item>🦌</item> # E3.0 deer
+        <item>🦬</item> # E13.0 bison
+        <item>🐮</item> # E0.6 cow face
+        <item>🐂</item> # E1.0 ox
+        <item>🐃</item> # E1.0 water buffalo
+        <item>🐄</item> # E1.0 cow
+        <item>🐷</item> # E0.6 pig face
+        <item>🐖</item> # E1.0 pig
+        <item>🐗</item> # E0.6 boar
+        <item>🐽</item> # E0.6 pig nose
+        <item>🐏</item> # E1.0 ram
+        <item>🐑</item> # E0.6 ewe
+        <item>🐐</item> # E1.0 goat
+        <item>🐪</item> # E1.0 camel
+        <item>🐫</item> # E0.6 two-hump camel
+        <item>🦙</item> # E11.0 llama
+        <item>🦒</item> # E5.0 giraffe
+        <item>🐘</item> # E0.6 elephant
+        <item>🦣</item> # E13.0 mammoth
+        <item>🦏</item> # E3.0 rhinoceros
+        <item>🦛</item> # E11.0 hippopotamus
+        <item>🐭</item> # E0.6 mouse face
+        <item>🐁</item> # E1.0 mouse
+        <item>🐀</item> # E1.0 rat
+        <item>🐹</item> # E0.6 hamster
+        <item>🐰</item> # E0.6 rabbit face
+        <item>🐇</item> # E1.0 rabbit
+        <item>🐿️</item> # E0.7 chipmunk
+        <item>🦫</item> # E13.0 beaver
+        <item>🦔</item> # E5.0 hedgehog
+        <item>🦇</item> # E3.0 bat
+        <item>🐻</item> # E0.6 bear
+        <item>🐻‍❄️</item> # E13.0 polar bear
+        <item>🐨</item> # E0.6 koala
+        <item>🐼</item> # E0.6 panda
+        <item>🦥</item> # E12.0 sloth
+        <item>🦦</item> # E12.0 otter
+        <item>🦨</item> # E12.0 skunk
+        <item>🦘</item> # E11.0 kangaroo
+        <item>🦡</item> # E11.0 badger
+        <item>🐾</item> # E0.6 paw prints
+
+        # subgroup: animal-bird
+        <item>🦃</item> # E1.0 turkey
+        <item>🐔</item> # E0.6 chicken
+        <item>🐓</item> # E1.0 rooster
+        <item>🐣</item> # E0.6 hatching chick
+        <item>🐤</item> # E0.6 baby chick
+        <item>🐥</item> # E0.6 front-facing baby chick
+        <item>🐦</item> # E0.6 bird
+        <item>🐧</item> # E0.6 penguin
+        <item>🕊️</item> # E0.7 dove
+        <item>🦅</item> # E3.0 eagle
+        <item>🦆</item> # E3.0 duck
+        <item>🦢</item> # E11.0 swan
+        <item>🦉</item> # E3.0 owl
+        <item>🦤</item> # E13.0 dodo
+        <item>🪶</item> # E13.0 feather
+        <item>🦩</item> # E12.0 flamingo
+        <item>🦚</item> # E11.0 peacock
+        <item>🦜</item> # E11.0 parrot
+
+        # subgroup: animal-amphibian
+        <item>🐸</item> # E0.6 frog
+
+        # subgroup: animal-reptile
+        <item>🐊</item> # E1.0 crocodile
+        <item>🐢</item> # E0.6 turtle
+        <item>🦎</item> # E3.0 lizard
+        <item>🐍</item> # E0.6 snake
+        <item>🐲</item> # E0.6 dragon face
+        <item>🐉</item> # E1.0 dragon
+        <item>🦕</item> # E5.0 sauropod
+        <item>🦖</item> # E5.0 T-Rex
+
+        # subgroup: animal-marine
+        <item>🐳</item> # E0.6 spouting whale
+        <item>🐋</item> # E1.0 whale
+        <item>🐬</item> # E0.6 dolphin
+        <item>🦭</item> # E13.0 seal
+        <item>🐟</item> # E0.6 fish
+        <item>🐠</item> # E0.6 tropical fish
+        <item>🐡</item> # E0.6 blowfish
+        <item>🦈</item> # E3.0 shark
+        <item>🐙</item> # E0.6 octopus
+        <item>🐚</item> # E0.6 spiral shell
+
+        # subgroup: animal-bug
+        <item>🐌</item> # E0.6 snail
+        <item>🦋</item> # E3.0 butterfly
+        <item>🐛</item> # E0.6 bug
+        <item>🐜</item> # E0.6 ant
+        <item>🐝</item> # E0.6 honeybee
+        <item>🪲</item> # E13.0 beetle
+        <item>🐞</item> # E0.6 lady beetle
+        <item>🦗</item> # E5.0 cricket
+        <item>🪳</item> # E13.0 cockroach
+        <item>🕷️</item> # E0.7 spider
+        <item>🕸️</item> # E0.7 spider web
+        <item>🦂</item> # E1.0 scorpion
+        <item>🦟</item> # E11.0 mosquito
+        <item>🪰</item> # E13.0 fly
+        <item>🪱</item> # E13.0 worm
+        <item>🦠</item> # E11.0 microbe
+
+        # subgroup: plant-flower
+        <item>💐</item> # E0.6 bouquet
+        <item>🌸</item> # E0.6 cherry blossom
+        <item>💮</item> # E0.6 white flower
+        <item>🏵️</item> # E0.7 rosette
+        <item>🌹</item> # E0.6 rose
+        <item>🥀</item> # E3.0 wilted flower
+        <item>🌺</item> # E0.6 hibiscus
+        <item>🌻</item> # E0.6 sunflower
+        <item>🌼</item> # E0.6 blossom
+        <item>🌷</item> # E0.6 tulip
+
+        # subgroup: plant-other
+        <item>🌱</item> # E0.6 seedling
+        <item>🪴</item> # E13.0 potted plant
+        <item>🌲</item> # E1.0 evergreen tree
+        <item>🌳</item> # E1.0 deciduous tree
+        <item>🌴</item> # E0.6 palm tree
+        <item>🌵</item> # E0.6 cactus
+        <item>🌾</item> # E0.6 sheaf of rice
+        <item>🌿</item> # E0.6 herb
+        <item>☘️</item> # E1.0 shamrock
+        <item>🍀</item> # E0.6 four leaf clover
+        <item>🍁</item> # E0.6 maple leaf
+        <item>🍂</item> # E0.6 fallen leaf
+        <item>🍃</item> # E0.6 leaf fluttering in wind
+    </string-array>
+
+    # group: Food Drink
+    <string-array name="emoji_food">
+        # subgroup: food-fruit
+        <item>🍇</item> # E0.6 grapes
+        <item>🍈</item> # E0.6 melon
+        <item>🍉</item> # E0.6 watermelon
+        <item>🍊</item> # E0.6 tangerine
+        <item>🍋</item> # E1.0 lemon
+        <item>🍌</item> # E0.6 banana
+        <item>🍍</item> # E0.6 pineapple
+        <item>🥭</item> # E11.0 mango
+        <item>🍎</item> # E0.6 red apple
+        <item>🍏</item> # E0.6 green apple
+        <item>🍐</item> # E1.0 pear
+        <item>🍑</item> # E0.6 peach
+        <item>🍒</item> # E0.6 cherries
+        <item>🍓</item> # E0.6 strawberry
+        <item>🫐</item> # E13.0 blueberries
+        <item>🥝</item> # E3.0 kiwi fruit
+        <item>🍅</item> # E0.6 tomato
+        <item>🫒</item> # E13.0 olive
+        <item>🥥</item> # E5.0 coconut
+
+        # subgroup: food-vegetable
+        <item>🥑</item> # E3.0 avocado
+        <item>🍆</item> # E0.6 eggplant
+        <item>🥔</item> # E3.0 potato
+        <item>🥕</item> # E3.0 carrot
+        <item>🌽</item> # E0.6 ear of corn
+        <item>🌶️</item> # E0.7 hot pepper
+        <item>🫑</item> # E13.0 bell pepper
+        <item>🥒</item> # E3.0 cucumber
+        <item>🥬</item> # E11.0 leafy green
+        <item>🥦</item> # E5.0 broccoli
+        <item>🧄</item> # E12.0 garlic
+        <item>🧅</item> # E12.0 onion
+        <item>🍄</item> # E0.6 mushroom
+        <item>🥜</item> # E3.0 peanuts
+        <item>🌰</item> # E0.6 chestnut
+
+        # subgroup: food-prepared
+        <item>🍞</item> # E0.6 bread
+        <item>🥐</item> # E3.0 croissant
+        <item>🥖</item> # E3.0 baguette bread
+        <item>🫓</item> # E13.0 flatbread
+        <item>🥨</item> # E5.0 pretzel
+        <item>🥯</item> # E11.0 bagel
+        <item>🥞</item> # E3.0 pancakes
+        <item>🧇</item> # E12.0 waffle
+        <item>🧀</item> # E1.0 cheese wedge
+        <item>🍖</item> # E0.6 meat on bone
+        <item>🍗</item> # E0.6 poultry leg
+        <item>🥩</item> # E5.0 cut of meat
+        <item>🥓</item> # E3.0 bacon
+        <item>🍔</item> # E0.6 hamburger
+        <item>🍟</item> # E0.6 french fries
+        <item>🍕</item> # E0.6 pizza
+        <item>🌭</item> # E1.0 hot dog
+        <item>🥪</item> # E5.0 sandwich
+        <item>🌮</item> # E1.0 taco
+        <item>🌯</item> # E1.0 burrito
+        <item>🫔</item> # E13.0 tamale
+        <item>🥙</item> # E3.0 stuffed flatbread
+        <item>🧆</item> # E12.0 falafel
+        <item>🥚</item> # E3.0 egg
+        <item>🍳</item> # E0.6 cooking
+        <item>🥘</item> # E3.0 shallow pan of food
+        <item>🍲</item> # E0.6 pot of food
+        <item>🫕</item> # E13.0 fondue
+        <item>🥣</item> # E5.0 bowl with spoon
+        <item>🥗</item> # E3.0 green salad
+        <item>🍿</item> # E1.0 popcorn
+        <item>🧈</item> # E12.0 butter
+        <item>🧂</item> # E11.0 salt
+        <item>🥫</item> # E5.0 canned food
+
+        # subgroup: food-asian
+        <item>🍱</item> # E0.6 bento box
+        <item>🍘</item> # E0.6 rice cracker
+        <item>🍙</item> # E0.6 rice ball
+        <item>🍚</item> # E0.6 cooked rice
+        <item>🍛</item> # E0.6 curry rice
+        <item>🍜</item> # E0.6 steaming bowl
+        <item>🍝</item> # E0.6 spaghetti
+        <item>🍠</item> # E0.6 roasted sweet potato
+        <item>🍢</item> # E0.6 oden
+        <item>🍣</item> # E0.6 sushi
+        <item>🍤</item> # E0.6 fried shrimp
+        <item>🍥</item> # E0.6 fish cake with swirl
+        <item>🥮</item> # E11.0 moon cake
+        <item>🍡</item> # E0.6 dango
+        <item>🥟</item> # E5.0 dumpling
+        <item>🥠</item> # E5.0 fortune cookie
+        <item>🥡</item> # E5.0 takeout box
+
+        # subgroup: food-marine
+        <item>🦀</item> # E1.0 crab
+        <item>🦞</item> # E11.0 lobster
+        <item>🦐</item> # E3.0 shrimp
+        <item>🦑</item> # E3.0 squid
+        <item>🦪</item> # E12.0 oyster
+
+        # subgroup: food-sweet
+        <item>🍦</item> # E0.6 soft ice cream
+        <item>🍧</item> # E0.6 shaved ice
+        <item>🍨</item> # E0.6 ice cream
+        <item>🍩</item> # E0.6 doughnut
+        <item>🍪</item> # E0.6 cookie
+        <item>🎂</item> # E0.6 birthday cake
+        <item>🍰</item> # E0.6 shortcake
+        <item>🧁</item> # E11.0 cupcake
+        <item>🥧</item> # E5.0 pie
+        <item>🍫</item> # E0.6 chocolate bar
+        <item>🍬</item> # E0.6 candy
+        <item>🍭</item> # E0.6 lollipop
+        <item>🍮</item> # E0.6 custard
+        <item>🍯</item> # E0.6 honey pot
+
+        # subgroup: drink
+        <item>🍼</item> # E1.0 baby bottle
+        <item>🥛</item> # E3.0 glass of milk
+        <item>☕</item> # E0.6 hot beverage
+        <item>🫖</item> # E13.0 teapot
+        <item>🍵</item> # E0.6 teacup without handle
+        <item>🍶</item> # E0.6 sake
+        <item>🍾</item> # E1.0 bottle with popping cork
+        <item>🍷</item> # E0.6 wine glass
+        <item>🍸</item> # E0.6 cocktail glass
+        <item>🍹</item> # E0.6 tropical drink
+        <item>🍺</item> # E0.6 beer mug
+        <item>🍻</item> # E0.6 clinking beer mugs
+        <item>🥂</item> # E3.0 clinking glasses
+        <item>🥃</item> # E3.0 tumbler glass
+        <item>🥤</item> # E5.0 cup with straw
+        <item>🧋</item> # E13.0 bubble tea
+        <item>🧃</item> # E12.0 beverage box
+        <item>🧉</item> # E12.0 mate
+        <item>🧊</item> # E12.0 ice
+
+        # subgroup: dishware
+        <item>🥢</item> # E5.0 chopsticks
+        <item>🍽️</item> # E0.7 fork and knife with plate
+        <item>🍴</item> # E0.6 fork and knife
+        <item>🥄</item> # E3.0 spoon
+        <item>🔪</item> # E0.6 kitchen knife
+        <item>🏺</item> # E1.0 amphora
+    </string-array>
+
+    # group: Travel Places
+    <string-array name="emoji_travel">
+        # subgroup: place-map
+        <item>🌍</item> # E0.7 globe showing Europe-Africa
+        <item>🌎</item> # E0.7 globe showing Americas
+        <item>🌏</item> # E0.6 globe showing Asia-Australia
+        <item>🌐</item> # E1.0 globe with meridians
+        <item>🗺</item> #️ E0.7 world map
+        <item>🗾</item> # E0.6 map of Japan
+        <item>🧭</item> # E11.0 compass
+
+        # subgroup: place-geographic
+        <item>🏔️</item> # E0.7 snow-capped mountain
+        <item>⛰️</item> # E0.7 mountain
+        <item>🌋</item> # E0.6 volcano
+        <item>🗻</item> # E0.6 mount fuji
+        <item>🏕️</item> # E0.7 camping
+        <item>🏖️</item> # E0.7 beach with umbrella
+        <item>🏜️</item> # E0.7 desert
+        <item>🏝️</item> # E0.7 desert island
+        <item>🏞️</item> # E0.7 national park
+
+        # subgroup: place-building
+        <item>🏟️</item> # E0.7 stadium
+        <item>🏛️</item> # E0.7 classical building
+        <item>🏗️</item> # E0.7 building construction
+        <item>🧱</item> # E11.0 brick
+        <item>🪨</item> # E13.0 rock
+        <item>🪵</item> # E13.0 wood
+        <item>🛖</item> # E13.0 hut
+        <item>🏘️</item> # E0.7 houses
+        <item>🏚️</item> # E0.7 derelict house
+        <item>🏠</item> # E0.6 house
+        <item>🏡</item> # E0.6 house with garden
+        <item>🏢</item> # E0.6 office building
+        <item>🏣</item> # E0.6 Japanese post office
+        <item>🏤</item> # E1.0 post office
+        <item>🏥</item> # E0.6 hospital
+        <item>🏦</item> # E0.6 bank
+        <item>🏨</item> # E0.6 hotel
+        <item>🏩</item> # E0.6 love hotel
+        <item>🏪</item> # E0.6 convenience store
+        <item>🏫</item> # E0.6 school
+        <item>🏬</item> # E0.6 department store
+        <item>🏭</item> # E0.6 factory
+        <item>🏯</item> # E0.6 Japanese castle
+        <item>🏰</item> # E0.6 castle
+        <item>💒</item> # E0.6 wedding
+        <item>🗼</item> # E0.6 Tokyo tower
+        <item>🗽</item> # E0.6 Statue of Liberty
+
+        # subgroup: place-religious
+        <item>⛪</item> # E0.6 church
+        <item>🕌</item> # E1.0 mosque
+        <item>🛕</item> # E12.0 hindu temple
+        <item>🕍</item> # E1.0 synagogue
+        <item>⛩️</item> # E0.7 shinto shrine
+        <item>🕋</item> # E1.0 kaaba
+
+        # subgroup: place-other
+        <item>⛲</item> # E0.6 fountain
+        <item>⛺</item> # E0.6 tent
+        <item>🌁</item> # E0.6 foggy
+        <item>🌃</item> # E0.6 night with stars
+        <item>🏙️</item> # E0.7 cityscape
+        <item>🌄</item> # E0.6 sunrise over mountains
+        <item>🌅</item> # E0.6 sunrise
+        <item>🌆</item> # E0.6 cityscape at dusk
+        <item>🌇</item> # E0.6 sunset
+        <item>🌉</item> # E0.6 bridge at night
+        <item>♨️</item> # E0.6 hot springs
+        <item>🎠</item> # E0.6 carousel horse
+        <item>🎡</item> # E0.6 ferris wheel
+        <item>🎢</item> # E0.6 roller coaster
+        <item>💈</item> # E0.6 barber pole
+        <item>🎪</item> # E0.6 circus tent
+
+        # subgroup: transport-ground
+        <item>🚂</item> # E1.0 locomotive
+        <item>🚃</item> # E0.6 railway car
+        <item>🚄</item> # E0.6 high-speed train
+        <item>🚅</item> # E0.6 bullet train
+        <item>🚆</item> # E1.0 train
+        <item>🚇</item> # E0.6 metro
+        <item>🚈</item> # E1.0 light rail
+        <item>🚉</item> # E0.6 station
+        <item>🚊</item> # E1.0 tram
+        <item>🚝</item> # E1.0 monorail
+        <item>🚞</item> # E1.0 mountain railway
+        <item>🚋</item> # E1.0 tram car
+        <item>🚌</item> # E0.6 bus
+        <item>🚍</item> # E0.7 oncoming bus
+        <item>🚎</item> # E1.0 trolleybus
+        <item>🚐</item> # E1.0 minibus
+        <item>🚑</item> # E0.6 ambulance
+        <item>🚒</item> # E0.6 fire engine
+        <item>🚓</item> # E0.6 police car
+        <item>🚔</item> # E0.7 oncoming police car
+        <item>🚕</item> # E0.6 taxi
+        <item>🚖</item> # E1.0 oncoming taxi
+        <item>🚗</item> # E0.6 automobile
+        <item>🚘</item> # E0.7 oncoming automobile
+        <item>🚙</item> # E0.6 sport utility vehicle
+        <item>🛻</item> # E13.0 pickup truck
+        <item>🚚</item> # E0.6 delivery truck
+        <item>🚛</item> # E1.0 articulated lorry
+        <item>🚜</item> # E1.0 tractor
+        <item>🏎️</item> # E0.7 racing car
+        <item>🏍️</item> # E0.7 motorcycle
+        <item>🛵</item> # E3.0 motor scooter
+        <item>🦽</item> # E12.0 manual wheelchair
+        <item>🦼</item> # E12.0 motorized wheelchair
+        <item>🛺</item> # E12.0 auto rickshaw
+        <item>🚲</item> # E0.6 bicycle
+        <item>🛴</item> # E3.0 kick scooter
+        <item>🛹</item> # E11.0 skateboard
+        <item>🛼</item> # E13.0 roller skate
+        <item>🚏</item> # E0.6 bus stop
+        <item>🛣️</item> # E0.7 motorway
+        <item>🛤️</item> # E0.7 railway track
+        <item>🛢️</item> # E0.7 oil drum
+        <item>⛽</item> # E0.6 fuel pump
+        <item>🚨</item> # E0.6 police car light
+        <item>🚥</item> # E0.6 horizontal traffic light
+        <item>🚦</item> # E1.0 vertical traffic light
+        <item>🛑</item> # E3.0 stop sign
+        <item>🚧</item> # E0.6 construction
+
+        # subgroup: transport-water
+        <item>⚓</item> # E0.6 anchor
+        <item>⛵</item> # E0.6 sailboat
+        <item>🛶</item> # E3.0 canoe
+        <item>🚤</item> # E0.6 speedboat
+        <item>🛳️</item> # E0.7 passenger ship
+        <item>⛴️</item> # E0.7 ferry
+        <item>🛥️</item> # E0.7 motor boat
+        <item>🚢</item> # E0.6 ship
+
+        # subgroup: transport-air
+        <item>✈️</item> # E0.6 airplane
+        <item>🛩️</item> # E0.7 small airplane
+        <item>🛫</item> # E1.0 airplane departure
+        <item>🛬</item> # E1.0 airplane arrival
+        <item>🪂</item> # E12.0 parachute
+        <item>💺</item> # E0.6 seat
+        <item>🚁</item> # E1.0 helicopter
+        <item>🚟</item> # E1.0 suspension railway
+        <item>🚠</item> # E1.0 mountain cableway
+        <item>🚡</item> # E1.0 aerial tramway
+        <item>🛰️</item> # E0.7 satellite
+        <item>🚀</item> # E0.6 rocket
+        <item>🛸</item> # E5.0 flying saucer
+
+        # subgroup: hotel
+        <item>🛎️</item> # E0.7 bellhop bell
+        <item>🧳</item> # E11.0 luggage
+
+        # subgroup: time
+        <item>⌛</item> # E0.6 hourglass done
+        <item>⏳</item> # E0.6 hourglass not done
+        <item>⌚</item> # E0.6 watch
+        <item>⏰</item> # E0.6 alarm clock
+        <item>⏱️</item> # E1.0 stopwatch
+        <item>⏲️</item> # E1.0 timer clock
+        <item>🕰️</item> # E0.7 mantelpiece clock
+        <item>🕛</item> # E0.6 twelve o’clock
+        <item>🕧</item> # E0.7 twelve-thirty
+        <item>🕐</item> # E0.6 one o’clock
+        <item>🕜</item> # E0.7 one-thirty
+        <item>🕑</item> # E0.6 two o’clock
+        <item>🕝</item> # E0.7 two-thirty
+        <item>🕒</item> # E0.6 three o’clock
+        <item>🕞</item> # E0.7 three-thirty
+        <item>🕓</item> # E0.6 four o’clock
+        <item>🕟</item> # E0.7 four-thirty
+        <item>🕔</item> # E0.6 five o’clock
+        <item>🕠</item> # E0.7 five-thirty
+        <item>🕕</item> # E0.6 six o’clock
+        <item>🕡</item> # E0.7 six-thirty
+        <item>🕖</item> # E0.6 seven o’clock
+        <item>🕢</item> # E0.7 seven-thirty
+        <item>🕗</item> # E0.6 eight o’clock
+        <item>🕣</item> # E0.7 eight-thirty
+        <item>🕘</item> # E0.6 nine o’clock
+        <item>🕤</item> # E0.7 nine-thirty
+        <item>🕙</item> # E0.6 ten o’clock
+        <item>🕥</item> # E0.7 ten-thirty
+        <item>🕚</item> # E0.6 eleven o’clock
+        <item>🕦</item> # E0.7 eleven-thirty
+
+        # subgroup: sky weather
+        <item>🌑</item> # E0.6 new moon
+        <item>🌒</item> # E1.0 waxing crescent moon
+        <item>🌓</item> # E0.6 first quarter moon
+        <item>🌔</item> # E0.6 waxing gibbous moon
+        <item>🌕</item> # E0.6 full moon
+        <item>🌖</item> # E1.0 waning gibbous moon
+        <item>🌗</item> # E1.0 last quarter moon
+        <item>🌘</item> # E1.0 waning crescent moon
+        <item>🌙</item> # E0.6 crescent moon
+        <item>🌚</item> # E1.0 new moon face
+        <item>🌛</item> # E0.6 first quarter moon face
+        <item>🌜</item> # E0.7 last quarter moon face
+        <item>🌡️</item> # E0.7 thermometer
+        <item>☀️</item> # E0.6 sun
+        <item>🌝</item> # E1.0 full moon face
+        <item>🌞</item> # E1.0 sun with face
+        <item>🪐</item> # E12.0 ringed planet
+        <item>⭐</item> # E0.6 star
+        <item>🌟</item> # E0.6 glowing star
+        <item>🌠</item> # E0.6 shooting star
+        <item>🌌</item> # E0.6 milky way
+        <item>☁️</item> # E0.6 cloud
+        <item>⛅</item> # E0.6 sun behind cloud
+        <item>⛈️</item> # E0.7 cloud with lightning and rain
+        <item>🌤️</item> # E0.7 sun behind small cloud
+        <item>🌥️</item> # E0.7 sun behind large cloud
+        <item>🌦️</item> # E0.7 sun behind rain cloud
+        <item>🌧️</item> # E0.7 cloud with rain
+        <item>🌨️</item> # E0.7 cloud with snow
+        <item>🌩️</item> # E0.7 cloud with lightning
+        <item>🌪️</item> # E0.7 tornado
+        <item>🌫️</item> # E0.7 fog
+        <item>🌬️</item> # E0.7 wind face
+        <item>🌀</item> # E0.6 cyclone
+        <item>🌈</item> # E0.6 rainbow
+        <item>🌂</item> # E0.6 closed umbrella
+        <item>☂️</item> # E0.7 umbrella
+        <item>☔</item> # E0.6 umbrella with rain drops
+        <item>⛱️</item> # E0.7 umbrella on ground
+        <item>⚡</item> # E0.6 high voltage
+        <item>❄️</item> # E0.6 snowflake
+        <item>☃️</item> # E0.7 snowman
+        <item>⛄</item> # E0.6 snowman without snow
+        <item>☄️</item> # E1.0 comet
+        <item>🔥</item> #  E0.6 fire
+        <item>💧</item> #  E0.6 droplet
+        <item>🌊</item> #  E0.6 water wave
+    </string-array>
+</resources>

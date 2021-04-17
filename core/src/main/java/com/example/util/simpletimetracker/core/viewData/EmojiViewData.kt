@@ -5,7 +5,7 @@ import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 
 data class EmojiViewData(
     val emojiText: String,
-    val emojiCodes: List<Int>,
+    val emojiCodes: String,
     @ColorInt val colorInt: Int
 ) : ViewHolderType {
 

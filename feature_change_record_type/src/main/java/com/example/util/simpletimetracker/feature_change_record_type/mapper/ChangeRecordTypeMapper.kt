@@ -98,7 +98,7 @@ class ChangeRecordTypeMapper @Inject constructor(
 
     fun mapEmojiSelectionParams(
         colorId: Int,
-        emojiCodes: List<Int>
+        emojiCodes: String
     ): EmojiSelectionDialogParams {
         return EmojiSelectionDialogParams(
             color = colorId,

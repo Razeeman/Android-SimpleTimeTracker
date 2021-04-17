@@ -10,39 +10,27 @@ class EmojiMapper @Inject constructor(
 ) {
 
     // TODO return categories with names
-    fun getAvailableEmojis(): List<List<Int>> =
+    fun getAvailableEmojis(): List<String> =
         repo.getGroupSmileys() +
             repo.getGroupPeople() +
             repo.getGroupAnimals() +
             repo.getGroupFood() +
             repo.getGroupTravel()
 
-    fun hasSkinToneVariations(codes: List<Int>): Boolean =
-        codes.any { it == EmojiRepo.SKIN_TONE }
+    fun hasSkinToneVariations(codes: String): Boolean =
+        codes.contains(EmojiRepo.SKIN_TONE)
 
-    fun toEmojiString(codes: List<Int>): String =
-        codes.joinToString(separator = "") { convert(it) }
+    fun toEmojiString(codes: String): String =
+        codes.replace(EmojiRepo.SKIN_TONE, "")
 
-    fun toSkinToneVariations(codes: List<Int>): List<List<Int>> {
-        val result: MutableList<List<Int>> = mutableListOf()
+    fun toSkinToneVariations(codes: String): List<String> {
+        val result: MutableList<String> = mutableListOf()
 
         // TODO can have several skin tone placements
         EmojiRepo.skinTones.forEach { skinToneCode ->
-            codes.map { code ->
-                if (code == EmojiRepo.SKIN_TONE) skinToneCode else code
-            }.let(result::add)
+            codes.replace(EmojiRepo.SKIN_TONE, skinToneCode).let(result::add)
         }
 
         return result
-    }
-
-    private fun convert(code: Int): String {
-        return if (code > 0xFFFF) {
-            val h = (((code - 0x10000) / 0x400) + 0xD800).toChar()
-            val l = (((code - 0x10000) % 0x400) + 0xDC00).toChar()
-            "$h$l"
-        } else {
-            code.toChar().toString()
-        }
     }
 }

@@ -16,7 +16,7 @@ class EmojiSelectionMapper @Inject constructor(
     fun mapIconEmojiData(
         colorId: Int,
         isDarkTheme: Boolean,
-        emojiCodes: List<List<Int>>
+        emojiCodes: List<String>
     ): List<ViewHolderType> {
         return emojiCodes.map { codes ->
             EmojiViewData(
