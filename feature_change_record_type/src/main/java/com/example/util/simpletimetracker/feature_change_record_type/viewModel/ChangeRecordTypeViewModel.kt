@@ -10,6 +10,7 @@ import com.example.util.simpletimetracker.core.interactor.NotificationTypeIntera
 import com.example.util.simpletimetracker.core.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.core.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
+import com.example.util.simpletimetracker.core.mapper.EmojiMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
@@ -54,7 +55,8 @@ class ChangeRecordTypeViewModel @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
     private val changeRecordTypeMapper: ChangeRecordTypeMapper,
-    private val resourceRepo: ResourceRepo
+    private val resourceRepo: ResourceRepo,
+    private val emojiMapper: EmojiMapper
 ) : ViewModel() {
 
     lateinit var extra: ChangeRecordTypeParams
@@ -189,10 +191,14 @@ class ChangeRecordTypeViewModel @Inject constructor(
     }
 
     fun onEmojiClick(item: ChangeRecordTypeEmojiViewData) {
-        viewModelScope.launch {
-            if (item.emojiText != newIconName) {
-                newIconName = item.emojiText
-                updateRecordPreviewViewData()
+        if (emojiMapper.hasSkinToneVariations(item.emojiCodes)) {
+            // TODO open dialog
+        } else {
+            viewModelScope.launch {
+                if (item.emojiText != newIconName) {
+                    newIconName = item.emojiText
+                    updateRecordPreviewViewData()
+                }
             }
         }
     }

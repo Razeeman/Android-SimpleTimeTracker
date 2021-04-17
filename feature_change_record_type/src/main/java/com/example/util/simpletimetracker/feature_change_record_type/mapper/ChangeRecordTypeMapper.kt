@@ -68,10 +68,11 @@ class ChangeRecordTypeMapper @Inject constructor(
         newColorId: Int,
         isDarkTheme: Boolean
     ): List<ViewHolderType> {
-        return emojiMapper.availableEmojis
-            .map { emojiText ->
+        return emojiMapper.getAvailableEmojis()
+            .map { codes ->
                 ChangeRecordTypeEmojiViewData(
-                    emojiText = emojiText,
+                    emojiText = emojiMapper.toEmojiString(codes),
+                    emojiCodes = codes,
                     colorInt = newColorId
                         .let { colorMapper.mapToColorResId(it, isDarkTheme) }
                         .let(resourceRepo::getColor)
