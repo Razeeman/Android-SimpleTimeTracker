@@ -244,7 +244,342 @@
         <item>🖐SKIN_TONE</item> # E0.7 hand with fingers splayed
         <item>✋SKIN_TONE</item> # E0.6 raised hand
         <item>🖖SKIN_TONE</item>  # E1.0 vulcan salute
+
+        # subgroup: hand-fingers-partial
+        <item>👌SKIN_TONE</item> # E1.0 OK hand
+        <item>🤌SKIN_TONE</item> # E13.0 pinched fingers
+        <item>🤏SKIN_TONE</item> # E12.0 pinching hand
+        <item>✌️SKIN_TONE</item> # E1.0 victory hand
+        <item>🤞SKIN_TONE</item> # E3.0 crossed fingers
+        <item>🤟SKIN_TONE</item> # E5.0 love-you gesture
+        <item>🤘SKIN_TONE</item> # E1.0 sign of the horns
+        <item>🤙SKIN_TONE</item> # E3.0 call me hand
+
+        # subgroup: hand-single-finger
+        <item>👈SKIN_TONE</item> # E1.0 backhand index pointing left
+        <item>👉SKIN_TONE</item> # E1.0 backhand index pointing right
+        <item>👆SKIN_TONE</item> # E1.0 backhand index pointing up
+        <item>🖕SKIN_TONE</item> # E1.0 middle finger
+        <item>👇SKIN_TONE</item> # E1.0 backhand index pointing down
+        <item>☝️SKIN_TONE</item> # E1.0 index pointing up
+
+        # subgroup: hand-fingers-closed
+        <item>👍SKIN_TONE</item> # E1.0 thumbs up
+        <item>👎SKIN_TONE</item> # E1.0 thumbs down
+        <item>✊SKIN_TONE</item> # E1.0 raised fist
+        <item>👊SKIN_TONE</item> # E1.0 oncoming fist
+        <item>🤛SKIN_TONE</item> # E3.0 left-facing fist
+        <item>🤜SKIN_TONE</item> # E3.0 right-facing fist
+
+        # subgroup: hands
+        <item>👏SKIN_TONE</item> # E1.0 clapping hands
+        <item>🙌SKIN_TONE</item> # E1.0 raising hands
+        <item>👐SKIN_TONE</item> # E1.0 open hands
+        <item>🤲SKIN_TONE</item> # E5.0 palms up together
+        <item>🤝</item> # E3.0 handshake ???
+        <item>🙏SKIN_TONE</item> # E1.0 folded hands
+
+        # subgroup: hand-prop
+        <item>✍️SKIN_TONE</item> # E1.0 writing hand
+        <item>💅SKIN_TONE</item> # E1.0 nail polish
+        <item>🤳SKIN_TONE</item> # E3.0 selfie
+
+        # subgroup: body-parts
+        <item>💪SKIN_TONE</item> # E1.0 flexed biceps
+        <item>🦾</item> # E12.0 mechanical arm
+        <item>🦿</item> # E12.0 mechanical leg
+        <item>🦵SKIN_TONE</item> # E11.0 leg
+        <item>🦶SKIN_TONE</item> # E11.0 foot
+        <item>👂SKIN_TONE</item> # E1.0 ear
+        <item>🦻SKIN_TONE</item> # E12.0 ear with hearing aid
+        <item>👃SKIN_TONE</item> # E1.0 nose
+        <item>🧠</item> # E5.0 brain
+        <item>🫀</item> # E13.0 anatomical heart
+        <item>🫁</item> # E13.0 lungs
+        <item>🦷</item> # E11.0 tooth
+        <item>🦴</item> # E11.0 bone
+        <item>👀</item> # E0.6 eyes
+        <item>👁️</item> # E0.7 eye
+        <item>👅</item> # E0.6 tongue
+        <item>👄</item> # E0.6 mouth
+
+        # subgroup: person
+        <item>👶SKIN_TONE</item> # E1.0 baby
+        <item>🧒SKIN_TONE</item> # E5.0 child
+        <item>👦SKIN_TONE</item> # E1.0 boy
+        <item>👧SKIN_TONE</item> # E1.0 girl
+        <item>🧑SKIN_TONE</item> # E5.0 person
+        <item>👱SKIN_TONE</item> # E1.0 person, blond hair
+        <item>👨SKIN_TONE</item> # E1.0 man
+        <item>🧔SKIN_TONE</item> # E5.0 person, beard
+        <item>🧔SKIN_TONE‍♂️</item> # E13.1 man, beard
+        <item>🧔SKIN_TONE‍♀️</item> # E13.1 woman, beard
+        <item>👨SKIN_TONE‍🦰</item> # E11.0 man, red hair
+        <item>👨SKIN_TONE‍🦱</item> # E11.0 man, curly hair
+        <item>👨SKIN_TONE‍🦳</item> # E11.0 man, white hair
+        <item>👨SKIN_TONE‍🦲</item> # E11.0 man, bald
+        <item>👩SKIN_TONE</item> # E1.0 woman
+        <item>👩SKIN_TONE‍🦰</item> # E11.0 woman, red hair
+        <item>🧑SKIN_TONE‍🦰</item> # E12.1 person, red hair
+        <item>👩SKIN_TONE‍🦱</item> # E11.0 woman, curly hair
+        <item>🧑SKIN_TONE‍🦱</item> # E12.1 person, curly hair
+        <item>👩SKIN_TONE‍🦳</item> # E11.0 woman, white hair
+        <item>🧑SKIN_TONE‍🦳</item> # E12.1 person, white hair
+        <item>👩SKIN_TONE‍🦲</item> # E11.0 woman, bald
+        <item>🧑SKIN_TONE‍🦲</item> # E12.1 person, bald
+        <item>👱SKIN_TONE‍♀️</item> # E4.0 woman, blond hair
+        <item>👱SKIN_TONE‍♂️</item> # E4.0 man, blond hair
+        <item>🧓SKIN_TONE</item> # E5.0 older person
+        <item>👴SKIN_TONE</item> # E1.0 old man
+        <item>👵SKIN_TONE</item> # E1.0 old woman
+
+        # subgroup: person-gesture
+        <item>🙍SKIN_TONE</item> # E1.0 person frowning
+        <item>🙍SKIN_TONE‍♂️</item> # E4.0 man frowning
+        <item>🙍SKIN_TONE‍♀️</item> # E4.0 woman frowning
+        <item>🙎SKIN_TONE</item> # E1.0 person pouting
+        <item>🙎SKIN_TONE‍♂️</item> # E4.0 man pouting
+        <item>🙎SKIN_TONE‍♀️</item> # E4.0 woman pouting
+        <item>🙅SKIN_TONE</item> # E1.0 person gesturing NO
+        <item>🙅SKIN_TONE‍♂️</item> # E4.0 man gesturing NO
+        <item>🙅SKIN_TONE‍♀️</item> # E4.0 woman gesturing NO
+        <item>🙆SKIN_TONE</item> # E1.0 person gesturing OK
+        <item>🙆SKIN_TONE‍♂️</item> # E4.0 man gesturing OK
+        <item>🙆SKIN_TONE‍♀️</item> # E4.0 woman gesturing OK
+        <item>💁SKIN_TONE</item> # E1.0 person tipping hand
+        <item>💁SKIN_TONE‍♂️</item> # E4.0 man tipping hand
+        <item>💁SKIN_TONE‍♀️</item> # E4.0 woman tipping hand
+        <item>🙋SKIN_TONE</item> # E1.0 person raising hand
+        <item>🙋SKIN_TONE‍♂️</item> # E4.0 man raising hand
+        <item>🙋SKIN_TONE‍♀️</item> # E4.0 woman raising hand
+        <item>🧏SKIN_TONE</item> # E12.0 deaf person
+        <item>🧏SKIN_TONE‍♂️</item> # E12.0 deaf man
+        <item>🧏SKIN_TONE‍♀️</item> # E12.0 deaf woman
+        <item>🙇SKIN_TONE</item> # E1.0 person bowing
+        <item>🙇SKIN_TONE‍♂️</item> # E4.0 man bowing
+        <item>🙇SKIN_TONE‍♀️</item> # E4.0 woman bowing
+        <item>🤦SKIN_TONE</item> # E3.0 person facepalming
+        <item>🤦SKIN_TONE‍♂️</item> # E4.0 man facepalming
+        <item>🤦SKIN_TONE‍♀️</item> # E4.0 woman facepalming
+        <item>🤷SKIN_TONE</item> # E3.0 person shrugging
+        <item>🤷SKIN_TONE‍♂️</item> # E4.0 man shrugging
+        <item>🤷SKIN_TONE‍♀️</item> # E4.0 woman shrugging
+
+        # subgroup: person-role
+        <item>🧑SKIN_TONE‍⚕️</item> # E12.1 health worker
+        <item>👨SKIN_TONE‍⚕️</item> # E4.0 man health worker
+        <item>👩SKIN_TONE‍⚕️</item> # E4.0 woman health worker
+        <item>🧑SKIN_TONE‍🎓</item> # E12.1 student
+        <item>👨SKIN_TONE‍🎓</item> # E4.0 man student
+        <item>👩SKIN_TONE‍🎓</item> # E4.0 woman student
+        <item>🧑SKIN_TONE‍🏫</item> # E12.1 teacher
+        <item>👨SKIN_TONE‍🏫</item> # E4.0 man teacher
+        <item>👩SKIN_TONE‍🏫</item> # E4.0 woman teacher
+        <item>🧑SKIN_TONE‍⚖️</item> # E12.1 judge
+        <item>👨SKIN_TONE‍⚖️</item> # E4.0 man judge
+        <item>👩SKIN_TONE‍⚖️</item> # E4.0 woman judge
+        <item>🧑SKIN_TONE‍🌾</item> # E12.1 farmer
+        <item>👨SKIN_TONE‍🌾</item> # E4.0 man farmer
+        <item>👩SKIN_TONE‍🌾</item> # E4.0 woman farmer
+        <item>🧑SKIN_TONE‍🍳</item> # E12.1 cook
+        <item>👨SKIN_TONE‍🍳</item> # E4.0 man cook
+        <item>👩SKIN_TONE‍🍳</item> # E4.0 woman cook
+        <item>🧑SKIN_TONE‍🔧</item> # E12.1 mechanic
+        <item>👨SKIN_TONE‍🔧</item> # E4.0 man mechanic
+        <item>👩SKIN_TONE‍🔧</item> # E4.0 woman mechanic
+        <item>🧑SKIN_TONE‍🏭</item> # E12.1 factory worker
+        <item>👨SKIN_TONE‍🏭</item> # E4.0 man factory worker
+        <item>👩SKIN_TONE‍🏭</item> # E4.0 woman factory worker
+        <item>🧑SKIN_TONE‍💼</item> # E12.1 office worker
+        <item>👨SKIN_TONE‍💼</item> # E4.0 man office worker
+        <item>👩SKIN_TONE‍💼</item> # E4.0 woman office worker
+        <item>🧑SKIN_TONE‍🔬</item> # E12.1 scientist
+        <item>👨SKIN_TONE‍🔬</item> # E4.0 man scientist
+        <item>👩SKIN_TONE‍🔬</item> # E4.0 woman scientist
+        <item>🧑SKIN_TONE‍💻</item> # E12.1 technologist
+        <item>👨SKIN_TONE‍💻</item> # E4.0 man technologist
+        <item>👩SKIN_TONE‍💻</item> # E4.0 woman technologist
+        <item>🧑SKIN_TONE‍🎤</item> # E12.1 singer
+        <item>👨SKIN_TONE‍🎤</item> # E4.0 man singer
+        <item>👩SKIN_TONE‍🎤</item> # E4.0 woman singer
+        <item>🧑SKIN_TONE‍🎨</item> # E12.1 artist
+        <item>👨SKIN_TONE‍🎨</item> # E4.0 man artist
+        <item>👩SKIN_TONE‍🎨</item> # E4.0 woman artist
+        <item>🧑SKIN_TONE‍✈️</item> # E12.1 pilot
+        <item>👨SKIN_TONE‍✈️</item> # E4.0 man pilot
+        <item>👩SKIN_TONE‍✈️</item> # E4.0 woman pilot
+        <item>🧑SKIN_TONE‍🚀</item> # E12.1 astronaut
+        <item>👨SKIN_TONE‍🚀</item> # E4.0 man astronaut
+        <item>👩SKIN_TONE‍🚀</item> # E4.0 woman astronaut
+        <item>🧑SKIN_TONE‍🚒</item> # E12.1 firefighter
+        <item>👨SKIN_TONE‍🚒</item> # E4.0 man firefighter
+        <item>👩SKIN_TONE‍🚒</item> # E4.0 woman firefighter
+        <item>👮SKIN_TONE</item> # E1.0 police officer
+        <item>👮SKIN_TONE‍♂️</item> # E4.0 man police officer
+        <item>👮SKIN_TONE‍♀️</item> # E4.0 woman police officer
+        <item>🕵SKIN_TONE</item> # E2.0 detective
+        <item>🕵SKIN_TONE‍♂️</item> # E4.0 man detective
+        <item>🕵SKIN_TONE‍♀️</item> # E4.0 woman detective
+        <item>💂SKIN_TONE</item> # E1.0 guard
+        <item>💂SKIN_TONE‍♂️</item> # E4.0 man guard
+        <item>💂SKIN_TONE‍♀️</item> # E4.0 woman guard
+        <item>🥷SKIN_TONE</item> # E13.0 ninja
+        <item>👷SKIN_TONE</item> # E1.0 construction worker
+        <item>👷SKIN_TONE‍♂️</item> # E4.0 man construction worker
+        <item>👷SKIN_TONE‍♀️</item> # E4.0 woman construction worker
+        <item>🤴SKIN_TONE</item> # E3.0 prince
+        <item>👸SKIN_TONE</item> # E1.0 princess
+        <item>👳SKIN_TONE</item> # E1.0 person wearing turban
+        <item>👳SKIN_TONE‍♂️</item> # E4.0 man wearing turban
+        <item>👳SKIN_TONE‍♀️</item> # E4.0 woman wearing turban
+        <item>👲SKIN_TONE</item> # E1.0 person with skullcap
+        <item>🧕SKIN_TONE</item> # E5.0 woman with headscarf
+        <item>🤵SKIN_TONE</item> # E3.0 person in tuxedo
+        <item>🤵SKIN_TONE‍♂️</item> # E13.0 man in tuxedo
+        <item>🤵SKIN_TONE‍♀️</item> # E13.0 woman in tuxedo
+        <item>👰SKIN_TONE</item> # E1.0 person with veil
+        <item>👰SKIN_TONE‍♂️</item> # E13.0 man with veil
+        <item>👰SKIN_TONE‍♀️</item> # E13.0 woman with veil
+        <item>🤰SKIN_TONE</item> # E3.0 pregnant woman
+        <item>🤱SKIN_TONE</item> # E5.0 breast-feeding
+        <item>👩SKIN_TONE‍🍼</item> # E13.0 woman feeding baby
+        <item>👨SKIN_TONE‍🍼</item> # E13.0 man feeding baby
+        <item>🧑SKIN_TONE‍🍼</item> # E13.0 person feeding baby
+
+        # subgroup: person-fantasy
+        <item>👼SKIN_TONE</item> # E1.0 baby angel: light skin tone
+        <item>🎅SKIN_TONE</item> # E1.0 Santa Claus: light skin tone
+        <item>🤶SKIN_TONE</item> # E3.0 Mrs. Claus: light skin tone
+        <item>🧑SKIN_TONE‍🎄</item> # E13.0 mx claus: light skin tone
+        <item>🦸SKIN_TONE</item> # E11.0 superhero: light skin tone
+        <item>🦸SKIN_TONE‍♂️</item> # E11.0 man superhero: light skin tone
+        <item>🦸SKIN_TONE‍♀️</item> # E11.0 woman superhero: light skin tone
+        <item>🦹SKIN_TONE</item> # E11.0 supervillain: light skin tone
+        <item>🦹SKIN_TONE‍♂️</item> # E11.0 man supervillain: light skin tone
+        <item>🦹SKIN_TONE‍♀️</item> # E11.0 woman supervillain: light skin tone
+        <item>🧙SKIN_TONE</item> # E5.0 mage: light skin tone
+        <item>🧙SKIN_TONE‍♂️</item> # E5.0 man mage: light skin tone
+        <item>🧙SKIN_TONE‍♀️</item> # E5.0 woman mage: light skin tone
+        <item>🧚SKIN_TONE</item> # E5.0 fairy: light skin tone
+        <item>🧚SKIN_TONE‍♂️</item> # E5.0 man fairy: light skin tone
+        <item>🧚SKIN_TONE‍♀️</item> # E5.0 woman fairy: light skin tone
+        <item>🧛SKIN_TONE</item> # E5.0 vampire: light skin tone
+        <item>🧛SKIN_TONE‍♂️</item> # E5.0 man vampire: light skin tone
+        <item>🧛SKIN_TONE‍♀️</item> # E5.0 woman vampire: light skin tone
+        <item>🧜SKIN_TONE</item> # E5.0 merperson: light skin tone
+        <item>🧜SKIN_TONE‍♂️</item> # E5.0 merman: light skin tone
+        <item>🧜SKIN_TONE‍♀️</item> # E5.0 mermaid: light skin tone
+        <item>🧝SKIN_TONE</item> # E5.0 elf: light skin tone
+        <item>🧝SKIN_TONE‍♂️</item> # E5.0 man elf: light skin tone
+        <item>🧝SKIN_TONE‍♀️</item> # E5.0 woman elf: light skin tone
+        <item>🧞</item> # E5.0 genie
+        <item>🧞‍♂️</item> # E5.0 man genie
+        <item>🧞‍♀️</item> # E5.0 woman genie
+        <item>🧟</item> # E5.0 zombie
+        <item>🧟‍♂️</item> # E5.0 man zombie
+        <item>🧟‍♀️</item> # E5.0 woman zombie
+
+        # subgroup: person-activity
+        <item>💆SKIN_TONE</item> # E1.0 person getting massage: light skin tone
+        <item>💆SKIN_TONE‍♂️</item> # E4.0 man getting massage: light skin tone
+        <item>💆SKIN_TONE‍♀️</item> # E4.0 woman getting massage: light skin tone
+        <item>💇SKIN_TONE</item> # E1.0 person getting haircut: light skin tone
+        <item>💇SKIN_TONE‍♂️</item> # E4.0 man getting haircut: light skin tone
+        <item>💇SKIN_TONE‍♀️</item> # E4.0 woman getting haircut: light skin tone
+        <item>🚶SKIN_TONE</item> # E1.0 person walking: light skin tone
+        <item>🚶SKIN_TONE‍♂️</item> # E4.0 man walking: light skin tone
+        <item>🚶SKIN_TONE‍♀️</item> # E4.0 woman walking: light skin tone
+        <item>🧍SKIN_TONE</item> # E12.0 person standing: light skin tone
+        <item>🧍SKIN_TONE‍♂️</item> # E12.0 man standing: light skin tone
+        <item>🧍SKIN_TONE‍♀️</item> # E12.0 woman standing: light skin tone
+        <item>🧎SKIN_TONE</item> # E12.0 person kneeling: light skin tone
+        <item>🧎SKIN_TONE‍♂️</item> # E12.0 man kneeling: light skin tone
+        <item>🧎SKIN_TONE‍♀️</item> # E12.0 woman kneeling: light skin tone
+        <item>🧑SKIN_TONE‍🦯</item> # E12.1 person with white cane: light skin tone
+        <item>👨SKIN_TONE‍🦯</item> # E12.0 man with white cane: light skin tone
+        <item>👩SKIN_TONE‍🦯</item> # E12.0 woman with white cane: light skin tone
+        <item>🧑SKIN_TONE‍🦼</item> # E12.1 person in motorized wheelchair: light skin tone
+        <item>👨SKIN_TONE‍🦼</item> # E12.0 man in motorized wheelchair: light skin tone
+        <item>👩SKIN_TONE‍🦼</item> # E12.0 woman in motorized wheelchair: light skin tone
+        <item>🧑SKIN_TONE‍🦽</item> # E12.1 person in manual wheelchair: light skin tone
+        <item>👨SKIN_TONE‍🦽</item> # E12.0 man in manual wheelchair: light skin tone
+        <item>👩SKIN_TONE‍🦽</item> # E12.0 woman in manual wheelchair: light skin tone
+        <item>🏃SKIN_TONE</item> # E1.0 person running: light skin tone
+        <item>🏃SKIN_TONE‍♂️</item> # E4.0 man running: light skin tone
+        <item>🏃SKIN_TONE‍♀️</item> # E4.0 woman running: light skin tone
+        <item>💃SKIN_TONE</item> # E1.0 woman dancing: light skin tone
+        <item>🕺SKIN_TONE</item> # E3.0 man dancing: light skin tone
+        <item>🕴SKIN_TONE</item> # E4.0 person in suit levitating: light skin tone
+        <item>👯</item> # E0.6 people with bunny ears
+        <item>👯‍♂️</item> # E4.0 men with bunny ears
+        <item>👯‍♀️</item> # E4.0 women with bunny ears
+        <item>🧖SKIN_TONE</item> # E5.0 person in steamy room: light skin tone
+        <item>🧖SKIN_TONE‍♂️</item> # E5.0 man in steamy room: light skin tone
+        <item>🧖SKIN_TONE‍♀️</item> # E5.0 woman in steamy room: light skin tone
+        <item>🧗SKIN_TONE</item> # E5.0 person climbing: light skin tone
+        <item>🧗SKIN_TONE‍♂️</item> # E5.0 man climbing: light skin tone
+        <item>🧗SKIN_TONE‍♀️</item> # E5.0 woman climbing: light skin tone
+
+        # subgroup: person-sport
+        <item>🤺</item> # E3.0 person fencing
+        <item>🏇SKIN_TONE</item> # E1.0 horse racing: light skin tone
+        <item>⛷️</item> # E0.7 skier
+        <item>🏂SKIN_TONE</item> # E1.0 snowboarder: light skin tone
+        <item>🏌SKIN_TONE</item> # E4.0 person golfing: light skin tone
+        <item>🏌SKIN_TONE‍♂️</item> # E4.0 man golfing: light skin tone
+        <item>🏌SKIN_TONE‍♀️</item> # E4.0 woman golfing: light skin tone
+        <item>🏄SKIN_TONE</item> # E1.0 person surfing: light skin tone
+        <item>🏄SKIN_TONE‍♂️</item> # E4.0 man surfing: light skin tone
+        <item>🏄SKIN_TONE‍♀️</item> # E4.0 woman surfing: light skin tone
+        <item>🚣SKIN_TONE</item> # E1.0 person rowing boat: light skin tone
+        <item>🚣SKIN_TONE‍♂️</item> # E4.0 man rowing boat: light skin tone
+        <item>🚣SKIN_TONE‍♀️</item> # E4.0 woman rowing boat: light skin tone
+        <item>🏊SKIN_TONE</item> # E1.0 person swimming: light skin tone
+        <item>🏊SKIN_TONE‍♂️</item> # E4.0 man swimming: light skin tone
+        <item>🏊SKIN_TONE‍♀️</item> # E4.0 woman swimming: light skin tone
+        <item>⛹️SKIN_TONE</item> # E2.0 person bouncing ball: light skin tone
+        <item>⛹SKIN_TONE‍♂️</item> # E4.0 man bouncing ball: light skin tone
+        <item>⛹SKIN_TONE‍♀️</item> # E4.0 woman bouncing ball: light skin tone
+        <item>🏋SKIN_TONE</item> # E2.0 person lifting weights: light skin tone
+        <item>🏋SKIN_TONE‍♂️</item> # E4.0 man lifting weights: light skin tone
+        <item>🏋SKIN_TONE‍♀️</item> # E4.0 woman lifting weights: light skin tone
+        <item>🚴SKIN_TONE</item> # E1.0 person biking: light skin tone
+        <item>🚴SKIN_TONE‍♂️</item> # E4.0 man biking: light skin tone
+        <item>🚴SKIN_TONE‍♀️</item> # E4.0 woman biking: light skin tone
+        <item>🚵SKIN_TONE</item> # E1.0 person mountain biking: light skin tone
+        <item>🚵SKIN_TONE‍♂️</item> # E4.0 man mountain biking: light skin tone
+        <item>🚵SKIN_TONE‍♀️</item> # E4.0 woman mountain biking: light skin tone
+        <item>🤸SKIN_TONE</item> # E3.0 person cartwheeling: light skin tone
+        <item>🤸SKIN_TONE‍♂️</item> # E4.0 man cartwheeling: light skin tone
+        <item>🤸SKIN_TONE‍♀️</item> # E4.0 woman cartwheeling: light skin tone
+        <item>🤼</item> # E3.0 people wrestling
+        <item>🤼‍♂️</item> # E4.0 men wrestling
+        <item>🤼‍♀️</item> # E4.0 women wrestling
+        <item>🤽SKIN_TONE</item> # E3.0 person playing water polo: light skin tone
+        <item>🤽SKIN_TONE‍♂️</item> # E4.0 man playing water polo: light skin tone
+        <item>🤽SKIN_TONE‍♀️</item> # E4.0 woman playing water polo: light skin tone
+        <item>🤾SKIN_TONE</item> # E3.0 person playing handball: light skin tone
+        <item>🤾SKIN_TONE‍♂️</item> # E4.0 man playing handball: light skin tone
+        <item>🤾SKIN_TONE‍♀️</item> # E4.0 woman playing handball: light skin tone
+        <item>🤹SKIN_TONE</item> # E3.0 person juggling: light skin tone
+        <item>🤹SKIN_TONE‍♂️</item> # E4.0 man juggling: light skin tone
+        <item>🤹SKIN_TONE‍♀️</item> # E4.0 woman juggling: light skin tone
+
+        # subgroup: person-resting
+        <item>🧘SKIN_TONE</item> # E5.0 person in lotus position: light skin tone
+        <item>🧘SKIN_TONE‍♂️</item> # E5.0 man in lotus position: light skin tone
+        <item>🧘SKIN_TONE‍♀️</item> # E5.0 woman in lotus position: light skin tone
+        <item>🛀SKIN_TONE</item> # E1.0 person taking bath: light skin tone
+        <item>🛌SKIN_TONE</item> # E4.0 person in bed: light skin tone
+
         <!-- TODO add the rest-->
+
+        # subgroup: person-symbol
+        <item>🗣️</item> # E0.7 speaking head
+        <item>👤</item> # E0.6 bust in silhouette
+        <item>👥</item> # E1.0 busts in silhouette
+        <item>🫂</item> # E13.0 people hugging
+        <item>👣</item> # E0.6 footprints
     </string-array>
 
     # group: Animals Nature
