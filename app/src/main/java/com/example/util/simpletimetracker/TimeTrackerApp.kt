@@ -98,6 +98,7 @@ class TimeTrackerApp : Application(), FeatureComponentProvider {
 
     private fun initLibraries() {
         val config = BundledEmojiCompatConfig(applicationContext)
+            .setReplaceAll(true)
         EmojiCompat.init(config)
     }
 

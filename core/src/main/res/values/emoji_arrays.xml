@@ -241,7 +241,7 @@
         # subgroup: hand-fingers-open
         <item>👋SKIN_TONE</item> # E0.6 waving hand
         <item>🤚SKIN_TONE</item> # E3.0 raised back of hand
-        <item>🖐SKIN_TONE</item> # E0.7 hand with fingers splayed
+        <item>🖐️SKIN_TONE</item> # E0.7 hand with fingers splayed
         <item>✋SKIN_TONE</item> # E0.6 raised hand
         <item>🖖SKIN_TONE</item>  # E1.0 vulcan salute
 
@@ -417,7 +417,7 @@
         <item>👮SKIN_TONE</item> # E1.0 police officer
         <item>👮SKIN_TONE‍♂️</item> # E4.0 man police officer
         <item>👮SKIN_TONE‍♀️</item> # E4.0 woman police officer
-        <item>🕵SKIN_TONE</item> # E2.0 detective
+        <item>🕵️SKIN_TONE</item> # E2.0 detective
         <item>🕵SKIN_TONE‍♂️</item> # E4.0 man detective
         <item>🕵SKIN_TONE‍♀️</item> # E4.0 woman detective
         <item>💂SKIN_TONE</item> # E1.0 guard
@@ -509,7 +509,7 @@
         <item>🏃SKIN_TONE‍♀️</item> # E4.0 woman running: light skin tone
         <item>💃SKIN_TONE</item> # E1.0 woman dancing: light skin tone
         <item>🕺SKIN_TONE</item> # E3.0 man dancing: light skin tone
-        <item>🕴SKIN_TONE</item> # E4.0 person in suit levitating: light skin tone
+        <item>🕴️SKIN_TONE</item> # E4.0 person in suit levitating: light skin tone
         <item>👯</item> # E0.6 people with bunny ears
         <item>👯‍♂️</item> # E4.0 men with bunny ears
         <item>👯‍♀️</item> # E4.0 women with bunny ears
@@ -525,7 +525,7 @@
         <item>🏇SKIN_TONE</item> # E1.0 horse racing: light skin tone
         <item>⛷️</item> # E0.7 skier
         <item>🏂SKIN_TONE</item> # E1.0 snowboarder: light skin tone
-        <item>🏌SKIN_TONE</item> # E4.0 person golfing: light skin tone
+        <item>🏌️SKIN_TONE</item> # E4.0 person golfing: light skin tone
         <item>🏌SKIN_TONE‍♂️</item> # E4.0 man golfing: light skin tone
         <item>🏌SKIN_TONE‍♀️</item> # E4.0 woman golfing: light skin tone
         <item>🏄SKIN_TONE</item> # E1.0 person surfing: light skin tone
@@ -540,7 +540,7 @@
         <item>⛹️SKIN_TONE</item> # E2.0 person bouncing ball: light skin tone
         <item>⛹SKIN_TONE‍♂️</item> # E4.0 man bouncing ball: light skin tone
         <item>⛹SKIN_TONE‍♀️</item> # E4.0 woman bouncing ball: light skin tone
-        <item>🏋SKIN_TONE</item> # E2.0 person lifting weights: light skin tone
+        <item>🏋️SKIN_TONE</item> # E2.0 person lifting weights: light skin tone
         <item>🏋SKIN_TONE‍♂️</item> # E4.0 man lifting weights: light skin tone
         <item>🏋SKIN_TONE‍♀️</item> # E4.0 woman lifting weights: light skin tone
         <item>🚴SKIN_TONE</item> # E1.0 person biking: light skin tone
@@ -896,7 +896,7 @@
         <item>🌎</item> # E0.7 globe showing Americas
         <item>🌏</item> # E0.6 globe showing Asia-Australia
         <item>🌐</item> # E1.0 globe with meridians
-        <item>🗺</item> #️ E0.7 world map
+        <item>🗺️</item> #️ E0.7 world map
         <item>🗾</item> # E0.6 map of Japan
         <item>🧭</item> # E11.0 compass
 
