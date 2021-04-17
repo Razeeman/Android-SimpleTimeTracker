@@ -8,12 +8,13 @@ import com.example.util.simpletimetracker.core.mapper.EmojiMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.core.viewData.EmojiViewData
 import com.example.util.simpletimetracker.domain.model.IconType
 import com.example.util.simpletimetracker.feature_change_record_type.R
-import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeEmojiViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconSwitchViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconTypeViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconViewData
+import com.example.util.simpletimetracker.navigation.params.EmojiSelectionDialogParams
 import javax.inject.Inject
 
 class ChangeRecordTypeMapper @Inject constructor(
@@ -70,7 +71,7 @@ class ChangeRecordTypeMapper @Inject constructor(
     ): List<ViewHolderType> {
         return emojiMapper.getAvailableEmojis()
             .map { codes ->
-                ChangeRecordTypeEmojiViewData(
+                EmojiViewData(
                     emojiText = emojiMapper.toEmojiString(codes),
                     emojiCodes = codes,
                     colorInt = newColorId
@@ -93,6 +94,16 @@ class ChangeRecordTypeMapper @Inject constructor(
         }.let {
             ChangeRecordTypeIconSwitchViewData(it)
         }
+    }
+
+    fun mapEmojiSelectionParams(
+        colorId: Int,
+        emojiCodes: List<Int>
+    ): EmojiSelectionDialogParams {
+        return EmojiSelectionDialogParams(
+            color = colorId,
+            emojiCodes = listOf(emojiCodes) + emojiMapper.toSkinToneVariations(emojiCodes)
+        )
     }
 
     private fun mapToFilterTypeName(iconType: IconType): String {

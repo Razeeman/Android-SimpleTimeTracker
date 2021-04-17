@@ -29,7 +29,8 @@ import com.example.util.simpletimetracker.core.view.TransitionNames
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_change_record_type.R
 import com.example.util.simpletimetracker.feature_change_record_type.adapter.createChangeRecordTypeCategoryAdapterDelegate
-import com.example.util.simpletimetracker.feature_change_record_type.adapter.createChangeRecordTypeEmojiAdapterDelegate
+import com.example.util.simpletimetracker.core.adapter.emoji.createEmojiAdapterDelegate
+import com.example.util.simpletimetracker.core.dialog.EmojiSelectionDialogListener
 import com.example.util.simpletimetracker.feature_change_record_type.adapter.createChangeRecordTypeIconAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record_type.adapter.createChangeRecordTypeIconSwitchAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record_type.di.ChangeRecordTypeComponentProvider
@@ -57,7 +58,8 @@ import kotlinx.android.synthetic.main.change_record_type_fragment.tvChangeRecord
 import javax.inject.Inject
 
 class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragment),
-    DurationDialogListener {
+    DurationDialogListener,
+    EmojiSelectionDialogListener {
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<ChangeRecordTypeViewModel>
@@ -74,7 +76,7 @@ class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragme
         BaseRecyclerAdapter(
             createChangeRecordTypeIconSwitchAdapterDelegate(viewModel::onIconTypeClick),
             createChangeRecordTypeIconAdapterDelegate(viewModel::onIconClick),
-            createChangeRecordTypeEmojiAdapterDelegate(viewModel::onEmojiClick)
+            createEmojiAdapterDelegate(viewModel::onEmojiClick)
         )
     }
     private val categoriesAdapter: BaseRecyclerAdapter by lazy {
@@ -190,6 +192,10 @@ class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragme
 
     override fun onDisable(tag: String?) {
         viewModel.onDurationDisabled(tag)
+    }
+
+    override fun onEmojiSelected(emojiText: String) {
+        viewModel.onEmojiSelected(emojiText)
     }
 
     private fun updateUi(item: RecordTypeViewData) {

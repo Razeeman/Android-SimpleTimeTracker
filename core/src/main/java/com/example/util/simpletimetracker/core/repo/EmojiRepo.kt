@@ -253,5 +253,12 @@ class EmojiRepo @Inject constructor() {
 
     companion object {
         const val SKIN_TONE: Int = 0
+        val skinTones: List<Int> = listOf(
+            0x1F3FB,                                              // 🏻 light skin tone
+            0x1F3FC,                                              // 🏼 medium-light skin tone
+            0x1F3FD,                                              // 🏽 medium skin tone
+            0x1F3FE,                                              // 🏾 medium-dark skin tone
+            0x1F3FF                                               // 🏿 dark skin tone
+        )
     }
 }

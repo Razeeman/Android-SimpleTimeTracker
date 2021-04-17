@@ -16,6 +16,7 @@ import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
 import com.example.util.simpletimetracker.core.viewData.CategoryViewData
 import com.example.util.simpletimetracker.core.viewData.ColorViewData
+import com.example.util.simpletimetracker.core.viewData.EmojiViewData
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.extension.flip
 import com.example.util.simpletimetracker.domain.extension.orTrue
@@ -29,7 +30,6 @@ import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_change_record_type.R
 import com.example.util.simpletimetracker.feature_change_record_type.interactor.ChangeRecordTypeViewDataInteractor
 import com.example.util.simpletimetracker.feature_change_record_type.mapper.ChangeRecordTypeMapper
-import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeEmojiViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconTypeViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconViewData
 import com.example.util.simpletimetracker.navigation.Notification
@@ -190,15 +190,24 @@ class ChangeRecordTypeViewModel @Inject constructor(
         }
     }
 
-    fun onEmojiClick(item: ChangeRecordTypeEmojiViewData) {
+    fun onEmojiClick(item: EmojiViewData) {
         if (emojiMapper.hasSkinToneVariations(item.emojiCodes)) {
-            // TODO open dialog
+            openEmojiSelectionDialog(item)
         } else {
             viewModelScope.launch {
                 if (item.emojiText != newIconName) {
                     newIconName = item.emojiText
                     updateRecordPreviewViewData()
                 }
+            }
+        }
+    }
+
+    fun onEmojiSelected(emojiText: String) {
+        viewModelScope.launch {
+            if (emojiText != newIconName) {
+                newIconName = emojiText
+                updateRecordPreviewViewData()
             }
         }
     }
@@ -277,6 +286,18 @@ class ChangeRecordTypeViewModel @Inject constructor(
             (keyboardVisibility as MutableLiveData).value = false
             router.back()
         }
+    }
+
+    private fun openEmojiSelectionDialog(item: EmojiViewData) {
+        val params = changeRecordTypeMapper.mapEmojiSelectionParams(
+            colorId = newColorId,
+            emojiCodes = item.emojiCodes
+        )
+
+        router.navigate(
+            Screen.EMOJI_SELECTION,
+            params
+        )
     }
 
     private suspend fun saveRecordType(): Long {

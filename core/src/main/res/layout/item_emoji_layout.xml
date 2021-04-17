@@ -2,13 +2,13 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layoutChangeRecordTypeEmojiItem"
+    android:id="@+id/layoutEmojiItem"
     style="@style/ColorIconItem"
     android:background="?selectableItemBackgroundBorderless"
     tools:cardBackgroundColor="@color/red_500">
 
     <androidx.emoji.widget.EmojiAppCompatTextView
-        android:id="@+id/tvChangeRecordTypeEmojiItem"
+        android:id="@+id/tvEmojiItem"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="6dp"

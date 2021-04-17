@@ -1,9 +1,9 @@
-package com.example.util.simpletimetracker.feature_change_record_type.viewData
+package com.example.util.simpletimetracker.core.viewData
 
 import androidx.annotation.ColorInt
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 
-data class ChangeRecordTypeEmojiViewData(
+data class EmojiViewData(
     val emojiText: String,
     val emojiCodes: List<Int>,
     @ColorInt val colorInt: Int
@@ -11,6 +11,5 @@ data class ChangeRecordTypeEmojiViewData(
 
     override fun getUniqueId(): Long = emojiText.hashCode().toLong()
 
-    override fun isValidType(other: ViewHolderType): Boolean =
-        other is ChangeRecordTypeEmojiViewData
+    override fun isValidType(other: ViewHolderType): Boolean = other is EmojiViewData
 }

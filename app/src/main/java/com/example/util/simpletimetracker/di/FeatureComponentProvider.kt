@@ -9,6 +9,7 @@ import com.example.util.simpletimetracker.feature_dialogs.cardOrder.di.CardOrder
 import com.example.util.simpletimetracker.feature_dialogs.cardSize.di.CardSizeComponentProvider
 import com.example.util.simpletimetracker.feature_dialogs.chartFilter.di.ChartFilterComponentProvider
 import com.example.util.simpletimetracker.feature_dialogs.duration.di.DurationPickerComponentProvider
+import com.example.util.simpletimetracker.feature_dialogs.emojiSelection.di.EmojiSelectionComponentProvider
 import com.example.util.simpletimetracker.feature_dialogs.typesFilter.di.TypesFilterComponentProvider
 import com.example.util.simpletimetracker.feature_main.di.MainComponentProvider
 import com.example.util.simpletimetracker.feature_notification.di.NotificationComponentProvider
@@ -36,6 +37,7 @@ interface FeatureComponentProvider :
     DurationPickerComponentProvider,
     CardSizeComponentProvider,
     CardOrderComponentProvider,
+    EmojiSelectionComponentProvider,
     WidgetComponentProvider,
     NotificationComponentProvider,
     CategoriesComponentProvider,

@@ -12,6 +12,7 @@ import com.example.util.simpletimetracker.feature_change_running_record.view.Cha
 import com.example.util.simpletimetracker.feature_dialogs.cardOrder.view.CardOrderDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.dateTime.DateTimeDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.duration.view.DurationDialogFragment
+import com.example.util.simpletimetracker.feature_dialogs.emojiSelection.view.EmojiSelectionDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.standard.StandardDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.typesFilter.view.TypesFilterDialogFragment
 import com.example.util.simpletimetracker.feature_records_all.view.RecordsAllFragment
@@ -134,6 +135,13 @@ class ScreenResolverImpl @Inject constructor() : ScreenResolver {
                 navController?.navigate(
                     R.id.cardOrderDialogFragment,
                     CardOrderDialogFragment.createBundle(data),
+                    null,
+                    navExtras
+                )
+            Screen.EMOJI_SELECTION ->
+                navController?.navigate(
+                    R.id.emojiSelectionDialogFragment,
+                    EmojiSelectionDialogFragment.createBundle(data),
                     null,
                     navExtras
                 )

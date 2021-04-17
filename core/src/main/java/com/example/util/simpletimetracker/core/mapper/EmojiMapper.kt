@@ -18,6 +18,19 @@ class EmojiMapper @Inject constructor(
     fun toEmojiString(codes: List<Int>): String =
         codes.joinToString(separator = "") { convert(it) }
 
+    fun toSkinToneVariations(codes: List<Int>): List<List<Int>> {
+        val result: MutableList<List<Int>> = mutableListOf()
+
+        // TODO can have several skin tone placements
+        EmojiRepo.skinTones.forEach { skinToneCode ->
+            codes.map { code ->
+                if (code == EmojiRepo.SKIN_TONE) skinToneCode else code
+            }.let(result::add)
+        }
+
+        return result
+    }
+
     private fun convert(code: Int): String {
         return if (code > 0xFFFF) {
             val h = (((code - 0x10000) / 0x400) + 0xD800).toChar()
