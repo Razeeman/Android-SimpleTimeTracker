@@ -216,7 +216,7 @@
     <string name="notification_time_started">Started at %s</string>
     <string name="notification_record_type_goal_time">goal %s</string>
 
-    <!--  Emoji category  -->
+    <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Smileys &amp; Emotion</string>
     <string name="emojiGroupPeople">People &amp; Body</string>
     <string name="emojiGroupAnimals">Animals &amp; Nature</string>
@@ -226,5 +226,23 @@
     <string name="emojiGroupObjects">Objects</string>
     <string name="emojiGroupSymbols">Symbols</string>
     <string name="emojiGroupFlags">Flags</string>
+
+    <!--  Icon image category  -->
+    <string name="imageGroupMaps">Maps</string>
+    <string name="imageGroupPlaces">Places</string>
+    <string name="imageGroupSocial">Social</string>
+    <string name="imageGroupAction">Action</string>
+    <string name="imageGroupHardware">Hardware</string>
+    <string name="imageGroupAlert">Alert</string>
+    <string name="imageGroupAv">Audio video</string>
+    <string name="imageGroupCommunication">Communication</string>
+    <string name="imageGroupContent">Content</string>
+    <string name="imageGroupDevice">Device</string>
+    <string name="imageGroupEditor">Editor</string>
+    <string name="imageGroupFile">File</string>
+    <string name="imageGroupImage">Image</string>
+    <string name="imageGroupNavigation">Navigation</string>
+    <string name="imageGroupNotification">Notification</string>
+    <string name="imageGroupToggle">Toggle</string>
 
 </resources>

@@ -178,7 +178,7 @@ class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragme
         recordType.observe(viewLifecycleOwner, ::updatePreview)
         colors.observe(viewLifecycleOwner, colorsAdapter::replace)
         icons.observe(viewLifecycleOwner, iconsAdapter::replace)
-        iconCategories.observe(viewLifecycleOwner, iconCategoriesAdapter::replace)
+        iconCategories.observe(viewLifecycleOwner, iconCategoriesAdapter::replaceAsNew)
         iconsTypeViewData.observe(viewLifecycleOwner, btnChangeRecordTypeIconSwitch.adapter::replace)
         categories.observe(viewLifecycleOwner, categoriesAdapter::replace)
         goalTimeViewData.observe(viewLifecycleOwner, tvChangeRecordTypeGoalTimeTime::setText)

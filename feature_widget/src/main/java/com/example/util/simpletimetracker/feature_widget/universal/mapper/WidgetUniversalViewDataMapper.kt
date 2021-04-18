@@ -4,7 +4,7 @@ import android.graphics.Color
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.empty.EmptyViewData
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
-import com.example.util.simpletimetracker.core.mapper.IconMapper
+import com.example.util.simpletimetracker.core.mapper.IconImageMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 class WidgetUniversalViewDataMapper @Inject constructor(
     private val colorMapper: ColorMapper,
-    private val iconMapper: IconMapper,
+    private val iconImageMapper: IconImageMapper,
     private val resourceRepo: ResourceRepo,
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper
 ) {
@@ -50,7 +50,7 @@ class WidgetUniversalViewDataMapper @Inject constructor(
             val recordType = recordTypes[runningRecord.id]
 
             val icon = recordType?.icon
-                ?.let(iconMapper::mapToDrawableResId)
+                ?.let(iconImageMapper::mapToDrawableResId)
                 ?: R.drawable.unknown
             val color = recordType?.color
                 ?.let { colorMapper.mapToColorResId(it, isDarkTheme) }

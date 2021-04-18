@@ -1,7 +1,7 @@
 package com.example.util.simpletimetracker.core.utils
 
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
-import com.example.util.simpletimetracker.core.mapper.IconMapper
+import com.example.util.simpletimetracker.core.mapper.IconImageMapper
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -22,7 +22,7 @@ class TestUtils @Inject constructor(
     private val categoryInteractor: CategoryInteractor,
     private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
     private val prefsInteractor: PrefsInteractor,
-    private val iconMapper: IconMapper
+    private val iconImageMapper: IconImageMapper
 ) {
 
     fun clearDatabase() = runBlocking {
@@ -44,7 +44,7 @@ class TestUtils @Inject constructor(
         goalTime: Long? = null,
         categories: List<String> = emptyList()
     ) = runBlocking {
-        val icons = iconMapper.availableIconsNames
+        val icons = iconImageMapper.availableIconsNames
         val iconId = icons.filterValues { it == icon }.keys.firstOrNull()
             ?: icons.keys.first()
 

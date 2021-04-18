@@ -4,7 +4,7 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.example.util.simpletimetracker.TimeTrackerApp
-import com.example.util.simpletimetracker.core.mapper.IconMapper
+import com.example.util.simpletimetracker.core.mapper.IconImageMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.utils.CountingIdlingResourceProvider
 import com.example.util.simpletimetracker.core.utils.TestUtils
@@ -24,7 +24,7 @@ open class BaseUiTest {
     lateinit var testUtils: TestUtils
 
     @Inject
-    lateinit var iconMapper: IconMapper
+    lateinit var iconImageMapper: IconImageMapper
 
     @Inject
     lateinit var timeMapper: TimeMapper

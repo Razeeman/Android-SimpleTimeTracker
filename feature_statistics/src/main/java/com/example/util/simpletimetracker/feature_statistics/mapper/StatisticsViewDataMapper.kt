@@ -3,7 +3,7 @@ package com.example.util.simpletimetracker.feature_statistics.mapper
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.empty.EmptyViewData
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
-import com.example.util.simpletimetracker.core.mapper.IconMapper
+import com.example.util.simpletimetracker.core.mapper.IconImageMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.model.Category
@@ -20,7 +20,7 @@ import com.example.util.simpletimetracker.feature_statistics.viewData.Statistics
 import javax.inject.Inject
 
 class StatisticsViewDataMapper @Inject constructor(
-    private val iconMapper: IconMapper,
+    private val iconImageMapper: IconImageMapper,
     private val colorMapper: ColorMapper,
     private val resourceRepo: ResourceRepo,
     private val timeMapper: TimeMapper
@@ -207,7 +207,7 @@ class StatisticsViewDataMapper @Inject constructor(
                     },
                     percent = "$durationPercent%",
                     iconId = recordType.icon
-                        .let(iconMapper::mapToDrawableResId),
+                        .let(iconImageMapper::mapToDrawableResId),
                     color = recordType.color
                         .let { colorMapper.mapToColorResId(it, isDarkTheme) }
                         .let(resourceRepo::getColor)
@@ -272,7 +272,7 @@ class StatisticsViewDataMapper @Inject constructor(
                         .let { colorMapper.mapToColorResId(it, isDarkTheme) }
                         .let(resourceRepo::getColor),
                     iconId = recordType.icon
-                        .let(iconMapper::mapToDrawableResId)
+                        .let(iconImageMapper::mapToDrawableResId)
                 )
             }
             else -> {
@@ -294,7 +294,7 @@ class StatisticsViewDataMapper @Inject constructor(
                     .let { colorMapper.mapToColorResId(it, isDarkTheme) }
                     .let(resourceRepo::getColor),
                 iconId = recordType?.icon
-                    ?.let(iconMapper::mapToDrawableResId)
+                    ?.let(iconImageMapper::mapToDrawableResId)
             )
         } else {
             null

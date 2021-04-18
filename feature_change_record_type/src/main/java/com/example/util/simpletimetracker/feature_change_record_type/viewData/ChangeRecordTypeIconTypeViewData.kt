@@ -1,13 +1,18 @@
 package com.example.util.simpletimetracker.feature_change_record_type.viewData
 
-import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
-import com.example.util.simpletimetracker.domain.model.IconType
+import com.example.util.simpletimetracker.domain.model.IconEmojiType
+import com.example.util.simpletimetracker.domain.model.IconImageType
 
-data class ChangeRecordTypeIconTypeViewData(
-    val iconType: IconType,
-    override val name: String,
-    override val isSelected: Boolean
-) : ButtonsRowViewData() {
+sealed class ChangeRecordTypeIconTypeViewData {
+    abstract val id: Long
 
-    override val id: Long = iconType.ordinal.toLong()
+    data class Image(
+        val type: IconImageType,
+        override val id: Long = type.ordinal.toLong()
+    ) : ChangeRecordTypeIconTypeViewData()
+
+    data class Emoji(
+        val type: IconEmojiType,
+        override val id: Long = type.ordinal.toLong()
+    ) : ChangeRecordTypeIconTypeViewData()
 }

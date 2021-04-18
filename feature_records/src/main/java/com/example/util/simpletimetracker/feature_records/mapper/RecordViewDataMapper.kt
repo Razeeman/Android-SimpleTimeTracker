@@ -4,7 +4,7 @@ import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.empty.EmptyViewData
 import com.example.util.simpletimetracker.core.adapter.hint.HintViewData
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
-import com.example.util.simpletimetracker.core.mapper.IconMapper
+import com.example.util.simpletimetracker.core.mapper.IconImageMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.viewData.RecordViewData
@@ -16,7 +16,7 @@ import kotlin.math.max
 import kotlin.math.min
 
 class RecordViewDataMapper @Inject constructor(
-    private val iconMapper: IconMapper,
+    private val iconImageMapper: IconImageMapper,
     private val colorMapper: ColorMapper,
     private val resourceRepo: ResourceRepo,
     private val timeMapper: TimeMapper
@@ -42,7 +42,7 @@ class RecordViewDataMapper @Inject constructor(
             duration = (timeEnded - timeStarted)
                 .let(timeMapper::formatInterval),
             iconId = recordType.icon
-                .let(iconMapper::mapToDrawableResId),
+                .let(iconImageMapper::mapToDrawableResId),
             color = recordType.color
                 .let { colorMapper.mapToColorResId(it, isDarkTheme) }
                 .let(resourceRepo::getColor),

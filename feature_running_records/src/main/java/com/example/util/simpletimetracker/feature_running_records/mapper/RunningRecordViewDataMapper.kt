@@ -3,7 +3,7 @@ package com.example.util.simpletimetracker.feature_running_records.mapper
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.empty.EmptyViewData
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
-import com.example.util.simpletimetracker.core.mapper.IconMapper
+import com.example.util.simpletimetracker.core.mapper.IconImageMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeCardSizeMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
@@ -18,7 +18,7 @@ import com.example.util.simpletimetracker.feature_running_records.viewData.Runni
 import javax.inject.Inject
 
 class RunningRecordViewDataMapper @Inject constructor(
-    private val iconMapper: IconMapper,
+    private val iconImageMapper: IconImageMapper,
     private val colorMapper: ColorMapper,
     private val resourceRepo: ResourceRepo,
     private val timeMapper: TimeMapper,
@@ -45,7 +45,7 @@ class RunningRecordViewDataMapper @Inject constructor(
                 ?.let { resourceRepo.getString(R.string.running_record_goal_time, it) }
                 .orEmpty(),
             iconId = recordType.icon
-                .let(iconMapper::mapToDrawableResId),
+                .let(iconImageMapper::mapToDrawableResId),
             color = recordType.color
                 .let { colorMapper.mapToColorResId(it, isDarkTheme) }
                 .let(resourceRepo::getColor),

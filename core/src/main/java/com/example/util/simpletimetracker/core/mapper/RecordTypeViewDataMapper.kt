@@ -7,7 +7,7 @@ import com.example.util.simpletimetracker.domain.model.RecordType
 import javax.inject.Inject
 
 class RecordTypeViewDataMapper @Inject constructor(
-    private val iconMapper: IconMapper,
+    private val iconImageMapper: IconImageMapper,
     private val colorMapper: ColorMapper,
     private val resourceRepo: ResourceRepo,
     private val recordTypeCardSizeMapper: RecordTypeCardSizeMapper
@@ -63,7 +63,7 @@ class RecordTypeViewDataMapper @Inject constructor(
 
     fun mapIcon(icon: String): RecordTypeIcon {
         return if (icon.startsWith("ic_") || icon.isEmpty()) {
-            icon.let(iconMapper::mapToDrawableResId).let(RecordTypeIcon::Image)
+            icon.let(iconImageMapper::mapToDrawableResId).let(RecordTypeIcon::Image)
         } else {
             RecordTypeIcon.Emoji(icon)
         }

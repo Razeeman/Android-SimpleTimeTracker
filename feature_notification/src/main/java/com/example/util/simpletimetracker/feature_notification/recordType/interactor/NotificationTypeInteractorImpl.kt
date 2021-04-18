@@ -2,7 +2,7 @@ package com.example.util.simpletimetracker.feature_notification.recordType.inter
 
 import com.example.util.simpletimetracker.core.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
-import com.example.util.simpletimetracker.core.mapper.IconMapper
+import com.example.util.simpletimetracker.core.mapper.IconImageMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -20,7 +20,7 @@ class NotificationTypeInteractorImpl @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
     private val prefsInteractor: PrefsInteractor,
-    private val iconMapper: IconMapper,
+    private val iconImageMapper: IconImageMapper,
     private val colorMapper: ColorMapper,
     private val timeMapper: TimeMapper,
     private val resourceRepo: ResourceRepo
@@ -97,7 +97,7 @@ class NotificationTypeInteractorImpl @Inject constructor(
         NotificationTypeParams(
             id = recordType.id.toInt(),
             icon = recordType.icon
-                .let(iconMapper::mapToDrawableResId),
+                .let(iconImageMapper::mapToDrawableResId),
             color = recordType.color
                 .let { colorMapper.mapToColorResId(it, isDarkTheme) }
                 .let(resourceRepo::getColor),

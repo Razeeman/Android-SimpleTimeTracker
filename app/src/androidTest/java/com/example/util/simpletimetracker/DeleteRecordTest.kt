@@ -27,7 +27,7 @@ class DeleteRecordTest : BaseUiTest() {
     fun deleteRecord() {
         val name = "Name"
         val color = ColorMapper.getAvailableColors().first()
-        val icon = iconMapper.availableIconsNames.values.first()
+        val icon = iconImageMapper.availableIconsNames.values.first()
 
         // Add activity
         testUtils.addActivity(name, color, icon)

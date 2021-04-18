@@ -1,0 +1,150 @@
+package com.example.util.simpletimetracker.core.mapper
+
+import android.content.Context
+import com.example.util.simpletimetracker.core.R
+import com.example.util.simpletimetracker.core.repo.IconImageRepo
+import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.domain.di.AppContext
+import com.example.util.simpletimetracker.domain.model.IconImageCategory
+import com.example.util.simpletimetracker.domain.model.IconImageType
+import javax.inject.Inject
+import javax.inject.Singleton
+
+@Singleton
+class IconImageMapper @Inject constructor(
+    @AppContext private val context: Context,
+    private val repo: IconImageRepo,
+    private val resourceRepo: ResourceRepo
+) {
+
+    // TODO remove
+    val availableIconsNames: Map<String, Int> by lazy {
+        val res: MutableMap<String, Int> = mutableMapOf()
+
+        getAvailableCategories()
+            .map(IconImageCategory::type)
+            .map(::mapTypeToArray)
+            .map(repo::getImages)
+            .forEach {
+                it.forEach { (key, value) ->
+                    res[key] = value
+                }
+            }
+
+        res
+    }
+
+    fun getAvailableCategories(): List<IconImageCategory> = listOf(
+        IconImageCategory(
+            type = IconImageType.MAPS,
+            name = resourceRepo.getString(R.string.imageGroupMaps),
+            categoryIcon = R.drawable.unknown
+        ),
+        IconImageCategory(
+            type = IconImageType.PLACES,
+            name = resourceRepo.getString(R.string.imageGroupPlaces),
+            categoryIcon = R.drawable.unknown
+        ),
+        IconImageCategory(
+            type = IconImageType.SOCIAL,
+            name = resourceRepo.getString(R.string.imageGroupSocial),
+            categoryIcon = R.drawable.unknown
+        ),
+        IconImageCategory(
+            type = IconImageType.ACTION,
+            name = resourceRepo.getString(R.string.imageGroupAction),
+            categoryIcon = R.drawable.unknown
+        ),
+        IconImageCategory(
+            type = IconImageType.HARDWARE,
+            name = resourceRepo.getString(R.string.imageGroupHardware),
+            categoryIcon = R.drawable.unknown
+        ),
+        IconImageCategory(
+            type = IconImageType.ALERT,
+            name = resourceRepo.getString(R.string.imageGroupAlert),
+            categoryIcon = R.drawable.unknown
+        ),
+        IconImageCategory(
+            type = IconImageType.AV,
+            name = resourceRepo.getString(R.string.imageGroupAv),
+            categoryIcon = R.drawable.unknown
+        ),
+        IconImageCategory(
+            type = IconImageType.COMMUNICATION,
+            name = resourceRepo.getString(R.string.imageGroupCommunication),
+            categoryIcon = R.drawable.unknown
+        ),
+        IconImageCategory(
+            type = IconImageType.CONTENT,
+            name = resourceRepo.getString(R.string.imageGroupContent),
+            categoryIcon = R.drawable.unknown
+        ),
+        IconImageCategory(
+            type = IconImageType.DEVICE,
+            name = resourceRepo.getString(R.string.imageGroupDevice),
+            categoryIcon = R.drawable.unknown
+        ),
+        IconImageCategory(
+            type = IconImageType.EDITOR,
+            name = resourceRepo.getString(R.string.imageGroupEditor),
+            categoryIcon = R.drawable.unknown
+        ),
+        IconImageCategory(
+            type = IconImageType.FILE,
+            name = resourceRepo.getString(R.string.imageGroupFile),
+            categoryIcon = R.drawable.unknown
+        ),
+        IconImageCategory(
+            type = IconImageType.IMAGE,
+            name = resourceRepo.getString(R.string.imageGroupImage),
+            categoryIcon = R.drawable.unknown
+        ),
+        IconImageCategory(
+            type = IconImageType.NAVIGATION,
+            name = resourceRepo.getString(R.string.imageGroupNavigation),
+            categoryIcon = R.drawable.unknown
+        ),
+        IconImageCategory(
+            type = IconImageType.NOTIFICATION,
+            name = resourceRepo.getString(R.string.imageGroupNotification),
+            categoryIcon = R.drawable.unknown
+        ),
+        IconImageCategory(
+            type = IconImageType.TOGGLE,
+            name = resourceRepo.getString(R.string.imageGroupToggle),
+            categoryIcon = R.drawable.unknown
+        )
+    )
+
+    fun getAvailableImages(): Map<IconImageCategory, Map<String, Int>> =
+        getAvailableCategories()
+            .map { it to mapTypeToArray(it.type).let(repo::getImages) }
+            .toMap()
+
+    fun mapToDrawableResId(iconName: String): Int {
+        return context.resources
+            .getIdentifier(iconName, "drawable", context.packageName)
+            .takeIf { it != 0 }
+            ?: R.drawable.unknown
+    }
+
+    private fun mapTypeToArray(type: IconImageType): Int = when (type) {
+        IconImageType.MAPS -> R.array.icon_maps
+        IconImageType.PLACES -> R.array.icon_places
+        IconImageType.SOCIAL -> R.array.icon_social
+        IconImageType.ACTION -> R.array.icon_action
+        IconImageType.HARDWARE -> R.array.icon_hardware
+        IconImageType.ALERT -> R.array.icon_alert
+        IconImageType.AV -> R.array.icon_av
+        IconImageType.COMMUNICATION -> R.array.icon_communication
+        IconImageType.CONTENT -> R.array.icon_content
+        IconImageType.DEVICE -> R.array.icon_device
+        IconImageType.EDITOR -> R.array.icon_editor
+        IconImageType.FILE -> R.array.icon_file
+        IconImageType.IMAGE -> R.array.icon_image
+        IconImageType.NAVIGATION -> R.array.icon_navigation
+        IconImageType.NOTIFICATION -> R.array.icon_notification
+        IconImageType.TOGGLE -> R.array.icon_toggle
+    }
+}

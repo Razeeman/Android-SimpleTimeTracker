@@ -36,7 +36,7 @@ class StatisticsDetailTest : BaseUiTest() {
     fun statisticsDetailOverall() {
         val name = "Test"
         val color = ColorMapper.getAvailableColors().first()
-        val icon = iconMapper.availableIconsNames.values.first()
+        val icon = iconImageMapper.availableIconsNames.values.first()
 
         // Add activity
         testUtils.addActivity(name, color, icon)
@@ -105,7 +105,7 @@ class StatisticsDetailTest : BaseUiTest() {
     fun statisticsDetailDay() {
         val name = "Test"
         val color = ColorMapper.getAvailableColors().first()
-        val icon = iconMapper.availableIconsNames.values.first()
+        val icon = iconImageMapper.availableIconsNames.values.first()
 
         // Add activity
         testUtils.addActivity(name, color, icon)
@@ -176,7 +176,7 @@ class StatisticsDetailTest : BaseUiTest() {
     fun statisticsDetailWeek() {
         val name = "Test"
         val color = ColorMapper.getAvailableColors().first()
-        val icon = iconMapper.availableIconsNames.values.first()
+        val icon = iconImageMapper.availableIconsNames.values.first()
 
         // Add activity
         testUtils.addActivity(name, color, icon)
@@ -247,7 +247,7 @@ class StatisticsDetailTest : BaseUiTest() {
     fun statisticsDetailMonth() {
         val name = "Test"
         val color = ColorMapper.getAvailableColors().first()
-        val icon = iconMapper.availableIconsNames.values.first()
+        val icon = iconImageMapper.availableIconsNames.values.first()
 
         // Add activity
         testUtils.addActivity(name, color, icon)
@@ -318,7 +318,7 @@ class StatisticsDetailTest : BaseUiTest() {
     fun statisticsDetailYear() {
         val name = "Test"
         val color = ColorMapper.getAvailableColors().first()
-        val icon = iconMapper.availableIconsNames.values.first()
+        val icon = iconImageMapper.availableIconsNames.values.first()
 
         // Add activity
         testUtils.addActivity(name, color, icon)

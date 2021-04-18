@@ -206,7 +206,7 @@
     <string name="notification_time_started">Начато в %s</string>
     <string name="notification_record_type_goal_time">цель %s</string>
 
-    <!--  Emoji category  -->
+    <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Смайлы и эмоции</string>
     <string name="emojiGroupPeople">Люди и тело</string>
     <string name="emojiGroupAnimals">Животные и природа</string>
@@ -216,5 +216,23 @@
     <string name="emojiGroupObjects">Предметы</string>
     <string name="emojiGroupSymbols">Символы</string>
     <string name="emojiGroupFlags">Флаги</string>
+
+    <!--  Icon image category  -->
+    <string name="imageGroupMaps">Карты</string>
+    <string name="imageGroupPlaces">Места</string>
+    <string name="imageGroupSocial">Активности</string>
+    <string name="imageGroupAction">Действия</string>
+    <string name="imageGroupHardware">Оборудование</string>
+    <string name="imageGroupAlert">Предупреждение</string>
+    <string name="imageGroupAv">Аудио видео</string>
+    <string name="imageGroupCommunication">Коммуникация</string>
+    <string name="imageGroupContent">Контент</string>
+    <string name="imageGroupDevice">Устройство</string>
+    <string name="imageGroupEditor">Редактор</string>
+    <string name="imageGroupFile">Файл</string>
+    <string name="imageGroupImage">Картинка</string>
+    <string name="imageGroupNavigation">Навигация</string>
+    <string name="imageGroupNotification">Оповещение</string>
+    <string name="imageGroupToggle">Переключатель</string>
 
 </resources>

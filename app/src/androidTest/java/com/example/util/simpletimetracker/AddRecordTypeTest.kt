@@ -40,9 +40,9 @@ class AddRecordTypeTest : BaseUiTest() {
         val firstColor = ColorMapper.getAvailableColors().first()
         val lastColor = ColorMapper.getAvailableColors().last()
         val lastColorPosition = ColorMapper.getAvailableColors().size - 1
-        val firstIcon = iconMapper.availableIconsNames.values.first()
-        val lastIcon = iconMapper.availableIconsNames.values.last()
-        val lastIconPosition = iconMapper.availableIconsNames.size - 1
+        val firstIcon = iconImageMapper.availableIconsNames.values.first()
+        val lastIcon = iconImageMapper.availableIconsNames.values.last()
+        val lastIconPosition = iconImageMapper.availableIconsNames.size - 1
 
         NavUtils.openSettingsScreen()
         NavUtils.openCategoriesScreen()

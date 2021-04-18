@@ -5,7 +5,7 @@ import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.domain.di.AppContext
 import javax.inject.Inject
 
-class EmojiRepo @Inject constructor(
+class IconEmojiRepo @Inject constructor(
     @AppContext private val context: Context
 ) {
 

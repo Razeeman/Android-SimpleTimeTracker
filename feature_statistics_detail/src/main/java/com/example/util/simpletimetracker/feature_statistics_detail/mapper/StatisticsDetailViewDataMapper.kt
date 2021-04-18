@@ -2,7 +2,7 @@ package com.example.util.simpletimetracker.feature_statistics_detail.mapper
 
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
-import com.example.util.simpletimetracker.core.mapper.IconMapper
+import com.example.util.simpletimetracker.core.mapper.IconImageMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.extension.orZero
@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class StatisticsDetailViewDataMapper @Inject constructor(
-    private val iconMapper: IconMapper,
+    private val iconImageMapper: IconImageMapper,
     private val colorMapper: ColorMapper,
     private val timeMapper: TimeMapper,
     private val resourceRepo: ResourceRepo
@@ -103,7 +103,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             name = name
                 .orEmpty(),
             iconId = iconName
-                ?.let(iconMapper::mapToDrawableResId),
+                ?.let(iconImageMapper::mapToDrawableResId),
             color = colorId
                 ?.let { colorMapper.mapToColorResId(it, isDarkTheme) }
                 ?.let(resourceRepo::getColor)

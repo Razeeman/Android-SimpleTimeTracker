@@ -36,7 +36,7 @@ class AddRecordTest : BaseUiTest() {
     fun addRecord() {
         val name = "Name"
         val color = ColorMapper.getAvailableColors().first()
-        val icon = iconMapper.availableIconsNames.values.first()
+        val icon = iconImageMapper.availableIconsNames.values.first()
         val comment = "Comment"
 
         // Add activity

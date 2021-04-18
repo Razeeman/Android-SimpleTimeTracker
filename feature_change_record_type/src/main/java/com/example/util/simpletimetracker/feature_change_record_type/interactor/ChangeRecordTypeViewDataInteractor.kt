@@ -90,7 +90,7 @@ class ChangeRecordTypeViewDataInteractor @Inject constructor(
 
     fun getIconCategoriesViewData(iconType: IconType): List<ViewHolderType> {
         return when (iconType) {
-            IconType.IMAGE -> emptyList()
+            IconType.IMAGE -> mapper.mapIconImageCategories()
             IconType.EMOJI -> mapper.mapIconEmojiCategories()
         }
     }

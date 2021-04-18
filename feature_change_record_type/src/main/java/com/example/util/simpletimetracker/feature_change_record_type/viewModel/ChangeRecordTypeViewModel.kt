@@ -11,7 +11,7 @@ import com.example.util.simpletimetracker.core.interactor.NotificationTypeIntera
 import com.example.util.simpletimetracker.core.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.core.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
-import com.example.util.simpletimetracker.core.mapper.EmojiMapper
+import com.example.util.simpletimetracker.core.mapper.IconEmojiMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
@@ -31,9 +31,9 @@ import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_change_record_type.R
 import com.example.util.simpletimetracker.feature_change_record_type.interactor.ChangeRecordTypeViewDataInteractor
 import com.example.util.simpletimetracker.feature_change_record_type.mapper.ChangeRecordTypeMapper
-import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeEmojiCategoryViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconCategoryInfoViewData
-import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconTypeViewData
+import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconCategoryViewData
+import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconSwitchViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeScrollViewData
 import com.example.util.simpletimetracker.navigation.Notification
@@ -60,7 +60,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
     private val changeRecordTypeMapper: ChangeRecordTypeMapper,
     private val resourceRepo: ResourceRepo,
-    private val emojiMapper: EmojiMapper
+    private val iconEmojiMapper: IconEmojiMapper
 ) : ViewModel() {
 
     lateinit var extra: ChangeRecordTypeParams
@@ -188,7 +188,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     }
 
     fun onIconTypeClick(viewData: ButtonsRowViewData) {
-        if (viewData !is ChangeRecordTypeIconTypeViewData) return
+        if (viewData !is ChangeRecordTypeIconSwitchViewData) return
         viewModelScope.launch {
             iconType = viewData.iconType
             updateIconsTypeViewData()
@@ -197,7 +197,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
         }
     }
 
-    fun onIconCategoryClick(viewData: ChangeRecordTypeEmojiCategoryViewData) {
+    fun onIconCategoryClick(viewData: ChangeRecordTypeIconCategoryViewData) {
         icons.value
             ?.indexOfFirst { (it as? ChangeRecordTypeIconCategoryInfoViewData)?.type == viewData.type }
             ?.let { ChangeRecordTypeScrollViewData.ScrollTo(it) }
@@ -214,7 +214,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     }
 
     fun onEmojiClick(item: EmojiViewData) {
-        if (emojiMapper.hasSkinToneVariations(item.emojiCodes)) {
+        if (iconEmojiMapper.hasSkinToneVariations(item.emojiCodes)) {
             openEmojiSelectionDialog(item)
         } else {
             viewModelScope.launch {

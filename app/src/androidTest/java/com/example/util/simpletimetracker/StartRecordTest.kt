@@ -33,8 +33,8 @@ class StartRecordTest : BaseUiTest() {
         val newName = "Test2"
         val firstColor = ColorMapper.getAvailableColors().first()
         val lastColor = ColorMapper.getAvailableColors().last()
-        val firstIcon = iconMapper.availableIconsNames.values.first()
-        val lastIcon = iconMapper.availableIconsNames.values.last()
+        val firstIcon = iconImageMapper.availableIconsNames.values.first()
+        val lastIcon = iconImageMapper.availableIconsNames.values.last()
         val firstGoalTime = TimeUnit.MINUTES.toSeconds(10)
 
         // Add activities

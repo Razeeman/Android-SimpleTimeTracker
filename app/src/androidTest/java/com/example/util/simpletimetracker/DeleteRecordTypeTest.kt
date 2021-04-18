@@ -29,7 +29,7 @@ class DeleteRecordTypeTest : BaseUiTest() {
     fun deleteRecordType() {
         val name = "Test"
         val color = ColorMapper.getAvailableColors().first()
-        val icon = iconMapper.availableIconsNames.values.first()
+        val icon = iconImageMapper.availableIconsNames.values.first()
 
         tryAction { clickOnViewWithText(R.string.running_records_add_type) }
         checkViewIsNotDisplayed(withId(R.id.btnChangeRecordTypeDelete))
