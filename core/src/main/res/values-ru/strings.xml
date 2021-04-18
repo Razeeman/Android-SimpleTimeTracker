@@ -206,4 +206,15 @@
     <string name="notification_time_started">Начато в %s</string>
     <string name="notification_record_type_goal_time">цель %s</string>
 
+    <!--  Emoji category  -->
+    <string name="emojiGroupSmileys">Смайлы и эмоции</string>
+    <string name="emojiGroupPeople">Люди и тело</string>
+    <string name="emojiGroupAnimals">Животные и природа</string>
+    <string name="emojiGroupFood">Еда и напитки</string>
+    <string name="emojiGroupTravel">Путешествия и места</string>
+    <string name="emojiGroupActivities">Занятия</string>
+    <string name="emojiGroupObjects">Предметы</string>
+    <string name="emojiGroupSymbols">Символы</string>
+    <string name="emojiGroupFlags">Флаги</string>
+
 </resources>

@@ -74,6 +74,7 @@ class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragme
     }
     private val iconsAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
+            createInfoAdapterDelegate(),
             createChangeRecordTypeIconSwitchAdapterDelegate(viewModel::onIconTypeClick),
             createChangeRecordTypeIconAdapterDelegate(viewModel::onIconClick),
             createEmojiAdapterDelegate(viewModel::onEmojiClick)

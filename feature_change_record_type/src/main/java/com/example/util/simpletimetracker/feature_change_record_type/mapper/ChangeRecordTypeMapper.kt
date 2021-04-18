@@ -70,15 +70,11 @@ class ChangeRecordTypeMapper @Inject constructor(
         isDarkTheme: Boolean
     ): List<ViewHolderType> {
         return emojiMapper.getAvailableEmojis()
-            .map { codes ->
-                EmojiViewData(
-                    emojiText = emojiMapper.toEmojiString(codes),
-                    emojiCodes = codes,
-                    colorInt = newColorId
-                        .let { colorMapper.mapToColorResId(it, isDarkTheme) }
-                        .let(resourceRepo::getColor)
-                )
-            }
+            .map { category ->
+                listOf(InfoViewData(category.name)) + category.emojiCodes.map { codes ->
+                    mapEmojiViewData(codes, newColorId, isDarkTheme)
+                }
+            }.flatten()
     }
 
     fun mapToIconSwitchViewData(iconType: IconType): ViewHolderType {
@@ -111,5 +107,19 @@ class ChangeRecordTypeMapper @Inject constructor(
             IconType.IMAGE -> R.string.change_record_type_icon_hint
             IconType.EMOJI -> R.string.change_record_type_emoji_hint
         }.let(resourceRepo::getString)
+    }
+
+    private fun mapEmojiViewData(
+        codes: String,
+        newColorId: Int,
+        isDarkTheme: Boolean
+    ): ViewHolderType {
+        return EmojiViewData(
+            emojiText = emojiMapper.toEmojiString(codes),
+            emojiCodes = codes,
+            colorInt = newColorId
+                .let { colorMapper.mapToColorResId(it, isDarkTheme) }
+                .let(resourceRepo::getColor)
+        )
     }
 }

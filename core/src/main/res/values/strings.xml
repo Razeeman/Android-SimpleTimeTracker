@@ -216,4 +216,15 @@
     <string name="notification_time_started">Started at %s</string>
     <string name="notification_record_type_goal_time">goal %s</string>
 
+    <!--  Emoji category  -->
+    <string name="emojiGroupSmileys">Smileys &amp; Emotion</string>
+    <string name="emojiGroupPeople">People &amp; Body</string>
+    <string name="emojiGroupAnimals">Animals &amp; Nature</string>
+    <string name="emojiGroupFood">Food &amp; Drink</string>
+    <string name="emojiGroupTravel">Travel &amp; Places</string>
+    <string name="emojiGroupActivities">Activities</string>
+    <string name="emojiGroupObjects">Objects</string>
+    <string name="emojiGroupSymbols">Symbols</string>
+    <string name="emojiGroupFlags">Flags</string>
+
 </resources>

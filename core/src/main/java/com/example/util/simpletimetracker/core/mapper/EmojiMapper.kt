@@ -1,25 +1,29 @@
 package com.example.util.simpletimetracker.core.mapper
 
+import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.repo.EmojiRepo
+import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.domain.model.EmojiCategory
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class EmojiMapper @Inject constructor(
-    private val repo: EmojiRepo
+    private val repo: EmojiRepo,
+    private val resourceRepo: ResourceRepo
 ) {
 
-    // TODO return categories with names
-    fun getAvailableEmojis(): List<String> =
-        repo.getGroupSmileys() +
-            repo.getGroupPeople() +
-            repo.getGroupAnimals() +
-            repo.getGroupFood() +
-            repo.getGroupTravel() +
-            repo.getGroupActivities() +
-            repo.getGroupObjects() +
-            repo.getGroupSymbols() +
-            repo.getGroupFlags()
+    fun getAvailableEmojis(): List<EmojiCategory> = listOf(
+        EmojiCategory(resourceRepo.getString(R.string.emojiGroupSmileys), repo.getGroupSmileys()),
+        EmojiCategory(resourceRepo.getString(R.string.emojiGroupPeople), repo.getGroupPeople()),
+        EmojiCategory(resourceRepo.getString(R.string.emojiGroupAnimals), repo.getGroupAnimals()),
+        EmojiCategory(resourceRepo.getString(R.string.emojiGroupFood), repo.getGroupFood()),
+        EmojiCategory(resourceRepo.getString(R.string.emojiGroupTravel), repo.getGroupTravel()),
+        EmojiCategory(resourceRepo.getString(R.string.emojiGroupActivities), repo.getGroupActivities()),
+        EmojiCategory(resourceRepo.getString(R.string.emojiGroupObjects), repo.getGroupObjects()),
+        EmojiCategory(resourceRepo.getString(R.string.emojiGroupSymbols), repo.getGroupSymbols()),
+        EmojiCategory(resourceRepo.getString(R.string.emojiGroupFlags), repo.getGroupFlags())
+    )
 
     fun hasSkinToneVariations(codes: String): Boolean =
         codes.contains(EmojiRepo.SKIN_TONE)
