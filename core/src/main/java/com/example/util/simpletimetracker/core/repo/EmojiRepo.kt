@@ -38,6 +38,7 @@ class EmojiRepo @Inject constructor(
 
     companion object {
         const val SKIN_TONE: String = "SKIN_TONE"
+        const val SAME_TONE_REPLACEMENT = "SAME_TONE"
         val skinTones: List<String> = listOf(
             "🏻", // light skin tone
             "🏼", // medium-light skin tone
