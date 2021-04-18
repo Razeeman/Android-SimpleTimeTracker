@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Google material icons made available under the Apache License Version 2.0.
+-->
 <resources>
 
     <!--  Do not rename resources, they saved by the name  -->
@@ -922,8 +925,32 @@
     </array>
 
     <array name="icon_maps">
+        <item>@drawable/ic_360_24px</item>
+        <item>@drawable/ic_add_business_24px</item>
         <item>@drawable/ic_add_location_24px</item>
+        <item>@drawable/ic_add_location_alt_24px</item>
+        <item>@drawable/ic_add_road_24px</item>
+        <item>@drawable/ic_agriculture_24px</item>
+        <item>@drawable/ic_alt_route_24px</item>
+        <item>@drawable/ic_atm_24px</item>
+        <item>@drawable/ic_attractions_24px</item>
+        <item>@drawable/ic_badge_24px</item>
+        <item>@drawable/ic_bakery_dining_24px</item>
         <item>@drawable/ic_beenhere_24px</item>
+        <item>@drawable/ic_bike_scooter_24px</item>
+        <item>@drawable/ic_breakfast_dining_24px</item>
+        <item>@drawable/ic_brunch_dining_24px</item>
+        <item>@drawable/ic_bus_alert_24px</item>
+        <item>@drawable/ic_car_rental_24px</item>
+        <item>@drawable/ic_car_repair_24px</item>
+        <item>@drawable/ic_category_24px</item>
+        <item>@drawable/ic_celebration_24px</item>
+        <item>@drawable/ic_cleaning_services_24px</item>
+        <item>@drawable/ic_compass_calibration_24px</item>
+        <item>@drawable/ic_delivery_dining_24px</item>
+        <item>@drawable/ic_departure_board_24px</item>
+        <item>@drawable/ic_design_services_24px</item>
+        <item>@drawable/ic_dinner_dining_24px</item>
         <item>@drawable/ic_directions_24px</item>
         <item>@drawable/ic_directions_bike_24px</item>
         <item>@drawable/ic_directions_boat_24px</item>
@@ -934,12 +961,30 @@
         <item>@drawable/ic_directions_subway_24px</item>
         <item>@drawable/ic_directions_transit_24px</item>
         <item>@drawable/ic_directions_walk_24px</item>
+        <item>@drawable/ic_dry_cleaning_24px</item>
+        <item>@drawable/ic_edit_attributes_24px</item>
         <item>@drawable/ic_edit_location_24px</item>
+        <item>@drawable/ic_edit_road_24px</item>
+        <item>@drawable/ic_electric_bike_24px</item>
+        <item>@drawable/ic_electric_car_24px</item>
+        <item>@drawable/ic_electric_moped_24px</item>
+        <item>@drawable/ic_electric_rickshaw_24px</item>
+        <item>@drawable/ic_electric_scooter_24px</item>
+        <item>@drawable/ic_electrical_services_24px</item>
         <item>@drawable/ic_ev_station_24px</item>
+        <item>@drawable/ic_fastfood_24px</item>
+        <item>@drawable/ic_festival_24px</item>
         <item>@drawable/ic_flight_24px</item>
+        <item>@drawable/ic_hail_24px</item>
+        <item>@drawable/ic_handyman_24px</item>
+        <item>@drawable/ic_hardware_24px</item>
+        <item>@drawable/ic_home_repair_service_24px</item>
         <item>@drawable/ic_hotel_24px</item>
+        <item>@drawable/ic_hvac_24px</item>
+        <item>@drawable/ic_icecream_24px</item>
         <item>@drawable/ic_layers_24px</item>
         <item>@drawable/ic_layers_clear_24px</item>
+        <item>@drawable/ic_liquor_24px</item>
         <item>@drawable/ic_local_activity_24px</item>
         <item>@drawable/ic_local_airport_24px</item>
         <item>@drawable/ic_local_atm_24px</item>
@@ -949,6 +994,7 @@
         <item>@drawable/ic_local_convenience_store_24px</item>
         <item>@drawable/ic_local_dining_24px</item>
         <item>@drawable/ic_local_drink_24px</item>
+        <item>@drawable/ic_local_fire_department_24px</item>
         <item>@drawable/ic_local_florist_24px</item>
         <item>@drawable/ic_local_gas_station_24px</item>
         <item>@drawable/ic_local_grocery_store_24px</item>
@@ -964,32 +1010,67 @@
         <item>@drawable/ic_local_phone_24px</item>
         <item>@drawable/ic_local_pizza_24px</item>
         <item>@drawable/ic_local_play_24px</item>
+        <item>@drawable/ic_local_police_24px</item>
         <item>@drawable/ic_local_post_office_24px</item>
         <item>@drawable/ic_local_printshop_24px</item>
         <item>@drawable/ic_local_see_24px</item>
         <item>@drawable/ic_local_shipping_24px</item>
         <item>@drawable/ic_local_taxi_24px</item>
+        <item>@drawable/ic_location_pin_24px</item>
+        <item>@drawable/ic_lunch_dining_24px</item>
         <item>@drawable/ic_map_24px</item>
+        <item>@drawable/ic_maps_ugc_24px</item>
+        <item>@drawable/ic_medical_services_24px</item>
+        <item>@drawable/ic_menu_book_24px</item>
+        <item>@drawable/ic_miscellaneous_services_24px</item>
+        <item>@drawable/ic_money_24px</item>
+        <item>@drawable/ic_moped_24px</item>
         <item>@drawable/ic_motorcycle_24px</item>
+        <item>@drawable/ic_multiple_stop_24px</item>
+        <item>@drawable/ic_museum_24px</item>
         <item>@drawable/ic_my_location_24px</item>
         <item>@drawable/ic_navigation_24px</item>
         <item>@drawable/ic_near_me_24px</item>
+        <item>@drawable/ic_near_me_disabled_24px</item>
+        <item>@drawable/ic_nightlife_24px</item>
+        <item>@drawable/ic_no_meals_24px</item>
+        <item>@drawable/ic_no_meals_ouline_24px</item>
+        <item>@drawable/ic_no_transfer_24px</item>
+        <item>@drawable/ic_not_listed_location_24px</item>
+        <item>@drawable/ic_park_24px</item>
+        <item>@drawable/ic_pedal_bike_24px</item>
         <item>@drawable/ic_person_pin_24px</item>
         <item>@drawable/ic_person_pin_circle_24px</item>
+        <item>@drawable/ic_pest_control_24px</item>
+        <item>@drawable/ic_pest_control_rodent_24px</item>
         <item>@drawable/ic_pin_drop_24px</item>
         <item>@drawable/ic_place_24px</item>
+        <item>@drawable/ic_plumbing_24px</item>
+        <item>@drawable/ic_railway_alert_24px</item>
+        <item>@drawable/ic_ramen_dining_24px</item>
         <item>@drawable/ic_rate_review_24px</item>
         <item>@drawable/ic_restaurant_24px</item>
         <item>@drawable/ic_restaurant_menu_24px</item>
+        <item>@drawable/ic_run_circle_24px</item>
         <item>@drawable/ic_satellite_24px</item>
+        <item>@drawable/ic_set_meal_24px</item>
         <item>@drawable/ic_store_mall_directory_24px</item>
         <item>@drawable/ic_streetview_24px</item>
         <item>@drawable/ic_subway_24px</item>
+        <item>@drawable/ic_takeout_dining_24px</item>
+        <item>@drawable/ic_taxi_alert_24px</item>
         <item>@drawable/ic_terrain_24px</item>
+        <item>@drawable/ic_theater_comedy_24px</item>
         <item>@drawable/ic_traffic_24px</item>
         <item>@drawable/ic_train_24px</item>
         <item>@drawable/ic_tram_24px</item>
         <item>@drawable/ic_transfer_within_a_station_24px</item>
+        <item>@drawable/ic_transit_enterexit_24px</item>
+        <item>@drawable/ic_trip_origin_24px</item>
+        <item>@drawable/ic_two_wheeler_24px</item>
+        <item>@drawable/ic_volunteer_activism_24px</item>
+        <item>@drawable/ic_wine_bar_24px</item>
+        <item>@drawable/ic_wrong_location_24px</item>
         <item>@drawable/ic_zoom_out_map_24px</item>
     </array>
 
@@ -1083,54 +1164,171 @@
         <item>@drawable/ic_ac_unit_24px</item>
         <item>@drawable/ic_airport_shuttle_24px</item>
         <item>@drawable/ic_all_inclusive_24px</item>
+        <item>@drawable/ic_apartment_24px</item>
+        <item>@drawable/ic_baby_changing_station_24px</item>
+        <item>@drawable/ic_backpack_24px</item>
+        <item>@drawable/ic_bathtub_24px</item>
         <item>@drawable/ic_beach_access_24px</item>
+        <item>@drawable/ic_bento_24px</item>
         <item>@drawable/ic_business_center_24px</item>
+        <item>@drawable/ic_carpenter_24px</item>
         <item>@drawable/ic_casino_24px</item>
+        <item>@drawable/ic_charging_station_24px</item>
+        <item>@drawable/ic_checkroom_24px</item>
         <item>@drawable/ic_child_care_24px</item>
         <item>@drawable/ic_child_friendly_24px</item>
+        <item>@drawable/ic_corporate_fare_24px</item>
+        <item>@drawable/ic_countertops_24px</item>
+        <item>@drawable/ic_do_not_step_24px</item>
+        <item>@drawable/ic_do_not_touch_24px</item>
+        <item>@drawable/ic_dry_24px</item>
+        <item>@drawable/ic_elevator_24px</item>
+        <item>@drawable/ic_escalator_24px</item>
+        <item>@drawable/ic_escalator_warning_24px</item>
+        <item>@drawable/ic_family_restroom_24px</item>
+        <item>@drawable/ic_fence_24px</item>
+        <item>@drawable/ic_fire_extinguisher_24px</item>
         <item>@drawable/ic_fitness_center_24px</item>
+        <item>@drawable/ic_food_bank_24px</item>
+        <item>@drawable/ic_foundation_24px</item>
         <item>@drawable/ic_free_breakfast_24px</item>
         <item>@drawable/ic_golf_course_24px</item>
+        <item>@drawable/ic_grass_24px</item>
         <item>@drawable/ic_hot_tub_24px</item>
+        <item>@drawable/ic_house_24px</item>
+        <item>@drawable/ic_house_siding_24px</item>
         <item>@drawable/ic_kitchen_24px</item>
+        <item>@drawable/ic_meeting_room_24px</item>
+        <item>@drawable/ic_microwave_24px</item>
+        <item>@drawable/ic_night_shelter_24px</item>
+        <item>@drawable/ic_no_backpack_24px</item>
+        <item>@drawable/ic_no_cell_24px</item>
+        <item>@drawable/ic_no_drinks_24px</item>
+        <item>@drawable/ic_no_flash_24px</item>
+        <item>@drawable/ic_no_food_24px</item>
+        <item>@drawable/ic_no_meeting_room_24px</item>
+        <item>@drawable/ic_no_photography_24px</item>
+        <item>@drawable/ic_no_stroller_24px</item>
         <item>@drawable/ic_pool_24px</item>
+        <item>@drawable/ic_rice_bowl_24px</item>
+        <item>@drawable/ic_roofing_24px</item>
+        <item>@drawable/ic_room_preferences_24px</item>
         <item>@drawable/ic_room_service_24px</item>
         <item>@drawable/ic_rv_hookup_24px</item>
         <item>@drawable/ic_smoke_free_24px</item>
         <item>@drawable/ic_smoking_rooms_24px</item>
+        <item>@drawable/ic_smoking_rooms_24px</item>
+        <item>@drawable/ic_soap_24px</item>
         <item>@drawable/ic_spa_24px</item>
+        <item>@drawable/ic_sports_bar_24px</item>
+        <item>@drawable/ic_stairs_24px</item>
+        <item>@drawable/ic_storefront_24px</item>
+        <item>@drawable/ic_stroller_24px</item>
+        <item>@drawable/ic_tapas_24px</item>
+        <item>@drawable/ic_tty_24px</item>
+        <item>@drawable/ic_umbrella_24px</item>
+        <item>@drawable/ic_wash_24px</item>
+        <item>@drawable/ic_water_damage_24px</item>
+        <item>@drawable/ic_wheelchair_pickup_24px</item>
     </array>
 
     <array name="icon_social">
+        <item>@drawable/ic_6_ft_apart_24px</item>
+        <item>@drawable/ic_add_moderator_24px</item>
+        <item>@drawable/ic_architecture_24px</item>
         <item>@drawable/ic_cake_24px</item>
+        <item>@drawable/ic_clean_hands_24px</item>
+        <item>@drawable/ic_connect_without_contact_24px</item>
+        <item>@drawable/ic_construction_24px</item>
+        <item>@drawable/ic_coronavirus_24px</item>
+        <item>@drawable/ic_deck_24px</item>
         <item>@drawable/ic_domain_24px</item>
+        <item>@drawable/ic_elderly_24px</item>
+        <item>@drawable/ic_emoji_emotions_24px</item>
+        <item>@drawable/ic_emoji_events_24px</item>
+        <item>@drawable/ic_emoji_flags_24px</item>
+        <item>@drawable/ic_emoji_food_beverage_24px</item>
+        <item>@drawable/ic_emoji_nature_24px</item>
+        <item>@drawable/ic_emoji_objects_24px</item>
+        <item>@drawable/ic_emoji_people_24px</item>
+        <item>@drawable/ic_emoji_symbols_24px</item>
+        <item>@drawable/ic_emoji_transportation_24px</item>
+        <item>@drawable/ic_engineering_24px</item>
+        <item>@drawable/ic_facebook_24px</item>
+        <item>@drawable/ic_fireplace_24px</item>
+        <item>@drawable/ic_follow_the_signs_24px</item>
         <item>@drawable/ic_group_24px</item>
         <item>@drawable/ic_group_add_24px</item>
+        <item>@drawable/ic_groups_24px</item>
+        <item>@drawable/ic_history_edu_24px</item>
+        <item>@drawable/ic_ios_share_24px</item>
+        <item>@drawable/ic_king_bed_24px</item>
         <item>@drawable/ic_location_city_24px</item>
+        <item>@drawable/ic_luggage_24px</item>
+        <item>@drawable/ic_masks_24px</item>
+        <item>@drawable/ic_military_tech_24px</item>
         <item>@drawable/ic_mood_24px</item>
         <item>@drawable/ic_mood_bad_24px</item>
+        <item>@drawable/ic_nights_stay_24px</item>
+        <item>@drawable/ic_no_luggage_24px</item>
         <item>@drawable/ic_notifications_24px</item>
         <item>@drawable/ic_notifications_active_24px</item>
         <item>@drawable/ic_notifications_none_24px</item>
         <item>@drawable/ic_notifications_off_24px</item>
         <item>@drawable/ic_notifications_paused_24px</item>
+        <item>@drawable/ic_outdoor_grill_24px</item>
         <item>@drawable/ic_pages_24px</item>
         <item>@drawable/ic_party_mode_24px</item>
         <item>@drawable/ic_people_24px</item>
+        <item>@drawable/ic_people_alt_24px</item>
         <item>@drawable/ic_people_outline_24px</item>
         <item>@drawable/ic_person_24px</item>
         <item>@drawable/ic_person_add_24px</item>
+        <item>@drawable/ic_person_add_alt_24px</item>
+        <item>@drawable/ic_person_add_alt_1_24px</item>
         <item>@drawable/ic_person_outline_24px</item>
+        <item>@drawable/ic_person_remove_24px</item>
+        <item>@drawable/ic_person_remove_alt_1_24px</item>
         <item>@drawable/ic_plus_one_24px</item>
         <item>@drawable/ic_poll_24px</item>
+        <item>@drawable/ic_precision_manufacturing_24px</item>
+        <item>@drawable/ic_psychology_24px</item>
         <item>@drawable/ic_public_24px</item>
+        <item>@drawable/ic_public_off_24px</item>
+        <item>@drawable/ic_recommend_24px</item>
+        <item>@drawable/ic_reduce_capacity_24px</item>
+        <item>@drawable/ic_remove_moderator_24px</item>
+        <item>@drawable/ic_sanitizer_24px</item>
         <item>@drawable/ic_school_24px</item>
+        <item>@drawable/ic_science_24px</item>
+        <item>@drawable/ic_self_improvement_24px</item>
         <item>@drawable/ic_sentiment_dissatisfied_24px</item>
         <item>@drawable/ic_sentiment_neutral_24px</item>
         <item>@drawable/ic_sentiment_satisfied_24px</item>
         <item>@drawable/ic_sentiment_very_dissatisfied_24px</item>
         <item>@drawable/ic_sentiment_very_satisfied_24px</item>
         <item>@drawable/ic_share_24px</item>
+        <item>@drawable/ic_sick_24px</item>
+        <item>@drawable/ic_single_bed_24px</item>
+        <item>@drawable/ic_sports_24px</item>
+        <item>@drawable/ic_sports_baseball_24px</item>
+        <item>@drawable/ic_sports_basketball_24px</item>
+        <item>@drawable/ic_sports_cricket_24px</item>
+        <item>@drawable/ic_sports_esports_24px</item>
+        <item>@drawable/ic_sports_football_24px</item>
+        <item>@drawable/ic_sports_golf_24px</item>
+        <item>@drawable/ic_sports_handball_24px</item>
+        <item>@drawable/ic_sports_hockey_24px</item>
+        <item>@drawable/ic_sports_kabaddi_24px</item>
+        <item>@drawable/ic_sports_mma_24px</item>
+        <item>@drawable/ic_sports_motorsports_24px</item>
+        <item>@drawable/ic_sports_rugby_24px</item>
+        <item>@drawable/ic_sports_soccer_24px</item>
+        <item>@drawable/ic_sports_tennis_24px</item>
+        <item>@drawable/ic_sports_volleyball_24px</item>
+        <item>@drawable/ic_switch_account_24px</item>
+        <item>@drawable/ic_thumb_down_alt_24px</item>
+        <item>@drawable/ic_thumb_up_alt_24px</item>
         <item>@drawable/ic_whatshot_24px</item>
     </array>
     
