@@ -9,8 +9,11 @@ import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.viewData.EmojiViewData
+import com.example.util.simpletimetracker.domain.model.EmojiCategory
 import com.example.util.simpletimetracker.domain.model.IconType
 import com.example.util.simpletimetracker.feature_change_record_type.R
+import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeEmojiCategoryViewData
+import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconCategoryInfoViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconTypeViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconViewData
 import com.example.util.simpletimetracker.navigation.params.EmojiSelectionDialogParams
@@ -52,28 +55,35 @@ class ChangeRecordTypeMapper @Inject constructor(
         newColorId: Int,
         isDarkTheme: Boolean
     ): List<ViewHolderType> {
-        return iconMapper.availableIconsNames
-            .map { (iconName, iconResId) ->
-                ChangeRecordTypeIconViewData(
-                    iconName = iconName,
-                    iconResId = iconResId,
-                    colorInt = newColorId
-                        .let { colorMapper.mapToColorResId(it, isDarkTheme) }
-                        .let(resourceRepo::getColor)
-                )
-            }
+        return iconMapper.availableIconsNames.map { (iconName, iconResId) ->
+            ChangeRecordTypeIconViewData(
+                iconName = iconName,
+                iconResId = iconResId,
+                colorInt = newColorId
+                    .let { colorMapper.mapToColorResId(it, isDarkTheme) }
+                    .let(resourceRepo::getColor)
+            )
+        }
     }
 
     fun mapIconEmojiData(
         newColorId: Int,
         isDarkTheme: Boolean
     ): List<ViewHolderType> {
-        return emojiMapper.getAvailableEmojis()
-            .map { category ->
-                listOf(InfoViewData(category.name)) + category.emojiCodes.map { codes ->
-                    mapEmojiViewData(codes, newColorId, isDarkTheme)
-                }
-            }.flatten()
+        return emojiMapper.getAvailableEmojis().map { (category, codes) ->
+            listOf(mapEmojiCategoryHintViewData(category)) + codes.map { code ->
+                mapEmojiViewData(code, newColorId, isDarkTheme)
+            }
+        }.flatten()
+    }
+
+    fun mapIconEmojiCategories(): List<ViewHolderType> {
+        return emojiMapper.getAvailableEmojiCategories().map {
+            ChangeRecordTypeEmojiCategoryViewData(
+                type = it.type,
+                emoji = it.emojiCode
+            )
+        }
     }
 
     fun mapToIconSwitchViewData(iconType: IconType): List<ViewHolderType> {
@@ -117,6 +127,13 @@ class ChangeRecordTypeMapper @Inject constructor(
             colorInt = newColorId
                 .let { colorMapper.mapToColorResId(it, isDarkTheme) }
                 .let(resourceRepo::getColor)
+        )
+    }
+
+    private fun mapEmojiCategoryHintViewData(category: EmojiCategory): ChangeRecordTypeIconCategoryInfoViewData {
+        return ChangeRecordTypeIconCategoryInfoViewData(
+            type = category.type,
+            text = category.name
         )
     }
 }

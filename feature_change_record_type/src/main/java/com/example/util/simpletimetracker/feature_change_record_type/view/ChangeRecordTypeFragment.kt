@@ -9,11 +9,13 @@ import androidx.transition.TransitionInflater
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.color.createColorAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.divider.createDividerAdapterDelegate
+import com.example.util.simpletimetracker.core.adapter.emoji.createEmojiAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.info.createInfoAdapterDelegate
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.DurationDialogListener
+import com.example.util.simpletimetracker.core.dialog.EmojiSelectionDialogListener
 import com.example.util.simpletimetracker.core.extension.dpToPx
 import com.example.util.simpletimetracker.core.extension.hideKeyboard
 import com.example.util.simpletimetracker.core.extension.observeOnce
@@ -29,10 +31,11 @@ import com.example.util.simpletimetracker.core.view.TransitionNames
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_change_record_type.R
 import com.example.util.simpletimetracker.feature_change_record_type.adapter.createChangeRecordTypeCategoryAdapterDelegate
-import com.example.util.simpletimetracker.core.adapter.emoji.createEmojiAdapterDelegate
-import com.example.util.simpletimetracker.core.dialog.EmojiSelectionDialogListener
 import com.example.util.simpletimetracker.feature_change_record_type.adapter.createChangeRecordTypeIconAdapterDelegate
+import com.example.util.simpletimetracker.feature_change_record_type.adapter.createChangeRecordTypeIconCategoryAdapterDelegate
+import com.example.util.simpletimetracker.feature_change_record_type.adapter.createChangeRecordTypeIconCategoryInfoAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record_type.di.ChangeRecordTypeComponentProvider
+import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeScrollViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewModel.ChangeRecordTypeViewModel
 import com.example.util.simpletimetracker.navigation.params.ChangeRecordTypeParams
 import com.google.android.flexbox.FlexDirection
@@ -55,6 +58,7 @@ import kotlinx.android.synthetic.main.change_record_type_fragment.previewChangeR
 import kotlinx.android.synthetic.main.change_record_type_fragment.rvChangeRecordTypeCategories
 import kotlinx.android.synthetic.main.change_record_type_fragment.rvChangeRecordTypeColor
 import kotlinx.android.synthetic.main.change_record_type_fragment.rvChangeRecordTypeIcon
+import kotlinx.android.synthetic.main.change_record_type_fragment.rvChangeRecordTypeIconCategory
 import kotlinx.android.synthetic.main.change_record_type_fragment.tvChangeRecordTypeGoalTimeTime
 import javax.inject.Inject
 
@@ -75,9 +79,14 @@ class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragme
     }
     private val iconsAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
-            createInfoAdapterDelegate(),
             createChangeRecordTypeIconAdapterDelegate(viewModel::onIconClick),
-            createEmojiAdapterDelegate(viewModel::onEmojiClick)
+            createEmojiAdapterDelegate(viewModel::onEmojiClick),
+            createChangeRecordTypeIconCategoryInfoAdapterDelegate()
+        )
+    }
+    private val iconCategoriesAdapter: BaseRecyclerAdapter by lazy {
+        BaseRecyclerAdapter(
+            createChangeRecordTypeIconCategoryAdapterDelegate(viewModel::onIconCategoryClick)
         )
     }
     private val categoriesAdapter: BaseRecyclerAdapter by lazy {
@@ -130,6 +139,15 @@ class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragme
             adapter = iconsAdapter
         }
 
+        rvChangeRecordTypeIconCategory.apply {
+            layoutManager = FlexboxLayoutManager(context).apply {
+                flexDirection = FlexDirection.ROW
+                justifyContent = JustifyContent.CENTER
+                flexWrap = FlexWrap.NOWRAP
+            }
+            adapter = iconCategoriesAdapter
+        }
+
         rvChangeRecordTypeCategories.apply {
             layoutManager = FlexboxLayoutManager(requireContext()).apply {
                 flexDirection = FlexDirection.ROW
@@ -153,16 +171,14 @@ class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragme
 
     override fun initViewModel(): Unit = with(viewModel) {
         extra = params
-        deleteIconVisibility.observeOnce(
-            viewLifecycleOwner,
-            btnChangeRecordTypeDelete::visible::set
-        )
+        deleteIconVisibility.observeOnce(viewLifecycleOwner, btnChangeRecordTypeDelete::visible::set)
         saveButtonEnabled.observe(viewLifecycleOwner, btnChangeRecordTypeSave::setEnabled)
         deleteButtonEnabled.observe(viewLifecycleOwner, btnChangeRecordTypeDelete::setEnabled)
         recordType.observeOnce(viewLifecycleOwner, ::updateUi)
         recordType.observe(viewLifecycleOwner, ::updatePreview)
         colors.observe(viewLifecycleOwner, colorsAdapter::replace)
         icons.observe(viewLifecycleOwner, iconsAdapter::replace)
+        iconCategories.observe(viewLifecycleOwner, iconCategoriesAdapter::replace)
         iconsTypeViewData.observe(viewLifecycleOwner, btnChangeRecordTypeIconSwitch.adapter::replace)
         categories.observe(viewLifecycleOwner, categoriesAdapter::replace)
         goalTimeViewData.observe(viewLifecycleOwner, tvChangeRecordTypeGoalTimeTime::setText)
@@ -186,6 +202,12 @@ class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragme
         }
         keyboardVisibility.observe(viewLifecycleOwner) { visible ->
             if (visible) showKeyboard(etChangeRecordTypeName) else hideKeyboard()
+        }
+        iconsScrollPosition.observe(viewLifecycleOwner) {
+            if (it is ChangeRecordTypeScrollViewData.ScrollTo) {
+                rvChangeRecordTypeIcon.scrollToPosition(it.position)
+                onScrolled()
+            }
         }
     }
 

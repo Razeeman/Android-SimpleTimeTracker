@@ -1,0 +1,20 @@
+package com.example.util.simpletimetracker.feature_change_record_type.adapter
+
+import com.example.util.simpletimetracker.core.adapter.createRecyclerAdapterDelegate
+import com.example.util.simpletimetracker.core.extension.setOnClickWith
+import com.example.util.simpletimetracker.feature_change_record_type.R
+import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeEmojiCategoryViewData
+import kotlinx.android.synthetic.main.change_record_type_item_icon_category_layout.view.tvChangeRecordTypeEmojiCategoryItem
+
+fun createChangeRecordTypeIconCategoryAdapterDelegate(
+    onItemClick: ((ChangeRecordTypeEmojiCategoryViewData) -> Unit)
+) = createRecyclerAdapterDelegate<ChangeRecordTypeEmojiCategoryViewData>(
+    R.layout.change_record_type_item_icon_category_layout
+) { itemView, item, _ ->
+
+    with(itemView) {
+        item as ChangeRecordTypeEmojiCategoryViewData
+        tvChangeRecordTypeEmojiCategoryItem.text = item.emoji
+        setOnClickWith(item, onItemClick)
+    }
+}

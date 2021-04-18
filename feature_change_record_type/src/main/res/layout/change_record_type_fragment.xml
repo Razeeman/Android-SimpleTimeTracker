@@ -274,12 +274,16 @@
                 android:layout_height="wrap_content"
                 app:layout_scrollFlags="scroll" />
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvChangeRecordTypeIconCategory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="TODO select icon category and scroll to it"
-                app:layout_scrollFlags="scroll|enterAlways" />
+                app:layout_scrollFlags="scroll|enterAlways"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:overScrollMode="never"
+                tools:itemCount="1"
+                tools:listitem="@layout/change_record_type_item_icon_category_layout" />
 
         </com.google.android.material.appbar.AppBarLayout>
 

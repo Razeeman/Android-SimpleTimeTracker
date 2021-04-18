@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.NotificationGoalTimeInteractor
 import com.example.util.simpletimetracker.core.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.core.interactor.RemoveRunningRecordMediator
@@ -30,8 +31,11 @@ import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_change_record_type.R
 import com.example.util.simpletimetracker.feature_change_record_type.interactor.ChangeRecordTypeViewDataInteractor
 import com.example.util.simpletimetracker.feature_change_record_type.mapper.ChangeRecordTypeMapper
+import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeEmojiCategoryViewData
+import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconCategoryInfoViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconTypeViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconViewData
+import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeScrollViewData
 import com.example.util.simpletimetracker.navigation.Notification
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
@@ -82,6 +86,12 @@ class ChangeRecordTypeViewModel @Inject constructor(
             initial
         }
     }
+    val iconCategories: LiveData<List<ViewHolderType>> by lazy {
+        return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
+            viewModelScope.launch { initial.value = loadIconCategoriesViewData() }
+            initial
+        }
+    }
     val iconsTypeViewData: LiveData<List<ViewHolderType>> by lazy {
         return@lazy MutableLiveData(loadIconsTypeViewData())
     }
@@ -109,6 +119,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val deleteIconVisibility: LiveData<Boolean> by lazy { MutableLiveData(extra.id != 0L) }
     val keyboardVisibility: LiveData<Boolean> by lazy { MutableLiveData(extra.id == 0L) }
+    val iconsScrollPosition: LiveData<ChangeRecordTypeScrollViewData> = MutableLiveData()
 
     private var iconType: IconType = IconType.IMAGE
     private var initialCategories: List<Long> = emptyList()
@@ -181,8 +192,16 @@ class ChangeRecordTypeViewModel @Inject constructor(
         viewModelScope.launch {
             iconType = viewData.iconType
             updateIconsTypeViewData()
+            updateIconCategories()
             updateIcons()
         }
+    }
+
+    fun onIconCategoryClick(viewData: ChangeRecordTypeEmojiCategoryViewData) {
+        icons.value
+            ?.indexOfFirst { (it as? ChangeRecordTypeIconCategoryInfoViewData)?.type == viewData.type }
+            ?.let { ChangeRecordTypeScrollViewData.ScrollTo(it) }
+            ?.let { iconsScrollPosition.set(it) }
     }
 
     fun onIconClick(item: ChangeRecordTypeIconViewData) {
@@ -292,6 +311,10 @@ class ChangeRecordTypeViewModel @Inject constructor(
         }
     }
 
+    fun onScrolled() {
+        iconsScrollPosition.set(ChangeRecordTypeScrollViewData.NoScroll)
+    }
+
     private fun openEmojiSelectionDialog(item: EmojiViewData) {
         val params = changeRecordTypeMapper.mapEmojiSelectionParams(
             colorId = newColorId,
@@ -370,6 +393,15 @@ class ChangeRecordTypeViewModel @Inject constructor(
 
     private suspend fun loadIconsViewData(): List<ViewHolderType> {
         return viewDataInteractor.getIconsViewData(newColorId, iconType)
+    }
+
+    private fun updateIconCategories() = viewModelScope.launch {
+        val data = loadIconCategoriesViewData()
+        (iconCategories as MutableLiveData).value = data
+    }
+
+    private fun loadIconCategoriesViewData(): List<ViewHolderType> {
+        return viewDataInteractor.getIconCategoriesViewData(iconType)
     }
 
     private fun updateIconsTypeViewData() {

@@ -4,6 +4,7 @@ import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.repo.EmojiRepo
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.model.EmojiCategory
+import com.example.util.simpletimetracker.domain.model.EmojiType
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -13,17 +14,38 @@ class EmojiMapper @Inject constructor(
     private val resourceRepo: ResourceRepo
 ) {
 
-    fun getAvailableEmojis(): List<EmojiCategory> = listOf(
-        EmojiCategory(resourceRepo.getString(R.string.emojiGroupSmileys), repo.getGroupSmileys()),
-        EmojiCategory(resourceRepo.getString(R.string.emojiGroupPeople), repo.getGroupPeople()),
-        EmojiCategory(resourceRepo.getString(R.string.emojiGroupAnimals), repo.getGroupAnimals()),
-        EmojiCategory(resourceRepo.getString(R.string.emojiGroupFood), repo.getGroupFood()),
-        EmojiCategory(resourceRepo.getString(R.string.emojiGroupTravel), repo.getGroupTravel()),
-        EmojiCategory(resourceRepo.getString(R.string.emojiGroupActivities), repo.getGroupActivities()),
-        EmojiCategory(resourceRepo.getString(R.string.emojiGroupObjects), repo.getGroupObjects()),
-        EmojiCategory(resourceRepo.getString(R.string.emojiGroupSymbols), repo.getGroupSymbols()),
-        EmojiCategory(resourceRepo.getString(R.string.emojiGroupFlags), repo.getGroupFlags())
+    fun getAvailableEmojiCategories(): List<EmojiCategory> = listOf(
+        EmojiCategory(
+            EmojiType.SMILEYS, resourceRepo.getString(R.string.emojiGroupSmileys), "\uD83D\uDE00"
+        ),
+        EmojiCategory(
+            EmojiType.PEOPLE, resourceRepo.getString(R.string.emojiGroupPeople), "\uD83D\uDC4B"
+        ),
+        EmojiCategory(
+            EmojiType.ANIMALS, resourceRepo.getString(R.string.emojiGroupAnimals), "\uD83D\uDC35"
+        ),
+        EmojiCategory(
+            EmojiType.FOOD, resourceRepo.getString(R.string.emojiGroupFood), "\uD83C\uDF47"
+        ),
+        EmojiCategory(
+            EmojiType.TRAVEL, resourceRepo.getString(R.string.emojiGroupTravel), "\uD83C\uDF0D"
+        ),
+        EmojiCategory(
+            EmojiType.ACTIVITIES, resourceRepo.getString(R.string.emojiGroupActivities), "\uD83C\uDF83"
+        ),
+        EmojiCategory(
+            EmojiType.OBJECTS, resourceRepo.getString(R.string.emojiGroupObjects), "\uD83D\uDC53"
+        ),
+        EmojiCategory(
+            EmojiType.SYMBOLS, resourceRepo.getString(R.string.emojiGroupSymbols), "\uD83C\uDFE7"
+        ),
+        EmojiCategory(
+            EmojiType.FLAGS, resourceRepo.getString(R.string.emojiGroupFlags), "\uD83C\uDFC1"
+        )
     )
+
+    fun getAvailableEmojis(): Map<EmojiCategory, List<String>> =
+        getAvailableEmojiCategories().map { it to mapTypeToCodes(it.type) }.toMap()
 
     fun hasSkinToneVariations(codes: String): Boolean =
         codes.contains(EmojiRepo.SKIN_TONE)
@@ -72,5 +94,17 @@ class EmojiMapper @Inject constructor(
     private fun removeSameSkinToneReplacement(codes: String): String {
         return codes.replaceAfter(EmojiRepo.SAME_TONE_REPLACEMENT, "")
             .replace(EmojiRepo.SAME_TONE_REPLACEMENT, "")
+    }
+
+    private fun mapTypeToCodes(type: EmojiType): List<String> = when (type) {
+        EmojiType.SMILEYS -> repo.getGroupSmileys()
+        EmojiType.PEOPLE -> repo.getGroupPeople()
+        EmojiType.ANIMALS -> repo.getGroupAnimals()
+        EmojiType.FOOD -> repo.getGroupFood()
+        EmojiType.TRAVEL -> repo.getGroupTravel()
+        EmojiType.ACTIVITIES -> repo.getGroupActivities()
+        EmojiType.OBJECTS -> repo.getGroupObjects()
+        EmojiType.SYMBOLS -> repo.getGroupSymbols()
+        EmojiType.FLAGS -> repo.getGroupFlags()
     }
 }

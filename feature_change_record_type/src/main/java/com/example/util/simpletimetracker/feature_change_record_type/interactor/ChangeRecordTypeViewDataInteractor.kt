@@ -87,4 +87,11 @@ class ChangeRecordTypeViewDataInteractor @Inject constructor(
             IconType.EMOJI -> mapper.mapIconEmojiData(newColorId, isDarkTheme)
         }
     }
+
+    fun getIconCategoriesViewData(iconType: IconType): List<ViewHolderType> {
+        return when (iconType) {
+            IconType.IMAGE -> emptyList()
+            IconType.EMOJI -> mapper.mapIconEmojiCategories()
+        }
+    }
 }
