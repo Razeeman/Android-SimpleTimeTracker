@@ -14,7 +14,11 @@ class IconMapper @Inject constructor(
     val availableIconsNames: Map<String, Int> by lazy {
         getIcons(
             listOf(
+                R.array.icon_maps,
+                R.array.icon_places,
+                R.array.icon_social,
                 R.array.icon_action,
+                R.array.icon_hardware,
                 R.array.icon_alert,
                 R.array.icon_av,
                 R.array.icon_communication,
@@ -22,13 +26,9 @@ class IconMapper @Inject constructor(
                 R.array.icon_device,
                 R.array.icon_editor,
                 R.array.icon_file,
-                R.array.icon_hardware,
                 R.array.icon_image,
-                R.array.icon_maps,
                 R.array.icon_navigation,
                 R.array.icon_notification,
-                R.array.icon_places,
-                R.array.icon_social,
                 R.array.icon_toggle
             )
         )
