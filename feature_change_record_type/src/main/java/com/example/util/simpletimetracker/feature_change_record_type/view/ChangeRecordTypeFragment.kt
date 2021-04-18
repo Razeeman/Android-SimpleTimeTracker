@@ -32,7 +32,6 @@ import com.example.util.simpletimetracker.feature_change_record_type.adapter.cre
 import com.example.util.simpletimetracker.core.adapter.emoji.createEmojiAdapterDelegate
 import com.example.util.simpletimetracker.core.dialog.EmojiSelectionDialogListener
 import com.example.util.simpletimetracker.feature_change_record_type.adapter.createChangeRecordTypeIconAdapterDelegate
-import com.example.util.simpletimetracker.feature_change_record_type.adapter.createChangeRecordTypeIconSwitchAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record_type.di.ChangeRecordTypeComponentProvider
 import com.example.util.simpletimetracker.feature_change_record_type.viewModel.ChangeRecordTypeViewModel
 import com.example.util.simpletimetracker.navigation.params.ChangeRecordTypeParams
@@ -44,7 +43,9 @@ import kotlinx.android.synthetic.main.change_record_type_fragment.arrowChangeRec
 import kotlinx.android.synthetic.main.change_record_type_fragment.arrowChangeRecordTypeColor
 import kotlinx.android.synthetic.main.change_record_type_fragment.arrowChangeRecordTypeIcon
 import kotlinx.android.synthetic.main.change_record_type_fragment.btnChangeRecordTypeDelete
+import kotlinx.android.synthetic.main.change_record_type_fragment.btnChangeRecordTypeIconSwitch
 import kotlinx.android.synthetic.main.change_record_type_fragment.btnChangeRecordTypeSave
+import kotlinx.android.synthetic.main.change_record_type_fragment.containerChangeRecordTypeIcon
 import kotlinx.android.synthetic.main.change_record_type_fragment.etChangeRecordTypeName
 import kotlinx.android.synthetic.main.change_record_type_fragment.fieldChangeRecordTypeCategory
 import kotlinx.android.synthetic.main.change_record_type_fragment.fieldChangeRecordTypeColor
@@ -75,7 +76,6 @@ class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragme
     private val iconsAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
             createInfoAdapterDelegate(),
-            createChangeRecordTypeIconSwitchAdapterDelegate(viewModel::onIconTypeClick),
             createChangeRecordTypeIconAdapterDelegate(viewModel::onIconClick),
             createEmojiAdapterDelegate(viewModel::onEmojiClick)
         )
@@ -148,6 +148,7 @@ class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragme
         groupChangeRecordTypeGoalTime.setOnClick(viewModel::onGoalTimeClick)
         btnChangeRecordTypeSave.setOnClick(viewModel::onSaveClick)
         btnChangeRecordTypeDelete.setOnClick(viewModel::onDeleteClick)
+        btnChangeRecordTypeIconSwitch.listener = viewModel::onIconTypeClick
     }
 
     override fun initViewModel(): Unit = with(viewModel) {
@@ -162,6 +163,7 @@ class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragme
         recordType.observe(viewLifecycleOwner, ::updatePreview)
         colors.observe(viewLifecycleOwner, colorsAdapter::replace)
         icons.observe(viewLifecycleOwner, iconsAdapter::replace)
+        iconsTypeViewData.observe(viewLifecycleOwner, btnChangeRecordTypeIconSwitch.adapter::replace)
         categories.observe(viewLifecycleOwner, categoriesAdapter::replace)
         goalTimeViewData.observe(viewLifecycleOwner, tvChangeRecordTypeGoalTimeTime::setText)
         flipColorChooser.observe(viewLifecycleOwner) { opened ->
@@ -171,7 +173,7 @@ class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragme
             }
         }
         flipIconChooser.observe(viewLifecycleOwner) { opened ->
-            rvChangeRecordTypeIcon.visible = opened
+            containerChangeRecordTypeIcon.visible = opened
             arrowChangeRecordTypeIcon.apply {
                 if (opened) rotateDown() else rotateUp()
             }

@@ -249,21 +249,50 @@
         tools:listitem="@layout/item_color_layout"
         tools:visibility="gone" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvChangeRecordTypeIcon"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/containerChangeRecordTypeIcon"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginHorizontal="8dp"
         android:layout_marginTop="8dp"
         android:background="?android:colorBackground"
-        android:overScrollMode="never"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/btnChangeRecordTypeSave"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/fieldChangeRecordTypeIcon"
-        tools:itemCount="3"
-        tools:listitem="@layout/change_record_type_item_icon_layout"
-        tools:visibility="gone" />
+        tools:visibility="gone">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?android:colorBackground"
+            app:elevation="0dp">
+
+            <com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowView
+                android:id="@+id/btnChangeRecordTypeIconSwitch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_scrollFlags="scroll" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="TODO select icon category and scroll to it"
+                app:layout_scrollFlags="scroll|enterAlways" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvChangeRecordTypeIcon"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+            tools:itemCount="3"
+            tools:listitem="@layout/change_record_type_item_icon_layout" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvChangeRecordTypeCategories"

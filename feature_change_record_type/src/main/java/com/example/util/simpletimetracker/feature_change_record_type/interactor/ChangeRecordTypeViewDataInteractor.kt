@@ -82,11 +82,9 @@ class ChangeRecordTypeViewDataInteractor @Inject constructor(
     ): List<ViewHolderType> {
         val isDarkTheme = prefsInteractor.getDarkMode()
 
-        val iconSwitch = mapper.mapToIconSwitchViewData(iconType).let(::listOf)
-        val icons = when (iconType) {
+        return when (iconType) {
             IconType.IMAGE -> mapper.mapIconImageData(newColorId, isDarkTheme)
             IconType.EMOJI -> mapper.mapIconEmojiData(newColorId, isDarkTheme)
         }
-        return iconSwitch + icons
     }
 }

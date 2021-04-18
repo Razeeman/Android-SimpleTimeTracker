@@ -82,6 +82,9 @@ class ChangeRecordTypeViewModel @Inject constructor(
             initial
         }
     }
+    val iconsTypeViewData: LiveData<List<ViewHolderType>> by lazy {
+        return@lazy MutableLiveData(loadIconsTypeViewData())
+    }
     val categories: LiveData<List<ViewHolderType>> by lazy {
         return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
             viewModelScope.launch {
@@ -177,6 +180,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
         if (viewData !is ChangeRecordTypeIconTypeViewData) return
         viewModelScope.launch {
             iconType = viewData.iconType
+            updateIconsTypeViewData()
             updateIcons()
         }
     }
@@ -366,6 +370,14 @@ class ChangeRecordTypeViewModel @Inject constructor(
 
     private suspend fun loadIconsViewData(): List<ViewHolderType> {
         return viewDataInteractor.getIconsViewData(newColorId, iconType)
+    }
+
+    private fun updateIconsTypeViewData() {
+        (iconsTypeViewData as MutableLiveData).value = loadIconsTypeViewData()
+    }
+
+    private fun loadIconsTypeViewData(): List<ViewHolderType> {
+        return changeRecordTypeMapper.mapToIconSwitchViewData(iconType)
     }
 
     private fun updateCategoriesViewData() = viewModelScope.launch {

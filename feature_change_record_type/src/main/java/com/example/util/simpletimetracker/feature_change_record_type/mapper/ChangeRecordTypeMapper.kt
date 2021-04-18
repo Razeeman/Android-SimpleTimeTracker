@@ -11,7 +11,6 @@ import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.viewData.EmojiViewData
 import com.example.util.simpletimetracker.domain.model.IconType
 import com.example.util.simpletimetracker.feature_change_record_type.R
-import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconSwitchViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconTypeViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconViewData
 import com.example.util.simpletimetracker.navigation.params.EmojiSelectionDialogParams
@@ -77,7 +76,7 @@ class ChangeRecordTypeMapper @Inject constructor(
             }.flatten()
     }
 
-    fun mapToIconSwitchViewData(iconType: IconType): ViewHolderType {
+    fun mapToIconSwitchViewData(iconType: IconType): List<ViewHolderType> {
         return listOf(
             IconType.IMAGE,
             IconType.EMOJI
@@ -87,8 +86,6 @@ class ChangeRecordTypeMapper @Inject constructor(
                 name = mapToFilterTypeName(it),
                 isSelected = it == iconType
             )
-        }.let {
-            ChangeRecordTypeIconSwitchViewData(it)
         }
     }
 
