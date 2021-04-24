@@ -33,6 +33,9 @@ class BaseRecyclerAdapter(
     override fun getItemViewType(position: Int): Int =
         delegates.indexOfFirst { it.isForValidType(items[position]) }
 
+    fun getItem(position: Int): ViewHolderType? =
+        items.getOrNull(position)
+
     fun onMove(fromPosition: Int, toPosition: Int) {
         if (fromPosition < toPosition) {
             for (i in fromPosition until toPosition) {

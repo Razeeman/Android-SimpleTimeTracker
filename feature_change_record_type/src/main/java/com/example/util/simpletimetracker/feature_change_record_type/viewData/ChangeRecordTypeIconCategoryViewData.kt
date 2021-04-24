@@ -5,7 +5,7 @@ import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 data class ChangeRecordTypeIconCategoryViewData(
     val type: ChangeRecordTypeIconTypeViewData,
     val categoryIcon: Int
-): ViewHolderType {
+) : ViewHolderType {
 
     override fun getUniqueId(): Long = type.id
 

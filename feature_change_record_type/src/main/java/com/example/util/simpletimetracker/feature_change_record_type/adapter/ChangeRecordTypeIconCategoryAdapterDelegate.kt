@@ -4,7 +4,7 @@ import com.example.util.simpletimetracker.core.adapter.createRecyclerAdapterDele
 import com.example.util.simpletimetracker.core.extension.setOnClickWith
 import com.example.util.simpletimetracker.feature_change_record_type.R
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconCategoryViewData
-import kotlinx.android.synthetic.main.change_record_type_item_icon_category_layout.view.tvChangeRecordTypeIconCategoryItem
+import kotlinx.android.synthetic.main.change_record_type_item_icon_category_layout.view.ivChangeRecordTypeIconCategoryItem
 
 fun createChangeRecordTypeIconCategoryAdapterDelegate(
     onItemClick: ((ChangeRecordTypeIconCategoryViewData) -> Unit)
@@ -14,7 +14,7 @@ fun createChangeRecordTypeIconCategoryAdapterDelegate(
 
     with(itemView) {
         item as ChangeRecordTypeIconCategoryViewData
-        tvChangeRecordTypeIconCategoryItem.setImageResource(item.categoryIcon)
+        ivChangeRecordTypeIconCategoryItem.setImageResource(item.categoryIcon)
         setOnClickWith(item, onItemClick)
     }
 }

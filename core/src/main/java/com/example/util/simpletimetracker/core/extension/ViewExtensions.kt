@@ -9,6 +9,7 @@ import android.view.animation.LinearInterpolator
 import android.widget.AdapterView
 import android.widget.SeekBar
 import androidx.appcompat.widget.AppCompatSpinner
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ItemTouchHelper.ACTION_STATE_DRAG
 import androidx.recyclerview.widget.RecyclerView
@@ -183,5 +184,13 @@ fun View.getBitmapFromView(): Bitmap {
         Bitmap.Config.ARGB_8888
     ).also {
         draw(Canvas(it))
+    }
+}
+
+fun GridLayoutManager.setSpanSizeLookup(getSpanSize: (position: Int) -> Int) {
+    spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+        override fun getSpanSize(position: Int): Int {
+            return getSpanSize(position)
+        }
     }
 }

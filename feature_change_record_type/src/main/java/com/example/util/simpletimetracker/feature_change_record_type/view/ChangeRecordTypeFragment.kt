@@ -5,6 +5,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.transition.TransitionInflater
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.color.createColorAdapterDelegate
@@ -23,9 +24,11 @@ import com.example.util.simpletimetracker.core.extension.pxToDp
 import com.example.util.simpletimetracker.core.extension.rotateDown
 import com.example.util.simpletimetracker.core.extension.rotateUp
 import com.example.util.simpletimetracker.core.extension.setOnClick
+import com.example.util.simpletimetracker.core.extension.setSpanSizeLookup
 import com.example.util.simpletimetracker.core.extension.showKeyboard
 import com.example.util.simpletimetracker.core.extension.toViewData
 import com.example.util.simpletimetracker.core.extension.visible
+import com.example.util.simpletimetracker.core.repo.DeviceRepo
 import com.example.util.simpletimetracker.core.utils.BuildVersions
 import com.example.util.simpletimetracker.core.view.TransitionNames
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
@@ -35,6 +38,7 @@ import com.example.util.simpletimetracker.feature_change_record_type.adapter.cre
 import com.example.util.simpletimetracker.feature_change_record_type.adapter.createChangeRecordTypeIconCategoryAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record_type.adapter.createChangeRecordTypeIconCategoryInfoAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record_type.di.ChangeRecordTypeComponentProvider
+import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconCategoryInfoViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeScrollViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewModel.ChangeRecordTypeViewModel
 import com.example.util.simpletimetracker.navigation.params.ChangeRecordTypeParams
@@ -61,6 +65,7 @@ import kotlinx.android.synthetic.main.change_record_type_fragment.rvChangeRecord
 import kotlinx.android.synthetic.main.change_record_type_fragment.rvChangeRecordTypeIconCategory
 import kotlinx.android.synthetic.main.change_record_type_fragment.tvChangeRecordTypeGoalTimeTime
 import javax.inject.Inject
+import kotlin.math.max
 
 class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragment),
     DurationDialogListener,
@@ -68,6 +73,9 @@ class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragme
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<ChangeRecordTypeViewModel>
+
+    @Inject
+    lateinit var deviceRepo: DeviceRepo
 
     private val viewModel: ChangeRecordTypeViewModel by viewModels(
         factoryProducer = { viewModelFactory }
@@ -96,6 +104,9 @@ class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragme
             createInfoAdapterDelegate(),
             createEmptyAdapterDelegate()
         )
+    }
+    private val iconsLayoutManager: GridLayoutManager by lazy {
+        GridLayoutManager(requireContext(), getIconsColumnCount())
     }
     private val params: ChangeRecordTypeParams by lazy {
         arguments?.getParcelable<ChangeRecordTypeParams>(ARGS_PARAMS)
@@ -131,12 +142,9 @@ class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragme
         }
 
         rvChangeRecordTypeIcon.apply {
-            layoutManager = FlexboxLayoutManager(requireContext()).apply {
-                flexDirection = FlexDirection.ROW
-                justifyContent = JustifyContent.CENTER
-                flexWrap = FlexWrap.WRAP
-            }
+            layoutManager = iconsLayoutManager
             adapter = iconsAdapter
+            setIconsSpanSize()
         }
 
         rvChangeRecordTypeIconCategory.apply {
@@ -205,7 +213,7 @@ class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragme
         }
         iconsScrollPosition.observe(viewLifecycleOwner) {
             if (it is ChangeRecordTypeScrollViewData.ScrollTo) {
-                rvChangeRecordTypeIcon.scrollToPosition(it.position)
+                iconsLayoutManager.scrollToPositionWithOffset(it.position, 0)
                 onScrolled()
             }
         }
@@ -250,6 +258,24 @@ class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragme
                 itemName = it.name
                 itemIcon = it.iconId.toViewData()
                 itemColor = it.color
+            }
+        }
+    }
+
+    private fun getIconsColumnCount(): Int {
+        val elementWidth = resources.getDimensionPixelOffset(R.dimen.color_icon_item_width) +
+            2 * resources.getDimensionPixelOffset(R.dimen.color_icon_item_margin)
+        val recyclerWidth = deviceRepo.getScreenWidthInDp().dpToPx() - 16.dpToPx()
+
+        return max(recyclerWidth / elementWidth, 1)
+    }
+
+    private fun setIconsSpanSize() {
+        iconsLayoutManager.setSpanSizeLookup { position ->
+            if (iconsAdapter.getItem(position) is ChangeRecordTypeIconCategoryInfoViewData) {
+                iconsLayoutManager.spanCount
+            } else {
+                1
             }
         }
     }
