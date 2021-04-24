@@ -15,6 +15,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.example.util.simpletimetracker.core.extension.getBitmapFromView
+import com.example.util.simpletimetracker.core.extension.measureExactly
 import com.example.util.simpletimetracker.domain.di.AppContext
 import com.example.util.simpletimetracker.feature_notification.R
 import com.example.util.simpletimetracker.feature_notification.recordType.customView.NotificationIconView
@@ -30,14 +31,10 @@ class NotificationGoalTimeManager @Inject constructor(
 
     private val notificationManager: NotificationManagerCompat =
         NotificationManagerCompat.from(context)
-    private val iconView = NotificationIconView(
-        ContextThemeWrapper(context, R.style.AppTheme)
-    ).apply {
-        val size = context.resources.getDimensionPixelSize(R.dimen.notification_icon_size)
-        val specWidth = View.MeasureSpec.makeMeasureSpec(size, View.MeasureSpec.EXACTLY)
-        val specHeight = View.MeasureSpec.makeMeasureSpec(size, View.MeasureSpec.EXACTLY)
-        measure(specWidth, specHeight)
-        layout(0, 0, measuredWidth, measuredHeight)
+    private val iconView =
+        NotificationIconView(ContextThemeWrapper(context, R.style.AppTheme))
+    private val iconSize by lazy {
+        context.resources.getDimensionPixelSize(R.dimen.notification_icon_size)
     }
     private val checkView = AppCompatImageView(
         ContextThemeWrapper(context, R.style.AppTheme)
@@ -98,6 +95,7 @@ class NotificationGoalTimeManager @Inject constructor(
         val iconBitmap = iconView.apply {
             itemIcon = params.icon
             itemColor = params.color
+            measureExactly(iconSize)
         }.getBitmapFromView()
         val checkBitmap = checkView.apply {
             setBackgroundResource(R.drawable.spinner_check_mark)

@@ -2,22 +2,20 @@ package com.example.util.simpletimetracker.feature_statistics.customView
 
 import android.animation.ValueAnimator
 import android.content.Context
-import android.content.res.ColorStateList
 import android.graphics.BlurMaskFilter
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffColorFilter
 import android.graphics.Rect
 import android.graphics.RectF
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.os.Build
 import android.util.AttributeSet
+import android.view.ContextThemeWrapper
 import android.view.View
-import androidx.appcompat.content.res.AppCompatResources
-import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
+import com.example.util.simpletimetracker.core.extension.getBitmapFromView
+import com.example.util.simpletimetracker.core.extension.measureExactly
+import com.example.util.simpletimetracker.core.view.IconView
 import com.example.util.simpletimetracker.core.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.feature_statistics.R
 import kotlin.math.max
@@ -54,6 +52,7 @@ class PieChartView @JvmOverloads constructor(
     private var segmentAnimationScale: Float = 1f
     private val segmentAnimationDuration: Long = 200L // ms
     private var shouldAnimate: Boolean = true
+    private val iconView: IconView = IconView(ContextThemeWrapper(context, R.style.AppTheme))
 
     init {
         initArgs(context, attrs, defStyleAttr)
@@ -292,28 +291,14 @@ class PieChartView @JvmOverloads constructor(
         }
     }
 
-    private fun getIconDrawable(iconId: RecordTypeIcon): Drawable? {
-        return when (iconId) {
-            is RecordTypeIcon.Image -> getIconImageDrawable(iconId.iconId)
-            is RecordTypeIcon.Emoji -> getIconEmojiDrawable(iconId.emojiText)
-        }
-    }
-
-    private fun getIconImageDrawable(iconId: Int): Drawable? {
-        return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            (AppCompatResources.getDrawable(context, iconId) as? BitmapDrawable)?.apply {
-                colorFilter = PorterDuffColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
+    private fun getIconDrawable(iconId: RecordTypeIcon): Drawable {
+        return iconView
+            .apply {
+                itemIcon = iconId
+                measureExactly(iconMaxSize)
             }
-        } else {
-            VectorDrawableCompat.create(resources, iconId, context.theme)?.apply {
-                setTintList(ColorStateList.valueOf(Color.WHITE))
-            }
-        }
-    }
-
-    private fun getIconEmojiDrawable(text: String): Drawable? {
-        // TODO get drawable
-        return null
+            .getBitmapFromView()
+            .let { BitmapDrawable(resources, it) }
     }
 
     private fun animateSegments() {

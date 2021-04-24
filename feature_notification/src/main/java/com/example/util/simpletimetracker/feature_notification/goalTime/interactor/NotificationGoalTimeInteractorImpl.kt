@@ -2,7 +2,7 @@ package com.example.util.simpletimetracker.feature_notification.goalTime.interac
 
 import com.example.util.simpletimetracker.core.interactor.NotificationGoalTimeInteractor
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
-import com.example.util.simpletimetracker.core.mapper.IconImageMapper
+import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -25,7 +25,7 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
     private val scheduler: NotificationGoalTimeScheduler,
     private val timeMapper: TimeMapper,
     private val colorMapper: ColorMapper,
-    private val iconImageMapper: IconImageMapper
+    private val iconMapper: IconMapper
 ) : NotificationGoalTimeInteractor {
 
     override suspend fun checkAndReschedule(typeId: Long) {
@@ -57,7 +57,7 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
             NotificationGoalTimeParams(
                 typeId = recordType.id,
                 icon = recordType.icon
-                    .let(iconImageMapper::mapToDrawableResId),
+                    .let(iconMapper::mapIcon),
                 color = recordType.color
                     .let { colorMapper.mapToColorResId(it, isDarkTheme) }
                     .let(resourceRepo::getColor),

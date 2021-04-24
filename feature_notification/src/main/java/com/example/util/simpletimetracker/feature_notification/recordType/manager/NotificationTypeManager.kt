@@ -8,11 +8,11 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.view.ContextThemeWrapper
-import android.view.View
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.example.util.simpletimetracker.core.extension.getBitmapFromView
+import com.example.util.simpletimetracker.core.extension.measureExactly
 import com.example.util.simpletimetracker.domain.di.AppContext
 import com.example.util.simpletimetracker.feature_notification.R
 import com.example.util.simpletimetracker.feature_notification.recordType.customView.NotificationIconView
@@ -28,14 +28,10 @@ class NotificationTypeManager @Inject constructor(
 
     private val notificationManager: NotificationManagerCompat =
         NotificationManagerCompat.from(context)
-    private val iconView = NotificationIconView(
-        ContextThemeWrapper(context, R.style.AppTheme)
-    ).apply {
-        val size = context.resources.getDimensionPixelSize(R.dimen.notification_icon_size)
-        val specWidth = View.MeasureSpec.makeMeasureSpec(size, View.MeasureSpec.EXACTLY)
-        val specHeight = View.MeasureSpec.makeMeasureSpec(size, View.MeasureSpec.EXACTLY)
-        measure(specWidth, specHeight)
-        layout(0, 0, measuredWidth, measuredHeight)
+    private val iconView =
+        NotificationIconView(ContextThemeWrapper(context, R.style.AppTheme))
+    private val iconSize by lazy {
+        context.resources.getDimensionPixelSize(R.dimen.notification_icon_size)
     }
 
     fun show(params: NotificationTypeParams) {
@@ -92,6 +88,7 @@ class NotificationTypeManager @Inject constructor(
         val iconBitmap = iconView.apply {
             itemIcon = params.icon
             itemColor = params.color
+            measureExactly(iconSize)
         }.getBitmapFromView()
 
         return RemoteViews(context.packageName, R.layout.notification_record_layout).apply {

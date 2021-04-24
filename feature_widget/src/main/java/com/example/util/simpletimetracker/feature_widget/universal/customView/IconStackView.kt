@@ -1,20 +1,19 @@
 package com.example.util.simpletimetracker.feature_widget.universal.customView
 
 import android.content.Context
-import android.content.res.ColorStateList
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffColorFilter
 import android.graphics.Rect
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.os.Build
 import android.util.AttributeSet
+import android.view.ContextThemeWrapper
 import android.view.View
-import androidx.appcompat.content.res.AppCompatResources
-import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
+import com.example.util.simpletimetracker.core.extension.getBitmapFromView
+import com.example.util.simpletimetracker.core.extension.measureExactly
+import com.example.util.simpletimetracker.core.view.IconView
+import com.example.util.simpletimetracker.core.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.feature_widget.R
 import kotlin.math.ceil
 import kotlin.math.min
@@ -37,8 +36,9 @@ class IconStackView @JvmOverloads constructor(
     private var iconBackgroundPadding: Int = 0
     // End of attrs
 
-    private var data: List<Pair<Int, Int>> = emptyList()
+    private var data: List<IconStackData> = emptyList()
     private val iconBackgroundPaint: Paint = Paint()
+    private val iconView: IconView = IconView(ContextThemeWrapper(context, R.style.AppTheme))
 
     init {
         initArgs(context, attrs, defStyleAttr)
@@ -66,7 +66,7 @@ class IconStackView @JvmOverloads constructor(
         }
     }
 
-    fun setData(data: List<Pair<Int, Int>>) {
+    fun setData(data: List<IconStackData>) {
         this.data = data
         invalidate()
     }
@@ -76,7 +76,7 @@ class IconStackView @JvmOverloads constructor(
         invalidate()
     }
 
-    private fun drawOne(data: List<Pair<Int, Int>>, canvas: Canvas, w: Float, h: Float) {
+    private fun drawOne(data: List<IconStackData>, canvas: Canvas, w: Float, h: Float) {
         if (data.isEmpty()) return
 
         val radius = min(w / 2, h / 2) * ONE_ICON_RADIUS_RATIO
@@ -87,7 +87,7 @@ class IconStackView @JvmOverloads constructor(
         drawIcon(data.first(), canvas, radius)
     }
 
-    private fun drawTwo(data: List<Pair<Int, Int>>, canvas: Canvas, w: Float, h: Float) {
+    private fun drawTwo(data: List<IconStackData>, canvas: Canvas, w: Float, h: Float) {
         if (data.size < 2) return
 
         val isVertical = h > w
@@ -117,7 +117,7 @@ class IconStackView @JvmOverloads constructor(
         drawIcon(data[1], canvas, radius)
     }
 
-    private fun drawMany(data: List<Pair<Int, Int>>, canvas: Canvas, w: Float, h: Float) {
+    private fun drawMany(data: List<IconStackData>, canvas: Canvas, w: Float, h: Float) {
         if (data.isEmpty()) return
 
         val boxSize = min(w, h)
@@ -140,15 +140,16 @@ class IconStackView @JvmOverloads constructor(
         }
     }
 
-    private fun drawIcon(data: Pair<Int, Int>, canvas: Canvas, radius: Float) {
+    private fun drawIcon(data: IconStackData, canvas: Canvas, radius: Float) {
         val backgroundRadius = radius - iconBackgroundPadding
-        iconBackgroundPaint.color = data.second
+        val maxIconSize = 2 * backgroundRadius.toInt()
+        iconBackgroundPaint.color = data.iconBackgroundColor
 
         // Draw background
         canvas.drawCircle(0f, 0f, backgroundRadius, iconBackgroundPaint)
 
         // Draw icon
-        getIconDrawable(data.first)?.apply {
+        getIconDrawable(data.icon, maxIconSize).apply {
             bounds = (sqrt(2f) * backgroundRadius / 2 - iconPadding)
                 .toInt()
                 .let { Rect(-it, -it, it, it) }
@@ -156,16 +157,15 @@ class IconStackView @JvmOverloads constructor(
         }
     }
 
-    private fun getIconDrawable(iconId: Int): Drawable? {
-        return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            (AppCompatResources.getDrawable(context, iconId) as? BitmapDrawable)?.apply {
-                colorFilter = PorterDuffColorFilter(iconColor, PorterDuff.Mode.SRC_IN)
+    private fun getIconDrawable(iconId: RecordTypeIcon, size: Int): Drawable {
+        return iconView
+            .apply {
+                itemIcon = iconId
+                itemIconColor = iconColor
+                measureExactly(size)
             }
-        } else {
-            VectorDrawableCompat.create(resources, iconId, context.theme)?.apply {
-                setTintList(ColorStateList.valueOf(iconColor))
-            }
-        }
+            .getBitmapFromView()
+            .let { BitmapDrawable(resources, it) }
     }
 
     private fun initArgs(
@@ -195,7 +195,12 @@ class IconStackView @JvmOverloads constructor(
         if (isInEditMode) {
             val segments = iconCountInEdit.takeIf { it != 0 } ?: 5
 
-            (0 until segments).map { R.drawable.ic_desktop_windows_24px to Color.RED }.let(::setData)
+            (0 until segments).map {
+                IconStackData(
+                    icon = RecordTypeIcon.Image(R.drawable.ic_desktop_windows_24px),
+                    iconBackgroundColor = Color.RED
+                )
+            }.let(::setData)
         }
     }
 

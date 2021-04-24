@@ -187,6 +187,13 @@ fun View.getBitmapFromView(): Bitmap {
     }
 }
 
+fun View.measureExactly(size: Int) {
+    val specWidth = View.MeasureSpec.makeMeasureSpec(size, View.MeasureSpec.EXACTLY)
+    val specHeight = View.MeasureSpec.makeMeasureSpec(size, View.MeasureSpec.EXACTLY)
+    measure(specWidth, specHeight)
+    layout(0, 0, measuredWidth, measuredHeight)
+}
+
 fun GridLayoutManager.setSpanSizeLookup(getSpanSize: (position: Int) -> Int) {
     spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
         override fun getSpanSize(position: Int): Int {

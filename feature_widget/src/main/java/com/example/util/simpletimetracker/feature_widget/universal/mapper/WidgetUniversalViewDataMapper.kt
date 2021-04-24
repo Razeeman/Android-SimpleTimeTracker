@@ -4,19 +4,21 @@ import android.graphics.Color
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.empty.EmptyViewData
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
-import com.example.util.simpletimetracker.core.mapper.IconImageMapper
+import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.core.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.feature_widget.R
+import com.example.util.simpletimetracker.feature_widget.universal.customView.IconStackData
 import com.example.util.simpletimetracker.feature_widget.universal.customView.WidgetUniversalViewData
 import javax.inject.Inject
 
 class WidgetUniversalViewDataMapper @Inject constructor(
     private val colorMapper: ColorMapper,
-    private val iconImageMapper: IconImageMapper,
+    private val iconMapper: IconMapper,
     private val resourceRepo: ResourceRepo,
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper
 ) {
@@ -50,14 +52,14 @@ class WidgetUniversalViewDataMapper @Inject constructor(
             val recordType = recordTypes[runningRecord.id]
 
             val icon = recordType?.icon
-                ?.let(iconImageMapper::mapToDrawableResId)
-                ?: R.drawable.unknown
+                ?.let(iconMapper::mapIcon)
+                ?: RecordTypeIcon.Image(R.drawable.unknown)
             val color = recordType?.color
                 ?.let { colorMapper.mapToColorResId(it, isDarkTheme) }
                 ?.let(resourceRepo::getColor)
                 ?: Color.BLACK
 
-            icon to color
+            IconStackData(icon = icon, iconBackgroundColor = color)
         }
 
         return WidgetUniversalViewData(
@@ -67,11 +69,12 @@ class WidgetUniversalViewDataMapper @Inject constructor(
     }
 
     fun mapToEmptyWidgetViewData(): WidgetUniversalViewData {
-        val icon = R.drawable.ic_alarm_on_24px
+        val icon = RecordTypeIcon.Image(R.drawable.ic_alarm_on_24px)
         val color = R.color.transparent.let(resourceRepo::getColor)
+        val data = IconStackData(icon, color)
 
         return WidgetUniversalViewData(
-            data = listOf(icon to color),
+            data = listOf(data),
             iconColor = R.color.widget_universal_empty_color.let(resourceRepo::getColor)
         )
     }
