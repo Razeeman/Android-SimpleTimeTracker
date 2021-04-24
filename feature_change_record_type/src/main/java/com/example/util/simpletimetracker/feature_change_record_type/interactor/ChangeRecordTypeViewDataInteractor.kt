@@ -11,6 +11,8 @@ import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.IconType
 import com.example.util.simpletimetracker.feature_change_record_type.mapper.ChangeRecordTypeMapper
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class ChangeRecordTypeViewDataInteractor @Inject constructor(
@@ -79,10 +81,10 @@ class ChangeRecordTypeViewDataInteractor @Inject constructor(
     suspend fun getIconsViewData(
         newColorId: Int,
         iconType: IconType
-    ): List<ViewHolderType> {
+    ): List<ViewHolderType> = withContext(Dispatchers.IO) {
         val isDarkTheme = prefsInteractor.getDarkMode()
 
-        return when (iconType) {
+        when (iconType) {
             IconType.IMAGE -> mapper.mapIconImageData(newColorId, isDarkTheme)
             IconType.EMOJI -> mapper.mapIconEmojiData(newColorId, isDarkTheme)
         }

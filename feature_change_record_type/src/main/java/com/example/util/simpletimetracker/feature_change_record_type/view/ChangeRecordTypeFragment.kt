@@ -32,6 +32,7 @@ import com.example.util.simpletimetracker.core.repo.DeviceRepo
 import com.example.util.simpletimetracker.core.utils.BuildVersions
 import com.example.util.simpletimetracker.core.view.TransitionNames
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
+import com.example.util.simpletimetracker.domain.model.IconEmojiType
 import com.example.util.simpletimetracker.feature_change_record_type.R
 import com.example.util.simpletimetracker.feature_change_record_type.adapter.createChangeRecordTypeCategoryAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record_type.adapter.createChangeRecordTypeIconAdapterDelegate
@@ -148,11 +149,7 @@ class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragme
         }
 
         rvChangeRecordTypeIconCategory.apply {
-            layoutManager = FlexboxLayoutManager(context).apply {
-                flexDirection = FlexDirection.ROW
-                justifyContent = JustifyContent.CENTER
-                flexWrap = FlexWrap.NOWRAP
-            }
+            layoutManager = GridLayoutManager(requireContext(), IconEmojiType.values().size)
             adapter = iconCategoriesAdapter
         }
 

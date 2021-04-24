@@ -190,6 +190,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     fun onIconTypeClick(viewData: ButtonsRowViewData) {
         if (viewData !is ChangeRecordTypeIconSwitchViewData) return
         viewModelScope.launch {
+            icons.set(emptyList())
             iconType = viewData.iconType
             updateIconsTypeViewData()
             updateIconCategories()
@@ -200,8 +201,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     fun onIconCategoryClick(viewData: ChangeRecordTypeIconCategoryViewData) {
         icons.value
             ?.indexOfFirst { (it as? ChangeRecordTypeIconCategoryInfoViewData)?.type == viewData.type }
-            ?.let { ChangeRecordTypeScrollViewData.ScrollTo(it) }
-            ?.let { iconsScrollPosition.set(it) }
+            ?.let(::updateIconScrollPosition)
     }
 
     fun onIconClick(item: ChangeRecordTypeIconViewData) {
@@ -428,6 +428,10 @@ class ChangeRecordTypeViewModel @Inject constructor(
 
     private fun loadGoalTimeViewData(): String {
         return newGoalTime.let(changeRecordTypeMapper::toGoalTimeViewData)
+    }
+
+    private fun updateIconScrollPosition(position: Int) {
+        iconsScrollPosition.set(ChangeRecordTypeScrollViewData.ScrollTo(position))
     }
 
     private fun showMessage(stringResId: Int) {

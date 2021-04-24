@@ -164,7 +164,7 @@ class IconStackView @JvmOverloads constructor(
                 itemIconColor = iconColor
                 measureExactly(size)
             }
-            .getBitmapFromView()
+            .getBitmapFromView() // TODO avoid bitmap creation in onDraw?
             .let { BitmapDrawable(resources, it) }
     }
 
