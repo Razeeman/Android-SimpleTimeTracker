@@ -18,6 +18,7 @@ fun createWidgetAdapterDelegate(
         itemColor = item.color
         itemIcon = item.iconId
         itemIconColor = item.iconColor
+        itemIconAlpha = item.iconAlpha
         itemName = item.name
         setOnClickWith(item, onItemClick)
     }

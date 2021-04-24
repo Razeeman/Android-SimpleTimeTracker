@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.core.view
 
 import android.content.Context
 import android.content.res.ColorStateList
+import android.graphics.Color
 import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
@@ -33,6 +34,12 @@ class IconView @JvmOverloads constructor(
                 if (hasValue(R.styleable.IconView_itemEmoji)) itemIcon =
                     getString(R.styleable.IconView_itemEmoji).orEmpty().let(RecordTypeIcon::Emoji)
 
+                if (hasValue(R.styleable.IconView_itemIconColor)) itemIconColor =
+                    getColor(R.styleable.IconView_itemIconColor, Color.WHITE)
+
+                if (hasValue(R.styleable.IconView_itemIconAlpha)) itemIconAlpha =
+                    getFloat(R.styleable.IconView_itemIconAlpha, 1.0f)
+
                 recycle()
             }
     }
@@ -50,6 +57,13 @@ class IconView @JvmOverloads constructor(
         set(value) {
             ViewCompat.setBackgroundTintList(ivIconViewImage, ColorStateList.valueOf(value))
             tvIconViewEmoji.setTextColor(value)
+            field = value
+        }
+
+    var itemIconAlpha: Float = 1.0f
+        set(value) {
+            ivIconViewImage.alpha = value
+            tvIconViewEmoji.alpha = value
             field = value
         }
 

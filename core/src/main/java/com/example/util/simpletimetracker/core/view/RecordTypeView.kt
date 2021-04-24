@@ -63,6 +63,10 @@ class RecordTypeView @JvmOverloads constructor(
                     itemIconColor = getColor(R.styleable.RecordTypeView_itemIconColor, Color.WHITE)
                 }
 
+                if (hasValue(R.styleable.RecordTypeView_itemIconAlpha)) {
+                    itemIconAlpha = getFloat(R.styleable.RecordTypeView_itemIconAlpha, 1.0f)
+                }
+
                 if (hasValue(R.styleable.RecordTypeView_itemIsRow)) {
                     itemIsRow = getBoolean(R.styleable.RecordTypeView_itemIsRow, false)
                 }
@@ -93,6 +97,12 @@ class RecordTypeView @JvmOverloads constructor(
         set(value) {
             tvRecordTypeItemName.setTextColor(value)
             ivRecordTypeItemIcon.itemIconColor = value
+            field = value
+        }
+
+    var itemIconAlpha: Float = 1.0f
+        set(value) {
+            ivRecordTypeItemIcon.itemIconAlpha = value
             field = value
         }
 

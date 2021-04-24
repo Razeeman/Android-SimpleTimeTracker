@@ -25,13 +25,16 @@
     <declare-styleable name="IconView">
         <attr name="itemIcon" format="reference" />
         <attr name="itemEmoji" format="string" />
+        <attr name="itemIconColor" format="color" />
+        <attr name="itemIconAlpha" format="float" />
     </declare-styleable>
 
     <declare-styleable name="RecordTypeView">
         <attr name="itemIcon" />
         <attr name="itemEmoji" />
+        <attr name="itemIconColor" />
+        <attr name="itemIconAlpha" />
         <attr name="itemName" format="string" />
-        <attr name="itemIconColor" format="color" />
         <attr name="itemColor" format="color" />
         <attr name="itemIsRow" format="boolean" />
     </declare-styleable>

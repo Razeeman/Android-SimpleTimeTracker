@@ -25,6 +25,7 @@ fun createRecordTypeAdapterDelegate(
         itemColor = item.color
         itemIcon = item.iconId
         itemIconColor = item.iconColor
+        itemIconAlpha = item.iconAlpha
         itemName = item.name
         onItemClick?.let { setOnClickWith(item, onItemClick) }
     }

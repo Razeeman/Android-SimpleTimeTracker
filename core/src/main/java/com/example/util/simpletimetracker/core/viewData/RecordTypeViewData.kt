@@ -8,6 +8,7 @@ data class RecordTypeViewData(
     val name: String,
     val iconId: RecordTypeIcon,
     @ColorInt val iconColor: Int,
+    val iconAlpha: Float = 1.0f,
     @ColorInt val color: Int,
     val width: Int? = null,
     val height: Int? = null,

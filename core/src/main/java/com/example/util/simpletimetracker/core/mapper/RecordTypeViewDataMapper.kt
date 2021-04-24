@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.core.mapper
 
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.core.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.model.RecordType
 import javax.inject.Inject
@@ -53,7 +54,12 @@ class RecordTypeViewDataMapper @Inject constructor(
         return if (isFiltered) {
             default.copy(
                 color = colorMapper.toFilteredColor(isDarkTheme),
-                iconColor = colorMapper.toFilteredIconColor(isDarkTheme)
+                iconColor = colorMapper.toFilteredIconColor(isDarkTheme),
+                iconAlpha = if (default.iconId is RecordTypeIcon.Emoji) {
+                    FILTERED_ICON_EMOJI_ALPHA
+                } else {
+                    DEFAULT_ICON_EMOJI_ALPHA
+                }
             )
         } else {
             default
@@ -64,5 +70,10 @@ class RecordTypeViewDataMapper @Inject constructor(
         return color
             .let { colorMapper.mapToColorResId(it, isDarkTheme) }
             .let(resourceRepo::getColor)
+    }
+
+    companion object {
+        private const val DEFAULT_ICON_EMOJI_ALPHA = 1.0f
+        private const val FILTERED_ICON_EMOJI_ALPHA = 0.3f
     }
 }
