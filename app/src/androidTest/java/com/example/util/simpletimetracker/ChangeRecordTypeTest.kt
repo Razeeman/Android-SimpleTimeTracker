@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker
 
 import android.view.View
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -16,6 +17,7 @@ import com.example.util.simpletimetracker.utils.checkViewIsNotDisplayed
 import com.example.util.simpletimetracker.utils.clickOnRecyclerItem
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
+import com.example.util.simpletimetracker.utils.collapseToolbar
 import com.example.util.simpletimetracker.utils.longClickOnView
 import com.example.util.simpletimetracker.utils.scrollRecyclerToView
 import com.example.util.simpletimetracker.utils.typeTextIntoView
@@ -64,6 +66,7 @@ class ChangeRecordTypeTest : BaseUiTest() {
         checkPreviewUpdated(withCardColor(lastColor))
 
         clickOnViewWithText(R.string.change_record_type_icon_hint)
+        onView(withId(R.id.rvChangeRecordTypeIcon)).perform(collapseToolbar())
         scrollRecyclerToView(R.id.rvChangeRecordTypeIcon, hasDescendant(withTag(lastIcon)))
         clickOnRecyclerItem(R.id.rvChangeRecordTypeIcon, withTag(lastIcon))
         checkPreviewUpdated(hasDescendant(withTag(lastIcon)))
@@ -112,9 +115,10 @@ class ChangeRecordTypeTest : BaseUiTest() {
         clickOnRecyclerItem(R.id.rvChangeRecordTypeColor, withCardColor(lastColor))
 
         clickOnViewWithText(R.string.change_record_type_icon_hint)
+        onView(withId(R.id.rvChangeRecordTypeIcon)).perform(collapseToolbar())
         scrollRecyclerToView(R.id.rvChangeRecordTypeIcon, hasDescendant(withTag(lastIcon)))
         clickOnRecyclerItem(R.id.rvChangeRecordTypeIcon, withTag(lastIcon))
-        clickOnViewWithText(R.string.change_record_type_icon_hint)
+        clickOnViewWithId(R.id.fieldChangeRecordTypeIcon)
 
         clickOnViewWithId(R.id.groupChangeRecordTypeGoalTime)
         clickOnViewWithId(R.id.tvNumberKeyboard1)

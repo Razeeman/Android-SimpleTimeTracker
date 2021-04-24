@@ -2,7 +2,6 @@ package com.example.util.simpletimetracker.navigation.params
 
 import android.os.Parcelable
 import androidx.annotation.ColorInt
-import androidx.annotation.DrawableRes
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize

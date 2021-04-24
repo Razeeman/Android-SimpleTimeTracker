@@ -18,8 +18,10 @@ import com.example.util.simpletimetracker.utils.checkViewIsNotDisplayed
 import com.example.util.simpletimetracker.utils.clickOnRecyclerItem
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
+import com.example.util.simpletimetracker.utils.collapseToolbar
 import com.example.util.simpletimetracker.utils.longClickOnView
 import com.example.util.simpletimetracker.utils.scrollRecyclerToPosition
+import com.example.util.simpletimetracker.utils.scrollRecyclerToView
 import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.typeTextIntoView
 import com.example.util.simpletimetracker.utils.withCardColor
@@ -42,7 +44,6 @@ class AddRecordTypeTest : BaseUiTest() {
         val lastColorPosition = ColorMapper.getAvailableColors().size - 1
         val firstIcon = iconImageMapper.availableIconsNames.values.first()
         val lastIcon = iconImageMapper.availableIconsNames.values.last()
-        val lastIconPosition = iconImageMapper.availableIconsNames.size - 1
 
         NavUtils.openSettingsScreen()
         NavUtils.openCategoriesScreen()
@@ -89,7 +90,8 @@ class AddRecordTypeTest : BaseUiTest() {
         checkPreviewUpdated(hasDescendant(withTag(firstIcon)))
 
         // Selecting icon
-        scrollRecyclerToPosition(R.id.rvChangeRecordTypeIcon, lastIconPosition)
+        onView(withId(R.id.rvChangeRecordTypeIcon)).perform(collapseToolbar())
+        scrollRecyclerToView(R.id.rvChangeRecordTypeIcon, hasDescendant(withTag(lastIcon)))
         clickOnRecyclerItem(R.id.rvChangeRecordTypeIcon, withTag(lastIcon))
         checkPreviewUpdated(hasDescendant(withTag(lastIcon)))
 
