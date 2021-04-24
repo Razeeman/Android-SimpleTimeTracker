@@ -1,7 +1,7 @@
 package com.example.util.simpletimetracker.feature_change_record.viewData
 
 import androidx.annotation.ColorInt
-import androidx.annotation.DrawableRes
+import com.example.util.simpletimetracker.core.viewData.RecordTypeIcon
 
 data class ChangeRecordViewData(
     val name: String,
@@ -10,7 +10,7 @@ data class ChangeRecordViewData(
     val dateTimeStarted: String,
     val dateTimeFinished: String,
     val duration: String,
-    @DrawableRes val iconId: Int,
+    val iconId: RecordTypeIcon,
     @ColorInt val color: Int,
     val comment: String
 )

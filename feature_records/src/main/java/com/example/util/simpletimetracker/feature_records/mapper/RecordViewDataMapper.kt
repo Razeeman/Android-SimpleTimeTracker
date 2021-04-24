@@ -4,9 +4,10 @@ import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.empty.EmptyViewData
 import com.example.util.simpletimetracker.core.adapter.hint.HintViewData
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
-import com.example.util.simpletimetracker.core.mapper.IconImageMapper
+import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.core.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.core.viewData.RecordViewData
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordType
@@ -16,7 +17,7 @@ import kotlin.math.max
 import kotlin.math.min
 
 class RecordViewDataMapper @Inject constructor(
-    private val iconImageMapper: IconImageMapper,
+    private val iconMapper: IconMapper,
     private val colorMapper: ColorMapper,
     private val resourceRepo: ResourceRepo,
     private val timeMapper: TimeMapper
@@ -42,7 +43,7 @@ class RecordViewDataMapper @Inject constructor(
             duration = (timeEnded - timeStarted)
                 .let(timeMapper::formatInterval),
             iconId = recordType.icon
-                .let(iconImageMapper::mapToDrawableResId),
+                .let(iconMapper::mapIcon),
             color = recordType.color
                 .let { colorMapper.mapToColorResId(it, isDarkTheme) }
                 .let(resourceRepo::getColor),
@@ -70,7 +71,7 @@ class RecordViewDataMapper @Inject constructor(
             timeEndedTimestamp = timeEnded,
             duration = (timeEnded - timeStarted)
                 .let(timeMapper::formatInterval),
-            iconId = R.drawable.unknown,
+            iconId = RecordTypeIcon.Image(R.drawable.unknown),
             color = colorMapper.toUntrackedColor(isDarkTheme),
             comment = ""
         )

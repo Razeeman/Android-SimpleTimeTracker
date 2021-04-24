@@ -8,6 +8,7 @@ import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.extension.visible
+import com.example.util.simpletimetracker.core.viewData.RecordTypeIcon
 import kotlinx.android.synthetic.main.record_view_layout.view.*
 
 class RecordView @JvmOverloads constructor(
@@ -40,6 +41,11 @@ class RecordView @JvmOverloads constructor(
 
                 if (hasValue(R.styleable.RecordView_itemIcon)) itemIcon =
                     getResourceId(R.styleable.RecordView_itemIcon, R.drawable.unknown)
+                        .let(RecordTypeIcon::Image)
+
+                if (hasValue(R.styleable.RecordView_itemEmoji)) itemIcon =
+                    getString(R.styleable.RecordView_itemEmoji).orEmpty()
+                        .let(RecordTypeIcon::Emoji)
 
                 if (hasValue(R.styleable.RecordView_itemTimeStarted)) itemTimeStarted =
                     getString(R.styleable.RecordView_itemTimeStarted).orEmpty()
@@ -69,10 +75,9 @@ class RecordView @JvmOverloads constructor(
             field = value
         }
 
-    var itemIcon: Int = 0
+    var itemIcon: RecordTypeIcon = RecordTypeIcon.Image(0)
         set(value) {
-            ivRecordItemIcon.setBackgroundResource(value)
-            ivRecordItemIcon.tag = value
+            ivRecordItemIcon.itemIcon = value
             field = value
         }
 

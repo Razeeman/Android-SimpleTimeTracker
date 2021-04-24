@@ -17,6 +17,7 @@ import com.example.util.simpletimetracker.core.extension.rotateDown
 import com.example.util.simpletimetracker.core.extension.rotateUp
 import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.core.extension.showKeyboard
+import com.example.util.simpletimetracker.core.extension.toViewData
 import com.example.util.simpletimetracker.core.extension.visible
 import com.example.util.simpletimetracker.core.utils.BuildVersions
 import com.example.util.simpletimetracker.core.view.TransitionNames
@@ -145,7 +146,7 @@ class ChangeRunningRecordFragment : BaseFragment(R.layout.change_running_record_
             dateTimeStarted = "",
             duration = duration,
             goalTime = goalTime,
-            iconId = iconId,
+            iconId = iconId.toViewData(),
             color = color,
             comment = comment
         ).let(::updatePreview)

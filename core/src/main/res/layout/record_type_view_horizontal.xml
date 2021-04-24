@@ -13,18 +13,15 @@
     tools:background="@color/black"
     tools:layout_height="50dp">
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <com.example.util.simpletimetracker.core.view.IconView
         android:id="@+id/ivRecordTypeItemIcon"
-        style="@style/RecordTypeIcon"
-        android:visibility="visible"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="6dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:background="@drawable/unknown" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.emoji.widget.EmojiAppCompatTextView
         android:id="@+id/tvRecordTypeItemEmoji"

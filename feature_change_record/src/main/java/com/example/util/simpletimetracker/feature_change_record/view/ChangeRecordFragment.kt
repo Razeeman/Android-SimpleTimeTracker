@@ -19,6 +19,7 @@ import com.example.util.simpletimetracker.core.extension.rotateDown
 import com.example.util.simpletimetracker.core.extension.rotateUp
 import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.core.extension.showKeyboard
+import com.example.util.simpletimetracker.core.extension.toViewData
 import com.example.util.simpletimetracker.core.extension.visible
 import com.example.util.simpletimetracker.core.utils.BuildVersions
 import com.example.util.simpletimetracker.core.viewModel.RemoveRecordViewModel
@@ -158,7 +159,7 @@ class ChangeRecordFragment : BaseFragment(R.layout.change_record_fragment),
             dateTimeStarted = "",
             dateTimeFinished = "",
             duration = preview.duration,
-            iconId = preview.iconId,
+            iconId = preview.iconId.toViewData(),
             color = preview.color,
             comment = preview.comment
         ).let(::updatePreview)

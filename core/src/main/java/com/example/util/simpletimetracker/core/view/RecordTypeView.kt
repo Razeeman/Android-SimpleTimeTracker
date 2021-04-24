@@ -1,7 +1,6 @@
 package com.example.util.simpletimetracker.core.view
 
 import android.content.Context
-import android.content.res.ColorStateList
 import android.graphics.Color
 import android.util.AttributeSet
 import android.view.Gravity
@@ -9,14 +8,11 @@ import android.view.View
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
 import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.extension.setMargins
-import com.example.util.simpletimetracker.core.extension.visible
 import com.example.util.simpletimetracker.core.viewData.RecordTypeIcon
 import kotlinx.android.synthetic.main.record_type_view_vertical.view.constraintRecordTypeItem
 import kotlinx.android.synthetic.main.record_type_view_vertical.view.ivRecordTypeItemIcon
-import kotlinx.android.synthetic.main.record_type_view_vertical.view.tvRecordTypeItemEmoji
 import kotlinx.android.synthetic.main.record_type_view_vertical.view.tvRecordTypeItemName
 
 class RecordTypeView @JvmOverloads constructor(
@@ -89,18 +85,14 @@ class RecordTypeView @JvmOverloads constructor(
 
     var itemIcon: RecordTypeIcon = RecordTypeIcon.Image(0)
         set(value) {
-            when (value) {
-                is RecordTypeIcon.Image -> setImageIcon(value.iconId)
-                is RecordTypeIcon.Emoji -> setEmojiIcon(value.emojiText)
-            }
+            ivRecordTypeItemIcon.itemIcon = value
             field = value
         }
 
     var itemIconColor: Int = 0
         set(value) {
             tvRecordTypeItemName.setTextColor(value)
-            ViewCompat.setBackgroundTintList(ivRecordTypeItemIcon, ColorStateList.valueOf(value))
-            tvRecordTypeItemEmoji.setTextColor(value)
+            ivRecordTypeItemIcon.itemIconColor = value
             field = value
         }
 
@@ -110,19 +102,6 @@ class RecordTypeView @JvmOverloads constructor(
             field = value
         }
 
-    private fun setImageIcon(value: Int) {
-        ivRecordTypeItemIcon.setBackgroundResource(value)
-        ivRecordTypeItemIcon.tag = value
-        ivRecordTypeItemIcon.visible = true
-        tvRecordTypeItemEmoji.visible = false
-    }
-
-    private fun setEmojiIcon(value: String) {
-        tvRecordTypeItemEmoji.text = value
-        ivRecordTypeItemIcon.visibility = View.INVISIBLE
-        tvRecordTypeItemEmoji.visible = true
-    }
-
     private fun changeConstraints(isRow: Boolean) {
         if (isRow) {
             val setRow = ConstraintSet()
@@ -130,7 +109,6 @@ class RecordTypeView @JvmOverloads constructor(
             setRow.applyTo(constraintRecordTypeItem)
 
             ivRecordTypeItemIcon.setMargins(start = 6)
-            tvRecordTypeItemEmoji.setMargins(start = 6)
             tvRecordTypeItemName.gravity = Gravity.START or Gravity.CENTER_VERTICAL
             tvRecordTypeItemName.setMargins(top = 0, start = 8)
         } else {
@@ -139,7 +117,6 @@ class RecordTypeView @JvmOverloads constructor(
             setRow.applyTo(constraintRecordTypeItem)
 
             ivRecordTypeItemIcon.setMargins(start = 0)
-            tvRecordTypeItemEmoji.setMargins(start = 0)
             tvRecordTypeItemName.gravity = Gravity.CENTER
             tvRecordTypeItemName.setMargins(top = 4, start = 0)
         }

@@ -3,7 +3,7 @@ package com.example.util.simpletimetracker.feature_records_all.mapper
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.empty.EmptyViewData
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
-import com.example.util.simpletimetracker.core.mapper.IconImageMapper
+import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.view.spinner.CustomSpinner
@@ -17,7 +17,7 @@ import com.example.util.simpletimetracker.feature_records_all.viewData.RecordsAl
 import javax.inject.Inject
 
 class RecordsAllViewDataMapper @Inject constructor(
-    private val iconImageMapper: IconImageMapper,
+    private val iconMapper: IconMapper,
     private val colorMapper: ColorMapper,
     private val resourceRepo: ResourceRepo,
     private val timeMapper: TimeMapper
@@ -46,7 +46,7 @@ class RecordsAllViewDataMapper @Inject constructor(
             duration = (timeEnded - timeStarted)
                 .let(timeMapper::formatInterval),
             iconId = recordType.icon
-                .let(iconImageMapper::mapToDrawableResId),
+                .let(iconMapper::mapIcon),
             color = recordType.color
                 .let { colorMapper.mapToColorResId(it, isDarkTheme) }
                 .let(resourceRepo::getColor),

@@ -2,10 +2,12 @@ package com.example.util.simpletimetracker.feature_statistics.mapper
 
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.empty.EmptyViewData
+import com.example.util.simpletimetracker.core.adapter.hint.HintViewData
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
-import com.example.util.simpletimetracker.core.mapper.IconImageMapper
+import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.core.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RecordTypeCategory
@@ -14,13 +16,12 @@ import com.example.util.simpletimetracker.domain.model.StatisticsCategory
 import com.example.util.simpletimetracker.feature_statistics.R
 import com.example.util.simpletimetracker.feature_statistics.customView.PiePortion
 import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsChartViewData
-import com.example.util.simpletimetracker.core.adapter.hint.HintViewData
 import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsInfoViewData
 import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsViewData
 import javax.inject.Inject
 
 class StatisticsViewDataMapper @Inject constructor(
-    private val iconImageMapper: IconImageMapper,
+    private val iconMapper: IconMapper,
     private val colorMapper: ColorMapper,
     private val resourceRepo: ResourceRepo,
     private val timeMapper: TimeMapper
@@ -192,7 +193,7 @@ class StatisticsViewDataMapper @Inject constructor(
                     duration = statistics.duration
                         .let(timeMapper::formatInterval),
                     percent = "$durationPercent%",
-                    iconId = R.drawable.unknown,
+                    iconId = RecordTypeIcon.Image(R.drawable.unknown),
                     color = colorMapper.toUntrackedColor(isDarkTheme)
                 )
             }
@@ -207,7 +208,7 @@ class StatisticsViewDataMapper @Inject constructor(
                     },
                     percent = "$durationPercent%",
                     iconId = recordType.icon
-                        .let(iconImageMapper::mapToDrawableResId),
+                        .let(iconMapper::mapIcon),
                     color = recordType.color
                         .let { colorMapper.mapToColorResId(it, isDarkTheme) }
                         .let(resourceRepo::getColor)
@@ -262,7 +263,7 @@ class StatisticsViewDataMapper @Inject constructor(
                 PiePortion(
                     value = statistics.duration,
                     colorInt = colorMapper.toUntrackedColor(isDarkTheme),
-                    iconId = R.drawable.unknown
+                    iconId = RecordTypeIcon.Image(R.drawable.unknown)
                 )
             }
             recordType != null -> {
@@ -272,7 +273,7 @@ class StatisticsViewDataMapper @Inject constructor(
                         .let { colorMapper.mapToColorResId(it, isDarkTheme) }
                         .let(resourceRepo::getColor),
                     iconId = recordType.icon
-                        .let(iconImageMapper::mapToDrawableResId)
+                        .let(iconMapper::mapIcon)
                 )
             }
             else -> {
@@ -294,7 +295,7 @@ class StatisticsViewDataMapper @Inject constructor(
                     .let { colorMapper.mapToColorResId(it, isDarkTheme) }
                     .let(resourceRepo::getColor),
                 iconId = recordType?.icon
-                    ?.let(iconImageMapper::mapToDrawableResId)
+                    ?.let(iconMapper::mapIcon)
             )
         } else {
             null

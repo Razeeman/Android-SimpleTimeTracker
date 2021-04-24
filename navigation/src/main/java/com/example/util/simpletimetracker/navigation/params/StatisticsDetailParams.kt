@@ -2,7 +2,6 @@ package com.example.util.simpletimetracker.navigation.params
 
 import android.os.Parcelable
 import androidx.annotation.ColorInt
-import androidx.annotation.DrawableRes
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import kotlinx.android.parcel.Parcelize
 
@@ -16,7 +15,7 @@ data class StatisticsDetailParams(
     @Parcelize
     data class Preview(
         val name: String,
-        @DrawableRes val iconId: Int? = null,
+        val iconId: RecordTypeIconParams? = null,
         @ColorInt val color: Int
     ) : Parcelable
 }

@@ -38,17 +38,15 @@
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp">
 
-                    <androidx.appcompat.widget.AppCompatImageView
+                    <com.example.util.simpletimetracker.core.view.IconView
                         android:id="@+id/ivStatisticsDetailItemIcon"
-                        android:layout_width="wrap_content"
+                        android:layout_width="24dp"
                         android:layout_height="0dp"
                         android:layout_marginStart="8dp"
-                        app:backgroundTint="@color/white"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintDimensionRatio="h,1:1"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:background="@drawable/unknown" />
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tvStatisticsDetailItemName"

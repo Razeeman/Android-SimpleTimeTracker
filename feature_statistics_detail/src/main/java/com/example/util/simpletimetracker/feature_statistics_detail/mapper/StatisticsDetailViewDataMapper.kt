@@ -2,9 +2,10 @@ package com.example.util.simpletimetracker.feature_statistics_detail.mapper
 
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
-import com.example.util.simpletimetracker.core.mapper.IconImageMapper
+import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.core.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.Record
@@ -26,7 +27,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class StatisticsDetailViewDataMapper @Inject constructor(
-    private val iconImageMapper: IconImageMapper,
+    private val iconMapper: IconMapper,
     private val colorMapper: ColorMapper,
     private val timeMapper: TimeMapper,
     private val resourceRepo: ResourceRepo
@@ -103,7 +104,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             name = name
                 .orEmpty(),
             iconId = iconName
-                ?.let(iconImageMapper::mapToDrawableResId),
+                ?.let(iconMapper::mapIcon),
             color = colorId
                 ?.let { colorMapper.mapToColorResId(it, isDarkTheme) }
                 ?.let(resourceRepo::getColor)
@@ -116,7 +117,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
     ): StatisticsDetailPreviewViewData {
         return StatisticsDetailPreviewViewData(
             name = resourceRepo.getString(R.string.untracked_time_name),
-            iconId = R.drawable.unknown,
+            iconId = RecordTypeIcon.Image(R.drawable.unknown),
             color = colorMapper.toUntrackedColor(isDarkTheme)
         )
     }

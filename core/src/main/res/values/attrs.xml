@@ -22,10 +22,15 @@
     <attr name="appIconColor" format="reference" />
     <attr name="appLegendColor" format="reference" />
 
-    <declare-styleable name="RecordTypeView">
-        <attr name="itemName" format="string" />
+    <declare-styleable name="IconView">
         <attr name="itemIcon" format="reference" />
         <attr name="itemEmoji" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="RecordTypeView">
+        <attr name="itemIcon" />
+        <attr name="itemEmoji" />
+        <attr name="itemName" format="string" />
         <attr name="itemIconColor" format="color" />
         <attr name="itemColor" format="color" />
         <attr name="itemIsRow" format="boolean" />
@@ -34,6 +39,7 @@
     <declare-styleable name="RecordView">
         <attr name="itemName" />
         <attr name="itemIcon" />
+        <attr name="itemEmoji" />
         <attr name="itemColor" />
         <attr name="itemTimeStarted" format="string" />
         <attr name="itemTimeEnded" format="string" />
@@ -44,11 +50,12 @@
     <declare-styleable name="RunningRecordView">
         <attr name="itemName" />
         <attr name="itemIcon" />
+        <attr name="itemEmoji" />
         <attr name="itemColor" />
         <attr name="itemTimeStarted" />
+        <attr name="itemComment" />
         <attr name="itemTimer" format="string" />
         <attr name="itemGoalTime" format="string" />
-        <attr name="itemComment" />
     </declare-styleable>
 
     <declare-styleable name="CategoryView">

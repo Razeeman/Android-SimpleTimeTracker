@@ -17,7 +17,7 @@ import com.example.util.simpletimetracker.core.interactor.AddRunningRecordMediat
 import com.example.util.simpletimetracker.core.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.core.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
-import com.example.util.simpletimetracker.core.mapper.IconImageMapper
+import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.view.RecordTypeView
@@ -62,7 +62,7 @@ class WidgetProvider : AppWidgetProvider() {
     lateinit var colorMapper: ColorMapper
 
     @Inject
-    lateinit var iconImageMapper: IconImageMapper
+    lateinit var iconMapper: IconMapper
 
     @Inject
     lateinit var resourceRepo: ResourceRepo
@@ -125,7 +125,7 @@ class WidgetProvider : AppWidgetProvider() {
         val isDarkTheme = prefsInteractor.getDarkMode()
 
         val icon = recordType?.icon
-            ?.let(recordTypeViewDataMapper::mapIcon)
+            ?.let(iconMapper::mapIcon)
             ?: RecordTypeIcon.Image(R.drawable.unknown)
 
         val name = recordType?.name

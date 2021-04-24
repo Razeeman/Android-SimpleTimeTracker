@@ -17,7 +17,7 @@ data class ChangeRunningRecordParams(
         var timeStarted: String,
         var duration: String,
         var goalTime: String,
-        @DrawableRes val iconId: Int,
+        val iconId: RecordTypeIconParams,
         @ColorInt val color: Int,
         val comment: String
     ) : Parcelable

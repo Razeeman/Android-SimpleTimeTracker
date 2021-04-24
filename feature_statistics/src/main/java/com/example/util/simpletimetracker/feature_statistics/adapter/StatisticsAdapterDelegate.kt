@@ -33,8 +33,7 @@ fun createStatisticsAdapterDelegate(
         normalizeLightness(item.color).let(dividerStatisticsPercent::setBackgroundColor)
         if (item is StatisticsViewData.Activity) {
             ivStatisticsItemIcon.visible = true
-            ivStatisticsItemIcon.setBackgroundResource(item.iconId)
-            ivStatisticsItemIcon.tag = item.iconId
+            ivStatisticsItemIcon.itemIcon = item.iconId
         } else {
             ivStatisticsItemIcon.visible = false
         }

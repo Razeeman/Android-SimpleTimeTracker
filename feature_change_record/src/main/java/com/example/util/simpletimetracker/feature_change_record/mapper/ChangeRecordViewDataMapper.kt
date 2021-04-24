@@ -1,17 +1,16 @@
 package com.example.util.simpletimetracker.feature_change_record.mapper
 
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
-import com.example.util.simpletimetracker.core.mapper.IconImageMapper
+import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordType
-import com.example.util.simpletimetracker.feature_change_record.R
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordViewData
 import javax.inject.Inject
 
 class ChangeRecordViewDataMapper @Inject constructor(
-    private val iconImageMapper: IconImageMapper,
+    private val iconMapper: IconMapper,
     private val colorMapper: ColorMapper,
     private val timeMapper: TimeMapper,
     private val resourceRepo: ResourceRepo
@@ -41,9 +40,8 @@ class ChangeRecordViewDataMapper @Inject constructor(
                 ?.let { it.timeEnded - it.timeStarted }
                 ?.let(timeMapper::formatInterval)
                 .orEmpty(),
-            iconId = recordType?.icon
-                ?.let(iconImageMapper::mapToDrawableResId)
-                ?: R.drawable.unknown,
+            iconId = recordType?.icon.orEmpty()
+                .let(iconMapper::mapIcon),
             color = recordType?.color
                 ?.let { colorMapper.mapToColorResId(it, isDarkTheme) }
                 ?.let(resourceRepo::getColor)

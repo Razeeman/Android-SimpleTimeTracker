@@ -1,13 +1,12 @@
 package com.example.util.simpletimetracker.core.mapper
 
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
-import com.example.util.simpletimetracker.core.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.model.RecordType
 import javax.inject.Inject
 
 class RecordTypeViewDataMapper @Inject constructor(
-    private val iconImageMapper: IconImageMapper,
+    private val iconMapper: IconMapper,
     private val colorMapper: ColorMapper,
     private val resourceRepo: ResourceRepo,
     private val recordTypeCardSizeMapper: RecordTypeCardSizeMapper
@@ -20,7 +19,7 @@ class RecordTypeViewDataMapper @Inject constructor(
         return RecordTypeViewData(
             id = recordType.id,
             name = recordType.name,
-            iconId = mapIcon(recordType.icon),
+            iconId = iconMapper.mapIcon(recordType.icon),
             iconColor = colorMapper.toIconColor(isDarkTheme),
             color = mapColor(recordType.color, isDarkTheme)
         )
@@ -34,7 +33,7 @@ class RecordTypeViewDataMapper @Inject constructor(
         return RecordTypeViewData(
             id = recordType.id,
             name = recordType.name,
-            iconId = mapIcon(recordType.icon),
+            iconId = iconMapper.mapIcon(recordType.icon),
             iconColor = colorMapper.toIconColor(isDarkTheme),
             color = mapColor(recordType.color, isDarkTheme),
             width = recordTypeCardSizeMapper.toCardWidth(numberOfCards),
@@ -58,14 +57,6 @@ class RecordTypeViewDataMapper @Inject constructor(
             )
         } else {
             default
-        }
-    }
-
-    fun mapIcon(icon: String): RecordTypeIcon {
-        return if (icon.startsWith("ic_") || icon.isEmpty()) {
-            icon.let(iconImageMapper::mapToDrawableResId).let(RecordTypeIcon::Image)
-        } else {
-            RecordTypeIcon.Emoji(icon)
         }
     }
 

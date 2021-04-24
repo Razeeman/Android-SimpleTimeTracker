@@ -12,6 +12,7 @@ import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
 import com.example.util.simpletimetracker.core.dialog.StandardDialogListener
 import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.core.extension.setOnLongClick
+import com.example.util.simpletimetracker.core.extension.toViewData
 import com.example.util.simpletimetracker.core.extension.visible
 import com.example.util.simpletimetracker.core.utils.BuildVersions
 import com.example.util.simpletimetracker.core.view.TransitionNames
@@ -99,7 +100,7 @@ class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragmen
     private fun setPreview() = params.preview?.run {
         StatisticsDetailPreviewViewData(
             name = name,
-            iconId = iconId,
+            iconId = iconId?.toViewData(),
             color = color
         ).let(::setPreviewViewData)
     }
@@ -111,8 +112,7 @@ class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragmen
         chartStatisticsDetailSplit.setBarColor(viewData.color)
         if (viewData.iconId != null) {
             ivStatisticsDetailItemIcon.visible = true
-            ivStatisticsDetailItemIcon.setBackgroundResource(viewData.iconId)
-            ivStatisticsDetailItemIcon.tag = viewData.iconId
+            ivStatisticsDetailItemIcon.itemIcon = viewData.iconId
         } else {
             ivStatisticsDetailItemIcon.visible = false
         }

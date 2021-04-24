@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.loader.LoaderViewData
+import com.example.util.simpletimetracker.core.extension.toParams
 import com.example.util.simpletimetracker.core.view.TransitionNames
 import com.example.util.simpletimetracker.core.viewData.RecordViewData
 import com.example.util.simpletimetracker.domain.extension.orZero
@@ -34,7 +35,7 @@ class RecordsViewModel @Inject constructor(
             timeStarted = item.timeStarted,
             timeFinished = item.timeFinished,
             duration = item.duration,
-            iconId = item.iconId,
+            iconId = item.iconId.toParams(),
             color = item.color,
             comment = item.comment
         )

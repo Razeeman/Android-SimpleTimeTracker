@@ -18,6 +18,7 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
+import com.example.util.simpletimetracker.core.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.feature_statistics.R
 import kotlin.math.max
 import kotlin.math.min
@@ -285,13 +286,20 @@ class PieChartView @JvmOverloads constructor(
                     PiePortion(
                         value = it.toLong(),
                         colorInt = Color.BLACK,
-                        iconId = R.drawable.unknown
+                        iconId = RecordTypeIcon.Image(R.drawable.unknown)
                     )
                 }.let(::setSegments)
         }
     }
 
-    private fun getIconDrawable(iconId: Int): Drawable? {
+    private fun getIconDrawable(iconId: RecordTypeIcon): Drawable? {
+        return when (iconId) {
+            is RecordTypeIcon.Image -> getIconImageDrawable(iconId.iconId)
+            is RecordTypeIcon.Emoji -> getIconEmojiDrawable(iconId.emojiText)
+        }
+    }
+
+    private fun getIconImageDrawable(iconId: Int): Drawable? {
         return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             (AppCompatResources.getDrawable(context, iconId) as? BitmapDrawable)?.apply {
                 colorFilter = PorterDuffColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
@@ -301,6 +309,11 @@ class PieChartView @JvmOverloads constructor(
                 setTintList(ColorStateList.valueOf(Color.WHITE))
             }
         }
+    }
+
+    private fun getIconEmojiDrawable(text: String): Drawable? {
+        // TODO get drawable
+        return null
     }
 
     private fun animateSegments() {

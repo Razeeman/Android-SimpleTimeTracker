@@ -1,7 +1,6 @@
 package com.example.util.simpletimetracker.core.viewData
 
 import androidx.annotation.ColorInt
-import androidx.annotation.DrawableRes
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 
 sealed class RecordViewData : ViewHolderType {
@@ -10,7 +9,7 @@ sealed class RecordViewData : ViewHolderType {
     abstract val timeStarted: String
     abstract val timeFinished: String
     abstract val duration: String
-    abstract val iconId: Int
+    abstract val iconId: RecordTypeIcon
     abstract val color: Int
     abstract val comment: String
 
@@ -22,7 +21,7 @@ sealed class RecordViewData : ViewHolderType {
         override val timeStarted: String,
         override val timeFinished: String,
         override val duration: String,
-        @DrawableRes override val iconId: Int,
+        override val iconId: RecordTypeIcon,
         @ColorInt override val color: Int,
         override val comment: String
     ) : RecordViewData() {
@@ -37,7 +36,7 @@ sealed class RecordViewData : ViewHolderType {
         override val timeStarted: String,
         override val timeFinished: String,
         override val duration: String,
-        @DrawableRes override val iconId: Int,
+        override val iconId: RecordTypeIcon,
         @ColorInt override val color: Int,
         override val comment: String
     ) : RecordViewData() {
