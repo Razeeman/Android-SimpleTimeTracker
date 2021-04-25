@@ -7,5 +7,5 @@
     android:layout_marginVertical="4dp"
     android:background="?selectableItemBackgroundBorderless"
     android:gravity="center"
-    android:tint="?appTextPrimaryColor"
+    android:tint="?colorPrimary"
     tools:src="@drawable/unknown" />
