@@ -266,7 +266,7 @@ class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragme
             2 * resources.getDimensionPixelOffset(R.dimen.color_icon_recycler_margin)
         val elementWidth = resources.getDimensionPixelOffset(R.dimen.color_icon_item_width) +
             2 * resources.getDimensionPixelOffset(R.dimen.color_icon_item_margin)
-        val columnCount =  max(recyclerWidth / elementWidth, 1)
+        val columnCount = max(recyclerWidth / elementWidth, 1)
 
         val rowWidth = elementWidth * columnCount
         val recyclerPadding = (recyclerWidth - rowWidth) / 2
