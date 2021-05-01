@@ -27,6 +27,7 @@ import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.core.extension.setSpanSizeLookup
 import com.example.util.simpletimetracker.core.extension.showKeyboard
 import com.example.util.simpletimetracker.core.extension.toViewData
+import com.example.util.simpletimetracker.core.extension.updatePadding
 import com.example.util.simpletimetracker.core.extension.visible
 import com.example.util.simpletimetracker.core.repo.DeviceRepo
 import com.example.util.simpletimetracker.core.utils.BuildVersions
@@ -260,11 +261,18 @@ class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragme
     }
 
     private fun getIconsColumnCount(): Int {
+        val screenWidth = deviceRepo.getScreenWidthInDp().dpToPx()
+        val recyclerWidth = screenWidth -
+            2 * resources.getDimensionPixelOffset(R.dimen.color_icon_recycler_margin)
         val elementWidth = resources.getDimensionPixelOffset(R.dimen.color_icon_item_width) +
             2 * resources.getDimensionPixelOffset(R.dimen.color_icon_item_margin)
-        val recyclerWidth = deviceRepo.getScreenWidthInDp().dpToPx() - 16.dpToPx()
+        val columnCount =  max(recyclerWidth / elementWidth, 1)
 
-        return max(recyclerWidth / elementWidth, 1)
+        val rowWidth = elementWidth * columnCount
+        val recyclerPadding = (recyclerWidth - rowWidth) / 2
+        rvChangeRecordTypeIcon.updatePadding(left = recyclerPadding, right = recyclerPadding)
+
+        return columnCount
     }
 
     private fun setIconsSpanSize() {

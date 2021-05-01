@@ -16,4 +16,5 @@
     <dimen name="color_icon_item_margin">2dp</dimen>
     <dimen name="color_icon_item_corner_radius">8dp</dimen>
     <dimen name="color_icon_item_elevation">4dp</dimen>
+    <dimen name="color_icon_recycler_margin">8dp</dimen>
 </resources>
