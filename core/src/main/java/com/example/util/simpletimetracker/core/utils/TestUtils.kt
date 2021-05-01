@@ -41,11 +41,13 @@ class TestUtils @Inject constructor(
         name: String,
         color: Int? = null,
         icon: Int? = null,
+        emoji: String? = null,
         goalTime: Long? = null,
         categories: List<String> = emptyList()
     ) = runBlocking {
         val icons = iconImageMapper.availableIconsNames
         val iconId = icons.filterValues { it == icon }.keys.firstOrNull()
+            ?: emoji
             ?: icons.keys.first()
 
         val colors = ColorMapper.getAvailableColors(false)

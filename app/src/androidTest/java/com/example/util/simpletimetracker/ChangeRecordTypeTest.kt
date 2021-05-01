@@ -15,6 +15,7 @@ import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
 import com.example.util.simpletimetracker.utils.checkViewIsNotDisplayed
 import com.example.util.simpletimetracker.utils.clickOnRecyclerItem
+import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.collapseToolbar
@@ -35,10 +36,6 @@ class ChangeRecordTypeTest : BaseUiTest() {
     fun changeRecordType() {
         val name = "Test"
         val newName = "Updated"
-        val firstColor = ColorMapper.getAvailableColors().first()
-        val lastColor = ColorMapper.getAvailableColors().last()
-        val firstIcon = iconImageMapper.availableIconsNames.values.first()
-        val lastIcon = iconImageMapper.availableIconsNames.values.last()
 
         // Add item
         NavUtils.addActivity(name, firstColor, firstIcon)
@@ -77,6 +74,25 @@ class ChangeRecordTypeTest : BaseUiTest() {
         checkViewIsDisplayed(withText(newName))
         checkViewIsDisplayed(withCardColor(lastColor))
         checkViewIsDisplayed(withTag(lastIcon))
+
+        // Change again
+        longClickOnView(withText(newName))
+        clickOnViewWithText(R.string.change_record_type_icon_hint)
+        clickOnView(
+            allOf(
+                isDescendantOfA(withId(R.id.btnChangeRecordTypeIconSwitch)),
+                withText(R.string.change_record_type_emoji_hint)
+            )
+        )
+        clickOnViewWithText(firstEmoji)
+
+        // Preview is updated
+        checkPreviewUpdated(hasDescendant(withText(firstEmoji)))
+
+        clickOnViewWithText(R.string.change_record_type_save)
+
+        // Record type updated
+        checkViewIsDisplayed(withText(firstEmoji))
     }
 
     @Test

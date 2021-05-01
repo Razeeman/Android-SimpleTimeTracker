@@ -4,6 +4,8 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.example.util.simpletimetracker.TimeTrackerApp
+import com.example.util.simpletimetracker.core.mapper.ColorMapper
+import com.example.util.simpletimetracker.core.mapper.IconEmojiMapper
 import com.example.util.simpletimetracker.core.mapper.IconImageMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.utils.CountingIdlingResourceProvider
@@ -27,6 +29,9 @@ open class BaseUiTest {
     lateinit var iconImageMapper: IconImageMapper
 
     @Inject
+    lateinit var iconEmojiMapper: IconEmojiMapper
+
+    @Inject
     lateinit var timeMapper: TimeMapper
 
     @Rule
@@ -36,6 +41,23 @@ open class BaseUiTest {
     @Rule
     @JvmField
     val mRetryTestRule = RetryTestRule()
+
+    val firstColor: Int
+        get() = ColorMapper.getAvailableColors().first()
+    val lastColor: Int
+        get() = ColorMapper.getAvailableColors().last()
+    val firstIcon: Int
+        get() = iconImageMapper.availableIconsNames.values.first()
+    val lastIcon: Int
+        get() = iconImageMapper.availableIconsNames.values.last()
+    val firstEmoji: String
+        get() = iconEmojiMapper
+            .getAvailableEmojis()[iconEmojiMapper.getAvailableEmojiCategories().first()]
+            ?.first().orEmpty()
+    val lastEmoji: String
+        get() = iconEmojiMapper
+            .getAvailableEmojis()[iconEmojiMapper.getAvailableEmojiCategories().last()]
+            ?.last().orEmpty()
 
     init {
         inject()

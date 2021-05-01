@@ -15,6 +15,7 @@ fun createChangeRecordTypeIconCategoryAdapterDelegate(
     with(itemView) {
         item as ChangeRecordTypeIconCategoryViewData
         ivChangeRecordTypeIconCategoryItem.setImageResource(item.categoryIcon)
+        ivChangeRecordTypeIconCategoryItem.tag = item.categoryIcon
         setOnClickWith(item, onItemClick)
     }
 }

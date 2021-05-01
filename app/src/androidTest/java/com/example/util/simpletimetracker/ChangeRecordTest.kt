@@ -12,7 +12,6 @@ import androidx.test.espresso.matcher.ViewMatchers.withClassName
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
@@ -39,16 +38,12 @@ class ChangeRecordTest : BaseUiTest() {
     fun changeRecord() {
         val name = "Test1"
         val newName = "Test2"
-        val firstColor = ColorMapper.getAvailableColors().first()
-        val lastColor = ColorMapper.getAvailableColors().last()
-        val firstIcon = iconImageMapper.availableIconsNames.values.first()
-        val lastIcon = iconImageMapper.availableIconsNames.values.last()
         val comment = "comment"
         val newComment = "new comment"
 
         // Add activities
         testUtils.addActivity(name, firstColor, firstIcon)
-        testUtils.addActivity(newName, lastColor, lastIcon)
+        testUtils.addActivity(newName, lastColor, emoji = lastEmoji)
 
         // Add record
         NavUtils.openRecordsScreen()
@@ -159,7 +154,7 @@ class ChangeRecordTest : BaseUiTest() {
         // Preview is updated
         checkPreviewUpdated(hasDescendant(withText(newName)))
         checkPreviewUpdated(withCardColor(lastColor))
-        checkPreviewUpdated(hasDescendant(withTag(lastIcon)))
+        checkPreviewUpdated(hasDescendant(withText(lastEmoji)))
         checkPreviewUpdated(hasDescendant(withText(timeStartedPreview)))
         checkPreviewUpdated(hasDescendant(withText(timeEndedPreview)))
         checkPreviewUpdated(hasDescendant(withText(timeRangePreview)))
@@ -175,7 +170,7 @@ class ChangeRecordTest : BaseUiTest() {
                 withId(R.id.viewRecordItem),
                 withCardColor(lastColor),
                 hasDescendant(withText(newName)),
-                hasDescendant(withTag(lastIcon)),
+                hasDescendant(withText(lastEmoji)),
                 hasDescendant(withText(timeStartedPreview)),
                 hasDescendant(withText(timeEndedPreview)),
                 hasDescendant(withText(timeRangePreview)),
