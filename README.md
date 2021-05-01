@@ -15,6 +15,8 @@ Simple app that helps track how much time you spend on all the useless activitie
 [![change_record_type_thumb]][change_record_type]
 [![change_record_type_color_thumb]][change_record_type_color]
 [![change_record_type_icon_thumb]][change_record_type_icon]
+[![change_record_type_emoji_thumb]][change_record_type_emoji]
+[![change_record_type_emoji_selection_thumb]][change_record_type_emoji_selection]
 [![change_record_type_tag_thumb]][change_record_type_tag]
 <br>
 
@@ -145,6 +147,7 @@ Simple app that helps track how much time you spend on all the useless activitie
 - Dark mode
 - UI tests
 - CI with github actions
+- Emojis with EmojiCompat
 
 [change_record_thumb]: dev_files/screens/change_record_thumb.png
 [change_record]: dev_files/screens/change_record.png
@@ -161,6 +164,10 @@ Simple app that helps track how much time you spend on all the useless activitie
 [change_record_type_color]: dev_files/screens/change_record_type_color.png
 [change_record_type_icon_thumb]: dev_files/screens/change_record_type_icon_thumb.png
 [change_record_type_icon]: dev_files/screens/change_record_type_icon.png
+[change_record_type_emoji_thumb]: dev_files/screens/change_record_type_emoji_thumb.png
+[change_record_type_emoji]: dev_files/screens/change_record_type_emoji.png
+[change_record_type_emoji_selection_thumb]: dev_files/screens/change_record_type_emoji_selection_thumb.png
+[change_record_type_emoji_selection]: dev_files/screens/change_record_type_emoji_selection.png
 [change_record_type_tag_thumb]: dev_files/screens/change_record_type_tag_thumb.png
 [change_record_type_tag]: dev_files/screens/change_record_type_tag.png
 

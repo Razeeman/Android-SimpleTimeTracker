@@ -111,3 +111,8 @@ Version 1.10:
 - Add ability to enter a comment for a running timer
 - Add some translations
 - General bug fixes and improvements
+
+Version 1.11:
+- Add emojis as icons
+- Separate icons into categories
+- General bug fixes and improvements
