@@ -10,6 +10,8 @@ interface PrefsRepo {
 
     var cardOrder: Int
 
+    var firstDayOfWeek: Int
+
     var showUntrackedInRecords: Boolean
 
     var allowMultitasking: Boolean

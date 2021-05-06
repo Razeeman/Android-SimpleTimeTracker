@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="day_of_week_monday">Пн</string>
+    <string name="day_of_week_tuesday">Вт</string>
+    <string name="day_of_week_wednesday">Ср</string>
+    <string name="day_of_week_thursday">Чт</string>
+    <string name="day_of_week_friday">Пт</string>
+    <string name="day_of_week_saturday">Сб</string>
+    <string name="day_of_week_sunday">Вс</string>
+
     <!--  Range selection  -->
     <string name="title_yesterday">Вчера</string>
     <string name="title_today">Сегодня</string>
@@ -120,6 +128,7 @@
     <string name="settings_sort_by_name">Имя</string>
     <string name="settings_sort_by_color">Цвет</string>
     <string name="settings_sort_manually">Вручную</string>
+    <string name="settings_first_day_of_week">Первый день недели</string>
     <string name="settings_show_untracked_time">Показывать неотслеженное время в записях</string>
     <string name="settings_allow_multitasking">Разрешить многозадачность</string>
     <string name="settings_allow_multitasking_hint">Если отключено, запуск нового таймера автоматически остановит другие активности.</string>
@@ -177,14 +186,6 @@
     <string name="statistics_detail_longest_record">Самая длинная</string>
     <string name="statistics_detail_first_record">Первая</string>
     <string name="statistics_detail_last_record">Последняя</string>
-
-    <string name="statistics_detail_chart_monday">Пн</string>
-    <string name="statistics_detail_chart_tuesday">Вт</string>
-    <string name="statistics_detail_chart_wednesday">Ср</string>
-    <string name="statistics_detail_chart_thursday">Чт</string>
-    <string name="statistics_detail_chart_friday">Пт</string>
-    <string name="statistics_detail_chart_saturday">Сб</string>
-    <string name="statistics_detail_chart_sunday">Вс</string>
 
     <plurals name="statistics_detail_times_tracked">
         <item quantity="one">Запись</item>

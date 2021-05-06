@@ -160,13 +160,13 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         data: Map<Int, Float>
     ): StatisticsDetailChartViewData {
         val dayLegends = mapOf(
-            Calendar.MONDAY to R.string.statistics_detail_chart_monday,
-            Calendar.TUESDAY to R.string.statistics_detail_chart_tuesday,
-            Calendar.WEDNESDAY to R.string.statistics_detail_chart_wednesday,
-            Calendar.THURSDAY to R.string.statistics_detail_chart_thursday,
-            Calendar.FRIDAY to R.string.statistics_detail_chart_friday,
-            Calendar.SATURDAY to R.string.statistics_detail_chart_saturday,
-            Calendar.SUNDAY to R.string.statistics_detail_chart_sunday
+            Calendar.MONDAY to R.string.day_of_week_monday,
+            Calendar.TUESDAY to R.string.day_of_week_tuesday,
+            Calendar.WEDNESDAY to R.string.day_of_week_wednesday,
+            Calendar.THURSDAY to R.string.day_of_week_thursday,
+            Calendar.FRIDAY to R.string.day_of_week_friday,
+            Calendar.SATURDAY to R.string.day_of_week_saturday,
+            Calendar.SUNDAY to R.string.day_of_week_sunday
         )
 
         val viewData = dayLegends

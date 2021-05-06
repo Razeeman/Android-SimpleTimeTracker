@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.domain.interactor
 
 import com.example.util.simpletimetracker.domain.model.CardOrder
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
+import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.repo.PrefsRepo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -60,6 +61,33 @@ class PrefsInteractor @Inject constructor(
             CardOrder.NAME -> 0
             CardOrder.COLOR -> 1
             CardOrder.MANUAL -> 2
+        }
+    }
+
+    suspend fun getFirstDayOfWeek(): DayOfWeek = withContext(Dispatchers.IO) {
+        // Same as in java Calendar
+        when (prefsRepo.firstDayOfWeek) {
+            1 -> DayOfWeek.SUNDAY
+            2 -> DayOfWeek.MONDAY
+            3 -> DayOfWeek.TUESDAY
+            4 -> DayOfWeek.WEDNESDAY
+            5 -> DayOfWeek.THURSDAY
+            6 -> DayOfWeek.FRIDAY
+            7 -> DayOfWeek.SATURDAY
+            else -> DayOfWeek.SUNDAY
+        }
+    }
+
+    suspend fun setFirstDayOfWeek(dayOfWeek: DayOfWeek) = withContext(Dispatchers.IO) {
+        // Same as in java Calendar
+        prefsRepo.firstDayOfWeek = when (dayOfWeek) {
+            DayOfWeek.SUNDAY -> 1
+            DayOfWeek.MONDAY -> 2
+            DayOfWeek.TUESDAY -> 3
+            DayOfWeek.WEDNESDAY -> 4
+            DayOfWeek.THURSDAY -> 5
+            DayOfWeek.FRIDAY -> 6
+            DayOfWeek.SATURDAY -> 7
         }
     }
 

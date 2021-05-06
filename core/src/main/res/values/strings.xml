@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="day_of_week_monday">Mon</string>
+    <string name="day_of_week_tuesday">Tue</string>
+    <string name="day_of_week_wednesday">Wed</string>
+    <string name="day_of_week_thursday">Thu</string>
+    <string name="day_of_week_friday">Fri</string>
+    <string name="day_of_week_saturday">Sat</string>
+    <string name="day_of_week_sunday">Sun</string>
+
     <!--  Range selection  -->
     <string name="title_yesterday">Yesterday</string>
     <string name="title_today">Today</string>
@@ -120,6 +128,7 @@
     <string name="settings_sort_by_name">Name</string>
     <string name="settings_sort_by_color">Color</string>
     <string name="settings_sort_manually">Manually</string>
+    <string name="settings_first_day_of_week">First day of week</string>
     <string name="settings_show_untracked_time">Show untracked time in records</string>
     <string name="settings_allow_multitasking">Allow multitasking</string>
     <string name="settings_allow_multitasking_hint">If disabled starting new timer will automatically stop other activities.</string>
@@ -185,14 +194,6 @@
     <string name="statistics_detail_first_record">First</string>
     <string name="statistics_detail_last_record">Last</string>
     <string name="statistics_detail_empty" translatable="false">-</string>
-
-    <string name="statistics_detail_chart_monday">Mon</string>
-    <string name="statistics_detail_chart_tuesday">Tue</string>
-    <string name="statistics_detail_chart_wednesday">Wed</string>
-    <string name="statistics_detail_chart_thursday">Thu</string>
-    <string name="statistics_detail_chart_friday">Fri</string>
-    <string name="statistics_detail_chart_saturday">Sat</string>
-    <string name="statistics_detail_chart_sunday">Sun</string>
 
     <plurals name="statistics_detail_times_tracked">
         <item quantity="zero">Records</item>

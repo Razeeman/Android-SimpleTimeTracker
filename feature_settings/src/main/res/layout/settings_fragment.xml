@@ -369,6 +369,49 @@
                     style="@style/SettingsDivider"
                     android:layout_width="match_parent" />
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvSettingsFirstDayOfWeek"
+                        style="@style/SettingsText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_first_day_of_week"
+                        app:layout_constraintEnd_toStartOf="@id/tvSettingsFirstDayOfWeekValue"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvSettingsFirstDayOfWeekValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_marginEnd="32dp"
+                        android:gravity="end|center_vertical"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
+                        android:textColor="?appTextPrimaryColor"
+                        app:layout_constraintBottom_toBottomOf="@id/spinnerSettingsFirstDayOfWeek"
+                        app:layout_constraintEnd_toEndOf="@id/spinnerSettingsFirstDayOfWeek"
+                        app:layout_constraintTop_toTopOf="@id/spinnerSettingsFirstDayOfWeek"
+                        tools:text="@string/day_of_week_monday" />
+
+                    <com.example.util.simpletimetracker.core.view.spinner.CustomSpinner
+                        android:id="@+id/spinnerSettingsFirstDayOfWeek"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_marginEnd="8dp"
+                        app:layout_constraintBottom_toBottomOf="@id/tvSettingsFirstDayOfWeek"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tvSettingsFirstDayOfWeek" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <View
+                    style="@style/SettingsDivider"
+                    android:layout_width="match_parent" />
+
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvSettingsChangeCardSize"
                     style="@style/SettingsText"

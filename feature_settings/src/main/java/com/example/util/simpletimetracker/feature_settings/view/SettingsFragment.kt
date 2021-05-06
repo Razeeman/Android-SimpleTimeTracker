@@ -17,6 +17,7 @@ import com.example.util.simpletimetracker.feature_settings.BuildConfig
 import com.example.util.simpletimetracker.feature_settings.R
 import com.example.util.simpletimetracker.feature_settings.di.SettingsComponentProvider
 import com.example.util.simpletimetracker.feature_settings.viewData.CardOrderViewData
+import com.example.util.simpletimetracker.feature_settings.viewData.FirstDayOfWeekViewData
 import com.example.util.simpletimetracker.feature_settings.viewModel.SettingsViewModel
 import com.example.util.simpletimetracker.navigation.RequestCode.REQUEST_CODE_CREATE_CSV_FILE
 import com.example.util.simpletimetracker.navigation.RequestCode.REQUEST_CODE_CREATE_FILE
@@ -53,6 +54,7 @@ class SettingsFragment : BaseFragment(R.layout.settings_fragment),
     override fun initUx() {
         spinnerSettingsRecordTypeSort.onPositionSelected = viewModel::onRecordTypeOrderSelected
         btnCardOrderManual.setOnClick(viewModel::onCardOrderManualClick)
+        spinnerSettingsFirstDayOfWeek.onPositionSelected = viewModel::onFirstDayOfWeekSelected
         checkboxSettingsShowUntracked.setOnClick(viewModel::onShowUntrackedClicked)
         checkboxSettingsAllowMultitasking.setOnClick(viewModel::onAllowMultitaskingClicked)
         checkboxSettingsShowNotifications.setOnClick(viewModel::onShowNotificationsClicked)
@@ -72,6 +74,10 @@ class SettingsFragment : BaseFragment(R.layout.settings_fragment),
         cardOrderViewData.observe(
             viewLifecycleOwner,
             ::updateCardOrderViewData
+        )
+        firstDayOfWeekViewData.observe(
+            viewLifecycleOwner,
+            ::updateFirstDayOfWeekViewData
         )
         btnCardOrderManualVisibility.observe(
             viewLifecycleOwner,
@@ -114,6 +120,7 @@ class SettingsFragment : BaseFragment(R.layout.settings_fragment),
     override fun onResume() {
         super.onResume()
         spinnerSettingsRecordTypeSort.jumpDrawablesToCurrentState()
+        spinnerSettingsFirstDayOfWeek.jumpDrawablesToCurrentState()
         checkboxSettingsShowUntracked.jumpDrawablesToCurrentState()
         checkboxSettingsAllowMultitasking.jumpDrawablesToCurrentState()
         checkboxSettingsShowNotifications.jumpDrawablesToCurrentState()
@@ -162,6 +169,11 @@ class SettingsFragment : BaseFragment(R.layout.settings_fragment),
         btnCardOrderManual.visible = viewData.isManualConfigButtonVisible
         spinnerSettingsRecordTypeSort.setData(viewData.items, viewData.selectedPosition)
         tvSettingsRecordTypeSortValue.text = viewData.items.getOrNull(viewData.selectedPosition)?.text.orEmpty()
+    }
+
+    private fun updateFirstDayOfWeekViewData(viewData: FirstDayOfWeekViewData) {
+        spinnerSettingsFirstDayOfWeek.setData(viewData.items, viewData.selectedPosition)
+        tvSettingsFirstDayOfWeekValue.text = viewData.items.getOrNull(viewData.selectedPosition)?.text.orEmpty()
     }
 
     private fun changeTheme(themeChanged: Boolean) {

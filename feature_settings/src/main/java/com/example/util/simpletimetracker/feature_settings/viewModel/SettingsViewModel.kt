@@ -13,6 +13,7 @@ import com.example.util.simpletimetracker.domain.model.CardOrder
 import com.example.util.simpletimetracker.feature_settings.R
 import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
 import com.example.util.simpletimetracker.feature_settings.viewData.CardOrderViewData
+import com.example.util.simpletimetracker.feature_settings.viewData.FirstDayOfWeekViewData
 import com.example.util.simpletimetracker.navigation.Action
 import com.example.util.simpletimetracker.navigation.Notification
 import com.example.util.simpletimetracker.navigation.Router
@@ -50,6 +51,15 @@ class SettingsViewModel @Inject constructor(
         MutableLiveData<Boolean>().let { initial ->
             viewModelScope.launch {
                 initial.value = prefsInteractor.getCardOrder() == CardOrder.MANUAL
+            }
+            initial
+        }
+    }
+
+    val firstDayOfWeekViewData: LiveData<FirstDayOfWeekViewData> by lazy {
+        MutableLiveData<FirstDayOfWeekViewData>().let { initial ->
+            viewModelScope.launch {
+                initial.value = loadFirstDayOfWeekViewData()
             }
             initial
         }
@@ -192,6 +202,15 @@ class SettingsViewModel @Inject constructor(
         openCardOrderDialog(CardOrder.MANUAL)
     }
 
+    fun onFirstDayOfWeekSelected(position: Int) {
+        val newDayOfWeek = settingsMapper.toDayOfWeek(position)
+
+        viewModelScope.launch {
+            prefsInteractor.setFirstDayOfWeek(newDayOfWeek)
+            updateFirstDayOfWeekViewData()
+        }
+    }
+
     fun onShowUntrackedClicked() {
         viewModelScope.launch {
             val newValue = !prefsInteractor.getShowUntrackedInRecords()
@@ -318,6 +337,16 @@ class SettingsViewModel @Inject constructor(
     private suspend fun loadCardOrderViewData(): CardOrderViewData {
         return prefsInteractor.getCardOrder()
             .let(settingsMapper::toCardOrderViewData)
+    }
+
+    private suspend fun updateFirstDayOfWeekViewData() {
+        val data = loadFirstDayOfWeekViewData()
+        (firstDayOfWeekViewData as MutableLiveData).value = data
+    }
+
+    private suspend fun loadFirstDayOfWeekViewData(): FirstDayOfWeekViewData {
+        return prefsInteractor.getFirstDayOfWeek()
+            .let(settingsMapper::toFirstDayOfWeekViewData)
     }
 
     private suspend fun updateInactivityReminderViewData() {

@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import com.example.util.simpletimetracker.data_local.extension.delegate
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.repo.PrefsRepo
+import java.util.Calendar
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -11,6 +12,10 @@ import javax.inject.Singleton
 class PrefsRepoImpl @Inject constructor(
     private val prefs: SharedPreferences
 ) : PrefsRepo {
+
+    private val firstDayOfWeekDefault: Int by lazy {
+        Calendar.getInstance().firstDayOfWeek
+    }
 
     override var recordTypesFilteredOnChart: Set<String> by prefs.delegate(
         KEY_RECORD_TYPES_FILTERED_ON_CHART, emptySet()
@@ -26,6 +31,10 @@ class PrefsRepoImpl @Inject constructor(
 
     override var cardOrder: Int by prefs.delegate(
         KEY_CARD_ORDER, 0
+    )
+
+    override var firstDayOfWeek: Int by prefs.delegate(
+        KEY_FIRST_DAY_OF_WEEK, firstDayOfWeekDefault
     )
 
     override var showUntrackedInRecords: Boolean by prefs.delegate(
@@ -102,6 +111,7 @@ class PrefsRepoImpl @Inject constructor(
         private const val KEY_CATEGORIES_TYPES_FILTERED_ON_CHART = "categoriesFilteredOnChart"
         private const val KEY_CHART_FILTER_TYPE = "chartFilterType"
         private const val KEY_CARD_ORDER = "cardOrder"
+        private const val KEY_FIRST_DAY_OF_WEEK = "firstDayOfWeek"
         private const val KEY_SHOW_UNTRACKED_IN_RECORDS = "showUntrackedInRecords"
         private const val KEY_ALLOW_MULTITASKING = "allowMultitasking"
         private const val KEY_SHOW_NOTIFICATIONS = "showNotifications"

@@ -5,8 +5,10 @@ import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.view.spinner.CustomSpinner
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.model.CardOrder
+import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.feature_settings.R
 import com.example.util.simpletimetracker.feature_settings.viewData.CardOrderViewData
+import com.example.util.simpletimetracker.feature_settings.viewData.FirstDayOfWeekViewData
 import java.util.Calendar
 import javax.inject.Inject
 
@@ -21,9 +23,21 @@ class SettingsMapper @Inject constructor(
         CardOrder.MANUAL
     )
 
+    private val dayOfWeekList: List<DayOfWeek> = listOf(
+        DayOfWeek.MONDAY,
+        DayOfWeek.TUESDAY,
+        DayOfWeek.WEDNESDAY,
+        DayOfWeek.THURSDAY,
+        DayOfWeek.FRIDAY,
+        DayOfWeek.SATURDAY,
+        DayOfWeek.SUNDAY
+    )
+
     fun toCardOrderViewData(currentOrder: CardOrder): CardOrderViewData {
         return CardOrderViewData(
-            items = cardOrderList.map(::toCardOrderName).map(CustomSpinner::CustomSpinnerTextItem),
+            items = cardOrderList
+                .map(::toCardOrderName)
+                .map(CustomSpinner::CustomSpinnerTextItem),
             selectedPosition = toPosition(currentOrder),
             isManualConfigButtonVisible = currentOrder == CardOrder.MANUAL
         )
@@ -31,6 +45,19 @@ class SettingsMapper @Inject constructor(
 
     fun toCardOrder(position: Int): CardOrder {
         return cardOrderList.getOrElse(position) { cardOrderList.first() }
+    }
+
+    fun toFirstDayOfWeekViewData(currentOrder: DayOfWeek): FirstDayOfWeekViewData {
+        return FirstDayOfWeekViewData(
+            items = dayOfWeekList
+                .map(timeMapper::toShortDayOfWeekName)
+                .map(CustomSpinner::CustomSpinnerTextItem),
+            selectedPosition = toPosition(currentOrder)
+        )
+    }
+
+    fun toDayOfWeek(position: Int): DayOfWeek {
+        return dayOfWeekList.getOrElse(position) { dayOfWeekList.first() }
     }
 
     fun toInactivityReminderText(duration: Long): String {
@@ -62,5 +89,9 @@ class SettingsMapper @Inject constructor(
             CardOrder.COLOR -> R.string.settings_sort_by_color
             CardOrder.MANUAL -> R.string.settings_sort_manually
         }.let(resourceRepo::getString)
+    }
+
+    private fun toPosition(dayOfWeek: DayOfWeek): Int {
+        return dayOfWeekList.indexOf(dayOfWeek).takeUnless { it == -1 }.orZero()
     }
 }

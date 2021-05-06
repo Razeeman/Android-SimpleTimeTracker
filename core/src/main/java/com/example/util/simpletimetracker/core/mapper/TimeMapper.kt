@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.core.mapper
 
 import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -196,6 +197,18 @@ class TimeMapper @Inject constructor(
         }
     }
 
+    fun toShortDayOfWeekName(dayOfWeek: DayOfWeek): String {
+        return when (dayOfWeek) {
+            DayOfWeek.SUNDAY -> R.string.day_of_week_sunday
+            DayOfWeek.MONDAY -> R.string.day_of_week_monday
+            DayOfWeek.TUESDAY -> R.string.day_of_week_tuesday
+            DayOfWeek.WEDNESDAY -> R.string.day_of_week_wednesday
+            DayOfWeek.THURSDAY -> R.string.day_of_week_thursday
+            DayOfWeek.FRIDAY -> R.string.day_of_week_friday
+            DayOfWeek.SATURDAY -> R.string.day_of_week_saturday
+        }.let(resourceRepo::getString)
+    }
+
     fun sameDay(date1: Long, date2: Long): Boolean {
         calendar.apply { timeInMillis = date1 }
         val year1: Int = calendar.get(Calendar.YEAR)
@@ -372,5 +385,17 @@ class TimeMapper @Inject constructor(
     private fun isFirstWeekOfNextYear(calendar: Calendar): Boolean {
         return calendar.get(Calendar.WEEK_OF_YEAR) == 1 &&
             calendar.get(Calendar.MONTH) == calendar.getActualMaximum(Calendar.MONTH)
+    }
+
+    private fun toCalendarDayOfWeek(dayOfWeek: DayOfWeek): Int {
+        return when (dayOfWeek) {
+            DayOfWeek.SUNDAY -> Calendar.SUNDAY
+            DayOfWeek.MONDAY -> Calendar.MONDAY
+            DayOfWeek.TUESDAY -> Calendar.TUESDAY
+            DayOfWeek.WEDNESDAY -> Calendar.WEDNESDAY
+            DayOfWeek.THURSDAY -> Calendar.THURSDAY
+            DayOfWeek.FRIDAY -> Calendar.FRIDAY
+            DayOfWeek.SATURDAY -> Calendar.SATURDAY
+        }
     }
 }
