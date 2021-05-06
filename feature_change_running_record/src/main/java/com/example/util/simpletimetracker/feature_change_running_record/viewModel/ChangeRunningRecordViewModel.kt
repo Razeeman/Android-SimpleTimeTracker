@@ -81,6 +81,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
     fun onTimeStartedClick() {
         viewModelScope.launch {
             val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
+            val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
 
             router.navigate(
                 Screen.DATE_TIME_DIALOG,
@@ -88,7 +89,8 @@ class ChangeRunningRecordViewModel @Inject constructor(
                     tag = TIME_STARTED_TAG,
                     timestamp = newTimeStarted,
                     type = DateTimeDialogType.DATETIME,
-                    useMilitaryTime = useMilitaryTime
+                    useMilitaryTime = useMilitaryTime,
+                    firstDayOfWeek = firstDayOfWeek
                 )
             )
         }

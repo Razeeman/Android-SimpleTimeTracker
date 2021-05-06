@@ -209,6 +209,18 @@ class TimeMapper @Inject constructor(
         }.let(resourceRepo::getString)
     }
 
+    fun toCalendarDayOfWeek(dayOfWeek: DayOfWeek): Int {
+        return when (dayOfWeek) {
+            DayOfWeek.SUNDAY -> Calendar.SUNDAY
+            DayOfWeek.MONDAY -> Calendar.MONDAY
+            DayOfWeek.TUESDAY -> Calendar.TUESDAY
+            DayOfWeek.WEDNESDAY -> Calendar.WEDNESDAY
+            DayOfWeek.THURSDAY -> Calendar.THURSDAY
+            DayOfWeek.FRIDAY -> Calendar.FRIDAY
+            DayOfWeek.SATURDAY -> Calendar.SATURDAY
+        }
+    }
+
     fun sameDay(date1: Long, date2: Long): Boolean {
         calendar.apply { timeInMillis = date1 }
         val year1: Int = calendar.get(Calendar.YEAR)
@@ -385,17 +397,5 @@ class TimeMapper @Inject constructor(
     private fun isFirstWeekOfNextYear(calendar: Calendar): Boolean {
         return calendar.get(Calendar.WEEK_OF_YEAR) == 1 &&
             calendar.get(Calendar.MONTH) == calendar.getActualMaximum(Calendar.MONTH)
-    }
-
-    private fun toCalendarDayOfWeek(dayOfWeek: DayOfWeek): Int {
-        return when (dayOfWeek) {
-            DayOfWeek.SUNDAY -> Calendar.SUNDAY
-            DayOfWeek.MONDAY -> Calendar.MONDAY
-            DayOfWeek.TUESDAY -> Calendar.TUESDAY
-            DayOfWeek.WEDNESDAY -> Calendar.WEDNESDAY
-            DayOfWeek.THURSDAY -> Calendar.THURSDAY
-            DayOfWeek.FRIDAY -> Calendar.FRIDAY
-            DayOfWeek.SATURDAY -> Calendar.SATURDAY
-        }
     }
 }

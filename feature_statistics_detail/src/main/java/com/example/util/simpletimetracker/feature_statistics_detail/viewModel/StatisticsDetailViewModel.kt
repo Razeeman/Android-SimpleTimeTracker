@@ -12,12 +12,13 @@ import com.example.util.simpletimetracker.core.view.spinner.CustomSpinner
 import com.example.util.simpletimetracker.core.viewData.RangeViewData
 import com.example.util.simpletimetracker.core.viewData.RangesViewData
 import com.example.util.simpletimetracker.core.viewData.SelectDateViewData
+import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailChartInteractor
-import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailSplitChartInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailPreviewInteractor
+import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailSplitChartInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailStatsInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.StatisticsDetailViewDataMapper
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartGrouping
@@ -40,6 +41,7 @@ import javax.inject.Inject
 
 class StatisticsDetailViewModel @Inject constructor(
     private val router: Router,
+    private val prefsInteractor: PrefsInteractor,
     private val chartInteractor: StatisticsDetailChartInteractor,
     private val previewInteractor: StatisticsDetailPreviewInteractor,
     private val statsInteractor: StatisticsDetailStatsInteractor,
@@ -179,7 +181,9 @@ class StatisticsDetailViewModel @Inject constructor(
         }
     }
 
-    private fun onSelectDateClick() {
+    private fun onSelectDateClick() = viewModelScope.launch {
+        val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
+        val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
         val current = timeMapper.toTimestampShifted(
             rangesFromToday = rangePosition,
             range = rangeLength
@@ -190,7 +194,9 @@ class StatisticsDetailViewModel @Inject constructor(
             DateTimeDialogParams(
                 tag = DATE_TAG,
                 type = DateTimeDialogType.DATE,
-                timestamp = current
+                timestamp = current,
+                useMilitaryTime = useMilitaryTime,
+                firstDayOfWeek = firstDayOfWeek
             )
         )
     }

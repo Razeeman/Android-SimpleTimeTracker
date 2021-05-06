@@ -3,19 +3,23 @@ package com.example.util.simpletimetracker.feature_records.viewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
 import com.example.util.simpletimetracker.navigation.params.ChangeRecordParams
 import com.example.util.simpletimetracker.navigation.params.DateTimeDialogParams
 import com.example.util.simpletimetracker.navigation.params.DateTimeDialogType
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class RecordsContainerViewModel @Inject constructor(
     private val router: Router,
-    private val timeMapper: TimeMapper
+    private val timeMapper: TimeMapper,
+    private val prefsInteractor: PrefsInteractor
 ) : ViewModel() {
 
     val title: LiveData<String> by lazy {
@@ -37,16 +41,25 @@ class RecordsContainerViewModel @Inject constructor(
     }
 
     fun onTodayClick() {
-        val current = timeMapper.toTimestampShifted(position.value.orZero(), RangeLength.DAY)
-
-        router.navigate(
-            Screen.DATE_TIME_DIALOG,
-            DateTimeDialogParams(
-                tag = DATE_TAG,
-                type = DateTimeDialogType.DATE,
-                timestamp = current
+        viewModelScope.launch {
+            val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
+            val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
+            val current = timeMapper.toTimestampShifted(
+                rangesFromToday = position.value.orZero(),
+                range = RangeLength.DAY
             )
-        )
+
+            router.navigate(
+                Screen.DATE_TIME_DIALOG,
+                DateTimeDialogParams(
+                    tag = DATE_TAG,
+                    type = DateTimeDialogType.DATE,
+                    timestamp = current,
+                    useMilitaryTime = useMilitaryTime,
+                    firstDayOfWeek = firstDayOfWeek
+                )
+            )
+        }
     }
 
     fun onTodayLongClick() {

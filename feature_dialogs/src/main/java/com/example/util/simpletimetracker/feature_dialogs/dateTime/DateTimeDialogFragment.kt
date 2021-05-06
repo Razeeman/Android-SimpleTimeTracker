@@ -12,17 +12,27 @@ import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
 import com.example.util.simpletimetracker.core.extension.getAllFragments
 import com.example.util.simpletimetracker.core.extension.onTabSelected
 import com.example.util.simpletimetracker.core.extension.visible
+import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.extension.orFalse
 import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.feature_dialogs.R
+import com.example.util.simpletimetracker.feature_dialogs.dateTime.di.DateTimeComponentProvider
 import com.example.util.simpletimetracker.navigation.params.DateTimeDialogParams
 import com.example.util.simpletimetracker.navigation.params.DateTimeDialogType
-import kotlinx.android.synthetic.main.date_time_dialog_fragment.*
+import kotlinx.android.synthetic.main.date_time_dialog_fragment.btnDateTimeDialogPositive
+import kotlinx.android.synthetic.main.date_time_dialog_fragment.datePickerContainer
+import kotlinx.android.synthetic.main.date_time_dialog_fragment.tabsDateTimeDialog
+import kotlinx.android.synthetic.main.date_time_dialog_fragment.timePickerContainer
 import java.util.Calendar
+import javax.inject.Inject
 
 class DateTimeDialogFragment : AppCompatDialogFragment(),
     DateDialogFragment.OnDateSetListener,
     TimeDialogFragment.OnTimeSetListener {
+
+    @Inject
+    lateinit var timeMapper: TimeMapper
 
     private var timeDialogFragment: TimeDialogFragment? = null
     private var dateDialogFragment: DateDialogFragment? = null
@@ -39,6 +49,10 @@ class DateTimeDialogFragment : AppCompatDialogFragment(),
     }
     private val timestamp: Long by lazy {
         arguments?.getLong(ARGS_TIMESTAMP).orZero()
+    }
+    private val firstDayOfWeek: DayOfWeek by lazy {
+        arguments?.getSerializable(ARGS_FIRST_DAY_OF_WEEK) as? DayOfWeek
+            ?: DayOfWeek.MONDAY
     }
     private var newTimestamp: Long = 0
     private val calendar = Calendar.getInstance()
@@ -68,21 +82,10 @@ class DateTimeDialogFragment : AppCompatDialogFragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         newTimestamp = timestamp
-        initFragments()
-        initTabs()
-
-        btnDateTimeDialogPositive.setOnClickListener {
-            timeDialogFragment?.getSelectedTime()?.let { (hour, minute) ->
-                onTimeSet(hour, minute)
-            }
-            dateDialogFragment?.getSelectedDate()?.let { (year, month, day) ->
-                onDateSet(year, month, day)
-            }
-            dateTimeDialogListeners.forEach { it.onDateTimeSet(newTimestamp, dialogTag) }
-            dismiss()
-        }
+        initDi()
+        initUi()
+        initUx()
     }
 
     override fun onDateSet(year: Int, monthOfYear: Int, dayOfMonth: Int) {
@@ -104,11 +107,36 @@ class DateTimeDialogFragment : AppCompatDialogFragment(),
         newTimestamp = calendar.timeInMillis
     }
 
+    private fun initDi() {
+        (activity?.application as DateTimeComponentProvider)
+            .dateTimeComponent
+            ?.inject(this)
+    }
+
+    private fun initUi() {
+        initFragments()
+        initTabs()
+    }
+
+    private fun initUx() {
+        btnDateTimeDialogPositive.setOnClickListener {
+            timeDialogFragment?.getSelectedTime()?.let { (hour, minute) ->
+                onTimeSet(hour, minute)
+            }
+            dateDialogFragment?.getSelectedDate()?.let { (year, month, day) ->
+                onDateSet(year, month, day)
+            }
+            dateTimeDialogListeners.forEach { it.onDateTimeSet(newTimestamp, dialogTag) }
+            dismiss()
+        }
+    }
+
     private fun initFragments() {
+        val dayOfWeek = timeMapper.toCalendarDayOfWeek(firstDayOfWeek)
         childFragmentManager.commit {
             replace(
                 R.id.datePickerContainer,
-                DateDialogFragment.newInstance(timestamp)
+                DateDialogFragment.newInstance(timestamp, dayOfWeek)
                     .apply { listener = this@DateTimeDialogFragment }
                     .also { dateDialogFragment = it }
             )
@@ -156,6 +184,7 @@ class DateTimeDialogFragment : AppCompatDialogFragment(),
         private const val ARGS_TYPE = "type"
         private const val ARGS_MILITARY = "military"
         private const val ARGS_TIMESTAMP = "timestamp"
+        private const val ARGS_FIRST_DAY_OF_WEEK = "firstDayOfWeek"
 
         fun createBundle(data: Any?): Bundle = Bundle().apply {
             when (data) {
@@ -164,6 +193,7 @@ class DateTimeDialogFragment : AppCompatDialogFragment(),
                     putSerializable(ARGS_TYPE, data.type)
                     putBoolean(ARGS_MILITARY, data.useMilitaryTime)
                     putLong(ARGS_TIMESTAMP, data.timestamp)
+                    putSerializable(ARGS_FIRST_DAY_OF_WEEK, data.firstDayOfWeek)
                 }
             }
         }

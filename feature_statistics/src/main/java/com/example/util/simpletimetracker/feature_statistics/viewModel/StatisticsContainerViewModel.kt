@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.feature_statistics.viewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.mapper.RangeMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.view.spinner.CustomSpinner
@@ -10,17 +11,20 @@ import com.example.util.simpletimetracker.core.viewData.RangeViewData
 import com.example.util.simpletimetracker.core.viewData.RangesViewData
 import com.example.util.simpletimetracker.core.viewData.SelectDateViewData
 import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
 import com.example.util.simpletimetracker.navigation.params.DateTimeDialogParams
 import com.example.util.simpletimetracker.navigation.params.DateTimeDialogType
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class StatisticsContainerViewModel @Inject constructor(
     private val router: Router,
     private val timeMapper: TimeMapper,
-    private val rangeMapper: RangeMapper
+    private val rangeMapper: RangeMapper,
+    private val prefsInteractor: PrefsInteractor
 ) : ViewModel() {
 
     val title: LiveData<String> by lazy {
@@ -73,7 +77,9 @@ class StatisticsContainerViewModel @Inject constructor(
         }
     }
 
-    private fun onSelectDateClick() {
+    private fun onSelectDateClick() = viewModelScope.launch {
+        val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
+        val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
         val current = timeMapper.toTimestampShifted(
             rangesFromToday = position.value.orZero(),
             range = rangeLength
@@ -84,7 +90,9 @@ class StatisticsContainerViewModel @Inject constructor(
             DateTimeDialogParams(
                 tag = DATE_TAG,
                 type = DateTimeDialogType.DATE,
-                timestamp = current
+                timestamp = current,
+                useMilitaryTime = useMilitaryTime,
+                firstDayOfWeek = firstDayOfWeek
             )
         )
     }
