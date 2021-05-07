@@ -32,15 +32,18 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
         rangePosition: Int,
         splitChartGrouping: SplitChartGrouping
     ): StatisticsDetailChartViewData {
+        val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
+
         // If untracked
         if (id == -1L) {
             return when (splitChartGrouping) {
-                SplitChartGrouping.HOURLY -> statisticsDetailViewDataMapper.mapToHourlyChartViewData(emptyMap())
-                SplitChartGrouping.DAILY -> statisticsDetailViewDataMapper.mapToDailyChartViewData(emptyMap())
+                SplitChartGrouping.HOURLY ->
+                    statisticsDetailViewDataMapper.mapToHourlyChartViewData(emptyMap())
+                SplitChartGrouping.DAILY ->
+                    statisticsDetailViewDataMapper.mapToDailyChartViewData(emptyMap(), firstDayOfWeek)
             }
         }
 
-        val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
         val range = timeMapper.getRangeStartAndEnd(rangeLength, rangePosition, firstDayOfWeek)
         val typesIds = when (filter) {
             ChartFilterType.ACTIVITY -> listOf(id)
@@ -49,8 +52,10 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
         val data = getDurations(typesIds, range, splitChartGrouping)
 
         return when (splitChartGrouping) {
-            SplitChartGrouping.HOURLY -> statisticsDetailViewDataMapper.mapToHourlyChartViewData(data)
-            SplitChartGrouping.DAILY -> statisticsDetailViewDataMapper.mapToDailyChartViewData(data)
+            SplitChartGrouping.HOURLY ->
+                statisticsDetailViewDataMapper.mapToHourlyChartViewData(data)
+            SplitChartGrouping.DAILY ->
+                statisticsDetailViewDataMapper.mapToDailyChartViewData(data, firstDayOfWeek)
         }
     }
 

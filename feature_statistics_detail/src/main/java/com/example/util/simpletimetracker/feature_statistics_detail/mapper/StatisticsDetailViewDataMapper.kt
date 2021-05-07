@@ -7,6 +7,8 @@ import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.domain.extension.rotateLeft
+import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.feature_statistics_detail.R
@@ -22,7 +24,6 @@ import com.example.util.simpletimetracker.feature_statistics_detail.viewData.Sta
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailSplitGroupingViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStatsViewData
-import java.util.Calendar
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -157,25 +158,30 @@ class StatisticsDetailViewDataMapper @Inject constructor(
     }
 
     fun mapToDailyChartViewData(
-        data: Map<Int, Float>
+        data: Map<Int, Float>,
+        firstDayOfWeek: DayOfWeek
     ): StatisticsDetailChartViewData {
-        val dayLegends = mapOf(
-            Calendar.MONDAY to R.string.day_of_week_monday,
-            Calendar.TUESDAY to R.string.day_of_week_tuesday,
-            Calendar.WEDNESDAY to R.string.day_of_week_wednesday,
-            Calendar.THURSDAY to R.string.day_of_week_thursday,
-            Calendar.FRIDAY to R.string.day_of_week_friday,
-            Calendar.SATURDAY to R.string.day_of_week_saturday,
-            Calendar.SUNDAY to R.string.day_of_week_sunday
-        )
+        val days = listOf(
+            DayOfWeek.MONDAY,
+            DayOfWeek.TUESDAY,
+            DayOfWeek.WEDNESDAY,
+            DayOfWeek.THURSDAY,
+            DayOfWeek.FRIDAY,
+            DayOfWeek.SATURDAY,
+            DayOfWeek.SUNDAY
+        ).let { list ->
+            list.indexOf(firstDayOfWeek)
+                .takeUnless { it == -1 }.orZero()
+                .let(list::rotateLeft)
+        }
 
-        val viewData = dayLegends
-            .map { (day, legendResId) ->
-                BarChartView.ViewData(
-                    value = data[day].orZero(),
-                    legend = legendResId.let(resourceRepo::getString)
-                )
-            }
+        val viewData = days.map { day ->
+            val calendarDay = timeMapper.toCalendarDayOfWeek(day)
+            BarChartView.ViewData(
+                value = data[calendarDay].orZero(),
+                legend = timeMapper.toShortDayOfWeekName(day)
+            )
+        }
 
         return StatisticsDetailChartViewData(
             visible = true,
