@@ -7,6 +7,7 @@ import androidx.test.espresso.ViewAssertion
 import androidx.test.espresso.assertion.PositionAssertions.isCompletelyAbove
 import androidx.test.espresso.assertion.PositionAssertions.isCompletelyLeftOf
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isChecked
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
@@ -16,6 +17,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
+import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.Direction
 import com.example.util.simpletimetracker.utils.NavUtils
@@ -25,13 +27,17 @@ import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.drag
+import com.example.util.simpletimetracker.utils.longClickOnViewWithId
 import com.example.util.simpletimetracker.utils.nestedScrollTo
 import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.unconstrainedClickOnView
+import com.example.util.simpletimetracker.utils.withPluralText
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.Matcher
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.util.Calendar
+import java.util.concurrent.TimeUnit
 
 @RunWith(AndroidJUnit4::class)
 class SettingsTest : BaseUiTest() {
@@ -314,11 +320,7 @@ class SettingsTest : BaseUiTest() {
 
         // Change settings
         NavUtils.openSettingsScreen()
-        onView(withId(R.id.spinnerSettingsRecordTypeSort)).perform(nestedScrollTo())
-        // Double click to avoid failure on low api small screens
-        clickOnViewWithId(R.id.spinnerSettingsRecordTypeSort)
-        pressBack()
-        clickOnViewWithId(R.id.spinnerSettingsRecordTypeSort)
+        clickOnSpinnerWithId(R.id.spinnerSettingsRecordTypeSort)
         clickOnViewWithText(R.string.settings_sort_by_color)
         checkViewIsDisplayed(
             allOf(withId(R.id.tvSettingsRecordTypeSortValue), withText(R.string.settings_sort_by_color))
@@ -342,11 +344,7 @@ class SettingsTest : BaseUiTest() {
 
         // Change settings
         NavUtils.openSettingsScreen()
-        onView(withId(R.id.spinnerSettingsRecordTypeSort)).perform(nestedScrollTo())
-        // Double click to avoid failure on low api small screens
-        clickOnViewWithId(R.id.spinnerSettingsRecordTypeSort)
-        pressBack()
-        clickOnViewWithId(R.id.spinnerSettingsRecordTypeSort)
+        clickOnSpinnerWithId(R.id.spinnerSettingsRecordTypeSort)
         clickOnViewWithText(R.string.settings_sort_manually)
         Thread.sleep(1000)
 
@@ -554,6 +552,142 @@ class SettingsTest : BaseUiTest() {
         checkViewIsDisplayed(allOf(withId(R.id.tvSettingsUseMilitaryTimeHint), withText("13:00")))
     }
 
+    @Test
+    fun firstDayOfWeek() {
+        // If today is sunday:
+        // add record for previous monday,
+        // then select first day monday - record will be present this week,
+        // then select first day sunday - record will be prev week.
+        // If today is not sunday:
+        // add record for prev sunday,
+        // then select first day sunday - record will be present this week,
+        // then select first day monday - record will be prev week.
+
+        val name = "Test"
+        val isTodaySunday = Calendar.getInstance().get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY
+
+        // Add data
+        testUtils.addActivity(name)
+        val calendar = Calendar.getInstance()
+            .apply {
+                val recordDay = if (isTodaySunday) Calendar.MONDAY else Calendar.SUNDAY
+                firstDayOfWeek = recordDay
+                set(Calendar.DAY_OF_WEEK, recordDay)
+                set(Calendar.HOUR_OF_DAY, 15)
+            }
+        testUtils.addRecord(
+            typeName = name,
+            timeStarted = calendar.timeInMillis,
+            timeEnded = calendar.timeInMillis + TimeUnit.HOURS.toMillis(1)
+        )
+
+        // Change setting
+        NavUtils.openSettingsScreen()
+        clickOnSpinnerWithId(R.id.spinnerSettingsFirstDayOfWeek)
+        if (isTodaySunday) {
+            clickOnViewWithText(R.string.day_of_week_monday)
+        } else {
+            clickOnViewWithText(R.string.day_of_week_sunday)
+        }
+
+        // Check statistics
+        NavUtils.openStatisticsScreen()
+        clickOnViewWithId(R.id.btnStatisticsContainerToday)
+        clickOnViewWithText(R.string.range_week)
+        clickOnView(
+            allOf(
+                withId(R.id.layoutStatisticsItem),
+                hasDescendant(withText(name)),
+                isCompletelyDisplayed()
+            )
+        )
+
+        // Check detailed statistics
+        clickOnViewWithId(R.id.btnStatisticsDetailToday)
+        clickOnViewWithText(R.string.range_week)
+        checkViewIsDisplayed(
+            allOf(
+                withPluralText(R.plurals.statistics_detail_times_tracked, 1),
+                ViewMatchers.hasSibling(withText("1")),
+                isCompletelyDisplayed()
+            )
+        )
+
+        // Check range titles
+        var titlePrev = timeMapper.toWeekTitle(
+            weeksFromToday = -1,
+            firstDayOfWeek = if (isTodaySunday) DayOfWeek.MONDAY else DayOfWeek.SUNDAY
+        )
+        longClickOnViewWithId(R.id.btnStatisticsDetailToday)
+        clickOnViewWithId(R.id.btnStatisticsDetailPrevious)
+        checkViewIsDisplayed(allOf(withText(titlePrev), isCompletelyDisplayed()))
+        pressBack()
+        longClickOnViewWithId(R.id.btnStatisticsContainerToday)
+        clickOnViewWithId(R.id.btnStatisticsContainerPrevious)
+        checkViewIsDisplayed(allOf(withText(titlePrev), isCompletelyDisplayed()))
+        longClickOnViewWithId(R.id.btnStatisticsContainerToday)
+
+        // Change setting
+        NavUtils.openSettingsScreen()
+        clickOnSpinnerWithId(R.id.spinnerSettingsFirstDayOfWeek)
+        if (isTodaySunday) {
+            clickOnViewWithText(R.string.day_of_week_sunday)
+        } else {
+            clickOnViewWithText(R.string.day_of_week_monday)
+        }
+
+        // Check statistics
+        NavUtils.openStatisticsScreen()
+        checkViewDoesNotExist(
+            allOf(
+                withId(R.id.layoutStatisticsItem),
+                hasDescendant(withText(name)),
+                isCompletelyDisplayed()
+            )
+        )
+        clickOnViewWithId(R.id.btnStatisticsContainerPrevious)
+        clickOnView(
+            allOf(
+                withId(R.id.layoutStatisticsItem),
+                hasDescendant(withText(name)),
+                isCompletelyDisplayed()
+            )
+        )
+
+        // Check detailed statistics
+        clickOnViewWithId(R.id.btnStatisticsDetailToday)
+        clickOnViewWithText(R.string.range_week)
+        checkViewIsDisplayed(
+            allOf(
+                withPluralText(R.plurals.statistics_detail_times_tracked, 0),
+                ViewMatchers.hasSibling(withText("0")),
+                isCompletelyDisplayed()
+            )
+        )
+        clickOnViewWithId(R.id.btnStatisticsDetailPrevious)
+        checkViewIsDisplayed(
+            allOf(
+                withPluralText(R.plurals.statistics_detail_times_tracked, 1),
+                ViewMatchers.hasSibling(withText("1")),
+                isCompletelyDisplayed()
+            )
+        )
+
+        // Check range titles
+        titlePrev = timeMapper.toWeekTitle(
+            weeksFromToday = -1,
+            firstDayOfWeek = if (isTodaySunday) DayOfWeek.SUNDAY else DayOfWeek.MONDAY
+        )
+        longClickOnViewWithId(R.id.btnStatisticsDetailToday)
+        clickOnViewWithId(R.id.btnStatisticsDetailPrevious)
+        checkViewIsDisplayed(allOf(withText(titlePrev), isCompletelyDisplayed()))
+        pressBack()
+        longClickOnViewWithId(R.id.btnStatisticsContainerToday)
+        clickOnViewWithId(R.id.btnStatisticsContainerPrevious)
+        checkViewIsDisplayed(allOf(withText(titlePrev), isCompletelyDisplayed()))
+        longClickOnViewWithId(R.id.btnStatisticsContainerToday)
+    }
+
     private fun clearDuration() {
         repeat(6) { clickOnViewWithId(R.id.ivDurationPickerDelete) }
     }
@@ -562,5 +696,13 @@ class SettingsTest : BaseUiTest() {
         onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(first))).check(
             matcher(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(second)))
         )
+    }
+
+    private fun clickOnSpinnerWithId(id: Int) {
+        onView(withId(id)).perform(nestedScrollTo())
+        // Double click to avoid failure on low api small screens
+        clickOnViewWithId(id)
+        pressBack()
+        clickOnViewWithId(id)
     }
 }
