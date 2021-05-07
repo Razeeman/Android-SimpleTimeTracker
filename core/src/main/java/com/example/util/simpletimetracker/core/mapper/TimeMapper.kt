@@ -289,9 +289,11 @@ class TimeMapper @Inject constructor(
         shift: Int,
         firstDayOfWeek: DayOfWeek
     ): Pair<Long, Long> {
+        val dayOfWeek = toCalendarDayOfWeek(firstDayOfWeek)
         val rangeStart: Long
         val rangeEnd: Long
         val calendar = Calendar.getInstance().apply {
+            this.firstDayOfWeek = dayOfWeek
             timeInMillis = System.currentTimeMillis()
             set(Calendar.HOUR_OF_DAY, 0)
             set(Calendar.MINUTE, 0)
@@ -306,8 +308,7 @@ class TimeMapper @Inject constructor(
                 rangeEnd = calendar.apply { add(Calendar.DATE, 1) }.timeInMillis
             }
             RangeLength.WEEK -> {
-                val dayOfWeek = toCalendarDayOfWeek(firstDayOfWeek)
-                calendar.set(Calendar.DAY_OF_WEEK, dayOfWeek)
+                calendar.set(Calendar.DAY_OF_WEEK, calendar.firstDayOfWeek)
                 calendar.add(Calendar.DATE, shift * 7)
                 rangeStart = calendar.timeInMillis
                 rangeEnd = calendar.apply { add(Calendar.DATE, 7) }.timeInMillis
@@ -379,12 +380,13 @@ class TimeMapper @Inject constructor(
         val dayOfWeek = toCalendarDayOfWeek(firstDayOfWeek)
 
         calendar.apply {
+            this.firstDayOfWeek = dayOfWeek
             timeInMillis = System.currentTimeMillis()
             set(Calendar.HOUR_OF_DAY, 0)
             set(Calendar.MINUTE, 0)
             set(Calendar.SECOND, 0)
             set(Calendar.MILLISECOND, 0)
-            set(Calendar.DAY_OF_WEEK, dayOfWeek)
+            set(Calendar.DAY_OF_WEEK, this.firstDayOfWeek)
             add(Calendar.DATE, weeksFromToday * 7)
         }
         val rangeStart = calendar.timeInMillis

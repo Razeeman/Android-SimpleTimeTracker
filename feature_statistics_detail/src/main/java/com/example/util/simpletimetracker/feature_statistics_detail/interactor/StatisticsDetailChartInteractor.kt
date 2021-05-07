@@ -213,13 +213,14 @@ class StatisticsDetailChartInteractor @Inject constructor(
 
         return (numberOfWeeks - 1 downTo 0).map { shift ->
             calendar.apply {
+                this.firstDayOfWeek = dayOfWeek
                 timeInMillis = startDate
                 set(Calendar.HOUR_OF_DAY, 0)
                 set(Calendar.MINUTE, 0)
                 set(Calendar.SECOND, 0)
                 set(Calendar.MILLISECOND, 0)
             }
-            calendar.set(Calendar.DAY_OF_WEEK, dayOfWeek)
+            calendar.set(Calendar.DAY_OF_WEEK, calendar.firstDayOfWeek)
             calendar.add(Calendar.DATE, -shift * 7)
 
             val legend = timeMapper.formatShortMonth(calendar.timeInMillis)
