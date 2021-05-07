@@ -10,6 +10,7 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.StatisticsCategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.StatisticsInteractor
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
+import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.Statistics
 import com.example.util.simpletimetracker.domain.model.StatisticsCategory
@@ -31,6 +32,7 @@ class StatisticsViewDataInteractor @Inject constructor(
     suspend fun getViewData(rangeLength: RangeLength, shift: Int): List<ViewHolderType> {
         val filterType = prefsInteractor.getChartFilterType()
         val isDarkTheme = prefsInteractor.getDarkMode()
+        val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
         val showDuration = rangeLength != RangeLength.ALL
 
         val list: List<StatisticsViewData>
@@ -42,7 +44,7 @@ class StatisticsViewDataInteractor @Inject constructor(
             ChartFilterType.ACTIVITY -> {
                 val types = recordTypeInteractor.getAll()
                 val typesFiltered = prefsInteractor.getFilteredTypes()
-                val statistics = getStatistics(rangeLength, shift, typesFiltered)
+                val statistics = getStatistics(rangeLength, shift, typesFiltered, firstDayOfWeek)
 
                 list = statisticsViewDataMapper.mapActivities(
                     statistics, types, typesFiltered, showDuration, isDarkTheme
@@ -59,7 +61,7 @@ class StatisticsViewDataInteractor @Inject constructor(
                 val types = recordTypeInteractor.getAll()
                 val typeCategories = recordTypeCategoryInteractor.getAll()
                 val categoriesFiltered = prefsInteractor.getFilteredCategories()
-                val statistics = getStatisticsCategory(rangeLength, shift)
+                val statistics = getStatisticsCategory(rangeLength, shift, firstDayOfWeek)
 
                 list = statisticsViewDataMapper.mapCategories(
                     statistics, categories, categoriesFiltered, showDuration, isDarkTheme
@@ -90,9 +92,14 @@ class StatisticsViewDataInteractor @Inject constructor(
     private suspend fun getStatistics(
         rangeLength: RangeLength,
         shift: Int,
-        typesFiltered: List<Long>
+        typesFiltered: List<Long>,
+        firstDayOfWeek: DayOfWeek
     ): List<Statistics> {
-        val (start, end) = timeMapper.getRangeStartAndEnd(rangeLength, shift)
+        val (start, end) = timeMapper.getRangeStartAndEnd(
+            rangeLength = rangeLength,
+            shift = shift,
+            firstDayOfWeek = firstDayOfWeek
+        )
 
         return if (start != 0L && end != 0L) {
             statisticsInteractor.getFromRange(
@@ -107,9 +114,14 @@ class StatisticsViewDataInteractor @Inject constructor(
 
     private suspend fun getStatisticsCategory(
         rangeLength: RangeLength,
-        shift: Int
+        shift: Int,
+        firstDayOfWeek: DayOfWeek
     ): List<StatisticsCategory> {
-        val (start, end) = timeMapper.getRangeStartAndEnd(rangeLength, shift)
+        val (start, end) = timeMapper.getRangeStartAndEnd(
+            rangeLength = rangeLength,
+            shift = shift,
+            firstDayOfWeek = firstDayOfWeek
+        )
 
         return if (start != 0L && end != 0L) {
             statisticsCategoryInteractor.getFromRange(

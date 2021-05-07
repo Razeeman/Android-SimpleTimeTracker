@@ -79,7 +79,10 @@ class StatisticsDetailViewModel @Inject constructor(
         return@lazy MutableLiveData<StatisticsDetailChartViewData>()
     }
     val title: LiveData<String> by lazy {
-        return@lazy MutableLiveData(loadTitle())
+        return@lazy MutableLiveData<String>().let { initial ->
+            viewModelScope.launch { initial.value = loadTitle() }
+            initial
+        }
     }
     val rangeItems: LiveData<RangesViewData> by lazy {
         return@lazy MutableLiveData(loadRanges())
@@ -121,6 +124,7 @@ class StatisticsDetailViewModel @Inject constructor(
 
     fun onRecordsClick() {
         viewModelScope.launch {
+            val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
             val typeIds = when (extra.filterType) {
                 ChartFilterType.ACTIVITY -> {
                     listOf(extra.id)
@@ -129,7 +133,7 @@ class StatisticsDetailViewModel @Inject constructor(
                     recordTypeCategoryInteractor.getTypes(extra.id)
                 }
             }
-            val range = timeMapper.getRangeStartAndEnd(rangeLength, rangePosition)
+            val range = timeMapper.getRangeStartAndEnd(rangeLength, rangePosition, firstDayOfWeek)
 
             router.navigate(
                 Screen.RECORDS_ALL,
@@ -170,13 +174,14 @@ class StatisticsDetailViewModel @Inject constructor(
         }
     }
 
-    fun onDateTimeSet(timestamp: Long, tag: String?) {
+    fun onDateTimeSet(timestamp: Long, tag: String?) = viewModelScope.launch {
         when (tag) {
             DATE_TAG -> {
-                timestamp
-                    .let { timeMapper.toTimestampShift(toTime = it, range = rangeLength) }
-                    .toInt()
-                    .let(::updatePosition)
+                timeMapper.toTimestampShift(
+                    toTime = timestamp,
+                    range = rangeLength,
+                    firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
+                ).toInt().let(::updatePosition)
             }
         }
     }
@@ -249,7 +254,8 @@ class StatisticsDetailViewModel @Inject constructor(
             chartLength = chartLength,
             filter = extra.filterType,
             rangeLength = rangeLength,
-            rangePosition = rangePosition
+            rangePosition = rangePosition,
+            firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
         )
     }
 
@@ -296,12 +302,13 @@ class StatisticsDetailViewModel @Inject constructor(
         return mapper.mapToSplitChartGroupingViewData(rangeLength, splitChartGrouping)
     }
 
-    private fun updateTitle() {
+    private fun updateTitle() = viewModelScope.launch {
         (title as MutableLiveData).value = loadTitle()
     }
 
-    private fun loadTitle(): String {
-        return rangeMapper.mapToTitle(rangeLength, rangePosition)
+    private suspend fun loadTitle(): String {
+        val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
+        return rangeMapper.mapToTitle(rangeLength, rangePosition, firstDayOfWeek)
     }
 
     private fun updateRanges() {

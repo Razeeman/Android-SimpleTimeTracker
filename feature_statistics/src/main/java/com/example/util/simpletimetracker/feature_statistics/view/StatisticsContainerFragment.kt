@@ -10,17 +10,13 @@ import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.core.extension.setOnLongClick
 import com.example.util.simpletimetracker.core.extension.visible
 import com.example.util.simpletimetracker.core.viewData.RangesViewData
+import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.feature_statistics.R
 import com.example.util.simpletimetracker.feature_statistics.adapter.StatisticsContainerAdapter
 import com.example.util.simpletimetracker.feature_statistics.di.StatisticsComponentProvider
-import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.feature_statistics.viewModel.StatisticsContainerViewModel
 import com.example.util.simpletimetracker.feature_statistics.viewModel.StatisticsSettingsViewModel
-import kotlinx.android.synthetic.main.statistics_container_fragment.btnStatisticsContainerNext
-import kotlinx.android.synthetic.main.statistics_container_fragment.btnStatisticsContainerPrevious
-import kotlinx.android.synthetic.main.statistics_container_fragment.btnStatisticsContainerToday
-import kotlinx.android.synthetic.main.statistics_container_fragment.pagerStatisticsContainer
-import kotlinx.android.synthetic.main.statistics_container_fragment.spinnerStatisticsContainer
+import kotlinx.android.synthetic.main.statistics_container_fragment.*
 import javax.inject.Inject
 
 class StatisticsContainerFragment : BaseFragment(R.layout.statistics_container_fragment),
@@ -78,6 +74,11 @@ class StatisticsContainerFragment : BaseFragment(R.layout.statistics_container_f
         with(settingsViewModel) {
             rangeLength.observe(viewLifecycleOwner, ::updateNavButtons)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.onVisible()
     }
 
     private fun updateNavButtons(rangeLength: RangeLength) {

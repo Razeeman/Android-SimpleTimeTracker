@@ -25,6 +25,7 @@ class StatisticsDetailStatsInteractor @Inject constructor(
         rangePosition: Int
     ): StatisticsDetailStatsViewData {
         val isDarkTheme = prefsInteractor.getDarkMode()
+        val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
 
         if (id == -1L) return statisticsDetailViewDataMapper.mapStatsData(
@@ -33,7 +34,7 @@ class StatisticsDetailStatsInteractor @Inject constructor(
             useMilitaryTime = useMilitaryTime
         )
 
-        val range = timeMapper.getRangeStartAndEnd(rangeLength, rangePosition)
+        val range = timeMapper.getRangeStartAndEnd(rangeLength, rangePosition, firstDayOfWeek)
         val types = when (filter) {
             ChartFilterType.ACTIVITY -> {
                 listOf(id)

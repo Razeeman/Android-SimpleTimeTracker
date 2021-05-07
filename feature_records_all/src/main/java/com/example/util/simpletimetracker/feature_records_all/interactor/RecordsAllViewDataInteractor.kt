@@ -11,6 +11,7 @@ import com.example.util.simpletimetracker.feature_records_all.model.RecordsAllSo
 import com.example.util.simpletimetracker.feature_records_all.viewData.RecordsAllDateViewData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.util.Calendar
 import javax.inject.Inject
 
 class RecordsAllViewDataInteractor @Inject constructor(
@@ -81,13 +82,16 @@ class RecordsAllViewDataInteractor @Inject constructor(
     }
 
     private fun addDateViewData(viewData: List<Pair<Long, ViewHolderType>>): List<ViewHolderType> {
+        val calendar = Calendar.getInstance()
         val newViewData = mutableListOf<ViewHolderType>()
         var previousTimeStarted = 0L
 
         viewData.forEach { (timeStarted, recordViewData) ->
             synchronized(timeMapper) {
-                if (!timeMapper.sameDay(timeStarted, previousTimeStarted)) {
-                    timeMapper.formatDateYear(timeStarted).let(::RecordsAllDateViewData).let(newViewData::add)
+                if (!timeMapper.sameDay(timeStarted, previousTimeStarted, calendar)) {
+                    timeMapper.formatDateYear(timeStarted)
+                        .let(::RecordsAllDateViewData)
+                        .let(newViewData::add)
                 }
             }
             previousTimeStarted = timeStarted

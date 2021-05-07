@@ -5,6 +5,7 @@ import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
+import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.StatisticsDetailViewDataMapper
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartBarDataDuration
@@ -29,7 +30,8 @@ class StatisticsDetailChartInteractor @Inject constructor(
         chartLength: ChartLength,
         filter: ChartFilterType,
         rangeLength: RangeLength,
-        rangePosition: Int
+        rangePosition: Int,
+        firstDayOfWeek: DayOfWeek
     ): StatisticsDetailChartViewData {
         // If untracked
         if (id == -1L) {
@@ -49,7 +51,8 @@ class StatisticsDetailChartInteractor @Inject constructor(
             grouping = chartGrouping,
             chartLength = chartLength,
             rangeLength = rangeLength,
-            rangePosition = rangePosition
+            rangePosition = rangePosition,
+            firstDayOfWeek = firstDayOfWeek
         )
 
         return statisticsDetailViewDataMapper.mapToChartViewData(data, rangeLength)
@@ -60,10 +63,15 @@ class StatisticsDetailChartInteractor @Inject constructor(
         grouping: ChartGrouping,
         chartLength: ChartLength,
         rangeLength: RangeLength,
-        rangePosition: Int
+        rangePosition: Int,
+        firstDayOfWeek: DayOfWeek
     ): List<ChartBarDataDuration> {
         val ranges: List<ChartBarDataRange> = getRanges(
-            grouping, chartLength, rangeLength, rangePosition
+            grouping = grouping,
+            chartLength = chartLength,
+            rangeLength = rangeLength,
+            rangePosition = rangePosition,
+            firstDayOfWeek = firstDayOfWeek
         )
 
         val records = recordInteractor.getFromRange(
@@ -92,26 +100,27 @@ class StatisticsDetailChartInteractor @Inject constructor(
         grouping: ChartGrouping,
         chartLength: ChartLength,
         rangeLength: RangeLength,
-        rangePosition: Int
+        rangePosition: Int,
+        firstDayOfWeek: DayOfWeek
     ): List<ChartBarDataRange> {
         return when (rangeLength) {
             RangeLength.DAY -> {
                 val startDate = timeMapper.getRangeStartAndEnd(
-                    RangeLength.DAY, rangePosition
+                    RangeLength.DAY, rangePosition, firstDayOfWeek
                 ).second - 1
                 val numberOfGroups = 1
                 getDailyGrouping(startDate, numberOfGroups)
             }
             RangeLength.WEEK -> {
                 val startDate = timeMapper.getRangeStartAndEnd(
-                    RangeLength.WEEK, rangePosition
+                    RangeLength.WEEK, rangePosition, firstDayOfWeek
                 ).second - 1
                 val numberOfGroups = 7
                 getDailyGrouping(startDate, numberOfGroups)
             }
             RangeLength.MONTH -> {
                 val startDate = timeMapper.getRangeStartAndEnd(
-                    RangeLength.MONTH, rangePosition
+                    RangeLength.MONTH, rangePosition, firstDayOfWeek
                 ).second - 1
                 val numberOfGroups = Calendar.getInstance()
                     .apply { timeInMillis = startDate }
@@ -120,7 +129,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
             }
             RangeLength.YEAR -> {
                 val startDate = timeMapper.getRangeStartAndEnd(
-                    RangeLength.YEAR, rangePosition
+                    RangeLength.YEAR, rangePosition, firstDayOfWeek
                 ).second - 1
                 when (grouping) {
                     ChartGrouping.DAILY -> {
@@ -130,10 +139,12 @@ class StatisticsDetailChartInteractor @Inject constructor(
                         getDailyGrouping(startDate, numberOfGroups)
                     }
                     ChartGrouping.WEEKLY -> {
+                        val dayOfWeek = timeMapper.toCalendarDayOfWeek(firstDayOfWeek)
                         val numberOfGroups = Calendar.getInstance()
                             .apply { timeInMillis = startDate }
+                            .apply { this.firstDayOfWeek = dayOfWeek }
                             .getActualMaximum(Calendar.WEEK_OF_YEAR)
-                        getWeeklyGrouping(startDate, numberOfGroups)
+                        getWeeklyGrouping(startDate, numberOfGroups, firstDayOfWeek)
                     }
                     else -> {
                         val numberOfGroups = 12
@@ -146,7 +157,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
                 val numberOfGroups = getNumberOfGroups(chartLength)
                 when (grouping) {
                     ChartGrouping.DAILY -> getDailyGrouping(startDate, numberOfGroups)
-                    ChartGrouping.WEEKLY -> getWeeklyGrouping(startDate, numberOfGroups)
+                    ChartGrouping.WEEKLY -> getWeeklyGrouping(startDate, numberOfGroups, firstDayOfWeek)
                     ChartGrouping.MONTHLY -> getMonthlyGrouping(startDate, numberOfGroups)
                     ChartGrouping.YEARLY -> getYearlyGrouping(numberOfGroups)
                 }
@@ -194,9 +205,11 @@ class StatisticsDetailChartInteractor @Inject constructor(
 
     private fun getWeeklyGrouping(
         startDate: Long,
-        numberOfWeeks: Int
+        numberOfWeeks: Int,
+        firstDayOfWeek: DayOfWeek
     ): List<ChartBarDataRange> {
         val calendar = Calendar.getInstance()
+        val dayOfWeek = timeMapper.toCalendarDayOfWeek(firstDayOfWeek)
 
         return (numberOfWeeks - 1 downTo 0).map { shift ->
             calendar.apply {
@@ -206,7 +219,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
                 set(Calendar.SECOND, 0)
                 set(Calendar.MILLISECOND, 0)
             }
-            calendar.set(Calendar.DAY_OF_WEEK, calendar.firstDayOfWeek)
+            calendar.set(Calendar.DAY_OF_WEEK, dayOfWeek)
             calendar.add(Calendar.DATE, -shift * 7)
 
             val legend = timeMapper.formatShortMonth(calendar.timeInMillis)

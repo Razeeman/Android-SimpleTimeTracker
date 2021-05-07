@@ -14,8 +14,6 @@ class TimeMapper @Inject constructor(
     private val resourceRepo: ResourceRepo
 ) {
 
-    private val calendar = Calendar.getInstance()
-
     private val timeFormat = SimpleDateFormat("h:mm a", Locale.getDefault())
     private val timeFormatMilitary = SimpleDateFormat("HH:mm", Locale.getDefault())
 
@@ -100,7 +98,7 @@ class TimeMapper @Inject constructor(
         }
 
         return if (rangesFromToday != 0) {
-            calendar
+            Calendar.getInstance()
                 .apply {
                     timeInMillis = System.currentTimeMillis()
                     add(calendarStep, rangesFromToday)
@@ -111,7 +109,11 @@ class TimeMapper @Inject constructor(
         }
     }
 
-    fun toTimestampShift(toTime: Long, range: RangeLength): Long {
+    fun toTimestampShift(
+        toTime: Long,
+        range: RangeLength,
+        firstDayOfWeek: DayOfWeek
+    ): Long {
         val calendarStep = when (range) {
             RangeLength.DAY -> Calendar.DAY_OF_YEAR
             RangeLength.WEEK -> Calendar.WEEK_OF_YEAR
@@ -120,9 +122,11 @@ class TimeMapper @Inject constructor(
             RangeLength.ALL -> return 0
         }
 
+        val calendar = Calendar.getInstance()
         val current = System.currentTimeMillis()
         var result = 0L
 
+        calendar.firstDayOfWeek = toCalendarDayOfWeek(firstDayOfWeek)
         calendar.timeInMillis = toTime
         result += if (calendarStep == Calendar.WEEK_OF_YEAR && isFirstWeekOfNextYear(calendar)) {
             calendar.getActualMaximum(Calendar.WEEK_OF_YEAR) + 1
@@ -174,10 +178,10 @@ class TimeMapper @Inject constructor(
     }
 
     // Mar 1 - Mar 7
-    fun toWeekTitle(weeksFromToday: Int): String {
+    fun toWeekTitle(weeksFromToday: Int, firstDayOfWeek: DayOfWeek): String {
         return when (weeksFromToday) {
             0 -> resourceRepo.getString(R.string.title_this_week)
-            else -> toWeekDateTitle(weeksFromToday)
+            else -> toWeekDateTitle(weeksFromToday, firstDayOfWeek)
         }
     }
 
@@ -221,7 +225,7 @@ class TimeMapper @Inject constructor(
         }
     }
 
-    fun sameDay(date1: Long, date2: Long): Boolean {
+    fun sameDay(date1: Long, date2: Long, calendar: Calendar): Boolean {
         calendar.apply { timeInMillis = date1 }
         val year1: Int = calendar.get(Calendar.YEAR)
         val day1: Int = calendar.get(Calendar.DAY_OF_YEAR)
@@ -233,7 +237,7 @@ class TimeMapper @Inject constructor(
         return year1 == year2 && day1 == day2
     }
 
-    fun sameHour(date1: Long, date2: Long): Boolean {
+    fun sameHour(date1: Long, date2: Long, calendar: Calendar): Boolean {
         calendar.apply { timeInMillis = date1 }
         val year1: Int = calendar.get(Calendar.YEAR)
         val day1: Int = calendar.get(Calendar.DAY_OF_YEAR)
@@ -280,7 +284,11 @@ class TimeMapper @Inject constructor(
         return res
     }
 
-    fun getRangeStartAndEnd(rangeLength: RangeLength, shift: Int): Pair<Long, Long> {
+    fun getRangeStartAndEnd(
+        rangeLength: RangeLength,
+        shift: Int,
+        firstDayOfWeek: DayOfWeek
+    ): Pair<Long, Long> {
         val rangeStart: Long
         val rangeEnd: Long
         val calendar = Calendar.getInstance().apply {
@@ -298,7 +306,8 @@ class TimeMapper @Inject constructor(
                 rangeEnd = calendar.apply { add(Calendar.DATE, 1) }.timeInMillis
             }
             RangeLength.WEEK -> {
-                calendar.set(Calendar.DAY_OF_WEEK, calendar.firstDayOfWeek)
+                val dayOfWeek = toCalendarDayOfWeek(firstDayOfWeek)
+                calendar.set(Calendar.DAY_OF_WEEK, dayOfWeek)
                 calendar.add(Calendar.DATE, shift * 7)
                 rangeStart = calendar.timeInMillis
                 rangeEnd = calendar.apply { add(Calendar.DATE, 7) }.timeInMillis
@@ -348,6 +357,8 @@ class TimeMapper @Inject constructor(
     }
 
     private fun toDayDateTitle(daysFromToday: Int): String {
+        val calendar = Calendar.getInstance()
+
         calendar.apply {
             timeInMillis = System.currentTimeMillis()
             set(Calendar.HOUR_OF_DAY, 0)
@@ -360,14 +371,20 @@ class TimeMapper @Inject constructor(
         return dayTitleFormat.format(calendar.timeInMillis)
     }
 
-    private fun toWeekDateTitle(weeksFromToday: Int): String {
+    private fun toWeekDateTitle(
+        weeksFromToday: Int,
+        firstDayOfWeek: DayOfWeek
+    ): String {
+        val calendar = Calendar.getInstance()
+        val dayOfWeek = toCalendarDayOfWeek(firstDayOfWeek)
+
         calendar.apply {
             timeInMillis = System.currentTimeMillis()
             set(Calendar.HOUR_OF_DAY, 0)
             set(Calendar.MINUTE, 0)
             set(Calendar.SECOND, 0)
             set(Calendar.MILLISECOND, 0)
-            set(Calendar.DAY_OF_WEEK, firstDayOfWeek)
+            set(Calendar.DAY_OF_WEEK, dayOfWeek)
             add(Calendar.DATE, weeksFromToday * 7)
         }
         val rangeStart = calendar.timeInMillis
@@ -377,6 +394,8 @@ class TimeMapper @Inject constructor(
     }
 
     private fun toMonthDateTitle(monthsFromToday: Int): String {
+        val calendar = Calendar.getInstance()
+
         calendar.apply {
             timeInMillis = System.currentTimeMillis()
             add(Calendar.MONTH, monthsFromToday)
@@ -386,6 +405,8 @@ class TimeMapper @Inject constructor(
     }
 
     private fun toYearDateTitle(yearsFromToday: Int): String {
+        val calendar = Calendar.getInstance()
+
         calendar.apply {
             timeInMillis = System.currentTimeMillis()
             add(Calendar.YEAR, yearsFromToday)

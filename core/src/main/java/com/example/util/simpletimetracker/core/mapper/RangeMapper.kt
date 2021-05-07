@@ -6,6 +6,7 @@ import com.example.util.simpletimetracker.core.viewData.RangeViewData
 import com.example.util.simpletimetracker.core.viewData.RangesViewData
 import com.example.util.simpletimetracker.core.viewData.SelectDateViewData
 import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.Record
@@ -32,10 +33,14 @@ class RangeMapper @Inject constructor(
         )
     }
 
-    fun mapToTitle(rangeLength: RangeLength, position: Int): String {
+    fun mapToTitle(
+        rangeLength: RangeLength,
+        position: Int,
+        firstDayOfWeek: DayOfWeek
+    ): String {
         return when (rangeLength) {
             RangeLength.DAY -> timeMapper.toDayTitle(position)
-            RangeLength.WEEK -> timeMapper.toWeekTitle(position)
+            RangeLength.WEEK -> timeMapper.toWeekTitle(position, firstDayOfWeek)
             RangeLength.MONTH -> timeMapper.toMonthTitle(position)
             RangeLength.YEAR -> timeMapper.toYearTitle(position)
             RangeLength.ALL -> resourceRepo.getString(R.string.range_overall)

@@ -28,7 +28,10 @@ class StatisticsContainerViewModel @Inject constructor(
 ) : ViewModel() {
 
     val title: LiveData<String> by lazy {
-        return@lazy MutableLiveData(loadTitle())
+        return@lazy MutableLiveData<String>().let { initial ->
+            viewModelScope.launch { initial.value = loadTitle() }
+            initial
+        }
     }
 
     val position: LiveData<Int> by lazy {
@@ -40,6 +43,10 @@ class StatisticsContainerViewModel @Inject constructor(
     }
 
     private var rangeLength: RangeLength = RangeLength.DAY
+
+    fun onVisible() {
+        updateTitle()
+    }
 
     fun onPreviousClick() {
         updatePosition(position.value.orZero() - 1)
@@ -66,13 +73,14 @@ class StatisticsContainerViewModel @Inject constructor(
         }
     }
 
-    fun onDateTimeSet(timestamp: Long, tag: String?) {
+    fun onDateTimeSet(timestamp: Long, tag: String?) = viewModelScope.launch {
         when (tag) {
             DATE_TAG -> {
-                timestamp
-                    .let { timeMapper.toTimestampShift(toTime = it, range = rangeLength) }
-                    .toInt()
-                    .let(::updatePosition)
+                timeMapper.toTimestampShift(
+                    toTime = timestamp,
+                    range = rangeLength,
+                    firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
+                ).toInt().let(::updatePosition)
             }
         }
     }
@@ -103,12 +111,13 @@ class StatisticsContainerViewModel @Inject constructor(
         updateRanges()
     }
 
-    private fun updateTitle() {
+    private fun updateTitle() = viewModelScope.launch {
         (title as MutableLiveData).value = loadTitle()
     }
 
-    private fun loadTitle(): String {
-        return rangeMapper.mapToTitle(rangeLength, position.value.orZero())
+    private suspend fun loadTitle(): String {
+        val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
+        return rangeMapper.mapToTitle(rangeLength, position.value.orZero(), firstDayOfWeek)
     }
 
     private fun updateRanges() {

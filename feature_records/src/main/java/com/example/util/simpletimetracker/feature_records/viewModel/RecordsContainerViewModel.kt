@@ -70,13 +70,14 @@ class RecordsContainerViewModel @Inject constructor(
         updatePosition(position.value.orZero() + 1)
     }
 
-    fun onDateTimeSet(timestamp: Long, tag: String?) {
+    fun onDateTimeSet(timestamp: Long, tag: String?) = viewModelScope.launch {
         when (tag) {
             DATE_TAG -> {
-                timestamp
-                    .let{ timeMapper.toTimestampShift(it, RangeLength.DAY) }
-                    .toInt()
-                    .let(::updatePosition)
+                timeMapper.toTimestampShift(
+                    toTime = timestamp,
+                    range = RangeLength.DAY,
+                    firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
+                ).toInt().let(::updatePosition)
             }
         }
     }

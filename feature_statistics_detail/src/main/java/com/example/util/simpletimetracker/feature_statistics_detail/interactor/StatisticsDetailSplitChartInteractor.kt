@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.feature_statistics_detail.interactor
 import com.example.util.simpletimetracker.core.mapper.RangeMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
@@ -19,6 +20,7 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
     private val statisticsDetailViewDataMapper: StatisticsDetailViewDataMapper,
     private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
     private val recordInteractor: RecordInteractor,
+    private val prefsInteractor: PrefsInteractor,
     private val timeMapper: TimeMapper,
     private val rangeMapper: RangeMapper
 ) {
@@ -38,7 +40,8 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
             }
         }
 
-        val range = timeMapper.getRangeStartAndEnd(rangeLength, rangePosition)
+        val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
+        val range = timeMapper.getRangeStartAndEnd(rangeLength, rangePosition, firstDayOfWeek)
         val typesIds = when (filter) {
             ChartFilterType.ACTIVITY -> listOf(id)
             ChartFilterType.CATEGORY -> recordTypeCategoryInteractor.getTypes(categoryId = id)
@@ -131,8 +134,8 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
         splitRecords: MutableList<Range> = mutableListOf()
     ): List<Range> {
         val rangeCheck = when (splitChartGrouping) {
-            SplitChartGrouping.HOURLY -> timeMapper.sameHour(record.timeStarted, record.timeEnded)
-            SplitChartGrouping.DAILY -> timeMapper.sameDay(record.timeStarted, record.timeEnded)
+            SplitChartGrouping.HOURLY -> timeMapper.sameHour(record.timeStarted, record.timeEnded, calendar)
+            SplitChartGrouping.DAILY -> timeMapper.sameDay(record.timeStarted, record.timeEnded, calendar)
         }
         val rangeStep = when (splitChartGrouping) {
             SplitChartGrouping.HOURLY -> Calendar.HOUR_OF_DAY
