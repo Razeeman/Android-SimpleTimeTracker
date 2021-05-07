@@ -9,6 +9,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withClassName
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
@@ -228,11 +229,11 @@ class StatisticsRangesTest : BaseUiTest() {
         val calendarPrev = Calendar.getInstance().apply {
             add(Calendar.WEEK_OF_YEAR, -1)
         }
-        val titlePrev = timeMapper.toWeekTitle(-1)
+        val titlePrev = timeMapper.toWeekTitle(-1, DayOfWeek.SUNDAY)
         val calendarNext = Calendar.getInstance().apply {
             add(Calendar.WEEK_OF_YEAR, 1)
         }
-        val titleNext = timeMapper.toWeekTitle(1)
+        val titleNext = timeMapper.toWeekTitle(1, DayOfWeek.SUNDAY)
 
         // Check prev week
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
@@ -284,11 +285,11 @@ class StatisticsRangesTest : BaseUiTest() {
         val calendarPrev = Calendar.getInstance().apply {
             add(Calendar.WEEK_OF_YEAR, -2500)
         }
-        val titlePrev = timeMapper.toWeekTitle(-2500)
+        val titlePrev = timeMapper.toWeekTitle(-2500, DayOfWeek.SUNDAY)
         val calendarNext = Calendar.getInstance().apply {
             add(Calendar.WEEK_OF_YEAR, 2500)
         }
-        val titleNext = timeMapper.toWeekTitle(2500)
+        val titleNext = timeMapper.toWeekTitle(2500, DayOfWeek.SUNDAY)
 
         // Check prev date
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
