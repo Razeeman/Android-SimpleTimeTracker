@@ -19,6 +19,7 @@ import com.example.util.simpletimetracker.feature_statistics.viewData.Statistics
 import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsInfoViewData
 import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsViewData
 import javax.inject.Inject
+import kotlin.math.roundToLong
 
 class StatisticsViewDataMapper @Inject constructor(
     private val iconMapper: IconMapper,
@@ -178,11 +179,11 @@ class StatisticsViewDataMapper @Inject constructor(
         isDarkTheme: Boolean,
         statisticsSize: Int
     ): StatisticsViewData? {
-        val durationPercent: Long = if (sumDuration != 0L) {
-            statistics.duration * 100 / sumDuration
-        } else {
-            100L / statisticsSize
-        }
+        val durationPercent = getDurationPercentString(
+            sumDuration = sumDuration,
+            duration = statistics.duration,
+            statisticsSize = statisticsSize
+        )
 
         when {
             statistics.typeId == -1L -> {
@@ -192,7 +193,7 @@ class StatisticsViewDataMapper @Inject constructor(
                         .let(resourceRepo::getString),
                     duration = statistics.duration
                         .let(timeMapper::formatInterval),
-                    percent = "$durationPercent%",
+                    percent = durationPercent,
                     iconId = RecordTypeIcon.Image(R.drawable.unknown),
                     color = colorMapper.toUntrackedColor(isDarkTheme)
                 )
@@ -206,7 +207,7 @@ class StatisticsViewDataMapper @Inject constructor(
                     } else {
                         ""
                     },
-                    percent = "$durationPercent%",
+                    percent = durationPercent,
                     iconId = recordType.icon
                         .let(iconMapper::mapIcon),
                     color = recordType.color
@@ -228,11 +229,11 @@ class StatisticsViewDataMapper @Inject constructor(
         isDarkTheme: Boolean,
         statisticsSize: Int
     ): StatisticsViewData? {
-        val durationPercent: Long = if (sumDuration != 0L) {
-            statistics.duration * 100 / sumDuration
-        } else {
-            100L / statisticsSize
-        }
+        val durationPercent = getDurationPercentString(
+            sumDuration = sumDuration,
+            duration = statistics.duration,
+            statisticsSize = statisticsSize
+        )
 
         return if (category != null) {
             StatisticsViewData.Category(
@@ -243,13 +244,31 @@ class StatisticsViewDataMapper @Inject constructor(
                 } else {
                     ""
                 },
-                percent = "$durationPercent%",
+                percent = durationPercent,
                 color = category.color
                     .let { colorMapper.mapToColorResId(it, isDarkTheme) }
                     .let(resourceRepo::getColor)
             )
         } else {
             null
+        }
+    }
+
+    private fun getDurationPercentString(
+        sumDuration: Long,
+        duration: Long,
+        statisticsSize: Int
+    ): String {
+        val durationPercent = if (sumDuration != 0L) {
+            duration * 100f / sumDuration
+        } else {
+            100f / statisticsSize
+        }.roundToLong()
+
+        return if (durationPercent == 0L) {
+            "<1%"
+        } else {
+            "$durationPercent%"
         }
     }
 
