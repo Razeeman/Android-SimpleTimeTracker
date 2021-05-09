@@ -19,5 +19,6 @@ include(
     "feature_widget",
     "feature_notification",
     "feature_categories",
-    "feature_change_category"
+    "feature_change_category",
+    "feature_change_record_tag"
 )

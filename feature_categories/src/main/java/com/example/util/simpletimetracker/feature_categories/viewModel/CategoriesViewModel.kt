@@ -32,8 +32,13 @@ class CategoriesViewModel @Inject constructor(
     }
 
     fun onCategoryClick(item: CategoryViewData, sharedElements: Map<Any, String>) {
+        val screen = when (item.type) {
+            TagType.RECORD_TYPE -> Screen.CHANGE_CATEGORY
+            TagType.RECORD -> Screen.CHANGE_RECORD_TAG
+        }
+
         router.navigate(
-            screen = Screen.CHANGE_CATEGORY,
+            screen = screen,
             data = ChangeCategoryParams.Change(
                 id = item.id,
                 preview = ChangeCategoryParams.Change.Preview(
@@ -46,15 +51,15 @@ class CategoriesViewModel @Inject constructor(
     }
 
     fun onAddCategoryClick(viewData: CategoryAddViewData) {
-        when (viewData.type) {
-            TagType.RECORD_TYPE -> router.navigate(
-                screen = Screen.CHANGE_CATEGORY,
-                data = ChangeCategoryParams.New
-            )
-            TagType.RECORD -> {
-                // TODO navigate to tag change
-            }
+        val screen = when (viewData.type) {
+            TagType.RECORD_TYPE -> Screen.CHANGE_CATEGORY
+            TagType.RECORD -> Screen.CHANGE_RECORD_TAG
         }
+
+        router.navigate(
+            screen = screen,
+            data = ChangeCategoryParams.New
+        )
     }
 
     fun onVisible() {

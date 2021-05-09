@@ -7,6 +7,7 @@ import androidx.navigation.fragment.FragmentNavigator
 import com.example.util.simpletimetracker.R
 import com.example.util.simpletimetracker.feature_change_category.view.ChangeCategoryFragment
 import com.example.util.simpletimetracker.feature_change_record.view.ChangeRecordFragment
+import com.example.util.simpletimetracker.feature_change_record_tag.view.ChangeRecordTagFragment
 import com.example.util.simpletimetracker.feature_change_record_type.view.ChangeRecordTypeFragment
 import com.example.util.simpletimetracker.feature_change_running_record.view.ChangeRunningRecordFragment
 import com.example.util.simpletimetracker.feature_dialogs.cardOrder.view.CardOrderDialogFragment
@@ -84,6 +85,13 @@ class ScreenResolverImpl @Inject constructor() : ScreenResolver {
                 navController?.navigate(
                     R.id.action_categoriesFragment_to_changeCategoryFragment,
                     ChangeCategoryFragment.createBundle(data),
+                    null,
+                    navExtras
+                )
+            Screen.CHANGE_RECORD_TAG ->
+                navController?.navigate(
+                    R.id.action_categoriesFragment_to_changeRecordTagFragment,
+                    ChangeRecordTagFragment.createBundle(data),
                     null,
                     navExtras
                 )

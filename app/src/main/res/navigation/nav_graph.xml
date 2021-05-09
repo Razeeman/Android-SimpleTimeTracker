@@ -138,10 +138,22 @@
             app:exitAnim="@anim/fragment_close_exit"
             app:popEnterAnim="@anim/fragment_open_enter"
             app:popExitAnim="@anim/fragment_close_exit" />
+        <action
+            android:id="@+id/action_categoriesFragment_to_changeRecordTagFragment"
+            app:destination="@id/changeRecordTagFragment"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_close_exit"
+            app:popEnterAnim="@anim/fragment_open_enter"
+            app:popExitAnim="@anim/fragment_close_exit" />
     </fragment>
     <fragment
         android:id="@+id/changeCategoryFragment"
         android:name="com.example.util.simpletimetracker.feature_change_category.view.ChangeCategoryFragment"
         android:label="ChangeCategoryFragment"
         tools:layout="@layout/change_category_fragment" />
+    <fragment
+        android:id="@+id/changeRecordTagFragment"
+        android:name="com.example.util.simpletimetracker.feature_change_record_tag.view.ChangeRecordTagFragment"
+        android:label="ChangeRecordTagFragment"
+        tools:layout="@layout/change_record_tag_fragment" />
 </navigation>

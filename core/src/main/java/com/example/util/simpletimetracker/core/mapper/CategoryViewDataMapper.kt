@@ -44,7 +44,7 @@ class CategoryViewDataMapper @Inject constructor(
 
     fun map(
         tag: RecordTag,
-        type: RecordType,
+        type: RecordType?,
         isDarkTheme: Boolean
     ): CategoryViewData {
         return CategoryViewData(
@@ -52,9 +52,10 @@ class CategoryViewDataMapper @Inject constructor(
             id = tag.id,
             name = tag.name,
             textColor = colorMapper.toIconColor(isDarkTheme),
-            color = type.color
-                .let { colorMapper.mapToColorResId(it, isDarkTheme) }
-                .let(resourceRepo::getColor)
+            color = type?.color
+                ?.let { colorMapper.mapToColorResId(it, isDarkTheme) }
+                ?.let(resourceRepo::getColor)
+                ?: colorMapper.toUntrackedColor(isDarkTheme)
         )
     }
 }

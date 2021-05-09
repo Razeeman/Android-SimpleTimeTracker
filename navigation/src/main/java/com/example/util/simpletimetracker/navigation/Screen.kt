@@ -9,6 +9,7 @@ enum class Screen {
     RECORDS_ALL,
     CATEGORIES,
     CHANGE_CATEGORY,
+    CHANGE_RECORD_TAG,
 
     STANDARD_DIALOG,
     DATE_TIME_DIALOG,

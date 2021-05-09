@@ -4,6 +4,7 @@ import com.example.util.simpletimetracker.data_local.di.DataLocalModule
 import com.example.util.simpletimetracker.feature_categories.di.CategoriesComponent
 import com.example.util.simpletimetracker.feature_change_category.di.ChangeCategoryComponent
 import com.example.util.simpletimetracker.feature_change_record.di.ChangeRecordComponent
+import com.example.util.simpletimetracker.feature_change_record_tag.di.ChangeRecordTagComponent
 import com.example.util.simpletimetracker.feature_change_record_type.di.ChangeRecordTypeComponent
 import com.example.util.simpletimetracker.feature_change_running_record.di.ChangeRunningRecordComponent
 import com.example.util.simpletimetracker.feature_dialogs.cardOrder.di.CardOrderComponent
@@ -63,4 +64,5 @@ interface AppComponent {
     fun plusNotificationComponent(): NotificationComponent
     fun plusCategoriesComponent(): CategoriesComponent
     fun plusChangeCategoryComponent(): ChangeCategoryComponent
+    fun plusChangeRecordTagComponent(): ChangeRecordTagComponent
 }

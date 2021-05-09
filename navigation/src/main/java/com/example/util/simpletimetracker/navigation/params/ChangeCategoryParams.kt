@@ -22,6 +22,6 @@ sealed class ChangeCategoryParams : Parcelable {
 
     @Parcelize
     object New : ChangeCategoryParams() {
-        override val id: Long get() = 0
+        override val id: Long get() = 0 // TODO remove
     }
 }

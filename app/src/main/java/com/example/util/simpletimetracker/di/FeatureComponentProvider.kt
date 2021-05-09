@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.di
 import com.example.util.simpletimetracker.feature_categories.di.CategoriesComponentProvider
 import com.example.util.simpletimetracker.feature_change_category.di.ChangeCategoryComponentProvider
 import com.example.util.simpletimetracker.feature_change_record.di.ChangeRecordComponentProvider
+import com.example.util.simpletimetracker.feature_change_record_tag.di.ChangeRecordTagComponentProvider
 import com.example.util.simpletimetracker.feature_change_record_type.di.ChangeRecordTypeComponentProvider
 import com.example.util.simpletimetracker.feature_change_running_record.di.ChangeRunningRecordComponentProvider
 import com.example.util.simpletimetracker.feature_dialogs.cardOrder.di.CardOrderComponentProvider
@@ -43,7 +44,8 @@ interface FeatureComponentProvider :
     WidgetComponentProvider,
     NotificationComponentProvider,
     CategoriesComponentProvider,
-    ChangeCategoryComponentProvider {
+    ChangeCategoryComponentProvider,
+    ChangeRecordTagComponentProvider {
 
     var appComponent: AppComponent?
 }

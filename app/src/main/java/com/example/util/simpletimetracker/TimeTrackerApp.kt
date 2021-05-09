@@ -11,6 +11,7 @@ import com.example.util.simpletimetracker.di.FeatureComponentProvider
 import com.example.util.simpletimetracker.feature_categories.di.CategoriesComponent
 import com.example.util.simpletimetracker.feature_change_category.di.ChangeCategoryComponent
 import com.example.util.simpletimetracker.feature_change_record.di.ChangeRecordComponent
+import com.example.util.simpletimetracker.feature_change_record_tag.di.ChangeRecordTagComponent
 import com.example.util.simpletimetracker.feature_change_record_type.di.ChangeRecordTypeComponent
 import com.example.util.simpletimetracker.feature_change_running_record.di.ChangeRunningRecordComponent
 import com.example.util.simpletimetracker.feature_dialogs.cardOrder.di.CardOrderComponent
@@ -56,6 +57,7 @@ class TimeTrackerApp : Application(), FeatureComponentProvider {
     override var notificationComponent: NotificationComponent? = null
     override var categoriesComponent: CategoriesComponent? = null
     override var changeCategoryComponent: ChangeCategoryComponent? = null
+    override var changeRecordTagComponent: ChangeRecordTagComponent? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -97,6 +99,7 @@ class TimeTrackerApp : Application(), FeatureComponentProvider {
         notificationComponent = appComponent?.plusNotificationComponent()
         categoriesComponent = appComponent?.plusCategoriesComponent()
         changeCategoryComponent = appComponent?.plusChangeCategoryComponent()
+        changeRecordTagComponent = appComponent?.plusChangeRecordTagComponent()
     }
 
     private fun initLibraries() {

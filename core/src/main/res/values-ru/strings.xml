@@ -60,6 +60,7 @@
     <string name="change_category_type_hint">Активность</string>
     <string name="change_category_save">Сохранить</string>
     <string name="change_category_message_choose_name">Выберите имя</string>
+    <string name="change_category_message_choose_type">Выберите активность</string>
     <string name="change_category_types_empty">Активности не добавлены</string>
     <string name="change_category_selected_types_empty">Не привязан ни к какой активности</string>
     <string name="change_category_selected_types_hint">Присвоен:</string>

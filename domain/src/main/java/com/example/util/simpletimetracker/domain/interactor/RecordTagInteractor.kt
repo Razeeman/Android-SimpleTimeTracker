@@ -11,4 +11,16 @@ class RecordTagInteractor @Inject constructor(
     suspend fun getAll(): List<RecordTag> {
         return repo.getAll()
     }
+
+    suspend fun get(id: Long): RecordTag? {
+        return repo.get(id)
+    }
+
+    suspend fun add(tag: RecordTag) {
+        repo.add(tag)
+    }
+
+    suspend fun archive(id: Long) {
+        repo.archive(id)
+    }
 }
