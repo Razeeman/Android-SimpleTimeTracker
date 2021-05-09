@@ -7,7 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.core.viewData.CategoryViewData
+import com.example.util.simpletimetracker.domain.model.TagType
 import com.example.util.simpletimetracker.feature_categories.interactor.CategoriesViewDataInteractor
+import com.example.util.simpletimetracker.feature_categories.viewData.CategoryAddViewData
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
 import com.example.util.simpletimetracker.navigation.params.ChangeCategoryParams
@@ -43,11 +45,16 @@ class CategoriesViewModel @Inject constructor(
         )
     }
 
-    fun onAddCategoryClick() {
-        router.navigate(
-            screen = Screen.CHANGE_CATEGORY,
-            data = ChangeCategoryParams.New
-        )
+    fun onAddCategoryClick(viewData: CategoryAddViewData) {
+        when (viewData.type) {
+            TagType.RECORD_TYPE -> router.navigate(
+                screen = Screen.CHANGE_CATEGORY,
+                data = ChangeCategoryParams.New
+            )
+            TagType.RECORD -> {
+                // TODO navigate to tag change
+            }
+        }
     }
 
     fun onVisible() {

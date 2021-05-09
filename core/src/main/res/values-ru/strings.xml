@@ -49,6 +49,8 @@
     <string name="statistics_hint">Нажмите на карточку для просмотра детальной статистики</string>
 
     <!--  Categories  -->
+    <string name="categories_record_type_hint">Назначьте один и тот же тег разным активностям, чтобы просматривать их сгруппированную статистику</string>
+    <string name="categories_record_hint">Назначьте разные теги записям, чтобы различать их</string>
     <string name="categories_add">Добавить новый тег</string>
 
     <!--  Change category  -->
@@ -141,7 +143,7 @@
     <string name="settings_use_military_time">24-часовой формат</string>
     <string name="settings_change_card_size">Изменить размер карточки активности</string>
     <string name="settings_edit_categories">Редактировать теги</string>
-    <string name="settings_edit_categories_hint">Назначьте один и тот же тег разным активностям, чтобы просматривать их сгруппированную статистику.</string>
+    <string name="settings_edit_categories_hint">Назначьте теги активностям и записям.</string>
     <string name="settings_rate">Оцените нас</string>
     <string name="settings_rate_description">Оцените приложение и оставьте отзыв.</string>
     <string name="settings_feedback">Обратная связь</string>

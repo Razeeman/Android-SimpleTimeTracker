@@ -1,7 +1,10 @@
 package com.example.util.simpletimetracker.feature_categories.mapper
 
+import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.core.adapter.hint.HintViewData
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.domain.model.TagType
 import com.example.util.simpletimetracker.feature_categories.R
 import com.example.util.simpletimetracker.feature_categories.viewData.CategoryAddViewData
 import javax.inject.Inject
@@ -11,8 +14,25 @@ class CategoriesViewDataMapper @Inject constructor(
     private val resourceRepo: ResourceRepo
 ) {
 
-    fun mapToAddItem(isDarkTheme: Boolean): CategoryAddViewData {
+    fun mapToTypeTagHint(): ViewHolderType = HintViewData(
+        text = R.string.categories_record_type_hint
+            .let(resourceRepo::getString)
+    )
+
+    fun mapToRecordTagHint(): ViewHolderType = HintViewData(
+        text = R.string.categories_record_hint
+            .let(resourceRepo::getString)
+    )
+
+    fun mapToTypeTagAddItem(isDarkTheme: Boolean): CategoryAddViewData =
+        map(type = TagType.RECORD_TYPE, isDarkTheme = isDarkTheme)
+
+    fun mapToRecordTagAddItem(isDarkTheme: Boolean): CategoryAddViewData =
+        map(type = TagType.RECORD, isDarkTheme = isDarkTheme)
+
+    private fun map(type: TagType, isDarkTheme: Boolean): CategoryAddViewData {
         return CategoryAddViewData(
+            type = type,
             name = R.string.categories_add.let(resourceRepo::getString),
             color = colorMapper.toInactiveColor(isDarkTheme)
         )

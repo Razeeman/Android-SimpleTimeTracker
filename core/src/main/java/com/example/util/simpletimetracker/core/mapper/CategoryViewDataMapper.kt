@@ -3,6 +3,9 @@ package com.example.util.simpletimetracker.core.mapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.viewData.CategoryViewData
 import com.example.util.simpletimetracker.domain.model.Category
+import com.example.util.simpletimetracker.domain.model.RecordTag
+import com.example.util.simpletimetracker.domain.model.RecordType
+import com.example.util.simpletimetracker.domain.model.TagType
 import javax.inject.Inject
 
 class CategoryViewDataMapper @Inject constructor(
@@ -12,6 +15,7 @@ class CategoryViewDataMapper @Inject constructor(
 
     fun map(category: Category, isDarkTheme: Boolean): CategoryViewData {
         return CategoryViewData(
+            type = TagType.RECORD_TYPE,
             id = category.id,
             name = category.name,
             textColor = colorMapper.toIconColor(isDarkTheme),
@@ -36,5 +40,21 @@ class CategoryViewDataMapper @Inject constructor(
         } else {
             default
         }
+    }
+
+    fun map(
+        tag: RecordTag,
+        type: RecordType,
+        isDarkTheme: Boolean
+    ): CategoryViewData {
+        return CategoryViewData(
+            type = TagType.RECORD,
+            id = tag.id,
+            name = tag.name,
+            textColor = colorMapper.toIconColor(isDarkTheme),
+            color = type.color
+                .let { colorMapper.mapToColorResId(it, isDarkTheme) }
+                .let(resourceRepo::getColor)
+        )
     }
 }

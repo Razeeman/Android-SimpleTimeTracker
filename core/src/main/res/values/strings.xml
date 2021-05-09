@@ -49,6 +49,8 @@
     <string name="statistics_hint">Click on card to view detailed statistics</string>
 
     <!--  Categories  -->
+    <string name="categories_record_type_hint">Assign the same tag to different activities to view their grouped statistics</string>
+    <string name="categories_record_hint">Assign different tags to records to differentiate between them</string>
     <string name="categories_add">Add new tag</string>
 
     <!--  Change category  -->
@@ -141,7 +143,7 @@
     <string name="settings_use_military_time">Use 24-hour format</string>
     <string name="settings_change_card_size">Change activity card size</string>
     <string name="settings_edit_categories">Edit tags</string>
-    <string name="settings_edit_categories_hint">Assign the same tag to different activities to view their grouped statistics.</string>
+    <string name="settings_edit_categories_hint">Assign tags to activities and records.</string>
     <string name="settings_rate">Rate us</string>
     <string name="settings_rate_description">Rate the app and leave a review.</string>
     <string name="settings_feedback">Feedback</string>
