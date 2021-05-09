@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.data_local.database.AppDatabase
 import com.example.util.simpletimetracker.data_local.database.AppDatabaseMigrations
 import com.example.util.simpletimetracker.data_local.database.CategoryDao
 import com.example.util.simpletimetracker.data_local.database.RecordDao
+import com.example.util.simpletimetracker.data_local.database.RecordTagDao
 import com.example.util.simpletimetracker.data_local.database.RecordTypeCategoryDao
 import com.example.util.simpletimetracker.data_local.database.RecordTypeDao
 import com.example.util.simpletimetracker.data_local.database.RunningRecordDao
@@ -15,6 +16,7 @@ import com.example.util.simpletimetracker.data_local.repo.CategoryRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.RecordCacheRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.RecordRepoImpl
+import com.example.util.simpletimetracker.data_local.repo.RecordTagRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.RecordTypeCacheRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.RecordTypeCategoryRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.RecordTypeRepoImpl
@@ -26,6 +28,7 @@ import com.example.util.simpletimetracker.domain.repo.CategoryRepo
 import com.example.util.simpletimetracker.domain.repo.PrefsRepo
 import com.example.util.simpletimetracker.domain.repo.RecordCacheRepo
 import com.example.util.simpletimetracker.domain.repo.RecordRepo
+import com.example.util.simpletimetracker.domain.repo.RecordTagRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeCacheRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeCategoryRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeRepo
@@ -56,7 +59,8 @@ class DataLocalModule {
                 AppDatabaseMigrations.migration_1_2,
                 AppDatabaseMigrations.migration_2_3,
                 AppDatabaseMigrations.migration_3_4,
-                AppDatabaseMigrations.migration_4_5
+                AppDatabaseMigrations.migration_4_5,
+                AppDatabaseMigrations.migration_5_6
             )
             .build()
     }
@@ -99,6 +103,12 @@ class DataLocalModule {
         return database.recordTypeCategoryDao()
     }
 
+    @Provides
+    @Singleton
+    fun getRecordTagDao(database: AppDatabase): RecordTagDao {
+        return database.recordTagDao()
+    }
+
     @Module
     abstract inner class DataLocalModuleBinds {
         @Binds
@@ -136,6 +146,10 @@ class DataLocalModule {
         @Binds
         @Singleton
         abstract fun getCategoryRepo(impl: CategoryRepoImpl): CategoryRepo
+
+        @Binds
+        @Singleton
+        abstract fun getRecordTagRepo(impl: RecordTagRepoImpl): RecordTagRepo
 
         @Binds
         @Singleton

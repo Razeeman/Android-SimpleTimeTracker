@@ -4,8 +4,8 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "records")
-data class RecordDBO(
+@Entity(tableName = "recordTags")
+data class RecordTagDBO(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     val id: Long,
@@ -13,15 +13,9 @@ data class RecordDBO(
     @ColumnInfo(name = "type_id")
     val typeId: Long,
 
-    @ColumnInfo(name = "time_started")
-    val timeStarted: Long,
+    @ColumnInfo(name = "name")
+    val name: String,
 
-    @ColumnInfo(name = "time_ended")
-    val timeEnded: Long,
-
-    @ColumnInfo(name = "comment")
-    val comment: String,
-
-    @ColumnInfo(name = "tag_id")
-    val tagId: Long
+    @ColumnInfo(name = "archived")
+    val archived: Boolean
 )

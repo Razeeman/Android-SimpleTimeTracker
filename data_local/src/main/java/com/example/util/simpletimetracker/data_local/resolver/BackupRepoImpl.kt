@@ -167,12 +167,13 @@ class BackupRepoImpl @Inject constructor(
 
     private fun toBackupString(record: Record): String {
         return String.format(
-            "$ROW_RECORD\t%s\t%s\t%s\t%s\t%s\n",
+            "$ROW_RECORD\t%s\t%s\t%s\t%s\t%s\t%s\n",
             record.id.toString(),
             record.typeId.toString(),
             record.timeStarted.toString(),
             record.timeEnded.toString(),
-            record.comment.clean()
+            record.comment.clean(),
+            record.tagId.toString()
         )
     }
 
@@ -210,7 +211,8 @@ class BackupRepoImpl @Inject constructor(
             typeId = parts.getOrNull(2)?.toLongOrNull() ?: 1L,
             timeStarted = parts.getOrNull(3)?.toLongOrNull().orZero(),
             timeEnded = parts.getOrNull(4)?.toLongOrNull().orZero(),
-            comment = parts.getOrNull(5).orEmpty()
+            comment = parts.getOrNull(5).orEmpty(),
+            tagId = parts.getOrNull(6)?.toLongOrNull().orZero()
         )
     }
 
