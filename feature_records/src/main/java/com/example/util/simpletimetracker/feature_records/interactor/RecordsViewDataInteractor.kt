@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.feature_records.interactor
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.feature_records.mapper.RecordViewDataMapper
 import java.util.Calendar
@@ -11,6 +12,7 @@ import javax.inject.Inject
 class RecordsViewDataInteractor @Inject constructor(
     private val recordInteractor: RecordInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
+    private val recordTagInteractor: RecordTagInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val recordViewDataMapper: RecordViewDataMapper
 ) {
@@ -19,6 +21,7 @@ class RecordsViewDataInteractor @Inject constructor(
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
         val recordTypes = recordTypeInteractor.getAll().map { it.id to it }.toMap()
+        val recordTags = recordTagInteractor.getAll().map { it.id to it }.toMap()
         val (rangeStart, rangeEnd) = getRange(shift)
         val records = if (rangeStart != 0L && rangeEnd != 0L) {
             recordInteractor.getFromRange(rangeStart, rangeEnd)
@@ -28,12 +31,10 @@ class RecordsViewDataInteractor @Inject constructor(
 
         return records
             .mapNotNull { record ->
-                recordTypes[record.typeId]?.let { type -> record to type }
-            }
-            .map { (record, recordType) ->
                 record.timeStarted to recordViewDataMapper.map(
                     record = record,
-                    recordType = recordType,
+                    recordType = recordTypes[record.typeId] ?: return@mapNotNull null,
+                    recordTag = recordTags[record.tagId],
                     rangeStart = rangeStart,
                     rangeEnd = rangeEnd,
                     isDarkTheme = isDarkTheme,

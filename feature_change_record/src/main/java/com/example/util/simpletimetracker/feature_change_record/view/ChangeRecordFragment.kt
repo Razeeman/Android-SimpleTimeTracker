@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.transition.TransitionInflater
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
+import com.example.util.simpletimetracker.core.adapter.category.createCategoryAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.recordType.createRecordTypeAdapterDelegate
 import com.example.util.simpletimetracker.core.base.BaseFragment
@@ -59,6 +60,12 @@ class ChangeRecordFragment : BaseFragment(R.layout.change_record_fragment),
             createRecordTypeAdapterDelegate(viewModel::onTypeClick)
         )
     }
+    private val categoriesAdapter: BaseRecyclerAdapter by lazy {
+        BaseRecyclerAdapter(
+            createCategoryAdapterDelegate(viewModel::onCategoryClick),
+            createEmptyAdapterDelegate()
+        )
+    }
     private val extra: ChangeRecordParams by lazy {
         arguments?.getParcelable<ChangeRecordParams>(ARGS_PARAMS) ?: ChangeRecordParams.New()
     }
@@ -92,11 +99,21 @@ class ChangeRecordFragment : BaseFragment(R.layout.change_record_fragment),
             }
             adapter = typesAdapter
         }
+
+        rvChangeRecordCategories.apply {
+            layoutManager = FlexboxLayoutManager(requireContext()).apply {
+                flexDirection = FlexDirection.ROW
+                justifyContent = JustifyContent.CENTER
+                flexWrap = FlexWrap.WRAP
+            }
+            adapter = categoriesAdapter
+        }
     }
 
     override fun initUx() {
         etChangeRecordComment.doAfterTextChanged { viewModel.onCommentChange(it.toString()) }
         fieldChangeRecordType.setOnClick(viewModel::onTypeChooserClick)
+        fieldChangeRecordCategory.setOnClick(viewModel::onCategoryChooserClick)
         fieldChangeRecordTimeStarted.setOnClick(viewModel::onTimeStartedClick)
         fieldChangeRecordTimeEnded.setOnClick(viewModel::onTimeEndedClick)
         btnChangeRecordSave.setOnClick(viewModel::onSaveClick)
@@ -112,10 +129,17 @@ class ChangeRecordFragment : BaseFragment(R.layout.change_record_fragment),
             record.observeOnce(viewLifecycleOwner, ::updateUi)
             record.observe(viewLifecycleOwner, ::updatePreview)
             types.observe(viewLifecycleOwner, typesAdapter::replace)
+            categories.observe(viewLifecycleOwner, categoriesAdapter::replace)
             saveButtonEnabled.observe(viewLifecycleOwner, btnChangeRecordSave::setEnabled)
             flipTypesChooser.observe(viewLifecycleOwner) { opened ->
                 rvChangeRecordType.visible = opened
                 arrowChangeRecordType.apply {
+                    if (opened) rotateDown() else rotateUp()
+                }
+            }
+            flipCategoryChooser.observe(viewLifecycleOwner) { opened ->
+                rvChangeRecordCategories.visible = opened
+                arrowChangeRecordCategory.apply {
                     if (opened) rotateDown() else rotateUp()
                 }
             }

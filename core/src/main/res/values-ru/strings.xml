@@ -68,7 +68,10 @@
     <!--  Change record  -->
     <string name="message_choose_type">Выберите активность</string>
     <string name="change_record_type_field">Активность</string>
+    <string name="change_record_category_field">Тег</string>
     <string name="change_record_comment_hint">Комментарий</string>
+    <string name="change_record_categories_empty">Теги для записей не добавлены</string>
+    <string name="change_record_activity_not_selected">Активность не выбрана</string>
     <string name="change_record_save">Сохранить</string>
 
     <!--  Change record type  -->
@@ -80,7 +83,7 @@
     <string name="change_record_type_category_hint">Теги</string>
     <string name="change_record_type_save">Сохранить</string>
     <string name="change_record_message_choose_name">Выберите имя</string>
-    <string name="change_record_type_categories_empty">Теги не добавлены</string>
+    <string name="change_record_type_categories_empty">Теги для активностей не добавлены</string>
     <string name="change_record_type_selected_categories_empty">Теги не назначены</string>
     <string name="change_record_type_selected_categories_hint">Назначенные теги:</string>
     <string name="change_record_type_goal_time_disabled">Выкл.</string>

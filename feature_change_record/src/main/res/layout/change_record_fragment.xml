@@ -93,11 +93,13 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/fieldChangeRecordType"
         style="@style/ChangeRecordTypeInputFieldCard"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="@dimen/input_field_height"
         android:layout_marginStart="@dimen/input_field_margin"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="@dimen/input_field_margin"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintEnd_toStartOf="@id/fieldChangeRecordCategory"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/fieldChangeRecordTimeStarted">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -116,6 +118,50 @@
 
             <ImageView
                 android:id="@+id/arrowChangeRecordType"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="8dp"
+                android:background="?selectableItemBackgroundBorderless"
+                android:src="?appArrow"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/fieldChangeRecordCategory"
+        style="@style/ChangeRecordTypeInputFieldCard"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/input_field_height"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="@dimen/input_field_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/fieldChangeRecordType"
+        app:layout_constraintTop_toBottomOf="@id/fieldChangeRecordTimeStarted">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?appInputFieldBorder">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/ChangeRecordTypeText"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:text="@string/change_record_category_field"
+                app:layout_constraintEnd_toStartOf="@id/arrowChangeRecordCategory"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <ImageView
+                android:id="@+id/arrowChangeRecordCategory"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginEnd="8dp"
@@ -165,6 +211,21 @@
         app:layout_constraintTop_toBottomOf="@id/fieldChangeRecordType"
         tools:itemCount="3"
         tools:listitem="@layout/item_record_type_layout"
+        tools:visibility="gone" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvChangeRecordCategories"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:background="?android:colorBackground"
+        android:overScrollMode="never"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/btnChangeRecordSave"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fieldChangeRecordType"
+        tools:itemCount="3"
+        tools:listitem="@layout/item_category_layout"
         tools:visibility="gone" />
 
     <com.google.android.material.button.MaterialButton
