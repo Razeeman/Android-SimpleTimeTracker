@@ -21,7 +21,19 @@ class RecordTagInteractor @Inject constructor(
     }
 
     suspend fun add(tag: RecordTag) {
-        repo.add(tag)
+        var newItem = tag
+
+        // If there is already an item with this name - override
+        repo.getByType(tag.typeId)
+            .firstOrNull { it.name == newItem.name }
+            ?.let { savedItem ->
+                newItem = tag.copy(
+                    id = savedItem.id,
+                    archived = false
+                )
+            }
+
+        repo.add(newItem)
     }
 
     suspend fun archive(id: Long) {
