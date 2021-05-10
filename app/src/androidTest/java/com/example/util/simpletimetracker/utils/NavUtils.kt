@@ -97,7 +97,7 @@ object NavUtils {
         color: Int? = null,
         activities: List<String> = emptyList()
     ) {
-        tryAction { clickOnViewWithText(R.string.categories_add) }
+        tryAction { clickOnViewWithText(R.string.categories_add_activity_tag) }
 
         // Name
         typeTextIntoView(R.id.etChangeCategoryName, name)
@@ -110,7 +110,7 @@ object NavUtils {
         }
 
         // Activities
-        clickOnViewWithText(R.string.change_category_type_hint)
+        clickOnViewWithText(R.string.change_category_types_hint)
         activities.forEach { typeName ->
             scrollRecyclerToView(R.id.rvChangeCategoryType, hasDescendant(withText(typeName)))
             clickOnRecyclerItem(R.id.rvChangeCategoryType, withText(typeName))

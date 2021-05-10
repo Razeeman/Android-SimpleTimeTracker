@@ -31,9 +31,14 @@ class CategoriesViewDataMapper @Inject constructor(
         map(type = TagType.RECORD, isDarkTheme = isDarkTheme)
 
     private fun map(type: TagType, isDarkTheme: Boolean): CategoryAddViewData {
+        val name = when (type) {
+            TagType.RECORD_TYPE -> R.string.categories_add_activity_tag
+            TagType.RECORD -> R.string.categories_add_record_tag
+        }.let(resourceRepo::getString)
+
         return CategoryAddViewData(
             type = type,
-            name = R.string.categories_add.let(resourceRepo::getString),
+            name = name,
             color = colorMapper.toInactiveColor(isDarkTheme)
         )
     }

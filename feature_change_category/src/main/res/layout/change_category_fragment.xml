@@ -116,7 +116,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="@string/change_category_type_hint"
+                android:text="@string/change_category_types_hint"
                 app:layout_constraintEnd_toStartOf="@id/arrowChangeCategoryType"
                 app:layout_constraintStart_toStartOf="parent" />
 

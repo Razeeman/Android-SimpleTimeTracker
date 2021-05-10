@@ -66,7 +66,7 @@ class ChangeCategoryTest : BaseUiTest() {
         clickOnRecyclerItem(R.id.rvChangeCategoryColor, withCardColor(lastColor))
         checkPreviewUpdated(withCardColor(lastColor))
 
-        clickOnViewWithText(R.string.change_category_type_hint)
+        clickOnViewWithText(R.string.change_category_types_hint)
         onView(withText(typeName1)).check(isCompletelyAbove(withId(R.id.viewDividerItem)))
         onView(withText(typeName2)).check(isCompletelyBelow(withId(R.id.viewDividerItem)))
         clickOnRecyclerItem(R.id.rvChangeCategoryType, withText(typeName1))
@@ -80,7 +80,7 @@ class ChangeCategoryTest : BaseUiTest() {
         checkViewIsDisplayed(withText(newName))
         checkViewIsDisplayed(withCardColor(lastColor))
         longClickOnView(withText(newName))
-        clickOnViewWithText(R.string.change_category_type_hint)
+        clickOnViewWithText(R.string.change_category_types_hint)
         onView(withText(typeName1)).check(isCompletelyBelow(withId(R.id.viewDividerItem)))
         onView(withText(typeName2)).check(isCompletelyAbove(withId(R.id.viewDividerItem)))
     }

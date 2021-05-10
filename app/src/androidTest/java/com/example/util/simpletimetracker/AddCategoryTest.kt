@@ -44,7 +44,7 @@ class AddCategoryTest : BaseUiTest() {
 
         NavUtils.openSettingsScreen()
         NavUtils.openCategoriesScreen()
-        clickOnViewWithText(R.string.categories_add)
+        clickOnViewWithText(R.string.categories_add_activity_tag)
         closeSoftKeyboard()
 
         // View is set up
@@ -74,7 +74,7 @@ class AddCategoryTest : BaseUiTest() {
         checkPreviewUpdated(withCardColor(lastColor))
 
         // Open activity chooser
-        clickOnViewWithText(R.string.change_category_type_hint)
+        clickOnViewWithText(R.string.change_category_types_hint)
         checkViewIsNotDisplayed(withId(R.id.rvChangeCategoryColor))
         checkViewIsDisplayed(withId(R.id.rvChangeCategoryType))
         checkViewIsDisplayed(withText(typeName1))
@@ -113,7 +113,7 @@ class AddCategoryTest : BaseUiTest() {
 
         // Check types saved
         longClickOnView(withText(name))
-        clickOnViewWithText(R.string.change_category_type_hint)
+        clickOnViewWithText(R.string.change_category_types_hint)
         checkViewIsDisplayed(withText(R.string.change_category_selected_types_hint))
         checkViewIsDisplayed(withId(R.id.viewDividerItem))
         onView(withText(typeName1)).check(isCompletelyAbove(withId(R.id.viewDividerItem)))
@@ -124,10 +124,10 @@ class AddCategoryTest : BaseUiTest() {
     fun addCategoryTypesEmpty() {
         NavUtils.openSettingsScreen()
         NavUtils.openCategoriesScreen()
-        clickOnViewWithText(R.string.categories_add)
+        clickOnViewWithText(R.string.categories_add_activity_tag)
 
         // Open activity chooser
-        clickOnViewWithText(R.string.change_category_type_hint)
+        clickOnViewWithText(R.string.change_category_types_hint)
         checkViewIsDisplayed(withText(R.string.record_types_empty))
     }
 

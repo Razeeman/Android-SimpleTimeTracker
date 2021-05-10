@@ -66,7 +66,10 @@ class ChangeRecordViewModel @Inject constructor(
     }
     val categories: LiveData<List<ViewHolderType>> by lazy {
         return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
-            viewModelScope.launch { initial.value = loadCategoriesViewData() }
+            viewModelScope.launch {
+                initializePreviewViewData()
+                initial.value = loadCategoriesViewData()
+            }
             initial
         }
     }
@@ -285,12 +288,12 @@ class ChangeRecordViewModel @Inject constructor(
     }
 
     private suspend fun loadCategoriesViewData(): List<ViewHolderType> {
-        val isDarkTheme = prefsInteractor.getDarkMode()
-        val type = recordTypeInteractor.get(newTypeId)
-
         if (newTypeId == 0L) {
             return changeRecordViewDataMapper.mapToTypeNotSelected()
         }
+
+        val isDarkTheme = prefsInteractor.getDarkMode()
+        val type = recordTypeInteractor.get(newTypeId)
 
         return recordTagInteractor.getByType(newTypeId)
             .takeUnless { it.isEmpty() }

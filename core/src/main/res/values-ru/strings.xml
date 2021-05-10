@@ -52,12 +52,14 @@
     <!--  Categories  -->
     <string name="categories_record_type_hint">Назначьте один и тот же тег разным активностям, чтобы просматривать их сгруппированную статистику</string>
     <string name="categories_record_hint">Назначьте разные теги записям, чтобы различать их</string>
-    <string name="categories_add">Добавить новый тег</string>
+    <string name="categories_add_activity_tag">Добавить тег активности</string>
+    <string name="categories_add_record_tag">Добавить тег записи</string>
 
     <!--  Change category  -->
     <string name="change_category_removed">Тег удален</string>
     <string name="change_category_name_hint">Введите новое имя</string>
     <string name="change_category_color_hint">Цвет</string>
+    <string name="change_category_types_hint">Активности</string>
     <string name="change_category_type_hint">Активность</string>
     <string name="change_category_save">Сохранить</string>
     <string name="change_category_message_choose_name">Выберите имя</string>

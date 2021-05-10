@@ -42,7 +42,7 @@ class RecordTypeCategoryTest : BaseUiTest() {
         NavUtils.openCategoriesScreen()
 
         longClickOnView(withText(categoryName1))
-        clickOnViewWithText(R.string.change_category_type_hint)
+        clickOnViewWithText(R.string.change_category_types_hint)
         onView(withText(typeName1)).check(isCompletelyAbove(withId(R.id.viewDividerItem)))
         onView(withText(typeName2)).check(isCompletelyBelow(withId(R.id.viewDividerItem)))
 
@@ -54,7 +54,7 @@ class RecordTypeCategoryTest : BaseUiTest() {
 
         // Check second category
         longClickOnView(withText(categoryName2))
-        clickOnViewWithText(R.string.change_category_type_hint)
+        clickOnViewWithText(R.string.change_category_types_hint)
         onView(withText(typeName1)).check(isCompletelyBelow(withId(R.id.viewDividerItem)))
         onView(withText(typeName2)).check(isCompletelyAbove(withId(R.id.viewDividerItem)))
 
@@ -98,7 +98,7 @@ class RecordTypeCategoryTest : BaseUiTest() {
         NavUtils.openCategoriesScreen()
 
         longClickOnView(withText(categoryName1))
-        clickOnViewWithText(R.string.change_category_type_hint)
+        clickOnViewWithText(R.string.change_category_types_hint)
         onView(withText(typeName1)).check(isCompletelyAbove(withId(R.id.viewDividerItem)))
         onView(withText(typeName2)).check(isCompletelyBelow(withId(R.id.viewDividerItem)))
 
@@ -106,7 +106,7 @@ class RecordTypeCategoryTest : BaseUiTest() {
 
         // Check second category
         longClickOnView(withText(categoryName2))
-        clickOnViewWithText(R.string.change_category_type_hint)
+        clickOnViewWithText(R.string.change_category_types_hint)
         onView(withText(typeName1)).check(isCompletelyBelow(withId(R.id.viewDividerItem)))
         onView(withText(typeName2)).check(isCompletelyAbove(withId(R.id.viewDividerItem)))
     }

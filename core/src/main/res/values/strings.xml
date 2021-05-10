@@ -52,13 +52,15 @@
     <!--  Categories  -->
     <string name="categories_record_type_hint">Assign the same tag to different activities to view their grouped statistics</string>
     <string name="categories_record_hint">Assign different tags to records to differentiate between them</string>
-    <string name="categories_add">Add new tag</string>
+    <string name="categories_add_activity_tag">Add activity tag</string>
+    <string name="categories_add_record_tag">Add record tag</string>
 
     <!--  Change category  -->
     <string name="change_category_removed">Tag removed</string>
     <string name="change_category_name_hint">Enter new name</string>
     <string name="change_category_color_hint">Color</string>
-    <string name="change_category_type_hint">Activities</string>
+    <string name="change_category_types_hint">Activities</string>
+    <string name="change_category_type_hint">Activity</string>
     <string name="change_category_save">Save</string>
     <string name="change_category_message_choose_name">Choose a name</string>
     <string name="change_category_message_choose_type">Select activity</string>
