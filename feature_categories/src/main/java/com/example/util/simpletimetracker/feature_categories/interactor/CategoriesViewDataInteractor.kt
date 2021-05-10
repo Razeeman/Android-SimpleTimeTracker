@@ -48,7 +48,7 @@ class CategoriesViewDataInteractor @Inject constructor(
     }
 
     private suspend fun getRecordTagViewData(): List<ViewHolderType> {
-        val tags = recordTagInteractor.getAll()
+        val tags = recordTagInteractor.getAll().filterNot { it.archived }
         val types = recordTypeInteractor.getAll()
         val isDarkTheme = prefsInteractor.getDarkMode()
         val result: MutableList<ViewHolderType> = mutableListOf()

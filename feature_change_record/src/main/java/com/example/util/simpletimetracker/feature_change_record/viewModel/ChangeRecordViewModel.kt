@@ -296,6 +296,7 @@ class ChangeRecordViewModel @Inject constructor(
         val type = recordTypeInteractor.get(newTypeId)
 
         return recordTagInteractor.getByType(newTypeId)
+            .filterNot { it.archived }
             .takeUnless { it.isEmpty() }
             ?.map { categoryViewDataMapper.map(it, type, isDarkTheme) }
             ?: changeRecordViewDataMapper.mapToCategoriesEmpty()
