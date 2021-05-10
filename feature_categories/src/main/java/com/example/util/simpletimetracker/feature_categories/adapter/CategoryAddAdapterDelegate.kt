@@ -4,12 +4,12 @@ import com.example.util.simpletimetracker.core.adapter.createRecyclerAdapterDele
 import com.example.util.simpletimetracker.core.extension.setOnClickWith
 import com.example.util.simpletimetracker.feature_categories.R
 import com.example.util.simpletimetracker.feature_categories.viewData.CategoryAddViewData
-import kotlinx.android.synthetic.main.item_category_layout.view.*
+import kotlinx.android.synthetic.main.categories_item_category_layout.view.*
 
 fun createCategoryAddAdapterDelegate(
     onItemClick: ((CategoryAddViewData) -> Unit)
 ) = createRecyclerAdapterDelegate<CategoryAddViewData>(
-    R.layout.item_category_layout
+    R.layout.categories_item_category_layout
 ) { itemView, item, _ ->
 
     with(itemView.viewCategoryItem) {

@@ -8,7 +8,7 @@ import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.core.extension.post
 import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
-import com.example.util.simpletimetracker.core.viewData.CategoryViewData
+import com.example.util.simpletimetracker.core.adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor

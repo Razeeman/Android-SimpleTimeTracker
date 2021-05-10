@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.mapper.CategoryViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
-import com.example.util.simpletimetracker.core.viewData.CategoryViewData
+import com.example.util.simpletimetracker.core.adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.extension.flip
 import com.example.util.simpletimetracker.domain.extension.orTrue

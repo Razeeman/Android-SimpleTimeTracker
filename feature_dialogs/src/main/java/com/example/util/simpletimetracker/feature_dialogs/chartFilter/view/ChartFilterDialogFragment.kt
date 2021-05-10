@@ -12,6 +12,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
+import com.example.util.simpletimetracker.core.adapter.category.createCategoryAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.recordType.createRecordTypeAdapterDelegate
@@ -19,7 +20,6 @@ import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.ChartFilterDialogListener
 import com.example.util.simpletimetracker.core.extension.getAllFragments
 import com.example.util.simpletimetracker.feature_dialogs.R
-import com.example.util.simpletimetracker.feature_dialogs.chartFilter.adapter.createChartFilterCategoryAdapterDelegate
 import com.example.util.simpletimetracker.feature_dialogs.chartFilter.di.ChartFilterComponentProvider
 import com.example.util.simpletimetracker.feature_dialogs.chartFilter.viewModel.ChartFilterViewModel
 import com.google.android.flexbox.FlexDirection
@@ -28,8 +28,7 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import kotlinx.android.synthetic.main.chart_filter_dialog_fragment.buttonsChartFilterType
-import kotlinx.android.synthetic.main.chart_filter_dialog_fragment.rvChartFilterContainer
+import kotlinx.android.synthetic.main.chart_filter_dialog_fragment.*
 import javax.inject.Inject
 
 class ChartFilterDialogFragment : BottomSheetDialogFragment() {
@@ -44,7 +43,7 @@ class ChartFilterDialogFragment : BottomSheetDialogFragment() {
     private val recordTypesAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
             createRecordTypeAdapterDelegate(viewModel::onRecordTypeClick),
-            createChartFilterCategoryAdapterDelegate(viewModel::onCategoryClick),
+            createCategoryAdapterDelegate(viewModel::onCategoryClick),
             createLoaderAdapterDelegate(),
             createEmptyAdapterDelegate()
         )

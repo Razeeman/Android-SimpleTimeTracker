@@ -20,7 +20,7 @@ import com.example.util.simpletimetracker.core.extension.showKeyboard
 import com.example.util.simpletimetracker.core.extension.visible
 import com.example.util.simpletimetracker.core.utils.BuildVersions
 import com.example.util.simpletimetracker.core.view.TransitionNames
-import com.example.util.simpletimetracker.core.viewData.CategoryViewData
+import com.example.util.simpletimetracker.core.adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.feature_change_record_tag.R
 import com.example.util.simpletimetracker.feature_change_record_tag.di.ChangeRecordTagComponentProvider
 import com.example.util.simpletimetracker.feature_change_record_tag.viewModel.ChangeRecordTagViewModel

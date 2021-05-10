@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.core.adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.NotificationGoalTimeInteractor
 import com.example.util.simpletimetracker.core.interactor.NotificationTypeInteractor
@@ -15,7 +16,6 @@ import com.example.util.simpletimetracker.core.mapper.IconEmojiMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
-import com.example.util.simpletimetracker.core.viewData.CategoryViewData
 import com.example.util.simpletimetracker.core.viewData.ColorViewData
 import com.example.util.simpletimetracker.core.viewData.EmojiViewData
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData

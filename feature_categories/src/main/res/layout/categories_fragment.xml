@@ -4,4 +4,4 @@
     android:id="@+id/rvCategoriesList"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:listitem="@layout/item_category_layout" />
+    tools:listitem="@layout/categories_item_category_layout" />

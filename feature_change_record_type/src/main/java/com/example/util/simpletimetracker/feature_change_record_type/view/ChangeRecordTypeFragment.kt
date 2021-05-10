@@ -8,6 +8,7 @@ import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.transition.TransitionInflater
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
+import com.example.util.simpletimetracker.core.adapter.category.createCategoryAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.color.createColorAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.divider.createDividerAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.emoji.createEmojiAdapterDelegate
@@ -35,7 +36,6 @@ import com.example.util.simpletimetracker.core.view.TransitionNames
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.model.IconEmojiType
 import com.example.util.simpletimetracker.feature_change_record_type.R
-import com.example.util.simpletimetracker.feature_change_record_type.adapter.createChangeRecordTypeCategoryAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record_type.adapter.createChangeRecordTypeIconAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record_type.adapter.createChangeRecordTypeIconCategoryAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record_type.adapter.createChangeRecordTypeIconCategoryInfoAdapterDelegate
@@ -48,24 +48,7 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
-import kotlinx.android.synthetic.main.change_record_type_fragment.arrowChangeRecordTypeCategory
-import kotlinx.android.synthetic.main.change_record_type_fragment.arrowChangeRecordTypeColor
-import kotlinx.android.synthetic.main.change_record_type_fragment.arrowChangeRecordTypeIcon
-import kotlinx.android.synthetic.main.change_record_type_fragment.btnChangeRecordTypeDelete
-import kotlinx.android.synthetic.main.change_record_type_fragment.btnChangeRecordTypeIconSwitch
-import kotlinx.android.synthetic.main.change_record_type_fragment.btnChangeRecordTypeSave
-import kotlinx.android.synthetic.main.change_record_type_fragment.containerChangeRecordTypeIcon
-import kotlinx.android.synthetic.main.change_record_type_fragment.etChangeRecordTypeName
-import kotlinx.android.synthetic.main.change_record_type_fragment.fieldChangeRecordTypeCategory
-import kotlinx.android.synthetic.main.change_record_type_fragment.fieldChangeRecordTypeColor
-import kotlinx.android.synthetic.main.change_record_type_fragment.fieldChangeRecordTypeIcon
-import kotlinx.android.synthetic.main.change_record_type_fragment.groupChangeRecordTypeGoalTime
-import kotlinx.android.synthetic.main.change_record_type_fragment.previewChangeRecordType
-import kotlinx.android.synthetic.main.change_record_type_fragment.rvChangeRecordTypeCategories
-import kotlinx.android.synthetic.main.change_record_type_fragment.rvChangeRecordTypeColor
-import kotlinx.android.synthetic.main.change_record_type_fragment.rvChangeRecordTypeIcon
-import kotlinx.android.synthetic.main.change_record_type_fragment.rvChangeRecordTypeIconCategory
-import kotlinx.android.synthetic.main.change_record_type_fragment.tvChangeRecordTypeGoalTimeTime
+import kotlinx.android.synthetic.main.change_record_type_fragment.*
 import javax.inject.Inject
 import kotlin.math.max
 
@@ -101,7 +84,7 @@ class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragme
     }
     private val categoriesAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
-            createChangeRecordTypeCategoryAdapterDelegate(viewModel::onCategoryClick),
+            createCategoryAdapterDelegate(viewModel::onCategoryClick),
             createDividerAdapterDelegate(),
             createInfoAdapterDelegate(),
             createEmptyAdapterDelegate()
