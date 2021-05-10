@@ -128,7 +128,7 @@ class AddCategoryTest : BaseUiTest() {
 
         // Open activity chooser
         clickOnViewWithText(R.string.change_category_type_hint)
-        checkViewIsDisplayed(withText(R.string.change_category_types_empty))
+        checkViewIsDisplayed(withText(R.string.record_types_empty))
     }
 
     private fun checkPreviewUpdated(matcher: Matcher<View>) =

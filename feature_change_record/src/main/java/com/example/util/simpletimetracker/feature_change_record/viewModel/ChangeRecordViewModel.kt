@@ -58,6 +58,12 @@ class ChangeRecordViewModel @Inject constructor(
             initial
         }
     }
+    val recordTags: LiveData<List<ViewHolderType>> by lazy {
+        return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
+            viewModelScope.launch { initial.value = loadRecordTagsViewData() }
+            initial
+        }
+    }
     val flipTypesChooser: LiveData<Boolean> = MutableLiveData()
     val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val keyboardVisibility: LiveData<Boolean> = MutableLiveData(false)
@@ -66,6 +72,7 @@ class ChangeRecordViewModel @Inject constructor(
     private var newTimeEnded: Long = 0
     private var newTimeStarted: Long = 0
     private var newComment: String = ""
+    private var newRecordTagId: Long = 0
 
     fun onTypeChooserClick() {
         (keyboardVisibility as MutableLiveData).value = false
@@ -192,6 +199,7 @@ class ChangeRecordViewModel @Inject constructor(
                     newTimeStarted = record.timeStarted
                     newTimeEnded = record.timeEnded
                     newComment = record.comment
+                    newRecordTagId = record.tagId
                 }
             }
             is ChangeRecordParams.Untracked -> {
@@ -230,7 +238,15 @@ class ChangeRecordViewModel @Inject constructor(
 
         return recordTypeInteractor.getAll()
             .filter { !it.hidden }
-            .map { recordTypeViewDataMapper.map(it, numberOfCards, isDarkTheme) }
+            .takeUnless { it.isEmpty() }
+            ?.map { recordTypeViewDataMapper.map(it, numberOfCards, isDarkTheme) }
+            ?: recordTypeViewDataMapper.mapToEmpty()
+    }
+
+    private suspend fun loadRecordTagsViewData(): List<ViewHolderType> {
+        val isDarkTheme = prefsInteractor.getDarkMode()
+
+        return emptyList()
     }
 
     private fun showMessage(stringResId: Int) {

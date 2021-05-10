@@ -6,7 +6,7 @@ import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.core.view.TransitionNames
 import com.example.util.simpletimetracker.core.viewData.CategoryViewData
 import com.example.util.simpletimetracker.feature_categories.R
-import kotlinx.android.synthetic.main.item_category_layout.view.viewCategoryItem
+import kotlinx.android.synthetic.main.item_category_layout.view.*
 
 fun createCategoryAdapterDelegate(
     onItemLongClick: ((CategoryViewData, Map<Any, String>) -> Unit)

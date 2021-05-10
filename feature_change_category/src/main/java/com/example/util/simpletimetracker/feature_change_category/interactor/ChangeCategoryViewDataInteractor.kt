@@ -57,6 +57,6 @@ class ChangeCategoryViewDataInteractor @Inject constructor(
 
                 viewData
             }
-            ?: changeCategoryMapper.mapToEmpty()
+            ?: recordTypeViewDataMapper.mapToEmpty()
     }
 }

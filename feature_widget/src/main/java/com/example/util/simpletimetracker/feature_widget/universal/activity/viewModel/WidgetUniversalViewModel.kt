@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.core.interactor.AddRunningRecordMediator
 import com.example.util.simpletimetracker.core.interactor.RemoveRunningRecordMediator
+import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
@@ -25,7 +26,8 @@ class WidgetUniversalViewModel @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
     private val prefsInteractor: PrefsInteractor,
-    private val widgetUniversalViewDataMapper: WidgetUniversalViewDataMapper
+    private val widgetUniversalViewDataMapper: WidgetUniversalViewDataMapper,
+    private val recordTypeViewDataMapper: RecordTypeViewDataMapper
 ) : ViewModel() {
 
     val recordTypes: LiveData<List<ViewHolderType>> by lazy {
@@ -88,6 +90,6 @@ class WidgetUniversalViewModel @Inject constructor(
                 )
             }
             .takeUnless { it.isEmpty() }
-            ?: listOf(widgetUniversalViewDataMapper.mapToEmpty())
+            ?: recordTypeViewDataMapper.mapToEmpty()
     }
 }

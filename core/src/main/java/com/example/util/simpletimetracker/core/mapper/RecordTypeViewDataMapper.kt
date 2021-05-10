@@ -1,5 +1,8 @@
 package com.example.util.simpletimetracker.core.mapper
 
+import com.example.util.simpletimetracker.core.R
+import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.core.adapter.empty.EmptyViewData
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
@@ -12,6 +15,12 @@ class RecordTypeViewDataMapper @Inject constructor(
     private val resourceRepo: ResourceRepo,
     private val recordTypeCardSizeMapper: RecordTypeCardSizeMapper
 ) {
+
+    fun mapToEmpty(): List<ViewHolderType> {
+        return EmptyViewData(
+            message = resourceRepo.getString(R.string.record_types_empty)
+        ).let(::listOf)
+    }
 
     fun map(
         recordType: RecordType,

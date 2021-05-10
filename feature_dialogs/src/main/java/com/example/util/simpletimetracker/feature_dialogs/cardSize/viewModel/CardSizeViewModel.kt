@@ -7,8 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.core.extension.post
+import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
-import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.RecordType
@@ -23,7 +23,8 @@ import javax.inject.Inject
 class CardSizeViewModel @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
     private val prefsInteractor: PrefsInteractor,
-    private val cardSizeViewDataMapper: CardSizeViewDataMapper
+    private val cardSizeViewDataMapper: CardSizeViewDataMapper,
+    private val recordTypeViewDataMapper: RecordTypeViewDataMapper
 ) : ViewModel() {
 
     val recordTypes: LiveData<List<ViewHolderType>> by lazy {
@@ -99,14 +100,18 @@ class CardSizeViewModel @Inject constructor(
         return cardSizeViewDataMapper.toDefaultButtonViewData(numberOfCards, isDarkTheme)
     }
 
-    private suspend fun loadRecordTypes(): List<RecordTypeViewData> {
+    private suspend fun loadRecordTypes(): List<ViewHolderType> {
         val isDarkTheme = prefsInteractor.getDarkMode()
 
         if (types.isEmpty()) {
             types = recordTypeInteractor.getAll().filter { !it.hidden }
         }
-        return types.map { type ->
-            cardSizeViewDataMapper.toToRecordTypeViewData(type, numberOfCards, isDarkTheme)
-        }
+
+        return types
+            .map { type ->
+                cardSizeViewDataMapper.toToRecordTypeViewData(type, numberOfCards, isDarkTheme)
+            }
+            .takeUnless { it.isEmpty() }
+            ?: recordTypeViewDataMapper.mapToEmpty()
     }
 }

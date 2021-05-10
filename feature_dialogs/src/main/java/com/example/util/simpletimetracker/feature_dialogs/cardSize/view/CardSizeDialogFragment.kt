@@ -11,6 +11,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
+import com.example.util.simpletimetracker.core.adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.recordType.createRecordTypeAdapterDelegate
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
@@ -25,9 +26,7 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import kotlinx.android.synthetic.main.card_size_dialog_fragment.btnCardSizeDefault
-import kotlinx.android.synthetic.main.card_size_dialog_fragment.buttonsCardSize
-import kotlinx.android.synthetic.main.card_size_dialog_fragment.rvCardSizeContainer
+import kotlinx.android.synthetic.main.card_size_dialog_fragment.*
 import javax.inject.Inject
 
 class CardSizeDialogFragment : BottomSheetDialogFragment() {
@@ -41,6 +40,7 @@ class CardSizeDialogFragment : BottomSheetDialogFragment() {
 
     private val recordTypesAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
+            createEmptyAdapterDelegate(),
             createRecordTypeAdapterDelegate(),
             createLoaderAdapterDelegate()
         )

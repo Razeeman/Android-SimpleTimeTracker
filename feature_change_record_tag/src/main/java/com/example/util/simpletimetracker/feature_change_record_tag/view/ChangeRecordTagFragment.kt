@@ -7,6 +7,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.transition.TransitionInflater
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
+import com.example.util.simpletimetracker.core.adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.recordType.createRecordTypeAdapterDelegate
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
@@ -41,6 +42,7 @@ class ChangeRecordTagFragment : BaseFragment(R.layout.change_record_tag_fragment
     )
     private val typesAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
+            createEmptyAdapterDelegate(),
             createRecordTypeAdapterDelegate(viewModel::onTypeClick)
         )
     }

@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.transition.TransitionInflater
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
+import com.example.util.simpletimetracker.core.adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.recordType.createRecordTypeAdapterDelegate
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
@@ -33,17 +34,7 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
-import kotlinx.android.synthetic.main.change_record_fragment.arrowChangeRecordType
-import kotlinx.android.synthetic.main.change_record_fragment.btnChangeRecordDelete
-import kotlinx.android.synthetic.main.change_record_fragment.btnChangeRecordSave
-import kotlinx.android.synthetic.main.change_record_fragment.etChangeRecordComment
-import kotlinx.android.synthetic.main.change_record_fragment.fieldChangeRecordTimeEnded
-import kotlinx.android.synthetic.main.change_record_fragment.fieldChangeRecordTimeStarted
-import kotlinx.android.synthetic.main.change_record_fragment.fieldChangeRecordType
-import kotlinx.android.synthetic.main.change_record_fragment.previewChangeRecord
-import kotlinx.android.synthetic.main.change_record_fragment.rvChangeRecordType
-import kotlinx.android.synthetic.main.change_record_fragment.tvChangeRecordTimeEnded
-import kotlinx.android.synthetic.main.change_record_fragment.tvChangeRecordTimeStarted
+import kotlinx.android.synthetic.main.change_record_fragment.*
 import javax.inject.Inject
 
 class ChangeRecordFragment : BaseFragment(R.layout.change_record_fragment),
@@ -64,6 +55,7 @@ class ChangeRecordFragment : BaseFragment(R.layout.change_record_fragment),
     )
     private val typesAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
+            createEmptyAdapterDelegate(),
             createRecordTypeAdapterDelegate(viewModel::onTypeClick)
         )
     }

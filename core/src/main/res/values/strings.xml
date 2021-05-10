@@ -36,6 +36,7 @@
 
     <string name="untracked_time_name">Untracked</string>
     <string name="running_record_goal_time">goal %s</string>
+    <string name="record_types_empty">No activities added</string>
 
     <!--  Records  -->
     <string name="record_removed">Record %s removed</string>
@@ -61,7 +62,6 @@
     <string name="change_category_save">Save</string>
     <string name="change_category_message_choose_name">Choose a name</string>
     <string name="change_category_message_choose_type">Select activity</string>
-    <string name="change_category_types_empty">No activities added</string>
     <string name="change_category_selected_types_empty">Not assigned to any activities</string>
     <string name="change_category_selected_types_hint">Assigned to:</string>
 
@@ -211,7 +211,6 @@
     <string name="widget_name">Single Activity</string>
     <string name="widget_universal_name">Universal</string>
     <string name="widget_load_error">Not found</string>
-    <string name="widget_empty">No activities added</string>
 
     <!--  Notification  -->
     <string name="notification_inactivity_title">Inactivity reminder</string>

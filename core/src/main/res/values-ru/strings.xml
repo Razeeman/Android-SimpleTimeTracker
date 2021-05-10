@@ -36,6 +36,7 @@
 
     <string name="untracked_time_name">Без отслеживания</string>
     <string name="running_record_goal_time">цель %s</string>
+    <string name="record_types_empty">Активности не добавлены</string>
 
     <!--  Records  -->
     <string name="record_removed">Запись %s удалена</string>
@@ -61,7 +62,6 @@
     <string name="change_category_save">Сохранить</string>
     <string name="change_category_message_choose_name">Выберите имя</string>
     <string name="change_category_message_choose_type">Выберите активность</string>
-    <string name="change_category_types_empty">Активности не добавлены</string>
     <string name="change_category_selected_types_empty">Не привязан ни к какой активности</string>
     <string name="change_category_selected_types_hint">Присвоен:</string>
 
@@ -201,7 +201,6 @@
     <string name="widget_name">Одна активность</string>
     <string name="widget_universal_name">Универсальный</string>
     <string name="widget_load_error">Не найден</string>
-    <string name="widget_empty">Активности не добавлены</string>
 
     <!--  Notification  -->
     <string name="notification_inactivity_title">Напоминание о бездействии</string>

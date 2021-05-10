@@ -1,8 +1,6 @@
 package com.example.util.simpletimetracker.feature_widget.universal.mapper
 
 import android.graphics.Color
-import com.example.util.simpletimetracker.core.adapter.ViewHolderType
-import com.example.util.simpletimetracker.core.adapter.empty.EmptyViewData
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
@@ -34,12 +32,6 @@ class WidgetUniversalViewDataMapper @Inject constructor(
             numberOfCards,
             isDarkTheme,
             isFiltered
-        )
-    }
-
-    fun mapToEmpty(): ViewHolderType {
-        return EmptyViewData(
-            message = R.string.widget_empty.let(resourceRepo::getString)
         )
     }
 

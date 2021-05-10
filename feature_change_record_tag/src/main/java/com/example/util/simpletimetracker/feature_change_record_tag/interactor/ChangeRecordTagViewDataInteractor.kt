@@ -5,14 +5,12 @@ import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.RecordType
-import com.example.util.simpletimetracker.feature_change_record_tag.mapper.ChangeRecordTagMapper
 import javax.inject.Inject
 
 class ChangeRecordTagViewDataInteractor @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
-    private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
-    private val changeRecordTagMapper: ChangeRecordTagMapper
+    private val recordTypeViewDataMapper: RecordTypeViewDataMapper
 ) {
 
     suspend fun getTypesViewData(): List<ViewHolderType> {
@@ -29,6 +27,6 @@ class ChangeRecordTagViewDataInteractor @Inject constructor(
                     isDarkTheme = isDarkTheme
                 )
             }
-            ?: changeRecordTagMapper.mapToEmpty()
+            ?: recordTypeViewDataMapper.mapToEmpty()
     }
 }
