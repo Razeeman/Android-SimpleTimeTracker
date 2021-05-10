@@ -170,6 +170,7 @@ class ChangeRecordViewModel @Inject constructor(
         viewModelScope.launch {
             if (item.id != newTypeId) {
                 newTypeId = item.id
+                newCategoryId = 0L
                 updatePreview()
                 updateCategoriesViewData()
             }
@@ -254,12 +255,14 @@ class ChangeRecordViewModel @Inject constructor(
             tagId = newCategoryId
         )
         val type = recordTypeInteractor.get(newTypeId)
+        val tag = recordTagInteractor.get(newCategoryId)
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
 
         return changeRecordViewDataMapper.map(
             record = record,
             recordType = type,
+            recordTag = tag,
             isDarkTheme = isDarkTheme,
             useMilitaryTime = useMilitaryTime
         )

@@ -7,6 +7,7 @@ import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.model.Record
+import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_change_record.R
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordViewData
@@ -34,11 +35,12 @@ class ChangeRecordViewDataMapper @Inject constructor(
     fun map(
         record: Record?,
         recordType: RecordType?,
+        recordTag: RecordTag?,
         isDarkTheme: Boolean,
         useMilitaryTime: Boolean
     ): ChangeRecordViewData {
         return ChangeRecordViewData(
-            name = recordType?.name.orEmpty(),
+            name = mapName(recordType, recordTag),
             timeStarted = record?.timeStarted
                 ?.let { timeMapper.formatTime(it, useMilitaryTime) }
                 .orEmpty(),
@@ -64,5 +66,13 @@ class ChangeRecordViewDataMapper @Inject constructor(
             comment = record?.comment
                 .orEmpty()
         )
+    }
+
+    private fun mapName(recordType: RecordType?, recordTag: RecordTag?): String {
+        var name = recordType?.name ?: return ""
+        if (recordTag != null && recordTag.name.isNotEmpty()) {
+            name = name + " - " + recordTag.name
+        }
+        return name
     }
 }
