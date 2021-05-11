@@ -42,6 +42,7 @@
 
     <color name="black">#000000</color>
     <color name="white">#ffffff</color>
+    <color name="white_alpha_60">#99FFFFFF</color>
     <color name="transparent">#00000000</color>
 
     <color name="colorUntracked">@color/blue_grey_300</color>

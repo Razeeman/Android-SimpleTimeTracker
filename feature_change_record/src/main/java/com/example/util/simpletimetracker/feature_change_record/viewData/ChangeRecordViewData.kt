@@ -5,6 +5,7 @@ import com.example.util.simpletimetracker.core.viewData.RecordTypeIcon
 
 data class ChangeRecordViewData(
     val name: String,
+    val tagName: String,
     val timeStarted: String,
     val timeFinished: String,
     val dateTimeStarted: String,

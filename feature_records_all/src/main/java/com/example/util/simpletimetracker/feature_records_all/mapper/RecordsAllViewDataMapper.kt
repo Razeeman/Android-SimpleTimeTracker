@@ -39,6 +39,7 @@ class RecordsAllViewDataMapper @Inject constructor(
         return RecordViewData.Tracked(
             id = record.id,
             name = recordType.name,
+            tagName = "", // TODO add tags
             timeStarted = timeStarted
                 .let { timeMapper.formatTime(it, useMilitaryTime) },
             timeFinished = timeEnded

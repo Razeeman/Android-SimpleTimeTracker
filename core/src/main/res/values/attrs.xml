@@ -44,6 +44,8 @@
         <attr name="itemIcon" />
         <attr name="itemEmoji" />
         <attr name="itemColor" />
+        <attr name="itemTagName" format="string"/>
+        <attr name="itemTagColor" format="color"/>
         <attr name="itemTimeStarted" format="string" />
         <attr name="itemTimeEnded" format="string" />
         <attr name="itemDuration" format="string" />

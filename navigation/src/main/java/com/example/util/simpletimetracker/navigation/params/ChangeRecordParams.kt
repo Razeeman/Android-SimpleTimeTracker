@@ -29,6 +29,7 @@ sealed class ChangeRecordParams : Parcelable {
     @Parcelize
     data class Preview(
         val name: String,
+        val tagName: String,
         val timeStarted: String,
         val timeFinished: String,
         val duration: String,

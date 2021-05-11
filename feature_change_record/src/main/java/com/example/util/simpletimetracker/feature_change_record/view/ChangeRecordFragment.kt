@@ -170,6 +170,7 @@ class ChangeRecordFragment : BaseFragment(R.layout.change_record_fragment),
     }?.let { preview ->
         ChangeRecordViewData(
             name = preview.name,
+            tagName = preview.tagName,
             timeStarted = preview.timeStarted,
             timeFinished = preview.timeFinished,
             dateTimeStarted = "",
@@ -184,6 +185,7 @@ class ChangeRecordFragment : BaseFragment(R.layout.change_record_fragment),
     private fun updatePreview(item: ChangeRecordViewData) {
         with(previewChangeRecord) {
             itemName = item.name
+            itemTagName = item.tagName
             itemIcon = item.iconId
             itemColor = item.color
             itemTimeStarted = item.timeStarted

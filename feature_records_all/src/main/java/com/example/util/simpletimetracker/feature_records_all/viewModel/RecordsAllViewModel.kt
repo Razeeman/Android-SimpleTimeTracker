@@ -56,6 +56,7 @@ class RecordsAllViewModel @Inject constructor(
                 id = item.id,
                 preview = ChangeRecordParams.Preview(
                     name = item.name,
+                    tagName = item.tagName,
                     timeStarted = item.timeStarted,
                     timeFinished = item.timeFinished,
                     duration = item.duration,

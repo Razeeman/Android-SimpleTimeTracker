@@ -6,7 +6,7 @@ import com.example.util.simpletimetracker.core.adapter.createRecyclerAdapterDele
 import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.core.view.TransitionNames
 import com.example.util.simpletimetracker.core.viewData.RecordViewData
-import kotlinx.android.synthetic.main.item_record_layout.view.viewRecordItem
+import kotlinx.android.synthetic.main.item_record_layout.view.*
 
 fun createRecordAdapterDelegate(
     onItemClick: ((RecordViewData, Map<Any, String>) -> Unit)
@@ -21,6 +21,7 @@ fun createRecordAdapterDelegate(
         itemColor = item.color
         itemIcon = item.iconId
         itemName = item.name
+        itemTagName = item.tagName
         itemTimeStarted = item.timeStarted
         itemTimeEnded = item.timeFinished
         itemDuration = item.duration

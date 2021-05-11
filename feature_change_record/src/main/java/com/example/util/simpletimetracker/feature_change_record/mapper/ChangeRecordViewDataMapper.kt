@@ -40,7 +40,8 @@ class ChangeRecordViewDataMapper @Inject constructor(
         useMilitaryTime: Boolean
     ): ChangeRecordViewData {
         return ChangeRecordViewData(
-            name = mapName(recordType, recordTag),
+            name = recordType?.name.orEmpty(),
+            tagName = recordTag?.name.orEmpty(),
             timeStarted = record?.timeStarted
                 ?.let { timeMapper.formatTime(it, useMilitaryTime) }
                 .orEmpty(),
@@ -66,13 +67,5 @@ class ChangeRecordViewDataMapper @Inject constructor(
             comment = record?.comment
                 .orEmpty()
         )
-    }
-
-    private fun mapName(recordType: RecordType?, recordTag: RecordTag?): String {
-        var name = recordType?.name ?: return ""
-        if (recordTag != null && recordTag.name.isNotEmpty()) {
-            name = name + " - " + recordTag.name
-        }
-        return name
     }
 }

@@ -32,6 +32,7 @@ class RecordsViewModel @Inject constructor(
     fun onRecordClick(item: RecordViewData, sharedElements: Map<Any, String>) {
         val preview = ChangeRecordParams.Preview(
             name = item.name,
+            tagName = item.tagName,
             timeStarted = item.timeStarted,
             timeFinished = item.timeFinished,
             duration = item.duration,

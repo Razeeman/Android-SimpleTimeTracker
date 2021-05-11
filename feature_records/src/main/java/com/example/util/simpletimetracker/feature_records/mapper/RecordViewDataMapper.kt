@@ -37,7 +37,8 @@ class RecordViewDataMapper @Inject constructor(
 
         return RecordViewData.Tracked(
             id = record.id,
-            name = mapName(recordType, recordTag),
+            name = recordType.name,
+            tagName = recordTag?.name.orEmpty(),
             timeStarted = timeStarted
                 .let { timeMapper.formatTime(it, useMilitaryTime) },
             timeFinished = timeEnded
@@ -65,6 +66,7 @@ class RecordViewDataMapper @Inject constructor(
         return RecordViewData.Untracked(
             name = R.string.untracked_time_name
                 .let(resourceRepo::getString),
+            tagName = "",
             timeStarted = timeStarted
                 .let { timeMapper.formatTime(it, useMilitaryTime) },
             timeStartedTimestamp = timeStarted,
@@ -89,14 +91,6 @@ class RecordViewDataMapper @Inject constructor(
         return HintViewData(
             text = R.string.records_hint.let(resourceRepo::getString)
         )
-    }
-
-    private fun mapName(recordType: RecordType, recordTag: RecordTag?): String {
-        var name = recordType.name
-        if (recordTag != null && recordTag.name.isNotEmpty()) {
-            name = name + " - " + recordTag.name
-        }
-        return name
     }
 
     private fun clampToRange(
