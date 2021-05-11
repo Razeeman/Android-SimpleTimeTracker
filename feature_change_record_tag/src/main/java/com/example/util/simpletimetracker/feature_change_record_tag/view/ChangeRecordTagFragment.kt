@@ -7,6 +7,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.transition.TransitionInflater
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
+import com.example.util.simpletimetracker.core.adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.core.adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.recordType.createRecordTypeAdapterDelegate
 import com.example.util.simpletimetracker.core.base.BaseFragment
@@ -20,7 +21,6 @@ import com.example.util.simpletimetracker.core.extension.showKeyboard
 import com.example.util.simpletimetracker.core.extension.visible
 import com.example.util.simpletimetracker.core.utils.BuildVersions
 import com.example.util.simpletimetracker.core.view.TransitionNames
-import com.example.util.simpletimetracker.core.adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.feature_change_record_tag.R
 import com.example.util.simpletimetracker.feature_change_record_tag.di.ChangeRecordTagComponentProvider
 import com.example.util.simpletimetracker.feature_change_record_tag.viewModel.ChangeRecordTagViewModel
@@ -92,6 +92,7 @@ class ChangeRecordTagFragment : BaseFragment(R.layout.change_record_tag_fragment
     override fun initViewModel(): Unit = with(viewModel) {
         extra = params
         deleteIconVisibility.observeOnce(viewLifecycleOwner, btnChangeRecordTagDelete::visible::set)
+        typesChooserVisibility.observeOnce(viewLifecycleOwner, fieldChangeRecordTagType::visible::set)
         saveButtonEnabled.observe(viewLifecycleOwner, btnChangeRecordTagSave::setEnabled)
         deleteButtonEnabled.observe(viewLifecycleOwner, btnChangeRecordTagDelete::setEnabled)
         preview.observeOnce(viewLifecycleOwner, ::updateUi)
