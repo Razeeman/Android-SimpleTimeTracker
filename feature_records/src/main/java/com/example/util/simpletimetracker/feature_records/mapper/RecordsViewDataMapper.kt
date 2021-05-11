@@ -3,11 +3,8 @@ package com.example.util.simpletimetracker.feature_records.mapper
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.empty.EmptyViewData
 import com.example.util.simpletimetracker.core.adapter.hint.HintViewData
-import com.example.util.simpletimetracker.core.mapper.ColorMapper
-import com.example.util.simpletimetracker.core.mapper.IconMapper
-import com.example.util.simpletimetracker.core.mapper.TimeMapper
+import com.example.util.simpletimetracker.core.mapper.RecordViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
-import com.example.util.simpletimetracker.core.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.core.viewData.RecordViewData
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordTag
@@ -17,11 +14,9 @@ import javax.inject.Inject
 import kotlin.math.max
 import kotlin.math.min
 
-class RecordViewDataMapper @Inject constructor(
-    private val iconMapper: IconMapper,
-    private val colorMapper: ColorMapper,
+class RecordsViewDataMapper @Inject constructor(
     private val resourceRepo: ResourceRepo,
-    private val timeMapper: TimeMapper
+    private val recordViewDataMapper: RecordViewDataMapper
 ) {
 
     fun map(
@@ -35,22 +30,14 @@ class RecordViewDataMapper @Inject constructor(
     ): ViewHolderType {
         val (timeStarted, timeEnded) = clampToRange(record, rangeStart, rangeEnd)
 
-        return RecordViewData.Tracked(
-            id = record.id,
-            name = recordType.name,
-            tagName = recordTag?.name.orEmpty(),
-            timeStarted = timeStarted
-                .let { timeMapper.formatTime(it, useMilitaryTime) },
-            timeFinished = timeEnded
-                .let { timeMapper.formatTime(it, useMilitaryTime) },
-            duration = (timeEnded - timeStarted)
-                .let(timeMapper::formatInterval),
-            iconId = recordType.icon
-                .let(iconMapper::mapIcon),
-            color = recordType.color
-                .let { colorMapper.mapToColorResId(it, isDarkTheme) }
-                .let(resourceRepo::getColor),
-            comment = record.comment
+        return recordViewDataMapper.map(
+            record = record,
+            recordType = recordType,
+            recordTag = recordTag,
+            timeStarted = timeStarted,
+            timeEnded = timeEnded,
+            isDarkTheme = isDarkTheme,
+            useMilitaryTime = useMilitaryTime
         )
     }
 
@@ -63,21 +50,11 @@ class RecordViewDataMapper @Inject constructor(
     ): RecordViewData {
         val (timeStarted, timeEnded) = clampToRange(record, rangeStart, rangeEnd)
 
-        return RecordViewData.Untracked(
-            name = R.string.untracked_time_name
-                .let(resourceRepo::getString),
-            tagName = "",
-            timeStarted = timeStarted
-                .let { timeMapper.formatTime(it, useMilitaryTime) },
-            timeStartedTimestamp = timeStarted,
-            timeFinished = timeEnded
-                .let { timeMapper.formatTime(it, useMilitaryTime) },
-            timeEndedTimestamp = timeEnded,
-            duration = (timeEnded - timeStarted)
-                .let(timeMapper::formatInterval),
-            iconId = RecordTypeIcon.Image(R.drawable.unknown),
-            color = colorMapper.toUntrackedColor(isDarkTheme),
-            comment = ""
+        return recordViewDataMapper.mapToUntracked(
+            timeStarted = timeStarted,
+            timeEnded = timeEnded,
+            isDarkTheme = isDarkTheme,
+            useMilitaryTime = useMilitaryTime
         )
     }
 

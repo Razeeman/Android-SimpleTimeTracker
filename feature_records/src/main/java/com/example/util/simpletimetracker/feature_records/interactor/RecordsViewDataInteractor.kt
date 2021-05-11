@@ -5,7 +5,7 @@ import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
-import com.example.util.simpletimetracker.feature_records.mapper.RecordViewDataMapper
+import com.example.util.simpletimetracker.feature_records.mapper.RecordsViewDataMapper
 import java.util.Calendar
 import javax.inject.Inject
 
@@ -14,7 +14,7 @@ class RecordsViewDataInteractor @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
     private val recordTagInteractor: RecordTagInteractor,
     private val prefsInteractor: PrefsInteractor,
-    private val recordViewDataMapper: RecordViewDataMapper
+    private val recordsViewDataMapper: RecordsViewDataMapper
 ) {
 
     suspend fun getViewData(shift: Int): List<ViewHolderType> {
@@ -31,7 +31,7 @@ class RecordsViewDataInteractor @Inject constructor(
 
         return records
             .mapNotNull { record ->
-                record.timeStarted to recordViewDataMapper.map(
+                record.timeStarted to recordsViewDataMapper.map(
                     record = record,
                     recordType = recordTypes[record.typeId] ?: return@mapNotNull null,
                     recordTag = recordTags[record.tagId],
@@ -50,7 +50,7 @@ class RecordsViewDataInteractor @Inject constructor(
                         (it.timeEnded - it.timeStarted) >= UNTRACKED_RECORD_LENGTH_LIMIT
                     }
                     .map { untrackedRecord ->
-                        untrackedRecord.timeStarted to recordViewDataMapper.mapToUntracked(
+                        untrackedRecord.timeStarted to recordsViewDataMapper.mapToUntracked(
                             record = untrackedRecord,
                             rangeStart = rangeStart,
                             rangeEnd = rangeEnd,
@@ -64,9 +64,9 @@ class RecordsViewDataInteractor @Inject constructor(
             .map { (_, records) -> records }
             .let {
                 if (it.isEmpty()) {
-                    listOf(recordViewDataMapper.mapToEmpty())
+                    listOf(recordsViewDataMapper.mapToEmpty())
                 } else {
-                    it + recordViewDataMapper.mapToHint()
+                    it + recordsViewDataMapper.mapToHint()
                 }
             }
     }

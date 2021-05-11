@@ -5,6 +5,7 @@ import com.example.util.simpletimetracker.core.mapper.RangeMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.feature_records_all.mapper.RecordsAllViewDataMapper
 import com.example.util.simpletimetracker.feature_records_all.model.RecordsAllSortOrder
@@ -17,6 +18,7 @@ import javax.inject.Inject
 class RecordsAllViewDataInteractor @Inject constructor(
     private val recordInteractor: RecordInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
+    private val recordTagInteractor: RecordTagInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val recordsAllViewDataMapper: RecordsAllViewDataMapper,
     private val timeMapper: TimeMapper,
@@ -31,9 +33,8 @@ class RecordsAllViewDataInteractor @Inject constructor(
     ): List<ViewHolderType> {
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
-        val recordTypes = recordTypeInteractor.getAll()
-            .map { it.id to it }
-            .toMap()
+        val recordTypes = recordTypeInteractor.getAll().map { it.id to it }.toMap()
+        val recordTags = recordTagInteractor.getAll().map { it.id to it }.toMap()
         val records = recordInteractor.getByType(typesSelected).let {
             if (rangeStart != 0L && rangeEnd != 0L) {
                 rangeMapper.getRecordsFromRange(it, rangeStart, rangeEnd)
@@ -47,15 +48,13 @@ class RecordsAllViewDataInteractor @Inject constructor(
         return withContext(Dispatchers.Default) {
             records
                 .mapNotNull { record ->
-                    recordTypes[record.typeId]?.let { type -> record to type }
-                }
-                .map { (record, recordType) ->
                     Triple(
                         record.timeStarted,
                         record.timeEnded - record.timeStarted,
                         recordsAllViewDataMapper.map(
                             record = record,
-                            recordType = recordType,
+                            recordType = recordTypes[record.typeId] ?: return@mapNotNull null,
+                            recordTag = recordTags[record.tagId],
                             isDarkTheme = isDarkTheme,
                             useMilitaryTime = useMilitaryTime
                         )

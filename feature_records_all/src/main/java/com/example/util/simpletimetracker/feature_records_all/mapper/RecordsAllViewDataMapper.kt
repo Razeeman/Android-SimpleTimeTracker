@@ -2,14 +2,12 @@ package com.example.util.simpletimetracker.feature_records_all.mapper
 
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.empty.EmptyViewData
-import com.example.util.simpletimetracker.core.mapper.ColorMapper
-import com.example.util.simpletimetracker.core.mapper.IconMapper
-import com.example.util.simpletimetracker.core.mapper.TimeMapper
+import com.example.util.simpletimetracker.core.mapper.RecordViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.view.spinner.CustomSpinner
-import com.example.util.simpletimetracker.core.viewData.RecordViewData
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.model.Record
+import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_records_all.R
 import com.example.util.simpletimetracker.feature_records_all.model.RecordsAllSortOrder
@@ -17,10 +15,8 @@ import com.example.util.simpletimetracker.feature_records_all.viewData.RecordsAl
 import javax.inject.Inject
 
 class RecordsAllViewDataMapper @Inject constructor(
-    private val iconMapper: IconMapper,
-    private val colorMapper: ColorMapper,
     private val resourceRepo: ResourceRepo,
-    private val timeMapper: TimeMapper
+    private val recordViewDataMapper: RecordViewDataMapper
 ) {
 
     private val sortOrderList: List<RecordsAllSortOrder> = listOf(
@@ -31,27 +27,20 @@ class RecordsAllViewDataMapper @Inject constructor(
     fun map(
         record: Record,
         recordType: RecordType,
+        recordTag: RecordTag?,
         isDarkTheme: Boolean,
         useMilitaryTime: Boolean
     ): ViewHolderType {
         val (timeStarted, timeEnded) = record.timeStarted to record.timeEnded
 
-        return RecordViewData.Tracked(
-            id = record.id,
-            name = recordType.name,
-            tagName = "", // TODO add tags
-            timeStarted = timeStarted
-                .let { timeMapper.formatTime(it, useMilitaryTime) },
-            timeFinished = timeEnded
-                .let { timeMapper.formatTime(it, useMilitaryTime) },
-            duration = (timeEnded - timeStarted)
-                .let(timeMapper::formatInterval),
-            iconId = recordType.icon
-                .let(iconMapper::mapIcon),
-            color = recordType.color
-                .let { colorMapper.mapToColorResId(it, isDarkTheme) }
-                .let(resourceRepo::getColor),
-            comment = record.comment
+        return recordViewDataMapper.map(
+            record = record,
+            recordType = recordType,
+            recordTag = recordTag,
+            timeStarted = timeStarted,
+            timeEnded = timeEnded,
+            isDarkTheme = isDarkTheme,
+            useMilitaryTime = useMilitaryTime
         )
     }
 
