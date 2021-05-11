@@ -75,6 +75,7 @@
     <string name="change_record_categories_empty">Теги для записей не добавлены</string>
     <string name="change_record_activity_not_selected">Активность не выбрана</string>
     <string name="change_record_save">Сохранить</string>
+    <string name="change_record_untagged">Без тега</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_removed">Активность удалена</string>

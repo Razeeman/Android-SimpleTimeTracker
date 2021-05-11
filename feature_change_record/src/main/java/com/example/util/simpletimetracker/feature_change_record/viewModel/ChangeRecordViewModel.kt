@@ -7,8 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.core.extension.set
-import com.example.util.simpletimetracker.core.mapper.CategoryViewDataMapper
-import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
@@ -17,12 +15,10 @@ import com.example.util.simpletimetracker.domain.extension.orTrue
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
-import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
-import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.feature_change_record.R
-import com.example.util.simpletimetracker.feature_change_record.mapper.ChangeRecordViewDataMapper
+import com.example.util.simpletimetracker.feature_change_record.interactor.ChangeRecordViewDataInteractor
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordViewData
 import com.example.util.simpletimetracker.navigation.Notification
 import com.example.util.simpletimetracker.navigation.Router
@@ -37,12 +33,8 @@ import javax.inject.Inject
 class ChangeRecordViewModel @Inject constructor(
     private val router: Router,
     private val recordInteractor: RecordInteractor,
-    private val recordTypeInteractor: RecordTypeInteractor,
-    private val recordTagInteractor: RecordTagInteractor,
+    private val changeRecordViewDataInteractor: ChangeRecordViewDataInteractor,
     private val timeMapper: TimeMapper,
-    private val changeRecordViewDataMapper: ChangeRecordViewDataMapper,
-    private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
-    private val categoryViewDataMapper: CategoryViewDataMapper,
     private val resourceRepo: ResourceRepo,
     private val prefsInteractor: PrefsInteractor
 ) : ViewModel() {
@@ -257,29 +249,12 @@ class ChangeRecordViewModel @Inject constructor(
             comment = newComment,
             tagId = newCategoryId
         )
-        val type = recordTypeInteractor.get(newTypeId)
-        val tag = recordTagInteractor.get(newCategoryId)
-        val isDarkTheme = prefsInteractor.getDarkMode()
-        val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
 
-        return changeRecordViewDataMapper.map(
-            record = record,
-            recordType = type,
-            recordTag = tag,
-            isDarkTheme = isDarkTheme,
-            useMilitaryTime = useMilitaryTime
-        )
+        return changeRecordViewDataInteractor.getPreviewViewData(record)
     }
 
     private suspend fun loadTypesViewData(): List<ViewHolderType> {
-        val numberOfCards = prefsInteractor.getNumberOfCards()
-        val isDarkTheme = prefsInteractor.getDarkMode()
-
-        return recordTypeInteractor.getAll()
-            .filter { !it.hidden }
-            .takeUnless { it.isEmpty() }
-            ?.map { recordTypeViewDataMapper.map(it, numberOfCards, isDarkTheme) }
-            ?: recordTypeViewDataMapper.mapToEmpty()
+        return changeRecordViewDataInteractor.getTypesViewData()
     }
 
     private fun updateCategoriesViewData() = viewModelScope.launch {
@@ -288,18 +263,7 @@ class ChangeRecordViewModel @Inject constructor(
     }
 
     private suspend fun loadCategoriesViewData(): List<ViewHolderType> {
-        if (newTypeId == 0L) {
-            return changeRecordViewDataMapper.mapToTypeNotSelected()
-        }
-
-        val isDarkTheme = prefsInteractor.getDarkMode()
-        val type = recordTypeInteractor.get(newTypeId)
-
-        return recordTagInteractor.getByType(newTypeId)
-            .filterNot { it.archived }
-            .takeUnless { it.isEmpty() }
-            ?.map { categoryViewDataMapper.map(it, type, isDarkTheme) }
-            ?: changeRecordViewDataMapper.mapToCategoriesEmpty()
+        return changeRecordViewDataInteractor.getCategoriesViewData(newTypeId)
     }
 
     private fun showMessage(stringResId: Int) {

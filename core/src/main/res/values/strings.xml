@@ -75,6 +75,7 @@
     <string name="change_record_categories_empty">No record tags added</string>
     <string name="change_record_activity_not_selected">Activity not selected</string>
     <string name="change_record_save">Save</string>
+    <string name="change_record_untagged">Untagged</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_removed">Activity removed</string>

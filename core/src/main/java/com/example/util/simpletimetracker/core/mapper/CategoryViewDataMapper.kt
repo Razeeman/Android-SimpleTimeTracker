@@ -1,7 +1,8 @@
 package com.example.util.simpletimetracker.core.mapper
 
-import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.adapter.category.CategoryViewData
+import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
@@ -56,6 +57,18 @@ class CategoryViewDataMapper @Inject constructor(
                 ?.let { colorMapper.mapToColorResId(it, isDarkTheme) }
                 ?.let(resourceRepo::getColor)
                 ?: colorMapper.toUntrackedColor(isDarkTheme)
+        )
+    }
+
+    fun mapUntagged(
+        isDarkTheme: Boolean
+    ): CategoryViewData {
+        return CategoryViewData(
+            type = TagType.RECORD,
+            id = 0L,
+            name = R.string.change_record_untagged.let(resourceRepo::getString),
+            textColor = colorMapper.toIconColor(isDarkTheme),
+            color = colorMapper.toUntrackedColor(isDarkTheme)
         )
     }
 }
