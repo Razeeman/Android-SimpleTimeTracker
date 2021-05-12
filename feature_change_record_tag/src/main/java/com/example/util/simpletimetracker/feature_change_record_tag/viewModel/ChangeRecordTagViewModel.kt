@@ -6,13 +6,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.category.CategoryViewData
+import com.example.util.simpletimetracker.core.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.core.interactor.RecordTypesViewDataInteractor
 import com.example.util.simpletimetracker.core.mapper.CategoryViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.extension.flip
 import com.example.util.simpletimetracker.domain.extension.orTrue
-import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
@@ -31,6 +31,7 @@ class ChangeRecordTagViewModel @Inject constructor(
     private val recordTagInteractor: RecordTagInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
     private val prefsInteractor: PrefsInteractor,
+    private val notificationTypeInteractor: NotificationTypeInteractor,
     private val categoryViewDataMapper: CategoryViewDataMapper,
     private val resourceRepo: ResourceRepo
 ) : ViewModel() {
@@ -110,13 +111,13 @@ class ChangeRecordTagViewModel @Inject constructor(
         (saveButtonEnabled as MutableLiveData).value = false
         viewModelScope.launch {
             // Zero id creates new record
-            val id = (extra as? ChangeCategoryParams.Change)?.id.orZero()
             RecordTag(
-                id = id,
+                id = extra.id,
                 typeId = newTypeId,
                 name = newName
             ).let {
                 recordTagInteractor.add(it)
+                notificationTypeInteractor.checkAndShow(extra.id)
                 (keyboardVisibility as MutableLiveData).value = false
                 router.back()
             }
