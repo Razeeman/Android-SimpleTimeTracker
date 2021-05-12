@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.feature_running_records.interactor
 
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.feature_running_records.mapper.RunningRecordViewDataMapper
@@ -11,6 +12,7 @@ import javax.inject.Inject
 class RunningRecordsViewDataInteractor @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
+    private val recordTagInteractor: RecordTagInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
     private val mapper: RunningRecordViewDataMapper
 ) {
@@ -18,6 +20,7 @@ class RunningRecordsViewDataInteractor @Inject constructor(
     suspend fun getViewData(): List<ViewHolderType> {
         val recordTypes = recordTypeInteractor.getAll()
         val recordTypesMap = recordTypes.map { it.id to it }.toMap()
+        val recordTagsMap = recordTagInteractor.getAll().map { it.id to it }.toMap()
         val runningRecords = runningRecordInteractor.getAll()
         val recordTypesRunning = runningRecords.map { it.id }
         val numberOfCards = prefsInteractor.getNumberOfCards()
@@ -32,12 +35,10 @@ class RunningRecordsViewDataInteractor @Inject constructor(
                     it.timeStarted
                 }
                 .mapNotNull { runningRecord ->
-                    recordTypesMap[runningRecord.id]?.let { type -> runningRecord to type }
-                }
-                .map { (runningRecord, recordType) ->
                     mapper.map(
                         runningRecord = runningRecord,
-                        recordType = recordType,
+                        recordType = recordTypesMap[runningRecord.id] ?: return@mapNotNull null,
+                        recordTag = recordTagsMap[runningRecord.tagId],
                         isDarkTheme = isDarkTheme,
                         useMilitaryTime = useMilitaryTime
                     )

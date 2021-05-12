@@ -10,6 +10,7 @@ import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
+import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.feature_running_records.R
@@ -29,12 +30,14 @@ class RunningRecordViewDataMapper @Inject constructor(
     fun map(
         runningRecord: RunningRecord,
         recordType: RecordType,
+        recordTag: RecordTag?,
         isDarkTheme: Boolean,
         useMilitaryTime: Boolean
     ): RunningRecordViewData {
         return RunningRecordViewData(
             id = runningRecord.id,
             name = recordType.name,
+            tagName = recordTag?.name.orEmpty(),
             timeStarted = runningRecord.timeStarted
                 .let { timeMapper.formatTime(it, useMilitaryTime) },
             timer = (System.currentTimeMillis() - runningRecord.timeStarted)

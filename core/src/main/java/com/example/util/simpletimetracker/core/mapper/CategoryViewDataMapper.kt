@@ -1,7 +1,9 @@
 package com.example.util.simpletimetracker.core.mapper
 
 import com.example.util.simpletimetracker.core.R
+import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.category.CategoryViewData
+import com.example.util.simpletimetracker.core.adapter.empty.EmptyViewData
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.RecordTag
@@ -70,5 +72,17 @@ class CategoryViewDataMapper @Inject constructor(
             textColor = colorMapper.toIconColor(isDarkTheme),
             color = colorMapper.toUntrackedColor(isDarkTheme)
         )
+    }
+
+    fun mapToCategoriesEmpty(): List<ViewHolderType> {
+        return EmptyViewData(
+            message = resourceRepo.getString(R.string.change_record_categories_empty)
+        ).let(::listOf)
+    }
+
+    fun mapToTypeNotSelected(): List<ViewHolderType> {
+        return EmptyViewData(
+            message = resourceRepo.getString(R.string.change_record_activity_not_selected)
+        ).let(::listOf)
     }
 }

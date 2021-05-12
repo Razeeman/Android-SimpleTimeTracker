@@ -5,20 +5,20 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.core.adapter.category.CategoryViewData
+import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.AddRunningRecordMediator
 import com.example.util.simpletimetracker.core.interactor.RemoveRunningRecordMediator
-import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.extension.flip
 import com.example.util.simpletimetracker.domain.extension.orTrue
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
-import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.feature_change_running_record.R
-import com.example.util.simpletimetracker.feature_change_running_record.mapper.ChangeRunningRecordViewDataMapper
+import com.example.util.simpletimetracker.feature_change_running_record.interactor.ChangeRunningRecordViewDataInteractor
 import com.example.util.simpletimetracker.feature_change_running_record.viewData.ChangeRunningRecordViewData
 import com.example.util.simpletimetracker.navigation.Notification
 import com.example.util.simpletimetracker.navigation.Router
@@ -39,9 +39,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
     private val addRunningRecordMediator: AddRunningRecordMediator,
     private val removeRunningRecordMediator: RemoveRunningRecordMediator,
     private val runningRecordInteractor: RunningRecordInteractor,
-    private val recordTypeInteractor: RecordTypeInteractor,
-    private val changeRunningRecordViewDataMapper: ChangeRunningRecordViewDataMapper,
-    private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
+    private val changeRunningRecordViewDataInteractor: ChangeRunningRecordViewDataInteractor,
     private val resourceRepo: ResourceRepo,
     private val prefsInteractor: PrefsInteractor
 ) : ViewModel() {
@@ -62,7 +60,17 @@ class ChangeRunningRecordViewModel @Inject constructor(
             initial
         }
     }
+    val categories: LiveData<List<ViewHolderType>> by lazy {
+        return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
+            viewModelScope.launch {
+                initializePreviewViewData()
+                initial.value = loadCategoriesViewData()
+            }
+            initial
+        }
+    }
     val flipTypesChooser: LiveData<Boolean> = MutableLiveData()
+    val flipCategoryChooser: LiveData<Boolean> = MutableLiveData()
     val deleteButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val keyboardVisibility: LiveData<Boolean> = MutableLiveData(false)
@@ -71,12 +79,26 @@ class ChangeRunningRecordViewModel @Inject constructor(
     private var newTimeStarted: Long = 0
     private var timerJob: Job? = null
     private var newComment: String = ""
-    private var newTagId: Long = 0
+    private var newCategoryId: Long = 0
 
     fun onTypeChooserClick() {
         (keyboardVisibility as MutableLiveData).value = false
         (flipTypesChooser as MutableLiveData).value = flipTypesChooser.value
             ?.flip().orTrue()
+
+        if (flipCategoryChooser.value == true) {
+            (flipCategoryChooser as MutableLiveData).value = false
+        }
+    }
+
+    fun onCategoryChooserClick() {
+        (keyboardVisibility as MutableLiveData).value = false
+        (flipCategoryChooser as MutableLiveData).value = flipCategoryChooser.value
+            ?.flip().orTrue()
+
+        if (flipTypesChooser.value == true) {
+            (flipTypesChooser as MutableLiveData).value = false
+        }
     }
 
     fun onTimeStartedClick() {
@@ -115,7 +137,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
         (saveButtonEnabled as MutableLiveData).value = false
         viewModelScope.launch {
             removeRunningRecordMediator.remove(extra.id)
-            addRunningRecordMediator.add(newTypeId, newTimeStarted, newComment)
+            addRunningRecordMediator.add(newTypeId, newTimeStarted, newComment, newCategoryId)
             (keyboardVisibility as MutableLiveData).value = false
             router.back()
         }
@@ -125,6 +147,17 @@ class ChangeRunningRecordViewModel @Inject constructor(
         viewModelScope.launch {
             if (item.id != newTypeId) {
                 newTypeId = item.id
+                newCategoryId = 0L
+                updatePreview()
+                updateCategoriesViewData()
+            }
+        }
+    }
+
+    fun onCategoryClick(item: CategoryViewData) {
+        viewModelScope.launch {
+            if (item.id != newCategoryId) {
+                newCategoryId = item.id
                 updatePreview()
             }
         }
@@ -172,6 +205,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
                 newTypeId = record.id.orZero()
                 newTimeStarted = record.timeStarted
                 newComment = record.comment
+                newCategoryId = record.tagId
             }
         }
     }
@@ -183,28 +217,23 @@ class ChangeRunningRecordViewModel @Inject constructor(
             id = newTypeId,
             timeStarted = newTimeStarted,
             comment = newComment,
-            tagId = newTagId
+            tagId = newCategoryId
         )
-        // TODO add record type cache
-        val type = recordTypeInteractor.get(newTypeId)
-        val isDarkTheme = prefsInteractor.getDarkMode()
-        val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
 
-        return changeRunningRecordViewDataMapper.map(
-            runningRecord = record,
-            recordType = type,
-            isDarkTheme = isDarkTheme,
-            useMilitaryTime = useMilitaryTime
-        )
+        return changeRunningRecordViewDataInteractor.getPreviewViewData(record)
     }
 
     private suspend fun loadTypesViewData(): List<ViewHolderType> {
-        val numberOfCards = prefsInteractor.getNumberOfCards()
-        val isDarkTheme = prefsInteractor.getDarkMode()
+        return changeRunningRecordViewDataInteractor.getTypesViewData()
+    }
 
-        return recordTypeInteractor.getAll()
-            .filter { !it.hidden }
-            .map { recordTypeViewDataMapper.map(it, numberOfCards, isDarkTheme) }
+    private fun updateCategoriesViewData() = viewModelScope.launch {
+        val data = loadCategoriesViewData()
+        categories.set(data)
+    }
+
+    private suspend fun loadCategoriesViewData(): List<ViewHolderType> {
+        return changeRunningRecordViewDataInteractor.getCategoriesViewData(newTypeId)
     }
 
     private fun startUpdate() {

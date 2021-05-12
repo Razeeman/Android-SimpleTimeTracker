@@ -7,6 +7,7 @@ import com.example.util.simpletimetracker.core.viewData.RecordTypeIcon
 data class RunningRecordViewData(
     val id: Long,
     val name: String,
+    val tagName: String,
     val timeStarted: String,
     val timer: String,
     val goalTime: String,
@@ -23,6 +24,7 @@ data class RunningRecordViewData(
         other as RunningRecordViewData
         val updates: MutableList<Int> = mutableListOf()
         if (this.name != other.name) updates.add(UPDATE_NAME)
+        if (this.tagName != other.tagName) updates.add(UPDATE_TAG_NAME)
         if (this.timeStarted != other.timeStarted) updates.add(UPDATE_TIME_STARTED)
         if (this.timer != other.timer) updates.add(UPDATE_TIMER)
         if (this.iconId != other.iconId) updates.add(UPDATE_ICON)
@@ -41,5 +43,6 @@ data class RunningRecordViewData(
         const val UPDATE_COLOR = 5
         const val UPDATE_GOAL_TIME = 6
         const val UPDATE_COMMENT = 7
+        const val UPDATE_TAG_NAME = 8
     }
 }

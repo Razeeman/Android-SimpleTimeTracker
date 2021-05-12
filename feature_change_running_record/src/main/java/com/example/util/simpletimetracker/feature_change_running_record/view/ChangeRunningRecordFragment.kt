@@ -7,6 +7,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.transition.TransitionInflater
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
+import com.example.util.simpletimetracker.core.adapter.category.createCategoryAdapterDelegate
+import com.example.util.simpletimetracker.core.adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.recordType.createRecordTypeAdapterDelegate
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
@@ -30,15 +32,7 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
-import kotlinx.android.synthetic.main.change_running_record_fragment.arrowChangeRunningRecordType
-import kotlinx.android.synthetic.main.change_running_record_fragment.btnChangeRunningRecordDelete
-import kotlinx.android.synthetic.main.change_running_record_fragment.btnChangeRunningRecordSave
-import kotlinx.android.synthetic.main.change_running_record_fragment.etChangeRunningRecordComment
-import kotlinx.android.synthetic.main.change_running_record_fragment.fieldChangeRunningRecordTimeStarted
-import kotlinx.android.synthetic.main.change_running_record_fragment.fieldChangeRunningRecordType
-import kotlinx.android.synthetic.main.change_running_record_fragment.previewChangeRunningRecord
-import kotlinx.android.synthetic.main.change_running_record_fragment.rvChangeRunningRecordType
-import kotlinx.android.synthetic.main.change_running_record_fragment.tvChangeRunningRecordTimeStarted
+import kotlinx.android.synthetic.main.change_running_record_fragment.*
 import javax.inject.Inject
 
 class ChangeRunningRecordFragment : BaseFragment(R.layout.change_running_record_fragment),
@@ -53,6 +47,12 @@ class ChangeRunningRecordFragment : BaseFragment(R.layout.change_running_record_
     private val typesAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
             createRecordTypeAdapterDelegate(viewModel::onTypeClick)
+        )
+    }
+    private val categoriesAdapter: BaseRecyclerAdapter by lazy {
+        BaseRecyclerAdapter(
+            createCategoryAdapterDelegate(viewModel::onCategoryClick),
+            createEmptyAdapterDelegate()
         )
     }
     private val params: ChangeRunningRecordParams by lazy {
@@ -86,11 +86,21 @@ class ChangeRunningRecordFragment : BaseFragment(R.layout.change_running_record_
             }
             adapter = typesAdapter
         }
+
+        rvChangeRunningRecordCategories.apply {
+            layoutManager = FlexboxLayoutManager(requireContext()).apply {
+                flexDirection = FlexDirection.ROW
+                justifyContent = JustifyContent.CENTER
+                flexWrap = FlexWrap.WRAP
+            }
+            adapter = categoriesAdapter
+        }
     }
 
     override fun initUx() {
         etChangeRunningRecordComment.doAfterTextChanged { viewModel.onCommentChange(it.toString()) }
         fieldChangeRunningRecordType.setOnClick(viewModel::onTypeChooserClick)
+        fieldChangeRunningRecordCategory.setOnClick(viewModel::onCategoryChooserClick)
         fieldChangeRunningRecordTimeStarted.setOnClick(viewModel::onTimeStartedClick)
         btnChangeRunningRecordSave.setOnClick(viewModel::onSaveClick)
         btnChangeRunningRecordDelete.setOnClick(viewModel::onDeleteClick)
@@ -102,6 +112,7 @@ class ChangeRunningRecordFragment : BaseFragment(R.layout.change_running_record_
             record.observeOnce(viewLifecycleOwner, ::updateUi)
             record.observe(viewLifecycleOwner, ::updatePreview)
             types.observe(viewLifecycleOwner, typesAdapter::replace)
+            categories.observe(viewLifecycleOwner, categoriesAdapter::replace)
             deleteButtonEnabled.observe(
                 viewLifecycleOwner, btnChangeRunningRecordDelete::setEnabled
             )
@@ -111,6 +122,12 @@ class ChangeRunningRecordFragment : BaseFragment(R.layout.change_running_record_
             flipTypesChooser.observe(viewLifecycleOwner) { opened ->
                 rvChangeRunningRecordType.visible = opened
                 arrowChangeRunningRecordType.apply {
+                    if (opened) rotateDown() else rotateUp()
+                }
+            }
+            flipCategoryChooser.observe(viewLifecycleOwner) { opened ->
+                rvChangeRunningRecordCategories.visible = opened
+                arrowChangeRunningRecordCategory.apply {
                     if (opened) rotateDown() else rotateUp()
                 }
             }
@@ -142,6 +159,7 @@ class ChangeRunningRecordFragment : BaseFragment(R.layout.change_running_record_
     private fun setPreview() = params.preview?.run {
         ChangeRunningRecordViewData(
             name = name,
+            tagName = tagName,
             timeStarted = timeStarted,
             dateTimeStarted = "",
             duration = duration,
@@ -155,6 +173,7 @@ class ChangeRunningRecordFragment : BaseFragment(R.layout.change_running_record_
     private fun updatePreview(item: ChangeRunningRecordViewData) {
         with(previewChangeRunningRecord) {
             itemName = item.name
+            itemTagName = item.tagName
             itemIcon = item.iconId
             itemColor = item.color
             itemTimeStarted = item.timeStarted

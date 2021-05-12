@@ -8,7 +8,7 @@ import com.example.util.simpletimetracker.core.view.TransitionNames
 import com.example.util.simpletimetracker.domain.extension.orFalse
 import com.example.util.simpletimetracker.feature_running_records.R
 import com.example.util.simpletimetracker.feature_running_records.viewData.RunningRecordViewData
-import kotlinx.android.synthetic.main.item_running_record_layout.view.viewRunningRecordItem
+import kotlinx.android.synthetic.main.item_running_record_layout.view.*
 
 fun createRunningRecordAdapterDelegate(
     onItemClick: ((RunningRecordViewData) -> Unit),
@@ -26,6 +26,9 @@ fun createRunningRecordAdapterDelegate(
 
         if (rebind || updates.contains(RunningRecordViewData.UPDATE_NAME).orFalse()) {
             viewRunningRecordItem.itemName = item.name
+        }
+        if (rebind || updates.contains(RunningRecordViewData.UPDATE_TAG_NAME).orFalse()) {
+            viewRunningRecordItem.itemTagName = item.tagName
         }
         if (rebind || updates.contains(RunningRecordViewData.UPDATE_TIME_STARTED).orFalse()) {
             viewRunningRecordItem.itemTimeStarted = item.timeStarted

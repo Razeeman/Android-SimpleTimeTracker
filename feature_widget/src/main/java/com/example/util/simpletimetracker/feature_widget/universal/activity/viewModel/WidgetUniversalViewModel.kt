@@ -63,7 +63,8 @@ class WidgetUniversalViewModel @Inject constructor(
         recordInteractor.add(
             typeId = runningRecord.id,
             timeStarted = runningRecord.timeStarted,
-            comment = runningRecord.comment
+            comment = runningRecord.comment,
+            tagId = runningRecord.tagId
         )
         removeRunningRecordMediator.remove(runningRecord.id)
     }

@@ -104,6 +104,7 @@ class RunningRecordsViewModel @Inject constructor(
                 id = item.id,
                 preview = ChangeRunningRecordParams.Preview(
                     name = item.name,
+                    tagName = item.tagName,
                     timeStarted = item.timeStarted,
                     duration = item.timer,
                     goalTime = item.goalTime,
@@ -137,7 +138,8 @@ class RunningRecordsViewModel @Inject constructor(
         recordInteractor.add(
             typeId = runningRecord.id,
             timeStarted = runningRecord.timeStarted,
-            comment = runningRecord.comment
+            comment = runningRecord.comment,
+            tagId = runningRecord.tagId
         )
         removeRunningRecordMediator.remove(runningRecord.id)
     }

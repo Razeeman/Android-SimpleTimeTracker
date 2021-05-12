@@ -13,6 +13,7 @@ data class ChangeRunningRecordParams(
     @Parcelize
     data class Preview(
         var name: String,
+        val tagName: String,
         var timeStarted: String,
         var duration: String,
         var goalTime: String,
