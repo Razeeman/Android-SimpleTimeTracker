@@ -71,6 +71,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
     private var newTimeStarted: Long = 0
     private var timerJob: Job? = null
     private var newComment: String = ""
+    private var newTagId: Long = 0
 
     fun onTypeChooserClick() {
         (keyboardVisibility as MutableLiveData).value = false
@@ -181,7 +182,8 @@ class ChangeRunningRecordViewModel @Inject constructor(
         val record = RunningRecord(
             id = newTypeId,
             timeStarted = newTimeStarted,
-            comment = newComment
+            comment = newComment,
+            tagId = newTagId
         )
         // TODO add record type cache
         val type = recordTypeInteractor.get(newTypeId)

@@ -14,5 +14,8 @@ data class RunningRecordDBO(
     val timeStarted: Long,
 
     @ColumnInfo(name = "comment")
-    val comment: String
+    val comment: String,
+
+    @ColumnInfo(name = "tag_id")
+    val tagId: Long
 )

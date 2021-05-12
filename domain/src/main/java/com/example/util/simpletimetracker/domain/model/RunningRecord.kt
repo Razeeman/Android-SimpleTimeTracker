@@ -3,5 +3,6 @@ package com.example.util.simpletimetracker.domain.model
 data class RunningRecord(
     val id: Long,
     val timeStarted: Long,
-    val comment: String
+    val comment: String,
+    val tagId: Long
 )

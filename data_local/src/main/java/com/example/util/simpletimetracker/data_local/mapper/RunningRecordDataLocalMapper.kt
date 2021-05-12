@@ -10,7 +10,8 @@ class RunningRecordDataLocalMapper @Inject constructor() {
         return RunningRecord(
             id = dbo.id,
             timeStarted = dbo.timeStarted,
-            comment = dbo.comment
+            comment = dbo.comment,
+            tagId = dbo.tagId
         )
     }
 
@@ -18,7 +19,8 @@ class RunningRecordDataLocalMapper @Inject constructor() {
         return RunningRecordDBO(
             id = domain.id,
             timeStarted = domain.timeStarted,
-            comment = domain.comment
+            comment = domain.comment,
+            tagId = domain.tagId
         )
     }
 }

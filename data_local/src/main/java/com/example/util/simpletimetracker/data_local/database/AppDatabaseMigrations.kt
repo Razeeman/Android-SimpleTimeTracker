@@ -64,6 +64,9 @@ class AppDatabaseMigrations {
                 database.execSQL(
                     "ALTER TABLE records ADD COLUMN tag_id INTEGER NOT NULL DEFAULT 0"
                 )
+                database.execSQL(
+                    "ALTER TABLE runningRecords ADD COLUMN tag_id INTEGER NOT NULL DEFAULT 0"
+                )
             }
         }
     }
