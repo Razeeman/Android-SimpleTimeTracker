@@ -68,7 +68,7 @@
     <string name="change_category_selected_types_hint">Assigned to:</string>
 
     <!--  Change record  -->
-    <string name="message_choose_type">Select activity</string>
+    <string name="change_record_message_choose_type">Select activity</string>
     <string name="change_record_type_field">Activity</string>
     <string name="change_record_category_field">Tag</string>
     <string name="change_record_comment_hint">Comment</string>
@@ -76,6 +76,7 @@
     <string name="change_record_activity_not_selected">Activity not selected</string>
     <string name="change_record_save">Save</string>
     <string name="change_record_untagged">Untagged</string>
+    <string name="change_running_record_removed">Running activity removed</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_removed">Activity removed</string>
@@ -92,14 +93,6 @@
     <string name="change_record_type_goal_time_disabled">Disabled</string>
     <string name="change_record_type_goal_time">Goal time</string>
     <string name="change_record_type_goal_time_hint">Show notification after specified time of tracking this activity.</string>
-
-    <!--  Change running record  -->
-    <string name="change_running_record_message_choose_type">Select activity</string>
-    <string name="change_running_record_removed">Running activity removed</string>
-    <string name="change_running_record_type_field">Activity</string>
-    <string name="change_running_record_category_field">Tag</string>
-    <string name="change_running_record_comment_hint">Comment</string>
-    <string name="change_running_record_save">Save</string>
 
     <!--  Dialogs  -->
     <string name="date_time_dialog_date">Date</string>

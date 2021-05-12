@@ -85,7 +85,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="@string/change_running_record_type_field"
+                android:text="@string/change_record_type_field"
                 app:layout_constraintEnd_toStartOf="@id/arrowChangeRunningRecordType"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -129,7 +129,7 @@
                 android:ellipsize="end"
                 android:gravity="center_vertical"
                 android:maxLines="1"
-                android:text="@string/change_running_record_category_field"
+                android:text="@string/change_record_category_field"
                 app:layout_constraintEnd_toStartOf="@id/arrowChangeRunningRecordCategory"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -166,7 +166,7 @@
             style="@style/EditTextMultiLine"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/change_running_record_comment_hint" />
+            android:hint="@string/change_record_comment_hint" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -209,7 +209,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:gravity="center"
-        android:text="@string/change_running_record_save"
+        android:text="@string/change_record_save"
         android:textColor="?appLightTextColor"
         app:backgroundTint="?appActiveColor"
         app:layout_constraintBottom_toBottomOf="parent" />

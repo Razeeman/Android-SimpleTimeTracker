@@ -25,6 +25,6 @@ class MessagesTest : BaseUiTest() {
         NavUtils.openRecordsScreen()
         clickOnViewWithId(R.id.btnRecordAdd)
         clickOnViewWithText(R.string.change_record_save)
-        toastTextShowing(R.string.message_choose_type)
+        toastTextShowing(R.string.change_record_message_choose_type)
     }
 }

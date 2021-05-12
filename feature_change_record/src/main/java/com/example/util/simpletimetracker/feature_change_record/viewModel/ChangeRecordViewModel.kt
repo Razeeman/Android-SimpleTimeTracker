@@ -143,7 +143,7 @@ class ChangeRecordViewModel @Inject constructor(
 
     fun onSaveClick() {
         if (newTypeId == 0L) {
-            showMessage(R.string.message_choose_type)
+            showMessage(R.string.change_record_message_choose_type)
             return
         }
         (saveButtonEnabled as MutableLiveData).value = false
