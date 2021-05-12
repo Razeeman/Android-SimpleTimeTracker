@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.category.CategoryViewData
+import com.example.util.simpletimetracker.core.interactor.RecordTypesViewDataInteractor
 import com.example.util.simpletimetracker.core.mapper.CategoryViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
@@ -17,7 +18,6 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.feature_change_record_tag.R
-import com.example.util.simpletimetracker.feature_change_record_tag.interactor.ChangeRecordTagViewDataInteractor
 import com.example.util.simpletimetracker.navigation.Notification
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.ChangeCategoryParams
@@ -27,7 +27,7 @@ import javax.inject.Inject
 
 class ChangeRecordTagViewModel @Inject constructor(
     private val router: Router,
-    private val changeRecordTagViewDataInteractor: ChangeRecordTagViewDataInteractor,
+    private val recordTypesViewDataInteractor: RecordTypesViewDataInteractor,
     private val recordTagInteractor: RecordTagInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
     private val prefsInteractor: PrefsInteractor,
@@ -150,7 +150,7 @@ class ChangeRecordTagViewModel @Inject constructor(
     }
 
     private suspend fun loadTypesViewData(): List<ViewHolderType> {
-        return changeRecordTagViewDataInteractor.getTypesViewData()
+        return recordTypesViewDataInteractor.getTypesViewData()
     }
 
     private fun showMessage(stringResId: Int) {

@@ -7,6 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.core.extension.set
+import com.example.util.simpletimetracker.core.interactor.CategoryViewDataInteractor
+import com.example.util.simpletimetracker.core.interactor.RecordTypesViewDataInteractor
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
@@ -34,6 +36,8 @@ class ChangeRecordViewModel @Inject constructor(
     private val router: Router,
     private val recordInteractor: RecordInteractor,
     private val changeRecordViewDataInteractor: ChangeRecordViewDataInteractor,
+    private val recordTypesViewDataInteractor: RecordTypesViewDataInteractor,
+    private val categoryViewDataInteractor: CategoryViewDataInteractor,
     private val timeMapper: TimeMapper,
     private val resourceRepo: ResourceRepo,
     private val prefsInteractor: PrefsInteractor
@@ -254,7 +258,7 @@ class ChangeRecordViewModel @Inject constructor(
     }
 
     private suspend fun loadTypesViewData(): List<ViewHolderType> {
-        return changeRecordViewDataInteractor.getTypesViewData()
+        return recordTypesViewDataInteractor.getTypesViewData()
     }
 
     private fun updateCategoriesViewData() = viewModelScope.launch {
@@ -263,7 +267,7 @@ class ChangeRecordViewModel @Inject constructor(
     }
 
     private suspend fun loadCategoriesViewData(): List<ViewHolderType> {
-        return changeRecordViewDataInteractor.getCategoriesViewData(newTypeId)
+        return categoryViewDataInteractor.getCategoriesViewData(newTypeId)
     }
 
     private fun showMessage(stringResId: Int) {

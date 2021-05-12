@@ -1,13 +1,12 @@
-package com.example.util.simpletimetracker.feature_change_record_tag.interactor
+package com.example.util.simpletimetracker.core.interactor
 
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
-import com.example.util.simpletimetracker.domain.model.RecordType
 import javax.inject.Inject
 
-class ChangeRecordTagViewDataInteractor @Inject constructor(
+class RecordTypesViewDataInteractor @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper
@@ -19,14 +18,8 @@ class ChangeRecordTagViewDataInteractor @Inject constructor(
 
         return recordTypeInteractor.getAll()
             .filter { !it.hidden }
-            .takeUnless(List<RecordType>::isEmpty)
-            ?.map {
-                recordTypeViewDataMapper.map(
-                    recordType = it,
-                    numberOfCards = numberOfCards,
-                    isDarkTheme = isDarkTheme
-                )
-            }
+            .takeUnless { it.isEmpty() }
+            ?.map { recordTypeViewDataMapper.map(it, numberOfCards, isDarkTheme) }
             ?: recordTypeViewDataMapper.mapToEmpty()
     }
 }

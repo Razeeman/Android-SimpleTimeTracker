@@ -8,6 +8,8 @@ import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.AddRunningRecordMediator
+import com.example.util.simpletimetracker.core.interactor.CategoryViewDataInteractor
+import com.example.util.simpletimetracker.core.interactor.RecordTypesViewDataInteractor
 import com.example.util.simpletimetracker.core.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
@@ -40,6 +42,8 @@ class ChangeRunningRecordViewModel @Inject constructor(
     private val removeRunningRecordMediator: RemoveRunningRecordMediator,
     private val runningRecordInteractor: RunningRecordInteractor,
     private val changeRunningRecordViewDataInteractor: ChangeRunningRecordViewDataInteractor,
+    private val recordTypesViewDataInteractor: RecordTypesViewDataInteractor,
+    private val categoryViewDataInteractor: CategoryViewDataInteractor,
     private val resourceRepo: ResourceRepo,
     private val prefsInteractor: PrefsInteractor
 ) : ViewModel() {
@@ -224,7 +228,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
     }
 
     private suspend fun loadTypesViewData(): List<ViewHolderType> {
-        return changeRunningRecordViewDataInteractor.getTypesViewData()
+        return recordTypesViewDataInteractor.getTypesViewData()
     }
 
     private fun updateCategoriesViewData() = viewModelScope.launch {
@@ -233,7 +237,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
     }
 
     private suspend fun loadCategoriesViewData(): List<ViewHolderType> {
-        return changeRunningRecordViewDataInteractor.getCategoriesViewData(newTypeId)
+        return categoryViewDataInteractor.getCategoriesViewData(newTypeId)
     }
 
     private fun startUpdate() {
