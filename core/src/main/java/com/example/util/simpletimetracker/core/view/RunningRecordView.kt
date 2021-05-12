@@ -2,6 +2,9 @@ package com.example.util.simpletimetracker.core.view
 
 import android.content.Context
 import android.graphics.Color
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.util.AttributeSet
 import android.view.View
 import androidx.cardview.widget.CardView
@@ -21,58 +24,28 @@ class RunningRecordView @JvmOverloads constructor(
     defStyleAttr
 ) {
 
-    init {
-        View.inflate(context, R.layout.record_running_view_layout, this)
-
-        ContextCompat.getColor(context, R.color.black).let(::setCardBackgroundColor)
-        radius = resources.getDimensionPixelOffset(R.dimen.record_type_card_corner_radius).toFloat()
-        // TODO doesn't work here for some reason, need to set in the layout
-        cardElevation = resources.getDimensionPixelOffset(R.dimen.record_type_card_elevation).toFloat()
-        preventCornerOverlap = false
-        useCompatPadding = true
-
-        context.obtainStyledAttributes(attrs, R.styleable.RunningRecordView, defStyleAttr, 0)
-            .run {
-                if (hasValue(R.styleable.RunningRecordView_itemName)) itemName =
-                    getString(R.styleable.RunningRecordView_itemName).orEmpty()
-
-                if (hasValue(R.styleable.RunningRecordView_itemColor)) itemColor =
-                    getColor(R.styleable.RunningRecordView_itemColor, Color.BLACK)
-
-                if (hasValue(R.styleable.RunningRecordView_itemIcon)) itemIcon =
-                    getResourceId(R.styleable.RunningRecordView_itemIcon, R.drawable.unknown)
-                        .let(RecordTypeIcon::Image)
-
-                if (hasValue(R.styleable.RunningRecordView_itemEmoji)) itemIcon =
-                    getString(R.styleable.RunningRecordView_itemEmoji).orEmpty()
-                        .let(RecordTypeIcon::Emoji)
-
-                if (hasValue(R.styleable.RunningRecordView_itemTimeStarted)) itemTimeStarted =
-                    getString(R.styleable.RunningRecordView_itemTimeStarted).orEmpty()
-
-                if (hasValue(R.styleable.RunningRecordView_itemTimer)) itemTimer =
-                    getString(R.styleable.RunningRecordView_itemTimer).orEmpty()
-
-                if (hasValue(R.styleable.RunningRecordView_itemGoalTime)) itemGoalTime =
-                    getString(R.styleable.RunningRecordView_itemGoalTime).orEmpty()
-
-                if (hasValue(R.styleable.RunningRecordView_itemComment)) itemComment =
-                    getString(R.styleable.RunningRecordView_itemComment).orEmpty()
-
-                recycle()
-            }
-    }
-
     var itemName: String = ""
         set(value) {
-            tvRunningRecordItemName.text = value
             field = value
+            setItemName()
+        }
+
+    var itemTagName: String = ""
+        set(value) {
+            field = value
+            setItemName()
         }
 
     var itemColor: Int = 0
         set(value) {
             setCardBackgroundColor(value)
             field = value
+        }
+
+    var itemTagColor: Int = Color.WHITE
+        set(value) {
+            field = value
+            setItemName()
         }
 
     var itemIcon: RecordTypeIcon = RecordTypeIcon.Image(0)
@@ -106,4 +79,77 @@ class RunningRecordView @JvmOverloads constructor(
             tvRunningRecordItemComment.visible = value.isNotEmpty()
             field = value
         }
+
+    init {
+        View.inflate(context, R.layout.record_running_view_layout, this)
+        initProps()
+        initAttrs(context, attrs, defStyleAttr)
+    }
+
+    private fun initProps() {
+        ContextCompat.getColor(context, R.color.black).let(::setCardBackgroundColor)
+        radius = resources.getDimensionPixelOffset(R.dimen.record_type_card_corner_radius).toFloat()
+        // TODO doesn't work here for some reason, need to set in the layout
+        cardElevation = resources.getDimensionPixelOffset(R.dimen.record_type_card_elevation).toFloat()
+        preventCornerOverlap = false
+        useCompatPadding = true
+    }
+
+    private fun initAttrs(
+        context: Context,
+        attrs: AttributeSet?,
+        defStyleAttr: Int
+    ) {
+        context.obtainStyledAttributes(attrs, R.styleable.RunningRecordView, defStyleAttr, 0)
+            .run {
+                if (hasValue(R.styleable.RunningRecordView_itemName)) itemName =
+                    getString(R.styleable.RunningRecordView_itemName).orEmpty()
+
+                if (hasValue(R.styleable.RunningRecordView_itemColor)) itemColor =
+                    getColor(R.styleable.RunningRecordView_itemColor, Color.BLACK)
+
+                if (hasValue(R.styleable.RunningRecordView_itemTagName)) itemTagName =
+                    getString(R.styleable.RunningRecordView_itemTagName).orEmpty()
+
+                if (hasValue(R.styleable.RunningRecordView_itemTagColor)) itemTagColor =
+                    getColor(R.styleable.RunningRecordView_itemTagColor, Color.WHITE)
+
+                if (hasValue(R.styleable.RunningRecordView_itemIcon)) itemIcon =
+                    getResourceId(R.styleable.RunningRecordView_itemIcon, R.drawable.unknown)
+                        .let(RecordTypeIcon::Image)
+
+                if (hasValue(R.styleable.RunningRecordView_itemEmoji)) itemIcon =
+                    getString(R.styleable.RunningRecordView_itemEmoji).orEmpty()
+                        .let(RecordTypeIcon::Emoji)
+
+                if (hasValue(R.styleable.RunningRecordView_itemTimeStarted)) itemTimeStarted =
+                    getString(R.styleable.RunningRecordView_itemTimeStarted).orEmpty()
+
+                if (hasValue(R.styleable.RunningRecordView_itemTimer)) itemTimer =
+                    getString(R.styleable.RunningRecordView_itemTimer).orEmpty()
+
+                if (hasValue(R.styleable.RunningRecordView_itemGoalTime)) itemGoalTime =
+                    getString(R.styleable.RunningRecordView_itemGoalTime).orEmpty()
+
+                if (hasValue(R.styleable.RunningRecordView_itemComment)) itemComment =
+                    getString(R.styleable.RunningRecordView_itemComment).orEmpty()
+
+                recycle()
+            }
+    }
+
+    private fun setItemName() {
+        if (itemTagName.isEmpty()) {
+            tvRunningRecordItemName.text = itemName
+        } else {
+            val name = "$itemName - $itemTagName"
+            val spannable = SpannableString(name)
+            spannable.setSpan(
+                ForegroundColorSpan(itemTagColor),
+                itemName.length, name.length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            tvRunningRecordItemName.text = spannable
+        }
+    }
 }

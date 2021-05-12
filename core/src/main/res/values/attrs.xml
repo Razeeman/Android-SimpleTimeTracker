@@ -57,6 +57,8 @@
         <attr name="itemIcon" />
         <attr name="itemEmoji" />
         <attr name="itemColor" />
+        <attr name="itemTagName" />
+        <attr name="itemTagColor" />
         <attr name="itemTimeStarted" />
         <attr name="itemComment" />
         <attr name="itemTimer" format="string" />

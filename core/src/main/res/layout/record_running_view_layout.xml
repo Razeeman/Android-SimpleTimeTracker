@@ -91,15 +91,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:ellipsize="end"
-            android:singleLine="true"
             android:textColor="?appLightTextColor"
             android:visibility="gone"
             app:layout_constraintEnd_toStartOf="@id/barrierRunningRecord"
             app:layout_constraintStart_toEndOf="@id/ivRunningRecordItemIcon"
             app:layout_constraintTop_toBottomOf="@id/tvRunningRecordItemTimeStarted"
             tools:text="Record comment record comment record comment record comment"
-            tools:visibility="gone" />
+            tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -34,6 +34,7 @@
         app:layout_constraintEnd_toStartOf="@id/btnChangeRecordDelete"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        tools:itemComment=""
         tools:itemDuration="5h 23m 3s"
         tools:itemName="Item"
         tools:itemTagName="Tag"
@@ -225,7 +226,7 @@
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/btnChangeRecordSave"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fieldChangeRecordType"
+        app:layout_constraintTop_toBottomOf="@id/fieldChangeRecordCategory"
         tools:itemCount="3"
         tools:listitem="@layout/item_category_layout"
         tools:visibility="gone" />
