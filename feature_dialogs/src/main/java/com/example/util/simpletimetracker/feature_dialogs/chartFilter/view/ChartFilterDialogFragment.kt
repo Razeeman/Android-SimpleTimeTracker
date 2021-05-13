@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
@@ -19,6 +18,7 @@ import com.example.util.simpletimetracker.core.adapter.recordType.createRecordTy
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.ChartFilterDialogListener
 import com.example.util.simpletimetracker.core.extension.getAllFragments
+import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
 import com.example.util.simpletimetracker.feature_dialogs.R
 import com.example.util.simpletimetracker.feature_dialogs.chartFilter.di.ChartFilterComponentProvider
 import com.example.util.simpletimetracker.feature_dialogs.chartFilter.viewModel.ChartFilterViewModel
@@ -26,7 +26,6 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.chart_filter_dialog_fragment.*
 import javax.inject.Inject
@@ -49,7 +48,6 @@ class ChartFilterDialogFragment : BottomSheetDialogFragment() {
         )
     }
 
-    private var behavior: BottomSheetBehavior<View>? = null
     private var chartFilterDialogListener: ChartFilterDialogListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -99,14 +97,7 @@ class ChartFilterDialogFragment : BottomSheetDialogFragment() {
     }
 
     private fun initDialog() {
-        dialog?.findViewById<FrameLayout>(R.id.design_bottom_sheet)?.let { bottomSheet ->
-            behavior = BottomSheetBehavior.from<View>(bottomSheet)
-        }
-        behavior?.apply {
-            peekHeight = 0
-            skipCollapsed = true
-            state = BottomSheetBehavior.STATE_EXPANDED
-        }
+        setSkipCollapsed()
     }
 
     private fun initDi() {

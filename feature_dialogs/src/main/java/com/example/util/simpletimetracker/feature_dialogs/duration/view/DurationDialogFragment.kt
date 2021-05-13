@@ -5,9 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
@@ -15,14 +13,15 @@ import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.DurationDialogListener
 import com.example.util.simpletimetracker.core.extension.getAllFragments
 import com.example.util.simpletimetracker.core.extension.observeOnce
+import com.example.util.simpletimetracker.core.extension.setFullScreen
 import com.example.util.simpletimetracker.core.extension.setOnClick
+import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_dialogs.R
 import com.example.util.simpletimetracker.feature_dialogs.duration.di.DurationPickerComponentProvider
 import com.example.util.simpletimetracker.feature_dialogs.duration.extra.DurationPickerExtra
 import com.example.util.simpletimetracker.feature_dialogs.duration.viewModel.DurationPickerViewModel
 import com.example.util.simpletimetracker.navigation.params.DurationDialogParams
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.duration_dialog_fragment.*
 import javax.inject.Inject
@@ -36,7 +35,6 @@ class DurationDialogFragment : BottomSheetDialogFragment() {
         factoryProducer = { viewModelFactory }
     )
 
-    private var behavior: BottomSheetBehavior<View>? = null
     private var dialogListener: DurationDialogListener? = null
     private val dialogTag: String? by lazy { arguments?.getString(ARGS_TAG) }
 
@@ -82,22 +80,8 @@ class DurationDialogFragment : BottomSheetDialogFragment() {
     }
 
     private fun initDialog() {
-        dialog?.findViewById<FrameLayout>(R.id.design_bottom_sheet)?.let { bottomSheet ->
-            behavior = BottomSheetBehavior.from(bottomSheet)
-        }
-        behavior?.apply {
-            peekHeight = 0
-            skipCollapsed = true
-            state = BottomSheetBehavior.STATE_EXPANDED
-        }
-
-        // Dialog parent is R.id.design_bottom_sheet from android material.
-        // It's a wrapper created around dialog to set bottom sheet behavior. By default it's created
-        // with wrap_content height, so we replace it here.
-        (view?.parent as? FrameLayout)?.apply {
-            layoutParams?.height = CoordinatorLayout.LayoutParams.MATCH_PARENT
-            requestLayout() // TODO necessary?
-        }
+        setSkipCollapsed()
+        setFullScreen()
     }
 
     private fun initDi() {

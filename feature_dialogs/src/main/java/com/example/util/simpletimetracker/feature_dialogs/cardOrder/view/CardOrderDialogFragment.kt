@@ -5,8 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
@@ -17,6 +15,8 @@ import com.example.util.simpletimetracker.core.adapter.loader.createLoaderAdapte
 import com.example.util.simpletimetracker.core.adapter.recordType.createRecordTypeAdapterDelegate
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.extension.onItemMoved
+import com.example.util.simpletimetracker.core.extension.setFullScreen
+import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
 import com.example.util.simpletimetracker.feature_dialogs.R
 import com.example.util.simpletimetracker.feature_dialogs.cardOrder.di.CardOrderComponentProvider
 import com.example.util.simpletimetracker.feature_dialogs.cardOrder.viewModel.CardOrderViewModel
@@ -25,7 +25,6 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.card_order_dialog_fragment.*
 import javax.inject.Inject
@@ -48,7 +47,6 @@ class CardOrderDialogFragment : BottomSheetDialogFragment() {
     private val extra: CardOrderDialogParams by lazy {
         arguments?.getParcelable(ARGS_PARAMS) ?: CardOrderDialogParams()
     }
-    private var behavior: BottomSheetBehavior<View>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,22 +76,8 @@ class CardOrderDialogFragment : BottomSheetDialogFragment() {
     }
 
     private fun initDialog() {
-        dialog?.findViewById<FrameLayout>(R.id.design_bottom_sheet)?.let { bottomSheet ->
-            behavior = BottomSheetBehavior.from(bottomSheet)
-        }
-        behavior?.apply {
-            peekHeight = 0
-            skipCollapsed = true
-            state = BottomSheetBehavior.STATE_EXPANDED
-        }
-
-        // Dialog parent is R.id.design_bottom_sheet from android material.
-        // It's a wrapper created around dialog to set bottom sheet behavior. By default it's created
-        // with wrap_content height, so we replace it here.
-        (view?.parent as? FrameLayout)?.apply {
-            layoutParams?.height = CoordinatorLayout.LayoutParams.MATCH_PARENT
-            requestLayout() // TODO necessary?
-        }
+        setSkipCollapsed()
+        setFullScreen()
     }
 
     private fun initDi() {
