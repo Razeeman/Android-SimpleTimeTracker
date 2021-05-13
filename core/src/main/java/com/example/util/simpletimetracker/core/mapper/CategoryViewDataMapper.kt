@@ -16,7 +16,10 @@ class CategoryViewDataMapper @Inject constructor(
     private val resourceRepo: ResourceRepo
 ) {
 
-    fun map(category: Category, isDarkTheme: Boolean): CategoryViewData {
+    fun map(
+        category: Category,
+        isDarkTheme: Boolean
+    ): CategoryViewData {
         return CategoryViewData(
             type = TagType.RECORD_TYPE,
             id = category.id,

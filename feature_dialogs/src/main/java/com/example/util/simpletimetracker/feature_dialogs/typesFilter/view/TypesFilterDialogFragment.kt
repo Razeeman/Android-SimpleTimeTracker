@@ -6,19 +6,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
+import com.example.util.simpletimetracker.core.adapter.category.createCategoryAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.recordType.createRecordTypeAdapterDelegate
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.TypesFilterDialogListener
 import com.example.util.simpletimetracker.core.extension.getAllFragments
+import com.example.util.simpletimetracker.core.extension.setFullScreen
 import com.example.util.simpletimetracker.core.extension.setOnClick
+import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
 import com.example.util.simpletimetracker.feature_dialogs.R
+import com.example.util.simpletimetracker.feature_dialogs.typesFilter.adapter.createTypesFilterDividerAdapterDelegate
 import com.example.util.simpletimetracker.feature_dialogs.typesFilter.di.TypesFilterComponentProvider
 import com.example.util.simpletimetracker.feature_dialogs.typesFilter.viewModel.TypesFilterViewModel
 import com.example.util.simpletimetracker.navigation.params.TypesFilterDialogParams
@@ -27,7 +30,6 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.types_filter_dialog_fragment.*
 import javax.inject.Inject
@@ -41,14 +43,15 @@ class TypesFilterDialogFragment : BottomSheetDialogFragment() {
         factoryProducer = { viewModelFactory }
     )
 
-    private val recordTypesAdapter: BaseRecyclerAdapter by lazy {
+    private val adapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
+            createLoaderAdapterDelegate(),
             createRecordTypeAdapterDelegate(viewModel::onRecordTypeClick),
-            createLoaderAdapterDelegate()
+            createCategoryAdapterDelegate(viewModel::onCategoryClick),
+            createTypesFilterDividerAdapterDelegate()
         )
     }
 
-    private var behavior: BottomSheetBehavior<View>? = null
     private var typesFilterDialogListener: TypesFilterDialogListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -98,14 +101,8 @@ class TypesFilterDialogFragment : BottomSheetDialogFragment() {
     }
 
     private fun initDialog() {
-        dialog?.findViewById<FrameLayout>(R.id.design_bottom_sheet)?.let { bottomSheet ->
-            behavior = BottomSheetBehavior.from(bottomSheet)
-        }
-        behavior?.apply {
-            peekHeight = 0
-            skipCollapsed = true
-            state = BottomSheetBehavior.STATE_EXPANDED
-        }
+        setSkipCollapsed()
+        setFullScreen()
     }
 
     private fun initDi() {
@@ -121,7 +118,7 @@ class TypesFilterDialogFragment : BottomSheetDialogFragment() {
                 justifyContent = JustifyContent.CENTER
                 flexWrap = FlexWrap.WRAP
             }
-            adapter = recordTypesAdapter
+            adapter = this@TypesFilterDialogFragment.adapter
         }
     }
 
@@ -132,7 +129,7 @@ class TypesFilterDialogFragment : BottomSheetDialogFragment() {
 
     private fun initViewModel(): Unit = with(viewModel) {
         extra = arguments?.getParcelable(ARGS_PARAMS) ?: TypesFilterParams()
-        recordTypes.observe(viewLifecycleOwner, recordTypesAdapter::replace)
+        viewData.observe(viewLifecycleOwner, adapter::replace)
         typesFilter.observe(viewLifecycleOwner) { typesFilterDialogListener?.onTypesFilterSelected(it) }
     }
 
