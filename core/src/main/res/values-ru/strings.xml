@@ -106,6 +106,8 @@
     <string name="chart_filter_hint">Фильтр</string>
     <string name="types_filter_show_all">Показать все</string>
     <string name="types_filter_hide_all">Скрыть все</string>
+    <string name="types_filter_activity_hint">Активности</string>
+    <string name="types_filter_activity_tag_hint">Теги активностей</string>
     <string name="chart_filter_type_hint">Тип статистики</string>
     <string name="chart_filter_type_activity">Активности</string>
     <string name="chart_filter_type_category">Теги</string>

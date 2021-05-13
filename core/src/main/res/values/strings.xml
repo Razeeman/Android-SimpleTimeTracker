@@ -106,6 +106,8 @@
     <string name="chart_filter_hint">Filter</string>
     <string name="types_filter_show_all">Show all</string>
     <string name="types_filter_hide_all">Hide all</string>
+    <string name="types_filter_activity_hint">Activities</string>
+    <string name="types_filter_activity_tag_hint">Activity tags</string>
     <string name="chart_filter_type_hint">Statistics type</string>
     <string name="chart_filter_type_activity">Activity</string>
     <string name="chart_filter_type_category">Tag</string>

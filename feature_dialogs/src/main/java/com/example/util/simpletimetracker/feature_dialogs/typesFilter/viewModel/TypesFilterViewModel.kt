@@ -6,11 +6,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.category.CategoryViewData
+import com.example.util.simpletimetracker.core.adapter.hint.HintViewData
 import com.example.util.simpletimetracker.core.adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.core.extension.addOrRemove
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.mapper.CategoryViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
+import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -22,6 +24,7 @@ import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RecordTypeCategory
+import com.example.util.simpletimetracker.feature_dialogs.R
 import com.example.util.simpletimetracker.feature_dialogs.typesFilter.adapter.TypesFilterDividerViewData
 import com.example.util.simpletimetracker.navigation.params.TypesFilterParams
 import kotlinx.coroutines.launch
@@ -34,7 +37,8 @@ class TypesFilterViewModel @Inject constructor(
     private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
-    private val categoryViewDataMapper: CategoryViewDataMapper
+    private val categoryViewDataMapper: CategoryViewDataMapper,
+    private val resourceRepo: ResourceRepo
 ) : ViewModel() {
 
     lateinit var extra: TypesFilterParams
@@ -149,8 +153,10 @@ class TypesFilterViewModel @Inject constructor(
             )
         }
 
+        HintViewData(resourceRepo.getString(R.string.types_filter_activity_tag_hint)).let(result::add)
         activityTagsViewData.let(result::addAll)
         TypesFilterDividerViewData(1).let(result::add)
+        HintViewData(resourceRepo.getString(R.string.types_filter_activity_hint)).let(result::add)
         typesViewData.let(result::addAll)
 
         return result

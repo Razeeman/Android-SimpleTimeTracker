@@ -12,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.category.createCategoryAdapterDelegate
+import com.example.util.simpletimetracker.core.adapter.hint.createHintAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.recordType.createRecordTypeAdapterDelegate
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
@@ -46,9 +47,10 @@ class TypesFilterDialogFragment : BottomSheetDialogFragment() {
     private val adapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
             createLoaderAdapterDelegate(),
+            createHintAdapterDelegate(),
+            createTypesFilterDividerAdapterDelegate(),
             createRecordTypeAdapterDelegate(viewModel::onRecordTypeClick),
-            createCategoryAdapterDelegate(viewModel::onCategoryClick),
-            createTypesFilterDividerAdapterDelegate()
+            createCategoryAdapterDelegate(viewModel::onCategoryClick)
         )
     }
 
