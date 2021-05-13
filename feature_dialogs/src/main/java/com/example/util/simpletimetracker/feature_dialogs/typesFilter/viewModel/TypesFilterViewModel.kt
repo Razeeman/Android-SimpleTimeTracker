@@ -58,14 +58,22 @@ class TypesFilterViewModel @Inject constructor(
     }
 
     private var types: List<RecordType> = emptyList()
+    private var recordTypeCategories: List<RecordTypeCategory> = emptyList()
     private var activityTags: List<Category> = emptyList()
 
     fun onRecordTypeClick(item: RecordTypeViewData) {
         var currentFilter = typesFilter.value ?: return
 
         if (currentFilter.filterType != ChartFilterType.ACTIVITY) {
+            // Switch from tags to types in these tags
+            val currentTypes = recordTypeCategories
+                .filter { it.categoryId in currentFilter.selectedIds }
+                .map { it.recordTypeId }
+                .filter { it in types.map(RecordType::id) }
+                .distinct()
+
             currentFilter = TypesFilterParams(
-                selectedIds = emptyList(),
+                selectedIds = currentTypes,
                 filterType = ChartFilterType.ACTIVITY
             )
         }
@@ -105,10 +113,12 @@ class TypesFilterViewModel @Inject constructor(
     }
 
     private suspend fun initializeData() {
+        recordTypeCategories = recordTypeCategoryInteractor.getAll()
+
         val typesWithRecords = recordInteractor.getAll()
             .map(Record::typeId)
             .toSet()
-        val activityTagsWithRecords = recordTypeCategoryInteractor.getAll()
+        val activityTagsWithRecords = recordTypeCategories
             .filter { it.recordTypeId in typesWithRecords }
             .map(RecordTypeCategory::categoryId)
             .toSet()
@@ -131,8 +141,12 @@ class TypesFilterViewModel @Inject constructor(
         val filter = typesFilter.value ?: return emptyList()
 
         val typesViewData = types.map { type ->
-            val isFiltered = filter.filterType != ChartFilterType.ACTIVITY ||
-                type.id !in filter.selectedIds
+            val isFiltered = when (filter.filterType) {
+                ChartFilterType.ACTIVITY -> type.id !in filter.selectedIds
+                ChartFilterType.CATEGORY -> type.id !in recordTypeCategories
+                    .filter { it.categoryId in filter.selectedIds }
+                    .map { it.recordTypeId }
+            }
 
             recordTypeViewDataMapper.mapFiltered(
                 recordType = type,
