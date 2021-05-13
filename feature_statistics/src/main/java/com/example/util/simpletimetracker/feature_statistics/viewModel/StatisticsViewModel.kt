@@ -16,6 +16,7 @@ import com.example.util.simpletimetracker.feature_statistics.viewData.Statistics
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
 import com.example.util.simpletimetracker.navigation.params.StatisticsDetailParams
+import com.example.util.simpletimetracker.navigation.params.TypesFilterParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -63,8 +64,10 @@ class StatisticsViewModel @Inject constructor(
         router.navigate(
             screen = Screen.STATISTICS_DETAIL,
             data = StatisticsDetailParams(
-                id = item.id,
-                filterType = filterType,
+                filter = TypesFilterParams(
+                    selectedIds = listOf(item.id),
+                    filterType = filterType
+                ),
                 preview = StatisticsDetailParams.Preview(
                     name = item.name,
                     iconId = (item as? StatisticsViewData.Activity)?.iconId?.toParams(),

@@ -19,15 +19,16 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/layoutStatisticsDetailItem"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="4dp"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="4dp"
                 app:cardPreventCornerOverlap="false"
                 app:cardUseCompatPadding="true"
+                app:layout_constraintEnd_toStartOf="@id/cardStatisticsDetailFilter"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:cardBackgroundColor="@color/black">
 
@@ -62,6 +63,28 @@
                         tools:text="Item name" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardStatisticsDetailFilter"
+                style="@style/SettingsCard"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:layout_marginEnd="4dp"
+                android:foreground="?selectableItemBackground"
+                app:cardBackgroundColor="?appCardBackgroundColor"
+                app:layout_constraintBottom_toBottomOf="@id/layoutStatisticsDetailItem"
+                app:layout_constraintDimensionRatio="h,1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/layoutStatisticsDetailItem">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="center"
+                    android:src="@drawable/filter"
+                    android:tint="?appInactiveColor" />
 
             </androidx.cardview.widget.CardView>
 

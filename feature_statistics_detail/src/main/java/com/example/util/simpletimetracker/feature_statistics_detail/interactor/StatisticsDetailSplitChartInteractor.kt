@@ -1,24 +1,24 @@
 package com.example.util.simpletimetracker.feature_statistics_detail.interactor
 
+import com.example.util.simpletimetracker.core.interactor.TypesFilterInteractor
 import com.example.util.simpletimetracker.core.mapper.RangeMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
-import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
-import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.StatisticsDetailViewDataMapper
 import com.example.util.simpletimetracker.feature_statistics_detail.model.SplitChartGrouping
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartViewData
+import com.example.util.simpletimetracker.navigation.params.TypesFilterParams
 import java.util.Calendar
 import javax.inject.Inject
 
 class StatisticsDetailSplitChartInteractor @Inject constructor(
     private val statisticsDetailViewDataMapper: StatisticsDetailViewDataMapper,
-    private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
+    private val typesFilterInteractor: TypesFilterInteractor,
     private val recordInteractor: RecordInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val timeMapper: TimeMapper,
@@ -26,29 +26,14 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
 ) {
 
     suspend fun getSplitChartViewData(
-        id: Long,
-        filter: ChartFilterType,
+        filter: TypesFilterParams,
         rangeLength: RangeLength,
         rangePosition: Int,
         splitChartGrouping: SplitChartGrouping
     ): StatisticsDetailChartViewData {
         val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
-
-        // If untracked
-        if (id == -1L) {
-            return when (splitChartGrouping) {
-                SplitChartGrouping.HOURLY ->
-                    statisticsDetailViewDataMapper.mapToHourlyChartViewData(emptyMap())
-                SplitChartGrouping.DAILY ->
-                    statisticsDetailViewDataMapper.mapToDailyChartViewData(emptyMap(), firstDayOfWeek)
-            }
-        }
-
         val range = timeMapper.getRangeStartAndEnd(rangeLength, rangePosition, firstDayOfWeek)
-        val typesIds = when (filter) {
-            ChartFilterType.ACTIVITY -> listOf(id)
-            ChartFilterType.CATEGORY -> recordTypeCategoryInteractor.getTypes(categoryId = id)
-        }
+        val typesIds = typesFilterInteractor.getTypeIds(filter)
         val data = getDurations(typesIds, range, splitChartGrouping)
 
         return when (splitChartGrouping) {

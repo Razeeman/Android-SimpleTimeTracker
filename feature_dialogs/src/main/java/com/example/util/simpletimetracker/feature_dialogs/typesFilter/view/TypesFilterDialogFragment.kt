@@ -19,18 +19,16 @@ import com.example.util.simpletimetracker.core.extension.getAllFragments
 import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.feature_dialogs.R
 import com.example.util.simpletimetracker.feature_dialogs.typesFilter.di.TypesFilterComponentProvider
-import com.example.util.simpletimetracker.feature_dialogs.typesFilter.extra.TypesFilterExtra
 import com.example.util.simpletimetracker.feature_dialogs.typesFilter.viewModel.TypesFilterViewModel
 import com.example.util.simpletimetracker.navigation.params.TypesFilterDialogParams
+import com.example.util.simpletimetracker.navigation.params.TypesFilterParams
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import kotlinx.android.synthetic.main.types_filter_dialog_fragment.btnTypesFilterHideAll
-import kotlinx.android.synthetic.main.types_filter_dialog_fragment.btnTypesFilterShowAll
-import kotlinx.android.synthetic.main.types_filter_dialog_fragment.rvTypesFilterContainer
+import kotlinx.android.synthetic.main.types_filter_dialog_fragment.*
 import javax.inject.Inject
 
 class TypesFilterDialogFragment : BottomSheetDialogFragment() {
@@ -127,18 +125,18 @@ class TypesFilterDialogFragment : BottomSheetDialogFragment() {
     }
 
     private fun initViewModel(): Unit = with(viewModel) {
-        extra = TypesFilterExtra(arguments?.getLongArray(ARGS_SELECTED_TYPES)?.toList().orEmpty())
+        extra = arguments?.getParcelable(ARGS_PARAMS) ?: TypesFilterParams()
         recordTypes.observe(viewLifecycleOwner, recordTypesAdapter::replace)
-        typesSelected.observe(viewLifecycleOwner) { typesFilterDialogListener?.onTypesSelected(it) }
+        typesFilter.observe(viewLifecycleOwner) { typesFilterDialogListener?.onTypesFilterSelected(it) }
     }
 
     companion object {
-        private const val ARGS_SELECTED_TYPES = "selected_types"
+        private const val ARGS_PARAMS = "args_params"
 
         fun createBundle(data: Any?): Bundle = Bundle().apply {
             when (data) {
                 is TypesFilterDialogParams -> {
-                    putLongArray(ARGS_SELECTED_TYPES, data.selectedTypes.toLongArray())
+                    putParcelable(ARGS_PARAMS, data.filter)
                 }
             }
         }

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.core.interactor.TypesFilterInteractor
 import com.example.util.simpletimetracker.core.mapper.RangeMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
@@ -13,8 +14,6 @@ import com.example.util.simpletimetracker.core.viewData.RangeViewData
 import com.example.util.simpletimetracker.core.viewData.RangesViewData
 import com.example.util.simpletimetracker.core.viewData.SelectDateViewData
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
-import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
-import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailChartInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailPreviewInteractor
@@ -36,6 +35,8 @@ import com.example.util.simpletimetracker.navigation.params.DateTimeDialogParams
 import com.example.util.simpletimetracker.navigation.params.DateTimeDialogType
 import com.example.util.simpletimetracker.navigation.params.RecordsAllParams
 import com.example.util.simpletimetracker.navigation.params.StatisticsDetailParams
+import com.example.util.simpletimetracker.navigation.params.TypesFilterDialogParams
+import com.example.util.simpletimetracker.navigation.params.TypesFilterParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -46,7 +47,7 @@ class StatisticsDetailViewModel @Inject constructor(
     private val previewInteractor: StatisticsDetailPreviewInteractor,
     private val statsInteractor: StatisticsDetailStatsInteractor,
     private val splitChartInteractor: StatisticsDetailSplitChartInteractor,
-    private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
+    private val typesFilterInteractor: TypesFilterInteractor,
     private val mapper: StatisticsDetailViewDataMapper,
     private val rangeMapper: RangeMapper,
     private val timeMapper: TimeMapper
@@ -96,9 +97,25 @@ class StatisticsDetailViewModel @Inject constructor(
     private var splitChartGrouping: SplitChartGrouping = SplitChartGrouping.DAILY
     private var rangeLength: RangeLength = RangeLength.ALL
     private var rangePosition: Int = 0
+    private val typesFilter: TypesFilterParams get() = typesFilterContainer.first()
+    private val typesFilterContainer: MutableList<TypesFilterParams> by lazy {
+        mutableListOf(extra.filter)
+    }
 
     fun onVisible() {
         updateViewData()
+    }
+
+    fun onFilterClick() {
+        router.navigate(
+            Screen.TYPES_FILTER_DIALOG,
+            TypesFilterDialogParams(typesFilter)
+        )
+    }
+
+    fun onTypesSelected(newFilter: TypesFilterParams) {
+        typesFilterContainer.clear()
+        typesFilterContainer.add(newFilter)
     }
 
     fun onChartGroupingClick(viewData: ButtonsRowViewData) {
@@ -125,14 +142,7 @@ class StatisticsDetailViewModel @Inject constructor(
     fun onRecordsClick() {
         viewModelScope.launch {
             val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
-            val typeIds = when (extra.filterType) {
-                ChartFilterType.ACTIVITY -> {
-                    listOf(extra.id)
-                }
-                ChartFilterType.CATEGORY -> {
-                    recordTypeCategoryInteractor.getTypes(extra.id)
-                }
-            }
+            val typeIds = typesFilterInteractor.getTypeIds(typesFilter)
             val range = timeMapper.getRangeStartAndEnd(rangeLength, rangePosition, firstDayOfWeek)
 
             router.navigate(
@@ -221,7 +231,7 @@ class StatisticsDetailViewModel @Inject constructor(
     }
 
     private suspend fun loadPreviewViewData(): StatisticsDetailPreviewViewData {
-        return previewInteractor.getPreviewData(extra.id, extra.filterType)
+        return previewInteractor.getPreviewData(typesFilter)
     }
 
     private fun updateStatsViewData() = viewModelScope.launch {
@@ -235,8 +245,7 @@ class StatisticsDetailViewModel @Inject constructor(
 
     private suspend fun loadStatsViewData(): StatisticsDetailStatsViewData {
         return statsInteractor.getStatsViewData(
-            id = extra.id,
-            filter = extra.filterType,
+            filter = typesFilter,
             rangeLength = rangeLength,
             rangePosition = rangePosition
         )
@@ -249,10 +258,9 @@ class StatisticsDetailViewModel @Inject constructor(
 
     private suspend fun loadChartViewData(): StatisticsDetailChartViewData {
         return chartInteractor.getChartViewData(
-            id = extra.id,
+            filter = typesFilter,
             chartGrouping = chartGrouping,
             chartLength = chartLength,
-            filter = extra.filterType,
             rangeLength = rangeLength,
             rangePosition = rangePosition,
             firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
@@ -270,8 +278,7 @@ class StatisticsDetailViewModel @Inject constructor(
             ?: SplitChartGrouping.HOURLY
 
         return splitChartInteractor.getSplitChartViewData(
-            id = extra.id,
-            filter = extra.filterType,
+            filter = typesFilter,
             rangeLength = rangeLength,
             rangePosition = rangePosition,
             splitChartGrouping = grouping

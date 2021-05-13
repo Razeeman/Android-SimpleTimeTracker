@@ -17,7 +17,6 @@ import com.example.util.simpletimetracker.feature_records_all.viewData.RecordsAl
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
 import com.example.util.simpletimetracker.navigation.params.ChangeRecordParams
-import com.example.util.simpletimetracker.navigation.params.TypesFilterDialogParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -86,19 +85,6 @@ class RecordsAllViewModel @Inject constructor(
         sortOrder = recordsAllViewDataMapper.toSortOrder(position)
         updateRecords()
         updateSortOrderViewData()
-    }
-
-    fun onFilterClick() {
-        router.navigate(
-            Screen.TYPES_FILTER_DIALOG,
-            TypesFilterDialogParams(typesSelected)
-        )
-    }
-
-    fun onTypesSelected(newTypes: List<Long>) {
-        typesSelected.clear()
-        typesSelected.addAll(newTypes)
-        updateRecords()
     }
 
     private fun updateRecords() = viewModelScope.launch {

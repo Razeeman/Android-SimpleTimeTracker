@@ -32,10 +32,10 @@
                 android:id="@+id/tvRecordsAllSortValue"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
+                android:layout_marginEnd="32dp"
                 android:gravity="end|center_vertical"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
-                android:layout_marginEnd="32dp"
                 android:textColor="?appTextPrimaryColor"
                 app:layout_constraintBottom_toBottomOf="@id/spinnerRecordsAllSort"
                 app:layout_constraintEnd_toEndOf="@id/spinnerRecordsAllSort"
@@ -46,31 +46,9 @@
                 android:id="@+id/spinnerRecordsAllSort"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_marginEnd="8dp"
                 app:layout_constraintBottom_toBottomOf="@id/tvRecordsAllSort"
-                app:layout_constraintEnd_toStartOf="@id/cardRecordsAllFilter"
-                app:layout_constraintTop_toTopOf="@id/tvRecordsAllSort" />
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardRecordsAllFilter"
-                style="@style/SettingsCard"
-                android:layout_width="44dp"
-                android:layout_height="44dp"
-                android:foreground="?selectableItemBackground"
-                app:cardBackgroundColor="?appButtonOnCardBackgroundColor"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintDimensionRatio="h,1:1"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="center"
-                    android:src="@drawable/ic_filter_list_24px"
-                    android:tint="?appInactiveColor" />
-
-            </androidx.cardview.widget.CardView>
+                app:layout_constraintTop_toTopOf="@id/tvRecordsAllSort" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -6,6 +6,7 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.StatisticsDetailViewDataMapper
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewViewData
+import com.example.util.simpletimetracker.navigation.params.TypesFilterParams
 import javax.inject.Inject
 
 class StatisticsDetailPreviewInteractor @Inject constructor(
@@ -16,11 +17,15 @@ class StatisticsDetailPreviewInteractor @Inject constructor(
 ) {
 
     suspend fun getPreviewData(
-        id: Long,
-        filter: ChartFilterType
+        filterParams: TypesFilterParams
     ): StatisticsDetailPreviewViewData {
+        val id = filterParams.selectedIds.firstOrNull()
+        val filter = filterParams.filterType
         val isDarkTheme = prefsInteractor.getDarkMode()
-        if (id == -1L) return statisticsDetailViewDataMapper.mapToPreviewUntracked(isDarkTheme)
+
+        if (id == null || id == -1L) {
+            return statisticsDetailViewDataMapper.mapToPreviewUntracked(isDarkTheme)
+        }
 
         val name: String?
         val color: Int?

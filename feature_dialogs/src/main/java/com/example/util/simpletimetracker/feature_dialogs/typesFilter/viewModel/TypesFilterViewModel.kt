@@ -14,7 +14,7 @@ import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordType
-import com.example.util.simpletimetracker.feature_dialogs.typesFilter.extra.TypesFilterExtra
+import com.example.util.simpletimetracker.navigation.params.TypesFilterParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -25,7 +25,7 @@ class TypesFilterViewModel @Inject constructor(
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper
 ) : ViewModel() {
 
-    lateinit var extra: TypesFilterExtra
+    lateinit var extra: TypesFilterParams
 
     val recordTypes: LiveData<List<ViewHolderType>> by lazy {
         return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
@@ -36,15 +36,16 @@ class TypesFilterViewModel @Inject constructor(
             initial
         }
     }
-    val typesSelected: LiveData<List<Long>> by lazy {
-        MutableLiveData(extra.selectedTypes)
+    val typesFilter: LiveData<TypesFilterParams> by lazy {
+        MutableLiveData(extra)
     }
 
     private var types: List<RecordType> = emptyList()
 
     fun onRecordTypeClick(item: RecordTypeViewData) {
         viewModelScope.launch {
-            val currentTypesSelected = typesSelected.value.orEmpty().toMutableList()
+            val currentTypesSelected = typesFilter.value
+                ?.selectedIds.orEmpty().toMutableList()
 
             if (item.id in currentTypesSelected) {
                 currentTypesSelected.remove(item.id)
@@ -52,18 +53,18 @@ class TypesFilterViewModel @Inject constructor(
                 currentTypesSelected.add(item.id)
             }
 
-            (typesSelected as MutableLiveData).value = currentTypesSelected
+            (typesFilter as MutableLiveData).value = TypesFilterParams(currentTypesSelected)
             updateRecordTypesViewData()
         }
     }
 
     fun onShowAllClick() {
-        (typesSelected as MutableLiveData).value = types.map { it.id }
+        (typesFilter as MutableLiveData).value = TypesFilterParams(types.map { it.id })
         updateRecordTypesViewData()
     }
 
     fun onHideAllClick() {
-        (typesSelected as MutableLiveData).value = emptyList()
+        (typesFilter as MutableLiveData).value = TypesFilterParams()
         updateRecordTypesViewData()
     }
 
@@ -75,7 +76,7 @@ class TypesFilterViewModel @Inject constructor(
     private suspend fun loadRecordTypesViewData(): List<ViewHolderType> {
         val numberOfCards = prefsInteractor.getNumberOfCards()
         val isDarkTheme = prefsInteractor.getDarkMode()
-        val typesSelected = typesSelected.value.orEmpty()
+        val typesSelected = typesFilter.value?.selectedIds.orEmpty()
 
         if (types.isEmpty()) types = loadRecordTypes()
 

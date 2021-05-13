@@ -2,13 +2,11 @@ package com.example.util.simpletimetracker.navigation.params
 
 import android.os.Parcelable
 import androidx.annotation.ColorInt
-import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class StatisticsDetailParams(
-    val id: Long = 0,
-    val filterType: ChartFilterType = ChartFilterType.ACTIVITY,
+    val filter: TypesFilterParams = TypesFilterParams(),
     val preview: Preview? = null
 ) : Parcelable {
 

@@ -1,10 +1,9 @@
 package com.example.util.simpletimetracker.feature_statistics_detail.interactor
 
+import com.example.util.simpletimetracker.core.interactor.TypesFilterInteractor
 import com.example.util.simpletimetracker.core.mapper.RangeMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
-import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
-import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.StatisticsDetailViewDataMapper
@@ -13,6 +12,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartB
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartGrouping
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartLength
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartViewData
+import com.example.util.simpletimetracker.navigation.params.TypesFilterParams
 import java.util.Calendar
 import javax.inject.Inject
 
@@ -20,32 +20,19 @@ class StatisticsDetailChartInteractor @Inject constructor(
     private val recordInteractor: RecordInteractor,
     private val timeMapper: TimeMapper,
     private val rangeMapper: RangeMapper,
-    private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
+    private val typesFilterInteractor: TypesFilterInteractor,
     private val statisticsDetailViewDataMapper: StatisticsDetailViewDataMapper
 ) {
 
     suspend fun getChartViewData(
-        id: Long,
+        filter: TypesFilterParams,
         chartGrouping: ChartGrouping,
         chartLength: ChartLength,
-        filter: ChartFilterType,
         rangeLength: RangeLength,
         rangePosition: Int,
         firstDayOfWeek: DayOfWeek
     ): StatisticsDetailChartViewData {
-        // If untracked
-        if (id == -1L) {
-            statisticsDetailViewDataMapper.mapToChartViewData(emptyList(), rangeLength)
-        }
-
-        val typesIds = when (filter) {
-            ChartFilterType.ACTIVITY -> {
-                listOf(id)
-            }
-            ChartFilterType.CATEGORY -> {
-                recordTypeCategoryInteractor.getTypes(categoryId = id)
-            }
-        }
+        val typesIds = typesFilterInteractor.getTypeIds(filter)
         val data = getChartData(
             typeIds = typesIds,
             grouping = chartGrouping,

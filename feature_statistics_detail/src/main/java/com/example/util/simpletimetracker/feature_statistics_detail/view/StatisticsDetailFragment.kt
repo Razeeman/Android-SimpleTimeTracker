@@ -10,6 +10,7 @@ import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
 import com.example.util.simpletimetracker.core.dialog.StandardDialogListener
+import com.example.util.simpletimetracker.core.dialog.TypesFilterDialogListener
 import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.core.extension.setOnLongClick
 import com.example.util.simpletimetracker.core.extension.toViewData
@@ -24,12 +25,14 @@ import com.example.util.simpletimetracker.feature_statistics_detail.viewData.Sta
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStatsViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewModel.StatisticsDetailViewModel
 import com.example.util.simpletimetracker.navigation.params.StatisticsDetailParams
+import com.example.util.simpletimetracker.navigation.params.TypesFilterParams
 import kotlinx.android.synthetic.main.statistics_detail_fragment.*
 import javax.inject.Inject
 
 class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragment),
     StandardDialogListener,
-    DateTimeDialogListener {
+    DateTimeDialogListener,
+    TypesFilterDialogListener {
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<StatisticsDetailViewModel>
@@ -57,11 +60,12 @@ class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragmen
 
         ViewCompat.setTransitionName(
             layoutStatisticsDetailItem,
-            TransitionNames.STATISTICS_DETAIL + params.id
+            TransitionNames.STATISTICS_DETAIL + params.filter.selectedIds.first()
         )
     }
 
     override fun initUx() {
+        cardStatisticsDetailFilter.setOnClick(viewModel::onFilterClick)
         buttonsStatisticsDetailGrouping.listener = viewModel::onChartGroupingClick
         buttonsStatisticsDetailLength.listener = viewModel::onChartLengthClick
         buttonsStatisticsDetailSplitGrouping.listener = viewModel::onSplitChartGroupingClick
@@ -95,6 +99,10 @@ class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragmen
     override fun onResume() {
         super.onResume()
         viewModel.onVisible()
+    }
+
+    override fun onTypesFilterSelected(filter: TypesFilterParams) {
+        viewModel.onTypesSelected(filter)
     }
 
     private fun setPreview() = params.preview?.run {
