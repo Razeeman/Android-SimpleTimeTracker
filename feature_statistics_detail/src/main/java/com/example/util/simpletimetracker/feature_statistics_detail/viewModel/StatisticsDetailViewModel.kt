@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.TypesFilterInteractor
 import com.example.util.simpletimetracker.core.mapper.RangeMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
@@ -113,9 +114,14 @@ class StatisticsDetailViewModel @Inject constructor(
         )
     }
 
-    fun onTypesSelected(newFilter: TypesFilterParams) {
+    fun onTypesFilterSelected(newFilter: TypesFilterParams) {
         typesFilterContainer.clear()
         typesFilterContainer.add(newFilter)
+    }
+
+    fun onTypesFilterDismissed() {
+        updatePreviewViewData()
+        updateViewData()
     }
 
     fun onChartGroupingClick(viewData: ButtonsRowViewData) {
@@ -230,13 +236,18 @@ class StatisticsDetailViewModel @Inject constructor(
         updateSplitChartViewData()
     }
 
+    private fun updatePreviewViewData() = viewModelScope.launch {
+        val data = loadPreviewViewData()
+        previewViewData.set(data)
+    }
+
     private suspend fun loadPreviewViewData(): StatisticsDetailPreviewViewData {
         return previewInteractor.getPreviewData(typesFilter)
     }
 
     private fun updateStatsViewData() = viewModelScope.launch {
         val data = loadStatsViewData()
-        (statsViewData as MutableLiveData).value = data
+        statsViewData.set(data)
     }
 
     private fun loadEmptyStatsViewData(): StatisticsDetailStatsViewData {
@@ -253,7 +264,7 @@ class StatisticsDetailViewModel @Inject constructor(
 
     private fun updateChartViewData() = viewModelScope.launch {
         val data = loadChartViewData()
-        (chartViewData as MutableLiveData).value = data
+        chartViewData.set(data)
     }
 
     private suspend fun loadChartViewData(): StatisticsDetailChartViewData {
@@ -269,7 +280,7 @@ class StatisticsDetailViewModel @Inject constructor(
 
     private fun updateSplitChartViewData() = viewModelScope.launch {
         val data = loadSplitChartViewData()
-        (splitChartViewData as MutableLiveData).value = data
+        splitChartViewData.set(data)
     }
 
     private suspend fun loadSplitChartViewData(): StatisticsDetailChartViewData {
@@ -286,7 +297,8 @@ class StatisticsDetailViewModel @Inject constructor(
     }
 
     private fun updateChartGroupingViewData() {
-        (chartGroupingViewData as MutableLiveData).value = loadChartGroupingViewData()
+        val data = loadChartGroupingViewData()
+        chartGroupingViewData.set(data)
     }
 
     private fun loadChartGroupingViewData(): List<ViewHolderType> {
@@ -294,7 +306,8 @@ class StatisticsDetailViewModel @Inject constructor(
     }
 
     private fun updateChartLengthViewData() {
-        (chartLengthViewData as MutableLiveData).value = loadChartLengthViewData()
+        val data = loadChartLengthViewData()
+        chartLengthViewData.set(data)
     }
 
     private fun loadChartLengthViewData(): List<ViewHolderType> {
@@ -302,7 +315,8 @@ class StatisticsDetailViewModel @Inject constructor(
     }
 
     private fun updateSplitChartGroupingViewData() {
-        (splitChartGroupingViewData as MutableLiveData).value = loadSplitChartGroupingViewData()
+        val data = loadSplitChartGroupingViewData()
+        splitChartGroupingViewData.set(data)
     }
 
     private fun loadSplitChartGroupingViewData(): List<ViewHolderType> {
@@ -310,7 +324,8 @@ class StatisticsDetailViewModel @Inject constructor(
     }
 
     private fun updateTitle() = viewModelScope.launch {
-        (title as MutableLiveData).value = loadTitle()
+        val data = loadTitle()
+        title.set(data)
     }
 
     private suspend fun loadTitle(): String {
@@ -319,7 +334,8 @@ class StatisticsDetailViewModel @Inject constructor(
     }
 
     private fun updateRanges() {
-        (rangeItems as MutableLiveData).value = loadRanges()
+        val data = loadRanges()
+        rangeItems.set(data)
     }
 
     private fun loadRanges(): RangesViewData {
@@ -327,7 +343,8 @@ class StatisticsDetailViewModel @Inject constructor(
     }
 
     private fun updateButtonsVisibility() {
-        (rangeButtonsVisibility as MutableLiveData).value = loadButtonsVisibility()
+        val data = loadButtonsVisibility()
+        rangeButtonsVisibility.set(data)
     }
 
     private fun loadButtonsVisibility(): Boolean {

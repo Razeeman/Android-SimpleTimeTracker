@@ -23,8 +23,8 @@ class StatisticsDetailPreviewInteractor @Inject constructor(
         val filter = filterParams.filterType
         val isDarkTheme = prefsInteractor.getDarkMode()
 
-        if (id == null || id == -1L) {
-            return statisticsDetailViewDataMapper.mapToPreviewUntracked(isDarkTheme)
+        if (id == null) {
+            return statisticsDetailViewDataMapper.mapToPreviewEmpty(isDarkTheme)
         }
 
         val name: String?

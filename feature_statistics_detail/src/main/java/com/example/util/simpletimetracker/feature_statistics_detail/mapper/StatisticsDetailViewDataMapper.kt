@@ -113,11 +113,11 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         )
     }
 
-    fun mapToPreviewUntracked(
+    fun mapToPreviewEmpty(
         isDarkTheme: Boolean
     ): StatisticsDetailPreviewViewData {
         return StatisticsDetailPreviewViewData(
-            name = resourceRepo.getString(R.string.untracked_time_name),
+            name = "",
             iconId = RecordTypeIcon.Image(R.drawable.unknown),
             color = colorMapper.toUntrackedColor(isDarkTheme)
         )

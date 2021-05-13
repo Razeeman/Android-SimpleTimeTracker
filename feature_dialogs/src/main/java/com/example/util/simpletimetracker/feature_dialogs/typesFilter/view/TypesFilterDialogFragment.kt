@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.feature_dialogs.typesFilter.view
 
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -89,6 +90,11 @@ class TypesFilterDialogFragment : BottomSheetDialogFragment() {
                     ?.let { typesFilterDialogListener = it as? TypesFilterDialogListener }
             }
         }
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        typesFilterDialogListener?.onTypesFilterDismissed()
+        super.onDismiss(dialog)
     }
 
     private fun initDialog() {

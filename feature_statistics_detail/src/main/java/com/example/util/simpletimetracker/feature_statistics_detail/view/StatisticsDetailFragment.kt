@@ -102,7 +102,11 @@ class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragmen
     }
 
     override fun onTypesFilterSelected(filter: TypesFilterParams) {
-        viewModel.onTypesSelected(filter)
+        viewModel.onTypesFilterSelected(filter)
+    }
+
+    override fun onTypesFilterDismissed() {
+        viewModel.onTypesFilterDismissed()
     }
 
     private fun setPreview() = params.preview?.run {

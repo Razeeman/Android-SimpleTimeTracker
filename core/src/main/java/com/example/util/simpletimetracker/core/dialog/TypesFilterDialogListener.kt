@@ -5,4 +5,5 @@ import com.example.util.simpletimetracker.navigation.params.TypesFilterParams
 interface TypesFilterDialogListener {
 
     fun onTypesFilterSelected(filter: TypesFilterParams)
+    fun onTypesFilterDismissed()
 }
