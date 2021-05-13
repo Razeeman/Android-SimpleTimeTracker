@@ -19,6 +19,7 @@ import com.example.util.simpletimetracker.utils.checkViewIsNotDisplayed
 import com.example.util.simpletimetracker.utils.clickOnRecyclerItem
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
+import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.typeTextIntoView
 import com.example.util.simpletimetracker.utils.withCardColor
 import com.example.util.simpletimetracker.utils.withTag
@@ -111,7 +112,7 @@ class AddRecordTest : BaseUiTest() {
         // Set comment
         typeTextIntoView(R.id.etChangeRecordComment, comment)
         closeSoftKeyboard()
-        checkPreviewUpdated(hasDescendant(withText(comment)))
+        tryAction { checkPreviewUpdated(hasDescendant(withText(comment))) }
 
         clickOnViewWithText(R.string.change_record_save)
 

@@ -80,10 +80,10 @@ class IconTest : BaseUiTest() {
         // Change running record
         longClickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(firstName)))
         checkViewIsDisplayed(allOf(withId(R.id.previewChangeRunningRecord), hasDescendant(withText(firstEmoji))))
-        clickOnViewWithText(R.string.change_running_record_type_field)
+        clickOnViewWithText(R.string.change_record_type_field)
         clickOnRecyclerItem(R.id.rvChangeRunningRecordType, withText(lastName))
         checkViewIsDisplayed(allOf(withId(R.id.previewChangeRunningRecord), hasDescendant(withText(lastEmoji))))
-        clickOnViewWithText(R.string.change_running_record_save)
+        clickOnViewWithText(R.string.change_record_save)
 
         // Check running record
         checkViewIsDisplayed(

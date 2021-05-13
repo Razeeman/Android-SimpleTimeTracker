@@ -80,9 +80,9 @@ class ChangeRunningRecordTest : BaseUiTest() {
         checkPreviewUpdated(hasDescendant(withText("goal 10m")))
 
         // Change item
-        clickOnViewWithText(R.string.change_running_record_type_field)
+        clickOnViewWithText(R.string.change_record_type_field)
         clickOnRecyclerItem(R.id.rvChangeRunningRecordType, withText(newName))
-        clickOnViewWithText(R.string.change_running_record_type_field)
+        clickOnViewWithText(R.string.change_record_type_field)
 
         val calendar = Calendar.getInstance().apply {
             add(Calendar.DATE, -1)
@@ -128,7 +128,7 @@ class ChangeRunningRecordTest : BaseUiTest() {
         )
 
         // Save
-        clickOnViewWithText(R.string.change_running_record_save)
+        clickOnViewWithText(R.string.change_record_save)
 
         // Record updated
         checkViewDoesNotExist(

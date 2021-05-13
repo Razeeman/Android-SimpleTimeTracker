@@ -116,7 +116,7 @@ class StartRecordTest : BaseUiTest() {
         // Add comment
         longClickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name)))
         typeTextIntoView(R.id.etChangeRunningRecordComment, comment)
-        clickOnViewWithText(R.string.change_running_record_save)
+        clickOnViewWithText(R.string.change_record_save)
 
         // Stop timer
         clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name)))
