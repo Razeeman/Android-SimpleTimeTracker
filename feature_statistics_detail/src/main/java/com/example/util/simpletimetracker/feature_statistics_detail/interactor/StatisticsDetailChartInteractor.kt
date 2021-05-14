@@ -32,9 +32,8 @@ class StatisticsDetailChartInteractor @Inject constructor(
         rangePosition: Int,
         firstDayOfWeek: DayOfWeek
     ): StatisticsDetailChartViewData {
-        val typesIds = typesFilterInteractor.getTypeIds(filter)
         val data = getChartData(
-            typeIds = typesIds,
+            filter = filter,
             grouping = chartGrouping,
             chartLength = chartLength,
             rangeLength = rangeLength,
@@ -46,7 +45,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
     }
 
     private suspend fun getChartData(
-        typeIds: List<Long>,
+        filter: TypesFilterParams,
         grouping: ChartGrouping,
         chartLength: ChartLength,
         rangeLength: RangeLength,
@@ -60,11 +59,12 @@ class StatisticsDetailChartInteractor @Inject constructor(
             rangePosition = rangePosition,
             firstDayOfWeek = firstDayOfWeek
         )
+        val typeIds = typesFilterInteractor.getTypeIds(filter)
 
         val records = recordInteractor.getFromRange(
             start = ranges.first().rangeStart,
             end = ranges.last().rangeEnd
-        ).filter { it.typeId in typeIds }
+        ).filter { it.typeId in typeIds && it.tagId !in filter.filteredRecordTags }
 
         if (records.isEmpty()) {
             return ranges.map { ChartBarDataDuration(legend = it.legend, duration = 0L) }

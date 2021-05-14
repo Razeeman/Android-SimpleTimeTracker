@@ -6,6 +6,8 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class TypesFilterParams(
+    val filterType: ChartFilterType = ChartFilterType.ACTIVITY,
+    // activity tag or activity depending on filter type
     val selectedIds: List<Long> = emptyList(),
-    val filterType: ChartFilterType = ChartFilterType.ACTIVITY
+    val filteredRecordTags: List<Long> = emptyList()
 ) : Parcelable

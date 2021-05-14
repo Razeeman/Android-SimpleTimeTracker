@@ -26,6 +26,7 @@ import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RecordTypeCategory
+import com.example.util.simpletimetracker.domain.model.TagType
 import com.example.util.simpletimetracker.feature_dialogs.R
 import com.example.util.simpletimetracker.feature_dialogs.typesFilter.adapter.TypesFilterDividerViewData
 import com.example.util.simpletimetracker.navigation.params.TypesFilterParams
@@ -66,7 +67,41 @@ class TypesFilterViewModel @Inject constructor(
     private var recordTags: List<RecordTag> = emptyList()
 
     fun onRecordTypeClick(item: RecordTypeViewData) {
-        var currentFilter = typesFilter.value ?: return
+        val currentFilter = typesFilter.value ?: return
+        switchToActivityFilter(currentFilter, item)
+    }
+
+    fun onCategoryClick(item: CategoryViewData) {
+        val currentFilter = typesFilter.value ?: return
+        when (item.type) {
+            TagType.RECORD_TYPE -> switchToCategoryFilter(currentFilter, item)
+            TagType.RECORD -> updateRecordTagFilter(currentFilter, item.id)
+        }
+    }
+
+    fun onShowAllClick() {
+        (typesFilter as MutableLiveData).value = TypesFilterParams(
+            filterType = ChartFilterType.ACTIVITY,
+            selectedIds = types.map { it.id },
+            filteredRecordTags = emptyList()
+        )
+        updateViewData()
+    }
+
+    fun onHideAllClick() {
+        (typesFilter as MutableLiveData).value = TypesFilterParams(
+            filterType = ChartFilterType.ACTIVITY,
+            selectedIds = emptyList(),
+            filteredRecordTags = emptyList()
+        )
+        updateViewData()
+    }
+
+    private fun switchToActivityFilter(
+        currentFilter: TypesFilterParams,
+        item: RecordTypeViewData
+    ) {
+        var newFilter = currentFilter
 
         if (currentFilter.filterType != ChartFilterType.ACTIVITY) {
             // Switch from tags to types in these tags
@@ -76,43 +111,52 @@ class TypesFilterViewModel @Inject constructor(
                 .filter { it in types.map(RecordType::id) }
                 .distinct()
 
-            currentFilter = TypesFilterParams(
+            newFilter = TypesFilterParams(
+                filterType = ChartFilterType.ACTIVITY,
                 selectedIds = currentTypes,
-                filterType = ChartFilterType.ACTIVITY
+                filteredRecordTags = currentFilter.filteredRecordTags
             )
         }
 
-        updateItemInFilter(currentFilter, item.id)
+        updateItemInFilter(newFilter, item.id)
     }
 
-    fun onCategoryClick(item: CategoryViewData) {
-        var currentFilter = typesFilter.value ?: return
+    private fun switchToCategoryFilter(
+        currentFilter: TypesFilterParams,
+        item: CategoryViewData
+    ) {
+        var newFilter = currentFilter
 
         if (currentFilter.filterType != ChartFilterType.CATEGORY) {
-            currentFilter = TypesFilterParams(
+            newFilter = TypesFilterParams(
+                filterType = ChartFilterType.CATEGORY,
                 selectedIds = emptyList(),
-                filterType = ChartFilterType.CATEGORY
+                filteredRecordTags = emptyList()
             )
         }
 
-        updateItemInFilter(currentFilter, item.id)
+        updateItemInFilter(newFilter, item.id)
     }
 
-    private fun updateItemInFilter(filter: TypesFilterParams, id: Long) {
-        val selectedIds = filter.selectedIds.toMutableList()
-        selectedIds.addOrRemove(id)
-        val newFilter = filter.copy(selectedIds = selectedIds)
+    private fun updateRecordTagFilter(
+        filter: TypesFilterParams,
+        id: Long
+    ) {
+        val selectedRecordTags = filter.filteredRecordTags.toMutableList()
+        selectedRecordTags.addOrRemove(id)
+        val newFilter = filter.copy(filteredRecordTags = selectedRecordTags)
         typesFilter.set(newFilter)
         updateViewData()
     }
 
-    fun onShowAllClick() {
-        (typesFilter as MutableLiveData).value = TypesFilterParams(types.map { it.id })
-        updateViewData()
-    }
-
-    fun onHideAllClick() {
-        (typesFilter as MutableLiveData).value = TypesFilterParams()
+    private fun updateItemInFilter(
+        filter: TypesFilterParams,
+        id: Long
+    ) {
+        val selectedIds = filter.selectedIds.toMutableList()
+        selectedIds.addOrRemove(id)
+        val newFilter = filter.copy(selectedIds = selectedIds)
+        typesFilter.set(newFilter)
         updateViewData()
     }
 
@@ -185,7 +229,8 @@ class TypesFilterViewModel @Inject constructor(
                 categoryViewDataMapper.mapRecordTag(
                     tag = tag,
                     type = typesMap[tag.typeId] ?: return@mapNotNull null,
-                    isDarkTheme = isDarkTheme
+                    isDarkTheme = isDarkTheme,
+                    isFiltered = tag.id in filter.filteredRecordTags
                 )
             }
 

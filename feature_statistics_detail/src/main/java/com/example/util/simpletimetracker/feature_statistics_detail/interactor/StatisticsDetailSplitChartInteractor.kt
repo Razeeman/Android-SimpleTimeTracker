@@ -33,8 +33,7 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
     ): StatisticsDetailChartViewData {
         val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
         val range = timeMapper.getRangeStartAndEnd(rangeLength, rangePosition, firstDayOfWeek)
-        val typesIds = typesFilterInteractor.getTypeIds(filter)
-        val data = getDurations(typesIds, range, splitChartGrouping)
+        val data = getDurations(filter, range, splitChartGrouping)
 
         return when (splitChartGrouping) {
             SplitChartGrouping.HOURLY ->
@@ -45,7 +44,7 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
     }
 
     private suspend fun getDurations(
-        typeIds: List<Long>,
+        filter: TypesFilterParams,
         range: Pair<Long, Long>,
         splitChartGrouping: SplitChartGrouping
     ): Map<Int, Float> {
@@ -53,7 +52,9 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
         val dataDurations: MutableMap<Int, Long> = mutableMapOf()
         val dataTimesTracked: MutableMap<Int, Long> = mutableMapOf()
 
+        val typeIds = typesFilterInteractor.getTypeIds(filter)
         val records = recordInteractor.getByType(typeIds)
+            .filter { it.tagId !in filter.filteredRecordTags }
         val ranges = mapToRanges(records, range)
         val totalTracked = ranges.let(rangeMapper::mapToDuration)
 

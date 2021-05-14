@@ -34,8 +34,10 @@ class StatisticsDetailStatsInteractor @Inject constructor(
         } else {
             recordInteractor.getFromRange(range.first, range.second)
         }.filter {
-            // Skip records that started before this time range.
-            it.typeId in types && it.timeStarted > range.first
+            it.typeId in types &&
+                it.tagId !in filter.filteredRecordTags &&
+                // Skip records that started before this time range.
+                it.timeStarted > range.first
         }
 
         return statisticsDetailViewDataMapper.mapStatsData(
