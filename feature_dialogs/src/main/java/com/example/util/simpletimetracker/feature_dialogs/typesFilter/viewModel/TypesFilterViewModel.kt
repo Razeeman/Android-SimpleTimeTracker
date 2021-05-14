@@ -17,11 +17,13 @@ import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.model.Record
+import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RecordTypeCategory
 import com.example.util.simpletimetracker.feature_dialogs.R
@@ -34,6 +36,7 @@ class TypesFilterViewModel @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
     private val recordInteractor: RecordInteractor,
     private val categoryInteractor: CategoryInteractor,
+    private val recordTagInteractor: RecordTagInteractor,
     private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
@@ -60,6 +63,7 @@ class TypesFilterViewModel @Inject constructor(
     private var types: List<RecordType> = emptyList()
     private var recordTypeCategories: List<RecordTypeCategory> = emptyList()
     private var activityTags: List<Category> = emptyList()
+    private var recordTags: List<RecordTag> = emptyList()
 
     fun onRecordTypeClick(item: RecordTypeViewData) {
         var currentFilter = typesFilter.value ?: return
@@ -115,18 +119,24 @@ class TypesFilterViewModel @Inject constructor(
     private suspend fun initializeData() {
         recordTypeCategories = recordTypeCategoryInteractor.getAll()
 
-        val typesWithRecords = recordInteractor.getAll()
+        val records = recordInteractor.getAll()
+        val typesWithRecords = records
             .map(Record::typeId)
             .toSet()
         val activityTagsWithRecords = recordTypeCategories
             .filter { it.recordTypeId in typesWithRecords }
             .map(RecordTypeCategory::categoryId)
             .toSet()
+        val recordTagsWithRecords = records
+            .map(Record::tagId)
+            .toSet()
 
         types = recordTypeInteractor.getAll()
             .filter { it.id in typesWithRecords }
         activityTags = categoryInteractor.getAll()
             .filter { it.id in activityTagsWithRecords }
+        recordTags = recordTagInteractor.getAll()
+            .filter { it.id in recordTagsWithRecords }
     }
 
     private fun updateViewData() = viewModelScope.launch {
@@ -139,20 +149,22 @@ class TypesFilterViewModel @Inject constructor(
         val numberOfCards = prefsInteractor.getNumberOfCards()
         val isDarkTheme = prefsInteractor.getDarkMode()
         val filter = typesFilter.value ?: return emptyList()
-
-        val typesViewData = types.map { type ->
-            val isFiltered = when (filter.filterType) {
-                ChartFilterType.ACTIVITY -> type.id !in filter.selectedIds
-                ChartFilterType.CATEGORY -> type.id !in recordTypeCategories
+        val typesMap = types.map { it.id to it }.toMap()
+        val selectedTypes = types.map(RecordType::id).filter { typeId ->
+            when (filter.filterType) {
+                ChartFilterType.ACTIVITY -> typeId in filter.selectedIds
+                ChartFilterType.CATEGORY -> typeId in recordTypeCategories
                     .filter { it.categoryId in filter.selectedIds }
                     .map { it.recordTypeId }
             }
+        }
 
+        val typesViewData = types.map { type ->
             recordTypeViewDataMapper.mapFiltered(
                 recordType = type,
                 numberOfCards = numberOfCards,
                 isDarkTheme = isDarkTheme,
-                isFiltered = isFiltered
+                isFiltered = type.id !in selectedTypes
             )
         }
 
@@ -167,11 +179,34 @@ class TypesFilterViewModel @Inject constructor(
             )
         }
 
-        HintViewData(resourceRepo.getString(R.string.types_filter_activity_tag_hint)).let(result::add)
-        activityTagsViewData.let(result::addAll)
-        TypesFilterDividerViewData(1).let(result::add)
-        HintViewData(resourceRepo.getString(R.string.types_filter_activity_hint)).let(result::add)
-        typesViewData.let(result::addAll)
+        val recordTagsViewData = recordTags
+            .filter { it.typeId in selectedTypes }
+            .mapNotNull { tag ->
+                categoryViewDataMapper.map(
+                    tag = tag,
+                    type = typesMap[tag.typeId] ?: return@mapNotNull null,
+                    isDarkTheme = isDarkTheme
+                )
+            }
+
+        if (activityTagsViewData.isNotEmpty()) {
+            HintViewData(resourceRepo.getString(R.string.types_filter_activity_tag_hint)).let(result::add)
+            activityTagsViewData.let(result::addAll)
+        }
+
+        if (typesViewData.isNotEmpty()) {
+            if (activityTagsViewData.isNotEmpty()) {
+                TypesFilterDividerViewData(1).let(result::add)
+            }
+            HintViewData(resourceRepo.getString(R.string.types_filter_activity_hint)).let(result::add)
+            typesViewData.let(result::addAll)
+        }
+
+        if (recordTagsViewData.isNotEmpty()) {
+            TypesFilterDividerViewData(2).let(result::add)
+            HintViewData(resourceRepo.getString(R.string.types_filter_record_tag_hint)).let(result::add)
+            recordTagsViewData.let(result::addAll)
+        }
 
         return result
     }
