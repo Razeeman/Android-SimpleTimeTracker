@@ -143,11 +143,18 @@ class ChangeRecordTagViewModel @Inject constructor(
         val type = recordTypeInteractor.get(newTypeId)
         val isDarkTheme = prefsInteractor.getDarkMode()
 
-        return categoryViewDataMapper.map(
-            tag = tag,
-            type = type,
-            isDarkTheme = isDarkTheme
-        )
+        return if (type == null) {
+            categoryViewDataMapper.mapRecordTagUntyped(
+                tag = tag,
+                isDarkTheme = isDarkTheme
+            )
+        } else {
+            categoryViewDataMapper.mapRecordTag(
+                tag = tag,
+                type = type,
+                isDarkTheme = isDarkTheme
+            )
+        }
     }
 
     private suspend fun loadTypesViewData(): List<ViewHolderType> {

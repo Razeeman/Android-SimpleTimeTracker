@@ -37,7 +37,7 @@ class CategoriesViewDataInteractor @Inject constructor(
 
         categoriesViewDataMapper.mapToTypeTagHint().let(result::add)
         categories.map { category ->
-            categoryViewDataMapper.map(
+            categoryViewDataMapper.mapActivityTag(
                 category = category,
                 isDarkTheme = isDarkTheme
             )
@@ -55,7 +55,7 @@ class CategoriesViewDataInteractor @Inject constructor(
 
         categoriesViewDataMapper.mapToRecordTagHint().let(result::add)
         tags.mapNotNull { tag ->
-            categoryViewDataMapper.map(
+            categoryViewDataMapper.mapRecordTag(
                 tag = tag,
                 type = types.firstOrNull { it.id == tag.typeId } ?: return@mapNotNull null,
                 isDarkTheme = isDarkTheme

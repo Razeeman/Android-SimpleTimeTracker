@@ -7,14 +7,14 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import javax.inject.Inject
 
-class CategoryViewDataInteractor @Inject constructor(
+class RecordTagViewDataInteractor @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
     private val recordTagInteractor: RecordTagInteractor,
     private val categoryViewDataMapper: CategoryViewDataMapper
 ) {
 
-    suspend fun getCategoriesViewData(newTypeId: Long): List<ViewHolderType> {
+    suspend fun getViewData(newTypeId: Long): List<ViewHolderType> {
         if (newTypeId == 0L) {
             return categoryViewDataMapper.mapToTypeNotSelected()
         }
@@ -25,8 +25,14 @@ class CategoryViewDataInteractor @Inject constructor(
         return recordTagInteractor.getByType(newTypeId)
             .filterNot { it.archived }
             .takeUnless { it.isEmpty() }
-            ?.map { categoryViewDataMapper.map(it, type, isDarkTheme) }
-            ?.plus(categoryViewDataMapper.mapUntagged(isDarkTheme))
-            ?: categoryViewDataMapper.mapToCategoriesEmpty()
+            ?.mapNotNull {
+                categoryViewDataMapper.mapRecordTag(
+                    tag = it,
+                    type = type ?: return@mapNotNull null,
+                    isDarkTheme = isDarkTheme
+                )
+            }
+            ?.plus(categoryViewDataMapper.mapRecordTagUntagged(isDarkTheme))
+            ?: categoryViewDataMapper.mapToRecordTagsEmpty()
     }
 }

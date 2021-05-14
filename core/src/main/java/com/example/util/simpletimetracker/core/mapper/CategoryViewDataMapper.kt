@@ -16,68 +16,61 @@ class CategoryViewDataMapper @Inject constructor(
     private val resourceRepo: ResourceRepo
 ) {
 
-    fun map(
+    fun mapActivityTag(
         category: Category,
-        isDarkTheme: Boolean
+        isDarkTheme: Boolean,
+        isFiltered: Boolean = false
     ): CategoryViewData {
         return CategoryViewData(
             type = TagType.RECORD_TYPE,
             id = category.id,
             name = category.name,
-            textColor = colorMapper.toIconColor(isDarkTheme),
-            color = category.color
-                .let { colorMapper.mapToColorResId(it, isDarkTheme) }
-                .let(resourceRepo::getColor)
+            textColor = getTextColor(isDarkTheme, isFiltered),
+            color = getColor(category.color, isDarkTheme, isFiltered)
         )
     }
 
-    fun mapFiltered(
-        category: Category,
-        isDarkTheme: Boolean,
-        isFiltered: Boolean
-    ): CategoryViewData {
-        val default = map(category, isDarkTheme)
-
-        return if (isFiltered) {
-            default.copy(
-                color = colorMapper.toFilteredColor(isDarkTheme),
-                textColor = colorMapper.toFilteredIconColor(isDarkTheme)
-            )
-        } else {
-            default
-        }
-    }
-
-    fun map(
+    fun mapRecordTag(
         tag: RecordTag,
-        type: RecordType?,
-        isDarkTheme: Boolean
+        type: RecordType,
+        isDarkTheme: Boolean,
+        isFiltered: Boolean = false
     ): CategoryViewData {
         return CategoryViewData(
             type = TagType.RECORD,
             id = tag.id,
             name = tag.name,
-            textColor = colorMapper.toIconColor(isDarkTheme),
-            color = type?.color
-                ?.let { colorMapper.mapToColorResId(it, isDarkTheme) }
-                ?.let(resourceRepo::getColor)
-                ?: colorMapper.toUntrackedColor(isDarkTheme)
+            textColor = getTextColor(isDarkTheme, isFiltered),
+            color = getColor(type.color, isDarkTheme, isFiltered)
         )
     }
 
-    fun mapUntagged(
+    fun mapRecordTagUntagged(
         isDarkTheme: Boolean
     ): CategoryViewData {
         return CategoryViewData(
             type = TagType.RECORD,
             id = 0L,
             name = R.string.change_record_untagged.let(resourceRepo::getString),
-            textColor = colorMapper.toIconColor(isDarkTheme),
+            textColor = getTextColor(isDarkTheme, false),
             color = colorMapper.toUntrackedColor(isDarkTheme)
         )
     }
 
-    fun mapToCategoriesEmpty(): List<ViewHolderType> {
+    fun mapRecordTagUntyped(
+        tag: RecordTag,
+        isDarkTheme: Boolean
+    ): CategoryViewData {
+        return CategoryViewData(
+            type = TagType.RECORD,
+            id = 0L,
+            name = tag.name,
+            textColor = getTextColor(isDarkTheme, false),
+            color = colorMapper.toUntrackedColor(isDarkTheme)
+        )
+    }
+
+    fun mapToRecordTagsEmpty(): List<ViewHolderType> {
         return EmptyViewData(
             message = resourceRepo.getString(R.string.change_record_categories_empty)
         ).let(::listOf)
@@ -87,5 +80,30 @@ class CategoryViewDataMapper @Inject constructor(
         return EmptyViewData(
             message = resourceRepo.getString(R.string.change_record_activity_not_selected)
         ).let(::listOf)
+    }
+
+    private fun getTextColor(
+        isDarkTheme: Boolean,
+        isFiltered: Boolean
+    ): Int {
+        return if (isFiltered) {
+            colorMapper.toFilteredIconColor(isDarkTheme)
+        } else {
+            colorMapper.toIconColor(isDarkTheme)
+        }
+    }
+
+    private fun getColor(
+        colorId: Int,
+        isDarkTheme: Boolean,
+        isFiltered: Boolean
+    ): Int {
+        return if (isFiltered) {
+            colorMapper.toFilteredColor(isDarkTheme)
+        } else {
+            colorId
+                .let { colorMapper.mapToColorResId(it, isDarkTheme) }
+                .let(resourceRepo::getColor)
+        }
     }
 }

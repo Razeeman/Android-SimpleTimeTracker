@@ -41,7 +41,7 @@ class ChangeRecordTypeViewDataInteractor @Inject constructor(
                 ).let(viewData::add)
 
                 selected.map {
-                    categoryViewDataMapper.map(
+                    categoryViewDataMapper.mapActivityTag(
                         category = it,
                         isDarkTheme = isDarkTheme
                     )
@@ -52,7 +52,7 @@ class ChangeRecordTypeViewDataInteractor @Inject constructor(
                     ?.let(viewData::add)
 
                 available.map {
-                    categoryViewDataMapper.map(
+                    categoryViewDataMapper.mapActivityTag(
                         category = it,
                         isDarkTheme = isDarkTheme
                     )

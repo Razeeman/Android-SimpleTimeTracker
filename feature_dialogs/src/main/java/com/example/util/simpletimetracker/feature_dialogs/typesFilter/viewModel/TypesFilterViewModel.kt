@@ -172,7 +172,7 @@ class TypesFilterViewModel @Inject constructor(
             val isFiltered = filter.filterType != ChartFilterType.CATEGORY ||
                 tag.id !in filter.selectedIds
 
-            categoryViewDataMapper.mapFiltered(
+            categoryViewDataMapper.mapActivityTag(
                 category = tag,
                 isDarkTheme = isDarkTheme,
                 isFiltered = isFiltered
@@ -182,7 +182,7 @@ class TypesFilterViewModel @Inject constructor(
         val recordTagsViewData = recordTags
             .filter { it.typeId in selectedTypes }
             .mapNotNull { tag ->
-                categoryViewDataMapper.map(
+                categoryViewDataMapper.mapRecordTag(
                     tag = tag,
                     type = typesMap[tag.typeId] ?: return@mapNotNull null,
                     isDarkTheme = isDarkTheme
