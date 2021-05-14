@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.extension.set
-import com.example.util.simpletimetracker.core.interactor.TypesFilterInteractor
 import com.example.util.simpletimetracker.core.mapper.RangeMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
@@ -48,7 +47,6 @@ class StatisticsDetailViewModel @Inject constructor(
     private val previewInteractor: StatisticsDetailPreviewInteractor,
     private val statsInteractor: StatisticsDetailStatsInteractor,
     private val splitChartInteractor: StatisticsDetailSplitChartInteractor,
-    private val typesFilterInteractor: TypesFilterInteractor,
     private val mapper: StatisticsDetailViewDataMapper,
     private val rangeMapper: RangeMapper,
     private val timeMapper: TimeMapper
@@ -148,13 +146,12 @@ class StatisticsDetailViewModel @Inject constructor(
     fun onRecordsClick() {
         viewModelScope.launch {
             val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
-            val typeIds = typesFilterInteractor.getTypeIds(typesFilter)
             val range = timeMapper.getRangeStartAndEnd(rangeLength, rangePosition, firstDayOfWeek)
 
             router.navigate(
                 Screen.RECORDS_ALL,
                 RecordsAllParams(
-                    typeIds = typeIds,
+                    filter = typesFilter,
                     rangeStart = range.first,
                     rangeEnd = range.second
                 )

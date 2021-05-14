@@ -9,7 +9,6 @@ import com.example.util.simpletimetracker.core.adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.core.extension.toParams
 import com.example.util.simpletimetracker.core.view.TransitionNames
 import com.example.util.simpletimetracker.core.viewData.RecordViewData
-import com.example.util.simpletimetracker.feature_records_all.extra.RecordsAllExtra
 import com.example.util.simpletimetracker.feature_records_all.interactor.RecordsAllViewDataInteractor
 import com.example.util.simpletimetracker.feature_records_all.mapper.RecordsAllViewDataMapper
 import com.example.util.simpletimetracker.feature_records_all.model.RecordsAllSortOrder
@@ -17,6 +16,7 @@ import com.example.util.simpletimetracker.feature_records_all.viewData.RecordsAl
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
 import com.example.util.simpletimetracker.navigation.params.ChangeRecordParams
+import com.example.util.simpletimetracker.navigation.params.RecordsAllParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -26,7 +26,7 @@ class RecordsAllViewModel @Inject constructor(
     private val recordsAllViewDataMapper: RecordsAllViewDataMapper
 ) : ViewModel() {
 
-    lateinit var extra: RecordsAllExtra
+    lateinit var extra: RecordsAllParams
 
     val records: LiveData<List<ViewHolderType>> by lazy {
         return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
@@ -46,7 +46,6 @@ class RecordsAllViewModel @Inject constructor(
     }
 
     private var sortOrder: RecordsAllSortOrder = RecordsAllSortOrder.TIME_STARTED
-    private val typesSelected: MutableList<Long> by lazy { extra.typeIds.toMutableList() }
 
     fun onRecordClick(item: RecordViewData, sharedElements: Map<Any, String>) {
         if (item is RecordViewData.Tracked) {
@@ -94,7 +93,7 @@ class RecordsAllViewModel @Inject constructor(
 
     private suspend fun loadRecordsViewData(): List<ViewHolderType> {
         return recordsAllViewDataInteractor.getViewData(
-            typesSelected = typesSelected,
+            filter = extra.filter,
             sortOrder = sortOrder,
             rangeStart = extra.rangeStart,
             rangeEnd = extra.rangeEnd

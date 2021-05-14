@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.feature_records_all.interactor
 
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.core.interactor.TypesFilterInteractor
 import com.example.util.simpletimetracker.core.mapper.RangeMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -10,6 +11,7 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.feature_records_all.mapper.RecordsAllViewDataMapper
 import com.example.util.simpletimetracker.feature_records_all.model.RecordsAllSortOrder
 import com.example.util.simpletimetracker.feature_records_all.viewData.RecordsAllDateViewData
+import com.example.util.simpletimetracker.navigation.params.TypesFilterParams
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.Calendar
@@ -20,13 +22,14 @@ class RecordsAllViewDataInteractor @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
     private val recordTagInteractor: RecordTagInteractor,
     private val prefsInteractor: PrefsInteractor,
+    private val typesFilterInteractor: TypesFilterInteractor,
     private val recordsAllViewDataMapper: RecordsAllViewDataMapper,
     private val timeMapper: TimeMapper,
     private val rangeMapper: RangeMapper
 ) {
 
     suspend fun getViewData(
-        typesSelected: List<Long>,
+        filter: TypesFilterParams,
         sortOrder: RecordsAllSortOrder,
         rangeStart: Long,
         rangeEnd: Long
@@ -35,15 +38,18 @@ class RecordsAllViewDataInteractor @Inject constructor(
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
         val recordTypes = recordTypeInteractor.getAll().map { it.id to it }.toMap()
         val recordTags = recordTagInteractor.getAll().map { it.id to it }.toMap()
-        val records = recordInteractor.getByType(typesSelected).let {
-            if (rangeStart != 0L && rangeEnd != 0L) {
-                rangeMapper.getRecordsFromRange(it, rangeStart, rangeEnd)
-                    // Skip records that started before this time range.
-                    .filter { record -> record.timeStarted > rangeStart }
-            } else {
-                it
+        val typesSelected = typesFilterInteractor.getTypeIds(filter)
+        val records = recordInteractor.getByType(typesSelected)
+            .filter { it.tagId !in filter.filteredRecordTags }
+            .let {
+                if (rangeStart != 0L && rangeEnd != 0L) {
+                    rangeMapper.getRecordsFromRange(it, rangeStart, rangeEnd)
+                        // Skip records that started before this time range.
+                        .filter { record -> record.timeStarted > rangeStart }
+                } else {
+                    it
+                }
             }
-        }
 
         return withContext(Dispatchers.Default) {
             records

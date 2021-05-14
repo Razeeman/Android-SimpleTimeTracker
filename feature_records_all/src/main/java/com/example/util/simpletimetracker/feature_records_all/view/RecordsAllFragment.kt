@@ -15,7 +15,6 @@ import com.example.util.simpletimetracker.core.viewModel.RemoveRecordViewModel
 import com.example.util.simpletimetracker.feature_records_all.R
 import com.example.util.simpletimetracker.feature_records_all.adapter.createRecordAllDateAdapterDelegate
 import com.example.util.simpletimetracker.feature_records_all.di.RecordsAllComponentProvider
-import com.example.util.simpletimetracker.feature_records_all.extra.RecordsAllExtra
 import com.example.util.simpletimetracker.feature_records_all.viewData.RecordsAllSortOrderViewData
 import com.example.util.simpletimetracker.feature_records_all.viewModel.RecordsAllViewModel
 import com.example.util.simpletimetracker.navigation.Notification
@@ -81,7 +80,7 @@ class RecordsAllFragment : BaseFragment(R.layout.records_all_fragment) {
 
     override fun initViewModel() {
         with(viewModel) {
-            extra = RecordsAllExtra(params.typeIds, params.rangeStart, params.rangeEnd)
+            extra = params
             records.observe(viewLifecycleOwner, recordsAdapter::replaceAsNew)
             sortOrderViewData.observe(viewLifecycleOwner, ::updateCardOrderViewData)
         }
