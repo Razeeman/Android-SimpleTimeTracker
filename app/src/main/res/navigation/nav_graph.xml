@@ -45,6 +45,13 @@
             app:exitAnim="@anim/fragment_close_exit"
             app:popEnterAnim="@anim/fragment_open_enter"
             app:popExitAnim="@anim/fragment_close_exit" />
+        <action
+            android:id="@+id/action_mainFragment_to_archiveFragment"
+            app:destination="@id/archiveFragment"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_close_exit"
+            app:popEnterAnim="@anim/fragment_open_enter"
+            app:popExitAnim="@anim/fragment_close_exit" />
     </fragment>
     <fragment
         android:id="@+id/changeRecordTypeFragment"
@@ -79,7 +86,7 @@
         android:name="com.example.util.simpletimetracker.feature_dialogs.dateTime.DateTimeDialogFragment"
         android:label="DateTimeDialog"
         tools:layout="@layout/date_dialog_fragment" />
-     <dialog
+    <dialog
         android:id="@+id/durationDialog"
         android:name="com.example.util.simpletimetracker.feature_dialogs.duration.view.DurationDialogFragment"
         android:label="DurationDialog"
@@ -156,4 +163,9 @@
         android:name="com.example.util.simpletimetracker.feature_change_record_tag.view.ChangeRecordTagFragment"
         android:label="ChangeRecordTagFragment"
         tools:layout="@layout/change_record_tag_fragment" />
+    <fragment
+        android:id="@+id/archiveFragment"
+        android:name="com.example.util.simpletimetracker.feature_archive.view.ArchiveFragment"
+        android:label="ArchiveFragment"
+        tools:layout="@layout/archive_fragment" />
 </navigation>

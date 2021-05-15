@@ -275,6 +275,10 @@ class SettingsViewModel @Inject constructor(
         router.navigate(Screen.CATEGORIES)
     }
 
+    fun onArchiveClick() {
+        router.navigate(Screen.ARCHIVE)
+    }
+
     fun onPositiveDialogClick(tag: String?) {
         when (tag) {
             ALERT_DIALOG_TAG -> router.execute(

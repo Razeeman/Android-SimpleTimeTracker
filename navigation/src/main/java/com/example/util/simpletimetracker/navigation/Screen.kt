@@ -10,6 +10,7 @@ enum class Screen {
     CATEGORIES,
     CHANGE_CATEGORY,
     CHANGE_RECORD_TAG,
+    ARCHIVE,
 
     STANDARD_DIALOG,
     DATE_TIME_DIALOG,

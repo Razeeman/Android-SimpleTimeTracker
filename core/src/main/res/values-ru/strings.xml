@@ -9,6 +9,10 @@
     <string name="day_of_week_saturday">Сб</string>
     <string name="day_of_week_sunday">Вс</string>
 
+    <string name="activity_hint">Активности</string>
+    <string name="activity_tag_hint">Теги активностей</string>
+    <string name="record_tag_hint">Теги записей</string>
+
     <!--  Range selection  -->
     <string name="title_yesterday">Вчера</string>
     <string name="title_today">Сегодня</string>
@@ -106,9 +110,6 @@
     <string name="chart_filter_hint">Фильтр</string>
     <string name="types_filter_show_all">Показать все</string>
     <string name="types_filter_hide_all">Скрыть все</string>
-    <string name="types_filter_activity_hint">Активности</string>
-    <string name="types_filter_activity_tag_hint">Теги активностей</string>
-    <string name="types_filter_record_tag_hint">Теги записей</string>
     <string name="chart_filter_type_hint">Тип статистики</string>
     <string name="chart_filter_type_activity">Активности</string>
     <string name="chart_filter_type_category">Теги</string>
@@ -146,6 +147,7 @@
     <string name="settings_dark_mode">Темный режим</string>
     <string name="settings_use_military_time">24-часовой формат</string>
     <string name="settings_change_card_size">Изменить размер карточки активности</string>
+    <string name="settings_archive">Архив</string>
     <string name="settings_edit_categories">Редактировать теги</string>
     <string name="settings_edit_categories_hint">Назначьте теги активностям и записям.</string>
     <string name="settings_rate">Оцените нас</string>

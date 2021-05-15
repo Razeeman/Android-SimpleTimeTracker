@@ -189,6 +189,20 @@
 
                 </LinearLayout>
 
+                <View
+                    style="@style/SettingsDivider"
+                    android:layout_width="match_parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSettingsArchive"
+                    style="@style/SettingsText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:text="@string/settings_archive" />
+
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>

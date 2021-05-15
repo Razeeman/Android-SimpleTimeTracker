@@ -63,6 +63,7 @@ class SettingsFragment : BaseFragment(R.layout.settings_fragment),
         checkboxSettingsUseMilitaryTime.setOnClick(viewModel::onUseMilitaryTimeClicked)
         tvSettingsChangeCardSize.setOnClick(viewModel::onChangeCardSizeClick)
         layoutSettingsEditCategories.setOnClick(viewModel::onEditCategoriesClick)
+        tvSettingsArchive.setOnClick(viewModel::onArchiveClick)
         layoutSettingsSaveBackup.setOnClick(viewModel::onSaveClick)
         layoutSettingsRestoreBackup.setOnClick(viewModel::onRestoreClick)
         layoutSettingsExportCsv.setOnClick(viewModel::onExportCsvClick)

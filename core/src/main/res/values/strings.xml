@@ -9,6 +9,10 @@
     <string name="day_of_week_saturday">Sat</string>
     <string name="day_of_week_sunday">Sun</string>
 
+    <string name="activity_hint">Activities</string>
+    <string name="activity_tag_hint">Activity tags</string>
+    <string name="record_tag_hint">Record tags</string>
+
     <!--  Range selection  -->
     <string name="title_yesterday">Yesterday</string>
     <string name="title_today">Today</string>
@@ -106,9 +110,6 @@
     <string name="chart_filter_hint">Filter</string>
     <string name="types_filter_show_all">Show all</string>
     <string name="types_filter_hide_all">Hide all</string>
-    <string name="types_filter_activity_hint">Activities</string>
-    <string name="types_filter_activity_tag_hint">Activity tags</string>
-    <string name="types_filter_record_tag_hint">Record tags</string>
     <string name="chart_filter_type_hint">Statistics type</string>
     <string name="chart_filter_type_activity">Activity</string>
     <string name="chart_filter_type_category">Tag</string>
@@ -146,6 +147,7 @@
     <string name="settings_dark_mode">Dark mode</string>
     <string name="settings_use_military_time">Use 24-hour format</string>
     <string name="settings_change_card_size">Change activity card size</string>
+    <string name="settings_archive">Archive</string>
     <string name="settings_edit_categories">Edit tags</string>
     <string name="settings_edit_categories_hint">Assign tags to activities and records.</string>
     <string name="settings_rate">Rate us</string>

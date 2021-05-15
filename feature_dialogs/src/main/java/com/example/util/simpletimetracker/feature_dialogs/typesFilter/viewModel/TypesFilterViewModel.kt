@@ -235,7 +235,7 @@ class TypesFilterViewModel @Inject constructor(
             }
 
         if (activityTagsViewData.isNotEmpty()) {
-            HintViewData(resourceRepo.getString(R.string.types_filter_activity_tag_hint)).let(result::add)
+            HintViewData(resourceRepo.getString(R.string.activity_tag_hint)).let(result::add)
             activityTagsViewData.let(result::addAll)
         }
 
@@ -243,13 +243,13 @@ class TypesFilterViewModel @Inject constructor(
             if (activityTagsViewData.isNotEmpty()) {
                 DividerViewData(1).let(result::add)
             }
-            HintViewData(resourceRepo.getString(R.string.types_filter_activity_hint)).let(result::add)
+            HintViewData(resourceRepo.getString(R.string.activity_hint)).let(result::add)
             typesViewData.let(result::addAll)
         }
 
         if (recordTagsViewData.isNotEmpty()) {
             DividerViewData(2).let(result::add)
-            HintViewData(resourceRepo.getString(R.string.types_filter_record_tag_hint)).let(result::add)
+            HintViewData(resourceRepo.getString(R.string.record_tag_hint)).let(result::add)
             recordTagsViewData.let(result::addAll)
         }
 

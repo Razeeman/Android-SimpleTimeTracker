@@ -81,6 +81,13 @@ class ScreenResolverImpl @Inject constructor() : ScreenResolver {
                     null,
                     navExtras
                 )
+            Screen.ARCHIVE ->
+                navController?.navigate(
+                    R.id.action_mainFragment_to_archiveFragment,
+                    null,
+                    null,
+                    navExtras
+                )
             Screen.CHANGE_CATEGORY ->
                 navController?.navigate(
                     R.id.action_categoriesFragment_to_changeCategoryFragment,
