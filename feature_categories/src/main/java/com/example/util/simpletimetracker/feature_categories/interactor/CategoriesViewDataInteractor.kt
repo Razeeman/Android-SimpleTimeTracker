@@ -1,13 +1,13 @@
 package com.example.util.simpletimetracker.feature_categories.interactor
 
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.core.adapter.divider.DividerViewData
 import com.example.util.simpletimetracker.core.mapper.CategoryViewDataMapper
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.feature_categories.mapper.CategoriesViewDataMapper
-import com.example.util.simpletimetracker.feature_categories.viewData.CategoryDividerViewData
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import javax.inject.Inject
@@ -26,7 +26,7 @@ class CategoriesViewDataInteractor @Inject constructor(
         val recordTags = async { getRecordTagViewData() }
 
         typeTags.await() +
-            CategoryDividerViewData +
+            DividerViewData(1) +
             recordTags.await()
     }
 

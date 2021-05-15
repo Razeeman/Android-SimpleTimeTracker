@@ -12,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.category.createCategoryAdapterDelegate
+import com.example.util.simpletimetracker.core.adapter.divider.createDividerAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.hint.createHintAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.recordType.createRecordTypeAdapterDelegate
@@ -22,7 +23,6 @@ import com.example.util.simpletimetracker.core.extension.setFullScreen
 import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
 import com.example.util.simpletimetracker.feature_dialogs.R
-import com.example.util.simpletimetracker.feature_dialogs.typesFilter.adapter.createTypesFilterDividerAdapterDelegate
 import com.example.util.simpletimetracker.feature_dialogs.typesFilter.di.TypesFilterComponentProvider
 import com.example.util.simpletimetracker.feature_dialogs.typesFilter.viewModel.TypesFilterViewModel
 import com.example.util.simpletimetracker.navigation.params.TypesFilterDialogParams
@@ -48,7 +48,7 @@ class TypesFilterDialogFragment : BottomSheetDialogFragment() {
         BaseRecyclerAdapter(
             createLoaderAdapterDelegate(),
             createHintAdapterDelegate(),
-            createTypesFilterDividerAdapterDelegate(),
+            createDividerAdapterDelegate(),
             createRecordTypeAdapterDelegate(viewModel::onRecordTypeClick),
             createCategoryAdapterDelegate(viewModel::onCategoryClick)
         )

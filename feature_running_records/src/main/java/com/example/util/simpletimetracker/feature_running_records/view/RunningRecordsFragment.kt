@@ -3,13 +3,13 @@ package com.example.util.simpletimetracker.feature_running_records.view
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
+import com.example.util.simpletimetracker.core.adapter.divider.createDividerAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.feature_running_records.R
 import com.example.util.simpletimetracker.feature_running_records.adapter.createRunningRecordAdapterDelegate
-import com.example.util.simpletimetracker.feature_running_records.adapter.createRunningRecordDividerAdapterDelegate
 import com.example.util.simpletimetracker.feature_running_records.adapter.createRunningRecordTypeAdapterDelegate
 import com.example.util.simpletimetracker.feature_running_records.adapter.createRunningRecordTypeAddAdapterDelegate
 import com.example.util.simpletimetracker.feature_running_records.di.RunningRecordsComponentProvider
@@ -32,11 +32,11 @@ class RunningRecordsFragment : BaseFragment(R.layout.running_records_fragment) {
 
     private val runningRecordsAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
-            createRunningRecordAdapterDelegate(viewModel::onRunningRecordClick, viewModel::onRunningRecordLongClick),
-            createRunningRecordDividerAdapterDelegate(),
-            createRunningRecordTypeAdapterDelegate(viewModel::onRecordTypeClick, viewModel::onRecordTypeLongClick),
             createLoaderAdapterDelegate(),
             createEmptyAdapterDelegate(),
+            createDividerAdapterDelegate(),
+            createRunningRecordAdapterDelegate(viewModel::onRunningRecordClick, viewModel::onRunningRecordLongClick),
+            createRunningRecordTypeAdapterDelegate(viewModel::onRecordTypeClick, viewModel::onRecordTypeLongClick),
             createRunningRecordTypeAddAdapterDelegate(viewModel::onAddRecordTypeClick)
         )
     }

@@ -32,10 +32,10 @@ class ArchiveFragment : BaseFragment(R.layout.archive_fragment) {
     private val archiveAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
             createLoaderAdapterDelegate(),
-            createRecordTypeAdapterDelegate(viewModel::onRecordTypeClick),
-            createCategoryAdapterDelegate(viewModel::onCategoryClick),
+            createHintAdapterDelegate(),
             createDividerAdapterDelegate(),
-            createHintAdapterDelegate()
+            createRecordTypeAdapterDelegate(viewModel::onRecordTypeClick),
+            createCategoryAdapterDelegate(viewModel::onCategoryClick)
         )
     }
 

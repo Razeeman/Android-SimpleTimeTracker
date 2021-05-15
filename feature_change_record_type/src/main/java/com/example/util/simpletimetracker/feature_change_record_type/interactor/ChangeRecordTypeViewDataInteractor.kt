@@ -47,7 +47,7 @@ class ChangeRecordTypeViewDataInteractor @Inject constructor(
                     )
                 }.let(viewData::addAll)
 
-                DividerViewData
+                DividerViewData(1)
                     .takeUnless { available.isEmpty() }
                     ?.let(viewData::add)
 

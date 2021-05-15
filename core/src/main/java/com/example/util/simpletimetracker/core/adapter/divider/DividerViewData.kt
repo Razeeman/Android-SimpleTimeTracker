@@ -2,10 +2,12 @@ package com.example.util.simpletimetracker.core.adapter.divider
 
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 
-object DividerViewData : ViewHolderType {
+data class DividerViewData(
+    val id: Long
+) : ViewHolderType {
 
-    // Only one item on screen
-    override fun getUniqueId(): Long = 1L
+    override fun getUniqueId(): Long = id
 
-    override fun isValidType(other: ViewHolderType): Boolean = other is DividerViewData
+    override fun isValidType(other: ViewHolderType): Boolean =
+        other is DividerViewData
 }

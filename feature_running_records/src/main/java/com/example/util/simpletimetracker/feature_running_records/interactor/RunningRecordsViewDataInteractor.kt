@@ -1,12 +1,12 @@
 package com.example.util.simpletimetracker.feature_running_records.interactor
 
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.core.adapter.divider.DividerViewData
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.feature_running_records.mapper.RunningRecordViewDataMapper
-import com.example.util.simpletimetracker.feature_running_records.viewData.RunningRecordDividerViewData
 import javax.inject.Inject
 
 class RunningRecordsViewDataInteractor @Inject constructor(
@@ -65,7 +65,7 @@ class RunningRecordsViewDataInteractor @Inject constructor(
             )
 
         return runningRecordsViewData +
-            listOf(RunningRecordDividerViewData) +
+            listOf(DividerViewData(1)) +
             recordTypesViewData
     }
 }

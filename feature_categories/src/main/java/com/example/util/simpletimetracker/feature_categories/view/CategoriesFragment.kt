@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.feature_categories.view
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
+import com.example.util.simpletimetracker.core.adapter.divider.createDividerAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.hint.createHintAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.core.base.BaseFragment
@@ -10,7 +11,6 @@ import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.feature_categories.R
 import com.example.util.simpletimetracker.feature_categories.adapter.createCategoryAdapterDelegate
 import com.example.util.simpletimetracker.feature_categories.adapter.createCategoryAddAdapterDelegate
-import com.example.util.simpletimetracker.feature_categories.adapter.createCategoryDividerAdapterDelegate
 import com.example.util.simpletimetracker.feature_categories.di.CategoriesComponentProvider
 import com.example.util.simpletimetracker.feature_categories.viewModel.CategoriesViewModel
 import com.google.android.flexbox.FlexDirection
@@ -32,10 +32,10 @@ class CategoriesFragment : BaseFragment(R.layout.categories_fragment) {
     private val categoriesAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
             createLoaderAdapterDelegate(),
+            createDividerAdapterDelegate(),
+            createHintAdapterDelegate(),
             createCategoryAdapterDelegate(viewModel::onCategoryClick),
-            createCategoryAddAdapterDelegate(viewModel::onAddCategoryClick),
-            createCategoryDividerAdapterDelegate(),
-            createHintAdapterDelegate()
+            createCategoryAddAdapterDelegate(viewModel::onAddCategoryClick)
         )
     }
 

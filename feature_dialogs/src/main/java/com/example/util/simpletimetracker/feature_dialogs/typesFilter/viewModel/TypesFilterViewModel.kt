@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.category.CategoryViewData
+import com.example.util.simpletimetracker.core.adapter.divider.DividerViewData
 import com.example.util.simpletimetracker.core.adapter.hint.HintViewData
 import com.example.util.simpletimetracker.core.adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.core.extension.addOrRemove
@@ -28,7 +29,6 @@ import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RecordTypeCategory
 import com.example.util.simpletimetracker.domain.model.TagType
 import com.example.util.simpletimetracker.feature_dialogs.R
-import com.example.util.simpletimetracker.feature_dialogs.typesFilter.adapter.TypesFilterDividerViewData
 import com.example.util.simpletimetracker.navigation.params.TypesFilterParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -241,14 +241,14 @@ class TypesFilterViewModel @Inject constructor(
 
         if (typesViewData.isNotEmpty()) {
             if (activityTagsViewData.isNotEmpty()) {
-                TypesFilterDividerViewData(1).let(result::add)
+                DividerViewData(1).let(result::add)
             }
             HintViewData(resourceRepo.getString(R.string.types_filter_activity_hint)).let(result::add)
             typesViewData.let(result::addAll)
         }
 
         if (recordTagsViewData.isNotEmpty()) {
-            TypesFilterDividerViewData(2).let(result::add)
+            DividerViewData(2).let(result::add)
             HintViewData(resourceRepo.getString(R.string.types_filter_record_tag_hint)).let(result::add)
             recordTagsViewData.let(result::addAll)
         }
