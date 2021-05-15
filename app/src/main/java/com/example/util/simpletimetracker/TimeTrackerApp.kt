@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.di.AppComponent
 import com.example.util.simpletimetracker.di.AppModule
 import com.example.util.simpletimetracker.di.DaggerAppComponent
 import com.example.util.simpletimetracker.di.FeatureComponentProvider
+import com.example.util.simpletimetracker.feature_archive.di.ArchiveComponent
 import com.example.util.simpletimetracker.feature_categories.di.CategoriesComponent
 import com.example.util.simpletimetracker.feature_change_category.di.ChangeCategoryComponent
 import com.example.util.simpletimetracker.feature_change_record.di.ChangeRecordComponent
@@ -58,6 +59,7 @@ class TimeTrackerApp : Application(), FeatureComponentProvider {
     override var categoriesComponent: CategoriesComponent? = null
     override var changeCategoryComponent: ChangeCategoryComponent? = null
     override var changeRecordTagComponent: ChangeRecordTagComponent? = null
+    override var archiveComponent: ArchiveComponent? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -100,6 +102,7 @@ class TimeTrackerApp : Application(), FeatureComponentProvider {
         categoriesComponent = appComponent?.plusCategoriesComponent()
         changeCategoryComponent = appComponent?.plusChangeCategoryComponent()
         changeRecordTagComponent = appComponent?.plusChangeRecordTagComponent()
+        archiveComponent = appComponent?.plusArchiveComponent()
     }
 
     private fun initLibraries() {
