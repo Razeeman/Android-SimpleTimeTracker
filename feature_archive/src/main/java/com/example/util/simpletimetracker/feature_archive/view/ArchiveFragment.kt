@@ -12,6 +12,8 @@ import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.feature_archive.R
 import com.example.util.simpletimetracker.feature_archive.di.ArchiveComponentProvider
+import com.example.util.simpletimetracker.feature_archive.dialog.ArchiveDialogListener
+import com.example.util.simpletimetracker.feature_archive.dialog.ArchiveDialogParams
 import com.example.util.simpletimetracker.feature_archive.viewModel.ArchiveViewModel
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
@@ -20,7 +22,8 @@ import com.google.android.flexbox.JustifyContent
 import kotlinx.android.synthetic.main.archive_fragment.*
 import javax.inject.Inject
 
-class ArchiveFragment : BaseFragment(R.layout.archive_fragment) {
+class ArchiveFragment : BaseFragment(R.layout.archive_fragment),
+    ArchiveDialogListener {
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<ArchiveViewModel>
@@ -59,6 +62,12 @@ class ArchiveFragment : BaseFragment(R.layout.archive_fragment) {
     override fun initViewModel(): Unit = with(viewModel) {
         viewData.observe(viewLifecycleOwner, archiveAdapter::replace)
     }
+
+    override fun onDeleteClick(params: ArchiveDialogParams?) =
+        viewModel.onDeleteClick(params)
+
+    override fun onRestoreClick(params: ArchiveDialogParams?) =
+        viewModel.onRestoreClick(params)
 
     companion object {
         fun newInstance() = ArchiveFragment()

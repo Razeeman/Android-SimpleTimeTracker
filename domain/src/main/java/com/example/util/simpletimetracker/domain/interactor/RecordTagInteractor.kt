@@ -39,4 +39,8 @@ class RecordTagInteractor @Inject constructor(
     suspend fun archive(id: Long) {
         repo.archive(id)
     }
+
+    suspend fun restore(id: Long) {
+        repo.restore(id)
+    }
 }

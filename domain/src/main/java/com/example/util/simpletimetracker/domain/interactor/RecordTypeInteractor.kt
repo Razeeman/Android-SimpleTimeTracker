@@ -38,8 +38,13 @@ class RecordTypeInteractor @Inject constructor(
         return addedId
     }
 
-    suspend fun remove(id: Long) {
-        recordTypeRepo.remove(id)
+    suspend fun archive(id: Long) {
+        recordTypeRepo.archive(id)
+        recordTypeCacheRepo.clear()
+    }
+
+    suspend fun restore(id: Long) {
+        recordTypeRepo.restore(id)
         recordTypeCacheRepo.clear()
     }
 

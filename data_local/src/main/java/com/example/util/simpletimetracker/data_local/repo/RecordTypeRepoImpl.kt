@@ -38,9 +38,14 @@ class RecordTypeRepoImpl @Inject constructor(
         )
     }
 
-    override suspend fun remove(id: Long) = withContext(Dispatchers.IO) {
-        Timber.d("remove")
-        recordTypeDao.delete(id)
+    override suspend fun archive(id: Long) = withContext(Dispatchers.IO) {
+        Timber.d("archive")
+        recordTypeDao.archive(id)
+    }
+
+    override suspend fun restore(id: Long) = withContext(Dispatchers.IO) {
+        Timber.d("restore")
+        recordTypeDao.restore(id)
     }
 
     override suspend fun clear() = withContext(Dispatchers.IO) {

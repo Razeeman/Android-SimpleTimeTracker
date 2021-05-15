@@ -278,7 +278,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
         (deleteButtonEnabled as MutableLiveData).value = false
         viewModelScope.launch {
             if (extra.id != 0L) {
-                recordTypeInteractor.remove(extra.id)
+                recordTypeInteractor.archive(extra.id)
                 runningRecordInteractor.get(extra.id)?.let { runningRecord ->
                     recordInteractor.add(
                         typeId = runningRecord.id,

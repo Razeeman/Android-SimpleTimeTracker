@@ -224,6 +224,10 @@
     <string name="notification_time_started">Started at %s</string>
     <string name="notification_record_type_goal_time">goal %s</string>
 
+    <!--  Archive  -->
+    <string name="archive_dialog_delete">Delete</string>
+    <string name="archive_dialog_restore">Restore</string>
+
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Smileys &amp; Emotion</string>
     <string name="emojiGroupPeople">People &amp; Body</string>

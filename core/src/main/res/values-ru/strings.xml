@@ -214,6 +214,10 @@
     <string name="notification_time_started">Начато в %s</string>
     <string name="notification_record_type_goal_time">цель %s</string>
 
+    <!--  Archive  -->
+    <string name="archive_dialog_delete">Удалить</string>
+    <string name="archive_dialog_restore">Восстановить</string>
+
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Смайлы и эмоции</string>
     <string name="emojiGroupPeople">Люди и тело</string>

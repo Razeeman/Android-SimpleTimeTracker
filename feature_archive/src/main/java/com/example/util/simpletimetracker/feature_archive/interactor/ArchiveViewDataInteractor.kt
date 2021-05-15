@@ -63,6 +63,8 @@ class ArchiveViewDataInteractor @Inject constructor(
             recordTagsViewData.let(result::addAll)
         }
 
+        // TODO show hint if empty
+
         return result
     }
 }

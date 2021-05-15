@@ -12,7 +12,9 @@ interface RecordTypeRepo {
 
     suspend fun add(recordType: RecordType): Long
 
-    suspend fun remove(id: Long)
+    suspend fun archive(id: Long)
+
+    suspend fun restore(id: Long)
 
     suspend fun clear()
 }

@@ -41,6 +41,11 @@ class RecordTagRepoImpl @Inject constructor(
         dao.archive(id)
     }
 
+    override suspend fun restore(id: Long) = withContext(Dispatchers.IO) {
+        Timber.d("restore")
+        dao.restore(id)
+    }
+
     override suspend fun remove(id: Long) = withContext(Dispatchers.IO) {
         Timber.d("remove")
         dao.delete(id)

@@ -24,6 +24,9 @@ interface RecordTagDao {
     @Query("UPDATE recordTags SET archived = 1 WHERE id = :id")
     suspend fun archive(id: Long)
 
+    @Query("UPDATE recordTags SET archived = 0 WHERE id = :id")
+    suspend fun restore(id: Long)
+
     @Query("DELETE FROM recordTags WHERE id = :id")
     suspend fun delete(id: Long)
 

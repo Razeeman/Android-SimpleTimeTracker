@@ -22,7 +22,10 @@ interface RecordTypeDao {
     suspend fun insert(record: RecordTypeDBO): Long
 
     @Query("UPDATE recordTypes SET hidden = 1 WHERE id = :id")
-    suspend fun delete(id: Long)
+    suspend fun archive(id: Long)
+
+    @Query("UPDATE recordTypes SET hidden = 0 WHERE id = :id")
+    suspend fun restore(id: Long)
 
     @Query("DELETE FROM recordTypes")
     suspend fun clear()

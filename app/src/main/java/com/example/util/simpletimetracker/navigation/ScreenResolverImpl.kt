@@ -5,6 +5,7 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigator
 import androidx.navigation.fragment.FragmentNavigator
 import com.example.util.simpletimetracker.R
+import com.example.util.simpletimetracker.feature_archive.dialog.ArchiveDialogFragment
 import com.example.util.simpletimetracker.feature_change_category.view.ChangeCategoryFragment
 import com.example.util.simpletimetracker.feature_change_record.view.ChangeRecordFragment
 import com.example.util.simpletimetracker.feature_change_record_tag.view.ChangeRecordTagFragment
@@ -157,6 +158,13 @@ class ScreenResolverImpl @Inject constructor() : ScreenResolver {
                 navController?.navigate(
                     R.id.emojiSelectionDialogFragment,
                     EmojiSelectionDialogFragment.createBundle(data),
+                    null,
+                    navExtras
+                )
+            Screen.ARCHIVE_DIALOG ->
+                navController?.navigate(
+                    R.id.archiveDialogFragment,
+                    ArchiveDialogFragment.createBundle(data),
                     null,
                     navExtras
                 )

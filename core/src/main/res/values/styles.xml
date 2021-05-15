@@ -101,6 +101,15 @@
         <item name="android:textColor">?colorSecondary</item>
     </style>
 
+    <style name="BottomSheetDialog" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/BottomSheetStyleWrapper</item>
+        <item name="colorSecondary">@color/colorSecondary</item>
+    </style>
+
+    <style name="BottomSheetStyleWrapper" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
     <style name="ChangeRecordTypeInputFieldCard">
         <item name="cardBackgroundColor">?appBackgroundColor</item>
         <item name="cardPreventCornerOverlap">false</item>
