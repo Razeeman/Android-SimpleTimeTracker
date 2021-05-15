@@ -63,7 +63,9 @@ class ArchiveViewDataInteractor @Inject constructor(
             recordTagsViewData.let(result::addAll)
         }
 
-        // TODO show hint if empty
+        if (result.isEmpty()) {
+            HintViewData(resourceRepo.getString(R.string.archive_empty)).let(result::add)
+        }
 
         return result
     }

@@ -217,6 +217,9 @@
     <!--  Archive  -->
     <string name="archive_dialog_delete">Удалить</string>
     <string name="archive_dialog_restore">Восстановить</string>
+    <string name="archive_empty">Архив пуст</string>
+    <string name="archive_activity_restored">Активность восстановлена</string>
+    <string name="archive_tag_restored">Тег восстановлен</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Смайлы и эмоции</string>

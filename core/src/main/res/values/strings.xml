@@ -227,6 +227,9 @@
     <!--  Archive  -->
     <string name="archive_dialog_delete">Delete</string>
     <string name="archive_dialog_restore">Restore</string>
+    <string name="archive_empty">Archive is empty</string>
+    <string name="archive_activity_restored">Activity restored</string>
+    <string name="archive_tag_restored">Tag restored</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Smileys &amp; Emotion</string>
