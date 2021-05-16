@@ -230,6 +230,8 @@
     <string name="archive_empty">Archive is empty</string>
     <string name="archive_activity_restored">Activity restored</string>
     <string name="archive_tag_restored">Tag restored</string>
+    <string name="archive_activity_deleted">Activity deleted</string>
+    <string name="archive_tag_deleted">Tag deleted</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Smileys &amp; Emotion</string>

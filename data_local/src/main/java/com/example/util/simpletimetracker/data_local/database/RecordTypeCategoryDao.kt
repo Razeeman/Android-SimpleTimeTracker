@@ -34,6 +34,9 @@ interface RecordTypeCategoryDao {
     @Query("DELETE FROM recordTypeCategory WHERE category_id = :categoryId")
     suspend fun deleteAll(categoryId: Long)
 
+    @Query("DELETE FROM recordTypeCategory WHERE record_type_id = :typeId")
+    suspend fun deleteAllByType(typeId: Long)
+
     @Query("DELETE FROM recordTypeCategory")
     suspend fun clear()
 }

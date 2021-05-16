@@ -220,6 +220,8 @@
     <string name="archive_empty">Архив пуст</string>
     <string name="archive_activity_restored">Активность восстановлена</string>
     <string name="archive_tag_restored">Тег восстановлен</string>
+    <string name="archive_activity_deleted">Активность удалена</string>
+    <string name="archive_tag_deleted">Тег удален</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Смайлы и эмоции</string>

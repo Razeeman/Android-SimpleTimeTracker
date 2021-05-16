@@ -48,6 +48,11 @@ class RecordTypeInteractor @Inject constructor(
         recordTypeCacheRepo.clear()
     }
 
+    suspend fun remove(id: Long) {
+        recordTypeRepo.remove(id)
+        recordTypeCacheRepo.clear()
+    }
+
     suspend fun clear() {
         recordTypeRepo.clear()
         recordTypeCacheRepo.clear()

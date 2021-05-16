@@ -21,6 +21,9 @@ interface RunningRecordDao {
     @Query("DELETE FROM runningRecords WHERE id = :id")
     suspend fun delete(id: Long)
 
+    @Query("UPDATE runningRecords SET tag_id = 0 WHERE tag_id = :tagId")
+    suspend fun removeTag(tagId: Long)
+
     @Query("DELETE FROM runningRecords")
     suspend fun clear()
 }

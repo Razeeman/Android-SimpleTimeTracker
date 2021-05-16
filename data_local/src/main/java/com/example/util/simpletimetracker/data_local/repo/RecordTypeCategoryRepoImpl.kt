@@ -103,6 +103,12 @@ class RecordTypeCategoryRepoImpl @Inject constructor(
             recordTypeCategoryDao.deleteAll(categoryId)
         }
 
+    override suspend fun removeAllByType(typeId: Long) =
+        withContext(Dispatchers.IO) {
+            Timber.d("removeAllByType")
+            recordTypeCategoryDao.deleteAllByType(typeId)
+        }
+
     override suspend fun clear() =
         withContext(Dispatchers.IO) {
             Timber.d("clear")

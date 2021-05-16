@@ -25,5 +25,7 @@ interface RecordTypeCategoryRepo {
 
     suspend fun removeAll(categoryId: Long)
 
+    suspend fun removeAllByType(typeId: Long)
+
     suspend fun clear()
 }

@@ -27,6 +27,12 @@ interface RecordDao {
     @Query("DELETE FROM records WHERE id = :id")
     suspend fun delete(id: Long)
 
+    @Query("DELETE FROM records WHERE type_id = :typeId")
+    suspend fun deleteByType(typeId: Long)
+
+    @Query("UPDATE records SET tag_id = 0 WHERE tag_id = :tagId")
+    suspend fun removeTag(tagId: Long)
+
     @Query("DELETE FROM records")
     suspend fun clear()
 }

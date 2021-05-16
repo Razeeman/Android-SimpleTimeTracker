@@ -27,6 +27,9 @@ interface RecordTypeDao {
     @Query("UPDATE recordTypes SET hidden = 0 WHERE id = :id")
     suspend fun restore(id: Long)
 
+    @Query("DELETE FROM recordTypes WHERE id = :id")
+    suspend fun delete(id: Long)
+
     @Query("DELETE FROM recordTypes")
     suspend fun clear()
 }

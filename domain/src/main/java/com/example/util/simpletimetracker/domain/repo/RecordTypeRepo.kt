@@ -16,5 +16,7 @@ interface RecordTypeRepo {
 
     suspend fun restore(id: Long)
 
+    suspend fun remove(id: Long)
+
     suspend fun clear()
 }

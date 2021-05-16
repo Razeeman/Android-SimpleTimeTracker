@@ -53,6 +53,16 @@ class RecordRepoImpl @Inject constructor(
         recordDao.delete(id)
     }
 
+    override suspend fun removeByType(typeId: Long) = withContext(Dispatchers.IO) {
+        Timber.d("removeByType")
+        recordDao.deleteByType(typeId)
+    }
+
+    override suspend fun removeTag(tagId: Long) = withContext(Dispatchers.IO) {
+        Timber.d("removeTag")
+        recordDao.removeTag(tagId)
+    }
+
     override suspend fun clear() = withContext(Dispatchers.IO) {
         Timber.d("clear")
         recordDao.clear()

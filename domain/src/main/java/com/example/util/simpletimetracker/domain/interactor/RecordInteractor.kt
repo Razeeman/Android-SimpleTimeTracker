@@ -63,6 +63,16 @@ class RecordInteractor @Inject constructor(
         recordCacheRepo.clear()
     }
 
+    suspend fun removeByType(typeId: Long) {
+        recordRepo.removeByType(typeId)
+        recordCacheRepo.clear()
+    }
+
+    suspend fun removeTag(tagId: Long) {
+        recordRepo.removeTag(tagId)
+        recordCacheRepo.clear()
+    }
+
     suspend fun clear() {
         recordRepo.clear()
         recordCacheRepo.clear()

@@ -38,6 +38,11 @@ class RunningRecordRepoImpl @Inject constructor(
         runningRecordDao.delete(id)
     }
 
+    override suspend fun removeTag(tagId: Long) = withContext(Dispatchers.IO) {
+        Timber.d("removeTag")
+        runningRecordDao.removeTag(tagId)
+    }
+
     override suspend fun clear() = withContext(Dispatchers.IO) {
         Timber.d("clear")
         runningRecordDao.clear()

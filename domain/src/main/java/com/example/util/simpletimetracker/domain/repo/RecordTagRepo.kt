@@ -18,5 +18,7 @@ interface RecordTagRepo {
 
     suspend fun remove(id: Long)
 
+    suspend fun removeByType(typeId: Long)
+
     suspend fun clear()
 }

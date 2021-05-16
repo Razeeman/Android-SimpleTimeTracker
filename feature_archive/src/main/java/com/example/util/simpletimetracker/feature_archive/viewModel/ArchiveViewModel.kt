@@ -10,8 +10,11 @@ import com.example.util.simpletimetracker.core.adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
+import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
+import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.model.TagType
 import com.example.util.simpletimetracker.feature_archive.R
 import com.example.util.simpletimetracker.feature_archive.dialog.ArchiveDialogParams
@@ -28,7 +31,10 @@ class ArchiveViewModel @Inject constructor(
     private val resourceRepo: ResourceRepo,
     private val archiveViewDataInteractor: ArchiveViewDataInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
-    private val recordTagInteractor: RecordTagInteractor
+    private val recordTagInteractor: RecordTagInteractor,
+    private val recordInteractor: RecordInteractor,
+    private val runningRecordInteractor: RunningRecordInteractor,
+    private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor
 ) : ViewModel() {
 
     val viewData: LiveData<List<ViewHolderType>> by lazy {
@@ -56,7 +62,31 @@ class ArchiveViewModel @Inject constructor(
     }
 
     fun onDeleteClick(params: ArchiveDialogParams?) {
-        // TODO show confirmation and delete
+        viewModelScope.launch {
+            var message = ""
+
+            when (params) {
+                is ArchiveDialogParams.Activity -> {
+                    recordInteractor.removeByType(params.id)
+                    recordTypeCategoryInteractor.removeAllByType(params.id)
+                    recordTagInteractor.removeByType(params.id)
+                    recordTypeInteractor.remove(params.id)
+                    message = resourceRepo.getString(R.string.archive_activity_deleted)
+                }
+                is ArchiveDialogParams.RecordTag -> {
+                    runningRecordInteractor.removeTag(params.id)
+                    recordInteractor.removeTag(params.id)
+                    recordTagInteractor.remove(params.id)
+                    message = resourceRepo.getString(R.string.archive_tag_deleted)
+                }
+            }
+
+            updateViewData()
+            router.show(
+                notification = Notification.TOAST,
+                data = ToastParams(message)
+            )
+        }
     }
 
     fun onRestoreClick(params: ArchiveDialogParams?) {

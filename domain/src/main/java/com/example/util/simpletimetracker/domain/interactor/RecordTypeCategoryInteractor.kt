@@ -36,6 +36,10 @@ class RecordTypeCategoryInteractor @Inject constructor(
         recordTypeCategoryRepo.removeTypes(categoryId, typeIds)
     }
 
+    suspend fun removeAllByType(typeId: Long) {
+        recordTypeCategoryRepo.removeAllByType(typeId)
+    }
+
     suspend fun clear() {
         recordTypeCategoryRepo.clear()
     }
