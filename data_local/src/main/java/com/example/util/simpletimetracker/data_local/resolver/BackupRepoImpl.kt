@@ -6,11 +6,13 @@ import android.os.ParcelFileDescriptor
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.Record
+import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RecordTypeCategory
 import com.example.util.simpletimetracker.domain.repo.CategoryRepo
 import com.example.util.simpletimetracker.domain.repo.RecordCacheRepo
 import com.example.util.simpletimetracker.domain.repo.RecordRepo
+import com.example.util.simpletimetracker.domain.repo.RecordTagRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeCacheRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeCategoryRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeRepo
@@ -34,7 +36,8 @@ class BackupRepoImpl @Inject constructor(
     private val recordRepo: RecordRepo,
     private val recordCacheRepo: RecordCacheRepo,
     private val categoryRepo: CategoryRepo,
-    private val recordTypeCategoryRepo: RecordTypeCategoryRepo
+    private val recordTypeCategoryRepo: RecordTypeCategoryRepo,
+    private val recordTagRepo: RecordTagRepo
 ) : BackupRepo {
 
     override suspend fun saveBackupFile(uriString: String): BackupRepo.ResultCode =
@@ -68,6 +71,11 @@ class BackupRepoImpl @Inject constructor(
                     )
                 }
                 recordTypeCategoryRepo.getAll().forEach {
+                    fileOutputStream?.write(
+                        it.let(::toBackupString).toByteArray()
+                    )
+                }
+                recordTagRepo.getAll().forEach {
                     fileOutputStream?.write(
                         it.let(::toBackupString).toByteArray()
                     )
@@ -112,6 +120,7 @@ class BackupRepoImpl @Inject constructor(
                 recordCacheRepo.clear()
                 categoryRepo.clear()
                 recordTypeCategoryRepo.clear()
+                recordTagRepo.clear()
 
                 // Read data
                 while (reader?.readLine()?.also { line = it } != null) {
@@ -135,6 +144,11 @@ class BackupRepoImpl @Inject constructor(
                         ROW_TYPE_CATEGORY -> {
                             typeCategoryFromBackupString(parts).let {
                                 recordTypeCategoryRepo.add(it)
+                            }
+                        }
+                        ROW_RECORD_TAG -> {
+                            recordTagFromBackupString(parts).let {
+                                recordTagRepo.add(it)
                             }
                         }
                     }
@@ -194,6 +208,16 @@ class BackupRepoImpl @Inject constructor(
         )
     }
 
+    private fun toBackupString(recordTag: RecordTag): String {
+        return String.format(
+            "$ROW_RECORD_TAG\t%s\t%s\t%s\t%s\n",
+            recordTag.id.toString(),
+            recordTag.typeId.toString(),
+            recordTag.name.clean(),
+            (if (recordTag.archived) 1 else 0).toString()
+        )
+    }
+
     private fun recordTypeFromBackupString(parts: List<String>): RecordType {
         return RecordType(
             id = parts.getOrNull(1)?.toLongOrNull().orZero(),
@@ -231,6 +255,15 @@ class BackupRepoImpl @Inject constructor(
         )
     }
 
+    private fun recordTagFromBackupString(parts: List<String>): RecordTag {
+        return RecordTag(
+            id = parts.getOrNull(1)?.toLongOrNull().orZero(),
+            typeId = parts.getOrNull(2)?.toLongOrNull().orZero(),
+            name = parts.getOrNull(3).orEmpty(),
+            archived = parts.getOrNull(4)?.toIntOrNull() == 1
+        )
+    }
+
     private fun String.clean() =
         replace("[\n\t]".toRegex(), " ")
 
@@ -240,5 +273,6 @@ class BackupRepoImpl @Inject constructor(
         private const val ROW_RECORD = "record"
         private const val ROW_CATEGORY = "category"
         private const val ROW_TYPE_CATEGORY = "typeCategory"
+        private const val ROW_RECORD_TAG = "recordTag"
     }
 }
