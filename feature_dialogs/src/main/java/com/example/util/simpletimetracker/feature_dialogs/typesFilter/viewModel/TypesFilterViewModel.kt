@@ -17,13 +17,11 @@ import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
-import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
-import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RecordTypeCategory
@@ -35,7 +33,6 @@ import javax.inject.Inject
 
 class TypesFilterViewModel @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
-    private val recordInteractor: RecordInteractor,
     private val categoryInteractor: CategoryInteractor,
     private val recordTagInteractor: RecordTagInteractor,
     private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
@@ -161,26 +158,10 @@ class TypesFilterViewModel @Inject constructor(
     }
 
     private suspend fun initializeData() {
-        recordTypeCategories = recordTypeCategoryInteractor.getAll()
-
-        val records = recordInteractor.getAll()
-        val typesWithRecords = records
-            .map(Record::typeId)
-            .toSet()
-        val activityTagsWithRecords = recordTypeCategories
-            .filter { it.recordTypeId in typesWithRecords }
-            .map(RecordTypeCategory::categoryId)
-            .toSet()
-        val recordTagsWithRecords = records
-            .map(Record::tagId)
-            .toSet()
-
         types = recordTypeInteractor.getAll()
-            .filter { it.id in typesWithRecords }
         activityTags = categoryInteractor.getAll()
-            .filter { it.id in activityTagsWithRecords }
         recordTags = recordTagInteractor.getAll()
-            .filter { it.id in recordTagsWithRecords }
+        recordTypeCategories = recordTypeCategoryInteractor.getAll()
     }
 
     private fun updateViewData() = viewModelScope.launch {

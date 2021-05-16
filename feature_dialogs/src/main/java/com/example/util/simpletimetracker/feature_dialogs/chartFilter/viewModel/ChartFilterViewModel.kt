@@ -5,31 +5,25 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.core.adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.core.adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.core.extension.post
 import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
-import com.example.util.simpletimetracker.core.adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
-import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
-import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
-import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordType
-import com.example.util.simpletimetracker.domain.model.RecordTypeCategory
 import com.example.util.simpletimetracker.feature_dialogs.chartFilter.mapper.ChartFilterViewDataMapper
 import com.example.util.simpletimetracker.feature_dialogs.chartFilter.viewData.ChartFilterTypeViewData
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ChartFilterViewModel @Inject constructor(
-    private val recordInteractor: RecordInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
     private val categoryInteractor: CategoryInteractor,
-    private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val chartFilterViewDataMapper: ChartFilterViewDataMapper
 ) : ViewModel() {
@@ -146,14 +140,10 @@ class ChartFilterViewModel @Inject constructor(
     }
 
     private suspend fun loadRecordTypes(): List<RecordType> {
-        val typesInStatistics = recordInteractor.getAll()
-            .map(Record::typeId)
-            .toSet()
         typeIdsFiltered = prefsInteractor.getFilteredTypes()
             .toMutableList()
 
         return recordTypeInteractor.getAll()
-            .filter { it.id in typesInStatistics }
     }
 
     private fun updateCategoriesViewData() = viewModelScope.launch {
@@ -176,17 +166,9 @@ class ChartFilterViewModel @Inject constructor(
     }
 
     private suspend fun loadCategories(): List<Category> {
-        val typesInStatistics = recordInteractor.getAll()
-            .map(Record::typeId)
-            .toSet()
-        val categoriesInStatistics = recordTypeCategoryInteractor.getAll()
-            .filter { it.recordTypeId in typesInStatistics }
-            .map(RecordTypeCategory::categoryId)
-            .toSet()
         categoryIdsFiltered = prefsInteractor.getFilteredCategories()
             .toMutableList()
 
         return categoryInteractor.getAll()
-            .filter { it.id in categoriesInStatistics }
     }
 }
