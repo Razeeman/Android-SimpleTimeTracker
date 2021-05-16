@@ -92,7 +92,7 @@ class ChangeRecordTagViewModel @Inject constructor(
         viewModelScope.launch {
             if (extra.id != 0L) {
                 recordTagInteractor.archive(extra.id)
-                showMessage(R.string.change_category_removed)
+                showMessage(R.string.change_category_archived)
                 (keyboardVisibility as MutableLiveData).value = false
                 router.back()
             }

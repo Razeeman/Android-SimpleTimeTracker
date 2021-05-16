@@ -288,7 +288,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
                     )
                     removeRunningRecordMediator.remove(extra.id)
                 }
-                showMessage(R.string.change_record_type_removed)
+                showMessage(R.string.change_record_type_archived)
                 (keyboardVisibility as MutableLiveData).value = false
                 router.back()
             }

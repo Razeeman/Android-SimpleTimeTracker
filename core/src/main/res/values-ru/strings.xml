@@ -61,6 +61,7 @@
 
     <!--  Change category  -->
     <string name="change_category_removed">Тег удален</string>
+    <string name="change_category_archived">Тег перемещен в архив</string>
     <string name="change_category_name_hint">Введите новое имя</string>
     <string name="change_category_color_hint">Цвет</string>
     <string name="change_category_types_hint">Активности</string>
@@ -83,7 +84,7 @@
     <string name="change_running_record_removed">Текущая активность удалена</string>
 
     <!--  Change record type  -->
-    <string name="change_record_type_removed">Активность удалена</string>
+    <string name="change_record_type_archived">Активность перемещена в архив</string>
     <string name="change_record_type_name_hint">Введите новое имя</string>
     <string name="change_record_type_color_hint">Цвет</string>
     <string name="change_record_type_icon_hint">Иконка</string>
