@@ -154,7 +154,7 @@ class SettingsFragment : BaseFragment(R.layout.settings_fragment),
         }
     }
 
-    override fun onPositiveClick(tag: String?) {
+    override fun onPositiveClick(tag: String?, data: Any?) {
         viewModel.onPositiveDialogClick(tag)
     }
 

@@ -10,6 +10,7 @@ import com.example.util.simpletimetracker.core.adapter.loader.createLoaderAdapte
 import com.example.util.simpletimetracker.core.adapter.recordType.createRecordTypeAdapterDelegate
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
+import com.example.util.simpletimetracker.core.dialog.StandardDialogListener
 import com.example.util.simpletimetracker.feature_archive.R
 import com.example.util.simpletimetracker.feature_archive.di.ArchiveComponentProvider
 import com.example.util.simpletimetracker.feature_archive.dialog.ArchiveDialogListener
@@ -23,7 +24,8 @@ import kotlinx.android.synthetic.main.archive_fragment.*
 import javax.inject.Inject
 
 class ArchiveFragment : BaseFragment(R.layout.archive_fragment),
-    ArchiveDialogListener {
+    ArchiveDialogListener,
+    StandardDialogListener {
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<ArchiveViewModel>
@@ -68,6 +70,9 @@ class ArchiveFragment : BaseFragment(R.layout.archive_fragment),
 
     override fun onRestoreClick(params: ArchiveDialogParams?) =
         viewModel.onRestoreClick(params)
+
+    override fun onPositiveClick(tag: String?, data: Any?) =
+        viewModel.onPositiveDialogClick(tag, data)
 
     companion object {
         fun newInstance() = ArchiveFragment()

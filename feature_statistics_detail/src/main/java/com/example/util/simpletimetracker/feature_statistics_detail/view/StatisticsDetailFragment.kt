@@ -9,7 +9,6 @@ import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
-import com.example.util.simpletimetracker.core.dialog.StandardDialogListener
 import com.example.util.simpletimetracker.core.dialog.TypesFilterDialogListener
 import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.core.extension.setOnLongClick
@@ -30,7 +29,6 @@ import kotlinx.android.synthetic.main.statistics_detail_fragment.*
 import javax.inject.Inject
 
 class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragment),
-    StandardDialogListener,
     DateTimeDialogListener,
     TypesFilterDialogListener {
 

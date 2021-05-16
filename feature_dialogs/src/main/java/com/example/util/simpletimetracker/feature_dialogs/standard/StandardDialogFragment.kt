@@ -15,11 +15,15 @@ class StandardDialogFragment : AppCompatDialogFragment(),
     DialogInterface.OnClickListener {
 
     private var standardDialogListener: StandardDialogListener? = null
-    private val dialogTag: String? by lazy { arguments?.getString(ARGS_TAG) }
-    private val title: String by lazy { arguments?.getString(ARGS_TITLE).orEmpty() }
-    private val message: String by lazy { arguments?.getString(ARGS_MESSAGE).orEmpty() }
-    private val btnPositive: String by lazy { arguments?.getString(ARGS_BTN_POSITIVE).orEmpty() }
-    private val btnNegative: String by lazy { arguments?.getString(ARGS_BTN_NEGATIVE).orEmpty() }
+    private val params: StandardDialogParams? by lazy { arguments?.getParcelable<StandardDialogParams>(ARGS_PARAMS) }
+
+    private val dialogTag: String? by lazy { params?.tag }
+    private val data: Any? by lazy { params?.data }
+
+    private val title: String by lazy { params?.title.orEmpty() }
+    private val message: String by lazy { params?.message.orEmpty() }
+    private val btnPositive: String by lazy { params?.btnPositive.orEmpty() }
+    private val btnNegative: String by lazy { params?.btnNegative.orEmpty() }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return context?.let {
@@ -54,30 +58,20 @@ class StandardDialogFragment : AppCompatDialogFragment(),
     override fun onClick(dialog: DialogInterface?, which: Int) {
         when (which) {
             DialogInterface.BUTTON_POSITIVE -> {
-                standardDialogListener?.onPositiveClick(dialogTag)
+                standardDialogListener?.onPositiveClick(dialogTag, data)
             }
             DialogInterface.BUTTON_NEGATIVE -> {
-                standardDialogListener?.onNegativeClick(dialogTag)
+                standardDialogListener?.onNegativeClick(dialogTag, data)
             }
         }
     }
 
     companion object {
-        private const val ARGS_TAG = "args_tag"
-        private const val ARGS_TITLE = "args_title"
-        private const val ARGS_MESSAGE = "args_message"
-        private const val ARGS_BTN_POSITIVE = "args_btn_positive"
-        private const val ARGS_BTN_NEGATIVE = "args_btn_negative"
+        private const val ARGS_PARAMS = "args_params"
 
         fun createBundle(data: Any?): Bundle = Bundle().apply {
             when (data) {
-                is StandardDialogParams -> {
-                    putString(ARGS_TAG, data.tag)
-                    putString(ARGS_TITLE, data.title)
-                    putString(ARGS_MESSAGE, data.message)
-                    putString(ARGS_BTN_POSITIVE, data.btnPositive)
-                    putString(ARGS_BTN_NEGATIVE, data.btnNegative)
-                }
+                is StandardDialogParams -> putParcelable(ARGS_PARAMS, data)
             }
         }
     }

@@ -222,6 +222,8 @@
     <string name="archive_tag_restored">Тег восстановлен</string>
     <string name="archive_activity_deleted">Активность удалена</string>
     <string name="archive_tag_deleted">Тег удален</string>
+    <string name="archive_activity_deletion_message">Удалить активность %s? Все записи этой активности и теги записей будут также удалены.\nЭто действие нельзя будет откатить.</string>
+    <string name="archive_tag_deletion_message">Удалить тег %s? Все записи отмеченные этим тегом будут без тега.\nЭто действие нельзя будет откатить.</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Смайлы и эмоции</string>

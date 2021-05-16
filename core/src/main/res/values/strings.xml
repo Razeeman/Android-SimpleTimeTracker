@@ -232,6 +232,8 @@
     <string name="archive_tag_restored">Tag restored</string>
     <string name="archive_activity_deleted">Activity deleted</string>
     <string name="archive_tag_deleted">Tag deleted</string>
+    <string name="archive_activity_deletion_message">Delete %s activity? All records of this activity and record tags will also be deleted.\nThis action cannot be undone.</string>
+    <string name="archive_tag_deletion_message">Delete %s tag? All records tagged with this tag will become untagged.\nThis action cannot be undone.</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Smileys &amp; Emotion</string>
