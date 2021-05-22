@@ -4,19 +4,26 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <androidx.cardview.widget.CardView
         android:id="@+id/btnStatisticsChartFilter"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="?selectableItemBackgroundBorderless"
-        android:clickable="true"
-        android:focusable="true"
-        android:src="@drawable/filter"
-        android:tint="?appInactiveColor"
+        style="@style/SettingsCard"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_marginEnd="2dp"
+        android:foreground="?selectableItemBackground"
+        app:cardBackgroundColor="?appCardBackgroundColor"
+        app:layout_constraintDimensionRatio="h,1:1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="center"
+            android:src="@drawable/filter"
+            android:tint="?appInactiveColor" />
+
+    </androidx.cardview.widget.CardView>
 
     <com.example.util.simpletimetracker.feature_statistics.customView.PieChartView
         android:id="@+id/chartStatisticsItem"
@@ -25,8 +32,8 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        app:dividerWidth="2dp"
         app:dividerColor="?appPieChartDividerColor"
+        app:dividerWidth="2dp"
         app:drawIcons="true"
         app:iconMaxSize="24dp"
         app:iconPadding="4dp"
