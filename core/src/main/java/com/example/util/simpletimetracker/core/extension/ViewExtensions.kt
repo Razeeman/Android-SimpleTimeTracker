@@ -201,3 +201,16 @@ fun GridLayoutManager.setSpanSizeLookup(getSpanSize: (position: Int) -> Int) {
         }
     }
 }
+
+fun RecyclerView.addOnScrollListenerAdapter(
+    onScrolled: (recyclerView: RecyclerView, dx: Int, dy: Int) -> Unit = { _, _, _ -> Unit },
+    onScrollStateChanged: (recyclerView: RecyclerView, newState: Int) -> Unit = { _, _ -> Unit }
+) = object : RecyclerView.OnScrollListener() {
+    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+        onScrolled(recyclerView, dx, dy)
+    }
+
+    override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+        onScrollStateChanged(recyclerView, newState)
+    }
+}.let(this::addOnScrollListener)

@@ -1,6 +1,5 @@
 package com.example.util.simpletimetracker.core.view.buttonsRowView
 
-import android.content.res.ColorStateList
 import android.graphics.Color
 import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.adapter.createRecyclerAdapterDelegate
@@ -20,7 +19,7 @@ fun createButtonsRowViewAdapterDelegate(
         val color = if (item.isSelected) selectedColor else Color.TRANSPARENT
 
         btnButtonsRowView.text = item.name
-        btnButtonsRowView.backgroundTintList = ColorStateList.valueOf(color)
+        btnButtonsRowView.setBackgroundColor(color)
         btnButtonsRowView.setOnClickWith(item, onItemClick)
     }
 }

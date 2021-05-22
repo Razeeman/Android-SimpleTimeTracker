@@ -248,7 +248,6 @@
     </style>
 
     <style name="ContainerRangeButton">
-        <item name="android:background">?selectableItemBackground</item>
         <item name="android:scaleType">fitXY</item>
         <item name="backgroundTint">?appInactiveColor</item>
         <item name="icon">@drawable/arrow_left</item>

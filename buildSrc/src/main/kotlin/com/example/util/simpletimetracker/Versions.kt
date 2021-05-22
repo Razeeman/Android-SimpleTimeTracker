@@ -18,7 +18,7 @@ object Versions {
     const val viewpager2 = "1.0.0"
     const val flexBox = "2.0.1"
     const val cardView = "1.0.0"
-    const val material = "1.1.0"
+    const val material = "1.2.0"
     const val emoji = "1.2.0-alpha03"
 
     const val fragmentKtx = "1.2.0"
@@ -27,7 +27,7 @@ object Versions {
     const val liveDataKtx = "2.2.0"
     const val viewModelKtx = "2.2.0"
     const val roomKtx = "2.2.5"
-    const val navigationKtx = "2.3.0-alpha06"
+    const val navigationKtx = "2.3.5"
 
     const val junit = "4.12"
     const val junitUi = "1.1.1"
