@@ -25,7 +25,7 @@ class CategoryViewDataMapper @Inject constructor(
         return CategoryViewData.Activity(
             id = category.id,
             name = category.name,
-            textColor = getTextColor(isDarkTheme, isFiltered),
+            iconColor = getTextColor(isDarkTheme, isFiltered),
             color = getColor(category.color, isDarkTheme, isFiltered)
         )
     }
@@ -34,15 +34,18 @@ class CategoryViewDataMapper @Inject constructor(
         tag: RecordTag,
         type: RecordType,
         isDarkTheme: Boolean,
-        isFiltered: Boolean = false, // TODO fix icon color
+        isFiltered: Boolean = false,
         showIcon: Boolean = true
     ): CategoryViewData.Record {
+        val icon = type.icon.let(iconMapper::mapIcon)
+
         return CategoryViewData.Record(
             id = tag.id,
             name = tag.name,
-            textColor = getTextColor(isDarkTheme, isFiltered),
+            iconColor = getTextColor(isDarkTheme, isFiltered),
+            iconAlpha = getIconAlpha(icon, isFiltered),
             color = getColor(type.color, isDarkTheme, isFiltered),
-            icon = if (showIcon) type.icon.let(iconMapper::mapIcon) else null
+            icon = if (showIcon) icon else null
         )
     }
 
@@ -53,7 +56,7 @@ class CategoryViewDataMapper @Inject constructor(
         return CategoryViewData.Record(
             id = 0L,
             name = R.string.change_record_untagged.let(resourceRepo::getString),
-            textColor = getTextColor(isDarkTheme, false),
+            iconColor = getTextColor(isDarkTheme, false),
             color = colorMapper.toUntrackedColor(isDarkTheme),
             icon = if (showIcon) RecordTypeIcon.Image(R.drawable.unknown) else null
         )
@@ -66,7 +69,7 @@ class CategoryViewDataMapper @Inject constructor(
         return CategoryViewData.Record(
             id = 0L,
             name = tag.name,
-            textColor = getTextColor(isDarkTheme, false),
+            iconColor = getTextColor(isDarkTheme, false),
             color = colorMapper.toUntrackedColor(isDarkTheme),
             icon = RecordTypeIcon.Image(R.drawable.unknown)
         )
@@ -107,5 +110,18 @@ class CategoryViewDataMapper @Inject constructor(
                 .let { colorMapper.mapToColorResId(it, isDarkTheme) }
                 .let(resourceRepo::getColor)
         }
+    }
+
+    private fun getIconAlpha(icon: RecordTypeIcon, isFiltered: Boolean): Float {
+        return if (icon is RecordTypeIcon.Emoji && isFiltered) {
+            FILTERED_ICON_EMOJI_ALPHA
+        } else {
+            DEFAULT_ICON_EMOJI_ALPHA
+        }
+    }
+
+    companion object {
+        private const val DEFAULT_ICON_EMOJI_ALPHA = 1.0f
+        private const val FILTERED_ICON_EMOJI_ALPHA = 0.3f
     }
 }

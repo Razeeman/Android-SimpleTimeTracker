@@ -50,6 +50,14 @@ class CategoryView @JvmOverloads constructor(
                     getString(R.styleable.CategoryView_itemEmoji).orEmpty()
                         .let(RecordTypeIcon::Emoji)
 
+                if (hasValue(R.styleable.CategoryView_itemIconColor)) {
+                    itemIconColor = getColor(R.styleable.CategoryView_itemIconColor, Color.WHITE)
+                }
+
+                if (hasValue(R.styleable.CategoryView_itemIconAlpha)) {
+                    itemIconAlpha = getFloat(R.styleable.CategoryView_itemIconAlpha, 1.0f)
+                }
+
                 if (hasValue(R.styleable.CategoryView_itemIconVisible)) itemIconVisible =
                     getBoolean(R.styleable.CategoryView_itemIconVisible, false)
 
@@ -69,15 +77,22 @@ class CategoryView @JvmOverloads constructor(
             field = value
         }
 
-    var itemTextColor: Int = 0
-        set(value) {
-            tvCategoryItemName.setTextColor(value)
-            field = value
-        }
-
     var itemIcon: RecordTypeIcon = RecordTypeIcon.Image(0)
         set(value) {
             ivCategoryItemIcon.itemIcon = value
+            field = value
+        }
+
+    var itemIconColor: Int = 0
+        set(value) {
+            tvCategoryItemName.setTextColor(value)
+            ivCategoryItemIcon.itemIconColor = value
+            field = value
+        }
+
+    var itemIconAlpha: Float = 1.0f
+        set(value) {
+            ivCategoryItemIcon.itemIconAlpha = value
             field = value
         }
 

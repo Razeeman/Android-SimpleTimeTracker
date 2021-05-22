@@ -7,7 +7,7 @@ import com.example.util.simpletimetracker.core.viewData.RecordTypeIcon
 sealed class CategoryViewData : ViewHolderType {
     abstract val id: Long
     abstract val name: String
-    abstract val textColor: Int
+    abstract val iconColor: Int
     abstract val color: Int
 
     override fun getUniqueId(): Long = id
@@ -15,7 +15,7 @@ sealed class CategoryViewData : ViewHolderType {
     data class Activity(
         override val id: Long,
         override val name: String,
-        @ColorInt override val textColor: Int,
+        @ColorInt override val iconColor: Int,
         @ColorInt override val color: Int
     ) : CategoryViewData() {
 
@@ -25,9 +25,10 @@ sealed class CategoryViewData : ViewHolderType {
     data class Record(
         override val id: Long,
         override val name: String,
-        @ColorInt override val textColor: Int,
+        @ColorInt override val iconColor: Int,
         @ColorInt override val color: Int,
-        val icon: RecordTypeIcon?
+        val icon: RecordTypeIcon?,
+        val iconAlpha: Float = 1.0f
     ) : CategoryViewData() {
 
         override fun isValidType(other: ViewHolderType): Boolean = other is Record

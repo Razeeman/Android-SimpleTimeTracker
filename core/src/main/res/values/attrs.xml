@@ -70,6 +70,8 @@
         <attr name="itemColor" />
         <attr name="itemIcon" />
         <attr name="itemEmoji" />
+        <attr name="itemIconColor" />
+        <attr name="itemIconAlpha" />
         <attr name="itemIconVisible" format="boolean" />
     </declare-styleable>
 
