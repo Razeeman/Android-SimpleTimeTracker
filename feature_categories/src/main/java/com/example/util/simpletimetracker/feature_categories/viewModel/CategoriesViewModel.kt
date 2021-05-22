@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.core.adapter.category.CategoryViewData
+import com.example.util.simpletimetracker.core.extension.toParams
 import com.example.util.simpletimetracker.domain.model.TagType
 import com.example.util.simpletimetracker.feature_categories.interactor.CategoriesViewDataInteractor
 import com.example.util.simpletimetracker.feature_categories.viewData.CategoryAddViewData
@@ -32,10 +33,11 @@ class CategoriesViewModel @Inject constructor(
     }
 
     fun onCategoryClick(item: CategoryViewData, sharedElements: Map<Any, String>) {
-        val screen = when (item.type) {
-            TagType.RECORD_TYPE -> Screen.CHANGE_CATEGORY
-            TagType.RECORD -> Screen.CHANGE_RECORD_TAG
+        val screen = when (item) {
+            is CategoryViewData.Activity -> Screen.CHANGE_CATEGORY
+            is CategoryViewData.Record -> Screen.CHANGE_RECORD_TAG
         }
+        val icon = (item as? CategoryViewData.Record)?.icon?.toParams()
 
         router.navigate(
             screen = screen,
@@ -43,7 +45,8 @@ class CategoriesViewModel @Inject constructor(
                 id = item.id,
                 preview = ChangeCategoryParams.Change.Preview(
                     name = item.name,
-                    color = item.color
+                    color = item.color,
+                    icon = icon
                 )
             ),
             sharedElements = sharedElements

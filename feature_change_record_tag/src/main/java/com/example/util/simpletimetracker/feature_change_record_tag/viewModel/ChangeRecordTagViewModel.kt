@@ -38,8 +38,8 @@ class ChangeRecordTagViewModel @Inject constructor(
 
     lateinit var extra: ChangeCategoryParams
 
-    val preview: LiveData<CategoryViewData> by lazy {
-        return@lazy MutableLiveData<CategoryViewData>().let { initial ->
+    val preview: LiveData<CategoryViewData.Record> by lazy {
+        return@lazy MutableLiveData<CategoryViewData.Record>().let { initial ->
             viewModelScope.launch {
                 initializePreviewViewData()
                 initial.value = loadPreviewViewData()
@@ -135,7 +135,7 @@ class ChangeRecordTagViewModel @Inject constructor(
         (preview as MutableLiveData).value = loadPreviewViewData()
     }
 
-    private suspend fun loadPreviewViewData(): CategoryViewData {
+    private suspend fun loadPreviewViewData(): CategoryViewData.Record {
         val tag = RecordTag(
             name = newName,
             typeId = newTypeId

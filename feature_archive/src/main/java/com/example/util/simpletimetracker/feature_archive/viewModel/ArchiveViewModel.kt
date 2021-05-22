@@ -15,7 +15,6 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
-import com.example.util.simpletimetracker.domain.model.TagType
 import com.example.util.simpletimetracker.feature_archive.R
 import com.example.util.simpletimetracker.feature_archive.dialog.ArchiveDialogParams
 import com.example.util.simpletimetracker.feature_archive.interactor.ArchiveViewDataInteractor
@@ -56,7 +55,7 @@ class ArchiveViewModel @Inject constructor(
     }
 
     fun onCategoryClick(item: CategoryViewData) {
-        if (item.type == TagType.RECORD) router.navigate(
+        if (item is CategoryViewData.Record) router.navigate(
             screen = Screen.ARCHIVE_DIALOG,
             data = ArchiveDialogParams.RecordTag(item.id)
         )

@@ -16,7 +16,8 @@ sealed class ChangeCategoryParams : Parcelable {
         @Parcelize
         data class Preview(
             val name: String,
-            @ColorInt val color: Int
+            @ColorInt val color: Int,
+            val icon: RecordTypeIconParams?
         ) : Parcelable
     }
 

@@ -68,6 +68,9 @@
     <declare-styleable name="CategoryView">
         <attr name="itemName" />
         <attr name="itemColor" />
+        <attr name="itemIcon" />
+        <attr name="itemEmoji" />
+        <attr name="itemIconVisible" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="FullWidthSpinner">

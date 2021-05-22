@@ -19,7 +19,6 @@ import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RecordTypeCategory
-import com.example.util.simpletimetracker.domain.model.TagType
 import com.example.util.simpletimetracker.feature_dialogs.typesFilter.interactor.TypesFilterViewDataInteractor
 import com.example.util.simpletimetracker.navigation.params.TypesFilterParams
 import kotlinx.coroutines.launch
@@ -61,9 +60,9 @@ class TypesFilterViewModel @Inject constructor(
 
     fun onCategoryClick(item: CategoryViewData) {
         val currentFilter = typesFilter.value ?: return
-        when (item.type) {
-            TagType.RECORD_TYPE -> switchToCategoryFilter(currentFilter, item)
-            TagType.RECORD -> updateRecordTagFilter(currentFilter, item.id)
+        when (item) {
+            is CategoryViewData.Activity -> switchToCategoryFilter(currentFilter, item)
+            is CategoryViewData.Record -> updateRecordTagFilter(currentFilter, item.id)
         }
     }
 

@@ -88,7 +88,7 @@ class ChangeCategoryFragment : BaseFragment(R.layout.change_category_fragment) {
 
         ViewCompat.setTransitionName(
             previewChangeCategory,
-            TransitionNames.CATEGORY + params.id
+            TransitionNames.ACTIVITY_TAG + params.id
         )
 
         rvChangeCategoryColor.apply {

@@ -5,14 +5,15 @@ import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.core.adapter.empty.EmptyViewData
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.core.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
-import com.example.util.simpletimetracker.domain.model.TagType
 import javax.inject.Inject
 
 class CategoryViewDataMapper @Inject constructor(
     private val colorMapper: ColorMapper,
+    private val iconMapper: IconMapper,
     private val resourceRepo: ResourceRepo
 ) {
 
@@ -20,9 +21,8 @@ class CategoryViewDataMapper @Inject constructor(
         category: Category,
         isDarkTheme: Boolean,
         isFiltered: Boolean = false
-    ): CategoryViewData {
-        return CategoryViewData(
-            type = TagType.RECORD_TYPE,
+    ): CategoryViewData.Activity {
+        return CategoryViewData.Activity(
             id = category.id,
             name = category.name,
             textColor = getTextColor(isDarkTheme, isFiltered),
@@ -35,38 +35,38 @@ class CategoryViewDataMapper @Inject constructor(
         type: RecordType,
         isDarkTheme: Boolean,
         isFiltered: Boolean = false
-    ): CategoryViewData {
-        return CategoryViewData(
-            type = TagType.RECORD,
+    ): CategoryViewData.Record {
+        return CategoryViewData.Record(
             id = tag.id,
             name = tag.name,
             textColor = getTextColor(isDarkTheme, isFiltered),
-            color = getColor(type.color, isDarkTheme, isFiltered)
+            color = getColor(type.color, isDarkTheme, isFiltered),
+            icon = type.icon.let(iconMapper::mapIcon)
         )
     }
 
     fun mapRecordTagUntagged(
         isDarkTheme: Boolean
-    ): CategoryViewData {
-        return CategoryViewData(
-            type = TagType.RECORD,
+    ): CategoryViewData.Record {
+        return CategoryViewData.Record(
             id = 0L,
             name = R.string.change_record_untagged.let(resourceRepo::getString),
             textColor = getTextColor(isDarkTheme, false),
-            color = colorMapper.toUntrackedColor(isDarkTheme)
+            color = colorMapper.toUntrackedColor(isDarkTheme),
+            icon = RecordTypeIcon.Image(R.drawable.unknown)
         )
     }
 
     fun mapRecordTagUntyped(
         tag: RecordTag,
         isDarkTheme: Boolean
-    ): CategoryViewData {
-        return CategoryViewData(
-            type = TagType.RECORD,
+    ): CategoryViewData.Record {
+        return CategoryViewData.Record(
             id = 0L,
             name = tag.name,
             textColor = getTextColor(isDarkTheme, false),
-            color = colorMapper.toUntrackedColor(isDarkTheme)
+            color = colorMapper.toUntrackedColor(isDarkTheme),
+            icon = RecordTypeIcon.Image(R.drawable.unknown)
         )
     }
 

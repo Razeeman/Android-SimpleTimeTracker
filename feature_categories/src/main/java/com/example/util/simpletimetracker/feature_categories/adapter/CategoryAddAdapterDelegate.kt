@@ -17,6 +17,7 @@ fun createCategoryAddAdapterDelegate(
 
         itemColor = item.color
         itemName = item.name
+        itemIconVisible = false
         setOnClickWith(item, onItemClick)
     }
 }

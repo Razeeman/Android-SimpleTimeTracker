@@ -18,6 +18,7 @@ import com.example.util.simpletimetracker.core.extension.rotateDown
 import com.example.util.simpletimetracker.core.extension.rotateUp
 import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.core.extension.showKeyboard
+import com.example.util.simpletimetracker.core.extension.toViewData
 import com.example.util.simpletimetracker.core.extension.visible
 import com.example.util.simpletimetracker.core.utils.BuildVersions
 import com.example.util.simpletimetracker.core.view.TransitionNames
@@ -69,7 +70,7 @@ class ChangeRecordTagFragment : BaseFragment(R.layout.change_record_tag_fragment
 
         ViewCompat.setTransitionName(
             previewChangeRecordTag,
-            TransitionNames.CATEGORY + params.id
+            TransitionNames.RECORD_TAG + params.id
         )
 
         rvChangeRecordTagType.apply {
@@ -118,13 +119,19 @@ class ChangeRecordTagFragment : BaseFragment(R.layout.change_record_tag_fragment
         with(previewChangeRecordTag) {
             itemName = name
             itemColor = color
+            icon?.let {
+                itemIconVisible = true
+                itemIcon = it.toViewData()
+            }
         }
     }
 
-    private fun updatePreview(item: CategoryViewData) {
+    private fun updatePreview(item: CategoryViewData.Record) {
         with(previewChangeRecordTag) {
             itemName = item.name
             itemColor = item.color
+            itemIcon = item.icon
+            itemIconVisible = true
         }
     }
 

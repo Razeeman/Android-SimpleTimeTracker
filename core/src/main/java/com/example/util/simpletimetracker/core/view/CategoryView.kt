@@ -7,6 +7,9 @@ import android.view.View
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import com.example.util.simpletimetracker.core.R
+import com.example.util.simpletimetracker.core.extension.visible
+import com.example.util.simpletimetracker.core.viewData.RecordTypeIcon
+import kotlinx.android.synthetic.main.category_view_layout.view.ivCategoryItemIcon
 import kotlinx.android.synthetic.main.category_view_layout.view.tvCategoryItemName
 
 class CategoryView @JvmOverloads constructor(
@@ -39,6 +42,17 @@ class CategoryView @JvmOverloads constructor(
                 if (hasValue(R.styleable.CategoryView_itemColor)) itemColor =
                     getColor(R.styleable.CategoryView_itemColor, Color.BLACK)
 
+                if (hasValue(R.styleable.CategoryView_itemIcon)) itemIcon =
+                    getResourceId(R.styleable.CategoryView_itemIcon, R.drawable.unknown)
+                        .let(RecordTypeIcon::Image)
+
+                if (hasValue(R.styleable.CategoryView_itemEmoji)) itemIcon =
+                    getString(R.styleable.CategoryView_itemEmoji).orEmpty()
+                        .let(RecordTypeIcon::Emoji)
+
+                if (hasValue(R.styleable.CategoryView_itemIconVisible)) itemIconVisible =
+                    getBoolean(R.styleable.CategoryView_itemIconVisible, false)
+
                 recycle()
             }
     }
@@ -58,6 +72,18 @@ class CategoryView @JvmOverloads constructor(
     var itemTextColor: Int = 0
         set(value) {
             tvCategoryItemName.setTextColor(value)
+            field = value
+        }
+
+    var itemIcon: RecordTypeIcon = RecordTypeIcon.Image(0)
+        set(value) {
+            ivCategoryItemIcon.itemIcon = value
+            field = value
+        }
+
+    var itemIconVisible: Boolean = false
+        set(value) {
+            ivCategoryItemIcon.visible = value
             field = value
         }
 }
