@@ -67,6 +67,10 @@ class TypesFilterViewDataInteractor @Inject constructor(
 
         val recordTagsViewData = recordTags
             .filter { it.typeId in selectedTypes }
+            .sortedBy { tag ->
+                val type = types.firstOrNull { it.id == tag.typeId } ?: 0
+                types.indexOf(type)
+            }
             .mapNotNull { tag ->
                 categoryViewDataMapper.mapRecordTag(
                     tag = tag,

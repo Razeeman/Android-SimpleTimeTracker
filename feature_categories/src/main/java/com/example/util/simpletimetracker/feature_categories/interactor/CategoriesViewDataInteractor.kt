@@ -36,12 +36,14 @@ class CategoriesViewDataInteractor @Inject constructor(
         val result: MutableList<ViewHolderType> = mutableListOf()
 
         categoriesViewDataMapper.mapToTypeTagHint().let(result::add)
+
         categories.map { category ->
             categoryViewDataMapper.mapActivityTag(
                 category = category,
                 isDarkTheme = isDarkTheme
             )
         }.let(result::addAll)
+
         categoriesViewDataMapper.mapToTypeTagAddItem(isDarkTheme).let(result::add)
 
         return result
@@ -54,13 +56,18 @@ class CategoriesViewDataInteractor @Inject constructor(
         val result: MutableList<ViewHolderType> = mutableListOf()
 
         categoriesViewDataMapper.mapToRecordTagHint().let(result::add)
-        tags.mapNotNull { tag ->
+
+        tags.sortedBy { tag ->
+            val type = types.firstOrNull { it.id == tag.typeId } ?: 0
+            types.indexOf(type)
+        }.mapNotNull { tag ->
             categoryViewDataMapper.mapRecordTag(
                 tag = tag,
                 type = types.firstOrNull { it.id == tag.typeId } ?: return@mapNotNull null,
                 isDarkTheme = isDarkTheme
             )
         }.let(result::addAll)
+
         categoriesViewDataMapper.mapToRecordTagAddItem(isDarkTheme).let(result::add)
 
         return result

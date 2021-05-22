@@ -41,7 +41,10 @@ class ArchiveViewDataInteractor @Inject constructor(
             )
         }
 
-        val recordTagsViewData = archivedRecordTags.mapNotNull { tag ->
+        val recordTagsViewData = archivedRecordTags.sortedBy { tag ->
+            val type = types.values.firstOrNull { it.id == tag.typeId } ?: 0
+            types.values.indexOf(type)
+        }.mapNotNull { tag ->
             categoryViewDataMapper.mapRecordTag(
                 tag = tag,
                 type = types[tag.typeId] ?: return@mapNotNull null,
