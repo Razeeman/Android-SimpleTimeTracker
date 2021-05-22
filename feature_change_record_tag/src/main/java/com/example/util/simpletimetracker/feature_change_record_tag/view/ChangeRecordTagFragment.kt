@@ -130,7 +130,7 @@ class ChangeRecordTagFragment : BaseFragment(R.layout.change_record_tag_fragment
         with(previewChangeRecordTag) {
             itemName = item.name
             itemColor = item.color
-            itemIcon = item.icon
+            item.icon?.let(this::itemIcon::set)
             itemIconVisible = true
         }
     }

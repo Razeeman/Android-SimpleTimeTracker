@@ -24,10 +24,10 @@ fun createCategoryAdapterDelegate(
 
         itemColor = item.color
         itemName = item.name
-        if (item is CategoryViewData.Record) {
+        (item as? CategoryViewData.Record)?.icon?.let {
             itemIconVisible = true
-            itemIcon = item.icon
-        } else {
+            itemIcon = it
+        } ?: run {
             itemIconVisible = false
         }
 

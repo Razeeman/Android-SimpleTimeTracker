@@ -34,26 +34,28 @@ class CategoryViewDataMapper @Inject constructor(
         tag: RecordTag,
         type: RecordType,
         isDarkTheme: Boolean,
-        isFiltered: Boolean = false
+        isFiltered: Boolean = false, // TODO fix icon color
+        showIcon: Boolean = true
     ): CategoryViewData.Record {
         return CategoryViewData.Record(
             id = tag.id,
             name = tag.name,
             textColor = getTextColor(isDarkTheme, isFiltered),
             color = getColor(type.color, isDarkTheme, isFiltered),
-            icon = type.icon.let(iconMapper::mapIcon)
+            icon = if (showIcon) type.icon.let(iconMapper::mapIcon) else null
         )
     }
 
     fun mapRecordTagUntagged(
-        isDarkTheme: Boolean
+        isDarkTheme: Boolean,
+        showIcon: Boolean
     ): CategoryViewData.Record {
         return CategoryViewData.Record(
             id = 0L,
             name = R.string.change_record_untagged.let(resourceRepo::getString),
             textColor = getTextColor(isDarkTheme, false),
             color = colorMapper.toUntrackedColor(isDarkTheme),
-            icon = RecordTypeIcon.Image(R.drawable.unknown)
+            icon = if (showIcon) RecordTypeIcon.Image(R.drawable.unknown) else null
         )
     }
 

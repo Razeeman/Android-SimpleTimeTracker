@@ -29,10 +29,16 @@ class RecordTagViewDataInteractor @Inject constructor(
                 categoryViewDataMapper.mapRecordTag(
                     tag = it,
                     type = type ?: return@mapNotNull null,
-                    isDarkTheme = isDarkTheme
+                    isDarkTheme = isDarkTheme,
+                    showIcon = false
                 )
             }
-            ?.plus(categoryViewDataMapper.mapRecordTagUntagged(isDarkTheme))
+            ?.plus(
+                categoryViewDataMapper.mapRecordTagUntagged(
+                    isDarkTheme = isDarkTheme,
+                    showIcon = false
+                )
+            )
             ?: categoryViewDataMapper.mapToRecordTagsEmpty()
     }
 }

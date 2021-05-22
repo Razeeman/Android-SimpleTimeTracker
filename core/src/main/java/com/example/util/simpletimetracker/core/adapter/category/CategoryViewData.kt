@@ -27,7 +27,7 @@ sealed class CategoryViewData : ViewHolderType {
         override val name: String,
         @ColorInt override val textColor: Int,
         @ColorInt override val color: Int,
-        val icon: RecordTypeIcon
+        val icon: RecordTypeIcon?
     ) : CategoryViewData() {
 
         override fun isValidType(other: ViewHolderType): Boolean = other is Record
