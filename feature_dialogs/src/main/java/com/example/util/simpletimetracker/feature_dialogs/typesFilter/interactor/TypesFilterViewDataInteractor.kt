@@ -13,6 +13,7 @@ import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RecordTypeCategory
 import com.example.util.simpletimetracker.feature_dialogs.R
+import com.example.util.simpletimetracker.feature_dialogs.typesFilter.mapper.TypesFilterMapper
 import com.example.util.simpletimetracker.navigation.params.TypesFilterParams
 import javax.inject.Inject
 
@@ -20,6 +21,7 @@ class TypesFilterViewDataInteractor @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
     private val categoryViewDataMapper: CategoryViewDataMapper,
+    private val typesFilterMapper: TypesFilterMapper,
     private val resourceRepo: ResourceRepo
 ) {
 
@@ -66,19 +68,30 @@ class TypesFilterViewDataInteractor @Inject constructor(
         }
 
         val recordTagsViewData = recordTags
+            .asSequence()
             .filter { it.typeId in selectedTypes }
-            .sortedBy { tag ->
-                val type = types.firstOrNull { it.id == tag.typeId } ?: 0
-                types.indexOf(type)
-            }
-            .mapNotNull { tag ->
-                categoryViewDataMapper.mapRecordTag(
-                    tag = tag,
-                    type = typesMap[tag.typeId] ?: return@mapNotNull null,
+            .groupBy { it.typeId }
+            .mapNotNull { (typeId, tags) ->
+                typeId to typesFilterMapper.mapRecordTagUntagged(
+                    type = typesMap[typeId] ?: return@mapNotNull null,
                     isDarkTheme = isDarkTheme,
-                    isFiltered = tag.id in filter.filteredRecordTags
+                    isFiltered = typeId in filter.filteredRecordTags
+                        .filterIsInstance<TypesFilterParams.FilteredRecordTag.Untagged>()
+                        .map { it.typeId }
+                ).let(::listOf) + mapTags(
+                    filter = filter,
+                    tags = tags,
+                    typesMap = typesMap,
+                    isDarkTheme = isDarkTheme
                 )
             }
+            .sortedBy { (typeId, _) ->
+                val type = types.firstOrNull { it.id == typeId } ?: 0
+                types.indexOf(type)
+            }
+            .map { (_, tags) -> tags }
+            .flatten()
+            .toList()
 
         if (activityTagsViewData.isNotEmpty()) {
             HintViewData(resourceRepo.getString(R.string.activity_tag_hint)).let(result::add)
@@ -100,5 +113,23 @@ class TypesFilterViewDataInteractor @Inject constructor(
         }
 
         return result
+    }
+
+    private fun mapTags(
+        filter: TypesFilterParams,
+        tags: List<RecordTag>,
+        typesMap: Map<Long, RecordType>,
+        isDarkTheme: Boolean
+    ): List<ViewHolderType> {
+        return tags.mapNotNull { tag ->
+            categoryViewDataMapper.mapRecordTag(
+                tag = tag,
+                type = typesMap[tag.typeId] ?: return@mapNotNull null,
+                isDarkTheme = isDarkTheme,
+                isFiltered = tag.id in filter.filteredRecordTags
+                    .filterIsInstance<TypesFilterParams.FilteredRecordTag.Tagged>()
+                    .map { it.id }
+            )
+        }
     }
 }

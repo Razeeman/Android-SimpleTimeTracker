@@ -20,6 +20,7 @@ fun createCategoryAdapterDelegate(
         val transitionName = when (item) {
             is CategoryViewData.Activity -> TransitionNames.ACTIVITY_TAG
             is CategoryViewData.Record -> TransitionNames.RECORD_TAG
+            else -> ""
         } + item.id
 
         itemColor = item.color

@@ -18,6 +18,7 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.feature_change_record_tag.R
+import com.example.util.simpletimetracker.feature_change_record_tag.mapper.ChangeRecordTagMapper
 import com.example.util.simpletimetracker.navigation.Notification
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.ChangeCategoryParams
@@ -33,6 +34,7 @@ class ChangeRecordTagViewModel @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val notificationTypeInteractor: NotificationTypeInteractor,
     private val categoryViewDataMapper: CategoryViewDataMapper,
+    private val changeRecordTagMapper: ChangeRecordTagMapper,
     private val resourceRepo: ResourceRepo
 ) : ViewModel() {
 
@@ -144,7 +146,7 @@ class ChangeRecordTagViewModel @Inject constructor(
         val isDarkTheme = prefsInteractor.getDarkMode()
 
         return if (type == null) {
-            categoryViewDataMapper.mapRecordTagUntyped(
+            changeRecordTagMapper.mapRecordTagUntyped(
                 tag = tag,
                 isDarkTheme = isDarkTheme
             )

@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.feature_records_all.interactor
 
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.core.extension.isNotFiltered
 import com.example.util.simpletimetracker.core.interactor.TypesFilterInteractor
 import com.example.util.simpletimetracker.core.mapper.RangeMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
@@ -40,7 +41,7 @@ class RecordsAllViewDataInteractor @Inject constructor(
         val recordTags = recordTagInteractor.getAll().map { it.id to it }.toMap()
         val typesSelected = typesFilterInteractor.getTypeIds(filter)
         val records = recordInteractor.getByType(typesSelected)
-            .filter { it.tagId !in filter.filteredRecordTags }
+            .filter { it.isNotFiltered(filter) }
             .let {
                 if (rangeStart != 0L && rangeEnd != 0L) {
                     rangeMapper.getRecordsFromRange(it, rangeStart, rangeEnd)

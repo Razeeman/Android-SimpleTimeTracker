@@ -9,5 +9,15 @@ data class TypesFilterParams(
     val filterType: ChartFilterType = ChartFilterType.ACTIVITY,
     // activity tag or activity depending on filter type
     val selectedIds: List<Long> = emptyList(),
-    val filteredRecordTags: List<Long> = emptyList()
-) : Parcelable
+    val filteredRecordTags: List<FilteredRecordTag> = emptyList()
+) : Parcelable {
+
+    sealed class FilteredRecordTag : Parcelable {
+
+        @Parcelize
+        data class Tagged(val id: Long) : FilteredRecordTag()
+
+        @Parcelize
+        data class Untagged(val typeId: Long) : FilteredRecordTag()
+    }
+}

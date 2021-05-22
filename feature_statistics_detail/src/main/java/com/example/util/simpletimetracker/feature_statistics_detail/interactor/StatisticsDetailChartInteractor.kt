@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_statistics_detail.interactor
 
+import com.example.util.simpletimetracker.core.extension.isNotFiltered
 import com.example.util.simpletimetracker.core.interactor.TypesFilterInteractor
 import com.example.util.simpletimetracker.core.mapper.RangeMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
@@ -64,7 +65,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
         val records = recordInteractor.getFromRange(
             start = ranges.first().rangeStart,
             end = ranges.last().rangeEnd
-        ).filter { it.typeId in typeIds && it.tagId !in filter.filteredRecordTags }
+        ).filter { it.typeId in typeIds && it.isNotFiltered(filter) }
 
         if (records.isEmpty()) {
             return ranges.map { ChartBarDataDuration(legend = it.legend, duration = 0L) }

@@ -1,13 +1,19 @@
 package com.example.util.simpletimetracker.core.interactor
 
+import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.core.adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.core.mapper.CategoryViewDataMapper
+import com.example.util.simpletimetracker.core.mapper.ColorMapper
+import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import javax.inject.Inject
 
 class RecordTagViewDataInteractor @Inject constructor(
+    private val resourceRepo: ResourceRepo,
+    private val colorMapper: ColorMapper,
     private val prefsInteractor: PrefsInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
     private val recordTagInteractor: RecordTagInteractor,
@@ -34,11 +40,20 @@ class RecordTagViewDataInteractor @Inject constructor(
                 )
             }
             ?.plus(
-                categoryViewDataMapper.mapRecordTagUntagged(
-                    isDarkTheme = isDarkTheme,
-                    showIcon = false
-                )
+                mapRecordTagUntagged(isDarkTheme = isDarkTheme)
             )
             ?: categoryViewDataMapper.mapToRecordTagsEmpty()
+    }
+
+    private fun mapRecordTagUntagged(
+        isDarkTheme: Boolean
+    ): CategoryViewData.Record {
+        return CategoryViewData.Record.Untagged(
+            typeId = 0L,
+            name = R.string.change_record_untagged.let(resourceRepo::getString),
+            iconColor = categoryViewDataMapper.getTextColor(isDarkTheme, false),
+            color = colorMapper.toUntrackedColor(isDarkTheme),
+            icon = null
+        )
     }
 }

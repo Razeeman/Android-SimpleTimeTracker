@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_statistics_detail.interactor
 
+import com.example.util.simpletimetracker.core.extension.isNotFiltered
 import com.example.util.simpletimetracker.core.interactor.TypesFilterInteractor
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -35,7 +36,7 @@ class StatisticsDetailStatsInteractor @Inject constructor(
             recordInteractor.getFromRange(range.first, range.second)
         }.filter {
             it.typeId in types &&
-                it.tagId !in filter.filteredRecordTags &&
+                it.isNotFiltered(filter) &&
                 // Skip records that started before this time range.
                 it.timeStarted > range.first
         }

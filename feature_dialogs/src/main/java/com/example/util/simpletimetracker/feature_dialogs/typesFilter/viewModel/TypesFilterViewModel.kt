@@ -62,7 +62,7 @@ class TypesFilterViewModel @Inject constructor(
         val currentFilter = typesFilter.value ?: return
         when (item) {
             is CategoryViewData.Activity -> switchToCategoryFilter(currentFilter, item)
-            is CategoryViewData.Record -> updateRecordTagFilter(currentFilter, item.id)
+            is CategoryViewData.Record -> updateRecordTagFilter(currentFilter, item)
         }
     }
 
@@ -110,7 +110,7 @@ class TypesFilterViewModel @Inject constructor(
 
     private fun switchToCategoryFilter(
         currentFilter: TypesFilterParams,
-        item: CategoryViewData
+        item: CategoryViewData.Activity
     ) {
         var newFilter = currentFilter
 
@@ -127,10 +127,13 @@ class TypesFilterViewModel @Inject constructor(
 
     private fun updateRecordTagFilter(
         filter: TypesFilterParams,
-        id: Long
+        item: CategoryViewData.Record
     ) {
         val selectedRecordTags = filter.filteredRecordTags.toMutableList()
-        selectedRecordTags.addOrRemove(id)
+        when (item) {
+            is CategoryViewData.Record.Tagged -> TypesFilterParams.FilteredRecordTag.Tagged(item.id)
+            is CategoryViewData.Record.Untagged -> TypesFilterParams.FilteredRecordTag.Untagged(item.id)
+        }.let { selectedRecordTags.addOrRemove(it) }
         val newFilter = filter.copy(filteredRecordTags = selectedRecordTags)
         typesFilter.set(newFilter)
         updateViewData()

@@ -22,15 +22,34 @@ sealed class CategoryViewData : ViewHolderType {
         override fun isValidType(other: ViewHolderType): Boolean = other is Activity
     }
 
-    data class Record(
-        override val id: Long,
-        override val name: String,
-        @ColorInt override val iconColor: Int,
-        @ColorInt override val color: Int,
-        val icon: RecordTypeIcon?,
-        val iconAlpha: Float = 1.0f
-    ) : CategoryViewData() {
+    sealed class Record : CategoryViewData() {
+        abstract val icon: RecordTypeIcon?
+        abstract val iconAlpha: Float
 
-        override fun isValidType(other: ViewHolderType): Boolean = other is Record
+        data class Tagged(
+            override val id: Long,
+            override val name: String,
+            @ColorInt override val iconColor: Int,
+            @ColorInt override val color: Int,
+            override val icon: RecordTypeIcon?,
+            override val iconAlpha: Float = 1.0f
+        ) : Record() {
+
+            override fun isValidType(other: ViewHolderType): Boolean = other is Tagged
+        }
+
+        data class Untagged(
+            val typeId: Long,
+            override val name: String,
+            @ColorInt override val iconColor: Int,
+            @ColorInt override val color: Int,
+            override val icon: RecordTypeIcon?,
+            override val iconAlpha: Float = 1.0f
+        ) : Record() {
+
+            override val id: Long get() = typeId
+
+            override fun isValidType(other: ViewHolderType): Boolean = other is Untagged
+        }
     }
 }

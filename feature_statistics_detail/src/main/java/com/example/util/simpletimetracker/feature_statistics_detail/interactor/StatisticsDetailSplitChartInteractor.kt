@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_statistics_detail.interactor
 
+import com.example.util.simpletimetracker.core.extension.isNotFiltered
 import com.example.util.simpletimetracker.core.interactor.TypesFilterInteractor
 import com.example.util.simpletimetracker.core.mapper.RangeMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
@@ -53,8 +54,7 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
         val dataTimesTracked: MutableMap<Int, Long> = mutableMapOf()
 
         val typeIds = typesFilterInteractor.getTypeIds(filter)
-        val records = recordInteractor.getByType(typeIds)
-            .filter { it.tagId !in filter.filteredRecordTags }
+        val records = recordInteractor.getByType(typeIds).filter { it.isNotFiltered(filter) }
         val ranges = mapToRanges(records, range)
         val totalTracked = ranges.let(rangeMapper::mapToDuration)
 
