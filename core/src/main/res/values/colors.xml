@@ -66,4 +66,7 @@
     <color name="colorLegend">@color/blue_grey_100</color>
     <color name="colorLegendDark">@color/grey_900</color>
 
+    <color name="inputFieldBorder">@color/blue_grey_50</color>
+    <color name="inputFieldBorderDark">@color/grey_900</color>
+
 </resources>

@@ -4,5 +4,5 @@
     <corners android:radius="8dp" />
     <stroke
         android:width="2dp"
-        android:color="@color/blue_grey_50" />
+        android:color="@color/inputFieldBorder" />
 </shape>

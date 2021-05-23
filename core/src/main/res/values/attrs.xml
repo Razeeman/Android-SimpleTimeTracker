@@ -10,6 +10,7 @@
     <attr name="appDividerColor" format="reference" />
     <attr name="appDivider" format="reference" />
     <attr name="appInputFieldBorder" format="reference" />
+    <attr name="appInputFieldBorderColor" format="reference" />
     <attr name="appPieChartDividerColor" format="reference" />
     <attr name="appCardBackgroundColor" format="reference" />
     <attr name="appButtonOnCardBackgroundColor" format="reference" />

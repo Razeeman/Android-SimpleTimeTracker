@@ -22,6 +22,7 @@
         <item name="appDividerColor">@color/colorDivider</item>
         <item name="appDivider">@drawable/divider_drawable</item>
         <item name="appInputFieldBorder">@drawable/bg_input_field_border</item>
+        <item name="appInputFieldBorderColor">@color/inputFieldBorder</item>
         <item name="appPieChartDividerColor">@color/pieChartDivider</item>
         <item name="appCardBackgroundColor">@color/cardBackground</item>
         <item name="appButtonOnCardBackgroundColor">@color/buttonOnCardBackground</item>
@@ -56,6 +57,7 @@
         <item name="appDividerColor">@color/colorDividerDark</item>
         <item name="appDivider">@drawable/divider_drawable_dark</item>
         <item name="appInputFieldBorder">@drawable/bg_input_field_border_dark</item>
+        <item name="appInputFieldBorderColor">@color/inputFieldBorderDark</item>
         <item name="appPieChartDividerColor">@color/pieChartDividerDark</item>
         <item name="appCardBackgroundColor">@color/cardBackgroundDark</item>
         <item name="appButtonOnCardBackgroundColor">@color/buttonOnCardBackgroundDark</item>
@@ -149,7 +151,8 @@
         <item name="boxCornerRadiusBottomStart">@dimen/input_field_corner_radius</item>
         <item name="boxCornerRadiusTopEnd">@dimen/input_field_corner_radius</item>
         <item name="boxCornerRadiusTopStart">@dimen/input_field_corner_radius</item>
-        <item name="boxStrokeColor">@color/blue_grey_50</item>
+        <item name="boxStrokeColor">@color/states_input_field_border_color</item>
+        <item name="boxStrokeWidth">2dp</item>
         <item name="errorTextAppearance">@style/ChangeItemErrorStyle</item>
         <item name="hintTextAppearance">@style/ChangeItemHintStyle</item>
         <item name="hintTextColor">@color/blue_grey_300</item>
