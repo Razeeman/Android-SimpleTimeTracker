@@ -17,6 +17,10 @@ android {
         versionCode = Base.versionCode
         versionName = Base.versionName
     }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
 }
 
 dependencies {

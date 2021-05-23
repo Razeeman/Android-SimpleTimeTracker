@@ -73,8 +73,4 @@ class ArchiveFragment : BaseFragment(R.layout.archive_fragment),
 
     override fun onPositiveClick(tag: String?, data: Any?) =
         viewModel.onPositiveDialogClick(tag, data)
-
-    companion object {
-        fun newInstance() = ArchiveFragment()
-    }
 }

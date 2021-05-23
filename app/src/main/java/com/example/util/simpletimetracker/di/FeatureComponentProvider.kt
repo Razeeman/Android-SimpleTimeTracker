@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.di
 
+import com.example.util.simpletimetracker.core.recordTagSelection.RecordTagSelectionComponentProvider
 import com.example.util.simpletimetracker.feature_archive.di.ArchiveComponentProvider
 import com.example.util.simpletimetracker.feature_categories.di.CategoriesComponentProvider
 import com.example.util.simpletimetracker.feature_change_category.di.ChangeCategoryComponentProvider
@@ -47,7 +48,8 @@ interface FeatureComponentProvider :
     CategoriesComponentProvider,
     ChangeCategoryComponentProvider,
     ChangeRecordTagComponentProvider,
-    ArchiveComponentProvider {
+    ArchiveComponentProvider,
+    RecordTagSelectionComponentProvider {
 
     var appComponent: AppComponent?
 }

@@ -323,7 +323,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
         )
 
         router.navigate(
-            Screen.EMOJI_SELECTION,
+            Screen.EMOJI_SELECTION_DIALOG,
             params
         )
     }

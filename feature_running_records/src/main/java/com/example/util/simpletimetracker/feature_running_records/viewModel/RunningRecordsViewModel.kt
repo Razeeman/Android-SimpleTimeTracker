@@ -10,10 +10,7 @@ import com.example.util.simpletimetracker.core.extension.toParams
 import com.example.util.simpletimetracker.core.interactor.AddRunningRecordMediator
 import com.example.util.simpletimetracker.core.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
-import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
-import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
-import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.feature_running_records.interactor.RunningRecordsViewDataInteractor
 import com.example.util.simpletimetracker.feature_running_records.viewData.RunningRecordTypeAddViewData
 import com.example.util.simpletimetracker.feature_running_records.viewData.RunningRecordViewData
@@ -21,6 +18,7 @@ import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
 import com.example.util.simpletimetracker.navigation.params.ChangeRecordTypeParams
 import com.example.util.simpletimetracker.navigation.params.ChangeRunningRecordParams
+import com.example.util.simpletimetracker.navigation.params.RecordTagSelectionParams
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.delay
@@ -33,8 +31,6 @@ class RunningRecordsViewModel @Inject constructor(
     private val addRunningRecordMediator: AddRunningRecordMediator,
     private val removeRunningRecordMediator: RemoveRunningRecordMediator,
     private val runningRecordInteractor: RunningRecordInteractor,
-    private val recordInteractor: RecordInteractor,
-    private val prefsInteractor: PrefsInteractor,
     private val runningRecordsViewDataInteractor: RunningRecordsViewDataInteractor
 ) : ViewModel() {
 
@@ -46,13 +42,11 @@ class RunningRecordsViewModel @Inject constructor(
 
     fun onRecordTypeClick(item: RecordTypeViewData) {
         viewModelScope.launch {
-            if (!prefsInteractor.getAllowMultitasking()) {
-                runningRecordInteractor.getAll()
-                    .filter { it.id != item.id }
-                    .forEach { handleRunningRecordRemove(it) }
-            }
-            addRunningRecordMediator.add(item.id)
-            updateRunningRecords()
+            addRunningRecordMediator.tryStartTimer(
+                typeId = item.id,
+                onNeedToShowTagSelection = { showTagSelection(item.id) }
+            )
+            updateRunningRecords() // TODO also update after tag selected
         }
     }
 
@@ -92,7 +86,7 @@ class RunningRecordsViewModel @Inject constructor(
     fun onRunningRecordClick(item: RunningRecordViewData) {
         viewModelScope.launch {
             runningRecordInteractor.get(item.id)
-                ?.let { handleRunningRecordRemove(it) }
+                ?.let { removeRunningRecordMediator.removeWithRecordAdd(it) }
             updateRunningRecords()
         }
     }
@@ -125,6 +119,13 @@ class RunningRecordsViewModel @Inject constructor(
         stopUpdate()
     }
 
+    private fun showTagSelection(typeId: Long) {
+        router.navigate(
+            screen = Screen.RECORD_TAG_SELECTION_DIALOG,
+            data = RecordTagSelectionParams(typeId)
+        )
+    }
+
     private fun updateRunningRecords() = viewModelScope.launch {
         val data = loadRunningRecordsViewData()
         (runningRecords as MutableLiveData).value = data
@@ -132,16 +133,6 @@ class RunningRecordsViewModel @Inject constructor(
 
     private suspend fun loadRunningRecordsViewData(): List<ViewHolderType> {
         return runningRecordsViewDataInteractor.getViewData()
-    }
-
-    private suspend fun handleRunningRecordRemove(runningRecord: RunningRecord) {
-        recordInteractor.add(
-            typeId = runningRecord.id,
-            timeStarted = runningRecord.timeStarted,
-            comment = runningRecord.comment,
-            tagId = runningRecord.tagId
-        )
-        removeRunningRecordMediator.remove(runningRecord.id)
     }
 
     private fun startUpdate() {

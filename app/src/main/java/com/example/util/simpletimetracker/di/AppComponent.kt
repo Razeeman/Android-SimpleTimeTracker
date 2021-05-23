@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.di
 
+import com.example.util.simpletimetracker.core.recordTagSelection.RecordTagSelectionComponent
 import com.example.util.simpletimetracker.data_local.di.DataLocalModule
 import com.example.util.simpletimetracker.feature_archive.di.ArchiveComponent
 import com.example.util.simpletimetracker.feature_categories.di.CategoriesComponent
@@ -67,4 +68,5 @@ interface AppComponent {
     fun plusChangeCategoryComponent(): ChangeCategoryComponent
     fun plusChangeRecordTagComponent(): ChangeRecordTagComponent
     fun plusArchiveComponent(): ArchiveComponent
+    fun plusRecordTagSelectionComponent(): RecordTagSelectionComponent
 }

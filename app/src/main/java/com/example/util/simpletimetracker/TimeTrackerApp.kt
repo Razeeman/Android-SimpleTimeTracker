@@ -4,6 +4,7 @@ import android.app.Application
 import android.os.StrictMode
 import androidx.emoji.bundled.BundledEmojiCompatConfig
 import androidx.emoji.text.EmojiCompat
+import com.example.util.simpletimetracker.core.recordTagSelection.RecordTagSelectionComponent
 import com.example.util.simpletimetracker.di.AppComponent
 import com.example.util.simpletimetracker.di.AppModule
 import com.example.util.simpletimetracker.di.DaggerAppComponent
@@ -60,6 +61,7 @@ class TimeTrackerApp : Application(), FeatureComponentProvider {
     override var changeCategoryComponent: ChangeCategoryComponent? = null
     override var changeRecordTagComponent: ChangeRecordTagComponent? = null
     override var archiveComponent: ArchiveComponent? = null
+    override var recordTagSelectionComponent: RecordTagSelectionComponent? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -103,6 +105,7 @@ class TimeTrackerApp : Application(), FeatureComponentProvider {
         changeCategoryComponent = appComponent?.plusChangeCategoryComponent()
         changeRecordTagComponent = appComponent?.plusChangeRecordTagComponent()
         archiveComponent = appComponent?.plusArchiveComponent()
+        recordTagSelectionComponent = appComponent?.plusRecordTagSelectionComponent()
     }
 
     private fun initLibraries() {

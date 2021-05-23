@@ -15,6 +15,7 @@ import com.example.util.simpletimetracker.feature_dialogs.cardOrder.view.CardOrd
 import com.example.util.simpletimetracker.feature_dialogs.dateTime.DateTimeDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.duration.view.DurationDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.emojiSelection.view.EmojiSelectionDialogFragment
+import com.example.util.simpletimetracker.feature_dialogs.recordTagSelection.RecordTagSelectionDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.standard.StandardDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.typesFilter.view.TypesFilterDialogFragment
 import com.example.util.simpletimetracker.feature_records_all.view.RecordsAllFragment
@@ -154,7 +155,7 @@ class ScreenResolverImpl @Inject constructor() : ScreenResolver {
                     null,
                     navExtras
                 )
-            Screen.EMOJI_SELECTION ->
+            Screen.EMOJI_SELECTION_DIALOG ->
                 navController?.navigate(
                     R.id.emojiSelectionDialogFragment,
                     EmojiSelectionDialogFragment.createBundle(data),
@@ -165,6 +166,13 @@ class ScreenResolverImpl @Inject constructor() : ScreenResolver {
                 navController?.navigate(
                     R.id.archiveDialogFragment,
                     ArchiveDialogFragment.createBundle(data),
+                    null,
+                    navExtras
+                )
+            Screen.RECORD_TAG_SELECTION_DIALOG ->
+                navController?.navigate(
+                    R.id.recordTagSelectionDialogFragment,
+                    RecordTagSelectionDialogFragment.createBundle(data),
                     null,
                     navExtras
                 )
