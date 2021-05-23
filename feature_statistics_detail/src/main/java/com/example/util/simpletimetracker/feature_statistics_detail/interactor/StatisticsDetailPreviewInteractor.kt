@@ -18,34 +18,39 @@ class StatisticsDetailPreviewInteractor @Inject constructor(
 
     suspend fun getPreviewData(
         filterParams: TypesFilterParams
-    ): StatisticsDetailPreviewViewData {
-        val id = filterParams.selectedIds.firstOrNull()
+    ): List<StatisticsDetailPreviewViewData> {
+        val selectedIds = filterParams.selectedIds
         val filter = filterParams.filterType
         val isDarkTheme = prefsInteractor.getDarkMode()
 
-        if (id == null) {
-            return statisticsDetailViewDataMapper.mapToPreviewEmpty(isDarkTheme)
-        }
-
-        val name: String?
-        val color: Int?
-        val icon: String?
-
-        when (filter) {
+        val viewData = when (filter) {
             ChartFilterType.ACTIVITY -> {
-                val recordType = recordTypeInteractor.get(id)
-                name = recordType?.name
-                color = recordType?.color
-                icon = recordType?.icon
+                recordTypeInteractor.getAll()
+                    .filter { it.id in selectedIds }
+                    .mapIndexed { index, type ->
+                        statisticsDetailViewDataMapper.mapToPreview(
+                            recordType = type,
+                            isDarkTheme = isDarkTheme,
+                            isFirst = index == 0
+                        )
+                    }
             }
             ChartFilterType.CATEGORY -> {
-                val category = categoryInteractor.get(id)
-                name = category?.name
-                color = category?.color
-                icon = null
+                categoryInteractor.getAll()
+                    .filter { it.id in selectedIds }
+                    .map { category ->
+                        statisticsDetailViewDataMapper.mapToPreview(
+                            category = category,
+                            isDarkTheme = isDarkTheme
+                        )
+                    }
             }
         }
 
-        return statisticsDetailViewDataMapper.mapToPreview(name, icon, color, isDarkTheme)
+        return viewData
+            .takeUnless { it.isEmpty() }
+            ?: statisticsDetailViewDataMapper
+                .mapToPreviewEmpty(isDarkTheme)
+                .let(::listOf)
     }
 }

@@ -88,6 +88,16 @@
 
             </androidx.cardview.widget.CardView>
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvStatisticsDetailPreviewItems"
+                android:layout_width="match_parent"
+                android:overScrollMode="never"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="4dp"
+                tools:listitem="@layout/statistics_detail_preview_item"
+                app:layout_constraintTop_toBottomOf="@id/layoutStatisticsDetailItem"
+                tools:itemCount="1" />
+
             <com.example.util.simpletimetracker.feature_statistics_detail.customView.BarChartView
                 android:id="@+id/chartStatisticsDetail"
                 android:layout_width="match_parent"
@@ -97,7 +107,7 @@
                 android:layout_marginEnd="8dp"
                 app:barCornerRadius="8dp"
                 app:dividerMaxWidth="2dp"
-                app:layout_constraintTop_toBottomOf="@id/layoutStatisticsDetailItem"
+                app:layout_constraintTop_toBottomOf="@id/rvStatisticsDetailPreviewItems"
                 app:legendLineColor="?appLegendColor"
                 app:legendTextColor="@color/textSecondary"
                 app:legendTextSize="14sp"
@@ -112,7 +122,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                app:layout_constraintTop_toBottomOf="@id/chartStatisticsDetail" />
+                app:layout_constraintTop_toBottomOf="@id/chartStatisticsDetail"
+                tools:layout_editor_absoluteX="-16dp" />
 
             <com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowView
                 android:id="@+id/buttonsStatisticsDetailLength"

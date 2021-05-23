@@ -5,6 +5,7 @@ import androidx.core.view.ViewCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.transition.TransitionInflater
+import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
@@ -18,6 +19,7 @@ import com.example.util.simpletimetracker.core.utils.BuildVersions
 import com.example.util.simpletimetracker.core.view.TransitionNames
 import com.example.util.simpletimetracker.core.viewData.RangesViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.R
+import com.example.util.simpletimetracker.feature_statistics_detail.adapter.createStatisticsPreviewAdapterDelegate
 import com.example.util.simpletimetracker.feature_statistics_detail.di.StatisticsDetailComponentProvider
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewViewData
@@ -25,6 +27,10 @@ import com.example.util.simpletimetracker.feature_statistics_detail.viewData.Sta
 import com.example.util.simpletimetracker.feature_statistics_detail.viewModel.StatisticsDetailViewModel
 import com.example.util.simpletimetracker.navigation.params.StatisticsDetailParams
 import com.example.util.simpletimetracker.navigation.params.TypesFilterParams
+import com.google.android.flexbox.FlexDirection
+import com.google.android.flexbox.FlexWrap
+import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.android.flexbox.JustifyContent
 import kotlinx.android.synthetic.main.statistics_detail_fragment.*
 import javax.inject.Inject
 
@@ -38,6 +44,11 @@ class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragmen
     private val viewModel: StatisticsDetailViewModel by viewModels(
         factoryProducer = { viewModelFactory }
     )
+    private val previewAdapter: BaseRecyclerAdapter by lazy {
+        BaseRecyclerAdapter(
+            createStatisticsPreviewAdapterDelegate()
+        )
+    }
     private val params: StatisticsDetailParams by lazy {
         arguments?.getParcelable(ARGS_PARAMS) ?: StatisticsDetailParams()
     }
@@ -60,6 +71,15 @@ class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragmen
             layoutStatisticsDetailItem,
             TransitionNames.STATISTICS_DETAIL + params.filter.selectedIds.first()
         )
+
+        rvStatisticsDetailPreviewItems.apply {
+            layoutManager = FlexboxLayoutManager(requireContext()).apply {
+                flexDirection = FlexDirection.ROW
+                justifyContent = JustifyContent.FLEX_START
+                flexWrap = FlexWrap.WRAP
+            }
+            adapter = previewAdapter
+        }
     }
 
     override fun initUx() {
@@ -109,23 +129,29 @@ class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragmen
 
     private fun setPreview() = params.preview?.run {
         StatisticsDetailPreviewViewData(
+            id = 0L,
             name = name,
             iconId = iconId?.toViewData(),
             color = color
-        ).let(::setPreviewViewData)
+        ).let(::listOf).let(::setPreviewViewData)
     }
 
-    private fun setPreviewViewData(viewData: StatisticsDetailPreviewViewData) {
-        tvStatisticsDetailItemName.text = viewData.name
-        layoutStatisticsDetailItem.setCardBackgroundColor(viewData.color)
-        chartStatisticsDetail.setBarColor(viewData.color)
-        chartStatisticsDetailSplit.setBarColor(viewData.color)
-        if (viewData.iconId != null) {
+    private fun setPreviewViewData(viewData: List<StatisticsDetailPreviewViewData>) {
+        val first = viewData.firstOrNull() ?: return
+        val rest = viewData.drop(1)
+
+        tvStatisticsDetailItemName.text = first.name
+        layoutStatisticsDetailItem.setCardBackgroundColor(first.color)
+        chartStatisticsDetail.setBarColor(first.color)
+        chartStatisticsDetailSplit.setBarColor(first.color)
+        if (first.iconId != null) {
             ivStatisticsDetailItemIcon.visible = true
-            ivStatisticsDetailItemIcon.itemIcon = viewData.iconId
+            ivStatisticsDetailItemIcon.itemIcon = first.iconId
         } else {
             ivStatisticsDetailItemIcon.visible = false
         }
+
+        previewAdapter.replace(rest)
     }
 
     private fun setStatsViewData(statsViewData: StatisticsDetailStatsViewData) {

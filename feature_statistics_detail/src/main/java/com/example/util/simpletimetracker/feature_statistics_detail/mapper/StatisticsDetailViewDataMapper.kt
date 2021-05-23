@@ -8,9 +8,11 @@ import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.extension.rotateLeft
+import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.Record
+import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_statistics_detail.R
 import com.example.util.simpletimetracker.feature_statistics_detail.customView.BarChartView
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartBarDataDuration
@@ -96,20 +98,32 @@ class StatisticsDetailViewDataMapper @Inject constructor(
     }
 
     fun mapToPreview(
-        name: String?,
-        iconName: String?,
-        colorId: Int?,
+        recordType: RecordType,
+        isDarkTheme: Boolean,
+        isFirst: Boolean
+    ): StatisticsDetailPreviewViewData {
+        return StatisticsDetailPreviewViewData(
+            id = recordType.id,
+            name = recordType.name.takeIf { isFirst }.orEmpty(),
+            iconId = recordType.icon
+                .let(iconMapper::mapIcon),
+            color = recordType.color
+                .let { colorMapper.mapToColorResId(it, isDarkTheme) }
+                .let(resourceRepo::getColor)
+        )
+    }
+
+    fun mapToPreview(
+        category: Category,
         isDarkTheme: Boolean
     ): StatisticsDetailPreviewViewData {
         return StatisticsDetailPreviewViewData(
-            name = name
-                .orEmpty(),
-            iconId = iconName
-                ?.let(iconMapper::mapIcon),
-            color = colorId
-                ?.let { colorMapper.mapToColorResId(it, isDarkTheme) }
-                ?.let(resourceRepo::getColor)
-                ?: colorMapper.toUntrackedColor(isDarkTheme)
+            id = category.id,
+            name = category.name,
+            iconId = null,
+            color = category.color
+                .let { colorMapper.mapToColorResId(it, isDarkTheme) }
+                .let(resourceRepo::getColor)
         )
     }
 
@@ -117,6 +131,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         isDarkTheme: Boolean
     ): StatisticsDetailPreviewViewData {
         return StatisticsDetailPreviewViewData(
+            id = 0,
             name = "",
             iconId = RecordTypeIcon.Image(R.drawable.unknown),
             color = colorMapper.toUntrackedColor(isDarkTheme)
