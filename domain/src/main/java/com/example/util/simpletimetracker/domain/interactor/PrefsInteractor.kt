@@ -147,6 +147,14 @@ class PrefsInteractor @Inject constructor(
         prefsRepo.useMilitaryTimeFormat = isUsed
     }
 
+    suspend fun getShowRecordTagSelection(): Boolean = withContext(Dispatchers.IO) {
+        prefsRepo.showRecordTagSelection
+    }
+
+    suspend fun setShowRecordTagSelection(value: Boolean) = withContext(Dispatchers.IO) {
+        prefsRepo.showRecordTagSelection = value
+    }
+
     suspend fun setWidget(widgetId: Int, recordType: Long) = withContext(Dispatchers.IO) {
         prefsRepo.setWidget(widgetId, recordType)
     }

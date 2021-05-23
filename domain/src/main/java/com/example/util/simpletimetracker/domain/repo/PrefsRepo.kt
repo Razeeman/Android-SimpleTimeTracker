@@ -26,6 +26,8 @@ interface PrefsRepo {
 
     var useMilitaryTimeFormat: Boolean
 
+    var showRecordTagSelection: Boolean
+
     fun setWidget(widgetId: Int, recordType: Long)
 
     fun getWidget(widgetId: Int): Long

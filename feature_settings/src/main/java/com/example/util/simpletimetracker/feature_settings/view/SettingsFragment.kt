@@ -63,6 +63,7 @@ class SettingsFragment : BaseFragment(R.layout.settings_fragment),
         checkboxSettingsUseMilitaryTime.setOnClick(viewModel::onUseMilitaryTimeClicked)
         tvSettingsChangeCardSize.setOnClick(viewModel::onChangeCardSizeClick)
         layoutSettingsEditCategories.setOnClick(viewModel::onEditCategoriesClick)
+        checkboxSettingsShowRecordTagSelection.setOnClick(viewModel::onShowRecordTagSelectionClicked)
         tvSettingsArchive.setOnClick(viewModel::onArchiveClick)
         layoutSettingsSaveBackup.setOnClick(viewModel::onSaveClick)
         layoutSettingsRestoreBackup.setOnClick(viewModel::onRestoreClick)
@@ -108,6 +109,10 @@ class SettingsFragment : BaseFragment(R.layout.settings_fragment),
             viewLifecycleOwner,
             checkboxSettingsUseMilitaryTime::setChecked
         )
+        showRecordTagSelectionCheckbox.observe(
+            viewLifecycleOwner,
+            checkboxSettingsShowRecordTagSelection::setChecked
+        )
         useMilitaryTimeHint.observe(
             viewLifecycleOwner,
             tvSettingsUseMilitaryTimeHint::setText
@@ -127,6 +132,7 @@ class SettingsFragment : BaseFragment(R.layout.settings_fragment),
         checkboxSettingsShowNotifications.jumpDrawablesToCurrentState()
         checkboxSettingsDarkMode.jumpDrawablesToCurrentState()
         checkboxSettingsUseMilitaryTime.jumpDrawablesToCurrentState()
+        checkboxSettingsShowRecordTagSelection.jumpDrawablesToCurrentState()
         viewModel.onVisible()
     }
 

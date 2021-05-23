@@ -151,6 +151,8 @@
     <string name="settings_archive">Archive</string>
     <string name="settings_edit_categories">Edit tags</string>
     <string name="settings_edit_categories_hint">Assign tags to activities and records.</string>
+    <string name="settings_show_record_tag_selection">Show record tag selection</string>
+    <string name="settings_show_record_tag_selection_hint">When starting a timer, if activity has any record tags - a selection dialog will be shown.</string>
     <string name="settings_rate">Rate us</string>
     <string name="settings_rate_description">Rate the app and leave a review.</string>
     <string name="settings_feedback">Feedback</string>
