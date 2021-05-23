@@ -112,7 +112,7 @@
         <item name="android:background">@android:color/transparent</item>
     </style>
 
-    <style name="ChangeRecordTypeInputFieldCard">
+    <style name="InputFieldCard">
         <item name="cardBackgroundColor">?appBackgroundColor</item>
         <item name="cardPreventCornerOverlap">false</item>
         <item name="cardUseCompatPadding">true</item>
@@ -123,7 +123,7 @@
         <item name="cardElevation">0dp</item>
     </style>
 
-    <style name="ChangeRecordTypeText">
+    <style name="InputFieldCardText">
         <item name="android:gravity">center_vertical</item>
         <item name="android:paddingStart">10dp</item>
         <item name="android:paddingEnd">10dp</item>

@@ -57,7 +57,7 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/fieldChangeCategoryColor"
-        style="@style/ChangeRecordTypeInputFieldCard"
+        style="@style/InputFieldCard"
         android:layout_width="0dp"
         android:layout_height="@dimen/input_field_height"
         android:layout_marginStart="@dimen/input_field_margin"
@@ -72,7 +72,7 @@
             android:background="?appInputFieldBorder">
 
             <androidx.appcompat.widget.AppCompatTextView
-                style="@style/ChangeRecordTypeText"
+                style="@style/InputFieldCardText"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
@@ -98,7 +98,7 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/fieldChangeCategoryType"
-        style="@style/ChangeRecordTypeInputFieldCard"
+        style="@style/InputFieldCard"
         android:layout_width="0dp"
         android:layout_height="@dimen/input_field_height"
         android:layout_marginTop="8dp"
@@ -113,7 +113,7 @@
             android:background="?appInputFieldBorder">
 
             <androidx.appcompat.widget.AppCompatTextView
-                style="@style/ChangeRecordTypeText"
+                style="@style/InputFieldCardText"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"

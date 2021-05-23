@@ -24,6 +24,7 @@ import com.example.util.simpletimetracker.core.extension.visible
 import com.example.util.simpletimetracker.core.utils.BuildVersions
 import com.example.util.simpletimetracker.core.view.TransitionNames
 import com.example.util.simpletimetracker.core.adapter.category.CategoryViewData
+import com.example.util.simpletimetracker.core.utils.setFlipChooserColor
 import com.example.util.simpletimetracker.feature_change_category.R
 import com.example.util.simpletimetracker.feature_change_category.di.ChangeCategoryComponentProvider
 import com.example.util.simpletimetracker.feature_change_category.viewModel.ChangeCategoryViewModel
@@ -129,12 +130,14 @@ class ChangeCategoryFragment : BaseFragment(R.layout.change_category_fragment) {
         types.observe(viewLifecycleOwner, typesAdapter::replace)
         flipColorChooser.observe(viewLifecycleOwner) { opened ->
             rvChangeCategoryColor.visible = opened
+            setFlipChooserColor(fieldChangeCategoryColor, opened)
             arrowChangeCategoryColor.apply {
                 if (opened) rotateDown() else rotateUp()
             }
         }
         flipTypesChooser.observe(viewLifecycleOwner) { opened ->
             rvChangeCategoryType.visible = opened
+            setFlipChooserColor(fieldChangeCategoryType, opened)
             arrowChangeCategoryType.apply {
                 if (opened) rotateDown() else rotateUp()
             }

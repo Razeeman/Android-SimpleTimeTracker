@@ -21,6 +21,7 @@ import com.example.util.simpletimetracker.core.extension.showKeyboard
 import com.example.util.simpletimetracker.core.extension.toViewData
 import com.example.util.simpletimetracker.core.extension.visible
 import com.example.util.simpletimetracker.core.utils.BuildVersions
+import com.example.util.simpletimetracker.core.utils.setFlipChooserColor
 import com.example.util.simpletimetracker.core.view.TransitionNames
 import com.example.util.simpletimetracker.feature_change_record_tag.R
 import com.example.util.simpletimetracker.feature_change_record_tag.di.ChangeRecordTagComponentProvider
@@ -101,6 +102,7 @@ class ChangeRecordTagFragment : BaseFragment(R.layout.change_record_tag_fragment
         types.observe(viewLifecycleOwner, typesAdapter::replace)
         flipTypesChooser.observe(viewLifecycleOwner) { opened ->
             rvChangeRecordTagType.visible = opened
+            setFlipChooserColor(fieldChangeRecordTagType, opened)
             arrowChangeRecordTagType.apply {
                 if (opened) rotateDown() else rotateUp()
             }
