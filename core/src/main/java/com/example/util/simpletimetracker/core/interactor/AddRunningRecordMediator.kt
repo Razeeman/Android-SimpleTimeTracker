@@ -21,10 +21,8 @@ class AddRunningRecordMediator @Inject constructor(
         typeId: Long,
         onNeedToShowTagSelection: () -> Unit
     ) {
-        val currentTimers = runningRecordInteractor.getAll()
-
         // Already running
-        if (currentTimers.any { it.id == typeId }) return
+        if (runningRecordInteractor.get(typeId) != null) return
 
         // Check if need to show tag selection
         if (prefsInteractor.getShowRecordTagSelection()) {

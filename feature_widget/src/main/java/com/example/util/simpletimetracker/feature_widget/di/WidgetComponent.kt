@@ -1,8 +1,9 @@
 package com.example.util.simpletimetracker.feature_widget.di
 
 import com.example.util.simpletimetracker.feature_widget.configure.view.WidgetConfigureActivity
-import com.example.util.simpletimetracker.feature_widget.universal.activity.view.WidgetUniversalActivity
 import com.example.util.simpletimetracker.feature_widget.universal.WidgetUniversalProvider
+import com.example.util.simpletimetracker.feature_widget.universal.activity.view.WidgetUniversalActivity
+import com.example.util.simpletimetracker.feature_widget.universal.activity.view.WidgetUniversalFragment
 import com.example.util.simpletimetracker.feature_widget.widget.WidgetProvider
 import dagger.Subcomponent
 
@@ -16,4 +17,6 @@ interface WidgetComponent {
     fun inject(activity: WidgetConfigureActivity)
 
     fun inject(activity: WidgetUniversalActivity)
+
+    fun inject(activity: WidgetUniversalFragment)
 }

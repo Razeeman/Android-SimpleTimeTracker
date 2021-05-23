@@ -11,18 +11,19 @@ import com.example.util.simpletimetracker.core.interactor.RemoveRunningRecordMed
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
-import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
-import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.feature_widget.universal.mapper.WidgetUniversalViewDataMapper
+import com.example.util.simpletimetracker.navigation.Router
+import com.example.util.simpletimetracker.navigation.Screen
+import com.example.util.simpletimetracker.navigation.params.RecordTagSelectionParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class WidgetUniversalViewModel @Inject constructor(
+    private val router: Router,
     private val addRunningRecordMediator: AddRunningRecordMediator,
     private val removeRunningRecordMediator: RemoveRunningRecordMediator,
-    private val recordInteractor: RecordInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
     private val prefsInteractor: PrefsInteractor,
@@ -43,30 +44,27 @@ class WidgetUniversalViewModel @Inject constructor(
     fun onRecordTypeClick(item: RecordTypeViewData) {
         viewModelScope.launch {
             val runningRecord = runningRecordInteractor.get(item.id)
+
             if (runningRecord != null) {
                 // Stop running record, add new record
-                handleRunningRecordRemove(runningRecord)
+                removeRunningRecordMediator.removeWithRecordAdd(runningRecord)
             } else {
-                // Stop other activities if necessary
-                if (!prefsInteractor.getAllowMultitasking()) {
-                    runningRecordInteractor.getAll().forEach { handleRunningRecordRemove(it) }
-                }
-                // Add new running record
-                addRunningRecordMediator.add(item.id)
+                // Start running record
+                addRunningRecordMediator.tryStartTimer(
+                    typeId = item.id,
+                    onNeedToShowTagSelection = { showTagSelection(item.id) }
+                )
             }
 
-            updateRecordTypesViewData()
+            updateRecordTypesViewData() // TODO update update on dialog dismiss
         }
     }
 
-    private suspend fun handleRunningRecordRemove(runningRecord: RunningRecord) {
-        recordInteractor.add(
-            typeId = runningRecord.id,
-            timeStarted = runningRecord.timeStarted,
-            comment = runningRecord.comment,
-            tagId = runningRecord.tagId
+    private fun showTagSelection(typeId: Long) {
+        router.navigate(
+            screen = Screen.RECORD_TAG_SELECTION_DIALOG,
+            data = RecordTagSelectionParams(typeId)
         )
-        removeRunningRecordMediator.remove(runningRecord.id)
     }
 
     private fun updateRecordTypesViewData() = viewModelScope.launch {

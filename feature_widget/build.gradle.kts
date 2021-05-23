@@ -25,6 +25,10 @@ android {
 
 dependencies {
     implementation(project(":core"))
+    implementation(project(":feature_dialogs"))
+
+    implementation(Deps.Ktx.navigationFragment)
+    implementation(Deps.Ktx.navigationUi)
 
     kapt(Deps.Kapt.dagger)
 }
