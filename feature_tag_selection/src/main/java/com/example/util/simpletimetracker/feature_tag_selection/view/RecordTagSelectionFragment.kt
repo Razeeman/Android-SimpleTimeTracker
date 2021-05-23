@@ -1,15 +1,21 @@
-package com.example.util.simpletimetracker.core.recordTagSelection
+package com.example.util.simpletimetracker.feature_tag_selection.view
 
+import android.content.Context
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
-import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.category.createCategoryAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.hint.createHintAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
+import com.example.util.simpletimetracker.core.dialog.OnTagSelectedListener
+import com.example.util.simpletimetracker.core.extension.getAllFragments
+import com.example.util.simpletimetracker.feature_tag_selection.R
+import com.example.util.simpletimetracker.feature_tag_selection.di.RecordTagSelectionComponentProvider
+import com.example.util.simpletimetracker.feature_tag_selection.viewModel.RecordTagSelectionViewModel
 import com.example.util.simpletimetracker.navigation.params.RecordTagSelectionParams
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
@@ -19,10 +25,6 @@ import kotlinx.android.synthetic.main.record_tag_selection_fragment.*
 import javax.inject.Inject
 
 class RecordTagSelectionFragment : BaseFragment(R.layout.record_tag_selection_fragment) {
-
-    interface OnTagSelectedListener {
-        fun onTagSelected()
-    }
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<RecordTagSelectionViewModel>
@@ -41,7 +43,22 @@ class RecordTagSelectionFragment : BaseFragment(R.layout.record_tag_selection_fr
     private val params: RecordTagSelectionParams by lazy {
         arguments?.getParcelable(ARGS_PARAMS) ?: RecordTagSelectionParams()
     }
-    var listener: OnTagSelectedListener? = null
+    private val listeners: MutableList<OnTagSelectedListener> = mutableListOf()
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        when (context) {
+            is OnTagSelectedListener -> {
+                listeners.add(context)
+            }
+            is AppCompatActivity -> {
+                context.getAllFragments()
+                    .filter { it is OnTagSelectedListener }
+                    .mapNotNull { it as? OnTagSelectedListener }
+                    .let(listeners::addAll)
+            }
+        }
+    }
 
     override fun initDi() {
         (activity?.application as RecordTagSelectionComponentProvider)
@@ -68,17 +85,18 @@ class RecordTagSelectionFragment : BaseFragment(R.layout.record_tag_selection_fr
 
     @Suppress("UNUSED_PARAMETER")
     private fun onTagSelected(unused: Unit) {
-        listener?.onTagSelected()
+        listeners.forEach { it.onTagSelected() }
     }
 
     companion object {
         private const val ARGS_PARAMS = "args_params"
 
-        fun newInstance(data: RecordTagSelectionParams) =
-            RecordTagSelectionFragment().apply {
+        fun newInstance(data: Any?) = RecordTagSelectionFragment().apply {
+            if (data is RecordTagSelectionParams) {
                 arguments = Bundle().apply {
                     putParcelable(ARGS_PARAMS, data)
                 }
             }
+        }
     }
 }

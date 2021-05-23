@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.core.adapter.loader.createLoaderAdapte
 import com.example.util.simpletimetracker.core.adapter.recordType.createRecordTypeAdapterDelegate
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
+import com.example.util.simpletimetracker.core.dialog.OnTagSelectedListener
 import com.example.util.simpletimetracker.feature_widget.R
 import com.example.util.simpletimetracker.feature_widget.di.WidgetComponentProvider
 import com.example.util.simpletimetracker.feature_widget.universal.activity.viewModel.WidgetUniversalViewModel
@@ -18,7 +19,8 @@ import com.google.android.flexbox.JustifyContent
 import kotlinx.android.synthetic.main.widget_universal_fragment.*
 import javax.inject.Inject
 
-class WidgetUniversalFragment : BaseFragment(R.layout.widget_universal_fragment) {
+class WidgetUniversalFragment : BaseFragment(R.layout.widget_universal_fragment),
+    OnTagSelectedListener {
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<WidgetUniversalViewModel>
@@ -55,4 +57,7 @@ class WidgetUniversalFragment : BaseFragment(R.layout.widget_universal_fragment)
     override fun initViewModel(): Unit = with(viewModel) {
         recordTypes.observe(this@WidgetUniversalFragment, typesAdapter::replace)
     }
+
+    override fun onTagSelected() =
+        viewModel.onTagSelected()
 }

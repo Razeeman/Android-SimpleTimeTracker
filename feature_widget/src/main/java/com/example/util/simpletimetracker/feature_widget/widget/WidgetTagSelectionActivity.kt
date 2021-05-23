@@ -5,18 +5,23 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
+import com.example.util.simpletimetracker.core.dialog.OnTagSelectedListener
 import com.example.util.simpletimetracker.core.manager.ThemeManager
-import com.example.util.simpletimetracker.core.recordTagSelection.RecordTagSelectionFragment
 import com.example.util.simpletimetracker.feature_widget.R
 import com.example.util.simpletimetracker.feature_widget.di.WidgetComponentProvider
+import com.example.util.simpletimetracker.navigation.Screen
+import com.example.util.simpletimetracker.navigation.ScreenFactory
 import com.example.util.simpletimetracker.navigation.params.RecordTagSelectionParams
 import javax.inject.Inject
 
 class WidgetTagSelectionActivity : AppCompatActivity(),
-    RecordTagSelectionFragment.OnTagSelectedListener {
+    OnTagSelectedListener {
 
     @Inject
     lateinit var themeManager: ThemeManager
+
+    @Inject
+    lateinit var screenFactory: ScreenFactory
 
     private val params: RecordTagSelectionParams by lazy {
         intent?.getParcelableExtra(ARGS_PARAMS) ?: RecordTagSelectionParams()
@@ -29,12 +34,13 @@ class WidgetTagSelectionActivity : AppCompatActivity(),
         themeManager.setTheme(this)
         setContentView(R.layout.widget_tag_selection_activity)
 
-        supportFragmentManager.commit {
-            replace(
-                R.id.containerWidgetRecordTagSelection,
-                RecordTagSelectionFragment.newInstance(params)
-                    .apply { listener = this@WidgetTagSelectionActivity }
-            )
+        screenFactory.getFragment(
+            screen = Screen.RECORD_TAG_SELECTION,
+            data = params
+        )?.let {
+            supportFragmentManager.commit {
+                replace(R.id.containerWidgetRecordTagSelection, it)
+            }
         }
     }
 

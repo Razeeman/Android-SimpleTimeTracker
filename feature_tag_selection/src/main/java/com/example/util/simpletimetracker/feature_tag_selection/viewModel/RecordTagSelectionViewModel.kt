@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.core.recordTagSelection
+package com.example.util.simpletimetracker.feature_tag_selection.viewModel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,6 +9,7 @@ import com.example.util.simpletimetracker.core.adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.core.adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.AddRunningRecordMediator
+import com.example.util.simpletimetracker.feature_tag_selection.interactor.RecordTagSelectionViewDataInteractor
 import com.example.util.simpletimetracker.navigation.params.RecordTagSelectionParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject

@@ -127,7 +127,7 @@
         tools:layout="@layout/archive_dialog_fragment" />
     <dialog
         android:id="@+id/recordTagSelectionDialogFragment"
-        android:name="com.example.util.simpletimetracker.feature_dialogs.recordTagSelection.RecordTagSelectionDialogFragment"
+        android:name="com.example.util.simpletimetracker.feature_dialogs.recordTagSelection.view.RecordTagSelectionDialogFragment"
         android:label="RecordTagSelectionDialogFragment"
         tools:layout="@layout/record_tag_selection_dialog_fragment" />
     <fragment

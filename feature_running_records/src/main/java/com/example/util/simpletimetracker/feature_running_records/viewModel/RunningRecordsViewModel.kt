@@ -46,7 +46,7 @@ class RunningRecordsViewModel @Inject constructor(
                 typeId = item.id,
                 onNeedToShowTagSelection = { showTagSelection(item.id) }
             )
-            updateRunningRecords() // TODO also update after tag selected
+            updateRunningRecords()
         }
     }
 
@@ -117,6 +117,10 @@ class RunningRecordsViewModel @Inject constructor(
 
     fun onHidden() {
         stopUpdate()
+    }
+
+    fun onTagSelected() {
+        updateRunningRecords()
     }
 
     private fun showTagSelection(typeId: Long) {

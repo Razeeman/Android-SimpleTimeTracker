@@ -20,28 +20,32 @@ class RecordTagViewDataInteractor @Inject constructor(
     private val categoryViewDataMapper: CategoryViewDataMapper
 ) {
 
-    suspend fun getViewData(newTypeId: Long): List<ViewHolderType> {
-        if (newTypeId == 0L) {
-            return categoryViewDataMapper.mapToTypeNotSelected()
-        }
-
+    suspend fun getTagsViewData(typeId: Long) : List<ViewHolderType> {
         val isDarkTheme = prefsInteractor.getDarkMode()
-        val type = recordTypeInteractor.get(newTypeId)
+        val type = recordTypeInteractor.get(typeId)
 
-        return recordTagInteractor.getByType(newTypeId)
+        return recordTagInteractor.getByType(typeId)
             .filterNot { it.archived }
             .takeUnless { it.isEmpty() }
-            ?.mapNotNull {
+            ?.mapNotNull { tag ->
                 categoryViewDataMapper.mapRecordTag(
-                    tag = it,
+                    tag = tag,
                     type = type ?: return@mapNotNull null,
                     isDarkTheme = isDarkTheme,
                     showIcon = false
                 )
             }
-            ?.plus(
-                mapRecordTagUntagged(isDarkTheme = isDarkTheme)
-            )
+            ?.plus(mapRecordTagUntagged(isDarkTheme))
+            .orEmpty()
+    }
+
+    suspend fun getViewData(newTypeId: Long): List<ViewHolderType> {
+        if (newTypeId == 0L) {
+            return categoryViewDataMapper.mapToTypeNotSelected()
+        }
+
+        return getTagsViewData(newTypeId)
+            .takeUnless { it.isEmpty() }
             ?: categoryViewDataMapper.mapToRecordTagsEmpty()
     }
 

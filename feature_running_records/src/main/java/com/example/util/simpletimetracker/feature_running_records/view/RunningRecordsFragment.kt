@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.core.adapter.empty.createEmptyAdapterD
 import com.example.util.simpletimetracker.core.adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
+import com.example.util.simpletimetracker.core.dialog.OnTagSelectedListener
 import com.example.util.simpletimetracker.feature_running_records.R
 import com.example.util.simpletimetracker.feature_running_records.adapter.createRunningRecordAdapterDelegate
 import com.example.util.simpletimetracker.feature_running_records.adapter.createRunningRecordTypeAdapterDelegate
@@ -18,10 +19,11 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
-import kotlinx.android.synthetic.main.running_records_fragment.rvRunningRecordsList
+import kotlinx.android.synthetic.main.running_records_fragment.*
 import javax.inject.Inject
 
-class RunningRecordsFragment : BaseFragment(R.layout.running_records_fragment) {
+class RunningRecordsFragment : BaseFragment(R.layout.running_records_fragment),
+    OnTagSelectedListener {
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<RunningRecordsViewModel>
@@ -78,6 +80,10 @@ class RunningRecordsFragment : BaseFragment(R.layout.running_records_fragment) {
     override fun onPause() {
         super.onPause()
         viewModel.onHidden()
+    }
+
+    override fun onTagSelected() {
+        viewModel.onTagSelected()
     }
 
     companion object {

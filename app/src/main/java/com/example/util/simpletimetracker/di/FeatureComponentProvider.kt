@@ -1,6 +1,5 @@
 package com.example.util.simpletimetracker.di
 
-import com.example.util.simpletimetracker.core.recordTagSelection.RecordTagSelectionComponentProvider
 import com.example.util.simpletimetracker.feature_archive.di.ArchiveComponentProvider
 import com.example.util.simpletimetracker.feature_categories.di.CategoriesComponentProvider
 import com.example.util.simpletimetracker.feature_change_category.di.ChangeCategoryComponentProvider
@@ -14,6 +13,7 @@ import com.example.util.simpletimetracker.feature_dialogs.chartFilter.di.ChartFi
 import com.example.util.simpletimetracker.feature_dialogs.dateTime.di.DateTimeComponentProvider
 import com.example.util.simpletimetracker.feature_dialogs.duration.di.DurationPickerComponentProvider
 import com.example.util.simpletimetracker.feature_dialogs.emojiSelection.di.EmojiSelectionComponentProvider
+import com.example.util.simpletimetracker.feature_dialogs.recordTagSelection.di.RecordTagSelectionDialogComponentProvider
 import com.example.util.simpletimetracker.feature_dialogs.typesFilter.di.TypesFilterComponentProvider
 import com.example.util.simpletimetracker.feature_main.di.MainComponentProvider
 import com.example.util.simpletimetracker.feature_notification.di.NotificationComponentProvider
@@ -23,6 +23,7 @@ import com.example.util.simpletimetracker.feature_running_records.di.RunningReco
 import com.example.util.simpletimetracker.feature_settings.di.SettingsComponentProvider
 import com.example.util.simpletimetracker.feature_statistics.di.StatisticsComponentProvider
 import com.example.util.simpletimetracker.feature_statistics_detail.di.StatisticsDetailComponentProvider
+import com.example.util.simpletimetracker.feature_tag_selection.di.RecordTagSelectionComponentProvider
 import com.example.util.simpletimetracker.feature_widget.di.WidgetComponentProvider
 
 interface FeatureComponentProvider :
@@ -49,7 +50,8 @@ interface FeatureComponentProvider :
     ChangeCategoryComponentProvider,
     ChangeRecordTagComponentProvider,
     ArchiveComponentProvider,
-    RecordTagSelectionComponentProvider {
+    RecordTagSelectionComponentProvider,
+    RecordTagSelectionDialogComponentProvider {
 
     var appComponent: AppComponent?
 }

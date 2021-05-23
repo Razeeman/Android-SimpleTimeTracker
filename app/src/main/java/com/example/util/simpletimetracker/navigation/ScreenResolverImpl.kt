@@ -15,7 +15,7 @@ import com.example.util.simpletimetracker.feature_dialogs.cardOrder.view.CardOrd
 import com.example.util.simpletimetracker.feature_dialogs.dateTime.DateTimeDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.duration.view.DurationDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.emojiSelection.view.EmojiSelectionDialogFragment
-import com.example.util.simpletimetracker.feature_dialogs.recordTagSelection.RecordTagSelectionDialogFragment
+import com.example.util.simpletimetracker.feature_dialogs.recordTagSelection.view.RecordTagSelectionDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.standard.StandardDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.typesFilter.view.TypesFilterDialogFragment
 import com.example.util.simpletimetracker.feature_records_all.view.RecordsAllFragment
@@ -176,6 +176,9 @@ class ScreenResolverImpl @Inject constructor() : ScreenResolver {
                     null,
                     navExtras
                 )
+            else -> {
+                // Do nothing
+            }
         }
     }
 

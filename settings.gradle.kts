@@ -21,5 +21,6 @@ include(
     "feature_categories",
     "feature_change_category",
     "feature_change_record_tag",
-    "feature_archive"
+    "feature_archive",
+    "feature_tag_selection"
 )

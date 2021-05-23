@@ -1,6 +1,5 @@
 package com.example.util.simpletimetracker.di
 
-import com.example.util.simpletimetracker.core.recordTagSelection.RecordTagSelectionComponent
 import com.example.util.simpletimetracker.data_local.di.DataLocalModule
 import com.example.util.simpletimetracker.feature_archive.di.ArchiveComponent
 import com.example.util.simpletimetracker.feature_categories.di.CategoriesComponent
@@ -15,6 +14,7 @@ import com.example.util.simpletimetracker.feature_dialogs.chartFilter.di.ChartFi
 import com.example.util.simpletimetracker.feature_dialogs.dateTime.di.DateTimeComponent
 import com.example.util.simpletimetracker.feature_dialogs.duration.di.DurationPickerComponent
 import com.example.util.simpletimetracker.feature_dialogs.emojiSelection.di.EmojiSelectionComponent
+import com.example.util.simpletimetracker.feature_dialogs.recordTagSelection.di.RecordTagSelectionDialogComponent
 import com.example.util.simpletimetracker.feature_dialogs.typesFilter.di.TypesFilterComponent
 import com.example.util.simpletimetracker.feature_main.di.MainComponent
 import com.example.util.simpletimetracker.feature_notification.di.NotificationComponent
@@ -25,6 +25,7 @@ import com.example.util.simpletimetracker.feature_running_records.di.RunningReco
 import com.example.util.simpletimetracker.feature_settings.di.SettingsComponent
 import com.example.util.simpletimetracker.feature_statistics.di.StatisticsComponent
 import com.example.util.simpletimetracker.feature_statistics_detail.di.StatisticsDetailComponent
+import com.example.util.simpletimetracker.feature_tag_selection.di.RecordTagSelectionComponent
 import com.example.util.simpletimetracker.feature_widget.di.WidgetComponent
 import com.example.util.simpletimetracker.feature_widget.di.WidgetModule
 import com.example.util.simpletimetracker.ui.MainActivity
@@ -69,4 +70,5 @@ interface AppComponent {
     fun plusChangeRecordTagComponent(): ChangeRecordTagComponent
     fun plusArchiveComponent(): ArchiveComponent
     fun plusRecordTagSelectionComponent(): RecordTagSelectionComponent
+    fun plusRecordTagSelectionDialogComponent(): RecordTagSelectionDialogComponent
 }

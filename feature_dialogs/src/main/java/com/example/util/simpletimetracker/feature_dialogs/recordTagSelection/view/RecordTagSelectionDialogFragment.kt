@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.feature_dialogs.recordTagSelection
+package com.example.util.simpletimetracker.feature_dialogs.recordTagSelection.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,14 +6,21 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.commit
+import com.example.util.simpletimetracker.core.dialog.OnTagSelectedListener
 import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
-import com.example.util.simpletimetracker.core.recordTagSelection.RecordTagSelectionFragment
 import com.example.util.simpletimetracker.feature_dialogs.R
+import com.example.util.simpletimetracker.feature_dialogs.recordTagSelection.di.RecordTagSelectionDialogComponentProvider
+import com.example.util.simpletimetracker.navigation.Screen
+import com.example.util.simpletimetracker.navigation.ScreenFactory
 import com.example.util.simpletimetracker.navigation.params.RecordTagSelectionParams
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import javax.inject.Inject
 
 class RecordTagSelectionDialogFragment : BottomSheetDialogFragment(),
-    RecordTagSelectionFragment.OnTagSelectedListener {
+    OnTagSelectedListener {
+
+    @Inject
+    lateinit var screenFactory: ScreenFactory
 
     private val params: RecordTagSelectionParams by lazy {
         arguments?.getParcelable(ARGS_PARAMS) ?: RecordTagSelectionParams()
@@ -39,6 +46,7 @@ class RecordTagSelectionDialogFragment : BottomSheetDialogFragment(),
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         initDialog()
+        initDi()
         initUi()
     }
 
@@ -50,13 +58,20 @@ class RecordTagSelectionDialogFragment : BottomSheetDialogFragment(),
         setSkipCollapsed()
     }
 
+    private fun initDi() {
+        (activity?.application as RecordTagSelectionDialogComponentProvider)
+            .recordTagSelectionDialogComponent
+            ?.inject(this)
+    }
+
     private fun initUi() {
-        childFragmentManager.commit {
-            replace(
-                R.id.containerRecordTagSelection,
-                RecordTagSelectionFragment.newInstance(params)
-                    .apply { listener = this@RecordTagSelectionDialogFragment }
-            )
+        screenFactory.getFragment(
+            screen = Screen.RECORD_TAG_SELECTION,
+            data = params
+        )?.let {
+            childFragmentManager.commit {
+                replace(R.id.containerRecordTagSelection, it)
+            }
         }
     }
 

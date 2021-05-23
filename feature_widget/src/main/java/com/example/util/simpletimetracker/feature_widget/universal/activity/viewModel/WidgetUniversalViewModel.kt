@@ -56,8 +56,12 @@ class WidgetUniversalViewModel @Inject constructor(
                 )
             }
 
-            updateRecordTypesViewData() // TODO update update on dialog dismiss
+            updateRecordTypesViewData()
         }
+    }
+
+    fun onTagSelected() {
+        updateRecordTypesViewData()
     }
 
     private fun showTagSelection(typeId: Long) {
