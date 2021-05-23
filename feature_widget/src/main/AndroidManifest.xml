@@ -15,6 +15,12 @@
             android:excludeFromRecents="true"
             android:noHistory="true" />
 
+        <activity
+            android:name=".widget.WidgetTagSelectionActivity"
+            android:documentLaunchMode="intoExisting"
+            android:excludeFromRecents="true"
+            android:noHistory="true" />
+
         <receiver
             android:name=".widget.WidgetProvider"
             android:label="@string/widget_name">

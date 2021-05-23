@@ -24,11 +24,12 @@ import com.example.util.simpletimetracker.core.view.RecordTypeView
 import com.example.util.simpletimetracker.core.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
-import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.feature_widget.R
 import com.example.util.simpletimetracker.feature_widget.di.WidgetComponentProvider
+import com.example.util.simpletimetracker.navigation.params.RecordTagSelectionParams
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -51,6 +52,9 @@ class WidgetProvider : AppWidgetProvider() {
 
     @Inject
     lateinit var recordInteractor: RecordInteractor
+
+    @Inject
+    lateinit var recordTagInteractor: RecordTagInteractor
 
     @Inject
     lateinit var widgetInteractor: WidgetInteractor
@@ -77,7 +81,7 @@ class WidgetProvider : AppWidgetProvider() {
 
         super.onReceive(context, intent)
         if (intent?.action == ON_CLICK_ACTION) {
-            onClick(intent.getIntExtra(ARGS_WIDGET_ID, 0))
+            onClick(context, intent.getIntExtra(ARGS_WIDGET_ID, 0))
         }
     }
 
@@ -179,7 +183,10 @@ class WidgetProvider : AppWidgetProvider() {
         view.layout(0, 0, view.measuredWidth, view.measuredHeight)
     }
 
-    private fun onClick(widgetId: Int) {
+    private fun onClick(
+        context: Context?,
+        widgetId: Int
+    ) {
         CoroutineScope(Dispatchers.Main).launch {
             val recordTypeId = prefsInteractor.getWidget(widgetId)
 
@@ -194,27 +201,24 @@ class WidgetProvider : AppWidgetProvider() {
             val runningRecord = runningRecordInteractor.get(recordTypeId)
             if (runningRecord != null) {
                 // Stop running record, add new record
-                handleRunningRecordRemove(runningRecord)
+                removeRunningRecordMediator.removeWithRecordAdd(runningRecord)
             } else {
-                // Stop other activities if necessary
-                if (!prefsInteractor.getAllowMultitasking()) {
-                    runningRecordInteractor.getAll()
-                        .forEach { handleRunningRecordRemove(it) }
-                }
-                // Add new running record
-                addRunningRecordMediator.add(recordTypeId)
+                // Start running record
+                addRunningRecordMediator.tryStartTimer(
+                    typeId = recordTypeId,
+                    onNeedToShowTagSelection = { showTagSelection(context, recordTypeId) }
+                )
             }
         }
     }
 
-    private suspend fun handleRunningRecordRemove(runningRecord: RunningRecord) {
-        recordInteractor.add(
-            typeId = runningRecord.id,
-            timeStarted = runningRecord.timeStarted,
-            comment = runningRecord.comment,
-            tagId = runningRecord.tagId
-        )
-        removeRunningRecordMediator.remove(runningRecord.id)
+    private fun showTagSelection(context: Context?, typeId: Long) {
+        context ?: return
+
+        WidgetTagSelectionActivity.getStartIntent(
+            context = context,
+            data = RecordTagSelectionParams(typeId)
+        ).let(context::startActivity)
     }
 
     private fun getPendingSelfIntent(
