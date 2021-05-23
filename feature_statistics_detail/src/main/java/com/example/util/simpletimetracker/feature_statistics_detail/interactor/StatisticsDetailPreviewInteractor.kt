@@ -1,11 +1,12 @@
 package com.example.util.simpletimetracker.feature_statistics_detail.interactor
 
+import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.StatisticsDetailViewDataMapper
-import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewMoreViewData
 import com.example.util.simpletimetracker.navigation.params.TypesFilterParams
 import javax.inject.Inject
 
@@ -18,7 +19,7 @@ class StatisticsDetailPreviewInteractor @Inject constructor(
 
     suspend fun getPreviewData(
         filterParams: TypesFilterParams
-    ): List<StatisticsDetailPreviewViewData> {
+    ): List<ViewHolderType> {
         val selectedIds = filterParams.selectedIds
         val filter = filterParams.filterType
         val isDarkTheme = prefsInteractor.getDarkMode()
@@ -47,10 +48,21 @@ class StatisticsDetailPreviewInteractor @Inject constructor(
             }
         }
 
-        return viewData
-            .takeUnless { it.isEmpty() }
-            ?: statisticsDetailViewDataMapper
-                .mapToPreviewEmpty(isDarkTheme)
-                .let(::listOf)
+        return when {
+            viewData.isEmpty() -> {
+                statisticsDetailViewDataMapper
+                    .mapToPreviewEmpty(isDarkTheme)
+                    .let(::listOf)
+            }
+            viewData.size == 1 -> {
+                viewData
+            }
+            else -> {
+                viewData
+                    .first().let(::listOf) +
+                    StatisticsDetailPreviewMoreViewData +
+                    viewData.drop(1)
+            }
+        }
     }
 }

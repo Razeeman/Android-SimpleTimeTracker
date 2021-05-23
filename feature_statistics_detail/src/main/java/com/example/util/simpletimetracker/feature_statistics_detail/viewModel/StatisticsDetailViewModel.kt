@@ -54,8 +54,8 @@ class StatisticsDetailViewModel @Inject constructor(
 
     lateinit var extra: StatisticsDetailParams
 
-    val previewViewData: LiveData<List<StatisticsDetailPreviewViewData>> by lazy {
-        return@lazy MutableLiveData<List<StatisticsDetailPreviewViewData>>().let { initial ->
+    val previewViewData: LiveData<List<ViewHolderType>> by lazy {
+        return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
             viewModelScope.launch { initial.value = loadPreviewViewData() }
             initial
         }
@@ -238,7 +238,7 @@ class StatisticsDetailViewModel @Inject constructor(
         previewViewData.set(data)
     }
 
-    private suspend fun loadPreviewViewData(): List<StatisticsDetailPreviewViewData> {
+    private suspend fun loadPreviewViewData(): List<ViewHolderType> {
         return previewInteractor.getPreviewData(typesFilter)
     }
 

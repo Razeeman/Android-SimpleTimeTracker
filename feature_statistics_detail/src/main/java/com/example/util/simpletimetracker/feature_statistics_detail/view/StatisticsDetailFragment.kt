@@ -20,6 +20,7 @@ import com.example.util.simpletimetracker.core.view.TransitionNames
 import com.example.util.simpletimetracker.core.viewData.RangesViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.R
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.createStatisticsPreviewAdapterDelegate
+import com.example.util.simpletimetracker.feature_statistics_detail.adapter.createStatisticsPreviewMoreAdapterDelegate
 import com.example.util.simpletimetracker.feature_statistics_detail.di.StatisticsDetailComponentProvider
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewViewData
@@ -46,6 +47,7 @@ class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragmen
     )
     private val previewAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
+            createStatisticsPreviewMoreAdapterDelegate(),
             createStatisticsPreviewAdapterDelegate()
         )
     }
@@ -136,8 +138,10 @@ class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragmen
         ).let(::listOf).let(::setPreviewViewData)
     }
 
-    private fun setPreviewViewData(viewData: List<StatisticsDetailPreviewViewData>) {
-        val first = viewData.firstOrNull() ?: return
+    private fun setPreviewViewData(viewData: List<ViewHolderType>) {
+        val first = viewData.firstOrNull()
+            as? StatisticsDetailPreviewViewData
+            ?: return
         val rest = viewData.drop(1)
 
         tvStatisticsDetailItemName.text = first.name
