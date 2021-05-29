@@ -7,7 +7,6 @@ import androidx.test.espresso.assertion.PositionAssertions.isCompletelyAbove
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.hasSibling
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
-import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -20,10 +19,7 @@ import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithIdOnPager
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
-import com.example.util.simpletimetracker.utils.longClickOnView
 import com.example.util.simpletimetracker.utils.nestedScrollTo
-import com.example.util.simpletimetracker.utils.tryAction
-import com.example.util.simpletimetracker.utils.withCardColor
 import com.example.util.simpletimetracker.utils.withPluralText
 import org.hamcrest.CoreMatchers.allOf
 import org.junit.Test
@@ -100,104 +96,6 @@ class RecordsAllTest : BaseUiTest() {
 
         // Check new order
         onView(secondRecord).check(isCompletelyAbove(firstRecord))
-    }
-
-    @Test
-    fun recordsAllFilter() {
-        val name1 = "Test1"
-        val name2 = "Test2"
-        val name3 = "Removed"
-        val name4 = "WithRecords"
-
-        // Add activity
-        testUtils.addActivity(name1)
-        testUtils.addActivity(name2)
-        testUtils.addActivity(name3)
-        testUtils.addActivity(name4)
-
-        // Delete one activity
-        tryAction { longClickOnView(withText(name3)) }
-        clickOnViewWithId(R.id.btnChangeRecordTypeDelete)
-
-        // Add records
-        NavUtils.openRecordsScreen()
-        testUtils.addRecord(name1)
-        testUtils.addRecord(name2)
-        testUtils.addRecord(name4)
-
-        // Delete another activity
-        NavUtils.openRunningRecordsScreen()
-        longClickOnView(allOf(withText(name4), isCompletelyDisplayed()))
-        clickOnViewWithId(R.id.btnChangeRecordTypeDelete)
-
-        // Open records all
-        NavUtils.openStatisticsScreen()
-        clickOnView(allOf(withText(name1), isCompletelyDisplayed()))
-        onView(withId(R.id.cardStatisticsDetailRecords)).perform(nestedScrollTo(), click())
-        Thread.sleep(1000)
-
-        // Check records
-        val record1 = allOf(withText(name1), isCompletelyDisplayed())
-        val record2 = allOf(withText(name2), isCompletelyDisplayed())
-        val record4 = allOf(withText(name4), isCompletelyDisplayed())
-
-        checkViewIsDisplayed(record1)
-        checkViewDoesNotExist(record2)
-        checkViewDoesNotExist(record4)
-
-        // Change filter
-        clickOnViewWithId(R.id.cardRecordsAllFilter)
-        checkViewIsDisplayed(
-            allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1))
-        )
-        clickOnView(
-            allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2))
-        )
-        checkViewDoesNotExist(
-            allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name3))
-        )
-        checkViewIsDisplayed(
-            allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name4))
-        )
-        pressBack()
-
-        // Check records
-        checkViewIsDisplayed(record1)
-        checkViewIsDisplayed(record2)
-        checkViewDoesNotExist(record4)
-
-        // Change filter
-        clickOnViewWithId(R.id.cardRecordsAllFilter)
-        clickOnView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1)))
-        clickOnView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2)))
-        pressBack()
-
-        // Check records
-        checkViewDoesNotExist(record1)
-        checkViewDoesNotExist(record2)
-        checkViewDoesNotExist(record4)
-        checkViewIsDisplayed(withText(R.string.records_empty))
-
-        // Show all
-        clickOnViewWithId(R.id.cardRecordsAllFilter)
-        clickOnViewWithId(R.id.btnTypesFilterShowAll)
-        pressBack()
-
-        // Check records
-        checkViewIsDisplayed(record1)
-        checkViewIsDisplayed(record2)
-        checkViewIsDisplayed(record4)
-
-        // Hide all
-        clickOnViewWithId(R.id.cardRecordsAllFilter)
-        clickOnViewWithId(R.id.btnTypesFilterHideAll)
-        pressBack()
-
-        // Check records
-        checkViewDoesNotExist(record1)
-        checkViewDoesNotExist(record2)
-        checkViewDoesNotExist(record4)
-        checkViewIsDisplayed(withText(R.string.records_empty))
     }
 
     @Test
@@ -372,29 +270,5 @@ class RecordsAllTest : BaseUiTest() {
 
         // Check new order
         onView(secondRecord).check(isCompletelyAbove(firstRecord))
-
-        // Check filter
-        clickOnViewWithId(R.id.cardRecordsAllFilter)
-        checkViewIsDisplayed(
-            allOf(
-                withId(R.id.viewRecordTypeItem),
-                hasDescendant(withText(typeName1)),
-                withCardColor(color1)
-            )
-        )
-        checkViewIsDisplayed(
-            allOf(
-                withId(R.id.viewRecordTypeItem),
-                hasDescendant(withText(typeName2)),
-                withCardColor(color2)
-            )
-        )
-        checkViewIsDisplayed(
-            allOf(
-                withId(R.id.viewRecordTypeItem),
-                hasDescendant(withText(typeName3)),
-                withCardColor(R.color.colorFiltered)
-            )
-        )
     }
 }

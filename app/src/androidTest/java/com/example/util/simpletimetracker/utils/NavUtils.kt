@@ -71,14 +71,16 @@ object NavUtils {
         }
 
         // Categories
-        clickOnViewWithText(R.string.change_record_type_category_hint)
-        categories.forEach { categoryName ->
-            scrollRecyclerToView(
-                R.id.rvChangeRecordTypeCategories, hasDescendant(withText(categoryName))
-            )
-            clickOnRecyclerItem(R.id.rvChangeRecordTypeCategories, withText(categoryName))
+        if (categories.isNotEmpty()) {
+            clickOnViewWithText(R.string.change_record_type_category_hint)
+            categories.forEach { categoryName ->
+                scrollRecyclerToView(
+                    R.id.rvChangeRecordTypeCategories, hasDescendant(withText(categoryName))
+                )
+                clickOnRecyclerItem(R.id.rvChangeRecordTypeCategories, withText(categoryName))
+            }
+            clickOnViewWithText(R.string.change_record_type_category_hint)
         }
-        clickOnViewWithText(R.string.change_record_type_category_hint)
 
         // Goal time
         if (!goalTime.isNullOrEmpty()) {
@@ -89,6 +91,7 @@ object NavUtils {
             clickOnViewWithText(R.string.duration_dialog_save)
         }
 
+        closeSoftKeyboard()
         clickOnViewWithText(R.string.change_record_type_save)
     }
 

@@ -100,18 +100,10 @@ class SettingsTest : BaseUiTest() {
         testUtils.addActivity(name3)
 
         // Start timers
-        tryAction { clickOnViewWithText(name1) }
-        clickOnViewWithText(name2)
+        tryAction { clickOnViewWithText(name2) }
         clickOnViewWithText(name3)
         var startTime = System.currentTimeMillis()
             .let { timeMapper.formatTime(it, true) }
-        checkViewIsDisplayed(
-            allOf(
-                withId(R.id.viewRunningRecordItem),
-                hasDescendant(withText(name1)),
-                hasDescendant(withText(startTime))
-            )
-        )
         checkViewIsDisplayed(
             allOf(
                 withId(R.id.viewRunningRecordItem),
@@ -129,7 +121,7 @@ class SettingsTest : BaseUiTest() {
 
         // Click on already running
         clickOnView(
-            allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1))
+            allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2))
         )
         NavUtils.openRecordsScreen()
         checkViewDoesNotExist(allOf(withText(name1), isCompletelyDisplayed()))
@@ -143,7 +135,7 @@ class SettingsTest : BaseUiTest() {
         unconstrainedClickOnView(withId(R.id.checkboxSettingsAllowMultitasking))
         onView(withId(R.id.checkboxSettingsAllowMultitasking)).check(matches(isNotChecked()))
 
-        // Click on already running
+        // Click on one not running
         NavUtils.openRunningRecordsScreen()
         clickOnView(
             allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1))

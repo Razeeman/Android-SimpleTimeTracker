@@ -388,6 +388,106 @@ class StatisticsDetailTest : BaseUiTest() {
         checkEmptyStatistics()
     }
 
+    /** TODO fix after move from records all
+    @Test
+    fun recordsAllFilter() {
+        val name1 = "Test1"
+        val name2 = "Test2"
+        val name3 = "Removed"
+        val name4 = "WithRecords"
+
+        // Add activity
+        testUtils.addActivity(name1)
+        testUtils.addActivity(name2)
+        testUtils.addActivity(name3)
+        testUtils.addActivity(name4)
+
+        // Delete one activity
+        tryAction { longClickOnView(withText(name3)) }
+        clickOnViewWithId(R.id.btnChangeRecordTypeDelete)
+
+        // Add records
+        NavUtils.openRecordsScreen()
+        testUtils.addRecord(name1)
+        testUtils.addRecord(name2)
+        testUtils.addRecord(name4)
+
+        // Delete another activity
+        NavUtils.openRunningRecordsScreen()
+        longClickOnView(allOf(withText(name4), isCompletelyDisplayed()))
+        clickOnViewWithId(R.id.btnChangeRecordTypeDelete)
+
+        // Open records all
+        NavUtils.openStatisticsScreen()
+        clickOnView(allOf(withText(name1), isCompletelyDisplayed()))
+        onView(withId(R.id.cardStatisticsDetailRecords)).perform(nestedScrollTo(), click())
+        Thread.sleep(1000)
+
+        // Check records
+        val record1 = allOf(withText(name1), isCompletelyDisplayed())
+        val record2 = allOf(withText(name2), isCompletelyDisplayed())
+        val record4 = allOf(withText(name4), isCompletelyDisplayed())
+
+        checkViewIsDisplayed(record1)
+        checkViewDoesNotExist(record2)
+        checkViewDoesNotExist(record4)
+
+        // Change filter
+        clickOnViewWithId(R.id.cardRecordsAllFilter)
+        checkViewIsDisplayed(
+            allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1))
+        )
+        clickOnView(
+            allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2))
+        )
+        checkViewDoesNotExist(
+            allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name3))
+        )
+        checkViewIsDisplayed(
+            allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name4))
+        )
+        pressBack()
+
+        // Check records
+        checkViewIsDisplayed(record1)
+        checkViewIsDisplayed(record2)
+        checkViewDoesNotExist(record4)
+
+        // Change filter
+        clickOnViewWithId(R.id.cardRecordsAllFilter)
+        clickOnView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1)))
+        clickOnView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2)))
+        pressBack()
+
+        // Check records
+        checkViewDoesNotExist(record1)
+        checkViewDoesNotExist(record2)
+        checkViewDoesNotExist(record4)
+        checkViewIsDisplayed(withText(R.string.records_empty))
+
+        // Show all
+        clickOnViewWithId(R.id.cardRecordsAllFilter)
+        clickOnViewWithId(R.id.btnTypesFilterShowAll)
+        pressBack()
+
+        // Check records
+        checkViewIsDisplayed(record1)
+        checkViewIsDisplayed(record2)
+        checkViewIsDisplayed(record4)
+
+        // Hide all
+        clickOnViewWithId(R.id.cardRecordsAllFilter)
+        clickOnViewWithId(R.id.btnTypesFilterHideAll)
+        pressBack()
+
+        // Check records
+        checkViewDoesNotExist(record1)
+        checkViewDoesNotExist(record2)
+        checkViewDoesNotExist(record4)
+        checkViewIsDisplayed(withText(R.string.records_empty))
+    }
+    */
+
     private fun checkPreview(color: Int, icon: Int, name: String) {
         checkViewIsDisplayed(
             allOf(

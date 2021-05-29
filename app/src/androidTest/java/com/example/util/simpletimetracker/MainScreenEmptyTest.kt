@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker
 
+import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
@@ -30,11 +31,27 @@ class MainScreenEmptyTest : BaseUiTest() {
     fun mainScreenEmpty() {
         val name = "Test"
 
-        // Empty main
         tryAction { checkViewIsDisplayed(withText(R.string.running_records_types_empty)) }
         checkViewDoesNotExist(withText(R.string.running_records_empty))
 
-        // Empty records
+        // Add activity
+        NavUtils.openRunningRecordsScreen()
+        clickOnView(withText(R.string.running_records_add_type))
+        typeTextIntoView(R.id.etChangeRecordTypeName, name)
+        closeSoftKeyboard()
+        clickOnView(withText(R.string.change_record_type_save))
+        checkViewDoesNotExist(withText(R.string.running_records_types_empty))
+        checkViewIsDisplayed(withText(R.string.running_records_empty))
+
+        // Start timer
+        clickOnViewWithText(name)
+        checkViewDoesNotExist(withText(R.string.running_records_empty))
+        clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name)))
+        tryAction { checkViewIsDisplayed(withText(R.string.running_records_empty)) }
+    }
+
+    @Test
+    fun recordsEmpty() {
         NavUtils.openRecordsScreen()
         checkViewIsDisplayed(
             allOf(
@@ -59,8 +76,10 @@ class MainScreenEmptyTest : BaseUiTest() {
         checkViewIsDisplayed(allOf(withText(R.string.records_empty), isCompletelyDisplayed()))
         checkViewDoesNotExist(allOf(withText(R.string.records_hint), isCompletelyDisplayed()))
         checkViewDoesNotExist(allOf(withText(R.string.untracked_time_name), isCompletelyDisplayed()))
+    }
 
-        // Empty statistics
+    @Test
+    fun statisticsEmpty() {
         NavUtils.openStatisticsScreen()
         checkRanges()
 
@@ -125,20 +144,6 @@ class MainScreenEmptyTest : BaseUiTest() {
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         clickOnViewWithText(R.string.range_day)
         checkCategoryRanges()
-
-        // Add activity
-        NavUtils.openRunningRecordsScreen()
-        clickOnView(withText(R.string.running_records_add_type))
-        typeTextIntoView(R.id.etChangeRecordTypeName, name)
-        clickOnView(withText(R.string.change_record_type_save))
-        checkViewDoesNotExist(withText(R.string.running_records_types_empty))
-        checkViewIsDisplayed(withText(R.string.running_records_empty))
-
-        // Start timer
-        clickOnViewWithText(name)
-        checkViewDoesNotExist(withText(R.string.running_records_empty))
-        clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name)))
-        checkViewIsDisplayed(withText(R.string.running_records_empty))
     }
 
     private fun checkRanges() {
