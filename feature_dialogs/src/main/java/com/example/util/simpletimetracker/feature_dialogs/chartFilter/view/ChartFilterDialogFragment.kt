@@ -18,6 +18,7 @@ import com.example.util.simpletimetracker.core.adapter.recordType.createRecordTy
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.ChartFilterDialogListener
 import com.example.util.simpletimetracker.core.extension.getAllFragments
+import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
 import com.example.util.simpletimetracker.feature_dialogs.R
 import com.example.util.simpletimetracker.feature_dialogs.chartFilter.di.ChartFilterComponentProvider
@@ -119,6 +120,8 @@ class ChartFilterDialogFragment : BottomSheetDialogFragment() {
 
     private fun initUx() {
         buttonsChartFilterType.listener = viewModel::onFilterTypeClick
+        btnChartFilterShowAll.setOnClick(viewModel::onShowAllClick)
+        btnChartFilterHideAll.setOnClick(viewModel::onHideAllClick)
     }
 
     private fun initViewModel(): Unit = with(viewModel) {

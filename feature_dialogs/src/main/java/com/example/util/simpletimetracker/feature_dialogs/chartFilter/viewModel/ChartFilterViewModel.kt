@@ -7,7 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.core.adapter.loader.LoaderViewData
+import com.example.util.simpletimetracker.core.extension.addOrRemove
 import com.example.util.simpletimetracker.core.extension.post
+import com.example.util.simpletimetracker.core.utils.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
@@ -66,11 +68,7 @@ class ChartFilterViewModel @Inject constructor(
 
     fun onRecordTypeClick(item: RecordTypeViewData) {
         viewModelScope.launch {
-            if (item.id in typeIdsFiltered) {
-                typeIdsFiltered.remove(item.id)
-            } else {
-                typeIdsFiltered.add(item.id)
-            }
+            typeIdsFiltered.addOrRemove(item.id)
             prefsInteractor.setFilteredTypes(typeIdsFiltered)
             updateRecordTypesViewData()
         }
@@ -78,13 +76,42 @@ class ChartFilterViewModel @Inject constructor(
 
     fun onCategoryClick(item: CategoryViewData) {
         viewModelScope.launch {
-            if (item.id in categoryIdsFiltered) {
-                categoryIdsFiltered.remove(item.id)
-            } else {
-                categoryIdsFiltered.add(item.id)
-            }
+            categoryIdsFiltered.addOrRemove(item.id)
             prefsInteractor.setFilteredCategories(categoryIdsFiltered)
             updateCategoriesViewData()
+        }
+    }
+
+    fun onShowAllClick() {
+        viewModelScope.launch {
+            when (filterType) {
+                ChartFilterType.ACTIVITY -> {
+                    typeIdsFiltered.clear()
+                    prefsInteractor.setFilteredTypes(typeIdsFiltered)
+                }
+                ChartFilterType.CATEGORY -> {
+                    categoryIdsFiltered.clear()
+                    prefsInteractor.setFilteredCategories(categoryIdsFiltered)
+                }
+            }
+            updateTypesViewData()
+        }
+    }
+
+    fun onHideAllClick() {
+        viewModelScope.launch {
+            when (filterType) {
+                ChartFilterType.ACTIVITY -> {
+                    recordTypes.map { it.id }.let(typeIdsFiltered::addAll)
+                    typeIdsFiltered.add(UNTRACKED_ITEM_ID)
+                    prefsInteractor.setFilteredTypes(typeIdsFiltered)
+                }
+                ChartFilterType.CATEGORY -> {
+                    categories.map { it.id }.let(categoryIdsFiltered::addAll)
+                    prefsInteractor.setFilteredCategories(categoryIdsFiltered)
+                }
+            }
+            updateTypesViewData()
         }
     }
 
@@ -131,12 +158,10 @@ class ChartFilterViewModel @Inject constructor(
                 chartFilterViewDataMapper
                     .mapRecordType(type, typeIdsFiltered, numberOfCards, isDarkTheme)
             }
-            .apply {
-                this as MutableList
+            .plus(
                 chartFilterViewDataMapper
                     .mapToUntrackedItem(typeIdsFiltered, numberOfCards, isDarkTheme)
-                    .let(::add)
-            }
+            )
     }
 
     private suspend fun loadRecordTypes(): List<RecordType> {
