@@ -44,6 +44,7 @@ class AddCategoryTest : BaseUiTest() {
 
         NavUtils.openSettingsScreen()
         NavUtils.openCategoriesScreen()
+        checkViewIsDisplayed(withText(R.string.categories_record_type_hint))
         clickOnViewWithText(R.string.categories_add_activity_tag)
         closeSoftKeyboard()
 

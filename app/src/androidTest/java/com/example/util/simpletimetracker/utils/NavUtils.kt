@@ -122,6 +122,23 @@ object NavUtils {
         clickOnViewWithText(R.string.change_category_save)
     }
 
+    fun addRecordTag(
+        name: String,
+        activity: String
+    ) {
+        tryAction { clickOnViewWithText(R.string.categories_add_record_tag) }
+
+        // Name
+        typeTextIntoView(R.id.etChangeRecordTagName, name)
+
+        // Activity
+        clickOnViewWithText(R.string.change_record_type_field)
+        scrollRecyclerToView(R.id.rvChangeRecordTagType, hasDescendant(withText(activity)))
+        clickOnRecyclerItem(R.id.rvChangeRecordTagType, withText(activity))
+
+        clickOnViewWithText(R.string.change_category_save)
+    }
+
     fun addRecord(name: String) {
         tryAction { clickOnViewWithId(R.id.btnRecordAdd) }
 

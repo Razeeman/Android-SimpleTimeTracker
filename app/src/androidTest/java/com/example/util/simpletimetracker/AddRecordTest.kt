@@ -132,6 +132,16 @@ class AddRecordTest : BaseUiTest() {
         )
     }
 
+    @Test
+    fun addRecordTypesEmpty() {
+        NavUtils.openRecordsScreen()
+        clickOnViewWithId(R.id.btnRecordAdd)
+
+        // Open activity chooser
+        clickOnViewWithText(R.string.change_record_type_field)
+        checkViewIsDisplayed(withText(R.string.record_types_empty))
+    }
+
     private fun checkPreviewUpdated(matcher: Matcher<View>) =
         checkViewIsDisplayed(allOf(withId(R.id.previewChangeRecord), matcher))
 }
