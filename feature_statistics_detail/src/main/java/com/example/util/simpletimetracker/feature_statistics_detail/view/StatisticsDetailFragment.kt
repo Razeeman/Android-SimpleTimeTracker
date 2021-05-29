@@ -4,9 +4,12 @@ import android.os.Bundle
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.TransitionInflater
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.core.adapter.hint.createHintAdapterDelegate
+import com.example.util.simpletimetracker.core.adapter.statistics.createStatisticsAdapterDelegate
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
@@ -51,6 +54,12 @@ class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragmen
             createStatisticsPreviewAdapterDelegate()
         )
     }
+    private val tagSplitAdapter: BaseRecyclerAdapter by lazy {
+        BaseRecyclerAdapter(
+            createHintAdapterDelegate(),
+            createStatisticsAdapterDelegate(onItemClick = { _, _ -> })
+        )
+    }
     private val params: StatisticsDetailParams by lazy {
         arguments?.getParcelable(ARGS_PARAMS) ?: StatisticsDetailParams()
     }
@@ -81,6 +90,10 @@ class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragmen
                 flexWrap = FlexWrap.WRAP
             }
             adapter = previewAdapter
+        }
+        rvStatisticsDetailTagSplit.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = tagSplitAdapter
         }
     }
 
@@ -163,6 +176,8 @@ class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragmen
         cardStatisticsDetailRecords.items = statsViewData.timesTracked
         cardStatisticsDetailAverage.items = statsViewData.averageRecord
         cardStatisticsDetailDates.items = statsViewData.datesTracked
+        rvStatisticsDetailTagSplit.visible = statsViewData.tagSplitData.isNotEmpty()
+        tagSplitAdapter.replace(statsViewData.tagSplitData)
     }
 
     private fun updateChartViewData(viewData: StatisticsDetailChartViewData) {

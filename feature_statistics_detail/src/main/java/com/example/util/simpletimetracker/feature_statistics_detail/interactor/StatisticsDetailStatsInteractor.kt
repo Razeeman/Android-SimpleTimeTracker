@@ -5,6 +5,8 @@ import com.example.util.simpletimetracker.core.interactor.TypesFilterInteractor
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.StatisticsDetailViewDataMapper
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStatsViewData
@@ -15,6 +17,8 @@ class StatisticsDetailStatsInteractor @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val statisticsDetailViewDataMapper: StatisticsDetailViewDataMapper,
     private val recordInteractor: RecordInteractor,
+    private val recordTypeInteractor: RecordTypeInteractor,
+    private val recordTagInteractor: RecordTagInteractor,
     private val typesFilterInteractor: TypesFilterInteractor,
     private val timeMapper: TimeMapper
 ) {
@@ -27,15 +31,17 @@ class StatisticsDetailStatsInteractor @Inject constructor(
         val isDarkTheme = prefsInteractor.getDarkMode()
         val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
+        val types = recordTypeInteractor.getAll()
+        val tags = recordTagInteractor.getAll()
 
         val range = timeMapper.getRangeStartAndEnd(rangeLength, rangePosition, firstDayOfWeek)
-        val types = typesFilterInteractor.getTypeIds(filter)
+        val typeIds = typesFilterInteractor.getTypeIds(filter)
         val records = if (range.first == 0L && range.second == 0L) {
             recordInteractor.getAll()
         } else {
             recordInteractor.getFromRange(range.first, range.second)
         }.filter {
-            it.typeId in types &&
+            it.typeId in typeIds &&
                 it.isNotFiltered(filter) &&
                 // Skip records that started before this time range.
                 it.timeStarted > range.first
@@ -43,6 +49,8 @@ class StatisticsDetailStatsInteractor @Inject constructor(
 
         return statisticsDetailViewDataMapper.mapStatsData(
             records = records,
+            types = types,
+            tags = tags,
             isDarkTheme = isDarkTheme,
             useMilitaryTime = useMilitaryTime
         )

@@ -1,14 +1,13 @@
-package com.example.util.simpletimetracker.feature_statistics.adapter
+package com.example.util.simpletimetracker.core.adapter.statistics
 
 import android.graphics.Color
 import androidx.annotation.ColorInt
 import androidx.core.view.ViewCompat
+import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.adapter.createRecyclerAdapterDelegate
 import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.core.extension.visible
 import com.example.util.simpletimetracker.core.view.TransitionNames
-import com.example.util.simpletimetracker.feature_statistics.R
-import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsViewData
 import kotlinx.android.synthetic.main.item_statistics_layout.view.dividerStatisticsPercent
 import kotlinx.android.synthetic.main.item_statistics_layout.view.ivStatisticsItemIcon
 import kotlinx.android.synthetic.main.item_statistics_layout.view.layoutStatisticsItem
@@ -17,6 +16,7 @@ import kotlinx.android.synthetic.main.item_statistics_layout.view.tvStatisticsIt
 import kotlinx.android.synthetic.main.item_statistics_layout.view.tvStatisticsItemPercent
 
 fun createStatisticsAdapterDelegate(
+    addTransitionNames: Boolean = false,
     onItemClick: ((StatisticsViewData, Map<Any, String>) -> Unit)
 ) = createRecyclerAdapterDelegate<StatisticsViewData>(
     R.layout.item_statistics_layout
@@ -31,7 +31,7 @@ fun createStatisticsAdapterDelegate(
         tvStatisticsItemDuration.text = item.duration
         tvStatisticsItemPercent.text = item.percent
         normalizeLightness(item.color).let(dividerStatisticsPercent::setBackgroundColor)
-        if (item is StatisticsViewData.Activity) {
+        if (item is StatisticsViewData.Activity && item.iconId != null) {
             ivStatisticsItemIcon.visible = true
             ivStatisticsItemIcon.itemIcon = item.iconId
         } else {
@@ -39,7 +39,9 @@ fun createStatisticsAdapterDelegate(
         }
 
         setOnClick { onItemClick(item, mapOf(this to transitionName)) }
-        ViewCompat.setTransitionName(this, transitionName)
+        if (addTransitionNames) {
+            ViewCompat.setTransitionName(this, transitionName)
+        }
     }
 }
 

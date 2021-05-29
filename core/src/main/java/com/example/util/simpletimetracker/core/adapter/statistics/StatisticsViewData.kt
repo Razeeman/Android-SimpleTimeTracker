@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.feature_statistics.viewData
+package com.example.util.simpletimetracker.core.adapter.statistics
 
 import androidx.annotation.ColorInt
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
@@ -21,7 +21,7 @@ sealed class StatisticsViewData : ViewHolderType {
         override val duration: String,
         override val percent: String,
         @ColorInt override val color: Int,
-        val iconId: RecordTypeIcon
+        val iconId: RecordTypeIcon?
     ) : StatisticsViewData()
 
     data class Category(

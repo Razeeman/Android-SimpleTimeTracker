@@ -198,6 +198,7 @@
     <string name="statistics_detail_longest_record">Самая длинная</string>
     <string name="statistics_detail_first_record">Первая</string>
     <string name="statistics_detail_last_record">Последняя</string>
+    <string name="statistics_detail_tag_split_hint">Распределение тегов</string>
 
     <plurals name="statistics_detail_times_tracked">
         <item quantity="one">Запись</item>

@@ -13,7 +13,7 @@ import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.ChartFilterDialogListener
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_statistics.R
-import com.example.util.simpletimetracker.feature_statistics.adapter.createStatisticsAdapterDelegate
+import com.example.util.simpletimetracker.core.adapter.statistics.createStatisticsAdapterDelegate
 import com.example.util.simpletimetracker.feature_statistics.adapter.createStatisticsChartAdapterDelegate
 import com.example.util.simpletimetracker.feature_statistics.adapter.createStatisticsEmptyAdapterDelegate
 import com.example.util.simpletimetracker.feature_statistics.adapter.createStatisticsInfoAdapterDelegate
@@ -47,7 +47,10 @@ class StatisticsFragment : BaseFragment(R.layout.statistics_fragment),
             createStatisticsChartAdapterDelegate(viewModel::onFilterClick),
             createStatisticsInfoAdapterDelegate(),
             createHintAdapterDelegate(),
-            createStatisticsAdapterDelegate(viewModel::onItemClick),
+            createStatisticsAdapterDelegate(
+                addTransitionNames = true,
+                onItemClick = viewModel::onItemClick
+            ),
             createStatisticsEmptyAdapterDelegate(viewModel::onFilterClick),
             createLoaderAdapterDelegate()
         )

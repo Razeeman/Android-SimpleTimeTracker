@@ -3,11 +3,13 @@ package com.example.util.simpletimetracker.feature_statistics.mapper
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.empty.EmptyViewData
 import com.example.util.simpletimetracker.core.adapter.hint.HintViewData
+import com.example.util.simpletimetracker.core.adapter.statistics.StatisticsViewData
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.viewData.RecordTypeIcon
+import com.example.util.simpletimetracker.domain.mapper.StatisticsMapper
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RecordTypeCategory
@@ -17,15 +19,14 @@ import com.example.util.simpletimetracker.feature_statistics.R
 import com.example.util.simpletimetracker.feature_statistics.customView.PiePortion
 import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsChartViewData
 import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsInfoViewData
-import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsViewData
 import javax.inject.Inject
-import kotlin.math.roundToLong
 
 class StatisticsViewDataMapper @Inject constructor(
     private val iconMapper: IconMapper,
     private val colorMapper: ColorMapper,
     private val resourceRepo: ResourceRepo,
-    private val timeMapper: TimeMapper
+    private val timeMapper: TimeMapper,
+    private val statisticsMapper: StatisticsMapper
 ) {
 
     fun mapActivities(
@@ -179,7 +180,7 @@ class StatisticsViewDataMapper @Inject constructor(
         isDarkTheme: Boolean,
         statisticsSize: Int
     ): StatisticsViewData? {
-        val durationPercent = getDurationPercentString(
+        val durationPercent = statisticsMapper.getDurationPercentString(
             sumDuration = sumDuration,
             duration = statistics.duration,
             statisticsSize = statisticsSize
@@ -229,7 +230,7 @@ class StatisticsViewDataMapper @Inject constructor(
         isDarkTheme: Boolean,
         statisticsSize: Int
     ): StatisticsViewData? {
-        val durationPercent = getDurationPercentString(
+        val durationPercent = statisticsMapper.getDurationPercentString(
             sumDuration = sumDuration,
             duration = statistics.duration,
             statisticsSize = statisticsSize
@@ -251,24 +252,6 @@ class StatisticsViewDataMapper @Inject constructor(
             )
         } else {
             null
-        }
-    }
-
-    private fun getDurationPercentString(
-        sumDuration: Long,
-        duration: Long,
-        statisticsSize: Int
-    ): String {
-        val durationPercent = if (sumDuration != 0L) {
-            duration * 100f / sumDuration
-        } else {
-            100f / statisticsSize
-        }.roundToLong()
-
-        return if (durationPercent == 0L) {
-            "<1%"
-        } else {
-            "$durationPercent%"
         }
     }
 

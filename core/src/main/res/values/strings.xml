@@ -205,6 +205,7 @@
     <string name="statistics_detail_longest_record">Longest</string>
     <string name="statistics_detail_first_record">First</string>
     <string name="statistics_detail_last_record">Last</string>
+    <string name="statistics_detail_tag_split_hint">Tag distribution</string>
     <string name="statistics_detail_empty" translatable="false">-</string>
 
     <plurals name="statistics_detail_times_tracked">

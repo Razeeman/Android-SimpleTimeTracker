@@ -1,6 +1,8 @@
 package com.example.util.simpletimetracker.feature_statistics_detail.mapper
 
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.core.adapter.hint.HintViewData
+import com.example.util.simpletimetracker.core.adapter.statistics.StatisticsViewData
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
@@ -8,10 +10,12 @@ import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.extension.rotateLeft
+import com.example.util.simpletimetracker.domain.mapper.StatisticsMapper
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.Record
+import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_statistics_detail.R
 import com.example.util.simpletimetracker.feature_statistics_detail.customView.BarChartView
@@ -33,11 +37,14 @@ class StatisticsDetailViewDataMapper @Inject constructor(
     private val iconMapper: IconMapper,
     private val colorMapper: ColorMapper,
     private val timeMapper: TimeMapper,
-    private val resourceRepo: ResourceRepo
+    private val resourceRepo: ResourceRepo,
+    private val statisticsMapper: StatisticsMapper
 ) {
 
     fun mapStatsData(
         records: List<Record>,
+        types: List<RecordType>,
+        tags: List<RecordTag>,
         isDarkTheme: Boolean,
         useMilitaryTime: Boolean
     ): StatisticsDetailStatsViewData {
@@ -60,6 +67,12 @@ class StatisticsDetailViewDataMapper @Inject constructor(
                 R.color.colorInactive
             }.let(resourceRepo::getColor)
         )
+        val tagSplitData = mapTags(
+            records = records,
+            typesMap = types.map { it.id to it }.toMap(),
+            tagsMap = tags.map { it.id to it }.toMap(),
+            isDarkTheme = isDarkTheme
+        )
 
         return mapToStatsViewData(
             totalDuration = totalDuration
@@ -80,7 +93,8 @@ class StatisticsDetailViewDataMapper @Inject constructor(
                 ?: emptyValue,
             lastRecord = last
                 ?.let { timeMapper.formatDateTimeYear(it, useMilitaryTime) }
-                ?: emptyValue
+                ?: emptyValue,
+            tagSplitData = tagSplitData
         )
     }
 
@@ -93,7 +107,8 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             averageRecord = "",
             longestRecord = "",
             firstRecord = "",
-            lastRecord = ""
+            lastRecord = "",
+            tagSplitData = emptyList()
         )
     }
 
@@ -310,7 +325,8 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         averageRecord: String,
         longestRecord: String,
         firstRecord: String,
-        lastRecord: String
+        lastRecord: String,
+        tagSplitData: List<ViewHolderType>
     ): StatisticsDetailStatsViewData {
         return StatisticsDetailStatsViewData(
             totalDuration = listOf(
@@ -351,7 +367,8 @@ class StatisticsDetailViewDataMapper @Inject constructor(
                     title = lastRecord,
                     subtitle = resourceRepo.getString(R.string.statistics_detail_last_record)
                 )
-            )
+            ),
+            tagSplitData = tagSplitData
         )
     }
 
@@ -399,6 +416,69 @@ class StatisticsDetailViewDataMapper @Inject constructor(
 
     private fun mapToDuration(record: Record): Long {
         return record.let { it.timeEnded - it.timeStarted }
+    }
+
+    private fun mapTags(
+        records: List<Record>,
+        typesMap: Map<Long, RecordType>,
+        tagsMap: Map<Long, RecordTag>,
+        isDarkTheme: Boolean
+    ): List<ViewHolderType> {
+        val tags = records.groupBy { it.tagId }
+            .takeIf { it.size > 1 } // take if has any tags other than untagged
+            ?.mapValues { (_, records) -> records.let(statisticsMapper::mapToDuration) }
+            ?: return emptyList()
+        val tagsSize = tags.size
+        val sumDuration = tags.map { (_, duration) -> duration }.sum()
+        val hint = resourceRepo.getString(R.string.statistics_detail_tag_split_hint)
+            .let(::HintViewData).let(::listOf)
+
+        return hint + tags
+            .mapNotNull { (tagId, duration) ->
+                val tag = tagsMap[tagId]
+                val type = typesMap[tag?.typeId]
+
+                mapTag(
+                    tag = tag,
+                    recordType = type,
+                    duration = duration,
+                    sumDuration = sumDuration,
+                    isDarkTheme = isDarkTheme,
+                    statisticsSize = tagsSize
+                ) to duration
+            }
+            .sortedByDescending { (_, duration) -> duration }
+            .map { (statistics, _) -> statistics }
+    }
+
+    private fun mapTag(
+        tag: RecordTag?,
+        recordType: RecordType?,
+        duration: Long,
+        sumDuration: Long,
+        isDarkTheme: Boolean,
+        statisticsSize: Int
+    ): StatisticsViewData {
+        val durationPercent = statisticsMapper.getDurationPercentString(
+            sumDuration = sumDuration,
+            duration = duration,
+            statisticsSize = statisticsSize
+        )
+
+        return StatisticsViewData.Activity(
+            id = tag?.id.orZero(),
+            name = tag?.name
+                ?: R.string.change_record_untagged.let(resourceRepo::getString),
+            duration = duration
+                .let(timeMapper::formatInterval),
+            percent = durationPercent,
+            iconId = recordType?.icon
+                ?.let(iconMapper::mapIcon),
+            color = recordType?.color
+                ?.let { colorMapper.mapToColorResId(it, isDarkTheme) }
+                ?.let(resourceRepo::getColor)
+                ?: colorMapper.toUntrackedColor(isDarkTheme)
+        )
     }
 
     companion object {

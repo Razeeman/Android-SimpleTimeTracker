@@ -15,7 +15,7 @@ import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.Statistics
 import com.example.util.simpletimetracker.domain.model.StatisticsCategory
 import com.example.util.simpletimetracker.feature_statistics.mapper.StatisticsViewDataMapper
-import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsViewData
+import com.example.util.simpletimetracker.core.adapter.statistics.StatisticsViewData
 import javax.inject.Inject
 
 class StatisticsViewDataInteractor @Inject constructor(
