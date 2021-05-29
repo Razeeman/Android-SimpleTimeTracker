@@ -1,6 +1,5 @@
 package com.example.util.simpletimetracker
 
-import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -11,7 +10,6 @@ import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
-import com.example.util.simpletimetracker.utils.checkViewIsNotDisplayed
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.longClickOnView
@@ -31,23 +29,22 @@ class DeleteRecordTypeTest : BaseUiTest() {
         val color = ColorMapper.getAvailableColors().first()
         val icon = iconImageMapper.availableIconsNames.values.first()
 
-        tryAction { clickOnViewWithText(R.string.running_records_add_type) }
-        checkViewIsNotDisplayed(withId(R.id.btnChangeRecordTypeDelete))
-        closeSoftKeyboard()
-        pressBack()
-
         // Add item
-        NavUtils.addActivity(name, color, icon)
-        checkViewIsDisplayed(
-            allOf(
-                withId(R.id.viewRecordTypeItem),
-                hasDescendant(withText(name)),
-                hasDescendant(withTag(icon)),
-                withCardColor(color)
-            )
-        )
+        testUtils.addActivity(name, color, icon)
+        testUtils.addRecord(name)
 
-        // Delete item
+        tryAction {
+            checkViewIsDisplayed(
+                allOf(
+                    withId(R.id.viewRecordTypeItem),
+                    hasDescendant(withText(name)),
+                    hasDescendant(withTag(icon)),
+                    withCardColor(color)
+                )
+            )
+        }
+
+        // Archive item
         longClickOnView(withText(name))
         checkViewIsDisplayed(withId(R.id.btnChangeRecordTypeDelete))
         clickOnViewWithId(R.id.btnChangeRecordTypeDelete)
@@ -63,5 +60,19 @@ class DeleteRecordTypeTest : BaseUiTest() {
                 withCardColor(color)
             )
         )
+
+        // Delete
+        NavUtils.openSettingsScreen()
+        NavUtils.openArchiveScreen()
+        clickOnViewWithText(name)
+        clickOnViewWithText(R.string.archive_dialog_delete)
+        clickOnViewWithText(R.string.archive_dialog_delete)
+        checkViewDoesNotExist(withText(name))
+        checkViewIsDisplayed(withText(R.string.archive_empty))
+        pressBack()
+
+        // Record removed
+        NavUtils.openRecordsScreen()
+        checkViewDoesNotExist(withText(name))
     }
 }

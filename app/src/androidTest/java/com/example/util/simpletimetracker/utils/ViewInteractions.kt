@@ -1,7 +1,9 @@
 package com.example.util.simpletimetracker.utils
 
 import android.view.View
+import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.longClick
@@ -67,3 +69,11 @@ fun scrollRecyclerToView(id: Int, matcher: Matcher<View>): ViewInteraction =
 
 fun toastTextShowing(textId: Int): ViewInteraction =
     onView(withText(textId)).inRoot(isToast()).check(matches(isDisplayed()))
+
+fun clickOnSpinnerWithId(id: Int) {
+    onView(withId(id)).perform(nestedScrollTo())
+    // Double click to avoid failure on low api small screens
+    clickOnViewWithId(id)
+    pressBack()
+    clickOnViewWithId(id)
+}

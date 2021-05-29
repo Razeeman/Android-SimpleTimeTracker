@@ -40,10 +40,16 @@ class ChangeRecordTest : BaseUiTest() {
         val newName = "Test2"
         val comment = "comment"
         val newComment = "new comment"
+        val tag1 = "tag1"
+        val tag2 = "tag2"
+        val fullName1 = "$name - $tag1"
+        val fullName2 = "$newName - $tag2"
 
         // Add activities
         testUtils.addActivity(name, firstColor, firstIcon)
         testUtils.addActivity(newName, lastColor, emoji = lastEmoji)
+        testUtils.addRecordTag(name, tag1)
+        testUtils.addRecordTag(newName, tag2)
 
         // Add record
         NavUtils.openRecordsScreen()
@@ -65,20 +71,24 @@ class ChangeRecordTest : BaseUiTest() {
         closeSoftKeyboard()
         clickOnViewWithText(R.string.change_record_type_field)
         clickOnRecyclerItem(R.id.rvChangeRecordType, withText(name))
+        clickOnViewWithText(R.string.change_record_category_field)
+        clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag1))
         clickOnViewWithText(R.string.change_record_save)
+        checkViewIsDisplayed(allOf(withText(fullName1), isCompletelyDisplayed()))
 
         // Open edit view
-        clickOnView(allOf(withText(name), isCompletelyDisplayed()))
+        clickOnView(allOf(withText(fullName1)))
 
         // View is set up
         checkViewIsDisplayed(withId(R.id.btnChangeRecordDelete))
         checkViewIsNotDisplayed(withId(R.id.rvChangeRecordType))
+        checkViewIsNotDisplayed(withId(R.id.rvChangeRecordCategories))
         checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeStarted), withText(timeStarted)))
         checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeEnded), withText(timeEnded)))
         checkViewIsDisplayed(allOf(withId(R.id.etChangeRecordComment), withText(comment)))
 
         // Preview is updated
-        checkPreviewUpdated(hasDescendant(withText(name)))
+        checkPreviewUpdated(hasDescendant(withText(fullName1)))
         checkPreviewUpdated(withCardColor(firstColor))
         checkPreviewUpdated(hasDescendant(withTag(firstIcon)))
         checkPreviewUpdated(hasDescendant(withText(timeStartedPreview)))
@@ -90,6 +100,9 @@ class ChangeRecordTest : BaseUiTest() {
         clickOnViewWithText(R.string.change_record_type_field)
         clickOnRecyclerItem(R.id.rvChangeRecordType, withText(newName))
         clickOnViewWithText(R.string.change_record_type_field)
+        clickOnViewWithText(R.string.change_record_category_field)
+        clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag2))
+        clickOnViewWithText(R.string.change_record_category_field)
 
         val calendar = Calendar.getInstance().apply {
             add(Calendar.DATE, -1)
@@ -152,7 +165,7 @@ class ChangeRecordTest : BaseUiTest() {
         closeSoftKeyboard()
 
         // Preview is updated
-        checkPreviewUpdated(hasDescendant(withText(newName)))
+        checkPreviewUpdated(hasDescendant(withText(fullName2)))
         checkPreviewUpdated(withCardColor(lastColor))
         checkPreviewUpdated(hasDescendant(withText(lastEmoji)))
         checkPreviewUpdated(hasDescendant(withText(timeStartedPreview)))
@@ -169,7 +182,7 @@ class ChangeRecordTest : BaseUiTest() {
             allOf(
                 withId(R.id.viewRecordItem),
                 withCardColor(lastColor),
-                hasDescendant(withText(newName)),
+                hasDescendant(withText(fullName2)),
                 hasDescendant(withText(lastEmoji)),
                 hasDescendant(withText(timeStartedPreview)),
                 hasDescendant(withText(timeEndedPreview)),
@@ -178,6 +191,51 @@ class ChangeRecordTest : BaseUiTest() {
                 isCompletelyDisplayed()
             )
         )
+    }
+
+    @Test
+    fun changeRecordUntagged() {
+        val name = "TypeName"
+        val tag = "TagName"
+        val fullName = "$name - $tag"
+
+        // Add activities
+        testUtils.addActivity(name, firstColor, firstIcon)
+        testUtils.addRecordTag(name, tag)
+
+        // Add record
+        NavUtils.openRecordsScreen()
+        clickOnViewWithId(R.id.btnRecordAdd)
+        clickOnViewWithText(R.string.change_record_type_field)
+        clickOnRecyclerItem(R.id.rvChangeRecordType, withText(name))
+        clickOnViewWithText(R.string.change_record_save)
+
+        // Record is added
+        checkViewIsDisplayed(allOf(withId(R.id.viewRecordItem), hasDescendant(withText(name))))
+
+        // Change tag
+        clickOnView(allOf(withText(name), isCompletelyDisplayed()))
+        checkPreviewUpdated(hasDescendant(withText(name)))
+        clickOnViewWithText(R.string.change_record_category_field)
+        clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag))
+        clickOnViewWithText(R.string.change_record_category_field)
+        checkPreviewUpdated(hasDescendant(withText(fullName)))
+        clickOnViewWithText(R.string.change_record_type_save)
+
+        // Record updated
+        checkViewIsDisplayed(allOf(withId(R.id.viewRecordItem), hasDescendant(withText(fullName))))
+
+        // Remove tag
+        clickOnView(allOf(withText(fullName)))
+        checkPreviewUpdated(hasDescendant(withText(fullName)))
+        clickOnViewWithText(R.string.change_record_category_field)
+        clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(R.string.change_record_untagged))
+        clickOnViewWithText(R.string.change_record_category_field)
+        checkPreviewUpdated(hasDescendant(withText(name)))
+        clickOnViewWithText(R.string.change_record_type_save)
+
+        // Record updated
+        checkViewIsDisplayed(allOf(withId(R.id.viewRecordItem), hasDescendant(withText(name))))
     }
 
     private fun checkPreviewUpdated(matcher: Matcher<View>) =

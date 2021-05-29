@@ -12,6 +12,7 @@ import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
+import com.example.util.simpletimetracker.utils.clickOnRecyclerItem
 import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.longClickOnView
@@ -133,5 +134,41 @@ class StartRecordTest : BaseUiTest() {
         )
         clickOnView(allOf(withText(name), isCompletelyDisplayed()))
         checkViewIsDisplayed(allOf(withId(R.id.etChangeRecordComment), withText(comment)))
+    }
+
+    @Test
+    fun tagTransferFromTimerToRecord() {
+        val name = "TypeName"
+        val tag = "TagName"
+        val fullName = "$name - $tag"
+
+        // Add activities
+        testUtils.addActivity(name)
+        testUtils.addRecordTag(name, tag)
+
+        // Start timer
+        tryAction { clickOnViewWithText(name) }
+
+        // Add tag
+        tryAction { longClickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name))) }
+        clickOnViewWithText(R.string.change_record_category_field)
+        clickOnRecyclerItem(R.id.rvChangeRunningRecordCategories, withText(tag))
+        clickOnViewWithText(R.string.change_record_category_field)
+        clickOnViewWithText(R.string.change_record_save)
+
+        // Stop timer
+        clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(fullName)))
+
+        // Check record
+        NavUtils.openRecordsScreen()
+        checkViewIsDisplayed(
+            allOf(
+                withId(R.id.viewRecordItem),
+                hasDescendant(withText(fullName)),
+                isCompletelyDisplayed()
+            )
+        )
+        clickOnView(allOf(withText(fullName), isCompletelyDisplayed()))
+        checkViewIsDisplayed(allOf(withId(R.id.previewChangeRecord), hasDescendant(withText(fullName))))
     }
 }

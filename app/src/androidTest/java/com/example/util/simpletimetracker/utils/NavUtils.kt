@@ -38,6 +38,14 @@ object NavUtils {
         onView(withText(R.string.settings_edit_categories)).perform(nestedScrollTo(), click())
     }
 
+    fun openArchiveScreen() {
+        onView(withText(R.string.settings_archive)).perform(nestedScrollTo(), click())
+    }
+
+    fun openCardSizeScreen() {
+        onView(withText(R.string.settings_change_card_size)).perform(nestedScrollTo(), click())
+    }
+
     fun addActivity(
         name: String,
         color: Int? = null,
@@ -155,7 +163,8 @@ object NavUtils {
         minutesStarted: Int,
         hourEnded: Int,
         minutesEnded: Int,
-        comment: String? = null
+        comment: String? = null,
+        tag: String? = null
     ) {
         tryAction { clickOnViewWithId(R.id.btnRecordAdd) }
 
@@ -180,6 +189,12 @@ object NavUtils {
         // Activity
         clickOnViewWithText(R.string.change_record_type_field)
         clickOnRecyclerItem(R.id.rvChangeRecordType, withText(name))
+
+        // Tag
+        if (tag != null) {
+            clickOnViewWithText(R.string.change_record_category_field)
+            clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag))
+        }
 
         clickOnViewWithText(R.string.change_record_save)
     }

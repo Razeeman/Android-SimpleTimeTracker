@@ -6,10 +6,13 @@ import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
+import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.Record
+import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
 import kotlinx.coroutines.runBlocking
 import java.util.concurrent.TimeUnit
@@ -21,6 +24,7 @@ class TestUtils @Inject constructor(
     private val runningRecordInteractor: RunningRecordInteractor,
     private val categoryInteractor: CategoryInteractor,
     private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
+    private val recordTagInteractor: RecordTagInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val iconImageMapper: IconImageMapper
 ) {
@@ -31,6 +35,7 @@ class TestUtils @Inject constructor(
         runningRecordInteractor.clear()
         categoryInteractor.clear()
         recordTypeCategoryInteractor.clear()
+        recordTagInteractor.clear()
     }
 
     fun clearPrefs() = runBlocking {
@@ -79,10 +84,12 @@ class TestUtils @Inject constructor(
     fun addRecord(
         typeName: String,
         timeStarted: Long? = null,
-        timeEnded: Long? = null
+        timeEnded: Long? = null,
+        tagName: String? = null
     ) = runBlocking {
         val type = recordTypeInteractor.getAll().firstOrNull { it.name == typeName }
             ?: return@runBlocking
+        val tag = recordTagInteractor.getAll().firstOrNull { it.name == tagName }
 
         val data = Record(
             typeId = type.id,
@@ -90,9 +97,36 @@ class TestUtils @Inject constructor(
                 ?: (System.currentTimeMillis() - TimeUnit.HOURS.toMillis(1)),
             timeEnded = timeEnded
                 ?: System.currentTimeMillis(),
-            comment = ""
+            comment = "",
+            tagId = tag?.id.orZero()
         )
 
         recordInteractor.add(data)
+    }
+
+    fun addActivityTag(
+        tagName: String
+    ) = runBlocking {
+        val data = Category(
+            name = tagName,
+            color = 0
+        )
+
+        categoryInteractor.add(data)
+    }
+
+    fun addRecordTag(
+        typeName: String,
+        tagName: String
+    ) = runBlocking {
+        val type = recordTypeInteractor.getAll().firstOrNull { it.name == typeName }
+            ?: return@runBlocking
+
+        val data = RecordTag(
+            typeId = type.id,
+            name= tagName
+        )
+
+        recordTagInteractor.add(data)
     }
 }

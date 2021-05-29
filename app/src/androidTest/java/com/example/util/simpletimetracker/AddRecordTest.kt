@@ -39,9 +39,11 @@ class AddRecordTest : BaseUiTest() {
         val color = ColorMapper.getAvailableColors().first()
         val icon = iconImageMapper.availableIconsNames.values.first()
         val comment = "Comment"
+        val tag = "Tag"
 
         // Add activity
         testUtils.addActivity(name, color, icon)
+        testUtils.addRecordTag(name, tag)
 
         // Add record
         NavUtils.openRecordsScreen()
@@ -50,6 +52,7 @@ class AddRecordTest : BaseUiTest() {
         // View is set up
         checkViewIsNotDisplayed(withId(R.id.btnChangeRecordDelete))
         checkViewIsNotDisplayed(withId(R.id.rvChangeRecordType))
+        checkViewIsNotDisplayed(withId(R.id.rvChangeRecordCategories))
         val currentTime = System.currentTimeMillis()
         var timeStarted = timeMapper.formatDateTime(currentTime - 60 * 60 * 1000, true)
         var timeEnded = timeMapper.formatDateTime(currentTime, true)
@@ -114,6 +117,15 @@ class AddRecordTest : BaseUiTest() {
         closeSoftKeyboard()
         tryAction { checkPreviewUpdated(hasDescendant(withText(comment))) }
 
+        // Open tag chooser
+        clickOnViewWithId(R.id.fieldChangeRecordCategory)
+        checkViewIsDisplayed(withId(R.id.rvChangeRecordCategories))
+
+        // Selecting tag
+        clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag))
+        checkPreviewUpdated(hasDescendant(withText("$name - $tag")))
+        clickOnViewWithId(R.id.fieldChangeRecordCategory)
+
         clickOnViewWithText(R.string.change_record_save)
 
         // Record added
@@ -121,7 +133,7 @@ class AddRecordTest : BaseUiTest() {
             allOf(
                 withId(R.id.viewRecordItem),
                 withCardColor(color),
-                hasDescendant(withText(name)),
+                hasDescendant(withText("$name - $tag")),
                 hasDescendant(withTag(icon)),
                 hasDescendant(withText(timeStartedPreview)),
                 hasDescendant(withText(timeEndedPreview)),
@@ -140,6 +152,23 @@ class AddRecordTest : BaseUiTest() {
         // Open activity chooser
         clickOnViewWithText(R.string.change_record_type_field)
         checkViewIsDisplayed(withText(R.string.record_types_empty))
+    }
+
+    @Test
+    fun addRecordTagsEmpty() {
+        val name = "name"
+        testUtils.addActivity(name)
+
+        NavUtils.openRecordsScreen()
+        clickOnViewWithId(R.id.btnRecordAdd)
+
+        // Select activity
+        clickOnViewWithText(R.string.change_record_type_field)
+        clickOnRecyclerItem(R.id.rvChangeRecordType, withText(name))
+
+        // Open tag chooser
+        clickOnViewWithId(R.id.fieldChangeRecordCategory)
+        checkViewIsDisplayed(withText(R.string.change_record_categories_empty))
     }
 
     private fun checkPreviewUpdated(matcher: Matcher<View>) =

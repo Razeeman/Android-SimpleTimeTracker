@@ -37,17 +37,20 @@ class ChangeRunningRecordTest : BaseUiTest() {
 
     @Test
     fun changeRunningRecord() {
-        val name = "Test1"
-        val newName = "Test2"
+        val name1 = "Test1"
+        val name2 = "Test2"
         val firstGoalTime = TimeUnit.MINUTES.toSeconds(10)
         val comment = "comment"
+        val tag2 = "Tag2"
+        val fullName2 = "$name2 - $tag2"
 
         // Add activities
-        testUtils.addActivity(name, firstColor, firstIcon, goalTime = firstGoalTime)
-        testUtils.addActivity(newName, lastColor, emoji = lastEmoji)
+        testUtils.addActivity(name1, firstColor, firstIcon, goalTime = firstGoalTime)
+        testUtils.addActivity(name2, lastColor, emoji = lastEmoji)
+        testUtils.addRecordTag(name2, tag2)
 
         // Start timer
-        tryAction { clickOnViewWithText(name) }
+        tryAction { clickOnViewWithText(name1) }
         val currentTime = System.currentTimeMillis()
         var timeStartedTimestamp = currentTime
         var timeStarted = timeMapper.formatDateTime(timeStartedTimestamp, true)
@@ -55,7 +58,7 @@ class ChangeRunningRecordTest : BaseUiTest() {
             .let { timeMapper.formatTime(it, true) }
 
         checkRunningRecordDisplayed(
-            name = name,
+            name = name1,
             color = firstColor,
             icon = firstIcon,
             timeStarted = timeStartedPreview,
@@ -64,16 +67,17 @@ class ChangeRunningRecordTest : BaseUiTest() {
         )
 
         // Open edit view
-        longClickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name)))
+        longClickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name1)))
 
         // View is set up
         checkViewIsDisplayed(withId(R.id.btnChangeRunningRecordDelete))
         checkViewIsNotDisplayed(withId(R.id.rvChangeRunningRecordType))
+        checkViewIsNotDisplayed(withId(R.id.rvChangeRunningRecordCategories))
         checkViewIsDisplayed(allOf(withId(R.id.tvChangeRunningRecordTimeStarted), withText(timeStarted)))
         checkViewIsDisplayed(allOf(withId(R.id.etChangeRunningRecordComment), withText("")))
 
         // Preview is updated
-        checkPreviewUpdated(hasDescendant(withText(name)))
+        checkPreviewUpdated(hasDescendant(withText(name1)))
         checkPreviewUpdated(withCardColor(firstColor))
         checkPreviewUpdated(hasDescendant(withTag(firstIcon)))
         checkPreviewUpdated(hasDescendant(withText(timeStartedPreview)))
@@ -81,8 +85,11 @@ class ChangeRunningRecordTest : BaseUiTest() {
 
         // Change item
         clickOnViewWithText(R.string.change_record_type_field)
-        clickOnRecyclerItem(R.id.rvChangeRunningRecordType, withText(newName))
+        clickOnRecyclerItem(R.id.rvChangeRunningRecordType, withText(name2))
         clickOnViewWithText(R.string.change_record_type_field)
+        clickOnViewWithText(R.string.change_record_category_field)
+        clickOnRecyclerItem(R.id.rvChangeRunningRecordCategories, withText(tag2))
+        clickOnViewWithText(R.string.change_record_category_field)
 
         val calendar = Calendar.getInstance().apply {
             add(Calendar.DATE, -1)
@@ -118,7 +125,7 @@ class ChangeRunningRecordTest : BaseUiTest() {
         typeTextIntoView(R.id.etChangeRunningRecordComment, comment)
 
         // Preview is updated
-        checkPreviewUpdated(hasDescendant(withText(newName)))
+        checkPreviewUpdated(hasDescendant(withText(fullName2)))
         checkPreviewUpdated(withCardColor(lastColor))
         checkPreviewUpdated(hasDescendant(withText(lastEmoji)))
         checkPreviewUpdated(hasDescendant(withText(timeStartedPreview)))
@@ -132,10 +139,10 @@ class ChangeRunningRecordTest : BaseUiTest() {
 
         // Record updated
         checkViewDoesNotExist(
-            allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name))
+            allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name1))
         )
         checkRunningRecordDisplayed(
-            name = newName,
+            name = fullName2,
             color = lastColor,
             emoji = lastEmoji,
             timeStarted = timeStartedPreview,
@@ -144,28 +151,96 @@ class ChangeRunningRecordTest : BaseUiTest() {
         )
     }
 
+    @Test
+    fun changeRecordUntagged() {
+        val name1 = "TypeName1"
+        val name2 = "TypeName2"
+        val tag1 = "TagName1"
+        val tag2 = "TagName2"
+        val fullName1 = "$name1 - $tag1"
+        val fullName2 = "$name2 - $tag2"
+
+        // Add activities
+        testUtils.addActivity(name1)
+        testUtils.addActivity(name2)
+        testUtils.addRecordTag(name1, tag1)
+        testUtils.addRecordTag(name2, tag2)
+
+        // Add running record
+        tryAction { clickOnViewWithText(name1) }
+
+        // Record is added
+        checkRunningRecordDisplayed(name = name1)
+
+        // Change tag
+        longClickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name1)))
+        checkPreviewUpdated(hasDescendant(withText(name1)))
+        clickOnViewWithText(R.string.change_record_category_field)
+        clickOnRecyclerItem(R.id.rvChangeRunningRecordCategories, withText(tag1))
+        checkPreviewUpdated(hasDescendant(withText(fullName1)))
+        clickOnViewWithText(R.string.change_record_category_field)
+        clickOnViewWithText(R.string.change_record_save)
+
+        // Record updated
+        checkRunningRecordDisplayed(name = fullName1)
+
+        // Change activity and tag
+        longClickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(fullName1)))
+        checkPreviewUpdated(hasDescendant(withText(fullName1)))
+        clickOnViewWithText(R.string.change_record_type_field)
+        clickOnRecyclerItem(R.id.rvChangeRunningRecordType, withText(name2))
+        checkPreviewUpdated(hasDescendant(withText(name2)))
+        clickOnViewWithText(R.string.change_record_type_field)
+        clickOnViewWithText(R.string.change_record_category_field)
+        clickOnRecyclerItem(R.id.rvChangeRunningRecordCategories, withText(tag2))
+        checkPreviewUpdated(hasDescendant(withText(fullName2)))
+        clickOnViewWithText(R.string.change_record_category_field)
+        clickOnViewWithText(R.string.change_record_save)
+
+        // Record updated
+        checkRunningRecordDisplayed(name = fullName2)
+
+        // Remove tag
+        longClickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(fullName2)))
+        checkPreviewUpdated(hasDescendant(withText(fullName2)))
+        clickOnViewWithText(R.string.change_record_category_field)
+        clickOnRecyclerItem(R.id.rvChangeRunningRecordCategories, withText(R.string.change_record_untagged))
+        checkPreviewUpdated(hasDescendant(withText(name2)))
+        clickOnViewWithText(R.string.change_record_category_field)
+        clickOnViewWithText(R.string.change_record_save)
+
+        // Record updated
+        checkRunningRecordDisplayed(name = name2)
+    }
+
+
     private fun checkPreviewUpdated(matcher: Matcher<View>) =
         checkViewIsDisplayed(allOf(withId(R.id.previewChangeRunningRecord), matcher))
 
     private fun checkRunningRecordDisplayed(
         name: String,
-        color: Int,
+        color: Int? = null,
         icon: Int? = null,
         emoji: String? = null,
-        timeStarted: String,
-        goalTime: String,
-        comment: String
+        timeStarted: String? = null,
+        goalTime: String? = null,
+        comment: String? = null
     ) {
         checkViewIsDisplayed(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name)))
-        checkViewIsDisplayed(allOf(withId(R.id.viewRunningRecordItem), withCardColor(color)))
+
+        if (color != null) {
+            checkViewIsDisplayed(allOf(withId(R.id.viewRunningRecordItem), withCardColor(color)))
+        }
         if (icon != null) {
             checkViewIsDisplayed(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withTag(icon)))
         }
         if (emoji != null) {
             checkViewIsDisplayed(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(emoji)))
         }
-        checkViewIsDisplayed(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(timeStarted)))
-        if (goalTime.isNotEmpty()) {
+        if (timeStarted != null) {
+            checkViewIsDisplayed(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(timeStarted)))
+        }
+        if (!goalTime.isNullOrEmpty()) {
             checkViewIsDisplayed(
                 allOf(
                     isDescendantOfA(withId(R.id.viewRunningRecordItem)),
@@ -180,7 +255,7 @@ class ChangeRunningRecordTest : BaseUiTest() {
                 )
             )
         }
-        if (comment.isNotEmpty()) {
+        if (!comment.isNullOrEmpty()) {
             checkViewIsDisplayed(
                 allOf(
                     isDescendantOfA(withId(R.id.viewRunningRecordItem)),

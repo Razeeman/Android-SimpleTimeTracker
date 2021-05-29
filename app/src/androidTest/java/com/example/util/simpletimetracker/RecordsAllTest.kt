@@ -7,6 +7,7 @@ import androidx.test.espresso.assertion.PositionAssertions.isCompletelyAbove
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.hasSibling
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -30,11 +31,14 @@ class RecordsAllTest : BaseUiTest() {
 
     @Test
     fun recordsAll() {
-        val name = "Test"
+        val name = "TypeName"
         val comment = "comment"
+        val tag = "TagName"
+        val fullName = "$name - $tag"
 
         // Add activity
         testUtils.addActivity(name)
+        testUtils.addRecordTag(name, tag)
 
         // Add records
         NavUtils.openRecordsScreen()
@@ -64,12 +68,13 @@ class RecordsAllTest : BaseUiTest() {
             minutesStarted = 0,
             hourEnded = 19,
             minutesEnded = 0,
-            comment = comment
+            comment = comment,
+            tag = tag
         )
 
         val secondRecord = allOf(
             withId(R.id.viewRecordItem),
-            hasDescendant(withText(name)),
+            hasDescendant(withText(fullName)),
             hasDescendant(withText("2h 0m")),
             hasDescendant(withText(comment)),
             isCompletelyDisplayed()
@@ -270,5 +275,91 @@ class RecordsAllTest : BaseUiTest() {
 
         // Check new order
         onView(secondRecord).check(isCompletelyAbove(firstRecord))
+    }
+
+    @Test
+    fun recordsAllFilter() {
+        val name1 = "Test1"
+        val name2 = "Test2"
+        val name3 = "Test3"
+
+        // Add activity
+        testUtils.addActivity(name1)
+        testUtils.addActivity(name2)
+        testUtils.addActivity(name3)
+
+        // Add records
+        NavUtils.openRecordsScreen()
+        testUtils.addRecord(name1)
+        testUtils.addRecord(name2)
+        testUtils.addRecord(name3)
+
+        // Open records all
+        NavUtils.openStatisticsScreen()
+        clickOnView(allOf(withText(name1), isCompletelyDisplayed()))
+        onView(withId(R.id.cardStatisticsDetailRecords)).perform(nestedScrollTo(), click())
+
+        // Check records
+        val record1 = allOf(withText(name1), isCompletelyDisplayed())
+        val record2 = allOf(withText(name2), isCompletelyDisplayed())
+        val record3 = allOf(withText(name3), isCompletelyDisplayed())
+
+        checkViewIsDisplayed(record1)
+        checkViewDoesNotExist(record2)
+        checkViewDoesNotExist(record3)
+
+        // Change filter
+        pressBack()
+        clickOnViewWithId(R.id.cardStatisticsDetailFilter)
+        checkViewIsDisplayed(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1)))
+        checkViewIsDisplayed(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2)))
+        checkViewIsDisplayed(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name3)))
+        clickOnView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2)))
+        pressBack()
+
+        // Check records
+        onView(withId(R.id.cardStatisticsDetailRecords)).perform(nestedScrollTo(), click())
+        checkViewIsDisplayed(record1)
+        checkViewIsDisplayed(record2)
+        checkViewDoesNotExist(record3)
+
+        // Change filter
+        pressBack()
+        clickOnViewWithId(R.id.cardStatisticsDetailFilter)
+        clickOnView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1)))
+        clickOnView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2)))
+        pressBack()
+
+        // Check records
+        onView(withId(R.id.cardStatisticsDetailRecords)).perform(nestedScrollTo(), click())
+        checkViewDoesNotExist(record1)
+        checkViewDoesNotExist(record2)
+        checkViewDoesNotExist(record3)
+        checkViewIsDisplayed(withText(R.string.records_empty))
+
+        // Show all
+        pressBack()
+        clickOnViewWithId(R.id.cardStatisticsDetailFilter)
+        clickOnViewWithId(R.id.btnTypesFilterShowAll)
+        pressBack()
+
+        // Check records
+        onView(withId(R.id.cardStatisticsDetailRecords)).perform(nestedScrollTo(), click())
+        checkViewIsDisplayed(record1)
+        checkViewIsDisplayed(record2)
+        checkViewIsDisplayed(record3)
+
+        // Hide all
+        pressBack()
+        clickOnViewWithId(R.id.cardStatisticsDetailFilter)
+        clickOnViewWithId(R.id.btnTypesFilterHideAll)
+        pressBack()
+
+        // Check records
+        onView(withId(R.id.cardStatisticsDetailRecords)).perform(nestedScrollTo(), click())
+        checkViewDoesNotExist(record1)
+        checkViewDoesNotExist(record2)
+        checkViewDoesNotExist(record3)
+        checkViewIsDisplayed(withText(R.string.records_empty))
     }
 }

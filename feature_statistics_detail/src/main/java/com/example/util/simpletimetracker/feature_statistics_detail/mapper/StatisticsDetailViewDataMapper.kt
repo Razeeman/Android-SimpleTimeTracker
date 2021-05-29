@@ -425,7 +425,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         isDarkTheme: Boolean
     ): List<ViewHolderType> {
         val tags = records.groupBy { it.tagId }
-            .takeIf { it.size > 1 } // take if has any tags other than untagged
+            .takeUnless { it.isEmpty() }
             ?.mapValues { (_, records) -> records.let(statisticsMapper::mapToDuration) }
             ?: return emptyList()
         val tagsSize = tags.size

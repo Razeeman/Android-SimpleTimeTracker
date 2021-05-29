@@ -23,6 +23,7 @@ import com.example.util.simpletimetracker.utils.Direction
 import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
+import com.example.util.simpletimetracker.utils.clickOnSpinnerWithId
 import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
@@ -233,8 +234,7 @@ class SettingsTest : BaseUiTest() {
 
         // Open settings
         NavUtils.openSettingsScreen()
-        onView(withText(R.string.settings_change_card_size)).perform(nestedScrollTo())
-        clickOnViewWithText(R.string.settings_change_card_size)
+        NavUtils.openCardSizeScreen()
         Thread.sleep(1000)
 
         // Check order
@@ -261,8 +261,7 @@ class SettingsTest : BaseUiTest() {
 
         // Change back
         NavUtils.openSettingsScreen()
-        onView(withText(R.string.settings_change_card_size)).perform(nestedScrollTo())
-        clickOnViewWithText(R.string.settings_change_card_size)
+        NavUtils.openCardSizeScreen()
         Thread.sleep(1000)
         check(name1, name2) { matcher -> isCompletelyAbove(matcher) }
         check(name2, name3) { matcher -> isCompletelyAbove(matcher) }
@@ -680,6 +679,62 @@ class SettingsTest : BaseUiTest() {
         longClickOnViewWithId(R.id.btnStatisticsContainerToday)
     }
 
+    @Test
+    fun showRecordTagSelection() {
+        val name = "TypeName"
+        val tag = "TagName"
+        val fullName = "$name - $tag"
+
+        // Add data
+        testUtils.addActivity(name)
+        tryAction { clickOnViewWithText(name) }
+        tryAction { clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name))) }
+
+        // Change setting
+        NavUtils.openSettingsScreen()
+        onView(withId(R.id.checkboxSettingsShowRecordTagSelection)).perform(nestedScrollTo())
+        onView(withId(R.id.checkboxSettingsShowRecordTagSelection)).check(matches(isNotChecked()))
+        unconstrainedClickOnView(withId(R.id.checkboxSettingsShowRecordTagSelection))
+        onView(withId(R.id.checkboxSettingsShowRecordTagSelection)).check(matches(isChecked()))
+
+        // No tags - started right away
+        NavUtils.openRunningRecordsScreen()
+        clickOnViewWithText(name)
+        tryAction { clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name))) }
+
+        // Add tag
+        testUtils.addRecordTag(name, tag)
+
+        // Has a tag - show dialog
+        clickOnViewWithText(name)
+        checkViewIsDisplayed(withText(R.string.change_record_untagged))
+        checkViewIsDisplayed(withText(tag))
+        pressBack()
+        checkViewDoesNotExist(isDescendantOfA(withId(R.id.viewRunningRecordItem)))
+
+        // Start untagged
+        clickOnViewWithText(name)
+        clickOnView(withText(R.string.change_record_untagged))
+        tryAction { clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name))) }
+
+        // Start tagged
+        clickOnViewWithText(name)
+        clickOnView(withText(tag))
+        tryAction { clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(fullName))) }
+
+        // Change setting
+        NavUtils.openSettingsScreen()
+        onView(withId(R.id.checkboxSettingsShowRecordTagSelection)).perform(nestedScrollTo())
+        onView(withId(R.id.checkboxSettingsShowRecordTagSelection)).check(matches(isChecked()))
+        unconstrainedClickOnView(withId(R.id.checkboxSettingsShowRecordTagSelection))
+        onView(withId(R.id.checkboxSettingsShowRecordTagSelection)).check(matches(isNotChecked()))
+
+        // Start with tags - no dialog
+        NavUtils.openRunningRecordsScreen()
+        clickOnViewWithText(name)
+        tryAction { clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name))) }
+    }
+
     private fun clearDuration() {
         repeat(6) { clickOnViewWithId(R.id.ivDurationPickerDelete) }
     }
@@ -688,13 +743,5 @@ class SettingsTest : BaseUiTest() {
         onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(first))).check(
             matcher(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(second)))
         )
-    }
-
-    private fun clickOnSpinnerWithId(id: Int) {
-        onView(withId(id)).perform(nestedScrollTo())
-        // Double click to avoid failure on low api small screens
-        clickOnViewWithId(id)
-        pressBack()
-        clickOnViewWithId(id)
     }
 }
