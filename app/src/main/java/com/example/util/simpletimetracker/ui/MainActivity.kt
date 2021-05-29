@@ -28,6 +28,11 @@ class MainActivity : AppCompatActivity() {
         router.bind(this)
     }
 
+    override fun onResume() {
+        super.onResume()
+        router.bind(this)
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         Timber.d("onActivityResult $requestCode $resultCode ${data?.data}")
         super.onActivityResult(requestCode, resultCode, data)
