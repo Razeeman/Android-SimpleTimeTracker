@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.core.mapper
 
 import com.example.util.simpletimetracker.core.R
+import com.example.util.simpletimetracker.core.extension.setWeekToFirstDay
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.RangeLength
@@ -308,7 +309,7 @@ class TimeMapper @Inject constructor(
                 rangeEnd = calendar.apply { add(Calendar.DATE, 1) }.timeInMillis
             }
             RangeLength.WEEK -> {
-                calendar.set(Calendar.DAY_OF_WEEK, calendar.firstDayOfWeek)
+                calendar.setWeekToFirstDay()
                 calendar.add(Calendar.DATE, shift * 7)
                 rangeStart = calendar.timeInMillis
                 rangeEnd = calendar.apply { add(Calendar.DATE, 7) }.timeInMillis
@@ -386,7 +387,7 @@ class TimeMapper @Inject constructor(
             set(Calendar.MINUTE, 0)
             set(Calendar.SECOND, 0)
             set(Calendar.MILLISECOND, 0)
-            set(Calendar.DAY_OF_WEEK, this.firstDayOfWeek)
+            calendar.setWeekToFirstDay()
             add(Calendar.DATE, weeksFromToday * 7)
         }
         val rangeStart = calendar.timeInMillis

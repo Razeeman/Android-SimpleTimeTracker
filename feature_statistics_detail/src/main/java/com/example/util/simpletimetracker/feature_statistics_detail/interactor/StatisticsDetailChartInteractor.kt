@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.feature_statistics_detail.interactor
 
 import com.example.util.simpletimetracker.core.extension.isNotFiltered
+import com.example.util.simpletimetracker.core.extension.setWeekToFirstDay
 import com.example.util.simpletimetracker.core.interactor.TypesFilterInteractor
 import com.example.util.simpletimetracker.core.mapper.RangeMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
@@ -208,7 +209,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
                 set(Calendar.SECOND, 0)
                 set(Calendar.MILLISECOND, 0)
             }
-            calendar.set(Calendar.DAY_OF_WEEK, calendar.firstDayOfWeek)
+            calendar.setWeekToFirstDay()
             calendar.add(Calendar.DATE, -shift * 7)
 
             val legend = timeMapper.formatShortMonth(calendar.timeInMillis)

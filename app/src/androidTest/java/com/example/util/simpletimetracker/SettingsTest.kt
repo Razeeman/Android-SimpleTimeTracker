@@ -16,6 +16,7 @@ import androidx.test.espresso.matcher.ViewMatchers.isNotChecked
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.example.util.simpletimetracker.core.extension.setWeekToFirstDay
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.utils.BaseUiTest
@@ -571,7 +572,7 @@ class SettingsTest : BaseUiTest() {
             .apply {
                 val recordDay = if (isTodaySunday) Calendar.MONDAY else Calendar.SUNDAY
                 firstDayOfWeek = recordDay
-                set(Calendar.DAY_OF_WEEK, recordDay)
+                setWeekToFirstDay()
                 set(Calendar.HOUR_OF_DAY, 15)
             }
         testUtils.addRecord(
