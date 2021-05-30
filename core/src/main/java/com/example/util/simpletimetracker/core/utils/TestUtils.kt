@@ -48,6 +48,7 @@ class TestUtils @Inject constructor(
         icon: Int? = null,
         emoji: String? = null,
         goalTime: Long? = null,
+        archived: Boolean = false,
         categories: List<String> = emptyList()
     ) = runBlocking {
         val icons = iconImageMapper.availableIconsNames
@@ -64,7 +65,8 @@ class TestUtils @Inject constructor(
             name = name,
             color = colorId,
             icon = iconId,
-            goalTime = goalTime.orZero()
+            goalTime = goalTime.orZero(),
+            hidden = archived
         )
 
         val typeId = recordTypeInteractor.add(data)
@@ -117,16 +119,24 @@ class TestUtils @Inject constructor(
 
     fun addRecordTag(
         typeName: String,
-        tagName: String
+        tagName: String,
+        archived: Boolean = false
     ) = runBlocking {
         val type = recordTypeInteractor.getAll().firstOrNull { it.name == typeName }
             ?: return@runBlocking
 
         val data = RecordTag(
             typeId = type.id,
-            name = tagName
+            name = tagName,
+            archived = archived
         )
 
         recordTagInteractor.add(data)
+    }
+
+    fun getTypeId(typeName: String): Long = runBlocking {
+        recordTypeInteractor.getAll()
+            .firstOrNull { it.name == typeName}
+            ?.id.orZero()
     }
 }

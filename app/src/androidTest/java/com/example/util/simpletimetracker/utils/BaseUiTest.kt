@@ -12,6 +12,7 @@ import com.example.util.simpletimetracker.core.utils.CountingIdlingResourceProvi
 import com.example.util.simpletimetracker.core.utils.TestUtils
 import com.example.util.simpletimetracker.di.AppModule
 import com.example.util.simpletimetracker.di.DaggerTestAppComponent
+import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.feature_records.view.RecordsContainerFragment
 import com.example.util.simpletimetracker.feature_statistics.view.StatisticsContainerFragment
 import com.example.util.simpletimetracker.ui.MainActivity
@@ -33,6 +34,9 @@ open class BaseUiTest {
 
     @Inject
     lateinit var timeMapper: TimeMapper
+
+    @Inject
+    lateinit var prefsInteractor: PrefsInteractor
 
     @Rule
     @JvmField
@@ -64,14 +68,14 @@ open class BaseUiTest {
     }
 
     @Before
-    fun setUp() {
+    open fun setUp() {
         clearData()
         disableAnimations()
         registerIdlingResource()
     }
 
     @After
-    fun after() {
+    open fun after() {
         enableAnimations()
         unregisterIdlingResource()
     }
