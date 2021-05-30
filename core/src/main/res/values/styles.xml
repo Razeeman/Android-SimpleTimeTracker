@@ -103,9 +103,9 @@
         <item name="android:textColor">?colorSecondary</item>
     </style>
 
-    <style name="BottomSheetDialog" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+    <style name="BottomSheetDialog" parent="Theme.Design.Light.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/BottomSheetStyleWrapper</item>
-        <item name="colorSecondary">@color/colorSecondary</item>
+        <item name="colorAccent">@color/colorSecondary</item>
     </style>
 
     <style name="BottomSheetStyleWrapper" parent="Widget.Design.BottomSheet.Modal">
