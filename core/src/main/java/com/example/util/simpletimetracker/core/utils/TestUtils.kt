@@ -136,7 +136,7 @@ class TestUtils @Inject constructor(
 
     fun getTypeId(typeName: String): Long = runBlocking {
         recordTypeInteractor.getAll()
-            .firstOrNull { it.name == typeName}
+            .firstOrNull { it.name == typeName }
             ?.id.orZero()
     }
 }
