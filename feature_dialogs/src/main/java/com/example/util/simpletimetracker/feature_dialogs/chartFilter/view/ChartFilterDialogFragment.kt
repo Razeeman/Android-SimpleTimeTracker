@@ -17,6 +17,7 @@ import com.example.util.simpletimetracker.core.adapter.loader.createLoaderAdapte
 import com.example.util.simpletimetracker.core.adapter.recordType.createRecordTypeAdapterDelegate
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.ChartFilterDialogListener
+import com.example.util.simpletimetracker.core.extension.blockContentScroll
 import com.example.util.simpletimetracker.core.extension.getAllFragments
 import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
@@ -99,6 +100,7 @@ class ChartFilterDialogFragment : BottomSheetDialogFragment() {
 
     private fun initDialog() {
         setSkipCollapsed()
+        blockContentScroll(rvChartFilterContainer)
     }
 
     private fun initDi() {

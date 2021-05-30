@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.core.extension
 import android.view.View
 import android.widget.FrameLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.recyclerview.widget.RecyclerView
 import com.example.util.simpletimetracker.core.R
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -27,4 +28,16 @@ fun BottomSheetDialogFragment.setFullScreen() {
         layoutParams?.height = CoordinatorLayout.LayoutParams.MATCH_PARENT
         requestLayout() // TODO necessary?
     }
+}
+
+// Disable sheet swipe on content scroll to avoid accidentally closing payment sheet when scrolling items.
+fun BottomSheetDialogFragment.blockContentScroll(recyclerView: RecyclerView) {
+    recyclerView.addOnScrollListenerAdapter(
+        onScrolled = { _, _, dy ->
+            if (dy != 0) behavior?.isDraggable = false
+        },
+        onScrollStateChanged = { _, newState ->
+            if (newState == RecyclerView.SCROLL_STATE_IDLE) behavior?.isDraggable = true
+        }
+    )
 }

@@ -198,6 +198,102 @@ class ArchiveTest : BaseUiTest() {
         checkTagVisible(tag2)
     }
 
+    @Test
+    fun archiveDeletionStatistics() {
+        val name1 = "TypeName1"
+        val name2 = "TypeName2"
+        val tag1 = "TagName1"
+        val tag2 = "TagName2"
+
+        testUtils.addActivity(name1)
+        testUtils.addActivity(name2)
+
+        testUtils.addRecordTag(name1, tag1)
+        testUtils.addRecordTag(name1, tag2)
+
+        testUtils.addRecord(name1, tagName = tag1)
+        testUtils.addRecord(name1, tagName = tag1)
+        testUtils.addRecord(name1, tagName = tag1)
+        testUtils.addRecord(name1)
+
+        // Delete
+        tryAction { longClickOnView(withText(name1)) }
+        clickOnViewWithId(R.id.btnChangeRecordTypeDelete)
+        tryAction { longClickOnView(withText(name2)) }
+        clickOnViewWithId(R.id.btnChangeRecordTypeDelete)
+        NavUtils.openSettingsScreen()
+        NavUtils.openCategoriesScreen()
+        tryAction { clickOnViewWithText(tag1) }
+        clickOnViewWithId(R.id.btnChangeRecordTagDelete)
+        tryAction { clickOnViewWithText(tag2) }
+        clickOnViewWithId(R.id.btnChangeRecordTagDelete)
+        pressBack()
+
+        // Check archive
+        NavUtils.openArchiveScreen()
+        checkTypeVisible(name1)
+        checkTypeVisible(name2)
+        checkTagVisible(tag1)
+        checkTagVisible(tag2)
+
+        // Check activity with data
+        clickOnViewWithText(name1)
+        checkViewIsDisplayed(
+            allOf(
+                withId(R.id.layoutArchiveDialogInfoItem),
+                hasDescendant(withText(R.string.archive_records_count)),
+                hasDescendant(withText("4"))
+            )
+        )
+        checkViewIsDisplayed(
+            allOf(
+                withId(R.id.layoutArchiveDialogInfoItem),
+                hasDescendant(withText(R.string.archive_record_tags_count)),
+                hasDescendant(withText("2"))
+            )
+        )
+        pressBack()
+
+        // Check activity with no data
+        clickOnViewWithText(name2)
+        checkViewIsDisplayed(
+            allOf(
+                withId(R.id.layoutArchiveDialogInfoItem),
+                hasDescendant(withText(R.string.archive_records_count)),
+                hasDescendant(withText("0"))
+            )
+        )
+        checkViewIsDisplayed(
+            allOf(
+                withId(R.id.layoutArchiveDialogInfoItem),
+                hasDescendant(withText(R.string.archive_record_tags_count)),
+                hasDescendant(withText("0"))
+            )
+        )
+        pressBack()
+
+        // Check tag with data
+        clickOnViewWithText(tag1)
+        checkViewIsDisplayed(
+            allOf(
+                withId(R.id.layoutArchiveDialogInfoItem),
+                hasDescendant(withText(R.string.archive_tagged_records_count)),
+                hasDescendant(withText("3"))
+            )
+        )
+        pressBack()
+
+        // Check tag with no data
+        clickOnViewWithText(tag2)
+        checkViewIsDisplayed(
+            allOf(
+                withId(R.id.layoutArchiveDialogInfoItem),
+                hasDescendant(withText(R.string.archive_tagged_records_count)),
+                hasDescendant(withText("0"))
+            )
+        )
+    }
+
     private fun checkTypeVisible(name: String) {
         checkViewIsDisplayed(
             allOf(

@@ -20,7 +20,7 @@ class RecordTagViewDataInteractor @Inject constructor(
     private val categoryViewDataMapper: CategoryViewDataMapper
 ) {
 
-    suspend fun getTagsViewData(typeId: Long) : List<ViewHolderType> {
+    suspend fun getTagsViewData(typeId: Long): List<ViewHolderType> {
         val isDarkTheme = prefsInteractor.getDarkMode()
         val type = recordTypeInteractor.get(typeId)
 

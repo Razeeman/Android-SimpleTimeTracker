@@ -1,7 +1,6 @@
 package com.example.util.simpletimetracker.feature_dialogs.archive.interactor
 
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
-import com.example.util.simpletimetracker.core.adapter.hint.HintViewData
 import com.example.util.simpletimetracker.core.mapper.CategoryViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
@@ -11,6 +10,7 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.feature_dialogs.R
 import com.example.util.simpletimetracker.feature_dialogs.archive.viewData.ArchiveDialogButtonsViewData
+import com.example.util.simpletimetracker.feature_dialogs.archive.viewData.ArchiveDialogInfoViewData
 import com.example.util.simpletimetracker.feature_dialogs.archive.viewData.ArchiveDialogTitleViewData
 import javax.inject.Inject
 
@@ -37,14 +37,22 @@ class ArchiveDialogViewDataInteractor @Inject constructor(
         val recordsCount = recordInteractor.getByType(listOf(typeId)).size
         val recordTagCount = recordTagInteractor.getByType(typeId).size
 
-        return mutableListOf<ViewHolderType>().apply{
+        return mutableListOf<ViewHolderType>().apply {
             item.let(::add)
+
             resourceRepo.getString(R.string.archive_activity_deletion_message)
                 .let(::ArchiveDialogTitleViewData).let(::add)
-            resourceRepo.getString(R.string.archive_records_count, recordsCount)
-                .let(::HintViewData).let(::add)
-            resourceRepo.getString(R.string.archive_record_tags_count, recordTagCount)
-                .let(::HintViewData).let(::add)
+
+            ArchiveDialogInfoViewData(
+                name = resourceRepo.getString(R.string.archive_records_count),
+                text = recordsCount.toString()
+            ).let(::add)
+
+            ArchiveDialogInfoViewData(
+                name = resourceRepo.getString(R.string.archive_record_tags_count),
+                text = recordTagCount.toString()
+            ).let(::add)
+
             ArchiveDialogButtonsViewData.let(::add)
         }
     }
@@ -61,12 +69,17 @@ class ArchiveDialogViewDataInteractor @Inject constructor(
         )
         val recordsCount = recordInteractor.getByTag(listOf(tagId)).size
 
-        return mutableListOf<ViewHolderType>().apply{
+        return mutableListOf<ViewHolderType>().apply {
             item.let(::add)
+
             resourceRepo.getString(R.string.archive_tag_deletion_message)
                 .let(::ArchiveDialogTitleViewData).let(::add)
-            resourceRepo.getString(R.string.archive_tagged_records_count, recordsCount)
-                .let(::HintViewData).let(::add)
+
+            ArchiveDialogInfoViewData(
+                name = resourceRepo.getString(R.string.archive_tagged_records_count),
+                text = recordsCount.toString()
+            ).let(::add)
+
             ArchiveDialogButtonsViewData.let(::add)
         }
     }

@@ -11,7 +11,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.category.createCategoryAdapterDelegate
-import com.example.util.simpletimetracker.core.adapter.hint.createHintAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.recordType.createRecordTypeAdapterDelegate
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
@@ -20,6 +19,7 @@ import com.example.util.simpletimetracker.core.extension.getAllFragments
 import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
 import com.example.util.simpletimetracker.feature_dialogs.R
 import com.example.util.simpletimetracker.feature_dialogs.archive.adapter.createArchiveDialogButtonsAdapterDelegate
+import com.example.util.simpletimetracker.feature_dialogs.archive.adapter.createArchiveDialogInfoAdapterDelegate
 import com.example.util.simpletimetracker.feature_dialogs.archive.adapter.createArchiveDialogTitleAdapterDelegate
 import com.example.util.simpletimetracker.feature_dialogs.archive.di.ArchiveDialogComponentProvider
 import com.example.util.simpletimetracker.feature_dialogs.archive.viewModel.ArchiveDialogViewModel
@@ -45,9 +45,9 @@ class ArchiveDialogFragment : BottomSheetDialogFragment() {
     private val adapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
             createLoaderAdapterDelegate(),
-            createHintAdapterDelegate(),
             createRecordTypeAdapterDelegate(),
-            createCategoryAdapterDelegate {},
+            createCategoryAdapterDelegate(),
+            createArchiveDialogInfoAdapterDelegate(),
             createArchiveDialogTitleAdapterDelegate(),
             createArchiveDialogButtonsAdapterDelegate(
                 onDeleteClick = ::onDeleteClick,

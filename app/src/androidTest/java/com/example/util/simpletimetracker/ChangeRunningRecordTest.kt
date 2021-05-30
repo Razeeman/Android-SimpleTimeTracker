@@ -213,7 +213,6 @@ class ChangeRunningRecordTest : BaseUiTest() {
         checkRunningRecordDisplayed(name = name2)
     }
 
-
     private fun checkPreviewUpdated(matcher: Matcher<View>) =
         checkViewIsDisplayed(allOf(withId(R.id.previewChangeRunningRecord), matcher))
 

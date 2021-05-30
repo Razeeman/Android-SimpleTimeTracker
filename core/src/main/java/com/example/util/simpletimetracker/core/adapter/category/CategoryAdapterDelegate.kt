@@ -6,7 +6,7 @@ import com.example.util.simpletimetracker.core.extension.setOnClickWith
 import kotlinx.android.synthetic.main.item_category_layout.view.viewCategoryItem
 
 fun createCategoryAdapterDelegate(
-    onItemClick: ((CategoryViewData) -> Unit)
+    onItemClick: ((CategoryViewData) -> Unit)? = null
 ) = createRecyclerAdapterDelegate<CategoryViewData>(
     R.layout.item_category_layout
 ) { itemView, item, _ ->
@@ -26,6 +26,6 @@ fun createCategoryAdapterDelegate(
             itemIconVisible = false
         }
 
-        setOnClickWith(item, onItemClick)
+        onItemClick?.let { setOnClickWith(item, onItemClick) }
     }
 }

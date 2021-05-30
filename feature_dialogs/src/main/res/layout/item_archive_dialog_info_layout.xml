@@ -2,12 +2,12 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layoutStatisticsInfoItem"
+    android:id="@+id/layoutArchiveDialogInfoItem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="4dp"
     android:layout_marginEnd="4dp"
-    app:cardBackgroundColor="?appCardBackgroundColor"
+    app:cardBackgroundColor="?appButtonOnCardBackgroundColor"
     app:cardCornerRadius="8dp"
     app:cardElevation="4dp"
     app:cardPreventCornerOverlap="false"
@@ -21,20 +21,20 @@
         android:paddingVertical="8dp">
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvStatisticsInfoName"
+            android:id="@+id/tvArchiveDialogInfoName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:textColor="?appTextPrimaryColor"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/tvStatisticsInfoText"
+            app:layout_constraintEnd_toStartOf="@id/tvArchiveDialogInfoText"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Info name" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvStatisticsInfoText"
+            android:id="@+id/tvArchiveDialogInfoText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"

@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
-import androidx.recyclerview.widget.RecyclerView
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.category.createCategoryAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.divider.createDividerAdapterDelegate
@@ -19,8 +18,7 @@ import com.example.util.simpletimetracker.core.adapter.loader.createLoaderAdapte
 import com.example.util.simpletimetracker.core.adapter.recordType.createRecordTypeAdapterDelegate
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.TypesFilterDialogListener
-import com.example.util.simpletimetracker.core.extension.addOnScrollListenerAdapter
-import com.example.util.simpletimetracker.core.extension.behavior
+import com.example.util.simpletimetracker.core.extension.blockContentScroll
 import com.example.util.simpletimetracker.core.extension.getAllFragments
 import com.example.util.simpletimetracker.core.extension.setFullScreen
 import com.example.util.simpletimetracker.core.extension.setOnClick
@@ -35,7 +33,9 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import kotlinx.android.synthetic.main.types_filter_dialog_fragment.*
+import kotlinx.android.synthetic.main.types_filter_dialog_fragment.btnTypesFilterHideAll
+import kotlinx.android.synthetic.main.types_filter_dialog_fragment.btnTypesFilterShowAll
+import kotlinx.android.synthetic.main.types_filter_dialog_fragment.rvTypesFilterContainer
 import javax.inject.Inject
 
 class TypesFilterDialogFragment : BottomSheetDialogFragment() {
@@ -108,6 +108,7 @@ class TypesFilterDialogFragment : BottomSheetDialogFragment() {
     private fun initDialog() {
         setSkipCollapsed()
         setFullScreen()
+        blockContentScroll(rvTypesFilterContainer)
     }
 
     private fun initDi() {
@@ -130,25 +131,12 @@ class TypesFilterDialogFragment : BottomSheetDialogFragment() {
     private fun initUx() {
         btnTypesFilterShowAll.setOnClick(viewModel::onShowAllClick)
         btnTypesFilterHideAll.setOnClick(viewModel::onHideAllClick)
-        checkContentScroll()
     }
 
     private fun initViewModel(): Unit = with(viewModel) {
         extra = arguments?.getParcelable(ARGS_PARAMS) ?: TypesFilterParams()
         viewData.observe(viewLifecycleOwner, adapter::replace)
         typesFilter.observe(viewLifecycleOwner) { typesFilterDialogListener?.onTypesFilterSelected(it) }
-    }
-
-    // Disable sheet swipe on content scroll to avoid accidentally closing payment sheet when scrolling items.
-    private fun checkContentScroll() {
-        rvTypesFilterContainer.addOnScrollListenerAdapter(
-            onScrolled = { _, _, dy ->
-                if (dy != 0) behavior?.isDraggable = false
-            },
-            onScrollStateChanged = { _, newState ->
-                if (newState == RecyclerView.SCROLL_STATE_IDLE) behavior?.isDraggable = true
-            }
-        )
     }
 
     companion object {

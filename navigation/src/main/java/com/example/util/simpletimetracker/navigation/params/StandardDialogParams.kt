@@ -11,4 +11,4 @@ data class StandardDialogParams(
     val message: String = "",
     val btnPositive: String = "",
     val btnNegative: String = ""
-): Parcelable
+) : Parcelable

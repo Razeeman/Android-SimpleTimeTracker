@@ -230,9 +230,9 @@
     <string name="archive_activity_deletion_message">Все записи этой активности и теги записей будут также удалены.</string>
     <string name="archive_tag_deletion_message">Все записи отмеченные этим тегом будут без тега.</string>
     <string name="archive_deletion_alert">Вы уверены? Это действие нельзя будет отменить.</string>
-    <string name="archive_records_count">Записи: %s</string>
-    <string name="archive_record_tags_count">Теги записей: %s</string>
-    <string name="archive_tagged_records_count">Записи, отмеченные тегом: %s</string>
+    <string name="archive_records_count">Записи</string>
+    <string name="archive_record_tags_count">Теги записей</string>
+    <string name="archive_tagged_records_count">Записи, отмеченные тегом</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Смайлы и эмоции</string>

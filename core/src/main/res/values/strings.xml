@@ -240,9 +240,9 @@
     <string name="archive_activity_deletion_message">All records of this activity and record tags will also be deleted.</string>
     <string name="archive_tag_deletion_message">All records tagged with this tag will become untagged.</string>
     <string name="archive_deletion_alert">Are you sure? This action cannot be undone.</string>
-    <string name="archive_records_count">Records: %s</string>
-    <string name="archive_record_tags_count">Record tags: %s</string>
-    <string name="archive_tagged_records_count">Tagged records: %s</string>
+    <string name="archive_records_count">Records</string>
+    <string name="archive_record_tags_count">Record tags</string>
+    <string name="archive_tagged_records_count">Tagged records</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Smileys &amp; Emotion</string>

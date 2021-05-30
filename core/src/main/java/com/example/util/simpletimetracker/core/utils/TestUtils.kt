@@ -124,7 +124,7 @@ class TestUtils @Inject constructor(
 
         val data = RecordTag(
             typeId = type.id,
-            name= tagName
+            name = tagName
         )
 
         recordTagInteractor.add(data)
