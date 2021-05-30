@@ -105,13 +105,15 @@ class SettingsTest : BaseUiTest() {
         clickOnViewWithText(name3)
         var startTime = System.currentTimeMillis()
             .let { timeMapper.formatTime(it, true) }
-        checkViewIsDisplayed(
-            allOf(
-                withId(R.id.viewRunningRecordItem),
-                hasDescendant(withText(name2)),
-                hasDescendant(withText(startTime))
+        tryAction {
+            checkViewIsDisplayed(
+                allOf(
+                    withId(R.id.viewRunningRecordItem),
+                    hasDescendant(withText(name2)),
+                    hasDescendant(withText(startTime))
+                )
             )
-        )
+        }
         checkViewIsDisplayed(
             allOf(
                 withId(R.id.viewRunningRecordItem),
@@ -141,13 +143,15 @@ class SettingsTest : BaseUiTest() {
         clickOnView(
             allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1))
         )
-        checkViewIsDisplayed(
-            allOf(
-                withId(R.id.viewRunningRecordItem),
-                hasDescendant(withText(name1)),
-                hasDescendant(withText(startTime))
+        tryAction {
+            checkViewIsDisplayed(
+                allOf(
+                    withId(R.id.viewRunningRecordItem),
+                    hasDescendant(withText(name1)),
+                    hasDescendant(withText(startTime))
+                )
             )
-        )
+        }
         checkViewDoesNotExist(
             allOf(withId(R.id.viewRunningRecordItem), hasDescendant(withText(name2)))
         )
@@ -167,13 +171,15 @@ class SettingsTest : BaseUiTest() {
         )
         startTime = System.currentTimeMillis()
             .let { timeMapper.formatTime(it, true) }
-        checkViewIsDisplayed(
-            allOf(
-                withId(R.id.viewRunningRecordItem),
-                hasDescendant(withText(name2)),
-                hasDescendant(withText(startTime))
+        tryAction {
+            checkViewIsDisplayed(
+                allOf(
+                    withId(R.id.viewRunningRecordItem),
+                    hasDescendant(withText(name2)),
+                    hasDescendant(withText(startTime))
+                )
             )
-        )
+        }
         checkViewDoesNotExist(
             allOf(withId(R.id.viewRunningRecordItem), hasDescendant(withText(name1)))
         )
@@ -196,13 +202,15 @@ class SettingsTest : BaseUiTest() {
         )
         val newStartTime = System.currentTimeMillis()
             .let { timeMapper.formatTime(it, true) }
-        checkViewIsDisplayed(
-            allOf(
-                withId(R.id.viewRunningRecordItem),
-                hasDescendant(withText(name2)),
-                hasDescendant(withText(startTime))
+        tryAction {
+            checkViewIsDisplayed(
+                allOf(
+                    withId(R.id.viewRunningRecordItem),
+                    hasDescendant(withText(name2)),
+                    hasDescendant(withText(startTime))
+                )
             )
-        )
+        }
         checkViewIsDisplayed(
             allOf(
                 withId(R.id.viewRunningRecordItem),
