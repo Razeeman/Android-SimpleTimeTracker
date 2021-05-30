@@ -22,10 +22,17 @@ fun Record.isNotFiltered(filter: TypesFilterParams): Boolean {
 }
 
 fun Calendar.setWeekToFirstDay() {
-    val currentTime = timeInMillis
-    set(Calendar.DAY_OF_WEEK, firstDayOfWeek)
+    val another = Calendar.getInstance()
+    another.timeInMillis = timeInMillis
+
+    val currentTime = another.timeInMillis
+    // Setting DAY_OF_WEEK have a weird behaviour so as if after that another field is set -
+    // it would reset to current day. Use another calendar to manipulate day of week and get its time.
+    another.set(Calendar.DAY_OF_WEEK, firstDayOfWeek)
     // If went to future - go back a week
-    if (timeInMillis > currentTime) {
-        add(Calendar.DATE, -7)
+    if (another.timeInMillis > currentTime) {
+        another.add(Calendar.DATE, -7)
     }
+
+    timeInMillis = another.timeInMillis
 }
