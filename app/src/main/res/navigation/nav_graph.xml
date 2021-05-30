@@ -122,7 +122,7 @@
         tools:layout="@layout/emoji_selection_dialog_fragment" />
     <dialog
         android:id="@+id/archiveDialogFragment"
-        android:name="com.example.util.simpletimetracker.feature_archive.dialog.ArchiveDialogFragment"
+        android:name="com.example.util.simpletimetracker.feature_dialogs.archive.view.ArchiveDialogFragment"
         android:label="ArchiveDialogFragment"
         tools:layout="@layout/archive_dialog_fragment" />
     <dialog

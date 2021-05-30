@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.feature_archive.dialog
+package com.example.util.simpletimetracker.navigation.params
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

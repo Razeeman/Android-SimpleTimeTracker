@@ -15,6 +15,7 @@ import com.example.util.simpletimetracker.feature_change_record.di.ChangeRecordC
 import com.example.util.simpletimetracker.feature_change_record_tag.di.ChangeRecordTagComponent
 import com.example.util.simpletimetracker.feature_change_record_type.di.ChangeRecordTypeComponent
 import com.example.util.simpletimetracker.feature_change_running_record.di.ChangeRunningRecordComponent
+import com.example.util.simpletimetracker.feature_dialogs.archive.di.ArchiveDialogComponent
 import com.example.util.simpletimetracker.feature_dialogs.cardOrder.di.CardOrderComponent
 import com.example.util.simpletimetracker.feature_dialogs.cardSize.di.CardSizeComponent
 import com.example.util.simpletimetracker.feature_dialogs.chartFilter.di.ChartFilterComponent
@@ -62,6 +63,7 @@ class TimeTrackerApp : Application(), FeatureComponentProvider {
     override var changeCategoryComponent: ChangeCategoryComponent? = null
     override var changeRecordTagComponent: ChangeRecordTagComponent? = null
     override var archiveComponent: ArchiveComponent? = null
+    override var archiveDialogComponent: ArchiveDialogComponent? = null
     override var recordTagSelectionComponent: RecordTagSelectionComponent? = null
     override var recordTagSelectionDialogComponent: RecordTagSelectionDialogComponent? = null
 
@@ -107,6 +109,7 @@ class TimeTrackerApp : Application(), FeatureComponentProvider {
         changeCategoryComponent = appComponent?.plusChangeCategoryComponent()
         changeRecordTagComponent = appComponent?.plusChangeRecordTagComponent()
         archiveComponent = appComponent?.plusArchiveComponent()
+        archiveDialogComponent = appComponent?.plusArchiveDialogComponent()
         recordTagSelectionComponent = appComponent?.plusRecordTagSelectionComponent()
         recordTagSelectionDialogComponent = appComponent?.plusRecordTagSelectionDialogComponent()
     }

@@ -5,7 +5,7 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigator
 import androidx.navigation.fragment.FragmentNavigator
 import com.example.util.simpletimetracker.R
-import com.example.util.simpletimetracker.feature_archive.dialog.ArchiveDialogFragment
+import com.example.util.simpletimetracker.feature_dialogs.archive.view.ArchiveDialogFragment
 import com.example.util.simpletimetracker.feature_change_category.view.ChangeCategoryFragment
 import com.example.util.simpletimetracker.feature_change_record.view.ChangeRecordFragment
 import com.example.util.simpletimetracker.feature_change_record_tag.view.ChangeRecordTagFragment

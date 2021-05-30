@@ -7,6 +7,7 @@ import com.example.util.simpletimetracker.feature_change_record.di.ChangeRecordC
 import com.example.util.simpletimetracker.feature_change_record_tag.di.ChangeRecordTagComponentProvider
 import com.example.util.simpletimetracker.feature_change_record_type.di.ChangeRecordTypeComponentProvider
 import com.example.util.simpletimetracker.feature_change_running_record.di.ChangeRunningRecordComponentProvider
+import com.example.util.simpletimetracker.feature_dialogs.archive.di.ArchiveDialogComponentProvider
 import com.example.util.simpletimetracker.feature_dialogs.cardOrder.di.CardOrderComponentProvider
 import com.example.util.simpletimetracker.feature_dialogs.cardSize.di.CardSizeComponentProvider
 import com.example.util.simpletimetracker.feature_dialogs.chartFilter.di.ChartFilterComponentProvider
@@ -50,6 +51,7 @@ interface FeatureComponentProvider :
     ChangeCategoryComponentProvider,
     ChangeRecordTagComponentProvider,
     ArchiveComponentProvider,
+    ArchiveDialogComponentProvider,
     RecordTagSelectionComponentProvider,
     RecordTagSelectionDialogComponentProvider {
 

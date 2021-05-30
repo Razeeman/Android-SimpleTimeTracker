@@ -16,11 +16,11 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryIn
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.feature_archive.R
-import com.example.util.simpletimetracker.feature_archive.dialog.ArchiveDialogParams
 import com.example.util.simpletimetracker.feature_archive.interactor.ArchiveViewDataInteractor
 import com.example.util.simpletimetracker.navigation.Notification
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
+import com.example.util.simpletimetracker.navigation.params.ArchiveDialogParams
 import com.example.util.simpletimetracker.navigation.params.StandardDialogParams
 import com.example.util.simpletimetracker.navigation.params.ToastParams
 import kotlinx.coroutines.launch
@@ -65,23 +65,12 @@ class ArchiveViewModel @Inject constructor(
         viewModelScope.launch {
             if (params == null) return@launch
 
-            val message = when (params) {
-                is ArchiveDialogParams.Activity -> {
-                    val name = recordTypeInteractor.get(params.id)?.name ?: return@launch
-                    resourceRepo.getString(R.string.archive_activity_deletion_message, name)
-                }
-                is ArchiveDialogParams.RecordTag -> {
-                    val name = recordTagInteractor.get(params.id)?.name ?: return@launch
-                    resourceRepo.getString(R.string.archive_tag_deletion_message, name)
-                }
-            }
-
             router.navigate(
                 Screen.STANDARD_DIALOG,
                 StandardDialogParams(
                     tag = ALERT_DIALOG_TAG,
                     data = params,
-                    message = message,
+                    message = resourceRepo.getString(R.string.archive_deletion_alert),
                     btnPositive = resourceRepo.getString(R.string.archive_dialog_delete),
                     btnNegative = resourceRepo.getString(R.string.cancel)
                 )

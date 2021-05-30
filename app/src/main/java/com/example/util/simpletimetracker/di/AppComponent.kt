@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.feature_change_record.di.ChangeRecordC
 import com.example.util.simpletimetracker.feature_change_record_tag.di.ChangeRecordTagComponent
 import com.example.util.simpletimetracker.feature_change_record_type.di.ChangeRecordTypeComponent
 import com.example.util.simpletimetracker.feature_change_running_record.di.ChangeRunningRecordComponent
+import com.example.util.simpletimetracker.feature_dialogs.archive.di.ArchiveDialogComponent
 import com.example.util.simpletimetracker.feature_dialogs.cardOrder.di.CardOrderComponent
 import com.example.util.simpletimetracker.feature_dialogs.cardSize.di.CardSizeComponent
 import com.example.util.simpletimetracker.feature_dialogs.chartFilter.di.ChartFilterComponent
@@ -69,6 +70,7 @@ interface AppComponent {
     fun plusChangeCategoryComponent(): ChangeCategoryComponent
     fun plusChangeRecordTagComponent(): ChangeRecordTagComponent
     fun plusArchiveComponent(): ArchiveComponent
+    fun plusArchiveDialogComponent(): ArchiveDialogComponent
     fun plusRecordTagSelectionComponent(): RecordTagSelectionComponent
     fun plusRecordTagSelectionDialogComponent(): RecordTagSelectionDialogComponent
 }
