@@ -74,6 +74,11 @@ Simple app that helps track how much time you spend on all the useless activitie
 [![records_all_sort_thumb]][records_all_sort]
 <br>
 
+## Archive
+
+[![archive_thumb]][archive]
+[![archive_dialog_thumb]][archive_dialog]
+
 ## Settings
 
 [![settings1_thumb]][settings1]
@@ -205,6 +210,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 [records_thumb]: dev_files/screens/records_thumb.png
 [records]: dev_files/screens/records.png
+
+[archive_thumb]: dev_files/screens/archive_thumb.png
+[archive]: dev_files/screens/archive.png
+[archive_dialog_thumb]: dev_files/screens/archive_dialog_thumb.png
+[archive_dialog]: dev_files/screens/archive_dialog.png
 
 [settings1_thumb]: dev_files/screens/settings1_thumb.png
 [settings1]: dev_files/screens/settings1.png
