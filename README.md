@@ -20,11 +20,6 @@ Simple app that helps track how much time you spend on all the useless activitie
 [![change_record_type_tag_thumb]][change_record_type_tag]
 <br>
 
-## Change or delete running timers
-
-[![change_running_record_comment_thumb]][change_running_record_comment]
-[![change_running_record_thumb]][change_running_record]
-
 ## View previous records
 
 [![records_thumb]][records]
@@ -36,6 +31,7 @@ Simple app that helps track how much time you spend on all the useless activitie
 [![change_record_activity_thumb]][change_record_activity]
 [![change_record_date_thumb]][change_record_date]
 [![change_record_time_thumb]][change_record_time]
+[![change_record_tag_thumb]][change_record_tag]
 <br>
 
 ## Views statistics on different time ranges
@@ -55,6 +51,7 @@ Simple app that helps track how much time you spend on all the useless activitie
 [![tags_thumb]][tags]
 [![change_tag_color_thumb]][change_tag_color]
 [![change_tag_activity_thumb]][change_tag_activity]
+[![change_tag_record_thumb]][change_tag_record]
 <br>
 
 ## Filter statistics by tags
@@ -68,19 +65,20 @@ Simple app that helps track how much time you spend on all the useless activitie
 [![statistics_detail1_thumb]][statistics_detail1]
 [![statistics_detail2_thumb]][statistics_detail2]
 [![statistics_detail3_thumb]][statistics_detail3]
+[![statistics_detail_filter_thumb]][statistics_detail_filter]
 <br>
 
 ## View all records
 
 [![records_all_thumb]][records_all]
 [![records_all_sort_thumb]][records_all_sort]
-[![records_all_filter_thumb]][records_all_filter]
 <br>
 
 ## Settings
 
 [![settings1_thumb]][settings1]
 [![settings2_thumb]][settings2]
+[![settings3_thumb]][settings3]
 [![settings_card_order_dialog_thumb]][settings_card_order_dialog]
 [![settings_duration_dialog_thumb]][settings_duration_dialog]
 <br>
@@ -175,6 +173,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 [change_record_date]: dev_files/screens/change_record_date.png
 [change_record_time_thumb]: dev_files/screens/change_record_time_thumb.png
 [change_record_time]: dev_files/screens/change_record_time.png
+[change_record_tag_thumb]: dev_files/screens/change_record_tag_thumb.png
+[change_record_tag]: dev_files/screens/change_record_tag.png
 
 [change_record_type_thumb]: dev_files/screens/change_record_type_thumb.png
 [change_record_type]: dev_files/screens/change_record_type.png
@@ -189,17 +189,14 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 [change_record_type_tag_thumb]: dev_files/screens/change_record_type_tag_thumb.png
 [change_record_type_tag]: dev_files/screens/change_record_type_tag.png
 
-[change_running_record_comment_thumb]: dev_files/screens/change_running_record_comment_thumb.png
-[change_running_record_comment]: dev_files/screens/change_running_record_comment.png
-[change_running_record_thumb]: dev_files/screens/change_running_record_thumb.png
-[change_running_record]: dev_files/screens/change_running_record.png
-
 [tags_thumb]: dev_files/screens/tags_thumb.png
-[tags]: dev_files/screens/tags_thumb.png
+[tags]: dev_files/screens/tags.png
 [change_tag_color_thumb]: dev_files/screens/change_tag_color_thumb.png
 [change_tag_color]: dev_files/screens/change_tag_color.png
 [change_tag_activity_thumb]: dev_files/screens/change_tag_activity_thumb.png
 [change_tag_activity]: dev_files/screens/change_tag_activity.png
+[change_tag_record_thumb]: dev_files/screens/change_tag_record_thumb.png
+[change_tag_record]: dev_files/screens/change_tag_record.png
 
 [main_empty_thumb]: dev_files/screens/main_empty_thumb.png
 [main_empty]: dev_files/screens/main_empty.png
@@ -213,6 +210,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 [settings1]: dev_files/screens/settings1.png
 [settings2_thumb]: dev_files/screens/settings2_thumb.png
 [settings2]: dev_files/screens/settings2.png
+[settings3_thumb]: dev_files/screens/settings3_thumb.png
+[settings3]: dev_files/screens/settings3.png
 [settings_card_order_dialog_thumb]: dev_files/screens/settings_card_order_dialog_thumb.png
 [settings_card_order_dialog]: dev_files/screens/settings_card_order_dialog.png
 [settings_duration_dialog_thumb]: dev_files/screens/settings_duration_dialog_thumb.png
@@ -224,9 +223,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 [statistics_tags]: dev_files/screens/statistics_tags.png
 
 [statistics_filter_activity_thumb]: dev_files/screens/statistics_filter_activity_thumb.png
-[statistics_filter_activity]: dev_files/screens/statistics_activity_filter.png
+[statistics_filter_activity]: dev_files/screens/statistics_filter_activity.png
 [statistics_filter_tag_thumb]: dev_files/screens/statistics_filter_tag_thumb.png
-[statistics_filter_tag]: dev_files/screens/statistics_tag_filter.png
+[statistics_filter_tag]: dev_files/screens/statistics_filter_tag.png
 
 [statistics_overall_thumb]: dev_files/screens/statistics_overall_thumb.png
 [statistics_overall]: dev_files/screens/statistics_overall.png
@@ -240,13 +239,13 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 [statistics_detail2]: dev_files/screens/statistics_detail2.png
 [statistics_detail3_thumb]: dev_files/screens/statistics_detail3_thumb.png
 [statistics_detail3]: dev_files/screens/statistics_detail3.png
+[statistics_detail_filter_thumb]: dev_files/screens/statistics_detail_filter_thumb.png
+[statistics_detail_filter]: dev_files/screens/statistics_detail_filter.png
 
 [records_all_thumb]: dev_files/screens/records_all_thumb.png
 [records_all]: dev_files/screens/records_all.png
 [records_all_sort_thumb]: dev_files/screens/records_all_sort_thumb.png
 [records_all_sort]: dev_files/screens/records_all_sort.png
-[records_all_filter_thumb]: dev_files/screens/records_all_filter_thumb.png
-[records_all_filter]: dev_files/screens/records_all_filter.png
 
 [widgets_thumb]: dev_files/screens/widgets_thumb.png
 [widgets]: dev_files/screens/widgets.png
