@@ -15,6 +15,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:descendantFocusability="blocksDescendants"
             android:paddingBottom="16dp">
 
             <androidx.cardview.widget.CardView
@@ -215,6 +216,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:overScrollMode="never"
                 android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@id/buttonsStatisticsDetailSplitGrouping"
                 tools:itemCount="3"
