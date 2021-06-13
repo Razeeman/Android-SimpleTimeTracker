@@ -195,7 +195,7 @@ class StatisticsViewDataMapper @Inject constructor(
                     duration = statistics.duration
                         .let(timeMapper::formatInterval),
                     percent = durationPercent,
-                    iconId = RecordTypeIcon.Image(R.drawable.unknown),
+                    icon = RecordTypeIcon.Image(R.drawable.unknown),
                     color = colorMapper.toUntrackedColor(isDarkTheme)
                 )
             }
@@ -209,7 +209,7 @@ class StatisticsViewDataMapper @Inject constructor(
                         ""
                     },
                     percent = durationPercent,
-                    iconId = recordType.icon
+                    icon = recordType.icon
                         .let(iconMapper::mapIcon),
                     color = recordType.color
                         .let { colorMapper.mapToColorResId(it, isDarkTheme) }

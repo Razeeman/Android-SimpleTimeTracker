@@ -53,6 +53,16 @@
         <attr name="itemComment" format="string" />
     </declare-styleable>
 
+    <declare-styleable name="StatisticsView">
+        <attr name="itemName" />
+        <attr name="itemIcon" />
+        <attr name="itemEmoji" />
+        <attr name="itemColor" />
+        <attr name="itemDuration" />
+        <attr name="itemIconVisible" format="boolean" />
+        <attr name="itemPercent" format="string" />
+    </declare-styleable>
+
     <declare-styleable name="RunningRecordView">
         <attr name="itemName" />
         <attr name="itemIcon" />
@@ -73,7 +83,7 @@
         <attr name="itemEmoji" />
         <attr name="itemIconColor" />
         <attr name="itemIconAlpha" />
-        <attr name="itemIconVisible" format="boolean" />
+        <attr name="itemIconVisible" />
     </declare-styleable>
 
     <declare-styleable name="FullWidthSpinner">

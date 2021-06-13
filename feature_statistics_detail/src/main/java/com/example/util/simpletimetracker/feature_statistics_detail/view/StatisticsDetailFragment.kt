@@ -78,7 +78,7 @@ class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragmen
                 .inflateTransition(android.R.transition.move)
         }
 
-        ViewCompat.setTransitionName(layoutStatisticsDetailItem, params.transitionName)
+        ViewCompat.setTransitionName(viewStatisticsDetailItem, params.transitionName)
 
         rvStatisticsDetailPreviewItems.apply {
             layoutManager = FlexboxLayoutManager(requireContext()).apply {
@@ -154,15 +154,15 @@ class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragmen
             ?: return
         val rest = viewData.drop(1)
 
-        tvStatisticsDetailItemName.text = first.name
-        layoutStatisticsDetailItem.setCardBackgroundColor(first.color)
+        viewStatisticsDetailItem.itemName = first.name
+        viewStatisticsDetailItem.itemColor = first.color
         chartStatisticsDetail.setBarColor(first.color)
         chartStatisticsDetailSplit.setBarColor(first.color)
         if (first.iconId != null) {
-            ivStatisticsDetailItemIcon.visible = true
-            ivStatisticsDetailItemIcon.itemIcon = first.iconId
+            viewStatisticsDetailItem.itemIconVisible = true
+            viewStatisticsDetailItem.itemIcon = first.iconId
         } else {
-            ivStatisticsDetailItemIcon.visible = false
+            viewStatisticsDetailItem.itemIconVisible = false
         }
 
         previewAdapter.replace(rest)

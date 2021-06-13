@@ -13,6 +13,7 @@ import com.example.util.simpletimetracker.domain.extension.rotateLeft
 import com.example.util.simpletimetracker.domain.mapper.StatisticsMapper
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
+import com.example.util.simpletimetracker.domain.model.IconType
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordTag
@@ -472,8 +473,9 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             duration = duration
                 .let(timeMapper::formatInterval),
             percent = durationPercent,
-            iconId = recordType?.icon
-                ?.let(iconMapper::mapIcon),
+            icon = recordType?.icon
+                ?.let(iconMapper::mapIcon)
+                ?: RecordTypeIcon.Image(R.drawable.unknown),
             color = recordType?.color
                 ?.let { colorMapper.mapToColorResId(it, isDarkTheme) }
                 ?.let(resourceRepo::getColor)

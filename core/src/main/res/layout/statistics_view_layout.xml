@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="@color/black"
+    app:cardCornerRadius="@dimen/record_type_card_corner_radius"
+    app:cardElevation="@dimen/record_type_card_elevation"
+    app:cardPreventCornerOverlap="false"
+    app:cardUseCompatPadding="true"
+    tools:parentTag="androidx.cardview.widget.CardView">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?selectableItemBackground"
+        android:minHeight="40dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp">
+
+        <com.example.util.simpletimetracker.core.view.IconView
+            android:id="@+id/ivStatisticsItemIcon"
+            android:layout_width="24dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="h,1:1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvStatisticsItemName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textColor="?appLightTextColor"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tvStatisticsItemDuration"
+            app:layout_constraintStart_toEndOf="@id/ivStatisticsItemIcon"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Item name" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvStatisticsItemDuration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:textColor="?appLightTextColor"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/dividerStatisticsPercent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="5h 23m" />
+
+        <View
+            android:id="@+id/dividerStatisticsPercent"
+            android:layout_width="2dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tvStatisticsItemPercentWidth"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:background="@color/white" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvStatisticsItemPercent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="?appLightTextColor"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/tvStatisticsItemPercentWidth"
+            app:layout_constraintStart_toStartOf="@id/tvStatisticsItemPercentWidth"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="3%" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvStatisticsItemPercentWidth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="100%"
+            android:textStyle="bold"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="HardcodedText" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</merge>

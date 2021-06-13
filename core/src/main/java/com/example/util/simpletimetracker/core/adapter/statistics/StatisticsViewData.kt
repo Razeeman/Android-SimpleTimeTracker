@@ -21,7 +21,7 @@ sealed class StatisticsViewData : ViewHolderType {
         override val duration: String,
         override val percent: String,
         @ColorInt override val color: Int,
-        val iconId: RecordTypeIcon?
+        val icon: RecordTypeIcon
     ) : StatisticsViewData()
 
     data class Category(

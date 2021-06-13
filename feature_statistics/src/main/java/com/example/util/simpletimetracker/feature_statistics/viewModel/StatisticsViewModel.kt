@@ -72,7 +72,7 @@ class StatisticsViewModel @Inject constructor(
                 ),
                 preview = StatisticsDetailParams.Preview(
                     name = item.name,
-                    iconId = (item as? StatisticsViewData.Activity)?.iconId?.toParams(),
+                    iconId = (item as? StatisticsViewData.Activity)?.icon?.toParams(),
                     color = item.color
                 )
             ),
