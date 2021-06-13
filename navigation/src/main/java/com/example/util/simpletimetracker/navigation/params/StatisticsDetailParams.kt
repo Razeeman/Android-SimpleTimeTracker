@@ -6,6 +6,7 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class StatisticsDetailParams(
+    val transitionName: String = "",
     val filter: TypesFilterParams = TypesFilterParams(),
     val preview: Preview? = null
 ) : Parcelable {

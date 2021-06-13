@@ -21,7 +21,7 @@ object Versions {
     const val material = "1.2.0"
     const val emoji = "1.2.0-alpha03"
 
-    const val fragmentKtx = "1.2.0"
+    const val fragmentKtx = "1.3.4"
     const val coreKtx = "1.2.0"
     const val liveDataCoreKtx = "2.2.0"
     const val liveDataKtx = "2.2.0"

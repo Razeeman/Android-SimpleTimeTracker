@@ -6,13 +6,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.loader.LoaderViewData
+import com.example.util.simpletimetracker.core.adapter.statistics.StatisticsViewData
 import com.example.util.simpletimetracker.core.extension.toParams
+import com.example.util.simpletimetracker.core.view.TransitionNames
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.feature_statistics.extra.StatisticsExtra
 import com.example.util.simpletimetracker.feature_statistics.interactor.StatisticsViewDataInteractor
-import com.example.util.simpletimetracker.core.adapter.statistics.StatisticsViewData
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
 import com.example.util.simpletimetracker.navigation.params.StatisticsDetailParams
@@ -64,6 +65,7 @@ class StatisticsViewModel @Inject constructor(
         router.navigate(
             screen = Screen.STATISTICS_DETAIL,
             data = StatisticsDetailParams(
+                transitionName = TransitionNames.STATISTICS_DETAIL + item.id,
                 filter = TypesFilterParams(
                     selectedIds = listOf(item.id),
                     filterType = filterType

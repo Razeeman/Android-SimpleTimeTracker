@@ -78,10 +78,7 @@ class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragmen
                 .inflateTransition(android.R.transition.move)
         }
 
-        ViewCompat.setTransitionName(
-            layoutStatisticsDetailItem,
-            TransitionNames.STATISTICS_DETAIL + params.filter.selectedIds.first()
-        )
+        ViewCompat.setTransitionName(layoutStatisticsDetailItem, params.transitionName)
 
         rvStatisticsDetailPreviewItems.apply {
             layoutManager = FlexboxLayoutManager(requireContext()).apply {

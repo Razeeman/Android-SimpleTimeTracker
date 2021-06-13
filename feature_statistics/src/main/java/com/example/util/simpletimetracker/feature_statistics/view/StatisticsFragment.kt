@@ -8,12 +8,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.hint.createHintAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.loader.createLoaderAdapterDelegate
+import com.example.util.simpletimetracker.core.adapter.statistics.createStatisticsAdapterDelegate
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.ChartFilterDialogListener
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_statistics.R
-import com.example.util.simpletimetracker.core.adapter.statistics.createStatisticsAdapterDelegate
 import com.example.util.simpletimetracker.feature_statistics.adapter.createStatisticsChartAdapterDelegate
 import com.example.util.simpletimetracker.feature_statistics.adapter.createStatisticsEmptyAdapterDelegate
 import com.example.util.simpletimetracker.feature_statistics.adapter.createStatisticsInfoAdapterDelegate
@@ -22,7 +22,7 @@ import com.example.util.simpletimetracker.feature_statistics.extra.StatisticsExt
 import com.example.util.simpletimetracker.feature_statistics.viewModel.StatisticsSettingsViewModel
 import com.example.util.simpletimetracker.feature_statistics.viewModel.StatisticsViewModel
 import com.example.util.simpletimetracker.navigation.params.StatisticsParams
-import kotlinx.android.synthetic.main.statistics_fragment.rvStatisticsList
+import kotlinx.android.synthetic.main.statistics_fragment.*
 import javax.inject.Inject
 
 class StatisticsFragment : BaseFragment(R.layout.statistics_fragment),
@@ -63,9 +63,16 @@ class StatisticsFragment : BaseFragment(R.layout.statistics_fragment),
     }
 
     override fun initUi() {
+        parentFragment?.postponeEnterTransition()
+
         rvStatisticsList.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = statisticsAdapter
+
+            viewTreeObserver.addOnPreDrawListener {
+                parentFragment?.startPostponedEnterTransition()
+                true
+            }
         }
     }
 

@@ -12,46 +12,22 @@
         tools:layout="@layout/main_fragment">
         <action
             android:id="@+id/action_mainFragment_to_changeRecordTypeFragment"
-            app:destination="@id/changeRecordTypeFragment"
-            app:enterAnim="@anim/fragment_open_enter"
-            app:exitAnim="@anim/fragment_close_exit"
-            app:popEnterAnim="@anim/fragment_open_enter"
-            app:popExitAnim="@anim/fragment_close_exit" />
+            app:destination="@id/changeRecordTypeFragment"/>
         <action
             android:id="@+id/action_mainFragment_to_changeRecordFragment"
-            app:destination="@id/changeRecordFragment"
-            app:enterAnim="@anim/fragment_open_enter"
-            app:exitAnim="@anim/fragment_close_exit"
-            app:popEnterAnim="@anim/fragment_open_enter"
-            app:popExitAnim="@anim/fragment_close_exit" />
+            app:destination="@id/changeRecordFragment"/>
         <action
             android:id="@+id/action_mainFragment_to_changeRunningRecordFragment"
-            app:destination="@id/changeRunningRecordFragment"
-            app:enterAnim="@anim/fragment_open_enter"
-            app:exitAnim="@anim/fragment_close_exit"
-            app:popEnterAnim="@anim/fragment_open_enter"
-            app:popExitAnim="@anim/fragment_close_exit" />
+            app:destination="@id/changeRunningRecordFragment"/>
         <action
             android:id="@+id/action_mainFragment_to_statisticsDetailFragment"
-            app:destination="@id/statisticsDetailFragment"
-            app:enterAnim="@anim/fragment_open_enter"
-            app:exitAnim="@anim/fragment_close_exit"
-            app:popEnterAnim="@anim/fragment_open_enter"
-            app:popExitAnim="@anim/fragment_close_exit" />
+            app:destination="@id/statisticsDetailFragment"/>
         <action
             android:id="@+id/action_mainFragment_to_categoriesFragment"
-            app:destination="@id/categoriesFragment"
-            app:enterAnim="@anim/fragment_open_enter"
-            app:exitAnim="@anim/fragment_close_exit"
-            app:popEnterAnim="@anim/fragment_open_enter"
-            app:popExitAnim="@anim/fragment_close_exit" />
+            app:destination="@id/categoriesFragment"/>
         <action
             android:id="@+id/action_mainFragment_to_archiveFragment"
-            app:destination="@id/archiveFragment"
-            app:enterAnim="@anim/fragment_open_enter"
-            app:exitAnim="@anim/fragment_close_exit"
-            app:popEnterAnim="@anim/fragment_open_enter"
-            app:popExitAnim="@anim/fragment_close_exit" />
+            app:destination="@id/archiveFragment"/>
     </fragment>
     <fragment
         android:id="@+id/changeRecordTypeFragment"
@@ -75,11 +51,7 @@
         tools:layout="@layout/statistics_detail_fragment">
         <action
             android:id="@+id/action_statisticsDetailFragment_to_recordsAllFragment"
-            app:destination="@id/recordsAllFragment"
-            app:enterAnim="@anim/fragment_open_enter"
-            app:exitAnim="@anim/fragment_close_exit"
-            app:popEnterAnim="@anim/fragment_open_enter"
-            app:popExitAnim="@anim/fragment_close_exit" />
+            app:destination="@id/recordsAllFragment"/>
     </fragment>
     <dialog
         android:id="@+id/dateTimeDialog"
@@ -137,11 +109,7 @@
         tools:layout="@layout/records_all_fragment">
         <action
             android:id="@+id/action_recordsAllFragment_to_changeRecordFragment"
-            app:destination="@id/changeRecordFragment"
-            app:enterAnim="@anim/fragment_open_enter"
-            app:exitAnim="@anim/fragment_close_exit"
-            app:popEnterAnim="@anim/fragment_open_enter"
-            app:popExitAnim="@anim/fragment_close_exit" />
+            app:destination="@id/changeRecordFragment"/>
     </fragment>
     <fragment
         android:id="@+id/categoriesFragment"
@@ -150,18 +118,10 @@
         tools:layout="@layout/categories_fragment">
         <action
             android:id="@+id/action_categoriesFragment_to_changeCategoryFragment"
-            app:destination="@id/changeCategoryFragment"
-            app:enterAnim="@anim/fragment_open_enter"
-            app:exitAnim="@anim/fragment_close_exit"
-            app:popEnterAnim="@anim/fragment_open_enter"
-            app:popExitAnim="@anim/fragment_close_exit" />
+            app:destination="@id/changeCategoryFragment"/>
         <action
             android:id="@+id/action_categoriesFragment_to_changeRecordTagFragment"
-            app:destination="@id/changeRecordTagFragment"
-            app:enterAnim="@anim/fragment_open_enter"
-            app:exitAnim="@anim/fragment_close_exit"
-            app:popEnterAnim="@anim/fragment_open_enter"
-            app:popExitAnim="@anim/fragment_close_exit" />
+            app:destination="@id/changeRecordTagFragment"/>
     </fragment>
     <fragment
         android:id="@+id/changeCategoryFragment"

@@ -61,14 +61,14 @@ class RecordsAllFragment : BaseFragment(R.layout.records_all_fragment) {
     }
 
     override fun initUi() {
-        parentFragment?.postponeEnterTransition()
+        postponeEnterTransition()
 
         rvRecordsAllList.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = recordsAdapter
 
             viewTreeObserver.addOnPreDrawListener {
-                parentFragment?.startPostponedEnterTransition()
+                startPostponedEnterTransition()
                 true
             }
         }

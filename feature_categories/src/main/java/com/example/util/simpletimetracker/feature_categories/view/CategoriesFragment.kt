@@ -46,7 +46,7 @@ class CategoriesFragment : BaseFragment(R.layout.categories_fragment) {
     }
 
     override fun initUi() {
-        parentFragment?.postponeEnterTransition()
+        postponeEnterTransition()
 
         rvCategoriesList.apply {
             layoutManager = FlexboxLayoutManager(requireContext()).apply {
@@ -58,7 +58,7 @@ class CategoriesFragment : BaseFragment(R.layout.categories_fragment) {
             setHasFixedSize(true)
 
             viewTreeObserver.addOnPreDrawListener {
-                parentFragment?.startPostponedEnterTransition()
+                startPostponedEnterTransition()
                 true
             }
         }

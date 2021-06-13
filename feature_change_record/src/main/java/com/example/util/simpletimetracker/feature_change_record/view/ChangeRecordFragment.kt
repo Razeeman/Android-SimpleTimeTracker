@@ -80,7 +80,7 @@ class ChangeRecordFragment : BaseFragment(R.layout.change_record_fragment),
     override fun initUi() {
         setPreview()
 
-        if (BuildVersions.isLollipopOrHigher()) {
+        if (BuildVersions.isLollipopOrHigher() && extra !is ChangeRecordParams.New) {
             sharedElementEnterTransition = TransitionInflater.from(context)
                 .inflateTransition(android.R.transition.move)
         }
