@@ -26,13 +26,13 @@ import com.example.util.simpletimetracker.core.utils.BuildVersions
 import com.example.util.simpletimetracker.core.utils.setFlipChooserColor
 import com.example.util.simpletimetracker.core.view.TransitionNames
 import com.example.util.simpletimetracker.feature_change_category.R
-import com.example.util.simpletimetracker.feature_change_category.di.ChangeCategoryComponentProvider
 import com.example.util.simpletimetracker.feature_change_category.viewModel.ChangeCategoryViewModel
 import com.example.util.simpletimetracker.navigation.params.ChangeCategoryParams
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.change_category_fragment.arrowChangeCategoryColor
 import kotlinx.android.synthetic.main.change_category_fragment.arrowChangeCategoryType
 import kotlinx.android.synthetic.main.change_category_fragment.btnChangeCategoryDelete
@@ -45,7 +45,10 @@ import kotlinx.android.synthetic.main.change_category_fragment.rvChangeCategoryC
 import kotlinx.android.synthetic.main.change_category_fragment.rvChangeCategoryType
 import javax.inject.Inject
 
-class ChangeCategoryFragment : BaseFragment(R.layout.change_category_fragment) {
+@AndroidEntryPoint
+class ChangeCategoryFragment : BaseFragment() {
+
+    override val layout: Int get() = R.layout.change_category_fragment
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<ChangeCategoryViewModel>
@@ -70,12 +73,6 @@ class ChangeCategoryFragment : BaseFragment(R.layout.change_category_fragment) {
     // TODO by delegate?
     private val params: ChangeCategoryParams by lazy {
         arguments?.getParcelable<ChangeCategoryParams>(ARGS_PARAMS) ?: ChangeCategoryParams.New
-    }
-
-    override fun initDi() {
-        (activity?.application as ChangeCategoryComponentProvider)
-            .changeCategoryComponent
-            ?.inject(this)
     }
 
     override fun initUi() {

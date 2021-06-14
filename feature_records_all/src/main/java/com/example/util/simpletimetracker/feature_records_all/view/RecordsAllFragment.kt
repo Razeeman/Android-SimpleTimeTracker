@@ -14,17 +14,20 @@ import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.viewModel.RemoveRecordViewModel
 import com.example.util.simpletimetracker.feature_records_all.R
 import com.example.util.simpletimetracker.feature_records_all.adapter.createRecordAllDateAdapterDelegate
-import com.example.util.simpletimetracker.feature_records_all.di.RecordsAllComponentProvider
 import com.example.util.simpletimetracker.feature_records_all.viewData.RecordsAllSortOrderViewData
 import com.example.util.simpletimetracker.feature_records_all.viewModel.RecordsAllViewModel
 import com.example.util.simpletimetracker.navigation.Notification
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.RecordsAllParams
 import com.example.util.simpletimetracker.navigation.params.SnackBarParams
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.records_all_fragment.*
 import javax.inject.Inject
 
-class RecordsAllFragment : BaseFragment(R.layout.records_all_fragment) {
+@AndroidEntryPoint
+class RecordsAllFragment : BaseFragment() {
+
+    override val layout: Int get() = R.layout.records_all_fragment
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<RecordsAllViewModel>
@@ -52,12 +55,6 @@ class RecordsAllFragment : BaseFragment(R.layout.records_all_fragment) {
     }
     private val params: RecordsAllParams by lazy {
         arguments?.getParcelable(ARGS_PARAMS) ?: RecordsAllParams()
-    }
-
-    override fun initDi() {
-        (activity?.application as RecordsAllComponentProvider)
-            .recordsAllComponent
-            ?.inject(this)
     }
 
     override fun initUi() {

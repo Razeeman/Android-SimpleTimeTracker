@@ -24,7 +24,6 @@ import com.example.util.simpletimetracker.core.viewData.RangesViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.R
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.createStatisticsPreviewAdapterDelegate
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.createStatisticsPreviewMoreAdapterDelegate
-import com.example.util.simpletimetracker.feature_statistics_detail.di.StatisticsDetailComponentProvider
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStatsViewData
@@ -35,12 +34,16 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.statistics_detail_fragment.*
 import javax.inject.Inject
 
-class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragment),
+@AndroidEntryPoint
+class StatisticsDetailFragment : BaseFragment(),
     DateTimeDialogListener,
     TypesFilterDialogListener {
+
+    override val layout: Int get() = R.layout.statistics_detail_fragment
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<StatisticsDetailViewModel>
@@ -62,12 +65,6 @@ class StatisticsDetailFragment : BaseFragment(R.layout.statistics_detail_fragmen
     }
     private val params: StatisticsDetailParams by lazy {
         arguments?.getParcelable(ARGS_PARAMS) ?: StatisticsDetailParams()
-    }
-
-    override fun initDi() {
-        (activity?.application as StatisticsDetailComponentProvider)
-            .statisticsDetailComponent
-            ?.inject(this)
     }
 
     override fun initUi() {

@@ -6,12 +6,12 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import com.example.util.simpletimetracker.domain.di.AppContext
 import com.example.util.simpletimetracker.feature_notification.recevier.NotificationReceiver
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 class NotificationInactivityScheduler @Inject constructor(
-    @AppContext private val context: Context
+    @ApplicationContext private val context: Context
 ) {
 
     private val alarmManager

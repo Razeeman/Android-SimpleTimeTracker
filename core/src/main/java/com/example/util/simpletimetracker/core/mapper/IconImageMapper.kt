@@ -4,15 +4,15 @@ import android.content.Context
 import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.repo.IconImageRepo
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
-import com.example.util.simpletimetracker.domain.di.AppContext
 import com.example.util.simpletimetracker.domain.model.IconImageCategory
 import com.example.util.simpletimetracker.domain.model.IconImageType
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class IconImageMapper @Inject constructor(
-    @AppContext private val context: Context,
+    @ApplicationContext private val context: Context,
     private val repo: IconImageRepo,
     private val resourceRepo: ResourceRepo
 ) {

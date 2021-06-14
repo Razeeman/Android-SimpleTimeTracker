@@ -10,6 +10,7 @@ buildscript {
         classpath(com.example.util.simpletimetracker.BuildPlugins.gradle)
         classpath(com.example.util.simpletimetracker.BuildPlugins.kotlin)
         classpath(com.example.util.simpletimetracker.BuildPlugins.ktlint)
+        classpath(com.example.util.simpletimetracker.BuildPlugins.hilt)
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files

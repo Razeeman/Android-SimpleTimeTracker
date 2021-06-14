@@ -4,13 +4,14 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.util.simpletimetracker.R
-import com.example.util.simpletimetracker.TimeTrackerApp
 import com.example.util.simpletimetracker.core.extension.getAllFragments
 import com.example.util.simpletimetracker.core.manager.ThemeManager
 import com.example.util.simpletimetracker.navigation.Router
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     @Inject
@@ -22,7 +23,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        (application as TimeTrackerApp).appComponent?.inject(this)
         themeManager.setTheme(this)
         setContentView(R.layout.main_activity)
         router.bind(this)

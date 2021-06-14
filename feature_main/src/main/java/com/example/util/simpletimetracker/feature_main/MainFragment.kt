@@ -12,15 +12,18 @@ import com.example.util.simpletimetracker.core.extension.visible
 import com.example.util.simpletimetracker.core.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.core.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.core.viewModel.BackupViewModel
-import com.example.util.simpletimetracker.feature_main.di.MainComponentProvider
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.main_fragment.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class MainFragment : BaseFragment(R.layout.main_fragment) {
+@AndroidEntryPoint
+class MainFragment : BaseFragment() {
+
+    override val layout: Int get() = R.layout.main_fragment
 
     @Inject
     lateinit var backupViewModelFactory: BaseViewModelFactory<BackupViewModel>
@@ -68,12 +71,6 @@ class MainFragment : BaseFragment(R.layout.main_fragment) {
             colorUnselected,
             BlendModeCompat.SRC_IN
         )
-    }
-
-    override fun initDi() {
-        (activity?.application as MainComponentProvider)
-            .mainComponent
-            ?.inject(this)
     }
 
     override fun initUi() {

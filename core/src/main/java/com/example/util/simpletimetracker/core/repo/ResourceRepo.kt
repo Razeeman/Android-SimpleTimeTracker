@@ -7,11 +7,11 @@ import androidx.annotation.PluralsRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import com.example.util.simpletimetracker.core.extension.pxToDp
-import com.example.util.simpletimetracker.domain.di.AppContext
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 class ResourceRepo @Inject constructor(
-    @AppContext private val context: Context
+    @ApplicationContext private val context: Context
 ) {
 
     fun getColor(@ColorRes colorResId: Int): Int {

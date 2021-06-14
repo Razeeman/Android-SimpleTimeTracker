@@ -40,7 +40,6 @@ import com.example.util.simpletimetracker.feature_change_record_type.R
 import com.example.util.simpletimetracker.feature_change_record_type.adapter.createChangeRecordTypeIconAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record_type.adapter.createChangeRecordTypeIconCategoryAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record_type.adapter.createChangeRecordTypeIconCategoryInfoAdapterDelegate
-import com.example.util.simpletimetracker.feature_change_record_type.di.ChangeRecordTypeComponentProvider
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconCategoryInfoViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeScrollViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewModel.ChangeRecordTypeViewModel
@@ -49,13 +48,17 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.change_record_type_fragment.*
 import javax.inject.Inject
 import kotlin.math.max
 
-class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragment),
+@AndroidEntryPoint
+class ChangeRecordTypeFragment : BaseFragment(),
     DurationDialogListener,
     EmojiSelectionDialogListener {
+
+    override val layout: Int get() = R.layout.change_record_type_fragment
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<ChangeRecordTypeViewModel>
@@ -97,12 +100,6 @@ class ChangeRecordTypeFragment : BaseFragment(R.layout.change_record_type_fragme
     private val params: ChangeRecordTypeParams by lazy {
         arguments?.getParcelable<ChangeRecordTypeParams>(ARGS_PARAMS)
             ?: ChangeRecordTypeParams.New(ChangeRecordTypeParams.SizePreview())
-    }
-
-    override fun initDi() {
-        (activity?.application as ChangeRecordTypeComponentProvider)
-            .changeRecordTypeComponent
-            ?.inject(this)
     }
 
     override fun initUi() {

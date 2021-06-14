@@ -2,27 +2,20 @@ package com.example.util.simpletimetracker.di
 
 import android.content.ContentResolver
 import android.content.Context
-import com.example.util.simpletimetracker.TimeTrackerApp
-import com.example.util.simpletimetracker.domain.di.AppContext
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
-class AppModule(application: TimeTrackerApp) {
-
-    private var appContext: Context = application.applicationContext
-
-    @Provides
-    @Singleton
-    @AppContext
-    fun getAppContext(): Context {
-        return appContext
-    }
+@InstallIn(SingletonComponent::class)
+class AppModule {
 
     @Provides
     @Singleton
-    fun getContentResolver(@AppContext context: Context): ContentResolver {
+    fun getContentResolver(@ApplicationContext context: Context): ContentResolver {
         return context.contentResolver
     }
 }

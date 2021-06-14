@@ -17,7 +17,6 @@ import com.example.util.simpletimetracker.domain.extension.orFalse
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.feature_dialogs.R
-import com.example.util.simpletimetracker.feature_dialogs.dateTime.di.DateTimeComponentProvider
 import com.example.util.simpletimetracker.navigation.params.DateTimeDialogParams
 import com.example.util.simpletimetracker.navigation.params.DateTimeDialogType
 import kotlinx.android.synthetic.main.date_time_dialog_fragment.btnDateTimeDialogPositive
@@ -83,7 +82,6 @@ class DateTimeDialogFragment : AppCompatDialogFragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         newTimestamp = timestamp
-        initDi()
         initUi()
         initUx()
     }
@@ -105,12 +103,6 @@ class DateTimeDialogFragment : AppCompatDialogFragment(),
         calendar.set(Calendar.MINUTE, minute)
 
         newTimestamp = calendar.timeInMillis
-    }
-
-    private fun initDi() {
-        (activity?.application as DateTimeComponentProvider)
-            .dateTimeComponent
-            ?.inject(this)
     }
 
     private fun initUi() {

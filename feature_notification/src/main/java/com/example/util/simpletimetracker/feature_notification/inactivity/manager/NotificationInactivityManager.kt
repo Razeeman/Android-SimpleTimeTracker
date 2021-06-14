@@ -16,16 +16,16 @@ import com.example.util.simpletimetracker.core.extension.getBitmapFromView
 import com.example.util.simpletimetracker.core.extension.measureExactly
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.viewData.RecordTypeIcon
-import com.example.util.simpletimetracker.domain.di.AppContext
 import com.example.util.simpletimetracker.feature_notification.R
 import com.example.util.simpletimetracker.feature_notification.recordType.customView.NotificationIconView
 import com.example.util.simpletimetracker.navigation.Router
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class NotificationInactivityManager @Inject constructor(
-    @AppContext private val context: Context,
+    @ApplicationContext private val context: Context,
     private val colorMapper: ColorMapper,
     private val router: Router
 ) {

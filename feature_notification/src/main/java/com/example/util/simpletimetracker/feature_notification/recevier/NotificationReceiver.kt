@@ -3,12 +3,13 @@ package com.example.util.simpletimetracker.feature_notification.recevier
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.example.util.simpletimetracker.feature_notification.di.NotificationComponentProvider
 import com.example.util.simpletimetracker.feature_notification.goalTime.controller.NotificationGoalTimeBroadcastController
 import com.example.util.simpletimetracker.feature_notification.inactivity.controller.NotificationInactivityBroadcastController
 import com.example.util.simpletimetracker.feature_notification.recordType.controller.NotificationTypeBroadcastController
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class NotificationReceiver : BroadcastReceiver() {
 
     @Inject
@@ -22,10 +23,6 @@ class NotificationReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
         if (context == null || intent == null || intent.action == null) return
-
-        (context.applicationContext as? NotificationComponentProvider)
-            ?.notificationComponent
-            ?.inject(this)
 
         when (intent.action) {
             ACTION_INACTIVITY_REMINDER -> {

@@ -18,7 +18,6 @@ import com.example.util.simpletimetracker.core.extension.onItemMoved
 import com.example.util.simpletimetracker.core.extension.setFullScreen
 import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
 import com.example.util.simpletimetracker.feature_dialogs.R
-import com.example.util.simpletimetracker.feature_dialogs.cardOrder.di.CardOrderComponentProvider
 import com.example.util.simpletimetracker.feature_dialogs.cardOrder.viewModel.CardOrderViewModel
 import com.example.util.simpletimetracker.navigation.params.CardOrderDialogParams
 import com.google.android.flexbox.FlexDirection
@@ -26,9 +25,11 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.card_order_dialog_fragment.*
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class CardOrderDialogFragment : BottomSheetDialogFragment() {
 
     @Inject
@@ -64,7 +65,6 @@ class CardOrderDialogFragment : BottomSheetDialogFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         initDialog()
-        initDi()
         initUi()
         initUx()
         initViewModel()
@@ -78,12 +78,6 @@ class CardOrderDialogFragment : BottomSheetDialogFragment() {
     private fun initDialog() {
         setSkipCollapsed()
         setFullScreen()
-    }
-
-    private fun initDi() {
-        (activity?.application as CardOrderComponentProvider)
-            .cardOrderComponent
-            ?.inject(this)
     }
 
     private fun initUi() {

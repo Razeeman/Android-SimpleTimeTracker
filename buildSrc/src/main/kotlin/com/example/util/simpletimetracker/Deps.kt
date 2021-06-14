@@ -31,7 +31,7 @@ object Deps {
 
     object Google {
         const val dagger =
-            "com.google.dagger:dagger:${Versions.dagger}"
+            "com.google.dagger:hilt-android:${Versions.dagger}"
         const val flexBox =
             "com.google.android:flexbox:${Versions.flexBox}"
     }
@@ -68,7 +68,7 @@ object Deps {
         const val room =
             "androidx.room:room-compiler:${Versions.room}"
         const val dagger =
-            "com.google.dagger:dagger-compiler:${Versions.dagger}"
+            "com.google.dagger:hilt-compiler:${Versions.dagger}"
     }
 
     object Test {
@@ -85,5 +85,7 @@ object Deps {
             "androidx.test.espresso:espresso-contrib:${Versions.espresso}"
         const val espressoIdling =
             "androidx.test.espresso:espresso-idling-resource:${Versions.espresso}"
+        const val dagger =
+            "com.google.dagger:hilt-android-testing:${Versions.dagger}"
     }
 }

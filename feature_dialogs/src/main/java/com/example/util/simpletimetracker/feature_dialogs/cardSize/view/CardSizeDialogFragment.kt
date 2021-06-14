@@ -17,7 +17,6 @@ import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
 import com.example.util.simpletimetracker.feature_dialogs.R
-import com.example.util.simpletimetracker.feature_dialogs.cardSize.di.CardSizeComponentProvider
 import com.example.util.simpletimetracker.feature_dialogs.cardSize.viewData.CardSizeDefaultButtonViewData
 import com.example.util.simpletimetracker.feature_dialogs.cardSize.viewModel.CardSizeViewModel
 import com.google.android.flexbox.FlexDirection
@@ -25,9 +24,11 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.card_size_dialog_fragment.*
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class CardSizeDialogFragment : BottomSheetDialogFragment() {
 
     @Inject
@@ -61,7 +62,6 @@ class CardSizeDialogFragment : BottomSheetDialogFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         initDialog()
-        initDi()
         initUi()
         initUx()
         initViewModel()
@@ -74,12 +74,6 @@ class CardSizeDialogFragment : BottomSheetDialogFragment() {
 
     private fun initDialog() {
         setSkipCollapsed()
-    }
-
-    private fun initDi() {
-        (activity?.application as CardSizeComponentProvider)
-            .cardSizeComponent
-            ?.inject(this)
     }
 
     private fun initUi() {

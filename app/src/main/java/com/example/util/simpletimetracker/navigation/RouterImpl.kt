@@ -5,8 +5,8 @@ import android.content.Context
 import android.content.Intent
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import com.example.util.simpletimetracker.domain.di.AppContext
 import com.example.util.simpletimetracker.ui.MainActivity
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -15,7 +15,7 @@ class RouterImpl @Inject constructor(
     private val screenResolver: ScreenResolver,
     private val actionResolver: ActionResolver,
     private val notificationResolver: NotificationResolver,
-    @AppContext private val context: Context
+    @ApplicationContext private val context: Context
 ) : Router {
 
     private var navController: NavController? = null

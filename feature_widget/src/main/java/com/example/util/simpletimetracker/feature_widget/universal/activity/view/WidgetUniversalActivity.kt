@@ -4,10 +4,11 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.util.simpletimetracker.core.manager.ThemeManager
 import com.example.util.simpletimetracker.feature_widget.R
-import com.example.util.simpletimetracker.feature_widget.di.WidgetComponentProvider
 import com.example.util.simpletimetracker.navigation.Router
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class WidgetUniversalActivity : AppCompatActivity() {
 
     @Inject
@@ -19,7 +20,6 @@ class WidgetUniversalActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        (application as WidgetComponentProvider).widgetComponent?.inject(this)
         themeManager.setTheme(this)
         setContentView(R.layout.widget_universal_activity)
         router.bind(this)

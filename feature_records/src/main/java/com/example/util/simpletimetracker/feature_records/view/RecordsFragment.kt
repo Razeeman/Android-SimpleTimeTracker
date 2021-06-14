@@ -15,14 +15,17 @@ import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.viewModel.RemoveRecordViewModel
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_records.R
-import com.example.util.simpletimetracker.feature_records.di.RecordsComponentProvider
 import com.example.util.simpletimetracker.feature_records.extra.RecordsExtra
 import com.example.util.simpletimetracker.feature_records.viewModel.RecordsViewModel
 import com.example.util.simpletimetracker.navigation.params.RecordsParams
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.records_fragment.rvRecordsList
 import javax.inject.Inject
 
-class RecordsFragment : BaseFragment(R.layout.records_fragment) {
+@AndroidEntryPoint
+class RecordsFragment : BaseFragment() {
+
+    override val layout: Int get() = R.layout.records_fragment
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<RecordsViewModel>
@@ -45,12 +48,6 @@ class RecordsFragment : BaseFragment(R.layout.records_fragment) {
             createHintAdapterDelegate()
 
         )
-    }
-
-    override fun initDi() {
-        (activity?.application as RecordsComponentProvider)
-            .recordsComponent
-            ?.inject(this)
     }
 
     override fun initUi() {

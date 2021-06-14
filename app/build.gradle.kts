@@ -1,3 +1,4 @@
+
 import com.example.util.simpletimetracker.Base
 import com.example.util.simpletimetracker.Deps
 
@@ -6,6 +7,7 @@ plugins {
     id("kotlin-android")
     id("kotlin-android-extensions")
     id("kotlin-kapt")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -66,6 +68,7 @@ dependencies {
     implementation(Deps.Androidx.room)
     implementation(Deps.Ktx.navigationFragment)
     implementation(Deps.Ktx.navigationUi)
+    implementation(Deps.Google.dagger)
 
     kapt(Deps.Kapt.dagger)
     kaptAndroidTest(Deps.Kapt.dagger)
@@ -73,4 +76,5 @@ dependencies {
     androidTestImplementation(Deps.UiTest.junit)
     androidTestImplementation(Deps.UiTest.espresso)
     androidTestImplementation(Deps.UiTest.espressoContrib)
+    androidTestImplementation(Deps.UiTest.dagger)
 }

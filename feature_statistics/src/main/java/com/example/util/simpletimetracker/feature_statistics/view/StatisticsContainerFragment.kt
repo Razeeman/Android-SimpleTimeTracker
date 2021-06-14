@@ -13,14 +13,17 @@ import com.example.util.simpletimetracker.core.viewData.RangesViewData
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.feature_statistics.R
 import com.example.util.simpletimetracker.feature_statistics.adapter.StatisticsContainerAdapter
-import com.example.util.simpletimetracker.feature_statistics.di.StatisticsComponentProvider
 import com.example.util.simpletimetracker.feature_statistics.viewModel.StatisticsContainerViewModel
 import com.example.util.simpletimetracker.feature_statistics.viewModel.StatisticsSettingsViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.statistics_container_fragment.*
 import javax.inject.Inject
 
-class StatisticsContainerFragment : BaseFragment(R.layout.statistics_container_fragment),
+@AndroidEntryPoint
+class StatisticsContainerFragment : BaseFragment(),
     DateTimeDialogListener {
+
+    override val layout: Int get() = R.layout.statistics_container_fragment
 
     @Inject
     lateinit var settingsViewModelFactory: BaseViewModelFactory<StatisticsSettingsViewModel>
@@ -42,12 +45,6 @@ class StatisticsContainerFragment : BaseFragment(R.layout.statistics_container_f
             offscreenPageLimit = 1
             isUserInputEnabled = false
         }
-    }
-
-    override fun initDi() {
-        (activity?.application as StatisticsComponentProvider)
-            .statisticsComponent
-            ?.inject(this)
     }
 
     override fun initUx() {

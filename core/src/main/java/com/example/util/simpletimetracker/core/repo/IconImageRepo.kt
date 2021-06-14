@@ -2,11 +2,11 @@ package com.example.util.simpletimetracker.core.repo
 
 import android.content.Context
 import com.example.util.simpletimetracker.core.R
-import com.example.util.simpletimetracker.domain.di.AppContext
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 class IconImageRepo @Inject constructor(
-    @AppContext private val context: Context
+    @ApplicationContext private val context: Context
 ) {
 
     fun getImages(arrayResId: Int): Map<String, Int> {

@@ -8,12 +8,13 @@ import androidx.fragment.app.commit
 import com.example.util.simpletimetracker.core.dialog.OnTagSelectedListener
 import com.example.util.simpletimetracker.core.manager.ThemeManager
 import com.example.util.simpletimetracker.feature_widget.R
-import com.example.util.simpletimetracker.feature_widget.di.WidgetComponentProvider
 import com.example.util.simpletimetracker.navigation.Screen
 import com.example.util.simpletimetracker.navigation.ScreenFactory
 import com.example.util.simpletimetracker.navigation.params.RecordTagSelectionParams
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class WidgetTagSelectionActivity : AppCompatActivity(),
     OnTagSelectedListener {
 
@@ -30,7 +31,6 @@ class WidgetTagSelectionActivity : AppCompatActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        (application as WidgetComponentProvider).widgetComponent?.inject(this)
         themeManager.setTheme(this)
         setContentView(R.layout.widget_tag_selection_activity)
 

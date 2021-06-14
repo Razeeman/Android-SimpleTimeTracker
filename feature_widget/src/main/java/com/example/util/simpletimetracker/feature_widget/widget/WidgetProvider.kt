@@ -28,14 +28,15 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.feature_widget.R
-import com.example.util.simpletimetracker.feature_widget.di.WidgetComponentProvider
 import com.example.util.simpletimetracker.navigation.params.RecordTagSelectionParams
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class WidgetProvider : AppWidgetProvider() {
 
     @Inject
@@ -75,10 +76,6 @@ class WidgetProvider : AppWidgetProvider() {
     lateinit var prefsInteractor: PrefsInteractor
 
     override fun onReceive(context: Context?, intent: Intent?) {
-        (context?.applicationContext as? WidgetComponentProvider)
-            ?.widgetComponent
-            ?.inject(this)
-
         super.onReceive(context, intent)
         if (intent?.action == ON_CLICK_ACTION) {
             onClick(context, intent.getIntExtra(ARGS_WIDGET_ID, 0))

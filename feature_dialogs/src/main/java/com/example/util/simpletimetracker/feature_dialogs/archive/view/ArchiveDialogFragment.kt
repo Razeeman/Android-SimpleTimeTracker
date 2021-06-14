@@ -21,7 +21,6 @@ import com.example.util.simpletimetracker.feature_dialogs.R
 import com.example.util.simpletimetracker.feature_dialogs.archive.adapter.createArchiveDialogButtonsAdapterDelegate
 import com.example.util.simpletimetracker.feature_dialogs.archive.adapter.createArchiveDialogInfoAdapterDelegate
 import com.example.util.simpletimetracker.feature_dialogs.archive.adapter.createArchiveDialogTitleAdapterDelegate
-import com.example.util.simpletimetracker.feature_dialogs.archive.di.ArchiveDialogComponentProvider
 import com.example.util.simpletimetracker.feature_dialogs.archive.viewModel.ArchiveDialogViewModel
 import com.example.util.simpletimetracker.navigation.params.ArchiveDialogParams
 import com.google.android.flexbox.FlexDirection
@@ -29,11 +28,13 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.archive_dialog_fragment.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class ArchiveDialogFragment : BottomSheetDialogFragment() {
 
     @Inject
@@ -81,7 +82,6 @@ class ArchiveDialogFragment : BottomSheetDialogFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         initDialog()
-        initDi()
         initUi()
         initViewModel()
     }
@@ -103,12 +103,6 @@ class ArchiveDialogFragment : BottomSheetDialogFragment() {
 
     private fun initDialog() {
         setSkipCollapsed()
-    }
-
-    private fun initDi() {
-        (activity?.application as ArchiveDialogComponentProvider)
-            .archiveDialogComponent
-            ?.inject(this)
     }
 
     private fun initUi() {

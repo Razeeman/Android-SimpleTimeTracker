@@ -17,16 +17,19 @@ import com.example.util.simpletimetracker.feature_statistics.R
 import com.example.util.simpletimetracker.feature_statistics.adapter.createStatisticsChartAdapterDelegate
 import com.example.util.simpletimetracker.feature_statistics.adapter.createStatisticsEmptyAdapterDelegate
 import com.example.util.simpletimetracker.feature_statistics.adapter.createStatisticsInfoAdapterDelegate
-import com.example.util.simpletimetracker.feature_statistics.di.StatisticsComponentProvider
 import com.example.util.simpletimetracker.feature_statistics.extra.StatisticsExtra
 import com.example.util.simpletimetracker.feature_statistics.viewModel.StatisticsSettingsViewModel
 import com.example.util.simpletimetracker.feature_statistics.viewModel.StatisticsViewModel
 import com.example.util.simpletimetracker.navigation.params.StatisticsParams
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.statistics_fragment.*
 import javax.inject.Inject
 
-class StatisticsFragment : BaseFragment(R.layout.statistics_fragment),
+@AndroidEntryPoint
+class StatisticsFragment : BaseFragment(),
     ChartFilterDialogListener {
+
+    override val layout: Int get() = R.layout.statistics_fragment
 
     @Inject
     lateinit var settingsViewModelFactory: BaseViewModelFactory<StatisticsSettingsViewModel>
@@ -54,12 +57,6 @@ class StatisticsFragment : BaseFragment(R.layout.statistics_fragment),
             createStatisticsEmptyAdapterDelegate(viewModel::onFilterClick),
             createLoaderAdapterDelegate()
         )
-    }
-
-    override fun initDi() {
-        (activity?.application as StatisticsComponentProvider)
-            .statisticsComponent
-            ?.inject(this)
     }
 
     override fun initUi() {

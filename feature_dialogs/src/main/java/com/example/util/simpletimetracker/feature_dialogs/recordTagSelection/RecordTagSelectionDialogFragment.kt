@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.feature_dialogs.recordTagSelection.view
+package com.example.util.simpletimetracker.feature_dialogs.recordTagSelection
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,13 +9,14 @@ import androidx.fragment.app.commit
 import com.example.util.simpletimetracker.core.dialog.OnTagSelectedListener
 import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
 import com.example.util.simpletimetracker.feature_dialogs.R
-import com.example.util.simpletimetracker.feature_dialogs.recordTagSelection.di.RecordTagSelectionDialogComponentProvider
 import com.example.util.simpletimetracker.navigation.Screen
 import com.example.util.simpletimetracker.navigation.ScreenFactory
 import com.example.util.simpletimetracker.navigation.params.RecordTagSelectionParams
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class RecordTagSelectionDialogFragment : BottomSheetDialogFragment(),
     OnTagSelectedListener {
 
@@ -46,7 +47,6 @@ class RecordTagSelectionDialogFragment : BottomSheetDialogFragment(),
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         initDialog()
-        initDi()
         initUi()
     }
 
@@ -56,12 +56,6 @@ class RecordTagSelectionDialogFragment : BottomSheetDialogFragment(),
 
     private fun initDialog() {
         setSkipCollapsed()
-    }
-
-    private fun initDi() {
-        (activity?.application as RecordTagSelectionDialogComponentProvider)
-            .recordTagSelectionDialogComponent
-            ?.inject(this)
     }
 
     private fun initUi() {

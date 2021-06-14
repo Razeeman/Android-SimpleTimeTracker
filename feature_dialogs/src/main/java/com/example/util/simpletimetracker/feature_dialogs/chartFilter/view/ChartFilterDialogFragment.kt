@@ -22,16 +22,17 @@ import com.example.util.simpletimetracker.core.extension.getAllFragments
 import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
 import com.example.util.simpletimetracker.feature_dialogs.R
-import com.example.util.simpletimetracker.feature_dialogs.chartFilter.di.ChartFilterComponentProvider
 import com.example.util.simpletimetracker.feature_dialogs.chartFilter.viewModel.ChartFilterViewModel
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.chart_filter_dialog_fragment.*
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class ChartFilterDialogFragment : BottomSheetDialogFragment() {
 
     @Inject
@@ -72,7 +73,6 @@ class ChartFilterDialogFragment : BottomSheetDialogFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         initDialog()
-        initDi()
         initUi()
         initUx()
         initViewModel()
@@ -101,12 +101,6 @@ class ChartFilterDialogFragment : BottomSheetDialogFragment() {
     private fun initDialog() {
         setSkipCollapsed()
         blockContentScroll(rvChartFilterContainer)
-    }
-
-    private fun initDi() {
-        (activity?.application as ChartFilterComponentProvider)
-            .chartFilterComponent
-            ?.inject(this)
     }
 
     private fun initUi() {

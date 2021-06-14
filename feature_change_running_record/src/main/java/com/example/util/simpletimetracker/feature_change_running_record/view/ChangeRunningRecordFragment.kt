@@ -25,7 +25,6 @@ import com.example.util.simpletimetracker.core.utils.BuildVersions
 import com.example.util.simpletimetracker.core.utils.setFlipChooserColor
 import com.example.util.simpletimetracker.core.view.TransitionNames
 import com.example.util.simpletimetracker.feature_change_running_record.R
-import com.example.util.simpletimetracker.feature_change_running_record.di.ChangeRunningRecordComponentProvider
 import com.example.util.simpletimetracker.feature_change_running_record.viewData.ChangeRunningRecordViewData
 import com.example.util.simpletimetracker.feature_change_running_record.viewModel.ChangeRunningRecordViewModel
 import com.example.util.simpletimetracker.navigation.params.ChangeRunningRecordParams
@@ -33,11 +32,15 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.change_running_record_fragment.*
 import javax.inject.Inject
 
-class ChangeRunningRecordFragment : BaseFragment(R.layout.change_running_record_fragment),
+@AndroidEntryPoint
+class ChangeRunningRecordFragment : BaseFragment(),
     DateTimeDialogListener {
+
+    override val layout: Int get() = R.layout.change_running_record_fragment
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<ChangeRunningRecordViewModel>
@@ -58,12 +61,6 @@ class ChangeRunningRecordFragment : BaseFragment(R.layout.change_running_record_
     }
     private val params: ChangeRunningRecordParams by lazy {
         arguments?.getParcelable(ARGS_PARAMS) ?: ChangeRunningRecordParams()
-    }
-
-    override fun initDi() {
-        (activity?.application as ChangeRunningRecordComponentProvider)
-            .changeRunningRecordComponent
-            ?.inject(this)
     }
 
     override fun initUi() {

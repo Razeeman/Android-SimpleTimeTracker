@@ -1,17 +1,13 @@
 package com.example.util.simpletimetracker.utils
 
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.ext.junit.rules.ActivityScenarioRule
-import com.example.util.simpletimetracker.TimeTrackerApp
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconEmojiMapper
 import com.example.util.simpletimetracker.core.mapper.IconImageMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.utils.CountingIdlingResourceProvider
 import com.example.util.simpletimetracker.core.utils.TestUtils
-import com.example.util.simpletimetracker.di.AppModule
-import com.example.util.simpletimetracker.di.DaggerTestAppComponent
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.feature_records.view.RecordsContainerFragment
 import com.example.util.simpletimetracker.feature_statistics.view.StatisticsContainerFragment
@@ -78,14 +74,6 @@ open class BaseUiTest {
     open fun after() {
         enableAnimations()
         unregisterIdlingResource()
-    }
-
-    private fun inject() {
-        val app = ApplicationProvider.getApplicationContext() as TimeTrackerApp
-        DaggerTestAppComponent.builder()
-            .appModule(AppModule(app))
-            .build()
-            .inject(this)
     }
 
     private fun clearData() {

@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.transition.TransitionInflater
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
@@ -28,7 +27,6 @@ import com.example.util.simpletimetracker.core.utils.setFlipChooserColor
 import com.example.util.simpletimetracker.core.viewModel.RemoveRecordViewModel
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_change_record.R
-import com.example.util.simpletimetracker.feature_change_record.di.ChangeRecordComponentProvider
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordViewData
 import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordViewModel
 import com.example.util.simpletimetracker.navigation.params.ChangeRecordParams
@@ -36,14 +34,31 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
-import kotlinx.android.synthetic.main.change_record_fragment.*
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.change_record_fragment.arrowChangeRecordCategory
+import kotlinx.android.synthetic.main.change_record_fragment.arrowChangeRecordType
+import kotlinx.android.synthetic.main.change_record_fragment.btnChangeRecordDelete
+import kotlinx.android.synthetic.main.change_record_fragment.btnChangeRecordSave
+import kotlinx.android.synthetic.main.change_record_fragment.etChangeRecordComment
+import kotlinx.android.synthetic.main.change_record_fragment.fieldChangeRecordCategory
+import kotlinx.android.synthetic.main.change_record_fragment.fieldChangeRecordTimeEnded
+import kotlinx.android.synthetic.main.change_record_fragment.fieldChangeRecordTimeStarted
+import kotlinx.android.synthetic.main.change_record_fragment.fieldChangeRecordType
+import kotlinx.android.synthetic.main.change_record_fragment.previewChangeRecord
+import kotlinx.android.synthetic.main.change_record_fragment.rvChangeRecordCategories
+import kotlinx.android.synthetic.main.change_record_fragment.rvChangeRecordType
+import kotlinx.android.synthetic.main.change_record_fragment.tvChangeRecordTimeEnded
+import kotlinx.android.synthetic.main.change_record_fragment.tvChangeRecordTimeStarted
 import javax.inject.Inject
 
-class ChangeRecordFragment : BaseFragment(R.layout.change_record_fragment),
+@AndroidEntryPoint
+class ChangeRecordFragment : BaseFragment(),
     DateTimeDialogListener {
 
+    override val layout: Int get() = R.layout.change_record_fragment
+
     @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
+    lateinit var viewModelFactory: BaseViewModelFactory<ChangeRecordViewModel>
 
     @Inject
     lateinit var removeRecordViewModelFactory: BaseViewModelFactory<RemoveRecordViewModel>
@@ -69,12 +84,6 @@ class ChangeRecordFragment : BaseFragment(R.layout.change_record_fragment),
     }
     private val extra: ChangeRecordParams by lazy {
         arguments?.getParcelable<ChangeRecordParams>(ARGS_PARAMS) ?: ChangeRecordParams.New()
-    }
-
-    override fun initDi() {
-        (activity?.application as ChangeRecordComponentProvider)
-            .changeRecordComponent
-            ?.inject(this)
     }
 
     override fun initUi() {

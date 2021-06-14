@@ -11,16 +11,19 @@ import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.feature_categories.R
 import com.example.util.simpletimetracker.feature_categories.adapter.createCategoryAdapterDelegate
 import com.example.util.simpletimetracker.feature_categories.adapter.createCategoryAddAdapterDelegate
-import com.example.util.simpletimetracker.feature_categories.di.CategoriesComponentProvider
 import com.example.util.simpletimetracker.feature_categories.viewModel.CategoriesViewModel
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.categories_fragment.*
 import javax.inject.Inject
 
-class CategoriesFragment : BaseFragment(R.layout.categories_fragment) {
+@AndroidEntryPoint
+class CategoriesFragment : BaseFragment() {
+
+    override val layout: Int get() = R.layout.categories_fragment
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<CategoriesViewModel>
@@ -37,12 +40,6 @@ class CategoriesFragment : BaseFragment(R.layout.categories_fragment) {
             createCategoryAdapterDelegate(viewModel::onCategoryClick),
             createCategoryAddAdapterDelegate(viewModel::onAddCategoryClick)
         )
-    }
-
-    override fun initDi() {
-        (activity?.application as CategoriesComponentProvider)
-            .categoriesComponent
-            ?.inject(this)
     }
 
     override fun initUi() {

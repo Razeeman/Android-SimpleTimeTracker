@@ -13,19 +13,22 @@ import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.ArchiveDialogListener
 import com.example.util.simpletimetracker.core.dialog.StandardDialogListener
 import com.example.util.simpletimetracker.feature_archive.R
-import com.example.util.simpletimetracker.feature_archive.di.ArchiveComponentProvider
 import com.example.util.simpletimetracker.feature_archive.viewModel.ArchiveViewModel
 import com.example.util.simpletimetracker.navigation.params.ArchiveDialogParams
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.archive_fragment.*
 import javax.inject.Inject
 
-class ArchiveFragment : BaseFragment(R.layout.archive_fragment),
+@AndroidEntryPoint
+class ArchiveFragment : BaseFragment(),
     ArchiveDialogListener,
     StandardDialogListener {
+
+    override val layout: Int get() = R.layout.archive_fragment
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<ArchiveViewModel>
@@ -42,12 +45,6 @@ class ArchiveFragment : BaseFragment(R.layout.archive_fragment),
             createRecordTypeAdapterDelegate(viewModel::onRecordTypeClick),
             createCategoryAdapterDelegate(viewModel::onCategoryClick)
         )
-    }
-
-    override fun initDi() {
-        (activity?.application as ArchiveComponentProvider)
-            .archiveComponent
-            ?.inject(this)
     }
 
     override fun initUi() {

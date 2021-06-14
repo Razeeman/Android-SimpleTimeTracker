@@ -24,17 +24,20 @@ import com.example.util.simpletimetracker.core.utils.BuildVersions
 import com.example.util.simpletimetracker.core.utils.setFlipChooserColor
 import com.example.util.simpletimetracker.core.view.TransitionNames
 import com.example.util.simpletimetracker.feature_change_record_tag.R
-import com.example.util.simpletimetracker.feature_change_record_tag.di.ChangeRecordTagComponentProvider
 import com.example.util.simpletimetracker.feature_change_record_tag.viewModel.ChangeRecordTagViewModel
 import com.example.util.simpletimetracker.navigation.params.ChangeCategoryParams
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.change_record_tag_fragment.*
 import javax.inject.Inject
 
-class ChangeRecordTagFragment : BaseFragment(R.layout.change_record_tag_fragment) {
+@AndroidEntryPoint
+class ChangeRecordTagFragment : BaseFragment() {
+
+    override val layout: Int get() = R.layout.change_record_tag_fragment
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<ChangeRecordTagViewModel>
@@ -52,12 +55,6 @@ class ChangeRecordTagFragment : BaseFragment(R.layout.change_record_tag_fragment
     // TODO by delegate?
     private val params: ChangeCategoryParams by lazy {
         arguments?.getParcelable<ChangeCategoryParams>(ARGS_PARAMS) ?: ChangeCategoryParams.New
-    }
-
-    override fun initDi() {
-        (activity?.application as ChangeRecordTagComponentProvider)
-            .changeRecordTagComponent
-            ?.inject(this)
     }
 
     override fun initUi() {

@@ -6,6 +6,7 @@ plugins {
     id("kotlin-android")
     id("kotlin-android-extensions")
     id("kotlin-kapt")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -29,6 +30,6 @@ dependencies {
     implementation(project(":feature_records"))
     implementation(project(":feature_statistics"))
     implementation(project(":feature_settings"))
-
+    implementation(Deps.Google.dagger)
     kapt(Deps.Kapt.dagger)
 }

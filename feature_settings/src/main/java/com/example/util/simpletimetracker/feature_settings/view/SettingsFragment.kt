@@ -13,21 +13,23 @@ import com.example.util.simpletimetracker.core.dialog.StandardDialogListener
 import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.core.extension.visible
 import com.example.util.simpletimetracker.core.viewModel.BackupViewModel
-import com.example.util.simpletimetracker.feature_settings.BuildConfig
 import com.example.util.simpletimetracker.feature_settings.R
-import com.example.util.simpletimetracker.feature_settings.di.SettingsComponentProvider
 import com.example.util.simpletimetracker.feature_settings.viewData.CardOrderViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.FirstDayOfWeekViewData
 import com.example.util.simpletimetracker.feature_settings.viewModel.SettingsViewModel
 import com.example.util.simpletimetracker.navigation.RequestCode.REQUEST_CODE_CREATE_CSV_FILE
 import com.example.util.simpletimetracker.navigation.RequestCode.REQUEST_CODE_CREATE_FILE
 import com.example.util.simpletimetracker.navigation.RequestCode.REQUEST_CODE_OPEN_FILE
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.settings_fragment.*
 import javax.inject.Inject
 
-class SettingsFragment : BaseFragment(R.layout.settings_fragment),
+@AndroidEntryPoint
+class SettingsFragment : BaseFragment(),
     StandardDialogListener,
     DurationDialogListener {
+
+    override val layout: Int get() = R.layout.settings_fragment
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<SettingsViewModel>
@@ -43,13 +45,6 @@ class SettingsFragment : BaseFragment(R.layout.settings_fragment),
         ownerProducer = { activity as AppCompatActivity },
         factoryProducer = { backupViewModelFactory }
     )
-
-    override fun initDi() {
-        (activity?.application as SettingsComponentProvider)
-            .settingsComponent
-            ?.inject(this)
-        tvSettingsVersionName.text = BuildConfig.VERSION_NAME
-    }
 
     override fun initUx() {
         spinnerSettingsRecordTypeSort.onPositionSelected = viewModel::onRecordTypeOrderSelected

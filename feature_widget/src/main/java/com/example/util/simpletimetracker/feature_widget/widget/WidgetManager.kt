@@ -4,14 +4,14 @@ import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import com.example.util.simpletimetracker.domain.di.AppContext
 import com.example.util.simpletimetracker.feature_widget.universal.WidgetUniversalProvider
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class WidgetManager @Inject constructor(
-    @AppContext private val context: Context
+    @ApplicationContext private val context: Context
 ) {
 
     fun updateWidget(widgetId: Int) {

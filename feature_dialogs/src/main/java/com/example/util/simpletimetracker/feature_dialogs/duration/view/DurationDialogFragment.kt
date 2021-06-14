@@ -18,14 +18,15 @@ import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_dialogs.R
-import com.example.util.simpletimetracker.feature_dialogs.duration.di.DurationPickerComponentProvider
 import com.example.util.simpletimetracker.feature_dialogs.duration.extra.DurationPickerExtra
 import com.example.util.simpletimetracker.feature_dialogs.duration.viewModel.DurationPickerViewModel
 import com.example.util.simpletimetracker.navigation.params.DurationDialogParams
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.duration_dialog_fragment.*
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class DurationDialogFragment : BottomSheetDialogFragment() {
 
     @Inject
@@ -58,7 +59,6 @@ class DurationDialogFragment : BottomSheetDialogFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         initDialog()
-        initDi()
         initUi()
         initUx()
         initViewModel()
@@ -82,12 +82,6 @@ class DurationDialogFragment : BottomSheetDialogFragment() {
     private fun initDialog() {
         setSkipCollapsed()
         setFullScreen()
-    }
-
-    private fun initDi() {
-        (activity?.application as DurationPickerComponentProvider)
-            .durationPickerComponent
-            ?.inject(this)
     }
 
     private fun initUi() {

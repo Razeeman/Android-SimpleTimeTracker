@@ -17,7 +17,6 @@ import com.example.util.simpletimetracker.core.dialog.EmojiSelectionDialogListen
 import com.example.util.simpletimetracker.core.extension.getAllFragments
 import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
 import com.example.util.simpletimetracker.feature_dialogs.R
-import com.example.util.simpletimetracker.feature_dialogs.emojiSelection.di.EmojiSelectionComponentProvider
 import com.example.util.simpletimetracker.feature_dialogs.emojiSelection.viewModel.EmojiSelectionViewModel
 import com.example.util.simpletimetracker.navigation.params.EmojiSelectionDialogParams
 import com.google.android.flexbox.FlexDirection
@@ -25,9 +24,11 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.emoji_selection_dialog_fragment.*
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class EmojiSelectionDialogFragment : BottomSheetDialogFragment() {
 
     @Inject
@@ -65,7 +66,6 @@ class EmojiSelectionDialogFragment : BottomSheetDialogFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         initDialog()
-        initDi()
         initUi()
         initUx()
         initViewModel()
@@ -88,12 +88,6 @@ class EmojiSelectionDialogFragment : BottomSheetDialogFragment() {
 
     private fun initDialog() {
         setSkipCollapsed()
-    }
-
-    private fun initDi() {
-        (activity?.application as EmojiSelectionComponentProvider)
-            .emojiSelectionComponent
-            ?.inject(this)
     }
 
     private fun initUi() {

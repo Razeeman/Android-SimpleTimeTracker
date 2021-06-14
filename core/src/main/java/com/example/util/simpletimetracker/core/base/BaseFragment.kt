@@ -2,14 +2,21 @@ package com.example.util.simpletimetracker.core.base
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.annotation.LayoutRes
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 
-abstract class BaseFragment(@LayoutRes layoutId: Int = 0) : Fragment(layoutId) {
+abstract class BaseFragment : Fragment() {
+
+    protected abstract val layout: Int
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(layout, container, false)
+    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        initDi()
         initUi()
         initUx()
         initViewModel()
@@ -20,10 +27,6 @@ abstract class BaseFragment(@LayoutRes layoutId: Int = 0) : Fragment(layoutId) {
         childFragmentManager.fragments.forEach {
             it.onActivityResult(requestCode, resultCode, data)
         }
-    }
-
-    open fun initDi() {
-        // Override in subclasses
     }
 
     open fun initUi() {

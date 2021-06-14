@@ -15,13 +15,14 @@ import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.feature_widget.R
-import com.example.util.simpletimetracker.feature_widget.di.WidgetComponentProvider
 import com.example.util.simpletimetracker.feature_widget.universal.activity.view.WidgetUniversalActivity
 import com.example.util.simpletimetracker.feature_widget.universal.customView.WidgetUniversalView
 import com.example.util.simpletimetracker.feature_widget.universal.mapper.WidgetUniversalViewDataMapper
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class WidgetUniversalProvider : AppWidgetProvider() {
 
     @Inject
@@ -35,14 +36,6 @@ class WidgetUniversalProvider : AppWidgetProvider() {
 
     @Inject
     lateinit var prefsInteractor: PrefsInteractor
-
-    override fun onReceive(context: Context?, intent: Intent?) {
-        (context?.applicationContext as? WidgetComponentProvider)
-            ?.widgetComponent
-            ?.inject(this)
-
-        super.onReceive(context, intent)
-    }
 
     override fun onUpdate(
         context: Context?,

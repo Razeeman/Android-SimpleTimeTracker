@@ -6,6 +6,7 @@ plugins {
     id("kotlin-android")
     id("kotlin-android-extensions")
     id("kotlin-kapt")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -29,6 +30,7 @@ dependencies {
 
     implementation(Deps.Ktx.navigationFragment)
     implementation(Deps.Ktx.navigationUi)
+    implementation(Deps.Google.dagger)
 
     kapt(Deps.Kapt.dagger)
 }

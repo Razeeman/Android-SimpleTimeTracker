@@ -24,7 +24,6 @@ import com.example.util.simpletimetracker.core.extension.setFullScreen
 import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
 import com.example.util.simpletimetracker.feature_dialogs.R
-import com.example.util.simpletimetracker.feature_dialogs.typesFilter.di.TypesFilterComponentProvider
 import com.example.util.simpletimetracker.feature_dialogs.typesFilter.viewModel.TypesFilterViewModel
 import com.example.util.simpletimetracker.navigation.params.TypesFilterDialogParams
 import com.example.util.simpletimetracker.navigation.params.TypesFilterParams
@@ -33,11 +32,13 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.types_filter_dialog_fragment.btnTypesFilterHideAll
 import kotlinx.android.synthetic.main.types_filter_dialog_fragment.btnTypesFilterShowAll
 import kotlinx.android.synthetic.main.types_filter_dialog_fragment.rvTypesFilterContainer
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class TypesFilterDialogFragment : BottomSheetDialogFragment() {
 
     @Inject
@@ -79,7 +80,6 @@ class TypesFilterDialogFragment : BottomSheetDialogFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         initDialog()
-        initDi()
         initUi()
         initUx()
         initViewModel()
@@ -109,12 +109,6 @@ class TypesFilterDialogFragment : BottomSheetDialogFragment() {
         setSkipCollapsed()
         setFullScreen()
         blockContentScroll(rvTypesFilterContainer)
-    }
-
-    private fun initDi() {
-        (activity?.application as TypesFilterComponentProvider)
-            .typesFilterComponent
-            ?.inject(this)
     }
 
     private fun initUi() {

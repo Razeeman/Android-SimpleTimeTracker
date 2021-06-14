@@ -16,14 +16,15 @@ import com.example.util.simpletimetracker.feature_widget.R
 import com.example.util.simpletimetracker.feature_widget.configure.adapter.createWidgetAdapterDelegate
 import com.example.util.simpletimetracker.feature_widget.configure.extra.WidgetExtra
 import com.example.util.simpletimetracker.feature_widget.configure.viewModel.WidgetViewModel
-import com.example.util.simpletimetracker.feature_widget.di.WidgetComponentProvider
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.widget_configure_activity.rvWidgetConfigureRecordType
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class WidgetConfigureActivity : AppCompatActivity() {
 
     @Inject
@@ -50,15 +51,8 @@ class WidgetConfigureActivity : AppCompatActivity() {
         // out of the widget placement if they press the back button.
         setResult(RESULT_CANCELED)
 
-        initDi()
         initUi()
         initViewModel()
-    }
-
-    private fun initDi() {
-        (application as WidgetComponentProvider)
-            .widgetComponent
-            ?.inject(this)
     }
 
     private fun initUi() {
