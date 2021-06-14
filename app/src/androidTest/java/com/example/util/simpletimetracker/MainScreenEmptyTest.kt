@@ -20,10 +20,12 @@ import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.longClickOnViewWithId
 import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.typeTextIntoView
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.CoreMatchers.allOf
 import org.junit.Test
 import org.junit.runner.RunWith
 
+@HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
 class MainScreenEmptyTest : BaseUiTest() {
 
@@ -149,7 +151,7 @@ class MainScreenEmptyTest : BaseUiTest() {
     private fun checkRanges() {
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.layoutStatisticsItem),
+                withId(R.id.viewStatisticsItem),
                 hasDescendant(withText(R.string.untracked_time_name)),
                 hasDescendant(withSubstring("100%")),
                 isCompletelyDisplayed()

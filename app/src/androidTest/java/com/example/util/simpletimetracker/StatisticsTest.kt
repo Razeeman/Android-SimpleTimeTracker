@@ -18,10 +18,12 @@ import com.example.util.simpletimetracker.utils.clickOnViewWithIdOnPager
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.withCardColor
 import com.example.util.simpletimetracker.utils.withTag
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.CoreMatchers.allOf
 import org.junit.Test
 import org.junit.runner.RunWith
 
+@HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
 class StatisticsTest : BaseUiTest() {
 
@@ -77,7 +79,7 @@ class StatisticsTest : BaseUiTest() {
         checkViewDoesNotExist(allOf(withText("1h 0m"), isCompletelyDisplayed()))
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.layoutStatisticsItem),
+                withId(R.id.viewStatisticsItem),
                 withCardColor(firstColor),
                 hasDescendant(withTag(firstIcon)),
                 hasDescendant(withText(name)),
@@ -87,7 +89,7 @@ class StatisticsTest : BaseUiTest() {
         )
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.layoutStatisticsItem),
+                withId(R.id.viewStatisticsItem),
                 withCardColor(lastColor),
                 hasDescendant(withTag(lastIcon)),
                 hasDescendant(withText(newName)),
@@ -174,7 +176,7 @@ class StatisticsTest : BaseUiTest() {
         checkViewDoesNotExist(allOf(withText("3h 0m"), isCompletelyDisplayed()))
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.layoutStatisticsItem),
+                withId(R.id.viewStatisticsItem),
                 withCardColor(firstColor),
                 hasDescendant(withText(categoryName1)),
                 hasDescendant(withSubstring("60%")),
@@ -183,7 +185,7 @@ class StatisticsTest : BaseUiTest() {
         )
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.layoutStatisticsItem),
+                withId(R.id.viewStatisticsItem),
                 withCardColor(lastColor),
                 hasDescendant(withText(categoryName2)),
                 hasDescendant(withSubstring("40%")),
@@ -204,7 +206,7 @@ class StatisticsTest : BaseUiTest() {
         )
         checkViewDoesNotExist(
             allOf(
-                withId(R.id.layoutStatisticsItem),
+                withId(R.id.viewStatisticsItem),
                 hasDescendant(withText(categoryName3))
             )
         )
@@ -220,7 +222,7 @@ class StatisticsTest : BaseUiTest() {
     ) {
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.layoutStatisticsItem),
+                withId(R.id.viewStatisticsItem),
                 hasDescendant(withText(R.string.untracked_time_name)),
                 hasDescendant(withSubstring("%")),
                 isCompletelyDisplayed()
@@ -228,7 +230,7 @@ class StatisticsTest : BaseUiTest() {
         )
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.layoutStatisticsItem),
+                withId(R.id.viewStatisticsItem),
                 withCardColor(firstColor),
                 hasDescendant(withTag(firstIcon)),
                 hasDescendant(withText(name)),
@@ -239,7 +241,7 @@ class StatisticsTest : BaseUiTest() {
         )
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.layoutStatisticsItem),
+                withId(R.id.viewStatisticsItem),
                 withCardColor(lastColor),
                 hasDescendant(withTag(lastIcon)),
                 hasDescendant(withText(newName)),
@@ -265,7 +267,7 @@ class StatisticsTest : BaseUiTest() {
         clickOnViewWithId(R.id.btnStatisticsContainerPrevious)
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.layoutStatisticsItem),
+                withId(R.id.viewStatisticsItem),
                 hasDescendant(withText(R.string.untracked_time_name)),
                 hasDescendant(withText("100%")),
                 hasDescendant(withSubstring("h 0m")),
@@ -298,7 +300,7 @@ class StatisticsTest : BaseUiTest() {
     ) {
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.layoutStatisticsItem),
+                withId(R.id.viewStatisticsItem),
                 withCardColor(firstColor),
                 hasDescendant(withText(categoryName1)),
                 hasDescendant(withText("3h 0m")),
@@ -308,7 +310,7 @@ class StatisticsTest : BaseUiTest() {
         )
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.layoutStatisticsItem),
+                withId(R.id.viewStatisticsItem),
                 withCardColor(lastColor),
                 hasDescendant(withText(categoryName2)),
                 hasDescendant(withText("2h 0m")),
@@ -324,7 +326,7 @@ class StatisticsTest : BaseUiTest() {
         )
         checkViewDoesNotExist(
             allOf(
-                withId(R.id.layoutStatisticsItem),
+                withId(R.id.viewStatisticsItem),
                 hasDescendant(withText(categoryName3))
             )
         )

@@ -8,6 +8,7 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 
+// TODO remove
 @InstallIn(SingletonComponent::class)
 @Module(
     includes = [

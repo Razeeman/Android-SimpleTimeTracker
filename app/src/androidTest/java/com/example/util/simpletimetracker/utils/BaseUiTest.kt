@@ -1,5 +1,9 @@
 package com.example.util.simpletimetracker.utils
 
+import android.content.Context
+import androidx.emoji.bundled.BundledEmojiCompatConfig
+import androidx.emoji.text.EmojiCompat
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
@@ -12,11 +16,14 @@ import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.feature_records.view.RecordsContainerFragment
 import com.example.util.simpletimetracker.feature_statistics.view.StatisticsContainerFragment
 import com.example.util.simpletimetracker.ui.MainActivity
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import javax.inject.Inject
 
+@HiltAndroidTest
 open class BaseUiTest {
 
     @Inject
@@ -34,13 +41,14 @@ open class BaseUiTest {
     @Inject
     lateinit var prefsInteractor: PrefsInteractor
 
-    @Rule
-    @JvmField
-    val activityScenarioRule = ActivityScenarioRule(MainActivity::class.java)
+    @get:Rule(order = 0)
+    var hiltRule = HiltAndroidRule(this)
 
-    @Rule
-    @JvmField
+    @get:Rule(order = 1)
     val mRetryTestRule = RetryTestRule()
+
+    @get:Rule(order = 2)
+    val activityScenarioRule = ActivityScenarioRule(MainActivity::class.java)
 
     val firstColor: Int
         get() = ColorMapper.getAvailableColors().first()
@@ -60,11 +68,14 @@ open class BaseUiTest {
             ?.last().orEmpty()
 
     init {
-        inject()
+        val app = ApplicationProvider.getApplicationContext() as Context
+        val config = BundledEmojiCompatConfig(app).setReplaceAll(true)
+        EmojiCompat.init(config)
     }
 
     @Before
     open fun setUp() {
+        if (!this::testUtils.isInitialized) hiltRule.inject()
         clearData()
         disableAnimations()
         registerIdlingResource()

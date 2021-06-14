@@ -1,4 +1,3 @@
-
 import com.example.util.simpletimetracker.Base
 import com.example.util.simpletimetracker.Deps
 
@@ -20,7 +19,7 @@ android {
         versionCode = Base.versionCode
         versionName = Base.versionName
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.example.util.simpletimetracker.utils.CustomTestRunner"
     }
 
     buildTypes {
@@ -40,6 +39,15 @@ android {
                 "proguard-rules.pro"
             )
         }
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
 }
 

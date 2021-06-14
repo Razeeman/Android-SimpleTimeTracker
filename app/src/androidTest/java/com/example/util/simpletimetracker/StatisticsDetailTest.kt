@@ -25,12 +25,14 @@ import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.withCardColor
 import com.example.util.simpletimetracker.utils.withPluralText
 import com.example.util.simpletimetracker.utils.withTag
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.CoreMatchers.allOf
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
 
+@HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
 class StatisticsDetailTest : BaseUiTest() {
 
@@ -401,7 +403,7 @@ class StatisticsDetailTest : BaseUiTest() {
         // Check detailed statistics
         NavUtils.openStatisticsScreen()
         tryAction { clickOnView(allOf(withText(name1), isCompletelyDisplayed())) }
-        checkViewIsDisplayed(allOf(withId(R.id.layoutStatisticsDetailItem), hasDescendant(withText(name1))))
+        checkViewIsDisplayed(allOf(withId(R.id.viewStatisticsDetailItem), hasDescendant(withText(name1))))
         checkRecordsCard(1)
 
         // Change filter
@@ -451,7 +453,7 @@ class StatisticsDetailTest : BaseUiTest() {
         clickOnViewWithText(R.string.chart_filter_type_category)
         pressBack()
         tryAction { clickOnView(allOf(withText(categoryName1), isCompletelyDisplayed())) }
-        checkViewIsDisplayed(allOf(withId(R.id.layoutStatisticsDetailItem), hasDescendant(withText(categoryName1))))
+        checkViewIsDisplayed(allOf(withId(R.id.viewStatisticsDetailItem), hasDescendant(withText(categoryName1))))
         checkRecordsCard(2)
 
         // Change filter
@@ -491,7 +493,7 @@ class StatisticsDetailTest : BaseUiTest() {
         // Check detailed statistics
         NavUtils.openStatisticsScreen()
         tryAction { clickOnView(allOf(withText(name1), isCompletelyDisplayed())) }
-        checkViewIsDisplayed(allOf(withId(R.id.layoutStatisticsDetailItem), hasDescendant(withText(name1))))
+        checkViewIsDisplayed(allOf(withId(R.id.viewStatisticsDetailItem), hasDescendant(withText(name1))))
         checkRecordsCard(3)
 
         // Change filter
@@ -522,7 +524,7 @@ class StatisticsDetailTest : BaseUiTest() {
     private fun checkPreview(color: Int, icon: Int, name: String) {
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.layoutStatisticsDetailItem),
+                withId(R.id.viewStatisticsDetailItem),
                 withCardColor(color),
                 hasDescendant(withTag(icon)),
                 hasDescendant(withText(name)),
@@ -614,7 +616,7 @@ class StatisticsDetailTest : BaseUiTest() {
     private fun checkTagItem(color: Int, name: String, duration: String, percentage: String) {
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.layoutStatisticsItem),
+                withId(R.id.viewStatisticsItem),
                 withCardColor(color),
                 hasDescendant(withText(name)),
                 hasDescendant(withText(duration)),
@@ -626,7 +628,7 @@ class StatisticsDetailTest : BaseUiTest() {
     private fun checkNoTagItem(name: String) {
         checkViewDoesNotExist(
             allOf(
-                withId(R.id.layoutStatisticsItem),
+                withId(R.id.viewStatisticsItem),
                 hasDescendant(withText(name))
             )
         )

@@ -34,6 +34,7 @@ import com.example.util.simpletimetracker.utils.nestedScrollTo
 import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.unconstrainedClickOnView
 import com.example.util.simpletimetracker.utils.withPluralText
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.Matcher
 import org.junit.Test
@@ -41,6 +42,7 @@ import org.junit.runner.RunWith
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
 
+@HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
 class SettingsTest : BaseUiTest() {
 
@@ -596,7 +598,7 @@ class SettingsTest : BaseUiTest() {
         clickOnViewWithText(R.string.range_week)
         clickOnView(
             allOf(
-                withId(R.id.layoutStatisticsItem),
+                withId(R.id.viewStatisticsItem),
                 hasDescendant(withText(name)),
                 isCompletelyDisplayed()
             )
@@ -640,7 +642,7 @@ class SettingsTest : BaseUiTest() {
         NavUtils.openStatisticsScreen()
         checkViewDoesNotExist(
             allOf(
-                withId(R.id.layoutStatisticsItem),
+                withId(R.id.viewStatisticsItem),
                 hasDescendant(withText(name)),
                 isCompletelyDisplayed()
             )
@@ -648,7 +650,7 @@ class SettingsTest : BaseUiTest() {
         clickOnViewWithId(R.id.btnStatisticsContainerPrevious)
         clickOnView(
             allOf(
-                withId(R.id.layoutStatisticsItem),
+                withId(R.id.viewStatisticsItem),
                 hasDescendant(withText(name)),
                 isCompletelyDisplayed()
             )

@@ -21,10 +21,12 @@ import com.example.util.simpletimetracker.utils.longClickOnView
 import com.example.util.simpletimetracker.utils.nestedScrollTo
 import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.unconstrainedClickOnView
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.CoreMatchers.allOf
 import org.junit.Test
 import org.junit.runner.RunWith
 
+@HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
 class ArchiveTest : BaseUiTest() {
 

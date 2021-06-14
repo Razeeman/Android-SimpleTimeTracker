@@ -19,6 +19,7 @@ import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.feature_dialogs.R
 import com.example.util.simpletimetracker.navigation.params.DateTimeDialogParams
 import com.example.util.simpletimetracker.navigation.params.DateTimeDialogType
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.date_time_dialog_fragment.btnDateTimeDialogPositive
 import kotlinx.android.synthetic.main.date_time_dialog_fragment.datePickerContainer
 import kotlinx.android.synthetic.main.date_time_dialog_fragment.tabsDateTimeDialog
@@ -26,6 +27,7 @@ import kotlinx.android.synthetic.main.date_time_dialog_fragment.timePickerContai
 import java.util.Calendar
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class DateTimeDialogFragment : AppCompatDialogFragment(),
     DateDialogFragment.OnDateSetListener,
     TimeDialogFragment.OnTimeSetListener {

@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker
 
 import android.view.View
+import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.assertion.PositionAssertions.isCompletelyAbove
@@ -26,11 +27,13 @@ import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.typeTextIntoView
 import com.example.util.simpletimetracker.utils.withCardColor
 import com.example.util.simpletimetracker.utils.withTag
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.Matcher
 import org.junit.Test
 import org.junit.runner.RunWith
 
+@HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
 class AddRecordTypeTest : BaseUiTest() {
 
@@ -60,6 +63,7 @@ class AddRecordTypeTest : BaseUiTest() {
         checkViewIsNotDisplayed(withId(R.id.rvChangeRecordTypeIcon))
 
         // Name is not selected
+        closeSoftKeyboard()
         clickOnViewWithText(R.string.change_record_type_save)
 
         // Typing name

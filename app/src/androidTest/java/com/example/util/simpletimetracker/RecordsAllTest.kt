@@ -22,10 +22,12 @@ import com.example.util.simpletimetracker.utils.clickOnViewWithIdOnPager
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.nestedScrollTo
 import com.example.util.simpletimetracker.utils.withPluralText
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.CoreMatchers.allOf
 import org.junit.Test
 import org.junit.runner.RunWith
 
+@HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
 class RecordsAllTest : BaseUiTest() {
 
@@ -172,7 +174,13 @@ class RecordsAllTest : BaseUiTest() {
         checkViewIsDisplayed(withId(R.id.btnChangeRecordDelete))
         clickOnViewWithId(R.id.btnChangeRecordDelete)
 
-        // TODO Check message
+        // Check message
+        checkViewIsDisplayed(
+            allOf(
+                withText("Record $name removed"),
+                withId(com.google.android.material.R.id.snackbar_text)
+            )
+        )
 
         // Record is deleted
         checkViewDoesNotExist(firstRecord)
