@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LiveData
 
 abstract class BaseFragment : Fragment() {
 
@@ -39,5 +40,11 @@ abstract class BaseFragment : Fragment() {
 
     open fun initViewModel() {
         // Override in subclasses
+    }
+
+    inline fun <T> LiveData<T>.observe(
+        crossinline onChanged: (T) -> Unit
+    ) {
+        observe(viewLifecycleOwner, { onChanged(it) })
     }
 }

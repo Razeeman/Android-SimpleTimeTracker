@@ -13,7 +13,6 @@ import com.example.util.simpletimetracker.domain.extension.rotateLeft
 import com.example.util.simpletimetracker.domain.mapper.StatisticsMapper
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
-import com.example.util.simpletimetracker.domain.model.IconType
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordTag
@@ -53,9 +52,9 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         val durations = records.map(::mapToDuration)
         val totalDuration = durations.sum()
         val timesTracked = records.size
-        val shortest = durations.min()
+        val shortest = durations.minOrNull()
         val average = if (durations.isNotEmpty()) durations.sum() / durations.size else null
-        val longest = durations.max()
+        val longest = durations.maxOrNull()
         val first = recordsSorted.firstOrNull()?.timeStarted
         val last = recordsSorted.lastOrNull()?.timeEnded
         val emptyValue by lazy { resourceRepo.getString(R.string.statistics_detail_empty) }
@@ -159,7 +158,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         rangeLength: RangeLength
     ): StatisticsDetailChartViewData {
         val isMinutes = data.map(ChartBarDataDuration::duration)
-            .max().orZero()
+            .maxOrNull().orZero()
             .let(TimeUnit.MILLISECONDS::toHours) == 0L
 
         val legendSuffix = if (isMinutes) {

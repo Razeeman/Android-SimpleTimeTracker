@@ -3,8 +3,8 @@ package com.example.util.simpletimetracker.feature_widget.widget
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
+import com.example.util.simpletimetracker.core.base.BaseActivity
 import com.example.util.simpletimetracker.core.dialog.OnTagSelectedListener
 import com.example.util.simpletimetracker.core.manager.ThemeManager
 import com.example.util.simpletimetracker.feature_widget.R
@@ -15,7 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class WidgetTagSelectionActivity : AppCompatActivity(),
+class WidgetTagSelectionActivity : BaseActivity(),
     OnTagSelectedListener {
 
     @Inject

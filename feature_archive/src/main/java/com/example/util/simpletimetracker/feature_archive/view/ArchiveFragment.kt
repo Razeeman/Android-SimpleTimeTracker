@@ -1,7 +1,6 @@
 package com.example.util.simpletimetracker.feature_archive.view
 
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.observe
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.category.createCategoryAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.divider.createDividerAdapterDelegate
@@ -20,7 +19,7 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.archive_fragment.*
+import kotlinx.android.synthetic.main.archive_fragment.rvArchiveList
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -59,7 +58,7 @@ class ArchiveFragment : BaseFragment(),
     }
 
     override fun initViewModel(): Unit = with(viewModel) {
-        viewData.observe(viewLifecycleOwner, archiveAdapter::replace)
+        viewData.observe(archiveAdapter::replace)
     }
 
     override fun onDeleteClick(params: ArchiveDialogParams?) =

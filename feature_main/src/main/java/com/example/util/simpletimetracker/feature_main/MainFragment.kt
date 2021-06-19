@@ -5,7 +5,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.observe
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.extension.visible
@@ -15,7 +14,9 @@ import com.example.util.simpletimetracker.core.viewModel.BackupViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.main_fragment.*
+import kotlinx.android.synthetic.main.main_fragment.mainPager
+import kotlinx.android.synthetic.main.main_fragment.mainProgress
+import kotlinx.android.synthetic.main.main_fragment.mainTabs
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -79,7 +80,7 @@ class MainFragment : BaseFragment() {
     }
 
     override fun initViewModel() {
-        backupViewModel.progressVisibility.observe(viewLifecycleOwner, mainProgress::visible::set)
+        backupViewModel.progressVisibility.observe(mainProgress::visible::set)
     }
 
     private fun setupPager() {

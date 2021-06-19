@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.core.view.ViewCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.transition.TransitionInflater
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
@@ -49,7 +48,24 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.change_record_type_fragment.*
+import kotlinx.android.synthetic.main.change_record_type_fragment.arrowChangeRecordTypeCategory
+import kotlinx.android.synthetic.main.change_record_type_fragment.arrowChangeRecordTypeColor
+import kotlinx.android.synthetic.main.change_record_type_fragment.arrowChangeRecordTypeIcon
+import kotlinx.android.synthetic.main.change_record_type_fragment.btnChangeRecordTypeDelete
+import kotlinx.android.synthetic.main.change_record_type_fragment.btnChangeRecordTypeIconSwitch
+import kotlinx.android.synthetic.main.change_record_type_fragment.btnChangeRecordTypeSave
+import kotlinx.android.synthetic.main.change_record_type_fragment.containerChangeRecordTypeIcon
+import kotlinx.android.synthetic.main.change_record_type_fragment.etChangeRecordTypeName
+import kotlinx.android.synthetic.main.change_record_type_fragment.fieldChangeRecordTypeCategory
+import kotlinx.android.synthetic.main.change_record_type_fragment.fieldChangeRecordTypeColor
+import kotlinx.android.synthetic.main.change_record_type_fragment.fieldChangeRecordTypeIcon
+import kotlinx.android.synthetic.main.change_record_type_fragment.groupChangeRecordTypeGoalTime
+import kotlinx.android.synthetic.main.change_record_type_fragment.previewChangeRecordType
+import kotlinx.android.synthetic.main.change_record_type_fragment.rvChangeRecordTypeCategories
+import kotlinx.android.synthetic.main.change_record_type_fragment.rvChangeRecordTypeColor
+import kotlinx.android.synthetic.main.change_record_type_fragment.rvChangeRecordTypeIcon
+import kotlinx.android.synthetic.main.change_record_type_fragment.rvChangeRecordTypeIconCategory
+import kotlinx.android.synthetic.main.change_record_type_fragment.tvChangeRecordTypeGoalTimeTime
 import javax.inject.Inject
 import kotlin.math.max
 
@@ -159,41 +175,41 @@ class ChangeRecordTypeFragment : BaseFragment(),
     override fun initViewModel(): Unit = with(viewModel) {
         extra = params
         deleteIconVisibility.observeOnce(viewLifecycleOwner, btnChangeRecordTypeDelete::visible::set)
-        saveButtonEnabled.observe(viewLifecycleOwner, btnChangeRecordTypeSave::setEnabled)
-        deleteButtonEnabled.observe(viewLifecycleOwner, btnChangeRecordTypeDelete::setEnabled)
+        saveButtonEnabled.observe(btnChangeRecordTypeSave::setEnabled)
+        deleteButtonEnabled.observe(btnChangeRecordTypeDelete::setEnabled)
         recordType.observeOnce(viewLifecycleOwner, ::updateUi)
-        recordType.observe(viewLifecycleOwner, ::updatePreview)
-        colors.observe(viewLifecycleOwner, colorsAdapter::replace)
-        icons.observe(viewLifecycleOwner, iconsAdapter::replace)
-        iconCategories.observe(viewLifecycleOwner, iconCategoriesAdapter::replaceAsNew)
-        iconsTypeViewData.observe(viewLifecycleOwner, btnChangeRecordTypeIconSwitch.adapter::replace)
-        categories.observe(viewLifecycleOwner, categoriesAdapter::replace)
-        goalTimeViewData.observe(viewLifecycleOwner, tvChangeRecordTypeGoalTimeTime::setText)
-        flipColorChooser.observe(viewLifecycleOwner) { opened ->
+        recordType.observe(::updatePreview)
+        colors.observe(colorsAdapter::replace)
+        icons.observe(iconsAdapter::replace)
+        iconCategories.observe(iconCategoriesAdapter::replaceAsNew)
+        iconsTypeViewData.observe(btnChangeRecordTypeIconSwitch.adapter::replace)
+        categories.observe(categoriesAdapter::replace)
+        goalTimeViewData.observe(tvChangeRecordTypeGoalTimeTime::setText)
+        flipColorChooser.observe { opened ->
             rvChangeRecordTypeColor.visible = opened
             setFlipChooserColor(fieldChangeRecordTypeColor, opened)
             arrowChangeRecordTypeColor.apply {
                 if (opened) rotateDown() else rotateUp()
             }
         }
-        flipIconChooser.observe(viewLifecycleOwner) { opened ->
+        flipIconChooser.observe { opened ->
             containerChangeRecordTypeIcon.visible = opened
             setFlipChooserColor(fieldChangeRecordTypeIcon, opened)
             arrowChangeRecordTypeIcon.apply {
                 if (opened) rotateDown() else rotateUp()
             }
         }
-        flipCategoryChooser.observe(viewLifecycleOwner) { opened ->
+        flipCategoryChooser.observe { opened ->
             rvChangeRecordTypeCategories.visible = opened
             setFlipChooserColor(fieldChangeRecordTypeCategory, opened)
             arrowChangeRecordTypeCategory.apply {
                 if (opened) rotateDown() else rotateUp()
             }
         }
-        keyboardVisibility.observe(viewLifecycleOwner) { visible ->
+        keyboardVisibility.observe { visible ->
             if (visible) showKeyboard(etChangeRecordTypeName) else hideKeyboard()
         }
-        iconsScrollPosition.observe(viewLifecycleOwner) {
+        iconsScrollPosition.observe {
             if (it is ChangeRecordTypeScrollViewData.ScrollTo) {
                 iconsLayoutManager.scrollToPositionWithOffset(it.position, 0)
                 onScrolled()

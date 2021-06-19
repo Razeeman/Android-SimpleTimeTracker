@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.core.view.ViewCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.observe
 import androidx.transition.TransitionInflater
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.category.createCategoryAdapterDelegate
@@ -33,7 +32,18 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.change_running_record_fragment.*
+import kotlinx.android.synthetic.main.change_running_record_fragment.arrowChangeRunningRecordCategory
+import kotlinx.android.synthetic.main.change_running_record_fragment.arrowChangeRunningRecordType
+import kotlinx.android.synthetic.main.change_running_record_fragment.btnChangeRunningRecordDelete
+import kotlinx.android.synthetic.main.change_running_record_fragment.btnChangeRunningRecordSave
+import kotlinx.android.synthetic.main.change_running_record_fragment.etChangeRunningRecordComment
+import kotlinx.android.synthetic.main.change_running_record_fragment.fieldChangeRunningRecordCategory
+import kotlinx.android.synthetic.main.change_running_record_fragment.fieldChangeRunningRecordTimeStarted
+import kotlinx.android.synthetic.main.change_running_record_fragment.fieldChangeRunningRecordType
+import kotlinx.android.synthetic.main.change_running_record_fragment.previewChangeRunningRecord
+import kotlinx.android.synthetic.main.change_running_record_fragment.rvChangeRunningRecordCategories
+import kotlinx.android.synthetic.main.change_running_record_fragment.rvChangeRunningRecordType
+import kotlinx.android.synthetic.main.change_running_record_fragment.tvChangeRunningRecordTimeStarted
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -108,30 +118,26 @@ class ChangeRunningRecordFragment : BaseFragment(),
         with(viewModel) {
             extra = params
             record.observeOnce(viewLifecycleOwner, ::updateUi)
-            record.observe(viewLifecycleOwner, ::updatePreview)
-            types.observe(viewLifecycleOwner, typesAdapter::replace)
-            categories.observe(viewLifecycleOwner, categoriesAdapter::replace)
-            deleteButtonEnabled.observe(
-                viewLifecycleOwner, btnChangeRunningRecordDelete::setEnabled
-            )
-            saveButtonEnabled.observe(
-                viewLifecycleOwner, btnChangeRunningRecordSave::setEnabled
-            )
-            flipTypesChooser.observe(viewLifecycleOwner) { opened ->
+            record.observe(::updatePreview)
+            types.observe(typesAdapter::replace)
+            categories.observe(categoriesAdapter::replace)
+            deleteButtonEnabled.observe(btnChangeRunningRecordDelete::setEnabled)
+            saveButtonEnabled.observe(btnChangeRunningRecordSave::setEnabled)
+            flipTypesChooser.observe { opened ->
                 rvChangeRunningRecordType.visible = opened
                 setFlipChooserColor(fieldChangeRunningRecordType, opened)
                 arrowChangeRunningRecordType.apply {
                     if (opened) rotateDown() else rotateUp()
                 }
             }
-            flipCategoryChooser.observe(viewLifecycleOwner) { opened ->
+            flipCategoryChooser.observe { opened ->
                 rvChangeRunningRecordCategories.visible = opened
                 setFlipChooserColor(fieldChangeRunningRecordCategory, opened)
                 arrowChangeRunningRecordCategory.apply {
                     if (opened) rotateDown() else rotateUp()
                 }
             }
-            keyboardVisibility.observe(viewLifecycleOwner) { visible ->
+            keyboardVisibility.observe { visible ->
                 if (visible) showKeyboard(etChangeRunningRecordComment) else hideKeyboard()
             }
         }

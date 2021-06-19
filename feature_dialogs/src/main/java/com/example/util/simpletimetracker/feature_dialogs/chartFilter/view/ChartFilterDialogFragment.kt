@@ -9,12 +9,12 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.observe
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.category.createCategoryAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.recordType.createRecordTypeAdapterDelegate
+import com.example.util.simpletimetracker.core.base.BaseBottomSheetDialogFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.ChartFilterDialogListener
 import com.example.util.simpletimetracker.core.extension.blockContentScroll
@@ -27,13 +27,15 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.chart_filter_dialog_fragment.*
+import kotlinx.android.synthetic.main.chart_filter_dialog_fragment.btnChartFilterHideAll
+import kotlinx.android.synthetic.main.chart_filter_dialog_fragment.btnChartFilterShowAll
+import kotlinx.android.synthetic.main.chart_filter_dialog_fragment.buttonsChartFilterType
+import kotlinx.android.synthetic.main.chart_filter_dialog_fragment.rvChartFilterContainer
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ChartFilterDialogFragment : BottomSheetDialogFragment() {
+class ChartFilterDialogFragment : BaseBottomSheetDialogFragment() {
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<ChartFilterViewModel>
@@ -121,7 +123,7 @@ class ChartFilterDialogFragment : BottomSheetDialogFragment() {
     }
 
     private fun initViewModel(): Unit = with(viewModel) {
-        filterTypeViewData.observe(viewLifecycleOwner, buttonsChartFilterType.adapter::replace)
-        types.observe(viewLifecycleOwner, recordTypesAdapter::replace)
+        filterTypeViewData.observe(buttonsChartFilterType.adapter::replace)
+        types.observe(recordTypesAdapter::replace)
     }
 }

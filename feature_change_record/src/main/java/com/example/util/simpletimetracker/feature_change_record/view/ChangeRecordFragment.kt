@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.observe
 import androidx.transition.TransitionInflater
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.category.createCategoryAdapterDelegate
@@ -139,32 +138,32 @@ class ChangeRecordFragment : BaseFragment(),
         with(viewModel) {
             extra = this@ChangeRecordFragment.extra
             record.observeOnce(viewLifecycleOwner, ::updateUi)
-            record.observe(viewLifecycleOwner, ::updatePreview)
-            types.observe(viewLifecycleOwner, typesAdapter::replace)
-            categories.observe(viewLifecycleOwner, categoriesAdapter::replace)
-            saveButtonEnabled.observe(viewLifecycleOwner, btnChangeRecordSave::setEnabled)
-            flipTypesChooser.observe(viewLifecycleOwner) { opened ->
+            record.observe(::updatePreview)
+            types.observe(typesAdapter::replace)
+            categories.observe(categoriesAdapter::replace)
+            saveButtonEnabled.observe(btnChangeRecordSave::setEnabled)
+            flipTypesChooser.observe { opened ->
                 rvChangeRecordType.visible = opened
                 setFlipChooserColor(fieldChangeRecordType, opened)
                 arrowChangeRecordType.apply {
                     if (opened) rotateDown() else rotateUp()
                 }
             }
-            flipCategoryChooser.observe(viewLifecycleOwner) { opened ->
+            flipCategoryChooser.observe { opened ->
                 rvChangeRecordCategories.visible = opened
                 setFlipChooserColor(fieldChangeRecordCategory, opened)
                 arrowChangeRecordCategory.apply {
                     if (opened) rotateDown() else rotateUp()
                 }
             }
-            keyboardVisibility.observe(viewLifecycleOwner) { visible ->
+            keyboardVisibility.observe { visible ->
                 if (visible) showKeyboard(etChangeRecordComment) else hideKeyboard()
             }
         }
         with(removeRecordViewModel) {
             prepare((extra as? ChangeRecordParams.Tracked)?.id.orZero())
-            deleteButtonEnabled.observe(viewLifecycleOwner, btnChangeRecordDelete::setEnabled)
-            deleteIconVisibility.observe(viewLifecycleOwner, btnChangeRecordDelete::visible::set)
+            deleteButtonEnabled.observe(btnChangeRecordDelete::setEnabled)
+            deleteIconVisibility.observe(btnChangeRecordDelete::visible::set)
         }
     }
 

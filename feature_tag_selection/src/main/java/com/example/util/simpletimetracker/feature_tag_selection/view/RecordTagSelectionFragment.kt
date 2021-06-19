@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.observe
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.category.createCategoryAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.hint.createHintAdapterDelegate
@@ -76,8 +75,8 @@ class RecordTagSelectionFragment : BaseFragment() {
 
     override fun initViewModel(): Unit = with(viewModel) {
         extra = params
-        viewData.observe(viewLifecycleOwner, adapter::replace)
-        tagSelected.observe(viewLifecycleOwner, ::onTagSelected)
+        viewData.observe(adapter::replace)
+        tagSelected.observe(::onTagSelected)
     }
 
     @Suppress("UNUSED_PARAMETER")

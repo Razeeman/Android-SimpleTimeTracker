@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.core.view.ViewCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.observe
 import androidx.transition.TransitionInflater
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.category.CategoryViewData
@@ -92,19 +91,19 @@ class ChangeRecordTagFragment : BaseFragment() {
         extra = params
         deleteIconVisibility.observeOnce(viewLifecycleOwner, btnChangeRecordTagDelete::visible::set)
         typesChooserVisibility.observeOnce(viewLifecycleOwner, fieldChangeRecordTagType::visible::set)
-        saveButtonEnabled.observe(viewLifecycleOwner, btnChangeRecordTagSave::setEnabled)
-        deleteButtonEnabled.observe(viewLifecycleOwner, btnChangeRecordTagDelete::setEnabled)
+        saveButtonEnabled.observe(btnChangeRecordTagSave::setEnabled)
+        deleteButtonEnabled.observe(btnChangeRecordTagDelete::setEnabled)
         preview.observeOnce(viewLifecycleOwner, ::updateUi)
-        preview.observe(viewLifecycleOwner, ::updatePreview)
-        types.observe(viewLifecycleOwner, typesAdapter::replace)
-        flipTypesChooser.observe(viewLifecycleOwner) { opened ->
+        preview.observe(::updatePreview)
+        types.observe(typesAdapter::replace)
+        flipTypesChooser.observe { opened ->
             rvChangeRecordTagType.visible = opened
             setFlipChooserColor(fieldChangeRecordTagType, opened)
             arrowChangeRecordTagType.apply {
                 if (opened) rotateDown() else rotateUp()
             }
         }
-        keyboardVisibility.observe(viewLifecycleOwner) { visible ->
+        keyboardVisibility.observe { visible ->
             if (visible) showKeyboard(etChangeRecordTagName) else hideKeyboard()
         }
     }

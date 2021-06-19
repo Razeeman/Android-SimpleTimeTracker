@@ -3,7 +3,6 @@ package com.example.util.simpletimetracker.feature_records.view
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.empty.createEmptyAdapterDelegate
@@ -67,10 +66,10 @@ class RecordsFragment : BaseFragment() {
     override fun initViewModel() {
         with(viewModel) {
             extra = RecordsExtra(shift = arguments?.getInt(ARGS_POSITION).orZero())
-            records.observe(viewLifecycleOwner, recordsAdapter::replace)
+            records.observe(recordsAdapter::replace)
         }
         with(removeRecordViewModel) {
-            needUpdate.observe(viewLifecycleOwner) {
+            needUpdate.observe {
                 if (it && this@RecordsFragment.isResumed) {
                     viewModel.onNeedUpdate()
                     removeRecordViewModel.onUpdated()

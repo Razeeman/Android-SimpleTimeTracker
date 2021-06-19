@@ -8,11 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.observe
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.recordType.createRecordTypeAdapterDelegate
+import com.example.util.simpletimetracker.core.base.BaseBottomSheetDialogFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
@@ -23,13 +23,14 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.card_size_dialog_fragment.*
+import kotlinx.android.synthetic.main.card_size_dialog_fragment.btnCardSizeDefault
+import kotlinx.android.synthetic.main.card_size_dialog_fragment.buttonsCardSize
+import kotlinx.android.synthetic.main.card_size_dialog_fragment.rvCardSizeContainer
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class CardSizeDialogFragment : BottomSheetDialogFragment() {
+class CardSizeDialogFragment : BaseBottomSheetDialogFragment() {
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<CardSizeViewModel>
@@ -93,9 +94,9 @@ class CardSizeDialogFragment : BottomSheetDialogFragment() {
     }
 
     private fun initViewModel(): Unit = with(viewModel) {
-        recordTypes.observe(viewLifecycleOwner, recordTypesAdapter::replace)
-        buttons.observe(viewLifecycleOwner, buttonsCardSize.adapter::replace)
-        defaultButton.observe(viewLifecycleOwner, ::updateDefaultButton)
+        recordTypes.observe(recordTypesAdapter::replace)
+        buttons.observe(buttonsCardSize.adapter::replace)
+        defaultButton.observe(::updateDefaultButton)
     }
 
     private fun updateDefaultButton(viewData: CardSizeDefaultButtonViewData) {

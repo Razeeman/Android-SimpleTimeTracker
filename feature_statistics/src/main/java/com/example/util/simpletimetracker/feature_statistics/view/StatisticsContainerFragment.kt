@@ -2,7 +2,6 @@ package com.example.util.simpletimetracker.feature_statistics.view
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.observe
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
@@ -64,12 +63,12 @@ class StatisticsContainerFragment : BaseFragment(),
 
     override fun initViewModel() {
         with(viewModel) {
-            title.observe(viewLifecycleOwner, ::updateTitle)
-            rangeItems.observe(viewLifecycleOwner, ::updateRangeItems)
-            position.observe(viewLifecycleOwner, ::updatePosition)
+            title.observe(::updateTitle)
+            rangeItems.observe(::updateRangeItems)
+            position.observe(::updatePosition)
         }
         with(settingsViewModel) {
-            rangeLength.observe(viewLifecycleOwner, ::updateNavButtons)
+            rangeLength.observe(::updateNavButtons)
         }
     }
 

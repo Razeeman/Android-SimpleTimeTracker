@@ -2,7 +2,6 @@ package com.example.util.simpletimetracker.feature_records.view
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.observe
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
@@ -60,8 +59,8 @@ class RecordsContainerFragment : BaseFragment(),
 
     override fun initViewModel() {
         with(viewModel) {
-            title.observe(viewLifecycleOwner, ::updateTitle)
-            position.observe(viewLifecycleOwner) {
+            title.observe(::updateTitle)
+            position.observe {
                 pagerRecordsContainer.setCurrentItem(
                     it + RecordsContainerAdapter.FIRST,
                     viewPagerSmoothScroll
@@ -69,7 +68,7 @@ class RecordsContainerFragment : BaseFragment(),
             }
         }
         with(removeRecordViewModel) {
-            message.observe(viewLifecycleOwner, ::showMessage)
+            message.observe(::showMessage)
         }
     }
 

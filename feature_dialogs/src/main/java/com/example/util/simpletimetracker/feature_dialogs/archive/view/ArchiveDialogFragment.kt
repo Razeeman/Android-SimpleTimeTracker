@@ -8,11 +8,11 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.observe
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.category.createCategoryAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.recordType.createRecordTypeAdapterDelegate
+import com.example.util.simpletimetracker.core.base.BaseBottomSheetDialogFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.ArchiveDialogListener
 import com.example.util.simpletimetracker.core.extension.getAllFragments
@@ -27,7 +27,6 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.archive_dialog_fragment.*
 import kotlinx.coroutines.GlobalScope
@@ -35,7 +34,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ArchiveDialogFragment : BottomSheetDialogFragment() {
+class ArchiveDialogFragment : BaseBottomSheetDialogFragment() {
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<ArchiveDialogViewModel>
@@ -118,7 +117,7 @@ class ArchiveDialogFragment : BottomSheetDialogFragment() {
 
     private fun initViewModel(): Unit = with(viewModel) {
         extra = params
-        viewData.observe(viewLifecycleOwner, adapter::replace)
+        viewData.observe(adapter::replace)
     }
 
     private fun onDeleteClick() {

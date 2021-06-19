@@ -7,12 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.observe
 import androidx.recyclerview.widget.RecyclerView
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.recordType.createRecordTypeAdapterDelegate
+import com.example.util.simpletimetracker.core.base.BaseBottomSheetDialogFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.extension.onItemMoved
 import com.example.util.simpletimetracker.core.extension.setFullScreen
@@ -24,13 +24,12 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.card_order_dialog_fragment.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class CardOrderDialogFragment : BottomSheetDialogFragment() {
+class CardOrderDialogFragment : BaseBottomSheetDialogFragment() {
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<CardOrderViewModel>
@@ -114,7 +113,7 @@ class CardOrderDialogFragment : BottomSheetDialogFragment() {
 
     private fun initViewModel(): Unit = with(viewModel) {
         extra = this@CardOrderDialogFragment.extra
-        recordTypes.observe(viewLifecycleOwner, recordTypesAdapter::replace)
+        recordTypes.observe(recordTypesAdapter::replace)
     }
 
     companion object {

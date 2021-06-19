@@ -1,7 +1,6 @@
 package com.example.util.simpletimetracker.feature_running_records.view
 
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.observe
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.divider.createDividerAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.empty.createEmptyAdapterDelegate
@@ -19,7 +18,7 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.running_records_fragment.*
+import kotlinx.android.synthetic.main.running_records_fragment.rvRunningRecordsList
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -66,7 +65,7 @@ class RunningRecordsFragment : BaseFragment(),
     }
 
     override fun initViewModel(): Unit = with(viewModel) {
-        runningRecords.observe(viewLifecycleOwner, runningRecordsAdapter::replace)
+        runningRecords.observe(runningRecordsAdapter::replace)
     }
 
     override fun onResume() {

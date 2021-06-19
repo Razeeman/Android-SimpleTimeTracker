@@ -9,13 +9,13 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.observe
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.category.createCategoryAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.divider.createDividerAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.hint.createHintAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.recordType.createRecordTypeAdapterDelegate
+import com.example.util.simpletimetracker.core.base.BaseBottomSheetDialogFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.TypesFilterDialogListener
 import com.example.util.simpletimetracker.core.extension.blockContentScroll
@@ -31,7 +31,6 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.types_filter_dialog_fragment.btnTypesFilterHideAll
 import kotlinx.android.synthetic.main.types_filter_dialog_fragment.btnTypesFilterShowAll
@@ -39,7 +38,7 @@ import kotlinx.android.synthetic.main.types_filter_dialog_fragment.rvTypesFilter
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class TypesFilterDialogFragment : BottomSheetDialogFragment() {
+class TypesFilterDialogFragment : BaseBottomSheetDialogFragment() {
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<TypesFilterViewModel>
@@ -129,8 +128,8 @@ class TypesFilterDialogFragment : BottomSheetDialogFragment() {
 
     private fun initViewModel(): Unit = with(viewModel) {
         extra = arguments?.getParcelable(ARGS_PARAMS) ?: TypesFilterParams()
-        viewData.observe(viewLifecycleOwner, adapter::replace)
-        typesFilter.observe(viewLifecycleOwner) { typesFilterDialogListener?.onTypesFilterSelected(it) }
+        viewData.observe(adapter::replace)
+        typesFilter.observe { typesFilterDialogListener?.onTypesFilterSelected(it) }
     }
 
     companion object {

@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.observe
+import com.example.util.simpletimetracker.core.base.BaseBottomSheetDialogFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.DurationDialogListener
 import com.example.util.simpletimetracker.core.extension.getAllFragments
@@ -21,13 +21,16 @@ import com.example.util.simpletimetracker.feature_dialogs.R
 import com.example.util.simpletimetracker.feature_dialogs.duration.extra.DurationPickerExtra
 import com.example.util.simpletimetracker.feature_dialogs.duration.viewModel.DurationPickerViewModel
 import com.example.util.simpletimetracker.navigation.params.DurationDialogParams
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.duration_dialog_fragment.*
+import kotlinx.android.synthetic.main.duration_dialog_fragment.btnDurationPickerDisable
+import kotlinx.android.synthetic.main.duration_dialog_fragment.btnDurationPickerSave
+import kotlinx.android.synthetic.main.duration_dialog_fragment.ivDurationPickerDelete
+import kotlinx.android.synthetic.main.duration_dialog_fragment.viewDurationPickerNumberKeyboard
+import kotlinx.android.synthetic.main.duration_dialog_fragment.viewDurationPickerValue
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class DurationDialogFragment : BottomSheetDialogFragment() {
+class DurationDialogFragment : BaseBottomSheetDialogFragment() {
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<DurationPickerViewModel>
@@ -97,7 +100,7 @@ class DurationDialogFragment : BottomSheetDialogFragment() {
 
     private fun initViewModel(): Unit = with(viewModel) {
         extra = DurationPickerExtra(arguments?.getLong(ARGS_DURATION).orZero())
-        durationViewData.observe(viewLifecycleOwner, viewDurationPickerValue::setData)
+        durationViewData.observe(viewDurationPickerValue::setData)
     }
 
     private fun onSaveClick() {

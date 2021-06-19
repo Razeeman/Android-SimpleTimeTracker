@@ -140,9 +140,11 @@ class ChangeRunningRecordTest : BaseUiTest() {
         clickOnViewWithText(R.string.change_record_save)
 
         // Record updated
-        checkViewDoesNotExist(
-            allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name1))
-        )
+        tryAction {
+            checkViewDoesNotExist(
+                allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name1))
+            )
+        }
         checkRunningRecordDisplayed(
             name = fullName2,
             color = lastColor,

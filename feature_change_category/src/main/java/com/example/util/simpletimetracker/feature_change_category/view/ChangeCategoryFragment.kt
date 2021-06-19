@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.core.view.ViewCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.observe
 import androidx.transition.TransitionInflater
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.category.CategoryViewData
@@ -119,27 +118,27 @@ class ChangeCategoryFragment : BaseFragment() {
     override fun initViewModel(): Unit = with(viewModel) {
         extra = params
         deleteIconVisibility.observeOnce(viewLifecycleOwner, btnChangeCategoryDelete::visible::set)
-        saveButtonEnabled.observe(viewLifecycleOwner, btnChangeCategorySave::setEnabled)
-        deleteButtonEnabled.observe(viewLifecycleOwner, btnChangeCategoryDelete::setEnabled)
+        saveButtonEnabled.observe(btnChangeCategorySave::setEnabled)
+        deleteButtonEnabled.observe(btnChangeCategoryDelete::setEnabled)
         categoryPreview.observeOnce(viewLifecycleOwner, ::updateUi)
-        categoryPreview.observe(viewLifecycleOwner, ::updatePreview)
-        colors.observe(viewLifecycleOwner, colorsAdapter::replace)
-        types.observe(viewLifecycleOwner, typesAdapter::replace)
-        flipColorChooser.observe(viewLifecycleOwner) { opened ->
+        categoryPreview.observe(::updatePreview)
+        colors.observe(colorsAdapter::replace)
+        types.observe(typesAdapter::replace)
+        flipColorChooser.observe { opened ->
             rvChangeCategoryColor.visible = opened
             setFlipChooserColor(fieldChangeCategoryColor, opened)
             arrowChangeCategoryColor.apply {
                 if (opened) rotateDown() else rotateUp()
             }
         }
-        flipTypesChooser.observe(viewLifecycleOwner) { opened ->
+        flipTypesChooser.observe { opened ->
             rvChangeCategoryType.visible = opened
             setFlipChooserColor(fieldChangeCategoryType, opened)
             arrowChangeCategoryType.apply {
                 if (opened) rotateDown() else rotateUp()
             }
         }
-        keyboardVisibility.observe(viewLifecycleOwner) { visible ->
+        keyboardVisibility.observe { visible ->
             if (visible) showKeyboard(etChangeCategoryName) else hideKeyboard()
         }
     }

@@ -3,7 +3,6 @@ package com.example.util.simpletimetracker.feature_records_all.view
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.empty.createEmptyAdapterDelegate
@@ -78,12 +77,12 @@ class RecordsAllFragment : BaseFragment() {
     override fun initViewModel() {
         with(viewModel) {
             extra = params
-            records.observe(viewLifecycleOwner, recordsAdapter::replaceAsNew)
-            sortOrderViewData.observe(viewLifecycleOwner, ::updateCardOrderViewData)
+            records.observe(recordsAdapter::replaceAsNew)
+            sortOrderViewData.observe(::updateCardOrderViewData)
         }
         with(removeRecordViewModel) {
-            needUpdate.observe(viewLifecycleOwner, ::onUpdateNeeded)
-            message.observe(viewLifecycleOwner, ::showMessage)
+            needUpdate.observe(::onUpdateNeeded)
+            message.observe(::showMessage)
         }
     }
 

@@ -133,7 +133,7 @@ class BarChartView @JvmOverloads constructor(
 
     fun setBars(data: List<ViewData>) {
         bars = data.takeUnless { it.isEmpty() } ?: listOf(ViewData(0f, ""))
-        maxValue = data.map(ViewData::value).max() ?: 1f
+        maxValue = data.map(ViewData::value).maxOrNull() ?: 1f
         selectedBar = -1
         invalidate()
         if (!isInEditMode) animateBars()
@@ -283,7 +283,7 @@ class BarChartView @JvmOverloads constructor(
         legendLinesPixelStep = chartHeight / (legendLinesCount - 1)
 
         // Horizontal legends size
-        val maxHorizontalLegendValue: String = legends.maxBy { it.length }.orEmpty()
+        val maxHorizontalLegendValue: String = legends.maxByOrNull { it.length }.orEmpty()
         val maxHorizontalLegendSize = textPaint.measureText(maxHorizontalLegendValue) +
             2 * legendHorizontalTextPadding
         if (maxHorizontalLegendSize > 0f) {

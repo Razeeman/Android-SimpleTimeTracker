@@ -1,7 +1,6 @@
 package com.example.util.simpletimetracker.feature_categories.view
 
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.observe
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.divider.createDividerAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.hint.createHintAdapterDelegate
@@ -17,7 +16,7 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.categories_fragment.*
+import kotlinx.android.synthetic.main.categories_fragment.rvCategoriesList
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -62,7 +61,7 @@ class CategoriesFragment : BaseFragment() {
     }
 
     override fun initViewModel(): Unit = with(viewModel) {
-        categories.observe(viewLifecycleOwner, categoriesAdapter::replace)
+        categories.observe(categoriesAdapter::replace)
     }
 
     override fun onResume() {

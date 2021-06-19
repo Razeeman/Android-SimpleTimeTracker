@@ -5,7 +5,6 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.observe
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.DurationDialogListener
@@ -21,7 +20,28 @@ import com.example.util.simpletimetracker.navigation.RequestCode.REQUEST_CODE_CR
 import com.example.util.simpletimetracker.navigation.RequestCode.REQUEST_CODE_CREATE_FILE
 import com.example.util.simpletimetracker.navigation.RequestCode.REQUEST_CODE_OPEN_FILE
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.settings_fragment.*
+import kotlinx.android.synthetic.main.settings_fragment.btnCardOrderManual
+import kotlinx.android.synthetic.main.settings_fragment.checkboxSettingsAllowMultitasking
+import kotlinx.android.synthetic.main.settings_fragment.checkboxSettingsDarkMode
+import kotlinx.android.synthetic.main.settings_fragment.checkboxSettingsShowNotifications
+import kotlinx.android.synthetic.main.settings_fragment.checkboxSettingsShowRecordTagSelection
+import kotlinx.android.synthetic.main.settings_fragment.checkboxSettingsShowUntracked
+import kotlinx.android.synthetic.main.settings_fragment.checkboxSettingsUseMilitaryTime
+import kotlinx.android.synthetic.main.settings_fragment.groupSettingsInactivityReminder
+import kotlinx.android.synthetic.main.settings_fragment.layoutSettingsEditCategories
+import kotlinx.android.synthetic.main.settings_fragment.layoutSettingsExportCsv
+import kotlinx.android.synthetic.main.settings_fragment.layoutSettingsFeedback
+import kotlinx.android.synthetic.main.settings_fragment.layoutSettingsRate
+import kotlinx.android.synthetic.main.settings_fragment.layoutSettingsRestoreBackup
+import kotlinx.android.synthetic.main.settings_fragment.layoutSettingsSaveBackup
+import kotlinx.android.synthetic.main.settings_fragment.spinnerSettingsFirstDayOfWeek
+import kotlinx.android.synthetic.main.settings_fragment.spinnerSettingsRecordTypeSort
+import kotlinx.android.synthetic.main.settings_fragment.tvSettingsArchive
+import kotlinx.android.synthetic.main.settings_fragment.tvSettingsChangeCardSize
+import kotlinx.android.synthetic.main.settings_fragment.tvSettingsFirstDayOfWeekValue
+import kotlinx.android.synthetic.main.settings_fragment.tvSettingsInactivityReminderTime
+import kotlinx.android.synthetic.main.settings_fragment.tvSettingsRecordTypeSortValue
+import kotlinx.android.synthetic.main.settings_fragment.tvSettingsUseMilitaryTimeHint
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -68,54 +88,18 @@ class SettingsFragment : BaseFragment(),
     }
 
     override fun initViewModel(): Unit = with(viewModel) {
-        cardOrderViewData.observe(
-            viewLifecycleOwner,
-            ::updateCardOrderViewData
-        )
-        firstDayOfWeekViewData.observe(
-            viewLifecycleOwner,
-            ::updateFirstDayOfWeekViewData
-        )
-        btnCardOrderManualVisibility.observe(
-            viewLifecycleOwner,
-            btnCardOrderManual::visible::set
-        )
-        showUntrackedCheckbox.observe(
-            viewLifecycleOwner,
-            checkboxSettingsShowUntracked::setChecked
-        )
-        allowMultitaskingCheckbox.observe(
-            viewLifecycleOwner,
-            checkboxSettingsAllowMultitasking::setChecked
-        )
-        showNotificationsCheckbox.observe(
-            viewLifecycleOwner,
-            checkboxSettingsShowNotifications::setChecked
-        )
-        inactivityReminderViewData.observe(
-            viewLifecycleOwner,
-            tvSettingsInactivityReminderTime::setText
-        )
-        darkModeCheckbox.observe(
-            viewLifecycleOwner,
-            checkboxSettingsDarkMode::setChecked
-        )
-        useMilitaryTimeCheckbox.observe(
-            viewLifecycleOwner,
-            checkboxSettingsUseMilitaryTime::setChecked
-        )
-        showRecordTagSelectionCheckbox.observe(
-            viewLifecycleOwner,
-            checkboxSettingsShowRecordTagSelection::setChecked
-        )
-        useMilitaryTimeHint.observe(
-            viewLifecycleOwner,
-            tvSettingsUseMilitaryTimeHint::setText
-        )
-        themeChanged.observe(
-            viewLifecycleOwner,
-            ::changeTheme
-        )
+        cardOrderViewData.observe(::updateCardOrderViewData)
+        firstDayOfWeekViewData.observe(::updateFirstDayOfWeekViewData)
+        btnCardOrderManualVisibility.observe(btnCardOrderManual::visible::set)
+        showUntrackedCheckbox.observe(checkboxSettingsShowUntracked::setChecked)
+        allowMultitaskingCheckbox.observe(checkboxSettingsAllowMultitasking::setChecked)
+        showNotificationsCheckbox.observe(checkboxSettingsShowNotifications::setChecked)
+        inactivityReminderViewData.observe(tvSettingsInactivityReminderTime::setText)
+        darkModeCheckbox.observe(checkboxSettingsDarkMode::setChecked)
+        useMilitaryTimeCheckbox.observe(checkboxSettingsUseMilitaryTime::setChecked)
+        showRecordTagSelectionCheckbox.observe(checkboxSettingsShowRecordTagSelection::setChecked)
+        useMilitaryTimeHint.observe(tvSettingsUseMilitaryTimeHint::setText)
+        themeChanged.observe(::changeTheme)
     }
 
     override fun onResume() {

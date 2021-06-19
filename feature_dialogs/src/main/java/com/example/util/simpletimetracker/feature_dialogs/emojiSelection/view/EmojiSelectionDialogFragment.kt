@@ -8,10 +8,10 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.observe
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.emoji.createEmojiAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.loader.createLoaderAdapterDelegate
+import com.example.util.simpletimetracker.core.base.BaseBottomSheetDialogFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.EmojiSelectionDialogListener
 import com.example.util.simpletimetracker.core.extension.getAllFragments
@@ -23,13 +23,12 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.emoji_selection_dialog_fragment.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class EmojiSelectionDialogFragment : BottomSheetDialogFragment() {
+class EmojiSelectionDialogFragment : BaseBottomSheetDialogFragment() {
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<EmojiSelectionViewModel>
@@ -107,8 +106,8 @@ class EmojiSelectionDialogFragment : BottomSheetDialogFragment() {
 
     private fun initViewModel(): Unit = with(viewModel) {
         extra = params
-        icons.observe(viewLifecycleOwner, adapter::replace)
-        iconSelected.observe(viewLifecycleOwner, ::onEmojiSelected)
+        icons.observe(adapter::replace)
+        iconSelected.observe(::onEmojiSelected)
     }
 
     private fun onEmojiSelected(emojiText: String) {

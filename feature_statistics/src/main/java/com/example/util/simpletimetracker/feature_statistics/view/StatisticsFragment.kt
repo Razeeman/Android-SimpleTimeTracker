@@ -3,7 +3,6 @@ package com.example.util.simpletimetracker.feature_statistics.view
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.hint.createHintAdapterDelegate
@@ -22,7 +21,7 @@ import com.example.util.simpletimetracker.feature_statistics.viewModel.Statistic
 import com.example.util.simpletimetracker.feature_statistics.viewModel.StatisticsViewModel
 import com.example.util.simpletimetracker.navigation.params.StatisticsParams
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.statistics_fragment.*
+import kotlinx.android.synthetic.main.statistics_fragment.rvStatisticsList
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -76,10 +75,10 @@ class StatisticsFragment : BaseFragment(),
     override fun initViewModel() {
         with(viewModel) {
             extra = StatisticsExtra(shift = arguments?.getInt(ARGS_POSITION).orZero())
-            statistics.observe(viewLifecycleOwner, statisticsAdapter::replace)
+            statistics.observe(statisticsAdapter::replace)
         }
         with(settingsViewModel) {
-            rangeLength.observe(viewLifecycleOwner, viewModel::onNewRange)
+            rangeLength.observe(viewModel::onNewRange)
         }
     }
 

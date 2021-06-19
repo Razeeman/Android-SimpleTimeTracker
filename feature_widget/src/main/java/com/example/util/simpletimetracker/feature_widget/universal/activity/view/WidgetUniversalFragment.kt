@@ -1,7 +1,6 @@
 package com.example.util.simpletimetracker.feature_widget.universal.activity.view
 
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.observe
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.loader.createLoaderAdapterDelegate
@@ -52,7 +51,7 @@ class WidgetUniversalFragment : BaseFragment(),
     }
 
     override fun initViewModel(): Unit = with(viewModel) {
-        recordTypes.observe(this@WidgetUniversalFragment, typesAdapter::replace)
+        recordTypes.observe(typesAdapter::replace)
     }
 
     override fun onTagSelected() =

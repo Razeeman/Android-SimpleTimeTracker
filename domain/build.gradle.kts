@@ -23,6 +23,7 @@ dependencies {
     api(Deps.javax)
     api(Deps.coroutines)
     api(Deps.timber)
+    api(Deps.kotlin)
 
     testImplementation(Deps.Test.junit)
 }

@@ -3,7 +3,6 @@ package com.example.util.simpletimetracker.feature_statistics_detail.view
 import android.os.Bundle
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.TransitionInflater
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
@@ -19,7 +18,6 @@ import com.example.util.simpletimetracker.core.extension.setOnLongClick
 import com.example.util.simpletimetracker.core.extension.toViewData
 import com.example.util.simpletimetracker.core.extension.visible
 import com.example.util.simpletimetracker.core.utils.BuildVersions
-import com.example.util.simpletimetracker.core.view.TransitionNames
 import com.example.util.simpletimetracker.core.viewData.RangesViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.R
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.createStatisticsPreviewAdapterDelegate
@@ -35,7 +33,23 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.statistics_detail_fragment.*
+import kotlinx.android.synthetic.main.statistics_detail_fragment.btnStatisticsDetailNext
+import kotlinx.android.synthetic.main.statistics_detail_fragment.btnStatisticsDetailPrevious
+import kotlinx.android.synthetic.main.statistics_detail_fragment.btnStatisticsDetailToday
+import kotlinx.android.synthetic.main.statistics_detail_fragment.buttonsStatisticsDetailGrouping
+import kotlinx.android.synthetic.main.statistics_detail_fragment.buttonsStatisticsDetailLength
+import kotlinx.android.synthetic.main.statistics_detail_fragment.buttonsStatisticsDetailSplitGrouping
+import kotlinx.android.synthetic.main.statistics_detail_fragment.cardStatisticsDetailAverage
+import kotlinx.android.synthetic.main.statistics_detail_fragment.cardStatisticsDetailDates
+import kotlinx.android.synthetic.main.statistics_detail_fragment.cardStatisticsDetailFilter
+import kotlinx.android.synthetic.main.statistics_detail_fragment.cardStatisticsDetailRecords
+import kotlinx.android.synthetic.main.statistics_detail_fragment.cardStatisticsDetailTotal
+import kotlinx.android.synthetic.main.statistics_detail_fragment.chartStatisticsDetail
+import kotlinx.android.synthetic.main.statistics_detail_fragment.chartStatisticsDetailSplit
+import kotlinx.android.synthetic.main.statistics_detail_fragment.rvStatisticsDetailPreviewItems
+import kotlinx.android.synthetic.main.statistics_detail_fragment.rvStatisticsDetailTagSplit
+import kotlinx.android.synthetic.main.statistics_detail_fragment.spinnerStatisticsDetail
+import kotlinx.android.synthetic.main.statistics_detail_fragment.viewStatisticsDetailItem
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -111,16 +125,16 @@ class StatisticsDetailFragment : BaseFragment(),
     override fun initViewModel(): Unit = with(viewModel) {
         extra = params
 
-        previewViewData.observe(viewLifecycleOwner, ::setPreviewViewData)
-        statsViewData.observe(viewLifecycleOwner, ::setStatsViewData)
-        chartViewData.observe(viewLifecycleOwner, ::updateChartViewData)
-        splitChartViewData.observe(viewLifecycleOwner, ::updateSplitChartViewData)
-        chartGroupingViewData.observe(viewLifecycleOwner, ::updateChartGroupingData)
-        chartLengthViewData.observe(viewLifecycleOwner, ::updateChartLengthData)
-        splitChartGroupingViewData.observe(viewLifecycleOwner, ::updateSplitChartGroupingData)
-        title.observe(viewLifecycleOwner, btnStatisticsDetailToday::setText)
-        rangeItems.observe(viewLifecycleOwner, ::updateRangeItems)
-        rangeButtonsVisibility.observe(viewLifecycleOwner, ::updateRangeButtonsVisibility)
+        previewViewData.observe(::setPreviewViewData)
+        statsViewData.observe(::setStatsViewData)
+        chartViewData.observe(::updateChartViewData)
+        splitChartViewData.observe(::updateSplitChartViewData)
+        chartGroupingViewData.observe(::updateChartGroupingData)
+        chartLengthViewData.observe(::updateChartLengthData)
+        splitChartGroupingViewData.observe(::updateSplitChartGroupingData)
+        title.observe(btnStatisticsDetailToday::setText)
+        rangeItems.observe(::updateRangeItems)
+        rangeButtonsVisibility.observe(::updateRangeButtonsVisibility)
     }
 
     override fun onResume() {

@@ -5,11 +5,10 @@ import android.appwidget.AppWidgetManager
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.observe
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.loader.createLoaderAdapterDelegate
+import com.example.util.simpletimetracker.core.base.BaseActivity
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.manager.ThemeManager
 import com.example.util.simpletimetracker.feature_widget.R
@@ -25,7 +24,7 @@ import kotlinx.android.synthetic.main.widget_configure_activity.rvWidgetConfigur
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class WidgetConfigureActivity : AppCompatActivity() {
+class WidgetConfigureActivity : BaseActivity() {
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<WidgetViewModel>
@@ -78,8 +77,8 @@ class WidgetConfigureActivity : AppCompatActivity() {
             ?: AppWidgetManager.INVALID_APPWIDGET_ID
 
         extra = WidgetExtra(widgetId)
-        recordTypes.observe(this@WidgetConfigureActivity, typesAdapter::replace)
-        handled.observe(this@WidgetConfigureActivity, ::exit)
+        recordTypes.observe(typesAdapter::replace)
+        handled.observe(::exit)
     }
 
     private fun exit(widgetId: Int) {
