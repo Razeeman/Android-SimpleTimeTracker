@@ -5,11 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.R
-import com.example.util.simpletimetracker.navigation.params.SnackBarParams
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.Record
+import com.example.util.simpletimetracker.navigation.params.ChangeRecordParams
+import com.example.util.simpletimetracker.navigation.params.SnackBarParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -32,7 +33,7 @@ class RemoveRecordViewModel @Inject constructor(
         (deleteIconVisibility as MutableLiveData).value = id != 0L
     }
 
-    fun onDeleteClick() {
+    fun onDeleteClick(from: ChangeRecordParams.From?) {
         (deleteButtonEnabled as MutableLiveData).value = false
         viewModelScope.launch {
             if (recordId != 0L) {
@@ -41,11 +42,19 @@ class RemoveRecordViewModel @Inject constructor(
                     ?.let { recordTypeInteractor.get(it) }
                     ?.name
                     .orEmpty()
+                val tag = when (from) {
+                    is ChangeRecordParams.From.Records ->
+                        SnackBarParams.TAG.RECORD_DELETE
+                    is ChangeRecordParams.From.RecordsAll ->
+                        SnackBarParams.TAG.RECORDS_ALL_DELETE
+                    else -> null
+                }
 
                 recordInteractor.remove(recordId)
                 (needUpdate as MutableLiveData).value = true
 
                 (message as MutableLiveData).value = SnackBarParams(
+                    tag = tag,
                     message = resourceRepo.getString(R.string.record_removed, removedName),
                     actionText = R.string.record_removed_undo.let(resourceRepo::getString),
                     actionListener = { removedRecord?.let(::onAction) }

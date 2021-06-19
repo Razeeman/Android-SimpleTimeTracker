@@ -82,7 +82,7 @@ class RecordsContainerFragment : BaseFragment(),
     }
 
     private fun showMessage(message: SnackBarParams?) {
-        if (message != null && this.isResumed) {
+        if (message != null && message.tag == SnackBarParams.TAG.RECORD_DELETE) {
             router.show(Notification.SNACK_BAR, message, btnRecordAdd)
             removeRecordViewModel.onMessageShown()
         }

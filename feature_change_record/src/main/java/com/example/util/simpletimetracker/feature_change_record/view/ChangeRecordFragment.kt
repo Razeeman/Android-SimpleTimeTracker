@@ -129,7 +129,9 @@ class ChangeRecordFragment : BaseFragment(),
         btnChangeRecordSave.setOnClick(viewModel::onSaveClick)
         btnChangeRecordDelete.setOnClick {
             viewModel.onDeleteClick()
-            removeRecordViewModel.onDeleteClick()
+            removeRecordViewModel.onDeleteClick(
+                (extra as? ChangeRecordParams.Tracked)?.from
+            )
         }
     }
 

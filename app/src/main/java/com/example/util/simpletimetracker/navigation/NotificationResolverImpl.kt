@@ -28,7 +28,11 @@ class NotificationResolverImpl @Inject constructor() : NotificationResolver {
     private fun showSnackBar(activity: Activity?, data: Any?, anchor: Any?) {
         if (data !is SnackBarParams || activity == null) return
 
-        val snackBar = Snackbar.make(activity.findViewById(android.R.id.content), data.message, 5000)
+        val snackBar = Snackbar.make(
+            activity.findViewById(android.R.id.content),
+            data.message,
+            5000
+        )
 
         val textViewId = com.google.android.material.R.id.snackbar_text
         snackBar.view.findViewById<TextView>(textViewId)?.setTextColor(Color.WHITE)
@@ -40,14 +44,14 @@ class NotificationResolverImpl @Inject constructor() : NotificationResolver {
         snackBar.addCallback(object : Snackbar.Callback() {
             override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
                 if (event != DISMISS_EVENT_ACTION) {
-                    data.dismissedListener?.invoke()
+                    data.dismissedListener?.invoke(data.tag)
                 }
             }
         })
 
         if (data.actionText.isNotEmpty()) {
-            data.actionListener?.let {
-                snackBar.setAction(data.actionText) { it() }
+            data.actionListener?.let { listener ->
+                snackBar.setAction(data.actionText) { listener(data.tag) }
             }
         }
 

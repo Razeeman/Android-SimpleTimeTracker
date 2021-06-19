@@ -45,6 +45,7 @@ class RecordsViewModel @Inject constructor(
             is RecordViewData.Tracked -> ChangeRecordParams.Tracked(
                 transitionName = TransitionNames.RECORD + item.id,
                 id = item.id,
+                from = ChangeRecordParams.From.Records,
                 preview = preview
             )
             is RecordViewData.Untracked -> ChangeRecordParams.Untracked(

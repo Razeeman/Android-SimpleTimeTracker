@@ -52,6 +52,7 @@ class RecordsAllViewModel @Inject constructor(
             ChangeRecordParams.Tracked(
                 transitionName = TransitionNames.RECORD + item.id,
                 id = item.id,
+                from = ChangeRecordParams.From.RecordsAll,
                 preview = ChangeRecordParams.Preview(
                     name = item.name,
                     tagName = item.tagName,
