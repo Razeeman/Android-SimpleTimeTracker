@@ -6,6 +6,7 @@ import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.os.SystemClock
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
@@ -22,11 +23,14 @@ import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.view.RecordTypeView
 import com.example.util.simpletimetracker.core.viewData.RecordTypeIcon
+import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
+import com.example.util.simpletimetracker.domain.model.RecordType
+import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.feature_widget.R
 import com.example.util.simpletimetracker.navigation.params.RecordTagSelectionParams
 import dagger.hilt.android.AndroidEntryPoint
@@ -105,11 +109,29 @@ class WidgetProvider : AppWidgetProvider() {
     ) {
         if (context == null || appWidgetManager == null) return
 
-        val view = prepareView(context, appWidgetId)
+        var recordType: RecordType?
+        var runningRecord: RunningRecord?
+        var isDarkTheme: Boolean
+        runBlocking {
+            val recordTypeId = prefsInteractor.getWidget(appWidgetId)
+            recordType = recordTypeInteractor.get(recordTypeId)?.takeUnless { it.hidden }
+            runningRecord = runningRecordInteractor.get(recordTypeId)
+            isDarkTheme = prefsInteractor.getDarkMode()
+        }
+
+        val view = prepareView(context, recordType, runningRecord, isDarkTheme)
         measureView(context, view)
         val bitmap = view.getBitmapFromView()
 
         val views = RemoteViews(context.packageName, R.layout.widget_layout)
+        if (runningRecord != null) {
+            val timeStarted = runningRecord?.timeStarted.orZero()
+            val base = SystemClock.elapsedRealtime() - (System.currentTimeMillis() - timeStarted)
+            views.setChronometer(R.id.timerWidget, base, null, true)
+            views.setViewVisibility(R.id.timerWidget, View.VISIBLE)
+        } else {
+            views.setViewVisibility(R.id.timerWidget, View.GONE)
+        }
         views.setImageViewBitmap(R.id.ivWidgetBackground, bitmap)
         views.setOnClickPendingIntent(R.id.btnWidget, getPendingSelfIntent(context, appWidgetId))
 
@@ -118,13 +140,10 @@ class WidgetProvider : AppWidgetProvider() {
 
     private fun prepareView(
         context: Context,
-        appWidgetId: Int
-    ): View = runBlocking {
-        val recordTypeId = prefsInteractor.getWidget(appWidgetId)
-        val recordType = recordTypeInteractor.get(recordTypeId)?.takeUnless { it.hidden }
-        val runningRecord = runningRecordInteractor.get(recordTypeId)
-        val isDarkTheme = prefsInteractor.getDarkMode()
-
+        recordType: RecordType?,
+        runningRecord: RunningRecord?,
+        isDarkTheme: Boolean,
+    ): View {
         val icon = recordType?.icon
             ?.let(iconMapper::mapIcon)
             ?: RecordTypeIcon.Image(R.drawable.unknown)
@@ -157,7 +176,7 @@ class WidgetProvider : AppWidgetProvider() {
             alpha = viewAlpha
         }.let(container::addView)
 
-        container
+        return container
     }
 
     private fun measureView(context: Context, view: View) {
