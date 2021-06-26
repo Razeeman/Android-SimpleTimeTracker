@@ -51,7 +51,8 @@ import kotlinx.android.synthetic.main.change_record_fragment.tvChangeRecordTimeS
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ChangeRecordFragment : BaseFragment(),
+class ChangeRecordFragment :
+    BaseFragment(),
     DateTimeDialogListener {
 
     override val layout: Int get() = R.layout.change_record_fragment

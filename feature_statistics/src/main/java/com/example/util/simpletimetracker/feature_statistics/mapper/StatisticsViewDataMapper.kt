@@ -43,14 +43,16 @@ class StatisticsViewDataMapper @Inject constructor(
 
         return statisticsFiltered
             .mapNotNull { statistic ->
-                (mapActivity(
-                    statistics = statistic,
-                    sumDuration = sumDuration,
-                    recordType = recordTypesMap[statistic.typeId],
-                    showDuration = showDuration,
-                    isDarkTheme = isDarkTheme,
-                    statisticsSize = statisticsSize
-                ) ?: return@mapNotNull null) to statistic.duration
+                (
+                    mapActivity(
+                        statistics = statistic,
+                        sumDuration = sumDuration,
+                        recordType = recordTypesMap[statistic.typeId],
+                        showDuration = showDuration,
+                        isDarkTheme = isDarkTheme,
+                        statisticsSize = statisticsSize
+                    ) ?: return@mapNotNull null
+                    ) to statistic.duration
             }
             .sortedByDescending { (_, duration) -> duration }
             .map { (statistics, _) -> statistics }
@@ -70,14 +72,16 @@ class StatisticsViewDataMapper @Inject constructor(
 
         return statisticsFiltered
             .mapNotNull { statistic ->
-                (mapCategory(
-                    statistics = statistic,
-                    sumDuration = sumDuration,
-                    category = categoriesMap[statistic.categoryId],
-                    showDuration = showDuration,
-                    isDarkTheme = isDarkTheme,
-                    statisticsSize = statisticsSize
-                ) ?: return@mapNotNull null) to statistic.duration
+                (
+                    mapCategory(
+                        statistics = statistic,
+                        sumDuration = sumDuration,
+                        category = categoriesMap[statistic.categoryId],
+                        showDuration = showDuration,
+                        isDarkTheme = isDarkTheme,
+                        statisticsSize = statisticsSize
+                    ) ?: return@mapNotNull null
+                    ) to statistic.duration
             }
             .sortedByDescending { (_, duration) -> duration }
             .map { (statistics, _) -> statistics }
@@ -95,11 +99,13 @@ class StatisticsViewDataMapper @Inject constructor(
             statistics
                 .filterNot { it.typeId in recordTypesFiltered }
                 .mapNotNull { statistic ->
-                    (mapActivityToChart(
-                        statistics = statistic,
-                        recordType = recordTypesMap[statistic.typeId],
-                        isDarkTheme = isDarkTheme
-                    ) ?: return@mapNotNull null) to statistic.duration
+                    (
+                        mapActivityToChart(
+                            statistics = statistic,
+                            recordType = recordTypesMap[statistic.typeId],
+                            isDarkTheme = isDarkTheme
+                        ) ?: return@mapNotNull null
+                        ) to statistic.duration
                 }
                 .sortedByDescending { (_, duration) -> duration }
                 .map { (statistics, _) -> statistics }
@@ -125,12 +131,14 @@ class StatisticsViewDataMapper @Inject constructor(
                         ?.recordTypeId
                         ?.let { typeId -> types.firstOrNull { it.id == typeId } }
 
-                    (mapCategoryToChart(
-                        statisticsCategory = statistic,
-                        category = categoriesMap[statistic.categoryId],
-                        recordType = type,
-                        isDarkTheme = isDarkTheme
-                    ) ?: return@mapNotNull null) to statistic.duration
+                    (
+                        mapCategoryToChart(
+                            statisticsCategory = statistic,
+                            category = categoriesMap[statistic.categoryId],
+                            recordType = type,
+                            isDarkTheme = isDarkTheme
+                        ) ?: return@mapNotNull null
+                        ) to statistic.duration
                 }
                 .sortedByDescending { (_, duration) -> duration }
                 .map { (statistics, _) -> statistics }

@@ -24,7 +24,8 @@ import javax.inject.Inject
 import com.example.util.simpletimetracker.feature_archive.databinding.ArchiveFragmentBinding as Binding
 
 @AndroidEntryPoint
-class ArchiveFragment : BaseBindingFragment<Binding>(),
+class ArchiveFragment :
+    BaseBindingFragment<Binding>(),
     ArchiveDialogListener,
     StandardDialogListener {
 

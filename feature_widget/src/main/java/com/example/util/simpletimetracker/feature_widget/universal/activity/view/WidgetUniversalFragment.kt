@@ -19,7 +19,8 @@ import kotlinx.android.synthetic.main.widget_universal_fragment.rvWidgetUniversa
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class WidgetUniversalFragment : BaseFragment(),
+class WidgetUniversalFragment :
+    BaseFragment(),
     OnTagSelectedListener {
 
     override val layout: Int get() = R.layout.widget_universal_fragment

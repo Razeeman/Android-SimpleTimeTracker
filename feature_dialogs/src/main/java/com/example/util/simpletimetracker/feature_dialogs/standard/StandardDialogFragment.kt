@@ -11,7 +11,8 @@ import com.example.util.simpletimetracker.core.dialog.StandardDialogListener
 import com.example.util.simpletimetracker.core.extension.getAllFragments
 import com.example.util.simpletimetracker.navigation.params.StandardDialogParams
 
-class StandardDialogFragment : AppCompatDialogFragment(),
+class StandardDialogFragment :
+    AppCompatDialogFragment(),
     DialogInterface.OnClickListener {
 
     private var standardDialogListener: StandardDialogListener? = null

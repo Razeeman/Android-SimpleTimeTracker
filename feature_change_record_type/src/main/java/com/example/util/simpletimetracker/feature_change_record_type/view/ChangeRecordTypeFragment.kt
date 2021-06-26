@@ -70,7 +70,8 @@ import javax.inject.Inject
 import kotlin.math.max
 
 @AndroidEntryPoint
-class ChangeRecordTypeFragment : BaseFragment(),
+class ChangeRecordTypeFragment :
+    BaseFragment(),
     DurationDialogListener,
     EmojiSelectionDialogListener {
 

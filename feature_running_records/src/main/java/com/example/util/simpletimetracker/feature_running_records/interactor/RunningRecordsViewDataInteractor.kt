@@ -28,21 +28,24 @@ class RunningRecordsViewDataInteractor @Inject constructor(
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
 
         val runningRecordsViewData = when {
-            recordTypes.filterNot { it.hidden }.isEmpty() -> listOf(mapper.mapToTypesEmpty())
-            runningRecords.isEmpty() -> listOf(mapper.mapToEmpty())
-            else -> runningRecords
-                .sortedByDescending {
-                    it.timeStarted
-                }
-                .mapNotNull { runningRecord ->
-                    mapper.map(
-                        runningRecord = runningRecord,
-                        recordType = recordTypesMap[runningRecord.id] ?: return@mapNotNull null,
-                        recordTag = recordTagsMap[runningRecord.tagId],
-                        isDarkTheme = isDarkTheme,
-                        useMilitaryTime = useMilitaryTime
-                    )
-                }
+            recordTypes.filterNot { it.hidden }.isEmpty() ->
+                listOf(mapper.mapToTypesEmpty())
+            runningRecords.isEmpty() ->
+                listOf(mapper.mapToEmpty())
+            else ->
+                runningRecords
+                    .sortedByDescending {
+                        it.timeStarted
+                    }
+                    .mapNotNull { runningRecord ->
+                        mapper.map(
+                            runningRecord = runningRecord,
+                            recordType = recordTypesMap[runningRecord.id] ?: return@mapNotNull null,
+                            recordTag = recordTagsMap[runningRecord.tagId],
+                            isDarkTheme = isDarkTheme,
+                            useMilitaryTime = useMilitaryTime
+                        )
+                    }
         }
 
         val recordTypesViewData = recordTypes

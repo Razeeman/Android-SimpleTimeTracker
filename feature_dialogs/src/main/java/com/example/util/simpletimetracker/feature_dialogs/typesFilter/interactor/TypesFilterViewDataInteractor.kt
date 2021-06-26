@@ -40,10 +40,12 @@ class TypesFilterViewDataInteractor @Inject constructor(
 
         val selectedTypes = types.map(RecordType::id).filter { typeId ->
             when (filter.filterType) {
-                ChartFilterType.ACTIVITY -> typeId in filter.selectedIds
-                ChartFilterType.CATEGORY -> typeId in recordTypeCategories
-                    .filter { it.categoryId in filter.selectedIds }
-                    .map { it.recordTypeId }
+                ChartFilterType.ACTIVITY ->
+                    typeId in filter.selectedIds
+                ChartFilterType.CATEGORY ->
+                    typeId in recordTypeCategories
+                        .filter { it.categoryId in filter.selectedIds }
+                        .map { it.recordTypeId }
             }
         }
 

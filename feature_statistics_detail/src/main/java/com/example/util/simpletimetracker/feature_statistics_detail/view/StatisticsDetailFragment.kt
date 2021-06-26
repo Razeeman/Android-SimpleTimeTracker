@@ -53,7 +53,8 @@ import kotlinx.android.synthetic.main.statistics_detail_fragment.viewStatisticsD
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class StatisticsDetailFragment : BaseFragment(),
+class StatisticsDetailFragment :
+    BaseFragment(),
     DateTimeDialogListener,
     TypesFilterDialogListener {
 

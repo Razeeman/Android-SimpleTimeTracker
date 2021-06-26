@@ -33,7 +33,8 @@ class ActionResolverImpl @Inject constructor() : ActionResolver {
                 intent.putExtra(Intent.EXTRA_TITLE, fileName)
 
                 if (activity?.packageManager?.let(intent::resolveActivity) != null) {
-                    activity.startActivityForResult(intent,
+                    activity.startActivityForResult(
+                        intent,
                         RequestCode.REQUEST_CODE_CREATE_FILE
                     )
                 } else {
@@ -46,7 +47,8 @@ class ActionResolverImpl @Inject constructor() : ActionResolver {
                 intent.type = "application/*"
 
                 if (activity?.packageManager?.let(intent::resolveActivity) != null) {
-                    activity.startActivityForResult(intent,
+                    activity.startActivityForResult(
+                        intent,
                         RequestCode.REQUEST_CODE_OPEN_FILE
                     )
                 } else {
@@ -64,7 +66,8 @@ class ActionResolverImpl @Inject constructor() : ActionResolver {
                 intent.putExtra(Intent.EXTRA_TITLE, fileName)
 
                 if (activity?.packageManager?.let(intent::resolveActivity) != null) {
-                    activity.startActivityForResult(intent,
+                    activity.startActivityForResult(
+                        intent,
                         RequestCode.REQUEST_CODE_CREATE_CSV_FILE
                     )
                 } else {

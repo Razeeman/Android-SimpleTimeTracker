@@ -17,7 +17,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class RecordTagSelectionDialogFragment : BaseBottomSheetDialogFragment(),
+class RecordTagSelectionDialogFragment :
+    BaseBottomSheetDialogFragment(),
     OnTagSelectedListener {
 
     @Inject

@@ -28,7 +28,8 @@ import java.util.Calendar
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class DateTimeDialogFragment : AppCompatDialogFragment(),
+class DateTimeDialogFragment :
+    AppCompatDialogFragment(),
     DateDialogFragment.OnDateSetListener,
     TimeDialogFragment.OnTimeSetListener {
 

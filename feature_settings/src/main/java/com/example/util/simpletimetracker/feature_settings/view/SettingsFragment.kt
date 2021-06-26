@@ -45,7 +45,8 @@ import kotlinx.android.synthetic.main.settings_fragment.tvSettingsUseMilitaryTim
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class SettingsFragment : BaseFragment(),
+class SettingsFragment :
+    BaseFragment(),
     StandardDialogListener,
     DurationDialogListener {
 

@@ -19,7 +19,8 @@ import kotlinx.android.synthetic.main.records_container_fragment.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class RecordsContainerFragment : BaseFragment(),
+class RecordsContainerFragment :
+    BaseFragment(),
     DateTimeDialogListener {
 
     override val layout: Int get() = R.layout.records_container_fragment

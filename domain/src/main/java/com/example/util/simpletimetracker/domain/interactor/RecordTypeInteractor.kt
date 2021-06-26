@@ -14,10 +14,11 @@ class RecordTypeInteractor @Inject constructor(
 ) {
 
     suspend fun getAll(cardOrder: CardOrder? = null): List<RecordType> {
-        return (recordTypeCacheRepo.getAll()
-            .takeIf(List<RecordType>::isNotEmpty)
-            ?: recordTypeRepo.getAll().also(recordTypeCacheRepo::addAll))
-            .let { sort(cardOrder, it) }
+        return (
+            recordTypeCacheRepo.getAll()
+                .takeIf(List<RecordType>::isNotEmpty)
+                ?: recordTypeRepo.getAll().also(recordTypeCacheRepo::addAll)
+            ).let { sort(cardOrder, it) }
     }
 
     suspend fun get(id: Long): RecordType? {
@@ -74,7 +75,7 @@ class RecordTypeInteractor @Inject constructor(
     }
 
     private fun sortByName(records: List<RecordType>): List<RecordType> {
-        return records.sortedBy { it.name.toLowerCase(Locale.getDefault()) }
+        return records.sortedBy { it.name.lowercase(Locale.getDefault()) }
     }
 
     private fun sortByColor(records: List<RecordType>): List<RecordType> {
