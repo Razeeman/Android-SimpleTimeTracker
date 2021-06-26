@@ -131,7 +131,7 @@ Simple app that helps track how much time you spend on all the useless activitie
 - MVVM
 - Jetpack ViewModel + LiveData
 - Jetpack Navigation
-- Dagger
+- Hilt
 - Room
 - Room migrations
 - Coroutines
@@ -145,6 +145,7 @@ Simple app that helps track how much time you spend on all the useless activitie
 - Shared ViewModels
 - Snackbars with Action
 - Gradle Kotlin DSL
+- View Binding
 - Database backup and restore
 - Database export to csv
 - Dark mode
