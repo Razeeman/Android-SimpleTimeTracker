@@ -1,5 +1,7 @@
 package com.example.util.simpletimetracker.feature_archive.view
 
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.category.createCategoryAdapterDelegate
@@ -7,11 +9,10 @@ import com.example.util.simpletimetracker.core.adapter.divider.createDividerAdap
 import com.example.util.simpletimetracker.core.adapter.hint.createHintAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.recordType.createRecordTypeAdapterDelegate
-import com.example.util.simpletimetracker.core.base.BaseFragment
+import com.example.util.simpletimetracker.core.base.BaseBindingFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.ArchiveDialogListener
 import com.example.util.simpletimetracker.core.dialog.StandardDialogListener
-import com.example.util.simpletimetracker.feature_archive.R
 import com.example.util.simpletimetracker.feature_archive.viewModel.ArchiveViewModel
 import com.example.util.simpletimetracker.navigation.params.ArchiveDialogParams
 import com.google.android.flexbox.FlexDirection
@@ -19,15 +20,16 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.archive_fragment.rvArchiveList
 import javax.inject.Inject
+import com.example.util.simpletimetracker.feature_archive.databinding.ArchiveFragmentBinding as Binding
 
 @AndroidEntryPoint
-class ArchiveFragment : BaseFragment(),
+class ArchiveFragment : BaseBindingFragment<Binding>(),
     ArchiveDialogListener,
     StandardDialogListener {
 
-    override val layout: Int get() = R.layout.archive_fragment
+    override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
+        Binding::inflate
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<ArchiveViewModel>
@@ -46,7 +48,7 @@ class ArchiveFragment : BaseFragment(),
         )
     }
 
-    override fun initUi() {
+    override fun initUi(): Unit = with(binding) {
         rvArchiveList.apply {
             layoutManager = FlexboxLayoutManager(requireContext()).apply {
                 flexDirection = FlexDirection.ROW
