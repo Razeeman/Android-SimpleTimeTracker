@@ -1,18 +1,17 @@
 package com.example.util.simpletimetracker.feature_statistics_detail.adapter
 
-import com.example.util.simpletimetracker.core.adapter.createRecyclerAdapterDelegate
+import com.example.util.simpletimetracker.core.adapter.createRecyclerBindingAdapterDelegate
 import com.example.util.simpletimetracker.core.extension.visible
-import com.example.util.simpletimetracker.feature_statistics_detail.R
-import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewViewData
-import kotlinx.android.synthetic.main.statistics_detail_preview_item.view.*
+import com.example.util.simpletimetracker.feature_statistics_detail.databinding.StatisticsDetailPreviewItemBinding as Binding
+import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewViewData as ViewData
 
 fun createStatisticsPreviewAdapterDelegate() =
-    createRecyclerAdapterDelegate<StatisticsDetailPreviewViewData>(
-        R.layout.statistics_detail_preview_item
-    ) { itemView, item, _ ->
+    createRecyclerBindingAdapterDelegate<ViewData, Binding>(
+        Binding::inflate
+    ) { binding, item, _ ->
 
-        with(itemView) {
-            item as StatisticsDetailPreviewViewData
+        with(binding) {
+            item as ViewData
 
             layoutStatisticsDetailPreviewItem.setCardBackgroundColor(item.color)
             tvStatisticsDetailPreviewItemName.visible = item.name.isNotEmpty()

@@ -1,11 +1,13 @@
 package com.example.util.simpletimetracker.feature_main
 
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import androidx.fragment.app.viewModels
-import com.example.util.simpletimetracker.core.base.BaseFragment
+import com.example.util.simpletimetracker.core.base.BaseBindingFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.extension.visible
 import com.example.util.simpletimetracker.core.interactor.NotificationTypeInteractor
@@ -14,17 +16,16 @@ import com.example.util.simpletimetracker.core.viewModel.BackupViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.main_fragment.mainPager
-import kotlinx.android.synthetic.main.main_fragment.mainProgress
-import kotlinx.android.synthetic.main.main_fragment.mainTabs
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import com.example.util.simpletimetracker.feature_main.databinding.MainFragmentBinding as Binding
 
 @AndroidEntryPoint
-class MainFragment : BaseFragment() {
+class MainFragment : BaseBindingFragment<Binding>() {
 
-    override val layout: Int get() = R.layout.main_fragment
+    override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
+        Binding::inflate
 
     @Inject
     lateinit var backupViewModelFactory: BaseViewModelFactory<BackupViewModel>
@@ -79,12 +80,12 @@ class MainFragment : BaseFragment() {
         setupPager()
     }
 
-    override fun initViewModel() {
+    override fun initViewModel() = with(binding) {
         backupViewModel.progressVisibility.observe(mainProgress::visible::set)
     }
 
-    private fun setupPager() {
-        mainPager.adapter = MainContentAdapter(this)
+    private fun setupPager() = with(binding) {
+        mainPager.adapter = MainContentAdapter(this@MainFragment)
         mainPager.offscreenPageLimit = 3
 
         TabLayoutMediator(mainTabs, mainPager) { tab, position ->

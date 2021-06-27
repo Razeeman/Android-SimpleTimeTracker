@@ -1,14 +1,15 @@
 package com.example.util.simpletimetracker.feature_running_records.view
 
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.divider.createDividerAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.loader.createLoaderAdapterDelegate
-import com.example.util.simpletimetracker.core.base.BaseFragment
+import com.example.util.simpletimetracker.core.base.BaseBindingFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.OnTagSelectedListener
-import com.example.util.simpletimetracker.feature_running_records.R
 import com.example.util.simpletimetracker.feature_running_records.adapter.createRunningRecordAdapterDelegate
 import com.example.util.simpletimetracker.feature_running_records.adapter.createRunningRecordTypeAdapterDelegate
 import com.example.util.simpletimetracker.feature_running_records.adapter.createRunningRecordTypeAddAdapterDelegate
@@ -18,14 +19,16 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.running_records_fragment.rvRunningRecordsList
 import javax.inject.Inject
+import com.example.util.simpletimetracker.feature_running_records.databinding.RunningRecordsFragmentBinding as Binding
 
 @AndroidEntryPoint
-class RunningRecordsFragment : BaseFragment(),
+class RunningRecordsFragment :
+    BaseBindingFragment<Binding>(),
     OnTagSelectedListener {
 
-    override val layout: Int get() = R.layout.running_records_fragment
+    override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
+        Binding::inflate
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<RunningRecordsViewModel>
@@ -45,7 +48,7 @@ class RunningRecordsFragment : BaseFragment(),
         )
     }
 
-    override fun initUi() {
+    override fun initUi(): Unit = with(binding) {
         parentFragment?.postponeEnterTransition()
 
         rvRunningRecordsList.apply {

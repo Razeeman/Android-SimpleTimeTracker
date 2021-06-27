@@ -1,8 +1,10 @@
 package com.example.util.simpletimetracker.feature_statistics.view
 
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
-import com.example.util.simpletimetracker.core.base.BaseFragment
+import com.example.util.simpletimetracker.core.base.BaseBindingFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
 import com.example.util.simpletimetracker.core.extension.setOnClick
@@ -10,19 +12,20 @@ import com.example.util.simpletimetracker.core.extension.setOnLongClick
 import com.example.util.simpletimetracker.core.extension.visible
 import com.example.util.simpletimetracker.core.viewData.RangesViewData
 import com.example.util.simpletimetracker.domain.model.RangeLength
-import com.example.util.simpletimetracker.feature_statistics.R
 import com.example.util.simpletimetracker.feature_statistics.adapter.StatisticsContainerAdapter
 import com.example.util.simpletimetracker.feature_statistics.viewModel.StatisticsContainerViewModel
 import com.example.util.simpletimetracker.feature_statistics.viewModel.StatisticsSettingsViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.statistics_container_fragment.*
 import javax.inject.Inject
+import com.example.util.simpletimetracker.feature_statistics.databinding.StatisticsContainerFragmentBinding as Binding
 
 @AndroidEntryPoint
-class StatisticsContainerFragment : BaseFragment(),
+class StatisticsContainerFragment :
+    BaseBindingFragment<Binding>(),
     DateTimeDialogListener {
 
-    override val layout: Int get() = R.layout.statistics_container_fragment
+    override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
+        Binding::inflate
 
     @Inject
     lateinit var settingsViewModelFactory: BaseViewModelFactory<StatisticsSettingsViewModel>
@@ -38,7 +41,7 @@ class StatisticsContainerFragment : BaseFragment(),
         factoryProducer = { viewModelFactory }
     )
 
-    override fun initUi() {
+    override fun initUi(): Unit = with(binding) {
         pagerStatisticsContainer.apply {
             adapter = StatisticsContainerAdapter(this@StatisticsContainerFragment)
             offscreenPageLimit = 1
@@ -46,7 +49,7 @@ class StatisticsContainerFragment : BaseFragment(),
         }
     }
 
-    override fun initUx() {
+    override fun initUx() = with(binding) {
         spinnerStatisticsContainer.onItemSelected = {
             viewModel.onRangeClick(it)
             settingsViewModel.onRangeClick(it)
@@ -77,7 +80,7 @@ class StatisticsContainerFragment : BaseFragment(),
         viewModel.onVisible()
     }
 
-    private fun updateNavButtons(rangeLength: RangeLength) {
+    private fun updateNavButtons(rangeLength: RangeLength) = with(binding) {
         if (rangeLength == RangeLength.ALL) {
             btnStatisticsContainerPrevious.visible = false
             btnStatisticsContainerNext.visible = false
@@ -87,15 +90,15 @@ class StatisticsContainerFragment : BaseFragment(),
         }
     }
 
-    private fun updateRangeItems(viewData: RangesViewData) {
+    private fun updateRangeItems(viewData: RangesViewData) = with(binding) {
         spinnerStatisticsContainer.setData(viewData.items, viewData.selectedPosition)
     }
 
-    private fun updateTitle(title: String) {
+    private fun updateTitle(title: String) = with(binding) {
         btnStatisticsContainerToday.text = title
     }
 
-    private fun updatePosition(position: Int) {
+    private fun updatePosition(position: Int) = with(binding) {
         pagerStatisticsContainer.setCurrentItem(
             position + StatisticsContainerAdapter.FIRST,
             viewPagerSmoothScroll

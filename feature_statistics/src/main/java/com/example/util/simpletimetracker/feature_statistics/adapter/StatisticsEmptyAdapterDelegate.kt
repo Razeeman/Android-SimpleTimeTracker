@@ -1,20 +1,18 @@
 package com.example.util.simpletimetracker.feature_statistics.adapter
 
-import com.example.util.simpletimetracker.core.adapter.createRecyclerAdapterDelegate
-import com.example.util.simpletimetracker.core.adapter.empty.EmptyViewData
+import com.example.util.simpletimetracker.core.adapter.createRecyclerBindingAdapterDelegate
 import com.example.util.simpletimetracker.core.extension.setOnClick
-import com.example.util.simpletimetracker.feature_statistics.R
-import kotlinx.android.synthetic.main.item_statistics_empty_layout.view.btnStatisticsEmptyFilter
-import kotlinx.android.synthetic.main.item_statistics_empty_layout.view.tvEmptyItem
+import com.example.util.simpletimetracker.core.adapter.empty.EmptyViewData as ViewData
+import com.example.util.simpletimetracker.feature_statistics.databinding.ItemStatisticsEmptyLayoutBinding as Binding
 
 fun createStatisticsEmptyAdapterDelegate(
     onFilterClick: (() -> Unit)
-) = createRecyclerAdapterDelegate<EmptyViewData>(
-    R.layout.item_statistics_empty_layout
-) { itemView, item, _ ->
+) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
+    Binding::inflate
+) { binding, item, _ ->
 
-    with(itemView) {
-        item as EmptyViewData
+    with(binding) {
+        item as ViewData
 
         tvEmptyItem.text = item.message
         btnStatisticsEmptyFilter.setOnClick(onFilterClick)

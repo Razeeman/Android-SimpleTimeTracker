@@ -2,17 +2,18 @@ package com.example.util.simpletimetracker.feature_tag_selection.view
 
 import android.content.Context
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.category.createCategoryAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.hint.createHintAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.loader.createLoaderAdapterDelegate
-import com.example.util.simpletimetracker.core.base.BaseFragment
+import com.example.util.simpletimetracker.core.base.BaseBindingFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.OnTagSelectedListener
 import com.example.util.simpletimetracker.core.extension.getAllFragments
-import com.example.util.simpletimetracker.feature_tag_selection.R
 import com.example.util.simpletimetracker.feature_tag_selection.viewModel.RecordTagSelectionViewModel
 import com.example.util.simpletimetracker.navigation.params.RecordTagSelectionParams
 import com.google.android.flexbox.FlexDirection
@@ -20,13 +21,14 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.record_tag_selection_fragment.*
 import javax.inject.Inject
+import com.example.util.simpletimetracker.feature_tag_selection.databinding.RecordTagSelectionFragmentBinding as Binding
 
 @AndroidEntryPoint
-class RecordTagSelectionFragment : BaseFragment() {
+class RecordTagSelectionFragment : BaseBindingFragment<Binding>() {
 
-    override val layout: Int get() = R.layout.record_tag_selection_fragment
+    override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
+        Binding::inflate
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<RecordTagSelectionViewModel>
@@ -62,7 +64,7 @@ class RecordTagSelectionFragment : BaseFragment() {
         }
     }
 
-    override fun initUi() {
+    override fun initUi(): Unit = with(binding) {
         rvRecordTagSelectionList.apply {
             layoutManager = FlexboxLayoutManager(requireContext()).apply {
                 flexDirection = FlexDirection.ROW

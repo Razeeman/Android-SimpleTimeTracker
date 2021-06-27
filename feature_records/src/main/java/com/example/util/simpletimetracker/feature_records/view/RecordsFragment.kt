@@ -1,6 +1,8 @@
 package com.example.util.simpletimetracker.feature_records.view
 
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -9,22 +11,22 @@ import com.example.util.simpletimetracker.core.adapter.empty.createEmptyAdapterD
 import com.example.util.simpletimetracker.core.adapter.hint.createHintAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.record.createRecordAdapterDelegate
-import com.example.util.simpletimetracker.core.base.BaseFragment
+import com.example.util.simpletimetracker.core.base.BaseBindingFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.viewModel.RemoveRecordViewModel
 import com.example.util.simpletimetracker.domain.extension.orZero
-import com.example.util.simpletimetracker.feature_records.R
 import com.example.util.simpletimetracker.feature_records.extra.RecordsExtra
 import com.example.util.simpletimetracker.feature_records.viewModel.RecordsViewModel
 import com.example.util.simpletimetracker.navigation.params.RecordsParams
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.records_fragment.rvRecordsList
 import javax.inject.Inject
+import com.example.util.simpletimetracker.feature_records.databinding.RecordsFragmentBinding as Binding
 
 @AndroidEntryPoint
-class RecordsFragment : BaseFragment() {
+class RecordsFragment : BaseBindingFragment<Binding>() {
 
-    override val layout: Int get() = R.layout.records_fragment
+    override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
+        Binding::inflate
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<RecordsViewModel>
@@ -49,7 +51,7 @@ class RecordsFragment : BaseFragment() {
         )
     }
 
-    override fun initUi() {
+    override fun initUi(): Unit = with(binding) {
         parentFragment?.postponeEnterTransition()
 
         rvRecordsList.apply {

@@ -3,25 +3,21 @@ package com.example.util.simpletimetracker.feature_statistics_detail.adapter
 import android.content.res.ColorStateList
 import android.util.TypedValue
 import androidx.core.view.ViewCompat
-import com.example.util.simpletimetracker.core.adapter.createRecyclerAdapterDelegate
+import com.example.util.simpletimetracker.core.adapter.createRecyclerBindingAdapterDelegate
 import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.core.extension.visible
-import com.example.util.simpletimetracker.feature_statistics_detail.R
-import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailCardViewData
-import kotlinx.android.synthetic.main.statistics_detail_card_item.view.cardStatisticsDetailCardIcon
-import kotlinx.android.synthetic.main.statistics_detail_card_item.view.ivStatisticsDetailCardIcon
-import kotlinx.android.synthetic.main.statistics_detail_card_item.view.tvStatisticsDetailCardDescription
-import kotlinx.android.synthetic.main.statistics_detail_card_item.view.tvStatisticsDetailCardValue
+import com.example.util.simpletimetracker.feature_statistics_detail.databinding.StatisticsDetailCardItemBinding as Binding
+import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailCardViewData as ViewData
 
 fun createStatisticsDetailCardAdapterDelegate(
     titleTextSize: Int,
     onItemClick: () -> Unit
-) = createRecyclerAdapterDelegate<StatisticsDetailCardViewData>(
-    R.layout.statistics_detail_card_item
-) { itemView, item, _ ->
+) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
+    Binding::inflate
+) { binding, item, _ ->
 
-    with(itemView) {
-        item as StatisticsDetailCardViewData
+    with(binding) {
+        item as ViewData
 
         tvStatisticsDetailCardValue.text = item.title
         tvStatisticsDetailCardValue.setTextSize(TypedValue.COMPLEX_UNIT_PX, titleTextSize.toFloat())
@@ -34,10 +30,10 @@ fun createStatisticsDetailCardAdapterDelegate(
                 ivStatisticsDetailCardIcon,
                 ColorStateList.valueOf(item.icon.iconColor)
             )
-            setOnClick(onItemClick)
+            root.setOnClick(onItemClick)
         } else {
             cardStatisticsDetailCardIcon.visible = false
-            isClickable = false
+            root.isClickable = false
         }
     }
 }

@@ -2,7 +2,7 @@ package com.example.util.simpletimetracker.feature_statistics_detail.customView
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.View
+import android.view.LayoutInflater
 import android.widget.FrameLayout
 import androidx.core.content.res.ResourcesCompat
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
@@ -17,7 +17,7 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxItemDecoration
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
-import kotlinx.android.synthetic.main.statistics_detail_card_view.view.rvStatisticsDetailCard
+import com.example.util.simpletimetracker.feature_statistics_detail.databinding.StatisticsDetailCardViewBinding as Binding
 
 class StatisticsDetailCardView @JvmOverloads constructor(
     context: Context,
@@ -36,6 +36,9 @@ class StatisticsDetailCardView @JvmOverloads constructor(
             field = value
         }
 
+    private val binding: Binding = Binding
+        .inflate(LayoutInflater.from(context), this, true)
+
     private var itemsCount: Int
     private var titleTextSize: Int = 16.spToPx()
     private val typesAdapter: BaseRecyclerAdapter by lazy {
@@ -45,8 +48,6 @@ class StatisticsDetailCardView @JvmOverloads constructor(
     }
 
     init {
-        View.inflate(context, R.layout.statistics_detail_card_view, this)
-
         updatePadding(bottom = 2.dpToPx())
         clipToPadding = false
 
@@ -74,7 +75,7 @@ class StatisticsDetailCardView @JvmOverloads constructor(
             recycle()
         }
 
-        rvStatisticsDetailCard.apply {
+        binding.rvStatisticsDetailCard.apply {
             layoutManager = FlexboxLayoutManager(context).apply {
                 flexDirection = FlexDirection.ROW
                 justifyContent = JustifyContent.CENTER

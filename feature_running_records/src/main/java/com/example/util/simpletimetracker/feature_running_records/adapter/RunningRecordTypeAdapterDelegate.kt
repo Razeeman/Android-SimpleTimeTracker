@@ -1,24 +1,23 @@
 package com.example.util.simpletimetracker.feature_running_records.adapter
 
 import androidx.core.view.ViewCompat
-import com.example.util.simpletimetracker.core.adapter.createRecyclerAdapterDelegate
+import com.example.util.simpletimetracker.core.adapter.createRecyclerBindingAdapterDelegate
 import com.example.util.simpletimetracker.core.extension.dpToPx
 import com.example.util.simpletimetracker.core.extension.setOnClickWith
 import com.example.util.simpletimetracker.core.extension.setOnLongClick
 import com.example.util.simpletimetracker.core.view.TransitionNames
-import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
-import com.example.util.simpletimetracker.feature_running_records.R
-import kotlinx.android.synthetic.main.item_running_record_type_layout.view.viewRecordTypeItem
+import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData as ViewData
+import com.example.util.simpletimetracker.feature_running_records.databinding.ItemRunningRecordTypeLayoutBinding as Binding
 
 fun createRunningRecordTypeAdapterDelegate(
-    onItemClick: ((RecordTypeViewData) -> Unit),
-    onItemLongClick: ((RecordTypeViewData, Map<Any, String>) -> Unit)
-) = createRecyclerAdapterDelegate<RecordTypeViewData>(
-    R.layout.item_running_record_type_layout
-) { itemView, item, _ ->
+    onItemClick: ((ViewData) -> Unit),
+    onItemLongClick: ((ViewData, Map<Any, String>) -> Unit)
+) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
+    Binding::inflate
+) { binding, item, _ ->
 
-    with(itemView.viewRecordTypeItem) {
-        item as RecordTypeViewData
+    with(binding.viewRecordTypeItem) {
+        item as ViewData
         val transitionName = TransitionNames.RECORD_TYPE + item.id
 
         layoutParams = layoutParams.also { params ->

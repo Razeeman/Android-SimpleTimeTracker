@@ -1,20 +1,18 @@
 package com.example.util.simpletimetracker.feature_statistics.adapter
 
-import com.example.util.simpletimetracker.core.adapter.createRecyclerAdapterDelegate
+import com.example.util.simpletimetracker.core.adapter.createRecyclerBindingAdapterDelegate
 import com.example.util.simpletimetracker.core.extension.setOnClick
-import com.example.util.simpletimetracker.feature_statistics.R
-import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsChartViewData
-import kotlinx.android.synthetic.main.item_statistics_chart_layout.view.btnStatisticsChartFilter
-import kotlinx.android.synthetic.main.item_statistics_chart_layout.view.chartStatisticsItem
+import com.example.util.simpletimetracker.feature_statistics.databinding.ItemStatisticsChartLayoutBinding as Binding
+import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsChartViewData as ViewData
 
 fun createStatisticsChartAdapterDelegate(
     onFilterClick: (() -> Unit)
-) = createRecyclerAdapterDelegate<StatisticsChartViewData>(
-    R.layout.item_statistics_chart_layout
-) { itemView, item, _ ->
+) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
+    Binding::inflate
+) { binding, item, _ ->
 
-    with(itemView) {
-        item as StatisticsChartViewData
+    with(binding) {
+        item as ViewData
 
         chartStatisticsItem.setSegments(item.data)
         btnStatisticsChartFilter.setOnClick(onFilterClick)

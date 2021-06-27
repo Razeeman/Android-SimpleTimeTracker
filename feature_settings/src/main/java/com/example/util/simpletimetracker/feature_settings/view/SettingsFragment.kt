@@ -3,16 +3,17 @@ package com.example.util.simpletimetracker.feature_settings.view
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
-import com.example.util.simpletimetracker.core.base.BaseFragment
+import com.example.util.simpletimetracker.core.base.BaseBindingFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.DurationDialogListener
 import com.example.util.simpletimetracker.core.dialog.StandardDialogListener
 import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.core.extension.visible
 import com.example.util.simpletimetracker.core.viewModel.BackupViewModel
-import com.example.util.simpletimetracker.feature_settings.R
 import com.example.util.simpletimetracker.feature_settings.viewData.CardOrderViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.FirstDayOfWeekViewData
 import com.example.util.simpletimetracker.feature_settings.viewModel.SettingsViewModel
@@ -20,37 +21,17 @@ import com.example.util.simpletimetracker.navigation.RequestCode.REQUEST_CODE_CR
 import com.example.util.simpletimetracker.navigation.RequestCode.REQUEST_CODE_CREATE_FILE
 import com.example.util.simpletimetracker.navigation.RequestCode.REQUEST_CODE_OPEN_FILE
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.settings_fragment.btnCardOrderManual
-import kotlinx.android.synthetic.main.settings_fragment.checkboxSettingsAllowMultitasking
-import kotlinx.android.synthetic.main.settings_fragment.checkboxSettingsDarkMode
-import kotlinx.android.synthetic.main.settings_fragment.checkboxSettingsShowNotifications
-import kotlinx.android.synthetic.main.settings_fragment.checkboxSettingsShowRecordTagSelection
-import kotlinx.android.synthetic.main.settings_fragment.checkboxSettingsShowUntracked
-import kotlinx.android.synthetic.main.settings_fragment.checkboxSettingsUseMilitaryTime
-import kotlinx.android.synthetic.main.settings_fragment.groupSettingsInactivityReminder
-import kotlinx.android.synthetic.main.settings_fragment.layoutSettingsEditCategories
-import kotlinx.android.synthetic.main.settings_fragment.layoutSettingsExportCsv
-import kotlinx.android.synthetic.main.settings_fragment.layoutSettingsFeedback
-import kotlinx.android.synthetic.main.settings_fragment.layoutSettingsRate
-import kotlinx.android.synthetic.main.settings_fragment.layoutSettingsRestoreBackup
-import kotlinx.android.synthetic.main.settings_fragment.layoutSettingsSaveBackup
-import kotlinx.android.synthetic.main.settings_fragment.spinnerSettingsFirstDayOfWeek
-import kotlinx.android.synthetic.main.settings_fragment.spinnerSettingsRecordTypeSort
-import kotlinx.android.synthetic.main.settings_fragment.tvSettingsArchive
-import kotlinx.android.synthetic.main.settings_fragment.tvSettingsChangeCardSize
-import kotlinx.android.synthetic.main.settings_fragment.tvSettingsFirstDayOfWeekValue
-import kotlinx.android.synthetic.main.settings_fragment.tvSettingsInactivityReminderTime
-import kotlinx.android.synthetic.main.settings_fragment.tvSettingsRecordTypeSortValue
-import kotlinx.android.synthetic.main.settings_fragment.tvSettingsUseMilitaryTimeHint
 import javax.inject.Inject
+import com.example.util.simpletimetracker.feature_settings.databinding.SettingsFragmentBinding as Binding
 
 @AndroidEntryPoint
 class SettingsFragment :
-    BaseFragment(),
+    BaseBindingFragment<Binding>(),
     StandardDialogListener,
     DurationDialogListener {
 
-    override val layout: Int get() = R.layout.settings_fragment
+    override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
+        Binding::inflate
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<SettingsViewModel>
@@ -67,7 +48,7 @@ class SettingsFragment :
         factoryProducer = { backupViewModelFactory }
     )
 
-    override fun initUx() {
+    override fun initUx() = with(binding) {
         spinnerSettingsRecordTypeSort.onPositionSelected = viewModel::onRecordTypeOrderSelected
         btnCardOrderManual.setOnClick(viewModel::onCardOrderManualClick)
         spinnerSettingsFirstDayOfWeek.onPositionSelected = viewModel::onFirstDayOfWeekSelected
@@ -88,31 +69,35 @@ class SettingsFragment :
         layoutSettingsFeedback.setOnClick(viewModel::onFeedbackClick)
     }
 
-    override fun initViewModel(): Unit = with(viewModel) {
-        cardOrderViewData.observe(::updateCardOrderViewData)
-        firstDayOfWeekViewData.observe(::updateFirstDayOfWeekViewData)
-        btnCardOrderManualVisibility.observe(btnCardOrderManual::visible::set)
-        showUntrackedCheckbox.observe(checkboxSettingsShowUntracked::setChecked)
-        allowMultitaskingCheckbox.observe(checkboxSettingsAllowMultitasking::setChecked)
-        showNotificationsCheckbox.observe(checkboxSettingsShowNotifications::setChecked)
-        inactivityReminderViewData.observe(tvSettingsInactivityReminderTime::setText)
-        darkModeCheckbox.observe(checkboxSettingsDarkMode::setChecked)
-        useMilitaryTimeCheckbox.observe(checkboxSettingsUseMilitaryTime::setChecked)
-        showRecordTagSelectionCheckbox.observe(checkboxSettingsShowRecordTagSelection::setChecked)
-        useMilitaryTimeHint.observe(tvSettingsUseMilitaryTimeHint::setText)
-        themeChanged.observe(::changeTheme)
+    override fun initViewModel(): Unit = with(binding) {
+        with(viewModel) {
+            cardOrderViewData.observe(::updateCardOrderViewData)
+            firstDayOfWeekViewData.observe(::updateFirstDayOfWeekViewData)
+            btnCardOrderManualVisibility.observe(btnCardOrderManual::visible::set)
+            showUntrackedCheckbox.observe(checkboxSettingsShowUntracked::setChecked)
+            allowMultitaskingCheckbox.observe(checkboxSettingsAllowMultitasking::setChecked)
+            showNotificationsCheckbox.observe(checkboxSettingsShowNotifications::setChecked)
+            inactivityReminderViewData.observe(tvSettingsInactivityReminderTime::setText)
+            darkModeCheckbox.observe(checkboxSettingsDarkMode::setChecked)
+            useMilitaryTimeCheckbox.observe(checkboxSettingsUseMilitaryTime::setChecked)
+            showRecordTagSelectionCheckbox.observe(checkboxSettingsShowRecordTagSelection::setChecked)
+            useMilitaryTimeHint.observe(tvSettingsUseMilitaryTimeHint::setText)
+            themeChanged.observe(::changeTheme)
+        }
     }
 
     override fun onResume() {
         super.onResume()
-        spinnerSettingsRecordTypeSort.jumpDrawablesToCurrentState()
-        spinnerSettingsFirstDayOfWeek.jumpDrawablesToCurrentState()
-        checkboxSettingsShowUntracked.jumpDrawablesToCurrentState()
-        checkboxSettingsAllowMultitasking.jumpDrawablesToCurrentState()
-        checkboxSettingsShowNotifications.jumpDrawablesToCurrentState()
-        checkboxSettingsDarkMode.jumpDrawablesToCurrentState()
-        checkboxSettingsUseMilitaryTime.jumpDrawablesToCurrentState()
-        checkboxSettingsShowRecordTagSelection.jumpDrawablesToCurrentState()
+        with(binding) {
+            spinnerSettingsRecordTypeSort.jumpDrawablesToCurrentState()
+            spinnerSettingsFirstDayOfWeek.jumpDrawablesToCurrentState()
+            checkboxSettingsShowUntracked.jumpDrawablesToCurrentState()
+            checkboxSettingsAllowMultitasking.jumpDrawablesToCurrentState()
+            checkboxSettingsShowNotifications.jumpDrawablesToCurrentState()
+            checkboxSettingsDarkMode.jumpDrawablesToCurrentState()
+            checkboxSettingsUseMilitaryTime.jumpDrawablesToCurrentState()
+            checkboxSettingsShowRecordTagSelection.jumpDrawablesToCurrentState()
+        }
         viewModel.onVisible()
     }
 
@@ -152,15 +137,17 @@ class SettingsFragment :
         viewModel.onDurationDisabled(tag)
     }
 
-    private fun updateCardOrderViewData(viewData: CardOrderViewData) {
+    private fun updateCardOrderViewData(viewData: CardOrderViewData) = with(binding) {
         btnCardOrderManual.visible = viewData.isManualConfigButtonVisible
         spinnerSettingsRecordTypeSort.setData(viewData.items, viewData.selectedPosition)
-        tvSettingsRecordTypeSortValue.text = viewData.items.getOrNull(viewData.selectedPosition)?.text.orEmpty()
+        tvSettingsRecordTypeSortValue.text = viewData.items
+            .getOrNull(viewData.selectedPosition)?.text.orEmpty()
     }
 
-    private fun updateFirstDayOfWeekViewData(viewData: FirstDayOfWeekViewData) {
+    private fun updateFirstDayOfWeekViewData(viewData: FirstDayOfWeekViewData) = with(binding) {
         spinnerSettingsFirstDayOfWeek.setData(viewData.items, viewData.selectedPosition)
-        tvSettingsFirstDayOfWeekValue.text = viewData.items.getOrNull(viewData.selectedPosition)?.text.orEmpty()
+        tvSettingsFirstDayOfWeekValue.text = viewData.items
+            .getOrNull(viewData.selectedPosition)?.text.orEmpty()
     }
 
     private fun changeTheme(themeChanged: Boolean) {

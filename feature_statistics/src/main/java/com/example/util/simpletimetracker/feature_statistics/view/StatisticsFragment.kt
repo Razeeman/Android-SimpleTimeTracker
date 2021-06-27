@@ -1,6 +1,8 @@
 package com.example.util.simpletimetracker.feature_statistics.view
 
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -8,11 +10,10 @@ import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.hint.createHintAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.statistics.createStatisticsAdapterDelegate
-import com.example.util.simpletimetracker.core.base.BaseFragment
+import com.example.util.simpletimetracker.core.base.BaseBindingFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.ChartFilterDialogListener
 import com.example.util.simpletimetracker.domain.extension.orZero
-import com.example.util.simpletimetracker.feature_statistics.R
 import com.example.util.simpletimetracker.feature_statistics.adapter.createStatisticsChartAdapterDelegate
 import com.example.util.simpletimetracker.feature_statistics.adapter.createStatisticsEmptyAdapterDelegate
 import com.example.util.simpletimetracker.feature_statistics.adapter.createStatisticsInfoAdapterDelegate
@@ -21,14 +22,16 @@ import com.example.util.simpletimetracker.feature_statistics.viewModel.Statistic
 import com.example.util.simpletimetracker.feature_statistics.viewModel.StatisticsViewModel
 import com.example.util.simpletimetracker.navigation.params.StatisticsParams
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.statistics_fragment.rvStatisticsList
 import javax.inject.Inject
+import com.example.util.simpletimetracker.feature_statistics.databinding.StatisticsFragmentBinding as Binding
 
 @AndroidEntryPoint
-class StatisticsFragment : BaseFragment(),
+class StatisticsFragment :
+    BaseBindingFragment<Binding>(),
     ChartFilterDialogListener {
 
-    override val layout: Int get() = R.layout.statistics_fragment
+    override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
+        Binding::inflate
 
     @Inject
     lateinit var settingsViewModelFactory: BaseViewModelFactory<StatisticsSettingsViewModel>
@@ -58,7 +61,7 @@ class StatisticsFragment : BaseFragment(),
         )
     }
 
-    override fun initUi() {
+    override fun initUi(): Unit = with(binding) {
         parentFragment?.postponeEnterTransition()
 
         rvStatisticsList.apply {

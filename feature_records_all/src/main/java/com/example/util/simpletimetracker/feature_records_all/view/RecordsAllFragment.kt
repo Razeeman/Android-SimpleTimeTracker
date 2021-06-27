@@ -1,6 +1,8 @@
 package com.example.util.simpletimetracker.feature_records_all.view
 
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -8,10 +10,9 @@ import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.record.createRecordAdapterDelegate
-import com.example.util.simpletimetracker.core.base.BaseFragment
+import com.example.util.simpletimetracker.core.base.BaseBindingFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.viewModel.RemoveRecordViewModel
-import com.example.util.simpletimetracker.feature_records_all.R
 import com.example.util.simpletimetracker.feature_records_all.adapter.createRecordAllDateAdapterDelegate
 import com.example.util.simpletimetracker.feature_records_all.viewData.RecordsAllSortOrderViewData
 import com.example.util.simpletimetracker.feature_records_all.viewModel.RecordsAllViewModel
@@ -20,13 +21,14 @@ import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.RecordsAllParams
 import com.example.util.simpletimetracker.navigation.params.SnackBarParams
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.records_all_fragment.*
 import javax.inject.Inject
+import com.example.util.simpletimetracker.feature_records_all.databinding.RecordsAllFragmentBinding as Binding
 
 @AndroidEntryPoint
-class RecordsAllFragment : BaseFragment() {
+class RecordsAllFragment : BaseBindingFragment<Binding>() {
 
-    override val layout: Int get() = R.layout.records_all_fragment
+    override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
+        Binding::inflate
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<RecordsAllViewModel>
@@ -56,7 +58,7 @@ class RecordsAllFragment : BaseFragment() {
         arguments?.getParcelable(ARGS_PARAMS) ?: RecordsAllParams()
     }
 
-    override fun initUi() {
+    override fun initUi(): Unit = with(binding) {
         postponeEnterTransition()
 
         rvRecordsAllList.apply {
@@ -70,7 +72,7 @@ class RecordsAllFragment : BaseFragment() {
         }
     }
 
-    override fun initUx() {
+    override fun initUx() = with(binding) {
         spinnerRecordsAllSort.onPositionSelected = viewModel::onRecordTypeOrderSelected
     }
 
@@ -89,7 +91,7 @@ class RecordsAllFragment : BaseFragment() {
     override fun onResume() {
         super.onResume()
         viewModel.onVisible()
-        spinnerRecordsAllSort.jumpDrawablesToCurrentState()
+        binding.spinnerRecordsAllSort.jumpDrawablesToCurrentState()
     }
 
     private fun showMessage(message: SnackBarParams?) {
@@ -106,7 +108,7 @@ class RecordsAllFragment : BaseFragment() {
         }
     }
 
-    private fun updateCardOrderViewData(viewData: RecordsAllSortOrderViewData) {
+    private fun updateCardOrderViewData(viewData: RecordsAllSortOrderViewData) = with(binding) {
         spinnerRecordsAllSort.setData(viewData.items, viewData.selectedPosition)
         tvRecordsAllSortValue.text = viewData.items.getOrNull(viewData.selectedPosition)?.text.orEmpty()
     }

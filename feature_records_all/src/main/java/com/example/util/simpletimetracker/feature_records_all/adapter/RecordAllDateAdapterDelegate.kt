@@ -1,16 +1,15 @@
 package com.example.util.simpletimetracker.feature_records_all.adapter
 
-import com.example.util.simpletimetracker.core.adapter.createRecyclerAdapterDelegate
-import com.example.util.simpletimetracker.feature_records_all.R
-import com.example.util.simpletimetracker.feature_records_all.viewData.RecordsAllDateViewData
-import kotlinx.android.synthetic.main.item_records_all_date_layout.view.tvRecordsAllDate
+import com.example.util.simpletimetracker.core.adapter.createRecyclerBindingAdapterDelegate
+import com.example.util.simpletimetracker.feature_records_all.databinding.ItemRecordsAllDateLayoutBinding as Binding
+import com.example.util.simpletimetracker.feature_records_all.viewData.RecordsAllDateViewData as ViewData
 
-fun createRecordAllDateAdapterDelegate() = createRecyclerAdapterDelegate<RecordsAllDateViewData>(
-    R.layout.item_records_all_date_layout
-) { itemView, item, _ ->
+fun createRecordAllDateAdapterDelegate() = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
+    Binding::inflate
+) { binding, item, _ ->
 
-    with(itemView) {
-        item as RecordsAllDateViewData
+    with(binding) {
+        item as ViewData
 
         tvRecordsAllDate.text = item.message
     }

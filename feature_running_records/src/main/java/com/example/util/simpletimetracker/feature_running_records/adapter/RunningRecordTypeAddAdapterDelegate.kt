@@ -1,20 +1,19 @@
 package com.example.util.simpletimetracker.feature_running_records.adapter
 
-import com.example.util.simpletimetracker.core.adapter.createRecyclerAdapterDelegate
+import com.example.util.simpletimetracker.core.adapter.createRecyclerBindingAdapterDelegate
 import com.example.util.simpletimetracker.core.extension.dpToPx
 import com.example.util.simpletimetracker.core.extension.setOnClickWith
-import com.example.util.simpletimetracker.feature_running_records.R
-import com.example.util.simpletimetracker.feature_running_records.viewData.RunningRecordTypeAddViewData
-import kotlinx.android.synthetic.main.item_running_record_type_layout.view.viewRecordTypeItem
+import com.example.util.simpletimetracker.feature_running_records.databinding.ItemRunningRecordTypeLayoutBinding as Binding
+import com.example.util.simpletimetracker.feature_running_records.viewData.RunningRecordTypeAddViewData as ViewData
 
 fun createRunningRecordTypeAddAdapterDelegate(
-    onItemClick: ((RunningRecordTypeAddViewData) -> Unit)
-) = createRecyclerAdapterDelegate<RunningRecordTypeAddViewData>(
-    R.layout.item_running_record_type_layout
-) { itemView, item, _ ->
+    onItemClick: ((ViewData) -> Unit)
+) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
+    Binding::inflate
+) { binding, item, _ ->
 
-    with(itemView.viewRecordTypeItem) {
-        item as RunningRecordTypeAddViewData
+    with(binding.viewRecordTypeItem) {
+        item as ViewData
 
         layoutParams = layoutParams.also { params ->
             params.width = item.width.dpToPx()

@@ -1,6 +1,8 @@
 package com.example.util.simpletimetracker.feature_statistics_detail.view
 
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -9,7 +11,7 @@ import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.hint.createHintAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.statistics.createStatisticsAdapterDelegate
-import com.example.util.simpletimetracker.core.base.BaseFragment
+import com.example.util.simpletimetracker.core.base.BaseBindingFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
 import com.example.util.simpletimetracker.core.dialog.TypesFilterDialogListener
@@ -19,7 +21,6 @@ import com.example.util.simpletimetracker.core.extension.toViewData
 import com.example.util.simpletimetracker.core.extension.visible
 import com.example.util.simpletimetracker.core.utils.BuildVersions
 import com.example.util.simpletimetracker.core.viewData.RangesViewData
-import com.example.util.simpletimetracker.feature_statistics_detail.R
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.createStatisticsPreviewAdapterDelegate
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.createStatisticsPreviewMoreAdapterDelegate
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartViewData
@@ -33,32 +34,17 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.statistics_detail_fragment.btnStatisticsDetailNext
-import kotlinx.android.synthetic.main.statistics_detail_fragment.btnStatisticsDetailPrevious
-import kotlinx.android.synthetic.main.statistics_detail_fragment.btnStatisticsDetailToday
-import kotlinx.android.synthetic.main.statistics_detail_fragment.buttonsStatisticsDetailGrouping
-import kotlinx.android.synthetic.main.statistics_detail_fragment.buttonsStatisticsDetailLength
-import kotlinx.android.synthetic.main.statistics_detail_fragment.buttonsStatisticsDetailSplitGrouping
-import kotlinx.android.synthetic.main.statistics_detail_fragment.cardStatisticsDetailAverage
-import kotlinx.android.synthetic.main.statistics_detail_fragment.cardStatisticsDetailDates
-import kotlinx.android.synthetic.main.statistics_detail_fragment.cardStatisticsDetailFilter
-import kotlinx.android.synthetic.main.statistics_detail_fragment.cardStatisticsDetailRecords
-import kotlinx.android.synthetic.main.statistics_detail_fragment.cardStatisticsDetailTotal
-import kotlinx.android.synthetic.main.statistics_detail_fragment.chartStatisticsDetail
-import kotlinx.android.synthetic.main.statistics_detail_fragment.chartStatisticsDetailSplit
-import kotlinx.android.synthetic.main.statistics_detail_fragment.rvStatisticsDetailPreviewItems
-import kotlinx.android.synthetic.main.statistics_detail_fragment.rvStatisticsDetailTagSplit
-import kotlinx.android.synthetic.main.statistics_detail_fragment.spinnerStatisticsDetail
-import kotlinx.android.synthetic.main.statistics_detail_fragment.viewStatisticsDetailItem
 import javax.inject.Inject
+import com.example.util.simpletimetracker.feature_statistics_detail.databinding.StatisticsDetailFragmentBinding as Binding
 
 @AndroidEntryPoint
 class StatisticsDetailFragment :
-    BaseFragment(),
+    BaseBindingFragment<Binding>(),
     DateTimeDialogListener,
     TypesFilterDialogListener {
 
-    override val layout: Int get() = R.layout.statistics_detail_fragment
+    override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
+        Binding::inflate
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<StatisticsDetailViewModel>
@@ -82,7 +68,7 @@ class StatisticsDetailFragment :
         arguments?.getParcelable(ARGS_PARAMS) ?: StatisticsDetailParams()
     }
 
-    override fun initUi() {
+    override fun initUi(): Unit = with(binding) {
         setPreview()
 
         if (BuildVersions.isLollipopOrHigher()) {
@@ -106,7 +92,7 @@ class StatisticsDetailFragment :
         }
     }
 
-    override fun initUx() {
+    override fun initUx() = with(binding) {
         cardStatisticsDetailFilter.setOnClick(viewModel::onFilterClick)
         buttonsStatisticsDetailGrouping.listener = viewModel::onChartGroupingClick
         buttonsStatisticsDetailLength.listener = viewModel::onChartLengthClick
@@ -133,7 +119,7 @@ class StatisticsDetailFragment :
         chartGroupingViewData.observe(::updateChartGroupingData)
         chartLengthViewData.observe(::updateChartLengthData)
         splitChartGroupingViewData.observe(::updateSplitChartGroupingData)
-        title.observe(btnStatisticsDetailToday::setText)
+        title.observe(binding.btnStatisticsDetailToday::setText)
         rangeItems.observe(::updateRangeItems)
         rangeButtonsVisibility.observe(::updateRangeButtonsVisibility)
     }
@@ -160,7 +146,7 @@ class StatisticsDetailFragment :
         ).let(::listOf).let(::setPreviewViewData)
     }
 
-    private fun setPreviewViewData(viewData: List<ViewHolderType>) {
+    private fun setPreviewViewData(viewData: List<ViewHolderType>) = with(binding) {
         val first = viewData.firstOrNull()
             as? StatisticsDetailPreviewViewData
             ?: return
@@ -180,7 +166,7 @@ class StatisticsDetailFragment :
         previewAdapter.replace(rest)
     }
 
-    private fun setStatsViewData(statsViewData: StatisticsDetailStatsViewData) {
+    private fun setStatsViewData(statsViewData: StatisticsDetailStatsViewData) = with(binding) {
         cardStatisticsDetailTotal.items = statsViewData.totalDuration
         cardStatisticsDetailRecords.items = statsViewData.timesTracked
         cardStatisticsDetailAverage.items = statsViewData.averageRecord
@@ -189,7 +175,7 @@ class StatisticsDetailFragment :
         tagSplitAdapter.replace(statsViewData.tagSplitData)
     }
 
-    private fun updateChartViewData(viewData: StatisticsDetailChartViewData) {
+    private fun updateChartViewData(viewData: StatisticsDetailChartViewData) = with(binding) {
         chartStatisticsDetail.visible = viewData.visible
         chartStatisticsDetail.setBars(viewData.data)
         chartStatisticsDetail.setLegendTextSuffix(viewData.legendSuffix)
@@ -197,22 +183,22 @@ class StatisticsDetailFragment :
         chartStatisticsDetail.shouldDrawHorizontalLegends(viewData.shouldDrawHorizontalLegends)
     }
 
-    private fun updateChartGroupingData(viewData: List<ViewHolderType>) {
+    private fun updateChartGroupingData(viewData: List<ViewHolderType>) = with(binding) {
         buttonsStatisticsDetailGrouping.visible = viewData.isNotEmpty()
         buttonsStatisticsDetailGrouping.adapter.replace(viewData)
     }
 
-    private fun updateSplitChartGroupingData(viewData: List<ViewHolderType>) {
+    private fun updateSplitChartGroupingData(viewData: List<ViewHolderType>) = with(binding) {
         buttonsStatisticsDetailSplitGrouping.visible = viewData.isNotEmpty()
         buttonsStatisticsDetailSplitGrouping.adapter.replace(viewData)
     }
 
-    private fun updateChartLengthData(viewData: List<ViewHolderType>) {
+    private fun updateChartLengthData(viewData: List<ViewHolderType>) = with(binding) {
         buttonsStatisticsDetailLength.visible = viewData.isNotEmpty()
         buttonsStatisticsDetailLength.adapter.replace(viewData)
     }
 
-    private fun updateSplitChartViewData(viewData: StatisticsDetailChartViewData) {
+    private fun updateSplitChartViewData(viewData: StatisticsDetailChartViewData) = with(binding) {
         chartStatisticsDetailSplit.visible = viewData.visible
         chartStatisticsDetailSplit.setBars(viewData.data)
         chartStatisticsDetailSplit.setLegendTextSuffix(viewData.legendSuffix)
@@ -220,11 +206,11 @@ class StatisticsDetailFragment :
         chartStatisticsDetailSplit.shouldDrawHorizontalLegends(viewData.shouldDrawHorizontalLegends)
     }
 
-    private fun updateRangeItems(viewData: RangesViewData) {
+    private fun updateRangeItems(viewData: RangesViewData) = with(binding) {
         spinnerStatisticsDetail.setData(viewData.items, viewData.selectedPosition)
     }
 
-    private fun updateRangeButtonsVisibility(isVisible: Boolean) {
+    private fun updateRangeButtonsVisibility(isVisible: Boolean) = with(binding) {
         btnStatisticsDetailPrevious.visible = isVisible
         btnStatisticsDetailNext.visible = isVisible
     }
