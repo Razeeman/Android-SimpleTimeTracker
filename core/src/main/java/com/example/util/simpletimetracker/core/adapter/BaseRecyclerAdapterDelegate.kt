@@ -14,7 +14,7 @@ interface RecyclerAdapterDelegate {
     fun getViewHolderTypeName(): String
 }
 
-abstract class BaseRecyclerViewHolder(view: View): RecyclerView.ViewHolder(view) {
+abstract class BaseRecyclerViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     abstract fun bind(item: ViewHolderType, payloads: List<Any>)
 }

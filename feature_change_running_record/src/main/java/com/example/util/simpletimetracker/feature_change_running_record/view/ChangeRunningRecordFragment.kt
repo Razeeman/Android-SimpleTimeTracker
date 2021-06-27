@@ -41,8 +41,8 @@ class ChangeRunningRecordFragment :
     BaseBindingFragment<Binding>(),
     DateTimeDialogListener {
 
-    override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding
-        = Binding::inflate
+    override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
+        Binding::inflate
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<ChangeRunningRecordViewModel>

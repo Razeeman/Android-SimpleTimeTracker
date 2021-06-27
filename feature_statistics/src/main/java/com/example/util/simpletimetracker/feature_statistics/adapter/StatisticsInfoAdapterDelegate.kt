@@ -6,13 +6,13 @@ import com.example.util.simpletimetracker.feature_statistics.viewData.Statistics
 
 fun createStatisticsInfoAdapterDelegate() =
     createRecyclerBindingAdapterDelegate<ViewData, Binding>(
-    Binding::inflate
-) { binding, item, _ ->
+        Binding::inflate
+    ) { binding, item, _ ->
 
-    with(binding) {
-        item as ViewData
+        with(binding) {
+            item as ViewData
 
-        tvStatisticsInfoName.text = item.name
-        tvStatisticsInfoText.text = item.text
+            tvStatisticsInfoName.text = item.name
+            tvStatisticsInfoText.text = item.text
+        }
     }
-}

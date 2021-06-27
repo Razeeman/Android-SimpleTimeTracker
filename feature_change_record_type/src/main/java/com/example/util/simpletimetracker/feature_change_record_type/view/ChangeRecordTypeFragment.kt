@@ -60,8 +60,8 @@ class ChangeRecordTypeFragment :
     DurationDialogListener,
     EmojiSelectionDialogListener {
 
-    override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding
-        = Binding::inflate
+    override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
+        Binding::inflate
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<ChangeRecordTypeViewModel>
