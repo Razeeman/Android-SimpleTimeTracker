@@ -1,6 +1,8 @@
 package com.example.util.simpletimetracker.feature_change_running_record.view
 
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.core.view.ViewCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
@@ -9,7 +11,7 @@ import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.category.createCategoryAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.recordType.createRecordTypeAdapterDelegate
-import com.example.util.simpletimetracker.core.base.BaseFragment
+import com.example.util.simpletimetracker.core.base.BaseBindingFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
 import com.example.util.simpletimetracker.core.extension.hideKeyboard
@@ -23,7 +25,6 @@ import com.example.util.simpletimetracker.core.extension.visible
 import com.example.util.simpletimetracker.core.utils.BuildVersions
 import com.example.util.simpletimetracker.core.utils.setFlipChooserColor
 import com.example.util.simpletimetracker.core.view.TransitionNames
-import com.example.util.simpletimetracker.feature_change_running_record.R
 import com.example.util.simpletimetracker.feature_change_running_record.viewData.ChangeRunningRecordViewData
 import com.example.util.simpletimetracker.feature_change_running_record.viewModel.ChangeRunningRecordViewModel
 import com.example.util.simpletimetracker.navigation.params.ChangeRunningRecordParams
@@ -32,25 +33,16 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.change_running_record_fragment.arrowChangeRunningRecordCategory
-import kotlinx.android.synthetic.main.change_running_record_fragment.arrowChangeRunningRecordType
-import kotlinx.android.synthetic.main.change_running_record_fragment.btnChangeRunningRecordDelete
-import kotlinx.android.synthetic.main.change_running_record_fragment.btnChangeRunningRecordSave
-import kotlinx.android.synthetic.main.change_running_record_fragment.etChangeRunningRecordComment
-import kotlinx.android.synthetic.main.change_running_record_fragment.fieldChangeRunningRecordCategory
-import kotlinx.android.synthetic.main.change_running_record_fragment.fieldChangeRunningRecordTimeStarted
-import kotlinx.android.synthetic.main.change_running_record_fragment.fieldChangeRunningRecordType
-import kotlinx.android.synthetic.main.change_running_record_fragment.previewChangeRunningRecord
-import kotlinx.android.synthetic.main.change_running_record_fragment.rvChangeRunningRecordCategories
-import kotlinx.android.synthetic.main.change_running_record_fragment.rvChangeRunningRecordType
-import kotlinx.android.synthetic.main.change_running_record_fragment.tvChangeRunningRecordTimeStarted
 import javax.inject.Inject
+import com.example.util.simpletimetracker.feature_change_running_record.databinding.ChangeRunningRecordFragmentBinding as Binding
 
 @AndroidEntryPoint
-class ChangeRunningRecordFragment : BaseFragment(),
+class ChangeRunningRecordFragment :
+    BaseBindingFragment<Binding>(),
     DateTimeDialogListener {
 
-    override val layout: Int get() = R.layout.change_running_record_fragment
+    override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding
+        = Binding::inflate
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<ChangeRunningRecordViewModel>
@@ -73,7 +65,7 @@ class ChangeRunningRecordFragment : BaseFragment(),
         arguments?.getParcelable(ARGS_PARAMS) ?: ChangeRunningRecordParams()
     }
 
-    override fun initUi() {
+    override fun initUi(): Unit = with(binding) {
         setPreview()
 
         if (BuildVersions.isLollipopOrHigher()) {
@@ -105,7 +97,7 @@ class ChangeRunningRecordFragment : BaseFragment(),
         }
     }
 
-    override fun initUx() {
+    override fun initUx() = with(binding) {
         etChangeRunningRecordComment.doAfterTextChanged { viewModel.onCommentChange(it.toString()) }
         fieldChangeRunningRecordType.setOnClick(viewModel::onTypeChooserClick)
         fieldChangeRunningRecordCategory.setOnClick(viewModel::onCategoryChooserClick)
@@ -114,7 +106,7 @@ class ChangeRunningRecordFragment : BaseFragment(),
         btnChangeRunningRecordDelete.setOnClick(viewModel::onDeleteClick)
     }
 
-    override fun initViewModel() {
+    override fun initViewModel() = with(binding) {
         with(viewModel) {
             extra = params
             record.observeOnce(viewLifecycleOwner, ::updateUi)
@@ -157,7 +149,7 @@ class ChangeRunningRecordFragment : BaseFragment(),
         viewModel.onDateTimeSet(timestamp, tag)
     }
 
-    private fun updateUi(item: ChangeRunningRecordViewData) {
+    private fun updateUi(item: ChangeRunningRecordViewData) = with(binding) {
         etChangeRunningRecordComment.setText(item.comment)
         etChangeRunningRecordComment.setSelection(item.comment.length)
     }
@@ -176,7 +168,7 @@ class ChangeRunningRecordFragment : BaseFragment(),
         ).let(::updatePreview)
     }
 
-    private fun updatePreview(item: ChangeRunningRecordViewData) {
+    private fun updatePreview(item: ChangeRunningRecordViewData) = with(binding) {
         with(previewChangeRunningRecord) {
             itemName = item.name
             itemTagName = item.tagName

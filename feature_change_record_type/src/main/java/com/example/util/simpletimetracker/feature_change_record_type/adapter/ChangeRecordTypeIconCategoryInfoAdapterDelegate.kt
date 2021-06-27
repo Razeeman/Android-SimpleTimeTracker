@@ -1,17 +1,16 @@
 package com.example.util.simpletimetracker.feature_change_record_type.adapter
 
-import com.example.util.simpletimetracker.core.adapter.createRecyclerAdapterDelegate
-import com.example.util.simpletimetracker.feature_change_record_type.R
-import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconCategoryInfoViewData
-import kotlinx.android.synthetic.main.change_record_type_item_icon_category_info_layout.view.tvChangeRecordTypeIconCategoryInfoItem
+import com.example.util.simpletimetracker.core.adapter.createRecyclerBindingAdapterDelegate
+import com.example.util.simpletimetracker.feature_change_record_type.databinding.ChangeRecordTypeItemIconCategoryInfoLayoutBinding as Binding
+import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconCategoryInfoViewData as ViewData
 
 fun createChangeRecordTypeIconCategoryInfoAdapterDelegate() =
-    createRecyclerAdapterDelegate<ChangeRecordTypeIconCategoryInfoViewData>(
-        R.layout.change_record_type_item_icon_category_info_layout
-    ) { itemView, item, _ ->
+    createRecyclerBindingAdapterDelegate<ViewData, Binding>(
+        Binding::inflate
+    ) { binding, item, _ ->
 
-        with(itemView) {
-            item as ChangeRecordTypeIconCategoryInfoViewData
+        with(binding) {
+            item as ViewData
 
             tvChangeRecordTypeIconCategoryInfoItem.text = item.text
         }

@@ -1,19 +1,18 @@
 package com.example.util.simpletimetracker.feature_categories.adapter
 
-import com.example.util.simpletimetracker.core.adapter.createRecyclerAdapterDelegate
+import com.example.util.simpletimetracker.core.adapter.createRecyclerBindingAdapterDelegate
 import com.example.util.simpletimetracker.core.extension.setOnClickWith
-import com.example.util.simpletimetracker.feature_categories.R
-import com.example.util.simpletimetracker.feature_categories.viewData.CategoryAddViewData
-import kotlinx.android.synthetic.main.categories_item_category_layout.view.*
+import com.example.util.simpletimetracker.feature_categories.databinding.CategoriesItemCategoryLayoutBinding as Binding
+import com.example.util.simpletimetracker.feature_categories.viewData.CategoryAddViewData as ViewData
 
 fun createCategoryAddAdapterDelegate(
-    onItemClick: ((CategoryAddViewData) -> Unit)
-) = createRecyclerAdapterDelegate<CategoryAddViewData>(
-    R.layout.categories_item_category_layout
-) { itemView, item, _ ->
+    onItemClick: ((ViewData) -> Unit)
+) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
+    Binding::inflate
+) { binding, item, _ ->
 
-    with(itemView.viewCategoryItem) {
-        item as CategoryAddViewData
+    with(binding.viewCategoryItem) {
+        item as ViewData
 
         itemColor = item.color
         itemName = item.name

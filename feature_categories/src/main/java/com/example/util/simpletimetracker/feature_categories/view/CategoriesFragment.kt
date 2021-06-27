@@ -1,13 +1,14 @@
 package com.example.util.simpletimetracker.feature_categories.view
 
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.divider.createDividerAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.hint.createHintAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.loader.createLoaderAdapterDelegate
-import com.example.util.simpletimetracker.core.base.BaseFragment
+import com.example.util.simpletimetracker.core.base.BaseBindingFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
-import com.example.util.simpletimetracker.feature_categories.R
 import com.example.util.simpletimetracker.feature_categories.adapter.createCategoryAdapterDelegate
 import com.example.util.simpletimetracker.feature_categories.adapter.createCategoryAddAdapterDelegate
 import com.example.util.simpletimetracker.feature_categories.viewModel.CategoriesViewModel
@@ -16,13 +17,14 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.categories_fragment.rvCategoriesList
 import javax.inject.Inject
+import com.example.util.simpletimetracker.feature_categories.databinding.CategoriesFragmentBinding as Binding
 
 @AndroidEntryPoint
-class CategoriesFragment : BaseFragment() {
+class CategoriesFragment : BaseBindingFragment<Binding>() {
 
-    override val layout: Int get() = R.layout.categories_fragment
+    override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
+        Binding::inflate
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<CategoriesViewModel>
@@ -41,7 +43,7 @@ class CategoriesFragment : BaseFragment() {
         )
     }
 
-    override fun initUi() {
+    override fun initUi(): Unit = with(binding) {
         postponeEnterTransition()
 
         rvCategoriesList.apply {

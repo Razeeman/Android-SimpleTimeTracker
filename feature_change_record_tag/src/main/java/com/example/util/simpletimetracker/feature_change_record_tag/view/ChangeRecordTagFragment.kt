@@ -1,6 +1,8 @@
 package com.example.util.simpletimetracker.feature_change_record_tag.view
 
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.core.view.ViewCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
@@ -9,7 +11,7 @@ import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.core.adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.recordType.createRecordTypeAdapterDelegate
-import com.example.util.simpletimetracker.core.base.BaseFragment
+import com.example.util.simpletimetracker.core.base.BaseBindingFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.extension.hideKeyboard
 import com.example.util.simpletimetracker.core.extension.observeOnce
@@ -22,7 +24,6 @@ import com.example.util.simpletimetracker.core.extension.visible
 import com.example.util.simpletimetracker.core.utils.BuildVersions
 import com.example.util.simpletimetracker.core.utils.setFlipChooserColor
 import com.example.util.simpletimetracker.core.view.TransitionNames
-import com.example.util.simpletimetracker.feature_change_record_tag.R
 import com.example.util.simpletimetracker.feature_change_record_tag.viewModel.ChangeRecordTagViewModel
 import com.example.util.simpletimetracker.navigation.params.ChangeCategoryParams
 import com.google.android.flexbox.FlexDirection
@@ -30,13 +31,14 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.change_record_tag_fragment.*
 import javax.inject.Inject
+import com.example.util.simpletimetracker.feature_change_record_tag.databinding.ChangeRecordTagFragmentBinding as Binding
 
 @AndroidEntryPoint
-class ChangeRecordTagFragment : BaseFragment() {
+class ChangeRecordTagFragment : BaseBindingFragment<Binding>() {
 
-    override val layout: Int get() = R.layout.change_record_tag_fragment
+    override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
+        Binding::inflate
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<ChangeRecordTagViewModel>
@@ -56,7 +58,7 @@ class ChangeRecordTagFragment : BaseFragment() {
         arguments?.getParcelable<ChangeCategoryParams>(ARGS_PARAMS) ?: ChangeCategoryParams.New
     }
 
-    override fun initUi() {
+    override fun initUi(): Unit = with(binding) {
         setPreview()
 
         // TODO move to utils
@@ -80,41 +82,43 @@ class ChangeRecordTagFragment : BaseFragment() {
         }
     }
 
-    override fun initUx() {
+    override fun initUx() = with(binding) {
         etChangeRecordTagName.doAfterTextChanged { viewModel.onNameChange(it.toString()) }
         fieldChangeRecordTagType.setOnClick(viewModel::onTypeChooserClick)
         btnChangeRecordTagSave.setOnClick(viewModel::onSaveClick)
         btnChangeRecordTagDelete.setOnClick(viewModel::onDeleteClick)
     }
 
-    override fun initViewModel(): Unit = with(viewModel) {
-        extra = params
-        deleteIconVisibility.observeOnce(viewLifecycleOwner, btnChangeRecordTagDelete::visible::set)
-        typesChooserVisibility.observeOnce(viewLifecycleOwner, fieldChangeRecordTagType::visible::set)
-        saveButtonEnabled.observe(btnChangeRecordTagSave::setEnabled)
-        deleteButtonEnabled.observe(btnChangeRecordTagDelete::setEnabled)
-        preview.observeOnce(viewLifecycleOwner, ::updateUi)
-        preview.observe(::updatePreview)
-        types.observe(typesAdapter::replace)
-        flipTypesChooser.observe { opened ->
-            rvChangeRecordTagType.visible = opened
-            setFlipChooserColor(fieldChangeRecordTagType, opened)
-            arrowChangeRecordTagType.apply {
-                if (opened) rotateDown() else rotateUp()
+    override fun initViewModel(): Unit = with(binding) {
+        with(viewModel) {
+            extra = params
+            deleteIconVisibility.observeOnce(viewLifecycleOwner, btnChangeRecordTagDelete::visible::set)
+            typesChooserVisibility.observeOnce(viewLifecycleOwner, fieldChangeRecordTagType::visible::set)
+            saveButtonEnabled.observe(btnChangeRecordTagSave::setEnabled)
+            deleteButtonEnabled.observe(btnChangeRecordTagDelete::setEnabled)
+            preview.observeOnce(viewLifecycleOwner, ::updateUi)
+            preview.observe(::updatePreview)
+            types.observe(typesAdapter::replace)
+            flipTypesChooser.observe { opened ->
+                rvChangeRecordTagType.visible = opened
+                setFlipChooserColor(fieldChangeRecordTagType, opened)
+                arrowChangeRecordTagType.apply {
+                    if (opened) rotateDown() else rotateUp()
+                }
             }
-        }
-        keyboardVisibility.observe { visible ->
-            if (visible) showKeyboard(etChangeRecordTagName) else hideKeyboard()
+            keyboardVisibility.observe { visible ->
+                if (visible) showKeyboard(etChangeRecordTagName) else hideKeyboard()
+            }
         }
     }
 
-    private fun updateUi(item: CategoryViewData) {
+    private fun updateUi(item: CategoryViewData) = with(binding) {
         etChangeRecordTagName.setText(item.name)
         etChangeRecordTagName.setSelection(item.name.length)
     }
 
     private fun setPreview() = (params as? ChangeCategoryParams.Change)?.preview?.run {
-        with(previewChangeRecordTag) {
+        with(binding.previewChangeRecordTag) {
             itemName = name
             itemColor = color
             icon?.let {
@@ -125,7 +129,7 @@ class ChangeRecordTagFragment : BaseFragment() {
     }
 
     private fun updatePreview(item: CategoryViewData.Record) {
-        with(previewChangeRecordTag) {
+        with(binding.previewChangeRecordTag) {
             itemName = item.name
             itemColor = item.color
             item.icon?.let(this::itemIcon::set)

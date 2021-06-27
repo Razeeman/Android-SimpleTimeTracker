@@ -1,6 +1,8 @@
 package com.example.util.simpletimetracker.feature_change_record.view
 
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.widget.doAfterTextChanged
@@ -10,7 +12,7 @@ import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.category.createCategoryAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.recordType.createRecordTypeAdapterDelegate
-import com.example.util.simpletimetracker.core.base.BaseFragment
+import com.example.util.simpletimetracker.core.base.BaseBindingFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
 import com.example.util.simpletimetracker.core.extension.hideKeyboard
@@ -25,7 +27,6 @@ import com.example.util.simpletimetracker.core.utils.BuildVersions
 import com.example.util.simpletimetracker.core.utils.setFlipChooserColor
 import com.example.util.simpletimetracker.core.viewModel.RemoveRecordViewModel
 import com.example.util.simpletimetracker.domain.extension.orZero
-import com.example.util.simpletimetracker.feature_change_record.R
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordViewData
 import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordViewModel
 import com.example.util.simpletimetracker.navigation.params.ChangeRecordParams
@@ -34,28 +35,16 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.change_record_fragment.arrowChangeRecordCategory
-import kotlinx.android.synthetic.main.change_record_fragment.arrowChangeRecordType
-import kotlinx.android.synthetic.main.change_record_fragment.btnChangeRecordDelete
-import kotlinx.android.synthetic.main.change_record_fragment.btnChangeRecordSave
-import kotlinx.android.synthetic.main.change_record_fragment.etChangeRecordComment
-import kotlinx.android.synthetic.main.change_record_fragment.fieldChangeRecordCategory
-import kotlinx.android.synthetic.main.change_record_fragment.fieldChangeRecordTimeEnded
-import kotlinx.android.synthetic.main.change_record_fragment.fieldChangeRecordTimeStarted
-import kotlinx.android.synthetic.main.change_record_fragment.fieldChangeRecordType
-import kotlinx.android.synthetic.main.change_record_fragment.previewChangeRecord
-import kotlinx.android.synthetic.main.change_record_fragment.rvChangeRecordCategories
-import kotlinx.android.synthetic.main.change_record_fragment.rvChangeRecordType
-import kotlinx.android.synthetic.main.change_record_fragment.tvChangeRecordTimeEnded
-import kotlinx.android.synthetic.main.change_record_fragment.tvChangeRecordTimeStarted
 import javax.inject.Inject
+import com.example.util.simpletimetracker.feature_change_record.databinding.ChangeRecordFragmentBinding as Binding
 
 @AndroidEntryPoint
 class ChangeRecordFragment :
-    BaseFragment(),
+    BaseBindingFragment<Binding>(),
     DateTimeDialogListener {
 
-    override val layout: Int get() = R.layout.change_record_fragment
+    override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding
+        = Binding::inflate
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<ChangeRecordViewModel>
@@ -86,7 +75,7 @@ class ChangeRecordFragment :
         arguments?.getParcelable<ChangeRecordParams>(ARGS_PARAMS) ?: ChangeRecordParams.New()
     }
 
-    override fun initUi() {
+    override fun initUi(): Unit = with(binding) {
         setPreview()
 
         if (BuildVersions.isLollipopOrHigher() && extra !is ChangeRecordParams.New) {
@@ -120,7 +109,7 @@ class ChangeRecordFragment :
         }
     }
 
-    override fun initUx() {
+    override fun initUx() = with(binding) {
         etChangeRecordComment.doAfterTextChanged { viewModel.onCommentChange(it.toString()) }
         fieldChangeRecordType.setOnClick(viewModel::onTypeChooserClick)
         fieldChangeRecordCategory.setOnClick(viewModel::onCategoryChooserClick)
@@ -135,7 +124,7 @@ class ChangeRecordFragment :
         }
     }
 
-    override fun initViewModel() {
+    override fun initViewModel() = with(binding) {
         with(viewModel) {
             extra = this@ChangeRecordFragment.extra
             record.observeOnce(viewLifecycleOwner, ::updateUi)
@@ -172,7 +161,7 @@ class ChangeRecordFragment :
         viewModel.onDateTimeSet(timestamp, tag)
     }
 
-    private fun updateUi(item: ChangeRecordViewData) {
+    private fun updateUi(item: ChangeRecordViewData) = with(binding) {
         etChangeRecordComment.setText(item.comment)
         etChangeRecordComment.setSelection(item.comment.length)
     }
@@ -196,7 +185,7 @@ class ChangeRecordFragment :
         ).let(::updatePreview)
     }
 
-    private fun updatePreview(item: ChangeRecordViewData) {
+    private fun updatePreview(item: ChangeRecordViewData) = with(binding) {
         with(previewChangeRecord) {
             itemName = item.name
             itemTagName = item.tagName

@@ -1,21 +1,20 @@
 package com.example.util.simpletimetracker.feature_change_record_type.adapter
 
-import com.example.util.simpletimetracker.core.adapter.createRecyclerAdapterDelegate
+import com.example.util.simpletimetracker.core.adapter.createRecyclerBindingAdapterDelegate
 import com.example.util.simpletimetracker.core.extension.setOnClickWith
-import com.example.util.simpletimetracker.feature_change_record_type.R
-import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconCategoryViewData
-import kotlinx.android.synthetic.main.change_record_type_item_icon_category_layout.view.ivChangeRecordTypeIconCategoryItem
+import com.example.util.simpletimetracker.feature_change_record_type.databinding.ChangeRecordTypeItemIconCategoryLayoutBinding as Binding
+import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconCategoryViewData as ViewData
 
 fun createChangeRecordTypeIconCategoryAdapterDelegate(
-    onItemClick: ((ChangeRecordTypeIconCategoryViewData) -> Unit)
-) = createRecyclerAdapterDelegate<ChangeRecordTypeIconCategoryViewData>(
-    R.layout.change_record_type_item_icon_category_layout
-) { itemView, item, _ ->
+    onItemClick: ((ViewData) -> Unit)
+) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
+    Binding::inflate
+) { binding, item, _ ->
 
-    with(itemView) {
-        item as ChangeRecordTypeIconCategoryViewData
+    with(binding) {
+        item as ViewData
         ivChangeRecordTypeIconCategoryItem.setImageResource(item.categoryIcon)
         ivChangeRecordTypeIconCategoryItem.tag = item.categoryIcon
-        setOnClickWith(item, onItemClick)
+        root.setOnClickWith(item, onItemClick)
     }
 }

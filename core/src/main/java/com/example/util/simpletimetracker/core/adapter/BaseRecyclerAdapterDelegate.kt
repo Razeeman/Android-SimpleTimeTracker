@@ -14,6 +14,11 @@ interface RecyclerAdapterDelegate {
     fun getViewHolderTypeName(): String
 }
 
+abstract class BaseRecyclerViewHolder(view: View): RecyclerView.ViewHolder(view) {
+
+    abstract fun bind(item: ViewHolderType, payloads: List<Any>)
+}
+
 inline fun <reified T : ViewHolderType> createRecyclerAdapterDelegate(
     layoutId: Int,
     noinline onBind: (View, ViewHolderType, List<Any>) -> Unit
@@ -24,18 +29,19 @@ inline fun <reified T : ViewHolderType> createRecyclerAdapterDelegate(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup): BaseRecyclerViewHolder =
-        BaseRecyclerViewHolder(parent, layoutId, onBind)
+        BaseRecyclerViewHolderImpl(parent, layoutId, onBind)
 
     override fun getViewHolderTypeName(): String = T::class.java.simpleName
 }
 
-class BaseRecyclerViewHolder(
+class BaseRecyclerViewHolderImpl(
     parent: ViewGroup,
     @LayoutRes layoutId: Int,
     private val onBind: (View, ViewHolderType, List<Any>) -> Unit
-) : RecyclerView.ViewHolder(
+) : BaseRecyclerViewHolder(
     LayoutInflater.from(parent.context).inflate(layoutId, parent, false)
 ) {
 
-    fun bind(item: ViewHolderType, payloads: List<Any>) = onBind(itemView, item, payloads)
+    override fun bind(item: ViewHolderType, payloads: List<Any>) =
+        onBind(itemView, item, payloads)
 }

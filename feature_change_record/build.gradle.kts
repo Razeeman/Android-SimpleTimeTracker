@@ -4,7 +4,6 @@ import com.example.util.simpletimetracker.Deps
 plugins {
     id("com.android.library")
     id("kotlin-android")
-    id("kotlin-android-extensions")
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
 }
@@ -21,6 +20,10 @@ android {
 
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+
+    buildFeatures {
+        viewBinding = true
     }
 }
 

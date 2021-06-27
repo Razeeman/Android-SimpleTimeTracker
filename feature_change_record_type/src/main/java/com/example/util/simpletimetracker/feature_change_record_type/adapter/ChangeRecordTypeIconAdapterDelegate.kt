@@ -1,20 +1,18 @@
 package com.example.util.simpletimetracker.feature_change_record_type.adapter
 
-import com.example.util.simpletimetracker.core.adapter.createRecyclerAdapterDelegate
+import com.example.util.simpletimetracker.core.adapter.createRecyclerBindingAdapterDelegate
 import com.example.util.simpletimetracker.core.extension.setOnClickWith
-import com.example.util.simpletimetracker.feature_change_record_type.R
-import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconViewData
-import kotlinx.android.synthetic.main.change_record_type_item_icon_layout.view.ivChangeRecordTypeIconItem
-import kotlinx.android.synthetic.main.change_record_type_item_icon_layout.view.layoutChangeRecordTypeIconItem
+import com.example.util.simpletimetracker.feature_change_record_type.databinding.ChangeRecordTypeItemIconLayoutBinding as Binding
+import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconViewData as ViewData
 
 fun createChangeRecordTypeIconAdapterDelegate(
-    onIconItemClick: ((ChangeRecordTypeIconViewData) -> Unit)
-) = createRecyclerAdapterDelegate<ChangeRecordTypeIconViewData>(
-    R.layout.change_record_type_item_icon_layout
-) { itemView, item, _ ->
+    onIconItemClick: ((ViewData) -> Unit)
+) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
+    Binding::inflate
+) { binding, item, _ ->
 
-    with(itemView) {
-        item as ChangeRecordTypeIconViewData
+    with(binding) {
+        item as ViewData
 
         layoutChangeRecordTypeIconItem.setCardBackgroundColor(item.colorInt)
         ivChangeRecordTypeIconItem.setBackgroundResource(item.iconResId)

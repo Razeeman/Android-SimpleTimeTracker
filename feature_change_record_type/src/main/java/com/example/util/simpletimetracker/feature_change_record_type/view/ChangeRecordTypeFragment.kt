@@ -1,6 +1,8 @@
 package com.example.util.simpletimetracker.feature_change_record_type.view
 
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.core.view.ViewCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
@@ -13,7 +15,7 @@ import com.example.util.simpletimetracker.core.adapter.divider.createDividerAdap
 import com.example.util.simpletimetracker.core.adapter.emoji.createEmojiAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.info.createInfoAdapterDelegate
-import com.example.util.simpletimetracker.core.base.BaseFragment
+import com.example.util.simpletimetracker.core.base.BaseBindingFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.DurationDialogListener
 import com.example.util.simpletimetracker.core.dialog.EmojiSelectionDialogListener
@@ -48,34 +50,18 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.change_record_type_fragment.arrowChangeRecordTypeCategory
-import kotlinx.android.synthetic.main.change_record_type_fragment.arrowChangeRecordTypeColor
-import kotlinx.android.synthetic.main.change_record_type_fragment.arrowChangeRecordTypeIcon
-import kotlinx.android.synthetic.main.change_record_type_fragment.btnChangeRecordTypeDelete
-import kotlinx.android.synthetic.main.change_record_type_fragment.btnChangeRecordTypeIconSwitch
-import kotlinx.android.synthetic.main.change_record_type_fragment.btnChangeRecordTypeSave
-import kotlinx.android.synthetic.main.change_record_type_fragment.containerChangeRecordTypeIcon
-import kotlinx.android.synthetic.main.change_record_type_fragment.etChangeRecordTypeName
-import kotlinx.android.synthetic.main.change_record_type_fragment.fieldChangeRecordTypeCategory
-import kotlinx.android.synthetic.main.change_record_type_fragment.fieldChangeRecordTypeColor
-import kotlinx.android.synthetic.main.change_record_type_fragment.fieldChangeRecordTypeIcon
-import kotlinx.android.synthetic.main.change_record_type_fragment.groupChangeRecordTypeGoalTime
-import kotlinx.android.synthetic.main.change_record_type_fragment.previewChangeRecordType
-import kotlinx.android.synthetic.main.change_record_type_fragment.rvChangeRecordTypeCategories
-import kotlinx.android.synthetic.main.change_record_type_fragment.rvChangeRecordTypeColor
-import kotlinx.android.synthetic.main.change_record_type_fragment.rvChangeRecordTypeIcon
-import kotlinx.android.synthetic.main.change_record_type_fragment.rvChangeRecordTypeIconCategory
-import kotlinx.android.synthetic.main.change_record_type_fragment.tvChangeRecordTypeGoalTimeTime
 import javax.inject.Inject
 import kotlin.math.max
+import com.example.util.simpletimetracker.feature_change_record_type.databinding.ChangeRecordTypeFragmentBinding as Binding
 
 @AndroidEntryPoint
 class ChangeRecordTypeFragment :
-    BaseFragment(),
+    BaseBindingFragment<Binding>(),
     DurationDialogListener,
     EmojiSelectionDialogListener {
 
-    override val layout: Int get() = R.layout.change_record_type_fragment
+    override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding
+        = Binding::inflate
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<ChangeRecordTypeViewModel>
@@ -119,7 +105,7 @@ class ChangeRecordTypeFragment :
             ?: ChangeRecordTypeParams.New(ChangeRecordTypeParams.SizePreview())
     }
 
-    override fun initUi() {
+    override fun initUi(): Unit = with(binding) {
         setPreview()
 
         if (BuildVersions.isLollipopOrHigher() && params !is ChangeRecordTypeParams.New) {
@@ -162,7 +148,7 @@ class ChangeRecordTypeFragment :
         }
     }
 
-    override fun initUx() {
+    override fun initUx() = with(binding) {
         etChangeRecordTypeName.doAfterTextChanged { viewModel.onNameChange(it.toString()) }
         fieldChangeRecordTypeColor.setOnClick(viewModel::onColorChooserClick)
         fieldChangeRecordTypeIcon.setOnClick(viewModel::onIconChooserClick)
@@ -173,47 +159,49 @@ class ChangeRecordTypeFragment :
         btnChangeRecordTypeIconSwitch.listener = viewModel::onIconTypeClick
     }
 
-    override fun initViewModel(): Unit = with(viewModel) {
-        extra = params
-        deleteIconVisibility.observeOnce(viewLifecycleOwner, btnChangeRecordTypeDelete::visible::set)
-        saveButtonEnabled.observe(btnChangeRecordTypeSave::setEnabled)
-        deleteButtonEnabled.observe(btnChangeRecordTypeDelete::setEnabled)
-        recordType.observeOnce(viewLifecycleOwner, ::updateUi)
-        recordType.observe(::updatePreview)
-        colors.observe(colorsAdapter::replace)
-        icons.observe(iconsAdapter::replace)
-        iconCategories.observe(iconCategoriesAdapter::replaceAsNew)
-        iconsTypeViewData.observe(btnChangeRecordTypeIconSwitch.adapter::replace)
-        categories.observe(categoriesAdapter::replace)
-        goalTimeViewData.observe(tvChangeRecordTypeGoalTimeTime::setText)
-        flipColorChooser.observe { opened ->
-            rvChangeRecordTypeColor.visible = opened
-            setFlipChooserColor(fieldChangeRecordTypeColor, opened)
-            arrowChangeRecordTypeColor.apply {
-                if (opened) rotateDown() else rotateUp()
+    override fun initViewModel(): Unit = with(binding) {
+        with(viewModel) {
+            extra = params
+            deleteIconVisibility.observeOnce(viewLifecycleOwner, btnChangeRecordTypeDelete::visible::set)
+            saveButtonEnabled.observe(btnChangeRecordTypeSave::setEnabled)
+            deleteButtonEnabled.observe(btnChangeRecordTypeDelete::setEnabled)
+            recordType.observeOnce(viewLifecycleOwner, ::updateUi)
+            recordType.observe(::updatePreview)
+            colors.observe(colorsAdapter::replace)
+            icons.observe(iconsAdapter::replace)
+            iconCategories.observe(iconCategoriesAdapter::replaceAsNew)
+            iconsTypeViewData.observe(btnChangeRecordTypeIconSwitch.adapter::replace)
+            categories.observe(categoriesAdapter::replace)
+            goalTimeViewData.observe(tvChangeRecordTypeGoalTimeTime::setText)
+            flipColorChooser.observe { opened ->
+                rvChangeRecordTypeColor.visible = opened
+                setFlipChooserColor(fieldChangeRecordTypeColor, opened)
+                arrowChangeRecordTypeColor.apply {
+                    if (opened) rotateDown() else rotateUp()
+                }
             }
-        }
-        flipIconChooser.observe { opened ->
-            containerChangeRecordTypeIcon.visible = opened
-            setFlipChooserColor(fieldChangeRecordTypeIcon, opened)
-            arrowChangeRecordTypeIcon.apply {
-                if (opened) rotateDown() else rotateUp()
+            flipIconChooser.observe { opened ->
+                containerChangeRecordTypeIcon.visible = opened
+                setFlipChooserColor(fieldChangeRecordTypeIcon, opened)
+                arrowChangeRecordTypeIcon.apply {
+                    if (opened) rotateDown() else rotateUp()
+                }
             }
-        }
-        flipCategoryChooser.observe { opened ->
-            rvChangeRecordTypeCategories.visible = opened
-            setFlipChooserColor(fieldChangeRecordTypeCategory, opened)
-            arrowChangeRecordTypeCategory.apply {
-                if (opened) rotateDown() else rotateUp()
+            flipCategoryChooser.observe { opened ->
+                rvChangeRecordTypeCategories.visible = opened
+                setFlipChooserColor(fieldChangeRecordTypeCategory, opened)
+                arrowChangeRecordTypeCategory.apply {
+                    if (opened) rotateDown() else rotateUp()
+                }
             }
-        }
-        keyboardVisibility.observe { visible ->
-            if (visible) showKeyboard(etChangeRecordTypeName) else hideKeyboard()
-        }
-        iconsScrollPosition.observe {
-            if (it is ChangeRecordTypeScrollViewData.ScrollTo) {
-                iconsLayoutManager.scrollToPositionWithOffset(it.position, 0)
-                onScrolled()
+            keyboardVisibility.observe { visible ->
+                if (visible) showKeyboard(etChangeRecordTypeName) else hideKeyboard()
+            }
+            iconsScrollPosition.observe {
+                if (it is ChangeRecordTypeScrollViewData.ScrollTo) {
+                    iconsLayoutManager.scrollToPositionWithOffset(it.position, 0)
+                    onScrolled()
+                }
             }
         }
     }
@@ -230,13 +218,13 @@ class ChangeRecordTypeFragment :
         viewModel.onEmojiSelected(emojiText)
     }
 
-    private fun updateUi(item: RecordTypeViewData) {
+    private fun updateUi(item: RecordTypeViewData) = with(binding) {
         etChangeRecordTypeName.setText(item.name)
         etChangeRecordTypeName.setSelection(item.name.length)
     }
 
     private fun updatePreview(item: RecordTypeViewData) {
-        with(previewChangeRecordType) {
+        with(binding.previewChangeRecordType) {
             itemName = item.name
             itemIcon = item.iconId
             itemColor = item.color
@@ -246,7 +234,7 @@ class ChangeRecordTypeFragment :
     private fun setPreview() {
         val maxWidth = resources.displayMetrics.widthPixels.pxToDp() - DELETE_BUTTON_SIZE
 
-        with(previewChangeRecordType) {
+        with(binding.previewChangeRecordType) {
             itemIsRow = params.sizePreview.asRow
             layoutParams = layoutParams.also { layoutParams ->
                 params.sizePreview.width?.coerceAtMost(maxWidth)?.dpToPx()?.let { layoutParams.width = it }
@@ -271,7 +259,8 @@ class ChangeRecordTypeFragment :
 
         val rowWidth = elementWidth * columnCount
         val recyclerPadding = (recyclerWidth - rowWidth) / 2
-        rvChangeRecordTypeIcon.updatePadding(left = recyclerPadding, right = recyclerPadding)
+        binding.rvChangeRecordTypeIcon
+            .updatePadding(left = recyclerPadding, right = recyclerPadding)
 
         return columnCount
     }

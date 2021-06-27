@@ -1,25 +1,24 @@
 package com.example.util.simpletimetracker.feature_categories.adapter
 
 import androidx.core.view.ViewCompat
-import com.example.util.simpletimetracker.core.adapter.category.CategoryViewData
-import com.example.util.simpletimetracker.core.adapter.createRecyclerAdapterDelegate
+import com.example.util.simpletimetracker.core.adapter.createRecyclerBindingAdapterDelegate
 import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.core.view.TransitionNames
-import com.example.util.simpletimetracker.feature_categories.R
-import kotlinx.android.synthetic.main.categories_item_category_layout.view.viewCategoryItem
+import com.example.util.simpletimetracker.core.adapter.category.CategoryViewData as ViewData
+import com.example.util.simpletimetracker.feature_categories.databinding.CategoriesItemCategoryLayoutBinding as Binding
 
 fun createCategoryAdapterDelegate(
-    onItemLongClick: ((CategoryViewData, Map<Any, String>) -> Unit)
-) = createRecyclerAdapterDelegate<CategoryViewData>(
-    R.layout.categories_item_category_layout
-) { itemView, item, _ ->
+    onItemLongClick: ((ViewData, Map<Any, String>) -> Unit)
+) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
+    Binding::inflate
+) { binding, item, _ ->
 
-    with(itemView.viewCategoryItem) {
-        item as CategoryViewData
+    with(binding.viewCategoryItem) {
+        item as ViewData
 
         val transitionName = when (item) {
-            is CategoryViewData.Activity -> TransitionNames.ACTIVITY_TAG
-            is CategoryViewData.Record -> TransitionNames.RECORD_TAG
+            is ViewData.Activity -> TransitionNames.ACTIVITY_TAG
+            is ViewData.Record -> TransitionNames.RECORD_TAG
             else -> ""
         } + item.id
 
@@ -27,7 +26,7 @@ fun createCategoryAdapterDelegate(
         itemName = item.name
         itemIconColor = item.iconColor
 
-        if (item is CategoryViewData.Record) {
+        if (item is ViewData.Record) {
             itemIconAlpha = item.iconAlpha
             itemIconVisible = item.icon != null
             item.icon?.let(this::itemIcon::set)
