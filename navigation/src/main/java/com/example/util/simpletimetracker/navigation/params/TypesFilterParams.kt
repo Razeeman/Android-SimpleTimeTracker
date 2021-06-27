@@ -2,7 +2,7 @@ package com.example.util.simpletimetracker.navigation.params
 
 import android.os.Parcelable
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class TypesFilterParams(

@@ -2,7 +2,7 @@ package com.example.util.simpletimetracker.navigation.params
 
 import android.os.Parcelable
 import androidx.annotation.DrawableRes
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 sealed class RecordTypeIconParams : Parcelable {
     @Parcelize
