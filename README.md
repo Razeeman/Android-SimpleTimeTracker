@@ -4,6 +4,8 @@
 
 Simple app that helps track how much time you spend on all the useless activities in the world.
 
+<img src="dev_files/preview.gif" width="300"/>
+
 ## Track different activities
 
 [![main_empty_thumb]][main_empty]
