@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.commit
-import com.example.util.simpletimetracker.core.base.BaseBottomSheetBindingFragment
+import com.example.util.simpletimetracker.core.base.BaseBottomSheetFragment
 import com.example.util.simpletimetracker.core.dialog.OnTagSelectedListener
 import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
 import com.example.util.simpletimetracker.feature_dialogs.R
@@ -18,7 +18,7 @@ import com.example.util.simpletimetracker.feature_dialogs.databinding.RecordTagS
 
 @AndroidEntryPoint
 class RecordTagSelectionDialogFragment :
-    BaseBottomSheetBindingFragment<Binding>(),
+    BaseBottomSheetFragment<Binding>(),
     OnTagSelectedListener {
 
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =

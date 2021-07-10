@@ -13,7 +13,7 @@ import com.example.util.simpletimetracker.core.adapter.category.createCategoryAd
 import com.example.util.simpletimetracker.core.adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.recordType.createRecordTypeAdapterDelegate
-import com.example.util.simpletimetracker.core.base.BaseBottomSheetBindingFragment
+import com.example.util.simpletimetracker.core.base.BaseBottomSheetFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.ChartFilterDialogListener
 import com.example.util.simpletimetracker.core.extension.blockContentScroll
@@ -31,7 +31,7 @@ import javax.inject.Inject
 import com.example.util.simpletimetracker.feature_dialogs.databinding.ChartFilterDialogFragmentBinding as Binding
 
 @AndroidEntryPoint
-class ChartFilterDialogFragment : BaseBottomSheetBindingFragment<Binding>() {
+class ChartFilterDialogFragment : BaseBottomSheetFragment<Binding>() {
 
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
         Binding::inflate

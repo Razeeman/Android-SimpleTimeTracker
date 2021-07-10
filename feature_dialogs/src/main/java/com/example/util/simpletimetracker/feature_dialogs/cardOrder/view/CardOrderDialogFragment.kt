@@ -11,7 +11,7 @@ import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.recordType.createRecordTypeAdapterDelegate
-import com.example.util.simpletimetracker.core.base.BaseBottomSheetBindingFragment
+import com.example.util.simpletimetracker.core.base.BaseBottomSheetFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.extension.onItemMoved
 import com.example.util.simpletimetracker.core.extension.setFullScreen
@@ -28,7 +28,7 @@ import javax.inject.Inject
 import com.example.util.simpletimetracker.feature_dialogs.databinding.CardOrderDialogFragmentBinding as Binding
 
 @AndroidEntryPoint
-class CardOrderDialogFragment : BaseBottomSheetBindingFragment<Binding>() {
+class CardOrderDialogFragment : BaseBottomSheetFragment<Binding>() {
 
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
         Binding::inflate

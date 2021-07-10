@@ -11,7 +11,7 @@ import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.category.createCategoryAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.recordType.createRecordTypeAdapterDelegate
-import com.example.util.simpletimetracker.core.base.BaseBottomSheetBindingFragment
+import com.example.util.simpletimetracker.core.base.BaseBottomSheetFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.ArchiveDialogListener
 import com.example.util.simpletimetracker.core.extension.getAllFragments
@@ -33,7 +33,7 @@ import javax.inject.Inject
 import com.example.util.simpletimetracker.feature_dialogs.databinding.ArchiveDialogFragmentBinding as Binding
 
 @AndroidEntryPoint
-class ArchiveDialogFragment : BaseBottomSheetBindingFragment<Binding>() {
+class ArchiveDialogFragment : BaseBottomSheetFragment<Binding>() {
 
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
         Binding::inflate

@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.LiveData
 import androidx.viewbinding.ViewBinding
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-abstract class BaseBottomSheetBindingFragment<T : ViewBinding> : BaseBottomSheetDialogFragment() {
+abstract class BaseBottomSheetFragment<T : ViewBinding> : BottomSheetDialogFragment() {
 
     abstract val inflater: (LayoutInflater, ViewGroup?, Boolean) -> T
     protected val binding: T get() = _binding!!
@@ -29,6 +31,11 @@ abstract class BaseBottomSheetBindingFragment<T : ViewBinding> : BaseBottomSheet
         initViewModel()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
+
     open fun initDialog() {
         // Override in subclasses
     }
@@ -45,8 +52,9 @@ abstract class BaseBottomSheetBindingFragment<T : ViewBinding> : BaseBottomSheet
         // Override in subclasses
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
+    inline fun <T> LiveData<T>.observe(
+        crossinline onChanged: (T) -> Unit
+    ) {
+        observe(viewLifecycleOwner, { onChanged(it) })
     }
 }
