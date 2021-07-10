@@ -12,7 +12,7 @@ import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.category.createCategoryAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.recordType.createRecordTypeAdapterDelegate
-import com.example.util.simpletimetracker.core.base.BaseBindingFragment
+import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
 import com.example.util.simpletimetracker.core.extension.hideKeyboard
@@ -40,7 +40,7 @@ import com.example.util.simpletimetracker.feature_change_record.databinding.Chan
 
 @AndroidEntryPoint
 class ChangeRecordFragment :
-    BaseBindingFragment<Binding>(),
+    BaseFragment<Binding>(),
     DateTimeDialogListener {
 
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =

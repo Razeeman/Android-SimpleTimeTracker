@@ -10,7 +10,7 @@ import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.record.createRecordAdapterDelegate
-import com.example.util.simpletimetracker.core.base.BaseBindingFragment
+import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.viewModel.RemoveRecordViewModel
 import com.example.util.simpletimetracker.feature_records_all.adapter.createRecordAllDateAdapterDelegate
@@ -25,7 +25,7 @@ import javax.inject.Inject
 import com.example.util.simpletimetracker.feature_records_all.databinding.RecordsAllFragmentBinding as Binding
 
 @AndroidEntryPoint
-class RecordsAllFragment : BaseBindingFragment<Binding>() {
+class RecordsAllFragment : BaseFragment<Binding>() {
 
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
         Binding::inflate

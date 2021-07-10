@@ -9,7 +9,7 @@ import com.example.util.simpletimetracker.core.adapter.divider.createDividerAdap
 import com.example.util.simpletimetracker.core.adapter.hint.createHintAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.recordType.createRecordTypeAdapterDelegate
-import com.example.util.simpletimetracker.core.base.BaseBindingFragment
+import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.ArchiveDialogListener
 import com.example.util.simpletimetracker.core.dialog.StandardDialogListener
@@ -25,7 +25,7 @@ import com.example.util.simpletimetracker.feature_archive.databinding.ArchiveFra
 
 @AndroidEntryPoint
 class ArchiveFragment :
-    BaseBindingFragment<Binding>(),
+    BaseFragment<Binding>(),
     ArchiveDialogListener,
     StandardDialogListener {
 

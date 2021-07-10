@@ -15,7 +15,7 @@ import com.example.util.simpletimetracker.core.adapter.divider.createDividerAdap
 import com.example.util.simpletimetracker.core.adapter.emoji.createEmojiAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.info.createInfoAdapterDelegate
-import com.example.util.simpletimetracker.core.base.BaseBindingFragment
+import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.DurationDialogListener
 import com.example.util.simpletimetracker.core.dialog.EmojiSelectionDialogListener
@@ -56,7 +56,7 @@ import com.example.util.simpletimetracker.feature_change_record_type.databinding
 
 @AndroidEntryPoint
 class ChangeRecordTypeFragment :
-    BaseBindingFragment<Binding>(),
+    BaseFragment<Binding>(),
     DurationDialogListener,
     EmojiSelectionDialogListener {
 

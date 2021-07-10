@@ -7,7 +7,7 @@ import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.recordType.createRecordTypeAdapterDelegate
-import com.example.util.simpletimetracker.core.base.BaseBindingFragment
+import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.OnTagSelectedListener
 import com.example.util.simpletimetracker.feature_widget.universal.activity.viewModel.WidgetUniversalViewModel
@@ -21,7 +21,7 @@ import com.example.util.simpletimetracker.feature_widget.databinding.WidgetUnive
 
 @AndroidEntryPoint
 class WidgetUniversalFragment :
-    BaseBindingFragment<Binding>(),
+    BaseFragment<Binding>(),
     OnTagSelectedListener {
 
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =

@@ -14,7 +14,7 @@ import com.example.util.simpletimetracker.core.adapter.divider.createDividerAdap
 import com.example.util.simpletimetracker.core.adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.info.createInfoAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.recordType.createRecordTypeAdapterDelegate
-import com.example.util.simpletimetracker.core.base.BaseBindingFragment
+import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.extension.hideKeyboard
 import com.example.util.simpletimetracker.core.extension.observeOnce
@@ -37,7 +37,7 @@ import javax.inject.Inject
 import com.example.util.simpletimetracker.feature_change_category.databinding.ChangeCategoryFragmentBinding as Binding
 
 @AndroidEntryPoint
-class ChangeCategoryFragment : BaseBindingFragment<Binding>() {
+class ChangeCategoryFragment : BaseFragment<Binding>() {
 
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding = Binding::inflate
 

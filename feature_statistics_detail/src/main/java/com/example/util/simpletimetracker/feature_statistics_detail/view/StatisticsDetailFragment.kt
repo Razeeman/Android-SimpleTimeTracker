@@ -11,7 +11,7 @@ import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.hint.createHintAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.statistics.createStatisticsAdapterDelegate
-import com.example.util.simpletimetracker.core.base.BaseBindingFragment
+import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
 import com.example.util.simpletimetracker.core.dialog.TypesFilterDialogListener
@@ -39,7 +39,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.databinding.
 
 @AndroidEntryPoint
 class StatisticsDetailFragment :
-    BaseBindingFragment<Binding>(),
+    BaseFragment<Binding>(),
     DateTimeDialogListener,
     TypesFilterDialogListener {
 

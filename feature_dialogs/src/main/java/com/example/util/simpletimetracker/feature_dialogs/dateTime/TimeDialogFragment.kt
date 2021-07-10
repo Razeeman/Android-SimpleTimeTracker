@@ -3,13 +3,13 @@ package com.example.util.simpletimetracker.feature_dialogs.dateTime
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.example.util.simpletimetracker.core.base.BaseBindingFragment
+import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.domain.extension.orFalse
 import com.example.util.simpletimetracker.domain.extension.orZero
 import java.util.Calendar
 import com.example.util.simpletimetracker.feature_dialogs.databinding.TimeDialogFragmentBinding as Binding
 
-class TimeDialogFragment : BaseBindingFragment<Binding>() {
+class TimeDialogFragment : BaseFragment<Binding>() {
 
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
         Binding::inflate

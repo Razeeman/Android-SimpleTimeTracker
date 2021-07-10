@@ -10,7 +10,7 @@ import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.hint.createHintAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.statistics.createStatisticsAdapterDelegate
-import com.example.util.simpletimetracker.core.base.BaseBindingFragment
+import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.ChartFilterDialogListener
 import com.example.util.simpletimetracker.domain.extension.orZero
@@ -27,7 +27,7 @@ import com.example.util.simpletimetracker.feature_statistics.databinding.Statist
 
 @AndroidEntryPoint
 class StatisticsFragment :
-    BaseBindingFragment<Binding>(),
+    BaseFragment<Binding>(),
     ChartFilterDialogListener {
 
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =

@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
-import com.example.util.simpletimetracker.core.base.BaseBindingFragment
+import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
 import com.example.util.simpletimetracker.core.extension.setOnClick
@@ -21,7 +21,7 @@ import com.example.util.simpletimetracker.feature_statistics.databinding.Statist
 
 @AndroidEntryPoint
 class StatisticsContainerFragment :
-    BaseBindingFragment<Binding>(),
+    BaseFragment<Binding>(),
     DateTimeDialogListener {
 
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =

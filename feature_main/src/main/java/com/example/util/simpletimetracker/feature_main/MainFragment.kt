@@ -7,7 +7,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import androidx.fragment.app.viewModels
-import com.example.util.simpletimetracker.core.base.BaseBindingFragment
+import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.extension.visible
 import com.example.util.simpletimetracker.core.interactor.NotificationTypeInteractor
@@ -22,7 +22,7 @@ import javax.inject.Inject
 import com.example.util.simpletimetracker.feature_main.databinding.MainFragmentBinding as Binding
 
 @AndroidEntryPoint
-class MainFragment : BaseBindingFragment<Binding>() {
+class MainFragment : BaseFragment<Binding>() {
 
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
         Binding::inflate

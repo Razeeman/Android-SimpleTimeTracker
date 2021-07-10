@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
-import com.example.util.simpletimetracker.core.base.BaseBindingFragment
+import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.DurationDialogListener
 import com.example.util.simpletimetracker.core.dialog.StandardDialogListener
@@ -26,7 +26,7 @@ import com.example.util.simpletimetracker.feature_settings.databinding.SettingsF
 
 @AndroidEntryPoint
 class SettingsFragment :
-    BaseBindingFragment<Binding>(),
+    BaseFragment<Binding>(),
     StandardDialogListener,
     DurationDialogListener {
 

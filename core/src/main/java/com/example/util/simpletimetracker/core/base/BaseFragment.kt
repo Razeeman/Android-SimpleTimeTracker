@@ -7,13 +7,26 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
+import androidx.viewbinding.ViewBinding
 
-abstract class BaseFragment : Fragment() {
+abstract class BaseFragment<T : ViewBinding> : Fragment() {
 
-    protected abstract val layout: Int
+    abstract val inflater: (LayoutInflater, ViewGroup?, Boolean) -> T
+    protected val binding: T get() = _binding!!
+    private var _binding: T? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(layout, container, false)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = inflater(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
