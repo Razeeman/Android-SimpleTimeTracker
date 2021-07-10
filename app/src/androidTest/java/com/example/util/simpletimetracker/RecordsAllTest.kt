@@ -21,6 +21,7 @@ import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithIdOnPager
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.nestedScrollTo
+import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.withPluralText
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.CoreMatchers.allOf
@@ -102,7 +103,7 @@ class RecordsAllTest : BaseUiTest() {
         clickOnViewWithText(R.string.records_all_sort_duration)
 
         // Check new order
-        onView(secondRecord).check(isCompletelyAbove(firstRecord))
+        tryAction { onView(secondRecord).check(isCompletelyAbove(firstRecord)) }
     }
 
     @Test
@@ -282,7 +283,7 @@ class RecordsAllTest : BaseUiTest() {
         clickOnViewWithText(R.string.records_all_sort_duration)
 
         // Check new order
-        onView(secondRecord).check(isCompletelyAbove(firstRecord))
+        tryAction { onView(secondRecord).check(isCompletelyAbove(firstRecord)) }
     }
 
     @Test
