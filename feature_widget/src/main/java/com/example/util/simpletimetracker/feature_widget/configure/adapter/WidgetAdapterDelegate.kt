@@ -1,19 +1,18 @@
 package com.example.util.simpletimetracker.feature_widget.configure.adapter
 
-import com.example.util.simpletimetracker.core.adapter.createRecyclerAdapterDelegate
+import com.example.util.simpletimetracker.core.adapter.createRecyclerBindingAdapterDelegate
 import com.example.util.simpletimetracker.core.extension.setOnClickWith
-import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
-import com.example.util.simpletimetracker.feature_widget.R
-import kotlinx.android.synthetic.main.item_widget_record_type_layout.view.viewRecordTypeItem
+import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData as ViewData
+import com.example.util.simpletimetracker.feature_widget.databinding.ItemWidgetRecordTypeLayoutBinding as Binding
 
 fun createWidgetAdapterDelegate(
-    onItemClick: ((RecordTypeViewData) -> Unit)
-) = createRecyclerAdapterDelegate<RecordTypeViewData>(
-    R.layout.item_widget_record_type_layout
-) { itemView, item, _ ->
+    onItemClick: ((ViewData) -> Unit)
+) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
+    Binding::inflate
+) { binding, item, _ ->
 
-    with(itemView.viewRecordTypeItem) {
-        item as RecordTypeViewData
+    with(binding.viewRecordTypeItem) {
+        item as ViewData
 
         itemColor = item.color
         itemIcon = item.iconId

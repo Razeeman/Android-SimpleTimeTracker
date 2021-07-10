@@ -17,13 +17,10 @@ import com.example.util.simpletimetracker.domain.extension.orFalse
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.feature_dialogs.R
+import com.example.util.simpletimetracker.feature_dialogs.databinding.DateTimeDialogFragmentBinding
 import com.example.util.simpletimetracker.navigation.params.DateTimeDialogParams
 import com.example.util.simpletimetracker.navigation.params.DateTimeDialogType
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.date_time_dialog_fragment.btnDateTimeDialogPositive
-import kotlinx.android.synthetic.main.date_time_dialog_fragment.datePickerContainer
-import kotlinx.android.synthetic.main.date_time_dialog_fragment.tabsDateTimeDialog
-import kotlinx.android.synthetic.main.date_time_dialog_fragment.timePickerContainer
 import java.util.Calendar
 import javax.inject.Inject
 
@@ -35,6 +32,9 @@ class DateTimeDialogFragment :
 
     @Inject
     lateinit var timeMapper: TimeMapper
+
+    private val binding: DateTimeDialogFragmentBinding get() = _binding!!
+    private var _binding: DateTimeDialogFragmentBinding? = null
 
     private var timeDialogFragment: TimeDialogFragment? = null
     private var dateDialogFragment: DateDialogFragment? = null
@@ -78,8 +78,9 @@ class DateTimeDialogFragment :
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.date_time_dialog_fragment, container)
+    ): View {
+        _binding = DateTimeDialogFragmentBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -87,6 +88,11 @@ class DateTimeDialogFragment :
         newTimestamp = timestamp
         initUi()
         initUx()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 
     override fun onDateSet(year: Int, monthOfYear: Int, dayOfMonth: Int) {
@@ -114,7 +120,7 @@ class DateTimeDialogFragment :
     }
 
     private fun initUx() {
-        btnDateTimeDialogPositive.setOnClickListener {
+        binding.btnDateTimeDialogPositive.setOnClickListener {
             timeDialogFragment?.getSelectedTime()?.let { (hour, minute) ->
                 onTimeSet(hour, minute)
             }
@@ -149,7 +155,7 @@ class DateTimeDialogFragment :
         }
     }
 
-    private fun initTabs() {
+    private fun initTabs() = with(binding) {
         when (type) {
             DateTimeDialogType.DATE -> {
                 tabsDateTimeDialog.visible = false

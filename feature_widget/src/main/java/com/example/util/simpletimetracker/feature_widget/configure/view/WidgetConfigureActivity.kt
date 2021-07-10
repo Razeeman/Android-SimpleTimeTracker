@@ -11,16 +11,15 @@ import com.example.util.simpletimetracker.core.adapter.loader.createLoaderAdapte
 import com.example.util.simpletimetracker.core.base.BaseActivity
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.manager.ThemeManager
-import com.example.util.simpletimetracker.feature_widget.R
 import com.example.util.simpletimetracker.feature_widget.configure.adapter.createWidgetAdapterDelegate
 import com.example.util.simpletimetracker.feature_widget.configure.extra.WidgetExtra
 import com.example.util.simpletimetracker.feature_widget.configure.viewModel.WidgetViewModel
+import com.example.util.simpletimetracker.feature_widget.databinding.WidgetConfigureActivityBinding
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.widget_configure_activity.rvWidgetConfigureRecordType
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -56,9 +55,10 @@ class WidgetConfigureActivity : BaseActivity() {
 
     private fun initUi() {
         themeManager.setTheme(this)
-        setContentView(R.layout.widget_configure_activity)
+        val binding = WidgetConfigureActivityBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        rvWidgetConfigureRecordType.apply {
+        binding.rvWidgetConfigureRecordType.apply {
             layoutManager = FlexboxLayoutManager(context).apply {
                 flexDirection = FlexDirection.ROW
                 justifyContent = JustifyContent.CENTER

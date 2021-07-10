@@ -2,16 +2,17 @@ package com.example.util.simpletimetracker.feature_dialogs.dateTime
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import com.example.util.simpletimetracker.core.base.BaseBindingFragment
 import com.example.util.simpletimetracker.core.utils.BuildVersions
 import com.example.util.simpletimetracker.domain.extension.orZero
-import com.example.util.simpletimetracker.feature_dialogs.R
-import kotlinx.android.synthetic.main.date_dialog_fragment.datePicker
 import java.util.Calendar
+import com.example.util.simpletimetracker.feature_dialogs.databinding.DateDialogFragmentBinding as Binding
 
-class DateDialogFragment : Fragment() {
+class DateDialogFragment : BaseBindingFragment<Binding>() {
+
+    override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
+        Binding::inflate
 
     interface OnDateSetListener {
         fun onDateSet(year: Int, monthOfYear: Int, dayOfMonth: Int)
@@ -27,21 +28,7 @@ class DateDialogFragment : Fragment() {
             ?: Calendar.MONDAY
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        return inflater.inflate(
-            R.layout.date_dialog_fragment,
-            container,
-            false
-        )
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun initUi(): Unit = with(binding) {
         val calendar = Calendar.getInstance()
             .apply { timeInMillis = timestamp }
 
@@ -57,7 +44,7 @@ class DateDialogFragment : Fragment() {
         }
     }
 
-    fun getSelectedDate(): Triple<Int, Int, Int> {
+    fun getSelectedDate(): Triple<Int, Int, Int> = with(binding) {
         return Triple(datePicker.year, datePicker.month, datePicker.dayOfMonth)
     }
 

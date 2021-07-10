@@ -1,29 +1,31 @@
 package com.example.util.simpletimetracker.feature_widget.universal.activity.view
 
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.recordType.createRecordTypeAdapterDelegate
-import com.example.util.simpletimetracker.core.base.BaseFragment
+import com.example.util.simpletimetracker.core.base.BaseBindingFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.OnTagSelectedListener
-import com.example.util.simpletimetracker.feature_widget.R
 import com.example.util.simpletimetracker.feature_widget.universal.activity.viewModel.WidgetUniversalViewModel
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.widget_universal_fragment.rvWidgetUniversalRecordType
 import javax.inject.Inject
+import com.example.util.simpletimetracker.feature_widget.databinding.WidgetUniversalFragmentBinding as Binding
 
 @AndroidEntryPoint
 class WidgetUniversalFragment :
-    BaseFragment(),
+    BaseBindingFragment<Binding>(),
     OnTagSelectedListener {
 
-    override val layout: Int get() = R.layout.widget_universal_fragment
+    override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
+        Binding::inflate
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<WidgetUniversalViewModel>
@@ -41,7 +43,7 @@ class WidgetUniversalFragment :
     }
 
     override fun initUi() {
-        rvWidgetUniversalRecordType.apply {
+        binding.rvWidgetUniversalRecordType.apply {
             layoutManager = FlexboxLayoutManager(context).apply {
                 flexDirection = FlexDirection.ROW
                 justifyContent = JustifyContent.CENTER

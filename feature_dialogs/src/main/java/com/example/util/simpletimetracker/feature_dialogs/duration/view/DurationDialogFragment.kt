@@ -3,12 +3,11 @@ package com.example.util.simpletimetracker.feature_dialogs.duration.view
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
-import com.example.util.simpletimetracker.core.base.BaseBottomSheetDialogFragment
+import com.example.util.simpletimetracker.core.base.BaseBottomSheetBindingFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.DurationDialogListener
 import com.example.util.simpletimetracker.core.extension.getAllFragments
@@ -22,15 +21,14 @@ import com.example.util.simpletimetracker.feature_dialogs.duration.extra.Duratio
 import com.example.util.simpletimetracker.feature_dialogs.duration.viewModel.DurationPickerViewModel
 import com.example.util.simpletimetracker.navigation.params.DurationDialogParams
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.duration_dialog_fragment.btnDurationPickerDisable
-import kotlinx.android.synthetic.main.duration_dialog_fragment.btnDurationPickerSave
-import kotlinx.android.synthetic.main.duration_dialog_fragment.ivDurationPickerDelete
-import kotlinx.android.synthetic.main.duration_dialog_fragment.viewDurationPickerNumberKeyboard
-import kotlinx.android.synthetic.main.duration_dialog_fragment.viewDurationPickerValue
 import javax.inject.Inject
+import com.example.util.simpletimetracker.feature_dialogs.databinding.DurationDialogFragmentBinding as Binding
 
 @AndroidEntryPoint
-class DurationDialogFragment : BaseBottomSheetDialogFragment() {
+class DurationDialogFragment : BaseBottomSheetBindingFragment<Binding>() {
+
+    override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
+        Binding::inflate
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<DurationPickerViewModel>
@@ -45,26 +43,6 @@ class DurationDialogFragment : BaseBottomSheetDialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(DialogFragment.STYLE_NORMAL, R.style.BottomSheetDialog)
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(
-            R.layout.duration_dialog_fragment,
-            container,
-            false
-        )
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        initDialog()
-        initUi()
-        initUx()
-        initViewModel()
     }
 
     override fun onAttach(context: Context) {
@@ -82,25 +60,25 @@ class DurationDialogFragment : BaseBottomSheetDialogFragment() {
         }
     }
 
-    private fun initDialog() {
+    override fun initDialog() {
         setSkipCollapsed()
         setFullScreen()
     }
 
-    private fun initUi() {
+    override fun initUi() {
         // Do nothing
     }
 
-    private fun initUx() {
+    override fun initUx(): Unit = with(binding) {
         btnDurationPickerSave.setOnClick(::onSaveClick)
         btnDurationPickerDisable.setOnClick(::onDisableClick)
         viewDurationPickerNumberKeyboard.listener = viewModel::onNumberPressed
         ivDurationPickerDelete.setOnClick(viewModel::onNumberDelete)
     }
 
-    private fun initViewModel(): Unit = with(viewModel) {
+    override fun initViewModel(): Unit = with(viewModel) {
         extra = DurationPickerExtra(arguments?.getLong(ARGS_DURATION).orZero())
-        durationViewData.observe(viewDurationPickerValue::setData)
+        durationViewData.observe(binding.viewDurationPickerValue::setData)
     }
 
     private fun onSaveClick() {

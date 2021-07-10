@@ -11,13 +11,13 @@ import com.example.util.simpletimetracker.core.extension.spToPx
 import com.example.util.simpletimetracker.core.extension.updatePadding
 import com.example.util.simpletimetracker.feature_statistics_detail.R
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.createStatisticsDetailCardAdapterDelegate
+import com.example.util.simpletimetracker.feature_statistics_detail.databinding.StatisticsDetailCardViewBinding
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailCardViewData
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxItemDecoration
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
-import com.example.util.simpletimetracker.feature_statistics_detail.databinding.StatisticsDetailCardViewBinding as Binding
 
 class StatisticsDetailCardView @JvmOverloads constructor(
     context: Context,
@@ -36,7 +36,7 @@ class StatisticsDetailCardView @JvmOverloads constructor(
             field = value
         }
 
-    private val binding: Binding = Binding
+    private val binding: StatisticsDetailCardViewBinding = StatisticsDetailCardViewBinding
         .inflate(LayoutInflater.from(context), this, true)
 
     private var itemsCount: Int

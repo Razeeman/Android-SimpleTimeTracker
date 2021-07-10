@@ -2,16 +2,17 @@ package com.example.util.simpletimetracker.feature_dialogs.dateTime
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import com.example.util.simpletimetracker.core.base.BaseBindingFragment
 import com.example.util.simpletimetracker.domain.extension.orFalse
 import com.example.util.simpletimetracker.domain.extension.orZero
-import com.example.util.simpletimetracker.feature_dialogs.R
-import kotlinx.android.synthetic.main.time_dialog_fragment.*
 import java.util.Calendar
+import com.example.util.simpletimetracker.feature_dialogs.databinding.TimeDialogFragmentBinding as Binding
 
-class TimeDialogFragment : Fragment() {
+class TimeDialogFragment : BaseBindingFragment<Binding>() {
+
+    override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
+        Binding::inflate
 
     interface OnTimeSetListener {
         fun onTimeSet(hourOfDay: Int, minute: Int)
@@ -26,20 +27,7 @@ class TimeDialogFragment : Fragment() {
         arguments?.getBoolean(ARGS_MILITARY).orFalse()
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        return inflater.inflate(
-            R.layout.time_dialog_fragment,
-            container,
-            false
-        )
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun initUi(): Unit = with(binding) {
 
         val calendar = Calendar.getInstance()
             .apply { timeInMillis = timestamp }
@@ -54,7 +42,7 @@ class TimeDialogFragment : Fragment() {
         }
     }
 
-    fun getSelectedTime(): Pair<Int, Int> {
+    fun getSelectedTime(): Pair<Int, Int> = with(binding) {
         return timePicker.currentHour to timePicker.currentMinute
     }
 

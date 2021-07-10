@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
@@ -15,7 +14,7 @@ import com.example.util.simpletimetracker.core.adapter.divider.createDividerAdap
 import com.example.util.simpletimetracker.core.adapter.hint.createHintAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.recordType.createRecordTypeAdapterDelegate
-import com.example.util.simpletimetracker.core.base.BaseBottomSheetDialogFragment
+import com.example.util.simpletimetracker.core.base.BaseBottomSheetBindingFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.TypesFilterDialogListener
 import com.example.util.simpletimetracker.core.extension.blockContentScroll
@@ -32,13 +31,14 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.types_filter_dialog_fragment.btnTypesFilterHideAll
-import kotlinx.android.synthetic.main.types_filter_dialog_fragment.btnTypesFilterShowAll
-import kotlinx.android.synthetic.main.types_filter_dialog_fragment.rvTypesFilterContainer
 import javax.inject.Inject
+import com.example.util.simpletimetracker.feature_dialogs.databinding.TypesFilterDialogFragmentBinding as Binding
 
 @AndroidEntryPoint
-class TypesFilterDialogFragment : BaseBottomSheetDialogFragment() {
+class TypesFilterDialogFragment : BaseBottomSheetBindingFragment<Binding>() {
+
+    override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
+        Binding::inflate
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<TypesFilterViewModel>
@@ -64,26 +64,6 @@ class TypesFilterDialogFragment : BaseBottomSheetDialogFragment() {
         setStyle(DialogFragment.STYLE_NORMAL, R.style.BottomSheetDialog)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(
-            R.layout.types_filter_dialog_fragment,
-            container,
-            false
-        )
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        initDialog()
-        initUi()
-        initUx()
-        initViewModel()
-    }
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         when (context) {
@@ -104,14 +84,14 @@ class TypesFilterDialogFragment : BaseBottomSheetDialogFragment() {
         super.onDismiss(dialog)
     }
 
-    private fun initDialog() {
+    override fun initDialog() {
         setSkipCollapsed()
         setFullScreen()
-        blockContentScroll(rvTypesFilterContainer)
+        blockContentScroll(binding.rvTypesFilterContainer)
     }
 
-    private fun initUi() {
-        rvTypesFilterContainer.apply {
+    override fun initUi() {
+        binding.rvTypesFilterContainer.apply {
             layoutManager = FlexboxLayoutManager(requireContext()).apply {
                 flexDirection = FlexDirection.ROW
                 justifyContent = JustifyContent.CENTER
@@ -121,12 +101,12 @@ class TypesFilterDialogFragment : BaseBottomSheetDialogFragment() {
         }
     }
 
-    private fun initUx() {
+    override fun initUx(): Unit = with(binding) {
         btnTypesFilterShowAll.setOnClick(viewModel::onShowAllClick)
         btnTypesFilterHideAll.setOnClick(viewModel::onHideAllClick)
     }
 
-    private fun initViewModel(): Unit = with(viewModel) {
+    override fun initViewModel(): Unit = with(viewModel) {
         extra = arguments?.getParcelable(ARGS_PARAMS) ?: TypesFilterParams()
         viewData.observe(adapter::replace)
         typesFilter.observe { typesFilterDialogListener?.onTypesFilterSelected(it) }

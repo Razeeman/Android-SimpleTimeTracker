@@ -2,11 +2,11 @@ package com.example.util.simpletimetracker.feature_widget.universal.customView
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.View
+import android.view.LayoutInflater
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import com.example.util.simpletimetracker.feature_widget.R
-import kotlinx.android.synthetic.main.widget_universal_view_layout.view.iconsWidgetUniversal
+import com.example.util.simpletimetracker.feature_widget.databinding.WidgetUniversalViewLayoutBinding
 
 class WidgetUniversalView @JvmOverloads constructor(
     context: Context,
@@ -18,9 +18,10 @@ class WidgetUniversalView @JvmOverloads constructor(
     defStyleAttr
 ) {
 
-    init {
-        View.inflate(context, R.layout.widget_universal_view_layout, this)
+    private val binding: WidgetUniversalViewLayoutBinding = WidgetUniversalViewLayoutBinding
+        .inflate(LayoutInflater.from(context), this)
 
+    init {
         ContextCompat.getColor(context, R.color.widget_universal_background_color).let(::setCardBackgroundColor)
         radius = context.resources.getDimensionPixelOffset(R.dimen.widget_universal_corner_radius).toFloat()
         cardElevation = 0f
@@ -28,7 +29,7 @@ class WidgetUniversalView @JvmOverloads constructor(
         useCompatPadding = false
     }
 
-    fun setData(viewData: WidgetUniversalViewData) {
+    fun setData(viewData: WidgetUniversalViewData) = with(binding) {
         iconsWidgetUniversal.setIconColor(viewData.iconColor)
         iconsWidgetUniversal.setData(viewData.data)
         invalidate()

@@ -3,7 +3,6 @@ package com.example.util.simpletimetracker.feature_dialogs.cardOrder.view
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
@@ -12,7 +11,7 @@ import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.recordType.createRecordTypeAdapterDelegate
-import com.example.util.simpletimetracker.core.base.BaseBottomSheetDialogFragment
+import com.example.util.simpletimetracker.core.base.BaseBottomSheetBindingFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.extension.onItemMoved
 import com.example.util.simpletimetracker.core.extension.setFullScreen
@@ -25,11 +24,14 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.card_order_dialog_fragment.*
 import javax.inject.Inject
+import com.example.util.simpletimetracker.feature_dialogs.databinding.CardOrderDialogFragmentBinding as Binding
 
 @AndroidEntryPoint
-class CardOrderDialogFragment : BaseBottomSheetDialogFragment() {
+class CardOrderDialogFragment : BaseBottomSheetBindingFragment<Binding>() {
+
+    override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
+        Binding::inflate
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<CardOrderViewModel>
@@ -53,34 +55,18 @@ class CardOrderDialogFragment : BaseBottomSheetDialogFragment() {
         setStyle(DialogFragment.STYLE_NORMAL, R.style.BottomSheetDialog)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.card_order_dialog_fragment, container, false)
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        initDialog()
-        initUi()
-        initUx()
-        initViewModel()
-    }
-
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
         viewModel.onDismiss()
     }
 
-    private fun initDialog() {
+    override fun initDialog() {
         setSkipCollapsed()
         setFullScreen()
     }
 
-    private fun initUi() {
-        rvCardOrderContainer.apply {
+    override fun initUi() {
+        binding.rvCardOrderContainer.apply {
             layoutManager = FlexboxLayoutManager(requireContext()).apply {
                 flexDirection = FlexDirection.ROW
                 justifyContent = JustifyContent.CENTER
@@ -91,8 +77,8 @@ class CardOrderDialogFragment : BaseBottomSheetDialogFragment() {
         }
     }
 
-    private fun initUx() {
-        rvCardOrderContainer.onItemMoved(
+    override fun initUx() {
+        binding.rvCardOrderContainer.onItemMoved(
             onSelected = ::setItemSelected,
             onClear = ::setItemUnselected,
             onMoved = viewModel::onCardMoved
@@ -111,7 +97,7 @@ class CardOrderDialogFragment : BaseBottomSheetDialogFragment() {
         itemView.scaleY = ITEM_SCALE_DEFAULT
     }
 
-    private fun initViewModel(): Unit = with(viewModel) {
+    override fun initViewModel(): Unit = with(viewModel) {
         extra = this@CardOrderDialogFragment.extra
         recordTypes.observe(recordTypesAdapter::replace)
     }

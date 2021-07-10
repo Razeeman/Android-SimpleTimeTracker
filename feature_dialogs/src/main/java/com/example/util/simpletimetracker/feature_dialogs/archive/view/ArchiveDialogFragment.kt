@@ -3,7 +3,6 @@ package com.example.util.simpletimetracker.feature_dialogs.archive.view
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
@@ -12,7 +11,7 @@ import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.category.createCategoryAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.recordType.createRecordTypeAdapterDelegate
-import com.example.util.simpletimetracker.core.base.BaseBottomSheetDialogFragment
+import com.example.util.simpletimetracker.core.base.BaseBottomSheetBindingFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.ArchiveDialogListener
 import com.example.util.simpletimetracker.core.extension.getAllFragments
@@ -28,13 +27,16 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.archive_dialog_fragment.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import com.example.util.simpletimetracker.feature_dialogs.databinding.ArchiveDialogFragmentBinding as Binding
 
 @AndroidEntryPoint
-class ArchiveDialogFragment : BaseBottomSheetDialogFragment() {
+class ArchiveDialogFragment : BaseBottomSheetBindingFragment<Binding>() {
+
+    override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
+        Binding::inflate
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<ArchiveDialogViewModel>
@@ -66,25 +68,6 @@ class ArchiveDialogFragment : BaseBottomSheetDialogFragment() {
         setStyle(DialogFragment.STYLE_NORMAL, R.style.BottomSheetDialog)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(
-            R.layout.archive_dialog_fragment,
-            container,
-            false
-        )
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        initDialog()
-        initUi()
-        initViewModel()
-    }
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         when (context) {
@@ -100,12 +83,12 @@ class ArchiveDialogFragment : BaseBottomSheetDialogFragment() {
         }
     }
 
-    private fun initDialog() {
+    override fun initDialog() {
         setSkipCollapsed()
     }
 
-    private fun initUi() {
-        rvArchiveDialogContent.apply {
+    override fun initUi() {
+        binding.rvArchiveDialogContent.apply {
             layoutManager = FlexboxLayoutManager(requireContext()).apply {
                 flexDirection = FlexDirection.ROW
                 justifyContent = JustifyContent.CENTER
@@ -115,7 +98,7 @@ class ArchiveDialogFragment : BaseBottomSheetDialogFragment() {
         }
     }
 
-    private fun initViewModel(): Unit = with(viewModel) {
+    override fun initViewModel(): Unit = with(viewModel) {
         extra = params
         viewData.observe(adapter::replace)
     }

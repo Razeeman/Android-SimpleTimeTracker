@@ -3,7 +3,6 @@ package com.example.util.simpletimetracker.feature_dialogs.emojiSelection.view
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
@@ -11,7 +10,7 @@ import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.emoji.createEmojiAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.loader.createLoaderAdapterDelegate
-import com.example.util.simpletimetracker.core.base.BaseBottomSheetDialogFragment
+import com.example.util.simpletimetracker.core.base.BaseBottomSheetBindingFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.EmojiSelectionDialogListener
 import com.example.util.simpletimetracker.core.extension.getAllFragments
@@ -24,11 +23,14 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.emoji_selection_dialog_fragment.*
 import javax.inject.Inject
+import com.example.util.simpletimetracker.feature_dialogs.databinding.EmojiSelectionDialogFragmentBinding as Binding
 
 @AndroidEntryPoint
-class EmojiSelectionDialogFragment : BaseBottomSheetDialogFragment() {
+class EmojiSelectionDialogFragment : BaseBottomSheetBindingFragment<Binding>() {
+
+    override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
+        Binding::inflate
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<EmojiSelectionViewModel>
@@ -54,22 +56,6 @@ class EmojiSelectionDialogFragment : BaseBottomSheetDialogFragment() {
         setStyle(DialogFragment.STYLE_NORMAL, R.style.BottomSheetDialog)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.emoji_selection_dialog_fragment, container, false)
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        initDialog()
-        initUi()
-        initUx()
-        initViewModel()
-    }
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         when (context) {
@@ -85,12 +71,12 @@ class EmojiSelectionDialogFragment : BaseBottomSheetDialogFragment() {
         }
     }
 
-    private fun initDialog() {
+    override fun initDialog() {
         setSkipCollapsed()
     }
 
-    private fun initUi() {
-        rvEmojiSelectionContainer.apply {
+    override fun initUi() {
+        binding.rvEmojiSelectionContainer.apply {
             layoutManager = FlexboxLayoutManager(requireContext()).apply {
                 flexDirection = FlexDirection.ROW
                 justifyContent = JustifyContent.CENTER
@@ -100,11 +86,11 @@ class EmojiSelectionDialogFragment : BaseBottomSheetDialogFragment() {
         }
     }
 
-    private fun initUx() {
+    override fun initUx() {
         // Do nothing
     }
 
-    private fun initViewModel(): Unit = with(viewModel) {
+    override fun initViewModel(): Unit = with(viewModel) {
         extra = params
         icons.observe(adapter::replace)
         iconSelected.observe(::onEmojiSelected)

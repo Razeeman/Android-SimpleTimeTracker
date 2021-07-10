@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
@@ -14,7 +13,7 @@ import com.example.util.simpletimetracker.core.adapter.category.createCategoryAd
 import com.example.util.simpletimetracker.core.adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.core.adapter.recordType.createRecordTypeAdapterDelegate
-import com.example.util.simpletimetracker.core.base.BaseBottomSheetDialogFragment
+import com.example.util.simpletimetracker.core.base.BaseBottomSheetBindingFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.ChartFilterDialogListener
 import com.example.util.simpletimetracker.core.extension.blockContentScroll
@@ -28,14 +27,14 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.chart_filter_dialog_fragment.btnChartFilterHideAll
-import kotlinx.android.synthetic.main.chart_filter_dialog_fragment.btnChartFilterShowAll
-import kotlinx.android.synthetic.main.chart_filter_dialog_fragment.buttonsChartFilterType
-import kotlinx.android.synthetic.main.chart_filter_dialog_fragment.rvChartFilterContainer
 import javax.inject.Inject
+import com.example.util.simpletimetracker.feature_dialogs.databinding.ChartFilterDialogFragmentBinding as Binding
 
 @AndroidEntryPoint
-class ChartFilterDialogFragment : BaseBottomSheetDialogFragment() {
+class ChartFilterDialogFragment : BaseBottomSheetBindingFragment<Binding>() {
+
+    override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
+        Binding::inflate
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<ChartFilterViewModel>
@@ -60,26 +59,6 @@ class ChartFilterDialogFragment : BaseBottomSheetDialogFragment() {
         setStyle(DialogFragment.STYLE_NORMAL, R.style.BottomSheetDialog)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(
-            R.layout.chart_filter_dialog_fragment,
-            container,
-            false
-        )
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        initDialog()
-        initUi()
-        initUx()
-        initViewModel()
-    }
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         when (context) {
@@ -100,13 +79,13 @@ class ChartFilterDialogFragment : BaseBottomSheetDialogFragment() {
         chartFilterDialogListener?.onChartFilterDialogDismissed()
     }
 
-    private fun initDialog() {
+    override fun initDialog() {
         setSkipCollapsed()
-        blockContentScroll(rvChartFilterContainer)
+        blockContentScroll(binding.rvChartFilterContainer)
     }
 
-    private fun initUi() {
-        rvChartFilterContainer.apply {
+    override fun initUi() {
+        binding.rvChartFilterContainer.apply {
             layoutManager = FlexboxLayoutManager(requireContext()).apply {
                 flexDirection = FlexDirection.ROW
                 justifyContent = JustifyContent.CENTER
@@ -116,14 +95,14 @@ class ChartFilterDialogFragment : BaseBottomSheetDialogFragment() {
         }
     }
 
-    private fun initUx() {
+    override fun initUx(): Unit = with(binding) {
         buttonsChartFilterType.listener = viewModel::onFilterTypeClick
         btnChartFilterShowAll.setOnClick(viewModel::onShowAllClick)
         btnChartFilterHideAll.setOnClick(viewModel::onHideAllClick)
     }
 
-    private fun initViewModel(): Unit = with(viewModel) {
-        filterTypeViewData.observe(buttonsChartFilterType.adapter::replace)
+    override fun initViewModel(): Unit = with(viewModel) {
+        filterTypeViewData.observe(binding.buttonsChartFilterType.adapter::replace)
         types.observe(recordTypesAdapter::replace)
     }
 }

@@ -5,12 +5,11 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.util.AttributeSet
-import android.view.View
+import android.view.LayoutInflater
 import android.widget.FrameLayout
 import com.example.util.simpletimetracker.core.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.feature_notification.R
-import kotlinx.android.synthetic.main.notification_icon_view_layout.view.ivNotificationIcon
-import kotlinx.android.synthetic.main.notification_icon_view_layout.view.ivNotificationIconBackground
+import com.example.util.simpletimetracker.feature_notification.databinding.NotificationIconViewLayoutBinding
 
 class NotificationIconView @JvmOverloads constructor(
     context: Context,
@@ -22,9 +21,10 @@ class NotificationIconView @JvmOverloads constructor(
     defStyleAttr
 ) {
 
-    init {
-        View.inflate(context, R.layout.notification_icon_view_layout, this)
+    private val binding: NotificationIconViewLayoutBinding = NotificationIconViewLayoutBinding
+        .inflate(LayoutInflater.from(context), this)
 
+    init {
         context.obtainStyledAttributes(
             attrs, R.styleable.NotificationIconView, defStyleAttr, 0
         ).run {
@@ -41,14 +41,14 @@ class NotificationIconView @JvmOverloads constructor(
 
     var itemColor: Int = 0
         set(value) {
-            ivNotificationIconBackground.background.colorFilter =
+            binding.ivNotificationIconBackground.background.colorFilter =
                 PorterDuffColorFilter(value, PorterDuff.Mode.SRC_IN)
             field = value
         }
 
     var itemIcon: RecordTypeIcon = RecordTypeIcon.Image(0)
         set(value) {
-            ivNotificationIcon.itemIcon = value
+            binding.ivNotificationIcon.itemIcon = value
             field = value
         }
 }
