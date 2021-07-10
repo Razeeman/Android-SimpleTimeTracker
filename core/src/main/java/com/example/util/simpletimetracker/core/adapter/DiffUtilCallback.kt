@@ -2,23 +2,14 @@ package com.example.util.simpletimetracker.core.adapter
 
 import androidx.recyclerview.widget.DiffUtil
 
-class DiffUtilCallback(
-    private val oldList: List<ViewHolderType>,
-    private val newList: List<ViewHolderType>
-) : DiffUtil.Callback() {
+class DiffUtilCallback : DiffUtil.ItemCallback<ViewHolderType>() {
 
-    override fun getOldListSize(): Int =
-        oldList.size
+    override fun areItemsTheSame(oldItem: ViewHolderType, newItem: ViewHolderType): Boolean =
+        oldItem.areItemsTheSame(newItem)
 
-    override fun getNewListSize(): Int =
-        newList.size
+    override fun areContentsTheSame(oldItem: ViewHolderType, newItem: ViewHolderType): Boolean =
+        oldItem.areContentsTheSame(newItem)
 
-    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
-        oldList[oldItemPosition].areItemsTheSame(newList[newItemPosition])
-
-    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
-        oldList[oldItemPosition].areContentsTheSame(newList[newItemPosition])
-
-    override fun getChangePayload(oldItemPosition: Int, newItemPosition: Int): Any? =
-        oldList[oldItemPosition].getChangePayload(newList[newItemPosition])
+    override fun getChangePayload(oldItem: ViewHolderType, newItem: ViewHolderType): Any? =
+        oldItem.getChangePayload(newItem)
 }

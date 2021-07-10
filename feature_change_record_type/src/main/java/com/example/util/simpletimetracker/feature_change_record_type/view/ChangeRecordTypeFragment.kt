@@ -169,7 +169,7 @@ class ChangeRecordTypeFragment :
             recordType.observe(::updatePreview)
             colors.observe(colorsAdapter::replace)
             icons.observe(iconsAdapter::replace)
-            iconCategories.observe(iconCategoriesAdapter::replaceAsNew)
+            iconCategories.observe(iconCategoriesAdapter::replace)
             iconsTypeViewData.observe(btnChangeRecordTypeIconSwitch.adapter::replace)
             categories.observe(categoriesAdapter::replace)
             goalTimeViewData.observe(tvChangeRecordTypeGoalTimeTime::setText)
@@ -267,7 +267,7 @@ class ChangeRecordTypeFragment :
 
     private fun setIconsSpanSize() {
         iconsLayoutManager.setSpanSizeLookup { position ->
-            if (iconsAdapter.getItem(position) is ChangeRecordTypeIconCategoryInfoViewData) {
+            if (iconsAdapter.getItemByPosition(position) is ChangeRecordTypeIconCategoryInfoViewData) {
                 iconsLayoutManager.spanCount
             } else {
                 1

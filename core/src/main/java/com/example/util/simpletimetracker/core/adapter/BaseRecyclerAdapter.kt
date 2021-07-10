@@ -1,16 +1,15 @@
 package com.example.util.simpletimetracker.core.adapter
 
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.ListAdapter
 import java.util.Collections
 
 class BaseRecyclerAdapter(
-    vararg delegatesList: RecyclerAdapterDelegate
-) : RecyclerView.Adapter<BaseRecyclerViewHolder>() {
+    vararg delegatesList: RecyclerAdapterDelegate,
+    diffUtilCallback: DiffUtilCallback = DiffUtilCallback(),
+) : ListAdapter<ViewHolderType, BaseRecyclerViewHolder>(diffUtilCallback) {
 
     private val delegates: List<RecyclerAdapterDelegate> = delegatesList.toList()
-    private val items: MutableList<ViewHolderType> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseRecyclerViewHolder =
         delegates.getOrNull(viewType)?.onCreateViewHolder(parent)
@@ -19,51 +18,47 @@ class BaseRecyclerAdapter(
     override fun onBindViewHolder(
         holder: BaseRecyclerViewHolder,
         position: Int
-    ) = holder.bind(items[position], emptyList())
+    ) = holder.bind(currentList[position], emptyList())
 
     override fun onBindViewHolder(
         holder: BaseRecyclerViewHolder,
         position: Int,
         payloads: MutableList<Any>
-    ) = holder.bind(items[position], payloads)
-
-    override fun getItemCount(): Int =
-        items.size
+    ) = holder.bind(currentList[position], payloads)
 
     override fun getItemViewType(position: Int): Int =
-        delegates.indexOfFirst { it.isForValidType(items[position]) }
+        delegates.indexOfFirst { it.isForValidType(currentList[position]) }
 
-    fun getItem(position: Int): ViewHolderType? =
-        items.getOrNull(position)
+    fun getItemByPosition(position: Int): ViewHolderType? =
+        currentList.getOrNull(position)
 
     fun onMove(fromPosition: Int, toPosition: Int) {
+        val newList = currentList.toList()
+
         if (fromPosition < toPosition) {
             for (i in fromPosition until toPosition) {
-                Collections.swap(items, i, i + 1)
+                Collections.swap(newList, i, i + 1)
             }
         } else {
             for (i in fromPosition downTo toPosition + 1) {
-                Collections.swap(items, i, i - 1)
+                Collections.swap(newList, i, i - 1)
             }
         }
+
+        submitList(newList)
     }
 
     fun replace(newItems: List<ViewHolderType>) {
-        val oldItems = items.toList()
-        items.clear()
-        items.addAll(newItems)
-        DiffUtil.calculateDiff(DiffUtilCallback(oldItems, items))
-            .dispatchUpdatesTo(this)
+        submitList(newItems)
     }
 
     fun replaceAsNew(newItems: List<ViewHolderType>) {
-        items.clear()
-        items.addAll(newItems)
-        notifyDataSetChanged()
+        submitList(emptyList())
+        submitList(newItems)
     }
 
     private fun getErrorMessage(viewType: Int): String {
-        return "No delegate found for viewType: $viewType items: ${items.map { it::class.java.simpleName }
+        return "No delegate found for viewType: $viewType items: ${currentList.map { it::class.java.simpleName }
             .toSet()} delegates: ${delegates.map { it.getViewHolderTypeName() }}"
     }
 }

@@ -130,7 +130,6 @@ fun RecyclerView.onItemMoved(
             onMoved(fromPosition, toPosition)
             (adapter as? BaseRecyclerAdapter)?.apply {
                 onMove(fromPosition, toPosition)
-                notifyItemMoved(fromPosition, toPosition)
             }
 
             return true
