@@ -1,10 +1,11 @@
 package com.example.util.simpletimetracker.core.adapter.loader
 
-import com.example.util.simpletimetracker.core.R
-import com.example.util.simpletimetracker.core.adapter.createRecyclerAdapterDelegate
+import com.example.util.simpletimetracker.core.adapter.createRecyclerBindingAdapterDelegate
+import com.example.util.simpletimetracker.core.adapter.loader.LoaderViewData as ViewData
+import com.example.util.simpletimetracker.core.databinding.ItemLoaderLayoutBinding as Binding
 
-fun createLoaderAdapterDelegate() = createRecyclerAdapterDelegate<LoaderViewData>(
-    R.layout.item_loader_layout
+fun createLoaderAdapterDelegate() = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
+    Binding::inflate
 ) { _, _, _ ->
 
     // Nothing to bind

@@ -1,20 +1,20 @@
 package com.example.util.simpletimetracker.core.view.buttonsRowView
 
 import android.graphics.Color
-import com.example.util.simpletimetracker.core.R
-import com.example.util.simpletimetracker.core.adapter.createRecyclerAdapterDelegate
+import com.example.util.simpletimetracker.core.adapter.createRecyclerBindingAdapterDelegate
 import com.example.util.simpletimetracker.core.extension.setOnClickWith
-import kotlinx.android.synthetic.main.buttons_row_item_layout.view.btnButtonsRowView
+import com.example.util.simpletimetracker.core.databinding.ButtonsRowItemLayoutBinding as Binding
+import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData as ViewData
 
 fun createButtonsRowViewAdapterDelegate(
     selectedColor: Int,
-    onItemClick: ((ButtonsRowViewData) -> Unit)
-) = createRecyclerAdapterDelegate<ButtonsRowViewData>(
-    R.layout.buttons_row_item_layout
-) { itemView, item, _ ->
+    onItemClick: ((ViewData) -> Unit)
+) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
+    Binding::inflate
+) { binding, item, _ ->
 
-    with(itemView) {
-        item as ButtonsRowViewData
+    with(binding) {
+        item as ViewData
 
         val color = if (item.isSelected) selectedColor else Color.TRANSPARENT
 

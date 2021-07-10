@@ -1,24 +1,24 @@
 package com.example.util.simpletimetracker.core.adapter.category
 
-import com.example.util.simpletimetracker.core.R
-import com.example.util.simpletimetracker.core.adapter.createRecyclerAdapterDelegate
+import com.example.util.simpletimetracker.core.adapter.createRecyclerBindingAdapterDelegate
 import com.example.util.simpletimetracker.core.extension.setOnClickWith
-import kotlinx.android.synthetic.main.item_category_layout.view.viewCategoryItem
+import com.example.util.simpletimetracker.core.adapter.category.CategoryViewData as ViewData
+import com.example.util.simpletimetracker.core.databinding.ItemCategoryLayoutBinding as Binding
 
 fun createCategoryAdapterDelegate(
-    onItemClick: ((CategoryViewData) -> Unit)? = null
-) = createRecyclerAdapterDelegate<CategoryViewData>(
-    R.layout.item_category_layout
-) { itemView, item, _ ->
+    onItemClick: ((ViewData) -> Unit)? = null
+) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
+    Binding::inflate
+) { binding, item, _ ->
 
-    with(itemView.viewCategoryItem) {
-        item as CategoryViewData
+    with(binding.viewCategoryItem) {
+        item as ViewData
 
         itemColor = item.color
         itemName = item.name
         itemIconColor = item.iconColor
 
-        if (item is CategoryViewData.Record) {
+        if (item is ViewData.Record) {
             itemIconAlpha = item.iconAlpha
             itemIconVisible = item.icon != null
             item.icon?.let(this::itemIcon::set)

@@ -1,21 +1,21 @@
 package com.example.util.simpletimetracker.core.adapter.statistics
 
 import androidx.core.view.ViewCompat
-import com.example.util.simpletimetracker.core.R
-import com.example.util.simpletimetracker.core.adapter.createRecyclerAdapterDelegate
+import com.example.util.simpletimetracker.core.adapter.createRecyclerBindingAdapterDelegate
 import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.core.view.TransitionNames
-import kotlinx.android.synthetic.main.item_statistics_layout.view.*
+import com.example.util.simpletimetracker.core.adapter.statistics.StatisticsViewData as ViewData
+import com.example.util.simpletimetracker.core.databinding.ItemStatisticsLayoutBinding as Binding
 
 fun createStatisticsAdapterDelegate(
     addTransitionNames: Boolean = false,
-    onItemClick: ((StatisticsViewData, Map<Any, String>) -> Unit)
-) = createRecyclerAdapterDelegate<StatisticsViewData>(
-    R.layout.item_statistics_layout
-) { itemView, item, _ ->
+    onItemClick: ((ViewData, Map<Any, String>) -> Unit)
+) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
+    Binding::inflate
+) { binding, item, _ ->
 
-    with(itemView.viewStatisticsItem) {
-        item as StatisticsViewData
+    with(binding.viewStatisticsItem) {
+        item as ViewData
         val transitionName = TransitionNames.STATISTICS_DETAIL + item.id
 
         itemColor = item.color
@@ -23,7 +23,7 @@ fun createStatisticsAdapterDelegate(
         itemDuration = item.duration
         itemPercent = item.percent
 
-        if (item is StatisticsViewData.Activity) {
+        if (item is ViewData.Activity) {
             itemIconVisible = true
             itemIcon = item.icon
         } else {

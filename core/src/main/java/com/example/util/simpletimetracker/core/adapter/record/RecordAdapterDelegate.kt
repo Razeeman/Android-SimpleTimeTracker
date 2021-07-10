@@ -1,21 +1,20 @@
 package com.example.util.simpletimetracker.core.adapter.record
 
 import androidx.core.view.ViewCompat
-import com.example.util.simpletimetracker.core.R
-import com.example.util.simpletimetracker.core.adapter.createRecyclerAdapterDelegate
+import com.example.util.simpletimetracker.core.adapter.createRecyclerBindingAdapterDelegate
 import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.core.view.TransitionNames
-import com.example.util.simpletimetracker.core.viewData.RecordViewData
-import kotlinx.android.synthetic.main.item_record_layout.view.*
+import com.example.util.simpletimetracker.core.databinding.ItemRecordLayoutBinding as Binding
+import com.example.util.simpletimetracker.core.viewData.RecordViewData as ViewData
 
 fun createRecordAdapterDelegate(
-    onItemClick: ((RecordViewData, Map<Any, String>) -> Unit)
-) = createRecyclerAdapterDelegate<RecordViewData>(
-    R.layout.item_record_layout
-) { itemView, item, _ ->
+    onItemClick: ((ViewData, Map<Any, String>) -> Unit)
+) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
+    Binding::inflate
+) { binding, item, _ ->
 
-    with(itemView.viewRecordItem) {
-        item as RecordViewData
+    with(binding.viewRecordItem) {
+        item as ViewData
         val transitionName = TransitionNames.RECORD + item.getUniqueId()
 
         itemColor = item.color

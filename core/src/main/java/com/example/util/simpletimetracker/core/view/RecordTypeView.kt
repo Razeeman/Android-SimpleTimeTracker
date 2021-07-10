@@ -4,16 +4,14 @@ import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
 import android.view.Gravity
-import android.view.View
+import android.view.LayoutInflater
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 import com.example.util.simpletimetracker.core.R
+import com.example.util.simpletimetracker.core.databinding.RecordTypeViewLayoutBinding
 import com.example.util.simpletimetracker.core.extension.setMargins
 import com.example.util.simpletimetracker.core.viewData.RecordTypeIcon
-import kotlinx.android.synthetic.main.record_type_view_vertical.view.constraintRecordTypeItem
-import kotlinx.android.synthetic.main.record_type_view_vertical.view.ivRecordTypeItemIcon
-import kotlinx.android.synthetic.main.record_type_view_vertical.view.tvRecordTypeItemName
 
 class RecordTypeView @JvmOverloads constructor(
     context: Context,
@@ -25,9 +23,10 @@ class RecordTypeView @JvmOverloads constructor(
     defStyleAttr
 ) {
 
-    init {
-        View.inflate(context, R.layout.record_type_view_layout, this)
+    private val binding: RecordTypeViewLayoutBinding = RecordTypeViewLayoutBinding
+        .inflate(LayoutInflater.from(context), this)
 
+    init {
         ContextCompat.getColor(context, R.color.black).let(::setCardBackgroundColor)
         radius = resources.getDimensionPixelOffset(
             R.dimen.record_type_card_corner_radius
@@ -77,7 +76,7 @@ class RecordTypeView @JvmOverloads constructor(
 
     var itemName: String = ""
         set(value) {
-            tvRecordTypeItemName.text = value
+            binding.container.tvRecordTypeItemName.text = value
             field = value
         }
 
@@ -89,20 +88,20 @@ class RecordTypeView @JvmOverloads constructor(
 
     var itemIcon: RecordTypeIcon = RecordTypeIcon.Image(0)
         set(value) {
-            ivRecordTypeItemIcon.itemIcon = value
+            binding.container.ivRecordTypeItemIcon.itemIcon = value
             field = value
         }
 
     var itemIconColor: Int = 0
         set(value) {
-            tvRecordTypeItemName.setTextColor(value)
-            ivRecordTypeItemIcon.itemIconColor = value
+            binding.container.tvRecordTypeItemName.setTextColor(value)
+            binding.container.ivRecordTypeItemIcon.itemIconColor = value
             field = value
         }
 
     var itemIconAlpha: Float = 1.0f
         set(value) {
-            ivRecordTypeItemIcon.itemIconAlpha = value
+            binding.container.ivRecordTypeItemIcon.itemIconAlpha = value
             field = value
         }
 
@@ -112,7 +111,7 @@ class RecordTypeView @JvmOverloads constructor(
             field = value
         }
 
-    private fun changeConstraints(isRow: Boolean) {
+    private fun changeConstraints(isRow: Boolean) = with(binding.container) {
         if (isRow) {
             val setRow = ConstraintSet()
                 .apply { clone(context, R.layout.record_type_view_horizontal) }

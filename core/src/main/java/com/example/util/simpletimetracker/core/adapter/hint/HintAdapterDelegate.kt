@@ -1,15 +1,15 @@
 package com.example.util.simpletimetracker.core.adapter.hint
 
-import com.example.util.simpletimetracker.core.R
-import com.example.util.simpletimetracker.core.adapter.createRecyclerAdapterDelegate
-import kotlinx.android.synthetic.main.item_hint_layout.view.tvHintItemText
+import com.example.util.simpletimetracker.core.adapter.createRecyclerBindingAdapterDelegate
+import com.example.util.simpletimetracker.core.adapter.hint.HintViewData as ViewData
+import com.example.util.simpletimetracker.core.databinding.ItemHintLayoutBinding as Binding
 
-fun createHintAdapterDelegate() = createRecyclerAdapterDelegate<HintViewData>(
-    R.layout.item_hint_layout
-) { itemView, item, _ ->
+fun createHintAdapterDelegate() = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
+    Binding::inflate
+) { binding, item, _ ->
 
-    with(itemView) {
-        item as HintViewData
+    with(binding) {
+        item as ViewData
 
         tvHintItemText.text = item.text
     }

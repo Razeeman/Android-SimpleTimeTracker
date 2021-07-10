@@ -4,14 +4,13 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.util.AttributeSet
-import android.view.View
+import android.view.LayoutInflater
 import android.widget.FrameLayout
 import androidx.core.view.ViewCompat
 import com.example.util.simpletimetracker.core.R
+import com.example.util.simpletimetracker.core.databinding.IconViewLayoutBinding
 import com.example.util.simpletimetracker.core.extension.visible
 import com.example.util.simpletimetracker.core.viewData.RecordTypeIcon
-import kotlinx.android.synthetic.main.icon_view_layout.view.ivIconViewImage
-import kotlinx.android.synthetic.main.icon_view_layout.view.tvIconViewEmoji
 
 class IconView @JvmOverloads constructor(
     context: Context,
@@ -23,8 +22,10 @@ class IconView @JvmOverloads constructor(
     defStyleAttr
 ) {
 
+    private val binding: IconViewLayoutBinding = IconViewLayoutBinding
+        .inflate(LayoutInflater.from(context), this)
+
     init {
-        View.inflate(context, R.layout.icon_view_layout, this)
         context
             .obtainStyledAttributes(attrs, R.styleable.IconView, defStyleAttr, 0)
             .run {
@@ -55,19 +56,19 @@ class IconView @JvmOverloads constructor(
 
     var itemIconColor: Int = 0
         set(value) {
-            ViewCompat.setBackgroundTintList(ivIconViewImage, ColorStateList.valueOf(value))
-            tvIconViewEmoji.setTextColor(value)
+            ViewCompat.setBackgroundTintList(binding.ivIconViewImage, ColorStateList.valueOf(value))
+            binding.tvIconViewEmoji.setTextColor(value)
             field = value
         }
 
     var itemIconAlpha: Float = 1.0f
         set(value) {
-            ivIconViewImage.alpha = value
-            tvIconViewEmoji.alpha = value
+            binding.ivIconViewImage.alpha = value
+            binding.tvIconViewEmoji.alpha = value
             field = value
         }
 
-    private fun setImageIcon(value: Int) {
+    private fun setImageIcon(value: Int) = with(binding) {
         ivIconViewImage.setBackgroundResource(value)
         ivIconViewImage.tag = value
 
@@ -75,7 +76,7 @@ class IconView @JvmOverloads constructor(
         tvIconViewEmoji.visible = false
     }
 
-    private fun setEmojiIcon(value: String) {
+    private fun setEmojiIcon(value: String) = with(binding) {
         tvIconViewEmoji.text = value
 
         tvIconViewEmoji.visible = true

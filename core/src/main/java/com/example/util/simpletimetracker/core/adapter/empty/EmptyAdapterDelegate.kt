@@ -1,17 +1,16 @@
 package com.example.util.simpletimetracker.core.adapter.empty
 
-import com.example.util.simpletimetracker.core.R
-import com.example.util.simpletimetracker.core.adapter.createRecyclerAdapterDelegate
+import com.example.util.simpletimetracker.core.adapter.createRecyclerBindingAdapterDelegate
 import com.example.util.simpletimetracker.core.extension.visible
-import kotlinx.android.synthetic.main.item_empty_layout.view.tvEmptyItem
-import kotlinx.android.synthetic.main.item_empty_layout.view.tvEmptyItemHint
+import com.example.util.simpletimetracker.core.adapter.empty.EmptyViewData as ViewData
+import com.example.util.simpletimetracker.core.databinding.ItemEmptyLayoutBinding as Binding
 
-fun createEmptyAdapterDelegate() = createRecyclerAdapterDelegate<EmptyViewData>(
-    R.layout.item_empty_layout
-) { itemView, item, _ ->
+fun createEmptyAdapterDelegate() = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
+    Binding::inflate
+) { binding, item, _ ->
 
-    with(itemView) {
-        item as EmptyViewData
+    with(binding) {
+        item as ViewData
 
         tvEmptyItem.text = item.message
 

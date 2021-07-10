@@ -1,15 +1,15 @@
 package com.example.util.simpletimetracker.core.adapter.info
 
-import com.example.util.simpletimetracker.core.R
-import com.example.util.simpletimetracker.core.adapter.createRecyclerAdapterDelegate
-import kotlinx.android.synthetic.main.item_info_layout.view.tvInfoItemText
+import com.example.util.simpletimetracker.core.adapter.createRecyclerBindingAdapterDelegate
+import com.example.util.simpletimetracker.core.adapter.info.InfoViewData as ViewData
+import com.example.util.simpletimetracker.core.databinding.ItemInfoLayoutBinding as Binding
 
-fun createInfoAdapterDelegate() = createRecyclerAdapterDelegate<InfoViewData>(
-    R.layout.item_info_layout
-) { itemView, item, _ ->
+fun createInfoAdapterDelegate() = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
+    Binding::inflate
+) { binding, item, _ ->
 
-    with(itemView) {
-        item as InfoViewData
+    with(binding) {
+        item as ViewData
 
         tvInfoItemText.text = item.text
     }

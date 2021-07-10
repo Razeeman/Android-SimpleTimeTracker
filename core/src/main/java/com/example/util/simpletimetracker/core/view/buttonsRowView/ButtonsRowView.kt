@@ -2,16 +2,16 @@ package com.example.util.simpletimetracker.core.view.buttonsRowView
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.View
+import android.view.LayoutInflater
 import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
 import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
+import com.example.util.simpletimetracker.core.databinding.ButtonsRowViewLayoutBinding
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
-import kotlinx.android.synthetic.main.buttons_row_view_layout.view.*
 
 class ButtonsRowView @JvmOverloads constructor(
     context: Context,
@@ -31,6 +31,9 @@ class ButtonsRowView @JvmOverloads constructor(
         )
     }
 
+    private val binding: ButtonsRowViewLayoutBinding = ButtonsRowViewLayoutBinding
+        .inflate(LayoutInflater.from(context), this)
+
     private val selectedColor by lazy {
         var defaultColor = ContextCompat.getColor(context, R.color.colorPrimary)
         runCatching {
@@ -43,7 +46,6 @@ class ButtonsRowView @JvmOverloads constructor(
     }
 
     init {
-        View.inflate(context, R.layout.buttons_row_view_layout, this)
         initRecycler()
         initEditMode()
     }
@@ -53,7 +55,7 @@ class ButtonsRowView @JvmOverloads constructor(
     }
 
     private fun initRecycler() {
-        rvButtonsRowView.apply {
+        binding.rvButtonsRowView.apply {
             layoutManager = FlexboxLayoutManager(context).apply {
                 flexDirection = FlexDirection.ROW
                 justifyContent = JustifyContent.CENTER

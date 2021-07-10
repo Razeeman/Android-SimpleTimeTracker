@@ -3,14 +3,14 @@ package com.example.util.simpletimetracker.core.view
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
-import android.view.View
+import android.view.LayoutInflater
 import androidx.annotation.ColorInt
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import com.example.util.simpletimetracker.core.R
+import com.example.util.simpletimetracker.core.databinding.StatisticsViewLayoutBinding
 import com.example.util.simpletimetracker.core.extension.visible
 import com.example.util.simpletimetracker.core.viewData.RecordTypeIcon
-import kotlinx.android.synthetic.main.statistics_view_layout.view.*
 
 class StatisticsView @JvmOverloads constructor(
     context: Context,
@@ -22,10 +22,13 @@ class StatisticsView @JvmOverloads constructor(
     defStyleAttr
 ) {
 
+    private val binding: StatisticsViewLayoutBinding = StatisticsViewLayoutBinding
+        .inflate(LayoutInflater.from(context), this)
+
     var itemName: String = ""
         set(value) {
             field = value
-            tvStatisticsItemName.text = itemName
+            binding.tvStatisticsItemName.text = itemName
         }
 
     var itemColor: Int = Color.BLACK
@@ -37,31 +40,30 @@ class StatisticsView @JvmOverloads constructor(
 
     var itemIcon: RecordTypeIcon = RecordTypeIcon.Image(0)
         set(value) {
-            ivStatisticsItemIcon.itemIcon = value
+            binding.ivStatisticsItemIcon.itemIcon = value
             field = value
         }
 
     var itemIconVisible: Boolean = false
         set(value) {
-            ivStatisticsItemIcon.visible = value
+            binding.ivStatisticsItemIcon.visible = value
             field = value
         }
 
     var itemDuration: String = ""
         set(value) {
-            tvStatisticsItemDuration.text = value
+            binding.tvStatisticsItemDuration.text = value
             field = value
         }
 
     var itemPercent: String = ""
         set(value) {
-            tvStatisticsItemPercent.text = value
+            binding.tvStatisticsItemPercent.text = value
             setDividerColor()
             field = value
         }
 
     init {
-        View.inflate(context, R.layout.statistics_view_layout, this)
         initProps()
         initAttrs(context, attrs, defStyleAttr)
     }
@@ -114,7 +116,7 @@ class StatisticsView @JvmOverloads constructor(
             normalizeLightness(itemColor)
         } else {
             itemColor
-        }.let(dividerStatisticsPercent::setBackgroundColor)
+        }.let(binding.dividerStatisticsPercent::setBackgroundColor)
     }
 
     /**

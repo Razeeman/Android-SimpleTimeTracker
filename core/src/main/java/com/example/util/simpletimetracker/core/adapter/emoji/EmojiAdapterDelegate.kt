@@ -1,20 +1,18 @@
 package com.example.util.simpletimetracker.core.adapter.emoji
 
-import com.example.util.simpletimetracker.core.R
-import com.example.util.simpletimetracker.core.adapter.createRecyclerAdapterDelegate
+import com.example.util.simpletimetracker.core.adapter.createRecyclerBindingAdapterDelegate
 import com.example.util.simpletimetracker.core.extension.setOnClickWith
-import com.example.util.simpletimetracker.core.viewData.EmojiViewData
-import kotlinx.android.synthetic.main.item_emoji_layout.view.layoutEmojiItem
-import kotlinx.android.synthetic.main.item_emoji_layout.view.tvEmojiItem
+import com.example.util.simpletimetracker.core.databinding.ItemEmojiLayoutBinding as Binding
+import com.example.util.simpletimetracker.core.viewData.EmojiViewData as ViewData
 
 fun createEmojiAdapterDelegate(
-    onIconItemClick: ((EmojiViewData) -> Unit)
-) = createRecyclerAdapterDelegate<EmojiViewData>(
-    R.layout.item_emoji_layout
-) { itemView, item, _ ->
+    onIconItemClick: ((ViewData) -> Unit)
+) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
+    Binding::inflate
+) { binding, item, _ ->
 
-    with(itemView) {
-        item as EmojiViewData
+    with(binding) {
+        item as ViewData
 
         layoutEmojiItem.setCardBackgroundColor(item.colorInt)
         tvEmojiItem.text = item.emojiText

@@ -1,19 +1,18 @@
 package com.example.util.simpletimetracker.core.adapter.color
 
-import com.example.util.simpletimetracker.core.R
-import com.example.util.simpletimetracker.core.adapter.createRecyclerAdapterDelegate
+import com.example.util.simpletimetracker.core.adapter.createRecyclerBindingAdapterDelegate
 import com.example.util.simpletimetracker.core.extension.setOnClickWith
-import com.example.util.simpletimetracker.core.viewData.ColorViewData
-import kotlinx.android.synthetic.main.item_color_layout.view.layoutColorItem
+import com.example.util.simpletimetracker.core.databinding.ItemColorLayoutBinding as Binding
+import com.example.util.simpletimetracker.core.viewData.ColorViewData as ViewData
 
 fun createColorAdapterDelegate(
-    onColorItemClick: ((ColorViewData) -> Unit)
-) = createRecyclerAdapterDelegate<ColorViewData>(
-    R.layout.item_color_layout
-) { itemView, item, _ ->
+    onColorItemClick: ((ViewData) -> Unit)
+) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
+    Binding::inflate
+) { binding, item, _ ->
 
-    with(itemView) {
-        item as ColorViewData
+    with(binding) {
+        item as ViewData
 
         layoutColorItem.setCardBackgroundColor(item.colorInt)
         layoutColorItem.setOnClickWith(item, onColorItemClick)

@@ -6,13 +6,13 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.util.AttributeSet
-import android.view.View
+import android.view.LayoutInflater
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import com.example.util.simpletimetracker.core.R
+import com.example.util.simpletimetracker.core.databinding.RecordViewLayoutBinding
 import com.example.util.simpletimetracker.core.extension.visible
 import com.example.util.simpletimetracker.core.viewData.RecordTypeIcon
-import kotlinx.android.synthetic.main.record_view_layout.view.*
 
 class RecordView @JvmOverloads constructor(
     context: Context,
@@ -23,6 +23,9 @@ class RecordView @JvmOverloads constructor(
     attrs,
     defStyleAttr
 ) {
+
+    private val binding: RecordViewLayoutBinding = RecordViewLayoutBinding
+        .inflate(LayoutInflater.from(context), this)
 
     var itemName: String = ""
         set(value) {
@@ -50,37 +53,36 @@ class RecordView @JvmOverloads constructor(
 
     var itemIcon: RecordTypeIcon = RecordTypeIcon.Image(0)
         set(value) {
-            ivRecordItemIcon.itemIcon = value
+            binding.ivRecordItemIcon.itemIcon = value
             field = value
         }
 
     var itemTimeStarted: String = ""
         set(value) {
-            tvRecordItemTimeStarted.text = value
+            binding.tvRecordItemTimeStarted.text = value
             field = value
         }
 
     var itemTimeEnded: String = ""
         set(value) {
-            tvRecordItemTimeFinished.text = value
+            binding.tvRecordItemTimeFinished.text = value
             field = value
         }
 
     var itemDuration: String = ""
         set(value) {
-            tvRecordItemDuration.text = value
+            binding.tvRecordItemDuration.text = value
             field = value
         }
 
     var itemComment: String = ""
         set(value) {
-            tvRecordItemComment.text = value
-            tvRecordItemComment.visible = value.isNotEmpty()
+            binding.tvRecordItemComment.text = value
+            binding.tvRecordItemComment.visible = value.isNotEmpty()
             field = value
         }
 
     init {
-        View.inflate(context, R.layout.record_view_layout, this)
         initProps()
         initAttrs(context, attrs, defStyleAttr)
     }
@@ -137,7 +139,7 @@ class RecordView @JvmOverloads constructor(
             }
     }
 
-    private fun setItemName() {
+    private fun setItemName() = with(binding) {
         if (itemTagName.isEmpty()) {
             tvRecordItemName.text = itemName
         } else {

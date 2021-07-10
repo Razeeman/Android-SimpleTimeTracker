@@ -6,13 +6,13 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.util.AttributeSet
-import android.view.View
+import android.view.LayoutInflater
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import com.example.util.simpletimetracker.core.R
+import com.example.util.simpletimetracker.core.databinding.RecordRunningViewLayoutBinding
 import com.example.util.simpletimetracker.core.extension.visible
 import com.example.util.simpletimetracker.core.viewData.RecordTypeIcon
-import kotlinx.android.synthetic.main.record_running_view_layout.view.*
 
 class RunningRecordView @JvmOverloads constructor(
     context: Context,
@@ -23,6 +23,9 @@ class RunningRecordView @JvmOverloads constructor(
     attrs,
     defStyleAttr
 ) {
+
+    private val binding: RecordRunningViewLayoutBinding = RecordRunningViewLayoutBinding
+        .inflate(LayoutInflater.from(context), this)
 
     var itemName: String = ""
         set(value) {
@@ -50,38 +53,37 @@ class RunningRecordView @JvmOverloads constructor(
 
     var itemIcon: RecordTypeIcon = RecordTypeIcon.Image(0)
         set(value) {
-            ivRunningRecordItemIcon.itemIcon = value
+            binding.ivRunningRecordItemIcon.itemIcon = value
             field = value
         }
 
     var itemTimeStarted: String = ""
         set(value) {
-            tvRunningRecordItemTimeStarted.text = value
+            binding.tvRunningRecordItemTimeStarted.text = value
             field = value
         }
 
     var itemTimer: String = ""
         set(value) {
-            tvRunningRecordItemTimer.text = value
+            binding.tvRunningRecordItemTimer.text = value
             field = value
         }
 
     var itemGoalTime: String = ""
         set(value) {
-            tvRunningRecordItemGoalTime.text = value
-            tvRunningRecordItemGoalTime.visible = value.isNotEmpty()
+            binding.tvRunningRecordItemGoalTime.text = value
+            binding.tvRunningRecordItemGoalTime.visible = value.isNotEmpty()
             field = value
         }
 
     var itemComment: String = ""
         set(value) {
-            tvRunningRecordItemComment.text = value
-            tvRunningRecordItemComment.visible = value.isNotEmpty()
+            binding.tvRunningRecordItemComment.text = value
+            binding.tvRunningRecordItemComment.visible = value.isNotEmpty()
             field = value
         }
 
     init {
-        View.inflate(context, R.layout.record_running_view_layout, this)
         initProps()
         initAttrs(context, attrs, defStyleAttr)
     }
@@ -138,7 +140,7 @@ class RunningRecordView @JvmOverloads constructor(
             }
     }
 
-    private fun setItemName() {
+    private fun setItemName() = with(binding) {
         if (itemTagName.isEmpty()) {
             tvRunningRecordItemName.text = itemName
         } else {

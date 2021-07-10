@@ -3,14 +3,13 @@ package com.example.util.simpletimetracker.core.view
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
-import android.view.View
+import android.view.LayoutInflater
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import com.example.util.simpletimetracker.core.R
+import com.example.util.simpletimetracker.core.databinding.CategoryViewLayoutBinding
 import com.example.util.simpletimetracker.core.extension.visible
 import com.example.util.simpletimetracker.core.viewData.RecordTypeIcon
-import kotlinx.android.synthetic.main.category_view_layout.view.ivCategoryItemIcon
-import kotlinx.android.synthetic.main.category_view_layout.view.tvCategoryItemName
 
 class CategoryView @JvmOverloads constructor(
     context: Context,
@@ -22,9 +21,10 @@ class CategoryView @JvmOverloads constructor(
     defStyleAttr
 ) {
 
-    init {
-        View.inflate(context, R.layout.category_view_layout, this)
+    private val binding: CategoryViewLayoutBinding = CategoryViewLayoutBinding
+        .inflate(LayoutInflater.from(context), this)
 
+    init {
         ContextCompat.getColor(context, R.color.black).let(::setCardBackgroundColor)
         radius = resources.getDimensionPixelOffset(R.dimen.record_type_card_corner_radius)
             .toFloat()
@@ -67,7 +67,7 @@ class CategoryView @JvmOverloads constructor(
 
     var itemName: String = ""
         set(value) {
-            tvCategoryItemName.text = value
+            binding.tvCategoryItemName.text = value
             field = value
         }
 
@@ -79,26 +79,26 @@ class CategoryView @JvmOverloads constructor(
 
     var itemIcon: RecordTypeIcon = RecordTypeIcon.Image(0)
         set(value) {
-            ivCategoryItemIcon.itemIcon = value
+            binding.ivCategoryItemIcon.itemIcon = value
             field = value
         }
 
     var itemIconColor: Int = 0
         set(value) {
-            tvCategoryItemName.setTextColor(value)
-            ivCategoryItemIcon.itemIconColor = value
+            binding.tvCategoryItemName.setTextColor(value)
+            binding.ivCategoryItemIcon.itemIconColor = value
             field = value
         }
 
     var itemIconAlpha: Float = 1.0f
         set(value) {
-            ivCategoryItemIcon.itemIconAlpha = value
+            binding.ivCategoryItemIcon.itemIconAlpha = value
             field = value
         }
 
     var itemIconVisible: Boolean = false
         set(value) {
-            ivCategoryItemIcon.visible = value
+            binding.ivCategoryItemIcon.visible = value
             field = value
         }
 }

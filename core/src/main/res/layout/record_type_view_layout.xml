@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     tools:parentTag="androidx.cardview.widget.CardView">
 
-    <include layout="@layout/record_type_view_vertical" />
+    <include
+        android:id="@+id/container"
+        layout="@layout/record_type_view_vertical" />
 
 </merge>
