@@ -33,9 +33,9 @@ class StatisticsView @JvmOverloads constructor(
 
     var itemColor: Int = Color.BLACK
         set(value) {
+            field = value
             setCardBackgroundColor(value)
             setDividerColor()
-            field = value
         }
 
     var itemIcon: RecordTypeIcon = RecordTypeIcon.Image(0)
