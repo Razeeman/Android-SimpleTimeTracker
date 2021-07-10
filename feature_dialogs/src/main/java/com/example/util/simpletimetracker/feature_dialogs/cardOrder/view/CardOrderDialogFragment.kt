@@ -4,7 +4,6 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
@@ -16,7 +15,6 @@ import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.extension.onItemMoved
 import com.example.util.simpletimetracker.core.extension.setFullScreen
 import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
-import com.example.util.simpletimetracker.feature_dialogs.R
 import com.example.util.simpletimetracker.feature_dialogs.cardOrder.viewModel.CardOrderViewModel
 import com.example.util.simpletimetracker.navigation.params.CardOrderDialogParams
 import com.google.android.flexbox.FlexDirection
@@ -48,11 +46,6 @@ class CardOrderDialogFragment : BaseBottomSheetFragment<Binding>() {
     }
     private val extra: CardOrderDialogParams by lazy {
         arguments?.getParcelable(ARGS_PARAMS) ?: CardOrderDialogParams()
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setStyle(DialogFragment.STYLE_NORMAL, R.style.BottomSheetDialog)
     }
 
     override fun onDismiss(dialog: DialogInterface) {

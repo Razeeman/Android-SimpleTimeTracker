@@ -2,10 +2,8 @@ package com.example.util.simpletimetracker.feature_dialogs.cardSize.view
 
 import android.content.DialogInterface
 import android.content.res.ColorStateList
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.empty.createEmptyAdapterDelegate
@@ -15,7 +13,6 @@ import com.example.util.simpletimetracker.core.base.BaseBottomSheetFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
-import com.example.util.simpletimetracker.feature_dialogs.R
 import com.example.util.simpletimetracker.feature_dialogs.cardSize.viewData.CardSizeDefaultButtonViewData
 import com.example.util.simpletimetracker.feature_dialogs.cardSize.viewModel.CardSizeViewModel
 import com.google.android.flexbox.FlexDirection
@@ -45,11 +42,6 @@ class CardSizeDialogFragment : BaseBottomSheetFragment<Binding>() {
             createRecordTypeAdapterDelegate(),
             createLoaderAdapterDelegate()
         )
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setStyle(DialogFragment.STYLE_NORMAL, R.style.BottomSheetDialog)
     }
 
     override fun onDismiss(dialog: DialogInterface) {

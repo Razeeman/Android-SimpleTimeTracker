@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.adapter.emoji.createEmojiAdapterDelegate
@@ -15,7 +14,6 @@ import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.EmojiSelectionDialogListener
 import com.example.util.simpletimetracker.core.extension.getAllFragments
 import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
-import com.example.util.simpletimetracker.feature_dialogs.R
 import com.example.util.simpletimetracker.feature_dialogs.emojiSelection.viewModel.EmojiSelectionViewModel
 import com.example.util.simpletimetracker.navigation.params.EmojiSelectionDialogParams
 import com.google.android.flexbox.FlexDirection
@@ -50,11 +48,6 @@ class EmojiSelectionDialogFragment : BaseBottomSheetFragment<Binding>() {
         arguments?.getParcelable(ARGS_PARAMS) ?: EmojiSelectionDialogParams()
     }
     private var emojiSelectionDialogListener: EmojiSelectionDialogListener? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setStyle(DialogFragment.STYLE_NORMAL, R.style.BottomSheetDialog)
-    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

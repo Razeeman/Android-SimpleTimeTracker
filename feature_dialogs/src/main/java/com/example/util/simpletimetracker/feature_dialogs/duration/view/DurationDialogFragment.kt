@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseBottomSheetFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
@@ -16,7 +15,6 @@ import com.example.util.simpletimetracker.core.extension.setFullScreen
 import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
 import com.example.util.simpletimetracker.domain.extension.orZero
-import com.example.util.simpletimetracker.feature_dialogs.R
 import com.example.util.simpletimetracker.feature_dialogs.duration.extra.DurationPickerExtra
 import com.example.util.simpletimetracker.feature_dialogs.duration.viewModel.DurationPickerViewModel
 import com.example.util.simpletimetracker.navigation.params.DurationDialogParams
@@ -39,11 +37,6 @@ class DurationDialogFragment : BaseBottomSheetFragment<Binding>() {
 
     private var dialogListener: DurationDialogListener? = null
     private val dialogTag: String? by lazy { arguments?.getString(ARGS_TAG) }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setStyle(DialogFragment.STYLE_NORMAL, R.style.BottomSheetDialog)
-    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

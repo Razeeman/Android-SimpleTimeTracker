@@ -3,7 +3,6 @@ package com.example.util.simpletimetracker.feature_dialogs.recordTagSelection
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.commit
 import com.example.util.simpletimetracker.core.base.BaseBottomSheetFragment
 import com.example.util.simpletimetracker.core.dialog.OnTagSelectedListener
@@ -29,11 +28,6 @@ class RecordTagSelectionDialogFragment :
 
     private val params: RecordTagSelectionParams by lazy {
         arguments?.getParcelable(ARGS_PARAMS) ?: RecordTagSelectionParams()
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setStyle(DialogFragment.STYLE_NORMAL, R.style.BottomSheetDialog)
     }
 
     override fun onTagSelected() {
