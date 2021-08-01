@@ -18,6 +18,15 @@ android {
         versionName = Base.versionName
     }
 
+    buildTypes {
+        getByName("debug") {
+            buildConfigField("String", "VERSION_NAME", "\"${defaultConfig.versionName}\"")
+        }
+        getByName("release") {
+            buildConfigField("String", "VERSION_NAME", "\"${defaultConfig.versionName}\"")
+        }
+    }
+
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }

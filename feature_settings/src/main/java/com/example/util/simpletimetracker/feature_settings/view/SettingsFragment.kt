@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
+import com.example.util.simpletimetracker.core.BuildConfig
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.DurationDialogListener
@@ -47,6 +48,10 @@ class SettingsFragment :
         ownerProducer = { activity as AppCompatActivity },
         factoryProducer = { backupViewModelFactory }
     )
+
+    override fun initUi() = with(binding) {
+        tvSettingsVersionName.text = BuildConfig.VERSION_NAME
+    }
 
     override fun initUx() = with(binding) {
         spinnerSettingsRecordTypeSort.onPositionSelected = viewModel::onRecordTypeOrderSelected
