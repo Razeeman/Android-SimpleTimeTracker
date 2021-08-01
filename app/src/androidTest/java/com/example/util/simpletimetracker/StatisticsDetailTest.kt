@@ -176,7 +176,8 @@ class StatisticsDetailTest : BaseUiTest() {
             R.color.colorUntracked,
             getString(R.string.change_record_untagged),
             "3$hourString 0$minuteString",
-            "100%")
+            "100%"
+        )
 
         // Next day
         clickOnViewWithId(R.id.btnStatisticsDetailNext)
