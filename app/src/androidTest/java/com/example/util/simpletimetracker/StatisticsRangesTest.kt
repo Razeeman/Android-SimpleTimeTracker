@@ -227,6 +227,7 @@ class StatisticsRangesTest : BaseUiTest() {
 
     @Test
     fun selectNearDateForWeeks() {
+        testUtils.setFirstDayOfWeek(DayOfWeek.SUNDAY)
         NavUtils.openStatisticsScreen()
 
         val calendarPrev = Calendar.getInstance().apply {
@@ -283,6 +284,7 @@ class StatisticsRangesTest : BaseUiTest() {
 
     @Test
     fun selectFarDateForWeeks() {
+        testUtils.setFirstDayOfWeek(DayOfWeek.SUNDAY)
         NavUtils.openStatisticsScreen()
 
         val calendarPrev = Calendar.getInstance().apply {
@@ -707,9 +709,9 @@ class StatisticsRangesTest : BaseUiTest() {
     }
 
     companion object {
-        private val dayTitleFormat = SimpleDateFormat("E, MMM d", Locale.US)
-        private val weekTitleFormat = SimpleDateFormat("MMM d", Locale.US)
-        private val monthTitleFormat = SimpleDateFormat("MMMM", Locale.US)
+        private val dayTitleFormat = SimpleDateFormat("E, MMM d", Locale.getDefault())
+        private val weekTitleFormat = SimpleDateFormat("MMM d", Locale.getDefault())
+        private val monthTitleFormat = SimpleDateFormat("MMMM", Locale.getDefault())
         private val yearTitleFormat = SimpleDateFormat("yyyy", Locale.getDefault())
     }
 }

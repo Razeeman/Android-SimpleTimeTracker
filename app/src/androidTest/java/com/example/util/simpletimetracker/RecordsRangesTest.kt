@@ -178,6 +178,6 @@ class RecordsRangesTest : BaseUiTest() {
     }
 
     companion object {
-        private val dayTitleFormat = SimpleDateFormat("E, MMM d", Locale.US)
+        private val dayTitleFormat = SimpleDateFormat("E, MMM d", Locale.getDefault())
     }
 }

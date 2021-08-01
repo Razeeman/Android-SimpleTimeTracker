@@ -11,6 +11,7 @@ import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
@@ -56,7 +57,7 @@ class RecordsAllTest : BaseUiTest() {
         val firstRecord = allOf(
             withId(R.id.viewRecordItem),
             hasDescendant(withText(name)),
-            hasDescendant(withText("1h 0m")),
+            hasDescendant(withText("1$hourString 0$minuteString")),
             isCompletelyDisplayed()
         )
 
@@ -78,7 +79,7 @@ class RecordsAllTest : BaseUiTest() {
         val secondRecord = allOf(
             withId(R.id.viewRecordItem),
             hasDescendant(withText(fullName)),
-            hasDescendant(withText("2h 0m")),
+            hasDescendant(withText("2$hourString 0$minuteString")),
             hasDescendant(withText(comment)),
             isCompletelyDisplayed()
         )
@@ -126,7 +127,7 @@ class RecordsAllTest : BaseUiTest() {
         val firstRecord = allOf(
             withId(R.id.viewRecordItem),
             hasDescendant(withText(name)),
-            hasDescendant(withText("1h 0m")),
+            hasDescendant(withText("1$hourString 0$minuteString")),
             isCompletelyDisplayed()
         )
 
@@ -145,7 +146,7 @@ class RecordsAllTest : BaseUiTest() {
         val secondRecord = allOf(
             withId(R.id.viewRecordItem),
             hasDescendant(withText(name)),
-            hasDescendant(withText("2h 0m")),
+            hasDescendant(withText("2$hourString 0$minuteString")),
             isCompletelyDisplayed()
         )
 
@@ -176,9 +177,11 @@ class RecordsAllTest : BaseUiTest() {
         clickOnViewWithId(R.id.btnChangeRecordDelete)
 
         // Check message
+        val message = InstrumentationRegistry.getInstrumentation().targetContext
+            .resources.getString(R.string.record_removed, name)
         checkViewIsDisplayed(
             allOf(
-                withText("Record $name removed"),
+                withText(message),
                 withId(com.google.android.material.R.id.snackbar_text)
             )
         )
@@ -236,7 +239,7 @@ class RecordsAllTest : BaseUiTest() {
         val firstRecord = allOf(
             withId(R.id.viewRecordItem),
             hasDescendant(withText(typeName1)),
-            hasDescendant(withText("1h 0m")),
+            hasDescendant(withText("1$hourString 0$minuteString")),
             isCompletelyDisplayed()
         )
 
@@ -256,7 +259,7 @@ class RecordsAllTest : BaseUiTest() {
         val secondRecord = allOf(
             withId(R.id.viewRecordItem),
             hasDescendant(withText(typeName2)),
-            hasDescendant(withText("2h 0m")),
+            hasDescendant(withText("2$hourString 0$minuteString")),
             isCompletelyDisplayed()
         )
 

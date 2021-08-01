@@ -98,8 +98,13 @@ class StatisticsDetailTest : BaseUiTest() {
 
         // Tag split
         onView(withId(R.id.rvStatisticsDetailTagSplit)).perform(nestedScrollTo())
-        checkTagItem(color, tag, "2h 0m", "67%")
-        checkTagItem(R.color.colorUntracked, "Untagged", "1h 0m", "33%")
+        checkTagItem(color, tag, "2$hourString 0$minuteString", "67%")
+        checkTagItem(
+            R.color.colorUntracked,
+            getString(R.string.change_record_untagged),
+            "1$hourString 0$minuteString",
+            "33%"
+        )
 
         // All records
         checkAllRecords(4)
@@ -167,7 +172,11 @@ class StatisticsDetailTest : BaseUiTest() {
         // Tag split
         onView(withId(R.id.rvStatisticsDetailTagSplit)).perform(nestedScrollTo())
         checkNoTagItem(tag)
-        checkTagItem(R.color.colorUntracked, "Untagged", "3h 0m", "100%")
+        checkTagItem(
+            R.color.colorUntracked,
+            getString(R.string.change_record_untagged),
+            "3$hourString 0$minuteString",
+            "100%")
 
         // Next day
         clickOnViewWithId(R.id.btnStatisticsDetailNext)
@@ -238,8 +247,8 @@ class StatisticsDetailTest : BaseUiTest() {
 
         // Tag split
         onView(withId(R.id.rvStatisticsDetailTagSplit)).perform(nestedScrollTo())
-        checkTagItem(color, tag, "3h 0m", "100%")
-        checkNoTagItem("Untagged")
+        checkTagItem(color, tag, "3$hourString 0$minuteString", "100%")
+        checkNoTagItem(getString(R.string.change_record_untagged))
 
         // Next week
         clickOnViewWithId(R.id.btnStatisticsDetailNext)
@@ -312,8 +321,8 @@ class StatisticsDetailTest : BaseUiTest() {
 
         // Tag split
         onView(withId(R.id.rvStatisticsDetailTagSplit)).perform(nestedScrollTo())
-        checkTagItem(color, tag1, "1h 0m", "33%")
-        checkTagItem(color, tag2, "2h 0m", "67%")
+        checkTagItem(color, tag1, "1$hourString 0$minuteString", "33%")
+        checkTagItem(color, tag2, "2$hourString 0$minuteString", "67%")
         checkNoTagItem("Untagged")
 
         // Next month
@@ -573,15 +582,15 @@ class StatisticsDetailTest : BaseUiTest() {
 
     private fun checkCards() {
         onView(withId(R.id.cardStatisticsDetailTotal)).perform(nestedScrollTo())
-        checkCard(R.string.statistics_detail_total_duration, "3h 0m")
+        checkCard(R.string.statistics_detail_total_duration, "3$hourString 0$minuteString")
 
         onView(withId(R.id.cardStatisticsDetailRecords)).perform(nestedScrollTo())
         checkRecordsCard(2)
 
         onView(withId(R.id.cardStatisticsDetailAverage)).perform(nestedScrollTo())
-        checkCard(R.string.statistics_detail_shortest_record, "1h 0m")
-        checkCard(R.string.statistics_detail_average_record, "1h 30m")
-        checkCard(R.string.statistics_detail_longest_record, "2h 0m")
+        checkCard(R.string.statistics_detail_shortest_record, "1$hourString 0$minuteString")
+        checkCard(R.string.statistics_detail_average_record, "1$hourString 30$minuteString")
+        checkCard(R.string.statistics_detail_longest_record, "2$hourString 0$minuteString")
 
         onView(withId(R.id.cardStatisticsDetailDates)).perform(nestedScrollTo())
         checkViewIsDisplayed(withText(R.string.statistics_detail_first_record))
@@ -590,7 +599,7 @@ class StatisticsDetailTest : BaseUiTest() {
 
     private fun checkEmptyStatistics() {
         onView(withId(R.id.cardStatisticsDetailTotal)).perform(nestedScrollTo())
-        checkCard(R.string.statistics_detail_total_duration, " 0m")
+        checkCard(R.string.statistics_detail_total_duration, " 0$minuteString")
 
         onView(withId(R.id.cardStatisticsDetailRecords)).perform(nestedScrollTo())
         checkRecordsCard(0)

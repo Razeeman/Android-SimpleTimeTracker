@@ -144,7 +144,7 @@ class ChangeRecordTypeTest : BaseUiTest() {
         clickOnViewWithId(R.id.tvNumberKeyboard0)
         clickOnViewWithId(R.id.tvNumberKeyboard0)
         clickOnViewWithText(R.string.duration_dialog_save)
-        checkViewIsDisplayed(withText("10m"))
+        checkViewIsDisplayed(withText("10$minuteString"))
 
         clickOnViewWithText(R.string.change_record_type_save)
 
@@ -158,7 +158,7 @@ class ChangeRecordTypeTest : BaseUiTest() {
         checkViewIsDisplayed(
             allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withTag(lastIcon))
         )
-        checkViewIsDisplayed(withText("goal 10m"))
+        checkViewIsDisplayed(withText(getString(R.string.running_record_goal_time, "10$minuteString")))
     }
 
     private fun checkPreviewUpdated(matcher: Matcher<View>) =

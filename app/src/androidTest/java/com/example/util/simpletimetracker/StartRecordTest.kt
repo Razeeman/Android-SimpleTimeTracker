@@ -56,7 +56,7 @@ class StartRecordTest : BaseUiTest() {
                 hasDescendant(withText(name)),
                 hasDescendant(withTag(firstIcon)),
                 hasDescendant(withText(timeStarted)),
-                hasDescendant(withText("goal 10m"))
+                hasDescendant(withText(getString(R.string.running_record_goal_time, "10$minuteString")))
             )
         )
 

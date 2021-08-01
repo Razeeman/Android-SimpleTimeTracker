@@ -11,6 +11,7 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryIn
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.model.Category
+import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
@@ -40,6 +41,10 @@ class TestUtils @Inject constructor(
 
     fun clearPrefs() = runBlocking {
         prefsInteractor.clear()
+    }
+
+    fun setFirstDayOfWeek(day: DayOfWeek) = runBlocking {
+        prefsInteractor.setFirstDayOfWeek(day)
     }
 
     fun addActivity(

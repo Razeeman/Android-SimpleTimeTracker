@@ -14,6 +14,7 @@ import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.isNotChecked
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withSubstring
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.util.simpletimetracker.core.extension.setWeekToFirstDay
@@ -475,21 +476,21 @@ class SettingsTest : BaseUiTest() {
         clickOnViewWithId(R.id.groupSettingsInactivityReminder)
         clickOnViewWithId(R.id.tvNumberKeyboard1)
         clickOnViewWithText(R.string.duration_dialog_save)
-        checkViewIsDisplayed(withText("1s"))
+        checkViewIsDisplayed(withText("1$secondString"))
 
         // 1m
         clickOnViewWithId(R.id.groupSettingsInactivityReminder)
         clickOnViewWithId(R.id.tvNumberKeyboard0)
         clickOnViewWithId(R.id.tvNumberKeyboard0)
         clickOnViewWithText(R.string.duration_dialog_save)
-        checkViewIsDisplayed(withText("1m"))
+        checkViewIsDisplayed(withText("1$minuteString"))
 
         // 1h
         clickOnViewWithId(R.id.groupSettingsInactivityReminder)
         clickOnViewWithId(R.id.tvNumberKeyboard0)
         clickOnViewWithId(R.id.tvNumberKeyboard0)
         clickOnViewWithText(R.string.duration_dialog_save)
-        checkViewIsDisplayed(withText("1h"))
+        checkViewIsDisplayed(withText("1$hourString"))
 
         // 1m 1s
         clickOnViewWithId(R.id.groupSettingsInactivityReminder)
@@ -498,14 +499,14 @@ class SettingsTest : BaseUiTest() {
         clickOnViewWithId(R.id.ivDurationPickerDelete)
         clickOnViewWithId(R.id.tvNumberKeyboard1)
         clickOnViewWithText(R.string.duration_dialog_save)
-        checkViewIsDisplayed(withText("1m 01s"))
+        checkViewIsDisplayed(withText("1$minuteString 01$secondString"))
 
         // 1h 1m 1s
         clickOnViewWithId(R.id.groupSettingsInactivityReminder)
         clickOnViewWithId(R.id.tvNumberKeyboard0)
         clickOnViewWithId(R.id.tvNumberKeyboard1)
         clickOnViewWithText(R.string.duration_dialog_save)
-        checkViewIsDisplayed(withText("1h 01m 01s"))
+        checkViewIsDisplayed(withText("1$hourString 01$minuteString 01$secondString"))
 
         // 1h 30m
         clickOnViewWithId(R.id.groupSettingsInactivityReminder)
@@ -515,14 +516,14 @@ class SettingsTest : BaseUiTest() {
         clickOnViewWithId(R.id.tvNumberKeyboard0)
         clickOnViewWithId(R.id.tvNumberKeyboard0)
         clickOnViewWithText(R.string.duration_dialog_save)
-        checkViewIsDisplayed(withText("1h 30m"))
+        checkViewIsDisplayed(withText("1$hourString 30$minuteString"))
 
         // 99h 99m 99s
         clickOnViewWithId(R.id.groupSettingsInactivityReminder)
         repeat(10) { clickOnViewWithId(R.id.ivDurationPickerDelete) }
         repeat(10) { clickOnViewWithId(R.id.tvNumberKeyboard9) }
         clickOnViewWithText(R.string.duration_dialog_save)
-        checkViewIsDisplayed(withText("100h 40m 39s"))
+        checkViewIsDisplayed(withText("100$hourString 40$minuteString 39$secondString"))
 
         // Disable
         clickOnViewWithId(R.id.groupSettingsInactivityReminder)
@@ -546,7 +547,7 @@ class SettingsTest : BaseUiTest() {
         // Change settings
         clickOnViewWithId(R.id.checkboxSettingsUseMilitaryTime)
         onView(withId(R.id.checkboxSettingsUseMilitaryTime)).check(matches(isNotChecked()))
-        checkViewIsDisplayed(allOf(withId(R.id.tvSettingsUseMilitaryTimeHint), withText("1:00 PM")))
+        checkViewIsDisplayed(allOf(withId(R.id.tvSettingsUseMilitaryTimeHint), withSubstring("1:00")))
 
         // Change settings
         clickOnViewWithId(R.id.checkboxSettingsUseMilitaryTime)

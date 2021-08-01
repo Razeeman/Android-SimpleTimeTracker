@@ -140,7 +140,7 @@ class AddRecordTypeTest : BaseUiTest() {
         clickOnViewWithId(R.id.tvNumberKeyboard0)
         clickOnViewWithId(R.id.tvNumberKeyboard0)
         clickOnViewWithText(R.string.duration_dialog_save)
-        checkViewIsDisplayed(withText("10m"))
+        checkViewIsDisplayed(withText("10$minuteString"))
 
         clickOnViewWithText(R.string.change_record_type_save)
 

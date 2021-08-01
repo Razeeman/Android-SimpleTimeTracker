@@ -68,7 +68,7 @@ class MainScreenEmptyTest : BaseUiTest() {
             allOf(
                 withId(R.id.viewRecordItem),
                 hasDescendant(withText(R.string.untracked_time_name)),
-                hasDescendant(withSubstring("24h 0m")),
+                hasDescendant(withSubstring("24$hourString 0$minuteString")),
                 isCompletelyDisplayed()
             )
         )

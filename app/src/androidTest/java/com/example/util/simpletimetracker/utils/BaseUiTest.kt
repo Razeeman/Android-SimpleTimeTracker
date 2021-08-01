@@ -6,6 +6,8 @@ import androidx.emoji.text.EmojiCompat
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.ext.junit.rules.ActivityScenarioRule
+import androidx.test.platform.app.InstrumentationRegistry
+import com.example.util.simpletimetracker.R
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconEmojiMapper
 import com.example.util.simpletimetracker.core.mapper.IconImageMapper
@@ -67,6 +69,10 @@ open class BaseUiTest {
             .getAvailableEmojis()[iconEmojiMapper.getAvailableEmojiCategories().last()]
             ?.last().orEmpty()
 
+    val hourString: String by lazy { getString(R.string.time_hour) }
+    val minuteString: String by lazy { getString(R.string.time_minute) }
+    val secondString: String by lazy { getString(R.string.time_second) }
+
     init {
         val app = ApplicationProvider.getApplicationContext() as Context
         val config = BundledEmojiCompatConfig(app).setReplaceAll(true)
@@ -85,6 +91,16 @@ open class BaseUiTest {
     open fun after() {
         enableAnimations()
         unregisterIdlingResource()
+    }
+
+    internal fun getString(id: Int): String {
+        return InstrumentationRegistry.getInstrumentation().targetContext.resources
+            .getString(id)
+    }
+
+    internal fun getString(id: Int, vararg args: Any): String {
+        return InstrumentationRegistry.getInstrumentation().targetContext.resources
+            .getString(id, *args)
     }
 
     private fun clearData() {

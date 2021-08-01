@@ -76,7 +76,7 @@ class StatisticsTest : BaseUiTest() {
                 isCompletelyDisplayed()
             )
         )
-        checkViewDoesNotExist(allOf(withText("1h 0m"), isCompletelyDisplayed()))
+        checkViewDoesNotExist(allOf(withText("1$hourString 0m"), isCompletelyDisplayed()))
         checkViewIsDisplayed(
             allOf(
                 withId(R.id.viewStatisticsItem),
@@ -100,7 +100,7 @@ class StatisticsTest : BaseUiTest() {
         checkViewIsDisplayed(
             allOf(
                 withId(R.id.tvStatisticsInfoText),
-                withText("2h 0m")
+                withText("2$hourString 0$minuteString")
             )
         )
         checkViewIsDisplayed(
@@ -173,7 +173,7 @@ class StatisticsTest : BaseUiTest() {
         clickOnViewWithText(R.string.range_overall)
         Thread.sleep(1000)
 
-        checkViewDoesNotExist(allOf(withText("3h 0m"), isCompletelyDisplayed()))
+        checkViewDoesNotExist(allOf(withText("3$hourString 0$minuteString"), isCompletelyDisplayed()))
         checkViewIsDisplayed(
             allOf(
                 withId(R.id.viewStatisticsItem),
@@ -195,7 +195,7 @@ class StatisticsTest : BaseUiTest() {
         checkViewIsDisplayed(
             allOf(
                 withId(R.id.tvStatisticsInfoText),
-                withText("5h 0m")
+                withText("5$hourString 0$minuteString")
             )
         )
         checkViewIsDisplayed(
@@ -234,7 +234,7 @@ class StatisticsTest : BaseUiTest() {
                 withCardColor(firstColor),
                 hasDescendant(withTag(firstIcon)),
                 hasDescendant(withText(name)),
-                hasDescendant(withText("1h 0m")),
+                hasDescendant(withText("1$hourString 0$minuteString")),
                 hasDescendant(withSubstring("%")),
                 isCompletelyDisplayed()
             )
@@ -245,7 +245,7 @@ class StatisticsTest : BaseUiTest() {
                 withCardColor(lastColor),
                 hasDescendant(withTag(lastIcon)),
                 hasDescendant(withText(newName)),
-                hasDescendant(withText("1h 0m")),
+                hasDescendant(withText("1$hourString 0$minuteString")),
                 hasDescendant(withSubstring("%")),
                 isCompletelyDisplayed()
             )
@@ -254,7 +254,7 @@ class StatisticsTest : BaseUiTest() {
             allOf(
                 withId(R.id.layoutStatisticsInfoItem),
                 hasDescendant(withText(R.string.statistics_total_tracked)),
-                hasDescendant(withText("2h 0m")),
+                hasDescendant(withText("2$hourString 0$minuteString")),
                 isCompletelyDisplayed()
             )
         )
@@ -270,7 +270,7 @@ class StatisticsTest : BaseUiTest() {
                 withId(R.id.viewStatisticsItem),
                 hasDescendant(withText(R.string.untracked_time_name)),
                 hasDescendant(withText("100%")),
-                hasDescendant(withSubstring("h 0m")),
+                hasDescendant(withSubstring("$hourString 0$minuteString")),
                 isCompletelyDisplayed()
             )
         )
@@ -278,7 +278,7 @@ class StatisticsTest : BaseUiTest() {
             allOf(
                 withId(R.id.layoutStatisticsInfoItem),
                 hasDescendant(withText(R.string.statistics_total_tracked)),
-                hasDescendant(withText(" 0m")),
+                hasDescendant(withText(" 0$minuteString")),
                 isCompletelyDisplayed()
             )
         )
@@ -303,7 +303,7 @@ class StatisticsTest : BaseUiTest() {
                 withId(R.id.viewStatisticsItem),
                 withCardColor(firstColor),
                 hasDescendant(withText(categoryName1)),
-                hasDescendant(withText("3h 0m")),
+                hasDescendant(withText("3$hourString 0$minuteString")),
                 hasDescendant(withSubstring("60%")),
                 isCompletelyDisplayed()
             )
@@ -313,7 +313,7 @@ class StatisticsTest : BaseUiTest() {
                 withId(R.id.viewStatisticsItem),
                 withCardColor(lastColor),
                 hasDescendant(withText(categoryName2)),
-                hasDescendant(withText("2h 0m")),
+                hasDescendant(withText("2$hourString 0$minuteString")),
                 hasDescendant(withSubstring("40%")),
                 isCompletelyDisplayed()
             )
@@ -321,7 +321,7 @@ class StatisticsTest : BaseUiTest() {
         checkViewIsDisplayed(
             allOf(
                 withId(R.id.tvStatisticsInfoText),
-                withText("5h 0m")
+                withText("5$hourString 0$minuteString")
             )
         )
         checkViewDoesNotExist(

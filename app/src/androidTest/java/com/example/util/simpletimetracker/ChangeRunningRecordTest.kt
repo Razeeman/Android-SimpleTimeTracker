@@ -9,7 +9,6 @@ import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.withClassName
 import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.matcher.ViewMatchers.withSubstring
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.util.simpletimetracker.utils.BaseUiTest
@@ -64,7 +63,7 @@ class ChangeRunningRecordTest : BaseUiTest() {
             color = firstColor,
             icon = firstIcon,
             timeStarted = timeStartedPreview,
-            goalTime = "10m",
+            goalTime = "10$minuteString",
             comment = ""
         )
 
@@ -83,7 +82,9 @@ class ChangeRunningRecordTest : BaseUiTest() {
         checkPreviewUpdated(withCardColor(firstColor))
         checkPreviewUpdated(hasDescendant(withTag(firstIcon)))
         checkPreviewUpdated(hasDescendant(withText(timeStartedPreview)))
-        checkPreviewUpdated(hasDescendant(withText("goal 10m")))
+        checkPreviewUpdated(
+            hasDescendant(withText(getString(R.string.running_record_goal_time, "10$minuteString")))
+        )
 
         // Change item
         clickOnViewWithText(R.string.change_record_type_field)
@@ -132,8 +133,8 @@ class ChangeRunningRecordTest : BaseUiTest() {
         checkPreviewUpdated(hasDescendant(withText(lastEmoji)))
         checkPreviewUpdated(hasDescendant(withText(timeStartedPreview)))
         checkPreviewUpdated(hasDescendant(withText(comment)))
-        checkViewDoesNotExist(
-            allOf(withId(R.id.previewChangeRunningRecord), hasDescendant(withSubstring("goal")))
+        checkViewIsNotDisplayed(
+            allOf(isDescendantOfA(withId(R.id.previewChangeRunningRecord)), withId(R.id.tvRunningRecordItemGoalTime))
         )
 
         // Save
@@ -247,14 +248,14 @@ class ChangeRunningRecordTest : BaseUiTest() {
             checkViewIsDisplayed(
                 allOf(
                     isDescendantOfA(withId(R.id.viewRunningRecordItem)),
-                    withText("goal $goalTime")
+                    withText(getString(R.string.running_record_goal_time, goalTime))
                 )
             )
         } else {
-            checkViewDoesNotExist(
+            checkViewIsNotDisplayed(
                 allOf(
                     isDescendantOfA(withId(R.id.viewRunningRecordItem)),
-                    withSubstring("goal")
+                    withId(R.id.tvRunningRecordItemGoalTime)
                 )
             )
         }

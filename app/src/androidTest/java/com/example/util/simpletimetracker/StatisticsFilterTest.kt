@@ -43,7 +43,7 @@ class StatisticsFilterTest : BaseUiTest() {
         checkViewIsDisplayed(allOf(withText(R.string.untracked_time_name), isCompletelyDisplayed()))
         checkViewIsDisplayed(allOf(withText(name1), isCompletelyDisplayed()))
         checkViewIsDisplayed(allOf(withText(name2), isCompletelyDisplayed()))
-        checkViewIsDisplayed(allOf(withId(R.id.tvStatisticsInfoText), withText("2h 0m")))
+        checkViewIsDisplayed(allOf(withId(R.id.tvStatisticsInfoText), withText("2$hourString 0$minuteString")))
 
         // Filter untracked
         clickOnViewWithIdOnPager(R.id.btnStatisticsChartFilter)
@@ -52,7 +52,7 @@ class StatisticsFilterTest : BaseUiTest() {
         tryAction { checkViewDoesNotExist(allOf(withText(R.string.untracked_time_name), isCompletelyDisplayed())) }
         checkViewIsDisplayed(allOf(withText(name1), isCompletelyDisplayed()))
         checkViewIsDisplayed(allOf(withText(name2), isCompletelyDisplayed()))
-        checkViewIsDisplayed(allOf(withId(R.id.tvStatisticsInfoText), withText("2h 0m")))
+        checkViewIsDisplayed(allOf(withId(R.id.tvStatisticsInfoText), withText("2$hourString 0$minuteString")))
 
         // Filter activity
         clickOnViewWithIdOnPager(R.id.btnStatisticsChartFilter)
@@ -61,7 +61,7 @@ class StatisticsFilterTest : BaseUiTest() {
         tryAction { checkViewDoesNotExist(allOf(withText(R.string.untracked_time_name), isCompletelyDisplayed())) }
         checkViewDoesNotExist(allOf(withText(name1), isCompletelyDisplayed()))
         checkViewIsDisplayed(allOf(withText(name2), isCompletelyDisplayed()))
-        checkViewIsDisplayed(allOf(withId(R.id.tvStatisticsInfoText), withText("1h 0m")))
+        checkViewIsDisplayed(allOf(withId(R.id.tvStatisticsInfoText), withText("1$hourString 0$minuteString")))
 
         // Filter all
         clickOnViewWithIdOnPager(R.id.btnStatisticsChartFilter)
@@ -80,7 +80,7 @@ class StatisticsFilterTest : BaseUiTest() {
         tryAction { checkViewIsDisplayed(allOf(withText(R.string.untracked_time_name), isCompletelyDisplayed())) }
         checkViewIsDisplayed(allOf(withText(name1), isCompletelyDisplayed()))
         checkViewIsDisplayed(allOf(withText(name2), isCompletelyDisplayed()))
-        checkViewIsDisplayed(allOf(withId(R.id.tvStatisticsInfoText), withText("2h 0m")))
+        checkViewIsDisplayed(allOf(withId(R.id.tvStatisticsInfoText), withText("2$hourString 0$minuteString")))
 
         // Hide all
         clickOnViewWithIdOnPager(R.id.btnStatisticsChartFilter)
@@ -117,7 +117,7 @@ class StatisticsFilterTest : BaseUiTest() {
         checkViewIsDisplayed(allOf(withText(R.string.untracked_time_name), isCompletelyDisplayed()))
         checkViewIsDisplayed(allOf(withText(name1), isCompletelyDisplayed()))
         checkViewIsDisplayed(allOf(withText(name2), isCompletelyDisplayed()))
-        checkViewIsDisplayed(allOf(withId(R.id.tvStatisticsInfoText), withText("2h 0m")))
+        checkViewIsDisplayed(allOf(withId(R.id.tvStatisticsInfoText), withText("2$hourString 0$minuteString")))
 
         // Switch filter
         clickOnViewWithIdOnPager(R.id.btnStatisticsChartFilter)
@@ -128,7 +128,7 @@ class StatisticsFilterTest : BaseUiTest() {
         tryAction { checkViewDoesNotExist(allOf(withText(R.string.untracked_time_name), isCompletelyDisplayed())) }
         checkViewIsDisplayed(allOf(withText(tag1), isCompletelyDisplayed()))
         checkViewIsDisplayed(allOf(withText(tag2), isCompletelyDisplayed()))
-        checkViewIsDisplayed(allOf(withId(R.id.tvStatisticsInfoText), withText("2h 0m")))
+        checkViewIsDisplayed(allOf(withId(R.id.tvStatisticsInfoText), withText("2$hourString 0$minuteString")))
 
         // Filter tag
         clickOnViewWithIdOnPager(R.id.btnStatisticsChartFilter)
@@ -136,7 +136,7 @@ class StatisticsFilterTest : BaseUiTest() {
         pressBack()
         tryAction { checkViewDoesNotExist(allOf(withText(tag1), isCompletelyDisplayed())) }
         checkViewIsDisplayed(allOf(withText(tag2), isCompletelyDisplayed()))
-        checkViewIsDisplayed(allOf(withId(R.id.tvStatisticsInfoText), withText("1h 0m")))
+        checkViewIsDisplayed(allOf(withId(R.id.tvStatisticsInfoText), withText("1$hourString 0$minuteString")))
 
         // Filter all
         clickOnViewWithIdOnPager(R.id.btnStatisticsChartFilter)
@@ -153,7 +153,7 @@ class StatisticsFilterTest : BaseUiTest() {
         pressBack()
         tryAction { checkViewIsDisplayed(allOf(withText(tag1), isCompletelyDisplayed())) }
         checkViewIsDisplayed(allOf(withText(tag2), isCompletelyDisplayed()))
-        checkViewIsDisplayed(allOf(withId(R.id.tvStatisticsInfoText), withText("2h 0m")))
+        checkViewIsDisplayed(allOf(withId(R.id.tvStatisticsInfoText), withText("2$hourString 0$minuteString")))
 
         // Hide all
         clickOnViewWithIdOnPager(R.id.btnStatisticsChartFilter)
