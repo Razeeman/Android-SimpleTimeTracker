@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="day_of_week_monday">Пн</string>
+    <string name="day_of_week_tuesday">Вт</string>
+    <string name="day_of_week_wednesday">Ср</string>
+    <string name="day_of_week_thursday">Чт</string>
+    <string name="day_of_week_friday">Пт</string>
+    <string name="day_of_week_saturday">Сб</string>
+    <string name="day_of_week_sunday">Нд</string>
+
+    <string name="activity_hint">Заняття</string>
+    <string name="activity_tag_hint">Теги активностей</string>
+    <string name="record_tag_hint">Теги записів</string>
+
+    <!--  Range selection  -->
+    <string name="title_yesterday">Вчора</string>
+    <string name="title_today">Сьогодні</string>
+    <string name="title_tomorrow">Завтра</string>
+    <string name="title_this_week">Цього тижня</string>
+    <string name="title_this_month">Цього місяця</string>
+    <string name="title_this_year">Цього року</string>
+
+    <string name="range_day">День</string>
+    <string name="range_week">Тиждень</string>
+    <string name="range_month">Місяць</string>
+    <string name="range_year">Рік</string>
+    <string name="range_overall">Весь час</string>
+    <string name="range_select_day">Обрати дату</string>
+    <string name="range_select_week">Обрати тиждень</string>
+    <string name="range_select_month">Обрати місяць</string>
+    <string name="range_select_year">Обрати рік</string>
+
+    <string name="ok">OK</string>
+    <string name="cancel">Скасувати</string>
+
+    <string name="time_hour">г</string>
+    <string name="time_minute">хв</string>
+    <string name="time_second">с</string>
+
+    <string name="untracked_time_name">Без відстеження</string>
+    <string name="running_record_goal_time">ціль %s</string>
+    <string name="record_types_empty">Жодної активності не додано</string>
+    <string name="record_tag_selection_hint">Виберіть тег запису</string>
+
+    <!--  Records  -->
+    <string name="record_removed">Запис %s видалено</string>
+    <string name="record_removed_undo">Скасувати</string>
+    <string name="records_empty">Записів немає</string>
+    <string name="records_hint">Натисніть на запис для редагування</string>
+
+    <!--  Statistics  -->
+    <string name="statistics_empty">Немає даних для показу</string>
+    <string name="statistics_total_tracked">Всього відстежено</string>
+    <string name="statistics_hint">Натисніть на картку для перегляду детальної статистики</string>
+
+    <!--  Categories  -->
+    <string name="categories_record_type_hint">Призначте один і той самий тег різним активностям, щоб переглядати їх згруповану статистику</string>
+    <string name="categories_record_hint">Призначте різні теги записам, щоб розрізняти їх</string>
+    <string name="categories_add_activity_tag">Додати тег активності</string>
+    <string name="categories_add_record_tag">Додати тег запису</string>
+
+    <!--  Change category  -->
+    <string name="change_category_removed">Тег видалено</string>
+    <string name="change_category_archived">Тег переміщено до архіву</string>
+    <string name="change_category_name_hint">Введіть нове ім\'я</string>
+    <string name="change_category_color_hint">Колір</string>
+    <string name="change_category_types_hint">Активності</string>
+    <string name="change_category_type_hint">Активність</string>
+    <string name="change_category_save">Зберегти</string>
+    <string name="change_category_message_choose_name">Оберіть ім\'я</string>
+    <string name="change_category_message_choose_type">Оберіть активність</string>
+    <string name="change_category_selected_types_empty">Не прив\'язано до жодної активності</string>
+    <string name="change_category_selected_types_hint">Прив\'язано до:</string>
+
+    <!--  Change record  -->
+    <string name="change_record_message_choose_type">Оберіть активність</string>
+    <string name="change_record_type_field">Активність</string>
+    <string name="change_record_category_field">Тег</string>
+    <string name="change_record_comment_hint">Коментар</string>
+    <string name="change_record_categories_empty">Теги для активності не додані</string>
+    <string name="change_record_activity_not_selected">Активність не обрана</string>
+    <string name="change_record_save">Зберегти</string>
+    <string name="change_record_untagged">Без тегу</string>
+    <string name="change_running_record_removed">Поточне заняття видалено</string>
+
+    <!--  Change record type  -->
+    <string name="change_record_type_archived">Активність переміщено до архіву</string>
+    <string name="change_record_type_name_hint">Введіть нове ім\'я</string>
+    <string name="change_record_type_color_hint">Колір</string>
+    <string name="change_record_type_icon_hint">Іконка</string>
+    <string name="change_record_type_emoji_hint">Смайл</string>
+    <string name="change_record_type_category_hint">Теги</string>
+    <string name="change_record_type_save">Зберегти</string>
+    <string name="change_record_message_choose_name">Оберіть ім\'я</string>
+    <string name="change_record_type_categories_empty">Теги для активності не додані</string>
+    <string name="change_record_type_selected_categories_empty">Не прив\'язано жодного тегу</string>
+    <string name="change_record_type_selected_categories_hint">Прив\'язані теги:</string>
+    <string name="change_record_type_goal_time_disabled">Відключено</string>
+    <string name="change_record_type_goal_time">Час цілі</string>
+    <string name="change_record_type_goal_time_hint">Показувати сповіщення після вказаного часу відстеження цієї дії.</string>
+
+    <!--  Dialogs  -->
+    <string name="date_time_dialog_date">Дата</string>
+    <string name="date_time_dialog_time">Час</string>
+
+    <string name="card_size_default">Ширина за промовчанням</string>
+    <string name="card_size_hint">Кількість карток у рядку</string>
+
+    <string name="card_order_hint">Перетягніть, щоб впорядкувати</string>
+
+    <string name="chart_filter_hint">Фільтр</string>
+    <string name="types_filter_show_all">Показати все</string>
+    <string name="types_filter_hide_all">Приховати все</string>
+    <string name="chart_filter_type_hint">Тип статистики</string>
+    <string name="chart_filter_type_activity">Активності</string>
+    <string name="chart_filter_type_category">Теги</string>
+    <string name="chart_filter_categories_empty">Теги не додані</string>
+
+    <string name="duration_dialog_save">Зберегти</string>
+    <string name="duration_dialog_disable">Вимкнути</string>
+
+    <!--  Records all  -->
+    <string name="records_all_sort_order">Сортувати записи</string>
+    <string name="records_all_filter">Фільтрувати заняття</string>
+    <string name="records_all_sort_time_started">Початок</string>
+    <string name="records_all_sort_duration">Тривалість</string>
+
+    <!--  Running records  -->
+    <string name="running_records_types_empty">Додайте активності для початку відстеження</string>
+    <string name="running_records_empty">Натисніть на активність, щоб почати відстеження</string>
+    <string name="running_records_empty_hint">Натисність та утримуйте для редагування</string>
+    <string name="running_records_add_type">Додати</string>
+
+    <!--  Settings  -->
+    <string name="settings_sort_order">Сортувати активності</string>
+    <string name="settings_sort_by_name">Ім\'я</string>
+    <string name="settings_sort_by_color">Колір</string>
+    <string name="settings_sort_manually">Вручну</string>
+    <string name="settings_first_day_of_week">Перший день тижня</string>
+    <string name="settings_show_untracked_time">Показувати не відстежений час у записах</string>
+    <string name="settings_allow_multitasking">Дозволити багатозадачність</string>
+    <string name="settings_allow_multitasking_hint">Якщо вимкнено, запуск нового таймера автоматично зупинить інші дії.</string>
+    <string name="settings_show_notifications">Показувати сповіщення таймера</string>
+    <string name="settings_show_notifications_hint">Показувати сповіщення, коли таймери працюють.</string>
+    <string name="settings_inactivity_reminder">Показувати нагадування про бездіяльність</string>
+    <string name="settings_inactivity_reminder_hint">Показувати сповіщення через вказаний час, якщо таймери не запущені.</string>
+    <string name="settings_inactivity_reminder_disabled">Вимкнено</string>
+    <string name="settings_dark_mode">Темний режим</string>
+    <string name="settings_use_military_time">Використовувати 24-годинний формат</string>
+    <string name="settings_change_card_size">Змінити розмір картки активності</string>
+    <string name="settings_archive">Архів</string>
+    <string name="settings_edit_categories">Редагувати теги</string>
+    <string name="settings_edit_categories_hint">Призначайте теги активностям та записам.</string>
+    <string name="settings_show_record_tag_selection">Показувати діалог вибору тега для запису</string>
+    <string name="settings_show_record_tag_selection_hint">Під час запуску таймера, якщо у діяльності є якісь теги запису, буде показане діалогове вікно вибору.</string>
+    <string name="settings_rate">Оцініть нас</string>
+    <string name="settings_rate_description">Оцініть програму та залиште відгук.</string>
+    <string name="settings_feedback">Зворотній зв\'язок</string>
+    <string name="settings_feedback_description">Є пропозиція? Знайшли помилку? Хочете поговорити? Напишіть нам!</string>
+    <string name="settings_version">Версія</string>
+    <string name="settings_email_chooser_title">Надіслати за допомогою…</string>
+    <string name="settings_translators">Перекладачі</string>
+
+    <string name="settings_save_backup">Зберегти резервну копію</string>
+    <string name="settings_save_description">Перед збереженням переконайтесь, що у вас встановлена остання версія додатку, щоб уникнути конфліктів.</string>
+    <string name="settings_restore_backup">Відновлення резервної копії</string>
+    <string name="settings_restore_description">Поточні дані будуть втрачені.</string>
+    <string name="settings_dialog_message">Відновити резервну копію?</string>
+    <string name="settings_export_csv">Експорт електронних таблиць</string>
+    <string name="settings_export_csv_description">Експортуйте записи діяльності як файл CSV для перегляду у бажаній програмі для перегляду електронних таблиць.</string>
+    <string name="settings_file_open_error">Помилка відкриття файлу</string>
+    <string name="settings_file_create_error">Помилка створення файлу</string>
+
+    <string name="message_backup_saved">Резервну копію збережено</string>
+    <string name="message_backup_restored">Резервну копію відновлено</string>
+    <string name="message_save_error">Помилка збереження резервної копії</string>
+    <string name="message_restore_error">Помилка відновлення резервної копії</string>
+    <string name="message_app_not_found">Додаток не знайдено</string>
+    <string name="message_csv_export_complete">Експорт завершено</string>
+    <string name="message_csv_export_error">Помилка експорту CSV</string>
+
+    <!--  Statistics detail  -->
+    <string name="statistics_detail_chart_hourly">година</string>
+    <string name="statistics_detail_chart_daily">день</string>
+    <string name="statistics_detail_chart_weekly">тиждень</string>
+    <string name="statistics_detail_chart_monthly">місяць</string>
+    <string name="statistics_detail_chart_yearly">рік</string>
+    <string name="statistics_detail_length_ten">10</string>
+    <string name="statistics_detail_length_fifty">50</string>
+    <string name="statistics_detail_length_hundred">100</string>
+    <string name="statistics_detail_legend_minute_suffix">хв</string>
+    <string name="statistics_detail_legend_hour_suffix">г</string>
+
+    <string name="statistics_detail_total_duration">Всього</string>
+    <string name="statistics_detail_shortest_record">Найкоротший</string>
+    <string name="statistics_detail_average_record">Середній</string>
+    <string name="statistics_detail_longest_record">Найдовший</string>
+    <string name="statistics_detail_first_record">Перший</string>
+    <string name="statistics_detail_last_record">Останній</string>
+    <string name="statistics_detail_tag_split_hint">Розподіл тегів</string>
+
+    <plurals name="statistics_detail_times_tracked">
+        <item quantity="zero">Записів</item>
+        <item quantity="one">Запис</item>
+        <item quantity="two">записи</item>
+        <item quantity="few">записів</item>
+        <item quantity="many">записів</item>
+        <item quantity="other">записів</item>
+    </plurals>
+
+    <!--  Widget  -->
+    <string name="widget_name">Окрема активність</string>
+    <string name="widget_universal_name">Універсальний</string>
+    <string name="widget_load_error">Не знайдено</string>
+
+    <!--  Notification  -->
+    <string name="notification_inactivity_title">Нагадування про бездіяльність</string>
+    <string name="notification_inactivity_text">Не забувайте відстежувати свій час</string>
+    <string name="notification_goal_time_description">Досягнутий цільовий час активності %s</string>
+    <string name="notification_time_started">Початок в %s</string>
+    <string name="notification_record_type_goal_time">ціль %s</string>
+
+    <!--  Archive  -->
+    <string name="archive_dialog_delete">Видалити</string>
+    <string name="archive_dialog_restore">Відновити</string>
+    <string name="archive_empty">Архів порожній</string>
+    <string name="archive_activity_restored">Діяльність відновлено</string>
+    <string name="archive_tag_restored">Тег відновлено</string>
+    <string name="archive_activity_deleted">Діяльність видалено</string>
+    <string name="archive_tag_deleted">Тег видалено</string>
+    <string name="archive_activity_deletion_message">Усі записи цієї активності та теги записів також будуть видалені.</string>
+    <string name="archive_tag_deletion_message">Усі записи, позначені цим тегом, будуть без позначок.</string>
+    <string name="archive_deletion_alert">Ви впевнені? Цю дію не можна скасувати.</string>
+    <string name="archive_records_count">Записи</string>
+    <string name="archive_record_tags_count">Теги запису</string>
+    <string name="archive_tagged_records_count">Кількість записів, відмічених тегом</string>
+
+    <!--  Icon emoji category  -->
+    <string name="emojiGroupSmileys">Смайли та емоції</string>
+    <string name="emojiGroupPeople">Люди</string>
+    <string name="emojiGroupAnimals">Природа та тварини</string>
+    <string name="emojiGroupFood">Їжа та напої</string>
+    <string name="emojiGroupTravel">Подорожі</string>
+    <string name="emojiGroupActivities">Події та активність</string>
+    <string name="emojiGroupObjects">Об\'єкти</string>
+    <string name="emojiGroupSymbols">Символи</string>
+    <string name="emojiGroupFlags">Прапори</string>
+
+    <!--  Icon image category  -->
+    <string name="imageGroupMaps">Карти</string>
+    <string name="imageGroupPlaces">Місця</string>
+    <string name="imageGroupSocial">Активність</string>
+    <string name="imageGroupAction">Дії</string>
+    <string name="imageGroupHardware">Обладнання</string>
+    <string name="imageGroupAlert">Попередження</string>
+    <string name="imageGroupAv">Авдіо та відео</string>
+    <string name="imageGroupCommunication">Комунікація</string>
+    <string name="imageGroupContent">Контент</string>
+    <string name="imageGroupDevice">Пристрій</string>
+    <string name="imageGroupEditor">Редактор</string>
+    <string name="imageGroupFile">Файл</string>
+    <string name="imageGroupImage">Зображення</string>
+    <string name="imageGroupNavigation">Навігація</string>
+    <string name="imageGroupNotification">Сповіщення</string>
+    <string name="imageGroupToggle">Перемикач</string>
+
+</resources>

@@ -172,9 +172,6 @@
     <string name="settings_file_open_error">Error opening file</string>
     <string name="settings_file_create_error">Error creating file</string>
 
-    <string name="support_email" translatable="false">devrazeeman@gmail.com</string>
-    <string name="support_email_subject" translatable="false">Simple Time Tracker, feedback</string>
-
     <string name="message_backup_saved">Backup saved</string>
     <string name="message_backup_restored">Backup restored</string>
     <string name="message_save_error">Error saving backup</string>
@@ -182,10 +179,6 @@
     <string name="message_app_not_found">Application not found</string>
     <string name="message_csv_export_complete">Export completed</string>
     <string name="message_csv_export_error">Error exporting csv</string>
-
-    <!--  Settings translators  -->
-    <string name="settings_translators_russian" translatable="false">Геннадий Щерба</string>
-    <string name="settings_translators_russian_language" translatable="false">Русский</string>
 
     <!--  Statistics detail  -->
     <string name="statistics_detail_chart_hourly">hourly</string>
@@ -206,7 +199,6 @@
     <string name="statistics_detail_first_record">First</string>
     <string name="statistics_detail_last_record">Last</string>
     <string name="statistics_detail_tag_split_hint">Tag distribution</string>
-    <string name="statistics_detail_empty" translatable="false">-</string>
 
     <plurals name="statistics_detail_times_tracked">
         <item quantity="zero">Records</item>

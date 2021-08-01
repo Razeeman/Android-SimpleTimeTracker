@@ -201,7 +201,9 @@
     <string name="statistics_detail_tag_split_hint">Распределение тегов</string>
 
     <plurals name="statistics_detail_times_tracked">
+        <item quantity="zero">Записей</item>
         <item quantity="one">Запись</item>
+        <item quantity="two">Записи</item>
         <item quantity="few">Записи</item>
         <item quantity="many">Записей</item>
         <item quantity="other">Записей</item>
