@@ -181,11 +181,11 @@
     <string name="message_csv_export_error">Galat mengekspor csv</string>
 
     <!--  Statistics detail  -->
-    <string name="statistics_detail_chart_hourly">per jam</string>
-    <string name="statistics_detail_chart_daily">per hari</string>
-    <string name="statistics_detail_chart_weekly">per minggu</string>
-    <string name="statistics_detail_chart_monthly">per bulan</string>
-    <string name="statistics_detail_chart_yearly">per tahun</string>
+    <string name="statistics_detail_chart_hourly">jam</string>
+    <string name="statistics_detail_chart_daily">hari</string>
+    <string name="statistics_detail_chart_weekly">minggu</string>
+    <string name="statistics_detail_chart_monthly">bulan</string>
+    <string name="statistics_detail_chart_yearly">tahun</string>
     <string name="statistics_detail_length_ten">10</string>
     <string name="statistics_detail_length_fifty">50</string>
     <string name="statistics_detail_length_hundred">100</string>
