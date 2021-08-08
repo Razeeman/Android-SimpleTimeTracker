@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="day_of_week_monday">Sen</string>
+    <string name="day_of_week_tuesday">Sel</string>
+    <string name="day_of_week_wednesday">Rab</string>
+    <string name="day_of_week_thursday">Kam</string>
+    <string name="day_of_week_friday">Jum</string>
+    <string name="day_of_week_saturday">Sab</string>
+    <string name="day_of_week_sunday">Min</string>
+
+    <string name="activity_hint">Kegiatan</string>
+    <string name="activity_tag_hint">Label kegiatan</string>
+    <string name="record_tag_hint">Label rekaman</string>
+
+    <!--  Range selection  -->
+    <string name="title_yesterday">Kemarin</string>
+    <string name="title_today">Hari ini</string>
+    <string name="title_tomorrow">Besok</string>
+    <string name="title_this_week">Minggu ini</string>
+    <string name="title_this_month">Bulan ini</string>
+    <string name="title_this_year">Tahun ini</string>
+
+    <string name="range_day">Hari</string>
+    <string name="range_week">Minggu</string>
+    <string name="range_month">Bulan</string>
+    <string name="range_year">Tahun</string>
+    <string name="range_overall">Keseluruhan</string>
+    <string name="range_select_day">Pilih tanggal</string>
+    <string name="range_select_week">Pilih minggu</string>
+    <string name="range_select_month">Pilih bulan</string>
+    <string name="range_select_year">Pilih tahun</string>
+
+    <string name="ok">Oke</string>
+    <string name="cancel">Batal</string>
+
+    <string name="time_hour">j</string>
+    <string name="time_minute">m</string>
+    <string name="time_second">d</string>
+
+    <string name="untracked_time_name">Tak terlacak</string>
+    <string name="running_record_goal_time">tujuan %s</string>
+    <string name="record_types_empty">Tidak ada kegiatan yang ditambahkan</string>
+    <string name="record_tag_selection_hint">Pilih label rekaman</string>
+
+    <!--  Records  -->
+    <string name="record_removed">Rekor %s dihapuskan</string>
+    <string name="record_removed_undo">Balikkan</string>
+    <string name="records_empty">Tidak ada hal untuk ditampilkan</string>
+    <string name="records_hint">Ketuk pada rekor untuk menyunting</string>
+
+    <!--  Statistics  -->
+    <string name="statistics_empty">Tidak ada hal untuk ditampilkan</string>
+    <string name="statistics_total_tracked">Jumlah dilacak</string>
+    <string name="statistics_hint">Ketuk pada kartu untuk melihat statistik secara detil</string>
+
+    <!--  Categories  -->
+    <string name="categories_record_type_hint">Tetapkan label yang sama untuk kegiatan yang berbeda untuk melihat statistik yang dikelompokkan</string>
+    <string name="categories_record_hint">Tetapkan label yang berbeda ke rekaman untuk membedakannya</string>
+    <string name="categories_add_activity_tag">Tambahkan label kegiatan</string>
+    <string name="categories_add_record_tag">Tambahkan label rekaman</string>
+
+    <!--  Change category  -->
+    <string name="change_category_removed">Label dihapuskan</string>
+    <string name="change_category_archived">Label diarsipkan</string>
+    <string name="change_category_name_hint">Masukkan nama baru</string>
+    <string name="change_category_color_hint">Warna</string>
+    <string name="change_category_types_hint">Kegiatan</string>
+    <string name="change_category_type_hint">Kegiatan</string>
+    <string name="change_category_save">Simpan</string>
+    <string name="change_category_message_choose_name">Pilih sebuah nama</string>
+    <string name="change_category_message_choose_type">Pilih kegiatan</string>
+    <string name="change_category_selected_types_empty">Tidak ditugaskan ke dalam kegiatan mana pun</string>
+    <string name="change_category_selected_types_hint">Ditugaskan ke dalam:</string>
+
+    <!--  Change record  -->
+    <string name="change_record_message_choose_type">Pilih kegiatan</string>
+    <string name="change_record_type_field">Kegiatan</string>
+    <string name="change_record_category_field">Label</string>
+    <string name="change_record_comment_hint">Komentar</string>
+    <string name="change_record_categories_empty">Tidak ada label rekaman yang ditambahkan</string>
+    <string name="change_record_activity_not_selected">Kegiatan tidak dipilih</string>
+    <string name="change_record_save">Simpan</string>
+    <string name="change_record_untagged">Tidak berlabel</string>
+    <string name="change_running_record_removed">Kegiatan berjalan dihapus</string>
+
+    <!--  Change record type  -->
+    <string name="change_record_type_archived">Kegiatan dihapuskan</string>
+    <string name="change_record_type_name_hint">Masukkan nama baru</string>
+    <string name="change_record_type_color_hint">Warna</string>
+    <string name="change_record_type_icon_hint">Ikon</string>
+    <string name="change_record_type_emoji_hint">Emoji</string>
+    <string name="change_record_type_category_hint">Label</string>
+    <string name="change_record_type_save">Simpan</string>
+    <string name="change_record_message_choose_name">Pilih sebuah nama</string>
+    <string name="change_record_type_categories_empty">Tidak ada label kegiatan yang ditambahkan</string>
+    <string name="change_record_type_selected_categories_empty">Tidak ada label yang ditugaskan</string>
+    <string name="change_record_type_selected_categories_hint">Label-label yang ditugaskan:</string>
+    <string name="change_record_type_goal_time_disabled">Dinonaktifkan</string>
+    <string name="change_record_type_goal_time">Waktu tujuan</string>
+    <string name="change_record_type_goal_time_hint">Tampilkan notifikasi setelah waktu yang ditentukan dalam melacak kegiatan ini.</string>
+
+    <!--  Dialogs  -->
+    <string name="date_time_dialog_date">Tanggal</string>
+    <string name="date_time_dialog_time">Waktu</string>
+
+    <string name="card_size_default">Lebar bawaan</string>
+    <string name="card_size_hint">Jumlah kartu dalam satu baris</string>
+
+    <string name="card_order_hint">Seret dan lepas untuk menyusun ulang</string>
+
+    <string name="chart_filter_hint">Saring</string>
+    <string name="types_filter_show_all">Tampilkan semua</string>
+    <string name="types_filter_hide_all">Sembunyikan semua</string>
+    <string name="chart_filter_type_hint">Jenis statistik</string>
+    <string name="chart_filter_type_activity">Kegiatan</string>
+    <string name="chart_filter_type_category">Label</string>
+    <string name="chart_filter_categories_empty">Tidak ada kegiatan yang ditambahkan</string>
+
+    <string name="duration_dialog_save">Simpan</string>
+    <string name="duration_dialog_disable">Nonaktifkan</string>
+
+    <!--  Records all  -->
+    <string name="records_all_sort_order">Urutkan rekor</string>
+    <string name="records_all_filter">Saring kegiatan</string>
+    <string name="records_all_sort_time_started">Waktu dimulai</string>
+    <string name="records_all_sort_duration">Durasi</string>
+
+    <!--  Running records  -->
+    <string name="running_records_types_empty">Tambah kegiatan untuk mulai melacak</string>
+    <string name="running_records_empty">Ketuk pada kegiatan untuk mulai melacak</string>
+    <string name="running_records_empty_hint">Ketuk lama untuk menyunting</string>
+    <string name="running_records_add_type">Tambah</string>
+
+    <!--  Settings  -->
+    <string name="settings_sort_order">Urutkan kegiatan</string>
+    <string name="settings_sort_by_name">Nama</string>
+    <string name="settings_sort_by_color">Warna</string>
+    <string name="settings_sort_manually">Secara manual</string>
+    <string name="settings_first_day_of_week">Hari pertama dalam seminggu</string>
+    <string name="settings_show_untracked_time">Tampilkan waktu tak terlacak dalam rekor</string>
+    <string name="settings_allow_multitasking">Izinkan tugas ganda</string>
+    <string name="settings_allow_multitasking_hint">Jika dinonaktifkan memulai pewaktu baru akan secara otomatis menghentikan kegiatan-kegiatan lain.</string>
+    <string name="settings_show_notifications">Tampilkan notifikasi pewaktu</string>
+    <string name="settings_show_notifications_hint">Tampilkan notifikasi saat pewaktu berjalan.</string>
+    <string name="settings_inactivity_reminder">Tampilkan pengingat tidak berkegiatan</string>
+    <string name="settings_inactivity_reminder_hint">Tampilkan notifikasi setelah waktu yang ditentukan jika tidak ada pewaktu yang berjalan.</string>
+    <string name="settings_inactivity_reminder_disabled">Dinonaktifkan</string>
+    <string name="settings_dark_mode">Mode gelap</string>
+    <string name="settings_use_military_time">Pakai format 24-jam</string>
+    <string name="settings_change_card_size">Ubah ukuran kartu kegiatan</string>
+    <string name="settings_archive">Arsip</string>
+    <string name="settings_edit_categories">Sunting label-label</string>
+    <string name="settings_edit_categories_hint">Tetapkan label untuk kegiatan dan rekor.</string>
+    <string name="settings_show_record_tag_selection">Tampilkan pilihan label rekor</string>
+    <string name="settings_show_record_tag_selection_hint">Saat memulai mengatur waktu, jika kegiatan memiliki label rekor apa pun - dialog pemilihan akan ditampilkan.</string>
+    <string name="settings_rate">Nilai kami</string>
+    <string name="settings_rate_description">Nilai aplikasi dan tinggalkan sebuah ulasan.</string>
+    <string name="settings_feedback">Umpan balik</string>
+    <string name="settings_feedback_description">Memiliki sebuah saran? Menemukan sebuah kerusakan? Ingin bicara? Tulisi kami!</string>
+    <string name="settings_version">Versi</string>
+    <string name="settings_email_chooser_title">Kirim dengan…</string>
+    <string name="settings_translators">Penerjemah-Penerjemah</string>
+
+    <string name="settings_save_backup">Simpan cadangan</string>
+    <string name="settings_save_description">Sebelum menyimpan, pastikan Anda memiliki versi terbaru aplikasi terinstal untuk menghindari masalah teknis.</string>
+    <string name="settings_restore_backup">Pulihkan cadangan</string>
+    <string name="settings_restore_description">Data saat ini akan lenyap.</string>
+    <string name="settings_dialog_message">Pulihkan cadangan?</string>
+    <string name="settings_export_csv">Ekspor lembar kerja</string>
+    <string name="settings_export_csv_description">Ekspor rekor-rekor kegiatan sebagai sebuah berkas csv untuk melihatnya dalam aplikasi spreadsheet yang diinginkan.</string>
+    <string name="settings_file_open_error">Galat membuka berkas</string>
+    <string name="settings_file_create_error">Galat menciptakan berkas</string>
+
+    <string name="message_backup_saved">Cadangan disimpan</string>
+    <string name="message_backup_restored">Cadangan dipulihkan</string>
+    <string name="message_save_error">Galat menyimpan cadangan</string>
+    <string name="message_restore_error">Galat memulihkan cadangan</string>
+    <string name="message_app_not_found">Aplikasi tidak ditemukan</string>
+    <string name="message_csv_export_complete">Ekspor selesai</string>
+    <string name="message_csv_export_error">Galat mengekspor csv</string>
+
+    <!--  Statistics detail  -->
+    <string name="statistics_detail_chart_hourly">per jam</string>
+    <string name="statistics_detail_chart_daily">per hari</string>
+    <string name="statistics_detail_chart_weekly">per minggu</string>
+    <string name="statistics_detail_chart_monthly">per bulan</string>
+    <string name="statistics_detail_chart_yearly">per tahun</string>
+    <string name="statistics_detail_length_ten">10</string>
+    <string name="statistics_detail_length_fifty">50</string>
+    <string name="statistics_detail_length_hundred">100</string>
+    <string name="statistics_detail_legend_minute_suffix">m</string>
+    <string name="statistics_detail_legend_hour_suffix">h</string>
+
+    <string name="statistics_detail_total_duration">Total</string>
+    <string name="statistics_detail_shortest_record">Tersingkat</string>
+    <string name="statistics_detail_average_record">Rata-Rata</string>
+    <string name="statistics_detail_longest_record">Terlama</string>
+    <string name="statistics_detail_first_record">Pertama</string>
+    <string name="statistics_detail_last_record">Terakhir</string>
+    <string name="statistics_detail_tag_split_hint">Distribusi label</string>
+
+    <plurals name="statistics_detail_times_tracked">
+<!--        <item quantity="zero">Rekor</item>-->
+<!--        <item quantity="one">Rekor</item>-->
+<!--        <item quantity="two">Rekor</item>-->
+<!--        <item quantity="few">Rekor</item>-->
+<!--        <item quantity="many">Rekor</item>-->
+        <item quantity="other">Rekor</item>
+    </plurals>
+
+    <!--  Widget  -->
+    <string name="widget_name">Kegiatan Tunggal</string>
+    <string name="widget_universal_name">Sedunia</string>
+    <string name="widget_load_error">Tidak ditemukan</string>
+
+    <!--  Notification  -->
+    <string name="notification_inactivity_title">Pengingat tidak berkegiatan</string>
+    <string name="notification_inactivity_text">Jangan lupa untuk lacak waktu Anda</string>
+    <string name="notification_goal_time_description">%s waktu tujuan tercapai</string>
+    <string name="notification_time_started">Dimulai pada %s</string>
+    <string name="notification_record_type_goal_time">tujuan %s</string>
+
+    <!--  Archive  -->
+    <string name="archive_dialog_delete">Menghapus</string>
+    <string name="archive_dialog_restore">Memulihkan</string>
+    <string name="archive_empty">Arsip kosong</string>
+    <string name="archive_activity_restored">Kegiatan dipulihkan</string>
+    <string name="archive_tag_restored">Label dipulihkan</string>
+    <string name="archive_activity_deleted">Kegiatan dihapus</string>
+    <string name="archive_tag_deleted">label dihapus</string>
+    <string name="archive_activity_deletion_message">Semua rekor kegiatan ini dan label rekor juga akan dihapus.</string>
+    <string name="archive_tag_deletion_message">Semua rekor yang diberi label dengan label ini akan menjadi tidak ditandai.</string>
+    <string name="archive_deletion_alert">Apa kamu yakin? Tindakan ini tidak bisa dibatalkan.</string>
+    <string name="archive_records_count">Rekor</string>
+    <string name="archive_record_tags_count">Label rekor</string>
+    <string name="archive_tagged_records_count">Rekor yang label</string>
+
+    <!--  Icon emoji category  -->
+    <string name="emojiGroupSmileys">Senyuman &amp; Emosi</string>
+    <string name="emojiGroupPeople">Orang &amp; Tubuh</string>
+    <string name="emojiGroupAnimals">Hewan &amp; Alam</string>
+    <string name="emojiGroupFood">Makanan &amp; Minuman</string>
+    <string name="emojiGroupTravel">Perjalanan &amp; Tempat</string>
+    <string name="emojiGroupActivities">Kegiatan</string>
+    <string name="emojiGroupObjects">Benda</string>
+    <string name="emojiGroupSymbols">Simbol</string>
+    <string name="emojiGroupFlags">Bendera</string>
+
+    <!--  Icon image category  -->
+    <string name="imageGroupMaps">Peta</string>
+    <string name="imageGroupPlaces">Tempat</string>
+    <string name="imageGroupSocial">Sosial</string>
+    <string name="imageGroupAction">Aksi</string>
+    <string name="imageGroupHardware">Perangkat keras</string>
+    <string name="imageGroupAlert">Peringatan</string>
+    <string name="imageGroupAv">Audio video</string>
+    <string name="imageGroupCommunication">Komunikasi</string>
+    <string name="imageGroupContent">Konten</string>
+    <string name="imageGroupDevice">Perangkat</string>
+    <string name="imageGroupEditor">Penyunting</string>
+    <string name="imageGroupFile">Berkas</string>
+    <string name="imageGroupImage">Gambar</string>
+    <string name="imageGroupNavigation">Navigasi</string>
+    <string name="imageGroupNotification">Notifikasi</string>
+    <string name="imageGroupToggle">Beralih</string>
+
+</resources>
