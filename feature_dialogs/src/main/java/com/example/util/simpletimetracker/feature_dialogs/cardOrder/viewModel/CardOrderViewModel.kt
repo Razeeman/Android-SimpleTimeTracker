@@ -14,7 +14,6 @@ import com.example.util.simpletimetracker.domain.model.CardOrder
 import com.example.util.simpletimetracker.navigation.params.CardOrderDialogParams
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import java.util.Collections
 import javax.inject.Inject
 
 class CardOrderViewModel @Inject constructor(
@@ -35,33 +34,19 @@ class CardOrderViewModel @Inject constructor(
         }
     }
 
-    private var types: List<RecordTypeViewData> = emptyList()
+    fun onDismiss(newList: List<ViewHolderType>) = GlobalScope.launch {
+        val types = newList.filterIsInstance<RecordTypeViewData>()
 
-    fun onCardMoved(fromPosition: Int, toPosition: Int) {
-        if (fromPosition < toPosition) {
-            for (i in fromPosition until toPosition) {
-                Collections.swap(types, i, i + 1)
+        types
+            .takeIf(List<RecordTypeViewData>::isNotEmpty)
+            ?.mapIndexed { index, recordTypeViewData ->
+                recordTypeViewData.id to index.toLong()
             }
-        } else {
-            for (i in fromPosition downTo toPosition + 1) {
-                Collections.swap(types, i, i - 1)
+            ?.toMap()
+            ?.let {
+                prefsInteractor.setCardOrder(CardOrder.MANUAL)
+                prefsInteractor.setCardOrderManual(it)
             }
-        }
-    }
-
-    fun onDismiss() {
-        GlobalScope.launch {
-            types
-                .takeIf(List<RecordTypeViewData>::isNotEmpty)
-                ?.mapIndexed { index, recordTypeViewData ->
-                    recordTypeViewData.id to index.toLong()
-                }
-                ?.toMap()
-                ?.let {
-                    prefsInteractor.setCardOrder(CardOrder.MANUAL)
-                    prefsInteractor.setCardOrderManual(it)
-                }
-        }
     }
 
     private suspend fun loadRecordTypes(): List<ViewHolderType> {
@@ -72,7 +57,6 @@ class CardOrderViewModel @Inject constructor(
             .filter { !it.hidden }
             .takeUnless { it.isEmpty() }
             ?.map { type -> recordTypeViewDataMapper.map(type, numberOfCards, isDarkTheme) }
-            ?.also { types = it }
             ?: recordTypeViewDataMapper.mapToEmpty()
     }
 }

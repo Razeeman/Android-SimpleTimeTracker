@@ -50,7 +50,7 @@ class CardOrderDialogFragment : BaseBottomSheetFragment<Binding>() {
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
-        viewModel.onDismiss()
+        viewModel.onDismiss(recordTypesAdapter.currentList)
     }
 
     override fun initDialog() {
@@ -73,7 +73,6 @@ class CardOrderDialogFragment : BaseBottomSheetFragment<Binding>() {
         binding.rvCardOrderContainer.onItemMoved(
             onSelected = ::setItemSelected,
             onClear = ::setItemUnselected,
-            onMoved = viewModel::onCardMoved
         )
     }
 

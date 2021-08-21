@@ -113,7 +113,7 @@ fun SeekBar.onProgressChanged(func: (Int) -> Unit) {
 fun RecyclerView.onItemMoved(
     onSelected: (RecyclerView.ViewHolder?) -> Unit = {},
     onClear: (RecyclerView.ViewHolder) -> Unit = {},
-    onMoved: (Int, Int) -> Unit
+    onMoved: (Int, Int) -> Unit = { _, _ -> }
 ) {
     val dragDirections =
         ItemTouchHelper.DOWN or ItemTouchHelper.UP or ItemTouchHelper.START or ItemTouchHelper.END
