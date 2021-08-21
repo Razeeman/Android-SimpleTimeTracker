@@ -5,7 +5,11 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.ViewAssertion
 import androidx.test.espresso.assertion.PositionAssertions.isCompletelyAbove
+import androidx.test.espresso.assertion.PositionAssertions.isCompletelyBelow
 import androidx.test.espresso.assertion.PositionAssertions.isCompletelyLeftOf
+import androidx.test.espresso.assertion.PositionAssertions.isCompletelyRightOf
+import androidx.test.espresso.assertion.PositionAssertions.isLeftAlignedWith
+import androidx.test.espresso.assertion.PositionAssertions.isTopAlignedWith
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
@@ -17,6 +21,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withSubstring
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
 import com.example.util.simpletimetracker.core.extension.setWeekToFirstDay
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
@@ -382,6 +387,49 @@ class SettingsTest : BaseUiTest() {
         NavUtils.openRunningRecordsScreen()
         check(name2, name3) { matcher -> isCompletelyLeftOf(matcher) }
         check(name3, name1) { matcher -> isCompletelyLeftOf(matcher) }
+    }
+
+    @Test
+    fun cardOrderManual2() {
+        val name = "Test"
+
+        // Add activities
+        (1..15).forEach {
+            testUtils.addActivity("$name$it")
+        }
+
+        // Change settings
+        NavUtils.openSettingsScreen()
+        NavUtils.openCardSizeScreen()
+        Thread.sleep(1000)
+        clickOnViewWithText("4")
+        pressBack()
+        clickOnSpinnerWithId(R.id.spinnerSettingsRecordTypeSort)
+        clickOnViewWithText(R.string.settings_sort_by_color)
+        clickOnSpinnerWithId(R.id.spinnerSettingsRecordTypeSort)
+        clickOnViewWithText(R.string.settings_sort_manually)
+        Thread.sleep(1000)
+
+        val resources = InstrumentationRegistry.getInstrumentation().targetContext.resources
+        val screenWidth = resources.displayMetrics.widthPixels
+        val screenHeight = resources.displayMetrics.heightPixels
+
+        // Drag
+        (1..15).forEach {
+            onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText("$name$it")))
+                .perform(
+                    drag(Direction.RIGHT, screenWidth),
+                    drag(Direction.DOWN, screenHeight),
+                )
+        }
+
+        // Check order in settings
+        checkManualOrder(name)
+
+        // Check order on main
+        pressBack()
+        NavUtils.openRunningRecordsScreen()
+        checkManualOrder(name)
     }
 
     @Test
@@ -755,5 +803,66 @@ class SettingsTest : BaseUiTest() {
         onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(first))).check(
             matcher(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(second)))
         )
+    }
+
+    private fun checkManualOrder(name: String) {
+        check(name + 2, name + 1) { matcher ->
+            isCompletelyRightOf(matcher)
+            isTopAlignedWith(matcher)
+        }
+        check(name + 3, name + 2) { matcher ->
+            isCompletelyRightOf(matcher)
+            isTopAlignedWith(matcher)
+        }
+        check(name + 4, name + 3) { matcher ->
+            isCompletelyRightOf(matcher)
+            isTopAlignedWith(matcher)
+        }
+
+        check(name + 5, name + 1) { matcher ->
+            isCompletelyBelow(matcher)
+            isLeftAlignedWith(matcher)
+        }
+        check(name + 6, name + 5) { matcher ->
+            isCompletelyRightOf(matcher)
+            isTopAlignedWith(matcher)
+        }
+        check(name + 7, name + 6) { matcher ->
+            isCompletelyRightOf(matcher)
+            isTopAlignedWith(matcher)
+        }
+        check(name + 8, name + 7) { matcher ->
+            isCompletelyRightOf(matcher)
+            isTopAlignedWith(matcher)
+        }
+
+        check(name + 9, name + 5) { matcher ->
+            isCompletelyBelow(matcher)
+            isLeftAlignedWith(matcher)
+        }
+        check(name + 10, name + 9) { matcher ->
+            isCompletelyRightOf(matcher)
+            isTopAlignedWith(matcher)
+        }
+        check(name + 11, name + 10) { matcher ->
+            isCompletelyRightOf(matcher)
+            isTopAlignedWith(matcher)
+        }
+        check(name + 12, name + 11) { matcher ->
+            isCompletelyRightOf(matcher)
+            isTopAlignedWith(matcher)
+        }
+
+        check(name + 13, name + 9) { matcher ->
+            isCompletelyBelow(matcher)
+        }
+        check(name + 14, name + 13) { matcher ->
+            isCompletelyRightOf(matcher)
+            isTopAlignedWith(matcher)
+        }
+        check(name + 15, name + 14) { matcher ->
+            isCompletelyRightOf(matcher)
+            isTopAlignedWith(matcher)
+        }
     }
 }

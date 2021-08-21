@@ -5,12 +5,15 @@ import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.contrib.PickerActions
+import androidx.test.espresso.contrib.PickerActions.setTime
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
+import androidx.test.espresso.matcher.ViewMatchers.withClassName
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.example.util.simpletimetracker.R
 import org.hamcrest.CoreMatchers
+import org.hamcrest.CoreMatchers.equalTo
 
 object NavUtils {
 
@@ -170,14 +173,14 @@ object NavUtils {
 
         // Time started
         clickOnViewWithId(R.id.tvChangeRecordTimeStarted)
-        onView(ViewMatchers.withClassName(CoreMatchers.equalTo(TimePicker::class.java.name)))
-            .perform(PickerActions.setTime(hourStarted, minutesStarted))
+        onView(withClassName(equalTo(TimePicker::class.java.name)))
+            .perform(setTime(hourStarted, minutesStarted))
         clickOnViewWithId(R.id.btnDateTimeDialogPositive)
 
         // Time ended
         clickOnViewWithId(R.id.tvChangeRecordTimeEnded)
-        onView(ViewMatchers.withClassName(CoreMatchers.equalTo(TimePicker::class.java.name)))
-            .perform(PickerActions.setTime(hourEnded, minutesEnded))
+        onView(withClassName(equalTo(TimePicker::class.java.name)))
+            .perform(setTime(hourEnded, minutesEnded))
         clickOnViewWithId(R.id.btnDateTimeDialogPositive)
 
         // Comment

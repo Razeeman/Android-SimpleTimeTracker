@@ -24,7 +24,7 @@ import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.anyOf
 
 enum class Direction {
-    UP, DOWN, LEFT, RIGHT
+    UP, DOWN, LEFT, RIGHT, COORDINATES
 }
 
 fun selectTabAtPosition(tabIndex: Int): ViewAction = object : ViewAction {
@@ -76,8 +76,12 @@ fun nestedScrollTo(): ViewAction = object : ViewAction {
     }
 }
 
-fun drag(direction: Direction, offset: Int): ViewAction = object : ViewAction {
-    private val SWIPE_EVENT_COUNT = 10
+fun drag(
+    direction: Direction = Direction.COORDINATES,
+    offset: Int = 0,
+    coordinates: FloatArray = FloatArray(2) { 0.0f }
+): ViewAction = object : ViewAction {
+    private val SWIPE_EVENT_COUNT = 50
 
     override fun getDescription(): String = "dragging"
 
@@ -143,13 +147,14 @@ fun drag(direction: Direction, offset: Int): ViewAction = object : ViewAction {
     }
 
     private fun getDestinationCoordinates(initial: FloatArray): FloatArray {
-        val destination = initial.clone()
+        var destination = initial.clone()
 
         when (direction) {
             Direction.UP -> destination[1] = destination[1] - offset
             Direction.DOWN -> destination[1] = destination[1] + offset
             Direction.LEFT -> destination[0] = destination[0] - offset
             Direction.RIGHT -> destination[0] = destination[0] + offset
+            Direction.COORDINATES -> destination = coordinates
         }
 
         return destination

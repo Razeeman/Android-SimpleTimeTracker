@@ -62,7 +62,8 @@ class TestUtils @Inject constructor(
             ?: icons.keys.first()
 
         val colors = ColorMapper.getAvailableColors(false)
-        val colorId = colors.indexOf(color).takeUnless { it == -1 }.orZero()
+        val colorId = colors.indexOf(color).takeUnless { it == -1 }
+            ?: (0..colors.size).random()
 
         val availableCategories = categoryInteractor.getAll()
 
