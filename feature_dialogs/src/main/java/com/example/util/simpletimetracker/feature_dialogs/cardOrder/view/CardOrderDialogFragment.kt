@@ -66,7 +66,6 @@ class CardOrderDialogFragment : BaseBottomSheetFragment<Binding>() {
                 flexWrap = FlexWrap.WRAP
             }
             adapter = recordTypesAdapter
-            itemAnimator = null
         }
     }
 
