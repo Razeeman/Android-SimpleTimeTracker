@@ -176,6 +176,13 @@ class ScreenResolverImpl @Inject constructor() : ScreenResolver {
                     null,
                     navExtras
                 )
+            Screen.CSV_EXPORT_SETTINGS_DIALOG ->
+                navController?.navigate(
+                    R.id.csvExportSettingsDialogFragment,
+                    null,
+                    null,
+                    navExtras
+                )
             else -> {
                 // Do nothing
             }

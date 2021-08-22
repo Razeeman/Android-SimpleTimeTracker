@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?appDialogBackground">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivCsvExportSettingsArrow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/dialog_arrow"
+        android:tint="?appContrastColor"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvCsvExportSettingsHint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="12dp"
+        android:gravity="center"
+        android:text="Select time range or export all records"
+        android:textColor="?appTextHintColor"
+        app:layout_constraintTop_toBottomOf="@id/ivCsvExportSettingsArrow" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/fieldCsvExportSettingsTimeStarted"
+        style="@style/InputFieldCardDialog"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/input_field_height"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintEnd_toStartOf="@id/fieldCsvExportSettingsTimeEnded"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvCsvExportSettingsHint">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvCsvExportSettingsTimeStarted"
+            style="@style/InputFieldCardText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?appInputFieldBorderDialog"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            app:autoSizeMaxTextSize="16sp"
+            app:autoSizeTextType="uniform"
+            tools:text="15.02.2020 07:35" />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/fieldCsvExportSettingsTimeEnded"
+        style="@style/InputFieldCardDialog"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/input_field_height"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/fieldCsvExportSettingsTimeStarted"
+        app:layout_constraintTop_toBottomOf="@id/tvCsvExportSettingsHint">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvCsvExportSettingsTimeEnded"
+            style="@style/InputFieldCardText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?appInputFieldBorderDialog"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            app:autoSizeMaxTextSize="16sp"
+            app:autoSizeTextType="uniform"
+            tools:text="15.02.2020 11:58" />
+
+    </androidx.cardview.widget.CardView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnCsvExportSettingsRange"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/input_field_height"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="6dp"
+        android:ellipsize="marquee"
+        android:paddingHorizontal="0dp"
+        android:singleLine="true"
+        android:text="Range"
+        android:textColor="@color/white"
+        app:backgroundTint="?appInactiveColor"
+        app:cornerRadius="@dimen/input_field_corner_radius"
+        app:layout_constraintEnd_toStartOf="@id/btnCsvExportSettingsAll"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fieldCsvExportSettingsTimeStarted" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnCsvExportSettingsAll"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/input_field_height"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="10dp"
+        android:ellipsize="marquee"
+        android:paddingHorizontal="0dp"
+        android:singleLine="true"
+        android:text="All"
+        android:textColor="@color/white"
+        app:backgroundTint="?appInactiveColor"
+        app:cornerRadius="@dimen/input_field_corner_radius"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btnCsvExportSettingsRange"
+        app:layout_constraintTop_toBottomOf="@id/fieldCsvExportSettingsTimeStarted" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

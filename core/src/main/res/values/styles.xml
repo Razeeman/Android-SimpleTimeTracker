@@ -16,12 +16,14 @@
         <item name="appTextPrimaryColor">@color/textPrimary</item>
         <item name="appLightTextColor">@color/textLight</item>
         <item name="appBackgroundColor">@color/colorBackground</item>
+        <item name="appBackgroundDialogColor">@color/colorDialogBackground</item>
         <item name="appDialogBackground">@drawable/bg_rounded_bottom_sheet</item>
         <item name="appTextHintColor">@color/textHint</item>
         <item name="appArrow">@drawable/arrow</item>
         <item name="appDividerColor">@color/colorDivider</item>
         <item name="appDivider">@drawable/divider_drawable</item>
         <item name="appInputFieldBorder">@drawable/bg_input_field_border</item>
+        <item name="appInputFieldBorderDialog">@drawable/bg_input_field_border</item>
         <item name="appInputFieldBorderColor">@color/inputFieldBorder</item>
         <item name="appPieChartDividerColor">@color/pieChartDivider</item>
         <item name="appCardBackgroundColor">@color/cardBackground</item>
@@ -51,12 +53,14 @@
         <item name="appTextPrimaryColor">@color/textPrimaryDark</item>
         <item name="appLightTextColor">@color/textLightDark</item>
         <item name="appBackgroundColor">@color/colorBackgroundDark</item>
+        <item name="appBackgroundDialogColor">@color/colorDialogBackgroundDark</item>
         <item name="appDialogBackground">@drawable/bg_rounded_bottom_sheet_dark</item>
         <item name="appTextHintColor">@color/textHintDark</item>
         <item name="appArrow">@drawable/arrow_dark</item>
         <item name="appDividerColor">@color/colorDividerDark</item>
         <item name="appDivider">@drawable/divider_drawable_dark</item>
         <item name="appInputFieldBorder">@drawable/bg_input_field_border_dark</item>
+        <item name="appInputFieldBorderDialog">@drawable/bg_input_field_border_dialog_dark</item>
         <item name="appInputFieldBorderColor">@color/inputFieldBorderDark</item>
         <item name="appPieChartDividerColor">@color/pieChartDividerDark</item>
         <item name="appCardBackgroundColor">@color/cardBackgroundDark</item>
@@ -129,6 +133,10 @@
         <item name="android:paddingEnd">10dp</item>
         <item name="android:textColor">?appTextPrimaryColor</item>
         <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="InputFieldCardDialog" parent="InputFieldCard">
+        <item name="cardBackgroundColor">?appBackgroundDialogColor</item>
     </style>
 
     <style name="ChangeItemNameEditText">

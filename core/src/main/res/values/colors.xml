@@ -68,5 +68,6 @@
 
     <color name="inputFieldBorder">@color/blue_grey_50</color>
     <color name="inputFieldBorderDark">@color/grey_900</color>
+    <color name="inputFieldBorderDialogDark">@color/grey_800</color>
 
 </resources>

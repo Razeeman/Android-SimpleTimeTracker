@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.BuildConfig
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
+import com.example.util.simpletimetracker.core.dialog.CsvExportSettingsDialogListener
 import com.example.util.simpletimetracker.core.dialog.DurationDialogListener
 import com.example.util.simpletimetracker.core.dialog.StandardDialogListener
 import com.example.util.simpletimetracker.core.extension.setOnClick
@@ -21,6 +22,7 @@ import com.example.util.simpletimetracker.feature_settings.viewModel.SettingsVie
 import com.example.util.simpletimetracker.navigation.RequestCode.REQUEST_CODE_CREATE_CSV_FILE
 import com.example.util.simpletimetracker.navigation.RequestCode.REQUEST_CODE_CREATE_FILE
 import com.example.util.simpletimetracker.navigation.RequestCode.REQUEST_CODE_OPEN_FILE
+import com.example.util.simpletimetracker.navigation.params.CsvExportSettingsParams
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import com.example.util.simpletimetracker.feature_settings.databinding.SettingsFragmentBinding as Binding
@@ -29,7 +31,8 @@ import com.example.util.simpletimetracker.feature_settings.databinding.SettingsF
 class SettingsFragment :
     BaseFragment<Binding>(),
     StandardDialogListener,
-    DurationDialogListener {
+    DurationDialogListener,
+    CsvExportSettingsDialogListener {
 
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
         Binding::inflate
@@ -140,6 +143,11 @@ class SettingsFragment :
 
     override fun onDisable(tag: String?) {
         viewModel.onDurationDisabled(tag)
+    }
+
+    override fun onCsvExportSettingsSelected(data: CsvExportSettingsParams) {
+        backupViewModel.onCsvExportSettingsSelected(data)
+        viewModel.onCsvExportSettingsSelected()
     }
 
     private fun updateCardOrderViewData(viewData: CardOrderViewData) = with(binding) {

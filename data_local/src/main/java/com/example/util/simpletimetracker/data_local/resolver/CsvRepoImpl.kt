@@ -4,6 +4,7 @@ import android.content.ContentResolver
 import android.net.Uri
 import android.os.ParcelFileDescriptor
 import com.example.util.simpletimetracker.domain.model.Category
+import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
@@ -29,7 +30,10 @@ class CsvRepoImpl @Inject constructor(
     private val recordTagRepo: RecordTagRepo
 ) : CsvRepo {
 
-    override suspend fun saveCsvFile(uriString: String): CsvRepo.ResultCode = withContext(Dispatchers.IO) {
+    override suspend fun saveCsvFile(
+        uriString: String,
+        range: Range?,
+    ): CsvRepo.ResultCode = withContext(Dispatchers.IO) {
         var fileDescriptor: ParcelFileDescriptor? = null
         var fileOutputStream: FileOutputStream? = null
 
@@ -46,7 +50,12 @@ class CsvRepoImpl @Inject constructor(
                 .map { it.id to it }.toMap()
 
             // Write data
-            recordRepo.getAll()
+            val records = if (range != null) {
+                recordRepo.getFromRange(range.timeStarted, range.timeEnded)
+            } else {
+                recordRepo.getAll()
+            }
+            records
                 .sortedBy { it.timeStarted }
                 .forEach { record ->
                     val activityTags = recordTypeCategoryRepo.getCategoriesByType(record.typeId)

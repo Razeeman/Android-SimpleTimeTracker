@@ -4,12 +4,14 @@
     <attr name="appTextPrimaryColor" format="reference" />
     <attr name="appLightTextColor" format="reference" />
     <attr name="appBackgroundColor" format="reference" />
+    <attr name="appBackgroundDialogColor" format="reference" />
     <attr name="appDialogBackground" format="reference" />
     <attr name="appTextHintColor" format="reference" />
     <attr name="appArrow" format="reference" />
     <attr name="appDividerColor" format="reference" />
     <attr name="appDivider" format="reference" />
     <attr name="appInputFieldBorder" format="reference" />
+    <attr name="appInputFieldBorderDialog" format="reference" />
     <attr name="appInputFieldBorderColor" format="reference" />
     <attr name="appPieChartDividerColor" format="reference" />
     <attr name="appCardBackgroundColor" format="reference" />

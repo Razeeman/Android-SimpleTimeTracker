@@ -19,6 +19,7 @@ import com.example.util.simpletimetracker.navigation.Notification
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
 import com.example.util.simpletimetracker.navigation.params.CardOrderDialogParams
+import com.example.util.simpletimetracker.navigation.params.CsvExportSettingsParams
 import com.example.util.simpletimetracker.navigation.params.DurationDialogParams
 import com.example.util.simpletimetracker.navigation.params.FileChooserParams
 import com.example.util.simpletimetracker.navigation.params.OpenMarketParams
@@ -166,10 +167,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun onExportCsvClick() {
-        router.execute(
-            Action.CREATE_CSV_FILE,
-            FileChooserParams(::onFileCreateError)
-        )
+        router.navigate(Screen.CSV_EXPORT_SETTINGS_DIALOG)
     }
 
     fun onRateClick() {
@@ -323,6 +321,13 @@ class SettingsViewModel @Inject constructor(
                 notificationInactivityInteractor.cancel()
             }
         }
+    }
+
+    fun onCsvExportSettingsSelected() {
+        router.execute(
+            Action.CREATE_CSV_FILE,
+            FileChooserParams(::onFileCreateError)
+        )
     }
 
     fun onThemeChanged() {
