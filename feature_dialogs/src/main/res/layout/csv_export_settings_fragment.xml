@@ -23,7 +23,7 @@
         android:layout_marginHorizontal="10dp"
         android:layout_marginTop="12dp"
         android:gravity="center"
-        android:text="Select time range or export all records"
+        android:text="@string/csv_export_settings_hint"
         android:textColor="?appTextHintColor"
         app:layout_constraintTop_toBottomOf="@id/ivCsvExportSettingsArrow" />
 
@@ -89,7 +89,7 @@
         android:ellipsize="marquee"
         android:paddingHorizontal="0dp"
         android:singleLine="true"
-        android:text="Range"
+        android:text="@string/csv_export_settings_range"
         android:textColor="@color/white"
         app:backgroundTint="?appInactiveColor"
         app:cornerRadius="@dimen/input_field_corner_radius"
@@ -107,7 +107,7 @@
         android:ellipsize="marquee"
         android:paddingHorizontal="0dp"
         android:singleLine="true"
-        android:text="All"
+        android:text="@string/csv_export_settings_all"
         android:textColor="@color/white"
         app:backgroundTint="?appInactiveColor"
         app:cornerRadius="@dimen/input_field_corner_radius"

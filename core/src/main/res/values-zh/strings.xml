@@ -120,6 +120,10 @@
     <string name="duration_dialog_save">保存</string>
     <string name="duration_dialog_disable">不启用</string>
 
+    <string name="csv_export_settings_range">跨度</string>
+    <string name="csv_export_settings_all">全部</string>
+    <string name="csv_export_settings_hint">選擇時間範圍或導出所有記錄</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">对记录排序</string>
     <string name="records_all_filter">筛选活动</string>

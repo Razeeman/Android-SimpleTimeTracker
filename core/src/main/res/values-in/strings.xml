@@ -120,6 +120,10 @@
     <string name="duration_dialog_save">Simpan</string>
     <string name="duration_dialog_disable">Nonaktifkan</string>
 
+    <string name="csv_export_settings_range">Rentang</string>
+    <string name="csv_export_settings_all">Semua</string>
+    <string name="csv_export_settings_hint">Pilih rentang waktu atau ekspor semua rekor</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">Urutkan rekor</string>
     <string name="records_all_filter">Saring kegiatan</string>

@@ -120,6 +120,10 @@
     <string name="duration_dialog_save">Save</string>
     <string name="duration_dialog_disable">Disable</string>
 
+    <string name="csv_export_settings_range">Range</string>
+    <string name="csv_export_settings_all">All</string>
+    <string name="csv_export_settings_hint">Select time range or export all records</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">Sort records</string>
     <string name="records_all_filter">Filter activities</string>
