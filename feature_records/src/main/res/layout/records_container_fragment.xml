@@ -33,18 +33,15 @@
             android:id="@+id/btnRecordsContainerPrevious"
             style="@style/ContainerRangeButton"
             android:layout_width="0dp"
-            android:layout_height="0dp"
             android:layout_marginStart="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/btnRecordsContainerToday"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/btnRecordsContainerToday" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnRecordsContainerToday"
             style="@style/ContainerRangeSelectableMainButton"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/btnRecordsContainerNext"
             app:layout_constraintStart_toEndOf="@id/btnRecordsContainerPrevious"
@@ -54,14 +51,12 @@
             android:id="@+id/btnRecordsContainerNext"
             style="@style/ContainerRangeButton"
             android:layout_width="0dp"
-            android:layout_height="0dp"
             android:layout_marginEnd="8dp"
             app:icon="@drawable/arrow_right"
             app:iconGravity="end"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/btnRecordsContainerToday"
-            app:layout_constraintTop_toTopOf="@id/btnRecordsContainerToday" />
+            app:layout_constraintStart_toEndOf="@id/btnRecordsContainerToday" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -316,15 +316,11 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnChangeRecordTypeSave"
+        style="@style/AppButtonActive"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginHorizontal="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:gravity="center"
         android:text="@string/change_record_type_save"
-        android:textColor="?appLightTextColor"
-        app:backgroundTint="?appActiveColor"
         app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

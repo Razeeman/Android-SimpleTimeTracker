@@ -195,12 +195,10 @@
         android:id="@+id/btnStatisticsDetailPrevious"
         style="@style/ContainerRangeButton"
         android:layout_width="0dp"
-        android:layout_height="0dp"
         android:layout_marginStart="8dp"
         app:layout_constraintBottom_toBottomOf="@id/btnStatisticsDetailToday"
         app:layout_constraintEnd_toStartOf="@id/btnStatisticsDetailToday"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/btnStatisticsDetailToday" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.example.util.simpletimetracker.core.view.spinner.CustomSpinner
         android:id="@+id/spinnerStatisticsDetail"
@@ -215,7 +213,6 @@
         android:id="@+id/btnStatisticsDetailToday"
         style="@style/ContainerRangeSelectableMainButton"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/btnStatisticsDetailNext"
         app:layout_constraintStart_toEndOf="@id/btnStatisticsDetailPrevious"
@@ -225,13 +222,11 @@
         android:id="@+id/btnStatisticsDetailNext"
         style="@style/ContainerRangeButton"
         android:layout_width="0dp"
-        android:layout_height="0dp"
         android:layout_marginEnd="8dp"
         app:icon="@drawable/arrow_right"
         app:iconGravity="end"
         app:layout_constraintBottom_toBottomOf="@id/btnStatisticsDetailToday"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/btnStatisticsDetailToday"
-        app:layout_constraintTop_toTopOf="@id/btnStatisticsDetailToday" />
+        app:layout_constraintStart_toEndOf="@id/btnStatisticsDetailToday" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

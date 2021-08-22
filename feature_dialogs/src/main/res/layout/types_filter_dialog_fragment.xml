@@ -31,32 +31,28 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnTypesFilterShowAll"
+            style="@style/AppButton"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="4dp"
             android:ellipsize="marquee"
             android:paddingHorizontal="0dp"
             android:singleLine="true"
             android:text="@string/types_filter_show_all"
-            android:textColor="@color/white"
-            app:backgroundTint="?appInactiveColor"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/btnTypesFilterHideAll"
             app:layout_constraintStart_toStartOf="parent" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnTypesFilterHideAll"
+            style="@style/AppButton"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:layout_marginEnd="8dp"
             android:ellipsize="marquee"
             android:paddingHorizontal="0dp"
             android:singleLine="true"
             android:text="@string/types_filter_hide_all"
-            android:textColor="@color/white"
-            app:backgroundTint="?appInactiveColor"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/btnTypesFilterShowAll" />

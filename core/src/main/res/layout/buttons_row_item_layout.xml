@@ -5,9 +5,10 @@
     android:id="@+id/btnButtonsRowView"
     style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="@dimen/button_height"
     android:ellipsize="end"
     android:maxLines="1"
-    android:textColor="@color/white"
+    android:textColor="?appLightTextColor"
     app:backgroundTint="@color/transparent"
+    app:cornerRadius="@dimen/button_corner_radius"
     tools:text="Button name" />

@@ -81,8 +81,8 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCsvExportSettingsRange"
+        style="@style/AppButton"
         android:layout_width="0dp"
-        android:layout_height="@dimen/input_field_height"
         android:layout_marginStart="10dp"
         android:layout_marginTop="6dp"
         android:layout_marginEnd="6dp"
@@ -90,17 +90,14 @@
         android:paddingHorizontal="0dp"
         android:singleLine="true"
         android:text="@string/csv_export_settings_range"
-        android:textColor="@color/white"
-        app:backgroundTint="?appInactiveColor"
-        app:cornerRadius="@dimen/input_field_corner_radius"
         app:layout_constraintEnd_toStartOf="@id/btnCsvExportSettingsAll"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/fieldCsvExportSettingsTimeStarted" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCsvExportSettingsAll"
+        style="@style/AppButton"
         android:layout_width="0dp"
-        android:layout_height="@dimen/input_field_height"
         android:layout_marginStart="6dp"
         android:layout_marginTop="6dp"
         android:layout_marginEnd="10dp"
@@ -108,9 +105,6 @@
         android:paddingHorizontal="0dp"
         android:singleLine="true"
         android:text="@string/csv_export_settings_all"
-        android:textColor="@color/white"
-        app:backgroundTint="?appInactiveColor"
-        app:cornerRadius="@dimen/input_field_corner_radius"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/btnCsvExportSettingsRange"
         app:layout_constraintTop_toBottomOf="@id/fieldCsvExportSettingsTimeStarted" />

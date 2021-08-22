@@ -22,9 +22,9 @@
         android:layout_marginVertical="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="16dp"
-        app:durationLegendTextSize="32sp"
-        app:durationLegendTextColor="?appTextHintColor"
         app:durationLegendPadding="16dp"
+        app:durationLegendTextColor="?appTextHintColor"
+        app:durationLegendTextSize="32sp"
         app:durationTextColor="?appTextPrimaryColor"
         app:layout_constraintBottom_toTopOf="@id/guidelineDurationPicker"
         app:layout_constraintEnd_toStartOf="@id/ivDurationPickerDelete"
@@ -74,32 +74,27 @@
         android:id="@+id/containerDurationPickerButtons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
         android:paddingHorizontal="4dp"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnDurationPickerSave"
+            style="@style/AppButtonActive"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:layout_marginEnd="4dp"
             android:text="@string/duration_dialog_save"
-            android:textColor="@color/white"
-            app:backgroundTint="?appActiveColor"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/btnDurationPickerDisable"
             app:layout_constraintStart_toStartOf="parent" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnDurationPickerDisable"
+            style="@style/AppButton"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:layout_marginEnd="4dp"
             android:text="@string/duration_dialog_disable"
-            android:textColor="@color/white"
-            app:backgroundTint="?appInactiveColor"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/btnDurationPickerSave" />
