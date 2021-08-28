@@ -13,13 +13,11 @@ import com.example.util.simpletimetracker.core.extension.getAllFragments
 import com.example.util.simpletimetracker.core.extension.onTabSelected
 import com.example.util.simpletimetracker.core.extension.visible
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
-import com.example.util.simpletimetracker.domain.extension.orFalse
-import com.example.util.simpletimetracker.domain.extension.orZero
-import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.feature_dialogs.R
 import com.example.util.simpletimetracker.feature_dialogs.databinding.DateTimeDialogFragmentBinding
 import com.example.util.simpletimetracker.navigation.params.DateTimeDialogParams
 import com.example.util.simpletimetracker.navigation.params.DateTimeDialogType
+import com.google.android.material.tabs.TabLayout
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Calendar
 import javax.inject.Inject
@@ -39,22 +37,8 @@ class DateTimeDialogFragment :
     private var timeDialogFragment: TimeDialogFragment? = null
     private var dateDialogFragment: DateDialogFragment? = null
     private var dateTimeDialogListeners: MutableList<DateTimeDialogListener> = mutableListOf()
-    private val dialogTag: String? by lazy {
-        arguments?.getString(ARGS_TAG)
-    }
-    private val type: DateTimeDialogType by lazy {
-        arguments?.getSerializable(ARGS_TYPE) as? DateTimeDialogType
-            ?: DateTimeDialogType.DATETIME
-    }
-    private val useMilitary: Boolean by lazy {
-        arguments?.getBoolean(ARGS_MILITARY).orFalse()
-    }
-    private val timestamp: Long by lazy {
-        arguments?.getLong(ARGS_TIMESTAMP).orZero()
-    }
-    private val firstDayOfWeek: DayOfWeek by lazy {
-        arguments?.getSerializable(ARGS_FIRST_DAY_OF_WEEK) as? DayOfWeek
-            ?: DayOfWeek.MONDAY
+    private val params: DateTimeDialogParams by lazy {
+        arguments?.getParcelable(ARGS_PARAMS) ?: DateTimeDialogParams()
     }
     private var newTimestamp: Long = 0
     private val calendar = Calendar.getInstance()
@@ -77,7 +61,7 @@ class DateTimeDialogFragment :
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         _binding = DateTimeDialogFragmentBinding.inflate(inflater, container, false)
         return binding.root
@@ -85,7 +69,7 @@ class DateTimeDialogFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        newTimestamp = timestamp
+        newTimestamp = params.timestamp
         initUi()
         initUx()
     }
@@ -127,27 +111,27 @@ class DateTimeDialogFragment :
             dateDialogFragment?.getSelectedDate()?.let { (year, month, day) ->
                 onDateSet(year, month, day)
             }
-            dateTimeDialogListeners.forEach { it.onDateTimeSet(newTimestamp, dialogTag) }
+            dateTimeDialogListeners.forEach { it.onDateTimeSet(newTimestamp, params.tag) }
             dismiss()
         }
     }
 
     private fun initFragments() {
-        val dayOfWeek = timeMapper.toCalendarDayOfWeek(firstDayOfWeek)
+        val dayOfWeek = timeMapper.toCalendarDayOfWeek(params.firstDayOfWeek)
         childFragmentManager.commit {
             replace(
                 R.id.datePickerContainer,
-                DateDialogFragment.newInstance(timestamp, dayOfWeek)
+                DateDialogFragment.newInstance(params.timestamp, dayOfWeek)
                     .apply { listener = this@DateTimeDialogFragment }
                     .also { dateDialogFragment = it }
             )
         }
 
-        if (type == DateTimeDialogType.DATETIME) {
+        if (params.type is DateTimeDialogType.DATETIME) {
             childFragmentManager.commit {
                 replace(
                     R.id.timePickerContainer,
-                    TimeDialogFragment.newInstance(timestamp, useMilitary)
+                    TimeDialogFragment.newInstance(params.timestamp, params.useMilitaryTime)
                         .apply { listener = this@DateTimeDialogFragment }
                         .also { timeDialogFragment = it }
                 )
@@ -156,46 +140,45 @@ class DateTimeDialogFragment :
     }
 
     private fun initTabs() = with(binding) {
-        when (type) {
-            DateTimeDialogType.DATE -> {
-                tabsDateTimeDialog.visible = false
-                datePickerContainer.visible = true
-                timePickerContainer.visible = false
+        when (val type = params.type) {
+            is DateTimeDialogType.DATE -> {
+                setDateTabOnly()
             }
-            DateTimeDialogType.DATETIME -> {
-                tabsDateTimeDialog.getTabAt(1)?.select()
-                tabsDateTimeDialog.onTabSelected { tab ->
-                    when (tab.position) {
-                        0 -> {
-                            datePickerContainer.visible = true
-                            timePickerContainer.visible = false
-                        }
-                        1 -> {
-                            datePickerContainer.visible = false
-                            timePickerContainer.visible = true
-                        }
-                    }
+            is DateTimeDialogType.DATETIME -> {
+                tabsDateTimeDialog.onTabSelected(::changeTabsVisibility)
+                when (type.initialTab) {
+                    DateTimeDialogType.Tab.DATE -> tabsDateTimeDialog.getTabAt(0)?.select()
+                    DateTimeDialogType.Tab.TIME -> tabsDateTimeDialog.getTabAt(1)?.select()
                 }
             }
         }
     }
 
+    private fun setDateTabOnly() = with(binding) {
+        tabsDateTimeDialog.visible = false
+        datePickerContainer.visible = true
+        timePickerContainer.visible = false
+    }
+
+    private fun changeTabsVisibility(tab: TabLayout.Tab) = with(binding) {
+        when (tab.position) {
+            0 -> {
+                datePickerContainer.visible = true
+                timePickerContainer.visible = false
+            }
+            1 -> {
+                datePickerContainer.visible = false
+                timePickerContainer.visible = true
+            }
+        }
+    }
+
     companion object {
-        private const val ARGS_TAG = "tag"
-        private const val ARGS_TYPE = "type"
-        private const val ARGS_MILITARY = "military"
-        private const val ARGS_TIMESTAMP = "timestamp"
-        private const val ARGS_FIRST_DAY_OF_WEEK = "firstDayOfWeek"
+        private const val ARGS_PARAMS = "params"
 
         fun createBundle(data: Any?): Bundle = Bundle().apply {
             when (data) {
-                is DateTimeDialogParams -> {
-                    putString(ARGS_TAG, data.tag)
-                    putSerializable(ARGS_TYPE, data.type)
-                    putBoolean(ARGS_MILITARY, data.useMilitaryTime)
-                    putLong(ARGS_TIMESTAMP, data.timestamp)
-                    putSerializable(ARGS_FIRST_DAY_OF_WEEK, data.firstDayOfWeek)
-                }
+                is DateTimeDialogParams -> putParcelable(ARGS_PARAMS, data)
             }
         }
     }

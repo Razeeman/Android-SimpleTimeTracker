@@ -115,7 +115,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
                 DateTimeDialogParams(
                     tag = TIME_STARTED_TAG,
                     timestamp = newTimeStarted,
-                    type = DateTimeDialogType.DATETIME,
+                    type = DateTimeDialogType.DATETIME(),
                     useMilitaryTime = useMilitaryTime,
                     firstDayOfWeek = firstDayOfWeek
                 )

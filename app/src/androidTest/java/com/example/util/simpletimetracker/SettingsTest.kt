@@ -1,9 +1,12 @@
 package com.example.util.simpletimetracker
 
 import android.view.View
+import android.widget.DatePicker
+import android.widget.TimePicker
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.ViewAssertion
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.PositionAssertions.isCompletelyAbove
 import androidx.test.espresso.assertion.PositionAssertions.isCompletelyBelow
 import androidx.test.espresso.assertion.PositionAssertions.isCompletelyLeftOf
@@ -11,12 +14,15 @@ import androidx.test.espresso.assertion.PositionAssertions.isCompletelyRightOf
 import androidx.test.espresso.assertion.PositionAssertions.isLeftAlignedWith
 import androidx.test.espresso.assertion.PositionAssertions.isTopAlignedWith
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.contrib.PickerActions.setDate
+import androidx.test.espresso.contrib.PickerActions.setTime
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isChecked
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.isNotChecked
+import androidx.test.espresso.matcher.ViewMatchers.withClassName
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withSubstring
 import androidx.test.espresso.matcher.ViewMatchers.withText
@@ -42,6 +48,7 @@ import com.example.util.simpletimetracker.utils.unconstrainedClickOnView
 import com.example.util.simpletimetracker.utils.withPluralText
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.CoreMatchers.allOf
+import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.Matcher
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -793,6 +800,76 @@ class SettingsTest : BaseUiTest() {
         NavUtils.openRunningRecordsScreen()
         clickOnViewWithText(name)
         tryAction { clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name))) }
+    }
+
+    @Test
+    fun csvExportSettings() {
+        NavUtils.openSettingsScreen()
+        onView(withId(R.id.layoutSettingsExportCsv)).perform(nestedScrollTo(), click())
+
+        // View is set up
+        val currentTime = System.currentTimeMillis()
+        var timeStarted = timeMapper.formatDateTime(currentTime - TimeUnit.DAYS.toMillis(7), true)
+        var timeEnded = timeMapper.formatDateTime(currentTime, true)
+        checkViewIsDisplayed(allOf(withId(R.id.tvCsvExportSettingsTimeStarted), withText(timeStarted)))
+        checkViewIsDisplayed(allOf(withId(R.id.tvCsvExportSettingsTimeEnded), withText(timeEnded)))
+
+        val calendar = Calendar.getInstance().apply {
+            add(Calendar.DATE, -1)
+        }
+        val hourStarted = 15
+        val minutesStarted = 16
+        val hourEnded = 17
+        val minutesEnded = 19
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+        // Set time started
+        clickOnViewWithId(R.id.tvCsvExportSettingsTimeStarted)
+        onView(withClassName(equalTo(DatePicker::class.java.name)))
+            .perform(setDate(year, month + 1, day))
+        clickOnView(allOf(isDescendantOfA(withId(R.id.tabsDateTimeDialog)), withText(R.string.date_time_dialog_time)))
+        onView(withClassName(equalTo(TimePicker::class.java.name)))
+            .perform(setTime(hourStarted, minutesStarted))
+        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+
+        // Check time set
+        val timeStartedTimestamp = Calendar.getInstance().run {
+            set(Calendar.YEAR, year)
+            set(Calendar.MONTH, month)
+            set(Calendar.DAY_OF_MONTH, day)
+            set(Calendar.HOUR_OF_DAY, hourStarted)
+            set(Calendar.MINUTE, minutesStarted)
+            timeInMillis
+        }
+        timeStarted = timeStartedTimestamp
+            .let { timeMapper.formatDateTime(it, true) }
+
+        checkViewIsDisplayed(allOf(withId(R.id.tvCsvExportSettingsTimeStarted), withText(timeStarted)))
+
+        // Set time ended
+        clickOnViewWithId(R.id.tvCsvExportSettingsTimeEnded)
+        onView(withClassName(equalTo(DatePicker::class.java.name)))
+            .perform(setDate(year, month + 1, day))
+        clickOnView(allOf(isDescendantOfA(withId(R.id.tabsDateTimeDialog)), withText(R.string.date_time_dialog_time)))
+        onView(withClassName(equalTo(TimePicker::class.java.name)))
+            .perform(setTime(hourEnded, minutesEnded))
+        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+
+        // Check time set
+        val timeEndedTimestamp = Calendar.getInstance().run {
+            set(Calendar.YEAR, year)
+            set(Calendar.MONTH, month)
+            set(Calendar.DAY_OF_MONTH, day)
+            set(Calendar.HOUR_OF_DAY, hourEnded)
+            set(Calendar.MINUTE, minutesEnded)
+            timeInMillis
+        }
+        timeEnded = timeEndedTimestamp
+            .let { timeMapper.formatDateTime(it, true) }
+
+        checkViewIsDisplayed(allOf(withId(R.id.tvCsvExportSettingsTimeEnded), withText(timeEnded)))
     }
 
     private fun clearDuration() {

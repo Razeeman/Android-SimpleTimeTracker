@@ -47,7 +47,7 @@ class CsvExportSettingsViewModel @Inject constructor(
                 DateTimeDialogParams(
                     tag = TIME_STARTED_TAG,
                     timestamp = rangeStart,
-                    type = DateTimeDialogType.DATETIME,
+                    type = DateTimeDialogType.DATETIME(initialTab = DateTimeDialogType.Tab.DATE),
                     useMilitaryTime = useMilitaryTime,
                     firstDayOfWeek = firstDayOfWeek
                 )
@@ -65,7 +65,7 @@ class CsvExportSettingsViewModel @Inject constructor(
                 DateTimeDialogParams(
                     tag = TIME_ENDED_TAG,
                     timestamp = rangeEnd,
-                    type = DateTimeDialogType.DATETIME,
+                    type = DateTimeDialogType.DATETIME(initialTab = DateTimeDialogType.Tab.DATE),
                     useMilitaryTime = useMilitaryTime,
                     firstDayOfWeek = firstDayOfWeek
                 )
