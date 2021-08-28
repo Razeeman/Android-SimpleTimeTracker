@@ -23,7 +23,6 @@ import com.example.util.simpletimetracker.core.extension.toViewData
 import com.example.util.simpletimetracker.core.extension.visible
 import com.example.util.simpletimetracker.core.utils.BuildVersions
 import com.example.util.simpletimetracker.core.utils.setFlipChooserColor
-import com.example.util.simpletimetracker.core.view.TransitionNames
 import com.example.util.simpletimetracker.feature_change_record_tag.viewModel.ChangeRecordTagViewModel
 import com.example.util.simpletimetracker.navigation.params.ChangeCategoryParams
 import com.google.android.flexbox.FlexDirection
@@ -67,10 +66,8 @@ class ChangeRecordTagFragment : BaseFragment<Binding>() {
                 .inflateTransition(android.R.transition.move)
         }
 
-        ViewCompat.setTransitionName(
-            previewChangeRecordTag,
-            TransitionNames.RECORD_TAG + params.id
-        )
+        val transitionName: String = (params as? ChangeCategoryParams.Change)?.transitionName.orEmpty()
+        ViewCompat.setTransitionName(previewChangeRecordTag, transitionName)
 
         rvChangeRecordTagType.apply {
             layoutManager = FlexboxLayoutManager(requireContext()).apply {

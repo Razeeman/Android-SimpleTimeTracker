@@ -5,11 +5,10 @@ import androidx.annotation.ColorInt
 import kotlinx.parcelize.Parcelize
 
 sealed class ChangeCategoryParams : Parcelable {
-    abstract val id: Long
-
     @Parcelize
     data class Change(
-        override val id: Long,
+        val transitionName: String,
+        val id: Long,
         val preview: Preview? = null
     ) : ChangeCategoryParams() {
 
@@ -22,7 +21,5 @@ sealed class ChangeCategoryParams : Parcelable {
     }
 
     @Parcelize
-    object New : ChangeCategoryParams() {
-        override val id: Long get() = 0 // TODO remove
-    }
+    object New : ChangeCategoryParams()
 }

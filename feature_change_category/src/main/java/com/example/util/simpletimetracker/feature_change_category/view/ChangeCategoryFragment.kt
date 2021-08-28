@@ -25,7 +25,6 @@ import com.example.util.simpletimetracker.core.extension.showKeyboard
 import com.example.util.simpletimetracker.core.extension.visible
 import com.example.util.simpletimetracker.core.utils.BuildVersions
 import com.example.util.simpletimetracker.core.utils.setFlipChooserColor
-import com.example.util.simpletimetracker.core.view.TransitionNames
 import com.example.util.simpletimetracker.feature_change_category.viewModel.ChangeCategoryViewModel
 import com.example.util.simpletimetracker.navigation.params.ChangeCategoryParams
 import com.google.android.flexbox.FlexDirection
@@ -75,10 +74,8 @@ class ChangeCategoryFragment : BaseFragment<Binding>() {
                 .inflateTransition(android.R.transition.move)
         }
 
-        ViewCompat.setTransitionName(
-            previewChangeCategory,
-            TransitionNames.ACTIVITY_TAG + params.id
-        )
+        val transitionName: String = (params as? ChangeCategoryParams.Change)?.transitionName.orEmpty()
+        ViewCompat.setTransitionName(previewChangeCategory, transitionName)
 
         rvChangeCategoryColor.apply {
             layoutManager = FlexboxLayoutManager(requireContext()).apply {

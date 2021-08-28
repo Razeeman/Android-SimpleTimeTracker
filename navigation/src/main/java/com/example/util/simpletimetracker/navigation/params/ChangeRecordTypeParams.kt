@@ -27,7 +27,7 @@ sealed class ChangeRecordTypeParams : Parcelable {
     data class New(
         override val sizePreview: SizePreview
     ) : ChangeRecordTypeParams() {
-        override val id: Long get() = 0
+        override val id: Long get() = 0 // TODO remove
     }
 
     @Parcelize

@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.core.adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.core.adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.core.extension.toParams
+import com.example.util.simpletimetracker.core.view.TransitionNames
 import com.example.util.simpletimetracker.domain.model.TagType
 import com.example.util.simpletimetracker.feature_categories.interactor.CategoriesViewDataInteractor
 import com.example.util.simpletimetracker.feature_categories.viewData.CategoryAddViewData
@@ -38,10 +39,15 @@ class CategoriesViewModel @Inject constructor(
             is CategoryViewData.Record -> Screen.CHANGE_RECORD_TAG
         }
         val icon = (item as? CategoryViewData.Record)?.icon?.toParams()
+        val transitionName = when (item) {
+            is CategoryViewData.Activity -> TransitionNames.ACTIVITY_TAG
+            is CategoryViewData.Record -> TransitionNames.RECORD_TAG
+        } + item.id
 
         router.navigate(
             screen = screen,
             data = ChangeCategoryParams.Change(
+                transitionName = transitionName,
                 id = item.id,
                 preview = ChangeCategoryParams.Change.Preview(
                     name = item.name,

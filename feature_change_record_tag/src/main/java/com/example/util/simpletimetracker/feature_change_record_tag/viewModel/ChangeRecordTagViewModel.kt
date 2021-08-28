@@ -13,6 +13,7 @@ import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.extension.flip
 import com.example.util.simpletimetracker.domain.extension.orTrue
+import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
@@ -58,10 +59,11 @@ class ChangeRecordTagViewModel @Inject constructor(
     val flipTypesChooser: LiveData<Boolean> = MutableLiveData()
     val deleteButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
-    val deleteIconVisibility: LiveData<Boolean> by lazy { MutableLiveData(extra.id != 0L) }
-    val keyboardVisibility: LiveData<Boolean> by lazy { MutableLiveData(extra.id == 0L) }
-    val typesChooserVisibility: LiveData<Boolean> by lazy { MutableLiveData(extra.id == 0L) }
+    val deleteIconVisibility: LiveData<Boolean> by lazy { MutableLiveData(recordTagId != 0L) }
+    val keyboardVisibility: LiveData<Boolean> by lazy { MutableLiveData(recordTagId == 0L) }
+    val typesChooserVisibility: LiveData<Boolean> by lazy { MutableLiveData(recordTagId == 0L) }
 
+    private val recordTagId: Long get() = (extra as? ChangeCategoryParams.Change)?.id.orZero()
     private var newName: String = ""
     private var newTypeId: Long = 0L
 
@@ -92,8 +94,8 @@ class ChangeRecordTagViewModel @Inject constructor(
     fun onDeleteClick() {
         (deleteButtonEnabled as MutableLiveData).value = false
         viewModelScope.launch {
-            if (extra.id != 0L) {
-                recordTagInteractor.archive(extra.id)
+            if (recordTagId != 0L) {
+                recordTagInteractor.archive(recordTagId)
                 showMessage(R.string.change_category_archived)
                 (keyboardVisibility as MutableLiveData).value = false
                 router.back()
@@ -114,12 +116,12 @@ class ChangeRecordTagViewModel @Inject constructor(
         viewModelScope.launch {
             // Zero id creates new record
             RecordTag(
-                id = extra.id,
+                id = recordTagId,
                 typeId = newTypeId,
                 name = newName
             ).let {
                 recordTagInteractor.add(it)
-                notificationTypeInteractor.checkAndShow(extra.id)
+                notificationTypeInteractor.checkAndShow(recordTagId)
                 (keyboardVisibility as MutableLiveData).value = false
                 router.back()
             }
@@ -127,7 +129,7 @@ class ChangeRecordTagViewModel @Inject constructor(
     }
 
     private suspend fun initializePreviewViewData() {
-        recordTagInteractor.get(extra.id)?.let {
+        recordTagInteractor.get(recordTagId)?.let {
             newTypeId = it.typeId
             newName = it.name
         }

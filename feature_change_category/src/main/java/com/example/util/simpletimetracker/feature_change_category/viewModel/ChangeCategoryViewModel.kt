@@ -13,6 +13,7 @@ import com.example.util.simpletimetracker.core.viewData.ColorViewData
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.extension.flip
 import com.example.util.simpletimetracker.domain.extension.orTrue
+import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
@@ -63,9 +64,10 @@ class ChangeCategoryViewModel @Inject constructor(
     val flipTypesChooser: LiveData<Boolean> = MutableLiveData()
     val deleteButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
-    val deleteIconVisibility: LiveData<Boolean> by lazy { MutableLiveData(extra.id != 0L) }
-    val keyboardVisibility: LiveData<Boolean> by lazy { MutableLiveData(extra.id == 0L) }
+    val deleteIconVisibility: LiveData<Boolean> by lazy { MutableLiveData(categoryId != 0L) }
+    val keyboardVisibility: LiveData<Boolean> by lazy { MutableLiveData(categoryId == 0L) }
 
+    private val categoryId: Long get() = (extra as? ChangeCategoryParams.Change)?.id.orZero()
     private var initialTypes: List<Long> = emptyList()
     private var newName: String = ""
     private var newColorId: Int = (0..ColorMapper.colorsNumber).random()
@@ -123,8 +125,8 @@ class ChangeCategoryViewModel @Inject constructor(
     fun onDeleteClick() {
         (deleteButtonEnabled as MutableLiveData).value = false
         viewModelScope.launch {
-            if (extra.id != 0L) {
-                categoryInteractor.remove(extra.id)
+            if (categoryId != 0L) {
+                categoryInteractor.remove(categoryId)
                 showMessage(R.string.change_category_removed)
                 (keyboardVisibility as MutableLiveData).value = false
                 router.back()
@@ -140,7 +142,7 @@ class ChangeCategoryViewModel @Inject constructor(
         (saveButtonEnabled as MutableLiveData).value = false
         viewModelScope.launch {
             Category(
-                id = extra.id,
+                id = categoryId,
                 name = newName,
                 color = newColorId
             ).let {
@@ -154,7 +156,7 @@ class ChangeCategoryViewModel @Inject constructor(
 
     private suspend fun saveCategory(): Long {
         val category = Category(
-            id = extra.id,
+            id = categoryId,
             name = newName,
             color = newColorId
         )
@@ -171,7 +173,7 @@ class ChangeCategoryViewModel @Inject constructor(
     }
 
     private suspend fun initializeSelectedTypes() {
-        recordTypeCategoryInteractor.getTypes(extra.id)
+        recordTypeCategoryInteractor.getTypes(categoryId)
             .let {
                 newTypes = it.toMutableList()
                 initialTypes = it
@@ -183,7 +185,7 @@ class ChangeCategoryViewModel @Inject constructor(
     }
 
     private suspend fun loadCategoryViewData(): CategoryViewData {
-        categoryInteractor.get(extra.id)
+        categoryInteractor.get(categoryId)
             ?.let {
                 newName = it.name
                 newColorId = it.color
