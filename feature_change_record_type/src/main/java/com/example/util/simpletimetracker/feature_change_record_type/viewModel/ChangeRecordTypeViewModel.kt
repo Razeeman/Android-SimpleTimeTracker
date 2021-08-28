@@ -21,6 +21,7 @@ import com.example.util.simpletimetracker.core.viewData.EmojiViewData
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.extension.flip
 import com.example.util.simpletimetracker.domain.extension.orTrue
+import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
@@ -117,10 +118,11 @@ class ChangeRecordTypeViewModel @Inject constructor(
     val flipCategoryChooser: LiveData<Boolean> = MutableLiveData()
     val deleteButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
-    val deleteIconVisibility: LiveData<Boolean> by lazy { MutableLiveData(extra.id != 0L) }
-    val keyboardVisibility: LiveData<Boolean> by lazy { MutableLiveData(extra.id == 0L) }
+    val deleteIconVisibility: LiveData<Boolean> by lazy { MutableLiveData(recordTypeId != 0L) }
+    val keyboardVisibility: LiveData<Boolean> by lazy { MutableLiveData(recordTypeId == 0L) }
     val iconsScrollPosition: LiveData<ChangeRecordTypeScrollViewData> = MutableLiveData()
 
+    private val recordTypeId: Long get() = (extra as? ChangeRecordTypeParams.Change)?.id.orZero()
     private var iconType: IconType = IconType.IMAGE
     private var initialCategories: List<Long> = emptyList()
     private var newName: String = ""
@@ -277,16 +279,16 @@ class ChangeRecordTypeViewModel @Inject constructor(
     fun onDeleteClick() {
         (deleteButtonEnabled as MutableLiveData).value = false
         viewModelScope.launch {
-            if (extra.id != 0L) {
-                recordTypeInteractor.archive(extra.id)
-                runningRecordInteractor.get(extra.id)?.let { runningRecord ->
+            if (recordTypeId != 0L) {
+                recordTypeInteractor.archive(recordTypeId)
+                runningRecordInteractor.get(recordTypeId)?.let { runningRecord ->
                     recordInteractor.add(
                         typeId = runningRecord.id,
                         timeStarted = runningRecord.timeStarted,
                         comment = runningRecord.comment,
                         tagId = runningRecord.tagId
                     )
-                    removeRunningRecordMediator.remove(extra.id)
+                    removeRunningRecordMediator.remove(recordTypeId)
                 }
                 showMessage(R.string.change_record_type_archived)
                 (keyboardVisibility as MutableLiveData).value = false
@@ -304,8 +306,8 @@ class ChangeRecordTypeViewModel @Inject constructor(
         viewModelScope.launch {
             val addedId = saveRecordType()
             saveCategories(addedId)
-            notificationTypeInteractor.checkAndShow(extra.id)
-            notificationGoalTimeInteractor.checkAndReschedule(extra.id)
+            notificationTypeInteractor.checkAndShow(recordTypeId)
+            notificationGoalTimeInteractor.checkAndReschedule(recordTypeId)
             widgetInteractor.updateWidgets()
             (keyboardVisibility as MutableLiveData).value = false
             router.back()
@@ -330,7 +332,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
 
     private suspend fun saveRecordType(): Long {
         val recordType = RecordType(
-            id = extra.id,
+            id = recordTypeId,
             name = newName,
             icon = newIconName,
             color = newColorId,
@@ -349,7 +351,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     }
 
     private suspend fun initializeRecordTypeData() {
-        recordTypeInteractor.get(extra.id)
+        recordTypeInteractor.get(recordTypeId)
             ?.let {
                 newName = it.name
                 newIconName = it.icon
@@ -361,7 +363,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     }
 
     private suspend fun initializeSelectedCategories() {
-        recordTypeCategoryInteractor.getCategories(extra.id)
+        recordTypeCategoryInteractor.getCategories(recordTypeId)
             .let {
                 newCategories = it.toMutableList()
                 initialCategories = it

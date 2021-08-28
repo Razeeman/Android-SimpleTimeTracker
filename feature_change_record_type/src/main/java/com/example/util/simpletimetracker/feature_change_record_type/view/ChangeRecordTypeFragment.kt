@@ -34,7 +34,6 @@ import com.example.util.simpletimetracker.core.extension.visible
 import com.example.util.simpletimetracker.core.repo.DeviceRepo
 import com.example.util.simpletimetracker.core.utils.BuildVersions
 import com.example.util.simpletimetracker.core.utils.setFlipChooserColor
-import com.example.util.simpletimetracker.core.view.TransitionNames
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.model.IconEmojiType
 import com.example.util.simpletimetracker.feature_change_record_type.R
@@ -113,10 +112,8 @@ class ChangeRecordTypeFragment :
                 .inflateTransition(android.R.transition.move)
         }
 
-        ViewCompat.setTransitionName(
-            previewChangeRecordType,
-            TransitionNames.RECORD_TYPE + params.id
-        )
+        val transitionName: String = (params as? ChangeRecordTypeParams.Change)?.transitionName.orEmpty()
+        ViewCompat.setTransitionName(previewChangeRecordType, transitionName)
 
         rvChangeRecordTypeColor.apply {
             layoutManager = FlexboxLayoutManager(requireContext()).apply {

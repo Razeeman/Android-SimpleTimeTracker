@@ -5,12 +5,12 @@ import androidx.annotation.ColorInt
 import kotlinx.parcelize.Parcelize
 
 sealed class ChangeRecordTypeParams : Parcelable {
-    abstract val id: Long
     abstract val sizePreview: SizePreview
 
     @Parcelize
     data class Change(
-        override val id: Long,
+        val transitionName: String,
+        val id: Long,
         override val sizePreview: SizePreview,
         val preview: Preview
     ) : ChangeRecordTypeParams() {
@@ -26,9 +26,7 @@ sealed class ChangeRecordTypeParams : Parcelable {
     @Parcelize
     data class New(
         override val sizePreview: SizePreview
-    ) : ChangeRecordTypeParams() {
-        override val id: Long get() = 0 // TODO remove
-    }
+    ) : ChangeRecordTypeParams()
 
     @Parcelize
     data class SizePreview(

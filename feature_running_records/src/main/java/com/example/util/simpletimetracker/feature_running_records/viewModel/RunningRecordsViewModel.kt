@@ -9,6 +9,7 @@ import com.example.util.simpletimetracker.core.adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.core.extension.toParams
 import com.example.util.simpletimetracker.core.interactor.AddRunningRecordMediator
 import com.example.util.simpletimetracker.core.interactor.RemoveRunningRecordMediator
+import com.example.util.simpletimetracker.core.view.TransitionNames
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.feature_running_records.interactor.RunningRecordsViewDataInteractor
@@ -54,6 +55,7 @@ class RunningRecordsViewModel @Inject constructor(
         router.navigate(
             screen = Screen.CHANGE_RECORD_TYPE,
             data = ChangeRecordTypeParams.Change(
+                transitionName = TransitionNames.RECORD_TYPE + item.id,
                 id = item.id,
                 sizePreview = ChangeRecordTypeParams.SizePreview(
                     width = item.width,
