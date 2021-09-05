@@ -100,3 +100,13 @@ Version 1.12:
 - Add record tags
 - Add archive
 - General bug fixes and improvements
+
+Version 1.13:
+- Add timer on widgets
+- Add some translations
+- General bug fixes and improvements
+
+Version 1.14:
+- Add time range setting to csv export
+- Fix manual card ordering
+- General bug fixes and improvements
