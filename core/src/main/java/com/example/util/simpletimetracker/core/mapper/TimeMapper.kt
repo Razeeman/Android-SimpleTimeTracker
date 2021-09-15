@@ -364,6 +364,15 @@ class TimeMapper @Inject constructor(
         return res
     }
 
+    private fun createProportional(hr: Long, min: Long): String {
+        val hourString = "h"
+        val minutesProportion = min / 60f
+        val proportional = hr + minutesProportion
+        val proportionalString = "%.2f".format(proportional)
+
+        return "($proportionalString$hourString)"
+    }
+
     private fun toDayDateTitle(daysFromToday: Int): String {
         val calendar = Calendar.getInstance()
 

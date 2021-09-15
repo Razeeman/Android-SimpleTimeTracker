@@ -590,7 +590,7 @@ class StatisticsDetailTest : BaseUiTest() {
 
         onView(withId(R.id.cardStatisticsDetailAverage)).perform(nestedScrollTo())
         checkCard(R.string.statistics_detail_shortest_record, "1$hourString 0$minuteString")
-        checkCard(R.string.statistics_detail_average_record, "1$hourString 30$minuteString")
+        checkCard(R.string.statistics_detail_average_record, "1$hourString 30$minuteString(1.50$hourString)")
         checkCard(R.string.statistics_detail_longest_record, "2$hourString 0$minuteString")
 
         onView(withId(R.id.cardStatisticsDetailDates)).perform(nestedScrollTo())
