@@ -74,6 +74,10 @@ object Deps {
     object Test {
         const val junit =
             "junit:junit:${Versions.junit}"
+        const val mockito =
+            "org.mockito:mockito-core:${Versions.mockito}"
+        const val mockitoInline =
+            "org.mockito:mockito-inline:${Versions.mockito}"
     }
 
     object UiTest {

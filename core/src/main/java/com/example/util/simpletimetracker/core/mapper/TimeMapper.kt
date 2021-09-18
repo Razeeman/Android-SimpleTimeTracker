@@ -83,11 +83,11 @@ class TimeMapper @Inject constructor(
 
     // 1h 7m
     fun formatInterval(interval: Long): String =
-        formatInterval(interval, withSeconds = false)
+        formatInterval(interval, forceSeconds = false)
 
     // 1h 7m 21s
-    fun formatIntervalWithSeconds(interval: Long): String =
-        formatInterval(interval, withSeconds = true)
+    fun formatIntervalWithForcedSeconds(interval: Long): String =
+        formatInterval(interval, forceSeconds = true)
 
     fun toTimestampShifted(rangesFromToday: Int, range: RangeLength): Long {
         val calendarStep = when (range) {
@@ -335,7 +335,7 @@ class TimeMapper @Inject constructor(
         return rangeStart to rangeEnd
     }
 
-    private fun formatInterval(interval: Long, withSeconds: Boolean): String {
+    private fun formatInterval(interval: Long, forceSeconds: Boolean): String {
         val hourString = resourceRepo.getString(R.string.time_hour)
         val minuteString = resourceRepo.getString(R.string.time_minute)
         val secondString = resourceRepo.getString(R.string.time_second)
@@ -350,10 +350,16 @@ class TimeMapper @Inject constructor(
             interval - TimeUnit.HOURS.toMillis(hr) - TimeUnit.MINUTES.toMillis(min)
         )
 
+        val willShowHours = hr != 0L
+        val willShowMinutes = willShowHours || min != 0L
+        val willShowSeconds = (!willShowHours && !willShowMinutes) || forceSeconds
+
         var res = ""
-        if (hr != 0L) res += "$hr$hourString"
-        if (hr != 0L || min != 0L || !withSeconds) res += " $min$minuteString"
-        if (withSeconds) res += " $sec$secondString"
+        if (willShowHours) res += "$hr$hourString"
+        if (willShowHours && willShowMinutes) res += " "
+        if (willShowMinutes) res += "$min$minuteString"
+        if (willShowMinutes && willShowSeconds) res += " "
+        if (willShowSeconds) res += "$sec$secondString"
 
         return res
     }

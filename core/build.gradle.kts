@@ -61,4 +61,6 @@ dependencies {
     api(Deps.UiTest.espressoIdling)
 
     testImplementation(Deps.Test.junit)
+    testImplementation(Deps.Test.mockito)
+    testImplementation(Deps.Test.mockitoInline)
 }

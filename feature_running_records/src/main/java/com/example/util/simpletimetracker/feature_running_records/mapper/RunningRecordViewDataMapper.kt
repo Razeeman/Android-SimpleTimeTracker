@@ -41,7 +41,7 @@ class RunningRecordViewDataMapper @Inject constructor(
             timeStarted = runningRecord.timeStarted
                 .let { timeMapper.formatTime(it, useMilitaryTime) },
             timer = (System.currentTimeMillis() - runningRecord.timeStarted)
-                .let(timeMapper::formatIntervalWithSeconds),
+                .let(timeMapper::formatIntervalWithForcedSeconds),
             goalTime = recordType.goalTime
                 .takeIf { it > 0 }
                 ?.let(timeMapper::formatDuration)
