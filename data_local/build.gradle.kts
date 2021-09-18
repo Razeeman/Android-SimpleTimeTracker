@@ -15,6 +15,12 @@ android {
         targetSdkVersion(Base.currentSDK)
         versionCode = Base.versionCode
         versionName = Base.versionName
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += mapOf("room.schemaLocation" to "$projectDir/schemas")
+            }
+        }
     }
 
     kotlinOptions {
