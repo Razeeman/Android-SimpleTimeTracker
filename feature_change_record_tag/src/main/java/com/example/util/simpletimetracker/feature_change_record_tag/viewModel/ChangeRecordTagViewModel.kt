@@ -118,7 +118,8 @@ class ChangeRecordTagViewModel @Inject constructor(
             RecordTag(
                 id = recordTagId,
                 typeId = newTypeId,
-                name = newName
+                name = newName,
+                color = 0,
             ).let {
                 recordTagInteractor.add(it)
                 notificationTypeInteractor.checkAndShow(recordTagId)
@@ -142,6 +143,7 @@ class ChangeRecordTagViewModel @Inject constructor(
     private suspend fun loadPreviewViewData(): CategoryViewData.Record {
         val tag = RecordTag(
             name = newName,
+            color = 0,
             typeId = newTypeId
         )
         val type = recordTypeInteractor.get(newTypeId)

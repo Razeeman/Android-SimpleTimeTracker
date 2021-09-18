@@ -69,5 +69,16 @@ class AppDatabaseMigrations {
                 )
             }
         }
+
+        val migration_6_7 = object : Migration(6, 7) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL(
+                    "ALTER TABLE recordTags ADD COLUMN color INTEGER NOT NULL DEFAULT 0"
+                )
+                database.execSQL(
+                    "CREATE TABLE IF NOT EXISTS `recordToRecordTag` (`record_id` INTEGER NOT NULL, `record_tag_id` INTEGER NOT NULL, PRIMARY KEY(`record_id`, `record_tag_id`))"
+                )
+            }
+        }
     }
 }

@@ -134,6 +134,7 @@ class TestUtils @Inject constructor(
         val data = RecordTag(
             typeId = type.id,
             name = tagName,
+            color = 0,
             archived = archived
         )
 

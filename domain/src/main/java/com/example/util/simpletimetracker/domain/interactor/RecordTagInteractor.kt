@@ -5,7 +5,7 @@ import com.example.util.simpletimetracker.domain.repo.RecordTagRepo
 import javax.inject.Inject
 
 class RecordTagInteractor @Inject constructor(
-    private val repo: RecordTagRepo
+    private val repo: RecordTagRepo,
 ) {
 
     suspend fun getAll(): List<RecordTag> {
@@ -51,6 +51,7 @@ class RecordTagInteractor @Inject constructor(
     suspend fun removeByType(typeId: Long) {
         repo.removeByType(typeId)
     }
+
     suspend fun clear() {
         repo.clear()
     }

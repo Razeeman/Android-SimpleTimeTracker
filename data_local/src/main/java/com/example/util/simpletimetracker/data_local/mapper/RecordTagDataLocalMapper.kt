@@ -11,6 +11,7 @@ class RecordTagDataLocalMapper @Inject constructor() {
             id = dbo.id,
             typeId = dbo.typeId,
             name = dbo.name,
+            color = dbo.color,
             archived = dbo.archived
         )
     }
@@ -20,6 +21,7 @@ class RecordTagDataLocalMapper @Inject constructor() {
             id = domain.id,
             typeId = domain.typeId,
             name = domain.name,
+            color = domain.color,
             archived = domain.archived
         )
     }

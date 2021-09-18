@@ -11,13 +11,13 @@ interface RecordTypeCategoryRepo {
 
     suspend fun getCategoryIdsByType(typeId: Long): List<Long>
 
+    suspend fun getTypeIdsByCategory(categoryId: Long): List<Long>
+
     suspend fun add(recordTypeCategory: RecordTypeCategory)
 
     suspend fun addCategories(typeId: Long, categoryIds: List<Long>)
 
     suspend fun removeCategories(typeId: Long, categoryIds: List<Long>)
-
-    suspend fun getTypeIdsByCategory(categoryId: Long): List<Long>
 
     suspend fun addTypes(categoryId: Long, typeIds: List<Long>)
 

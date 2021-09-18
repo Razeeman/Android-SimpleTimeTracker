@@ -10,6 +10,7 @@ import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.repo.RecordRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTagRepo
+import com.example.util.simpletimetracker.domain.repo.RecordToRecordTagRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeCategoryRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeRepo
 import com.example.util.simpletimetracker.domain.resolver.CsvRepo
@@ -27,7 +28,8 @@ class CsvRepoImpl @Inject constructor(
     private val recordTypeRepo: RecordTypeRepo,
     private val recordRepo: RecordRepo,
     private val recordTypeCategoryRepo: RecordTypeCategoryRepo,
-    private val recordTagRepo: RecordTagRepo
+    private val recordTagRepo: RecordTagRepo,
+    private val recordToRecordTagRepo: RecordToRecordTagRepo,
 ) : CsvRepo {
 
     override suspend fun saveCsvFile(
@@ -59,13 +61,14 @@ class CsvRepoImpl @Inject constructor(
                 .sortedBy { it.timeStarted }
                 .forEach { record ->
                     val activityTags = recordTypeCategoryRepo.getCategoriesByType(record.typeId)
-                    val recordTag = recordTagRepo.get(record.tagId)
+                    val recordTags = recordToRecordTagRepo.getTagsByRecordId(record.id) +
+                        recordTagRepo.get(record.tagId)
 
                     toCsvString(
                         record = record,
                         recordType = recordTypes[record.typeId],
                         activityTags = activityTags,
-                        recordTag = recordTag
+                        recordTags = recordTags.filterNotNull()
                     )
                         ?.toByteArray()
                         ?.let { fileOutputStream?.write(it) }
@@ -91,7 +94,7 @@ class CsvRepoImpl @Inject constructor(
         record: Record,
         recordType: RecordType?,
         activityTags: List<Category>,
-        recordTag: RecordTag?
+        recordTags: List<RecordTag>,
     ): String? {
         return if (recordType != null) {
             String.format(
@@ -101,7 +104,7 @@ class CsvRepoImpl @Inject constructor(
                 formatDateTime(record.timeEnded),
                 record.comment.clean(),
                 activityTags.takeUnless { it.isEmpty() }?.joinToString(separator = " ") { it.name.clean() }.orEmpty(),
-                recordTag?.name?.clean().orEmpty()
+                recordTags.takeUnless { it.isEmpty() }?.joinToString(separator = " ") { it.name.clean() }.orEmpty(),
             )
         } else {
             null
@@ -118,7 +121,7 @@ class CsvRepoImpl @Inject constructor(
         replace("[\n\t]".toRegex(), " ").replace(",", " ")
 
     companion object {
-        private const val CSV_HEADER = "activity name,time started,time ended,comment,activity tags,record tag"
+        private const val CSV_HEADER = "activity name,time started,time ended,comment,activity tags,record tags"
 
         private val dateTimeFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US)
     }

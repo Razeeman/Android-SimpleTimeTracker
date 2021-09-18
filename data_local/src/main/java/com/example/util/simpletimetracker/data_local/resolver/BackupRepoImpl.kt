@@ -7,12 +7,14 @@ import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordTag
+import com.example.util.simpletimetracker.domain.model.RecordToRecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RecordTypeCategory
 import com.example.util.simpletimetracker.domain.repo.CategoryRepo
 import com.example.util.simpletimetracker.domain.repo.RecordCacheRepo
 import com.example.util.simpletimetracker.domain.repo.RecordRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTagRepo
+import com.example.util.simpletimetracker.domain.repo.RecordToRecordTagRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeCacheRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeCategoryRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeRepo
@@ -28,6 +30,10 @@ import java.io.InputStreamReader
 import javax.inject.Inject
 import javax.inject.Singleton
 
+/**
+ * Do not change backup parts order, always add new to the end.
+ * Otherwise previous version's backups will be broken.
+ */
 @Singleton
 class BackupRepoImpl @Inject constructor(
     private val contentResolver: ContentResolver,
@@ -37,7 +43,8 @@ class BackupRepoImpl @Inject constructor(
     private val recordCacheRepo: RecordCacheRepo,
     private val categoryRepo: CategoryRepo,
     private val recordTypeCategoryRepo: RecordTypeCategoryRepo,
-    private val recordTagRepo: RecordTagRepo
+    private val recordToRecordTagRepo: RecordToRecordTagRepo,
+    private val recordTagRepo: RecordTagRepo,
 ) : BackupRepo {
 
     override suspend fun saveBackupFile(uriString: String): BackupRepo.ResultCode =
@@ -76,6 +83,11 @@ class BackupRepoImpl @Inject constructor(
                     )
                 }
                 recordTagRepo.getAll().forEach {
+                    fileOutputStream?.write(
+                        it.let(::toBackupString).toByteArray()
+                    )
+                }
+                recordToRecordTagRepo.getAll().forEach {
                     fileOutputStream?.write(
                         it.let(::toBackupString).toByteArray()
                     )
@@ -121,6 +133,7 @@ class BackupRepoImpl @Inject constructor(
                 categoryRepo.clear()
                 recordTypeCategoryRepo.clear()
                 recordTagRepo.clear()
+                recordToRecordTagRepo.clear()
 
                 // Read data
                 while (reader?.readLine()?.also { line = it } != null) {
@@ -149,6 +162,11 @@ class BackupRepoImpl @Inject constructor(
                         ROW_RECORD_TAG -> {
                             recordTagFromBackupString(parts).let {
                                 recordTagRepo.add(it)
+                            }
+                        }
+                        ROW_RECORD_TO_RECORD_TAG -> {
+                            recordToRecordTagFromBackupString(parts).let {
+                                recordToRecordTagRepo.add(it)
                             }
                         }
                     }
@@ -210,11 +228,20 @@ class BackupRepoImpl @Inject constructor(
 
     private fun toBackupString(recordTag: RecordTag): String {
         return String.format(
-            "$ROW_RECORD_TAG\t%s\t%s\t%s\t%s\n",
+            "$ROW_RECORD_TAG\t%s\t%s\t%s\t%s\t%s\n",
             recordTag.id.toString(),
             recordTag.typeId.toString(),
             recordTag.name.clean(),
-            (if (recordTag.archived) 1 else 0).toString()
+            (if (recordTag.archived) 1 else 0).toString(),
+            recordTag.color.toString(),
+        )
+    }
+
+    private fun toBackupString(recordToRecordTag: RecordToRecordTag): String {
+        return String.format(
+            "$ROW_RECORD_TO_RECORD_TAG\t%s\t%s\n",
+            recordToRecordTag.recordId.toString(),
+            recordToRecordTag.recordTagId.toString()
         )
     }
 
@@ -260,7 +287,15 @@ class BackupRepoImpl @Inject constructor(
             id = parts.getOrNull(1)?.toLongOrNull().orZero(),
             typeId = parts.getOrNull(2)?.toLongOrNull().orZero(),
             name = parts.getOrNull(3).orEmpty(),
-            archived = parts.getOrNull(4)?.toIntOrNull() == 1
+            archived = parts.getOrNull(4)?.toIntOrNull() == 1,
+            color = parts.getOrNull(5)?.toIntOrNull().orZero(),
+        )
+    }
+
+    private fun recordToRecordTagFromBackupString(parts: List<String>): RecordToRecordTag {
+        return RecordToRecordTag(
+            recordId = parts.getOrNull(1)?.toLongOrNull().orZero(),
+            recordTagId = parts.getOrNull(2)?.toLongOrNull().orZero()
         )
     }
 
@@ -274,5 +309,6 @@ class BackupRepoImpl @Inject constructor(
         private const val ROW_CATEGORY = "category"
         private const val ROW_TYPE_CATEGORY = "typeCategory"
         private const val ROW_RECORD_TAG = "recordTag"
+        private const val ROW_RECORD_TO_RECORD_TAG = "recordToRecordTag"
     }
 }
