@@ -9,6 +9,7 @@ import com.example.util.simpletimetracker.data_local.database.AppDatabaseMigrati
 import com.example.util.simpletimetracker.data_local.database.CategoryDao
 import com.example.util.simpletimetracker.data_local.database.RecordDao
 import com.example.util.simpletimetracker.data_local.database.RecordTagDao
+import com.example.util.simpletimetracker.data_local.database.RecordToRecordTagDao
 import com.example.util.simpletimetracker.data_local.database.RecordTypeCategoryDao
 import com.example.util.simpletimetracker.data_local.database.RecordTypeDao
 import com.example.util.simpletimetracker.data_local.database.RunningRecordDao
@@ -88,5 +89,11 @@ class DataLocalModule {
     @Singleton
     fun getRecordTagDao(database: AppDatabase): RecordTagDao {
         return database.recordTagDao()
+    }
+
+    @Provides
+    @Singleton
+    fun getRecordToRecordTagDap(database: AppDatabase): RecordToRecordTagDao {
+        return database.recordToRecordTagDao()
     }
 }

@@ -5,6 +5,7 @@ import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.RecordCacheRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.RecordRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.RecordTagRepoImpl
+import com.example.util.simpletimetracker.data_local.repo.RecordToRecordTagRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.RecordTypeCacheRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.RecordTypeCategoryRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.RecordTypeRepoImpl
@@ -16,6 +17,7 @@ import com.example.util.simpletimetracker.domain.repo.PrefsRepo
 import com.example.util.simpletimetracker.domain.repo.RecordCacheRepo
 import com.example.util.simpletimetracker.domain.repo.RecordRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTagRepo
+import com.example.util.simpletimetracker.domain.repo.RecordToRecordTagRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeCacheRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeCategoryRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeRepo
@@ -75,4 +77,8 @@ abstract class DataLocalModuleBinds {
     @Binds
     @Singleton
     abstract fun getRecordTypeCategoryRepo(impl: RecordTypeCategoryRepoImpl): RecordTypeCategoryRepo
+
+    @Binds
+    @Singleton
+    abstract fun getRecordToRecordTagRepo(impl: RecordToRecordTagRepoImpl): RecordToRecordTagRepo
 }
