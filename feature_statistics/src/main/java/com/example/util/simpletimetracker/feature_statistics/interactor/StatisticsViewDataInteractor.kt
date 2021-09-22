@@ -33,6 +33,7 @@ class StatisticsViewDataInteractor @Inject constructor(
         val filterType = prefsInteractor.getChartFilterType()
         val isDarkTheme = prefsInteractor.getDarkMode()
         val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
+        val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
         val showDuration = rangeLength != RangeLength.ALL
 
         val list: List<StatisticsViewData>
@@ -47,13 +48,13 @@ class StatisticsViewDataInteractor @Inject constructor(
                 val statistics = getStatistics(rangeLength, shift, typesFiltered, firstDayOfWeek)
 
                 list = statisticsViewDataMapper.mapActivities(
-                    statistics, types, typesFiltered, showDuration, isDarkTheme
+                    statistics, types, typesFiltered, showDuration, isDarkTheme, useProportionalMinutes
                 )
                 chart = statisticsViewDataMapper.mapActivitiesToChart(
                     statistics, types, typesFiltered, isDarkTheme
                 )
                 totalTracked = statisticsViewDataMapper.mapActivitiesTotalTracked(
-                    statistics, typesFiltered
+                    statistics, typesFiltered, useProportionalMinutes
                 )
             }
             ChartFilterType.CATEGORY -> {
@@ -64,13 +65,13 @@ class StatisticsViewDataInteractor @Inject constructor(
                 val statistics = getStatisticsCategory(rangeLength, shift, firstDayOfWeek)
 
                 list = statisticsViewDataMapper.mapCategories(
-                    statistics, categories, categoriesFiltered, showDuration, isDarkTheme
+                    statistics, categories, categoriesFiltered, showDuration, isDarkTheme, useProportionalMinutes
                 )
                 chart = statisticsViewDataMapper.mapCategoriesToChart(
                     statistics, categories, types, typeCategories, categoriesFiltered, isDarkTheme
                 )
                 totalTracked = statisticsViewDataMapper.mapCategoriesTotalTracked(
-                    statistics, categoriesFiltered
+                    statistics, categoriesFiltered, useProportionalMinutes
                 )
             }
         }

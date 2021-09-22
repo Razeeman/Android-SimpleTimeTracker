@@ -26,7 +26,8 @@ class RecordsViewDataMapper @Inject constructor(
         rangeStart: Long,
         rangeEnd: Long,
         isDarkTheme: Boolean,
-        useMilitaryTime: Boolean
+        useMilitaryTime: Boolean,
+        useProportionalMinutes: Boolean
     ): ViewHolderType {
         val (timeStarted, timeEnded) = clampToRange(record, rangeStart, rangeEnd)
 
@@ -37,7 +38,8 @@ class RecordsViewDataMapper @Inject constructor(
             timeStarted = timeStarted,
             timeEnded = timeEnded,
             isDarkTheme = isDarkTheme,
-            useMilitaryTime = useMilitaryTime
+            useMilitaryTime = useMilitaryTime,
+            useProportionalMinutes = useProportionalMinutes
         )
     }
 
@@ -46,7 +48,8 @@ class RecordsViewDataMapper @Inject constructor(
         rangeStart: Long,
         rangeEnd: Long,
         isDarkTheme: Boolean,
-        useMilitaryTime: Boolean
+        useMilitaryTime: Boolean,
+        useProportionalMinutes: Boolean
     ): RecordViewData {
         val (timeStarted, timeEnded) = clampToRange(record, rangeStart, rangeEnd)
 
@@ -54,7 +57,8 @@ class RecordsViewDataMapper @Inject constructor(
             timeStarted = timeStarted,
             timeEnded = timeEnded,
             isDarkTheme = isDarkTheme,
-            useMilitaryTime = useMilitaryTime
+            useMilitaryTime = useMilitaryTime,
+            useProportionalMinutes = useProportionalMinutes
         )
     }
 

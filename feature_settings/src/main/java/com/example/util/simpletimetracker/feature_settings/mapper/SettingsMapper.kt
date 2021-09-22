@@ -79,6 +79,10 @@ class SettingsMapper @Inject constructor(
         return timeMapper.formatTime(hintTime, useMilitaryTime)
     }
 
+    fun toUseProportionalMinutesHint(useProportionalMinutes: Boolean): String {
+        return timeMapper.formatInterval(5400000, useProportionalMinutes)
+    }
+
     private fun toPosition(cardOrder: CardOrder): Int {
         return cardOrderList.indexOf(cardOrder).takeUnless { it == -1 }.orZero()
     }

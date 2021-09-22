@@ -22,7 +22,8 @@ class ChangeRecordViewDataMapper @Inject constructor(
         recordType: RecordType?,
         recordTag: RecordTag?,
         isDarkTheme: Boolean,
-        useMilitaryTime: Boolean
+        useMilitaryTime: Boolean,
+        useProportionalMinutes: Boolean
     ): ChangeRecordViewData {
         return ChangeRecordViewData(
             name = recordType?.name.orEmpty(),
@@ -41,7 +42,7 @@ class ChangeRecordViewDataMapper @Inject constructor(
                 .orEmpty(),
             duration = record
                 ?.let { it.timeEnded - it.timeStarted }
-                ?.let(timeMapper::formatInterval)
+                ?.let{timeMapper.formatInterval(it, useProportionalMinutes)}
                 .orEmpty(),
             iconId = recordType?.icon.orEmpty()
                 .let(iconMapper::mapIcon),

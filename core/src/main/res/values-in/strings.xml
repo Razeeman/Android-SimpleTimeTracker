@@ -152,6 +152,7 @@
     <string name="settings_inactivity_reminder_disabled">Dinonaktifkan</string>
     <string name="settings_dark_mode">Mode gelap</string>
     <string name="settings_use_military_time">Pakai format 24-jam</string>
+    <string name="settings_use_proportional_minutes">Gunakan format minit berkadar</string>
     <string name="settings_change_card_size">Ubah ukuran kartu kegiatan</string>
     <string name="settings_archive">Arsip</string>
     <string name="settings_edit_categories">Sunting label-label</string>

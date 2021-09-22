@@ -34,7 +34,8 @@ class StatisticsViewDataMapper @Inject constructor(
         recordTypes: List<RecordType>,
         recordTypesFiltered: List<Long>,
         showDuration: Boolean,
-        isDarkTheme: Boolean
+        isDarkTheme: Boolean,
+        useProportionalMinutes: Boolean
     ): List<StatisticsViewData> {
         val statisticsFiltered = statistics.filterNot { it.typeId in recordTypesFiltered }
         val recordTypesMap = recordTypes.map { it.id to it }.toMap()
@@ -50,7 +51,8 @@ class StatisticsViewDataMapper @Inject constructor(
                         recordType = recordTypesMap[statistic.typeId],
                         showDuration = showDuration,
                         isDarkTheme = isDarkTheme,
-                        statisticsSize = statisticsSize
+                        statisticsSize = statisticsSize,
+                        useProportionalMinutes = useProportionalMinutes,
                     ) ?: return@mapNotNull null
                     ) to statistic.duration
             }
@@ -63,7 +65,8 @@ class StatisticsViewDataMapper @Inject constructor(
         categories: List<Category>,
         categoriesFiltered: List<Long>,
         showDuration: Boolean,
-        isDarkTheme: Boolean
+        isDarkTheme: Boolean,
+        useProportionalMinutes: Boolean
     ): List<StatisticsViewData> {
         val statisticsFiltered = statistics.filterNot { it.categoryId in categoriesFiltered }
         val categoriesMap = categories.map { it.id to it }.toMap()
@@ -79,7 +82,8 @@ class StatisticsViewDataMapper @Inject constructor(
                         category = categoriesMap[statistic.categoryId],
                         showDuration = showDuration,
                         isDarkTheme = isDarkTheme,
-                        statisticsSize = statisticsSize
+                        statisticsSize = statisticsSize,
+                        useProportionalMinutes = useProportionalMinutes,
                     ) ?: return@mapNotNull null
                     ) to statistic.duration
             }
@@ -148,24 +152,26 @@ class StatisticsViewDataMapper @Inject constructor(
     // TODO statistics into sealed class and simplify
     fun mapActivitiesTotalTracked(
         statistics: List<Statistics>,
-        recordTypesFiltered: List<Long>
+        recordTypesFiltered: List<Long>,
+        useProportionalMinutes: Boolean
     ): ViewHolderType {
         val statisticsFiltered = statistics
             .filterNot { it.typeId in recordTypesFiltered || it.typeId == -1L }
         val totalTracked = statisticsFiltered.map(Statistics::duration).sum()
 
-        return mapTotalTracked(totalTracked)
+        return mapTotalTracked(totalTracked, useProportionalMinutes)
     }
 
     fun mapCategoriesTotalTracked(
         statistics: List<StatisticsCategory>,
-        categoriesFiltered: List<Long>
+        categoriesFiltered: List<Long>,
+        useProportionalMinutes: Boolean
     ): ViewHolderType {
         val statisticsFiltered = statistics
             .filterNot { it.categoryId in categoriesFiltered || it.categoryId == -1L }
         val totalTracked = statisticsFiltered.map(StatisticsCategory::duration).sum()
 
-        return mapTotalTracked(totalTracked)
+        return mapTotalTracked(totalTracked, useProportionalMinutes)
     }
 
     fun mapToEmpty(): ViewHolderType {
@@ -186,7 +192,8 @@ class StatisticsViewDataMapper @Inject constructor(
         recordType: RecordType?,
         showDuration: Boolean,
         isDarkTheme: Boolean,
-        statisticsSize: Int
+        statisticsSize: Int,
+        useProportionalMinutes: Boolean
     ): StatisticsViewData? {
         val durationPercent = statisticsMapper.getDurationPercentString(
             sumDuration = sumDuration,
@@ -201,7 +208,7 @@ class StatisticsViewDataMapper @Inject constructor(
                     name = R.string.untracked_time_name
                         .let(resourceRepo::getString),
                     duration = statistics.duration
-                        .let(timeMapper::formatInterval),
+                        .let { timeMapper.formatInterval(it, useProportionalMinutes) },
                     percent = durationPercent,
                     icon = RecordTypeIcon.Image(R.drawable.unknown),
                     color = colorMapper.toUntrackedColor(isDarkTheme)
@@ -212,7 +219,7 @@ class StatisticsViewDataMapper @Inject constructor(
                     id = statistics.typeId,
                     name = recordType.name,
                     duration = if (showDuration) {
-                        statistics.duration.let(timeMapper::formatInterval)
+                        statistics.duration.let{ timeMapper.formatInterval(it, useProportionalMinutes) }
                     } else {
                         ""
                     },
@@ -236,7 +243,8 @@ class StatisticsViewDataMapper @Inject constructor(
         category: Category?,
         showDuration: Boolean,
         isDarkTheme: Boolean,
-        statisticsSize: Int
+        statisticsSize: Int,
+        useProportionalMinutes: Boolean
     ): StatisticsViewData? {
         val durationPercent = statisticsMapper.getDurationPercentString(
             sumDuration = sumDuration,
@@ -249,7 +257,7 @@ class StatisticsViewDataMapper @Inject constructor(
                 id = statistics.categoryId,
                 name = category.name,
                 duration = if (showDuration) {
-                    statistics.duration.let(timeMapper::formatInterval)
+                    statistics.duration.let{ timeMapper.formatInterval(it, useProportionalMinutes) }
                 } else {
                     ""
                 },
@@ -312,10 +320,10 @@ class StatisticsViewDataMapper @Inject constructor(
         }
     }
 
-    private fun mapTotalTracked(totalTracked: Long): ViewHolderType {
+    private fun mapTotalTracked(totalTracked: Long, useProportionalMinutes: Boolean): ViewHolderType {
         return StatisticsInfoViewData(
             name = resourceRepo.getString(R.string.statistics_total_tracked),
-            text = totalTracked.let(timeMapper::formatInterval)
+            text = totalTracked.let{ timeMapper.formatInterval(it, useProportionalMinutes) }
         )
     }
 }

@@ -98,7 +98,7 @@ class AddRecordTest : BaseUiTest() {
         val timeEndedPreview = timeEndedTimestamp.let { timeMapper.formatTime(it, true) }
         checkPreviewUpdated(hasDescendant(withText(timeStartedPreview)))
         checkPreviewUpdated(hasDescendant(withText(timeEndedPreview)))
-        checkPreviewUpdated(hasDescendant(withText("2$hourString 3$minuteString(2.05$hourString)")))
+        checkPreviewUpdated(hasDescendant(withText("2$hourString 3$minuteString")))
 
         // Activity not selected
         clickOnViewWithText(R.string.change_record_save)
@@ -139,7 +139,7 @@ class AddRecordTest : BaseUiTest() {
                 hasDescendant(withTag(icon)),
                 hasDescendant(withText(timeStartedPreview)),
                 hasDescendant(withText(timeEndedPreview)),
-                hasDescendant(withText("2$hourString 3$minuteString(2.05$hourString)")),
+                hasDescendant(withText("2$hourString 3$minuteString")),
                 hasDescendant(withText(comment)),
                 isCompletelyDisplayed()
             )

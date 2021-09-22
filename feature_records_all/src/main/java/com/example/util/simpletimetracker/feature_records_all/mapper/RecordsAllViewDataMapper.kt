@@ -29,7 +29,8 @@ class RecordsAllViewDataMapper @Inject constructor(
         recordType: RecordType,
         recordTag: RecordTag?,
         isDarkTheme: Boolean,
-        useMilitaryTime: Boolean
+        useMilitaryTime: Boolean,
+        useProportionalMinutes: Boolean
     ): ViewHolderType {
         val (timeStarted, timeEnded) = record.timeStarted to record.timeEnded
 
@@ -40,7 +41,8 @@ class RecordsAllViewDataMapper @Inject constructor(
             timeStarted = timeStarted,
             timeEnded = timeEnded,
             isDarkTheme = isDarkTheme,
-            useMilitaryTime = useMilitaryTime
+            useMilitaryTime = useMilitaryTime,
+            useProportionalMinutes = useProportionalMinutes
         )
     }
 

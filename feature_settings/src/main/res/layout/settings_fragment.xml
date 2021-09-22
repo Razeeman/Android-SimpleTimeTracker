@@ -359,6 +359,47 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="12dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvSettingsUseProportionalMinutes"
+                        style="@style/SettingsText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="0dp"
+                        android:paddingBottom="0dp"
+                        android:text="@string/settings_use_proportional_minutes"
+                        app:layout_constraintEnd_toStartOf="@id/checkboxSettingsUseProportionalMinutes"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvSettingsUseProportionalMinutesHint"
+                        style="@style/SettingsSecondaryText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toStartOf="@id/checkboxSettingsUseProportionalMinutes"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvSettingsUseProportionalMinutes"
+                        tools:text="1.5 hr" />
+
+                    <androidx.appcompat.widget.AppCompatCheckBox
+                        android:id="@+id/checkboxSettingsUseProportionalMinutes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        app:layout_constraintBottom_toBottomOf="@id/tvSettingsUseProportionalMinutes"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tvSettingsUseProportionalMinutes" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <View
+                    style="@style/SettingsDivider"
+                    android:layout_width="match_parent" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <androidx.appcompat.widget.AppCompatTextView

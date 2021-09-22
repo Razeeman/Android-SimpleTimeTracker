@@ -31,6 +31,7 @@ class StatisticsDetailStatsInteractor @Inject constructor(
         val isDarkTheme = prefsInteractor.getDarkMode()
         val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
+        val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
         val types = recordTypeInteractor.getAll()
         val tags = recordTagInteractor.getAll()
 
@@ -52,7 +53,8 @@ class StatisticsDetailStatsInteractor @Inject constructor(
             types = types,
             tags = tags,
             isDarkTheme = isDarkTheme,
-            useMilitaryTime = useMilitaryTime
+            useMilitaryTime = useMilitaryTime,
+            useProportionalMinutes = useProportionalMinutes
         )
     }
 }

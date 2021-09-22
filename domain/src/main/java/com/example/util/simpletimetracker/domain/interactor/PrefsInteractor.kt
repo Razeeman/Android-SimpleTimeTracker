@@ -147,6 +147,14 @@ class PrefsInteractor @Inject constructor(
         prefsRepo.useMilitaryTimeFormat = isUsed
     }
 
+    suspend fun getUseProportionalMinutes(): Boolean = withContext(Dispatchers.IO) {
+        prefsRepo.useProportionalMinutes
+    }
+
+    suspend fun setUseProportionalMinutes(isUsed: Boolean) = withContext(Dispatchers.IO) {
+        prefsRepo.useProportionalMinutes = isUsed
+    }
+
     suspend fun getShowRecordTagSelection(): Boolean = withContext(Dispatchers.IO) {
         prefsRepo.showRecordTagSelection
     }

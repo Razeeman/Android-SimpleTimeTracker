@@ -82,12 +82,12 @@ class TimeMapper @Inject constructor(
     }
 
     // 1h 7m
-    fun formatInterval(interval: Long): String =
-        formatInterval(interval, forceSeconds = false)
+    fun formatInterval(interval: Long, useProportionalMinutes: Boolean): String =
+        formatInterval(interval, forceSeconds = false, useProportionalMinutes)
 
     // 1h 7m 21s
     fun formatIntervalWithForcedSeconds(interval: Long): String =
-        formatInterval(interval, forceSeconds = true)
+        formatInterval(interval, forceSeconds = true, useProportionalMinutes = false)
 
     fun toTimestampShifted(rangesFromToday: Int, range: RangeLength): Long {
         val calendarStep = when (range) {
@@ -335,7 +335,7 @@ class TimeMapper @Inject constructor(
         return rangeStart to rangeEnd
     }
 
-    private fun formatInterval(interval: Long, forceSeconds: Boolean): String {
+    private fun formatInterval(interval: Long, forceSeconds: Boolean, useProportionalMinutes: Boolean): String {
         val hourString = resourceRepo.getString(R.string.time_hour)
         val minuteString = resourceRepo.getString(R.string.time_minute)
         val secondString = resourceRepo.getString(R.string.time_second)
@@ -349,6 +349,9 @@ class TimeMapper @Inject constructor(
         val sec: Long = TimeUnit.MILLISECONDS.toSeconds(
             interval - TimeUnit.HOURS.toMillis(hr) - TimeUnit.MINUTES.toMillis(min)
         )
+
+        if(useProportionalMinutes && !forceSeconds)
+            return formatIntervalProportional(hr, min)
 
         val willShowHours = hr != 0L
         val willShowMinutes = willShowHours || min != 0L
@@ -365,12 +368,12 @@ class TimeMapper @Inject constructor(
     }
 
     private fun formatIntervalProportional(hr: Long, min: Long): String {
-        val hourString = "h"
+        val hourString = resourceRepo.getString(R.string.time_hour)
         val minutesProportion = min / 60f
         val proportional = hr + minutesProportion
         val proportionalString = "%.2f".format(proportional)
 
-        return "($proportionalString$hourString)"
+        return "$proportionalString $hourString"
     }
 
     private fun toDayDateTitle(daysFromToday: Int): String {
