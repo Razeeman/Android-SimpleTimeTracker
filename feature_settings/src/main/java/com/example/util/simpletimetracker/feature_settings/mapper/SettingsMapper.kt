@@ -80,7 +80,7 @@ class SettingsMapper @Inject constructor(
     }
 
     fun toUseProportionalMinutesHint(useProportionalMinutes: Boolean): String {
-        return timeMapper.formatInterval(5400000, useProportionalMinutes)
+        return timeMapper.formatInterval(4500000, useProportionalMinutes)
     }
 
     private fun toPosition(cardOrder: CardOrder): Int {
