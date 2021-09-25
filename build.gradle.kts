@@ -3,7 +3,7 @@
 buildscript {
     repositories {
         google()
-        jcenter()
+        jcenter() // jcenter will keep repos indefinitely and some repos wasn't moved yet (ex. flexbox)
         maven("https://plugins.gradle.org/m2/")
     }
     dependencies {

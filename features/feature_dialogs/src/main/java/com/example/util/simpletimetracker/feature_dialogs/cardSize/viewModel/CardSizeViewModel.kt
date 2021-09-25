@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
-import com.example.util.simpletimetracker.core.extension.post
+import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -77,17 +77,17 @@ class CardSizeViewModel @Inject constructor(
 
     private fun updateButtonsViewData() {
         val data = loadButtonsViewData()
-        buttons.post(data)
+        buttons.set(data)
     }
 
     private fun updateDefaultButton() = viewModelScope.launch {
         val data = loadDefaultButtonViewData()
-        defaultButton.post(data)
+        defaultButton.set(data)
     }
 
     private fun updateRecordTypes() = viewModelScope.launch {
         val data = loadRecordTypes()
-        recordTypes.post(data)
+        recordTypes.set(data)
     }
 
     private fun loadButtonsViewData(): List<ViewHolderType> {

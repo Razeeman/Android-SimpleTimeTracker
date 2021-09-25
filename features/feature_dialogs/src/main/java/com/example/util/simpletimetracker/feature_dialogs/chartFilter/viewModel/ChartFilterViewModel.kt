@@ -8,7 +8,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.core.extension.addOrRemove
-import com.example.util.simpletimetracker.core.extension.post
+import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.utils.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
@@ -121,7 +121,7 @@ class ChartFilterViewModel @Inject constructor(
 
     private fun updateFilterTypeViewData() {
         val data = loadFilterTypeViewData()
-        filterTypeViewData.post(data)
+        filterTypeViewData.set(data)
     }
 
     private fun loadFilterTypeViewData(): List<ViewHolderType> {
@@ -144,7 +144,7 @@ class ChartFilterViewModel @Inject constructor(
 
     private fun updateRecordTypesViewData() = viewModelScope.launch {
         val data = loadRecordTypesViewData()
-        types.post(data)
+        types.set(data)
     }
 
     private suspend fun loadRecordTypesViewData(): List<ViewHolderType> {
@@ -173,7 +173,7 @@ class ChartFilterViewModel @Inject constructor(
 
     private fun updateCategoriesViewData() = viewModelScope.launch {
         val data = loadCategoriesViewData()
-        types.post(data)
+        types.set(data)
     }
 
     private suspend fun loadCategoriesViewData(): List<ViewHolderType> {
