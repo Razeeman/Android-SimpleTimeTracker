@@ -20,10 +20,8 @@ import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
 import com.example.util.simpletimetracker.navigation.params.CardOrderDialogParams
 import com.example.util.simpletimetracker.navigation.params.DurationDialogParams
-import com.example.util.simpletimetracker.navigation.params.FileChooserParams
 import com.example.util.simpletimetracker.navigation.params.OpenMarketParams
 import com.example.util.simpletimetracker.navigation.params.SendEmailParams
-import com.example.util.simpletimetracker.navigation.params.StandardDialogParams
 import com.example.util.simpletimetracker.navigation.params.ToastParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -164,25 +162,6 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun onSaveClick() {
-        router.execute(
-            Action.CREATE_FILE,
-            FileChooserParams(::onFileCreateError)
-        )
-    }
-
-    fun onRestoreClick() {
-        router.navigate(
-            Screen.STANDARD_DIALOG,
-            StandardDialogParams(
-                tag = ALERT_DIALOG_TAG,
-                message = resourceRepo.getString(R.string.settings_dialog_message),
-                btnPositive = resourceRepo.getString(R.string.ok),
-                btnNegative = resourceRepo.getString(R.string.cancel)
-            )
-        )
-    }
-
     fun onExportCsvClick() {
         router.navigate(Screen.CSV_EXPORT_SETTINGS_DIALOG)
     }
@@ -321,15 +300,6 @@ class SettingsViewModel @Inject constructor(
         router.navigate(Screen.ARCHIVE)
     }
 
-    fun onPositiveDialogClick(tag: String?) {
-        when (tag) {
-            ALERT_DIALOG_TAG -> router.execute(
-                Action.OPEN_FILE,
-                FileChooserParams(::onFileOpenError)
-            )
-        }
-    }
-
     fun onDurationSet(tag: String?, duration: Long) {
         when (tag) {
             INACTIVITY_DURATION_DIALOG_TAG -> viewModelScope.launch {
@@ -350,13 +320,6 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun onCsvExportSettingsSelected() {
-        router.execute(
-            Action.CREATE_CSV_FILE,
-            FileChooserParams(::onFileCreateError)
-        )
-    }
-
     fun onThemeChanged() {
         (themeChanged as MutableLiveData).value = false
     }
@@ -366,14 +329,6 @@ class SettingsViewModel @Inject constructor(
             Screen.CARD_ORDER_DIALOG,
             CardOrderDialogParams(cardOrder)
         )
-    }
-
-    private fun onFileOpenError() {
-        showMessage(R.string.settings_file_open_error)
-    }
-
-    private fun onFileCreateError() {
-        showMessage(R.string.settings_file_create_error)
     }
 
     private fun showMessage(stringResId: Int) {
@@ -433,7 +388,6 @@ class SettingsViewModel @Inject constructor(
     }
 
     companion object {
-        private const val ALERT_DIALOG_TAG = "alert_dialog_tag"
         private const val INACTIVITY_DURATION_DIALOG_TAG = "inactivity_duration_dialog_tag"
     }
 }

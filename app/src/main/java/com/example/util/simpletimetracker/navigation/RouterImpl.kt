@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.navigation
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import androidx.activity.ComponentActivity
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.example.util.simpletimetracker.ui.MainActivity
@@ -15,11 +16,16 @@ class RouterImpl @Inject constructor(
     private val screenResolver: ScreenResolver,
     private val actionResolver: ActionResolver,
     private val notificationResolver: NotificationResolver,
-    @ApplicationContext private val context: Context
+    private val resultContainer: ResultContainer,
+    @ApplicationContext private val context: Context,
 ) : Router {
 
     private var navController: NavController? = null
     private var activity: Activity? = null
+
+    override fun onCreate(activity: ComponentActivity) {
+        actionResolver.registerResultListeners(activity)
+    }
 
     override fun bind(activity: Activity) {
         this.navController = activity.findNavController(R.id.container)
@@ -36,6 +42,14 @@ class RouterImpl @Inject constructor(
 
     override fun show(notification: Notification, data: Any?, anchor: Any?) {
         notificationResolver.show(activity, notification, data, anchor)
+    }
+
+    override fun setResultListener(key: String, listener: ResultListener) {
+        resultContainer.setResultListener(key, listener)
+    }
+
+    override fun sendResult(key: String, data: Any?) {
+        resultContainer.sendResult(key, data)
     }
 
     override fun back() {

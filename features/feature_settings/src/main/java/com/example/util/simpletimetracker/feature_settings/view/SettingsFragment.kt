@@ -1,8 +1,5 @@
 package com.example.util.simpletimetracker.feature_settings.view
 
-import android.app.Activity
-import android.content.Intent
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
@@ -13,15 +10,12 @@ import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.CsvExportSettingsDialogListener
 import com.example.util.simpletimetracker.core.dialog.DurationDialogListener
 import com.example.util.simpletimetracker.core.dialog.StandardDialogListener
-import com.example.util.simpletimetracker.feature_views.extension.setOnClick
-import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.core.sharedViewModel.BackupViewModel
 import com.example.util.simpletimetracker.feature_settings.viewData.CardOrderViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.FirstDayOfWeekViewData
 import com.example.util.simpletimetracker.feature_settings.viewModel.SettingsViewModel
-import com.example.util.simpletimetracker.navigation.RequestCode.REQUEST_CODE_CREATE_CSV_FILE
-import com.example.util.simpletimetracker.navigation.RequestCode.REQUEST_CODE_CREATE_FILE
-import com.example.util.simpletimetracker.navigation.RequestCode.REQUEST_CODE_OPEN_FILE
+import com.example.util.simpletimetracker.feature_views.extension.setOnClick
+import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.navigation.params.CsvExportSettingsParams
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -71,8 +65,8 @@ class SettingsFragment :
         layoutSettingsEditCategories.setOnClick(viewModel::onEditCategoriesClick)
         checkboxSettingsShowRecordTagSelection.setOnClick(viewModel::onShowRecordTagSelectionClicked)
         tvSettingsArchive.setOnClick(viewModel::onArchiveClick)
-        layoutSettingsSaveBackup.setOnClick(viewModel::onSaveClick)
-        layoutSettingsRestoreBackup.setOnClick(viewModel::onRestoreClick)
+        layoutSettingsSaveBackup.setOnClick(backupViewModel::onSaveClick)
+        layoutSettingsRestoreBackup.setOnClick(backupViewModel::onRestoreClick)
         layoutSettingsExportCsv.setOnClick(viewModel::onExportCsvClick)
         layoutSettingsRate.setOnClick(viewModel::onRateClick)
         layoutSettingsFeedback.setOnClick(viewModel::onFeedbackClick)
@@ -112,32 +106,8 @@ class SettingsFragment :
         viewModel.onVisible()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (data != null && resultCode == Activity.RESULT_OK) {
-            when (requestCode) {
-                REQUEST_CODE_CREATE_FILE -> {
-                    data.data
-                        ?.let(Uri::toString)
-                        ?.let(backupViewModel::onSaveBackup)
-                }
-                REQUEST_CODE_OPEN_FILE -> {
-                    data.data
-                        ?.let(Uri::toString)
-                        ?.let(backupViewModel::onRestoreBackup)
-                }
-                REQUEST_CODE_CREATE_CSV_FILE -> {
-                    data.data
-                        ?.let(Uri::toString)
-                        ?.let(backupViewModel::onSaveCsvFile)
-                }
-            }
-        }
-    }
-
     override fun onPositiveClick(tag: String?, data: Any?) {
-        viewModel.onPositiveDialogClick(tag)
+        backupViewModel.onPositiveDialogClick(tag)
     }
 
     override fun onDurationSet(duration: Long, tag: String?) {
@@ -150,7 +120,6 @@ class SettingsFragment :
 
     override fun onCsvExportSettingsSelected(data: CsvExportSettingsParams) {
         backupViewModel.onCsvExportSettingsSelected(data)
-        viewModel.onCsvExportSettingsSelected()
     }
 
     private fun updateCardOrderViewData(viewData: CardOrderViewData) = with(binding) {

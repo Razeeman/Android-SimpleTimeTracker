@@ -4,6 +4,9 @@ import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
+import androidx.activity.ComponentActivity
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import com.example.util.simpletimetracker.navigation.params.FileChooserParams
 import com.example.util.simpletimetracker.navigation.params.OpenMarketParams
 import com.example.util.simpletimetracker.navigation.params.SendEmailParams
@@ -12,7 +15,19 @@ import java.util.Date
 import java.util.Locale
 import javax.inject.Inject
 
-class ActionResolverImpl @Inject constructor() : ActionResolver {
+class ActionResolverImpl @Inject constructor(
+    private val resultContainer: ResultContainer,
+) : ActionResolver {
+
+    private var createFileResultLauncher: ActivityResultLauncher<Intent>? = null
+    private var openFileResultLauncher: ActivityResultLauncher<Intent>? = null
+    private var createCsvFileResultLauncher: ActivityResultLauncher<Intent>? = null
+
+    override fun registerResultListeners(activity: ComponentActivity) {
+        createFileResultLauncher = activity.registerForActivityResult(RequestCode.REQUEST_CODE_CREATE_FILE)
+        openFileResultLauncher = activity.registerForActivityResult(RequestCode.REQUEST_CODE_OPEN_FILE)
+        createCsvFileResultLauncher = activity.registerForActivityResult(RequestCode.REQUEST_CODE_CREATE_CSV_FILE)
+    }
 
     override fun execute(activity: Activity?, action: Action, data: Any?) {
         when (action) {
@@ -33,10 +48,7 @@ class ActionResolverImpl @Inject constructor() : ActionResolver {
                 intent.putExtra(Intent.EXTRA_TITLE, fileName)
 
                 if (activity?.packageManager?.let(intent::resolveActivity) != null) {
-                    activity.startActivityForResult(
-                        intent,
-                        RequestCode.REQUEST_CODE_CREATE_FILE
-                    )
+                    createFileResultLauncher?.launch(intent)
                 } else {
                     (data as? FileChooserParams)?.notHandledCallback?.invoke()
                 }
@@ -47,10 +59,7 @@ class ActionResolverImpl @Inject constructor() : ActionResolver {
                 intent.type = "application/*"
 
                 if (activity?.packageManager?.let(intent::resolveActivity) != null) {
-                    activity.startActivityForResult(
-                        intent,
-                        RequestCode.REQUEST_CODE_OPEN_FILE
-                    )
+                    openFileResultLauncher?.launch(intent)
                 } else {
                     (data as? FileChooserParams)?.notHandledCallback?.invoke()
                 }
@@ -66,10 +75,7 @@ class ActionResolverImpl @Inject constructor() : ActionResolver {
                 intent.putExtra(Intent.EXTRA_TITLE, fileName)
 
                 if (activity?.packageManager?.let(intent::resolveActivity) != null) {
-                    activity.startActivityForResult(
-                        intent,
-                        RequestCode.REQUEST_CODE_CREATE_CSV_FILE
-                    )
+                    createCsvFileResultLauncher?.launch(intent)
                 } else {
                     (data as? FileChooserParams)?.notHandledCallback?.invoke()
                 }
@@ -110,6 +116,15 @@ class ActionResolverImpl @Inject constructor() : ActionResolver {
             activity?.startActivity(Intent.createChooser(intent, params.chooserTitle))
         } catch (e: ActivityNotFoundException) {
             params.notHandledCallback?.invoke()
+        }
+    }
+
+    private fun ComponentActivity.registerForActivityResult(key: String): ActivityResultLauncher<Intent> {
+        return registerForActivityResult(StartActivityForResult()) { result ->
+            val intent = result.data
+            val uri = intent?.data?.toString().takeIf { result.resultCode == Activity.RESULT_OK }
+
+            resultContainer.sendResult(key, uri)
         }
     }
 

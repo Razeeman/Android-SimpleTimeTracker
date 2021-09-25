@@ -2,8 +2,11 @@ package com.example.util.simpletimetracker.navigation
 
 import android.app.Activity
 import android.content.Intent
+import androidx.activity.ComponentActivity
 
 interface Router {
+
+    fun onCreate(activity: ComponentActivity)
 
     fun bind(activity: Activity)
 
@@ -23,6 +26,10 @@ interface Router {
         data: Any? = null,
         anchor: Any? = null // should be a view
     )
+
+    fun setResultListener(key: String, listener: ResultListener)
+
+    fun sendResult(key: String, data: Any?)
 
     fun back()
 

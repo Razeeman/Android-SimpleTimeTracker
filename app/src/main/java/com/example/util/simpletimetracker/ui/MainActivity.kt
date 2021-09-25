@@ -1,14 +1,11 @@
 package com.example.util.simpletimetracker.ui
 
-import android.content.Intent
 import android.os.Bundle
 import com.example.util.simpletimetracker.R
 import com.example.util.simpletimetracker.core.base.BaseActivity
-import com.example.util.simpletimetracker.core.extension.getAllFragments
 import com.example.util.simpletimetracker.core.manager.ThemeManager
 import com.example.util.simpletimetracker.navigation.Router
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -26,18 +23,11 @@ class MainActivity : BaseActivity() {
         themeManager.setTheme(this)
         setContentView(R.layout.main_activity)
         router.bind(this)
+        router.onCreate(this)
     }
 
     override fun onResume() {
         super.onResume()
         router.bind(this)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        Timber.d("onActivityResult $requestCode $resultCode ${data?.data}")
-        super.onActivityResult(requestCode, resultCode, data)
-        getAllFragments().forEach {
-            it.onActivityResult(requestCode, resultCode, data)
-        }
     }
 }

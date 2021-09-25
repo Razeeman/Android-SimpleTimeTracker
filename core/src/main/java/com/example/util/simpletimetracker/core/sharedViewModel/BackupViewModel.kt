@@ -11,9 +11,14 @@ import com.example.util.simpletimetracker.domain.interactor.CsvExportInteractor
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.resolver.BackupRepo
 import com.example.util.simpletimetracker.domain.resolver.CsvRepo
+import com.example.util.simpletimetracker.navigation.Action
 import com.example.util.simpletimetracker.navigation.Notification
+import com.example.util.simpletimetracker.navigation.RequestCode
 import com.example.util.simpletimetracker.navigation.Router
+import com.example.util.simpletimetracker.navigation.Screen
 import com.example.util.simpletimetracker.navigation.params.CsvExportSettingsParams
+import com.example.util.simpletimetracker.navigation.params.FileChooserParams
+import com.example.util.simpletimetracker.navigation.params.StandardDialogParams
 import com.example.util.simpletimetracker.navigation.params.ToastParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -28,7 +33,54 @@ class BackupViewModel @Inject constructor(
     val progressVisibility: LiveData<Boolean> = MutableLiveData(false)
     private var csvExportSettingsParams: CsvExportSettingsParams? = null
 
-    fun onSaveBackup(uriString: String) = viewModelScope.launch {
+    fun onSaveClick() {
+        router.setResultListener(RequestCode.REQUEST_CODE_CREATE_FILE) { result ->
+            if (result is String) onSaveBackup(result)
+        }
+        router.execute(
+            Action.CREATE_FILE,
+            FileChooserParams(::onFileCreateError)
+        )
+    }
+
+    fun onRestoreClick() {
+        router.navigate(
+            Screen.STANDARD_DIALOG,
+            StandardDialogParams(
+                tag = ALERT_DIALOG_TAG,
+                message = resourceRepo.getString(R.string.settings_dialog_message),
+                btnPositive = resourceRepo.getString(R.string.ok),
+                btnNegative = resourceRepo.getString(R.string.cancel)
+            )
+        )
+    }
+
+    fun onPositiveDialogClick(tag: String?) {
+        when (tag) {
+            ALERT_DIALOG_TAG -> {
+                router.setResultListener(RequestCode.REQUEST_CODE_OPEN_FILE) { result ->
+                    if (result is String) onRestoreBackup(result)
+                }
+                router.execute(
+                    Action.OPEN_FILE,
+                    FileChooserParams(::onFileOpenError)
+                )
+            }
+        }
+    }
+
+    fun onCsvExportSettingsSelected(data: CsvExportSettingsParams) {
+        router.setResultListener(RequestCode.REQUEST_CODE_CREATE_CSV_FILE) { result ->
+            if (result is String) onSaveCsvFile(result)
+        }
+        router.execute(
+            Action.CREATE_CSV_FILE,
+            FileChooserParams(::onFileCreateError)
+        )
+        csvExportSettingsParams = data
+    }
+
+    private fun onSaveBackup(uriString: String) = viewModelScope.launch {
         showProgress(true)
 
         val resultCode = backupInteractor.saveBackupFile(uriString)
@@ -42,7 +94,7 @@ class BackupViewModel @Inject constructor(
         showProgress(false)
     }
 
-    fun onRestoreBackup(uriString: String) = viewModelScope.launch {
+    private fun onRestoreBackup(uriString: String) = viewModelScope.launch {
         showProgress(true)
 
         val resultCode = backupInteractor.restoreBackupFile(uriString)
@@ -56,11 +108,7 @@ class BackupViewModel @Inject constructor(
         showProgress(false)
     }
 
-    fun onCsvExportSettingsSelected(data: CsvExportSettingsParams) {
-        csvExportSettingsParams = data
-    }
-
-    fun onSaveCsvFile(uriString: String) = viewModelScope.launch {
+    private fun onSaveCsvFile(uriString: String) = viewModelScope.launch {
         showProgress(true)
 
         val range = csvExportSettingsParams?.range?.let {
@@ -83,6 +131,14 @@ class BackupViewModel @Inject constructor(
         showProgress(false)
     }
 
+    private fun onFileOpenError() {
+        showMessage(R.string.settings_file_open_error)
+    }
+
+    private fun onFileCreateError() {
+        showMessage(R.string.settings_file_create_error)
+    }
+
     private fun showMessage(stringResId: Int) {
         stringResId
             .let(resourceRepo::getString)
@@ -91,5 +147,9 @@ class BackupViewModel @Inject constructor(
 
     private fun showProgress(isVisible: Boolean) {
         (progressVisibility as MutableLiveData).value = isVisible
+    }
+
+    companion object {
+        private const val ALERT_DIALOG_TAG = "alert_dialog_tag"
     }
 }
