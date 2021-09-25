@@ -11,13 +11,14 @@ import com.example.util.simpletimetracker.domain.interactor.CsvExportInteractor
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.resolver.BackupRepo
 import com.example.util.simpletimetracker.domain.resolver.CsvRepo
-import com.example.util.simpletimetracker.navigation.Action
 import com.example.util.simpletimetracker.navigation.RequestCode
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
 import com.example.util.simpletimetracker.navigation.params.CsvExportSettingsParams
-import com.example.util.simpletimetracker.navigation.params.FileChooserParams
 import com.example.util.simpletimetracker.navigation.params.StandardDialogParams
+import com.example.util.simpletimetracker.navigation.params.action.CreateCsvFileParams
+import com.example.util.simpletimetracker.navigation.params.action.CreateFileParams
+import com.example.util.simpletimetracker.navigation.params.action.OpenFileParams
 import com.example.util.simpletimetracker.navigation.params.notification.ToastParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -36,10 +37,7 @@ class BackupViewModel @Inject constructor(
         router.setResultListener(RequestCode.REQUEST_CODE_CREATE_FILE) { result ->
             if (result is String) onSaveBackup(result)
         }
-        router.execute(
-            Action.CREATE_FILE,
-            FileChooserParams(::onFileCreateError)
-        )
+        router.execute(CreateFileParams(::onFileCreateError))
     }
 
     fun onRestoreClick() {
@@ -60,10 +58,7 @@ class BackupViewModel @Inject constructor(
                 router.setResultListener(RequestCode.REQUEST_CODE_OPEN_FILE) { result ->
                     if (result is String) onRestoreBackup(result)
                 }
-                router.execute(
-                    Action.OPEN_FILE,
-                    FileChooserParams(::onFileOpenError)
-                )
+                router.execute(OpenFileParams(::onFileOpenError))
             }
         }
     }
@@ -72,10 +67,7 @@ class BackupViewModel @Inject constructor(
         router.setResultListener(RequestCode.REQUEST_CODE_CREATE_CSV_FILE) { result ->
             if (result is String) onSaveCsvFile(result)
         }
-        router.execute(
-            Action.CREATE_CSV_FILE,
-            FileChooserParams(::onFileCreateError)
-        )
+        router.execute(CreateCsvFileParams(::onFileCreateError))
         csvExportSettingsParams = data
     }
 

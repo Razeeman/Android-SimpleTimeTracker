@@ -3,6 +3,8 @@ package com.example.util.simpletimetracker.navigation
 import android.app.Activity
 import android.content.Intent
 import androidx.activity.ComponentActivity
+import com.example.util.simpletimetracker.navigation.params.action.ActionParams
+import com.example.util.simpletimetracker.navigation.params.notification.NotificationParams
 
 interface Router {
 
@@ -17,8 +19,7 @@ interface Router {
     )
 
     fun execute(
-        action: Action,
-        data: Any? = null
+        data: ActionParams
     )
 
     fun show(

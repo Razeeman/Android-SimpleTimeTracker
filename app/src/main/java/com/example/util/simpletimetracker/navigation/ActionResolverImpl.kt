@@ -7,9 +7,12 @@ import android.net.Uri
 import androidx.activity.ComponentActivity
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
-import com.example.util.simpletimetracker.navigation.params.FileChooserParams
-import com.example.util.simpletimetracker.navigation.params.OpenMarketParams
-import com.example.util.simpletimetracker.navigation.params.SendEmailParams
+import com.example.util.simpletimetracker.navigation.params.action.CreateFileParams
+import com.example.util.simpletimetracker.navigation.params.action.OpenMarketParams
+import com.example.util.simpletimetracker.navigation.params.action.SendEmailParams
+import com.example.util.simpletimetracker.navigation.params.action.ActionParams
+import com.example.util.simpletimetracker.navigation.params.action.CreateCsvFileParams
+import com.example.util.simpletimetracker.navigation.params.action.OpenFileParams
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -29,19 +32,17 @@ class ActionResolverImpl @Inject constructor(
         createCsvFileResultLauncher = activity.registerForActivityResult(RequestCode.REQUEST_CODE_CREATE_CSV_FILE)
     }
 
-    override fun execute(activity: Activity?, action: Action, data: Any?) {
-        when (action) {
-            Action.OPEN_MARKET -> openMarket(activity, data)
-            Action.SEND_EMAIL -> sendEmail(activity, data)
-            Action.CREATE_FILE -> createFile(activity, data)
-            Action.OPEN_FILE -> openFile(activity, data)
-            Action.CREATE_CSV_FILE -> createCsvFile(activity, data)
+    override fun execute(activity: Activity?, data: ActionParams) {
+        when (data) {
+            is OpenMarketParams -> openMarket(activity, data)
+            is SendEmailParams -> sendEmail(activity, data)
+            is CreateFileParams -> createFile(activity, data)
+            is OpenFileParams -> openFile(activity, data)
+            is CreateCsvFileParams -> createCsvFile(activity, data)
         }
     }
 
-    private fun openMarket(activity: Activity?, params: Any?) {
-        if (params !is OpenMarketParams) return
-
+    private fun openMarket(activity: Activity?, params: OpenMarketParams) {
         val uri = Uri.parse(MARKET_INTENT + params.packageName)
         val intent = Intent(Intent.ACTION_VIEW, uri)
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
@@ -58,9 +59,7 @@ class ActionResolverImpl @Inject constructor(
         }
     }
 
-    private fun sendEmail(activity: Activity?, params: Any?) {
-        if (params !is SendEmailParams) return
-
+    private fun sendEmail(activity: Activity?, params: SendEmailParams) {
         val intent = Intent(Intent.ACTION_SENDTO).apply {
             data = Uri.parse(EMAIL_URI)
             params.email?.let { putExtra(Intent.EXTRA_EMAIL, arrayOf(it)) }
@@ -76,7 +75,7 @@ class ActionResolverImpl @Inject constructor(
         }
     }
 
-    private fun createCsvFile(activity: Activity?, data: Any?) {
+    private fun createCsvFile(activity: Activity?, data: CreateCsvFileParams) {
         val timeString = getFileNameTimeStamp()
         val fileName = "stt_records_$timeString.csv"
 
@@ -88,11 +87,11 @@ class ActionResolverImpl @Inject constructor(
         if (activity?.packageManager?.let(intent::resolveActivity) != null) {
             createCsvFileResultLauncher?.launch(intent)
         } else {
-            (data as? FileChooserParams)?.notHandledCallback?.invoke()
+            data.notHandledCallback()
         }
     }
 
-    private fun openFile(activity: Activity?, data: Any?) {
+    private fun openFile(activity: Activity?, data: OpenFileParams) {
         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
             .addCategory(Intent.CATEGORY_OPENABLE)
             .setType("application/*")
@@ -100,11 +99,11 @@ class ActionResolverImpl @Inject constructor(
         if (activity.checkIfIntentResolves(intent)) {
             openFileResultLauncher?.launch(intent)
         } else {
-            (data as? FileChooserParams)?.notHandledCallback?.invoke()
+            data.notHandledCallback()
         }
     }
 
-    private fun createFile(activity: Activity?, data: Any?) {
+    private fun createFile(activity: Activity?, data: CreateFileParams) {
         val timeString = getFileNameTimeStamp()
         val fileName = "stt_$timeString.backup"
 
@@ -116,7 +115,7 @@ class ActionResolverImpl @Inject constructor(
         if (activity.checkIfIntentResolves(intent)) {
             createFileResultLauncher?.launch(intent)
         } else {
-            (data as? FileChooserParams)?.notHandledCallback?.invoke()
+            data.notHandledCallback()
         }
     }
 

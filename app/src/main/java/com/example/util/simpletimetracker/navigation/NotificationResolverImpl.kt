@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
+import com.example.util.simpletimetracker.navigation.params.notification.NotificationParams
 import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
 import com.example.util.simpletimetracker.navigation.params.notification.ToastParams
 import com.google.android.material.snackbar.Snackbar

@@ -14,13 +14,12 @@ import com.example.util.simpletimetracker.feature_settings.R
 import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
 import com.example.util.simpletimetracker.feature_settings.viewData.CardOrderViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.FirstDayOfWeekViewData
-import com.example.util.simpletimetracker.navigation.Action
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
 import com.example.util.simpletimetracker.navigation.params.CardOrderDialogParams
 import com.example.util.simpletimetracker.navigation.params.DurationDialogParams
-import com.example.util.simpletimetracker.navigation.params.OpenMarketParams
-import com.example.util.simpletimetracker.navigation.params.SendEmailParams
+import com.example.util.simpletimetracker.navigation.params.action.OpenMarketParams
+import com.example.util.simpletimetracker.navigation.params.action.SendEmailParams
 import com.example.util.simpletimetracker.navigation.params.notification.ToastParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -166,17 +165,11 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun onRateClick() {
-        router.execute(
-            action = Action.OPEN_MARKET,
-            data = OpenMarketParams(
-                packageName = packageNameProvider.getPackageName()
-            )
-        )
+        router.execute(OpenMarketParams(packageName = packageNameProvider.getPackageName()))
     }
 
     fun onFeedbackClick() {
         router.execute(
-            action = Action.SEND_EMAIL,
             data = SendEmailParams(
                 email = resourceRepo.getString(R.string.support_email),
                 subject = resourceRepo.getString(R.string.support_email_subject),

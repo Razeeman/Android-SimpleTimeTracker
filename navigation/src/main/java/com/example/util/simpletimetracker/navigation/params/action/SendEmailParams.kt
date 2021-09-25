@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.navigation.params
+package com.example.util.simpletimetracker.navigation.params.action
 
 data class SendEmailParams(
     val email: String? = "",
@@ -6,4 +6,4 @@ data class SendEmailParams(
     val body: String? = "",
     val chooserTitle: String? = null,
     val notHandledCallback: (() -> Unit)?
-)
+) : ActionParams

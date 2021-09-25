@@ -6,6 +6,8 @@ import android.content.Intent
 import androidx.activity.ComponentActivity
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import com.example.util.simpletimetracker.navigation.params.action.ActionParams
+import com.example.util.simpletimetracker.navigation.params.notification.NotificationParams
 import com.example.util.simpletimetracker.ui.MainActivity
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
@@ -36,8 +38,8 @@ class RouterImpl @Inject constructor(
         screenResolver.navigate(navController, screen, data, sharedElements)
     }
 
-    override fun execute(action: Action, data: Any?) {
-        actionResolver.execute(activity, action, data)
+    override fun execute(data: ActionParams) {
+        actionResolver.execute(activity, data)
     }
 
     override fun show(data: NotificationParams, anchor: Any?) {
