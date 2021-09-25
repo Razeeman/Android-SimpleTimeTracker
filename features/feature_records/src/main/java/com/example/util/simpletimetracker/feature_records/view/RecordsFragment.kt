@@ -13,7 +13,7 @@ import com.example.util.simpletimetracker.core.adapter.loader.createLoaderAdapte
 import com.example.util.simpletimetracker.core.adapter.record.createRecordAdapterDelegate
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
-import com.example.util.simpletimetracker.core.viewModel.RemoveRecordViewModel
+import com.example.util.simpletimetracker.core.sharedViewModel.RemoveRecordViewModel
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_records.extra.RecordsExtra
 import com.example.util.simpletimetracker.feature_records.viewModel.RecordsViewModel

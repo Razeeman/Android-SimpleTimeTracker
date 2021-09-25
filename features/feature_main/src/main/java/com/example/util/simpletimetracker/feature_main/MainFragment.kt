@@ -12,7 +12,7 @@ import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.extension.visible
 import com.example.util.simpletimetracker.core.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.core.interactor.WidgetInteractor
-import com.example.util.simpletimetracker.core.viewModel.BackupViewModel
+import com.example.util.simpletimetracker.core.sharedViewModel.BackupViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint

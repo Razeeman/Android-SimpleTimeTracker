@@ -15,7 +15,7 @@ import com.example.util.simpletimetracker.core.dialog.DurationDialogListener
 import com.example.util.simpletimetracker.core.dialog.StandardDialogListener
 import com.example.util.simpletimetracker.core.extension.setOnClick
 import com.example.util.simpletimetracker.core.extension.visible
-import com.example.util.simpletimetracker.core.viewModel.BackupViewModel
+import com.example.util.simpletimetracker.core.sharedViewModel.BackupViewModel
 import com.example.util.simpletimetracker.feature_settings.viewData.CardOrderViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.FirstDayOfWeekViewData
 import com.example.util.simpletimetracker.feature_settings.viewModel.SettingsViewModel

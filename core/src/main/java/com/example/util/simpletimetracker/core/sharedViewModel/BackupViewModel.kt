@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.core.viewModel
+package com.example.util.simpletimetracker.core.sharedViewModel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
