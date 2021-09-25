@@ -10,43 +10,33 @@ import com.example.util.simpletimetracker.navigation.ScreenFactory
 import com.example.util.simpletimetracker.navigation.ScreenFactoryImpl
 import com.example.util.simpletimetracker.navigation.ScreenResolver
 import com.example.util.simpletimetracker.navigation.ScreenResolverImpl
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class NavigationModule {
+interface NavigationModule {
 
-    @Provides
+    @Binds
     @Singleton
-    fun getScreenResolver(screenResolverImpl: ScreenResolverImpl): ScreenResolver {
-        return screenResolverImpl
-    }
+    fun getScreenResolver(screenResolverImpl: ScreenResolverImpl): ScreenResolver
 
-    @Provides
+    @Binds
     @Singleton
-    fun getScreenFactory(screenFactoryImpl: ScreenFactoryImpl): ScreenFactory {
-        return screenFactoryImpl
-    }
+    fun getScreenFactory(screenFactoryImpl: ScreenFactoryImpl): ScreenFactory
 
-    @Provides
+    @Binds
     @Singleton
-    fun getActionResolver(actionResolverImpl: ActionResolverImpl): ActionResolver {
-        return actionResolverImpl
-    }
+    fun getActionResolver(actionResolverImpl: ActionResolverImpl): ActionResolver
 
-    @Provides
+    @Binds
     @Singleton
-    fun getNotificationResolver(notificationResolverImpl: NotificationResolverImpl): NotificationResolver {
-        return notificationResolverImpl
-    }
+    fun getNotificationResolver(notificationResolverImpl: NotificationResolverImpl): NotificationResolver
 
-    @Provides
+    @Binds
     @Singleton
-    fun getRouter(routerImpl: RouterImpl): Router {
-        return routerImpl
-    }
+    fun getRouter(routerImpl: RouterImpl): Router
 }
