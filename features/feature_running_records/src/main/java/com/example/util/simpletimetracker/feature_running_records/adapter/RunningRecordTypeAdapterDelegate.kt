@@ -2,9 +2,9 @@ package com.example.util.simpletimetracker.feature_running_records.adapter
 
 import androidx.core.view.ViewCompat
 import com.example.util.simpletimetracker.core.adapter.createRecyclerBindingAdapterDelegate
-import com.example.util.simpletimetracker.core.extension.dpToPx
-import com.example.util.simpletimetracker.core.extension.setOnClickWith
-import com.example.util.simpletimetracker.core.extension.setOnLongClick
+import com.example.util.simpletimetracker.feature_views.extension.dpToPx
+import com.example.util.simpletimetracker.feature_views.extension.setOnClickWith
+import com.example.util.simpletimetracker.feature_views.extension.setOnLongClick
 import com.example.util.simpletimetracker.core.view.TransitionNames
 import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData as ViewData
 import com.example.util.simpletimetracker.feature_running_records.databinding.ItemRunningRecordTypeLayoutBinding as Binding

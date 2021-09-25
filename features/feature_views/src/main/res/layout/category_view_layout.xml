@@ -19,7 +19,7 @@
         android:background="?selectableItemBackground"
         android:paddingHorizontal="4dp">
 
-        <com.example.util.simpletimetracker.core.view.IconView
+        <com.example.util.simpletimetracker.feature_views.IconView
             android:id="@+id/ivCategoryItemIcon"
             android:layout_width="24dp"
             android:layout_height="0dp"

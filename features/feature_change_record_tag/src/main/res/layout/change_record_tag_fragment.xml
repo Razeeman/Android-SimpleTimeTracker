@@ -22,7 +22,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible" />
 
-    <com.example.util.simpletimetracker.core.view.CategoryView
+    <com.example.util.simpletimetracker.feature_views.CategoryView
         android:id="@+id/previewChangeRecordTag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

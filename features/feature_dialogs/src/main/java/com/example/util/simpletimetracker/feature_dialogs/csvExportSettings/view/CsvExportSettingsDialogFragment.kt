@@ -11,7 +11,7 @@ import com.example.util.simpletimetracker.core.dialog.CsvExportSettingsDialogLis
 import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
 import com.example.util.simpletimetracker.core.extension.getAllFragments
 import com.example.util.simpletimetracker.core.extension.observeOnce
-import com.example.util.simpletimetracker.core.extension.setOnClick
+import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
 import com.example.util.simpletimetracker.feature_dialogs.csvExportSettings.viewModel.CsvExportSettingsViewModel
 import dagger.hilt.android.AndroidEntryPoint

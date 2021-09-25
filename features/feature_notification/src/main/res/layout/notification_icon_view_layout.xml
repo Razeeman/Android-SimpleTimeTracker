@@ -14,7 +14,7 @@
         android:background="@drawable/circle_drawable"
         tools:backgroundTint="@color/red_400" />
 
-    <com.example.util.simpletimetracker.core.view.IconView
+    <com.example.util.simpletimetracker.feature_views.IconView
         android:id="@+id/ivNotificationIcon"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

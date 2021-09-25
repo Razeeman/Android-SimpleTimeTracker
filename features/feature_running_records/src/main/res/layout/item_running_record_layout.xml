@@ -1,4 +1,4 @@
-<com.example.util.simpletimetracker.core.view.RunningRecordView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.example.util.simpletimetracker.feature_views.RunningRecordView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/viewRunningRecordItem"

@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.core.view
+package com.example.util.simpletimetracker.feature_views
 
 import android.content.Context
 import android.content.res.ColorStateList
@@ -7,10 +7,9 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
 import androidx.core.view.ViewCompat
-import com.example.util.simpletimetracker.core.R
-import com.example.util.simpletimetracker.core.databinding.IconViewLayoutBinding
-import com.example.util.simpletimetracker.core.extension.visible
-import com.example.util.simpletimetracker.core.viewData.RecordTypeIcon
+import com.example.util.simpletimetracker.feature_views.databinding.IconViewLayoutBinding
+import com.example.util.simpletimetracker.feature_views.extension.visible
+import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 
 class IconView @JvmOverloads constructor(
     context: Context,

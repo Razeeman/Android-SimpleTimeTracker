@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.core.view
+package com.example.util.simpletimetracker.feature_views
 
 import android.content.Context
 import android.graphics.Color
@@ -9,10 +9,9 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
-import com.example.util.simpletimetracker.core.R
-import com.example.util.simpletimetracker.core.databinding.RecordRunningViewLayoutBinding
-import com.example.util.simpletimetracker.core.extension.visible
-import com.example.util.simpletimetracker.core.viewData.RecordTypeIcon
+import com.example.util.simpletimetracker.feature_views.databinding.RecordRunningViewLayoutBinding
+import com.example.util.simpletimetracker.feature_views.extension.visible
+import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 
 class RunningRecordView @JvmOverloads constructor(
     context: Context,

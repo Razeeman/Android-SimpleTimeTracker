@@ -9,7 +9,7 @@ import androidx.core.graphics.BlendModeCompat
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
-import com.example.util.simpletimetracker.core.extension.visible
+import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.core.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.core.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.core.sharedViewModel.BackupViewModel

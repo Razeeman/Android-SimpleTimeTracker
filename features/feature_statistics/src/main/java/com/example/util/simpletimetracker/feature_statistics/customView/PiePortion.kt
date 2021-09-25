@@ -2,7 +2,7 @@ package com.example.util.simpletimetracker.feature_statistics.customView
 
 import android.os.Parcelable
 import androidx.annotation.ColorInt
-import com.example.util.simpletimetracker.core.viewData.RecordTypeIcon
+import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import kotlinx.parcelize.Parcelize
 
 @Parcelize

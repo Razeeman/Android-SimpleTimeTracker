@@ -1,7 +1,7 @@
 package com.example.util.simpletimetracker.core.adapter.empty
 
 import com.example.util.simpletimetracker.core.adapter.createRecyclerBindingAdapterDelegate
-import com.example.util.simpletimetracker.core.extension.visible
+import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.core.adapter.empty.EmptyViewData as ViewData
 import com.example.util.simpletimetracker.core.databinding.ItemEmptyLayoutBinding as Binding
 

@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.core.viewData
+package com.example.util.simpletimetracker.feature_views.viewData
 
 import android.os.Parcelable
 import androidx.annotation.DrawableRes

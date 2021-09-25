@@ -4,8 +4,8 @@ import android.content.res.ColorStateList
 import android.util.TypedValue
 import androidx.core.view.ViewCompat
 import com.example.util.simpletimetracker.core.adapter.createRecyclerBindingAdapterDelegate
-import com.example.util.simpletimetracker.core.extension.setOnClick
-import com.example.util.simpletimetracker.core.extension.visible
+import com.example.util.simpletimetracker.feature_views.extension.setOnClick
+import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.feature_statistics_detail.databinding.StatisticsDetailCardItemBinding as Binding
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailCardViewData as ViewData
 

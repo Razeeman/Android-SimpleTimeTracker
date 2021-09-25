@@ -450,7 +450,7 @@
                         app:layout_constraintTop_toTopOf="@id/spinnerSettingsRecordTypeSort"
                         tools:text="@string/settings_sort_manually" />
 
-                    <com.example.util.simpletimetracker.core.view.spinner.CustomSpinner
+                    <com.example.util.simpletimetracker.feature_views.spinner.CustomSpinner
                         android:id="@+id/spinnerSettingsRecordTypeSort"
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
@@ -493,7 +493,7 @@
                         app:layout_constraintTop_toTopOf="@id/spinnerSettingsFirstDayOfWeek"
                         tools:text="@string/day_of_week_monday" />
 
-                    <com.example.util.simpletimetracker.core.view.spinner.CustomSpinner
+                    <com.example.util.simpletimetracker.feature_views.spinner.CustomSpinner
                         android:id="@+id/spinnerSettingsFirstDayOfWeek"
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"

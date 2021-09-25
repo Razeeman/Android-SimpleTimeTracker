@@ -1,7 +1,7 @@
 package com.example.util.simpletimetracker.feature_change_record_type.adapter
 
 import com.example.util.simpletimetracker.core.adapter.createRecyclerBindingAdapterDelegate
-import com.example.util.simpletimetracker.core.extension.setOnClickWith
+import com.example.util.simpletimetracker.feature_views.extension.setOnClickWith
 import com.example.util.simpletimetracker.feature_change_record_type.databinding.ChangeRecordTypeItemIconLayoutBinding as Binding
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconViewData as ViewData
 

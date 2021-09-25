@@ -2,7 +2,7 @@ package com.example.util.simpletimetracker.core.adapter.record
 
 import androidx.core.view.ViewCompat
 import com.example.util.simpletimetracker.core.adapter.createRecyclerBindingAdapterDelegate
-import com.example.util.simpletimetracker.core.extension.setOnClick
+import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.core.view.TransitionNames
 import com.example.util.simpletimetracker.core.databinding.ItemRecordLayoutBinding as Binding
 import com.example.util.simpletimetracker.core.viewData.RecordViewData as ViewData

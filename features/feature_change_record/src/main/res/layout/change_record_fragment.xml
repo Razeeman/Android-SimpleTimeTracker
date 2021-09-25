@@ -22,7 +22,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible" />
 
-    <com.example.util.simpletimetracker.core.view.RecordView
+    <com.example.util.simpletimetracker.feature_views.RecordView
         android:id="@+id/previewChangeRecord"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

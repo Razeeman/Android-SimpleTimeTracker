@@ -1,8 +1,8 @@
 package com.example.util.simpletimetracker.feature_running_records.adapter
 
 import com.example.util.simpletimetracker.core.adapter.createRecyclerBindingAdapterDelegate
-import com.example.util.simpletimetracker.core.extension.dpToPx
-import com.example.util.simpletimetracker.core.extension.setOnClickWith
+import com.example.util.simpletimetracker.feature_views.extension.dpToPx
+import com.example.util.simpletimetracker.feature_views.extension.setOnClickWith
 import com.example.util.simpletimetracker.feature_running_records.databinding.ItemRunningRecordTypeLayoutBinding as Binding
 import com.example.util.simpletimetracker.feature_running_records.viewData.RunningRecordTypeAddViewData as ViewData
 

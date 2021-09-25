@@ -20,7 +20,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.example.util.simpletimetracker.core.view.RunningRecordView
+    <com.example.util.simpletimetracker.feature_views.RunningRecordView
         android:id="@+id/previewChangeRunningRecord"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

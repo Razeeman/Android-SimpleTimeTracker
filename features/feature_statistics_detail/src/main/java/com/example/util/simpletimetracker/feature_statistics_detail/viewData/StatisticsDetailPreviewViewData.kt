@@ -2,7 +2,7 @@ package com.example.util.simpletimetracker.feature_statistics_detail.viewData
 
 import androidx.annotation.ColorInt
 import com.example.util.simpletimetracker.core.adapter.ViewHolderType
-import com.example.util.simpletimetracker.core.viewData.RecordTypeIcon
+import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 
 data class StatisticsDetailPreviewViewData(
     val id: Long,

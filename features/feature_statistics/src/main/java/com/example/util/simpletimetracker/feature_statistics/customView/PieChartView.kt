@@ -13,10 +13,10 @@ import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.ContextThemeWrapper
 import android.view.View
-import com.example.util.simpletimetracker.core.extension.getBitmapFromView
-import com.example.util.simpletimetracker.core.extension.measureExactly
-import com.example.util.simpletimetracker.core.view.IconView
-import com.example.util.simpletimetracker.core.viewData.RecordTypeIcon
+import com.example.util.simpletimetracker.feature_views.extension.getBitmapFromView
+import com.example.util.simpletimetracker.feature_views.extension.measureExactly
+import com.example.util.simpletimetracker.feature_views.IconView
+import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.feature_statistics.R
 import kotlin.math.max
 import kotlin.math.min

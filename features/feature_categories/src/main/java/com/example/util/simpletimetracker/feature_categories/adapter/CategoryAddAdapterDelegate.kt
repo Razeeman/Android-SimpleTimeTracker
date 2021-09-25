@@ -1,7 +1,7 @@
 package com.example.util.simpletimetracker.feature_categories.adapter
 
 import com.example.util.simpletimetracker.core.adapter.createRecyclerBindingAdapterDelegate
-import com.example.util.simpletimetracker.core.extension.setOnClickWith
+import com.example.util.simpletimetracker.feature_views.extension.setOnClickWith
 import com.example.util.simpletimetracker.feature_categories.databinding.CategoriesItemCategoryLayoutBinding as Binding
 import com.example.util.simpletimetracker.feature_categories.viewData.CategoryAddViewData as ViewData
 

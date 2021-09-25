@@ -1,6 +1,6 @@
 package com.example.util.simpletimetracker.feature_notification.goalTime.manager
 
-import com.example.util.simpletimetracker.core.viewData.RecordTypeIcon
+import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 
 data class NotificationGoalTimeParams(
     val typeId: Long,

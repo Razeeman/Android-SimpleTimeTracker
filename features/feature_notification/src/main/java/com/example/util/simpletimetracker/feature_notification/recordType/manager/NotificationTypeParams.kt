@@ -1,6 +1,6 @@
 package com.example.util.simpletimetracker.feature_notification.recordType.manager
 
-import com.example.util.simpletimetracker.core.viewData.RecordTypeIcon
+import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 
 data class NotificationTypeParams(
     val id: Int,

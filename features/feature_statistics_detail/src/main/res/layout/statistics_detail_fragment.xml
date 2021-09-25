@@ -18,7 +18,7 @@
             android:descendantFocusability="blocksDescendants"
             android:paddingBottom="16dp">
 
-            <com.example.util.simpletimetracker.core.view.StatisticsView
+            <com.example.util.simpletimetracker.feature_views.StatisticsView
                 android:id="@+id/viewStatisticsDetailItem"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -200,7 +200,7 @@
         app:layout_constraintEnd_toStartOf="@id/btnStatisticsDetailToday"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <com.example.util.simpletimetracker.core.view.spinner.CustomSpinner
+    <com.example.util.simpletimetracker.feature_views.spinner.CustomSpinner
         android:id="@+id/spinnerStatisticsDetail"
         android:layout_width="0dp"
         android:layout_height="0dp"

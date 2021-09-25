@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.core.view
+package com.example.util.simpletimetracker.feature_views
 
 import android.content.Context
 import android.graphics.Color
@@ -8,10 +8,9 @@ import android.view.LayoutInflater
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
-import com.example.util.simpletimetracker.core.R
-import com.example.util.simpletimetracker.core.databinding.RecordTypeViewLayoutBinding
-import com.example.util.simpletimetracker.core.extension.setMargins
-import com.example.util.simpletimetracker.core.viewData.RecordTypeIcon
+import com.example.util.simpletimetracker.feature_views.databinding.RecordTypeViewLayoutBinding
+import com.example.util.simpletimetracker.feature_views.extension.setMargins
+import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 
 class RecordTypeView @JvmOverloads constructor(
     context: Context,

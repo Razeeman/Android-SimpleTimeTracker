@@ -1,6 +1,6 @@
 package com.example.util.simpletimetracker.core.mapper
 
-import com.example.util.simpletimetracker.core.viewData.RecordTypeIcon
+import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import javax.inject.Inject
 import javax.inject.Singleton
 

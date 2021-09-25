@@ -2,7 +2,7 @@ package com.example.util.simpletimetracker.core.view.buttonsRowView
 
 import android.graphics.Color
 import com.example.util.simpletimetracker.core.adapter.createRecyclerBindingAdapterDelegate
-import com.example.util.simpletimetracker.core.extension.setOnClickWith
+import com.example.util.simpletimetracker.feature_views.extension.setOnClickWith
 import com.example.util.simpletimetracker.core.databinding.ButtonsRowItemLayoutBinding as Binding
 import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData as ViewData
 

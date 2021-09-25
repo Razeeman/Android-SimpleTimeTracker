@@ -11,8 +11,8 @@ import android.view.ContextThemeWrapper
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.example.util.simpletimetracker.core.extension.getBitmapFromView
-import com.example.util.simpletimetracker.core.extension.measureExactly
+import com.example.util.simpletimetracker.feature_views.extension.getBitmapFromView
+import com.example.util.simpletimetracker.feature_views.extension.measureExactly
 import com.example.util.simpletimetracker.feature_notification.R
 import com.example.util.simpletimetracker.feature_notification.recordType.customView.NotificationIconView
 import com.example.util.simpletimetracker.navigation.Router

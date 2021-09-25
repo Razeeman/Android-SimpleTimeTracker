@@ -22,7 +22,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible" />
 
-    <com.example.util.simpletimetracker.core.view.RecordTypeView
+    <com.example.util.simpletimetracker.feature_views.RecordTypeView
         android:id="@+id/previewChangeRecordType"
         style="@style/RecordTypeItem"
         android:layout_marginTop="8dp"

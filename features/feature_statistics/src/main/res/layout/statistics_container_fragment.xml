@@ -21,7 +21,7 @@
         app:layout_constraintEnd_toStartOf="@id/btnStatisticsContainerToday"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <com.example.util.simpletimetracker.core.view.spinner.CustomSpinner
+    <com.example.util.simpletimetracker.feature_views.spinner.CustomSpinner
         android:id="@+id/spinnerStatisticsContainer"
         android:layout_width="0dp"
         android:layout_height="0dp"

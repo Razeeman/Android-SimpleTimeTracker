@@ -1,7 +1,7 @@
 package com.example.util.simpletimetracker.feature_dialogs.archive.adapter
 
 import com.example.util.simpletimetracker.core.adapter.createRecyclerBindingAdapterDelegate
-import com.example.util.simpletimetracker.core.extension.setOnClick
+import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.feature_dialogs.archive.viewData.ArchiveDialogButtonsViewData as ViewData
 import com.example.util.simpletimetracker.feature_dialogs.databinding.ItemArchiveDialogButtonsBinding as Binding
 

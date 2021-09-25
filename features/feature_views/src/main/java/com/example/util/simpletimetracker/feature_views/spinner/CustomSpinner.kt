@@ -1,14 +1,14 @@
-package com.example.util.simpletimetracker.core.view.spinner
+package com.example.util.simpletimetracker.feature_views.spinner
 
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.ArrayAdapter
 import android.widget.FrameLayout
-import com.example.util.simpletimetracker.core.R
-import com.example.util.simpletimetracker.core.databinding.SpinnerLayoutBinding
-import com.example.util.simpletimetracker.core.extension.onItemSelected
-import com.example.util.simpletimetracker.core.extension.setOnClick
+import com.example.util.simpletimetracker.feature_views.R
+import com.example.util.simpletimetracker.feature_views.databinding.SpinnerLayoutBinding
+import com.example.util.simpletimetracker.feature_views.extension.onItemSelected
+import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 
 class CustomSpinner @JvmOverloads constructor(
     context: Context,

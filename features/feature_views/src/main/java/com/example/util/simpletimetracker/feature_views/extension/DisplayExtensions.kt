@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.core.extension
+package com.example.util.simpletimetracker.feature_views.extension
 
 import android.content.res.Resources
 

@@ -1,7 +1,7 @@
 package com.example.util.simpletimetracker.core.repo
 
 import android.content.Context
-import com.example.util.simpletimetracker.core.extension.pxToDp
+import com.example.util.simpletimetracker.feature_views.extension.pxToDp
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 

@@ -42,7 +42,7 @@
                 app:layout_constraintTop_toTopOf="@id/spinnerRecordsAllSort"
                 tools:text="@string/records_all_sort_time_started" />
 
-            <com.example.util.simpletimetracker.core.view.spinner.CustomSpinner
+            <com.example.util.simpletimetracker.feature_views.spinner.CustomSpinner
                 android:id="@+id/spinnerRecordsAllSort"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
