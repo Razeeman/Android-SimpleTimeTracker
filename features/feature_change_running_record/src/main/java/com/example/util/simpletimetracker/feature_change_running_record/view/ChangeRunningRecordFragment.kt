@@ -7,10 +7,10 @@ import androidx.core.view.ViewCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.transition.TransitionInflater
-import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
-import com.example.util.simpletimetracker.core.adapter.category.createCategoryAdapterDelegate
-import com.example.util.simpletimetracker.core.adapter.empty.createEmptyAdapterDelegate
-import com.example.util.simpletimetracker.core.adapter.recordType.createRecordTypeAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
+import com.example.util.simpletimetracker.feature_base_adapter.category.createCategoryAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.recordType.createRecordTypeAdapterDelegate
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
@@ -24,7 +24,7 @@ import com.example.util.simpletimetracker.core.extension.toViewData
 import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.core.utils.BuildVersions
 import com.example.util.simpletimetracker.core.utils.setFlipChooserColor
-import com.example.util.simpletimetracker.core.view.TransitionNames
+import com.example.util.simpletimetracker.feature_views.TransitionNames
 import com.example.util.simpletimetracker.feature_change_running_record.viewData.ChangeRunningRecordViewData
 import com.example.util.simpletimetracker.feature_change_running_record.viewModel.ChangeRunningRecordViewModel
 import com.example.util.simpletimetracker.navigation.params.ChangeRunningRecordParams

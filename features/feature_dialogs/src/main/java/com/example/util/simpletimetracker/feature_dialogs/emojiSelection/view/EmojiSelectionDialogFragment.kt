@@ -6,9 +6,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
-import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
-import com.example.util.simpletimetracker.core.adapter.emoji.createEmojiAdapterDelegate
-import com.example.util.simpletimetracker.core.adapter.loader.createLoaderAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
+import com.example.util.simpletimetracker.feature_base_adapter.emoji.createEmojiAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.core.base.BaseBottomSheetFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.EmojiSelectionDialogListener

@@ -1,6 +1,6 @@
 package com.example.util.simpletimetracker.feature_statistics_detail.adapter
 
-import com.example.util.simpletimetracker.core.adapter.createRecyclerBindingAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
 import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.feature_statistics_detail.databinding.StatisticsDetailPreviewItemBinding as Binding
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewViewData as ViewData

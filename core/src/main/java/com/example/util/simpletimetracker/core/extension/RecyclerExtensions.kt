@@ -2,7 +2,7 @@ package com.example.util.simpletimetracker.core.extension
 
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
+import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 
 fun RecyclerView.onItemMoved(
     onSelected: (RecyclerView.ViewHolder?) -> Unit = {},

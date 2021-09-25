@@ -1,7 +1,7 @@
 package com.example.util.simpletimetracker.feature_tag_selection.interactor
 
-import com.example.util.simpletimetracker.core.adapter.ViewHolderType
-import com.example.util.simpletimetracker.core.adapter.hint.HintViewData
+import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_base_adapter.hint.HintViewData
 import com.example.util.simpletimetracker.core.interactor.RecordTagViewDataInteractor
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.feature_tag_selection.R

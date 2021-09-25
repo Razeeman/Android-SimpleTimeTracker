@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
 import androidx.core.content.res.ResourcesCompat
-import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
+import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_views.extension.dpToPx
 import com.example.util.simpletimetracker.feature_views.extension.spToPx
 import com.example.util.simpletimetracker.feature_views.extension.updatePadding

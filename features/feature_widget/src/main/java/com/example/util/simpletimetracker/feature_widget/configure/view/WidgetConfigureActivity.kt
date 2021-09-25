@@ -5,9 +5,9 @@ import android.appwidget.AppWidgetManager
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
-import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
-import com.example.util.simpletimetracker.core.adapter.empty.createEmptyAdapterDelegate
-import com.example.util.simpletimetracker.core.adapter.loader.createLoaderAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
+import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.core.base.BaseActivity
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.manager.ThemeManager

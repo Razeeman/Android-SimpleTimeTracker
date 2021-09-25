@@ -1,9 +1,9 @@
 package com.example.util.simpletimetracker.feature_statistics.mapper
 
-import com.example.util.simpletimetracker.core.adapter.ViewHolderType
-import com.example.util.simpletimetracker.core.adapter.empty.EmptyViewData
-import com.example.util.simpletimetracker.core.adapter.hint.HintViewData
-import com.example.util.simpletimetracker.core.adapter.statistics.StatisticsViewData
+import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_base_adapter.empty.EmptyViewData
+import com.example.util.simpletimetracker.feature_base_adapter.hint.HintViewData
+import com.example.util.simpletimetracker.feature_base_adapter.statistics.StatisticsViewData
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper

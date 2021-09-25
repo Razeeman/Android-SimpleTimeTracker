@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.util.simpletimetracker.core.adapter.ViewHolderType
-import com.example.util.simpletimetracker.core.adapter.loader.LoaderViewData
+import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.feature_dialogs.archive.interactor.ArchiveDialogViewDataInteractor
 import com.example.util.simpletimetracker.navigation.params.ArchiveDialogParams
 import kotlinx.coroutines.launch

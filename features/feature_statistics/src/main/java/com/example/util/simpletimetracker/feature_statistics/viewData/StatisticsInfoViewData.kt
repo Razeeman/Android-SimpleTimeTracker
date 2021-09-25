@@ -1,6 +1,6 @@
 package com.example.util.simpletimetracker.feature_statistics.viewData
 
-import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 
 data class StatisticsInfoViewData(
     val name: String,

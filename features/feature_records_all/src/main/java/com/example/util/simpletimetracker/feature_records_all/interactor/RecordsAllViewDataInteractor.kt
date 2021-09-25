@@ -1,6 +1,6 @@
 package com.example.util.simpletimetracker.feature_records_all.interactor
 
-import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.extension.isNotFiltered
 import com.example.util.simpletimetracker.core.interactor.TypesFilterInteractor
 import com.example.util.simpletimetracker.core.mapper.RangeMapper

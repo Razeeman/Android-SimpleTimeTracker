@@ -1,7 +1,7 @@
 package com.example.util.simpletimetracker.feature_change_category.mapper
 
-import com.example.util.simpletimetracker.core.adapter.ViewHolderType
-import com.example.util.simpletimetracker.core.adapter.info.InfoViewData
+import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_base_adapter.info.InfoViewData
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.feature_change_category.R
 import javax.inject.Inject

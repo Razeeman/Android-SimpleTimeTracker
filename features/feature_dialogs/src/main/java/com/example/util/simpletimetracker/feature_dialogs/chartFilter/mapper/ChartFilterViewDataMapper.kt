@@ -1,8 +1,8 @@
 package com.example.util.simpletimetracker.feature_dialogs.chartFilter.mapper
 
-import com.example.util.simpletimetracker.core.adapter.ViewHolderType
-import com.example.util.simpletimetracker.core.adapter.category.CategoryViewData
-import com.example.util.simpletimetracker.core.adapter.empty.EmptyViewData
+import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
+import com.example.util.simpletimetracker.feature_base_adapter.empty.EmptyViewData
 import com.example.util.simpletimetracker.core.mapper.CategoryViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeCardSizeMapper
@@ -10,7 +10,7 @@ import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.utils.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
-import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
+import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.model.RecordType

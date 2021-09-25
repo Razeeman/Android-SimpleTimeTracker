@@ -4,13 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.util.simpletimetracker.core.adapter.ViewHolderType
-import com.example.util.simpletimetracker.core.adapter.loader.LoaderViewData
+import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.core.extension.toParams
 import com.example.util.simpletimetracker.core.interactor.AddRunningRecordMediator
 import com.example.util.simpletimetracker.core.interactor.RemoveRunningRecordMediator
-import com.example.util.simpletimetracker.core.view.TransitionNames
-import com.example.util.simpletimetracker.core.viewData.RecordTypeViewData
+import com.example.util.simpletimetracker.feature_views.TransitionNames
+import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.feature_running_records.interactor.RunningRecordsViewDataInteractor
 import com.example.util.simpletimetracker.feature_running_records.viewData.RunningRecordTypeAddViewData

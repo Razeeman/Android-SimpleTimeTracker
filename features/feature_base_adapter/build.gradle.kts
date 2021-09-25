@@ -28,4 +28,9 @@ android {
 
 dependencies {
     implementation(project(":feature_views"))
+
+    implementation(Deps.Androidx.recyclerView)
+    implementation(Deps.Androidx.cardView)
+    implementation(Deps.Androidx.material)
+    implementation(Deps.Emoji.emojiCompat)
 }

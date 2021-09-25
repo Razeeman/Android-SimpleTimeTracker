@@ -1,7 +1,7 @@
 package com.example.util.simpletimetracker.feature_records_all.mapper
 
-import com.example.util.simpletimetracker.core.adapter.ViewHolderType
-import com.example.util.simpletimetracker.core.adapter.empty.EmptyViewData
+import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_base_adapter.empty.EmptyViewData
 import com.example.util.simpletimetracker.core.mapper.RecordViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.feature_views.spinner.CustomSpinner

@@ -7,10 +7,10 @@ import androidx.core.view.ViewCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.transition.TransitionInflater
-import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
-import com.example.util.simpletimetracker.core.adapter.category.CategoryViewData
-import com.example.util.simpletimetracker.core.adapter.empty.createEmptyAdapterDelegate
-import com.example.util.simpletimetracker.core.adapter.recordType.createRecordTypeAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
+import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
+import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.recordType.createRecordTypeAdapterDelegate
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.extension.hideKeyboard

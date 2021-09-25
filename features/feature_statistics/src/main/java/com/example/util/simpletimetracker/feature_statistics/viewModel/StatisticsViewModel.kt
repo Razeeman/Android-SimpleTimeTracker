@@ -4,11 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.util.simpletimetracker.core.adapter.ViewHolderType
-import com.example.util.simpletimetracker.core.adapter.loader.LoaderViewData
-import com.example.util.simpletimetracker.core.adapter.statistics.StatisticsViewData
+import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
+import com.example.util.simpletimetracker.feature_base_adapter.statistics.StatisticsViewData
 import com.example.util.simpletimetracker.core.extension.toParams
-import com.example.util.simpletimetracker.core.view.TransitionNames
+import com.example.util.simpletimetracker.feature_views.TransitionNames
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.model.RangeLength

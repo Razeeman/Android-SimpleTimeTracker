@@ -1,6 +1,6 @@
 package com.example.util.simpletimetracker.core.view.buttonsRowView
 
-import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 
 abstract class ButtonsRowViewData : ViewHolderType {
 

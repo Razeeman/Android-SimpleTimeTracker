@@ -7,10 +7,10 @@ import androidx.core.view.ViewCompat
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.TransitionInflater
-import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
-import com.example.util.simpletimetracker.core.adapter.ViewHolderType
-import com.example.util.simpletimetracker.core.adapter.hint.createHintAdapterDelegate
-import com.example.util.simpletimetracker.core.adapter.statistics.createStatisticsAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
+import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_base_adapter.hint.createHintAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.statistics.createStatisticsAdapterDelegate
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener

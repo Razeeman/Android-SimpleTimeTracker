@@ -3,10 +3,10 @@ package com.example.util.simpletimetracker.feature_categories.view
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
-import com.example.util.simpletimetracker.core.adapter.divider.createDividerAdapterDelegate
-import com.example.util.simpletimetracker.core.adapter.hint.createHintAdapterDelegate
-import com.example.util.simpletimetracker.core.adapter.loader.createLoaderAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
+import com.example.util.simpletimetracker.feature_base_adapter.divider.createDividerAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.hint.createHintAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.feature_categories.adapter.createCategoryAdapterDelegate

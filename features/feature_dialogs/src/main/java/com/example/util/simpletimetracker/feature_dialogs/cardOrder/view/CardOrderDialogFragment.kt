@@ -6,10 +6,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
-import com.example.util.simpletimetracker.core.adapter.BaseRecyclerAdapter
-import com.example.util.simpletimetracker.core.adapter.empty.createEmptyAdapterDelegate
-import com.example.util.simpletimetracker.core.adapter.loader.createLoaderAdapterDelegate
-import com.example.util.simpletimetracker.core.adapter.recordType.createRecordTypeAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
+import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.recordType.createRecordTypeAdapterDelegate
 import com.example.util.simpletimetracker.core.base.BaseBottomSheetFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.extension.onItemMoved

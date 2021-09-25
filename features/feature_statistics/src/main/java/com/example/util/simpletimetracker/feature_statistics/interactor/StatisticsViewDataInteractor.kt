@@ -1,6 +1,6 @@
 package com.example.util.simpletimetracker.feature_statistics.interactor
 
-import com.example.util.simpletimetracker.core.adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
@@ -15,7 +15,7 @@ import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.Statistics
 import com.example.util.simpletimetracker.domain.model.StatisticsCategory
 import com.example.util.simpletimetracker.feature_statistics.mapper.StatisticsViewDataMapper
-import com.example.util.simpletimetracker.core.adapter.statistics.StatisticsViewData
+import com.example.util.simpletimetracker.feature_base_adapter.statistics.StatisticsViewData
 import javax.inject.Inject
 
 class StatisticsViewDataInteractor @Inject constructor(
