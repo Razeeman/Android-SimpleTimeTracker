@@ -20,6 +20,7 @@ class RecordsViewDataInteractor @Inject constructor(
     suspend fun getViewData(shift: Int): List<ViewHolderType> {
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
+        val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
         val recordTypes = recordTypeInteractor.getAll().map { it.id to it }.toMap()
         val recordTags = recordTagInteractor.getAll().map { it.id to it }.toMap()
         val (rangeStart, rangeEnd) = getRange(shift)
@@ -38,7 +39,8 @@ class RecordsViewDataInteractor @Inject constructor(
                     rangeStart = rangeStart,
                     rangeEnd = rangeEnd,
                     isDarkTheme = isDarkTheme,
-                    useMilitaryTime = useMilitaryTime
+                    useMilitaryTime = useMilitaryTime,
+                    useProportionalMinutes = useProportionalMinutes
                 )
             }
             .let { trackedRecords ->
@@ -55,7 +57,8 @@ class RecordsViewDataInteractor @Inject constructor(
                             rangeStart = rangeStart,
                             rangeEnd = rangeEnd,
                             isDarkTheme = isDarkTheme,
-                            useMilitaryTime = useMilitaryTime
+                            useMilitaryTime = useMilitaryTime,
+                            useProportionalMinutes = useProportionalMinutes
                         )
                     }
                     .let { untrackedRecords -> trackedRecords + untrackedRecords }

@@ -37,6 +37,7 @@ class RecordsAllViewDataInteractor @Inject constructor(
     ): List<ViewHolderType> {
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
+        val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
         val recordTypes = recordTypeInteractor.getAll().map { it.id to it }.toMap()
         val recordTags = recordTagInteractor.getAll().map { it.id to it }.toMap()
         val typesSelected = typesFilterInteractor.getTypeIds(filter)
@@ -63,7 +64,8 @@ class RecordsAllViewDataInteractor @Inject constructor(
                             recordType = recordTypes[record.typeId] ?: return@mapNotNull null,
                             recordTag = recordTags[record.tagId],
                             isDarkTheme = isDarkTheme,
-                            useMilitaryTime = useMilitaryTime
+                            useMilitaryTime = useMilitaryTime,
+                            useProportionalMinutes = useProportionalMinutes
                         )
                     )
                 }

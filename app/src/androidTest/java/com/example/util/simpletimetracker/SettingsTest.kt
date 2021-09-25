@@ -611,6 +611,25 @@ class SettingsTest : BaseUiTest() {
     }
 
     @Test
+    fun proportionalMinutes() {
+        // Check settings
+        NavUtils.openSettingsScreen()
+        onView(withId(R.id.tvSettingsUseProportionalMinutesHint)).perform(nestedScrollTo())
+        onView(withId(R.id.checkboxSettingsUseProportionalMinutes)).check(matches(isNotChecked()))
+        checkViewIsDisplayed(allOf(withId(R.id.tvSettingsUseProportionalMinutesHint), withText("1h 15m")))
+
+        // Change settings
+        clickOnViewWithId(R.id.checkboxSettingsUseProportionalMinutes)
+        onView(withId(R.id.checkboxSettingsUseProportionalMinutes)).check(matches(isChecked()))
+        checkViewIsDisplayed(allOf(withId(R.id.tvSettingsUseProportionalMinutesHint), withSubstring("1.25 h")))
+
+        // Change settings
+        clickOnViewWithId(R.id.checkboxSettingsUseProportionalMinutes)
+        onView(withId(R.id.checkboxSettingsUseProportionalMinutes)).check(matches(isNotChecked()))
+        checkViewIsDisplayed(allOf(withId(R.id.tvSettingsUseProportionalMinutesHint), withText("1h 15m")))
+    }
+
+    @Test
     fun firstDayOfWeek() {
         // If today is sunday:
         // add record for previous monday,

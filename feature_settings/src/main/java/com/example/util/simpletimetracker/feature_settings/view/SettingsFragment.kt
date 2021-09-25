@@ -66,6 +66,7 @@ class SettingsFragment :
         groupSettingsInactivityReminder.setOnClick(viewModel::onInactivityReminderClicked)
         checkboxSettingsDarkMode.setOnClick(viewModel::onDarkModeClicked)
         checkboxSettingsUseMilitaryTime.setOnClick(viewModel::onUseMilitaryTimeClicked)
+        checkboxSettingsUseProportionalMinutes.setOnClick(viewModel::onUseProportionalMinutesClicked)
         tvSettingsChangeCardSize.setOnClick(viewModel::onChangeCardSizeClick)
         layoutSettingsEditCategories.setOnClick(viewModel::onEditCategoriesClick)
         checkboxSettingsShowRecordTagSelection.setOnClick(viewModel::onShowRecordTagSelectionClicked)
@@ -88,8 +89,10 @@ class SettingsFragment :
             inactivityReminderViewData.observe(tvSettingsInactivityReminderTime::setText)
             darkModeCheckbox.observe(checkboxSettingsDarkMode::setChecked)
             useMilitaryTimeCheckbox.observe(checkboxSettingsUseMilitaryTime::setChecked)
+            useProportionalMinutesCheckbox.observe(checkboxSettingsUseProportionalMinutes::setChecked)
             showRecordTagSelectionCheckbox.observe(checkboxSettingsShowRecordTagSelection::setChecked)
             useMilitaryTimeHint.observe(tvSettingsUseMilitaryTimeHint::setText)
+            useProportionalMinutesHint.observe(tvSettingsUseProportionalMinutesHint::setText)
             themeChanged.observe(::changeTheme)
         }
     }
