@@ -24,7 +24,7 @@ import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.core.extension.showKeyboard
 import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.core.utils.BuildVersions
-import com.example.util.simpletimetracker.core.utils.setFlipChooserColor
+import com.example.util.simpletimetracker.core.utils.setChooserColor
 import com.example.util.simpletimetracker.feature_change_category.viewModel.ChangeCategoryViewModel
 import com.example.util.simpletimetracker.navigation.params.ChangeCategoryParams
 import com.google.android.flexbox.FlexDirection
@@ -116,14 +116,14 @@ class ChangeCategoryFragment : BaseFragment<Binding>() {
             types.observe(typesAdapter::replace)
             flipColorChooser.observe { opened ->
                 rvChangeCategoryColor.visible = opened
-                setFlipChooserColor(fieldChangeCategoryColor, opened)
+                fieldChangeCategoryColor.setChooserColor(opened)
                 arrowChangeCategoryColor.apply {
                     if (opened) rotateDown() else rotateUp()
                 }
             }
             flipTypesChooser.observe { opened ->
                 rvChangeCategoryType.visible = opened
-                setFlipChooserColor(fieldChangeCategoryType, opened)
+                fieldChangeCategoryType.setChooserColor(opened)
                 arrowChangeCategoryType.apply {
                     if (opened) rotateDown() else rotateUp()
                 }

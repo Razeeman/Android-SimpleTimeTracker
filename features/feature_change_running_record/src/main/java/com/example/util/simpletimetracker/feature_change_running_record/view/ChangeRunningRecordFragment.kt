@@ -23,7 +23,7 @@ import com.example.util.simpletimetracker.core.extension.showKeyboard
 import com.example.util.simpletimetracker.core.extension.toViewData
 import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.core.utils.BuildVersions
-import com.example.util.simpletimetracker.core.utils.setFlipChooserColor
+import com.example.util.simpletimetracker.core.utils.setChooserColor
 import com.example.util.simpletimetracker.feature_views.TransitionNames
 import com.example.util.simpletimetracker.feature_change_running_record.viewData.ChangeRunningRecordViewData
 import com.example.util.simpletimetracker.feature_change_running_record.viewModel.ChangeRunningRecordViewModel
@@ -117,14 +117,14 @@ class ChangeRunningRecordFragment :
             saveButtonEnabled.observe(btnChangeRunningRecordSave::setEnabled)
             flipTypesChooser.observe { opened ->
                 rvChangeRunningRecordType.visible = opened
-                setFlipChooserColor(fieldChangeRunningRecordType, opened)
+                fieldChangeRunningRecordType.setChooserColor(opened)
                 arrowChangeRunningRecordType.apply {
                     if (opened) rotateDown() else rotateUp()
                 }
             }
             flipCategoryChooser.observe { opened ->
                 rvChangeRunningRecordCategories.visible = opened
-                setFlipChooserColor(fieldChangeRunningRecordCategory, opened)
+                fieldChangeRunningRecordCategory.setChooserColor(opened)
                 arrowChangeRunningRecordCategory.apply {
                     if (opened) rotateDown() else rotateUp()
                 }

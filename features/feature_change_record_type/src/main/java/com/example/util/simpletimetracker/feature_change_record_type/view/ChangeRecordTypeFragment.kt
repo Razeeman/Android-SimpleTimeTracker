@@ -33,7 +33,7 @@ import com.example.util.simpletimetracker.feature_views.extension.updatePadding
 import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.core.repo.DeviceRepo
 import com.example.util.simpletimetracker.core.utils.BuildVersions
-import com.example.util.simpletimetracker.core.utils.setFlipChooserColor
+import com.example.util.simpletimetracker.core.utils.setChooserColor
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.model.IconEmojiType
 import com.example.util.simpletimetracker.feature_change_record_type.R
@@ -172,21 +172,21 @@ class ChangeRecordTypeFragment :
             goalTimeViewData.observe(tvChangeRecordTypeGoalTimeTime::setText)
             flipColorChooser.observe { opened ->
                 rvChangeRecordTypeColor.visible = opened
-                setFlipChooserColor(fieldChangeRecordTypeColor, opened)
+                fieldChangeRecordTypeColor.setChooserColor(opened)
                 arrowChangeRecordTypeColor.apply {
                     if (opened) rotateDown() else rotateUp()
                 }
             }
             flipIconChooser.observe { opened ->
                 containerChangeRecordTypeIcon.visible = opened
-                setFlipChooserColor(fieldChangeRecordTypeIcon, opened)
+                fieldChangeRecordTypeIcon.setChooserColor(opened)
                 arrowChangeRecordTypeIcon.apply {
                     if (opened) rotateDown() else rotateUp()
                 }
             }
             flipCategoryChooser.observe { opened ->
                 rvChangeRecordTypeCategories.visible = opened
-                setFlipChooserColor(fieldChangeRecordTypeCategory, opened)
+                fieldChangeRecordTypeCategory.setChooserColor(opened)
                 arrowChangeRecordTypeCategory.apply {
                     if (opened) rotateDown() else rotateUp()
                 }

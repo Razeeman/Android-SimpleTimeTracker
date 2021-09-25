@@ -24,7 +24,7 @@ import com.example.util.simpletimetracker.core.extension.showKeyboard
 import com.example.util.simpletimetracker.core.extension.toViewData
 import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.core.utils.BuildVersions
-import com.example.util.simpletimetracker.core.utils.setFlipChooserColor
+import com.example.util.simpletimetracker.core.utils.setChooserColor
 import com.example.util.simpletimetracker.core.sharedViewModel.RemoveRecordViewModel
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordViewData
@@ -134,14 +134,14 @@ class ChangeRecordFragment :
             saveButtonEnabled.observe(btnChangeRecordSave::setEnabled)
             flipTypesChooser.observe { opened ->
                 rvChangeRecordType.visible = opened
-                setFlipChooserColor(fieldChangeRecordType, opened)
+                fieldChangeRecordType.setChooserColor(opened)
                 arrowChangeRecordType.apply {
                     if (opened) rotateDown() else rotateUp()
                 }
             }
             flipCategoryChooser.observe { opened ->
                 rvChangeRecordCategories.visible = opened
-                setFlipChooserColor(fieldChangeRecordCategory, opened)
+                fieldChangeRecordCategory.setChooserColor(opened)
                 arrowChangeRecordCategory.apply {
                     if (opened) rotateDown() else rotateUp()
                 }

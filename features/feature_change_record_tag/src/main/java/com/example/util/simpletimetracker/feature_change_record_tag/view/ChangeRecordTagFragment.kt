@@ -22,7 +22,7 @@ import com.example.util.simpletimetracker.core.extension.showKeyboard
 import com.example.util.simpletimetracker.core.extension.toViewData
 import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.core.utils.BuildVersions
-import com.example.util.simpletimetracker.core.utils.setFlipChooserColor
+import com.example.util.simpletimetracker.core.utils.setChooserColor
 import com.example.util.simpletimetracker.feature_change_record_tag.viewModel.ChangeRecordTagViewModel
 import com.example.util.simpletimetracker.navigation.params.ChangeCategoryParams
 import com.google.android.flexbox.FlexDirection
@@ -98,7 +98,7 @@ class ChangeRecordTagFragment : BaseFragment<Binding>() {
             types.observe(typesAdapter::replace)
             flipTypesChooser.observe { opened ->
                 rvChangeRecordTagType.visible = opened
-                setFlipChooserColor(fieldChangeRecordTagType, opened)
+                fieldChangeRecordTagType.setChooserColor(opened)
                 arrowChangeRecordTagType.apply {
                     if (opened) rotateDown() else rotateUp()
                 }
