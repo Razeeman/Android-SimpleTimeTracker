@@ -31,55 +31,11 @@ class ActionResolverImpl @Inject constructor(
 
     override fun execute(activity: Activity?, action: Action, data: Any?) {
         when (action) {
-            Action.OPEN_MARKET -> {
-                openMarket(activity, data)
-            }
-            Action.SEND_EMAIL -> {
-                sendEmail(activity, data)
-            }
-            Action.CREATE_FILE -> {
-                val timeString = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())
-                    .format(Date())
-                val fileName = "stt_$timeString.backup"
-
-                val intent = Intent(Intent.ACTION_CREATE_DOCUMENT)
-                intent.addCategory(Intent.CATEGORY_OPENABLE)
-                intent.type = "application/x-binary"
-                intent.putExtra(Intent.EXTRA_TITLE, fileName)
-
-                if (activity?.packageManager?.let(intent::resolveActivity) != null) {
-                    createFileResultLauncher?.launch(intent)
-                } else {
-                    (data as? FileChooserParams)?.notHandledCallback?.invoke()
-                }
-            }
-            Action.OPEN_FILE -> {
-                val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-                intent.addCategory(Intent.CATEGORY_OPENABLE)
-                intent.type = "application/*"
-
-                if (activity?.packageManager?.let(intent::resolveActivity) != null) {
-                    openFileResultLauncher?.launch(intent)
-                } else {
-                    (data as? FileChooserParams)?.notHandledCallback?.invoke()
-                }
-            }
-            Action.CREATE_CSV_FILE -> {
-                val timeString = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())
-                    .format(Date())
-                val fileName = "stt_records_$timeString.csv"
-
-                val intent = Intent(Intent.ACTION_CREATE_DOCUMENT)
-                intent.addCategory(Intent.CATEGORY_OPENABLE)
-                intent.type = "text/csv"
-                intent.putExtra(Intent.EXTRA_TITLE, fileName)
-
-                if (activity?.packageManager?.let(intent::resolveActivity) != null) {
-                    createCsvFileResultLauncher?.launch(intent)
-                } else {
-                    (data as? FileChooserParams)?.notHandledCallback?.invoke()
-                }
-            }
+            Action.OPEN_MARKET -> openMarket(activity, data)
+            Action.SEND_EMAIL -> sendEmail(activity, data)
+            Action.CREATE_FILE -> createFile(activity, data)
+            Action.OPEN_FILE -> openFile(activity, data)
+            Action.CREATE_CSV_FILE -> createCsvFile(activity, data)
         }
     }
 
@@ -116,6 +72,52 @@ class ActionResolverImpl @Inject constructor(
             activity?.startActivity(Intent.createChooser(intent, params.chooserTitle))
         } catch (e: ActivityNotFoundException) {
             params.notHandledCallback?.invoke()
+        }
+    }
+
+    private fun createCsvFile(activity: Activity?, data: Any?) {
+        val timeString = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())
+            .format(Date())
+        val fileName = "stt_records_$timeString.csv"
+
+        val intent = Intent(Intent.ACTION_CREATE_DOCUMENT)
+        intent.addCategory(Intent.CATEGORY_OPENABLE)
+        intent.type = "text/csv"
+        intent.putExtra(Intent.EXTRA_TITLE, fileName)
+
+        if (activity?.packageManager?.let(intent::resolveActivity) != null) {
+            createCsvFileResultLauncher?.launch(intent)
+        } else {
+            (data as? FileChooserParams)?.notHandledCallback?.invoke()
+        }
+    }
+
+    private fun openFile(activity: Activity?, data: Any?) {
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+        intent.addCategory(Intent.CATEGORY_OPENABLE)
+        intent.type = "application/*"
+
+        if (activity?.packageManager?.let(intent::resolveActivity) != null) {
+            openFileResultLauncher?.launch(intent)
+        } else {
+            (data as? FileChooserParams)?.notHandledCallback?.invoke()
+        }
+    }
+
+    private fun createFile(activity: Activity?, data: Any?) {
+        val timeString = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())
+            .format(Date())
+        val fileName = "stt_$timeString.backup"
+
+        val intent = Intent(Intent.ACTION_CREATE_DOCUMENT)
+        intent.addCategory(Intent.CATEGORY_OPENABLE)
+        intent.type = "application/x-binary"
+        intent.putExtra(Intent.EXTRA_TITLE, fileName)
+
+        if (activity?.packageManager?.let(intent::resolveActivity) != null) {
+            createFileResultLauncher?.launch(intent)
+        } else {
+            (data as? FileChooserParams)?.notHandledCallback?.invoke()
         }
     }
 
