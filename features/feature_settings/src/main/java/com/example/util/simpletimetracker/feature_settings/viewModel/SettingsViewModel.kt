@@ -137,6 +137,24 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    val useProportionalMinutesCheckbox: LiveData<Boolean> by lazy {
+        MutableLiveData<Boolean>().let { initial ->
+            viewModelScope.launch {
+                initial.value = prefsInteractor.getUseProportionalMinutes()
+            }
+            initial
+        }
+    }
+
+    val useProportionalMinutesHint: LiveData<String> by lazy {
+        MutableLiveData<String>().let { initial ->
+            viewModelScope.launch {
+                initial.value = loadUseProportionalMinutesViewData()
+            }
+            initial
+        }
+    }
+
     val themeChanged: LiveData<Boolean> = MutableLiveData(false)
 
     fun onVisible() {
@@ -273,6 +291,16 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    fun onUseProportionalMinutesClicked() {
+        viewModelScope.launch {
+            val newValue = !prefsInteractor.getUseProportionalMinutes()
+            prefsInteractor.setUseProportionalMinutes(newValue)
+            (useProportionalMinutesCheckbox as MutableLiveData).value = newValue
+            notificationTypeInteractor.updateNotifications()
+            updateUseProportionalMinutesViewData()
+        }
+    }
+
     fun onShowRecordTagSelectionClicked() {
         viewModelScope.launch {
             val newValue = !prefsInteractor.getShowRecordTagSelection()
@@ -389,9 +417,19 @@ class SettingsViewModel @Inject constructor(
         (useMilitaryTimeHint as MutableLiveData).value = data
     }
 
+    private suspend fun updateUseProportionalMinutesViewData() {
+        val data = loadUseProportionalMinutesViewData()
+        (useProportionalMinutesHint as MutableLiveData).value = data
+    }
+
     private suspend fun loadUseMilitaryTimeViewData(): String {
         return prefsInteractor.getUseMilitaryTimeFormat()
             .let(settingsMapper::toUseMilitaryTimeHint)
+    }
+
+    private suspend fun loadUseProportionalMinutesViewData(): String {
+        return prefsInteractor.getUseProportionalMinutes()
+            .let(settingsMapper::toUseProportionalMinutesHint)
     }
 
     companion object {

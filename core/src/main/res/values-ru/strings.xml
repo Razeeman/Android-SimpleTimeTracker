@@ -152,6 +152,7 @@
     <string name="settings_inactivity_reminder_disabled">Выкл.</string>
     <string name="settings_dark_mode">Темный режим</string>
     <string name="settings_use_military_time">24-часовой формат</string>
+    <string name="settings_use_proportional_minutes">Используйте пропорциональный минутный формат</string>
     <string name="settings_change_card_size">Изменить размер карточки активности</string>
     <string name="settings_archive">Архив</string>
     <string name="settings_edit_categories">Редактировать теги</string>

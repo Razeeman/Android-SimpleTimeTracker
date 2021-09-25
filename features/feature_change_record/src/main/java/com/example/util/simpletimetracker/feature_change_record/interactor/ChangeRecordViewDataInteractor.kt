@@ -20,13 +20,15 @@ class ChangeRecordViewDataInteractor @Inject constructor(
         val tag = recordTagInteractor.get(record.tagId)
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
+        val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
 
         return changeRecordViewDataMapper.map(
             record = record,
             recordType = type,
             recordTag = tag,
             isDarkTheme = isDarkTheme,
-            useMilitaryTime = useMilitaryTime
+            useMilitaryTime = useMilitaryTime,
+            useProportionalMinutes = useProportionalMinutes
         )
     }
 }

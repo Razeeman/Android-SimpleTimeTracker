@@ -46,7 +46,8 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         types: List<RecordType>,
         tags: List<RecordTag>,
         isDarkTheme: Boolean,
-        useMilitaryTime: Boolean
+        useMilitaryTime: Boolean,
+        useProportionalMinutes: Boolean
     ): StatisticsDetailStatsViewData {
         val recordsSorted = records.sortedBy { it.timeStarted }
         val durations = records.map(::mapToDuration)
@@ -71,22 +72,23 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             records = records,
             typesMap = types.map { it.id to it }.toMap(),
             tagsMap = tags.map { it.id to it }.toMap(),
-            isDarkTheme = isDarkTheme
+            isDarkTheme = isDarkTheme,
+            useProportionalMinutes = useProportionalMinutes
         )
 
         return mapToStatsViewData(
             totalDuration = totalDuration
-                .let(timeMapper::formatInterval),
+                .let{ timeMapper.formatInterval(it, useProportionalMinutes) },
             timesTracked = timesTracked,
             timesTrackedIcon = recordsAllIcon,
             shortestRecord = shortest
-                ?.let(timeMapper::formatInterval)
+                ?.let{ timeMapper.formatInterval(it, useProportionalMinutes) }
                 ?: emptyValue,
             averageRecord = average
-                ?.let(timeMapper::formatInterval)
+                ?.let{ timeMapper.formatInterval(it, useProportionalMinutes) }
                 ?: emptyValue,
             longestRecord = longest
-                ?.let(timeMapper::formatInterval)
+                ?.let{ timeMapper.formatInterval(it, useProportionalMinutes) }
                 ?: emptyValue,
             firstRecord = first
                 ?.let { timeMapper.formatDateTimeYear(it, useMilitaryTime) }
@@ -422,7 +424,8 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         records: List<Record>,
         typesMap: Map<Long, RecordType>,
         tagsMap: Map<Long, RecordTag>,
-        isDarkTheme: Boolean
+        isDarkTheme: Boolean,
+        useProportionalMinutes: Boolean
     ): List<ViewHolderType> {
         val tags = records.groupBy { it.tagId }
             .takeUnless { it.isEmpty() }
@@ -444,7 +447,8 @@ class StatisticsDetailViewDataMapper @Inject constructor(
                     duration = duration,
                     sumDuration = sumDuration,
                     isDarkTheme = isDarkTheme,
-                    statisticsSize = tagsSize
+                    statisticsSize = tagsSize,
+                    useProportionalMinutes = useProportionalMinutes,
                 ) to duration
             }
             .sortedByDescending { (_, duration) -> duration }
@@ -457,7 +461,8 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         duration: Long,
         sumDuration: Long,
         isDarkTheme: Boolean,
-        statisticsSize: Int
+        statisticsSize: Int,
+        useProportionalMinutes: Boolean
     ): StatisticsViewData {
         val durationPercent = statisticsMapper.getDurationPercentString(
             sumDuration = sumDuration,
@@ -470,7 +475,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             name = tag?.name
                 ?: R.string.change_record_untagged.let(resourceRepo::getString),
             duration = duration
-                .let(timeMapper::formatInterval),
+                .let{ timeMapper.formatInterval(it, useProportionalMinutes) },
             percent = durationPercent,
             icon = recordType?.icon
                 ?.let(iconMapper::mapIcon)

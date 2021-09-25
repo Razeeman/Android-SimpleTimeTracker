@@ -23,7 +23,8 @@ class RecordViewDataMapper @Inject constructor(
         timeStarted: Long,
         timeEnded: Long,
         isDarkTheme: Boolean,
-        useMilitaryTime: Boolean
+        useMilitaryTime: Boolean,
+        useProportionalMinutes: Boolean
     ): RecordViewData {
         return RecordViewData.Tracked(
             id = record.id,
@@ -34,7 +35,7 @@ class RecordViewDataMapper @Inject constructor(
             timeFinished = timeEnded
                 .let { timeMapper.formatTime(it, useMilitaryTime) },
             duration = (timeEnded - timeStarted)
-                .let(timeMapper::formatInterval),
+                .let{ timeMapper.formatInterval(it, useProportionalMinutes) },
             iconId = recordType.icon
                 .let(iconMapper::mapIcon),
             color = recordType.color
@@ -48,7 +49,8 @@ class RecordViewDataMapper @Inject constructor(
         timeStarted: Long,
         timeEnded: Long,
         isDarkTheme: Boolean,
-        useMilitaryTime: Boolean
+        useMilitaryTime: Boolean,
+        useProportionalMinutes: Boolean
     ): RecordViewData {
         return RecordViewData.Untracked(
             name = R.string.untracked_time_name
@@ -61,7 +63,7 @@ class RecordViewDataMapper @Inject constructor(
                 .let { timeMapper.formatTime(it, useMilitaryTime) },
             timeEndedTimestamp = timeEnded,
             duration = (timeEnded - timeStarted)
-                .let(timeMapper::formatInterval),
+                .let{ timeMapper.formatInterval(it, useProportionalMinutes) },
             iconId = RecordTypeIcon.Image(R.drawable.unknown),
             color = colorMapper.toUntrackedColor(isDarkTheme),
             comment = ""
