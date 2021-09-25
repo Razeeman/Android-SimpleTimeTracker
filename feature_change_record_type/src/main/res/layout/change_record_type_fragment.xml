@@ -249,7 +249,7 @@
         tools:listitem="@layout/item_color_layout"
         tools:visibility="gone" />
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/containerChangeRecordTypeIcon"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -263,10 +263,16 @@
         tools:visibility="gone">
 
         <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:background="?android:colorBackground"
-            app:elevation="0dp">
+            app:elevation="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowView
                 android:id="@+id/btnChangeRecordTypeIconSwitch"
@@ -278,8 +284,6 @@
                 android:id="@+id/rvChangeRecordTypeIconCategory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
                 android:overScrollMode="never"
                 app:layout_scrollFlags="scroll|enterAlways"
                 tools:itemCount="1"
@@ -289,14 +293,18 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvChangeRecordTypeIcon"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:overScrollMode="never"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
             tools:itemCount="3"
             tools:listitem="@layout/change_record_type_item_icon_layout" />
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvChangeRecordTypeCategories"

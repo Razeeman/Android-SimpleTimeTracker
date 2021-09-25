@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker
 
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
@@ -144,7 +145,7 @@ class IconTest : BaseUiTest() {
             val firstImage = images.values.first()
 
             if (category == iconImageMapper.getAvailableCategories().last()) {
-                onView(withId(R.id.rvChangeRecordTypeIcon)).perform(collapseToolbar())
+                onView(withId(R.id.rvChangeRecordTypeIcon)).perform(ViewActions.swipeUp())
             }
 
             // Check category hint
