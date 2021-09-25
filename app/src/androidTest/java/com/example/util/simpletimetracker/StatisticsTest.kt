@@ -278,7 +278,7 @@ class StatisticsTest : BaseUiTest() {
             allOf(
                 withId(R.id.layoutStatisticsInfoItem),
                 hasDescendant(withText(R.string.statistics_total_tracked)),
-                hasDescendant(withText(" 0$minuteString")),
+                hasDescendant(withText("0$secondString")),
                 isCompletelyDisplayed()
             )
         )

@@ -600,7 +600,7 @@ class StatisticsDetailTest : BaseUiTest() {
 
     private fun checkEmptyStatistics() {
         onView(withId(R.id.cardStatisticsDetailTotal)).perform(nestedScrollTo())
-        checkCard(R.string.statistics_detail_total_duration, " 0$minuteString")
+        checkCard(R.string.statistics_detail_total_duration, "0$secondString")
 
         onView(withId(R.id.cardStatisticsDetailRecords)).perform(nestedScrollTo())
         checkRecordsCard(0)
