@@ -37,12 +37,11 @@ import com.example.util.simpletimetracker.feature_change_record_type.viewData.Ch
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconSwitchViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeScrollViewData
-import com.example.util.simpletimetracker.navigation.Notification
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
 import com.example.util.simpletimetracker.navigation.params.ChangeRecordTypeParams
 import com.example.util.simpletimetracker.navigation.params.DurationDialogParams
-import com.example.util.simpletimetracker.navigation.params.ToastParams
+import com.example.util.simpletimetracker.navigation.params.notification.ToastParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -438,9 +437,8 @@ class ChangeRecordTypeViewModel @Inject constructor(
     }
 
     private fun showMessage(stringResId: Int) {
-        stringResId
-            .let(resourceRepo::getString)
-            .let { router.show(Notification.TOAST, ToastParams(it)) }
+        val params = ToastParams(message = resourceRepo.getString(stringResId))
+        router.show(params)
     }
 
     companion object {

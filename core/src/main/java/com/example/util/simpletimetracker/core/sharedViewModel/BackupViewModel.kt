@@ -12,14 +12,13 @@ import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.resolver.BackupRepo
 import com.example.util.simpletimetracker.domain.resolver.CsvRepo
 import com.example.util.simpletimetracker.navigation.Action
-import com.example.util.simpletimetracker.navigation.Notification
 import com.example.util.simpletimetracker.navigation.RequestCode
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
 import com.example.util.simpletimetracker.navigation.params.CsvExportSettingsParams
 import com.example.util.simpletimetracker.navigation.params.FileChooserParams
 import com.example.util.simpletimetracker.navigation.params.StandardDialogParams
-import com.example.util.simpletimetracker.navigation.params.ToastParams
+import com.example.util.simpletimetracker.navigation.params.notification.ToastParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -140,9 +139,8 @@ class BackupViewModel @Inject constructor(
     }
 
     private fun showMessage(stringResId: Int) {
-        stringResId
-            .let(resourceRepo::getString)
-            .let { router.show(Notification.TOAST, ToastParams(it)) }
+        val params = ToastParams(message = resourceRepo.getString(stringResId))
+        router.show(params)
     }
 
     private fun showProgress(isVisible: Boolean) {

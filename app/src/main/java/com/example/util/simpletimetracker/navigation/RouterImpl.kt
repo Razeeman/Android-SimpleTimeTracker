@@ -40,8 +40,8 @@ class RouterImpl @Inject constructor(
         actionResolver.execute(activity, action, data)
     }
 
-    override fun show(notification: Notification, data: Any?, anchor: Any?) {
-        notificationResolver.show(activity, notification, data, anchor)
+    override fun show(data: NotificationParams, anchor: Any?) {
+        notificationResolver.show(activity, data, anchor)
     }
 
     override fun setResultListener(key: String, listener: ResultListener) {

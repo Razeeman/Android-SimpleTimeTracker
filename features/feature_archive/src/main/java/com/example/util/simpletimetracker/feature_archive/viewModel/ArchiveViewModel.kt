@@ -17,12 +17,11 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.feature_archive.R
 import com.example.util.simpletimetracker.feature_archive.interactor.ArchiveViewDataInteractor
-import com.example.util.simpletimetracker.navigation.Notification
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
 import com.example.util.simpletimetracker.navigation.params.ArchiveDialogParams
 import com.example.util.simpletimetracker.navigation.params.StandardDialogParams
-import com.example.util.simpletimetracker.navigation.params.ToastParams
+import com.example.util.simpletimetracker.navigation.params.notification.ToastParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -94,10 +93,7 @@ class ArchiveViewModel @Inject constructor(
             }
 
             updateViewData()
-            router.show(
-                notification = Notification.TOAST,
-                data = ToastParams(message)
-            )
+            router.show(ToastParams(message))
         }
     }
 
@@ -128,10 +124,7 @@ class ArchiveViewModel @Inject constructor(
             }
 
             updateViewData()
-            router.show(
-                notification = Notification.TOAST,
-                data = ToastParams(message)
-            )
+            router.show(ToastParams(message))
         }
     }
 

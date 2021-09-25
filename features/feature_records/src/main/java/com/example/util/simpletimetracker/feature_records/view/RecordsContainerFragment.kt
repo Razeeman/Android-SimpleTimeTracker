@@ -12,9 +12,8 @@ import com.example.util.simpletimetracker.feature_views.extension.setOnLongClick
 import com.example.util.simpletimetracker.core.sharedViewModel.RemoveRecordViewModel
 import com.example.util.simpletimetracker.feature_records.adapter.RecordsContainerAdapter
 import com.example.util.simpletimetracker.feature_records.viewModel.RecordsContainerViewModel
-import com.example.util.simpletimetracker.navigation.Notification
 import com.example.util.simpletimetracker.navigation.Router
-import com.example.util.simpletimetracker.navigation.params.SnackBarParams
+import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import com.example.util.simpletimetracker.feature_records.databinding.RecordsContainerFragmentBinding as Binding
@@ -85,7 +84,7 @@ class RecordsContainerFragment :
 
     private fun showMessage(message: SnackBarParams?) {
         if (message != null && message.tag == SnackBarParams.TAG.RECORD_DELETE) {
-            router.show(Notification.SNACK_BAR, message, binding.btnRecordAdd)
+            router.show(message, binding.btnRecordAdd)
             removeRecordViewModel.onMessageShown()
         }
     }

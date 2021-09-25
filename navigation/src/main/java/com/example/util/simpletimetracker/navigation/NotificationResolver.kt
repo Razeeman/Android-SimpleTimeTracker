@@ -4,5 +4,5 @@ import android.app.Activity
 
 interface NotificationResolver {
 
-    fun show(activity: Activity?, notification: Notification, data: Any?, anchor: Any?)
+    fun show(activity: Activity?, data: NotificationParams, anchor: Any?)
 }

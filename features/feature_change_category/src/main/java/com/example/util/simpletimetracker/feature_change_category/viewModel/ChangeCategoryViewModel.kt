@@ -20,10 +20,9 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryIn
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.feature_change_category.R
 import com.example.util.simpletimetracker.feature_change_category.interactor.ChangeCategoryViewDataInteractor
-import com.example.util.simpletimetracker.navigation.Notification
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.ChangeCategoryParams
-import com.example.util.simpletimetracker.navigation.params.ToastParams
+import com.example.util.simpletimetracker.navigation.params.notification.ToastParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -34,7 +33,7 @@ class ChangeCategoryViewModel @Inject constructor(
     private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val categoryViewDataMapper: CategoryViewDataMapper,
-    private val resourceRepo: ResourceRepo
+    private val resourceRepo: ResourceRepo,
 ) : ViewModel() {
 
     lateinit var extra: ChangeCategoryParams
@@ -232,8 +231,7 @@ class ChangeCategoryViewModel @Inject constructor(
     }
 
     private fun showMessage(stringResId: Int) {
-        stringResId
-            .let(resourceRepo::getString)
-            .let { router.show(Notification.TOAST, ToastParams(it)) }
+        val params = ToastParams(message = resourceRepo.getString(stringResId))
+        router.show(params)
     }
 }

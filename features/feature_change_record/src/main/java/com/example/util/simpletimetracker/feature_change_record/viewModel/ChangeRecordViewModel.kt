@@ -22,13 +22,12 @@ import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.feature_change_record.R
 import com.example.util.simpletimetracker.feature_change_record.interactor.ChangeRecordViewDataInteractor
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordViewData
-import com.example.util.simpletimetracker.navigation.Notification
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.Screen
 import com.example.util.simpletimetracker.navigation.params.ChangeRecordParams
 import com.example.util.simpletimetracker.navigation.params.DateTimeDialogParams
 import com.example.util.simpletimetracker.navigation.params.DateTimeDialogType
-import com.example.util.simpletimetracker.navigation.params.ToastParams
+import com.example.util.simpletimetracker.navigation.params.notification.ToastParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -271,9 +270,8 @@ class ChangeRecordViewModel @Inject constructor(
     }
 
     private fun showMessage(stringResId: Int) {
-        stringResId
-            .let(resourceRepo::getString)
-            .let { router.show(Notification.TOAST, ToastParams(it)) }
+        val params = ToastParams(message = resourceRepo.getString(stringResId))
+        router.show(params)
     }
 
     companion object {

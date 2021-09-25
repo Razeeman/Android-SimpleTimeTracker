@@ -6,29 +6,27 @@ import android.graphics.Color
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
-import com.example.util.simpletimetracker.navigation.params.SnackBarParams
-import com.example.util.simpletimetracker.navigation.params.ToastParams
+import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
+import com.example.util.simpletimetracker.navigation.params.notification.ToastParams
 import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
 
 class NotificationResolverImpl @Inject constructor() : NotificationResolver {
 
-    override fun show(activity: Activity?, notification: Notification, data: Any?, anchor: Any?) {
-        when (notification) {
-            Notification.TOAST -> showSystemMessage(activity, data)
-            Notification.SNACK_BAR -> showSnackBar(activity, data, anchor)
+    override fun show(activity: Activity?, data: NotificationParams, anchor: Any?) {
+        when (data) {
+            is ToastParams -> showSystemMessage(activity, data)
+            is SnackBarParams -> showSnackBar(activity, data, anchor)
         }
     }
 
-    private fun showSystemMessage(activity: Activity?, data: Any?) {
-        if (data !is ToastParams) return
-
+    private fun showSystemMessage(activity: Activity?, data: ToastParams) {
         Toast.makeText(activity?.applicationContext, data.message, Toast.LENGTH_LONG).show()
     }
 
     @SuppressLint("WrongConstant")
-    private fun showSnackBar(activity: Activity?, data: Any?, anchor: Any?) {
-        if (data !is SnackBarParams || activity == null) return
+    private fun showSnackBar(activity: Activity?, data: SnackBarParams, anchor: Any?) {
+        if (activity == null) return
 
         val snackBar = Snackbar.make(
             activity.findViewById(android.R.id.content),

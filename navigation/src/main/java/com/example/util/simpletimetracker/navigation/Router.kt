@@ -22,8 +22,7 @@ interface Router {
     )
 
     fun show(
-        notification: Notification,
-        data: Any? = null,
+        data: NotificationParams,
         anchor: Any? = null // should be a view
     )
 

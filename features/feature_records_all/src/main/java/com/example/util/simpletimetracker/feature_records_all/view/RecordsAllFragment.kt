@@ -16,10 +16,9 @@ import com.example.util.simpletimetracker.core.sharedViewModel.RemoveRecordViewM
 import com.example.util.simpletimetracker.feature_records_all.adapter.createRecordAllDateAdapterDelegate
 import com.example.util.simpletimetracker.feature_records_all.viewData.RecordsAllSortOrderViewData
 import com.example.util.simpletimetracker.feature_records_all.viewModel.RecordsAllViewModel
-import com.example.util.simpletimetracker.navigation.Notification
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.RecordsAllParams
-import com.example.util.simpletimetracker.navigation.params.SnackBarParams
+import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import com.example.util.simpletimetracker.feature_records_all.databinding.RecordsAllFragmentBinding as Binding
@@ -96,7 +95,7 @@ class RecordsAllFragment : BaseFragment<Binding>() {
 
     private fun showMessage(message: SnackBarParams?) {
         if (message != null && message.tag == SnackBarParams.TAG.RECORDS_ALL_DELETE) {
-            router.show(Notification.SNACK_BAR, message)
+            router.show(message)
             removeRecordViewModel.onMessageShown()
         }
     }
