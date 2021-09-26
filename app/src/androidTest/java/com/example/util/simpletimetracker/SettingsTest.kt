@@ -616,17 +616,23 @@ class SettingsTest : BaseUiTest() {
         NavUtils.openSettingsScreen()
         onView(withId(R.id.tvSettingsUseProportionalMinutesHint)).perform(nestedScrollTo())
         onView(withId(R.id.checkboxSettingsUseProportionalMinutes)).check(matches(isNotChecked()))
-        checkViewIsDisplayed(allOf(withId(R.id.tvSettingsUseProportionalMinutesHint), withText("1h 15m")))
+        checkViewIsDisplayed(
+            allOf(withId(R.id.tvSettingsUseProportionalMinutesHint), withText("1$hourString 15$minuteString"))
+        )
 
         // Change settings
         clickOnViewWithId(R.id.checkboxSettingsUseProportionalMinutes)
         onView(withId(R.id.checkboxSettingsUseProportionalMinutes)).check(matches(isChecked()))
-        checkViewIsDisplayed(allOf(withId(R.id.tvSettingsUseProportionalMinutesHint), withSubstring("1.25 h")))
+        checkViewIsDisplayed(
+            allOf(withId(R.id.tvSettingsUseProportionalMinutesHint), withSubstring("1.25$hourString"))
+        )
 
         // Change settings
         clickOnViewWithId(R.id.checkboxSettingsUseProportionalMinutes)
         onView(withId(R.id.checkboxSettingsUseProportionalMinutes)).check(matches(isNotChecked()))
-        checkViewIsDisplayed(allOf(withId(R.id.tvSettingsUseProportionalMinutesHint), withText("1h 15m")))
+        checkViewIsDisplayed(
+            allOf(withId(R.id.tvSettingsUseProportionalMinutesHint), withText("1$hourString 15$minuteString"))
+        )
     }
 
     @Test
