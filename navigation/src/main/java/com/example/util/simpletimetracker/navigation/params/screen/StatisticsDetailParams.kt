@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.navigation.params
+package com.example.util.simpletimetracker.navigation.params.screen
 
 import android.os.Parcelable
 import androidx.annotation.ColorInt
@@ -9,7 +9,7 @@ data class StatisticsDetailParams(
     val transitionName: String = "",
     val filter: TypesFilterParams = TypesFilterParams(),
     val preview: Preview? = null
-) : Parcelable {
+) : Parcelable, ScreenParams {
 
     @Parcelize
     data class Preview(

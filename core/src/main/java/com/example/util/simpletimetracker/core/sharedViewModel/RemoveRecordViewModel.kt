@@ -9,7 +9,7 @@ import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.Record
-import com.example.util.simpletimetracker.navigation.params.ChangeRecordParams
+import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordParams
 import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject

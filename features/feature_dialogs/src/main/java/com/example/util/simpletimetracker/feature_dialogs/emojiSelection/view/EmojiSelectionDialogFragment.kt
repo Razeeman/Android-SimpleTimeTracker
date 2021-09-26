@@ -15,7 +15,7 @@ import com.example.util.simpletimetracker.core.dialog.EmojiSelectionDialogListen
 import com.example.util.simpletimetracker.core.extension.getAllFragments
 import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
 import com.example.util.simpletimetracker.feature_dialogs.emojiSelection.viewModel.EmojiSelectionViewModel
-import com.example.util.simpletimetracker.navigation.params.EmojiSelectionDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.EmojiSelectionDialogParams
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
@@ -97,10 +97,8 @@ class EmojiSelectionDialogFragment : BaseBottomSheetFragment<Binding>() {
     companion object {
         private const val ARGS_PARAMS = "args_params"
 
-        fun createBundle(data: Any?): Bundle = Bundle().apply {
-            when (data) {
-                is EmojiSelectionDialogParams -> putParcelable(ARGS_PARAMS, data)
-            }
+        fun createBundle(data: EmojiSelectionDialogParams): Bundle = Bundle().apply {
+            putParcelable(ARGS_PARAMS, data)
         }
     }
 }

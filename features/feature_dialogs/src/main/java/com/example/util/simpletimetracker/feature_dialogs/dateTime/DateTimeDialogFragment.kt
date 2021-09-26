@@ -15,8 +15,8 @@ import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.feature_dialogs.R
 import com.example.util.simpletimetracker.feature_dialogs.databinding.DateTimeDialogFragmentBinding
-import com.example.util.simpletimetracker.navigation.params.DateTimeDialogParams
-import com.example.util.simpletimetracker.navigation.params.DateTimeDialogType
+import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogType
 import com.google.android.material.tabs.TabLayout
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Calendar
@@ -176,10 +176,8 @@ class DateTimeDialogFragment :
     companion object {
         private const val ARGS_PARAMS = "params"
 
-        fun createBundle(data: Any?): Bundle = Bundle().apply {
-            when (data) {
-                is DateTimeDialogParams -> putParcelable(ARGS_PARAMS, data)
-            }
+        fun createBundle(data: DateTimeDialogParams): Bundle = Bundle().apply {
+            putParcelable(ARGS_PARAMS, data)
         }
     }
 }

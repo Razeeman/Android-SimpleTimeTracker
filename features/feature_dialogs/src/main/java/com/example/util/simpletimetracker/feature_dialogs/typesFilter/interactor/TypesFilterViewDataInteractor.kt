@@ -14,7 +14,7 @@ import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RecordTypeCategory
 import com.example.util.simpletimetracker.feature_dialogs.R
 import com.example.util.simpletimetracker.feature_dialogs.typesFilter.mapper.TypesFilterMapper
-import com.example.util.simpletimetracker.navigation.params.TypesFilterParams
+import com.example.util.simpletimetracker.navigation.params.screen.TypesFilterParams
 import javax.inject.Inject
 
 class TypesFilterViewDataInteractor @Inject constructor(

@@ -17,7 +17,7 @@ import com.example.util.simpletimetracker.core.sharedViewModel.RemoveRecordViewM
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_records.extra.RecordsExtra
 import com.example.util.simpletimetracker.feature_records.viewModel.RecordsViewModel
-import com.example.util.simpletimetracker.navigation.params.RecordsParams
+import com.example.util.simpletimetracker.navigation.params.screen.RecordsParams
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import com.example.util.simpletimetracker.feature_records.databinding.RecordsFragmentBinding as Binding

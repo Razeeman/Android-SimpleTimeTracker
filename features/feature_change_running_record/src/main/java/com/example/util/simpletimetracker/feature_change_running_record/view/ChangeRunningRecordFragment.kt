@@ -27,7 +27,7 @@ import com.example.util.simpletimetracker.core.utils.setChooserColor
 import com.example.util.simpletimetracker.feature_views.TransitionNames
 import com.example.util.simpletimetracker.feature_change_running_record.viewData.ChangeRunningRecordViewData
 import com.example.util.simpletimetracker.feature_change_running_record.viewModel.ChangeRunningRecordViewModel
-import com.example.util.simpletimetracker.navigation.params.ChangeRunningRecordParams
+import com.example.util.simpletimetracker.navigation.params.screen.ChangeRunningRecordParams
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
@@ -185,10 +185,8 @@ class ChangeRunningRecordFragment :
     companion object {
         private const val ARGS_PARAMS = "args_running_record_params"
 
-        fun createBundle(data: Any?): Bundle = Bundle().apply {
-            when (data) {
-                is ChangeRunningRecordParams -> putParcelable(ARGS_PARAMS, data)
-            }
+        fun createBundle(data: ChangeRunningRecordParams): Bundle = Bundle().apply {
+            putParcelable(ARGS_PARAMS, data)
         }
     }
 }

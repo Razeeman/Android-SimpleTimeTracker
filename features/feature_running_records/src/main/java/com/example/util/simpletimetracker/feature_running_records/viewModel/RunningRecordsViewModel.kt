@@ -4,22 +4,21 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
-import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.core.extension.toParams
 import com.example.util.simpletimetracker.core.interactor.AddRunningRecordMediator
 import com.example.util.simpletimetracker.core.interactor.RemoveRunningRecordMediator
-import com.example.util.simpletimetracker.feature_views.TransitionNames
-import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
+import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
+import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_running_records.interactor.RunningRecordsViewDataInteractor
 import com.example.util.simpletimetracker.feature_running_records.viewData.RunningRecordTypeAddViewData
 import com.example.util.simpletimetracker.feature_running_records.viewData.RunningRecordViewData
+import com.example.util.simpletimetracker.feature_views.TransitionNames
 import com.example.util.simpletimetracker.navigation.Router
-import com.example.util.simpletimetracker.navigation.Screen
-import com.example.util.simpletimetracker.navigation.params.ChangeRecordTypeParams
-import com.example.util.simpletimetracker.navigation.params.ChangeRunningRecordParams
-import com.example.util.simpletimetracker.navigation.params.RecordTagSelectionParams
+import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTypeParams
+import com.example.util.simpletimetracker.navigation.params.screen.ChangeRunningRecordParams
+import com.example.util.simpletimetracker.navigation.params.screen.RecordTagSelectionParams
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.delay
@@ -53,7 +52,6 @@ class RunningRecordsViewModel @Inject constructor(
 
     fun onRecordTypeLongClick(item: RecordTypeViewData, sharedElements: Map<Any, String>) {
         router.navigate(
-            screen = Screen.CHANGE_RECORD_TYPE,
             data = ChangeRecordTypeParams.Change(
                 transitionName = TransitionNames.RECORD_TYPE + item.id,
                 id = item.id,
@@ -74,7 +72,6 @@ class RunningRecordsViewModel @Inject constructor(
 
     fun onAddRecordTypeClick(item: RunningRecordTypeAddViewData) {
         router.navigate(
-            screen = Screen.CHANGE_RECORD_TYPE,
             data = ChangeRecordTypeParams.New(
                 sizePreview = ChangeRecordTypeParams.SizePreview(
                     width = item.width,
@@ -95,7 +92,6 @@ class RunningRecordsViewModel @Inject constructor(
 
     fun onRunningRecordLongClick(item: RunningRecordViewData, sharedElements: Map<Any, String>) {
         router.navigate(
-            screen = Screen.CHANGE_RECORD_RUNNING,
             data = ChangeRunningRecordParams(
                 id = item.id,
                 preview = ChangeRunningRecordParams.Preview(
@@ -126,10 +122,7 @@ class RunningRecordsViewModel @Inject constructor(
     }
 
     private fun showTagSelection(typeId: Long) {
-        router.navigate(
-            screen = Screen.RECORD_TAG_SELECTION_DIALOG,
-            data = RecordTagSelectionParams(typeId)
-        )
+        router.navigate(RecordTagSelectionParams(typeId))
     }
 
     private fun updateRunningRecords() = viewModelScope.launch {

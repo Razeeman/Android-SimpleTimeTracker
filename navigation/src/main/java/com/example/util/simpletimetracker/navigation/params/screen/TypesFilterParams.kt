@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.navigation.params
+package com.example.util.simpletimetracker.navigation.params.screen
 
 import android.os.Parcelable
 import com.example.util.simpletimetracker.domain.model.ChartFilterType

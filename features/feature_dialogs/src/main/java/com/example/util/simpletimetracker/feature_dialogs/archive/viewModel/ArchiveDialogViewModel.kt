@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.feature_dialogs.archive.interactor.ArchiveDialogViewDataInteractor
-import com.example.util.simpletimetracker.navigation.params.ArchiveDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.ArchiveDialogParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

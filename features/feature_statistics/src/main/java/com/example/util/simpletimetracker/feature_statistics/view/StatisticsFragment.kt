@@ -20,7 +20,7 @@ import com.example.util.simpletimetracker.feature_statistics.adapter.createStati
 import com.example.util.simpletimetracker.feature_statistics.extra.StatisticsExtra
 import com.example.util.simpletimetracker.feature_statistics.viewModel.StatisticsSettingsViewModel
 import com.example.util.simpletimetracker.feature_statistics.viewModel.StatisticsViewModel
-import com.example.util.simpletimetracker.navigation.params.StatisticsParams
+import com.example.util.simpletimetracker.navigation.params.screen.StatisticsParams
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import com.example.util.simpletimetracker.feature_statistics.databinding.StatisticsFragmentBinding as Binding

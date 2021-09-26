@@ -9,10 +9,9 @@ import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.feature_dialogs.csvExportSettings.viewData.CsvExportSettingsViewData
 import com.example.util.simpletimetracker.navigation.Router
-import com.example.util.simpletimetracker.navigation.Screen
-import com.example.util.simpletimetracker.navigation.params.CsvExportSettingsParams
-import com.example.util.simpletimetracker.navigation.params.DateTimeDialogParams
-import com.example.util.simpletimetracker.navigation.params.DateTimeDialogType
+import com.example.util.simpletimetracker.navigation.params.screen.CsvExportSettingsParams
+import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogType
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -43,7 +42,6 @@ class CsvExportSettingsViewModel @Inject constructor(
             val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
 
             router.navigate(
-                Screen.DATE_TIME_DIALOG,
                 DateTimeDialogParams(
                     tag = TIME_STARTED_TAG,
                     timestamp = rangeStart,
@@ -61,7 +59,6 @@ class CsvExportSettingsViewModel @Inject constructor(
             val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
 
             router.navigate(
-                Screen.DATE_TIME_DIALOG,
                 DateTimeDialogParams(
                     tag = TIME_ENDED_TAG,
                     timestamp = rangeEnd,

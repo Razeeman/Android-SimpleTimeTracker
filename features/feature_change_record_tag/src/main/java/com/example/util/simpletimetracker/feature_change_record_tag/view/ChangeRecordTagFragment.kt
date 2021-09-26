@@ -24,7 +24,8 @@ import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.core.utils.BuildVersions
 import com.example.util.simpletimetracker.core.utils.setChooserColor
 import com.example.util.simpletimetracker.feature_change_record_tag.viewModel.ChangeRecordTagViewModel
-import com.example.util.simpletimetracker.navigation.params.ChangeCategoryParams
+import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTagParams
+import com.example.util.simpletimetracker.navigation.params.screen.ChangeTagData
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
@@ -53,8 +54,8 @@ class ChangeRecordTagFragment : BaseFragment<Binding>() {
     }
 
     // TODO by delegate?
-    private val params: ChangeCategoryParams by lazy {
-        arguments?.getParcelable<ChangeCategoryParams>(ARGS_PARAMS) ?: ChangeCategoryParams.New
+    private val params: ChangeTagData by lazy {
+        arguments?.getParcelable<ChangeTagData>(ARGS_PARAMS) ?: ChangeTagData.New
     }
 
     override fun initUi(): Unit = with(binding) {
@@ -66,7 +67,7 @@ class ChangeRecordTagFragment : BaseFragment<Binding>() {
                 .inflateTransition(android.R.transition.move)
         }
 
-        val transitionName: String = (params as? ChangeCategoryParams.Change)?.transitionName.orEmpty()
+        val transitionName: String = (params as? ChangeTagData.Change)?.transitionName.orEmpty()
         ViewCompat.setTransitionName(previewChangeRecordTag, transitionName)
 
         rvChangeRecordTagType.apply {
@@ -114,7 +115,7 @@ class ChangeRecordTagFragment : BaseFragment<Binding>() {
         etChangeRecordTagName.setSelection(item.name.length)
     }
 
-    private fun setPreview() = (params as? ChangeCategoryParams.Change)?.preview?.run {
+    private fun setPreview() = (params as? ChangeTagData.Change)?.preview?.run {
         with(binding.previewChangeRecordTag) {
             itemName = name
             itemColor = color
@@ -137,10 +138,8 @@ class ChangeRecordTagFragment : BaseFragment<Binding>() {
     companion object {
         private const val ARGS_PARAMS = "args_params"
 
-        fun createBundle(data: Any?): Bundle = Bundle().apply {
-            when (data) {
-                is ChangeCategoryParams -> putParcelable(ARGS_PARAMS, data)
-            }
+        fun createBundle(data: ChangeRecordTagParams): Bundle = Bundle().apply {
+            putParcelable(ARGS_PARAMS, data.data)
         }
     }
 }

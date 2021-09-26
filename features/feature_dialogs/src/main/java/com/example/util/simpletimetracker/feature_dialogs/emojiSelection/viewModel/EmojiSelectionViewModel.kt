@@ -10,7 +10,7 @@ import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.feature_base_adapter.emoji.EmojiViewData
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.feature_dialogs.emojiSelection.mapper.EmojiSelectionMapper
-import com.example.util.simpletimetracker.navigation.params.EmojiSelectionDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.EmojiSelectionDialogParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

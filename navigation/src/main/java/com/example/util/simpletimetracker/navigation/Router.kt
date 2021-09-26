@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.activity.ComponentActivity
 import com.example.util.simpletimetracker.navigation.params.action.ActionParams
 import com.example.util.simpletimetracker.navigation.params.notification.NotificationParams
+import com.example.util.simpletimetracker.navigation.params.screen.ScreenParams
 
 interface Router {
 
@@ -13,8 +14,7 @@ interface Router {
     fun bind(activity: Activity)
 
     fun navigate(
-        screen: Screen,
-        data: Any? = null,
+        data: ScreenParams,
         sharedElements: Map<Any, String>? = null
     )
 

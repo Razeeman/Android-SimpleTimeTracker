@@ -1,10 +1,10 @@
-package com.example.util.simpletimetracker.navigation.params
+package com.example.util.simpletimetracker.navigation.params.screen
 
 import android.os.Parcelable
 import androidx.annotation.ColorInt
 import kotlinx.parcelize.Parcelize
 
-sealed class ChangeRecordTypeParams : Parcelable {
+sealed class ChangeRecordTypeParams : ScreenParams, Parcelable {
     abstract val sizePreview: SizePreview
 
     @Parcelize

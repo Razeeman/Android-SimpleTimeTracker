@@ -22,8 +22,8 @@ import com.example.util.simpletimetracker.core.extension.setFullScreen
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
 import com.example.util.simpletimetracker.feature_dialogs.typesFilter.viewModel.TypesFilterViewModel
-import com.example.util.simpletimetracker.navigation.params.TypesFilterDialogParams
-import com.example.util.simpletimetracker.navigation.params.TypesFilterParams
+import com.example.util.simpletimetracker.navigation.params.screen.TypesFilterDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.TypesFilterParams
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
@@ -108,12 +108,8 @@ class TypesFilterDialogFragment : BaseBottomSheetFragment<Binding>() {
     companion object {
         private const val ARGS_PARAMS = "args_params"
 
-        fun createBundle(data: Any?): Bundle = Bundle().apply {
-            when (data) {
-                is TypesFilterDialogParams -> {
-                    putParcelable(ARGS_PARAMS, data.filter)
-                }
-            }
+        fun createBundle(data: TypesFilterDialogParams): Bundle = Bundle().apply {
+            putParcelable(ARGS_PARAMS, data.filter)
         }
     }
 }

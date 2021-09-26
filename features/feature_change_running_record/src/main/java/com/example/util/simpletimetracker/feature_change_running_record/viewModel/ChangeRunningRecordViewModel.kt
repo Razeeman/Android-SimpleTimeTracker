@@ -23,10 +23,9 @@ import com.example.util.simpletimetracker.feature_change_running_record.R
 import com.example.util.simpletimetracker.feature_change_running_record.interactor.ChangeRunningRecordViewDataInteractor
 import com.example.util.simpletimetracker.feature_change_running_record.viewData.ChangeRunningRecordViewData
 import com.example.util.simpletimetracker.navigation.Router
-import com.example.util.simpletimetracker.navigation.Screen
-import com.example.util.simpletimetracker.navigation.params.ChangeRunningRecordParams
-import com.example.util.simpletimetracker.navigation.params.DateTimeDialogParams
-import com.example.util.simpletimetracker.navigation.params.DateTimeDialogType
+import com.example.util.simpletimetracker.navigation.params.screen.ChangeRunningRecordParams
+import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogType
 import com.example.util.simpletimetracker.navigation.params.notification.ToastParams
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelAndJoin
@@ -110,7 +109,6 @@ class ChangeRunningRecordViewModel @Inject constructor(
             val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
 
             router.navigate(
-                Screen.DATE_TIME_DIALOG,
                 DateTimeDialogParams(
                     tag = TIME_STARTED_TAG,
                     timestamp = newTimeStarted,

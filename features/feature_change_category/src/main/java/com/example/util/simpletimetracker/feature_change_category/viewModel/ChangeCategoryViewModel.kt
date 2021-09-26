@@ -21,7 +21,7 @@ import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.feature_change_category.R
 import com.example.util.simpletimetracker.feature_change_category.interactor.ChangeCategoryViewDataInteractor
 import com.example.util.simpletimetracker.navigation.Router
-import com.example.util.simpletimetracker.navigation.params.ChangeCategoryParams
+import com.example.util.simpletimetracker.navigation.params.screen.ChangeTagData
 import com.example.util.simpletimetracker.navigation.params.notification.ToastParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -36,7 +36,7 @@ class ChangeCategoryViewModel @Inject constructor(
     private val resourceRepo: ResourceRepo,
 ) : ViewModel() {
 
-    lateinit var extra: ChangeCategoryParams
+    lateinit var extra: ChangeTagData
 
     val categoryPreview: LiveData<CategoryViewData> by lazy {
         return@lazy MutableLiveData<CategoryViewData>().let { initial ->
@@ -66,7 +66,7 @@ class ChangeCategoryViewModel @Inject constructor(
     val deleteIconVisibility: LiveData<Boolean> by lazy { MutableLiveData(categoryId != 0L) }
     val keyboardVisibility: LiveData<Boolean> by lazy { MutableLiveData(categoryId == 0L) }
 
-    private val categoryId: Long get() = (extra as? ChangeCategoryParams.Change)?.id.orZero()
+    private val categoryId: Long get() = (extra as? ChangeTagData.Change)?.id.orZero()
     private var initialTypes: List<Long> = emptyList()
     private var newName: String = ""
     private var newColorId: Int = (0..ColorMapper.colorsNumber).random()

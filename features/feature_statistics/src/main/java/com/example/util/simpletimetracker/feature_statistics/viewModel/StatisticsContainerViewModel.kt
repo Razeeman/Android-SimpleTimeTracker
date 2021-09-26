@@ -14,9 +14,8 @@ import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.navigation.Router
-import com.example.util.simpletimetracker.navigation.Screen
-import com.example.util.simpletimetracker.navigation.params.DateTimeDialogParams
-import com.example.util.simpletimetracker.navigation.params.DateTimeDialogType
+import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogType
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -94,7 +93,6 @@ class StatisticsContainerViewModel @Inject constructor(
         )
 
         router.navigate(
-            Screen.DATE_TIME_DIALOG,
             DateTimeDialogParams(
                 tag = DATE_TAG,
                 type = DateTimeDialogType.DATE,

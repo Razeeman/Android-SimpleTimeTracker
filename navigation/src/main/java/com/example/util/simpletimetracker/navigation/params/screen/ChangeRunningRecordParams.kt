@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.navigation.params
+package com.example.util.simpletimetracker.navigation.params.screen
 
 import android.os.Parcelable
 import androidx.annotation.ColorInt
@@ -8,7 +8,7 @@ import kotlinx.parcelize.Parcelize
 data class ChangeRunningRecordParams(
     val id: Long = 0,
     val preview: Preview? = null
-) : Parcelable {
+) : Parcelable, ScreenParams {
 
     @Parcelize
     data class Preview(

@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDialogFragment
 import com.example.util.simpletimetracker.core.dialog.StandardDialogListener
 import com.example.util.simpletimetracker.core.extension.getAllFragments
-import com.example.util.simpletimetracker.navigation.params.StandardDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.StandardDialogParams
 
 class StandardDialogFragment :
     AppCompatDialogFragment(),
@@ -70,10 +70,8 @@ class StandardDialogFragment :
     companion object {
         private const val ARGS_PARAMS = "args_params"
 
-        fun createBundle(data: Any?): Bundle = Bundle().apply {
-            when (data) {
-                is StandardDialogParams -> putParcelable(ARGS_PARAMS, data)
-            }
+        fun createBundle(data: StandardDialogParams): Bundle = Bundle().apply {
+            putParcelable(ARGS_PARAMS, data)
         }
     }
 }

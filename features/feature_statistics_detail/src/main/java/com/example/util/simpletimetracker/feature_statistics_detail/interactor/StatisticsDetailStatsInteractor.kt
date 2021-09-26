@@ -10,7 +10,7 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.StatisticsDetailViewDataMapper
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStatsViewData
-import com.example.util.simpletimetracker.navigation.params.TypesFilterParams
+import com.example.util.simpletimetracker.navigation.params.screen.TypesFilterParams
 import javax.inject.Inject
 
 class StatisticsDetailStatsInteractor @Inject constructor(

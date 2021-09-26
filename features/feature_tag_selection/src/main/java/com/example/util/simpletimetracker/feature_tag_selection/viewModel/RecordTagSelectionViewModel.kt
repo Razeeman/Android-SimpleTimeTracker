@@ -10,7 +10,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderView
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.AddRunningRecordMediator
 import com.example.util.simpletimetracker.feature_tag_selection.interactor.RecordTagSelectionViewDataInteractor
-import com.example.util.simpletimetracker.navigation.params.RecordTagSelectionParams
+import com.example.util.simpletimetracker.navigation.params.screen.RecordTagSelectionParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

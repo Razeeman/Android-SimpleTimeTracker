@@ -13,7 +13,7 @@ import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.StatisticsDetailViewDataMapper
 import com.example.util.simpletimetracker.feature_statistics_detail.model.SplitChartGrouping
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartViewData
-import com.example.util.simpletimetracker.navigation.params.TypesFilterParams
+import com.example.util.simpletimetracker.navigation.params.screen.TypesFilterParams
 import java.util.Calendar
 import javax.inject.Inject
 

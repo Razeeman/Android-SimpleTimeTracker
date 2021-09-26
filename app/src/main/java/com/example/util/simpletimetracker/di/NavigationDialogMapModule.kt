@@ -9,12 +9,25 @@ import com.example.util.simpletimetracker.feature_dialogs.emojiSelection.view.Em
 import com.example.util.simpletimetracker.feature_dialogs.recordTagSelection.RecordTagSelectionDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.standard.StandardDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.typesFilter.view.TypesFilterDialogFragment
-import com.example.util.simpletimetracker.navigation.Screen
-import com.example.util.simpletimetracker.navigation.params.NavigationData
+import com.example.util.simpletimetracker.navigation.bundleCreator.BundleCreator
+import com.example.util.simpletimetracker.navigation.bundleCreator.bundleCreatorDelegate
+import com.example.util.simpletimetracker.navigation.params.screen.ArchiveDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.CardOrderDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.CardSizeDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.ChartFilterDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.CsvExportSettingDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.DurationDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.EmojiSelectionDialogParams
+import com.example.util.simpletimetracker.navigation.NavigationData
+import com.example.util.simpletimetracker.navigation.params.screen.RecordTagSelectionParams
+import com.example.util.simpletimetracker.navigation.params.screen.StandardDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.TypesFilterDialogParams
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dagger.multibindings.ClassKey
 import dagger.multibindings.IntoMap
 
 @Module
@@ -23,111 +36,121 @@ class NavigationDialogMapModule {
 
     @IntoMap
     @Provides
-    @ScreenKey(Screen.STANDARD_DIALOG)
+    @ClassKey(StandardDialogParams::class)
     fun standardDialog(): NavigationData {
         return NavigationData(
             R.id.standardDialogFragment,
-            StandardDialogFragment::createBundle
+            bundleCreatorDelegate(StandardDialogFragment::createBundle)
         )
     }
 
     @IntoMap
     @Provides
-    @ScreenKey(Screen.DATE_TIME_DIALOG)
+    @ClassKey(DateTimeDialogParams::class)
     fun dateTimeDialog(): NavigationData {
         return NavigationData(
             R.id.dateTimeDialog,
-            DateTimeDialogFragment::createBundle
+            bundleCreatorDelegate(DateTimeDialogFragment::createBundle)
         )
     }
 
     @IntoMap
     @Provides
-    @ScreenKey(Screen.DURATION_DIALOG)
+    @ClassKey(DurationDialogParams::class)
     fun durationDialog(): NavigationData {
         return NavigationData(
             R.id.durationDialog,
-            DurationDialogFragment::createBundle
+            bundleCreatorDelegate(DurationDialogFragment::createBundle)
         )
     }
 
     @IntoMap
     @Provides
-    @ScreenKey(Screen.CHART_FILTER_DIALOG)
+    @ClassKey(ChartFilterDialogParams::class)
     fun chartFilterDialog(): NavigationData {
         return NavigationData(
             R.id.chartFilerDialogFragment,
-            null
+            BundleCreator.empty()
         )
     }
 
     @IntoMap
     @Provides
-    @ScreenKey(Screen.TYPES_FILTER_DIALOG)
+    @ClassKey(TypesFilterDialogParams::class)
     fun typesFilterDialog(): NavigationData {
         return NavigationData(
             R.id.typesFilterDialogFragment,
-            TypesFilterDialogFragment::createBundle
+            bundleCreatorDelegate(TypesFilterDialogFragment::createBundle)
         )
     }
 
     @IntoMap
     @Provides
-    @ScreenKey(Screen.CARD_SIZE_DIALOG)
+    @ClassKey(CardSizeDialogParams::class)
     fun cardSizeDialog(): NavigationData {
         return NavigationData(
             R.id.cardSizeDialogFragment,
-            null
+            BundleCreator.empty()
         )
     }
 
     @IntoMap
     @Provides
-    @ScreenKey(Screen.CARD_ORDER_DIALOG)
+    @ClassKey(CardOrderDialogParams::class)
     fun cardOrderDialog(): NavigationData {
         return NavigationData(
             R.id.cardOrderDialogFragment,
-            CardOrderDialogFragment::createBundle
+            bundleCreatorDelegate(CardOrderDialogFragment::createBundle)
         )
     }
 
     @IntoMap
     @Provides
-    @ScreenKey(Screen.EMOJI_SELECTION_DIALOG)
+    @ClassKey(EmojiSelectionDialogParams::class)
     fun emojiSelectionDialog(): NavigationData {
         return NavigationData(
             R.id.emojiSelectionDialogFragment,
-            EmojiSelectionDialogFragment::createBundle
+            bundleCreatorDelegate(EmojiSelectionDialogFragment::createBundle)
         )
     }
 
     @IntoMap
     @Provides
-    @ScreenKey(Screen.ARCHIVE_DIALOG)
-    fun archiveDialog(): NavigationData {
+    @ClassKey(ArchiveDialogParams.Activity::class)
+    fun archiveDialogActivity(): NavigationData {
         return NavigationData(
             R.id.archiveDialogFragment,
-            ArchiveDialogFragment::createBundle
+            bundleCreatorDelegate(ArchiveDialogFragment::createBundle)
         )
     }
 
     @IntoMap
     @Provides
-    @ScreenKey(Screen.RECORD_TAG_SELECTION_DIALOG)
+    @ClassKey(ArchiveDialogParams.RecordTag::class)
+    fun archiveDialogRecordTag(): NavigationData {
+        return NavigationData(
+            R.id.archiveDialogFragment,
+            bundleCreatorDelegate(ArchiveDialogFragment::createBundle)
+        )
+    }
+
+    @IntoMap
+    @Provides
+    @ClassKey(RecordTagSelectionParams::class)
     fun recordTagSelectionDialog(): NavigationData {
         return NavigationData(
             R.id.recordTagSelectionDialogFragment,
-            RecordTagSelectionDialogFragment::createBundle
+            bundleCreatorDelegate(RecordTagSelectionDialogFragment::createBundle)
         )
     }
 
     @IntoMap
     @Provides
-    @ScreenKey(Screen.CSV_EXPORT_SETTINGS_DIALOG)
+    @ClassKey(CsvExportSettingDialogParams::class)
     fun csvExportSettingsDialog(): NavigationData {
         return NavigationData(
             R.id.csvExportSettingsDialogFragment,
-            null
+            BundleCreator.empty()
         )
     }
 }

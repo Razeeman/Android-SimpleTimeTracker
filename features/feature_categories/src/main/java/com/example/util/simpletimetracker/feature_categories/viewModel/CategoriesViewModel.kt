@@ -4,23 +4,24 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
-import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
-import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.core.extension.toParams
-import com.example.util.simpletimetracker.feature_views.TransitionNames
 import com.example.util.simpletimetracker.domain.model.TagType
+import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
+import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.feature_categories.interactor.CategoriesViewDataInteractor
 import com.example.util.simpletimetracker.feature_categories.viewData.CategoryAddViewData
+import com.example.util.simpletimetracker.feature_views.TransitionNames
 import com.example.util.simpletimetracker.navigation.Router
-import com.example.util.simpletimetracker.navigation.Screen
-import com.example.util.simpletimetracker.navigation.params.ChangeCategoryParams
+import com.example.util.simpletimetracker.navigation.params.screen.ChangeCategoryParams
+import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTagParams
+import com.example.util.simpletimetracker.navigation.params.screen.ChangeTagData
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class CategoriesViewModel @Inject constructor(
     private val router: Router,
-    private val categoriesViewDataInteractor: CategoriesViewDataInteractor
+    private val categoriesViewDataInteractor: CategoriesViewDataInteractor,
 ) : ViewModel() {
 
     val categories: LiveData<List<ViewHolderType>> by lazy {
@@ -34,9 +35,9 @@ class CategoriesViewModel @Inject constructor(
     }
 
     fun onCategoryClick(item: CategoryViewData, sharedElements: Map<Any, String>) {
-        val screen = when (item) {
-            is CategoryViewData.Activity -> Screen.CHANGE_CATEGORY
-            is CategoryViewData.Record -> Screen.CHANGE_RECORD_TAG
+        val params = when (item) {
+            is CategoryViewData.Activity -> ::ChangeCategoryParams
+            is CategoryViewData.Record -> ::ChangeRecordTagParams
         }
         val icon = (item as? CategoryViewData.Record)?.icon?.toParams()
         val transitionName = when (item) {
@@ -45,14 +46,15 @@ class CategoriesViewModel @Inject constructor(
         } + item.id
 
         router.navigate(
-            screen = screen,
-            data = ChangeCategoryParams.Change(
-                transitionName = transitionName,
-                id = item.id,
-                preview = ChangeCategoryParams.Change.Preview(
-                    name = item.name,
-                    color = item.color,
-                    icon = icon
+            data = params(
+                ChangeTagData.Change(
+                    transitionName = transitionName,
+                    id = item.id,
+                    preview = ChangeTagData.Change.Preview(
+                        name = item.name,
+                        color = item.color,
+                        icon = icon
+                    )
                 )
             ),
             sharedElements = sharedElements
@@ -60,14 +62,13 @@ class CategoriesViewModel @Inject constructor(
     }
 
     fun onAddCategoryClick(viewData: CategoryAddViewData) {
-        val screen = when (viewData.type) {
-            TagType.RECORD_TYPE -> Screen.CHANGE_CATEGORY
-            TagType.RECORD -> Screen.CHANGE_RECORD_TAG
+        val params = when (viewData.type) {
+            TagType.RECORD_TYPE -> ::ChangeCategoryParams
+            TagType.RECORD -> ::ChangeRecordTagParams
         }
 
         router.navigate(
-            screen = screen,
-            data = ChangeCategoryParams.New
+            data = params(ChangeTagData.New)
         )
     }
 

@@ -21,7 +21,7 @@ import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.feature_change_record_tag.R
 import com.example.util.simpletimetracker.feature_change_record_tag.mapper.ChangeRecordTagMapper
 import com.example.util.simpletimetracker.navigation.Router
-import com.example.util.simpletimetracker.navigation.params.ChangeCategoryParams
+import com.example.util.simpletimetracker.navigation.params.screen.ChangeTagData
 import com.example.util.simpletimetracker.navigation.params.notification.ToastParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -38,7 +38,7 @@ class ChangeRecordTagViewModel @Inject constructor(
     private val resourceRepo: ResourceRepo
 ) : ViewModel() {
 
-    lateinit var extra: ChangeCategoryParams
+    lateinit var extra: ChangeTagData
 
     val preview: LiveData<CategoryViewData.Record> by lazy {
         return@lazy MutableLiveData<CategoryViewData.Record>().let { initial ->
@@ -62,7 +62,7 @@ class ChangeRecordTagViewModel @Inject constructor(
     val keyboardVisibility: LiveData<Boolean> by lazy { MutableLiveData(recordTagId == 0L) }
     val typesChooserVisibility: LiveData<Boolean> by lazy { MutableLiveData(recordTagId == 0L) }
 
-    private val recordTagId: Long get() = (extra as? ChangeCategoryParams.Change)?.id.orZero()
+    private val recordTagId: Long get() = (extra as? ChangeTagData.Change)?.id.orZero()
     private var newName: String = ""
     private var newTypeId: Long = 0L
 

@@ -16,7 +16,7 @@ import com.example.util.simpletimetracker.feature_settings.viewData.FirstDayOfWe
 import com.example.util.simpletimetracker.feature_settings.viewModel.SettingsViewModel
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.feature_views.extension.visible
-import com.example.util.simpletimetracker.navigation.params.CsvExportSettingsParams
+import com.example.util.simpletimetracker.navigation.params.screen.CsvExportSettingsParams
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import com.example.util.simpletimetracker.feature_settings.databinding.SettingsFragmentBinding as Binding

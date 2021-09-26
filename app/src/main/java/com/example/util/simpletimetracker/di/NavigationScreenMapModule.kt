@@ -8,12 +8,24 @@ import com.example.util.simpletimetracker.feature_change_record_type.view.Change
 import com.example.util.simpletimetracker.feature_change_running_record.view.ChangeRunningRecordFragment
 import com.example.util.simpletimetracker.feature_records_all.view.RecordsAllFragment
 import com.example.util.simpletimetracker.feature_statistics_detail.view.StatisticsDetailFragment
-import com.example.util.simpletimetracker.navigation.Screen
-import com.example.util.simpletimetracker.navigation.params.NavigationData
+import com.example.util.simpletimetracker.navigation.bundleCreator.BundleCreator
+import com.example.util.simpletimetracker.navigation.bundleCreator.bundleCreatorDelegate
+import com.example.util.simpletimetracker.navigation.params.screen.ArchiveParams
+import com.example.util.simpletimetracker.navigation.params.screen.CategoriesParams
+import com.example.util.simpletimetracker.navigation.params.screen.ChangeCategoryParams
+import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordFromMainParams
+import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordFromRecordsAllParams
+import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTagParams
+import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTypeParams
+import com.example.util.simpletimetracker.navigation.params.screen.ChangeRunningRecordParams
+import com.example.util.simpletimetracker.navigation.NavigationData
+import com.example.util.simpletimetracker.navigation.params.screen.RecordsAllParams
+import com.example.util.simpletimetracker.navigation.params.screen.StatisticsDetailParams
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dagger.multibindings.ClassKey
 import dagger.multibindings.IntoMap
 
 @Module
@@ -22,101 +34,111 @@ class NavigationScreenMapModule {
 
     @IntoMap
     @Provides
-    @ScreenKey(Screen.CHANGE_RECORD_TYPE)
-    fun changeRecordType(): NavigationData {
+    @ClassKey(ChangeRecordTypeParams.Change::class)
+    fun changeRecordTypeChange(): NavigationData {
         return NavigationData(
             R.id.action_mainFragment_to_changeRecordTypeFragment,
-            ChangeRecordTypeFragment::createBundle
+            bundleCreatorDelegate(ChangeRecordTypeFragment::createBundle)
         )
     }
 
     @IntoMap
     @Provides
-    @ScreenKey(Screen.CHANGE_RECORD_RUNNING)
+    @ClassKey(ChangeRecordTypeParams.New::class)
+    fun changeRecordTypeNew(): NavigationData {
+        return NavigationData(
+            R.id.action_mainFragment_to_changeRecordTypeFragment,
+            bundleCreatorDelegate(ChangeRecordTypeFragment::createBundle)
+        )
+    }
+
+    @IntoMap
+    @Provides
+    @ClassKey(ChangeRunningRecordParams::class)
     fun changeRecordRunning(): NavigationData {
         return NavigationData(
             R.id.action_mainFragment_to_changeRunningRecordFragment,
-            ChangeRunningRecordFragment::createBundle
+            bundleCreatorDelegate(ChangeRunningRecordFragment::createBundle)
         )
     }
 
     @IntoMap
     @Provides
-    @ScreenKey(Screen.CHANGE_RECORD_FROM_MAIN)
+    @ClassKey(ChangeRecordFromMainParams::class)
     fun changeRecordFromMain(): NavigationData {
         return NavigationData(
             R.id.action_mainFragment_to_changeRecordFragment,
-            ChangeRecordFragment::createBundle
+            bundleCreatorDelegate(ChangeRecordFragment::createBundle)
         )
     }
 
     @IntoMap
     @Provides
-    @ScreenKey(Screen.CHANGE_RECORD_FROM_RECORDS_ALL)
+    @ClassKey(ChangeRecordFromRecordsAllParams::class)
     fun changeRecordFromRecordsAll(): NavigationData {
         return NavigationData(
             R.id.action_recordsAllFragment_to_changeRecordFragment,
-            ChangeRecordFragment::createBundle
+            bundleCreatorDelegate(ChangeRecordFragment::createBundle)
         )
     }
 
     @IntoMap
     @Provides
-    @ScreenKey(Screen.STATISTICS_DETAIL)
+    @ClassKey(StatisticsDetailParams::class)
     fun statisticsDetail(): NavigationData {
         return NavigationData(
             R.id.action_mainFragment_to_statisticsDetailFragment,
-            StatisticsDetailFragment::createBundle
+            bundleCreatorDelegate(StatisticsDetailFragment::createBundle)
         )
     }
 
     @IntoMap
     @Provides
-    @ScreenKey(Screen.RECORDS_ALL)
+    @ClassKey(RecordsAllParams::class)
     fun recordsAll(): NavigationData {
         return NavigationData(
             R.id.action_statisticsDetailFragment_to_recordsAllFragment,
-            RecordsAllFragment::createBundle
+            bundleCreatorDelegate(RecordsAllFragment::createBundle)
         )
     }
 
     @IntoMap
     @Provides
-    @ScreenKey(Screen.CATEGORIES)
+    @ClassKey(CategoriesParams::class)
     fun categories(): NavigationData {
         return NavigationData(
             R.id.action_mainFragment_to_categoriesFragment,
-            null
+            BundleCreator.empty()
         )
     }
 
     @IntoMap
     @Provides
-    @ScreenKey(Screen.ARCHIVE)
+    @ClassKey(ArchiveParams::class)
     fun archive(): NavigationData {
         return NavigationData(
             R.id.action_mainFragment_to_archiveFragment,
-            null
+            BundleCreator.empty()
         )
     }
 
     @IntoMap
     @Provides
-    @ScreenKey(Screen.CHANGE_CATEGORY)
+    @ClassKey(ChangeCategoryParams::class)
     fun changeCategory(): NavigationData {
         return NavigationData(
             R.id.action_categoriesFragment_to_changeCategoryFragment,
-            ChangeCategoryFragment::createBundle
+            bundleCreatorDelegate(ChangeCategoryFragment::createBundle)
         )
     }
 
     @IntoMap
     @Provides
-    @ScreenKey(Screen.CHANGE_RECORD_TAG)
+    @ClassKey(ChangeRecordTagParams::class)
     fun changeRecordTag(): NavigationData {
         return NavigationData(
             R.id.action_categoriesFragment_to_changeRecordTagFragment,
-            ChangeRecordTagFragment::createBundle
+            bundleCreatorDelegate(ChangeRecordTagFragment::createBundle)
         )
     }
 }

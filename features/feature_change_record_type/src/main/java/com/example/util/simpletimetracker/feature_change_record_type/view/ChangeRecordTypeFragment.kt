@@ -8,6 +8,18 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.transition.TransitionInflater
+import com.example.util.simpletimetracker.core.base.BaseFragment
+import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
+import com.example.util.simpletimetracker.core.dialog.DurationDialogListener
+import com.example.util.simpletimetracker.core.dialog.EmojiSelectionDialogListener
+import com.example.util.simpletimetracker.core.extension.hideKeyboard
+import com.example.util.simpletimetracker.core.extension.observeOnce
+import com.example.util.simpletimetracker.core.extension.showKeyboard
+import com.example.util.simpletimetracker.core.extension.toViewData
+import com.example.util.simpletimetracker.core.repo.DeviceRepo
+import com.example.util.simpletimetracker.core.utils.BuildVersions
+import com.example.util.simpletimetracker.core.utils.setChooserColor
+import com.example.util.simpletimetracker.domain.model.IconEmojiType
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_base_adapter.category.createCategoryAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.color.createColorAdapterDelegate
@@ -15,27 +27,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.divider.createDiv
 import com.example.util.simpletimetracker.feature_base_adapter.emoji.createEmojiAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.info.createInfoAdapterDelegate
-import com.example.util.simpletimetracker.core.base.BaseFragment
-import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
-import com.example.util.simpletimetracker.core.dialog.DurationDialogListener
-import com.example.util.simpletimetracker.core.dialog.EmojiSelectionDialogListener
-import com.example.util.simpletimetracker.feature_views.extension.dpToPx
-import com.example.util.simpletimetracker.core.extension.hideKeyboard
-import com.example.util.simpletimetracker.core.extension.observeOnce
-import com.example.util.simpletimetracker.feature_views.extension.pxToDp
-import com.example.util.simpletimetracker.feature_views.extension.rotateDown
-import com.example.util.simpletimetracker.feature_views.extension.rotateUp
-import com.example.util.simpletimetracker.feature_views.extension.setOnClick
-import com.example.util.simpletimetracker.feature_views.extension.setSpanSizeLookup
-import com.example.util.simpletimetracker.core.extension.showKeyboard
-import com.example.util.simpletimetracker.core.extension.toViewData
-import com.example.util.simpletimetracker.feature_views.extension.updatePadding
-import com.example.util.simpletimetracker.feature_views.extension.visible
-import com.example.util.simpletimetracker.core.repo.DeviceRepo
-import com.example.util.simpletimetracker.core.utils.BuildVersions
-import com.example.util.simpletimetracker.core.utils.setChooserColor
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
-import com.example.util.simpletimetracker.domain.model.IconEmojiType
 import com.example.util.simpletimetracker.feature_change_record_type.R
 import com.example.util.simpletimetracker.feature_change_record_type.adapter.createChangeRecordTypeIconAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record_type.adapter.createChangeRecordTypeIconCategoryAdapterDelegate
@@ -43,7 +35,15 @@ import com.example.util.simpletimetracker.feature_change_record_type.adapter.cre
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconCategoryInfoViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeScrollViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewModel.ChangeRecordTypeViewModel
-import com.example.util.simpletimetracker.navigation.params.ChangeRecordTypeParams
+import com.example.util.simpletimetracker.feature_views.extension.dpToPx
+import com.example.util.simpletimetracker.feature_views.extension.pxToDp
+import com.example.util.simpletimetracker.feature_views.extension.rotateDown
+import com.example.util.simpletimetracker.feature_views.extension.rotateUp
+import com.example.util.simpletimetracker.feature_views.extension.setOnClick
+import com.example.util.simpletimetracker.feature_views.extension.setSpanSizeLookup
+import com.example.util.simpletimetracker.feature_views.extension.updatePadding
+import com.example.util.simpletimetracker.feature_views.extension.visible
+import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTypeParams
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
@@ -276,10 +276,8 @@ class ChangeRecordTypeFragment :
         private const val ARGS_PARAMS = "args_params"
         private const val DELETE_BUTTON_SIZE = 72 // TODO get from dimens or viewModel
 
-        fun createBundle(data: Any?): Bundle = Bundle().apply {
-            when (data) {
-                is ChangeRecordTypeParams -> putParcelable(ARGS_PARAMS, data)
-            }
+        fun createBundle(data: ChangeRecordTypeParams): Bundle = Bundle().apply {
+            putParcelable(ARGS_PARAMS, data)
         }
     }
 }

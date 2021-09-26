@@ -3,7 +3,7 @@ package com.example.util.simpletimetracker.feature_records.adapter
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.util.simpletimetracker.feature_records.view.RecordsFragment
-import com.example.util.simpletimetracker.navigation.params.RecordsParams
+import com.example.util.simpletimetracker.navigation.params.screen.RecordsParams
 
 class RecordsContainerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 

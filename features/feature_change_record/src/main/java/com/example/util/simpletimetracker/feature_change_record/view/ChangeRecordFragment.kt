@@ -29,7 +29,8 @@ import com.example.util.simpletimetracker.core.sharedViewModel.RemoveRecordViewM
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordViewData
 import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordViewModel
-import com.example.util.simpletimetracker.navigation.params.ChangeRecordParams
+import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordParams
+import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordsFromScreen
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
@@ -203,10 +204,8 @@ class ChangeRecordFragment :
     companion object {
         private const val ARGS_PARAMS = "args_change_record_params"
 
-        fun createBundle(data: Any?): Bundle = Bundle().apply {
-            when (data) {
-                is ChangeRecordParams -> putParcelable(ARGS_PARAMS, data)
-            }
+        fun createBundle(data: ChangeRecordsFromScreen): Bundle = Bundle().apply {
+            putParcelable(ARGS_PARAMS, data.params)
         }
     }
 }

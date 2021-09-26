@@ -1,7 +1,7 @@
 package com.example.util.simpletimetracker.core.extension
 
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
-import com.example.util.simpletimetracker.navigation.params.RecordTypeIconParams
+import com.example.util.simpletimetracker.navigation.params.screen.RecordTypeIconParams
 
 fun RecordTypeIconParams.toViewData(): RecordTypeIcon {
     return when (this) {

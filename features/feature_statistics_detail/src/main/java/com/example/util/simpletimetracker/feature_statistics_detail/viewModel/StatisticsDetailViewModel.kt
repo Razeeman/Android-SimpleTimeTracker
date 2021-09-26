@@ -29,13 +29,12 @@ import com.example.util.simpletimetracker.feature_statistics_detail.viewData.Sta
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailSplitGroupingViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStatsViewData
 import com.example.util.simpletimetracker.navigation.Router
-import com.example.util.simpletimetracker.navigation.Screen
-import com.example.util.simpletimetracker.navigation.params.DateTimeDialogParams
-import com.example.util.simpletimetracker.navigation.params.DateTimeDialogType
-import com.example.util.simpletimetracker.navigation.params.RecordsAllParams
-import com.example.util.simpletimetracker.navigation.params.StatisticsDetailParams
-import com.example.util.simpletimetracker.navigation.params.TypesFilterDialogParams
-import com.example.util.simpletimetracker.navigation.params.TypesFilterParams
+import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogType
+import com.example.util.simpletimetracker.navigation.params.screen.RecordsAllParams
+import com.example.util.simpletimetracker.navigation.params.screen.StatisticsDetailParams
+import com.example.util.simpletimetracker.navigation.params.screen.TypesFilterDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.TypesFilterParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -105,10 +104,7 @@ class StatisticsDetailViewModel @Inject constructor(
     }
 
     fun onFilterClick() {
-        router.navigate(
-            Screen.TYPES_FILTER_DIALOG,
-            TypesFilterDialogParams(typesFilter)
-        )
+        router.navigate(TypesFilterDialogParams(typesFilter))
     }
 
     fun onTypesFilterSelected(newFilter: TypesFilterParams) {
@@ -148,7 +144,6 @@ class StatisticsDetailViewModel @Inject constructor(
             val range = timeMapper.getRangeStartAndEnd(rangeLength, rangePosition, firstDayOfWeek)
 
             router.navigate(
-                Screen.RECORDS_ALL,
                 RecordsAllParams(
                     filter = typesFilter,
                     rangeStart = range.first,
@@ -207,7 +202,6 @@ class StatisticsDetailViewModel @Inject constructor(
         )
 
         router.navigate(
-            Screen.DATE_TIME_DIALOG,
             DateTimeDialogParams(
                 tag = DATE_TAG,
                 type = DateTimeDialogType.DATE,

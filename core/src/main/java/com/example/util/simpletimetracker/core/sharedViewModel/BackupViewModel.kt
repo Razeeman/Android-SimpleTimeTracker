@@ -13,9 +13,8 @@ import com.example.util.simpletimetracker.domain.resolver.BackupRepo
 import com.example.util.simpletimetracker.domain.resolver.CsvRepo
 import com.example.util.simpletimetracker.navigation.RequestCode
 import com.example.util.simpletimetracker.navigation.Router
-import com.example.util.simpletimetracker.navigation.Screen
-import com.example.util.simpletimetracker.navigation.params.CsvExportSettingsParams
-import com.example.util.simpletimetracker.navigation.params.StandardDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.CsvExportSettingsParams
+import com.example.util.simpletimetracker.navigation.params.screen.StandardDialogParams
 import com.example.util.simpletimetracker.navigation.params.action.CreateCsvFileParams
 import com.example.util.simpletimetracker.navigation.params.action.CreateFileParams
 import com.example.util.simpletimetracker.navigation.params.action.OpenFileParams
@@ -42,7 +41,6 @@ class BackupViewModel @Inject constructor(
 
     fun onRestoreClick() {
         router.navigate(
-            Screen.STANDARD_DIALOG,
             StandardDialogParams(
                 tag = ALERT_DIALOG_TAG,
                 message = resourceRepo.getString(R.string.settings_dialog_message),

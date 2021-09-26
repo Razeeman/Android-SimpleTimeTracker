@@ -1,16 +1,16 @@
-package com.example.util.simpletimetracker.navigation.params
+package com.example.util.simpletimetracker.navigation.params.screen
 
 import android.os.Parcelable
 import androidx.annotation.ColorInt
 import kotlinx.parcelize.Parcelize
 
-sealed class ChangeCategoryParams : Parcelable {
+sealed class ChangeTagData : Parcelable {
     @Parcelize
     data class Change(
         val transitionName: String,
         val id: Long,
         val preview: Preview? = null
-    ) : ChangeCategoryParams() {
+    ) : ChangeTagData() {
 
         @Parcelize
         data class Preview(
@@ -21,5 +21,5 @@ sealed class ChangeCategoryParams : Parcelable {
     }
 
     @Parcelize
-    object New : ChangeCategoryParams()
+    object New : ChangeTagData()
 }

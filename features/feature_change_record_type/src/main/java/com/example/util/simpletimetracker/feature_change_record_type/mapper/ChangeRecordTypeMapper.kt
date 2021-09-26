@@ -18,7 +18,7 @@ import com.example.util.simpletimetracker.feature_change_record_type.viewData.Ch
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconSwitchViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconTypeViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconViewData
-import com.example.util.simpletimetracker.navigation.params.EmojiSelectionDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.EmojiSelectionDialogParams
 import javax.inject.Inject
 
 class ChangeRecordTypeMapper @Inject constructor(

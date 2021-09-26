@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.navigation.params
+package com.example.util.simpletimetracker.navigation.params.screen
 
 import android.os.Parcelable
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
@@ -11,4 +11,4 @@ data class DateTimeDialogParams(
     val type: DateTimeDialogType = DateTimeDialogType.DATETIME(),
     val timestamp: Long = 0,
     val firstDayOfWeek: DayOfWeek = DayOfWeek.MONDAY,
-) : Parcelable
+) : Parcelable, ScreenParams

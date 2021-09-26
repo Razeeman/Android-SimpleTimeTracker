@@ -11,7 +11,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.recordType.Record
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.CardOrder
-import com.example.util.simpletimetracker.navigation.params.CardOrderDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.CardOrderDialogParams
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject

@@ -14,7 +14,7 @@ import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.ArchiveDialogListener
 import com.example.util.simpletimetracker.core.dialog.StandardDialogListener
 import com.example.util.simpletimetracker.feature_archive.viewModel.ArchiveViewModel
-import com.example.util.simpletimetracker.navigation.params.ArchiveDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.ArchiveDialogParams
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager

@@ -4,12 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
-import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
-import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
-import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
@@ -17,10 +13,13 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.feature_archive.R
 import com.example.util.simpletimetracker.feature_archive.interactor.ArchiveViewDataInteractor
+import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
+import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
+import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.navigation.Router
-import com.example.util.simpletimetracker.navigation.Screen
-import com.example.util.simpletimetracker.navigation.params.ArchiveDialogParams
-import com.example.util.simpletimetracker.navigation.params.StandardDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.ArchiveDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.StandardDialogParams
 import com.example.util.simpletimetracker.navigation.params.notification.ToastParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -48,14 +47,12 @@ class ArchiveViewModel @Inject constructor(
 
     fun onRecordTypeClick(item: RecordTypeViewData) {
         router.navigate(
-            screen = Screen.ARCHIVE_DIALOG,
             data = ArchiveDialogParams.Activity(item.id)
         )
     }
 
     fun onCategoryClick(item: CategoryViewData) {
         if (item is CategoryViewData.Record) router.navigate(
-            screen = Screen.ARCHIVE_DIALOG,
             data = ArchiveDialogParams.RecordTag(item.id)
         )
     }
@@ -65,7 +62,6 @@ class ArchiveViewModel @Inject constructor(
             if (params == null) return@launch
 
             router.navigate(
-                Screen.STANDARD_DIALOG,
                 StandardDialogParams(
                     tag = ALERT_DIALOG_TAG,
                     data = params,

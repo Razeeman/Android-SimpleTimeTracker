@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.navigation.params
+package com.example.util.simpletimetracker.navigation.params.screen
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
@@ -11,4 +11,4 @@ data class StandardDialogParams(
     val message: String = "",
     val btnPositive: String = "",
     val btnNegative: String = ""
-) : Parcelable
+) : Parcelable, ScreenParams

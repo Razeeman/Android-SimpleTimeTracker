@@ -10,7 +10,7 @@ import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
 import com.example.util.simpletimetracker.feature_dialogs.R
 import com.example.util.simpletimetracker.navigation.Screen
 import com.example.util.simpletimetracker.navigation.ScreenFactory
-import com.example.util.simpletimetracker.navigation.params.RecordTagSelectionParams
+import com.example.util.simpletimetracker.navigation.params.screen.RecordTagSelectionParams
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import com.example.util.simpletimetracker.feature_dialogs.databinding.RecordTagSelectionDialogFragmentBinding as Binding
@@ -52,10 +52,8 @@ class RecordTagSelectionDialogFragment :
     companion object {
         private const val ARGS_PARAMS = "args_params"
 
-        fun createBundle(data: Any?): Bundle = Bundle().apply {
-            when (data) {
-                is RecordTagSelectionParams -> putParcelable(ARGS_PARAMS, data)
-            }
+        fun createBundle(data: RecordTagSelectionParams): Bundle = Bundle().apply {
+            putParcelable(ARGS_PARAMS, data)
         }
     }
 }

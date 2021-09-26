@@ -15,9 +15,12 @@ import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
 import com.example.util.simpletimetracker.feature_settings.viewData.CardOrderViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.FirstDayOfWeekViewData
 import com.example.util.simpletimetracker.navigation.Router
-import com.example.util.simpletimetracker.navigation.Screen
-import com.example.util.simpletimetracker.navigation.params.CardOrderDialogParams
-import com.example.util.simpletimetracker.navigation.params.DurationDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.ArchiveParams
+import com.example.util.simpletimetracker.navigation.params.screen.CardOrderDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.CardSizeDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.CategoriesParams
+import com.example.util.simpletimetracker.navigation.params.screen.CsvExportSettingDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.DurationDialogParams
 import com.example.util.simpletimetracker.navigation.params.action.OpenMarketParams
 import com.example.util.simpletimetracker.navigation.params.action.SendEmailParams
 import com.example.util.simpletimetracker.navigation.params.notification.ToastParams
@@ -161,7 +164,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun onExportCsvClick() {
-        router.navigate(Screen.CSV_EXPORT_SETTINGS_DIALOG)
+        router.navigate(CsvExportSettingDialogParams)
     }
 
     fun onRateClick() {
@@ -234,7 +237,6 @@ class SettingsViewModel @Inject constructor(
     fun onInactivityReminderClicked() {
         viewModelScope.launch {
             router.navigate(
-                Screen.DURATION_DIALOG,
                 DurationDialogParams(
                     tag = INACTIVITY_DURATION_DIALOG_TAG,
                     duration = prefsInteractor.getInactivityReminderDuration()
@@ -281,15 +283,15 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun onChangeCardSizeClick() {
-        router.navigate(Screen.CARD_SIZE_DIALOG)
+        router.navigate(CardSizeDialogParams)
     }
 
     fun onEditCategoriesClick() {
-        router.navigate(Screen.CATEGORIES)
+        router.navigate(CategoriesParams)
     }
 
     fun onArchiveClick() {
-        router.navigate(Screen.ARCHIVE)
+        router.navigate(ArchiveParams)
     }
 
     fun onDurationSet(tag: String?, duration: Long) {
@@ -318,7 +320,6 @@ class SettingsViewModel @Inject constructor(
 
     private fun openCardOrderDialog(cardOrder: CardOrder) {
         router.navigate(
-            Screen.CARD_ORDER_DIALOG,
             CardOrderDialogParams(cardOrder)
         )
     }

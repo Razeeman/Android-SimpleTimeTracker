@@ -2,7 +2,7 @@ package com.example.util.simpletimetracker.core.extension
 
 import android.os.StrictMode
 import com.example.util.simpletimetracker.domain.model.Record
-import com.example.util.simpletimetracker.navigation.params.TypesFilterParams
+import com.example.util.simpletimetracker.navigation.params.screen.TypesFilterParams
 import java.util.Calendar
 
 inline fun <T, R> T.allowDiskWrite(block: T.() -> R): R {

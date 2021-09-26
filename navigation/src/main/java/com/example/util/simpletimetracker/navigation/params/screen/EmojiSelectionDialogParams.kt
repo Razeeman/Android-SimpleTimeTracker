@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.navigation.params
+package com.example.util.simpletimetracker.navigation.params.screen
 
 import android.graphics.Color
 import android.os.Parcelable
@@ -9,4 +9,4 @@ import kotlinx.parcelize.Parcelize
 data class EmojiSelectionDialogParams(
     @ColorInt val color: Int = Color.BLACK,
     val emojiCodes: List<String> = emptyList()
-) : Parcelable
+) : Parcelable, ScreenParams

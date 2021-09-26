@@ -3,7 +3,7 @@ package com.example.util.simpletimetracker.feature_statistics.adapter
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.util.simpletimetracker.feature_statistics.view.StatisticsFragment
-import com.example.util.simpletimetracker.navigation.params.StatisticsParams
+import com.example.util.simpletimetracker.navigation.params.screen.StatisticsParams
 
 class StatisticsContainerAdapter(
     fragment: Fragment

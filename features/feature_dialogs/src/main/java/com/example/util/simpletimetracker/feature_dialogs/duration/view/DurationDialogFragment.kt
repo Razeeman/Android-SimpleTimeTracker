@@ -17,7 +17,7 @@ import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_dialogs.duration.extra.DurationPickerExtra
 import com.example.util.simpletimetracker.feature_dialogs.duration.viewModel.DurationPickerViewModel
-import com.example.util.simpletimetracker.navigation.params.DurationDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.DurationDialogParams
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import com.example.util.simpletimetracker.feature_dialogs.databinding.DurationDialogFragmentBinding as Binding
@@ -91,13 +91,9 @@ class DurationDialogFragment : BaseBottomSheetFragment<Binding>() {
         private const val ARGS_TAG = "tag"
         private const val ARGS_DURATION = "duration"
 
-        fun createBundle(data: Any?): Bundle = Bundle().apply {
-            when (data) {
-                is DurationDialogParams -> {
-                    putString(ARGS_TAG, data.tag)
-                    putLong(ARGS_DURATION, data.duration)
-                }
-            }
+        fun createBundle(data: DurationDialogParams): Bundle = Bundle().apply {
+            putString(ARGS_TAG, data.tag)
+            putLong(ARGS_DURATION, data.duration)
         }
     }
 }
