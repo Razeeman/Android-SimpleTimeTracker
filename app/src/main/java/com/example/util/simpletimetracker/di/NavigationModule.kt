@@ -22,21 +22,21 @@ interface NavigationModule {
 
     @Binds
     @Singleton
-    fun getScreenResolver(screenResolverImpl: ScreenResolverImpl): ScreenResolver
+    fun ScreenResolverImpl.bindScreenResolver(): ScreenResolver
 
     @Binds
     @Singleton
-    fun getScreenFactory(screenFactoryImpl: ScreenFactoryImpl): ScreenFactory
+    fun ScreenFactoryImpl.bindScreenFactory(): ScreenFactory
 
     @Binds
     @Singleton
-    fun getActionResolver(actionResolverImpl: ActionResolverImpl): ActionResolver
+    fun ActionResolverImpl.bindActionResolver(): ActionResolver
 
     @Binds
     @Singleton
-    fun getNotificationResolver(notificationResolverImpl: NotificationResolverImpl): NotificationResolver
+    fun NotificationResolverImpl.bindNotificationResolver(): NotificationResolver
 
     @Binds
     @Singleton
-    fun getRouter(routerImpl: RouterImpl): Router
+    fun RouterImpl.bindRouter(): Router
 }

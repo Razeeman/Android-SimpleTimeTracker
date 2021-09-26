@@ -13,14 +13,14 @@ import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class NotificationModule {
+interface NotificationModule {
 
     @Binds
-    abstract fun getTypeInteractor(impl: NotificationTypeInteractorImpl): NotificationTypeInteractor
+    fun NotificationTypeInteractorImpl.bindNotificationTypeInteractor(): NotificationTypeInteractor
 
     @Binds
-    abstract fun getInactivityInteractor(impl: NotificationInactivityInteractorImpl): NotificationInactivityInteractor
+    fun NotificationInactivityInteractorImpl.bindNotificationInactivityInteractor(): NotificationInactivityInteractor
 
     @Binds
-    abstract fun getGoalTimeInteractor(impl: NotificationGoalTimeInteractorImpl): NotificationGoalTimeInteractor
+    fun NotificationGoalTimeInteractorImpl.bindNotificationGoalTimeInteractor(): NotificationGoalTimeInteractor
 }

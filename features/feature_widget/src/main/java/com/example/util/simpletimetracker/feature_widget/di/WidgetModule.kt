@@ -9,8 +9,8 @@ import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class WidgetModule {
+interface WidgetModule {
 
     @Binds
-    abstract fun getWidgetInteractor(impl: WidgetInteractorImpl): WidgetInteractor
+    fun WidgetInteractorImpl.bindWidgetInteractor(): WidgetInteractor
 }

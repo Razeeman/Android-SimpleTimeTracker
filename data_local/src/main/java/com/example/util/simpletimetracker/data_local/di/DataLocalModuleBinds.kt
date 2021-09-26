@@ -32,53 +32,53 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class DataLocalModuleBinds {
+interface DataLocalModuleBinds {
 
     @Binds
     @Singleton
-    abstract fun getRecordRepo(impl: RecordRepoImpl): RecordRepo
+    fun RecordRepoImpl.bindRecordRepo(): RecordRepo
 
     @Binds
     @Singleton
-    abstract fun getRecordCacheRepo(impl: RecordCacheRepoImpl): RecordCacheRepo
+    fun RecordCacheRepoImpl.bindRecordCacheRepo(): RecordCacheRepo
 
     @Binds
     @Singleton
-    abstract fun getRecordTypeRepo(impl: RecordTypeRepoImpl): RecordTypeRepo
+    fun RecordTypeRepoImpl.bindRecordTypeRepo(): RecordTypeRepo
 
     @Binds
     @Singleton
-    abstract fun getRecordTypeCacheRepo(impl: RecordTypeCacheRepoImpl): RecordTypeCacheRepo
+    fun RecordTypeCacheRepoImpl.bindRecordTypeCacheRepo(): RecordTypeCacheRepo
 
     @Binds
     @Singleton
-    abstract fun getRunningRecordRepo(impl: RunningRecordRepoImpl): RunningRecordRepo
+    fun RunningRecordRepoImpl.bindRunningRecordRepo(): RunningRecordRepo
 
     @Binds
     @Singleton
-    abstract fun getPrefsRepo(impl: PrefsRepoImpl): PrefsRepo
+    fun PrefsRepoImpl.bindPrefsRepo(): PrefsRepo
 
     @Binds
     @Singleton
-    abstract fun getBackupRepo(impl: BackupRepoImpl): BackupRepo
+    fun BackupRepoImpl.bindBackupRepo(): BackupRepo
 
     @Binds
     @Singleton
-    abstract fun getCsvRepo(impl: CsvRepoImpl): CsvRepo
+    fun CsvRepoImpl.bindCsvRepo(): CsvRepo
 
     @Binds
     @Singleton
-    abstract fun getCategoryRepo(impl: CategoryRepoImpl): CategoryRepo
+    fun CategoryRepoImpl.bindCategoryRepo(): CategoryRepo
 
     @Binds
     @Singleton
-    abstract fun getRecordTagRepo(impl: RecordTagRepoImpl): RecordTagRepo
+    fun RecordTagRepoImpl.bindRecordTagRepo(): RecordTagRepo
 
     @Binds
     @Singleton
-    abstract fun getRecordTypeCategoryRepo(impl: RecordTypeCategoryRepoImpl): RecordTypeCategoryRepo
+    fun RecordTypeCategoryRepoImpl.bindRecordTypeCategoryRepo(): RecordTypeCategoryRepo
 
     @Binds
     @Singleton
-    abstract fun getRecordToRecordTagRepo(impl: RecordToRecordTagRepoImpl): RecordToRecordTagRepo
+    fun RecordToRecordTagRepoImpl.bindRecordToRecordTagRepo(): RecordToRecordTagRepo
 }
