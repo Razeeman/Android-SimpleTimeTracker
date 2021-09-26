@@ -7,6 +7,7 @@ import com.example.util.simpletimetracker.navigation.params.screen.RecordsParams
 
 class RecordsContainerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 
+    // "Infinite" pager.
     override fun getItemCount(): Int =
         Int.MAX_VALUE
 
@@ -18,6 +19,7 @@ class RecordsContainerAdapter(fragment: Fragment) : FragmentStateAdapter(fragmen
     }
 
     companion object {
+        // First page is at the center of range.
         const val FIRST = Int.MAX_VALUE / 2
     }
 }

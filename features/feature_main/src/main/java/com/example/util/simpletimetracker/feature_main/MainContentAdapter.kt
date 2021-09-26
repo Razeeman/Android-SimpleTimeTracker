@@ -20,5 +20,5 @@ class MainContentAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
         fragments.size
 
     override fun createFragment(position: Int): Fragment =
-        fragments.getOrNull(position)?.value ?: fragments.first().value
+        fragments[position].value
 }

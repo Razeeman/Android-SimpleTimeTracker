@@ -102,13 +102,9 @@ class StatisticsFragment :
     companion object {
         private const val ARGS_POSITION = "args_position"
 
-        fun newInstance(data: Any?): StatisticsFragment = StatisticsFragment().apply {
+        fun newInstance(data: StatisticsParams): StatisticsFragment = StatisticsFragment().apply {
             val bundle = Bundle()
-            when (data) {
-                is StatisticsParams -> {
-                    bundle.putInt(ARGS_POSITION, data.shift)
-                }
-            }
+            bundle.putInt(ARGS_POSITION, data.shift)
             arguments = bundle
         }
     }

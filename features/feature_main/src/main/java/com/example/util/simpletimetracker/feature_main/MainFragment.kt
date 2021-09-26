@@ -1,22 +1,24 @@
 package com.example.util.simpletimetracker.feature_main
 
+import android.graphics.ColorFilter
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.AttrRes
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
-import com.example.util.simpletimetracker.feature_views.extension.visible
+import com.example.util.simpletimetracker.core.extension.getThemedAttr
 import com.example.util.simpletimetracker.core.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.core.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.core.sharedViewModel.BackupViewModel
+import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import com.example.util.simpletimetracker.feature_main.databinding.MainFragmentBinding as Binding
@@ -41,39 +43,8 @@ class MainFragment : BaseFragment<Binding>() {
         factoryProducer = { backupViewModelFactory }
     )
 
-    private val selectedColorFilter by lazy {
-        val defaultColor = ContextCompat.getColor(requireContext(), R.color.colorTabSelected)
-        var colorSelected = defaultColor
-
-        runCatching {
-            context?.theme?.obtainStyledAttributes(intArrayOf(R.attr.appTabSelectedColor))?.run {
-                colorSelected = getColor(0, defaultColor)
-                recycle()
-            }
-        }
-
-        BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
-            colorSelected,
-            BlendModeCompat.SRC_IN
-        )
-    }
-
-    private val unselectedColorFilter by lazy {
-        val defaultColor = ContextCompat.getColor(requireContext(), R.color.colorTabUnselected)
-        var colorUnselected = defaultColor
-
-        runCatching {
-            context?.theme?.obtainStyledAttributes(intArrayOf(R.attr.appTabUnselectedColor))?.run {
-                colorUnselected = getColor(0, defaultColor)
-                recycle()
-            }
-        }
-
-        BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
-            colorUnselected,
-            BlendModeCompat.SRC_IN
-        )
-    }
+    private val selectedColorFilter by lazy { getColorFilter(R.attr.appTabSelectedColor) }
+    private val unselectedColorFilter by lazy { getColorFilter(R.attr.appTabUnselectedColor) }
 
     override fun initUi() {
         syncState()
@@ -120,9 +91,16 @@ class MainFragment : BaseFragment<Binding>() {
     }
 
     private fun syncState() {
-        GlobalScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             notificationTypeInteractor.checkAndShowAll()
             widgetInteractor.updateWidgets()
         }
+    }
+
+    private fun getColorFilter(@AttrRes attrRes: Int): ColorFilter? {
+        return BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
+            requireContext().getThemedAttr(attrRes),
+            BlendModeCompat.SRC_IN
+        )
     }
 }

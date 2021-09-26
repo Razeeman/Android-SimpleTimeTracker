@@ -88,13 +88,9 @@ class RecordsFragment : BaseFragment<Binding>() {
     companion object {
         private const val ARGS_POSITION = "args_position"
 
-        fun newInstance(data: Any?): RecordsFragment = RecordsFragment().apply {
+        fun newInstance(data: RecordsParams): RecordsFragment = RecordsFragment().apply {
             val bundle = Bundle()
-            when (data) {
-                is RecordsParams -> {
-                    bundle.putInt(ARGS_POSITION, data.shift)
-                }
-            }
+            bundle.putInt(ARGS_POSITION, data.shift)
             arguments = bundle
         }
     }

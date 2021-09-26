@@ -5,13 +5,11 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.util.simpletimetracker.feature_statistics.view.StatisticsFragment
 import com.example.util.simpletimetracker.navigation.params.screen.StatisticsParams
 
-class StatisticsContainerAdapter(
-    fragment: Fragment
-) : FragmentStateAdapter(fragment) {
+class StatisticsContainerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 
-    override fun getItemCount(): Int {
-        return Int.MAX_VALUE
-    }
+    // "Infinite" pager.
+    override fun getItemCount(): Int =
+        Int.MAX_VALUE
 
     override fun createFragment(position: Int): Fragment {
         val shift = position - FIRST
@@ -21,6 +19,7 @@ class StatisticsContainerAdapter(
     }
 
     companion object {
+        // First page is at the center of range.
         const val FIRST = Int.MAX_VALUE / 2
     }
 }
