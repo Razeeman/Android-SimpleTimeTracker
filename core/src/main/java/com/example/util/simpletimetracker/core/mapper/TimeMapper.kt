@@ -350,7 +350,7 @@ class TimeMapper @Inject constructor(
             interval - TimeUnit.HOURS.toMillis(hr) - TimeUnit.MINUTES.toMillis(min)
         )
 
-        if(useProportionalMinutes && !forceSeconds)
+        if (useProportionalMinutes && !forceSeconds)
             return formatIntervalProportional(hr, min)
 
         val willShowHours = hr != 0L
@@ -367,13 +367,14 @@ class TimeMapper @Inject constructor(
         return res
     }
 
+    // TODO remove trailing zeros
     private fun formatIntervalProportional(hr: Long, min: Long): String {
         val hourString = resourceRepo.getString(R.string.time_hour)
         val minutesProportion = min / 60f
         val proportional = hr + minutesProportion
         val proportionalString = "%.2f".format(proportional)
 
-        return "$proportionalString $hourString"
+        return "$proportionalString$hourString"
     }
 
     private fun toDayDateTitle(daysFromToday: Int): String {

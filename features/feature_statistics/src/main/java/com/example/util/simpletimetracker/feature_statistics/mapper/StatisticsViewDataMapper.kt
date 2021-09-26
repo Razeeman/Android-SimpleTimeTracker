@@ -1,24 +1,24 @@
 package com.example.util.simpletimetracker.feature_statistics.mapper
 
-import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
-import com.example.util.simpletimetracker.feature_base_adapter.empty.EmptyViewData
-import com.example.util.simpletimetracker.feature_base_adapter.hint.HintViewData
-import com.example.util.simpletimetracker.feature_base_adapter.statistics.StatisticsViewData
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
-import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.domain.mapper.StatisticsMapper
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RecordTypeCategory
 import com.example.util.simpletimetracker.domain.model.Statistics
 import com.example.util.simpletimetracker.domain.model.StatisticsCategory
+import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_base_adapter.empty.EmptyViewData
+import com.example.util.simpletimetracker.feature_base_adapter.hint.HintViewData
+import com.example.util.simpletimetracker.feature_base_adapter.statistics.StatisticsViewData
 import com.example.util.simpletimetracker.feature_statistics.R
 import com.example.util.simpletimetracker.feature_statistics.customView.PiePortion
 import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsChartViewData
 import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsInfoViewData
+import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import javax.inject.Inject
 
 class StatisticsViewDataMapper @Inject constructor(
@@ -219,7 +219,7 @@ class StatisticsViewDataMapper @Inject constructor(
                     id = statistics.typeId,
                     name = recordType.name,
                     duration = if (showDuration) {
-                        statistics.duration.let{ timeMapper.formatInterval(it, useProportionalMinutes) }
+                        timeMapper.formatInterval(statistics.duration, useProportionalMinutes)
                     } else {
                         ""
                     },
@@ -257,7 +257,7 @@ class StatisticsViewDataMapper @Inject constructor(
                 id = statistics.categoryId,
                 name = category.name,
                 duration = if (showDuration) {
-                    statistics.duration.let{ timeMapper.formatInterval(it, useProportionalMinutes) }
+                    timeMapper.formatInterval(statistics.duration, useProportionalMinutes)
                 } else {
                     ""
                 },
@@ -323,7 +323,7 @@ class StatisticsViewDataMapper @Inject constructor(
     private fun mapTotalTracked(totalTracked: Long, useProportionalMinutes: Boolean): ViewHolderType {
         return StatisticsInfoViewData(
             name = resourceRepo.getString(R.string.statistics_total_tracked),
-            text = totalTracked.let{ timeMapper.formatInterval(it, useProportionalMinutes) }
+            text = timeMapper.formatInterval(totalTracked, useProportionalMinutes)
         )
     }
 }

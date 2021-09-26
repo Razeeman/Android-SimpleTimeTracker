@@ -47,7 +47,7 @@ class TimeMapperTest {
             assertEquals(
                 "Test failed for params $input",
                 output,
-                subject.formatInterval(input)
+                subject.formatInterval(input, useProportionalMinutes = false)
             )
         }
 
@@ -71,6 +71,52 @@ class TimeMapperTest {
                 arrayOf(hourInMs + minuteInMs, "1h 1m"),
                 arrayOf(hourInMs + minuteInMs + secondInMs, "1h 1m"),
                 arrayOf(12 * hourInMs + 34 * minuteInMs + 56 * secondInMs, "12h 34m"),
+            )
+        }
+    }
+
+    @RunWith(Parameterized::class)
+    class FormatIntervalProportionalTest(
+        private val input: Long,
+        private val output: String,
+    ) {
+
+        @Before
+        fun before() {
+            `when`(resourceRepo.getString(R.string.time_hour)).thenReturn("h")
+            `when`(resourceRepo.getString(R.string.time_minute)).thenReturn("m")
+            `when`(resourceRepo.getString(R.string.time_second)).thenReturn("s")
+        }
+
+        @Test
+        fun formatInterval() {
+            assertEquals(
+                "Test failed for params $input",
+                output,
+                subject.formatInterval(input, useProportionalMinutes = true)
+            )
+        }
+
+        companion object {
+            @JvmStatic
+            @Parameterized.Parameters
+            fun data() = listOf(
+                arrayOf(0, "0,00h"),
+                arrayOf(100, "0,00h"),
+                arrayOf(secondInMs, "0,00h"),
+                arrayOf(14 * secondInMs, "0,00h"),
+
+                arrayOf(minuteInMs, "0,02h"),
+                arrayOf(minuteInMs + 100, "0,02h"),
+                arrayOf(minuteInMs + secondInMs, "0,02h"),
+                arrayOf(2 * minuteInMs, "0,03h"),
+                arrayOf(12 * minuteInMs + 34 * secondInMs, "0,20h"),
+                arrayOf(59 * minuteInMs, "0,98h"),
+
+                arrayOf(hourInMs, "1,00h"),
+                arrayOf(hourInMs + minuteInMs, "1,02h"),
+                arrayOf(hourInMs + minuteInMs + secondInMs, "1,02h"),
+                arrayOf(12 * hourInMs + 34 * minuteInMs + 56 * secondInMs, "12,57h"),
             )
         }
     }

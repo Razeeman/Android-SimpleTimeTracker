@@ -67,7 +67,7 @@ class ChangeRecordTest : BaseUiTest() {
         var timeEndedPreview = timeEndedTimestamp
             .let { timeMapper.formatTime(it, true) }
         var timeRangePreview = (timeEndedTimestamp - timeStartedTimestamp)
-            .let{ timeMapper.formatInterval( it, false ) }
+            .let { timeMapper.formatInterval(it, false) }
 
         typeTextIntoView(R.id.etChangeRecordComment, comment)
         closeSoftKeyboard()
@@ -158,7 +158,7 @@ class ChangeRecordTest : BaseUiTest() {
         timeEndedPreview = timeEndedTimestamp
             .let { timeMapper.formatTime(it, true) }
         timeRangePreview = (timeEndedTimestamp - timeStartedTimestamp)
-            .let{ timeMapper.formatInterval(it, false) }
+            .let { timeMapper.formatInterval(it, false) }
 
         checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeStarted), withText(timeStarted)))
         checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeEnded), withText(timeEnded)))

@@ -6,7 +6,7 @@ data class SnackBarParams(
     val dismissedListener: ((TAG?) -> Unit)? = null,
     val actionText: String = "",
     val actionListener: ((TAG?) -> Unit)? = null
-): NotificationParams {
+) : NotificationParams {
 
     enum class TAG {
         RECORD_DELETE,

@@ -2,11 +2,11 @@ package com.example.util.simpletimetracker.core.mapper
 
 import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
-import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
-import com.example.util.simpletimetracker.feature_base_adapter.record.RecordViewData
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
+import com.example.util.simpletimetracker.feature_base_adapter.record.RecordViewData
+import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import javax.inject.Inject
 
 class RecordViewDataMapper @Inject constructor(
@@ -35,7 +35,7 @@ class RecordViewDataMapper @Inject constructor(
             timeFinished = timeEnded
                 .let { timeMapper.formatTime(it, useMilitaryTime) },
             duration = (timeEnded - timeStarted)
-                .let{ timeMapper.formatInterval(it, useProportionalMinutes) },
+                .let { timeMapper.formatInterval(it, useProportionalMinutes) },
             iconId = recordType.icon
                 .let(iconMapper::mapIcon),
             color = recordType.color
@@ -63,7 +63,7 @@ class RecordViewDataMapper @Inject constructor(
                 .let { timeMapper.formatTime(it, useMilitaryTime) },
             timeEndedTimestamp = timeEnded,
             duration = (timeEnded - timeStarted)
-                .let{ timeMapper.formatInterval(it, useProportionalMinutes) },
+                .let { timeMapper.formatInterval(it, useProportionalMinutes) },
             iconId = RecordTypeIcon.Image(R.drawable.unknown),
             color = colorMapper.toUntrackedColor(isDarkTheme),
             comment = ""

@@ -42,7 +42,7 @@ class ChangeRecordViewDataMapper @Inject constructor(
                 .orEmpty(),
             duration = record
                 ?.let { it.timeEnded - it.timeStarted }
-                ?.let{timeMapper.formatInterval(it, useProportionalMinutes)}
+                ?.let { timeMapper.formatInterval(it, useProportionalMinutes) }
                 .orEmpty(),
             iconId = recordType?.icon.orEmpty()
                 .let(iconMapper::mapIcon),

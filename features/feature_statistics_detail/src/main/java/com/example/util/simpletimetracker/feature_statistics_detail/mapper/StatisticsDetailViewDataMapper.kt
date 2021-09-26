@@ -78,17 +78,17 @@ class StatisticsDetailViewDataMapper @Inject constructor(
 
         return mapToStatsViewData(
             totalDuration = totalDuration
-                .let{ timeMapper.formatInterval(it, useProportionalMinutes) },
+                .let { timeMapper.formatInterval(it, useProportionalMinutes) },
             timesTracked = timesTracked,
             timesTrackedIcon = recordsAllIcon,
             shortestRecord = shortest
-                ?.let{ timeMapper.formatInterval(it, useProportionalMinutes) }
+                ?.let { timeMapper.formatInterval(it, useProportionalMinutes) }
                 ?: emptyValue,
             averageRecord = average
-                ?.let{ timeMapper.formatInterval(it, useProportionalMinutes) }
+                ?.let { timeMapper.formatInterval(it, useProportionalMinutes) }
                 ?: emptyValue,
             longestRecord = longest
-                ?.let{ timeMapper.formatInterval(it, useProportionalMinutes) }
+                ?.let { timeMapper.formatInterval(it, useProportionalMinutes) }
                 ?: emptyValue,
             firstRecord = first
                 ?.let { timeMapper.formatDateTimeYear(it, useMilitaryTime) }
@@ -475,7 +475,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             name = tag?.name
                 ?: R.string.change_record_untagged.let(resourceRepo::getString),
             duration = duration
-                .let{ timeMapper.formatInterval(it, useProportionalMinutes) },
+                .let { timeMapper.formatInterval(it, useProportionalMinutes) },
             percent = durationPercent,
             icon = recordType?.icon
                 ?.let(iconMapper::mapIcon)

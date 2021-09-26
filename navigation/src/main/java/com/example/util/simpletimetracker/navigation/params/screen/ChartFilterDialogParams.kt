@@ -1,3 +1,3 @@
 package com.example.util.simpletimetracker.navigation.params.screen
 
-object ChartFilterDialogParams: ScreenParams
+object ChartFilterDialogParams : ScreenParams

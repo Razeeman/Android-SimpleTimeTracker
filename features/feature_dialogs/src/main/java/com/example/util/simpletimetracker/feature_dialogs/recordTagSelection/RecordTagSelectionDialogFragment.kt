@@ -40,7 +40,7 @@ class RecordTagSelectionDialogFragment :
     override fun initUi() {
         screenFactory.getFragment(params)?.let {
             childFragmentManager.commit {
-               replace(R.id.containerRecordTagSelection, it)
+                replace(R.id.containerRecordTagSelection, it)
             }
         }
     }
