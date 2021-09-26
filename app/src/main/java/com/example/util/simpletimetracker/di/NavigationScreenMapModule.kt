@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.feature_change_record_type.view.Change
 import com.example.util.simpletimetracker.feature_change_running_record.view.ChangeRunningRecordFragment
 import com.example.util.simpletimetracker.feature_records_all.view.RecordsAllFragment
 import com.example.util.simpletimetracker.feature_statistics_detail.view.StatisticsDetailFragment
+import com.example.util.simpletimetracker.navigation.NavigationData
 import com.example.util.simpletimetracker.navigation.bundleCreator.BundleCreator
 import com.example.util.simpletimetracker.navigation.bundleCreator.bundleCreatorDelegate
 import com.example.util.simpletimetracker.navigation.params.screen.ArchiveParams
@@ -18,14 +19,12 @@ import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordF
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTagParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTypeParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRunningRecordParams
-import com.example.util.simpletimetracker.navigation.NavigationData
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsAllParams
 import com.example.util.simpletimetracker.navigation.params.screen.StatisticsDetailParams
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import dagger.multibindings.ClassKey
 import dagger.multibindings.IntoMap
 
 @Module
@@ -34,7 +33,7 @@ class NavigationScreenMapModule {
 
     @IntoMap
     @Provides
-    @ClassKey(ChangeRecordTypeParams.Change::class)
+    @ScreenKey(ChangeRecordTypeParams.Change::class)
     fun changeRecordTypeChange(): NavigationData {
         return NavigationData(
             R.id.action_mainFragment_to_changeRecordTypeFragment,
@@ -44,7 +43,7 @@ class NavigationScreenMapModule {
 
     @IntoMap
     @Provides
-    @ClassKey(ChangeRecordTypeParams.New::class)
+    @ScreenKey(ChangeRecordTypeParams.New::class)
     fun changeRecordTypeNew(): NavigationData {
         return NavigationData(
             R.id.action_mainFragment_to_changeRecordTypeFragment,
@@ -54,7 +53,7 @@ class NavigationScreenMapModule {
 
     @IntoMap
     @Provides
-    @ClassKey(ChangeRunningRecordParams::class)
+    @ScreenKey(ChangeRunningRecordParams::class)
     fun changeRecordRunning(): NavigationData {
         return NavigationData(
             R.id.action_mainFragment_to_changeRunningRecordFragment,
@@ -64,7 +63,7 @@ class NavigationScreenMapModule {
 
     @IntoMap
     @Provides
-    @ClassKey(ChangeRecordFromMainParams::class)
+    @ScreenKey(ChangeRecordFromMainParams::class)
     fun changeRecordFromMain(): NavigationData {
         return NavigationData(
             R.id.action_mainFragment_to_changeRecordFragment,
@@ -74,7 +73,7 @@ class NavigationScreenMapModule {
 
     @IntoMap
     @Provides
-    @ClassKey(ChangeRecordFromRecordsAllParams::class)
+    @ScreenKey(ChangeRecordFromRecordsAllParams::class)
     fun changeRecordFromRecordsAll(): NavigationData {
         return NavigationData(
             R.id.action_recordsAllFragment_to_changeRecordFragment,
@@ -84,7 +83,7 @@ class NavigationScreenMapModule {
 
     @IntoMap
     @Provides
-    @ClassKey(StatisticsDetailParams::class)
+    @ScreenKey(StatisticsDetailParams::class)
     fun statisticsDetail(): NavigationData {
         return NavigationData(
             R.id.action_mainFragment_to_statisticsDetailFragment,
@@ -94,7 +93,7 @@ class NavigationScreenMapModule {
 
     @IntoMap
     @Provides
-    @ClassKey(RecordsAllParams::class)
+    @ScreenKey(RecordsAllParams::class)
     fun recordsAll(): NavigationData {
         return NavigationData(
             R.id.action_statisticsDetailFragment_to_recordsAllFragment,
@@ -104,7 +103,7 @@ class NavigationScreenMapModule {
 
     @IntoMap
     @Provides
-    @ClassKey(CategoriesParams::class)
+    @ScreenKey(CategoriesParams::class)
     fun categories(): NavigationData {
         return NavigationData(
             R.id.action_mainFragment_to_categoriesFragment,
@@ -114,7 +113,7 @@ class NavigationScreenMapModule {
 
     @IntoMap
     @Provides
-    @ClassKey(ArchiveParams::class)
+    @ScreenKey(ArchiveParams::class)
     fun archive(): NavigationData {
         return NavigationData(
             R.id.action_mainFragment_to_archiveFragment,
@@ -124,7 +123,7 @@ class NavigationScreenMapModule {
 
     @IntoMap
     @Provides
-    @ClassKey(ChangeCategoryParams::class)
+    @ScreenKey(ChangeCategoryParams::class)
     fun changeCategory(): NavigationData {
         return NavigationData(
             R.id.action_categoriesFragment_to_changeCategoryFragment,
@@ -134,7 +133,7 @@ class NavigationScreenMapModule {
 
     @IntoMap
     @Provides
-    @ClassKey(ChangeRecordTagParams::class)
+    @ScreenKey(ChangeRecordTagParams::class)
     fun changeRecordTag(): NavigationData {
         return NavigationData(
             R.id.action_categoriesFragment_to_changeRecordTagFragment,

@@ -8,7 +8,7 @@ import com.example.util.simpletimetracker.navigation.params.screen.ScreenParams
 import javax.inject.Inject
 
 class ScreenResolverImpl @Inject constructor(
-    private val navigationDataMap: @JvmSuppressWildcards Map<Class<*>, NavigationData>,
+    private val navigationDataMap: Map<Class<out ScreenParams>, NavigationData>,
 ) : ScreenResolver {
 
     override fun navigate(

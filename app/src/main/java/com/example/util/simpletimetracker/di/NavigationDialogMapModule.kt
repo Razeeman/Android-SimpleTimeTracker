@@ -9,6 +9,7 @@ import com.example.util.simpletimetracker.feature_dialogs.emojiSelection.view.Em
 import com.example.util.simpletimetracker.feature_dialogs.recordTagSelection.RecordTagSelectionDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.standard.StandardDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.typesFilter.view.TypesFilterDialogFragment
+import com.example.util.simpletimetracker.navigation.NavigationData
 import com.example.util.simpletimetracker.navigation.bundleCreator.BundleCreator
 import com.example.util.simpletimetracker.navigation.bundleCreator.bundleCreatorDelegate
 import com.example.util.simpletimetracker.navigation.params.screen.ArchiveDialogParams
@@ -19,7 +20,6 @@ import com.example.util.simpletimetracker.navigation.params.screen.CsvExportSett
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DurationDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.EmojiSelectionDialogParams
-import com.example.util.simpletimetracker.navigation.NavigationData
 import com.example.util.simpletimetracker.navigation.params.screen.RecordTagSelectionParams
 import com.example.util.simpletimetracker.navigation.params.screen.StandardDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.TypesFilterDialogParams
@@ -27,7 +27,6 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import dagger.multibindings.ClassKey
 import dagger.multibindings.IntoMap
 
 @Module
@@ -36,7 +35,7 @@ class NavigationDialogMapModule {
 
     @IntoMap
     @Provides
-    @ClassKey(StandardDialogParams::class)
+    @ScreenKey(StandardDialogParams::class)
     fun standardDialog(): NavigationData {
         return NavigationData(
             R.id.standardDialogFragment,
@@ -46,7 +45,7 @@ class NavigationDialogMapModule {
 
     @IntoMap
     @Provides
-    @ClassKey(DateTimeDialogParams::class)
+    @ScreenKey(DateTimeDialogParams::class)
     fun dateTimeDialog(): NavigationData {
         return NavigationData(
             R.id.dateTimeDialog,
@@ -56,7 +55,7 @@ class NavigationDialogMapModule {
 
     @IntoMap
     @Provides
-    @ClassKey(DurationDialogParams::class)
+    @ScreenKey(DurationDialogParams::class)
     fun durationDialog(): NavigationData {
         return NavigationData(
             R.id.durationDialog,
@@ -66,7 +65,7 @@ class NavigationDialogMapModule {
 
     @IntoMap
     @Provides
-    @ClassKey(ChartFilterDialogParams::class)
+    @ScreenKey(ChartFilterDialogParams::class)
     fun chartFilterDialog(): NavigationData {
         return NavigationData(
             R.id.chartFilerDialogFragment,
@@ -76,7 +75,7 @@ class NavigationDialogMapModule {
 
     @IntoMap
     @Provides
-    @ClassKey(TypesFilterDialogParams::class)
+    @ScreenKey(TypesFilterDialogParams::class)
     fun typesFilterDialog(): NavigationData {
         return NavigationData(
             R.id.typesFilterDialogFragment,
@@ -86,7 +85,7 @@ class NavigationDialogMapModule {
 
     @IntoMap
     @Provides
-    @ClassKey(CardSizeDialogParams::class)
+    @ScreenKey(CardSizeDialogParams::class)
     fun cardSizeDialog(): NavigationData {
         return NavigationData(
             R.id.cardSizeDialogFragment,
@@ -96,7 +95,7 @@ class NavigationDialogMapModule {
 
     @IntoMap
     @Provides
-    @ClassKey(CardOrderDialogParams::class)
+    @ScreenKey(CardOrderDialogParams::class)
     fun cardOrderDialog(): NavigationData {
         return NavigationData(
             R.id.cardOrderDialogFragment,
@@ -106,7 +105,7 @@ class NavigationDialogMapModule {
 
     @IntoMap
     @Provides
-    @ClassKey(EmojiSelectionDialogParams::class)
+    @ScreenKey(EmojiSelectionDialogParams::class)
     fun emojiSelectionDialog(): NavigationData {
         return NavigationData(
             R.id.emojiSelectionDialogFragment,
@@ -116,7 +115,7 @@ class NavigationDialogMapModule {
 
     @IntoMap
     @Provides
-    @ClassKey(ArchiveDialogParams.Activity::class)
+    @ScreenKey(ArchiveDialogParams.Activity::class)
     fun archiveDialogActivity(): NavigationData {
         return NavigationData(
             R.id.archiveDialogFragment,
@@ -126,7 +125,7 @@ class NavigationDialogMapModule {
 
     @IntoMap
     @Provides
-    @ClassKey(ArchiveDialogParams.RecordTag::class)
+    @ScreenKey(ArchiveDialogParams.RecordTag::class)
     fun archiveDialogRecordTag(): NavigationData {
         return NavigationData(
             R.id.archiveDialogFragment,
@@ -136,7 +135,7 @@ class NavigationDialogMapModule {
 
     @IntoMap
     @Provides
-    @ClassKey(RecordTagSelectionParams::class)
+    @ScreenKey(RecordTagSelectionParams::class)
     fun recordTagSelectionDialog(): NavigationData {
         return NavigationData(
             R.id.recordTagSelectionDialogFragment,
@@ -146,7 +145,7 @@ class NavigationDialogMapModule {
 
     @IntoMap
     @Provides
-    @ClassKey(CsvExportSettingDialogParams::class)
+    @ScreenKey(CsvExportSettingDialogParams::class)
     fun csvExportSettingsDialog(): NavigationData {
         return NavigationData(
             R.id.csvExportSettingsDialogFragment,
