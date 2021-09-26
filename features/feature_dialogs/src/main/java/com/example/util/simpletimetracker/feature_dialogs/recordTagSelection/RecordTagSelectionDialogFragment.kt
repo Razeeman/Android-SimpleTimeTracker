@@ -8,7 +8,6 @@ import com.example.util.simpletimetracker.core.base.BaseBottomSheetFragment
 import com.example.util.simpletimetracker.core.dialog.OnTagSelectedListener
 import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
 import com.example.util.simpletimetracker.feature_dialogs.R
-import com.example.util.simpletimetracker.navigation.Screen
 import com.example.util.simpletimetracker.navigation.ScreenFactory
 import com.example.util.simpletimetracker.navigation.params.screen.RecordTagSelectionParams
 import dagger.hilt.android.AndroidEntryPoint
@@ -39,12 +38,9 @@ class RecordTagSelectionDialogFragment :
     }
 
     override fun initUi() {
-        screenFactory.getFragment(
-            screen = Screen.RECORD_TAG_SELECTION,
-            data = params
-        )?.let {
+        screenFactory.getFragment(params)?.let {
             childFragmentManager.commit {
-                replace(R.id.containerRecordTagSelection, it)
+               replace(R.id.containerRecordTagSelection, it)
             }
         }
     }

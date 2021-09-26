@@ -89,11 +89,9 @@ class RecordTagSelectionFragment : BaseFragment<Binding>() {
     companion object {
         private const val ARGS_PARAMS = "args_params"
 
-        fun newInstance(data: Any?) = RecordTagSelectionFragment().apply {
-            if (data is RecordTagSelectionParams) {
-                arguments = Bundle().apply {
-                    putParcelable(ARGS_PARAMS, data)
-                }
+        fun newInstance(data: RecordTagSelectionParams) = RecordTagSelectionFragment().apply {
+            arguments = Bundle().apply {
+                putParcelable(ARGS_PARAMS, data)
             }
         }
     }

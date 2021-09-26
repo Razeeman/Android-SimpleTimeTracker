@@ -8,7 +8,6 @@ import com.example.util.simpletimetracker.core.base.BaseActivity
 import com.example.util.simpletimetracker.core.dialog.OnTagSelectedListener
 import com.example.util.simpletimetracker.core.manager.ThemeManager
 import com.example.util.simpletimetracker.feature_widget.R
-import com.example.util.simpletimetracker.navigation.Screen
 import com.example.util.simpletimetracker.navigation.ScreenFactory
 import com.example.util.simpletimetracker.navigation.params.screen.RecordTagSelectionParams
 import dagger.hilt.android.AndroidEntryPoint
@@ -35,10 +34,7 @@ class WidgetTagSelectionActivity :
         themeManager.setTheme(this)
         setContentView(R.layout.widget_tag_selection_activity)
 
-        screenFactory.getFragment(
-            screen = Screen.RECORD_TAG_SELECTION,
-            data = params
-        )?.let {
+        screenFactory.getFragment(params)?.let {
             supportFragmentManager.commit {
                 replace(R.id.containerWidgetRecordTagSelection, it)
             }
