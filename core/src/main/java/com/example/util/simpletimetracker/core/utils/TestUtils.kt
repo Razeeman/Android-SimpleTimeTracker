@@ -7,6 +7,7 @@ import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordToRecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
@@ -26,8 +27,9 @@ class TestUtils @Inject constructor(
     private val categoryInteractor: CategoryInteractor,
     private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
     private val recordTagInteractor: RecordTagInteractor,
+    private val recordToRecordTagInteractor: RecordToRecordTagInteractor,
     private val prefsInteractor: PrefsInteractor,
-    private val iconImageMapper: IconImageMapper
+    private val iconImageMapper: IconImageMapper,
 ) {
 
     fun clearDatabase() = runBlocking {
@@ -37,6 +39,7 @@ class TestUtils @Inject constructor(
         categoryInteractor.clear()
         recordTypeCategoryInteractor.clear()
         recordTagInteractor.clear()
+        recordToRecordTagInteractor.clear()
     }
 
     fun clearPrefs() = runBlocking {
@@ -54,7 +57,7 @@ class TestUtils @Inject constructor(
         emoji: String? = null,
         goalTime: Long? = null,
         archived: Boolean = false,
-        categories: List<String> = emptyList()
+        categories: List<String> = emptyList(),
     ) = runBlocking {
         val icons = iconImageMapper.availableIconsNames
         val iconId = icons.filterValues { it == icon }.keys.firstOrNull()
@@ -93,7 +96,7 @@ class TestUtils @Inject constructor(
         typeName: String,
         timeStarted: Long? = null,
         timeEnded: Long? = null,
-        tagName: String? = null
+        tagName: String? = null,
     ) = runBlocking {
         val type = recordTypeInteractor.getAll().firstOrNull { it.name == typeName }
             ?: return@runBlocking
@@ -113,7 +116,7 @@ class TestUtils @Inject constructor(
     }
 
     fun addActivityTag(
-        tagName: String
+        tagName: String,
     ) = runBlocking {
         val data = Category(
             name = tagName,
@@ -126,7 +129,7 @@ class TestUtils @Inject constructor(
     fun addRecordTag(
         typeName: String,
         tagName: String,
-        archived: Boolean = false
+        archived: Boolean = false,
     ) = runBlocking {
         val type = recordTypeInteractor.getAll().firstOrNull { it.name == typeName }
             ?: return@runBlocking

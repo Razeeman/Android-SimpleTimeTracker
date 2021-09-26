@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordToRecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
@@ -18,9 +19,9 @@ import com.example.util.simpletimetracker.feature_base_adapter.category.Category
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.navigation.Router
+import com.example.util.simpletimetracker.navigation.params.notification.ToastParams
 import com.example.util.simpletimetracker.navigation.params.screen.ArchiveDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.StandardDialogParams
-import com.example.util.simpletimetracker.navigation.params.notification.ToastParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -32,7 +33,8 @@ class ArchiveViewModel @Inject constructor(
     private val recordTagInteractor: RecordTagInteractor,
     private val recordInteractor: RecordInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
-    private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor
+    private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
+    private val recordToRecordTagInteractor: RecordToRecordTagInteractor,
 ) : ViewModel() {
 
     val viewData: LiveData<List<ViewHolderType>> by lazy {
@@ -105,9 +107,17 @@ class ArchiveViewModel @Inject constructor(
 
             when (params) {
                 is ArchiveDialogParams.Activity -> {
+                    val recordsToRemove = recordInteractor.getByType(listOf(params.id)).map { it.id }
+                    recordsToRemove.forEach { recordId ->
+                        // TODO do better?
+                        recordToRecordTagInteractor.removeAllByRecordId(recordId)
+                    }
                     recordInteractor.removeByType(params.id)
                     recordTypeCategoryInteractor.removeAllByType(params.id)
                     recordTagInteractor.removeByType(params.id)
+                    // TODO At the moment there is no need to remove entries from recordToRecordTag db
+                    //  after removing record tags by type because typed record tags are not stored in there,
+                    //  but it will change someday.
                     recordTypeInteractor.remove(params.id)
                     message = resourceRepo.getString(R.string.archive_activity_deleted)
                 }
@@ -115,6 +125,7 @@ class ArchiveViewModel @Inject constructor(
                     runningRecordInteractor.removeTag(params.id)
                     recordInteractor.removeTag(params.id)
                     recordTagInteractor.remove(params.id)
+                    recordToRecordTagInteractor.removeAllByTagId(params.id)
                     message = resourceRepo.getString(R.string.archive_tag_deleted)
                 }
             }
