@@ -8,19 +8,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.util.simpletimetracker.domain.model.IconEmojiType
-import com.example.util.simpletimetracker.utils.BaseUiTest
-import com.example.util.simpletimetracker.utils.NavUtils
-import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
-import com.example.util.simpletimetracker.utils.clickOnRecyclerItem
-import com.example.util.simpletimetracker.utils.clickOnView
-import com.example.util.simpletimetracker.utils.clickOnViewWithText
-import com.example.util.simpletimetracker.utils.collapseToolbar
-import com.example.util.simpletimetracker.utils.longClickOnView
-import com.example.util.simpletimetracker.utils.recyclerItemCount
-import com.example.util.simpletimetracker.utils.scrollRecyclerToView
-import com.example.util.simpletimetracker.utils.tryAction
-import com.example.util.simpletimetracker.utils.typeTextIntoView
-import com.example.util.simpletimetracker.utils.withTag
+import com.example.util.simpletimetracker.utils.*
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.CoreMatchers.allOf
 import org.junit.Test
@@ -144,7 +132,7 @@ class IconTest : BaseUiTest() {
             val firstImage = images.values.first()
 
             if (category == iconImageMapper.getAvailableCategories().last()) {
-                onView(withId(R.id.rvChangeRecordTypeIcon)).perform(collapseToolbar())
+                onView(withId(R.id.rvChangeRecordTypeIcon)).perform(swipeUp(50))
             }
 
             // Check category hint
