@@ -69,7 +69,6 @@
     <string name="change_category_type_hint">Активність</string>
     <string name="change_category_save">Зберегти</string>
     <string name="change_category_message_choose_name">Оберіть ім\'я</string>
-    <string name="change_category_message_choose_type">Оберіть активність</string>
     <string name="change_category_selected_types_empty">Не прив\'язано до жодної активності</string>
     <string name="change_category_selected_types_hint">Прив\'язано до:</string>
 

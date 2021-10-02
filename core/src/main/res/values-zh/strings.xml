@@ -69,7 +69,6 @@
     <string name="change_category_type_hint">活动</string>
     <string name="change_category_save">保存</string>
     <string name="change_category_message_choose_name">请填写名称</string>
-    <string name="change_category_message_choose_type">选择活动</string>
     <string name="change_category_selected_types_empty">未分配给任何活动</string>
     <string name="change_category_selected_types_hint">分配给：</string>
 

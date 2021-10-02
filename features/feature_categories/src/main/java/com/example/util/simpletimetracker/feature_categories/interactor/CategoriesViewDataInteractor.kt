@@ -60,10 +60,10 @@ class CategoriesViewDataInteractor @Inject constructor(
         tags.sortedBy { tag ->
             val type = types.firstOrNull { it.id == tag.typeId } ?: 0
             types.indexOf(type)
-        }.mapNotNull { tag ->
+        }.map { tag ->
             categoryViewDataMapper.mapRecordTag(
                 tag = tag,
-                type = types.firstOrNull { it.id == tag.typeId } ?: return@mapNotNull null,
+                type = types.firstOrNull { it.id == tag.typeId },
                 isDarkTheme = isDarkTheme
             )
         }.let(result::addAll)

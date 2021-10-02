@@ -23,6 +23,7 @@ import com.example.util.simpletimetracker.core.extension.toViewData
 import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.core.utils.BuildVersions
 import com.example.util.simpletimetracker.core.utils.setChooserColor
+import com.example.util.simpletimetracker.feature_base_adapter.color.createColorAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record_tag.viewModel.ChangeRecordTagViewModel
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTagParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeTagData
@@ -46,6 +47,11 @@ class ChangeRecordTagFragment : BaseFragment<Binding>() {
     private val viewModel: ChangeRecordTagViewModel by viewModels(
         factoryProducer = { viewModelFactory }
     )
+    private val colorsAdapter: BaseRecyclerAdapter by lazy {
+        BaseRecyclerAdapter(
+            createColorAdapterDelegate(viewModel::onColorClick)
+        )
+    }
     private val typesAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
             createEmptyAdapterDelegate(),
@@ -70,6 +76,15 @@ class ChangeRecordTagFragment : BaseFragment<Binding>() {
         val transitionName: String = (params as? ChangeTagData.Change)?.transitionName.orEmpty()
         ViewCompat.setTransitionName(previewChangeRecordTag, transitionName)
 
+        rvChangeRecordTagColor.apply {
+            layoutManager = FlexboxLayoutManager(requireContext()).apply {
+                flexDirection = FlexDirection.ROW
+                justifyContent = JustifyContent.CENTER
+                flexWrap = FlexWrap.WRAP
+            }
+            adapter = colorsAdapter
+        }
+
         rvChangeRecordTagType.apply {
             layoutManager = FlexboxLayoutManager(requireContext()).apply {
                 flexDirection = FlexDirection.ROW
@@ -82,6 +97,7 @@ class ChangeRecordTagFragment : BaseFragment<Binding>() {
 
     override fun initUx() = with(binding) {
         etChangeRecordTagName.doAfterTextChanged { viewModel.onNameChange(it.toString()) }
+        fieldChangeRecordTagColor.setOnClick(viewModel::onColorChooserClick)
         fieldChangeRecordTagType.setOnClick(viewModel::onTypeChooserClick)
         btnChangeRecordTagSave.setOnClick(viewModel::onSaveClick)
         btnChangeRecordTagDelete.setOnClick(viewModel::onDeleteClick)
@@ -91,12 +107,21 @@ class ChangeRecordTagFragment : BaseFragment<Binding>() {
         with(viewModel) {
             extra = params
             deleteIconVisibility.observeOnce(viewLifecycleOwner, btnChangeRecordTagDelete::visible::set)
+            colorChooserVisibility.observeOnce(viewLifecycleOwner, fieldChangeRecordTagColor::visible::set)
             typesChooserVisibility.observeOnce(viewLifecycleOwner, fieldChangeRecordTagType::visible::set)
             saveButtonEnabled.observe(btnChangeRecordTagSave::setEnabled)
             deleteButtonEnabled.observe(btnChangeRecordTagDelete::setEnabled)
             preview.observeOnce(viewLifecycleOwner, ::updateUi)
             preview.observe(::updatePreview)
+            colors.observe(colorsAdapter::replace)
             types.observe(typesAdapter::replace)
+            flipColorChooser.observe { opened ->
+                rvChangeRecordTagColor.visible = opened
+                fieldChangeRecordTagColor.setChooserColor(opened)
+                arrowChangeRecordTagColor.apply {
+                    if (opened) rotateDown() else rotateUp()
+                }
+            }
             flipTypesChooser.observe { opened ->
                 rvChangeRecordTagType.visible = opened
                 fieldChangeRecordTagType.setChooserColor(opened)
@@ -122,6 +147,8 @@ class ChangeRecordTagFragment : BaseFragment<Binding>() {
             icon?.let {
                 itemIconVisible = true
                 itemIcon = it.toViewData()
+            } ?: run {
+                itemIconVisible = false
             }
         }
     }
@@ -130,8 +157,12 @@ class ChangeRecordTagFragment : BaseFragment<Binding>() {
         with(binding.previewChangeRecordTag) {
             itemName = item.name
             itemColor = item.color
-            item.icon?.let(this::itemIcon::set)
-            itemIconVisible = true
+            item.icon?.let {
+                itemIconVisible = true
+                itemIcon = it
+            } ?: run {
+                itemIconVisible = false
+            }
         }
     }
 

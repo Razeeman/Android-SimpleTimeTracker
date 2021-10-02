@@ -69,7 +69,6 @@
     <string name="change_category_type_hint">Aktivität</string>
     <string name="change_category_save">Speichern</string>
     <string name="change_category_message_choose_name">Einen Namen wählen</string>
-    <string name="change_category_message_choose_type">Aktivität auswählen</string>
     <string name="change_category_selected_types_empty">Keiner Aktivität zugewiesen</string>
     <string name="change_category_selected_types_hint">Zugewiesen an:</string>
 

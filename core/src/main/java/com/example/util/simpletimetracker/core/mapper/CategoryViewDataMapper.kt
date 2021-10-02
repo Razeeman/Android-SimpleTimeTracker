@@ -32,19 +32,19 @@ class CategoryViewDataMapper @Inject constructor(
 
     fun mapRecordTag(
         tag: RecordTag,
-        type: RecordType,
+        type: RecordType?,
         isDarkTheme: Boolean,
         isFiltered: Boolean = false,
         showIcon: Boolean = true
     ): CategoryViewData.Record {
-        val icon = type.icon.let(iconMapper::mapIcon)
+        val icon = type?.icon?.let(iconMapper::mapIcon)
 
         return CategoryViewData.Record.Tagged(
             id = tag.id,
             name = tag.name,
             iconColor = getTextColor(isDarkTheme, isFiltered),
             iconAlpha = getIconAlpha(icon, isFiltered),
-            color = getColor(type.color, isDarkTheme, isFiltered),
+            color = getColor(type?.color ?: tag.color, isDarkTheme, isFiltered),
             icon = if (showIcon) icon else null
         )
     }
@@ -72,7 +72,7 @@ class CategoryViewDataMapper @Inject constructor(
         }
     }
 
-    fun getIconAlpha(icon: RecordTypeIcon, isFiltered: Boolean): Float {
+    fun getIconAlpha(icon: RecordTypeIcon?, isFiltered: Boolean): Float {
         return if (icon is RecordTypeIcon.Emoji && isFiltered) {
             FILTERED_ICON_EMOJI_ALPHA
         } else {
