@@ -18,6 +18,7 @@ import com.example.util.simpletimetracker.utils.collapseToolbar
 import com.example.util.simpletimetracker.utils.longClickOnView
 import com.example.util.simpletimetracker.utils.recyclerItemCount
 import com.example.util.simpletimetracker.utils.scrollRecyclerToView
+import com.example.util.simpletimetracker.utils.swipeUp
 import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.typeTextIntoView
 import com.example.util.simpletimetracker.utils.withTag
@@ -144,7 +145,7 @@ class IconTest : BaseUiTest() {
             val firstImage = images.values.first()
 
             if (category == iconImageMapper.getAvailableCategories().last()) {
-                onView(withId(R.id.rvChangeRecordTypeIcon)).perform(collapseToolbar())
+                onView(withId(R.id.rvChangeRecordTypeIcon)).perform(swipeUp(50))
             }
 
             // Check category hint
