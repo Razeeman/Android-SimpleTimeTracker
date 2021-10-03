@@ -21,13 +21,16 @@ class ChangeRecordViewDataMapper @Inject constructor(
         record: Record?,
         recordType: RecordType?,
         recordTag: RecordTag?,
+        generalTags: List<RecordTag>,
         isDarkTheme: Boolean,
         useMilitaryTime: Boolean,
         useProportionalMinutes: Boolean
     ): ChangeRecordViewData {
         return ChangeRecordViewData(
             name = recordType?.name.orEmpty(),
-            tagName = recordTag?.name.orEmpty(),
+            tagName = (listOf(recordTag?.name.orEmpty()) + generalTags.map { it.name })
+                .filter { it.isNotEmpty() }
+                .joinToString(separator = ", "),
             timeStarted = record?.timeStarted
                 ?.let { timeMapper.formatTime(it, useMilitaryTime) }
                 .orEmpty(),

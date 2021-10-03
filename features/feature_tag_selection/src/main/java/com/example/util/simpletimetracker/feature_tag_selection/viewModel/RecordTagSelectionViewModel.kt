@@ -4,11 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.core.extension.set
+import com.example.util.simpletimetracker.core.interactor.AddRunningRecordMediator
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
-import com.example.util.simpletimetracker.core.extension.set
-import com.example.util.simpletimetracker.core.interactor.AddRunningRecordMediator
 import com.example.util.simpletimetracker.feature_tag_selection.interactor.RecordTagSelectionViewDataInteractor
 import com.example.util.simpletimetracker.navigation.params.screen.RecordTagSelectionParams
 import kotlinx.coroutines.launch
@@ -37,6 +37,8 @@ class RecordTagSelectionViewModel @Inject constructor(
 
         val tagId = when (item) {
             is CategoryViewData.Record.Tagged -> item.id
+            // TODO add general tags to running records or hide general tags from selection
+            is CategoryViewData.Record.General -> 0L
             is CategoryViewData.Record.Untagged -> 0L
         }
 

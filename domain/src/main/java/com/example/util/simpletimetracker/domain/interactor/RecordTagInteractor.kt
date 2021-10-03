@@ -20,6 +20,10 @@ class RecordTagInteractor @Inject constructor(
         return repo.getByType(typeId)
     }
 
+    suspend fun getUntyped(): List<RecordTag> {
+        return repo.getUntyped()
+    }
+
     suspend fun add(tag: RecordTag) {
         var newItem = tag
 

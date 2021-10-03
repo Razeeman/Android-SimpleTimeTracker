@@ -18,6 +18,9 @@ interface RecordTagDao {
     @Query("SELECT * FROM recordTags WHERE type_id = :typeId")
     suspend fun getByType(typeId: Long): List<RecordTagDBO>
 
+    @Query("SELECT * FROM recordTags WHERE type_id = 0")
+    suspend fun getUntyped(): List<RecordTagDBO>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(tag: RecordTagDBO): Long
 

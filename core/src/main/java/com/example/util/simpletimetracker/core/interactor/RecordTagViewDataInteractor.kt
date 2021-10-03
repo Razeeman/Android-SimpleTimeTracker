@@ -1,14 +1,14 @@
 package com.example.util.simpletimetracker.core.interactor
 
 import com.example.util.simpletimetracker.core.R
-import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
-import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.core.mapper.CategoryViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
+import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
 import javax.inject.Inject
 
 class RecordTagViewDataInteractor @Inject constructor(
@@ -20,32 +20,26 @@ class RecordTagViewDataInteractor @Inject constructor(
     private val categoryViewDataMapper: CategoryViewDataMapper
 ) {
 
-    suspend fun getTagsViewData(typeId: Long): List<ViewHolderType> {
+    suspend fun getViewData(typeId: Long): List<ViewHolderType> {
         val isDarkTheme = prefsInteractor.getDarkMode()
         val type = recordTypeInteractor.get(typeId)
+        val tags = if (typeId != 0L) {
+            recordTagInteractor.getByType(typeId)
+        } else {
+            emptyList()
+        } + recordTagInteractor.getUntyped()
 
-        return recordTagInteractor.getByType(typeId)
+        return tags
             .filterNot { it.archived }
             .takeUnless { it.isEmpty() }
-            ?.mapNotNull { tag ->
+            ?.map { tag ->
                 categoryViewDataMapper.mapRecordTag(
                     tag = tag,
-                    type = type ?: return@mapNotNull null,
+                    type = type,
                     isDarkTheme = isDarkTheme,
-                    showIcon = false
                 )
             }
             ?.plus(mapRecordTagUntagged(isDarkTheme))
-            .orEmpty()
-    }
-
-    suspend fun getViewData(newTypeId: Long): List<ViewHolderType> {
-        if (newTypeId == 0L) {
-            return categoryViewDataMapper.mapToTypeNotSelected()
-        }
-
-        return getTagsViewData(newTypeId)
-            .takeUnless { it.isEmpty() }
             ?: categoryViewDataMapper.mapToRecordTagsEmpty()
     }
 

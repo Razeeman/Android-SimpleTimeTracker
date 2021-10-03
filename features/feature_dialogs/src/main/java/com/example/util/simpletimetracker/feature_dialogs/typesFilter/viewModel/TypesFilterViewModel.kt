@@ -4,12 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
-import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
-import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.core.extension.addOrRemove
 import com.example.util.simpletimetracker.core.extension.set
-import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
@@ -19,6 +15,10 @@ import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RecordTypeCategory
+import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
+import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
+import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_dialogs.typesFilter.interactor.TypesFilterViewDataInteractor
 import com.example.util.simpletimetracker.navigation.params.screen.TypesFilterParams
 import kotlinx.coroutines.launch
@@ -132,6 +132,7 @@ class TypesFilterViewModel @Inject constructor(
         val selectedRecordTags = filter.filteredRecordTags.toMutableList()
         when (item) {
             is CategoryViewData.Record.Tagged -> TypesFilterParams.FilteredRecordTag.Tagged(item.id)
+            is CategoryViewData.Record.General -> TypesFilterParams.FilteredRecordTag.General(item.id)
             is CategoryViewData.Record.Untagged -> TypesFilterParams.FilteredRecordTag.Untagged(item.id)
         }.let { selectedRecordTags.addOrRemove(it) }
         val newFilter = filter.copy(filteredRecordTags = selectedRecordTags)

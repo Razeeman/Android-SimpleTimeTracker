@@ -31,6 +31,11 @@ class RecordTagRepoImpl @Inject constructor(
         dao.getByType(typeId).map(mapper::map)
     }
 
+    override suspend fun getUntyped(): List<RecordTag> = withContext(Dispatchers.IO) {
+        Timber.d("getUntyped")
+        dao.getUntyped().map(mapper::map)
+    }
+
     override suspend fun add(tag: RecordTag): Long = withContext(Dispatchers.IO) {
         Timber.d("add")
         dao.insert(tag.let(mapper::map))

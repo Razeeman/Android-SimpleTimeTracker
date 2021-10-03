@@ -4,35 +4,38 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
-import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
+import com.example.util.simpletimetracker.core.extension.addOrRemove
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.RecordTagViewDataInteractor
 import com.example.util.simpletimetracker.core.interactor.RecordTypesViewDataInteractor
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
-import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.extension.flip
 import com.example.util.simpletimetracker.domain.extension.orTrue
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordToRecordTagInteractor
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.Record
+import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
+import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_change_record.R
 import com.example.util.simpletimetracker.feature_change_record.interactor.ChangeRecordViewDataInteractor
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordViewData
 import com.example.util.simpletimetracker.navigation.Router
+import com.example.util.simpletimetracker.navigation.params.notification.ToastParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordParams
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogType
-import com.example.util.simpletimetracker.navigation.params.notification.ToastParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ChangeRecordViewModel @Inject constructor(
     private val router: Router,
     private val recordInteractor: RecordInteractor,
+    private val recordToRecordTagInteractor: RecordToRecordTagInteractor,
     private val changeRecordViewDataInteractor: ChangeRecordViewDataInteractor,
     private val recordTypesViewDataInteractor: RecordTypesViewDataInteractor,
     private val recordTagViewDataInteractor: RecordTagViewDataInteractor,
@@ -77,6 +80,7 @@ class ChangeRecordViewModel @Inject constructor(
     private var newTimeStarted: Long = 0
     private var newComment: String = ""
     private var newCategoryId: Long = 0
+    private var newGeneralCategories: MutableList<Long> = mutableListOf()
 
     fun onTypeChooserClick() {
         (keyboardVisibility as MutableLiveData).value = false
@@ -174,10 +178,22 @@ class ChangeRecordViewModel @Inject constructor(
 
     fun onCategoryClick(item: CategoryViewData) {
         viewModelScope.launch {
-            if (item.id != newCategoryId) {
-                newCategoryId = item.id
-                updatePreview()
+            when (item) {
+                is CategoryViewData.Record.Tagged -> {
+                    if (item.id != newCategoryId) {
+                        newCategoryId = item.id
+                    }
+                }
+                is CategoryViewData.Record.General -> {
+                    newGeneralCategories.addOrRemove(item.id)
+                }
+                is CategoryViewData.Record.Untagged -> {
+                    newCategoryId = 0
+                    newGeneralCategories.clear()
+                }
+                else -> return@launch
             }
+            updatePreview()
         }
     }
 
@@ -228,6 +244,8 @@ class ChangeRecordViewModel @Inject constructor(
                     newTimeEnded = record.timeEnded
                     newComment = record.comment
                     newCategoryId = record.tagId
+                    newGeneralCategories = recordToRecordTagInteractor.getTagIdsByRecordId(record.id)
+                        .toMutableList()
                 }
             }
             is ChangeRecordParams.Untracked -> {
@@ -250,7 +268,10 @@ class ChangeRecordViewModel @Inject constructor(
             tagId = newCategoryId
         )
 
-        return changeRecordViewDataInteractor.getPreviewViewData(record)
+        return changeRecordViewDataInteractor.getPreviewViewData(
+            record = record,
+            generalTagIds = newGeneralCategories
+        )
     }
 
     private suspend fun loadTypesViewData(): List<ViewHolderType> {
