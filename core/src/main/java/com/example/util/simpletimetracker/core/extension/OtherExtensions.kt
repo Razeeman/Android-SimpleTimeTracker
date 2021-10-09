@@ -16,7 +16,7 @@ inline fun <T, R> T.allowDiskWrite(block: T.() -> R): R {
 
 fun Record.isNotFiltered(filter: TypesFilterParams): Boolean {
     return if (tagIds.isNotEmpty()) {
-        tagIds.any { tagId ->
+        tagIds.all { tagId ->
             tagId !in filter.filteredRecordTags
                 .filterIsInstance<TypesFilterParams.FilteredRecordTag.Tagged>().map { it.id }
         }
