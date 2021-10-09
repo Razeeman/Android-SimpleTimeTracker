@@ -205,7 +205,7 @@ class BackupRepoImpl @Inject constructor(
             record.timeStarted.toString(),
             record.timeEnded.toString(),
             record.comment.clean(),
-            record.tagId.toString()
+            "", // record tag id is removed from record dbo
         )
     }
 
@@ -263,7 +263,8 @@ class BackupRepoImpl @Inject constructor(
             timeStarted = parts.getOrNull(3)?.toLongOrNull().orZero(),
             timeEnded = parts.getOrNull(4)?.toLongOrNull().orZero(),
             comment = parts.getOrNull(5).orEmpty(),
-            tagId = parts.getOrNull(6)?.toLongOrNull().orZero()
+            // tagId = parts.getOrNull(6)?.toLongOrNull().orZero() - tag id is removed from record dbo
+            // TODO create record to record tag relations from this backup string to support older backups
         )
     }
 

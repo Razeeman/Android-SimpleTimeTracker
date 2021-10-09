@@ -78,6 +78,9 @@ class AppDatabaseMigrations {
                 database.execSQL(
                     "CREATE TABLE IF NOT EXISTS `recordToRecordTag` (`record_id` INTEGER NOT NULL, `record_tag_id` INTEGER NOT NULL, PRIMARY KEY(`record_id`, `record_tag_id`))"
                 )
+                database.execSQL(
+                    "INSERT INTO recordToRecordTag (record_id, record_tag_id) SELECT id, tag_id from records WHERE tag_id != 0"
+                )
             }
         }
     }

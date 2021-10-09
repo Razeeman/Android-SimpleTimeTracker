@@ -17,11 +17,9 @@ class ChangeRecordViewDataInteractor @Inject constructor(
 
     suspend fun getPreviewViewData(
         record: Record,
-        generalTagIds: List<Long>,
     ): ChangeRecordViewData {
         val type = recordTypeInteractor.get(record.typeId)
-        val tag = recordTagInteractor.get(record.tagId)
-        val generalTags = recordTagInteractor.getUntyped().filter { it.id in generalTagIds }
+        val tags = recordTagInteractor.getAll().filter { it.id in record.tagIds }
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
         val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
@@ -29,8 +27,7 @@ class ChangeRecordViewDataInteractor @Inject constructor(
         return changeRecordViewDataMapper.map(
             record = record,
             recordType = type,
-            recordTag = tag,
-            generalTags = generalTags,
+            recordTags = tags,
             isDarkTheme = isDarkTheme,
             useMilitaryTime = useMilitaryTime,
             useProportionalMinutes = useProportionalMinutes

@@ -283,7 +283,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
                         typeId = runningRecord.id,
                         timeStarted = runningRecord.timeStarted,
                         comment = runningRecord.comment,
-                        tagId = runningRecord.tagId
+                        tagIds = runningRecord.tagId.let(::listOf)
                     )
                     removeRunningRecordMediator.remove(recordTypeId)
                 }

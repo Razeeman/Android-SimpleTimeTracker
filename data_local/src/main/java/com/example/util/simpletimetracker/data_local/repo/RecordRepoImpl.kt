@@ -28,12 +28,6 @@ class RecordRepoImpl @Inject constructor(
             .map(recordDataLocalMapper::map)
     }
 
-    override suspend fun getByTag(tagIds: List<Long>): List<Record> = withContext(Dispatchers.IO) {
-        Timber.d("getByTag")
-        recordDao.getByTag(tagIds)
-            .map(recordDataLocalMapper::map)
-    }
-
     override suspend fun get(id: Long): Record? = withContext(Dispatchers.IO) {
         Timber.d("get")
         recordDao.get(id)
@@ -47,9 +41,9 @@ class RecordRepoImpl @Inject constructor(
                 .map(recordDataLocalMapper::map)
         }
 
-    override suspend fun add(record: Record) = withContext(Dispatchers.IO) {
+    override suspend fun add(record: Record): Long = withContext(Dispatchers.IO) {
         Timber.d("add")
-        recordDao.insert(
+        return@withContext recordDao.insert(
             record.let(recordDataLocalMapper::map)
         )
     }
@@ -62,11 +56,6 @@ class RecordRepoImpl @Inject constructor(
     override suspend fun removeByType(typeId: Long) = withContext(Dispatchers.IO) {
         Timber.d("removeByType")
         recordDao.deleteByType(typeId)
-    }
-
-    override suspend fun removeTag(tagId: Long) = withContext(Dispatchers.IO) {
-        Timber.d("removeTag")
-        recordDao.removeTag(tagId)
     }
 
     override suspend fun clear() = withContext(Dispatchers.IO) {

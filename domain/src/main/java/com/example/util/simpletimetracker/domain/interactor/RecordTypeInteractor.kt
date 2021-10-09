@@ -2,13 +2,21 @@ package com.example.util.simpletimetracker.domain.interactor
 
 import com.example.util.simpletimetracker.domain.model.CardOrder
 import com.example.util.simpletimetracker.domain.model.RecordType
+import com.example.util.simpletimetracker.domain.repo.RecordRepo
+import com.example.util.simpletimetracker.domain.repo.RecordTagRepo
+import com.example.util.simpletimetracker.domain.repo.RecordToRecordTagRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeCacheRepo
+import com.example.util.simpletimetracker.domain.repo.RecordTypeCategoryRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeRepo
 import java.util.Locale
 import javax.inject.Inject
 
 class RecordTypeInteractor @Inject constructor(
     private val recordTypeRepo: RecordTypeRepo,
+    private val recordRepo: RecordRepo,
+    private val recordToRecordTagRepo: RecordToRecordTagRepo,
+    private val recordTypeCategoryRepo: RecordTypeCategoryRepo,
+    private val recordTagRepo: RecordTagRepo,
     private val recordTypeCacheRepo: RecordTypeCacheRepo,
     private val prefsInteractor: PrefsInteractor
 ) {
@@ -50,7 +58,20 @@ class RecordTypeInteractor @Inject constructor(
     }
 
     suspend fun remove(id: Long) {
+        val recordsToRemove = recordRepo.getByType(listOf(id)).map { it.id }
+        recordsToRemove.forEach { recordId ->
+            recordToRecordTagRepo.removeAllByRecordId(recordId) // TODO do better?
+        }
+        val tagsToRemove = recordTagRepo.getByType(id).map { it.id }
+        tagsToRemove.forEach { recordId ->
+            recordToRecordTagRepo.removeAllByRecordId(recordId) // TODO do better?
+        }
+
+        recordRepo.removeByType(id)
+        recordTypeCategoryRepo.removeAllByType(id)
+        recordTagRepo.removeByType(id)
         recordTypeRepo.remove(id)
+
         recordTypeCacheRepo.clear()
     }
 

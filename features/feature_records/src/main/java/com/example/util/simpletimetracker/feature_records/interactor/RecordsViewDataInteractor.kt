@@ -22,7 +22,7 @@ class RecordsViewDataInteractor @Inject constructor(
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
         val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
         val recordTypes = recordTypeInteractor.getAll().map { it.id to it }.toMap()
-        val recordTags = recordTagInteractor.getAll().map { it.id to it }.toMap()
+        val recordTags = recordTagInteractor.getAll()
         val (rangeStart, rangeEnd) = getRange(shift)
         val records = if (rangeStart != 0L && rangeEnd != 0L) {
             recordInteractor.getFromRange(rangeStart, rangeEnd)
@@ -35,7 +35,7 @@ class RecordsViewDataInteractor @Inject constructor(
                 record.timeStarted to recordsViewDataMapper.map(
                     record = record,
                     recordType = recordTypes[record.typeId] ?: return@mapNotNull null,
-                    recordTag = recordTags[record.tagId],
+                    recordTags = recordTags.filter { it.id in record.tagIds },
                     rangeStart = rangeStart,
                     rangeEnd = rangeEnd,
                     isDarkTheme = isDarkTheme,

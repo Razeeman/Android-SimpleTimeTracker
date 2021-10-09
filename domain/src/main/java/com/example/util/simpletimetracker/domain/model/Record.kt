@@ -6,5 +6,5 @@ data class Record(
     val timeStarted: Long,
     val timeEnded: Long,
     val comment: String,
-    val tagId: Long = 0
+    val tagIds: List<Long> = emptyList(),
 )

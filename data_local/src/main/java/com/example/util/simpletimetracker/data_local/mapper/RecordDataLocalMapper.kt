@@ -1,19 +1,20 @@
 package com.example.util.simpletimetracker.data_local.mapper
 
 import com.example.util.simpletimetracker.data_local.model.RecordDBO
+import com.example.util.simpletimetracker.data_local.model.RecordWithRecordTagsDBO
 import com.example.util.simpletimetracker.domain.model.Record
 import javax.inject.Inject
 
 class RecordDataLocalMapper @Inject constructor() {
 
-    fun map(dbo: RecordDBO): Record {
+    fun map(dbo: RecordWithRecordTagsDBO): Record {
         return Record(
-            id = dbo.id,
-            typeId = dbo.typeId,
-            timeStarted = dbo.timeStarted,
-            timeEnded = dbo.timeEnded,
-            comment = dbo.comment,
-            tagId = dbo.tagId
+            id = dbo.record.id,
+            typeId = dbo.record.typeId,
+            timeStarted = dbo.record.timeStarted,
+            timeEnded = dbo.record.timeEnded,
+            comment = dbo.record.comment,
+            tagIds = dbo.recordTags.map { it.id },
         )
     }
 
@@ -24,7 +25,7 @@ class RecordDataLocalMapper @Inject constructor() {
             timeStarted = domain.timeStarted,
             timeEnded = domain.timeEnded,
             comment = domain.comment,
-            tagId = domain.tagId
+            tagId = 0,
         )
     }
 }

@@ -37,8 +37,7 @@ class RecordTagSelectionViewModel @Inject constructor(
 
         val tagId = when (item) {
             is CategoryViewData.Record.Tagged -> item.id
-            // TODO add general tags to running records or hide general tags from selection
-            is CategoryViewData.Record.General -> 0L
+            is CategoryViewData.Record.General -> item.id
             is CategoryViewData.Record.Untagged -> 0L
         }
 

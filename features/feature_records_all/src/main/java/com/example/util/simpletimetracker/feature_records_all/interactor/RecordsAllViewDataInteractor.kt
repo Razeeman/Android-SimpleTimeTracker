@@ -39,7 +39,7 @@ class RecordsAllViewDataInteractor @Inject constructor(
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
         val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
         val recordTypes = recordTypeInteractor.getAll().map { it.id to it }.toMap()
-        val recordTags = recordTagInteractor.getAll().map { it.id to it }.toMap()
+        val recordTags = recordTagInteractor.getAll()
         val typesSelected = typesFilterInteractor.getTypeIds(filter)
         val records = recordInteractor.getByType(typesSelected)
             .filter { it.isNotFiltered(filter) }
@@ -62,7 +62,7 @@ class RecordsAllViewDataInteractor @Inject constructor(
                         recordsAllViewDataMapper.map(
                             record = record,
                             recordType = recordTypes[record.typeId] ?: return@mapNotNull null,
-                            recordTag = recordTags[record.tagId],
+                            recordTags = recordTags.filter { it.id in record.tagIds },
                             isDarkTheme = isDarkTheme,
                             useMilitaryTime = useMilitaryTime,
                             useProportionalMinutes = useProportionalMinutes

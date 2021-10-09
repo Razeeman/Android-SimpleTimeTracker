@@ -11,7 +11,7 @@ class RemoveRunningRecordMediator @Inject constructor(
     private val notificationTypeInteractor: NotificationTypeInteractor,
     private val notificationInactivityInteractor: NotificationInactivityInteractor,
     private val notificationGoalTimeInteractor: NotificationGoalTimeInteractor,
-    private val widgetInteractor: WidgetInteractor
+    private val widgetInteractor: WidgetInteractor,
 ) {
 
     suspend fun removeWithRecordAdd(runningRecord: RunningRecord) {
@@ -19,7 +19,7 @@ class RemoveRunningRecordMediator @Inject constructor(
             typeId = runningRecord.id,
             timeStarted = runningRecord.timeStarted,
             comment = runningRecord.comment,
-            tagId = runningRecord.tagId
+            tagIds = runningRecord.tagId.let(::listOf),
         )
         remove(runningRecord.id)
     }

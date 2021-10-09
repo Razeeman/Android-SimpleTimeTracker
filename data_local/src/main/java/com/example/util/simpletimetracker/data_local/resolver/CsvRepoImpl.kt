@@ -61,8 +61,7 @@ class CsvRepoImpl @Inject constructor(
                 .sortedBy { it.timeStarted }
                 .forEach { record ->
                     val activityTags = recordTypeCategoryRepo.getCategoriesByType(record.typeId)
-                    val recordTags = recordToRecordTagRepo.getTagsByRecordId(record.id) +
-                        recordTagRepo.get(record.tagId)
+                    val recordTags = recordToRecordTagRepo.getTagsByRecordId(record.id)
 
                     toCsvString(
                         record = record,

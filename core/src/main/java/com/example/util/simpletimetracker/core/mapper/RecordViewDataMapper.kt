@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.core.mapper
 
 import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.domain.extension.getFullName
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
@@ -13,23 +14,24 @@ class RecordViewDataMapper @Inject constructor(
     private val timeMapper: TimeMapper,
     private val iconMapper: IconMapper,
     private val colorMapper: ColorMapper,
-    private val resourceRepo: ResourceRepo
+    private val resourceRepo: ResourceRepo,
 ) {
 
     fun map(
         record: Record,
         recordType: RecordType,
-        recordTag: RecordTag?,
+        recordTags: List<RecordTag>,
         timeStarted: Long,
         timeEnded: Long,
         isDarkTheme: Boolean,
         useMilitaryTime: Boolean,
-        useProportionalMinutes: Boolean
+        useProportionalMinutes: Boolean,
     ): RecordViewData {
         return RecordViewData.Tracked(
             id = record.id,
             name = recordType.name,
-            tagName = recordTag?.name.orEmpty(),
+            tagName = recordTags
+                .getFullName(),
             timeStarted = timeStarted
                 .let { timeMapper.formatTime(it, useMilitaryTime) },
             timeFinished = timeEnded
@@ -50,7 +52,7 @@ class RecordViewDataMapper @Inject constructor(
         timeEnded: Long,
         isDarkTheme: Boolean,
         useMilitaryTime: Boolean,
-        useProportionalMinutes: Boolean
+        useProportionalMinutes: Boolean,
     ): RecordViewData {
         return RecordViewData.Untracked(
             name = R.string.untracked_time_name

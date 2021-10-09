@@ -15,7 +15,6 @@ import com.example.util.simpletimetracker.domain.extension.orTrue
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
-import com.example.util.simpletimetracker.domain.interactor.RecordToRecordTagInteractor
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
@@ -35,13 +34,12 @@ import javax.inject.Inject
 class ChangeRecordViewModel @Inject constructor(
     private val router: Router,
     private val recordInteractor: RecordInteractor,
-    private val recordToRecordTagInteractor: RecordToRecordTagInteractor,
     private val changeRecordViewDataInteractor: ChangeRecordViewDataInteractor,
     private val recordTypesViewDataInteractor: RecordTypesViewDataInteractor,
     private val recordTagViewDataInteractor: RecordTagViewDataInteractor,
     private val timeMapper: TimeMapper,
     private val resourceRepo: ResourceRepo,
-    private val prefsInteractor: PrefsInteractor
+    private val prefsInteractor: PrefsInteractor,
 ) : ViewModel() {
 
     lateinit var extra: ChangeRecordParams
@@ -79,8 +77,7 @@ class ChangeRecordViewModel @Inject constructor(
     private var newTimeEnded: Long = 0
     private var newTimeStarted: Long = 0
     private var newComment: String = ""
-    private var newCategoryId: Long = 0
-    private var newGeneralCategories: MutableList<Long> = mutableListOf()
+    private var newCategoryIds: MutableList<Long> = mutableListOf()
 
     fun onTypeChooserClick() {
         (keyboardVisibility as MutableLiveData).value = false
@@ -156,7 +153,7 @@ class ChangeRecordViewModel @Inject constructor(
                 timeStarted = newTimeStarted,
                 timeEnded = newTimeEnded,
                 comment = newComment,
-                tagId = newCategoryId
+                tagIds = newCategoryIds
             ).let {
                 recordInteractor.add(it)
                 (keyboardVisibility as MutableLiveData).value = false
@@ -169,7 +166,7 @@ class ChangeRecordViewModel @Inject constructor(
         viewModelScope.launch {
             if (item.id != newTypeId) {
                 newTypeId = item.id
-                newCategoryId = 0L
+                newCategoryIds.clear()
                 updatePreview()
                 updateCategoriesViewData()
             }
@@ -180,16 +177,13 @@ class ChangeRecordViewModel @Inject constructor(
         viewModelScope.launch {
             when (item) {
                 is CategoryViewData.Record.Tagged -> {
-                    if (item.id != newCategoryId) {
-                        newCategoryId = item.id
-                    }
+                    newCategoryIds.addOrRemove(item.id)
                 }
                 is CategoryViewData.Record.General -> {
-                    newGeneralCategories.addOrRemove(item.id)
+                    newCategoryIds.addOrRemove(item.id)
                 }
                 is CategoryViewData.Record.Untagged -> {
-                    newCategoryId = 0
-                    newGeneralCategories.clear()
+                    newCategoryIds.clear()
                 }
                 else -> return@launch
             }
@@ -243,9 +237,7 @@ class ChangeRecordViewModel @Inject constructor(
                     newTimeStarted = record.timeStarted
                     newTimeEnded = record.timeEnded
                     newComment = record.comment
-                    newCategoryId = record.tagId
-                    newGeneralCategories = recordToRecordTagInteractor.getTagIdsByRecordId(record.id)
-                        .toMutableList()
+                    newCategoryIds = record.tagIds.toMutableList()
                 }
             }
             is ChangeRecordParams.Untracked -> {
@@ -265,13 +257,10 @@ class ChangeRecordViewModel @Inject constructor(
             timeStarted = newTimeStarted,
             timeEnded = newTimeEnded,
             comment = newComment,
-            tagId = newCategoryId
+            tagIds = newCategoryIds
         )
 
-        return changeRecordViewDataInteractor.getPreviewViewData(
-            record = record,
-            generalTagIds = newGeneralCategories
-        )
+        return changeRecordViewDataInteractor.getPreviewViewData(record)
     }
 
     private suspend fun loadTypesViewData(): List<ViewHolderType> {

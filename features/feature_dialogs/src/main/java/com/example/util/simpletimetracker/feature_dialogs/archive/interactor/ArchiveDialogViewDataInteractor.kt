@@ -7,6 +7,7 @@ import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordToRecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.feature_dialogs.R
 import com.example.util.simpletimetracker.feature_dialogs.archive.viewData.ArchiveDialogButtonsViewData
@@ -19,6 +20,7 @@ class ArchiveDialogViewDataInteractor @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
     private val recordTagInteractor: RecordTagInteractor,
     private val recordInteractor: RecordInteractor,
+    private val recordToRecordTagInteractor: RecordToRecordTagInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
     private val categoryViewDataMapper: CategoryViewDataMapper
@@ -60,14 +62,14 @@ class ArchiveDialogViewDataInteractor @Inject constructor(
     suspend fun getRecordTagViewData(tagId: Long): List<ViewHolderType> {
         val isDarkTheme = prefsInteractor.getDarkMode()
         val tag = recordTagInteractor.get(tagId) ?: return emptyList()
-        val type = recordTypeInteractor.get(tag.typeId) ?: return emptyList()
+        val type = recordTypeInteractor.get(tag.typeId)
 
         val item = categoryViewDataMapper.mapRecordTag(
             tag = tag,
             type = type,
             isDarkTheme = isDarkTheme
         )
-        val recordsCount = recordInteractor.getByTag(listOf(tagId)).size
+        val recordsCount = recordToRecordTagInteractor.getRecordIdsByTagId(tagId).size
 
         return mutableListOf<ViewHolderType>().apply {
             item.let(::add)

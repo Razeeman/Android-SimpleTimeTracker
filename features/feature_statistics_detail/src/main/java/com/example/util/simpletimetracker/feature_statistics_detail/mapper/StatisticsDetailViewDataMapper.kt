@@ -38,7 +38,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
     private val colorMapper: ColorMapper,
     private val timeMapper: TimeMapper,
     private val resourceRepo: ResourceRepo,
-    private val statisticsMapper: StatisticsMapper
+    private val statisticsMapper: StatisticsMapper,
 ) {
 
     fun mapStatsData(
@@ -47,7 +47,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         tags: List<RecordTag>,
         isDarkTheme: Boolean,
         useMilitaryTime: Boolean,
-        useProportionalMinutes: Boolean
+        useProportionalMinutes: Boolean,
     ): StatisticsDetailStatsViewData {
         val recordsSorted = records.sortedBy { it.timeStarted }
         val durations = records.map(::mapToDuration)
@@ -117,7 +117,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
     fun mapToPreview(
         recordType: RecordType,
         isDarkTheme: Boolean,
-        isFirst: Boolean
+        isFirst: Boolean,
     ): StatisticsDetailPreviewViewData {
         return StatisticsDetailPreviewViewData(
             id = recordType.id,
@@ -132,7 +132,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
 
     fun mapToPreview(
         category: Category,
-        isDarkTheme: Boolean
+        isDarkTheme: Boolean,
     ): StatisticsDetailPreviewViewData {
         return StatisticsDetailPreviewViewData(
             id = category.id,
@@ -145,7 +145,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
     }
 
     fun mapToPreviewEmpty(
-        isDarkTheme: Boolean
+        isDarkTheme: Boolean,
     ): StatisticsDetailPreviewViewData {
         return StatisticsDetailPreviewViewData(
             id = 0,
@@ -157,7 +157,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
 
     fun mapToChartViewData(
         data: List<ChartBarDataDuration>,
-        rangeLength: RangeLength
+        rangeLength: RangeLength,
     ): StatisticsDetailChartViewData {
         val isMinutes = data.map(ChartBarDataDuration::duration)
             .maxOrNull().orZero()
@@ -191,7 +191,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
 
     fun mapToDailyChartViewData(
         data: Map<Int, Float>,
-        firstDayOfWeek: DayOfWeek
+        firstDayOfWeek: DayOfWeek,
     ): StatisticsDetailChartViewData {
         val days = listOf(
             DayOfWeek.MONDAY,
@@ -225,7 +225,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
     }
 
     fun mapToHourlyChartViewData(
-        data: Map<Int, Float>
+        data: Map<Int, Float>,
     ): StatisticsDetailChartViewData {
         val hourLegends = (0 until 24).map {
             it to it.toString()
@@ -250,7 +250,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
 
     fun mapToChartGroupingViewData(
         rangeLength: RangeLength,
-        chartGrouping: ChartGrouping
+        chartGrouping: ChartGrouping,
     ): List<ViewHolderType> {
         val groupings = when (rangeLength) {
             RangeLength.YEAR -> listOf(
@@ -278,7 +278,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
 
     fun mapToSplitChartGroupingViewData(
         rangeLength: RangeLength,
-        splitChartGrouping: SplitChartGrouping
+        splitChartGrouping: SplitChartGrouping,
     ): List<ViewHolderType> {
         val groupings = when (rangeLength) {
             RangeLength.DAY -> emptyList()
@@ -299,7 +299,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
 
     fun mapToChartLengthViewData(
         rangeLength: RangeLength,
-        chartLength: ChartLength
+        chartLength: ChartLength,
     ): List<ViewHolderType> {
         val lengths = when (rangeLength) {
             RangeLength.ALL -> listOf(
@@ -328,7 +328,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         longestRecord: String,
         firstRecord: String,
         lastRecord: String,
-        tagSplitData: List<ViewHolderType>
+        tagSplitData: List<ViewHolderType>,
     ): StatisticsDetailStatsViewData {
         return StatisticsDetailStatsViewData(
             totalDuration = listOf(
@@ -425,18 +425,29 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         typesMap: Map<Long, RecordType>,
         tagsMap: Map<Long, RecordTag>,
         isDarkTheme: Boolean,
-        useProportionalMinutes: Boolean
+        useProportionalMinutes: Boolean,
     ): List<ViewHolderType> {
-        val tags = records.groupBy { it.tagId }
+        val tags: MutableMap<Long, MutableList<Record>> = mutableMapOf()
+
+        records.forEach { record ->
+            record.tagIds.forEach { tagId ->
+                tags.getOrPut(tagId, { mutableListOf() }).add(record)
+            }
+            if (record.tagIds.isEmpty()) {
+                tags.getOrPut(0, { mutableListOf() }).add(record)
+            }
+        }
+
+        val durations = tags
             .takeUnless { it.isEmpty() }
             ?.mapValues { (_, records) -> records.let(statisticsMapper::mapToDuration) }
             ?: return emptyList()
         val tagsSize = tags.size
-        val sumDuration = tags.map { (_, duration) -> duration }.sum()
+        val sumDuration = durations.map { (_, duration) -> duration }.sum()
         val hint = resourceRepo.getString(R.string.statistics_detail_tag_split_hint)
             .let(::HintViewData).let(::listOf)
 
-        return hint + tags
+        return hint + durations
             .mapNotNull { (tagId, duration) ->
                 val tag = tagsMap[tagId]
                 val type = typesMap[tag?.typeId]
@@ -462,7 +473,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         sumDuration: Long,
         isDarkTheme: Boolean,
         statisticsSize: Int,
-        useProportionalMinutes: Boolean
+        useProportionalMinutes: Boolean,
     ): StatisticsViewData {
         val durationPercent = statisticsMapper.getDurationPercentString(
             sumDuration = sumDuration,
@@ -470,6 +481,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             statisticsSize = statisticsSize
         )
 
+        // TODO fix general tags icons, also why StatisticsViewData.Activity?
         return StatisticsViewData.Activity(
             id = tag?.id.orZero(),
             name = tag?.name

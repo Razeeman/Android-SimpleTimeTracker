@@ -22,7 +22,7 @@ class TypesFilterViewDataInteractor @Inject constructor(
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
     private val categoryViewDataMapper: CategoryViewDataMapper,
     private val typesFilterMapper: TypesFilterMapper,
-    private val resourceRepo: ResourceRepo
+    private val resourceRepo: ResourceRepo,
 ) {
 
     suspend fun getViewData(
@@ -30,7 +30,7 @@ class TypesFilterViewDataInteractor @Inject constructor(
         types: List<RecordType>,
         recordTypeCategories: List<RecordTypeCategory>,
         activityTags: List<Category>,
-        recordTags: List<RecordTag>
+        recordTags: List<RecordTag>,
     ): List<ViewHolderType> {
         val result: MutableList<ViewHolderType> = mutableListOf()
 
@@ -93,6 +93,14 @@ class TypesFilterViewDataInteractor @Inject constructor(
             }
             .map { (_, tags) -> tags }
             .flatten()
+            .plus(
+                mapTags(
+                    filter = filter,
+                    tags = recordTags.filter { it.typeId == 0L },
+                    typesMap = typesMap,
+                    isDarkTheme = isDarkTheme
+                )
+            )
             .toList()
 
         if (activityTagsViewData.isNotEmpty()) {
@@ -121,12 +129,12 @@ class TypesFilterViewDataInteractor @Inject constructor(
         filter: TypesFilterParams,
         tags: List<RecordTag>,
         typesMap: Map<Long, RecordType>,
-        isDarkTheme: Boolean
+        isDarkTheme: Boolean,
     ): List<ViewHolderType> {
-        return tags.mapNotNull { tag ->
+        return tags.map { tag ->
             categoryViewDataMapper.mapRecordTag(
                 tag = tag,
-                type = typesMap[tag.typeId] ?: return@mapNotNull null,
+                type = typesMap[tag.typeId],
                 isDarkTheme = isDarkTheme,
                 isFiltered = tag.id in filter.filteredRecordTags
                     .filterIsInstance<TypesFilterParams.FilteredRecordTag.Tagged>()

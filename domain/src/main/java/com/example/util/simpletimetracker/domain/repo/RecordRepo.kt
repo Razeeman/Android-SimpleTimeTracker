@@ -8,19 +8,15 @@ interface RecordRepo {
 
     suspend fun getByType(typeIds: List<Long>): List<Record>
 
-    suspend fun getByTag(tagIds: List<Long>): List<Record>
-
     suspend fun get(id: Long): Record?
 
     suspend fun getFromRange(start: Long, end: Long): List<Record>
 
-    suspend fun add(record: Record)
+    suspend fun add(record: Record): Long
 
     suspend fun remove(id: Long)
 
     suspend fun removeByType(typeId: Long)
-
-    suspend fun removeTag(tagId: Long)
 
     suspend fun clear()
 }

@@ -27,7 +27,7 @@ class RecordsAllViewDataMapper @Inject constructor(
     fun map(
         record: Record,
         recordType: RecordType,
-        recordTag: RecordTag?,
+        recordTags: List<RecordTag>,
         isDarkTheme: Boolean,
         useMilitaryTime: Boolean,
         useProportionalMinutes: Boolean
@@ -37,7 +37,7 @@ class RecordsAllViewDataMapper @Inject constructor(
         return recordViewDataMapper.map(
             record = record,
             recordType = recordType,
-            recordTag = recordTag,
+            recordTags = recordTags,
             timeStarted = timeStarted,
             timeEnded = timeEnded,
             isDarkTheme = isDarkTheme,

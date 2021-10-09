@@ -4,12 +4,14 @@ import com.example.util.simpletimetracker.domain.mapper.UntrackedRecordMapper
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.repo.RecordCacheRepo
 import com.example.util.simpletimetracker.domain.repo.RecordRepo
+import com.example.util.simpletimetracker.domain.repo.RecordToRecordTagRepo
 import javax.inject.Inject
 
 class RecordInteractor @Inject constructor(
     private val recordRepo: RecordRepo,
+    private val recordToRecordTagRepo: RecordToRecordTagRepo,
     private val recordCacheRepo: RecordCacheRepo,
-    private val untrackedRecordMapper: UntrackedRecordMapper
+    private val untrackedRecordMapper: UntrackedRecordMapper,
 ) {
 
     suspend fun getAll(): List<Record> {
@@ -18,10 +20,6 @@ class RecordInteractor @Inject constructor(
 
     suspend fun getByType(typeIds: List<Long>): List<Record> {
         return recordRepo.getByType(typeIds)
-    }
-
-    suspend fun getByTag(tagIds: List<Long>): List<Record> {
-        return recordRepo.getByTag(tagIds)
     }
 
     suspend fun get(id: Long): Record? {
@@ -43,37 +41,34 @@ class RecordInteractor @Inject constructor(
         typeId: Long,
         timeStarted: Long,
         comment: String,
-        tagId: Long
+        tagIds: List<Long>,
     ) {
         Record(
             typeId = typeId,
             timeStarted = timeStarted,
             timeEnded = System.currentTimeMillis(),
             comment = comment,
-            tagId = tagId
+            tagIds = tagIds,
         ).let {
-            recordRepo.add(it)
-            recordCacheRepo.clear()
+            add(it)
         }
     }
 
     suspend fun add(record: Record) {
-        recordRepo.add(record)
+        val recordId = recordRepo.add(record)
+        recordToRecordTagRepo.removeAllByRecordId(recordId)
+        recordToRecordTagRepo.addRecordTags(recordId, record.tagIds)
         recordCacheRepo.clear()
     }
 
     suspend fun remove(id: Long) {
+        recordToRecordTagRepo.removeAllByRecordId(id)
         recordRepo.remove(id)
         recordCacheRepo.clear()
     }
 
     suspend fun removeByType(typeId: Long) {
         recordRepo.removeByType(typeId)
-        recordCacheRepo.clear()
-    }
-
-    suspend fun removeTag(tagId: Long) {
-        recordRepo.removeTag(tagId)
         recordCacheRepo.clear()
     }
 

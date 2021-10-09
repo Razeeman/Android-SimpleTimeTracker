@@ -22,6 +22,7 @@ data class RecordDBO(
     @ColumnInfo(name = "comment")
     val comment: String,
 
+    @Deprecated("storing tag ids moved to a separate database")
     @ColumnInfo(name = "tag_id")
     val tagId: Long
 )

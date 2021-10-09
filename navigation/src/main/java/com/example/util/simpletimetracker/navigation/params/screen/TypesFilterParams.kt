@@ -18,9 +18,6 @@ data class TypesFilterParams(
         data class Tagged(val id: Long) : FilteredRecordTag()
 
         @Parcelize
-        data class General(val id: Long) : FilteredRecordTag()
-
-        @Parcelize
         data class Untagged(val typeId: Long) : FilteredRecordTag()
     }
 }

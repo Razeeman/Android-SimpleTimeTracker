@@ -100,7 +100,8 @@ class TestUtils @Inject constructor(
     ) = runBlocking {
         val type = recordTypeInteractor.getAll().firstOrNull { it.name == typeName }
             ?: return@runBlocking
-        val tag = recordTagInteractor.getAll().firstOrNull { it.name == tagName }
+        val tagIds = recordTagInteractor.getAll().firstOrNull { it.name == tagName }
+            ?.id?.let(::listOf).orEmpty()
 
         val data = Record(
             typeId = type.id,
@@ -109,7 +110,7 @@ class TestUtils @Inject constructor(
             timeEnded = timeEnded
                 ?: System.currentTimeMillis(),
             comment = "",
-            tagId = tag?.id.orZero()
+            tagIds = tagIds,
         )
 
         recordInteractor.add(data)

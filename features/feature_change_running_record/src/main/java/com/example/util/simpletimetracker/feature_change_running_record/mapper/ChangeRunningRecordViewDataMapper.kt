@@ -15,7 +15,7 @@ class ChangeRunningRecordViewDataMapper @Inject constructor(
     private val iconMapper: IconMapper,
     private val colorMapper: ColorMapper,
     private val timeMapper: TimeMapper,
-    private val resourceRepo: ResourceRepo
+    private val resourceRepo: ResourceRepo,
 ) {
 
     fun map(
@@ -23,7 +23,7 @@ class ChangeRunningRecordViewDataMapper @Inject constructor(
         recordType: RecordType?,
         recordTag: RecordTag?,
         isDarkTheme: Boolean,
-        useMilitaryTime: Boolean
+        useMilitaryTime: Boolean,
     ): ChangeRunningRecordViewData {
         return ChangeRunningRecordViewData(
             name = recordType?.name.orEmpty(),
@@ -47,7 +47,7 @@ class ChangeRunningRecordViewDataMapper @Inject constructor(
                     ?.let { colorMapper.mapToColorResId(it, isDarkTheme) }
                     ?: ColorMapper.getAvailableColors(isDarkTheme).random()
                 ).let(resourceRepo::getColor),
-            comment = runningRecord.comment.orEmpty()
+            comment = runningRecord.comment
         )
     }
 }

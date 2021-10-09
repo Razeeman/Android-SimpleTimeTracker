@@ -132,7 +132,7 @@ class TypesFilterViewModel @Inject constructor(
         val selectedRecordTags = filter.filteredRecordTags.toMutableList()
         when (item) {
             is CategoryViewData.Record.Tagged -> TypesFilterParams.FilteredRecordTag.Tagged(item.id)
-            is CategoryViewData.Record.General -> TypesFilterParams.FilteredRecordTag.General(item.id)
+            is CategoryViewData.Record.General -> TypesFilterParams.FilteredRecordTag.Tagged(item.id)
             is CategoryViewData.Record.Untagged -> TypesFilterParams.FilteredRecordTag.Untagged(item.id)
         }.let { selectedRecordTags.addOrRemove(it) }
         val newFilter = filter.copy(filteredRecordTags = selectedRecordTags)
