@@ -43,6 +43,7 @@ class RecordTagSelectionViewModel @Inject constructor(
 
         viewModelScope.launch {
             addRunningRecordMediator.startTimer(extra.typeId, tagId)
+            // TODO allow several tags selection
             tagSelected.set(Unit)
         }
     }

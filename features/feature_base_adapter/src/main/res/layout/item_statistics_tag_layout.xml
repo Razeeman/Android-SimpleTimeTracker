@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.example.util.simpletimetracker.feature_views.StatisticsView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/viewStatisticsTagItem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="4dp"
+    android:layout_marginEnd="4dp"
+    app:cardElevation="@dimen/record_type_card_elevation"
+    tools:itemColor="@color/red_800"
+    tools:itemDuration="5h 23m 3s"
+    tools:itemIcon="@drawable/ic_sports_motorsports_24px"
+    tools:itemName="Statistics"
+    tools:itemPercent="13%" />

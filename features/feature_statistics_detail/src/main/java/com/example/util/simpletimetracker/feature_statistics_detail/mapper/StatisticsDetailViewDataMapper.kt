@@ -2,7 +2,6 @@ package com.example.util.simpletimetracker.feature_statistics_detail.mapper
 
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.hint.HintViewData
-import com.example.util.simpletimetracker.feature_base_adapter.statistics.StatisticsViewData
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
@@ -17,6 +16,7 @@ import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
+import com.example.util.simpletimetracker.feature_base_adapter.statisticsTag.StatisticsTagViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.R
 import com.example.util.simpletimetracker.feature_statistics_detail.customView.BarChartView
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartBarDataDuration
@@ -474,27 +474,33 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         isDarkTheme: Boolean,
         statisticsSize: Int,
         useProportionalMinutes: Boolean,
-    ): StatisticsViewData {
+    ): StatisticsTagViewData {
         val durationPercent = statisticsMapper.getDurationPercentString(
             sumDuration = sumDuration,
             duration = duration,
             statisticsSize = statisticsSize
         )
 
-        // TODO fix general tags icons, also why StatisticsViewData.Activity?
-        return StatisticsViewData.Activity(
+        return StatisticsTagViewData(
             id = tag?.id.orZero(),
             name = tag?.name
                 ?: R.string.change_record_untagged.let(resourceRepo::getString),
             duration = duration
                 .let { timeMapper.formatInterval(it, useProportionalMinutes) },
             percent = durationPercent,
+            // Take icon and color from recordType if it is a typed tag,
+            // show empty icon and tag color for untyped tags,
+            // show unknown icon and untracked color if tagId == 0, meaning it is untagged.
             icon = recordType?.icon
                 ?.let(iconMapper::mapIcon)
+                ?: tag?.run { RecordTypeIcon.Image(0) }
                 ?: RecordTypeIcon.Image(R.drawable.unknown),
             color = recordType?.color
                 ?.let { colorMapper.mapToColorResId(it, isDarkTheme) }
                 ?.let(resourceRepo::getColor)
+                ?: tag?.color
+                    ?.let { colorMapper.mapToColorResId(it, isDarkTheme) }
+                    ?.let(resourceRepo::getColor)
                 ?: colorMapper.toUntrackedColor(isDarkTheme)
         )
     }

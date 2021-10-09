@@ -15,6 +15,7 @@ sealed class StatisticsViewData : ViewHolderType {
 
     override fun isValidType(other: ViewHolderType): Boolean = other is StatisticsViewData
 
+    // With icon
     data class Activity(
         override val id: Long,
         override val name: String,
@@ -24,6 +25,7 @@ sealed class StatisticsViewData : ViewHolderType {
         val icon: RecordTypeIcon
     ) : StatisticsViewData()
 
+    // No icon
     data class Category(
         override val id: Long,
         override val name: String,
