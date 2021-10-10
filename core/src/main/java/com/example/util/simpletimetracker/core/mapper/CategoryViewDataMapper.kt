@@ -37,8 +37,9 @@ class CategoryViewDataMapper @Inject constructor(
         isFiltered: Boolean = false,
         showIcon: Boolean = true
     ): CategoryViewData.Record {
-        val icon = type?.icon?.let(iconMapper::mapIcon)
-        val color = type?.color ?: tag.color
+        val isTyped = tag.typeId != 0L
+        val icon = type?.icon?.let(iconMapper::mapIcon).takeIf { isTyped }
+        val color = type?.color.takeIf { isTyped } ?: tag.color
 
         return CategoryViewData.Record.Tagged(
             id = tag.id,
