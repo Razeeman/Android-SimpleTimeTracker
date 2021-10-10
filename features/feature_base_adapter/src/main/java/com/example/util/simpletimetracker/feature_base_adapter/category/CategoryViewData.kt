@@ -38,19 +38,6 @@ sealed class CategoryViewData : ViewHolderType {
             override fun isValidType(other: ViewHolderType): Boolean = other is Tagged
         }
 
-        // TODO unnecessary?
-        data class General(
-            override val id: Long,
-            override val name: String,
-            @ColorInt override val iconColor: Int,
-            @ColorInt override val color: Int,
-            override val icon: RecordTypeIcon? = null,
-            override val iconAlpha: Float = 1.0f
-        ) : Record() {
-
-            override fun isValidType(other: ViewHolderType): Boolean = other is General
-        }
-
         data class Untagged(
             val typeId: Long,
             override val name: String,

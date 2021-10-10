@@ -37,7 +37,7 @@ class RecordTagSelectionViewModel @Inject constructor(
 
         val tagId = when (item) {
             is CategoryViewData.Record.Tagged -> item.id
-            is CategoryViewData.Record.General -> item.id
+            // TODO this probably create unnecessary record to tag relations with tagId == 0
             is CategoryViewData.Record.Untagged -> 0L
         }
 

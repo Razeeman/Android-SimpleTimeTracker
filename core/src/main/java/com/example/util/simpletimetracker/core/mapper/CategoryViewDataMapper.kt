@@ -2,7 +2,6 @@ package com.example.util.simpletimetracker.core.mapper
 
 import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
-import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
@@ -38,24 +37,17 @@ class CategoryViewDataMapper @Inject constructor(
         isFiltered: Boolean = false,
         showIcon: Boolean = true
     ): CategoryViewData.Record {
-        if (tag.typeId == 0L) {
-            return CategoryViewData.Record.General(
-                id = tag.id,
-                name = tag.name,
-                iconColor = getTextColor(isDarkTheme, isFiltered),
-                color = getColor(tag.color, isDarkTheme, isFiltered),
-            )
-        } else {
-            val icon = type?.icon?.let(iconMapper::mapIcon)
-            return CategoryViewData.Record.Tagged(
-                id = tag.id,
-                name = tag.name,
-                iconColor = getTextColor(isDarkTheme, isFiltered),
-                iconAlpha = getIconAlpha(icon, isFiltered),
-                color = getColor(type?.color.orZero(), isDarkTheme, isFiltered),
-                icon = if (showIcon) icon else null
-            )
-        }
+        val icon = type?.icon?.let(iconMapper::mapIcon)
+        val color = type?.color ?: tag.color
+
+        return CategoryViewData.Record.Tagged(
+            id = tag.id,
+            name = tag.name,
+            iconColor = getTextColor(isDarkTheme, isFiltered),
+            iconAlpha = getIconAlpha(icon, isFiltered),
+            color = getColor(color, isDarkTheme, isFiltered),
+            icon = if (showIcon) icon else null
+        )
     }
 
     fun mapToRecordTagsEmpty(): List<ViewHolderType> {

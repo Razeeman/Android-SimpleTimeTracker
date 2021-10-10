@@ -179,9 +179,6 @@ class ChangeRecordViewModel @Inject constructor(
                 is CategoryViewData.Record.Tagged -> {
                     newCategoryIds.addOrRemove(item.id)
                 }
-                is CategoryViewData.Record.General -> {
-                    newCategoryIds.addOrRemove(item.id)
-                }
                 is CategoryViewData.Record.Untagged -> {
                     newCategoryIds.clear()
                 }
