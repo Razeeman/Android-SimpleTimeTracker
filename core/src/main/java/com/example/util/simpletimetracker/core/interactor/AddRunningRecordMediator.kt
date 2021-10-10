@@ -31,18 +31,18 @@ class AddRunningRecordMediator @Inject constructor(
                 .filterNot { it.archived }
 
             if (tags.isEmpty()) {
-                startTimer(typeId)
+                startTimer(typeId, emptyList())
             } else {
                 onNeedToShowTagSelection()
             }
         } else {
-            startTimer(typeId)
+            startTimer(typeId, emptyList())
         }
     }
 
     suspend fun startTimer(
         typeId: Long,
-        tagId: Long = 0L
+        tagIds: List<Long>
     ) {
         // Check if multitasking disabled
         if (!prefsInteractor.getAllowMultitasking()) {
@@ -52,7 +52,7 @@ class AddRunningRecordMediator @Inject constructor(
         }
         add(
             typeId = typeId,
-            tagId = tagId
+            tagIds = tagIds
         )
     }
 
@@ -60,14 +60,14 @@ class AddRunningRecordMediator @Inject constructor(
         typeId: Long,
         timeStarted: Long? = null,
         comment: String = "",
-        tagId: Long = 0L
+        tagIds: List<Long> = emptyList()
     ) {
         if (runningRecordInteractor.get(typeId) == null) {
             RunningRecord(
                 id = typeId,
                 timeStarted = timeStarted ?: System.currentTimeMillis(),
                 comment = comment,
-                tagId = tagId
+                tagIds = tagIds
             ).let {
                 runningRecordInteractor.add(it)
                 notificationTypeInteractor.checkAndShow(typeId)

@@ -35,14 +35,13 @@ class RecordTagSelectionViewModel @Inject constructor(
     fun onCategoryClick(item: CategoryViewData) {
         if (item !is CategoryViewData.Record) return
 
-        val tagId = when (item) {
-            is CategoryViewData.Record.Tagged -> item.id
-            // TODO this probably create unnecessary record to tag relations with tagId == 0
-            is CategoryViewData.Record.Untagged -> 0L
+        val tagIds = when (item) {
+            is CategoryViewData.Record.Tagged -> listOf(item.id)
+            is CategoryViewData.Record.Untagged -> emptyList()
         }
 
         viewModelScope.launch {
-            addRunningRecordMediator.startTimer(extra.typeId, tagId)
+            addRunningRecordMediator.startTimer(extra.typeId, tagIds)
             // TODO allow several tags selection
             tagSelected.set(Unit)
         }

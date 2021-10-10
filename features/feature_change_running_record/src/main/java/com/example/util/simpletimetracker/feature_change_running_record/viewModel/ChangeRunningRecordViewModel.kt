@@ -81,7 +81,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
     private var newTimeStarted: Long = 0
     private var timerJob: Job? = null
     private var newComment: String = ""
-    private var newCategoryId: Long = 0
+    private var newCategoryIds: MutableList<Long> = mutableListOf()
 
     fun onTypeChooserClick() {
         (keyboardVisibility as MutableLiveData).value = false
@@ -138,7 +138,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
         (saveButtonEnabled as MutableLiveData).value = false
         viewModelScope.launch {
             removeRunningRecordMediator.remove(extra.id)
-            addRunningRecordMediator.add(newTypeId, newTimeStarted, newComment, newCategoryId)
+            addRunningRecordMediator.add(newTypeId, newTimeStarted, newComment, newCategoryIds)
             (keyboardVisibility as MutableLiveData).value = false
             router.back()
         }
@@ -148,7 +148,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
         viewModelScope.launch {
             if (item.id != newTypeId) {
                 newTypeId = item.id
-                newCategoryId = 0L
+                newCategoryIds.clear()
                 updatePreview()
                 updateCategoriesViewData()
             }
@@ -157,8 +157,9 @@ class ChangeRunningRecordViewModel @Inject constructor(
 
     fun onCategoryClick(item: CategoryViewData) {
         viewModelScope.launch {
-            if (item.id != newCategoryId) {
-                newCategoryId = item.id
+            if (item.id !in newCategoryIds) {
+                newCategoryIds.clear()
+                newCategoryIds.add(item.id)
                 updatePreview()
             }
         }
@@ -206,7 +207,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
                 newTypeId = record.id.orZero()
                 newTimeStarted = record.timeStarted
                 newComment = record.comment
-                newCategoryId = record.tagId
+                newCategoryIds = record.tagIds.toMutableList()
             }
         }
     }
@@ -218,7 +219,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
             id = newTypeId,
             timeStarted = newTimeStarted,
             comment = newComment,
-            tagId = newCategoryId
+            tagIds = newCategoryIds
         )
 
         return changeRunningRecordViewDataInteractor.getPreviewViewData(record)

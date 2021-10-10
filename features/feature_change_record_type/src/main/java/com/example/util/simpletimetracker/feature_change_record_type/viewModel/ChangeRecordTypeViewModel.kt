@@ -18,7 +18,6 @@ import com.example.util.simpletimetracker.domain.extension.flip
 import com.example.util.simpletimetracker.domain.extension.orTrue
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
-import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
@@ -48,7 +47,6 @@ class ChangeRecordTypeViewModel @Inject constructor(
     private val router: Router,
     private val removeRunningRecordMediator: RemoveRunningRecordMediator,
     private val recordTypeInteractor: RecordTypeInteractor,
-    private val recordInteractor: RecordInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
     private val viewDataInteractor: ChangeRecordTypeViewDataInteractor,
     private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
@@ -279,13 +277,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
             if (recordTypeId != 0L) {
                 recordTypeInteractor.archive(recordTypeId)
                 runningRecordInteractor.get(recordTypeId)?.let { runningRecord ->
-                    recordInteractor.add(
-                        typeId = runningRecord.id,
-                        timeStarted = runningRecord.timeStarted,
-                        comment = runningRecord.comment,
-                        tagIds = runningRecord.tagId.let(::listOf)
-                    )
-                    removeRunningRecordMediator.remove(recordTypeId)
+                    removeRunningRecordMediator.removeWithRecordAdd(runningRecord)
                 }
                 showMessage(R.string.change_record_type_archived)
                 (keyboardVisibility as MutableLiveData).value = false

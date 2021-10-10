@@ -35,7 +35,7 @@ class NotificationTypeInteractorImpl @Inject constructor(
 
         val recordType = recordTypeInteractor.get(typeId)
         val runningRecord = runningRecordInteractor.get(typeId)
-        val recordTag = recordTagInteractor.get(runningRecord?.tagId.orZero())
+        val recordTag = recordTagInteractor.get(runningRecord?.tagIds?.firstOrNull().orZero())
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
 
@@ -79,7 +79,7 @@ class NotificationTypeInteractorImpl @Inject constructor(
                 show(
                     recordType = recordTypes[runningRecord.id],
                     runningRecord = runningRecord,
-                    recordTag = recordTags[runningRecord.tagId],
+                    recordTag = recordTags[runningRecord.tagIds.firstOrNull().orZero()],
                     isDarkTheme = isDarkTheme,
                     useMilitaryTime = useMilitaryTime
                 )

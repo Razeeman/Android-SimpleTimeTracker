@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.data_local.mapper
 
 import com.example.util.simpletimetracker.data_local.model.RunningRecordDBO
+import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.model.RunningRecord
 import javax.inject.Inject
 
@@ -11,7 +12,7 @@ class RunningRecordDataLocalMapper @Inject constructor() {
             id = dbo.id,
             timeStarted = dbo.timeStarted,
             comment = dbo.comment,
-            tagId = dbo.tagId
+            tagIds = listOf(dbo.tagId)
         )
     }
 
@@ -20,7 +21,7 @@ class RunningRecordDataLocalMapper @Inject constructor() {
             id = domain.id,
             timeStarted = domain.timeStarted,
             comment = domain.comment,
-            tagId = domain.tagId
+            tagId = domain.tagIds.firstOrNull().orZero()
         )
     }
 }

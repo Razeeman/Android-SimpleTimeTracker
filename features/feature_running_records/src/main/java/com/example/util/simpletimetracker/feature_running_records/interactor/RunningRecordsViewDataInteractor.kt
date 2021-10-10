@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_running_records.interactor
 
+import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.divider.DividerViewData
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -41,7 +42,7 @@ class RunningRecordsViewDataInteractor @Inject constructor(
                         mapper.map(
                             runningRecord = runningRecord,
                             recordType = recordTypesMap[runningRecord.id] ?: return@mapNotNull null,
-                            recordTag = recordTagsMap[runningRecord.tagId],
+                            recordTag = recordTagsMap[runningRecord.tagIds.firstOrNull().orZero()],
                             isDarkTheme = isDarkTheme,
                             useMilitaryTime = useMilitaryTime
                         )

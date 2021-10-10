@@ -4,5 +4,5 @@ data class RunningRecord(
     val id: Long,
     val timeStarted: Long,
     val comment: String,
-    val tagId: Long
+    val tagIds: List<Long> = emptyList()
 )
