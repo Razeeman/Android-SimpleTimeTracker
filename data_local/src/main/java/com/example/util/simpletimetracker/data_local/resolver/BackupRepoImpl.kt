@@ -145,8 +145,11 @@ class BackupRepoImpl @Inject constructor(
                             }
                         }
                         ROW_RECORD -> {
-                            recordFromBackupString(parts).let {
-                                recordRepo.add(it)
+                            recordFromBackupString(parts).let { (record, recordToRecordTag) ->
+                                recordRepo.add(record)
+                                if (recordToRecordTag != null) {
+                                    recordToRecordTagRepo.add(recordToRecordTag)
+                                }
                             }
                         }
                         ROW_CATEGORY -> {
@@ -256,16 +259,22 @@ class BackupRepoImpl @Inject constructor(
         )
     }
 
-    private fun recordFromBackupString(parts: List<String>): Record {
+    private fun recordFromBackupString(parts: List<String>): Pair<Record, RecordToRecordTag?> {
+        val recordId = parts.getOrNull(1)?.toLongOrNull().orZero()
+        // tag id is removed from record dbo, need to support old backup files.
+        val tagId = parts.getOrNull(6)?.toLongOrNull().orZero()
+
         return Record(
-            id = parts.getOrNull(1)?.toLongOrNull().orZero(),
+            id = recordId,
             typeId = parts.getOrNull(2)?.toLongOrNull() ?: 1L,
             timeStarted = parts.getOrNull(3)?.toLongOrNull().orZero(),
             timeEnded = parts.getOrNull(4)?.toLongOrNull().orZero(),
             comment = parts.getOrNull(5).orEmpty(),
-            // tagId = parts.getOrNull(6)?.toLongOrNull().orZero() - tag id is removed from record dbo
-            // TODO create record to record tag relations from this backup string to support older backups
-        )
+            // parts[6] - tag id is removed from record dbo.
+        ) to RecordToRecordTag(
+            recordId = recordId,
+            recordTagId = tagId
+        ).takeUnless { tagId == 0L }
     }
 
     private fun categoryFromBackupString(parts: List<String>): Category {
