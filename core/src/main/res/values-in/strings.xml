@@ -72,6 +72,13 @@
     <string name="change_category_selected_types_empty">Tidak ditugaskan ke dalam kegiatan mana pun</string>
     <string name="change_category_selected_types_hint">Ditugaskan ke dalam:</string>
 
+    <!--  Change record tag  -->
+    <string name="change_record_tag_type">Jenis tag</string>
+    <string name="change_record_tag_type_general">Umum</string>
+    <string name="change_record_tag_type_general_hint">Dapat ditugaskan ke catatan aktivitas apa pun</string>
+    <string name="change_record_tag_type_typed">Kegiatan</string>
+    <string name="change_record_tag_type_typed_hint">Hanya dapat ditetapkan ke catatan aktivitas tertentu</string>
+
     <!--  Change record  -->
     <string name="change_record_message_choose_type">Pilih kegiatan</string>
     <string name="change_record_type_field">Kegiatan</string>

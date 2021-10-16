@@ -72,6 +72,13 @@
     <string name="change_category_selected_types_empty">Keiner Aktivität zugewiesen</string>
     <string name="change_category_selected_types_hint">Zugewiesen an:</string>
 
+    <!--  Change record tag  -->
+    <string name="change_record_tag_type">Tag-Typ</string>
+    <string name="change_record_tag_type_general">General</string>
+    <string name="change_record_tag_type_general_hint">Kann Aufzeichnungen beliebiger Aktivitäten zugewiesen werden</string>
+    <string name="change_record_tag_type_typed">Aktivität</string>
+    <string name="change_record_tag_type_typed_hint">Kann nur Datensätzen einer bestimmten Aktivität zugeordnet werden</string>
+
     <!--  Change record  -->
     <string name="change_record_message_choose_type">Aktivität auswählen</string>
     <string name="change_record_type_field">Aktivität</string>

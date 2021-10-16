@@ -24,6 +24,7 @@ import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.core.utils.BuildVersions
 import com.example.util.simpletimetracker.core.utils.setChooserColor
 import com.example.util.simpletimetracker.feature_base_adapter.color.createColorAdapterDelegate
+import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagTypeSetupViewData
 import com.example.util.simpletimetracker.feature_change_record_tag.viewModel.ChangeRecordTagViewModel
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTagParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeTagData
@@ -101,18 +102,19 @@ class ChangeRecordTagFragment : BaseFragment<Binding>() {
         fieldChangeRecordTagType.setOnClick(viewModel::onTypeChooserClick)
         btnChangeRecordTagSave.setOnClick(viewModel::onSaveClick)
         btnChangeRecordTagDelete.setOnClick(viewModel::onDeleteClick)
+        buttonsChangeRecordTagType.listener = viewModel::onTagTypeClick
     }
 
     override fun initViewModel(): Unit = with(binding) {
         with(viewModel) {
             extra = params
             deleteIconVisibility.observeOnce(viewLifecycleOwner, btnChangeRecordTagDelete::visible::set)
-            colorChooserVisibility.observeOnce(viewLifecycleOwner, fieldChangeRecordTagColor::visible::set)
-            typesChooserVisibility.observeOnce(viewLifecycleOwner, fieldChangeRecordTagType::visible::set)
+            tagTypeSetupViewData.observe(::setTagTypeSetup)
             saveButtonEnabled.observe(btnChangeRecordTagSave::setEnabled)
             deleteButtonEnabled.observe(btnChangeRecordTagDelete::setEnabled)
             preview.observeOnce(viewLifecycleOwner, ::updateUi)
             preview.observe(::updatePreview)
+            tagTypeViewData.observe(buttonsChangeRecordTagType.adapter::replace)
             colors.observe(colorsAdapter::replace)
             types.observe(typesAdapter::replace)
             flipColorChooser.observe { opened ->
@@ -138,6 +140,12 @@ class ChangeRecordTagFragment : BaseFragment<Binding>() {
     private fun updateUi(item: CategoryViewData) = with(binding) {
         etChangeRecordTagName.setText(item.name)
         etChangeRecordTagName.setSelection(item.name.length)
+    }
+
+    private fun setTagTypeSetup(data: ChangeRecordTagTypeSetupViewData) = with(binding) {
+        fieldChangeRecordTagColor.visible = data.colorChooserVisibility
+        fieldChangeRecordTagType.visible = data.typesChooserVisibility
+        tvChangeRecordTagTypeHint.text = data.hint
     }
 
     private fun setPreview() = (params as? ChangeTagData.Change)?.preview?.run {

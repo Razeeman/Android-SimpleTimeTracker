@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.core.interactor.NotificationTypeInteractor
@@ -11,6 +12,7 @@ import com.example.util.simpletimetracker.core.interactor.RecordTypesViewDataInt
 import com.example.util.simpletimetracker.core.mapper.CategoryViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.extension.flip
 import com.example.util.simpletimetracker.domain.extension.orTrue
@@ -21,6 +23,10 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.feature_base_adapter.color.ColorViewData
 import com.example.util.simpletimetracker.feature_change_record_tag.R
+import com.example.util.simpletimetracker.feature_change_record_tag.mapper.ChangeRecordTagMapper
+import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagTypeSetupViewData
+import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagTypeSwitchViewData
+import com.example.util.simpletimetracker.feature_change_record_tag.viewData.RecordTagType
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeTagData
 import com.example.util.simpletimetracker.navigation.params.notification.ToastParams
@@ -35,6 +41,7 @@ class ChangeRecordTagViewModel @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val notificationTypeInteractor: NotificationTypeInteractor,
     private val categoryViewDataMapper: CategoryViewDataMapper,
+    private val changeRecordTagMapper: ChangeRecordTagMapper,
     private val resourceRepo: ResourceRepo,
 ) : ViewModel() {
 
@@ -48,6 +55,12 @@ class ChangeRecordTagViewModel @Inject constructor(
             }
             initial
         }
+    }
+    val tagTypeViewData: LiveData<List<ViewHolderType>> by lazy {
+        return@lazy MutableLiveData(loadTagTypeViewData())
+    }
+    val tagTypeSetupViewData: LiveData<ChangeRecordTagTypeSetupViewData> by lazy {
+        return@lazy MutableLiveData(loadTagTypeSetupViewData())
     }
     val colors: LiveData<List<ViewHolderType>> by lazy {
         return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
@@ -67,10 +80,9 @@ class ChangeRecordTagViewModel @Inject constructor(
     val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val deleteIconVisibility: LiveData<Boolean> by lazy { MutableLiveData(recordTagId != 0L) }
     val keyboardVisibility: LiveData<Boolean> by lazy { MutableLiveData(recordTagId == 0L) }
-    val colorChooserVisibility: LiveData<Boolean> by lazy { MutableLiveData(recordTagId == 0L) } // TODO add ability to change color
-    val typesChooserVisibility: LiveData<Boolean> by lazy { MutableLiveData(recordTagId == 0L) }
 
     private val recordTagId: Long get() = (extra as? ChangeTagData.Change)?.id.orZero()
+    private var tagType: RecordTagType = RecordTagType.GENERAL
     private var newName: String = ""
     private var newColorId: Int = (0..ColorMapper.colorsNumber).random()
     private var newTypeId: Long = 0L
@@ -84,24 +96,32 @@ class ChangeRecordTagViewModel @Inject constructor(
         }
     }
 
+    fun onTagTypeClick(viewData: ButtonsRowViewData) {
+        if (viewData !is ChangeRecordTagTypeSwitchViewData) return
+        viewModelScope.launch {
+            tagType = viewData.tagType
+            updateTagTypeViewData()
+            updateTagTypeSetupViewData()
+            // TODO
+            if (flipTypesChooser.value == true) {
+                (flipTypesChooser as MutableLiveData).value = false
+            }
+            if (flipColorChooser.value == true) {
+                (flipColorChooser as MutableLiveData).value = false
+            }
+        }
+    }
+
     fun onColorChooserClick() {
         (keyboardVisibility as MutableLiveData).value = false
         (flipColorChooser as MutableLiveData).value = flipColorChooser.value
             ?.flip().orTrue()
-
-        if (flipTypesChooser.value == true) {
-            (flipTypesChooser as MutableLiveData).value = false
-        }
     }
 
     fun onTypeChooserClick() {
         (keyboardVisibility as MutableLiveData).value = false
         (flipTypesChooser as MutableLiveData).value = flipTypesChooser.value
             ?.flip().orTrue()
-
-        if (flipColorChooser.value == true) {
-            (flipColorChooser as MutableLiveData).value = false
-        }
     }
 
     fun onColorClick(item: ColorViewData) {
@@ -183,6 +203,22 @@ class ChangeRecordTagViewModel @Inject constructor(
             type = type,
             isDarkTheme = isDarkTheme
         )
+    }
+
+    private fun updateTagTypeViewData() {
+        tagTypeViewData.set(loadTagTypeViewData())
+    }
+
+    private fun loadTagTypeViewData(): List<ViewHolderType> {
+        return changeRecordTagMapper.mapToTagTypeSwitchViewData(tagType)
+    }
+
+    private fun updateTagTypeSetupViewData() {
+        tagTypeSetupViewData.set(loadTagTypeSetupViewData())
+    }
+
+    private fun loadTagTypeSetupViewData(): ChangeRecordTagTypeSetupViewData {
+        return changeRecordTagMapper.mapToTagTypeSetupViewData(recordTagId, tagType)
     }
 
     private suspend fun loadColorsViewData(): List<ViewHolderType> {

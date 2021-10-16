@@ -72,6 +72,13 @@
     <string name="change_category_selected_types_empty">未分配给任何活动</string>
     <string name="change_category_selected_types_hint">分配给：</string>
 
+    <!--  Change record tag  -->
+    <string name="change_record_tag_type">標籤類型</string>
+    <string name="change_record_tag_type_general">一般的</string>
+    <string name="change_record_tag_type_general_hint">可以分配給任何活動的記錄</string>
+    <string name="change_record_tag_type_typed">活動</string>
+    <string name="change_record_tag_type_typed_hint">只能分配給特定活動的記錄</string>
+
     <!--  Change record  -->
     <string name="change_record_message_choose_type">选择活动</string>
     <string name="change_record_type_field">活动</string>

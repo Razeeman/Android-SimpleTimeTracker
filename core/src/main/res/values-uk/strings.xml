@@ -72,6 +72,13 @@
     <string name="change_category_selected_types_empty">Не прив\'язано до жодної активності</string>
     <string name="change_category_selected_types_hint">Прив\'язано до:</string>
 
+    <!--  Change record tag  -->
+    <string name="change_record_tag_type">Тип тегу</string>
+    <string name="change_record_tag_type_general">Загальні</string>
+    <string name="change_record_tag_type_general_hint">Може бути віднесено до записів будь -якої діяльності</string>
+    <string name="change_record_tag_type_typed">Активність</string>
+    <string name="change_record_tag_type_typed_hint">Можна призначити лише до записів про певну діяльність</string>
+
     <!--  Change record  -->
     <string name="change_record_message_choose_type">Оберіть активність</string>
     <string name="change_record_type_field">Активність</string>

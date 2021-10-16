@@ -72,6 +72,13 @@
     <string name="change_category_selected_types_empty">Not assigned to any activities</string>
     <string name="change_category_selected_types_hint">Assigned to:</string>
 
+    <!--  Change record tag  -->
+    <string name="change_record_tag_type">Tag type</string>
+    <string name="change_record_tag_type_general">General</string>
+    <string name="change_record_tag_type_general_hint">Can be assigned to records of any activity</string>
+    <string name="change_record_tag_type_typed">Activity</string>
+    <string name="change_record_tag_type_typed_hint">Can only be assigned to records of a specific activity</string>
+
     <!--  Change record  -->
     <string name="change_record_message_choose_type">Select activity</string>
     <string name="change_record_type_field">Activity</string>
