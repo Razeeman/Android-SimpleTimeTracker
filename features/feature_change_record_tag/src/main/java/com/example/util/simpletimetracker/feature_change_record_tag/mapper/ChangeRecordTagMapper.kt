@@ -27,11 +27,11 @@ class ChangeRecordTagMapper @Inject constructor(
 
     fun mapToTagTypeSetupViewData(
         recordTagId: Long,
+        typeId: Long,
         tagType: RecordTagType,
     ): ChangeRecordTagTypeSetupViewData {
-        // TODO add ability to change color
         return ChangeRecordTagTypeSetupViewData(
-            colorChooserVisibility = recordTagId == 0L && tagType == RecordTagType.GENERAL,
+            colorChooserVisibility = (recordTagId != 0L && typeId == 0L) || (recordTagId == 0L && tagType == RecordTagType.GENERAL),
             typesChooserVisibility = recordTagId == 0L && tagType == RecordTagType.TYPED,
             hint = when (tagType) {
                 RecordTagType.GENERAL -> R.string.change_record_tag_type_general_hint

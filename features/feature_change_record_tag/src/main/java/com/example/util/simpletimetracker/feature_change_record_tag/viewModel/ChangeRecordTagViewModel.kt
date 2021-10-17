@@ -60,7 +60,7 @@ class ChangeRecordTagViewModel @Inject constructor(
         return@lazy MutableLiveData(loadTagTypeViewData())
     }
     val tagTypeSetupViewData: LiveData<ChangeRecordTagTypeSetupViewData> by lazy {
-        return@lazy MutableLiveData(loadTagTypeSetupViewData())
+        return@lazy MutableLiveData()
     }
     val colors: LiveData<List<ViewHolderType>> by lazy {
         return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
@@ -80,6 +80,7 @@ class ChangeRecordTagViewModel @Inject constructor(
     val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val deleteIconVisibility: LiveData<Boolean> by lazy { MutableLiveData(recordTagId != 0L) }
     val keyboardVisibility: LiveData<Boolean> by lazy { MutableLiveData(recordTagId == 0L) }
+    val typeSelectionVisibility: LiveData<Boolean> by lazy { MutableLiveData(recordTagId == 0L) }
 
     private val recordTagId: Long get() = (extra as? ChangeTagData.Change)?.id.orZero()
     private var tagType: RecordTagType = RecordTagType.GENERAL
@@ -183,6 +184,7 @@ class ChangeRecordTagViewModel @Inject constructor(
             newName = it.name
             newColorId = it.color
         }
+        updateTagTypeSetupViewData()
     }
 
     private fun updatePreview() = viewModelScope.launch {
@@ -218,7 +220,11 @@ class ChangeRecordTagViewModel @Inject constructor(
     }
 
     private fun loadTagTypeSetupViewData(): ChangeRecordTagTypeSetupViewData {
-        return changeRecordTagMapper.mapToTagTypeSetupViewData(recordTagId, tagType)
+        return changeRecordTagMapper.mapToTagTypeSetupViewData(
+            recordTagId = recordTagId,
+            typeId = newTypeId,
+            tagType = tagType
+        )
     }
 
     private suspend fun loadColorsViewData(): List<ViewHolderType> {

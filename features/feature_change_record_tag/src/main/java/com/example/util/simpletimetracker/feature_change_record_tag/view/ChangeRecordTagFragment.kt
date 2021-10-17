@@ -112,6 +112,7 @@ class ChangeRecordTagFragment : BaseFragment<Binding>() {
             tagTypeSetupViewData.observe(::setTagTypeSetup)
             saveButtonEnabled.observe(btnChangeRecordTagSave::setEnabled)
             deleteButtonEnabled.observe(btnChangeRecordTagDelete::setEnabled)
+            typeSelectionVisibility.observe(groupChangeRecordTagTypeSelection::visible::set)
             preview.observeOnce(viewLifecycleOwner, ::updateUi)
             preview.observe(::updatePreview)
             tagTypeViewData.observe(buttonsChangeRecordTagType.adapter::replace)
