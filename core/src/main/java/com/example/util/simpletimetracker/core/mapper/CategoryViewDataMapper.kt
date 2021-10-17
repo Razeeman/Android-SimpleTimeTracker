@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.feature_base_adapter.empty.EmptyViewData
+import com.example.util.simpletimetracker.feature_base_adapter.info.InfoViewData
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import javax.inject.Inject
 
@@ -62,6 +63,16 @@ class CategoryViewDataMapper @Inject constructor(
         return EmptyViewData(
             message = resourceRepo.getString(R.string.change_record_activity_not_selected)
         ).let(::listOf)
+    }
+
+    fun mapSelectedCategoriesHint(isEmpty: Boolean): ViewHolderType {
+        return InfoViewData(
+            text = if (isEmpty) {
+                R.string.change_record_type_selected_categories_empty
+            } else {
+                R.string.change_record_type_selected_categories_hint
+            }.let(resourceRepo::getString)
+        )
     }
 
     fun getTextColor(

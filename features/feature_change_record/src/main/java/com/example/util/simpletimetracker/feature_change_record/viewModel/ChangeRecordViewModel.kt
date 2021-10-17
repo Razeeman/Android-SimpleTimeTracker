@@ -185,6 +185,7 @@ class ChangeRecordViewModel @Inject constructor(
                 else -> return@launch
             }
             updatePreview()
+            updateCategoriesViewData()
         }
     }
 
@@ -270,7 +271,10 @@ class ChangeRecordViewModel @Inject constructor(
     }
 
     private suspend fun loadCategoriesViewData(): List<ViewHolderType> {
-        return recordTagViewDataInteractor.getViewData(newTypeId)
+        return recordTagViewDataInteractor.getViewData(
+            selectedTags = newCategoryIds,
+            typeId = newTypeId
+        )
     }
 
     private fun showMessage(stringResId: Int) {

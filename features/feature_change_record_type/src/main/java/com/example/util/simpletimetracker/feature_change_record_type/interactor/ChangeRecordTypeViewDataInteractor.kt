@@ -36,7 +36,7 @@ class ChangeRecordTypeViewDataInteractor @Inject constructor(
             ?.let { (selected, available) ->
                 val viewData = mutableListOf<ViewHolderType>()
 
-                mapper.mapSelectedCategoriesHint(
+                categoryViewDataMapper.mapSelectedCategoriesHint(
                     isEmpty = selected.isEmpty()
                 ).let(viewData::add)
 

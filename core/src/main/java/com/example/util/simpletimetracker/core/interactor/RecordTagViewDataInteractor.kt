@@ -9,6 +9,7 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
+import com.example.util.simpletimetracker.feature_base_adapter.divider.DividerViewData
 import javax.inject.Inject
 
 class RecordTagViewDataInteractor @Inject constructor(
@@ -20,26 +21,57 @@ class RecordTagViewDataInteractor @Inject constructor(
     private val categoryViewDataMapper: CategoryViewDataMapper
 ) {
 
-    suspend fun getViewData(typeId: Long): List<ViewHolderType> {
+    suspend fun getViewData(selectedTags: List<Long>, typeId: Long): List<ViewHolderType> {
         val isDarkTheme = prefsInteractor.getDarkMode()
         val type = recordTypeInteractor.get(typeId)
-        val tags = if (typeId != 0L) {
+        val recordTags = if (typeId != 0L) {
             recordTagInteractor.getByType(typeId)
         } else {
             emptyList()
         } + recordTagInteractor.getUntyped()
 
-        return tags
+        return recordTags
             .filterNot { it.archived }
             .takeUnless { it.isEmpty() }
-            ?.map { tag ->
-                categoryViewDataMapper.mapRecordTag(
-                    tag = tag,
-                    type = type,
-                    isDarkTheme = isDarkTheme,
-                )
+            ?.let { tags ->
+                val selected = tags.filter { it.id in selectedTags }
+                val available = tags.filter { it.id !in selectedTags }
+                selected to available
             }
-            ?.plus(mapRecordTagUntagged(isDarkTheme))
+            ?.let { (selected, available) ->
+                val viewData = mutableListOf<ViewHolderType>()
+
+                categoryViewDataMapper.mapSelectedCategoriesHint(
+                    isEmpty = selected.isEmpty()
+                ).let(viewData::add)
+
+                selected.map {
+                    categoryViewDataMapper.mapRecordTag(
+                        tag = it,
+                        type = type,
+                        isDarkTheme = isDarkTheme
+                    )
+                }.let(viewData::addAll)
+
+                DividerViewData(1)
+                    .takeUnless { available.isEmpty() }
+                    ?.let(viewData::add)
+
+                available.map {
+                    categoryViewDataMapper.mapRecordTag(
+                        tag = it,
+                        type = type,
+                        isDarkTheme = isDarkTheme
+                    )
+                }.let(viewData::addAll)
+
+                if (selected.isNotEmpty() || available.isNotEmpty()) {
+                    DividerViewData(2).let(viewData::add)
+                    mapRecordTagUntagged(isDarkTheme).let(viewData::add)
+                }
+
+                viewData
+            }
             ?: categoryViewDataMapper.mapToRecordTagsEmpty()
     }
 

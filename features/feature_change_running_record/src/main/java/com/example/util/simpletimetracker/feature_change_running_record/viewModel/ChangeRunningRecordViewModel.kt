@@ -43,7 +43,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
     private val recordTypesViewDataInteractor: RecordTypesViewDataInteractor,
     private val recordTagViewDataInteractor: RecordTagViewDataInteractor,
     private val resourceRepo: ResourceRepo,
-    private val prefsInteractor: PrefsInteractor
+    private val prefsInteractor: PrefsInteractor,
 ) : ViewModel() {
 
     lateinit var extra: ChangeRunningRecordParams
@@ -157,11 +157,14 @@ class ChangeRunningRecordViewModel @Inject constructor(
 
     fun onCategoryClick(item: CategoryViewData) {
         viewModelScope.launch {
-            if (item.id !in newCategoryIds) {
+            if (item.id in newCategoryIds) {
+                newCategoryIds.remove(item.id)
+            } else {
                 newCategoryIds.clear()
                 newCategoryIds.add(item.id)
-                updatePreview()
             }
+            updatePreview()
+            updateCategoriesViewData()
         }
     }
 
@@ -235,7 +238,10 @@ class ChangeRunningRecordViewModel @Inject constructor(
     }
 
     private suspend fun loadCategoriesViewData(): List<ViewHolderType> {
-        return recordTagViewDataInteractor.getViewData(newTypeId)
+        return recordTagViewDataInteractor.getViewData(
+            selectedTags = newCategoryIds,
+            typeId = newTypeId
+        )
     }
 
     private fun startUpdate() {

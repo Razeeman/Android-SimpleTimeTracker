@@ -2,7 +2,6 @@ package com.example.util.simpletimetracker.feature_change_record_type.mapper
 
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.empty.EmptyViewData
-import com.example.util.simpletimetracker.feature_base_adapter.info.InfoViewData
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconEmojiMapper
 import com.example.util.simpletimetracker.core.mapper.IconImageMapper
@@ -33,16 +32,6 @@ class ChangeRecordTypeMapper @Inject constructor(
         return EmptyViewData(
             message = resourceRepo.getString(R.string.change_record_type_categories_empty)
         ).let(::listOf)
-    }
-
-    fun mapSelectedCategoriesHint(isEmpty: Boolean): ViewHolderType {
-        return InfoViewData(
-            text = if (isEmpty) {
-                R.string.change_record_type_selected_categories_empty
-            } else {
-                R.string.change_record_type_selected_categories_hint
-            }.let(resourceRepo::getString)
-        )
     }
 
     fun toGoalTimeViewData(duration: Long): String {

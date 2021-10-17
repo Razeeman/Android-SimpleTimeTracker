@@ -14,6 +14,9 @@ import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.OnTagSelectedListener
 import com.example.util.simpletimetracker.core.extension.getAllFragments
+import com.example.util.simpletimetracker.feature_base_adapter.divider.createDividerAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.info.createInfoAdapterDelegate
 import com.example.util.simpletimetracker.feature_tag_selection.viewModel.RecordTagSelectionViewModel
 import com.example.util.simpletimetracker.navigation.params.screen.RecordTagSelectionParams
 import com.google.android.flexbox.FlexDirection
@@ -41,7 +44,10 @@ class RecordTagSelectionFragment : BaseFragment<Binding>() {
         BaseRecyclerAdapter(
             createLoaderAdapterDelegate(),
             createHintAdapterDelegate(),
-            createCategoryAdapterDelegate(viewModel::onCategoryClick)
+            createCategoryAdapterDelegate(viewModel::onCategoryClick),
+            createDividerAdapterDelegate(),
+            createInfoAdapterDelegate(),
+            createEmptyAdapterDelegate(),
         )
     }
     private val params: RecordTagSelectionParams by lazy {

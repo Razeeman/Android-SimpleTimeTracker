@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.core.extension.addOrRemove
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.NotificationGoalTimeInteractor
 import com.example.util.simpletimetracker.core.interactor.NotificationTypeInteractor
@@ -57,7 +58,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
     private val changeRecordTypeMapper: ChangeRecordTypeMapper,
     private val resourceRepo: ResourceRepo,
-    private val iconEmojiMapper: IconEmojiMapper
+    private val iconEmojiMapper: IconEmojiMapper,
 ) : ViewModel() {
 
     lateinit var extra: ChangeRecordTypeParams
@@ -262,11 +263,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
 
     fun onCategoryClick(item: CategoryViewData) {
         viewModelScope.launch {
-            if (item.id in newCategories) {
-                newCategories.remove(item.id)
-            } else {
-                newCategories.add(item.id)
-            }
+            newCategories.addOrRemove(item.id)
             updateCategoriesViewData()
         }
     }
