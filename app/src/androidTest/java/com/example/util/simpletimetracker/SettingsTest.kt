@@ -623,8 +623,9 @@ class SettingsTest : BaseUiTest() {
         // Change settings
         clickOnViewWithId(R.id.checkboxSettingsUseProportionalMinutes)
         onView(withId(R.id.checkboxSettingsUseProportionalMinutes)).check(matches(isChecked()))
+        val timeString = "%.2f".format(1.25)
         checkViewIsDisplayed(
-            allOf(withId(R.id.tvSettingsUseProportionalMinutesHint), withSubstring("1.25$hourString"))
+            allOf(withId(R.id.tvSettingsUseProportionalMinutesHint), withSubstring("$timeString$hourString"))
         )
 
         // Change settings
@@ -802,16 +803,19 @@ class SettingsTest : BaseUiTest() {
         checkViewIsDisplayed(withText(R.string.change_record_untagged))
         checkViewIsDisplayed(withText(tag))
         pressBack()
-        checkViewDoesNotExist(isDescendantOfA(withId(R.id.viewRunningRecordItem)))
+        tryAction { clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name))) }
 
         // Start untagged
         clickOnViewWithText(name)
+        clickOnView(withText(tag))
         clickOnView(withText(R.string.change_record_untagged))
+        pressBack()
         tryAction { clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name))) }
 
         // Start tagged
         clickOnViewWithText(name)
         clickOnView(withText(tag))
+        pressBack()
         tryAction { clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(fullName))) }
 
         // Change setting

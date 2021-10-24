@@ -6,10 +6,12 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.contrib.PickerActions.setTime
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
+import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.withClassName
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.example.util.simpletimetracker.R
+import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.equalTo
 
 object NavUtils {
@@ -52,7 +54,7 @@ object NavUtils {
         icon: Int? = null,
         emoji: String? = null,
         categories: List<String> = emptyList(),
-        goalTime: String? = null
+        goalTime: String? = null,
     ) {
         tryAction { clickOnViewWithText(R.string.running_records_add_type) }
 
@@ -106,7 +108,7 @@ object NavUtils {
     fun addCategory(
         name: String,
         color: Int? = null,
-        activities: List<String> = emptyList()
+        activities: List<String> = emptyList(),
     ) {
         tryAction { clickOnViewWithText(R.string.categories_add_activity_tag) }
 
@@ -132,7 +134,7 @@ object NavUtils {
 
     fun addRecordTag(
         name: String,
-        activity: String
+        activity: String,
     ) {
         tryAction { clickOnViewWithText(R.string.categories_add_record_tag) }
 
@@ -140,7 +142,13 @@ object NavUtils {
         typeTextIntoView(R.id.etChangeRecordTagName, name)
 
         // Activity
-        clickOnViewWithText(R.string.change_record_type_field)
+        clickOnView(
+            allOf(
+                isDescendantOfA(withId(R.id.buttonsChangeRecordTagType)),
+                withText(R.string.change_record_tag_type_typed)
+            )
+        )
+        clickOnViewWithId(R.id.fieldChangeRecordTagType)
         scrollRecyclerToView(R.id.rvChangeRecordTagType, hasDescendant(withText(activity)))
         clickOnRecyclerItem(R.id.rvChangeRecordTagType, withText(activity))
 
@@ -164,7 +172,7 @@ object NavUtils {
         hourEnded: Int,
         minutesEnded: Int,
         comment: String? = null,
-        tag: String? = null
+        tag: String? = null,
     ) {
         tryAction { clickOnViewWithId(R.id.btnRecordAdd) }
 

@@ -5,6 +5,7 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -84,7 +85,13 @@ class ArchiveTest : BaseUiTest() {
         // Not shown in record tag selection
         clickOnViewWithText(R.string.categories_add_record_tag)
         closeSoftKeyboard()
-        clickOnViewWithText(R.string.change_record_type_field)
+        clickOnView(
+            allOf(
+                isDescendantOfA(withId(R.id.buttonsChangeRecordTagType)),
+                withText(R.string.change_record_tag_type_typed)
+            )
+        )
+        clickOnViewWithId(R.id.fieldChangeRecordTagType)
         checkTypeVisible(name1)
         checkTypeNotVisible(name2)
         pressBack()
@@ -176,6 +183,7 @@ class ArchiveTest : BaseUiTest() {
         checkTagVisible(tag1)
         checkTagNotVisible(tag2)
         pressBack()
+        tryAction { clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name1))) }
 
         // Shown in archive
         NavUtils.openSettingsScreen()
