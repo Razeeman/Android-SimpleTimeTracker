@@ -7,6 +7,9 @@
     <string name="settings_translators_german" translatable="false">mondstern</string>
     <string name="settings_translators_german_language" translatable="false">Deutsch</string>
 
+    <string name="settings_translators_italian" translatable="false">Pyr0x1</string>
+    <string name="settings_translators_italian_language" translatable="false">Italiano</string>
+
     <string name="settings_translators_russian" translatable="false">Геннадий Щерба</string>
     <string name="settings_translators_russian_language" translatable="false">Русский</string>
 

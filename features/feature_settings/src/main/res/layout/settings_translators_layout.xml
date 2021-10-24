@@ -46,7 +46,7 @@
             app:layout_constraintStart_toEndOf="@id/tvSettingsTranslatorsIndonesian"
             app:layout_constraintTop_toTopOf="@id/tvSettingsTranslatorsIndonesian" />
 
-       <androidx.appcompat.widget.AppCompatTextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvSettingsTranslatorsGerman"
             style="@style/SettingsTranslatorsText"
             android:layout_width="0dp"
@@ -68,6 +68,27 @@
             app:layout_constraintTop_toTopOf="@id/tvSettingsTranslatorsGerman" />
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvSettingsTranslatorsItalian"
+            style="@style/SettingsTranslatorsText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_translators_italian"
+            app:layout_constraintEnd_toStartOf="@id/tvSettingsTranslatorsItalianLanguage"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSettingsTranslatorsGerman" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvSettingsTranslatorsItalianLanguage"
+            style="@style/SettingsTranslatorsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:text="@string/settings_translators_italian_language"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvSettingsTranslatorsItalian"
+            app:layout_constraintTop_toTopOf="@id/tvSettingsTranslatorsItalian" />
+
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvSettingsTranslatorsRussian"
             style="@style/SettingsTranslatorsText"
             android:layout_width="0dp"
@@ -75,7 +96,7 @@
             android:text="@string/settings_translators_russian"
             app:layout_constraintEnd_toStartOf="@id/tvSettingsTranslatorsRussianLanguage"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvSettingsTranslatorsGerman" />
+            app:layout_constraintTop_toBottomOf="@id/tvSettingsTranslatorsItalian" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvSettingsTranslatorsRussianLanguage"

@@ -19,7 +19,7 @@
     <string name="title_tomorrow">Domani</string>
     <string name="title_this_week">Questa settimana</string>
     <string name="title_this_month">Questo mese</string>
-    <string name="title_this_year">Quest'anno</string>
+    <string name="title_this_year">Quest\'anno</string>
 
     <string name="range_day">Giorno</string>
     <string name="range_week">Settimana</string>
@@ -57,7 +57,7 @@
     <!--  Categories  -->
     <string name="categories_record_type_hint">Assegna la stessa etichetta a differenti attività per mostrare le relative statistiche raggruppate</string>
     <string name="categories_record_hint">Assegna diverse etichette alle registrazioni per differenziarle tra loro</string>
-    <string name="categories_add_activity_tag">Aggiungi etichetta all'attività</string>
+    <string name="categories_add_activity_tag">Aggiungi etichetta all\'attività</string>
     <string name="categories_add_record_tag">Aggiungi etichetta alla registrazione</string>
 
     <!--  Change category  -->
@@ -99,7 +99,7 @@
     <string name="change_record_type_category_hint">Etichette</string>
     <string name="change_record_type_save">Salva</string>
     <string name="change_record_message_choose_name">Scegli un nome</string>
-    <string name="change_record_type_categories_empty">Nessuna etichetta aggiunta all'attività</string>
+    <string name="change_record_type_categories_empty">Nessuna etichetta aggiunta all\'attività</string>
     <string name="change_record_type_selected_categories_empty">Nessuna etichetta assegnata</string>
     <string name="change_record_type_selected_categories_hint">Etichette assegnate:</string>
     <string name="change_record_type_goal_time_disabled">Disabilitato</string>
@@ -138,7 +138,7 @@
 
     <!--  Running records  -->
     <string name="running_records_types_empty">Aggiungi le attività per inziare il tracciamento</string>
-    <string name="running_records_empty">Clicca sull'attività per iniziare il tracciamento</string>
+    <string name="running_records_empty">Clicca sull\'attività per iniziare il tracciamento</string>
     <string name="running_records_empty_hint">Tieni premuto per modificare</string>
     <string name="running_records_add_type">Aggiungi</string>
 
@@ -164,23 +164,23 @@
     <string name="settings_edit_categories">Modifica etichette</string>
     <string name="settings_edit_categories_hint">Assegna etichette alle attività e alle registrazioni.</string>
     <string name="settings_show_record_tag_selection">Mostra la selezione delle etichette relative alle registrazioni</string>
-    <string name="settings_show_record_tag_selection_hint">Quando avvii un timer, se l'attività ha delle etichette relative ad un record, verrà mostrato un dialog di selezione.</string>
+    <string name="settings_show_record_tag_selection_hint">Quando avvii un timer, se l\'attività ha delle etichette relative ad un record, verrà mostrato un dialog di selezione.</string>
     <string name="settings_rate">Votaci</string>
-    <string name="settings_rate_description">Valuta l'app e lascia una recensione.</string>
+    <string name="settings_rate_description">Valuta l\'app e lascia una recensione.</string>
     <string name="settings_feedback">Feedback</string>
     <string name="settings_feedback_description">Hai qualche suggerimento? Hai trovato un bug? Vuoi parlarne? Scrivici!</string>
     <string name="settings_version">Versione</string>
-    <string name="settings_email_chooser_title">Invia con...</string>
+    <string name="settings_email_chooser_title">Invia con…</string>
     <string name="settings_translators">Traduttori</string>
 
     <string name="settings_save_backup">Effettua un backup</string>
-    <string name="settings_save_description">Prima di salvare, assicurati di avere l'ultima versione dell'app per evitare conflitti.</string>
+    <string name="settings_save_description">Prima di salvare, assicurati di avere l\'ultima versione dell\'app per evitare conflitti.</string>
     <string name="settings_restore_backup">Ripristina backup</string>
     <string name="settings_restore_description">I dati attuali verrano persi.</string>
     <string name="settings_dialog_message">Ripristina backup?</string>
     <string name="settings_export_csv">Esporta foglio di calcolo</string>
-    <string name="settings_export_csv_description">Esporta le registrazioni dell'attività come file csv da visualizzare con l'applicazione predefinita per i fogli di calcolo.</string>
-    <string name="settings_file_open_error">Errore nell'apertura del file</string>
+    <string name="settings_export_csv_description">Esporta le registrazioni dell\'attività come file csv da visualizzare con l\'applicazione predefinita per i fogli di calcolo.</string>
+    <string name="settings_file_open_error">Errore nell\'apertura del file</string>
     <string name="settings_file_create_error">Errore nella creazione del file</string>
 
     <string name="message_backup_saved">Backup effettuato</string>
@@ -189,7 +189,7 @@
     <string name="message_restore_error">Errore durante il ripristino del backup</string>
     <string name="message_app_not_found">Applicazione non trovata</string>
     <string name="message_csv_export_complete">Esportazione completata</string>
-    <string name="message_csv_export_error">Errore durante l'esportazione del csv</string>
+    <string name="message_csv_export_error">Errore durante l\'esportazione del csv</string>
 
     <!--  Statistics detail  -->
     <string name="statistics_detail_chart_hourly">orario</string>
@@ -212,11 +212,11 @@
     <string name="statistics_detail_tag_split_hint">Distribuzione etichette</string>
 
     <plurals name="statistics_detail_times_tracked">
-        <item quantity="zero">Registrazioni</item>
+<!--        <item quantity="zero">Registrazioni</item>-->
         <item quantity="one">Registrazione</item>
-        <item quantity="two">Registrazioni</item>
-        <item quantity="few">Registrazioni</item>
-        <item quantity="many">Registrazioni</item>
+<!--        <item quantity="two">Registrazioni</item>-->
+<!--        <item quantity="few">Registrazioni</item>-->
+<!--        <item quantity="many">Registrazioni</item>-->
         <item quantity="other">Registrazioni</item>
     </plurals>
 
@@ -235,7 +235,7 @@
     <!--  Archive  -->
     <string name="archive_dialog_delete">Elimina</string>
     <string name="archive_dialog_restore">Ripristina</string>
-    <string name="archive_empty">L'archivio è vuoto</string>
+    <string name="archive_empty">L\'archivio è vuoto</string>
     <string name="archive_activity_restored">Attività ripristinata</string>
     <string name="archive_tag_restored">Etichetta ripristinata</string>
     <string name="archive_activity_deleted">Attività eliminata</string>
