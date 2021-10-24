@@ -32,7 +32,7 @@
     <color name="colorDialogBackgroundDark">@color/grey_900</color>
 
     <color name="colorDivider">@color/blue_grey_50</color>
-    <color name="colorDividerDark">#1E1E1E</color>
+    <color name="colorDividerDark">#0DFFFFFF</color>
 
     <color name="colorTabSelected">@color/grey_900</color>
     <color name="colorTabSelectedDark">@color/grey_200</color>
