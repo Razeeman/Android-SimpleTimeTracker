@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.core.extension.addOrRemove
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.AddRunningRecordMediator
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
@@ -16,7 +17,7 @@ import javax.inject.Inject
 
 class RecordTagSelectionViewModel @Inject constructor(
     private val viewDataInteractor: RecordTagSelectionViewDataInteractor,
-    private val addRunningRecordMediator: AddRunningRecordMediator
+    private val addRunningRecordMediator: AddRunningRecordMediator,
 ) : ViewModel() {
 
     lateinit var extra: RecordTagSelectionParams
@@ -30,24 +31,34 @@ class RecordTagSelectionViewModel @Inject constructor(
             initial
         }
     }
-    val tagSelected: LiveData<Unit> = MutableLiveData()
+
+    private var newCategoryIds: MutableList<Long> = mutableListOf()
 
     fun onCategoryClick(item: CategoryViewData) {
-        if (item !is CategoryViewData.Record) return
-
-        val tagIds = when (item) {
-            is CategoryViewData.Record.Tagged -> listOf(item.id)
-            is CategoryViewData.Record.Untagged -> emptyList()
-        }
-
         viewModelScope.launch {
-            addRunningRecordMediator.startTimer(extra.typeId, tagIds)
-            // TODO allow several tags selection
-            tagSelected.set(Unit)
+            when (item) {
+                is CategoryViewData.Record.Tagged -> {
+                    newCategoryIds.addOrRemove(item.id)
+                }
+                is CategoryViewData.Record.Untagged -> {
+                    newCategoryIds.clear()
+                }
+                else -> return@launch
+            }
+            updateViewData()
         }
     }
 
+    suspend fun onDismiss() {
+        addRunningRecordMediator.startTimer(extra.typeId, newCategoryIds)
+    }
+
+    private fun updateViewData() = viewModelScope.launch {
+        val data = loadViewData()
+        viewData.set(data)
+    }
+
     private suspend fun loadViewData(): List<ViewHolderType> {
-        return viewDataInteractor.getViewData(extra.typeId)
+        return viewDataInteractor.getViewData(extra.typeId, newCategoryIds)
     }
 }

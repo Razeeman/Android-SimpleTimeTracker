@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.commit
 import com.example.util.simpletimetracker.core.base.BaseBottomSheetFragment
 import com.example.util.simpletimetracker.core.dialog.OnTagSelectedListener
+import com.example.util.simpletimetracker.core.extension.setFullScreen
 import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
 import com.example.util.simpletimetracker.feature_dialogs.R
 import com.example.util.simpletimetracker.navigation.ScreenFactory
@@ -35,6 +36,7 @@ class RecordTagSelectionDialogFragment :
 
     override fun initDialog() {
         setSkipCollapsed()
+        setFullScreen()
     }
 
     override fun initUi() {

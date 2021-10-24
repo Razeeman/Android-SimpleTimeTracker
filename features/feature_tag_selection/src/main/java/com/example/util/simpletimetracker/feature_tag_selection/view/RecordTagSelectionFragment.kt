@@ -24,6 +24,8 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import com.example.util.simpletimetracker.feature_tag_selection.databinding.RecordTagSelectionFragmentBinding as Binding
 
@@ -70,6 +72,14 @@ class RecordTagSelectionFragment : BaseFragment<Binding>() {
         }
     }
 
+    override fun onDetach() {
+        GlobalScope.launch {
+            viewModel.onDismiss()
+            onTagSelected()
+        }
+        super.onDetach()
+    }
+
     override fun initUi(): Unit = with(binding) {
         rvRecordTagSelectionList.apply {
             layoutManager = FlexboxLayoutManager(requireContext()).apply {
@@ -84,11 +94,9 @@ class RecordTagSelectionFragment : BaseFragment<Binding>() {
     override fun initViewModel(): Unit = with(viewModel) {
         extra = params
         viewData.observe(adapter::replace)
-        tagSelected.observe(::onTagSelected)
     }
 
-    @Suppress("UNUSED_PARAMETER")
-    private fun onTagSelected(unused: Unit) {
+    private fun onTagSelected() {
         listeners.forEach { it.onTagSelected() }
     }
 

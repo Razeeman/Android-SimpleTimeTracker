@@ -12,15 +12,14 @@ class RecordTagSelectionViewDataInteractor @Inject constructor(
     private val recordTagViewDataInteractor: RecordTagViewDataInteractor
 ) {
 
-    // TODO allow selection of several tags in tag selection
-    suspend fun getViewData(typeId: Long): List<ViewHolderType> {
+    suspend fun getViewData(typeId: Long, selectedTags: List<Long>): List<ViewHolderType> {
         val result: MutableList<ViewHolderType> = mutableListOf()
 
         resourceRepo.getString(R.string.record_tag_selection_hint)
             .let(::HintViewData).let(result::add)
 
         recordTagViewDataInteractor.getViewData(
-            selectedTags = emptyList(),
+            selectedTags = selectedTags,
             typeId = typeId
         ).let(result::addAll)
 
