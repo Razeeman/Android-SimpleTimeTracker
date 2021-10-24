@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.core.extension.addOrRemove
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.core.extension.set
@@ -157,11 +158,14 @@ class ChangeRunningRecordViewModel @Inject constructor(
 
     fun onCategoryClick(item: CategoryViewData) {
         viewModelScope.launch {
-            if (item.id in newCategoryIds) {
-                newCategoryIds.remove(item.id)
-            } else {
-                newCategoryIds.clear()
-                newCategoryIds.add(item.id)
+            when (item) {
+                is CategoryViewData.Record.Tagged -> {
+                    newCategoryIds.addOrRemove(item.id)
+                }
+                is CategoryViewData.Record.Untagged -> {
+                    newCategoryIds.clear()
+                }
+                else -> return@launch
             }
             updatePreview()
             updateCategoriesViewData()

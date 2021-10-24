@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.core.mapper.RecordTypeCardSizeMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.domain.extension.getFullName
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.model.RecordTag
@@ -30,14 +31,15 @@ class RunningRecordViewDataMapper @Inject constructor(
     fun map(
         runningRecord: RunningRecord,
         recordType: RecordType,
-        recordTag: RecordTag?,
+        recordTags: List<RecordTag>,
         isDarkTheme: Boolean,
         useMilitaryTime: Boolean
     ): RunningRecordViewData {
         return RunningRecordViewData(
             id = runningRecord.id,
             name = recordType.name,
-            tagName = recordTag?.name.orEmpty(),
+            tagName = recordTags
+                .getFullName(),
             timeStarted = runningRecord.timeStarted
                 .let { timeMapper.formatTime(it, useMilitaryTime) },
             timer = (System.currentTimeMillis() - runningRecord.timeStarted)

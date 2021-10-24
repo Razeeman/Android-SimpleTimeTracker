@@ -23,7 +23,7 @@ interface RecordTypeCategoryDao {
 
     @Transaction
     @Query("SELECT * FROM recordTypes WHERE id = :typeId LIMIT 1")
-    fun getTypeWithCategories(typeId: Long): RecordTypeWithCategoriesDBO?
+    suspend fun getTypeWithCategories(typeId: Long): RecordTypeWithCategoriesDBO?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(recordTypeCategoryDBO: List<RecordTypeCategoryDBO>)

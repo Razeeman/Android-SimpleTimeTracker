@@ -8,7 +8,6 @@ import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
-import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.feature_archive.R
 import com.example.util.simpletimetracker.feature_archive.interactor.ArchiveViewDataInteractor
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
@@ -28,7 +27,6 @@ class ArchiveViewModel @Inject constructor(
     private val archiveViewDataInteractor: ArchiveViewDataInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
     private val recordTagInteractor: RecordTagInteractor,
-    private val runningRecordInteractor: RunningRecordInteractor,
 ) : ViewModel() {
 
     val viewData: LiveData<List<ViewHolderType>> by lazy {
@@ -105,7 +103,6 @@ class ArchiveViewModel @Inject constructor(
                     message = resourceRepo.getString(R.string.archive_activity_deleted)
                 }
                 is ArchiveDialogParams.RecordTag -> {
-                    runningRecordInteractor.removeTag(params.id)
                     recordTagInteractor.remove(params.id)
                     message = resourceRepo.getString(R.string.archive_tag_deleted)
                 }

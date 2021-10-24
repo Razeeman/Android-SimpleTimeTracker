@@ -11,6 +11,7 @@ import com.example.util.simpletimetracker.domain.interactor.RecordToRecordTagInt
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
+import com.example.util.simpletimetracker.domain.interactor.RunningRecordToRecordTagInteractor
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.Record
@@ -28,6 +29,7 @@ class TestUtils @Inject constructor(
     private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
     private val recordTagInteractor: RecordTagInteractor,
     private val recordToRecordTagInteractor: RecordToRecordTagInteractor,
+    private val runningRecordToRecordTagInteractor: RunningRecordToRecordTagInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val iconImageMapper: IconImageMapper,
 ) {
@@ -40,6 +42,7 @@ class TestUtils @Inject constructor(
         recordTypeCategoryInteractor.clear()
         recordTagInteractor.clear()
         recordToRecordTagInteractor.clear()
+        runningRecordToRecordTagInteractor.clear()
     }
 
     fun clearPrefs() = runBlocking {

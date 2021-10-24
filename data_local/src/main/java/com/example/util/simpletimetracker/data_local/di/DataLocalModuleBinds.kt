@@ -10,6 +10,7 @@ import com.example.util.simpletimetracker.data_local.repo.RecordTypeCacheRepoImp
 import com.example.util.simpletimetracker.data_local.repo.RecordTypeCategoryRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.RecordTypeRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.RunningRecordRepoImpl
+import com.example.util.simpletimetracker.data_local.repo.RunningRecordToRecordTagRepoImpl
 import com.example.util.simpletimetracker.data_local.resolver.BackupRepoImpl
 import com.example.util.simpletimetracker.data_local.resolver.CsvRepoImpl
 import com.example.util.simpletimetracker.domain.repo.CategoryRepo
@@ -22,6 +23,7 @@ import com.example.util.simpletimetracker.domain.repo.RecordTypeCacheRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeCategoryRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeRepo
 import com.example.util.simpletimetracker.domain.repo.RunningRecordRepo
+import com.example.util.simpletimetracker.domain.repo.RunningRecordToRecordTagRepo
 import com.example.util.simpletimetracker.domain.resolver.BackupRepo
 import com.example.util.simpletimetracker.domain.resolver.CsvRepo
 import dagger.Binds
@@ -81,4 +83,8 @@ interface DataLocalModuleBinds {
     @Binds
     @Singleton
     fun RecordToRecordTagRepoImpl.bindRecordToRecordTagRepo(): RecordToRecordTagRepo
+
+    @Binds
+    @Singleton
+    fun RunningRecordToRecordTagRepoImpl.bindRunningRecordToRecordTagRepo(): RunningRecordToRecordTagRepo
 }

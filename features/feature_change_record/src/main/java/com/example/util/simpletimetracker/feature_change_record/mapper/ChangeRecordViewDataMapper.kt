@@ -4,6 +4,7 @@ import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.domain.extension.getFullName
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
@@ -28,7 +29,7 @@ class ChangeRecordViewDataMapper @Inject constructor(
         return ChangeRecordViewData(
             name = recordType?.name.orEmpty(),
             tagName = recordTags
-                .joinToString(separator = ", ") { it.name },
+                .getFullName(),
             timeStarted = record?.timeStarted
                 ?.let { timeMapper.formatTime(it, useMilitaryTime) }
                 .orEmpty(),

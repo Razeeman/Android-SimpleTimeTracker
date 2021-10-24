@@ -8,11 +8,9 @@ interface RunningRecordRepo {
 
     suspend fun get(id: Long): RunningRecord?
 
-    suspend fun add(runningRecord: RunningRecord)
+    suspend fun add(runningRecord: RunningRecord): Long
 
     suspend fun remove(id: Long)
-
-    suspend fun removeTag(tagId: Long)
 
     suspend fun clear()
 }

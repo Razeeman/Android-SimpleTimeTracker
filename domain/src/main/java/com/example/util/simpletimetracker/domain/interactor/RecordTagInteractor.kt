@@ -3,11 +3,13 @@ package com.example.util.simpletimetracker.domain.interactor
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.repo.RecordTagRepo
 import com.example.util.simpletimetracker.domain.repo.RecordToRecordTagRepo
+import com.example.util.simpletimetracker.domain.repo.RunningRecordToRecordTagRepo
 import javax.inject.Inject
 
 class RecordTagInteractor @Inject constructor(
     private val repo: RecordTagRepo,
     private val recordToRecordTagRepo: RecordToRecordTagRepo,
+    private val runningRecordToRecordTagRepo: RunningRecordToRecordTagRepo,
 ) {
 
     suspend fun getAll(): List<RecordTag> {
@@ -53,6 +55,7 @@ class RecordTagInteractor @Inject constructor(
     suspend fun remove(id: Long) {
         repo.remove(id)
         recordToRecordTagRepo.removeAllByTagId(id)
+        runningRecordToRecordTagRepo.removeAllByTagId(id)
     }
 
     suspend fun removeByType(typeId: Long) {

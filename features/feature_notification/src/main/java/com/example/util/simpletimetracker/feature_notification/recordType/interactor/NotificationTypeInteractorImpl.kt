@@ -5,7 +5,7 @@ import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
-import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.domain.extension.getFullName
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
@@ -35,14 +35,14 @@ class NotificationTypeInteractorImpl @Inject constructor(
 
         val recordType = recordTypeInteractor.get(typeId)
         val runningRecord = runningRecordInteractor.get(typeId)
-        val recordTag = recordTagInteractor.get(runningRecord?.tagIds?.firstOrNull().orZero())
+        val recordTags = recordTagInteractor.getAll().filter { it.id in runningRecord?.tagIds.orEmpty() }
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
 
         show(
             recordType = recordType,
             runningRecord = runningRecord,
-            recordTag = recordTag,
+            recordTags = recordTags,
             isDarkTheme = isDarkTheme,
             useMilitaryTime = useMilitaryTime
         )
@@ -70,7 +70,7 @@ class NotificationTypeInteractorImpl @Inject constructor(
 
     private suspend fun showAll() {
         val recordTypes = recordTypeInteractor.getAll().map { it.id to it }.toMap()
-        val recordTags = recordTagInteractor.getAll().map { it.id to it }.toMap()
+        val recordTags = recordTagInteractor.getAll()
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
 
@@ -79,7 +79,7 @@ class NotificationTypeInteractorImpl @Inject constructor(
                 show(
                     recordType = recordTypes[runningRecord.id],
                     runningRecord = runningRecord,
-                    recordTag = recordTags[runningRecord.tagIds.firstOrNull().orZero()],
+                    recordTags = recordTags.filter { it.id in runningRecord.tagIds },
                     isDarkTheme = isDarkTheme,
                     useMilitaryTime = useMilitaryTime
                 )
@@ -95,7 +95,7 @@ class NotificationTypeInteractorImpl @Inject constructor(
     private fun show(
         recordType: RecordType?,
         runningRecord: RunningRecord?,
-        recordTag: RecordTag?,
+        recordTags: List<RecordTag>,
         isDarkTheme: Boolean,
         useMilitaryTime: Boolean
     ) {
@@ -110,7 +110,7 @@ class NotificationTypeInteractorImpl @Inject constructor(
             color = recordType.color
                 .let { colorMapper.mapToColorResId(it, isDarkTheme) }
                 .let(resourceRepo::getColor),
-            text = getNotificationText(recordType, recordTag),
+            text = getNotificationText(recordType, recordTags),
             timeStarted = runningRecord.timeStarted
                 .let { timeMapper.formatTime(it, useMilitaryTime) }
                 .let { resourceRepo.getString(R.string.notification_time_started, it) },
@@ -125,11 +125,11 @@ class NotificationTypeInteractorImpl @Inject constructor(
 
     private fun getNotificationText(
         recordType: RecordType,
-        recordTag: RecordTag?
+        recordTags: List<RecordTag>,
     ): String {
-        val tag = recordTag?.name
+        val tag = recordTags.getFullName()
 
-        return if (tag.isNullOrEmpty()) {
+        return if (tag.isEmpty()) {
             recordType.name
         } else {
             "${recordType.name} - $tag"

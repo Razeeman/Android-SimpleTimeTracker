@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 7,
-    "identityHash": "84661e2b19f5fac7d1f7996d25563ceb",
+    "identityHash": "6b5b3964cc3b73fc2f722f8fcd96f0bb",
     "entities": [
       {
         "tableName": "records",
@@ -271,12 +271,39 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "runningRecordToRecordTag",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`running_record_id` INTEGER NOT NULL, `record_tag_id` INTEGER NOT NULL, PRIMARY KEY(`running_record_id`, `record_tag_id`))",
+        "fields": [
+          {
+            "fieldPath": "recordId",
+            "columnName": "running_record_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "recordTagId",
+            "columnName": "record_tag_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "running_record_id",
+            "record_tag_id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '84661e2b19f5fac7d1f7996d25563ceb')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '6b5b3964cc3b73fc2f722f8fcd96f0bb')"
     ]
   }
 }

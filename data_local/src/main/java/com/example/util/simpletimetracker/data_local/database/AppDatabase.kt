@@ -9,6 +9,7 @@ import com.example.util.simpletimetracker.data_local.model.RecordToRecordTagDBO
 import com.example.util.simpletimetracker.data_local.model.RecordTypeCategoryDBO
 import com.example.util.simpletimetracker.data_local.model.RecordTypeDBO
 import com.example.util.simpletimetracker.data_local.model.RunningRecordDBO
+import com.example.util.simpletimetracker.data_local.model.RunningRecordToRecordTagDBO
 
 @Database(
     entities = [
@@ -19,6 +20,7 @@ import com.example.util.simpletimetracker.data_local.model.RunningRecordDBO
         RecordTypeCategoryDBO::class,
         RecordTagDBO::class,
         RecordToRecordTagDBO::class,
+        RunningRecordToRecordTagDBO::class,
     ],
     version = 7,
     exportSchema = true,
@@ -38,6 +40,8 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun recordTagDao(): RecordTagDao
 
     abstract fun recordToRecordTagDao(): RecordToRecordTagDao
+
+    abstract fun runningRecordToRecordTagDao(): RunningRecordToRecordTagDao
 
     companion object {
         const val DATABASE_NAME = "simpleTimeTrackerDB"

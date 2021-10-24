@@ -1,6 +1,5 @@
 package com.example.util.simpletimetracker.feature_running_records.interactor
 
-import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.divider.DividerViewData
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -21,7 +20,7 @@ class RunningRecordsViewDataInteractor @Inject constructor(
     suspend fun getViewData(): List<ViewHolderType> {
         val recordTypes = recordTypeInteractor.getAll()
         val recordTypesMap = recordTypes.map { it.id to it }.toMap()
-        val recordTagsMap = recordTagInteractor.getAll().map { it.id to it }.toMap()
+        val recordTags = recordTagInteractor.getAll()
         val runningRecords = runningRecordInteractor.getAll()
         val recordTypesRunning = runningRecords.map { it.id }
         val numberOfCards = prefsInteractor.getNumberOfCards()
@@ -42,7 +41,7 @@ class RunningRecordsViewDataInteractor @Inject constructor(
                         mapper.map(
                             runningRecord = runningRecord,
                             recordType = recordTypesMap[runningRecord.id] ?: return@mapNotNull null,
-                            recordTag = recordTagsMap[runningRecord.tagIds.firstOrNull().orZero()],
+                            recordTags = recordTags.filter { it.id in runningRecord.tagIds },
                             isDarkTheme = isDarkTheme,
                             useMilitaryTime = useMilitaryTime
                         )

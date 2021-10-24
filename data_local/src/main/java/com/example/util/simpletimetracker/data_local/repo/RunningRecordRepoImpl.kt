@@ -26,9 +26,9 @@ class RunningRecordRepoImpl @Inject constructor(
         runningRecordDao.get(id)?.let(runningRunningRecordLocalMapper::map)
     }
 
-    override suspend fun add(runningRecord: RunningRecord) = withContext(Dispatchers.IO) {
+    override suspend fun add(runningRecord: RunningRecord): Long = withContext(Dispatchers.IO) {
         Timber.d("add")
-        runningRecordDao.insert(
+        return@withContext runningRecordDao.insert(
             runningRecord.let(runningRunningRecordLocalMapper::map)
         )
     }
@@ -36,11 +36,6 @@ class RunningRecordRepoImpl @Inject constructor(
     override suspend fun remove(id: Long) = withContext(Dispatchers.IO) {
         Timber.d("remove")
         runningRecordDao.delete(id)
-    }
-
-    override suspend fun removeTag(tagId: Long) = withContext(Dispatchers.IO) {
-        Timber.d("removeTag")
-        runningRecordDao.removeTag(tagId)
     }
 
     override suspend fun clear() = withContext(Dispatchers.IO) {

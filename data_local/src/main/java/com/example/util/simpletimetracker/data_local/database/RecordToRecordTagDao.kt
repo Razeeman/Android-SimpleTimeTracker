@@ -21,9 +21,10 @@ interface RecordToRecordTagDao {
     @Query("SELECT record_id FROM recordToRecordTag WHERE record_tag_id = :tagId")
     suspend fun getRecordIdsByTagId(tagId: Long): List<Long>
 
+    // TODO replace usage with recordDao
     @Transaction
     @Query("SELECT * FROM records WHERE id = :recordId LIMIT 1")
-    fun getRecordWithRecordTags(recordId: Long): RecordWithRecordTagsDBO?
+    suspend fun getRecordWithRecordTags(recordId: Long): RecordWithRecordTagsDBO?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(recordToRecordTagDBO: List<RecordToRecordTagDBO>)

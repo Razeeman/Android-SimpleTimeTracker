@@ -4,6 +4,7 @@ import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.domain.extension.getFullName
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RunningRecord
@@ -21,13 +22,14 @@ class ChangeRunningRecordViewDataMapper @Inject constructor(
     fun map(
         runningRecord: RunningRecord,
         recordType: RecordType?,
-        recordTag: RecordTag?,
+        recordTags: List<RecordTag>,
         isDarkTheme: Boolean,
         useMilitaryTime: Boolean,
     ): ChangeRunningRecordViewData {
         return ChangeRunningRecordViewData(
             name = recordType?.name.orEmpty(),
-            tagName = recordTag?.name.orEmpty(),
+            tagName = recordTags
+                .getFullName(),
             timeStarted = runningRecord.timeStarted
                 .let { timeMapper.formatTime(it, useMilitaryTime) },
             dateTimeStarted = runningRecord.timeStarted

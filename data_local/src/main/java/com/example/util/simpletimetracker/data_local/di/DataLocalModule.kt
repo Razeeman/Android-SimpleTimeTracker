@@ -13,6 +13,7 @@ import com.example.util.simpletimetracker.data_local.database.RecordToRecordTagD
 import com.example.util.simpletimetracker.data_local.database.RecordTypeCategoryDao
 import com.example.util.simpletimetracker.data_local.database.RecordTypeDao
 import com.example.util.simpletimetracker.data_local.database.RunningRecordDao
+import com.example.util.simpletimetracker.data_local.database.RunningRecordToRecordTagDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -93,7 +94,13 @@ class DataLocalModule {
 
     @Provides
     @Singleton
-    fun getRecordToRecordTagDap(database: AppDatabase): RecordToRecordTagDao {
+    fun getRecordToRecordTagDao(database: AppDatabase): RecordToRecordTagDao {
         return database.recordToRecordTagDao()
+    }
+
+    @Provides
+    @Singleton
+    fun getRunningRecordToRecordTagDap(database: AppDatabase): RunningRecordToRecordTagDao {
+        return database.runningRecordToRecordTagDao()
     }
 }

@@ -2,10 +2,12 @@ package com.example.util.simpletimetracker.domain.interactor
 
 import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.domain.repo.RunningRecordRepo
+import com.example.util.simpletimetracker.domain.repo.RunningRecordToRecordTagRepo
 import javax.inject.Inject
 
 class RunningRecordInteractor @Inject constructor(
-    private val runningRecordRepo: RunningRecordRepo
+    private val runningRecordRepo: RunningRecordRepo,
+    private val runningRecordToRecordTagRepo: RunningRecordToRecordTagRepo,
 ) {
 
     suspend fun getAll(): List<RunningRecord> {
@@ -17,15 +19,14 @@ class RunningRecordInteractor @Inject constructor(
     }
 
     suspend fun add(runningRecord: RunningRecord) {
-        runningRecordRepo.add(runningRecord)
+        val recordId = runningRecordRepo.add(runningRecord)
+        runningRecordToRecordTagRepo.removeAllByRunningRecordId(recordId)
+        runningRecordToRecordTagRepo.addRunningRecordTags(recordId, runningRecord.tagIds)
     }
 
     suspend fun remove(id: Long) {
+        runningRecordToRecordTagRepo.removeAllByRunningRecordId(id)
         runningRecordRepo.remove(id)
-    }
-
-    suspend fun removeTag(tagId: Long) {
-        runningRecordRepo.removeTag(tagId)
     }
 
     suspend fun clear() {
