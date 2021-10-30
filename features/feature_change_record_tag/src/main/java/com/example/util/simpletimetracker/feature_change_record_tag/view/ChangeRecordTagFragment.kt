@@ -3,29 +3,27 @@ package com.example.util.simpletimetracker.feature_change_record_tag.view
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.view.ViewCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
-import androidx.transition.TransitionInflater
-import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
-import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
-import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
-import com.example.util.simpletimetracker.feature_base_adapter.recordType.createRecordTypeAdapterDelegate
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.extension.hideKeyboard
 import com.example.util.simpletimetracker.core.extension.observeOnce
+import com.example.util.simpletimetracker.core.extension.setSharedTransitions
+import com.example.util.simpletimetracker.core.extension.showKeyboard
+import com.example.util.simpletimetracker.core.extension.toViewData
+import com.example.util.simpletimetracker.core.utils.setChooserColor
+import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
+import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
+import com.example.util.simpletimetracker.feature_base_adapter.color.createColorAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.recordType.createRecordTypeAdapterDelegate
+import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagTypeSetupViewData
+import com.example.util.simpletimetracker.feature_change_record_tag.viewModel.ChangeRecordTagViewModel
 import com.example.util.simpletimetracker.feature_views.extension.rotateDown
 import com.example.util.simpletimetracker.feature_views.extension.rotateUp
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
-import com.example.util.simpletimetracker.core.extension.showKeyboard
-import com.example.util.simpletimetracker.core.extension.toViewData
 import com.example.util.simpletimetracker.feature_views.extension.visible
-import com.example.util.simpletimetracker.core.utils.BuildVersions
-import com.example.util.simpletimetracker.core.utils.setChooserColor
-import com.example.util.simpletimetracker.feature_base_adapter.color.createColorAdapterDelegate
-import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagTypeSetupViewData
-import com.example.util.simpletimetracker.feature_change_record_tag.viewModel.ChangeRecordTagViewModel
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTagParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeTagData
 import com.google.android.flexbox.FlexDirection
@@ -68,14 +66,10 @@ class ChangeRecordTagFragment : BaseFragment<Binding>() {
     override fun initUi(): Unit = with(binding) {
         setPreview()
 
-        // TODO move to utils
-        if (BuildVersions.isLollipopOrHigher()) {
-            sharedElementEnterTransition = TransitionInflater.from(context)
-                .inflateTransition(android.R.transition.move)
-        }
-
-        val transitionName: String = (params as? ChangeTagData.Change)?.transitionName.orEmpty()
-        ViewCompat.setTransitionName(previewChangeRecordTag, transitionName)
+        setSharedTransitions(
+            transitionName = (params as? ChangeTagData.Change)?.transitionName.orEmpty(),
+            sharedView = previewChangeRecordTag,
+        )
 
         rvChangeRecordTagColor.apply {
             layoutManager = FlexboxLayoutManager(requireContext()).apply {

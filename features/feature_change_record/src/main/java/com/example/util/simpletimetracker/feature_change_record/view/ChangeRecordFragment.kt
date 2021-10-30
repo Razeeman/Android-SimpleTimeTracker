@@ -4,33 +4,31 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
-import androidx.transition.TransitionInflater
-import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
-import com.example.util.simpletimetracker.feature_base_adapter.category.createCategoryAdapterDelegate
-import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
-import com.example.util.simpletimetracker.feature_base_adapter.recordType.createRecordTypeAdapterDelegate
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
 import com.example.util.simpletimetracker.core.extension.hideKeyboard
 import com.example.util.simpletimetracker.core.extension.observeOnce
+import com.example.util.simpletimetracker.core.extension.setSharedTransitions
+import com.example.util.simpletimetracker.core.extension.showKeyboard
+import com.example.util.simpletimetracker.core.extension.toViewData
+import com.example.util.simpletimetracker.core.sharedViewModel.RemoveRecordViewModel
+import com.example.util.simpletimetracker.core.utils.setChooserColor
+import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
+import com.example.util.simpletimetracker.feature_base_adapter.category.createCategoryAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.divider.createDividerAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.info.createInfoAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.recordType.createRecordTypeAdapterDelegate
+import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordViewData
+import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordViewModel
 import com.example.util.simpletimetracker.feature_views.extension.rotateDown
 import com.example.util.simpletimetracker.feature_views.extension.rotateUp
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
-import com.example.util.simpletimetracker.core.extension.showKeyboard
-import com.example.util.simpletimetracker.core.extension.toViewData
 import com.example.util.simpletimetracker.feature_views.extension.visible
-import com.example.util.simpletimetracker.core.utils.BuildVersions
-import com.example.util.simpletimetracker.core.utils.setChooserColor
-import com.example.util.simpletimetracker.core.sharedViewModel.RemoveRecordViewModel
-import com.example.util.simpletimetracker.domain.extension.orZero
-import com.example.util.simpletimetracker.feature_base_adapter.divider.createDividerAdapterDelegate
-import com.example.util.simpletimetracker.feature_base_adapter.info.createInfoAdapterDelegate
-import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordViewData
-import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordViewModel
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordsFromScreen
 import com.google.android.flexbox.FlexDirection
@@ -83,17 +81,16 @@ class ChangeRecordFragment :
     override fun initUi(): Unit = with(binding) {
         setPreview()
 
-        if (BuildVersions.isLollipopOrHigher() && extra !is ChangeRecordParams.New) {
-            sharedElementEnterTransition = TransitionInflater.from(context)
-                .inflateTransition(android.R.transition.move)
-        }
-
         val transitionName: String = when (extra) {
             is ChangeRecordParams.Tracked -> (extra as? ChangeRecordParams.Tracked)?.transitionName.orEmpty()
             is ChangeRecordParams.Untracked -> (extra as? ChangeRecordParams.Untracked)?.transitionName.orEmpty()
             else -> ""
         }
-        ViewCompat.setTransitionName(previewChangeRecord, transitionName)
+        setSharedTransitions(
+            additionalCondition = { extra !is ChangeRecordParams.New },
+            transitionName = transitionName,
+            sharedView = previewChangeRecord,
+        )
 
         rvChangeRecordType.apply {
             layoutManager = FlexboxLayoutManager(requireContext()).apply {

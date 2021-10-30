@@ -3,21 +3,19 @@ package com.example.util.simpletimetracker.feature_change_record_type.view
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.view.ViewCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.transition.TransitionInflater
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.DurationDialogListener
 import com.example.util.simpletimetracker.core.dialog.EmojiSelectionDialogListener
 import com.example.util.simpletimetracker.core.extension.hideKeyboard
 import com.example.util.simpletimetracker.core.extension.observeOnce
+import com.example.util.simpletimetracker.core.extension.setSharedTransitions
 import com.example.util.simpletimetracker.core.extension.showKeyboard
 import com.example.util.simpletimetracker.core.extension.toViewData
 import com.example.util.simpletimetracker.core.repo.DeviceRepo
-import com.example.util.simpletimetracker.core.utils.BuildVersions
 import com.example.util.simpletimetracker.core.utils.setChooserColor
 import com.example.util.simpletimetracker.domain.model.IconEmojiType
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
@@ -107,13 +105,11 @@ class ChangeRecordTypeFragment :
     override fun initUi(): Unit = with(binding) {
         setPreview()
 
-        if (BuildVersions.isLollipopOrHigher() && params !is ChangeRecordTypeParams.New) {
-            sharedElementEnterTransition = TransitionInflater.from(context)
-                .inflateTransition(android.R.transition.move)
-        }
-
-        val transitionName: String = (params as? ChangeRecordTypeParams.Change)?.transitionName.orEmpty()
-        ViewCompat.setTransitionName(previewChangeRecordType, transitionName)
+        setSharedTransitions(
+            additionalCondition = { params !is ChangeRecordTypeParams.New },
+            transitionName = (params as? ChangeRecordTypeParams.Change)?.transitionName.orEmpty(),
+            sharedView = previewChangeRecordType,
+        )
 
         rvChangeRecordTypeColor.apply {
             layoutManager = FlexboxLayoutManager(requireContext()).apply {
