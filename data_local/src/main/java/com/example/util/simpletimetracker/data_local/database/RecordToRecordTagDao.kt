@@ -5,9 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Transaction
 import com.example.util.simpletimetracker.data_local.model.RecordToRecordTagDBO
-import com.example.util.simpletimetracker.data_local.model.RecordWithRecordTagsDBO
 
 @Dao
 interface RecordToRecordTagDao {
@@ -20,11 +18,6 @@ interface RecordToRecordTagDao {
 
     @Query("SELECT record_id FROM recordToRecordTag WHERE record_tag_id = :tagId")
     suspend fun getRecordIdsByTagId(tagId: Long): List<Long>
-
-    // TODO replace usage with recordDao
-    @Transaction
-    @Query("SELECT * FROM records WHERE id = :recordId LIMIT 1")
-    suspend fun getRecordWithRecordTags(recordId: Long): RecordWithRecordTagsDBO?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(recordToRecordTagDBO: List<RecordToRecordTagDBO>)

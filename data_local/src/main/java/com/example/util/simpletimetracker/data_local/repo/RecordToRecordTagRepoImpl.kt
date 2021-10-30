@@ -1,9 +1,7 @@
 package com.example.util.simpletimetracker.data_local.repo
 
 import com.example.util.simpletimetracker.data_local.database.RecordToRecordTagDao
-import com.example.util.simpletimetracker.data_local.mapper.RecordTagDataLocalMapper
 import com.example.util.simpletimetracker.data_local.mapper.RecordToRecordTagDataLocalMapper
-import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordToRecordTag
 import com.example.util.simpletimetracker.domain.repo.RecordToRecordTagRepo
 import kotlinx.coroutines.Dispatchers
@@ -16,22 +14,12 @@ import javax.inject.Singleton
 class RecordToRecordTagRepoImpl @Inject constructor(
     private val dao: RecordToRecordTagDao,
     private val mapper: RecordToRecordTagDataLocalMapper,
-    private val recordTagMapper: RecordTagDataLocalMapper,
 ) : RecordToRecordTagRepo {
 
     override suspend fun getAll(): List<RecordToRecordTag> =
         withContext(Dispatchers.IO) {
             Timber.d("get all")
             dao.getAll().map(mapper::map)
-        }
-
-    override suspend fun getTagsByRecordId(recordId: Long): List<RecordTag> =
-        withContext(Dispatchers.IO) {
-            Timber.d("get tags")
-            dao.getRecordWithRecordTags(recordId)
-                ?.recordTags
-                ?.map(recordTagMapper::map)
-                .orEmpty()
         }
 
     override suspend fun getTagIdsByRecordId(recordId: Long): List<Long> =

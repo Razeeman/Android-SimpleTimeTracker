@@ -10,7 +10,6 @@ import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.repo.RecordRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTagRepo
-import com.example.util.simpletimetracker.domain.repo.RecordToRecordTagRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeCategoryRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeRepo
 import com.example.util.simpletimetracker.domain.resolver.CsvRepo
@@ -29,7 +28,6 @@ class CsvRepoImpl @Inject constructor(
     private val recordRepo: RecordRepo,
     private val recordTypeCategoryRepo: RecordTypeCategoryRepo,
     private val recordTagRepo: RecordTagRepo,
-    private val recordToRecordTagRepo: RecordToRecordTagRepo,
 ) : CsvRepo {
 
     override suspend fun saveCsvFile(
@@ -50,6 +48,7 @@ class CsvRepoImpl @Inject constructor(
 
             val recordTypes = recordTypeRepo.getAll()
                 .map { it.id to it }.toMap()
+            val recordTags = recordTagRepo.getAll()
 
             // Write data
             val records = if (range != null) {
@@ -61,13 +60,12 @@ class CsvRepoImpl @Inject constructor(
                 .sortedBy { it.timeStarted }
                 .forEach { record ->
                     val activityTags = recordTypeCategoryRepo.getCategoriesByType(record.typeId)
-                    val recordTags = recordToRecordTagRepo.getTagsByRecordId(record.id)
 
                     toCsvString(
                         record = record,
                         recordType = recordTypes[record.typeId],
                         activityTags = activityTags,
-                        recordTags = recordTags.filterNotNull()
+                        recordTags = recordTags.filter { it.id in record.tagIds }
                     )
                         ?.toByteArray()
                         ?.let { fileOutputStream?.write(it) }
