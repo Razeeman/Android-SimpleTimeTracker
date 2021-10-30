@@ -8,7 +8,6 @@ import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
@@ -35,8 +34,6 @@ class ChangeCategoryTest : BaseUiTest() {
         val newName = "Updated"
         val typeName1 = "Type1"
         val typeName2 = "Type2"
-        val firstColor = ColorMapper.getAvailableColors().first()
-        val lastColor = ColorMapper.getAvailableColors().last()
 
         // Add activities
         testUtils.addActivity(typeName1)

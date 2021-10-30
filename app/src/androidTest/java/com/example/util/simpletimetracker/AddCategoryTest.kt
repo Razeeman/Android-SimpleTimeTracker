@@ -36,8 +36,6 @@ class AddCategoryTest : BaseUiTest() {
         val name = "Test"
         val typeName1 = "Type1"
         val typeName2 = "Type2"
-        val firstColor = ColorMapper.getAvailableColors().first()
-        val lastColor = ColorMapper.getAvailableColors().last()
         val lastColorPosition = ColorMapper.getAvailableColors().size - 1
 
         // Add activities

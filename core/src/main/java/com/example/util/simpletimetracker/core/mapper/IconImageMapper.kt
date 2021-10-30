@@ -17,23 +17,6 @@ class IconImageMapper @Inject constructor(
     private val resourceRepo: ResourceRepo
 ) {
 
-    // TODO remove
-    val availableIconsNames: Map<String, Int> by lazy {
-        val res: MutableMap<String, Int> = mutableMapOf()
-
-        getAvailableCategories()
-            .map(IconImageCategory::type)
-            .map(::mapTypeToArray)
-            .map(repo::getImages)
-            .forEach {
-                it.forEach { (key, value) ->
-                    res[key] = value
-                }
-            }
-
-        res
-    }
-
     fun getAvailableCategories(): List<IconImageCategory> = listOf(
         IconImageCategory(
             type = IconImageType.MAPS,

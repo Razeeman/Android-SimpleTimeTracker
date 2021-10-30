@@ -5,7 +5,6 @@ import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
@@ -28,8 +27,8 @@ class DeleteRecordTypeTest : BaseUiTest() {
     @Test
     fun deleteRecordType() {
         val name = "Test"
-        val color = ColorMapper.getAvailableColors().first()
-        val icon = iconImageMapper.availableIconsNames.values.first()
+        val color = firstColor
+        val icon = firstIcon
 
         // Add item
         testUtils.addActivity(name, color, icon)

@@ -57,9 +57,13 @@ open class BaseUiTest {
     val lastColor: Int
         get() = ColorMapper.getAvailableColors().last()
     val firstIcon: Int
-        get() = iconImageMapper.availableIconsNames.values.first()
+        get() = iconImageMapper.getAvailableImages().toList().first().let { (_, imagesMap) ->
+            imagesMap.toList().first().let { (_, resId) -> resId }
+        }
     val lastIcon: Int
-        get() = iconImageMapper.availableIconsNames.values.last()
+        get() = iconImageMapper.getAvailableImages().toList().last().let { (_, imagesMap) ->
+            imagesMap.toList().last().let { (_, resId) -> resId }
+        }
     val firstEmoji: String
         get() = iconEmojiMapper
             .getAvailableEmojis()[iconEmojiMapper.getAvailableEmojiCategories().first()]

@@ -62,7 +62,8 @@ class TestUtils @Inject constructor(
         archived: Boolean = false,
         categories: List<String> = emptyList(),
     ) = runBlocking {
-        val icons = iconImageMapper.availableIconsNames
+        val icons = iconImageMapper.getAvailableImages().values
+            .toList().flatMap { it.toList() }.toMap()
         val iconId = icons.filterValues { it == icon }.keys.firstOrNull()
             ?: emoji
             ?: icons.keys.first()

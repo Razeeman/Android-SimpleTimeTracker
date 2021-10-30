@@ -7,7 +7,6 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withSubstring
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
@@ -34,10 +33,6 @@ class StartRecordTest : BaseUiTest() {
     fun startRecord() {
         val name = "Test1"
         val newName = "Test2"
-        val firstColor = ColorMapper.getAvailableColors().first()
-        val lastColor = ColorMapper.getAvailableColors().last()
-        val firstIcon = iconImageMapper.availableIconsNames.values.first()
-        val lastIcon = iconImageMapper.availableIconsNames.values.last()
         val firstGoalTime = TimeUnit.MINUTES.toSeconds(10)
 
         // Add activities

@@ -367,7 +367,6 @@ class TimeMapper @Inject constructor(
         return res
     }
 
-    // TODO remove trailing zeros
     private fun formatIntervalProportional(hr: Long, min: Long): String {
         val hourString = resourceRepo.getString(R.string.time_hour)
         val minutesProportion = min / 60f
