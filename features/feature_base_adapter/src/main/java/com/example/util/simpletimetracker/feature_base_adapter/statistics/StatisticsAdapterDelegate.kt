@@ -23,7 +23,7 @@ fun createStatisticsAdapterDelegate(
         itemDuration = item.duration
         itemPercent = item.percent
 
-        if (item is ViewData.Activity) {
+        if (item.icon != null) {
             itemIconVisible = true
             itemIcon = item.icon
         } else {

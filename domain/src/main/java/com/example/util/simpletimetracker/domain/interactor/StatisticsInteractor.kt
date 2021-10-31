@@ -21,7 +21,7 @@ class StatisticsInteractor @Inject constructor(
             .groupBy { it.typeId }
             .map { entry ->
                 Statistics(
-                    typeId = entry.key,
+                    id = entry.key,
                     duration = entry.value.let(statisticsMapper::mapToDuration)
                 )
             }
@@ -37,7 +37,7 @@ class StatisticsInteractor @Inject constructor(
                 .groupBy { it.typeId }
                 .map { entry ->
                     Statistics(
-                        typeId = entry.key,
+                        id = entry.key,
                         duration = statisticsMapper.mapToDurationFromRange(entry.value, start, end)
                     )
                 }
@@ -46,7 +46,7 @@ class StatisticsInteractor @Inject constructor(
                         this as MutableList
                         add(
                             Statistics(
-                                typeId = -1L,
+                                id = -1L,
                                 duration = untrackedTime
                             )
                         )

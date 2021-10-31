@@ -3,7 +3,7 @@ package com.example.util.simpletimetracker.domain.interactor
 import com.example.util.simpletimetracker.domain.mapper.StatisticsMapper
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordTypeCategory
-import com.example.util.simpletimetracker.domain.model.StatisticsCategory
+import com.example.util.simpletimetracker.domain.model.Statistics
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -14,14 +14,13 @@ class StatisticsCategoryInteractor @Inject constructor(
     private val statisticsMapper: StatisticsMapper
 ) {
 
-    // TODO simplify mappers?
-    suspend fun getAll(): List<StatisticsCategory> = withContext(Dispatchers.IO) {
+    suspend fun getAll(): List<Statistics> = withContext(Dispatchers.IO) {
         val allRecords = recordInteractor.getAll()
 
         getCategoryRecords(allRecords)
             .map { (categoryId, records) ->
-                StatisticsCategory(
-                    categoryId = categoryId,
+                Statistics(
+                    id = categoryId,
                     duration = records.let(statisticsMapper::mapToDuration)
                 )
             }
@@ -30,13 +29,13 @@ class StatisticsCategoryInteractor @Inject constructor(
     suspend fun getFromRange(
         start: Long,
         end: Long
-    ): List<StatisticsCategory> = withContext(Dispatchers.IO) {
+    ): List<Statistics> = withContext(Dispatchers.IO) {
         val allRecords = recordInteractor.getFromRange(start, end)
 
         getCategoryRecords(allRecords)
             .map { (categoryId, records) ->
-                StatisticsCategory(
-                    categoryId = categoryId,
+                Statistics(
+                    id = categoryId,
                     duration = statisticsMapper.mapToDurationFromRange(records, start, end)
                 )
             }

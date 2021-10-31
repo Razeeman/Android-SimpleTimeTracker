@@ -5,11 +5,7 @@ import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.mapper.StatisticsMapper
-import com.example.util.simpletimetracker.domain.model.Category
-import com.example.util.simpletimetracker.domain.model.RecordType
-import com.example.util.simpletimetracker.domain.model.RecordTypeCategory
 import com.example.util.simpletimetracker.domain.model.Statistics
-import com.example.util.simpletimetracker.domain.model.StatisticsCategory
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.empty.EmptyViewData
 import com.example.util.simpletimetracker.feature_base_adapter.hint.HintViewData
@@ -17,6 +13,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.statistics.Statis
 import com.example.util.simpletimetracker.feature_statistics.R
 import com.example.util.simpletimetracker.feature_statistics.customView.PiePortion
 import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsChartViewData
+import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsDataHolder
 import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsInfoViewData
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import javax.inject.Inject
@@ -26,29 +23,28 @@ class StatisticsViewDataMapper @Inject constructor(
     private val colorMapper: ColorMapper,
     private val resourceRepo: ResourceRepo,
     private val timeMapper: TimeMapper,
-    private val statisticsMapper: StatisticsMapper
+    private val statisticsMapper: StatisticsMapper,
 ) {
 
-    fun mapActivities(
+    fun mapItemsList(
         statistics: List<Statistics>,
-        recordTypes: List<RecordType>,
-        recordTypesFiltered: List<Long>,
+        data: Map<Long, StatisticsDataHolder>,
+        filteredIds: List<Long>,
         showDuration: Boolean,
         isDarkTheme: Boolean,
-        useProportionalMinutes: Boolean
+        useProportionalMinutes: Boolean,
     ): List<StatisticsViewData> {
-        val statisticsFiltered = statistics.filterNot { it.typeId in recordTypesFiltered }
-        val recordTypesMap = recordTypes.map { it.id to it }.toMap()
+        val statisticsFiltered = statistics.filterNot { it.id in filteredIds }
         val sumDuration = statisticsFiltered.map(Statistics::duration).sum()
         val statisticsSize = statisticsFiltered.size
 
         return statisticsFiltered
             .mapNotNull { statistic ->
                 (
-                    mapActivity(
+                    mapItem(
                         statistics = statistic,
                         sumDuration = sumDuration,
-                        recordType = recordTypesMap[statistic.typeId],
+                        dataHolder = data[statistic.id],
                         showDuration = showDuration,
                         isDarkTheme = isDarkTheme,
                         statisticsSize = statisticsSize,
@@ -60,53 +56,20 @@ class StatisticsViewDataMapper @Inject constructor(
             .map { (statistics, _) -> statistics }
     }
 
-    fun mapCategories(
-        statistics: List<StatisticsCategory>,
-        categories: List<Category>,
-        categoriesFiltered: List<Long>,
-        showDuration: Boolean,
-        isDarkTheme: Boolean,
-        useProportionalMinutes: Boolean
-    ): List<StatisticsViewData> {
-        val statisticsFiltered = statistics.filterNot { it.categoryId in categoriesFiltered }
-        val categoriesMap = categories.map { it.id to it }.toMap()
-        val sumDuration = statisticsFiltered.map(StatisticsCategory::duration).sum()
-        val statisticsSize = statisticsFiltered.size
-
-        return statisticsFiltered
-            .mapNotNull { statistic ->
-                (
-                    mapCategory(
-                        statistics = statistic,
-                        sumDuration = sumDuration,
-                        category = categoriesMap[statistic.categoryId],
-                        showDuration = showDuration,
-                        isDarkTheme = isDarkTheme,
-                        statisticsSize = statisticsSize,
-                        useProportionalMinutes = useProportionalMinutes,
-                    ) ?: return@mapNotNull null
-                    ) to statistic.duration
-            }
-            .sortedByDescending { (_, duration) -> duration }
-            .map { (statistics, _) -> statistics }
-    }
-
-    fun mapActivitiesToChart(
+    fun mapChart(
         statistics: List<Statistics>,
-        recordTypes: List<RecordType>,
+        data: Map<Long, StatisticsDataHolder>,
         recordTypesFiltered: List<Long>,
-        isDarkTheme: Boolean
+        isDarkTheme: Boolean,
     ): ViewHolderType {
-        val recordTypesMap = recordTypes.map { it.id to it }.toMap()
-
         return StatisticsChartViewData(
             statistics
-                .filterNot { it.typeId in recordTypesFiltered }
+                .filterNot { it.id in recordTypesFiltered }
                 .mapNotNull { statistic ->
                     (
-                        mapActivityToChart(
+                        mapChart(
                             statistics = statistic,
-                            recordType = recordTypesMap[statistic.typeId],
+                            dataHolder = data[statistic.id],
                             isDarkTheme = isDarkTheme
                         ) ?: return@mapNotNull null
                         ) to statistic.duration
@@ -116,60 +79,14 @@ class StatisticsViewDataMapper @Inject constructor(
         )
     }
 
-    fun mapCategoriesToChart(
-        statisticsCategory: List<StatisticsCategory>,
-        categories: List<Category>,
-        types: List<RecordType>,
-        typeCategories: List<RecordTypeCategory>,
-        categoriesFiltered: List<Long>,
-        isDarkTheme: Boolean
-    ): ViewHolderType {
-        val categoriesMap = categories.map { it.id to it }.toMap()
-
-        return StatisticsChartViewData(
-            statisticsCategory
-                .filterNot { it.categoryId in categoriesFiltered }
-                .mapNotNull { statistic ->
-                    val type = typeCategories
-                        .firstOrNull { it.categoryId == statistic.categoryId }
-                        ?.recordTypeId
-                        ?.let { typeId -> types.firstOrNull { it.id == typeId } }
-
-                    (
-                        mapCategoryToChart(
-                            statisticsCategory = statistic,
-                            category = categoriesMap[statistic.categoryId],
-                            recordType = type,
-                            isDarkTheme = isDarkTheme
-                        ) ?: return@mapNotNull null
-                        ) to statistic.duration
-                }
-                .sortedByDescending { (_, duration) -> duration }
-                .map { (statistics, _) -> statistics }
-        )
-    }
-
-    // TODO statistics into sealed class and simplify
-    fun mapActivitiesTotalTracked(
+    fun mapStatisticsTotalTracked(
         statistics: List<Statistics>,
-        recordTypesFiltered: List<Long>,
-        useProportionalMinutes: Boolean
+        filteredIds: List<Long>,
+        useProportionalMinutes: Boolean,
     ): ViewHolderType {
         val statisticsFiltered = statistics
-            .filterNot { it.typeId in recordTypesFiltered || it.typeId == -1L }
+            .filterNot { it.id in filteredIds || it.id == -1L }
         val totalTracked = statisticsFiltered.map(Statistics::duration).sum()
-
-        return mapTotalTracked(totalTracked, useProportionalMinutes)
-    }
-
-    fun mapCategoriesTotalTracked(
-        statistics: List<StatisticsCategory>,
-        categoriesFiltered: List<Long>,
-        useProportionalMinutes: Boolean
-    ): ViewHolderType {
-        val statisticsFiltered = statistics
-            .filterNot { it.categoryId in categoriesFiltered || it.categoryId == -1L }
-        val totalTracked = statisticsFiltered.map(StatisticsCategory::duration).sum()
 
         return mapTotalTracked(totalTracked, useProportionalMinutes)
     }
@@ -186,14 +103,14 @@ class StatisticsViewDataMapper @Inject constructor(
         )
     }
 
-    private fun mapActivity(
+    private fun mapItem(
         statistics: Statistics,
         sumDuration: Long,
-        recordType: RecordType?,
+        dataHolder: StatisticsDataHolder?,
         showDuration: Boolean,
         isDarkTheme: Boolean,
         statisticsSize: Int,
-        useProportionalMinutes: Boolean
+        useProportionalMinutes: Boolean,
     ): StatisticsViewData? {
         val durationPercent = statisticsMapper.getDurationPercentString(
             sumDuration = sumDuration,
@@ -202,9 +119,9 @@ class StatisticsViewDataMapper @Inject constructor(
         )
 
         when {
-            statistics.typeId == -1L -> {
-                return StatisticsViewData.Activity(
-                    id = statistics.typeId,
+            statistics.id == -1L -> {
+                return StatisticsViewData(
+                    id = statistics.id,
                     name = R.string.untracked_time_name
                         .let(resourceRepo::getString),
                     duration = statistics.duration
@@ -214,19 +131,19 @@ class StatisticsViewDataMapper @Inject constructor(
                     color = colorMapper.toUntrackedColor(isDarkTheme)
                 )
             }
-            recordType != null -> {
-                return StatisticsViewData.Activity(
-                    id = statistics.typeId,
-                    name = recordType.name,
+            dataHolder != null -> {
+                return StatisticsViewData(
+                    id = statistics.id,
+                    name = dataHolder.name,
                     duration = if (showDuration) {
                         timeMapper.formatInterval(statistics.duration, useProportionalMinutes)
                     } else {
                         ""
                     },
                     percent = durationPercent,
-                    icon = recordType.icon
-                        .let(iconMapper::mapIcon),
-                    color = recordType.color
+                    icon = dataHolder.icon
+                        ?.let(iconMapper::mapIcon),
+                    color = dataHolder.color
                         .let { colorMapper.mapToColorResId(it, isDarkTheme) }
                         .let(resourceRepo::getColor)
                 )
@@ -237,86 +154,32 @@ class StatisticsViewDataMapper @Inject constructor(
         }
     }
 
-    private fun mapCategory(
-        statistics: StatisticsCategory,
-        sumDuration: Long,
-        category: Category?,
-        showDuration: Boolean,
-        isDarkTheme: Boolean,
-        statisticsSize: Int,
-        useProportionalMinutes: Boolean
-    ): StatisticsViewData? {
-        val durationPercent = statisticsMapper.getDurationPercentString(
-            sumDuration = sumDuration,
-            duration = statistics.duration,
-            statisticsSize = statisticsSize
-        )
-
-        return if (category != null) {
-            StatisticsViewData.Category(
-                id = statistics.categoryId,
-                name = category.name,
-                duration = if (showDuration) {
-                    timeMapper.formatInterval(statistics.duration, useProportionalMinutes)
-                } else {
-                    ""
-                },
-                percent = durationPercent,
-                color = category.color
-                    .let { colorMapper.mapToColorResId(it, isDarkTheme) }
-                    .let(resourceRepo::getColor)
-            )
-        } else {
-            null
-        }
-    }
-
-    private fun mapActivityToChart(
+    private fun mapChart(
         statistics: Statistics,
-        recordType: RecordType?,
-        isDarkTheme: Boolean
+        dataHolder: StatisticsDataHolder?,
+        isDarkTheme: Boolean,
     ): PiePortion? {
         return when {
-            statistics.typeId == -1L -> {
+            statistics.id == -1L -> {
                 PiePortion(
                     value = statistics.duration,
                     colorInt = colorMapper.toUntrackedColor(isDarkTheme),
                     iconId = RecordTypeIcon.Image(R.drawable.unknown)
                 )
             }
-            recordType != null -> {
+            dataHolder != null -> {
                 PiePortion(
                     value = statistics.duration,
-                    colorInt = recordType.color
+                    colorInt = dataHolder.color
                         .let { colorMapper.mapToColorResId(it, isDarkTheme) }
                         .let(resourceRepo::getColor),
-                    iconId = recordType.icon
-                        .let(iconMapper::mapIcon)
+                    iconId = dataHolder.icon
+                        ?.let(iconMapper::mapIcon)
                 )
             }
             else -> {
                 null
             }
-        }
-    }
-
-    private fun mapCategoryToChart(
-        statisticsCategory: StatisticsCategory,
-        category: Category?,
-        recordType: RecordType?,
-        isDarkTheme: Boolean
-    ): PiePortion? {
-        return if (category != null) {
-            PiePortion(
-                value = statisticsCategory.duration,
-                colorInt = category.color
-                    .let { colorMapper.mapToColorResId(it, isDarkTheme) }
-                    .let(resourceRepo::getColor),
-                iconId = recordType?.icon
-                    ?.let(iconMapper::mapIcon)
-            )
-        } else {
-            null
         }
     }
 

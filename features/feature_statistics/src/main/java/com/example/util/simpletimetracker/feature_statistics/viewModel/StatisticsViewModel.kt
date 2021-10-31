@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.extension.toParams
 import com.example.util.simpletimetracker.domain.extension.orZero
-import com.example.util.simpletimetracker.domain.model.ChartFilterType
+import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
@@ -23,7 +23,8 @@ import javax.inject.Inject
 
 class StatisticsViewModel @Inject constructor(
     private val router: Router,
-    private val statisticsViewDataInteractor: StatisticsViewDataInteractor
+    private val statisticsViewDataInteractor: StatisticsViewDataInteractor,
+    private val prefsInteractor: PrefsInteractor,
 ) : ViewModel() {
 
     var extra: StatisticsExtra? = null
@@ -53,14 +54,14 @@ class StatisticsViewModel @Inject constructor(
         router.navigate(ChartFilterDialogParams)
     }
 
-    fun onItemClick(item: StatisticsViewData, sharedElements: Map<Any, String>) {
+    fun onItemClick(
+        item: StatisticsViewData,
+        sharedElements: Map<Any, String>,
+    ) = viewModelScope.launch {
         // TODO untracked detailed statistics
-        if (item.id == -1L) return
+        if (item.id == -1L) return@launch
 
-        val filterType = when (item) {
-            is StatisticsViewData.Activity -> ChartFilterType.ACTIVITY
-            is StatisticsViewData.Category -> ChartFilterType.CATEGORY
-        }
+        val filterType = prefsInteractor.getChartFilterType()
 
         router.navigate(
             data = StatisticsDetailParams(
@@ -71,7 +72,7 @@ class StatisticsViewModel @Inject constructor(
                 ),
                 preview = StatisticsDetailParams.Preview(
                     name = item.name,
-                    iconId = (item as? StatisticsViewData.Activity)?.icon?.toParams(),
+                    iconId = item.icon?.toParams(),
                     color = item.color
                 )
             ),

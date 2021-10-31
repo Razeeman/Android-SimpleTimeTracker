@@ -4,6 +4,7 @@ import androidx.annotation.ColorInt
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 
+// TODO replace with StatisticsViewData
 data class StatisticsTagViewData(
     val id: Long,
     val name: String,

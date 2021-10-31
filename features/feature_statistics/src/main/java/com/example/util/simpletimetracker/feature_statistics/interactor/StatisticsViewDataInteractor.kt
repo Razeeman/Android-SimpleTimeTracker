@@ -2,31 +2,28 @@ package com.example.util.simpletimetracker.feature_statistics.interactor
 
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
-import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
-import com.example.util.simpletimetracker.domain.interactor.StatisticsCategoryInteractor
-import com.example.util.simpletimetracker.domain.interactor.StatisticsInteractor
+import com.example.util.simpletimetracker.domain.interactor.StatisticsMediator
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.RangeLength
+import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.Statistics
-import com.example.util.simpletimetracker.domain.model.StatisticsCategory
 import com.example.util.simpletimetracker.feature_statistics.mapper.StatisticsViewDataMapper
-import com.example.util.simpletimetracker.feature_base_adapter.statistics.StatisticsViewData
+import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsDataHolder
 import javax.inject.Inject
 
 class StatisticsViewDataInteractor @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
-    private val statisticsInteractor: StatisticsInteractor,
-    private val statisticsCategoryInteractor: StatisticsCategoryInteractor,
+    private val statisticsMediator: StatisticsMediator,
     private val categoryInteractor: CategoryInteractor,
     private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val statisticsViewDataMapper: StatisticsViewDataMapper,
-    private val timeMapper: TimeMapper
+    private val timeMapper: TimeMapper,
 ) {
 
     suspend fun getViewData(rangeLength: RangeLength, shift: Int): List<ViewHolderType> {
@@ -35,47 +32,28 @@ class StatisticsViewDataInteractor @Inject constructor(
         val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
         val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
         val showDuration = rangeLength != RangeLength.ALL
+        val types = recordTypeInteractor.getAll()
 
-        val list: List<StatisticsViewData>
-        val totalTracked: ViewHolderType
-        val chart: ViewHolderType
-        val result: MutableList<ViewHolderType> = mutableListOf()
-
-        when (filterType) {
-            ChartFilterType.ACTIVITY -> {
-                val types = recordTypeInteractor.getAll()
-                val typesFiltered = prefsInteractor.getFilteredTypes()
-                val statistics = getStatistics(rangeLength, shift, typesFiltered, firstDayOfWeek)
-
-                list = statisticsViewDataMapper.mapActivities(
-                    statistics, types, typesFiltered, showDuration, isDarkTheme, useProportionalMinutes
-                )
-                chart = statisticsViewDataMapper.mapActivitiesToChart(
-                    statistics, types, typesFiltered, isDarkTheme
-                )
-                totalTracked = statisticsViewDataMapper.mapActivitiesTotalTracked(
-                    statistics, typesFiltered, useProportionalMinutes
-                )
-            }
-            ChartFilterType.CATEGORY -> {
-                val categories = categoryInteractor.getAll()
-                val types = recordTypeInteractor.getAll()
-                val typeCategories = recordTypeCategoryInteractor.getAll()
-                val categoriesFiltered = prefsInteractor.getFilteredCategories()
-                val statistics = getStatisticsCategory(rangeLength, shift, firstDayOfWeek)
-
-                list = statisticsViewDataMapper.mapCategories(
-                    statistics, categories, categoriesFiltered, showDuration, isDarkTheme, useProportionalMinutes
-                )
-                chart = statisticsViewDataMapper.mapCategoriesToChart(
-                    statistics, categories, types, typeCategories, categoriesFiltered, isDarkTheme
-                )
-                totalTracked = statisticsViewDataMapper.mapCategoriesTotalTracked(
-                    statistics, categoriesFiltered, useProportionalMinutes
-                )
-            }
+        val filteredIds = when (filterType) {
+            ChartFilterType.ACTIVITY -> prefsInteractor.getFilteredTypes()
+            ChartFilterType.CATEGORY -> prefsInteractor.getFilteredCategories()
         }
-        val hint = statisticsViewDataMapper.mapToHint()
+
+        // Get data.
+        val dataHolders = getDataHolders(filterType, types)
+        val statistics = getStatistics(filterType, rangeLength, shift, filteredIds, firstDayOfWeek)
+        val chart = getChart(
+            filterType, statistics, dataHolders, types, filteredIds, isDarkTheme
+        )
+        val list = statisticsViewDataMapper.mapItemsList(
+            statistics, dataHolders, filteredIds, showDuration, isDarkTheme, useProportionalMinutes
+        )
+        val totalTracked: ViewHolderType = statisticsViewDataMapper.mapStatisticsTotalTracked(
+            statistics, filteredIds, useProportionalMinutes
+        )
+
+        // Assemble data.
+        val result: MutableList<ViewHolderType> = mutableListOf()
 
         if (list.isEmpty()) {
             statisticsViewDataMapper.mapToEmpty().let(result::add)
@@ -84,17 +62,20 @@ class StatisticsViewDataInteractor @Inject constructor(
             list.let(result::addAll)
             totalTracked.let(result::add)
             // If has any activity or tag other than untracked
-            if (list.any { it.id != -1L }) hint.let(result::add)
+            if (list.any { it.id != -1L }) {
+                statisticsViewDataMapper.mapToHint().let(result::add)
+            }
         }
 
         return result
     }
 
     private suspend fun getStatistics(
+        filterType: ChartFilterType,
         rangeLength: RangeLength,
         shift: Int,
-        typesFiltered: List<Long>,
-        firstDayOfWeek: DayOfWeek
+        filteredIds: List<Long>,
+        firstDayOfWeek: DayOfWeek,
     ): List<Statistics> {
         val (start, end) = timeMapper.getRangeStartAndEnd(
             rangeLength = rangeLength,
@@ -103,34 +84,77 @@ class StatisticsViewDataInteractor @Inject constructor(
         )
 
         return if (start != 0L && end != 0L) {
-            statisticsInteractor.getFromRange(
-                start = start.orZero(),
-                end = end.orZero(),
-                addUntracked = !typesFiltered.contains(-1L)
+            statisticsMediator.getFromRange(
+                filterType = filterType,
+                start = start,
+                end = end,
+                addUntracked = !filteredIds.contains(-1L)
             )
         } else {
-            statisticsInteractor.getAll()
+            statisticsMediator.getAll(
+                filterType = filterType
+            )
         }
     }
 
-    private suspend fun getStatisticsCategory(
-        rangeLength: RangeLength,
-        shift: Int,
-        firstDayOfWeek: DayOfWeek
-    ): List<StatisticsCategory> {
-        val (start, end) = timeMapper.getRangeStartAndEnd(
-            rangeLength = rangeLength,
-            shift = shift,
-            firstDayOfWeek = firstDayOfWeek
-        )
+    private suspend fun getDataHolders(
+        filterType: ChartFilterType,
+        types: List<RecordType>,
+    ): Map<Long, StatisticsDataHolder> {
+        return when (filterType) {
+            ChartFilterType.ACTIVITY -> {
+                types.map { type ->
+                    type.id to StatisticsDataHolder(
+                        name = type.name,
+                        color = type.color,
+                        icon = type.icon
+                    )
+                }
+            }
+            ChartFilterType.CATEGORY -> {
+                val categories = categoryInteractor.getAll()
+                categories.map { tag ->
+                    tag.id to StatisticsDataHolder(
+                        name = tag.name,
+                        color = tag.color,
+                        icon = null
+                    )
+                }
+            }
+        }.toMap()
+    }
 
-        return if (start != 0L && end != 0L) {
-            statisticsCategoryInteractor.getFromRange(
-                start = start.orZero(),
-                end = end.orZero()
-            )
-        } else {
-            statisticsCategoryInteractor.getAll()
+    private suspend fun getChart(
+        filterType: ChartFilterType,
+        statistics: List<Statistics>,
+        dataHolders: Map<Long, StatisticsDataHolder>,
+        types: List<RecordType>,
+        filteredIds: List<Long>,
+        isDarkTheme: Boolean,
+    ): ViewHolderType {
+        // Add icons for tag chart, use first activity from tag.
+        val chartDataHolders: Map<Long, StatisticsDataHolder> = when (filterType) {
+            ChartFilterType.ACTIVITY -> {
+                dataHolders
+            }
+            ChartFilterType.CATEGORY -> {
+                dataHolders.map { (id, data) ->
+                    val typeCategories = recordTypeCategoryInteractor.getAll()
+                    val icon = typeCategories
+                        .firstOrNull { it.categoryId == id }
+                        ?.recordTypeId
+                        ?.let { typeId -> types.firstOrNull { it.id == typeId } }
+                        ?.icon
+                    id to data.copy(icon = icon)
+                }.toMap()
+            }
         }
+
+        return statisticsViewDataMapper.mapChart(
+            statistics = statistics,
+            data = chartDataHolders,
+            recordTypesFiltered = filteredIds,
+            isDarkTheme = isDarkTheme
+        )
     }
 }
