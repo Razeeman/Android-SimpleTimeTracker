@@ -11,6 +11,7 @@ import com.example.util.simpletimetracker.core.extension.hideKeyboard
 import com.example.util.simpletimetracker.core.extension.observeOnce
 import com.example.util.simpletimetracker.core.extension.setSharedTransitions
 import com.example.util.simpletimetracker.core.extension.showKeyboard
+import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
 import com.example.util.simpletimetracker.core.utils.setChooserColor
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
@@ -59,10 +60,9 @@ class ChangeCategoryFragment : BaseFragment<Binding>() {
         )
     }
 
-    // TODO by delegate?
-    private val params: ChangeTagData by lazy {
-        arguments?.getParcelable<ChangeTagData>(ARGS_PARAMS) ?: ChangeTagData.New
-    }
+    private val params: ChangeTagData by fragmentArgumentDelegate(
+        key = ARGS_PARAMS, default = ChangeTagData.New
+    )
 
     override fun initUi(): Unit = with(binding) {
         setPreview()

@@ -13,6 +13,7 @@ import com.example.util.simpletimetracker.core.extension.getAllFragments
 import com.example.util.simpletimetracker.feature_views.extension.onTabSelected
 import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
+import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
 import com.example.util.simpletimetracker.feature_dialogs.R
 import com.example.util.simpletimetracker.feature_dialogs.databinding.DateTimeDialogFragmentBinding
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogParams
@@ -37,9 +38,9 @@ class DateTimeDialogFragment :
     private var timeDialogFragment: TimeDialogFragment? = null
     private var dateDialogFragment: DateDialogFragment? = null
     private var dateTimeDialogListeners: MutableList<DateTimeDialogListener> = mutableListOf()
-    private val params: DateTimeDialogParams by lazy {
-        arguments?.getParcelable(ARGS_PARAMS) ?: DateTimeDialogParams()
-    }
+    private val params: DateTimeDialogParams by fragmentArgumentDelegate(
+        key = ARGS_PARAMS, default = DateTimeDialogParams()
+    )
     private var newTimestamp: Long = 0
     private val calendar = Calendar.getInstance()
 

@@ -3,7 +3,6 @@ package com.example.util.simpletimetracker.feature_statistics_detail.view
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.view.ViewCompat
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
@@ -17,6 +16,7 @@ import com.example.util.simpletimetracker.core.extension.setSharedTransitions
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.feature_views.extension.setOnLongClick
 import com.example.util.simpletimetracker.core.extension.toViewData
+import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
 import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.core.viewData.RangesViewData
 import com.example.util.simpletimetracker.feature_base_adapter.statisticsTag.createStatisticsTagAdapterDelegate
@@ -63,9 +63,9 @@ class StatisticsDetailFragment :
             createStatisticsTagAdapterDelegate()
         )
     }
-    private val params: StatisticsDetailParams by lazy {
-        arguments?.getParcelable(ARGS_PARAMS) ?: StatisticsDetailParams()
-    }
+    private val params: StatisticsDetailParams by fragmentArgumentDelegate(
+        key = ARGS_PARAMS, default = StatisticsDetailParams()
+    )
 
     override fun initUi(): Unit = with(binding) {
         setPreview()

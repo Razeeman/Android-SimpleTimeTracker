@@ -15,6 +15,7 @@ import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.ArchiveDialogListener
 import com.example.util.simpletimetracker.core.extension.getAllFragments
 import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
+import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
 import com.example.util.simpletimetracker.feature_dialogs.archive.adapter.createArchiveDialogButtonsAdapterDelegate
 import com.example.util.simpletimetracker.feature_dialogs.archive.adapter.createArchiveDialogInfoAdapterDelegate
 import com.example.util.simpletimetracker.feature_dialogs.archive.adapter.createArchiveDialogTitleAdapterDelegate
@@ -55,10 +56,9 @@ class ArchiveDialogFragment : BaseBottomSheetFragment<Binding>() {
             )
         )
     }
-    private val params: ArchiveDialogParams by lazy {
-        arguments?.getParcelable<ArchiveDialogParams>(ARGS_PARAMS)
-            ?: ArchiveDialogParams.Activity(0)
-    }
+    private val params: ArchiveDialogParams by fragmentArgumentDelegate(
+        key = ARGS_PARAMS, default = ArchiveDialogParams.Activity(0)
+    )
     private var archiveDialogListener: ArchiveDialogListener? = null
 
     override fun onAttach(context: Context) {

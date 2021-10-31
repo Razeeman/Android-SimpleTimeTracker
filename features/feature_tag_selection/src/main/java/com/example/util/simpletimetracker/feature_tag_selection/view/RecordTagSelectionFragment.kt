@@ -14,6 +14,7 @@ import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.OnTagSelectedListener
 import com.example.util.simpletimetracker.core.extension.getAllFragments
+import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.divider.createDividerAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.info.createInfoAdapterDelegate
@@ -52,9 +53,9 @@ class RecordTagSelectionFragment : BaseFragment<Binding>() {
             createEmptyAdapterDelegate(),
         )
     }
-    private val params: RecordTagSelectionParams by lazy {
-        arguments?.getParcelable(ARGS_PARAMS) ?: RecordTagSelectionParams()
-    }
+    private val params: RecordTagSelectionParams by fragmentArgumentDelegate(
+        key = ARGS_PARAMS, default = RecordTagSelectionParams()
+    )
     private val listeners: MutableList<OnTagSelectedListener> = mutableListOf()
 
     override fun onAttach(context: Context) {

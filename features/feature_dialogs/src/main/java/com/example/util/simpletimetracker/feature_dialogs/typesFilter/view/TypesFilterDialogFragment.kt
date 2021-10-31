@@ -21,6 +21,7 @@ import com.example.util.simpletimetracker.core.extension.getAllFragments
 import com.example.util.simpletimetracker.core.extension.setFullScreen
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
+import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
 import com.example.util.simpletimetracker.feature_dialogs.typesFilter.viewModel.TypesFilterViewModel
 import com.example.util.simpletimetracker.navigation.params.screen.TypesFilterDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.TypesFilterParams
@@ -43,6 +44,9 @@ class TypesFilterDialogFragment : BaseBottomSheetFragment<Binding>() {
 
     private val viewModel: TypesFilterViewModel by viewModels(
         factoryProducer = { viewModelFactory }
+    )
+    private val params: TypesFilterParams by fragmentArgumentDelegate(
+        key = ARGS_PARAMS, default = TypesFilterParams()
     )
 
     private val adapter: BaseRecyclerAdapter by lazy {
@@ -100,7 +104,7 @@ class TypesFilterDialogFragment : BaseBottomSheetFragment<Binding>() {
     }
 
     override fun initViewModel(): Unit = with(viewModel) {
-        extra = arguments?.getParcelable(ARGS_PARAMS) ?: TypesFilterParams()
+        extra = params
         viewData.observe(adapter::replace)
         typesFilter.observe { typesFilterDialogListener?.onTypesFilterSelected(it) }
     }

@@ -15,6 +15,7 @@ import com.example.util.simpletimetracker.core.extension.setSharedTransitions
 import com.example.util.simpletimetracker.core.extension.showKeyboard
 import com.example.util.simpletimetracker.core.extension.toViewData
 import com.example.util.simpletimetracker.core.sharedViewModel.RemoveRecordViewModel
+import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
 import com.example.util.simpletimetracker.core.utils.setChooserColor
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
@@ -74,9 +75,9 @@ class ChangeRecordFragment :
             createEmptyAdapterDelegate()
         )
     }
-    private val extra: ChangeRecordParams by lazy {
-        arguments?.getParcelable<ChangeRecordParams>(ARGS_PARAMS) ?: ChangeRecordParams.New()
-    }
+    private val extra: ChangeRecordParams by fragmentArgumentDelegate(
+        key = ARGS_PARAMS, default = ChangeRecordParams.New()
+    )
 
     override fun initUi(): Unit = with(binding) {
         setPreview()

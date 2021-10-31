@@ -16,6 +16,7 @@ import com.example.util.simpletimetracker.core.extension.setSharedTransitions
 import com.example.util.simpletimetracker.core.extension.showKeyboard
 import com.example.util.simpletimetracker.core.extension.toViewData
 import com.example.util.simpletimetracker.core.repo.DeviceRepo
+import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
 import com.example.util.simpletimetracker.core.utils.setChooserColor
 import com.example.util.simpletimetracker.domain.model.IconEmojiType
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
@@ -97,10 +98,10 @@ class ChangeRecordTypeFragment :
     private val iconsLayoutManager: GridLayoutManager by lazy {
         GridLayoutManager(requireContext(), getIconsColumnCount())
     }
-    private val params: ChangeRecordTypeParams by lazy {
-        arguments?.getParcelable<ChangeRecordTypeParams>(ARGS_PARAMS)
-            ?: ChangeRecordTypeParams.New(ChangeRecordTypeParams.SizePreview())
-    }
+    private val params: ChangeRecordTypeParams by fragmentArgumentDelegate(
+        key = ARGS_PARAMS,
+        default = ChangeRecordTypeParams.New(ChangeRecordTypeParams.SizePreview())
+    )
 
     override fun initUi(): Unit = with(binding) {
         setPreview()

@@ -19,7 +19,7 @@ fun Fragment.getAllFragments(): List<Fragment> {
     return fm.fragments + fm.fragments.map(Fragment::getAllFragments).flatten()
 }
 
-fun Fragment.setSharedTransitions(
+inline fun Fragment.setSharedTransitions(
     additionalCondition: () -> Boolean = { true },
     transitionName: String,
     sharedView: View,

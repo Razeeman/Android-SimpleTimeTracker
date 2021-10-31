@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.core.base.BaseBottomSheetFragment
 import com.example.util.simpletimetracker.core.dialog.OnTagSelectedListener
 import com.example.util.simpletimetracker.core.extension.setFullScreen
 import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
+import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
 import com.example.util.simpletimetracker.feature_dialogs.R
 import com.example.util.simpletimetracker.navigation.ScreenFactory
 import com.example.util.simpletimetracker.navigation.params.screen.RecordTagSelectionParams
@@ -26,9 +27,9 @@ class RecordTagSelectionDialogFragment :
     @Inject
     lateinit var screenFactory: ScreenFactory
 
-    private val params: RecordTagSelectionParams by lazy {
-        arguments?.getParcelable(ARGS_PARAMS) ?: RecordTagSelectionParams()
-    }
+    private val params: RecordTagSelectionParams by fragmentArgumentDelegate(
+        key = ARGS_PARAMS, default = RecordTagSelectionParams()
+    )
 
     override fun onTagSelected() {
         dismiss()

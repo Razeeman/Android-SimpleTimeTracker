@@ -6,14 +6,15 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
-import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
-import com.example.util.simpletimetracker.feature_base_adapter.emoji.createEmojiAdapterDelegate
-import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.core.base.BaseBottomSheetFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.EmojiSelectionDialogListener
 import com.example.util.simpletimetracker.core.extension.getAllFragments
 import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
+import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
+import com.example.util.simpletimetracker.feature_base_adapter.emoji.createEmojiAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.feature_dialogs.emojiSelection.viewModel.EmojiSelectionViewModel
 import com.example.util.simpletimetracker.navigation.params.screen.EmojiSelectionDialogParams
 import com.google.android.flexbox.FlexDirection
@@ -44,9 +45,9 @@ class EmojiSelectionDialogFragment : BaseBottomSheetFragment<Binding>() {
         )
     }
 
-    private val params: EmojiSelectionDialogParams by lazy {
-        arguments?.getParcelable(ARGS_PARAMS) ?: EmojiSelectionDialogParams()
-    }
+    private val params: EmojiSelectionDialogParams by fragmentArgumentDelegate(
+        key = ARGS_PARAMS, default = EmojiSelectionDialogParams(),
+    )
     private var emojiSelectionDialogListener: EmojiSelectionDialogListener? = null
 
     override fun onAttach(context: Context) {

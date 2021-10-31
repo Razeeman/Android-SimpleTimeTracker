@@ -13,6 +13,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.record.createReco
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.sharedViewModel.RemoveRecordViewModel
+import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
 import com.example.util.simpletimetracker.feature_records_all.adapter.createRecordAllDateAdapterDelegate
 import com.example.util.simpletimetracker.feature_records_all.viewData.RecordsAllSortOrderViewData
 import com.example.util.simpletimetracker.feature_records_all.viewModel.RecordsAllViewModel
@@ -53,9 +54,9 @@ class RecordsAllFragment : BaseFragment<Binding>() {
             createLoaderAdapterDelegate()
         )
     }
-    private val params: RecordsAllParams by lazy {
-        arguments?.getParcelable(ARGS_PARAMS) ?: RecordsAllParams()
-    }
+    private val params: RecordsAllParams by fragmentArgumentDelegate(
+        key = ARGS_PARAMS, default = RecordsAllParams()
+    )
 
     override fun initUi(): Unit = with(binding) {
         postponeEnterTransition()

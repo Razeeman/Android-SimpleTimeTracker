@@ -15,6 +15,7 @@ import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.extension.onItemMoved
 import com.example.util.simpletimetracker.core.extension.setFullScreen
 import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
+import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
 import com.example.util.simpletimetracker.feature_dialogs.cardOrder.viewModel.CardOrderViewModel
 import com.example.util.simpletimetracker.navigation.params.screen.CardOrderDialogParams
 import com.google.android.flexbox.FlexDirection
@@ -44,9 +45,9 @@ class CardOrderDialogFragment : BaseBottomSheetFragment<Binding>() {
             createLoaderAdapterDelegate()
         )
     }
-    private val extra: CardOrderDialogParams by lazy {
-        arguments?.getParcelable(ARGS_PARAMS) ?: CardOrderDialogParams()
-    }
+    private val extra: CardOrderDialogParams by fragmentArgumentDelegate(
+        key = ARGS_PARAMS, default = CardOrderDialogParams()
+    )
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)

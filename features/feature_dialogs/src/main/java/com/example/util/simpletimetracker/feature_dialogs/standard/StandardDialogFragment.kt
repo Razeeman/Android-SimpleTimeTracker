@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDialogFragment
 import com.example.util.simpletimetracker.core.dialog.StandardDialogListener
 import com.example.util.simpletimetracker.core.extension.getAllFragments
+import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
 import com.example.util.simpletimetracker.navigation.params.screen.StandardDialogParams
 
 class StandardDialogFragment :
@@ -16,15 +17,18 @@ class StandardDialogFragment :
     DialogInterface.OnClickListener {
 
     private var standardDialogListener: StandardDialogListener? = null
-    private val params: StandardDialogParams? by lazy { arguments?.getParcelable<StandardDialogParams>(ARGS_PARAMS) }
+    private val params: StandardDialogParams by fragmentArgumentDelegate(
+        key = ARGS_PARAMS,
+        default = StandardDialogParams(),
+    )
 
-    private val dialogTag: String? by lazy { params?.tag }
-    private val data: Any? by lazy { params?.data }
+    private val dialogTag: String? by lazy { params.tag }
+    private val data: Any? by lazy { params.data }
 
-    private val title: String by lazy { params?.title.orEmpty() }
-    private val message: String by lazy { params?.message.orEmpty() }
-    private val btnPositive: String by lazy { params?.btnPositive.orEmpty() }
-    private val btnNegative: String by lazy { params?.btnNegative.orEmpty() }
+    private val title: String by lazy { params.title }
+    private val message: String by lazy { params.message }
+    private val btnPositive: String by lazy { params.btnPositive }
+    private val btnNegative: String by lazy { params.btnNegative }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return context?.let {

@@ -7,6 +7,7 @@ import androidx.fragment.app.commit
 import com.example.util.simpletimetracker.core.base.BaseActivity
 import com.example.util.simpletimetracker.core.dialog.OnTagSelectedListener
 import com.example.util.simpletimetracker.core.manager.ThemeManager
+import com.example.util.simpletimetracker.core.utils.activityArgumentDelegate
 import com.example.util.simpletimetracker.feature_widget.R
 import com.example.util.simpletimetracker.navigation.ScreenFactory
 import com.example.util.simpletimetracker.navigation.params.screen.RecordTagSelectionParams
@@ -24,9 +25,9 @@ class WidgetTagSelectionActivity :
     @Inject
     lateinit var screenFactory: ScreenFactory
 
-    private val params: RecordTagSelectionParams by lazy {
-        intent?.getParcelableExtra(ARGS_PARAMS) ?: RecordTagSelectionParams()
-    }
+    private val params: RecordTagSelectionParams by activityArgumentDelegate(
+        key = ARGS_PARAMS, default = RecordTagSelectionParams()
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,7 +51,7 @@ class WidgetTagSelectionActivity :
 
         fun getStartIntent(
             context: Context,
-            data: RecordTagSelectionParams
+            data: RecordTagSelectionParams,
         ): Intent {
             return Intent(context, WidgetTagSelectionActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK
