@@ -1,7 +1,6 @@
 package com.example.util.simpletimetracker.feature_change_record_tag.viewData
 
 import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
-import com.example.util.simpletimetracker.domain.model.IconType
 
 data class ChangeRecordTagTypeSwitchViewData(
     val tagType: RecordTagType,

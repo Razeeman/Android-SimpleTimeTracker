@@ -7,14 +7,17 @@ import com.example.util.simpletimetracker.core.mapper.TimeMapperTest.Subject.res
 import com.example.util.simpletimetracker.core.mapper.TimeMapperTest.Subject.secondInMs
 import com.example.util.simpletimetracker.core.mapper.TimeMapperTest.Subject.subject
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import org.junit.AfterClass
 import org.junit.Assert.assertEquals
 import org.junit.Before
+import org.junit.BeforeClass
 import org.junit.Test
 import org.junit.experimental.runners.Enclosed
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 import org.mockito.Mockito
 import org.mockito.Mockito.`when`
+import java.util.Locale
 import java.util.concurrent.TimeUnit
 
 @RunWith(Enclosed::class)
@@ -98,25 +101,39 @@ class TimeMapperTest {
         }
 
         companion object {
+            private val localeDefault: Locale = Locale.getDefault()
+
+            @JvmStatic
+            @BeforeClass
+            fun beforeClass() {
+                Locale.setDefault(Locale.US)
+            }
+
+            @JvmStatic
+            @AfterClass
+            fun afterClass() {
+                Locale.setDefault(localeDefault)
+            }
+
             @JvmStatic
             @Parameterized.Parameters
             fun data() = listOf(
-                arrayOf(0, "0,00h"),
-                arrayOf(100, "0,00h"),
-                arrayOf(secondInMs, "0,00h"),
-                arrayOf(14 * secondInMs, "0,00h"),
+                arrayOf(0, "0.00h"),
+                arrayOf(100, "0.00h"),
+                arrayOf(secondInMs, "0.00h"),
+                arrayOf(14 * secondInMs, "0.00h"),
 
-                arrayOf(minuteInMs, "0,02h"),
-                arrayOf(minuteInMs + 100, "0,02h"),
-                arrayOf(minuteInMs + secondInMs, "0,02h"),
-                arrayOf(2 * minuteInMs, "0,03h"),
-                arrayOf(12 * minuteInMs + 34 * secondInMs, "0,20h"),
-                arrayOf(59 * minuteInMs, "0,98h"),
+                arrayOf(minuteInMs, "0.02h"),
+                arrayOf(minuteInMs + 100, "0.02h"),
+                arrayOf(minuteInMs + secondInMs, "0.02h"),
+                arrayOf(2 * minuteInMs, "0.03h"),
+                arrayOf(12 * minuteInMs + 34 * secondInMs, "0.20h"),
+                arrayOf(59 * minuteInMs, "0.98h"),
 
-                arrayOf(hourInMs, "1,00h"),
-                arrayOf(hourInMs + minuteInMs, "1,02h"),
-                arrayOf(hourInMs + minuteInMs + secondInMs, "1,02h"),
-                arrayOf(12 * hourInMs + 34 * minuteInMs + 56 * secondInMs, "12,57h"),
+                arrayOf(hourInMs, "1.00h"),
+                arrayOf(hourInMs + minuteInMs, "1.02h"),
+                arrayOf(hourInMs + minuteInMs + secondInMs, "1.02h"),
+                arrayOf(12 * hourInMs + 34 * minuteInMs + 56 * secondInMs, "12.57h"),
             )
         }
     }
