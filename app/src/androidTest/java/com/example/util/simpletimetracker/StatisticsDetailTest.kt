@@ -626,7 +626,7 @@ class StatisticsDetailTest : BaseUiTest() {
     private fun checkTagItem(color: Int, name: String, duration: String, percentage: String) {
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.viewStatisticsItem),
+                withId(R.id.viewStatisticsTagItem),
                 withCardColor(color),
                 hasDescendant(withText(name)),
                 hasDescendant(withText(duration)),
@@ -638,7 +638,7 @@ class StatisticsDetailTest : BaseUiTest() {
     private fun checkNoTagItem(name: String) {
         checkViewDoesNotExist(
             allOf(
-                withId(R.id.viewStatisticsItem),
+                withId(R.id.viewStatisticsTagItem),
                 hasDescendant(withText(name))
             )
         )
