@@ -84,7 +84,7 @@ class ActionResolverImpl @Inject constructor(
             .setType("text/csv")
             .putExtra(Intent.EXTRA_TITLE, fileName)
 
-        if (activity?.packageManager?.let(intent::resolveActivity) != null) {
+        if (activity.checkIfIntentResolves(intent)) {
             createCsvFileResultLauncher?.launch(intent)
         } else {
             data.notHandledCallback()
