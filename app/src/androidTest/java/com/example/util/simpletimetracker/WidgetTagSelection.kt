@@ -27,13 +27,17 @@ class WidgetTagSelection : BaseUiTest() {
     @Test
     fun widgetTagSelection() {
         val name1 = "TypeName1"
-        val tag1 = "TagName1"
-        val tag2 = "TagName2"
+        val tag1 = "Tag1"
+        val tag2 = "Tag2"
+        val tag3 = "Tag3"
+        val tag4 = "Tag4"
 
         // Add data
         testUtils.addActivity(name1)
-        testUtils.addRecordTag(name1, tag1)
-        testUtils.addRecordTag(name1, tag2, archived = true)
+        testUtils.addRecordTag(tag1, name1)
+        testUtils.addRecordTag(tag2, name1, archived = true)
+        testUtils.addRecordTag(tag3)
+        testUtils.addRecordTag(tag4, archived = true)
 
         val intent = WidgetTagSelectionActivity.getStartIntent(
             ApplicationProvider.getApplicationContext(),

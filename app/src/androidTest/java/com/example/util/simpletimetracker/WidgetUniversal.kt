@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker
 
 import androidx.test.core.app.ActivityScenario
+import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
@@ -99,8 +100,8 @@ class WidgetUniversal : BaseUiTest() {
         // Add data
         testUtils.addActivity(name1, color = firstColor)
         testUtils.addActivity(name2, color = lastColor)
-        testUtils.addRecordTag(name1, tag1)
-        testUtils.addRecordTag(name1, tag2, archived = true)
+        testUtils.addRecordTag(tag1, name1)
+        testUtils.addRecordTag(tag2, name1, archived = true)
         scenarioRule = ActivityScenario.launch(WidgetUniversalActivity::class.java)
 
         // Start timers
@@ -120,6 +121,7 @@ class WidgetUniversal : BaseUiTest() {
         checkViewIsDisplayed(withText(tag1))
         checkViewDoesNotExist(withText(tag2))
         clickOnViewWithText(tag1)
+        pressBack()
         checkType(R.color.colorFiltered, name1)
 
         clickOnViewWithText(name2)

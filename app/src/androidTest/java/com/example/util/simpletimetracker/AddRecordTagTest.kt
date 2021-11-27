@@ -54,7 +54,9 @@ class AddRecordTagTest : BaseUiTest() {
 
         // View is set up
         checkViewIsNotDisplayed(withId(R.id.btnChangeRecordTagDelete))
+        checkViewIsNotDisplayed(withId(R.id.rvChangeRecordTagColor))
         checkViewIsNotDisplayed(withId(R.id.rvChangeRecordTagType))
+        checkViewIsNotDisplayed(withId(R.id.fieldChangeRecordTagColor))
         checkViewIsDisplayed(allOf(withId(R.id.fieldChangeRecordTagType), withCardColor(R.color.colorBackground)))
 
         // Name is not selected
@@ -91,7 +93,61 @@ class AddRecordTagTest : BaseUiTest() {
         checkPreviewUpdated(withCardColor(firstColor))
         checkPreviewUpdated(hasDescendant(withTag(firstIcon)))
         checkViewIsDisplayed(allOf(withId(R.id.etChangeRecordTagName), withText(name)))
-        checkViewIsNotDisplayed(withText(R.string.change_record_type_field))
+    }
+
+    @Test
+    fun addRecordGeneralTag() {
+        val name = "Test"
+        val typeName = "Type"
+
+        // Add activities
+        testUtils.addActivity(typeName, firstColor, firstIcon)
+
+        NavUtils.openSettingsScreen()
+        NavUtils.openCategoriesScreen()
+        checkViewIsDisplayed(withText(R.string.categories_record_type_hint))
+        clickOnViewWithText(R.string.categories_add_record_tag)
+        closeSoftKeyboard()
+
+        // View is set up
+        checkViewIsNotDisplayed(withId(R.id.btnChangeRecordTagDelete))
+        checkViewIsNotDisplayed(withId(R.id.rvChangeRecordTagColor))
+        checkViewIsNotDisplayed(withId(R.id.rvChangeRecordTagType))
+        checkViewIsNotDisplayed(withId(R.id.fieldChangeRecordTagType))
+        checkViewIsDisplayed(allOf(withId(R.id.fieldChangeRecordTagColor), withCardColor(R.color.colorBackground)))
+
+        // Name is not selected
+        clickOnViewWithText(R.string.change_category_save)
+
+        // Typing name
+        typeTextIntoView(R.id.etChangeRecordTagName, name)
+        tryAction { checkPreviewUpdated(hasDescendant(withText(name))) }
+
+        // Open color chooser
+        clickOnViewWithId(R.id.fieldChangeRecordTagColor)
+        checkViewIsDisplayed(withId(R.id.rvChangeRecordTagColor))
+        checkViewIsDisplayed(allOf(withId(R.id.fieldChangeRecordTagColor), withCardColor(R.color.inputFieldBorder)))
+
+        // Selecting color
+        clickOnRecyclerItem(R.id.rvChangeRecordTagColor, withCardColor(lastColor))
+        checkPreviewUpdated(hasDescendant(withText(name)))
+        checkPreviewUpdated(withCardColor(lastColor))
+        clickOnViewWithId(R.id.fieldChangeRecordTagColor)
+        checkViewIsDisplayed(
+            allOf(withId(R.id.fieldChangeRecordTagColor), withCardColor(R.color.colorBackground))
+        )
+
+        clickOnViewWithText(R.string.change_record_type_save)
+
+        // Tag added
+        checkViewIsDisplayed(withText(name))
+        checkViewIsDisplayed(withCardColor(lastColor))
+
+        // Check tag saved
+        longClickOnView(withText(name))
+        checkPreviewUpdated(hasDescendant(withText(name)))
+        checkPreviewUpdated(withCardColor(lastColor))
+        checkViewIsDisplayed(allOf(withId(R.id.etChangeRecordTagName), withText(name)))
     }
 
     @Test
@@ -114,20 +170,22 @@ class AddRecordTagTest : BaseUiTest() {
     @Test
     fun addRecordTagSameName() {
         val typeName = "typeName"
-        val tagName = "tagName"
+        val tagNameActivity = "tagNameActivity"
+        val tagNameGeneral = "tagNameGeneral"
 
         // Add activities
         testUtils.addActivity(typeName, firstColor, firstIcon)
-        testUtils.addRecordTag(typeName, tagName)
+        testUtils.addRecordTag(tagNameActivity, typeName)
+        testUtils.addRecordTag(tagNameGeneral)
 
         // Check items
         NavUtils.openSettingsScreen()
         NavUtils.openCategoriesScreen()
-        onView(withId(R.id.rvCategoriesList)).check(recyclerItemCount(6))
+        onView(withId(R.id.rvCategoriesList)).check(recyclerItemCount(7))
 
-        // Add another tag
+        // Add another activity tag
         clickOnViewWithText(R.string.categories_add_record_tag)
-        typeTextIntoView(R.id.etChangeRecordTagName, tagName)
+        typeTextIntoView(R.id.etChangeRecordTagName, tagNameActivity)
         clickOnView(
             allOf(
                 isDescendantOfA(withId(R.id.buttonsChangeRecordTagType)),
@@ -138,7 +196,14 @@ class AddRecordTagTest : BaseUiTest() {
         clickOnRecyclerItem(R.id.rvChangeRecordTagType, withText(typeName))
         clickOnViewWithText(R.string.change_record_type_save)
 
-        onView(withId(R.id.rvCategoriesList)).check(recyclerItemCount(6))
+        onView(withId(R.id.rvCategoriesList)).check(recyclerItemCount(7))
+
+        // Add another general tag
+        clickOnViewWithText(R.string.categories_add_record_tag)
+        typeTextIntoView(R.id.etChangeRecordTagName, tagNameGeneral)
+        clickOnViewWithText(R.string.change_record_type_save)
+
+        onView(withId(R.id.rvCategoriesList)).check(recyclerItemCount(7))
     }
 
     private fun checkPreviewUpdated(matcher: Matcher<View>) =

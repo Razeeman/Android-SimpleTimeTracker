@@ -134,23 +134,39 @@ object NavUtils {
 
     fun addRecordTag(
         name: String,
-        activity: String,
+        activity: String? = null,
+        color: Int? = null,
     ) {
         tryAction { clickOnViewWithText(R.string.categories_add_record_tag) }
 
         // Name
         typeTextIntoView(R.id.etChangeRecordTagName, name)
 
-        // Activity
-        clickOnView(
-            allOf(
-                isDescendantOfA(withId(R.id.buttonsChangeRecordTagType)),
-                withText(R.string.change_record_tag_type_typed)
+        // Color
+        if (color != null) {
+            clickOnView(
+                allOf(
+                    isDescendantOfA(withId(R.id.buttonsChangeRecordTagType)),
+                    withText(R.string.change_record_tag_type_general)
+                )
             )
-        )
-        clickOnViewWithId(R.id.fieldChangeRecordTagType)
-        scrollRecyclerToView(R.id.rvChangeRecordTagType, hasDescendant(withText(activity)))
-        clickOnRecyclerItem(R.id.rvChangeRecordTagType, withText(activity))
+            clickOnViewWithId(R.id.fieldChangeRecordTagColor)
+            scrollRecyclerToView(R.id.rvChangeRecordTagColor, withCardColor(color))
+            clickOnRecyclerItem(R.id.rvChangeRecordTagColor, withCardColor(color))
+        }
+
+        // Activity
+        if (!activity.isNullOrEmpty()) {
+            clickOnView(
+                allOf(
+                    isDescendantOfA(withId(R.id.buttonsChangeRecordTagType)),
+                    withText(R.string.change_record_tag_type_typed)
+                )
+            )
+            clickOnViewWithId(R.id.fieldChangeRecordTagType)
+            scrollRecyclerToView(R.id.rvChangeRecordTagType, hasDescendant(withText(activity)))
+            clickOnRecyclerItem(R.id.rvChangeRecordTagType, withText(activity))
+        }
 
         clickOnViewWithText(R.string.change_category_save)
     }

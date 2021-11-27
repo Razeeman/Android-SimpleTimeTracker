@@ -40,11 +40,13 @@ class AddRecordTest : BaseUiTest() {
         val color = firstColor
         val icon = firstIcon
         val comment = "Comment"
-        val tag = "Tag"
+        val tag1 = "Tag1"
+        val tag2 = "Tag2"
 
         // Add activity
         testUtils.addActivity(name, color, icon)
-        testUtils.addRecordTag(name, tag)
+        testUtils.addRecordTag(tag1, name)
+        testUtils.addRecordTag(tag2)
 
         // Add record
         NavUtils.openRecordsScreen()
@@ -122,9 +124,21 @@ class AddRecordTest : BaseUiTest() {
         clickOnViewWithId(R.id.fieldChangeRecordCategory)
         checkViewIsDisplayed(withId(R.id.rvChangeRecordCategories))
 
-        // Selecting tag
-        clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag))
-        checkPreviewUpdated(hasDescendant(withText("$name - $tag")))
+        // Selecting tags
+        clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag1))
+        checkPreviewUpdated(hasDescendant(withText("$name - $tag1")))
+
+        clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag2))
+        checkPreviewUpdated(hasDescendant(withText("$name - $tag1, $tag2")))
+
+        clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag1))
+        checkPreviewUpdated(hasDescendant(withText("$name - $tag2")))
+
+        clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag2))
+        checkPreviewUpdated(hasDescendant(withText(name)))
+
+        clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag1))
+        clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag2))
         clickOnViewWithId(R.id.fieldChangeRecordCategory)
 
         clickOnViewWithText(R.string.change_record_save)
@@ -134,7 +148,7 @@ class AddRecordTest : BaseUiTest() {
             allOf(
                 withId(R.id.viewRecordItem),
                 withCardColor(color),
-                hasDescendant(withText("$name - $tag")),
+                hasDescendant(withText("$name - $tag1, $tag2")),
                 hasDescendant(withTag(icon)),
                 hasDescendant(withText(timeStartedPreview)),
                 hasDescendant(withText(timeEndedPreview)),

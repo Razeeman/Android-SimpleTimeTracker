@@ -136,12 +136,14 @@ class StartRecordTest : BaseUiTest() {
     @Test
     fun tagTransferFromTimerToRecord() {
         val name = "TypeName"
-        val tag = "TagName"
-        val fullName = "$name - $tag"
+        val tag1 = "Tag1"
+        val tag2 = "Tag2"
+        val fullName = "$name - $tag1, $tag2"
 
         // Add activities
         testUtils.addActivity(name)
-        testUtils.addRecordTag(name, tag)
+        testUtils.addRecordTag(tag1, name)
+        testUtils.addRecordTag(tag2)
 
         // Start timer
         tryAction { clickOnViewWithText(name) }
@@ -149,7 +151,8 @@ class StartRecordTest : BaseUiTest() {
         // Add tag
         tryAction { longClickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name))) }
         clickOnViewWithText(R.string.change_record_category_field)
-        clickOnRecyclerItem(R.id.rvChangeRunningRecordCategories, withText(tag))
+        clickOnRecyclerItem(R.id.rvChangeRunningRecordCategories, withText(tag1))
+        clickOnRecyclerItem(R.id.rvChangeRunningRecordCategories, withText(tag2))
         clickOnViewWithText(R.string.change_record_category_field)
         clickOnViewWithText(R.string.change_record_save)
 

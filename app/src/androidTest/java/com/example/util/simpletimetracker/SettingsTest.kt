@@ -611,28 +611,62 @@ class SettingsTest : BaseUiTest() {
 
     @Test
     fun proportionalMinutes() {
+        val name = "Test"
+
+        fun checkView(id: Int, text: String) {
+            checkViewIsDisplayed(allOf(withId(id), hasDescendant(withText(text)), isCompletelyDisplayed()))
+        }
+
+        fun checkFormat(timeString: String) {
+            NavUtils.openRecordsScreen()
+            checkView(R.id.viewRecordItem, timeString)
+            NavUtils.openStatisticsScreen()
+            checkView(R.id.viewStatisticsItem, timeString)
+            tryAction { clickOnView(allOf(withText(name), isCompletelyDisplayed())) }
+            checkView(R.id.cardStatisticsDetailTotal, timeString)
+            pressBack()
+        }
+
+        // Add data
+        val timeEnded = System.currentTimeMillis()
+        val timeStarted = timeEnded - TimeUnit.MINUTES.toMillis(75)
+        val timeFormat1 = "1$hourString 15$minuteString"
+        val timeFormat2 = "%.2f$hourString".format(1.25)
+        testUtils.addActivity(name)
+        testUtils.addRecord(name, timeStarted, timeEnded)
+
+        // Check format
+        checkFormat(timeFormat1)
+
         // Check settings
         NavUtils.openSettingsScreen()
         onView(withId(R.id.tvSettingsUseProportionalMinutesHint)).perform(nestedScrollTo())
         onView(withId(R.id.checkboxSettingsUseProportionalMinutes)).check(matches(isNotChecked()))
         checkViewIsDisplayed(
-            allOf(withId(R.id.tvSettingsUseProportionalMinutesHint), withText("1$hourString 15$minuteString"))
+            allOf(withId(R.id.tvSettingsUseProportionalMinutesHint), withText(timeFormat1))
         )
 
         // Change settings
         clickOnViewWithId(R.id.checkboxSettingsUseProportionalMinutes)
         onView(withId(R.id.checkboxSettingsUseProportionalMinutes)).check(matches(isChecked()))
-        val timeString = "%.2f".format(1.25)
         checkViewIsDisplayed(
-            allOf(withId(R.id.tvSettingsUseProportionalMinutesHint), withSubstring("$timeString$hourString"))
+            allOf(withId(R.id.tvSettingsUseProportionalMinutesHint), withSubstring(timeFormat2))
         )
 
-        // Change settings
+        // Check format after setting change
+        checkFormat(timeFormat2)
+
+        // Change settings back
+        NavUtils.openSettingsScreen()
+        onView(withId(R.id.tvSettingsUseProportionalMinutesHint)).perform(nestedScrollTo())
         clickOnViewWithId(R.id.checkboxSettingsUseProportionalMinutes)
         onView(withId(R.id.checkboxSettingsUseProportionalMinutes)).check(matches(isNotChecked()))
         checkViewIsDisplayed(
-            allOf(withId(R.id.tvSettingsUseProportionalMinutesHint), withText("1$hourString 15$minuteString"))
+            allOf(withId(R.id.tvSettingsUseProportionalMinutesHint), withText(timeFormat1))
         )
+
+        // Check format again
+        checkFormat(timeFormat1)
     }
 
     @Test
@@ -775,6 +809,7 @@ class SettingsTest : BaseUiTest() {
     fun showRecordTagSelection() {
         val name = "TypeName"
         val tag = "TagName"
+        val tagGeneral = "TagGeneral"
         val fullName = "$name - $tag"
 
         // Add data
@@ -795,7 +830,8 @@ class SettingsTest : BaseUiTest() {
         tryAction { clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name))) }
 
         // Add tag
-        testUtils.addRecordTag(name, tag)
+        testUtils.addRecordTag(tag, name)
+        testUtils.addRecordTag(tagGeneral)
 
         // Has a tag - show dialog
         clickOnViewWithText(name)

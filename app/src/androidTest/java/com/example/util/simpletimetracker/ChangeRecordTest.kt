@@ -50,8 +50,8 @@ class ChangeRecordTest : BaseUiTest() {
         // Add activities
         testUtils.addActivity(name, firstColor, firstIcon)
         testUtils.addActivity(newName, lastColor, emoji = lastEmoji)
-        testUtils.addRecordTag(name, tag1)
-        testUtils.addRecordTag(newName, tag2)
+        testUtils.addRecordTag(tag1, name)
+        testUtils.addRecordTag(tag2, newName)
 
         // Add record
         NavUtils.openRecordsScreen()
@@ -198,12 +198,14 @@ class ChangeRecordTest : BaseUiTest() {
     @Test
     fun changeRecordUntagged() {
         val name = "TypeName"
-        val tag = "TagName"
-        val fullName = "$name - $tag"
+        val tag1 = "Tag1"
+        val tag2 = "Tag2"
+        val fullName = "$name - $tag1, $tag2"
 
         // Add activities
         testUtils.addActivity(name, firstColor, firstIcon)
-        testUtils.addRecordTag(name, tag)
+        testUtils.addRecordTag(tag1, name)
+        testUtils.addRecordTag(tag2)
 
         // Add record
         NavUtils.openRecordsScreen()
@@ -219,7 +221,8 @@ class ChangeRecordTest : BaseUiTest() {
         clickOnView(allOf(withText(name), isCompletelyDisplayed()))
         checkPreviewUpdated(hasDescendant(withText(name)))
         clickOnViewWithText(R.string.change_record_category_field)
-        clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag))
+        clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag1))
+        clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag2))
         clickOnViewWithText(R.string.change_record_category_field)
         checkPreviewUpdated(hasDescendant(withText(fullName)))
         clickOnViewWithText(R.string.change_record_type_save)

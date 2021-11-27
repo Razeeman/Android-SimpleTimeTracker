@@ -140,8 +140,8 @@ class ArchiveTest : BaseUiTest() {
 
         testUtils.addActivity(name1)
         testUtils.addRecord(name1)
-        testUtils.addRecordTag(name1, tag1)
-        testUtils.addRecordTag(name1, tag2)
+        testUtils.addRecordTag(tag1, name1)
+        testUtils.addRecordTag(tag2, name1)
 
         NavUtils.openSettingsScreen()
         onView(withId(R.id.checkboxSettingsShowRecordTagSelection)).perform(nestedScrollTo())
@@ -206,6 +206,7 @@ class ArchiveTest : BaseUiTest() {
         clickOnView(allOf(withText(name1), isCompletelyDisplayed()))
         checkTagVisible(tag1)
         checkTagVisible(tag2)
+        pressBack()
     }
 
     @Test
@@ -218,12 +219,12 @@ class ArchiveTest : BaseUiTest() {
         testUtils.addActivity(name1)
         testUtils.addActivity(name2)
 
-        testUtils.addRecordTag(name1, tag1)
-        testUtils.addRecordTag(name1, tag2)
+        testUtils.addRecordTag(tag1, name1)
+        testUtils.addRecordTag(tag2, name1)
 
-        testUtils.addRecord(name1, tagName = tag1)
-        testUtils.addRecord(name1, tagName = tag1)
-        testUtils.addRecord(name1, tagName = tag1)
+        testUtils.addRecord(name1, tagNames = listOf(tag1))
+        testUtils.addRecord(name1, tagNames = listOf(tag1))
+        testUtils.addRecord(name1, tagNames = listOf(tag1))
         testUtils.addRecord(name1)
 
         // Delete

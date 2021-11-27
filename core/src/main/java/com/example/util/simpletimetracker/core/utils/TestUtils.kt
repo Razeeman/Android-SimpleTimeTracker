@@ -100,12 +100,12 @@ class TestUtils @Inject constructor(
         typeName: String,
         timeStarted: Long? = null,
         timeEnded: Long? = null,
-        tagName: String? = null,
+        tagNames: List<String> = emptyList(),
     ) = runBlocking {
         val type = recordTypeInteractor.getAll().firstOrNull { it.name == typeName }
             ?: return@runBlocking
-        val tagIds = recordTagInteractor.getAll().firstOrNull { it.name == tagName }
-            ?.id?.let(::listOf).orEmpty()
+        val tagIds = recordTagInteractor.getAll().filter { it.name in tagNames }
+            .map { it.id }
 
         val data = Record(
             typeId = type.id,
@@ -132,15 +132,14 @@ class TestUtils @Inject constructor(
     }
 
     fun addRecordTag(
-        typeName: String,
         tagName: String,
+        typeName: String? = null,
         archived: Boolean = false,
     ) = runBlocking {
         val type = recordTypeInteractor.getAll().firstOrNull { it.name == typeName }
-            ?: return@runBlocking
 
         val data = RecordTag(
-            typeId = type.id,
+            typeId = type?.id.orZero(),
             name = tagName,
             color = 0,
             archived = archived

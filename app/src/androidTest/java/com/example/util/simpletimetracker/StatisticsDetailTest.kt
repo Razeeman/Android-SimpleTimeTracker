@@ -45,7 +45,7 @@ class StatisticsDetailTest : BaseUiTest() {
 
         // Add activity
         testUtils.addActivity(name, color, icon)
-        testUtils.addRecordTag(name, tag)
+        testUtils.addRecordTag(tag, name)
 
         // Add records
         var calendar = Calendar.getInstance()
@@ -61,7 +61,7 @@ class StatisticsDetailTest : BaseUiTest() {
             typeName = name,
             timeStarted = calendar.timeInMillis,
             timeEnded = calendar.timeInMillis + TimeUnit.HOURS.toMillis(2),
-            tagName = tag
+            tagNames = listOf(tag)
         )
 
         // Check detailed statistics
@@ -119,7 +119,7 @@ class StatisticsDetailTest : BaseUiTest() {
 
         // Add activity
         testUtils.addActivity(name, color, icon)
-        testUtils.addRecordTag(name, tag)
+        testUtils.addRecordTag(tag, name)
 
         // Add records
         var calendar = Calendar.getInstance()
@@ -140,7 +140,7 @@ class StatisticsDetailTest : BaseUiTest() {
             typeName = name,
             timeStarted = calendar.timeInMillis,
             timeEnded = calendar.timeInMillis + TimeUnit.HOURS.toMillis(1),
-            tagName = tag
+            tagNames = listOf(tag)
         )
 
         // Check detailed statistics
@@ -193,7 +193,7 @@ class StatisticsDetailTest : BaseUiTest() {
 
         // Add activity
         testUtils.addActivity(name, color, icon)
-        testUtils.addRecordTag(name, tag)
+        testUtils.addRecordTag(tag, name)
 
         // Add records
         var calendar = Calendar.getInstance()
@@ -202,13 +202,13 @@ class StatisticsDetailTest : BaseUiTest() {
             typeName = name,
             timeStarted = calendar.timeInMillis,
             timeEnded = calendar.timeInMillis + TimeUnit.HOURS.toMillis(1),
-            tagName = tag
+            tagNames = listOf(tag)
         )
         testUtils.addRecord(
             typeName = name,
             timeStarted = calendar.timeInMillis,
             timeEnded = calendar.timeInMillis + TimeUnit.HOURS.toMillis(2),
-            tagName = tag
+            tagNames = listOf(tag)
         )
         calendar = Calendar.getInstance()
             .apply { add(Calendar.DATE, -7) }
@@ -266,8 +266,8 @@ class StatisticsDetailTest : BaseUiTest() {
 
         // Add activity
         testUtils.addActivity(name, color, icon)
-        testUtils.addRecordTag(name, tag1)
-        testUtils.addRecordTag(name, tag2)
+        testUtils.addRecordTag(tag1, name)
+        testUtils.addRecordTag(tag2)
 
         // Add records
         var calendar = Calendar.getInstance()
@@ -276,13 +276,13 @@ class StatisticsDetailTest : BaseUiTest() {
             typeName = name,
             timeStarted = calendar.timeInMillis,
             timeEnded = calendar.timeInMillis + TimeUnit.HOURS.toMillis(1),
-            tagName = tag1
+            tagNames = listOf(tag1)
         )
         testUtils.addRecord(
             typeName = name,
             timeStarted = calendar.timeInMillis,
             timeEnded = calendar.timeInMillis + TimeUnit.HOURS.toMillis(2),
-            tagName = tag2
+            tagNames = listOf(tag2)
         )
         calendar = Calendar.getInstance()
             .apply { add(Calendar.MONTH, -1) }
@@ -487,48 +487,67 @@ class StatisticsDetailTest : BaseUiTest() {
     @Test
     fun statisticsDetailFilterByRecordTag() {
         val name1 = "TypeName1"
-        val tag1 = "TagName1"
-        val tag2 = "TagName2"
+        val tag1 = "Tag1"
+        val tag2 = "Tag2"
+        val tag3 = "Tag3"
 
         // Add data
         testUtils.addActivity(name1)
-        testUtils.addRecordTag(name1, tag1)
-        testUtils.addRecordTag(name1, tag2)
+        testUtils.addRecordTag(tag1, name1)
+        testUtils.addRecordTag(tag2, name1)
+        testUtils.addRecordTag(tag3)
 
         // Add records
         testUtils.addRecord(name1)
-        testUtils.addRecord(name1, tagName = tag1)
-        testUtils.addRecord(name1, tagName = tag2)
+        testUtils.addRecord(name1, tagNames = listOf(tag1))
+        testUtils.addRecord(name1, tagNames = listOf(tag2))
+        testUtils.addRecord(name1, tagNames = listOf(tag3))
+        testUtils.addRecord(name1, tagNames = listOf(tag1, tag2))
+        testUtils.addRecord(name1, tagNames = listOf(tag1, tag3))
+        testUtils.addRecord(name1, tagNames = listOf(tag1, tag2, tag3))
 
         // Check detailed statistics
         NavUtils.openStatisticsScreen()
         tryAction { clickOnView(allOf(withText(name1), isCompletelyDisplayed())) }
         checkViewIsDisplayed(allOf(withId(R.id.viewStatisticsDetailItem), hasDescendant(withText(name1))))
-        checkRecordsCard(3)
+        checkRecordsCard(7)
 
-        // Change filter
+        // Filter untagged records
         clickOnViewWithId(R.id.cardStatisticsDetailFilter)
         clickOnView(allOf(isDescendantOfA(withId(R.id.viewCategoryItem)), withText(R.string.change_record_untagged)))
         pressBack()
-
-        // Check detailed statistics
-        checkRecordsCard(2)
+        checkRecordsCard(6)
 
         // Change filter
         clickOnViewWithId(R.id.cardStatisticsDetailFilter)
         clickOnView(allOf(isDescendantOfA(withId(R.id.viewCategoryItem)), withText(tag1)))
         pressBack()
-
-        // Check detailed statistics
-        checkRecordsCard(1)
+        checkRecordsCard(2)
 
         // Change filter
         clickOnViewWithId(R.id.cardStatisticsDetailFilter)
         clickOnView(allOf(isDescendantOfA(withId(R.id.viewCategoryItem)), withText(tag2)))
         pressBack()
+        checkRecordsCard(1)
 
-        // Check detailed statistics
+        // Change filter
+        clickOnViewWithId(R.id.cardStatisticsDetailFilter)
+        clickOnView(allOf(isDescendantOfA(withId(R.id.viewCategoryItem)), withText(tag3)))
+        pressBack()
         checkRecordsCard(0)
+
+        // Change filter
+        clickOnViewWithId(R.id.cardStatisticsDetailFilter)
+        clickOnViewWithText(R.string.types_filter_show_all)
+        clickOnView(allOf(isDescendantOfA(withId(R.id.viewCategoryItem)), withText(tag3)))
+        pressBack()
+        checkRecordsCard(4)
+
+        // Change filter
+        clickOnViewWithId(R.id.cardStatisticsDetailFilter)
+        clickOnView(allOf(isDescendantOfA(withId(R.id.viewCategoryItem)), withText(tag1)))
+        pressBack()
+        checkRecordsCard(2)
     }
 
     private fun checkPreview(color: Int, icon: Int, name: String) {

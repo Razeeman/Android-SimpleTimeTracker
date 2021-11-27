@@ -42,7 +42,7 @@ class RecordsAllTest : BaseUiTest() {
 
         // Add activity
         testUtils.addActivity(name)
-        testUtils.addRecordTag(name, tag)
+        testUtils.addRecordTag(tag, name)
 
         // Add records
         NavUtils.openRecordsScreen()
