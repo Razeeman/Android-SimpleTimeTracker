@@ -110,6 +110,27 @@
             app:layout_constraintTop_toTopOf="@id/tvSettingsTranslatorsRussian" />
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvSettingsTranslatorsSwedish"
+            style="@style/SettingsTranslatorsText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_translators_swedish"
+            app:layout_constraintEnd_toStartOf="@id/tvSettingsTranslatorsSwedishLanguage"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSettingsTranslatorsRussian" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvSettingsTranslatorsSwedishLanguage"
+            style="@style/SettingsTranslatorsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:text="@string/settings_translators_swedish_language"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvSettingsTranslatorsSwedish"
+            app:layout_constraintTop_toTopOf="@id/tvSettingsTranslatorsSwedish" />
+
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvSettingsTranslatorsUkrainian"
             style="@style/SettingsTranslatorsText"
             android:layout_width="0dp"
@@ -117,7 +138,7 @@
             android:text="@string/settings_translators_ukrainian"
             app:layout_constraintEnd_toStartOf="@id/tvSettingsTranslatorsUkrainianLanguage"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvSettingsTranslatorsRussian" />
+            app:layout_constraintTop_toBottomOf="@id/tvSettingsTranslatorsSwedish" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvSettingsTranslatorsUkrainianLanguage"
