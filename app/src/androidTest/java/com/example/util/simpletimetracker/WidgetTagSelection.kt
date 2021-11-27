@@ -7,6 +7,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.util.simpletimetracker.feature_widget.widget.WidgetTagSelectionActivity
 import com.example.util.simpletimetracker.navigation.params.screen.RecordTagSelectionParams
 import com.example.util.simpletimetracker.utils.BaseUiTest
+import com.example.util.simpletimetracker.utils.Widget
 import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -14,6 +15,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @HiltAndroidTest
+@Widget
 @RunWith(AndroidJUnit4::class)
 class WidgetTagSelection : BaseUiTest() {
 

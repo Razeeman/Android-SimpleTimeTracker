@@ -8,6 +8,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.util.simpletimetracker.feature_widget.universal.activity.view.WidgetUniversalActivity
 import com.example.util.simpletimetracker.utils.BaseUiTest
+import com.example.util.simpletimetracker.utils.Widget
 import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
@@ -19,6 +20,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @HiltAndroidTest
+@Widget
 @RunWith(AndroidJUnit4::class)
 class WidgetUniversal : BaseUiTest() {
 

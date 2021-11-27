@@ -44,7 +44,17 @@ jobs:
           target: google_apis
           arch: x86
           disable-animations: true
-          script: ./gradlew app:connectedDebugAndroidTest --stacktrace
+          script: ./gradlew app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.notAnnotation=com.example.util.simpletimetracker.utils.Widget --stacktrace
+
+      # For some reason widget tests make other tests to fail, so run them separately.
+      - name: Run widget tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api-level }}
+          target: google_apis
+          arch: x86
+          disable-animations: true
+          script: ./gradlew app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.annotation=com.example.util.simpletimetracker.utils.Widget --stacktrace
 
       - name: Upload tests results
         if: ${{ failure() }}
