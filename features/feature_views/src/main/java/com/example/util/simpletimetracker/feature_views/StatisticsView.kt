@@ -57,9 +57,9 @@ class StatisticsView @JvmOverloads constructor(
 
     var itemPercent: String = ""
         set(value) {
+            field = value
             binding.tvStatisticsItemPercent.text = value
             setDividerColor()
-            field = value
         }
 
     init {
