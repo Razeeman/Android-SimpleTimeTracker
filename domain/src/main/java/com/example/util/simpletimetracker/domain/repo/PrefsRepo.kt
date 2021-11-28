@@ -12,6 +12,8 @@ interface PrefsRepo {
 
     var firstDayOfWeek: Int
 
+    var startOfDayShift: Long // in milliseconds
+
     var showUntrackedInRecords: Boolean
 
     var allowMultitasking: Boolean

@@ -24,6 +24,8 @@ import com.example.util.simpletimetracker.navigation.params.screen.DurationDialo
 import com.example.util.simpletimetracker.navigation.params.action.OpenMarketParams
 import com.example.util.simpletimetracker.navigation.params.action.SendEmailParams
 import com.example.util.simpletimetracker.navigation.params.notification.ToastParams
+import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogType
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -34,7 +36,7 @@ class SettingsViewModel @Inject constructor(
     private val settingsMapper: SettingsMapper,
     private val packageNameProvider: PackageNameProvider,
     private val notificationTypeInteractor: NotificationTypeInteractor,
-    private val notificationInactivityInteractor: NotificationInactivityInteractor
+    private val notificationInactivityInteractor: NotificationInactivityInteractor,
 ) : ViewModel() {
 
     val cardOrderViewData: LiveData<CardOrderViewData> by lazy {
@@ -86,6 +88,15 @@ class SettingsViewModel @Inject constructor(
         MutableLiveData<Boolean>().let { initial ->
             viewModelScope.launch {
                 initial.value = prefsInteractor.getShowNotifications()
+            }
+            initial
+        }
+    }
+
+    val startOfDayViewData: LiveData<String> by lazy {
+        MutableLiveData<String>().let { initial ->
+            viewModelScope.launch {
+                initial.value = loadStartOfDayViewData()
             }
             initial
         }
@@ -209,6 +220,18 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    fun onStartOfDayClicked() {
+        viewModelScope.launch {
+            DateTimeDialogParams(
+                tag = START_OF_DAY_DIALOG_TAG,
+                type = DateTimeDialogType.TIME,
+                timestamp = prefsInteractor.getStartOfDayShift()
+                    .let(settingsMapper::startOfDayShiftToTimeStamp),
+                useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat(),
+            ).let(router::navigate)
+        }
+    }
+
     fun onShowUntrackedClicked() {
         viewModelScope.launch {
             val newValue = !prefsInteractor.getShowUntrackedInRecords()
@@ -236,12 +259,10 @@ class SettingsViewModel @Inject constructor(
 
     fun onInactivityReminderClicked() {
         viewModelScope.launch {
-            router.navigate(
-                DurationDialogParams(
-                    tag = INACTIVITY_DURATION_DIALOG_TAG,
-                    duration = prefsInteractor.getInactivityReminderDuration()
-                )
-            )
+            DurationDialogParams(
+                tag = INACTIVITY_DURATION_DIALOG_TAG,
+                duration = prefsInteractor.getInactivityReminderDuration()
+            ).let(router::navigate)
         }
     }
 
@@ -261,6 +282,7 @@ class SettingsViewModel @Inject constructor(
             (useMilitaryTimeCheckbox as MutableLiveData).value = newValue
             notificationTypeInteractor.updateNotifications()
             updateUseMilitaryTimeViewData()
+            updateStartOfDayViewData()
         }
     }
 
@@ -314,6 +336,15 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    fun onDateTimeSet(timestamp: Long, tag: String?) = viewModelScope.launch {
+        when (tag) {
+            START_OF_DAY_DIALOG_TAG -> {
+                prefsInteractor.setStartOfDayShift(settingsMapper.toStartOfDayShift(timestamp))
+                updateStartOfDayViewData()
+            }
+        }
+    }
+
     fun onThemeChanged() {
         (themeChanged as MutableLiveData).value = false
     }
@@ -349,6 +380,18 @@ class SettingsViewModel @Inject constructor(
             .let(settingsMapper::toFirstDayOfWeekViewData)
     }
 
+    private suspend fun updateStartOfDayViewData() {
+        val data = loadStartOfDayViewData()
+        (startOfDayViewData as MutableLiveData).value = data
+    }
+
+    private suspend fun loadStartOfDayViewData(): String {
+        return settingsMapper.toStartOfDayText(
+            startOfDayShift = prefsInteractor.getStartOfDayShift(),
+            useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
+        )
+    }
+
     private suspend fun updateInactivityReminderViewData() {
         val data = loadInactivityReminderViewData()
         (inactivityReminderViewData as MutableLiveData).value = data
@@ -381,5 +424,6 @@ class SettingsViewModel @Inject constructor(
 
     companion object {
         private const val INACTIVITY_DURATION_DIALOG_TAG = "inactivity_duration_dialog_tag"
+        private const val START_OF_DAY_DIALOG_TAG = "start_of_day_dialog_tag"
     }
 }

@@ -118,6 +118,15 @@ class DateTimeDialogFragment :
     }
 
     private fun initFragments() {
+        val type = params.type
+        val showDate = type is DateTimeDialogType.DATE || type is DateTimeDialogType.DATETIME
+        val showTime = type is DateTimeDialogType.TIME || type is DateTimeDialogType.DATETIME
+
+        if (showDate) setDateFragment()
+        if (showTime) setTimeFragment()
+    }
+
+    private fun setDateFragment() {
         val dayOfWeek = timeMapper.toCalendarDayOfWeek(params.firstDayOfWeek)
         childFragmentManager.commit {
             replace(
@@ -127,16 +136,16 @@ class DateTimeDialogFragment :
                     .also { dateDialogFragment = it }
             )
         }
+    }
 
-        if (params.type is DateTimeDialogType.DATETIME) {
-            childFragmentManager.commit {
-                replace(
-                    R.id.timePickerContainer,
-                    TimeDialogFragment.newInstance(params.timestamp, params.useMilitaryTime)
-                        .apply { listener = this@DateTimeDialogFragment }
-                        .also { timeDialogFragment = it }
-                )
-            }
+    private fun setTimeFragment() {
+        childFragmentManager.commit {
+            replace(
+                R.id.timePickerContainer,
+                TimeDialogFragment.newInstance(params.timestamp, params.useMilitaryTime)
+                    .apply { listener = this@DateTimeDialogFragment }
+                    .also { timeDialogFragment = it }
+            )
         }
     }
 
@@ -144,6 +153,9 @@ class DateTimeDialogFragment :
         when (val type = params.type) {
             is DateTimeDialogType.DATE -> {
                 setDateTabOnly()
+            }
+            is DateTimeDialogType.TIME -> {
+                setTimeTabOnly()
             }
             is DateTimeDialogType.DATETIME -> {
                 tabsDateTimeDialog.onTabSelected(::changeTabsVisibility)
@@ -159,6 +171,12 @@ class DateTimeDialogFragment :
         tabsDateTimeDialog.visible = false
         datePickerContainer.visible = true
         timePickerContainer.visible = false
+    }
+
+    private fun setTimeTabOnly() = with(binding) {
+        tabsDateTimeDialog.visible = false
+        datePickerContainer.visible = false
+        timePickerContainer.visible = true
     }
 
     private fun changeTabsVisibility(tab: TabLayout.Tab) = with(binding) {

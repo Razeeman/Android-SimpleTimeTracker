@@ -31,8 +31,10 @@
         android:id="@+id/datePickerContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         tools:layout_height="200dp"
-        tools:layout_width="200dp" />
+        tools:layout_width="200dp"
+        tools:visibility="visible" />
 
     <FrameLayout
         android:id="@+id/timePickerContainer"

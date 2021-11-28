@@ -153,6 +153,7 @@
     <string name="settings_allow_multitasking_hint">Jika dinonaktifkan memulai pewaktu baru akan secara otomatis menghentikan kegiatan-kegiatan lain.</string>
     <string name="settings_show_notifications">Tampilkan notifikasi pewaktu</string>
     <string name="settings_show_notifications_hint">Tampilkan notifikasi saat pewaktu berjalan.</string>
+    <string name="settings_start_of_day">Awal hari</string>
     <string name="settings_inactivity_reminder">Tampilkan pengingat tidak berkegiatan</string>
     <string name="settings_inactivity_reminder_hint">Tampilkan notifikasi setelah waktu yang ditentukan jika tidak ada pewaktu yang berjalan.</string>
     <string name="settings_inactivity_reminder_disabled">Dinonaktifkan</string>

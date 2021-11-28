@@ -153,6 +153,7 @@
     <string name="settings_allow_multitasking_hint">Se disabilitato, avviare un nuovo timer fermerà automaticamente le altre attività.</string>
     <string name="settings_show_notifications">Mostra le notifiche relative al timer.</string>
     <string name="settings_show_notifications_hint">Mostra le notifiche quando i timer sono in esecuzione.</string>
+    <string name="settings_start_of_day">Inizio della giornata</string>
     <string name="settings_inactivity_reminder">Mostra avviso per inattività</string>
     <string name="settings_inactivity_reminder_hint">Mostra una notifica dopo un certo tempo se non ci sono timer in esecuzione.</string>
     <string name="settings_inactivity_reminder_disabled">Disabilitato</string>

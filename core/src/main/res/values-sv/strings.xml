@@ -153,6 +153,7 @@
     <string name="settings_allow_multitasking_hint">Om inaktiverad så stoppas pågående aktivitet vid start av annan aktivitet.</string>
     <string name="settings_show_notifications">Visa tid i notis</string>
     <string name="settings_show_notifications_hint">Visa notis när tidtagning av aktivitet pågår.</string>
+    <string name="settings_start_of_day">Början på dagen</string>
     <string name="settings_inactivity_reminder">Visa inaktivitetspåminnelse</string>
     <string name="settings_inactivity_reminder_hint">Visa notis efter angiven tid om ingen tidtagning pågår.</string>
     <string name="settings_inactivity_reminder_disabled">Inaktiverad</string>

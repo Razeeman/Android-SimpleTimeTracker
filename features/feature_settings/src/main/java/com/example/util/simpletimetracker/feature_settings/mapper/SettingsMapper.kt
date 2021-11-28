@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 class SettingsMapper @Inject constructor(
     private val resourceRepo: ResourceRepo,
-    private val timeMapper: TimeMapper
+    private val timeMapper: TimeMapper,
 ) {
 
     private val cardOrderList: List<CardOrder> = listOf(
@@ -68,6 +68,19 @@ class SettingsMapper @Inject constructor(
         }
     }
 
+    fun toStartOfDayShift(timestamp: Long): Long {
+        return timestamp - getStartOfDayTimeStamp()
+    }
+
+    fun startOfDayShiftToTimeStamp(startOfDayShift: Long): Long {
+        return getStartOfDayTimeStamp() + startOfDayShift
+    }
+
+    fun toStartOfDayText(startOfDayShift: Long, useMilitaryTime: Boolean): String {
+        val hintTime = startOfDayShiftToTimeStamp(startOfDayShift)
+        return timeMapper.formatTime(hintTime, useMilitaryTime)
+    }
+
     fun toUseMilitaryTimeHint(useMilitaryTime: Boolean): String {
         val hintTime = Calendar.getInstance().apply {
             set(Calendar.HOUR_OF_DAY, 13)
@@ -97,5 +110,14 @@ class SettingsMapper @Inject constructor(
 
     private fun toPosition(dayOfWeek: DayOfWeek): Int {
         return dayOfWeekList.indexOf(dayOfWeek).takeUnless { it == -1 }.orZero()
+    }
+
+    private fun getStartOfDayTimeStamp(): Long {
+        return Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }.timeInMillis
     }
 }

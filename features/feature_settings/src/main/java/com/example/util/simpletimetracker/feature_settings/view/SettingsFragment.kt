@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.core.BuildConfig
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.CsvExportSettingsDialogListener
+import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
 import com.example.util.simpletimetracker.core.dialog.DurationDialogListener
 import com.example.util.simpletimetracker.core.dialog.StandardDialogListener
 import com.example.util.simpletimetracker.core.sharedViewModel.BackupViewModel
@@ -26,6 +27,7 @@ class SettingsFragment :
     BaseFragment<Binding>(),
     StandardDialogListener,
     DurationDialogListener,
+    DateTimeDialogListener,
     CsvExportSettingsDialogListener {
 
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
@@ -54,6 +56,7 @@ class SettingsFragment :
         spinnerSettingsRecordTypeSort.onPositionSelected = viewModel::onRecordTypeOrderSelected
         btnCardOrderManual.setOnClick(viewModel::onCardOrderManualClick)
         spinnerSettingsFirstDayOfWeek.onPositionSelected = viewModel::onFirstDayOfWeekSelected
+        groupSettingsStartOfDay.setOnClick(viewModel::onStartOfDayClicked)
         checkboxSettingsShowUntracked.setOnClick(viewModel::onShowUntrackedClicked)
         checkboxSettingsAllowMultitasking.setOnClick(viewModel::onAllowMultitaskingClicked)
         checkboxSettingsShowNotifications.setOnClick(viewModel::onShowNotificationsClicked)
@@ -76,6 +79,7 @@ class SettingsFragment :
         with(viewModel) {
             cardOrderViewData.observe(::updateCardOrderViewData)
             firstDayOfWeekViewData.observe(::updateFirstDayOfWeekViewData)
+            startOfDayViewData.observe(tvSettingsStartOfDayTime::setText)
             btnCardOrderManualVisibility.observe(btnCardOrderManual::visible::set)
             showUntrackedCheckbox.observe(checkboxSettingsShowUntracked::setChecked)
             allowMultitaskingCheckbox.observe(checkboxSettingsAllowMultitasking::setChecked)
@@ -116,6 +120,10 @@ class SettingsFragment :
 
     override fun onDisable(tag: String?) {
         viewModel.onDurationDisabled(tag)
+    }
+
+    override fun onDateTimeSet(timestamp: Long, tag: String?) {
+        viewModel.onDateTimeSet(timestamp, tag)
     }
 
     override fun onCsvExportSettingsSelected(data: CsvExportSettingsParams) {

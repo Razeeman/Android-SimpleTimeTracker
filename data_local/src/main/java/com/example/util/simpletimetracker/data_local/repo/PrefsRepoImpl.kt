@@ -37,6 +37,10 @@ class PrefsRepoImpl @Inject constructor(
         KEY_FIRST_DAY_OF_WEEK, firstDayOfWeekDefault
     )
 
+    override var startOfDayShift: Long by prefs.delegate(
+        KEY_START_OF_DAY_SHIFT, 0
+    )
+
     override var showUntrackedInRecords: Boolean by prefs.delegate(
         KEY_SHOW_UNTRACKED_IN_RECORDS, true
     )
@@ -119,6 +123,7 @@ class PrefsRepoImpl @Inject constructor(
         private const val KEY_CHART_FILTER_TYPE = "chartFilterType"
         private const val KEY_CARD_ORDER = "cardOrder"
         private const val KEY_FIRST_DAY_OF_WEEK = "firstDayOfWeek"
+        private const val KEY_START_OF_DAY_SHIFT = "startOfDayShift"
         private const val KEY_SHOW_UNTRACKED_IN_RECORDS = "showUntrackedInRecords"
         private const val KEY_ALLOW_MULTITASKING = "allowMultitasking"
         private const val KEY_SHOW_NOTIFICATIONS = "showNotifications"

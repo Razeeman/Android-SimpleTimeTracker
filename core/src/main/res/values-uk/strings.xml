@@ -153,6 +153,7 @@
     <string name="settings_allow_multitasking_hint">Якщо вимкнено, запуск нового таймера автоматично зупинить інші дії.</string>
     <string name="settings_show_notifications">Показувати сповіщення таймера</string>
     <string name="settings_show_notifications_hint">Показувати сповіщення, коли таймери працюють.</string>
+    <string name="settings_start_of_day">Початок дня</string>
     <string name="settings_inactivity_reminder">Показувати нагадування про бездіяльність</string>
     <string name="settings_inactivity_reminder_hint">Показувати сповіщення через вказаний час, якщо таймери не запущені.</string>
     <string name="settings_inactivity_reminder_disabled">Вимкнено</string>

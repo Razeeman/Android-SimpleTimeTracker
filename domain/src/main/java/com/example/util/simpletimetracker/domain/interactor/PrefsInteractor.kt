@@ -91,6 +91,14 @@ class PrefsInteractor @Inject constructor(
         }
     }
 
+    suspend fun getStartOfDayShift(): Long = withContext(Dispatchers.IO) {
+        prefsRepo.startOfDayShift
+    }
+
+    suspend fun setStartOfDayShift(startOfDay: Long) = withContext(Dispatchers.IO) {
+        prefsRepo.startOfDayShift = startOfDay
+    }
+
     suspend fun getShowUntrackedInRecords(): Boolean = withContext(Dispatchers.IO) {
         prefsRepo.showUntrackedInRecords
     }

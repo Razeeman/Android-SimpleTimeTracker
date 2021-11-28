@@ -9,6 +9,9 @@ sealed class DateTimeDialogType : Parcelable {
     object DATE : DateTimeDialogType()
 
     @Parcelize
+    object TIME : DateTimeDialogType()
+
+    @Parcelize
     data class DATETIME(val initialTab: Tab = Tab.TIME) : DateTimeDialogType()
 
     enum class Tab {
