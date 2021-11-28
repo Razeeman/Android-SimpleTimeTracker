@@ -23,14 +23,14 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
     private val recordInteractor: RecordInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val timeMapper: TimeMapper,
-    private val rangeMapper: RangeMapper
+    private val rangeMapper: RangeMapper,
 ) {
 
     suspend fun getSplitChartViewData(
         filter: TypesFilterParams,
         rangeLength: RangeLength,
         rangePosition: Int,
-        splitChartGrouping: SplitChartGrouping
+        splitChartGrouping: SplitChartGrouping,
     ): StatisticsDetailChartViewData {
         val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
         val startOfDayShift = prefsInteractor.getStartOfDayShift()
@@ -40,7 +40,7 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
             firstDayOfWeek = firstDayOfWeek,
             startOfDayShift = startOfDayShift
         )
-        val data = getDurations(filter, range, splitChartGrouping)
+        val data = getDurations(filter, range, splitChartGrouping, startOfDayShift)
 
         return when (splitChartGrouping) {
             SplitChartGrouping.HOURLY ->
@@ -53,7 +53,8 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
     private suspend fun getDurations(
         filter: TypesFilterParams,
         range: Pair<Long, Long>,
-        splitChartGrouping: SplitChartGrouping
+        splitChartGrouping: SplitChartGrouping,
+        startOfDayShift: Long,
     ): Map<Int, Float> {
         val calendar = Calendar.getInstance()
         val dataDurations: MutableMap<Int, Long> = mutableMapOf()
@@ -64,8 +65,8 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
         val ranges = mapToRanges(records, range)
         val totalTracked = ranges.let(rangeMapper::mapToDuration)
 
-        processRecords(calendar, ranges, splitChartGrouping).forEach {
-            val grouping = mapToGrouping(calendar, it, splitChartGrouping)
+        processRecords(calendar, ranges, splitChartGrouping, startOfDayShift).forEach {
+            val grouping = mapToGrouping(calendar, it, splitChartGrouping, startOfDayShift)
             val duration = it.timeEnded - it.timeStarted
             dataDurations[grouping] = dataDurations[grouping].orZero() + duration
             dataTimesTracked[grouping] = dataTimesTracked[grouping].orZero() + 1
@@ -94,13 +95,13 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
     private fun processRecords(
         calendar: Calendar,
         records: List<Range>,
-        splitChartGrouping: SplitChartGrouping
+        splitChartGrouping: SplitChartGrouping,
+        startOfDayShift: Long,
     ): List<Range> {
         val processedRecords: MutableList<Range> = mutableListOf()
 
-        // TODO fix with start of day
         records.forEach { record ->
-            splitIntoRecords(calendar, record, splitChartGrouping).forEach { processedRecords.add(it) }
+            splitIntoRecords(calendar, record, splitChartGrouping, startOfDayShift).forEach { processedRecords.add(it) }
         }
 
         return processedRecords
@@ -109,14 +110,20 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
     private fun mapToGrouping(
         calendar: Calendar,
         record: Range,
-        splitChartGrouping: SplitChartGrouping
+        splitChartGrouping: SplitChartGrouping,
+        startOfDayShift: Long,
     ): Int {
         return calendar
             .apply { timeInMillis = record.timeStarted }
             .let {
                 when (splitChartGrouping) {
-                    SplitChartGrouping.HOURLY -> it.get(Calendar.HOUR_OF_DAY)
-                    SplitChartGrouping.DAILY -> it.get(Calendar.DAY_OF_WEEK)
+                    SplitChartGrouping.HOURLY -> {
+                        it.get(Calendar.HOUR_OF_DAY)
+                    }
+                    SplitChartGrouping.DAILY -> {
+                        it.timeInMillis -= startOfDayShift
+                        it.get(Calendar.DAY_OF_WEEK)
+                    }
                 }
             }
     }
@@ -129,11 +136,20 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
         calendar: Calendar,
         record: Range,
         splitChartGrouping: SplitChartGrouping,
-        splitRecords: MutableList<Range> = mutableListOf()
+        startOfDayShift: Long,
+        splitRecords: MutableList<Range> = mutableListOf(),
     ): List<Range> {
         val rangeCheck = when (splitChartGrouping) {
-            SplitChartGrouping.HOURLY -> timeMapper.sameHour(record.timeStarted, record.timeEnded, calendar)
-            SplitChartGrouping.DAILY -> timeMapper.sameDay(record.timeStarted, record.timeEnded, calendar)
+            SplitChartGrouping.HOURLY -> timeMapper.sameHour(
+                date1 = record.timeStarted,
+                date2 = record.timeEnded,
+                calendar = calendar
+            )
+            SplitChartGrouping.DAILY -> timeMapper.sameDay(
+                date1 = record.timeStarted - startOfDayShift,
+                date2 = record.timeEnded - startOfDayShift,
+                calendar = calendar
+            )
         }
         val rangeStep = when (splitChartGrouping) {
             SplitChartGrouping.HOURLY -> Calendar.HOUR_OF_DAY
@@ -146,10 +162,12 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
 
         val adjustedCalendar = calendar.apply {
             timeInMillis = record.timeStarted
+            if (splitChartGrouping == SplitChartGrouping.DAILY) timeInMillis -= startOfDayShift
             if (splitChartGrouping == SplitChartGrouping.DAILY) set(Calendar.HOUR_OF_DAY, 0)
             set(Calendar.MINUTE, 0)
             set(Calendar.SECOND, 0)
             set(Calendar.MILLISECOND, 0)
+            if (splitChartGrouping == SplitChartGrouping.DAILY) timeInMillis += startOfDayShift
         }
         val rangeEnd = adjustedCalendar.apply { add(rangeStep, 1) }.timeInMillis
 
@@ -163,6 +181,12 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
         )
         splitRecords.add(firstRecord)
 
-        return splitIntoRecords(calendar, secondRecord, splitChartGrouping, splitRecords)
+        return splitIntoRecords(
+            calendar = calendar,
+            record = secondRecord,
+            splitChartGrouping = splitChartGrouping,
+            startOfDayShift = startOfDayShift,
+            splitRecords = splitRecords
+        )
     }
 }
