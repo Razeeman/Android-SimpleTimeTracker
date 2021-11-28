@@ -110,3 +110,9 @@ Version 1.14:
 - Add time range setting to csv export
 - Fix manual card ordering
 - General bug fixes and improvements
+
+Version 1.15:
+- Add general record tags
+- Add ability to assign several tags to a record
+- Add some translations
+- General bug fixes and improvements
