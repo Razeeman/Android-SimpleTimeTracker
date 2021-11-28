@@ -47,7 +47,7 @@ class StatisticsDetailViewModel @Inject constructor(
     private val splitChartInteractor: StatisticsDetailSplitChartInteractor,
     private val mapper: StatisticsDetailViewDataMapper,
     private val rangeMapper: RangeMapper,
-    private val timeMapper: TimeMapper
+    private val timeMapper: TimeMapper,
 ) : ViewModel() {
 
     lateinit var extra: StatisticsDetailParams
@@ -141,7 +141,13 @@ class StatisticsDetailViewModel @Inject constructor(
     fun onRecordsClick() {
         viewModelScope.launch {
             val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
-            val range = timeMapper.getRangeStartAndEnd(rangeLength, rangePosition, firstDayOfWeek)
+            val startOfDayShift = prefsInteractor.getStartOfDayShift()
+            val range = timeMapper.getRangeStartAndEnd(
+                rangeLength = rangeLength,
+                shift = rangePosition,
+                firstDayOfWeek = firstDayOfWeek,
+                startOfDayShift = startOfDayShift
+            )
 
             router.navigate(
                 RecordsAllParams(
@@ -264,7 +270,8 @@ class StatisticsDetailViewModel @Inject constructor(
             chartLength = chartLength,
             rangeLength = rangeLength,
             rangePosition = rangePosition,
-            firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
+            firstDayOfWeek = prefsInteractor.getFirstDayOfWeek(),
+            startOfDayShift = prefsInteractor.getStartOfDayShift(),
         )
     }
 

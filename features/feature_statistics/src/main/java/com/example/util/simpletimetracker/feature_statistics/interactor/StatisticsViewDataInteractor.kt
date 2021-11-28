@@ -30,6 +30,7 @@ class StatisticsViewDataInteractor @Inject constructor(
         val filterType = prefsInteractor.getChartFilterType()
         val isDarkTheme = prefsInteractor.getDarkMode()
         val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
+        val startOfDayShift = prefsInteractor.getStartOfDayShift()
         val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
         val showDuration = rangeLength != RangeLength.ALL
         val types = recordTypeInteractor.getAll()
@@ -41,7 +42,7 @@ class StatisticsViewDataInteractor @Inject constructor(
 
         // Get data.
         val dataHolders = getDataHolders(filterType, types)
-        val statistics = getStatistics(filterType, rangeLength, shift, filteredIds, firstDayOfWeek)
+        val statistics = getStatistics(filterType, rangeLength, shift, filteredIds, firstDayOfWeek, startOfDayShift)
         val chart = getChart(
             filterType, statistics, dataHolders, types, filteredIds, isDarkTheme
         )
@@ -76,11 +77,13 @@ class StatisticsViewDataInteractor @Inject constructor(
         shift: Int,
         filteredIds: List<Long>,
         firstDayOfWeek: DayOfWeek,
+        startOfDayShift: Long,
     ): List<Statistics> {
         val (start, end) = timeMapper.getRangeStartAndEnd(
             rangeLength = rangeLength,
             shift = shift,
-            firstDayOfWeek = firstDayOfWeek
+            firstDayOfWeek = firstDayOfWeek,
+            startOfDayShift = startOfDayShift,
         )
 
         return if (start != 0L && end != 0L) {

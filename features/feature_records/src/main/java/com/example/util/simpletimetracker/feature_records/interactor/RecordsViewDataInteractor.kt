@@ -24,12 +24,14 @@ class RecordsViewDataInteractor @Inject constructor(
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
         val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
+        val startOfDayShift = prefsInteractor.getStartOfDayShift()
         val recordTypes = recordTypeInteractor.getAll().map { it.id to it }.toMap()
         val recordTags = recordTagInteractor.getAll()
         val (rangeStart, rangeEnd) = timeMapper.getRangeStartAndEnd(
             rangeLength = RangeLength.DAY,
             shift = shift,
             firstDayOfWeek = DayOfWeek.MONDAY, // Doesn't matter for days.
+            startOfDayShift = startOfDayShift,
         )
         val records = if (rangeStart != 0L && rangeEnd != 0L) {
             recordInteractor.getFromRange(rangeStart, rangeEnd)

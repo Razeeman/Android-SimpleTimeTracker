@@ -33,7 +33,13 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
         splitChartGrouping: SplitChartGrouping
     ): StatisticsDetailChartViewData {
         val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
-        val range = timeMapper.getRangeStartAndEnd(rangeLength, rangePosition, firstDayOfWeek)
+        val startOfDayShift = prefsInteractor.getStartOfDayShift()
+        val range = timeMapper.getRangeStartAndEnd(
+            rangeLength = rangeLength,
+            shift = rangePosition,
+            firstDayOfWeek = firstDayOfWeek,
+            startOfDayShift = startOfDayShift
+        )
         val data = getDurations(filter, range, splitChartGrouping)
 
         return when (splitChartGrouping) {
@@ -92,6 +98,7 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
     ): List<Range> {
         val processedRecords: MutableList<Range> = mutableListOf()
 
+        // TODO fix with start of day
         records.forEach { record ->
             splitIntoRecords(calendar, record, splitChartGrouping).forEach { processedRecords.add(it) }
         }

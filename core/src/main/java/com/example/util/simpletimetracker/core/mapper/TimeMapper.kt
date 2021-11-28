@@ -288,7 +288,8 @@ class TimeMapper @Inject constructor(
     fun getRangeStartAndEnd(
         rangeLength: RangeLength,
         shift: Int,
-        firstDayOfWeek: DayOfWeek
+        firstDayOfWeek: DayOfWeek,
+        startOfDayShift: Long,
     ): Pair<Long, Long> {
         val dayOfWeek = toCalendarDayOfWeek(firstDayOfWeek)
         val rangeStart: Long
@@ -300,6 +301,7 @@ class TimeMapper @Inject constructor(
             set(Calendar.MINUTE, 0)
             set(Calendar.SECOND, 0)
             set(Calendar.MILLISECOND, 0)
+            timeInMillis += startOfDayShift
         }
 
         when (rangeLength) {

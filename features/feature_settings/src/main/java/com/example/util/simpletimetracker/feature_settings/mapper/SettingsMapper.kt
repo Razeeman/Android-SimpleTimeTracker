@@ -10,6 +10,7 @@ import com.example.util.simpletimetracker.feature_settings.R
 import com.example.util.simpletimetracker.feature_settings.viewData.CardOrderViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.FirstDayOfWeekViewData
 import java.util.Calendar
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class SettingsMapper @Inject constructor(
@@ -69,7 +70,8 @@ class SettingsMapper @Inject constructor(
     }
 
     fun toStartOfDayShift(timestamp: Long): Long {
-        return timestamp - getStartOfDayTimeStamp()
+        val maxValue = TimeUnit.HOURS.toMillis(24) - TimeUnit.MINUTES.toMillis(1)
+        return (timestamp - getStartOfDayTimeStamp()).coerceIn(0..maxValue)
     }
 
     fun startOfDayShiftToTimeStamp(startOfDayShift: Long): Long {

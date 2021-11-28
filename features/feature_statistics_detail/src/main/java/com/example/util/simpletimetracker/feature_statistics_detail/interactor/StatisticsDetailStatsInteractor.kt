@@ -30,12 +30,18 @@ class StatisticsDetailStatsInteractor @Inject constructor(
     ): StatisticsDetailStatsViewData {
         val isDarkTheme = prefsInteractor.getDarkMode()
         val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
+        val startOfDayShift = prefsInteractor.getStartOfDayShift()
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
         val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
         val types = recordTypeInteractor.getAll()
         val tags = recordTagInteractor.getAll()
 
-        val range = timeMapper.getRangeStartAndEnd(rangeLength, rangePosition, firstDayOfWeek)
+        val range = timeMapper.getRangeStartAndEnd(
+            rangeLength = rangeLength,
+            shift = rangePosition,
+            firstDayOfWeek = firstDayOfWeek,
+            startOfDayShift = startOfDayShift
+        )
         val typeIds = typesFilterInteractor.getTypeIds(filter)
         val records = if (range.first == 0L && range.second == 0L) {
             recordInteractor.getAll()
