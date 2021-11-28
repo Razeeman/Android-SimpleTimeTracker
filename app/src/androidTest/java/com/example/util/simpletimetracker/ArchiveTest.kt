@@ -135,13 +135,17 @@ class ArchiveTest : BaseUiTest() {
     @Test
     fun archivedRecordTag() {
         val name1 = "TypeName1"
-        val tag1 = "TagName1"
-        val tag2 = "TagName2"
+        val tag1 = "Tag1"
+        val tag2 = "Tag2"
+        val tag3 = "Tag3"
+        val tag4 = "Tag4"
 
         testUtils.addActivity(name1)
         testUtils.addRecord(name1)
         testUtils.addRecordTag(tag1, name1)
         testUtils.addRecordTag(tag2, name1)
+        testUtils.addRecordTag(tag3)
+        testUtils.addRecordTag(tag4)
 
         NavUtils.openSettingsScreen()
         onView(withId(R.id.checkboxSettingsShowRecordTagSelection)).perform(nestedScrollTo())
@@ -149,12 +153,18 @@ class ArchiveTest : BaseUiTest() {
         NavUtils.openCategoriesScreen()
         checkTagVisible(tag1)
         checkTagVisible(tag2)
+        checkTagVisible(tag3)
+        checkTagVisible(tag4)
 
         // Delete one
         clickOnView(withText(tag2))
         clickOnViewWithId(R.id.btnChangeRecordTagDelete)
+        clickOnView(withText(tag4))
+        clickOnViewWithId(R.id.btnChangeRecordTagDelete)
         checkTagVisible(tag1)
         checkTagNotVisible(tag2)
+        checkTagVisible(tag3)
+        checkTagNotVisible(tag4)
         pressBack()
 
         // Not shown on records
@@ -166,6 +176,8 @@ class ArchiveTest : BaseUiTest() {
         clickOnViewWithText(R.string.change_record_category_field)
         checkTagVisible(tag1)
         checkTagNotVisible(tag2)
+        checkTagVisible(tag3)
+        checkTagNotVisible(tag4)
         pressBack()
 
         // Still shown in stat detail filter
@@ -174,6 +186,8 @@ class ArchiveTest : BaseUiTest() {
         clickOnViewWithId(R.id.cardStatisticsDetailFilter)
         checkTagVisible(tag1)
         checkTagVisible(tag2)
+        checkTagVisible(tag3)
+        checkTagVisible(tag4)
         pressBack()
         pressBack()
 
@@ -182,6 +196,8 @@ class ArchiveTest : BaseUiTest() {
         clickOnView(allOf(withText(name1), isCompletelyDisplayed()))
         checkTagVisible(tag1)
         checkTagNotVisible(tag2)
+        checkTagVisible(tag3)
+        checkTagNotVisible(tag4)
         pressBack()
         tryAction { clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name1))) }
 
@@ -190,14 +206,20 @@ class ArchiveTest : BaseUiTest() {
         NavUtils.openArchiveScreen()
         checkTagNotVisible(tag1)
         checkTagVisible(tag2)
+        checkTagNotVisible(tag3)
+        checkTagVisible(tag4)
 
         // Restore
         clickOnViewWithText(tag2)
+        clickOnViewWithText(R.string.archive_dialog_restore)
+        clickOnViewWithText(tag4)
         clickOnViewWithText(R.string.archive_dialog_restore)
 
         // Archive is empty
         checkTagNotVisible(tag1)
         checkTagNotVisible(tag2)
+        checkTagNotVisible(tag3)
+        checkTagNotVisible(tag4)
         checkViewIsDisplayed(withText(R.string.archive_empty))
         pressBack()
 
@@ -206,6 +228,8 @@ class ArchiveTest : BaseUiTest() {
         clickOnView(allOf(withText(name1), isCompletelyDisplayed()))
         checkTagVisible(tag1)
         checkTagVisible(tag2)
+        checkTagVisible(tag3)
+        checkTagVisible(tag4)
         pressBack()
     }
 
@@ -213,18 +237,24 @@ class ArchiveTest : BaseUiTest() {
     fun archiveDeletionStatistics() {
         val name1 = "TypeName1"
         val name2 = "TypeName2"
-        val tag1 = "TagName1"
-        val tag2 = "TagName2"
+        val tag1 = "Tag1"
+        val tag2 = "Tag2"
+        val tag3 = "Tag3"
+        val tag4 = "Tag4"
 
         testUtils.addActivity(name1)
         testUtils.addActivity(name2)
 
         testUtils.addRecordTag(tag1, name1)
         testUtils.addRecordTag(tag2, name1)
+        testUtils.addRecordTag(tag3)
+        testUtils.addRecordTag(tag4)
 
         testUtils.addRecord(name1, tagNames = listOf(tag1))
         testUtils.addRecord(name1, tagNames = listOf(tag1))
         testUtils.addRecord(name1, tagNames = listOf(tag1))
+        testUtils.addRecord(name1, tagNames = listOf(tag3))
+        testUtils.addRecord(name1, tagNames = listOf(tag1, tag3))
         testUtils.addRecord(name1)
 
         // Delete
@@ -238,6 +268,10 @@ class ArchiveTest : BaseUiTest() {
         clickOnViewWithId(R.id.btnChangeRecordTagDelete)
         tryAction { clickOnViewWithText(tag2) }
         clickOnViewWithId(R.id.btnChangeRecordTagDelete)
+        tryAction { clickOnViewWithText(tag3) }
+        clickOnViewWithId(R.id.btnChangeRecordTagDelete)
+        tryAction { clickOnViewWithText(tag4) }
+        clickOnViewWithId(R.id.btnChangeRecordTagDelete)
         pressBack()
 
         // Check archive
@@ -246,6 +280,8 @@ class ArchiveTest : BaseUiTest() {
         checkTypeVisible(name2)
         checkTagVisible(tag1)
         checkTagVisible(tag2)
+        checkTagVisible(tag3)
+        checkTagVisible(tag4)
 
         // Check activity with data
         clickOnViewWithText(name1)
@@ -253,7 +289,7 @@ class ArchiveTest : BaseUiTest() {
             allOf(
                 withId(R.id.layoutArchiveDialogInfoItem),
                 hasDescendant(withText(R.string.archive_records_count)),
-                hasDescendant(withText("4"))
+                hasDescendant(withText("6"))
             )
         )
         checkViewIsDisplayed(
@@ -289,13 +325,35 @@ class ArchiveTest : BaseUiTest() {
             allOf(
                 withId(R.id.layoutArchiveDialogInfoItem),
                 hasDescendant(withText(R.string.archive_tagged_records_count)),
-                hasDescendant(withText("3"))
+                hasDescendant(withText("4"))
             )
         )
         pressBack()
 
         // Check tag with no data
         clickOnViewWithText(tag2)
+        checkViewIsDisplayed(
+            allOf(
+                withId(R.id.layoutArchiveDialogInfoItem),
+                hasDescendant(withText(R.string.archive_tagged_records_count)),
+                hasDescendant(withText("0"))
+            )
+        )
+        pressBack()
+
+        // Check general tag with data
+        clickOnViewWithText(tag3)
+        checkViewIsDisplayed(
+            allOf(
+                withId(R.id.layoutArchiveDialogInfoItem),
+                hasDescendant(withText(R.string.archive_tagged_records_count)),
+                hasDescendant(withText("2"))
+            )
+        )
+        pressBack()
+
+        // Check general tag with no data
+        clickOnViewWithText(tag4)
         checkViewIsDisplayed(
             allOf(
                 withId(R.id.layoutArchiveDialogInfoItem),
