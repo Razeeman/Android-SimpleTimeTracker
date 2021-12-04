@@ -160,8 +160,11 @@ class DateTimeDialogFragment :
             is DateTimeDialogType.DATETIME -> {
                 tabsDateTimeDialog.onTabSelected(::changeTabsVisibility)
                 when (type.initialTab) {
-                    DateTimeDialogType.Tab.DATE -> tabsDateTimeDialog.getTabAt(0)?.select()
-                    DateTimeDialogType.Tab.TIME -> tabsDateTimeDialog.getTabAt(1)?.select()
+                    DateTimeDialogType.Tab.DATE -> tabsDateTimeDialog.getTabAt(0)
+                    DateTimeDialogType.Tab.TIME -> tabsDateTimeDialog.getTabAt(1)
+                }?.apply {
+                    select()
+                    changeTabsVisibility(this)
                 }
             }
         }
