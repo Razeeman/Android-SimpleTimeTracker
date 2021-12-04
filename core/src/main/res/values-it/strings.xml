@@ -204,6 +204,9 @@
     <string name="statistics_detail_legend_minute_suffix">m</string>
     <string name="statistics_detail_legend_hour_suffix">h</string>
 
+    <string name="statistics_detail_range_averages">Per tutta la gamma</string>
+    <string name="statistics_detail_range_averages_non_empty">Senza periodi vuoti</string>
+
     <string name="statistics_detail_total_duration">Totale</string>
     <string name="statistics_detail_shortest_record">Più corta</string>
     <string name="statistics_detail_average_record">Media</string>

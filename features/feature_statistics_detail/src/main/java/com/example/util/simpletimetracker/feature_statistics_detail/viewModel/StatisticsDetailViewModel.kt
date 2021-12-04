@@ -23,6 +23,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.mapper.Stati
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartGrouping
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartLength
 import com.example.util.simpletimetracker.feature_statistics_detail.model.SplitChartGrouping
+import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartCompositeViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartLengthViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailGroupingViewData
@@ -61,8 +62,8 @@ class StatisticsDetailViewModel @Inject constructor(
     val statsViewData: LiveData<StatisticsDetailStatsViewData> by lazy {
         return@lazy MutableLiveData(loadEmptyStatsViewData())
     }
-    val chartViewData: LiveData<StatisticsDetailChartViewData> by lazy {
-        return@lazy MutableLiveData<StatisticsDetailChartViewData>()
+    val chartViewData: LiveData<StatisticsDetailChartCompositeViewData> by lazy {
+        return@lazy MutableLiveData()
     }
     val chartGroupingViewData: LiveData<List<ViewHolderType>> by lazy {
         return@lazy MutableLiveData(loadChartGroupingViewData())
@@ -74,7 +75,7 @@ class StatisticsDetailViewModel @Inject constructor(
         return@lazy MutableLiveData(loadSplitChartGroupingViewData())
     }
     val splitChartViewData: LiveData<StatisticsDetailChartViewData> by lazy {
-        return@lazy MutableLiveData<StatisticsDetailChartViewData>()
+        return@lazy MutableLiveData()
     }
     val title: LiveData<String> by lazy {
         return@lazy MutableLiveData<String>().let { initial ->
@@ -263,15 +264,13 @@ class StatisticsDetailViewModel @Inject constructor(
         chartViewData.set(data)
     }
 
-    private suspend fun loadChartViewData(): StatisticsDetailChartViewData {
+    private suspend fun loadChartViewData(): StatisticsDetailChartCompositeViewData {
         return chartInteractor.getChartViewData(
             filter = typesFilter,
             chartGrouping = chartGrouping,
             chartLength = chartLength,
             rangeLength = rangeLength,
             rangePosition = rangePosition,
-            firstDayOfWeek = prefsInteractor.getFirstDayOfWeek(),
-            startOfDayShift = prefsInteractor.getStartOfDayShift(),
         )
     }
 

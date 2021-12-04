@@ -11,6 +11,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.viewData.Sta
 
 fun createStatisticsDetailCardAdapterDelegate(
     titleTextSize: Int,
+    subtitleTextSize: Int,
     onItemClick: () -> Unit
 ) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
     Binding::inflate
@@ -22,6 +23,7 @@ fun createStatisticsDetailCardAdapterDelegate(
         tvStatisticsDetailCardValue.text = item.title
         tvStatisticsDetailCardValue.setTextSize(TypedValue.COMPLEX_UNIT_PX, titleTextSize.toFloat())
         tvStatisticsDetailCardDescription.text = item.subtitle
+        tvStatisticsDetailCardDescription.setTextSize(TypedValue.COMPLEX_UNIT_PX, subtitleTextSize.toFloat())
 
         if (item.icon != null) {
             cardStatisticsDetailCardIcon.visible = true

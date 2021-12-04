@@ -22,6 +22,7 @@ import com.example.util.simpletimetracker.core.viewData.RangesViewData
 import com.example.util.simpletimetracker.feature_base_adapter.statisticsTag.createStatisticsTagAdapterDelegate
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.createStatisticsPreviewAdapterDelegate
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.createStatisticsPreviewMoreAdapterDelegate
+import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartCompositeViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStatsViewData
@@ -172,12 +173,17 @@ class StatisticsDetailFragment :
         tagSplitAdapter.replace(statsViewData.tagSplitData)
     }
 
-    private fun updateChartViewData(viewData: StatisticsDetailChartViewData) = with(binding) {
-        chartStatisticsDetail.visible = viewData.visible
-        chartStatisticsDetail.setBars(viewData.data)
-        chartStatisticsDetail.setLegendTextSuffix(viewData.legendSuffix)
-        chartStatisticsDetail.shouldAddLegendToSelectedBar(viewData.addLegendToSelectedBar)
-        chartStatisticsDetail.shouldDrawHorizontalLegends(viewData.shouldDrawHorizontalLegends)
+    private fun updateChartViewData(viewData: StatisticsDetailChartCompositeViewData) = with(binding) {
+        val chartData = viewData.chartData
+        chartStatisticsDetail.visible = chartData.visible
+        chartStatisticsDetail.setBars(chartData.data)
+        chartStatisticsDetail.setLegendTextSuffix(chartData.legendSuffix)
+        chartStatisticsDetail.shouldAddLegendToSelectedBar(chartData.addLegendToSelectedBar)
+        chartStatisticsDetail.shouldDrawHorizontalLegends(chartData.shouldDrawHorizontalLegends)
+
+        val rangeAveragesData = viewData.rangeAverages
+        cardStatisticsDetailRangeAverage.visible = rangeAveragesData.isNotEmpty()
+        cardStatisticsDetailRangeAverage.items = rangeAveragesData
     }
 
     private fun updateChartGroupingData(viewData: List<ViewHolderType>) = with(binding) {
@@ -185,14 +191,14 @@ class StatisticsDetailFragment :
         buttonsStatisticsDetailGrouping.adapter.replace(viewData)
     }
 
-    private fun updateSplitChartGroupingData(viewData: List<ViewHolderType>) = with(binding) {
-        buttonsStatisticsDetailSplitGrouping.visible = viewData.isNotEmpty()
-        buttonsStatisticsDetailSplitGrouping.adapter.replace(viewData)
-    }
-
     private fun updateChartLengthData(viewData: List<ViewHolderType>) = with(binding) {
         buttonsStatisticsDetailLength.visible = viewData.isNotEmpty()
         buttonsStatisticsDetailLength.adapter.replace(viewData)
+    }
+
+    private fun updateSplitChartGroupingData(viewData: List<ViewHolderType>) = with(binding) {
+        buttonsStatisticsDetailSplitGrouping.visible = viewData.isNotEmpty()
+        buttonsStatisticsDetailSplitGrouping.adapter.replace(viewData)
     }
 
     private fun updateSplitChartViewData(viewData: StatisticsDetailChartViewData) = with(binding) {

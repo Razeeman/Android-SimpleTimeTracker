@@ -24,6 +24,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartG
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartLength
 import com.example.util.simpletimetracker.feature_statistics_detail.model.SplitChartGrouping
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailCardViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartCompositeViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartLengthViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailGroupingViewData
@@ -158,7 +159,9 @@ class StatisticsDetailViewDataMapper @Inject constructor(
     fun mapToChartViewData(
         data: List<ChartBarDataDuration>,
         rangeLength: RangeLength,
-    ): StatisticsDetailChartViewData {
+        chartGrouping: ChartGrouping,
+        useProportionalMinutes: Boolean,
+    ): StatisticsDetailChartCompositeViewData {
         val isMinutes = data.map(ChartBarDataDuration::duration)
             .maxOrNull().orZero()
             .let(TimeUnit.MILLISECONDS::toHours) == 0L
@@ -169,7 +172,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             R.string.statistics_detail_legend_hour_suffix
         }.let(resourceRepo::getString)
 
-        return StatisticsDetailChartViewData(
+        val chartData = StatisticsDetailChartViewData(
             visible = rangeLength != RangeLength.DAY,
             data = data.map {
                 BarChartView.ViewData(
@@ -186,6 +189,18 @@ class StatisticsDetailViewDataMapper @Inject constructor(
                 RangeLength.YEAR -> data.size <= 12
                 RangeLength.ALL -> data.size <= 10
             }
+        )
+        val (title, rangeAverages) = getRangeAverages(
+            data = data,
+            rangeLength = rangeLength,
+            chartGrouping = chartGrouping,
+            useProportionalMinutes = useProportionalMinutes
+        )
+
+        return StatisticsDetailChartCompositeViewData(
+            chartData = chartData,
+            rangeAveragesTitle = title,
+            rangeAverages = rangeAverages
         )
     }
 
@@ -372,6 +387,48 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             ),
             tagSplitData = tagSplitData
         )
+    }
+
+    private fun getRangeAverages(
+        data: List<ChartBarDataDuration>,
+        rangeLength: RangeLength,
+        chartGrouping: ChartGrouping,
+        useProportionalMinutes: Boolean,
+    ): Pair<String, List<StatisticsDetailCardViewData>> {
+        val emptyValue by lazy { resourceRepo.getString(R.string.statistics_detail_empty) }
+        val grouping = when (rangeLength) {
+            RangeLength.DAY -> return "" to emptyList() // no averages for one day
+            RangeLength.WEEK,
+            RangeLength.MONTH,
+            -> ChartGrouping.DAILY // weekly and monthly shows only days
+            else -> chartGrouping
+        }
+        val nonEmptyData = data.filter { it.duration > 0 }
+
+        fun getAverage(data: List<ChartBarDataDuration>): Long? {
+            if (data.isEmpty()) return null
+            return data.map { it.duration }.sum() / data.size
+        }
+
+        val average = getAverage(data)
+        val averageByNonEmpty = getAverage(nonEmptyData)
+
+        val rangeAverages = listOf(
+            StatisticsDetailCardViewData(
+                title = average
+                    ?.let { timeMapper.formatInterval(it, useProportionalMinutes) }
+                    ?: emptyValue,
+                subtitle = resourceRepo.getString(R.string.statistics_detail_range_averages)
+            ),
+            StatisticsDetailCardViewData(
+                title = averageByNonEmpty
+                    ?.let { timeMapper.formatInterval(it, useProportionalMinutes) }
+                    ?: emptyValue,
+                subtitle = resourceRepo.getString(R.string.statistics_detail_range_averages_non_empty)
+            )
+        )
+
+        return grouping.name to rangeAverages
     }
 
     private fun formatInterval(interval: Long, isMinutes: Boolean): Float {

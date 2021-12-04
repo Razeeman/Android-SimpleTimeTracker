@@ -204,6 +204,9 @@
     <string name="statistics_detail_legend_minute_suffix">m</string>
     <string name="statistics_detail_legend_hour_suffix">h</string>
 
+    <string name="statistics_detail_range_averages">Für das ganze Sortiment</string>
+    <string name="statistics_detail_range_averages_non_empty">Ohne Leerstunden</string>
+
     <string name="statistics_detail_total_duration">Gesamt</string>
     <string name="statistics_detail_shortest_record">Kürzeste</string>
     <string name="statistics_detail_average_record">Durchschnitt</string>

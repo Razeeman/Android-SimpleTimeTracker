@@ -5,6 +5,7 @@ import com.example.util.simpletimetracker.core.extension.setWeekToFirstDay
 import com.example.util.simpletimetracker.core.interactor.TypesFilterInteractor
 import com.example.util.simpletimetracker.core.mapper.RangeMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
+import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.RangeLength
@@ -13,7 +14,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartB
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartBarDataRange
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartGrouping
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartLength
-import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartCompositeViewData
 import com.example.util.simpletimetracker.navigation.params.screen.TypesFilterParams
 import java.util.Calendar
 import javax.inject.Inject
@@ -24,6 +25,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
     private val rangeMapper: RangeMapper,
     private val typesFilterInteractor: TypesFilterInteractor,
     private val statisticsDetailViewDataMapper: StatisticsDetailViewDataMapper,
+    private val prefsInteractor: PrefsInteractor,
 ) {
 
     suspend fun getChartViewData(
@@ -32,9 +34,11 @@ class StatisticsDetailChartInteractor @Inject constructor(
         chartLength: ChartLength,
         rangeLength: RangeLength,
         rangePosition: Int,
-        firstDayOfWeek: DayOfWeek,
-        startOfDayShift: Long,
-    ): StatisticsDetailChartViewData {
+    ): StatisticsDetailChartCompositeViewData {
+        val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
+        val startOfDayShift = prefsInteractor.getStartOfDayShift()
+        val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
+
         val data = getChartData(
             filter = filter,
             grouping = chartGrouping,
@@ -45,7 +49,12 @@ class StatisticsDetailChartInteractor @Inject constructor(
             startOfDayShift = startOfDayShift,
         )
 
-        return statisticsDetailViewDataMapper.mapToChartViewData(data, rangeLength)
+        return statisticsDetailViewDataMapper.mapToChartViewData(
+            data = data,
+            rangeLength = rangeLength,
+            chartGrouping = chartGrouping,
+            useProportionalMinutes = useProportionalMinutes
+        )
     }
 
     private suspend fun getChartData(

@@ -98,6 +98,17 @@
                 app:layout_constraintTop_toBottomOf="@id/buttonsStatisticsDetailGrouping" />
 
             <com.example.util.simpletimetracker.feature_statistics_detail.customView.StatisticsDetailCardView
+                android:id="@+id/cardStatisticsDetailRangeAverage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                app:itemCount="2"
+                app:itemTitleTextSize="14sp"
+                app:itemSubtitleTextSize="12sp"
+                app:layout_constraintTop_toBottomOf="@+id/buttonsStatisticsDetailLength" />
+
+            <com.example.util.simpletimetracker.feature_statistics_detail.customView.StatisticsDetailCardView
                 android:id="@+id/cardStatisticsDetailTotal"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -108,7 +119,7 @@
                 app:itemTitleTextSize="22sp"
                 app:layout_constraintEnd_toStartOf="@id/cardStatisticsDetailRecords"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/buttonsStatisticsDetailLength" />
+                app:layout_constraintTop_toBottomOf="@+id/cardStatisticsDetailRangeAverage" />
 
             <com.example.util.simpletimetracker.feature_statistics_detail.customView.StatisticsDetailCardView
                 android:id="@+id/cardStatisticsDetailRecords"
@@ -121,7 +132,7 @@
                 app:itemTitleTextSize="22sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/cardStatisticsDetailTotal"
-                app:layout_constraintTop_toBottomOf="@+id/buttonsStatisticsDetailLength" />
+                app:layout_constraintTop_toBottomOf="@+id/cardStatisticsDetailRangeAverage" />
 
             <androidx.constraintlayout.widget.Barrier
                 android:id="@+id/barrierStatisticsDetail"

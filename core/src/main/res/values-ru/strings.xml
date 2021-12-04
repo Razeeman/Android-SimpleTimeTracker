@@ -204,6 +204,9 @@
     <string name="statistics_detail_legend_minute_suffix">м</string>
     <string name="statistics_detail_legend_hour_suffix">ч</string>
 
+    <string name="statistics_detail_range_averages">За весь диапазон</string>
+    <string name="statistics_detail_range_averages_non_empty">Без пустых периодов</string>
+
     <string name="statistics_detail_total_duration">Всего</string>
     <string name="statistics_detail_shortest_record">Самая короткая</string>
     <string name="statistics_detail_average_record">Средняя</string>

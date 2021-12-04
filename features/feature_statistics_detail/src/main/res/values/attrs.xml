@@ -20,5 +20,6 @@
         <!-- Used for layout preview -->
         <attr name="itemCount" format="integer" />
         <attr name="itemTitleTextSize" format="dimension" />
+        <attr name="itemSubtitleTextSize" format="dimension" />
     </declare-styleable>
 </resources>

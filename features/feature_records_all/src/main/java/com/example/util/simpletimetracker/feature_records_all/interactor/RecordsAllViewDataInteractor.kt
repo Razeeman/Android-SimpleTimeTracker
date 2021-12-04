@@ -46,8 +46,6 @@ class RecordsAllViewDataInteractor @Inject constructor(
             .let {
                 if (rangeStart != 0L && rangeEnd != 0L) {
                     rangeMapper.getRecordsFromRange(it, rangeStart, rangeEnd)
-                        // Skip records that started before this time range.
-                        .filter { record -> record.timeStarted > rangeStart }
                 } else {
                     it
                 }

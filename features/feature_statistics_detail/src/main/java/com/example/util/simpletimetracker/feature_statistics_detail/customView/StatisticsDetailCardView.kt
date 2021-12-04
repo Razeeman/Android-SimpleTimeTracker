@@ -22,7 +22,7 @@ import com.google.android.flexbox.JustifyContent
 class StatisticsDetailCardView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
+    defStyleAttr: Int = 0,
 ) : FrameLayout(
     context,
     attrs,
@@ -40,10 +40,15 @@ class StatisticsDetailCardView @JvmOverloads constructor(
         .inflate(LayoutInflater.from(context), this, true)
 
     private var itemsCount: Int
-    private var titleTextSize: Int = 16.spToPx()
+    private var titleTextSize: Int = DEFAULT_TITLE_TEXT_SIZE.spToPx()
+    private var subtitleTextSize: Int = DEFAULT_SUBTITLE_TEXT_SIZE.spToPx()
     private val typesAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
-            createStatisticsDetailCardAdapterDelegate(titleTextSize, ::onItemClick)
+            createStatisticsDetailCardAdapterDelegate(
+                titleTextSize = titleTextSize,
+                subtitleTextSize = subtitleTextSize,
+                onItemClick = ::onItemClick
+            )
         )
     }
 
@@ -68,10 +73,17 @@ class StatisticsDetailCardView @JvmOverloads constructor(
             defStyleAttr,
             0
         ).run {
-            itemsCount =
-                getInt(R.styleable.StatisticsDetailCardView_itemCount, DEFAULT_ITEM_COUNT)
-            titleTextSize =
-                getDimensionPixelSize(R.styleable.StatisticsDetailCardView_itemTitleTextSize, 16.spToPx())
+            itemsCount = getInt(
+                R.styleable.StatisticsDetailCardView_itemCount, DEFAULT_ITEM_COUNT
+            )
+            titleTextSize = getDimensionPixelSize(
+                R.styleable.StatisticsDetailCardView_itemTitleTextSize,
+                DEFAULT_TITLE_TEXT_SIZE.spToPx()
+            )
+            subtitleTextSize = getDimensionPixelSize(
+                R.styleable.StatisticsDetailCardView_itemSubtitleTextSize,
+                DEFAULT_SUBTITLE_TEXT_SIZE.spToPx()
+            )
             recycle()
         }
 
@@ -100,5 +112,7 @@ class StatisticsDetailCardView @JvmOverloads constructor(
         private const val DEFAULT_ITEM_COUNT = 2
         private const val DEFAULT_TITLE = "Title"
         private const val DEFAULT_SUBTITLE = "Subtitle"
+        private const val DEFAULT_TITLE_TEXT_SIZE = 16
+        private const val DEFAULT_SUBTITLE_TEXT_SIZE = 14
     }
 }

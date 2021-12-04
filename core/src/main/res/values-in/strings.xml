@@ -204,6 +204,9 @@
     <string name="statistics_detail_legend_minute_suffix">m</string>
     <string name="statistics_detail_legend_hour_suffix">h</string>
 
+    <string name="statistics_detail_range_averages">Untuk seluruh rentang</string>
+    <string name="statistics_detail_range_averages_non_empty">Tanpa periode kosong</string>
+
     <string name="statistics_detail_total_duration">Total</string>
     <string name="statistics_detail_shortest_record">Tersingkat</string>
     <string name="statistics_detail_average_record">Rata-Rata</string>
