@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.di
 import com.example.util.simpletimetracker.R
 import com.example.util.simpletimetracker.feature_dialogs.archive.view.ArchiveDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.cardOrder.view.CardOrderDialogFragment
+import com.example.util.simpletimetracker.feature_dialogs.customRangeSelection.view.CustomRangeSelectionDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.dateTime.DateTimeDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.duration.view.DurationDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.emojiSelection.view.EmojiSelectionDialogFragment
@@ -17,6 +18,7 @@ import com.example.util.simpletimetracker.navigation.params.screen.CardOrderDial
 import com.example.util.simpletimetracker.navigation.params.screen.CardSizeDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChartFilterDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.CsvExportSettingDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.CustomRangeSelectionParams
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DurationDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.EmojiSelectionDialogParams
@@ -150,6 +152,16 @@ class NavigationDialogMapModule {
         return NavigationData(
             R.id.csvExportSettingsDialogFragment,
             BundleCreator.empty()
+        )
+    }
+
+    @IntoMap
+    @Provides
+    @ScreenKey(CustomRangeSelectionParams::class)
+    fun customRangeSelectionDialog(): NavigationData {
+        return NavigationData(
+            R.id.customRangeSelectionDialogFragment,
+            bundleCreatorDelegate(CustomRangeSelectionDialogFragment::createBundle)
         )
     }
 }

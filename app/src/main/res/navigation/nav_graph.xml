@@ -107,6 +107,11 @@
         android:name="com.example.util.simpletimetracker.feature_dialogs.csvExportSettings.view.CsvExportSettingsDialogFragment"
         android:label="CsvExportSettingsDialogFragment"
         tools:layout="@layout/csv_export_settings_fragment" />
+    <dialog
+        android:id="@+id/customRangeSelectionDialogFragment"
+        android:name="com.example.util.simpletimetracker.feature_dialogs.customRangeSelection.view.CustomRangeSelectionDialogFragment"
+        android:label="CustomRangeSelectionDialogFragment"
+        tools:layout="@layout/custom_range_selection_fragment" />
     <fragment
         android:id="@+id/recordsAllFragment"
         android:name="com.example.util.simpletimetracker.feature_records_all.view.RecordsAllFragment"
