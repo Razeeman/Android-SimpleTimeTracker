@@ -182,6 +182,7 @@ class StatisticsDetailFragment :
         chartStatisticsDetail.shouldDrawHorizontalLegends(chartData.shouldDrawHorizontalLegends)
 
         val rangeAveragesData = viewData.rangeAverages
+        cardStatisticsDetailRangeAverage.itemsDescription = viewData.rangeAveragesTitle
         cardStatisticsDetailRangeAverage.visible = rangeAveragesData.isNotEmpty()
         cardStatisticsDetailRangeAverage.items = rangeAveragesData
     }

@@ -401,7 +401,14 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             RangeLength.WEEK,
             RangeLength.MONTH,
             -> ChartGrouping.DAILY // weekly and monthly shows only days
-            else -> chartGrouping
+            RangeLength.YEAR -> when (chartGrouping) {
+                ChartGrouping.DAILY,
+                ChartGrouping.WEEKLY,
+                ChartGrouping.MONTHLY,
+                -> chartGrouping
+                ChartGrouping.YEARLY -> ChartGrouping.MONTHLY // no yearly grouping for year range
+            }
+            RangeLength.ALL -> chartGrouping
         }
         val nonEmptyData = data.filter { it.duration > 0 }
 
@@ -412,6 +419,10 @@ class StatisticsDetailViewDataMapper @Inject constructor(
 
         val average = getAverage(data)
         val averageByNonEmpty = getAverage(nonEmptyData)
+        val title = resourceRepo.getString(
+            R.string.statistics_detail_range_averages_title,
+            mapToGroupingName(grouping)
+        )
 
         val rangeAverages = listOf(
             StatisticsDetailCardViewData(
@@ -428,7 +439,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             )
         )
 
-        return grouping.name to rangeAverages
+        return title to rangeAverages
     }
 
     private fun formatInterval(interval: Long, isMinutes: Boolean): Float {

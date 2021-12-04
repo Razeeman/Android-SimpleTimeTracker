@@ -204,13 +204,16 @@
     <string name="statistics_detail_legend_minute_suffix">м</string>
     <string name="statistics_detail_legend_hour_suffix">ч</string>
 
+    <string name="statistics_detail_range_averages_title">Среднее за период: %s</string>
     <string name="statistics_detail_range_averages">За весь диапазон</string>
     <string name="statistics_detail_range_averages_non_empty">Без пустых периодов</string>
 
     <string name="statistics_detail_total_duration">Всего</string>
+    <string name="statistics_detail_record_length">Длина записи</string>
     <string name="statistics_detail_shortest_record">Самая короткая</string>
     <string name="statistics_detail_average_record">Средняя</string>
     <string name="statistics_detail_longest_record">Самая длинная</string>
+    <string name="statistics_detail_record_time">Время записи</string>
     <string name="statistics_detail_first_record">Первая</string>
     <string name="statistics_detail_last_record">Последняя</string>
     <string name="statistics_detail_tag_split_hint">Распределение тегов</string>

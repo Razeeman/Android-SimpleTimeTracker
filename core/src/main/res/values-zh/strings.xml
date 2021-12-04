@@ -204,13 +204,16 @@
     <string name="statistics_detail_legend_minute_suffix">m</string>
     <string name="statistics_detail_legend_hour_suffix">h</string>
 
+    <string name="statistics_detail_range_averages_title">期间平均: %s</string>
     <string name="statistics_detail_range_averages">对于整个范围</string>
     <string name="statistics_detail_range_averages_non_empty">没有空期</string>
 
     <string name="statistics_detail_total_duration">全部</string>
+    <string name="statistics_detail_record_length">记录长度</string>
     <string name="statistics_detail_shortest_record">最短</string>
     <string name="statistics_detail_average_record">平均</string>
     <string name="statistics_detail_longest_record">最长</string>
+    <string name="statistics_detail_record_time">记录时间</string>
     <string name="statistics_detail_first_record">第一</string>
     <string name="statistics_detail_last_record">最后</string>
     <string name="statistics_detail_tag_split_hint">标签分布</string>

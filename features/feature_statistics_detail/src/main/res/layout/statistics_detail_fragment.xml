@@ -104,9 +104,10 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginEnd="4dp"
                 app:itemCount="2"
-                app:itemTitleTextSize="14sp"
                 app:itemSubtitleTextSize="12sp"
-                app:layout_constraintTop_toBottomOf="@+id/buttonsStatisticsDetailLength" />
+                app:itemTitleTextSize="14sp"
+                app:layout_constraintTop_toBottomOf="@+id/buttonsStatisticsDetailLength"
+                tools:itemDescription="@string/statistics_detail_range_averages_title" />
 
             <com.example.util.simpletimetracker.feature_statistics_detail.customView.StatisticsDetailCardView
                 android:id="@+id/cardStatisticsDetailTotal"
@@ -149,6 +150,7 @@
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="4dp"
                 app:itemCount="3"
+                app:itemDescription="@string/statistics_detail_record_length"
                 app:layout_constraintTop_toBottomOf="@+id/barrierStatisticsDetail" />
 
             <com.example.util.simpletimetracker.feature_statistics_detail.customView.StatisticsDetailCardView
@@ -159,6 +161,7 @@
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="4dp"
                 app:itemCount="2"
+                app:itemDescription="@string/statistics_detail_record_time"
                 app:layout_constraintTop_toBottomOf="@+id/cardStatisticsDetailAverage" />
 
             <com.example.util.simpletimetracker.feature_statistics_detail.customView.BarChartView

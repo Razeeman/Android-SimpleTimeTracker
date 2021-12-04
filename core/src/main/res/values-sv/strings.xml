@@ -204,13 +204,16 @@
     <string name="statistics_detail_legend_minute_suffix">m</string>
     <string name="statistics_detail_legend_hour_suffix">t</string>
 
+    <string name="statistics_detail_range_averages_title">Genomsnitt för period: %s</string>
     <string name="statistics_detail_range_averages">För hela sortimentet</string>
     <string name="statistics_detail_range_averages_non_empty">Utan tomma perioder</string>
 
     <string name="statistics_detail_total_duration">Totalt</string>
+    <string name="statistics_detail_record_length">Rekordlängd</string>
     <string name="statistics_detail_shortest_record">Kortaste</string>
     <string name="statistics_detail_average_record">Medel</string>
     <string name="statistics_detail_longest_record">Längsta</string>
+    <string name="statistics_detail_record_time">Rekordtid</string>
     <string name="statistics_detail_first_record">Första</string>
     <string name="statistics_detail_last_record">Senaste</string>
     <string name="statistics_detail_tag_split_hint">Fördelning av taggar</string>

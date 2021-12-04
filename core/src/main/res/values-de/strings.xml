@@ -204,13 +204,16 @@
     <string name="statistics_detail_legend_minute_suffix">m</string>
     <string name="statistics_detail_legend_hour_suffix">h</string>
 
+    <string name="statistics_detail_range_averages_title">Durchschnitt für Periode: %s</string>
     <string name="statistics_detail_range_averages">Für das ganze Sortiment</string>
     <string name="statistics_detail_range_averages_non_empty">Ohne Leerstunden</string>
 
     <string name="statistics_detail_total_duration">Gesamt</string>
+    <string name="statistics_detail_record_length">Aufnahmelänge</string>
     <string name="statistics_detail_shortest_record">Kürzeste</string>
     <string name="statistics_detail_average_record">Durchschnitt</string>
     <string name="statistics_detail_longest_record">Längste</string>
+    <string name="statistics_detail_record_time">Rekordzeit</string>
     <string name="statistics_detail_first_record">Erste</string>
     <string name="statistics_detail_last_record">Letzte</string>
     <string name="statistics_detail_tag_split_hint">Tag Verteilung</string>

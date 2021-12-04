@@ -10,12 +10,28 @@
     app:cardPreventCornerOverlap="false"
     app:cardUseCompatPadding="true">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvStatisticsDetailCard"
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:overScrollMode="never"
-        tools:itemCount="1"
-        tools:listitem="@layout/statistics_detail_card_item" />
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvStatisticsDetailCardDescription"
+            style="@style/StatisticsSecondaryText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingTop="4dp"
+            tools:text="Card Description" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvStatisticsDetailCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:overScrollMode="never"
+            tools:itemCount="1"
+            tools:listitem="@layout/statistics_detail_card_item" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
 </androidx.cardview.widget.CardView>

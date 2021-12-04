@@ -204,13 +204,16 @@
     <string name="statistics_detail_legend_minute_suffix">m</string>
     <string name="statistics_detail_legend_hour_suffix">h</string>
 
+    <string name="statistics_detail_range_averages_title">Media per periodo: %s</string>
     <string name="statistics_detail_range_averages">Per tutta la gamma</string>
     <string name="statistics_detail_range_averages_non_empty">Senza periodi vuoti</string>
 
     <string name="statistics_detail_total_duration">Totale</string>
+    <string name="statistics_detail_record_length">Durata della registrazione</string>
     <string name="statistics_detail_shortest_record">Più corta</string>
     <string name="statistics_detail_average_record">Media</string>
     <string name="statistics_detail_longest_record">Più lunga</string>
+    <string name="statistics_detail_record_time">Tempo di registrazione</string>
     <string name="statistics_detail_first_record">Prima</string>
     <string name="statistics_detail_last_record">Ultima</string>
     <string name="statistics_detail_tag_split_hint">Distribuzione etichette</string>

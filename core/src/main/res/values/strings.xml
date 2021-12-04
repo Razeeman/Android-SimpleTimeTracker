@@ -204,13 +204,16 @@
     <string name="statistics_detail_legend_minute_suffix">m</string>
     <string name="statistics_detail_legend_hour_suffix">h</string>
 
+    <string name="statistics_detail_range_averages_title">Average for period: %s</string>
     <string name="statistics_detail_range_averages">For the whole range</string>
     <string name="statistics_detail_range_averages_non_empty">Without empty periods</string>
 
     <string name="statistics_detail_total_duration">Total</string>
+    <string name="statistics_detail_record_length">Record length</string>
     <string name="statistics_detail_shortest_record">Shortest</string>
     <string name="statistics_detail_average_record">Average</string>
     <string name="statistics_detail_longest_record">Longest</string>
+    <string name="statistics_detail_record_time">Record time</string>
     <string name="statistics_detail_first_record">First</string>
     <string name="statistics_detail_last_record">Last</string>
     <string name="statistics_detail_tag_split_hint">Tag distribution</string>

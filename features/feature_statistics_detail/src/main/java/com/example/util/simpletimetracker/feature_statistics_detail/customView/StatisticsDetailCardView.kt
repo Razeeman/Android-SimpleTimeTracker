@@ -13,6 +13,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.R
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.createStatisticsDetailCardAdapterDelegate
 import com.example.util.simpletimetracker.feature_statistics_detail.databinding.StatisticsDetailCardViewBinding
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailCardViewData
+import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxItemDecoration
@@ -30,6 +31,12 @@ class StatisticsDetailCardView @JvmOverloads constructor(
 ) {
 
     var listener: (() -> Unit)? = null
+    var itemsDescription: String = ""
+        set(value) {
+            binding.tvStatisticsDetailCardDescription.text = value
+            binding.tvStatisticsDetailCardDescription.visible = value.isNotEmpty()
+            field = value
+        }
     var items: List<StatisticsDetailCardViewData> = emptyList()
         set(value) {
             typesAdapter.replace(value)
@@ -76,6 +83,9 @@ class StatisticsDetailCardView @JvmOverloads constructor(
             itemsCount = getInt(
                 R.styleable.StatisticsDetailCardView_itemCount, DEFAULT_ITEM_COUNT
             )
+            itemsDescription = getString(
+                R.styleable.StatisticsDetailCardView_itemDescription,
+            ).orEmpty()
             titleTextSize = getDimensionPixelSize(
                 R.styleable.StatisticsDetailCardView_itemTitleTextSize,
                 DEFAULT_TITLE_TEXT_SIZE.spToPx()

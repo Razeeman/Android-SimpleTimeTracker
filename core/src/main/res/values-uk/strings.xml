@@ -204,13 +204,16 @@
     <string name="statistics_detail_legend_minute_suffix">хв</string>
     <string name="statistics_detail_legend_hour_suffix">г</string>
 
+    <string name="statistics_detail_range_averages_title">Середнє за період: %s</string>
     <string name="statistics_detail_range_averages">За весь діапазон</string>
     <string name="statistics_detail_range_averages_non_empty">Без порожніх періодів</string>
 
     <string name="statistics_detail_total_duration">Всього</string>
+    <string name="statistics_detail_record_length">Довжина запису</string>
     <string name="statistics_detail_shortest_record">Найкоротший</string>
     <string name="statistics_detail_average_record">Середній</string>
     <string name="statistics_detail_longest_record">Найдовший</string>
+    <string name="statistics_detail_record_time">Час запису</string>
     <string name="statistics_detail_first_record">Перший</string>
     <string name="statistics_detail_last_record">Останній</string>
     <string name="statistics_detail_tag_split_hint">Розподіл тегів</string>
