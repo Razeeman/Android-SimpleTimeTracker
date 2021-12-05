@@ -159,7 +159,10 @@ class StatisticsDetailViewDataMapper @Inject constructor(
     fun mapToChartViewData(
         data: List<ChartBarDataDuration>,
         rangeLength: RangeLength,
-        chartGrouping: ChartGrouping,
+        availableChartGroupings: List<ChartGrouping>,
+        appliedChartGrouping: ChartGrouping,
+        availableChartLengths: List<ChartLength>,
+        appliedChartLength: ChartLength,
         useProportionalMinutes: Boolean,
     ): StatisticsDetailChartCompositeViewData {
         val isMinutes = data.map(ChartBarDataDuration::duration)
@@ -173,7 +176,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         }.let(resourceRepo::getString)
 
         val chartData = StatisticsDetailChartViewData(
-            visible = rangeLength !is RangeLength.Day,
+            visible = data.size > 1,
             data = data.map {
                 BarChartView.ViewData(
                     value = formatInterval(it.duration, isMinutes),
@@ -194,15 +197,24 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         )
         val (title, rangeAverages) = getRangeAverages(
             data = data,
-            rangeLength = rangeLength,
-            chartGrouping = chartGrouping,
+            chartGrouping = appliedChartGrouping,
             useProportionalMinutes = useProportionalMinutes
         )
 
         return StatisticsDetailChartCompositeViewData(
             chartData = chartData,
             rangeAveragesTitle = title,
-            rangeAverages = rangeAverages
+            rangeAverages = rangeAverages,
+            appliedChartGrouping = appliedChartGrouping,
+            chartGroupingViewData = mapToChartGroupingViewData(
+                availableChartGroupings = availableChartGroupings,
+                appliedChartGrouping = appliedChartGrouping
+            ),
+            appliedChartLength = appliedChartLength,
+            chartLengthViewData = mapToChartLengthViewData(
+                availableChartLengths = availableChartLengths,
+                appliedChartLength = appliedChartLength
+            ),
         )
     }
 
@@ -265,34 +277,6 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         )
     }
 
-    fun mapToChartGroupingViewData(
-        rangeLength: RangeLength,
-        chartGrouping: ChartGrouping,
-    ): List<ViewHolderType> {
-        val groupings = when (rangeLength) {
-            is RangeLength.Year -> listOf(
-                ChartGrouping.DAILY,
-                ChartGrouping.WEEKLY,
-                ChartGrouping.MONTHLY
-            )
-            is RangeLength.All -> listOf(
-                ChartGrouping.DAILY,
-                ChartGrouping.WEEKLY,
-                ChartGrouping.MONTHLY,
-                ChartGrouping.YEARLY
-            )
-            else -> emptyList()
-        }
-
-        return groupings.map {
-            StatisticsDetailGroupingViewData(
-                chartGrouping = it,
-                name = mapToGroupingName(it),
-                isSelected = it == chartGrouping
-            )
-        }
-    }
-
     fun mapToSplitChartGroupingViewData(
         rangeLength: RangeLength,
         splitChartGrouping: SplitChartGrouping,
@@ -310,28 +294,6 @@ class StatisticsDetailViewDataMapper @Inject constructor(
                 splitChartGrouping = it,
                 name = mapToSplitGroupingName(it),
                 isSelected = it == splitChartGrouping
-            )
-        }
-    }
-
-    fun mapToChartLengthViewData(
-        rangeLength: RangeLength,
-        chartLength: ChartLength,
-    ): List<ViewHolderType> {
-        val lengths = when (rangeLength) {
-            is RangeLength.All -> listOf(
-                ChartLength.TEN,
-                ChartLength.FIFTY,
-                ChartLength.HUNDRED
-            )
-            else -> emptyList()
-        }
-
-        return lengths.map {
-            StatisticsDetailChartLengthViewData(
-                chartLength = it,
-                name = mapToLengthName(it),
-                isSelected = it == chartLength
             )
         }
     }
@@ -393,27 +355,13 @@ class StatisticsDetailViewDataMapper @Inject constructor(
 
     private fun getRangeAverages(
         data: List<ChartBarDataDuration>,
-        rangeLength: RangeLength,
         chartGrouping: ChartGrouping,
         useProportionalMinutes: Boolean,
     ): Pair<String, List<StatisticsDetailCardViewData>> {
         val emptyValue by lazy { resourceRepo.getString(R.string.statistics_detail_empty) }
-        val grouping = when (rangeLength) {
-            is RangeLength.Day -> return "" to emptyList() // no averages for one day
-            is RangeLength.Week,
-            is RangeLength.Month,
-            -> ChartGrouping.DAILY // weekly and monthly shows only days
-            is RangeLength.Year -> when (chartGrouping) {
-                ChartGrouping.DAILY,
-                ChartGrouping.WEEKLY,
-                ChartGrouping.MONTHLY,
-                -> chartGrouping
-                ChartGrouping.YEARLY -> ChartGrouping.MONTHLY // no yearly grouping for year range
-            }
-            is RangeLength.All -> chartGrouping
-            is RangeLength.Custom -> chartGrouping // TODO
-        }
-        val nonEmptyData = data.filter { it.duration > 0 }
+
+        // No reason to show average of one value.
+        if (data.size < 2) return "" to emptyList()
 
         fun getAverage(data: List<ChartBarDataDuration>): Long? {
             if (data.isEmpty()) return null
@@ -421,10 +369,11 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         }
 
         val average = getAverage(data)
+        val nonEmptyData = data.filter { it.duration > 0 }
         val averageByNonEmpty = getAverage(nonEmptyData)
         val title = resourceRepo.getString(
             R.string.statistics_detail_range_averages_title,
-            mapToGroupingName(grouping)
+            mapToGroupingName(chartGrouping)
         )
 
         val rangeAverages = listOf(
@@ -460,6 +409,32 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             min + sec / 60f
         } else {
             hr + min / 60f
+        }
+    }
+
+    private fun mapToChartGroupingViewData(
+        availableChartGroupings: List<ChartGrouping>,
+        appliedChartGrouping: ChartGrouping,
+    ): List<ViewHolderType> {
+        return availableChartGroupings.map {
+            StatisticsDetailGroupingViewData(
+                chartGrouping = it,
+                name = mapToGroupingName(it),
+                isSelected = it == appliedChartGrouping
+            )
+        }
+    }
+
+    private fun mapToChartLengthViewData(
+        availableChartLengths: List<ChartLength>,
+        appliedChartLength: ChartLength,
+    ): List<ViewHolderType> {
+        return availableChartLengths.map {
+            StatisticsDetailChartLengthViewData(
+                chartLength = it,
+                name = mapToLengthName(it),
+                isSelected = it == appliedChartLength
+            )
         }
     }
 

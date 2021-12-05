@@ -340,6 +340,18 @@ class TimeMapper @Inject constructor(
         return rangeStart to rangeEnd
     }
 
+    fun getActualMaximum(
+        startDate: Long,
+        field: Int,
+        firstDayOfWeek: DayOfWeek,
+    ): Int {
+        val dayOfWeek = toCalendarDayOfWeek(firstDayOfWeek)
+        return Calendar.getInstance()
+            .apply { timeInMillis = startDate }
+            .apply { this.firstDayOfWeek = dayOfWeek }
+            .getActualMaximum(field)
+    }
+
     private fun formatInterval(interval: Long, forceSeconds: Boolean, useProportionalMinutes: Boolean): String {
         val hourString = resourceRepo.getString(R.string.time_hour)
         val minuteString = resourceRepo.getString(R.string.time_minute)

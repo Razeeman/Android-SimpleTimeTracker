@@ -19,6 +19,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.viewData.Sta
 import com.example.util.simpletimetracker.navigation.params.screen.TypesFilterParams
 import java.util.Calendar
 import javax.inject.Inject
+import kotlin.math.abs
 
 class StatisticsDetailChartInteractor @Inject constructor(
     private val recordInteractor: RecordInteractor,
@@ -31,8 +32,8 @@ class StatisticsDetailChartInteractor @Inject constructor(
 
     suspend fun getChartViewData(
         filter: TypesFilterParams,
-        chartGrouping: ChartGrouping,
-        chartLength: ChartLength,
+        currentChartGrouping: ChartGrouping,
+        currentChartLength: ChartLength,
         rangeLength: RangeLength,
         rangePosition: Int,
     ): StatisticsDetailChartCompositeViewData {
@@ -40,10 +41,10 @@ class StatisticsDetailChartInteractor @Inject constructor(
         val startOfDayShift = prefsInteractor.getStartOfDayShift()
         val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
 
-        val data = getChartData(
+        val (data, compositeData) = getChartData(
             filter = filter,
-            grouping = chartGrouping,
-            chartLength = chartLength,
+            currentChartGrouping = currentChartGrouping,
+            currentChartLength = currentChartLength,
             rangeLength = rangeLength,
             rangePosition = rangePosition,
             firstDayOfWeek = firstDayOfWeek,
@@ -53,23 +54,26 @@ class StatisticsDetailChartInteractor @Inject constructor(
         return statisticsDetailViewDataMapper.mapToChartViewData(
             data = data,
             rangeLength = rangeLength,
-            chartGrouping = chartGrouping,
+            availableChartGroupings = compositeData.availableChartGroupings,
+            appliedChartGrouping = compositeData.appliedChartGrouping,
+            availableChartLengths = compositeData.availableChartLengths,
+            appliedChartLength = compositeData.appliedChartLength,
             useProportionalMinutes = useProportionalMinutes
         )
     }
 
     private suspend fun getChartData(
         filter: TypesFilterParams,
-        grouping: ChartGrouping,
-        chartLength: ChartLength,
+        currentChartGrouping: ChartGrouping,
+        currentChartLength: ChartLength,
         rangeLength: RangeLength,
         rangePosition: Int,
         firstDayOfWeek: DayOfWeek,
         startOfDayShift: Long,
-    ): List<ChartBarDataDuration> {
-        val ranges: List<ChartBarDataRange> = getRanges(
-            grouping = grouping,
-            chartLength = chartLength,
+    ): Pair<List<ChartBarDataDuration>, CompositeChartData> {
+        val (ranges, compositeData) = getRanges(
+            currentChartGrouping = currentChartGrouping,
+            currentChartLength = currentChartLength,
             rangeLength = rangeLength,
             rangePosition = rangePosition,
             firstDayOfWeek = firstDayOfWeek,
@@ -83,7 +87,9 @@ class StatisticsDetailChartInteractor @Inject constructor(
         ).filter { it.typeId in typeIds && it.isNotFiltered(filter) }
 
         if (records.isEmpty()) {
-            return ranges.map { ChartBarDataDuration(legend = it.legend, duration = 0L) }
+            return ranges.map {
+                ChartBarDataDuration(legend = it.legend, duration = 0L)
+            } to compositeData
         }
 
         return ranges
@@ -96,96 +102,103 @@ class StatisticsDetailChartInteractor @Inject constructor(
                     legend = data.legend,
                     duration = duration
                 )
-            }
+            } to compositeData
     }
 
     private fun getRanges(
-        grouping: ChartGrouping,
-        chartLength: ChartLength,
+        currentChartGrouping: ChartGrouping,
+        currentChartLength: ChartLength,
         rangeLength: RangeLength,
         rangePosition: Int,
         firstDayOfWeek: DayOfWeek,
         startOfDayShift: Long,
-    ): List<ChartBarDataRange> {
-        return when (rangeLength) {
-            is RangeLength.Day -> {
-                val startDate = timeMapper.getRangeStartAndEnd(
-                    RangeLength.Day, rangePosition, firstDayOfWeek, startOfDayShift
-                ).second - 1
-                val numberOfGroups = 1
-                getDailyGrouping(startDate, numberOfGroups, startOfDayShift)
-            }
-            is RangeLength.Week -> {
-                val startDate = timeMapper.getRangeStartAndEnd(
-                    RangeLength.Week, rangePosition, firstDayOfWeek, startOfDayShift
-                ).second - 1
-                val numberOfGroups = 7
-                getDailyGrouping(startDate, numberOfGroups, startOfDayShift)
-            }
-            is RangeLength.Month -> {
-                val startDate = timeMapper.getRangeStartAndEnd(
-                    RangeLength.Month, rangePosition, firstDayOfWeek, startOfDayShift
-                ).second - 1
-                val numberOfGroups = Calendar.getInstance()
-                    .apply { timeInMillis = startDate }
-                    .getActualMaximum(Calendar.DAY_OF_MONTH)
-                getDailyGrouping(startDate, numberOfGroups, startOfDayShift)
-            }
-            is RangeLength.Year -> {
-                val startDate = timeMapper.getRangeStartAndEnd(
-                    RangeLength.Year, rangePosition, firstDayOfWeek, startOfDayShift
-                ).second - 1
-                when (grouping) {
-                    ChartGrouping.DAILY -> {
-                        val numberOfGroups = Calendar.getInstance()
-                            .apply { timeInMillis = startDate }
-                            .getActualMaximum(Calendar.DAY_OF_YEAR)
-                        getDailyGrouping(startDate, numberOfGroups, startOfDayShift)
-                    }
-                    ChartGrouping.WEEKLY -> {
-                        val dayOfWeek = timeMapper.toCalendarDayOfWeek(firstDayOfWeek)
-                        val numberOfGroups = Calendar.getInstance()
-                            .apply { timeInMillis = startDate }
-                            .apply { this.firstDayOfWeek = dayOfWeek }
-                            .getActualMaximum(Calendar.WEEK_OF_YEAR)
-                        getWeeklyGrouping(startDate, numberOfGroups, firstDayOfWeek, startOfDayShift)
-                    }
-                    else -> {
-                        val numberOfGroups = 12
-                        getMonthlyGrouping(startDate, numberOfGroups, startOfDayShift)
-                    }
-                }
-            }
-            is RangeLength.All -> {
-                val startDate = System.currentTimeMillis()
-                val numberOfGroups = getNumberOfGroups(chartLength)
-                when (grouping) {
-                    ChartGrouping.DAILY ->
-                        getDailyGrouping(startDate, numberOfGroups, startOfDayShift)
-                    ChartGrouping.WEEKLY ->
-                        getWeeklyGrouping(startDate, numberOfGroups, firstDayOfWeek, startOfDayShift)
-                    ChartGrouping.MONTHLY ->
-                        getMonthlyGrouping(startDate, numberOfGroups, startOfDayShift)
-                    ChartGrouping.YEARLY ->
-                        getYearlyGrouping(numberOfGroups, startOfDayShift)
-                }
-            }
-            is RangeLength.Custom -> { // TODO
-                val startDate = rangeLength.range.timeEnded
-                val numberOfGroups = 10
-                getDailyGrouping(startDate, numberOfGroups, startOfDayShift)
-            }
-        }
-    }
+    ): Pair<List<ChartBarDataRange>, CompositeChartData> {
+        var customRangeGroupings: List<Pair<ChartGrouping, Int>> = emptyList()
 
-    private fun getNumberOfGroups(
-        chartLength: ChartLength,
-    ): Int {
-        return when (chartLength) {
-            ChartLength.TEN -> 10
-            ChartLength.FIFTY -> 50
-            ChartLength.HUNDRED -> 100
+        val availableChartGroupings: List<ChartGrouping> = when (rangeLength) {
+            is RangeLength.Day,
+            is RangeLength.Week,
+            -> listOf(
+                ChartGrouping.DAILY
+            )
+            is RangeLength.Month,
+            -> listOf(
+                ChartGrouping.DAILY,
+                ChartGrouping.WEEKLY
+            )
+            is RangeLength.Year -> listOf(
+                ChartGrouping.DAILY,
+                ChartGrouping.WEEKLY,
+                ChartGrouping.MONTHLY
+            )
+            is RangeLength.All -> listOf(
+                ChartGrouping.DAILY,
+                ChartGrouping.WEEKLY,
+                ChartGrouping.MONTHLY,
+                ChartGrouping.YEARLY
+            )
+            is RangeLength.Custom -> {
+                customRangeGroupings = calculateCustomRangeGropings(rangeLength, firstDayOfWeek)
+                customRangeGroupings.map { (grouping, _) -> grouping }
+            }
         }
+        val appliedChartGrouping: ChartGrouping = currentChartGrouping
+            .takeIf { it in availableChartGroupings }
+            ?: availableChartGroupings.first()
+        val availableChartLengths = when (rangeLength) {
+            is RangeLength.All -> listOf(ChartLength.TEN, ChartLength.FIFTY, ChartLength.HUNDRED)
+            else -> emptyList()
+        }
+
+        val startDate = when (rangeLength) {
+            is RangeLength.Day,
+            is RangeLength.Week,
+            is RangeLength.Month,
+            is RangeLength.Year,
+            -> timeMapper.getRangeStartAndEnd(
+                rangeLength, rangePosition, firstDayOfWeek, startOfDayShift
+            ).second - 1
+            is RangeLength.All -> System.currentTimeMillis()
+            is RangeLength.Custom -> rangeLength.range.timeEnded - 1
+        }
+
+        val numberOfGroups: Int = when (rangeLength) {
+            is RangeLength.Day -> 1
+            is RangeLength.Week -> 7
+            is RangeLength.Month -> when (appliedChartGrouping) {
+                ChartGrouping.DAILY -> timeMapper
+                    .getActualMaximum(startDate, Calendar.DAY_OF_MONTH, firstDayOfWeek)
+                else -> timeMapper
+                    .getActualMaximum(startDate, Calendar.WEEK_OF_YEAR, firstDayOfWeek)
+            }
+            is RangeLength.Year -> when (appliedChartGrouping) {
+                ChartGrouping.DAILY -> timeMapper
+                    .getActualMaximum(startDate, Calendar.DAY_OF_YEAR, firstDayOfWeek)
+                ChartGrouping.WEEKLY -> timeMapper
+                    .getActualMaximum(startDate, Calendar.WEEK_OF_YEAR, firstDayOfWeek)
+                else -> 12
+            }
+            is RangeLength.All -> when (currentChartLength) {
+                ChartLength.TEN -> 10
+                ChartLength.FIFTY -> 50
+                ChartLength.HUNDRED -> 100
+            }
+            is RangeLength.Custom -> {
+                customRangeGroupings.first { it.first == appliedChartGrouping }.second
+            }
+        }
+
+        return when (appliedChartGrouping) {
+            ChartGrouping.DAILY -> getDailyGrouping(startDate, numberOfGroups, startOfDayShift)
+            ChartGrouping.WEEKLY -> getWeeklyGrouping(startDate, numberOfGroups, firstDayOfWeek, startOfDayShift)
+            ChartGrouping.MONTHLY -> getMonthlyGrouping(startDate, numberOfGroups, startOfDayShift)
+            ChartGrouping.YEARLY -> getYearlyGrouping(numberOfGroups, startOfDayShift)
+        } to CompositeChartData(
+            availableChartGroupings = availableChartGroupings,
+            appliedChartGrouping = appliedChartGrouping,
+            availableChartLengths = availableChartLengths,
+            appliedChartLength = currentChartLength,
+        )
     }
 
     private fun getDailyGrouping(
@@ -296,4 +309,48 @@ class StatisticsDetailChartInteractor @Inject constructor(
             )
         }
     }
+
+    private fun calculateCustomRangeGropings(
+        rangeLength: RangeLength.Custom,
+        firstDayOfWeek: DayOfWeek,
+    ): List<Pair<ChartGrouping, Int>> {
+        val range = rangeLength.range
+        val result = mutableListOf<Pair<ChartGrouping, Int>>()
+        val allChartGroupings = listOf(
+            ChartGrouping.DAILY,
+            ChartGrouping.WEEKLY,
+            ChartGrouping.MONTHLY,
+            ChartGrouping.YEARLY
+        )
+
+        allChartGroupings.forEach { chartGrouping ->
+            val currentRangeLength: RangeLength = when (chartGrouping) {
+                ChartGrouping.DAILY -> RangeLength.Day
+                ChartGrouping.WEEKLY -> RangeLength.Week
+                ChartGrouping.MONTHLY -> RangeLength.Month
+                ChartGrouping.YEARLY -> RangeLength.Year
+            }
+
+            val shift = timeMapper.toTimestampShift(
+                fromTime = range.timeStarted,
+                toTime = range.timeEnded - 1, // end of day is beginning on next one, shift back.
+                range = currentRangeLength,
+                firstDayOfWeek = firstDayOfWeek
+            )
+
+            when {
+                shift != 0L -> result.add(chartGrouping to abs(shift).toInt() + 1) // compensate one shift.
+                chartGrouping == ChartGrouping.DAILY -> result.add(chartGrouping to 1)
+            }
+        }
+
+        return result
+    }
+
+    private data class CompositeChartData(
+        val availableChartGroupings: List<ChartGrouping>,
+        val appliedChartGrouping: ChartGrouping,
+        val availableChartLengths: List<ChartLength>,
+        val appliedChartLength: ChartLength,
+    )
 }

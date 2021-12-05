@@ -68,12 +68,6 @@ class StatisticsDetailViewModel @Inject constructor(
     val chartViewData: LiveData<StatisticsDetailChartCompositeViewData> by lazy {
         return@lazy MutableLiveData()
     }
-    val chartGroupingViewData: LiveData<List<ViewHolderType>> by lazy {
-        return@lazy MutableLiveData(loadChartGroupingViewData())
-    }
-    val chartLengthViewData: LiveData<List<ViewHolderType>> by lazy {
-        return@lazy MutableLiveData(loadChartLengthViewData())
-    }
     val splitChartGroupingViewData: LiveData<List<ViewHolderType>> by lazy {
         return@lazy MutableLiveData(loadSplitChartGroupingViewData())
     }
@@ -124,14 +118,12 @@ class StatisticsDetailViewModel @Inject constructor(
     fun onChartGroupingClick(viewData: ButtonsRowViewData) {
         if (viewData !is StatisticsDetailGroupingViewData) return
         this.chartGrouping = viewData.chartGrouping
-        updateChartGroupingViewData()
         updateChartViewData()
     }
 
     fun onChartLengthClick(viewData: ButtonsRowViewData) {
         if (viewData !is StatisticsDetailChartLengthViewData) return
         this.chartLength = viewData.chartLength
-        updateChartLengthViewData()
         updateChartViewData()
     }
 
@@ -237,8 +229,6 @@ class StatisticsDetailViewModel @Inject constructor(
         ).let(router::navigate)    }
 
     private fun onRangeChanged() {
-        updateChartGroupingViewData()
-        updateChartLengthViewData()
         updateSplitChartGroupingViewData()
         updatePosition(0)
     }
@@ -286,13 +276,15 @@ class StatisticsDetailViewModel @Inject constructor(
     private fun updateChartViewData() = viewModelScope.launch {
         val data = loadChartViewData()
         chartViewData.set(data)
+        chartGrouping = data.appliedChartGrouping
+        chartLength = data.appliedChartLength
     }
 
     private suspend fun loadChartViewData(): StatisticsDetailChartCompositeViewData {
         return chartInteractor.getChartViewData(
             filter = typesFilter,
-            chartGrouping = chartGrouping,
-            chartLength = chartLength,
+            currentChartGrouping = chartGrouping,
+            currentChartLength = chartLength,
             rangeLength = rangeLength,
             rangePosition = rangePosition,
         )
@@ -314,24 +306,6 @@ class StatisticsDetailViewModel @Inject constructor(
             rangePosition = rangePosition,
             splitChartGrouping = grouping
         )
-    }
-
-    private fun updateChartGroupingViewData() {
-        val data = loadChartGroupingViewData()
-        chartGroupingViewData.set(data)
-    }
-
-    private fun loadChartGroupingViewData(): List<ViewHolderType> {
-        return mapper.mapToChartGroupingViewData(rangeLength, chartGrouping)
-    }
-
-    private fun updateChartLengthViewData() {
-        val data = loadChartLengthViewData()
-        chartLengthViewData.set(data)
-    }
-
-    private fun loadChartLengthViewData(): List<ViewHolderType> {
-        return mapper.mapToChartLengthViewData(rangeLength, chartLength)
     }
 
     private fun updateSplitChartGroupingViewData() {

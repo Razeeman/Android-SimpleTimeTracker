@@ -121,8 +121,6 @@ class StatisticsDetailFragment :
         statsViewData.observe(::setStatsViewData)
         chartViewData.observe(::updateChartViewData)
         splitChartViewData.observe(::updateSplitChartViewData)
-        chartGroupingViewData.observe(::updateChartGroupingData)
-        chartLengthViewData.observe(::updateChartLengthData)
         splitChartGroupingViewData.observe(::updateSplitChartGroupingData)
         title.observe(binding.btnStatisticsDetailToday::setText)
         rangeItems.observe(::updateRangeItems)
@@ -188,20 +186,18 @@ class StatisticsDetailFragment :
         chartStatisticsDetail.shouldAddLegendToSelectedBar(chartData.addLegendToSelectedBar)
         chartStatisticsDetail.shouldDrawHorizontalLegends(chartData.shouldDrawHorizontalLegends)
 
+        val chartGroupingData = viewData.chartGroupingViewData
+        buttonsStatisticsDetailGrouping.visible = chartGroupingData.size > 1
+        buttonsStatisticsDetailGrouping.adapter.replace(chartGroupingData)
+
+        val chartLengthData = viewData.chartLengthViewData
+        buttonsStatisticsDetailLength.visible = chartLengthData.isNotEmpty()
+        buttonsStatisticsDetailLength.adapter.replace(chartLengthData)
+
         val rangeAveragesData = viewData.rangeAverages
         cardStatisticsDetailRangeAverage.itemsDescription = viewData.rangeAveragesTitle
         cardStatisticsDetailRangeAverage.visible = rangeAveragesData.isNotEmpty()
         cardStatisticsDetailRangeAverage.items = rangeAveragesData
-    }
-
-    private fun updateChartGroupingData(viewData: List<ViewHolderType>) = with(binding) {
-        buttonsStatisticsDetailGrouping.visible = viewData.isNotEmpty()
-        buttonsStatisticsDetailGrouping.adapter.replace(viewData)
-    }
-
-    private fun updateChartLengthData(viewData: List<ViewHolderType>) = with(binding) {
-        buttonsStatisticsDetailLength.visible = viewData.isNotEmpty()
-        buttonsStatisticsDetailLength.adapter.replace(viewData)
     }
 
     private fun updateSplitChartGroupingData(viewData: List<ViewHolderType>) = with(binding) {

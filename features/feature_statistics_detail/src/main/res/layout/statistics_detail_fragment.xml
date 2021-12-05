@@ -107,6 +107,7 @@
                 app:itemSubtitleTextSize="12sp"
                 app:itemTitleTextSize="14sp"
                 app:layout_constraintTop_toBottomOf="@+id/buttonsStatisticsDetailLength"
+                app:layout_goneMarginTop="8dp"
                 tools:itemDescription="@string/statistics_detail_range_averages_title" />
 
             <com.example.util.simpletimetracker.feature_statistics_detail.customView.StatisticsDetailCardView
