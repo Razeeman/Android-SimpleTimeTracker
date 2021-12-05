@@ -63,7 +63,7 @@ class CustomRangeSelectionDialogFragment :
     override fun initUx(): Unit = with(binding) {
         fieldCustomRangeSelectionTimeStarted.setOnClick(viewModel::onRangeStartClick)
         fieldCustomRangeSelectionTimeEnded.setOnClick(viewModel::onRangeEndClick)
-        btnCsvExportSettingsRange.setOnClick(viewModel::onExportRangeClick)
+        btnCustomRangeSelection.setOnClick(viewModel::onRangeSelected)
     }
 
     override fun initViewModel(): Unit = with(viewModel) {

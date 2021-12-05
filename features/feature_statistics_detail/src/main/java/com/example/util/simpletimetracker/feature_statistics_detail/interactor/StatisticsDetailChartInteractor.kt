@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.feature_statistics_detail.interactor
 
 import com.example.util.simpletimetracker.core.extension.isNotFiltered
+import com.example.util.simpletimetracker.core.extension.setToStartOfDay
 import com.example.util.simpletimetracker.core.extension.setWeekToFirstDay
 import com.example.util.simpletimetracker.core.interactor.TypesFilterInteractor
 import com.example.util.simpletimetracker.core.mapper.RangeMapper
@@ -294,13 +295,5 @@ class StatisticsDetailChartInteractor @Inject constructor(
                 rangeEnd = rangeEnd
             )
         }
-    }
-
-    private fun Calendar.setToStartOfDay(shift: Long) {
-        set(Calendar.HOUR_OF_DAY, 0)
-        set(Calendar.MINUTE, 0)
-        set(Calendar.SECOND, 0)
-        set(Calendar.MILLISECOND, 0)
-        timeInMillis += shift
     }
 }

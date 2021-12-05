@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.extension.set
+import com.example.util.simpletimetracker.core.extension.setToStartOfDay
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.model.Range
@@ -66,7 +67,7 @@ class CustomRangeSelectionViewModel @Inject constructor(
                 DateTimeDialogParams(
                     tag = TIME_ENDED_TAG,
                     timestamp = rangeEnd,
-                    type = DateTimeDialogType.DATETIME(initialTab = DateTimeDialogType.Tab.DATE),
+                    type = DateTimeDialogType.DATE,
                     useMilitaryTime = useMilitaryTime,
                     firstDayOfWeek = firstDayOfWeek
                 )
@@ -95,39 +96,38 @@ class CustomRangeSelectionViewModel @Inject constructor(
         }
     }
 
-    fun onExportRangeClick() {
-        Range(
-            timeStarted = rangeStart,
-            timeEnded = rangeEnd
-        ).let(customRangeSelectionParams::set)
+    fun onRangeSelected() {
+        val timeStarted = Calendar.getInstance().apply {
+            timeInMillis = rangeStart
+            setToStartOfDay()
+        }.timeInMillis
+        val timeEnded = Calendar.getInstance().apply {
+            timeInMillis = rangeEnd
+            setToStartOfDay()
+            add(Calendar.DATE, 1)
+        }.timeInMillis
+
+        Range(timeStarted = timeStarted, timeEnded = timeEnded)
+            .let(customRangeSelectionParams::set)
     }
 
-    private suspend fun updateViewData() {
+    private fun updateViewData() {
         viewData.set(loadViewData())
     }
 
     private fun initializeViewData() {
         rangeEnd = extra.rangeEnd
-            ?: Calendar.getInstance().apply {
-                timeInMillis = System.currentTimeMillis()
-                set(Calendar.HOUR_OF_DAY, 0)
-                set(Calendar.MINUTE, 0)
-                set(Calendar.SECOND, 0)
-                set(Calendar.MILLISECOND, 0)
-                add(Calendar.DATE, 1)
-            }.timeInMillis
+            ?: System.currentTimeMillis()
         rangeStart = extra.rangeStart
             ?: (rangeEnd - TimeUnit.DAYS.toMillis(7))
     }
 
-    private suspend fun loadViewData(): CustomRangeSelectionViewData {
-        val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
-
+    private fun loadViewData(): CustomRangeSelectionViewData {
         return CustomRangeSelectionViewData(
             rangeStartString = rangeStart
-                .let { timeMapper.formatDateTime(it, useMilitaryTime) },
+                .let(timeMapper::formatDateYear),
             rangeEndString = rangeEnd
-                .let { timeMapper.formatDateTime(it, useMilitaryTime) }
+                .let(timeMapper::formatDateYear)
         )
     }
 
