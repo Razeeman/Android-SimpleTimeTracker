@@ -116,7 +116,12 @@ class StatisticsContainerViewModel @Inject constructor(
     }
 
     private fun onSelectRangeClick() = viewModelScope.launch {
-        router.navigate(CustomRangeSelectionParams())
+        val currentCustomRange = (rangeLength as? RangeLength.Custom)?.range
+
+        CustomRangeSelectionParams(
+            rangeStart = currentCustomRange?.timeStarted,
+            rangeEnd = currentCustomRange?.timeEnded,
+        ).let(router::navigate)
     }
 
     private fun updatePosition(newPosition: Int) {

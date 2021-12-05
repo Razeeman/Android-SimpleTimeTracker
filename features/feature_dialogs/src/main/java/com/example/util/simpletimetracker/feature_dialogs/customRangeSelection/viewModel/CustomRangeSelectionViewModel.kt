@@ -16,7 +16,6 @@ import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialo
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogType
 import kotlinx.coroutines.launch
 import java.util.Calendar
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class CustomRangeSelectionViewModel @Inject constructor(
@@ -97,13 +96,14 @@ class CustomRangeSelectionViewModel @Inject constructor(
     }
 
     fun onRangeSelected() {
+        val calendar = Calendar.getInstance()
         // Time started is the beginning of selected day.
-        val timeStarted = Calendar.getInstance().apply {
+        val timeStarted = calendar.apply {
             timeInMillis = rangeStart
             setToStartOfDay()
         }.timeInMillis
         // Time ended is the end of selected day, meaning the beginning on the next day.
-        val timeEnded = Calendar.getInstance().apply {
+        val timeEnded = calendar.apply {
             timeInMillis = rangeEnd
             setToStartOfDay()
             add(Calendar.DATE, 1)
@@ -118,10 +118,10 @@ class CustomRangeSelectionViewModel @Inject constructor(
     }
 
     private fun initializeViewData() {
-        rangeEnd = extra.rangeEnd
+        rangeEnd = extra.rangeEnd?.minus(1)
             ?: System.currentTimeMillis()
         rangeStart = extra.rangeStart
-            ?: (rangeEnd - TimeUnit.DAYS.toMillis(7))
+            ?: System.currentTimeMillis()
     }
 
     private fun loadViewData(): CustomRangeSelectionViewData {
