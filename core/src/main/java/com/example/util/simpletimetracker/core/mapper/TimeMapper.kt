@@ -112,6 +112,7 @@ class TimeMapper @Inject constructor(
     }
 
     fun toTimestampShift(
+        fromTime: Long = System.currentTimeMillis(),
         toTime: Long,
         range: RangeLength,
         firstDayOfWeek: DayOfWeek
@@ -126,7 +127,6 @@ class TimeMapper @Inject constructor(
         }
 
         val calendar = Calendar.getInstance()
-        val current = System.currentTimeMillis()
         var result = 0L
 
         calendar.firstDayOfWeek = toCalendarDayOfWeek(firstDayOfWeek)
@@ -139,7 +139,7 @@ class TimeMapper @Inject constructor(
 
         if (calendarStep == Calendar.MONTH) result++
 
-        calendar.timeInMillis = current
+        calendar.timeInMillis = fromTime
         result -= if (calendarStep == Calendar.WEEK_OF_YEAR && isFirstWeekOfNextYear(calendar)) {
             calendar.getActualMaximum(Calendar.WEEK_OF_YEAR) + 1
         } else {
@@ -151,13 +151,13 @@ class TimeMapper @Inject constructor(
 
         val yearInFuture: Int
         val shiftDirection: Int
-        if (toTime < current) {
-            yearInFuture = calendar.apply { timeInMillis = current }.get(Calendar.YEAR)
+        if (toTime < fromTime) {
+            yearInFuture = calendar.apply { timeInMillis = fromTime }.get(Calendar.YEAR)
             calendar.apply { timeInMillis = toTime }
             shiftDirection = 1
         } else {
             yearInFuture = calendar.apply { timeInMillis = toTime }.get(Calendar.YEAR)
-            calendar.apply { timeInMillis = current }
+            calendar.apply { timeInMillis = fromTime }
             shiftDirection = -1
         }
 

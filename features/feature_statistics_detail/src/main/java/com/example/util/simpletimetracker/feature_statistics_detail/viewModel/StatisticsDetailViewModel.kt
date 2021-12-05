@@ -13,7 +13,9 @@ import com.example.util.simpletimetracker.feature_views.spinner.CustomSpinner
 import com.example.util.simpletimetracker.core.viewData.RangeViewData
 import com.example.util.simpletimetracker.core.viewData.RangesViewData
 import com.example.util.simpletimetracker.core.viewData.SelectDateViewData
+import com.example.util.simpletimetracker.core.viewData.SelectRangeViewData
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
+import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailChartInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailPreviewInteractor
@@ -30,6 +32,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.viewData.Sta
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailSplitGroupingViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStatsViewData
 import com.example.util.simpletimetracker.navigation.Router
+import com.example.util.simpletimetracker.navigation.params.screen.CustomRangeSelectionParams
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogType
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsAllParams
@@ -172,18 +175,19 @@ class StatisticsDetailViewModel @Inject constructor(
         updatePosition(rangePosition + 1)
     }
 
-    fun onRangeClick(item: CustomSpinner.CustomSpinnerItem) {
+    fun onRangeSelected(item: CustomSpinner.CustomSpinnerItem) {
         when (item) {
             is SelectDateViewData -> {
                 onSelectDateClick()
                 updateRanges()
             }
+            is SelectRangeViewData -> {
+                onSelectRangeClick()
+                updateRanges()
+            }
             is RangeViewData -> {
                 rangeLength = item.range
-                updateChartGroupingViewData()
-                updateChartLengthViewData()
-                updateSplitChartGroupingViewData()
-                updatePosition(0)
+                onRangeChanged()
             }
         }
     }
@@ -198,6 +202,11 @@ class StatisticsDetailViewModel @Inject constructor(
                 ).toInt().let(::updatePosition)
             }
         }
+    }
+
+    fun onCustomRangeSelected(range: Range) {
+        rangeLength = RangeLength.Custom(range)
+        onRangeChanged()
     }
 
     private fun onSelectDateClick() = viewModelScope.launch {
@@ -217,6 +226,17 @@ class StatisticsDetailViewModel @Inject constructor(
                 firstDayOfWeek = firstDayOfWeek
             )
         )
+    }
+
+    private fun onSelectRangeClick() = viewModelScope.launch {
+        router.navigate(CustomRangeSelectionParams())
+    }
+
+    private fun onRangeChanged() {
+        updateChartGroupingViewData()
+        updateChartLengthViewData()
+        updateSplitChartGroupingViewData()
+        updatePosition(0)
     }
 
     private fun updatePosition(newPosition: Int) {
@@ -344,7 +364,10 @@ class StatisticsDetailViewModel @Inject constructor(
     }
 
     private fun loadButtonsVisibility(): Boolean {
-        return rangeLength !is RangeLength.All
+        return when (rangeLength) {
+            is RangeLength.All, is RangeLength.Custom -> false
+            else -> true
+        }
     }
 
     companion object {

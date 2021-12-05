@@ -169,8 +169,10 @@ class StatisticsDetailChartInteractor @Inject constructor(
                         getYearlyGrouping(numberOfGroups, startOfDayShift)
                 }
             }
-            is RangeLength.Custom -> {
-                emptyList() // TODO
+            is RangeLength.Custom -> { // TODO
+                val startDate = rangeLength.range.timeEnded
+                val numberOfGroups = 10
+                getDailyGrouping(startDate, numberOfGroups, startOfDayShift)
             }
         }
     }

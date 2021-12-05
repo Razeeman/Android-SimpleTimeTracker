@@ -10,6 +10,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.hint.createHintAdapterDelegate
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
+import com.example.util.simpletimetracker.core.dialog.CustomRangeSelectionDialogListener
 import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
 import com.example.util.simpletimetracker.core.dialog.TypesFilterDialogListener
 import com.example.util.simpletimetracker.core.extension.setSharedTransitions
@@ -19,6 +20,7 @@ import com.example.util.simpletimetracker.core.extension.toViewData
 import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
 import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.core.viewData.RangesViewData
+import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.feature_base_adapter.statisticsTag.createStatisticsTagAdapterDelegate
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.createStatisticsPreviewAdapterDelegate
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.createStatisticsPreviewMoreAdapterDelegate
@@ -41,6 +43,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.databinding.
 class StatisticsDetailFragment :
     BaseFragment<Binding>(),
     DateTimeDialogListener,
+    CustomRangeSelectionDialogListener,
     TypesFilterDialogListener {
 
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
@@ -96,7 +99,7 @@ class StatisticsDetailFragment :
         buttonsStatisticsDetailLength.listener = viewModel::onChartLengthClick
         buttonsStatisticsDetailSplitGrouping.listener = viewModel::onSplitChartGroupingClick
         cardStatisticsDetailRecords.listener = viewModel::onRecordsClick
-        spinnerStatisticsDetail.onItemSelected = viewModel::onRangeClick
+        spinnerStatisticsDetail.onItemSelected = viewModel::onRangeSelected
         btnStatisticsDetailPrevious.setOnClick(viewModel::onPreviousClick)
         btnStatisticsDetailNext.setOnClick(viewModel::onNextClick)
         btnStatisticsDetailToday.setOnClick { spinnerStatisticsDetail.performClick() }
@@ -105,6 +108,10 @@ class StatisticsDetailFragment :
 
     override fun onDateTimeSet(timestamp: Long, tag: String?) {
         viewModel.onDateTimeSet(timestamp, tag)
+    }
+
+    override fun onCustomRangeSelected(range: Range) {
+        viewModel.onCustomRangeSelected(range)
     }
 
     override fun initViewModel(): Unit = with(viewModel) {
