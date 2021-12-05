@@ -28,7 +28,7 @@ class RecordsViewDataInteractor @Inject constructor(
         val recordTypes = recordTypeInteractor.getAll().map { it.id to it }.toMap()
         val recordTags = recordTagInteractor.getAll()
         val (rangeStart, rangeEnd) = timeMapper.getRangeStartAndEnd(
-            rangeLength = RangeLength.DAY,
+            rangeLength = RangeLength.Day,
             shift = shift,
             firstDayOfWeek = DayOfWeek.MONDAY, // Doesn't matter for days.
             startOfDayShift = startOfDayShift,

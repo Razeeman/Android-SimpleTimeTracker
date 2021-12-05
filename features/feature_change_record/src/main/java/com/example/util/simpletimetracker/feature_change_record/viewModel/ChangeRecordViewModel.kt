@@ -220,7 +220,7 @@ class ChangeRecordViewModel @Inject constructor(
     }
 
     private fun getInitialDate(daysFromToday: Int): Long {
-        return timeMapper.toTimestampShifted(daysFromToday, RangeLength.DAY)
+        return timeMapper.toTimestampShifted(daysFromToday, RangeLength.Day)
     }
 
     private suspend fun updatePreview() {

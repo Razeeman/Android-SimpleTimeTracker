@@ -91,11 +91,12 @@ class TimeMapper @Inject constructor(
 
     fun toTimestampShifted(rangesFromToday: Int, range: RangeLength): Long {
         val calendarStep = when (range) {
-            RangeLength.DAY -> Calendar.DAY_OF_YEAR
-            RangeLength.WEEK -> Calendar.WEEK_OF_YEAR
-            RangeLength.MONTH -> Calendar.MONTH
-            RangeLength.YEAR -> Calendar.YEAR
-            RangeLength.ALL -> return 0
+            is RangeLength.Day -> Calendar.DAY_OF_YEAR
+            is RangeLength.Week -> Calendar.WEEK_OF_YEAR
+            is RangeLength.Month -> Calendar.MONTH
+            is RangeLength.Year -> Calendar.YEAR
+            is RangeLength.All -> return 0
+            is RangeLength.Custom -> return 0
         }
 
         return if (rangesFromToday != 0) {
@@ -116,11 +117,12 @@ class TimeMapper @Inject constructor(
         firstDayOfWeek: DayOfWeek
     ): Long {
         val calendarStep = when (range) {
-            RangeLength.DAY -> Calendar.DAY_OF_YEAR
-            RangeLength.WEEK -> Calendar.WEEK_OF_YEAR
-            RangeLength.MONTH -> Calendar.MONTH
-            RangeLength.YEAR -> Calendar.YEAR
-            RangeLength.ALL -> return 0
+            is RangeLength.Day -> Calendar.DAY_OF_YEAR
+            is RangeLength.Week -> Calendar.WEEK_OF_YEAR
+            is RangeLength.Month -> Calendar.MONTH
+            is RangeLength.Year -> Calendar.YEAR
+            is RangeLength.All -> return 0
+            is RangeLength.Custom -> return 0
         }
 
         val calendar = Calendar.getInstance()
@@ -305,32 +307,36 @@ class TimeMapper @Inject constructor(
         }
 
         when (rangeLength) {
-            RangeLength.DAY -> {
+            is RangeLength.Day -> {
                 calendar.add(Calendar.DATE, shift)
                 rangeStart = calendar.timeInMillis
                 rangeEnd = calendar.apply { add(Calendar.DATE, 1) }.timeInMillis
             }
-            RangeLength.WEEK -> {
+            is RangeLength.Week -> {
                 calendar.setWeekToFirstDay()
                 calendar.add(Calendar.DATE, shift * 7)
                 rangeStart = calendar.timeInMillis
                 rangeEnd = calendar.apply { add(Calendar.DATE, 7) }.timeInMillis
             }
-            RangeLength.MONTH -> {
+            is RangeLength.Month -> {
                 calendar.set(Calendar.DAY_OF_MONTH, 1)
                 calendar.add(Calendar.MONTH, shift)
                 rangeStart = calendar.timeInMillis
                 rangeEnd = calendar.apply { add(Calendar.MONTH, 1) }.timeInMillis
             }
-            RangeLength.YEAR -> {
+            is RangeLength.Year -> {
                 calendar.set(Calendar.DAY_OF_YEAR, 1)
                 calendar.add(Calendar.YEAR, shift)
                 rangeStart = calendar.timeInMillis
                 rangeEnd = calendar.apply { add(Calendar.YEAR, 1) }.timeInMillis
             }
-            RangeLength.ALL -> {
+            is RangeLength.All -> {
                 rangeStart = 0L
                 rangeEnd = 0L
+            }
+            is RangeLength.Custom -> {
+                rangeStart = rangeLength.range.timeStarted
+                rangeEnd = rangeLength.range.timeEnded
             }
         }
 

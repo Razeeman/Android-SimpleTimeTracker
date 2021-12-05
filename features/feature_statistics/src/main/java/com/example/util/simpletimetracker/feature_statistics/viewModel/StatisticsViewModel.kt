@@ -33,7 +33,7 @@ class StatisticsViewModel @Inject constructor(
         MutableLiveData(listOf(LoaderViewData() as ViewHolderType))
     }
 
-    private var rangeLength: RangeLength = RangeLength.DAY
+    private var rangeLength: RangeLength = RangeLength.Day
     private var isVisible: Boolean = false
 
     fun onVisible() {

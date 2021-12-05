@@ -173,7 +173,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         }.let(resourceRepo::getString)
 
         val chartData = StatisticsDetailChartViewData(
-            visible = rangeLength != RangeLength.DAY,
+            visible = rangeLength !is RangeLength.Day,
             data = data.map {
                 BarChartView.ViewData(
                     value = formatInterval(it.duration, isMinutes),
@@ -183,11 +183,13 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             legendSuffix = legendSuffix,
             addLegendToSelectedBar = true,
             shouldDrawHorizontalLegends = when (rangeLength) {
-                RangeLength.DAY -> false
-                RangeLength.WEEK -> true
-                RangeLength.MONTH -> false
-                RangeLength.YEAR -> data.size <= 12
-                RangeLength.ALL -> data.size <= 10
+                is RangeLength.Day -> false
+                is RangeLength.Week -> true
+                is RangeLength.Month -> false
+                is RangeLength.Year -> data.size <= 12
+                is RangeLength.All,
+                is RangeLength.Custom,
+                -> data.size <= 10
             }
         )
         val (title, rangeAverages) = getRangeAverages(
@@ -268,12 +270,12 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         chartGrouping: ChartGrouping,
     ): List<ViewHolderType> {
         val groupings = when (rangeLength) {
-            RangeLength.YEAR -> listOf(
+            is RangeLength.Year -> listOf(
                 ChartGrouping.DAILY,
                 ChartGrouping.WEEKLY,
                 ChartGrouping.MONTHLY
             )
-            RangeLength.ALL -> listOf(
+            is RangeLength.All -> listOf(
                 ChartGrouping.DAILY,
                 ChartGrouping.WEEKLY,
                 ChartGrouping.MONTHLY,
@@ -296,7 +298,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         splitChartGrouping: SplitChartGrouping,
     ): List<ViewHolderType> {
         val groupings = when (rangeLength) {
-            RangeLength.DAY -> emptyList()
+            is RangeLength.Day -> emptyList()
             else -> listOf(
                 SplitChartGrouping.HOURLY,
                 SplitChartGrouping.DAILY
@@ -317,7 +319,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         chartLength: ChartLength,
     ): List<ViewHolderType> {
         val lengths = when (rangeLength) {
-            RangeLength.ALL -> listOf(
+            is RangeLength.All -> listOf(
                 ChartLength.TEN,
                 ChartLength.FIFTY,
                 ChartLength.HUNDRED
@@ -397,18 +399,19 @@ class StatisticsDetailViewDataMapper @Inject constructor(
     ): Pair<String, List<StatisticsDetailCardViewData>> {
         val emptyValue by lazy { resourceRepo.getString(R.string.statistics_detail_empty) }
         val grouping = when (rangeLength) {
-            RangeLength.DAY -> return "" to emptyList() // no averages for one day
-            RangeLength.WEEK,
-            RangeLength.MONTH,
+            is RangeLength.Day -> return "" to emptyList() // no averages for one day
+            is RangeLength.Week,
+            is RangeLength.Month,
             -> ChartGrouping.DAILY // weekly and monthly shows only days
-            RangeLength.YEAR -> when (chartGrouping) {
+            is RangeLength.Year -> when (chartGrouping) {
                 ChartGrouping.DAILY,
                 ChartGrouping.WEEKLY,
                 ChartGrouping.MONTHLY,
                 -> chartGrouping
                 ChartGrouping.YEARLY -> ChartGrouping.MONTHLY // no yearly grouping for year range
             }
-            RangeLength.ALL -> chartGrouping
+            is RangeLength.All -> chartGrouping
+            is RangeLength.Custom -> chartGrouping // TODO
         }
         val nonEmptyData = data.filter { it.duration > 0 }
 

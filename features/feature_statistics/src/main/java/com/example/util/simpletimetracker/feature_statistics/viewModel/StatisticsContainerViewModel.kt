@@ -10,10 +10,13 @@ import com.example.util.simpletimetracker.feature_views.spinner.CustomSpinner
 import com.example.util.simpletimetracker.core.viewData.RangeViewData
 import com.example.util.simpletimetracker.core.viewData.RangesViewData
 import com.example.util.simpletimetracker.core.viewData.SelectDateViewData
+import com.example.util.simpletimetracker.core.viewData.SelectRangeViewData
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
+import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.navigation.Router
+import com.example.util.simpletimetracker.navigation.params.screen.CustomRangeSelectionParams
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogType
 import kotlinx.coroutines.launch
@@ -23,7 +26,7 @@ class StatisticsContainerViewModel @Inject constructor(
     private val router: Router,
     private val timeMapper: TimeMapper,
     private val rangeMapper: RangeMapper,
-    private val prefsInteractor: PrefsInteractor
+    private val prefsInteractor: PrefsInteractor,
 ) : ViewModel() {
 
     val title: LiveData<String> by lazy {
@@ -41,7 +44,7 @@ class StatisticsContainerViewModel @Inject constructor(
         return@lazy MutableLiveData(loadRanges())
     }
 
-    private var rangeLength: RangeLength = RangeLength.DAY
+    private var rangeLength: RangeLength = RangeLength.Day
 
     fun onVisible() {
         updateTitle()
@@ -59,10 +62,14 @@ class StatisticsContainerViewModel @Inject constructor(
         updatePosition(position.value.orZero() + 1)
     }
 
-    fun onRangeClick(item: CustomSpinner.CustomSpinnerItem) {
+    fun onRangeSelected(item: CustomSpinner.CustomSpinnerItem) {
         when (item) {
             is SelectDateViewData -> {
                 onSelectDateClick()
+                updateRanges()
+            }
+            is SelectRangeViewData -> {
+                onSelectRangeClick()
                 updateRanges()
             }
             is RangeViewData -> {
@@ -84,6 +91,11 @@ class StatisticsContainerViewModel @Inject constructor(
         }
     }
 
+    fun onCustomRangeSelected(range: Range) {
+        rangeLength = RangeLength.Custom(range)
+        updatePosition(0)
+    }
+
     private fun onSelectDateClick() = viewModelScope.launch {
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
         val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
@@ -101,6 +113,10 @@ class StatisticsContainerViewModel @Inject constructor(
                 firstDayOfWeek = firstDayOfWeek
             )
         )
+    }
+
+    private fun onSelectRangeClick() = viewModelScope.launch {
+        router.navigate(CustomRangeSelectionParams())
     }
 
     private fun updatePosition(newPosition: Int) {

@@ -44,7 +44,7 @@ class RecordsContainerViewModel @Inject constructor(
             val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
             val current = timeMapper.toTimestampShifted(
                 rangesFromToday = position.value.orZero(),
-                range = RangeLength.DAY
+                range = RangeLength.Day
             )
 
             router.navigate(
@@ -72,7 +72,7 @@ class RecordsContainerViewModel @Inject constructor(
             DATE_TAG -> {
                 timeMapper.toTimestampShift(
                     toTime = timestamp,
-                    range = RangeLength.DAY,
+                    range = RangeLength.Day,
                     firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
                 ).toInt().let(::updatePosition)
             }

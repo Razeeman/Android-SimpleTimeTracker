@@ -107,32 +107,32 @@ class StatisticsDetailChartInteractor @Inject constructor(
         startOfDayShift: Long,
     ): List<ChartBarDataRange> {
         return when (rangeLength) {
-            RangeLength.DAY -> {
+            is RangeLength.Day -> {
                 val startDate = timeMapper.getRangeStartAndEnd(
-                    RangeLength.DAY, rangePosition, firstDayOfWeek, startOfDayShift
+                    RangeLength.Day, rangePosition, firstDayOfWeek, startOfDayShift
                 ).second - 1
                 val numberOfGroups = 1
                 getDailyGrouping(startDate, numberOfGroups, startOfDayShift)
             }
-            RangeLength.WEEK -> {
+            is RangeLength.Week -> {
                 val startDate = timeMapper.getRangeStartAndEnd(
-                    RangeLength.WEEK, rangePosition, firstDayOfWeek, startOfDayShift
+                    RangeLength.Week, rangePosition, firstDayOfWeek, startOfDayShift
                 ).second - 1
                 val numberOfGroups = 7
                 getDailyGrouping(startDate, numberOfGroups, startOfDayShift)
             }
-            RangeLength.MONTH -> {
+            is RangeLength.Month -> {
                 val startDate = timeMapper.getRangeStartAndEnd(
-                    RangeLength.MONTH, rangePosition, firstDayOfWeek, startOfDayShift
+                    RangeLength.Month, rangePosition, firstDayOfWeek, startOfDayShift
                 ).second - 1
                 val numberOfGroups = Calendar.getInstance()
                     .apply { timeInMillis = startDate }
                     .getActualMaximum(Calendar.DAY_OF_MONTH)
                 getDailyGrouping(startDate, numberOfGroups, startOfDayShift)
             }
-            RangeLength.YEAR -> {
+            is RangeLength.Year -> {
                 val startDate = timeMapper.getRangeStartAndEnd(
-                    RangeLength.YEAR, rangePosition, firstDayOfWeek, startOfDayShift
+                    RangeLength.Year, rangePosition, firstDayOfWeek, startOfDayShift
                 ).second - 1
                 when (grouping) {
                     ChartGrouping.DAILY -> {
@@ -155,7 +155,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
                     }
                 }
             }
-            RangeLength.ALL -> {
+            is RangeLength.All -> {
                 val startDate = System.currentTimeMillis()
                 val numberOfGroups = getNumberOfGroups(chartLength)
                 when (grouping) {
@@ -168,6 +168,9 @@ class StatisticsDetailChartInteractor @Inject constructor(
                     ChartGrouping.YEARLY ->
                         getYearlyGrouping(numberOfGroups, startOfDayShift)
                 }
+            }
+            is RangeLength.Custom -> {
+                emptyList() // TODO
             }
         }
     }

@@ -32,7 +32,7 @@ class StatisticsViewDataInteractor @Inject constructor(
         val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
         val startOfDayShift = prefsInteractor.getStartOfDayShift()
         val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
-        val showDuration = rangeLength != RangeLength.ALL
+        val showDuration = rangeLength !is RangeLength.All
         val types = recordTypeInteractor.getAll()
 
         val filteredIds = when (filterType) {

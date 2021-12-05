@@ -1,5 +1,10 @@
 package com.example.util.simpletimetracker.domain.model
 
-enum class RangeLength {
-    DAY, WEEK, MONTH, YEAR, ALL
+sealed class RangeLength {
+    object Day : RangeLength()
+    object Week : RangeLength()
+    object Month : RangeLength()
+    object Year : RangeLength()
+    object All : RangeLength()
+    data class Custom(val range: Range) : RangeLength()
 }

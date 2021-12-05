@@ -6,11 +6,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
+import com.example.util.simpletimetracker.core.dialog.CustomRangeSelectionDialogListener
 import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.feature_views.extension.setOnLongClick
 import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.core.viewData.RangesViewData
+import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.feature_statistics.adapter.StatisticsContainerAdapter
 import com.example.util.simpletimetracker.feature_statistics.viewModel.StatisticsContainerViewModel
@@ -22,7 +24,8 @@ import com.example.util.simpletimetracker.feature_statistics.databinding.Statist
 @AndroidEntryPoint
 class StatisticsContainerFragment :
     BaseFragment<Binding>(),
-    DateTimeDialogListener {
+    DateTimeDialogListener,
+    CustomRangeSelectionDialogListener {
 
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
         Binding::inflate
@@ -51,8 +54,8 @@ class StatisticsContainerFragment :
 
     override fun initUx() = with(binding) {
         spinnerStatisticsContainer.onItemSelected = {
-            viewModel.onRangeClick(it)
-            settingsViewModel.onRangeClick(it)
+            viewModel.onRangeSelected(it) // TODO fix clicking on custom range when it is already selected
+            settingsViewModel.onRangeSelected(it)
         }
         btnStatisticsContainerPrevious.setOnClick(viewModel::onPreviousClick)
         btnStatisticsContainerNext.setOnClick(viewModel::onNextClick)
@@ -62,6 +65,11 @@ class StatisticsContainerFragment :
 
     override fun onDateTimeSet(timestamp: Long, tag: String?) {
         viewModel.onDateTimeSet(timestamp, tag)
+    }
+
+    override fun onCustomRangeSelected(range: Range) {
+        viewModel.onCustomRangeSelected(range)
+        settingsViewModel.onCustomRangeSelected(range)
     }
 
     override fun initViewModel() {
@@ -81,7 +89,7 @@ class StatisticsContainerFragment :
     }
 
     private fun updateNavButtons(rangeLength: RangeLength) = with(binding) {
-        if (rangeLength == RangeLength.ALL) {
+        if (rangeLength is RangeLength.All || rangeLength is RangeLength.Custom) {
             btnStatisticsContainerPrevious.visible = false
             btnStatisticsContainerNext.visible = false
         } else {

@@ -93,7 +93,7 @@ class StatisticsDetailViewModel @Inject constructor(
     private var chartGrouping: ChartGrouping = ChartGrouping.DAILY
     private var chartLength: ChartLength = ChartLength.TEN
     private var splitChartGrouping: SplitChartGrouping = SplitChartGrouping.DAILY
-    private var rangeLength: RangeLength = RangeLength.ALL
+    private var rangeLength: RangeLength = RangeLength.All
     private var rangePosition: Int = 0
     private val typesFilter: TypesFilterParams get() = typesFilterContainer.first()
     private val typesFilterContainer: MutableList<TypesFilterParams> by lazy {
@@ -281,7 +281,7 @@ class StatisticsDetailViewModel @Inject constructor(
 
     private suspend fun loadSplitChartViewData(): StatisticsDetailChartViewData {
         val grouping = splitChartGrouping
-            .takeUnless { rangeLength == RangeLength.DAY }
+            .takeUnless { rangeLength is RangeLength.Day }
             ?: SplitChartGrouping.HOURLY
 
         return splitChartInteractor.getSplitChartViewData(
@@ -344,7 +344,7 @@ class StatisticsDetailViewModel @Inject constructor(
     }
 
     private fun loadButtonsVisibility(): Boolean {
-        return rangeLength != RangeLength.ALL
+        return rangeLength !is RangeLength.All
     }
 
     companion object {
