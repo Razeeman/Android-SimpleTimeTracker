@@ -142,9 +142,9 @@ fun View.getBitmapFromView(): Bitmap {
     }
 }
 
-fun View.measureExactly(size: Int) {
-    val specWidth = View.MeasureSpec.makeMeasureSpec(size, View.MeasureSpec.EXACTLY)
-    val specHeight = View.MeasureSpec.makeMeasureSpec(size, View.MeasureSpec.EXACTLY)
+fun View.measureExactly(width: Int, height: Int = width) {
+    val specWidth = View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY)
+    val specHeight = View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.EXACTLY)
     measure(specWidth, specHeight)
     layout(0, 0, measuredWidth, measuredHeight)
 }
