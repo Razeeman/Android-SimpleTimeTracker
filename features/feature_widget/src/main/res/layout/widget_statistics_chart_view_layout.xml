@@ -16,11 +16,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_margin="4dp"
         app:dividerColor="@color/grey_800"
         app:dividerWidth="2dp"
         app:drawIcons="true"
         app:iconMaxSize="48dp"
-        app:iconPadding="0dp"
+        app:iconPadding="1dp"
         app:innerRadiusRatio="0.625"
         app:pieChartAnimated="false"
         tools:segmentCount="5" />
