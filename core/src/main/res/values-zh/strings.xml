@@ -26,6 +26,7 @@
     <string name="range_month">月</string>
     <string name="range_year">年</string>
     <string name="range_overall">全部</string>
+    <string name="range_custom">间隔</string>
     <string name="range_select_day">选择日期</string>
     <string name="range_select_week">选择星期</string>
     <string name="range_select_month">选择月份</string>

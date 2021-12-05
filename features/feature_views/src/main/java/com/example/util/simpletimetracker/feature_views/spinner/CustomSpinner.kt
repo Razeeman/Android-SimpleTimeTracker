@@ -13,7 +13,7 @@ import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 class CustomSpinner @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
+    defStyleAttr: Int = 0,
 ) : FrameLayout(
     context,
     attrs,
@@ -27,27 +27,25 @@ class CustomSpinner @JvmOverloads constructor(
         .inflate(LayoutInflater.from(context), this, true)
 
     private val adapter: ArrayAdapter<String> = ArrayAdapter(context, R.layout.item_spinner_layout)
-    private var selectedPosition: Int = 0
     private var items: List<CustomSpinnerItem> = emptyList()
 
     init {
         binding.customSpinner.adapter = adapter
-        binding.customSpinner.onItemSelected {
-            if (selectedPosition != it) {
-                selectedPosition = it
-                items.getOrNull(it)?.let(onItemSelected::invoke)
-                onPositionSelected(it)
-            }
-        }
         setOnClick { binding.customSpinner.performClick() }
     }
 
     fun setData(items: List<CustomSpinnerItem>, selectedPosition: Int) {
-        this.selectedPosition = selectedPosition
         this.items = items
         adapter.clear()
         adapter.addAll(items.map(CustomSpinnerItem::text))
-        binding.customSpinner.setSelection(selectedPosition)
+
+        binding.customSpinner.onItemSelectedListener = null
+        // Calling setSelection(int, boolean) because it sets selection internally and listener isn't called later.
+        binding.customSpinner.setSelection(selectedPosition, false)
+        binding.customSpinner.onItemSelected {
+            items.getOrNull(it)?.let(onItemSelected::invoke)
+            onPositionSelected(it)
+        }
     }
 
     abstract class CustomSpinnerItem {
@@ -55,6 +53,6 @@ class CustomSpinner @JvmOverloads constructor(
     }
 
     data class CustomSpinnerTextItem(
-        override val text: String
+        override val text: String,
     ) : CustomSpinnerItem()
 }

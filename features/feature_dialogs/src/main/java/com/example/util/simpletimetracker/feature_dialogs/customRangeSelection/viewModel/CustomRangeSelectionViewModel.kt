@@ -97,10 +97,12 @@ class CustomRangeSelectionViewModel @Inject constructor(
     }
 
     fun onRangeSelected() {
+        // Time started is the beginning of selected day.
         val timeStarted = Calendar.getInstance().apply {
             timeInMillis = rangeStart
             setToStartOfDay()
         }.timeInMillis
+        // Time ended is the end of selected day, meaning the beginning on the next day.
         val timeEnded = Calendar.getInstance().apply {
             timeInMillis = rangeEnd
             setToStartOfDay()

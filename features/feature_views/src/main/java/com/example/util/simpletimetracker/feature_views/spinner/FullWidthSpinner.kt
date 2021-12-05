@@ -11,7 +11,7 @@ class FullWidthSpinner @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = R.attr.spinnerStyle,
     mode: Int = -1,
-    popupTheme: Resources.Theme? = null
+    popupTheme: Resources.Theme? = null,
 ) : AppCompatSpinner(context, attrs, defStyleAttr, mode, popupTheme) {
 
     private var popupUnderSpinner: Boolean = false
@@ -33,6 +33,25 @@ class FullWidthSpinner @JvmOverloads constructor(
         dropDownWidth = w
         if (popupUnderSpinner) {
             dropDownVerticalOffset = h + popupMarginTop
+        }
+    }
+
+    override fun setSelection(position: Int) {
+        processSelection(position)
+        super.setSelection(position)
+    }
+
+    override fun setSelection(position: Int, animate: Boolean) {
+        processSelection(position)
+        super.setSelection(position, animate)
+    }
+
+    private fun processSelection(position: Int) {
+        val sameSelected = position == selectedItemPosition
+        val listener = onItemSelectedListener
+        if (sameSelected && listener != null) {
+            // Spinner does not call the OnItemSelectedListener if the same item is selected, so do it manually now
+            listener.onItemSelected(this, selectedView, position, selectedItemId)
         }
     }
 }

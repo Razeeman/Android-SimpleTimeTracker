@@ -26,6 +26,7 @@
     <string name="range_month">Mese</string>
     <string name="range_year">Anno</string>
     <string name="range_overall">Totale</string>
+    <string name="range_custom">Intervallo</string>
     <string name="range_select_day">Seleziona data</string>
     <string name="range_select_week">Seleziona settimana</string>
     <string name="range_select_month">Seleziona mese</string>

@@ -54,7 +54,7 @@ class StatisticsContainerFragment :
 
     override fun initUx() = with(binding) {
         spinnerStatisticsContainer.onItemSelected = {
-            viewModel.onRangeSelected(it) // TODO fix clicking on custom range when it is already selected
+            viewModel.onRangeSelected(it)
             settingsViewModel.onRangeSelected(it)
         }
         btnStatisticsContainerPrevious.setOnClick(viewModel::onPreviousClick)

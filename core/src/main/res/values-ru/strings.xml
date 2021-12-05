@@ -26,6 +26,7 @@
     <string name="range_month">Месяц</string>
     <string name="range_year">Год</string>
     <string name="range_overall">Все время</string>
+    <string name="range_custom">Диапазон</string>
     <string name="range_select_day">Выберите дату</string>
     <string name="range_select_week">Выберите неделю</string>
     <string name="range_select_month">Выберите месяц</string>
