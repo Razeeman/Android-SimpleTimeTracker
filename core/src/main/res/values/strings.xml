@@ -231,6 +231,8 @@
     <!--  Widget  -->
     <string name="widget_name">Single Activity</string>
     <string name="widget_universal_name">Universal</string>
+    <!--  TODO translate  -->
+    <string name="widget_statistics_chart_name">Statistics Chart</string>
     <string name="widget_load_error">Not found</string>
 
     <!--  Notification  -->

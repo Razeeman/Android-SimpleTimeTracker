@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.feature_statistics.customView
+package com.example.util.simpletimetracker.feature_views.pieChart
 
 import android.animation.ValueAnimator
 import android.content.Context
@@ -17,7 +17,7 @@ import com.example.util.simpletimetracker.feature_views.extension.getBitmapFromV
 import com.example.util.simpletimetracker.feature_views.extension.measureExactly
 import com.example.util.simpletimetracker.feature_views.IconView
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
-import com.example.util.simpletimetracker.feature_statistics.R
+import com.example.util.simpletimetracker.feature_views.R
 import kotlin.math.max
 import kotlin.math.min
 
@@ -39,6 +39,7 @@ class PieChartView @JvmOverloads constructor(
     private var iconMaxSize: Int = 0
     private var segmentCount: Int = 0
     private var drawIcons: Boolean = false
+    private var animated: Boolean = true
     // End of attrs
 
     private val segmentPaint: Paint = Paint()
@@ -135,6 +136,8 @@ class PieChartView @JvmOverloads constructor(
                     getInt(R.styleable.PieChartView_segmentCount, 0)
                 drawIcons =
                     getBoolean(R.styleable.PieChartView_drawIcons, false)
+                animated =
+                    getBoolean(R.styleable.PieChartView_pieChartAnimated, true)
                 recycle()
             }
     }
@@ -302,7 +305,7 @@ class PieChartView @JvmOverloads constructor(
     }
 
     private fun animateSegments() {
-        if (shouldAnimate) {
+        if (animated && shouldAnimate) {
             animator.duration = segmentAnimationDuration
             animator.addUpdateListener { animation ->
                 segmentAnimationScale = animation.animatedValue as Float

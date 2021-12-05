@@ -43,5 +43,16 @@
                 android:resource="@xml/widget_universal_info" />
         </receiver>
 
+        <receiver
+            android:name=".statistics.WidgetStatisticsChartProvider"
+            android:label="@string/widget_statistics_chart_name">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_statistics_chart_info" />
+        </receiver>
+
     </application>
 </manifest>

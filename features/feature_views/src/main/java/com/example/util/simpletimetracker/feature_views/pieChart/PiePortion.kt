@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.feature_statistics.customView
+package com.example.util.simpletimetracker.feature_views.pieChart
 
 import android.os.Parcelable
 import androidx.annotation.ColorInt

@@ -1,7 +1,7 @@
 package com.example.util.simpletimetracker.feature_statistics.viewData
 
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
-import com.example.util.simpletimetracker.feature_statistics.customView.PiePortion
+import com.example.util.simpletimetracker.feature_views.pieChart.PiePortion
 
 data class StatisticsChartViewData(
     val data: List<PiePortion>

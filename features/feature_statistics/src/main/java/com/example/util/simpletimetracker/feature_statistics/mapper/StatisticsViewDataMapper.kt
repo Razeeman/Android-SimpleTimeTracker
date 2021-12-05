@@ -4,6 +4,8 @@ import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.core.utils.UNTRACKED_ITEM_ID
+import com.example.util.simpletimetracker.core.viewData.StatisticsDataHolder
 import com.example.util.simpletimetracker.domain.mapper.StatisticsMapper
 import com.example.util.simpletimetracker.domain.model.Statistics
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
@@ -11,9 +13,6 @@ import com.example.util.simpletimetracker.feature_base_adapter.empty.EmptyViewDa
 import com.example.util.simpletimetracker.feature_base_adapter.hint.HintViewData
 import com.example.util.simpletimetracker.feature_base_adapter.statistics.StatisticsViewData
 import com.example.util.simpletimetracker.feature_statistics.R
-import com.example.util.simpletimetracker.feature_statistics.customView.PiePortion
-import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsChartViewData
-import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsDataHolder
 import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsInfoViewData
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import javax.inject.Inject
@@ -56,36 +55,13 @@ class StatisticsViewDataMapper @Inject constructor(
             .map { (statistics, _) -> statistics }
     }
 
-    fun mapChart(
-        statistics: List<Statistics>,
-        data: Map<Long, StatisticsDataHolder>,
-        recordTypesFiltered: List<Long>,
-        isDarkTheme: Boolean,
-    ): ViewHolderType {
-        return StatisticsChartViewData(
-            statistics
-                .filterNot { it.id in recordTypesFiltered }
-                .mapNotNull { statistic ->
-                    (
-                        mapChart(
-                            statistics = statistic,
-                            dataHolder = data[statistic.id],
-                            isDarkTheme = isDarkTheme
-                        ) ?: return@mapNotNull null
-                        ) to statistic.duration
-                }
-                .sortedByDescending { (_, duration) -> duration }
-                .map { (statistics, _) -> statistics }
-        )
-    }
-
     fun mapStatisticsTotalTracked(
         statistics: List<Statistics>,
         filteredIds: List<Long>,
         useProportionalMinutes: Boolean,
     ): ViewHolderType {
         val statisticsFiltered = statistics
-            .filterNot { it.id in filteredIds || it.id == -1L }
+            .filterNot { it.id in filteredIds || it.id == UNTRACKED_ITEM_ID }
         val totalTracked = statisticsFiltered.map(Statistics::duration).sum()
 
         return mapTotalTracked(totalTracked, useProportionalMinutes)
@@ -119,7 +95,7 @@ class StatisticsViewDataMapper @Inject constructor(
         )
 
         when {
-            statistics.id == -1L -> {
+            statistics.id == UNTRACKED_ITEM_ID -> {
                 return StatisticsViewData(
                     id = statistics.id,
                     name = R.string.untracked_time_name
@@ -150,35 +126,6 @@ class StatisticsViewDataMapper @Inject constructor(
             }
             else -> {
                 return null
-            }
-        }
-    }
-
-    private fun mapChart(
-        statistics: Statistics,
-        dataHolder: StatisticsDataHolder?,
-        isDarkTheme: Boolean,
-    ): PiePortion? {
-        return when {
-            statistics.id == -1L -> {
-                PiePortion(
-                    value = statistics.duration,
-                    colorInt = colorMapper.toUntrackedColor(isDarkTheme),
-                    iconId = RecordTypeIcon.Image(R.drawable.unknown)
-                )
-            }
-            dataHolder != null -> {
-                PiePortion(
-                    value = statistics.duration,
-                    colorInt = dataHolder.color
-                        .let { colorMapper.mapToColorResId(it, isDarkTheme) }
-                        .let(resourceRepo::getColor),
-                    iconId = dataHolder.icon
-                        ?.let(iconMapper::mapIcon)
-                )
-            }
-            else -> {
-                null
             }
         }
     }

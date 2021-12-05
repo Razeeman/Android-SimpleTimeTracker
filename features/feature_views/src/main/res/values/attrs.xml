@@ -92,4 +92,16 @@
         <attr name="popupUnderSpinner" format="boolean" />
         <attr name="popupUnderMarginTop" format="dimension" />
     </declare-styleable>
+
+    <declare-styleable name="PieChartView">
+        <!-- Used for layout preview -->
+        <attr name="segmentCount" format="integer" />
+        <attr name="dividerWidth" format="dimension" />
+        <attr name="dividerColor" format="color" />
+        <attr name="iconPadding" format="dimension" />
+        <attr name="iconMaxSize" format="dimension" />
+        <attr name="innerRadiusRatio" format="float" />
+        <attr name="drawIcons" format="boolean" />
+        <attr name="pieChartAnimated" format="boolean" />
+    </declare-styleable>
 </resources>

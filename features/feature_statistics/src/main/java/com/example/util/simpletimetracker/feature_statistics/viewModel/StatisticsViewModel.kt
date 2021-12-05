@@ -5,9 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.extension.toParams
+import com.example.util.simpletimetracker.core.interactor.WidgetInteractor
+import com.example.util.simpletimetracker.core.utils.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.model.RangeLength
+import com.example.util.simpletimetracker.domain.model.WidgetType
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.feature_base_adapter.statistics.StatisticsViewData
@@ -25,6 +28,7 @@ class StatisticsViewModel @Inject constructor(
     private val router: Router,
     private val statisticsViewDataInteractor: StatisticsViewDataInteractor,
     private val prefsInteractor: PrefsInteractor,
+    private val widgetInteractor: WidgetInteractor,
 ) : ViewModel() {
 
     var extra: StatisticsExtra? = null
@@ -59,7 +63,7 @@ class StatisticsViewModel @Inject constructor(
         sharedElements: Map<Any, String>,
     ) = viewModelScope.launch {
         // TODO untracked detailed statistics
-        if (item.id == -1L) return@launch
+        if (item.id == UNTRACKED_ITEM_ID) return@launch
 
         val filterType = prefsInteractor.getChartFilterType()
 
@@ -82,6 +86,7 @@ class StatisticsViewModel @Inject constructor(
 
     fun onFilterApplied() {
         updateStatistics()
+        widgetInteractor.updateWidgets(listOf(WidgetType.STATISTICS_CHART))
     }
 
     private fun updateStatistics() = viewModelScope.launch {

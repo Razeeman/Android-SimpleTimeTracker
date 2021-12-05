@@ -1,17 +1,20 @@
-package com.example.util.simpletimetracker.feature_widget.widget
+package com.example.util.simpletimetracker.feature_widget.interactor
 
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import com.example.util.simpletimetracker.domain.model.WidgetType
+import com.example.util.simpletimetracker.feature_widget.statistics.WidgetStatisticsChartProvider
 import com.example.util.simpletimetracker.feature_widget.universal.WidgetUniversalProvider
+import com.example.util.simpletimetracker.feature_widget.widget.WidgetProvider
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class WidgetManager @Inject constructor(
-    @ApplicationContext private val context: Context
+    @ApplicationContext private val context: Context,
 ) {
 
     fun updateWidget(widgetId: Int) {
@@ -21,8 +24,18 @@ class WidgetManager @Inject constructor(
         context.sendBroadcast(intent)
     }
 
-    fun updateWidgets() {
-        val providers = listOf(WidgetProvider::class.java, WidgetUniversalProvider::class.java)
+    fun updateWidgets(types: List<WidgetType>) {
+        val widgetsToUpdate = types
+            .takeUnless { it.isEmpty() }
+            ?: WidgetType.values().toList()
+
+        val providers = widgetsToUpdate.map { type ->
+            when (type) {
+                WidgetType.RECORD_TYPE -> WidgetProvider::class.java
+                WidgetType.UNIVERSAL -> WidgetUniversalProvider::class.java
+                WidgetType.STATISTICS_CHART -> WidgetStatisticsChartProvider::class.java
+            }
+        }
 
         providers.forEach { provider ->
             val intent = Intent(context, provider)
