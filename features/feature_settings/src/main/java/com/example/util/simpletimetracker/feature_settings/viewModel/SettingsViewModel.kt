@@ -129,6 +129,15 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    val recordTagSelectionCloseCheckbox: LiveData<Boolean> by lazy {
+        MutableLiveData<Boolean>().let { initial ->
+            viewModelScope.launch {
+                initial.value = prefsInteractor.getRecordTagSelectionCloseAfterOne()
+            }
+            initial
+        }
+    }
+
     val useMilitaryTimeCheckbox: LiveData<Boolean> by lazy {
         MutableLiveData<Boolean>().let { initial ->
             viewModelScope.launch {
@@ -301,6 +310,14 @@ class SettingsViewModel @Inject constructor(
             val newValue = !prefsInteractor.getShowRecordTagSelection()
             prefsInteractor.setShowRecordTagSelection(newValue)
             (showRecordTagSelectionCheckbox as MutableLiveData).value = newValue
+        }
+    }
+
+    fun onRecordTagSelectionCloseClicked() {
+        viewModelScope.launch {
+            val newValue = !prefsInteractor.getRecordTagSelectionCloseAfterOne()
+            prefsInteractor.setRecordTagSelectionCloseAfterOne(newValue)
+            (recordTagSelectionCloseCheckbox as MutableLiveData).value = newValue
         }
     }
 

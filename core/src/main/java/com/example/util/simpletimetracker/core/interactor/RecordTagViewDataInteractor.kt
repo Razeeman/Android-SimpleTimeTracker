@@ -18,10 +18,14 @@ class RecordTagViewDataInteractor @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
     private val recordTagInteractor: RecordTagInteractor,
-    private val categoryViewDataMapper: CategoryViewDataMapper
+    private val categoryViewDataMapper: CategoryViewDataMapper,
 ) {
 
-    suspend fun getViewData(selectedTags: List<Long>, typeId: Long): List<ViewHolderType> {
+    suspend fun getViewData(
+        selectedTags: List<Long>,
+        typeId: Long,
+        multipleChoiceAvailable: Boolean,
+    ): List<ViewHolderType> {
         val isDarkTheme = prefsInteractor.getDarkMode()
         val type = recordTypeInteractor.get(typeId)
         val recordTags = if (typeId != 0L) {
@@ -43,7 +47,7 @@ class RecordTagViewDataInteractor @Inject constructor(
 
                 categoryViewDataMapper.mapSelectedCategoriesHint(
                     isEmpty = selected.isEmpty()
-                ).let(viewData::add)
+                ).takeIf { multipleChoiceAvailable }?.let(viewData::add)
 
                 selected.map {
                     categoryViewDataMapper.mapRecordTag(
@@ -55,6 +59,7 @@ class RecordTagViewDataInteractor @Inject constructor(
 
                 DividerViewData(1)
                     .takeUnless { available.isEmpty() }
+                    .takeIf { multipleChoiceAvailable }
                     ?.let(viewData::add)
 
                 available.map {
@@ -66,7 +71,9 @@ class RecordTagViewDataInteractor @Inject constructor(
                 }.let(viewData::addAll)
 
                 if (selected.isNotEmpty() || available.isNotEmpty()) {
-                    DividerViewData(2).let(viewData::add)
+                    DividerViewData(2)
+                        .takeIf { multipleChoiceAvailable }
+                        ?.let(viewData::add)
                     mapRecordTagUntagged(isDarkTheme).let(viewData::add)
                 }
 
@@ -76,7 +83,7 @@ class RecordTagViewDataInteractor @Inject constructor(
     }
 
     private fun mapRecordTagUntagged(
-        isDarkTheme: Boolean
+        isDarkTheme: Boolean,
     ): CategoryViewData.Record {
         return CategoryViewData.Record.Untagged(
             typeId = 0L,

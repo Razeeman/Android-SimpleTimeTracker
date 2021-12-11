@@ -67,6 +67,7 @@ class SettingsFragment :
         tvSettingsChangeCardSize.setOnClick(viewModel::onChangeCardSizeClick)
         layoutSettingsEditCategories.setOnClick(viewModel::onEditCategoriesClick)
         checkboxSettingsShowRecordTagSelection.setOnClick(viewModel::onShowRecordTagSelectionClicked)
+        checkboxSettingsRecordTagSelectionClose.setOnClick(viewModel::onRecordTagSelectionCloseClicked)
         tvSettingsArchive.setOnClick(viewModel::onArchiveClick)
         layoutSettingsSaveBackup.setOnClick(backupViewModel::onSaveClick)
         layoutSettingsRestoreBackup.setOnClick(backupViewModel::onRestoreClick)
@@ -88,7 +89,8 @@ class SettingsFragment :
             darkModeCheckbox.observe(checkboxSettingsDarkMode::setChecked)
             useMilitaryTimeCheckbox.observe(checkboxSettingsUseMilitaryTime::setChecked)
             useProportionalMinutesCheckbox.observe(checkboxSettingsUseProportionalMinutes::setChecked)
-            showRecordTagSelectionCheckbox.observe(checkboxSettingsShowRecordTagSelection::setChecked)
+            showRecordTagSelectionCheckbox.observe(::updateShowRecordTagSelectionChecked)
+            recordTagSelectionCloseCheckbox.observe(checkboxSettingsRecordTagSelectionClose::setChecked)
             useMilitaryTimeHint.observe(tvSettingsUseMilitaryTimeHint::setText)
             useProportionalMinutesHint.observe(tvSettingsUseProportionalMinutesHint::setText)
             themeChanged.observe(::changeTheme)
@@ -106,6 +108,7 @@ class SettingsFragment :
             checkboxSettingsDarkMode.jumpDrawablesToCurrentState()
             checkboxSettingsUseMilitaryTime.jumpDrawablesToCurrentState()
             checkboxSettingsShowRecordTagSelection.jumpDrawablesToCurrentState()
+            checkboxSettingsRecordTagSelectionClose.jumpDrawablesToCurrentState()
         }
         viewModel.onVisible()
     }
@@ -141,6 +144,11 @@ class SettingsFragment :
         spinnerSettingsFirstDayOfWeek.setData(viewData.items, viewData.selectedPosition)
         tvSettingsFirstDayOfWeekValue.text = viewData.items
             .getOrNull(viewData.selectedPosition)?.text.orEmpty()
+    }
+
+    private fun updateShowRecordTagSelectionChecked(isChecked: Boolean) = with(binding) {
+        checkboxSettingsShowRecordTagSelection.isChecked = isChecked
+        groupSettingsRecordTagSelectionClose.visible = isChecked
     }
 
     private fun changeTheme(themeChanged: Boolean) {

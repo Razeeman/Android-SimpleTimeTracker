@@ -211,13 +211,17 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvSettingsShowRecordTagSelectionHint"
                         style="@style/SettingsSecondaryText"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:paddingBottom="0dp"
                         android:text="@string/settings_show_record_tag_selection_hint"
+                        app:layout_constraintBottom_toTopOf="@id/tvSettingsRecordTagSelectionCloseHint"
                         app:layout_constraintEnd_toStartOf="@id/checkboxSettingsShowRecordTagSelection"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tvSettingsShowRecordTagSelection" />
+                        app:layout_constraintTop_toBottomOf="@id/tvSettingsShowRecordTagSelection"
+                        app:layout_goneMarginBottom="12dp" />
 
                     <androidx.appcompat.widget.AppCompatCheckBox
                         android:id="@+id/checkboxSettingsShowRecordTagSelection"
@@ -227,8 +231,34 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@id/tvSettingsShowRecordTagSelection" />
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvSettingsRecordTagSelectionCloseHint"
+                        style="@style/SettingsText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_show_record_tag_close_hint"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/checkboxSettingsShowRecordTagSelection"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvSettingsShowRecordTagSelectionHint" />
 
+                    <androidx.appcompat.widget.AppCompatCheckBox
+                        android:id="@+id/checkboxSettingsRecordTagSelectionClose"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        app:layout_constraintBottom_toBottomOf="@id/tvSettingsRecordTagSelectionCloseHint"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tvSettingsRecordTagSelectionCloseHint" />
+
+                    <androidx.constraintlayout.widget.Group
+                        android:id="@+id/groupSettingsRecordTagSelectionClose"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:visibility="gone"
+                        app:constraint_referenced_ids="tvSettingsRecordTagSelectionCloseHint, @+id/checkboxSettingsRecordTagSelectionClose"
+                        tools:visibility="visible" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <View
                     style="@style/SettingsDivider"

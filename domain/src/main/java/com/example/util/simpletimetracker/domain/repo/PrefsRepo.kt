@@ -32,6 +32,8 @@ interface PrefsRepo {
 
     var showRecordTagSelection: Boolean
 
+    var recordTagSelectionCloseAfterOne: Boolean
+
     fun setWidget(widgetId: Int, recordType: Long)
 
     fun getWidget(widgetId: Int): Long

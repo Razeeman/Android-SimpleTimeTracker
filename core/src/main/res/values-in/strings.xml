@@ -168,6 +168,7 @@
     <string name="settings_edit_categories_hint">Tetapkan label untuk kegiatan dan rekor.</string>
     <string name="settings_show_record_tag_selection">Tampilkan pilihan label rekor</string>
     <string name="settings_show_record_tag_selection_hint">Saat memulai mengatur waktu, jika kegiatan memiliki label rekor apa pun - dialog pemilihan akan ditampilkan.</string>
+    <string name="settings_show_record_tag_close_hint">Tutup setelah memilih satu tag.</string>
     <string name="settings_rate">Nilai kami</string>
     <string name="settings_rate_description">Nilai aplikasi dan tinggalkan sebuah ulasan.</string>
     <string name="settings_feedback">Umpan balik</string>

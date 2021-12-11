@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.extension.addOrRemove
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.AddRunningRecordMediator
+import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
@@ -18,6 +19,7 @@ import javax.inject.Inject
 class RecordTagSelectionViewModel @Inject constructor(
     private val viewDataInteractor: RecordTagSelectionViewDataInteractor,
     private val addRunningRecordMediator: AddRunningRecordMediator,
+    private val prefsInteractor: PrefsInteractor,
 ) : ViewModel() {
 
     lateinit var extra: RecordTagSelectionParams
@@ -31,6 +33,7 @@ class RecordTagSelectionViewModel @Inject constructor(
             initial
         }
     }
+    val tagSelected: LiveData<Unit> = MutableLiveData()
 
     private var newCategoryIds: MutableList<Long> = mutableListOf()
 
@@ -46,6 +49,10 @@ class RecordTagSelectionViewModel @Inject constructor(
                 else -> return@launch
             }
             updateViewData()
+
+            if (prefsInteractor.getRecordTagSelectionCloseAfterOne()) {
+                tagSelected.set(Unit)
+            }
         }
     }
 

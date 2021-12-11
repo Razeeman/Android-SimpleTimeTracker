@@ -168,6 +168,7 @@
     <string name="settings_edit_categories_hint">Tilldela taggar till aktiviteter och händelser.</string>
     <string name="settings_show_record_tag_selection">Dialog för händelsetagg</string>
     <string name="settings_show_record_tag_selection_hint">Om aktiviteten som påbörjas har angivna händelsetaggar så visas dialogruta för val av tagg.</string>
+    <string name="settings_show_record_tag_close_hint">Stäng efter att ha valt en tagg.</string>
     <string name="settings_rate">Ge oss ett betyg</string>
     <string name="settings_rate_description">Betygsätt appen och lämna en recension.</string>
     <string name="settings_feedback">Feedback</string>

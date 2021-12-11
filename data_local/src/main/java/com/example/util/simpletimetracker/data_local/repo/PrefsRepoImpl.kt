@@ -76,6 +76,10 @@ class PrefsRepoImpl @Inject constructor(
         KEY_SHOW_RECORD_TAG_SELECTION, false
     )
 
+    override var recordTagSelectionCloseAfterOne: Boolean by prefs.delegate(
+        KEY_RECORD_TAG_SELECTION_CLOSE_AFTER_ONE, false
+    )
+
     override fun setWidget(widgetId: Int, recordType: Long) {
         prefs.edit().putLong(KEY_WIDGET + widgetId, recordType).apply()
     }
@@ -133,6 +137,7 @@ class PrefsRepoImpl @Inject constructor(
         private const val KEY_USE_MILITARY_TIME_FORMAT = "useMilitaryTimeFormat"
         private const val KEY_USE_PROPORTIONAL_MINUTES = "useProportionalMinutes"
         private const val KEY_SHOW_RECORD_TAG_SELECTION = "showRecordTagSelection"
+        private const val KEY_RECORD_TAG_SELECTION_CLOSE_AFTER_ONE = "recordTagSelectionCloseAfterOne"
         private const val KEY_WIDGET = "widget_"
         private const val KEY_CARD_ORDER_MANUAL = "cardOrderManual"
 

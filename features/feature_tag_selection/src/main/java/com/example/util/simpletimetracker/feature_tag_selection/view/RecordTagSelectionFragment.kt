@@ -95,6 +95,7 @@ class RecordTagSelectionFragment : BaseFragment<Binding>() {
     override fun initViewModel(): Unit = with(viewModel) {
         extra = params
         viewData.observe(adapter::replace)
+        tagSelected.observe { onTagSelected() }
     }
 
     private fun onTagSelected() {

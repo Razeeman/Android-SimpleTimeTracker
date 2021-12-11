@@ -168,6 +168,7 @@
     <string name="settings_edit_categories_hint">为活动和记录分配标签。</string>
     <string name="settings_show_record_tag_selection">显示记录标签选择</string>
     <string name="settings_show_record_tag_selection_hint">启动计时器时，如果活动有任何记录标签，则会显示一个选择对话框。</string>
+    <string name="settings_show_record_tag_close_hint">选择一个标签后关闭。</string>
     <string name="settings_rate">给我们评分</string>
     <string name="settings_rate_description">评价应用程序并留下评论。</string>
     <string name="settings_feedback">反馈</string>

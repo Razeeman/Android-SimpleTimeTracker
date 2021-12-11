@@ -273,7 +273,8 @@ class ChangeRecordViewModel @Inject constructor(
     private suspend fun loadCategoriesViewData(): List<ViewHolderType> {
         return recordTagViewDataInteractor.getViewData(
             selectedTags = newCategoryIds,
-            typeId = newTypeId
+            typeId = newTypeId,
+            multipleChoiceAvailable = true,
         )
     }
 
