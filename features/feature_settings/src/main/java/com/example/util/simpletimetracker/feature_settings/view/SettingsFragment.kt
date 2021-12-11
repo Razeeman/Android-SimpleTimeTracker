@@ -14,6 +14,7 @@ import com.example.util.simpletimetracker.core.dialog.StandardDialogListener
 import com.example.util.simpletimetracker.core.sharedViewModel.BackupViewModel
 import com.example.util.simpletimetracker.feature_settings.viewData.CardOrderViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.FirstDayOfWeekViewData
+import com.example.util.simpletimetracker.feature_settings.viewData.SettingsStartOfDayViewData
 import com.example.util.simpletimetracker.feature_settings.viewModel.SettingsViewModel
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.feature_views.extension.visible
@@ -57,6 +58,7 @@ class SettingsFragment :
         btnCardOrderManual.setOnClick(viewModel::onCardOrderManualClick)
         spinnerSettingsFirstDayOfWeek.onPositionSelected = viewModel::onFirstDayOfWeekSelected
         groupSettingsStartOfDay.setOnClick(viewModel::onStartOfDayClicked)
+        btnSettingsStartOfDaySign.setOnClick(viewModel::onStartOfDaySignClicked)
         checkboxSettingsShowUntracked.setOnClick(viewModel::onShowUntrackedClicked)
         checkboxSettingsAllowMultitasking.setOnClick(viewModel::onAllowMultitaskingClicked)
         checkboxSettingsShowNotifications.setOnClick(viewModel::onShowNotificationsClicked)
@@ -80,7 +82,7 @@ class SettingsFragment :
         with(viewModel) {
             cardOrderViewData.observe(::updateCardOrderViewData)
             firstDayOfWeekViewData.observe(::updateFirstDayOfWeekViewData)
-            startOfDayViewData.observe(tvSettingsStartOfDayTime::setText)
+            startOfDayViewData.observe(::updateStartOfDayViewData)
             btnCardOrderManualVisibility.observe(btnCardOrderManual::visible::set)
             showUntrackedCheckbox.observe(checkboxSettingsShowUntracked::setChecked)
             allowMultitaskingCheckbox.observe(checkboxSettingsAllowMultitasking::setChecked)
@@ -149,6 +151,12 @@ class SettingsFragment :
     private fun updateShowRecordTagSelectionChecked(isChecked: Boolean) = with(binding) {
         checkboxSettingsShowRecordTagSelection.isChecked = isChecked
         groupSettingsRecordTagSelectionClose.visible = isChecked
+    }
+
+    private fun updateStartOfDayViewData(viewData: SettingsStartOfDayViewData) = with(binding) {
+        tvSettingsStartOfDayTime.text = viewData.startOfDayValue
+        btnSettingsStartOfDaySign.visible = viewData.startOfDaySign.isNotEmpty()
+        tvSettingsStartOfDaySign.text = viewData.startOfDaySign
     }
 
     private fun changeTheme(themeChanged: Boolean) {

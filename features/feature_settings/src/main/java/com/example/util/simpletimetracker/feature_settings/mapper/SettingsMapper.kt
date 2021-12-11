@@ -12,6 +12,7 @@ import com.example.util.simpletimetracker.feature_settings.viewData.FirstDayOfWe
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import kotlin.math.absoluteValue
 
 class SettingsMapper @Inject constructor(
     private val resourceRepo: ResourceRepo,
@@ -69,18 +70,35 @@ class SettingsMapper @Inject constructor(
         }
     }
 
-    fun toStartOfDayShift(timestamp: Long): Long {
+    fun toStartOfDayShift(
+        timestamp: Long,
+        wasPositive: Boolean,
+    ): Long {
         val maxValue = TimeUnit.HOURS.toMillis(24) - TimeUnit.MINUTES.toMillis(1)
         return (timestamp - getStartOfDayTimeStamp()).coerceIn(0..maxValue)
+            .let { if (wasPositive) it else it * -1 }
     }
 
-    fun startOfDayShiftToTimeStamp(startOfDayShift: Long): Long {
-        return getStartOfDayTimeStamp() + startOfDayShift
+    fun startOfDayShiftToTimeStamp(
+        startOfDayShift: Long,
+    ): Long {
+        return getStartOfDayTimeStamp() + startOfDayShift.absoluteValue
     }
 
-    fun toStartOfDayText(startOfDayShift: Long, useMilitaryTime: Boolean): String {
+    fun toStartOfDayText(
+        startOfDayShift: Long,
+        useMilitaryTime: Boolean,
+    ): String {
         val hintTime = startOfDayShiftToTimeStamp(startOfDayShift)
         return timeMapper.formatTime(hintTime, useMilitaryTime)
+    }
+
+    fun toStartOfDaySign(shift: Long): String {
+        return when {
+            shift == 0L -> ""
+            shift > 0 -> resourceRepo.getString(R.string.plus_sign)
+            else -> resourceRepo.getString(R.string.minus_sign)
+        }
     }
 
     fun toUseMilitaryTimeHint(useMilitaryTime: Boolean): String {

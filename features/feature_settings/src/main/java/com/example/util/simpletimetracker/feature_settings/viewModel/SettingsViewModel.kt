@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.NotificationInactivityInteractor
 import com.example.util.simpletimetracker.core.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.core.provider.PackageNameProvider
@@ -14,6 +15,7 @@ import com.example.util.simpletimetracker.feature_settings.R
 import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
 import com.example.util.simpletimetracker.feature_settings.viewData.CardOrderViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.FirstDayOfWeekViewData
+import com.example.util.simpletimetracker.feature_settings.viewData.SettingsStartOfDayViewData
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.ArchiveParams
 import com.example.util.simpletimetracker.navigation.params.screen.CardOrderDialogParams
@@ -93,8 +95,8 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    val startOfDayViewData: LiveData<String> by lazy {
-        MutableLiveData<String>().let { initial ->
+    val startOfDayViewData: LiveData<SettingsStartOfDayViewData> by lazy {
+        MutableLiveData<SettingsStartOfDayViewData>().let { initial ->
             viewModelScope.launch {
                 initial.value = loadStartOfDayViewData()
             }
@@ -236,8 +238,16 @@ class SettingsViewModel @Inject constructor(
                 type = DateTimeDialogType.TIME,
                 timestamp = prefsInteractor.getStartOfDayShift()
                     .let(settingsMapper::startOfDayShiftToTimeStamp),
-                useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat(),
+                useMilitaryTime = true,
             ).let(router::navigate)
+        }
+    }
+
+    fun onStartOfDaySignClicked() {
+        viewModelScope.launch {
+            val newValue = prefsInteractor.getStartOfDayShift() * -1
+            prefsInteractor.setStartOfDayShift(newValue)
+            updateStartOfDayViewData()
         }
     }
 
@@ -356,7 +366,9 @@ class SettingsViewModel @Inject constructor(
     fun onDateTimeSet(timestamp: Long, tag: String?) = viewModelScope.launch {
         when (tag) {
             START_OF_DAY_DIALOG_TAG -> {
-                prefsInteractor.setStartOfDayShift(settingsMapper.toStartOfDayShift(timestamp))
+                val wasPositive = prefsInteractor.getStartOfDayShift() >= 0
+                val newValue = settingsMapper.toStartOfDayShift(timestamp, wasPositive)
+                prefsInteractor.setStartOfDayShift(newValue)
                 updateStartOfDayViewData()
             }
         }
@@ -399,13 +411,21 @@ class SettingsViewModel @Inject constructor(
 
     private suspend fun updateStartOfDayViewData() {
         val data = loadStartOfDayViewData()
-        (startOfDayViewData as MutableLiveData).value = data
+        startOfDayViewData.set(data)
     }
 
-    private suspend fun loadStartOfDayViewData(): String {
-        return settingsMapper.toStartOfDayText(
-            startOfDayShift = prefsInteractor.getStartOfDayShift(),
-            useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
+    private suspend fun loadStartOfDayViewData(): SettingsStartOfDayViewData {
+        val shift = prefsInteractor.getStartOfDayShift()
+        val useMilitaryTimeFormat = prefsInteractor.getUseMilitaryTimeFormat()
+
+        return SettingsStartOfDayViewData(
+            startOfDayValue = settingsMapper.toStartOfDayText(
+                startOfDayShift = shift,
+                useMilitaryTime = useMilitaryTimeFormat,
+            ),
+            startOfDaySign = settingsMapper.toStartOfDaySign(
+                shift = shift
+            )
         )
     }
 

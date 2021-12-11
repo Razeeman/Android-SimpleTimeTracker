@@ -142,7 +142,7 @@
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/tvSettingsInactivityReminderTime"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:gravity="end|center_vertical"
                             android:paddingHorizontal="8dp"
                             android:textColor="?appTextPrimaryColor"
@@ -151,7 +151,7 @@
                         <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/arrowSettingsInactivityReminder"
                             android:layout_width="24dp"
-                            android:layout_height="match_parent"
+                            android:layout_height="24dp"
                             android:layout_marginEnd="16dp"
                             android:background="?selectableItemBackgroundBorderless"
                             android:src="?appArrow"
@@ -548,9 +548,34 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:text="@string/settings_start_of_day"
-                        app:layout_constraintEnd_toStartOf="@id/groupSettingsStartOfDay"
+                        app:layout_constraintEnd_toStartOf="@id/btnSettingsStartOfDaySign"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/btnSettingsStartOfDaySign"
+                        style="@style/SettingsCard"
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:foreground="?selectableItemBackground"
+                        android:visibility="gone"
+                        app:cardBackgroundColor="?appButtonOnCardBackgroundColor"
+                        app:layout_constraintBottom_toBottomOf="@id/tvSettingsStartOfDay"
+                        app:layout_constraintEnd_toStartOf="@id/groupSettingsStartOfDay"
+                        app:layout_constraintTop_toTopOf="@id/tvSettingsStartOfDay"
+                        tools:visibility="visible">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvSettingsStartOfDaySign"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:textColor="?appInactiveColor"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            tools:text="+" />
+
+                    </androidx.cardview.widget.CardView>
 
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:id="@+id/groupSettingsStartOfDay"
@@ -564,11 +589,11 @@
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/tvSettingsStartOfDayTime"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:gravity="end|center_vertical"
                             android:paddingHorizontal="8dp"
                             android:textColor="?appTextPrimaryColor"
-                            tools:text="1:00 PM" />
+                            tools:text="01:23" />
 
                         <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/arrowSettingsStartOfDay"

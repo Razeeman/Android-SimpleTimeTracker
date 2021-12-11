@@ -4,5 +4,7 @@
     <string name="statistics_detail_empty" translatable="false">-</string>
     <string name="support_email" translatable="false">devrazeeman@gmail.com</string>
     <string name="support_email_subject" translatable="false">Simple Time Tracker, feedback</string>
+    <string name="plus_sign" translatable="false">+</string>
+    <string name="minus_sign" translatable="false">-</string>
 
 </resources>
