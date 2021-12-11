@@ -11,19 +11,90 @@
     app:cardUseCompatPadding="false"
     tools:parentTag="androidx.cardview.widget.CardView">
 
-    <com.example.util.simpletimetracker.feature_views.pieChart.PieChartView
-        android:id="@+id/chartWidgetStatistics"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="4dp"
-        app:dividerColor="@color/grey_800"
-        app:dividerWidth="2dp"
-        app:drawIcons="true"
-        app:iconMaxSize="48dp"
-        app:iconPadding="1dp"
-        app:innerRadiusRatio="0.625"
-        app:pieChartAnimated="false"
-        tools:segmentCount="5" />
+        android:layout_height="match_parent">
+
+        <com.example.util.simpletimetracker.feature_views.pieChart.PieChartView
+            android:id="@+id/chartWidgetStatistics"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginVertical="4dp"
+            app:dividerColor="@color/grey_800"
+            app:dividerWidth="2dp"
+            app:drawIcons="true"
+            app:iconMaxSize="48dp"
+            app:iconPadding="1dp"
+            app:innerRadiusRatio="0.625"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.975"
+            app:pieChartAnimated="false"
+            tools:segmentCount="5" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvWidgetStatisticsEmpty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="4dp"
+            android:gravity="center"
+            android:maxLines="2"
+            android:text="@string/statistics_empty"
+            android:textColor="@color/textPrimaryDark"
+            android:textStyle="bold"
+            app:autoSizeMaxTextSize="14sp"
+            app:autoSizeMinTextSize="1sp"
+            app:autoSizeTextType="uniform" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/containerWidgetStatisticsTotal"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/chartWidgetStatistics"
+            app:layout_constraintEnd_toEndOf="@id/chartWidgetStatistics"
+            app:layout_constraintStart_toStartOf="@id/chartWidgetStatistics"
+            app:layout_constraintTop_toTopOf="@id/chartWidgetStatistics">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvWidgetStatisticsTotal"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:textColor="@color/textPrimaryDark"
+                android:textStyle="bold"
+                app:autoSizeMaxTextSize="14sp"
+                app:autoSizeMinTextSize="1sp"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent="0.3"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed"
+                app:layout_constraintWidth_percent="0.3"
+                tools:text="Total\n1h 0m" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/groupWidgetStatisticsEmptyState"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            app:constraint_referenced_ids="tvWidgetStatisticsEmpty"
+            tools:visibility="visible" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/groupWidgetStatisticsDataState"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            app:constraint_referenced_ids="chartWidgetStatistics, containerWidgetStatisticsTotal"
+            tools:visibility="visible" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </merge>

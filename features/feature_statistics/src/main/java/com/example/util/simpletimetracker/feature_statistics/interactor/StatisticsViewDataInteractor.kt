@@ -59,11 +59,11 @@ class StatisticsViewDataInteractor @Inject constructor(
             isDarkTheme = isDarkTheme,
             useProportionalMinutes = useProportionalMinutes
         )
-        val totalTracked: ViewHolderType = statisticsViewDataMapper.mapStatisticsTotalTracked(
+        val totalTracked: ViewHolderType = statisticsMediator.getStatisticsTotalTracked(
             statistics = statistics,
             filteredIds = filteredIds,
             useProportionalMinutes = useProportionalMinutes
-        )
+        ).let(statisticsViewDataMapper::mapStatisticsTotalTracked)
 
         // Assemble data.
         val result: MutableList<ViewHolderType> = mutableListOf()

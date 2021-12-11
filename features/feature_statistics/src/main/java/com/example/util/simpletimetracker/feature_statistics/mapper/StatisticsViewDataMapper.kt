@@ -55,16 +55,11 @@ class StatisticsViewDataMapper @Inject constructor(
             .map { (statistics, _) -> statistics }
     }
 
-    fun mapStatisticsTotalTracked(
-        statistics: List<Statistics>,
-        filteredIds: List<Long>,
-        useProportionalMinutes: Boolean,
-    ): ViewHolderType {
-        val statisticsFiltered = statistics
-            .filterNot { it.id in filteredIds || it.id == UNTRACKED_ITEM_ID }
-        val totalTracked = statisticsFiltered.map(Statistics::duration).sum()
-
-        return mapTotalTracked(totalTracked, useProportionalMinutes)
+    fun mapStatisticsTotalTracked(totalTracked: String): ViewHolderType {
+        return StatisticsInfoViewData(
+            name = resourceRepo.getString(R.string.statistics_total_tracked),
+            text = totalTracked
+        )
     }
 
     fun mapToEmpty(): ViewHolderType {
@@ -128,12 +123,5 @@ class StatisticsViewDataMapper @Inject constructor(
                 return null
             }
         }
-    }
-
-    private fun mapTotalTracked(totalTracked: Long, useProportionalMinutes: Boolean): ViewHolderType {
-        return StatisticsInfoViewData(
-            name = resourceRepo.getString(R.string.statistics_total_tracked),
-            text = timeMapper.formatInterval(totalTracked, useProportionalMinutes)
-        )
     }
 }

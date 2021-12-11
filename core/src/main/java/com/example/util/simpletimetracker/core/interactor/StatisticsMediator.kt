@@ -78,6 +78,17 @@ class StatisticsMediator @Inject constructor(
         }.toMap()
     }
 
+    fun getStatisticsTotalTracked(
+        statistics: List<Statistics>,
+        filteredIds: List<Long>,
+        useProportionalMinutes: Boolean,
+    ): String {
+        val statisticsFiltered = statistics
+            .filterNot { it.id in filteredIds || it.id == UNTRACKED_ITEM_ID }
+        val total = statisticsFiltered.map(Statistics::duration).sum()
+        return timeMapper.formatInterval(total, useProportionalMinutes)
+    }
+
     private suspend fun getAll(
         filterType: ChartFilterType,
     ): List<Statistics> {

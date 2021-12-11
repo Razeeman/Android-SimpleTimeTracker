@@ -53,6 +53,7 @@
     <!--  Statistics  -->
     <string name="statistics_empty">Немає даних для показу</string>
     <string name="statistics_total_tracked">Всього відстежено</string>
+    <string name="statistics_total_tracked_short">Всього</string>
     <string name="statistics_hint">Натисніть на картку для перегляду детальної статистики</string>
 
     <!--  Categories  -->
@@ -231,6 +232,7 @@
     <!--  Widget  -->
     <string name="widget_name">Окрема активність</string>
     <string name="widget_universal_name">Універсальний</string>
+    <string name="widget_statistics_chart_name">Статистичний графік</string>
     <string name="widget_load_error">Не знайдено</string>
 
     <!--  Notification  -->

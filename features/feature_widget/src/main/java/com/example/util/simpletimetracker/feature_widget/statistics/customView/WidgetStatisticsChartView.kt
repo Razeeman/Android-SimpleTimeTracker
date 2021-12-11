@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
+import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.feature_views.pieChart.PiePortion
 import com.example.util.simpletimetracker.feature_widget.R
 import com.example.util.simpletimetracker.feature_widget.databinding.WidgetStatisticsChartViewLayoutBinding
@@ -30,8 +31,19 @@ class WidgetStatisticsChartView @JvmOverloads constructor(
         useCompatPadding = false
     }
 
-    fun setSegments(data: List<PiePortion>) {
-        binding.chartWidgetStatistics.setSegments(data)
+    fun setSegments(data: List<PiePortion>, total: String) = with(binding) {
+        if (data.isEmpty()) {
+            switchDataVisibility(hasData = false)
+        } else {
+            switchDataVisibility(hasData = true)
+            chartWidgetStatistics.setSegments(data)
+            tvWidgetStatisticsTotal.text = total
+        }
         invalidate()
+    }
+
+    private fun switchDataVisibility(hasData: Boolean) = with(binding) {
+        groupWidgetStatisticsDataState.visible = hasData
+        groupWidgetStatisticsEmptyState.visible = !hasData
     }
 }

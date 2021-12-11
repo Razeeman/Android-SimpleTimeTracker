@@ -11,6 +11,7 @@ import android.view.View
 import android.widget.RemoteViews
 import com.example.util.simpletimetracker.core.interactor.StatisticsChartViewDataInteractor
 import com.example.util.simpletimetracker.core.interactor.StatisticsMediator
+import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.utils.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
@@ -43,6 +44,9 @@ class WidgetStatisticsChartProvider : AppWidgetProvider() {
 
     @Inject
     lateinit var recordTypeInteractor: RecordTypeInteractor
+
+    @Inject
+    lateinit var resourceRepo: ResourceRepo
 
     override fun onUpdate(
         context: Context?,
@@ -87,9 +91,9 @@ class WidgetStatisticsChartProvider : AppWidgetProvider() {
         context: Context,
     ): View = runBlocking {
         // TODO remove blocking
-        // TODO add empty state
         val filterType = prefsInteractor.getChartFilterType()
         val isDarkTheme = prefsInteractor.getDarkMode()
+        val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
         val types = recordTypeInteractor.getAll()
         val filteredIds = when (filterType) {
             ChartFilterType.ACTIVITY -> prefsInteractor.getFilteredTypes() + UNTRACKED_ITEM_ID
@@ -114,9 +118,16 @@ class WidgetStatisticsChartProvider : AppWidgetProvider() {
             types = types,
             isDarkTheme = isDarkTheme
         )
+        val total: String = statisticsMediator.getStatisticsTotalTracked(
+            statistics = statistics,
+            filteredIds = filteredIds,
+            useProportionalMinutes = useProportionalMinutes
+        )
+        val totalTracked = resourceRepo.getString(R.string.statistics_total_tracked_short) +
+            "\n" + total
 
         WidgetStatisticsChartView(ContextThemeWrapper(context, R.style.AppTheme)).apply {
-            setSegments(chart)
+            setSegments(chart, totalTracked)
         }
     }
 

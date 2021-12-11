@@ -53,6 +53,7 @@
     <!--  Statistics  -->
     <string name="statistics_empty">Inget att visa</string>
     <string name="statistics_total_tracked">Antal händelser</string>
+    <string name="statistics_total_tracked_short">Total</string>
     <string name="statistics_hint">Tryck på ett kort för att se detaljerad statistik</string>
 
     <!--  Categories  -->
@@ -231,6 +232,7 @@
     <!--  Widget  -->
     <string name="widget_name">Enskild Aktivitet</string>
     <string name="widget_universal_name">Samma för alla</string>
+    <string name="widget_statistics_chart_name">Statistikdiagram</string>
     <string name="widget_load_error">Saknas</string>
 
     <!--  Notification  -->
