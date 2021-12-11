@@ -20,6 +20,7 @@ import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.feature_views.extension.dpToPx
 import com.example.util.simpletimetracker.feature_views.extension.getBitmapFromView
 import com.example.util.simpletimetracker.feature_views.extension.measureExactly
+import com.example.util.simpletimetracker.feature_views.extension.pxToDp
 import com.example.util.simpletimetracker.feature_widget.R
 import com.example.util.simpletimetracker.feature_widget.statistics.customView.WidgetStatisticsChartView
 import com.example.util.simpletimetracker.navigation.Router
@@ -136,8 +137,11 @@ class WidgetStatisticsChartProvider : AppWidgetProvider() {
         options: Bundle,
         view: View,
     ) {
-        var width = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH).dpToPx()
-        var height = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT).dpToPx()
+        val defaultWidth = context.resources.getDimensionPixelSize(R.dimen.record_type_card_width).pxToDp()
+        val defaultHeight = context.resources.getDimensionPixelSize(R.dimen.record_type_card_height).pxToDp()
+
+        var width = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH, defaultWidth).dpToPx()
+        var height = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT, defaultHeight).dpToPx()
         val inflater = LayoutInflater.from(context)
 
         val entireView: View = inflater.inflate(R.layout.widget_layout, null)
