@@ -69,10 +69,11 @@ class TypesFilterViewDataInteractor @Inject constructor(
             )
         }
 
-        val recordTagsViewData = recordTags
+        val recordTagsViewData = selectedTypes
             .asSequence()
-            .filter { it.typeId in selectedTypes }
-            .groupBy { it.typeId }
+            .map { typeId ->
+                typeId to recordTags.filter { it.typeId == typeId }
+            }
             .mapNotNull { (typeId, tags) ->
                 typeId to typesFilterMapper.mapRecordTagUntagged(
                     type = typesMap[typeId] ?: return@mapNotNull null,
@@ -87,13 +88,11 @@ class TypesFilterViewDataInteractor @Inject constructor(
                     isDarkTheme = isDarkTheme
                 )
             }
-            .sortedBy { (typeId, _) ->
-                val type = types.firstOrNull { it.id == typeId } ?: 0
-                types.indexOf(type)
-            }
             .map { (_, tags) -> tags }
             .flatten()
-            .plus(
+            .toList()
+            .takeUnless {it.isEmpty() }
+            ?.plus(
                 mapTags(
                     filter = filter,
                     tags = recordTags.filter { it.typeId == 0L },
@@ -101,7 +100,7 @@ class TypesFilterViewDataInteractor @Inject constructor(
                     isDarkTheme = isDarkTheme
                 )
             )
-            .toList()
+            .orEmpty()
 
         if (activityTagsViewData.isNotEmpty()) {
             HintViewData(resourceRepo.getString(R.string.activity_tag_hint)).let(result::add)
