@@ -155,7 +155,7 @@
     <string name="settings_allow_multitasking_hint">If disabled starting new timer will automatically stop other activities.</string>
     <string name="settings_show_notifications">Show timer notifications</string>
     <string name="settings_show_notifications_hint">Show notifications when timers are running.</string>
-    <string name="settings_start_of_day">Start of the day</string>
+    <string name="settings_start_of_day">Shift start of the day</string>
     <string name="settings_inactivity_reminder">Show inactivity reminder</string>
     <string name="settings_inactivity_reminder_hint">Show notification after specified time if no timers are running.</string>
     <string name="settings_inactivity_reminder_disabled">Disabled</string>
