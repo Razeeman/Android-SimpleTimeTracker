@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.core.extension.addOrRemove
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.RecordTagViewDataInteractor
 import com.example.util.simpletimetracker.core.interactor.RecordTypesViewDataInteractor
+import com.example.util.simpletimetracker.core.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.extension.flip
@@ -17,6 +18,7 @@ import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.Record
+import com.example.util.simpletimetracker.domain.model.WidgetType
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
@@ -40,6 +42,7 @@ class ChangeRecordViewModel @Inject constructor(
     private val timeMapper: TimeMapper,
     private val resourceRepo: ResourceRepo,
     private val prefsInteractor: PrefsInteractor,
+    private val widgetInteractor: WidgetInteractor,
 ) : ViewModel() {
 
     lateinit var extra: ChangeRecordParams
@@ -156,6 +159,7 @@ class ChangeRecordViewModel @Inject constructor(
                 tagIds = newCategoryIds
             ).let {
                 recordInteractor.add(it)
+                widgetInteractor.updateWidgets(listOf(WidgetType.STATISTICS_CHART))
                 (keyboardVisibility as MutableLiveData).value = false
                 router.back()
             }

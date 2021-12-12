@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.feature_main
+package com.example.util.simpletimetracker.feature_main.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter

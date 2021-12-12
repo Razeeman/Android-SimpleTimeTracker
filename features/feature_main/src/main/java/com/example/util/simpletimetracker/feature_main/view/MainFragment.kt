@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.feature_main
+package com.example.util.simpletimetracker.feature_main.view
 
 import android.graphics.ColorFilter
 import android.view.LayoutInflater
@@ -8,18 +8,17 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.extension.getThemedAttr
-import com.example.util.simpletimetracker.core.interactor.NotificationTypeInteractor
-import com.example.util.simpletimetracker.core.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.core.sharedViewModel.BackupViewModel
+import com.example.util.simpletimetracker.feature_main.R
+import com.example.util.simpletimetracker.feature_main.adapter.MainContentAdapter
+import com.example.util.simpletimetracker.feature_main.viewModel.MainViewModel
 import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 import com.example.util.simpletimetracker.feature_main.databinding.MainFragmentBinding as Binding
 
@@ -30,14 +29,13 @@ class MainFragment : BaseFragment<Binding>() {
         Binding::inflate
 
     @Inject
+    lateinit var viewModelFactory: BaseViewModelFactory<MainViewModel>
+    @Inject
     lateinit var backupViewModelFactory: BaseViewModelFactory<BackupViewModel>
 
-    @Inject
-    lateinit var notificationTypeInteractor: NotificationTypeInteractor
-
-    @Inject
-    lateinit var widgetInteractor: WidgetInteractor
-
+    private val viewModel: MainViewModel by viewModels(
+        factoryProducer = { viewModelFactory }
+    )
     private val backupViewModel: BackupViewModel by viewModels(
         ownerProducer = { activity as AppCompatActivity },
         factoryProducer = { backupViewModelFactory }
@@ -47,11 +45,11 @@ class MainFragment : BaseFragment<Binding>() {
     private val unselectedColorFilter by lazy { getColorFilter(R.attr.appTabUnselectedColor) }
 
     override fun initUi() {
-        syncState()
         setupPager()
     }
 
     override fun initViewModel() = with(binding) {
+        viewModel.initialize
         backupViewModel.progressVisibility.observe(mainProgress::visible::set)
     }
 
@@ -88,13 +86,6 @@ class MainFragment : BaseFragment<Binding>() {
                 tab?.icon?.colorFilter = selectedColorFilter
             }
         })
-    }
-
-    private fun syncState() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            notificationTypeInteractor.checkAndShowAll()
-            widgetInteractor.updateWidgets()
-        }
     }
 
     private fun getColorFilter(@AttrRes attrRes: Int): ColorFilter? {

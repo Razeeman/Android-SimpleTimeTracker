@@ -7,10 +7,12 @@ import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.NotificationInactivityInteractor
 import com.example.util.simpletimetracker.core.interactor.NotificationTypeInteractor
+import com.example.util.simpletimetracker.core.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.core.provider.PackageNameProvider
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.model.CardOrder
+import com.example.util.simpletimetracker.domain.model.WidgetType
 import com.example.util.simpletimetracker.feature_settings.R
 import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
 import com.example.util.simpletimetracker.feature_settings.viewData.CardOrderViewData
@@ -38,6 +40,7 @@ class SettingsViewModel @Inject constructor(
     private val settingsMapper: SettingsMapper,
     private val packageNameProvider: PackageNameProvider,
     private val notificationTypeInteractor: NotificationTypeInteractor,
+    private val widgetInteractor: WidgetInteractor,
     private val notificationInactivityInteractor: NotificationInactivityInteractor,
 ) : ViewModel() {
 
@@ -247,6 +250,7 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch {
             val newValue = prefsInteractor.getStartOfDayShift() * -1
             prefsInteractor.setStartOfDayShift(newValue)
+            widgetInteractor.updateWidgets(listOf(WidgetType.STATISTICS_CHART))
             updateStartOfDayViewData()
         }
     }
@@ -311,6 +315,7 @@ class SettingsViewModel @Inject constructor(
             prefsInteractor.setUseProportionalMinutes(newValue)
             (useProportionalMinutesCheckbox as MutableLiveData).value = newValue
             notificationTypeInteractor.updateNotifications()
+            widgetInteractor.updateWidgets(listOf(WidgetType.STATISTICS_CHART))
             updateUseProportionalMinutesViewData()
         }
     }
@@ -369,6 +374,7 @@ class SettingsViewModel @Inject constructor(
                 val wasPositive = prefsInteractor.getStartOfDayShift() >= 0
                 val newValue = settingsMapper.toStartOfDayShift(timestamp, wasPositive)
                 prefsInteractor.setStartOfDayShift(newValue)
+                widgetInteractor.updateWidgets(listOf(WidgetType.STATISTICS_CHART))
                 updateStartOfDayViewData()
             }
         }

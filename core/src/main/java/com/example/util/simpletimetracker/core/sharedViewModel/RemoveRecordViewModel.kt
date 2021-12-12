@@ -5,10 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.R
+import com.example.util.simpletimetracker.core.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.Record
+import com.example.util.simpletimetracker.domain.model.WidgetType
 import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordParams
 import kotlinx.coroutines.launch
@@ -18,6 +20,7 @@ class RemoveRecordViewModel @Inject constructor(
     private val resourceRepo: ResourceRepo,
     private val recordInteractor: RecordInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
+    private val widgetInteractor: WidgetInteractor,
 ) : ViewModel() {
 
     val deleteButtonEnabled: LiveData<Boolean> = MutableLiveData()
@@ -51,6 +54,8 @@ class RemoveRecordViewModel @Inject constructor(
                 }
 
                 recordInteractor.remove(recordId)
+                widgetInteractor.updateWidgets(listOf(WidgetType.STATISTICS_CHART))
+
                 (needUpdate as MutableLiveData).value = true
 
                 (message as MutableLiveData).value = SnackBarParams(

@@ -6,7 +6,5 @@ interface NotificationTypeInteractor {
 
     suspend fun checkAndHide(typeId: Long)
 
-    suspend fun checkAndShowAll()
-
     suspend fun updateNotifications()
 }

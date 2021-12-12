@@ -36,14 +36,12 @@ class SettingsFragment :
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<SettingsViewModel>
-
     @Inject
     lateinit var backupViewModelFactory: BaseViewModelFactory<BackupViewModel>
 
     private val viewModel: SettingsViewModel by viewModels(
         factoryProducer = { viewModelFactory }
     )
-
     private val backupViewModel: BackupViewModel by viewModels(
         ownerProducer = { activity as AppCompatActivity },
         factoryProducer = { backupViewModelFactory }
@@ -109,6 +107,7 @@ class SettingsFragment :
             checkboxSettingsShowNotifications.jumpDrawablesToCurrentState()
             checkboxSettingsDarkMode.jumpDrawablesToCurrentState()
             checkboxSettingsUseMilitaryTime.jumpDrawablesToCurrentState()
+            checkboxSettingsUseProportionalMinutes.jumpDrawablesToCurrentState()
             checkboxSettingsShowRecordTagSelection.jumpDrawablesToCurrentState()
             checkboxSettingsRecordTagSelectionClose.jumpDrawablesToCurrentState()
         }

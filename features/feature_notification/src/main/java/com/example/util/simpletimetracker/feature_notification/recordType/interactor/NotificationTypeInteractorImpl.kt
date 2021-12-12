@@ -54,12 +54,6 @@ class NotificationTypeInteractorImpl @Inject constructor(
         hide(typeId)
     }
 
-    override suspend fun checkAndShowAll() {
-        if (!prefsInteractor.getShowNotifications()) return
-
-        showAll()
-    }
-
     override suspend fun updateNotifications() {
         if (prefsInteractor.getShowNotifications()) {
             showAll()
