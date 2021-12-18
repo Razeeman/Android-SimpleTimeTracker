@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.di
 import com.example.util.simpletimetracker.R
 import com.example.util.simpletimetracker.feature_dialogs.archive.view.ArchiveDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.cardOrder.view.CardOrderDialogFragment
+import com.example.util.simpletimetracker.feature_dialogs.colorSelection.view.ColorSelectionDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.customRangeSelection.view.CustomRangeSelectionDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.dateTime.DateTimeDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.duration.view.DurationDialogFragment
@@ -122,7 +123,7 @@ class NavigationDialogMapModule {
     fun colorSelectionDialog(): NavigationData {
         return NavigationData(
             R.id.colorSelectionDialogFragment,
-            BundleCreator.empty()
+            bundleCreatorDelegate(ColorSelectionDialogFragment::createBundle)
         )
     }
 

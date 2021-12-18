@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.feature_dialogs.colorSelection.view
 
 import android.content.Context
+import android.os.Bundle
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -13,11 +14,13 @@ import com.example.util.simpletimetracker.core.dialog.ColorSelectionDialogListen
 import com.example.util.simpletimetracker.core.extension.getAllFragments
 import com.example.util.simpletimetracker.core.extension.setFullScreen
 import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
+import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
 import com.example.util.simpletimetracker.feature_dialogs.colorSelection.customView.ColorSelectionView
-import com.example.util.simpletimetracker.feature_dialogs.colorSelection.viewModel.ColorSelectionViewModel
 import com.example.util.simpletimetracker.feature_dialogs.colorSelection.model.HSVUpdate
 import com.example.util.simpletimetracker.feature_dialogs.colorSelection.model.RGBUpdate
+import com.example.util.simpletimetracker.feature_dialogs.colorSelection.viewModel.ColorSelectionViewModel
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
+import com.example.util.simpletimetracker.navigation.params.screen.ColorSelectionDialogParams
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -36,6 +39,9 @@ class ColorSelectionDialogFragment : BaseBottomSheetFragment<Binding>() {
         factoryProducer = { viewModelFactory }
     )
 
+    private val params: ColorSelectionDialogParams by fragmentArgumentDelegate(
+        key = ARGS_PARAMS, default = ColorSelectionDialogParams(),
+    )
     private var colorSelectionDialogListener: ColorSelectionDialogListener? = null
 
     // TODO do better?
@@ -102,7 +108,10 @@ class ColorSelectionDialogFragment : BaseBottomSheetFragment<Binding>() {
     }
 
     override fun initViewModel(): Unit = with(viewModel) {
+        extra = params
         colorData.observe {
+            binding.sliderColorSelectionHue.value = it.colorHue
+
             binding.viewColorSelectionView.setHue(
                 hue = it.colorHue,
                 saturation = it.colorSaturation,
@@ -135,5 +144,13 @@ class ColorSelectionDialogFragment : BaseBottomSheetFragment<Binding>() {
     private fun onColorSelected(colorHex: String) {
         colorSelectionDialogListener?.onColorSelected(colorHex)
         dismiss()
+    }
+
+    companion object {
+        private const val ARGS_PARAMS = "args_params"
+
+        fun createBundle(data: ColorSelectionDialogParams): Bundle = Bundle().apply {
+            putParcelable(ARGS_PARAMS, data)
+        }
     }
 }

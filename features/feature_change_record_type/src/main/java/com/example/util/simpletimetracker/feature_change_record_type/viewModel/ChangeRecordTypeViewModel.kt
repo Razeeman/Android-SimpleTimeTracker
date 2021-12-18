@@ -60,6 +60,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     private val changeRecordTypeMapper: ChangeRecordTypeMapper,
     private val resourceRepo: ResourceRepo,
     private val iconEmojiMapper: IconEmojiMapper,
+    private val colorMapper: ColorMapper,
 ) : ViewModel() {
 
     lateinit var extra: ChangeRecordTypeParams
@@ -127,6 +128,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     private var newIconName: String = ""
     private var newCategories: MutableList<Long> = mutableListOf()
     private var newColorId: Int = (0..ColorMapper.colorsNumber).random()
+    private var lastSelectedCustomColor: String = "#FF0000"
     private var newGoalTime: Long = 0L
 
     fun onNameChange(name: String) {
@@ -188,7 +190,9 @@ class ChangeRecordTypeViewModel @Inject constructor(
     }
 
     fun onColorPaletteClick() {
-        router.navigate(ColorSelectionDialogParams)
+        ColorSelectionDialogParams(
+            preselectedColor = colorMapper.mapHexToColor(lastSelectedCustomColor)
+        ).let(router::navigate)
     }
 
     fun onIconTypeClick(viewData: ButtonsRowViewData) {
@@ -240,7 +244,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     }
 
     fun onCustomColorSelected(colorHex: String) {
-        // TODO set custom color
+        lastSelectedCustomColor = colorHex
     }
 
     fun onGoalTimeClick() {
