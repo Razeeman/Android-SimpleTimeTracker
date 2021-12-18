@@ -86,5 +86,19 @@ class AppDatabaseMigrations {
                 )
             }
         }
+
+        val migration_7_8 = object : Migration(7, 8) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL(
+                    "ALTER TABLE recordTypes ADD COLUMN color_int TEXT NOT NULL DEFAULT ''"
+                )
+                database.execSQL(
+                    "ALTER TABLE categories ADD COLUMN color_int TEXT NOT NULL DEFAULT ''"
+                )
+                database.execSQL(
+                    "ALTER TABLE recordTags ADD COLUMN color_int TEXT NOT NULL DEFAULT ''"
+                )
+            }
+        }
     }
 }

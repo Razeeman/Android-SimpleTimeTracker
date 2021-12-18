@@ -11,6 +11,7 @@ import com.example.util.simpletimetracker.domain.interactor.RecordToRecordTagInt
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
+import com.example.util.simpletimetracker.domain.model.AppColor
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.Record
@@ -56,6 +57,7 @@ class TestUtils @Inject constructor(
     fun addActivity(
         name: String,
         color: Int? = null,
+        colorInt: Int? = null,
         icon: Int? = null,
         emoji: String? = null,
         goalTime: Long? = null,
@@ -76,7 +78,7 @@ class TestUtils @Inject constructor(
 
         val data = RecordType(
             name = name,
-            color = colorId,
+            color = AppColor(colorId = colorId, colorInt = colorInt.toString()),
             icon = iconId,
             goalTime = goalTime.orZero(),
             hidden = archived
@@ -125,7 +127,7 @@ class TestUtils @Inject constructor(
     ) = runBlocking {
         val data = Category(
             name = tagName,
-            color = 0
+            color = AppColor(colorId = 0, colorInt = ""),
         )
 
         categoryInteractor.add(data)
@@ -141,8 +143,8 @@ class TestUtils @Inject constructor(
         val data = RecordTag(
             typeId = type?.id.orZero(),
             name = tagName,
-            color = 0,
-            archived = archived
+            color = AppColor(colorId = 0, colorInt = ""),
+            archived = archived,
         )
 
         recordTagInteractor.add(data)

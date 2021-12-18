@@ -47,8 +47,7 @@ class WidgetUniversalViewDataMapper @Inject constructor(
                 ?.let(iconMapper::mapIcon)
                 ?: RecordTypeIcon.Image(R.drawable.unknown)
             val color = recordType?.color
-                ?.let { colorMapper.mapToColorResId(it, isDarkTheme) }
-                ?.let(resourceRepo::getColor)
+                ?.let { colorMapper.mapToColorInt(it, isDarkTheme) }
                 ?: Color.BLACK
 
             IconStackData(icon = icon, iconBackgroundColor = color)

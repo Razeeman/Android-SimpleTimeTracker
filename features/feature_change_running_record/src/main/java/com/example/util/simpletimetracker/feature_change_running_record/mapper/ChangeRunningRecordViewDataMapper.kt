@@ -44,11 +44,9 @@ class ChangeRunningRecordViewDataMapper @Inject constructor(
                 .orEmpty(),
             iconId = recordType?.icon.orEmpty()
                 .let(iconMapper::mapIcon),
-            color = (
-                recordType?.color
-                    ?.let { colorMapper.mapToColorResId(it, isDarkTheme) }
-                    ?: ColorMapper.getAvailableColors(isDarkTheme).random()
-                ).let(resourceRepo::getColor),
+            color = recordType?.color
+                ?.let { colorMapper.mapToColorInt(it, isDarkTheme) }
+                ?: ColorMapper.getAvailableColors(isDarkTheme).random().let(resourceRepo::getColor),
             comment = runningRecord.comment
         )
     }

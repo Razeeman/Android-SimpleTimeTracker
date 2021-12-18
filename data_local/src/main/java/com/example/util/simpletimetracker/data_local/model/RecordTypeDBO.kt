@@ -19,6 +19,10 @@ data class RecordTypeDBO(
     @ColumnInfo(name = "color")
     val color: Int,
 
+    // If not empty - take color from here, custom colorInt stored as text.
+    @ColumnInfo(name = "color_int")
+    val colorInt: String,
+
     @ColumnInfo(name = "hidden")
     val hidden: Boolean,
 

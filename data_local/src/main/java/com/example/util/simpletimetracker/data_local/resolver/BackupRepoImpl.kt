@@ -4,6 +4,7 @@ import android.content.ContentResolver
 import android.net.Uri
 import android.os.ParcelFileDescriptor
 import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.domain.model.AppColor
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordTag
@@ -190,13 +191,14 @@ class BackupRepoImpl @Inject constructor(
 
     private fun toBackupString(recordType: RecordType): String {
         return String.format(
-            "$ROW_RECORD_TYPE\t%s\t%s\t%s\t%s\t%s\t%s\n",
+            "$ROW_RECORD_TYPE\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n",
             recordType.id.toString(),
             recordType.name.clean(),
             recordType.icon,
-            recordType.color.toString(),
+            recordType.color.colorId.toString(),
             (if (recordType.hidden) 1 else 0).toString(),
-            recordType.goalTime.toString()
+            recordType.goalTime.toString(),
+            recordType.color.colorInt
         )
     }
 
@@ -214,10 +216,11 @@ class BackupRepoImpl @Inject constructor(
 
     private fun toBackupString(category: Category): String {
         return String.format(
-            "$ROW_CATEGORY\t%s\t%s\t%s\n",
+            "$ROW_CATEGORY\t%s\t%s\t%s\t%s\n",
             category.id.toString(),
             category.name.clean(),
-            category.color.toString()
+            category.color.colorId.toString(),
+            category.color.colorInt,
         )
     }
 
@@ -231,12 +234,13 @@ class BackupRepoImpl @Inject constructor(
 
     private fun toBackupString(recordTag: RecordTag): String {
         return String.format(
-            "$ROW_RECORD_TAG\t%s\t%s\t%s\t%s\t%s\n",
+            "$ROW_RECORD_TAG\t%s\t%s\t%s\t%s\t%s\t%s\n",
             recordTag.id.toString(),
             recordTag.typeId.toString(),
             recordTag.name.clean(),
             (if (recordTag.archived) 1 else 0).toString(),
-            recordTag.color.toString(),
+            recordTag.color.colorId.toString(),
+            recordTag.color.colorInt,
         )
     }
 
@@ -253,7 +257,10 @@ class BackupRepoImpl @Inject constructor(
             id = parts.getOrNull(1)?.toLongOrNull().orZero(),
             name = parts.getOrNull(2).orEmpty(),
             icon = parts.getOrNull(3).orEmpty(),
-            color = parts.getOrNull(4)?.toIntOrNull().orZero(),
+            color = AppColor(
+                colorId = parts.getOrNull(4)?.toIntOrNull().orZero(),
+                colorInt = parts.getOrNull(7).orEmpty(),
+            ),
             hidden = parts.getOrNull(5)?.toIntOrNull() == 1,
             goalTime = parts.getOrNull(6)?.toLongOrNull().orZero()
         )
@@ -281,7 +288,10 @@ class BackupRepoImpl @Inject constructor(
         return Category(
             id = parts.getOrNull(1)?.toLongOrNull().orZero(),
             name = parts.getOrNull(2).orEmpty(),
-            color = parts.getOrNull(3)?.toIntOrNull().orZero()
+            color = AppColor(
+                colorId = parts.getOrNull(3)?.toIntOrNull().orZero(),
+                colorInt = parts.getOrNull(4).orEmpty(),
+            )
         )
     }
 
@@ -298,7 +308,10 @@ class BackupRepoImpl @Inject constructor(
             typeId = parts.getOrNull(2)?.toLongOrNull().orZero(),
             name = parts.getOrNull(3).orEmpty(),
             archived = parts.getOrNull(4)?.toIntOrNull() == 1,
-            color = parts.getOrNull(5)?.toIntOrNull().orZero(),
+            color = AppColor(
+                colorId = parts.getOrNull(5)?.toIntOrNull().orZero(),
+                colorInt = parts.getOrNull(6).orEmpty(),
+            )
         )
     }
 

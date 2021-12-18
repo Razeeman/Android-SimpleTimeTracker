@@ -115,8 +115,7 @@ class StatisticsViewDataMapper @Inject constructor(
                     icon = dataHolder.icon
                         ?.let(iconMapper::mapIcon),
                     color = dataHolder.color
-                        .let { colorMapper.mapToColorResId(it, isDarkTheme) }
-                        .let(resourceRepo::getColor)
+                        .let { colorMapper.mapToColorInt(it, isDarkTheme) },
                 )
             }
             else -> {

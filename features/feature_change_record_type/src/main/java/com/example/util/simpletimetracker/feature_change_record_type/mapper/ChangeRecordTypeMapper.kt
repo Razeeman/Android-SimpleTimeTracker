@@ -7,6 +7,7 @@ import com.example.util.simpletimetracker.core.mapper.IconEmojiMapper
 import com.example.util.simpletimetracker.core.mapper.IconImageMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.domain.model.AppColor
 import com.example.util.simpletimetracker.feature_base_adapter.emoji.EmojiViewData
 import com.example.util.simpletimetracker.domain.model.IconEmojiCategory
 import com.example.util.simpletimetracker.domain.model.IconImageCategory
@@ -25,7 +26,7 @@ class ChangeRecordTypeMapper @Inject constructor(
     private val timeMapper: TimeMapper,
     private val iconImageMapper: IconImageMapper,
     private val iconEmojiMapper: IconEmojiMapper,
-    private val colorMapper: ColorMapper
+    private val colorMapper: ColorMapper,
 ) {
 
     fun mapToEmpty(): List<ViewHolderType> {
@@ -43,25 +44,25 @@ class ChangeRecordTypeMapper @Inject constructor(
     }
 
     fun mapIconImageData(
-        newColorId: Int,
-        isDarkTheme: Boolean
+        newColor: AppColor,
+        isDarkTheme: Boolean,
     ): List<ViewHolderType> {
         return iconImageMapper.getAvailableImages().map { (category, images) ->
             listOf(mapImageCategoryHintViewData(category)) +
                 images.map { (iconName, iconResId) ->
-                    mapImageViewData(iconName, iconResId, newColorId, isDarkTheme)
+                    mapImageViewData(iconName, iconResId, newColor, isDarkTheme)
                 }
         }.flatten()
     }
 
     fun mapIconEmojiData(
-        newColorId: Int,
-        isDarkTheme: Boolean
+        newColor: AppColor,
+        isDarkTheme: Boolean,
     ): List<ViewHolderType> {
         return iconEmojiMapper.getAvailableEmojis().map { (category, codes) ->
             listOf(mapEmojiCategoryHintViewData(category)) +
                 codes.map { code ->
-                    mapEmojiViewData(code, newColorId, isDarkTheme)
+                    mapEmojiViewData(code, newColor, isDarkTheme)
                 }
         }.flatten()
     }
@@ -98,11 +99,14 @@ class ChangeRecordTypeMapper @Inject constructor(
     }
 
     fun mapEmojiSelectionParams(
-        colorId: Int,
-        emojiCodes: String
+        color: AppColor,
+        emojiCodes: String,
     ): EmojiSelectionDialogParams {
         return EmojiSelectionDialogParams(
-            color = colorId,
+            color = EmojiSelectionDialogParams.Color(
+                colorId = color.colorId,
+                colorInt = color.colorInt,
+            ),
             emojiCodes = listOf(emojiCodes) + iconEmojiMapper.toSkinToneVariations(emojiCodes)
         )
     }
@@ -117,34 +121,32 @@ class ChangeRecordTypeMapper @Inject constructor(
     private fun mapImageViewData(
         iconName: String,
         iconResId: Int,
-        newColorId: Int,
-        isDarkTheme: Boolean
+        newColor: AppColor,
+        isDarkTheme: Boolean,
     ): ViewHolderType {
         return ChangeRecordTypeIconViewData(
             iconName = iconName,
             iconResId = iconResId,
-            colorInt = newColorId
-                .let { colorMapper.mapToColorResId(it, isDarkTheme) }
-                .let(resourceRepo::getColor)
+            colorInt = newColor
+                .let { colorMapper.mapToColorInt(it, isDarkTheme) }
         )
     }
 
     private fun mapEmojiViewData(
         codes: String,
-        newColorId: Int,
-        isDarkTheme: Boolean
+        newColor: AppColor,
+        isDarkTheme: Boolean,
     ): ViewHolderType {
         return EmojiViewData(
             emojiText = iconEmojiMapper.toEmojiString(codes),
             emojiCodes = codes,
-            colorInt = newColorId
-                .let { colorMapper.mapToColorResId(it, isDarkTheme) }
-                .let(resourceRepo::getColor)
+            colorInt = newColor
+                .let { colorMapper.mapToColorInt(it, isDarkTheme) }
         )
     }
 
     private fun mapImageCategoryHintViewData(
-        category: IconImageCategory
+        category: IconImageCategory,
     ): ChangeRecordTypeIconCategoryInfoViewData {
         return ChangeRecordTypeIconCategoryInfoViewData(
             type = ChangeRecordTypeIconTypeViewData.Image(category.type),
@@ -153,7 +155,7 @@ class ChangeRecordTypeMapper @Inject constructor(
     }
 
     private fun mapEmojiCategoryHintViewData(
-        category: IconEmojiCategory
+        category: IconEmojiCategory,
     ): ChangeRecordTypeIconCategoryInfoViewData {
         return ChangeRecordTypeIconCategoryInfoViewData(
             type = ChangeRecordTypeIconTypeViewData.Emoji(category.type),

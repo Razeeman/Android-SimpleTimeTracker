@@ -100,7 +100,7 @@ class RecordTypeInteractor @Inject constructor(
     }
 
     private fun sortByColor(records: List<RecordType>): List<RecordType> {
-        return records.sortedBy(RecordType::color)
+        return records.sortedBy { it.color.colorId } // TODO fix sort with custom colors
     }
 
     private suspend fun sortByManualOrder(records: List<RecordType>): List<RecordType> {

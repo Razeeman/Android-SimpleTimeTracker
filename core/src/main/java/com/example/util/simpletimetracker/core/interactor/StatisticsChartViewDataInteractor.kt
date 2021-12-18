@@ -3,7 +3,6 @@ package com.example.util.simpletimetracker.core.interactor
 import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
-import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.utils.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.core.viewData.StatisticsDataHolder
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
@@ -17,7 +16,6 @@ import javax.inject.Inject
 class StatisticsChartViewDataInteractor @Inject constructor(
     private val iconMapper: IconMapper,
     private val colorMapper: ColorMapper,
-    private val resourceRepo: ResourceRepo,
     private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
 ) {
 
@@ -93,8 +91,7 @@ class StatisticsChartViewDataInteractor @Inject constructor(
                 PiePortion(
                     value = statistics.duration,
                     colorInt = dataHolder.color
-                        .let { colorMapper.mapToColorResId(it, isDarkTheme) }
-                        .let(resourceRepo::getColor),
+                        .let { colorMapper.mapToColorInt(it, isDarkTheme) },
                     iconId = dataHolder.icon
                         ?.let(iconMapper::mapIcon)
                 )

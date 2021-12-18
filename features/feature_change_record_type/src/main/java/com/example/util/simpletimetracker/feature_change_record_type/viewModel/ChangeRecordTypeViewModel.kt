@@ -22,6 +22,7 @@ import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
+import com.example.util.simpletimetracker.domain.model.AppColor
 import com.example.util.simpletimetracker.domain.model.IconType
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
@@ -60,6 +61,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     private val changeRecordTypeMapper: ChangeRecordTypeMapper,
     private val resourceRepo: ResourceRepo,
     private val iconEmojiMapper: IconEmojiMapper,
+    private val colorMapper: ColorMapper,
 ) : ViewModel() {
 
     lateinit var extra: ChangeRecordTypeParams
@@ -126,8 +128,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     private var newName: String = ""
     private var newIconName: String = ""
     private var newCategories: MutableList<Long> = mutableListOf()
-    private var newColorId: Int = (0..ColorMapper.colorsNumber).random()
-    private var lastSelectedCustomColor: Int = 0xFF0000
+    private var newColor: AppColor = AppColor(colorId = (0..ColorMapper.colorsNumber).random(), colorInt = "")
     private var newGoalTime: Long = 0L
 
     fun onNameChange(name: String) {
@@ -180,8 +181,8 @@ class ChangeRecordTypeViewModel @Inject constructor(
 
     fun onColorClick(item: ColorViewData) {
         viewModelScope.launch {
-            if (item.colorId != newColorId) {
-                newColorId = item.colorId
+            if (item.colorId != newColor.colorId || newColor.colorInt.isNotEmpty()) {
+                newColor = AppColor(colorId = item.colorId, colorInt = "")
                 updateRecordPreviewViewData()
                 updateIcons()
             }
@@ -189,9 +190,14 @@ class ChangeRecordTypeViewModel @Inject constructor(
     }
 
     fun onColorPaletteClick() {
-        ColorSelectionDialogParams(
-            preselectedColor = lastSelectedCustomColor
-        ).let(router::navigate)
+        viewModelScope.launch {
+            ColorSelectionDialogParams(
+                preselectedColor = colorMapper.mapToColorInt(
+                    color = newColor,
+                    isDarkTheme = prefsInteractor.getDarkMode()
+                )
+            ).let(router::navigate)
+        }
     }
 
     fun onIconTypeClick(viewData: ButtonsRowViewData) {
@@ -243,7 +249,13 @@ class ChangeRecordTypeViewModel @Inject constructor(
     }
 
     fun onCustomColorSelected(colorInt: Int) {
-        lastSelectedCustomColor = colorInt
+        viewModelScope.launch {
+            if (colorInt.toString() != newColor.colorInt) {
+                newColor = AppColor(colorId = 0, colorInt = colorInt.toString())
+                updateRecordPreviewViewData()
+                updateIcons()
+            }
+        }
     }
 
     fun onGoalTimeClick() {
@@ -318,7 +330,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
 
     private fun openEmojiSelectionDialog(item: EmojiViewData) {
         val params = changeRecordTypeMapper.mapEmojiSelectionParams(
-            colorId = newColorId,
+            color = newColor,
             emojiCodes = item.emojiCodes
         )
 
@@ -330,7 +342,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
             id = recordTypeId,
             name = newName,
             icon = newIconName,
-            color = newColorId,
+            color = newColor,
             goalTime = newGoalTime
         )
 
@@ -350,7 +362,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
             ?.let {
                 newName = it.name
                 newIconName = it.icon
-                newColorId = it.color
+                newColor = it.color
                 newGoalTime = it.goalTime
                 updateIcons()
                 updateGoalTimeViewData()
@@ -375,7 +387,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
         return RecordType(
             name = newName,
             icon = newIconName,
-            color = newColorId,
+            color = newColor,
             goalTime = 0
         ).let { recordTypeViewDataMapper.map(it, isDarkTheme) }
     }
@@ -390,7 +402,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     }
 
     private suspend fun loadIconsViewData(): List<ViewHolderType> {
-        return viewDataInteractor.getIconsViewData(newColorId, iconType)
+        return viewDataInteractor.getIconsViewData(newColor, iconType)
     }
 
     private fun updateIconCategories() = viewModelScope.launch {

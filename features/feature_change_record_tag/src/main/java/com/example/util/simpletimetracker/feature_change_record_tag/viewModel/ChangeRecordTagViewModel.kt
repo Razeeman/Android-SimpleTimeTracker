@@ -20,6 +20,7 @@ import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
+import com.example.util.simpletimetracker.domain.model.AppColor
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.feature_base_adapter.color.ColorViewData
 import com.example.util.simpletimetracker.feature_change_record_tag.R
@@ -85,7 +86,7 @@ class ChangeRecordTagViewModel @Inject constructor(
     private val recordTagId: Long get() = (extra as? ChangeTagData.Change)?.id.orZero()
     private var tagType: RecordTagType = RecordTagType.GENERAL
     private var newName: String = ""
-    private var newColorId: Int = (0..ColorMapper.colorsNumber).random()
+    private var newColor: AppColor = AppColor(colorId = (0..ColorMapper.colorsNumber).random(), colorInt = "")
     private var newTypeId: Long = 0L
 
     fun onNameChange(name: String) {
@@ -125,10 +126,11 @@ class ChangeRecordTagViewModel @Inject constructor(
             ?.flip().orTrue()
     }
 
+    // TODO add color palette
     fun onColorClick(item: ColorViewData) {
         viewModelScope.launch {
-            if (item.colorId != newColorId) {
-                newColorId = item.colorId
+            if (item.colorId != newColor.colorId || newColor.colorInt.isNotEmpty()) {
+                newColor = AppColor(colorId = item.colorId, colorInt = "")
                 newTypeId = 0
                 updatePreview()
             }
@@ -168,7 +170,7 @@ class ChangeRecordTagViewModel @Inject constructor(
                 id = recordTagId,
                 typeId = newTypeId,
                 name = newName,
-                color = newColorId,
+                color = newColor,
             ).let {
                 recordTagInteractor.add(it)
                 notificationTypeInteractor.checkAndShow(newTypeId)
@@ -182,7 +184,7 @@ class ChangeRecordTagViewModel @Inject constructor(
         recordTagInteractor.get(recordTagId)?.let {
             newTypeId = it.typeId
             newName = it.name
-            newColorId = it.color
+            newColor = it.color
         }
         updateTagTypeSetupViewData()
     }
@@ -194,7 +196,7 @@ class ChangeRecordTagViewModel @Inject constructor(
     private suspend fun loadPreviewViewData(): CategoryViewData.Record {
         val tag = RecordTag(
             name = newName,
-            color = newColorId,
+            color = newColor,
             typeId = newTypeId
         )
         val type = recordTypeInteractor.get(newTypeId)

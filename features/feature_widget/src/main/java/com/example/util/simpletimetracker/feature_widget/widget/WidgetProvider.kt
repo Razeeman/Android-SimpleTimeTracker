@@ -152,9 +152,7 @@ class WidgetProvider : AppWidgetProvider() {
             ?: R.string.widget_load_error.let(resourceRepo::getString)
 
         val color = if (runningRecord != null && recordType != null) {
-            recordType.color
-                .let { colorMapper.mapToColorResId(it, isDarkTheme) }
-                .let(resourceRepo::getColor)
+            colorMapper.mapToColorInt(recordType.color, isDarkTheme)
         } else {
             Color.BLACK
         }

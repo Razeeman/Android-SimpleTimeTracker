@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.core.mapper
 
 import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.domain.model.AppColor
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
@@ -15,13 +16,13 @@ import javax.inject.Inject
 class CategoryViewDataMapper @Inject constructor(
     private val colorMapper: ColorMapper,
     private val iconMapper: IconMapper,
-    private val resourceRepo: ResourceRepo
+    private val resourceRepo: ResourceRepo,
 ) {
 
     fun mapActivityTag(
         category: Category,
         isDarkTheme: Boolean,
-        isFiltered: Boolean = false
+        isFiltered: Boolean = false,
     ): CategoryViewData.Activity {
         return CategoryViewData.Activity(
             id = category.id,
@@ -36,7 +37,7 @@ class CategoryViewDataMapper @Inject constructor(
         type: RecordType?,
         isDarkTheme: Boolean,
         isFiltered: Boolean = false,
-        showIcon: Boolean = true
+        showIcon: Boolean = true,
     ): CategoryViewData.Record {
         val isTyped = tag.typeId != 0L
         val icon = type?.icon?.let(iconMapper::mapIcon).takeIf { isTyped }
@@ -77,7 +78,7 @@ class CategoryViewDataMapper @Inject constructor(
 
     fun getTextColor(
         isDarkTheme: Boolean,
-        isFiltered: Boolean
+        isFiltered: Boolean,
     ): Int {
         return if (isFiltered) {
             colorMapper.toFilteredIconColor(isDarkTheme)
@@ -95,16 +96,14 @@ class CategoryViewDataMapper @Inject constructor(
     }
 
     private fun getColor(
-        colorId: Int,
+        color: AppColor,
         isDarkTheme: Boolean,
-        isFiltered: Boolean
+        isFiltered: Boolean,
     ): Int {
         return if (isFiltered) {
             colorMapper.toFilteredColor(isDarkTheme)
         } else {
-            colorId
-                .let { colorMapper.mapToColorResId(it, isDarkTheme) }
-                .let(resourceRepo::getColor)
+            color.let { colorMapper.mapToColorInt(it, isDarkTheme) }
         }
     }
 

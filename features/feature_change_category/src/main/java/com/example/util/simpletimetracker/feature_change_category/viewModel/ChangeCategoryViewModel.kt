@@ -17,6 +17,7 @@ import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
+import com.example.util.simpletimetracker.domain.model.AppColor
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.feature_change_category.R
 import com.example.util.simpletimetracker.feature_change_category.interactor.ChangeCategoryViewDataInteractor
@@ -69,7 +70,7 @@ class ChangeCategoryViewModel @Inject constructor(
     private val categoryId: Long get() = (extra as? ChangeTagData.Change)?.id.orZero()
     private var initialTypes: List<Long> = emptyList()
     private var newName: String = ""
-    private var newColorId: Int = (0..ColorMapper.colorsNumber).random()
+    private var newColor: AppColor = AppColor(colorId = (0..ColorMapper.colorsNumber).random(), colorInt = "")
     private var newTypes: MutableList<Long> = mutableListOf()
 
     fun onNameChange(name: String) {
@@ -101,10 +102,11 @@ class ChangeCategoryViewModel @Inject constructor(
         }
     }
 
+    // TODO add color palette
     fun onColorClick(item: ColorViewData) {
         viewModelScope.launch {
-            if (item.colorId != newColorId) {
-                newColorId = item.colorId
+            if (item.colorId != newColor.colorId || newColor.colorInt.isNotEmpty()) {
+                newColor = AppColor(colorId = item.colorId, colorInt = "")
                 updateCategoryPreview()
             }
         }
@@ -143,7 +145,7 @@ class ChangeCategoryViewModel @Inject constructor(
             Category(
                 id = categoryId,
                 name = newName,
-                color = newColorId
+                color = newColor
             ).let {
                 val addedId = saveCategory()
                 saveTypes(addedId)
@@ -157,7 +159,7 @@ class ChangeCategoryViewModel @Inject constructor(
         val category = Category(
             id = categoryId,
             name = newName,
-            color = newColorId
+            color = newColor
         )
 
         return categoryInteractor.add(category)
@@ -187,13 +189,13 @@ class ChangeCategoryViewModel @Inject constructor(
         categoryInteractor.get(categoryId)
             ?.let {
                 newName = it.name
-                newColorId = it.color
+                newColor = it.color
             }
         val isDarkTheme = prefsInteractor.getDarkMode()
 
         return Category(
             name = newName,
-            color = newColorId
+            color = newColor
         ).let { categoryViewDataMapper.mapActivityTag(it, isDarkTheme) }
     }
 
@@ -202,7 +204,7 @@ class ChangeCategoryViewModel @Inject constructor(
 
         return Category(
             name = newName,
-            color = newColorId
+            color = newColor
         ).let { categoryViewDataMapper.mapActivityTag(it, isDarkTheme) }
     }
 

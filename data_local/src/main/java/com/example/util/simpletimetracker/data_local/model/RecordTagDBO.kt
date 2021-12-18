@@ -19,6 +19,10 @@ data class RecordTagDBO(
     @ColumnInfo(name = "color")
     val color: Int,
 
+    // If not empty - take color from here, custom colorInt stored as text.
+    @ColumnInfo(name = "color_int")
+    val colorInt: String,
+
     @ColumnInfo(name = "archived")
     val archived: Boolean
 )

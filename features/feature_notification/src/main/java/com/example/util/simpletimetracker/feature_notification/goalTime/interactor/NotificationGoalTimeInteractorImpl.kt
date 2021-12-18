@@ -59,8 +59,7 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
                 icon = recordType.icon
                     .let(iconMapper::mapIcon),
                 color = recordType.color
-                    .let { colorMapper.mapToColorResId(it, isDarkTheme) }
-                    .let(resourceRepo::getColor),
+                    .let { colorMapper.mapToColorInt(it, isDarkTheme) },
                 text = recordType.name,
                 description = resourceRepo.getString(
                     R.string.notification_goal_time_description,

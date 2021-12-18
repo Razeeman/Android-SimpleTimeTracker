@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.data_local.mapper
 
 import com.example.util.simpletimetracker.data_local.model.CategoryDBO
+import com.example.util.simpletimetracker.domain.model.AppColor
 import com.example.util.simpletimetracker.domain.model.Category
 import javax.inject.Inject
 
@@ -10,7 +11,10 @@ class CategoryDataLocalMapper @Inject constructor() {
         return Category(
             id = dbo.id,
             name = dbo.name,
-            color = dbo.color
+            color = AppColor(
+                colorId = dbo.color,
+                colorInt = dbo.colorInt,
+            )
         )
     }
 
@@ -18,7 +22,8 @@ class CategoryDataLocalMapper @Inject constructor() {
         return CategoryDBO(
             id = domain.id,
             name = domain.name,
-            color = domain.color
+            color = domain.color.colorId,
+            colorInt = domain.color.colorInt,
         )
     }
 }

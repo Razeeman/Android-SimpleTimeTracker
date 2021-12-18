@@ -9,6 +9,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderView
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.feature_base_adapter.emoji.EmojiViewData
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
+import com.example.util.simpletimetracker.domain.model.AppColor
 import com.example.util.simpletimetracker.feature_dialogs.emojiSelection.mapper.EmojiSelectionMapper
 import com.example.util.simpletimetracker.navigation.params.screen.EmojiSelectionDialogParams
 import kotlinx.coroutines.launch
@@ -40,7 +41,7 @@ class EmojiSelectionViewModel @Inject constructor(
         val isDarkTheme = prefsInteractor.getDarkMode()
 
         return mapper.mapIconEmojiData(
-            colorId = extra.color,
+            color = AppColor(colorId = extra.color.colorId, colorInt = extra.color.colorInt),
             isDarkTheme = isDarkTheme,
             emojiCodes = extra.emojiCodes
         )

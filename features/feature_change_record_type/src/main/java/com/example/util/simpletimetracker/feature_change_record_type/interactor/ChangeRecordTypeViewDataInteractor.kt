@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.feature_base_adapter.color.ColorViewData
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
+import com.example.util.simpletimetracker.domain.model.AppColor
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.IconType
 import com.example.util.simpletimetracker.feature_base_adapter.color.ColorPaletteViewData
@@ -81,14 +82,14 @@ class ChangeRecordTypeViewDataInteractor @Inject constructor(
     }
 
     suspend fun getIconsViewData(
-        newColorId: Int,
+        newColor: AppColor,
         iconType: IconType,
     ): List<ViewHolderType> = withContext(Dispatchers.IO) {
         val isDarkTheme = prefsInteractor.getDarkMode()
 
         when (iconType) {
-            IconType.IMAGE -> mapper.mapIconImageData(newColorId, isDarkTheme)
-            IconType.EMOJI -> mapper.mapIconEmojiData(newColorId, isDarkTheme)
+            IconType.IMAGE -> mapper.mapIconImageData(newColor, isDarkTheme)
+            IconType.EMOJI -> mapper.mapIconEmojiData(newColor, isDarkTheme)
         }
     }
 

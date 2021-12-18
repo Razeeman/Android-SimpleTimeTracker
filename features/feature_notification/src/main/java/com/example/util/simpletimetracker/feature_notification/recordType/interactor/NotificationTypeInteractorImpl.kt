@@ -102,8 +102,7 @@ class NotificationTypeInteractorImpl @Inject constructor(
             icon = recordType.icon
                 .let(iconMapper::mapIcon),
             color = recordType.color
-                .let { colorMapper.mapToColorResId(it, isDarkTheme) }
-                .let(resourceRepo::getColor),
+                .let { colorMapper.mapToColorInt(it, isDarkTheme) },
             text = getNotificationText(recordType, recordTags),
             timeStarted = runningRecord.timeStarted
                 .let { timeMapper.formatTime(it, useMilitaryTime) }

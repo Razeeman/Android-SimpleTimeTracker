@@ -126,8 +126,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             iconId = recordType.icon
                 .let(iconMapper::mapIcon),
             color = recordType.color
-                .let { colorMapper.mapToColorResId(it, isDarkTheme) }
-                .let(resourceRepo::getColor)
+                .let { colorMapper.mapToColorInt(it, isDarkTheme) },
         )
     }
 
@@ -140,8 +139,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             name = category.name,
             iconId = null,
             color = category.color
-                .let { colorMapper.mapToColorResId(it, isDarkTheme) }
-                .let(resourceRepo::getColor)
+                .let { colorMapper.mapToColorInt(it, isDarkTheme) },
         )
     }
 
@@ -541,12 +539,8 @@ class StatisticsDetailViewDataMapper @Inject constructor(
                 ?.let(iconMapper::mapIcon)
                 ?: tag?.run { RecordTypeIcon.Image(0) }
                 ?: RecordTypeIcon.Image(R.drawable.unknown),
-            color = recordType?.color
-                ?.let { colorMapper.mapToColorResId(it, isDarkTheme) }
-                ?.let(resourceRepo::getColor)
-                ?: tag?.color
-                    ?.let { colorMapper.mapToColorResId(it, isDarkTheme) }
-                    ?.let(resourceRepo::getColor)
+            color = recordType?.color?.let { colorMapper.mapToColorInt(it, isDarkTheme) }
+                ?: tag?.color?.let { colorMapper.mapToColorInt(it, isDarkTheme) }
                 ?: colorMapper.toUntrackedColor(isDarkTheme)
         )
     }
