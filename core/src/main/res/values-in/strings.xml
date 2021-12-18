@@ -128,6 +128,10 @@
     <string name="duration_dialog_save">Simpan</string>
     <string name="duration_dialog_disable">Nonaktifkan</string>
 
+    <string name="color_selection_base_color_hint">Pilih warna dasar</string>
+    <string name="color_selection_adjust_color_hint">Sesuaikan warna</string>
+    <string name="color_selection_final_color_hint">Warna akhir</string>
+
     <string name="csv_export_settings_range">Rentang</string>
     <string name="csv_export_settings_all">Semua</string>
     <string name="csv_export_settings_hint">Pilih rentang waktu atau ekspor semua rekor</string>

@@ -128,6 +128,10 @@
     <string name="duration_dialog_save">Save</string>
     <string name="duration_dialog_disable">Disable</string>
 
+    <string name="color_selection_base_color_hint">Select base color</string>
+    <string name="color_selection_adjust_color_hint">Adjust color</string>
+    <string name="color_selection_final_color_hint">Final color</string>
+
     <string name="csv_export_settings_range">Range</string>
     <string name="csv_export_settings_all">All</string>
     <string name="csv_export_settings_hint">Select time range or export all records</string>

@@ -128,6 +128,10 @@
     <string name="duration_dialog_save">保存</string>
     <string name="duration_dialog_disable">不启用</string>
 
+    <string name="color_selection_base_color_hint">选择基色</string>
+    <string name="color_selection_adjust_color_hint">调整颜色</string>
+    <string name="color_selection_final_color_hint">最终颜色</string>
+
     <string name="csv_export_settings_range">跨度</string>
     <string name="csv_export_settings_all">全部</string>
     <string name="csv_export_settings_hint">選擇時間範圍或導出所有記錄</string>

@@ -128,6 +128,10 @@
     <string name="duration_dialog_save">Spara</string>
     <string name="duration_dialog_disable">Inaktivera</string>
 
+    <string name="color_selection_base_color_hint">Välj basfärg</string>
+    <string name="color_selection_adjust_color_hint">Justera färg</string>
+    <string name="color_selection_final_color_hint">Slutlig färg</string>
+
     <string name="csv_export_settings_range">Intervall</string>
     <string name="csv_export_settings_all">Allt</string>
     <string name="csv_export_settings_hint">Välj tidsintervall eller exportera alla händelser</string>

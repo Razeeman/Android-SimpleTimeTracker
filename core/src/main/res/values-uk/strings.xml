@@ -128,6 +128,10 @@
     <string name="duration_dialog_save">Зберегти</string>
     <string name="duration_dialog_disable">Вимкнути</string>
 
+    <string name="color_selection_base_color_hint">Виберіть основний колір</string>
+    <string name="color_selection_adjust_color_hint">Налаштуйте колір</string>
+    <string name="color_selection_final_color_hint">Кінцевий колір</string>
+
     <string name="csv_export_settings_range">Діапазон</string>
     <string name="csv_export_settings_all">Все</string>
     <string name="csv_export_settings_hint">Виберіть діапазон часу або експортуйте всі записи</string>

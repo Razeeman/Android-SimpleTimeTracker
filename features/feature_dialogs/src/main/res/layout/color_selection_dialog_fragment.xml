@@ -16,35 +16,65 @@
         android:tint="?appContrastColor"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvColorSelectionBaseColorHint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="@string/color_selection_base_color_hint"
+        android:textColor="?appTextHintColor"
+        app:layout_constraintTop_toBottomOf="@id/ivColorSelectionArrow" />
+
     <com.google.android.material.slider.Slider
         android:id="@+id/sliderColorSelectionHue"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:valueFrom="0"
         android:valueTo="360"
         app:labelBehavior="gone"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ivColorSelectionArrow" />
+        app:layout_constraintTop_toBottomOf="@id/tvColorSelectionBaseColorHint" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvColorSelectionAdjustColorHint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:gravity="center"
+        android:text="@string/color_selection_adjust_color_hint"
+        android:textColor="?appTextHintColor"
+        app:layout_constraintTop_toBottomOf="@id/sliderColorSelectionHue" />
 
     <com.example.util.simpletimetracker.feature_dialogs.colorSelection.customView.ColorSelectionView
         android:id="@+id/viewColorSelectionView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginHorizontal="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
         app:colorSelectionSelectedColorRadius="10dp"
         app:colorSelectionSelectedColorStrokeColor="@color/white"
         app:colorSelectionSelectedColorStrokeWidth="2dp"
-        app:layout_constraintBottom_toTopOf="@id/containerColorSelectionSelectedColor"
-        app:layout_constraintTop_toBottomOf="@id/sliderColorSelectionHue"
+        app:layout_constraintBottom_toTopOf="@id/tvColorSelectionFinalColorHint"
+        app:layout_constraintTop_toBottomOf="@id/tvColorSelectionAdjustColorHint"
         app:layout_constraintVertical_weight="2"
         tools:colorSelectionHue="180"
         tools:colorSelectionSaturation="0.4"
         tools:colorSelectionValue="0.3" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvColorSelectionFinalColorHint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="11dp"
+        android:gravity="center"
+        android:text="@string/color_selection_final_color_hint"
+        android:textColor="?appTextHintColor"
+        app:layout_constraintBottom_toTopOf="@id/containerColorSelectionSelectedColor"
+        app:layout_constraintTop_toBottomOf="@id/viewColorSelectionView" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/containerColorSelectionSelectedColor"
@@ -56,7 +86,7 @@
         app:cardCornerRadius="@dimen/record_type_card_corner_radius"
         app:cardElevation="0dp"
         app:layout_constraintBottom_toTopOf="@id/inputColorSelectionHex"
-        app:layout_constraintTop_toBottomOf="@id/viewColorSelectionView"
+        app:layout_constraintTop_toBottomOf="@id/tvColorSelectionFinalColorHint"
         app:layout_constraintVertical_weight="1">
 
         <androidx.cardview.widget.CardView
