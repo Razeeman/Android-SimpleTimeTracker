@@ -1,7 +1,5 @@
 package com.example.util.simpletimetracker.core.mapper
 
-import android.graphics.Color
-import androidx.annotation.ColorInt
 import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import javax.inject.Inject
@@ -60,26 +58,6 @@ class ColorMapper @Inject constructor(
         } else {
             R.color.colorInactive
         }.let(resourceRepo::getColor)
-    }
-
-    fun mapColorToHex(@ColorInt colorInt: Int): String {
-        val currentRed = Color.red(colorInt)
-            .let(Integer::toHexString).padStart(2, '0')
-        val currentGreen = Color.green(colorInt)
-            .let(Integer::toHexString).padStart(2, '0')
-        val currentBlue = Color.blue(colorInt)
-            .let(Integer::toHexString).padStart(2, '0')
-
-        return "#$currentRed$currentGreen$currentBlue"
-    }
-
-    @ColorInt fun mapHexToColor(colorHex: String): Int {
-        return runCatching {
-            Color.parseColor(colorHex)
-        }.fold(
-            onSuccess = { it },
-            onFailure = { Color.BLACK },
-        )
     }
 
     companion object {

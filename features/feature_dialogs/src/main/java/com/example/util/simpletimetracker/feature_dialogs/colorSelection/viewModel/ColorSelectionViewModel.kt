@@ -6,16 +6,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.util.simpletimetracker.core.extension.set
-import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.feature_dialogs.colorSelection.model.HSVUpdate
 import com.example.util.simpletimetracker.feature_dialogs.colorSelection.model.RGBUpdate
 import com.example.util.simpletimetracker.feature_dialogs.colorSelection.viewData.ColorSelectionViewData
 import com.example.util.simpletimetracker.navigation.params.screen.ColorSelectionDialogParams
 import javax.inject.Inject
 
-class ColorSelectionViewModel @Inject constructor(
-    private val colorMapper: ColorMapper,
-) : ViewModel() {
+class ColorSelectionViewModel @Inject constructor() : ViewModel() {
 
     lateinit var extra: ColorSelectionDialogParams
 
@@ -23,7 +20,7 @@ class ColorSelectionViewModel @Inject constructor(
         initialize()
         MutableLiveData(loadColorData())
     }
-    val colorSelected: LiveData<String> = MutableLiveData()
+    val colorSelected: LiveData<Int> = MutableLiveData()
 
     private var colorHue: Float = 0f // 0..360
     private var colorSaturation: Float = 1f // 0..1
@@ -100,8 +97,7 @@ class ColorSelectionViewModel @Inject constructor(
     }
 
     fun onSaveClick() {
-        // TODO save colorInt instead of hex? It has more definition.
-        getCurrentColorInt().let(colorMapper::mapColorToHex).let(colorSelected::set)
+        getCurrentColorInt().let(colorSelected::set)
     }
 
     private fun initialize() {
@@ -126,7 +122,7 @@ class ColorSelectionViewModel @Inject constructor(
             colorHue = colorHue,
             colorSaturation = colorSaturation,
             colorValue = colorValue,
-            colorHex = colorMapper.mapColorToHex(colorInt),
+            colorHex = mapColorToHex(colorInt),
             colorRedString = Color.red(colorInt).toString(),
             colorGreenString = Color.green(colorInt).toString(),
             colorBlueString = Color.blue(colorInt).toString(),
@@ -134,6 +130,17 @@ class ColorSelectionViewModel @Inject constructor(
             colorSaturationString = (colorSaturation * 100).toInt().toString(),
             colorValueString = (colorValue * 100).toInt().toString(),
         )
+    }
+
+    private fun mapColorToHex(@ColorInt colorInt: Int): String {
+        val currentRed = Color.red(colorInt)
+            .let(Integer::toHexString).padStart(2, '0')
+        val currentGreen = Color.green(colorInt)
+            .let(Integer::toHexString).padStart(2, '0')
+        val currentBlue = Color.blue(colorInt)
+            .let(Integer::toHexString).padStart(2, '0')
+
+        return "#$currentRed$currentGreen$currentBlue"
     }
 
     @ColorInt private fun getCurrentColorInt(): Int {

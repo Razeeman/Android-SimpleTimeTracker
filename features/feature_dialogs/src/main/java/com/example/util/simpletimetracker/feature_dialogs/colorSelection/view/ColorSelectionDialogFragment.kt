@@ -141,8 +141,8 @@ class ColorSelectionDialogFragment : BaseBottomSheetFragment<Binding>() {
         textWatcher?.let(::addTextChangedListener)
     }
 
-    private fun onColorSelected(colorHex: String) {
-        colorSelectionDialogListener?.onColorSelected(colorHex)
+    private fun onColorSelected(colorInt: Int) {
+        colorSelectionDialogListener?.onColorSelected(colorInt)
         dismiss()
     }
 

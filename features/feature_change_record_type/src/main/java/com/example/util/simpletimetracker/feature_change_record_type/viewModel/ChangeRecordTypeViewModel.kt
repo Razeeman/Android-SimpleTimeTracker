@@ -38,10 +38,10 @@ import com.example.util.simpletimetracker.feature_change_record_type.viewData.Ch
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeScrollViewData
 import com.example.util.simpletimetracker.navigation.Router
-import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTypeParams
-import com.example.util.simpletimetracker.navigation.params.screen.DurationDialogParams
 import com.example.util.simpletimetracker.navigation.params.notification.ToastParams
+import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTypeParams
 import com.example.util.simpletimetracker.navigation.params.screen.ColorSelectionDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.DurationDialogParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -60,7 +60,6 @@ class ChangeRecordTypeViewModel @Inject constructor(
     private val changeRecordTypeMapper: ChangeRecordTypeMapper,
     private val resourceRepo: ResourceRepo,
     private val iconEmojiMapper: IconEmojiMapper,
-    private val colorMapper: ColorMapper,
 ) : ViewModel() {
 
     lateinit var extra: ChangeRecordTypeParams
@@ -128,7 +127,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     private var newIconName: String = ""
     private var newCategories: MutableList<Long> = mutableListOf()
     private var newColorId: Int = (0..ColorMapper.colorsNumber).random()
-    private var lastSelectedCustomColor: String = "#FF0000"
+    private var lastSelectedCustomColor: Int = 0xFF0000
     private var newGoalTime: Long = 0L
 
     fun onNameChange(name: String) {
@@ -191,7 +190,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
 
     fun onColorPaletteClick() {
         ColorSelectionDialogParams(
-            preselectedColor = colorMapper.mapHexToColor(lastSelectedCustomColor)
+            preselectedColor = lastSelectedCustomColor
         ).let(router::navigate)
     }
 
@@ -243,8 +242,8 @@ class ChangeRecordTypeViewModel @Inject constructor(
         }
     }
 
-    fun onCustomColorSelected(colorHex: String) {
-        lastSelectedCustomColor = colorHex
+    fun onCustomColorSelected(colorInt: Int) {
+        lastSelectedCustomColor = colorInt
     }
 
     fun onGoalTimeClick() {

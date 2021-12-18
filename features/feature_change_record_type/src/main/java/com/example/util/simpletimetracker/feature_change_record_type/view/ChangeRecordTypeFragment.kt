@@ -216,8 +216,8 @@ class ChangeRecordTypeFragment :
         viewModel.onEmojiSelected(emojiText)
     }
 
-    override fun onColorSelected(colorHex: String) {
-        viewModel.onCustomColorSelected(colorHex)
+    override fun onColorSelected(colorInt: Int) {
+        viewModel.onCustomColorSelected(colorInt)
     }
 
     private fun updateUi(item: RecordTypeViewData) = with(binding) {
