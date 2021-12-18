@@ -93,6 +93,11 @@
         android:label="EmojiSelectionDialogFragment"
         tools:layout="@layout/emoji_selection_dialog_fragment" />
     <dialog
+        android:id="@+id/colorSelectionDialogFragment"
+        android:name="com.example.util.simpletimetracker.feature_dialogs.colorSelection.ColorSelectionDialogFragment"
+        android:label="ColorSelectionDialogFragment"
+        tools:layout="@layout/color_selection_dialog_fragment" />
+    <dialog
         android:id="@+id/archiveDialogFragment"
         android:name="com.example.util.simpletimetracker.feature_dialogs.archive.view.ArchiveDialogFragment"
         android:label="ArchiveDialogFragment"

@@ -11,4 +11,10 @@
         <attr name="numberKeyboardTextColor" format="color" />
         <attr name="numberKeyboardTextSize" format="dimension" />
     </declare-styleable>
+
+    <declare-styleable name="ColorSelectionView">
+        <attr name="colorSelectionViewHue" format="float" />
+        <attr name="colorSelectionViewSaturation" format="float" />
+        <attr name="colorSelectionViewValue" format="float" />
+    </declare-styleable>
 </resources>

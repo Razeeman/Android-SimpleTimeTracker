@@ -17,6 +17,7 @@ import com.example.util.simpletimetracker.navigation.params.screen.ArchiveDialog
 import com.example.util.simpletimetracker.navigation.params.screen.CardOrderDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.CardSizeDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChartFilterDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.ColorSelectionDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.CsvExportSettingDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.CustomRangeSelectionParams
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogParams
@@ -112,6 +113,16 @@ class NavigationDialogMapModule {
         return NavigationData(
             R.id.emojiSelectionDialogFragment,
             bundleCreatorDelegate(EmojiSelectionDialogFragment::createBundle)
+        )
+    }
+
+    @IntoMap
+    @Provides
+    @ScreenKey(ColorSelectionDialogParams::class)
+    fun colorSelectionDialog(): NavigationData {
+        return NavigationData(
+            R.id.colorSelectionDialogFragment,
+            BundleCreator.empty()
         )
     }
 

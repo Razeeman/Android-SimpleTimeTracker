@@ -41,6 +41,7 @@ import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTypeParams
 import com.example.util.simpletimetracker.navigation.params.screen.DurationDialogParams
 import com.example.util.simpletimetracker.navigation.params.notification.ToastParams
+import com.example.util.simpletimetracker.navigation.params.screen.ColorSelectionDialogParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -178,7 +179,9 @@ class ChangeRecordTypeViewModel @Inject constructor(
 
     fun onColorClick(item: ColorViewData) {
         viewModelScope.launch {
-            if (item.colorId != newColorId) {
+            if (item.colorId == -1) {
+                router.navigate(ColorSelectionDialogParams)
+            } else if (item.colorId != newColorId) {
                 newColorId = item.colorId
                 updateRecordPreviewViewData()
                 updateIcons()
