@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.feature_dialogs.colorSelection
+package com.example.util.simpletimetracker.feature_dialogs.colorSelection.viewModel
 
 import android.graphics.Color
 import androidx.annotation.ColorInt
@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.feature_dialogs.colorSelection.model.HSVUpdate
 import com.example.util.simpletimetracker.feature_dialogs.colorSelection.model.RGBUpdate
+import com.example.util.simpletimetracker.feature_dialogs.colorSelection.viewData.ColorSelectionViewData
 import javax.inject.Inject
 
 class ColorSelectionViewModel @Inject constructor() : ViewModel() {

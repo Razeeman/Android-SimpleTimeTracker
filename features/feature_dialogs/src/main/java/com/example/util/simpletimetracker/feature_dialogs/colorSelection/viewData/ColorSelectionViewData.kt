@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.feature_dialogs.colorSelection
+package com.example.util.simpletimetracker.feature_dialogs.colorSelection.viewData
 
 import androidx.annotation.ColorInt
 

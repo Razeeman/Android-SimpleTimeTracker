@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.feature_dialogs.colorSelection
+package com.example.util.simpletimetracker.feature_dialogs.colorSelection.customView
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -40,6 +40,14 @@ class ColorSelectionView @JvmOverloads constructor(
     // End of attrs
 
     private var listener: ColorSelectedListener? = null
+
+    private var pixelTopBound: Float = 0f
+    private var pixelBottomBound: Float = 0f
+    private var pixelRightBound: Float = 0f
+    private var pixelLeftBound: Float = 0f
+    private var pixelWidthBound: Float = 0f
+    private var pixelHeightBound: Float = 0f
+
     private val bounds: RectF = RectF(0f, 0f, 0f, 0f)
     private val mainPaint: Paint = Paint()
     private val gradientPaint1: Paint = Paint()
@@ -68,27 +76,25 @@ class ColorSelectionView @JvmOverloads constructor(
         val h = resolveSize(0, heightMeasureSpec)
 
         setMeasuredDimension(w, h)
+        calculateDimensions(w.toFloat(), h.toFloat())
         initGradientPaint(w.toFloat(), h.toFloat())
     }
 
     override fun onDraw(canvas: Canvas?) {
         if (canvas == null) return
 
-        val w = width.toFloat()
-        val h = height.toFloat()
-
         // Draw base color.
         mainPaint.color = floatArrayOf(colorHue, 1f, 1f)
             .let(Color::HSVToColor)
-        canvas.drawRect(0f, 0f, w, h, mainPaint)
+        canvas.drawRect(pixelLeftBound, pixelTopBound, pixelRightBound, pixelBottomBound, mainPaint)
 
         // Draw gradients.
-        canvas.drawRect(0f, 0f, w, h, gradientPaint1)
-        canvas.drawRect(0f, 0f, w, h, gradientPaint2)
+        canvas.drawRect(pixelLeftBound, pixelTopBound, pixelRightBound, pixelBottomBound, gradientPaint1)
+        canvas.drawRect(pixelLeftBound, pixelTopBound, pixelRightBound, pixelBottomBound, gradientPaint2)
 
         // Draw selected color indicator.
-        val selectedColorCenterX = w * colorSaturation
-        val selectedColorCenterY = h * (1 - colorValue)
+        val selectedColorCenterX = pixelLeftBound + pixelWidthBound * colorSaturation
+        val selectedColorCenterY = pixelTopBound + pixelHeightBound * (1 - colorValue)
         bounds.set(
             selectedColorCenterX - selectedColorRadius, selectedColorCenterY - selectedColorRadius,
             selectedColorCenterX + selectedColorRadius, selectedColorCenterY + selectedColorRadius
@@ -176,12 +182,24 @@ class ColorSelectionView @JvmOverloads constructor(
         ).let(gradientPaint2::setShader)
     }
 
-    private fun onTouch(event: MotionEvent) {
-        val x = event.x
-        val y = event.y
+    private fun calculateDimensions(w: Float, h: Float) {
+        val selectedColorFullRadius = selectedColorRadius + selectedColorStrokeWidth / 2
 
-        val newSaturation = (x / width.toFloat()).coerceIn(0f, 1f)
-        val newValue = (1 - y / height.toFloat()).coerceIn(0f, 1f)
+        pixelLeftBound = 0f + selectedColorFullRadius
+        pixelRightBound = w - selectedColorFullRadius
+        pixelTopBound = 0f + selectedColorFullRadius
+        pixelBottomBound = h - selectedColorFullRadius
+
+        pixelWidthBound = pixelRightBound - pixelLeftBound
+        pixelHeightBound = pixelBottomBound - pixelTopBound
+    }
+
+    private fun onTouch(event: MotionEvent) {
+        val x = event.x.coerceIn(pixelLeftBound, pixelRightBound) - pixelLeftBound
+        val y = event.y.coerceIn(pixelTopBound, pixelBottomBound) - pixelTopBound
+
+        val newSaturation = (x / pixelWidthBound).coerceIn(0f, 1f)
+        val newValue = (1 - y / pixelHeightBound).coerceIn(0f, 1f)
 
         listener?.onColorSelected(
             saturation = newSaturation,

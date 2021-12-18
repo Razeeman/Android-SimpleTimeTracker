@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.feature_dialogs.colorSelection
+package com.example.util.simpletimetracker.feature_dialogs.colorSelection.view
 
 import android.content.Context
 import android.text.TextWatcher
@@ -13,6 +13,8 @@ import com.example.util.simpletimetracker.core.dialog.ColorSelectionDialogListen
 import com.example.util.simpletimetracker.core.extension.getAllFragments
 import com.example.util.simpletimetracker.core.extension.setFullScreen
 import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
+import com.example.util.simpletimetracker.feature_dialogs.colorSelection.customView.ColorSelectionView
+import com.example.util.simpletimetracker.feature_dialogs.colorSelection.viewModel.ColorSelectionViewModel
 import com.example.util.simpletimetracker.feature_dialogs.colorSelection.model.HSVUpdate
 import com.example.util.simpletimetracker.feature_dialogs.colorSelection.model.RGBUpdate
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
