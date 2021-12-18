@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.feature_dialogs.colorSelection
 
 import android.content.Context
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
@@ -34,6 +35,14 @@ class ColorSelectionDialogFragment : BaseBottomSheetFragment<Binding>() {
     )
 
     private var colorSelectionDialogListener: ColorSelectionDialogListener? = null
+
+    // TODO do better?
+    private var textWatcherR: TextWatcher? = null
+    private var textWatcherG: TextWatcher? = null
+    private var textWatcherB: TextWatcher? = null
+    private var textWatcherH: TextWatcher? = null
+    private var textWatcherS: TextWatcher? = null
+    private var textWatcherV: TextWatcher? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -69,13 +78,19 @@ class ColorSelectionDialogFragment : BaseBottomSheetFragment<Binding>() {
             }
         )
 
-        etColorSelectionRed.doAfterTextChanged { viewModel.onRGBChanged(it.toString(), RGBUpdate.R) }
-        etColorSelectionGreen.doAfterTextChanged { viewModel.onRGBChanged(it.toString(), RGBUpdate.G) }
-        etColorSelectionBlue.doAfterTextChanged { viewModel.onRGBChanged(it.toString(), RGBUpdate.B) }
+        textWatcherR = etColorSelectionRed
+            .doAfterTextChanged { viewModel.onRGBChanged(it.toString(), RGBUpdate.R) }
+        textWatcherG = etColorSelectionGreen
+            .doAfterTextChanged { viewModel.onRGBChanged(it.toString(), RGBUpdate.G) }
+        textWatcherB = etColorSelectionBlue
+            .doAfterTextChanged { viewModel.onRGBChanged(it.toString(), RGBUpdate.B) }
 
-        etColorSelectionHue.doAfterTextChanged { viewModel.onHSVChanged(it.toString(), HSVUpdate.H) }
-        etColorSelectionSaturation.doAfterTextChanged { viewModel.onHSVChanged(it.toString(), HSVUpdate.S) }
-        etColorSelectionValue.doAfterTextChanged { viewModel.onHSVChanged(it.toString(), HSVUpdate.V) }
+        textWatcherH = etColorSelectionHue
+            .doAfterTextChanged { viewModel.onHSVChanged(it.toString(), HSVUpdate.H) }
+        textWatcherS = etColorSelectionSaturation
+            .doAfterTextChanged { viewModel.onHSVChanged(it.toString(), HSVUpdate.S) }
+        textWatcherV = etColorSelectionValue
+            .doAfterTextChanged { viewModel.onHSVChanged(it.toString(), HSVUpdate.V) }
 
         btnColorSelectionSave.setOnClick(viewModel::onSaveClick)
     }
@@ -90,23 +105,24 @@ class ColorSelectionDialogFragment : BaseBottomSheetFragment<Binding>() {
 
             binding.cardColorSelectionSelectedColor.setCardBackgroundColor(it.selectedColor)
 
-            // TODO set text silently
-            binding.etColorSelectionRed.setColorText(it.colorRedString)
-            binding.etColorSelectionGreen.setColorText(it.colorGreenString)
-            binding.etColorSelectionBlue.setColorText(it.colorBlueString)
-            binding.etColorSelectionHue.setColorText(it.colorHueString)
-            binding.etColorSelectionSaturation.setColorText(it.colorSaturationString)
-            binding.etColorSelectionValue.setColorText(it.colorValueString)
+            binding.etColorSelectionRed.setColorText(it.colorRedString, textWatcherR)
+            binding.etColorSelectionGreen.setColorText(it.colorGreenString, textWatcherG)
+            binding.etColorSelectionBlue.setColorText(it.colorBlueString, textWatcherB)
+            binding.etColorSelectionHue.setColorText(it.colorHueString, textWatcherH)
+            binding.etColorSelectionSaturation.setColorText(it.colorSaturationString, textWatcherS)
+            binding.etColorSelectionValue.setColorText(it.colorValueString, textWatcherV)
         }
 
         colorSelected.observe(::onColorSelected)
     }
 
-    private fun TextInputEditText.setColorText(text: String) {
+    private fun TextInputEditText.setColorText(text: String, textWatcher: TextWatcher?) {
         if (text == this.text.toString()) return
 
+        textWatcher?.let(::removeTextChangedListener)
         setText(text)
         setSelection(text.length)
+        textWatcher?.let(::addTextChangedListener)
     }
 
     private fun onColorSelected(colorHex: String) {
