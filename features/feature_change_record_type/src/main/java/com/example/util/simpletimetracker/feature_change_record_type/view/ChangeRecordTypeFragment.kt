@@ -8,6 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
+import com.example.util.simpletimetracker.core.dialog.ColorSelectionDialogListener
 import com.example.util.simpletimetracker.core.dialog.DurationDialogListener
 import com.example.util.simpletimetracker.core.dialog.EmojiSelectionDialogListener
 import com.example.util.simpletimetracker.core.extension.hideKeyboard
@@ -22,6 +23,7 @@ import com.example.util.simpletimetracker.domain.model.IconEmojiType
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_base_adapter.category.createCategoryAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.color.createColorAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.color.createColorPaletteAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.divider.createDividerAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.emoji.createEmojiAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
@@ -56,7 +58,8 @@ import com.example.util.simpletimetracker.feature_change_record_type.databinding
 class ChangeRecordTypeFragment :
     BaseFragment<Binding>(),
     DurationDialogListener,
-    EmojiSelectionDialogListener {
+    EmojiSelectionDialogListener,
+    ColorSelectionDialogListener {
 
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
         Binding::inflate
@@ -72,7 +75,8 @@ class ChangeRecordTypeFragment :
     )
     private val colorsAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
-            createColorAdapterDelegate(viewModel::onColorClick)
+            createColorAdapterDelegate(viewModel::onColorClick),
+            createColorPaletteAdapterDelegate(viewModel::onColorPaletteClick)
         )
     }
     private val iconsAdapter: BaseRecyclerAdapter by lazy {
@@ -210,6 +214,10 @@ class ChangeRecordTypeFragment :
 
     override fun onEmojiSelected(emojiText: String) {
         viewModel.onEmojiSelected(emojiText)
+    }
+
+    override fun onColorSelected(colorHex: String) {
+        viewModel.onCustomColorSelected(colorHex)
     }
 
     private fun updateUi(item: RecordTypeViewData) = with(binding) {

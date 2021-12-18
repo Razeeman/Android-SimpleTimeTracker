@@ -179,14 +179,16 @@ class ChangeRecordTypeViewModel @Inject constructor(
 
     fun onColorClick(item: ColorViewData) {
         viewModelScope.launch {
-            if (item.colorId == -1) {
-                router.navigate(ColorSelectionDialogParams)
-            } else if (item.colorId != newColorId) {
+            if (item.colorId != newColorId) {
                 newColorId = item.colorId
                 updateRecordPreviewViewData()
                 updateIcons()
             }
         }
+    }
+
+    fun onColorPaletteClick() {
+        router.navigate(ColorSelectionDialogParams)
     }
 
     fun onIconTypeClick(viewData: ButtonsRowViewData) {
@@ -235,6 +237,10 @@ class ChangeRecordTypeViewModel @Inject constructor(
                 updateRecordPreviewViewData()
             }
         }
+    }
+
+    fun onCustomColorSelected(colorHex: String) {
+        // TODO set custom color
     }
 
     fun onGoalTimeClick() {

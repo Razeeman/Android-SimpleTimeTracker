@@ -10,7 +10,7 @@ import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.IconType
-import com.example.util.simpletimetracker.feature_change_record_type.R
+import com.example.util.simpletimetracker.feature_base_adapter.color.ColorPaletteViewData
 import com.example.util.simpletimetracker.feature_change_record_type.mapper.ChangeRecordTypeMapper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -77,13 +77,7 @@ class ChangeRecordTypeViewDataInteractor @Inject constructor(
                     colorInt = colorInt
                 )
             }
-            .plus(
-                // TODO add palette icon
-                ColorViewData(
-                    colorId = -1,
-                    colorInt = resourceRepo.getColor(R.color.white)
-                )
-            )
+            .plus(ColorPaletteViewData)
     }
 
     suspend fun getIconsViewData(
