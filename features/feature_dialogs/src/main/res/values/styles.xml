@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="ColorSelectionEditText" parent="ChangeItemNameEditText">
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:inputType">numberDecimal</item>
+    </style>
+
+</resources>

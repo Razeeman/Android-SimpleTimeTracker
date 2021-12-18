@@ -13,6 +13,7 @@
     <attr name="appInputFieldBorder" format="reference" />
     <attr name="appInputFieldBorderDialog" format="reference" />
     <attr name="appInputFieldBorderColor" format="reference" />
+    <attr name="appInputFieldBorderDialogColor" format="reference" />
     <attr name="appPieChartDividerColor" format="reference" />
     <attr name="appCardBackgroundColor" format="reference" />
     <attr name="appButtonOnCardBackgroundColor" format="reference" />

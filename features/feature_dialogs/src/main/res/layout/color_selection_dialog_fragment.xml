@@ -16,37 +16,188 @@
         android:tint="?appContrastColor"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.example.util.simpletimetracker.feature_dialogs.colorSelection.ColorSelectionView
-        android:id="@+id/viewColorSelectionView"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="16dp"
-        app:colorSelectionSelectedColorRadius="10dp"
-        app:colorSelectionSelectedColorStrokeColor="@color/white"
-        app:colorSelectionSelectedColorStrokeWidth="2dp"
-        app:layout_constraintTop_toBottomOf="@id/ivColorSelectionArrow"
-        tools:colorSelectionHue="180"
-        tools:colorSelectionSaturation="0.4"
-        tools:colorSelectionValue="0.3" />
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/ivColorSelectionSelectedColor"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/viewColorSelectionView"
-        tools:background="#00FFFF" />
-
     <com.google.android.material.slider.Slider
         android:id="@+id/sliderColorSelectionHue"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
         android:valueFrom="0"
         android:valueTo="360"
         app:labelBehavior="gone"
-        app:layout_constraintTop_toBottomOf="@id/ivColorSelectionSelectedColor" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivColorSelectionArrow" />
+
+    <com.example.util.simpletimetracker.feature_dialogs.colorSelection.ColorSelectionView
+        android:id="@+id/viewColorSelectionView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        app:colorSelectionSelectedColorRadius="10dp"
+        app:colorSelectionSelectedColorStrokeColor="@color/white"
+        app:colorSelectionSelectedColorStrokeWidth="2dp"
+        app:layout_constraintBottom_toTopOf="@id/containerColorSelectionSelectedColor"
+        app:layout_constraintTop_toBottomOf="@id/sliderColorSelectionHue"
+        tools:colorSelectionHue="180"
+        tools:colorSelectionSaturation="0.4"
+        tools:colorSelectionValue="0.3" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/containerColorSelectionSelectedColor"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="16dp"
+        app:cardBackgroundColor="?appInputFieldBorderDialogColor"
+        app:cardCornerRadius="@dimen/record_type_card_corner_radius"
+        app:cardElevation="0dp"
+        app:layout_constraintBottom_toTopOf="@id/inputColorSelectionRed"
+        app:layout_constraintHeight_percent="0.2">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardColorSelectionSelectedColor"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="2dp"
+            app:cardCornerRadius="@dimen/record_type_card_corner_radius"
+            app:cardElevation="0dp"
+            tools:cardBackgroundColor="#00FFFF" />
+
+    </androidx.cardview.widget.CardView>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputColorSelectionRed"
+        style="@style/ChangeItemInputFieldDialog"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@id/btnColorSelectionSave"
+        app:layout_constraintEnd_toStartOf="@id/inputColorSelectionGreen"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etColorSelectionRed"
+            style="@style/ColorSelectionEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/color_red"
+            tools:text="255" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputColorSelectionGreen"
+        style="@style/ChangeItemInputFieldDialog"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@id/btnColorSelectionSave"
+        app:layout_constraintEnd_toStartOf="@id/inputColorSelectionBlue"
+        app:layout_constraintStart_toEndOf="@id/inputColorSelectionRed">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etColorSelectionGreen"
+            style="@style/ColorSelectionEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/color_green"
+            tools:text="255" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputColorSelectionBlue"
+        style="@style/ChangeItemInputFieldDialog"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@id/btnColorSelectionSave"
+        app:layout_constraintEnd_toStartOf="@id/inputColorSelectionHue"
+        app:layout_constraintStart_toEndOf="@id/inputColorSelectionGreen">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etColorSelectionBlue"
+            style="@style/ColorSelectionEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/color_blue"
+            tools:text="255" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputColorSelectionHue"
+        style="@style/ChangeItemInputFieldDialog"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@id/btnColorSelectionSave"
+        app:layout_constraintEnd_toStartOf="@id/inputColorSelectionSaturation"
+        app:layout_constraintStart_toEndOf="@id/inputColorSelectionBlue">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etColorSelectionHue"
+            style="@style/ColorSelectionEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/color_hue"
+            tools:text="360" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputColorSelectionSaturation"
+        style="@style/ChangeItemInputFieldDialog"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@id/btnColorSelectionSave"
+        app:layout_constraintEnd_toStartOf="@id/inputColorSelectionValue"
+        app:layout_constraintStart_toEndOf="@id/inputColorSelectionHue">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etColorSelectionSaturation"
+            style="@style/ColorSelectionEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/color_saturation"
+            tools:text="100" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputColorSelectionValue"
+        style="@style/ChangeItemInputFieldDialog"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@id/btnColorSelectionSave"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/inputColorSelectionSaturation">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etColorSelectionValue"
+            style="@style/ColorSelectionEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/color_value"
+            tools:text="100" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnColorSelectionSave"
+        style="@style/AppButtonActive"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="8dp"
+        android:text="@string/duration_dialog_save"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
