@@ -7,6 +7,7 @@ data class ColorSelectionViewData(
     val colorHue: Float,
     val colorSaturation: Float,
     val colorValue: Float,
+    val colorHex: String,
     val colorRedString: String,
     val colorGreenString: String,
     val colorBlueString: String,

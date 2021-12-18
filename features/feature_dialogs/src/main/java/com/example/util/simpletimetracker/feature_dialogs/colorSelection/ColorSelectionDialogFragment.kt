@@ -37,6 +37,7 @@ class ColorSelectionDialogFragment : BaseBottomSheetFragment<Binding>() {
     private var colorSelectionDialogListener: ColorSelectionDialogListener? = null
 
     // TODO do better?
+    private var textWatcherHex: TextWatcher? = null
     private var textWatcherR: TextWatcher? = null
     private var textWatcherG: TextWatcher? = null
     private var textWatcherB: TextWatcher? = null
@@ -78,6 +79,9 @@ class ColorSelectionDialogFragment : BaseBottomSheetFragment<Binding>() {
             }
         )
 
+        textWatcherHex = etColorSelectionHex
+            .doAfterTextChanged { viewModel.onHexChanged(it.toString()) }
+
         textWatcherR = etColorSelectionRed
             .doAfterTextChanged { viewModel.onRGBChanged(it.toString(), RGBUpdate.R) }
         textWatcherG = etColorSelectionGreen
@@ -105,6 +109,7 @@ class ColorSelectionDialogFragment : BaseBottomSheetFragment<Binding>() {
 
             binding.cardColorSelectionSelectedColor.setCardBackgroundColor(it.selectedColor)
 
+            binding.etColorSelectionHex.setColorText(it.colorHex, textWatcherHex)
             binding.etColorSelectionRed.setColorText(it.colorRedString, textWatcherR)
             binding.etColorSelectionGreen.setColorText(it.colorGreenString, textWatcherG)
             binding.etColorSelectionBlue.setColorText(it.colorBlueString, textWatcherB)

@@ -50,11 +50,11 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginHorizontal="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="10dp"
         app:cardBackgroundColor="?appInputFieldBorderDialogColor"
         app:cardCornerRadius="@dimen/record_type_card_corner_radius"
         app:cardElevation="0dp"
-        app:layout_constraintBottom_toTopOf="@id/inputColorSelectionRed"
+        app:layout_constraintBottom_toTopOf="@id/inputColorSelectionHex"
         app:layout_constraintHeight_percent="0.2">
 
         <androidx.cardview.widget.CardView
@@ -67,6 +67,28 @@
             tools:cardBackgroundColor="#00FFFF" />
 
     </androidx.cardview.widget.CardView>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputColorSelectionHex"
+        style="@style/ChangeItemInputFieldDialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        app:layout_constraintBottom_toTopOf="@id/inputColorSelectionRed"
+        app:layout_constraintEnd_toStartOf="@id/inputColorSelectionGreen"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etColorSelectionHex"
+            style="@style/ColorSelectionEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/color_hex"
+            android:inputType="textNoSuggestions"
+            tools:text="#00FFFF" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/inputColorSelectionRed"

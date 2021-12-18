@@ -1,11 +1,11 @@
 package com.example.util.simpletimetracker.feature_dialogs.colorSelection
 
 import android.graphics.Color
+import androidx.annotation.ColorInt
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.util.simpletimetracker.core.extension.set
-import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_dialogs.colorSelection.model.HSVUpdate
 import com.example.util.simpletimetracker.feature_dialogs.colorSelection.model.RGBUpdate
 import javax.inject.Inject
@@ -30,13 +30,29 @@ class ColorSelectionViewModel @Inject constructor() : ViewModel() {
         updateColorData()
     }
 
+    fun onHexChanged(colorHex: String) {
+        runCatching {
+            val color = (if (colorHex.startsWith("#")) colorHex else "#$colorHex")
+                .let(Color::parseColor)
+
+            val hsv = FloatArray(3)
+            Color.colorToHSV(color, hsv)
+
+            colorHue = hsv[0]
+            colorSaturation = hsv[1]
+            colorValue = hsv[2]
+
+            updateColorData()
+        }
+    }
+
     fun onRGBChanged(colorString: String, update: RGBUpdate) {
-        val colorInt = floatArrayOf(colorHue, colorSaturation, colorValue)
-            .let(Color::HSVToColor)
+        val newColor = colorString.toIntOrNull()?.coerceIn(0, 255) ?: return
+
+        val colorInt = getCurrentColorInt()
         val currentRed = Color.red(colorInt)
         val currentGreen = Color.green(colorInt)
         val currentBlue = Color.blue(colorInt)
-        val newColor = colorString.toIntOrNull().orZero().coerceIn(0, 255)
 
         val hsv = FloatArray(3)
         Color.RGBToHSV(
@@ -54,7 +70,9 @@ class ColorSelectionViewModel @Inject constructor() : ViewModel() {
     }
 
     fun onHSVChanged(colorString: String, update: HSVUpdate) {
-        colorString.toIntOrNull().orZero().apply {
+        val newColor = colorString.toIntOrNull() ?: return
+
+        newColor.apply {
             when (update) {
                 HSVUpdate.H -> coerceIn(0, 360).let {
                     colorHue = it.toFloat()
@@ -72,8 +90,7 @@ class ColorSelectionViewModel @Inject constructor() : ViewModel() {
     }
 
     fun onSaveClick() {
-        // TODO format color to HEX
-        colorSelected.set("")
+        getCurrentColorInt().let(::mapColorToHex).let(colorSelected::set)
     }
 
     private fun updateColorData() {
@@ -82,14 +99,14 @@ class ColorSelectionViewModel @Inject constructor() : ViewModel() {
     }
 
     private fun loadColorData(): ColorSelectionViewData {
-        val colorInt = floatArrayOf(colorHue, colorSaturation, colorValue)
-            .let(Color::HSVToColor)
+        val colorInt = getCurrentColorInt()
 
         return ColorSelectionViewData(
             selectedColor = colorInt,
             colorHue = colorHue,
             colorSaturation = colorSaturation,
             colorValue = colorValue,
+            colorHex = mapColorToHex(colorInt),
             colorRedString = Color.red(colorInt).toString(),
             colorGreenString = Color.green(colorInt).toString(),
             colorBlueString = Color.blue(colorInt).toString(),
@@ -97,5 +114,21 @@ class ColorSelectionViewModel @Inject constructor() : ViewModel() {
             colorSaturationString = (colorSaturation * 100).toInt().toString(),
             colorValueString = (colorValue * 100).toInt().toString(),
         )
+    }
+
+    private fun mapColorToHex(@ColorInt color: Int): String {
+        val currentRed = Color.red(color)
+            .let(Integer::toHexString).padStart(2, '0')
+        val currentGreen = Color.green(color)
+            .let(Integer::toHexString).padStart(2, '0')
+        val currentBlue = Color.blue(color)
+            .let(Integer::toHexString).padStart(2, '0')
+
+        return "#$currentRed$currentGreen$currentBlue"
+    }
+
+    @ColorInt private fun getCurrentColorInt(): Int {
+        return floatArrayOf(colorHue, colorSaturation, colorValue)
+            .let(Color::HSVToColor)
     }
 }

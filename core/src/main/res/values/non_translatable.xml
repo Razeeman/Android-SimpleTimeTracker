@@ -15,5 +15,6 @@
     <string name="color_hue" translatable="false">H</string>
     <string name="color_saturation" translatable="false">S</string>
     <string name="color_value" translatable="false">V</string>
+    <string name="color_hex" translatable="false">Hex</string>
 
 </resources>
