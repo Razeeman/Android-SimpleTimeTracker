@@ -15,7 +15,6 @@ import androidx.annotation.FloatRange
 import com.example.util.simpletimetracker.core.utils.SingleTapDetector
 import com.example.util.simpletimetracker.core.utils.SwipeDetector
 import com.example.util.simpletimetracker.feature_dialogs.R
-import com.example.util.simpletimetracker.feature_views.extension.dpToPx
 
 class ColorSelectionView @JvmOverloads constructor(
     context: Context,
@@ -35,6 +34,9 @@ class ColorSelectionView @JvmOverloads constructor(
     @FloatRange(from = 0.0, to = 360.0) private var colorHue: Float = 0f
     @FloatRange(from = 0.0, to = 1.0) private var colorSaturation: Float = 1f
     @FloatRange(from = 0.0, to = 1.0) private var colorValue: Float = 1f
+    private var selectedColorRadius: Int = 0
+    private var selectedColorStrokeWidth: Int = 0
+    private var selectedColorStrokeColor: Int = Color.WHITE
     // End of attrs
 
     private var listener: ColorSelectedListener? = null
@@ -48,6 +50,7 @@ class ColorSelectionView @JvmOverloads constructor(
         context = context,
         onSingleTap = { onTouch(it) }
     )
+
     // TODO fix swipe in bottom sheet
     private val swipeDetector = SwipeDetector(
         context = context,
@@ -84,7 +87,6 @@ class ColorSelectionView @JvmOverloads constructor(
         canvas.drawRect(0f, 0f, w, h, gradientPaint2)
 
         // Draw selected color indicator.
-        val selectedColorRadius: Float = 10.dpToPx().toFloat() // TODO move to args
         val selectedColorCenterX = w * colorSaturation
         val selectedColorCenterY = h * (1 - colorValue)
         bounds.set(
@@ -133,12 +135,18 @@ class ColorSelectionView @JvmOverloads constructor(
                 R.styleable.ColorSelectionView, defStyleAttr, 0
             )
             .run {
-                colorHue = getFloat(R.styleable.ColorSelectionView_colorSelectionViewHue, 0f)
-                    .coerceIn(0f, 360f)
-                colorSaturation = getFloat(R.styleable.ColorSelectionView_colorSelectionViewSaturation, 1f)
-                    .coerceIn(0f, 1f)
-                colorValue = getFloat(R.styleable.ColorSelectionView_colorSelectionViewValue, 1f)
-                    .coerceIn(0f, 1f)
+                colorHue =
+                    getFloat(R.styleable.ColorSelectionView_colorSelectionHue, 0f).coerceIn(0f, 360f)
+                colorSaturation =
+                    getFloat(R.styleable.ColorSelectionView_colorSelectionSaturation, 1f).coerceIn(0f, 1f)
+                colorValue =
+                    getFloat(R.styleable.ColorSelectionView_colorSelectionValue, 1f).coerceIn(0f, 1f)
+                selectedColorRadius =
+                    getDimensionPixelSize(R.styleable.ColorSelectionView_colorSelectionSelectedColorRadius, 0)
+                selectedColorStrokeWidth =
+                    getDimensionPixelSize(R.styleable.ColorSelectionView_colorSelectionSelectedColorStrokeWidth, 0)
+                selectedColorStrokeColor =
+                    getColor(R.styleable.ColorSelectionView_colorSelectionSelectedColorStrokeColor, Color.WHITE)
                 recycle()
             }
     }
@@ -147,8 +155,8 @@ class ColorSelectionView @JvmOverloads constructor(
         selectedColorPaint.apply {
             isAntiAlias = true
             style = Paint.Style.STROKE
-            strokeWidth = 2.dpToPx().toFloat() // TODO move to args
-            color = Color.WHITE // TODO move to args
+            strokeWidth = selectedColorStrokeWidth.toFloat()
+            color = selectedColorStrokeColor
         }
     }
 

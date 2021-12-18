@@ -13,8 +13,11 @@
     </declare-styleable>
 
     <declare-styleable name="ColorSelectionView">
-        <attr name="colorSelectionViewHue" format="float" />
-        <attr name="colorSelectionViewSaturation" format="float" />
-        <attr name="colorSelectionViewValue" format="float" />
+        <attr name="colorSelectionHue" format="float" />
+        <attr name="colorSelectionSaturation" format="float" />
+        <attr name="colorSelectionValue" format="float" />
+        <attr name="colorSelectionSelectedColorRadius" format="dimension" />
+        <attr name="colorSelectionSelectedColorStrokeWidth" format="dimension" />
+        <attr name="colorSelectionSelectedColorStrokeColor" format="color" />
     </declare-styleable>
 </resources>
