@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.extension.set
+import com.example.util.simpletimetracker.core.interactor.ColorViewDataInteractor
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.core.interactor.NotificationTypeInteractor
@@ -39,6 +40,7 @@ class ChangeRecordTagViewModel @Inject constructor(
     private val recordTypesViewDataInteractor: RecordTypesViewDataInteractor,
     private val recordTagInteractor: RecordTagInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
+    private val colorViewDataInteractor: ColorViewDataInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val notificationTypeInteractor: NotificationTypeInteractor,
     private val categoryViewDataMapper: CategoryViewDataMapper,
@@ -230,18 +232,7 @@ class ChangeRecordTagViewModel @Inject constructor(
     }
 
     private suspend fun loadColorsViewData(): List<ViewHolderType> {
-        val isDarkTheme = prefsInteractor.getDarkMode()
-
-        return ColorMapper.getAvailableColors(isDarkTheme)
-            .mapIndexed { colorId, colorResId ->
-                colorId to resourceRepo.getColor(colorResId)
-            }
-            .map { (colorId, colorInt) ->
-                ColorViewData(
-                    colorId = colorId,
-                    colorInt = colorInt
-                )
-            }
+        return colorViewDataInteractor.getColorsViewData()
     }
 
     private suspend fun loadTypesViewData(): List<ViewHolderType> {

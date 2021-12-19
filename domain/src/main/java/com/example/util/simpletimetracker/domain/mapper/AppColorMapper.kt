@@ -4,5 +4,5 @@ import com.example.util.simpletimetracker.domain.model.AppColor
 
 interface AppColorMapper {
 
-    fun mapToColorInt(color: AppColor, isDarkTheme: Boolean): Int
+    fun mapToColorInt(color: AppColor): Int
 }

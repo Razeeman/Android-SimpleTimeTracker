@@ -102,15 +102,10 @@ class RecordTypeInteractor @Inject constructor(
         return records.sortedBy { it.name.lowercase(Locale.getDefault()) }
     }
 
-    private suspend fun sortByColor(types: List<RecordType>): List<RecordType> {
-        val isDarkMode = prefsInteractor.getDarkMode()
-
+    private fun sortByColor(types: List<RecordType>): List<RecordType> {
         return types
             .map { type ->
-                type to appColorMapper.mapToColorInt(
-                    color = type.color,
-                    isDarkTheme = isDarkMode
-                )
+                type to appColorMapper.mapToColorInt(color = type.color)
             }
             .map { (type, colorInt) ->
                 val hsv = FloatArray(3)
@@ -119,9 +114,9 @@ class RecordTypeInteractor @Inject constructor(
             }
             .sortedWith(
                 compareBy(
-                    { -it.second[0] },
-                    { it.second[1] },
-                    { it.second[2] },
+                    { -it.second[0] }, // reversed hue
+                    { it.second[1] }, // saturation
+                    { it.second[2] }, // value
                 )
             )
             .map { (type, _) ->

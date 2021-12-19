@@ -11,11 +11,11 @@ class AppColorMapperImpl @Inject constructor(
     private val resourceRepo: ResourceRepo,
 ) : AppColorMapper {
 
-    @ColorInt override fun mapToColorInt(color: AppColor, isDarkTheme: Boolean): Int {
+    @ColorInt override fun mapToColorInt(color: AppColor): Int {
         return if (color.colorInt.isNotEmpty()) {
             color.colorInt.toIntOrNull()
         } else {
-            ColorMapper.getAvailableColors(isDarkTheme).getOrNull(color.colorId)?.let(resourceRepo::getColor)
+            ColorMapper.getAvailableColors().getOrNull(color.colorId)?.let(resourceRepo::getColor)
         } ?: resourceRepo.getColor(R.color.black)
     }
 }

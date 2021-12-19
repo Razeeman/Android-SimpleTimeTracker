@@ -1,27 +1,25 @@
 package com.example.util.simpletimetracker.feature_change_record_type.interactor
 
-import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
-import com.example.util.simpletimetracker.feature_base_adapter.divider.DividerViewData
+import com.example.util.simpletimetracker.core.interactor.ColorViewDataInteractor
 import com.example.util.simpletimetracker.core.mapper.CategoryViewDataMapper
-import com.example.util.simpletimetracker.core.mapper.ColorMapper
-import com.example.util.simpletimetracker.core.repo.ResourceRepo
-import com.example.util.simpletimetracker.feature_base_adapter.color.ColorViewData
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.model.AppColor
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.IconType
+import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.color.ColorPaletteViewData
+import com.example.util.simpletimetracker.feature_base_adapter.divider.DividerViewData
 import com.example.util.simpletimetracker.feature_change_record_type.mapper.ChangeRecordTypeMapper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class ChangeRecordTypeViewDataInteractor @Inject constructor(
-    private val resourceRepo: ResourceRepo,
     private val mapper: ChangeRecordTypeMapper,
     private val prefsInteractor: PrefsInteractor,
     private val categoryInteractor: CategoryInteractor,
+    private val colorViewDataInteractor: ColorViewDataInteractor,
     private val categoryViewDataMapper: CategoryViewDataMapper,
 ) {
 
@@ -66,19 +64,7 @@ class ChangeRecordTypeViewDataInteractor @Inject constructor(
     }
 
     suspend fun getColorsViewData(): List<ViewHolderType> {
-        val isDarkTheme = prefsInteractor.getDarkMode()
-
-        return ColorMapper.getAvailableColors(isDarkTheme)
-            .mapIndexed { colorId, colorResId ->
-                colorId to resourceRepo.getColor(colorResId)
-            }
-            .map { (colorId, colorInt) ->
-                ColorViewData(
-                    colorId = colorId,
-                    colorInt = colorInt
-                )
-            }
-            .plus(ColorPaletteViewData)
+        return colorViewDataInteractor.getColorsViewData().plus(ColorPaletteViewData)
     }
 
     suspend fun getIconsViewData(

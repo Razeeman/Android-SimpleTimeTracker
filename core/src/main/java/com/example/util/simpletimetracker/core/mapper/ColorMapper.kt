@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.core.mapper
 
+import android.graphics.Color
 import androidx.annotation.ColorInt
 import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
@@ -13,7 +14,9 @@ class ColorMapper @Inject constructor(
 ) {
 
     @ColorInt fun mapToColorInt(color: AppColor, isDarkTheme: Boolean): Int {
-        return appColorMapper.mapToColorInt(color = color, isDarkTheme = isDarkTheme)
+        return appColorMapper.mapToColorInt(color).let {
+            if (isDarkTheme) darkenColor(it) else it
+        }
     }
 
     fun toUntrackedColor(isDarkTheme: Boolean): Int {
@@ -64,9 +67,21 @@ class ColorMapper @Inject constructor(
         }.let(resourceRepo::getColor)
     }
 
+    /**
+     * Darkens color.
+     */
+    @ColorInt
+    fun darkenColor(@ColorInt color: Int): Int {
+        return FloatArray(3).apply {
+            Color.colorToHSV(color, this)
+            // change value
+            this[2] *= 0.8f
+        }.let(Color::HSVToColor)
+    }
+
     companion object {
-        fun getAvailableColors(isDarkTheme: Boolean = false): List<Int> {
-            return if (isDarkTheme) availableColorsDark else availableColors
+        fun getAvailableColors(): List<Int> {
+            return availableColors
         }
 
         // Don't change color positions as they are saved in DB by it.
@@ -90,28 +105,6 @@ class ColorMapper @Inject constructor(
             R.color.deep_orange_500,
             R.color.brown_500,
             R.color.blue_grey_500
-        )
-
-        private val availableColorsDark: List<Int> = listOf(
-            R.color.black,
-            R.color.red_800,
-            R.color.pink_800,
-            R.color.purple_800,
-            R.color.deep_purple_800,
-            R.color.indigo_800,
-            R.color.blue_800,
-            R.color.light_blue_800,
-            R.color.cyan_800,
-            R.color.teal_800,
-            R.color.green_800,
-            R.color.light_green_800,
-            R.color.lime_800,
-            R.color.yellow_800,
-            R.color.amber_800,
-            R.color.orange_800,
-            R.color.deep_orange_800,
-            R.color.brown_800,
-            R.color.blue_grey_800
         )
 
         val colorsNumber = availableColors.size

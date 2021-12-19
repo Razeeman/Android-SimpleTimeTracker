@@ -70,7 +70,7 @@ class TestUtils @Inject constructor(
             ?: emoji
             ?: icons.keys.first()
 
-        val colors = ColorMapper.getAvailableColors(false)
+        val colors = ColorMapper.getAvailableColors()
         val colorId = colors.indexOf(color).takeUnless { it == -1 }
             ?: (0..colors.size).random()
 

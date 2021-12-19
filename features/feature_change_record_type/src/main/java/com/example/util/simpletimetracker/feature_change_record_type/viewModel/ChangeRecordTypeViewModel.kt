@@ -190,14 +190,12 @@ class ChangeRecordTypeViewModel @Inject constructor(
     }
 
     fun onColorPaletteClick() {
-        viewModelScope.launch {
-            ColorSelectionDialogParams(
-                preselectedColor = colorMapper.mapToColorInt(
-                    color = newColor,
-                    isDarkTheme = prefsInteractor.getDarkMode()
-                )
-            ).let(router::navigate)
-        }
+        ColorSelectionDialogParams(
+            preselectedColor = colorMapper.mapToColorInt(
+                color = newColor,
+                isDarkTheme = false // Pass original, not darkened color.
+            )
+        ).let(router::navigate)
     }
 
     fun onIconTypeClick(viewData: ButtonsRowViewData) {
