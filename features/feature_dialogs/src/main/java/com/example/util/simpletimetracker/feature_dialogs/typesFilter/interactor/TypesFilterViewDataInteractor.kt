@@ -91,7 +91,7 @@ class TypesFilterViewDataInteractor @Inject constructor(
             .map { (_, tags) -> tags }
             .flatten()
             .toList()
-            .takeUnless {it.isEmpty() }
+            .takeUnless { it.isEmpty() }
             ?.plus(
                 mapTags(
                     filter = filter,

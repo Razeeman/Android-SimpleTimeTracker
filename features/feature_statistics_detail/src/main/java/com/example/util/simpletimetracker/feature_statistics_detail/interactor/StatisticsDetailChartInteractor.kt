@@ -166,16 +166,16 @@ class StatisticsDetailChartInteractor @Inject constructor(
             is RangeLength.Day -> 1
             is RangeLength.Week -> 7
             is RangeLength.Month -> when (appliedChartGrouping) {
-                ChartGrouping.DAILY -> timeMapper
-                    .getActualMaximum(startDate, Calendar.DAY_OF_MONTH, firstDayOfWeek)
-                else -> timeMapper
-                    .getActualMaximum(startDate, Calendar.WEEK_OF_YEAR, firstDayOfWeek)
+                ChartGrouping.DAILY ->
+                    timeMapper.getActualMaximum(startDate, Calendar.DAY_OF_MONTH, firstDayOfWeek)
+                else ->
+                    timeMapper.getActualMaximum(startDate, Calendar.WEEK_OF_YEAR, firstDayOfWeek)
             }
             is RangeLength.Year -> when (appliedChartGrouping) {
-                ChartGrouping.DAILY -> timeMapper
-                    .getActualMaximum(startDate, Calendar.DAY_OF_YEAR, firstDayOfWeek)
-                ChartGrouping.WEEKLY -> timeMapper
-                    .getActualMaximum(startDate, Calendar.WEEK_OF_YEAR, firstDayOfWeek)
+                ChartGrouping.DAILY ->
+                    timeMapper.getActualMaximum(startDate, Calendar.DAY_OF_YEAR, firstDayOfWeek)
+                ChartGrouping.WEEKLY ->
+                    timeMapper.getActualMaximum(startDate, Calendar.WEEK_OF_YEAR, firstDayOfWeek)
                 else -> 12
             }
             is RangeLength.All -> when (currentChartLength) {
