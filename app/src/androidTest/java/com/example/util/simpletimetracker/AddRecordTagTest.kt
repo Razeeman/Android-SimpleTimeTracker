@@ -38,7 +38,7 @@ class AddRecordTagTest : BaseUiTest() {
         val typeName = "Type"
 
         // Add activities
-        testUtils.addActivity(typeName, firstColor, firstIcon)
+        testUtils.addActivity(name = typeName, color = firstColor, icon = firstIcon)
 
         NavUtils.openSettingsScreen()
         NavUtils.openCategoriesScreen()
@@ -101,7 +101,7 @@ class AddRecordTagTest : BaseUiTest() {
         val typeName = "Type"
 
         // Add activities
-        testUtils.addActivity(typeName, firstColor, firstIcon)
+        testUtils.addActivity(name = typeName, color = firstColor, icon = firstIcon)
 
         NavUtils.openSettingsScreen()
         NavUtils.openCategoriesScreen()
@@ -174,7 +174,7 @@ class AddRecordTagTest : BaseUiTest() {
         val tagNameGeneral = "tagNameGeneral"
 
         // Add activities
-        testUtils.addActivity(typeName, firstColor, firstIcon)
+        testUtils.addActivity(name = typeName, color = firstColor, icon = firstIcon)
         testUtils.addRecordTag(tagNameActivity, typeName)
         testUtils.addRecordTag(tagNameGeneral)
 

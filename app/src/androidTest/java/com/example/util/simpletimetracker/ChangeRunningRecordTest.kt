@@ -46,8 +46,8 @@ class ChangeRunningRecordTest : BaseUiTest() {
         val fullName2 = "$name2 - $tag2"
 
         // Add activities
-        testUtils.addActivity(name1, firstColor, firstIcon, goalTime = firstGoalTime)
-        testUtils.addActivity(name2, lastColor, emoji = lastEmoji)
+        testUtils.addActivity(name = name1, color = firstColor, icon = firstIcon, goalTime = firstGoalTime)
+        testUtils.addActivity(name = name2, color = lastColor, emoji = lastEmoji)
         testUtils.addRecordTag(tag2, name2)
 
         // Start timer

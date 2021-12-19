@@ -37,7 +37,7 @@ class IconTest : BaseUiTest() {
         val lastName = "last"
 
         // Add activity
-        testUtils.addActivity(lastName, emoji = lastEmoji)
+        testUtils.addActivity(name = lastName, emoji = lastEmoji)
 
         // Open change record type screen
         tryAction { clickOnViewWithText(R.string.running_records_add_type) }

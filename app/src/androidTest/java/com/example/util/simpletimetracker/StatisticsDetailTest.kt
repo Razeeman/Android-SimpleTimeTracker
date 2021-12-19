@@ -44,7 +44,7 @@ class StatisticsDetailTest : BaseUiTest() {
         val icon = firstIcon
 
         // Add activity
-        testUtils.addActivity(name, color, icon)
+        testUtils.addActivity(name = name, color = color, icon = icon)
         testUtils.addRecordTag(tag, name)
 
         // Add records
@@ -118,7 +118,7 @@ class StatisticsDetailTest : BaseUiTest() {
         val icon = firstIcon
 
         // Add activity
-        testUtils.addActivity(name, color, icon)
+        testUtils.addActivity(name = name, color = color, icon = icon)
         testUtils.addRecordTag(tag, name)
 
         // Add records
@@ -192,7 +192,7 @@ class StatisticsDetailTest : BaseUiTest() {
         val icon = firstIcon
 
         // Add activity
-        testUtils.addActivity(name, color, icon)
+        testUtils.addActivity(name = name, color = color, icon = icon)
         testUtils.addRecordTag(tag, name)
 
         // Add records
@@ -265,7 +265,7 @@ class StatisticsDetailTest : BaseUiTest() {
         val icon = firstIcon
 
         // Add activity
-        testUtils.addActivity(name, color, icon)
+        testUtils.addActivity(name = name, color = color, icon = icon)
         testUtils.addRecordTag(tag1, name)
         testUtils.addRecordTag(tag2)
 
@@ -304,7 +304,10 @@ class StatisticsDetailTest : BaseUiTest() {
 
         // Bar chart
         checkViewIsDisplayed(allOf(withId(R.id.chartStatisticsDetail), isCompletelyDisplayed()))
-        checkViewDoesNotExist(allOf(withId(R.id.buttonsStatisticsDetailGrouping), isCompletelyDisplayed()))
+        clickOnChartGrouping(R.string.statistics_detail_chart_daily)
+        clickOnChartGrouping(R.string.statistics_detail_chart_weekly)
+        checkViewDoesNotExist(allOf(withText(R.string.statistics_detail_chart_monthly), isCompletelyDisplayed()))
+        checkViewDoesNotExist(allOf(withText(R.string.statistics_detail_chart_yearly), isCompletelyDisplayed()))
         checkViewDoesNotExist(allOf(withId(R.id.buttonsStatisticsDetailLength), isCompletelyDisplayed()))
 
         // Cards
@@ -338,7 +341,7 @@ class StatisticsDetailTest : BaseUiTest() {
         val icon = firstIcon
 
         // Add activity
-        testUtils.addActivity(name, color, icon)
+        testUtils.addActivity(name = name, color = color, icon = icon)
 
         // Add records
         var calendar = Calendar.getInstance()
@@ -446,10 +449,10 @@ class StatisticsDetailTest : BaseUiTest() {
         // Add data
         testUtils.addActivityTag(categoryName1)
         testUtils.addActivityTag(categoryName2)
-        testUtils.addActivity(name1, categories = listOf(categoryName1))
-        testUtils.addActivity(name2, categories = listOf(categoryName1))
-        testUtils.addActivity(name3, categories = listOf(categoryName2))
-        testUtils.addActivity(name4)
+        testUtils.addActivity(name = name1, categories = listOf(categoryName1))
+        testUtils.addActivity(name = name2, categories = listOf(categoryName1))
+        testUtils.addActivity(name = name3, categories = listOf(categoryName2))
+        testUtils.addActivity(name = name4)
 
         // Add records
         testUtils.addRecord(name1)

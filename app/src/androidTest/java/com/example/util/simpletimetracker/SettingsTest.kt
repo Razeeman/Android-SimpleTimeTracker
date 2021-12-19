@@ -29,6 +29,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.example.util.simpletimetracker.core.extension.setWeekToFirstDay
+import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.Direction
@@ -42,6 +43,7 @@ import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.drag
 import com.example.util.simpletimetracker.utils.longClickOnViewWithId
 import com.example.util.simpletimetracker.utils.nestedScrollTo
+import com.example.util.simpletimetracker.utils.scrollRecyclerToView
 import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.unconstrainedClickOnView
 import com.example.util.simpletimetracker.utils.withPluralText
@@ -65,7 +67,7 @@ class SettingsTest : BaseUiTest() {
         val icon = firstIcon
 
         // Add activity
-        testUtils.addActivity(name, color, icon)
+        testUtils.addActivity(name = name, color = color, icon = icon)
 
         // Untracked is shown
         NavUtils.openRecordsScreen()
@@ -307,8 +309,8 @@ class SettingsTest : BaseUiTest() {
         val color2 = lastColor
 
         // Add activities
-        testUtils.addActivity(name1, color2)
-        testUtils.addActivity(name2, color1)
+        testUtils.addActivity(name = name1, color = color2)
+        testUtils.addActivity(name = name2, color = color1)
 
         // Check order
         tryAction { check(name1, name2) { matcher -> isCompletelyLeftOf(matcher) } }
@@ -323,17 +325,45 @@ class SettingsTest : BaseUiTest() {
 
     @Test
     fun cardOrderByColor() {
-        val name1 = "Test1"
-        val name2 = "Test2"
-        val color1 = firstColor
-        val color2 = lastColor
+        val name = "Test"
+
+        val colors = ColorMapper.getAvailableColors()
+        val black = colors.first()
+        val blueGrey = colors.last()
+
+        // Restore color color by moving some colors.
+        val colorMap = colors.drop(1).dropLast(1)
+            .map {
+                it to false
+            }
+            .toMutableList()
+            .apply {
+                add(2, 0xffff00fc.toInt() to true) // custom color hue 300
+                add(7, blueGrey to false)
+                add(11, 0xff34664d.toInt() to true) // custom color hsv 150, 49, 40
+                add(12, 0xff418061.toInt() to true) // custom color hsv 150, 49, 50
+                add(13, 0xff4e9974.toInt() to true) // custom color hsv 150, 49, 60
+                add(14, 0xff80ffc0.toInt() to true) // custom color hsv 150, 49, 100
+                add(15, 0xff00ff81.toInt() to true) // custom color hsv 150, 100, 100
+                add(21, 0xffffae00.toInt() to true) // custom color hue 40
+                add(black to false)
+            }.mapIndexed { index, color ->
+                index to color
+            }
 
         // Add activities
-        testUtils.addActivity(name1, color2)
-        testUtils.addActivity(name2, color1)
+        colorMap.shuffled().forEach { (index, color) ->
+            val colorId = color.first.takeUnless { color.second }
+            val colorInt = color.first.takeIf { color.second }
+            testUtils.addActivity(name = name + index, color = colorId, colorInt = colorInt)
+        }
 
         // Change settings
         NavUtils.openSettingsScreen()
+        NavUtils.openCardSizeScreen()
+        clickOnViewWithText("1")
+        pressBack()
+
         clickOnSpinnerWithId(R.id.spinnerSettingsRecordTypeSort)
         clickOnViewWithText(R.string.settings_sort_by_color)
         checkViewIsDisplayed(
@@ -342,7 +372,16 @@ class SettingsTest : BaseUiTest() {
 
         // Check new order
         NavUtils.openRunningRecordsScreen()
-        check(name2, name1) { matcher -> isCompletelyLeftOf(matcher) }
+
+        colorMap.forEach { (index, _) ->
+            if (index == 0) return@forEach
+
+            val currentItem = name + index
+            val previousItem = name + (index - 1)
+
+            scrollRecyclerToView(R.id.rvRunningRecordsList, hasDescendant(withText(currentItem)))
+            tryAction { check(previousItem, currentItem) { matcher -> isCompletelyAbove(matcher) } }
+        }
     }
 
     @Test

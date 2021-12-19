@@ -32,8 +32,8 @@ class StatisticsTest : BaseUiTest() {
         val newName = "Test2"
 
         // Add activities
-        testUtils.addActivity(name, firstColor, firstIcon)
-        testUtils.addActivity(newName, lastColor, lastIcon)
+        testUtils.addActivity(name = name, color = firstColor, icon = firstIcon)
+        testUtils.addActivity(name = newName, color = lastColor, icon = lastIcon)
 
         // Add records
         NavUtils.openRecordsScreen()
@@ -126,10 +126,10 @@ class StatisticsTest : BaseUiTest() {
 
         // Add activities
         NavUtils.openRunningRecordsScreen()
-        testUtils.addActivity(typeName1, categories = listOf(categoryName1))
-        testUtils.addActivity(typeName2, categories = listOf(categoryName1))
-        testUtils.addActivity(typeName3, categories = listOf(categoryName2))
-        testUtils.addActivity(typeName4, categories = listOf(categoryName1, categoryName2))
+        testUtils.addActivity(name = typeName1, categories = listOf(categoryName1))
+        testUtils.addActivity(name = typeName2, categories = listOf(categoryName1))
+        testUtils.addActivity(name = typeName3, categories = listOf(categoryName2))
+        testUtils.addActivity(name = typeName4, categories = listOf(categoryName1, categoryName2))
 
         // Add records
         NavUtils.openRecordsScreen()

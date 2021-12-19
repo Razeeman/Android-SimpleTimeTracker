@@ -32,7 +32,7 @@ class DeleteRecordTest : BaseUiTest() {
         val icon = firstIcon
 
         // Add activity
-        testUtils.addActivity(name, color, icon)
+        testUtils.addActivity(name = name, color = color, icon = icon)
 
         // Add record
         NavUtils.openRecordsScreen()

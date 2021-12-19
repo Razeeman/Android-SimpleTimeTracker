@@ -31,7 +31,7 @@ class DeleteRecordTypeTest : BaseUiTest() {
         val icon = firstIcon
 
         // Add item
-        testUtils.addActivity(name, color, icon)
+        testUtils.addActivity(name = name, color = color, icon = icon)
         testUtils.addRecord(name)
 
         tryAction {

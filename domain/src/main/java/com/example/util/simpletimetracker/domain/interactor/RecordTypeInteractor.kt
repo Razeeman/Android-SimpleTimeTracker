@@ -12,6 +12,7 @@ import com.example.util.simpletimetracker.domain.repo.RecordTypeCategoryRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeRepo
 import java.util.Locale
 import javax.inject.Inject
+import kotlin.math.roundToInt
 
 class RecordTypeInteractor @Inject constructor(
     private val recordTypeRepo: RecordTypeRepo,
@@ -114,9 +115,10 @@ class RecordTypeInteractor @Inject constructor(
             }
             .sortedWith(
                 compareBy(
-                    { -it.second[0] }, // reversed hue
-                    { it.second[1] }, // saturation
-                    { it.second[2] }, // value
+                    // Round to int to prevent wiggling around floating points.
+                    { -(it.second[0].roundToInt()) }, // reversed hue
+                    { (it.second[1] * 100).roundToInt() }, // saturation
+                    { (it.second[2] * 100).roundToInt() }, // value
                 )
             )
             .map { (type, _) ->

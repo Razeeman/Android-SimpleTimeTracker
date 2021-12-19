@@ -86,7 +86,7 @@ class ColorMapper @Inject constructor(
 
         // Don't change color positions as they are saved in DB by it.
         private val availableColors: List<Int> = listOf(
-            R.color.palette_black,
+            R.color.palette_black, // last by color order.
             R.color.palette_red,
             R.color.palette_pink,
             R.color.palette_purple,
@@ -104,7 +104,7 @@ class ColorMapper @Inject constructor(
             R.color.palette_orange,
             R.color.palette_deep_orange,
             R.color.palette_brown,
-            R.color.palette_blue_grey,
+            R.color.palette_blue_grey, // after blue by color order.
         )
 
         val colorsNumber = availableColors.size

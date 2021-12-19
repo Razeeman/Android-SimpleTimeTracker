@@ -103,8 +103,8 @@ class StatisticsFilterTest : BaseUiTest() {
         // Add data
         testUtils.addActivityTag(tag1)
         testUtils.addActivityTag(tag2)
-        testUtils.addActivity(name1, categories = listOf(tag1))
-        testUtils.addActivity(name2, categories = listOf(tag2))
+        testUtils.addActivity(name = name1, categories = listOf(tag1))
+        testUtils.addActivity(name = name2, categories = listOf(tag2))
 
         // Add records
         NavUtils.openRecordsScreen()

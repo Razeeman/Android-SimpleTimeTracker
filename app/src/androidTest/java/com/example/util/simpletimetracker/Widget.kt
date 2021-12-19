@@ -35,9 +35,9 @@ class Widget : BaseUiTest() {
         val name3 = "TypeName3"
 
         // Add data
-        testUtils.addActivity(name1, color = firstColor)
-        testUtils.addActivity(name2, color = lastColor)
-        testUtils.addActivity(name3, archived = true)
+        testUtils.addActivity(name = name1, color = firstColor)
+        testUtils.addActivity(name = name2, color = lastColor)
+        testUtils.addActivity(name = name3, archived = true)
         scenarioRule = ActivityScenario.launch(WidgetConfigureActivity::class.java)
 
         // Check data

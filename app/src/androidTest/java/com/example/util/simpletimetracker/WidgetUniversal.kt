@@ -38,9 +38,9 @@ class WidgetUniversal : BaseUiTest() {
         val name3 = "TypeName3"
 
         // Add data
-        testUtils.addActivity(name1, color = firstColor)
-        testUtils.addActivity(name2, color = lastColor)
-        testUtils.addActivity(name3, archived = true)
+        testUtils.addActivity(name = name1, color = firstColor)
+        testUtils.addActivity(name = name2, color = lastColor)
+        testUtils.addActivity(name = name3, archived = true)
         scenarioRule = ActivityScenario.launch(WidgetUniversalActivity::class.java)
 
         // Check data
@@ -63,8 +63,8 @@ class WidgetUniversal : BaseUiTest() {
         val name2 = "TypeName2"
 
         // Add data
-        testUtils.addActivity(name1, color = firstColor)
-        testUtils.addActivity(name2, color = lastColor)
+        testUtils.addActivity(name = name1, color = firstColor)
+        testUtils.addActivity(name = name2, color = lastColor)
         scenarioRule = ActivityScenario.launch(WidgetUniversalActivity::class.java)
 
         // Start timers
@@ -100,8 +100,8 @@ class WidgetUniversal : BaseUiTest() {
         val tag2 = "TagName2"
 
         // Add data
-        testUtils.addActivity(name1, color = firstColor)
-        testUtils.addActivity(name2, color = lastColor)
+        testUtils.addActivity(name = name1, color = firstColor)
+        testUtils.addActivity(name = name2, color = lastColor)
         testUtils.addRecordTag(tag1, name1)
         testUtils.addRecordTag(tag2, name1, archived = true)
         scenarioRule = ActivityScenario.launch(WidgetUniversalActivity::class.java)

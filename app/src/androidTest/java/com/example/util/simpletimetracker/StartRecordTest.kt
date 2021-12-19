@@ -36,8 +36,8 @@ class StartRecordTest : BaseUiTest() {
         val firstGoalTime = TimeUnit.MINUTES.toSeconds(10)
 
         // Add activities
-        testUtils.addActivity(name, firstColor, firstIcon, goalTime = firstGoalTime)
-        testUtils.addActivity(newName, lastColor, lastIcon)
+        testUtils.addActivity(name = name, color = firstColor, icon = firstIcon, goalTime = firstGoalTime)
+        testUtils.addActivity(name = newName, color = lastColor, icon = lastIcon)
 
         // Start timer
         tryAction { clickOnViewWithText(name) }

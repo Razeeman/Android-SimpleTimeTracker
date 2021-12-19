@@ -34,7 +34,7 @@ class ChangeUntrackedTest : BaseUiTest() {
         val icon = firstIcon
 
         // Add activity
-        testUtils.addActivity(name, color, icon)
+        testUtils.addActivity(name = name, color = color, icon = icon)
 
         // Open edit view
         NavUtils.openRecordsScreen()

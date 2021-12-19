@@ -48,8 +48,8 @@ class ChangeRecordTest : BaseUiTest() {
         val fullName2 = "$newName - $tag2"
 
         // Add activities
-        testUtils.addActivity(name, firstColor, firstIcon)
-        testUtils.addActivity(newName, lastColor, emoji = lastEmoji)
+        testUtils.addActivity(name = name, color = firstColor, icon = firstIcon)
+        testUtils.addActivity(name = newName, color = lastColor, emoji = lastEmoji)
         testUtils.addRecordTag(tag1, name)
         testUtils.addRecordTag(tag2, newName)
 
@@ -203,7 +203,7 @@ class ChangeRecordTest : BaseUiTest() {
         val fullName = "$name - $tag1, $tag2"
 
         // Add activities
-        testUtils.addActivity(name, firstColor, firstIcon)
+        testUtils.addActivity(name = name, color = firstColor, icon = firstIcon)
         testUtils.addRecordTag(tag1, name)
         testUtils.addRecordTag(tag2)
 

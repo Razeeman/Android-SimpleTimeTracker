@@ -221,9 +221,9 @@ class RecordsAllTest : BaseUiTest() {
 
         // Add activity
         NavUtils.openRunningRecordsScreen()
-        testUtils.addActivity(typeName1, color1, categories = listOf(categoryName1))
-        testUtils.addActivity(typeName2, color2, categories = listOf(categoryName1))
-        testUtils.addActivity(typeName3, color3, categories = listOf(categoryName2))
+        testUtils.addActivity(name = typeName1, color = color1, categories = listOf(categoryName1))
+        testUtils.addActivity(name = typeName2, color = color2, categories = listOf(categoryName1))
+        testUtils.addActivity(name = typeName3, color = color3, categories = listOf(categoryName2))
 
         // Add records
         NavUtils.openRecordsScreen()

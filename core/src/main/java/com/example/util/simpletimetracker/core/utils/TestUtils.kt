@@ -78,7 +78,7 @@ class TestUtils @Inject constructor(
 
         val data = RecordType(
             name = name,
-            color = AppColor(colorId = colorId, colorInt = colorInt.toString()),
+            color = AppColor(colorId = colorId, colorInt = colorInt?.toString().orEmpty()),
             icon = iconId,
             goalTime = goalTime.orZero(),
             hidden = archived

@@ -33,7 +33,7 @@ class ChangeRecordTagTest : BaseUiTest() {
         val typeName = "Type"
 
         // Add activities
-        testUtils.addActivity(typeName, firstColor, firstIcon)
+        testUtils.addActivity(name = typeName, color = firstColor, icon = firstIcon)
 
         // Add category
         NavUtils.openSettingsScreen()
@@ -72,7 +72,7 @@ class ChangeRecordTagTest : BaseUiTest() {
         val typeName = "Type"
 
         // Add activities
-        testUtils.addActivity(typeName, firstColor, firstIcon)
+        testUtils.addActivity(name = typeName, color = firstColor, icon = firstIcon)
 
         // Add category
         NavUtils.openSettingsScreen()

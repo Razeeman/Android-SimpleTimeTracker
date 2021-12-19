@@ -36,8 +36,8 @@ class RecordTypeCategoryTest : BaseUiTest() {
 
         // Add activities
         NavUtils.openRunningRecordsScreen()
-        testUtils.addActivity(typeName1, categories = listOf(categoryName1))
-        testUtils.addActivity(typeName2, categories = listOf(categoryName2))
+        testUtils.addActivity(name = typeName1, categories = listOf(categoryName1))
+        testUtils.addActivity(name = typeName2, categories = listOf(categoryName2))
 
         // Check first category
         NavUtils.openSettingsScreen()

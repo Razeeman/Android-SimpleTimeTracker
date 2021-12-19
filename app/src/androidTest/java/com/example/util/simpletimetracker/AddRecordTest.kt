@@ -44,7 +44,7 @@ class AddRecordTest : BaseUiTest() {
         val tag2 = "Tag2"
 
         // Add activity
-        testUtils.addActivity(name, color, icon)
+        testUtils.addActivity(name = name, color = color, icon = icon)
         testUtils.addRecordTag(tag1, name)
         testUtils.addRecordTag(tag2)
 
