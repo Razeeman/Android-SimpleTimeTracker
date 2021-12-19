@@ -7,6 +7,7 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
+import com.example.util.simpletimetracker.core.dialog.ColorSelectionDialogListener
 import com.example.util.simpletimetracker.core.extension.hideKeyboard
 import com.example.util.simpletimetracker.core.extension.observeOnce
 import com.example.util.simpletimetracker.core.extension.setSharedTransitions
@@ -17,6 +18,7 @@ import com.example.util.simpletimetracker.core.utils.setChooserColor
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.feature_base_adapter.color.createColorAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.color.createColorPaletteAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.createRecordTypeAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagTypeSetupViewData
@@ -36,7 +38,9 @@ import javax.inject.Inject
 import com.example.util.simpletimetracker.feature_change_record_tag.databinding.ChangeRecordTagFragmentBinding as Binding
 
 @AndroidEntryPoint
-class ChangeRecordTagFragment : BaseFragment<Binding>() {
+class ChangeRecordTagFragment :
+    BaseFragment<Binding>(),
+    ColorSelectionDialogListener {
 
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
         Binding::inflate
@@ -49,7 +53,8 @@ class ChangeRecordTagFragment : BaseFragment<Binding>() {
     )
     private val colorsAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
-            createColorAdapterDelegate(viewModel::onColorClick)
+            createColorAdapterDelegate(viewModel::onColorClick),
+            createColorPaletteAdapterDelegate(viewModel::onColorPaletteClick),
         )
     }
     private val typesAdapter: BaseRecyclerAdapter by lazy {
@@ -130,6 +135,10 @@ class ChangeRecordTagFragment : BaseFragment<Binding>() {
                 if (visible) showKeyboard(etChangeRecordTagName) else hideKeyboard()
             }
         }
+    }
+
+    override fun onColorSelected(colorInt: Int) {
+        viewModel.onCustomColorSelected(colorInt)
     }
 
     private fun updateUi(item: CategoryViewData) = with(binding) {

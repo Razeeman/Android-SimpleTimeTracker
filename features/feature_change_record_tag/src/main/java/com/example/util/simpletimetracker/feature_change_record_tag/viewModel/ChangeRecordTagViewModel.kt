@@ -32,6 +32,7 @@ import com.example.util.simpletimetracker.feature_change_record_tag.viewData.Rec
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeTagData
 import com.example.util.simpletimetracker.navigation.params.notification.ToastParams
+import com.example.util.simpletimetracker.navigation.params.screen.ColorSelectionDialogParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -46,6 +47,7 @@ class ChangeRecordTagViewModel @Inject constructor(
     private val categoryViewDataMapper: CategoryViewDataMapper,
     private val changeRecordTagMapper: ChangeRecordTagMapper,
     private val resourceRepo: ResourceRepo,
+    private val colorMapper: ColorMapper,
 ) : ViewModel() {
 
     lateinit var extra: ChangeTagData
@@ -128,11 +130,29 @@ class ChangeRecordTagViewModel @Inject constructor(
             ?.flip().orTrue()
     }
 
-    // TODO add color palette
     fun onColorClick(item: ColorViewData) {
         viewModelScope.launch {
             if (item.colorId != newColor.colorId || newColor.colorInt.isNotEmpty()) {
                 newColor = AppColor(colorId = item.colorId, colorInt = "")
+                newTypeId = 0
+                updatePreview()
+            }
+        }
+    }
+
+    fun onColorPaletteClick() {
+        ColorSelectionDialogParams(
+            preselectedColor = colorMapper.mapToColorInt(
+                color = newColor,
+                isDarkTheme = false // Pass original, not darkened color.
+            )
+        ).let(router::navigate)
+    }
+
+    fun onCustomColorSelected(colorInt: Int) {
+        viewModelScope.launch {
+            if (colorInt.toString() != newColor.colorInt) {
+                newColor = AppColor(colorId = 0, colorInt = colorInt.toString())
                 newTypeId = 0
                 updatePreview()
             }
