@@ -4,4 +4,15 @@
     android:id="@+id/layoutColorItem"
     style="@style/ColorIconItem"
     android:background="?selectableItemBackgroundBorderless"
-    tools:cardBackgroundColor="@color/black" />
+    tools:cardBackgroundColor="@color/black">
+
+    <View
+        android:id="@+id/viewColorItemSelected"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="2dp"
+        android:background="@drawable/bg_selected_color_border"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+</com.google.android.material.card.MaterialCardView>

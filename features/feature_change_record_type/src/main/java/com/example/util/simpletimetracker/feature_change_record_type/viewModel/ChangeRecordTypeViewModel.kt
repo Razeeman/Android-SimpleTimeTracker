@@ -185,6 +185,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
                 newColor = AppColor(colorId = item.colorId, colorInt = "")
                 updateRecordPreviewViewData()
                 updateIcons()
+                updateColors()
             }
         }
     }
@@ -204,6 +205,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
                 newColor = AppColor(colorId = 0, colorInt = colorInt.toString())
                 updateRecordPreviewViewData()
                 updateIcons()
+                updateColors()
             }
         }
     }
@@ -363,6 +365,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
                 newColor = it.color
                 newGoalTime = it.goalTime
                 updateIcons()
+                updateColors()
                 updateGoalTimeViewData()
             }
     }
@@ -390,13 +393,18 @@ class ChangeRecordTypeViewModel @Inject constructor(
         ).let { recordTypeViewDataMapper.map(it, isDarkTheme) }
     }
 
+    private fun updateColors() = viewModelScope.launch {
+        val data = loadColorsViewData()
+        colors.set(data)
+    }
+
     private suspend fun loadColorsViewData(): List<ViewHolderType> {
-        return viewDataInteractor.getColorsViewData()
+        return viewDataInteractor.getColorsViewData(newColor)
     }
 
     private fun updateIcons() = viewModelScope.launch {
         val data = loadIconsViewData()
-        (icons as MutableLiveData).value = data
+        icons.set(data)
     }
 
     private suspend fun loadIconsViewData(): List<ViewHolderType> {

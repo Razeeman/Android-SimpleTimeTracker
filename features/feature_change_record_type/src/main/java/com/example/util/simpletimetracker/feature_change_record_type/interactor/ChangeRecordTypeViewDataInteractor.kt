@@ -62,8 +62,8 @@ class ChangeRecordTypeViewDataInteractor @Inject constructor(
             ?: mapper.mapToEmpty()
     }
 
-    suspend fun getColorsViewData(): List<ViewHolderType> {
-        return colorViewDataInteractor.getColorsViewData()
+    suspend fun getColorsViewData(currentColor: AppColor): List<ViewHolderType> {
+        return colorViewDataInteractor.getColorsViewData(currentColor)
     }
 
     suspend fun getIconsViewData(

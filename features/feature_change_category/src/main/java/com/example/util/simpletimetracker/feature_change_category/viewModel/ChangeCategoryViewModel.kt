@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.ColorViewDataInteractor
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.mapper.CategoryViewDataMapper
@@ -111,6 +112,7 @@ class ChangeCategoryViewModel @Inject constructor(
             if (item.colorId != newColor.colorId || newColor.colorInt.isNotEmpty()) {
                 newColor = AppColor(colorId = item.colorId, colorInt = "")
                 updateCategoryPreview()
+                updateColors()
             }
         }
     }
@@ -129,6 +131,7 @@ class ChangeCategoryViewModel @Inject constructor(
             if (colorInt.toString() != newColor.colorInt) {
                 newColor = AppColor(colorId = 0, colorInt = colorInt.toString())
                 updateCategoryPreview()
+                updateColors()
             }
         }
     }
@@ -211,6 +214,7 @@ class ChangeCategoryViewModel @Inject constructor(
             ?.let {
                 newName = it.name
                 newColor = it.color
+                updateColors()
             }
         val isDarkTheme = prefsInteractor.getDarkMode()
 
@@ -229,8 +233,13 @@ class ChangeCategoryViewModel @Inject constructor(
         ).let { categoryViewDataMapper.mapActivityTag(it, isDarkTheme) }
     }
 
+    private fun updateColors() = viewModelScope.launch {
+        val data = loadColorsViewData()
+        colors.set(data)
+    }
+
     private suspend fun loadColorsViewData(): List<ViewHolderType> {
-        return colorViewDataInteractor.getColorsViewData()
+        return colorViewDataInteractor.getColorsViewData(newColor)
     }
 
     private fun updateTypesViewData() = viewModelScope.launch {

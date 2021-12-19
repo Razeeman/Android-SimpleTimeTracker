@@ -1,10 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layoutColorPaletteItem"
     style="@style/ColorIconItem"
     android:background="?selectableItemBackgroundBorderless"
     app:cardBackgroundColor="?appInactiveColor">
+
+    <View
+        android:id="@+id/viewColorPaletteItemSelected"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="2dp"
+        android:background="@drawable/bg_selected_color_border"
+        android:visibility="gone"
+        tools:visibility="visible" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="match_parent"

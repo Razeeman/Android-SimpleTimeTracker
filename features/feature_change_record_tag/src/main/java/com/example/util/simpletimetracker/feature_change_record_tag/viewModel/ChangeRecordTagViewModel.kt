@@ -132,10 +132,11 @@ class ChangeRecordTagViewModel @Inject constructor(
 
     fun onColorClick(item: ColorViewData) {
         viewModelScope.launch {
-            if (item.colorId != newColor.colorId || newColor.colorInt.isNotEmpty()) {
+            if (newTypeId != 0L || item.colorId != newColor.colorId || newColor.colorInt.isNotEmpty()) {
                 newColor = AppColor(colorId = item.colorId, colorInt = "")
                 newTypeId = 0
                 updatePreview()
+                updateColors()
             }
         }
     }
@@ -151,10 +152,11 @@ class ChangeRecordTagViewModel @Inject constructor(
 
     fun onCustomColorSelected(colorInt: Int) {
         viewModelScope.launch {
-            if (colorInt.toString() != newColor.colorInt) {
+            if (newTypeId != 0L || colorInt.toString() != newColor.colorInt) {
                 newColor = AppColor(colorId = 0, colorInt = colorInt.toString())
                 newTypeId = 0
                 updatePreview()
+                updateColors()
             }
         }
     }
@@ -164,6 +166,7 @@ class ChangeRecordTagViewModel @Inject constructor(
             if (item.id != newTypeId) {
                 newTypeId = item.id
                 updatePreview()
+                updateColors()
             }
         }
     }
@@ -207,6 +210,7 @@ class ChangeRecordTagViewModel @Inject constructor(
             newTypeId = it.typeId
             newName = it.name
             newColor = it.color
+            updateColors()
         }
         updateTagTypeSetupViewData()
     }
@@ -251,8 +255,19 @@ class ChangeRecordTagViewModel @Inject constructor(
         )
     }
 
+    private fun updateColors() = viewModelScope.launch {
+        val data = loadColorsViewData()
+        colors.set(data)
+    }
+
     private suspend fun loadColorsViewData(): List<ViewHolderType> {
-        return colorViewDataInteractor.getColorsViewData()
+        val selectedColor = if (newTypeId != 0L) {
+            AppColor(colorId = -1, colorInt = "") // Nonexistent color.
+        } else {
+            newColor
+        }
+
+        return colorViewDataInteractor.getColorsViewData(selectedColor)
     }
 
     private suspend fun loadTypesViewData(): List<ViewHolderType> {
