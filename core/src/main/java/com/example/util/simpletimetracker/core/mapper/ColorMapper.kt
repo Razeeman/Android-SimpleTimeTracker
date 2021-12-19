@@ -3,19 +3,17 @@ package com.example.util.simpletimetracker.core.mapper
 import androidx.annotation.ColorInt
 import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.domain.mapper.AppColorMapper
 import com.example.util.simpletimetracker.domain.model.AppColor
 import javax.inject.Inject
 
 class ColorMapper @Inject constructor(
     private val resourceRepo: ResourceRepo,
+    private val appColorMapper: AppColorMapper,
 ) {
 
     @ColorInt fun mapToColorInt(color: AppColor, isDarkTheme: Boolean): Int {
-        return if (color.colorInt.isNotEmpty()) {
-            color.colorInt.toIntOrNull()
-        } else {
-            getAvailableColors(isDarkTheme).getOrNull(color.colorId)?.let(resourceRepo::getColor)
-        } ?: resourceRepo.getColor(R.color.black)
+        return appColorMapper.mapToColorInt(color = color, isDarkTheme = isDarkTheme)
     }
 
     fun toUntrackedColor(isDarkTheme: Boolean): Int {
@@ -71,6 +69,7 @@ class ColorMapper @Inject constructor(
             return if (isDarkTheme) availableColorsDark else availableColors
         }
 
+        // Don't change color positions as they are saved in DB by it.
         private val availableColors: List<Int> = listOf(
             R.color.black,
             R.color.red_500,

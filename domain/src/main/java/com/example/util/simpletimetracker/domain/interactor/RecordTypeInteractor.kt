@@ -1,5 +1,7 @@
 package com.example.util.simpletimetracker.domain.interactor
 
+import android.graphics.Color
+import com.example.util.simpletimetracker.domain.mapper.AppColorMapper
 import com.example.util.simpletimetracker.domain.model.CardOrder
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.repo.RecordRepo
@@ -18,7 +20,8 @@ class RecordTypeInteractor @Inject constructor(
     private val recordTypeCategoryRepo: RecordTypeCategoryRepo,
     private val recordTagRepo: RecordTagRepo,
     private val recordTypeCacheRepo: RecordTypeCacheRepo,
-    private val prefsInteractor: PrefsInteractor
+    private val prefsInteractor: PrefsInteractor,
+    private val appColorMapper: AppColorMapper,
 ) {
 
     suspend fun getAll(cardOrder: CardOrder? = null): List<RecordType> {
@@ -82,7 +85,7 @@ class RecordTypeInteractor @Inject constructor(
 
     private suspend fun sort(
         cardOrder: CardOrder?,
-        records: List<RecordType>
+        records: List<RecordType>,
     ): List<RecordType> {
         return records
             .let(::sortByName)
@@ -99,8 +102,31 @@ class RecordTypeInteractor @Inject constructor(
         return records.sortedBy { it.name.lowercase(Locale.getDefault()) }
     }
 
-    private fun sortByColor(records: List<RecordType>): List<RecordType> {
-        return records.sortedBy { it.color.colorId } // TODO fix sort with custom colors
+    private suspend fun sortByColor(types: List<RecordType>): List<RecordType> {
+        val isDarkMode = prefsInteractor.getDarkMode()
+
+        return types
+            .map { type ->
+                type to appColorMapper.mapToColorInt(
+                    color = type.color,
+                    isDarkTheme = isDarkMode
+                )
+            }
+            .map { (type, colorInt) ->
+                val hsv = FloatArray(3)
+                Color.colorToHSV(colorInt, hsv)
+                type to hsv
+            }
+            .sortedWith(
+                compareBy(
+                    { -it.second[0] },
+                    { it.second[1] },
+                    { it.second[2] },
+                )
+            )
+            .map { (type, _) ->
+                type
+            }
     }
 
     private suspend fun sortByManualOrder(records: List<RecordType>): List<RecordType> {
