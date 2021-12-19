@@ -2,11 +2,14 @@ package com.example.util.simpletimetracker
 
 import android.widget.DatePicker
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.contrib.PickerActions
+import androidx.test.espresso.Espresso.pressBack
+import androidx.test.espresso.contrib.PickerActions.setDate
+import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.withClassName
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withSubstring
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.util.simpletimetracker.core.extension.setWeekToFirstDay
@@ -29,6 +32,7 @@ import org.junit.runner.RunWith
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
+import java.util.concurrent.TimeUnit
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
@@ -45,7 +49,7 @@ class StatisticsRangesTest : BaseUiTest() {
         tryAction { clickOnViewWithText(name) }
         clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name)))
 
-        // Statistics
+        // Statistics day range
         NavUtils.openStatisticsScreen()
         checkViewIsDisplayed(allOf(withText(name), isCompletelyDisplayed()))
         clickOnViewWithId(R.id.btnStatisticsContainerPrevious)
@@ -104,6 +108,18 @@ class StatisticsRangesTest : BaseUiTest() {
         checkViewIsNotDisplayed(withId(R.id.btnStatisticsContainerPrevious))
         checkViewIsNotDisplayed(withId(R.id.btnStatisticsContainerNext))
 
+        // Switch to custom range
+        clickOnViewWithId(R.id.btnStatisticsContainerToday)
+        checkViewDoesNotExist(withText(R.string.range_select_day))
+        checkViewDoesNotExist(withText(R.string.range_select_week))
+        checkViewDoesNotExist(withText(R.string.range_select_month))
+        checkViewDoesNotExist(withText(R.string.range_select_year))
+        clickOnViewWithText(R.string.range_custom)
+        tryAction { clickOnViewWithId(R.id.btnCustomRangeSelection) }
+        checkViewIsDisplayed(allOf(withText(name), isCompletelyDisplayed()))
+        checkViewIsNotDisplayed(withId(R.id.btnStatisticsContainerPrevious))
+        checkViewIsNotDisplayed(withId(R.id.btnStatisticsContainerNext))
+
         // Switch back to day
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         checkViewDoesNotExist(withText(R.string.range_select_day))
@@ -129,42 +145,30 @@ class StatisticsRangesTest : BaseUiTest() {
         // Check yesterday
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         clickOnViewWithText(R.string.range_select_day)
-        onView(withClassName(equalTo(DatePicker::class.java.name)))
-            .perform(
-                PickerActions.setDate(
-                    calendarPrev.get(Calendar.YEAR),
-                    calendarPrev.get(Calendar.MONTH) + 1,
-                    calendarPrev.get(Calendar.DAY_OF_MONTH)
-                )
-            )
-        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
-
-        checkViewIsDisplayed(
-            allOf(
-                withText(R.string.title_yesterday),
-                isCompletelyDisplayed()
+        onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
+            setDate(
+                calendarPrev.get(Calendar.YEAR),
+                calendarPrev.get(Calendar.MONTH) + 1,
+                calendarPrev.get(Calendar.DAY_OF_MONTH)
             )
         )
+        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+
+        checkViewIsDisplayed(allOf(withText(R.string.title_yesterday), isCompletelyDisplayed()))
 
         // Check tomorrow
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         clickOnViewWithText(R.string.range_select_day)
-        onView(withClassName(equalTo(DatePicker::class.java.name)))
-            .perform(
-                PickerActions.setDate(
-                    calendarNext.get(Calendar.YEAR),
-                    calendarNext.get(Calendar.MONTH) + 1,
-                    calendarNext.get(Calendar.DAY_OF_MONTH)
-                )
-            )
-        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
-
-        checkViewIsDisplayed(
-            allOf(
-                withText(R.string.title_tomorrow),
-                isCompletelyDisplayed()
+        onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
+            setDate(
+                calendarNext.get(Calendar.YEAR),
+                calendarNext.get(Calendar.MONTH) + 1,
+                calendarNext.get(Calendar.DAY_OF_MONTH)
             )
         )
+        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+
+        checkViewIsDisplayed(allOf(withText(R.string.title_tomorrow), isCompletelyDisplayed()))
     }
 
     @Test
@@ -187,42 +191,30 @@ class StatisticsRangesTest : BaseUiTest() {
         // Check prev date
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         clickOnViewWithText(R.string.range_select_day)
-        onView(withClassName(equalTo(DatePicker::class.java.name)))
-            .perform(
-                PickerActions.setDate(
-                    calendarPrev.get(Calendar.YEAR),
-                    calendarPrev.get(Calendar.MONTH) + 1,
-                    calendarPrev.get(Calendar.DAY_OF_MONTH)
-                )
-            )
-        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
-
-        checkViewIsDisplayed(
-            allOf(
-                withText(titlePrev),
-                isCompletelyDisplayed()
+        onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
+            setDate(
+                calendarPrev.get(Calendar.YEAR),
+                calendarPrev.get(Calendar.MONTH) + 1,
+                calendarPrev.get(Calendar.DAY_OF_MONTH)
             )
         )
+        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+
+        checkViewIsDisplayed(allOf(withText(titlePrev), isCompletelyDisplayed()))
 
         // Check next date
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         clickOnViewWithText(R.string.range_select_day)
-        onView(withClassName(equalTo(DatePicker::class.java.name)))
-            .perform(
-                PickerActions.setDate(
-                    calendarNext.get(Calendar.YEAR),
-                    calendarNext.get(Calendar.MONTH) + 1,
-                    calendarNext.get(Calendar.DAY_OF_MONTH)
-                )
-            )
-        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
-
-        checkViewIsDisplayed(
-            allOf(
-                withText(titleNext),
-                isCompletelyDisplayed()
+        onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
+            setDate(
+                calendarNext.get(Calendar.YEAR),
+                calendarNext.get(Calendar.MONTH) + 1,
+                calendarNext.get(Calendar.DAY_OF_MONTH)
             )
         )
+        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+
+        checkViewIsDisplayed(allOf(withText(titleNext), isCompletelyDisplayed()))
     }
 
     @Test
@@ -244,42 +236,30 @@ class StatisticsRangesTest : BaseUiTest() {
         clickOnViewWithText(R.string.range_week)
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         clickOnViewWithText(R.string.range_select_week)
-        onView(withClassName(equalTo(DatePicker::class.java.name)))
-            .perform(
-                PickerActions.setDate(
-                    calendarPrev.get(Calendar.YEAR),
-                    calendarPrev.get(Calendar.MONTH) + 1,
-                    calendarPrev.get(Calendar.DAY_OF_MONTH)
-                )
-            )
-        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
-
-        checkViewIsDisplayed(
-            allOf(
-                withText(titlePrev),
-                isCompletelyDisplayed()
+        onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
+            setDate(
+                calendarPrev.get(Calendar.YEAR),
+                calendarPrev.get(Calendar.MONTH) + 1,
+                calendarPrev.get(Calendar.DAY_OF_MONTH)
             )
         )
+        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+
+        checkViewIsDisplayed(allOf(withText(titlePrev), isCompletelyDisplayed()))
 
         // Check next week
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         clickOnViewWithText(R.string.range_select_week)
-        onView(withClassName(equalTo(DatePicker::class.java.name)))
-            .perform(
-                PickerActions.setDate(
-                    calendarNext.get(Calendar.YEAR),
-                    calendarNext.get(Calendar.MONTH) + 1,
-                    calendarNext.get(Calendar.DAY_OF_MONTH)
-                )
-            )
-        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
-
-        checkViewIsDisplayed(
-            allOf(
-                withText(titleNext),
-                isCompletelyDisplayed()
+        onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
+            setDate(
+                calendarNext.get(Calendar.YEAR),
+                calendarNext.get(Calendar.MONTH) + 1,
+                calendarNext.get(Calendar.DAY_OF_MONTH)
             )
         )
+        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+
+        checkViewIsDisplayed(allOf(withText(titleNext), isCompletelyDisplayed()))
     }
 
     @Test
@@ -301,42 +281,30 @@ class StatisticsRangesTest : BaseUiTest() {
         clickOnViewWithText(R.string.range_week)
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         clickOnViewWithText(R.string.range_select_week)
-        onView(withClassName(equalTo(DatePicker::class.java.name)))
-            .perform(
-                PickerActions.setDate(
-                    calendarPrev.get(Calendar.YEAR),
-                    calendarPrev.get(Calendar.MONTH) + 1,
-                    calendarPrev.get(Calendar.DAY_OF_MONTH)
-                )
-            )
-        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
-
-        checkViewIsDisplayed(
-            allOf(
-                withText(titlePrev),
-                isCompletelyDisplayed()
+        onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
+            setDate(
+                calendarPrev.get(Calendar.YEAR),
+                calendarPrev.get(Calendar.MONTH) + 1,
+                calendarPrev.get(Calendar.DAY_OF_MONTH)
             )
         )
+        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+
+        checkViewIsDisplayed(allOf(withText(titlePrev), isCompletelyDisplayed()))
 
         // Check next date
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         clickOnViewWithText(R.string.range_select_week)
-        onView(withClassName(equalTo(DatePicker::class.java.name)))
-            .perform(
-                PickerActions.setDate(
-                    calendarNext.get(Calendar.YEAR),
-                    calendarNext.get(Calendar.MONTH) + 1,
-                    calendarNext.get(Calendar.DAY_OF_MONTH)
-                )
-            )
-        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
-
-        checkViewIsDisplayed(
-            allOf(
-                withText(titleNext),
-                isCompletelyDisplayed()
+        onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
+            setDate(
+                calendarNext.get(Calendar.YEAR),
+                calendarNext.get(Calendar.MONTH) + 1,
+                calendarNext.get(Calendar.DAY_OF_MONTH)
             )
         )
+        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+
+        checkViewIsDisplayed(allOf(withText(titleNext), isCompletelyDisplayed()))
     }
 
     @Test
@@ -361,42 +329,30 @@ class StatisticsRangesTest : BaseUiTest() {
         clickOnViewWithText(R.string.range_week)
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         clickOnViewWithText(R.string.range_select_week)
-        onView(withClassName(equalTo(DatePicker::class.java.name)))
-            .perform(
-                PickerActions.setDate(
-                    calendarPrev.get(Calendar.YEAR),
-                    calendarPrev.get(Calendar.MONTH) + 1,
-                    calendarPrev.get(Calendar.DAY_OF_MONTH)
-                )
-            )
-        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
-
-        checkViewIsDisplayed(
-            allOf(
-                withText(titlePrev),
-                isCompletelyDisplayed()
+        onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
+            setDate(
+                calendarPrev.get(Calendar.YEAR),
+                calendarPrev.get(Calendar.MONTH) + 1,
+                calendarPrev.get(Calendar.DAY_OF_MONTH)
             )
         )
+        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+
+        checkViewIsDisplayed(allOf(withText(titlePrev), isCompletelyDisplayed()))
 
         // Check next date
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         clickOnViewWithText(R.string.range_select_week)
-        onView(withClassName(equalTo(DatePicker::class.java.name)))
-            .perform(
-                PickerActions.setDate(
-                    calendarNext.get(Calendar.YEAR),
-                    calendarNext.get(Calendar.MONTH) + 1,
-                    calendarNext.get(Calendar.DAY_OF_MONTH)
-                )
-            )
-        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
-
-        checkViewIsDisplayed(
-            allOf(
-                withText(titleNext),
-                isCompletelyDisplayed()
+        onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
+            setDate(
+                calendarNext.get(Calendar.YEAR),
+                calendarNext.get(Calendar.MONTH) + 1,
+                calendarNext.get(Calendar.DAY_OF_MONTH)
             )
         )
+        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+
+        checkViewIsDisplayed(allOf(withText(titleNext), isCompletelyDisplayed()))
     }
 
     @Test
@@ -421,42 +377,30 @@ class StatisticsRangesTest : BaseUiTest() {
         clickOnViewWithText(R.string.range_week)
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         clickOnViewWithText(R.string.range_select_week)
-        onView(withClassName(equalTo(DatePicker::class.java.name)))
-            .perform(
-                PickerActions.setDate(
-                    calendarPrev.get(Calendar.YEAR),
-                    calendarPrev.get(Calendar.MONTH) + 1,
-                    calendarPrev.get(Calendar.DAY_OF_MONTH)
-                )
-            )
-        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
-
-        checkViewIsDisplayed(
-            allOf(
-                withText(titlePrev),
-                isCompletelyDisplayed()
+        onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
+            setDate(
+                calendarPrev.get(Calendar.YEAR),
+                calendarPrev.get(Calendar.MONTH) + 1,
+                calendarPrev.get(Calendar.DAY_OF_MONTH)
             )
         )
+        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+
+        checkViewIsDisplayed(allOf(withText(titlePrev), isCompletelyDisplayed()))
 
         // Check next date
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         clickOnViewWithText(R.string.range_select_week)
-        onView(withClassName(equalTo(DatePicker::class.java.name)))
-            .perform(
-                PickerActions.setDate(
-                    calendarNext.get(Calendar.YEAR),
-                    calendarNext.get(Calendar.MONTH) + 1,
-                    calendarNext.get(Calendar.DAY_OF_MONTH)
-                )
-            )
-        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
-
-        checkViewIsDisplayed(
-            allOf(
-                withText(titleNext),
-                isCompletelyDisplayed()
+        onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
+            setDate(
+                calendarNext.get(Calendar.YEAR),
+                calendarNext.get(Calendar.MONTH) + 1,
+                calendarNext.get(Calendar.DAY_OF_MONTH)
             )
         )
+        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+
+        checkViewIsDisplayed(allOf(withText(titleNext), isCompletelyDisplayed()))
     }
 
     @Test
@@ -477,42 +421,30 @@ class StatisticsRangesTest : BaseUiTest() {
         clickOnViewWithText(R.string.range_month)
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         clickOnViewWithText(R.string.range_select_month)
-        onView(withClassName(equalTo(DatePicker::class.java.name)))
-            .perform(
-                PickerActions.setDate(
-                    calendarPrev.get(Calendar.YEAR),
-                    calendarPrev.get(Calendar.MONTH) + 1,
-                    calendarPrev.get(Calendar.DAY_OF_MONTH)
-                )
-            )
-        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
-
-        checkViewIsDisplayed(
-            allOf(
-                withText(titlePrev),
-                isCompletelyDisplayed()
+        onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
+            setDate(
+                calendarPrev.get(Calendar.YEAR),
+                calendarPrev.get(Calendar.MONTH) + 1,
+                calendarPrev.get(Calendar.DAY_OF_MONTH)
             )
         )
+        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+
+        checkViewIsDisplayed(allOf(withText(titlePrev), isCompletelyDisplayed()))
 
         // Check next month
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         clickOnViewWithText(R.string.range_select_month)
-        onView(withClassName(equalTo(DatePicker::class.java.name)))
-            .perform(
-                PickerActions.setDate(
-                    calendarNext.get(Calendar.YEAR),
-                    calendarNext.get(Calendar.MONTH) + 1,
-                    calendarNext.get(Calendar.DAY_OF_MONTH)
-                )
-            )
-        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
-
-        checkViewIsDisplayed(
-            allOf(
-                withText(titleNext),
-                isCompletelyDisplayed()
+        onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
+            setDate(
+                calendarNext.get(Calendar.YEAR),
+                calendarNext.get(Calendar.MONTH) + 1,
+                calendarNext.get(Calendar.DAY_OF_MONTH)
             )
         )
+        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+
+        checkViewIsDisplayed(allOf(withText(titleNext), isCompletelyDisplayed()))
     }
 
     @Test
@@ -537,42 +469,30 @@ class StatisticsRangesTest : BaseUiTest() {
         clickOnViewWithText(R.string.range_month)
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         clickOnViewWithText(R.string.range_select_month)
-        onView(withClassName(equalTo(DatePicker::class.java.name)))
-            .perform(
-                PickerActions.setDate(
-                    calendarPrev.get(Calendar.YEAR),
-                    calendarPrev.get(Calendar.MONTH) + 1,
-                    calendarPrev.get(Calendar.DAY_OF_MONTH)
-                )
-            )
-        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
-
-        checkViewIsDisplayed(
-            allOf(
-                withText(titlePrev),
-                isCompletelyDisplayed()
+        onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
+            setDate(
+                calendarPrev.get(Calendar.YEAR),
+                calendarPrev.get(Calendar.MONTH) + 1,
+                calendarPrev.get(Calendar.DAY_OF_MONTH)
             )
         )
+        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+
+        checkViewIsDisplayed(allOf(withText(titlePrev), isCompletelyDisplayed()))
 
         // Check next date
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         clickOnViewWithText(R.string.range_select_month)
-        onView(withClassName(equalTo(DatePicker::class.java.name)))
-            .perform(
-                PickerActions.setDate(
-                    calendarNext.get(Calendar.YEAR),
-                    calendarNext.get(Calendar.MONTH) + 1,
-                    calendarNext.get(Calendar.DAY_OF_MONTH)
-                )
-            )
-        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
-
-        checkViewIsDisplayed(
-            allOf(
-                withText(titleNext),
-                isCompletelyDisplayed()
+        onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
+            setDate(
+                calendarNext.get(Calendar.YEAR),
+                calendarNext.get(Calendar.MONTH) + 1,
+                calendarNext.get(Calendar.DAY_OF_MONTH)
             )
         )
+        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+
+        checkViewIsDisplayed(allOf(withText(titleNext), isCompletelyDisplayed()))
     }
 
     @Test
@@ -593,42 +513,30 @@ class StatisticsRangesTest : BaseUiTest() {
         clickOnViewWithText(R.string.range_year)
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         clickOnViewWithText(R.string.range_select_year)
-        onView(withClassName(equalTo(DatePicker::class.java.name)))
-            .perform(
-                PickerActions.setDate(
-                    calendarPrev.get(Calendar.YEAR),
-                    calendarPrev.get(Calendar.MONTH) + 1,
-                    calendarPrev.get(Calendar.DAY_OF_MONTH)
-                )
-            )
-        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
-
-        checkViewIsDisplayed(
-            allOf(
-                withText(titlePrev),
-                isCompletelyDisplayed()
+        onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
+            setDate(
+                calendarPrev.get(Calendar.YEAR),
+                calendarPrev.get(Calendar.MONTH) + 1,
+                calendarPrev.get(Calendar.DAY_OF_MONTH)
             )
         )
+        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+
+        checkViewIsDisplayed(allOf(withText(titlePrev), isCompletelyDisplayed()))
 
         // Check next month
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         clickOnViewWithText(R.string.range_select_year)
-        onView(withClassName(equalTo(DatePicker::class.java.name)))
-            .perform(
-                PickerActions.setDate(
-                    calendarNext.get(Calendar.YEAR),
-                    calendarNext.get(Calendar.MONTH) + 1,
-                    calendarNext.get(Calendar.DAY_OF_MONTH)
-                )
-            )
-        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
-
-        checkViewIsDisplayed(
-            allOf(
-                withText(titleNext),
-                isCompletelyDisplayed()
+        onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
+            setDate(
+                calendarNext.get(Calendar.YEAR),
+                calendarNext.get(Calendar.MONTH) + 1,
+                calendarNext.get(Calendar.DAY_OF_MONTH)
             )
         )
+        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+
+        checkViewIsDisplayed(allOf(withText(titleNext), isCompletelyDisplayed()))
     }
 
     @Test
@@ -653,39 +561,194 @@ class StatisticsRangesTest : BaseUiTest() {
         clickOnViewWithText(R.string.range_year)
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         clickOnViewWithText(R.string.range_select_year)
-        onView(withClassName(equalTo(DatePicker::class.java.name)))
-            .perform(
-                PickerActions.setDate(
-                    calendarPrev.get(Calendar.YEAR),
-                    calendarPrev.get(Calendar.MONTH) + 1,
-                    calendarPrev.get(Calendar.DAY_OF_MONTH)
-                )
-            )
-        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
-
-        checkViewIsDisplayed(
-            allOf(
-                withText(titlePrev),
-                isCompletelyDisplayed()
+        onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
+            setDate(
+                calendarPrev.get(Calendar.YEAR),
+                calendarPrev.get(Calendar.MONTH) + 1,
+                calendarPrev.get(Calendar.DAY_OF_MONTH)
             )
         )
+        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+
+        checkViewIsDisplayed(allOf(withText(titlePrev), isCompletelyDisplayed()))
 
         // Check next date
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         clickOnViewWithText(R.string.range_select_year)
-        onView(withClassName(equalTo(DatePicker::class.java.name)))
-            .perform(
-                PickerActions.setDate(
-                    calendarNext.get(Calendar.YEAR),
-                    calendarNext.get(Calendar.MONTH) + 1,
-                    calendarNext.get(Calendar.DAY_OF_MONTH)
-                )
+        onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
+            setDate(
+                calendarNext.get(Calendar.YEAR),
+                calendarNext.get(Calendar.MONTH) + 1,
+                calendarNext.get(Calendar.DAY_OF_MONTH)
             )
+        )
         clickOnViewWithId(R.id.btnDateTimeDialogPositive)
 
+        checkViewIsDisplayed(allOf(withText(titleNext), isCompletelyDisplayed()))
+    }
+
+    @Test
+    fun customRange() {
+        val name1 = "Test1"
+        val name2 = "Test2"
+
+        // Add data
+        testUtils.addActivity(name1)
+        testUtils.addActivity(name2)
+        var calendar = Calendar.getInstance().apply {
+            add(Calendar.DATE, -1)
+            set(Calendar.HOUR_OF_DAY, 15)
+        }
+        testUtils.addRecord(
+            typeName = name1,
+            timeStarted = calendar.timeInMillis,
+            timeEnded = calendar.timeInMillis + TimeUnit.HOURS.toMillis(1)
+        )
+        calendar = Calendar.getInstance().apply {
+            add(Calendar.DATE, -2)
+            set(Calendar.HOUR_OF_DAY, 15)
+        }
+        testUtils.addRecord(
+            typeName = name2,
+            timeStarted = calendar.timeInMillis,
+            timeEnded = calendar.timeInMillis + TimeUnit.HOURS.toMillis(2)
+        )
+
+        // Check custom range not selected
+        NavUtils.openStatisticsScreen()
+        checkViewDoesNotExist(allOf(withText(name1), isCompletelyDisplayed()))
+        checkViewDoesNotExist(allOf(withText(name2), isCompletelyDisplayed()))
+        clickOnViewWithId(R.id.btnStatisticsContainerToday)
+        clickOnViewWithText(R.string.range_custom)
+        pressBack()
+        checkViewIsDisplayed(allOf(withId(R.id.btnStatisticsContainerToday), withText(R.string.title_today)))
+
+        // Select custom range default
+        clickOnViewWithId(R.id.btnStatisticsContainerToday)
+        clickOnViewWithText(R.string.range_custom)
+        clickOnViewWithId(R.id.btnCustomRangeSelection)
+        checkViewIsDisplayed(allOf(withId(R.id.btnStatisticsContainerToday), withText(R.string.range_custom)))
+        checkViewDoesNotExist(allOf(withText(name1), isCompletelyDisplayed()))
+        checkViewDoesNotExist(allOf(withText(name2), isCompletelyDisplayed()))
+
+        // Select custom range yesterday
+        clickOnViewWithId(R.id.btnStatisticsContainerToday)
+        clickOnViewWithText(R.string.range_custom)
+        calendar = Calendar.getInstance().apply {
+            add(Calendar.DATE, -1)
+        }
+        setCustomRange(
+            yearStarted = calendar.get(Calendar.YEAR),
+            monthStarted = calendar.get(Calendar.MONTH),
+            dayStarted = calendar.get(Calendar.DAY_OF_MONTH),
+            yearEnded = calendar.get(Calendar.YEAR),
+            monthEnded = calendar.get(Calendar.MONTH),
+            dayEnded = calendar.get(Calendar.DAY_OF_MONTH),
+        )
+
+        // Check statistics
+        checkStatisticsItem(nameResId = R.string.untracked_time_name, hours = 23)
+        checkStatisticsItem(name = name1, hours = 1)
+        checkViewDoesNotExist(allOf(withText(name2), isCompletelyDisplayed()))
+
+        // Check time set
+        clickOnViewWithId(R.id.btnStatisticsContainerToday)
+        clickOnViewWithText(R.string.range_custom)
+        var timeStarted = calendar.timeInMillis.let(timeMapper::formatDateYear)
+        var timeEnded = timeStarted
+
+        checkViewIsDisplayed(allOf(withId(R.id.tvCustomRangeSelectionTimeStarted), withText(timeStarted)))
+        checkViewIsDisplayed(allOf(withId(R.id.tvCustomRangeSelectionTimeEnded), withText(timeEnded)))
+
+        // Select custom range three days
+        var calendarStart = Calendar.getInstance().apply {
+            add(Calendar.DATE, -3)
+        }
+        setCustomRange(
+            yearStarted = calendarStart.get(Calendar.YEAR),
+            monthStarted = calendarStart.get(Calendar.MONTH),
+            dayStarted = calendarStart.get(Calendar.DAY_OF_MONTH),
+            yearEnded = calendar.get(Calendar.YEAR),
+            monthEnded = calendar.get(Calendar.MONTH),
+            dayEnded = calendar.get(Calendar.DAY_OF_MONTH),
+        )
+
+        checkStatisticsItem(nameResId = R.string.untracked_time_name, hours = 69)
+        checkStatisticsItem(name = name1, hours = 1)
+        checkStatisticsItem(name = name2, hours = 2)
+
+        // Check time set
+        clickOnViewWithId(R.id.btnStatisticsContainerToday)
+        clickOnViewWithText(R.string.range_custom)
+        timeStarted = calendarStart.timeInMillis.let(timeMapper::formatDateYear)
+        timeEnded = calendar.timeInMillis.let(timeMapper::formatDateYear)
+
+        checkViewIsDisplayed(allOf(withId(R.id.tvCustomRangeSelectionTimeStarted), withText(timeStarted)))
+        checkViewIsDisplayed(allOf(withId(R.id.tvCustomRangeSelectionTimeEnded), withText(timeEnded)))
+
+        // Select custom range long time ago
+        calendar = Calendar.getInstance().apply {
+            add(Calendar.DATE, -11)
+        }
+        calendarStart = Calendar.getInstance().apply {
+            add(Calendar.DATE, -20)
+        }
+        setCustomRange(
+            yearStarted = calendarStart.get(Calendar.YEAR),
+            monthStarted = calendarStart.get(Calendar.MONTH),
+            dayStarted = calendarStart.get(Calendar.DAY_OF_MONTH),
+            yearEnded = calendar.get(Calendar.YEAR),
+            monthEnded = calendar.get(Calendar.MONTH),
+            dayEnded = calendar.get(Calendar.DAY_OF_MONTH),
+        )
+
+        checkStatisticsItem(nameResId = R.string.untracked_time_name, hours = 240)
+        checkViewDoesNotExist(allOf(withText(name1), isCompletelyDisplayed()))
+        checkViewDoesNotExist(allOf(withText(name2), isCompletelyDisplayed()))
+
+        // Check time set
+        clickOnViewWithId(R.id.btnStatisticsContainerToday)
+        clickOnViewWithText(R.string.range_custom)
+        timeStarted = calendarStart.timeInMillis.let(timeMapper::formatDateYear)
+        timeEnded = calendar.timeInMillis.let(timeMapper::formatDateYear)
+
+        checkViewIsDisplayed(allOf(withId(R.id.tvCustomRangeSelectionTimeStarted), withText(timeStarted)))
+        checkViewIsDisplayed(allOf(withId(R.id.tvCustomRangeSelectionTimeEnded), withText(timeEnded)))
+    }
+
+    private fun setCustomRange(
+        yearStarted: Int,
+        monthStarted: Int,
+        dayStarted: Int,
+        yearEnded: Int,
+        monthEnded: Int,
+        dayEnded: Int,
+    ) {
+        // Set time started
+        clickOnViewWithId(R.id.tvCustomRangeSelectionTimeStarted)
+        onView(withClassName(equalTo(DatePicker::class.java.name)))
+            .perform(setDate(yearStarted, monthStarted + 1, dayStarted))
+        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+
+        // Set time ended
+        clickOnViewWithId(R.id.tvCustomRangeSelectionTimeEnded)
+        onView(withClassName(equalTo(DatePicker::class.java.name)))
+            .perform(setDate(yearEnded, monthEnded + 1, dayEnded))
+        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+
+        clickOnViewWithId(R.id.btnCustomRangeSelection)
+    }
+
+    private fun checkStatisticsItem(
+        name: String = "",
+        nameResId: Int? = null,
+        hours: Int,
+    ) {
         checkViewIsDisplayed(
             allOf(
-                withText(titleNext),
+                withId(R.id.viewStatisticsItem),
+                hasDescendant(if (nameResId != null) withText(nameResId) else withText(name)),
+                hasDescendant(withSubstring("$hours$hourString 0$minuteString")),
                 isCompletelyDisplayed()
             )
         )
