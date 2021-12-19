@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--  Hue of some material colors changed to support original sorting  -->
+    <color name="palette_black">@color/black</color>
+    <color name="palette_red">#F53639</color>
+    <color name="palette_pink">@color/pink_500</color>
+    <color name="palette_purple">@color/purple_500</color>
+    <color name="palette_deep_purple">@color/deep_purple_500</color>
+    <color name="palette_indigo">@color/indigo_500</color>
+    <color name="palette_blue">@color/blue_500</color>
+    <color name="palette_light_blue">@color/light_blue_500</color>
+    <color name="palette_cyan">@color/cyan_500</color>
+    <color name="palette_teal">@color/teal_500</color>
+    <color name="palette_green">@color/green_500</color>
+    <color name="palette_light_green">@color/light_green_500</color>
+    <color name="palette_lime">@color/lime_500</color>
+    <color name="palette_yellow">@color/yellow_500</color>
+    <color name="palette_amber">@color/amber_500</color>
+    <color name="palette_orange">@color/orange_500</color>
+    <color name="palette_deep_orange">@color/deep_orange_500</color>
+    <color name="palette_brown">#785248</color>
+    <color name="palette_blue_grey">@color/blue_grey_500</color>
+
+</resources>
