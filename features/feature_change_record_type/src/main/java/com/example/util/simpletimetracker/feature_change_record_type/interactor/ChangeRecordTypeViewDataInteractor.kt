@@ -8,7 +8,6 @@ import com.example.util.simpletimetracker.domain.model.AppColor
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.IconType
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
-import com.example.util.simpletimetracker.feature_base_adapter.color.ColorPaletteViewData
 import com.example.util.simpletimetracker.feature_base_adapter.divider.DividerViewData
 import com.example.util.simpletimetracker.feature_change_record_type.mapper.ChangeRecordTypeMapper
 import kotlinx.coroutines.Dispatchers
@@ -64,7 +63,7 @@ class ChangeRecordTypeViewDataInteractor @Inject constructor(
     }
 
     suspend fun getColorsViewData(): List<ViewHolderType> {
-        return colorViewDataInteractor.getColorsViewData().plus(ColorPaletteViewData)
+        return colorViewDataInteractor.getColorsViewData()
     }
 
     suspend fun getIconsViewData(

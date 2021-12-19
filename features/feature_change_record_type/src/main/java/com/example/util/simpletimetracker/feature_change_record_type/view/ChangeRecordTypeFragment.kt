@@ -76,7 +76,7 @@ class ChangeRecordTypeFragment :
     private val colorsAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
             createColorAdapterDelegate(viewModel::onColorClick),
-            createColorPaletteAdapterDelegate(viewModel::onColorPaletteClick)
+            createColorPaletteAdapterDelegate(viewModel::onColorPaletteClick),
         )
     }
     private val iconsAdapter: BaseRecyclerAdapter by lazy {

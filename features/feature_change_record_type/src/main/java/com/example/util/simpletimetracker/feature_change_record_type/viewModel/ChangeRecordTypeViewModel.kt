@@ -198,6 +198,16 @@ class ChangeRecordTypeViewModel @Inject constructor(
         ).let(router::navigate)
     }
 
+    fun onCustomColorSelected(colorInt: Int) {
+        viewModelScope.launch {
+            if (colorInt.toString() != newColor.colorInt) {
+                newColor = AppColor(colorId = 0, colorInt = colorInt.toString())
+                updateRecordPreviewViewData()
+                updateIcons()
+            }
+        }
+    }
+
     fun onIconTypeClick(viewData: ButtonsRowViewData) {
         if (viewData !is ChangeRecordTypeIconSwitchViewData) return
         viewModelScope.launch {
@@ -242,16 +252,6 @@ class ChangeRecordTypeViewModel @Inject constructor(
             if (emojiText != newIconName) {
                 newIconName = emojiText
                 updateRecordPreviewViewData()
-            }
-        }
-    }
-
-    fun onCustomColorSelected(colorInt: Int) {
-        viewModelScope.launch {
-            if (colorInt.toString() != newColor.colorInt) {
-                newColor = AppColor(colorId = 0, colorInt = colorInt.toString())
-                updateRecordPreviewViewData()
-                updateIcons()
             }
         }
     }

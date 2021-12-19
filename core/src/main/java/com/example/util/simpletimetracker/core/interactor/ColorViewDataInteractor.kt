@@ -5,6 +5,7 @@ import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_base_adapter.color.ColorPaletteViewData
 import com.example.util.simpletimetracker.feature_base_adapter.color.ColorViewData
 import javax.inject.Inject
 
@@ -18,6 +19,7 @@ class ColorViewDataInteractor @Inject constructor(
         val isDarkTheme = prefsInteractor.getDarkMode()
 
         return ColorMapper.getAvailableColors()
+            .asSequence()
             .mapIndexed { colorId, colorResId ->
                 colorId to resourceRepo.getColor(colorResId)
             }
@@ -40,6 +42,8 @@ class ColorViewDataInteractor @Inject constructor(
                         if (isDarkTheme) colorMapper.darkenColor(it) else it
                     }
                 )
-            } // TODO add palette
+            }
+            .plus(ColorPaletteViewData)
+            .toList()
     }
 }
