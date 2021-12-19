@@ -637,7 +637,7 @@ class StatisticsRangesTest : BaseUiTest() {
         calendar = Calendar.getInstance().apply {
             add(Calendar.DATE, -1)
         }
-        setCustomRange(
+        NavUtils.setCustomRange(
             yearStarted = calendar.get(Calendar.YEAR),
             monthStarted = calendar.get(Calendar.MONTH),
             dayStarted = calendar.get(Calendar.DAY_OF_MONTH),
@@ -664,7 +664,7 @@ class StatisticsRangesTest : BaseUiTest() {
         var calendarStart = Calendar.getInstance().apply {
             add(Calendar.DATE, -3)
         }
-        setCustomRange(
+        NavUtils.setCustomRange(
             yearStarted = calendarStart.get(Calendar.YEAR),
             monthStarted = calendarStart.get(Calendar.MONTH),
             dayStarted = calendarStart.get(Calendar.DAY_OF_MONTH),
@@ -693,7 +693,7 @@ class StatisticsRangesTest : BaseUiTest() {
         calendarStart = Calendar.getInstance().apply {
             add(Calendar.DATE, -20)
         }
-        setCustomRange(
+        NavUtils.setCustomRange(
             yearStarted = calendarStart.get(Calendar.YEAR),
             monthStarted = calendarStart.get(Calendar.MONTH),
             dayStarted = calendarStart.get(Calendar.DAY_OF_MONTH),
@@ -714,29 +714,6 @@ class StatisticsRangesTest : BaseUiTest() {
 
         checkViewIsDisplayed(allOf(withId(R.id.tvCustomRangeSelectionTimeStarted), withText(timeStarted)))
         checkViewIsDisplayed(allOf(withId(R.id.tvCustomRangeSelectionTimeEnded), withText(timeEnded)))
-    }
-
-    private fun setCustomRange(
-        yearStarted: Int,
-        monthStarted: Int,
-        dayStarted: Int,
-        yearEnded: Int,
-        monthEnded: Int,
-        dayEnded: Int,
-    ) {
-        // Set time started
-        clickOnViewWithId(R.id.tvCustomRangeSelectionTimeStarted)
-        onView(withClassName(equalTo(DatePicker::class.java.name)))
-            .perform(setDate(yearStarted, monthStarted + 1, dayStarted))
-        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
-
-        // Set time ended
-        clickOnViewWithId(R.id.tvCustomRangeSelectionTimeEnded)
-        onView(withClassName(equalTo(DatePicker::class.java.name)))
-            .perform(setDate(yearEnded, monthEnded + 1, dayEnded))
-        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
-
-        clickOnViewWithId(R.id.btnCustomRangeSelection)
     }
 
     private fun checkStatisticsItem(

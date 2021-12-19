@@ -1,9 +1,11 @@
 package com.example.util.simpletimetracker.utils
 
+import android.widget.DatePicker
 import android.widget.TimePicker
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.contrib.PickerActions.setDate
 import androidx.test.espresso.contrib.PickerActions.setTime
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
@@ -221,5 +223,28 @@ object NavUtils {
         }
 
         clickOnViewWithText(R.string.change_record_save)
+    }
+
+    fun setCustomRange(
+        yearStarted: Int,
+        monthStarted: Int,
+        dayStarted: Int,
+        yearEnded: Int,
+        monthEnded: Int,
+        dayEnded: Int,
+    ) {
+        // Set time started
+        clickOnViewWithId(R.id.tvCustomRangeSelectionTimeStarted)
+        onView(withClassName(equalTo(DatePicker::class.java.name)))
+            .perform(setDate(yearStarted, monthStarted + 1, dayStarted))
+        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+
+        // Set time ended
+        clickOnViewWithId(R.id.tvCustomRangeSelectionTimeEnded)
+        onView(withClassName(equalTo(DatePicker::class.java.name)))
+            .perform(setDate(yearEnded, monthEnded + 1, dayEnded))
+        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+
+        clickOnViewWithId(R.id.btnCustomRangeSelection)
     }
 }

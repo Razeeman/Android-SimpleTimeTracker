@@ -2,7 +2,7 @@ package com.example.util.simpletimetracker
 
 import android.widget.DatePicker
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.contrib.PickerActions
+import androidx.test.espresso.contrib.PickerActions.setDate
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
@@ -86,7 +86,7 @@ class RecordsRangesTest : BaseUiTest() {
         clickOnViewWithId(R.id.btnRecordsContainerToday)
         onView(withClassName(equalTo(DatePicker::class.java.name)))
             .perform(
-                PickerActions.setDate(
+                setDate(
                     calendarPrev.get(Calendar.YEAR),
                     calendarPrev.get(Calendar.MONTH) + 1,
                     calendarPrev.get(Calendar.DAY_OF_MONTH)
@@ -94,18 +94,13 @@ class RecordsRangesTest : BaseUiTest() {
             )
         clickOnViewWithId(R.id.btnDateTimeDialogPositive)
 
-        checkViewIsDisplayed(
-            allOf(
-                withText(R.string.title_yesterday),
-                isCompletelyDisplayed()
-            )
-        )
+        checkViewIsDisplayed(allOf(withText(R.string.title_yesterday), isCompletelyDisplayed()))
 
         // Check tomorrow
         clickOnViewWithId(R.id.btnRecordsContainerToday)
         onView(withClassName(equalTo(DatePicker::class.java.name)))
             .perform(
-                PickerActions.setDate(
+                setDate(
                     calendarNext.get(Calendar.YEAR),
                     calendarNext.get(Calendar.MONTH) + 1,
                     calendarNext.get(Calendar.DAY_OF_MONTH)
@@ -113,12 +108,7 @@ class RecordsRangesTest : BaseUiTest() {
             )
         clickOnViewWithId(R.id.btnDateTimeDialogPositive)
 
-        checkViewIsDisplayed(
-            allOf(
-                withText(R.string.title_tomorrow),
-                isCompletelyDisplayed()
-            )
-        )
+        checkViewIsDisplayed(allOf(withText(R.string.title_tomorrow), isCompletelyDisplayed()))
     }
 
     @Test
@@ -142,7 +132,7 @@ class RecordsRangesTest : BaseUiTest() {
         clickOnViewWithId(R.id.btnRecordsContainerToday)
         onView(withClassName(equalTo(DatePicker::class.java.name)))
             .perform(
-                PickerActions.setDate(
+                setDate(
                     calendarPrev.get(Calendar.YEAR),
                     calendarPrev.get(Calendar.MONTH) + 1,
                     calendarPrev.get(Calendar.DAY_OF_MONTH)
@@ -150,18 +140,13 @@ class RecordsRangesTest : BaseUiTest() {
             )
         clickOnViewWithId(R.id.btnDateTimeDialogPositive)
 
-        checkViewIsDisplayed(
-            allOf(
-                withText(titlePrev),
-                isCompletelyDisplayed()
-            )
-        )
+        checkViewIsDisplayed(allOf(withText(titlePrev), isCompletelyDisplayed()))
 
         // Check next date
         clickOnViewWithId(R.id.btnRecordsContainerToday)
         onView(withClassName(equalTo(DatePicker::class.java.name)))
             .perform(
-                PickerActions.setDate(
+                setDate(
                     calendarNext.get(Calendar.YEAR),
                     calendarNext.get(Calendar.MONTH) + 1,
                     calendarNext.get(Calendar.DAY_OF_MONTH)
@@ -169,12 +154,7 @@ class RecordsRangesTest : BaseUiTest() {
             )
         clickOnViewWithId(R.id.btnDateTimeDialogPositive)
 
-        checkViewIsDisplayed(
-            allOf(
-                withText(titleNext),
-                isCompletelyDisplayed()
-            )
-        )
+        checkViewIsDisplayed(allOf(withText(titleNext), isCompletelyDisplayed()))
     }
 
     companion object {

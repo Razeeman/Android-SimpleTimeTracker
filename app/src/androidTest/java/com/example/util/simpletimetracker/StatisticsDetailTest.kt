@@ -37,6 +37,224 @@ import java.util.concurrent.TimeUnit
 class StatisticsDetailTest : BaseUiTest() {
 
     @Test
+    fun statisticsDetailCustomRange() {
+        val name = "TypeName"
+        val color = firstColor
+        val icon = firstIcon
+
+        // Add activity
+        testUtils.addActivity(name = name, color = color, icon = icon)
+
+        // Add records
+        val calendarToday = Calendar.getInstance().apply {
+            set(Calendar.YEAR, 2021)
+            set(Calendar.MONTH, 6) // middle of a year
+            set(Calendar.DAY_OF_MONTH, 14) // middle of a week and month
+            set(Calendar.HOUR_OF_DAY, 12)
+        }
+        testUtils.addRecord(
+            typeName = name,
+            timeStarted = calendarToday.timeInMillis,
+            timeEnded = calendarToday.timeInMillis + TimeUnit.HOURS.toMillis(1)
+        )
+        val calendarYesterday = Calendar.getInstance()
+            .apply { timeInMillis = calendarToday.timeInMillis }
+            .apply { add(Calendar.DATE, -1) }
+        testUtils.addRecord(
+            typeName = name,
+            timeStarted = calendarYesterday.timeInMillis,
+            timeEnded = calendarYesterday.timeInMillis + TimeUnit.HOURS.toMillis(2),
+        )
+        val calendarPrevWeek = Calendar.getInstance()
+            .apply { timeInMillis = calendarToday.timeInMillis }
+            .apply { add(Calendar.DATE, -7) }
+        testUtils.addRecord(
+            typeName = name,
+            timeStarted = calendarPrevWeek.timeInMillis,
+            timeEnded = calendarPrevWeek.timeInMillis + TimeUnit.HOURS.toMillis(3),
+        )
+        val calendarPrevMonth = Calendar.getInstance()
+            .apply { timeInMillis = calendarToday.timeInMillis }
+            .apply { add(Calendar.MONTH, -1) }
+        testUtils.addRecord(
+            typeName = name,
+            timeStarted = calendarPrevMonth.timeInMillis,
+            timeEnded = calendarPrevMonth.timeInMillis + TimeUnit.HOURS.toMillis(4),
+        )
+        val calendarPrevYear = Calendar.getInstance()
+            .apply { timeInMillis = calendarToday.timeInMillis }
+            .apply { add(Calendar.YEAR, -1) }
+        testUtils.addRecord(
+            typeName = name,
+            timeStarted = calendarPrevYear.timeInMillis,
+            timeEnded = calendarPrevYear.timeInMillis + TimeUnit.HOURS.toMillis(5),
+        )
+
+        // Check detailed statistics
+        NavUtils.openStatisticsScreen()
+        clickOnViewWithId(R.id.btnStatisticsContainerToday)
+        clickOnViewWithText(R.string.range_overall)
+        tryAction { clickOnView(allOf(withText(name), isCompletelyDisplayed())) }
+
+        // Check one day
+        clickOnViewWithId(R.id.btnStatisticsDetailToday)
+        clickOnViewWithText(R.string.range_custom)
+        NavUtils.setCustomRange(
+            yearStarted = calendarToday.get(Calendar.YEAR),
+            monthStarted = calendarToday.get(Calendar.MONTH),
+            dayStarted = calendarToday.get(Calendar.DAY_OF_MONTH),
+            yearEnded = calendarToday.get(Calendar.YEAR),
+            monthEnded = calendarToday.get(Calendar.MONTH),
+            dayEnded = calendarToday.get(Calendar.DAY_OF_MONTH),
+        )
+        checkViewDoesNotExist(allOf(withId(R.id.btnStatisticsDetailPrevious), isCompletelyDisplayed()))
+        checkViewDoesNotExist(allOf(withId(R.id.btnStatisticsDetailNext), isCompletelyDisplayed()))
+        checkViewDoesNotExist(allOf(withId(R.id.chartStatisticsDetail), isCompletelyDisplayed()))
+        checkViewDoesNotExist(allOf(withId(R.id.buttonsStatisticsDetailGrouping), isCompletelyDisplayed()))
+        checkViewDoesNotExist(allOf(withId(R.id.buttonsStatisticsDetailLength), isCompletelyDisplayed()))
+        checkViewDoesNotExist(allOf(withId(R.id.cardStatisticsDetailRangeAverage), isCompletelyDisplayed()))
+        onView(withId(R.id.cardStatisticsDetailTotal)).perform(nestedScrollTo())
+        checkCard(R.string.statistics_detail_total_duration, "1$hourString 0$minuteString")
+        onView(withId(R.id.cardStatisticsDetailRecords)).perform(nestedScrollTo())
+        checkRecordsCard(1)
+
+        // Check two days
+        clickOnViewWithId(R.id.btnStatisticsDetailToday)
+        clickOnViewWithText(R.string.range_custom)
+        NavUtils.setCustomRange(
+            yearStarted = calendarYesterday.get(Calendar.YEAR),
+            monthStarted = calendarYesterday.get(Calendar.MONTH),
+            dayStarted = calendarYesterday.get(Calendar.DAY_OF_MONTH),
+            yearEnded = calendarToday.get(Calendar.YEAR),
+            monthEnded = calendarToday.get(Calendar.MONTH),
+            dayEnded = calendarToday.get(Calendar.DAY_OF_MONTH),
+        )
+        checkViewIsDisplayed(allOf(withId(R.id.chartStatisticsDetail), isCompletelyDisplayed()))
+        checkViewDoesNotExist(allOf(withId(R.id.buttonsStatisticsDetailGrouping), isCompletelyDisplayed()))
+        checkViewDoesNotExist(allOf(withId(R.id.buttonsStatisticsDetailLength), isCompletelyDisplayed()))
+        checkRangeAverages(
+            rangeId = R.string.statistics_detail_chart_daily,
+            average = "1$hourString 30$minuteString",
+            averageNonEmpty = "1$hourString 30$minuteString"
+        )
+        onView(withId(R.id.cardStatisticsDetailTotal)).perform(nestedScrollTo())
+        checkCard(R.string.statistics_detail_total_duration, "3$hourString 0$minuteString")
+        onView(withId(R.id.cardStatisticsDetailRecords)).perform(nestedScrollTo())
+        checkRecordsCard(2)
+
+        // Check weeks
+        clickOnViewWithId(R.id.btnStatisticsDetailToday)
+        clickOnViewWithText(R.string.range_custom)
+        NavUtils.setCustomRange(
+            yearStarted = calendarPrevWeek.get(Calendar.YEAR),
+            monthStarted = calendarPrevWeek.get(Calendar.MONTH),
+            dayStarted = calendarPrevWeek.get(Calendar.DAY_OF_MONTH),
+            yearEnded = calendarToday.get(Calendar.YEAR),
+            monthEnded = calendarToday.get(Calendar.MONTH),
+            dayEnded = calendarToday.get(Calendar.DAY_OF_MONTH),
+        )
+        checkViewIsDisplayed(allOf(withId(R.id.chartStatisticsDetail), isCompletelyDisplayed()))
+        checkViewIsDisplayed(allOf(withId(R.id.buttonsStatisticsDetailGrouping), isCompletelyDisplayed()))
+        checkViewDoesNotExist(allOf(withId(R.id.buttonsStatisticsDetailLength), isCompletelyDisplayed()))
+        clickOnChartGrouping(R.string.statistics_detail_chart_daily)
+        checkRangeAverages(
+            rangeId = R.string.statistics_detail_chart_daily,
+            average = "45$minuteString",
+            averageNonEmpty = "2$hourString 0$minuteString"
+        )
+        clickOnChartGrouping(R.string.statistics_detail_chart_weekly)
+        checkRangeAverages(
+            rangeId = R.string.statistics_detail_chart_weekly,
+            average = "3$hourString 0$minuteString",
+            averageNonEmpty = "3$hourString 0$minuteString"
+        )
+        onView(withId(R.id.cardStatisticsDetailTotal)).perform(nestedScrollTo())
+        checkCard(R.string.statistics_detail_total_duration, "6$hourString 0$minuteString")
+        onView(withId(R.id.cardStatisticsDetailRecords)).perform(nestedScrollTo())
+        checkRecordsCard(3)
+
+        // Check months
+        clickOnViewWithId(R.id.btnStatisticsDetailToday)
+        clickOnViewWithText(R.string.range_custom)
+        NavUtils.setCustomRange(
+            yearStarted = calendarPrevMonth.get(Calendar.YEAR),
+            monthStarted = calendarPrevMonth.get(Calendar.MONTH),
+            dayStarted = calendarPrevMonth.get(Calendar.DAY_OF_MONTH),
+            yearEnded = calendarToday.get(Calendar.YEAR),
+            monthEnded = calendarToday.get(Calendar.MONTH),
+            dayEnded = calendarToday.get(Calendar.DAY_OF_MONTH),
+        )
+        checkViewIsDisplayed(allOf(withId(R.id.chartStatisticsDetail), isCompletelyDisplayed()))
+        checkViewIsDisplayed(allOf(withId(R.id.buttonsStatisticsDetailGrouping), isCompletelyDisplayed()))
+        checkViewDoesNotExist(allOf(withId(R.id.buttonsStatisticsDetailLength), isCompletelyDisplayed()))
+        clickOnChartGrouping(R.string.statistics_detail_chart_daily)
+        checkRangeAverages(
+            rangeId = R.string.statistics_detail_chart_daily,
+            average = "19$minuteString",
+            averageNonEmpty = "2$hourString 30$minuteString"
+        )
+        clickOnChartGrouping(R.string.statistics_detail_chart_weekly)
+        checkRangeAverages(
+            rangeId = R.string.statistics_detail_chart_weekly,
+            average = "2$hourString 0$minuteString",
+            averageNonEmpty = "3$hourString 20$minuteString"
+        )
+        clickOnChartGrouping(R.string.statistics_detail_chart_monthly)
+        checkRangeAverages(
+            rangeId = R.string.statistics_detail_chart_monthly,
+            average = "5$hourString 0$minuteString",
+            averageNonEmpty = "5$hourString 0$minuteString"
+        )
+        onView(withId(R.id.cardStatisticsDetailTotal)).perform(nestedScrollTo())
+        checkCard(R.string.statistics_detail_total_duration, "10$hourString 0$minuteString")
+        onView(withId(R.id.cardStatisticsDetailRecords)).perform(nestedScrollTo())
+        checkRecordsCard(4)
+
+        // Check years
+        clickOnViewWithId(R.id.btnStatisticsDetailToday)
+        clickOnViewWithText(R.string.range_custom)
+        NavUtils.setCustomRange(
+            yearStarted = calendarPrevYear.get(Calendar.YEAR),
+            monthStarted = calendarPrevYear.get(Calendar.MONTH),
+            dayStarted = calendarPrevYear.get(Calendar.DAY_OF_MONTH),
+            yearEnded = calendarToday.get(Calendar.YEAR),
+            monthEnded = calendarToday.get(Calendar.MONTH),
+            dayEnded = calendarToday.get(Calendar.DAY_OF_MONTH),
+        )
+        checkViewIsDisplayed(allOf(withId(R.id.chartStatisticsDetail), isCompletelyDisplayed()))
+        checkViewIsDisplayed(allOf(withId(R.id.buttonsStatisticsDetailGrouping), isCompletelyDisplayed()))
+        checkViewDoesNotExist(allOf(withId(R.id.buttonsStatisticsDetailLength), isCompletelyDisplayed()))
+        clickOnChartGrouping(R.string.statistics_detail_chart_daily)
+        checkRangeAverages(
+            rangeId = R.string.statistics_detail_chart_daily,
+            average = "2$minuteString",
+            averageNonEmpty = "3$hourString 0$minuteString"
+        )
+        clickOnChartGrouping(R.string.statistics_detail_chart_weekly)
+        checkRangeAverages(
+            rangeId = R.string.statistics_detail_chart_weekly,
+            average = "16$minuteString",
+            averageNonEmpty = "3$hourString 45$minuteString"
+        )
+        clickOnChartGrouping(R.string.statistics_detail_chart_monthly)
+        checkRangeAverages(
+            rangeId = R.string.statistics_detail_chart_monthly,
+            average = "1$hourString 9$minuteString",
+            averageNonEmpty = "5$hourString 0$minuteString"
+        )
+        clickOnChartGrouping(R.string.statistics_detail_chart_yearly)
+        checkRangeAverages(
+            rangeId = R.string.statistics_detail_chart_yearly,
+            average = "7$hourString 30$minuteString",
+            averageNonEmpty = "7$hourString 30$minuteString"
+        )
+        onView(withId(R.id.cardStatisticsDetailTotal)).perform(nestedScrollTo())
+        checkCard(R.string.statistics_detail_total_duration, "15$hourString 0$minuteString")
+        onView(withId(R.id.cardStatisticsDetailRecords)).perform(nestedScrollTo())
+        checkRecordsCard(5)
+    }
+
+    @Test
     fun statisticsDetailOverall() {
         val name = "TypeName"
         val tag = "TagName"
