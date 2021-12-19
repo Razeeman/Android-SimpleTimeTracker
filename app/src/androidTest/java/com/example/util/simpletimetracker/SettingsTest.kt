@@ -28,6 +28,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withSubstring
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import com.example.util.simpletimetracker.core.extension.setToStartOfDay
 import com.example.util.simpletimetracker.core.extension.setWeekToFirstDay
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
@@ -36,6 +37,7 @@ import com.example.util.simpletimetracker.utils.Direction
 import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
+import com.example.util.simpletimetracker.utils.checkViewIsNotDisplayed
 import com.example.util.simpletimetracker.utils.clickOnSpinnerWithId
 import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
@@ -845,6 +847,240 @@ class SettingsTest : BaseUiTest() {
     }
 
     @Test
+    fun startOfDay() {
+        fun Long.toTimePreview() = timeMapper.formatTime(this, true)
+
+        val name = "Test"
+
+        // Add data
+        testUtils.addActivity(name)
+        val calendar = Calendar.getInstance().apply {
+            setToStartOfDay()
+            add(Calendar.DATE, -2)
+        }
+        var startOfDayTimeStamp = calendar.timeInMillis
+        val timeStartedTimeStamp = calendar.timeInMillis + TimeUnit.HOURS.toMillis(22)
+        val timeEndedTimeStamp = calendar.timeInMillis + TimeUnit.HOURS.toMillis(26)
+        var startOfDayPreview = startOfDayTimeStamp.toTimePreview()
+        val timeStartedPreview = timeStartedTimeStamp.toTimePreview()
+        val timeEndedPreview = timeEndedTimeStamp.toTimePreview()
+        testUtils.addRecord(
+            typeName = name,
+            timeStarted = timeStartedTimeStamp,
+            timeEnded = timeEndedTimeStamp
+        )
+
+        // Check records
+        NavUtils.openRecordsScreen()
+        clickOnViewWithId(R.id.btnRecordsContainerPrevious)
+        clickOnViewWithId(R.id.btnRecordsContainerPrevious)
+        clickOnViewWithId(R.id.btnRecordsContainerPrevious)
+        checkRecord(
+            nameResId = R.string.untracked_time_name, timeStart = startOfDayPreview, timeEnd = startOfDayPreview,
+        )
+        clickOnViewWithId(R.id.btnRecordsContainerNext)
+        checkRecord(name = name, timeStart = timeStartedPreview, timeEnd = startOfDayPreview)
+        clickOnViewWithId(R.id.btnRecordsContainerNext)
+        checkRecord(name = name, timeStart = startOfDayPreview, timeEnd = timeEndedPreview)
+
+        // Check statistics
+        NavUtils.openStatisticsScreen()
+        clickOnViewWithId(R.id.btnStatisticsContainerPrevious)
+        clickOnViewWithId(R.id.btnStatisticsContainerPrevious)
+        checkStatisticsItem(nameResId = R.string.untracked_time_name, hours = 22)
+        checkStatisticsItem(name = name, hours = 2)
+        clickOnViewWithId(R.id.btnStatisticsContainerNext)
+        checkStatisticsItem(nameResId = R.string.untracked_time_name, hours = 22)
+        checkStatisticsItem(name = name, hours = 2)
+
+        // Check detailed statistics
+        clickOnView(allOf(withText(name), isCompletelyDisplayed()))
+        clickOnView(allOf(withText(R.string.range_overall), isCompletelyDisplayed()))
+        clickOnViewWithText(R.string.range_day)
+        checkStatisticsDetailRecords(0)
+        clickOnViewWithId(R.id.btnStatisticsDetailPrevious)
+        checkStatisticsDetailRecords(1)
+        clickOnViewWithId(R.id.btnStatisticsDetailPrevious)
+        checkStatisticsDetailRecords(1)
+        clickOnViewWithId(R.id.btnStatisticsDetailPrevious)
+        checkStatisticsDetailRecords(0)
+        pressBack()
+
+        // Check setting
+        NavUtils.openSettingsScreen()
+        onView(withId(R.id.tvSettingsStartOfDayTime)).perform(nestedScrollTo())
+        checkViewIsDisplayed(allOf(withId(R.id.tvSettingsStartOfDayTime), withText(startOfDayPreview)))
+        checkViewIsNotDisplayed(withId(R.id.btnSettingsStartOfDaySign))
+
+        // Change setting to +1
+        clickOnView(withId(R.id.groupSettingsStartOfDay))
+        onView(withClassName(equalTo(TimePicker::class.java.name))).perform(setTime(1, 0))
+        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+        startOfDayTimeStamp = calendar.timeInMillis + TimeUnit.HOURS.toMillis(1)
+        startOfDayPreview = startOfDayTimeStamp.toTimePreview()
+
+        // Check new setting
+        checkViewIsDisplayed(allOf(withId(R.id.tvSettingsStartOfDayTime), withText(startOfDayPreview)))
+        checkViewIsDisplayed(
+            allOf(withId(R.id.btnSettingsStartOfDaySign), hasDescendant(withText(R.string.plus_sign)))
+        )
+
+        // Check records
+        NavUtils.openRecordsScreen()
+        longClickOnViewWithId(R.id.btnRecordsContainerToday)
+        clickOnViewWithId(R.id.btnRecordsContainerPrevious)
+        clickOnViewWithId(R.id.btnRecordsContainerPrevious)
+        clickOnViewWithId(R.id.btnRecordsContainerPrevious)
+        checkRecord(
+            nameResId = R.string.untracked_time_name, timeStart = startOfDayPreview, timeEnd = startOfDayPreview,
+        )
+        clickOnViewWithId(R.id.btnRecordsContainerNext)
+        checkRecord(name = name, timeStart = timeStartedPreview, timeEnd = startOfDayPreview)
+        clickOnViewWithId(R.id.btnRecordsContainerNext)
+        checkRecord(name = name, timeStart = startOfDayPreview, timeEnd = timeEndedPreview)
+
+        // Check statistics
+        NavUtils.openStatisticsScreen()
+        longClickOnViewWithId(R.id.btnStatisticsContainerToday)
+        clickOnViewWithId(R.id.btnStatisticsContainerPrevious)
+        clickOnViewWithId(R.id.btnStatisticsContainerPrevious)
+        checkStatisticsItem(nameResId = R.string.untracked_time_name, hours = 21)
+        checkStatisticsItem(name = name, hours = 3)
+        clickOnViewWithId(R.id.btnStatisticsContainerNext)
+        checkStatisticsItem(nameResId = R.string.untracked_time_name, hours = 23)
+        checkStatisticsItem(name = name, hours = 1)
+
+        // Check detailed statistics
+        clickOnView(allOf(withText(name), isCompletelyDisplayed()))
+        clickOnView(allOf(withText(R.string.range_overall), isCompletelyDisplayed()))
+        clickOnViewWithText(R.string.range_day)
+        checkStatisticsDetailRecords(0)
+        clickOnViewWithId(R.id.btnStatisticsDetailPrevious)
+        checkStatisticsDetailRecords(1)
+        clickOnViewWithId(R.id.btnStatisticsDetailPrevious)
+        checkStatisticsDetailRecords(1)
+        clickOnViewWithId(R.id.btnStatisticsDetailPrevious)
+        checkStatisticsDetailRecords(0)
+        pressBack()
+
+        // Change setting to -1
+        NavUtils.openSettingsScreen()
+        onView(withId(R.id.btnSettingsStartOfDaySign)).perform(nestedScrollTo(), click())
+
+        // Check new setting
+        checkViewIsDisplayed(allOf(withId(R.id.tvSettingsStartOfDayTime), withText(startOfDayPreview)))
+        checkViewIsDisplayed(
+            allOf(withId(R.id.btnSettingsStartOfDaySign), hasDescendant(withText(R.string.minus_sign)))
+        )
+
+        startOfDayTimeStamp = calendar.timeInMillis - TimeUnit.HOURS.toMillis(1)
+        startOfDayPreview = startOfDayTimeStamp.toTimePreview()
+
+        // Check records
+        NavUtils.openRecordsScreen()
+        longClickOnViewWithId(R.id.btnRecordsContainerToday)
+        clickOnViewWithId(R.id.btnRecordsContainerPrevious)
+        clickOnViewWithId(R.id.btnRecordsContainerPrevious)
+        clickOnViewWithId(R.id.btnRecordsContainerPrevious)
+        checkRecord(
+            nameResId = R.string.untracked_time_name, timeStart = startOfDayPreview, timeEnd = startOfDayPreview,
+        )
+        clickOnViewWithId(R.id.btnRecordsContainerNext)
+        checkRecord(name = name, timeStart = timeStartedPreview, timeEnd = startOfDayPreview)
+        clickOnViewWithId(R.id.btnRecordsContainerNext)
+        checkRecord(name = name, timeStart = startOfDayPreview, timeEnd = timeEndedPreview)
+
+        // Check statistics
+        NavUtils.openStatisticsScreen()
+        longClickOnViewWithId(R.id.btnStatisticsContainerToday)
+        clickOnViewWithId(R.id.btnStatisticsContainerPrevious)
+        clickOnViewWithId(R.id.btnStatisticsContainerPrevious)
+        checkStatisticsItem(nameResId = R.string.untracked_time_name, hours = 23)
+        checkStatisticsItem(name = name, hours = 1)
+        clickOnViewWithId(R.id.btnStatisticsContainerNext)
+        checkStatisticsItem(nameResId = R.string.untracked_time_name, hours = 21)
+        checkStatisticsItem(name = name, hours = 3)
+
+        // Check detailed statistics
+        clickOnView(allOf(withText(name), isCompletelyDisplayed()))
+        clickOnView(allOf(withText(R.string.range_overall), isCompletelyDisplayed()))
+        clickOnViewWithText(R.string.range_day)
+        checkStatisticsDetailRecords(0)
+        clickOnViewWithId(R.id.btnStatisticsDetailPrevious)
+        checkStatisticsDetailRecords(1)
+        clickOnViewWithId(R.id.btnStatisticsDetailPrevious)
+        checkStatisticsDetailRecords(1)
+        clickOnViewWithId(R.id.btnStatisticsDetailPrevious)
+        checkStatisticsDetailRecords(0)
+        pressBack()
+
+        // Change setting to +2, record will be shifted out from one day
+        startOfDayTimeStamp = calendar.timeInMillis + TimeUnit.HOURS.toMillis(2)
+        startOfDayPreview = startOfDayTimeStamp.toTimePreview()
+
+        NavUtils.openSettingsScreen()
+        onView(withId(R.id.groupSettingsStartOfDay)).perform(nestedScrollTo(), click())
+        onView(withClassName(equalTo(TimePicker::class.java.name))).perform(setTime(2, 0))
+        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+        checkViewIsDisplayed(allOf(withId(R.id.tvSettingsStartOfDayTime), withText(startOfDayPreview)))
+        checkViewIsDisplayed(
+            allOf(withId(R.id.btnSettingsStartOfDaySign), hasDescendant(withText(R.string.minus_sign)))
+        )
+        onView(withId(R.id.btnSettingsStartOfDaySign)).perform(nestedScrollTo(), click())
+        checkViewIsDisplayed(allOf(withId(R.id.tvSettingsStartOfDayTime), withText(startOfDayPreview)))
+
+        // Check records
+        NavUtils.openRecordsScreen()
+        longClickOnViewWithId(R.id.btnRecordsContainerToday)
+        clickOnViewWithId(R.id.btnRecordsContainerPrevious)
+        clickOnViewWithId(R.id.btnRecordsContainerPrevious)
+        clickOnViewWithId(R.id.btnRecordsContainerPrevious)
+        checkRecord(
+            nameResId = R.string.untracked_time_name, timeStart = startOfDayPreview, timeEnd = startOfDayPreview,
+        )
+        clickOnViewWithId(R.id.btnRecordsContainerNext)
+        checkRecord(name = name, timeStart = timeStartedPreview, timeEnd = timeEndedPreview)
+        clickOnViewWithId(R.id.btnRecordsContainerNext)
+        checkRecord(
+            nameResId = R.string.untracked_time_name, timeStart = startOfDayPreview, timeEnd = startOfDayPreview,
+        )
+        // Check statistics
+        NavUtils.openStatisticsScreen()
+        longClickOnViewWithId(R.id.btnStatisticsContainerToday)
+        clickOnViewWithId(R.id.btnStatisticsContainerPrevious)
+        clickOnViewWithId(R.id.btnStatisticsContainerPrevious)
+        checkStatisticsItem(nameResId = R.string.untracked_time_name, hours = 20)
+        checkStatisticsItem(name = name, hours = 4)
+        clickOnViewWithId(R.id.btnStatisticsContainerNext)
+        checkStatisticsItem(nameResId = R.string.untracked_time_name, hours = 24)
+
+        // Check detailed statistics
+        clickOnViewWithId(R.id.btnStatisticsContainerPrevious)
+        clickOnView(allOf(withText(name), isCompletelyDisplayed()))
+        clickOnView(allOf(withText(R.string.range_overall), isCompletelyDisplayed()))
+        clickOnViewWithText(R.string.range_day)
+        checkStatisticsDetailRecords(0)
+        clickOnViewWithId(R.id.btnStatisticsDetailPrevious)
+        checkStatisticsDetailRecords(0)
+        clickOnViewWithId(R.id.btnStatisticsDetailPrevious)
+        checkStatisticsDetailRecords(1)
+        clickOnViewWithId(R.id.btnStatisticsDetailPrevious)
+        checkStatisticsDetailRecords(0)
+        pressBack()
+
+        // Change setting to 0
+        startOfDayTimeStamp = calendar.timeInMillis
+        startOfDayPreview = startOfDayTimeStamp.toTimePreview()
+
+        NavUtils.openSettingsScreen()
+        onView(withId(R.id.groupSettingsStartOfDay)).perform(nestedScrollTo(), click())
+        onView(withClassName(equalTo(TimePicker::class.java.name))).perform(setTime(0, 0))
+        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+        checkViewIsDisplayed(allOf(withId(R.id.tvSettingsStartOfDayTime), withText(startOfDayPreview)))
+        checkViewIsNotDisplayed(withId(R.id.btnSettingsStartOfDaySign))
+    }
+
+    @Test
     fun showRecordTagSelection() {
         val name = "TypeName"
         val tag = "TagName"
@@ -982,6 +1218,48 @@ class SettingsTest : BaseUiTest() {
     private fun check(first: String, second: String, matcher: (Matcher<View>) -> ViewAssertion) {
         onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(first))).check(
             matcher(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(second)))
+        )
+    }
+
+    private fun checkRecord(
+        name: String = "",
+        nameResId: Int? = null,
+        timeStart: String,
+        timeEnd: String,
+    ) {
+        checkViewIsDisplayed(
+            allOf(
+                withId(R.id.viewRecordItem),
+                hasDescendant(if (nameResId != null) withText(nameResId) else withText(name)),
+                hasDescendant(allOf(withId(R.id.tvRecordItemTimeStarted), withText(timeStart))),
+                hasDescendant(allOf(withId(R.id.tvRecordItemTimeFinished), withText(timeEnd))),
+                isCompletelyDisplayed()
+            )
+        )
+    }
+
+    private fun checkStatisticsItem(
+        name: String = "",
+        nameResId: Int? = null,
+        hours: Int,
+    ) {
+        checkViewIsDisplayed(
+            allOf(
+                withId(R.id.viewStatisticsItem),
+                hasDescendant(if (nameResId != null) withText(nameResId) else withText(name)),
+                hasDescendant(withSubstring("$hours$hourString 0$minuteString")),
+                isCompletelyDisplayed()
+            )
+        )
+    }
+
+    private fun checkStatisticsDetailRecords(count: Int) {
+        checkViewIsDisplayed(
+            allOf(
+                withPluralText(R.plurals.statistics_detail_times_tracked, count),
+                ViewMatchers.hasSibling(withText(count.toString())),
+                isCompletelyDisplayed()
+            )
         )
     }
 
