@@ -76,14 +76,86 @@ class StatisticsDetailTest : BaseUiTest() {
 
         // Bar chart
         checkViewIsDisplayed(allOf(withId(R.id.chartStatisticsDetail), isCompletelyDisplayed()))
-        clickOnChartGrouping(R.string.statistics_detail_chart_daily)
-        clickOnChartGrouping(R.string.statistics_detail_chart_weekly)
-        clickOnChartGrouping(R.string.statistics_detail_chart_monthly)
-        clickOnChartGrouping(R.string.statistics_detail_chart_yearly)
 
+        clickOnChartGrouping(R.string.statistics_detail_chart_daily)
         clickOnViewWithText(R.string.statistics_detail_length_ten)
+        checkRangeAverages(
+            rangeId = R.string.statistics_detail_chart_daily,
+            average = "6$minuteString",
+            averageNonEmpty = "1$hourString 0$minuteString"
+        )
         clickOnViewWithText(R.string.statistics_detail_length_fifty)
+        checkRangeAverages(
+            rangeId = R.string.statistics_detail_chart_daily,
+            average = "1$minuteString",
+            averageNonEmpty = "1$hourString 0$minuteString"
+        )
         clickOnViewWithText(R.string.statistics_detail_length_hundred)
+        checkRangeAverages(
+            rangeId = R.string.statistics_detail_chart_daily,
+            average = "36$secondString",
+            averageNonEmpty = "1$hourString 0$minuteString"
+        )
+
+        clickOnChartGrouping(R.string.statistics_detail_chart_weekly)
+        clickOnViewWithText(R.string.statistics_detail_length_ten)
+        checkRangeAverages(
+            rangeId = R.string.statistics_detail_chart_weekly,
+            average = "6$minuteString",
+            averageNonEmpty = "1$hourString 0$minuteString"
+        )
+        clickOnViewWithText(R.string.statistics_detail_length_fifty)
+        checkRangeAverages(
+            rangeId = R.string.statistics_detail_chart_weekly,
+            average = "1$minuteString",
+            averageNonEmpty = "1$hourString 0$minuteString"
+        )
+        clickOnViewWithText(R.string.statistics_detail_length_hundred)
+        checkRangeAverages(
+            rangeId = R.string.statistics_detail_chart_weekly,
+            average = "36$secondString",
+            averageNonEmpty = "1$hourString 0$minuteString"
+        )
+
+        clickOnChartGrouping(R.string.statistics_detail_chart_monthly)
+        clickOnViewWithText(R.string.statistics_detail_length_ten)
+        checkRangeAverages(
+            rangeId = R.string.statistics_detail_chart_monthly,
+            average = "6$minuteString",
+            averageNonEmpty = "1$hourString 0$minuteString"
+        )
+        clickOnViewWithText(R.string.statistics_detail_length_fifty)
+        checkRangeAverages(
+            rangeId = R.string.statistics_detail_chart_monthly,
+            average = "1$minuteString",
+            averageNonEmpty = "1$hourString 0$minuteString"
+        )
+        clickOnViewWithText(R.string.statistics_detail_length_hundred)
+        checkRangeAverages(
+            rangeId = R.string.statistics_detail_chart_monthly,
+            average = "36$secondString",
+            averageNonEmpty = "1$hourString 0$minuteString"
+        )
+
+        clickOnChartGrouping(R.string.statistics_detail_chart_yearly)
+        clickOnViewWithText(R.string.statistics_detail_length_ten)
+        checkRangeAverages(
+            rangeId = R.string.statistics_detail_chart_yearly,
+            average = "6$minuteString",
+            averageNonEmpty = "1$hourString 0$minuteString"
+        )
+        clickOnViewWithText(R.string.statistics_detail_length_fifty)
+        checkRangeAverages(
+            rangeId = R.string.statistics_detail_chart_yearly,
+            average = "3$minuteString",
+            averageNonEmpty = "1$hourString 30$minuteString"
+        )
+        clickOnViewWithText(R.string.statistics_detail_length_hundred)
+        checkRangeAverages(
+            rangeId = R.string.statistics_detail_chart_yearly,
+            average = "1$minuteString",
+            averageNonEmpty = "1$hourString 30$minuteString"
+        )
         clickOnViewWithText(R.string.statistics_detail_length_ten)
 
         // Cards
@@ -157,6 +229,7 @@ class StatisticsDetailTest : BaseUiTest() {
         checkViewDoesNotExist(allOf(withId(R.id.chartStatisticsDetail), isCompletelyDisplayed()))
         checkViewDoesNotExist(allOf(withId(R.id.buttonsStatisticsDetailGrouping), isCompletelyDisplayed()))
         checkViewDoesNotExist(allOf(withId(R.id.buttonsStatisticsDetailLength), isCompletelyDisplayed()))
+        checkViewDoesNotExist(allOf(withId(R.id.cardStatisticsDetailRangeAverage), isCompletelyDisplayed()))
 
         // Cards
         checkCards()
@@ -232,6 +305,18 @@ class StatisticsDetailTest : BaseUiTest() {
         checkViewIsDisplayed(allOf(withId(R.id.chartStatisticsDetail), isCompletelyDisplayed()))
         checkViewDoesNotExist(allOf(withId(R.id.buttonsStatisticsDetailGrouping), isCompletelyDisplayed()))
         checkViewDoesNotExist(allOf(withId(R.id.buttonsStatisticsDetailLength), isCompletelyDisplayed()))
+        checkRangeAverages(
+            rangeId = R.string.statistics_detail_chart_daily,
+            average = "25$minuteString",
+            averageNonEmpty = "3$hourString 0$minuteString"
+        )
+        clickOnViewWithId(R.id.btnStatisticsDetailPrevious)
+        checkRangeAverages(
+            rangeId = R.string.statistics_detail_chart_daily,
+            average = "8$minuteString",
+            averageNonEmpty = "1$hourString 0$minuteString"
+        )
+        clickOnViewWithId(R.id.btnStatisticsDetailNext)
 
         // Cards
         checkCards()
@@ -305,7 +390,32 @@ class StatisticsDetailTest : BaseUiTest() {
         // Bar chart
         checkViewIsDisplayed(allOf(withId(R.id.chartStatisticsDetail), isCompletelyDisplayed()))
         clickOnChartGrouping(R.string.statistics_detail_chart_daily)
+        checkRangeAverages(
+            rangeId = R.string.statistics_detail_chart_daily,
+            checkAverage = false,
+            averageNonEmpty = "3$hourString 0$minuteString"
+        )
         clickOnChartGrouping(R.string.statistics_detail_chart_weekly)
+        checkRangeAverages(
+            rangeId = R.string.statistics_detail_chart_weekly,
+            checkAverage = false,
+            averageNonEmpty = "2$hourString 0$minuteString"
+        )
+        clickOnViewWithId(R.id.btnStatisticsDetailPrevious)
+        clickOnChartGrouping(R.string.statistics_detail_chart_daily)
+        checkRangeAverages(
+            rangeId = R.string.statistics_detail_chart_daily,
+            checkAverage = false,
+            averageNonEmpty = "1$hourString 0$minuteString"
+        )
+        clickOnChartGrouping(R.string.statistics_detail_chart_weekly)
+        checkRangeAverages(
+            rangeId = R.string.statistics_detail_chart_weekly,
+            checkAverage = false,
+            averageNonEmpty = "1$hourString 0$minuteString"
+        )
+        clickOnViewWithId(R.id.btnStatisticsDetailNext)
+        clickOnChartGrouping(R.string.statistics_detail_chart_daily)
         checkViewDoesNotExist(allOf(withText(R.string.statistics_detail_chart_monthly), isCompletelyDisplayed()))
         checkViewDoesNotExist(allOf(withText(R.string.statistics_detail_chart_yearly), isCompletelyDisplayed()))
         checkViewDoesNotExist(allOf(withId(R.id.buttonsStatisticsDetailLength), isCompletelyDisplayed()))
@@ -377,8 +487,44 @@ class StatisticsDetailTest : BaseUiTest() {
         // Bar chart
         checkViewIsDisplayed(allOf(withId(R.id.chartStatisticsDetail), isCompletelyDisplayed()))
         clickOnChartGrouping(R.string.statistics_detail_chart_daily)
+        checkRangeAverages(
+            rangeId = R.string.statistics_detail_chart_daily,
+            checkAverage = false,
+            averageNonEmpty = "3$hourString 0$minuteString"
+        )
         clickOnChartGrouping(R.string.statistics_detail_chart_weekly)
+        checkRangeAverages(
+            rangeId = R.string.statistics_detail_chart_weekly,
+            checkAverage = false,
+            averageNonEmpty = "3$hourString 0$minuteString"
+        )
         clickOnChartGrouping(R.string.statistics_detail_chart_monthly)
+        checkRangeAverages(
+            rangeId = R.string.statistics_detail_chart_monthly,
+            average = "15$minuteString",
+            averageNonEmpty = "3$hourString 0$minuteString"
+        )
+        clickOnViewWithId(R.id.btnStatisticsDetailPrevious)
+        clickOnChartGrouping(R.string.statistics_detail_chart_daily)
+        checkRangeAverages(
+            rangeId = R.string.statistics_detail_chart_daily,
+            checkAverage = false,
+            averageNonEmpty = "1$hourString 0$minuteString"
+        )
+        clickOnChartGrouping(R.string.statistics_detail_chart_weekly)
+        checkRangeAverages(
+            rangeId = R.string.statistics_detail_chart_weekly,
+            checkAverage = false,
+            averageNonEmpty = "1$hourString 0$minuteString"
+        )
+        clickOnChartGrouping(R.string.statistics_detail_chart_monthly)
+        checkRangeAverages(
+            rangeId = R.string.statistics_detail_chart_monthly,
+            average = "5$minuteString",
+            averageNonEmpty = "1$hourString 0$minuteString"
+        )
+        clickOnViewWithId(R.id.btnStatisticsDetailNext)
+        clickOnChartGrouping(R.string.statistics_detail_chart_daily)
         checkViewDoesNotExist(allOf(withText(R.string.statistics_detail_chart_yearly), isCompletelyDisplayed()))
         checkViewDoesNotExist(allOf(withId(R.id.buttonsStatisticsDetailLength), isCompletelyDisplayed()))
 
@@ -618,6 +764,40 @@ class StatisticsDetailTest : BaseUiTest() {
         onView(withId(R.id.cardStatisticsDetailDates)).perform(nestedScrollTo())
         checkViewIsDisplayed(withText(R.string.statistics_detail_first_record))
         checkViewIsDisplayed(withText(R.string.statistics_detail_last_record))
+    }
+
+    private fun checkRangeAverages(
+        rangeId: Int,
+        average: String = "",
+        checkAverage: Boolean = true,
+        averageNonEmpty: String,
+    ) {
+        val range = getString(rangeId)
+        val title = getString(R.string.statistics_detail_range_averages_title, range)
+
+        checkViewIsDisplayed(
+            allOf(
+                withId(R.id.cardStatisticsDetailRangeAverage),
+                hasDescendant(withText(title)),
+                if (checkAverage) {
+                    hasDescendant(
+                        allOf(
+                            withText(R.string.statistics_detail_range_averages),
+                            hasSibling(withText(average)),
+                        )
+                    )
+                } else {
+                    hasDescendant(withText(title))
+                },
+                hasDescendant(
+                    allOf(
+                        withText(R.string.statistics_detail_range_averages_non_empty),
+                        hasSibling(withText(averageNonEmpty)),
+                    )
+                ),
+                isCompletelyDisplayed()
+            )
+        )
     }
 
     private fun checkEmptyStatistics() {
