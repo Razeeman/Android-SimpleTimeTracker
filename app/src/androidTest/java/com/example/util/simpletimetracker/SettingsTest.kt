@@ -1142,6 +1142,72 @@ class SettingsTest : BaseUiTest() {
     }
 
     @Test
+    fun recordTagSelectionClose() {
+        val name = "TypeName"
+        val tag = "TagName"
+        val tagGeneral = "TagGeneral"
+        val fullName = "$name - $tag"
+        val fullName2 = "$name - $tag, $tagGeneral"
+
+        // Add data
+        testUtils.addActivity(name)
+        tryAction { clickOnViewWithText(name) }
+        tryAction { clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name))) }
+
+        // Change setting
+        NavUtils.openSettingsScreen()
+        onView(withId(R.id.checkboxSettingsShowRecordTagSelection)).perform(nestedScrollTo())
+        checkViewIsNotDisplayed(withText(R.string.settings_show_record_tag_close_hint))
+        checkViewIsNotDisplayed(withId(R.id.checkboxSettingsRecordTagSelectionClose))
+
+        unconstrainedClickOnView(withId(R.id.checkboxSettingsShowRecordTagSelection))
+        onView(withId(R.id.checkboxSettingsRecordTagSelectionClose)).perform(nestedScrollTo())
+        checkViewIsDisplayed(withText(R.string.settings_show_record_tag_close_hint))
+        onView(withId(R.id.checkboxSettingsRecordTagSelectionClose)).check(matches(isNotChecked()))
+        unconstrainedClickOnView(withId(R.id.checkboxSettingsRecordTagSelectionClose))
+        onView(withId(R.id.checkboxSettingsRecordTagSelectionClose)).check(matches(isChecked()))
+
+        // No tags - started right away
+        NavUtils.openRunningRecordsScreen()
+        clickOnViewWithText(name)
+        tryAction { clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name))) }
+
+        // Add tag
+        testUtils.addRecordTag(tag, name)
+        testUtils.addRecordTag(tagGeneral)
+
+        // Start after one tag selected
+        clickOnViewWithText(name)
+        clickOnView(withText(tag))
+        tryAction { clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(fullName))) }
+
+        // Change setting
+        NavUtils.openSettingsScreen()
+        onView(withId(R.id.checkboxSettingsRecordTagSelectionClose)).perform(nestedScrollTo())
+        onView(withId(R.id.checkboxSettingsRecordTagSelectionClose)).check(matches(isChecked()))
+        unconstrainedClickOnView(withId(R.id.checkboxSettingsRecordTagSelectionClose))
+        onView(withId(R.id.checkboxSettingsRecordTagSelectionClose)).check(matches(isNotChecked()))
+
+        // Start with several tags
+        NavUtils.openRunningRecordsScreen()
+        clickOnViewWithText(name)
+        clickOnView(withText(tag))
+        clickOnView(withText(tagGeneral))
+        pressBack()
+        tryAction { clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(fullName2))) }
+
+        // Change setting
+        NavUtils.openSettingsScreen()
+        onView(withId(R.id.checkboxSettingsShowRecordTagSelection)).perform(nestedScrollTo())
+        checkViewIsDisplayed(withText(R.string.settings_show_record_tag_close_hint))
+        checkViewIsDisplayed(withId(R.id.checkboxSettingsRecordTagSelectionClose))
+
+        unconstrainedClickOnView(withId(R.id.checkboxSettingsShowRecordTagSelection))
+        checkViewIsNotDisplayed(withText(R.string.settings_show_record_tag_close_hint))
+        checkViewIsNotDisplayed(withId(R.id.checkboxSettingsRecordTagSelectionClose))
+    }
+
+    @Test
     fun csvExportSettings() {
         NavUtils.openSettingsScreen()
         onView(withId(R.id.layoutSettingsExportCsv)).perform(nestedScrollTo(), click())
