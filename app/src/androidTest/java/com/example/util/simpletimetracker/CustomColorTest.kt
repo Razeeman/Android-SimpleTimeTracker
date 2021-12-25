@@ -17,6 +17,7 @@ import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkSliderValue
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
 import com.example.util.simpletimetracker.utils.clickOnRecyclerItem
+import com.example.util.simpletimetracker.utils.clickOnViewWithIdOnPager
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.longClickOnView
 import com.example.util.simpletimetracker.utils.scrollRecyclerToView
@@ -256,7 +257,7 @@ class CustomColorTest : BaseUiTest() {
             )
         )
 
-        // Check tag
+        // Check activity record tag
         NavUtils.openSettingsScreen()
         NavUtils.openCategoriesScreen()
         checkViewIsDisplayed(
@@ -265,6 +266,161 @@ class CustomColorTest : BaseUiTest() {
                 withCardColorInt(customColorInt),
                 hasDescendant(withText(tagName)),
             )
+        )
+    }
+
+    @Test
+    fun colorTransferActivityTag() {
+        fun checkPreviewUpdated(matcher: Matcher<View>) =
+            checkViewIsDisplayed(allOf(withId(R.id.previewChangeCategory), matcher))
+
+        val name = "name"
+        val tagName = "tag"
+        val colorId = ColorMapper.getAvailableColors()[1]
+        val colorInt = colorId.let(::getColor) // red
+        val customColorInt = 0xff29a674.toInt()
+
+        NavUtils.openSettingsScreen()
+        NavUtils.openCategoriesScreen()
+        clickOnViewWithText(R.string.categories_add_activity_tag)
+
+        // Select color
+        clickOnViewWithText(R.string.change_category_color_hint)
+        clickOnRecyclerItem(R.id.rvChangeCategoryColor, withCardColorInt(colorInt))
+        checkPreviewUpdated(withCardColorInt(colorInt))
+
+        // Check selected color is preselected on color selection
+        scrollRecyclerToView(R.id.rvChangeCategoryColor, withId(R.id.layoutColorPaletteItem))
+        clickOnRecyclerItem(R.id.rvChangeCategoryColor, withId(R.id.layoutColorPaletteItem))
+        checkColorState(
+            finalColorInt = 0xfff53639.toInt(),
+            colorRed = 245,
+            colorGreen = 54,
+            colorBlue = 57,
+            colorHue = 359,
+            colorSaturation = 77,
+            colorValue = 96,
+        )
+
+        // Select different color
+        typeTextIntoView(R.id.etColorSelectionHex, "#29a674")
+        clickOnViewWithText(R.string.duration_dialog_save)
+
+        // Check new color selected
+        checkPreviewUpdated(withCardColorInt(customColorInt))
+
+        // Save tag
+        typeTextIntoView(R.id.etChangeCategoryName, tagName)
+        clickOnViewWithText(R.string.change_category_save)
+
+        // Tag saved
+        checkViewIsDisplayed(
+            allOf(
+                withId(R.id.viewCategoryItem),
+                withCardColorInt(customColorInt),
+                hasDescendant(withText(tagName)),
+            )
+        )
+        longClickOnView(withText(tagName))
+        checkPreviewUpdated(withCardColorInt(customColorInt))
+        clickOnViewWithText(R.string.change_category_color_hint)
+        scrollRecyclerToView(R.id.rvChangeCategoryColor, withId(R.id.layoutColorPaletteItem))
+        clickOnRecyclerItem(R.id.rvChangeCategoryColor, withId(R.id.layoutColorPaletteItem))
+        checkColorState(
+            finalColorInt = 0xff29a674.toInt(),
+            colorRed = 41,
+            colorGreen = 166,
+            colorBlue = 116,
+            colorHue = 156,
+            colorSaturation = 75,
+            colorValue = 65,
+        )
+        pressBack()
+        pressBack()
+        pressBack()
+
+        // Check statistics
+        testUtils.addActivity(name = name, categories = listOf(tagName))
+        testUtils.addRecord(name)
+        NavUtils.openStatisticsScreen()
+        clickOnViewWithIdOnPager(R.id.btnStatisticsChartFilter)
+        clickOnViewWithText(R.string.chart_filter_type_category)
+        pressBack()
+        Thread.sleep(1000)
+        checkViewIsDisplayed(
+            allOf(
+                withId(R.id.viewStatisticsItem),
+                withCardColorInt(customColorInt),
+                hasDescendant(withText(tagName)),
+                isCompletelyDisplayed()
+            )
+        )
+    }
+
+    @Test
+    fun colorTransferGeneralRecordTag() {
+        fun checkPreviewUpdated(matcher: Matcher<View>) =
+            checkViewIsDisplayed(allOf(withId(R.id.previewChangeRecordTag), matcher))
+
+        val tagName = "tag"
+        val colorId = ColorMapper.getAvailableColors()[1]
+        val colorInt = colorId.let(::getColor) // red
+        val customColorInt = 0xff29a674.toInt()
+
+        NavUtils.openSettingsScreen()
+        NavUtils.openCategoriesScreen()
+        clickOnViewWithText(R.string.categories_add_record_tag)
+
+        // Select color
+        clickOnViewWithText(R.string.change_category_color_hint)
+        clickOnRecyclerItem(R.id.rvChangeRecordTagColor, withCardColorInt(colorInt))
+        checkPreviewUpdated(withCardColorInt(colorInt))
+
+        // Check selected color is preselected on color selection
+        scrollRecyclerToView(R.id.rvChangeRecordTagColor, withId(R.id.layoutColorPaletteItem))
+        clickOnRecyclerItem(R.id.rvChangeRecordTagColor, withId(R.id.layoutColorPaletteItem))
+        checkColorState(
+            finalColorInt = 0xfff53639.toInt(),
+            colorRed = 245,
+            colorGreen = 54,
+            colorBlue = 57,
+            colorHue = 359,
+            colorSaturation = 77,
+            colorValue = 96,
+        )
+
+        // Select different color
+        typeTextIntoView(R.id.etColorSelectionHex, "#29a674")
+        clickOnViewWithText(R.string.duration_dialog_save)
+
+        // Check new color selected
+        checkPreviewUpdated(withCardColorInt(customColorInt))
+
+        // Save tag
+        typeTextIntoView(R.id.etChangeRecordTagName, tagName)
+        clickOnViewWithText(R.string.change_category_save)
+
+        // Tag saved
+        checkViewIsDisplayed(
+            allOf(
+                withId(R.id.viewCategoryItem),
+                withCardColorInt(customColorInt),
+                hasDescendant(withText(tagName)),
+            )
+        )
+        longClickOnView(withText(tagName))
+        checkPreviewUpdated(withCardColorInt(customColorInt))
+        clickOnViewWithText(R.string.change_category_color_hint)
+        scrollRecyclerToView(R.id.rvChangeRecordTagColor, withId(R.id.layoutColorPaletteItem))
+        clickOnRecyclerItem(R.id.rvChangeRecordTagColor, withId(R.id.layoutColorPaletteItem))
+        checkColorState(
+            finalColorInt = 0xff29a674.toInt(),
+            colorRed = 41,
+            colorGreen = 166,
+            colorBlue = 116,
+            colorHue = 156,
+            colorSaturation = 75,
+            colorValue = 65,
         )
     }
 
