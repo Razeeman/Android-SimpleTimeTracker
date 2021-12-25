@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="day_of_week_monday">Lun</string>
+    <string name="day_of_week_tuesday">Mar</string>
+    <string name="day_of_week_wednesday">Mié</string>
+    <string name="day_of_week_thursday">Jue</string>
+    <string name="day_of_week_friday">Vie</string>
+    <string name="day_of_week_saturday">Sáb</string>
+    <string name="day_of_week_sunday">Dom</string>
+
+    <string name="activity_hint">Actividades</string>
+    <string name="activity_tag_hint">Etiquetas de actividades</string>
+    <string name="record_tag_hint">Etiquetas de registros</string>
+
+    <!--  Range selection  -->
+    <string name="title_yesterday">Ayer</string>
+    <string name="title_today">Hoy</string>
+    <string name="title_tomorrow">Mañana</string>
+    <string name="title_this_week">Esta semana</string>
+    <string name="title_this_month">Este mes</string>
+    <string name="title_this_year">Este año</string>
+
+    <string name="range_day">Día</string>
+    <string name="range_week">Semana</string>
+    <string name="range_month">Mes</string>
+    <string name="range_year">Año</string>
+    <string name="range_overall">Global</string>
+    <string name="range_custom">Rango</string>
+    <string name="range_select_day">Seleccione una fecha</string>
+    <string name="range_select_week">Seleccione una semana</string>
+    <string name="range_select_month">Seleccione un mes</string>
+    <string name="range_select_year">Seleccione un año</string>
+
+    <string name="ok">OK</string>
+    <string name="cancel">Cancelar</string>
+
+    <string name="time_hour">h</string>
+    <string name="time_minute">m</string>
+    <string name="time_second">s</string>
+
+    <string name="untracked_time_name">Sin seguimiento</string>
+    <string name="running_record_goal_time">objetivo %s</string>
+    <string name="record_types_empty">No se añadieron actividades</string>
+    <string name="record_tag_selection_hint">Seleccione etiqueta</string>
+
+    <!--  Records  -->
+    <string name="record_removed">Registro %s eliminado</string>
+    <string name="record_removed_undo">Deshacer</string>
+    <string name="records_empty">Nada que mostrar</string>
+    <string name="records_hint">Haz clic en el la entrada para editarla</string>
+
+    <!--  Statistics  -->
+    <string name="statistics_empty">Nada que mostrar</string>
+    <string name="statistics_total_tracked">Total registrado</string>
+    <string name="statistics_total_tracked_short">Total</string>
+    <string name="statistics_hint">Haz clic en la tarjeta para ver las estadísticas detalladas</string>
+
+    <!--  Categories  -->
+    <string name="categories_record_type_hint">Asigne la misma etiqueta a diferentes actividades para ver las estadísticas del grupo</string>
+    <string name="categories_record_hint">Asigne diferentes etiquetas para registrar las diferencias entre ellas.</string>
+    <string name="categories_add_activity_tag">Añadir etiqueta de actividad</string>
+    <string name="categories_add_record_tag">Añadir etiqueta de registro</string>
+
+    <!--  Change category  -->
+    <string name="change_category_removed">Etiqueta eliminada</string>
+    <string name="change_category_archived">Etiqueta archivada</string>
+    <string name="change_category_name_hint">Introduzca un nuevo nombre</string>
+    <string name="change_category_color_hint">Color</string>
+    <string name="change_category_types_hint">Actividades</string>
+    <string name="change_category_type_hint">Actividad</string>
+    <string name="change_category_save">Guardar</string>
+    <string name="change_category_message_choose_name">Escoja un nombre</string>
+    <string name="change_category_selected_types_empty">No se asignó a ninguna actividad</string>
+    <string name="change_category_selected_types_hint">Asignado a:</string>
+
+    <!--  Change record tag  -->
+    <string name="change_record_tag_type">Tipo de etiqueta</string>
+    <string name="change_record_tag_type_general">General</string>
+    <string name="change_record_tag_type_general_hint">Puede ser asignando al registro de cualquier actividad</string>
+    <string name="change_record_tag_type_typed">Actividad</string>
+    <string name="change_record_tag_type_typed_hint">Sólo puede ser asignado al registro de una actividad específica</string>
+
+    <!--  Change record  -->
+    <string name="change_record_message_choose_type">Seleccione una actividad</string>
+    <string name="change_record_type_field">Actividad</string>
+    <string name="change_record_category_field">Etiqueta</string>
+    <string name="change_record_comment_hint">Comentario</string>
+    <string name="change_record_categories_empty">No se añadieron etiquetas</string>
+    <string name="change_record_activity_not_selected">No se seleccionó ninguna actividad</string>
+    <string name="change_record_save">Guardar</string>
+    <string name="change_record_untagged">Sin etiquetar</string>
+    <string name="change_running_record_removed">Temporizador eliminado</string>
+
+    <!--  Change record type  -->
+    <string name="change_record_type_archived">Actividad archivada</string>
+    <string name="change_record_type_name_hint">Introduzca un nuevo nombre</string>
+    <string name="change_record_type_color_hint">Color</string>
+    <string name="change_record_type_icon_hint">Icono</string>
+    <string name="change_record_type_emoji_hint">Emoji</string>
+    <string name="change_record_type_category_hint">Etiquetas</string>
+    <string name="change_record_type_save">Guardar</string>
+    <string name="change_record_message_choose_name">Escoja un nombre</string>
+    <string name="change_record_type_categories_empty">No se añadieron etiquteas a la actividad</string>
+    <string name="change_record_type_selected_categories_empty">No se asignaron etiqetas</string>
+    <string name="change_record_type_selected_categories_hint">Etiquetas asignadas:</string>
+    <string name="change_record_type_goal_time_disabled">Deshabilitado</string>
+    <string name="change_record_type_goal_time">Objetivo</string>
+    <string name="change_record_type_goal_time_hint">Mostrar notificación después del tiempo de segimiento especificado de esta actividad.</string>
+
+    <!--  Dialogs  -->
+    <string name="date_time_dialog_date">Fecha</string>
+    <string name="date_time_dialog_time">Hora</string>
+
+    <string name="card_size_default">Anchura por defecto</string>
+    <string name="card_size_hint">Número de cartas por fila</string>
+
+    <string name="card_order_hint">Arrastre y suelte para reorganizar</string>
+
+    <string name="chart_filter_hint">Filtro</string>
+    <string name="types_filter_show_all">Mostrar todo</string>
+    <string name="types_filter_hide_all">Ocultar todo</string>
+    <string name="chart_filter_type_hint">Tipo de estadística</string>
+    <string name="chart_filter_type_activity">Actividad</string>
+    <string name="chart_filter_type_category">Etiqueta</string>
+    <string name="chart_filter_categories_empty">No se añadieron etiquetas</string>
+
+    <string name="duration_dialog_save">Guardar</string>
+    <string name="duration_dialog_disable">Deshabilitar</string>
+
+    <string name="color_selection_base_color_hint">Seleccionar color base</string>
+    <string name="color_selection_adjust_color_hint">Ajustar el color</string>
+    <string name="color_selection_final_color_hint">Color final</string>
+
+    <string name="csv_export_settings_range">Intervalo</string>
+    <string name="csv_export_settings_all">Todo</string>
+    <string name="csv_export_settings_hint">Selecione un intervalo de timpo o exporte todos los registros</string>
+
+    <!--  Records all  -->
+    <string name="records_all_sort_order">Ordenar los registros</string>
+    <string name="records_all_filter">Filtrar las actividades</string>
+    <string name="records_all_sort_time_started">Tiempo de inicio</string>
+    <string name="records_all_sort_duration">Duración</string>
+
+    <!--  Running records  -->
+    <string name="running_records_types_empty">Añada actividades para iniciar el temporizador</string>
+    <string name="running_records_empty">Haga clic en una actividad para iniciar el temporizador</string>
+    <string name="running_records_empty_hint">Mantenga pulsado para editar</string>
+    <string name="running_records_add_type">Añadir</string>
+
+    <!--  Settings  -->
+    <string name="settings_sort_order">Ordenar actividades</string>
+    <string name="settings_sort_by_name">Nombre</string>
+    <string name="settings_sort_by_color">Color</string>
+    <string name="settings_sort_manually">Manual</string>
+    <string name="settings_first_day_of_week">Primer día de la semana</string>
+    <string name="settings_show_untracked_time">Mostrar el tiempo no registrado en los registros</string>
+    <string name="settings_allow_multitasking">Permitir el registro multitarea</string>
+    <string name="settings_allow_multitasking_hint">Si está deshabilitado, al iniciar un nuevo temporizador se detendrá automáticamente el de las otras actividades.</string>
+    <string name="settings_show_notifications">Mostrar notificaciones del temporizador</string>
+    <string name="settings_show_notifications_hint">Mostrar notificaciones cuando el temporizador esté activo.</string>
+    <string name="settings_start_of_day">Cambio de inicio del día</string>
+    <string name="settings_inactivity_reminder">Mostrar recordatorio de inacitvidad</string>
+    <string name="settings_inactivity_reminder_hint">Mostrar una notificación si no se ha iniciado ningún temporizador tras el tiempo especificado.</string>
+    <string name="settings_inactivity_reminder_disabled">Deshabilitado</string>
+    <string name="settings_dark_mode">Tema oscuro</string>
+    <string name="settings_use_military_time">Usar el formato 24-horas</string>
+    <string name="settings_use_proportional_minutes">Usar el formato de minuto proporcional</string>
+    <string name="settings_change_card_size">Cambiar el tamaño de la tarjeta de actividad</string>
+    <string name="settings_archive">Archivar</string>
+    <string name="settings_edit_categories">Editar etiquetas</string>
+    <string name="settings_edit_categories_hint">Asignar etiquetas a las actividades y los registros.</string>
+    <string name="settings_show_record_tag_selection">Mostrar selección de etiqueta de registro</string>
+    <string name="settings_show_record_tag_selection_hint">Cuando se inicie un temporizador, si la actividad tiene asignada alguna etiqueta de registro – se mostrará una ventana de selección.</string>
+    <string name="settings_show_record_tag_close_hint">Cerrar después de seleccionar una etiqueta.</string>
+    <string name="settings_rate">Valórenos</string>
+    <string name="settings_rate_description">Valore la aplicación y deje un comentario.</string>
+    <string name="settings_feedback">Sugerencias</string>
+    <string name="settings_feedback_description">¿Tiene alguna sugerencia? ¿Encontró algún error? ¿Le apetece charlar? ¡Escríbanos!</string>
+    <string name="settings_version">Versión</string>
+    <string name="settings_email_chooser_title">Enviar con…</string>
+    <string name="settings_translators">Traductores</string>
+
+    <string name="settings_save_backup">Guardar copia de seguridad</string>
+    <string name="settings_save_description">Antes de guardar, asegúrese de que tiene la última versión de la aplicación instalada para evitar conflictos.</string>
+    <string name="settings_restore_backup">Restaurar copia de seguridad</string>
+    <string name="settings_restore_description">Los datos actuales serán eliminados.</string>
+    <string name="settings_dialog_message">¿Desea restaurar la copia de seguridad?</string>
+    <string name="settings_export_csv">Exportar hoja de cálculo</string>
+    <string name="settings_export_csv_description">Exportar registros como un archivo csv para visualizar los datos en su programa de hojas de cálculo preferido.</string>
+    <string name="settings_file_open_error">Error abriendo el archivo</string>
+    <string name="settings_file_create_error">Error creándo el archivo</string>
+
+    <string name="message_backup_saved">Copia de seguridad guardada</string>
+    <string name="message_backup_restored">Copia de seguridad restaurada</string>
+    <string name="message_save_error">Error gurdando copida de seguirdad</string>
+    <string name="message_restore_error">Error restaurando copia de seguridad</string>
+    <string name="message_app_not_found">No se encontró la apliación</string>
+    <string name="message_csv_export_complete">Exportación completada</string>
+    <string name="message_csv_export_error">Error exportando csv</string>
+
+    <!--  Statistics detail  -->
+    <string name="statistics_detail_chart_hourly">hora</string>
+    <string name="statistics_detail_chart_daily">día</string>
+    <string name="statistics_detail_chart_weekly">semana</string>
+    <string name="statistics_detail_chart_monthly">mes</string>
+    <string name="statistics_detail_chart_yearly">año</string>
+    <string name="statistics_detail_length_ten">10</string>
+    <string name="statistics_detail_length_fifty">50</string>
+    <string name="statistics_detail_length_hundred">100</string>
+    <string name="statistics_detail_legend_minute_suffix">m</string>
+    <string name="statistics_detail_legend_hour_suffix">h</string>
+
+    <string name="statistics_detail_range_averages_title">Promedio por período: %s</string>
+    <string name="statistics_detail_range_averages">Para toda la gama</string>
+    <string name="statistics_detail_range_averages_non_empty">Sin periodos vacíos</string>
+
+    <string name="statistics_detail_total_duration">Total</string>
+    <string name="statistics_detail_record_length">Longitud de registro</string>
+    <string name="statistics_detail_shortest_record">Más corto</string>
+    <string name="statistics_detail_average_record">Promedio</string>
+    <string name="statistics_detail_longest_record">Más largo</string>
+    <string name="statistics_detail_record_time">Hora de registro</string>
+    <string name="statistics_detail_first_record">Primero</string>
+    <string name="statistics_detail_last_record">Último</string>
+    <string name="statistics_detail_tag_split_hint">Distribución de etiquetas</string>
+
+    <plurals name="statistics_detail_times_tracked">
+<!--        <item quantity="zero">Registros</item>-->
+        <item quantity="one">Registro</item>
+<!--        <item quantity="two">Registros</item>-->
+<!--        <item quantity="few">Registros</item>-->
+<!--        <item quantity="many">Registros</item>-->
+        <item quantity="other">Registros</item>
+    </plurals>
+
+    <!--  Widget  -->
+    <string name="widget_name">Actividad Única</string>
+    <string name="widget_universal_name">Universal</string>
+    <string name="widget_statistics_chart_name">Cuadro estadístico</string>
+    <string name="widget_load_error">No encontrado</string>
+
+    <!--  Notification  -->
+    <string name="notification_inactivity_title">Recordatorio de inaccitvidad</string>
+    <string name="notification_inactivity_text">No olvide registrar su tiempo</string>
+    <string name="notification_goal_time_description">%s objetivo alcanzado</string>
+    <string name="notification_time_started">Comenzó en %s</string>
+    <string name="notification_record_type_goal_time">objetivo %s</string>
+
+    <!--  Archive  -->
+    <string name="archive_dialog_delete">Eliminar</string>
+    <string name="archive_dialog_restore">Restaurar</string>
+    <string name="archive_empty">El archivo está vacío</string>
+    <string name="archive_activity_restored">Actividad restaurada</string>
+    <string name="archive_tag_restored">Etiqueta restaurada</string>
+    <string name="archive_activity_deleted">Actividad eliminada</string>
+    <string name="archive_tag_deleted">Etiqueta eliminada</string>
+    <string name="archive_activity_deletion_message">Todos los registros y las etiquetas de esta actividad serán también eliminados.</string>
+    <string name="archive_tag_deletion_message">Todos los registros con esta etiqueta serán desetiquetados.</string>
+    <string name="archive_deletion_alert">¿Está seguro? Esta acción no puede deshacerse.</string>
+    <string name="archive_records_count">Registros</string>
+    <string name="archive_record_tags_count">Etiquetas de registros</string>
+    <string name="archive_tagged_records_count">Registros etiquetados</string>
+
+    <!--  Icon emoji category  -->
+    <string name="emojiGroupSmileys">Emoticonos y Emociones</string>
+    <string name="emojiGroupPeople">Gente y Cuerpo</string>
+    <string name="emojiGroupAnimals">Animales y Naturaleza</string>
+    <string name="emojiGroupFood">Comidas y Bebidas</string>
+    <string name="emojiGroupTravel">Viajes y Lugares</string>
+    <string name="emojiGroupActivities">Actividades</string>
+    <string name="emojiGroupObjects">Objetos</string>
+    <string name="emojiGroupSymbols">Símbolos</string>
+    <string name="emojiGroupFlags">Banderas</string>
+
+    <!--  Icon image category  -->
+    <string name="imageGroupMaps">Mapas</string>
+    <string name="imageGroupPlaces">Lugares</string>
+    <string name="imageGroupSocial">Social</string>
+    <string name="imageGroupAction">Acción</string>
+    <string name="imageGroupHardware">Equipos</string>
+    <string name="imageGroupAlert">Alertas</string>
+    <string name="imageGroupAv">Audiovisual</string>
+    <string name="imageGroupCommunication">Comunicación</string>
+    <string name="imageGroupContent">Contenido</string>
+    <string name="imageGroupDevice">Dispositivo</string>
+    <string name="imageGroupEditor">Editor</string>
+    <string name="imageGroupFile">Archivo</string>
+    <string name="imageGroupImage">Imagen</string>
+    <string name="imageGroupNavigation">Navegación</string>
+    <string name="imageGroupNotification">Notificación</string>
+    <string name="imageGroupToggle">Conexiónes</string>
+
+</resources>
