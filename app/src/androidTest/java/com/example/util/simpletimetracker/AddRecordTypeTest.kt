@@ -6,8 +6,10 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.assertion.PositionAssertions.isCompletelyAbove
 import androidx.test.espresso.assertion.PositionAssertions.isCompletelyBelow
+import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withParent
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
@@ -74,11 +76,13 @@ class AddRecordTypeTest : BaseUiTest() {
         // Selecting color
         clickOnRecyclerItem(R.id.rvChangeRecordTypeColor, withCardColor(firstColor))
         checkPreviewUpdated(withCardColor(firstColor))
+        checkViewIsDisplayed(allOf(withId(R.id.viewColorItemSelected), withParent(withCardColor(firstColor))))
 
         // Selecting color
         scrollRecyclerToPosition(R.id.rvChangeRecordTypeColor, lastColorPosition)
         clickOnRecyclerItem(R.id.rvChangeRecordTypeColor, withCardColor(lastColor))
         checkPreviewUpdated(withCardColor(lastColor))
+        checkViewIsDisplayed(allOf(withId(R.id.viewColorItemSelected), withParent(withCardColor(lastColor))))
 
         // Open icon chooser
         clickOnViewWithText(R.string.change_record_type_icon_hint)

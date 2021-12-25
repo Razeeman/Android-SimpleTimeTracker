@@ -6,6 +6,7 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withParent
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.util.simpletimetracker.utils.BaseUiTest
@@ -132,6 +133,7 @@ class AddRecordTagTest : BaseUiTest() {
         clickOnRecyclerItem(R.id.rvChangeRecordTagColor, withCardColor(lastColor))
         checkPreviewUpdated(hasDescendant(withText(name)))
         checkPreviewUpdated(withCardColor(lastColor))
+        checkViewIsDisplayed(allOf(withId(R.id.viewColorItemSelected), withParent(withCardColor(lastColor))))
         clickOnViewWithId(R.id.fieldChangeRecordTagColor)
         checkViewIsDisplayed(
             allOf(withId(R.id.fieldChangeRecordTagColor), withCardColor(R.color.colorBackground))

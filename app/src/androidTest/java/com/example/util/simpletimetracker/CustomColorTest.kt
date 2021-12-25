@@ -9,6 +9,7 @@ import androidx.test.espresso.action.ViewActions.swipeRight
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withParent
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
@@ -16,6 +17,7 @@ import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkSliderValue
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
+import com.example.util.simpletimetracker.utils.checkViewIsNotDisplayed
 import com.example.util.simpletimetracker.utils.clickOnRecyclerItem
 import com.example.util.simpletimetracker.utils.clickOnViewWithIdOnPager
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
@@ -183,6 +185,7 @@ class CustomColorTest : BaseUiTest() {
         clickOnViewWithText(R.string.change_record_type_color_hint)
         clickOnRecyclerItem(R.id.rvChangeRecordTypeColor, withCardColorInt(colorInt))
         checkPreviewUpdated(withCardColorInt(colorInt))
+        checkViewIsDisplayed(allOf(withId(R.id.viewColorItemSelected), withParent(withCardColorInt(colorInt))))
 
         // Check selected color is preselected on color selection
         scrollRecyclerToView(R.id.rvChangeRecordTypeColor, withId(R.id.layoutColorPaletteItem))
@@ -203,6 +206,10 @@ class CustomColorTest : BaseUiTest() {
 
         // Check new color selected
         checkPreviewUpdated(withCardColorInt(customColorInt))
+        checkViewIsNotDisplayed(allOf(withId(R.id.viewColorItemSelected), withParent(withCardColorInt(colorInt))))
+        checkViewIsDisplayed(
+            allOf(withId(R.id.viewColorPaletteItemSelected), withParent(withId(R.id.layoutColorPaletteItem)))
+        )
 
         // Save record type
         typeTextIntoView(R.id.etChangeRecordTypeName, name)
@@ -219,6 +226,9 @@ class CustomColorTest : BaseUiTest() {
         longClickOnView(withText(name))
         checkPreviewUpdated(withCardColorInt(customColorInt))
         clickOnViewWithText(R.string.change_record_type_color_hint)
+        checkViewIsDisplayed(
+            allOf(withId(R.id.viewColorPaletteItemSelected), withParent(withId(R.id.layoutColorPaletteItem)))
+        )
         scrollRecyclerToView(R.id.rvChangeRecordTypeColor, withId(R.id.layoutColorPaletteItem))
         clickOnRecyclerItem(R.id.rvChangeRecordTypeColor, withId(R.id.layoutColorPaletteItem))
         checkColorState(
@@ -288,6 +298,7 @@ class CustomColorTest : BaseUiTest() {
         clickOnViewWithText(R.string.change_category_color_hint)
         clickOnRecyclerItem(R.id.rvChangeCategoryColor, withCardColorInt(colorInt))
         checkPreviewUpdated(withCardColorInt(colorInt))
+        checkViewIsDisplayed(allOf(withId(R.id.viewColorItemSelected), withParent(withCardColorInt(colorInt))))
 
         // Check selected color is preselected on color selection
         scrollRecyclerToView(R.id.rvChangeCategoryColor, withId(R.id.layoutColorPaletteItem))
@@ -308,6 +319,10 @@ class CustomColorTest : BaseUiTest() {
 
         // Check new color selected
         checkPreviewUpdated(withCardColorInt(customColorInt))
+        checkViewIsNotDisplayed(allOf(withId(R.id.viewColorItemSelected), withParent(withCardColorInt(colorInt))))
+        checkViewIsDisplayed(
+            allOf(withId(R.id.viewColorPaletteItemSelected), withParent(withId(R.id.layoutColorPaletteItem)))
+        )
 
         // Save tag
         typeTextIntoView(R.id.etChangeCategoryName, tagName)
@@ -324,6 +339,10 @@ class CustomColorTest : BaseUiTest() {
         longClickOnView(withText(tagName))
         checkPreviewUpdated(withCardColorInt(customColorInt))
         clickOnViewWithText(R.string.change_category_color_hint)
+        checkViewIsNotDisplayed(allOf(withId(R.id.viewColorItemSelected), withParent(withCardColorInt(colorInt))))
+        checkViewIsDisplayed(
+            allOf(withId(R.id.viewColorPaletteItemSelected), withParent(withId(R.id.layoutColorPaletteItem)))
+        )
         scrollRecyclerToView(R.id.rvChangeCategoryColor, withId(R.id.layoutColorPaletteItem))
         clickOnRecyclerItem(R.id.rvChangeCategoryColor, withId(R.id.layoutColorPaletteItem))
         checkColorState(
@@ -375,6 +394,7 @@ class CustomColorTest : BaseUiTest() {
         clickOnViewWithText(R.string.change_category_color_hint)
         clickOnRecyclerItem(R.id.rvChangeRecordTagColor, withCardColorInt(colorInt))
         checkPreviewUpdated(withCardColorInt(colorInt))
+        checkViewIsDisplayed(allOf(withId(R.id.viewColorItemSelected), withParent(withCardColorInt(colorInt))))
 
         // Check selected color is preselected on color selection
         scrollRecyclerToView(R.id.rvChangeRecordTagColor, withId(R.id.layoutColorPaletteItem))
@@ -395,6 +415,10 @@ class CustomColorTest : BaseUiTest() {
 
         // Check new color selected
         checkPreviewUpdated(withCardColorInt(customColorInt))
+        checkViewIsNotDisplayed(allOf(withId(R.id.viewColorItemSelected), withParent(withCardColorInt(colorInt))))
+        checkViewIsDisplayed(
+            allOf(withId(R.id.viewColorPaletteItemSelected), withParent(withId(R.id.layoutColorPaletteItem)))
+        )
 
         // Save tag
         typeTextIntoView(R.id.etChangeRecordTagName, tagName)
@@ -411,6 +435,10 @@ class CustomColorTest : BaseUiTest() {
         longClickOnView(withText(tagName))
         checkPreviewUpdated(withCardColorInt(customColorInt))
         clickOnViewWithText(R.string.change_category_color_hint)
+        checkViewIsNotDisplayed(allOf(withId(R.id.viewColorItemSelected), withParent(withCardColorInt(colorInt))))
+        checkViewIsDisplayed(
+            allOf(withId(R.id.viewColorPaletteItemSelected), withParent(withId(R.id.layoutColorPaletteItem)))
+        )
         scrollRecyclerToView(R.id.rvChangeRecordTagColor, withId(R.id.layoutColorPaletteItem))
         clickOnRecyclerItem(R.id.rvChangeRecordTagColor, withId(R.id.layoutColorPaletteItem))
         checkColorState(

@@ -7,6 +7,7 @@ import androidx.test.espresso.assertion.PositionAssertions.isCompletelyAbove
 import androidx.test.espresso.assertion.PositionAssertions.isCompletelyBelow
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withParent
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
@@ -68,11 +69,13 @@ class AddCategoryTest : BaseUiTest() {
         // Selecting color
         clickOnRecyclerItem(R.id.rvChangeCategoryColor, withCardColor(firstColor))
         checkPreviewUpdated(withCardColor(firstColor))
+        checkViewIsDisplayed(allOf(withId(R.id.viewColorItemSelected), withParent(withCardColor(firstColor))))
 
         // Selecting color
         scrollRecyclerToPosition(R.id.rvChangeCategoryColor, lastColorPosition)
         clickOnRecyclerItem(R.id.rvChangeCategoryColor, withCardColor(lastColor))
         checkPreviewUpdated(withCardColor(lastColor))
+        checkViewIsDisplayed(allOf(withId(R.id.viewColorItemSelected), withParent(withCardColor(lastColor))))
 
         // Open activity chooser
         clickOnViewWithText(R.string.change_category_types_hint)
