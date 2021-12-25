@@ -189,7 +189,7 @@ class ChangeRunningRecordTest : BaseUiTest() {
         clickOnViewWithText(R.string.change_record_save)
 
         // Record updated
-        checkRunningRecordDisplayed(name = fullName1)
+        tryAction { checkRunningRecordDisplayed(name = fullName1) }
 
         // Change activity and tag
         longClickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(fullName1)))
@@ -206,7 +206,7 @@ class ChangeRunningRecordTest : BaseUiTest() {
         clickOnViewWithText(R.string.change_record_save)
 
         // Record updated
-        checkRunningRecordDisplayed(name = fullName2)
+        tryAction { checkRunningRecordDisplayed(name = fullName2) }
 
         // Remove tag
         longClickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(fullName2)))
@@ -218,7 +218,7 @@ class ChangeRunningRecordTest : BaseUiTest() {
         clickOnViewWithText(R.string.change_record_save)
 
         // Record updated
-        checkRunningRecordDisplayed(name = name2)
+        tryAction { checkRunningRecordDisplayed(name = name2) }
     }
 
     private fun checkPreviewUpdated(matcher: Matcher<View>) =

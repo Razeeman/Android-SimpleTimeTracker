@@ -46,7 +46,7 @@ class ArchiveTest : BaseUiTest() {
         // Delete one
         longClickOnView(withText(name2))
         clickOnViewWithId(R.id.btnChangeRecordTypeDelete)
-        checkTypeVisible(name1)
+        tryAction { checkTypeVisible(name1) }
         checkTypeNotVisible(name2)
 
         // Not shown on records
@@ -60,14 +60,14 @@ class ArchiveTest : BaseUiTest() {
         // Still shown in stat filter
         NavUtils.openStatisticsScreen()
         clickOnViewWithIdOnPager(R.id.btnStatisticsChartFilter)
-        checkTypeVisible(name1)
+        tryAction { checkTypeVisible(name1) }
         checkTypeVisible(name2)
         pressBack()
 
         // Still shown in stat detail filter
         clickOnView(allOf(withText(name1), isCompletelyDisplayed()))
         clickOnViewWithId(R.id.cardStatisticsDetailFilter)
-        checkTypeVisible(name1)
+        tryAction { checkTypeVisible(name1) }
         checkTypeVisible(name2)
         pressBack()
         pressBack()
@@ -99,15 +99,14 @@ class ArchiveTest : BaseUiTest() {
 
         // Not shown in card size
         NavUtils.openCardSizeScreen()
-        checkTypeVisible(name1)
+        tryAction { checkTypeVisible(name1) }
         checkTypeNotVisible(name2)
         pressBack()
 
         // Not shown in manual order
         clickOnSpinnerWithId(R.id.spinnerSettingsRecordTypeSort)
         clickOnViewWithText(R.string.settings_sort_manually)
-        Thread.sleep(1000)
-        checkTypeVisible(name1)
+        tryAction { checkTypeVisible(name1) }
         checkTypeNotVisible(name2)
         pressBack()
 

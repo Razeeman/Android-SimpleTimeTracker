@@ -157,7 +157,7 @@ class StartRecordTest : BaseUiTest() {
         clickOnViewWithText(R.string.change_record_save)
 
         // Stop timer
-        clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(fullName)))
+        tryAction { clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(fullName))) }
 
         // Check record
         NavUtils.openRecordsScreen()

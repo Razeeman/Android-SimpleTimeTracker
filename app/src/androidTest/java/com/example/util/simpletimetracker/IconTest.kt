@@ -60,13 +60,15 @@ class IconTest : BaseUiTest() {
         clickOnViewWithText(R.string.change_record_type_save)
 
         // Record type is created
-        checkViewIsDisplayed(
-            allOf(
-                withId(R.id.viewRecordTypeItem),
-                hasDescendant(withText(firstName)),
-                hasDescendant(withText(firstEmoji))
+        tryAction {
+            checkViewIsDisplayed(
+                allOf(
+                    withId(R.id.viewRecordTypeItem),
+                    hasDescendant(withText(firstName)),
+                    hasDescendant(withText(firstEmoji))
+                )
             )
-        )
+        }
 
         // Start timer
         clickOnViewWithText(firstName)
@@ -89,13 +91,15 @@ class IconTest : BaseUiTest() {
         clickOnViewWithText(R.string.change_record_save)
 
         // Check running record
-        checkViewIsDisplayed(
-            allOf(
-                withId(R.id.viewRunningRecordItem),
-                hasDescendant(withText(lastName)),
-                hasDescendant(withText(lastEmoji))
+        tryAction {
+            checkViewIsDisplayed(
+                allOf(
+                    withId(R.id.viewRunningRecordItem),
+                    hasDescendant(withText(lastName)),
+                    hasDescendant(withText(lastEmoji))
+                )
             )
-        )
+        }
 
         // Stop timer
         clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(lastName)))
@@ -120,14 +124,16 @@ class IconTest : BaseUiTest() {
         clickOnViewWithText(R.string.change_record_type_save)
 
         // Check record
-        checkViewIsDisplayed(
-            allOf(
-                withId(R.id.viewRecordItem),
-                hasDescendant(withText(firstName)),
-                hasDescendant(withText(firstEmoji)),
-                isCompletelyDisplayed()
+        tryAction {
+            checkViewIsDisplayed(
+                allOf(
+                    withId(R.id.viewRecordItem),
+                    hasDescendant(withText(firstName)),
+                    hasDescendant(withText(firstEmoji)),
+                    isCompletelyDisplayed()
+                )
             )
-        )
+        }
     }
 
     @Test

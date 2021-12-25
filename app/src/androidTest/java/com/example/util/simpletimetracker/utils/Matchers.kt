@@ -73,7 +73,7 @@ fun withPluralText(@PluralsRes expectedId: Int, quantity: Int): Matcher<View> =
         }
     }
 
-fun withSliderValue(expectedValue: Int): Matcher<View>  =
+fun withSliderValue(expectedValue: Int): Matcher<View> =
     object : BoundedMatcher<View, Slider>(Slider::class.java) {
         override fun matchesSafely(slider: Slider): Boolean {
             return slider.value.roundToInt() == expectedValue

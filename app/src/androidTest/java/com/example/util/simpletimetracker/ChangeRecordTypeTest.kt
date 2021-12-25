@@ -2,7 +2,6 @@ package com.example.util.simpletimetracker
 
 import android.view.View
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -22,6 +21,7 @@ import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.collapseToolbar
 import com.example.util.simpletimetracker.utils.longClickOnView
 import com.example.util.simpletimetracker.utils.scrollRecyclerToView
+import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.typeTextIntoView
 import com.example.util.simpletimetracker.utils.withCardColor
 import com.example.util.simpletimetracker.utils.withTag
@@ -76,7 +76,7 @@ class ChangeRecordTypeTest : BaseUiTest() {
         clickOnViewWithText(R.string.change_record_type_save)
 
         // Record type updated
-        checkViewIsDisplayed(withText(newName))
+        tryAction { checkViewIsDisplayed(withText(newName)) }
         checkViewIsDisplayed(withCardColor(lastColor))
         checkViewIsDisplayed(withTag(lastIcon))
 
@@ -97,7 +97,7 @@ class ChangeRecordTypeTest : BaseUiTest() {
         clickOnViewWithText(R.string.change_record_type_save)
 
         // Record type updated
-        checkViewIsDisplayed(withText(firstEmoji))
+        tryAction { checkViewIsDisplayed(withText(firstEmoji)) }
     }
 
     @Test

@@ -12,6 +12,7 @@ import com.example.util.simpletimetracker.utils.Widget
 import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
+import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.withCardColor
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.runBlocking
@@ -107,7 +108,7 @@ class WidgetUniversal : BaseUiTest() {
         scenarioRule = ActivityScenario.launch(WidgetUniversalActivity::class.java)
 
         // Start timers
-        clickOnViewWithText(name1)
+        tryAction { clickOnViewWithText(name1) }
         checkType(R.color.colorFiltered, name1)
         clickOnViewWithText(name2)
         checkType(R.color.colorFiltered, name2)
@@ -119,12 +120,12 @@ class WidgetUniversal : BaseUiTest() {
 
         // Start timers
         clickOnViewWithText(name1)
-        checkViewIsDisplayed(withText(R.string.change_record_untagged))
+        tryAction { checkViewIsDisplayed(withText(R.string.change_record_untagged)) }
         checkViewIsDisplayed(withText(tag1))
         checkViewDoesNotExist(withText(tag2))
         clickOnViewWithText(tag1)
         pressBack()
-        checkType(R.color.colorFiltered, name1)
+        tryAction { checkType(R.color.colorFiltered, name1) }
 
         clickOnViewWithText(name2)
         checkType(R.color.colorFiltered, name2)

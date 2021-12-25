@@ -132,7 +132,7 @@ class RecordsAllTest : BaseUiTest() {
         )
 
         // Record added
-        checkViewIsDisplayed(firstRecord)
+        tryAction { checkViewIsDisplayed(firstRecord) }
 
         // Add another record
         NavUtils.addRecordWithTime(
@@ -151,7 +151,7 @@ class RecordsAllTest : BaseUiTest() {
         )
 
         // Another record added
-        checkViewIsDisplayed(secondRecord)
+        tryAction { checkViewIsDisplayed(secondRecord) }
 
         // Check statistics
         NavUtils.openStatisticsScreen()
@@ -168,8 +168,8 @@ class RecordsAllTest : BaseUiTest() {
         onView(withId(R.id.cardStatisticsDetailRecords)).perform(nestedScrollTo(), click())
 
         // Records shown
-        checkViewIsDisplayed(firstRecord)
-        checkViewIsDisplayed(secondRecord)
+        tryAction { checkViewIsDisplayed(firstRecord) }
+        tryAction { checkViewIsDisplayed(secondRecord) }
 
         // Delete item
         clickOnView(firstRecord)
@@ -213,21 +213,17 @@ class RecordsAllTest : BaseUiTest() {
         val categoryName2 = "category2"
 
         // Add categories
-        NavUtils.openSettingsScreen()
-        NavUtils.openCategoriesScreen()
-        NavUtils.addCategory(categoryName1)
-        NavUtils.addCategory(categoryName2)
-        pressBack()
+        testUtils.addActivityTag(categoryName1)
+        testUtils.addActivityTag(categoryName2)
 
         // Add activity
-        NavUtils.openRunningRecordsScreen()
         testUtils.addActivity(name = typeName1, color = color1, categories = listOf(categoryName1))
         testUtils.addActivity(name = typeName2, color = color2, categories = listOf(categoryName1))
         testUtils.addActivity(name = typeName3, color = color3, categories = listOf(categoryName2))
 
         // Add records
         NavUtils.openRecordsScreen()
-        NavUtils.addRecord(typeName3)
+        testUtils.addRecord(typeName3)
         NavUtils.addRecordWithTime(
             name = typeName1,
             hourStarted = 15,
@@ -244,7 +240,7 @@ class RecordsAllTest : BaseUiTest() {
         )
 
         // Record added
-        checkViewIsDisplayed(firstRecord)
+        tryAction { checkViewIsDisplayed(firstRecord) }
 
         // Add another record
         clickOnViewWithId(R.id.btnRecordsContainerPrevious)
@@ -264,20 +260,20 @@ class RecordsAllTest : BaseUiTest() {
         )
 
         // Another record added
-        checkViewIsDisplayed(secondRecord)
+        tryAction { checkViewIsDisplayed(secondRecord) }
 
         // Open statistics
         NavUtils.openStatisticsScreen()
         clickOnViewWithIdOnPager(R.id.btnStatisticsChartFilter)
         clickOnViewWithText(R.string.chart_filter_type_category)
         pressBack()
-        clickOnView(allOf(withText(categoryName1), isCompletelyDisplayed()))
+        tryAction { clickOnView(allOf(withText(categoryName1), isCompletelyDisplayed())) }
 
         // Open records all
         onView(withId(R.id.cardStatisticsDetailRecords)).perform(nestedScrollTo(), click())
 
         // Records shown
-        checkViewIsDisplayed(firstRecord)
+        tryAction { checkViewIsDisplayed(firstRecord) }
         checkViewIsDisplayed(secondRecord)
         onView(firstRecord).check(isCompletelyAbove(secondRecord))
 

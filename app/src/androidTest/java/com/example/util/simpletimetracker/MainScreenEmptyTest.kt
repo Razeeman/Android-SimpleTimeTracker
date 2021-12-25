@@ -103,8 +103,7 @@ class MainScreenEmptyTest : BaseUiTest() {
         // Overall range
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         clickOnViewWithText(R.string.range_overall)
-        Thread.sleep(1000)
-        checkViewIsDisplayed(allOf(withText(R.string.statistics_empty), isCompletelyDisplayed()))
+        tryAction { checkViewIsDisplayed(allOf(withText(R.string.statistics_empty), isCompletelyDisplayed())) }
 
         // Back to day range
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
@@ -139,8 +138,7 @@ class MainScreenEmptyTest : BaseUiTest() {
         // Overall range
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         clickOnViewWithText(R.string.range_overall)
-        Thread.sleep(1000)
-        checkViewIsDisplayed(allOf(withText(R.string.statistics_empty), isCompletelyDisplayed()))
+        tryAction { checkViewIsDisplayed(allOf(withText(R.string.statistics_empty), isCompletelyDisplayed())) }
 
         // Back to day range
         clickOnViewWithId(R.id.btnStatisticsContainerToday)

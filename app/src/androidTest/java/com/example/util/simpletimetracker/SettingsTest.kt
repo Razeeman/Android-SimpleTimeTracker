@@ -439,17 +439,17 @@ class SettingsTest : BaseUiTest() {
     @Test
     fun cardOrderManual2() {
         val name = "Test"
+        val cardsCount = 6
 
         // Add activities
-        (1..15).forEach {
+        (1..cardsCount).forEach {
             testUtils.addActivity("$name$it")
         }
 
         // Change settings
         NavUtils.openSettingsScreen()
         NavUtils.openCardSizeScreen()
-        Thread.sleep(1000)
-        clickOnViewWithText("4")
+        tryAction { clickOnViewWithText("4") }
         pressBack()
         clickOnSpinnerWithId(R.id.spinnerSettingsRecordTypeSort)
         clickOnViewWithText(R.string.settings_sort_by_color)
@@ -462,7 +462,7 @@ class SettingsTest : BaseUiTest() {
         val screenHeight = resources.displayMetrics.heightPixels
 
         // Drag
-        (1..15).forEach {
+        (1..cardsCount).forEach {
             onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText("$name$it")))
                 .perform(
                     drag(Direction.RIGHT, screenWidth),
@@ -471,12 +471,12 @@ class SettingsTest : BaseUiTest() {
         }
 
         // Check order in settings
-        checkManualOrder(name)
+        tryAction { checkManualOrder(name) }
 
         // Check order on main
         pressBack()
         NavUtils.openRunningRecordsScreen()
-        checkManualOrder(name)
+        tryAction { checkManualOrder(name) }
     }
 
     @Test
@@ -1110,21 +1110,21 @@ class SettingsTest : BaseUiTest() {
 
         // Has a tag - show dialog
         clickOnViewWithText(name)
-        checkViewIsDisplayed(withText(R.string.change_record_untagged))
+        tryAction { checkViewIsDisplayed(withText(R.string.change_record_untagged)) }
         checkViewIsDisplayed(withText(tag))
         pressBack()
         tryAction { clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name))) }
 
         // Start untagged
         clickOnViewWithText(name)
-        clickOnView(withText(tag))
+        tryAction { clickOnView(withText(tag)) }
         clickOnView(withText(R.string.change_record_untagged))
         pressBack()
         tryAction { clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name))) }
 
         // Start tagged
         clickOnViewWithText(name)
-        clickOnView(withText(tag))
+        tryAction { clickOnView(withText(tag)) }
         pressBack()
         tryAction { clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(fullName))) }
 
@@ -1348,43 +1348,6 @@ class SettingsTest : BaseUiTest() {
             isLeftAlignedWith(matcher)
         }
         check(name + 6, name + 5) { matcher ->
-            isCompletelyRightOf(matcher)
-            isTopAlignedWith(matcher)
-        }
-        check(name + 7, name + 6) { matcher ->
-            isCompletelyRightOf(matcher)
-            isTopAlignedWith(matcher)
-        }
-        check(name + 8, name + 7) { matcher ->
-            isCompletelyRightOf(matcher)
-            isTopAlignedWith(matcher)
-        }
-
-        check(name + 9, name + 5) { matcher ->
-            isCompletelyBelow(matcher)
-            isLeftAlignedWith(matcher)
-        }
-        check(name + 10, name + 9) { matcher ->
-            isCompletelyRightOf(matcher)
-            isTopAlignedWith(matcher)
-        }
-        check(name + 11, name + 10) { matcher ->
-            isCompletelyRightOf(matcher)
-            isTopAlignedWith(matcher)
-        }
-        check(name + 12, name + 11) { matcher ->
-            isCompletelyRightOf(matcher)
-            isTopAlignedWith(matcher)
-        }
-
-        check(name + 13, name + 9) { matcher ->
-            isCompletelyBelow(matcher)
-        }
-        check(name + 14, name + 13) { matcher ->
-            isCompletelyRightOf(matcher)
-            isTopAlignedWith(matcher)
-        }
-        check(name + 15, name + 14) { matcher ->
             isCompletelyRightOf(matcher)
             isTopAlignedWith(matcher)
         }

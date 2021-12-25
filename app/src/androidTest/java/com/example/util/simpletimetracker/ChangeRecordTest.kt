@@ -21,6 +21,7 @@ import com.example.util.simpletimetracker.utils.clickOnRecyclerItem
 import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
+import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.typeTextIntoView
 import com.example.util.simpletimetracker.utils.withCardColor
 import com.example.util.simpletimetracker.utils.withTag
@@ -215,7 +216,7 @@ class ChangeRecordTest : BaseUiTest() {
         clickOnViewWithText(R.string.change_record_save)
 
         // Record is added
-        checkViewIsDisplayed(allOf(withId(R.id.viewRecordItem), hasDescendant(withText(name))))
+        tryAction { checkViewIsDisplayed(allOf(withId(R.id.viewRecordItem), hasDescendant(withText(name)))) }
 
         // Change tag
         clickOnView(allOf(withText(name), isCompletelyDisplayed()))
@@ -228,7 +229,7 @@ class ChangeRecordTest : BaseUiTest() {
         clickOnViewWithText(R.string.change_record_type_save)
 
         // Record updated
-        checkViewIsDisplayed(allOf(withId(R.id.viewRecordItem), hasDescendant(withText(fullName))))
+        tryAction { checkViewIsDisplayed(allOf(withId(R.id.viewRecordItem), hasDescendant(withText(fullName)))) }
 
         // Remove tag
         clickOnView(allOf(withText(fullName)))
@@ -240,7 +241,7 @@ class ChangeRecordTest : BaseUiTest() {
         clickOnViewWithText(R.string.change_record_type_save)
 
         // Record updated
-        checkViewIsDisplayed(allOf(withId(R.id.viewRecordItem), hasDescendant(withText(name))))
+        tryAction { checkViewIsDisplayed(allOf(withId(R.id.viewRecordItem), hasDescendant(withText(name)))) }
     }
 
     private fun checkPreviewUpdated(matcher: Matcher<View>) =
