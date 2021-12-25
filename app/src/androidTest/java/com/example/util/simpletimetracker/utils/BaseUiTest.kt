@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.utils
 
 import android.content.Context
+import androidx.annotation.ColorInt
 import androidx.emoji.bundled.BundledEmojiCompatConfig
 import androidx.emoji.text.EmojiCompat
 import androidx.test.core.app.ApplicationProvider
@@ -98,13 +99,15 @@ open class BaseUiTest {
     }
 
     internal fun getString(id: Int): String {
-        return InstrumentationRegistry.getInstrumentation().targetContext.resources
-            .getString(id)
+        return InstrumentationRegistry.getInstrumentation().targetContext.getString(id)
     }
 
     internal fun getString(id: Int, vararg args: Any): String {
-        return InstrumentationRegistry.getInstrumentation().targetContext.resources
-            .getString(id, *args)
+        return InstrumentationRegistry.getInstrumentation().targetContext.getString(id, *args)
+    }
+
+    @ColorInt internal fun getColor(id: Int): Int {
+        return InstrumentationRegistry.getInstrumentation().targetContext.getColor(id)
     }
 
     private fun clearData() {

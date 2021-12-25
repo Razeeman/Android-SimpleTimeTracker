@@ -16,6 +16,7 @@ import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
+import com.example.util.simpletimetracker.R
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerViewHolder
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.not
@@ -76,3 +77,6 @@ fun clickOnSpinnerWithId(id: Int) {
     pressBack()
     clickOnViewWithId(id)
 }
+
+fun checkSliderValue(id: Int, expectedValue: Int): ViewInteraction =
+    onView(withId(id)).check(matches(withSliderValue((expectedValue))))
