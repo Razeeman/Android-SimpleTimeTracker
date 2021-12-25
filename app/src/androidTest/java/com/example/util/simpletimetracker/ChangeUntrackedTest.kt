@@ -15,6 +15,7 @@ import com.example.util.simpletimetracker.utils.clickOnRecyclerItem
 import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
+import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.withCardColor
 import com.example.util.simpletimetracker.utils.withTag
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -58,7 +59,7 @@ class ChangeUntrackedTest : BaseUiTest() {
         clickOnViewWithText(R.string.change_record_type_save)
 
         // Record updated
-        checkViewDoesNotExist(allOf(withText(R.string.untracked_time_name), isCompletelyDisplayed()))
+        tryAction { checkViewDoesNotExist(allOf(withText(R.string.untracked_time_name), isCompletelyDisplayed())) }
         checkViewIsDisplayed(
             allOf(
                 withId(R.id.viewRecordItem),
@@ -74,7 +75,7 @@ class ChangeUntrackedTest : BaseUiTest() {
         clickOnViewWithId(R.id.btnChangeRecordDelete)
 
         // Untracked is back
-        checkViewDoesNotExist(allOf(withText(name), isCompletelyDisplayed()))
+        tryAction { checkViewDoesNotExist(allOf(withText(name), isCompletelyDisplayed())) }
         checkViewIsDisplayed(allOf(withText(R.string.untracked_time_name), isCompletelyDisplayed()))
     }
 

@@ -122,29 +122,11 @@ class SettingsTest : BaseUiTest() {
         // Start timers
         tryAction { clickOnViewWithText(name2) }
         clickOnViewWithText(name3)
-        var startTime = System.currentTimeMillis()
-            .let { timeMapper.formatTime(it, true) }
-        tryAction {
-            checkViewIsDisplayed(
-                allOf(
-                    withId(R.id.viewRunningRecordItem),
-                    hasDescendant(withText(name2)),
-                    hasDescendant(withText(startTime))
-                )
-            )
-        }
-        checkViewIsDisplayed(
-            allOf(
-                withId(R.id.viewRunningRecordItem),
-                hasDescendant(withText(name3)),
-                hasDescendant(withText(startTime))
-            )
-        )
+        tryAction { checkViewIsDisplayed(allOf(withId(R.id.viewRunningRecordItem), hasDescendant(withText(name2)))) }
+        checkViewIsDisplayed(allOf(withId(R.id.viewRunningRecordItem), hasDescendant(withText(name3))))
 
         // Click on already running
-        clickOnView(
-            allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2))
-        )
+        clickOnView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2)))
         NavUtils.openRecordsScreen()
         checkViewDoesNotExist(allOf(withText(name1), isCompletelyDisplayed()))
         checkViewDoesNotExist(allOf(withText(name2), isCompletelyDisplayed()))
@@ -159,24 +141,10 @@ class SettingsTest : BaseUiTest() {
 
         // Click on one not running
         NavUtils.openRunningRecordsScreen()
-        clickOnView(
-            allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1))
-        )
-        tryAction {
-            checkViewIsDisplayed(
-                allOf(
-                    withId(R.id.viewRunningRecordItem),
-                    hasDescendant(withText(name1)),
-                    hasDescendant(withText(startTime))
-                )
-            )
-        }
-        checkViewDoesNotExist(
-            allOf(withId(R.id.viewRunningRecordItem), hasDescendant(withText(name2)))
-        )
-        checkViewDoesNotExist(
-            allOf(withId(R.id.viewRunningRecordItem), hasDescendant(withText(name3)))
-        )
+        clickOnView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1)))
+        tryAction { checkViewIsDisplayed(allOf(withId(R.id.viewRunningRecordItem), hasDescendant(withText(name1)))) }
+        checkViewDoesNotExist(allOf(withId(R.id.viewRunningRecordItem), hasDescendant(withText(name2))))
+        checkViewDoesNotExist(allOf(withId(R.id.viewRunningRecordItem), hasDescendant(withText(name3))))
 
         // Records added
         NavUtils.openRecordsScreen()
@@ -185,23 +153,9 @@ class SettingsTest : BaseUiTest() {
 
         // Click another
         NavUtils.openRunningRecordsScreen()
-        clickOnView(
-            allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2))
-        )
-        startTime = System.currentTimeMillis()
-            .let { timeMapper.formatTime(it, true) }
-        tryAction {
-            checkViewIsDisplayed(
-                allOf(
-                    withId(R.id.viewRunningRecordItem),
-                    hasDescendant(withText(name2)),
-                    hasDescendant(withText(startTime))
-                )
-            )
-        }
-        checkViewDoesNotExist(
-            allOf(withId(R.id.viewRunningRecordItem), hasDescendant(withText(name1)))
-        )
+        clickOnView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2)))
+        tryAction { checkViewIsDisplayed(allOf(withId(R.id.viewRunningRecordItem), hasDescendant(withText(name2)))) }
+        checkViewDoesNotExist(allOf(withId(R.id.viewRunningRecordItem), hasDescendant(withText(name1))))
 
         // Record added
         NavUtils.openRecordsScreen()
@@ -216,27 +170,9 @@ class SettingsTest : BaseUiTest() {
 
         // Start another timer
         NavUtils.openRunningRecordsScreen()
-        clickOnView(
-            allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name3))
-        )
-        val newStartTime = System.currentTimeMillis()
-            .let { timeMapper.formatTime(it, true) }
-        tryAction {
-            checkViewIsDisplayed(
-                allOf(
-                    withId(R.id.viewRunningRecordItem),
-                    hasDescendant(withText(name2)),
-                    hasDescendant(withText(startTime))
-                )
-            )
-        }
-        checkViewIsDisplayed(
-            allOf(
-                withId(R.id.viewRunningRecordItem),
-                hasDescendant(withText(name3)),
-                hasDescendant(withText(newStartTime))
-            )
-        )
+        clickOnView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name3)))
+        tryAction { checkViewIsDisplayed(allOf(withId(R.id.viewRunningRecordItem), hasDescendant(withText(name2)))) }
+        checkViewIsDisplayed(allOf(withId(R.id.viewRunningRecordItem), hasDescendant(withText(name3))))
 
         // No new records added
         NavUtils.openRecordsScreen()

@@ -144,19 +144,21 @@ class AddRecordTest : BaseUiTest() {
         clickOnViewWithText(R.string.change_record_save)
 
         // Record added
-        checkViewIsDisplayed(
-            allOf(
-                withId(R.id.viewRecordItem),
-                withCardColor(color),
-                hasDescendant(withText("$name - $tag1, $tag2")),
-                hasDescendant(withTag(icon)),
-                hasDescendant(withText(timeStartedPreview)),
-                hasDescendant(withText(timeEndedPreview)),
-                hasDescendant(withText("2$hourString 3$minuteString")),
-                hasDescendant(withText(comment)),
-                isCompletelyDisplayed()
+        tryAction {
+            checkViewIsDisplayed(
+                allOf(
+                    withId(R.id.viewRecordItem),
+                    withCardColor(color),
+                    hasDescendant(withText("$name - $tag1, $tag2")),
+                    hasDescendant(withTag(icon)),
+                    hasDescendant(withText(timeStartedPreview)),
+                    hasDescendant(withText(timeEndedPreview)),
+                    hasDescendant(withText("2$hourString 3$minuteString")),
+                    hasDescendant(withText(comment)),
+                    isCompletelyDisplayed()
+                )
             )
-        )
+        }
     }
 
     @Test
