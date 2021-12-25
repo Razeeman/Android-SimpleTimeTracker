@@ -88,21 +88,21 @@ class ColorSelectionDialogFragment : BaseBottomSheetFragment<Binding>() {
         )
 
         textWatcherHex = etColorSelectionHex
-            .doAfterTextChanged { viewModel.onHexChanged(it.toString()) }
+            .doAfterTextChanged { viewModel.onHexFieldChanged(it.toString()) }
 
         textWatcherR = etColorSelectionRed
-            .doAfterTextChanged { viewModel.onRGBChanged(it.toString(), RGBUpdate.R) }
+            .doAfterTextChanged { viewModel.onRGBFieldsChanged(it.toString(), RGBUpdate.R) }
         textWatcherG = etColorSelectionGreen
-            .doAfterTextChanged { viewModel.onRGBChanged(it.toString(), RGBUpdate.G) }
+            .doAfterTextChanged { viewModel.onRGBFieldsChanged(it.toString(), RGBUpdate.G) }
         textWatcherB = etColorSelectionBlue
-            .doAfterTextChanged { viewModel.onRGBChanged(it.toString(), RGBUpdate.B) }
+            .doAfterTextChanged { viewModel.onRGBFieldsChanged(it.toString(), RGBUpdate.B) }
 
         textWatcherH = etColorSelectionHue
-            .doAfterTextChanged { viewModel.onHSVChanged(it.toString(), HSVUpdate.H) }
+            .doAfterTextChanged { viewModel.onHSVFieldsChanged(it.toString(), HSVUpdate.H) }
         textWatcherS = etColorSelectionSaturation
-            .doAfterTextChanged { viewModel.onHSVChanged(it.toString(), HSVUpdate.S) }
+            .doAfterTextChanged { viewModel.onHSVFieldsChanged(it.toString(), HSVUpdate.S) }
         textWatcherV = etColorSelectionValue
-            .doAfterTextChanged { viewModel.onHSVChanged(it.toString(), HSVUpdate.V) }
+            .doAfterTextChanged { viewModel.onHSVFieldsChanged(it.toString(), HSVUpdate.V) }
 
         btnColorSelectionSave.setOnClick(viewModel::onSaveClick)
     }

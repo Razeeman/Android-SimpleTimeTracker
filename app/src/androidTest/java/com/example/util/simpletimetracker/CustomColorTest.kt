@@ -131,7 +131,6 @@ class CustomColorTest : BaseUiTest() {
         )
 
         // Change HSV
-
         typeTextIntoView(R.id.etColorSelectionHue, "0")
         typeTextIntoView(R.id.etColorSelectionSaturation, "100")
         typeTextIntoView(R.id.etColorSelectionValue, "100")

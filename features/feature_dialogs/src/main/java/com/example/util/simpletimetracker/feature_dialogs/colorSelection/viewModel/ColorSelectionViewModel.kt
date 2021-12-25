@@ -2,6 +2,9 @@ package com.example.util.simpletimetracker.feature_dialogs.colorSelection.viewMo
 
 import android.graphics.Color
 import androidx.annotation.ColorInt
+import androidx.core.graphics.blue
+import androidx.core.graphics.green
+import androidx.core.graphics.red
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -22,53 +25,77 @@ class ColorSelectionViewModel @Inject constructor() : ViewModel() {
     }
     val colorSelected: LiveData<Int> = MutableLiveData()
 
+    private var colorHex: String = "#ff0000"
+    private var colorRed: Int = 255 // 0..255
+    private var colorBlue: Int = 0 // 0..255
+    private var colorGreen: Int = 0 // 0..255
     private var colorHue: Float = 0f // 0..360
     private var colorSaturation: Float = 1f // 0..1
     private var colorValue: Float = 1f // 0..1
 
     fun onHueChanged(hue: Float) {
         colorHue = hue.coerceIn(0f, 360f)
-        updateColorData()
+        onHSVChanged()
     }
 
     fun onColorChanged(saturation: Float, value: Float) {
         colorSaturation = saturation.coerceIn(0f, 1f)
         colorValue = value.coerceIn(0f, 1f)
-        updateColorData()
+        onHSVChanged()
     }
 
-    fun onHexChanged(colorHex: String) {
+    fun onHexFieldChanged(colorHex: String) {
         runCatching {
-            val color = (if (colorHex.startsWith("#")) colorHex else "#$colorHex")
+            (if (colorHex.startsWith("#")) colorHex else "#$colorHex")
                 .let(Color::parseColor)
-
-            val hsv = FloatArray(3)
-            Color.colorToHSV(color, hsv)
-
-            colorHue = hsv[0]
-            colorSaturation = hsv[1]
-            colorValue = hsv[2]
-
-            updateColorData()
+                .let(::onHexChanged)
         }
     }
 
-    fun onRGBChanged(colorString: String, update: RGBUpdate) {
+    fun onRGBFieldsChanged(colorString: String, update: RGBUpdate) {
         val newColor = colorString.toIntOrNull()?.coerceIn(0, 255) ?: return
 
-        val colorInt = getCurrentColorInt()
-        val currentRed = Color.red(colorInt)
-        val currentGreen = Color.green(colorInt)
-        val currentBlue = Color.blue(colorInt)
+        when (update) {
+            RGBUpdate.R -> colorRed = newColor
+            RGBUpdate.G -> colorGreen = newColor
+            RGBUpdate.B -> colorBlue = newColor
+        }
 
+        onRGBChanged()
+    }
+
+    fun onHSVFieldsChanged(colorString: String, update: HSVUpdate) {
+        val newColor = colorString.toIntOrNull() ?: return
+
+        newColor.apply {
+            when (update) {
+                HSVUpdate.H -> coerceIn(0, 360).let {
+                    colorHue = newColor.toFloat()
+                }
+                HSVUpdate.S -> coerceIn(0, 100).let {
+                    colorSaturation = newColor.toFloat() / 100f
+                }
+                HSVUpdate.V -> coerceIn(0, 100).let {
+                    colorValue = newColor.toFloat() / 100f
+                }
+            }
+        }
+
+        onHSVChanged()
+    }
+
+    fun onSaveClick() {
+        getCurrentColorInt().let(colorSelected::set)
+    }
+
+    private fun onHexChanged(@ColorInt newHexColor: Int) {
         val hsv = FloatArray(3)
-        Color.RGBToHSV(
-            if (update == RGBUpdate.R) newColor else currentRed,
-            if (update == RGBUpdate.G) newColor else currentGreen,
-            if (update == RGBUpdate.B) newColor else currentBlue,
-            hsv
-        )
+        Color.colorToHSV(newHexColor, hsv)
 
+        colorHex = mapColorToHex(newHexColor)
+        colorRed = newHexColor.red
+        colorGreen = newHexColor.green
+        colorBlue = newHexColor.blue
         colorHue = hsv[0]
         colorSaturation = hsv[1]
         colorValue = hsv[2]
@@ -76,34 +103,39 @@ class ColorSelectionViewModel @Inject constructor() : ViewModel() {
         updateColorData()
     }
 
-    fun onHSVChanged(colorString: String, update: HSVUpdate) {
-        val newColor = colorString.toIntOrNull() ?: return
+    private fun onHSVChanged() {
+        val newHSVColor = floatArrayOf(colorHue, colorSaturation, colorValue)
+            .let(Color::HSVToColor)
 
-        newColor.apply {
-            when (update) {
-                HSVUpdate.H -> coerceIn(0, 360).let {
-                    colorHue = it.toFloat()
-                }
-                HSVUpdate.S -> coerceIn(0, 100).let {
-                    colorSaturation = it.toFloat() / 100f
-                }
-                HSVUpdate.V -> coerceIn(0, 100).let {
-                    colorValue = it.toFloat() / 100f
-                }
-            }
-        }
+        colorHex = mapColorToHex(newHSVColor)
+        colorRed = Color.red(newHSVColor)
+        colorGreen = Color.green(newHSVColor)
+        colorBlue = Color.blue(newHSVColor)
 
         updateColorData()
     }
 
-    fun onSaveClick() {
-        getCurrentColorInt().let(colorSelected::set)
+    private fun onRGBChanged() {
+        val newRGBColor = Color.rgb(colorRed, colorGreen, colorBlue)
+        val hsv = FloatArray(3)
+        Color.RGBToHSV(colorRed, colorGreen, colorBlue, hsv)
+
+        colorHex = mapColorToHex(newRGBColor)
+        colorHue = hsv[0]
+        colorSaturation = hsv[1]
+        colorValue = hsv[2]
+
+        updateColorData()
     }
 
     private fun initialize() {
         val hsv = FloatArray(3)
         Color.colorToHSV(extra.preselectedColor, hsv)
 
+        colorHex = mapColorToHex(extra.preselectedColor)
+        colorRed = Color.red(extra.preselectedColor)
+        colorGreen = Color.green(extra.preselectedColor)
+        colorBlue = Color.blue(extra.preselectedColor)
         colorHue = hsv[0]
         colorSaturation = hsv[1]
         colorValue = hsv[2]
@@ -115,17 +147,15 @@ class ColorSelectionViewModel @Inject constructor() : ViewModel() {
     }
 
     private fun loadColorData(): ColorSelectionViewData {
-        val colorInt = getCurrentColorInt()
-
         return ColorSelectionViewData(
-            selectedColor = colorInt,
+            selectedColor = getCurrentColorInt(),
             colorHue = colorHue,
             colorSaturation = colorSaturation,
             colorValue = colorValue,
-            colorHex = mapColorToHex(colorInt),
-            colorRedString = Color.red(colorInt).toString(),
-            colorGreenString = Color.green(colorInt).toString(),
-            colorBlueString = Color.blue(colorInt).toString(),
+            colorHex = colorHex,
+            colorRedString = colorRed.toString(),
+            colorGreenString = colorGreen.toString(),
+            colorBlueString = colorBlue.toString(),
             colorHueString = colorHue.toInt().toString(),
             colorSaturationString = (colorSaturation * 100).toInt().toString(),
             colorValueString = (colorValue * 100).toInt().toString(),
@@ -144,7 +174,6 @@ class ColorSelectionViewModel @Inject constructor() : ViewModel() {
     }
 
     @ColorInt private fun getCurrentColorInt(): Int {
-        return floatArrayOf(colorHue, colorSaturation, colorValue)
-            .let(Color::HSVToColor)
+        return Color.rgb(colorRed, colorGreen, colorBlue)
     }
 }
