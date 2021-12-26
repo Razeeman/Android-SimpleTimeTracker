@@ -116,3 +116,11 @@ Version 1.15:
 - Add ability to assign several tags to a record
 - Add some translations
 - General bug fixes and improvements
+
+Version 1.16:
+- Add custom color selection
+- Add start of day setting
+- Add custom range to statistics
+- Add statistics widget
+- Add some translations
+- General bug fixes and improvements
