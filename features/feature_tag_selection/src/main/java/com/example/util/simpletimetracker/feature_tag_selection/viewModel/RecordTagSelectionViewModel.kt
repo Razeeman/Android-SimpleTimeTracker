@@ -33,6 +33,14 @@ class RecordTagSelectionViewModel @Inject constructor(
             initial
         }
     }
+    val saveButtonVisibility: LiveData<Boolean> by lazy {
+        return@lazy MutableLiveData<Boolean>().let { initial ->
+            viewModelScope.launch {
+                initial.value = !prefsInteractor.getRecordTagSelectionCloseAfterOne()
+            }
+            initial
+        }
+    }
     val tagSelected: LiveData<Unit> = MutableLiveData()
 
     private var newCategoryIds: MutableList<Long> = mutableListOf()
@@ -51,13 +59,20 @@ class RecordTagSelectionViewModel @Inject constructor(
             updateViewData()
 
             if (prefsInteractor.getRecordTagSelectionCloseAfterOne()) {
-                tagSelected.set(Unit)
+                tagSelected()
             }
         }
     }
 
-    suspend fun onDismiss() {
+    fun onSaveClick() {
+        viewModelScope.launch {
+            tagSelected()
+        }
+    }
+
+    private suspend fun tagSelected() {
         addRunningRecordMediator.startTimer(extra.typeId, newCategoryIds)
+        tagSelected.set(Unit)
     }
 
     private fun updateViewData() = viewModelScope.launch {

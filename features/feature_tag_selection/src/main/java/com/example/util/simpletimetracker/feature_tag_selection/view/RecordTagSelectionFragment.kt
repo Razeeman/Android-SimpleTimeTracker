@@ -19,14 +19,14 @@ import com.example.util.simpletimetracker.feature_base_adapter.divider.createDiv
 import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.info.createInfoAdapterDelegate
 import com.example.util.simpletimetracker.feature_tag_selection.viewModel.RecordTagSelectionViewModel
+import com.example.util.simpletimetracker.feature_views.extension.setOnClick
+import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.navigation.params.screen.RecordTagSelectionParams
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 import com.example.util.simpletimetracker.feature_tag_selection.databinding.RecordTagSelectionFragmentBinding as Binding
 
@@ -73,14 +73,6 @@ class RecordTagSelectionFragment : BaseFragment<Binding>() {
         }
     }
 
-    override fun onDetach() {
-        GlobalScope.launch {
-            viewModel.onDismiss()
-            onTagSelected()
-        }
-        super.onDetach()
-    }
-
     override fun initUi(): Unit = with(binding) {
         rvRecordTagSelectionList.apply {
             layoutManager = FlexboxLayoutManager(requireContext()).apply {
@@ -92,9 +84,14 @@ class RecordTagSelectionFragment : BaseFragment<Binding>() {
         }
     }
 
+    override fun initUx() = with(binding) {
+        btnRecordTagSelectionSave.setOnClick(viewModel::onSaveClick)
+    }
+
     override fun initViewModel(): Unit = with(viewModel) {
         extra = params
         viewData.observe(adapter::replace)
+        saveButtonVisibility.observe(binding.btnRecordTagSelectionSave::visible::set)
         tagSelected.observe { onTagSelected() }
     }
 
