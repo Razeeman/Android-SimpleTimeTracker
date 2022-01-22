@@ -38,13 +38,14 @@ class RangeMapper @Inject constructor(
     fun mapToTitle(
         rangeLength: RangeLength,
         position: Int,
+        startOfDayShift: Long,
         firstDayOfWeek: DayOfWeek
     ): String {
         return when (rangeLength) {
-            is RangeLength.Day -> timeMapper.toDayTitle(position)
-            is RangeLength.Week -> timeMapper.toWeekTitle(position, firstDayOfWeek)
-            is RangeLength.Month -> timeMapper.toMonthTitle(position)
-            is RangeLength.Year -> timeMapper.toYearTitle(position)
+            is RangeLength.Day -> timeMapper.toDayTitle(position, startOfDayShift)
+            is RangeLength.Week -> timeMapper.toWeekTitle(position, startOfDayShift, firstDayOfWeek)
+            is RangeLength.Month -> timeMapper.toMonthTitle(position, startOfDayShift)
+            is RangeLength.Year -> timeMapper.toYearTitle(position, startOfDayShift)
             is RangeLength.All -> resourceRepo.getString(R.string.range_overall)
             is RangeLength.Custom -> resourceRepo.getString(R.string.range_custom)
         }

@@ -19,11 +19,14 @@ import javax.inject.Inject
 class RecordsContainerViewModel @Inject constructor(
     private val router: Router,
     private val timeMapper: TimeMapper,
-    private val prefsInteractor: PrefsInteractor
+    private val prefsInteractor: PrefsInteractor,
 ) : ViewModel() {
 
     val title: LiveData<String> by lazy {
-        return@lazy MutableLiveData(loadTitle())
+        return@lazy MutableLiveData<String>().let { initial ->
+            viewModelScope.launch { initial.value = loadTitle() }
+            initial
+        }
     }
     val position: LiveData<Int> by lazy {
         return@lazy MutableLiveData(0)
@@ -79,13 +82,14 @@ class RecordsContainerViewModel @Inject constructor(
         }
     }
 
-    private fun updatePosition(newPosition: Int) {
+    private fun updatePosition(newPosition: Int) = viewModelScope.launch {
         (position as MutableLiveData).value = newPosition
         (title as MutableLiveData).value = loadTitle()
     }
 
-    private fun loadTitle(): String {
-        return timeMapper.toDayTitle(position.value.orZero())
+    private suspend fun loadTitle(): String {
+        val startOfDayShift = prefsInteractor.getStartOfDayShift()
+        return timeMapper.toDayTitle(position.value.orZero(), startOfDayShift)
     }
 
     companion object {

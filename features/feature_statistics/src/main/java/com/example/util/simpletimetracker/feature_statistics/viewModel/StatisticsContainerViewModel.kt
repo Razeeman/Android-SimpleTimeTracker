@@ -135,8 +135,9 @@ class StatisticsContainerViewModel @Inject constructor(
     }
 
     private suspend fun loadTitle(): String {
+        val startOfDayShift = prefsInteractor.getStartOfDayShift()
         val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
-        return rangeMapper.mapToTitle(rangeLength, position.value.orZero(), firstDayOfWeek)
+        return rangeMapper.mapToTitle(rangeLength, position.value.orZero(), startOfDayShift, firstDayOfWeek)
     }
 
     private fun updateRanges() {
