@@ -422,16 +422,10 @@ class SettingsViewModel @Inject constructor(
 
     private suspend fun loadStartOfDayViewData(): SettingsStartOfDayViewData {
         val shift = prefsInteractor.getStartOfDayShift()
-        val useMilitaryTimeFormat = prefsInteractor.getUseMilitaryTimeFormat()
 
         return SettingsStartOfDayViewData(
-            startOfDayValue = settingsMapper.toStartOfDayText(
-                startOfDayShift = shift,
-                useMilitaryTime = useMilitaryTimeFormat,
-            ),
-            startOfDaySign = settingsMapper.toStartOfDaySign(
-                shift = shift
-            )
+            startOfDayValue = settingsMapper.toStartOfDayText(startOfDayShift = shift),
+            startOfDaySign = settingsMapper.toStartOfDaySign(shift = shift)
         )
     }
 
