@@ -75,33 +75,28 @@ Simple app that helps track how much time you spend on all the useless activitie
 - Kotlin
 - Multi module
 - Single Activity
-- MVVM
-- Jetpack ViewModel + LiveData
+- MVVM (Jetpack ViewModel + LiveData)
 - Jetpack Navigation
 - Hilt
-- Room
-- Room migrations
+- Room, migrations
 - Coroutines
 - Several Widgets
 - Notifications
-- Custom Pie Chart View
-- Custom Bar Chart View
-- Recycler with custom Adapter Delegates
-- DiffUtils with Payloads
+- Custom Views (Pie Chart, Bar Chart, Color Selection)
+- Recycler, custom Adapter Delegates, DiffUtils with Payloads
 - Drag and Drop
 - Shared ViewModels
 - Snackbars with Action
 - Gradle Kotlin DSL
 - View Binding
-- Database backup and restore
-- Database export to csv
+- Database backup and restore, export to csv
 - Dark mode
-- UI tests
+- Unit tests, UI tests
 - CI with github actions
 - Emojis with EmojiCompat
 
 ## License
-Copyright (C) 2020-2021 Anton Razinkov devrazeeman@gmail.com
+Copyright (C) 2020-2022 Anton Razinkov devrazeeman@gmail.com
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
