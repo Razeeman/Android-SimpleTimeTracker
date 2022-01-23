@@ -314,7 +314,7 @@ class TimeMapper @Inject constructor(
         val rangeEnd: Long
         val calendar = Calendar.getInstance().apply {
             this.firstDayOfWeek = dayOfWeek
-            timeInMillis = System.currentTimeMillis()
+            timeInMillis = currentTimestampProvider.get()
             setToStartOfDay(startOfDayShift)
         }
 

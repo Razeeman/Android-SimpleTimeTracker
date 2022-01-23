@@ -43,6 +43,7 @@ fun Calendar.setWeekToFirstDay() {
 }
 
 fun Calendar.setToStartOfDay(shift: Long = 0) {
+    timeInMillis -= shift
     set(Calendar.HOUR_OF_DAY, 0)
     set(Calendar.MINUTE, 0)
     set(Calendar.SECOND, 0)

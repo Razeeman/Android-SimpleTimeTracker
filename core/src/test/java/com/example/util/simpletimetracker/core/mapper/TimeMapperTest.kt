@@ -10,6 +10,8 @@ import com.example.util.simpletimetracker.core.mapper.TimeMapperTest.Subject.sub
 import com.example.util.simpletimetracker.core.provider.CurrentTimestampProvider
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
+import com.example.util.simpletimetracker.domain.model.Range
+import com.example.util.simpletimetracker.domain.model.RangeLength
 import org.junit.AfterClass
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -580,6 +582,105 @@ class TimeMapperTest {
                 // positive start of day, end of year 1970.12.31
                 arrayOf(listOf<Any>(1, hourInMs, 31449600000 + 25 * hourInMs - 1), "1971"),
                 arrayOf(listOf<Any>(1, hourInMs, 31449600000 + 25 * hourInMs + 1), "1972"),
+            )
+        }
+    }
+
+    @RunWith(Parameterized::class)
+    class GetRangeStartAndEndTest(
+        private val input: List<Any>,
+        private val output: Pair<Long, Long>,
+    ) {
+
+        @Test
+        fun getRangeStartAndEnd() {
+            val subject = TimeMapper(resourceRepo, currentTimestampProvider)
+
+            `when`(currentTimestampProvider.get()).thenReturn(input[4] as Long)
+
+            assertEquals(
+                "Test failed for params $input",
+                output,
+                subject.getRangeStartAndEnd(
+                    rangeLength = input[0] as RangeLength,
+                    shift = input[1] as Int,
+                    firstDayOfWeek = input[2] as DayOfWeek,
+                    startOfDayShift = input[3] as Long,
+                )
+            )
+        }
+
+        companion object {
+            private val timezoneDefault: TimeZone = TimeZone.getDefault()
+
+            @JvmStatic
+            @BeforeClass
+            fun beforeClass() {
+                TimeZone.setDefault(TimeZone.getTimeZone("UTC"))
+            }
+
+            @JvmStatic
+            @AfterClass
+            fun afterClass() {
+                TimeZone.setDefault(timezoneDefault)
+            }
+
+            @JvmStatic
+            @Parameterized.Parameters
+            fun data() = listOf(
+                // range length, shift, first day of week, start of day shift, current timestamp in ms
+
+                // range day
+                arrayOf(listOf(RangeLength.Day, 0, DayOfWeek.MONDAY, 0L, 0L), 0L to 86400000L),
+                arrayOf(listOf(RangeLength.Day, -1, DayOfWeek.MONDAY, 0L, 0L), -86400000L to 0L),
+                arrayOf(listOf(RangeLength.Day, 1, DayOfWeek.MONDAY, 0L, 0L), 86400000L to 172800000L),
+                arrayOf(listOf(RangeLength.Day, -50, DayOfWeek.MONDAY, 0L, 4320000000L), 0L to 86400000L),
+                arrayOf(listOf(RangeLength.Day, 50, DayOfWeek.MONDAY, 0L, 0L), 4320000000L to 4406400000L),
+
+                arrayOf(
+                    listOf(RangeLength.Day, 1, DayOfWeek.MONDAY, -hourInMs, -hourInMs - 1),
+                    -hourInMs to 86400000L - hourInMs
+                ),
+                arrayOf(
+                    listOf(RangeLength.Day, 1, DayOfWeek.MONDAY, -hourInMs, -hourInMs + 1),
+                    86400000L - hourInMs to 172800000L - hourInMs
+                ),
+                arrayOf(
+                    listOf(RangeLength.Day, 1, DayOfWeek.MONDAY, -hourInMs, 0L),
+                    86400000L - hourInMs to 172800000L - hourInMs
+                ),
+                arrayOf(
+                    listOf(RangeLength.Day, 1, DayOfWeek.MONDAY, -hourInMs, hourInMs),
+                    86400000L - hourInMs to 172800000L - hourInMs
+                ),
+
+                arrayOf(
+                    listOf(RangeLength.Day, 1, DayOfWeek.MONDAY, hourInMs, -hourInMs),
+                    hourInMs to 86400000L + hourInMs
+                ),
+                arrayOf(
+                    listOf(RangeLength.Day, 1, DayOfWeek.MONDAY, hourInMs, 0L),
+                    hourInMs to 86400000L + hourInMs
+                ),
+                arrayOf(
+                    listOf(RangeLength.Day, 1, DayOfWeek.MONDAY, hourInMs, hourInMs - 1),
+                    hourInMs to 86400000L + hourInMs
+                ),
+                arrayOf(
+                    listOf(RangeLength.Day, 1, DayOfWeek.MONDAY, hourInMs, hourInMs + 1),
+                    86400000L + hourInMs to 172800000L + hourInMs
+                ),
+
+                // TODO add other ranges
+
+                // range all
+                arrayOf(listOf(RangeLength.All, 0, DayOfWeek.MONDAY, 0L, 0L), 0L to 0L),
+
+                // range custom
+                arrayOf(
+                    listOf(RangeLength.Custom(Range(100L, 200L)), 0, DayOfWeek.MONDAY, 0L, 0L),
+                    100L to 200L
+                ),
             )
         }
     }
