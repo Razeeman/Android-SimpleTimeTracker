@@ -39,13 +39,24 @@ class CustomSpinner @JvmOverloads constructor(
         adapter.clear()
         adapter.addAll(items.map(CustomSpinnerItem::text))
 
+        // Reset listeners
+        val itemSelectedListener = onItemSelected
+        val positionSelectedListener = onPositionSelected
         binding.customSpinner.onItemSelectedListener = null
+        onItemSelected = {}
+        onPositionSelected = {}
+
         // Calling setSelection(int, boolean) because it sets selection internally and listener isn't called later.
         binding.customSpinner.setSelection(selectedPosition, false)
+
         binding.customSpinner.onItemSelected {
             items.getOrNull(it)?.let(onItemSelected::invoke)
             onPositionSelected(it)
         }
+
+        // Restore listeners
+        onItemSelected = itemSelectedListener
+        onPositionSelected = positionSelectedListener
     }
 
     abstract class CustomSpinnerItem {
