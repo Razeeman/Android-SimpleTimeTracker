@@ -25,7 +25,7 @@
             app:dividerWidth="2dp"
             app:drawIcons="true"
             app:iconMaxSize="48dp"
-            app:iconPadding="1dp"
+            app:iconPadding="2dp"
             app:innerRadiusRatio="0.625"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
