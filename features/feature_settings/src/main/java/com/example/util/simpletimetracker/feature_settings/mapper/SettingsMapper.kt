@@ -89,7 +89,7 @@ class SettingsMapper @Inject constructor(
         startOfDayShift: Long,
     ): String {
         val hintTime = startOfDayShiftToTimeStamp(startOfDayShift)
-        return timeMapper.formatTime(hintTime, false)
+        return timeMapper.formatTime(hintTime, true)
     }
 
     fun toStartOfDaySign(shift: Long): String {
