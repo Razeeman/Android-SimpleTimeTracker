@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="day_of_week_monday">Pzt</string>
+    <string name="day_of_week_tuesday">Sal</string>
+    <string name="day_of_week_wednesday">Çar</string>
+    <string name="day_of_week_thursday">Per</string>
+    <string name="day_of_week_friday">Cum</string>
+    <string name="day_of_week_saturday">Cmt</string>
+    <string name="day_of_week_sunday">Paz</string>
+
+    <string name="activity_hint">Aktiviteler</string>
+    <string name="activity_tag_hint">Aktivite etiketleri</string>
+    <string name="record_tag_hint">Kayıt etiketleri</string>
+
+    <!--  Range selection  -->
+    <string name="title_yesterday">Dün</string>
+    <string name="title_today">Bugün</string>
+    <string name="title_tomorrow">Yarın</string>
+    <string name="title_this_week">Bu hafta</string>
+    <string name="title_this_month">Bu ay</string>
+    <string name="title_this_year">Bu yıl</string>
+
+    <string name="range_day">Gün</string>
+    <string name="range_week">Hafta</string>
+    <string name="range_month">Ay</string>
+    <string name="range_year">Yıl</string>
+    <string name="range_overall">Tümü</string>
+    <string name="range_custom">Tarih aralığı</string>
+    <string name="range_select_day">Tarih seçin</string>
+    <string name="range_select_week">Hafta seçin</string>
+    <string name="range_select_month">Ay seçin</string>
+    <string name="range_select_year">Yıl seçin</string>
+
+    <string name="ok">Tamam</string>
+    <string name="cancel">İptal</string>
+
+    <string name="time_hour">sa</string>
+    <string name="time_minute">dk</string>
+    <string name="time_second">sn</string>
+
+    <string name="untracked_time_name">Takipsiz</string>
+    <string name="running_record_goal_time">hedef %s</string>
+    <string name="record_types_empty">Aktivite eklenmedi</string>
+    <string name="record_tag_selection_hint">Kayıt etiketi seçin</string>
+
+    <!--  Records  -->
+    <string name="record_removed">Kayıt silindi: %s</string>
+    <string name="record_removed_undo">Geri al</string>
+    <string name="records_empty">Gösterilecek kayıt yok</string>
+    <string name="records_hint">Düzenlemek için bir kayda tıklayın</string>
+
+    <!--  Statistics  -->
+    <string name="statistics_empty">Gösterilecek istatistik yok</string>
+    <string name="statistics_total_tracked">Toplam takip süresi</string>
+    <string name="statistics_total_tracked_short">Toplam</string>
+    <string name="statistics_hint">Detaylı istatistikler için bir karta tıklayın</string>
+
+    <!--  Categories  -->
+    <string name="categories_record_type_hint">Farklı aktivitelerin istatistiklerini grup halinde görmek için aynı etiketi farklı aktivitelere atayın</string>
+    <string name="categories_record_hint">Aralarında ayrım yapabilmek için kayıtlara farklı etiketler atayın</string>
+    <string name="categories_add_activity_tag">Aktivite etiketi ekle</string>
+    <string name="categories_add_record_tag">Kayıt etiketi ekle</string>
+
+    <!--  Change category  -->
+    <string name="change_category_removed">Etiket silindi</string>
+    <string name="change_category_archived">Etiket arşivlendi</string>
+    <string name="change_category_name_hint">Yeni isim girin</string>
+    <string name="change_category_color_hint">Renk</string>
+    <string name="change_category_types_hint">Aktiviteler</string>
+    <string name="change_category_type_hint">Aktivite</string>
+    <string name="change_category_save">Kaydet</string>
+    <string name="change_category_message_choose_name">İsim seçin</string>
+    <string name="change_category_selected_types_empty">Hiçbir aktiviteye atanmadı</string>
+    <string name="change_category_selected_types_hint">Atandığı aktiviteler:</string>
+
+    <!--  Change record tag  -->
+    <string name="change_record_tag_type">Etiket tipi</string>
+    <string name="change_record_tag_type_general">Genel</string>
+    <string name="change_record_tag_type_general_hint">Herhangi bir aktivitenin kayıtlarına atanabilir</string>
+    <string name="change_record_tag_type_typed">Aktivite</string>
+    <string name="change_record_tag_type_typed_hint">Sadece seçilen aktivitenin kayıtlarına atanabilir</string>
+
+    <!--  Change record  -->
+    <string name="change_record_message_choose_type">Aktivite seçin</string>
+    <string name="change_record_type_field">Aktivite</string>
+    <string name="change_record_category_field">Etiket</string>
+    <string name="change_record_comment_hint">Yorum</string>
+    <string name="change_record_categories_empty">Kayıt etiketi eklenmedi</string>
+    <string name="change_record_activity_not_selected">Aktivite seçilmedi</string>
+    <string name="change_record_save">Kaydet</string>
+    <string name="change_record_untagged">Etiketsiz</string>
+    <string name="change_running_record_removed">Takip edilen aktivite silindi</string>
+
+    <!--  Change record type  -->
+    <string name="change_record_type_archived">Aktivite arşivlendi</string>
+    <string name="change_record_type_name_hint">Yeni isim girin</string>
+    <string name="change_record_type_color_hint">Renk</string>
+    <string name="change_record_type_icon_hint">Simge</string>
+    <string name="change_record_type_emoji_hint">Emoji</string>
+    <string name="change_record_type_category_hint">Etiketler</string>
+    <string name="change_record_type_save">Kaydet</string>
+    <string name="change_record_message_choose_name">İsim seçin</string>
+    <string name="change_record_type_categories_empty">Aktivite etiketi eklenmedi</string>
+    <string name="change_record_type_selected_categories_empty">Etiket atanmadı</string>
+    <string name="change_record_type_selected_categories_hint">Atanan etiketler:</string>
+    <string name="change_record_type_goal_time_disabled">Devre dışı</string>
+    <string name="change_record_type_goal_time">Hedef süre</string>
+    <string name="change_record_type_goal_time_hint">Bu aktivite belirtilen süre kadar takip edildiğinde bildirim göster.</string>
+
+    <!--  Dialogs  -->
+    <string name="date_time_dialog_date">Tarih</string>
+    <string name="date_time_dialog_time">Zaman</string>
+
+    <string name="card_size_default">Varsayılan genişlik</string>
+    <string name="card_size_hint">Bir satırdaki kart sayısı</string>
+
+    <string name="card_order_hint">Yeniden sıralamak için sürükleyip bırakın</string>
+
+    <string name="chart_filter_hint">Filtre</string>
+    <string name="types_filter_show_all">Tümünü göster</string>
+    <string name="types_filter_hide_all">Tümünü gizle</string>
+    <string name="chart_filter_type_hint">İstatistik tipi</string>
+    <string name="chart_filter_type_activity">Aktivite</string>
+    <string name="chart_filter_type_category">Etiket</string>
+    <string name="chart_filter_categories_empty">Etiket eklenmedi</string>
+
+    <string name="duration_dialog_save">Kaydet</string>
+    <string name="duration_dialog_disable">Devre dışı</string>
+
+    <string name="color_selection_base_color_hint">Ana rengi seçin</string>
+    <string name="color_selection_adjust_color_hint">Rengi ayarlayın</string>
+    <string name="color_selection_final_color_hint">Sonuç renk</string>
+
+    <string name="csv_export_settings_range">Tarih aralığı</string>
+    <string name="csv_export_settings_all">Tümü</string>
+    <string name="csv_export_settings_hint">Tarih aralığı seçin veya tüm kayıtları dışa aktarın</string>
+
+    <!--  Records all  -->
+    <string name="records_all_sort_order">Kayıtları sırala</string>
+    <string name="records_all_filter">Kayıtları filtrele</string>
+    <string name="records_all_sort_time_started">Başlangıç zamanı</string>
+    <string name="records_all_sort_duration">Süre</string>
+
+    <!--  Running records  -->
+    <string name="running_records_types_empty">Takip etmeye başlamak için aktivite ekleyin</string>
+    <string name="running_records_empty">Takip etmeye başlamak için bir aktiviteye tıklayın</string>
+    <string name="running_records_empty_hint">Düzenlemek için uzun dokunun</string>
+    <string name="running_records_add_type">Ekle</string>
+
+    <!--  Settings  -->
+    <string name="settings_sort_order">Aktiviteleri sırala</string>
+    <string name="settings_sort_by_name">İsim</string>
+    <string name="settings_sort_by_color">Renk</string>
+    <string name="settings_sort_manually">Elle</string>
+    <string name="settings_first_day_of_week">Haftanın ilk günü</string>
+    <string name="settings_show_untracked_time">Kayıtlarda takipsiz zamanı göster</string>
+    <string name="settings_allow_multitasking">Çoklu göreve izin ver</string>
+    <string name="settings_allow_multitasking_hint">Devre dışı bırakılırsa, yeni zamanlayıcı başlatmak diğer aktivitelerin zamanlayıcısını otomatik olarak durdurur.</string>
+    <string name="settings_show_notifications">Zamanlayıcı bildirimlerini göster</string>
+    <string name="settings_show_notifications_hint">Zamanlayıcılar çalışırken bildirim göster.</string>
+    <string name="settings_start_of_day">Gün başlangıcı</string>
+    <string name="settings_inactivity_reminder">İnaktivite hatırlatıcısı göster</string>
+    <string name="settings_inactivity_reminder_hint">Eğer herhangi bir zamanlayıcı çalışmıyorsa belirtilen süre sonunda bildirim göster.</string>
+    <string name="settings_inactivity_reminder_disabled">Devre dışı</string>
+    <string name="settings_dark_mode">Karanlık mod</string>
+    <string name="settings_use_military_time">24-saat formatını kullan</string>
+    <string name="settings_use_proportional_minutes">Oransal dakika formatını kullan</string>
+    <string name="settings_change_card_size">Aktivite kartı boyutunu değiştir</string>
+    <string name="settings_archive">Arşiv</string>
+    <string name="settings_edit_categories">Etiketleri düzenle</string>
+    <string name="settings_edit_categories_hint">Aktivite ve kayıtlara etiket atayın.</string>
+    <string name="settings_show_record_tag_selection">Kayıt etiketi seçimini göster</string>
+    <string name="settings_show_record_tag_selection_hint">Eğer aktivite kayıt etiketine sahipse, zamanlayıcı başlatılırken seçim ekranı görünecek.</string>
+    <string name="settings_show_record_tag_close_hint">Bir etiket seçildiğinde seçim ekranını kapat.</string>
+    <string name="settings_rate">Bizi oylayın</string>
+    <string name="settings_rate_description">Uygulamayı oyla ve bir yorum bırak.</string>
+    <string name="settings_feedback">Geri bildirim</string>
+    <string name="settings_feedback_description">Önerin mi var? Hata mı buldun? Konuşmak mı istiyorsun? Bize yaz!</string>
+    <string name="settings_version">Versiyon</string>
+    <string name="settings_email_chooser_title">Şununla gönder…</string>
+    <string name="settings_translators">Çevirmenler</string>
+
+    <string name="settings_save_backup">Yedekleme kaydet</string>
+    <string name="settings_save_description">Kaydetmeden önce, uyuşmazlık yaşamamak için uygulamanın güncel olduğundan emin olun.</string>
+    <string name="settings_restore_backup">Yedeklemeyi geri yükle</string>
+    <string name="settings_restore_description">Varolan veri silinecek.</string>
+    <string name="settings_dialog_message">Yedeklemeyi geri yükle?</string>
+    <string name="settings_export_csv">Çizelge dışa aktar</string>
+    <string name="settings_export_csv_description">Aktivite kayıtlarını, tercih edilen çizelge uygulamasında görüntülemek için csv dosyası olarak dışa aktar.</string>
+    <string name="settings_file_open_error">Dosyayı açarken hata oluştu</string>
+    <string name="settings_file_create_error">Dosya oluşturulurken hata oluştu</string>
+
+    <string name="message_backup_saved">Yedekleme kaydedildi</string>
+    <string name="message_backup_restored">Yedekleme geri yüklendi</string>
+    <string name="message_save_error">Yedekleme kaydedilirken hata oluştu</string>
+    <string name="message_restore_error">Yedekleme geri yüklenirken hata oluştu</string>
+    <string name="message_app_not_found">Uygulama bulunumadı</string>
+    <string name="message_csv_export_complete">Dışa aktarma tamamlandı</string>
+    <string name="message_csv_export_error">Dışa aktarırken hata oluştu</string>
+
+    <!--  Statistics detail  -->
+    <string name="statistics_detail_chart_hourly">Saatlik</string>
+    <string name="statistics_detail_chart_daily">Günlük</string>
+    <string name="statistics_detail_chart_weekly">Haftalık</string>
+    <string name="statistics_detail_chart_monthly">Aylık</string>
+    <string name="statistics_detail_chart_yearly">Yıllık</string>
+    <string name="statistics_detail_length_ten">10</string>
+    <string name="statistics_detail_length_fifty">50</string>
+    <string name="statistics_detail_length_hundred">100</string>
+    <string name="statistics_detail_legend_minute_suffix">dk</string>
+    <string name="statistics_detail_legend_hour_suffix">sa</string>
+
+    <string name="statistics_detail_range_averages_title">%s ortalama</string>
+    <string name="statistics_detail_range_averages">Tüm tarih aralığı</string>
+    <string name="statistics_detail_range_averages_non_empty">Boş periyotlar hariç</string>
+
+    <string name="statistics_detail_total_duration">Toplam</string>
+    <string name="statistics_detail_record_length">Kayıt süresi</string>
+    <string name="statistics_detail_shortest_record">En kısa</string>
+    <string name="statistics_detail_average_record">Ortalama</string>
+    <string name="statistics_detail_longest_record">En uzun</string>
+    <string name="statistics_detail_record_time">Kayıt zamanı</string>
+    <string name="statistics_detail_first_record">İlk</string>
+    <string name="statistics_detail_last_record">Son</string>
+    <string name="statistics_detail_tag_split_hint">Etiket dağılımı</string>
+
+    <plurals name="statistics_detail_times_tracked">
+        <item quantity="zero">Kayıt</item>
+        <item quantity="one">Kayıt</item>
+        <item quantity="two">Kayıt</item>
+        <item quantity="few">Kayıt</item>
+        <item quantity="many">Kayıt</item>
+        <item quantity="other">Kayıt</item>
+    </plurals>
+
+    <!--  Widget  -->
+    <string name="widget_name">Tek Aktivite</string>
+    <string name="widget_universal_name">Evrensel</string>
+    <string name="widget_statistics_chart_name">İstatistik Grafiği</string>
+    <string name="widget_load_error">Bulunamadı</string>
+
+    <!--  Notification  -->
+    <string name="notification_inactivity_title">İnaktivite hatırlatıcısı</string>
+    <string name="notification_inactivity_text">Zaman takibi yapmayı unutma</string>
+    <string name="notification_goal_time_description">%s hedef süreye ulaşıldı</string>
+    <string name="notification_time_started">Başlangıç zamanı %s</string>
+    <string name="notification_record_type_goal_time">hedef %s</string>
+
+    <!--  Archive  -->
+    <string name="archive_dialog_delete">Sil</string>
+    <string name="archive_dialog_restore">Geri yükle</string>
+    <string name="archive_empty">Arşiv boş</string>
+    <string name="archive_activity_restored">Aktivite geri yüklendi</string>
+    <string name="archive_tag_restored">Etiket geri yüklendi</string>
+    <string name="archive_activity_deleted">Aktivite silindi</string>
+    <string name="archive_tag_deleted">Etiket silindi</string>
+    <string name="archive_activity_deletion_message">Bu aktivitenin tüm kayıtları ve kayıt etiketleri silinecek.</string>
+    <string name="archive_tag_deletion_message">Bu etiketin atandığı tüm kayıtlardan etiket kaldırılacak.</string>
+    <string name="archive_deletion_alert">Emin misin? Bu eylem geri alınamaz.</string>
+    <string name="archive_records_count">Kayıtlar</string>
+    <string name="archive_record_tags_count">Kayıt etiketleri</string>
+    <string name="archive_tagged_records_count">Etiketin atandığı kayıtlar</string>
+
+    <!--  Icon emoji category  -->
+    <string name="emojiGroupSmileys">İfadeler</string>
+    <string name="emojiGroupPeople">İnsanlar</string>
+    <string name="emojiGroupAnimals">Hayvanlar &amp; Doğa</string>
+    <string name="emojiGroupFood">Yiyecek &amp; İçecek</string>
+    <string name="emojiGroupTravel">Seyahat &amp; Yerler</string>
+    <string name="emojiGroupActivities">Aktiviteler</string>
+    <string name="emojiGroupObjects">Objeler</string>
+    <string name="emojiGroupSymbols">Semboller</string>
+    <string name="emojiGroupFlags">Bayraklar</string>
+
+    <!--  Icon image category  -->
+    <string name="imageGroupMaps">Harita işaretleri</string>
+    <string name="imageGroupPlaces">Yerler</string>
+    <string name="imageGroupSocial">Sosyal</string>
+    <string name="imageGroupAction">Aksiyon</string>
+    <string name="imageGroupHardware">Donanım</string>
+    <string name="imageGroupAlert">Uyarı</string>
+    <string name="imageGroupAv">Ses ve video</string>
+    <string name="imageGroupCommunication">İletişim</string>
+    <string name="imageGroupContent">İçerik</string>
+    <string name="imageGroupDevice">Cihaz</string>
+    <string name="imageGroupEditor">Düzenleyici</string>
+    <string name="imageGroupFile">Dosya</string>
+    <string name="imageGroupImage">Görüntü</string>
+    <string name="imageGroupNavigation">Navigasyon</string>
+    <string name="imageGroupNotification">Bildirim</string>
+    <string name="imageGroupToggle">Durum</string>
+
+</resources>
