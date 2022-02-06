@@ -19,6 +19,9 @@
     <string name="settings_translators_swedish" translatable="false">Rasmus Sehlin</string>
     <string name="settings_translators_swedish_language" translatable="false">Svenska</string>
 
+    <string name="settings_translators_turkish" translatable="false">Evren Çakan</string>
+    <string name="settings_translators_turkish_language" translatable="false">Türkçe</string>
+
     <string name="settings_translators_ukrainian" translatable="false">Божен Новак</string>
     <string name="settings_translators_ukrainian_language" translatable="false">Українська</string>
 
