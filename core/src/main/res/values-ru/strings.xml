@@ -291,4 +291,9 @@
     <string name="imageGroupNotification">Оповещение</string>
     <string name="imageGroupToggle">Переключатель</string>
 
+    <!--  Shortcuts  -->
+    <string name="shortcut_navigation_records">Записи</string>
+    <string name="shortcut_navigation_statistics">Статистика</string>
+    <string name="shortcut_navigation_settings">Настройки</string>
+
 </resources>

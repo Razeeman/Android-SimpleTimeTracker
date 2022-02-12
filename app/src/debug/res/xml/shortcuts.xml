@@ -1,0 +1,49 @@
+<!-- There is also a release version, difference only in targetPackage -->
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_tab_records"
+        android:shortcutId="recordsTab"
+        android:shortcutShortLabel="@string/shortcut_navigation_records"
+        tools:targetApi="n_mr1">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="com.example.util.simpletimetracker.ui.MainActivity"
+            android:targetPackage="com.razeeman.util.simpletimetracker.debug">
+            <extra
+                android:name="shortcutNavigationTab"
+                android:value="recordsTab" />
+        </intent>
+    </shortcut>
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_tab_statistics"
+        android:shortcutId="statisticsTab"
+        android:shortcutShortLabel="@string/shortcut_navigation_statistics"
+        tools:targetApi="n_mr1">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="com.example.util.simpletimetracker.ui.MainActivity"
+            android:targetPackage="com.razeeman.util.simpletimetracker.debug">
+            <extra
+                android:name="shortcutNavigationTab"
+                android:value="statisticsTab" />
+        </intent>
+    </shortcut>
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_tab_settings"
+        android:shortcutId="settingsTab"
+        android:shortcutShortLabel="@string/shortcut_navigation_settings"
+        tools:targetApi="n_mr1">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="com.example.util.simpletimetracker.ui.MainActivity"
+            android:targetPackage="com.razeeman.util.simpletimetracker.debug">
+            <extra
+                android:name="shortcutNavigationTab"
+                android:value="settingsTab" />
+        </intent>
+    </shortcut>
+</shortcuts>

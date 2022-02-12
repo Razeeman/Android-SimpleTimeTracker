@@ -46,6 +46,7 @@ class MainFragment : BaseFragment<Binding>() {
 
     override fun initUi() {
         setupPager()
+        checkForShortcutNavigation()
     }
 
     override fun initViewModel() = with(binding) {
@@ -88,10 +89,27 @@ class MainFragment : BaseFragment<Binding>() {
         })
     }
 
+    private fun checkForShortcutNavigation() = with(binding) {
+        val extras = activity?.intent?.extras
+
+        when (extras?.getString(SHORTCUT_NAVIGATION_KEY)) {
+            SHORTCUT_NAVIGATION_RECORDS -> mainPager.setCurrentItem(1, true)
+            SHORTCUT_NAVIGATION_STATISTICS -> mainPager.setCurrentItem(2, true)
+            SHORTCUT_NAVIGATION_SETTINGS -> mainPager.setCurrentItem(3, true)
+        }
+    }
+
     private fun getColorFilter(@AttrRes attrRes: Int): ColorFilter? {
         return BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
             requireContext().getThemedAttr(attrRes),
             BlendModeCompat.SRC_IN
         )
+    }
+
+    companion object {
+        private const val SHORTCUT_NAVIGATION_KEY = "shortcutNavigationTab"
+        private const val SHORTCUT_NAVIGATION_RECORDS = "recordsTab"
+        private const val SHORTCUT_NAVIGATION_STATISTICS = "statisticsTab"
+        private const val SHORTCUT_NAVIGATION_SETTINGS = "settingsTab"
     }
 }

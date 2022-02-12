@@ -291,4 +291,9 @@
     <string name="imageGroupNotification">Notification</string>
     <string name="imageGroupToggle">Toggle</string>
 
+    <!--  Shortcuts  -->
+    <string name="shortcut_navigation_records">Records</string>
+    <string name="shortcut_navigation_statistics">Statistics</string>
+    <string name="shortcut_navigation_settings">Settings</string>
+
 </resources>

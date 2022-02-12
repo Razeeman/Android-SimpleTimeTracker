@@ -291,4 +291,9 @@
     <string name="imageGroupNotification">Notifikation</string>
     <string name="imageGroupToggle">Växla</string>
 
+    <!--  Shortcuts  -->
+    <string name="shortcut_navigation_records">Händelser</string>
+    <string name="shortcut_navigation_statistics">Statistik</string>
+    <string name="shortcut_navigation_settings">Inställningar</string>
+
 </resources>

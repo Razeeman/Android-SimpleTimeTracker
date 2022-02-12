@@ -291,4 +291,9 @@
     <string name="imageGroupNotification">通知</string>
     <string name="imageGroupToggle">标记</string>
 
+    <!--  Shortcuts  -->
+    <string name="shortcut_navigation_records">记录</string>
+    <string name="shortcut_navigation_statistics">统计数据</string>
+    <string name="shortcut_navigation_settings">设置</string>
+
 </resources>

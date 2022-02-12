@@ -226,11 +226,11 @@
     <string name="statistics_detail_tag_split_hint">Etiket dağılımı</string>
 
     <plurals name="statistics_detail_times_tracked">
-        <item quantity="zero">Kayıt</item>
+<!--        <item quantity="zero">Kayıt</item>-->
         <item quantity="one">Kayıt</item>
-        <item quantity="two">Kayıt</item>
-        <item quantity="few">Kayıt</item>
-        <item quantity="many">Kayıt</item>
+<!--        <item quantity="two">Kayıt</item>-->
+<!--        <item quantity="few">Kayıt</item>-->
+<!--        <item quantity="many">Kayıt</item>-->
         <item quantity="other">Kayıt</item>
     </plurals>
 
@@ -290,5 +290,10 @@
     <string name="imageGroupNavigation">Navigasyon</string>
     <string name="imageGroupNotification">Bildirim</string>
     <string name="imageGroupToggle">Durum</string>
+
+    <!--  Shortcuts  -->
+    <string name="shortcut_navigation_records">Kayıtlar</string>
+    <string name="shortcut_navigation_statistics">İstatistik</string>
+    <string name="shortcut_navigation_settings">Ayarlar</string>
 
 </resources>
