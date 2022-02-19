@@ -160,7 +160,7 @@
     <string name="settings_show_notifications">Mostrar notificaciones del temporizador</string>
     <string name="settings_show_notifications_hint">Mostrar notificaciones cuando el temporizador esté activo.</string>
     <string name="settings_start_of_day">Cambio de inicio del día</string>
-    <string name="settings_inactivity_reminder">Mostrar recordatorio de inacitvidad</string>
+    <string name="settings_inactivity_reminder">Mostrar recordatorio de inactividad</string>
     <string name="settings_inactivity_reminder_hint">Mostrar una notificación si no se ha iniciado ningún temporizador tras el tiempo especificado.</string>
     <string name="settings_inactivity_reminder_disabled">Deshabilitado</string>
     <string name="settings_dark_mode">Tema oscuro</string>
@@ -241,7 +241,7 @@
     <string name="widget_load_error">No encontrado</string>
 
     <!--  Notification  -->
-    <string name="notification_inactivity_title">Recordatorio de inaccitvidad</string>
+    <string name="notification_inactivity_title">Recordatorio de inactividad</string>
     <string name="notification_inactivity_text">No olvide registrar su tiempo</string>
     <string name="notification_goal_time_description">%s objetivo alcanzado</string>
     <string name="notification_time_started">Comenzó en %s</string>
