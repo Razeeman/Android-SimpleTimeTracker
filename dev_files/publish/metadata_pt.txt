@@ -1,0 +1,19 @@
+Short Description
+
+Monitore quanto tempo você gasta em diferentes atividades durante o dia.
+
+Description
+
+Simple Time Tracker ajuda você a monitorar quanto tempo você gasta durante o dia em diferentes atividades. Comece novas atividades com um clique. Vizualize registros e estatísticas anteriores ao longo do tempo. O aplicativo é gratuito e open source. Widgets, backups, notificações e modo noturno também estão disponíveis.
+
+<b>Interface simples</b>
+O app tem uma interface minimalista que é muito fácil de usar.
+
+<b>Widgets</b>
+Monitore suas atividades diretamente da tela inicial.
+
+<b>Funciona offline e respeita sua privacidade</b>
+O aplicativo não requer uma conexão com a internet ou criação de conta. Seus dados nunca saem do seu telefone. Nem os desenvolvedores, nem terceiros têm acesso aos seus dados.
+
+<b>Gratuito e open source</b>
+Não há anúncios, compras no app ou permissões intrusivas. O código-fonte completo também está disponível.
