@@ -13,6 +13,9 @@
     <string name="settings_translators_italian" translatable="false">Pyr0x1</string>
     <string name="settings_translators_italian_language" translatable="false">Italiano</string>
 
+    <string name="settings_translators_portuguese" translatable="false">Hingrid Correia</string>
+    <string name="settings_translators_portuguese_language" translatable="false">Português</string>
+
     <string name="settings_translators_russian" translatable="false">Геннадий Щерба</string>
     <string name="settings_translators_russian_language" translatable="false">Русский</string>
 
