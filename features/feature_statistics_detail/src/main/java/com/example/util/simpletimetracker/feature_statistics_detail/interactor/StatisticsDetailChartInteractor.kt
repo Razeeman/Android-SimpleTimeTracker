@@ -192,7 +192,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
             ChartGrouping.DAILY -> getDailyGrouping(startDate, numberOfGroups, startOfDayShift)
             ChartGrouping.WEEKLY -> getWeeklyGrouping(startDate, numberOfGroups, firstDayOfWeek, startOfDayShift)
             ChartGrouping.MONTHLY -> getMonthlyGrouping(startDate, numberOfGroups, startOfDayShift)
-            ChartGrouping.YEARLY -> getYearlyGrouping(numberOfGroups, startOfDayShift)
+            ChartGrouping.YEARLY -> getYearlyGrouping(startDate, numberOfGroups, startOfDayShift)
         } to CompositeChartData(
             availableChartGroupings = availableChartGroupings,
             appliedChartGrouping = appliedChartGrouping,
@@ -285,6 +285,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
     }
 
     private fun getYearlyGrouping(
+        startDate: Long,
         numberOfYears: Int,
         startOfDayShift: Long,
     ): List<ChartBarDataRange> {
@@ -292,7 +293,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
 
         return (numberOfYears - 1 downTo 0).map { shift ->
             calendar.apply {
-                timeInMillis = System.currentTimeMillis()
+                timeInMillis = startDate
                 setToStartOfDay(startOfDayShift)
             }
             calendar.set(Calendar.DAY_OF_YEAR, 1)

@@ -82,7 +82,7 @@ class TimeMapperTitleTest {
             fun data() = listOf(
                 // days from today, start of day shift, current timestamp in ms
 
-                //default
+                // default
                 arrayOf(listOf<Any>(-1, 0L, 0L), "yesterday"),
                 arrayOf(listOf<Any>(-1, 0L, 24 * hourInMs - 1), "yesterday"),
                 arrayOf(listOf<Any>(0, 0L, 0L), "today"),

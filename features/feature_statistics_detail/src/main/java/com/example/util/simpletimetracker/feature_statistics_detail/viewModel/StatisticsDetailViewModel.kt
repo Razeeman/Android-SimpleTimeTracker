@@ -226,7 +226,8 @@ class StatisticsDetailViewModel @Inject constructor(
         CustomRangeSelectionParams(
             rangeStart = currentCustomRange?.timeStarted,
             rangeEnd = currentCustomRange?.timeEnded,
-        ).let(router::navigate)    }
+        ).let(router::navigate)
+    }
 
     private fun onRangeChanged() {
         updateSplitChartGroupingViewData()

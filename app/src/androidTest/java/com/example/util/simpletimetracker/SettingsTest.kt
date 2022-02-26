@@ -647,6 +647,22 @@ class SettingsTest : BaseUiTest() {
     }
 
     @Test
+    fun keepScreenOn() {
+        // Check settings
+        NavUtils.openSettingsScreen()
+        onView(withId(R.id.tvSettingsKeepScreenOn)).perform(nestedScrollTo())
+        onView(withId(R.id.checkboxSettingsKeepScreenOn)).check(matches(isNotChecked()))
+
+        // Change settings
+        clickOnViewWithId(R.id.checkboxSettingsKeepScreenOn)
+        onView(withId(R.id.checkboxSettingsKeepScreenOn)).check(matches(isChecked()))
+
+        // Change settings
+        clickOnViewWithId(R.id.checkboxSettingsKeepScreenOn)
+        onView(withId(R.id.checkboxSettingsKeepScreenOn)).check(matches(isNotChecked()))
+    }
+
+    @Test
     fun firstDayOfWeek() {
         // If today is sunday:
         // add record for previous monday,
@@ -710,6 +726,7 @@ class SettingsTest : BaseUiTest() {
         // Check range titles
         var titlePrev = timeMapper.toWeekTitle(
             weeksFromToday = -1,
+            startOfDayShift = 0,
             firstDayOfWeek = if (isTodaySunday) DayOfWeek.MONDAY else DayOfWeek.SUNDAY
         )
         longClickOnViewWithId(R.id.btnStatisticsDetailToday)
@@ -770,6 +787,7 @@ class SettingsTest : BaseUiTest() {
         // Check range titles
         titlePrev = timeMapper.toWeekTitle(
             weeksFromToday = -1,
+            startOfDayShift = 0,
             firstDayOfWeek = if (isTodaySunday) DayOfWeek.SUNDAY else DayOfWeek.MONDAY
         )
         longClickOnViewWithId(R.id.btnStatisticsDetailToday)
@@ -1278,7 +1296,6 @@ class SettingsTest : BaseUiTest() {
             isCompletelyRightOf(matcher)
             isTopAlignedWith(matcher)
         }
-
         check(name + 5, name + 1) { matcher ->
             isCompletelyBelow(matcher)
             isLeftAlignedWith(matcher)

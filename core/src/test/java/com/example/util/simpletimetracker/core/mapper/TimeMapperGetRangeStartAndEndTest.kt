@@ -428,7 +428,6 @@ class TimeMapperGetRangeStartAndEndTest {
         }
     }
 
-
     @RunWith(Parameterized::class)
     class RangeYearTest(
         private val input: List<Any>,

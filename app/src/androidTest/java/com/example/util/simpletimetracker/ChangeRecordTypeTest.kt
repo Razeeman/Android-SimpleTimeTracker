@@ -109,7 +109,7 @@ class ChangeRecordTypeTest : BaseUiTest() {
         NavUtils.addActivity(name, firstColor, firstIcon)
 
         // Start timer
-        clickOnViewWithText(name)
+        tryAction { clickOnViewWithText(name) }
         checkViewIsDisplayed(
             allOf(
                 withId(R.id.viewRunningRecordItem),
@@ -143,14 +143,16 @@ class ChangeRecordTypeTest : BaseUiTest() {
         clickOnViewWithId(R.id.tvNumberKeyboard0)
         clickOnViewWithId(R.id.tvNumberKeyboard0)
         clickOnViewWithText(R.string.duration_dialog_save)
-        checkViewIsDisplayed(withText("10$minuteString"))
+        tryAction { checkViewIsDisplayed(withText("10$minuteString")) }
 
         clickOnViewWithText(R.string.change_record_type_save)
 
         // Record running record updated
-        checkViewIsDisplayed(
-            allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(newName))
-        )
+        tryAction {
+            checkViewIsDisplayed(
+                allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(newName))
+            )
+        }
         checkViewIsDisplayed(
             allOf(withId(R.id.viewRunningRecordItem), withCardColor(lastColor))
         )

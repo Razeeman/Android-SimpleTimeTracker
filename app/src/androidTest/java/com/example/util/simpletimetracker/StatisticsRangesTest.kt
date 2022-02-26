@@ -225,11 +225,11 @@ class StatisticsRangesTest : BaseUiTest() {
         val calendarPrev = Calendar.getInstance().apply {
             add(Calendar.WEEK_OF_YEAR, -1)
         }
-        val titlePrev = timeMapper.toWeekTitle(-1, DayOfWeek.SUNDAY)
+        val titlePrev = timeMapper.toWeekTitle(-1, 0, DayOfWeek.SUNDAY)
         val calendarNext = Calendar.getInstance().apply {
             add(Calendar.WEEK_OF_YEAR, 1)
         }
-        val titleNext = timeMapper.toWeekTitle(1, DayOfWeek.SUNDAY)
+        val titleNext = timeMapper.toWeekTitle(1, 0, DayOfWeek.SUNDAY)
 
         // Check prev week
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
@@ -270,11 +270,11 @@ class StatisticsRangesTest : BaseUiTest() {
         val calendarPrev = Calendar.getInstance().apply {
             add(Calendar.WEEK_OF_YEAR, -2500)
         }
-        val titlePrev = timeMapper.toWeekTitle(-2500, DayOfWeek.SUNDAY)
+        val titlePrev = timeMapper.toWeekTitle(-2500, 0, DayOfWeek.SUNDAY)
         val calendarNext = Calendar.getInstance().apply {
             add(Calendar.WEEK_OF_YEAR, 2500)
         }
-        val titleNext = timeMapper.toWeekTitle(2500, DayOfWeek.SUNDAY)
+        val titleNext = timeMapper.toWeekTitle(2500, 0, DayOfWeek.SUNDAY)
 
         // Check prev date
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
