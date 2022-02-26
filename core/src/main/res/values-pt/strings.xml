@@ -166,6 +166,7 @@
     <string name="settings_dark_mode">Modo noturno</string>
     <string name="settings_use_military_time">Usar formato de 24 horas</string>
     <string name="settings_use_proportional_minutes">Usar o formato de minuto proporcional</string>
+    <string name="settings_keep_screen_on">Mantenha a tela ligada</string>
     <string name="settings_change_card_size">Alterar o tamanho do cartão de atividade</string>
     <string name="settings_archive">Arquivo</string>
     <string name="settings_edit_categories">Editar tags</string>

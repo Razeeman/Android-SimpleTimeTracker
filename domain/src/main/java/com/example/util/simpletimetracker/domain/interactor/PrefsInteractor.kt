@@ -163,6 +163,14 @@ class PrefsInteractor @Inject constructor(
         prefsRepo.useProportionalMinutes = isUsed
     }
 
+    suspend fun getKeepScreenOn(): Boolean = withContext(Dispatchers.IO) {
+        prefsRepo.keepScreenOn
+    }
+
+    suspend fun setKeepScreenOn(keep: Boolean) = withContext(Dispatchers.IO) {
+        prefsRepo.keepScreenOn = keep
+    }
+
     suspend fun getShowRecordTagSelection(): Boolean = withContext(Dispatchers.IO) {
         prefsRepo.showRecordTagSelection
     }

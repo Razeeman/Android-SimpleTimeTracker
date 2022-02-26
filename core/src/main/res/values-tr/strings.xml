@@ -166,6 +166,7 @@
     <string name="settings_dark_mode">Karanlık mod</string>
     <string name="settings_use_military_time">24-saat formatını kullan</string>
     <string name="settings_use_proportional_minutes">Oransal dakika formatını kullan</string>
+    <string name="settings_keep_screen_on">Ekranını açık tut</string>
     <string name="settings_change_card_size">Aktivite kartı boyutunu değiştir</string>
     <string name="settings_archive">Arşiv</string>
     <string name="settings_edit_categories">Etiketleri düzenle</string>

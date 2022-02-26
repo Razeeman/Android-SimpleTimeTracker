@@ -68,8 +68,13 @@ class PrefsRepoImpl @Inject constructor(
     override var useMilitaryTimeFormat: Boolean by prefs.delegate(
         KEY_USE_MILITARY_TIME_FORMAT, true
     )
+
     override var useProportionalMinutes: Boolean by prefs.delegate(
         KEY_USE_PROPORTIONAL_MINUTES, false
+    )
+
+    override var keepScreenOn: Boolean by prefs.delegate(
+        KEY_KEEP_SCREEN_ON, false
     )
 
     override var showRecordTagSelection: Boolean by prefs.delegate(
@@ -136,6 +141,7 @@ class PrefsRepoImpl @Inject constructor(
         private const val KEY_NUMBER_OF_CARDS = "numberOfCards" // 0 - default width
         private const val KEY_USE_MILITARY_TIME_FORMAT = "useMilitaryTimeFormat"
         private const val KEY_USE_PROPORTIONAL_MINUTES = "useProportionalMinutes"
+        private const val KEY_KEEP_SCREEN_ON = "keepScreenOn"
         private const val KEY_SHOW_RECORD_TAG_SELECTION = "showRecordTagSelection"
         private const val KEY_RECORD_TAG_SELECTION_CLOSE_AFTER_ONE = "recordTagSelectionCloseAfterOne"
         private const val KEY_WIDGET = "widget_"

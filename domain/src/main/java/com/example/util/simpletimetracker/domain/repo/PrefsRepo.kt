@@ -30,6 +30,8 @@ interface PrefsRepo {
 
     var useProportionalMinutes: Boolean
 
+    var keepScreenOn: Boolean
+
     var showRecordTagSelection: Boolean
 
     var recordTagSelectionCloseAfterOne: Boolean

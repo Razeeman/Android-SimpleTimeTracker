@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.feature_settings.view
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.BuildConfig
@@ -64,6 +65,7 @@ class SettingsFragment :
         checkboxSettingsDarkMode.setOnClick(viewModel::onDarkModeClicked)
         checkboxSettingsUseMilitaryTime.setOnClick(viewModel::onUseMilitaryTimeClicked)
         checkboxSettingsUseProportionalMinutes.setOnClick(viewModel::onUseProportionalMinutesClicked)
+        checkboxSettingsKeepScreenOn.setOnClick(viewModel::onKeepScreenOnClicked)
         tvSettingsChangeCardSize.setOnClick(viewModel::onChangeCardSizeClick)
         layoutSettingsEditCategories.setOnClick(viewModel::onEditCategoriesClick)
         checkboxSettingsShowRecordTagSelection.setOnClick(viewModel::onShowRecordTagSelectionClicked)
@@ -89,6 +91,7 @@ class SettingsFragment :
             darkModeCheckbox.observe(checkboxSettingsDarkMode::setChecked)
             useMilitaryTimeCheckbox.observe(checkboxSettingsUseMilitaryTime::setChecked)
             useProportionalMinutesCheckbox.observe(checkboxSettingsUseProportionalMinutes::setChecked)
+            keepScreenOnCheckbox.observe(::setKeepScreenOn)
             showRecordTagSelectionCheckbox.observe(::updateShowRecordTagSelectionChecked)
             recordTagSelectionCloseCheckbox.observe(checkboxSettingsRecordTagSelectionClose::setChecked)
             useMilitaryTimeHint.observe(tvSettingsUseMilitaryTimeHint::setText)
@@ -108,6 +111,7 @@ class SettingsFragment :
             checkboxSettingsDarkMode.jumpDrawablesToCurrentState()
             checkboxSettingsUseMilitaryTime.jumpDrawablesToCurrentState()
             checkboxSettingsUseProportionalMinutes.jumpDrawablesToCurrentState()
+            checkboxSettingsKeepScreenOn.jumpDrawablesToCurrentState()
             checkboxSettingsShowRecordTagSelection.jumpDrawablesToCurrentState()
             checkboxSettingsRecordTagSelectionClose.jumpDrawablesToCurrentState()
         }
@@ -156,6 +160,15 @@ class SettingsFragment :
         tvSettingsStartOfDayTime.text = viewData.startOfDayValue
         btnSettingsStartOfDaySign.visible = viewData.startOfDaySign.isNotEmpty()
         tvSettingsStartOfDaySign.text = viewData.startOfDaySign
+    }
+
+    private fun setKeepScreenOn(keepScreenOn: Boolean) {
+        binding.checkboxSettingsKeepScreenOn.isChecked = keepScreenOn
+        if (keepScreenOn) {
+            activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        } else {
+            activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        }
     }
 
     private fun changeTheme(themeChanged: Boolean) {

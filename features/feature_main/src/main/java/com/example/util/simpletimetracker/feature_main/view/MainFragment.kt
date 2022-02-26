@@ -56,7 +56,7 @@ class MainFragment : BaseFragment<Binding>() {
 
     private fun setupPager() = with(binding) {
         mainPager.adapter = MainContentAdapter(this@MainFragment)
-        mainPager.offscreenPageLimit = 3
+        mainPager.offscreenPageLimit = 3 // Same as number of pages to avoid recreating.
 
         TabLayoutMediator(mainTabs, mainPager) { tab, position ->
             when (position) {

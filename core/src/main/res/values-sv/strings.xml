@@ -166,6 +166,7 @@
     <string name="settings_dark_mode">Mörkt läge</string>
     <string name="settings_use_military_time">Använd 24-timmarsklocka</string>
     <string name="settings_use_proportional_minutes">Använd decimaltal för tid</string>
+    <string name="settings_keep_screen_on">Håll skärmen på</string>
     <string name="settings_change_card_size">Ändra storlek på aktivitetskort</string>
     <string name="settings_archive">Arkiv</string>
     <string name="settings_edit_categories">Redigera taggar</string>

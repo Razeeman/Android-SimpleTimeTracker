@@ -433,6 +433,34 @@
                     android:layout_height="wrap_content">
 
                     <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvSettingsKeepScreenOn"
+                        style="@style/SettingsText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_keep_screen_on"
+                        app:layout_constraintEnd_toStartOf="@id/checkboxSettingsKeepScreenOn"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatCheckBox
+                        android:id="@+id/checkboxSettingsKeepScreenOn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        app:layout_constraintBottom_toBottomOf="@id/tvSettingsKeepScreenOn"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tvSettingsKeepScreenOn" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <View
+                    style="@style/SettingsDivider"
+                    android:layout_width="match_parent" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tvSettingsRecordTypeSort"
                         style="@style/SettingsText"
                         android:layout_width="0dp"
