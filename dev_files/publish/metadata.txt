@@ -124,3 +124,9 @@ Version 1.16:
 - Add statistics widget
 - Add some translations
 - General bug fixes and improvements
+
+Version 1.17:
+- Add app icon shortcuts
+- Add keep screen on setting
+- Add some translations
+- General bug fixes and improvements
