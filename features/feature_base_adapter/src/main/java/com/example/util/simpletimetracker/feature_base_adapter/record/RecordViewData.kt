@@ -19,6 +19,8 @@ sealed class RecordViewData : ViewHolderType {
 
     data class Tracked(
         val id: Long,
+        val timeStartedTimestamp: Long,
+        val timeEndedTimestamp: Long,
         override val name: String,
         override val tagName: String,
         override val timeStarted: String,

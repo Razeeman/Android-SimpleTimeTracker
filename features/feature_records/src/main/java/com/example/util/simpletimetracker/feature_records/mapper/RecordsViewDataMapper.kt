@@ -1,22 +1,24 @@
 package com.example.util.simpletimetracker.feature_records.mapper
 
-import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
-import com.example.util.simpletimetracker.feature_base_adapter.empty.EmptyViewData
-import com.example.util.simpletimetracker.feature_base_adapter.hint.HintViewData
+import com.example.util.simpletimetracker.core.extension.setToStartOfDay
 import com.example.util.simpletimetracker.core.mapper.RecordViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
-import com.example.util.simpletimetracker.feature_base_adapter.record.RecordViewData
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
+import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_base_adapter.empty.EmptyViewData
+import com.example.util.simpletimetracker.feature_base_adapter.hint.HintViewData
+import com.example.util.simpletimetracker.feature_base_adapter.record.RecordViewData
 import com.example.util.simpletimetracker.feature_records.R
+import java.util.Calendar
 import javax.inject.Inject
 import kotlin.math.max
 import kotlin.math.min
 
 class RecordsViewDataMapper @Inject constructor(
     private val resourceRepo: ResourceRepo,
-    private val recordViewDataMapper: RecordViewDataMapper
+    private val recordViewDataMapper: RecordViewDataMapper,
 ) {
 
     fun map(
@@ -27,7 +29,7 @@ class RecordsViewDataMapper @Inject constructor(
         rangeEnd: Long,
         isDarkTheme: Boolean,
         useMilitaryTime: Boolean,
-        useProportionalMinutes: Boolean
+        useProportionalMinutes: Boolean,
     ): ViewHolderType {
         val (timeStarted, timeEnded) = clampToRange(record, rangeStart, rangeEnd)
 
@@ -43,13 +45,49 @@ class RecordsViewDataMapper @Inject constructor(
         )
     }
 
+    fun mapToCalendarData(
+        record: Record,
+        recordType: RecordType,
+        recordTags: List<RecordTag>,
+        rangeStart: Long,
+        rangeEnd: Long,
+        isDarkTheme: Boolean,
+        useMilitaryTime: Boolean,
+        useProportionalMinutes: Boolean,
+    ): RecordViewData.Tracked {
+        val (timeStarted, timeEnded) = clampToRange(record, rangeStart, rangeEnd)
+
+        val recordViewData = recordViewDataMapper.map(
+            record = record,
+            recordType = recordType,
+            recordTags = recordTags,
+            timeStarted = timeStarted,
+            timeEnded = timeEnded,
+            isDarkTheme = isDarkTheme,
+            useMilitaryTime = useMilitaryTime,
+            useProportionalMinutes = useProportionalMinutes
+        )
+
+        val start = Calendar.getInstance().apply {
+            timeInMillis = timeStarted
+            setToStartOfDay()
+        }.let {
+            timeStarted - it.timeInMillis
+        }
+
+        return recordViewData.copy(
+            timeStartedTimestamp = start,
+            timeEndedTimestamp = start + (timeEnded - timeStarted)
+        )
+    }
+
     fun mapToUntracked(
         record: Record,
         rangeStart: Long,
         rangeEnd: Long,
         isDarkTheme: Boolean,
         useMilitaryTime: Boolean,
-        useProportionalMinutes: Boolean
+        useProportionalMinutes: Boolean,
     ): RecordViewData {
         val (timeStarted, timeEnded) = clampToRange(record, rangeStart, rangeEnd)
 
@@ -77,7 +115,7 @@ class RecordsViewDataMapper @Inject constructor(
     private fun clampToRange(
         record: Record,
         rangeStart: Long,
-        rangeEnd: Long
+        rangeEnd: Long,
     ): Pair<Long, Long> {
         val timeStarted = if (rangeStart != 0L) {
             max(record.timeStarted, rangeStart)

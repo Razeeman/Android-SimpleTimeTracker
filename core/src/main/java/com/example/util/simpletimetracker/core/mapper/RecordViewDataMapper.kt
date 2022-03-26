@@ -26,9 +26,11 @@ class RecordViewDataMapper @Inject constructor(
         isDarkTheme: Boolean,
         useMilitaryTime: Boolean,
         useProportionalMinutes: Boolean,
-    ): RecordViewData {
+    ): RecordViewData.Tracked {
         return RecordViewData.Tracked(
             id = record.id,
+            timeStartedTimestamp = timeStarted,
+            timeEndedTimestamp = timeEnded,
             name = recordType.name,
             tagName = recordTags
                 .getFullName(),
@@ -52,7 +54,7 @@ class RecordViewDataMapper @Inject constructor(
         isDarkTheme: Boolean,
         useMilitaryTime: Boolean,
         useProportionalMinutes: Boolean,
-    ): RecordViewData {
+    ): RecordViewData.Untracked {
         return RecordViewData.Untracked(
             name = R.string.untracked_time_name
                 .let(resourceRepo::getString),

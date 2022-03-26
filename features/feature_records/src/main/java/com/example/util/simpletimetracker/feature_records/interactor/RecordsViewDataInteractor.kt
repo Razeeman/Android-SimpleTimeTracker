@@ -1,7 +1,6 @@
 package com.example.util.simpletimetracker.feature_records.interactor
 
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
-import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
@@ -9,6 +8,7 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.feature_records.mapper.RecordsViewDataMapper
+import com.example.util.simpletimetracker.feature_records.model.RecordsState
 import javax.inject.Inject
 
 class RecordsViewDataInteractor @Inject constructor(
@@ -20,11 +20,12 @@ class RecordsViewDataInteractor @Inject constructor(
     private val timeMapper: TimeMapper,
 ) {
 
-    suspend fun getViewData(shift: Int): List<ViewHolderType> {
+    suspend fun getViewData(shift: Int): RecordsState {
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
         val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
         val startOfDayShift = prefsInteractor.getStartOfDayShift()
+        val isCalendarView = true
         val recordTypes = recordTypeInteractor.getAll().map { it.id to it }.toMap()
         val recordTags = recordTagInteractor.getAll()
         val (rangeStart, rangeEnd) = timeMapper.getRangeStartAndEnd(
@@ -39,7 +40,22 @@ class RecordsViewDataInteractor @Inject constructor(
             recordInteractor.getAll()
         }
 
-        return records
+        val calendarData = records
+            .mapNotNull { record ->
+                recordsViewDataMapper.mapToCalendarData(
+                    record = record,
+                    recordType = recordTypes[record.typeId] ?: return@mapNotNull null,
+                    recordTags = recordTags.filter { it.id in record.tagIds },
+                    rangeStart = rangeStart,
+                    rangeEnd = rangeEnd,
+                    isDarkTheme = isDarkTheme,
+                    useMilitaryTime = useMilitaryTime,
+                    useProportionalMinutes = useProportionalMinutes
+                )
+            }
+            .let(RecordsState::CalendarData)
+
+        val recordsData = records
             .mapNotNull { record ->
                 record.timeStarted to recordsViewDataMapper.map(
                     record = record,
@@ -81,6 +97,10 @@ class RecordsViewDataInteractor @Inject constructor(
                     it + recordsViewDataMapper.mapToHint()
                 }
             }
+            .let(RecordsState::RecordsData)
+
+        // TODO map only either one
+        return if (isCalendarView) calendarData else recordsData
     }
 
     companion object {

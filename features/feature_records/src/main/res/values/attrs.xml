@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="RecordsCalendarView">
+        <!-- Used for layout preview -->
+        <attr name="calendarRecordsCount" format="integer" />
+        <attr name="calendarLegendTextSize" format="dimension" />
+        <attr name="calendarLegendTextColor" format="color" />
+        <attr name="calendarLegendLineColor" format="color" />
+        <attr name="calendarIconMaxSize" format="dimension" />
+    </declare-styleable>
+
+</resources>

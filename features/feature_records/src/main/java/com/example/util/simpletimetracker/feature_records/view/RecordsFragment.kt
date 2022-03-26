@@ -69,6 +69,7 @@ class RecordsFragment : BaseFragment<Binding>() {
         with(viewModel) {
             extra = RecordsExtra(shift = arguments?.getInt(ARGS_POSITION).orZero())
             records.observe(recordsAdapter::replace)
+            calendarData.observe(binding.viewRecordsCalendar::setData)
         }
         with(removeRecordViewModel) {
             needUpdate.observe {

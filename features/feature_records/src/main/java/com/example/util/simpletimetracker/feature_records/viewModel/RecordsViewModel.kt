@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.extension.toParams
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
@@ -11,6 +12,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderView
 import com.example.util.simpletimetracker.feature_base_adapter.record.RecordViewData
 import com.example.util.simpletimetracker.feature_records.extra.RecordsExtra
 import com.example.util.simpletimetracker.feature_records.interactor.RecordsViewDataInteractor
+import com.example.util.simpletimetracker.feature_records.model.RecordsState
 import com.example.util.simpletimetracker.feature_views.TransitionNames
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordFromMainParams
@@ -28,6 +30,7 @@ class RecordsViewModel @Inject constructor(
     val records: LiveData<List<ViewHolderType>> by lazy {
         MutableLiveData(listOf(LoaderViewData() as ViewHolderType))
     }
+    val calendarData: LiveData<List<RecordViewData.Tracked>> = MutableLiveData()
 
     fun onRecordClick(item: RecordViewData, sharedElements: Map<Any, String>) {
         val preview = ChangeRecordParams.Preview(
@@ -70,11 +73,13 @@ class RecordsViewModel @Inject constructor(
     }
 
     private fun updateRecords() = viewModelScope.launch {
-        val data = loadRecordsViewData()
-        (records as MutableLiveData).value = data
+        when (val state = loadRecordsViewData()) {
+            is RecordsState.RecordsData -> records.set(state.data)
+            is RecordsState.CalendarData -> calendarData.set(state.data)
+        }
     }
 
-    private suspend fun loadRecordsViewData(): List<ViewHolderType> {
+    private suspend fun loadRecordsViewData(): RecordsState {
         return recordsViewDataInteractor.getViewData(extra?.shift.orZero())
     }
 }
