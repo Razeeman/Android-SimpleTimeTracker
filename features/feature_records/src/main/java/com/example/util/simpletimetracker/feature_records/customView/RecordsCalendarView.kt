@@ -49,6 +49,8 @@ class RecordsCalendarView @JvmOverloads constructor(
     private var chartWidth: Float = 0f
     private val legendTextPadding: Float = 2.dpToPx().toFloat()
     private val recordCornerRadius: Float = 8.dpToPx().toFloat()
+    private val recordVerticalPadding: Float = 2.dpToPx().toFloat()
+    private val iconStartPadding: Float = 4.dpToPx().toFloat()
     private val dayInMillis = TimeUnit.DAYS.toMillis(1)
     private val hourInMillis = TimeUnit.HOURS.toMillis(1)
 
@@ -56,8 +58,8 @@ class RecordsCalendarView @JvmOverloads constructor(
     private val textPaint: Paint = Paint()
     private val linePaint: Paint = Paint()
 
-    private val textBounds: Rect = Rect(0, 0, 0, 0)
-    private val bounds: RectF = RectF(0f, 0f, 0f, 0f)
+    private val bounds: Rect = Rect(0, 0, 0, 0)
+    private val boundsF: RectF = RectF(0f, 0f, 0f, 0f)
     private var originalData: List<RecordViewData.Tracked> = emptyList()
     private var data: List<Data> = emptyList()
     private val iconView: IconView = IconView(ContextThemeWrapper(context, R.style.AppTheme))
@@ -90,7 +92,6 @@ class RecordsCalendarView @JvmOverloads constructor(
         calculateDimensions(w, h)
         drawLegend(canvas, w, h)
         drawData(canvas, w, h)
-//        drawIcons(canvas, w, h, r)
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -211,9 +212,9 @@ class RecordsCalendarView @JvmOverloads constructor(
         val defaultLegendText = "00:00"
         legendTextWidth = textPaint.measureText(defaultLegendText)
 
-        textPaint.getTextBounds(defaultLegendText, 0, defaultLegendText.length, textBounds)
+        textPaint.getTextBounds(defaultLegendText, 0, defaultLegendText.length, bounds)
         legendTextHeight = textPaint.fontMetrics.let { it.descent - it.ascent }
-        legendTextHeight = textBounds.height().toFloat()
+        legendTextHeight = bounds.height().toFloat()
 
         // Chart dimensions
         pixelLeftBound = legendTextWidth + 2 * legendTextPadding
@@ -224,32 +225,50 @@ class RecordsCalendarView @JvmOverloads constructor(
     private fun drawData(canvas: Canvas, w: Float, h: Float) {
         canvas.save()
 
-        data.forEach {
-            recordPaint.color = it.colorInt
+        data.forEach { item ->
+            recordPaint.color = item.colorInt
 
-            val boxHeight: Float = h * (it.end - it.start) / dayInMillis
-            val boxShift: Float = h * it.start / dayInMillis
-            val boxWidth: Float = chartWidth / it.columnCount
-            val boxLeft: Float = pixelLeftBound + boxWidth * (it.columnNumber - 1)
+            val boxHeight: Float = h * (item.end - item.start) / dayInMillis
+            val boxShift: Float = h * item.start / dayInMillis
+            val boxWidth: Float = chartWidth / item.columnCount
+            val boxLeft: Float = pixelLeftBound + boxWidth * (item.columnNumber - 1)
             val boxRight: Float = boxLeft + boxWidth
             val boxTop: Float = h - boxShift - boxHeight
             val boxBottom: Float = h - boxShift
 
-            it.boxLeft = boxLeft
-            it.boxTop = boxTop
-            it.boxRight = boxRight
-            it.boxBottom = boxBottom
+            item.boxLeft = boxLeft
+            item.boxTop = boxTop
+            item.boxRight = boxRight
+            item.boxBottom = boxBottom
 
-            bounds.set(
+            // Draw box
+            boundsF.set(
                 boxLeft, boxTop,
                 boxRight, boxBottom,
             )
             canvas.drawRoundRect(
-                bounds,
+                boundsF,
                 recordCornerRadius,
                 recordCornerRadius,
                 recordPaint
             )
+
+            val iconSize: Int? = iconMaxSize.takeIf { it < boxHeight - 2 * recordVerticalPadding }
+            if (iconSize != null) {
+
+                val iconLeft: Int = (boxLeft + iconStartPadding).toInt()
+                val iconRight: Int = iconLeft + iconSize
+                val iconTop: Int = (boxTop + boxHeight / 2 - iconSize / 2).toInt()
+                val iconBottom: Int = iconTop + iconSize
+
+                // Draw icon
+                bounds.set(
+                    iconLeft, iconTop,
+                    iconRight, iconBottom
+                )
+                item.drawable?.bounds = bounds
+                item.drawable?.draw(canvas)
+            }
         }
 
         canvas.restore()
@@ -292,56 +311,6 @@ class RecordsCalendarView @JvmOverloads constructor(
 
         canvas.restore()
     }
-
-//    private fun drawIcons(canvas: Canvas, w: Float, h: Float, r: Float) {
-//        if (data.isEmpty()) return
-//
-//        val iconSize = calculateIconSize(r)
-//        val bounds = Rect(
-//            -iconSize / 2, -iconSize / 2,
-//            iconSize / 2, iconSize / 2
-//        )
-//        var rotation: Float
-//        val iconPositionFromCenter = r - r * (1 - innerRadiusRatio) / 2
-//        var currentSweepAngle = 0f
-//        var sweepAngle: Float
-//
-//        val initial = canvas.save()
-//        canvas.translate(w / 2, h / 2)
-//        var center = canvas.save()
-//
-//        data.forEach {
-//            // circleCircumference = 2 * Math.PI * r
-//            // segmentRatio = it.sweepAngle / 360f
-//            // segmentLength = circleCircumference * segmentRatio
-//            sweepAngle = it.arcPercent * 360f * segmentAnimationScale
-//            val segmentLength = 2 * Math.PI * iconPositionFromCenter * sweepAngle / 360f
-//            if (segmentLength < iconSize + 2 * iconPadding) return@forEach
-//
-//            rotation = currentSweepAngle + sweepAngle / 2f
-//            canvas.rotate(rotation)
-//            canvas.translate(0f, -iconPositionFromCenter)
-//            canvas.rotate(-rotation)
-//            it.drawable?.bounds = bounds
-//            it.drawable?.draw(canvas)
-//
-//            currentSweepAngle += sweepAngle
-//            canvas.restoreToCount(center)
-//            center = canvas.save()
-//        }
-//
-//        canvas.restoreToCount(initial)
-//    }
-
-//    private fun calculateIconSize(r: Float): Int {
-//        val availableIconSize = max(0, (r - r * innerRadiusRatio - 2 * iconPadding).toInt())
-//
-//        return if (iconMaxSize == 0) {
-//            availableIconSize
-//        } else {
-//            min(iconMaxSize, availableIconSize)
-//        }
-//    }
 
     private fun initEditMode() {
         val records = recordsCount.takeIf { it != 0 } ?: 5
