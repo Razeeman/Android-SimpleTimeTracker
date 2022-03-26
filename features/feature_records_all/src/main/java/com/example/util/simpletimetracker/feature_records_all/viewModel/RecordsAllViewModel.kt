@@ -12,7 +12,6 @@ import com.example.util.simpletimetracker.feature_records_all.interactor.Records
 import com.example.util.simpletimetracker.feature_records_all.mapper.RecordsAllViewDataMapper
 import com.example.util.simpletimetracker.feature_records_all.model.RecordsAllSortOrder
 import com.example.util.simpletimetracker.feature_records_all.viewData.RecordsAllSortOrderViewData
-import com.example.util.simpletimetracker.feature_views.TransitionNames
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordFromRecordsAllParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordParams
@@ -47,10 +46,10 @@ class RecordsAllViewModel @Inject constructor(
 
     private var sortOrder: RecordsAllSortOrder = RecordsAllSortOrder.TIME_STARTED
 
-    fun onRecordClick(item: RecordViewData, sharedElements: Map<Any, String>) {
+    fun onRecordClick(item: RecordViewData, sharedElements: Pair<Any, String>) {
         if (item is RecordViewData.Tracked) {
             ChangeRecordParams.Tracked(
-                transitionName = TransitionNames.RECORD + item.id,
+                transitionName = sharedElements.second,
                 id = item.id,
                 from = ChangeRecordParams.From.RecordsAll,
                 preview = ChangeRecordParams.Preview(
@@ -66,7 +65,7 @@ class RecordsAllViewModel @Inject constructor(
             ).let { params ->
                 router.navigate(
                     data = ChangeRecordFromRecordsAllParams(params),
-                    sharedElements = sharedElements
+                    sharedElements = mapOf(sharedElements)
                 )
             }
         }

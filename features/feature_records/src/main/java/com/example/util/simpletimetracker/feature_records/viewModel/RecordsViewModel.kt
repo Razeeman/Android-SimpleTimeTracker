@@ -13,7 +13,6 @@ import com.example.util.simpletimetracker.feature_base_adapter.record.RecordView
 import com.example.util.simpletimetracker.feature_records.extra.RecordsExtra
 import com.example.util.simpletimetracker.feature_records.interactor.RecordsViewDataInteractor
 import com.example.util.simpletimetracker.feature_records.model.RecordsState
-import com.example.util.simpletimetracker.feature_views.TransitionNames
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordFromMainParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordParams
@@ -32,7 +31,7 @@ class RecordsViewModel @Inject constructor(
     }
     val calendarData: LiveData<List<RecordViewData.Tracked>> = MutableLiveData()
 
-    fun onRecordClick(item: RecordViewData, sharedElements: Map<Any, String> = emptyMap()) {
+    fun onRecordClick(item: RecordViewData, sharedElements: Pair<Any, String>? = null) {
         val preview = ChangeRecordParams.Preview(
             name = item.name,
             tagName = item.tagName,
@@ -44,20 +43,15 @@ class RecordsViewModel @Inject constructor(
             comment = item.comment
         )
 
-        val transitionName = when (item) {
-            is RecordViewData.Tracked -> TransitionNames.RECORD + item.id
-            is RecordViewData.Untracked -> TransitionNames.RECORD + item.getUniqueId()
-        }.takeUnless { sharedElements.isEmpty() }.orEmpty()
-
         val params = when (item) {
             is RecordViewData.Tracked -> ChangeRecordParams.Tracked(
-                transitionName = transitionName,
+                transitionName = sharedElements?.second.orEmpty(),
                 id = item.id,
                 from = ChangeRecordParams.From.Records,
                 preview = preview
             )
             is RecordViewData.Untracked -> ChangeRecordParams.Untracked(
-                transitionName = transitionName,
+                transitionName = sharedElements?.second.orEmpty(),
                 timeStarted = item.timeStartedTimestamp,
                 timeEnded = item.timeEndedTimestamp,
                 preview = preview
@@ -65,7 +59,7 @@ class RecordsViewModel @Inject constructor(
         }
         router.navigate(
             data = ChangeRecordFromMainParams(params),
-            sharedElements = sharedElements
+            sharedElements = sharedElements?.let(::mapOf) ?: emptyMap()
         )
     }
 

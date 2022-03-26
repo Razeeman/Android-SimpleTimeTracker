@@ -8,7 +8,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.databinding.ItemR
 import com.example.util.simpletimetracker.feature_base_adapter.record.RecordViewData as ViewData
 
 fun createRecordAdapterDelegate(
-    onItemClick: ((ViewData, Map<Any, String>) -> Unit)
+    onItemClick: ((ViewData, Pair<Any, String>) -> Unit)
 ) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
     Binding::inflate
 ) { binding, item, _ ->
@@ -26,7 +26,7 @@ fun createRecordAdapterDelegate(
         itemDuration = item.duration
         itemComment = item.comment
 
-        setOnClick { onItemClick(item, mapOf(this to transitionName)) }
+        setOnClick { onItemClick(item, this to transitionName) }
         ViewCompat.setTransitionName(this, transitionName)
     }
 }
