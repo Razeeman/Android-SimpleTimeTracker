@@ -126,15 +126,15 @@ class RecordsCalendarView @JvmOverloads constructor(
         }
 
         res.forEach { item ->
-            points.add(Triple(item.start, false, item))
-            points.add(Triple(item.end, true, item))
+            points.add(Triple(item.start, true, item))
+            points.add(Triple(item.end, false, item))
         }
         points.sortWith(compareBy({ it.first }, { it.second }))
         var counter = 0
         var currentColumnCount = 1
         val freeColumns = mutableListOf(1)
-        points.map { (time, isEnd, item) ->
-            if (!isEnd) {
+        points.map { (time, isStart, item) ->
+            if (isStart) {
                 counter++
                 val columnNumber = freeColumns.minOrNull()!!
                 item.columnNumber = columnNumber
@@ -145,7 +145,7 @@ class RecordsCalendarView @JvmOverloads constructor(
                 freeColumns.add(item.columnNumber)
             }
 
-            counter to Triple(time, isEnd, item)
+            counter to Triple(time, isStart, item)
         }.map { (counter, triple) ->
             if (counter == 0) {
                 currentColumnCount = 1
@@ -353,7 +353,7 @@ class RecordsCalendarView @JvmOverloads constructor(
                     RecordViewData.Tracked(
                         id = 1,
                         timeStartedTimestamp = currentStart,
-                        timeEndedTimestamp = hourInMillis * (it + 1),
+                        timeEndedTimestamp = currentStart + hourInMillis * (it + 1),
                         name = "",
                         tagName = "",
                         timeStarted = "",
