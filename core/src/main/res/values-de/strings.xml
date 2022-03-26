@@ -155,6 +155,7 @@
     <string name="settings_sort_manually">Manuell</string>
     <string name="settings_first_day_of_week">Erster Tag der Woche</string>
     <string name="settings_show_untracked_time">Nicht verfolgte Zeit in Datensätzen anzeigen</string>
+    <string name="settings_show_records_calendar">Datensätze in der Kalenderansicht anzeigen</string>
     <string name="settings_allow_multitasking">Multitasking erlauben</string>
     <string name="settings_allow_multitasking_hint">Wenn diese Funktion deaktiviert ist, werden beim Starten eines neuen Timers andere Aktivitäten automatisch gestoppt.</string>
     <string name="settings_show_notifications">Timer-Benachrichtigungen anzeigen</string>

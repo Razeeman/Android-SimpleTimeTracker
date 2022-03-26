@@ -80,6 +80,15 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    val showRecordsCalendarCheckbox: LiveData<Boolean> by lazy {
+        MutableLiveData<Boolean>().let { initial ->
+            viewModelScope.launch {
+                initial.value = prefsInteractor.getShowRecordsCalendar()
+            }
+            initial
+        }
+    }
+
     val allowMultitaskingCheckbox: LiveData<Boolean> by lazy {
         MutableLiveData<Boolean>().let { initial ->
             viewModelScope.launch {
@@ -269,6 +278,14 @@ class SettingsViewModel @Inject constructor(
             val newValue = !prefsInteractor.getShowUntrackedInRecords()
             prefsInteractor.setShowUntrackedInRecords(newValue)
             (showUntrackedCheckbox as MutableLiveData).value = newValue
+        }
+    }
+
+    fun onShowRecordsCalendarClicked() {
+        viewModelScope.launch {
+            val newValue = !prefsInteractor.getShowRecordsCalendar()
+            prefsInteractor.setShowRecordsCalendar(newValue)
+            (showRecordsCalendarCheckbox as MutableLiveData).value = newValue
         }
     }
 

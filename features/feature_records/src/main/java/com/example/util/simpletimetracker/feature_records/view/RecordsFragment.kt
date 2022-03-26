@@ -17,6 +17,7 @@ import com.example.util.simpletimetracker.core.sharedViewModel.RemoveRecordViewM
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_records.extra.RecordsExtra
 import com.example.util.simpletimetracker.feature_records.viewModel.RecordsViewModel
+import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsParams
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -72,6 +73,7 @@ class RecordsFragment : BaseFragment<Binding>() {
     override fun initViewModel() {
         with(viewModel) {
             extra = RecordsExtra(shift = arguments?.getInt(ARGS_POSITION).orZero())
+            isCalendarView.observe(::switchState)
             records.observe(recordsAdapter::replace)
             calendarData.observe(binding.viewRecordsCalendar::setData)
         }
@@ -88,6 +90,11 @@ class RecordsFragment : BaseFragment<Binding>() {
     override fun onResume() {
         super.onResume()
         viewModel.onVisible()
+    }
+
+    private fun switchState(isCalendarView: Boolean) = with(binding) {
+        rvRecordsList.visible = !isCalendarView
+        viewRecordsCalendar.visible = isCalendarView
     }
 
     companion object {

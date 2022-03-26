@@ -155,6 +155,7 @@
     <string name="settings_sort_manually">Manually</string>
     <string name="settings_first_day_of_week">First day of week</string>
     <string name="settings_show_untracked_time">Show untracked time in records</string>
+    <string name="settings_show_records_calendar">Show records in calendar view</string>
     <string name="settings_allow_multitasking">Allow multitasking</string>
     <string name="settings_allow_multitasking_hint">If disabled starting new timer will automatically stop other activities.</string>
     <string name="settings_show_notifications">Show timer notifications</string>

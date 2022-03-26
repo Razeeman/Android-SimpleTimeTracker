@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.extension.toParams
 import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.feature_base_adapter.record.RecordViewData
@@ -21,11 +22,13 @@ import javax.inject.Inject
 
 class RecordsViewModel @Inject constructor(
     private val router: Router,
-    private val recordsViewDataInteractor: RecordsViewDataInteractor
+    private val recordsViewDataInteractor: RecordsViewDataInteractor,
+    private val prefsInteractor: PrefsInteractor,
 ) : ViewModel() {
 
     var extra: RecordsExtra? = null
 
+    val isCalendarView: LiveData<Boolean> = MutableLiveData()
     val records: LiveData<List<ViewHolderType>> by lazy {
         MutableLiveData(listOf(LoaderViewData() as ViewHolderType))
     }
@@ -72,6 +75,8 @@ class RecordsViewModel @Inject constructor(
     }
 
     private fun updateRecords() = viewModelScope.launch {
+        isCalendarView.set(prefsInteractor.getShowRecordsCalendar())
+
         when (val state = loadRecordsViewData()) {
             is RecordsState.RecordsData -> records.set(state.data)
             is RecordsState.CalendarData -> calendarData.set(state.data)

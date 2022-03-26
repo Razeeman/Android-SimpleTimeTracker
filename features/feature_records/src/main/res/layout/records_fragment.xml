@@ -17,10 +17,12 @@
         android:id="@+id/viewRecordsCalendar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="gone"
         app:calendarIconMaxSize="20dp"
         app:calendarLegendLineColor="?appLegendColor"
         app:calendarLegendTextColor="@color/textSecondary"
         app:calendarLegendTextSize="14sp"
-        app:calendarRecordsCount="5" />
+        app:calendarRecordsCount="5"
+        tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

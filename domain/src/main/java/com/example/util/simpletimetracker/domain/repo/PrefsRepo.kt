@@ -16,6 +16,8 @@ interface PrefsRepo {
 
     var showUntrackedInRecords: Boolean
 
+    var showRecordsCalendar: Boolean
+
     var allowMultitasking: Boolean
 
     var showNotifications: Boolean

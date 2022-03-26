@@ -155,6 +155,7 @@
     <string name="settings_sort_manually">Manualmente</string>
     <string name="settings_first_day_of_week">Primeiro dia da semana</string>
     <string name="settings_show_untracked_time">Mostrar tempo não rastreado nos registros</string>
+    <string name="settings_show_records_calendar">Mostrar registros na visualização de calendário</string>
     <string name="settings_allow_multitasking">Permitir atividades simultâneas</string>
     <string name="settings_allow_multitasking_hint">Se desativado, iniciar um novo timer interromperá automaticamente outras atividades.</string>
     <string name="settings_show_notifications">Mostrar notificações de timer</string>

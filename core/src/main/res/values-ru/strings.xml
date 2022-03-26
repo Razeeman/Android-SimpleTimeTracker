@@ -155,6 +155,7 @@
     <string name="settings_sort_manually">Вручную</string>
     <string name="settings_first_day_of_week">Первый день недели</string>
     <string name="settings_show_untracked_time">Показывать неотслеженное время в записях</string>
+    <string name="settings_show_records_calendar">Показывать записи в виде календаря</string>
     <string name="settings_allow_multitasking">Разрешить многозадачность</string>
     <string name="settings_allow_multitasking_hint">Если отключено, запуск нового таймера автоматически остановит другие активности.</string>
     <string name="settings_show_notifications">Показывать уведомления таймера</string>

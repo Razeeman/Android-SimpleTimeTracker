@@ -155,6 +155,7 @@
     <string name="settings_sort_manually">Manual</string>
     <string name="settings_first_day_of_week">Primer día de la semana</string>
     <string name="settings_show_untracked_time">Mostrar el tiempo no registrado en los registros</string>
+    <string name="settings_show_records_calendar">Mostrar registros en la vista de calendario</string>
     <string name="settings_allow_multitasking">Permitir el registro multitarea</string>
     <string name="settings_allow_multitasking_hint">Si está deshabilitado, al iniciar un nuevo temporizador se detendrá automáticamente el de las otras actividades.</string>
     <string name="settings_show_notifications">Mostrar notificaciones del temporizador</string>

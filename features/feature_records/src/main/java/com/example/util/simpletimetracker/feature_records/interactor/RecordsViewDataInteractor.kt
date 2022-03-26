@@ -25,7 +25,7 @@ class RecordsViewDataInteractor @Inject constructor(
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
         val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
         val startOfDayShift = prefsInteractor.getStartOfDayShift()
-        val isCalendarView = true
+        val isCalendarView = prefsInteractor.getShowRecordsCalendar()
         val recordTypes = recordTypeInteractor.getAll().map { it.id to it }.toMap()
         val recordTags = recordTagInteractor.getAll()
         val (rangeStart, rangeEnd) = timeMapper.getRangeStartAndEnd(
@@ -40,7 +40,7 @@ class RecordsViewDataInteractor @Inject constructor(
             recordInteractor.getAll()
         }
 
-        val calendarData = records
+        if (isCalendarView) return records
             .mapNotNull { record ->
                 recordsViewDataMapper.mapToCalendarData(
                     record = record,
@@ -55,7 +55,7 @@ class RecordsViewDataInteractor @Inject constructor(
             }
             .let(RecordsState::CalendarData)
 
-        val recordsData = records
+        return records
             .mapNotNull { record ->
                 record.timeStarted to recordsViewDataMapper.map(
                     record = record,
@@ -98,9 +98,6 @@ class RecordsViewDataInteractor @Inject constructor(
                 }
             }
             .let(RecordsState::RecordsData)
-
-        // TODO map only either one
-        return if (isCalendarView) calendarData else recordsData
     }
 
     companion object {

@@ -155,6 +155,7 @@
     <string name="settings_sort_manually">Elle</string>
     <string name="settings_first_day_of_week">Haftanın ilk günü</string>
     <string name="settings_show_untracked_time">Kayıtlarda takipsiz zamanı göster</string>
+    <string name="settings_show_records_calendar">Takvim görünümünde kayıtları göster</string>
     <string name="settings_allow_multitasking">Çoklu göreve izin ver</string>
     <string name="settings_allow_multitasking_hint">Devre dışı bırakılırsa, yeni zamanlayıcı başlatmak diğer aktivitelerin zamanlayıcısını otomatik olarak durdurur.</string>
     <string name="settings_show_notifications">Zamanlayıcı bildirimlerini göster</string>

@@ -107,6 +107,14 @@ class PrefsInteractor @Inject constructor(
         prefsRepo.showUntrackedInRecords = isEnabled
     }
 
+    suspend fun getShowRecordsCalendar(): Boolean = withContext(Dispatchers.IO) {
+        prefsRepo.showRecordsCalendar
+    }
+
+    suspend fun setShowRecordsCalendar(isEnabled: Boolean) = withContext(Dispatchers.IO) {
+        prefsRepo.showRecordsCalendar = isEnabled
+    }
+
     suspend fun getAllowMultitasking(): Boolean = withContext(Dispatchers.IO) {
         prefsRepo.allowMultitasking
     }
