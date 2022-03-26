@@ -88,7 +88,7 @@ class ChangeRecordFragment :
             else -> ""
         }
         setSharedTransitions(
-            additionalCondition = { extra !is ChangeRecordParams.New },
+            additionalCondition = { transitionName.isNotEmpty() },
             transitionName = transitionName,
             sharedView = previewChangeRecord,
         )

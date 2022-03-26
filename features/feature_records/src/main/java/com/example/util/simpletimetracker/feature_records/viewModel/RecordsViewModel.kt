@@ -32,7 +32,7 @@ class RecordsViewModel @Inject constructor(
     }
     val calendarData: LiveData<List<RecordViewData.Tracked>> = MutableLiveData()
 
-    fun onRecordClick(item: RecordViewData, sharedElements: Map<Any, String>) {
+    fun onRecordClick(item: RecordViewData, sharedElements: Map<Any, String> = emptyMap()) {
         val preview = ChangeRecordParams.Preview(
             name = item.name,
             tagName = item.tagName,
@@ -44,15 +44,20 @@ class RecordsViewModel @Inject constructor(
             comment = item.comment
         )
 
+        val transitionName = when (item) {
+            is RecordViewData.Tracked -> TransitionNames.RECORD + item.id
+            is RecordViewData.Untracked -> TransitionNames.RECORD + item.getUniqueId()
+        }.takeUnless { sharedElements.isEmpty() }.orEmpty()
+
         val params = when (item) {
             is RecordViewData.Tracked -> ChangeRecordParams.Tracked(
-                transitionName = TransitionNames.RECORD + item.id,
+                transitionName = transitionName,
                 id = item.id,
                 from = ChangeRecordParams.From.Records,
                 preview = preview
             )
             is RecordViewData.Untracked -> ChangeRecordParams.Untracked(
-                transitionName = TransitionNames.RECORD + item.getUniqueId(),
+                transitionName = transitionName,
                 timeStarted = item.timeStartedTimestamp,
                 timeEnded = item.timeEndedTimestamp,
                 preview = preview

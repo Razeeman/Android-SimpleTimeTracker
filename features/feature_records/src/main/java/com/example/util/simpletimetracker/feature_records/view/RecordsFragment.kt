@@ -65,6 +65,10 @@ class RecordsFragment : BaseFragment<Binding>() {
         }
     }
 
+    override fun initUx() {
+        binding.viewRecordsCalendar.setClickListener(viewModel::onRecordClick)
+    }
+
     override fun initViewModel() {
         with(viewModel) {
             extra = RecordsExtra(shift = arguments?.getInt(ARGS_POSITION).orZero())

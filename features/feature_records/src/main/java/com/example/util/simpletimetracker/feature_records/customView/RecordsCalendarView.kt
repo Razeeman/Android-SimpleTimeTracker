@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_records.customView
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
@@ -10,8 +11,10 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.ContextThemeWrapper
+import android.view.MotionEvent
 import android.view.View
 import androidx.annotation.ColorInt
+import com.example.util.simpletimetracker.core.utils.SingleTapDetector
 import com.example.util.simpletimetracker.feature_base_adapter.record.RecordViewData
 import com.example.util.simpletimetracker.feature_records.R
 import com.example.util.simpletimetracker.feature_views.IconView
@@ -55,8 +58,15 @@ class RecordsCalendarView @JvmOverloads constructor(
 
     private val textBounds: Rect = Rect(0, 0, 0, 0)
     private val bounds: RectF = RectF(0f, 0f, 0f, 0f)
+    private var originalData: List<RecordViewData.Tracked> = emptyList()
     private var data: List<Data> = emptyList()
     private val iconView: IconView = IconView(ContextThemeWrapper(context, R.style.AppTheme))
+    private var listener: (RecordViewData.Tracked) -> Unit = {}
+
+    private val singleTapDetector = SingleTapDetector(
+        context = context,
+        onSingleTap = ::onTouch
+    )
 
     init {
         initArgs(context, attrs, defStyleAttr)
@@ -83,7 +93,23 @@ class RecordsCalendarView @JvmOverloads constructor(
 //        drawIcons(canvas, w, h, r)
     }
 
+    @SuppressLint("ClickableViewAccessibility")
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        var handled = false
+
+        when (event.action) {
+            MotionEvent.ACTION_DOWN -> handled = true
+        }
+
+        return handled or singleTapDetector.onTouchEvent(event)
+    }
+
+    fun setClickListener(listener: (RecordViewData.Tracked) -> Unit) {
+        this.listener = listener
+    }
+
     fun setData(data: List<RecordViewData.Tracked>) {
+        originalData = data
         val res = mutableListOf<Data>()
         val points: MutableList<Triple<Long, Boolean, Data>> = mutableListOf()
 
@@ -208,6 +234,11 @@ class RecordsCalendarView @JvmOverloads constructor(
             val boxRight: Float = boxLeft + boxWidth
             val boxTop: Float = h - boxShift - boxHeight
             val boxBottom: Float = h - boxShift
+
+            it.boxLeft = boxLeft
+            it.boxTop = boxTop
+            it.boxRight = boxRight
+            it.boxBottom = boxBottom
 
             bounds.set(
                 boxLeft, boxTop,
@@ -346,6 +377,21 @@ class RecordsCalendarView @JvmOverloads constructor(
             .let { BitmapDrawable(resources, it) }
     }
 
+    private fun onTouch(event: MotionEvent) {
+        val x = event.x
+        val y = event.y
+
+        data
+            .firstOrNull {
+                it.boxLeft < x && it.boxTop < y && it.boxRight > x && it.boxBottom > y
+            }
+            ?.id
+            ?.let { clickedId ->
+                originalData.firstOrNull { it.id == clickedId }
+            }
+            ?.let(listener)
+    }
+
     private inner class Data(
         val id: Long,
         val start: Long,
@@ -354,5 +400,9 @@ class RecordsCalendarView @JvmOverloads constructor(
         val drawable: Drawable? = null,
         var columnCount: Int = 1,
         var columnNumber: Int = 1,
+        var boxLeft: Float = 0f,
+        var boxTop: Float = 0f,
+        var boxRight: Float = 0f,
+        var boxBottom: Float = 0f,
     )
 }
