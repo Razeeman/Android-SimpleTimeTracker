@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="day_of_week_monday">Lun</string>
+    <string name="day_of_week_tuesday">Mar</string>
+    <string name="day_of_week_wednesday">Mer</string>
+    <string name="day_of_week_thursday">Jeu</string>
+    <string name="day_of_week_friday">Ven</string>
+    <string name="day_of_week_saturday">Sam</string>
+    <string name="day_of_week_sunday">Dim</string>
+
+    <string name="activity_hint">Activités</string>
+    <string name="activity_tag_hint">Étiquettes d\'activités</string>
+    <string name="record_tag_hint">Record tags</string>
+
+    <!--  Range selection  -->
+    <string name="title_yesterday">Hier</string>
+    <string name="title_today">Aujourd\'hui</string>
+    <string name="title_tomorrow">Demain</string>
+    <string name="title_this_week">Cette semaine</string>
+    <string name="title_this_month">Ce mois-ci</string>
+    <string name="title_this_year">Cette année</string>
+
+    <string name="range_day">Jour</string>
+    <string name="range_week">Semaine</string>
+    <string name="range_month">Mois</string>
+    <string name="range_year">An</string>
+    <string name="range_overall">Global</string>
+    <string name="range_custom">Intervalle</string>
+    <string name="range_select_day">Sélectionner une date</string>
+    <string name="range_select_week">Sélectionnez la semaine</string>
+    <string name="range_select_month">Sélectionnez un mois</string>
+    <string name="range_select_year">Sélectionnez l\'année</string>
+
+    <string name="ok">OK</string>
+    <string name="cancel">Annuler</string>
+
+    <string name="time_hour">h</string>
+    <string name="time_minute">m</string>
+    <string name="time_second">s</string>
+
+    <string name="untracked_time_name">Non suivi</string>
+    <string name="running_record_goal_time">objectif %s</string>
+    <string name="record_types_empty">Aucune activité ajoutée</string>
+    <string name="record_tag_selection_hint">Sélectionnez une étiquette à l\'enregistrement</string>
+
+    <!--  Records  -->
+    <string name="record_removed">Enregistrement %s supprimé</string>
+    <string name="record_removed_undo">Annuler</string>
+    <string name="records_empty">Rien à montrer</string>
+    <string name="records_hint">Cliquez sur l\'enregistrement pour modifier</string>
+
+    <!--  Statistics  -->
+    <string name="statistics_empty">Rien à montrer</string>
+    <string name="statistics_total_tracked">Total suivi</string>
+    <string name="statistics_total_tracked_short">Total</string>
+    <string name="statistics_hint">Cliquez sur la carte pour afficher les statistiques détaillées</string>
+
+    <!--  Categories  -->
+    <string name="categories_record_type_hint">Attribuez la même étiquettes à différentes activités pour afficher leurs statistiques groupées</string>
+    <string name="categories_record_hint">Attribuez différentes étiquettes aux enregistrements pour les différencier</string>
+    <string name="categories_add_activity_tag">Ajouter une étiquettes d\'activité</string>
+    <string name="categories_add_record_tag">Ajouter une étiquette à l\'enregistrement</string>
+
+    <!--  Change category  -->
+    <string name="change_category_removed">Étiquettes supprimée</string>
+    <string name="change_category_archived">Étiquettes archivée</string>
+    <string name="change_category_name_hint">Entrez le nouveau nom</string>
+    <string name="change_category_color_hint">Couleur</string>
+    <string name="change_category_types_hint">Activités</string>
+    <string name="change_category_type_hint">Activité</string>
+    <string name="change_category_save">Sauvegarder</string>
+    <string name="change_category_message_choose_name">Choisissez un nom</string>
+    <string name="change_category_selected_types_empty">Non affecté à aucune activité</string>
+    <string name="change_category_selected_types_hint">Affecté à:</string>
+
+    <!--  Change record tag  -->
+    <string name="change_record_tag_type">Type d\'étiquette</string>
+    <string name="change_record_tag_type_general">Général</string>
+    <string name="change_record_tag_type_general_hint">Peut être attribué aux enregistrements de n\'importe quelle activité</string>
+    <string name="change_record_tag_type_typed">Activité</string>
+    <string name="change_record_tag_type_typed_hint">Ne peut être attribué qu\'aux enregistrements d\'une activité spécifique</string>
+
+    <!--  Change record  -->
+    <string name="change_record_message_choose_type">Sélectionnez une activité</string>
+    <string name="change_record_type_field">Activité</string>
+    <string name="change_record_category_field">étiquette</string>
+    <string name="change_record_comment_hint">Commenter</string>
+    <string name="change_record_categories_empty">Aucune étiquette d\'enregistrement ajoutée</string>
+    <string name="change_record_activity_not_selected">Activité non sélectionnée</string>
+    <string name="change_record_save">Sauvegarder</string>
+    <string name="change_record_untagged">Non étiqueté</string>
+    <string name="change_running_record_removed">Activité en cours d\'exécution supprimé</string>
+
+    <!--  Change record type  -->
+    <string name="change_record_type_archived">Activité archivée</string>
+    <string name="change_record_type_name_hint">Entrez le nouveau nom</string>
+    <string name="change_record_type_color_hint">Couleur</string>
+    <string name="change_record_type_icon_hint">Icône</string>
+    <string name="change_record_type_emoji_hint">Émoji</string>
+    <string name="change_record_type_category_hint">Étiquettes</string>
+    <string name="change_record_type_save">Sauvegarder</string>
+    <string name="change_record_message_choose_name">Choisissez un nom</string>
+    <string name="change_record_type_categories_empty">Aucune étiquette d\'activité ajoutée</string>
+    <string name="change_record_type_selected_categories_empty">Aucune étiquettes affectée</string>
+    <string name="change_record_type_selected_categories_hint">Étiquettes affectées:</string>
+    <string name="change_record_type_goal_time_disabled">Désactivé</string>
+    <string name="change_record_type_goal_time">Heure d\'objectif</string>
+    <string name="change_record_type_goal_time_hint">Afficher la notification après l\'heure spécifiée de suivi de cette activité.</string>
+
+    <!--  Dialogs  -->
+    <string name="date_time_dialog_date">Date</string>
+    <string name="date_time_dialog_time">Heure</string>
+
+    <string name="card_size_default">Largeur par défaut</string>
+    <string name="card_size_hint">Nombre de cartes dans une rangée</string>
+
+    <string name="card_order_hint">Glisser-déposer pour réorganiser</string>
+
+    <string name="chart_filter_hint">Filtrer</string>
+    <string name="types_filter_show_all">Afficher tout</string>
+    <string name="types_filter_hide_all">Cacher tout</string>
+    <string name="chart_filter_type_hint">Type de statistiques</string>
+    <string name="chart_filter_type_activity">Activité</string>
+    <string name="chart_filter_type_category">Étiquette</string>
+    <string name="chart_filter_categories_empty">Aucune Étiquettes ajoutée</string>
+
+    <string name="duration_dialog_save">Sauvegarder</string>
+    <string name="duration_dialog_disable">Désactiver</string>
+
+    <string name="color_selection_base_color_hint">Sélectionnez la couleur de base</string>
+    <string name="color_selection_adjust_color_hint">Ajuster la couleur</string>
+    <string name="color_selection_final_color_hint">Couleur finale</string>
+
+    <string name="csv_export_settings_range">Intervalle</string>
+    <string name="csv_export_settings_all">Tout</string>
+    <string name="csv_export_settings_hint">Sélectionnez la plage de temps ou exportez tous les enregistrements</string>
+
+    <!--  Records all  -->
+    <string name="records_all_sort_order">Trier les enregistrements</string>
+    <string name="records_all_filter">Filtrer les activités</string>
+    <string name="records_all_sort_time_started">L\'heure a commencé</string>
+    <string name="records_all_sort_duration">Durée</string>
+
+    <!--  Running records  -->
+    <string name="running_records_types_empty">Ajouter des activités pour commencer le suivi</string>
+    <string name="running_records_empty">Cliquez longuement pour éditer</string>
+    <string name="running_records_empty_hint">Cliquez longuement pour éditer</string>
+    <string name="running_records_add_type">Ajouter</string>
+
+    <!--  Settings  -->
+    <string name="settings_sort_order">Trier les activités</string>
+    <string name="settings_sort_by_name">Nom</string>
+    <string name="settings_sort_by_color">Couleur</string>
+    <string name="settings_sort_manually">Manuellement</string>
+    <string name="settings_first_day_of_week">Premier jour de la semaine</string>
+    <string name="settings_show_untracked_time">Afficher le temps non suivi dans les enregistrements</string>
+    <string name="settings_show_records_calendar">Afficher les enregistrements dans la vue calendrier</string>
+    <string name="settings_allow_multitasking">Autoriser le multitâche</string>
+    <string name="settings_allow_multitasking_hint">Si désactivé, le démarrage d\'une nouvelle minuterie arrêtera automatiquement les autres activités.</string>
+    <string name="settings_show_notifications">Afficher les notifications du minuteur</string>
+    <string name="settings_show_notifications_hint">Afficher les notifications lorsque les minuteurs sont en cours d\'exécution.</string>
+    <string name="settings_start_of_day">Décalage du début de journée</string>
+    <string name="settings_inactivity_reminder">Afficher le rappel d\'inactivité</string>
+    <string name="settings_inactivity_reminder_hint">Afficher la notification après l\'heure spécifiée si aucune minuterie n\'est en cours d\'exécution.</string>
+    <string name="settings_inactivity_reminder_disabled">Désactivé</string>
+    <string name="settings_dark_mode">Mode sombre</string>
+    <string name="settings_use_military_time">Utiliser le format 24 heures</string>
+    <string name="settings_use_proportional_minutes">Utiliser le format des minutes proportionnelles</string>
+    <string name="settings_keep_screen_on">Gardez l\'écran allumé</string>
+    <string name="settings_change_card_size">Modifier la taille de la carte d\'activité</string>
+    <string name="settings_archive">Archiver</string>
+    <string name="settings_edit_categories">Édition des étiquettes</string>
+    <string name="settings_edit_categories_hint">Affectez les étiquettes aux activités et aux enregistrements.</string>
+    <string name="settings_show_record_tag_selection">Afficher la sélection d\'étiquette d\'enregistrement</string>
+    <string name="settings_show_record_tag_selection_hint">When starting a timer, if activity has any record tags - a selection dialog will be shown.</string>
+    <string name="settings_show_record_tag_close_hint">Fermer après avoir sélectionné une étiquette.</string>
+    <string name="settings_rate">Évaluez nous</string>
+    <string name="settings_rate_description">Évaluez l\'application et laissez un avis.</string>
+    <string name="settings_feedback">Retour</string>
+    <string name="settings_feedback_description">Vous avez une suggestion? Vous avez trouvé un bogue? Voulez-vous parler? Écrivez-nous!</string>
+    <string name="settings_version">Version</string>
+    <string name="settings_email_chooser_title">Envoyer avec…</string>
+    <string name="settings_translators">Traducteurs</string>
+
+    <string name="settings_save_backup">Enregistrer la sauvegarde</string>
+    <string name="settings_save_description">Avant d\'enregistrer, assurez-vous que la dernière version de l\'application est installée pour éviter les conflits.</string>
+    <string name="settings_restore_backup">Restore backup</string>
+    <string name="settings_restore_description">Les données actuelles seront perdues.</string>
+    <string name="settings_dialog_message">Restaurer la sauvegarde?</string>
+    <string name="settings_export_csv">Exportation de feuille de calcul</string>
+    <string name="settings_export_csv_description">Exportez les enregistrements d\'activité sous forme de fichier csv pour les afficher dans votre application préférée de feuille de calcul.</string>
+    <string name="settings_file_open_error">Erreur lors de l\'ouverture du fichier</string>
+    <string name="settings_file_create_error">Erreur lors de la création du fichier</string>
+
+    <string name="message_backup_saved">Backup saved</string>
+    <string name="message_backup_restored">Backup restored</string>
+    <string name="message_save_error">Error saving backup</string>
+    <string name="message_restore_error">Error restoring backup</string>
+    <string name="message_app_not_found">Application not found</string>
+    <string name="message_csv_export_complete">Export completed</string>
+    <string name="message_csv_export_error">Error exporting csv</string>
+
+    <!--  Statistics detail  -->
+    <string name="statistics_detail_chart_hourly">toutes les heures</string>
+    <string name="statistics_detail_chart_daily">quotidiennement</string>
+    <string name="statistics_detail_chart_weekly">hebdomadairement</string>
+    <string name="statistics_detail_chart_monthly">mensuellement</string>
+    <string name="statistics_detail_chart_yearly">annuellement</string>
+    <string name="statistics_detail_length_ten">10</string>
+    <string name="statistics_detail_length_fifty">50</string>
+    <string name="statistics_detail_length_hundred">100</string>
+    <string name="statistics_detail_legend_minute_suffix">m</string>
+    <string name="statistics_detail_legend_hour_suffix">h</string>
+
+    <string name="statistics_detail_range_averages_title">Average for period: %s</string>
+    <string name="statistics_detail_range_averages">For the whole range</string>
+    <string name="statistics_detail_range_averages_non_empty">Without empty periods</string>
+
+    <string name="statistics_detail_total_duration">Total</string>
+    <string name="statistics_detail_record_length">Durée de l\'enregistrement</string>
+    <string name="statistics_detail_shortest_record">Le plus court</string>
+    <string name="statistics_detail_average_record">Moyen</string>
+    <string name="statistics_detail_longest_record">Le plus long</string>
+    <string name="statistics_detail_record_time">Heure de l\'enregistrement</string>
+    <string name="statistics_detail_first_record">Premier</string>
+    <string name="statistics_detail_last_record">Dernier</string>
+    <string name="statistics_detail_tag_split_hint">Répartition des étiquettes</string>
+
+    <plurals name="statistics_detail_times_tracked">
+        <item quantity="zero">Enregitrements</item>
+        <item quantity="one">Enregitrement</item>
+        <item quantity="two">Enregitrements</item>
+        <item quantity="few">Enregitrements</item>
+        <item quantity="many">Enregitrements</item>
+        <item quantity="other">Enregitrements</item>
+    </plurals>
+
+    <!--  Widget  -->
+    <string name="widget_name">Activité unique</string>
+    <string name="widget_universal_name">Universel</string>
+    <string name="widget_statistics_chart_name">Tableau des statistiques</string>
+    <string name="widget_load_error">Pas trouvé</string>
+
+    <!--  Notification  -->
+    <string name="notification_inactivity_title">Rappel d\'inactivité</string>
+    <string name="notification_inactivity_text">N\'oubliez pas de suivre votre temps</string>
+    <string name="notification_goal_time_description">%s heure d\'objectif atteint</string>
+    <string name="notification_time_started">Commencé à %s</string>
+    <string name="notification_record_type_goal_time">objectif %s</string>
+
+    <!--  Archive  -->
+    <string name="archive_dialog_delete">Supprimer</string>
+    <string name="archive_dialog_restore">Restaurer</string>
+    <string name="archive_empty">L\'archive est vide</string>
+    <string name="archive_activity_restored">Activité restaurée</string>
+    <string name="archive_tag_restored">Étiquette restaurée</string>
+    <string name="archive_activity_deleted">Activité supprimée</string>
+    <string name="archive_tag_deleted">Étiquette supprimée</string>
+    <string name="archive_activity_deletion_message">Tous les enregistrements de cette activité et les étiquettes d\'enregistrement seront également supprimés.</string>
+    <string name="archive_tag_deletion_message">Tous les enregistrements étiquetés avec cette étiquette deviendront non étiquetés.</string>
+    <string name="archive_deletion_alert">Êtes-vous sûr? Cette action ne peut pas être annulée.</string>
+    <string name="archive_records_count">Enregistrements</string>
+    <string name="archive_record_tags_count">Étiquettes d\'enregistrement</string>
+    <string name="archive_tagged_records_count">Enregistrements étiquetés</string>
+
+    <!--  Icon emoji category  -->
+    <string name="emojiGroupSmileys">Smileys &amp; Émotion</string>
+    <string name="emojiGroupPeople">Personnes &amp; Corps</string>
+    <string name="emojiGroupAnimals">Animaux et Nature</string>
+    <string name="emojiGroupFood">Nourriture et Boisson</string>
+    <string name="emojiGroupTravel">Voyage &amp; Endroits</string>
+    <string name="emojiGroupActivities">Activités</string>
+    <string name="emojiGroupObjects">Objets</string>
+    <string name="emojiGroupSymbols">Symboles</string>
+    <string name="emojiGroupFlags">Drapeaux</string>
+
+    <!--  Icon image category  -->
+    <string name="imageGroupMaps">Cartes</string>
+    <string name="imageGroupPlaces">Endroits</string>
+    <string name="imageGroupSocial">Social</string>
+    <string name="imageGroupAction">Action</string>
+    <string name="imageGroupHardware">Matériel</string>
+    <string name="imageGroupAlert">Alerte</string>
+    <string name="imageGroupAv">Audio video</string>
+    <string name="imageGroupCommunication">Communication</string>
+    <string name="imageGroupContent">Contenu</string>
+    <string name="imageGroupDevice">Appareil</string>
+    <string name="imageGroupEditor">Éditeur</string>
+    <string name="imageGroupFile">Fichier</string>
+    <string name="imageGroupImage">Image</string>
+    <string name="imageGroupNavigation">Navigation</string>
+    <string name="imageGroupNotification">Notification</string>
+    <string name="imageGroupToggle">Basculer</string>
+
+    <!--  Shortcuts  -->
+    <string name="shortcut_navigation_records">Enregistrements</string>
+    <string name="shortcut_navigation_statistics">Statistiques</string>
+    <string name="shortcut_navigation_settings">Réglages</string>
+
+</resources>
