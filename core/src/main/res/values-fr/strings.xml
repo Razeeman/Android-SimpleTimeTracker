@@ -228,11 +228,11 @@
     <string name="statistics_detail_tag_split_hint">Répartition des étiquettes</string>
 
     <plurals name="statistics_detail_times_tracked">
-        <item quantity="zero">Enregitrements</item>
+<!--         <item quantity="zero">Enregitrements</item> -->
         <item quantity="one">Enregitrement</item>
-        <item quantity="two">Enregitrements</item>
-        <item quantity="few">Enregitrements</item>
-        <item quantity="many">Enregitrements</item>
+<!--         <item quantity="two">Enregitrements</item> -->
+<!--         <item quantity="few">Enregitrements</item> -->
+<!--         <item quantity="many">Enregitrements</item> -->
         <item quantity="other">Enregitrements</item>
     </plurals>
 
