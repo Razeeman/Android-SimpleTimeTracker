@@ -3,6 +3,8 @@ package com.example.util.simpletimetracker.core.utils
 import android.content.Context
 import android.view.GestureDetector
 import android.view.MotionEvent
+import android.view.ScaleGestureDetector
+import android.view.ScaleGestureDetector.SimpleOnScaleGestureListener
 import androidx.core.view.GestureDetectorCompat
 import kotlin.math.atan2
 
@@ -11,7 +13,7 @@ import kotlin.math.atan2
  */
 class HoldDetector(
     private val onDown: () -> Unit,
-    private val onUp: () -> Unit
+    private val onUp: () -> Unit,
 ) {
 
     fun onTouchEvent(event: MotionEvent): Boolean {
@@ -34,7 +36,7 @@ class HoldDetector(
  */
 class SingleTapDetector(
     context: Context,
-    onSingleTap: (MotionEvent) -> Unit
+    onSingleTap: (MotionEvent) -> Unit,
 ) {
 
     private val detector = GestureDetectorCompat(
@@ -53,13 +55,36 @@ class SingleTapDetector(
 }
 
 /**
+ * Recognizes scaling.
+ */
+class ScaleDetector(
+    context: Context,
+    onScaleChanged: (Float) -> Unit,
+) {
+
+    private val detector = ScaleGestureDetector(
+        context,
+        object : SimpleOnScaleGestureListener() {
+            override fun onScale(detector: ScaleGestureDetector): Boolean {
+                onScaleChanged(detector.scaleFactor)
+                return true
+            }
+        }
+    )
+
+    fun onTouchEvent(event: MotionEvent): Boolean {
+        return detector.onTouchEvent(event)
+    }
+}
+
+/**
  * Recognizes swipes and remembers initial swipe direction.
  */
 class SwipeDetector(
     context: Context,
     private val onSlideStart: () -> Unit = {},
     onSlide: (offset: Float, initialDirection: Direction, event: MotionEvent) -> Unit = { _, _, _ -> Unit },
-    private val onSlideStop: () -> Unit = {}
+    private val onSlideStop: () -> Unit = {},
 ) {
 
     enum class Direction {

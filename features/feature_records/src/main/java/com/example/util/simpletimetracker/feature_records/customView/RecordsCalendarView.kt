@@ -14,6 +14,7 @@ import android.view.ContextThemeWrapper
 import android.view.MotionEvent
 import android.view.View
 import androidx.annotation.ColorInt
+import com.example.util.simpletimetracker.core.utils.ScaleDetector
 import com.example.util.simpletimetracker.core.utils.SingleTapDetector
 import com.example.util.simpletimetracker.feature_base_adapter.record.RecordViewData
 import com.example.util.simpletimetracker.feature_records.R
@@ -42,6 +43,7 @@ class RecordsCalendarView @JvmOverloads constructor(
     private var recordsCount: Int = 0
     // End of attrs
 
+    private var scaleFactor: Float = 1f
     private var legendTextWidth: Float = 0f
     private var legendTextHeight: Float = 0f
     private var pixelLeftBound: Float = 0f
@@ -68,6 +70,10 @@ class RecordsCalendarView @JvmOverloads constructor(
     private val singleTapDetector = SingleTapDetector(
         context = context,
         onSingleTap = ::onTouch
+    )
+    private val scaleDetector = ScaleDetector(
+        context = context,
+        onScaleChanged = ::onScaleChanged,
     )
 
     init {
@@ -102,7 +108,7 @@ class RecordsCalendarView @JvmOverloads constructor(
             MotionEvent.ACTION_DOWN -> handled = true
         }
 
-        return handled or singleTapDetector.onTouchEvent(event)
+        return handled or singleTapDetector.onTouchEvent(event) or scaleDetector.onTouchEvent(event)
     }
 
     fun setClickListener(listener: (RecordViewData.Tracked) -> Unit) {
@@ -231,10 +237,11 @@ class RecordsCalendarView @JvmOverloads constructor(
             val boxHeight: Float = h * (item.end - item.start) / dayInMillis
             val boxShift: Float = h * item.start / dayInMillis
             val boxWidth: Float = chartWidth / item.columnCount
+
             val boxLeft: Float = pixelLeftBound + boxWidth * (item.columnNumber - 1)
             val boxRight: Float = boxLeft + boxWidth
-            val boxTop: Float = h - boxShift - boxHeight
-            val boxBottom: Float = h - boxShift
+            val boxTop: Float = (h - boxShift - boxHeight) * scaleFactor
+            val boxBottom: Float = (h - boxShift) * scaleFactor
 
             item.boxLeft = boxLeft
             item.boxTop = boxTop
@@ -253,12 +260,12 @@ class RecordsCalendarView @JvmOverloads constructor(
                 recordPaint
             )
 
-            val iconSize: Int? = iconMaxSize.takeIf { it < boxHeight - 2 * recordVerticalPadding }
+            val iconSize: Int? = iconMaxSize.takeIf { it < boundsF.height() - 2 * recordVerticalPadding }
             if (iconSize != null) {
 
-                val iconLeft: Int = (boxLeft + iconStartPadding).toInt()
+                val iconLeft: Int = (boundsF.left + iconStartPadding).toInt()
                 val iconRight: Int = iconLeft + iconSize
-                val iconTop: Int = (boxTop + boxHeight / 2 - iconSize / 2).toInt()
+                val iconTop: Int = (boundsF.top + boundsF.height() / 2 - iconSize / 2).toInt()
                 val iconBottom: Int = iconTop + iconSize
 
                 // Draw icon
@@ -306,7 +313,7 @@ class RecordsCalendarView @JvmOverloads constructor(
                 textPaint
             )
 
-            canvas.translate(0f, lineStep)
+            canvas.translate(0f, lineStep * scaleFactor)
         }
 
         canvas.restore()
@@ -359,6 +366,12 @@ class RecordsCalendarView @JvmOverloads constructor(
                 originalData.firstOrNull { it.id == clickedId }
             }
             ?.let(listener)
+    }
+
+    private fun onScaleChanged(newScale: Float) {
+        scaleFactor *= newScale
+        scaleFactor = scaleFactor.coerceAtLeast(1f)
+        invalidate()
     }
 
     private inner class Data(
