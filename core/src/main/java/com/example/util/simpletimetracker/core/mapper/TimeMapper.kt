@@ -297,7 +297,7 @@ class TimeMapper @Inject constructor(
         if (hr != 0L && min != 0L) res += " "
         if (min != 0L) res += minString
         if ((hr != 0L || min != 0L) && sec != 0L) res += " "
-        if (sec != 0L) res += secString
+        if ((hr == 0L && min == 0L) || sec != 0L) res += secString
 
         return res
     }

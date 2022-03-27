@@ -12,12 +12,12 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import androidx.annotation.ColorInt
-import com.example.util.simpletimetracker.feature_views.extension.dpToPx
 import com.example.util.simpletimetracker.core.utils.SingleTapDetector
 import com.example.util.simpletimetracker.core.utils.SwipeDetector
 import com.example.util.simpletimetracker.core.utils.isHorizontal
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_statistics_detail.R
+import com.example.util.simpletimetracker.feature_views.extension.dpToPx
 import kotlin.math.abs
 import kotlin.math.ceil
 import kotlin.math.floor
@@ -132,7 +132,7 @@ class BarChartView @JvmOverloads constructor(
     }
 
     fun setBars(data: List<ViewData>) {
-        bars = data.takeUnless { it.isEmpty() } ?: listOf(ViewData(0f, ""))
+        bars = data.takeUnless { it.isEmpty() } ?: listOf(ViewData(0f, "", ""))
         maxValue = data.map(ViewData::value).maxOrNull() ?: 1f
         selectedBar = -1
         invalidate()
@@ -452,7 +452,7 @@ class BarChartView @JvmOverloads constructor(
         if (isInEditMode) {
             val segments = barCountInEdit.takeIf { it != 0 } ?: 5
             (segments downTo 1).toList()
-                .map { ViewData(it.toFloat(), it.toString()) }
+                .map { ViewData(it.toFloat(), it.toString(), it.toString()) }
                 .let(::setBars)
             selectedBar = barCountInEdit / 2
         }
@@ -504,14 +504,14 @@ class BarChartView @JvmOverloads constructor(
 
     private fun getSelectedBarText(bar: ViewData): String {
         val barValue = bar.value
-        val barLegend = bar.legend
+        val barLegend = bar.selectedBarLegend
 
         return "%.1f".format(barValue).let {
             if (addLegendToSelectedBar && barLegend.isNotEmpty()) {
                 "$barLegend - $it"
             } else {
                 it
-            }
+            } + legendTextSuffix
         }
     }
 
@@ -529,6 +529,7 @@ class BarChartView @JvmOverloads constructor(
 
     data class ViewData(
         val value: Float,
-        val legend: String
+        val legend: String,
+        val selectedBarLegend: String = legend,
     )
 }

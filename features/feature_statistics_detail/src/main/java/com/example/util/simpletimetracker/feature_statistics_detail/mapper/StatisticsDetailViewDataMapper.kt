@@ -302,11 +302,12 @@ class StatisticsDetailViewDataMapper @Inject constructor(
     ): StatisticsDetailChartViewData {
         val viewData = data
             .map { (range, percent) ->
-                val started = timeMapper.formatInterval(range.timeStarted, false)
-                val ended = timeMapper.formatInterval(range.timeEnded, false)
+                val started = timeMapper.formatDuration(range.timeStarted / 1000)
+                val ended = timeMapper.formatDuration(range.timeEnded / 1000)
                 range to BarChartView.ViewData(
                     value = percent,
-                    legend = "$started - $ended",
+                    legend = ended,
+                    selectedBarLegend = "$started - $ended",
                 )
             }.sortedBy { (range, _) ->
                 range.timeStarted

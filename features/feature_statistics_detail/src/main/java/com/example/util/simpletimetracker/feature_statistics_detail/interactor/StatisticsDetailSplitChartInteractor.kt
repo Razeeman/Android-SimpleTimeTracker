@@ -97,7 +97,7 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
             .firstOrNull { it < roughStep }
             ?: availableSteps.last()
 
-        if (total == 0L || step == 0L) {
+        if (total == 0L || durationSpread == 0L || step == 0L) {
             return mapper.mapToDurationsSlipChartViewData(emptyMap())
         }
 
