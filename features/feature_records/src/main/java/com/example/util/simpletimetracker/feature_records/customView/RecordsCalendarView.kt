@@ -17,6 +17,9 @@ import android.view.View
 import androidx.annotation.ColorInt
 import com.example.util.simpletimetracker.core.utils.ScaleDetector
 import com.example.util.simpletimetracker.core.utils.SingleTapDetector
+import com.example.util.simpletimetracker.core.utils.SwipeDetector
+import com.example.util.simpletimetracker.core.utils.isHorizontal
+import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_base_adapter.record.RecordViewData
 import com.example.util.simpletimetracker.feature_records.R
 import com.example.util.simpletimetracker.feature_views.IconView
@@ -46,6 +49,8 @@ class RecordsCalendarView @JvmOverloads constructor(
     // End of attrs
 
     private var scaleFactor: Float = 1f
+    private var panFactor: Float = 0f
+    private var lastPanFactor: Float = 0f
     private var legendTextWidth: Float = 0f
     private var legendTextHeight: Float = 0f
     private var pixelLeftBound: Float = 0f
@@ -77,6 +82,11 @@ class RecordsCalendarView @JvmOverloads constructor(
         context = context,
         onScaleChanged = ::onScaleChanged,
     )
+    private val swipeDetector = SwipeDetector(
+        context = context,
+        onSlide = ::onSwipe,
+        onSlideStop = ::onSwipeStop
+    )
 
     init {
         initArgs(context, attrs, defStyleAttr)
@@ -86,13 +96,20 @@ class RecordsCalendarView @JvmOverloads constructor(
 
     override fun onSaveInstanceState(): Parcelable {
         val superState = super.onSaveInstanceState()
-        return SavedState(superState, scaleFactor)
+        return SavedState(
+            superSavedState = superState,
+            scaleFactor = scaleFactor,
+            panFactor = panFactor,
+            lastPanFactor = lastPanFactor,
+        )
     }
 
     override fun onRestoreInstanceState(state: Parcelable?) {
         val savedState = state as? SavedState
         super.onRestoreInstanceState(savedState?.superSavedState ?: state)
         scaleFactor = savedState?.scaleFactor ?: 1f
+        panFactor = savedState?.panFactor.orZero()
+        lastPanFactor = savedState?.lastPanFactor.orZero()
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -121,7 +138,10 @@ class RecordsCalendarView @JvmOverloads constructor(
             MotionEvent.ACTION_DOWN -> handled = true
         }
 
-        return handled or singleTapDetector.onTouchEvent(event) or scaleDetector.onTouchEvent(event)
+        return handled or
+            singleTapDetector.onTouchEvent(event) or
+            swipeDetector.onTouchEvent(event) or
+            scaleDetector.onTouchEvent(event)
     }
 
     fun setClickListener(listener: (RecordViewData.Tracked) -> Unit) {
@@ -253,8 +273,8 @@ class RecordsCalendarView @JvmOverloads constructor(
 
             val boxLeft: Float = pixelLeftBound + boxWidth * (item.columnNumber - 1)
             val boxRight: Float = boxLeft + boxWidth
-            val boxTop: Float = (h - boxShift - boxHeight) * scaleFactor
-            val boxBottom: Float = (h - boxShift) * scaleFactor
+            val boxTop: Float = (h - boxShift - boxHeight) * scaleFactor + panFactor
+            val boxBottom: Float = (h - boxShift) * scaleFactor + panFactor
 
             item.boxLeft = boxLeft
             item.boxTop = boxTop
@@ -298,10 +318,10 @@ class RecordsCalendarView @JvmOverloads constructor(
         val legendTexts = (24 downTo 0)
             .map { it.toString().padStart(2, '0') }
             .map { "$it:00" }
-
         val lineStep = h / (legendTexts.size - 1)
 
         canvas.save()
+        canvas.translate(0f, panFactor)
 
         legendTexts.forEach { text ->
             // Draw line
@@ -387,6 +407,20 @@ class RecordsCalendarView @JvmOverloads constructor(
         invalidate()
     }
 
+    @Suppress("UNUSED_PARAMETER")
+    private fun onSwipe(offset: Float, direction: SwipeDetector.Direction, event: MotionEvent) {
+        if (!direction.isHorizontal()) {
+            parent.requestDisallowInterceptTouchEvent(true)
+            panFactor = lastPanFactor + offset
+            invalidate()
+        }
+    }
+
+    private fun onSwipeStop() {
+        parent.requestDisallowInterceptTouchEvent(false)
+        lastPanFactor = panFactor
+    }
+
     private inner class Data(
         val id: Long,
         val start: Long,
@@ -405,5 +439,7 @@ class RecordsCalendarView @JvmOverloads constructor(
     private class SavedState(
         val superSavedState: Parcelable?,
         val scaleFactor: Float,
+        val panFactor: Float,
+        val lastPanFactor: Float,
     ) : View.BaseSavedState(superSavedState)
 }
