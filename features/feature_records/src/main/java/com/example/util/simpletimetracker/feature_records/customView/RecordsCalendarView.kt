@@ -9,6 +9,7 @@ import android.graphics.Rect
 import android.graphics.RectF
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.ContextThemeWrapper
 import android.view.MotionEvent
@@ -23,6 +24,7 @@ import com.example.util.simpletimetracker.feature_views.extension.dpToPx
 import com.example.util.simpletimetracker.feature_views.extension.getBitmapFromView
 import com.example.util.simpletimetracker.feature_views.extension.measureExactly
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
+import kotlinx.parcelize.Parcelize
 import java.util.concurrent.TimeUnit
 
 class RecordsCalendarView @JvmOverloads constructor(
@@ -80,6 +82,17 @@ class RecordsCalendarView @JvmOverloads constructor(
         initArgs(context, attrs, defStyleAttr)
         initPaint()
         initEditMode()
+    }
+
+    override fun onSaveInstanceState(): Parcelable {
+        val superState = super.onSaveInstanceState()
+        return SavedState(superState, scaleFactor)
+    }
+
+    override fun onRestoreInstanceState(state: Parcelable?) {
+        val savedState = state as? SavedState
+        super.onRestoreInstanceState(savedState?.superSavedState ?: state)
+        scaleFactor = savedState?.scaleFactor ?: 1f
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -387,4 +400,10 @@ class RecordsCalendarView @JvmOverloads constructor(
         var boxRight: Float = 0f,
         var boxBottom: Float = 0f,
     )
+
+    @Parcelize
+    private class SavedState(
+        val superSavedState: Parcelable?,
+        val scaleFactor: Float,
+    ) : View.BaseSavedState(superSavedState)
 }
