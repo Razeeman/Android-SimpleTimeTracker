@@ -5,22 +5,19 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
-import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
-import com.example.util.simpletimetracker.feature_base_adapter.hint.createHintAdapterDelegate
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.CustomRangeSelectionDialogListener
 import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
 import com.example.util.simpletimetracker.core.dialog.TypesFilterDialogListener
 import com.example.util.simpletimetracker.core.extension.setSharedTransitions
-import com.example.util.simpletimetracker.feature_views.extension.setOnClick
-import com.example.util.simpletimetracker.feature_views.extension.setOnLongClick
 import com.example.util.simpletimetracker.core.extension.toViewData
 import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
-import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.core.viewData.RangesViewData
 import com.example.util.simpletimetracker.domain.model.Range
+import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
+import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_base_adapter.hint.createHintAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.statisticsTag.createStatisticsTagAdapterDelegate
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.createStatisticsPreviewAdapterDelegate
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.createStatisticsPreviewMoreAdapterDelegate
@@ -29,6 +26,9 @@ import com.example.util.simpletimetracker.feature_statistics_detail.viewData.Sta
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStatsViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewModel.StatisticsDetailViewModel
+import com.example.util.simpletimetracker.feature_views.extension.setOnClick
+import com.example.util.simpletimetracker.feature_views.extension.setOnLongClick
+import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.navigation.params.screen.StatisticsDetailParams
 import com.example.util.simpletimetracker.navigation.params.screen.TypesFilterParams
 import com.google.android.flexbox.FlexDirection
@@ -121,6 +121,7 @@ class StatisticsDetailFragment :
         statsViewData.observe(::setStatsViewData)
         chartViewData.observe(::updateChartViewData)
         splitChartViewData.observe(::updateSplitChartViewData)
+        durationSplitChartViewData.observe(::updateDurationSplitChartViewData)
         splitChartGroupingViewData.observe(::updateSplitChartGroupingData)
         title.observe(binding.btnStatisticsDetailToday::setText)
         rangeItems.observe(::updateRangeItems)
@@ -159,6 +160,7 @@ class StatisticsDetailFragment :
         viewStatisticsDetailItem.itemColor = first.color
         chartStatisticsDetail.setBarColor(first.color)
         chartStatisticsDetailSplit.setBarColor(first.color)
+        chartStatisticsDetailDurationSplit.setBarColor(first.color)
         if (first.iconId != null) {
             viewStatisticsDetailItem.itemIconVisible = true
             viewStatisticsDetailItem.itemIcon = first.iconId
@@ -169,7 +171,9 @@ class StatisticsDetailFragment :
         previewAdapter.replace(rest)
     }
 
-    private fun setStatsViewData(statsViewData: StatisticsDetailStatsViewData) = with(binding) {
+    private fun setStatsViewData(
+        statsViewData: StatisticsDetailStatsViewData
+    ) = with(binding) {
         cardStatisticsDetailTotal.items = statsViewData.totalDuration
         cardStatisticsDetailRecords.items = statsViewData.timesTracked
         cardStatisticsDetailAverage.items = statsViewData.averageRecord
@@ -178,7 +182,9 @@ class StatisticsDetailFragment :
         tagSplitAdapter.replace(statsViewData.tagSplitData)
     }
 
-    private fun updateChartViewData(viewData: StatisticsDetailChartCompositeViewData) = with(binding) {
+    private fun updateChartViewData(
+        viewData: StatisticsDetailChartCompositeViewData
+    ) = with(binding) {
         val chartData = viewData.chartData
         chartStatisticsDetail.visible = chartData.visible
         chartStatisticsDetail.setBars(chartData.data)
@@ -200,17 +206,32 @@ class StatisticsDetailFragment :
         cardStatisticsDetailRangeAverage.items = rangeAveragesData
     }
 
-    private fun updateSplitChartGroupingData(viewData: List<ViewHolderType>) = with(binding) {
-        buttonsStatisticsDetailSplitGrouping.visible = viewData.isNotEmpty()
-        buttonsStatisticsDetailSplitGrouping.adapter.replace(viewData)
+    private fun updateSplitChartGroupingData(
+        viewData: List<ViewHolderType>
+    ) = with(binding.buttonsStatisticsDetailSplitGrouping) {
+        visible = viewData.isNotEmpty()
+        adapter.replace(viewData)
     }
 
-    private fun updateSplitChartViewData(viewData: StatisticsDetailChartViewData) = with(binding) {
-        chartStatisticsDetailSplit.visible = viewData.visible
-        chartStatisticsDetailSplit.setBars(viewData.data)
-        chartStatisticsDetailSplit.setLegendTextSuffix(viewData.legendSuffix)
-        chartStatisticsDetailSplit.shouldAddLegendToSelectedBar(viewData.addLegendToSelectedBar)
-        chartStatisticsDetailSplit.shouldDrawHorizontalLegends(viewData.shouldDrawHorizontalLegends)
+    private fun updateSplitChartViewData(
+        viewData: StatisticsDetailChartViewData
+    ) = with(binding.chartStatisticsDetailSplit) {
+        // TODO add extension
+        visible = viewData.visible
+        setBars(viewData.data)
+        setLegendTextSuffix(viewData.legendSuffix)
+        shouldAddLegendToSelectedBar(viewData.addLegendToSelectedBar)
+        shouldDrawHorizontalLegends(viewData.shouldDrawHorizontalLegends)
+    }
+
+    private fun updateDurationSplitChartViewData(
+        viewData: StatisticsDetailChartViewData
+    ) = with(binding.chartStatisticsDetailDurationSplit) {
+        visible = viewData.visible
+        setBars(viewData.data)
+        setLegendTextSuffix(viewData.legendSuffix)
+        shouldAddLegendToSelectedBar(viewData.addLegendToSelectedBar)
+        shouldDrawHorizontalLegends(viewData.shouldDrawHorizontalLegends)
     }
 
     private fun updateRangeItems(viewData: RangesViewData) = with(binding) {

@@ -1,21 +1,21 @@
 package com.example.util.simpletimetracker.feature_statistics_detail.mapper
 
-import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
-import com.example.util.simpletimetracker.feature_base_adapter.hint.HintViewData
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
-import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.extension.rotateLeft
 import com.example.util.simpletimetracker.domain.mapper.StatisticsMapper
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
+import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
+import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_base_adapter.hint.HintViewData
 import com.example.util.simpletimetracker.feature_base_adapter.statisticsTag.StatisticsTagViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.R
 import com.example.util.simpletimetracker.feature_statistics_detail.customView.BarChartView
@@ -31,6 +31,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.viewData.Sta
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailSplitGroupingViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStatsViewData
+import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -294,6 +295,30 @@ class StatisticsDetailViewDataMapper @Inject constructor(
                 isSelected = it == splitChartGrouping
             )
         }
+    }
+
+    fun mapToDurationsSlipChartViewData(
+        data: Map<Range, Float>,
+    ): StatisticsDetailChartViewData {
+        val viewData = data
+            .map { (range, percent) ->
+                range to BarChartView.ViewData(
+                    value = percent,
+                    legend = "${range.timeStarted} - ${range.timeEnded}",
+                )
+            }.sortedBy { (range, _) ->
+                range.timeStarted
+            }.map { (_, data) ->
+                data
+            }
+
+        return StatisticsDetailChartViewData(
+            visible = viewData.isNotEmpty(),
+            data = viewData,
+            legendSuffix = SPLIT_CHART_LEGEND,
+            addLegendToSelectedBar = true,
+            shouldDrawHorizontalLegends = false,
+        )
     }
 
     private fun mapToStatsViewData(

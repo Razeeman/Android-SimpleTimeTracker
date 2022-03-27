@@ -4,12 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.mapper.RangeMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
-import com.example.util.simpletimetracker.feature_views.spinner.CustomSpinner
 import com.example.util.simpletimetracker.core.viewData.RangeViewData
 import com.example.util.simpletimetracker.core.viewData.RangesViewData
 import com.example.util.simpletimetracker.core.viewData.SelectDateViewData
@@ -17,6 +15,7 @@ import com.example.util.simpletimetracker.core.viewData.SelectRangeViewData
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RangeLength
+import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailChartInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailPreviewInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailSplitChartInteractor
@@ -31,6 +30,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.viewData.Sta
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailGroupingViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailSplitGroupingViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStatsViewData
+import com.example.util.simpletimetracker.feature_views.spinner.CustomSpinner
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.CustomRangeSelectionParams
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogParams
@@ -72,6 +72,9 @@ class StatisticsDetailViewModel @Inject constructor(
         return@lazy MutableLiveData(loadSplitChartGroupingViewData())
     }
     val splitChartViewData: LiveData<StatisticsDetailChartViewData> by lazy {
+        return@lazy MutableLiveData()
+    }
+    val durationSplitChartViewData: LiveData<StatisticsDetailChartViewData> by lazy {
         return@lazy MutableLiveData()
     }
     val title: LiveData<String> by lazy {
@@ -246,6 +249,7 @@ class StatisticsDetailViewModel @Inject constructor(
         updateStatsViewData()
         updateChartViewData()
         updateSplitChartViewData()
+        updateDurationSplitChartViewData()
     }
 
     private fun updatePreviewViewData() = viewModelScope.launch {
@@ -306,6 +310,19 @@ class StatisticsDetailViewModel @Inject constructor(
             rangeLength = rangeLength,
             rangePosition = rangePosition,
             splitChartGrouping = grouping
+        )
+    }
+
+    private fun updateDurationSplitChartViewData() = viewModelScope.launch {
+        val data = loadDurationSplitChartViewData()
+        durationSplitChartViewData.set(data)
+    }
+
+    private suspend fun loadDurationSplitChartViewData(): StatisticsDetailChartViewData {
+        return splitChartInteractor.getDurationSplitViewData(
+            filter = typesFilter,
+            rangeLength = rangeLength,
+            rangePosition = rangePosition,
         )
     }
 

@@ -15,7 +15,11 @@ import com.example.util.simpletimetracker.feature_statistics_detail.model.SplitC
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartViewData
 import com.example.util.simpletimetracker.navigation.params.screen.TypesFilterParams
 import java.util.Calendar
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import kotlin.math.abs
+import kotlin.math.ceil
+import kotlin.math.floor
 
 class StatisticsDetailSplitChartInteractor @Inject constructor(
     private val statisticsDetailViewDataMapper: StatisticsDetailViewDataMapper,
@@ -48,6 +52,82 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
             SplitChartGrouping.DAILY ->
                 statisticsDetailViewDataMapper.mapToDailyChartViewData(data, firstDayOfWeek)
         }
+    }
+
+    suspend fun getDurationSplitViewData(
+        filter: TypesFilterParams,
+        rangeLength: RangeLength,
+        rangePosition: Int,
+    ): StatisticsDetailChartViewData {
+        val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
+        val startOfDayShift = prefsInteractor.getStartOfDayShift()
+        val range = timeMapper.getRangeStartAndEnd(
+            rangeLength = rangeLength,
+            shift = rangePosition,
+            firstDayOfWeek = firstDayOfWeek,
+            startOfDayShift = startOfDayShift
+        )
+
+        val typeIds = typesFilterInteractor.getTypeIds(filter)
+        // TODO get from range and by type from db
+        val records = recordInteractor.getByType(typeIds).filter { it.isNotFiltered(filter) }
+        val ranges = if (range.first != 0L && range.second != 0L) {
+            rangeMapper.getRecordsFromRange(records, range.first, range.second)
+        } else {
+            records
+        }.map { Range(it.timeStarted, it.timeEnded) }
+
+        val step: Long = TimeUnit.MINUTES.toMillis(5) // TODO calculate
+        val total = ranges.size
+        val buckets: MutableMap<Range, Long> = mutableMapOf()
+        val minTimeStarted = ranges
+            .minByOrNull { it.duration }?.duration.orZero()
+            .let { nearestLower(divider = step, value = it) }
+        val maxTimeEnded = ranges
+            .maxByOrNull { it.duration }?.duration.orZero()
+            .let { nearestUpper(divider = step, value = it) }
+        (minTimeStarted..maxTimeEnded step step).forEach {
+            buckets[Range(it, it + step)] = 0
+        }
+
+        var bucketTimeStarted: Long
+        var bucketTimeEnded: Long
+        var bucketRange: Range
+        var nearestLower: Long
+        var nearestUpper: Long
+        var duration: Long
+        ranges.forEach { it ->
+            duration = it.duration
+            nearestLower = nearestLower(divider = step, value = duration)
+            nearestUpper = nearestUpper(divider = step, value = duration)
+            bucketTimeStarted = nearestLower
+            bucketTimeEnded = nearestUpper
+                .takeUnless { it == duration }
+                ?: (nearestUpper + step)
+            bucketRange = Range(bucketTimeStarted, bucketTimeEnded)
+            buckets[bucketRange] = buckets[bucketRange].orZero() + 1
+        }
+        val data = buckets.mapValues { (_, count) ->
+            count * 100f / total
+        }
+
+        return statisticsDetailViewDataMapper.mapToDurationsSlipChartViewData(data)
+    }
+
+    /**
+     * Finds next multiple of divider bigger than value.
+     * Ex. value = 31, divider = 5, result 35.
+     */
+    private fun nearestUpper(divider: Long, value: Long): Long {
+        return divider * (ceil(abs(value / divider.toFloat()))).toLong()
+    }
+
+    /**
+     * Finds next multiple of divider bigger than value.
+     * Ex. value = 31, divider = 5, result 30.
+     */
+    private fun nearestLower(divider: Long, value: Long): Long {
+        return divider * (floor(abs(value / divider.toFloat()))).toLong()
     }
 
     private suspend fun getDurations(
