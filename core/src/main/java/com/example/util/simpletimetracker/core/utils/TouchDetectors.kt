@@ -59,15 +59,26 @@ class SingleTapDetector(
  */
 class ScaleDetector(
     context: Context,
-    onScaleChanged: (Float) -> Unit,
+    onScaleStart: () -> Unit = {},
+    onScaleChanged: (scale: Float) -> Unit,
+    onScaleStop: () -> Unit = {},
 ) {
 
     private val detector = ScaleGestureDetector(
         context,
         object : SimpleOnScaleGestureListener() {
+            override fun onScaleBegin(detector: ScaleGestureDetector?): Boolean {
+                onScaleStart()
+                return true
+            }
+
             override fun onScale(detector: ScaleGestureDetector): Boolean {
                 onScaleChanged(detector.scaleFactor)
                 return true
+            }
+
+            override fun onScaleEnd(detector: ScaleGestureDetector?) {
+                onScaleStop()
             }
         }
     )

@@ -55,6 +55,7 @@ class RecordsCalendarView @JvmOverloads constructor(
     private var legendTextHeight: Float = 0f
     private var pixelLeftBound: Float = 0f
     private var pixelRightBound: Float = 0f
+    private var canvasHeight: Float = 0f
     private var chartWidth: Float = 0f
     private val legendTextPadding: Float = 2.dpToPx().toFloat()
     private val recordCornerRadius: Float = 8.dpToPx().toFloat()
@@ -81,6 +82,7 @@ class RecordsCalendarView @JvmOverloads constructor(
     private val scaleDetector = ScaleDetector(
         context = context,
         onScaleChanged = ::onScaleChanged,
+        onScaleStop = ::onScaleStop
     )
     private val swipeDetector = SwipeDetector(
         context = context,
@@ -248,6 +250,8 @@ class RecordsCalendarView @JvmOverloads constructor(
     }
 
     private fun calculateDimensions(w: Float, h: Float) {
+        canvasHeight = h
+
         val defaultLegendText = "00:00"
         legendTextWidth = textPaint.measureText(defaultLegendText)
 
@@ -402,9 +406,16 @@ class RecordsCalendarView @JvmOverloads constructor(
     }
 
     private fun onScaleChanged(newScale: Float) {
+        parent.requestDisallowInterceptTouchEvent(true)
         scaleFactor *= newScale
         scaleFactor = scaleFactor.coerceAtLeast(1f)
+        panFactor = lastPanFactor - (canvasHeight * scaleFactor - canvasHeight) / 2
         invalidate()
+    }
+
+    private fun onScaleStop() {
+        parent.requestDisallowInterceptTouchEvent(false)
+        lastPanFactor = panFactor
     }
 
     @Suppress("UNUSED_PARAMETER")
