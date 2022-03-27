@@ -15,7 +15,7 @@ class TimeTrackerApp : Application() {
         super.onCreate()
         initLog()
         initLibraries()
-        initStrictMode()
+//        initStrictMode()
     }
 
     private fun initLog() {
