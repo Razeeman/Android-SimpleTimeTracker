@@ -21,6 +21,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.hint.createHintAd
 import com.example.util.simpletimetracker.feature_base_adapter.statisticsTag.createStatisticsTagAdapterDelegate
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.createStatisticsPreviewAdapterDelegate
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.createStatisticsPreviewMoreAdapterDelegate
+import com.example.util.simpletimetracker.feature_statistics_detail.customView.BarChartView
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartCompositeViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewViewData
@@ -185,12 +186,7 @@ class StatisticsDetailFragment :
     private fun updateChartViewData(
         viewData: StatisticsDetailChartCompositeViewData
     ) = with(binding) {
-        val chartData = viewData.chartData
-        chartStatisticsDetail.visible = chartData.visible
-        chartStatisticsDetail.setBars(chartData.data)
-        chartStatisticsDetail.setLegendTextSuffix(chartData.legendSuffix)
-        chartStatisticsDetail.shouldAddLegendToSelectedBar(chartData.addLegendToSelectedBar)
-        chartStatisticsDetail.shouldDrawHorizontalLegends(chartData.shouldDrawHorizontalLegends)
+        chartStatisticsDetail.setViewData(viewData.chartData)
 
         val chartGroupingData = viewData.chartGroupingViewData
         buttonsStatisticsDetailGrouping.visible = chartGroupingData.size > 1
@@ -215,23 +211,14 @@ class StatisticsDetailFragment :
 
     private fun updateSplitChartViewData(
         viewData: StatisticsDetailChartViewData
-    ) = with(binding.chartStatisticsDetailSplit) {
-        // TODO add extension
-        visible = viewData.visible
-        setBars(viewData.data)
-        setLegendTextSuffix(viewData.legendSuffix)
-        shouldAddLegendToSelectedBar(viewData.addLegendToSelectedBar)
-        shouldDrawHorizontalLegends(viewData.shouldDrawHorizontalLegends)
+    ) {
+        binding.chartStatisticsDetailSplit.setViewData(viewData)
     }
 
     private fun updateDurationSplitChartViewData(
         viewData: StatisticsDetailChartViewData
-    ) = with(binding.chartStatisticsDetailDurationSplit) {
-        visible = viewData.visible
-        setBars(viewData.data)
-        setLegendTextSuffix(viewData.legendSuffix)
-        shouldAddLegendToSelectedBar(viewData.addLegendToSelectedBar)
-        shouldDrawHorizontalLegends(viewData.shouldDrawHorizontalLegends)
+    ) {
+        binding.chartStatisticsDetailDurationSplit.setViewData(viewData)
     }
 
     private fun updateRangeItems(viewData: RangesViewData) = with(binding) {
@@ -241,6 +228,16 @@ class StatisticsDetailFragment :
     private fun updateRangeButtonsVisibility(isVisible: Boolean) = with(binding) {
         btnStatisticsDetailPrevious.visible = isVisible
         btnStatisticsDetailNext.visible = isVisible
+    }
+
+    private fun BarChartView.setViewData(
+        viewData: StatisticsDetailChartViewData
+    ) {
+        visible = viewData.visible
+        setBars(viewData.data)
+        setLegendTextSuffix(viewData.legendSuffix)
+        shouldAddLegendToSelectedBar(viewData.addLegendToSelectedBar)
+        shouldDrawHorizontalLegends(viewData.shouldDrawHorizontalLegends)
     }
 
     companion object {

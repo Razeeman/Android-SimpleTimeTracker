@@ -71,7 +71,7 @@ class RangeMapper @Inject constructor(
     }
 
     fun mapToDuration(ranges: List<Range>): Long {
-        return ranges.map { it.timeEnded - it.timeStarted }.sum()
+        return ranges.map { it.duration }.sum()
     }
 
     private fun mapToRangeName(rangeLength: RangeLength): RangeViewData {

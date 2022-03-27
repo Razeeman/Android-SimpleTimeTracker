@@ -22,7 +22,7 @@ import kotlin.math.ceil
 import kotlin.math.floor
 
 class StatisticsDetailSplitChartInteractor @Inject constructor(
-    private val statisticsDetailViewDataMapper: StatisticsDetailViewDataMapper,
+    private val mapper: StatisticsDetailViewDataMapper,
     private val typesFilterInteractor: TypesFilterInteractor,
     private val recordInteractor: RecordInteractor,
     private val prefsInteractor: PrefsInteractor,
@@ -48,9 +48,9 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
 
         return when (splitChartGrouping) {
             SplitChartGrouping.HOURLY ->
-                statisticsDetailViewDataMapper.mapToHourlyChartViewData(data)
+                mapper.mapToHourlyChartViewData(data)
             SplitChartGrouping.DAILY ->
-                statisticsDetailViewDataMapper.mapToDailyChartViewData(data, firstDayOfWeek)
+                mapper.mapToDailyChartViewData(data, firstDayOfWeek)
         }
     }
 
@@ -77,16 +77,38 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
             records
         }.map { Range(it.timeStarted, it.timeEnded) }
 
-        val step: Long = TimeUnit.MINUTES.toMillis(5) // TODO calculate
-        val total = ranges.size
-        val buckets: MutableMap<Range, Long> = mutableMapOf()
-        val minTimeStarted = ranges
+        val minDuration = ranges
             .minByOrNull { it.duration }?.duration.orZero()
-            .let { nearestLower(divider = step, value = it) }
-        val maxTimeEnded = ranges
+        val maxDuration = ranges
             .maxByOrNull { it.duration }?.duration.orZero()
-            .let { nearestUpper(divider = step, value = it) }
-        (minTimeStarted..maxTimeEnded step step).forEach {
+        val durationSpread: Long = (maxDuration - minDuration)
+        val total: Long = ranges.size.toLong()
+        // Roughly 10 buckets.
+        val roughStep: Float = durationSpread / 10f
+        val steps = listOf<Long>(1, 2, 3, 4, 5, 10, 15, 20, 30)
+        val availableSteps = listOf(
+            steps.map { TimeUnit.SECONDS.toMillis(it) },
+            steps.map { TimeUnit.MINUTES.toMillis(it) },
+            steps.map { TimeUnit.HOURS.toMillis(it) },
+        ).flatten()
+        // Get next lower step.
+        val step: Long = availableSteps
+            .reversed()
+            .firstOrNull { it < roughStep }
+            ?: availableSteps.last()
+
+        if (total == 0L || step == 0L) {
+            return mapper.mapToDurationsSlipChartViewData(emptyMap())
+        }
+
+        val buckets: MutableMap<Range, Long> = mutableMapOf()
+        val minBucket = nearestDivider(
+            isUpper = false, divider = step, value = minDuration
+        )
+        val maxBucket = nearestDivider(
+            isUpper = true, divider = step, value = maxDuration
+        )
+        (minBucket until maxBucket step step).forEach {
             buckets[Range(it, it + step)] = 0
         }
 
@@ -98,8 +120,8 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
         var duration: Long
         ranges.forEach { it ->
             duration = it.duration
-            nearestLower = nearestLower(divider = step, value = duration)
-            nearestUpper = nearestUpper(divider = step, value = duration)
+            nearestLower = nearestDivider(isUpper = false, divider = step, value = duration)
+            nearestUpper = nearestDivider(isUpper = true, divider = step, value = duration)
             bucketTimeStarted = nearestLower
             bucketTimeEnded = nearestUpper
                 .takeUnless { it == duration }
@@ -111,23 +133,7 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
             count * 100f / total
         }
 
-        return statisticsDetailViewDataMapper.mapToDurationsSlipChartViewData(data)
-    }
-
-    /**
-     * Finds next multiple of divider bigger than value.
-     * Ex. value = 31, divider = 5, result 35.
-     */
-    private fun nearestUpper(divider: Long, value: Long): Long {
-        return divider * (ceil(abs(value / divider.toFloat()))).toLong()
-    }
-
-    /**
-     * Finds next multiple of divider bigger than value.
-     * Ex. value = 31, divider = 5, result 30.
-     */
-    private fun nearestLower(divider: Long, value: Long): Long {
-        return divider * (floor(abs(value / divider.toFloat()))).toLong()
+        return mapper.mapToDurationsSlipChartViewData(data)
     }
 
     private suspend fun getDurations(
@@ -147,8 +153,7 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
 
         processRecords(calendar, ranges, splitChartGrouping, startOfDayShift).forEach {
             val grouping = mapToGrouping(calendar, it, splitChartGrouping, startOfDayShift)
-            val duration = it.timeEnded - it.timeStarted
-            dataDurations[grouping] = dataDurations[grouping].orZero() + duration
+            dataDurations[grouping] = dataDurations[grouping].orZero() + it.duration
             dataTimesTracked[grouping] = dataTimesTracked[grouping].orZero() + 1
         }
 
@@ -268,5 +273,19 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
             startOfDayShift = startOfDayShift,
             splitRecords = splitRecords
         )
+    }
+
+    /**
+     * Finds next multiple of divider bigger or lower than value.
+     * Ex. isUpper = true, value = 31, divider = 5, result 35.
+     * Ex. isUpper = false, value = 31, divider = 5, result 30.
+     */
+    private fun nearestDivider(
+        divider: Long,
+        value: Long,
+        isUpper: Boolean
+    ): Long {
+        val abs = abs(value / divider.toFloat())
+        return divider * (if (isUpper) ceil(abs) else floor(abs)).toLong()
     }
 }
