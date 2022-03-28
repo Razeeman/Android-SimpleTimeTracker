@@ -4,6 +4,9 @@
     <string name="settings_translators_indonesian" translatable="false">Mecymyse</string>
     <string name="settings_translators_indonesian_language" translatable="false">Bahasa Indonesia</string>
 
+    <string name="settings_translators_french" translatable="false">R3da</string>
+    <string name="settings_translators_french_language" translatable="false">Français</string>
+
     <string name="settings_translators_german" translatable="false">mondstern</string>
     <string name="settings_translators_german_language" translatable="false">Deutsch</string>
 
