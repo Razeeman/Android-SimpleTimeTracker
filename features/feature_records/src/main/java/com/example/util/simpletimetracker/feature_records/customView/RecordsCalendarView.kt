@@ -179,64 +179,7 @@ class RecordsCalendarView @JvmOverloads constructor(
 
     fun setData(data: List<RecordViewData.Tracked>) {
         originalData = data
-        val res = mutableListOf<Data>()
-        val points: MutableList<Triple<Long, Boolean, Data>> = mutableListOf()
-
-        data.forEach { point ->
-            res.add(
-                Data(
-                    id = point.id,
-                    start = point.timeStartedTimestamp,
-                    end = point.timeEndedTimestamp,
-                    name = point.name,
-                    colorInt = point.color,
-                    drawable = getIconDrawable(point.iconId),
-                )
-            )
-        }
-
-        res.forEach { item ->
-            points.add(Triple(item.start, true, item))
-            points.add(Triple(item.end, false, item))
-        }
-        points.sortWith(compareBy({ it.first }, { it.second }))
-        var counter = 0
-        var currentColumnCount = 1
-        val freeColumns = mutableListOf(1)
-        points.map { (time, isStart, item) ->
-            if (isStart) {
-                counter++
-                val columnNumber = freeColumns.minOrNull()!!
-                item.columnNumber = columnNumber
-                freeColumns.remove(columnNumber)
-                if (freeColumns.isEmpty()) freeColumns.add(columnNumber + 1)
-            } else {
-                counter--
-                freeColumns.add(item.columnNumber)
-            }
-
-            counter to Triple(time, isStart, item)
-        }.map { (counter, triple) ->
-            if (counter == 0) {
-                currentColumnCount = 1
-            } else if (counter > currentColumnCount) {
-                currentColumnCount = counter
-            }
-            triple.third.columnCount = currentColumnCount
-
-            counter to triple
-        }.reversed().map { (counter, triple) ->
-            if (counter == 0) {
-                currentColumnCount = 1
-            } else if (counter > currentColumnCount) {
-                currentColumnCount = counter
-            }
-            triple.third.columnCount = currentColumnCount
-
-            counter to triple
-        }
-
-        this.data = res
+        this.data = processData(data)
         invalidate()
     }
 
@@ -297,17 +240,39 @@ class RecordsCalendarView @JvmOverloads constructor(
     }
 
     private fun drawData(canvas: Canvas, w: Float, h: Float) {
-        data.forEach { item ->
-            // Draw box
-            recordPaint.color = item.colorInt
-            val boxHeight: Float = h * (item.end - item.start) / dayInMillis
-            val boxShift: Float = h * item.start / dayInMillis
-            val boxWidth: Float = chartWidth / item.columnCount
-            val boxLeft: Float = pixelLeftBound + boxWidth * (item.columnNumber - 1)
-            val boxRight: Float = boxLeft + boxWidth
-            val boxTop: Float = (h - boxShift - boxHeight) * scaleFactor + panFactor
-            val boxBottom: Float = (h - boxShift) * scaleFactor + panFactor
+        var boxHeight: Float
+        var boxShift: Float
+        var boxWidth: Float
+        var boxLeft: Float
+        var boxRight: Float
+        var boxTop: Float
+        var boxBottom: Float
 
+        var iconSize: Int?
+        var iconLeft: Int
+        var iconRight: Int
+        var iconTop: Int
+        var iconBottom: Int
+
+        var textWidth: Float
+        var textHeight: Int?
+        var textLeft: Float
+        var textTop: Float
+
+        data.forEach { item ->
+            //////////////
+            // Draw box //
+            //////////////
+            recordPaint.color = item.colorInt
+            boxHeight = h * (item.end - item.start) / dayInMillis
+            boxShift = h * item.start / dayInMillis
+            boxWidth = chartWidth / item.columnCount
+            boxLeft = pixelLeftBound + boxWidth * (item.columnNumber - 1)
+            boxRight = boxLeft + boxWidth
+            boxTop = (h - boxShift - boxHeight) * scaleFactor + panFactor
+            boxBottom = (h - boxShift) * scaleFactor + panFactor
+
+            // Save coordinates for click event.
             item.boxLeft = boxLeft
             item.boxTop = boxTop
             item.boxRight = boxRight
@@ -324,14 +289,16 @@ class RecordsCalendarView @JvmOverloads constructor(
                 recordPaint
             )
 
-            // Draw icon
-            val iconSize: Int? = iconMaxSize
-                .takeIf { it < recordBounds.height() - 2 * recordVerticalPadding }
-            if (iconSize != null) {
-                val iconLeft: Int = (recordBounds.left + recordHorizontalPadding).toInt()
-                val iconRight: Int = iconLeft + iconSize
-                val iconTop: Int = (recordBounds.top + recordBounds.height() / 2 - iconSize / 2).toInt()
-                val iconBottom: Int = iconTop + iconSize
+            ///////////////
+            // Draw icon //
+            ///////////////
+            iconSize = iconMaxSize.takeIf { it < recordBounds.height() - 2 * recordVerticalPadding }
+            // If can fit into box.
+            iconSize?.let { iconSize ->
+                iconLeft = (recordBounds.left + recordHorizontalPadding).toInt()
+                iconRight = iconLeft + iconSize
+                iconTop = (recordBounds.top + recordBounds.height() / 2 - iconSize / 2).toInt()
+                iconBottom = iconTop + iconSize
 
                 bounds.set(
                     iconLeft, iconTop,
@@ -341,15 +308,17 @@ class RecordsCalendarView @JvmOverloads constructor(
                 item.drawable?.draw(canvas)
             }
 
-            // Draw text
-            val textWidth: Float = recordBounds.width() - iconMaxSize - 3 * recordHorizontalPadding
+            ///////////////
+            // Draw text //
+            ///////////////
+            textWidth = recordBounds.width() - iconMaxSize - 3 * recordHorizontalPadding
             nameTextView.text = item.name
             nameTextView.measureText(textWidth.toInt())
-            val textHeight: Int? = nameTextView.measuredHeight
-                .takeIf { it < recordBounds.height() - 2 * recordVerticalPadding }
-            if (textHeight != null) {
-                val textLeft: Float = recordBounds.left + recordBounds.width() - textWidth
-                val textTop: Float = recordBounds.top + recordBounds.height() / 2 - textHeight / 2
+            textHeight = nameTextView.measuredHeight.takeIf { it < recordBounds.height() - 2 * recordVerticalPadding }
+            // If can fit into box.
+            textHeight?.let { textHeight ->
+                textLeft = recordBounds.left + recordBounds.width() - textWidth
+                textTop = recordBounds.top + recordBounds.height() / 2 - textHeight / 2
 
                 canvas.save()
                 canvas.translate(textLeft, textTop)
@@ -419,6 +388,76 @@ class RecordsCalendarView @JvmOverloads constructor(
                     )
                 }.let(::setData)
         }
+    }
+
+    private fun processData(data: List<RecordViewData.Tracked>): List<Data> {
+        val res = mutableListOf<Data>()
+
+        // Raw data.
+        data.forEach { point ->
+            res.add(
+                Data(
+                    id = point.id,
+                    start = point.timeStartedTimestamp,
+                    end = point.timeEndedTimestamp,
+                    name = point.name,
+                    colorInt = point.color,
+                    drawable = getIconDrawable(point.iconId),
+                )
+            )
+        }
+
+        // Calculate intersections.
+        val points: MutableList<Triple<Long, Boolean, Data>> = mutableListOf()
+        res.forEach { item ->
+            // Start of range marked with true.
+            points.add(Triple(item.start, true, item))
+            points.add(Triple(item.end, false, item))
+        }
+
+        // Sort by range edge (start or end) when put starts first.
+        points.sortWith(compareBy({ it.first }, { it.second }))
+        var currentCounter = 0
+        var currentColumnCount = 1
+        val freeColumns = mutableListOf(1)
+
+        fun calculateColumns(
+            point: Pair<Int, Triple<Long, Boolean, Data>>,
+        ): Pair<Int, Triple<Long, Boolean, Data>> {
+            val (counter, triple) = point
+
+            // New separate column.
+            if (counter == 0) {
+                currentColumnCount = 1
+            } else if (counter > currentColumnCount) {
+                currentColumnCount = counter
+            }
+            if (currentColumnCount > triple.third.columnCount) {
+                triple.third.columnCount = currentColumnCount
+            }
+
+            return counter to triple
+        }
+
+        points.map { (time, isStart, item) ->
+            if (isStart) {
+                currentCounter++
+                val columnNumber = freeColumns.minOrNull()!!
+                item.columnNumber = columnNumber
+                freeColumns.remove(columnNumber)
+                if (freeColumns.isEmpty()) freeColumns.add(columnNumber + 1)
+            } else {
+                currentCounter--
+                freeColumns.add(item.columnNumber)
+            }
+            currentCounter to Triple(time, isStart, item)
+        }
+            // Find max column count and pass it further and back down the list.
+            .map(::calculateColumns)
+            .reversed()
+            .map(::calculateColumns)
+
+        return res
     }
 
     private fun getIconDrawable(iconId: RecordTypeIcon): Drawable {
