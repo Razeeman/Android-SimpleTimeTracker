@@ -7,6 +7,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.RectF
+import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Parcelable
@@ -29,6 +30,11 @@ import com.example.util.simpletimetracker.feature_views.extension.measureExactly
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import kotlinx.parcelize.Parcelize
 import java.util.concurrent.TimeUnit
+import android.text.TextUtils
+import android.util.TypedValue
+import android.view.ViewGroup
+import androidx.appcompat.widget.AppCompatTextView
+
 
 class RecordsCalendarView @JvmOverloads constructor(
     context: Context,
@@ -41,6 +47,8 @@ class RecordsCalendarView @JvmOverloads constructor(
 ) {
 
     // Attrs
+    private var nameTextSize: Float = 0f
+    private var nameTextColor: Int = 0
     private var legendTextSize: Float = 0f
     private var legendTextColor: Int = 0
     private var legendLineColor: Int = 0
@@ -62,20 +70,34 @@ class RecordsCalendarView @JvmOverloads constructor(
     private val legendTextPadding: Float = 2.dpToPx().toFloat()
     private val recordCornerRadius: Float = 8.dpToPx().toFloat()
     private val recordVerticalPadding: Float = 2.dpToPx().toFloat()
-    private val iconStartPadding: Float = 4.dpToPx().toFloat()
+    private val recordHorizontalPadding: Float = 4.dpToPx().toFloat()
     private val dayInMillis = TimeUnit.DAYS.toMillis(1)
     private val hourInMillis = TimeUnit.HOURS.toMillis(1)
 
     private val recordPaint: Paint = Paint()
-    private val textPaint: Paint = Paint()
+    private val legendTextPaint: Paint = Paint()
     private val linePaint: Paint = Paint()
 
     private val bounds: Rect = Rect(0, 0, 0, 0)
-    private val boundsF: RectF = RectF(0f, 0f, 0f, 0f)
+    private val textBounds: Rect = Rect(0, 0, 0, 0)
+    private val recordBounds: RectF = RectF(0f, 0f, 0f, 0f)
     private var originalData: List<RecordViewData.Tracked> = emptyList()
     private var data: List<Data> = emptyList()
     private val iconView: IconView = IconView(ContextThemeWrapper(context, R.style.AppTheme))
     private var listener: (RecordViewData.Tracked) -> Unit = {}
+
+    private val nameTextView: AppCompatTextView by lazy {
+        AppCompatTextView(context).apply {
+            setTextSize(TypedValue.COMPLEX_UNIT_PX, nameTextSize)
+            setTextColor(nameTextColor)
+            maxLines = 1
+            ellipsize = TextUtils.TruncateAt.END
+            typeface = Typeface.DEFAULT_BOLD
+            layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+        }
+    }
 
     private val singleTapDetector = SingleTapDetector(
         context = context,
@@ -166,6 +188,7 @@ class RecordsCalendarView @JvmOverloads constructor(
                     id = point.id,
                     start = point.timeStartedTimestamp,
                     end = point.timeEndedTimestamp,
+                    name = point.name,
                     colorInt = point.color,
                     drawable = getIconDrawable(point.iconId),
                 )
@@ -225,6 +248,10 @@ class RecordsCalendarView @JvmOverloads constructor(
         context
             .obtainStyledAttributes(attrs, R.styleable.RecordsCalendarView, defStyleAttr, 0)
             .run {
+                nameTextSize =
+                    getDimensionPixelSize(R.styleable.RecordsCalendarView_calendarTextSize, 14).toFloat()
+                nameTextColor =
+                    getColor(R.styleable.RecordsCalendarView_calendarTextColor, Color.WHITE)
                 legendTextSize =
                     getDimensionPixelSize(R.styleable.RecordsCalendarView_calendarLegendTextSize, 14).toFloat()
                 legendTextColor =
@@ -243,7 +270,7 @@ class RecordsCalendarView @JvmOverloads constructor(
         recordPaint.apply {
             isAntiAlias = true
         }
-        textPaint.apply {
+        legendTextPaint.apply {
             isAntiAlias = true
             color = legendTextColor
             textSize = legendTextSize
@@ -258,11 +285,10 @@ class RecordsCalendarView @JvmOverloads constructor(
         canvasHeight = h
 
         val defaultLegendText = "00:00"
-        legendTextWidth = textPaint.measureText(defaultLegendText)
+        legendTextWidth = legendTextPaint.measureText(defaultLegendText)
 
-        textPaint.getTextBounds(defaultLegendText, 0, defaultLegendText.length, bounds)
-        legendTextHeight = textPaint.fontMetrics.let { it.descent - it.ascent }
-        legendTextHeight = bounds.height().toFloat()
+        legendTextPaint.getTextBounds(defaultLegendText, 0, defaultLegendText.length, textBounds)
+        legendTextHeight = textBounds.height().toFloat()
 
         // Chart dimensions
         pixelLeftBound = legendTextWidth + 2 * legendTextPadding
@@ -271,15 +297,12 @@ class RecordsCalendarView @JvmOverloads constructor(
     }
 
     private fun drawData(canvas: Canvas, w: Float, h: Float) {
-        canvas.save()
-
         data.forEach { item ->
+            // Draw box
             recordPaint.color = item.colorInt
-
             val boxHeight: Float = h * (item.end - item.start) / dayInMillis
             val boxShift: Float = h * item.start / dayInMillis
             val boxWidth: Float = chartWidth / item.columnCount
-
             val boxLeft: Float = pixelLeftBound + boxWidth * (item.columnNumber - 1)
             val boxRight: Float = boxLeft + boxWidth
             val boxTop: Float = (h - boxShift - boxHeight) * scaleFactor + panFactor
@@ -290,27 +313,26 @@ class RecordsCalendarView @JvmOverloads constructor(
             item.boxRight = boxRight
             item.boxBottom = boxBottom
 
-            // Draw box
-            boundsF.set(
+            recordBounds.set(
                 boxLeft, boxTop,
                 boxRight, boxBottom,
             )
             canvas.drawRoundRect(
-                boundsF,
+                recordBounds,
                 recordCornerRadius,
                 recordCornerRadius,
                 recordPaint
             )
 
-            val iconSize: Int? = iconMaxSize.takeIf { it < boundsF.height() - 2 * recordVerticalPadding }
+            // Draw icon
+            val iconSize: Int? = iconMaxSize
+                .takeIf { it < recordBounds.height() - 2 * recordVerticalPadding }
             if (iconSize != null) {
-
-                val iconLeft: Int = (boundsF.left + iconStartPadding).toInt()
+                val iconLeft: Int = (recordBounds.left + recordHorizontalPadding).toInt()
                 val iconRight: Int = iconLeft + iconSize
-                val iconTop: Int = (boundsF.top + boundsF.height() / 2 - iconSize / 2).toInt()
+                val iconTop: Int = (recordBounds.top + recordBounds.height() / 2 - iconSize / 2).toInt()
                 val iconBottom: Int = iconTop + iconSize
 
-                // Draw icon
                 bounds.set(
                     iconLeft, iconTop,
                     iconRight, iconBottom
@@ -318,9 +340,23 @@ class RecordsCalendarView @JvmOverloads constructor(
                 item.drawable?.bounds = bounds
                 item.drawable?.draw(canvas)
             }
-        }
 
-        canvas.restore()
+            // Draw text
+            val textWidth: Float = recordBounds.width() - iconMaxSize - 3 * recordHorizontalPadding
+            nameTextView.text = item.name
+            nameTextView.measureText(textWidth.toInt())
+            val textHeight: Int? = nameTextView.measuredHeight
+                .takeIf { it < recordBounds.height() - 2 * recordVerticalPadding }
+            if (textHeight != null) {
+                val textLeft: Float = recordBounds.left + recordBounds.width() - textWidth
+                val textTop: Float = recordBounds.top + recordBounds.height() / 2 - textHeight / 2
+
+                canvas.save()
+                canvas.translate(textLeft, textTop)
+                nameTextView.draw(canvas)
+                canvas.restore()
+            }
+        }
     }
 
     private fun drawLegend(canvas: Canvas, w: Float, h: Float) {
@@ -352,7 +388,7 @@ class RecordsCalendarView @JvmOverloads constructor(
                 text,
                 legendTextPadding,
                 textCenterY,
-                textPaint
+                legendTextPaint
             )
 
             canvas.translate(0f, lineStep * scaleFactor)
@@ -372,14 +408,14 @@ class RecordsCalendarView @JvmOverloads constructor(
                         id = 1,
                         timeStartedTimestamp = currentStart,
                         timeEndedTimestamp = currentStart + hourInMillis * (it + 1),
-                        name = "",
-                        tagName = "",
+                        name = "Record $it",
+                        tagName = "Tag $it",
                         timeStarted = "",
                         timeFinished = "",
                         duration = "",
                         iconId = RecordTypeIcon.Image(R.drawable.unknown),
                         color = Color.BLACK,
-                        comment = ""
+                        comment = "Comment $it"
                     )
                 }.let(::setData)
         }
@@ -452,10 +488,18 @@ class RecordsCalendarView @JvmOverloads constructor(
         panFactor = panFactor.coerceIn(-maxPanAvailable, 0f)
     }
 
+    private fun View.measureText(width: Int) {
+        val specWidth = MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY)
+        val specHeight = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
+        measure(specWidth, specHeight)
+        layout(0, 0, measuredWidth, measuredHeight)
+    }
+
     private inner class Data(
         val id: Long,
         val start: Long,
         val end: Long,
+        val name: String,
         @ColorInt val colorInt: Int,
         val drawable: Drawable? = null,
         var columnCount: Int = 1,

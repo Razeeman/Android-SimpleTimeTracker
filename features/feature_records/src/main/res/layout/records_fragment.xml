@@ -18,11 +18,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
-        app:calendarIconMaxSize="20dp"
+        app:calendarIconMaxSize="16dp"
         app:calendarLegendLineColor="?appLegendColor"
         app:calendarLegendTextColor="@color/textSecondary"
-        app:calendarLegendTextSize="14sp"
+        app:calendarLegendTextSize="12sp"
         app:calendarRecordsCount="5"
+        app:calendarTextColor="?appLightTextColor"
+        app:calendarTextSize="12sp"
         tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
