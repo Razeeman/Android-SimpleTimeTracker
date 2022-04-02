@@ -48,7 +48,9 @@ class RecordsCalendarView @JvmOverloads constructor(
     private var recordsCount: Int = 0
     // End of attrs
 
+    private var isScaling: Boolean = false
     private var scaleFactor: Float = 1f
+    private var lastScaleFactor: Float = 1f
     private var panFactor: Float = 0f
     private var lastPanFactor: Float = 0f
     private var legendTextWidth: Float = 0f
@@ -81,6 +83,7 @@ class RecordsCalendarView @JvmOverloads constructor(
     )
     private val scaleDetector = ScaleDetector(
         context = context,
+        onScaleStart = ::onScaleStart,
         onScaleChanged = ::onScaleChanged,
         onScaleStop = ::onScaleStop
     )
@@ -101,6 +104,7 @@ class RecordsCalendarView @JvmOverloads constructor(
         return SavedState(
             superSavedState = superState,
             scaleFactor = scaleFactor,
+            lastScaleFactor = lastScaleFactor,
             panFactor = panFactor,
             lastPanFactor = lastPanFactor,
         )
@@ -110,6 +114,7 @@ class RecordsCalendarView @JvmOverloads constructor(
         val savedState = state as? SavedState
         super.onRestoreInstanceState(savedState?.superSavedState ?: state)
         scaleFactor = savedState?.scaleFactor ?: 1f
+        lastScaleFactor = savedState?.lastScaleFactor ?: 1f
         panFactor = savedState?.panFactor.orZero()
         lastPanFactor = savedState?.lastPanFactor.orZero()
     }
@@ -405,31 +410,46 @@ class RecordsCalendarView @JvmOverloads constructor(
             ?.let(listener)
     }
 
+    private fun onScaleStart() {
+        isScaling = true
+    }
+
     private fun onScaleChanged(newScale: Float) {
         parent.requestDisallowInterceptTouchEvent(true)
         scaleFactor *= newScale
         scaleFactor = scaleFactor.coerceAtLeast(1f)
-        panFactor = lastPanFactor - (canvasHeight * scaleFactor - canvasHeight) / 2
+        val currentScale = scaleFactor / lastScaleFactor
+        panFactor = lastPanFactor * currentScale - (canvasHeight * currentScale - canvasHeight) / 2
+        coercePan()
         invalidate()
     }
 
     private fun onScaleStop() {
         parent.requestDisallowInterceptTouchEvent(false)
+        lastScaleFactor = scaleFactor
         lastPanFactor = panFactor
+        isScaling = false
     }
 
     @Suppress("UNUSED_PARAMETER")
     private fun onSwipe(offset: Float, direction: SwipeDetector.Direction, event: MotionEvent) {
-        if (!direction.isHorizontal()) {
+        if (!direction.isHorizontal() && !isScaling) {
             parent.requestDisallowInterceptTouchEvent(true)
             panFactor = lastPanFactor + offset
+            coercePan()
             invalidate()
         }
     }
 
     private fun onSwipeStop() {
+        if (isScaling) return
         parent.requestDisallowInterceptTouchEvent(false)
         lastPanFactor = panFactor
+    }
+
+    private fun coercePan() {
+        val maxPanAvailable = canvasHeight * scaleFactor - canvasHeight
+        panFactor = panFactor.coerceIn(-maxPanAvailable, 0f)
     }
 
     private inner class Data(
@@ -450,6 +470,7 @@ class RecordsCalendarView @JvmOverloads constructor(
     private class SavedState(
         val superSavedState: Parcelable?,
         val scaleFactor: Float,
+        val lastScaleFactor: Float,
         val panFactor: Float,
         val lastPanFactor: Float,
     ) : View.BaseSavedState(superSavedState)
