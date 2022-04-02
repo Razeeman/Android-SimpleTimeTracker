@@ -383,7 +383,7 @@ class RecordsCalendarView @JvmOverloads constructor(
                         timeFinished = "",
                         duration = "",
                         iconId = RecordTypeIcon.Image(R.drawable.unknown),
-                        color = Color.BLACK,
+                        color = Color.RED,
                         comment = "Comment $it"
                     )
                 }.let(::setData)

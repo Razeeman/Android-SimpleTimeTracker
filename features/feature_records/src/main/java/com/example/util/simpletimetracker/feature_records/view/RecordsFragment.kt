@@ -93,8 +93,8 @@ class RecordsFragment : BaseFragment<Binding>() {
     }
 
     private fun switchState(isCalendarView: Boolean) = with(binding) {
-        rvRecordsList.visible = !isCalendarView
-        viewRecordsCalendar.visible = isCalendarView
+        groupRecordsList.visible = !isCalendarView
+        groupRecordsCalendar.visible = isCalendarView
     }
 
     companion object {

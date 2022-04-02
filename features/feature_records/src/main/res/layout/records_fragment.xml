@@ -9,15 +9,13 @@
         android:id="@+id/rvRecordsList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
         tools:itemCount="15"
         tools:listitem="@layout/item_record_layout" />
 
     <com.example.util.simpletimetracker.feature_records.customView.RecordsCalendarView
         android:id="@+id/viewRecordsCalendar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"
+        android:layout_height="0dp"
         app:calendarIconMaxSize="16dp"
         app:calendarLegendLineColor="?appLegendColor"
         app:calendarLegendTextColor="@color/textSecondary"
@@ -25,6 +23,32 @@
         app:calendarRecordsCount="5"
         app:calendarTextColor="?appLightTextColor"
         app:calendarTextSize="12sp"
+        app:layout_constraintBottom_toTopOf="@id/tvRecordsCalendarHint"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvRecordsCalendarHint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingHorizontal="12dp"
+        android:text="@string/records_hint"
+        android:textColor="?appTextHintColor"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/groupRecordsList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="rvRecordsList" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/groupRecordsCalendar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="viewRecordsCalendar, tvRecordsCalendarHint"
         tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
