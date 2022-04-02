@@ -42,11 +42,9 @@ fun Calendar.setWeekToFirstDay() {
     timeInMillis = another.timeInMillis
 }
 
-fun Calendar.setToStartOfDay(shift: Long = 0) {
-    timeInMillis -= shift
+fun Calendar.setToStartOfDay() {
     set(Calendar.HOUR_OF_DAY, 0)
     set(Calendar.MINUTE, 0)
     set(Calendar.SECOND, 0)
     set(Calendar.MILLISECOND, 0)
-    timeInMillis += shift
 }

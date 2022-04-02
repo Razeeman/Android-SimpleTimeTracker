@@ -156,7 +156,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
             is RangeLength.Month,
             is RangeLength.Year,
             -> timeMapper.getRangeStartAndEnd(
-                rangeLength, rangePosition, firstDayOfWeek, startOfDayShift
+                rangeLength, rangePosition, firstDayOfWeek, 0
             ).second - 1
             is RangeLength.All -> System.currentTimeMillis()
             is RangeLength.Custom -> rangeLength.range.timeEnded - 1
@@ -169,7 +169,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
                 ChartGrouping.DAILY ->
                     timeMapper.getActualMaximum(startDate, Calendar.DAY_OF_MONTH, firstDayOfWeek)
                 else ->
-                    timeMapper.getActualMaximum(startDate, Calendar.WEEK_OF_YEAR, firstDayOfWeek)
+                    timeMapper.getActualMaximum(startDate, Calendar.WEEK_OF_MONTH, firstDayOfWeek)
             }
             is RangeLength.Year -> when (appliedChartGrouping) {
                 ChartGrouping.DAILY ->
@@ -211,7 +211,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
         return (numberOfDays - 1 downTo 0).map { shift ->
             calendar.apply {
                 timeInMillis = startDate
-                setToStartOfDay(startOfDayShift)
+                setToStartOfDay()
             }
             calendar.add(Calendar.DATE, -shift)
 
@@ -221,8 +221,8 @@ class StatisticsDetailChartInteractor @Inject constructor(
 
             ChartBarDataRange(
                 legend = legend,
-                rangeStart = rangeStart,
-                rangeEnd = rangeEnd
+                rangeStart = rangeStart + startOfDayShift,
+                rangeEnd = rangeEnd + startOfDayShift
             )
         }
     }
@@ -240,7 +240,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
             calendar.apply {
                 this.firstDayOfWeek = dayOfWeek
                 timeInMillis = startDate
-                setToStartOfDay(startOfDayShift)
+                setToStartOfDay()
             }
             calendar.setWeekToFirstDay()
             calendar.add(Calendar.DATE, -shift * 7)
@@ -251,8 +251,8 @@ class StatisticsDetailChartInteractor @Inject constructor(
 
             ChartBarDataRange(
                 legend = legend,
-                rangeStart = rangeStart,
-                rangeEnd = rangeEnd
+                rangeStart = rangeStart + startOfDayShift,
+                rangeEnd = rangeEnd + startOfDayShift
             )
         }
     }
@@ -267,7 +267,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
         return (numberOfMonths - 1 downTo 0).map { shift ->
             calendar.apply {
                 timeInMillis = startDate
-                setToStartOfDay(startOfDayShift)
+                setToStartOfDay()
             }
             calendar.set(Calendar.DAY_OF_MONTH, 1)
             calendar.add(Calendar.MONTH, -shift)
@@ -278,8 +278,8 @@ class StatisticsDetailChartInteractor @Inject constructor(
 
             ChartBarDataRange(
                 legend = legend,
-                rangeStart = rangeStart,
-                rangeEnd = rangeEnd
+                rangeStart = rangeStart + startOfDayShift,
+                rangeEnd = rangeEnd + startOfDayShift
             )
         }
     }
@@ -294,7 +294,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
         return (numberOfYears - 1 downTo 0).map { shift ->
             calendar.apply {
                 timeInMillis = startDate
-                setToStartOfDay(startOfDayShift)
+                setToStartOfDay()
             }
             calendar.set(Calendar.DAY_OF_YEAR, 1)
             calendar.add(Calendar.YEAR, -shift)
@@ -305,8 +305,8 @@ class StatisticsDetailChartInteractor @Inject constructor(
 
             ChartBarDataRange(
                 legend = legend,
-                rangeStart = rangeStart,
-                rangeEnd = rangeEnd
+                rangeStart = rangeStart + startOfDayShift,
+                rangeEnd = rangeEnd + startOfDayShift
             )
         }
     }
