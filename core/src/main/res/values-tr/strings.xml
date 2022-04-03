@@ -226,6 +226,8 @@
     <string name="statistics_detail_first_record">İlk</string>
     <string name="statistics_detail_last_record">Son</string>
     <string name="statistics_detail_tag_split_hint">Etiket dağılımı</string>
+    <string name="statistics_detail_day_split_hint">Günlük dağıtım</string>
+    <string name="statistics_detail_duration_split_hint">Kayıt süresi dağılımı</string>
 
     <plurals name="statistics_detail_times_tracked">
 <!--        <item quantity="zero">Kayıt</item>-->

@@ -226,6 +226,8 @@
     <string name="statistics_detail_first_record">Перший</string>
     <string name="statistics_detail_last_record">Останній</string>
     <string name="statistics_detail_tag_split_hint">Розподіл тегів</string>
+    <string name="statistics_detail_day_split_hint">Розподіл протягом дня</string>
+    <string name="statistics_detail_duration_split_hint">Розподіл тривалості запису</string>
 
     <plurals name="statistics_detail_times_tracked">
         <item quantity="zero">Записів</item>

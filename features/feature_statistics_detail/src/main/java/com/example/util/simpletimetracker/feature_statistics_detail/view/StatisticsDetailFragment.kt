@@ -212,12 +212,14 @@ class StatisticsDetailFragment :
     private fun updateSplitChartViewData(
         viewData: StatisticsDetailChartViewData
     ) {
+        binding.tvStatisticsDetailSplitHint.visible = viewData.visible
         binding.chartStatisticsDetailSplit.setViewData(viewData)
     }
 
     private fun updateDurationSplitChartViewData(
         viewData: StatisticsDetailChartViewData
     ) {
+        binding.tvStatisticsDetailDurationSplitHint.visible = viewData.visible
         binding.chartStatisticsDetailDurationSplit.setViewData(viewData)
     }
 

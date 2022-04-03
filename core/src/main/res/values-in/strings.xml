@@ -226,6 +226,8 @@
     <string name="statistics_detail_first_record">Pertama</string>
     <string name="statistics_detail_last_record">Terakhir</string>
     <string name="statistics_detail_tag_split_hint">Distribusi label</string>
+    <string name="statistics_detail_day_split_hint">Distribusi harian</string>
+    <string name="statistics_detail_duration_split_hint">Distribusi durasi rekaman</string>
 
     <plurals name="statistics_detail_times_tracked">
 <!--        <item quantity="zero">Rekor</item>-->

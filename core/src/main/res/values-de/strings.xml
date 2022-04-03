@@ -226,6 +226,8 @@
     <string name="statistics_detail_first_record">Erste</string>
     <string name="statistics_detail_last_record">Letzte</string>
     <string name="statistics_detail_tag_split_hint">Tag Verteilung</string>
+    <string name="statistics_detail_day_split_hint">Tägliche Verteilung</string>
+    <string name="statistics_detail_duration_split_hint">Verteilung der Aufzeichnungsdauer</string>
 
     <plurals name="statistics_detail_times_tracked">
         <!--        <item quantity="zero">keine Einträge</item>-->

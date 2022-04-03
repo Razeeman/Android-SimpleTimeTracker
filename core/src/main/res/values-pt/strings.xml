@@ -226,6 +226,8 @@
     <string name="statistics_detail_first_record">Primeiro</string>
     <string name="statistics_detail_last_record">Último</string>
     <string name="statistics_detail_tag_split_hint">Distribuição de tags</string>
+    <string name="statistics_detail_day_split_hint">Distribuição diária</string>
+    <string name="statistics_detail_duration_split_hint">Distribuição da duração do registro</string>
 
     <plurals name="statistics_detail_times_tracked">
         <item quantity="one">Registro</item>
