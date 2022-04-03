@@ -18,7 +18,6 @@ import com.example.util.simpletimetracker.feature_records.model.RecordsState
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
-import kotlin.math.max
 
 class RecordsViewDataInteractor @Inject constructor(
     private val recordInteractor: RecordInteractor,
@@ -68,7 +67,16 @@ class RecordsViewDataInteractor @Inject constructor(
                 mapToCalendarPoint(record, calendar, startOfDayShift)
             }
             .let {
+                val currentTime = if (shift == 0) {
+                    mapFromStartOfDay(
+                        timeStamp = System.currentTimeMillis(),
+                        calendar = calendar
+                    ) - startOfDayShift
+                } else {
+                    null
+                }
                 RecordsCalendarViewData(
+                    currentTime = currentTime,
                     startOfDayShift = startOfDayShift,
                     points = it,
                 )
@@ -138,13 +146,11 @@ class RecordsViewDataInteractor @Inject constructor(
         calendar: Calendar,
         startOfDayShift: Long,
     ): RecordsCalendarViewData.Point {
-        val start = calendar.apply {
+        val start = mapFromStartOfDay(
             // Normalize to set start of day correctly.
-            timeInMillis = record.timeStartedTimestamp - startOfDayShift
-            setToStartOfDay()
-        }.let {
-            record.timeStartedTimestamp - it.timeInMillis
-        }
+            timeStamp = record.timeStartedTimestamp - startOfDayShift,
+            calendar = calendar,
+        ) + startOfDayShift
         val duration = (record.timeEndedTimestamp - record.timeStartedTimestamp)
             // Otherwise would be invisible.
             .takeUnless { it == 0L } ?: minuteInMillis
@@ -155,6 +161,18 @@ class RecordsViewDataInteractor @Inject constructor(
             end = end - startOfDayShift,
             data = record
         )
+    }
+
+    private fun mapFromStartOfDay(
+        timeStamp: Long,
+        calendar: Calendar,
+    ): Long {
+        return calendar.apply {
+            timeInMillis = timeStamp
+            setToStartOfDay()
+        }.let {
+            timeStamp - it.timeInMillis
+        }
     }
 
     companion object {

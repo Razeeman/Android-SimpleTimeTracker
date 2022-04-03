@@ -54,6 +54,8 @@ class RecordsCalendarView @JvmOverloads constructor(
     private var legendTextSize: Float = 0f
     private var legendTextColor: Int = 0
     private var legendLineColor: Int = 0
+    private var currentTimeLegendColor: Int = 0
+    private var currentTimeLegendWidth: Float = 0f
     private var iconMaxSize: Int = 0
     private var recordsCount: Int = 0
     // End of attrs
@@ -79,11 +81,13 @@ class RecordsCalendarView @JvmOverloads constructor(
     private val recordPaint: Paint = Paint()
     private val legendTextPaint: Paint = Paint()
     private val linePaint: Paint = Paint()
+    private val currentTimelinePaint: Paint = Paint()
 
     private val bounds: Rect = Rect(0, 0, 0, 0)
     private val textBounds: Rect = Rect(0, 0, 0, 0)
     private val recordBounds: RectF = RectF(0f, 0f, 0f, 0f)
     private var data: List<Data> = emptyList()
+    private var currentTime: Long? = null
     private var startOfDayShift: Long = 0
     private val iconView: IconView = IconView(ContextThemeWrapper(context, R.style.AppTheme))
     private var listener: (RecordViewData) -> Unit = {}
@@ -180,6 +184,7 @@ class RecordsCalendarView @JvmOverloads constructor(
     }
 
     fun setData(viewData: RecordsCalendarViewData) {
+        currentTime = viewData.currentTime
         startOfDayShift = viewData.startOfDayShift
         data = processData(viewData.points)
         invalidate()
@@ -205,6 +210,10 @@ class RecordsCalendarView @JvmOverloads constructor(
                     getColor(R.styleable.RecordsCalendarView_calendarLegendTextColor, Color.BLACK)
                 legendLineColor =
                     getColor(R.styleable.RecordsCalendarView_calendarLegendLineColor, Color.BLACK)
+                currentTimeLegendColor =
+                    getColor(R.styleable.RecordsCalendarView_calendarCurrentTimeLegendColor, Color.RED)
+                currentTimeLegendWidth =
+                    getDimensionPixelSize(R.styleable.RecordsCalendarView_calendarCurrentTimeLegendWidth, 0).toFloat()
                 iconMaxSize =
                     getDimensionPixelSize(R.styleable.RecordsCalendarView_calendarIconMaxSize, 0)
                 recordsCount =
@@ -225,6 +234,11 @@ class RecordsCalendarView @JvmOverloads constructor(
         linePaint.apply {
             isAntiAlias = true
             color = legendLineColor
+        }
+        currentTimelinePaint.apply {
+            isAntiAlias = true
+            color = currentTimeLegendColor
+            strokeWidth = currentTimeLegendWidth
         }
     }
 
@@ -343,6 +357,17 @@ class RecordsCalendarView @JvmOverloads constructor(
         canvas.save()
         canvas.translate(0f, panFactor)
 
+        currentTime?.let { currentTime ->
+            val currentTimeY = h * scaleFactor * (dayInMillis - currentTime) / dayInMillis
+            canvas.drawLine(
+                pixelLeftBound - legendTextPadding,
+                currentTimeY,
+                w,
+                currentTimeY,
+                currentTimelinePaint
+            )
+        }
+
         legendTexts.forEachIndexed { index, text ->
             val currentY = (index * lineStep * scaleFactor + shift * scaleFactor).let {
                 // If goes over the end - draw on top, and otherwise.
@@ -400,7 +425,11 @@ class RecordsCalendarView @JvmOverloads constructor(
                     )
                     RecordsCalendarViewData.Point(start, end, record)
                 }.let {
-                    RecordsCalendarViewData(0, it)
+                    RecordsCalendarViewData(
+                        currentTime = 18 * hourInMillis,
+                        startOfDayShift = 0,
+                        points = it
+                    )
                 }.let(::setData)
         }
     }

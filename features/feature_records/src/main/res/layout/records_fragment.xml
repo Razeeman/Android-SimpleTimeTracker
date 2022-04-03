@@ -16,6 +16,8 @@
         android:id="@+id/viewRecordsCalendar"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        app:calendarCurrentTimeLegendColor="?colorSecondary"
+        app:calendarCurrentTimeLegendWidth="2dp"
         app:calendarIconMaxSize="16dp"
         app:calendarLegendLineColor="?appLegendColor"
         app:calendarLegendTextColor="@color/textSecondary"
