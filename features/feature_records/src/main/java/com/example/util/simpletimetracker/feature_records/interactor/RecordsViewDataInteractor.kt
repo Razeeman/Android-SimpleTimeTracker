@@ -12,10 +12,13 @@ import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_base_adapter.record.RecordViewData
+import com.example.util.simpletimetracker.feature_records.customView.RecordsCalendarViewData
 import com.example.util.simpletimetracker.feature_records.mapper.RecordsViewDataMapper
 import com.example.util.simpletimetracker.feature_records.model.RecordsState
 import java.util.Calendar
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import kotlin.math.max
 
 class RecordsViewDataInteractor @Inject constructor(
     private val recordInteractor: RecordInteractor,
@@ -62,7 +65,13 @@ class RecordsViewDataInteractor @Inject constructor(
 
         if (isCalendarView) return recordsViewData
             .map { record ->
-                mapToCalendarRecord(record, calendar)
+                mapToCalendarPoint(record, calendar, startOfDayShift)
+            }
+            .let {
+                RecordsCalendarViewData(
+                    startOfDayShift = startOfDayShift,
+                    points = it,
+                )
             }
             .let(RecordsState::CalendarData)
 
@@ -124,31 +133,30 @@ class RecordsViewDataInteractor @Inject constructor(
             }
     }
 
-    private fun mapToCalendarRecord(
+    private fun mapToCalendarPoint(
         record: RecordViewData,
         calendar: Calendar,
-    ): RecordViewData {
+        startOfDayShift: Long,
+    ): RecordsCalendarViewData.Point {
         val start = calendar.apply {
-            timeInMillis = record.timeStartedTimestamp
+            // Normalize to set start of day correctly.
+            timeInMillis = record.timeStartedTimestamp - startOfDayShift
             setToStartOfDay()
         }.let {
             record.timeStartedTimestamp - it.timeInMillis
         }
         val end = start + (record.timeEndedTimestamp - record.timeStartedTimestamp)
 
-        return when (record) {
-            is RecordViewData.Tracked -> record.copy(
-                timeStartedTimestamp = start,
-                timeEndedTimestamp = end
-            )
-            is RecordViewData.Untracked -> record.copy(
-                timeStartedTimestamp = start,
-                timeEndedTimestamp = end
-            )
-        }
+        return RecordsCalendarViewData.Point(
+            start = start - startOfDayShift,
+            // Otherwise would be too small to see.
+            end = max(end, start + minuteInMillis) - startOfDayShift,
+            data = record
+        )
     }
 
     companion object {
         private const val UNTRACKED_RECORD_LENGTH_LIMIT: Long = 60 * 1000L // 1 min
+        private val minuteInMillis = TimeUnit.MINUTES.toMillis(1)
     }
 }

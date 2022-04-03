@@ -18,7 +18,6 @@ import android.util.AttributeSet
 import android.view.ContextThemeWrapper
 import android.view.MotionEvent
 import android.view.View
-import androidx.annotation.ColorInt
 import com.example.util.simpletimetracker.core.utils.ScaleDetector
 import com.example.util.simpletimetracker.core.utils.SingleTapDetector
 import com.example.util.simpletimetracker.core.utils.SwipeDetector
@@ -37,7 +36,6 @@ import android.text.style.ForegroundColorSpan
 import android.util.TypedValue
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatTextView
-import kotlin.math.max
 
 class RecordsCalendarView @JvmOverloads constructor(
     context: Context,
@@ -77,7 +75,6 @@ class RecordsCalendarView @JvmOverloads constructor(
     private val recordHorizontalPadding: Float = 4.dpToPx().toFloat()
     private val dayInMillis = TimeUnit.DAYS.toMillis(1)
     private val hourInMillis = TimeUnit.HOURS.toMillis(1)
-    private val minuteInMillis = TimeUnit.MINUTES.toMillis(1)
 
     private val recordPaint: Paint = Paint()
     private val legendTextPaint: Paint = Paint()
@@ -86,8 +83,8 @@ class RecordsCalendarView @JvmOverloads constructor(
     private val bounds: Rect = Rect(0, 0, 0, 0)
     private val textBounds: Rect = Rect(0, 0, 0, 0)
     private val recordBounds: RectF = RectF(0f, 0f, 0f, 0f)
-    private var originalData: List<RecordViewData> = emptyList()
     private var data: List<Data> = emptyList()
+    private var startOfDayShift: Long = 0
     private val iconView: IconView = IconView(ContextThemeWrapper(context, R.style.AppTheme))
     private var listener: (RecordViewData) -> Unit = {}
 
@@ -182,9 +179,9 @@ class RecordsCalendarView @JvmOverloads constructor(
         this.listener = listener
     }
 
-    fun setData(data: List<RecordViewData>) {
-        originalData = data
-        this.data = processData(data)
+    fun setData(viewData: RecordsCalendarViewData) {
+        startOfDayShift = viewData.startOfDayShift
+        data = processData(viewData.points)
         invalidate()
     }
 
@@ -270,9 +267,9 @@ class RecordsCalendarView @JvmOverloads constructor(
             //////////////
             // Draw box //
             //////////////
-            recordPaint.color = item.colorInt
-            boxHeight = h * (item.end - item.start) / dayInMillis
-            boxShift = h * item.start / dayInMillis
+            recordPaint.color = item.point.data.color
+            boxHeight = h * (item.point.end - item.point.start) / dayInMillis
+            boxShift = h * item.point.start / dayInMillis
             boxWidth = chartWidth / item.columnCount
             boxLeft = pixelLeftBound + boxWidth * (item.columnNumber - 1)
             boxRight = boxLeft + boxWidth
@@ -319,7 +316,7 @@ class RecordsCalendarView @JvmOverloads constructor(
             // Draw text //
             ///////////////
             textWidth = recordBounds.width() - iconMaxSize - 2 * recordHorizontalPadding
-            nameTextView.text = getItemName(item)
+            nameTextView.text = getItemName(item.point.data)
             nameTextView.measureText(textWidth.toInt())
             textHeight = nameTextView.measuredHeight.takeIf { it < recordBounds.height() - 2 * recordVerticalPadding }
             // If can fit into box.
@@ -337,37 +334,43 @@ class RecordsCalendarView @JvmOverloads constructor(
 
     private fun drawLegend(canvas: Canvas, w: Float, h: Float) {
         val legendTexts = (24 downTo 0)
+            .map { if (it == 24 && startOfDayShift != 0L) 0 else it }
             .map { it.toString().padStart(2, '0') }
             .map { "$it:00" }
         val lineStep = h / (legendTexts.size - 1)
+        val shift: Float = h * startOfDayShift / dayInMillis
 
         canvas.save()
         canvas.translate(0f, panFactor)
 
-        legendTexts.forEach { text ->
+        legendTexts.forEachIndexed { index, text ->
+            val currentY = (index * lineStep * scaleFactor + shift * scaleFactor).let {
+                // If goes over the end - draw on top, and otherwise.
+                when {
+                    it > h * scaleFactor -> it - h * scaleFactor
+                    it < 0 -> it + h * scaleFactor
+                    else -> it
+                }
+            }
+
             // Draw line
             canvas.drawLine(
                 pixelLeftBound,
-                0f,
+                currentY,
                 w,
-                0f,
+                currentY,
                 linePaint
             )
 
             // Draw text
-            val textCenterY: Float = when (text) {
-                legendTexts.first() -> legendTextHeight
-                legendTexts.last() -> 0f
-                else -> legendTextHeight / 2
-            }
+            val textCenterY: Float = (currentY + legendTextHeight / 2)
+                .coerceIn(legendTextHeight, h * scaleFactor)
             canvas.drawText(
                 text,
                 legendTextPadding,
                 textCenterY,
                 legendTextPaint
             )
-
-            canvas.translate(0f, lineStep * scaleFactor)
         }
 
         canvas.restore()
@@ -380,10 +383,12 @@ class RecordsCalendarView @JvmOverloads constructor(
             (0 until records)
                 .map {
                     currentStart += hourInMillis * it
-                    RecordViewData.Tracked(
+                    val start = currentStart
+                    val end = currentStart + hourInMillis * (it + 1)
+                    val record = RecordViewData.Tracked(
                         id = 1,
-                        timeStartedTimestamp = currentStart,
-                        timeEndedTimestamp = currentStart + hourInMillis * (it + 1),
+                        timeStartedTimestamp = start,
+                        timeEndedTimestamp = end,
                         name = "Record $it",
                         tagName = "Tag $it",
                         timeStarted = "07:35",
@@ -393,25 +398,22 @@ class RecordsCalendarView @JvmOverloads constructor(
                         color = Color.RED,
                         comment = "Comment $it"
                     )
+                    RecordsCalendarViewData.Point(start, end, record)
+                }.let {
+                    RecordsCalendarViewData(0, it)
                 }.let(::setData)
         }
     }
 
-    private fun processData(data: List<RecordViewData>): List<Data> {
+    private fun processData(data: List<RecordsCalendarViewData.Point>): List<Data> {
         val res = mutableListOf<Data>()
 
         // Raw data.
         data.forEach { point ->
             res.add(
                 Data(
-                    id = point.getUniqueId(),
-                    start = point.timeStartedTimestamp,
-                    // Otherwise would be too small to see.
-                    end = max(point.timeEndedTimestamp, point.timeStartedTimestamp + minuteInMillis),
-                    name = point.name,
-                    tagName = point.tagName,
-                    colorInt = point.color,
-                    drawable = getIconDrawable(point.iconId),
+                    point = point,
+                    drawable = getIconDrawable(point.data.iconId),
                 )
             )
         }
@@ -420,8 +422,8 @@ class RecordsCalendarView @JvmOverloads constructor(
         val points: MutableList<Triple<Long, Boolean, Data>> = mutableListOf()
         res.forEach { item ->
             // Start of range marked with true.
-            points.add(Triple(item.start, true, item))
-            points.add(Triple(item.end, false, item))
+            points.add(Triple(item.point.start, true, item))
+            points.add(Triple(item.point.end, false, item))
         }
 
         // Sort by range edge (start or end) when put starts first.
@@ -479,7 +481,7 @@ class RecordsCalendarView @JvmOverloads constructor(
             .let { BitmapDrawable(resources, it) }
     }
 
-    private fun getItemName(item: Data): CharSequence {
+    private fun getItemName(item: RecordViewData): CharSequence {
         return if (item.tagName.isEmpty()) {
             item.name
         } else {
@@ -498,15 +500,9 @@ class RecordsCalendarView @JvmOverloads constructor(
         val x = event.x
         val y = event.y
 
-        data
-            .firstOrNull {
-                it.boxLeft < x && it.boxTop < y && it.boxRight > x && it.boxBottom > y
-            }
-            ?.id
-            ?.let { clickedId ->
-                originalData.firstOrNull { it.getUniqueId() == clickedId }
-            }
-            ?.let(listener)
+        data.firstOrNull {
+            it.boxLeft < x && it.boxTop < y && it.boxRight > x && it.boxBottom > y
+        }?.point?.data?.let(listener)
     }
 
     private fun onScaleStart() {
@@ -559,12 +555,7 @@ class RecordsCalendarView @JvmOverloads constructor(
     }
 
     private inner class Data(
-        val id: Long,
-        val start: Long,
-        val end: Long,
-        val name: String,
-        val tagName: String,
-        @ColorInt val colorInt: Int,
+        val point: RecordsCalendarViewData.Point,
         val drawable: Drawable? = null,
         var columnCount: Int = 1,
         var columnNumber: Int = 1,

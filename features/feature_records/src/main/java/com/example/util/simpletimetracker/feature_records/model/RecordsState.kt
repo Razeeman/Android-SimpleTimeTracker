@@ -1,7 +1,7 @@
 package com.example.util.simpletimetracker.feature_records.model
 
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
-import com.example.util.simpletimetracker.feature_base_adapter.record.RecordViewData
+import com.example.util.simpletimetracker.feature_records.customView.RecordsCalendarViewData
 
 sealed class RecordsState {
 
@@ -10,6 +10,6 @@ sealed class RecordsState {
     ) : RecordsState()
 
     data class CalendarData(
-        val data: List<RecordViewData>,
+        val data: RecordsCalendarViewData,
     ) : RecordsState()
 }

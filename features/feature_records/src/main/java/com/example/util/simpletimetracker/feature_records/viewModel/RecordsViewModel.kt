@@ -11,6 +11,7 @@ import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.feature_base_adapter.record.RecordViewData
+import com.example.util.simpletimetracker.feature_records.customView.RecordsCalendarViewData
 import com.example.util.simpletimetracker.feature_records.extra.RecordsExtra
 import com.example.util.simpletimetracker.feature_records.interactor.RecordsViewDataInteractor
 import com.example.util.simpletimetracker.feature_records.model.RecordsState
@@ -32,7 +33,7 @@ class RecordsViewModel @Inject constructor(
     val records: LiveData<List<ViewHolderType>> by lazy {
         MutableLiveData(listOf(LoaderViewData() as ViewHolderType))
     }
-    val calendarData: LiveData<List<RecordViewData>> = MutableLiveData()
+    val calendarData: LiveData<RecordsCalendarViewData> = MutableLiveData()
 
     fun onRecordClick(item: RecordViewData, sharedElements: Pair<Any, String>? = null) {
         val preview = ChangeRecordParams.Preview(
