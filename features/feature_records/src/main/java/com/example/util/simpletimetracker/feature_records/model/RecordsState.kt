@@ -10,6 +10,6 @@ sealed class RecordsState {
     ) : RecordsState()
 
     data class CalendarData(
-        val data: List<RecordViewData.Tracked>,
+        val data: List<RecordViewData>,
     ) : RecordsState()
 }

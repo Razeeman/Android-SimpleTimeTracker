@@ -32,7 +32,7 @@ class RecordsViewModel @Inject constructor(
     val records: LiveData<List<ViewHolderType>> by lazy {
         MutableLiveData(listOf(LoaderViewData() as ViewHolderType))
     }
-    val calendarData: LiveData<List<RecordViewData.Tracked>> = MutableLiveData()
+    val calendarData: LiveData<List<RecordViewData>> = MutableLiveData()
 
     fun onRecordClick(item: RecordViewData, sharedElements: Pair<Any, String>? = null) {
         val preview = ChangeRecordParams.Preview(

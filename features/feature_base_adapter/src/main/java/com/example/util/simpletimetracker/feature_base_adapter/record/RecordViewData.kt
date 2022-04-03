@@ -6,6 +6,8 @@ import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 
 sealed class RecordViewData : ViewHolderType {
 
+    abstract val timeStartedTimestamp: Long
+    abstract val timeEndedTimestamp: Long
     abstract val name: String
     abstract val tagName: String
     abstract val timeStarted: String
@@ -19,8 +21,8 @@ sealed class RecordViewData : ViewHolderType {
 
     data class Tracked(
         val id: Long,
-        val timeStartedTimestamp: Long,
-        val timeEndedTimestamp: Long,
+        override val timeStartedTimestamp: Long,
+        override val timeEndedTimestamp: Long,
         override val name: String,
         override val tagName: String,
         override val timeStarted: String,
@@ -35,8 +37,8 @@ sealed class RecordViewData : ViewHolderType {
     }
 
     data class Untracked(
-        val timeStartedTimestamp: Long,
-        val timeEndedTimestamp: Long,
+        override val timeStartedTimestamp: Long,
+        override val timeEndedTimestamp: Long,
         override val name: String,
         override val tagName: String,
         override val timeStarted: String,

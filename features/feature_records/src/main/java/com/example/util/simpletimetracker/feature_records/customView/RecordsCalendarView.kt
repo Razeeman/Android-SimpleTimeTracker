@@ -86,10 +86,10 @@ class RecordsCalendarView @JvmOverloads constructor(
     private val bounds: Rect = Rect(0, 0, 0, 0)
     private val textBounds: Rect = Rect(0, 0, 0, 0)
     private val recordBounds: RectF = RectF(0f, 0f, 0f, 0f)
-    private var originalData: List<RecordViewData.Tracked> = emptyList()
+    private var originalData: List<RecordViewData> = emptyList()
     private var data: List<Data> = emptyList()
     private val iconView: IconView = IconView(ContextThemeWrapper(context, R.style.AppTheme))
-    private var listener: (RecordViewData.Tracked) -> Unit = {}
+    private var listener: (RecordViewData) -> Unit = {}
 
     private val nameTextView: AppCompatTextView by lazy {
         AppCompatTextView(context).apply {
@@ -178,11 +178,11 @@ class RecordsCalendarView @JvmOverloads constructor(
             scaleDetector.onTouchEvent(event)
     }
 
-    fun setClickListener(listener: (RecordViewData.Tracked) -> Unit) {
+    fun setClickListener(listener: (RecordViewData) -> Unit) {
         this.listener = listener
     }
 
-    fun setData(data: List<RecordViewData.Tracked>) {
+    fun setData(data: List<RecordViewData>) {
         originalData = data
         this.data = processData(data)
         invalidate()
@@ -397,14 +397,14 @@ class RecordsCalendarView @JvmOverloads constructor(
         }
     }
 
-    private fun processData(data: List<RecordViewData.Tracked>): List<Data> {
+    private fun processData(data: List<RecordViewData>): List<Data> {
         val res = mutableListOf<Data>()
 
         // Raw data.
         data.forEach { point ->
             res.add(
                 Data(
-                    id = point.id,
+                    id = point.getUniqueId(),
                     start = point.timeStartedTimestamp,
                     // Otherwise would be too small to see.
                     end = max(point.timeEndedTimestamp, point.timeStartedTimestamp + minuteInMillis),
@@ -504,7 +504,7 @@ class RecordsCalendarView @JvmOverloads constructor(
             }
             ?.id
             ?.let { clickedId ->
-                originalData.firstOrNull { it.id == clickedId }
+                originalData.firstOrNull { it.getUniqueId() == clickedId }
             }
             ?.let(listener)
     }
