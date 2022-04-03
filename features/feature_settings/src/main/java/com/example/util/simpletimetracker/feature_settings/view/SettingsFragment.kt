@@ -50,6 +50,8 @@ class SettingsFragment :
 
     override fun initUi() = with(binding) {
         tvSettingsVersionName.text = BuildConfig.VERSION_NAME
+        spinnerSettingsFirstDayOfWeek.setProcessSameItemSelection(false)
+        spinnerSettingsRecordTypeSort.setProcessSameItemSelection(false)
     }
 
     override fun initUx() = with(binding) {

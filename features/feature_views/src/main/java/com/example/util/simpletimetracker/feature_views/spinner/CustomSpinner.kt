@@ -59,6 +59,10 @@ class CustomSpinner @JvmOverloads constructor(
         onPositionSelected = positionSelectedListener
     }
 
+    fun setProcessSameItemSelection(enabled: Boolean) {
+        binding.customSpinner.setProcessSameItemSelection(enabled)
+    }
+
     abstract class CustomSpinnerItem {
         abstract val text: String
     }

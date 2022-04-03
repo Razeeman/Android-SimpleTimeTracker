@@ -16,6 +16,7 @@ class FullWidthSpinner @JvmOverloads constructor(
 
     private var popupUnderSpinner: Boolean = false
     private var popupMarginTop: Int = 0
+    private var processSameItemSelection: Boolean = true
 
     init {
         context.obtainStyledAttributes(attrs, R.styleable.FullWidthSpinner, defStyleAttr, 0)
@@ -46,7 +47,13 @@ class FullWidthSpinner @JvmOverloads constructor(
         super.setSelection(position, animate)
     }
 
+    fun setProcessSameItemSelection(enabled: Boolean) {
+        processSameItemSelection = enabled
+    }
+
     private fun processSelection(position: Int) {
+        if (!processSameItemSelection) return
+
         val sameSelected = position == selectedItemPosition
         val listener = onItemSelectedListener
         if (sameSelected && listener != null) {
