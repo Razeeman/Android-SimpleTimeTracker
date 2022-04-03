@@ -11,6 +11,9 @@ import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Parcelable
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.ContextThemeWrapper
 import android.view.MotionEvent
@@ -30,11 +33,11 @@ import com.example.util.simpletimetracker.feature_views.extension.measureExactly
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import kotlinx.parcelize.Parcelize
 import java.util.concurrent.TimeUnit
-import android.text.TextUtils
+import android.text.style.ForegroundColorSpan
 import android.util.TypedValue
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatTextView
-
+import kotlin.math.max
 
 class RecordsCalendarView @JvmOverloads constructor(
     context: Context,
@@ -49,6 +52,7 @@ class RecordsCalendarView @JvmOverloads constructor(
     // Attrs
     private var nameTextSize: Float = 0f
     private var nameTextColor: Int = 0
+    private var itemTagColor: Int = 0
     private var legendTextSize: Float = 0f
     private var legendTextColor: Int = 0
     private var legendLineColor: Int = 0
@@ -73,6 +77,7 @@ class RecordsCalendarView @JvmOverloads constructor(
     private val recordHorizontalPadding: Float = 4.dpToPx().toFloat()
     private val dayInMillis = TimeUnit.DAYS.toMillis(1)
     private val hourInMillis = TimeUnit.HOURS.toMillis(1)
+    private val minuteInMillis = TimeUnit.MINUTES.toMillis(1)
 
     private val recordPaint: Paint = Paint()
     private val legendTextPaint: Paint = Paint()
@@ -195,6 +200,8 @@ class RecordsCalendarView @JvmOverloads constructor(
                     getDimensionPixelSize(R.styleable.RecordsCalendarView_calendarTextSize, 14).toFloat()
                 nameTextColor =
                     getColor(R.styleable.RecordsCalendarView_calendarTextColor, Color.WHITE)
+                itemTagColor =
+                    getColor(R.styleable.RecordsCalendarView_calendarTagColor, Color.WHITE)
                 legendTextSize =
                     getDimensionPixelSize(R.styleable.RecordsCalendarView_calendarLegendTextSize, 14).toFloat()
                 legendTextColor =
@@ -297,7 +304,7 @@ class RecordsCalendarView @JvmOverloads constructor(
             iconSize?.let { iconSize ->
                 iconLeft = (recordBounds.left + recordHorizontalPadding).toInt()
                 iconRight = iconLeft + iconSize
-                iconTop = (recordBounds.top + recordBounds.height() / 2 - iconSize / 2).toInt()
+                iconTop = (recordBounds.top + recordVerticalPadding).toInt()
                 iconBottom = iconTop + iconSize
 
                 bounds.set(
@@ -311,14 +318,14 @@ class RecordsCalendarView @JvmOverloads constructor(
             ///////////////
             // Draw text //
             ///////////////
-            textWidth = recordBounds.width() - iconMaxSize - 3 * recordHorizontalPadding
-            nameTextView.text = item.name
+            textWidth = recordBounds.width() - iconMaxSize - 2 * recordHorizontalPadding
+            nameTextView.text = getItemName(item)
             nameTextView.measureText(textWidth.toInt())
             textHeight = nameTextView.measuredHeight.takeIf { it < recordBounds.height() - 2 * recordVerticalPadding }
             // If can fit into box.
-            textHeight?.let { textHeight ->
+            textHeight?.let { _ ->
                 textLeft = recordBounds.left + recordBounds.width() - textWidth
-                textTop = recordBounds.top + recordBounds.height() / 2 - textHeight / 2
+                textTop = recordBounds.top + recordVerticalPadding
 
                 canvas.save()
                 canvas.translate(textLeft, textTop)
@@ -379,9 +386,9 @@ class RecordsCalendarView @JvmOverloads constructor(
                         timeEndedTimestamp = currentStart + hourInMillis * (it + 1),
                         name = "Record $it",
                         tagName = "Tag $it",
-                        timeStarted = "",
-                        timeFinished = "",
-                        duration = "",
+                        timeStarted = "07:35",
+                        timeFinished = "11:58",
+                        duration = "5h 23m 3s",
                         iconId = RecordTypeIcon.Image(R.drawable.unknown),
                         color = Color.RED,
                         comment = "Comment $it"
@@ -399,8 +406,10 @@ class RecordsCalendarView @JvmOverloads constructor(
                 Data(
                     id = point.id,
                     start = point.timeStartedTimestamp,
-                    end = point.timeEndedTimestamp,
+                    // Otherwise would be too small to see.
+                    end = max(point.timeEndedTimestamp, point.timeStartedTimestamp + minuteInMillis),
                     name = point.name,
+                    tagName = point.tagName,
                     colorInt = point.color,
                     drawable = getIconDrawable(point.iconId),
                 )
@@ -468,6 +477,21 @@ class RecordsCalendarView @JvmOverloads constructor(
             }
             .getBitmapFromView()
             .let { BitmapDrawable(resources, it) }
+    }
+
+    private fun getItemName(item: Data): CharSequence {
+        return if (item.tagName.isEmpty()) {
+            item.name
+        } else {
+            val name = "${item.name} - ${item.tagName}"
+            val spannable = SpannableString(name)
+            spannable.setSpan(
+                ForegroundColorSpan(itemTagColor),
+                item.name.length, name.length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            spannable
+        }
     }
 
     private fun onTouch(event: MotionEvent) {
@@ -539,6 +563,7 @@ class RecordsCalendarView @JvmOverloads constructor(
         val start: Long,
         val end: Long,
         val name: String,
+        val tagName: String,
         @ColorInt val colorInt: Int,
         val drawable: Drawable? = null,
         var columnCount: Int = 1,

@@ -21,6 +21,7 @@
         app:calendarLegendTextColor="@color/textSecondary"
         app:calendarLegendTextSize="12sp"
         app:calendarRecordsCount="5"
+        app:calendarTagColor="@color/white_alpha_60"
         app:calendarTextColor="?appLightTextColor"
         app:calendarTextSize="12sp"
         app:layout_constraintBottom_toTopOf="@id/tvRecordsCalendarHint"
