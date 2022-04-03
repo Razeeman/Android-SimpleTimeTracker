@@ -17,8 +17,6 @@ sealed class RecordViewData : ViewHolderType {
     abstract val color: Int
     abstract val comment: String
 
-    override fun isValidType(other: ViewHolderType): Boolean = other is RecordViewData
-
     data class Tracked(
         val id: Long,
         override val timeStartedTimestamp: Long,
@@ -34,6 +32,8 @@ sealed class RecordViewData : ViewHolderType {
     ) : RecordViewData() {
 
         override fun getUniqueId(): Long = id
+
+        override fun isValidType(other: ViewHolderType): Boolean = other is Tracked
     }
 
     data class Untracked(
@@ -55,5 +55,7 @@ sealed class RecordViewData : ViewHolderType {
             result = 31L * result + timeFinished.hashCode()
             return result
         }
+
+        override fun isValidType(other: ViewHolderType): Boolean = other is Untracked
     }
 }

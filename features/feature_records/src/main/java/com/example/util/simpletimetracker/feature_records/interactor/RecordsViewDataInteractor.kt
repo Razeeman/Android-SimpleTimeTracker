@@ -145,12 +145,14 @@ class RecordsViewDataInteractor @Inject constructor(
         }.let {
             record.timeStartedTimestamp - it.timeInMillis
         }
-        val end = start + (record.timeEndedTimestamp - record.timeStartedTimestamp)
+        val duration = (record.timeEndedTimestamp - record.timeStartedTimestamp)
+            // Otherwise would be invisible.
+            .takeUnless { it == 0L } ?: minuteInMillis
+        val end = start + duration
 
         return RecordsCalendarViewData.Point(
             start = start - startOfDayShift,
-            // Otherwise would be too small to see.
-            end = max(end, start + minuteInMillis) - startOfDayShift,
+            end = end - startOfDayShift,
             data = record
         )
     }

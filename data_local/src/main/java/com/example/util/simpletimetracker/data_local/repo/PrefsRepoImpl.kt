@@ -42,7 +42,7 @@ class PrefsRepoImpl @Inject constructor(
     )
 
     override var showUntrackedInRecords: Boolean by prefs.delegate(
-        KEY_SHOW_UNTRACKED_IN_RECORDS, true
+        KEY_SHOW_UNTRACKED_IN_RECORDS, false
     )
 
     override var showRecordsCalendar: Boolean by prefs.delegate(
