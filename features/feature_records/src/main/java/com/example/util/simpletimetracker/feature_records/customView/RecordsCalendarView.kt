@@ -278,9 +278,9 @@ class RecordsCalendarView @JvmOverloads constructor(
         var textTop: Float
 
         data.forEach { item ->
-            //////////////
-            // Draw box //
-            //////////////
+            /************
+             * Draw box *
+             ************/
             recordPaint.color = item.point.data.color
             boxHeight = h * (item.point.end - item.point.start) / dayInMillis
             boxShift = h * item.point.start / dayInMillis
@@ -307,9 +307,9 @@ class RecordsCalendarView @JvmOverloads constructor(
                 recordPaint
             )
 
-            ///////////////
-            // Draw icon //
-            ///////////////
+            /*************
+             * Draw icon *
+             *************/
             iconSize = iconMaxSize.takeIf { it < recordBounds.height() - 2 * recordVerticalPadding }
             // If can fit into box.
             iconSize?.let { iconSize ->
@@ -326,9 +326,9 @@ class RecordsCalendarView @JvmOverloads constructor(
                 item.drawable?.draw(canvas)
             }
 
-            ///////////////
-            // Draw text //
-            ///////////////
+            /*************
+             * Draw text *
+             *************/
             textWidth = recordBounds.width() - iconMaxSize - 2 * recordHorizontalPadding
             nameTextView.text = getItemName(item.point.data)
             nameTextView.measureText(textWidth.toInt())
