@@ -86,6 +86,7 @@
     <string name="change_record_type_field">活动</string>
     <string name="change_record_category_field">标签</string>
     <string name="change_record_comment_hint">备注</string>
+    <string name="change_record_last_comments_hint">最后评论</string>
     <string name="change_record_categories_empty">未添加记录标签</string>
     <string name="change_record_activity_not_selected">未选择活动</string>
     <string name="change_record_save">保存</string>

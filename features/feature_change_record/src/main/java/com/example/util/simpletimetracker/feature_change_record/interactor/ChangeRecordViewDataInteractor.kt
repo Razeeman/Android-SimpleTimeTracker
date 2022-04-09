@@ -1,10 +1,16 @@
 package com.example.util.simpletimetracker.feature_change_record.interactor
 
+import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.Record
+import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_base_adapter.info.InfoViewData
+import com.example.util.simpletimetracker.feature_change_record.R
 import com.example.util.simpletimetracker.feature_change_record.mapper.ChangeRecordViewDataMapper
+import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordCommentViewData
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordViewData
 import javax.inject.Inject
 
@@ -12,7 +18,9 @@ class ChangeRecordViewDataInteractor @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
     private val recordTagInteractor: RecordTagInteractor,
-    private val changeRecordViewDataMapper: ChangeRecordViewDataMapper
+    private val recordInteractor: RecordInteractor,
+    private val changeRecordViewDataMapper: ChangeRecordViewDataMapper,
+    private val resourceRepo: ResourceRepo,
 ) {
 
     suspend fun getPreviewViewData(
@@ -32,5 +40,29 @@ class ChangeRecordViewDataInteractor @Inject constructor(
             useMilitaryTime = useMilitaryTime,
             useProportionalMinutes = useProportionalMinutes
         )
+    }
+
+    suspend fun getLastCommentsViewData(
+        typeId: Long,
+    ): List<ViewHolderType> {
+        val hint = InfoViewData(
+            text = resourceRepo.getString(R.string.change_record_last_comments_hint)
+        )
+
+        // TODO load from db only with comments.
+        return recordInteractor.getByType(listOf(typeId))
+            .asSequence()
+            .sortedBy { it.timeStarted }
+            .map { it.comment }
+            .toSet()
+            .filter { it.isNotEmpty() }
+            .take(LAST_COMMENTS_TO_SHOW)
+            .map { ChangeRecordCommentViewData(it) }
+            .toList()
+            .let { if (it.isNotEmpty()) listOf(hint) + it else it }
+    }
+
+    companion object {
+        private const val LAST_COMMENTS_TO_SHOW = 20
     }
 }

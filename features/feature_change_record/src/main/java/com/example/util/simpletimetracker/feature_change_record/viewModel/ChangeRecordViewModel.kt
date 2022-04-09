@@ -24,6 +24,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.category.Category
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_change_record.R
 import com.example.util.simpletimetracker.feature_change_record.interactor.ChangeRecordViewDataInteractor
+import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordCommentViewData
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordViewData
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.notification.ToastParams
@@ -71,10 +72,20 @@ class ChangeRecordViewModel @Inject constructor(
             initial
         }
     }
+    val lastComments: LiveData<List<ViewHolderType>> by lazy {
+        return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
+            viewModelScope.launch {
+                initializePreviewViewData()
+                initial.value = loadLastCommentsViewData()
+            }
+            initial
+        }
+    }
     val flipTypesChooser: LiveData<Boolean> = MutableLiveData()
     val flipCategoryChooser: LiveData<Boolean> = MutableLiveData()
     val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val keyboardVisibility: LiveData<Boolean> = MutableLiveData(false)
+    val comment: LiveData<String> = MutableLiveData()
 
     private var newTypeId: Long = 0
     private var newTimeEnded: Long = 0
@@ -173,6 +184,7 @@ class ChangeRecordViewModel @Inject constructor(
                 newCategoryIds.clear()
                 updatePreview()
                 updateCategoriesViewData()
+                updateLastCommentsViewData()
             }
         }
     }
@@ -191,6 +203,10 @@ class ChangeRecordViewModel @Inject constructor(
             updatePreview()
             updateCategoriesViewData()
         }
+    }
+
+    fun onCommentClick(item: ChangeRecordCommentViewData) {
+        comment.set(item.text)
     }
 
     fun onDateTimeSet(timestamp: Long, tag: String?) {
@@ -280,6 +296,15 @@ class ChangeRecordViewModel @Inject constructor(
             typeId = newTypeId,
             multipleChoiceAvailable = true,
         )
+    }
+
+    private fun updateLastCommentsViewData() = viewModelScope.launch {
+        val data = loadLastCommentsViewData()
+        lastComments.set(data)
+    }
+
+    private suspend fun loadLastCommentsViewData(): List<ViewHolderType> {
+        return changeRecordViewDataInteractor.getLastCommentsViewData(newTypeId)
     }
 
     private fun showMessage(stringResId: Int) {

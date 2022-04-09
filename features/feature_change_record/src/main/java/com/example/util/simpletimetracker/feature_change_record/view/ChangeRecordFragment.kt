@@ -24,6 +24,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.divider.createDiv
 import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.info.createInfoAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.createRecordTypeAdapterDelegate
+import com.example.util.simpletimetracker.feature_change_record.adapter.createChangeRecordCommentAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordViewData
 import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordViewModel
 import com.example.util.simpletimetracker.feature_views.extension.rotateDown
@@ -75,6 +76,12 @@ class ChangeRecordFragment :
             createEmptyAdapterDelegate()
         )
     }
+    private val commentsAdapter: BaseRecyclerAdapter by lazy {
+        BaseRecyclerAdapter(
+            createChangeRecordCommentAdapterDelegate(viewModel::onCommentClick),
+            createInfoAdapterDelegate(),
+        )
+    }
     private val extra: ChangeRecordParams by fragmentArgumentDelegate(
         key = ARGS_PARAMS, default = ChangeRecordParams.New()
     )
@@ -110,6 +117,15 @@ class ChangeRecordFragment :
             }
             adapter = categoriesAdapter
         }
+
+        rvChangeRecordLastComments.apply {
+            layoutManager = FlexboxLayoutManager(requireContext()).apply {
+                flexDirection = FlexDirection.ROW
+                justifyContent = JustifyContent.CENTER
+                flexWrap = FlexWrap.WRAP
+            }
+            adapter = commentsAdapter
+        }
     }
 
     override fun initUx() = with(binding) {
@@ -130,10 +146,15 @@ class ChangeRecordFragment :
     override fun initViewModel() = with(binding) {
         with(viewModel) {
             extra = this@ChangeRecordFragment.extra
-            record.observeOnce(viewLifecycleOwner, ::updateUi)
+            record.observeOnce(viewLifecycleOwner) { updateUi(it.comment) }
             record.observe(::updatePreview)
             types.observe(typesAdapter::replace)
             categories.observe(categoriesAdapter::replace)
+            lastComments.observe { data ->
+                rvChangeRecordLastComments.visible = data.isNotEmpty()
+                commentsAdapter.replace(data)
+            }
+            comment.observe(::updateUi)
             saveButtonEnabled.observe(btnChangeRecordSave::setEnabled)
             flipTypesChooser.observe { opened ->
                 rvChangeRecordType.visible = opened
@@ -164,9 +185,9 @@ class ChangeRecordFragment :
         viewModel.onDateTimeSet(timestamp, tag)
     }
 
-    private fun updateUi(item: ChangeRecordViewData) = with(binding) {
-        etChangeRecordComment.setText(item.comment)
-        etChangeRecordComment.setSelection(item.comment.length)
+    private fun updateUi(comment: String) = with(binding) {
+        etChangeRecordComment.setText(comment)
+        etChangeRecordComment.setSelection(comment.length)
     }
 
     private fun setPreview() = when (extra) {

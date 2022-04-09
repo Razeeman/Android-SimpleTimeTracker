@@ -185,25 +185,41 @@
         app:layout_constraintBottom_toTopOf="@id/btnChangeRecordSave"
         app:layout_constraintTop_toBottomOf="@id/fieldChangeRecordType">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/inputChangeRecordComment"
-            style="@style/ChangeItemInputField"
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
+            android:orientation="vertical">
 
-            app:layout_constraintVertical_bias="0">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etChangeRecordComment"
-                style="@style/EditTextMultiLine"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputChangeRecordComment"
+                style="@style/ChangeItemInputField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/change_record_comment_hint" />
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="8dp">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etChangeRecordComment"
+                    style="@style/EditTextMultiLine"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/change_record_comment_hint" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvChangeRecordLastComments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="8dp"
+                android:overScrollMode="never"
+                android:visibility="gone"
+                tools:itemCount="3"
+                tools:listitem="@layout/change_record_comment_item"
+                tools:visibility="visible" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.core.widget.NestedScrollView>
 
