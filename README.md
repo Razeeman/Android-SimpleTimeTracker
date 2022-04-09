@@ -47,15 +47,10 @@ Simple app that helps track how much time you spend on all the useless activitie
 [![settings3_thumb]][settings3]
 <br>
 
-## Start and stop activities from widgets
+## Widgets
 
 [![widgets_thumb]][widgets]
-<br>
-
-## Start and stop any activity from one widget
-
 [![widget_universal_thumb]][widget_universal]
-[![widget_universal_activity_thumb]][widget_universal_activity]
 <br>
 
 ## Notifications
@@ -82,10 +77,9 @@ Simple app that helps track how much time you spend on all the useless activitie
 - Coroutines
 - Several Widgets
 - Notifications
-- Custom Views (Pie Chart, Bar Chart, Color Selection)
+- Custom Views (Pie Chart, Bar Chart, Color Selection, Calendar)
 - Recycler, custom Adapter Delegates, DiffUtils with Payloads
-- Drag and Drop
-- Shared ViewModels
+- Drag and Drop, Gesture detection
 - Snackbars with Action
 - Gradle Kotlin DSL
 - View Binding
@@ -151,9 +145,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 [widget_universal_thumb]: dev_files/screens/widget_universal_thumb.png
 [widget_universal]: dev_files/screens/widget_universal.png
-
-[widget_universal_activity_thumb]: dev_files/screens/widget_universal_activity_thumb.png
-[widget_universal_activity]: dev_files/screens/widget_universal_activity.png
 
 [notifications_types_thumb]: dev_files/screens/notifications_types_thumb.png
 [notifications_types]: dev_files/screens/notifications_types.png
