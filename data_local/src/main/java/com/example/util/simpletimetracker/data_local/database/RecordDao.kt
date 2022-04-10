@@ -20,6 +20,10 @@ interface RecordDao {
     suspend fun getByType(typesIds: List<Long>): List<RecordWithRecordTagsDBO>
 
     @Transaction
+    @Query("SELECT * FROM records WHERE type_id IN (:typesIds) AND comment != \"\"")
+    suspend fun getByTypeWithComment(typesIds: List<Long>): List<RecordWithRecordTagsDBO>
+
+    @Transaction
     @Query("SELECT * FROM records WHERE id = :id LIMIT 1")
     suspend fun get(id: Long): RecordWithRecordTagsDBO?
 

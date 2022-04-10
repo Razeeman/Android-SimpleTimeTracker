@@ -49,16 +49,13 @@ class ChangeRecordViewDataInteractor @Inject constructor(
             text = resourceRepo.getString(R.string.change_record_last_comments_hint)
         )
 
-        // TODO load from db only with comments.
-        return recordInteractor.getByType(listOf(typeId))
+        return recordInteractor.getByTypeWithComment(listOf(typeId))
             .asSequence()
             .sortedBy { it.timeStarted }
             .map { it.comment }
             .toSet()
-            .filter { it.isNotEmpty() }
             .take(LAST_COMMENTS_TO_SHOW)
             .map { ChangeRecordCommentViewData(it) }
-            .toList()
             .let { if (it.isNotEmpty()) listOf(hint) + it else it }
     }
 

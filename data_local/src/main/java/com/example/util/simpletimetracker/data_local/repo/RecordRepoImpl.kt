@@ -28,6 +28,12 @@ class RecordRepoImpl @Inject constructor(
             .map(recordDataLocalMapper::map)
     }
 
+    override suspend fun getByTypeWithComment(typeIds: List<Long>): List<Record> = withContext(Dispatchers.IO) {
+        Timber.d("getByTypeWithComment")
+        recordDao.getByTypeWithComment(typeIds)
+            .map(recordDataLocalMapper::map)
+    }
+
     override suspend fun get(id: Long): Record? = withContext(Dispatchers.IO) {
         Timber.d("get")
         recordDao.get(id)

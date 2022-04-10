@@ -8,6 +8,8 @@ interface RecordRepo {
 
     suspend fun getByType(typeIds: List<Long>): List<Record>
 
+    suspend fun getByTypeWithComment(typeIds: List<Long>): List<Record>
+
     suspend fun get(id: Long): Record?
 
     suspend fun getFromRange(start: Long, end: Long): List<Record>
