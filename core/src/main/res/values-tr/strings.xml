@@ -142,6 +142,7 @@
     <string name="records_all_filter">Kayıtları filtrele</string>
     <string name="records_all_sort_time_started">Başlangıç zamanı</string>
     <string name="records_all_sort_duration">Süre</string>
+    <string name="records_all_search_comment">Yorum ara</string>
 
     <!--  Running records  -->
     <string name="running_records_types_empty">Takip etmeye başlamak için aktivite ekleyin</string>

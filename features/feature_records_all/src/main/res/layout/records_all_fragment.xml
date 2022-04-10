@@ -50,6 +50,22 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/tvRecordsAllSort" />
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputRecordsAllSearchComment"
+                style="@style/ChangeItemInputFieldDialog"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/tvRecordsAllSort">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etRecordsAllSearchComment"
+                    style="@style/EditTextMultiLine"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/records_all_search_comment" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>

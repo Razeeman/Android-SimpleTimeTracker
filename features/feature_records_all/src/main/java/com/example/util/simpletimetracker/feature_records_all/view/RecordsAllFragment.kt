@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
@@ -73,6 +74,7 @@ class RecordsAllFragment : BaseFragment<Binding>() {
     }
 
     override fun initUx() = with(binding) {
+        etRecordsAllSearchComment.doAfterTextChanged { viewModel.onCommentChange(it.toString()) }
         spinnerRecordsAllSort.onPositionSelected = viewModel::onRecordTypeOrderSelected
     }
 
@@ -80,7 +82,7 @@ class RecordsAllFragment : BaseFragment<Binding>() {
         with(viewModel) {
             extra = params
             records.observe(recordsAdapter::replaceAsNew)
-            sortOrderViewData.observe(::updateCardOrderViewData)
+            sortOrderViewData.observe(::updateSortOrderViewData)
         }
         with(removeRecordViewModel) {
             needUpdate.observe(::onUpdateNeeded)
@@ -108,7 +110,7 @@ class RecordsAllFragment : BaseFragment<Binding>() {
         }
     }
 
-    private fun updateCardOrderViewData(viewData: RecordsAllSortOrderViewData) = with(binding) {
+    private fun updateSortOrderViewData(viewData: RecordsAllSortOrderViewData) = with(binding) {
         spinnerRecordsAllSort.setData(viewData.items, viewData.selectedPosition)
         tvRecordsAllSortValue.text = viewData.items.getOrNull(viewData.selectedPosition)?.text.orEmpty()
     }

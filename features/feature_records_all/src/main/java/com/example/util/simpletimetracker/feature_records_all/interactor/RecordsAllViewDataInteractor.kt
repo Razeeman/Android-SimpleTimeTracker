@@ -26,14 +26,15 @@ class RecordsAllViewDataInteractor @Inject constructor(
     private val typesFilterInteractor: TypesFilterInteractor,
     private val recordsAllViewDataMapper: RecordsAllViewDataMapper,
     private val timeMapper: TimeMapper,
-    private val rangeMapper: RangeMapper
+    private val rangeMapper: RangeMapper,
 ) {
 
     suspend fun getViewData(
         filter: TypesFilterParams,
         sortOrder: RecordsAllSortOrder,
         rangeStart: Long,
-        rangeEnd: Long
+        rangeEnd: Long,
+        commentSearch: String,
     ): List<ViewHolderType> {
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
@@ -41,7 +42,11 @@ class RecordsAllViewDataInteractor @Inject constructor(
         val recordTypes = recordTypeInteractor.getAll().map { it.id to it }.toMap()
         val recordTags = recordTagInteractor.getAll()
         val typesSelected = typesFilterInteractor.getTypeIds(filter)
-        val records = recordInteractor.getByType(typesSelected)
+        val records = if (commentSearch.isEmpty()) {
+            recordInteractor.getByType(typesSelected)
+        } else {
+            recordInteractor.searchComments(typesSelected, commentSearch)
+        }
             .filter { it.isNotFiltered(filter) }
             .let {
                 if (rangeStart != 0L && rangeEnd != 0L) {

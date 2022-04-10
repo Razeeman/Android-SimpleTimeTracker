@@ -142,6 +142,7 @@
     <string name="records_all_filter">Filtrera aktiviteter</string>
     <string name="records_all_sort_time_started">Starttid</string>
     <string name="records_all_sort_duration">Varaktighet</string>
+    <string name="records_all_search_comment">Sök kommentar</string>
 
     <!--  Running records  -->
     <string name="running_records_types_empty">Börja med att lägga till några aktiviteter nedan</string>

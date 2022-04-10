@@ -142,6 +142,7 @@
     <string name="records_all_filter">Filtrar las actividades</string>
     <string name="records_all_sort_time_started">Tiempo de inicio</string>
     <string name="records_all_sort_duration">Duración</string>
+    <string name="records_all_search_comment">Buscar comentario</string>
 
     <!--  Running records  -->
     <string name="running_records_types_empty">Añada actividades para iniciar el temporizador</string>

@@ -142,6 +142,7 @@
     <string name="records_all_filter">Filtrar atividades</string>
     <string name="records_all_sort_time_started">Hora de início</string>
     <string name="records_all_sort_duration">Duração</string>
+    <string name="records_all_search_comment">Pesquisar comentário</string>
 
     <!--  Running records  -->
     <string name="running_records_types_empty">Adicione atividades para começar a monitorar</string>

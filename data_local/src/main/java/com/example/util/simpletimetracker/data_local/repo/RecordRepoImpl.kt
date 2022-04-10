@@ -13,7 +13,7 @@ import javax.inject.Singleton
 @Singleton
 class RecordRepoImpl @Inject constructor(
     private val recordDao: RecordDao,
-    private val recordDataLocalMapper: RecordDataLocalMapper
+    private val recordDataLocalMapper: RecordDataLocalMapper,
 ) : RecordRepo {
 
     override suspend fun getAll(): List<Record> = withContext(Dispatchers.IO) {
@@ -31,6 +31,14 @@ class RecordRepoImpl @Inject constructor(
     override suspend fun getByTypeWithComment(typeIds: List<Long>): List<Record> = withContext(Dispatchers.IO) {
         Timber.d("getByTypeWithComment")
         recordDao.getByTypeWithComment(typeIds)
+            .map(recordDataLocalMapper::map)
+    }
+
+    override suspend fun searchComments(
+        typeIds: List<Long>, text: String,
+    ): List<Record> = withContext(Dispatchers.IO) {
+        Timber.d("searchComments")
+        recordDao.searchComments(typeIds, text)
             .map(recordDataLocalMapper::map)
     }
 
