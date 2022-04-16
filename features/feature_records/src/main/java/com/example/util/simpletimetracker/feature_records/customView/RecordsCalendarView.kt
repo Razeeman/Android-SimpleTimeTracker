@@ -67,6 +67,7 @@ class RecordsCalendarView @JvmOverloads constructor(
     private var lastPanFactor: Float = 0f
     private var legendTextWidth: Float = 0f
     private var legendTextHeight: Float = 0f
+    private var legendMinutesTextHeight: Float = 0f
     private var pixelLeftBound: Float = 0f
     private var pixelRightBound: Float = 0f
     private var canvasHeight: Float = 0f
@@ -80,6 +81,7 @@ class RecordsCalendarView @JvmOverloads constructor(
 
     private val recordPaint: Paint = Paint()
     private val legendTextPaint: Paint = Paint()
+    private val legendMinutesTextPaint: Paint = Paint()
     private val linePaint: Paint = Paint()
     private val currentTimelinePaint: Paint = Paint()
 
@@ -231,6 +233,12 @@ class RecordsCalendarView @JvmOverloads constructor(
             color = legendTextColor
             textSize = legendTextSize
         }
+        legendMinutesTextPaint.apply {
+            isAntiAlias = true
+            color = legendTextColor
+            textSize = legendTextSize * 0.8f
+            textAlign = Paint.Align.RIGHT
+        }
         linePaint.apply {
             isAntiAlias = true
             color = legendLineColor
@@ -250,6 +258,9 @@ class RecordsCalendarView @JvmOverloads constructor(
 
         legendTextPaint.getTextBounds(defaultLegendText, 0, defaultLegendText.length, textBounds)
         legendTextHeight = textBounds.height().toFloat()
+
+        legendMinutesTextPaint.getTextBounds(defaultLegendText, 0, defaultLegendText.length, textBounds)
+        legendMinutesTextHeight = textBounds.height().toFloat()
 
         // Chart dimensions
         pixelLeftBound = legendTextWidth + 2 * legendTextPadding
@@ -347,16 +358,18 @@ class RecordsCalendarView @JvmOverloads constructor(
     }
 
     private fun drawLegend(canvas: Canvas, w: Float, h: Float) {
-        val legendTexts = (24 downTo 0)
+        val hours = (24 downTo 0)
             .map { if (it == 24 && startOfDayShift != 0L) 0 else it }
-            .map { it.toString().padStart(2, '0') }
-            .map { "$it:00" }
-        val lineStep = h / (legendTexts.size - 1)
+        val lineStep = h / (hours.size - 1)
+        val minutes = (1..59)
+            .map { it }
+        val minuteLineStep = lineStep / (minutes.size + 1)
         val shift: Float = h * startOfDayShift / dayInMillis
 
         canvas.save()
         canvas.translate(0f, panFactor)
 
+        // Draw current time
         currentTime?.let { currentTime ->
             val currentTimeY = h * scaleFactor * (dayInMillis - currentTime) / dayInMillis
             canvas.drawLine(
@@ -368,7 +381,7 @@ class RecordsCalendarView @JvmOverloads constructor(
             )
         }
 
-        legendTexts.forEachIndexed { index, text ->
+        hours.forEachIndexed { index, hour ->
             val currentY = (index * lineStep * scaleFactor + shift * scaleFactor).let {
                 // If goes over the end - draw on top, and otherwise.
                 when {
@@ -390,12 +403,37 @@ class RecordsCalendarView @JvmOverloads constructor(
             // Draw text
             val textCenterY: Float = (currentY + legendTextHeight / 2)
                 .coerceIn(legendTextHeight, h * scaleFactor)
+            val hourText = hour.toString()
+                .padStart(2, '0')
             canvas.drawText(
-                text,
+                hourText.let { "$it:00" },
                 legendTextPadding,
                 textCenterY,
                 legendTextPaint
             )
+
+            // Draw minute texts
+            minutes.forEachIndexed { minuteIndex, minute ->
+                val minuteCurrentY = (currentY - (minuteIndex + 1) * minuteLineStep * scaleFactor).let {
+                    // If goes over the end - draw on top, and otherwise.
+                    when {
+                        it > h * scaleFactor -> it - h * scaleFactor
+                        it < 0 -> it + h * scaleFactor
+                        else -> it
+                    }
+                }
+                val minuteTextCenterY: Float = (minuteCurrentY + legendMinutesTextHeight / 2)
+                    .coerceIn(legendMinutesTextHeight, h * scaleFactor)
+                val minuteText = minute.toString()
+                    .padStart(2, '0')
+                val fullText = "$hourText:$minuteText"
+                canvas.drawText(
+                    fullText,
+                    pixelLeftBound - legendTextPadding,
+                    minuteTextCenterY,
+                    legendMinutesTextPaint
+                )
+            }
         }
 
         canvas.restore()
