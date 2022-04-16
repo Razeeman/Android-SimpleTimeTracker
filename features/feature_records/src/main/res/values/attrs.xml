@@ -10,6 +10,7 @@
         <attr name="calendarLegendTextSize" format="dimension" />
         <attr name="calendarLegendTextColor" format="color" />
         <attr name="calendarLegendLineColor" format="color" />
+        <attr name="calendarLegendLineSecondaryColor" format="color" />
         <attr name="calendarCurrentTimeLegendColor" format="color" />
         <attr name="calendarCurrentTimeLegendWidth" format="dimension" />
         <attr name="calendarIconMaxSize" format="dimension" />

@@ -25,6 +25,7 @@
     <attr name="appInactiveColor" format="reference" />
     <attr name="appIconColor" format="reference" />
     <attr name="appLegendColor" format="reference" />
+    <attr name="appLegendSecondaryColor" format="reference" />
 
     <declare-styleable name="IconView">
         <attr name="itemIcon" format="reference" />

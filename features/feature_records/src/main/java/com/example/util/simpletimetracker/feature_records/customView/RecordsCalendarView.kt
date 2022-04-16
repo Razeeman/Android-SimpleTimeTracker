@@ -54,6 +54,7 @@ class RecordsCalendarView @JvmOverloads constructor(
     private var legendTextSize: Float = 0f
     private var legendTextColor: Int = 0
     private var legendLineColor: Int = 0
+    private var legendLineSecondaryColor: Int = 0
     private var currentTimeLegendColor: Int = 0
     private var currentTimeLegendWidth: Float = 0f
     private var iconMaxSize: Int = 0
@@ -73,6 +74,7 @@ class RecordsCalendarView @JvmOverloads constructor(
     private var canvasHeight: Float = 0f
     private var chartWidth: Float = 0f
     private val legendTextPadding: Float = 2.dpToPx().toFloat()
+    private val legendMinutesTextPadding: Float = 4.dpToPx().toFloat()
     private val recordCornerRadius: Float = 8.dpToPx().toFloat()
     private val recordVerticalPadding: Float = 2.dpToPx().toFloat()
     private val recordHorizontalPadding: Float = 4.dpToPx().toFloat()
@@ -83,6 +85,7 @@ class RecordsCalendarView @JvmOverloads constructor(
     private val legendTextPaint: Paint = Paint()
     private val legendMinutesTextPaint: Paint = Paint()
     private val linePaint: Paint = Paint()
+    private val lineSecondaryPaint: Paint = Paint()
     private val currentTimelinePaint: Paint = Paint()
 
     private val bounds: Rect = Rect(0, 0, 0, 0)
@@ -105,6 +108,17 @@ class RecordsCalendarView @JvmOverloads constructor(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
             )
         }
+    }
+
+    private val availableMinutesRanges: List<List<Int>> = listOf(
+        (0..60).step(1),
+        (0..60).step(5),
+        (0..60).step(10),
+        (0..60).step(15),
+        (0..60).step(20),
+        (0..60).step(30),
+    ).map {
+        it.toList().drop(1).dropLast(1)
     }
 
     private val singleTapDetector = SingleTapDetector(
@@ -212,6 +226,8 @@ class RecordsCalendarView @JvmOverloads constructor(
                     getColor(R.styleable.RecordsCalendarView_calendarLegendTextColor, Color.BLACK)
                 legendLineColor =
                     getColor(R.styleable.RecordsCalendarView_calendarLegendLineColor, Color.BLACK)
+                legendLineSecondaryColor =
+                    getColor(R.styleable.RecordsCalendarView_calendarLegendLineSecondaryColor, Color.BLACK)
                 currentTimeLegendColor =
                     getColor(R.styleable.RecordsCalendarView_calendarCurrentTimeLegendColor, Color.RED)
                 currentTimeLegendWidth =
@@ -242,6 +258,10 @@ class RecordsCalendarView @JvmOverloads constructor(
         linePaint.apply {
             isAntiAlias = true
             color = legendLineColor
+        }
+        lineSecondaryPaint.apply {
+            isAntiAlias = true
+            color = legendLineSecondaryColor
         }
         currentTimelinePaint.apply {
             isAntiAlias = true
@@ -361,9 +381,12 @@ class RecordsCalendarView @JvmOverloads constructor(
         val hours = (24 downTo 0)
             .map { if (it == 24 && startOfDayShift != 0L) 0 else it }
         val lineStep = h / (hours.size - 1)
-        val minutes = (1..59)
-            .map { it }
-        val minuteLineStep = lineStep / (minutes.size + 1)
+
+        val selectedMinutesRange = availableMinutesRanges.firstOrNull() {
+            (lineStep * scaleFactor / (it.size + 1)) > (legendMinutesTextHeight + 2 * legendMinutesTextPadding)
+        }.orEmpty()
+        val minuteLineStep = lineStep / (selectedMinutesRange.size + 1)
+
         val shift: Float = h * startOfDayShift / dayInMillis
 
         canvas.save()
@@ -391,7 +414,7 @@ class RecordsCalendarView @JvmOverloads constructor(
                 }
             }
 
-            // Draw line
+            // Draw hour line
             canvas.drawLine(
                 pixelLeftBound,
                 currentY,
@@ -400,7 +423,7 @@ class RecordsCalendarView @JvmOverloads constructor(
                 linePaint
             )
 
-            // Draw text
+            // Draw hour text
             val textCenterY: Float = (currentY + legendTextHeight / 2)
                 .coerceIn(legendTextHeight, h * scaleFactor)
             val hourText = hour.toString()
@@ -412,8 +435,8 @@ class RecordsCalendarView @JvmOverloads constructor(
                 legendTextPaint
             )
 
-            // Draw minute texts
-            minutes.forEachIndexed { minuteIndex, minute ->
+            // Draw minutes
+            selectedMinutesRange.forEachIndexed { minuteIndex, minute ->
                 val minuteCurrentY = (currentY - (minuteIndex + 1) * minuteLineStep * scaleFactor).let {
                     // If goes over the end - draw on top, and otherwise.
                     when {
@@ -422,6 +445,17 @@ class RecordsCalendarView @JvmOverloads constructor(
                         else -> it
                     }
                 }
+
+                // Draw minute line
+                canvas.drawLine(
+                    pixelLeftBound,
+                    minuteCurrentY,
+                    w,
+                    minuteCurrentY,
+                    lineSecondaryPaint
+                )
+
+                // Draw minute text
                 val minuteTextCenterY: Float = (minuteCurrentY + legendMinutesTextHeight / 2)
                     .coerceIn(legendMinutesTextHeight, h * scaleFactor)
                 val minuteText = minute.toString()
