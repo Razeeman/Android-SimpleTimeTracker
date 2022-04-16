@@ -139,6 +139,14 @@ class PrefsInteractor @Inject constructor(
         prefsRepo.inactivityReminderDuration = duration
     }
 
+    suspend fun getIgnoreShortRecordsDuration(): Long = withContext(Dispatchers.IO) {
+        prefsRepo.ignoreShortRecordsDuration
+    }
+
+    suspend fun setIgnoreShortRecordsDuration(duration: Long) = withContext(Dispatchers.IO) {
+        prefsRepo.ignoreShortRecordsDuration = duration
+    }
+
     suspend fun getDarkMode(): Boolean = withContext(Dispatchers.IO) {
         prefsRepo.darkMode
     }

@@ -62,7 +62,7 @@ class SettingsMapper @Inject constructor(
         return dayOfWeekList.getOrElse(position) { dayOfWeekList.first() }
     }
 
-    fun toInactivityReminderText(duration: Long): String {
+    fun toDurationText(duration: Long): String {
         return if (duration > 0) {
             timeMapper.formatDuration(duration)
         } else {

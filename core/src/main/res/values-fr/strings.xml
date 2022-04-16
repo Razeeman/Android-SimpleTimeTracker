@@ -165,6 +165,8 @@
     <string name="settings_start_of_day">Décalage du début de journée</string>
     <string name="settings_inactivity_reminder">Afficher le rappel d\'inactivité</string>
     <string name="settings_inactivity_reminder_hint">Afficher la notification après l\'heure spécifiée si aucune minuterie n\'est en cours d\'exécution.</string>
+    <string name="settings_ignore_short_records">Ignorer les enregistrements courts</string>
+    <string name="settings_ignore_short_records_hint">Ne suivez pas les activités qui sont plus courtes que le temps spécifié.</string>
     <string name="settings_inactivity_reminder_disabled">Désactivé</string>
     <string name="settings_dark_mode">Mode sombre</string>
     <string name="settings_use_military_time">Utiliser le format 24 heures</string>

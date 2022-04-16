@@ -24,6 +24,8 @@ interface PrefsRepo {
 
     var inactivityReminderDuration: Long // in seconds
 
+    var ignoreShortRecordsDuration: Long // in seconds
+
     var darkMode: Boolean
 
     var numberOfCards: Int

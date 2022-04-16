@@ -165,6 +165,8 @@
     <string name="settings_start_of_day">Сдвинуть начало дня</string>
     <string name="settings_inactivity_reminder">Показать напоминание о бездействии</string>
     <string name="settings_inactivity_reminder_hint">Показывать уведомление по истечении указанного времени, если таймеры не запущены.</string>
+    <string name="settings_ignore_short_records">Игнорировать короткие записи</string>
+    <string name="settings_ignore_short_records_hint">Не отслеживать активности, которые короче указанного времени.</string>
     <string name="settings_inactivity_reminder_disabled">Выкл.</string>
     <string name="settings_dark_mode">Темный режим</string>
     <string name="settings_use_military_time">24-часовой формат</string>

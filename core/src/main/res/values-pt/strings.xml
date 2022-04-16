@@ -165,6 +165,8 @@
     <string name="settings_start_of_day">Mudar início do dia</string>
     <string name="settings_inactivity_reminder">Mostrar lembrete de inatividade</string>
     <string name="settings_inactivity_reminder_hint">Mostrar notificação após o tempo especificado se nenhum timer estiver em execução.</string>
+    <string name="settings_ignore_short_records">Ignorar registros curtos</string>
+    <string name="settings_ignore_short_records_hint">Não rastreie atividades mais curtas que o tempo especificado.</string>
     <string name="settings_inactivity_reminder_disabled">Desativado</string>
     <string name="settings_dark_mode">Modo noturno</string>
     <string name="settings_use_military_time">Usar formato de 24 horas</string>

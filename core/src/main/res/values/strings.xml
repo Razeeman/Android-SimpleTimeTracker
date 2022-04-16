@@ -165,6 +165,8 @@
     <string name="settings_start_of_day">Shift start of the day</string>
     <string name="settings_inactivity_reminder">Show inactivity reminder</string>
     <string name="settings_inactivity_reminder_hint">Show notification after specified time if no timers are running.</string>
+    <string name="settings_ignore_short_records">Ignore short records</string>
+    <string name="settings_ignore_short_records_hint">Do not track activities that are shorter than the specified time.</string>
     <string name="settings_inactivity_reminder_disabled">Disabled</string>
     <string name="settings_dark_mode">Dark mode</string>
     <string name="settings_use_military_time">Use 24-hour format</string>

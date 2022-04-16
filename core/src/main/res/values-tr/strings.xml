@@ -165,6 +165,8 @@
     <string name="settings_start_of_day">Gün başlangıcı</string>
     <string name="settings_inactivity_reminder">İnaktivite hatırlatıcısı göster</string>
     <string name="settings_inactivity_reminder_hint">Eğer herhangi bir zamanlayıcı çalışmıyorsa belirtilen süre sonunda bildirim göster.</string>
+    <string name="settings_ignore_short_records">Kısa kayıtları yoksay</string>
+    <string name="settings_ignore_short_records_hint">Belirtilen süreden daha kısa olan etkinlikleri takip etmeyin.</string>
     <string name="settings_inactivity_reminder_disabled">Devre dışı</string>
     <string name="settings_dark_mode">Karanlık mod</string>
     <string name="settings_use_military_time">24-saat formatını kullan</string>

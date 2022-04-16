@@ -165,6 +165,8 @@
     <string name="settings_start_of_day">Cambio de inicio del día</string>
     <string name="settings_inactivity_reminder">Mostrar recordatorio de inactividad</string>
     <string name="settings_inactivity_reminder_hint">Mostrar una notificación si no se ha iniciado ningún temporizador tras el tiempo especificado.</string>
+    <string name="settings_ignore_short_records">Ignorar registros cortos</string>
+    <string name="settings_ignore_short_records_hint">No rastree actividades que sean más cortas que el tiempo especificado.</string>
     <string name="settings_inactivity_reminder_disabled">Deshabilitado</string>
     <string name="settings_dark_mode">Tema oscuro</string>
     <string name="settings_use_military_time">Usar el formato 24-horas</string>

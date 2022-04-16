@@ -165,6 +165,8 @@
     <string name="settings_start_of_day">Schichtstart in den Tag</string>
     <string name="settings_inactivity_reminder">Inaktivitätserinnerung anzeigen</string>
     <string name="settings_inactivity_reminder_hint">Benachrichtigung nach der angegebenen Zeit anzeigen, wenn keine Zeiten aktiv sind.</string>
+    <string name="settings_ignore_short_records">Ignorieren Sie kurze Aufzeichnungen</string>
+    <string name="settings_ignore_short_records_hint">Verfolgen Sie keine Aktivitäten, die kürzer als die angegebene Zeit sind.</string>
     <string name="settings_inactivity_reminder_disabled">Deaktiviert</string>
     <string name="settings_dark_mode">Dunkler Modus</string>
     <string name="settings_use_military_time">24-Stunden-Format benutzen</string>

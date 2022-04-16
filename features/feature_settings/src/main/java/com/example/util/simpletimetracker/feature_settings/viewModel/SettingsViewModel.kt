@@ -125,6 +125,15 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    val ignoreShortRecordsViewData: LiveData<String> by lazy {
+        MutableLiveData<String>().let { initial ->
+            viewModelScope.launch {
+                initial.value = loadIgnoreShortRecordsViewData()
+            }
+            initial
+        }
+    }
+
     val darkModeCheckbox: LiveData<Boolean> by lazy {
         MutableLiveData<Boolean>().let { initial ->
             viewModelScope.launch {
@@ -315,6 +324,15 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    fun onIgnoreShortRecordsClicked() {
+        viewModelScope.launch {
+            DurationDialogParams(
+                tag = IGNORE_SHORT_RECORDS_DIALOG_TAG,
+                duration = prefsInteractor.getIgnoreShortRecordsDuration()
+            ).let(router::navigate)
+        }
+    }
+
     fun onDarkModeClicked() {
         viewModelScope.launch {
             val newValue = !prefsInteractor.getDarkMode()
@@ -389,6 +407,10 @@ class SettingsViewModel @Inject constructor(
                 updateInactivityReminderViewData()
                 // TODO check and schedule inactivity reminder or reschedule at new time?
             }
+            IGNORE_SHORT_RECORDS_DIALOG_TAG -> viewModelScope.launch {
+                prefsInteractor.setIgnoreShortRecordsDuration(duration)
+                updateIgnoreShortRecordsViewData()
+            }
         }
     }
 
@@ -398,6 +420,10 @@ class SettingsViewModel @Inject constructor(
                 prefsInteractor.setInactivityReminderDuration(0)
                 updateInactivityReminderViewData()
                 notificationInactivityInteractor.cancel()
+            }
+            IGNORE_SHORT_RECORDS_DIALOG_TAG -> viewModelScope.launch {
+                prefsInteractor.setIgnoreShortRecordsDuration(0)
+                updateIgnoreShortRecordsViewData()
             }
         }
     }
@@ -465,22 +491,32 @@ class SettingsViewModel @Inject constructor(
 
     private suspend fun updateInactivityReminderViewData() {
         val data = loadInactivityReminderViewData()
-        (inactivityReminderViewData as MutableLiveData).value = data
+        inactivityReminderViewData.set(data)
     }
 
     private suspend fun loadInactivityReminderViewData(): String {
         return prefsInteractor.getInactivityReminderDuration()
-            .let(settingsMapper::toInactivityReminderText)
+            .let(settingsMapper::toDurationText)
+    }
+
+    private suspend fun updateIgnoreShortRecordsViewData() {
+        val data = loadIgnoreShortRecordsViewData()
+        ignoreShortRecordsViewData.set(data)
+    }
+
+    private suspend fun loadIgnoreShortRecordsViewData(): String {
+        return prefsInteractor.getIgnoreShortRecordsDuration()
+            .let(settingsMapper::toDurationText)
     }
 
     private suspend fun updateUseMilitaryTimeViewData() {
         val data = loadUseMilitaryTimeViewData()
-        (useMilitaryTimeHint as MutableLiveData).value = data
+        useMilitaryTimeHint.set(data)
     }
 
     private suspend fun updateUseProportionalMinutesViewData() {
         val data = loadUseProportionalMinutesViewData()
-        (useProportionalMinutesHint as MutableLiveData).value = data
+        useProportionalMinutesHint.set(data)
     }
 
     private suspend fun loadUseMilitaryTimeViewData(): String {
@@ -495,6 +531,7 @@ class SettingsViewModel @Inject constructor(
 
     companion object {
         private const val INACTIVITY_DURATION_DIALOG_TAG = "inactivity_duration_dialog_tag"
+        private const val IGNORE_SHORT_RECORDS_DIALOG_TAG = "ignore_short_records_dialog_tag"
         private const val START_OF_DAY_DIALOG_TAG = "start_of_day_dialog_tag"
     }
 }
