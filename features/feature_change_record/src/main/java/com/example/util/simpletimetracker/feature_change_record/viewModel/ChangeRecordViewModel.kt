@@ -83,6 +83,7 @@ class ChangeRecordViewModel @Inject constructor(
     }
     val flipTypesChooser: LiveData<Boolean> = MutableLiveData()
     val flipCategoryChooser: LiveData<Boolean> = MutableLiveData()
+    val flipLastCommentsChooser: LiveData<Boolean> = MutableLiveData()
     val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val keyboardVisibility: LiveData<Boolean> = MutableLiveData(false)
     val comment: LiveData<String> = MutableLiveData()
@@ -145,6 +146,11 @@ class ChangeRecordViewModel @Inject constructor(
                 )
             )
         }
+    }
+
+    fun onLastCommentsChooserClick() {
+        (flipLastCommentsChooser as MutableLiveData).value = flipLastCommentsChooser.value
+            ?.flip().orTrue()
     }
 
     fun onDeleteClick() {
@@ -301,6 +307,7 @@ class ChangeRecordViewModel @Inject constructor(
     private fun updateLastCommentsViewData() = viewModelScope.launch {
         val data = loadLastCommentsViewData()
         lastComments.set(data)
+        if (data.isEmpty()) flipLastCommentsChooser.set(false)
     }
 
     private suspend fun loadLastCommentsViewData(): List<ViewHolderType> {

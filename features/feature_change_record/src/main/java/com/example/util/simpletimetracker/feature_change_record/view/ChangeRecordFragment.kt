@@ -79,7 +79,6 @@ class ChangeRecordFragment :
     private val commentsAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
             createChangeRecordCommentAdapterDelegate(viewModel::onCommentClick),
-            createInfoAdapterDelegate(),
         )
     }
     private val extra: ChangeRecordParams by fragmentArgumentDelegate(
@@ -134,6 +133,7 @@ class ChangeRecordFragment :
         fieldChangeRecordCategory.setOnClick(viewModel::onCategoryChooserClick)
         fieldChangeRecordTimeStarted.setOnClick(viewModel::onTimeStartedClick)
         fieldChangeRecordTimeEnded.setOnClick(viewModel::onTimeEndedClick)
+        fieldChangeRecordLastComments.setOnClick(viewModel::onLastCommentsChooserClick)
         btnChangeRecordSave.setOnClick(viewModel::onSaveClick)
         btnChangeRecordDelete.setOnClick {
             viewModel.onDeleteClick()
@@ -151,7 +151,7 @@ class ChangeRecordFragment :
             types.observe(typesAdapter::replace)
             categories.observe(categoriesAdapter::replace)
             lastComments.observe { data ->
-                rvChangeRecordLastComments.visible = data.isNotEmpty()
+                fieldChangeRecordLastComments.visible = data.isNotEmpty()
                 commentsAdapter.replace(data)
             }
             comment.observe(::updateUi)
@@ -167,6 +167,13 @@ class ChangeRecordFragment :
                 rvChangeRecordCategories.visible = opened
                 fieldChangeRecordCategory.setChooserColor(opened)
                 arrowChangeRecordCategory.apply {
+                    if (opened) rotateDown() else rotateUp()
+                }
+            }
+            flipLastCommentsChooser.observe { opened ->
+                rvChangeRecordLastComments.visible = opened
+                fieldChangeRecordLastComments.setChooserColor(opened)
+                arrowChangeRecordLastComment.apply {
                     if (opened) rotateDown() else rotateUp()
                 }
             }

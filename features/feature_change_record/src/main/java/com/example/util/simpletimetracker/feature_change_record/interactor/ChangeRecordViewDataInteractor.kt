@@ -45,10 +45,6 @@ class ChangeRecordViewDataInteractor @Inject constructor(
     suspend fun getLastCommentsViewData(
         typeId: Long,
     ): List<ViewHolderType> {
-        val hint = InfoViewData(
-            text = resourceRepo.getString(R.string.change_record_last_comments_hint)
-        )
-
         return recordInteractor.getByTypeWithComment(listOf(typeId))
             .asSequence()
             .sortedBy { it.timeStarted }
@@ -56,7 +52,6 @@ class ChangeRecordViewDataInteractor @Inject constructor(
             .toSet()
             .take(LAST_COMMENTS_TO_SHOW)
             .map { ChangeRecordCommentViewData(it) }
-            .let { if (it.isNotEmpty()) listOf(hint) + it else it }
     }
 
     companion object {
