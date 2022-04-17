@@ -19,6 +19,7 @@ import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.withCardColor
 import com.example.util.simpletimetracker.utils.withTag
 import dagger.hilt.android.testing.HiltAndroidTest
+import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.Matcher
 import org.junit.Test
@@ -35,6 +36,7 @@ class ChangeUntrackedTest : BaseUiTest() {
         val icon = firstIcon
 
         // Add activity
+        runBlocking { prefsInteractor.setShowUntrackedInRecords(true) }
         testUtils.addActivity(name = name, color = color, icon = icon)
 
         // Open edit view

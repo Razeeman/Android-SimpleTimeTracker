@@ -35,7 +35,8 @@ class RecordRepoImpl @Inject constructor(
     }
 
     override suspend fun searchComments(
-        typeIds: List<Long>, text: String,
+        typeIds: List<Long>,
+        text: String,
     ): List<Record> = withContext(Dispatchers.IO) {
         Timber.d("searchComments")
         recordDao.searchComments(typeIds, text)

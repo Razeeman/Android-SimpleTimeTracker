@@ -50,6 +50,7 @@ import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.unconstrainedClickOnView
 import com.example.util.simpletimetracker.utils.withPluralText
 import dagger.hilt.android.testing.HiltAndroidTest
+import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.Matcher
@@ -71,9 +72,27 @@ class SettingsTest : BaseUiTest() {
         // Add activity
         testUtils.addActivity(name = name, color = color, icon = icon)
 
+        // Untracked is not shown
+        NavUtils.openRecordsScreen()
+        checkViewDoesNotExist(
+            allOf(withText(R.string.untracked_time_name), isCompletelyDisplayed())
+        )
+
+        // Change setting
+        NavUtils.openSettingsScreen()
+        onView(withId(R.id.checkboxSettingsShowUntracked)).perform(nestedScrollTo())
+        onView(withId(R.id.checkboxSettingsShowUntracked)).check(matches(isNotChecked()))
+        unconstrainedClickOnView(withId(R.id.checkboxSettingsShowUntracked))
+        onView(withId(R.id.checkboxSettingsShowUntracked)).check(matches(isChecked()))
+
         // Untracked is shown
         NavUtils.openRecordsScreen()
         checkViewIsDisplayed(allOf(withText(R.string.untracked_time_name), isCompletelyDisplayed()))
+
+        // Add record
+        NavUtils.addRecord(name)
+        checkViewIsDisplayed(allOf(withText(R.string.untracked_time_name), isCompletelyDisplayed()))
+        checkViewIsDisplayed(allOf(withText(name), isCompletelyDisplayed()))
 
         // Change setting
         NavUtils.openSettingsScreen()
@@ -87,24 +106,6 @@ class SettingsTest : BaseUiTest() {
         checkViewDoesNotExist(
             allOf(withText(R.string.untracked_time_name), isCompletelyDisplayed())
         )
-
-        // Add record
-        NavUtils.addRecord(name)
-        checkViewDoesNotExist(
-            allOf(withText(R.string.untracked_time_name), isCompletelyDisplayed())
-        )
-        checkViewIsDisplayed(allOf(withText(name), isCompletelyDisplayed()))
-
-        // Change setting
-        NavUtils.openSettingsScreen()
-        onView(withId(R.id.checkboxSettingsShowUntracked)).perform(nestedScrollTo())
-        onView(withId(R.id.checkboxSettingsShowUntracked)).check(matches(isNotChecked()))
-        unconstrainedClickOnView(withId(R.id.checkboxSettingsShowUntracked))
-        onView(withId(R.id.checkboxSettingsShowUntracked)).check(matches(isChecked()))
-
-        // Untracked is shown
-        NavUtils.openRecordsScreen()
-        checkViewIsDisplayed(allOf(withText(R.string.untracked_time_name), isCompletelyDisplayed()))
         checkViewIsDisplayed(allOf(withText(name), isCompletelyDisplayed()))
     }
 
@@ -807,6 +808,7 @@ class SettingsTest : BaseUiTest() {
         val name = "Test"
 
         // Add data
+        runBlocking { prefsInteractor.setShowUntrackedInRecords(true) }
         testUtils.addActivity(name)
         val calendar = Calendar.getInstance().apply {
             setToStartOfDay()

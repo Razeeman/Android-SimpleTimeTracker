@@ -617,7 +617,7 @@ class StatisticsDetailTest : BaseUiTest() {
         checkRangeAverages(
             rangeId = R.string.statistics_detail_chart_weekly,
             checkAverage = false,
-            averageNonEmpty = "2$hourString 0$minuteString"
+            averageNonEmpty = "3$hourString 0$minuteString"
         )
         clickOnViewWithId(R.id.btnStatisticsDetailPrevious)
         clickOnChartGrouping(R.string.statistics_detail_chart_daily)

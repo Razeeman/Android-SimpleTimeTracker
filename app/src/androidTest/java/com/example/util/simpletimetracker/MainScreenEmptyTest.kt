@@ -21,6 +21,7 @@ import com.example.util.simpletimetracker.utils.longClickOnViewWithId
 import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.typeTextIntoView
 import dagger.hilt.android.testing.HiltAndroidTest
+import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.allOf
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -54,6 +55,8 @@ class MainScreenEmptyTest : BaseUiTest() {
 
     @Test
     fun recordsEmpty() {
+        runBlocking { prefsInteractor.setShowUntrackedInRecords(true) }
+
         NavUtils.openRecordsScreen()
         checkViewIsDisplayed(
             allOf(

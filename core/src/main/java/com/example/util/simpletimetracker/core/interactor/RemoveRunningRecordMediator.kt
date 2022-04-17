@@ -18,11 +18,11 @@ class RemoveRunningRecordMediator @Inject constructor(
 ) {
 
     suspend fun removeWithRecordAdd(runningRecord: RunningRecord) {
-        val duration = TimeUnit.MILLISECONDS.toSeconds(
-            System.currentTimeMillis() - runningRecord.timeStarted
-        )
+        val durationToIgnore = prefsInteractor.getIgnoreShortRecordsDuration()
+        val duration = TimeUnit.MILLISECONDS
+            .toSeconds(System.currentTimeMillis() - runningRecord.timeStarted)
 
-        if (duration > prefsInteractor.getIgnoreShortRecordsDuration()) {
+        if (duration > durationToIgnore || durationToIgnore == 0L) {
             recordInteractor.add(
                 typeId = runningRecord.id,
                 timeStarted = runningRecord.timeStarted,

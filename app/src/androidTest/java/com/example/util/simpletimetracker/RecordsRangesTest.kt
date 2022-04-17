@@ -18,6 +18,7 @@ import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.longClickOnViewWithId
 import dagger.hilt.android.testing.HiltAndroidTest
+import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.equalTo
 import org.junit.Test
@@ -33,6 +34,8 @@ class RecordsRangesTest : BaseUiTest() {
     @Test
     fun recordsRanges() {
         val name = "Test"
+
+        runBlocking { prefsInteractor.setShowUntrackedInRecords(true) }
 
         // Add activity
         NavUtils.addActivity(name)
