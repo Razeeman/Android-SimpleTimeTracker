@@ -1233,6 +1233,50 @@ class SettingsTest : BaseUiTest() {
         checkViewIsDisplayed(allOf(withId(R.id.tvCsvExportSettingsTimeEnded), withText(timeEnded)))
     }
 
+    @Test
+    fun showRecordsCalendar() {
+        val name = "Test"
+
+        // Add activity
+        testUtils.addActivity(name = name)
+        testUtils.addRecord(name)
+
+        // Record is shown
+        NavUtils.openRecordsScreen()
+        checkViewDoesNotExist(allOf(withId(R.id.viewRecordsCalendar), isCompletelyDisplayed()))
+        checkViewDoesNotExist(allOf(withId(R.id.tvRecordsCalendarHint), isCompletelyDisplayed()))
+        checkViewIsDisplayed(allOf(withId(R.id.rvRecordsList), isCompletelyDisplayed()))
+        checkViewIsDisplayed(allOf(withText(name), isCompletelyDisplayed()))
+
+        // Change setting
+        NavUtils.openSettingsScreen()
+        onView(withId(R.id.checkboxSettingsShowRecordsCalendar)).perform(nestedScrollTo())
+        onView(withId(R.id.checkboxSettingsShowRecordsCalendar)).check(matches(isNotChecked()))
+        unconstrainedClickOnView(withId(R.id.checkboxSettingsShowRecordsCalendar))
+        onView(withId(R.id.checkboxSettingsShowRecordsCalendar)).check(matches(isChecked()))
+
+        // Record is not shown
+        NavUtils.openRecordsScreen()
+        checkViewIsDisplayed(allOf(withId(R.id.viewRecordsCalendar), isCompletelyDisplayed()))
+        checkViewIsDisplayed(allOf(withId(R.id.tvRecordsCalendarHint), isCompletelyDisplayed()))
+        checkViewDoesNotExist(allOf(withId(R.id.rvRecordsList), isCompletelyDisplayed()))
+        checkViewDoesNotExist(allOf(withText(name), isCompletelyDisplayed()))
+
+        // Change setting
+        NavUtils.openSettingsScreen()
+        onView(withId(R.id.checkboxSettingsShowRecordsCalendar)).perform(nestedScrollTo())
+        onView(withId(R.id.checkboxSettingsShowRecordsCalendar)).check(matches(isChecked()))
+        unconstrainedClickOnView(withId(R.id.checkboxSettingsShowRecordsCalendar))
+        onView(withId(R.id.checkboxSettingsShowRecordsCalendar)).check(matches(isNotChecked()))
+
+        // Record is shown
+        NavUtils.openRecordsScreen()
+        checkViewDoesNotExist(allOf(withId(R.id.viewRecordsCalendar), isCompletelyDisplayed()))
+        checkViewDoesNotExist(allOf(withId(R.id.tvRecordsCalendarHint), isCompletelyDisplayed()))
+        checkViewIsDisplayed(allOf(withId(R.id.rvRecordsList), isCompletelyDisplayed()))
+        checkViewIsDisplayed(allOf(withText(name), isCompletelyDisplayed()))
+    }
+
     private fun clearDuration() {
         repeat(6) { clickOnViewWithId(R.id.ivDurationPickerDelete) }
     }
