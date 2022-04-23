@@ -58,7 +58,6 @@ class RecordViewDataMapper @Inject constructor(
         return RecordViewData.Untracked(
             name = R.string.untracked_time_name
                 .let(resourceRepo::getString),
-            tagName = "",
             timeStarted = timeStarted
                 .let { timeMapper.formatTime(it, useMilitaryTime) },
             timeStartedTimestamp = timeStarted,
@@ -69,7 +68,6 @@ class RecordViewDataMapper @Inject constructor(
                 .let { timeMapper.formatInterval(it, useProportionalMinutes) },
             iconId = RecordTypeIcon.Image(R.drawable.unknown),
             color = colorMapper.toUntrackedColor(isDarkTheme),
-            comment = ""
         )
     }
 }
