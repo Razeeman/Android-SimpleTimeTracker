@@ -4,8 +4,7 @@ import android.view.View
 import androidx.annotation.ColorInt
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
-import androidx.test.espresso.action.ViewActions.swipeLeft
-import androidx.test.espresso.action.ViewActions.swipeRight
+import androidx.test.espresso.action.GeneralLocation
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -18,6 +17,7 @@ import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkSliderValue
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
 import com.example.util.simpletimetracker.utils.checkViewIsNotDisplayed
+import com.example.util.simpletimetracker.utils.clickLocation
 import com.example.util.simpletimetracker.utils.clickOnRecyclerItem
 import com.example.util.simpletimetracker.utils.clickOnViewWithIdOnPager
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
@@ -50,11 +50,11 @@ class CustomColorTest : BaseUiTest() {
         checkViewIsDisplayed(withText(R.string.color_selection_final_color_hint))
 
         // Change slider hue
-        onView(withId(R.id.sliderColorSelectionHue)).perform(swipeLeft())
+        onView(withId(R.id.sliderColorSelectionHue)).perform(clickLocation(GeneralLocation.CENTER_LEFT))
         checkSliderValue(R.id.sliderColorSelectionHue, 0)
         checkViewIsDisplayed(allOf(withId(R.id.etColorSelectionHue), withText("0")))
 
-        onView(withId(R.id.sliderColorSelectionHue)).perform(swipeRight())
+        onView(withId(R.id.sliderColorSelectionHue)).perform(clickLocation(GeneralLocation.CENTER_RIGHT))
         checkSliderValue(R.id.sliderColorSelectionHue, 360)
         checkViewIsDisplayed(allOf(withId(R.id.etColorSelectionHue), withText("360")))
 

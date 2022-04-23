@@ -1,5 +1,7 @@
 package com.example.util.simpletimetracker.utils
 
+import android.view.InputDevice
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewConfiguration
 import android.widget.HorizontalScrollView
@@ -10,12 +12,15 @@ import androidx.test.espresso.PerformException
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
 import androidx.test.espresso.action.CoordinatesProvider
+import androidx.test.espresso.action.GeneralClickAction
 import androidx.test.espresso.action.GeneralLocation
 import androidx.test.espresso.action.GeneralSwipeAction
 import androidx.test.espresso.action.MotionEvents
 import androidx.test.espresso.action.Press
 import androidx.test.espresso.action.ScrollToAction
 import androidx.test.espresso.action.Swipe
+import androidx.test.espresso.action.Tap
+import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
@@ -79,6 +84,20 @@ fun unconstrainedClick(): ViewAction = object : ViewAction {
     }
 }
 
+fun clickLocation(
+    location: GeneralLocation,
+): ViewAction {
+    return ViewActions.actionWithAssertions(
+        GeneralClickAction(
+            Tap.SINGLE,
+            location,
+            Press.FINGER,
+            InputDevice.SOURCE_UNKNOWN,
+            MotionEvent.BUTTON_PRIMARY
+        )
+    )
+}
+
 fun nestedScrollTo(): ViewAction = object : ViewAction {
     override fun getDescription(): String =
         "nested scroll to"
@@ -102,7 +121,7 @@ fun nestedScrollTo(): ViewAction = object : ViewAction {
 fun drag(
     direction: Direction = Direction.COORDINATES,
     offset: Int = 0,
-    coordinates: FloatArray = FloatArray(2) { 0.0f }
+    coordinates: FloatArray = FloatArray(2) { 0.0f },
 ): ViewAction = object : ViewAction {
     private val SWIPE_EVENT_COUNT = 50
 
