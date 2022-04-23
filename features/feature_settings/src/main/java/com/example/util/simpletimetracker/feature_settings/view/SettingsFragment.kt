@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
-import com.example.util.simpletimetracker.core.BuildConfig
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.CsvExportSettingsDialogListener
@@ -49,7 +48,6 @@ class SettingsFragment :
     )
 
     override fun initUi() = with(binding) {
-        tvSettingsVersionName.text = BuildConfig.VERSION_NAME
         spinnerSettingsFirstDayOfWeek.setProcessSameItemSelection(false)
         spinnerSettingsRecordTypeSort.setProcessSameItemSelection(false)
     }
@@ -84,6 +82,7 @@ class SettingsFragment :
 
     override fun initViewModel(): Unit = with(binding) {
         with(viewModel) {
+            versionName.observe(tvSettingsVersionName::setText)
             cardOrderViewData.observe(::updateCardOrderViewData)
             firstDayOfWeekViewData.observe(::updateFirstDayOfWeekViewData)
             startOfDayViewData.observe(::updateStartOfDayViewData)

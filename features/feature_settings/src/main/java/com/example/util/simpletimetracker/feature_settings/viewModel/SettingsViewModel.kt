@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.core.BuildConfig
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.NotificationInactivityInteractor
 import com.example.util.simpletimetracker.core.interactor.NotificationTypeInteractor
@@ -204,6 +205,10 @@ class SettingsViewModel @Inject constructor(
             }
             initial
         }
+    }
+
+    val versionName: LiveData<String> by lazy {
+        MutableLiveData(loadVersionName())
     }
 
     val themeChanged: LiveData<Boolean> = MutableLiveData(false)
@@ -527,6 +532,16 @@ class SettingsViewModel @Inject constructor(
     private suspend fun loadUseProportionalMinutesViewData(): String {
         return prefsInteractor.getUseProportionalMinutes()
             .let(settingsMapper::toUseProportionalMinutesHint)
+    }
+
+    private fun loadVersionName(): String {
+        return BuildConfig.VERSION_NAME.let {
+            if (BuildConfig.DEBUG) {
+                "$it ${BuildConfig.BUILD_TYPE}"
+            } else {
+                it
+            }
+        }
     }
 
     companion object {
