@@ -130,3 +130,10 @@ Version 1.17:
 - Add keep screen on setting
 - Add some translations
 - General bug fixes and improvements
+
+Version 1.18:
+- Add calendar view for records
+- Add last comments selection for records
+- Add more detailed statistics
+- Add some translations
+- General bug fixes and improvements
