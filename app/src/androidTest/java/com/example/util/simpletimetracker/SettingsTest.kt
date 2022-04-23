@@ -569,6 +569,55 @@ class SettingsTest : BaseUiTest() {
     }
 
     @Test
+    fun ignoreShortRecords() {
+        val name = "Test"
+
+        // Add data
+        testUtils.addActivity(name)
+
+        // Change settings
+        NavUtils.openSettingsScreen()
+        onView(withId(R.id.groupSettingsIgnoreShortRecords)).perform(nestedScrollTo())
+        checkViewIsDisplayed(
+            allOf(
+                withId(R.id.tvSettingsIgnoreShortRecordsTime),
+                withText(R.string.settings_inactivity_reminder_disabled)
+            )
+        )
+
+        clickOnViewWithId(R.id.groupSettingsIgnoreShortRecords)
+        clickOnViewWithId(R.id.tvNumberKeyboard3)
+        clickOnViewWithText(R.string.duration_dialog_save)
+        checkViewIsDisplayed(withText("3$secondString"))
+
+        // Check record ignored
+        NavUtils.openRunningRecordsScreen()
+        clickOnViewWithText(name)
+        tryAction { clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name))) }
+        NavUtils.openRecordsScreen()
+        checkViewDoesNotExist(allOf(withText(name), isCompletelyDisplayed()))
+
+        // Disable
+        NavUtils.openSettingsScreen()
+        onView(withId(R.id.groupSettingsIgnoreShortRecords)).perform(nestedScrollTo())
+        clickOnViewWithId(R.id.groupSettingsIgnoreShortRecords)
+        clickOnViewWithText(R.string.duration_dialog_disable)
+        checkViewIsDisplayed(
+            allOf(
+                withId(R.id.tvSettingsIgnoreShortRecordsTime),
+                withText(R.string.settings_inactivity_reminder_disabled)
+            )
+        )
+
+        // Check record not ignored
+        NavUtils.openRunningRecordsScreen()
+        clickOnViewWithText(name)
+        tryAction { clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name))) }
+        NavUtils.openRecordsScreen()
+        checkViewIsDisplayed(allOf(withText(name), isCompletelyDisplayed()))
+    }
+
+    @Test
     fun militaryTime() {
         // Check settings
         NavUtils.openSettingsScreen()

@@ -382,9 +382,15 @@ class StatisticsDetailTest : BaseUiTest() {
         // Split chart
         onView(withId(R.id.chartStatisticsDetailSplit)).perform(nestedScrollTo())
         checkViewIsDisplayed(allOf(withId(R.id.chartStatisticsDetailSplit), isCompletelyDisplayed()))
+        checkViewIsDisplayed(allOf(withId(R.id.tvStatisticsDetailSplitHint), isCompletelyDisplayed()))
         onView(withId(R.id.buttonsStatisticsDetailSplitGrouping)).perform(nestedScrollTo())
         clickOnSplitChartGrouping(R.string.statistics_detail_chart_hourly)
         clickOnSplitChartGrouping(R.string.statistics_detail_chart_daily)
+
+        // Duration chart
+        onView(withId(R.id.chartStatisticsDetailDurationSplit)).perform(nestedScrollTo())
+        checkViewIsDisplayed(allOf(withId(R.id.chartStatisticsDetailDurationSplit), isCompletelyDisplayed()))
+        checkViewIsDisplayed(allOf(withId(R.id.tvStatisticsDetailDurationSplitHint), isCompletelyDisplayed()))
 
         // Tag split
         onView(withId(R.id.rvStatisticsDetailTagSplit)).perform(nestedScrollTo())
@@ -455,7 +461,13 @@ class StatisticsDetailTest : BaseUiTest() {
         // Split chart
         onView(withId(R.id.chartStatisticsDetailSplit)).perform(nestedScrollTo())
         checkViewIsDisplayed(allOf(withId(R.id.chartStatisticsDetailSplit), isCompletelyDisplayed()))
+        checkViewIsDisplayed(allOf(withId(R.id.tvStatisticsDetailSplitHint), isCompletelyDisplayed()))
         checkViewDoesNotExist(allOf(withId(R.id.buttonsStatisticsDetailSplitGrouping), isCompletelyDisplayed()))
+
+        // Duration chart
+        onView(withId(R.id.chartStatisticsDetailDurationSplit)).perform(nestedScrollTo())
+        checkViewIsDisplayed(allOf(withId(R.id.chartStatisticsDetailDurationSplit), isCompletelyDisplayed()))
+        checkViewIsDisplayed(allOf(withId(R.id.tvStatisticsDetailDurationSplitHint), isCompletelyDisplayed()))
 
         // All records
         checkAllRecords(3)
@@ -542,9 +554,15 @@ class StatisticsDetailTest : BaseUiTest() {
         // Split chart
         onView(withId(R.id.chartStatisticsDetailSplit)).perform(nestedScrollTo())
         checkViewIsDisplayed(allOf(withId(R.id.chartStatisticsDetailSplit), isCompletelyDisplayed()))
+        checkViewIsDisplayed(allOf(withId(R.id.tvStatisticsDetailSplitHint), isCompletelyDisplayed()))
         onView(withId(R.id.buttonsStatisticsDetailSplitGrouping)).perform(nestedScrollTo())
         clickOnSplitChartGrouping(R.string.statistics_detail_chart_hourly)
         clickOnSplitChartGrouping(R.string.statistics_detail_chart_daily)
+
+        // Duration chart
+        onView(withId(R.id.chartStatisticsDetailDurationSplit)).perform(nestedScrollTo())
+        checkViewIsDisplayed(allOf(withId(R.id.chartStatisticsDetailDurationSplit), isCompletelyDisplayed()))
+        checkViewIsDisplayed(allOf(withId(R.id.tvStatisticsDetailDurationSplitHint), isCompletelyDisplayed()))
 
         // All records
         checkAllRecords(3)
@@ -644,9 +662,15 @@ class StatisticsDetailTest : BaseUiTest() {
         // Split chart
         onView(withId(R.id.chartStatisticsDetailSplit)).perform(nestedScrollTo())
         checkViewIsDisplayed(allOf(withId(R.id.chartStatisticsDetailSplit), isCompletelyDisplayed()))
+        checkViewIsDisplayed(allOf(withId(R.id.tvStatisticsDetailSplitHint), isCompletelyDisplayed()))
         onView(withId(R.id.buttonsStatisticsDetailSplitGrouping)).perform(nestedScrollTo())
         clickOnSplitChartGrouping(R.string.statistics_detail_chart_hourly)
         clickOnSplitChartGrouping(R.string.statistics_detail_chart_daily)
+
+        // Duration chart
+        onView(withId(R.id.chartStatisticsDetailDurationSplit)).perform(nestedScrollTo())
+        checkViewIsDisplayed(allOf(withId(R.id.chartStatisticsDetailDurationSplit), isCompletelyDisplayed()))
+        checkViewIsDisplayed(allOf(withId(R.id.tvStatisticsDetailDurationSplitHint), isCompletelyDisplayed()))
 
         // All records
         checkAllRecords(3)
@@ -752,9 +776,15 @@ class StatisticsDetailTest : BaseUiTest() {
         // Split chart
         onView(withId(R.id.chartStatisticsDetailSplit)).perform(nestedScrollTo())
         checkViewIsDisplayed(allOf(withId(R.id.chartStatisticsDetailSplit), isCompletelyDisplayed()))
+        checkViewIsDisplayed(allOf(withId(R.id.tvStatisticsDetailSplitHint), isCompletelyDisplayed()))
         onView(withId(R.id.buttonsStatisticsDetailSplitGrouping)).perform(nestedScrollTo())
         clickOnSplitChartGrouping(R.string.statistics_detail_chart_hourly)
         clickOnSplitChartGrouping(R.string.statistics_detail_chart_daily)
+
+        // Duration chart
+        onView(withId(R.id.chartStatisticsDetailDurationSplit)).perform(nestedScrollTo())
+        checkViewIsDisplayed(allOf(withId(R.id.chartStatisticsDetailDurationSplit), isCompletelyDisplayed()))
+        checkViewIsDisplayed(allOf(withId(R.id.tvStatisticsDetailDurationSplitHint), isCompletelyDisplayed()))
 
         // All records
         checkAllRecords(3)

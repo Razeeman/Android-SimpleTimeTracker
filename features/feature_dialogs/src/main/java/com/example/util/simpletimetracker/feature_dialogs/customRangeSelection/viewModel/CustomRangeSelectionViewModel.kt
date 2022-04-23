@@ -49,7 +49,7 @@ class CustomRangeSelectionViewModel @Inject constructor(
                 DateTimeDialogParams(
                     tag = TIME_STARTED_TAG,
                     timestamp = rangeStart,
-                    type = DateTimeDialogType.DATETIME(initialTab = DateTimeDialogType.Tab.DATE),
+                    type = DateTimeDialogType.DATE,
                     useMilitaryTime = useMilitaryTime,
                     firstDayOfWeek = firstDayOfWeek
                 )
