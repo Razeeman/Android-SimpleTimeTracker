@@ -103,6 +103,7 @@ class TestUtils @Inject constructor(
         timeStarted: Long? = null,
         timeEnded: Long? = null,
         tagNames: List<String> = emptyList(),
+        comment: String = "",
     ) = runBlocking {
         val type = recordTypeInteractor.getAll().firstOrNull { it.name == typeName }
             ?: return@runBlocking
@@ -115,7 +116,7 @@ class TestUtils @Inject constructor(
                 ?: (System.currentTimeMillis() - TimeUnit.HOURS.toMillis(1)),
             timeEnded = timeEnded
                 ?: System.currentTimeMillis(),
-            comment = "",
+            comment = comment,
             tagIds = tagIds,
         )
 

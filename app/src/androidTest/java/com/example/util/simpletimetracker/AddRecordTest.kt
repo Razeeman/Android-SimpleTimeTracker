@@ -13,6 +13,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
+import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
 import com.example.util.simpletimetracker.utils.checkViewIsNotDisplayed
 import com.example.util.simpletimetracker.utils.clickOnRecyclerItem
@@ -186,6 +187,101 @@ class AddRecordTest : BaseUiTest() {
         // Open tag chooser
         clickOnViewWithId(R.id.fieldChangeRecordCategory)
         checkViewIsDisplayed(withText(R.string.change_record_categories_empty))
+    }
+
+    @Test
+    fun addRecordComment() {
+        val nameNoComments = "Name1"
+        val nameComment = "Name2"
+        val nameComments = "Name3"
+        val comment1 = "Comment1"
+        val comment2 = "Comment2"
+        val comment3 = "Comment3"
+
+        // Add data
+        testUtils.addActivity(nameNoComments)
+        testUtils.addActivity(nameComment)
+        testUtils.addActivity(nameComments)
+        testUtils.addRecord(nameNoComments)
+        testUtils.addRecord(nameComment, comment = comment1)
+        testUtils.addRecord(nameComments, comment = comment2)
+        testUtils.addRecord(nameComments, comment = comment3)
+
+        // Check comments
+        NavUtils.openRecordsScreen()
+        clickOnViewWithId(R.id.btnRecordAdd)
+
+        // No last comments
+        checkViewIsNotDisplayed(withText(R.string.change_record_last_comments_hint))
+        checkViewIsNotDisplayed(withId(R.id.rvChangeRecordLastComments))
+        checkViewDoesNotExist(withText(comment1))
+        checkViewDoesNotExist(withText(comment2))
+        checkViewDoesNotExist(withText(comment3))
+
+        // Select activity with no previous comments
+        clickOnViewWithText(R.string.change_record_type_field)
+        clickOnRecyclerItem(R.id.rvChangeRecordType, withText(nameNoComments))
+        clickOnViewWithText(R.string.change_record_type_field)
+
+        // Still no last comments
+        checkViewIsNotDisplayed(withText(R.string.change_record_last_comments_hint))
+        checkViewIsNotDisplayed(withId(R.id.rvChangeRecordLastComments))
+        checkViewDoesNotExist(withText(comment1))
+        checkViewDoesNotExist(withText(comment2))
+        checkViewDoesNotExist(withText(comment3))
+
+        // Select activity with one previous comment
+        clickOnViewWithText(R.string.change_record_type_field)
+        clickOnRecyclerItem(R.id.rvChangeRecordType, withText(nameComment))
+        clickOnViewWithText(R.string.change_record_type_field)
+
+        // One last comment
+        checkViewIsDisplayed(withText(R.string.change_record_last_comments_hint))
+        checkViewIsNotDisplayed(withId(R.id.rvChangeRecordLastComments))
+        checkViewDoesNotExist(withText(comment1))
+        checkViewDoesNotExist(withText(comment2))
+        checkViewDoesNotExist(withText(comment3))
+
+        clickOnViewWithText(R.string.change_record_last_comments_hint)
+        checkViewIsDisplayed(withId(R.id.rvChangeRecordLastComments))
+        checkViewIsDisplayed(withText(comment1))
+        checkViewDoesNotExist(withText(comment2))
+        checkViewDoesNotExist(withText(comment3))
+
+        // Select last comment
+        clickOnViewWithText(comment1)
+        tryAction { checkPreviewUpdated(hasDescendant(withText(comment1))) }
+        typeTextIntoView(R.id.etChangeRecordComment, "")
+
+        // Select activity with many previous comments
+        clickOnViewWithText(R.string.change_record_type_field)
+        clickOnRecyclerItem(R.id.rvChangeRecordType, withText(nameComments))
+        clickOnViewWithText(R.string.change_record_type_field)
+
+        // Two last comments
+        checkViewIsDisplayed(withId(R.id.fieldChangeRecordLastComments))
+        checkViewIsDisplayed(withId(R.id.rvChangeRecordLastComments))
+        checkViewDoesNotExist(withText(comment1))
+        checkViewIsDisplayed(withText(comment2))
+        checkViewIsDisplayed(withText(comment3))
+
+        clickOnViewWithId(R.id.fieldChangeRecordLastComments)
+        checkViewIsNotDisplayed(withId(R.id.rvChangeRecordLastComments))
+        checkViewDoesNotExist(withText(comment1))
+        checkViewIsNotDisplayed(withText(comment2))
+        checkViewIsNotDisplayed(withText(comment3))
+
+        clickOnViewWithId(R.id.fieldChangeRecordLastComments)
+        checkViewIsDisplayed(withId(R.id.rvChangeRecordLastComments))
+        checkViewDoesNotExist(withText(comment1))
+        checkViewIsDisplayed(withText(comment2))
+        checkViewIsDisplayed(withText(comment3))
+
+        // Select last comment
+        clickOnViewWithText(comment2)
+        tryAction { checkPreviewUpdated(hasDescendant(withText(comment2))) }
+        clickOnViewWithText(comment3)
+        tryAction { checkPreviewUpdated(hasDescendant(withText(comment3))) }
     }
 
     private fun checkPreviewUpdated(matcher: Matcher<View>) =
