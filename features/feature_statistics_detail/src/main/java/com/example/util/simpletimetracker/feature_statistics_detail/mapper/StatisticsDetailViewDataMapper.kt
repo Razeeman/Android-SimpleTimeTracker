@@ -170,6 +170,8 @@ class StatisticsDetailViewDataMapper @Inject constructor(
 
     fun mapToChartViewData(
         data: List<ChartBarDataDuration>,
+        compareData: List<ChartBarDataDuration>,
+        showComparison: Boolean,
         rangeLength: RangeLength,
         availableChartGroupings: List<ChartGrouping>,
         appliedChartGrouping: ChartGrouping,
@@ -177,36 +179,8 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         appliedChartLength: ChartLength,
         useProportionalMinutes: Boolean,
     ): StatisticsDetailChartCompositeViewData {
-        val isMinutes = data.map(ChartBarDataDuration::duration)
-            .maxOrNull().orZero()
-            .let(TimeUnit.MILLISECONDS::toHours) == 0L
-
-        val legendSuffix = if (isMinutes) {
-            R.string.statistics_detail_legend_minute_suffix
-        } else {
-            R.string.statistics_detail_legend_hour_suffix
-        }.let(resourceRepo::getString)
-
-        val chartData = StatisticsDetailChartViewData(
-            visible = data.size > 1,
-            data = data.map {
-                BarChartView.ViewData(
-                    value = formatInterval(it.duration, isMinutes),
-                    legend = it.legend
-                )
-            },
-            legendSuffix = legendSuffix,
-            addLegendToSelectedBar = true,
-            shouldDrawHorizontalLegends = when (rangeLength) {
-                is RangeLength.Day -> false
-                is RangeLength.Week -> true
-                is RangeLength.Month -> false
-                is RangeLength.Year -> data.size <= 12
-                is RangeLength.All,
-                is RangeLength.Custom,
-                -> data.size <= 10
-            }
-        )
+        val chartData = mapChartData(data, rangeLength)
+        val compareChartData = mapChartData(compareData, rangeLength)
         val (title, rangeAverages) = getRangeAverages(
             data = data,
             chartGrouping = appliedChartGrouping,
@@ -215,6 +189,8 @@ class StatisticsDetailViewDataMapper @Inject constructor(
 
         return StatisticsDetailChartCompositeViewData(
             chartData = chartData,
+            compareChartData = compareChartData,
+            showComparison = showComparison,
             rangeAveragesTitle = title,
             rangeAverages = rangeAverages,
             appliedChartGrouping = appliedChartGrouping,
@@ -431,6 +407,42 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         )
 
         return title to rangeAverages
+    }
+
+    private fun mapChartData(
+        data: List<ChartBarDataDuration>,
+        rangeLength: RangeLength,
+    ): StatisticsDetailChartViewData {
+        val isMinutes = data.map(ChartBarDataDuration::duration)
+            .maxOrNull().orZero()
+            .let(TimeUnit.MILLISECONDS::toHours) == 0L
+
+        val legendSuffix = if (isMinutes) {
+            R.string.statistics_detail_legend_minute_suffix
+        } else {
+            R.string.statistics_detail_legend_hour_suffix
+        }.let(resourceRepo::getString)
+
+        return StatisticsDetailChartViewData(
+            visible = data.size > 1,
+            data = data.map {
+                BarChartView.ViewData(
+                    value = formatInterval(it.duration, isMinutes),
+                    legend = it.legend
+                )
+            },
+            legendSuffix = legendSuffix,
+            addLegendToSelectedBar = true,
+            shouldDrawHorizontalLegends = when (rangeLength) {
+                is RangeLength.Day -> false
+                is RangeLength.Week -> true
+                is RangeLength.Month -> false
+                is RangeLength.Year -> data.size <= 12
+                is RangeLength.All,
+                is RangeLength.Custom,
+                -> data.size <= 10
+            }
+        )
     }
 
     private fun formatInterval(interval: Long, isMinutes: Boolean): Float {

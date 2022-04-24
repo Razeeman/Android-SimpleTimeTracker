@@ -6,6 +6,8 @@ import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartL
 
 data class StatisticsDetailChartCompositeViewData(
     val chartData: StatisticsDetailChartViewData,
+    val compareChartData: StatisticsDetailChartViewData,
+    val showComparison: Boolean,
     val rangeAveragesTitle: String,
     val rangeAverages: List<StatisticsDetailCardViewData>,
     val appliedChartGrouping: ChartGrouping,

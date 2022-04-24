@@ -192,6 +192,8 @@ class StatisticsDetailFragment :
         viewData: StatisticsDetailChartCompositeViewData
     ) = with(binding) {
         chartStatisticsDetail.setViewData(viewData.chartData)
+        chartStatisticsDetailCompare.setViewData(viewData.compareChartData)
+        chartStatisticsDetailCompare.visible = viewData.showComparison && viewData.compareChartData.visible
 
         val chartGroupingData = viewData.chartGroupingViewData
         buttonsStatisticsDetailGrouping.visible = chartGroupingData.size > 1

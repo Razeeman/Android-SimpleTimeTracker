@@ -306,6 +306,7 @@ class StatisticsDetailViewModel @Inject constructor(
     private suspend fun loadChartViewData(): StatisticsDetailChartCompositeViewData {
         return chartInteractor.getChartViewData(
             filter = typesFilter,
+            compare = comparisonTypesFilter,
             currentChartGrouping = chartGrouping,
             currentChartLength = chartLength,
             rangeLength = rangeLength,
