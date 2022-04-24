@@ -28,6 +28,8 @@ import com.example.util.simpletimetracker.feature_statistics_detail.viewData.Sta
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartLengthViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailGroupingViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewCompositeViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailSplitGroupingViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStatsViewData
 import com.example.util.simpletimetracker.feature_views.spinner.CustomSpinner
@@ -56,8 +58,8 @@ class StatisticsDetailViewModel @Inject constructor(
 
     lateinit var extra: StatisticsDetailParams
 
-    val previewViewData: LiveData<List<ViewHolderType>> by lazy {
-        return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
+    val previewViewData: LiveData<StatisticsDetailPreviewCompositeViewData> by lazy {
+        return@lazy MutableLiveData<StatisticsDetailPreviewCompositeViewData>().let { initial ->
             viewModelScope.launch { initial.value = loadPreviewViewData() }
             initial
         }
@@ -269,13 +271,19 @@ class StatisticsDetailViewModel @Inject constructor(
         previewViewData.set(data)
     }
 
-    private suspend fun loadPreviewViewData(): List<ViewHolderType> {
-        return previewInteractor.getPreviewData(
+    private suspend fun loadPreviewViewData(): StatisticsDetailPreviewCompositeViewData {
+        val data = previewInteractor.getPreviewData(
             filterParams = typesFilter,
             isForComparison = false,
-        ) + previewInteractor.getPreviewData(
+        )
+        val comparisonData = previewInteractor.getPreviewData(
             filterParams = comparisonTypesFilter,
             isForComparison = true,
+        )
+        return StatisticsDetailPreviewCompositeViewData(
+            data = data.firstOrNull() as? StatisticsDetailPreviewViewData,
+            additionalData = data.drop(1),
+            comparisonData = comparisonData,
         )
     }
 

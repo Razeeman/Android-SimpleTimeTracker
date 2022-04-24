@@ -25,6 +25,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.adapter.crea
 import com.example.util.simpletimetracker.feature_statistics_detail.customView.BarChartView
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartCompositeViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewCompositeViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStatsViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewModel.StatisticsDetailViewModel
@@ -146,33 +147,44 @@ class StatisticsDetailFragment :
     }
 
     private fun setPreview() = params.preview?.run {
-        StatisticsDetailPreviewViewData(
+        val preview = StatisticsDetailPreviewViewData(
             id = 0L,
             type = StatisticsDetailPreviewViewData.Type.FILTER,
             name = name,
             iconId = iconId?.toViewData(),
             color = color
-        ).let(::listOf).let(::setPreviewViewData)
+        )
+
+        StatisticsDetailPreviewCompositeViewData(
+            data = preview,
+            additionalData = emptyList(),
+            comparisonData = emptyList(),
+        ).let(::setPreviewViewData)
     }
 
-    private fun setPreviewViewData(viewData: List<ViewHolderType>) = with(binding) {
-        // TODO create data class holder
-        val first = viewData.firstOrNull()
-            as? StatisticsDetailPreviewViewData
-            ?: return
-        val rest = viewData.drop(1)
+    private fun setPreviewViewData(viewData: StatisticsDetailPreviewCompositeViewData) = with(binding) {
+        val first = viewData.data ?: return
+        val rest: List<ViewHolderType> = viewData.additionalData + viewData.comparisonData
 
         viewStatisticsDetailItem.itemName = first.name
         viewStatisticsDetailItem.itemColor = first.color
-        chartStatisticsDetail.setBarColor(first.color)
-        chartStatisticsDetailSplit.setBarColor(first.color)
-        chartStatisticsDetailDurationSplit.setBarColor(first.color)
         if (first.iconId != null) {
             viewStatisticsDetailItem.itemIconVisible = true
             viewStatisticsDetailItem.itemIcon = first.iconId
         } else {
             viewStatisticsDetailItem.itemIconVisible = false
         }
+
+        chartStatisticsDetail.setBarColor(first.color)
+        chartStatisticsDetailSplit.setBarColor(first.color)
+        chartStatisticsDetailDurationSplit.setBarColor(first.color)
+
+        viewData.comparisonData
+            .filterIsInstance<StatisticsDetailPreviewViewData>()
+            .firstOrNull()
+            ?.let {
+                chartStatisticsDetailCompare.setBarColor(it.color)
+            }
 
         previewAdapter.replace(rest)
     }
