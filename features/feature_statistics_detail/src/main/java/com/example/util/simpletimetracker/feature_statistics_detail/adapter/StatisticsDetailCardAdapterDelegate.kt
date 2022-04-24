@@ -22,6 +22,11 @@ fun createStatisticsDetailCardAdapterDelegate(
 
         tvStatisticsDetailCardValue.text = item.title
         tvStatisticsDetailCardValue.setTextSize(TypedValue.COMPLEX_UNIT_PX, titleTextSize.toFloat())
+
+        tvStatisticsDetailCardSecondValue.visible = item.secondTitle.isNotEmpty()
+        tvStatisticsDetailCardSecondValue.text = item.secondTitle
+        tvStatisticsDetailCardSecondValue.setTextSize(TypedValue.COMPLEX_UNIT_PX, subtitleTextSize.toFloat())
+
         tvStatisticsDetailCardDescription.text = item.subtitle
         tvStatisticsDetailCardDescription.setTextSize(TypedValue.COMPLEX_UNIT_PX, subtitleTextSize.toFloat())
 

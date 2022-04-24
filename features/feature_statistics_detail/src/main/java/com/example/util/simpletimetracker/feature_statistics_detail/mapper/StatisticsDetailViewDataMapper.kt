@@ -183,6 +183,8 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         val compareChartData = mapChartData(compareData, rangeLength)
         val (title, rangeAverages) = getRangeAverages(
             data = data,
+            compareData = compareData,
+            showComparison = showComparison,
             chartGrouping = appliedChartGrouping,
             useProportionalMinutes = useProportionalMinutes
         )
@@ -328,12 +330,14 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             totalDuration = listOf(
                 StatisticsDetailCardViewData(
                     title = totalDuration,
+                    secondTitle = "",
                     subtitle = resourceRepo.getString(R.string.statistics_detail_total_duration)
                 )
             ),
             timesTracked = listOf(
                 StatisticsDetailCardViewData(
                     title = timesTracked?.toString() ?: "",
+                    secondTitle = "",
                     subtitle = resourceRepo.getQuantityString(
                         R.plurals.statistics_detail_times_tracked, timesTracked.orZero()
                     ),
@@ -343,24 +347,29 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             averageRecord = listOf(
                 StatisticsDetailCardViewData(
                     title = shortestRecord,
+                    secondTitle = "",
                     subtitle = resourceRepo.getString(R.string.statistics_detail_shortest_record)
                 ),
                 StatisticsDetailCardViewData(
                     title = averageRecord,
+                    secondTitle = "",
                     subtitle = resourceRepo.getString(R.string.statistics_detail_average_record)
                 ),
                 StatisticsDetailCardViewData(
                     title = longestRecord,
+                    secondTitle = "",
                     subtitle = resourceRepo.getString(R.string.statistics_detail_longest_record)
                 )
             ),
             datesTracked = listOf(
                 StatisticsDetailCardViewData(
                     title = firstRecord,
+                    secondTitle = "",
                     subtitle = resourceRepo.getString(R.string.statistics_detail_first_record)
                 ),
                 StatisticsDetailCardViewData(
                     title = lastRecord,
+                    secondTitle = "",
                     subtitle = resourceRepo.getString(R.string.statistics_detail_last_record)
                 )
             ),
@@ -370,13 +379,15 @@ class StatisticsDetailViewDataMapper @Inject constructor(
 
     private fun getRangeAverages(
         data: List<ChartBarDataDuration>,
+        compareData: List<ChartBarDataDuration>,
+        showComparison: Boolean,
         chartGrouping: ChartGrouping,
         useProportionalMinutes: Boolean,
     ): Pair<String, List<StatisticsDetailCardViewData>> {
         val emptyValue by lazy { resourceRepo.getString(R.string.statistics_detail_empty) }
 
         // No reason to show average of one value.
-        if (data.size < 2) return "" to emptyList()
+        if (data.size < 2 && compareData.size < 2) return "" to emptyList()
 
         fun getAverage(data: List<ChartBarDataDuration>): Long? {
             if (data.isEmpty()) return null
@@ -386,6 +397,11 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         val average = getAverage(data)
         val nonEmptyData = data.filter { it.duration > 0 }
         val averageByNonEmpty = getAverage(nonEmptyData)
+
+        val comparisonAverage = getAverage(compareData)
+        val comparisonNonEmptyData = compareData.filter { it.duration > 0 }
+        val comparisonAverageByNonEmpty = getAverage(comparisonNonEmptyData)
+
         val title = resourceRepo.getString(
             R.string.statistics_detail_range_averages_title,
             mapToGroupingName(chartGrouping)
@@ -395,13 +411,25 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             StatisticsDetailCardViewData(
                 title = average
                     ?.let { timeMapper.formatInterval(it, useProportionalMinutes) }
-                    ?: emptyValue,
+                    .let { it ?: emptyValue },
+                secondTitle = comparisonAverage
+                    ?.let { timeMapper.formatInterval(it, useProportionalMinutes) }
+                    .let { it ?: emptyValue }
+                    .let { "($it)" }
+                    .takeIf { showComparison }
+                    .orEmpty(),
                 subtitle = resourceRepo.getString(R.string.statistics_detail_range_averages)
             ),
             StatisticsDetailCardViewData(
                 title = averageByNonEmpty
                     ?.let { timeMapper.formatInterval(it, useProportionalMinutes) }
-                    ?: emptyValue,
+                    .let { it ?: emptyValue },
+                secondTitle = comparisonAverageByNonEmpty
+                    ?.let { timeMapper.formatInterval(it, useProportionalMinutes) }
+                    .let { it ?: emptyValue }
+                    .let { "($it)" }
+                    .takeIf { showComparison }
+                    .orEmpty(),
                 subtitle = resourceRepo.getString(R.string.statistics_detail_range_averages_non_empty)
             )
         )

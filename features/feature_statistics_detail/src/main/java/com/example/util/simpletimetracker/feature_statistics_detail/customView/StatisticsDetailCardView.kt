@@ -109,7 +109,13 @@ class StatisticsDetailCardView @JvmOverloads constructor(
 
         if (isInEditMode) {
             (1..itemsCount)
-                .map { StatisticsDetailCardViewData("$DEFAULT_TITLE$it", "$DEFAULT_SUBTITLE$it") }
+                .map {
+                    StatisticsDetailCardViewData(
+                        title = "$DEFAULT_TITLE$it",
+                        secondTitle = "",
+                        subtitle = "$DEFAULT_SUBTITLE$it"
+                    )
+                }
                 .let { items = it }
         }
     }

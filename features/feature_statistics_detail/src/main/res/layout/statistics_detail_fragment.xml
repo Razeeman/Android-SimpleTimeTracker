@@ -88,7 +88,7 @@
             <com.example.util.simpletimetracker.feature_statistics_detail.customView.BarChartView
                 android:id="@+id/chartStatisticsDetail"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="@dimen/statistics_Detail_bar_chart_height"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
@@ -107,7 +107,7 @@
             <com.example.util.simpletimetracker.feature_statistics_detail.customView.BarChartView
                 android:id="@+id/chartStatisticsDetailCompare"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="@dimen/statistics_Detail_bar_chart_height"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
@@ -221,7 +221,7 @@
             <com.example.util.simpletimetracker.feature_statistics_detail.customView.BarChartView
                 android:id="@+id/chartStatisticsDetailSplit"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="@dimen/statistics_Detail_bar_chart_height"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 app:barCornerRadius="8dp"
@@ -257,7 +257,7 @@
             <com.example.util.simpletimetracker.feature_statistics_detail.customView.BarChartView
                 android:id="@+id/chartStatisticsDetailDurationSplit"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="@dimen/statistics_Detail_bar_chart_height"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 app:barCornerRadius="8dp"

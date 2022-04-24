@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="statistics_Detail_bar_chart_height">200dp</dimen>
+
+</resources>

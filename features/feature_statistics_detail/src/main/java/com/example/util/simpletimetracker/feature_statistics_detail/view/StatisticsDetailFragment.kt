@@ -178,7 +178,7 @@ class StatisticsDetailFragment :
     }
 
     private fun setStatsViewData(
-        statsViewData: StatisticsDetailStatsViewData
+        statsViewData: StatisticsDetailStatsViewData,
     ) = with(binding) {
         cardStatisticsDetailTotal.items = statsViewData.totalDuration
         cardStatisticsDetailRecords.items = statsViewData.timesTracked
@@ -189,11 +189,15 @@ class StatisticsDetailFragment :
     }
 
     private fun updateChartViewData(
-        viewData: StatisticsDetailChartCompositeViewData
+        viewData: StatisticsDetailChartCompositeViewData,
     ) = with(binding) {
+        val comparisonChartIsVisible = viewData.showComparison &&
+            viewData.chartData.visible &&
+            viewData.compareChartData.visible
+
         chartStatisticsDetail.setViewData(viewData.chartData)
         chartStatisticsDetailCompare.setViewData(viewData.compareChartData)
-        chartStatisticsDetailCompare.visible = viewData.showComparison && viewData.compareChartData.visible
+        chartStatisticsDetailCompare.visible = comparisonChartIsVisible
 
         val chartGroupingData = viewData.chartGroupingViewData
         buttonsStatisticsDetailGrouping.visible = chartGroupingData.size > 1
@@ -210,21 +214,21 @@ class StatisticsDetailFragment :
     }
 
     private fun updateSplitChartGroupingData(
-        viewData: List<ViewHolderType>
+        viewData: List<ViewHolderType>,
     ) = with(binding.buttonsStatisticsDetailSplitGrouping) {
         visible = viewData.isNotEmpty()
         adapter.replace(viewData)
     }
 
     private fun updateSplitChartViewData(
-        viewData: StatisticsDetailChartViewData
+        viewData: StatisticsDetailChartViewData,
     ) {
         binding.tvStatisticsDetailSplitHint.visible = viewData.visible
         binding.chartStatisticsDetailSplit.setViewData(viewData)
     }
 
     private fun updateDurationSplitChartViewData(
-        viewData: StatisticsDetailChartViewData
+        viewData: StatisticsDetailChartViewData,
     ) {
         binding.tvStatisticsDetailDurationSplitHint.visible = viewData.visible
         binding.chartStatisticsDetailDurationSplit.setViewData(viewData)
@@ -240,7 +244,7 @@ class StatisticsDetailFragment :
     }
 
     private fun BarChartView.setViewData(
-        viewData: StatisticsDetailChartViewData
+        viewData: StatisticsDetailChartViewData,
     ) {
         visible = viewData.visible
         setBars(viewData.data)

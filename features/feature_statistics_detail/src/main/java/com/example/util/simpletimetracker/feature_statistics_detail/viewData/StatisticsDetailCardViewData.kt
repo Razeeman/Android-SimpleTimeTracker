@@ -6,6 +6,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 
 data class StatisticsDetailCardViewData(
     val title: String,
+    val secondTitle: String,
     val subtitle: String,
     val icon: Icon? = null
 ) : ViewHolderType {
