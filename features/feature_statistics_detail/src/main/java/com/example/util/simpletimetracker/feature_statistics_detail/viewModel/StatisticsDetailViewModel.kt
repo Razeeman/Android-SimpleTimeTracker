@@ -99,18 +99,30 @@ class StatisticsDetailViewModel @Inject constructor(
     private val typesFilterContainer: MutableList<TypesFilterParams> by lazy {
         mutableListOf(extra.filter)
     }
+    private var comparisonTypesFilter: TypesFilterParams = TypesFilterParams()
 
     fun onVisible() {
         updateViewData()
     }
 
     fun onFilterClick() {
-        router.navigate(TypesFilterDialogParams(typesFilter))
+        router.navigate(TypesFilterDialogParams(FILTER_TAG, typesFilter))
     }
 
-    fun onTypesFilterSelected(newFilter: TypesFilterParams) {
-        typesFilterContainer.clear()
-        typesFilterContainer.add(newFilter)
+    fun onCompareClick() {
+        router.navigate(TypesFilterDialogParams(COMPARE_TAG, comparisonTypesFilter))
+    }
+
+    fun onTypesFilterSelected(tag: String, newFilter: TypesFilterParams) {
+        when (tag) {
+            FILTER_TAG -> {
+                typesFilterContainer.clear()
+                typesFilterContainer.add(newFilter)
+            }
+            COMPARE_TAG -> {
+                comparisonTypesFilter = newFilter
+            }
+        }
     }
 
     fun onTypesFilterDismissed() {
@@ -258,7 +270,13 @@ class StatisticsDetailViewModel @Inject constructor(
     }
 
     private suspend fun loadPreviewViewData(): List<ViewHolderType> {
-        return previewInteractor.getPreviewData(typesFilter)
+        return previewInteractor.getPreviewData(
+            filterParams = typesFilter,
+            isForComparison = false,
+        ) + previewInteractor.getPreviewData(
+            filterParams = comparisonTypesFilter,
+            isForComparison = true,
+        )
     }
 
     private fun updateStatsViewData() = viewModelScope.launch {
@@ -369,5 +387,7 @@ class StatisticsDetailViewModel @Inject constructor(
 
     companion object {
         private const val DATE_TAG = "statistics_detail_date_tag"
+        private const val FILTER_TAG = "statistics_detail_filter_tag"
+        private const val COMPARE_TAG = "statistics_detail_compare_tag"
     }
 }

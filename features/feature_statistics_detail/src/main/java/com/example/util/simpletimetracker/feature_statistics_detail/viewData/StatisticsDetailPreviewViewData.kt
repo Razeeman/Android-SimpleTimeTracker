@@ -6,6 +6,7 @@ import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 
 data class StatisticsDetailPreviewViewData(
     val id: Long,
+    val type: Type,
     val name: String,
     val iconId: RecordTypeIcon? = null,
     @ColorInt val color: Int
@@ -14,5 +15,9 @@ data class StatisticsDetailPreviewViewData(
     override fun getUniqueId(): Long = id
 
     override fun isValidType(other: ViewHolderType): Boolean =
-        other is StatisticsDetailPreviewViewData
+        other is StatisticsDetailPreviewViewData && other.type == type
+
+    enum class Type {
+        FILTER, COMPARISON
+    }
 }

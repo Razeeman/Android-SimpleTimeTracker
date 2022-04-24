@@ -24,7 +24,6 @@ import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
 import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
 import com.example.util.simpletimetracker.feature_dialogs.typesFilter.viewModel.TypesFilterViewModel
 import com.example.util.simpletimetracker.navigation.params.screen.TypesFilterDialogParams
-import com.example.util.simpletimetracker.navigation.params.screen.TypesFilterParams
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
@@ -45,8 +44,8 @@ class TypesFilterDialogFragment : BaseBottomSheetFragment<Binding>() {
     private val viewModel: TypesFilterViewModel by viewModels(
         factoryProducer = { viewModelFactory }
     )
-    private val params: TypesFilterParams by fragmentArgumentDelegate(
-        key = ARGS_PARAMS, default = TypesFilterParams()
+    private val params: TypesFilterDialogParams by fragmentArgumentDelegate(
+        key = ARGS_PARAMS, default = TypesFilterDialogParams()
     )
 
     private val adapter: BaseRecyclerAdapter by lazy {
@@ -77,7 +76,7 @@ class TypesFilterDialogFragment : BaseBottomSheetFragment<Binding>() {
     }
 
     override fun onDismiss(dialog: DialogInterface) {
-        typesFilterDialogListener?.onTypesFilterDismissed()
+        typesFilterDialogListener?.onTypesFilterDismissed(params.tag)
         super.onDismiss(dialog)
     }
 
@@ -104,16 +103,16 @@ class TypesFilterDialogFragment : BaseBottomSheetFragment<Binding>() {
     }
 
     override fun initViewModel(): Unit = with(viewModel) {
-        extra = params
+        extra = params.filter
         viewData.observe(adapter::replace)
-        typesFilter.observe { typesFilterDialogListener?.onTypesFilterSelected(it) }
+        typesFilter.observe { typesFilterDialogListener?.onTypesFilterSelected(params.tag, it) }
     }
 
     companion object {
         private const val ARGS_PARAMS = "args_params"
 
         fun createBundle(data: TypesFilterDialogParams): Bundle = Bundle().apply {
-            putParcelable(ARGS_PARAMS, data.filter)
+            putParcelable(ARGS_PARAMS, data)
         }
     }
 }

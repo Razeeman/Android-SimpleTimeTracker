@@ -20,6 +20,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.hint.createHintAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.statisticsTag.createStatisticsTagAdapterDelegate
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.createStatisticsPreviewAdapterDelegate
+import com.example.util.simpletimetracker.feature_statistics_detail.adapter.createStatisticsPreviewCompareAdapterDelegate
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.createStatisticsPreviewMoreAdapterDelegate
 import com.example.util.simpletimetracker.feature_statistics_detail.customView.BarChartView
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartCompositeViewData
@@ -59,6 +60,7 @@ class StatisticsDetailFragment :
     private val previewAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
             createStatisticsPreviewMoreAdapterDelegate(),
+            createStatisticsPreviewCompareAdapterDelegate(),
             createStatisticsPreviewAdapterDelegate()
         )
     }
@@ -96,6 +98,7 @@ class StatisticsDetailFragment :
 
     override fun initUx() = with(binding) {
         cardStatisticsDetailFilter.setOnClick(viewModel::onFilterClick)
+        cardStatisticsDetailCompare.setOnClick(viewModel::onCompareClick)
         buttonsStatisticsDetailGrouping.listener = viewModel::onChartGroupingClick
         buttonsStatisticsDetailLength.listener = viewModel::onChartLengthClick
         buttonsStatisticsDetailSplitGrouping.listener = viewModel::onSplitChartGroupingClick
@@ -134,17 +137,18 @@ class StatisticsDetailFragment :
         viewModel.onVisible()
     }
 
-    override fun onTypesFilterSelected(filter: TypesFilterParams) {
-        viewModel.onTypesFilterSelected(filter)
+    override fun onTypesFilterSelected(tag: String, filter: TypesFilterParams) {
+        viewModel.onTypesFilterSelected(tag, filter)
     }
 
-    override fun onTypesFilterDismissed() {
+    override fun onTypesFilterDismissed(tag: String) {
         viewModel.onTypesFilterDismissed()
     }
 
     private fun setPreview() = params.preview?.run {
         StatisticsDetailPreviewViewData(
             id = 0L,
+            type = StatisticsDetailPreviewViewData.Type.FILTER,
             name = name,
             iconId = iconId?.toViewData(),
             color = color
@@ -152,6 +156,7 @@ class StatisticsDetailFragment :
     }
 
     private fun setPreviewViewData(viewData: List<ViewHolderType>) = with(binding) {
+        // TODO create data class holder
         val first = viewData.firstOrNull()
             as? StatisticsDetailPreviewViewData
             ?: return

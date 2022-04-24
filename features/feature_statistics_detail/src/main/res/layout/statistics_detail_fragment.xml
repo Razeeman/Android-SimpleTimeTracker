@@ -27,10 +27,31 @@
                 app:cardElevation="@dimen/record_type_card_elevation"
                 app:itemDuration=""
                 app:itemPercent=""
-                app:layout_constraintEnd_toStartOf="@id/cardStatisticsDetailFilter"
+                app:layout_constraintEnd_toStartOf="@id/cardStatisticsDetailCompare"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:itemColor="@color/red_800" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardStatisticsDetailCompare"
+                style="@style/SettingsCard"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:foreground="?selectableItemBackground"
+                app:cardBackgroundColor="?appCardBackgroundColor"
+                app:layout_constraintBottom_toBottomOf="@id/viewStatisticsDetailItem"
+                app:layout_constraintDimensionRatio="h,1:1"
+                app:layout_constraintEnd_toStartOf="@id/cardStatisticsDetailFilter"
+                app:layout_constraintTop_toTopOf="@id/viewStatisticsDetailItem">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="center"
+                    android:src="@drawable/compare"
+                    android:tint="?appInactiveColor" />
+
+            </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardStatisticsDetailFilter"

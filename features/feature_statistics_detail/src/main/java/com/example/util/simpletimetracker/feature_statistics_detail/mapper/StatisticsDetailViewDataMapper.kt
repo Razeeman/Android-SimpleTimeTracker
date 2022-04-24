@@ -120,9 +120,15 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         recordType: RecordType,
         isDarkTheme: Boolean,
         isFirst: Boolean,
+        isForComparison: Boolean,
     ): StatisticsDetailPreviewViewData {
         return StatisticsDetailPreviewViewData(
             id = recordType.id,
+            type = if (isForComparison) {
+                StatisticsDetailPreviewViewData.Type.COMPARISON
+            } else {
+                StatisticsDetailPreviewViewData.Type.FILTER
+            },
             name = recordType.name.takeIf { isFirst }.orEmpty(),
             iconId = recordType.icon
                 .let(iconMapper::mapIcon),
@@ -134,9 +140,15 @@ class StatisticsDetailViewDataMapper @Inject constructor(
     fun mapToPreview(
         category: Category,
         isDarkTheme: Boolean,
+        isForComparison: Boolean,
     ): StatisticsDetailPreviewViewData {
         return StatisticsDetailPreviewViewData(
             id = category.id,
+            type = if (isForComparison) {
+                StatisticsDetailPreviewViewData.Type.COMPARISON
+            } else {
+                StatisticsDetailPreviewViewData.Type.FILTER
+            },
             name = category.name,
             iconId = null,
             color = category.color
@@ -149,6 +161,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
     ): StatisticsDetailPreviewViewData {
         return StatisticsDetailPreviewViewData(
             id = 0,
+            type = StatisticsDetailPreviewViewData.Type.FILTER,
             name = "",
             iconId = RecordTypeIcon.Image(R.drawable.unknown),
             color = colorMapper.toUntrackedColor(isDarkTheme)

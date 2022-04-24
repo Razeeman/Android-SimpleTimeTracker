@@ -22,7 +22,7 @@
             android:layout_width="16dp"
             android:layout_height="0dp"
             android:layout_marginEnd="8dp"
-            app:itemIcon="@drawable/statistics_detail_more"
+            app:itemIcon="@drawable/compare"
             app:itemIconColor="?appInactiveColor"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="h,1:1"
