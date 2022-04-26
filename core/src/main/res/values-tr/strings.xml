@@ -157,7 +157,7 @@
     <string name="settings_sort_manually">Elle</string>
     <string name="settings_first_day_of_week">Haftanın ilk günü</string>
     <string name="settings_show_untracked_time">Kayıtlarda takipsiz zamanı göster</string>
-    <string name="settings_show_records_calendar">Takvim görünümünde kayıtları göster</string>
+    <string name="settings_show_records_calendar">Kayıtları takvim görünümünde göster</string>
     <string name="settings_allow_multitasking">Çoklu göreve izin ver</string>
     <string name="settings_allow_multitasking_hint">Devre dışı bırakılırsa, yeni zamanlayıcı başlatmak diğer aktivitelerin zamanlayıcısını otomatik olarak durdurur.</string>
     <string name="settings_show_notifications">Zamanlayıcı bildirimlerini göster</string>
@@ -166,12 +166,12 @@
     <string name="settings_inactivity_reminder">İnaktivite hatırlatıcısı göster</string>
     <string name="settings_inactivity_reminder_hint">Eğer herhangi bir zamanlayıcı çalışmıyorsa belirtilen süre sonunda bildirim göster.</string>
     <string name="settings_ignore_short_records">Kısa kayıtları yoksay</string>
-    <string name="settings_ignore_short_records_hint">Belirtilen süreden daha kısa olan etkinlikleri takip etmeyin.</string>
+    <string name="settings_ignore_short_records_hint">Belirtilen süreden daha kısa olan kayıtları yoksay.</string>
     <string name="settings_inactivity_reminder_disabled">Devre dışı</string>
     <string name="settings_dark_mode">Karanlık mod</string>
     <string name="settings_use_military_time">24-saat formatını kullan</string>
     <string name="settings_use_proportional_minutes">Oransal dakika formatını kullan</string>
-    <string name="settings_keep_screen_on">Ekranını açık tut</string>
+    <string name="settings_keep_screen_on">Ekranı açık tut</string>
     <string name="settings_change_card_size">Aktivite kartı boyutunu değiştir</string>
     <string name="settings_archive">Arşiv</string>
     <string name="settings_edit_categories">Etiketleri düzenle</string>
@@ -230,7 +230,7 @@
     <string name="statistics_detail_first_record">İlk</string>
     <string name="statistics_detail_last_record">Son</string>
     <string name="statistics_detail_tag_split_hint">Etiket dağılımı</string>
-    <string name="statistics_detail_day_split_hint">Günlük dağıtım</string>
+    <string name="statistics_detail_day_split_hint">Günlük dağılım</string>
     <string name="statistics_detail_duration_split_hint">Kayıt süresi dağılımı</string>
 
     <plurals name="statistics_detail_times_tracked">
