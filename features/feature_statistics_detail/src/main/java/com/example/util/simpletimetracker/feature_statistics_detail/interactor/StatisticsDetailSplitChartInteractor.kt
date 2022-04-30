@@ -32,6 +32,7 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
 
     suspend fun getSplitChartViewData(
         filter: TypesFilterParams,
+        isForComparison: Boolean,
         rangeLength: RangeLength,
         rangePosition: Int,
         splitChartGrouping: SplitChartGrouping,
@@ -44,13 +45,18 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
             firstDayOfWeek = firstDayOfWeek,
             startOfDayShift = startOfDayShift
         )
-        val data = getDurations(filter, range, splitChartGrouping, startOfDayShift)
+        val data = if (isForComparison && filter.selectedIds.isEmpty()) {
+            emptyMap()
+        } else {
+            getDurations(filter, range, splitChartGrouping, startOfDayShift)
+        }
+        val isVisible = (isForComparison && filter.selectedIds.isNotEmpty()) || !isForComparison
 
         return when (splitChartGrouping) {
             SplitChartGrouping.HOURLY ->
-                mapper.mapToHourlyChartViewData(data)
+                mapper.mapToHourlyChartViewData(data, isVisible)
             SplitChartGrouping.DAILY ->
-                mapper.mapToDailyChartViewData(data, firstDayOfWeek)
+                mapper.mapToDailyChartViewData(data, firstDayOfWeek, isVisible)
         }
     }
 

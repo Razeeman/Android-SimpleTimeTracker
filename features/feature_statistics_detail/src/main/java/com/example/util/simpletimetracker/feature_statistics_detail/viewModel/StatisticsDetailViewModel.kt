@@ -76,6 +76,9 @@ class StatisticsDetailViewModel @Inject constructor(
     val splitChartViewData: LiveData<StatisticsDetailChartViewData> by lazy {
         return@lazy MutableLiveData()
     }
+    val comparisonSplitChartViewData: LiveData<StatisticsDetailChartViewData> by lazy {
+        return@lazy MutableLiveData()
+    }
     val durationSplitChartViewData: LiveData<StatisticsDetailChartViewData> by lazy {
         return@lazy MutableLiveData()
     }
@@ -324,17 +327,20 @@ class StatisticsDetailViewModel @Inject constructor(
     }
 
     private fun updateSplitChartViewData() = viewModelScope.launch {
-        val data = loadSplitChartViewData()
+        val data = loadSplitChartViewData(isForComparison = false)
         splitChartViewData.set(data)
+        val comparisonData = loadSplitChartViewData(isForComparison = true)
+        comparisonSplitChartViewData.set(comparisonData)
     }
 
-    private suspend fun loadSplitChartViewData(): StatisticsDetailChartViewData {
+    private suspend fun loadSplitChartViewData(isForComparison: Boolean): StatisticsDetailChartViewData {
         val grouping = splitChartGrouping
             .takeUnless { rangeLength is RangeLength.Day }
             ?: SplitChartGrouping.HOURLY
 
         return splitChartInteractor.getSplitChartViewData(
-            filter = typesFilter,
+            filter = if (isForComparison) comparisonTypesFilter else typesFilter,
+            isForComparison = isForComparison,
             rangeLength = rangeLength,
             rangePosition = rangePosition,
             splitChartGrouping = grouping

@@ -131,6 +131,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
     fun mapToDailyChartViewData(
         data: Map<Int, Float>,
         firstDayOfWeek: DayOfWeek,
+        isVisible: Boolean,
     ): StatisticsDetailChartViewData {
         val days = listOf(
             DayOfWeek.MONDAY,
@@ -155,7 +156,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         }
 
         return StatisticsDetailChartViewData(
-            visible = true,
+            visible = isVisible,
             data = viewData,
             legendSuffix = SPLIT_CHART_LEGEND,
             addLegendToSelectedBar = false,
@@ -165,6 +166,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
 
     fun mapToHourlyChartViewData(
         data: Map<Int, Float>,
+        isVisible: Boolean,
     ): StatisticsDetailChartViewData {
         val hourLegends = (0 until 24).map {
             it to it.toString()
@@ -179,7 +181,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             }
 
         return StatisticsDetailChartViewData(
-            visible = true,
+            visible = isVisible,
             data = viewData,
             legendSuffix = SPLIT_CHART_LEGEND,
             addLegendToSelectedBar = false,
