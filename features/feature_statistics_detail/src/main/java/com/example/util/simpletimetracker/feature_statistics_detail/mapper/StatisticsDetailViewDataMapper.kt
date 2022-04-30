@@ -6,17 +6,12 @@ import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.extension.rotateLeft
-import com.example.util.simpletimetracker.domain.mapper.StatisticsMapper
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RangeLength
-import com.example.util.simpletimetracker.domain.model.Record
-import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
-import com.example.util.simpletimetracker.feature_base_adapter.hint.HintViewData
-import com.example.util.simpletimetracker.feature_base_adapter.statisticsTag.StatisticsTagViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.R
 import com.example.util.simpletimetracker.feature_statistics_detail.customView.BarChartView
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartBarDataDuration
@@ -30,7 +25,6 @@ import com.example.util.simpletimetracker.feature_statistics_detail.viewData.Sta
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailGroupingViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailSplitGroupingViewData
-import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStatsViewData
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -40,81 +34,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
     private val colorMapper: ColorMapper,
     private val timeMapper: TimeMapper,
     private val resourceRepo: ResourceRepo,
-    private val statisticsMapper: StatisticsMapper,
 ) {
-
-    fun mapStatsData(
-        records: List<Record>,
-        types: List<RecordType>,
-        tags: List<RecordTag>,
-        isDarkTheme: Boolean,
-        useMilitaryTime: Boolean,
-        useProportionalMinutes: Boolean,
-    ): StatisticsDetailStatsViewData {
-        val recordsSorted = records.sortedBy { it.timeStarted }
-        val durations = records.map(::mapToDuration)
-        val totalDuration = durations.sum()
-        val timesTracked = records.size
-        val shortest = durations.minOrNull()
-        val average = if (durations.isNotEmpty()) durations.sum() / durations.size else null
-        val longest = durations.maxOrNull()
-        val first = recordsSorted.firstOrNull()?.timeStarted
-        val last = recordsSorted.lastOrNull()?.timeEnded
-        val emptyValue by lazy { resourceRepo.getString(R.string.statistics_detail_empty) }
-
-        val recordsAllIcon = StatisticsDetailCardViewData.Icon(
-            iconDrawable = R.drawable.statistics_detail_records_all,
-            iconColor = if (isDarkTheme) {
-                R.color.colorInactiveDark
-            } else {
-                R.color.colorInactive
-            }.let(resourceRepo::getColor)
-        )
-        val tagSplitData = mapTags(
-            records = records,
-            typesMap = types.map { it.id to it }.toMap(),
-            tagsMap = tags.map { it.id to it }.toMap(),
-            isDarkTheme = isDarkTheme,
-            useProportionalMinutes = useProportionalMinutes
-        )
-
-        return mapToStatsViewData(
-            totalDuration = totalDuration
-                .let { timeMapper.formatInterval(it, useProportionalMinutes) },
-            timesTracked = timesTracked,
-            timesTrackedIcon = recordsAllIcon,
-            shortestRecord = shortest
-                ?.let { timeMapper.formatInterval(it, useProportionalMinutes) }
-                ?: emptyValue,
-            averageRecord = average
-                ?.let { timeMapper.formatInterval(it, useProportionalMinutes) }
-                ?: emptyValue,
-            longestRecord = longest
-                ?.let { timeMapper.formatInterval(it, useProportionalMinutes) }
-                ?: emptyValue,
-            firstRecord = first
-                ?.let { timeMapper.formatDateTimeYear(it, useMilitaryTime) }
-                ?: emptyValue,
-            lastRecord = last
-                ?.let { timeMapper.formatDateTimeYear(it, useMilitaryTime) }
-                ?: emptyValue,
-            tagSplitData = tagSplitData
-        )
-    }
-
-    fun mapToEmptyStatsViewData(): StatisticsDetailStatsViewData {
-        return mapToStatsViewData(
-            totalDuration = "",
-            timesTracked = null,
-            timesTrackedIcon = null,
-            shortestRecord = "",
-            averageRecord = "",
-            longestRecord = "",
-            firstRecord = "",
-            lastRecord = "",
-            tagSplitData = emptyList()
-        )
-    }
 
     fun mapToPreview(
         recordType: RecordType,
@@ -315,68 +235,6 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         )
     }
 
-    private fun mapToStatsViewData(
-        totalDuration: String,
-        timesTracked: Int?,
-        timesTrackedIcon: StatisticsDetailCardViewData.Icon?,
-        shortestRecord: String,
-        averageRecord: String,
-        longestRecord: String,
-        firstRecord: String,
-        lastRecord: String,
-        tagSplitData: List<ViewHolderType>,
-    ): StatisticsDetailStatsViewData {
-        return StatisticsDetailStatsViewData(
-            totalDuration = listOf(
-                StatisticsDetailCardViewData(
-                    title = totalDuration,
-                    secondTitle = "",
-                    subtitle = resourceRepo.getString(R.string.statistics_detail_total_duration)
-                )
-            ),
-            timesTracked = listOf(
-                StatisticsDetailCardViewData(
-                    title = timesTracked?.toString() ?: "",
-                    secondTitle = "",
-                    subtitle = resourceRepo.getQuantityString(
-                        R.plurals.statistics_detail_times_tracked, timesTracked.orZero()
-                    ),
-                    icon = timesTrackedIcon
-                )
-            ),
-            averageRecord = listOf(
-                StatisticsDetailCardViewData(
-                    title = shortestRecord,
-                    secondTitle = "",
-                    subtitle = resourceRepo.getString(R.string.statistics_detail_shortest_record)
-                ),
-                StatisticsDetailCardViewData(
-                    title = averageRecord,
-                    secondTitle = "",
-                    subtitle = resourceRepo.getString(R.string.statistics_detail_average_record)
-                ),
-                StatisticsDetailCardViewData(
-                    title = longestRecord,
-                    secondTitle = "",
-                    subtitle = resourceRepo.getString(R.string.statistics_detail_longest_record)
-                )
-            ),
-            datesTracked = listOf(
-                StatisticsDetailCardViewData(
-                    title = firstRecord,
-                    secondTitle = "",
-                    subtitle = resourceRepo.getString(R.string.statistics_detail_first_record)
-                ),
-                StatisticsDetailCardViewData(
-                    title = lastRecord,
-                    secondTitle = "",
-                    subtitle = resourceRepo.getString(R.string.statistics_detail_last_record)
-                )
-            ),
-            tagSplitData = tagSplitData
-        )
-    }
-
     private fun getRangeAverages(
         data: List<ChartBarDataDuration>,
         compareData: List<ChartBarDataDuration>,
@@ -539,91 +397,6 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             ChartLength.FIFTY -> R.string.statistics_detail_length_fifty
             ChartLength.HUNDRED -> R.string.statistics_detail_length_hundred
         }.let(resourceRepo::getString)
-    }
-
-    private fun mapToDuration(record: Record): Long {
-        return record.let { it.timeEnded - it.timeStarted }
-    }
-
-    private fun mapTags(
-        records: List<Record>,
-        typesMap: Map<Long, RecordType>,
-        tagsMap: Map<Long, RecordTag>,
-        isDarkTheme: Boolean,
-        useProportionalMinutes: Boolean,
-    ): List<ViewHolderType> {
-        val tags: MutableMap<Long, MutableList<Record>> = mutableMapOf()
-
-        records.forEach { record ->
-            record.tagIds.forEach { tagId ->
-                tags.getOrPut(tagId, { mutableListOf() }).add(record)
-            }
-            if (record.tagIds.isEmpty()) {
-                tags.getOrPut(0, { mutableListOf() }).add(record)
-            }
-        }
-
-        val durations = tags
-            .takeUnless { it.isEmpty() }
-            ?.mapValues { (_, records) -> records.let(statisticsMapper::mapToDuration) }
-            ?: return emptyList()
-        val tagsSize = tags.size
-        val sumDuration = durations.map { (_, duration) -> duration }.sum()
-        val hint = resourceRepo.getString(R.string.statistics_detail_tag_split_hint)
-            .let(::HintViewData).let(::listOf)
-
-        return hint + durations
-            .mapNotNull { (tagId, duration) ->
-                val tag = tagsMap[tagId]
-                val type = typesMap[tag?.typeId]
-
-                mapTag(
-                    tag = tag,
-                    recordType = type,
-                    duration = duration,
-                    sumDuration = sumDuration,
-                    isDarkTheme = isDarkTheme,
-                    statisticsSize = tagsSize,
-                    useProportionalMinutes = useProportionalMinutes,
-                ) to duration
-            }
-            .sortedByDescending { (_, duration) -> duration }
-            .map { (statistics, _) -> statistics }
-    }
-
-    private fun mapTag(
-        tag: RecordTag?,
-        recordType: RecordType?,
-        duration: Long,
-        sumDuration: Long,
-        isDarkTheme: Boolean,
-        statisticsSize: Int,
-        useProportionalMinutes: Boolean,
-    ): StatisticsTagViewData {
-        val durationPercent = statisticsMapper.getDurationPercentString(
-            sumDuration = sumDuration,
-            duration = duration,
-            statisticsSize = statisticsSize
-        )
-
-        return StatisticsTagViewData(
-            id = tag?.id.orZero(),
-            name = tag?.name
-                ?: R.string.change_record_untagged.let(resourceRepo::getString),
-            duration = duration
-                .let { timeMapper.formatInterval(it, useProportionalMinutes) },
-            percent = durationPercent,
-            // Take icon and color from recordType if it is a typed tag,
-            // show empty icon and tag color for untyped tags,
-            // show unknown icon and untracked color if tagId == 0, meaning it is untagged.
-            icon = recordType?.icon
-                ?.let(iconMapper::mapIcon)
-                ?: tag?.run { RecordTypeIcon.Image(0) }
-                ?: RecordTypeIcon.Image(R.drawable.unknown),
-            color = recordType?.color?.let { colorMapper.mapToColorInt(it, isDarkTheme) }
-                ?: tag?.color?.let { colorMapper.mapToColorInt(it, isDarkTheme) }
-                ?: colorMapper.toUntrackedColor(isDarkTheme)
-        )
     }
 
     companion object {

@@ -293,12 +293,13 @@ class StatisticsDetailViewModel @Inject constructor(
     }
 
     private fun loadEmptyStatsViewData(): StatisticsDetailStatsViewData {
-        return mapper.mapToEmptyStatsViewData()
+        return statsInteractor.getEmptyStatsViewData()
     }
 
     private suspend fun loadStatsViewData(): StatisticsDetailStatsViewData {
         return statsInteractor.getStatsViewData(
             filter = typesFilter,
+            compare = comparisonTypesFilter,
             rangeLength = rangeLength,
             rangePosition = rangePosition
         )
