@@ -1,15 +1,14 @@
 package com.example.util.simpletimetracker.feature_statistics_detail.interactor
 
-import com.example.util.simpletimetracker.core.extension.isNotFiltered
 import com.example.util.simpletimetracker.core.extension.setToStartOfDay
 import com.example.util.simpletimetracker.core.extension.setWeekToFirstDay
 import com.example.util.simpletimetracker.core.interactor.TypesFilterInteractor
 import com.example.util.simpletimetracker.core.mapper.RangeMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
-import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.RangeLength
+import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.StatisticsDetailViewDataMapper
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartBarDataDuration
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartBarDataRange
@@ -22,7 +21,6 @@ import javax.inject.Inject
 import kotlin.math.abs
 
 class StatisticsDetailChartInteractor @Inject constructor(
-    private val recordInteractor: RecordInteractor,
     private val timeMapper: TimeMapper,
     private val rangeMapper: RangeMapper,
     private val typesFilterInteractor: TypesFilterInteractor,
@@ -31,6 +29,8 @@ class StatisticsDetailChartInteractor @Inject constructor(
 ) {
 
     suspend fun getChartViewData(
+        records: List<Record>,
+        compareRecords: List<Record>,
         filter: TypesFilterParams,
         compare: TypesFilterParams,
         currentChartGrouping: ChartGrouping,
@@ -51,10 +51,12 @@ class StatisticsDetailChartInteractor @Inject constructor(
             startOfDayShift = startOfDayShift,
         )
         val data = getChartData(
+            allRecords = records,
             filter = filter,
             ranges = ranges,
         )
         val compareData = getChartData(
+            allRecords = compareRecords,
             filter = compare,
             ranges = ranges,
         )
@@ -73,6 +75,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
     }
 
     private suspend fun getChartData(
+        allRecords: List<Record>,
         filter: TypesFilterParams,
         ranges: List<ChartBarDataRange>,
     ): List<ChartBarDataDuration> {
@@ -84,10 +87,11 @@ class StatisticsDetailChartInteractor @Inject constructor(
 
         if (typeIds.isEmpty()) return mapEmpty()
 
-        val records = recordInteractor.getFromRange(
-            start = ranges.first().rangeStart,
-            end = ranges.last().rangeEnd
-        ).filter { it.typeId in typeIds && it.isNotFiltered(filter) }
+        val records = rangeMapper.getRecordsFromRange(
+            records = allRecords,
+            rangeStart = ranges.first().rangeStart,
+            rangeEnd = ranges.last().rangeEnd
+        )
 
         if (records.isEmpty()) return mapEmpty()
 

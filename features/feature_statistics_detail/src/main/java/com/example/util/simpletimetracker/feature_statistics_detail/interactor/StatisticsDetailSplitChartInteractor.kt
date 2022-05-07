@@ -1,12 +1,9 @@
 package com.example.util.simpletimetracker.feature_statistics_detail.interactor
 
-import com.example.util.simpletimetracker.core.extension.isNotFiltered
-import com.example.util.simpletimetracker.core.interactor.TypesFilterInteractor
 import com.example.util.simpletimetracker.core.mapper.RangeMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
-import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.Record
@@ -23,14 +20,13 @@ import kotlin.math.floor
 
 class StatisticsDetailSplitChartInteractor @Inject constructor(
     private val mapper: StatisticsDetailViewDataMapper,
-    private val typesFilterInteractor: TypesFilterInteractor,
-    private val recordInteractor: RecordInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val timeMapper: TimeMapper,
     private val rangeMapper: RangeMapper,
 ) {
 
     suspend fun getSplitChartViewData(
+        records: List<Record>,
         filter: TypesFilterParams,
         isForComparison: Boolean,
         rangeLength: RangeLength,
@@ -48,7 +44,7 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
         val data = if (isForComparison && filter.selectedIds.isEmpty()) {
             emptyMap()
         } else {
-            getDurations(filter, range, splitChartGrouping, startOfDayShift)
+            getDurations(records, range, splitChartGrouping, startOfDayShift)
         }
         val isVisible = (isForComparison && filter.selectedIds.isNotEmpty()) || !isForComparison
 
@@ -61,7 +57,7 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
     }
 
     suspend fun getDurationSplitViewData(
-        filter: TypesFilterParams,
+        records: List<Record>,
         rangeLength: RangeLength,
         rangePosition: Int,
     ): StatisticsDetailChartViewData {
@@ -74,9 +70,6 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
             startOfDayShift = startOfDayShift
         )
 
-        val typeIds = typesFilterInteractor.getTypeIds(filter)
-        // TODO get from range and by type from db
-        val records = recordInteractor.getByType(typeIds).filter { it.isNotFiltered(filter) }
         val ranges = if (range.first != 0L && range.second != 0L) {
             rangeMapper.getRecordsFromRange(records, range.first, range.second)
         } else {
@@ -142,8 +135,8 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
         return mapper.mapToDurationsSlipChartViewData(data)
     }
 
-    private suspend fun getDurations(
-        filter: TypesFilterParams,
+    private fun getDurations(
+        records: List<Record>,
         range: Pair<Long, Long>,
         splitChartGrouping: SplitChartGrouping,
         startOfDayShift: Long,
@@ -152,8 +145,6 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
         val dataDurations: MutableMap<Int, Long> = mutableMapOf()
         val dataTimesTracked: MutableMap<Int, Long> = mutableMapOf()
 
-        val typeIds = typesFilterInteractor.getTypeIds(filter)
-        val records = recordInteractor.getByType(typeIds).filter { it.isNotFiltered(filter) }
         val ranges = mapToRanges(records, range)
         val totalTracked = ranges.let(rangeMapper::mapToDuration)
 

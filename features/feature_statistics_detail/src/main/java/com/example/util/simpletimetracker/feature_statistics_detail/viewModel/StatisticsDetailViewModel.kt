@@ -4,7 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.core.extension.isNotFiltered
+import com.example.util.simpletimetracker.core.extension.post
 import com.example.util.simpletimetracker.core.extension.set
+import com.example.util.simpletimetracker.core.interactor.TypesFilterInteractor
 import com.example.util.simpletimetracker.core.mapper.RangeMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
@@ -13,8 +16,10 @@ import com.example.util.simpletimetracker.core.viewData.RangesViewData
 import com.example.util.simpletimetracker.core.viewData.SelectDateViewData
 import com.example.util.simpletimetracker.core.viewData.SelectRangeViewData
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RangeLength
+import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailChartInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailPreviewInteractor
@@ -41,12 +46,15 @@ import com.example.util.simpletimetracker.navigation.params.screen.RecordsAllPar
 import com.example.util.simpletimetracker.navigation.params.screen.StatisticsDetailParams
 import com.example.util.simpletimetracker.navigation.params.screen.TypesFilterDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.TypesFilterParams
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class StatisticsDetailViewModel @Inject constructor(
     private val router: Router,
     private val prefsInteractor: PrefsInteractor,
+    private val recordInteractor: RecordInteractor,
+    private val typesFilterInteractor: TypesFilterInteractor,
     private val chartInteractor: StatisticsDetailChartInteractor,
     private val previewInteractor: StatisticsDetailPreviewInteractor,
     private val statsInteractor: StatisticsDetailStatsInteractor,
@@ -105,8 +113,11 @@ class StatisticsDetailViewModel @Inject constructor(
         mutableListOf(extra.filter)
     }
     private var comparisonTypesFilter: TypesFilterParams = TypesFilterParams()
+    private var records: List<Record> = emptyList() // all records with selected ids
+    private var compareRecords: List<Record> = emptyList() // all records with selected ids
 
-    fun onVisible() {
+    fun onVisible() = viewModelScope.launch {
+        loadRecordsCache()
         updateViewData()
     }
 
@@ -130,7 +141,8 @@ class StatisticsDetailViewModel @Inject constructor(
         }
     }
 
-    fun onTypesFilterDismissed() {
+    fun onTypesFilterDismissed() = viewModelScope.launch {
+        loadRecordsCache()
         updatePreviewViewData()
         updateViewData()
     }
@@ -269,6 +281,15 @@ class StatisticsDetailViewModel @Inject constructor(
         updateDurationSplitChartViewData()
     }
 
+    private suspend fun loadRecordsCache() {
+        records = recordInteractor
+            .getByType(typesFilterInteractor.getTypeIds(typesFilter))
+            .filter { it.isNotFiltered(typesFilter) }
+        compareRecords = recordInteractor
+            .getByType(typesFilterInteractor.getTypeIds(comparisonTypesFilter))
+            .filter { it.isNotFiltered(comparisonTypesFilter) }
+    }
+
     private fun updatePreviewViewData() = viewModelScope.launch {
         val data = loadPreviewViewData()
         previewViewData.set(data)
@@ -290,9 +311,9 @@ class StatisticsDetailViewModel @Inject constructor(
         )
     }
 
-    private fun updateStatsViewData() = viewModelScope.launch {
+    private fun updateStatsViewData() = viewModelScope.launch(Dispatchers.Default) {
         val data = loadStatsViewData()
-        statsViewData.set(data)
+        statsViewData.post(data)
     }
 
     private fun loadEmptyStatsViewData(): StatisticsDetailStatsViewData {
@@ -301,22 +322,25 @@ class StatisticsDetailViewModel @Inject constructor(
 
     private suspend fun loadStatsViewData(): StatisticsDetailStatsViewData {
         return statsInteractor.getStatsViewData(
-            filter = typesFilter,
-            compare = comparisonTypesFilter,
+            records = records,
+            compareRecords = compareRecords,
+            showComparison = comparisonTypesFilter.selectedIds.isNotEmpty(),
             rangeLength = rangeLength,
             rangePosition = rangePosition
         )
     }
 
-    private fun updateChartViewData() = viewModelScope.launch {
+    private fun updateChartViewData() = viewModelScope.launch(Dispatchers.Default) {
         val data = loadChartViewData()
-        chartViewData.set(data)
+        chartViewData.post(data)
         chartGrouping = data.appliedChartGrouping
         chartLength = data.appliedChartLength
     }
 
     private suspend fun loadChartViewData(): StatisticsDetailChartCompositeViewData {
         return chartInteractor.getChartViewData(
+            records = records,
+            compareRecords = compareRecords,
             filter = typesFilter,
             compare = comparisonTypesFilter,
             currentChartGrouping = chartGrouping,
@@ -326,11 +350,11 @@ class StatisticsDetailViewModel @Inject constructor(
         )
     }
 
-    private fun updateSplitChartViewData() = viewModelScope.launch {
+    private fun updateSplitChartViewData() = viewModelScope.launch(Dispatchers.Default) {
         val data = loadSplitChartViewData(isForComparison = false)
-        splitChartViewData.set(data)
+        splitChartViewData.post(data)
         val comparisonData = loadSplitChartViewData(isForComparison = true)
-        comparisonSplitChartViewData.set(comparisonData)
+        comparisonSplitChartViewData.post(comparisonData)
     }
 
     private suspend fun loadSplitChartViewData(isForComparison: Boolean): StatisticsDetailChartViewData {
@@ -339,6 +363,7 @@ class StatisticsDetailViewModel @Inject constructor(
             ?: SplitChartGrouping.HOURLY
 
         return splitChartInteractor.getSplitChartViewData(
+            records = if (isForComparison) compareRecords else records,
             filter = if (isForComparison) comparisonTypesFilter else typesFilter,
             isForComparison = isForComparison,
             rangeLength = rangeLength,
@@ -347,14 +372,14 @@ class StatisticsDetailViewModel @Inject constructor(
         )
     }
 
-    private fun updateDurationSplitChartViewData() = viewModelScope.launch {
+    private fun updateDurationSplitChartViewData() = viewModelScope.launch(Dispatchers.Default) {
         val data = loadDurationSplitChartViewData()
-        durationSplitChartViewData.set(data)
+        durationSplitChartViewData.post(data)
     }
 
     private suspend fun loadDurationSplitChartViewData(): StatisticsDetailChartViewData {
         return splitChartInteractor.getDurationSplitViewData(
-            filter = typesFilter,
+            records = records,
             rangeLength = rangeLength,
             rangePosition = rangePosition,
         )

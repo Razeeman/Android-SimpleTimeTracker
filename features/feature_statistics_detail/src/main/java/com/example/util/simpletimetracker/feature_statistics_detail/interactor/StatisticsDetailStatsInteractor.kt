@@ -1,14 +1,12 @@
 package com.example.util.simpletimetracker.feature_statistics_detail.interactor
 
-import com.example.util.simpletimetracker.core.extension.isNotFiltered
-import com.example.util.simpletimetracker.core.interactor.TypesFilterInteractor
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
+import com.example.util.simpletimetracker.core.mapper.RangeMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
-import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.mapper.StatisticsMapper
@@ -23,25 +21,24 @@ import com.example.util.simpletimetracker.feature_statistics_detail.R
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailCardViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStatsViewData
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
-import com.example.util.simpletimetracker.navigation.params.screen.TypesFilterParams
 import javax.inject.Inject
 
 class StatisticsDetailStatsInteractor @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
-    private val recordInteractor: RecordInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
     private val recordTagInteractor: RecordTagInteractor,
-    private val typesFilterInteractor: TypesFilterInteractor,
     private val timeMapper: TimeMapper,
     private val statisticsMapper: StatisticsMapper,
     private val iconMapper: IconMapper,
     private val colorMapper: ColorMapper,
+    private val rangeMapper: RangeMapper,
     private val resourceRepo: ResourceRepo,
 ) {
 
     suspend fun getStatsViewData(
-        filter: TypesFilterParams,
-        compare: TypesFilterParams,
+        records: List<Record>,
+        compareRecords: List<Record>,
+        showComparison: Boolean,
         rangeLength: RangeLength,
         rangePosition: Int,
     ): StatisticsDetailStatsViewData {
@@ -59,26 +56,27 @@ class StatisticsDetailStatsInteractor @Inject constructor(
             firstDayOfWeek = firstDayOfWeek,
             startOfDayShift = startOfDayShift
         )
-        val allRecords = if (range.first == 0L && range.second == 0L) {
-            recordInteractor.getAll()
-        } else {
-            recordInteractor.getFromRange(range.first, range.second)
-        }
-
-        val typeIds = typesFilterInteractor.getTypeIds(filter)
-        val records = allRecords.filter {
-            it.typeId in typeIds && it.isNotFiltered(filter)
-        }
-
-        val compareTypeIds = typesFilterInteractor.getTypeIds(compare)
-        val compareRecords = allRecords.filter {
-            it.typeId in compareTypeIds && it.isNotFiltered(compare)
-        }
 
         return mapStatsData(
-            records = records,
-            compareRecords = compareRecords,
-            showComparison = compare.selectedIds.isNotEmpty(),
+            records = if (range.first == 0L && range.second == 0L) {
+                records
+            } else {
+                rangeMapper.getRecordsFromRange(
+                    records = records,
+                    rangeStart = range.first,
+                    rangeEnd = range.second
+                )
+            },
+            compareRecords = if (range.first == 0L && range.second == 0L) {
+                compareRecords
+            } else {
+                rangeMapper.getRecordsFromRange(
+                    records = compareRecords,
+                    rangeStart = range.first,
+                    rangeEnd = range.second
+                )
+            },
+            showComparison = showComparison,
             types = types,
             tags = tags,
             isDarkTheme = isDarkTheme,
@@ -147,10 +145,12 @@ class StatisticsDetailStatsInteractor @Inject constructor(
             value ?: return emptyValue
             return timeMapper.formatInterval(value, useProportionalMinutes)
         }
+
         fun formatDateTimeYear(value: Long?): String {
             value ?: return emptyValue
             return timeMapper.formatDateTimeYear(value, useMilitaryTime)
         }
+
         fun getAverage(values: List<Long>): Long? {
             return if (values.isNotEmpty()) {
                 values.sum() / values.size
@@ -158,6 +158,7 @@ class StatisticsDetailStatsInteractor @Inject constructor(
                 null
             }
         }
+
         fun processComparisonString(value: String): String {
             return value
                 .takeIf { showComparison }

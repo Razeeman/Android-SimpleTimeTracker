@@ -20,3 +20,7 @@ fun <T> LiveData<T>.observeOnce(owner: LifecycleOwner, observer: (T) -> Unit) {
 fun <T> LiveData<T>.set(data: T) {
     if (this is MutableLiveData) value = data
 }
+
+fun <T> LiveData<T>.post(data: T) {
+    if (this is MutableLiveData) postValue(data)
+}
