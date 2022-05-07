@@ -21,7 +21,6 @@ import com.example.util.simpletimetracker.feature_base_adapter.hint.createHintAd
 import com.example.util.simpletimetracker.feature_base_adapter.statisticsTag.createStatisticsTagAdapterDelegate
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.createStatisticsPreviewAdapterDelegate
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.createStatisticsPreviewCompareAdapterDelegate
-import com.example.util.simpletimetracker.feature_statistics_detail.adapter.createStatisticsPreviewMoreAdapterDelegate
 import com.example.util.simpletimetracker.feature_statistics_detail.customView.BarChartView
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartCompositeViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartViewData
@@ -60,7 +59,6 @@ class StatisticsDetailFragment :
     )
     private val previewAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
-            createStatisticsPreviewMoreAdapterDelegate(),
             createStatisticsPreviewCompareAdapterDelegate(),
             createStatisticsPreviewAdapterDelegate()
         )
