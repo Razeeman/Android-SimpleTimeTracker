@@ -95,13 +95,13 @@ class CsvRepoImpl @Inject constructor(
     ): String? {
         return if (recordType != null) {
             String.format(
-                "%s,%s,%s,\"%s\",%s,%s\n",
+                "%s,%s,%s,\"%s\",\"%s\",\"%s\"\n",
                 recordType.name.clean(),
                 formatDateTime(record.timeStarted),
                 formatDateTime(record.timeEnded),
                 record.comment,
-                activityTags.takeUnless { it.isEmpty() }?.joinToString(separator = " ") { it.name.clean() }.orEmpty(),
-                recordTags.takeUnless { it.isEmpty() }?.joinToString(separator = " ") { it.name.clean() }.orEmpty(),
+                activityTags.takeUnless { it.isEmpty() }?.joinToString(separator = ", ") { it.name }.orEmpty(),
+                recordTags.takeUnless { it.isEmpty() }?.joinToString(separator = ", ") { it.name }.orEmpty(),
             )
         } else {
             null
