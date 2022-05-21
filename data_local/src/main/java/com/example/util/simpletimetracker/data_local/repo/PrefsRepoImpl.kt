@@ -33,6 +33,18 @@ class PrefsRepoImpl @Inject constructor(
         KEY_CARD_ORDER, 0
     )
 
+    override var statisticsRange: Int by prefs.delegate(
+        KEY_STATISTICS_RANGE, 0
+    )
+
+    override var statisticsRangeCustomStart: Long by prefs.delegate(
+        KEY_STATISTICS_RANGE_CUSTOM_START, 0
+    )
+
+    override var statisticsRangeCustomEnd: Long by prefs.delegate(
+        KEY_STATISTICS_RANGE_CUSTOM_END, 0
+    )
+
     override var firstDayOfWeek: Int by prefs.delegate(
         KEY_FIRST_DAY_OF_WEEK, firstDayOfWeekDefault
     )
@@ -139,6 +151,9 @@ class PrefsRepoImpl @Inject constructor(
         private const val KEY_CATEGORIES_TYPES_FILTERED_ON_CHART = "categoriesFilteredOnChart"
         private const val KEY_CHART_FILTER_TYPE = "chartFilterType"
         private const val KEY_CARD_ORDER = "cardOrder"
+        private const val KEY_STATISTICS_RANGE = "statisticsRange"
+        private const val KEY_STATISTICS_RANGE_CUSTOM_START = "statisticsRangeCustomStart"
+        private const val KEY_STATISTICS_RANGE_CUSTOM_END = "statisticsRangeCustomEnd"
         private const val KEY_FIRST_DAY_OF_WEEK = "firstDayOfWeek"
         private const val KEY_START_OF_DAY_SHIFT = "startOfDayShift"
         private const val KEY_SHOW_UNTRACKED_IN_RECORDS = "showUntrackedInRecords"

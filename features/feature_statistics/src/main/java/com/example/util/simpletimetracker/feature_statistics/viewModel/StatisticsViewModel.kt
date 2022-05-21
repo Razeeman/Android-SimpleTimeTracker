@@ -9,7 +9,6 @@ import com.example.util.simpletimetracker.core.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.core.utils.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
-import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.WidgetType
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
@@ -37,7 +36,6 @@ class StatisticsViewModel @Inject constructor(
         MutableLiveData(listOf(LoaderViewData() as ViewHolderType))
     }
 
-    private var rangeLength: RangeLength = RangeLength.Day
     private var isVisible: Boolean = false
 
     fun onVisible() {
@@ -49,8 +47,7 @@ class StatisticsViewModel @Inject constructor(
         isVisible = false
     }
 
-    fun onNewRange(newRangeLength: RangeLength) {
-        rangeLength = newRangeLength
+    fun onRangeUpdated() {
         if (isVisible) updateStatistics()
     }
 
@@ -95,6 +92,9 @@ class StatisticsViewModel @Inject constructor(
     }
 
     private suspend fun loadStatisticsViewData(): List<ViewHolderType> {
-        return statisticsViewDataInteractor.getViewData(rangeLength, extra?.shift.orZero())
+        return statisticsViewDataInteractor.getViewData(
+            rangeLength = prefsInteractor.getStatisticsRange(),
+            shift = extra?.shift.orZero()
+        )
     }
 }

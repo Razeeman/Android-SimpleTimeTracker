@@ -3,13 +3,15 @@ package com.example.util.simpletimetracker.domain.interactor
 import com.example.util.simpletimetracker.domain.model.CardOrder
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
+import com.example.util.simpletimetracker.domain.model.Range
+import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.repo.PrefsRepo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class PrefsInteractor @Inject constructor(
-    private val prefsRepo: PrefsRepo
+    private val prefsRepo: PrefsRepo,
 ) {
 
     suspend fun getFilteredTypes(): List<Long> = withContext(Dispatchers.IO) {
@@ -61,6 +63,33 @@ class PrefsInteractor @Inject constructor(
             CardOrder.NAME -> 0
             CardOrder.COLOR -> 1
             CardOrder.MANUAL -> 2
+        }
+    }
+
+    suspend fun getStatisticsRange(): RangeLength = withContext(Dispatchers.IO) {
+        when (prefsRepo.statisticsRange) {
+            0 -> RangeLength.Day
+            1 -> RangeLength.Week
+            2 -> RangeLength.Month
+            3 -> RangeLength.Year
+            4 -> RangeLength.All
+            5 -> RangeLength.Custom(Range(prefsRepo.statisticsRangeCustomStart, prefsRepo.statisticsRangeCustomEnd))
+            else -> RangeLength.Day
+        }
+    }
+
+    suspend fun setStatisticsRange(rangeLength: RangeLength) = withContext(Dispatchers.IO) {
+        prefsRepo.statisticsRange = when (rangeLength) {
+             is RangeLength.Day -> 0
+             is RangeLength.Week -> 1
+             is RangeLength.Month -> 2
+             is RangeLength.Year -> 3
+             is RangeLength.All -> 4
+             is RangeLength.Custom -> 5
+        }
+        if (rangeLength is RangeLength.Custom) {
+            prefsRepo.statisticsRangeCustomStart = rangeLength.range.timeStarted
+            prefsRepo.statisticsRangeCustomEnd = rangeLength.range.timeEnded
         }
     }
 

@@ -81,7 +81,7 @@ class StatisticsFragment :
             statistics.observe(statisticsAdapter::replace)
         }
         with(settingsViewModel) {
-            rangeLength.observe(viewModel::onNewRange)
+            rangeUpdated.observe { viewModel.onRangeUpdated() }
         }
     }
 

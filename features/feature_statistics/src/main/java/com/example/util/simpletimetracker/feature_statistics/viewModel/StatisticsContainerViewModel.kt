@@ -4,17 +4,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.mapper.RangeMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
-import com.example.util.simpletimetracker.feature_views.spinner.CustomSpinner
-import com.example.util.simpletimetracker.core.viewData.RangeViewData
 import com.example.util.simpletimetracker.core.viewData.RangesViewData
 import com.example.util.simpletimetracker.core.viewData.SelectDateViewData
 import com.example.util.simpletimetracker.core.viewData.SelectRangeViewData
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
-import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RangeLength
+import com.example.util.simpletimetracker.feature_views.spinner.CustomSpinner
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.CustomRangeSelectionParams
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogParams
@@ -41,10 +40,18 @@ class StatisticsContainerViewModel @Inject constructor(
     }
 
     val rangeItems: LiveData<RangesViewData> by lazy {
-        return@lazy MutableLiveData(loadRanges())
+        return@lazy MutableLiveData<RangesViewData>().let { initial ->
+            viewModelScope.launch { initial.value = loadRanges() }
+            initial
+        }
     }
 
-    private var rangeLength: RangeLength = RangeLength.Day
+    val navButtonsVisibility: LiveData<Boolean> by lazy {
+        return@lazy MutableLiveData<Boolean>().let { initial ->
+            viewModelScope.launch { initial.value = loadNavButtonsVisibility() }
+            initial
+        }
+    }
 
     fun onVisible() {
         updateTitle()
@@ -72,11 +79,12 @@ class StatisticsContainerViewModel @Inject constructor(
                 onSelectRangeClick()
                 updateRanges()
             }
-            is RangeViewData -> {
-                rangeLength = item.range
-                updatePosition(0)
-            }
         }
+    }
+
+    fun onRangeUpdated() = viewModelScope.launch {
+        updatePosition(0)
+        updateNavButtonsVisibility()
     }
 
     fun onDateTimeSet(timestamp: Long, tag: String?) = viewModelScope.launch {
@@ -84,16 +92,11 @@ class StatisticsContainerViewModel @Inject constructor(
             DATE_TAG -> {
                 timeMapper.toTimestampShift(
                     toTime = timestamp,
-                    range = rangeLength,
+                    range = prefsInteractor.getStatisticsRange(),
                     firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
                 ).toInt().let(::updatePosition)
             }
         }
-    }
-
-    fun onCustomRangeSelected(range: Range) {
-        rangeLength = RangeLength.Custom(range)
-        updatePosition(0)
     }
 
     private fun onSelectDateClick() = viewModelScope.launch {
@@ -101,7 +104,7 @@ class StatisticsContainerViewModel @Inject constructor(
         val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
         val current = timeMapper.toTimestampShifted(
             rangesFromToday = position.value.orZero(),
-            range = rangeLength
+            range = prefsInteractor.getStatisticsRange()
         )
 
         router.navigate(
@@ -116,7 +119,7 @@ class StatisticsContainerViewModel @Inject constructor(
     }
 
     private fun onSelectRangeClick() = viewModelScope.launch {
-        val currentCustomRange = (rangeLength as? RangeLength.Custom)?.range
+        val currentCustomRange = (prefsInteractor.getStatisticsRange() as? RangeLength.Custom)?.range
 
         CustomRangeSelectionParams(
             rangeStart = currentCustomRange?.timeStarted,
@@ -131,21 +134,34 @@ class StatisticsContainerViewModel @Inject constructor(
     }
 
     private fun updateTitle() = viewModelScope.launch {
-        (title as MutableLiveData).value = loadTitle()
+        title.set(loadTitle())
     }
 
     private suspend fun loadTitle(): String {
         val startOfDayShift = prefsInteractor.getStartOfDayShift()
         val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
-        return rangeMapper.mapToTitle(rangeLength, position.value.orZero(), startOfDayShift, firstDayOfWeek)
+        return rangeMapper.mapToTitle(
+            rangeLength = prefsInteractor.getStatisticsRange(),
+            position = position.value.orZero(),
+            startOfDayShift = startOfDayShift,
+            firstDayOfWeek = firstDayOfWeek)
     }
 
-    private fun updateRanges() {
-        (rangeItems as MutableLiveData).value = loadRanges()
+    private fun updateRanges() = viewModelScope.launch {
+        rangeItems.set(loadRanges())
     }
 
-    private fun loadRanges(): RangesViewData {
-        return rangeMapper.mapToRanges(rangeLength)
+    private suspend fun loadRanges(): RangesViewData {
+        return rangeMapper.mapToRanges(prefsInteractor.getStatisticsRange())
+    }
+
+    private fun updateNavButtonsVisibility() = viewModelScope.launch {
+        navButtonsVisibility.set(loadNavButtonsVisibility())
+    }
+
+    private suspend fun loadNavButtonsVisibility(): Boolean {
+        val rangeLength = prefsInteractor.getStatisticsRange()
+        return !(rangeLength is RangeLength.All || rangeLength is RangeLength.Custom)
     }
 
     companion object {

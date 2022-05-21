@@ -8,15 +8,14 @@ import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.CustomRangeSelectionDialogListener
 import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
-import com.example.util.simpletimetracker.feature_views.extension.setOnClick
-import com.example.util.simpletimetracker.feature_views.extension.setOnLongClick
-import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.core.viewData.RangesViewData
 import com.example.util.simpletimetracker.domain.model.Range
-import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.feature_statistics.adapter.StatisticsContainerAdapter
 import com.example.util.simpletimetracker.feature_statistics.viewModel.StatisticsContainerViewModel
 import com.example.util.simpletimetracker.feature_statistics.viewModel.StatisticsSettingsViewModel
+import com.example.util.simpletimetracker.feature_views.extension.setOnClick
+import com.example.util.simpletimetracker.feature_views.extension.setOnLongClick
+import com.example.util.simpletimetracker.feature_views.extension.visible
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import com.example.util.simpletimetracker.feature_statistics.databinding.StatisticsContainerFragmentBinding as Binding
@@ -68,7 +67,6 @@ class StatisticsContainerFragment :
     }
 
     override fun onCustomRangeSelected(range: Range) {
-        viewModel.onCustomRangeSelected(range)
         settingsViewModel.onCustomRangeSelected(range)
     }
 
@@ -77,9 +75,10 @@ class StatisticsContainerFragment :
             title.observe(::updateTitle)
             rangeItems.observe(::updateRangeItems)
             position.observe(::updatePosition)
+            navButtonsVisibility.observe(::updateNavButtons)
         }
         with(settingsViewModel) {
-            rangeLength.observe(::updateNavButtons)
+            rangeUpdated.observe { viewModel.onRangeUpdated() }
         }
     }
 
@@ -88,14 +87,9 @@ class StatisticsContainerFragment :
         viewModel.onVisible()
     }
 
-    private fun updateNavButtons(rangeLength: RangeLength) = with(binding) {
-        if (rangeLength is RangeLength.All || rangeLength is RangeLength.Custom) {
-            btnStatisticsContainerPrevious.visible = false
-            btnStatisticsContainerNext.visible = false
-        } else {
-            btnStatisticsContainerPrevious.visible = true
-            btnStatisticsContainerNext.visible = true
-        }
+    private fun updateNavButtons(isVisible: Boolean) = with(binding) {
+        btnStatisticsContainerPrevious.visible = isVisible
+        btnStatisticsContainerNext.visible = isVisible
     }
 
     private fun updateRangeItems(viewData: RangesViewData) = with(binding) {

@@ -10,6 +10,10 @@ interface PrefsRepo {
 
     var cardOrder: Int
 
+    var statisticsRange: Int
+    var statisticsRangeCustomStart: Long
+    var statisticsRangeCustomEnd: Long
+
     var firstDayOfWeek: Int
 
     var startOfDayShift: Long // in milliseconds
