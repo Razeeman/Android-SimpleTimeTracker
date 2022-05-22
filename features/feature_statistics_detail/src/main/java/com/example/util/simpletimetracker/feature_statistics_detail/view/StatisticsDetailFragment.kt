@@ -118,7 +118,7 @@ class StatisticsDetailFragment :
     }
 
     override fun initViewModel(): Unit = with(viewModel) {
-        extra = params
+        initialize(params)
 
         previewViewData.observe(::setPreviewViewData)
         statsViewData.observe(::setStatsViewData)

@@ -8,13 +8,34 @@ import kotlinx.parcelize.Parcelize
 data class StatisticsDetailParams(
     val transitionName: String = "",
     val filter: TypesFilterParams = TypesFilterParams(),
-    val preview: Preview? = null
+    val range: RangeLengthParams = RangeLengthParams.All,
+    val preview: Preview? = null,
 ) : Parcelable, ScreenParams {
 
     @Parcelize
     data class Preview(
         val name: String,
         val iconId: RecordTypeIconParams? = null,
-        @ColorInt val color: Int
+        @ColorInt val color: Int,
     ) : Parcelable
+
+    sealed class RangeLengthParams : Parcelable {
+        @Parcelize
+        object Day : RangeLengthParams()
+
+        @Parcelize
+        object Week : RangeLengthParams()
+
+        @Parcelize
+        object Month : RangeLengthParams()
+
+        @Parcelize
+        object Year : RangeLengthParams()
+
+        @Parcelize
+        object All : RangeLengthParams()
+
+        @Parcelize
+        data class Custom(val start: Long, val end: Long) : RangeLengthParams()
+    }
 }

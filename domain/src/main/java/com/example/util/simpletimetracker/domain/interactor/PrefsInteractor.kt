@@ -67,29 +67,28 @@ class PrefsInteractor @Inject constructor(
     }
 
     suspend fun getStatisticsRange(): RangeLength = withContext(Dispatchers.IO) {
-        when (prefsRepo.statisticsRange) {
-            0 -> RangeLength.Day
-            1 -> RangeLength.Week
-            2 -> RangeLength.Month
-            3 -> RangeLength.Year
-            4 -> RangeLength.All
-            5 -> RangeLength.Custom(Range(prefsRepo.statisticsRangeCustomStart, prefsRepo.statisticsRangeCustomEnd))
-            else -> RangeLength.Day
-        }
+        mapToRange(prefsRepo.statisticsRange, forDetail = false)
     }
 
     suspend fun setStatisticsRange(rangeLength: RangeLength) = withContext(Dispatchers.IO) {
-        prefsRepo.statisticsRange = when (rangeLength) {
-             is RangeLength.Day -> 0
-             is RangeLength.Week -> 1
-             is RangeLength.Month -> 2
-             is RangeLength.Year -> 3
-             is RangeLength.All -> 4
-             is RangeLength.Custom -> 5
-        }
+        prefsRepo.statisticsRange = mapRange(rangeLength)
+
         if (rangeLength is RangeLength.Custom) {
             prefsRepo.statisticsRangeCustomStart = rangeLength.range.timeStarted
             prefsRepo.statisticsRangeCustomEnd = rangeLength.range.timeEnded
+        }
+    }
+
+    suspend fun getStatisticsDetailRange(): RangeLength = withContext(Dispatchers.IO) {
+        mapToRange(prefsRepo.statisticsDetailRange, forDetail = true)
+    }
+
+    suspend fun setStatisticsDetailRange(rangeLength: RangeLength) = withContext(Dispatchers.IO) {
+        prefsRepo.statisticsDetailRange = mapRange(rangeLength)
+
+        if (rangeLength is RangeLength.Custom) {
+            prefsRepo.statisticsDetailRangeCustomStart = rangeLength.range.timeStarted
+            prefsRepo.statisticsDetailRangeCustomEnd = rangeLength.range.timeEnded
         }
     }
 
@@ -254,5 +253,40 @@ class PrefsInteractor @Inject constructor(
 
     suspend fun clear() = withContext(Dispatchers.IO) {
         prefsRepo.clear()
+    }
+
+    private fun mapToRange(value: Int, forDetail: Boolean): RangeLength {
+        return when (value) {
+            0 -> RangeLength.Day
+            1 -> RangeLength.Week
+            2 -> RangeLength.Month
+            3 -> RangeLength.Year
+            4 -> RangeLength.All
+            5 -> {
+                if (forDetail) {
+                    Range(
+                        timeStarted = prefsRepo.statisticsDetailRangeCustomStart,
+                        timeEnded = prefsRepo.statisticsDetailRangeCustomEnd
+                    )
+                } else {
+                    Range(
+                        timeStarted = prefsRepo.statisticsRangeCustomStart,
+                        timeEnded = prefsRepo.statisticsRangeCustomEnd
+                    )
+                }.let(RangeLength::Custom)
+            }
+            else -> RangeLength.Day
+        }
+    }
+
+    private fun mapRange(rangeLength: RangeLength): Int {
+        return when (rangeLength) {
+            is RangeLength.Day -> 0
+            is RangeLength.Week -> 1
+            is RangeLength.Month -> 2
+            is RangeLength.Year -> 3
+            is RangeLength.All -> 4
+            is RangeLength.Custom -> 5
+        }
     }
 }

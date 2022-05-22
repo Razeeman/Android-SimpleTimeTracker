@@ -64,8 +64,6 @@ class StatisticsDetailViewModel @Inject constructor(
     private val timeMapper: TimeMapper,
 ) : ViewModel() {
 
-    lateinit var extra: StatisticsDetailParams
-
     val previewViewData: LiveData<StatisticsDetailPreviewCompositeViewData> by lazy {
         return@lazy MutableLiveData<StatisticsDetailPreviewCompositeViewData>().let { initial ->
             viewModelScope.launch { initial.value = loadPreviewViewData() }
@@ -103,6 +101,8 @@ class StatisticsDetailViewModel @Inject constructor(
         return@lazy MutableLiveData(loadButtonsVisibility())
     }
 
+    private lateinit var extra: StatisticsDetailParams
+
     private var chartGrouping: ChartGrouping = ChartGrouping.DAILY
     private var chartLength: ChartLength = ChartLength.TEN
     private var splitChartGrouping: SplitChartGrouping = SplitChartGrouping.DAILY
@@ -115,6 +115,11 @@ class StatisticsDetailViewModel @Inject constructor(
     private var comparisonTypesFilter: TypesFilterParams = TypesFilterParams()
     private var records: List<Record> = emptyList() // all records with selected ids
     private var compareRecords: List<Record> = emptyList() // all records with selected ids
+
+    fun initialize(extra: StatisticsDetailParams) {
+        this.extra = extra
+        rangeLength = getRangeLength(extra.range)
+    }
 
     fun onVisible() = viewModelScope.launch {
         loadRecordsCache()
@@ -262,6 +267,7 @@ class StatisticsDetailViewModel @Inject constructor(
     }
 
     private fun onRangeChanged() {
+        viewModelScope.launch { prefsInteractor.setStatisticsDetailRange(rangeLength) }
         updateSplitChartGroupingViewData()
         updatePosition(0)
     }
@@ -279,6 +285,19 @@ class StatisticsDetailViewModel @Inject constructor(
         updateChartViewData()
         updateSplitChartViewData()
         updateDurationSplitChartViewData()
+    }
+
+    private fun getRangeLength(range: StatisticsDetailParams.RangeLengthParams): RangeLength {
+        return when (range) {
+            is StatisticsDetailParams.RangeLengthParams.Day -> RangeLength.Day
+            is StatisticsDetailParams.RangeLengthParams.Week -> RangeLength.Week
+            is StatisticsDetailParams.RangeLengthParams.Month -> RangeLength.Month
+            is StatisticsDetailParams.RangeLengthParams.Year -> RangeLength.Year
+            is StatisticsDetailParams.RangeLengthParams.All -> RangeLength.All
+            is StatisticsDetailParams.RangeLengthParams.Custom -> Range(
+                timeStarted = range.start, timeEnded = range.end
+            ).let(RangeLength::Custom)
+        }
     }
 
     private suspend fun loadRecordsCache() {

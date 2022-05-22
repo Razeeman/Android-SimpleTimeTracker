@@ -9,6 +9,7 @@ import com.example.util.simpletimetracker.core.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.core.utils.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
+import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.WidgetType
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
@@ -63,6 +64,7 @@ class StatisticsViewModel @Inject constructor(
         if (item.id == UNTRACKED_ITEM_ID) return@launch
 
         val filterType = prefsInteractor.getChartFilterType()
+        val rangeLength = prefsInteractor.getStatisticsDetailRange()
 
         router.navigate(
             data = StatisticsDetailParams(
@@ -71,6 +73,17 @@ class StatisticsViewModel @Inject constructor(
                     selectedIds = listOf(item.id),
                     filterType = filterType
                 ),
+                range = when (rangeLength) {
+                    is RangeLength.Day -> StatisticsDetailParams.RangeLengthParams.Day
+                    is RangeLength.Week -> StatisticsDetailParams.RangeLengthParams.Week
+                    is RangeLength.Month -> StatisticsDetailParams.RangeLengthParams.Month
+                    is RangeLength.Year -> StatisticsDetailParams.RangeLengthParams.Year
+                    is RangeLength.All -> StatisticsDetailParams.RangeLengthParams.All
+                    is RangeLength.Custom -> StatisticsDetailParams.RangeLengthParams.Custom(
+                        start = rangeLength.range.timeStarted,
+                        end = rangeLength.range.timeEnded,
+                    )
+                },
                 preview = StatisticsDetailParams.Preview(
                     name = item.name,
                     iconId = item.icon?.toParams(),

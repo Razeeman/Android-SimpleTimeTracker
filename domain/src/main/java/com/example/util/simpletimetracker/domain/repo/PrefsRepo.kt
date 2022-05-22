@@ -14,6 +14,10 @@ interface PrefsRepo {
     var statisticsRangeCustomStart: Long
     var statisticsRangeCustomEnd: Long
 
+    var statisticsDetailRange: Int
+    var statisticsDetailRangeCustomStart: Long
+    var statisticsDetailRangeCustomEnd: Long
+
     var firstDayOfWeek: Int
 
     var startOfDayShift: Long // in milliseconds
