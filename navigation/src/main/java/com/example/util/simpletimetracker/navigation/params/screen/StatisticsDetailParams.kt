@@ -9,6 +9,7 @@ data class StatisticsDetailParams(
     val transitionName: String = "",
     val filter: TypesFilterParams = TypesFilterParams(),
     val range: RangeLengthParams = RangeLengthParams.All,
+    val shift: Int = 0,
     val preview: Preview? = null,
 ) : Parcelable, ScreenParams {
 

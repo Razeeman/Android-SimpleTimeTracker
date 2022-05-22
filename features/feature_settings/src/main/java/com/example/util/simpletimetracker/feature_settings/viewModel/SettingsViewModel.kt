@@ -108,6 +108,15 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    val keepStatisticsRangeCheckbox: LiveData<Boolean> by lazy {
+        MutableLiveData<Boolean>().let { initial ->
+            viewModelScope.launch {
+                initial.value = prefsInteractor.getKeepStatisticsRange()
+            }
+            initial
+        }
+    }
+
     val startOfDayViewData: LiveData<SettingsStartOfDayViewData> by lazy {
         MutableLiveData<SettingsStartOfDayViewData>().let { initial ->
             viewModelScope.launch {
@@ -317,6 +326,14 @@ class SettingsViewModel @Inject constructor(
             prefsInteractor.setShowNotifications(newValue)
             (showNotificationsCheckbox as MutableLiveData).value = newValue
             notificationTypeInteractor.updateNotifications()
+        }
+    }
+
+    fun onKeepStatisticsRangeClicked() {
+        viewModelScope.launch {
+            val newValue = !prefsInteractor.getKeepStatisticsRange()
+            prefsInteractor.setKeepStatisticsRange(newValue)
+            keepStatisticsRangeCheckbox.set(newValue)
         }
     }
 

@@ -92,6 +92,14 @@ class PrefsInteractor @Inject constructor(
         }
     }
 
+    suspend fun getKeepStatisticsRange(): Boolean = withContext(Dispatchers.IO) {
+        prefsRepo.keepStatisticsRange
+    }
+
+    suspend fun setKeepStatisticsRange(isEnabled: Boolean) = withContext(Dispatchers.IO) {
+        prefsRepo.keepStatisticsRange = isEnabled
+    }
+
     suspend fun getFirstDayOfWeek(): DayOfWeek = withContext(Dispatchers.IO) {
         // Same as in java Calendar
         when (prefsRepo.firstDayOfWeek) {

@@ -119,6 +119,7 @@ class StatisticsDetailViewModel @Inject constructor(
     fun initialize(extra: StatisticsDetailParams) {
         this.extra = extra
         rangeLength = getRangeLength(extra.range)
+        rangePosition = extra.shift
     }
 
     fun onVisible() = viewModelScope.launch {

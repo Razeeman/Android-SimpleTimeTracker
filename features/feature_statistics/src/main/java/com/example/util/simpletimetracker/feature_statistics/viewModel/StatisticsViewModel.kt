@@ -64,7 +64,11 @@ class StatisticsViewModel @Inject constructor(
         if (item.id == UNTRACKED_ITEM_ID) return@launch
 
         val filterType = prefsInteractor.getChartFilterType()
-        val rangeLength = prefsInteractor.getStatisticsDetailRange()
+        val rangeLength = if (prefsInteractor.getKeepStatisticsRange()) {
+            prefsInteractor.getStatisticsRange()
+        } else {
+            prefsInteractor.getStatisticsDetailRange()
+        }
 
         router.navigate(
             data = StatisticsDetailParams(
@@ -83,6 +87,11 @@ class StatisticsViewModel @Inject constructor(
                         start = rangeLength.range.timeStarted,
                         end = rangeLength.range.timeEnded,
                     )
+                },
+                shift = if (prefsInteractor.getKeepStatisticsRange()) {
+                    extra?.shift.orZero()
+                } else {
+                    0
                 },
                 preview = StatisticsDetailParams.Preview(
                     name = item.name,

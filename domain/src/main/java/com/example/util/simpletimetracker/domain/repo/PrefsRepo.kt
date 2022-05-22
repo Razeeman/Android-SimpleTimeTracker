@@ -18,6 +18,8 @@ interface PrefsRepo {
     var statisticsDetailRangeCustomStart: Long
     var statisticsDetailRangeCustomEnd: Long
 
+    var keepStatisticsRange: Boolean
+
     var firstDayOfWeek: Int
 
     var startOfDayShift: Long // in milliseconds
