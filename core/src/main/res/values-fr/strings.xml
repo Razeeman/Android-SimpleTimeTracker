@@ -162,6 +162,8 @@
     <string name="settings_allow_multitasking_hint">Si désactivé, le démarrage d\'une nouvelle minuterie arrêtera automatiquement les autres activités.</string>
     <string name="settings_show_notifications">Afficher les notifications du minuteur</string>
     <string name="settings_show_notifications_hint">Afficher les notifications lorsque les minuteurs sont en cours d\'exécution.</string>
+    <string name="settings_keep_statistics_range">Conserver la plage de statistiques</string>
+    <string name="settings_keep_statistics_range_hint">Si activé, les statistiques détaillées seront ouvertes avec la même plage de temps sélectionnée dans les statistiques.</string>
     <string name="settings_start_of_day">Décalage du début de journée</string>
     <string name="settings_inactivity_reminder">Afficher le rappel d\'inactivité</string>
     <string name="settings_inactivity_reminder_hint">Afficher la notification après l\'heure spécifiée si aucune minuterie n\'est en cours d\'exécution.</string>
