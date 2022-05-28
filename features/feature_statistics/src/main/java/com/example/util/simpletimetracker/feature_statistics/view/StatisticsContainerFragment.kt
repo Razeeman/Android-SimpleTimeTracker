@@ -67,6 +67,7 @@ class StatisticsContainerFragment :
     }
 
     override fun onCustomRangeSelected(range: Range) {
+        viewModel.onCustomRangeSelected()
         settingsViewModel.onCustomRangeSelected(range)
     }
 

@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.mapper.RangeMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
+import com.example.util.simpletimetracker.core.viewData.RangeViewData
 import com.example.util.simpletimetracker.core.viewData.RangesViewData
 import com.example.util.simpletimetracker.core.viewData.SelectDateViewData
 import com.example.util.simpletimetracker.core.viewData.SelectRangeViewData
@@ -79,11 +80,17 @@ class StatisticsContainerViewModel @Inject constructor(
                 onSelectRangeClick()
                 updateRanges()
             }
+            is RangeViewData -> {
+                updatePosition(0)
+            }
         }
     }
 
-    fun onRangeUpdated() = viewModelScope.launch {
+    fun onCustomRangeSelected() {
         updatePosition(0)
+    }
+
+    fun onRangeUpdated() = viewModelScope.launch {
         updateNavButtonsVisibility()
     }
 
