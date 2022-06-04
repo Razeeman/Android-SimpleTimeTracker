@@ -5,13 +5,13 @@ import androidx.annotation.DrawableRes
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 
 data class StatisticsDetailCardViewData(
-    val title: String,
-    val secondTitle: String,
-    val subtitle: String,
+    val value: String,
+    val secondValue: String,
+    val description: String,
     val icon: Icon? = null
 ) : ViewHolderType {
 
-    override fun getUniqueId(): Long = title.hashCode().toLong()
+    override fun getUniqueId(): Long = description.hashCode().toLong()
 
     override fun isValidType(other: ViewHolderType): Boolean = other is StatisticsDetailCardViewData
 

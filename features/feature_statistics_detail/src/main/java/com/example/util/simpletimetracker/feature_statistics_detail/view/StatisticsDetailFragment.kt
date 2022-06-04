@@ -10,6 +10,7 @@ import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.CustomRangeSelectionDialogListener
 import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
 import com.example.util.simpletimetracker.core.dialog.TypesFilterDialogListener
+import com.example.util.simpletimetracker.core.extension.observeOnce
 import com.example.util.simpletimetracker.core.extension.setSharedTransitions
 import com.example.util.simpletimetracker.core.extension.toViewData
 import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
@@ -22,6 +23,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.statisticsTag.cre
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.createStatisticsPreviewAdapterDelegate
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.createStatisticsPreviewCompareAdapterDelegate
 import com.example.util.simpletimetracker.feature_statistics_detail.customView.BarChartView
+import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailCardViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartCompositeViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewCompositeViewData
@@ -121,6 +123,7 @@ class StatisticsDetailFragment :
         initialize(params)
 
         previewViewData.observe(::setPreviewViewData)
+        emptyRangeAveragesData.observeOnce(viewLifecycleOwner, ::setEmptyRangeAveragesData)
         statsViewData.observe(::setStatsViewData)
         chartViewData.observe(::updateChartViewData)
         splitChartViewData.observe(::updateSplitChartViewData)
@@ -223,6 +226,14 @@ class StatisticsDetailFragment :
         cardStatisticsDetailRangeAverage.itemsDescription = viewData.rangeAveragesTitle
         cardStatisticsDetailRangeAverage.visible = rangeAveragesData.isNotEmpty()
         cardStatisticsDetailRangeAverage.items = rangeAveragesData
+    }
+
+    private fun setEmptyRangeAveragesData(
+        viewData: List<StatisticsDetailCardViewData>,
+    ) = with(binding) {
+        cardStatisticsDetailRangeAverage.itemsDescription = " "
+        cardStatisticsDetailRangeAverage.visible = true
+        cardStatisticsDetailRangeAverage.items = viewData
     }
 
     private fun updateSplitChartGroupingData(

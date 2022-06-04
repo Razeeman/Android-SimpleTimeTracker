@@ -226,16 +226,16 @@ class StatisticsDetailStatsInteractor @Inject constructor(
         return StatisticsDetailStatsViewData(
             totalDuration = listOf(
                 StatisticsDetailCardViewData(
-                    title = totalDuration,
-                    secondTitle = compareTotalDuration,
-                    subtitle = resourceRepo.getString(R.string.statistics_detail_total_duration)
+                    value = totalDuration,
+                    secondValue = compareTotalDuration,
+                    description = resourceRepo.getString(R.string.statistics_detail_total_duration)
                 )
             ),
             timesTracked = listOf(
                 StatisticsDetailCardViewData(
-                    title = timesTracked?.toString() ?: "",
-                    secondTitle = compareTimesTracked,
-                    subtitle = resourceRepo.getQuantityString(
+                    value = timesTracked?.toString() ?: "",
+                    secondValue = compareTimesTracked,
+                    description = resourceRepo.getQuantityString(
                         R.plurals.statistics_detail_times_tracked, timesTracked.orZero()
                     ),
                     icon = timesTrackedIcon
@@ -243,31 +243,31 @@ class StatisticsDetailStatsInteractor @Inject constructor(
             ),
             averageRecord = listOf(
                 StatisticsDetailCardViewData(
-                    title = shortestRecord,
-                    secondTitle = compareShortestRecord,
-                    subtitle = resourceRepo.getString(R.string.statistics_detail_shortest_record)
+                    value = shortestRecord,
+                    secondValue = compareShortestRecord,
+                    description = resourceRepo.getString(R.string.statistics_detail_shortest_record)
                 ),
                 StatisticsDetailCardViewData(
-                    title = averageRecord,
-                    secondTitle = compareAverageRecord,
-                    subtitle = resourceRepo.getString(R.string.statistics_detail_average_record)
+                    value = averageRecord,
+                    secondValue = compareAverageRecord,
+                    description = resourceRepo.getString(R.string.statistics_detail_average_record)
                 ),
                 StatisticsDetailCardViewData(
-                    title = longestRecord,
-                    secondTitle = compareLongestRecord,
-                    subtitle = resourceRepo.getString(R.string.statistics_detail_longest_record)
+                    value = longestRecord,
+                    secondValue = compareLongestRecord,
+                    description = resourceRepo.getString(R.string.statistics_detail_longest_record)
                 )
             ),
             datesTracked = listOf(
                 StatisticsDetailCardViewData(
-                    title = firstRecord,
-                    secondTitle = compareFirstRecord,
-                    subtitle = resourceRepo.getString(R.string.statistics_detail_first_record)
+                    value = firstRecord,
+                    secondValue = compareFirstRecord,
+                    description = resourceRepo.getString(R.string.statistics_detail_first_record)
                 ),
                 StatisticsDetailCardViewData(
-                    title = lastRecord,
-                    secondTitle = compareLastRecord,
-                    subtitle = resourceRepo.getString(R.string.statistics_detail_last_record)
+                    value = lastRecord,
+                    secondValue = compareLastRecord,
+                    description = resourceRepo.getString(R.string.statistics_detail_last_record)
                 )
             ),
             tagSplitData = tagSplitData

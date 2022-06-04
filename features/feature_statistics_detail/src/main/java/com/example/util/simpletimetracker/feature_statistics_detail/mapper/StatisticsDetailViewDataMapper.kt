@@ -128,6 +128,23 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         )
     }
 
+    fun mapToEmptyRangeAverages(): List<StatisticsDetailCardViewData> {
+        val emptyValue by lazy { resourceRepo.getString(R.string.statistics_detail_empty) }
+
+        return listOf(
+            StatisticsDetailCardViewData(
+                value = emptyValue,
+                secondValue = "",
+                description = resourceRepo.getString(R.string.statistics_detail_range_averages)
+            ),
+            StatisticsDetailCardViewData(
+                value = emptyValue,
+                secondValue = "",
+                description = resourceRepo.getString(R.string.statistics_detail_range_averages_non_empty)
+            )
+        )
+    }
+
     fun mapToDailyChartViewData(
         data: Map<Int, Float>,
         firstDayOfWeek: DayOfWeek,
@@ -269,28 +286,28 @@ class StatisticsDetailViewDataMapper @Inject constructor(
 
         val rangeAverages = listOf(
             StatisticsDetailCardViewData(
-                title = average
+                value = average
                     ?.let { timeMapper.formatInterval(it, useProportionalMinutes) }
                     .let { it ?: emptyValue },
-                secondTitle = comparisonAverage
+                secondValue = comparisonAverage
                     ?.let { timeMapper.formatInterval(it, useProportionalMinutes) }
                     .let { it ?: emptyValue }
                     .let { "($it)" }
                     .takeIf { showComparison }
                     .orEmpty(),
-                subtitle = resourceRepo.getString(R.string.statistics_detail_range_averages)
+                description = resourceRepo.getString(R.string.statistics_detail_range_averages)
             ),
             StatisticsDetailCardViewData(
-                title = averageByNonEmpty
+                value = averageByNonEmpty
                     ?.let { timeMapper.formatInterval(it, useProportionalMinutes) }
                     .let { it ?: emptyValue },
-                secondTitle = comparisonAverageByNonEmpty
+                secondValue = comparisonAverageByNonEmpty
                     ?.let { timeMapper.formatInterval(it, useProportionalMinutes) }
                     .let { it ?: emptyValue }
                     .let { "($it)" }
                     .takeIf { showComparison }
                     .orEmpty(),
-                subtitle = resourceRepo.getString(R.string.statistics_detail_range_averages_non_empty)
+                description = resourceRepo.getString(R.string.statistics_detail_range_averages_non_empty)
             )
         )
 

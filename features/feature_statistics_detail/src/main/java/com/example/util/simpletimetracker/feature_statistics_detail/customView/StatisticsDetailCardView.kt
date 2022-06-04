@@ -111,9 +111,9 @@ class StatisticsDetailCardView @JvmOverloads constructor(
             (1..itemsCount)
                 .map {
                     StatisticsDetailCardViewData(
-                        title = "$DEFAULT_TITLE$it",
-                        secondTitle = "",
-                        subtitle = "$DEFAULT_SUBTITLE$it"
+                        value = "$DEFAULT_TITLE$it",
+                        secondValue = "",
+                        description = "$DEFAULT_SUBTITLE$it"
                     )
                 }
                 .let { items = it }

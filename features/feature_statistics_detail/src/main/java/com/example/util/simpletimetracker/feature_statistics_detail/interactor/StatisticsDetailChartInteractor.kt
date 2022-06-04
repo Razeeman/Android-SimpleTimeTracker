@@ -14,6 +14,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartB
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartBarDataRange
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartGrouping
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartLength
+import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailCardViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartCompositeViewData
 import com.example.util.simpletimetracker.navigation.params.screen.TypesFilterParams
 import java.util.Calendar
@@ -72,6 +73,10 @@ class StatisticsDetailChartInteractor @Inject constructor(
             appliedChartLength = compositeData.appliedChartLength,
             useProportionalMinutes = useProportionalMinutes
         )
+    }
+
+    fun getEmptyRangeAveragesData(): List<StatisticsDetailCardViewData> {
+        return statisticsDetailViewDataMapper.mapToEmptyRangeAverages()
     }
 
     private suspend fun getChartData(

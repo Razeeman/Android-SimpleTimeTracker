@@ -20,14 +20,14 @@ fun createStatisticsDetailCardAdapterDelegate(
     with(binding) {
         item as ViewData
 
-        tvStatisticsDetailCardValue.text = item.title
+        tvStatisticsDetailCardValue.text = item.value
         tvStatisticsDetailCardValue.setTextSize(TypedValue.COMPLEX_UNIT_PX, titleTextSize.toFloat())
 
-        tvStatisticsDetailCardSecondValue.visible = item.secondTitle.isNotEmpty()
-        tvStatisticsDetailCardSecondValue.text = item.secondTitle
+        tvStatisticsDetailCardSecondValue.visible = item.secondValue.isNotEmpty()
+        tvStatisticsDetailCardSecondValue.text = item.secondValue
         tvStatisticsDetailCardSecondValue.setTextSize(TypedValue.COMPLEX_UNIT_PX, subtitleTextSize.toFloat())
 
-        tvStatisticsDetailCardDescription.text = item.subtitle
+        tvStatisticsDetailCardDescription.text = item.description
         tvStatisticsDetailCardDescription.setTextSize(TypedValue.COMPLEX_UNIT_PX, subtitleTextSize.toFloat())
 
         if (item.icon != null) {

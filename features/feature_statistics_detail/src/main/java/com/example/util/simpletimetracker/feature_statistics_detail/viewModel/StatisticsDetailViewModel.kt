@@ -29,6 +29,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.mapper.Stati
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartGrouping
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartLength
 import com.example.util.simpletimetracker.feature_statistics_detail.model.SplitChartGrouping
+import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailCardViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartCompositeViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartLengthViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartViewData
@@ -75,6 +76,9 @@ class StatisticsDetailViewModel @Inject constructor(
     }
     val chartViewData: LiveData<StatisticsDetailChartCompositeViewData> by lazy {
         return@lazy MutableLiveData()
+    }
+    val emptyRangeAveragesData: LiveData<List<StatisticsDetailCardViewData>> by lazy {
+        return@lazy MutableLiveData(loadEmptyRangeAveragesData())
     }
     val splitChartGroupingViewData: LiveData<List<ViewHolderType>> by lazy {
         return@lazy MutableLiveData(loadSplitChartGroupingViewData())
@@ -355,6 +359,10 @@ class StatisticsDetailViewModel @Inject constructor(
         chartViewData.post(data)
         chartGrouping = data.appliedChartGrouping
         chartLength = data.appliedChartLength
+    }
+
+    private fun loadEmptyRangeAveragesData(): List<StatisticsDetailCardViewData> {
+        return chartInteractor.getEmptyRangeAveragesData()
     }
 
     private suspend fun loadChartViewData(): StatisticsDetailChartCompositeViewData {
