@@ -17,17 +17,19 @@ class StatisticsSettingsViewModel @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
 ) : ViewModel() {
 
-    val rangeUpdated: LiveData<Unit> = MutableLiveData()
+    val rangeUpdated: LiveData<RangeLength> = MutableLiveData()
 
     fun onRangeSelected(item: CustomSpinner.CustomSpinnerItem) = viewModelScope.launch {
         (item as? RangeViewData)?.range?.let {
             prefsInteractor.setStatisticsRange(it)
-            rangeUpdated.set(Unit)
+            rangeUpdated.set(it)
         }
     }
 
     fun onCustomRangeSelected(range: Range) = viewModelScope.launch {
-        prefsInteractor.setStatisticsRange(RangeLength.Custom(range))
-        rangeUpdated.set(Unit)
+        RangeLength.Custom(range).let {
+            prefsInteractor.setStatisticsRange(it)
+            rangeUpdated.set(it)
+        }
     }
 }

@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.mapper.RangeMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
-import com.example.util.simpletimetracker.core.viewData.RangeViewData
 import com.example.util.simpletimetracker.core.viewData.RangesViewData
 import com.example.util.simpletimetracker.core.viewData.SelectDateViewData
 import com.example.util.simpletimetracker.core.viewData.SelectRangeViewData
@@ -54,6 +53,8 @@ class StatisticsContainerViewModel @Inject constructor(
         }
     }
 
+    private var rangeLength: RangeLength? = null
+
     fun onVisible() {
         updateTitle()
     }
@@ -80,18 +81,15 @@ class StatisticsContainerViewModel @Inject constructor(
                 onSelectRangeClick()
                 updateRanges()
             }
-            is RangeViewData -> {
-                updatePosition(0)
-            }
         }
     }
 
-    fun onCustomRangeSelected() {
-        updatePosition(0)
-    }
-
-    fun onRangeUpdated() = viewModelScope.launch {
-        updateNavButtonsVisibility()
+    fun onRangeUpdated(newRange: RangeLength) {
+        if (newRange != rangeLength) {
+            updateNavButtonsVisibility()
+            updatePosition(0)
+            rangeLength = newRange
+        }
     }
 
     fun onDateTimeSet(timestamp: Long, tag: String?) = viewModelScope.launch {
@@ -134,6 +132,10 @@ class StatisticsContainerViewModel @Inject constructor(
         ).let(router::navigate)
     }
 
+    private suspend fun getRangeLength(): RangeLength {
+        return rangeLength ?: prefsInteractor.getStatisticsRange()
+    }
+
     private fun updatePosition(newPosition: Int) {
         (position as MutableLiveData).value = newPosition
         updateTitle()
@@ -148,7 +150,7 @@ class StatisticsContainerViewModel @Inject constructor(
         val startOfDayShift = prefsInteractor.getStartOfDayShift()
         val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
         return rangeMapper.mapToTitle(
-            rangeLength = prefsInteractor.getStatisticsRange(),
+            rangeLength = getRangeLength(),
             position = position.value.orZero(),
             startOfDayShift = startOfDayShift,
             firstDayOfWeek = firstDayOfWeek)
@@ -159,7 +161,7 @@ class StatisticsContainerViewModel @Inject constructor(
     }
 
     private suspend fun loadRanges(): RangesViewData {
-        return rangeMapper.mapToRanges(prefsInteractor.getStatisticsRange())
+        return rangeMapper.mapToRanges(getRangeLength())
     }
 
     private fun updateNavButtonsVisibility() = viewModelScope.launch {
@@ -167,7 +169,7 @@ class StatisticsContainerViewModel @Inject constructor(
     }
 
     private suspend fun loadNavButtonsVisibility(): Boolean {
-        val rangeLength = prefsInteractor.getStatisticsRange()
+        val rangeLength = getRangeLength()
         return !(rangeLength is RangeLength.All || rangeLength is RangeLength.Custom)
     }
 

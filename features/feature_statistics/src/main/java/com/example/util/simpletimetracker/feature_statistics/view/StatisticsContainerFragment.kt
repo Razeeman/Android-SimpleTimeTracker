@@ -67,7 +67,6 @@ class StatisticsContainerFragment :
     }
 
     override fun onCustomRangeSelected(range: Range) {
-        viewModel.onCustomRangeSelected()
         settingsViewModel.onCustomRangeSelected(range)
     }
 
@@ -79,7 +78,7 @@ class StatisticsContainerFragment :
             navButtonsVisibility.observe(::updateNavButtons)
         }
         with(settingsViewModel) {
-            rangeUpdated.observe { viewModel.onRangeUpdated() }
+            rangeUpdated.observe(viewModel::onRangeUpdated)
         }
     }
 
