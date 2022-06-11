@@ -24,6 +24,13 @@ class WidgetManager @Inject constructor(
         context.sendBroadcast(intent)
     }
 
+    fun updateStatisticsWidget(widgetId: Int) {
+        val intent = Intent(context, WidgetStatisticsChartProvider::class.java)
+        intent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, intArrayOf(widgetId))
+        context.sendBroadcast(intent)
+    }
+
     fun updateWidgets(types: List<WidgetType>) {
         val widgetsToUpdate = types
             .takeUnless { it.isEmpty() }

@@ -9,6 +9,12 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".statistics.settings.WidgetStatisticsSettingsActivity">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".universal.activity.view.WidgetUniversalActivity"
             android:documentLaunchMode="intoExisting"

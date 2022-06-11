@@ -1,5 +1,7 @@
 package com.example.util.simpletimetracker.domain.repo
 
+import com.example.util.simpletimetracker.domain.model.StatisticsWidgetData
+
 interface PrefsRepo {
 
     var recordTypesFilteredOnChart: Set<String>
@@ -55,6 +57,12 @@ interface PrefsRepo {
     fun getWidget(widgetId: Int): Long
 
     fun removeWidget(widgetId: Int)
+
+    fun setStatisticsWidget(widgetId: Int, data: StatisticsWidgetData)
+
+    fun getStatisticsWidget(widgetId: Int): StatisticsWidgetData
+
+    fun removeStatisticsWidget(widgetId: Int)
 
     fun setCardOrderManual(cardOrder: Map<Long, Long>)
 

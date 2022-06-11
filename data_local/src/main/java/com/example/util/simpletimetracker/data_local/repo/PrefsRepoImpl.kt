@@ -3,6 +3,9 @@ package com.example.util.simpletimetracker.data_local.repo
 import android.content.SharedPreferences
 import com.example.util.simpletimetracker.data_local.extension.delegate
 import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.domain.model.ChartFilterType
+import com.example.util.simpletimetracker.domain.model.RangeLength
+import com.example.util.simpletimetracker.domain.model.StatisticsWidgetData
 import com.example.util.simpletimetracker.domain.repo.PrefsRepo
 import java.util.Calendar
 import javax.inject.Inject
@@ -10,7 +13,7 @@ import javax.inject.Singleton
 
 @Singleton
 class PrefsRepoImpl @Inject constructor(
-    private val prefs: SharedPreferences
+    private val prefs: SharedPreferences,
 ) : PrefsRepo {
 
     private val firstDayOfWeekDefault: Int by lazy {
@@ -133,6 +136,68 @@ class PrefsRepoImpl @Inject constructor(
         prefs.edit().remove(KEY_WIDGET + widgetId).apply()
     }
 
+    override fun setStatisticsWidget(widgetId: Int, data: StatisticsWidgetData) {
+        val filterTypeData = when (data.chartFilterType) {
+            ChartFilterType.ACTIVITY -> 0
+            ChartFilterType.CATEGORY -> 1
+        }
+        val rangeData = when (data.rangeLength) {
+            is RangeLength.Day -> 0
+            is RangeLength.Week -> 1
+            is RangeLength.Month -> 2
+            is RangeLength.Year -> 3
+            is RangeLength.All -> 4
+            else -> 0
+        }
+        val filteredTypesData = data.filteredTypes.map(Long::toString).toSet()
+        val filteredCategoriesData = data.filteredCategories.map(Long::toString).toSet()
+
+        prefs.edit()
+            .putInt(KEY_STATISTICS_WIDGET_FILTER_TYPE + widgetId, filterTypeData)
+            .putInt(KEY_STATISTICS_WIDGET_RANGE + widgetId, rangeData)
+            .putStringSet(KEY_STATISTICS_WIDGET_FILTERED_TYPES + widgetId, filteredTypesData)
+            .putStringSet(KEY_STATISTICS_WIDGET_FILTERED_CATEGORIES + widgetId, filteredCategoriesData)
+            .apply()
+    }
+
+    override fun getStatisticsWidget(widgetId: Int): StatisticsWidgetData {
+        val filterType = when (prefs.getInt(KEY_STATISTICS_WIDGET_FILTER_TYPE + widgetId, 0)) {
+            0 -> ChartFilterType.ACTIVITY
+            1 -> ChartFilterType.CATEGORY
+            else -> ChartFilterType.ACTIVITY
+        }
+        val range = when (prefs.getInt(KEY_STATISTICS_WIDGET_RANGE + widgetId, 0)) {
+            0 -> RangeLength.Day
+            1 -> RangeLength.Week
+            2 -> RangeLength.Month
+            3 -> RangeLength.Year
+            4 -> RangeLength.All
+            else -> RangeLength.Day
+        }
+        val filteredTypes = prefs
+            .getStringSet(KEY_STATISTICS_WIDGET_FILTERED_TYPES + widgetId, emptySet())
+            ?.mapNotNull { it.toLongOrNull() }.orEmpty().toSet()
+        val filteredCategories = prefs
+            .getStringSet(KEY_STATISTICS_WIDGET_FILTERED_CATEGORIES + widgetId, emptySet())
+            ?.mapNotNull { it.toLongOrNull() }.orEmpty().toSet()
+
+        return StatisticsWidgetData(
+            chartFilterType = filterType,
+            rangeLength = range,
+            filteredTypes = filteredTypes,
+            filteredCategories = filteredCategories,
+        )
+    }
+
+    override fun removeStatisticsWidget(widgetId: Int) {
+        prefs.edit()
+            .remove(KEY_STATISTICS_WIDGET_FILTER_TYPE + widgetId)
+            .remove(KEY_STATISTICS_WIDGET_RANGE + widgetId)
+            .remove(KEY_STATISTICS_WIDGET_FILTERED_TYPES + widgetId)
+            .remove(KEY_STATISTICS_WIDGET_FILTERED_CATEGORIES + widgetId)
+            .apply()
+    }
+
     override fun setCardOrderManual(cardOrder: Map<Long, Long>) {
         val set = cardOrder.map { (typeId, order) ->
             "$typeId$CARDS_ORDER_DELIMITER${order.toShort()}"
@@ -190,6 +255,10 @@ class PrefsRepoImpl @Inject constructor(
         private const val KEY_SHOW_RECORD_TAG_SELECTION = "showRecordTagSelection"
         private const val KEY_RECORD_TAG_SELECTION_CLOSE_AFTER_ONE = "recordTagSelectionCloseAfterOne"
         private const val KEY_WIDGET = "widget_"
+        private const val KEY_STATISTICS_WIDGET_FILTERED_TYPES = "statistics_widget_filtered_types_"
+        private const val KEY_STATISTICS_WIDGET_FILTERED_CATEGORIES = "statistics_widget_filtered_categories_"
+        private const val KEY_STATISTICS_WIDGET_FILTER_TYPE = "statistics_widget_filter_type_"
+        private const val KEY_STATISTICS_WIDGET_RANGE = "statistics_widget_range_"
         private const val KEY_CARD_ORDER_MANUAL = "cardOrderManual"
 
         // Removed

@@ -5,6 +5,7 @@ import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RangeLength
+import com.example.util.simpletimetracker.domain.model.StatisticsWidgetData
 import com.example.util.simpletimetracker.domain.repo.PrefsRepo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -249,6 +250,18 @@ class PrefsInteractor @Inject constructor(
 
     suspend fun removeWidget(widgetId: Int) = withContext(Dispatchers.IO) {
         prefsRepo.removeWidget(widgetId)
+    }
+
+    suspend fun setStatisticsWidget(widgetId: Int, data: StatisticsWidgetData, ) = withContext(Dispatchers.IO) {
+        prefsRepo.setStatisticsWidget(widgetId, data)
+    }
+
+    suspend fun getStatisticsWidget(widgetId: Int): StatisticsWidgetData = withContext(Dispatchers.IO) {
+        prefsRepo.getStatisticsWidget(widgetId)
+    }
+
+    suspend fun removeStatisticsWidget(widgetId: Int) = withContext(Dispatchers.IO) {
+        prefsRepo.removeStatisticsWidget(widgetId)
     }
 
     suspend fun setCardOrderManual(cardsOrder: Map<Long, Long>) = withContext(Dispatchers.IO) {

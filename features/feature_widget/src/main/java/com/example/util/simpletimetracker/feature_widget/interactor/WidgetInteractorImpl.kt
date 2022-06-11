@@ -10,5 +10,7 @@ class WidgetInteractorImpl @Inject constructor(
 
     override fun updateWidget(widgetId: Int) = widgetManager.updateWidget(widgetId)
 
+    override fun updateStatisticsWidget(widgetId: Int) = widgetManager.updateStatisticsWidget(widgetId)
+
     override fun updateWidgets(types: List<WidgetType>) = widgetManager.updateWidgets(types)
 }

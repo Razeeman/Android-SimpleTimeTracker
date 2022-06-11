@@ -6,5 +6,7 @@ interface WidgetInteractor {
 
     fun updateWidget(widgetId: Int)
 
+    fun updateStatisticsWidget(widgetId: Int)
+
     fun updateWidgets(types: List<WidgetType> = emptyList())
 }

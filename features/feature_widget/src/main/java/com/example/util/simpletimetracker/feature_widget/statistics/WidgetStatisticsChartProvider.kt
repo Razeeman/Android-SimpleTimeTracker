@@ -12,11 +12,9 @@ import android.widget.RemoteViews
 import com.example.util.simpletimetracker.core.interactor.StatisticsChartViewDataInteractor
 import com.example.util.simpletimetracker.core.interactor.StatisticsMediator
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
-import com.example.util.simpletimetracker.core.utils.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
-import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.feature_views.extension.dpToPx
 import com.example.util.simpletimetracker.feature_views.extension.getBitmapFromView
 import com.example.util.simpletimetracker.feature_views.extension.measureExactly
@@ -25,6 +23,9 @@ import com.example.util.simpletimetracker.feature_widget.R
 import com.example.util.simpletimetracker.feature_widget.statistics.customView.WidgetStatisticsChartView
 import com.example.util.simpletimetracker.navigation.Router
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
@@ -59,6 +60,12 @@ class WidgetStatisticsChartProvider : AppWidgetProvider() {
         }
     }
 
+    override fun onDeleted(context: Context?, appWidgetIds: IntArray?) {
+        CoroutineScope(Dispatchers.Main).launch {
+            appWidgetIds?.forEach { prefsInteractor.removeStatisticsWidget(it) }
+        }
+    }
+
     override fun onAppWidgetOptionsChanged(
         context: Context?,
         appWidgetManager: AppWidgetManager?,
@@ -76,7 +83,7 @@ class WidgetStatisticsChartProvider : AppWidgetProvider() {
     ) {
         if (context == null || appWidgetManager == null) return
 
-        val view = prepareView(context)
+        val view = prepareView(context, appWidgetId)
         val options = appWidgetManager.getAppWidgetOptions(appWidgetId)
         measureView(context, options, view)
         val bitmap = view.getBitmapFromView()
@@ -90,16 +97,20 @@ class WidgetStatisticsChartProvider : AppWidgetProvider() {
 
     private fun prepareView(
         context: Context,
+        appWidgetId: Int,
     ): View = runBlocking {
         // TODO remove blocking
-        val filterType = prefsInteractor.getChartFilterType()
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
+        val widgetData = prefsInteractor.getStatisticsWidget(appWidgetId)
         val types = recordTypeInteractor.getAll()
+
+        val filterType = widgetData.chartFilterType
         val filteredIds = when (filterType) {
-            ChartFilterType.ACTIVITY -> prefsInteractor.getFilteredTypes() + UNTRACKED_ITEM_ID
-            ChartFilterType.CATEGORY -> prefsInteractor.getFilteredCategories()
-        }
+            ChartFilterType.ACTIVITY -> widgetData.filteredTypes
+            ChartFilterType.CATEGORY -> widgetData.filteredCategories
+        }.toList()
+        val rangeLength = widgetData.rangeLength
 
         val dataHolders = statisticsMediator.getDataHolders(
             filterType = filterType,
@@ -108,7 +119,7 @@ class WidgetStatisticsChartProvider : AppWidgetProvider() {
         val statistics = statisticsMediator.getStatistics(
             filterType = filterType,
             filteredIds = filteredIds,
-            rangeLength = RangeLength.Day,
+            rangeLength = rangeLength,
             shift = 0
         )
         val chart = statisticsChartViewDataInteractor.getChart(
