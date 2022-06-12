@@ -48,7 +48,7 @@
         android:paddingHorizontal="0dp"
         android:singleLine="true"
         android:text="@string/types_filter_show_all"
-        app:layout_constraintBottom_toTopOf="@id/tvWidgetStatisticsSettingsRangeHint"
+        app:layout_constraintBottom_toTopOf="@id/btnWidgetStatisticsSettingsRange"
         app:layout_constraintEnd_toStartOf="@id/btnWidgetStatisticsHideAll"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -62,18 +62,9 @@
         android:paddingHorizontal="0dp"
         android:singleLine="true"
         android:text="@string/types_filter_hide_all"
-        app:layout_constraintBottom_toTopOf="@id/tvWidgetStatisticsSettingsRangeHint"
+        app:layout_constraintBottom_toTopOf="@id/btnWidgetStatisticsSettingsRange"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/btnWidgetStatisticsShowAll" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvWidgetStatisticsSettingsRangeHint"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/chart_filter_type_hint"
-        android:textColor="?appTextHintColor"
-        app:layout_constraintBottom_toTopOf="@id/btnWidgetStatisticsSettingsRange" />
 
     <com.example.util.simpletimetracker.feature_views.spinner.CustomSpinner
         android:id="@+id/spinnerWidgetStatisticsSettingsRange"
