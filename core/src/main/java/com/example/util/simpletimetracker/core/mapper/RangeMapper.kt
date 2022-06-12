@@ -20,10 +20,12 @@ class RangeMapper @Inject constructor(
     private val timeMapper: TimeMapper
 ) {
 
-    fun mapToRanges(currentRange: RangeLength): RangesViewData {
+    fun mapToRanges(currentRange: RangeLength, addSelection: Boolean = true): RangesViewData {
         val selectDateButton = mapToSelectDateName(currentRange)
-            ?.let(::listOf) ?: emptyList()
+            ?.takeIf { addSelection }?.let(::listOf) ?: emptyList()
         val selectRangeButton = mapToSelectRange()
+            .takeIf { addSelection }?.let(::listOf) ?: emptyList()
+
         val data = selectDateButton + selectRangeButton + ranges.map(::mapToRangeName)
         val selectedPosition = data.indexOfFirst {
             (it as? RangeViewData)?.range == currentRange

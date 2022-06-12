@@ -259,6 +259,6 @@ class WidgetStatisticsSettingsViewModel @Inject constructor(
     }
 
     private fun loadRanges(): RangesViewData {
-        return rangeMapper.mapToRanges(widgetData.rangeLength)
+        return rangeMapper.mapToRanges(widgetData.rangeLength, addSelection = false)
     }
 }
