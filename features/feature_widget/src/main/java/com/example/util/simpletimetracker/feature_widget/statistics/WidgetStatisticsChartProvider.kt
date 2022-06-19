@@ -12,6 +12,8 @@ import android.widget.RemoteViews
 import com.example.util.simpletimetracker.core.interactor.StatisticsChartViewDataInteractor
 import com.example.util.simpletimetracker.core.interactor.StatisticsMediator
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.core.utils.SHORTCUT_NAVIGATION_KEY
+import com.example.util.simpletimetracker.core.utils.SHORTCUT_NAVIGATION_STATISTICS
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
@@ -167,8 +169,9 @@ class WidgetStatisticsChartProvider : AppWidgetProvider() {
     private fun getPendingSelfIntent(
         context: Context,
     ): PendingIntent {
-        val intent = router.getMainStartIntent()
+        val intent = router.getMainStartIntent().apply {
+            putExtra(SHORTCUT_NAVIGATION_KEY, SHORTCUT_NAVIGATION_STATISTICS)
+        }
         return PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-        // TODO open on statistics tab.
     }
 }

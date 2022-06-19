@@ -12,6 +12,10 @@ import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.extension.getThemedAttr
 import com.example.util.simpletimetracker.core.sharedViewModel.BackupViewModel
+import com.example.util.simpletimetracker.core.utils.SHORTCUT_NAVIGATION_KEY
+import com.example.util.simpletimetracker.core.utils.SHORTCUT_NAVIGATION_RECORDS
+import com.example.util.simpletimetracker.core.utils.SHORTCUT_NAVIGATION_SETTINGS
+import com.example.util.simpletimetracker.core.utils.SHORTCUT_NAVIGATION_STATISTICS
 import com.example.util.simpletimetracker.feature_main.R
 import com.example.util.simpletimetracker.feature_main.adapter.MainContentAdapter
 import com.example.util.simpletimetracker.feature_main.viewModel.MainViewModel
@@ -104,12 +108,5 @@ class MainFragment : BaseFragment<Binding>() {
             requireContext().getThemedAttr(attrRes),
             BlendModeCompat.SRC_IN
         )
-    }
-
-    companion object {
-        private const val SHORTCUT_NAVIGATION_KEY = "shortcutNavigationTab"
-        private const val SHORTCUT_NAVIGATION_RECORDS = "recordsTab"
-        private const val SHORTCUT_NAVIGATION_STATISTICS = "statisticsTab"
-        private const val SHORTCUT_NAVIGATION_SETTINGS = "settingsTab"
     }
 }
