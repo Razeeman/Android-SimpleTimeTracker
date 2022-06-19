@@ -12,11 +12,9 @@ import com.example.util.simpletimetracker.domain.model.RecordToRecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RecordTypeCategory
 import com.example.util.simpletimetracker.domain.repo.CategoryRepo
-import com.example.util.simpletimetracker.domain.repo.RecordCacheRepo
 import com.example.util.simpletimetracker.domain.repo.RecordRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTagRepo
 import com.example.util.simpletimetracker.domain.repo.RecordToRecordTagRepo
-import com.example.util.simpletimetracker.domain.repo.RecordTypeCacheRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeCategoryRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeRepo
 import com.example.util.simpletimetracker.domain.resolver.BackupRepo
@@ -39,9 +37,7 @@ import javax.inject.Singleton
 class BackupRepoImpl @Inject constructor(
     private val contentResolver: ContentResolver,
     private val recordTypeRepo: RecordTypeRepo,
-    private val recordTypeCacheRepo: RecordTypeCacheRepo,
     private val recordRepo: RecordRepo,
-    private val recordCacheRepo: RecordCacheRepo,
     private val categoryRepo: CategoryRepo,
     private val recordTypeCategoryRepo: RecordTypeCategoryRepo,
     private val recordToRecordTagRepo: RecordToRecordTagRepo,
@@ -128,9 +124,7 @@ class BackupRepoImpl @Inject constructor(
                 if (line != BACKUP_IDENTIFICATION) return@withContext BackupRepo.ResultCode.ERROR
 
                 recordTypeRepo.clear()
-                recordTypeCacheRepo.clear()
                 recordRepo.clear()
-                recordCacheRepo.clear()
                 categoryRepo.clear()
                 recordTypeCategoryRepo.clear()
                 recordTagRepo.clear()

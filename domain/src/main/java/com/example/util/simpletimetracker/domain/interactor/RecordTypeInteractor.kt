@@ -7,7 +7,6 @@ import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.repo.RecordRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTagRepo
 import com.example.util.simpletimetracker.domain.repo.RecordToRecordTagRepo
-import com.example.util.simpletimetracker.domain.repo.RecordTypeCacheRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeCategoryRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeRepo
 import java.util.Locale
@@ -20,17 +19,12 @@ class RecordTypeInteractor @Inject constructor(
     private val recordToRecordTagRepo: RecordToRecordTagRepo,
     private val recordTypeCategoryRepo: RecordTypeCategoryRepo,
     private val recordTagRepo: RecordTagRepo,
-    private val recordTypeCacheRepo: RecordTypeCacheRepo,
     private val prefsInteractor: PrefsInteractor,
     private val appColorMapper: AppColorMapper,
 ) {
 
     suspend fun getAll(cardOrder: CardOrder? = null): List<RecordType> {
-        return (
-            recordTypeCacheRepo.getAll()
-                .takeIf(List<RecordType>::isNotEmpty)
-                ?: recordTypeRepo.getAll().also(recordTypeCacheRepo::addAll)
-            ).let { sort(cardOrder, it) }
+        return sort(cardOrder, recordTypeRepo.getAll())
     }
 
     suspend fun get(id: Long): RecordType? {
@@ -46,19 +40,15 @@ class RecordTypeInteractor @Inject constructor(
                 newRecord = recordType.copy(id = saved.id)
             }
 
-        val addedId = recordTypeRepo.add(newRecord)
-        recordTypeCacheRepo.clear()
-        return addedId
+        return recordTypeRepo.add(newRecord)
     }
 
     suspend fun archive(id: Long) {
         recordTypeRepo.archive(id)
-        recordTypeCacheRepo.clear()
     }
 
     suspend fun restore(id: Long) {
         recordTypeRepo.restore(id)
-        recordTypeCacheRepo.clear()
     }
 
     suspend fun remove(id: Long) {
@@ -75,13 +65,10 @@ class RecordTypeInteractor @Inject constructor(
         recordTypeCategoryRepo.removeAllByType(id)
         recordTagRepo.removeByType(id)
         recordTypeRepo.remove(id)
-
-        recordTypeCacheRepo.clear()
     }
 
     suspend fun clear() {
         recordTypeRepo.clear()
-        recordTypeCacheRepo.clear()
     }
 
     private suspend fun sort(

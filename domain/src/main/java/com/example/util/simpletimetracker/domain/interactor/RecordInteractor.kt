@@ -2,7 +2,6 @@ package com.example.util.simpletimetracker.domain.interactor
 
 import com.example.util.simpletimetracker.domain.mapper.UntrackedRecordMapper
 import com.example.util.simpletimetracker.domain.model.Record
-import com.example.util.simpletimetracker.domain.repo.RecordCacheRepo
 import com.example.util.simpletimetracker.domain.repo.RecordRepo
 import com.example.util.simpletimetracker.domain.repo.RecordToRecordTagRepo
 import javax.inject.Inject
@@ -10,7 +9,6 @@ import javax.inject.Inject
 class RecordInteractor @Inject constructor(
     private val recordRepo: RecordRepo,
     private val recordToRecordTagRepo: RecordToRecordTagRepo,
-    private val recordCacheRepo: RecordCacheRepo,
     private val untrackedRecordMapper: UntrackedRecordMapper,
 ) {
 
@@ -35,9 +33,7 @@ class RecordInteractor @Inject constructor(
     }
 
     suspend fun getFromRange(start: Long, end: Long): List<Record> {
-        return recordCacheRepo.getFromRange(start, end)
-            ?: recordRepo.getFromRange(start, end)
-                .also { recordCacheRepo.putWithRange(start, end, it) }
+        return recordRepo.getFromRange(start, end)
     }
 
     suspend fun getUntrackedFromRange(start: Long, end: Long): List<Record> {
@@ -66,17 +62,14 @@ class RecordInteractor @Inject constructor(
         val recordId = recordRepo.add(record)
         recordToRecordTagRepo.removeAllByRecordId(recordId)
         recordToRecordTagRepo.addRecordTags(recordId, record.tagIds)
-        recordCacheRepo.clear()
     }
 
     suspend fun remove(id: Long) {
         recordToRecordTagRepo.removeAllByRecordId(id)
         recordRepo.remove(id)
-        recordCacheRepo.clear()
     }
 
     suspend fun clear() {
         recordRepo.clear()
-        recordCacheRepo.clear()
     }
 }

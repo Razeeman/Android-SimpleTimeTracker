@@ -59,13 +59,6 @@ class CategoryViewDataMapper @Inject constructor(
         ).let(::listOf)
     }
 
-    // TODO remove?
-    fun mapToTypeNotSelected(): List<ViewHolderType> {
-        return EmptyViewData(
-            message = resourceRepo.getString(R.string.change_record_activity_not_selected)
-        ).let(::listOf)
-    }
-
     fun mapSelectedCategoriesHint(isEmpty: Boolean): ViewHolderType {
         return InfoViewData(
             text = if (isEmpty) {

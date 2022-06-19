@@ -2,11 +2,9 @@ package com.example.util.simpletimetracker.data_local.di
 
 import com.example.util.simpletimetracker.data_local.repo.CategoryRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl
-import com.example.util.simpletimetracker.data_local.repo.RecordCacheRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.RecordRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.RecordTagRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.RecordToRecordTagRepoImpl
-import com.example.util.simpletimetracker.data_local.repo.RecordTypeCacheRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.RecordTypeCategoryRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.RecordTypeRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.RunningRecordRepoImpl
@@ -15,11 +13,9 @@ import com.example.util.simpletimetracker.data_local.resolver.BackupRepoImpl
 import com.example.util.simpletimetracker.data_local.resolver.CsvRepoImpl
 import com.example.util.simpletimetracker.domain.repo.CategoryRepo
 import com.example.util.simpletimetracker.domain.repo.PrefsRepo
-import com.example.util.simpletimetracker.domain.repo.RecordCacheRepo
 import com.example.util.simpletimetracker.domain.repo.RecordRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTagRepo
 import com.example.util.simpletimetracker.domain.repo.RecordToRecordTagRepo
-import com.example.util.simpletimetracker.domain.repo.RecordTypeCacheRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeCategoryRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeRepo
 import com.example.util.simpletimetracker.domain.repo.RunningRecordRepo
@@ -42,15 +38,7 @@ interface DataLocalModuleBinds {
 
     @Binds
     @Singleton
-    fun RecordCacheRepoImpl.bindRecordCacheRepo(): RecordCacheRepo
-
-    @Binds
-    @Singleton
     fun RecordTypeRepoImpl.bindRecordTypeRepo(): RecordTypeRepo
-
-    @Binds
-    @Singleton
-    fun RecordTypeCacheRepoImpl.bindRecordTypeCacheRepo(): RecordTypeCacheRepo
 
     @Binds
     @Singleton
