@@ -23,6 +23,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_change_record.R
+import com.example.util.simpletimetracker.feature_change_record.customView.TimeAdjustmentView
 import com.example.util.simpletimetracker.feature_change_record.interactor.ChangeRecordViewDataInteractor
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordCommentViewData
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordViewData
@@ -82,13 +83,18 @@ class ChangeRecordViewModel @Inject constructor(
             initial
         }
     }
+    val timeAdjustmentItems: LiveData<List<ViewHolderType>> by lazy {
+        MutableLiveData(loadTimeAdjustmentItems())
+    }
+    val timeAdjustmentVisibility: LiveData<Boolean> by lazy {
+        MutableLiveData(loadTimeAdjustmentVisibility())
+    }
     val flipTypesChooser: LiveData<Boolean> = MutableLiveData()
     val flipCategoryChooser: LiveData<Boolean> = MutableLiveData()
     val flipLastCommentsChooser: LiveData<Boolean> = MutableLiveData()
     val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val keyboardVisibility: LiveData<Boolean> = MutableLiveData(false)
     val comment: LiveData<String> = MutableLiveData()
-    val timeAdjustmentVisibility: LiveData<Boolean> by lazy { MutableLiveData(loadTimeAdjustmentVisibility()) }
 
     private var newTypeId: Long = 0
     private var newTimeEnded: Long = 0
@@ -288,7 +294,14 @@ class ChangeRecordViewModel @Inject constructor(
         }
     }
 
-    fun onAdjustTimeNowClick() = viewModelScope.launch {
+    fun onAdjustTimeItemClick(viewData: TimeAdjustmentView.ViewData) {
+        when (viewData) {
+            is TimeAdjustmentView.ViewData.Now -> onAdjustTimeNowClick()
+            is TimeAdjustmentView.ViewData.Adjust -> adjustRecordTime(viewData.value)
+        }
+    }
+
+    private fun onAdjustTimeNowClick() = viewModelScope.launch {
         when (timeAdjustmentState) {
             TimeAdjustmentVisibility.TIME_STARTED -> {
                 newTimeStarted = System.currentTimeMillis()
@@ -303,30 +316,6 @@ class ChangeRecordViewModel @Inject constructor(
             }
         }
         updatePreview()
-    }
-
-    fun onAdjustTimeMinusFirstClick() {
-        adjustRecordTime(-30)
-    }
-
-    fun onAdjustTimeMinusSecondClick() {
-        adjustRecordTime(-5)
-    }
-
-    fun onAdjustTimeMinusThirdClick() {
-        adjustRecordTime(-1)
-    }
-
-    fun onAdjustTimePlusFirstClick() {
-        adjustRecordTime(1)
-    }
-
-    fun onAdjustTimePlusSecondClick() {
-        adjustRecordTime(5)
-    }
-
-    fun onAdjustTimePlusThirdClick() {
-        adjustRecordTime(30)
     }
 
     private fun adjustRecordTime(shiftInMinutes: Long) = viewModelScope.launch {
@@ -429,6 +418,10 @@ class ChangeRecordViewModel @Inject constructor(
 
     private fun loadTimeAdjustmentVisibility(): Boolean {
         return timeAdjustmentState != TimeAdjustmentVisibility.HIDDEN
+    }
+
+    private fun loadTimeAdjustmentItems(): List<ViewHolderType> {
+        return changeRecordViewDataInteractor.getTimeAdjustmentItems()
     }
 
     private fun showMessage(stringResId: Int) {

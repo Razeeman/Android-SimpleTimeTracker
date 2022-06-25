@@ -50,7 +50,7 @@ class ButtonsRowView @JvmOverloads constructor(
         initEditMode()
     }
 
-    fun onItemClick(buttonsRowViewData: ButtonsRowViewData) {
+    private fun onItemClick(buttonsRowViewData: ButtonsRowViewData) {
         listener?.invoke(buttonsRowViewData)
     }
 

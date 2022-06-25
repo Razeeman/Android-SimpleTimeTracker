@@ -175,7 +175,7 @@
 
     </androidx.cardview.widget.CardView>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.example.util.simpletimetracker.feature_change_record.customView.TimeAdjustmentView
         android:id="@+id/containerChangeRecordTimeAdjust"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -185,58 +185,7 @@
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/fieldChangeRecordTimeStarted"
-        tools:visibility="visible">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvChangeRecordAdjustTimeNow"
-            style="@style/ButtonTimeAdjustment"
-            android:text="Now"
-            app:layout_constraintEnd_toStartOf="@id/tvChangeRecordAdjustTimeMinusFirst"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvChangeRecordAdjustTimeMinusFirst"
-            style="@style/ButtonTimeAdjustment"
-            android:text="-30"
-            app:layout_constraintEnd_toStartOf="@id/tvChangeRecordAdjustTimeMinusSecond"
-            app:layout_constraintStart_toEndOf="@id/tvChangeRecordAdjustTimeNow" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvChangeRecordAdjustTimeMinusSecond"
-            style="@style/ButtonTimeAdjustment"
-            android:text="-5"
-            app:layout_constraintEnd_toStartOf="@id/tvChangeRecordAdjustTimeMinusThird"
-            app:layout_constraintStart_toEndOf="@id/tvChangeRecordAdjustTimeMinusFirst" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvChangeRecordAdjustTimeMinusThird"
-            style="@style/ButtonTimeAdjustment"
-            android:text="-1"
-            app:layout_constraintEnd_toStartOf="@id/tvChangeRecordAdjustTimePlusFirst"
-            app:layout_constraintStart_toEndOf="@id/tvChangeRecordAdjustTimeMinusSecond" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvChangeRecordAdjustTimePlusFirst"
-            style="@style/ButtonTimeAdjustment"
-            android:text="+1"
-            app:layout_constraintEnd_toStartOf="@id/tvChangeRecordAdjustTimePlusSecond"
-            app:layout_constraintStart_toEndOf="@id/tvChangeRecordAdjustTimeMinusThird" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvChangeRecordAdjustTimePlusSecond"
-            style="@style/ButtonTimeAdjustment"
-            android:text="+5"
-            app:layout_constraintEnd_toStartOf="@id/tvChangeRecordAdjustTimePlusThird"
-            app:layout_constraintStart_toEndOf="@id/tvChangeRecordAdjustTimePlusFirst" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvChangeRecordAdjustTimePlusThird"
-            style="@style/ButtonTimeAdjustment"
-            android:text="+30"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/tvChangeRecordAdjustTimePlusSecond" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        tools:visibility="visible" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/fieldChangeRecordType"

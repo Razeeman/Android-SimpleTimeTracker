@@ -286,16 +286,4 @@
         <item name="layout_constraintHorizontal_weight">1</item>
     </style>
 
-    <style name="ButtonTimeAdjustment">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">28dp</item>
-        <item name="android:background">?appInputFieldBorder</item>
-        <item name="android:foreground">?selectableItemBackground</item>
-        <item name="android:gravity">center</item>
-        <item name="android:padding">4dp</item>
-        <item name="android:textColor">?appTextPrimaryColor</item>
-        <item name="autoSizeMinTextSize">1sp</item>
-        <item name="autoSizeTextType">uniform</item>
-    </style>
-
 </resources>
