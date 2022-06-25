@@ -32,6 +32,7 @@ import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordP
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogType
 import kotlinx.coroutines.launch
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class ChangeRecordViewModel @Inject constructor(
@@ -87,12 +88,14 @@ class ChangeRecordViewModel @Inject constructor(
     val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val keyboardVisibility: LiveData<Boolean> = MutableLiveData(false)
     val comment: LiveData<String> = MutableLiveData()
+    val timeAdjustmentVisibility: LiveData<Boolean> by lazy { MutableLiveData(loadTimeAdjustmentVisibility()) }
 
     private var newTypeId: Long = 0
     private var newTimeEnded: Long = 0
     private var newTimeStarted: Long = 0
     private var newComment: String = ""
     private var newCategoryIds: MutableList<Long> = mutableListOf()
+    private var timeAdjustmentState: TimeAdjustmentVisibility = TimeAdjustmentVisibility.HIDDEN
 
     fun onTypeChooserClick() {
         (keyboardVisibility as MutableLiveData).value = false
@@ -221,14 +224,14 @@ class ChangeRecordViewModel @Inject constructor(
                 TIME_STARTED_TAG -> {
                     if (timestamp != newTimeStarted) {
                         newTimeStarted = timestamp
-                        if (timestamp > newTimeEnded) newTimeEnded = timestamp
+                        checkTimeEnded()
                         updatePreview()
                     }
                 }
                 TIME_ENDED_TAG -> {
                     if (timestamp != newTimeEnded) {
                         newTimeEnded = timestamp
-                        if (timestamp < newTimeStarted) newTimeStarted = timestamp
+                        checkTimeStarted()
                         updatePreview()
                     }
                 }
@@ -243,6 +246,112 @@ class ChangeRecordViewModel @Inject constructor(
                 updatePreview()
             }
         }
+    }
+
+    fun onAdjustTimeStartedClick() {
+        when (timeAdjustmentState) {
+            TimeAdjustmentVisibility.HIDDEN -> {
+                timeAdjustmentState = TimeAdjustmentVisibility.TIME_STARTED
+                updateTimeAdjustmentVisibility()
+            }
+            TimeAdjustmentVisibility.TIME_STARTED -> {
+                timeAdjustmentState = TimeAdjustmentVisibility.HIDDEN
+                updateTimeAdjustmentVisibility()
+            }
+            TimeAdjustmentVisibility.TIME_ENDED -> {
+                timeAdjustmentState = TimeAdjustmentVisibility.HIDDEN
+                updateTimeAdjustmentVisibility()
+                // TODO add delay
+                timeAdjustmentState = TimeAdjustmentVisibility.TIME_STARTED
+                updateTimeAdjustmentVisibility()
+            }
+        }
+    }
+
+    fun onAdjustTimeEndedClick() {
+        when (timeAdjustmentState) {
+            TimeAdjustmentVisibility.HIDDEN -> {
+                timeAdjustmentState = TimeAdjustmentVisibility.TIME_ENDED
+                updateTimeAdjustmentVisibility()
+            }
+            TimeAdjustmentVisibility.TIME_STARTED -> {
+                timeAdjustmentState = TimeAdjustmentVisibility.HIDDEN
+                updateTimeAdjustmentVisibility()
+                // TODO add delay
+                timeAdjustmentState = TimeAdjustmentVisibility.TIME_ENDED
+                updateTimeAdjustmentVisibility()
+            }
+            TimeAdjustmentVisibility.TIME_ENDED -> {
+                timeAdjustmentState = TimeAdjustmentVisibility.HIDDEN
+                updateTimeAdjustmentVisibility()
+            }
+        }
+    }
+
+    fun onAdjustTimeNowClick() = viewModelScope.launch {
+        when (timeAdjustmentState) {
+            TimeAdjustmentVisibility.TIME_STARTED -> {
+                newTimeStarted = System.currentTimeMillis()
+                checkTimeEnded()
+            }
+            TimeAdjustmentVisibility.TIME_ENDED -> {
+                newTimeEnded = System.currentTimeMillis()
+                checkTimeStarted()
+            }
+            else -> {
+                // Do nothing, it's hidden.
+            }
+        }
+        updatePreview()
+    }
+
+    fun onAdjustTimeMinusFirstClick() {
+        adjustRecordTime(-30)
+    }
+
+    fun onAdjustTimeMinusSecondClick() {
+        adjustRecordTime(-5)
+    }
+
+    fun onAdjustTimeMinusThirdClick() {
+        adjustRecordTime(-1)
+    }
+
+    fun onAdjustTimePlusFirstClick() {
+        adjustRecordTime(1)
+    }
+
+    fun onAdjustTimePlusSecondClick() {
+        adjustRecordTime(5)
+    }
+
+    fun onAdjustTimePlusThirdClick() {
+        adjustRecordTime(30)
+    }
+
+    private fun adjustRecordTime(shiftInMinutes: Long) = viewModelScope.launch {
+        when (timeAdjustmentState) {
+            TimeAdjustmentVisibility.TIME_STARTED -> {
+                newTimeStarted += TimeUnit.MINUTES.toMillis(shiftInMinutes)
+                checkTimeEnded()
+            }
+            TimeAdjustmentVisibility.TIME_ENDED -> {
+                newTimeEnded += TimeUnit.MINUTES.toMillis(shiftInMinutes)
+                checkTimeStarted()
+            }
+            else -> {
+                // Do nothing, it's hidden.
+            }
+        }
+        updatePreview()
+    }
+
+    private fun checkTimeStarted() {
+        if (newTimeEnded < newTimeStarted) newTimeStarted = newTimeEnded
+    }
+
+    private fun checkTimeEnded() {
+        if (newTimeStarted > newTimeEnded) newTimeEnded = newTimeStarted
     }
 
     private fun getInitialDate(daysFromToday: Int): Long {
@@ -314,9 +423,21 @@ class ChangeRecordViewModel @Inject constructor(
         return changeRecordViewDataInteractor.getLastCommentsViewData(newTypeId)
     }
 
+    private fun updateTimeAdjustmentVisibility() {
+        timeAdjustmentVisibility.set(loadTimeAdjustmentVisibility())
+    }
+
+    private fun loadTimeAdjustmentVisibility(): Boolean {
+        return timeAdjustmentState != TimeAdjustmentVisibility.HIDDEN
+    }
+
     private fun showMessage(stringResId: Int) {
         val params = ToastParams(message = resourceRepo.getString(stringResId))
         router.show(params)
+    }
+
+    private enum class TimeAdjustmentVisibility {
+        HIDDEN, TIME_STARTED, TIME_ENDED
     }
 
     companion object {

@@ -62,6 +62,7 @@
             android:gravity="center_vertical"
             android:maxLines="1"
             app:autoSizeMaxTextSize="16sp"
+            app:autoSizeMinTextSize="1sp"
             app:autoSizeTextType="uniform"
             tools:text="15.02.2020 07:35" />
 
@@ -88,10 +89,154 @@
             android:gravity="center_vertical"
             android:maxLines="1"
             app:autoSizeMaxTextSize="16sp"
+            app:autoSizeMinTextSize="1sp"
             app:autoSizeTextType="uniform"
             tools:text="15.02.2020 11:58" />
 
     </androidx.cardview.widget.CardView>
+
+    <Space
+        android:id="@+id/spaceChangeRecordTimeStartedEnd"
+        android:layout_width="10dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/fieldChangeRecordTimeStarted"
+        app:layout_constraintTop_toTopOf="@id/fieldChangeRecordTimeStarted" />
+
+    <Space
+        android:id="@+id/spaceChangeRecordTimeStartedTop"
+        android:layout_width="wrap_content"
+        android:layout_height="12dp"
+        app:layout_constraintBottom_toTopOf="@id/fieldChangeRecordTimeStarted"
+        app:layout_constraintEnd_toEndOf="@id/fieldChangeRecordTimeStarted" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/btnChangeRecordTimeStartedAdjust"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:foreground="?selectableItemBackground"
+        app:cardBackgroundColor="?appCardBackgroundColor"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp"
+        app:cardPreventCornerOverlap="false"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintEnd_toEndOf="@id/spaceChangeRecordTimeStartedEnd"
+        app:layout_constraintTop_toTopOf="@id/spaceChangeRecordTimeStartedTop">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_margin="4dp"
+            android:gravity="center"
+            android:text="+/-"
+            android:textColor="?appTextHintColor"
+            android:textStyle="bold"
+            app:autoSizeMinTextSize="1sp"
+            app:autoSizeTextType="uniform" />
+
+    </androidx.cardview.widget.CardView>
+
+    <Space
+        android:id="@+id/spaceChangeRecordTimeEndedEnd"
+        android:layout_width="10dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/fieldChangeRecordTimeEnded"
+        app:layout_constraintTop_toTopOf="@id/fieldChangeRecordTimeEnded" />
+
+    <Space
+        android:id="@+id/spaceChangeRecordTimeEndedTop"
+        android:layout_width="wrap_content"
+        android:layout_height="12dp"
+        app:layout_constraintBottom_toTopOf="@id/fieldChangeRecordTimeEnded"
+        app:layout_constraintEnd_toEndOf="@id/fieldChangeRecordTimeEnded" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/btnChangeRecordTimeEndedAdjust"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:foreground="?selectableItemBackground"
+        app:cardBackgroundColor="?appCardBackgroundColor"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp"
+        app:cardPreventCornerOverlap="false"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintEnd_toEndOf="@id/spaceChangeRecordTimeEndedEnd"
+        app:layout_constraintTop_toTopOf="@id/spaceChangeRecordTimeEndedTop">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_margin="4dp"
+            android:gravity="center"
+            android:text="+/-"
+            android:textColor="?appTextHintColor"
+            android:textStyle="bold"
+            app:autoSizeMinTextSize="1sp"
+            app:autoSizeTextType="uniform" />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/containerChangeRecordTimeAdjust"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/input_field_margin"
+        android:layout_marginEnd="@dimen/input_field_margin"
+        android:paddingHorizontal="2dp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fieldChangeRecordTimeStarted"
+        tools:visibility="visible">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvChangeRecordAdjustTimeNow"
+            style="@style/ButtonTimeAdjustment"
+            android:text="Now"
+            app:layout_constraintEnd_toStartOf="@id/tvChangeRecordAdjustTimeMinusFirst"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvChangeRecordAdjustTimeMinusFirst"
+            style="@style/ButtonTimeAdjustment"
+            android:text="-30"
+            app:layout_constraintEnd_toStartOf="@id/tvChangeRecordAdjustTimeMinusSecond"
+            app:layout_constraintStart_toEndOf="@id/tvChangeRecordAdjustTimeNow" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvChangeRecordAdjustTimeMinusSecond"
+            style="@style/ButtonTimeAdjustment"
+            android:text="-5"
+            app:layout_constraintEnd_toStartOf="@id/tvChangeRecordAdjustTimeMinusThird"
+            app:layout_constraintStart_toEndOf="@id/tvChangeRecordAdjustTimeMinusFirst" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvChangeRecordAdjustTimeMinusThird"
+            style="@style/ButtonTimeAdjustment"
+            android:text="-1"
+            app:layout_constraintEnd_toStartOf="@id/tvChangeRecordAdjustTimePlusFirst"
+            app:layout_constraintStart_toEndOf="@id/tvChangeRecordAdjustTimeMinusSecond" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvChangeRecordAdjustTimePlusFirst"
+            style="@style/ButtonTimeAdjustment"
+            android:text="+1"
+            app:layout_constraintEnd_toStartOf="@id/tvChangeRecordAdjustTimePlusSecond"
+            app:layout_constraintStart_toEndOf="@id/tvChangeRecordAdjustTimeMinusThird" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvChangeRecordAdjustTimePlusSecond"
+            style="@style/ButtonTimeAdjustment"
+            android:text="+5"
+            app:layout_constraintEnd_toStartOf="@id/tvChangeRecordAdjustTimePlusThird"
+            app:layout_constraintStart_toEndOf="@id/tvChangeRecordAdjustTimePlusFirst" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvChangeRecordAdjustTimePlusThird"
+            style="@style/ButtonTimeAdjustment"
+            android:text="+30"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvChangeRecordAdjustTimePlusSecond" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/fieldChangeRecordType"
@@ -103,7 +248,7 @@
         android:layout_marginEnd="4dp"
         app:layout_constraintEnd_toStartOf="@id/fieldChangeRecordCategory"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fieldChangeRecordTimeStarted">
+        app:layout_constraintTop_toBottomOf="@id/containerChangeRecordTimeAdjust">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -145,7 +290,7 @@
         android:layout_marginEnd="@dimen/input_field_margin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/fieldChangeRecordType"
-        app:layout_constraintTop_toBottomOf="@id/fieldChangeRecordTimeStarted">
+        app:layout_constraintTop_toBottomOf="@id/containerChangeRecordTimeAdjust">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

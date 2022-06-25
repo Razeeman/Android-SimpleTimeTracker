@@ -141,6 +141,19 @@ class ChangeRecordFragment :
                 (extra as? ChangeRecordParams.Tracked)?.from
             )
         }
+
+        // TODO add color change on opened
+        btnChangeRecordTimeStartedAdjust.setOnClick(viewModel::onAdjustTimeStartedClick)
+        btnChangeRecordTimeEndedAdjust.setOnClick(viewModel::onAdjustTimeEndedClick)
+        // TODO switch to recycler
+        // TODO fix item click background overflowing border
+        tvChangeRecordAdjustTimeNow.setOnClick(viewModel::onAdjustTimeNowClick)
+        tvChangeRecordAdjustTimeMinusFirst.setOnClick(viewModel::onAdjustTimeMinusFirstClick)
+        tvChangeRecordAdjustTimeMinusSecond.setOnClick(viewModel::onAdjustTimeMinusSecondClick)
+        tvChangeRecordAdjustTimeMinusThird.setOnClick(viewModel::onAdjustTimeMinusThirdClick)
+        tvChangeRecordAdjustTimePlusFirst.setOnClick(viewModel::onAdjustTimePlusFirstClick)
+        tvChangeRecordAdjustTimePlusSecond.setOnClick(viewModel::onAdjustTimePlusSecondClick)
+        tvChangeRecordAdjustTimePlusThird.setOnClick(viewModel::onAdjustTimePlusThirdClick)
     }
 
     override fun initViewModel() = with(binding) {
@@ -180,6 +193,7 @@ class ChangeRecordFragment :
             keyboardVisibility.observe { visible ->
                 if (visible) showKeyboard(etChangeRecordComment) else hideKeyboard()
             }
+            timeAdjustmentVisibility.observe(containerChangeRecordTimeAdjust::visible::set)
         }
         with(removeRecordViewModel) {
             prepare((extra as? ChangeRecordParams.Tracked)?.id.orZero())
