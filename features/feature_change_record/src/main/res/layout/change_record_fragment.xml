@@ -167,7 +167,7 @@
 
     </androidx.cardview.widget.CardView>
 
-    <com.example.util.simpletimetracker.feature_change_record.customView.TimeAdjustmentView
+    <com.example.util.simpletimetracker.core.view.timeAdjustment.TimeAdjustmentView
         android:id="@+id/containerChangeRecordTimeAdjust"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

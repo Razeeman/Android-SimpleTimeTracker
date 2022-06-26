@@ -1,14 +1,14 @@
-package com.example.util.simpletimetracker.feature_change_record.customView
+package com.example.util.simpletimetracker.core.view.timeAdjustment
 
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
+import com.example.util.simpletimetracker.core.databinding.TimeAdjustmentItemLayoutBinding
+import com.example.util.simpletimetracker.core.databinding.TimeAdjustmentViewLayoutBinding
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
-import com.example.util.simpletimetracker.feature_change_record.databinding.TimeAdjustmentItemLayoutBinding
-import com.example.util.simpletimetracker.feature_change_record.databinding.TimeAdjustmentViewLayoutBinding
 import com.example.util.simpletimetracker.feature_views.extension.setOnClickWith
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap

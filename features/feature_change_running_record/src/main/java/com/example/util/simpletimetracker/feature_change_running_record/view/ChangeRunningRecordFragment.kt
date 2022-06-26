@@ -28,6 +28,8 @@ import com.example.util.simpletimetracker.feature_views.extension.rotateDown
 import com.example.util.simpletimetracker.feature_views.extension.rotateUp
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.feature_views.extension.visible
+import com.example.util.simpletimetracker.navigation.Router
+import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRunningRecordParams
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
@@ -47,6 +49,9 @@ class ChangeRunningRecordFragment :
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<ChangeRunningRecordViewModel>
+
+    @Inject
+    lateinit var router: Router
 
     private val viewModel: ChangeRunningRecordViewModel by viewModels(
         factoryProducer = { viewModelFactory }
@@ -102,6 +107,8 @@ class ChangeRunningRecordFragment :
         fieldChangeRunningRecordTimeStarted.setOnClick(viewModel::onTimeStartedClick)
         btnChangeRunningRecordSave.setOnClick(viewModel::onSaveClick)
         btnChangeRunningRecordDelete.setOnClick(viewModel::onDeleteClick)
+        btnChangeRunningRecordTimeStartedAdjust.setOnClick(viewModel::onAdjustTimeStartedClick)
+        containerChangeRunningRecordTimeAdjust.listener = viewModel::onAdjustTimeItemClick
     }
 
     override fun initViewModel() = with(binding) {
@@ -130,6 +137,12 @@ class ChangeRunningRecordFragment :
             keyboardVisibility.observe { visible ->
                 if (visible) showKeyboard(etChangeRunningRecordComment) else hideKeyboard()
             }
+            timeAdjustmentState.observe { isVisible ->
+                containerChangeRunningRecordTimeAdjust.visible = isVisible
+                btnChangeRunningRecordTimeStartedAdjust.setChooserColor(isVisible)
+            }
+            timeAdjustmentItems.observe(containerChangeRunningRecordTimeAdjust.adapter::replace)
+            message.observe(::showMessage)
         }
     }
 
@@ -178,6 +191,13 @@ class ChangeRunningRecordFragment :
             itemComment = item.comment
         }
         tvChangeRunningRecordTimeStarted.text = item.dateTimeStarted
+    }
+
+    private fun showMessage(message: SnackBarParams?) {
+        if (message != null) {
+            router.show(message, binding.btnChangeRunningRecordSave)
+            viewModel.onMessageShown()
+        }
     }
 
     companion object {

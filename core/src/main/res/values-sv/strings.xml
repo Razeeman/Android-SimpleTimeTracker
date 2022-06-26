@@ -44,6 +44,7 @@
     <string name="record_types_empty">Inga tillagda aktiviteter</string>
     <string name="record_tag_selection_hint">Välj händelsetagg</string>
     <string name="time_now">Nu</string>
+    <string name="cannot_be_in_the_future">Tid kan inte vara i framtiden</string>
 
     <!--  Records  -->
     <string name="record_removed">Händelse %s borttagen</string>

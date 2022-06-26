@@ -64,6 +64,53 @@
 
     </androidx.cardview.widget.CardView>
 
+    <Space
+        android:id="@+id/spaceChangeRunningRecordTimeStartedEnd"
+        android:layout_width="8dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/fieldChangeRunningRecordTimeStarted"
+        app:layout_constraintTop_toTopOf="@id/fieldChangeRunningRecordTimeStarted" />
+
+    <Space
+        android:id="@+id/spaceChangeRunningRecordTimeStartedTop"
+        android:layout_width="wrap_content"
+        android:layout_height="8dp"
+        app:layout_constraintBottom_toTopOf="@id/fieldChangeRunningRecordTimeStarted"
+        app:layout_constraintEnd_toEndOf="@id/fieldChangeRunningRecordTimeStarted" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/btnChangeRunningRecordTimeStartedAdjust"
+        style="@style/InputFieldCard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@id/spaceChangeRunningRecordTimeStartedEnd"
+        app:layout_constraintTop_toTopOf="@id/spaceChangeRunningRecordTimeStartedTop">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="?appInputFieldBorder"
+            android:gravity="center"
+            android:padding="4dp"
+            android:text="+/-"
+            android:textColor="?appTextHintColor"
+            android:textStyle="bold"
+            app:autoSizeMinTextSize="1sp"
+            app:autoSizeTextType="uniform" />
+
+    </androidx.cardview.widget.CardView>
+
+    <com.example.util.simpletimetracker.core.view.timeAdjustment.TimeAdjustmentView
+        android:id="@+id/containerChangeRunningRecordTimeAdjust"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/input_field_margin"
+        android:layout_marginEnd="@dimen/input_field_margin"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fieldChangeRunningRecordTimeStarted"
+        tools:visibility="visible" />
+
     <androidx.cardview.widget.CardView
         android:id="@+id/fieldChangeRunningRecordType"
         style="@style/InputFieldCard"
@@ -74,7 +121,7 @@
         android:layout_marginEnd="4dp"
         app:layout_constraintEnd_toStartOf="@id/fieldChangeRunningRecordCategory"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fieldChangeRunningRecordTimeStarted">
+        app:layout_constraintTop_toBottomOf="@id/containerChangeRunningRecordTimeAdjust">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -116,7 +163,7 @@
         android:layout_marginEnd="@dimen/input_field_margin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/fieldChangeRunningRecordType"
-        app:layout_constraintTop_toBottomOf="@id/fieldChangeRunningRecordTimeStarted">
+        app:layout_constraintTop_toBottomOf="@id/containerChangeRunningRecordTimeAdjust">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

@@ -44,6 +44,7 @@
     <string name="record_types_empty">未添加任何活动</string>
     <string name="record_tag_selection_hint">选择记录标签</string>
     <string name="time_now">现在</string>
+    <string name="cannot_be_in_the_future">时间不可能在未来</string>
 
     <!--  Records  -->
     <string name="record_removed">记录 %s 已删除</string>

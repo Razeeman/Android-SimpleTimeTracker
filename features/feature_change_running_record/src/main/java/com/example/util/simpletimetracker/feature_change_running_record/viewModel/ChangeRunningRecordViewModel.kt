@@ -5,34 +5,38 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.extension.addOrRemove
-import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
-import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.AddRunningRecordMediator
 import com.example.util.simpletimetracker.core.interactor.RecordTagViewDataInteractor
 import com.example.util.simpletimetracker.core.interactor.RecordTypesViewDataInteractor
 import com.example.util.simpletimetracker.core.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
-import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
+import com.example.util.simpletimetracker.core.view.timeAdjustment.TimeAdjustmentView
 import com.example.util.simpletimetracker.domain.extension.flip
+import com.example.util.simpletimetracker.domain.extension.orFalse
 import com.example.util.simpletimetracker.domain.extension.orTrue
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.model.RunningRecord
+import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
+import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_change_running_record.R
 import com.example.util.simpletimetracker.feature_change_running_record.interactor.ChangeRunningRecordViewDataInteractor
 import com.example.util.simpletimetracker.feature_change_running_record.viewData.ChangeRunningRecordViewData
 import com.example.util.simpletimetracker.navigation.Router
+import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
+import com.example.util.simpletimetracker.navigation.params.notification.ToastParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRunningRecordParams
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogType
-import com.example.util.simpletimetracker.navigation.params.notification.ToastParams
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class ChangeRunningRecordViewModel @Inject constructor(
@@ -72,6 +76,11 @@ class ChangeRunningRecordViewModel @Inject constructor(
             initial
         }
     }
+    val timeAdjustmentItems: LiveData<List<ViewHolderType>> by lazy {
+        MutableLiveData(loadTimeAdjustmentItems())
+    }
+    val timeAdjustmentState: LiveData<Boolean> = MutableLiveData(false)
+    val message: LiveData<SnackBarParams?> = MutableLiveData()
     val flipTypesChooser: LiveData<Boolean> = MutableLiveData()
     val flipCategoryChooser: LiveData<Boolean> = MutableLiveData()
     val deleteButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
@@ -173,13 +182,12 @@ class ChangeRunningRecordViewModel @Inject constructor(
     }
 
     fun onDateTimeSet(timestamp: Long, tag: String?) {
-        // TODO block selection on chooser or show message if timestamp in the future?
-        val currentTime = System.currentTimeMillis()
         viewModelScope.launch {
             when (tag) {
                 TIME_STARTED_TAG -> {
                     if (timestamp != newTimeStarted) {
-                        newTimeStarted = timestamp.takeIf { it < currentTime } ?: currentTime
+                        newTimeStarted = timestamp
+                        checkTimeStarted()
                         updatePreview()
                     }
                 }
@@ -196,12 +204,48 @@ class ChangeRunningRecordViewModel @Inject constructor(
         }
     }
 
+    fun onAdjustTimeStartedClick() {
+        val newValue = timeAdjustmentState.value.orFalse().flip()
+        timeAdjustmentState.set(newValue)
+    }
+
+    fun onAdjustTimeItemClick(viewData: TimeAdjustmentView.ViewData) {
+        viewModelScope.launch {
+            when (viewData) {
+                is TimeAdjustmentView.ViewData.Now -> {
+                    newTimeStarted = System.currentTimeMillis()
+                    updatePreview()
+                }
+                is TimeAdjustmentView.ViewData.Adjust -> {
+                    newTimeStarted += TimeUnit.MINUTES.toMillis(viewData.value)
+                    checkTimeStarted()
+                    updatePreview()
+                }
+            }
+        }
+    }
+
     fun onVisible() {
         startUpdate()
     }
 
     fun onHidden() {
         stopUpdate()
+    }
+
+    fun onMessageShown() {
+        message.set(null)
+    }
+
+    private fun checkTimeStarted() {
+        if (newTimeStarted > System.currentTimeMillis()) {
+            newTimeStarted = System.currentTimeMillis()
+
+            SnackBarParams(
+                message = resourceRepo.getString(R.string.cannot_be_in_the_future),
+                isShortDuration = true
+            ).let(message::set)
+        }
     }
 
     private suspend fun updatePreview() {
@@ -247,6 +291,10 @@ class ChangeRunningRecordViewModel @Inject constructor(
             typeId = newTypeId,
             multipleChoiceAvailable = true,
         )
+    }
+
+    private fun loadTimeAdjustmentItems(): List<ViewHolderType> {
+        return changeRunningRecordViewDataInteractor.getTimeAdjustmentItems()
     }
 
     private fun startUpdate() {

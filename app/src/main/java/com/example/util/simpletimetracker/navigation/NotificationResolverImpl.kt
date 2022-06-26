@@ -32,7 +32,7 @@ class NotificationResolverImpl @Inject constructor() : NotificationResolver {
         val snackBar = Snackbar.make(
             activity.findViewById(android.R.id.content),
             data.message,
-            SNACK_BAR_DURATION_MS
+            if (data.isShortDuration) SNACK_BAR_SHORT_DURATION_MS else SNACK_BAR_DURATION_MS
         )
 
         val textViewId = com.google.android.material.R.id.snackbar_text
@@ -61,5 +61,6 @@ class NotificationResolverImpl @Inject constructor() : NotificationResolver {
 
     companion object {
         private const val SNACK_BAR_DURATION_MS = 5000
+        private const val SNACK_BAR_SHORT_DURATION_MS = 2000
     }
 }

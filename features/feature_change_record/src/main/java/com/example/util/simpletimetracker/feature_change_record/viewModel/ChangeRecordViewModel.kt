@@ -23,7 +23,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_change_record.R
-import com.example.util.simpletimetracker.feature_change_record.customView.TimeAdjustmentView
+import com.example.util.simpletimetracker.core.view.timeAdjustment.TimeAdjustmentView
 import com.example.util.simpletimetracker.feature_change_record.interactor.ChangeRecordViewDataInteractor
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordCommentViewData
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordViewData
@@ -88,9 +88,7 @@ class ChangeRecordViewModel @Inject constructor(
     val timeAdjustmentItems: LiveData<List<ViewHolderType>> by lazy {
         MutableLiveData(loadTimeAdjustmentItems())
     }
-    val timeAdjustmentState: LiveData<TimeAdjustmentState> by lazy {
-        MutableLiveData(TimeAdjustmentState.HIDDEN)
-    }
+    val timeAdjustmentState: LiveData<TimeAdjustmentState> = MutableLiveData(TimeAdjustmentState.HIDDEN)
     val flipTypesChooser: LiveData<Boolean> = MutableLiveData()
     val flipCategoryChooser: LiveData<Boolean> = MutableLiveData()
     val flipLastCommentsChooser: LiveData<Boolean> = MutableLiveData()

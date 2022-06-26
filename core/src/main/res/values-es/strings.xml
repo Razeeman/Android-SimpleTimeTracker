@@ -44,6 +44,7 @@
     <string name="record_types_empty">No se añadieron actividades</string>
     <string name="record_tag_selection_hint">Seleccione etiqueta</string>
     <string name="time_now">Ahora</string>
+    <string name="cannot_be_in_the_future">El tiempo no puede estar en el futuro</string>
 
     <!--  Records  -->
     <string name="record_removed">Registro %s eliminado</string>

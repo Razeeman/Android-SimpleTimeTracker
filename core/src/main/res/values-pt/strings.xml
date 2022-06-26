@@ -44,6 +44,7 @@
     <string name="record_types_empty">Nenhuma atividade adicionada</string>
     <string name="record_tag_selection_hint">Selecione uma tag de registro</string>
     <string name="time_now">Agora</string>
+    <string name="cannot_be_in_the_future">O tempo não pode estar no futuro</string>
 
     <!--  Records  -->
     <string name="record_removed">Registro %s removido</string>
