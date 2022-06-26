@@ -251,7 +251,8 @@ class WidgetStatisticsSettingsViewModel @Inject constructor(
             rangeLength = widgetData.rangeLength,
             position = 0,
             startOfDayShift = startOfDayShift,
-            firstDayOfWeek = firstDayOfWeek)
+            firstDayOfWeek = firstDayOfWeek
+        )
     }
 
     private fun updateRanges() = viewModelScope.launch {

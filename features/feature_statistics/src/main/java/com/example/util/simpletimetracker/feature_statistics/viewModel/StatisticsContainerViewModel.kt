@@ -153,7 +153,8 @@ class StatisticsContainerViewModel @Inject constructor(
             rangeLength = getRangeLength(),
             position = position.value.orZero(),
             startOfDayShift = startOfDayShift,
-            firstDayOfWeek = firstDayOfWeek)
+            firstDayOfWeek = firstDayOfWeek
+        )
     }
 
     private fun updateRanges() = viewModelScope.launch {

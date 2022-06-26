@@ -4,17 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fieldChangeRecordTimeStarted"
     style="@style/InputFieldCard"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvTimeAdjustmentItem"
         android:layout_width="match_parent"
-        android:layout_height="28dp"
+        android:layout_height="30dp"
         android:background="?appInputFieldBorder"
         android:gravity="center"
         android:padding="4dp"
         android:textColor="?appTextPrimaryColor"
+        app:autoSizeMaxTextSize="14sp"
         app:autoSizeMinTextSize="1sp"
         app:autoSizeTextType="uniform"
         tools:text="Button" />

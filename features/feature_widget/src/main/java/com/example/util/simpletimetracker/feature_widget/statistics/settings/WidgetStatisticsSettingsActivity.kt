@@ -93,7 +93,7 @@ class WidgetStatisticsSettingsActivity : BaseActivity() {
             filterTypeViewData.observe(binding.buttonsWidgetStatisticsSettingsFilterType.adapter::replace)
             types.observe(recordTypesAdapter::replace)
             title.observe(binding.btnWidgetStatisticsSettingsRange::setText)
-            rangeItems.observe{ binding.spinnerWidgetStatisticsSettingsRange.setData(it.items, it.selectedPosition) }
+            rangeItems.observe { binding.spinnerWidgetStatisticsSettingsRange.setData(it.items, it.selectedPosition) }
             handled.observe(::exit)
         }
     }

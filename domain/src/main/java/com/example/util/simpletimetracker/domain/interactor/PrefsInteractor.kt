@@ -252,7 +252,7 @@ class PrefsInteractor @Inject constructor(
         prefsRepo.removeWidget(widgetId)
     }
 
-    suspend fun setStatisticsWidget(widgetId: Int, data: StatisticsWidgetData, ) = withContext(Dispatchers.IO) {
+    suspend fun setStatisticsWidget(widgetId: Int, data: StatisticsWidgetData) = withContext(Dispatchers.IO) {
         prefsRepo.setStatisticsWidget(widgetId, data)
     }
 

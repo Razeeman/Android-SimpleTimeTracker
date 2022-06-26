@@ -75,7 +75,10 @@ class TimeAdjustmentView @JvmOverloads constructor(
 
             tvTimeAdjustmentItem.text = item.text
             root.setOnClickWith(item, onItemClick)
-            // TODO add wrap content for Now class.
+
+            (root.layoutParams as? FlexboxLayoutManager.LayoutParams)?.apply {
+                flexGrow = if (item is ViewData.Now) 0f else 1f
+            }
         }
     }
 
