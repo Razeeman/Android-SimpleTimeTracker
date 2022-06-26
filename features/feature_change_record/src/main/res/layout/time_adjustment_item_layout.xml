@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.AppCompatTextView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fieldChangeRecordTimeStarted"
+    style="@style/InputFieldCard"
     android:layout_width="match_parent"
-    android:layout_height="28dp"
-    android:background="?appInputFieldBorder"
-    android:foreground="?selectableItemBackground"
-    android:gravity="center"
-    android:padding="4dp"
-    android:textColor="?appTextPrimaryColor"
-    app:autoSizeMinTextSize="1sp"
-    app:autoSizeTextType="uniform"
-    tools:text="Button" />
+    android:layout_height="wrap_content">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvTimeAdjustmentItem"
+        android:layout_width="match_parent"
+        android:layout_height="28dp"
+        android:background="?appInputFieldBorder"
+        android:gravity="center"
+        android:padding="4dp"
+        android:textColor="?appTextPrimaryColor"
+        app:autoSizeMinTextSize="1sp"
+        app:autoSizeTextType="uniform"
+        tools:text="Button" />
+
+</androidx.cardview.widget.CardView>

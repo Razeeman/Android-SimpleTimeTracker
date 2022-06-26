@@ -43,6 +43,7 @@
     <string name="running_record_goal_time">цель %s</string>
     <string name="record_types_empty">Активности не добавлены</string>
     <string name="record_tag_selection_hint">Выберите тег для записи</string>
+    <string name="time_now">Сейчас</string>
 
     <!--  Records  -->
     <string name="record_removed">Запись %s удалена</string>

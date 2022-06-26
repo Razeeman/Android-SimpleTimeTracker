@@ -26,6 +26,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.info.createInfoAd
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.createRecordTypeAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record.adapter.createChangeRecordCommentAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordViewData
+import com.example.util.simpletimetracker.feature_change_record.viewData.TimeAdjustmentState
 import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordViewModel
 import com.example.util.simpletimetracker.feature_views.extension.rotateDown
 import com.example.util.simpletimetracker.feature_views.extension.rotateUp
@@ -141,11 +142,8 @@ class ChangeRecordFragment :
                 (extra as? ChangeRecordParams.Tracked)?.from
             )
         }
-
-        // TODO add color change on opened
         btnChangeRecordTimeStartedAdjust.setOnClick(viewModel::onAdjustTimeStartedClick)
         btnChangeRecordTimeEndedAdjust.setOnClick(viewModel::onAdjustTimeEndedClick)
-        // TODO fix item click background overflowing border
         containerChangeRecordTimeAdjust.listener = viewModel::onAdjustTimeItemClick
     }
 
@@ -186,7 +184,11 @@ class ChangeRecordFragment :
             keyboardVisibility.observe { visible ->
                 if (visible) showKeyboard(etChangeRecordComment) else hideKeyboard()
             }
-            timeAdjustmentVisibility.observe(containerChangeRecordTimeAdjust::visible::set)
+            timeAdjustmentState.observe { state ->
+                containerChangeRecordTimeAdjust.visible = state != TimeAdjustmentState.HIDDEN
+                btnChangeRecordTimeStartedAdjust.setChooserColor(state == TimeAdjustmentState.TIME_STARTED)
+                btnChangeRecordTimeEndedAdjust.setChooserColor(state == TimeAdjustmentState.TIME_ENDED)
+            }
             timeAdjustmentItems.observe(containerChangeRecordTimeAdjust.adapter::replace)
         }
         with(removeRecordViewModel) {

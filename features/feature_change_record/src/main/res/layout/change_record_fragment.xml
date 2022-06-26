@@ -97,7 +97,7 @@
 
     <Space
         android:id="@+id/spaceChangeRecordTimeStartedEnd"
-        android:layout_width="10dp"
+        android:layout_width="8dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toEndOf="@id/fieldChangeRecordTimeStarted"
         app:layout_constraintTop_toTopOf="@id/fieldChangeRecordTimeStarted" />
@@ -105,28 +105,24 @@
     <Space
         android:id="@+id/spaceChangeRecordTimeStartedTop"
         android:layout_width="wrap_content"
-        android:layout_height="12dp"
+        android:layout_height="8dp"
         app:layout_constraintBottom_toTopOf="@id/fieldChangeRecordTimeStarted"
         app:layout_constraintEnd_toEndOf="@id/fieldChangeRecordTimeStarted" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/btnChangeRecordTimeStartedAdjust"
+        style="@style/InputFieldCard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:foreground="?selectableItemBackground"
-        app:cardBackgroundColor="?appCardBackgroundColor"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="4dp"
-        app:cardPreventCornerOverlap="false"
-        app:cardUseCompatPadding="true"
         app:layout_constraintEnd_toEndOf="@id/spaceChangeRecordTimeStartedEnd"
         app:layout_constraintTop_toTopOf="@id/spaceChangeRecordTimeStartedTop">
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_margin="4dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="?appInputFieldBorder"
             android:gravity="center"
+            android:padding="4dp"
             android:text="+/-"
             android:textColor="?appTextHintColor"
             android:textStyle="bold"
@@ -137,7 +133,7 @@
 
     <Space
         android:id="@+id/spaceChangeRecordTimeEndedEnd"
-        android:layout_width="10dp"
+        android:layout_width="8dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toEndOf="@id/fieldChangeRecordTimeEnded"
         app:layout_constraintTop_toTopOf="@id/fieldChangeRecordTimeEnded" />
@@ -145,28 +141,24 @@
     <Space
         android:id="@+id/spaceChangeRecordTimeEndedTop"
         android:layout_width="wrap_content"
-        android:layout_height="12dp"
+        android:layout_height="8dp"
         app:layout_constraintBottom_toTopOf="@id/fieldChangeRecordTimeEnded"
         app:layout_constraintEnd_toEndOf="@id/fieldChangeRecordTimeEnded" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/btnChangeRecordTimeEndedAdjust"
+        style="@style/InputFieldCard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:foreground="?selectableItemBackground"
-        app:cardBackgroundColor="?appCardBackgroundColor"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="4dp"
-        app:cardPreventCornerOverlap="false"
-        app:cardUseCompatPadding="true"
         app:layout_constraintEnd_toEndOf="@id/spaceChangeRecordTimeEndedEnd"
         app:layout_constraintTop_toTopOf="@id/spaceChangeRecordTimeEndedTop">
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_margin="4dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="?appInputFieldBorder"
             android:gravity="center"
+            android:padding="4dp"
             android:text="+/-"
             android:textColor="?appTextHintColor"
             android:textStyle="bold"
@@ -181,7 +173,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/input_field_margin"
         android:layout_marginEnd="@dimen/input_field_margin"
-        android:paddingHorizontal="2dp"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/fieldChangeRecordTimeStarted"

@@ -73,8 +73,9 @@ class TimeAdjustmentView @JvmOverloads constructor(
         with(binding) {
             item as ViewData
 
-            root.text = item.text
+            tvTimeAdjustmentItem.text = item.text
             root.setOnClickWith(item, onItemClick)
+            // TODO add wrap content for Now class.
         }
     }
 

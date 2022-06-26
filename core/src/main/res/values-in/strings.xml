@@ -43,6 +43,7 @@
     <string name="running_record_goal_time">tujuan %s</string>
     <string name="record_types_empty">Tidak ada kegiatan yang ditambahkan</string>
     <string name="record_tag_selection_hint">Pilih label rekaman</string>
+    <string name="time_now">Sekarang</string>
 
     <!--  Records  -->
     <string name="record_removed">Rekor %s dihapuskan</string>

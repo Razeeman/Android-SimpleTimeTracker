@@ -27,11 +27,13 @@ import com.example.util.simpletimetracker.feature_change_record.customView.TimeA
 import com.example.util.simpletimetracker.feature_change_record.interactor.ChangeRecordViewDataInteractor
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordCommentViewData
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordViewData
+import com.example.util.simpletimetracker.feature_change_record.viewData.TimeAdjustmentState
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.notification.ToastParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordParams
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogType
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -86,8 +88,8 @@ class ChangeRecordViewModel @Inject constructor(
     val timeAdjustmentItems: LiveData<List<ViewHolderType>> by lazy {
         MutableLiveData(loadTimeAdjustmentItems())
     }
-    val timeAdjustmentVisibility: LiveData<Boolean> by lazy {
-        MutableLiveData(loadTimeAdjustmentVisibility())
+    val timeAdjustmentState: LiveData<TimeAdjustmentState> by lazy {
+        MutableLiveData(TimeAdjustmentState.HIDDEN)
     }
     val flipTypesChooser: LiveData<Boolean> = MutableLiveData()
     val flipCategoryChooser: LiveData<Boolean> = MutableLiveData()
@@ -101,7 +103,6 @@ class ChangeRecordViewModel @Inject constructor(
     private var newTimeStarted: Long = 0
     private var newComment: String = ""
     private var newCategoryIds: MutableList<Long> = mutableListOf()
-    private var timeAdjustmentState: TimeAdjustmentVisibility = TimeAdjustmentVisibility.HIDDEN
 
     fun onTypeChooserClick() {
         (keyboardVisibility as MutableLiveData).value = false
@@ -255,43 +256,17 @@ class ChangeRecordViewModel @Inject constructor(
     }
 
     fun onAdjustTimeStartedClick() {
-        when (timeAdjustmentState) {
-            TimeAdjustmentVisibility.HIDDEN -> {
-                timeAdjustmentState = TimeAdjustmentVisibility.TIME_STARTED
-                updateTimeAdjustmentVisibility()
-            }
-            TimeAdjustmentVisibility.TIME_STARTED -> {
-                timeAdjustmentState = TimeAdjustmentVisibility.HIDDEN
-                updateTimeAdjustmentVisibility()
-            }
-            TimeAdjustmentVisibility.TIME_ENDED -> {
-                timeAdjustmentState = TimeAdjustmentVisibility.HIDDEN
-                updateTimeAdjustmentVisibility()
-                // TODO add delay
-                timeAdjustmentState = TimeAdjustmentVisibility.TIME_STARTED
-                updateTimeAdjustmentVisibility()
-            }
-        }
+        updateAdjustTimeState(
+            clicked = TimeAdjustmentState.TIME_STARTED,
+            other = TimeAdjustmentState.TIME_ENDED
+        )
     }
 
     fun onAdjustTimeEndedClick() {
-        when (timeAdjustmentState) {
-            TimeAdjustmentVisibility.HIDDEN -> {
-                timeAdjustmentState = TimeAdjustmentVisibility.TIME_ENDED
-                updateTimeAdjustmentVisibility()
-            }
-            TimeAdjustmentVisibility.TIME_STARTED -> {
-                timeAdjustmentState = TimeAdjustmentVisibility.HIDDEN
-                updateTimeAdjustmentVisibility()
-                // TODO add delay
-                timeAdjustmentState = TimeAdjustmentVisibility.TIME_ENDED
-                updateTimeAdjustmentVisibility()
-            }
-            TimeAdjustmentVisibility.TIME_ENDED -> {
-                timeAdjustmentState = TimeAdjustmentVisibility.HIDDEN
-                updateTimeAdjustmentVisibility()
-            }
-        }
+        updateAdjustTimeState(
+            clicked = TimeAdjustmentState.TIME_ENDED,
+            other = TimeAdjustmentState.TIME_STARTED
+        )
     }
 
     fun onAdjustTimeItemClick(viewData: TimeAdjustmentView.ViewData) {
@@ -301,13 +276,35 @@ class ChangeRecordViewModel @Inject constructor(
         }
     }
 
+    private fun updateAdjustTimeState(
+        clicked: TimeAdjustmentState,
+        other: TimeAdjustmentState,
+    ) {
+        when (timeAdjustmentState.value) {
+            TimeAdjustmentState.HIDDEN -> {
+                timeAdjustmentState.set(clicked)
+            }
+            clicked -> {
+                timeAdjustmentState.set(TimeAdjustmentState.HIDDEN)
+            }
+            other -> viewModelScope.launch {
+                timeAdjustmentState.set(TimeAdjustmentState.HIDDEN)
+                delay(300)
+                timeAdjustmentState.set(clicked)
+            }
+            else -> {
+                // Do nothing
+            }
+        }
+    }
+
     private fun onAdjustTimeNowClick() = viewModelScope.launch {
-        when (timeAdjustmentState) {
-            TimeAdjustmentVisibility.TIME_STARTED -> {
+        when (timeAdjustmentState.value) {
+            TimeAdjustmentState.TIME_STARTED -> {
                 newTimeStarted = System.currentTimeMillis()
                 checkTimeEnded()
             }
-            TimeAdjustmentVisibility.TIME_ENDED -> {
+            TimeAdjustmentState.TIME_ENDED -> {
                 newTimeEnded = System.currentTimeMillis()
                 checkTimeStarted()
             }
@@ -319,12 +316,12 @@ class ChangeRecordViewModel @Inject constructor(
     }
 
     private fun adjustRecordTime(shiftInMinutes: Long) = viewModelScope.launch {
-        when (timeAdjustmentState) {
-            TimeAdjustmentVisibility.TIME_STARTED -> {
+        when (timeAdjustmentState.value) {
+            TimeAdjustmentState.TIME_STARTED -> {
                 newTimeStarted += TimeUnit.MINUTES.toMillis(shiftInMinutes)
                 checkTimeEnded()
             }
-            TimeAdjustmentVisibility.TIME_ENDED -> {
+            TimeAdjustmentState.TIME_ENDED -> {
                 newTimeEnded += TimeUnit.MINUTES.toMillis(shiftInMinutes)
                 checkTimeStarted()
             }
@@ -412,14 +409,6 @@ class ChangeRecordViewModel @Inject constructor(
         return changeRecordViewDataInteractor.getLastCommentsViewData(newTypeId)
     }
 
-    private fun updateTimeAdjustmentVisibility() {
-        timeAdjustmentVisibility.set(loadTimeAdjustmentVisibility())
-    }
-
-    private fun loadTimeAdjustmentVisibility(): Boolean {
-        return timeAdjustmentState != TimeAdjustmentVisibility.HIDDEN
-    }
-
     private fun loadTimeAdjustmentItems(): List<ViewHolderType> {
         return changeRecordViewDataInteractor.getTimeAdjustmentItems()
     }
@@ -427,10 +416,6 @@ class ChangeRecordViewModel @Inject constructor(
     private fun showMessage(stringResId: Int) {
         val params = ToastParams(message = resourceRepo.getString(stringResId))
         router.show(params)
-    }
-
-    private enum class TimeAdjustmentVisibility {
-        HIDDEN, TIME_STARTED, TIME_ENDED
     }
 
     companion object {

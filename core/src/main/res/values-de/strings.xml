@@ -43,6 +43,7 @@
     <string name="running_record_goal_time">ziel %s</string>
     <string name="record_types_empty">Keine Aktivitäten hinzugefügt</string>
     <string name="record_tag_selection_hint">Wählen Sie ein Datensatz-Tag aus</string>
+    <string name="time_now">Jetzt</string>
 
     <!--  Records  -->
     <string name="record_removed">Eintrag %s entfernt</string>

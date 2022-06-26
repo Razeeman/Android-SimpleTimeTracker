@@ -43,6 +43,7 @@
     <string name="running_record_goal_time">objectif %s</string>
     <string name="record_types_empty">Aucune activité ajoutée</string>
     <string name="record_tag_selection_hint">Sélectionnez une étiquette à l\'enregistrement</string>
+    <string name="time_now">À présent</string>
 
     <!--  Records  -->
     <string name="record_removed">Enregistrement %s supprimé</string>
