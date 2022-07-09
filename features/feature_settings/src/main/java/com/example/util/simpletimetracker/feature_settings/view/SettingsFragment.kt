@@ -16,6 +16,8 @@ import com.example.util.simpletimetracker.feature_settings.viewData.CardOrderVie
 import com.example.util.simpletimetracker.feature_settings.viewData.FirstDayOfWeekViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.SettingsStartOfDayViewData
 import com.example.util.simpletimetracker.feature_settings.viewModel.SettingsViewModel
+import com.example.util.simpletimetracker.feature_views.extension.rotateDown
+import com.example.util.simpletimetracker.feature_views.extension.rotateUp
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.navigation.params.screen.CsvExportSettingsParams
@@ -36,6 +38,7 @@ class SettingsFragment :
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<SettingsViewModel>
+
     @Inject
     lateinit var backupViewModelFactory: BaseViewModelFactory<BackupViewModel>
 
@@ -48,79 +51,115 @@ class SettingsFragment :
     )
 
     override fun initUi() = with(binding) {
-        spinnerSettingsFirstDayOfWeek.setProcessSameItemSelection(false)
-        spinnerSettingsRecordTypeSort.setProcessSameItemSelection(false)
+        with(layoutSettingsDisplay) {
+            spinnerSettingsRecordTypeSort.setProcessSameItemSelection(false)
+        }
+        with(layoutSettingsAdditional) {
+            spinnerSettingsFirstDayOfWeek.setProcessSameItemSelection(false)
+        }
     }
 
     override fun initUx() = with(binding) {
-        spinnerSettingsRecordTypeSort.onPositionSelected = viewModel::onRecordTypeOrderSelected
-        btnCardOrderManual.setOnClick(viewModel::onCardOrderManualClick)
-        spinnerSettingsFirstDayOfWeek.onPositionSelected = viewModel::onFirstDayOfWeekSelected
-        groupSettingsStartOfDay.setOnClick(viewModel::onStartOfDayClicked)
-        btnSettingsStartOfDaySign.setOnClick(viewModel::onStartOfDaySignClicked)
-        checkboxSettingsShowUntracked.setOnClick(viewModel::onShowUntrackedClicked)
-        checkboxSettingsShowRecordsCalendar.setOnClick(viewModel::onShowRecordsCalendarClicked)
-        checkboxSettingsAllowMultitasking.setOnClick(viewModel::onAllowMultitaskingClicked)
-        checkboxSettingsShowNotifications.setOnClick(viewModel::onShowNotificationsClicked)
-        checkboxSettingsKeepStatisticsRange.setOnClick(viewModel::onKeepStatisticsRangeClicked)
-        groupSettingsInactivityReminder.setOnClick(viewModel::onInactivityReminderClicked)
-        groupSettingsIgnoreShortRecords.setOnClick(viewModel::onIgnoreShortRecordsClicked)
-        checkboxSettingsDarkMode.setOnClick(viewModel::onDarkModeClicked)
-        checkboxSettingsUseMilitaryTime.setOnClick(viewModel::onUseMilitaryTimeClicked)
-        checkboxSettingsUseProportionalMinutes.setOnClick(viewModel::onUseProportionalMinutesClicked)
-        checkboxSettingsKeepScreenOn.setOnClick(viewModel::onKeepScreenOnClicked)
-        tvSettingsChangeCardSize.setOnClick(viewModel::onChangeCardSizeClick)
-        layoutSettingsEditCategories.setOnClick(viewModel::onEditCategoriesClick)
-        checkboxSettingsShowRecordTagSelection.setOnClick(viewModel::onShowRecordTagSelectionClicked)
-        checkboxSettingsRecordTagSelectionClose.setOnClick(viewModel::onRecordTagSelectionCloseClicked)
-        tvSettingsArchive.setOnClick(viewModel::onArchiveClick)
-        layoutSettingsSaveBackup.setOnClick(backupViewModel::onSaveClick)
-        layoutSettingsRestoreBackup.setOnClick(backupViewModel::onRestoreClick)
-        layoutSettingsExportCsv.setOnClick(viewModel::onExportCsvClick)
-        layoutSettingsRate.setOnClick(viewModel::onRateClick)
-        layoutSettingsFeedback.setOnClick(viewModel::onFeedbackClick)
+        with(layoutSettingsMain) {
+            checkboxSettingsAllowMultitasking.setOnClick(viewModel::onAllowMultitaskingClicked)
+            checkboxSettingsShowNotifications.setOnClick(viewModel::onShowNotificationsClicked)
+            checkboxSettingsDarkMode.setOnClick(viewModel::onDarkModeClicked)
+            layoutSettingsEditCategories.setOnClick(viewModel::onEditCategoriesClick)
+            tvSettingsArchive.setOnClick(viewModel::onArchiveClick)
+        }
+        with(layoutSettingsDisplay) {
+            layoutSettingsDisplayTitle.setOnClick(viewModel::onSettingsDisplayClick)
+            spinnerSettingsRecordTypeSort.onPositionSelected = viewModel::onRecordTypeOrderSelected
+            btnCardOrderManual.setOnClick(viewModel::onCardOrderManualClick)
+            checkboxSettingsShowUntracked.setOnClick(viewModel::onShowUntrackedClicked)
+            checkboxSettingsShowRecordsCalendar.setOnClick(viewModel::onShowRecordsCalendarClicked)
+            checkboxSettingsUseMilitaryTime.setOnClick(viewModel::onUseMilitaryTimeClicked)
+            checkboxSettingsUseProportionalMinutes.setOnClick(viewModel::onUseProportionalMinutesClicked)
+            checkboxSettingsKeepScreenOn.setOnClick(viewModel::onKeepScreenOnClicked)
+            tvSettingsChangeCardSize.setOnClick(viewModel::onChangeCardSizeClick)
+        }
+        with(layoutSettingsAdditional) {
+            layoutSettingsAdditionalTitle.setOnClick(viewModel::onSettingsAdditionalClick)
+            spinnerSettingsFirstDayOfWeek.onPositionSelected = viewModel::onFirstDayOfWeekSelected
+            groupSettingsStartOfDay.setOnClick(viewModel::onStartOfDayClicked)
+            btnSettingsStartOfDaySign.setOnClick(viewModel::onStartOfDaySignClicked)
+            checkboxSettingsKeepStatisticsRange.setOnClick(viewModel::onKeepStatisticsRangeClicked)
+            groupSettingsInactivityReminder.setOnClick(viewModel::onInactivityReminderClicked)
+            groupSettingsIgnoreShortRecords.setOnClick(viewModel::onIgnoreShortRecordsClicked)
+            checkboxSettingsShowRecordTagSelection.setOnClick(viewModel::onShowRecordTagSelectionClicked)
+            checkboxSettingsRecordTagSelectionClose.setOnClick(viewModel::onRecordTagSelectionCloseClicked)
+        }
+        with(layoutSettingsRating) {
+            layoutSettingsRate.setOnClick(viewModel::onRateClick)
+            layoutSettingsFeedback.setOnClick(viewModel::onFeedbackClick)
+        }
+        with(layoutSettingsBackup) {
+            layoutSettingsSaveBackup.setOnClick(backupViewModel::onSaveClick)
+            layoutSettingsRestoreBackup.setOnClick(backupViewModel::onRestoreClick)
+            layoutSettingsExportCsv.setOnClick(viewModel::onExportCsvClick)
+        }
     }
 
     override fun initViewModel(): Unit = with(binding) {
         with(viewModel) {
-            versionName.observe(tvSettingsVersionName::setText)
+            with(layoutSettingsMain) {
+                allowMultitaskingCheckbox.observe(checkboxSettingsAllowMultitasking::setChecked)
+                showNotificationsCheckbox.observe(checkboxSettingsShowNotifications::setChecked)
+                darkModeCheckbox.observe(checkboxSettingsDarkMode::setChecked)
+            }
+            with(layoutSettingsDisplay) {
+                settingsDisplayVisibility.observe { opened ->
+                    layoutSettingsDisplayContent.visible = opened
+                    arrowSettingsDisplay.apply { if (opened) rotateDown() else rotateUp() }
+                }
+                btnCardOrderManualVisibility.observe(btnCardOrderManual::visible::set)
+                showUntrackedCheckbox.observe(checkboxSettingsShowUntracked::setChecked)
+                showRecordsCalendarCheckbox.observe(checkboxSettingsShowRecordsCalendar::setChecked)
+                useMilitaryTimeCheckbox.observe(checkboxSettingsUseMilitaryTime::setChecked)
+                useProportionalMinutesCheckbox.observe(checkboxSettingsUseProportionalMinutes::setChecked)
+                useMilitaryTimeHint.observe(tvSettingsUseMilitaryTimeHint::setText)
+                useProportionalMinutesHint.observe(tvSettingsUseProportionalMinutesHint::setText)
+            }
+            with(layoutSettingsAdditional) {
+                settingsAdditionalVisibility.observe { opened ->
+                    layoutSettingsAdditionalContent.visible = opened
+                    arrowSettingsAdditional.apply { if (opened) rotateDown() else rotateUp() }
+                }
+                keepStatisticsRangeCheckbox.observe(checkboxSettingsKeepStatisticsRange::setChecked)
+                inactivityReminderViewData.observe(tvSettingsInactivityReminderTime::setText)
+                ignoreShortRecordsViewData.observe(tvSettingsIgnoreShortRecordsTime::setText)
+                recordTagSelectionCloseCheckbox.observe(checkboxSettingsRecordTagSelectionClose::setChecked)
+            }
+            with(layoutSettingsRating) {
+                versionName.observe(tvSettingsVersionName::setText)
+            }
             cardOrderViewData.observe(::updateCardOrderViewData)
             firstDayOfWeekViewData.observe(::updateFirstDayOfWeekViewData)
             startOfDayViewData.observe(::updateStartOfDayViewData)
-            btnCardOrderManualVisibility.observe(btnCardOrderManual::visible::set)
-            showUntrackedCheckbox.observe(checkboxSettingsShowUntracked::setChecked)
-            showRecordsCalendarCheckbox.observe(checkboxSettingsShowRecordsCalendar::setChecked)
-            allowMultitaskingCheckbox.observe(checkboxSettingsAllowMultitasking::setChecked)
-            showNotificationsCheckbox.observe(checkboxSettingsShowNotifications::setChecked)
-            keepStatisticsRangeCheckbox.observe(checkboxSettingsKeepStatisticsRange::setChecked)
-            inactivityReminderViewData.observe(tvSettingsInactivityReminderTime::setText)
-            ignoreShortRecordsViewData.observe(tvSettingsIgnoreShortRecordsTime::setText)
-            darkModeCheckbox.observe(checkboxSettingsDarkMode::setChecked)
-            useMilitaryTimeCheckbox.observe(checkboxSettingsUseMilitaryTime::setChecked)
-            useProportionalMinutesCheckbox.observe(checkboxSettingsUseProportionalMinutes::setChecked)
             keepScreenOnCheckbox.observe(::setKeepScreenOn)
             showRecordTagSelectionCheckbox.observe(::updateShowRecordTagSelectionChecked)
-            recordTagSelectionCloseCheckbox.observe(checkboxSettingsRecordTagSelectionClose::setChecked)
-            useMilitaryTimeHint.observe(tvSettingsUseMilitaryTimeHint::setText)
-            useProportionalMinutesHint.observe(tvSettingsUseProportionalMinutesHint::setText)
             themeChanged.observe(::changeTheme)
         }
     }
 
-    override fun onResume() {
+    override fun onResume() = with(binding) {
         super.onResume()
-        with(binding) {
-            spinnerSettingsRecordTypeSort.jumpDrawablesToCurrentState()
-            spinnerSettingsFirstDayOfWeek.jumpDrawablesToCurrentState()
-            checkboxSettingsShowUntracked.jumpDrawablesToCurrentState()
-            checkboxSettingsShowRecordsCalendar.jumpDrawablesToCurrentState()
+        with(layoutSettingsMain) {
             checkboxSettingsAllowMultitasking.jumpDrawablesToCurrentState()
             checkboxSettingsShowNotifications.jumpDrawablesToCurrentState()
-            checkboxSettingsKeepStatisticsRange.jumpDrawablesToCurrentState()
             checkboxSettingsDarkMode.jumpDrawablesToCurrentState()
+        }
+        with(layoutSettingsDisplay) {
+            spinnerSettingsRecordTypeSort.jumpDrawablesToCurrentState()
+            checkboxSettingsShowUntracked.jumpDrawablesToCurrentState()
+            checkboxSettingsShowRecordsCalendar.jumpDrawablesToCurrentState()
             checkboxSettingsUseMilitaryTime.jumpDrawablesToCurrentState()
             checkboxSettingsUseProportionalMinutes.jumpDrawablesToCurrentState()
             checkboxSettingsKeepScreenOn.jumpDrawablesToCurrentState()
+        }
+        with(layoutSettingsAdditional) {
+            spinnerSettingsFirstDayOfWeek.jumpDrawablesToCurrentState()
+            checkboxSettingsKeepStatisticsRange.jumpDrawablesToCurrentState()
             checkboxSettingsShowRecordTagSelection.jumpDrawablesToCurrentState()
             checkboxSettingsRecordTagSelectionClose.jumpDrawablesToCurrentState()
         }
@@ -147,32 +186,40 @@ class SettingsFragment :
         backupViewModel.onCsvExportSettingsSelected(data)
     }
 
-    private fun updateCardOrderViewData(viewData: CardOrderViewData) = with(binding) {
+    private fun updateCardOrderViewData(
+        viewData: CardOrderViewData,
+    ) = with(binding.layoutSettingsDisplay) {
         btnCardOrderManual.visible = viewData.isManualConfigButtonVisible
         spinnerSettingsRecordTypeSort.setData(viewData.items, viewData.selectedPosition)
         tvSettingsRecordTypeSortValue.text = viewData.items
             .getOrNull(viewData.selectedPosition)?.text.orEmpty()
     }
 
-    private fun updateFirstDayOfWeekViewData(viewData: FirstDayOfWeekViewData) = with(binding) {
+    private fun updateFirstDayOfWeekViewData(
+        viewData: FirstDayOfWeekViewData,
+    ) = with(binding.layoutSettingsAdditional) {
         spinnerSettingsFirstDayOfWeek.setData(viewData.items, viewData.selectedPosition)
         tvSettingsFirstDayOfWeekValue.text = viewData.items
             .getOrNull(viewData.selectedPosition)?.text.orEmpty()
     }
 
-    private fun updateShowRecordTagSelectionChecked(isChecked: Boolean) = with(binding) {
+    private fun updateShowRecordTagSelectionChecked(
+        isChecked: Boolean,
+    ) = with(binding.layoutSettingsAdditional) {
         checkboxSettingsShowRecordTagSelection.isChecked = isChecked
         groupSettingsRecordTagSelectionClose.visible = isChecked
     }
 
-    private fun updateStartOfDayViewData(viewData: SettingsStartOfDayViewData) = with(binding) {
+    private fun updateStartOfDayViewData(
+        viewData: SettingsStartOfDayViewData,
+    ) = with(binding.layoutSettingsAdditional) {
         tvSettingsStartOfDayTime.text = viewData.startOfDayValue
         btnSettingsStartOfDaySign.visible = viewData.startOfDaySign.isNotEmpty()
         tvSettingsStartOfDaySign.text = viewData.startOfDaySign
     }
 
     private fun setKeepScreenOn(keepScreenOn: Boolean) {
-        binding.checkboxSettingsKeepScreenOn.isChecked = keepScreenOn
+        binding.layoutSettingsDisplay.checkboxSettingsKeepScreenOn.isChecked = keepScreenOn
         if (keepScreenOn) {
             activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         } else {

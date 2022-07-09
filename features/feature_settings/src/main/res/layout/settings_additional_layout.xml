@@ -1,0 +1,406 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/SettingsCard"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutSettingsAdditionalTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?selectableItemBackground">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvSettingsAdditionalTitle"
+                style="@style/SettingsText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Additional settings"
+                app:layout_constraintEnd_toStartOf="@id/arrowSettingsAdditional"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/arrowSettingsAdditional"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="16dp"
+                android:background="?selectableItemBackgroundBorderless"
+                android:src="?appArrow"
+                app:layout_constraintBottom_toBottomOf="@id/tvSettingsAdditionalTitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tvSettingsAdditionalTitle"
+                tools:ignore="ContentDescription" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/layoutSettingsAdditionalContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <View
+                style="@style/SettingsDivider"
+                android:layout_width="match_parent" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="12dp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSettingsInactivityReminder"
+                    style="@style/SettingsText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="0dp"
+                    android:paddingBottom="0dp"
+                    android:text="@string/settings_inactivity_reminder"
+                    app:layout_constraintEnd_toStartOf="@id/groupSettingsInactivityReminder"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/SettingsSecondaryText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_inactivity_reminder_hint"
+                    app:layout_constraintEnd_toStartOf="@id/groupSettingsInactivityReminder"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvSettingsInactivityReminder" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/groupSettingsInactivityReminder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvSettingsInactivityReminderTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="end|center_vertical"
+                        android:paddingHorizontal="8dp"
+                        android:textColor="?appTextPrimaryColor"
+                        tools:text="99h 99m 99s" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/arrowSettingsInactivityReminder"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="?selectableItemBackgroundBorderless"
+                        android:src="?appArrow"
+                        tools:ignore="ContentDescription" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                style="@style/SettingsDivider"
+                android:layout_width="match_parent" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="12dp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSettingsIgnoreShortRecords"
+                    style="@style/SettingsText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="0dp"
+                    android:paddingBottom="0dp"
+                    android:text="@string/settings_ignore_short_records"
+                    app:layout_constraintEnd_toStartOf="@id/groupSettingsIgnoreShortRecords"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/SettingsSecondaryText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_ignore_short_records_hint"
+                    app:layout_constraintEnd_toStartOf="@id/groupSettingsIgnoreShortRecords"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvSettingsIgnoreShortRecords" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/groupSettingsIgnoreShortRecords"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvSettingsIgnoreShortRecordsTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="end|center_vertical"
+                        android:paddingHorizontal="8dp"
+                        android:textColor="?appTextPrimaryColor"
+                        tools:text="99h 99m 99s" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/arrowSettingsIgnoreShortRecords"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="?selectableItemBackgroundBorderless"
+                        android:src="?appArrow"
+                        tools:ignore="ContentDescription" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                style="@style/SettingsDivider"
+                android:layout_width="match_parent" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="12dp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSettingsShowRecordTagSelection"
+                    style="@style/SettingsText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="0dp"
+                    android:paddingBottom="0dp"
+                    android:text="@string/settings_show_record_tag_selection"
+                    app:layout_constraintEnd_toStartOf="@id/checkboxSettingsShowRecordTagSelection"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSettingsShowRecordTagSelectionHint"
+                    style="@style/SettingsSecondaryText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="0dp"
+                    android:text="@string/settings_show_record_tag_selection_hint"
+                    app:layout_constraintBottom_toTopOf="@id/tvSettingsRecordTagSelectionCloseHint"
+                    app:layout_constraintEnd_toStartOf="@id/checkboxSettingsShowRecordTagSelection"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvSettingsShowRecordTagSelection"
+                    app:layout_goneMarginBottom="12dp" />
+
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:id="@+id/checkboxSettingsShowRecordTagSelection"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="@id/tvSettingsShowRecordTagSelection"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tvSettingsShowRecordTagSelection" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSettingsRecordTagSelectionCloseHint"
+                    style="@style/SettingsText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_show_record_tag_close_hint"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/checkboxSettingsShowRecordTagSelection"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvSettingsShowRecordTagSelectionHint" />
+
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:id="@+id/checkboxSettingsRecordTagSelectionClose"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="@id/tvSettingsRecordTagSelectionCloseHint"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tvSettingsRecordTagSelectionCloseHint" />
+
+                <androidx.constraintlayout.widget.Group
+                    android:id="@+id/groupSettingsRecordTagSelectionClose"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone"
+                    app:constraint_referenced_ids="tvSettingsRecordTagSelectionCloseHint, @+id/checkboxSettingsRecordTagSelectionClose"
+                    tools:visibility="visible" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                style="@style/SettingsDivider"
+                android:layout_width="match_parent" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="12dp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSettingsKeepStatisticsRange"
+                    style="@style/SettingsText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="0dp"
+                    android:paddingBottom="0dp"
+                    android:text="@string/settings_keep_statistics_range"
+                    app:layout_constraintEnd_toStartOf="@id/checkboxSettingsKeepStatisticsRange"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/SettingsSecondaryText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_keep_statistics_range_hint"
+                    app:layout_constraintEnd_toStartOf="@id/checkboxSettingsKeepStatisticsRange"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvSettingsKeepStatisticsRange" />
+
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:id="@+id/checkboxSettingsKeepStatisticsRange"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="@id/tvSettingsKeepStatisticsRange"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tvSettingsKeepStatisticsRange" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                style="@style/SettingsDivider"
+                android:layout_width="match_parent" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSettingsFirstDayOfWeek"
+                    style="@style/SettingsText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_first_day_of_week"
+                    app:layout_constraintEnd_toStartOf="@id/tvSettingsFirstDayOfWeekValue"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSettingsFirstDayOfWeekValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="32dp"
+                    android:gravity="end|center_vertical"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:textColor="?appTextPrimaryColor"
+                    app:layout_constraintBottom_toBottomOf="@id/spinnerSettingsFirstDayOfWeek"
+                    app:layout_constraintEnd_toEndOf="@id/spinnerSettingsFirstDayOfWeek"
+                    app:layout_constraintTop_toTopOf="@id/spinnerSettingsFirstDayOfWeek"
+                    tools:text="@string/day_of_week_monday" />
+
+                <com.example.util.simpletimetracker.feature_views.spinner.CustomSpinner
+                    android:id="@+id/spinnerSettingsFirstDayOfWeek"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintBottom_toBottomOf="@id/tvSettingsFirstDayOfWeek"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tvSettingsFirstDayOfWeek" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                style="@style/SettingsDivider"
+                android:layout_width="match_parent" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSettingsStartOfDay"
+                    style="@style/SettingsText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_start_of_day"
+                    app:layout_constraintEnd_toStartOf="@id/btnSettingsStartOfDaySign"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/btnSettingsStartOfDaySign"
+                    style="@style/SettingsCard"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:foreground="?selectableItemBackground"
+                    android:visibility="gone"
+                    app:cardBackgroundColor="?appButtonOnCardBackgroundColor"
+                    app:layout_constraintBottom_toBottomOf="@id/tvSettingsStartOfDay"
+                    app:layout_constraintEnd_toStartOf="@id/groupSettingsStartOfDay"
+                    app:layout_constraintTop_toTopOf="@id/tvSettingsStartOfDay"
+                    tools:visibility="visible">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvSettingsStartOfDaySign"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textColor="?appInactiveColor"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        tools:text="+" />
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/groupSettingsStartOfDay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvSettingsStartOfDayTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="end|center_vertical"
+                        android:paddingHorizontal="8dp"
+                        android:textColor="?appTextPrimaryColor"
+                        tools:text="01:23" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/arrowSettingsStartOfDay"
+                        android:layout_width="24dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="16dp"
+                        android:background="?selectableItemBackgroundBorderless"
+                        android:src="?appArrow"
+                        tools:ignore="ContentDescription" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.cardview.widget.CardView>

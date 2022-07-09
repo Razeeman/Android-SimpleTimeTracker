@@ -11,6 +11,9 @@ import com.example.util.simpletimetracker.core.interactor.NotificationTypeIntera
 import com.example.util.simpletimetracker.core.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.core.provider.PackageNameProvider
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.domain.extension.flip
+import com.example.util.simpletimetracker.domain.extension.orFalse
+import com.example.util.simpletimetracker.domain.extension.orTrue
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.model.CardOrder
 import com.example.util.simpletimetracker.domain.model.WidgetType
@@ -221,12 +224,24 @@ class SettingsViewModel @Inject constructor(
     }
 
     val themeChanged: LiveData<Boolean> = MutableLiveData(false)
+    val settingsDisplayVisibility: LiveData<Boolean> = MutableLiveData(false)
+    val settingsAdditionalVisibility: LiveData<Boolean> = MutableLiveData(false)
 
     fun onVisible() {
         // Need to update card order because it changes on card order dialog
         viewModelScope.launch {
             updateCardOrderViewData()
         }
+    }
+
+    fun onSettingsDisplayClick() {
+        val newValue = settingsDisplayVisibility.value?.flip().orFalse()
+        settingsDisplayVisibility.set(newValue)
+    }
+
+    fun onSettingsAdditionalClick() {
+        val newValue = settingsAdditionalVisibility.value?.flip().orFalse()
+        settingsAdditionalVisibility.set(newValue)
     }
 
     fun onExportCsvClick() {
