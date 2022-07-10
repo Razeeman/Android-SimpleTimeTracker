@@ -229,6 +229,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
 
     fun mapToDurationsSlipChartViewData(
         data: Map<Range, Float>,
+        isVisible: Boolean,
     ): StatisticsDetailChartViewData {
         val viewData = data
             .map { (range, percent) ->
@@ -246,7 +247,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             }
 
         return StatisticsDetailChartViewData(
-            visible = viewData.isNotEmpty(),
+            visible = isVisible, // viewData.isNotEmpty(),
             data = viewData,
             legendSuffix = SPLIT_CHART_LEGEND,
             addLegendToSelectedBar = true,

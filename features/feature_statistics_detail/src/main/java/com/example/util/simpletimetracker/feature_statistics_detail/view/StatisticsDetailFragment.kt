@@ -129,6 +129,7 @@ class StatisticsDetailFragment :
         splitChartViewData.observe(::updateSplitChartViewData)
         comparisonSplitChartViewData.observe(::updateComparisonSplitChartViewData)
         durationSplitChartViewData.observe(::updateDurationSplitChartViewData)
+        comparisonDurationSplitChartViewData.observe(::updateComparisonDurationSplitChartViewData)
         splitChartGroupingViewData.observe(::updateSplitChartGroupingData)
         title.observe(binding.btnStatisticsDetailToday::setText)
         rangeItems.observe(::updateRangeItems)
@@ -187,6 +188,7 @@ class StatisticsDetailFragment :
             ?.let {
                 chartStatisticsDetailCompare.setBarColor(it.color)
                 chartStatisticsDetailComparisonSplit.setBarColor(it.color)
+                chartStatisticsDetailDurationSplitCompare.setBarColor(it.color)
             }
 
         previewAdapter.replace(rest)
@@ -261,6 +263,12 @@ class StatisticsDetailFragment :
     ) {
         binding.tvStatisticsDetailDurationSplitHint.visible = viewData.visible
         binding.chartStatisticsDetailDurationSplit.setViewData(viewData)
+    }
+
+    private fun updateComparisonDurationSplitChartViewData(
+        viewData: StatisticsDetailChartViewData,
+    ) {
+        binding.chartStatisticsDetailDurationSplitCompare.setViewData(viewData)
     }
 
     private fun updateRangeItems(viewData: RangesViewData) = with(binding) {

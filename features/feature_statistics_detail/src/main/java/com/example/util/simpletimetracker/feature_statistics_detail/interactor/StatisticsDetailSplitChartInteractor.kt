@@ -58,6 +58,8 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
 
     suspend fun getDurationSplitViewData(
         records: List<Record>,
+        filter: TypesFilterParams,
+        isForComparison: Boolean,
         rangeLength: RangeLength,
         rangePosition: Int,
     ): StatisticsDetailChartViewData {
@@ -75,6 +77,7 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
         } else {
             records
         }.map { Range(it.timeStarted, it.timeEnded) }
+        val isVisible = (isForComparison && filter.selectedIds.isNotEmpty()) || !isForComparison
 
         val minDuration = ranges
             .minByOrNull { it.duration }?.duration.orZero()
@@ -97,7 +100,7 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
             ?: availableSteps.last()
 
         if (total == 0L || durationSpread == 0L || step == 0L) {
-            return mapper.mapToDurationsSlipChartViewData(emptyMap())
+            return mapper.mapToDurationsSlipChartViewData(emptyMap(), isVisible)
         }
 
         val buckets: MutableMap<Range, Long> = mutableMapOf()
@@ -132,7 +135,7 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
             count * 100f / total
         }
 
-        return mapper.mapToDurationsSlipChartViewData(data)
+        return mapper.mapToDurationsSlipChartViewData(data, isVisible)
     }
 
     private fun getDurations(
@@ -280,7 +283,7 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
     private fun nearestDivider(
         divider: Long,
         value: Long,
-        isUpper: Boolean
+        isUpper: Boolean,
     ): Long {
         val abs = abs(value / divider.toFloat())
         return divider * (if (isUpper) ceil(abs) else floor(abs)).toLong()

@@ -289,6 +289,24 @@
                 tools:barColor="@color/black"
                 tools:barCount="7" />
 
+            <com.example.util.simpletimetracker.feature_statistics_detail.customView.BarChartView
+                android:id="@+id/chartStatisticsDetailDurationSplitCompare"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/statistics_Detail_bar_chart_height"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:visibility="gone"
+                app:barCornerRadius="8dp"
+                app:dividerMaxWidth="2dp"
+                app:layout_constraintTop_toBottomOf="@id/chartStatisticsDetailDurationSplit"
+                app:legendLineColor="?appLegendColor"
+                app:legendTextColor="@color/textSecondary"
+                app:legendTextSize="14sp"
+                app:selectedBarBackgroundColor="?appInactiveColor"
+                app:selectedBarTextColor="?appLightTextColor"
+                tools:barColor="@color/black"
+                tools:barCount="7" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvStatisticsDetailTagSplit"
                 android:layout_width="match_parent"
@@ -296,7 +314,7 @@
                 android:layout_marginTop="16dp"
                 android:overScrollMode="never"
                 android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@id/chartStatisticsDetailDurationSplit"
+                app:layout_constraintTop_toBottomOf="@id/chartStatisticsDetailDurationSplitCompare"
                 tools:itemCount="3"
                 tools:listitem="@layout/item_statistics_layout"
                 tools:visibility="visible" />

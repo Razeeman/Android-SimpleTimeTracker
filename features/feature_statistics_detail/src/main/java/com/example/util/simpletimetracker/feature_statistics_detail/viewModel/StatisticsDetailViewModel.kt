@@ -92,6 +92,9 @@ class StatisticsDetailViewModel @Inject constructor(
     val durationSplitChartViewData: LiveData<StatisticsDetailChartViewData> by lazy {
         return@lazy MutableLiveData()
     }
+    val comparisonDurationSplitChartViewData: LiveData<StatisticsDetailChartViewData> by lazy {
+        return@lazy MutableLiveData()
+    }
     val title: LiveData<String> by lazy {
         return@lazy MutableLiveData<String>().let { initial ->
             viewModelScope.launch { initial.value = loadTitle() }
@@ -401,13 +404,17 @@ class StatisticsDetailViewModel @Inject constructor(
     }
 
     private fun updateDurationSplitChartViewData() = viewModelScope.launch(Dispatchers.Default) {
-        val data = loadDurationSplitChartViewData()
+        val data = loadDurationSplitChartViewData(isForComparison = false)
         durationSplitChartViewData.post(data)
+        val comparisonData = loadDurationSplitChartViewData(isForComparison = true)
+        comparisonDurationSplitChartViewData.post(comparisonData)
     }
 
-    private suspend fun loadDurationSplitChartViewData(): StatisticsDetailChartViewData {
+    private suspend fun loadDurationSplitChartViewData(isForComparison: Boolean): StatisticsDetailChartViewData {
         return splitChartInteractor.getDurationSplitViewData(
-            records = records,
+            records = if (isForComparison) compareRecords else records,
+            filter = if (isForComparison) comparisonTypesFilter else typesFilter,
+            isForComparison = isForComparison,
             rangeLength = rangeLength,
             rangePosition = rangePosition,
         )
