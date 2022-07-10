@@ -4,6 +4,7 @@ import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.repo.RecordTagRepo
 import com.example.util.simpletimetracker.domain.repo.RecordToRecordTagRepo
 import com.example.util.simpletimetracker.domain.repo.RunningRecordToRecordTagRepo
+import java.util.Locale
 import javax.inject.Inject
 
 class RecordTagInteractor @Inject constructor(
@@ -13,7 +14,7 @@ class RecordTagInteractor @Inject constructor(
 ) {
 
     suspend fun getAll(): List<RecordTag> {
-        return repo.getAll()
+        return repo.getAll().let(::sort)
     }
 
     suspend fun get(id: Long): RecordTag? {
@@ -21,11 +22,12 @@ class RecordTagInteractor @Inject constructor(
     }
 
     suspend fun getByType(typeId: Long): List<RecordTag> {
-        return repo.getByType(typeId)
+        return repo.getByType(typeId).let(::sort)
     }
 
     suspend fun getUntyped(): List<RecordTag> {
-        return repo.getUntyped()
+        return repo.getUntyped().let(::sort)
+
     }
 
     suspend fun add(tag: RecordTag) {
@@ -64,5 +66,9 @@ class RecordTagInteractor @Inject constructor(
 
     suspend fun clear() {
         repo.clear()
+    }
+
+    private fun sort(items: List<RecordTag>): List<RecordTag> {
+        return items.sortedBy { it.name.lowercase(Locale.getDefault()) }
     }
 }
