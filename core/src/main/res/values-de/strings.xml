@@ -153,6 +153,8 @@
     <string name="running_records_add_type">Hinz.</string>
 
     <!--  Settings  -->
+    <string name="settings_display_title">Bildschirmeinstellungen</string>
+    <string name="settings_additional_title">Zusätzliche Einstellungen</string>
     <string name="settings_sort_order">Aktivitäten sortieren</string>
     <string name="settings_sort_by_name">Name</string>
     <string name="settings_sort_by_color">Farbe</string>

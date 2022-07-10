@@ -24,7 +24,7 @@
                 style="@style/SettingsText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Display settings"
+                android:text="@string/settings_display_title"
                 app:layout_constraintEnd_toStartOf="@id/arrowSettingsDisplay"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

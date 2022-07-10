@@ -153,6 +153,8 @@
     <string name="running_records_add_type">Ajouter</string>
 
     <!--  Settings  -->
+    <string name="settings_display_title">Paramètres d\'affichage</string>
+    <string name="settings_additional_title">Paramètres additionnels</string>
     <string name="settings_sort_order">Trier les activités</string>
     <string name="settings_sort_by_name">Nom</string>
     <string name="settings_sort_by_color">Couleur</string>

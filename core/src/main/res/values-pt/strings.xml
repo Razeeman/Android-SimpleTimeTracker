@@ -153,6 +153,8 @@
     <string name="running_records_add_type">Adicionar</string>
 
     <!--  Settings  -->
+    <string name="settings_display_title">Configurações do visor</string>
+    <string name="settings_additional_title">Configurações adicionais</string>
     <string name="settings_sort_order">Ordenar atividades</string>
     <string name="settings_sort_by_name">Nome</string>
     <string name="settings_sort_by_color">Cor</string>

@@ -153,6 +153,8 @@
     <string name="running_records_add_type">Ekle</string>
 
     <!--  Settings  -->
+    <string name="settings_display_title">Görüntü ayarları</string>
+    <string name="settings_additional_title">Ek ayarlar</string>
     <string name="settings_sort_order">Aktiviteleri sırala</string>
     <string name="settings_sort_by_name">İsim</string>
     <string name="settings_sort_by_color">Renk</string>

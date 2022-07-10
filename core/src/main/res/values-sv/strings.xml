@@ -153,6 +153,8 @@
     <string name="running_records_add_type">Lägg till</string>
 
     <!--  Settings  -->
+    <string name="settings_display_title">Bildskärmsinställningar</string>
+    <string name="settings_additional_title">Ytterligare inställningar</string>
     <string name="settings_sort_order">Sortera aktiviteter efter</string>
     <string name="settings_sort_by_name">Namn</string>
     <string name="settings_sort_by_color">Färg</string>
