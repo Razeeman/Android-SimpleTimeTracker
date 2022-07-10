@@ -124,6 +124,7 @@ class StatisticsDetailViewModel @Inject constructor(
     private var compareRecords: List<Record> = emptyList() // all records with selected ids
 
     fun initialize(extra: StatisticsDetailParams) {
+        if (this::extra.isInitialized) return
         this.extra = extra
         rangeLength = getRangeLength(extra.range)
         rangePosition = extra.shift
