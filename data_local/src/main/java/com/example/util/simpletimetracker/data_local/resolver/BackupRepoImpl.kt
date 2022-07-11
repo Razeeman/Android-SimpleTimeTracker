@@ -264,13 +264,18 @@ class BackupRepoImpl @Inject constructor(
         val recordId = parts.getOrNull(1)?.toLongOrNull().orZero()
         // tag id is removed from record dbo, need to support old backup files.
         val tagId = parts.getOrNull(6)?.toLongOrNull().orZero()
-
+        // replaces all return symbols to newlines by creating a temporary mutable list to replace return symbols from
+        val mutableComment = parts.toMutableList()
+        for (i in mutableComment.indices) {
+            mutableComment[i] = mutableComment[i].replace("␤", "\n")
+        }
+        
         return Record(
             id = recordId,
             typeId = parts.getOrNull(2)?.toLongOrNull() ?: 1L,
             timeStarted = parts.getOrNull(3)?.toLongOrNull().orZero(),
             timeEnded = parts.getOrNull(4)?.toLongOrNull().orZero(),
-            comment = parts.getOrNull(5).orEmpty(),
+            comment = mutableComment.toList().getOrNull(5).orEmpty(),
             // parts[6] - tag id is removed from record dbo.
         ) to RecordToRecordTag(
             recordId = recordId,
@@ -317,7 +322,7 @@ class BackupRepoImpl @Inject constructor(
     }
 
     private fun String.clean() =
-        replace("[\n\t]".toRegex(), " ")
+        replace("\t", " ").replace("\n", "␤")
 
     companion object {
         private const val BACKUP_IDENTIFICATION = "app simple time tracker"
