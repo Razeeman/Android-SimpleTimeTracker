@@ -103,9 +103,7 @@ class ChangeRecordTypeFragment :
             createEmptyAdapterDelegate()
         )
     }
-    private val iconsLayoutManager: GridLayoutManager by lazy {
-        GridLayoutManager(requireContext(), getIconsColumnCount())
-    }
+    private var iconsLayoutManager: GridLayoutManager? = null
     private val params: ChangeRecordTypeParams by fragmentArgumentDelegate(
         key = ARGS_PARAMS,
         default = ChangeRecordTypeParams.New(ChangeRecordTypeParams.SizePreview())
@@ -130,7 +128,8 @@ class ChangeRecordTypeFragment :
         }
 
         rvChangeRecordTypeIcon.apply {
-            layoutManager = iconsLayoutManager
+            layoutManager = GridLayoutManager(requireContext(), getIconsColumnCount())
+                .also { iconsLayoutManager = it }
             adapter = iconsAdapter
             setIconsSpanSize()
         }
@@ -201,11 +200,16 @@ class ChangeRecordTypeFragment :
             }
             iconsScrollPosition.observe {
                 if (it is ChangeRecordTypeScrollViewData.ScrollTo) {
-                    iconsLayoutManager.scrollToPositionWithOffset(it.position, 0)
+                    iconsLayoutManager?.scrollToPositionWithOffset(it.position, 0)
                     onScrolled()
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.onVisible()
     }
 
     override fun onDurationSet(duration: Long, tag: String?) {
@@ -272,9 +276,9 @@ class ChangeRecordTypeFragment :
     }
 
     private fun setIconsSpanSize() {
-        iconsLayoutManager.setSpanSizeLookup { position ->
+        iconsLayoutManager?.setSpanSizeLookup { position ->
             if (iconsAdapter.getItemByPosition(position) is ChangeRecordTypeIconCategoryInfoViewData) {
-                iconsLayoutManager.spanCount
+                iconsLayoutManager?.spanCount ?: 1
             } else {
                 1
             }

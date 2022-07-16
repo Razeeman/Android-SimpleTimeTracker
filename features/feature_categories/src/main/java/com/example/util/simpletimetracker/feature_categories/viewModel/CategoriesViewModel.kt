@@ -13,7 +13,7 @@ import com.example.util.simpletimetracker.feature_categories.interactor.Categori
 import com.example.util.simpletimetracker.feature_categories.viewData.CategoryAddViewData
 import com.example.util.simpletimetracker.feature_views.TransitionNames
 import com.example.util.simpletimetracker.navigation.Router
-import com.example.util.simpletimetracker.navigation.params.screen.ChangeCategoryParams
+import com.example.util.simpletimetracker.navigation.params.screen.ChangeActivityTagFromTagsParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTagParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeTagData
 import kotlinx.coroutines.launch
@@ -36,7 +36,7 @@ class CategoriesViewModel @Inject constructor(
 
     fun onCategoryClick(item: CategoryViewData, sharedElements: Map<Any, String>) {
         val params = when (item) {
-            is CategoryViewData.Activity -> ::ChangeCategoryParams
+            is CategoryViewData.Activity -> ::ChangeActivityTagFromTagsParams
             is CategoryViewData.Record -> ::ChangeRecordTagParams
         }
         val icon = (item as? CategoryViewData.Record)?.icon?.toParams()
@@ -63,7 +63,7 @@ class CategoriesViewModel @Inject constructor(
 
     fun onAddCategoryClick(viewData: CategoryAddViewData) {
         val params = when (viewData.type) {
-            TagType.RECORD_TYPE -> ::ChangeCategoryParams
+            TagType.RECORD_TYPE -> ::ChangeActivityTagFromTagsParams
             TagType.RECORD -> ::ChangeRecordTagParams
         }
 

@@ -40,7 +40,7 @@ import com.example.util.simpletimetracker.feature_change_record_type.viewData.Ch
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeScrollViewData
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.notification.ToastParams
-import com.example.util.simpletimetracker.navigation.params.screen.ChangeCategoryParams
+import com.example.util.simpletimetracker.navigation.params.screen.ChangeActivityTagFromChangeActivityParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTypeParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeTagData
 import com.example.util.simpletimetracker.navigation.params.screen.ColorSelectionDialogParams
@@ -132,6 +132,12 @@ class ChangeRecordTypeViewModel @Inject constructor(
     private var newCategories: MutableList<Long> = mutableListOf()
     private var newColor: AppColor = AppColor(colorId = (0..ColorMapper.colorsNumber).random(), colorInt = "")
     private var newGoalTime: Long = 0L
+
+    fun onVisible() {
+        updateCategoriesViewData()
+        // TODO think about how it can affect "newCategories" that was already selected.
+        //  Or how to add tag already assigned to activity.
+    }
 
     fun onNameChange(name: String) {
         viewModelScope.launch {
@@ -296,7 +302,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
 
     fun onAddCategoryClick() {
         router.navigate(
-            data = ChangeCategoryParams(ChangeTagData.New)
+            data = ChangeActivityTagFromChangeActivityParams(ChangeTagData.New)
         )
     }
 

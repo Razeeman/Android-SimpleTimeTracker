@@ -13,7 +13,8 @@ import com.example.util.simpletimetracker.navigation.bundleCreator.BundleCreator
 import com.example.util.simpletimetracker.navigation.bundleCreator.bundleCreatorDelegate
 import com.example.util.simpletimetracker.navigation.params.screen.ArchiveParams
 import com.example.util.simpletimetracker.navigation.params.screen.CategoriesParams
-import com.example.util.simpletimetracker.navigation.params.screen.ChangeCategoryParams
+import com.example.util.simpletimetracker.navigation.params.screen.ChangeActivityTagFromChangeActivityParams
+import com.example.util.simpletimetracker.navigation.params.screen.ChangeActivityTagFromTagsParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordFromMainParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordFromRecordsAllParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTagParams
@@ -123,10 +124,20 @@ class NavigationScreenMapModule {
 
     @IntoMap
     @Provides
-    @ScreenKey(ChangeCategoryParams::class)
-    fun changeCategory(): NavigationData {
+    @ScreenKey(ChangeActivityTagFromTagsParams::class)
+    fun changeActivityTagFromTags(): NavigationData {
         return NavigationData(
             R.id.action_categoriesFragment_to_changeCategoryFragment,
+            bundleCreatorDelegate(ChangeCategoryFragment::createBundle)
+        )
+    }
+
+    @IntoMap
+    @Provides
+    @ScreenKey(ChangeActivityTagFromChangeActivityParams::class)
+    fun changeActivityTagFromChangeActivity(): NavigationData {
+        return NavigationData(
+            R.id.action_changeRecordTypeFragment_to_changeCategoryFragment,
             bundleCreatorDelegate(ChangeCategoryFragment::createBundle)
         )
     }

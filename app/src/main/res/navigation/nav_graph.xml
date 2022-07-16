@@ -33,7 +33,11 @@
         android:id="@+id/changeRecordTypeFragment"
         android:name="com.example.util.simpletimetracker.feature_change_record_type.view.ChangeRecordTypeFragment"
         android:label="ChangeRecordTypeFragment"
-        tools:layout="@layout/change_record_type_fragment" />
+        tools:layout="@layout/change_record_type_fragment" >
+        <action
+            android:id="@+id/action_changeRecordTypeFragment_to_changeCategoryFragment"
+            app:destination="@id/changeCategoryFragment"/>
+    </fragment>
     <fragment
         android:id="@+id/changeRecordFragment"
         android:name="com.example.util.simpletimetracker.feature_change_record.view.ChangeRecordFragment"
