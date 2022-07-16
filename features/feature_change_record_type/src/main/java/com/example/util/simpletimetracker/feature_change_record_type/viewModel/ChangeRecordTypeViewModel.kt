@@ -40,7 +40,9 @@ import com.example.util.simpletimetracker.feature_change_record_type.viewData.Ch
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeScrollViewData
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.notification.ToastParams
+import com.example.util.simpletimetracker.navigation.params.screen.ChangeCategoryParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTypeParams
+import com.example.util.simpletimetracker.navigation.params.screen.ChangeTagData
 import com.example.util.simpletimetracker.navigation.params.screen.ColorSelectionDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DurationDialogParams
 import kotlinx.coroutines.launch
@@ -290,6 +292,12 @@ class ChangeRecordTypeViewModel @Inject constructor(
             newCategories.addOrRemove(item.id)
             updateCategoriesViewData()
         }
+    }
+
+    fun onAddCategoryClick() {
+        router.navigate(
+            data = ChangeCategoryParams(ChangeTagData.New)
+        )
     }
 
     fun onDeleteClick() {

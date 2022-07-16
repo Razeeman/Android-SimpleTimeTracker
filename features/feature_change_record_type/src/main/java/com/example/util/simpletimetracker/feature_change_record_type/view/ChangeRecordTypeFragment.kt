@@ -27,9 +27,11 @@ import com.example.util.simpletimetracker.feature_base_adapter.color.createColor
 import com.example.util.simpletimetracker.feature_base_adapter.divider.createDividerAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.emoji.createEmojiAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.hint.createHintAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.info.createInfoAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_change_record_type.R
+import com.example.util.simpletimetracker.feature_change_record_type.adapter.createChangeRecordTypeCategoryAddAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record_type.adapter.createChangeRecordTypeIconAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record_type.adapter.createChangeRecordTypeIconCategoryAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record_type.adapter.createChangeRecordTypeIconCategoryInfoAdapterDelegate
@@ -93,9 +95,11 @@ class ChangeRecordTypeFragment :
     }
     private val categoriesAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
+            createChangeRecordTypeCategoryAddAdapterDelegate(viewModel::onAddCategoryClick),
             createCategoryAdapterDelegate(viewModel::onCategoryClick),
             createDividerAdapterDelegate(),
             createInfoAdapterDelegate(),
+            createHintAdapterDelegate(),
             createEmptyAdapterDelegate()
         )
     }

@@ -29,10 +29,10 @@ class ChangeRecordTypeMapper @Inject constructor(
     private val colorMapper: ColorMapper,
 ) {
 
-    fun mapToEmpty(): List<ViewHolderType> {
+    fun mapToEmpty(): ViewHolderType {
         return EmptyViewData(
             message = resourceRepo.getString(R.string.change_record_type_categories_empty)
-        ).let(::listOf)
+        )
     }
 
     fun toGoalTimeViewData(duration: Long): String {

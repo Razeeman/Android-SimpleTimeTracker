@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.feature_change_record_type.interactor
 
 import com.example.util.simpletimetracker.core.interactor.ColorViewDataInteractor
 import com.example.util.simpletimetracker.core.mapper.CategoryViewDataMapper
+import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.model.AppColor
@@ -9,12 +10,16 @@ import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.IconType
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.divider.DividerViewData
+import com.example.util.simpletimetracker.feature_base_adapter.hint.HintViewData
+import com.example.util.simpletimetracker.feature_change_record_type.R
 import com.example.util.simpletimetracker.feature_change_record_type.mapper.ChangeRecordTypeMapper
+import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeCategoryAddViewData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class ChangeRecordTypeViewDataInteractor @Inject constructor(
+    private val resourceRepo: ResourceRepo,
     private val mapper: ChangeRecordTypeMapper,
     private val prefsInteractor: PrefsInteractor,
     private val categoryInteractor: CategoryInteractor,
@@ -35,6 +40,10 @@ class ChangeRecordTypeViewDataInteractor @Inject constructor(
             ?.let { (selected, available) ->
                 val viewData = mutableListOf<ViewHolderType>()
 
+                HintViewData(
+                    text = R.string.categories_record_type_hint.let(resourceRepo::getString)
+                ).let(viewData::add)
+
                 categoryViewDataMapper.mapSelectedCategoriesHint(
                     isEmpty = selected.isEmpty()
                 ).let(viewData::add)
@@ -46,9 +55,7 @@ class ChangeRecordTypeViewDataInteractor @Inject constructor(
                     )
                 }.let(viewData::addAll)
 
-                DividerViewData(1)
-                    .takeUnless { available.isEmpty() }
-                    ?.let(viewData::add)
+                DividerViewData(1).let(viewData::add)
 
                 available.map {
                     categoryViewDataMapper.mapActivityTag(
@@ -57,9 +64,14 @@ class ChangeRecordTypeViewDataInteractor @Inject constructor(
                     )
                 }.let(viewData::addAll)
 
+                ChangeRecordTypeCategoryAddViewData.let(viewData::add)
+
                 viewData
             }
-            ?: mapper.mapToEmpty()
+            ?: listOf(
+                mapper.mapToEmpty(),
+                ChangeRecordTypeCategoryAddViewData
+            )
     }
 
     suspend fun getColorsViewData(currentColor: AppColor): List<ViewHolderType> {
