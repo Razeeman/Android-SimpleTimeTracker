@@ -203,7 +203,7 @@ class BackupRepoImpl @Inject constructor(
             record.typeId.toString(),
             record.timeStarted.toString(),
             record.timeEnded.toString(),
-            record.comment.clean(),
+            record.comment.cleanTabs().replaceNewline(),
             "", // record tag id is removed from record dbo
         )
     }
@@ -269,7 +269,7 @@ class BackupRepoImpl @Inject constructor(
         for (i in mutableComment.indices) {
             mutableComment[i] = mutableComment[i].replace("␤", "\n")
         }
-        
+
         return Record(
             id = recordId,
             typeId = parts.getOrNull(2)?.toLongOrNull() ?: 1L,
@@ -322,7 +322,16 @@ class BackupRepoImpl @Inject constructor(
     }
 
     private fun String.clean() =
-        replace("\t", " ").replace("\n", "␤")
+        cleanTabs().cleanNewline()
+
+    private fun String.cleanTabs() =
+        replace("\t", " ")
+
+    private fun String.cleanNewline() =
+        replace("\n", " ")
+
+    private fun String.replaceNewline() =
+        replace("\n", "␤")
 
     companion object {
         private const val BACKUP_IDENTIFICATION = "app simple time tracker"
