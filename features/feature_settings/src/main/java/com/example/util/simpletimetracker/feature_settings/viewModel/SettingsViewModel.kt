@@ -13,7 +13,6 @@ import com.example.util.simpletimetracker.core.provider.PackageNameProvider
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.extension.flip
 import com.example.util.simpletimetracker.domain.extension.orFalse
-import com.example.util.simpletimetracker.domain.extension.orTrue
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.model.CardOrder
 import com.example.util.simpletimetracker.domain.model.WidgetType
@@ -23,17 +22,17 @@ import com.example.util.simpletimetracker.feature_settings.viewData.CardOrderVie
 import com.example.util.simpletimetracker.feature_settings.viewData.FirstDayOfWeekViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.SettingsStartOfDayViewData
 import com.example.util.simpletimetracker.navigation.Router
+import com.example.util.simpletimetracker.navigation.params.action.OpenMarketParams
+import com.example.util.simpletimetracker.navigation.params.action.SendEmailParams
+import com.example.util.simpletimetracker.navigation.params.notification.ToastParams
 import com.example.util.simpletimetracker.navigation.params.screen.ArchiveParams
 import com.example.util.simpletimetracker.navigation.params.screen.CardOrderDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.CardSizeDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.CategoriesParams
 import com.example.util.simpletimetracker.navigation.params.screen.CsvExportSettingDialogParams
-import com.example.util.simpletimetracker.navigation.params.screen.DurationDialogParams
-import com.example.util.simpletimetracker.navigation.params.action.OpenMarketParams
-import com.example.util.simpletimetracker.navigation.params.action.SendEmailParams
-import com.example.util.simpletimetracker.navigation.params.notification.ToastParams
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogType
+import com.example.util.simpletimetracker.navigation.params.screen.DurationDialogParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -264,13 +263,14 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun onRecordTypeOrderSelected(position: Int) {
-        val newOrder = settingsMapper.toCardOrder(position)
-
-        (btnCardOrderManualVisibility as MutableLiveData).value = newOrder == CardOrder.MANUAL
-
         viewModelScope.launch {
+            val currentOrder = prefsInteractor.getCardOrder()
+            val newOrder = settingsMapper.toCardOrder(position)
+            if (newOrder == currentOrder) return@launch
+
+            btnCardOrderManualVisibility.set(newOrder == CardOrder.MANUAL)
             if (newOrder == CardOrder.MANUAL) {
-                openCardOrderDialog(prefsInteractor.getCardOrder())
+                openCardOrderDialog(currentOrder)
             }
             prefsInteractor.setCardOrder(newOrder)
             updateCardOrderViewData()
