@@ -73,7 +73,10 @@ class ChangeRecordFragment :
     }
     private val categoriesAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
-            createCategoryAdapterDelegate(viewModel::onCategoryClick),
+            createCategoryAdapterDelegate(
+                onClick = viewModel::onCategoryClick,
+                onLongClickWithTransition = viewModel::onCategoryLongClick,
+            ),
             createCategoryAddAdapterDelegate { viewModel.onAddCategoryClick() },
             createDividerAdapterDelegate(),
             createInfoAdapterDelegate(),
@@ -91,6 +94,8 @@ class ChangeRecordFragment :
     )
 
     override fun initUi(): Unit = with(binding) {
+        postponeEnterTransition()
+
         setPreview()
 
         val transitionName: String = when (extra) {
@@ -129,6 +134,11 @@ class ChangeRecordFragment :
                 flexWrap = FlexWrap.WRAP
             }
             adapter = commentsAdapter
+        }
+
+        root.viewTreeObserver.addOnPreDrawListener {
+            startPostponedEnterTransition()
+            true
         }
     }
 

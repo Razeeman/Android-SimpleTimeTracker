@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.extension.addOrRemove
 import com.example.util.simpletimetracker.core.extension.set
+import com.example.util.simpletimetracker.core.extension.toParams
 import com.example.util.simpletimetracker.core.interactor.AddRunningRecordMediator
 import com.example.util.simpletimetracker.core.interactor.RecordTagViewDataInteractor
 import com.example.util.simpletimetracker.core.interactor.RecordTypesViewDataInteractor
@@ -181,6 +182,25 @@ class ChangeRunningRecordViewModel @Inject constructor(
             updatePreview()
             updateCategoriesViewData()
         }
+    }
+
+    fun onCategoryLongClick(item: CategoryViewData, sharedElements: Pair<Any, String>) {
+        val icon = (item as? CategoryViewData.Record)?.icon?.toParams()
+
+        router.navigate(
+            data = ChangeRecordTagFromChangeRunningRecordParams(
+                ChangeTagData.Change(
+                    transitionName = sharedElements.second,
+                    id = item.id,
+                    preview = ChangeTagData.Change.Preview(
+                        name = item.name,
+                        color = item.color,
+                        icon = icon,
+                    )
+                )
+            ),
+            sharedElements = mapOf(sharedElements)
+        )
     }
 
     fun onAddCategoryClick() {

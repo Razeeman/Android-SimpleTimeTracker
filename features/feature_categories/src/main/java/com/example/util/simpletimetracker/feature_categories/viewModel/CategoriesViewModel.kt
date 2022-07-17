@@ -11,7 +11,6 @@ import com.example.util.simpletimetracker.feature_base_adapter.category.Category
 import com.example.util.simpletimetracker.feature_base_adapter.category.TagType
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.feature_categories.interactor.CategoriesViewDataInteractor
-import com.example.util.simpletimetracker.feature_views.TransitionNames
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeActivityTagFromTagsParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTagFromTagsParams
@@ -34,21 +33,17 @@ class CategoriesViewModel @Inject constructor(
         }
     }
 
-    fun onCategoryClick(item: CategoryViewData, sharedElements: Map<Any, String>) {
+    fun onCategoryClick(item: CategoryViewData, sharedElements: Pair<Any, String>) {
         val params = when (item) {
             is CategoryViewData.Activity -> ::ChangeActivityTagFromTagsParams
             is CategoryViewData.Record -> ::ChangeRecordTagFromTagsParams
         }
         val icon = (item as? CategoryViewData.Record)?.icon?.toParams()
-        val transitionName = when (item) {
-            is CategoryViewData.Activity -> TransitionNames.ACTIVITY_TAG
-            is CategoryViewData.Record -> TransitionNames.RECORD_TAG
-        } + item.id
 
         router.navigate(
             data = params(
                 ChangeTagData.Change(
-                    transitionName = transitionName,
+                    transitionName = sharedElements.second,
                     id = item.id,
                     preview = ChangeTagData.Change.Preview(
                         name = item.name,
@@ -57,7 +52,7 @@ class CategoriesViewModel @Inject constructor(
                     )
                 )
             ),
-            sharedElements = sharedElements
+            sharedElements = mapOf(sharedElements)
         )
     }
 

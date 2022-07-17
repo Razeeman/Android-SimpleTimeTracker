@@ -38,7 +38,6 @@ import com.example.util.simpletimetracker.feature_change_record_type.viewData.Ch
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconSwitchViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeScrollViewData
-import com.example.util.simpletimetracker.feature_views.TransitionNames
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.notification.ToastParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeActivityTagFromChangeActivityParams
@@ -302,16 +301,11 @@ class ChangeRecordTypeViewModel @Inject constructor(
         }
     }
 
-    fun onCategoryLongClick(item: CategoryViewData, sharedElements: Map<Any, String>) {
-        val transitionName = when (item) {
-            is CategoryViewData.Activity -> TransitionNames.ACTIVITY_TAG
-            is CategoryViewData.Record -> TransitionNames.RECORD_TAG
-        } + item.id
-
+    fun onCategoryLongClick(item: CategoryViewData, sharedElements: Pair<Any, String>) {
         router.navigate(
             data = ChangeActivityTagFromChangeActivityParams(
                 ChangeTagData.Change(
-                    transitionName = transitionName,
+                    transitionName = sharedElements.second,
                     id = item.id,
                     preview = ChangeTagData.Change.Preview(
                         name = item.name,
@@ -320,7 +314,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
                     )
                 )
             ),
-            sharedElements = sharedElements
+            sharedElements = mapOf(sharedElements)
         )
     }
 

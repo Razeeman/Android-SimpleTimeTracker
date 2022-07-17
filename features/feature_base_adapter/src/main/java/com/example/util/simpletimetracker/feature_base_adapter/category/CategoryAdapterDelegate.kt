@@ -13,8 +13,8 @@ import com.example.util.simpletimetracker.feature_base_adapter.databinding.ItemC
 fun createCategoryAdapterDelegate(
     onClick: ((ViewData) -> Unit)? = null,
     onLongClick: ((ViewData) -> Unit)? = null,
-    onClickWithTransition: ((ViewData, Map<Any, String>) -> Unit)? = null,
-    onLongClickWithTransition: ((ViewData, Map<Any, String>) -> Unit)? = null,
+    onClickWithTransition: ((ViewData, Pair<Any, String>) -> Unit)? = null,
+    onLongClickWithTransition: ((ViewData, Pair<Any, String>) -> Unit)? = null,
 ) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
     Binding::inflate
 ) { binding, item, _ ->
@@ -26,7 +26,7 @@ fun createCategoryAdapterDelegate(
             is ViewData.Activity -> TransitionNames.ACTIVITY_TAG
             is ViewData.Record -> TransitionNames.RECORD_TAG
         } + item.id
-        val sharedElements: Map<Any, String> = mapOf(this to transitionName)
+        val sharedElements: Pair<Any, String> = this to transitionName
         ViewCompat.setTransitionName(this, transitionName)
 
         itemColor = item.color
