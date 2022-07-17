@@ -1,8 +1,7 @@
-package com.example.util.simpletimetracker.feature_categories.viewData
+package com.example.util.simpletimetracker.feature_base_adapter.category
 
 import androidx.annotation.ColorInt
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
-import com.example.util.simpletimetracker.domain.model.TagType
 
 class CategoryAddViewData(
     val type: TagType,

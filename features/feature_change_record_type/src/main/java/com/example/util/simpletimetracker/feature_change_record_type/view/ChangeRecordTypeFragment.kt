@@ -31,7 +31,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.hint.createHintAd
 import com.example.util.simpletimetracker.feature_base_adapter.info.createInfoAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_change_record_type.R
-import com.example.util.simpletimetracker.feature_change_record_type.adapter.createChangeRecordTypeCategoryAddAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.category.createCategoryAddAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record_type.adapter.createChangeRecordTypeIconAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record_type.adapter.createChangeRecordTypeIconCategoryAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record_type.adapter.createChangeRecordTypeIconCategoryInfoAdapterDelegate
@@ -99,7 +99,7 @@ class ChangeRecordTypeFragment :
                 onClick = viewModel::onCategoryClick,
                 onLongClickWithTransition = viewModel::onCategoryLongClick
             ),
-            createChangeRecordTypeCategoryAddAdapterDelegate(viewModel::onAddCategoryClick),
+            createCategoryAddAdapterDelegate { viewModel.onAddCategoryClick() },
             createDividerAdapterDelegate(),
             createInfoAdapterDelegate(),
             createHintAdapterDelegate(),

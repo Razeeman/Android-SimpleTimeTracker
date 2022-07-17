@@ -5,16 +5,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.extension.toParams
-import com.example.util.simpletimetracker.domain.model.TagType
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryAddViewData
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
+import com.example.util.simpletimetracker.feature_base_adapter.category.TagType
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.feature_categories.interactor.CategoriesViewDataInteractor
-import com.example.util.simpletimetracker.feature_categories.viewData.CategoryAddViewData
 import com.example.util.simpletimetracker.feature_views.TransitionNames
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeActivityTagFromTagsParams
-import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTagParams
+import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTagFromTagsParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeTagData
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -37,7 +37,7 @@ class CategoriesViewModel @Inject constructor(
     fun onCategoryClick(item: CategoryViewData, sharedElements: Map<Any, String>) {
         val params = when (item) {
             is CategoryViewData.Activity -> ::ChangeActivityTagFromTagsParams
-            is CategoryViewData.Record -> ::ChangeRecordTagParams
+            is CategoryViewData.Record -> ::ChangeRecordTagFromTagsParams
         }
         val icon = (item as? CategoryViewData.Record)?.icon?.toParams()
         val transitionName = when (item) {
@@ -64,7 +64,7 @@ class CategoriesViewModel @Inject constructor(
     fun onAddCategoryClick(viewData: CategoryAddViewData) {
         val params = when (viewData.type) {
             TagType.RECORD_TYPE -> ::ChangeActivityTagFromTagsParams
-            TagType.RECORD -> ::ChangeRecordTagParams
+            TagType.RECORD -> ::ChangeRecordTagFromTagsParams
         }
 
         router.navigate(

@@ -11,6 +11,7 @@ import com.example.util.simpletimetracker.core.interactor.RecordTypesViewDataInt
 import com.example.util.simpletimetracker.core.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.core.view.timeAdjustment.TimeAdjustmentView
 import com.example.util.simpletimetracker.domain.extension.flip
 import com.example.util.simpletimetracker.domain.extension.orTrue
 import com.example.util.simpletimetracker.domain.extension.orZero
@@ -23,7 +24,6 @@ import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_change_record.R
-import com.example.util.simpletimetracker.core.view.timeAdjustment.TimeAdjustmentView
 import com.example.util.simpletimetracker.feature_change_record.interactor.ChangeRecordViewDataInteractor
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordCommentViewData
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordViewData
@@ -31,6 +31,8 @@ import com.example.util.simpletimetracker.feature_change_record.viewData.TimeAdj
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.notification.ToastParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordParams
+import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTagFromChangeRecordParams
+import com.example.util.simpletimetracker.navigation.params.screen.ChangeTagData
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogType
 import kotlinx.coroutines.delay
@@ -101,6 +103,10 @@ class ChangeRecordViewModel @Inject constructor(
     private var newTimeStarted: Long = 0
     private var newComment: String = ""
     private var newCategoryIds: MutableList<Long> = mutableListOf()
+
+    fun onVisible() {
+        updateCategoriesViewData()
+    }
 
     fun onTypeChooserClick() {
         (keyboardVisibility as MutableLiveData).value = false
@@ -217,6 +223,12 @@ class ChangeRecordViewModel @Inject constructor(
             updatePreview()
             updateCategoriesViewData()
         }
+    }
+
+    fun onAddCategoryClick() {
+        router.navigate(
+            data = ChangeRecordTagFromChangeRecordParams(ChangeTagData.New)
+        )
     }
 
     fun onCommentClick(item: ChangeRecordCommentViewData) {
@@ -394,6 +406,8 @@ class ChangeRecordViewModel @Inject constructor(
             selectedTags = newCategoryIds,
             typeId = newTypeId,
             multipleChoiceAvailable = true,
+            showHint = true,
+            showAddButton = true,
         )
     }
 

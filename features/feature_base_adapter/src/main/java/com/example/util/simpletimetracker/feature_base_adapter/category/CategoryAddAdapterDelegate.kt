@@ -1,9 +1,9 @@
-package com.example.util.simpletimetracker.feature_categories.adapter
+package com.example.util.simpletimetracker.feature_base_adapter.category
 
 import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
 import com.example.util.simpletimetracker.feature_views.extension.setOnClickWith
 import com.example.util.simpletimetracker.feature_base_adapter.databinding.ItemCategoryLayoutBinding as Binding
-import com.example.util.simpletimetracker.feature_categories.viewData.CategoryAddViewData as ViewData
+import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryAddViewData as ViewData
 
 fun createCategoryAddAdapterDelegate(
     onItemClick: ((ViewData) -> Unit)

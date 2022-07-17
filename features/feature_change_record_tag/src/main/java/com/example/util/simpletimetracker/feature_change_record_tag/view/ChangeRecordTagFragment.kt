@@ -27,7 +27,7 @@ import com.example.util.simpletimetracker.feature_views.extension.rotateDown
 import com.example.util.simpletimetracker.feature_views.extension.rotateUp
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.feature_views.extension.visible
-import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTagParams
+import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTagFromScreen
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeTagData
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
@@ -181,8 +181,8 @@ class ChangeRecordTagFragment :
     companion object {
         private const val ARGS_PARAMS = "args_params"
 
-        fun createBundle(data: ChangeRecordTagParams): Bundle = Bundle().apply {
-            putParcelable(ARGS_PARAMS, data.data)
+        fun createBundle(data: ChangeRecordTagFromScreen): Bundle = Bundle().apply {
+            putParcelable(ARGS_PARAMS, data.params)
         }
     }
 }

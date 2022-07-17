@@ -17,7 +17,9 @@ import com.example.util.simpletimetracker.navigation.params.screen.ChangeActivit
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeActivityTagFromTagsParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordFromMainParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordFromRecordsAllParams
-import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTagParams
+import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTagFromChangeRecordParams
+import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTagFromChangeRunningRecordParams
+import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTagFromTagsParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTypeParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRunningRecordParams
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsAllParams
@@ -144,10 +146,30 @@ class NavigationScreenMapModule {
 
     @IntoMap
     @Provides
-    @ScreenKey(ChangeRecordTagParams::class)
-    fun changeRecordTag(): NavigationData {
+    @ScreenKey(ChangeRecordTagFromTagsParams::class)
+    fun changeRecordTagFromTags(): NavigationData {
         return NavigationData(
             R.id.action_categoriesFragment_to_changeRecordTagFragment,
+            bundleCreatorDelegate(ChangeRecordTagFragment::createBundle)
+        )
+    }
+
+    @IntoMap
+    @Provides
+    @ScreenKey(ChangeRecordTagFromChangeRecordParams::class)
+    fun changeRecordTagFromChangeRecord(): NavigationData {
+        return NavigationData(
+            R.id.action_changeRecordFragment_to_changeRecordTagFragment,
+            bundleCreatorDelegate(ChangeRecordTagFragment::createBundle)
+        )
+    }
+
+    @IntoMap
+    @Provides
+    @ScreenKey(ChangeRecordTagFromChangeRunningRecordParams::class)
+    fun changeRecordTagFromChangeRunningRecord(): NavigationData {
+        return NavigationData(
+            R.id.action_changeRunningRecordFragment_to_changeRecordTagFragment,
             bundleCreatorDelegate(ChangeRecordTagFragment::createBundle)
         )
     }

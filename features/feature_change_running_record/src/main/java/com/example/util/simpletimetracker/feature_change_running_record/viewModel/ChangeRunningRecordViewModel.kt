@@ -28,7 +28,9 @@ import com.example.util.simpletimetracker.feature_change_running_record.viewData
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
 import com.example.util.simpletimetracker.navigation.params.notification.ToastParams
+import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTagFromChangeRunningRecordParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRunningRecordParams
+import com.example.util.simpletimetracker.navigation.params.screen.ChangeTagData
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogType
 import kotlinx.coroutines.Job
@@ -181,6 +183,12 @@ class ChangeRunningRecordViewModel @Inject constructor(
         }
     }
 
+    fun onAddCategoryClick() {
+        router.navigate(
+            data = ChangeRecordTagFromChangeRunningRecordParams(ChangeTagData.New)
+        )
+    }
+
     fun onDateTimeSet(timestamp: Long, tag: String?) {
         viewModelScope.launch {
             when (tag) {
@@ -226,6 +234,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
     }
 
     fun onVisible() {
+        updateCategoriesViewData()
         startUpdate()
     }
 
@@ -290,6 +299,8 @@ class ChangeRunningRecordViewModel @Inject constructor(
             selectedTags = newCategoryIds,
             typeId = newTypeId,
             multipleChoiceAvailable = true,
+            showHint = true,
+            showAddButton = true,
         )
     }
 

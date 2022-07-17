@@ -53,10 +53,16 @@ class CategoryViewDataMapper @Inject constructor(
         )
     }
 
-    fun mapToRecordTagsEmpty(): List<ViewHolderType> {
+    fun mapToRecordTagsEmpty(): ViewHolderType {
         return EmptyViewData(
             message = resourceRepo.getString(R.string.change_record_categories_empty)
-        ).let(::listOf)
+        )
+    }
+
+    fun mapToActivityTagsEmpty(): ViewHolderType {
+        return EmptyViewData(
+            message = resourceRepo.getString(R.string.change_record_type_categories_empty)
+        )
     }
 
     fun mapSelectedCategoriesHint(isEmpty: Boolean): ViewHolderType {

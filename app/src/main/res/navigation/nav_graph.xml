@@ -42,12 +42,20 @@
         android:id="@+id/changeRecordFragment"
         android:name="com.example.util.simpletimetracker.feature_change_record.view.ChangeRecordFragment"
         android:label="ChangeRecordFragment"
-        tools:layout="@layout/change_record_fragment" />
+        tools:layout="@layout/change_record_fragment" >
+        <action
+            android:id="@+id/action_changeRecordFragment_to_changeRecordTagFragment"
+            app:destination="@id/changeRecordTagFragment"/>
+    </fragment>
     <fragment
         android:id="@+id/changeRunningRecordFragment"
         android:name="com.example.util.simpletimetracker.feature_change_running_record.view.ChangeRunningRecordFragment"
         android:label="ChangeRunningRecordFragment"
-        tools:layout="@layout/change_running_record_fragment" />
+        tools:layout="@layout/change_running_record_fragment" >
+        <action
+            android:id="@+id/action_changeRunningRecordFragment_to_changeRecordTagFragment"
+            app:destination="@id/changeRecordTagFragment"/>
+    </fragment>
     <fragment
         android:id="@+id/statisticsDetailFragment"
         android:name="com.example.util.simpletimetracker.feature_statistics_detail.view.StatisticsDetailFragment"

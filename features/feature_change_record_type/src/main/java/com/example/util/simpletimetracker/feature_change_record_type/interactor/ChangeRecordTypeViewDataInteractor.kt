@@ -1,8 +1,8 @@
 package com.example.util.simpletimetracker.feature_change_record_type.interactor
 
 import com.example.util.simpletimetracker.core.interactor.ColorViewDataInteractor
+import com.example.util.simpletimetracker.core.mapper.CategoriesViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.CategoryViewDataMapper
-import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.model.AppColor
@@ -10,21 +10,18 @@ import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.IconType
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.divider.DividerViewData
-import com.example.util.simpletimetracker.feature_base_adapter.hint.HintViewData
-import com.example.util.simpletimetracker.feature_change_record_type.R
 import com.example.util.simpletimetracker.feature_change_record_type.mapper.ChangeRecordTypeMapper
-import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeCategoryAddViewData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class ChangeRecordTypeViewDataInteractor @Inject constructor(
-    private val resourceRepo: ResourceRepo,
     private val mapper: ChangeRecordTypeMapper,
     private val prefsInteractor: PrefsInteractor,
     private val categoryInteractor: CategoryInteractor,
     private val colorViewDataInteractor: ColorViewDataInteractor,
     private val categoryViewDataMapper: CategoryViewDataMapper,
+    private val categoriesViewDataMapper: CategoriesViewDataMapper,
 ) {
 
     suspend fun getCategoriesViewData(selectedCategories: List<Long>): List<ViewHolderType> {
@@ -40,9 +37,7 @@ class ChangeRecordTypeViewDataInteractor @Inject constructor(
             ?.let { (selected, available) ->
                 val viewData = mutableListOf<ViewHolderType>()
 
-                HintViewData(
-                    text = R.string.categories_record_type_hint.let(resourceRepo::getString)
-                ).let(viewData::add)
+                categoriesViewDataMapper.mapToTypeTagHint().let(viewData::add)
 
                 categoryViewDataMapper.mapSelectedCategoriesHint(
                     isEmpty = selected.isEmpty()
@@ -64,13 +59,13 @@ class ChangeRecordTypeViewDataInteractor @Inject constructor(
                     )
                 }.let(viewData::addAll)
 
-                ChangeRecordTypeCategoryAddViewData.let(viewData::add)
+                categoriesViewDataMapper.mapToTypeTagAddItem(isDarkTheme).let(viewData::add)
 
                 viewData
             }
             ?: listOf(
-                mapper.mapToEmpty(),
-                ChangeRecordTypeCategoryAddViewData
+                categoryViewDataMapper.mapToActivityTagsEmpty(),
+                categoriesViewDataMapper.mapToTypeTagAddItem(isDarkTheme)
             )
     }
 

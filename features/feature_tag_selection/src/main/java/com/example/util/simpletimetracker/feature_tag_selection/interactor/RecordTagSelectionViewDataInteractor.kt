@@ -24,7 +24,9 @@ class RecordTagSelectionViewDataInteractor @Inject constructor(
         recordTagViewDataInteractor.getViewData(
             selectedTags = selectedTags,
             typeId = typeId,
-            multipleChoiceAvailable = !closeAfterOneTagSelected
+            multipleChoiceAvailable = !closeAfterOneTagSelected,
+            showHint = false,
+            showAddButton = false,
         ).let(result::addAll)
 
         return result

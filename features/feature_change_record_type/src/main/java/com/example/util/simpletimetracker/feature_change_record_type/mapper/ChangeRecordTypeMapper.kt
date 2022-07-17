@@ -1,17 +1,16 @@
 package com.example.util.simpletimetracker.feature_change_record_type.mapper
 
-import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
-import com.example.util.simpletimetracker.feature_base_adapter.empty.EmptyViewData
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconEmojiMapper
 import com.example.util.simpletimetracker.core.mapper.IconImageMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.model.AppColor
-import com.example.util.simpletimetracker.feature_base_adapter.emoji.EmojiViewData
 import com.example.util.simpletimetracker.domain.model.IconEmojiCategory
 import com.example.util.simpletimetracker.domain.model.IconImageCategory
 import com.example.util.simpletimetracker.domain.model.IconType
+import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_base_adapter.emoji.EmojiViewData
 import com.example.util.simpletimetracker.feature_change_record_type.R
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconCategoryInfoViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconCategoryViewData
@@ -28,12 +27,6 @@ class ChangeRecordTypeMapper @Inject constructor(
     private val iconEmojiMapper: IconEmojiMapper,
     private val colorMapper: ColorMapper,
 ) {
-
-    fun mapToEmpty(): ViewHolderType {
-        return EmptyViewData(
-            message = resourceRepo.getString(R.string.change_record_type_categories_empty)
-        )
-    }
 
     fun toGoalTimeViewData(duration: Long): String {
         return if (duration > 0) {

@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.core.interactor
 
 import com.example.util.simpletimetracker.core.R
+import com.example.util.simpletimetracker.core.mapper.CategoriesViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.CategoryViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
@@ -19,12 +20,15 @@ class RecordTagViewDataInteractor @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
     private val recordTagInteractor: RecordTagInteractor,
     private val categoryViewDataMapper: CategoryViewDataMapper,
+    private val categoriesViewDataMapper: CategoriesViewDataMapper,
 ) {
 
     suspend fun getViewData(
         selectedTags: List<Long>,
         typeId: Long,
         multipleChoiceAvailable: Boolean,
+        showHint: Boolean,
+        showAddButton: Boolean,
     ): List<ViewHolderType> {
         val isDarkTheme = prefsInteractor.getDarkMode()
         val type = recordTypeInteractor.get(typeId)
@@ -44,6 +48,9 @@ class RecordTagViewDataInteractor @Inject constructor(
             }
             ?.let { (selected, available) ->
                 val viewData = mutableListOf<ViewHolderType>()
+
+                categoriesViewDataMapper.mapToRecordTagHint()
+                    .takeIf { showHint }?.let(viewData::add)
 
                 categoryViewDataMapper.mapSelectedCategoriesHint(
                     isEmpty = selected.isEmpty()
@@ -77,9 +84,17 @@ class RecordTagViewDataInteractor @Inject constructor(
                     mapRecordTagUntagged(isDarkTheme).let(viewData::add)
                 }
 
+                categoriesViewDataMapper.mapToRecordTagAddItem(isDarkTheme)
+                    .takeIf { showAddButton }
+                    ?.let(viewData::add)
+
                 viewData
             }
-            ?: categoryViewDataMapper.mapToRecordTagsEmpty()
+            ?: listOfNotNull(
+                categoryViewDataMapper.mapToRecordTagsEmpty(),
+                categoriesViewDataMapper.mapToRecordTagAddItem(isDarkTheme)
+                    .takeIf { showAddButton }
+            )
     }
 
     private fun mapRecordTagUntagged(

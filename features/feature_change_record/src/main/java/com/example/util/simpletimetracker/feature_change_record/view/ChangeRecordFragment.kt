@@ -20,8 +20,10 @@ import com.example.util.simpletimetracker.core.utils.setChooserColor
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_base_adapter.category.createCategoryAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.category.createCategoryAddAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.divider.createDividerAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.hint.createHintAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.info.createInfoAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.createRecordTypeAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record.adapter.createChangeRecordCommentAdapterDelegate
@@ -72,8 +74,10 @@ class ChangeRecordFragment :
     private val categoriesAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
             createCategoryAdapterDelegate(viewModel::onCategoryClick),
+            createCategoryAddAdapterDelegate { viewModel.onAddCategoryClick() },
             createDividerAdapterDelegate(),
             createInfoAdapterDelegate(),
+            createHintAdapterDelegate(),
             createEmptyAdapterDelegate()
         )
     }
@@ -196,6 +200,11 @@ class ChangeRecordFragment :
             deleteButtonEnabled.observe(btnChangeRecordDelete::setEnabled)
             deleteIconVisibility.observe(btnChangeRecordDelete::visible::set)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.onVisible()
     }
 
     override fun onDateTimeSet(timestamp: Long, tag: String?) {

@@ -1,12 +1,11 @@
-package com.example.util.simpletimetracker.feature_categories.mapper
+package com.example.util.simpletimetracker.core.mapper
 
+import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.hint.HintViewData
-import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
-import com.example.util.simpletimetracker.domain.model.TagType
-import com.example.util.simpletimetracker.feature_categories.R
-import com.example.util.simpletimetracker.feature_categories.viewData.CategoryAddViewData
+import com.example.util.simpletimetracker.feature_base_adapter.category.TagType
+import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryAddViewData
 import javax.inject.Inject
 
 class CategoriesViewDataMapper @Inject constructor(
