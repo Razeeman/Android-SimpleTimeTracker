@@ -9,7 +9,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.hint.createHintAd
 import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
-import com.example.util.simpletimetracker.feature_categories.adapter.createCategoryAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.category.createCategoryAdapterDelegate
 import com.example.util.simpletimetracker.feature_categories.adapter.createCategoryAddAdapterDelegate
 import com.example.util.simpletimetracker.feature_categories.viewModel.CategoriesViewModel
 import com.google.android.flexbox.FlexDirection
@@ -38,7 +38,7 @@ class CategoriesFragment : BaseFragment<Binding>() {
             createLoaderAdapterDelegate(),
             createDividerAdapterDelegate(),
             createHintAdapterDelegate(),
-            createCategoryAdapterDelegate(viewModel::onCategoryClick),
+            createCategoryAdapterDelegate(onClickWithTransition = viewModel::onCategoryClick),
             createCategoryAddAdapterDelegate(viewModel::onAddCategoryClick)
         )
     }

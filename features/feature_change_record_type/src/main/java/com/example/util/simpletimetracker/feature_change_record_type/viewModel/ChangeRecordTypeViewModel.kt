@@ -38,6 +38,7 @@ import com.example.util.simpletimetracker.feature_change_record_type.viewData.Ch
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconSwitchViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeScrollViewData
+import com.example.util.simpletimetracker.feature_views.TransitionNames
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.notification.ToastParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeActivityTagFromChangeActivityParams
@@ -133,7 +134,8 @@ class ChangeRecordTypeViewModel @Inject constructor(
     private var newColor: AppColor = AppColor(colorId = (0..ColorMapper.colorsNumber).random(), colorInt = "")
     private var newGoalTime: Long = 0L
 
-    fun onVisible() {
+    fun onVisible() = viewModelScope.launch {
+        initializeSelectedCategories()
         updateCategoriesViewData()
         // TODO think about how it can affect "newCategories" that was already selected.
         //  Or how to add tag already assigned to activity.
@@ -298,6 +300,28 @@ class ChangeRecordTypeViewModel @Inject constructor(
             newCategories.addOrRemove(item.id)
             updateCategoriesViewData()
         }
+    }
+
+    fun onCategoryLongClick(item: CategoryViewData, sharedElements: Map<Any, String>) {
+        val transitionName = when (item) {
+            is CategoryViewData.Activity -> TransitionNames.ACTIVITY_TAG
+            is CategoryViewData.Record -> TransitionNames.RECORD_TAG
+        } + item.id
+
+        router.navigate(
+            data = ChangeActivityTagFromChangeActivityParams(
+                ChangeTagData.Change(
+                    transitionName = transitionName,
+                    id = item.id,
+                    preview = ChangeTagData.Change.Preview(
+                        name = item.name,
+                        color = item.color,
+                        icon = null,
+                    )
+                )
+            ),
+            sharedElements = sharedElements
+        )
     }
 
     fun onAddCategoryClick() {

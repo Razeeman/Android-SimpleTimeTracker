@@ -1,18 +1,33 @@
 package com.example.util.simpletimetracker.feature_base_adapter.category
 
+import androidx.core.view.ViewCompat
 import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
+import com.example.util.simpletimetracker.feature_views.TransitionNames
+import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.feature_views.extension.setOnClickWith
+import com.example.util.simpletimetracker.feature_views.extension.setOnLongClick
+import com.example.util.simpletimetracker.feature_views.extension.setOnLongClickWith
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData as ViewData
 import com.example.util.simpletimetracker.feature_base_adapter.databinding.ItemCategoryLayoutBinding as Binding
 
 fun createCategoryAdapterDelegate(
-    onItemClick: ((ViewData) -> Unit)? = null
+    onClick: ((ViewData) -> Unit)? = null,
+    onLongClick: ((ViewData) -> Unit)? = null,
+    onClickWithTransition: ((ViewData, Map<Any, String>) -> Unit)? = null,
+    onLongClickWithTransition: ((ViewData, Map<Any, String>) -> Unit)? = null,
 ) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
     Binding::inflate
 ) { binding, item, _ ->
 
     with(binding.viewCategoryItem) {
         item as ViewData
+
+        val transitionName = when (item) {
+            is ViewData.Activity -> TransitionNames.ACTIVITY_TAG
+            is ViewData.Record -> TransitionNames.RECORD_TAG
+        } + item.id
+        val sharedElements: Map<Any, String> = mapOf(this to transitionName)
+        ViewCompat.setTransitionName(this, transitionName)
 
         itemColor = item.color
         itemName = item.name
@@ -26,6 +41,9 @@ fun createCategoryAdapterDelegate(
             itemIconVisible = false
         }
 
-        onItemClick?.let { setOnClickWith(item, onItemClick) }
+        onClick?.let { setOnClickWith(item, it) }
+        onLongClick?.let { setOnLongClickWith(item, it) }
+        onClickWithTransition?.let { setOnClick { onClickWithTransition(item, sharedElements) } }
+        onLongClickWithTransition?.let { setOnLongClick { onLongClickWithTransition(item, sharedElements) } }
     }
 }
