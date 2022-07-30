@@ -90,6 +90,8 @@ class RecordsAllTest : BaseUiTest() {
         // Open statistics
         NavUtils.openStatisticsScreen()
         clickOnView(allOf(withText(name), isCompletelyDisplayed()))
+        clickOnViewWithIdOnPager(R.id.btnStatisticsDetailToday)
+        clickOnViewWithText(R.string.range_overall)
 
         // Open records all
         onView(withId(R.id.cardStatisticsDetailRecords)).perform(nestedScrollTo(), click())
@@ -156,6 +158,8 @@ class RecordsAllTest : BaseUiTest() {
         // Check statistics
         NavUtils.openStatisticsScreen()
         clickOnView(allOf(withText(name), isCompletelyDisplayed()))
+        clickOnViewWithIdOnPager(R.id.btnStatisticsDetailToday)
+        clickOnViewWithText(R.string.range_overall)
         onView(withId(R.id.cardStatisticsDetailRecords)).perform(nestedScrollTo())
         checkViewIsDisplayed(
             allOf(
@@ -268,6 +272,8 @@ class RecordsAllTest : BaseUiTest() {
         clickOnViewWithText(R.string.chart_filter_type_category)
         pressBack()
         tryAction { clickOnView(allOf(withText(categoryName1), isCompletelyDisplayed())) }
+        clickOnViewWithIdOnPager(R.id.btnStatisticsDetailToday)
+        clickOnViewWithText(R.string.range_overall)
 
         // Open records all
         onView(withId(R.id.cardStatisticsDetailRecords)).perform(nestedScrollTo(), click())
@@ -305,6 +311,8 @@ class RecordsAllTest : BaseUiTest() {
         // Open records all
         NavUtils.openStatisticsScreen()
         clickOnView(allOf(withText(name1), isCompletelyDisplayed()))
+        clickOnViewWithIdOnPager(R.id.btnStatisticsDetailToday)
+        clickOnViewWithText(R.string.range_overall)
         onView(withId(R.id.cardStatisticsDetailRecords)).perform(nestedScrollTo(), click())
 
         // Check records

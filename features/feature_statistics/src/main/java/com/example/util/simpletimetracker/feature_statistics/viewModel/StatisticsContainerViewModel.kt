@@ -86,9 +86,9 @@ class StatisticsContainerViewModel @Inject constructor(
 
     fun onRangeUpdated(newRange: RangeLength) {
         if (newRange != rangeLength) {
+            rangeLength = newRange
             updateNavButtonsVisibility()
             updatePosition(0)
-            rangeLength = newRange
         }
     }
 

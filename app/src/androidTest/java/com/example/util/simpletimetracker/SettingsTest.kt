@@ -80,6 +80,7 @@ class SettingsTest : BaseUiTest() {
 
         // Change setting
         NavUtils.openSettingsScreen()
+        NavUtils.openSettingsDisplay()
         onView(withId(R.id.checkboxSettingsShowUntracked)).perform(nestedScrollTo())
         onView(withId(R.id.checkboxSettingsShowUntracked)).check(matches(isNotChecked()))
         unconstrainedClickOnView(withId(R.id.checkboxSettingsShowUntracked))
@@ -198,6 +199,7 @@ class SettingsTest : BaseUiTest() {
 
         // Open settings
         NavUtils.openSettingsScreen()
+        NavUtils.openSettingsDisplay()
         NavUtils.openCardSizeScreen()
         Thread.sleep(1000)
 
@@ -256,6 +258,7 @@ class SettingsTest : BaseUiTest() {
 
         // Check settings
         NavUtils.openSettingsScreen()
+        NavUtils.openSettingsDisplay()
         onView(withId(R.id.spinnerSettingsRecordTypeSort)).perform(nestedScrollTo())
         checkViewIsDisplayed(
             allOf(withId(R.id.tvSettingsRecordTypeSortValue), withText(R.string.settings_sort_by_name))
@@ -299,6 +302,7 @@ class SettingsTest : BaseUiTest() {
 
         // Change settings
         NavUtils.openSettingsScreen()
+        NavUtils.openSettingsDisplay()
         NavUtils.openCardSizeScreen()
         clickOnViewWithText("1")
         pressBack()
@@ -336,6 +340,7 @@ class SettingsTest : BaseUiTest() {
 
         // Change settings
         NavUtils.openSettingsScreen()
+        NavUtils.openSettingsDisplay()
         clickOnSpinnerWithId(R.id.spinnerSettingsRecordTypeSort)
         clickOnViewWithText(R.string.settings_sort_manually)
         Thread.sleep(1000)
@@ -385,6 +390,7 @@ class SettingsTest : BaseUiTest() {
 
         // Change settings
         NavUtils.openSettingsScreen()
+        NavUtils.openSettingsDisplay()
         NavUtils.openCardSizeScreen()
         tryAction { clickOnViewWithText("4") }
         pressBack()
@@ -496,6 +502,7 @@ class SettingsTest : BaseUiTest() {
     fun inactivityReminder() {
         // Change settings
         NavUtils.openSettingsScreen()
+        NavUtils.openSettingsAdditional()
         onView(withId(R.id.groupSettingsInactivityReminder)).perform(nestedScrollTo())
         checkViewIsDisplayed(
             allOf(
@@ -577,6 +584,7 @@ class SettingsTest : BaseUiTest() {
 
         // Change settings
         NavUtils.openSettingsScreen()
+        NavUtils.openSettingsAdditional()
         onView(withId(R.id.groupSettingsIgnoreShortRecords)).perform(nestedScrollTo())
         checkViewIsDisplayed(
             allOf(
@@ -621,6 +629,7 @@ class SettingsTest : BaseUiTest() {
     fun militaryTime() {
         // Check settings
         NavUtils.openSettingsScreen()
+        NavUtils.openSettingsDisplay()
         onView(withId(R.id.tvSettingsUseMilitaryTimeHint)).perform(nestedScrollTo())
         onView(withId(R.id.checkboxSettingsUseMilitaryTime)).check(matches(isChecked()))
         checkViewIsDisplayed(allOf(withId(R.id.tvSettingsUseMilitaryTimeHint), withText("13:00")))
@@ -667,6 +676,7 @@ class SettingsTest : BaseUiTest() {
 
         // Check settings
         NavUtils.openSettingsScreen()
+        NavUtils.openSettingsDisplay()
         onView(withId(R.id.tvSettingsUseProportionalMinutesHint)).perform(nestedScrollTo())
         onView(withId(R.id.checkboxSettingsUseProportionalMinutes)).check(matches(isNotChecked()))
         checkViewIsDisplayed(
@@ -700,6 +710,7 @@ class SettingsTest : BaseUiTest() {
     fun keepScreenOn() {
         // Check settings
         NavUtils.openSettingsScreen()
+        NavUtils.openSettingsDisplay()
         onView(withId(R.id.tvSettingsKeepScreenOn)).perform(nestedScrollTo())
         onView(withId(R.id.checkboxSettingsKeepScreenOn)).check(matches(isNotChecked()))
 
@@ -743,6 +754,7 @@ class SettingsTest : BaseUiTest() {
 
         // Change setting
         NavUtils.openSettingsScreen()
+        NavUtils.openSettingsAdditional()
         clickOnSpinnerWithId(R.id.spinnerSettingsFirstDayOfWeek)
         if (isTodaySunday) {
             clickOnViewWithText(R.string.day_of_week_monday)
@@ -900,7 +912,7 @@ class SettingsTest : BaseUiTest() {
 
         // Check detailed statistics
         clickOnView(allOf(withText(name), isCompletelyDisplayed()))
-        clickOnView(allOf(withText(R.string.range_overall), isCompletelyDisplayed()))
+        clickOnView(allOf(withId(R.id.btnStatisticsDetailToday), isCompletelyDisplayed()))
         clickOnViewWithText(R.string.range_day)
         checkStatisticsDetailRecords(0)
         clickOnViewWithId(R.id.btnStatisticsDetailPrevious)
@@ -913,6 +925,7 @@ class SettingsTest : BaseUiTest() {
 
         // Check setting
         NavUtils.openSettingsScreen()
+        NavUtils.openSettingsAdditional()
         onView(withId(R.id.tvSettingsStartOfDayTime)).perform(nestedScrollTo())
         checkViewIsDisplayed(allOf(withId(R.id.tvSettingsStartOfDayTime), withText(startOfDayPreview)))
         checkViewIsNotDisplayed(withId(R.id.btnSettingsStartOfDaySign))
@@ -957,7 +970,7 @@ class SettingsTest : BaseUiTest() {
 
         // Check detailed statistics
         clickOnView(allOf(withText(name), isCompletelyDisplayed()))
-        clickOnView(allOf(withText(R.string.range_overall), isCompletelyDisplayed()))
+        clickOnView(allOf(withId(R.id.btnStatisticsDetailToday), isCompletelyDisplayed()))
         clickOnViewWithText(R.string.range_day)
         checkStatisticsDetailRecords(0)
         clickOnViewWithId(R.id.btnStatisticsDetailPrevious)
@@ -1008,7 +1021,7 @@ class SettingsTest : BaseUiTest() {
 
         // Check detailed statistics
         clickOnView(allOf(withText(name), isCompletelyDisplayed()))
-        clickOnView(allOf(withText(R.string.range_overall), isCompletelyDisplayed()))
+        clickOnView(allOf(withId(R.id.btnStatisticsDetailToday), isCompletelyDisplayed()))
         clickOnViewWithText(R.string.range_day)
         checkStatisticsDetailRecords(0)
         clickOnViewWithId(R.id.btnStatisticsDetailPrevious)
@@ -1062,7 +1075,7 @@ class SettingsTest : BaseUiTest() {
         // Check detailed statistics
         clickOnViewWithId(R.id.btnStatisticsContainerPrevious)
         clickOnView(allOf(withText(name), isCompletelyDisplayed()))
-        clickOnView(allOf(withText(R.string.range_overall), isCompletelyDisplayed()))
+        clickOnView(allOf(withId(R.id.btnStatisticsDetailToday), isCompletelyDisplayed()))
         clickOnViewWithText(R.string.range_day)
         checkStatisticsDetailRecords(0)
         clickOnViewWithId(R.id.btnStatisticsDetailPrevious)
@@ -1099,6 +1112,7 @@ class SettingsTest : BaseUiTest() {
 
         // Change setting
         NavUtils.openSettingsScreen()
+        NavUtils.openSettingsAdditional()
         onView(withId(R.id.checkboxSettingsShowRecordTagSelection)).perform(nestedScrollTo())
         onView(withId(R.id.checkboxSettingsShowRecordTagSelection)).check(matches(isNotChecked()))
         unconstrainedClickOnView(withId(R.id.checkboxSettingsShowRecordTagSelection))
@@ -1161,6 +1175,7 @@ class SettingsTest : BaseUiTest() {
 
         // Change setting
         NavUtils.openSettingsScreen()
+        NavUtils.openSettingsAdditional()
         onView(withId(R.id.checkboxSettingsShowRecordTagSelection)).perform(nestedScrollTo())
         checkViewIsNotDisplayed(withText(R.string.settings_show_record_tag_close_hint))
         checkViewIsNotDisplayed(withId(R.id.checkboxSettingsRecordTagSelectionClose))
@@ -1299,6 +1314,7 @@ class SettingsTest : BaseUiTest() {
 
         // Change setting
         NavUtils.openSettingsScreen()
+        NavUtils.openSettingsDisplay()
         onView(withId(R.id.checkboxSettingsShowRecordsCalendar)).perform(nestedScrollTo())
         onView(withId(R.id.checkboxSettingsShowRecordsCalendar)).check(matches(isNotChecked()))
         unconstrainedClickOnView(withId(R.id.checkboxSettingsShowRecordsCalendar))

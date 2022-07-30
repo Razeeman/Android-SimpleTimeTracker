@@ -27,7 +27,6 @@ class RecordTagInteractor @Inject constructor(
 
     suspend fun getUntyped(): List<RecordTag> {
         return repo.getUntyped().let(::sort)
-
     }
 
     suspend fun add(tag: RecordTag) {

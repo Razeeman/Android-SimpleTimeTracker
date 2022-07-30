@@ -98,6 +98,7 @@ class ArchiveTest : BaseUiTest() {
         pressBack()
 
         // Not shown in card size
+        NavUtils.openSettingsDisplay()
         NavUtils.openCardSizeScreen()
         tryAction { checkTypeVisible(name1) }
         checkTypeNotVisible(name2)
@@ -147,6 +148,7 @@ class ArchiveTest : BaseUiTest() {
         testUtils.addRecordTag(tag4)
 
         NavUtils.openSettingsScreen()
+        NavUtils.openSettingsAdditional()
         onView(withId(R.id.checkboxSettingsShowRecordTagSelection)).perform(nestedScrollTo())
         unconstrainedClickOnView(withId(R.id.checkboxSettingsShowRecordTagSelection))
         NavUtils.openCategoriesScreen()

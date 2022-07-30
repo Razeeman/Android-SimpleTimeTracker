@@ -288,6 +288,10 @@ class StatisticsDetailTest : BaseUiTest() {
 
         checkPreview(color, icon, name)
 
+        // Switch range
+        clickOnViewWithIdOnPager(R.id.btnStatisticsDetailToday)
+        clickOnViewWithText(R.string.range_overall)
+
         // Check buttons
         checkViewDoesNotExist(allOf(withId(R.id.btnStatisticsDetailPrevious), isCompletelyDisplayed()))
         checkViewDoesNotExist(allOf(withId(R.id.btnStatisticsDetailNext), isCompletelyDisplayed()))
@@ -446,7 +450,7 @@ class StatisticsDetailTest : BaseUiTest() {
         checkPreview(color, icon, name)
 
         // Switch range
-        clickOnView(allOf(withText(R.string.range_overall), isCompletelyDisplayed()))
+        clickOnViewWithIdOnPager(R.id.btnStatisticsDetailToday)
         clickOnViewWithText(R.string.range_day)
 
         // Bar chart
@@ -528,7 +532,7 @@ class StatisticsDetailTest : BaseUiTest() {
         checkPreview(color, icon, name)
 
         // Switch range
-        clickOnView(allOf(withText(R.string.range_overall), isCompletelyDisplayed()))
+        clickOnViewWithIdOnPager(R.id.btnStatisticsDetailToday)
         clickOnViewWithText(R.string.range_week)
 
         // Bar chart
@@ -620,7 +624,7 @@ class StatisticsDetailTest : BaseUiTest() {
         checkPreview(color, icon, name)
 
         // Switch range
-        clickOnView(allOf(withText(R.string.range_overall), isCompletelyDisplayed()))
+        clickOnViewWithIdOnPager(R.id.btnStatisticsDetailToday)
         clickOnViewWithText(R.string.range_month)
 
         // Bar chart
@@ -723,7 +727,7 @@ class StatisticsDetailTest : BaseUiTest() {
         checkPreview(color, icon, name)
 
         // Switch range
-        clickOnView(allOf(withText(R.string.range_overall), isCompletelyDisplayed()))
+        clickOnViewWithIdOnPager(R.id.btnStatisticsDetailToday)
         clickOnViewWithText(R.string.range_year)
 
         // Bar chart

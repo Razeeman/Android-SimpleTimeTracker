@@ -38,6 +38,14 @@ object NavUtils {
         Thread.sleep(1000)
     }
 
+    fun openSettingsDisplay() {
+        onView(withText(R.string.settings_display_title)).perform(nestedScrollTo(), click())
+    }
+
+    fun openSettingsAdditional() {
+        onView(withText(R.string.settings_additional_title)).perform(nestedScrollTo(), click())
+    }
+
     fun openCategoriesScreen() {
         onView(withText(R.string.settings_edit_categories)).perform(nestedScrollTo(), click())
     }

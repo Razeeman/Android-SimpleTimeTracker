@@ -14,7 +14,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
-import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
 import com.example.util.simpletimetracker.utils.checkViewIsNotDisplayed
 import com.example.util.simpletimetracker.utils.clickOnRecyclerItem
@@ -118,7 +117,7 @@ class AddRecordTypeTest : BaseUiTest() {
 
         clickOnRecyclerItem(R.id.rvChangeRecordTypeCategories, withText(categoryName2))
         checkViewIsDisplayed(withText(R.string.change_record_type_selected_categories_hint))
-        checkViewDoesNotExist(withId(R.id.viewDividerItem))
+        checkViewIsDisplayed(withId(R.id.viewDividerItem))
         checkViewIsDisplayed(withText(categoryName1))
         checkViewIsDisplayed(withText(categoryName2))
 
