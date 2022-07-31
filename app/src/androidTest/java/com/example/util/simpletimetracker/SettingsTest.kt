@@ -41,6 +41,7 @@ import com.example.util.simpletimetracker.utils.checkViewIsNotDisplayed
 import com.example.util.simpletimetracker.utils.clickOnSpinnerWithId
 import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
+import com.example.util.simpletimetracker.utils.clickOnViewWithIdOnPager
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.drag
 import com.example.util.simpletimetracker.utils.longClickOnViewWithId
@@ -1340,6 +1341,39 @@ class SettingsTest : BaseUiTest() {
         checkViewDoesNotExist(allOf(withId(R.id.tvRecordsCalendarHint), isCompletelyDisplayed()))
         checkViewIsDisplayed(allOf(withId(R.id.rvRecordsList), isCompletelyDisplayed()))
         checkViewIsDisplayed(allOf(withText(name), isCompletelyDisplayed()))
+    }
+
+    @Test
+    fun keepStatisticsRange() {
+        val name = "Test"
+
+        // Add activity
+        testUtils.addActivity(name = name)
+        testUtils.addRecord(name)
+
+        // Check range not transferred
+        NavUtils.openStatisticsScreen()
+        clickOnViewWithIdOnPager(R.id.btnStatisticsContainerToday)
+        clickOnViewWithText(R.string.range_week)
+        checkViewIsDisplayed(allOf(withText(R.string.title_this_week), isCompletelyDisplayed()))
+        clickOnView(allOf(withText(name), isCompletelyDisplayed()))
+        checkViewIsDisplayed(allOf(withText(R.string.title_today), isCompletelyDisplayed()))
+        pressBack()
+
+        // Change setting
+        NavUtils.openSettingsScreen()
+        NavUtils.openSettingsAdditional()
+        onView(withId(R.id.checkboxSettingsKeepStatisticsRange)).perform(nestedScrollTo())
+        onView(withId(R.id.checkboxSettingsKeepStatisticsRange)).check(matches(isNotChecked()))
+        unconstrainedClickOnView(withId(R.id.checkboxSettingsKeepStatisticsRange))
+        onView(withId(R.id.checkboxSettingsKeepStatisticsRange)).check(matches(isChecked()))
+
+        // Check range transfer
+        NavUtils.openStatisticsScreen()
+        checkViewIsDisplayed(allOf(withText(R.string.title_this_week), isCompletelyDisplayed()))
+        clickOnView(allOf(withText(name), isCompletelyDisplayed()))
+        checkViewIsDisplayed(allOf(withText(R.string.title_this_week), isCompletelyDisplayed()))
+        pressBack()
     }
 
     private fun clearDuration() {

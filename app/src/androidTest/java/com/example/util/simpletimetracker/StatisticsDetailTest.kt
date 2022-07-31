@@ -3,6 +3,8 @@ package com.example.util.simpletimetracker
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.hasSibling
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
@@ -22,6 +24,7 @@ import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.nestedScrollTo
 import com.example.util.simpletimetracker.utils.recyclerItemCount
 import com.example.util.simpletimetracker.utils.tryAction
+import com.example.util.simpletimetracker.utils.unconstrainedClickOnView
 import com.example.util.simpletimetracker.utils.withCardColor
 import com.example.util.simpletimetracker.utils.withPluralText
 import com.example.util.simpletimetracker.utils.withTag
@@ -949,6 +952,30 @@ class StatisticsDetailTest : BaseUiTest() {
         clickOnView(allOf(isDescendantOfA(withId(R.id.viewCategoryItem)), withText(tag1)))
         pressBack()
         checkRecordsCard(2)
+    }
+
+    @Test
+    fun rangeSaving() {
+        val name = "Test"
+
+        // Add activity
+        testUtils.addActivity(name = name)
+        testUtils.addRecord(name)
+
+        // Open stat detail
+        NavUtils.openStatisticsScreen()
+        clickOnView(allOf(withText(name), isCompletelyDisplayed()))
+        checkViewIsDisplayed(allOf(withText(R.string.title_today), isCompletelyDisplayed()))
+
+        // Change range
+        clickOnViewWithIdOnPager(R.id.btnStatisticsDetailToday)
+        clickOnViewWithText(R.string.range_week)
+        checkViewIsDisplayed(allOf(withText(R.string.title_this_week), isCompletelyDisplayed()))
+        pressBack()
+
+        // Range saved
+        clickOnView(allOf(withText(name), isCompletelyDisplayed()))
+        checkViewIsDisplayed(allOf(withText(R.string.title_this_week), isCompletelyDisplayed()))
     }
 
     private fun checkPreview(color: Int, icon: Int, name: String) {
