@@ -39,7 +39,7 @@
     <string name="time_minute">m</string>
     <string name="time_second">d</string>
 
-    <string name="untracked_time_name">Tak terlacak</string>
+    <string name="untracked_time_name">Tidak dilacak</string>
     <string name="running_record_goal_time">tujuan %s</string>
     <string name="record_types_empty">Tidak ada kegiatan yang ditambahkan</string>
     <string name="record_tag_selection_hint">Pilih label rekaman</string>
@@ -49,12 +49,12 @@
     <!--  Records  -->
     <string name="record_removed">Rekor %s dihapuskan</string>
     <string name="record_removed_undo">Balikkan</string>
-    <string name="records_empty">Tidak ada hal untuk ditampilkan</string>
+    <string name="records_empty">Tidak ada yang dapat ditampilkan</string>
     <string name="records_hint">Ketuk pada rekor untuk menyunting</string>
 
     <!--  Statistics  -->
-    <string name="statistics_empty">Tidak ada hal untuk ditampilkan</string>
-    <string name="statistics_total_tracked">Jumlah dilacak</string>
+    <string name="statistics_empty">Tidak ada yang dapat ditampilkan</string>
+    <string name="statistics_total_tracked">Jumlah yang dilacak</string>
     <string name="statistics_total_tracked_short">Total</string>
     <string name="statistics_hint">Ketuk pada kartu untuk melihat statistik secara detil</string>
 
@@ -171,7 +171,7 @@
     <string name="settings_start_of_day">Pergeseran awal hari</string>
     <string name="settings_inactivity_reminder">Tampilkan pengingat tidak berkegiatan</string>
     <string name="settings_inactivity_reminder_hint">Tampilkan notifikasi setelah waktu yang ditentukan jika tidak ada pewaktu yang berjalan.</string>
-    <string name="settings_ignore_short_records">Abaikan catatan pendek</string>
+    <string name="settings_ignore_short_records">Abaikan rekor pendek</string>
     <string name="settings_ignore_short_records_hint">Jangan melacak aktivitas yang lebih pendek dari waktu yang ditentukan.</string>
     <string name="settings_inactivity_reminder_disabled">Dinonaktifkan</string>
     <string name="settings_dark_mode">Mode gelap</string>
@@ -180,7 +180,7 @@
     <string name="settings_keep_screen_on">Biarkan layarnya menyala</string>
     <string name="settings_change_card_size">Ubah ukuran kartu kegiatan</string>
     <string name="settings_archive">Arsip</string>
-    <string name="settings_edit_categories">Sunting label-label</string>
+    <string name="settings_edit_categories">Sunting label</string>
     <string name="settings_edit_categories_hint">Tetapkan label untuk kegiatan dan rekor.</string>
     <string name="settings_show_record_tag_selection">Tampilkan pilihan label rekor</string>
     <string name="settings_show_record_tag_selection_hint">Saat memulai mengatur waktu, jika kegiatan memiliki label rekor apa pun - dialog pemilihan akan ditampilkan.</string>
@@ -228,11 +228,11 @@
     <string name="statistics_detail_range_averages_non_empty">Tanpa periode kosong</string>
 
     <string name="statistics_detail_total_duration">Total</string>
-    <string name="statistics_detail_record_length">Panjang rekaman</string>
+    <string name="statistics_detail_record_length">Panjang rekor</string>
     <string name="statistics_detail_shortest_record">Tersingkat</string>
     <string name="statistics_detail_average_record">Rata-Rata</string>
     <string name="statistics_detail_longest_record">Terlama</string>
-    <string name="statistics_detail_record_time">Rekam waktu</string>
+    <string name="statistics_detail_record_time">Waktu rekor</string>
     <string name="statistics_detail_first_record">Pertama</string>
     <string name="statistics_detail_last_record">Terakhir</string>
     <string name="statistics_detail_tag_split_hint">Distribusi label</string>
