@@ -4,6 +4,7 @@ import android.view.View
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
+import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withParent
@@ -11,6 +12,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
+import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
 import com.example.util.simpletimetracker.utils.checkViewIsNotDisplayed
 import com.example.util.simpletimetracker.utils.clickOnRecyclerItem
@@ -206,6 +208,71 @@ class AddRecordTagTest : BaseUiTest() {
         clickOnViewWithText(R.string.change_record_type_save)
 
         onView(withId(R.id.rvCategoriesList)).check(recyclerItemCount(7))
+    }
+
+    @Test
+    fun addRecordTagFromChangeRecord() {
+        val tagName1 = "Category1"
+        val tagName2 = "Category2"
+        val typeName = "Type"
+
+        // Add data
+        testUtils.addActivity(typeName)
+        testUtils.addRecord(typeName)
+
+        // Add category
+        NavUtils.openRecordsScreen()
+        clickOnView(allOf(withText(typeName), isCompletelyDisplayed()))
+        clickOnViewWithId(R.id.fieldChangeRecordCategory)
+        clickOnViewWithText(R.string.categories_add_record_tag)
+        typeTextIntoView(R.id.etChangeRecordTagName, tagName1)
+        closeSoftKeyboard()
+        clickOnViewWithText(R.string.change_category_save)
+
+        // Category added
+        checkViewIsDisplayed(withText(tagName1))
+
+        // Change category
+        longClickOnView(withText(tagName1))
+        typeTextIntoView(R.id.etChangeRecordTagName, tagName2)
+        closeSoftKeyboard()
+        clickOnViewWithText(R.string.change_category_save)
+
+        // Category changed
+        checkViewDoesNotExist(withText(tagName1))
+        checkViewIsDisplayed(withText(tagName2))
+    }
+
+    @Test
+    fun addRecordTagFromChangeRunningRecord() {
+        val tagName1 = "Tag1"
+        val tagName2 = "Tag2"
+        val typeName = "Type"
+
+        // Add data
+        testUtils.addActivity(typeName)
+        tryAction { clickOnViewWithText(typeName) }
+        longClickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(typeName)))
+
+        // Add category
+        clickOnViewWithId(R.id.fieldChangeRunningRecordCategory)
+        clickOnViewWithText(R.string.categories_add_record_tag)
+        typeTextIntoView(R.id.etChangeRecordTagName, tagName1)
+        closeSoftKeyboard()
+        clickOnViewWithText(R.string.change_category_save)
+
+        // Category added
+        checkViewIsDisplayed(withText(tagName1))
+
+        // Change category
+        longClickOnView(withText(tagName1))
+        typeTextIntoView(R.id.etChangeRecordTagName, tagName2)
+        closeSoftKeyboard()
+        clickOnViewWithText(R.string.change_category_save)
+
+        // Category changed
+        checkViewDoesNotExist(withText(tagName1))
+        checkViewIsDisplayed(withText(tagName2))
     }
 
     private fun checkPreviewUpdated(matcher: Matcher<View>) =

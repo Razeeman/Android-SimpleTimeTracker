@@ -20,6 +20,7 @@ import com.example.util.simpletimetracker.utils.clickOnRecyclerItem
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.longClickOnView
 import com.example.util.simpletimetracker.utils.scrollRecyclerToPosition
+import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.typeTextIntoView
 import com.example.util.simpletimetracker.utils.withCardColor
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -133,6 +134,37 @@ class AddCategoryTest : BaseUiTest() {
         // Open activity chooser
         clickOnViewWithText(R.string.change_category_types_hint)
         checkViewIsDisplayed(withText(R.string.record_types_empty))
+    }
+
+    @Test
+    fun addCategoryFromChangeActivity() {
+        val categoryName1 = "Category1"
+        val categoryName2 = "Category2"
+        val typeName = "Type"
+
+        // Add activity
+        testUtils.addActivity(typeName)
+        tryAction { longClickOnView(withText(typeName)) }
+
+        // Add category
+        clickOnViewWithText(R.string.change_record_type_category_hint)
+        clickOnViewWithText(R.string.categories_add_activity_tag)
+        typeTextIntoView(R.id.etChangeCategoryName, categoryName1)
+        closeSoftKeyboard()
+        clickOnViewWithText(R.string.change_category_save)
+
+        // Category added
+        checkViewIsDisplayed(withText(categoryName1))
+
+        // Change category
+        longClickOnView(withText(categoryName1))
+        typeTextIntoView(R.id.etChangeCategoryName, categoryName2)
+        closeSoftKeyboard()
+        clickOnViewWithText(R.string.change_category_save)
+
+        // Category changed
+        checkViewDoesNotExist(withText(categoryName1))
+        checkViewIsDisplayed(withText(categoryName2))
     }
 
     private fun checkPreviewUpdated(matcher: Matcher<View>) =
