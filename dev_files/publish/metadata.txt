@@ -137,3 +137,10 @@ Version 1.18:
 - Add more detailed statistics
 - Add some translations
 - General bug fixes and improvements
+
+Version 1.19:
+- Add statistics comparison
+- Add statistics widget configuration
+- Add simpler time adjustment
+- Add some translations
+- General bug fixes and improvements
