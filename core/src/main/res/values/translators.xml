@@ -16,6 +16,9 @@
     <string name="settings_translators_italian" translatable="false">Pyr0x1</string>
     <string name="settings_translators_italian_language" translatable="false">Italiano</string>
 
+    <string name="settings_translators_dutch" translatable="false">Erik Paelman</string>
+    <string name="settings_translators_dutch_language" translatable="false">Nederlands</string>
+
     <string name="settings_translators_portuguese" translatable="false">Hingrid Correia</string>
     <string name="settings_translators_portuguese_language" translatable="false">Português</string>
 

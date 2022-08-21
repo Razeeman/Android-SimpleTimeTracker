@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="day_of_week_monday">Ma</string>
+    <string name="day_of_week_tuesday">Di</string>
+    <string name="day_of_week_wednesday">Wo</string>
+    <string name="day_of_week_thursday">Do</string>
+    <string name="day_of_week_friday">Vr</string>
+    <string name="day_of_week_saturday">Za</string>
+    <string name="day_of_week_sunday">Zo</string>
+
+    <string name="activity_hint">Activiteiten</string>
+    <string name="activity_tag_hint">Activiteits labels</string>
+    <string name="record_tag_hint">Opname labels</string>
+
+    <!--  Range selection  -->
+    <string name="title_yesterday">Gisteren</string>
+    <string name="title_today">Vandaag</string>
+    <string name="title_tomorrow">Morgen</string>
+    <string name="title_this_week">Deze week</string>
+    <string name="title_this_month">Deze maand</string>
+    <string name="title_this_year">Dit jaar</string>
+
+    <string name="range_day">Dag</string>
+    <string name="range_week">Week</string>
+    <string name="range_month">Maand</string>
+    <string name="range_year">Jaar</string>
+    <string name="range_overall">Algemeen</string>
+    <string name="range_custom">Bereik</string>
+    <string name="range_select_day">Selecteer dag</string>
+    <string name="range_select_week">Selecteer week</string>
+    <string name="range_select_month">Selecteer maand</string>
+    <string name="range_select_year">Selecteer jaar</string>
+
+    <string name="ok">OK</string>
+    <string name="cancel">Annuleren</string>
+
+    <string name="time_hour">u</string>
+    <string name="time_minute">m</string>
+    <string name="time_second">s</string>
+
+    <string name="untracked_time_name">Niet bijgehouden</string>
+    <string name="running_record_goal_time">doel %s</string>
+    <string name="record_types_empty">Geen activiteiten toegevoegd</string>
+    <string name="record_tag_selection_hint">Selecteer label opnemen</string>
+    <string name="time_now">Nu</string>
+    <string name="cannot_be_in_the_future">Tijd kan niet in de toekomst liggen</string>
+
+    <!--  Records  -->
+    <string name="record_removed">Vermelding %s verwijderd</string>
+    <string name="record_removed_undo">Ongedaan maken</string>
+    <string name="records_empty">Niets om te laten zien</string>
+    <string name="records_hint">Klik op label om te bewerken</string>
+
+    <!--  Statistics  -->
+    <string name="statistics_empty">Niets te tonen</string>
+    <string name="statistics_total_tracked">Totaal bijgehouden</string>
+    <string name="statistics_total_tracked_short">Totaal</string>
+    <string name="statistics_hint">Klik op de kaart om gedetailleerde statistieken te zien</string>
+
+    <!--  Categories  -->
+    <string name="categories_record_type_hint">Wijs hetzelfde label toe aan verschillende activiteiten om hun gegroepeerde statistieken te bekijken</string>
+    <string name="categories_record_hint">Wijs verschillende labels toe aan opnames om ze te onderscheiden</string>
+    <string name="categories_add_activity_tag">Activitetslabel toevoegen</string>
+    <string name="categories_add_record_tag">Opname label toevoegen</string>
+
+    <!--  Change category  -->
+    <string name="change_category_removed">Label verwijderd</string>
+    <string name="change_category_archived">Label gearchiveerd</string>
+    <string name="change_category_name_hint">Voer nieuwe naam in</string>
+    <string name="change_category_color_hint">Kleur</string>
+    <string name="change_category_types_hint">Activiteiten</string>
+    <string name="change_category_type_hint">Activiteit</string>
+    <string name="change_category_save">Opslaan</string>
+    <string name="change_category_message_choose_name">Kies een naam</string>
+    <string name="change_category_selected_types_empty">Aan geen enkele activiteit toegewezen</string>
+    <string name="change_category_selected_types_hint">Toegewezen aan:</string>
+
+    <!--  Change record tag  -->
+    <string name="change_record_tag_type">Label type</string>
+    <string name="change_record_tag_type_general">Algemeen</string>
+    <string name="change_record_tag_type_general_hint">Kan worden toegewezen aan opname van elke activiteit</string>
+    <string name="change_record_tag_type_typed">Activiteit</string>
+    <string name="change_record_tag_type_typed_hint">Kan alleen aan records van een specifieke activiteit worden toegewezen</string>
+
+    <!--  Change record  -->
+    <string name="change_record_message_choose_type">Selecteer activiteit</string>
+    <string name="change_record_type_field">Activiteit</string>
+    <string name="change_record_category_field">Label</string>
+    <string name="change_record_comment_hint">Opmerking</string>
+    <string name="change_record_last_comments_hint">Laatste opmerkingen</string>
+    <string name="change_record_categories_empty">Geen opname labels toegevoegd</string>
+    <string name="change_record_activity_not_selected">Activiteit niet geselecteerd</string>
+    <string name="change_record_save">Opslaan</string>
+    <string name="change_record_untagged">Niet gelabeld</string>
+    <string name="change_running_record_removed">Lopende activiteit verwijderd</string>
+
+    <!--  Change record type  -->
+    <string name="change_record_type_archived">Activiteit gearchiveerd</string>
+    <string name="change_record_type_name_hint">Nieuwe naam invoeren</string>
+    <string name="change_record_type_color_hint">Kleur</string>
+    <string name="change_record_type_icon_hint">Icoon</string>
+    <string name="change_record_type_emoji_hint">Emoji</string>
+    <string name="change_record_type_category_hint">Labels</string>
+    <string name="change_record_type_save">Opslaan</string>
+    <string name="change_record_message_choose_name">Kies een naam</string>
+    <string name="change_record_type_categories_empty">Geen activiteitslabels toegevoegd</string>
+    <string name="change_record_type_selected_categories_empty">Geen labels toegewezen</string>
+    <string name="change_record_type_selected_categories_hint">Toegewezen labels:</string>
+    <string name="change_record_type_goal_time_disabled">Uitgeschakeld</string>
+    <string name="change_record_type_goal_time">Doeltijd</string>
+    <string name="change_record_type_goal_time_hint">Melding weergeven na het opgegeven tijdstip waarop deze activiteit is gevolgd.</string>
+
+    <!--  Dialogs  -->
+    <string name="date_time_dialog_date">Datum</string>
+    <string name="date_time_dialog_time">Tijd</string>
+
+    <string name="card_size_default">Standaardbreedte</string>
+    <string name="card_size_hint">Aantal kaarten op een rij</string>
+
+    <string name="card_order_hint">Slepen en neerzetten om opnieuw te ordenen</string>
+
+    <string name="chart_filter_hint">Filter</string>
+    <string name="types_filter_show_all">Alles tonen</string>
+    <string name="types_filter_hide_all">Alles verbergen</string>
+    <string name="chart_filter_type_hint">Statistiektype</string>
+    <string name="chart_filter_type_activity">Activiteit</string>
+    <string name="chart_filter_type_category">Label</string>
+    <string name="chart_filter_categories_empty">Geen labels toegevoegd</string>
+
+    <string name="duration_dialog_save">Opslaan</string>
+    <string name="duration_dialog_disable">Uitzetten</string>
+
+    <string name="color_selection_base_color_hint">Selecteer basiskleur</string>
+    <string name="color_selection_adjust_color_hint">Kleur aanpassen</string>
+    <string name="color_selection_final_color_hint">Eindkleur</string>
+
+    <string name="csv_export_settings_range">Bereik</string>
+    <string name="csv_export_settings_all">Alles</string>
+    <string name="csv_export_settings_hint">Selecteer tijdbereik of exporteer alle records</string>
+
+    <!--  Records all  -->
+    <string name="records_all_sort_order">Records sorteren</string>
+    <string name="records_all_filter">Activiteiten filteren</string>
+    <string name="records_all_sort_time_started">Tijd begonnen</string>
+    <string name="records_all_sort_duration">Looptijd</string>
+    <string name="records_all_search_comment">Opmerking zoeken</string>
+
+    <!--  Running records  -->
+    <string name="running_records_types_empty">Activiteiten toevoegen om tracking te starten</string>
+    <string name="running_records_empty">Klik op activiteit om tracking te volgen</string>
+    <string name="running_records_empty_hint">Lang klikken om te bewerken</string>
+    <string name="running_records_add_type">Toevoegen</string>
+
+    <!--  Settings  -->
+    <string name="settings_display_title">Scherminstellingen</string>
+    <string name="settings_additional_title">Extra instellingen</string>
+    <string name="settings_sort_order">Activiteiten sorteren</string>
+    <string name="settings_sort_by_name">Naam</string>
+    <string name="settings_sort_by_color">Kleur</string>
+    <string name="settings_sort_manually">Handmatig</string>
+    <string name="settings_first_day_of_week">Eerste dag van de week</string>
+    <string name="settings_show_untracked_time">Toon niet-getrackte tijd in opnames</string>
+    <string name="settings_show_records_calendar">Toon opnames in kalenderweergave</string>
+    <string name="settings_allow_multitasking">Multitasking toestaan</string>
+    <string name="settings_allow_multitasking_hint">Indien uitgeschakeld, zal het starten van een nieuwe timer automatisch andere activiteiten stoppen.</string>
+    <string name="settings_show_notifications">Timermeldingen weergeven</string>
+    <string name="settings_show_notifications_hint">Meldingen weergeven wanneer timers lopen.</string>
+    <string name="settings_keep_statistics_range">Statistiekbereik behouden</string>
+    <string name="settings_keep_statistics_range_hint">Indien ingeschakeld worden gedetailleerde statistieken geopend met hetzelfde tijdbereik geselecteerd in statistieken.</string>
+    <string name="settings_start_of_day">Shift begin van de dag</string>
+    <string name="settings_inactivity_reminder">Herinnering voor inactiviteit weergeven</string>
+    <string name="settings_inactivity_reminder_hint">Toon melding na gespecificeerde tijd als er geen timers lopen.</string>
+    <string name="settings_ignore_short_records">Negeer korte opnames</string>
+    <string name="settings_ignore_short_records_hint">Houd geen activiteiten bij die korter zijn dan de opgegeven tijd.</string>
+    <string name="settings_inactivity_reminder_disabled">Uitgeschakeld</string>
+    <string name="settings_dark_mode">Donkere modus</string>
+    <string name="settings_use_military_time">Gebruik 24-uurs formaat</string>
+    <string name="settings_use_proportional_minutes">Proportionele minutennotatie gebruiken</string>
+    <string name="settings_keep_screen_on">Scherm aan houden</string>
+    <string name="settings_change_card_size">Grootte activiteitskaart wijzigen</string>
+    <string name="settings_archive">Archief</string>
+    <string name="settings_edit_categories">Labels bewerken</string>
+    <string name="settings_edit_categories_hint">Wijs labels aan activiteiten en records toe.</string>
+    <string name="settings_show_record_tag_selection">Toon opname label selectie</string>
+    <string name="settings_show_record_tag_selection_hint">Als bij het starten van een timer, een activiteit opname labels heeft, wordt er een selectiedialoogvenster weergegeven.</string>
+    <string name="settings_show_record_tag_close_hint">Sluiten na het selecteren van een label.</string>
+    <string name="settings_rate">Beoordeel ons</string>
+    <string name="settings_rate_description">Beoordeel de app en laat een recensie achter.</string>
+    <string name="settings_feedback">Feedback</string>
+    <string name="settings_feedback_description">Heeft u een suggestie? Een fout gevonden? Wilt u praten? Schrijf ons!</string>
+    <string name="settings_version">Versie</string>
+    <string name="settings_email_chooser_title">Verstuur met…</string>
+    <string name="settings_translators">Vertalers</string>
+
+    <string name="settings_save_backup">Back-up opslaan</string>
+    <string name="settings_save_description">Voordat u opslaat, moet u ervoor zorgen dat u de nieuwste versie van de app hebt geïnstalleerd om conflicten te voorkomen.</string>
+    <string name="settings_restore_backup">Back-up terugzetten</string>
+    <string name="settings_restore_description">De huidige gegevens gaan verloren.</string>
+    <string name="settings_dialog_message">Back-up terugzetten?</string>
+    <string name="settings_export_csv">Spreadsheet exporteren</string>
+    <string name="settings_export_csv_description">Exporteer activiteit opnames als een csv-bestand om ze in een voorkeur spreadsheet toepassing te bekijken.</string>
+    <string name="settings_file_open_error">Fout bij openen bestand</string>
+    <string name="settings_file_create_error">Fout bij aanmaken bestand</string>
+
+    <string name="message_backup_saved">Back-up opgeslagen</string>
+    <string name="message_backup_restored">Back-up hersteld</string>
+    <string name="message_save_error">Fout bij opslaan van back-up</string>
+    <string name="message_restore_error">Fout bij terugzetten van back-up</string>
+    <string name="message_app_not_found">Applicatie niet gevonden</string>
+    <string name="message_csv_export_complete">Export voltooid</string>
+    <string name="message_csv_export_error">Fout bij het exporteren van csv</string>
+
+    <!--  Statistics detail  -->
+    <string name="statistics_detail_chart_hourly">elk uur</string>
+    <string name="statistics_detail_chart_daily">dagelijks</string>
+    <string name="statistics_detail_chart_weekly">wekelijks</string>
+    <string name="statistics_detail_chart_monthly">maandelijks</string>
+    <string name="statistics_detail_chart_yearly">jaarlijks</string>
+    <string name="statistics_detail_length_ten">10</string>
+    <string name="statistics_detail_length_fifty">50</string>
+    <string name="statistics_detail_length_hundred">100</string>
+    <string name="statistics_detail_legend_minute_suffix">m</string>
+    <string name="statistics_detail_legend_hour_suffix">u</string>
+
+    <string name="statistics_detail_range_averages_title">Gemiddelde voor periode: %s</string>
+    <string name="statistics_detail_range_averages">Voor het hele bereik</string>
+    <string name="statistics_detail_range_averages_non_empty">Zonder lege periodes</string>
+
+    <string name="statistics_detail_total_duration">Totaal</string>
+    <string name="statistics_detail_record_length">Lengte opname</string>
+    <string name="statistics_detail_shortest_record">Kortste</string>
+    <string name="statistics_detail_average_record">Gemiddelde</string>
+    <string name="statistics_detail_longest_record">Langste</string>
+    <string name="statistics_detail_record_time">Opnametijd</string>
+    <string name="statistics_detail_first_record">Eerste</string>
+    <string name="statistics_detail_last_record">Laatste</string>
+    <string name="statistics_detail_tag_split_hint">Label verdeling</string>
+    <string name="statistics_detail_day_split_hint">Dagelijkse verdeling</string>
+    <string name="statistics_detail_duration_split_hint">Verdeling opname duur</string>
+
+    <plurals name="statistics_detail_times_tracked">
+        <!--        <item quantity="zero">Records</item>-->
+        <item quantity="one">Gegeven</item>
+        <!--        <item quantity="two">Records</item>-->
+        <!--        <item quantity="few">Records</item>-->
+        <!--        <item quantity="many">Records</item>-->
+        <item quantity="other">Gegevens</item>
+    </plurals>
+
+    <!--  Widget  -->
+    <string name="widget_name">Enkele Activiteit</string>
+    <string name="widget_universal_name">Universeel</string>
+    <string name="widget_statistics_chart_name">Statistieken grafiek</string>
+    <string name="widget_load_error">Niet gevonden</string>
+
+    <!--  Notification  -->
+    <string name="notification_inactivity_title">Inactiviteit herinnering</string>
+    <string name="notification_inactivity_text">Vergeet niet uw tijd bij te houden</string>
+    <string name="notification_goal_time_description">%s doeltijd bereikt</string>
+    <string name="notification_time_started">Gestart om %s</string>
+    <string name="notification_record_type_goal_time">doelstelling %s</string>
+
+    <!--  Archive  -->
+    <string name="archive_dialog_delete">Verwijderen</string>
+    <string name="archive_dialog_restore">Herstellen</string>
+    <string name="archive_empty">Archief is leeg</string>
+    <string name="archive_activity_restored">Activiteit hersteld</string>
+    <string name="archive_tag_restored">Label hersteld</string>
+    <string name="archive_activity_deleted">Activiteit verwijderd</string>
+    <string name="archive_tag_deleted">Label verwijderd</string>
+    <string name="archive_activity_deletion_message">Alle gegevens van deze activiteit en gegevenslabels worden ook verwijderd.</string>
+    <string name="archive_tag_deletion_message">Alle gegevens die zijn gelabeld met dit label worden niet gelabeld.</string>
+    <string name="archive_deletion_alert">Bet u zeker? Deze actie kan niet ongedaan worden gemaakt.</string>
+    <string name="archive_records_count">Gegevens</string>
+    <string name="archive_record_tags_count">Gegevens labelen</string>
+    <string name="archive_tagged_records_count">Gelabelde gegevens</string>
+
+    <!--  Icon emoji category  -->
+    <string name="emojiGroupSmileys">Smileys &amp; Emotie</string>
+    <string name="emojiGroupPeople">Mensen &amp; Lichaam</string>
+    <string name="emojiGroupAnimals">Dieren &amp; Natuur</string>
+    <string name="emojiGroupFood">Eten &amp; Drinken</string>
+    <string name="emojiGroupTravel">Reizen &amp; Plaatsen</string>
+    <string name="emojiGroupActivities">Activiteiten</string>
+    <string name="emojiGroupObjects">Voorwerpen</string>
+    <string name="emojiGroupSymbols">Symbolen</string>
+    <string name="emojiGroupFlags">Vlaggen</string>
+
+    <!--  Icon image category  -->
+    <string name="imageGroupMaps">Kaarten</string>
+    <string name="imageGroupPlaces">Plaatsen</string>
+    <string name="imageGroupSocial">Sociaal</string>
+    <string name="imageGroupAction">Actie</string>
+    <string name="imageGroupHardware">Hardware</string>
+    <string name="imageGroupAlert">Alarm</string>
+    <string name="imageGroupAv">Audio video</string>
+    <string name="imageGroupCommunication">Communicatie</string>
+    <string name="imageGroupContent">Inhoud</string>
+    <string name="imageGroupDevice">Apparaat</string>
+    <string name="imageGroupEditor">Redacteur</string>
+    <string name="imageGroupFile">Bestand</string>
+    <string name="imageGroupImage">Afbeelding</string>
+    <string name="imageGroupNavigation">Navigatie</string>
+    <string name="imageGroupNotification">Melding</string>
+    <string name="imageGroupToggle">Wisselen</string>
+
+    <!--  Shortcuts  -->
+    <string name="shortcut_navigation_records">Gegevens</string>
+    <string name="shortcut_navigation_statistics">Statistieken</string>
+    <string name="shortcut_navigation_settings">Instellingen</string>
+
+</resources>
