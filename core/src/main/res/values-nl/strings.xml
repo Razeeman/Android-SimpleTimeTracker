@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="day_of_week_monday">Ma</string>
-    <string name="day_of_week_tuesday">Di</string>
-    <string name="day_of_week_wednesday">Wo</string>
-    <string name="day_of_week_thursday">Do</string>
-    <string name="day_of_week_friday">Vr</string>
-    <string name="day_of_week_saturday">Za</string>
-    <string name="day_of_week_sunday">Zo</string>
+    <string name="day_of_week_monday">ma</string>
+    <string name="day_of_week_tuesday">di</string>
+    <string name="day_of_week_wednesday">wo</string>
+    <string name="day_of_week_thursday">do</string>
+    <string name="day_of_week_friday">vr</string>
+    <string name="day_of_week_saturday">za</string>
+    <string name="day_of_week_sunday">zo</string>
 
     <string name="activity_hint">Activiteiten</string>
-    <string name="activity_tag_hint">Activiteits labels</string>
+    <string name="activity_tag_hint">Activiteit labels</string>
     <string name="record_tag_hint">Opname labels</string>
 
     <!--  Range selection  -->
@@ -42,27 +42,27 @@
     <string name="untracked_time_name">Niet bijgehouden</string>
     <string name="running_record_goal_time">doel %s</string>
     <string name="record_types_empty">Geen activiteiten toegevoegd</string>
-    <string name="record_tag_selection_hint">Selecteer label opnemen</string>
+    <string name="record_tag_selection_hint">Selecteer recordlabel</string>
     <string name="time_now">Nu</string>
     <string name="cannot_be_in_the_future">Tijd kan niet in de toekomst liggen</string>
 
     <!--  Records  -->
-    <string name="record_removed">Vermelding %s verwijderd</string>
+    <string name="record_removed">Record %s verwijderd</string>
     <string name="record_removed_undo">Ongedaan maken</string>
     <string name="records_empty">Niets om te laten zien</string>
-    <string name="records_hint">Klik op label om te bewerken</string>
+    <string name="records_hint">Klik op record om te bewerken</string>
 
     <!--  Statistics  -->
     <string name="statistics_empty">Niets te tonen</string>
     <string name="statistics_total_tracked">Totaal bijgehouden</string>
     <string name="statistics_total_tracked_short">Totaal</string>
-    <string name="statistics_hint">Klik op de kaart om gedetailleerde statistieken te zien</string>
+    <string name="statistics_hint">Klik op een kaart voor gedetailleerde statistieken</string>
 
     <!--  Categories  -->
     <string name="categories_record_type_hint">Wijs hetzelfde label toe aan verschillende activiteiten om hun gegroepeerde statistieken te bekijken</string>
-    <string name="categories_record_hint">Wijs verschillende labels toe aan opnames om ze te onderscheiden</string>
+    <string name="categories_record_hint">Wijs verschillende labels toe aan records om ze te onderscheiden</string>
     <string name="categories_add_activity_tag">Activitetslabel toevoegen</string>
-    <string name="categories_add_record_tag">Opname label toevoegen</string>
+    <string name="categories_add_record_tag">Recordtag toevoegen</string>
 
     <!--  Change category  -->
     <string name="change_category_removed">Label verwijderd</string>
@@ -129,7 +129,7 @@
     <string name="chart_filter_categories_empty">Geen labels toegevoegd</string>
 
     <string name="duration_dialog_save">Opslaan</string>
-    <string name="duration_dialog_disable">Uitzetten</string>
+    <string name="duration_dialog_disable">Uitschakelen</string>
 
     <string name="color_selection_base_color_hint">Selecteer basiskleur</string>
     <string name="color_selection_adjust_color_hint">Kleur aanpassen</string>
@@ -147,8 +147,8 @@
     <string name="records_all_search_comment">Opmerking zoeken</string>
 
     <!--  Running records  -->
-    <string name="running_records_types_empty">Activiteiten toevoegen om tracking te starten</string>
-    <string name="running_records_empty">Klik op activiteit om tracking te volgen</string>
+    <string name="running_records_types_empty">Voeg activiteiten toe om het volgen te starten</string>
+    <string name="running_records_empty">Klik op activiteit om het volgen te starten</string>
     <string name="running_records_empty_hint">Lang klikken om te bewerken</string>
     <string name="running_records_add_type">Toevoegen</string>
 
@@ -160,23 +160,23 @@
     <string name="settings_sort_by_color">Kleur</string>
     <string name="settings_sort_manually">Handmatig</string>
     <string name="settings_first_day_of_week">Eerste dag van de week</string>
-    <string name="settings_show_untracked_time">Toon niet-getrackte tijd in opnames</string>
-    <string name="settings_show_records_calendar">Toon opnames in kalenderweergave</string>
+    <string name="settings_show_untracked_time">Toon niet-gevolgde tijd in records</string>
+    <string name="settings_show_records_calendar">Toon records in kalenderweergave</string>
     <string name="settings_allow_multitasking">Multitasking toestaan</string>
     <string name="settings_allow_multitasking_hint">Indien uitgeschakeld, zal het starten van een nieuwe timer automatisch andere activiteiten stoppen.</string>
-    <string name="settings_show_notifications">Timermeldingen weergeven</string>
-    <string name="settings_show_notifications_hint">Meldingen weergeven wanneer timers lopen.</string>
+    <string name="settings_show_notifications">Timer-meldingen tonen</string>
+    <string name="settings_show_notifications_hint">Toon meldingen wanneer timers lopen.</string>
     <string name="settings_keep_statistics_range">Statistiekbereik behouden</string>
     <string name="settings_keep_statistics_range_hint">Indien ingeschakeld worden gedetailleerde statistieken geopend met hetzelfde tijdbereik geselecteerd in statistieken.</string>
     <string name="settings_start_of_day">Shift begin van de dag</string>
     <string name="settings_inactivity_reminder">Herinnering voor inactiviteit weergeven</string>
     <string name="settings_inactivity_reminder_hint">Toon melding na gespecificeerde tijd als er geen timers lopen.</string>
-    <string name="settings_ignore_short_records">Negeer korte opnames</string>
+    <string name="settings_ignore_short_records">Negeer korte records</string>
     <string name="settings_ignore_short_records_hint">Houd geen activiteiten bij die korter zijn dan de opgegeven tijd.</string>
     <string name="settings_inactivity_reminder_disabled">Uitgeschakeld</string>
     <string name="settings_dark_mode">Donkere modus</string>
     <string name="settings_use_military_time">Gebruik 24-uurs formaat</string>
-    <string name="settings_use_proportional_minutes">Proportionele minutennotatie gebruiken</string>
+    <string name="settings_use_proportional_minutes">Gebruik proportioneel minutenformaat</string>
     <string name="settings_keep_screen_on">Scherm aan houden</string>
     <string name="settings_change_card_size">Grootte activiteitskaart wijzigen</string>
     <string name="settings_archive">Archief</string>
@@ -194,12 +194,12 @@
     <string name="settings_translators">Vertalers</string>
 
     <string name="settings_save_backup">Back-up opslaan</string>
-    <string name="settings_save_description">Voordat u opslaat, moet u ervoor zorgen dat u de nieuwste versie van de app hebt geïnstalleerd om conflicten te voorkomen.</string>
+    <string name="settings_save_description">Zorg ervoor dat je de nieuwste versie van de app hebt geïnstalleerd voordat je opslaat om conflicten te voorkomen.</string>
     <string name="settings_restore_backup">Back-up terugzetten</string>
     <string name="settings_restore_description">De huidige gegevens gaan verloren.</string>
     <string name="settings_dialog_message">Back-up terugzetten?</string>
     <string name="settings_export_csv">Spreadsheet exporteren</string>
-    <string name="settings_export_csv_description">Exporteer activiteit opnames als een csv-bestand om ze in een voorkeur spreadsheet toepassing te bekijken.</string>
+    <string name="settings_export_csv_description">Exporteer activiteitenrecords als een csv-bestand om ze te bekijken in een voorkeurspreadsheet-applicatie.</string>
     <string name="settings_file_open_error">Fout bij openen bestand</string>
     <string name="settings_file_create_error">Fout bij aanmaken bestand</string>
 
@@ -228,9 +228,9 @@
     <string name="statistics_detail_range_averages_non_empty">Zonder lege periodes</string>
 
     <string name="statistics_detail_total_duration">Totaal</string>
-    <string name="statistics_detail_record_length">Lengte opname</string>
+    <string name="statistics_detail_record_length">Record lengte</string>
     <string name="statistics_detail_shortest_record">Kortste</string>
-    <string name="statistics_detail_average_record">Gemiddelde</string>
+    <string name="statistics_detail_average_record">Gemiddeld</string>
     <string name="statistics_detail_longest_record">Langste</string>
     <string name="statistics_detail_record_time">Opnametijd</string>
     <string name="statistics_detail_first_record">Eerste</string>
@@ -240,18 +240,18 @@
     <string name="statistics_detail_duration_split_hint">Verdeling opname duur</string>
 
     <plurals name="statistics_detail_times_tracked">
-        <!--        <item quantity="zero">Records</item>-->
+        <!--        <item quantity="zero">Gegevens</item>-->
         <item quantity="one">Gegeven</item>
-        <!--        <item quantity="two">Records</item>-->
-        <!--        <item quantity="few">Records</item>-->
-        <!--        <item quantity="many">Records</item>-->
+        <!--        <item quantity="two">Gegevens</item>-->
+        <!--        <item quantity="few">Gegevens</item>-->
+        <!--        <item quantity="many">Gegevens</item>-->
         <item quantity="other">Gegevens</item>
     </plurals>
 
     <!--  Widget  -->
     <string name="widget_name">Enkele Activiteit</string>
     <string name="widget_universal_name">Universeel</string>
-    <string name="widget_statistics_chart_name">Statistieken grafiek</string>
+    <string name="widget_statistics_chart_name">Statistieken Grafiek</string>
     <string name="widget_load_error">Niet gevonden</string>
 
     <!--  Notification  -->
@@ -269,9 +269,9 @@
     <string name="archive_tag_restored">Label hersteld</string>
     <string name="archive_activity_deleted">Activiteit verwijderd</string>
     <string name="archive_tag_deleted">Label verwijderd</string>
-    <string name="archive_activity_deletion_message">Alle gegevens van deze activiteit en gegevenslabels worden ook verwijderd.</string>
-    <string name="archive_tag_deletion_message">Alle gegevens die zijn gelabeld met dit label worden niet gelabeld.</string>
-    <string name="archive_deletion_alert">Bet u zeker? Deze actie kan niet ongedaan worden gemaakt.</string>
+    <string name="archive_activity_deletion_message">Alle records van deze activiteit en record labels worden ook verwijderd.</string>
+    <string name="archive_tag_deletion_message">Alle records die zijn gelabeld met dit label worden niet gelabeld.</string>
+    <string name="archive_deletion_alert">Bent u zeker? Deze actie kan niet ongedaan worden gemaakt.</string>
     <string name="archive_records_count">Gegevens</string>
     <string name="archive_record_tags_count">Gegevens labelen</string>
     <string name="archive_tagged_records_count">Gelabelde gegevens</string>
