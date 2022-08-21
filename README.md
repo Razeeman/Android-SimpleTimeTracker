@@ -40,13 +40,6 @@ Simple app that helps track how much time you spend on all the useless activitie
 [![statistics_detail2_thumb]][statistics_detail2]
 <br>
 
-## Settings
-
-[![settings1_thumb]][settings1]
-[![settings2_thumb]][settings2]
-[![settings3_thumb]][settings3]
-<br>
-
 ## Widgets
 
 [![widgets_thumb]][widgets]
@@ -75,12 +68,11 @@ Simple app that helps track how much time you spend on all the useless activitie
 - Hilt
 - Room, migrations
 - Coroutines
-- Several Widgets
+- Widgets
 - Notifications
 - Custom Views (Pie Chart, Bar Chart, Color Selection, Calendar)
 - Recycler, custom Adapter Delegates, DiffUtils with Payloads
 - Drag and Drop, Gesture detection
-- Snackbars with Action
 - Gradle Kotlin DSL
 - View Binding
 - Database backup and restore, export to csv
@@ -124,13 +116,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 [records_thumb]: dev_files/screens/records_thumb.png
 [records]: dev_files/screens/records.png
-
-[settings1_thumb]: dev_files/screens/settings1_thumb.png
-[settings1]: dev_files/screens/settings1.png
-[settings2_thumb]: dev_files/screens/settings2_thumb.png
-[settings2]: dev_files/screens/settings2.png
-[settings3_thumb]: dev_files/screens/settings3_thumb.png
-[settings3]: dev_files/screens/settings3.png
 
 [statistics_thumb]: dev_files/screens/statistics_thumb.png
 [statistics]: dev_files/screens/statistics.png
