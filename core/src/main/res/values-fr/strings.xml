@@ -28,9 +28,9 @@
     <string name="range_overall">Global</string>
     <string name="range_custom">Intervalle</string>
     <string name="range_select_day">Sélectionner une date</string>
-    <string name="range_select_week">Sélectionnez la semaine</string>
-    <string name="range_select_month">Sélectionnez le mois</string>
-    <string name="range_select_year">Sélectionnez l\'année</string>
+    <string name="range_select_week">Sélectionner une semaine</string>
+    <string name="range_select_month">Sélectionner un mois</string>
+    <string name="range_select_year">Sélectionner une année</string>
 
     <string name="ok">OK</string>
     <string name="cancel">Annuler</string>
@@ -50,7 +50,7 @@
     <string name="record_removed">Enregistrement %s supprimé</string>
     <string name="record_removed_undo">Annuler</string>
     <string name="records_empty">Rien à montrer</string>
-    <string name="records_hint">Cliquez sur un enregistrement pour le modifier</string>
+    <string name="records_hint">Cliquez un enregistrement pour le modifier</string>
 
     <!--  Statistics  -->
     <string name="statistics_empty">Rien à montrer</string>
@@ -93,7 +93,7 @@
     <string name="change_record_activity_not_selected">Activité non sélectionnée</string>
     <string name="change_record_save">Sauvegarder</string>
     <string name="change_record_untagged">Non étiqueté</string>
-    <string name="change_running_record_removed">Activité en cours d\'exécution supprimé</string>
+    <string name="change_running_record_removed">Activité en cours d\'exécution supprimée</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Activité archivée</string>
