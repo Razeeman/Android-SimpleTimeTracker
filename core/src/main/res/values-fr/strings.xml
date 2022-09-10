@@ -131,7 +131,7 @@
     <string name="duration_dialog_save">Sauvegarder</string>
     <string name="duration_dialog_disable">Désactiver</string>
 
-    <string name="color_selection_base_color_hint">Sélectionnez la teinte de base</string>
+    <string name="color_selection_base_color_hint">Sélectionnez la couleur de base</string>
     <string name="color_selection_adjust_color_hint">Ajustez la couleur</string>
     <string name="color_selection_final_color_hint">Couleur finale</string>
 
