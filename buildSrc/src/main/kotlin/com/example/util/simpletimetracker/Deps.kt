@@ -37,12 +37,8 @@ object Deps {
     }
 
     object Emoji {
-        const val emoji =
-            "androidx.emoji:emoji:${Versions.emoji}"
-        const val emojiCompat =
-            "androidx.emoji:emoji-appcompat:${Versions.emoji}"
         const val emojiBundled =
-            "androidx.emoji:emoji-bundled:${Versions.emoji}"
+            "androidx.emoji2:emoji2-bundled:${Versions.emoji}"
     }
 
     object Ktx {

@@ -14,7 +14,7 @@
         app:backgroundTint="?appIconColor"
         tools:background="@drawable/unknown" />
 
-    <androidx.emoji.widget.EmojiAppCompatTextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvIconViewEmoji"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

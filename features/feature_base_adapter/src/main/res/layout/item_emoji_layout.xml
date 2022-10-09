@@ -7,7 +7,7 @@
     android:background="?selectableItemBackgroundBorderless"
     tools:cardBackgroundColor="@color/red_500">
 
-    <androidx.emoji.widget.EmojiAppCompatTextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvEmojiItem"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

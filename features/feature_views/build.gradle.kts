@@ -33,5 +33,4 @@ dependencies {
     implementation(Deps.Androidx.constraintLayout)
     implementation(Deps.Androidx.cardView)
     implementation(Deps.Androidx.material)
-    implementation(Deps.Emoji.emojiCompat)
 }

@@ -23,7 +23,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.emoji.widget.EmojiAppCompatTextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvRecordTypeItemEmoji"
         android:textColor="?appIconColor"
         android:visibility="gone"

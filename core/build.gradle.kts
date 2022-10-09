@@ -49,7 +49,6 @@ dependencies {
     api(Deps.Androidx.material)
     api(Deps.Androidx.lifecycleExtensions)
     api(Deps.Androidx.viewpager2)
-    api(Deps.Emoji.emojiCompat)
     api(Deps.Emoji.emojiBundled)
     api(Deps.Google.flexBox)
     api(Deps.Google.dagger)
