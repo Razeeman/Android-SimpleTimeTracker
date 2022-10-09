@@ -11,6 +11,7 @@
     <string name="settings_translators_spanish_language" translatable="false">Español</string>
 
     <string name="settings_translators_french" translatable="false">R3da</string>
+    <string name="settings_translators_french2" translatable="false">Corentin Forler</string>
     <string name="settings_translators_french_language" translatable="false">Français</string>
 
     <string name="settings_translators_italian" translatable="false">Pyr0x1</string>
