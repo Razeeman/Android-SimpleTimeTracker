@@ -60,6 +60,7 @@
         <item>😂</item> # E0.6 face with tears of joy
         <item>🙂</item> # E1.0 slightly smiling face
         <item>🙃</item> # E1.0 upside-down face
+        <item>🫠</item> # E14.0 melting face
         <item>😉</item> # E0.6 winking face
         <item>😊</item> # E0.6 smiling face with smiling eyes
         <item>😇</item> # E1.0 smiling face with halo
@@ -86,8 +87,11 @@
         # subgroup: face-hand
         <item>🤗</item> # E1.0 hugging face
         <item>🤭</item> # E5.0 face with hand over mouth
+        <item>🫢</item> # E14.0 face with open eyes and hand over mouth
+        <item>🫣</item> # E14.0 face with peeking eye
         <item>🤫</item> # E5.0 shushing face
         <item>🤔</item> # E1.0 thinking face
+        <item>🫡</item> # E14.0 saluting face
 
         # subgroup: face-neutral-skeptical
         <item>🤐</item> # E1.0 zipper-mouth face
@@ -95,6 +99,7 @@
         <item>😐</item> # E0.7 neutral face
         <item>😑</item> # E1.0 expressionless face
         <item>😶</item> # E1.0 face without mouth
+        <item>🫥</item> # E14.0 dotted line face
         <item>😶‍🌫️</item> # E13.1 face in clouds
         <item>😏</item> # E0.6 smirking face
         <item>😒</item> # E0.6 unamused face
@@ -136,6 +141,7 @@
 
         # subgroup: face-concerned
         <item>😕</item> # E1.0 confused face
+        <item>🫤</item> # E14.0 face with diagonal mouth
         <item>😟</item> # E1.0 worried face
         <item>🙁</item> # E1.0 slightly frowning face
         <item>☹️</item> # E0.7 frowning face
@@ -144,6 +150,7 @@
         <item>😲</item> # E0.6 astonished face
         <item>😳</item> # E0.6 flushed face
         <item>🥺</item> # E11.0 pleading face
+        <item>🥹</item> # E14.0 face holding back tears
         <item>😦</item> # E1.0 frowning face with open mouth
         <item>😧</item> # E1.0 anguished face
         <item>😨</item> # E0.6 fearful face
@@ -244,6 +251,10 @@
         <item>🖐️SKIN_TONE</item> # E0.7 hand with fingers splayed
         <item>✋SKIN_TONE</item> # E0.6 raised hand
         <item>🖖SKIN_TONE</item>  # E1.0 vulcan salute
+        <item>🫱SKIN_TONE</item> # E14.0 rightwards hand
+        <item>🫲SKIN_TONE</item> # E14.0 leftwards hand
+        <item>🫳SKIN_TONE</item> # E14.0 palm down hand
+        <item>🫴SKIN_TONE</item> # E14.0 palm up hand
 
         # subgroup: hand-fingers-partial
         <item>👌SKIN_TONE</item> # E1.0 OK hand
@@ -251,6 +262,7 @@
         <item>🤏SKIN_TONE</item> # E12.0 pinching hand
         <item>✌️SKIN_TONE</item> # E1.0 victory hand
         <item>🤞SKIN_TONE</item> # E3.0 crossed fingers
+        <item>🫰SKIN_TONE</item> # E14.0 hand with index finger and thumb crossed
         <item>🤟SKIN_TONE</item> # E5.0 love-you gesture
         <item>🤘SKIN_TONE</item> # E1.0 sign of the horns
         <item>🤙SKIN_TONE</item> # E3.0 call me hand
@@ -262,6 +274,7 @@
         <item>🖕SKIN_TONE</item> # E1.0 middle finger
         <item>👇SKIN_TONE</item> # E1.0 backhand index pointing down
         <item>☝️SKIN_TONE</item> # E1.0 index pointing up
+        <item>🫵SKIN_TONE</item> # E14.0 index pointing at the viewer
 
         # subgroup: hand-fingers-closed
         <item>👍SKIN_TONE</item> # E1.0 thumbs up
@@ -274,9 +287,11 @@
         # subgroup: hands
         <item>👏SKIN_TONE</item> # E1.0 clapping hands
         <item>🙌SKIN_TONE</item> # E1.0 raising hands
+        <item>🫶SKIN_TONE</item> # E14.0 heart hands
         <item>👐SKIN_TONE</item> # E1.0 open hands
         <item>🤲SKIN_TONE</item> # E5.0 palms up together
-        <item>🤝</item> # E3.0 handshake ???
+        <item>🤝SKIN_TONE</item> # E3.0 handshake ???
+        <item>🫱SKIN_TONE‍🫲SKIN_TONE</item> # E14.0 handshake ???
         <item>🙏SKIN_TONE</item> # E1.0 folded hands
 
         # subgroup: hand-prop
@@ -302,6 +317,7 @@
         <item>👁️</item> # E0.7 eye
         <item>👅</item> # E0.6 tongue
         <item>👄</item> # E0.6 mouth
+        <item>🫦</item> # E14.0 biting lip
 
         # subgroup: person
         <item>👶SKIN_TONE</item> # E1.0 baby
@@ -427,6 +443,7 @@
         <item>👷SKIN_TONE</item> # E1.0 construction worker
         <item>👷SKIN_TONE‍♂️</item> # E4.0 man construction worker
         <item>👷SKIN_TONE‍♀️</item> # E4.0 woman construction worker
+        <item>🫅SKIN_TONE</item> # E14.0 person with crown
         <item>🤴SKIN_TONE</item> # E3.0 prince
         <item>👸SKIN_TONE</item> # E1.0 princess
         <item>👳SKIN_TONE</item> # E1.0 person wearing turban
@@ -441,6 +458,8 @@
         <item>👰SKIN_TONE‍♂️</item> # E13.0 man with veil
         <item>👰SKIN_TONE‍♀️</item> # E13.0 woman with veil
         <item>🤰SKIN_TONE</item> # E3.0 pregnant woman
+        <item>🫃SKIN_TONE</item> # E14.0 pregnant man
+        <item>🫄SKIN_TONE</item> # E14.0 pregnant person
         <item>🤱SKIN_TONE</item> # E5.0 breast-feeding
         <item>👩SKIN_TONE‍🍼</item> # E13.0 woman feeding baby
         <item>👨SKIN_TONE‍🍼</item> # E13.0 man feeding baby
@@ -478,6 +497,7 @@
         <item>🧟</item> # E5.0 zombie
         <item>🧟‍♂️</item> # E5.0 man zombie
         <item>🧟‍♀️</item> # E5.0 woman zombie
+        <item>🧌</item> # E14.0 troll
 
         # subgroup: person-activity
         <item>💆SKIN_TONE</item> # E1.0 person getting massage
@@ -732,6 +752,7 @@
         <item>🦈</item> # E3.0 shark
         <item>🐙</item> # E0.6 octopus
         <item>🐚</item> # E0.6 spiral shell
+        <item>🪸</item> # E14.0 coral
 
         # subgroup: animal-bug
         <item>🐌</item> # E0.6 snail
@@ -755,6 +776,7 @@
         <item>💐</item> # E0.6 bouquet
         <item>🌸</item> # E0.6 cherry blossom
         <item>💮</item> # E0.6 white flower
+        <item>🪷</item> # E14.0 lotus
         <item>🏵️</item> # E0.7 rosette
         <item>🌹</item> # E0.6 rose
         <item>🥀</item> # E3.0 wilted flower
@@ -777,6 +799,8 @@
         <item>🍁</item> # E0.6 maple leaf
         <item>🍂</item> # E0.6 fallen leaf
         <item>🍃</item> # E0.6 leaf fluttering in wind
+        <item>🪹</item> # E14.0 empty nest
+        <item>🪺</item> # E14.0 nest with eggs
     </string-array>
 
     # group: Food Drink
@@ -817,6 +841,7 @@
         <item>🧅</item> # E12.0 onion
         <item>🍄</item> # E0.6 mushroom
         <item>🥜</item> # E3.0 peanuts
+        <item>🫘</item> # E14.0 beans
         <item>🌰</item> # E0.6 chestnut
 
         # subgroup: food-prepared
@@ -912,6 +937,7 @@
         <item>🍻</item> # E0.6 clinking beer mugs
         <item>🥂</item> # E3.0 clinking glasses
         <item>🥃</item> # E3.0 tumbler glass
+        <item>🫗</item> # E14.0 pouring liquid
         <item>🥤</item> # E5.0 cup with straw
         <item>🧋</item> # E13.0 bubble tea
         <item>🧃</item> # E12.0 beverage box
@@ -924,6 +950,7 @@
         <item>🍴</item> # E0.6 fork and knife
         <item>🥄</item> # E3.0 spoon
         <item>🔪</item> # E0.6 kitchen knife
+        <item>🫙</item> # E14.0 jar
         <item>🏺</item> # E1.0 amphora
     </string-array>
 
@@ -999,6 +1026,7 @@
         <item>🌉</item> # E0.6 bridge at night
         <item>♨️</item> # E0.6 hot springs
         <item>🎠</item> # E0.6 carousel horse
+        <item>🛝</item> # E14.0 playground slide
         <item>🎡</item> # E0.6 ferris wheel
         <item>🎢</item> # E0.6 roller coaster
         <item>💈</item> # E0.6 barber pole
@@ -1049,6 +1077,7 @@
         <item>🛤️</item> # E0.7 railway track
         <item>🛢️</item> # E0.7 oil drum
         <item>⛽</item> # E0.6 fuel pump
+        <item>🛞</item> # E14.0 wheel
         <item>🚨</item> # E0.6 police car light
         <item>🚥</item> # E0.6 horizontal traffic light
         <item>🚦</item> # E1.0 vertical traffic light
@@ -1057,6 +1086,7 @@
 
         # subgroup: transport-water
         <item>⚓</item> # E0.6 anchor
+        <item>🛟</item> # E14.0 ring buoy
         <item>⛵</item> # E0.6 sailboat
         <item>🛶</item> # E3.0 canoe
         <item>🚤</item> # E0.6 speedboat
@@ -1237,6 +1267,7 @@
         <item>🔮</item> # E0.6 crystal ball
         <item>🪄</item> # E13.0 magic wand
         <item>🧿</item> # E11.0 nazar amulet
+        <item>🪬</item> # E14.0 hamsa
         <item>🎮</item> # E0.6 video game
         <item>🕹️</item> # E0.7 joystick
         <item>🎰</item> # E0.6 slot machine
@@ -1244,6 +1275,7 @@
         <item>🧩</item> # E11.0 puzzle piece
         <item>🧸</item> # E11.0 teddy bear
         <item>🪅</item> # E13.0 piñata
+        <item>🪩</item> # E14.0 mirror ball
         <item>🪆</item> # E13.0 nesting dolls
         <item>♠️</item> # E0.6 spade suit
         <item>♥️</item> # E0.6 heart suit
@@ -1356,6 +1388,7 @@
 
         # subgroup: computer
         <item>🔋</item> # E0.6 battery
+        <item>🪫</item> # E14.0 low battery
         <item>🔌</item> # E0.6 electric plug
         <item>💻</item> # E0.6 laptop
         <item>🖥️</item> # E0.7 desktop computer
@@ -1516,7 +1549,9 @@
         <item>🩸</item> # E12.0 drop of blood
         <item>💊</item> # E0.6 pill
         <item>🩹</item> # E12.0 adhesive bandage
+        <item>🩼</item> # E14.0 crutch
         <item>🩺</item> # E12.0 stethoscope
+        <item>🩻</item> # E14.0 x-ray
 
         # subgroup: household
         <item>🚪</item> # E0.6 door
@@ -1539,6 +1574,7 @@
         <item>🧻</item> # E11.0 roll of paper
         <item>🪣</item> # E13.0 bucket
         <item>🧼</item> # E11.0 soap
+        <item>🫧</item> # E14.0 bubbles
         <item>🪥</item> # E13.0 toothbrush
         <item>🧽</item> # E11.0 sponge
         <item>🧯</item> # E11.0 fire extinguisher
@@ -1551,6 +1587,7 @@
         <item>⚱️</item> # E1.0 funeral urn
         <item>🗿</item> # E0.6 moai
         <item>🪧</item> # E13.0 placard
+        <item>🪪</item> # E14.0 identification card
     </string-array>
 
     # group: Symbols
@@ -1673,6 +1710,7 @@
         <item>➕</item> # E0.6 plus
         <item>➖</item> # E0.6 minus
         <item>➗</item> # E0.6 divide
+        <item>🟰</item> # E14.0 heavy equals sign
         <item>♾️</item> # E11.0 infinity
 
         # subgroup: punctuation
