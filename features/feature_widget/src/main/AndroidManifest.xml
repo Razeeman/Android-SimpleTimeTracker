@@ -3,13 +3,17 @@
 
     <application android:theme="@style/AppTheme">
 
-        <activity android:name=".configure.view.WidgetConfigureActivity">
+        <activity
+            android:name=".configure.view.WidgetConfigureActivity"
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".statistics.settings.WidgetStatisticsSettingsActivity">
+        <activity
+            android:name=".statistics.settings.WidgetStatisticsSettingsActivity"
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
@@ -29,6 +33,7 @@
 
         <receiver
             android:name=".widget.WidgetProvider"
+            android:exported="false"
             android:label="@string/widget_name">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -40,6 +45,7 @@
 
         <receiver
             android:name=".universal.WidgetUniversalProvider"
+            android:exported="false"
             android:label="@string/widget_universal_name">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -51,6 +57,7 @@
 
         <receiver
             android:name=".statistics.WidgetStatisticsChartProvider"
+            android:exported="false"
             android:label="@string/widget_statistics_chart_name">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />

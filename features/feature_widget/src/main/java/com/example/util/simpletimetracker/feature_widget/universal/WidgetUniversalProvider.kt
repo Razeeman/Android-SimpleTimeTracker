@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.View.MeasureSpec
 import android.widget.RemoteViews
+import com.example.util.simpletimetracker.core.utils.PendingIntents
 import com.example.util.simpletimetracker.feature_views.extension.getBitmapFromView
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
@@ -104,6 +105,6 @@ class WidgetUniversalProvider : AppWidgetProvider() {
 
     private fun getPendingIntent(context: Context): PendingIntent {
         val intent = Intent(context, WidgetUniversalActivity::class.java)
-        return PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        return PendingIntent.getActivity(context, 0, intent, PendingIntents.getFlags())
     }
 }

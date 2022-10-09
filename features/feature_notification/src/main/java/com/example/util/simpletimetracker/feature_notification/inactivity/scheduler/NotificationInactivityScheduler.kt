@@ -6,6 +6,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import com.example.util.simpletimetracker.core.utils.PendingIntents
 import com.example.util.simpletimetracker.feature_notification.recevier.NotificationReceiver
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
@@ -28,16 +29,11 @@ class NotificationInactivityScheduler @Inject constructor(
     }
 
     private fun scheduleAtTime(timestamp: Long) {
-        when {
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.M -> {
-                alarmManager?.setExactAndAllowWhileIdle(RTC_WAKEUP, timestamp, getPendingIntent())
-            }
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT -> {
-                alarmManager?.setExact(RTC_WAKEUP, timestamp, getPendingIntent())
-            }
-            else -> {
-                alarmManager?.set(RTC_WAKEUP, timestamp, getPendingIntent())
-            }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            alarmManager?.setAndAllowWhileIdle(RTC_WAKEUP, timestamp, getPendingIntent())
+        }
+        else {
+            alarmManager?.set(RTC_WAKEUP, timestamp, getPendingIntent())
         }
     }
 
@@ -50,7 +46,7 @@ class NotificationInactivityScheduler @Inject constructor(
             context,
             0,
             intent,
-            PendingIntent.FLAG_UPDATE_CURRENT
+            PendingIntents.getFlags(),
         )
     }
 }

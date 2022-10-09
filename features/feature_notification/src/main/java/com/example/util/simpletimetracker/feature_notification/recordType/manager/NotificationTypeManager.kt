@@ -11,6 +11,7 @@ import android.view.ContextThemeWrapper
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import com.example.util.simpletimetracker.core.utils.PendingIntents
 import com.example.util.simpletimetracker.feature_views.extension.getBitmapFromView
 import com.example.util.simpletimetracker.feature_views.extension.measureExactly
 import com.example.util.simpletimetracker.feature_notification.R
@@ -55,7 +56,7 @@ class NotificationTypeManager @Inject constructor(
             context,
             0,
             startIntent,
-            PendingIntent.FLAG_UPDATE_CURRENT
+            PendingIntents.getFlags(),
         )
 
         val builder = NotificationCompat.Builder(context, NOTIFICATIONS_CHANNEL_ID)

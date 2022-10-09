@@ -6,6 +6,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import com.example.util.simpletimetracker.core.utils.PendingIntents
 import com.example.util.simpletimetracker.feature_notification.recevier.NotificationReceiver
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
@@ -28,22 +29,11 @@ class NotificationGoalTimeScheduler @Inject constructor(
     }
 
     private fun scheduleAtTime(timestamp: Long, typeId: Long) {
-        when {
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.M -> {
-                alarmManager?.setExactAndAllowWhileIdle(
-                    RTC_WAKEUP, timestamp, getPendingIntent(typeId)
-                )
-            }
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT -> {
-                alarmManager?.setExact(
-                    RTC_WAKEUP, timestamp, getPendingIntent(typeId)
-                )
-            }
-            else -> {
-                alarmManager?.set(
-                    RTC_WAKEUP, timestamp, getPendingIntent(typeId)
-                )
-            }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            alarmManager?.setAndAllowWhileIdle(RTC_WAKEUP, timestamp, getPendingIntent(typeId))
+        }
+        else {
+            alarmManager?.set(RTC_WAKEUP, timestamp, getPendingIntent(typeId))
         }
     }
 
@@ -57,7 +47,7 @@ class NotificationGoalTimeScheduler @Inject constructor(
             context,
             typeId.toInt(),
             intent,
-            PendingIntent.FLAG_UPDATE_CURRENT
+            PendingIntents.getFlags(),
         )
     }
 }

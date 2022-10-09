@@ -15,6 +15,7 @@ import androidx.core.app.NotificationManagerCompat
 import com.example.util.simpletimetracker.feature_views.extension.getBitmapFromView
 import com.example.util.simpletimetracker.feature_views.extension.measureExactly
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
+import com.example.util.simpletimetracker.core.utils.PendingIntents
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.feature_notification.R
 import com.example.util.simpletimetracker.feature_notification.recordType.customView.NotificationIconView
@@ -59,7 +60,7 @@ class NotificationInactivityManager @Inject constructor(
             context,
             0,
             startIntent,
-            PendingIntent.FLAG_UPDATE_CURRENT
+            PendingIntents.getFlags(),
         )
 
         return NotificationCompat.Builder(context, NOTIFICATIONS_CHANNEL_ID)

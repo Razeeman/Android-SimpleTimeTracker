@@ -21,6 +21,7 @@ import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.core.utils.PendingIntents
 import com.example.util.simpletimetracker.feature_views.RecordTypeView
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.domain.extension.orZero
@@ -242,7 +243,7 @@ class WidgetProvider : AppWidgetProvider() {
         val intent = Intent(context, javaClass)
         intent.action = ON_CLICK_ACTION
         intent.putExtra(ARGS_WIDGET_ID, widgetId)
-        return PendingIntent.getBroadcast(context, widgetId, intent, 0)
+        return PendingIntent.getBroadcast(context, widgetId, intent, PendingIntents.getFlags())
     }
 
     companion object {
