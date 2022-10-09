@@ -290,8 +290,7 @@
         <item>🫶SKIN_TONE</item> # E14.0 heart hands
         <item>👐SKIN_TONE</item> # E1.0 open hands
         <item>🤲SKIN_TONE</item> # E5.0 palms up together
-        <item>🤝SKIN_TONE</item> # E3.0 handshake ???
-        <item>🫱SKIN_TONE‍🫲SKIN_TONE</item> # E14.0 handshake ???
+        <item>🫱SKIN_TONE‍🫲SKIN_TONESAME_TONE🤝SKIN_TONE</item> # E14.0 handshake
         <item>🙏SKIN_TONE</item> # E1.0 folded hands
 
         # subgroup: hand-prop
