@@ -24,7 +24,7 @@ interface RecordDao {
     suspend fun getByTypeWithComment(typesIds: List<Long>): List<RecordWithRecordTagsDBO>
 
     @Transaction
-    @Query("SELECT * FROM records WHERE type_id IN (:typesIds) AND instr(comment, :text) > 0")
+    @Query("SELECT * FROM records WHERE type_id IN (:typesIds) AND instr(lower(comment), lower(:text)) > 0")
     suspend fun searchComments(typesIds: List<Long>, text: String): List<RecordWithRecordTagsDBO>
 
     @Transaction
