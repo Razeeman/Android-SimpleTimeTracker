@@ -38,4 +38,7 @@
     <string name="settings_translators_chinese" translatable="false">超级大咸鱼</string>
     <string name="settings_translators_chinese_language" translatable="false">中文</string>
 
+    <string name="settings_translators_japanese" translatable="false">kyusuke</string>
+    <string name="settings_translators_japanese_language" translatable="false">日本語</string>
+
 </resources>
