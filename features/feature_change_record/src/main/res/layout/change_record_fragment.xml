@@ -105,7 +105,7 @@
     <Space
         android:id="@+id/spaceChangeRecordTimeStartedTop"
         android:layout_width="wrap_content"
-        android:layout_height="8dp"
+        android:layout_height="12dp"
         app:layout_constraintBottom_toTopOf="@id/fieldChangeRecordTimeStarted"
         app:layout_constraintEnd_toEndOf="@id/fieldChangeRecordTimeStarted" />
 
@@ -118,7 +118,7 @@
         app:layout_constraintTop_toTopOf="@id/spaceChangeRecordTimeStartedTop">
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="30dp"
+            android:layout_width="40dp"
             android:layout_height="30dp"
             android:background="?appInputFieldBorder"
             android:gravity="center"
@@ -141,7 +141,7 @@
     <Space
         android:id="@+id/spaceChangeRecordTimeEndedTop"
         android:layout_width="wrap_content"
-        android:layout_height="8dp"
+        android:layout_height="12dp"
         app:layout_constraintBottom_toTopOf="@id/fieldChangeRecordTimeEnded"
         app:layout_constraintEnd_toEndOf="@id/fieldChangeRecordTimeEnded" />
 
@@ -154,7 +154,7 @@
         app:layout_constraintTop_toTopOf="@id/spaceChangeRecordTimeEndedTop">
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="30dp"
+            android:layout_width="40dp"
             android:layout_height="30dp"
             android:background="?appInputFieldBorder"
             android:gravity="center"

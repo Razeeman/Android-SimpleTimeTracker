@@ -74,7 +74,7 @@
     <Space
         android:id="@+id/spaceChangeRunningRecordTimeStartedTop"
         android:layout_width="wrap_content"
-        android:layout_height="8dp"
+        android:layout_height="12dp"
         app:layout_constraintBottom_toTopOf="@id/fieldChangeRunningRecordTimeStarted"
         app:layout_constraintEnd_toEndOf="@id/fieldChangeRunningRecordTimeStarted" />
 
@@ -87,7 +87,7 @@
         app:layout_constraintTop_toTopOf="@id/spaceChangeRunningRecordTimeStartedTop">
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="30dp"
+            android:layout_width="40dp"
             android:layout_height="30dp"
             android:background="?appInputFieldBorder"
             android:gravity="center"
