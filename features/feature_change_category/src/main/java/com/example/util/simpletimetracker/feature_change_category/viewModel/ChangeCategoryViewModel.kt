@@ -198,11 +198,18 @@ class ChangeCategoryViewModel @Inject constructor(
     }
 
     private suspend fun initializeSelectedTypes() {
-        recordTypeCategoryInteractor.getTypes(categoryId)
-            .let {
-                newTypes = it.toMutableList()
-                initialTypes = it
+        when (extra) {
+            is ChangeTagData.Change -> {
+                recordTypeCategoryInteractor.getTypes(categoryId).let {
+                    newTypes = it.toMutableList()
+                    initialTypes = it
+                }
             }
+            is ChangeTagData.New -> {
+                val preselectedTypeId: Long? = (extra as? ChangeTagData.New)?.preselectedTypeId
+                newTypes = listOfNotNull(preselectedTypeId).toMutableList()
+            }
+        }
     }
 
     private fun updateCategoryPreview() = viewModelScope.launch {

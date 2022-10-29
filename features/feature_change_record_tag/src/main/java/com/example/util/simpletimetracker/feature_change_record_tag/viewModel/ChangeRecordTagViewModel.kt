@@ -206,11 +206,20 @@ class ChangeRecordTagViewModel @Inject constructor(
     }
 
     private suspend fun initializePreviewViewData() {
-        recordTagInteractor.get(recordTagId)?.let {
-            newTypeId = it.typeId
-            newName = it.name
-            newColor = it.color
-            updateColors()
+        when (extra) {
+            is ChangeTagData.Change -> {
+                recordTagInteractor.get(recordTagId)?.let {
+                    newTypeId = it.typeId
+                    newName = it.name
+                    newColor = it.color
+                    updateColors()
+                }
+            }
+            is ChangeTagData.New -> {
+                val preselectedTypeId: Long? = (extra as? ChangeTagData.New)?.preselectedTypeId
+                newTypeId = preselectedTypeId.orZero()
+                if (preselectedTypeId != null) tagType = RecordTagType.TYPED
+            }
         }
         updateTagTypeSetupViewData()
     }

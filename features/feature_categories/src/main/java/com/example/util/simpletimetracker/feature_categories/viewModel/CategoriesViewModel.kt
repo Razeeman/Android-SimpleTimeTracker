@@ -63,7 +63,7 @@ class CategoriesViewModel @Inject constructor(
         }
 
         router.navigate(
-            data = params(ChangeTagData.New)
+            data = params(ChangeTagData.New())
         )
     }
 

@@ -21,5 +21,7 @@ sealed class ChangeTagData : Parcelable {
     }
 
     @Parcelize
-    object New : ChangeTagData()
+    data class New(
+        val preselectedTypeId: Long? = null,
+    ) : ChangeTagData()
 }

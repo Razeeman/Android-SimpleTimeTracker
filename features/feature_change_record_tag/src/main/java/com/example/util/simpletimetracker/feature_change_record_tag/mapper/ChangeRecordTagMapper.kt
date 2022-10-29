@@ -31,7 +31,9 @@ class ChangeRecordTagMapper @Inject constructor(
         tagType: RecordTagType,
     ): ChangeRecordTagTypeSetupViewData {
         return ChangeRecordTagTypeSetupViewData(
+            // Show color if changing existing general tag, or if creating new general tag.
             colorChooserVisibility = (recordTagId != 0L && typeId == 0L) || (recordTagId == 0L && tagType == RecordTagType.GENERAL),
+            // Show types if creating new typed tag.
             typesChooserVisibility = recordTagId == 0L && tagType == RecordTagType.TYPED,
             hint = when (tagType) {
                 RecordTagType.GENERAL -> R.string.change_record_tag_type_general_hint

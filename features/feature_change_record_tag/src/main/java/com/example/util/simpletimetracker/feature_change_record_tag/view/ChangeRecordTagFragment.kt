@@ -65,7 +65,7 @@ class ChangeRecordTagFragment :
     }
 
     private val params: ChangeTagData by fragmentArgumentDelegate(
-        key = ARGS_PARAMS, default = ChangeTagData.New
+        key = ARGS_PARAMS, default = ChangeTagData.New()
     )
 
     override fun initUi(): Unit = with(binding) {

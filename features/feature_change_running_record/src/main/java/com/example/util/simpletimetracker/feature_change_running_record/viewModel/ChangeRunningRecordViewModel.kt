@@ -204,8 +204,11 @@ class ChangeRunningRecordViewModel @Inject constructor(
     }
 
     fun onAddCategoryClick() {
+        val preselectedTypeId: Long? = newTypeId.takeUnless { it == 0L }
         router.navigate(
-            data = ChangeRecordTagFromChangeRunningRecordParams(ChangeTagData.New)
+            data = ChangeRecordTagFromChangeRunningRecordParams(
+                ChangeTagData.New(preselectedTypeId)
+            )
         )
     }
 
