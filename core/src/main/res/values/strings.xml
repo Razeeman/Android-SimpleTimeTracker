@@ -199,7 +199,7 @@
     <string name="settings_restore_description">Current data will be lost.</string>
     <string name="settings_dialog_message">Restore backup?</string>
     <string name="settings_export_csv">Spreadsheet export</string>
-    <string name="settings_export_csv_description">Export activity records as a csv file to view in a preferred spreadsheet application.</string>
+    <string name="settings_export_csv_description">Export activity records as a csv file to view in a preferred spreadsheet application.\nThis file cannot be used as a backup.</string>
     <string name="settings_file_open_error">Error opening file</string>
     <string name="settings_file_create_error">Error creating file</string>
 

@@ -199,7 +199,7 @@
     <string name="settings_restore_description">Data saat ini akan lenyap.</string>
     <string name="settings_dialog_message">Pulihkan cadangan?</string>
     <string name="settings_export_csv">Ekspor lembar kerja</string>
-    <string name="settings_export_csv_description">Ekspor rekor-rekor kegiatan sebagai sebuah berkas csv untuk melihatnya dalam aplikasi spreadsheet yang diinginkan.</string>
+    <string name="settings_export_csv_description">Ekspor rekor-rekor kegiatan sebagai sebuah berkas csv untuk melihatnya dalam aplikasi spreadsheet yang diinginkan.\nFile ini tidak dapat digunakan sebagai cadangan.</string>
     <string name="settings_file_open_error">Galat membuka berkas</string>
     <string name="settings_file_create_error">Galat menciptakan berkas</string>
 

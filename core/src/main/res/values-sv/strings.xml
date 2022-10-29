@@ -199,7 +199,7 @@
     <string name="settings_restore_description">Nuvarande data kommer tas bort.</string>
     <string name="settings_dialog_message">Återställa säkerhetskopia?</string>
     <string name="settings_export_csv">Exportera kalkyblad</string>
-    <string name="settings_export_csv_description">Exportera händelser som en csv-fil för att öppna med kalkylbladsprogram.</string>
+    <string name="settings_export_csv_description">Exportera händelser som en csv-fil för att öppna med kalkylbladsprogram.\nDen här filen kan inte användas som säkerhetskopia.</string>
     <string name="settings_file_open_error">Fel vid öppnandet av fil</string>
     <string name="settings_file_create_error">Fel vid skapandet av fil</string>
 

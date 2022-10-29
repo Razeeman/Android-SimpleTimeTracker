@@ -199,7 +199,7 @@
     <string name="settings_restore_description">Текущие данные будут потеряны.</string>
     <string name="settings_dialog_message">Восстановить из резервной копии?</string>
     <string name="settings_export_csv">Экспорт таблицы</string>
-    <string name="settings_export_csv_description">Экспортируйте записи в виде файла CSV для просмотра в предпочтительном приложении для работы с электронными таблицами.</string>
+    <string name="settings_export_csv_description">Экспортируйте записи в виде файла CSV для просмотра в предпочтительном приложении для работы с электронными таблицами.\nЭтот файл не может быть использован в качестве резервной копии.</string>
     <string name="settings_file_open_error">Ошибка при открытии файла</string>
     <string name="settings_file_create_error">Ошибка при создании файла</string>
 

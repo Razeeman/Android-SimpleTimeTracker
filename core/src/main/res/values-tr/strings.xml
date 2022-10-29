@@ -199,7 +199,7 @@
     <string name="settings_restore_description">Varolan veri silinecek.</string>
     <string name="settings_dialog_message">Yedeklemeyi geri yükle?</string>
     <string name="settings_export_csv">Çizelge dışa aktar</string>
-    <string name="settings_export_csv_description">Aktivite kayıtlarını, tercih edilen çizelge uygulamasında görüntülemek için csv dosyası olarak dışa aktar.</string>
+    <string name="settings_export_csv_description">Aktivite kayıtlarını, tercih edilen çizelge uygulamasında görüntülemek için csv dosyası olarak dışa aktar.\nBu dosya yedek olarak kullanılamaz.</string>
     <string name="settings_file_open_error">Dosyayı açarken hata oluştu</string>
     <string name="settings_file_create_error">Dosya oluşturulurken hata oluştu</string>
 

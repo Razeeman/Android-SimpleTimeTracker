@@ -199,7 +199,7 @@
     <string name="settings_restore_description">Aktuelle Daten gehen verloren.</string>
     <string name="settings_dialog_message">Backup wiederherstellen?</string>
     <string name="settings_export_csv">Tabellenkalkulation exportieren</string>
-    <string name="settings_export_csv_description">Exportiere die Aktivitätsdaten als csv-Datei, um sie in einer bevorzugten Tabellenkalkulationsanwendung anzuzeigen.</string>
+    <string name="settings_export_csv_description">Exportiere die Aktivitätsdaten als csv-Datei, um sie in einer bevorzugten Tabellenkalkulationsanwendung anzuzeigen.\nDiese Datei kann nicht als Backup verwendet werden.</string>
     <string name="settings_file_open_error">Fehler beim Öffnen der Datei</string>
     <string name="settings_file_create_error">Fehler beim Erstellen der Datei</string>
 

@@ -199,7 +199,7 @@
     <string name="settings_restore_description">I dati attuali verrano persi.</string>
     <string name="settings_dialog_message">Ripristina backup?</string>
     <string name="settings_export_csv">Esporta foglio di calcolo</string>
-    <string name="settings_export_csv_description">Esporta le registrazioni dell\'attività come file csv da visualizzare con l\'applicazione predefinita per i fogli di calcolo.</string>
+    <string name="settings_export_csv_description">Esporta le registrazioni dell\'attività come file csv da visualizzare con l\'applicazione predefinita per i fogli di calcolo.\nQuesto file non può essere utilizzato come backup.</string>
     <string name="settings_file_open_error">Errore nell\'apertura del file</string>
     <string name="settings_file_create_error">Errore nella creazione del file</string>
 

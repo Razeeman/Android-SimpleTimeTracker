@@ -199,7 +199,7 @@
     <string name="settings_restore_description">De huidige gegevens gaan verloren.</string>
     <string name="settings_dialog_message">Back-up terugzetten?</string>
     <string name="settings_export_csv">Spreadsheet exporteren</string>
-    <string name="settings_export_csv_description">Exporteer activiteitenrecords als een csv-bestand om ze te bekijken in een voorkeurspreadsheet-applicatie.</string>
+    <string name="settings_export_csv_description">Exporteer activiteitenrecords als een csv-bestand om ze te bekijken in een voorkeurspreadsheet-applicatie.\nDit bestand kan niet als back-up worden gebruikt.</string>
     <string name="settings_file_open_error">Fout bij openen bestand</string>
     <string name="settings_file_create_error">Fout bij aanmaken bestand</string>
 

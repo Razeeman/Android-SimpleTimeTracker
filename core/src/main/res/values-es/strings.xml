@@ -199,7 +199,7 @@
     <string name="settings_restore_description">Los datos actuales serán eliminados.</string>
     <string name="settings_dialog_message">¿Desea restaurar la copia de seguridad?</string>
     <string name="settings_export_csv">Exportar hoja de cálculo</string>
-    <string name="settings_export_csv_description">Exportar registros como un archivo csv para visualizar los datos en su programa de hojas de cálculo preferido.</string>
+    <string name="settings_export_csv_description">Exportar registros como un archivo csv para visualizar los datos en su programa de hojas de cálculo preferido.\nEste archivo no se puede utilizar como copia de seguridad.</string>
     <string name="settings_file_open_error">Error abriendo el archivo</string>
     <string name="settings_file_create_error">Error creándo el archivo</string>
 

@@ -199,7 +199,7 @@
     <string name="settings_restore_description">Поточні дані будуть втрачені.</string>
     <string name="settings_dialog_message">Відновити резервну копію?</string>
     <string name="settings_export_csv">Експорт електронних таблиць</string>
-    <string name="settings_export_csv_description">Експортуйте записи діяльності як файл CSV для перегляду у бажаній програмі для перегляду електронних таблиць.</string>
+    <string name="settings_export_csv_description">Експортуйте записи діяльності як файл CSV для перегляду у бажаній програмі для перегляду електронних таблиць.\nЦей файл не можна використовувати як резервну копію.</string>
     <string name="settings_file_open_error">Помилка відкриття файлу</string>
     <string name="settings_file_create_error">Помилка створення файлу</string>
 
