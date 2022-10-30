@@ -11,14 +11,22 @@ class NotificationTypeBroadcastController @Inject constructor(
     private val activityStartStopFromBroadcastInteractor: ActivityStartStopFromBroadcastInteractor,
 ) {
 
-    fun onActionActivityStart(name: String?) {
+    fun onActionActivityStart(
+        name: String?,
+        comment: String?,
+        tagName: String?,
+    ) {
         name ?: return
         GlobalScope.launch {
-            activityStartStopFromBroadcastInteractor.onActionActivityStart(name)
+            activityStartStopFromBroadcastInteractor.onActionActivityStart(
+                name = name, comment = comment, tagName = tagName
+            )
         }
     }
 
-    fun onActionActivityStop(name: String?) {
+    fun onActionActivityStop(
+        name: String?
+    ) {
         name ?: return
         GlobalScope.launch {
             activityStartStopFromBroadcastInteractor.onActionActivityStop(name)

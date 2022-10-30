@@ -206,9 +206,13 @@ Some examples of events:<br/>
 To enable this behaviour these applications should support sending \"intent\" or \"broadcast intent\" with these parameters:<br/>
 <br/>
 <b>Action</b> - \"%s\" or \"%s\".<br/>
-<b>Extra name</b> - \"%s\".<br/>
-<b>Extra value</b> - activity name that should be started or stopped.<br/>
+<b>Extra</b> - \"%s\" with activity name that should be started or stopped.<br/>
 <b>Package</b> - \"%s\".<br/>
+<br/>
+Optional parameters for starting activity:<br/>
+<br/>
+<b>Extra</b> - \"%s\" with record comment.<br/>
+<b>Extra</b> - \"%s\" with the name of a record tag.<br/>
     ]]></string>
 
     <string name="settings_save_backup">Save backup</string>

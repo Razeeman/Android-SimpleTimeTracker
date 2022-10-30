@@ -6,6 +6,8 @@ import android.content.Intent
 import com.example.util.simpletimetracker.core.utils.ACTION_START_ACTIVITY
 import com.example.util.simpletimetracker.core.utils.ACTION_STOP_ACTIVITY
 import com.example.util.simpletimetracker.core.utils.EXTRA_ACTIVITY_NAME
+import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_COMMENT
+import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_TAG_NAME
 import com.example.util.simpletimetracker.feature_notification.goalTime.controller.NotificationGoalTimeBroadcastController
 import com.example.util.simpletimetracker.feature_notification.inactivity.controller.NotificationInactivityBroadcastController
 import com.example.util.simpletimetracker.feature_notification.recordType.controller.NotificationTypeBroadcastController
@@ -37,7 +39,13 @@ class NotificationReceiver : BroadcastReceiver() {
             }
             ACTION_START_ACTIVITY -> {
                 val name = intent.getStringExtra(EXTRA_ACTIVITY_NAME)
-                typeController.onActionActivityStart(name)
+                val comment = intent.getStringExtra(EXTRA_RECORD_COMMENT)
+                val tagName = intent.getStringExtra(EXTRA_RECORD_TAG_NAME)
+                typeController.onActionActivityStart(
+                    name = name,
+                    comment = comment,
+                    tagName = tagName
+                )
             }
             ACTION_STOP_ACTIVITY -> {
                 val name = intent.getStringExtra(EXTRA_ACTIVITY_NAME)

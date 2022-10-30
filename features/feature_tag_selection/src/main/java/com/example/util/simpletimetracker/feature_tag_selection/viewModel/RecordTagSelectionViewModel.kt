@@ -71,7 +71,7 @@ class RecordTagSelectionViewModel @Inject constructor(
     }
 
     private suspend fun tagSelected() {
-        addRunningRecordMediator.startTimer(extra.typeId, newCategoryIds)
+        addRunningRecordMediator.startTimer(extra.typeId, newCategoryIds, "")
         tagSelected.set(Unit)
     }
 

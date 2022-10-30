@@ -30,18 +30,19 @@ class AddRunningRecordMediator @Inject constructor(
                 .filterNot { it.archived }
 
             if (tags.isEmpty()) {
-                startTimer(typeId, emptyList())
+                startTimer(typeId, emptyList(), "")
             } else {
                 onNeedToShowTagSelection()
             }
         } else {
-            startTimer(typeId, emptyList())
+            startTimer(typeId, emptyList(), "")
         }
     }
 
     suspend fun startTimer(
         typeId: Long,
-        tagIds: List<Long>
+        tagIds: List<Long>,
+        comment: String,
     ) {
         // Check if multitasking disabled
         if (!prefsInteractor.getAllowMultitasking()) {
@@ -51,6 +52,7 @@ class AddRunningRecordMediator @Inject constructor(
         }
         add(
             typeId = typeId,
+            comment = comment,
             tagIds = tagIds
         )
     }

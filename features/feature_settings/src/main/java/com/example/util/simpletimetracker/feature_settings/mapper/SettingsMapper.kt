@@ -6,6 +6,8 @@ import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.utils.ACTION_START_ACTIVITY
 import com.example.util.simpletimetracker.core.utils.ACTION_STOP_ACTIVITY
 import com.example.util.simpletimetracker.core.utils.EXTRA_ACTIVITY_NAME
+import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_COMMENT
+import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_TAG_NAME
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.model.CardOrder
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
@@ -50,6 +52,8 @@ class SettingsMapper @Inject constructor(
                 ACTION_STOP_ACTIVITY,
                 EXTRA_ACTIVITY_NAME,
                 applicationDataProvider.getPackageName(),
+                EXTRA_RECORD_COMMENT,
+                EXTRA_RECORD_TAG_NAME,
             ),
         )
     }
