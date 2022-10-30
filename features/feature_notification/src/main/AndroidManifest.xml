@@ -7,12 +7,14 @@
 
         <receiver
             android:name=".recevier.NotificationReceiver"
-            android:exported="false">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
                 <!--For HTC devices-->
                 <action android:name="com.htc.intent.action.QUICKBOOT_POWERON" />
+                <action android:name="com.razeeman.util.simpletimetracker.ACTION_START_ACTIVITY" />
+                <action android:name="com.razeeman.util.simpletimetracker.ACTION_STOP_ACTIVITY" />
             </intent-filter>
         </receiver>
 

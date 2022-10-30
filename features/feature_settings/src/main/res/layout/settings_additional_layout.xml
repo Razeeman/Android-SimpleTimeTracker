@@ -399,6 +399,52 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <View
+                style="@style/SettingsDivider"
+                android:layout_width="match_parent" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutSettingsAutomationTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackground">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSettingsAutomatedTrackingTitle"
+                    style="@style/SettingsText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_automated_tracking"
+                    app:layout_constraintEnd_toStartOf="@id/btnSettingsAutomatedTracking"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/btnSettingsAutomatedTracking"
+                    style="@style/SettingsCard"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_marginEnd="16dp"
+                    android:foreground="?selectableItemBackground"
+                    app:cardBackgroundColor="?appButtonOnCardBackgroundColor"
+                    app:cardCornerRadius="100dp"
+                    app:layout_constraintBottom_toBottomOf="@id/tvSettingsAutomatedTrackingTitle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tvSettingsAutomatedTrackingTitle">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="\?"
+                        android:textColor="?appInactiveColor"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                </androidx.cardview.widget.CardView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
         </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.appcompat.widget.LinearLayoutCompat>

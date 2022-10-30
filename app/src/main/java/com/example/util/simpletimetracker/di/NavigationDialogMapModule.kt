@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.feature_dialogs.customRangeSelection.v
 import com.example.util.simpletimetracker.feature_dialogs.dateTime.DateTimeDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.duration.view.DurationDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.emojiSelection.view.EmojiSelectionDialogFragment
+import com.example.util.simpletimetracker.feature_dialogs.helpDialog.HelpDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.recordTagSelection.RecordTagSelectionDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.standard.StandardDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.typesFilter.view.TypesFilterDialogFragment
@@ -24,6 +25,7 @@ import com.example.util.simpletimetracker.navigation.params.screen.CustomRangeSe
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DurationDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.EmojiSelectionDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.HelpDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.RecordTagSelectionParams
 import com.example.util.simpletimetracker.navigation.params.screen.StandardDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.TypesFilterDialogParams
@@ -174,6 +176,16 @@ class NavigationDialogMapModule {
         return NavigationData(
             R.id.customRangeSelectionDialogFragment,
             bundleCreatorDelegate(CustomRangeSelectionDialogFragment::createBundle)
+        )
+    }
+
+    @IntoMap
+    @Provides
+    @ScreenKey(HelpDialogParams::class)
+    fun helpDialog(): NavigationData {
+        return NavigationData(
+            R.id.helpDialogFragment,
+            bundleCreatorDelegate(HelpDialogFragment::createBundle)
         )
     }
 }

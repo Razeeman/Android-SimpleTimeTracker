@@ -192,6 +192,24 @@
     <string name="settings_version">Version</string>
     <string name="settings_email_chooser_title">Send with…</string>
     <string name="settings_translators">Translators</string>
+    <string name="settings_automated_tracking">Automated tracking</string>
+    <string name="settings_automated_tracking_text"><![CDATA[
+Automatic tracking is possible through integration with third-party applications that allow to automate actions based on certain events. These applications, when a certain event occurs, can send a message to the <b>%s</b> application to start or stop the activity timer.<br/>
+<br/>
+Some examples of events:<br/>
+- Launching a certain app.<br/>
+- Scanning NFC tag.<br/>
+- Going to certain location.<br/>
+- Certain times of day.<br/>
+- Connecting to Bluetooth or Wifi.<br/>
+<br/>
+To enable this behaviour these applications should support sending \"intent\" or \"broadcast intent\" with these parameters:<br/>
+<br/>
+<b>Action</b> - \"%s\" or \"%s\".<br/>
+<b>Extra name</b> - \"%s\".<br/>
+<b>Extra value</b> - activity name that should be started or stopped.<br/>
+<b>Package</b> - \"%s\".<br/>
+    ]]></string>
 
     <string name="settings_save_backup">Save backup</string>
     <string name="settings_save_description">Before saving, make sure that you have the latest version of the app installed to avoid conflicts.</string>

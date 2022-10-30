@@ -1,14 +1,19 @@
 package com.example.util.simpletimetracker.feature_settings.mapper
 
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
+import com.example.util.simpletimetracker.core.provider.ApplicationDataProvider
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
-import com.example.util.simpletimetracker.feature_views.spinner.CustomSpinner
+import com.example.util.simpletimetracker.core.utils.ACTION_START_ACTIVITY
+import com.example.util.simpletimetracker.core.utils.ACTION_STOP_ACTIVITY
+import com.example.util.simpletimetracker.core.utils.EXTRA_ACTIVITY_NAME
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.model.CardOrder
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.feature_settings.R
 import com.example.util.simpletimetracker.feature_settings.viewData.CardOrderViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.FirstDayOfWeekViewData
+import com.example.util.simpletimetracker.feature_views.spinner.CustomSpinner
+import com.example.util.simpletimetracker.navigation.params.screen.HelpDialogParams
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -17,6 +22,7 @@ import kotlin.math.absoluteValue
 class SettingsMapper @Inject constructor(
     private val resourceRepo: ResourceRepo,
     private val timeMapper: TimeMapper,
+    private val applicationDataProvider: ApplicationDataProvider,
 ) {
 
     private val cardOrderList: List<CardOrder> = listOf(
@@ -34,6 +40,19 @@ class SettingsMapper @Inject constructor(
         DayOfWeek.SATURDAY,
         DayOfWeek.SUNDAY
     )
+
+    fun toAutomatedTrackingHelpDialog(): HelpDialogParams {
+        return HelpDialogParams(
+            title = resourceRepo.getString(R.string.settings_automated_tracking),
+            text = resourceRepo.getString(R.string.settings_automated_tracking_text).format(
+                applicationDataProvider.getAppName(),
+                ACTION_START_ACTIVITY,
+                ACTION_STOP_ACTIVITY,
+                EXTRA_ACTIVITY_NAME,
+                applicationDataProvider.getPackageName(),
+            ),
+        )
+    }
 
     fun toCardOrderViewData(currentOrder: CardOrder): CardOrderViewData {
         return CardOrderViewData(

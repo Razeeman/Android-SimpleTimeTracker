@@ -88,6 +88,7 @@ class SettingsFragment :
             groupSettingsIgnoreShortRecords.setOnClick(viewModel::onIgnoreShortRecordsClicked)
             checkboxSettingsShowRecordTagSelection.setOnClick(viewModel::onShowRecordTagSelectionClicked)
             checkboxSettingsRecordTagSelectionClose.setOnClick(viewModel::onRecordTagSelectionCloseClicked)
+            btnSettingsAutomatedTracking.setOnClick(viewModel::onAutomatedTrackingHelpClick)
         }
         with(layoutSettingsRating) {
             layoutSettingsRate.setOnClick(viewModel::onRateClick)

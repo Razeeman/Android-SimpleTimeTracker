@@ -129,6 +129,11 @@
         android:name="com.example.util.simpletimetracker.feature_dialogs.customRangeSelection.view.CustomRangeSelectionDialogFragment"
         android:label="CustomRangeSelectionDialogFragment"
         tools:layout="@layout/custom_range_selection_fragment" />
+    <dialog
+        android:id="@+id/helpDialogFragment"
+        android:name="com.example.util.simpletimetracker.feature_dialogs.helpDialog.HelpDialogFragment"
+        android:label="HelpDialogFragment"
+        tools:layout="@layout/help_dialog_fragment"/>
     <fragment
         android:id="@+id/recordsAllFragment"
         android:name="com.example.util.simpletimetracker.feature_records_all.view.RecordsAllFragment"

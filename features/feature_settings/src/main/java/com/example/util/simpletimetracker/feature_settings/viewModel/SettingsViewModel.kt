@@ -9,7 +9,7 @@ import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.NotificationInactivityInteractor
 import com.example.util.simpletimetracker.core.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.core.interactor.WidgetInteractor
-import com.example.util.simpletimetracker.core.provider.PackageNameProvider
+import com.example.util.simpletimetracker.core.provider.ApplicationDataProvider
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.extension.flip
 import com.example.util.simpletimetracker.domain.extension.orFalse
@@ -41,7 +41,7 @@ class SettingsViewModel @Inject constructor(
     private val resourceRepo: ResourceRepo,
     private val prefsInteractor: PrefsInteractor,
     private val settingsMapper: SettingsMapper,
-    private val packageNameProvider: PackageNameProvider,
+    private val applicationDataProvider: ApplicationDataProvider,
     private val notificationTypeInteractor: NotificationTypeInteractor,
     private val widgetInteractor: WidgetInteractor,
     private val notificationInactivityInteractor: NotificationInactivityInteractor,
@@ -248,7 +248,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun onRateClick() {
-        router.execute(OpenMarketParams(packageName = packageNameProvider.getPackageName()))
+        router.execute(OpenMarketParams(packageName = applicationDataProvider.getPackageName()))
     }
 
     fun onFeedbackClick() {
@@ -479,6 +479,12 @@ class SettingsViewModel @Inject constructor(
 
     fun onThemeChanged() {
         (themeChanged as MutableLiveData).value = false
+    }
+
+    fun onAutomatedTrackingHelpClick() {
+        router.navigate(
+            settingsMapper.toAutomatedTrackingHelpDialog()
+        )
     }
 
     private fun openCardOrderDialog(cardOrder: CardOrder) {
