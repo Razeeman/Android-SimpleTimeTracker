@@ -192,6 +192,28 @@
     <string name="settings_version">Versie</string>
     <string name="settings_email_chooser_title">Verstuur met…</string>
     <string name="settings_translators">Vertalers</string>
+    <string name="settings_automated_tracking">Geautomatiseerd volgen</string>
+    <string name="settings_automated_tracking_text"><![CDATA[
+Automatisch volgen is mogelijk door integratie met applicaties van derden waarmee acties op basis van bepaalde gebeurtenissen kunnen worden geautomatiseerd. Deze applicaties kunnen, wanneer zich een bepaalde gebeurtenis voordoet, een bericht naar de app sturen om de activiteitentimer te starten of te stoppen.<br/>
+<br/>
+Enkele voorbeelden van evenementen:<br/>
+- Een bepaalde app starten.<br/>
+- NFC-tag scannen.<br/>
+- Naar een bepaalde locatie gaan.<br/>
+- Bepaalde tijden van de dag.<br/>
+- Verbinding maken met Bluetooth of wifi.<br/>
+<br/>
+Om dit gedrag mogelijk te maken, moeten deze toepassingen het verzenden van \"intentie\" of \"broadcast intent\" ondersteunen met deze parameters:<br/>
+<br/>
+<b>Action</b> - \"%s\" of \"%s\".<br/>
+<b>Extra</b> - \"%s\" met de naam van de activiteit die moet worden gestart of gestopt.<br/>
+<b>Package</b> - \"%s\".<br/>
+<br/>
+Optionele parameters voor het starten van activiteit:<br/>
+<br/>
+<b>Extra</b> - \"%s\" met recordopmerking.<br/>
+<b>Extra</b> - \"%s\" met de naam van een recordtag.<br/>
+    ]]></string>
 
     <string name="settings_save_backup">Back-up opslaan</string>
     <string name="settings_save_description">Zorg ervoor dat je de nieuwste versie van de app hebt geïnstalleerd voordat je opslaat om conflicten te voorkomen.</string>

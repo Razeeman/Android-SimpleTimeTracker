@@ -192,6 +192,28 @@
     <string name="settings_version">Version</string>
     <string name="settings_email_chooser_title">Envoyer avec…</string>
     <string name="settings_translators">Traducteurs</string>
+    <string name="settings_automated_tracking">Suivi automatisé</string>
+    <string name="settings_automated_tracking_text"><![CDATA[
+Le suivi automatique est possible grâce à l\'intégration avec des applications tierces qui permettent d\'automatiser les actions en fonction de certains événements. Ces applications, lorsqu\'un certain événement se produit, peuvent envoyer un message à l\'application pour démarrer ou arrêter le chronomètre d\'activité.<br/>
+<br/>
+Quelques exemples d\'événements:<br/>
+- Lancement d\'une certaine application.<br/>
+- Numérisation du tag NFC.<br/>
+- Aller à un certain endroit.<br/>
+- Certaines heures de la journée.<br/>
+- Connexion Bluetooth ou Wifi.<br/>
+<br/>
+Pour activer ce comportement, ces applications doivent prendre en charge l\'envoi de \"intent\" ou \"broadcast intent\" avec ces paramètres:<br/>
+<br/>
+<b>Action</b> - \"%s\" ou \"%s\".<br/>
+<b>Extra</b> - \"%s\" avec le nom de l\'activité qui doit être démarrée ou arrêtée.<br/>
+<b>Package</b> - \"%s\".<br/>
+<br/>
+Paramètres facultatifs pour le démarrage de l\'activité:<br/>
+<br/>
+<b>Extra</b> - \"%s\" avec commentaire d\'enregistrement.<br/>
+<b>Extra</b> - \"%s\" avec le nom d\'une balise d\'enregistrement.<br/>
+    ]]></string>
 
     <string name="settings_save_backup">Enregistrer la sauvegarde</string>
     <string name="settings_save_description">Avant de créer une sauvegarde, assurez-vous que la dernière version de l\'application est installée pour éviter tout conflit.</string>

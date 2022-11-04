@@ -192,6 +192,28 @@
     <string name="settings_version">Versione</string>
     <string name="settings_email_chooser_title">Invia con…</string>
     <string name="settings_translators">Traduttori</string>
+    <string name="settings_automated_tracking">Tracciamento automatizzato</string>
+    <string name="settings_automated_tracking_text"><![CDATA[
+Il tracciamento automatico è possibile attraverso l\'integrazione con applicazioni di terze parti che consentono di automatizzare le azioni in base a determinati eventi. Queste applicazioni, quando si verifica un determinato evento, possono inviare un messaggio all\'app per avviare o interrompere il timer dell\'attività.<br/>
+<br/>
+Alcuni esempi di eventi:<br/>
+- Avvio di una determinata app.<br/>
+- Scansione tag NFC.<br/>
+- Andare in una determinata posizione.<br/>
+- Alcune ore del giorno.<br/>
+- Connessione a Bluetooth o Wi-Fi.<br/>
+<br/>
+Per abilitare questo comportamento, queste applicazioni devono supportare l\'invio di \"intent\" o \"broadcast intent\" con questi parametri:<br/>
+<br/>
+<b>Action</b> - \"%s\" o \"%s\".<br/>
+<b>Extra</b> - \"%s\" con il nome dell\'attività che deve essere avviata o interrotta.<br/>
+<b>Package</b> - \"%s\".<br/>
+<br/>
+Parametri facoltativi per l\'avvio dell\'attività:<br/>
+<br/>
+<b>Extra</b> - \"%s\" con commento al record.<br/>
+<b>Extra</b> - \"%s\" con il nome di un tag record.<br/>
+    ]]></string>
 
     <string name="settings_save_backup">Effettua un backup</string>
     <string name="settings_save_description">Prima di salvare, assicurati di avere l\'ultima versione dell\'app per evitare conflitti.</string>

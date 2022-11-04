@@ -192,6 +192,28 @@
     <string name="settings_version">Versi</string>
     <string name="settings_email_chooser_title">Kirim dengan…</string>
     <string name="settings_translators">Penerjemah-Penerjemah</string>
+    <string name="settings_automated_tracking">Pelacakan otomatis</string>
+    <string name="settings_automated_tracking_text"><![CDATA[
+Pelacakan otomatis dimungkinkan melalui integrasi dengan aplikasi pihak ketiga yang memungkinkan tindakan otomatis berdasarkan peristiwa tertentu. Aplikasi ini, saat terjadi peristiwa tertentu, dapat mengirim pesan ke aplikasi untuk memulai atau menghentikan timer aktivitas.<br/>
+<br/>
+Beberapa contoh acara:<br/>
+- Meluncurkan aplikasi tertentu.<br/>
+- Memindai tag NFC.<br/>
+- Pergi ke lokasi tertentu.<br/>
+- Waktu tertentu dalam sehari.<br/>
+- Menghubungkan ke Bluetooth atau Wifi.<br/>
+<br/>
+Untuk mengaktifkan perilaku ini, aplikasi ini harus mendukung pengiriman \"intent\" atau \"broadcast intent\" dengan parameter berikut:<br/>
+<br/>
+<b>Action</b> - \"%s\" atau \"%s\".<br/>
+<b>Extra</b> - \"%s\" dengan nama aktivitas yang harus dimulai atau dihentikan.<br/>
+<b>Package</b> - \"%s\".<br/>
+<br/>
+Parameter opsional untuk memulai aktivitas:<br/>
+<br/>
+<b>Extra</b> - \"%s\" dengan catatan komentar.<br/>
+<b>Extra</b> - \"%s\" dengan nama tag rekaman.<br/>
+    ]]></string>
 
     <string name="settings_save_backup">Simpan cadangan</string>
     <string name="settings_save_description">Sebelum menyimpan, pastikan Anda memiliki versi terbaru aplikasi terinstal untuk menghindari masalah teknis.</string>

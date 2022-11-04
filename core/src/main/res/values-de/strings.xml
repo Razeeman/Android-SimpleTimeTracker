@@ -192,6 +192,28 @@
     <string name="settings_version">Version</string>
     <string name="settings_email_chooser_title">Senden mit…</string>
     <string name="settings_translators">Übersetzer</string>
+    <string name="settings_automated_tracking">Automatisierte Nachverfolgung</string>
+    <string name="settings_automated_tracking_text"><![CDATA[
+Automatisches Tracking ist durch die Integration mit Anwendungen von Drittanbietern möglich, die es ermöglichen, Aktionen basierend auf bestimmten Ereignissen zu automatisieren. Diese Anwendungen können beim Eintreten eines bestimmten Ereignisses eine Nachricht an die App senden, um den Aktivitätstimer zu starten oder zu stoppen.<br/>
+<br/>
+Einige Beispiele für Veranstaltungen:<br/>
+- Starten einer bestimmten App.<br/>
+- NFC-Tag scannen.<br/>
+- Zu einem bestimmten Ort gehen.<br/>
+- Bestimmte Tageszeiten.<br/>
+- Verbinden mit Bluetooth oder WLAN.<br/>
+<br/>
+Um dieses Verhalten zu aktivieren, sollten diese Anwendungen das Senden von \"Intent\" oder \"Broadcast-Intent\" mit diesen Parametern unterstützen:<br/>
+<br/>
+<b>Action</b> - \"%s\" oder \"%s\".<br/>
+<b>Extra</b> - \"%s\" mit Name der Aktivität, die gestartet oder gestoppt werden soll.<br/>
+<b>Package</b> - \"%s\".<br/>
+<br/>
+Optionale Parameter zum Starten der Aktivität:<br/>
+<br/>
+<b>Extra</b> - \"%s\" mit Datensatzkommentar.<br/>
+<b>Extra</b> - \"%s\" mit dem Namen eines Datensatz-Tags.<br/>
+    ]]></string>
 
     <string name="settings_save_backup">Backup speichern</string>
     <string name="settings_save_description">Stelle vor dem Speichern sicher, dass die neueste Version der App installiert ist, um Konflikte zu vermeiden.</string>

@@ -192,6 +192,28 @@
     <string name="settings_version">版本</string>
     <string name="settings_email_chooser_title">发送方式…</string>
     <string name="settings_translators">翻译人员</string>
+    <string name="settings_automated_tracking">自动跟踪</string>
+    <string name="settings_automated_tracking_text"><![CDATA[
+通过与允许基于某些事件自动执行操作的第三方应用程序集成，可以实现自动跟踪。这些应用程序，当某个事件发生时，可以向应用程序发送消息以启动或停止活动计时器。<br/>
+<br/>
+一些事件的例子：<br/>
+- 启动某个应用程序。<br/>
+- 扫描 NFC 标签。<br/>
+- 去某个地方。<br/>
+- 一天中的某些时间。<br/>
+- 连接到蓝牙或 Wifi。<br/>
+<br/>
+要启用此行为，这些应用程序应支持使用以下参数发送\"intent\"或\"broadcast intent\"：<br/>
+<br/>
+<b>Action</b> - \"%s\" 或 \"%s\"。<br/>
+<b>Extra</b> - 带有应启动或停止的活动名称的\"%s\"。<br/>
+<b>Package</b> - \"%s\"。<br/>
+<br/>
+启动活动的可选参数：<br/>
+<br/>
+<b>Extra</b> - 带有记录评论的\"%s\"。<br/>
+<b>Extra</b> - 带有记录标签名称的\"%s\"。<br/>
+    ]]></string>
 
     <string name="settings_save_backup">保存备份</string>
     <string name="settings_save_description">保存前，请确保已安装最新版本的应用程序，以避免冲突。</string>

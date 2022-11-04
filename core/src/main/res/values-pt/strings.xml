@@ -192,6 +192,28 @@
     <string name="settings_version">Versão</string>
     <string name="settings_email_chooser_title">Enviar com…</string>
     <string name="settings_translators">Tradutores</string>
+    <string name="settings_automated_tracking">Rastreamento automatizado</string>
+    <string name="settings_automated_tracking_text"><![CDATA[
+O rastreamento automático é possível por meio da integração com aplicativos de terceiros que permitem automatizar ações com base em determinados eventos. Esses aplicativos, quando ocorre um determinado evento, podem enviar uma mensagem ao aplicativo para iniciar ou interromper o cronômetro de atividade.<br/>
+<br/>
+Alguns exemplos de eventos:<br/>
+- Iniciar um determinado aplicativo.<br/>
+- Digitalização de tag NFC.<br/>
+- Indo para determinado local.<br/>
+- Certas horas do dia.<br/>
+- Conectando-se a Bluetooth ou Wi-Fi.<br/>
+<br/>
+Para habilitar esse comportamento, esses aplicativos devem oferecer suporte ao envio de \"intent\" ou \"broadcast intent\" com estes parâmetros:<br/>
+<br/>
+<b>Action</b> - \"%s\" ou \"%s\".<br/>
+<b>Extra</b> - \"%s\" com o nome da atividade que deve ser iniciada ou interrompida.<br/>
+<b>Package</b> - \"%s\".<br/>
+<br/>
+Parâmetros opcionais para iniciar a atividade:<br/>
+<br/>
+<b>Extra</b> - \"%s\" com comentário de registro.<br/>
+<b>Extra</b> - \"%s\" com o nome de uma tag de registro.<br/>
+    ]]></string>
 
     <string name="settings_save_backup">Salvar backup</string>
     <string name="settings_save_description">Antes de salvar, verifique se você tem a versão mais recente do aplicativo instalada para evitar conflitos.</string>

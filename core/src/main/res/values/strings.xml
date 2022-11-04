@@ -194,7 +194,7 @@
     <string name="settings_translators">Translators</string>
     <string name="settings_automated_tracking">Automated tracking</string>
     <string name="settings_automated_tracking_text"><![CDATA[
-Automatic tracking is possible through integration with third-party applications that allow to automate actions based on certain events. These applications, when a certain event occurs, can send a message to the <b>%s</b> application to start or stop the activity timer.<br/>
+Automatic tracking is possible through integration with third-party applications that allow to automate actions based on certain events. These applications, when a certain event occurs, can send a message to the app to start or stop the activity timer.<br/>
 <br/>
 Some examples of events:<br/>
 - Launching a certain app.<br/>

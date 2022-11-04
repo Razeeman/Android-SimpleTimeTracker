@@ -192,6 +192,28 @@
     <string name="settings_version">Versión</string>
     <string name="settings_email_chooser_title">Enviar con…</string>
     <string name="settings_translators">Traductores</string>
+    <string name="settings_automated_tracking">Seguimiento automatizado</string>
+    <string name="settings_automated_tracking_text"><![CDATA[
+El seguimiento automático es posible mediante la integración con aplicaciones de terceros que permiten automatizar acciones en función de determinados eventos. Estas aplicaciones, cuando ocurre un evento determinado, pueden enviar un mensaje a la aplicación para iniciar o detener el temporizador de actividad.<br/>
+<br/>
+Algunos ejemplos de eventos:<br/>
+- Iniciar una determinada aplicación.<br/>
+- Escaneo de etiquetas NFC.<br/>
+- Ir a cierta ubicación.<br/>
+- Ciertas horas del día.<br/>
+- Conexión a Bluetooth o Wifi.<br/>
+<br/>
+Para habilitar este comportamiento, estas aplicaciones deben admitir el envío de \"intent\" o \"broadcast intent\" con estos parámetros:<br/>
+<br/>
+<b>Action</b> - \"%s\" o \"%s\".<br/>
+<b>Extra</b> - \"%s\" con el nombre de la actividad que debe iniciarse o detenerse.<br/>
+<b>Package</b> - \"%s\".<br/>
+<br/>
+Parámetros opcionales para iniciar la actividad:<br/>
+<br/>
+<b>Extra</b> - \"%s\" con comentario de registro.<br/>
+<b>Extra</b> - \"%s\" con el nombre de una etiqueta de registro.<br/>
+    ]]></string>
 
     <string name="settings_save_backup">Guardar copia de seguridad</string>
     <string name="settings_save_description">Antes de guardar, asegúrese de que tiene la última versión de la aplicación instalada para evitar conflictos.</string>

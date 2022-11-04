@@ -192,6 +192,28 @@
     <string name="settings_version">Version</string>
     <string name="settings_email_chooser_title">Skicka via…</string>
     <string name="settings_translators">Översättare</string>
+    <string name="settings_automated_tracking">Automatiserad spårning</string>
+    <string name="settings_automated_tracking_text"><![CDATA[
+Automatisk spårning är möjlig genom integration med tredjepartsapplikationer som gör det möjligt att automatisera åtgärder baserat på vissa händelser. Dessa appar kan, när en viss händelse inträffar, skicka ett meddelande till appen för att starta eller stoppa aktivitetstimern.<br/>
+<br/>
+Några exempel på händelser:<br/>
+- Starta en viss app.<br/>
+- Skannar NFC-tagg.<br/>
+- Går till en viss plats.<br/>
+- Vissa tider på dygnet.<br/>
+- Ansluter till Bluetooth eller Wifi.<br/>
+<br/>
+För att aktivera detta beteende bör dessa applikationer stödja sändning av \"intent\" eller \"broadcast intent\" med dessa parametrar:<br/>
+<br/>
+<b>Action</b> - \"%s\" eller \"%s\".<br/>
+<b>Extra</b> - \"%s\" med aktivitetsnamn som bör startas eller stoppas.<br/>
+<b>Package</b> - \"%s\".<br/>
+<br/>
+Valfria parametrar för att starta aktivitet:<br/>
+<br/>
+<b>Extra</b> - \"%s\" med postkommentar.<br/>
+<b>Extra</b> - \"%s\" med namnet på en posttagg.<br/>
+    ]]></string>
 
     <string name="settings_save_backup">Spara säkerhetskopia</string>
     <string name="settings_save_description">Innan du sparar, se till att du har den senaste versionen av appen för att förhindra datakonflikter.</string>

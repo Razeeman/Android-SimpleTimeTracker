@@ -47,7 +47,6 @@ class SettingsMapper @Inject constructor(
         return HelpDialogParams(
             title = resourceRepo.getString(R.string.settings_automated_tracking),
             text = resourceRepo.getString(R.string.settings_automated_tracking_text).format(
-                applicationDataProvider.getAppName(),
                 ACTION_START_ACTIVITY,
                 ACTION_STOP_ACTIVITY,
                 EXTRA_ACTIVITY_NAME,

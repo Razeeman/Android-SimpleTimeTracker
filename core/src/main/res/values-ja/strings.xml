@@ -192,6 +192,28 @@
     <string name="settings_version">バージョン</string>
     <string name="settings_email_chooser_title">一緒に送る…</string>
     <string name="settings_translators">翻訳者</string>
+    <string name="settings_automated_tracking">自動追跡</string>
+    <string name="settings_automated_tracking_text"><![CDATA[
+特定のイベントに基づいてアクションを自動化できるサードパーティ製アプリケーションとの統合により、自動追跡が可能です。これらのアプリは、特定のイベントが発生したときにアプリにメッセージを送信して、アクティビティ タイマーを開始または停止できます。<br/>
+<br/>
+イベントの例:<br/>
+- 特定のアプリの起動。<br/>
+- NFC タグのスキャン。<br/>
+- 特定の場所に行く。<br/>
+- 特定の時間帯。<br/>
+- Bluetooth または Wi-Fi に接続します。<br/>
+<br/>
+この動作を有効にするには、これらのアプリケーションが次のパラメーターを使用して「インテント」または「ブロードキャスト インテント」の送信をサポートする必要があります。<br/>
+<br/>
+<b>Action</b> - \"%s\" または \"%s\".<br/>
+<b>Extra</b> - \"%s\" を開始または停止する必要があるアクティビティ名で指定します。<br/>
+<b>Package</b> - \"%s\".<br/>
+<br/>
+アクティビティを開始するためのオプション パラメータ:<br/>
+<br/>
+<b>Extra</b> - \"%s\" レコード コメント付き。<br/>
+<b>Extra</b> - \"%s\" にレコード タグの名前を付けます。<br/>
+    ]]></string>
 
     <string name="settings_save_backup">バックアップの保存</string>
     <string name="settings_save_description">保存する前に競合を避けるため、最新バージョンのアプリがインストールされていることを確認してください。</string>

@@ -192,6 +192,28 @@
     <string name="settings_version">Versiyon</string>
     <string name="settings_email_chooser_title">Şununla gönder…</string>
     <string name="settings_translators">Çevirmenler</string>
+    <string name="settings_automated_tracking">Otomatik izleme</string>
+    <string name="settings_automated_tracking_text"><![CDATA[
+Otomatik izleme, belirli olaylara dayalı eylemleri otomatikleştirmeye izin veren üçüncü taraf uygulamalarla entegrasyon yoluyla mümkündür. Bu uygulamalar, belirli bir olay meydana geldiğinde, aktivite zamanlayıcısını başlatmak veya durdurmak için uygulamaya bir mesaj gönderebilir.<br/>
+<br/>
+Bazı etkinlik örnekleri:<br/>
+- Belirli bir uygulamayı başlatmak.<br/>
+- NFC etiketi taranıyor.<br/>
+- Belirli bir yere gitmek.<br/>
+- Günün belirli saatlerinde.<br/>
+- Bluetooth veya Wifi\'ye bağlanma.<br/>
+<br/>
+Bu davranışı etkinleştirmek için bu uygulamaların şu parametrelerle \"intent\" veya \"broadcast intent\" göndermeyi desteklemesi gerekir:<br/>
+<br/>
+<b>Action</b> - \"%s\" veya \"%s\".<br/>
+<b>Extra</b> - Başlatılması veya durdurulması gereken etkinlik adıyla \"%s\".<br/>
+<b>Package</b> - \"%s\".<br/>
+<br/>
+Aktiviteyi başlatmak için isteğe bağlı parametreler:<br/>
+<br/>
+<b>Extra</b> - Kayıt yorumuyla \"%s\".<br/>
+<b>Extra</b> - Bir kayıt etiketi adıyla \"%s\".<br/>
+    ]]></string>
 
     <string name="settings_save_backup">Yedekleme kaydet</string>
     <string name="settings_save_description">Kaydetmeden önce, uyuşmazlık yaşamamak için uygulamanın güncel olduğundan emin olun.</string>
