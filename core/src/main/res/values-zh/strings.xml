@@ -111,6 +111,10 @@
     <string name="change_record_type_goal_time">目标时间</string>
     <string name="change_record_type_goal_time_hint">追踪此活动经过指定时间后显示通知。</string>
 
+    <!--  Activity filters  -->
+    <string name="change_activity_filter_save">保存</string>
+    <string name="change_activity_filter_type">过滤器类型</string>
+
     <!--  Dialogs  -->
     <string name="date_time_dialog_date">日期</string>
     <string name="date_time_dialog_time">时间</string>
@@ -151,6 +155,7 @@
     <string name="running_records_empty">单击“活动”开始追踪</string>
     <string name="running_records_empty_hint">长按以编辑</string>
     <string name="running_records_add_type">添加</string>
+    <string name="running_records_add_filter">添加过滤器</string>
 
     <!--  Settings  -->
     <string name="settings_display_title">显示设置</string>

@@ -73,6 +73,7 @@ dependencies {
     implementation(project(":feature_categories"))
     implementation(project(":feature_change_category"))
     implementation(project(":feature_change_record_tag"))
+    implementation(project(":feature_change_activity_filter"))
     implementation(project(":feature_archive"))
     implementation(project(":feature_tag_selection"))
 

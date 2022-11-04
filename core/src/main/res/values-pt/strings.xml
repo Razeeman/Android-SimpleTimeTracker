@@ -111,6 +111,10 @@
     <string name="change_record_type_goal_time">Meta</string>
     <string name="change_record_type_goal_time_hint">Mostrar notificação após atingir o tempo determinado para monitorar esta atividade.</string>
 
+    <!--  Activity filters  -->
+    <string name="change_activity_filter_save">Salvar</string>
+    <string name="change_activity_filter_type">Tipo de filtro</string>
+
     <!--  Dialogs  -->
     <string name="date_time_dialog_date">Data</string>
     <string name="date_time_dialog_time">Hora</string>
@@ -151,6 +155,7 @@
     <string name="running_records_empty">Clique na atividade para começar a monitorar</string>
     <string name="running_records_empty_hint">Clique e segure para editar</string>
     <string name="running_records_add_type">Adicionar</string>
+    <string name="running_records_add_filter">Adicionar filtro</string>
 
     <!--  Settings  -->
     <string name="settings_display_title">Configurações do visor</string>

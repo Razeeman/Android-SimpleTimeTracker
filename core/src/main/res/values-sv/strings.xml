@@ -111,6 +111,10 @@
     <string name="change_record_type_goal_time">Tidsmål</string>
     <string name="change_record_type_goal_time_hint">Visa notis efter att aktivitet uppnått sitt tidsmål.</string>
 
+    <!--  Activity filters  -->
+    <string name="change_activity_filter_save">Spara</string>
+    <string name="change_activity_filter_type">Filtertyp</string>
+
     <!--  Dialogs  -->
     <string name="date_time_dialog_date">Datum</string>
     <string name="date_time_dialog_time">Tid</string>
@@ -151,6 +155,7 @@
     <string name="running_records_empty">Tryck på en aktivitet för att påbörja tidtagning</string>
     <string name="running_records_empty_hint">Håll intryckt för att redigera</string>
     <string name="running_records_add_type">Lägg till</string>
+    <string name="running_records_add_filter">Lägg till filter</string>
 
     <!--  Settings  -->
     <string name="settings_display_title">Bildskärmsinställningar</string>

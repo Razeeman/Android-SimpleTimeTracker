@@ -111,6 +111,10 @@
     <string name="change_record_type_goal_time">Goal time</string>
     <string name="change_record_type_goal_time_hint">Show notification after specified time of tracking this activity.</string>
 
+    <!--  Activity filters  -->
+    <string name="change_activity_filter_save">Save</string>
+    <string name="change_activity_filter_type">Filter type</string>
+
     <!--  Dialogs  -->
     <string name="date_time_dialog_date">Date</string>
     <string name="date_time_dialog_time">Time</string>
@@ -151,6 +155,7 @@
     <string name="running_records_empty">Click on activity to start tracking</string>
     <string name="running_records_empty_hint">Long click to edit</string>
     <string name="running_records_add_type">Add</string>
+    <string name="running_records_add_filter">Add filter</string>
 
     <!--  Settings  -->
     <string name="settings_display_title">Display settings</string>

@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_running_records.interactor
 
+import com.example.util.simpletimetracker.core.mapper.ActivityFilterViewDataMapper
 import com.example.util.simpletimetracker.domain.interactor.ActivityFilterInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
@@ -21,6 +22,7 @@ class RunningRecordsViewDataInteractor @Inject constructor(
     private val activityFilterInteractor: ActivityFilterInteractor,
     private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
     private val mapper: RunningRecordViewDataMapper,
+    private val activityFilterViewDataMapper: ActivityFilterViewDataMapper,
 ) {
 
     suspend fun getViewData(): List<ViewHolderType> {
@@ -57,7 +59,7 @@ class RunningRecordsViewDataInteractor @Inject constructor(
 
         val filtersViewData = activityFilters
             .map {
-                mapper.map(
+                activityFilterViewDataMapper.map(
                     filter = it,
                     isDarkTheme = isDarkTheme,
                 )

@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.di
 
 import com.example.util.simpletimetracker.R
+import com.example.util.simpletimetracker.feature_change_activity_filter.view.ChangeActivityFilterFragment
 import com.example.util.simpletimetracker.feature_change_category.view.ChangeCategoryFragment
 import com.example.util.simpletimetracker.feature_change_record.view.ChangeRecordFragment
 import com.example.util.simpletimetracker.feature_change_record_tag.view.ChangeRecordTagFragment
@@ -13,6 +14,7 @@ import com.example.util.simpletimetracker.navigation.bundleCreator.BundleCreator
 import com.example.util.simpletimetracker.navigation.bundleCreator.bundleCreatorDelegate
 import com.example.util.simpletimetracker.navigation.params.screen.ArchiveParams
 import com.example.util.simpletimetracker.navigation.params.screen.CategoriesParams
+import com.example.util.simpletimetracker.navigation.params.screen.ChangeActivityFilterParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeActivityTagFromChangeActivityParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeActivityTagFromTagsParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordFromMainParams
@@ -171,6 +173,26 @@ class NavigationScreenMapModule {
         return NavigationData(
             R.id.action_changeRunningRecordFragment_to_changeRecordTagFragment,
             bundleCreatorDelegate(ChangeRecordTagFragment::createBundle)
+        )
+    }
+
+    @IntoMap
+    @Provides
+    @ScreenKey(ChangeActivityFilterParams.Change::class)
+    fun changeActivityFilterChange(): NavigationData {
+        return NavigationData(
+            R.id.action_mainFragment_to_changeActivityFilterFragment,
+            bundleCreatorDelegate(ChangeActivityFilterFragment::createBundle)
+        )
+    }
+
+    @IntoMap
+    @Provides
+    @ScreenKey(ChangeActivityFilterParams.New::class)
+    fun changeActivityFilterNew(): NavigationData {
+        return NavigationData(
+            R.id.action_mainFragment_to_changeActivityFilterFragment,
+            bundleCreatorDelegate(ChangeActivityFilterFragment::createBundle)
         )
     }
 }

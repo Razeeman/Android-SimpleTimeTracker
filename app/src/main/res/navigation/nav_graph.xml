@@ -20,6 +20,9 @@
             android:id="@+id/action_mainFragment_to_changeRunningRecordFragment"
             app:destination="@id/changeRunningRecordFragment"/>
         <action
+            android:id="@+id/action_mainFragment_to_changeActivityFilterFragment"
+            app:destination="@+id/changeActivityFilterFragment"/>
+        <action
             android:id="@+id/action_mainFragment_to_statisticsDetailFragment"
             app:destination="@id/statisticsDetailFragment"/>
         <action
@@ -170,4 +173,9 @@
         android:name="com.example.util.simpletimetracker.feature_archive.view.ArchiveFragment"
         android:label="ArchiveFragment"
         tools:layout="@layout/archive_fragment" />
+    <fragment
+        android:id="@+id/changeActivityFilterFragment"
+        android:name="com.example.util.simpletimetracker.feature_change_activity_filter.view.ChangeActivityFilterFragment"
+        android:label="ChangeActivityFilterFragment"
+        tools:layout="@layout/change_activity_filter_fragment" />
 </navigation>

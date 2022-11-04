@@ -111,6 +111,10 @@
     <string name="change_record_type_goal_time">Objectif de durée</string>
     <string name="change_record_type_goal_time_hint">Afficher une notification dès que la durée spécifiée de suivi de cette activité est dépassée.</string>
 
+    <!--  Activity filters  -->
+    <string name="change_activity_filter_save">Sauvegarder</string>
+    <string name="change_activity_filter_type">Type de filtre</string>
+
     <!--  Dialogs  -->
     <string name="date_time_dialog_date">Date</string>
     <string name="date_time_dialog_time">Heure</string>
@@ -151,6 +155,7 @@
     <string name="running_records_empty">Cliquez longuement pour éditer</string>
     <string name="running_records_empty_hint">Cliquez longuement pour éditer</string>
     <string name="running_records_add_type">Ajouter</string>
+    <string name="running_records_add_filter">Ajouter un filtre</string>
 
     <!--  Settings  -->
     <string name="settings_display_title">Paramètres d\'affichage</string>

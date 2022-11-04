@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/btnChangeActivityFilterDelete"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="?selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/delete"
+        android:tint="?appInactiveColor"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+
+    <com.example.util.simpletimetracker.feature_views.ActivityFilterView
+        android:id="@+id/previewChangeActivityFilter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="36dp"
+        android:layout_marginTop="8dp"
+        app:cardElevation="@dimen/record_type_card_elevation"
+        app:itemIconVisible="false"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:itemName="Filter Name" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputChangeActivityFilterName"
+        style="@style/ChangeItemInputField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintTop_toBottomOf="@id/previewChangeActivityFilter">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etChangeActivityFilterName"
+            style="@style/ChangeItemNameEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/change_category_name_hint" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/fieldChangeActivityFilterColor"
+        style="@style/InputFieldCard"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/input_field_height"
+        android:layout_marginStart="@dimen/input_field_margin"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toStartOf="@id/fieldChangeActivityFilterType"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/inputChangeActivityFilterName">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?appInputFieldBorder">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/InputFieldCardText"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/change_category_color_hint"
+                app:layout_constraintEnd_toStartOf="@id/arrowChangeActivityFilterColor"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <ImageView
+                android:id="@+id/arrowChangeActivityFilterColor"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="8dp"
+                android:background="?selectableItemBackgroundBorderless"
+                android:src="?appArrow"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/fieldChangeActivityFilterType"
+        style="@style/InputFieldCard"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/input_field_height"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="@dimen/input_field_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/fieldChangeActivityFilterColor"
+        app:layout_constraintTop_toBottomOf="@id/inputChangeActivityFilterName">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?appInputFieldBorder">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/InputFieldCardText"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/change_category_types_hint"
+                app:layout_constraintEnd_toStartOf="@id/arrowChangeActivityFilterType"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <ImageView
+                android:id="@+id/arrowChangeActivityFilterType"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="8dp"
+                android:background="?selectableItemBackgroundBorderless"
+                android:src="?appArrow"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvChangeActivityFilterColor"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:overScrollMode="never"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/btnChangeActivityFilterSave"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fieldChangeActivityFilterColor"
+        tools:itemCount="3"
+        tools:layout_width="100dp"
+        tools:listitem="@layout/item_color_layout"
+        tools:visibility="visible" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/containerChangeActivityFilterActivities"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:background="?android:colorBackground"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/btnChangeActivityFilterSave"
+        app:layout_constraintTop_toBottomOf="@id/fieldChangeActivityFilterColor"
+        tools:visibility="visible">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvChangeActivityFilterTypeHint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/input_field_margin"
+            android:gravity="center"
+            android:text="@string/change_activity_filter_type"
+            android:textColor="?appTextHintColor"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowView
+            android:id="@+id/buttonsChangeActivityFilterType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="12dp"
+            app:layout_constraintTop_toBottomOf="@id/tvChangeActivityFilterTypeHint" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvChangeActivityFilterType"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:overScrollMode="never"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/buttonsChangeActivityFilterType"
+            tools:itemCount="3"
+            tools:layout_width="100dp"
+            tools:listitem="@layout/item_record_type_layout" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnChangeActivityFilterSave"
+        style="@style/AppButtonActive"
+        android:layout_width="match_parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/change_activity_filter_save"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

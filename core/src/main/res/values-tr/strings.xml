@@ -111,6 +111,10 @@
     <string name="change_record_type_goal_time">Hedef süre</string>
     <string name="change_record_type_goal_time_hint">Bu aktivite belirtilen süre kadar takip edildiğinde bildirim göster.</string>
 
+    <!--  Activity filters  -->
+    <string name="change_activity_filter_save">Kaydet</string>
+    <string name="change_activity_filter_type">Filtre tipi</string>
+
     <!--  Dialogs  -->
     <string name="date_time_dialog_date">Tarih</string>
     <string name="date_time_dialog_time">Zaman</string>
@@ -151,6 +155,7 @@
     <string name="running_records_empty">Takip etmeye başlamak için bir aktiviteye tıklayın</string>
     <string name="running_records_empty_hint">Düzenlemek için uzun dokunun</string>
     <string name="running_records_add_type">Ekle</string>
+    <string name="running_records_add_filter">Filtre ekle</string>
 
     <!--  Settings  -->
     <string name="settings_display_title">Görüntü ayarları</string>
