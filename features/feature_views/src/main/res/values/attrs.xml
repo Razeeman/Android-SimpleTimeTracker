@@ -90,6 +90,11 @@
         <attr name="itemIconVisible" />
     </declare-styleable>
 
+    <declare-styleable name="ActivityFilterView">
+        <attr name="itemName" />
+        <attr name="itemColor" />
+    </declare-styleable>
+
     <declare-styleable name="FullWidthSpinner">
         <attr name="popupUnderSpinner" format="boolean" />
         <attr name="popupUnderMarginTop" format="dimension" />

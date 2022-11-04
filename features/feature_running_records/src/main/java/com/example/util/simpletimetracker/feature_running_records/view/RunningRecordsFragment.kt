@@ -21,6 +21,9 @@ import com.google.android.flexbox.JustifyContent
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import com.example.util.simpletimetracker.feature_running_records.databinding.RunningRecordsFragmentBinding as Binding
+import com.example.util.simpletimetracker.feature_base_adapter.activityFilter.createActivityFilterAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.activityFilter.createActivityFilterAddAdapterDelegate
+import com.example.util.simpletimetracker.feature_running_records.adapter.createRunningRecordEmptyDividerAdapterDelegate
 
 @AndroidEntryPoint
 class RunningRecordsFragment :
@@ -44,7 +47,10 @@ class RunningRecordsFragment :
             createDividerAdapterDelegate(),
             createRunningRecordAdapterDelegate(viewModel::onRunningRecordClick, viewModel::onRunningRecordLongClick),
             createRunningRecordTypeAdapterDelegate(viewModel::onRecordTypeClick, viewModel::onRecordTypeLongClick),
-            createRunningRecordTypeAddAdapterDelegate(viewModel::onAddRecordTypeClick)
+            createRunningRecordTypeAddAdapterDelegate(viewModel::onAddRecordTypeClick),
+            createRunningRecordEmptyDividerAdapterDelegate(),
+            createActivityFilterAdapterDelegate(viewModel::onActivityFilterClick, viewModel::onActivityFilterLongClick),
+            createActivityFilterAddAdapterDelegate(viewModel::onAddActivityFilterClick),
         )
     }
 

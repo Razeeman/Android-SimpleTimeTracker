@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.room.Room
 import com.example.util.simpletimetracker.core.extension.allowDiskWrite
+import com.example.util.simpletimetracker.data_local.database.ActivityFilterDao
 import com.example.util.simpletimetracker.data_local.database.AppDatabase
 import com.example.util.simpletimetracker.data_local.database.AppDatabaseMigrations
 import com.example.util.simpletimetracker.data_local.database.CategoryDao
@@ -45,6 +46,7 @@ class DataLocalModule {
                 AppDatabaseMigrations.migration_5_6,
                 AppDatabaseMigrations.migration_6_7,
                 AppDatabaseMigrations.migration_7_8,
+                AppDatabaseMigrations.migration_8_9,
             )
             .build()
     }
@@ -101,7 +103,13 @@ class DataLocalModule {
 
     @Provides
     @Singleton
-    fun getRunningRecordToRecordTagDap(database: AppDatabase): RunningRecordToRecordTagDao {
+    fun getRunningRecordToRecordTagDao(database: AppDatabase): RunningRecordToRecordTagDao {
         return database.runningRecordToRecordTagDao()
+    }
+
+    @Provides
+    @Singleton
+    fun getActivityFilterDao(database: AppDatabase): ActivityFilterDao {
+        return database.activityFilterDao()
     }
 }

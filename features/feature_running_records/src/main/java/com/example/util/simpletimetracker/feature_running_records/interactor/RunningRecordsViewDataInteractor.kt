@@ -1,12 +1,16 @@
 package com.example.util.simpletimetracker.feature_running_records.interactor
 
-import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
-import com.example.util.simpletimetracker.feature_base_adapter.divider.DividerViewData
+import com.example.util.simpletimetracker.domain.interactor.ActivityFilterInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
+import com.example.util.simpletimetracker.domain.model.ActivityFilter
+import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_base_adapter.divider.DividerViewData
 import com.example.util.simpletimetracker.feature_running_records.mapper.RunningRecordViewDataMapper
+import com.example.util.simpletimetracker.feature_running_records.viewData.RunningRecordEmptyDividerViewData
 import javax.inject.Inject
 
 class RunningRecordsViewDataInteractor @Inject constructor(
@@ -14,15 +18,18 @@ class RunningRecordsViewDataInteractor @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
     private val recordTagInteractor: RecordTagInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
-    private val mapper: RunningRecordViewDataMapper
+    private val activityFilterInteractor: ActivityFilterInteractor,
+    private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
+    private val mapper: RunningRecordViewDataMapper,
 ) {
 
     suspend fun getViewData(): List<ViewHolderType> {
         val recordTypes = recordTypeInteractor.getAll()
-        val recordTypesMap = recordTypes.map { it.id to it }.toMap()
+        val recordTypesMap = recordTypes.associateBy { it.id }
         val recordTags = recordTagInteractor.getAll()
         val runningRecords = runningRecordInteractor.getAll()
         val recordTypesRunning = runningRecords.map { it.id }
+        val activityFilters = activityFilterInteractor.getAll()
         val numberOfCards = prefsInteractor.getNumberOfCards()
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
@@ -48,9 +55,31 @@ class RunningRecordsViewDataInteractor @Inject constructor(
                     }
         }
 
+        val filtersViewData = activityFilters
+            .map {
+                mapper.map(
+                    filter = it,
+                    isDarkTheme = isDarkTheme,
+                )
+            }
+            .plus(
+                mapper.mapToActivityFilterAddItem(
+                    isDarkTheme = isDarkTheme,
+                )
+            )
+            .plus(
+                RunningRecordEmptyDividerViewData(1)
+            )
+
+        val anyFiltersSelected = activityFilters.any { it.selected }
+        val selectedTypes = getSelectedTypeIds(anyFiltersSelected, activityFilters)
         val recordTypesViewData = recordTypes
             .filterNot {
                 it.hidden
+            }
+            .let { list ->
+                if (anyFiltersSelected) list.filter { it.id in selectedTypes }
+                else list
             }
             .map {
                 mapper.map(
@@ -69,6 +98,40 @@ class RunningRecordsViewDataInteractor @Inject constructor(
 
         return runningRecordsViewData +
             listOf(DividerViewData(1)) +
+            filtersViewData +
             recordTypesViewData
+    }
+
+    private suspend fun getSelectedTypeIds(
+        anyFiltersSelected: Boolean,
+        filters: List<ActivityFilter>,
+    ): List<Long> {
+        if (!anyFiltersSelected) return emptyList()
+
+        val selectedFilters = filters.filter { it.selected }
+
+        val activityIds: List<Long> = selectedFilters
+            .filter { it.type is ActivityFilter.Type.Activity }
+            .map { it.selectedIds }
+            .flatten()
+
+        val fromCategoryIds: List<Long> = selectedFilters
+            .filter { it.type is ActivityFilter.Type.ActivityTag }
+            .map { it.selectedIds }
+            .flatten()
+            .takeUnless { it.isEmpty() }
+            ?.let { tagIds ->
+                val recordTypeCategories = recordTypeCategoryInteractor.getAll()
+                    .groupBy { it.categoryId }
+                    .mapValues { (_, value) -> value.map { it.recordTypeId } }
+                tagIds.mapNotNull { tagId -> recordTypeCategories[tagId] }.flatten()
+            }
+            .orEmpty()
+
+        return when {
+            fromCategoryIds.isEmpty() -> activityIds
+            activityIds.isEmpty() -> fromCategoryIds
+            else -> activityIds + fromCategoryIds
+        }
     }
 }

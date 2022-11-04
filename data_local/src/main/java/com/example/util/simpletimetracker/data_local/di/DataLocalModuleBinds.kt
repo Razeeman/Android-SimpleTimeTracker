@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.data_local.di
 
+import com.example.util.simpletimetracker.data_local.repo.ActivityFilterRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.CategoryRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.RecordRepoImpl
@@ -11,6 +12,7 @@ import com.example.util.simpletimetracker.data_local.repo.RunningRecordRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.RunningRecordToRecordTagRepoImpl
 import com.example.util.simpletimetracker.data_local.resolver.BackupRepoImpl
 import com.example.util.simpletimetracker.data_local.resolver.CsvRepoImpl
+import com.example.util.simpletimetracker.domain.repo.ActivityFilterRepo
 import com.example.util.simpletimetracker.domain.repo.CategoryRepo
 import com.example.util.simpletimetracker.domain.repo.PrefsRepo
 import com.example.util.simpletimetracker.domain.repo.RecordRepo
@@ -75,4 +77,8 @@ interface DataLocalModuleBinds {
     @Binds
     @Singleton
     fun RunningRecordToRecordTagRepoImpl.bindRunningRecordToRecordTagRepo(): RunningRecordToRecordTagRepo
+
+    @Binds
+    @Singleton
+    fun ActivityFilterRepoImpl.bindActivityFilterRepo(): ActivityFilterRepo
 }

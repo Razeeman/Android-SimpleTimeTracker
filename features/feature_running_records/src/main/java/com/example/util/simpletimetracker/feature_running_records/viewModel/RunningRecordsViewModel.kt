@@ -7,8 +7,13 @@ import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.extension.toParams
 import com.example.util.simpletimetracker.core.interactor.AddRunningRecordMediator
 import com.example.util.simpletimetracker.core.interactor.RemoveRunningRecordMediator
+import com.example.util.simpletimetracker.domain.interactor.ActivityFilterInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
+import com.example.util.simpletimetracker.domain.model.ActivityFilter
+import com.example.util.simpletimetracker.domain.model.AppColor
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_base_adapter.activityFilter.ActivityFilterViewData
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_running_records.interactor.RunningRecordsViewDataInteractor
@@ -31,7 +36,9 @@ class RunningRecordsViewModel @Inject constructor(
     private val addRunningRecordMediator: AddRunningRecordMediator,
     private val removeRunningRecordMediator: RemoveRunningRecordMediator,
     private val runningRecordInteractor: RunningRecordInteractor,
-    private val runningRecordsViewDataInteractor: RunningRecordsViewDataInteractor
+    private val runningRecordsViewDataInteractor: RunningRecordsViewDataInteractor,
+    private val recordTypeInteractor: RecordTypeInteractor,
+    private val activityFilterInteractor: ActivityFilterInteractor,
 ) : ViewModel() {
 
     val runningRecords: LiveData<List<ViewHolderType>> by lazy {
@@ -107,6 +114,36 @@ class RunningRecordsViewModel @Inject constructor(
             ),
             sharedElements = sharedElements
         )
+    }
+
+    fun onActivityFilterClick(item: ActivityFilterViewData) = viewModelScope.launch {
+        activityFilterInteractor.changeSelected(item.id, !item.selected)
+        updateRunningRecords()
+    }
+
+    fun onActivityFilterLongClick(item: ActivityFilterViewData, sharedElements: Pair<Any, String>) {
+        // TODO navigate
+        viewModelScope.launch {
+            activityFilterInteractor.remove(item.id)
+            updateRunningRecords()
+        }
+    }
+
+    fun onAddActivityFilterClick() = viewModelScope.launch {
+        // TODO navigate
+        activityFilterInteractor.add(
+            ActivityFilter(
+                selectedIds = recordTypeInteractor.getAll().map { it.id }.shuffled().take(3),
+                type = ActivityFilter.Type.Activity,
+                name = "Test ${(1..100).random()}",
+                color = AppColor(
+                    colorId = 2,
+                    colorInt = "",
+                ),
+                selected = true,
+            )
+        )
+        updateRunningRecords()
     }
 
     fun onVisible() {

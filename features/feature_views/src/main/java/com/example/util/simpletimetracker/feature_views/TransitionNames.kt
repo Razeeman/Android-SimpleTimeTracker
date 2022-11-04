@@ -8,4 +8,5 @@ object TransitionNames {
     const val STATISTICS_DETAIL = "statistics_detail_transition_name"
     const val ACTIVITY_TAG = "activity_tag_transition_name"
     const val RECORD_TAG = "record_tag_transition_name"
+    const val ACTIVITY_FILTER_TAG = "activity_filter_tag_transition_name"
 }
