@@ -11,7 +11,6 @@ import com.example.util.simpletimetracker.domain.model.ActivityFilter
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.divider.DividerViewData
 import com.example.util.simpletimetracker.feature_running_records.mapper.RunningRecordViewDataMapper
-import com.example.util.simpletimetracker.feature_running_records.viewData.RunningRecordEmptyDividerViewData
 import javax.inject.Inject
 
 class RunningRecordsViewDataInteractor @Inject constructor(
@@ -70,7 +69,7 @@ class RunningRecordsViewDataInteractor @Inject constructor(
                 )
             )
             .plus(
-                RunningRecordEmptyDividerViewData(1)
+                DividerViewData(2)
             )
 
         val anyFiltersSelected = activityFilters.any { it.selected }
