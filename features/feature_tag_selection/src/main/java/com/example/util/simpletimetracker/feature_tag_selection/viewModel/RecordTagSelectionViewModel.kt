@@ -56,10 +56,10 @@ class RecordTagSelectionViewModel @Inject constructor(
                 }
                 else -> return@launch
             }
-            updateViewData()
-
             if (prefsInteractor.getRecordTagSelectionCloseAfterOne()) {
                 tagSelected()
+            } else {
+                updateViewData()
             }
         }
     }
