@@ -4,6 +4,7 @@ import android.content.ContentResolver
 import android.net.Uri
 import android.os.ParcelFileDescriptor
 import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.domain.model.ActivityFilter
 import com.example.util.simpletimetracker.domain.model.AppColor
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.Record
@@ -11,6 +12,7 @@ import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordToRecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RecordTypeCategory
+import com.example.util.simpletimetracker.domain.repo.ActivityFilterRepo
 import com.example.util.simpletimetracker.domain.repo.CategoryRepo
 import com.example.util.simpletimetracker.domain.repo.RecordRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTagRepo
@@ -42,6 +44,7 @@ class BackupRepoImpl @Inject constructor(
     private val recordTypeCategoryRepo: RecordTypeCategoryRepo,
     private val recordToRecordTagRepo: RecordToRecordTagRepo,
     private val recordTagRepo: RecordTagRepo,
+    private val activityFilterRepo: ActivityFilterRepo,
 ) : BackupRepo {
 
     override suspend fun saveBackupFile(uriString: String): BackupRepo.ResultCode =
@@ -89,6 +92,11 @@ class BackupRepoImpl @Inject constructor(
                         it.let(::toBackupString).toByteArray()
                     )
                 }
+                activityFilterRepo.getAll().forEach {
+                    fileOutputStream?.write(
+                        it.let(::toBackupString).toByteArray()
+                    )
+                }
 
                 fileOutputStream?.close()
                 fileDescriptor?.close()
@@ -129,6 +137,7 @@ class BackupRepoImpl @Inject constructor(
                 recordTypeCategoryRepo.clear()
                 recordTagRepo.clear()
                 recordToRecordTagRepo.clear()
+                activityFilterRepo.clear()
 
                 // Read data
                 while (reader?.readLine()?.also { line = it } != null) {
@@ -165,6 +174,11 @@ class BackupRepoImpl @Inject constructor(
                         ROW_RECORD_TO_RECORD_TAG -> {
                             recordToRecordTagFromBackupString(parts).let {
                                 recordToRecordTagRepo.add(it)
+                            }
+                        }
+                        ROW_ACTIVITY_FILTER -> {
+                            activityFilterFromBackupString(parts).let {
+                                activityFilterRepo.add(it)
                             }
                         }
                     }
@@ -246,6 +260,24 @@ class BackupRepoImpl @Inject constructor(
         )
     }
 
+    private fun toBackupString(activityFilter: ActivityFilter): String {
+        val typeString = when (activityFilter.type) {
+            is ActivityFilter.Type.Activity -> 0L
+            is ActivityFilter.Type.ActivityTag -> 1L
+        }.toString()
+
+        return String.format(
+            "$ROW_ACTIVITY_FILTER\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n",
+            activityFilter.id.toString(),
+            activityFilter.selectedIds.joinToString(separator = ","),
+            typeString,
+            activityFilter.name.clean(),
+            activityFilter.color.colorId.toString(),
+            activityFilter.color.colorInt,
+            (if (activityFilter.selected) 1 else 0).toString(),
+        )
+    }
+
     private fun recordTypeFromBackupString(parts: List<String>): RecordType {
         return RecordType(
             id = parts.getOrNull(1)?.toLongOrNull().orZero(),
@@ -321,6 +353,28 @@ class BackupRepoImpl @Inject constructor(
         )
     }
 
+    private fun activityFilterFromBackupString(parts: List<String>): ActivityFilter {
+        return ActivityFilter(
+            id = parts.getOrNull(1)?.toLongOrNull().orZero(),
+            selectedIds = parts.getOrNull(2)?.split(",")
+                ?.mapNotNull { it.toLongOrNull() }.orEmpty(),
+            type = parts.getOrNull(3)?.toLongOrNull()?.let {
+                when (it) {
+                    0L -> ActivityFilter.Type.Activity
+                    1L -> ActivityFilter.Type.ActivityTag
+                    else -> ActivityFilter.Type.Activity
+                }
+            } ?: ActivityFilter.Type.Activity,
+            name = parts.getOrNull(4).orEmpty(),
+            color = AppColor(
+                colorId = parts.getOrNull(5)?.toIntOrNull().orZero(),
+                colorInt = parts.getOrNull(6).orEmpty(),
+            ),
+            // Ignore to avoid confusion after restoring backup and filters are hidden.
+            selected = false, // parts.getOrNull(7)?.toIntOrNull() == 1,
+        )
+    }
+
     private fun String.clean() =
         cleanTabs().cleanNewline()
 
@@ -341,5 +395,6 @@ class BackupRepoImpl @Inject constructor(
         private const val ROW_TYPE_CATEGORY = "typeCategory"
         private const val ROW_RECORD_TAG = "recordTag"
         private const val ROW_RECORD_TO_RECORD_TAG = "recordToRecordTag"
+        private const val ROW_ACTIVITY_FILTER = "activityFilter"
     }
 }

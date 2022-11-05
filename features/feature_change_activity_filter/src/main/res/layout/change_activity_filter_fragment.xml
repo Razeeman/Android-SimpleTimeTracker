@@ -150,11 +150,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/fieldChangeActivityFilterColor"
         tools:itemCount="3"
-        tools:layout_width="100dp"
         tools:listitem="@layout/item_color_layout"
         tools:visibility="visible" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/containerChangeActivityFilterActivities"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -165,36 +164,42 @@
         app:layout_constraintTop_toBottomOf="@id/fieldChangeActivityFilterColor"
         tools:visibility="visible">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvChangeActivityFilterTypeHint"
+        <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/input_field_margin"
-            android:gravity="center"
-            android:text="@string/change_activity_filter_type"
-            android:textColor="?appTextHintColor"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:background="?android:colorBackground"
+            app:elevation="0dp">
 
-        <com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowView
-            android:id="@+id/buttonsChangeActivityFilterType"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="12dp"
-            app:layout_constraintTop_toBottomOf="@id/tvChangeActivityFilterTypeHint" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvChangeActivityFilterTypeHint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/input_field_margin"
+                android:gravity="center"
+                android:text="@string/change_activity_filter_type"
+                android:textColor="?appTextHintColor"
+                app:layout_scrollFlags="scroll" />
+
+            <com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowView
+                android:id="@+id/buttonsChangeActivityFilterType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="12dp"
+                app:layout_scrollFlags="scroll" />
+
+        </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvChangeActivityFilterType"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="8dp"
             android:overScrollMode="never"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/buttonsChangeActivityFilterType"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
             tools:itemCount="3"
-            tools:layout_width="100dp"
             tools:listitem="@layout/item_record_type_layout" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnChangeActivityFilterSave"

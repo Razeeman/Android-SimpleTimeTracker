@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.core.utils
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconImageMapper
 import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.domain.interactor.ActivityFilterInteractor
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
@@ -30,6 +31,7 @@ class TestUtils @Inject constructor(
     private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
     private val recordTagInteractor: RecordTagInteractor,
     private val recordToRecordTagInteractor: RecordToRecordTagInteractor,
+    private val activityFilterInteractor: ActivityFilterInteractor,
     private val runningRecordToRecordTagRepo: RunningRecordToRecordTagRepo,
     private val prefsInteractor: PrefsInteractor,
     private val iconImageMapper: IconImageMapper,
@@ -44,6 +46,7 @@ class TestUtils @Inject constructor(
         recordTagInteractor.clear()
         recordToRecordTagInteractor.clear()
         runningRecordToRecordTagRepo.clear() // TODO what's weird, can't use interactor because of test crash
+        activityFilterInteractor.clear()
     }
 
     fun clearPrefs() = runBlocking {
