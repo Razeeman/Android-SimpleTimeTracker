@@ -168,7 +168,9 @@
     <string name="settings_sort_manually">Handmatig</string>
     <string name="settings_first_day_of_week">Eerste dag van de week</string>
     <string name="settings_show_untracked_time">Toon niet-gevolgde tijd in records</string>
+    <string name="settings_show_untracked_time_hint">Niet-bijgehouden tijd in statistieken kan worden verborgen met behulp van filters op het statistiekenscherm.</string>
     <string name="settings_show_records_calendar">Toon records in kalenderweergave</string>
+    <string name="settings_show_activity_filters">Activiteitsfilters weergeven op hoofdscherm</string>
     <string name="settings_allow_multitasking">Multitasking toestaan</string>
     <string name="settings_allow_multitasking_hint">Indien uitgeschakeld, zal het starten van een nieuwe timer automatisch andere activiteiten stoppen.</string>
     <string name="settings_show_notifications">Timer-meldingen tonen</string>

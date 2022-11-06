@@ -92,6 +92,15 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    val showActivityFiltersCheckbox: LiveData<Boolean> by lazy {
+        MutableLiveData<Boolean>().let { initial ->
+            viewModelScope.launch {
+                initial.value = prefsInteractor.getShowActivityFilters()
+            }
+            initial
+        }
+    }
+
     val allowMultitaskingCheckbox: LiveData<Boolean> by lazy {
         MutableLiveData<Boolean>().let { initial ->
             viewModelScope.launch {
@@ -324,6 +333,14 @@ class SettingsViewModel @Inject constructor(
             val newValue = !prefsInteractor.getShowRecordsCalendar()
             prefsInteractor.setShowRecordsCalendar(newValue)
             (showRecordsCalendarCheckbox as MutableLiveData).value = newValue
+        }
+    }
+
+    fun onShowActivityFiltersClicked() {
+        viewModelScope.launch {
+            val newValue = !prefsInteractor.getShowActivityFilters()
+            prefsInteractor.setShowActivityFilters(newValue)
+            (showActivityFiltersCheckbox as MutableLiveData).value = newValue
         }
     }
 

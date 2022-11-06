@@ -152,6 +152,14 @@ class PrefsInteractor @Inject constructor(
         prefsRepo.showRecordsCalendar = isEnabled
     }
 
+    suspend fun getShowActivityFilters(): Boolean = withContext(Dispatchers.IO) {
+        prefsRepo.showActivityFilters
+    }
+
+    suspend fun setShowActivityFilters(isEnabled: Boolean) = withContext(Dispatchers.IO) {
+        prefsRepo.showActivityFilters = isEnabled
+    }
+
     suspend fun getAllowMultitasking(): Boolean = withContext(Dispatchers.IO) {
         prefsRepo.allowMultitasking
     }

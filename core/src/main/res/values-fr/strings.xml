@@ -168,7 +168,9 @@
     <string name="settings_sort_manually">Manuellement</string>
     <string name="settings_first_day_of_week">Premier jour de la semaine</string>
     <string name="settings_show_untracked_time">Afficher le temps non suivi dans la liste des enregistrements</string>
+    <string name="settings_show_untracked_time_hint">Le temps non suivi dans les statistiques peut être masqué à l\'aide de filtres sur l\'écran des statistiques.</string>
     <string name="settings_show_records_calendar">Utiliser une vue calendrier pour la liste des enregistrements</string>
+    <string name="settings_show_activity_filters">Afficher les filtres d\'activité sur l\'écran principal</string>
     <string name="settings_allow_multitasking">Autoriser le multitâche</string>
     <string name="settings_allow_multitasking_hint">Si désactivé, le démarrage d\'une nouvelle activité arrêtera automatiquement les autres activités en cours.</string>
     <string name="settings_show_notifications">Afficher les notifications d\'activité</string>
@@ -273,7 +275,7 @@ Paramètres facultatifs pour le démarrage de l\'activité:<br/>
         <item quantity="one">Enregistrement</item>
 <!--         <item quantity="two">Enregistrements</item> -->
 <!--         <item quantity="few">Enregistrements</item> -->
-<!--         <item quantity="many">Enregistrements</item> -->
+        <item quantity="many">Enregistrements</item>
         <item quantity="other">Enregistrements</item>
     </plurals>
 

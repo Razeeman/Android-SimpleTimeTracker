@@ -168,7 +168,9 @@
     <string name="settings_sort_manually">Manualmente</string>
     <string name="settings_first_day_of_week">Primo giorno della settimana</string>
     <string name="settings_show_untracked_time">Mostra tempo non tracciato nelle registrazioni</string>
+    <string name="settings_show_untracked_time_hint">Il tempo non tracciato nelle statistiche può essere nascosto utilizzando i filtri nella schermata delle statistiche.</string>
     <string name="settings_show_records_calendar">Mostra i record nella vista calendario</string>
+    <string name="settings_show_activity_filters">Mostra i filtri delle attività sulla schermata principale</string>
     <string name="settings_allow_multitasking">Abilita multitasking</string>
     <string name="settings_allow_multitasking_hint">Se disabilitato, avviare un nuovo timer fermerà automaticamente le altre attività.</string>
     <string name="settings_show_notifications">Mostra le notifiche relative al timer.</string>

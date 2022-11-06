@@ -168,7 +168,9 @@
     <string name="settings_sort_manually">手動</string>
     <string name="settings_first_day_of_week">週の始まり</string>
     <string name="settings_show_untracked_time">記録中の未追跡時間の表示</string>
+    <string name="settings_show_untracked_time_hint">統計で追跡されていない時間は、統計画面のフィルターを使用して非表示にすることができます。</string>
     <string name="settings_show_records_calendar">カレンダービューで計測記録を表示</string>
+    <string name="settings_show_activity_filters">メイン画面にアクティビティ フィルターを表示する</string>
     <string name="settings_allow_multitasking">マルチタスクを可能にする</string>
     <string name="settings_allow_multitasking_hint">無効の場合、新しいタイマーを開始すると、他のアクティビティが自動的に停止します。</string>
     <string name="settings_show_notifications">タイマーの通知を表示する</string>

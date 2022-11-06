@@ -370,8 +370,7 @@ class BackupRepoImpl @Inject constructor(
                 colorId = parts.getOrNull(5)?.toIntOrNull().orZero(),
                 colorInt = parts.getOrNull(6).orEmpty(),
             ),
-            // Ignore to avoid confusion after restoring backup and filters are hidden.
-            selected = false, // parts.getOrNull(7)?.toIntOrNull() == 1,
+            selected = parts.getOrNull(7)?.toIntOrNull() == 1,
         )
     }
 

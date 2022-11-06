@@ -168,7 +168,9 @@
     <string name="settings_sort_manually">Secara manual</string>
     <string name="settings_first_day_of_week">Hari pertama dalam seminggu</string>
     <string name="settings_show_untracked_time">Tampilkan waktu tak terlacak dalam rekor</string>
+    <string name="settings_show_untracked_time_hint">Waktu yang tidak terlacak dalam statistik dapat disembunyikan menggunakan filter pada layar statistik.</string>
     <string name="settings_show_records_calendar">Tampilkan rekor dalam tampilan kalender</string>
+    <string name="settings_show_activity_filters">Tampilkan filter aktivitas di layar utama</string>
     <string name="settings_allow_multitasking">Izinkan tugas ganda</string>
     <string name="settings_allow_multitasking_hint">Jika dinonaktifkan memulai pewaktu baru akan secara otomatis menghentikan kegiatan-kegiatan lain.</string>
     <string name="settings_show_notifications">Tampilkan notifikasi pewaktu</string>

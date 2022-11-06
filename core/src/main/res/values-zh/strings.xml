@@ -168,7 +168,9 @@
     <string name="settings_sort_manually">手动</string>
     <string name="settings_first_day_of_week">一周的第一天</string>
     <string name="settings_show_untracked_time">在记录中显示未追踪的时间</string>
+    <string name="settings_show_untracked_time_hint">可以使用统计屏幕上的过滤器隐藏统计中未跟踪的时间。</string>
     <string name="settings_show_records_calendar">在日历视图中显示记录</string>
+    <string name="settings_show_activity_filters">在主屏幕上显示活动过滤器</string>
     <string name="settings_allow_multitasking">允许同时对多个活动进行追踪</string>
     <string name="settings_allow_multitasking_hint">如果不启用，启动新活动追踪时，将自动停止追踪其他活动。</string>
     <string name="settings_show_notifications">显示计时通知</string>

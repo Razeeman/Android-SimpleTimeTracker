@@ -30,6 +30,8 @@ interface PrefsRepo {
 
     var showRecordsCalendar: Boolean
 
+    var showActivityFilters: Boolean
+
     var allowMultitasking: Boolean
 
     var showNotifications: Boolean
