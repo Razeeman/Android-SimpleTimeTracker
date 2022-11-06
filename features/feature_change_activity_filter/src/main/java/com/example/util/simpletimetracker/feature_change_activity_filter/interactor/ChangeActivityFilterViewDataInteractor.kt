@@ -10,6 +10,7 @@ import com.example.util.simpletimetracker.domain.model.ActivityFilter
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.divider.DividerViewData
 import com.example.util.simpletimetracker.feature_base_adapter.info.InfoViewData
+import com.example.util.simpletimetracker.feature_change_activity_filter.R
 import javax.inject.Inject
 
 class ChangeActivityFilterViewDataInteractor @Inject constructor(
@@ -79,15 +80,14 @@ class ChangeActivityFilterViewDataInteractor @Inject constructor(
                 }
             }
     }
-}
 
-private fun mapSelectedTypesHint(isEmpty: Boolean): ViewHolderType {
-    return InfoViewData(
-        text = if (isEmpty) {
-            "Nothing selected" // TODO add translations
-        } else {
-            "Selected:"
-        }
-//            .let(resourceRepo::getString)
-    )
+    private fun mapSelectedTypesHint(isEmpty: Boolean): ViewHolderType {
+        return InfoViewData(
+            text = if (isEmpty) {
+                R.string.change_activity_filter_nothing_selected
+            } else {
+                R.string.change_activity_filter_selected
+            }.let(resourceRepo::getString)
+        )
+    }
 }

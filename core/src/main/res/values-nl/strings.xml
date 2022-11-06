@@ -114,6 +114,8 @@
     <!--  Activity filters  -->
     <string name="change_activity_filter_save">Opslaan</string>
     <string name="change_activity_filter_type">Filtertype</string>
+    <string name="change_activity_filter_nothing_selected">Niets geselecteerd</string>
+    <string name="change_activity_filter_selected">Geselecteerd:</string>
 
     <!--  Dialogs  -->
     <string name="date_time_dialog_date">Datum</string>

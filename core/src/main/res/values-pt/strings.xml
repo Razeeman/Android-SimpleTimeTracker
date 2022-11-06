@@ -114,6 +114,8 @@
     <!--  Activity filters  -->
     <string name="change_activity_filter_save">Salvar</string>
     <string name="change_activity_filter_type">Tipo de filtro</string>
+    <string name="change_activity_filter_nothing_selected">Nada selecionado</string>
+    <string name="change_activity_filter_selected">Selecionada:</string>
 
     <!--  Dialogs  -->
     <string name="date_time_dialog_date">Data</string>

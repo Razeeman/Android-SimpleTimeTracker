@@ -114,6 +114,8 @@
     <!--  Activity filters  -->
     <string name="change_activity_filter_save">保存</string>
     <string name="change_activity_filter_type">フィルターの種類</string>
+    <string name="change_activity_filter_nothing_selected">何も選択されていません</string>
+    <string name="change_activity_filter_selected">選択済み:</string>
 
     <!--  Dialogs  -->
     <string name="date_time_dialog_date">日</string>

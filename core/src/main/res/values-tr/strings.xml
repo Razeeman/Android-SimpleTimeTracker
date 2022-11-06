@@ -114,6 +114,8 @@
     <!--  Activity filters  -->
     <string name="change_activity_filter_save">Kaydet</string>
     <string name="change_activity_filter_type">Filtre tipi</string>
+    <string name="change_activity_filter_nothing_selected">Hiçbir şey seçilmedi</string>
+    <string name="change_activity_filter_selected">Seçildi:</string>
 
     <!--  Dialogs  -->
     <string name="date_time_dialog_date">Tarih</string>

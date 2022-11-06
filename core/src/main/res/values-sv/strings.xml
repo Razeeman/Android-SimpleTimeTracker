@@ -114,6 +114,8 @@
     <!--  Activity filters  -->
     <string name="change_activity_filter_save">Spara</string>
     <string name="change_activity_filter_type">Filtertyp</string>
+    <string name="change_activity_filter_nothing_selected">Inget valt</string>
+    <string name="change_activity_filter_selected">Vald:</string>
 
     <!--  Dialogs  -->
     <string name="date_time_dialog_date">Datum</string>
