@@ -14,10 +14,14 @@ import android.os.Parcelable
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.TextUtils
+import android.text.style.ForegroundColorSpan
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.view.ContextThemeWrapper
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewGroup
+import androidx.appcompat.widget.AppCompatTextView
 import com.example.util.simpletimetracker.core.utils.ScaleDetector
 import com.example.util.simpletimetracker.core.utils.SingleTapDetector
 import com.example.util.simpletimetracker.core.utils.SwipeDetector
@@ -32,10 +36,6 @@ import com.example.util.simpletimetracker.feature_views.extension.measureExactly
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import kotlinx.parcelize.Parcelize
 import java.util.concurrent.TimeUnit
-import android.text.style.ForegroundColorSpan
-import android.util.TypedValue
-import android.view.ViewGroup
-import androidx.appcompat.widget.AppCompatTextView
 
 class RecordsCalendarView @JvmOverloads constructor(
     context: Context,
@@ -104,6 +104,18 @@ class RecordsCalendarView @JvmOverloads constructor(
             maxLines = 1
             ellipsize = TextUtils.TruncateAt.END
             typeface = Typeface.DEFAULT_BOLD
+            layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+        }
+    }
+
+    private val commentTextView: AppCompatTextView by lazy {
+        AppCompatTextView(context).apply {
+            setTextSize(TypedValue.COMPLEX_UNIT_PX, nameTextSize)
+            setTextColor(nameTextColor)
+            maxLines = 1
+            ellipsize = TextUtils.TruncateAt.END
             layoutParams = ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
             )
@@ -304,7 +316,8 @@ class RecordsCalendarView @JvmOverloads constructor(
         var iconBottom: Int
 
         var textWidth: Float
-        var textHeight: Int?
+        var textHeight: Int
+        var commentTextHeight: Int
         var textLeft: Float
         var textTop: Float
 
@@ -358,21 +371,42 @@ class RecordsCalendarView @JvmOverloads constructor(
             }
 
             /*************
-             * Draw text *
+             * Draw name *
              *************/
-            textWidth = recordBounds.width() - iconMaxSize - 2 * recordHorizontalPadding
+            // 3 paddings - 2 at the sides, 1 between icon.
+            textWidth = recordBounds.width() - iconMaxSize - 3 * recordHorizontalPadding
             nameTextView.text = getItemName(item.point.data)
             nameTextView.measureText(textWidth.toInt())
-            textHeight = nameTextView.measuredHeight.takeIf { it < recordBounds.height() - 2 * recordVerticalPadding }
+            textHeight = nameTextView.measuredHeight
             // If can fit into box.
-            textHeight?.let { _ ->
-                textLeft = recordBounds.left + recordBounds.width() - textWidth
+            if (textHeight < recordBounds.height() - 2 * recordVerticalPadding) {
+                textLeft = recordBounds.right - recordHorizontalPadding - textWidth
                 textTop = recordBounds.top + recordVerticalPadding
 
                 canvas.save()
                 canvas.translate(textLeft, textTop)
                 nameTextView.draw(canvas)
                 canvas.restore()
+            }
+
+            /****************
+             * Draw comment *
+             ****************/
+            if (item.point.data.comment.isNotEmpty()) {
+                textWidth = recordBounds.width() - 2 * recordHorizontalPadding
+                commentTextView.text = item.point.data.comment
+                commentTextView.measureText(textWidth.toInt())
+                commentTextHeight = commentTextView.measuredHeight
+                // If can fit into box with item name.
+                if (commentTextHeight < recordBounds.height() - 2 * recordVerticalPadding - textHeight) {
+                    textLeft = recordBounds.right - recordHorizontalPadding - textWidth
+                    textTop = recordBounds.top + recordVerticalPadding + textHeight
+
+                    canvas.save()
+                    canvas.translate(textLeft, textTop)
+                    commentTextView.draw(canvas)
+                    canvas.restore()
+                }
             }
         }
     }
