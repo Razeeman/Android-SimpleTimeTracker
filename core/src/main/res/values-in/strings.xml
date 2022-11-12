@@ -61,6 +61,7 @@
     <string name="statistics_hint">Ketuk pada kartu untuk melihat statistik secara detil</string>
 
     <!--  Categories  -->
+    <string name="categories_title">Kategori dan tag</string>
     <string name="categories_record_type_hint">Tetapkan kategori yang sama untuk kegiatan yang berbeda untuk melihat statistik yang dikelompokkan</string>
     <string name="categories_record_hint">Tetapkan label yang berbeda ke rekaman untuk membedakannya</string>
     <string name="categories_add_category">Tambahkan kategori</string>

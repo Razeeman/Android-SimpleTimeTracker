@@ -61,6 +61,7 @@
     <string name="statistics_hint">Detaylı istatistikler için bir karta tıklayın</string>
 
     <!--  Categories  -->
+    <string name="categories_title">Kategoriler ve etiketler</string>
     <string name="categories_record_type_hint">Farklı aktivitelerin istatistiklerini grup halinde görmek için aynı kategoriyi farklı aktivitelere atayın</string>
     <string name="categories_record_hint">Aralarında ayrım yapabilmek için kayıtlara farklı etiketler atayın</string>
     <string name="categories_add_category">Kategori ekle</string>

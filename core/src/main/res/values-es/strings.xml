@@ -61,6 +61,7 @@
     <string name="statistics_hint">Haz clic en la tarjeta para ver las estadísticas detalladas</string>
 
     <!--  Categories  -->
+    <string name="categories_title">Categorías y etiquetas</string>
     <string name="categories_record_type_hint">Asigne la misma categoría a diferentes actividades para ver las estadísticas del grupo</string>
     <string name="categories_record_hint">Asigne diferentes etiquetas para registrar las diferencias entre ellas.</string>
     <string name="categories_add_category">Añadir categoría</string>

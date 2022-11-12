@@ -61,6 +61,7 @@
     <string name="statistics_hint">Clique no cartão para ver estatísticas detalhadas</string>
 
     <!--  Categories  -->
+    <string name="categories_title">Categorias e tags</string>
     <string name="categories_record_type_hint">Atribua a mesma categoria a diferentes atividades para visualizar suas estatísticas agrupadas</string>
     <string name="categories_record_hint">Atribua tags diferentes aos registros para diferenciá-los</string>
     <string name="categories_add_category">Adicionar categoria</string>

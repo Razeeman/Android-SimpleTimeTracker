@@ -61,6 +61,7 @@
     <string name="statistics_hint">カードをタップすると詳細な統計情報が表示されます。</string>
 
     <!--  Categories  -->
+    <string name="categories_title">カテゴリとタグ</string>
     <string name="categories_record_type_hint">同じカテゴリを異なるアクティビティに割り当てて、グループ化された統計を表示します</string>
     <string name="categories_record_hint">計測記録に異なるタグを付与し、計測記録を区別することが可能です</string>
     <string name="categories_add_category">カテゴリを追加</string>

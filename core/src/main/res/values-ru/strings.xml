@@ -61,6 +61,7 @@
     <string name="statistics_hint">Нажмите на карточку для просмотра детальной статистики</string>
 
     <!--  Categories  -->
+    <string name="categories_title">Категории и теги</string>
     <string name="categories_record_type_hint">Назначьте одну и ту же категорию разным активностям, чтобы просматривать их сгруппированную статистику</string>
     <string name="categories_record_hint">Назначьте разные теги записям, чтобы различать их</string>
     <string name="categories_add_category">Добавить категорию</string>

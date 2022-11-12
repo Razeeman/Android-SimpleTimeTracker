@@ -61,6 +61,7 @@
     <string name="statistics_hint">Cliquez une carte pour afficher les statistiques détaillées</string>
 
     <!--  Categories  -->
+    <string name="categories_title">Catégories et étiquettes</string>
     <string name="categories_record_type_hint">Attribuez la même catégorie à différentes activités pour afficher leurs statistiques groupées</string>
     <string name="categories_record_hint">Attribuez différentes étiquettes aux enregistrements pour les différencier</string>
     <string name="categories_add_category">Créer une catégorie</string>

@@ -61,6 +61,7 @@
     <string name="statistics_hint">Klicke auf die Karte, um detaillierte Statistiken anzuzeigen</string>
 
     <!--  Categories  -->
+    <string name="categories_title">Kategorien und Tags</string>
     <string name="categories_record_type_hint">Weise verschiedenen Aktivitäten denselben Kategorie zu, um  gruppierten Statistiken anzuzeigen</string>
     <string name="categories_record_hint">Ordne den Datensätzen verschiedene Tags zu, um sie zu unterscheiden</string>
     <string name="categories_add_category">Kategorie hinzufügen</string>

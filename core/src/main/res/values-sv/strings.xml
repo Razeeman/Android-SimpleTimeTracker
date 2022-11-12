@@ -61,6 +61,7 @@
     <string name="statistics_hint">Tryck på kort för att detaljerad statistik</string>
 
     <!--  Categories  -->
+    <string name="categories_title">Kategorier och taggar</string>
     <string name="categories_record_type_hint">Ge flera aktiviteter samma kategori för att se gruppstatistik</string>
     <string name="categories_record_hint">Ge händelser olika taggar för att skilja dem åt</string>
     <string name="categories_add_category">Lägg till kategori</string>

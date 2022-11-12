@@ -61,6 +61,7 @@
     <string name="statistics_hint">Klik op een kaart voor gedetailleerde statistieken</string>
 
     <!--  Categories  -->
+    <string name="categories_title">Categorieën en tags</string>
     <string name="categories_record_type_hint">Wijs hetzelfde categorie toe aan verschillende activiteiten om hun gegroepeerde statistieken te bekijken</string>
     <string name="categories_record_hint">Wijs verschillende labels toe aan records om ze te onderscheiden</string>
     <string name="categories_add_category">Categorie toevoegen</string>

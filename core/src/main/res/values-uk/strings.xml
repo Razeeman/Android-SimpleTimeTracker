@@ -61,6 +61,7 @@
     <string name="statistics_hint">Натисніть на картку для перегляду детальної статистики</string>
 
     <!--  Categories  -->
+    <string name="categories_title">Категорії та теги</string>
     <string name="categories_record_type_hint">Призначте ту саму категорію різним активностям, щоб переглядати їх згруповану статистику</string>
     <string name="categories_record_hint">Призначте різні теги записам, щоб розрізняти їх</string>
     <string name="categories_add_category">Додати категорію</string>

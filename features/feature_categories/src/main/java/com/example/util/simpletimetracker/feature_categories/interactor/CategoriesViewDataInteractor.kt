@@ -18,15 +18,16 @@ class CategoriesViewDataInteractor @Inject constructor(
     private val recordTagInteractor: RecordTagInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
     private val categoryViewDataMapper: CategoryViewDataMapper,
-    private val categoriesViewDataMapper: CategoriesViewDataMapper
+    private val categoriesViewDataMapper: CategoriesViewDataMapper,
 ) {
 
     suspend fun getViewData(): List<ViewHolderType> = coroutineScope {
         val typeTags = async { getRecordTypeTagViewData() }
         val recordTags = async { getRecordTagViewData() }
 
-        typeTags.await() +
-            DividerViewData(1) +
+        listOf(DividerViewData(1)) +
+            typeTags.await() +
+            DividerViewData(2) +
             recordTags.await()
     }
 
