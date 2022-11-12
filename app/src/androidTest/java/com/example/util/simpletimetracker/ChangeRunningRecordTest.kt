@@ -93,9 +93,9 @@ class ChangeRunningRecordTest : BaseUiTest() {
         clickOnViewWithText(R.string.change_record_type_field)
         clickOnRecyclerItem(R.id.rvChangeRunningRecordType, withText(name2))
         clickOnViewWithText(R.string.change_record_type_field)
-        clickOnViewWithText(R.string.change_record_category_field)
+        clickOnViewWithText(R.string.change_record_tag_field)
         clickOnRecyclerItem(R.id.rvChangeRunningRecordCategories, withText(tag2))
-        clickOnViewWithText(R.string.change_record_category_field)
+        clickOnViewWithText(R.string.change_record_tag_field)
 
         val calendar = Calendar.getInstance().apply {
             add(Calendar.DATE, -1)
@@ -185,10 +185,10 @@ class ChangeRunningRecordTest : BaseUiTest() {
         // Change tag
         longClickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name1)))
         checkPreviewUpdated(hasDescendant(withText(name1)))
-        clickOnViewWithText(R.string.change_record_category_field)
+        clickOnViewWithText(R.string.change_record_tag_field)
         clickOnRecyclerItem(R.id.rvChangeRunningRecordCategories, withText(tag1))
         checkPreviewUpdated(hasDescendant(withText(fullName1)))
-        clickOnViewWithText(R.string.change_record_category_field)
+        clickOnViewWithText(R.string.change_record_tag_field)
         clickOnViewWithText(R.string.change_record_save)
 
         // Record updated
@@ -201,11 +201,11 @@ class ChangeRunningRecordTest : BaseUiTest() {
         clickOnRecyclerItem(R.id.rvChangeRunningRecordType, withText(name2))
         checkPreviewUpdated(hasDescendant(withText(name2)))
         clickOnViewWithText(R.string.change_record_type_field)
-        clickOnViewWithText(R.string.change_record_category_field)
+        clickOnViewWithText(R.string.change_record_tag_field)
         clickOnRecyclerItem(R.id.rvChangeRunningRecordCategories, withText(tag2))
         clickOnRecyclerItem(R.id.rvChangeRunningRecordCategories, withText(tag3))
         checkPreviewUpdated(hasDescendant(withText(fullName2)))
-        clickOnViewWithText(R.string.change_record_category_field)
+        clickOnViewWithText(R.string.change_record_tag_field)
         clickOnViewWithText(R.string.change_record_save)
 
         // Record updated
@@ -214,10 +214,10 @@ class ChangeRunningRecordTest : BaseUiTest() {
         // Remove tag
         longClickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(fullName2)))
         checkPreviewUpdated(hasDescendant(withText(fullName2)))
-        clickOnViewWithText(R.string.change_record_category_field)
+        clickOnViewWithText(R.string.change_record_tag_field)
         clickOnRecyclerItem(R.id.rvChangeRunningRecordCategories, withText(R.string.change_record_untagged))
         checkPreviewUpdated(hasDescendant(withText(name2)))
-        clickOnViewWithText(R.string.change_record_category_field)
+        clickOnViewWithText(R.string.change_record_tag_field)
         clickOnViewWithText(R.string.change_record_save)
 
         // Record updated

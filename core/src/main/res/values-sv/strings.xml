@@ -10,8 +10,10 @@
     <string name="day_of_week_sunday">Sön</string>
 
     <string name="activity_hint">Aktiviteter</string>
-    <string name="activity_tag_hint">Aktivitetstaggar</string>
+    <string name="category_hint">Kategorier</string>
     <string name="record_tag_hint">Händelsetaggar</string>
+    <string name="nothing_selected">Inget valt</string>
+    <string name="something_selected">Vald:</string>
 
     <!--  Range selection  -->
     <string name="title_yesterday">Igår</string>
@@ -59,24 +61,22 @@
     <string name="statistics_hint">Tryck på kort för att detaljerad statistik</string>
 
     <!--  Categories  -->
-    <string name="categories_record_type_hint">Ge flera aktiviteter samma tagg för att se gruppstatistik</string>
+    <string name="categories_record_type_hint">Ge flera aktiviteter samma kategori för att se gruppstatistik</string>
     <string name="categories_record_hint">Ge händelser olika taggar för att skilja dem åt</string>
-    <string name="categories_add_activity_tag">Lägg till aktivitetstagg</string>
+    <string name="categories_add_category">Lägg till kategori</string>
     <string name="categories_add_record_tag">Lägg till händelsetagg</string>
 
     <!--  Change category  -->
-    <string name="change_category_removed">Tagg borttagen</string>
-    <string name="change_category_archived">Tagg arkiverad</string>
+    <string name="change_category_removed">Kategori borttagen</string>
     <string name="change_category_name_hint">Skriv in nytt namn</string>
     <string name="change_category_color_hint">Färg</string>
     <string name="change_category_types_hint">Aktiviteter</string>
-    <string name="change_category_type_hint">Aktivitet</string>
     <string name="change_category_save">Spara</string>
     <string name="change_category_message_choose_name">Välj ett namn</string>
-    <string name="change_category_selected_types_empty">Ej tilldelad till aktivitet</string>
-    <string name="change_category_selected_types_hint">Tilldelad till:</string>
 
     <!--  Change record tag  -->
+    <string name="change_record_tag_archived">Tagg arkiverad</string>
+    <string name="change_record_tag_type_hint">Aktivitet</string>
     <string name="change_record_tag_type">Taggtyp</string>
     <string name="change_record_tag_type_general">Allmän</string>
     <string name="change_record_tag_type_general_hint">Kan tilldelas händelse oberoende av aktivitet</string>
@@ -86,7 +86,7 @@
     <!--  Change record  -->
     <string name="change_record_message_choose_type">Välj aktivitet</string>
     <string name="change_record_type_field">Aktivitet</string>
-    <string name="change_record_category_field">Tagg</string>
+    <string name="change_record_tag_field">Tagg</string>
     <string name="change_record_comment_hint">Kommentar</string>
     <string name="change_record_last_comments_hint">Senaste kommentarer</string>
     <string name="change_record_categories_empty">Ingen händelsetagg vald</string>
@@ -101,21 +101,17 @@
     <string name="change_record_type_color_hint">Färg</string>
     <string name="change_record_type_icon_hint">Ikon</string>
     <string name="change_record_type_emoji_hint">Emoji</string>
-    <string name="change_record_type_category_hint">Taggar</string>
     <string name="change_record_type_save">Spara</string>
     <string name="change_record_message_choose_name">Ange ett namn</string>
-    <string name="change_record_type_categories_empty">Ingen aktivitetstagg har valts</string>
-    <string name="change_record_type_selected_categories_empty">Ingen tagg har valts</string>
-    <string name="change_record_type_selected_categories_hint">Angivna taggar:</string>
+    <string name="change_record_type_categories_empty">Inga kategorier har lagts till</string>
     <string name="change_record_type_goal_time_disabled">Inaktiverad</string>
     <string name="change_record_type_goal_time">Tidsmål</string>
     <string name="change_record_type_goal_time_hint">Visa notis efter att aktivitet uppnått sitt tidsmål.</string>
 
     <!--  Activity filters  -->
+    <string name="change_activity_filter_removed">Filter borttaget</string>
     <string name="change_activity_filter_save">Spara</string>
     <string name="change_activity_filter_type">Filtertyp</string>
-    <string name="change_activity_filter_nothing_selected">Inget valt</string>
-    <string name="change_activity_filter_selected">Vald:</string>
 
     <!--  Dialogs  -->
     <string name="date_time_dialog_date">Datum</string>
@@ -130,8 +126,6 @@
     <string name="types_filter_show_all">Visa alla</string>
     <string name="types_filter_hide_all">Göm alla</string>
     <string name="chart_filter_type_hint">Statistiktyp</string>
-    <string name="chart_filter_type_activity">Aktivitet</string>
-    <string name="chart_filter_type_category">Tagg</string>
     <string name="chart_filter_categories_empty">Inga taggar tillagda</string>
 
     <string name="duration_dialog_save">Spara</string>
@@ -189,8 +183,8 @@
     <string name="settings_keep_screen_on">Håll skärmen på</string>
     <string name="settings_change_card_size">Ändra storlek på aktivitetskort</string>
     <string name="settings_archive">Arkiv</string>
-    <string name="settings_edit_categories">Redigera taggar</string>
-    <string name="settings_edit_categories_hint">Tilldela taggar till aktiviteter och händelser.</string>
+    <string name="settings_edit_categories">Redigera kategorier och taggar</string>
+    <string name="settings_edit_categories_hint">Tilldela kategorier till aktiviteter och taggar till poster.</string>
     <string name="settings_show_record_tag_selection">Dialog för händelsetagg</string>
     <string name="settings_show_record_tag_selection_hint">Visa dialogruta för val av händelsetaggar om den påbörjade aktiviteten har tilldelade händelsetaggar.</string>
     <string name="settings_show_record_tag_close_hint">Stäng efter att ha valt en tagg.</string>

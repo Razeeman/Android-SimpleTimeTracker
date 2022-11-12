@@ -10,7 +10,7 @@ data class ActivityFilter(
 ) {
 
     sealed interface Type {
-        object ActivityTag: Type
+        object Category: Type
         object Activity: Type
     }
 }

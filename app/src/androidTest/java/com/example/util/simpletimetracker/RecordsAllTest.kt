@@ -217,8 +217,8 @@ class RecordsAllTest : BaseUiTest() {
         val categoryName2 = "category2"
 
         // Add categories
-        testUtils.addActivityTag(categoryName1)
-        testUtils.addActivityTag(categoryName2)
+        testUtils.addCategory(categoryName1)
+        testUtils.addCategory(categoryName2)
 
         // Add activity
         testUtils.addActivity(name = typeName1, color = color1, categories = listOf(categoryName1))
@@ -269,7 +269,7 @@ class RecordsAllTest : BaseUiTest() {
         // Open statistics
         NavUtils.openStatisticsScreen()
         clickOnViewWithIdOnPager(R.id.btnStatisticsChartFilter)
-        clickOnViewWithText(R.string.chart_filter_type_category)
+        clickOnViewWithText(R.string.category_hint)
         pressBack()
         tryAction { clickOnView(allOf(withText(categoryName1), isCompletelyDisplayed())) }
         clickOnViewWithIdOnPager(R.id.btnStatisticsDetailToday)

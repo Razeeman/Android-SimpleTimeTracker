@@ -176,8 +176,8 @@ class ChangeActivityFilterViewModel @Inject constructor(
 
     fun onCategoryClick(item: CategoryViewData) {
         viewModelScope.launch {
-            if (newType !is ActivityFilter.Type.ActivityTag) {
-                newType = ActivityFilter.Type.ActivityTag
+            if (newType !is ActivityFilter.Type.Category) {
+                newType = ActivityFilter.Type.Category
                 newSelectedIds.clear()
             }
             newSelectedIds.addOrRemove(item.id)
@@ -190,7 +190,7 @@ class ChangeActivityFilterViewModel @Inject constructor(
         viewModelScope.launch {
             if (filterId != 0L) {
                 activityFilterInteractor.remove(filterId)
-                showMessage(R.string.change_category_removed)
+                showMessage(R.string.change_activity_filter_removed)
                 (keyboardVisibility as MutableLiveData).value = false
                 router.back()
             }

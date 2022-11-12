@@ -15,8 +15,8 @@ import com.example.util.simpletimetracker.navigation.bundleCreator.bundleCreator
 import com.example.util.simpletimetracker.navigation.params.screen.ArchiveParams
 import com.example.util.simpletimetracker.navigation.params.screen.CategoriesParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeActivityFilterParams
-import com.example.util.simpletimetracker.navigation.params.screen.ChangeActivityTagFromChangeActivityParams
-import com.example.util.simpletimetracker.navigation.params.screen.ChangeActivityTagFromTagsParams
+import com.example.util.simpletimetracker.navigation.params.screen.ChangeCategoryFromChangeActivityParams
+import com.example.util.simpletimetracker.navigation.params.screen.ChangeCategoryFromTagsParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordFromMainParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordFromRecordsAllParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTagFromChangeRecordParams
@@ -128,8 +128,8 @@ class NavigationScreenMapModule {
 
     @IntoMap
     @Provides
-    @ScreenKey(ChangeActivityTagFromTagsParams::class)
-    fun changeActivityTagFromTags(): NavigationData {
+    @ScreenKey(ChangeCategoryFromTagsParams::class)
+    fun changeCategoryFromTags(): NavigationData {
         return NavigationData(
             R.id.action_categoriesFragment_to_changeCategoryFragment,
             bundleCreatorDelegate(ChangeCategoryFragment::createBundle)
@@ -138,8 +138,8 @@ class NavigationScreenMapModule {
 
     @IntoMap
     @Provides
-    @ScreenKey(ChangeActivityTagFromChangeActivityParams::class)
-    fun changeActivityTagFromChangeActivity(): NavigationData {
+    @ScreenKey(ChangeCategoryFromChangeActivityParams::class)
+    fun changeCategoryFromChangeActivity(): NavigationData {
         return NavigationData(
             R.id.action_changeRecordTypeFragment_to_changeCategoryFragment,
             bundleCreatorDelegate(ChangeCategoryFragment::createBundle)

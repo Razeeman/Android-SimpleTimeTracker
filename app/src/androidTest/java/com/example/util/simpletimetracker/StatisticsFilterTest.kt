@@ -101,8 +101,8 @@ class StatisticsFilterTest : BaseUiTest() {
         val tag2 = "TagName2"
 
         // Add data
-        testUtils.addActivityTag(tag1)
-        testUtils.addActivityTag(tag2)
+        testUtils.addCategory(tag1)
+        testUtils.addCategory(tag2)
         testUtils.addActivity(name = name1, categories = listOf(tag1))
         testUtils.addActivity(name = name2, categories = listOf(tag2))
 
@@ -121,7 +121,7 @@ class StatisticsFilterTest : BaseUiTest() {
 
         // Switch filter
         clickOnViewWithIdOnPager(R.id.btnStatisticsChartFilter)
-        clickOnViewWithText(R.string.chart_filter_type_category)
+        clickOnViewWithText(R.string.category_hint)
         pressBack()
 
         // All tags displayed

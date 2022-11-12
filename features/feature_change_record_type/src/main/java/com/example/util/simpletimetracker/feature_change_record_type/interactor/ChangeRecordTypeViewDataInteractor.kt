@@ -44,7 +44,7 @@ class ChangeRecordTypeViewDataInteractor @Inject constructor(
                 ).let(viewData::add)
 
                 selected.map {
-                    categoryViewDataMapper.mapActivityTag(
+                    categoryViewDataMapper.mapCategory(
                         category = it,
                         isDarkTheme = isDarkTheme
                     )
@@ -53,7 +53,7 @@ class ChangeRecordTypeViewDataInteractor @Inject constructor(
                 DividerViewData(1).let(viewData::add)
 
                 available.map {
-                    categoryViewDataMapper.mapActivityTag(
+                    categoryViewDataMapper.mapCategory(
                         category = it,
                         isDarkTheme = isDarkTheme
                     )
@@ -64,7 +64,7 @@ class ChangeRecordTypeViewDataInteractor @Inject constructor(
                 viewData
             }
             ?: listOf(
-                categoryViewDataMapper.mapToActivityTagsEmpty(),
+                categoryViewDataMapper.mapToCategoriesEmpty(),
                 categoriesViewDataMapper.mapToTypeTagAddItem(isDarkTheme)
             )
     }

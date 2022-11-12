@@ -10,8 +10,10 @@
     <string name="day_of_week_sunday">Min</string>
 
     <string name="activity_hint">Kegiatan</string>
-    <string name="activity_tag_hint">Label kegiatan</string>
+    <string name="category_hint">Kategori</string>
     <string name="record_tag_hint">Label rekaman</string>
+    <string name="nothing_selected">Tidak ada yang dipilih</string>
+    <string name="something_selected">Terpilih:</string>
 
     <!--  Range selection  -->
     <string name="title_yesterday">Kemarin</string>
@@ -59,24 +61,22 @@
     <string name="statistics_hint">Ketuk pada kartu untuk melihat statistik secara detil</string>
 
     <!--  Categories  -->
-    <string name="categories_record_type_hint">Tetapkan label yang sama untuk kegiatan yang berbeda untuk melihat statistik yang dikelompokkan</string>
+    <string name="categories_record_type_hint">Tetapkan kategori yang sama untuk kegiatan yang berbeda untuk melihat statistik yang dikelompokkan</string>
     <string name="categories_record_hint">Tetapkan label yang berbeda ke rekaman untuk membedakannya</string>
-    <string name="categories_add_activity_tag">Tambahkan label kegiatan</string>
+    <string name="categories_add_category">Tambahkan kategori</string>
     <string name="categories_add_record_tag">Tambahkan label rekaman</string>
 
     <!--  Change category  -->
-    <string name="change_category_removed">Label dihapuskan</string>
-    <string name="change_category_archived">Label diarsipkan</string>
+    <string name="change_category_removed">Kategori dihapuskan</string>
     <string name="change_category_name_hint">Masukkan nama baru</string>
     <string name="change_category_color_hint">Warna</string>
     <string name="change_category_types_hint">Kegiatan</string>
-    <string name="change_category_type_hint">Kegiatan</string>
     <string name="change_category_save">Simpan</string>
     <string name="change_category_message_choose_name">Pilih sebuah nama</string>
-    <string name="change_category_selected_types_empty">Tidak ditugaskan ke dalam kegiatan mana pun</string>
-    <string name="change_category_selected_types_hint">Ditugaskan ke dalam:</string>
 
     <!--  Change record tag  -->
+    <string name="change_record_tag_archived">Label diarsipkan</string>
+    <string name="change_record_tag_type_hint">Kegiatan</string>
     <string name="change_record_tag_type">Jenis tag</string>
     <string name="change_record_tag_type_general">Umum</string>
     <string name="change_record_tag_type_general_hint">Dapat ditugaskan ke catatan aktivitas apa pun</string>
@@ -86,7 +86,7 @@
     <!--  Change record  -->
     <string name="change_record_message_choose_type">Pilih kegiatan</string>
     <string name="change_record_type_field">Kegiatan</string>
-    <string name="change_record_category_field">Label</string>
+    <string name="change_record_tag_field">Label</string>
     <string name="change_record_comment_hint">Komentar</string>
     <string name="change_record_last_comments_hint">Komentar terakhir</string>
     <string name="change_record_categories_empty">Tidak ada label rekaman yang ditambahkan</string>
@@ -101,21 +101,17 @@
     <string name="change_record_type_color_hint">Warna</string>
     <string name="change_record_type_icon_hint">Ikon</string>
     <string name="change_record_type_emoji_hint">Emoji</string>
-    <string name="change_record_type_category_hint">Label</string>
     <string name="change_record_type_save">Simpan</string>
     <string name="change_record_message_choose_name">Pilih sebuah nama</string>
-    <string name="change_record_type_categories_empty">Tidak ada label kegiatan yang ditambahkan</string>
-    <string name="change_record_type_selected_categories_empty">Tidak ada label yang ditugaskan</string>
-    <string name="change_record_type_selected_categories_hint">Label-label yang ditugaskan:</string>
+    <string name="change_record_type_categories_empty">Tidak ada kategori yang ditambahkan</string>
     <string name="change_record_type_goal_time_disabled">Dinonaktifkan</string>
     <string name="change_record_type_goal_time">Waktu tujuan</string>
     <string name="change_record_type_goal_time_hint">Tampilkan notifikasi setelah waktu yang ditentukan dalam melacak kegiatan ini.</string>
 
     <!--  Activity filters  -->
+    <string name="change_activity_filter_removed">Filter dihapus</string>
     <string name="change_activity_filter_save">Simpan</string>
     <string name="change_activity_filter_type">Jenis filter</string>
-    <string name="change_activity_filter_nothing_selected">Tidak ada yang dipilih</string>
-    <string name="change_activity_filter_selected">Terpilih:</string>
 
     <!--  Dialogs  -->
     <string name="date_time_dialog_date">Tanggal</string>
@@ -130,8 +126,6 @@
     <string name="types_filter_show_all">Tampilkan semua</string>
     <string name="types_filter_hide_all">Sembunyikan semua</string>
     <string name="chart_filter_type_hint">Jenis statistik</string>
-    <string name="chart_filter_type_activity">Kegiatan</string>
-    <string name="chart_filter_type_category">Label</string>
     <string name="chart_filter_categories_empty">Tidak ada kegiatan yang ditambahkan</string>
 
     <string name="duration_dialog_save">Simpan</string>
@@ -189,8 +183,8 @@
     <string name="settings_keep_screen_on">Biarkan layarnya menyala</string>
     <string name="settings_change_card_size">Ubah ukuran kartu kegiatan</string>
     <string name="settings_archive">Arsip</string>
-    <string name="settings_edit_categories">Sunting label</string>
-    <string name="settings_edit_categories_hint">Tetapkan label untuk kegiatan dan rekor.</string>
+    <string name="settings_edit_categories">Sunting kategori dan label</string>
+    <string name="settings_edit_categories_hint">Tetapkan kategori untuk aktivitas dan label untuk rekaman.</string>
     <string name="settings_show_record_tag_selection">Tampilkan pilihan label rekor</string>
     <string name="settings_show_record_tag_selection_hint">Saat memulai mengatur waktu, jika kegiatan memiliki label rekor apa pun - dialog pemilihan akan ditampilkan.</string>
     <string name="settings_show_record_tag_close_hint">Tutup setelah memilih satu tag.</string>

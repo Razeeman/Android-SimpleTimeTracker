@@ -140,7 +140,7 @@ class StatisticsTest : BaseUiTest() {
 
         NavUtils.openStatisticsScreen()
         clickOnViewWithIdOnPager(R.id.btnStatisticsChartFilter)
-        clickOnViewWithText(R.string.chart_filter_type_category)
+        clickOnViewWithText(R.string.category_hint)
         pressBack()
 
         // Check day range

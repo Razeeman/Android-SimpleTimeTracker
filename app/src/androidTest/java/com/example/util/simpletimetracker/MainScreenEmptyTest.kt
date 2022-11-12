@@ -115,7 +115,7 @@ class MainScreenEmptyTest : BaseUiTest() {
 
         // Empty category statistics
         clickOnViewWithIdOnPager(R.id.btnStatisticsEmptyFilter)
-        clickOnViewWithText(R.string.chart_filter_type_category)
+        clickOnViewWithText(R.string.category_hint)
         pressBack()
 
         // Day range

@@ -10,8 +10,10 @@
     <string name="day_of_week_sunday">Dim</string>
 
     <string name="activity_hint">Activités</string>
-    <string name="activity_tag_hint">Étiquettes d\'activités</string>
+    <string name="category_hint">Catégories</string>
     <string name="record_tag_hint">Étiquettes d\'enregistrement</string>
+    <string name="nothing_selected">Rien de sélectionné</string>
+    <string name="something_selected">Choisie:</string>
 
     <!--  Range selection  -->
     <string name="title_yesterday">Hier</string>
@@ -59,24 +61,22 @@
     <string name="statistics_hint">Cliquez une carte pour afficher les statistiques détaillées</string>
 
     <!--  Categories  -->
-    <string name="categories_record_type_hint">Attribuez la même étiquette à différentes activités pour afficher leurs statistiques groupées</string>
+    <string name="categories_record_type_hint">Attribuez la même catégorie à différentes activités pour afficher leurs statistiques groupées</string>
     <string name="categories_record_hint">Attribuez différentes étiquettes aux enregistrements pour les différencier</string>
-    <string name="categories_add_activity_tag">Créer une étiquette d\'activité</string>
+    <string name="categories_add_category">Créer une catégorie</string>
     <string name="categories_add_record_tag">Créer une étiquette d\'enregistrement</string>
 
     <!--  Change category  -->
-    <string name="change_category_removed">Étiquettes supprimées</string>
-    <string name="change_category_archived">Étiquettes archivées</string>
+    <string name="change_category_removed">Catégorie supprimée</string>
     <string name="change_category_name_hint">Entrez le nouveau nom</string>
     <string name="change_category_color_hint">Couleur</string>
     <string name="change_category_types_hint">Activités</string>
-    <string name="change_category_type_hint">Activité</string>
     <string name="change_category_save">Sauvegarder</string>
     <string name="change_category_message_choose_name">Choisissez un nom</string>
-    <string name="change_category_selected_types_empty">Aucune activité affectée</string>
-    <string name="change_category_selected_types_hint">Activités affectées :</string>
 
     <!--  Change record tag  -->
+    <string name="change_record_tag_archived">Étiquettes archivées</string>
+    <string name="change_record_tag_type_hint">Activité</string>
     <string name="change_record_tag_type">Type d\'étiquette</string>
     <string name="change_record_tag_type_general">Général</string>
     <string name="change_record_tag_type_general_hint">Peut être attribuée aux enregistrements de n\'importe quelle activité</string>
@@ -86,7 +86,7 @@
     <!--  Change record  -->
     <string name="change_record_message_choose_type">Sélectionnez une activité</string>
     <string name="change_record_type_field">Activité</string>
-    <string name="change_record_category_field">Étiquette</string>
+    <string name="change_record_tag_field">Étiquette</string>
     <string name="change_record_comment_hint">Commenter</string>
     <string name="change_record_last_comments_hint">Derniers commentaires</string>
     <string name="change_record_categories_empty">Aucune étiquette d\'enregistrement ajoutée</string>
@@ -101,21 +101,17 @@
     <string name="change_record_type_color_hint">Couleur</string>
     <string name="change_record_type_icon_hint">Icône</string>
     <string name="change_record_type_emoji_hint">Émoji</string>
-    <string name="change_record_type_category_hint">Étiquettes</string>
     <string name="change_record_type_save">Sauvegarder</string>
     <string name="change_record_message_choose_name">Choisissez un nom</string>
-    <string name="change_record_type_categories_empty">Aucune étiquette d\'activité ajoutée</string>
-    <string name="change_record_type_selected_categories_empty">Aucune étiquette affectée</string>
-    <string name="change_record_type_selected_categories_hint">Étiquettes affectées :</string>
+    <string name="change_record_type_categories_empty">Aucune catégorie ajoutée</string>
     <string name="change_record_type_goal_time_disabled">Désactivé</string>
     <string name="change_record_type_goal_time">Objectif de durée</string>
     <string name="change_record_type_goal_time_hint">Afficher une notification dès que la durée spécifiée de suivi de cette activité est dépassée.</string>
 
     <!--  Activity filters  -->
+    <string name="change_activity_filter_removed">Filtre supprimé</string>
     <string name="change_activity_filter_save">Sauvegarder</string>
     <string name="change_activity_filter_type">Type de filtre</string>
-    <string name="change_activity_filter_nothing_selected">Rien de sélectionné</string>
-    <string name="change_activity_filter_selected">Choisie:</string>
 
     <!--  Dialogs  -->
     <string name="date_time_dialog_date">Date</string>
@@ -130,8 +126,6 @@
     <string name="types_filter_show_all">Afficher tout</string>
     <string name="types_filter_hide_all">Cacher tout</string>
     <string name="chart_filter_type_hint">Type de statistiques</string>
-    <string name="chart_filter_type_activity">Activité</string>
-    <string name="chart_filter_type_category">Étiquette</string>
     <string name="chart_filter_categories_empty">Aucune étiquette ajoutée</string>
 
     <string name="duration_dialog_save">Sauvegarder</string>
@@ -189,8 +183,8 @@
     <string name="settings_keep_screen_on">Garder l\'écran allumé</string>
     <string name="settings_change_card_size">Modifier la taille des cartes d\'activité</string>
     <string name="settings_archive">Éléments archivés</string>
-    <string name="settings_edit_categories">Édition des étiquettes</string>
-    <string name="settings_edit_categories_hint">Affectez les étiquettes aux activités et aux enregistrements.</string>
+    <string name="settings_edit_categories">Édition les catégories et les étiquettes</string>
+    <string name="settings_edit_categories_hint">Attribuez des catégories aux activités et des étiquettes aux enregistrements.</string>
     <string name="settings_show_record_tag_selection">Afficher la sélection d\'étiquette d\'enregistrement</string>
     <string name="settings_show_record_tag_selection_hint">Lors du démarrage d\'une activité, afficher une boîte de sélection si l\'activité a des étiquettes d\'enregistrement.</string>
     <string name="settings_show_record_tag_close_hint">Fermer après avoir sélectionné une étiquette</string>

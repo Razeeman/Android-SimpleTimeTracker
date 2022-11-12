@@ -71,7 +71,7 @@ class ChartFilterViewDataMapper @Inject constructor(
         categoryIdsFiltered: List<Long>,
         isDarkTheme: Boolean
     ): CategoryViewData {
-        return categoryViewDataMapper.mapActivityTag(
+        return categoryViewDataMapper.mapCategory(
             category = category,
             isDarkTheme = isDarkTheme,
             isFiltered = category.id in categoryIdsFiltered
@@ -99,8 +99,8 @@ class ChartFilterViewDataMapper @Inject constructor(
 
     private fun mapToFilterTypeName(filterType: ChartFilterType): String {
         return when (filterType) {
-            ChartFilterType.ACTIVITY -> R.string.chart_filter_type_activity
-            ChartFilterType.CATEGORY -> R.string.chart_filter_type_category
+            ChartFilterType.ACTIVITY -> R.string.activity_hint
+            ChartFilterType.CATEGORY -> R.string.category_hint
         }.let(resourceRepo::getString)
     }
 }

@@ -40,7 +40,7 @@ import com.example.util.simpletimetracker.feature_change_record_type.viewData.Ch
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeScrollViewData
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.notification.ToastParams
-import com.example.util.simpletimetracker.navigation.params.screen.ChangeActivityTagFromChangeActivityParams
+import com.example.util.simpletimetracker.navigation.params.screen.ChangeCategoryFromChangeActivityParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTypeParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeTagData
 import com.example.util.simpletimetracker.navigation.params.screen.ColorSelectionDialogParams
@@ -303,7 +303,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
 
     fun onCategoryLongClick(item: CategoryViewData, sharedElements: Pair<Any, String>) {
         router.navigate(
-            data = ChangeActivityTagFromChangeActivityParams(
+            data = ChangeCategoryFromChangeActivityParams(
                 ChangeTagData.Change(
                     transitionName = sharedElements.second,
                     id = item.id,
@@ -321,7 +321,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     fun onAddCategoryClick() {
         val preselectedTypeId: Long? = recordTypeId.takeUnless { it == 0L }
         router.navigate(
-            data = ChangeActivityTagFromChangeActivityParams(
+            data = ChangeCategoryFromChangeActivityParams(
                 ChangeTagData.New(preselectedTypeId)
             )
         )

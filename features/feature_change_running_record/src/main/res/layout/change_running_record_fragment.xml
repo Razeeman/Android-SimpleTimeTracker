@@ -177,7 +177,7 @@
                 android:ellipsize="end"
                 android:gravity="center_vertical"
                 android:maxLines="1"
-                android:text="@string/change_record_category_field"
+                android:text="@string/change_record_tag_field"
                 app:layout_constraintEnd_toStartOf="@id/arrowChangeRunningRecordCategory"
                 app:layout_constraintStart_toStartOf="parent" />
 

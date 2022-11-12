@@ -10,8 +10,10 @@
     <string name="day_of_week_sunday">Вс</string>
 
     <string name="activity_hint">Активности</string>
-    <string name="activity_tag_hint">Теги активностей</string>
+    <string name="category_hint">Категории</string>
     <string name="record_tag_hint">Теги записей</string>
+    <string name="nothing_selected">Ничего не выбрано</string>
+    <string name="something_selected">Выбрано:</string>
 
     <!--  Range selection  -->
     <string name="title_yesterday">Вчера</string>
@@ -59,24 +61,22 @@
     <string name="statistics_hint">Нажмите на карточку для просмотра детальной статистики</string>
 
     <!--  Categories  -->
-    <string name="categories_record_type_hint">Назначьте один и тот же тег разным активностям, чтобы просматривать их сгруппированную статистику</string>
+    <string name="categories_record_type_hint">Назначьте одну и ту же категорию разным активностям, чтобы просматривать их сгруппированную статистику</string>
     <string name="categories_record_hint">Назначьте разные теги записям, чтобы различать их</string>
-    <string name="categories_add_activity_tag">Добавить тег активности</string>
+    <string name="categories_add_category">Добавить категорию</string>
     <string name="categories_add_record_tag">Добавить тег записи</string>
 
     <!--  Change category  -->
-    <string name="change_category_removed">Тег удален</string>
-    <string name="change_category_archived">Тег перемещен в архив</string>
+    <string name="change_category_removed">Категория удалена</string>
     <string name="change_category_name_hint">Введите новое имя</string>
     <string name="change_category_color_hint">Цвет</string>
     <string name="change_category_types_hint">Активности</string>
-    <string name="change_category_type_hint">Активность</string>
     <string name="change_category_save">Сохранить</string>
     <string name="change_category_message_choose_name">Выберите имя</string>
-    <string name="change_category_selected_types_empty">Не привязан ни к какой активности</string>
-    <string name="change_category_selected_types_hint">Присвоен:</string>
 
     <!--  Change record tag  -->
+    <string name="change_record_tag_archived">Тег перемещен в архив</string>
+    <string name="change_record_tag_type_hint">Активность</string>
     <string name="change_record_tag_type">Тип тега</string>
     <string name="change_record_tag_type_general">Общий</string>
     <string name="change_record_tag_type_general_hint">Может быть назначен записям любой активности</string>
@@ -86,7 +86,7 @@
     <!--  Change record  -->
     <string name="change_record_message_choose_type">Выберите активность</string>
     <string name="change_record_type_field">Активность</string>
-    <string name="change_record_category_field">Тег</string>
+    <string name="change_record_tag_field">Тег</string>
     <string name="change_record_comment_hint">Комментарий</string>
     <string name="change_record_last_comments_hint">Последние комментарии</string>
     <string name="change_record_categories_empty">Теги для записей не добавлены</string>
@@ -101,21 +101,17 @@
     <string name="change_record_type_color_hint">Цвет</string>
     <string name="change_record_type_icon_hint">Иконка</string>
     <string name="change_record_type_emoji_hint">Эмодзи</string>
-    <string name="change_record_type_category_hint">Теги</string>
     <string name="change_record_type_save">Сохранить</string>
     <string name="change_record_message_choose_name">Выберите имя</string>
-    <string name="change_record_type_categories_empty">Теги для активностей не добавлены</string>
-    <string name="change_record_type_selected_categories_empty">Теги не назначены</string>
-    <string name="change_record_type_selected_categories_hint">Назначенные теги:</string>
+    <string name="change_record_type_categories_empty">Категории не добавлены</string>
     <string name="change_record_type_goal_time_disabled">Выкл.</string>
     <string name="change_record_type_goal_time">Время цели</string>
     <string name="change_record_type_goal_time_hint">Показывать уведомление после указанного времени отслеживания этой активности.</string>
 
     <!--  Activity filters  -->
+    <string name="change_activity_filter_removed">Фильтр удален</string>
     <string name="change_activity_filter_save">Сохранить</string>
     <string name="change_activity_filter_type">Тип фильтра</string>
-    <string name="change_activity_filter_nothing_selected">Ничего не выбрано</string>
-    <string name="change_activity_filter_selected">Выбрано:</string>
 
     <!--  Dialogs  -->
     <string name="date_time_dialog_date">Дата</string>
@@ -130,8 +126,6 @@
     <string name="types_filter_show_all">Показать все</string>
     <string name="types_filter_hide_all">Скрыть все</string>
     <string name="chart_filter_type_hint">Тип статистики</string>
-    <string name="chart_filter_type_activity">Активности</string>
-    <string name="chart_filter_type_category">Теги</string>
     <string name="chart_filter_categories_empty">Теги не добавлены</string>
 
     <string name="duration_dialog_save">Сохранить</string>
@@ -189,8 +183,8 @@
     <string name="settings_keep_screen_on">Держать экран включенным</string>
     <string name="settings_change_card_size">Изменить размер карточки активности</string>
     <string name="settings_archive">Архив</string>
-    <string name="settings_edit_categories">Редактировать теги</string>
-    <string name="settings_edit_categories_hint">Назначьте теги активностям и записям.</string>
+    <string name="settings_edit_categories">Редактировать категории и теги</string>
+    <string name="settings_edit_categories_hint">Назначайте категории действиям и теги записям.</string>
     <string name="settings_show_record_tag_selection">Показывать диалог выбора тега для записи</string>
     <string name="settings_show_record_tag_selection_hint">При запуске таймера, если у активности есть теги для записей - будет показан диалог для выбора.</string>
     <string name="settings_show_record_tag_close_hint">Закрыть после выбора одного тега.</string>

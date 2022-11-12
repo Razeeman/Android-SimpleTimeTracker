@@ -98,38 +98,38 @@ class AddRecordTypeTest : BaseUiTest() {
         checkPreviewUpdated(hasDescendant(withTag(lastIcon)))
 
         // Open category chooser
-        clickOnViewWithText(R.string.change_record_type_category_hint)
+        clickOnViewWithText(R.string.category_hint)
         checkViewIsNotDisplayed(withId(R.id.rvChangeRecordTypeIcon))
         checkViewIsDisplayed(withId(R.id.rvChangeRecordTypeCategories))
         checkViewIsDisplayed(withText(categoryName1))
         checkViewIsDisplayed(withText(categoryName2))
-        checkViewIsDisplayed(withText(R.string.change_record_type_selected_categories_empty))
+        checkViewIsDisplayed(withText(R.string.nothing_selected))
         checkViewIsDisplayed(withId(R.id.viewDividerItem))
         onView(withText(categoryName1)).check(isCompletelyBelow(withId(R.id.viewDividerItem)))
         onView(withText(categoryName2)).check(isCompletelyBelow(withId(R.id.viewDividerItem)))
 
         // Selecting category
         clickOnRecyclerItem(R.id.rvChangeRecordTypeCategories, withText(categoryName1))
-        checkViewIsDisplayed(withText(R.string.change_record_type_selected_categories_hint))
+        checkViewIsDisplayed(withText(R.string.something_selected))
         checkViewIsDisplayed(withId(R.id.viewDividerItem))
         onView(withText(categoryName1)).check(isCompletelyAbove(withId(R.id.viewDividerItem)))
         onView(withText(categoryName2)).check(isCompletelyBelow(withId(R.id.viewDividerItem)))
 
         clickOnRecyclerItem(R.id.rvChangeRecordTypeCategories, withText(categoryName2))
-        checkViewIsDisplayed(withText(R.string.change_record_type_selected_categories_hint))
+        checkViewIsDisplayed(withText(R.string.something_selected))
         checkViewIsDisplayed(withId(R.id.viewDividerItem))
         checkViewIsDisplayed(withText(categoryName1))
         checkViewIsDisplayed(withText(categoryName2))
 
         clickOnRecyclerItem(R.id.rvChangeRecordTypeCategories, withText(categoryName1))
         clickOnRecyclerItem(R.id.rvChangeRecordTypeCategories, withText(categoryName2))
-        checkViewIsDisplayed(withText(R.string.change_record_type_selected_categories_empty))
+        checkViewIsDisplayed(withText(R.string.nothing_selected))
         checkViewIsDisplayed(withId(R.id.viewDividerItem))
         onView(withText(categoryName1)).check(isCompletelyBelow(withId(R.id.viewDividerItem)))
         onView(withText(categoryName2)).check(isCompletelyBelow(withId(R.id.viewDividerItem)))
 
         clickOnRecyclerItem(R.id.rvChangeRecordTypeCategories, withText(categoryName1))
-        clickOnViewWithText(R.string.change_record_type_category_hint)
+        clickOnViewWithText(R.string.category_hint)
 
         // Selecting goal time
         clickOnViewWithId(R.id.groupChangeRecordTypeGoalTime)
@@ -149,8 +149,8 @@ class AddRecordTypeTest : BaseUiTest() {
 
         // Check categories saved
         longClickOnView(withText(name))
-        clickOnViewWithText(R.string.change_record_type_category_hint)
-        checkViewIsDisplayed(withText(R.string.change_record_type_selected_categories_hint))
+        clickOnViewWithText(R.string.category_hint)
+        checkViewIsDisplayed(withText(R.string.something_selected))
         checkViewIsDisplayed(withId(R.id.viewDividerItem))
         onView(withText(categoryName1)).check(isCompletelyAbove(withId(R.id.viewDividerItem)))
         onView(withText(categoryName2)).check(isCompletelyBelow(withId(R.id.viewDividerItem)))
@@ -169,7 +169,7 @@ class AddRecordTypeTest : BaseUiTest() {
         )
 
         // Open category chooser
-        clickOnViewWithText(R.string.change_record_type_category_hint)
+        clickOnViewWithText(R.string.category_hint)
         checkViewIsDisplayed(withText(R.string.change_record_type_categories_empty))
     }
 

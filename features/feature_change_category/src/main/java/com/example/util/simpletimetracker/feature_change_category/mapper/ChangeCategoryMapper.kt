@@ -13,9 +13,9 @@ class ChangeCategoryMapper @Inject constructor(
     fun mapSelectedTypesHint(isEmpty: Boolean): ViewHolderType {
         return InfoViewData(
             text = if (isEmpty) {
-                R.string.change_category_selected_types_empty
+                R.string.nothing_selected
             } else {
-                R.string.change_category_selected_types_hint
+                R.string.something_selected
             }.let(resourceRepo::getString)
         )
     }

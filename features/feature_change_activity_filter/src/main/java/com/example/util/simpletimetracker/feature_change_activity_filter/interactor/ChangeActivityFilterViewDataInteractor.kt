@@ -41,10 +41,10 @@ class ChangeActivityFilterViewDataInteractor @Inject constructor(
                         )
                     }
             }
-            is ActivityFilter.Type.ActivityTag -> {
+            is ActivityFilter.Type.Category -> {
                 categoryInteractor.getAll()
                     .map {
-                        it.id to categoryViewDataMapper.mapActivityTag(
+                        it.id to categoryViewDataMapper.mapCategory(
                             category = it,
                             isDarkTheme = isDarkTheme
                         )
@@ -74,8 +74,8 @@ class ChangeActivityFilterViewDataInteractor @Inject constructor(
                     is ActivityFilter.Type.Activity -> {
                         recordTypeViewDataMapper.mapToEmpty()
                     }
-                    is ActivityFilter.Type.ActivityTag -> {
-                        listOf(categoryViewDataMapper.mapToActivityTagsEmpty())
+                    is ActivityFilter.Type.Category -> {
+                        listOf(categoryViewDataMapper.mapToCategoriesEmpty())
                     }
                 }
             }
@@ -84,9 +84,9 @@ class ChangeActivityFilterViewDataInteractor @Inject constructor(
     private fun mapSelectedTypesHint(isEmpty: Boolean): ViewHolderType {
         return InfoViewData(
             text = if (isEmpty) {
-                R.string.change_activity_filter_nothing_selected
+                R.string.nothing_selected
             } else {
-                R.string.change_activity_filter_selected
+                R.string.something_selected
             }.let(resourceRepo::getString)
         )
     }

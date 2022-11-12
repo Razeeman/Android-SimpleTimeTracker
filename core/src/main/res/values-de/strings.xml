@@ -10,8 +10,10 @@
     <string name="day_of_week_sunday">So</string>
 
     <string name="activity_hint">Aktivitäten</string>
-    <string name="activity_tag_hint">Aktivitäts-Tags</string>
+    <string name="category_hint">Kategorien</string>
     <string name="record_tag_hint">Tags erfassen</string>
+    <string name="nothing_selected">Nichts ausgewählt</string>
+    <string name="something_selected">Ausgewählt:</string>
 
     <!--  Range selection  -->
     <string name="title_yesterday">Gestern</string>
@@ -59,24 +61,22 @@
     <string name="statistics_hint">Klicke auf die Karte, um detaillierte Statistiken anzuzeigen</string>
 
     <!--  Categories  -->
-    <string name="categories_record_type_hint">Weise verschiedenen Aktivitäten denselben Tag zu, um  gruppierten Statistiken anzuzeigen</string>
+    <string name="categories_record_type_hint">Weise verschiedenen Aktivitäten denselben Kategorie zu, um  gruppierten Statistiken anzuzeigen</string>
     <string name="categories_record_hint">Ordne den Datensätzen verschiedene Tags zu, um sie zu unterscheiden</string>
-    <string name="categories_add_activity_tag">Aktivitäts-Tag hinzufügen</string>
+    <string name="categories_add_category">Kategorie hinzufügen</string>
     <string name="categories_add_record_tag">Datensatz-Tag hinzufügen</string>
 
     <!--  Change category  -->
-    <string name="change_category_removed">Tag entfernt</string>
-    <string name="change_category_archived">Tag archiviert</string>
+    <string name="change_category_removed">Kategorie entfernt</string>
     <string name="change_category_name_hint">Neuen Namen eingeben</string>
     <string name="change_category_color_hint">Farbe</string>
     <string name="change_category_types_hint">Aktivitäten</string>
-    <string name="change_category_type_hint">Aktivität</string>
     <string name="change_category_save">Speichern</string>
     <string name="change_category_message_choose_name">Einen Namen wählen</string>
-    <string name="change_category_selected_types_empty">Keiner Aktivität zugewiesen</string>
-    <string name="change_category_selected_types_hint">Zugewiesen an:</string>
 
     <!--  Change record tag  -->
+    <string name="change_record_tag_archived">Tag archiviert</string>
+    <string name="change_record_tag_type_hint">Aktivität</string>
     <string name="change_record_tag_type">Tag-Typ</string>
     <string name="change_record_tag_type_general">General</string>
     <string name="change_record_tag_type_general_hint">Kann Aufzeichnungen beliebiger Aktivitäten zugewiesen werden</string>
@@ -86,7 +86,7 @@
     <!--  Change record  -->
     <string name="change_record_message_choose_type">Aktivität auswählen</string>
     <string name="change_record_type_field">Aktivität</string>
-    <string name="change_record_category_field">Tag</string>
+    <string name="change_record_tag_field">Tag</string>
     <string name="change_record_comment_hint">Kommentar</string>
     <string name="change_record_last_comments_hint">Letzte Kommentare</string>
     <string name="change_record_categories_empty">Keine Datensatz-Tags hinzugefügt</string>
@@ -101,21 +101,17 @@
     <string name="change_record_type_color_hint">Farbe</string>
     <string name="change_record_type_icon_hint">Symbol</string>
     <string name="change_record_type_emoji_hint">Emoji</string>
-    <string name="change_record_type_category_hint">Tags</string>
     <string name="change_record_type_save">Speichern</string>
     <string name="change_record_message_choose_name">Einen Namen wählen</string>
-    <string name="change_record_type_categories_empty">Keine Aktivitätskennzeichen hinzugefügt</string>
-    <string name="change_record_type_selected_categories_empty">Keine Tags zugewiesen</string>
-    <string name="change_record_type_selected_categories_hint">Zugewiesene Tags:</string>
+    <string name="change_record_type_categories_empty">Keine Kategorien hinzugefügt</string>
     <string name="change_record_type_goal_time_disabled">Deaktiviert</string>
     <string name="change_record_type_goal_time">Zielzeit</string>
     <string name="change_record_type_goal_time_hint">Benachrichtigung nach der angegebenen Zeit der Erfassung dieser Aktivität anzeigen.</string>
 
     <!--  Activity filters  -->
+    <string name="change_activity_filter_removed">Filter entfernt</string>
     <string name="change_activity_filter_save">Speichern</string>
     <string name="change_activity_filter_type">Filter Typ</string>
-    <string name="change_activity_filter_nothing_selected">Nichts ausgewählt</string>
-    <string name="change_activity_filter_selected">Ausgewählt:</string>
 
     <!--  Dialogs  -->
     <string name="date_time_dialog_date">Datum</string>
@@ -130,8 +126,6 @@
     <string name="types_filter_show_all">Alles anzeigen</string>
     <string name="types_filter_hide_all">Alles ausblenden</string>
     <string name="chart_filter_type_hint">Statistik Typ</string>
-    <string name="chart_filter_type_activity">Aktivität</string>
-    <string name="chart_filter_type_category">Tag</string>
     <string name="chart_filter_categories_empty">Keine Tags hinzugefügt</string>
 
     <string name="duration_dialog_save">Speichern</string>
@@ -189,8 +183,8 @@
     <string name="settings_keep_screen_on">Bildschirm anlassen</string>
     <string name="settings_change_card_size">Aktivitätskartengröße ändern</string>
     <string name="settings_archive">Archiv</string>
-    <string name="settings_edit_categories">Tags bearbeiten</string>
-    <string name="settings_edit_categories_hint">Weise den Aktivitäten und Datensätzen Tags zu.</string>
+    <string name="settings_edit_categories">Kategorien und Tags bearbeiten</string>
+    <string name="settings_edit_categories_hint">Weisen Sie Aktivitäten Kategorien und Datensätzen Tags zu.</string>
     <string name="settings_show_record_tag_selection">Datensatz-Tag-Auswahl zeigen</string>
     <string name="settings_show_record_tag_selection_hint">Beim Starten eines Zählers wird ein Auswahldialog angezeigt, wenn die Aktivität Aufzeichnungs-Tags hat.</string>
     <string name="settings_show_record_tag_close_hint">Schließen nach Auswahl eines Tags.</string>

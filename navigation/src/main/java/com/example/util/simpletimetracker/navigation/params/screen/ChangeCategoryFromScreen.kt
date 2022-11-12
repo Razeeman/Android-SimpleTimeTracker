@@ -1,6 +1,6 @@
 package com.example.util.simpletimetracker.navigation.params.screen
 
-interface ChangeActivityTagFromScreen : ScreenParams {
+interface ChangeCategoryFromScreen : ScreenParams {
 
     val params: ChangeTagData
 }

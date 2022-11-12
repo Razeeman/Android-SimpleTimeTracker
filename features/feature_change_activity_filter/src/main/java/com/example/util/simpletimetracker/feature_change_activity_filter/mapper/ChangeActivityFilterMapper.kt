@@ -14,7 +14,7 @@ class ChangeActivityFilterMapper @Inject constructor(
     fun mapToTypeSwitchViewData(type: ActivityFilter.Type): List<ViewHolderType> {
         return listOf(
             ActivityFilter.Type.Activity,
-            ActivityFilter.Type.ActivityTag,
+            ActivityFilter.Type.Category,
         ).map {
             ChangeActivityFilterTypeSwitchViewData(
                 type = it,
@@ -27,7 +27,7 @@ class ChangeActivityFilterMapper @Inject constructor(
     private fun mapToTagTypeName(type: ActivityFilter.Type): String {
         return when (type) {
             ActivityFilter.Type.Activity -> R.string.activity_hint
-            ActivityFilter.Type.ActivityTag -> R.string.activity_tag_hint
+            ActivityFilter.Type.Category -> R.string.category_hint
         }.let(resourceRepo::getString)
     }
 }

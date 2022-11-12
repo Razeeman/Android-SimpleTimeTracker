@@ -10,8 +10,10 @@
     <string name="day_of_week_sunday">星期日</string>
 
     <string name="activity_hint">活动</string>
-    <string name="activity_tag_hint">活动标签</string>
+    <string name="category_hint">类别</string>
     <string name="record_tag_hint">记录标签</string>
+    <string name="nothing_selected">未选择任何内容</string>
+    <string name="something_selected">已选择：</string>
 
     <!--  Range selection  -->
     <string name="title_yesterday">昨天</string>
@@ -59,24 +61,22 @@
     <string name="statistics_hint">点击卡片查看详细统计</string>
 
     <!--  Categories  -->
-    <string name="categories_record_type_hint">为不同的活动添加标签，查看其分组的统计信息</string>
+    <string name="categories_record_type_hint">将同一类别分配给不同的活动以查看其分组统计信息</string>
     <string name="categories_record_hint">为同一种活动记录分配不同的标签，细致地区分它们</string>
-    <string name="categories_add_activity_tag">添加活动标签</string>
+    <string name="categories_add_category">添加类别</string>
     <string name="categories_add_record_tag">添加记录标签</string>
 
     <!--  Change category  -->
-    <string name="change_category_removed">标签已删除</string>
-    <string name="change_category_archived">标签已存档</string>
+    <string name="change_category_removed">已移除类别</string>
     <string name="change_category_name_hint">输入新的名称</string>
     <string name="change_category_color_hint">颜色</string>
     <string name="change_category_types_hint">活动</string>
-    <string name="change_category_type_hint">活动</string>
     <string name="change_category_save">保存</string>
     <string name="change_category_message_choose_name">请填写名称</string>
-    <string name="change_category_selected_types_empty">未分配给任何活动</string>
-    <string name="change_category_selected_types_hint">分配给：</string>
 
     <!--  Change record tag  -->
+    <string name="change_record_tag_archived">标签已存档</string>
+    <string name="change_record_tag_type_hint">活动</string>
     <string name="change_record_tag_type">標籤類型</string>
     <string name="change_record_tag_type_general">一般的</string>
     <string name="change_record_tag_type_general_hint">可以分配給任何活動的記錄</string>
@@ -86,7 +86,7 @@
     <!--  Change record  -->
     <string name="change_record_message_choose_type">选择活动</string>
     <string name="change_record_type_field">活动</string>
-    <string name="change_record_category_field">标签</string>
+    <string name="change_record_tag_field">标签</string>
     <string name="change_record_comment_hint">备注</string>
     <string name="change_record_last_comments_hint">最后评论</string>
     <string name="change_record_categories_empty">未添加记录标签</string>
@@ -101,21 +101,17 @@
     <string name="change_record_type_color_hint">颜色</string>
     <string name="change_record_type_icon_hint">图标</string>
     <string name="change_record_type_emoji_hint">表情符号</string>
-    <string name="change_record_type_category_hint">标签</string>
     <string name="change_record_type_save">保存</string>
     <string name="change_record_message_choose_name">请填写名称</string>
-    <string name="change_record_type_categories_empty">未添加活动标签</string>
-    <string name="change_record_type_selected_categories_empty">未分配标签</string>
-    <string name="change_record_type_selected_categories_hint">分配的标签：</string>
+    <string name="change_record_type_categories_empty">未添加任何类别</string>
     <string name="change_record_type_goal_time_disabled">不启用</string>
     <string name="change_record_type_goal_time">目标时间</string>
     <string name="change_record_type_goal_time_hint">追踪此活动经过指定时间后显示通知。</string>
 
     <!--  Activity filters  -->
+    <string name="change_activity_filter_removed">过滤器已移除</string>
     <string name="change_activity_filter_save">保存</string>
     <string name="change_activity_filter_type">过滤器类型</string>
-    <string name="change_activity_filter_nothing_selected">未选择任何内容</string>
-    <string name="change_activity_filter_selected">已选择：</string>
 
     <!--  Dialogs  -->
     <string name="date_time_dialog_date">日期</string>
@@ -130,8 +126,6 @@
     <string name="types_filter_show_all">全部显示</string>
     <string name="types_filter_hide_all">全部隐藏</string>
     <string name="chart_filter_type_hint">统计类型</string>
-    <string name="chart_filter_type_activity">活动</string>
-    <string name="chart_filter_type_category">标签</string>
     <string name="chart_filter_categories_empty">未添加标签</string>
 
     <string name="duration_dialog_save">保存</string>
@@ -189,8 +183,8 @@
     <string name="settings_keep_screen_on">保持屏幕开启</string>
     <string name="settings_change_card_size">更改活动卡片大小</string>
     <string name="settings_archive">存档</string>
-    <string name="settings_edit_categories">编辑标签</string>
-    <string name="settings_edit_categories_hint">为活动和记录分配标签。</string>
+    <string name="settings_edit_categories">编辑类别和标签</string>
+    <string name="settings_edit_categories_hint">将类别分配给活动，将标签分配给记录。</string>
     <string name="settings_show_record_tag_selection">显示记录标签选择</string>
     <string name="settings_show_record_tag_selection_hint">启动计时器时，如果活动有任何记录标签，则会显示一个选择对话框。</string>
     <string name="settings_show_record_tag_close_hint">选择一个标签后关闭。</string>

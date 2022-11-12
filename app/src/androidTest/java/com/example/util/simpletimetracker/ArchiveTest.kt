@@ -72,10 +72,10 @@ class ArchiveTest : BaseUiTest() {
         pressBack()
         pressBack()
 
-        // Not shown activity tag selection
+        // Not shown categories selection
         NavUtils.openSettingsScreen()
         NavUtils.openCategoriesScreen()
-        clickOnViewWithText(R.string.categories_add_activity_tag)
+        clickOnViewWithText(R.string.categories_add_category)
         closeSoftKeyboard()
         clickOnViewWithText(R.string.change_category_types_hint)
         checkTypeVisible(name1)
@@ -174,7 +174,7 @@ class ArchiveTest : BaseUiTest() {
         clickOnViewWithText(R.string.change_record_type_field)
         clickOnView(withText(name1))
         clickOnViewWithText(R.string.change_record_type_field)
-        clickOnViewWithText(R.string.change_record_category_field)
+        clickOnViewWithText(R.string.change_record_tag_field)
         checkTagVisible(tag1)
         checkTagNotVisible(tag2)
         checkTagVisible(tag3)

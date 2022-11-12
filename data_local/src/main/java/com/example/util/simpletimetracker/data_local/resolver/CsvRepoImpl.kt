@@ -59,12 +59,12 @@ class CsvRepoImpl @Inject constructor(
             records
                 .sortedBy { it.timeStarted }
                 .forEach { record ->
-                    val activityTags = recordTypeCategoryRepo.getCategoriesByType(record.typeId)
+                    val categories = recordTypeCategoryRepo.getCategoriesByType(record.typeId)
 
                     toCsvString(
                         record = record,
                         recordType = recordTypes[record.typeId],
-                        activityTags = activityTags,
+                        categories = categories,
                         recordTags = recordTags.filter { it.id in record.tagIds }
                     )
                         ?.toByteArray()
@@ -90,7 +90,7 @@ class CsvRepoImpl @Inject constructor(
     private fun toCsvString(
         record: Record,
         recordType: RecordType?,
-        activityTags: List<Category>,
+        categories: List<Category>,
         recordTags: List<RecordTag>,
     ): String? {
         return if (recordType != null) {
@@ -100,7 +100,7 @@ class CsvRepoImpl @Inject constructor(
                 formatDateTime(record.timeStarted),
                 formatDateTime(record.timeEnded),
                 record.comment,
-                activityTags.takeUnless { it.isEmpty() }?.joinToString(separator = ", ") { it.name }.orEmpty(),
+                categories.takeUnless { it.isEmpty() }?.joinToString(separator = ", ") { it.name }.orEmpty(),
                 recordTags.takeUnless { it.isEmpty() }?.joinToString(separator = ", ") { it.name }.orEmpty(),
             )
         } else {
@@ -118,7 +118,7 @@ class CsvRepoImpl @Inject constructor(
         replace("[\n\t]".toRegex(), " ").replace(",", " ")
 
     companion object {
-        private const val CSV_HEADER = "activity name,time started,time ended,comment,activity tags,record tags"
+        private const val CSV_HEADER = "activity name,time started,time ended,comment,categories,record tags"
 
         private val dateTimeFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US)
     }

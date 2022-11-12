@@ -146,7 +146,7 @@ class RunningRecordsViewDataInteractor @Inject constructor(
             .flatten()
 
         val fromCategoryIds: List<Long> = selectedFilters
-            .filter { it.type is ActivityFilter.Type.ActivityTag }
+            .filter { it.type is ActivityFilter.Type.Category }
             .map { it.selectedIds }
             .flatten()
             .takeUnless { it.isEmpty() }

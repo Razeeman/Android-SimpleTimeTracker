@@ -228,7 +228,7 @@ class ChangeCategoryViewModel @Inject constructor(
         return Category(
             name = newName,
             color = newColor
-        ).let { categoryViewDataMapper.mapActivityTag(it, isDarkTheme) }
+        ).let { categoryViewDataMapper.mapCategory(it, isDarkTheme) }
     }
 
     private suspend fun loadCategoryPreviewViewData(): CategoryViewData {
@@ -237,7 +237,7 @@ class ChangeCategoryViewModel @Inject constructor(
         return Category(
             name = newName,
             color = newColor
-        ).let { categoryViewDataMapper.mapActivityTag(it, isDarkTheme) }
+        ).let { categoryViewDataMapper.mapCategory(it, isDarkTheme) }
     }
 
     private fun updateColors() = viewModelScope.launch {

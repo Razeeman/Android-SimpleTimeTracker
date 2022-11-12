@@ -12,14 +12,14 @@ sealed class CategoryViewData : ViewHolderType {
 
     override fun getUniqueId(): Long = id
 
-    data class Activity(
+    data class Category(
         override val id: Long,
         override val name: String,
         @ColorInt override val iconColor: Int,
         @ColorInt override val color: Int
     ) : CategoryViewData() {
 
-        override fun isValidType(other: ViewHolderType): Boolean = other is Activity
+        override fun isValidType(other: ViewHolderType): Boolean = other is Category
     }
 
     sealed class Record : CategoryViewData() {

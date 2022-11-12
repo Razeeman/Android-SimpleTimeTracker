@@ -126,7 +126,7 @@ class TestUtils @Inject constructor(
         recordInteractor.add(data)
     }
 
-    fun addActivityTag(
+    fun addCategory(
         tagName: String,
     ) = runBlocking {
         val data = Category(

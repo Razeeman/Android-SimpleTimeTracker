@@ -10,8 +10,10 @@
     <string name="day_of_week_sunday">Dom</string>
 
     <string name="activity_hint">Atividades</string>
-    <string name="activity_tag_hint">Tags de atividade</string>
+    <string name="category_hint">Categorias</string>
     <string name="record_tag_hint">Tags de registro</string>
+    <string name="nothing_selected">Nada selecionado</string>
+    <string name="something_selected">Selecionada:</string>
 
     <!--  Range selection  -->
     <string name="title_yesterday">Ontem</string>
@@ -59,24 +61,22 @@
     <string name="statistics_hint">Clique no cartão para ver estatísticas detalhadas</string>
 
     <!--  Categories  -->
-    <string name="categories_record_type_hint">Atribua a mesma tag a diferentes atividades para visualizar suas estatísticas agrupadas</string>
+    <string name="categories_record_type_hint">Atribua a mesma categoria a diferentes atividades para visualizar suas estatísticas agrupadas</string>
     <string name="categories_record_hint">Atribua tags diferentes aos registros para diferenciá-los</string>
-    <string name="categories_add_activity_tag">Adicionar tag de atividade</string>
+    <string name="categories_add_category">Adicionar categoria</string>
     <string name="categories_add_record_tag">Adicionar tag de registro</string>
 
     <!--  Change category  -->
-    <string name="change_category_removed">Tag removida</string>
-    <string name="change_category_archived">Tag arquivada</string>
+    <string name="change_category_removed">Categoria removida</string>
     <string name="change_category_name_hint">Insira um novo nome</string>
     <string name="change_category_color_hint">Cor</string>
     <string name="change_category_types_hint">Atividades</string>
-    <string name="change_category_type_hint">Atividade</string>
     <string name="change_category_save">Salvar</string>
     <string name="change_category_message_choose_name">Escolha um nome</string>
-    <string name="change_category_selected_types_empty">Não atribuída a nenhuma atividade</string>
-    <string name="change_category_selected_types_hint">Atribuída a:</string>
 
     <!--  Change record tag  -->
+    <string name="change_record_tag_archived">Tag arquivada</string>
+    <string name="change_record_tag_type_hint">Atividade</string>
     <string name="change_record_tag_type">Tipo de tag</string>
     <string name="change_record_tag_type_general">Geral</string>
     <string name="change_record_tag_type_general_hint">Pode ser atribuída a registros de qualquer atividade</string>
@@ -86,7 +86,7 @@
     <!--  Change record  -->
     <string name="change_record_message_choose_type">Selecione a atividade</string>
     <string name="change_record_type_field">Atividade</string>
-    <string name="change_record_category_field">Tag</string>
+    <string name="change_record_tag_field">Tag</string>
     <string name="change_record_comment_hint">Comentário</string>
     <string name="change_record_last_comments_hint">Últimos comentários</string>
     <string name="change_record_categories_empty">Nenhuma tag de registro adicionada</string>
@@ -101,21 +101,17 @@
     <string name="change_record_type_color_hint">Cor</string>
     <string name="change_record_type_icon_hint">Ícone</string>
     <string name="change_record_type_emoji_hint">Emoji</string>
-    <string name="change_record_type_category_hint">Tags</string>
     <string name="change_record_type_save">Salvar</string>
     <string name="change_record_message_choose_name">Escolha um nome</string>
-    <string name="change_record_type_categories_empty">Nenhuma tag de atividade adicionada</string>
-    <string name="change_record_type_selected_categories_empty">Nenhuma tag atribuída</string>
-    <string name="change_record_type_selected_categories_hint">Tags atribuídas:</string>
+    <string name="change_record_type_categories_empty">Nenhuma categoria adicionada</string>
     <string name="change_record_type_goal_time_disabled">Desativado</string>
     <string name="change_record_type_goal_time">Meta</string>
     <string name="change_record_type_goal_time_hint">Mostrar notificação após atingir o tempo determinado para monitorar esta atividade.</string>
 
     <!--  Activity filters  -->
+    <string name="change_activity_filter_removed">Filtro removido</string>
     <string name="change_activity_filter_save">Salvar</string>
     <string name="change_activity_filter_type">Tipo de filtro</string>
-    <string name="change_activity_filter_nothing_selected">Nada selecionado</string>
-    <string name="change_activity_filter_selected">Selecionada:</string>
 
     <!--  Dialogs  -->
     <string name="date_time_dialog_date">Data</string>
@@ -130,8 +126,6 @@
     <string name="types_filter_show_all">Mostrar todos</string>
     <string name="types_filter_hide_all">Ocultar todos</string>
     <string name="chart_filter_type_hint">Tipo de estatísticas</string>
-    <string name="chart_filter_type_activity">Atividade</string>
-    <string name="chart_filter_type_category">Tag</string>
     <string name="chart_filter_categories_empty">Nenhuma tag adicionada</string>
 
     <string name="duration_dialog_save">Salvar</string>
@@ -189,8 +183,8 @@
     <string name="settings_keep_screen_on">Mantenha a tela ligada</string>
     <string name="settings_change_card_size">Alterar o tamanho do cartão de atividade</string>
     <string name="settings_archive">Arquivo</string>
-    <string name="settings_edit_categories">Editar tags</string>
-    <string name="settings_edit_categories_hint">Atribua tags a atividades e registros.</string>
+    <string name="settings_edit_categories">Editar categorias e tags</string>
+    <string name="settings_edit_categories_hint">Atribua categorias a atividades e tags a registros.</string>
     <string name="settings_show_record_tag_selection">Mostrar seleção de tag de registro</string>
     <string name="settings_show_record_tag_selection_hint">Ao iniciar um timer, se a atividade tiver alguma tag de registro - uma caixa de diálogo de seleção será exibida.</string>
     <string name="settings_show_record_tag_close_hint">Fechar após selecionar uma tag.</string>

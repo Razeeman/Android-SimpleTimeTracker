@@ -74,7 +74,7 @@ class ChangeRecordTest : BaseUiTest() {
         closeSoftKeyboard()
         clickOnViewWithText(R.string.change_record_type_field)
         clickOnRecyclerItem(R.id.rvChangeRecordType, withText(name))
-        clickOnViewWithText(R.string.change_record_category_field)
+        clickOnViewWithText(R.string.change_record_tag_field)
         clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag1))
         clickOnViewWithText(R.string.change_record_save)
         checkViewIsDisplayed(allOf(withText(fullName1), isCompletelyDisplayed()))
@@ -103,9 +103,9 @@ class ChangeRecordTest : BaseUiTest() {
         clickOnViewWithText(R.string.change_record_type_field)
         clickOnRecyclerItem(R.id.rvChangeRecordType, withText(newName))
         clickOnViewWithText(R.string.change_record_type_field)
-        clickOnViewWithText(R.string.change_record_category_field)
+        clickOnViewWithText(R.string.change_record_tag_field)
         clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag2))
-        clickOnViewWithText(R.string.change_record_category_field)
+        clickOnViewWithText(R.string.change_record_tag_field)
 
         val calendar = Calendar.getInstance().apply {
             add(Calendar.DATE, -1)
@@ -221,10 +221,10 @@ class ChangeRecordTest : BaseUiTest() {
         // Change tag
         clickOnView(allOf(withText(name), isCompletelyDisplayed()))
         checkPreviewUpdated(hasDescendant(withText(name)))
-        clickOnViewWithText(R.string.change_record_category_field)
+        clickOnViewWithText(R.string.change_record_tag_field)
         clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag1))
         clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag2))
-        clickOnViewWithText(R.string.change_record_category_field)
+        clickOnViewWithText(R.string.change_record_tag_field)
         checkPreviewUpdated(hasDescendant(withText(fullName)))
         clickOnViewWithText(R.string.change_record_type_save)
 
@@ -234,9 +234,9 @@ class ChangeRecordTest : BaseUiTest() {
         // Remove tag
         clickOnView(allOf(withText(fullName)))
         checkPreviewUpdated(hasDescendant(withText(fullName)))
-        clickOnViewWithText(R.string.change_record_category_field)
+        clickOnViewWithText(R.string.change_record_tag_field)
         clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(R.string.change_record_untagged))
-        clickOnViewWithText(R.string.change_record_category_field)
+        clickOnViewWithText(R.string.change_record_tag_field)
         checkPreviewUpdated(hasDescendant(withText(name)))
         clickOnViewWithText(R.string.change_record_type_save)
 

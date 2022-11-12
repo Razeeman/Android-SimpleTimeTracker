@@ -92,14 +92,14 @@ object NavUtils {
 
         // Categories
         if (categories.isNotEmpty()) {
-            clickOnViewWithText(R.string.change_record_type_category_hint)
+            clickOnViewWithText(R.string.category_hint)
             categories.forEach { categoryName ->
                 scrollRecyclerToView(
                     R.id.rvChangeRecordTypeCategories, hasDescendant(withText(categoryName))
                 )
                 clickOnRecyclerItem(R.id.rvChangeRecordTypeCategories, withText(categoryName))
             }
-            clickOnViewWithText(R.string.change_record_type_category_hint)
+            clickOnViewWithText(R.string.category_hint)
         }
 
         // Goal time
@@ -120,7 +120,7 @@ object NavUtils {
         color: Int? = null,
         activities: List<String> = emptyList(),
     ) {
-        tryAction { clickOnViewWithText(R.string.categories_add_activity_tag) }
+        tryAction { clickOnViewWithText(R.string.categories_add_category) }
 
         // Name
         typeTextIntoView(R.id.etChangeCategoryName, name)
@@ -226,7 +226,7 @@ object NavUtils {
 
         // Tag
         if (tag != null) {
-            clickOnViewWithText(R.string.change_record_category_field)
+            clickOnViewWithText(R.string.change_record_tag_field)
             clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag))
         }
 

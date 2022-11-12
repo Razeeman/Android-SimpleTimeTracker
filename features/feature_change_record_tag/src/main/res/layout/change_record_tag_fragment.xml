@@ -155,7 +155,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="@string/change_category_type_hint"
+                android:text="@string/change_record_tag_type_hint"
                 app:layout_constraintEnd_toStartOf="@id/arrowChangeRecordTagType"
                 app:layout_constraintStart_toStartOf="parent" />
 

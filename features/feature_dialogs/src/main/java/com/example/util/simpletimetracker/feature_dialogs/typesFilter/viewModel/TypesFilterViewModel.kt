@@ -50,7 +50,7 @@ class TypesFilterViewModel @Inject constructor(
 
     private var types: List<RecordType> = emptyList()
     private var recordTypeCategories: List<RecordTypeCategory> = emptyList()
-    private var activityTags: List<Category> = emptyList()
+    private var categories: List<Category> = emptyList()
     private var recordTags: List<RecordTag> = emptyList()
 
     fun onRecordTypeClick(item: RecordTypeViewData) {
@@ -61,7 +61,7 @@ class TypesFilterViewModel @Inject constructor(
     fun onCategoryClick(item: CategoryViewData) {
         val currentFilter = typesFilter.value ?: return
         when (item) {
-            is CategoryViewData.Activity -> switchToCategoryFilter(currentFilter, item)
+            is CategoryViewData.Category -> switchToCategoryFilter(currentFilter, item)
             is CategoryViewData.Record -> updateRecordTagFilter(currentFilter, item)
         }
     }
@@ -110,7 +110,7 @@ class TypesFilterViewModel @Inject constructor(
 
     private fun switchToCategoryFilter(
         currentFilter: TypesFilterParams,
-        item: CategoryViewData.Activity
+        item: CategoryViewData.Category
     ) {
         var newFilter = currentFilter
 
@@ -152,7 +152,7 @@ class TypesFilterViewModel @Inject constructor(
 
     private suspend fun initializeData() {
         types = recordTypeInteractor.getAll()
-        activityTags = categoryInteractor.getAll()
+        categories = categoryInteractor.getAll()
         recordTags = recordTagInteractor.getAll()
         recordTypeCategories = recordTypeCategoryInteractor.getAll()
     }
@@ -167,7 +167,7 @@ class TypesFilterViewModel @Inject constructor(
             filter = typesFilter.value ?: return emptyList(),
             types = types,
             recordTypeCategories = recordTypeCategories,
-            activityTags = activityTags,
+            categories = categories,
             recordTags = recordTags
         )
     }

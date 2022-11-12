@@ -10,8 +10,10 @@
     <string name="day_of_week_sunday">Sun</string>
 
     <string name="activity_hint">Activities</string>
-    <string name="activity_tag_hint">Activity tags</string>
+    <string name="category_hint">Categories</string>
     <string name="record_tag_hint">Record tags</string>
+    <string name="nothing_selected">Nothing selected</string>
+    <string name="something_selected">Selected:</string>
 
     <!--  Range selection  -->
     <string name="title_yesterday">Yesterday</string>
@@ -59,24 +61,22 @@
     <string name="statistics_hint">Click on card to view detailed statistics</string>
 
     <!--  Categories  -->
-    <string name="categories_record_type_hint">Assign the same tag to different activities to view their grouped statistics</string>
+    <string name="categories_record_type_hint">Assign the same category to different activities to view their grouped statistics</string>
     <string name="categories_record_hint">Assign different tags to records to differentiate between them</string>
-    <string name="categories_add_activity_tag">Add activity tag</string>
+    <string name="categories_add_category">Add category</string>
     <string name="categories_add_record_tag">Add record tag</string>
 
     <!--  Change category  -->
-    <string name="change_category_removed">Tag removed</string>
-    <string name="change_category_archived">Tag archived</string>
+    <string name="change_category_removed">Category removed</string>
     <string name="change_category_name_hint">Enter new name</string>
     <string name="change_category_color_hint">Color</string>
     <string name="change_category_types_hint">Activities</string>
-    <string name="change_category_type_hint">Activity</string>
     <string name="change_category_save">Save</string>
     <string name="change_category_message_choose_name">Choose a name</string>
-    <string name="change_category_selected_types_empty">Not assigned to any activities</string>
-    <string name="change_category_selected_types_hint">Assigned to:</string>
 
     <!--  Change record tag  -->
+    <string name="change_record_tag_archived">Tag archived</string>
+    <string name="change_record_tag_type_hint">Activity</string>
     <string name="change_record_tag_type">Tag type</string>
     <string name="change_record_tag_type_general">General</string>
     <string name="change_record_tag_type_general_hint">Can be assigned to records of any activity</string>
@@ -86,7 +86,7 @@
     <!--  Change record  -->
     <string name="change_record_message_choose_type">Select activity</string>
     <string name="change_record_type_field">Activity</string>
-    <string name="change_record_category_field">Tag</string>
+    <string name="change_record_tag_field">Tag</string>
     <string name="change_record_comment_hint">Comment</string>
     <string name="change_record_last_comments_hint">Last comments</string>
     <string name="change_record_categories_empty">No record tags added</string>
@@ -101,21 +101,17 @@
     <string name="change_record_type_color_hint">Color</string>
     <string name="change_record_type_icon_hint">Icon</string>
     <string name="change_record_type_emoji_hint">Emoji</string>
-    <string name="change_record_type_category_hint">Tags</string>
     <string name="change_record_type_save">Save</string>
     <string name="change_record_message_choose_name">Choose a name</string>
-    <string name="change_record_type_categories_empty">No activity tags added</string>
-    <string name="change_record_type_selected_categories_empty">No tags assigned</string>
-    <string name="change_record_type_selected_categories_hint">Assigned tags:</string>
+    <string name="change_record_type_categories_empty">No categories added</string>
     <string name="change_record_type_goal_time_disabled">Disabled</string>
     <string name="change_record_type_goal_time">Goal time</string>
     <string name="change_record_type_goal_time_hint">Show notification after specified time of tracking this activity.</string>
 
     <!--  Activity filters  -->
+    <string name="change_activity_filter_removed">Filter removed</string>
     <string name="change_activity_filter_save">Save</string>
     <string name="change_activity_filter_type">Filter type</string>
-    <string name="change_activity_filter_nothing_selected">Nothing selected</string>
-    <string name="change_activity_filter_selected">Selected:</string>
 
     <!--  Dialogs  -->
     <string name="date_time_dialog_date">Date</string>
@@ -130,8 +126,6 @@
     <string name="types_filter_show_all">Show all</string>
     <string name="types_filter_hide_all">Hide all</string>
     <string name="chart_filter_type_hint">Statistics type</string>
-    <string name="chart_filter_type_activity">Activity</string>
-    <string name="chart_filter_type_category">Tag</string>
     <string name="chart_filter_categories_empty">No tags added</string>
 
     <string name="duration_dialog_save">Save</string>
@@ -189,8 +183,8 @@
     <string name="settings_keep_screen_on">Keep screen on</string>
     <string name="settings_change_card_size">Change activity card size</string>
     <string name="settings_archive">Archive</string>
-    <string name="settings_edit_categories">Edit tags</string>
-    <string name="settings_edit_categories_hint">Assign tags to activities and records.</string>
+    <string name="settings_edit_categories">Edit categories and tags</string>
+    <string name="settings_edit_categories_hint">Assign categories to activities and tags to records.</string>
     <string name="settings_show_record_tag_selection">Show record tag selection</string>
     <string name="settings_show_record_tag_selection_hint">When starting a timer, if activity has any record tags - a selection dialog will be shown.</string>
     <string name="settings_show_record_tag_close_hint">Close after selecting one tag.</string>

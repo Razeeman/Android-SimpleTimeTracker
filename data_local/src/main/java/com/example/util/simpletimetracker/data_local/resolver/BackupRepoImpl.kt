@@ -263,7 +263,7 @@ class BackupRepoImpl @Inject constructor(
     private fun toBackupString(activityFilter: ActivityFilter): String {
         val typeString = when (activityFilter.type) {
             is ActivityFilter.Type.Activity -> 0L
-            is ActivityFilter.Type.ActivityTag -> 1L
+            is ActivityFilter.Type.Category -> 1L
         }.toString()
 
         return String.format(
@@ -361,7 +361,7 @@ class BackupRepoImpl @Inject constructor(
             type = parts.getOrNull(3)?.toLongOrNull()?.let {
                 when (it) {
                     0L -> ActivityFilter.Type.Activity
-                    1L -> ActivityFilter.Type.ActivityTag
+                    1L -> ActivityFilter.Type.Category
                     else -> ActivityFilter.Type.Activity
                 }
             } ?: ActivityFilter.Type.Activity,

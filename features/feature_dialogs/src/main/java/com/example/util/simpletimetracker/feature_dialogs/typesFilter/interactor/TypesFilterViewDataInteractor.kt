@@ -29,14 +29,14 @@ class TypesFilterViewDataInteractor @Inject constructor(
         filter: TypesFilterParams,
         types: List<RecordType>,
         recordTypeCategories: List<RecordTypeCategory>,
-        activityTags: List<Category>,
+        categories: List<Category>,
         recordTags: List<RecordTag>,
     ): List<ViewHolderType> {
         val result: MutableList<ViewHolderType> = mutableListOf()
 
         val numberOfCards = prefsInteractor.getNumberOfCards()
         val isDarkTheme = prefsInteractor.getDarkMode()
-        val typesMap = types.map { it.id to it }.toMap()
+        val typesMap = types.associateBy { it.id }
 
         val selectedTypes = types.map(RecordType::id).filter { typeId ->
             when (filter.filterType) {
@@ -58,11 +58,11 @@ class TypesFilterViewDataInteractor @Inject constructor(
             )
         }
 
-        val activityTagsViewData = activityTags.map { tag ->
+        val categoriesViewData = categories.map { tag ->
             val isFiltered = filter.filterType != ChartFilterType.CATEGORY ||
                 tag.id !in filter.selectedIds
 
-            categoryViewDataMapper.mapActivityTag(
+            categoryViewDataMapper.mapCategory(
                 category = tag,
                 isDarkTheme = isDarkTheme,
                 isFiltered = isFiltered
@@ -102,13 +102,13 @@ class TypesFilterViewDataInteractor @Inject constructor(
             )
             .orEmpty()
 
-        if (activityTagsViewData.isNotEmpty()) {
-            HintViewData(resourceRepo.getString(R.string.activity_tag_hint)).let(result::add)
-            activityTagsViewData.let(result::addAll)
+        if (categoriesViewData.isNotEmpty()) {
+            HintViewData(resourceRepo.getString(R.string.category_hint)).let(result::add)
+            categoriesViewData.let(result::addAll)
         }
 
         if (typesViewData.isNotEmpty()) {
-            if (activityTagsViewData.isNotEmpty()) {
+            if (categoriesViewData.isNotEmpty()) {
                 DividerViewData(1).let(result::add)
             }
             HintViewData(resourceRepo.getString(R.string.activity_hint)).let(result::add)

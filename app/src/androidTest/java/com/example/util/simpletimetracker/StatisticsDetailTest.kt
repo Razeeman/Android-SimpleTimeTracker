@@ -845,8 +845,8 @@ class StatisticsDetailTest : BaseUiTest() {
         val categoryName2 = "CategoryName2"
 
         // Add data
-        testUtils.addActivityTag(categoryName1)
-        testUtils.addActivityTag(categoryName2)
+        testUtils.addCategory(categoryName1)
+        testUtils.addCategory(categoryName2)
         testUtils.addActivity(name = name1, categories = listOf(categoryName1))
         testUtils.addActivity(name = name2, categories = listOf(categoryName1))
         testUtils.addActivity(name = name3, categories = listOf(categoryName2))
@@ -861,7 +861,7 @@ class StatisticsDetailTest : BaseUiTest() {
         // Check detailed statistics
         NavUtils.openStatisticsScreen()
         tryAction { clickOnViewWithIdOnPager(R.id.btnStatisticsChartFilter) }
-        clickOnViewWithText(R.string.chart_filter_type_category)
+        clickOnViewWithText(R.string.category_hint)
         pressBack()
         tryAction { clickOnView(allOf(withText(categoryName1), isCompletelyDisplayed())) }
         checkViewIsDisplayed(allOf(withId(R.id.viewStatisticsDetailItem), hasDescendant(withText(categoryName1))))

@@ -13,7 +13,7 @@ class ActivityFilterDataLocalMapper @Inject constructor() {
             selectedIds = dbo.selectedIds.split(',').mapNotNull(String::toLongOrNull),
             type = when (dbo.type) {
                 0L -> ActivityFilter.Type.Activity
-                1L -> ActivityFilter.Type.ActivityTag
+                1L -> ActivityFilter.Type.Category
                 else -> ActivityFilter.Type.Activity
             },
             name = dbo.name,
@@ -31,7 +31,7 @@ class ActivityFilterDataLocalMapper @Inject constructor() {
             selectedIds = domain.selectedIds.joinToString(separator = ","),
             type = when (domain.type) {
                 is ActivityFilter.Type.Activity -> 0L
-                is ActivityFilter.Type.ActivityTag -> 1L
+                is ActivityFilter.Type.Category -> 1L
             },
             name = domain.name,
             color = domain.color.colorId,

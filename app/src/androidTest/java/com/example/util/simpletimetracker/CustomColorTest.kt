@@ -279,19 +279,19 @@ class CustomColorTest : BaseUiTest() {
     }
 
     @Test
-    fun colorTransferActivityTag() {
+    fun colorTransferCategory() {
         fun checkPreviewUpdated(matcher: Matcher<View>) =
             checkViewIsDisplayed(allOf(withId(R.id.previewChangeCategory), matcher))
 
         val name = "name"
-        val tagName = "tag"
+        val categoryName = "category"
         val colorId = ColorMapper.getAvailableColors()[1]
         val colorInt = colorId.let(::getColor) // red
         val customColorInt = 0xff29a674.toInt()
 
         NavUtils.openSettingsScreen()
         NavUtils.openCategoriesScreen()
-        clickOnViewWithText(R.string.categories_add_activity_tag)
+        clickOnViewWithText(R.string.categories_add_category)
 
         // Select color
         clickOnViewWithText(R.string.change_category_color_hint)
@@ -324,7 +324,7 @@ class CustomColorTest : BaseUiTest() {
         )
 
         // Save tag
-        typeTextIntoView(R.id.etChangeCategoryName, tagName)
+        typeTextIntoView(R.id.etChangeCategoryName, categoryName)
         clickOnViewWithText(R.string.change_category_save)
 
         // Tag saved
@@ -332,10 +332,10 @@ class CustomColorTest : BaseUiTest() {
             allOf(
                 withId(R.id.viewCategoryItem),
                 withCardColorInt(customColorInt),
-                hasDescendant(withText(tagName)),
+                hasDescendant(withText(categoryName)),
             )
         )
-        longClickOnView(withText(tagName))
+        longClickOnView(withText(categoryName))
         checkPreviewUpdated(withCardColorInt(customColorInt))
         clickOnViewWithText(R.string.change_category_color_hint)
         checkViewIsNotDisplayed(allOf(withId(R.id.viewColorItemSelected), withParent(withCardColorInt(colorInt))))
@@ -358,18 +358,18 @@ class CustomColorTest : BaseUiTest() {
         pressBack()
 
         // Check statistics
-        testUtils.addActivity(name = name, categories = listOf(tagName))
+        testUtils.addActivity(name = name, categories = listOf(categoryName))
         testUtils.addRecord(name)
         NavUtils.openStatisticsScreen()
         clickOnViewWithIdOnPager(R.id.btnStatisticsChartFilter)
-        clickOnViewWithText(R.string.chart_filter_type_category)
+        clickOnViewWithText(R.string.category_hint)
         pressBack()
         Thread.sleep(1000)
         checkViewIsDisplayed(
             allOf(
                 withId(R.id.viewStatisticsItem),
                 withCardColorInt(customColorInt),
-                hasDescendant(withText(tagName)),
+                hasDescendant(withText(categoryName)),
                 isCompletelyDisplayed()
             )
         )

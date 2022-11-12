@@ -10,8 +10,10 @@
     <string name="day_of_week_sunday">zo</string>
 
     <string name="activity_hint">Activiteiten</string>
-    <string name="activity_tag_hint">Activiteit labels</string>
+    <string name="category_hint">Categorieën</string>
     <string name="record_tag_hint">Opname labels</string>
+    <string name="nothing_selected">Niets geselecteerd</string>
+    <string name="something_selected">Geselecteerd:</string>
 
     <!--  Range selection  -->
     <string name="title_yesterday">Gisteren</string>
@@ -59,24 +61,22 @@
     <string name="statistics_hint">Klik op een kaart voor gedetailleerde statistieken</string>
 
     <!--  Categories  -->
-    <string name="categories_record_type_hint">Wijs hetzelfde label toe aan verschillende activiteiten om hun gegroepeerde statistieken te bekijken</string>
+    <string name="categories_record_type_hint">Wijs hetzelfde categorie toe aan verschillende activiteiten om hun gegroepeerde statistieken te bekijken</string>
     <string name="categories_record_hint">Wijs verschillende labels toe aan records om ze te onderscheiden</string>
-    <string name="categories_add_activity_tag">Activitetslabel toevoegen</string>
+    <string name="categories_add_category">Categorie toevoegen</string>
     <string name="categories_add_record_tag">Recordtag toevoegen</string>
 
     <!--  Change category  -->
-    <string name="change_category_removed">Label verwijderd</string>
-    <string name="change_category_archived">Label gearchiveerd</string>
+    <string name="change_category_removed">Categorie verwijderd</string>
     <string name="change_category_name_hint">Voer nieuwe naam in</string>
     <string name="change_category_color_hint">Kleur</string>
     <string name="change_category_types_hint">Activiteiten</string>
-    <string name="change_category_type_hint">Activiteit</string>
     <string name="change_category_save">Opslaan</string>
     <string name="change_category_message_choose_name">Kies een naam</string>
-    <string name="change_category_selected_types_empty">Aan geen enkele activiteit toegewezen</string>
-    <string name="change_category_selected_types_hint">Toegewezen aan:</string>
 
     <!--  Change record tag  -->
+    <string name="change_record_tag_archived">Label gearchiveerd</string>
+    <string name="change_record_tag_type_hint">Activiteit</string>
     <string name="change_record_tag_type">Label type</string>
     <string name="change_record_tag_type_general">Algemeen</string>
     <string name="change_record_tag_type_general_hint">Kan worden toegewezen aan opname van elke activiteit</string>
@@ -86,7 +86,7 @@
     <!--  Change record  -->
     <string name="change_record_message_choose_type">Selecteer activiteit</string>
     <string name="change_record_type_field">Activiteit</string>
-    <string name="change_record_category_field">Label</string>
+    <string name="change_record_tag_field">Label</string>
     <string name="change_record_comment_hint">Opmerking</string>
     <string name="change_record_last_comments_hint">Laatste opmerkingen</string>
     <string name="change_record_categories_empty">Geen opname labels toegevoegd</string>
@@ -101,21 +101,17 @@
     <string name="change_record_type_color_hint">Kleur</string>
     <string name="change_record_type_icon_hint">Icoon</string>
     <string name="change_record_type_emoji_hint">Emoji</string>
-    <string name="change_record_type_category_hint">Labels</string>
     <string name="change_record_type_save">Opslaan</string>
     <string name="change_record_message_choose_name">Kies een naam</string>
-    <string name="change_record_type_categories_empty">Geen activiteitslabels toegevoegd</string>
-    <string name="change_record_type_selected_categories_empty">Geen labels toegewezen</string>
-    <string name="change_record_type_selected_categories_hint">Toegewezen labels:</string>
+    <string name="change_record_type_categories_empty">Geen categorieën toegevoegd</string>
     <string name="change_record_type_goal_time_disabled">Uitgeschakeld</string>
     <string name="change_record_type_goal_time">Doeltijd</string>
     <string name="change_record_type_goal_time_hint">Melding weergeven na het opgegeven tijdstip waarop deze activiteit is gevolgd.</string>
 
     <!--  Activity filters  -->
+    <string name="change_activity_filter_removed">Filter verwijderd</string>
     <string name="change_activity_filter_save">Opslaan</string>
     <string name="change_activity_filter_type">Filtertype</string>
-    <string name="change_activity_filter_nothing_selected">Niets geselecteerd</string>
-    <string name="change_activity_filter_selected">Geselecteerd:</string>
 
     <!--  Dialogs  -->
     <string name="date_time_dialog_date">Datum</string>
@@ -130,8 +126,6 @@
     <string name="types_filter_show_all">Alles tonen</string>
     <string name="types_filter_hide_all">Alles verbergen</string>
     <string name="chart_filter_type_hint">Statistiektype</string>
-    <string name="chart_filter_type_activity">Activiteit</string>
-    <string name="chart_filter_type_category">Label</string>
     <string name="chart_filter_categories_empty">Geen labels toegevoegd</string>
 
     <string name="duration_dialog_save">Opslaan</string>
@@ -189,8 +183,8 @@
     <string name="settings_keep_screen_on">Scherm aan houden</string>
     <string name="settings_change_card_size">Grootte activiteitskaart wijzigen</string>
     <string name="settings_archive">Archief</string>
-    <string name="settings_edit_categories">Labels bewerken</string>
-    <string name="settings_edit_categories_hint">Wijs labels aan activiteiten en records toe.</string>
+    <string name="settings_edit_categories">Categorieën en labels bewerken</string>
+    <string name="settings_edit_categories_hint">Wijs categorieën toe aan activiteiten en labels aan records.</string>
     <string name="settings_show_record_tag_selection">Toon opname label selectie</string>
     <string name="settings_show_record_tag_selection_hint">Als bij het starten van een timer, een activiteit opname labels heeft, wordt er een selectiedialoogvenster weergegeven.</string>
     <string name="settings_show_record_tag_close_hint">Sluiten na het selecteren van een label.</string>

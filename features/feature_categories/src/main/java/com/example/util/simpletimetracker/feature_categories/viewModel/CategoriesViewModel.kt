@@ -12,7 +12,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.category.TagType
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.feature_categories.interactor.CategoriesViewDataInteractor
 import com.example.util.simpletimetracker.navigation.Router
-import com.example.util.simpletimetracker.navigation.params.screen.ChangeActivityTagFromTagsParams
+import com.example.util.simpletimetracker.navigation.params.screen.ChangeCategoryFromTagsParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTagFromTagsParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeTagData
 import kotlinx.coroutines.launch
@@ -35,7 +35,7 @@ class CategoriesViewModel @Inject constructor(
 
     fun onCategoryClick(item: CategoryViewData, sharedElements: Pair<Any, String>) {
         val params = when (item) {
-            is CategoryViewData.Activity -> ::ChangeActivityTagFromTagsParams
+            is CategoryViewData.Category -> ::ChangeCategoryFromTagsParams
             is CategoryViewData.Record -> ::ChangeRecordTagFromTagsParams
         }
         val icon = (item as? CategoryViewData.Record)?.icon?.toParams()
@@ -58,7 +58,7 @@ class CategoriesViewModel @Inject constructor(
 
     fun onAddCategoryClick(viewData: CategoryAddViewData) {
         val params = when (viewData.type) {
-            TagType.RECORD_TYPE -> ::ChangeActivityTagFromTagsParams
+            TagType.RECORD_TYPE -> ::ChangeCategoryFromTagsParams
             TagType.RECORD -> ::ChangeRecordTagFromTagsParams
         }
 

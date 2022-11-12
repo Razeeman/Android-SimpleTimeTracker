@@ -157,7 +157,7 @@
                 android:ellipsize="end"
                 android:gravity="center_vertical"
                 android:maxLines="1"
-                android:text="@string/change_record_type_category_hint"
+                android:text="@string/category_hint"
                 app:layout_constraintEnd_toStartOf="@id/arrowChangeRecordTypeCategory"
                 app:layout_constraintStart_toStartOf="parent" />
 

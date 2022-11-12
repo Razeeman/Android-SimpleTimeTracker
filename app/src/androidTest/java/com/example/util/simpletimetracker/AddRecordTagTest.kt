@@ -187,7 +187,7 @@ class AddRecordTagTest : BaseUiTest() {
         NavUtils.openCategoriesScreen()
         onView(withId(R.id.rvCategoriesList)).check(recyclerItemCount(7))
 
-        // Add another activity tag
+        // Add another tag
         clickOnViewWithText(R.string.categories_add_record_tag)
         typeTextIntoView(R.id.etChangeRecordTagName, tagNameActivity)
         clickOnView(

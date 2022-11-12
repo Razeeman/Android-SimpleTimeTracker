@@ -10,8 +10,10 @@
     <string name="day_of_week_sunday">Paz</string>
 
     <string name="activity_hint">Aktiviteler</string>
-    <string name="activity_tag_hint">Aktivite etiketleri</string>
+    <string name="category_hint">Kategoriler</string>
     <string name="record_tag_hint">Kayıt etiketleri</string>
+    <string name="nothing_selected">Hiçbir şey seçilmedi</string>
+    <string name="something_selected">Seçildi:</string>
 
     <!--  Range selection  -->
     <string name="title_yesterday">Dün</string>
@@ -59,24 +61,22 @@
     <string name="statistics_hint">Detaylı istatistikler için bir karta tıklayın</string>
 
     <!--  Categories  -->
-    <string name="categories_record_type_hint">Farklı aktivitelerin istatistiklerini grup halinde görmek için aynı etiketi farklı aktivitelere atayın</string>
+    <string name="categories_record_type_hint">Farklı aktivitelerin istatistiklerini grup halinde görmek için aynı kategoriyi farklı aktivitelere atayın</string>
     <string name="categories_record_hint">Aralarında ayrım yapabilmek için kayıtlara farklı etiketler atayın</string>
-    <string name="categories_add_activity_tag">Aktivite etiketi ekle</string>
+    <string name="categories_add_category">Kategori ekle</string>
     <string name="categories_add_record_tag">Kayıt etiketi ekle</string>
 
     <!--  Change category  -->
-    <string name="change_category_removed">Etiket silindi</string>
-    <string name="change_category_archived">Etiket arşivlendi</string>
+    <string name="change_category_removed">Kategori silindi</string>
     <string name="change_category_name_hint">Yeni isim girin</string>
     <string name="change_category_color_hint">Renk</string>
     <string name="change_category_types_hint">Aktiviteler</string>
-    <string name="change_category_type_hint">Aktivite</string>
     <string name="change_category_save">Kaydet</string>
     <string name="change_category_message_choose_name">İsim seçin</string>
-    <string name="change_category_selected_types_empty">Hiçbir aktiviteye atanmadı</string>
-    <string name="change_category_selected_types_hint">Atandığı aktiviteler:</string>
 
     <!--  Change record tag  -->
+    <string name="change_record_tag_archived">Etiket arşivlendi</string>
+    <string name="change_record_tag_type_hint">Aktivite</string>
     <string name="change_record_tag_type">Etiket tipi</string>
     <string name="change_record_tag_type_general">Genel</string>
     <string name="change_record_tag_type_general_hint">Herhangi bir aktivitenin kayıtlarına atanabilir</string>
@@ -86,7 +86,7 @@
     <!--  Change record  -->
     <string name="change_record_message_choose_type">Aktivite seçin</string>
     <string name="change_record_type_field">Aktivite</string>
-    <string name="change_record_category_field">Etiket</string>
+    <string name="change_record_tag_field">Etiket</string>
     <string name="change_record_comment_hint">Yorum</string>
     <string name="change_record_last_comments_hint">Son yorumlar</string>
     <string name="change_record_categories_empty">Kayıt etiketi eklenmedi</string>
@@ -101,21 +101,17 @@
     <string name="change_record_type_color_hint">Renk</string>
     <string name="change_record_type_icon_hint">Simge</string>
     <string name="change_record_type_emoji_hint">Emoji</string>
-    <string name="change_record_type_category_hint">Etiketler</string>
     <string name="change_record_type_save">Kaydet</string>
     <string name="change_record_message_choose_name">İsim seçin</string>
-    <string name="change_record_type_categories_empty">Aktivite etiketi eklenmedi</string>
-    <string name="change_record_type_selected_categories_empty">Etiket atanmadı</string>
-    <string name="change_record_type_selected_categories_hint">Atanan etiketler:</string>
+    <string name="change_record_type_categories_empty">Kategori eklenmedi</string>
     <string name="change_record_type_goal_time_disabled">Devre dışı</string>
     <string name="change_record_type_goal_time">Hedef süre</string>
     <string name="change_record_type_goal_time_hint">Bu aktivite belirtilen süre kadar takip edildiğinde bildirim göster.</string>
 
     <!--  Activity filters  -->
+    <string name="change_activity_filter_removed">Filtre kaldırıldı</string>
     <string name="change_activity_filter_save">Kaydet</string>
     <string name="change_activity_filter_type">Filtre tipi</string>
-    <string name="change_activity_filter_nothing_selected">Hiçbir şey seçilmedi</string>
-    <string name="change_activity_filter_selected">Seçildi:</string>
 
     <!--  Dialogs  -->
     <string name="date_time_dialog_date">Tarih</string>
@@ -130,8 +126,6 @@
     <string name="types_filter_show_all">Tümünü göster</string>
     <string name="types_filter_hide_all">Tümünü gizle</string>
     <string name="chart_filter_type_hint">İstatistik tipi</string>
-    <string name="chart_filter_type_activity">Aktivite</string>
-    <string name="chart_filter_type_category">Etiket</string>
     <string name="chart_filter_categories_empty">Etiket eklenmedi</string>
 
     <string name="duration_dialog_save">Kaydet</string>
@@ -189,8 +183,8 @@
     <string name="settings_keep_screen_on">Ekranı açık tut</string>
     <string name="settings_change_card_size">Aktivite kartı boyutunu değiştir</string>
     <string name="settings_archive">Arşiv</string>
-    <string name="settings_edit_categories">Etiketleri düzenle</string>
-    <string name="settings_edit_categories_hint">Aktivite ve kayıtlara etiket atayın.</string>
+    <string name="settings_edit_categories">Kategorileri ve etiketleri düzenle</string>
+    <string name="settings_edit_categories_hint">Etkinliklere kategoriler ve kayıtlara etiketler atayın.</string>
     <string name="settings_show_record_tag_selection">Kayıt etiketi seçimini göster</string>
     <string name="settings_show_record_tag_selection_hint">Eğer aktivite kayıt etiketine sahipse, zamanlayıcı başlatılırken seçim ekranı görünecek.</string>
     <string name="settings_show_record_tag_close_hint">Bir etiket seçildiğinde seçim ekranını kapat.</string>

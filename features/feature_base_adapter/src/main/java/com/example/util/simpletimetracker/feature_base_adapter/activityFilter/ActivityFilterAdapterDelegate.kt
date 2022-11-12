@@ -18,7 +18,7 @@ fun createActivityFilterAdapterDelegate(
     with(binding.viewActivityFilterItem) {
         item as ViewData
 
-        val transitionName = TransitionNames.ACTIVITY_FILTER_TAG + item.id
+        val transitionName = TransitionNames.ACTIVITY_FILTER + item.id
         val sharedElements: Pair<Any, String> = this to transitionName
         ViewCompat.setTransitionName(this, transitionName)
 

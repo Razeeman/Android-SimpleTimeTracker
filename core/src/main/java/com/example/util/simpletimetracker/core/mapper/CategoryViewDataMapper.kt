@@ -19,12 +19,12 @@ class CategoryViewDataMapper @Inject constructor(
     private val resourceRepo: ResourceRepo,
 ) {
 
-    fun mapActivityTag(
+    fun mapCategory(
         category: Category,
         isDarkTheme: Boolean,
         isFiltered: Boolean = false,
-    ): CategoryViewData.Activity {
-        return CategoryViewData.Activity(
+    ): CategoryViewData.Category {
+        return CategoryViewData.Category(
             id = category.id,
             name = category.name,
             iconColor = getTextColor(isDarkTheme, isFiltered),
@@ -59,7 +59,7 @@ class CategoryViewDataMapper @Inject constructor(
         )
     }
 
-    fun mapToActivityTagsEmpty(): ViewHolderType {
+    fun mapToCategoriesEmpty(): ViewHolderType {
         return EmptyViewData(
             message = resourceRepo.getString(R.string.change_record_type_categories_empty)
         )
@@ -68,9 +68,9 @@ class CategoryViewDataMapper @Inject constructor(
     fun mapSelectedCategoriesHint(isEmpty: Boolean): ViewHolderType {
         return InfoViewData(
             text = if (isEmpty) {
-                R.string.change_record_type_selected_categories_empty
+                R.string.nothing_selected
             } else {
-                R.string.change_record_type_selected_categories_hint
+                R.string.something_selected
             }.let(resourceRepo::getString)
         )
     }

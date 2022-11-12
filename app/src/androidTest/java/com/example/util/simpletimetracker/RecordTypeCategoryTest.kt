@@ -71,7 +71,7 @@ class RecordTypeCategoryTest : BaseUiTest() {
         // Check first activity
         NavUtils.openRunningRecordsScreen()
         longClickOnView(withText(typeName1))
-        clickOnViewWithText(R.string.change_record_type_category_hint)
+        clickOnViewWithText(R.string.category_hint)
         onView(withText(categoryName1)).check(isCompletelyBelow(withId(R.id.viewDividerItem)))
         onView(withText(categoryName2)).check(isCompletelyAbove(withId(R.id.viewDividerItem)))
 
@@ -84,7 +84,7 @@ class RecordTypeCategoryTest : BaseUiTest() {
 
         // Check second activity
         longClickOnView(withText(typeName2))
-        clickOnViewWithText(R.string.change_record_type_category_hint)
+        clickOnViewWithText(R.string.category_hint)
         onView(withText(categoryName1)).check(isCompletelyAbove(withId(R.id.viewDividerItem)))
         onView(withText(categoryName2)).check(isCompletelyBelow(withId(R.id.viewDividerItem)))
 

@@ -23,7 +23,7 @@ fun createCategoryAdapterDelegate(
         item as ViewData
 
         val transitionName = when (item) {
-            is ViewData.Activity -> TransitionNames.ACTIVITY_TAG
+            is ViewData.Category -> TransitionNames.CATEGORY
             is ViewData.Record -> TransitionNames.RECORD_TAG
         } + item.id
         val sharedElements: Pair<Any, String> = this to transitionName
