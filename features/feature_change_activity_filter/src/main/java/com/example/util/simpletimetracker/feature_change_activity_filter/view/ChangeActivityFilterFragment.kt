@@ -56,7 +56,7 @@ class ChangeActivityFilterFragment :
             createColorPaletteAdapterDelegate(viewModel::onColorPaletteClick),
         )
     }
-    private val typesAdapter: BaseRecyclerAdapter by lazy {
+    private val viewDataAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
             createRecordTypeAdapterDelegate(viewModel::onTypeClick),
             createCategoryAdapterDelegate(viewModel::onCategoryClick),
@@ -94,7 +94,7 @@ class ChangeActivityFilterFragment :
                 justifyContent = JustifyContent.CENTER
                 flexWrap = FlexWrap.WRAP
             }
-            adapter = typesAdapter
+            adapter = viewDataAdapter
         }
     }
 
@@ -117,7 +117,7 @@ class ChangeActivityFilterFragment :
             filterPreview.observe(::updatePreview)
             colors.observe(colorsAdapter::replace)
             filterTypeViewData.observe(buttonsChangeActivityFilterType.adapter::replace)
-            types.observe(typesAdapter::replace)
+            viewData.observe(viewDataAdapter::replace)
             flipColorChooser.observe { opened ->
                 rvChangeActivityFilterColor.visible = opened
                 fieldChangeActivityFilterColor.setChooserColor(opened)

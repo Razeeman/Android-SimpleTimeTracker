@@ -72,11 +72,11 @@ class ChangeActivityFilterViewModel @Inject constructor(
             initial
         }
     }
-    val types: LiveData<List<ViewHolderType>> by lazy {
+    val viewData: LiveData<List<ViewHolderType>> by lazy {
         return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
             viewModelScope.launch {
                 initializeSelectedTypes()
-                initial.value = loadTypesViewData()
+                initial.value = loadViewData()
             }
             initial
         }
@@ -89,7 +89,13 @@ class ChangeActivityFilterViewModel @Inject constructor(
     val keyboardVisibility: LiveData<Boolean> by lazy { MutableLiveData(filterId == 0L) }
 
     private val filterId: Long get() = (extra as? ChangeActivityFilterParams.Change)?.id.orZero()
-    private var newSelectedIds: MutableList<Long> = mutableListOf()
+    private val newSelectedIds: List<Long>
+        get() = when (newType) {
+            is ActivityFilter.Type.Activity -> newTypeIds
+            is ActivityFilter.Type.Category -> newCategoryIds
+        }
+    private var newTypeIds: MutableList<Long> = mutableListOf()
+    private var newCategoryIds: MutableList<Long> = mutableListOf()
     private var newType: ActivityFilter.Type = ActivityFilter.Type.Activity
     private var newName: String = ""
     private var newColor: AppColor = AppColor(colorId = (0..ColorMapper.colorsNumber).random(), colorInt = "")
@@ -157,31 +163,24 @@ class ChangeActivityFilterViewModel @Inject constructor(
         if (viewData !is ChangeActivityFilterTypeSwitchViewData) return
         viewModelScope.launch {
             newType = viewData.type
-            newSelectedIds.clear()
             updateTagTypeViewData()
-            updateTypesViewData()
+            updateViewData()
         }
     }
 
     fun onTypeClick(item: RecordTypeViewData) {
         viewModelScope.launch {
-            if (newType !is ActivityFilter.Type.Activity) {
-                newType = ActivityFilter.Type.Activity
-                newSelectedIds.clear()
-            }
-            newSelectedIds.addOrRemove(item.id)
-            updateTypesViewData()
+            newType = ActivityFilter.Type.Activity
+            newTypeIds.addOrRemove(item.id)
+            updateViewData()
         }
     }
 
     fun onCategoryClick(item: CategoryViewData) {
         viewModelScope.launch {
-            if (newType !is ActivityFilter.Type.Category) {
-                newType = ActivityFilter.Type.Category
-                newSelectedIds.clear()
-            }
-            newSelectedIds.addOrRemove(item.id)
-            updateTypesViewData()
+            newType = ActivityFilter.Type.Category
+            newCategoryIds.addOrRemove(item.id)
+            updateViewData()
         }
     }
 
@@ -233,7 +232,14 @@ class ChangeActivityFilterViewModel @Inject constructor(
     private suspend fun initializeSelectedTypes() {
         if (extra is ChangeActivityFilterParams.Change) {
             activityFilterInteractor.get(filterId)?.let {
-                newSelectedIds = it.selectedIds.toMutableList()
+                when (it.type) {
+                    is ActivityFilter.Type.Activity -> {
+                        newTypeIds = it.selectedIds.toMutableList()
+                    }
+                    is ActivityFilter.Type.Category -> {
+                        newCategoryIds = it.selectedIds.toMutableList()
+                    }
+                }
                 newType = it.type
             }
         }
@@ -272,12 +278,12 @@ class ChangeActivityFilterViewModel @Inject constructor(
         return changeActivityFilterMapper.mapToTypeSwitchViewData(newType)
     }
 
-    private fun updateTypesViewData() = viewModelScope.launch {
-        val data = loadTypesViewData()
-        (types as MutableLiveData).value = data
+    private fun updateViewData() = viewModelScope.launch {
+        val data = loadViewData()
+        (viewData as MutableLiveData).value = data
     }
 
-    private suspend fun loadTypesViewData(): List<ViewHolderType> {
+    private suspend fun loadViewData(): List<ViewHolderType> {
         return changeActivityFilterViewDataInteractor.getTypesViewData(newType, newSelectedIds)
     }
 
