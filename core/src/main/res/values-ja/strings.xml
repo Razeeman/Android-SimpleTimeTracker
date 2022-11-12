@@ -225,7 +225,9 @@
     <string name="settings_restore_description">現在のデータは失われます。</string>
     <string name="settings_dialog_message">バックアップを復元しますか？</string>
     <string name="settings_export_csv">スプレッドシートのエクスポート</string>
-    <string name="settings_export_csv_description">アクティビティ記録をcsvファイルとしてエクスポートし、お好みのスプレッドシートアプリケーションで表示することができます。\nこのファイルはバックアップとして使用できません。</string>
+    <string name="settings_export_csv_description">アクティビティ記録をcsvファイルとしてエクスポートし、お好みのスプレッドシートアプリケーションで表示することができます。</string>
+    <string name="settings_export_ics">ICS 輸出</string>
+    <string name="settings_export_warning">このファイルはバックアップとして使用できません。</string>
     <string name="settings_file_open_error">ファイルを開く際にエラーが発生しました</string>
     <string name="settings_file_create_error">ファイル作成時にエラーが発生しました</string>
 
@@ -234,8 +236,8 @@
     <string name="message_save_error">バックアップの保存エラー</string>
     <string name="message_restore_error">バックアップの復元に失敗</string>
     <string name="message_app_not_found">アプリケーションが見つかりません</string>
-    <string name="message_csv_export_complete">エクスポート完了</string>
-    <string name="message_csv_export_error">csvエクスポートエラー</string>
+    <string name="message_export_complete">エクスポート完了</string>
+    <string name="message_export_error">エクスポート エラー</string>
 
     <!--  Statistics detail  -->
     <string name="statistics_detail_chart_hourly">毎時</string>

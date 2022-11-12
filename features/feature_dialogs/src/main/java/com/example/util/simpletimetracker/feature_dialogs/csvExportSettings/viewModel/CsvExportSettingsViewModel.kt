@@ -9,7 +9,8 @@ import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.feature_dialogs.csvExportSettings.viewData.CsvExportSettingsViewData
 import com.example.util.simpletimetracker.navigation.Router
-import com.example.util.simpletimetracker.navigation.params.screen.CsvExportSettingsParams
+import com.example.util.simpletimetracker.navigation.params.screen.DataExportSettingDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.DataExportSettingsResult
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogType
 import kotlinx.coroutines.launch
@@ -22,6 +23,8 @@ class CsvExportSettingsViewModel @Inject constructor(
     private val timeMapper: TimeMapper,
 ) : ViewModel() {
 
+    lateinit var extra: DataExportSettingDialogParams
+
     val viewData: LiveData<CsvExportSettingsViewData> by lazy {
         return@lazy MutableLiveData<CsvExportSettingsViewData>().let { initial ->
             viewModelScope.launch {
@@ -31,7 +34,7 @@ class CsvExportSettingsViewModel @Inject constructor(
             initial
         }
     }
-    val csvExportSettingsParams: LiveData<CsvExportSettingsParams> = MutableLiveData()
+    val dataExportSettingsResult: LiveData<DataExportSettingsResult> = MutableLiveData()
 
     private var rangeStart: Long = 0
     private var rangeEnd: Long = 0
@@ -92,16 +95,23 @@ class CsvExportSettingsViewModel @Inject constructor(
     }
 
     fun onExportRangeClick() {
-        CsvExportSettingsParams(
-            range = CsvExportSettingsParams.Range(
+        onExport(
+            range = DataExportSettingsResult.Range(
                 rangeStart = rangeStart,
                 rangeEnd = rangeEnd
             )
-        ).let(csvExportSettingsParams::set)
+        )
     }
 
     fun onExportAllClick() {
-        CsvExportSettingsParams().let(csvExportSettingsParams::set)
+        onExport(range = null)
+    }
+
+    private fun onExport(range: DataExportSettingsResult.Range?) {
+        DataExportSettingsResult(
+            tag = extra.tag.orEmpty(),
+            range = range
+        ).let(dataExportSettingsResult::set)
     }
 
     private suspend fun updateViewData() {

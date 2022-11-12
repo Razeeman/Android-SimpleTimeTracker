@@ -7,15 +7,11 @@ import android.net.Uri
 import androidx.activity.ComponentActivity
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
+import com.example.util.simpletimetracker.navigation.params.action.ActionParams
 import com.example.util.simpletimetracker.navigation.params.action.CreateFileParams
+import com.example.util.simpletimetracker.navigation.params.action.OpenFileParams
 import com.example.util.simpletimetracker.navigation.params.action.OpenMarketParams
 import com.example.util.simpletimetracker.navigation.params.action.SendEmailParams
-import com.example.util.simpletimetracker.navigation.params.action.ActionParams
-import com.example.util.simpletimetracker.navigation.params.action.CreateCsvFileParams
-import com.example.util.simpletimetracker.navigation.params.action.OpenFileParams
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 import javax.inject.Inject
 
 class ActionResolverImpl @Inject constructor(
@@ -24,12 +20,10 @@ class ActionResolverImpl @Inject constructor(
 
     private var createFileResultLauncher: ActivityResultLauncher<Intent>? = null
     private var openFileResultLauncher: ActivityResultLauncher<Intent>? = null
-    private var createCsvFileResultLauncher: ActivityResultLauncher<Intent>? = null
 
     override fun registerResultListeners(activity: ComponentActivity) {
         createFileResultLauncher = activity.registerForActivityResult(RequestCode.REQUEST_CODE_CREATE_FILE)
         openFileResultLauncher = activity.registerForActivityResult(RequestCode.REQUEST_CODE_OPEN_FILE)
-        createCsvFileResultLauncher = activity.registerForActivityResult(RequestCode.REQUEST_CODE_CREATE_CSV_FILE)
     }
 
     override fun execute(activity: Activity?, data: ActionParams) {
@@ -38,7 +32,6 @@ class ActionResolverImpl @Inject constructor(
             is SendEmailParams -> sendEmail(activity, data)
             is CreateFileParams -> createFile(activity, data)
             is OpenFileParams -> openFile(activity, data)
-            is CreateCsvFileParams -> createCsvFile(activity, data)
         }
     }
 
@@ -75,22 +68,6 @@ class ActionResolverImpl @Inject constructor(
         }
     }
 
-    private fun createCsvFile(activity: Activity?, data: CreateCsvFileParams) {
-        val timeString = getFileNameTimeStamp()
-        val fileName = "stt_records_$timeString.csv"
-
-        val intent = Intent(Intent.ACTION_CREATE_DOCUMENT)
-            .addCategory(Intent.CATEGORY_OPENABLE)
-            .setType("text/csv")
-            .putExtra(Intent.EXTRA_TITLE, fileName)
-
-        if (activity.checkIfIntentResolves(intent)) {
-            createCsvFileResultLauncher?.launch(intent)
-        } else {
-            data.notHandledCallback()
-        }
-    }
-
     private fun openFile(activity: Activity?, data: OpenFileParams) {
         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
             .addCategory(Intent.CATEGORY_OPENABLE)
@@ -104,13 +81,10 @@ class ActionResolverImpl @Inject constructor(
     }
 
     private fun createFile(activity: Activity?, data: CreateFileParams) {
-        val timeString = getFileNameTimeStamp()
-        val fileName = "stt_$timeString.backup"
-
         val intent = Intent(Intent.ACTION_CREATE_DOCUMENT)
             .addCategory(Intent.CATEGORY_OPENABLE)
-            .setType("application/x-binary")
-            .putExtra(Intent.EXTRA_TITLE, fileName)
+            .setType(data.type)
+            .putExtra(Intent.EXTRA_TITLE, data.fileName)
 
         if (activity.checkIfIntentResolves(intent)) {
             createFileResultLauncher?.launch(intent)
@@ -126,10 +100,6 @@ class ActionResolverImpl @Inject constructor(
 
             resultContainer.sendResult(key, uri)
         }
-    }
-
-    private fun getFileNameTimeStamp(): String {
-        return SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
     }
 
     private fun Activity?.checkIfIntentResolves(intent: Intent): Boolean {

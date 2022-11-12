@@ -225,7 +225,9 @@
     <string name="settings_restore_description">Текущие данные будут потеряны.</string>
     <string name="settings_dialog_message">Восстановить из резервной копии?</string>
     <string name="settings_export_csv">Экспорт таблицы</string>
-    <string name="settings_export_csv_description">Экспортируйте записи в виде файла CSV для просмотра в предпочтительном приложении для работы с электронными таблицами.\nЭтот файл не может быть использован в качестве резервной копии.</string>
+    <string name="settings_export_csv_description">Экспортируйте записи в виде файла CSV для просмотра в предпочтительном приложении для работы с электронными таблицами.</string>
+    <string name="settings_export_ics">ICS экспорт</string>
+    <string name="settings_export_warning">Этот файл не может быть использован в качестве резервной копии.</string>
     <string name="settings_file_open_error">Ошибка при открытии файла</string>
     <string name="settings_file_create_error">Ошибка при создании файла</string>
 
@@ -234,8 +236,8 @@
     <string name="message_save_error">Ошибка при сохранении резервной копии</string>
     <string name="message_restore_error">Ошибка восстановления резервной копии</string>
     <string name="message_app_not_found">Приложение не найдено</string>
-    <string name="message_csv_export_complete">Экспорт завершен</string>
-    <string name="message_csv_export_error">Ошибка экспорта CSV</string>
+    <string name="message_export_complete">Экспорт завершен</string>
+    <string name="message_export_error">Ошибка экспорта</string>
 
     <!--  Statistics detail  -->
     <string name="statistics_detail_chart_hourly">час</string>

@@ -2,9 +2,9 @@ package com.example.util.simpletimetracker.domain.resolver
 
 import com.example.util.simpletimetracker.domain.model.Range
 
-interface CsvRepo {
+interface IcsRepo {
 
-    suspend fun saveCsvFile(
+    suspend fun saveIcsFile(
         uriString: String,
         range: Range?,
     ): ResultCode

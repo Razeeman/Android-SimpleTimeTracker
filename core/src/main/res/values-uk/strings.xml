@@ -225,7 +225,9 @@
     <string name="settings_restore_description">Поточні дані будуть втрачені.</string>
     <string name="settings_dialog_message">Відновити резервну копію?</string>
     <string name="settings_export_csv">Експорт електронних таблиць</string>
-    <string name="settings_export_csv_description">Експортуйте записи діяльності як файл CSV для перегляду у бажаній програмі для перегляду електронних таблиць.\nЦей файл не можна використовувати як резервну копію.</string>
+    <string name="settings_export_csv_description">Експортуйте записи діяльності як файл CSV для перегляду у бажаній програмі для перегляду електронних таблиць.</string>
+    <string name="settings_export_ics">ICS експорт</string>
+    <string name="settings_export_warning">Цей файл не можна використовувати як резервну копію.</string>
     <string name="settings_file_open_error">Помилка відкриття файлу</string>
     <string name="settings_file_create_error">Помилка створення файлу</string>
 
@@ -234,8 +236,8 @@
     <string name="message_save_error">Помилка збереження резервної копії</string>
     <string name="message_restore_error">Помилка відновлення резервної копії</string>
     <string name="message_app_not_found">Додаток не знайдено</string>
-    <string name="message_csv_export_complete">Експорт завершено</string>
-    <string name="message_csv_export_error">Помилка експорту CSV</string>
+    <string name="message_export_complete">Експорт завершено</string>
+    <string name="message_export_error">Помилка експорту</string>
 
     <!--  Statistics detail  -->
     <string name="statistics_detail_chart_hourly">година</string>

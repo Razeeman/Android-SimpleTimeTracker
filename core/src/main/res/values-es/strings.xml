@@ -226,6 +226,8 @@ Parámetros opcionales para iniciar la actividad:<br/>
     <string name="settings_dialog_message">¿Desea restaurar la copia de seguridad?</string>
     <string name="settings_export_csv">Exportar hoja de cálculo</string>
     <string name="settings_export_csv_description">Exportar registros como un archivo csv para visualizar los datos en su programa de hojas de cálculo preferido.\nEste archivo no se puede utilizar como copia de seguridad.</string>
+    <string name="settings_export_ics">Exportación ICS</string>
+    <string name="settings_export_warning">Este archivo no se puede utilizar como copia de seguridad.</string>
     <string name="settings_file_open_error">Error abriendo el archivo</string>
     <string name="settings_file_create_error">Error creándo el archivo</string>
 
@@ -234,8 +236,8 @@ Parámetros opcionales para iniciar la actividad:<br/>
     <string name="message_save_error">Error gurdando copida de seguirdad</string>
     <string name="message_restore_error">Error restaurando copia de seguridad</string>
     <string name="message_app_not_found">No se encontró la apliación</string>
-    <string name="message_csv_export_complete">Exportación completada</string>
-    <string name="message_csv_export_error">Error exportando csv</string>
+    <string name="message_export_complete">Exportación completada</string>
+    <string name="message_export_error">Error de exportación</string>
 
     <!--  Statistics detail  -->
     <string name="statistics_detail_chart_hourly">hora</string>

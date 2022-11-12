@@ -20,6 +20,7 @@ import com.example.util.simpletimetracker.domain.repo.RecordToRecordTagRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeCategoryRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeRepo
 import com.example.util.simpletimetracker.domain.resolver.BackupRepo
+import com.example.util.simpletimetracker.domain.resolver.ResultCode
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -47,7 +48,7 @@ class BackupRepoImpl @Inject constructor(
     private val activityFilterRepo: ActivityFilterRepo,
 ) : BackupRepo {
 
-    override suspend fun saveBackupFile(uriString: String): BackupRepo.ResultCode =
+    override suspend fun saveBackupFile(uriString: String): ResultCode =
         withContext(Dispatchers.IO) {
             var fileDescriptor: ParcelFileDescriptor? = null
             var fileOutputStream: FileOutputStream? = null
@@ -100,10 +101,10 @@ class BackupRepoImpl @Inject constructor(
 
                 fileOutputStream?.close()
                 fileDescriptor?.close()
-                BackupRepo.ResultCode.SUCCESS
+                ResultCode.SUCCESS
             } catch (e: Exception) {
                 Timber.e(e)
-                BackupRepo.ResultCode.ERROR
+                ResultCode.ERROR
             } finally {
                 try {
                     fileOutputStream?.close()
@@ -114,7 +115,7 @@ class BackupRepoImpl @Inject constructor(
             }
         }
 
-    override suspend fun restoreBackupFile(uriString: String): BackupRepo.ResultCode =
+    override suspend fun restoreBackupFile(uriString: String): ResultCode =
         withContext(Dispatchers.IO) {
             var inputStream: InputStream? = null
             var reader: BufferedReader? = null
@@ -129,7 +130,7 @@ class BackupRepoImpl @Inject constructor(
 
                 // Check file identification
                 line = reader?.readLine().orEmpty()
-                if (line != BACKUP_IDENTIFICATION) return@withContext BackupRepo.ResultCode.ERROR
+                if (line != BACKUP_IDENTIFICATION) return@withContext ResultCode.ERROR
 
                 recordTypeRepo.clear()
                 recordRepo.clear()
@@ -183,10 +184,10 @@ class BackupRepoImpl @Inject constructor(
                         }
                     }
                 }
-                BackupRepo.ResultCode.SUCCESS
+                ResultCode.SUCCESS
             } catch (e: Exception) {
                 Timber.e(e)
-                BackupRepo.ResultCode.ERROR
+                ResultCode.ERROR
             } finally {
                 try {
                     inputStream?.close()

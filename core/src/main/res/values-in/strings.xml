@@ -225,7 +225,9 @@ Parameter opsional untuk memulai aktivitas:<br/>
     <string name="settings_restore_description">Data saat ini akan lenyap.</string>
     <string name="settings_dialog_message">Pulihkan cadangan?</string>
     <string name="settings_export_csv">Ekspor lembar kerja</string>
-    <string name="settings_export_csv_description">Ekspor rekor-rekor kegiatan sebagai sebuah berkas csv untuk melihatnya dalam aplikasi spreadsheet yang diinginkan.\nFile ini tidak dapat digunakan sebagai cadangan.</string>
+    <string name="settings_export_csv_description">Ekspor rekor-rekor kegiatan sebagai sebuah berkas csv untuk melihatnya dalam aplikasi spreadsheet yang diinginkan.</string>
+    <string name="settings_export_ics">Ekspor ICS</string>
+    <string name="settings_export_warning">File ini tidak dapat digunakan sebagai cadangan.</string>
     <string name="settings_file_open_error">Galat membuka berkas</string>
     <string name="settings_file_create_error">Galat menciptakan berkas</string>
 
@@ -234,8 +236,8 @@ Parameter opsional untuk memulai aktivitas:<br/>
     <string name="message_save_error">Galat menyimpan cadangan</string>
     <string name="message_restore_error">Galat memulihkan cadangan</string>
     <string name="message_app_not_found">Aplikasi tidak ditemukan</string>
-    <string name="message_csv_export_complete">Ekspor selesai</string>
-    <string name="message_csv_export_error">Galat mengekspor csv</string>
+    <string name="message_export_complete">Ekspor selesai</string>
+    <string name="message_export_error">Kesalahan ekspor</string>
 
     <!--  Statistics detail  -->
     <string name="statistics_detail_chart_hourly">jam</string>

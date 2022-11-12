@@ -225,7 +225,9 @@ Parametri facoltativi per l\'avvio dell\'attività:<br/>
     <string name="settings_restore_description">I dati attuali verrano persi.</string>
     <string name="settings_dialog_message">Ripristina backup?</string>
     <string name="settings_export_csv">Esporta foglio di calcolo</string>
-    <string name="settings_export_csv_description">Esporta le registrazioni dell\'attività come file csv da visualizzare con l\'applicazione predefinita per i fogli di calcolo.\nQuesto file non può essere utilizzato come backup.</string>
+    <string name="settings_export_csv_description">Esporta le registrazioni dell\'attività come file csv da visualizzare con l\'applicazione predefinita per i fogli di calcolo.</string>
+    <string name="settings_export_ics">Esportazione ICS</string>
+    <string name="settings_export_warning">Questo file non può essere utilizzato come backup.</string>
     <string name="settings_file_open_error">Errore nell\'apertura del file</string>
     <string name="settings_file_create_error">Errore nella creazione del file</string>
 
@@ -234,8 +236,8 @@ Parametri facoltativi per l\'avvio dell\'attività:<br/>
     <string name="message_save_error">Errore durante il salvataggio del backup</string>
     <string name="message_restore_error">Errore durante il ripristino del backup</string>
     <string name="message_app_not_found">Applicazione non trovata</string>
-    <string name="message_csv_export_complete">Esportazione completata</string>
-    <string name="message_csv_export_error">Errore durante l\'esportazione del csv</string>
+    <string name="message_export_complete">Esportazione completata</string>
+    <string name="message_export_error">Errore di esportazione</string>
 
     <!--  Statistics detail  -->
     <string name="statistics_detail_chart_hourly">orario</string>

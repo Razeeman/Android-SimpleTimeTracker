@@ -225,7 +225,9 @@ Paramètres facultatifs pour le démarrage de l\'activité:<br/>
     <string name="settings_restore_description">Les données actuelles seront perdues.</string>
     <string name="settings_dialog_message">Restaurer la sauvegarde ?</string>
     <string name="settings_export_csv">Exporter dans une feuille de calcul</string>
-    <string name="settings_export_csv_description">Exportez les enregistrements d\'activité sous la forme de fichier CSV pour les afficher dans le tableur de votre choix.\nCe fichier ne peut pas être utilisé comme sauvegarde.</string>
+    <string name="settings_export_csv_description">Exportez les enregistrements d\'activité sous la forme de fichier CSV pour les afficher dans le tableur de votre choix.</string>
+    <string name="settings_export_ics">Exportation ICS</string>
+    <string name="settings_export_warning">Ce fichier ne peut pas être utilisé comme sauvegarde.</string>
     <string name="settings_file_open_error">Erreur lors de l\'ouverture du fichier</string>
     <string name="settings_file_create_error">Erreur lors de la création du fichier</string>
 
@@ -234,8 +236,8 @@ Paramètres facultatifs pour le démarrage de l\'activité:<br/>
     <string name="message_save_error">Erreur lors de la sauvegarde</string>
     <string name="message_restore_error">Erreur lors de la restauration</string>
     <string name="message_app_not_found">Application non trouvée</string>
-    <string name="message_csv_export_complete">Exportation en CSV terminée</string>
-    <string name="message_csv_export_error">Erreur lors de l\'exportation en CSV</string>
+    <string name="message_export_complete">Exportation terminée</string>
+    <string name="message_export_error">Erreur d\'exportation</string>
 
     <!--  Statistics detail  -->
     <string name="statistics_detail_chart_hourly">toutes les heures</string>

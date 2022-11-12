@@ -225,7 +225,9 @@ Valfria parametrar för att starta aktivitet:<br/>
     <string name="settings_restore_description">Nuvarande data kommer tas bort.</string>
     <string name="settings_dialog_message">Återställa säkerhetskopia?</string>
     <string name="settings_export_csv">Exportera kalkyblad</string>
-    <string name="settings_export_csv_description">Exportera händelser som en csv-fil för att öppna med kalkylbladsprogram.\nDen här filen kan inte användas som säkerhetskopia.</string>
+    <string name="settings_export_csv_description">Exportera händelser som en csv-fil för att öppna med kalkylbladsprogram.</string>
+    <string name="settings_export_ics">ICS export</string>
+    <string name="settings_export_warning">Den här filen kan inte användas som säkerhetskopia.</string>
     <string name="settings_file_open_error">Fel vid öppnandet av fil</string>
     <string name="settings_file_create_error">Fel vid skapandet av fil</string>
 
@@ -234,8 +236,8 @@ Valfria parametrar för att starta aktivitet:<br/>
     <string name="message_save_error">Fel vid sparandet av säkerhetskopia</string>
     <string name="message_restore_error">Fel vid återställande av säkerhetskopia</string>
     <string name="message_app_not_found">Applikation ej hittad</string>
-    <string name="message_csv_export_complete">Export slutförd</string>
-    <string name="message_csv_export_error">Fel vid exportering till csv</string>
+    <string name="message_export_complete">Export slutförd</string>
+    <string name="message_export_error">Exportfel</string>
 
     <!--  Statistics detail  -->
     <string name="statistics_detail_chart_hourly">timvis</string>

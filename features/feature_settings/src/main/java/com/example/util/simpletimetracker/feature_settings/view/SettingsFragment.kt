@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
-import com.example.util.simpletimetracker.core.dialog.CsvExportSettingsDialogListener
+import com.example.util.simpletimetracker.core.dialog.DataExportSettingsDialogListener
 import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
 import com.example.util.simpletimetracker.core.dialog.DurationDialogListener
 import com.example.util.simpletimetracker.core.dialog.StandardDialogListener
@@ -20,7 +20,7 @@ import com.example.util.simpletimetracker.feature_views.extension.rotateDown
 import com.example.util.simpletimetracker.feature_views.extension.rotateUp
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.feature_views.extension.visible
-import com.example.util.simpletimetracker.navigation.params.screen.CsvExportSettingsParams
+import com.example.util.simpletimetracker.navigation.params.screen.DataExportSettingsResult
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import com.example.util.simpletimetracker.feature_settings.databinding.SettingsFragmentBinding as Binding
@@ -31,7 +31,7 @@ class SettingsFragment :
     StandardDialogListener,
     DurationDialogListener,
     DateTimeDialogListener,
-    CsvExportSettingsDialogListener {
+    DataExportSettingsDialogListener {
 
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
         Binding::inflate
@@ -99,6 +99,7 @@ class SettingsFragment :
             layoutSettingsSaveBackup.setOnClick(backupViewModel::onSaveClick)
             layoutSettingsRestoreBackup.setOnClick(backupViewModel::onRestoreClick)
             layoutSettingsExportCsv.setOnClick(viewModel::onExportCsvClick)
+            layoutSettingsExportIcs.setOnClick(viewModel::onExportIcsClick)
         }
     }
 
@@ -186,8 +187,8 @@ class SettingsFragment :
         viewModel.onDateTimeSet(timestamp, tag)
     }
 
-    override fun onCsvExportSettingsSelected(data: CsvExportSettingsParams) {
-        backupViewModel.onCsvExportSettingsSelected(data)
+    override fun onDataExportSettingsSelected(data: DataExportSettingsResult) {
+        backupViewModel.onDataExportSettingsSelected(data)
     }
 
     private fun updateCardOrderViewData(

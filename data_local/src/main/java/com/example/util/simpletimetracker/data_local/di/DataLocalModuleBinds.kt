@@ -12,6 +12,7 @@ import com.example.util.simpletimetracker.data_local.repo.RunningRecordRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.RunningRecordToRecordTagRepoImpl
 import com.example.util.simpletimetracker.data_local.resolver.BackupRepoImpl
 import com.example.util.simpletimetracker.data_local.resolver.CsvRepoImpl
+import com.example.util.simpletimetracker.data_local.resolver.IcsRepoImpl
 import com.example.util.simpletimetracker.domain.repo.ActivityFilterRepo
 import com.example.util.simpletimetracker.domain.repo.CategoryRepo
 import com.example.util.simpletimetracker.domain.repo.PrefsRepo
@@ -24,6 +25,7 @@ import com.example.util.simpletimetracker.domain.repo.RunningRecordRepo
 import com.example.util.simpletimetracker.domain.repo.RunningRecordToRecordTagRepo
 import com.example.util.simpletimetracker.domain.resolver.BackupRepo
 import com.example.util.simpletimetracker.domain.resolver.CsvRepo
+import com.example.util.simpletimetracker.domain.resolver.IcsRepo
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -57,6 +59,10 @@ interface DataLocalModuleBinds {
     @Binds
     @Singleton
     fun CsvRepoImpl.bindCsvRepo(): CsvRepo
+
+    @Binds
+    @Singleton
+    fun IcsRepoImpl.bindIcsRepo(): IcsRepo
 
     @Binds
     @Singleton

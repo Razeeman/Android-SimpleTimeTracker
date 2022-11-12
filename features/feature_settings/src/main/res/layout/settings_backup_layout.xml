@@ -59,7 +59,8 @@
                 style="@style/SettingsSecondaryText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/settings_restore_description" />
+                android:text="@string/settings_restore_description"
+                android:textColor="@color/colorSecondary" />
 
         </LinearLayout>
 
@@ -87,7 +88,44 @@
                 style="@style/SettingsSecondaryText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingBottom="0dp"
                 android:text="@string/settings_export_csv_description" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/SettingsSecondaryText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_export_warning"
+                android:textColor="@color/colorSecondary" />
+
+        </LinearLayout>
+
+        <View
+            style="@style/SettingsDivider"
+            android:layout_width="match_parent" />
+
+        <LinearLayout
+            android:id="@+id/layoutSettingsExportIcs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/SettingsText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="0dp"
+                android:text="@string/settings_export_ics" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/SettingsSecondaryText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_export_warning"
+                android:textColor="@color/colorSecondary" />
 
         </LinearLayout>
 

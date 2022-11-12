@@ -225,7 +225,9 @@ Optionele parameters voor het starten van activiteit:<br/>
     <string name="settings_restore_description">De huidige gegevens gaan verloren.</string>
     <string name="settings_dialog_message">Back-up terugzetten?</string>
     <string name="settings_export_csv">Spreadsheet exporteren</string>
-    <string name="settings_export_csv_description">Exporteer activiteitenrecords als een csv-bestand om ze te bekijken in een voorkeurspreadsheet-applicatie.\nDit bestand kan niet als back-up worden gebruikt.</string>
+    <string name="settings_export_csv_description">Exporteer activiteitenrecords als een csv-bestand om ze te bekijken in een voorkeurspreadsheet-applicatie.</string>
+    <string name="settings_export_ics">ICS-export</string>
+    <string name="settings_export_warning">Dit bestand kan niet als back-up worden gebruikt.</string>
     <string name="settings_file_open_error">Fout bij openen bestand</string>
     <string name="settings_file_create_error">Fout bij aanmaken bestand</string>
 
@@ -234,8 +236,8 @@ Optionele parameters voor het starten van activiteit:<br/>
     <string name="message_save_error">Fout bij opslaan van back-up</string>
     <string name="message_restore_error">Fout bij terugzetten van back-up</string>
     <string name="message_app_not_found">Applicatie niet gevonden</string>
-    <string name="message_csv_export_complete">Export voltooid</string>
-    <string name="message_csv_export_error">Fout bij het exporteren van csv</string>
+    <string name="message_export_complete">Export voltooid</string>
+    <string name="message_export_error">Exportfout</string>
 
     <!--  Statistics detail  -->
     <string name="statistics_detail_chart_hourly">elk uur</string>

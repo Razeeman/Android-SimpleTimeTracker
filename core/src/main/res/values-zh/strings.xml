@@ -225,7 +225,9 @@
     <string name="settings_restore_description">当前数据将丢失。</string>
     <string name="settings_dialog_message">恢复备份？</string>
     <string name="settings_export_csv">导出为电子表格</string>
-    <string name="settings_export_csv_description">将活动记录导出为csv文件以在电子表格应用程序中查看。\n此文件不能用作备份。</string>
+    <string name="settings_export_csv_description">将活动记录导出为csv文件以在电子表格应用程序中查看。</string>
+    <string name="settings_export_ics">ICS 出口</string>
+    <string name="settings_export_warning">此文件不能用作备份。</string>
     <string name="settings_file_open_error">打开文件时出错</string>
     <string name="settings_file_create_error">创建文件时出错</string>
 
@@ -234,8 +236,8 @@
     <string name="message_save_error">保存备份时出错</string>
     <string name="message_restore_error">还原备份时出错</string>
     <string name="message_app_not_found">找不到应用程序</string>
-    <string name="message_csv_export_complete">导出已完成</string>
-    <string name="message_csv_export_error">导出csv时出错</string>
+    <string name="message_export_complete">导出已完成</string>
+    <string name="message_export_error">导出错误</string>
 
     <!--  Statistics detail  -->
     <string name="statistics_detail_chart_hourly">每小时</string>

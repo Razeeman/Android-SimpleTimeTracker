@@ -225,7 +225,9 @@ Parâmetros opcionais para iniciar a atividade:<br/>
     <string name="settings_restore_description">Os dados atuais serão perdidos.</string>
     <string name="settings_dialog_message">Restaurar backup?</string>
     <string name="settings_export_csv">Exportação de planilha</string>
-    <string name="settings_export_csv_description">Exporte registros de atividades como um arquivo csv para visualizar no aplicativo de planilhas de sua preferência.\nEste arquivo não pode ser usado como backup.</string>
+    <string name="settings_export_csv_description">Exporte registros de atividades como um arquivo csv para visualizar no aplicativo de planilhas de sua preferência.</string>
+    <string name="settings_export_ics">Exportação de ICS</string>
+    <string name="settings_export_warning">Este arquivo não pode ser usado como backup.</string>
     <string name="settings_file_open_error">Erro ao abrir o arquivo</string>
     <string name="settings_file_create_error">Erro ao criar o arquivo</string>
 
@@ -234,8 +236,8 @@ Parâmetros opcionais para iniciar a atividade:<br/>
     <string name="message_save_error">Erro ao salvar o backup</string>
     <string name="message_restore_error">Erro ao restaurar o backup</string>
     <string name="message_app_not_found">Aplicação não encontrada</string>
-    <string name="message_csv_export_complete">Exportação concluída</string>
-    <string name="message_csv_export_error">Erro ao exportar csv</string>
+    <string name="message_export_complete">Exportação concluída</string>
+    <string name="message_export_error">Erro de exportação</string>
 
     <!--  Statistics detail  -->
     <string name="statistics_detail_chart_hourly">por hora</string>

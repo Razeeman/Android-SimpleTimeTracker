@@ -4,7 +4,13 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class CsvExportSettingsParams(
+data class DataExportSettingDialogParams(
+    val tag: String? = null,
+) : ScreenParams, Parcelable
+
+@Parcelize
+data class DataExportSettingsResult(
+    val tag: String,
     val range: Range? = null,
 ) : Parcelable {
 

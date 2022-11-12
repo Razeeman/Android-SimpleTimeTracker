@@ -4,6 +4,7 @@ import com.example.util.simpletimetracker.R
 import com.example.util.simpletimetracker.feature_dialogs.archive.view.ArchiveDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.cardOrder.view.CardOrderDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.colorSelection.view.ColorSelectionDialogFragment
+import com.example.util.simpletimetracker.feature_dialogs.csvExportSettings.view.CsvExportSettingsDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.customRangeSelection.view.CustomRangeSelectionDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.dateTime.DateTimeDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.duration.view.DurationDialogFragment
@@ -20,7 +21,7 @@ import com.example.util.simpletimetracker.navigation.params.screen.CardOrderDial
 import com.example.util.simpletimetracker.navigation.params.screen.CardSizeDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChartFilterDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.ColorSelectionDialogParams
-import com.example.util.simpletimetracker.navigation.params.screen.CsvExportSettingDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.DataExportSettingDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.CustomRangeSelectionParams
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DurationDialogParams
@@ -161,11 +162,11 @@ class NavigationDialogMapModule {
 
     @IntoMap
     @Provides
-    @ScreenKey(CsvExportSettingDialogParams::class)
+    @ScreenKey(DataExportSettingDialogParams::class)
     fun csvExportSettingsDialog(): NavigationData {
         return NavigationData(
             R.id.csvExportSettingsDialogFragment,
-            BundleCreator.empty()
+            bundleCreatorDelegate(CsvExportSettingsDialogFragment::createBundle)
         )
     }
 
