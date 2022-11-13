@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayout
 
+@Deprecated("replace with isVisible")
 var View.visible: Boolean
     set(value) {
         visibility = if (value) View.VISIBLE else View.GONE

@@ -1,7 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/rvArchiveList"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:listitem="@layout/item_record_type_layout" />
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvArchiveTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginTop="12dp"
+        android:gravity="center"
+        android:paddingHorizontal="16dp"
+        android:text="@string/settings_archive"
+        android:textColor="?appTextPrimaryColor"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.example.util.simpletimetracker.feature_views.DividerView
+        android:id="@+id/dividerArchive"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tvArchiveTitle" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvArchiveList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dividerArchive"
+        tools:listitem="@layout/item_record_type_layout" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

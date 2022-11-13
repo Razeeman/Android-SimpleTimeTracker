@@ -25,9 +25,8 @@ class CategoriesViewDataInteractor @Inject constructor(
         val typeTags = async { getRecordTypeTagViewData() }
         val recordTags = async { getRecordTagViewData() }
 
-        listOf(DividerViewData(1)) +
-            typeTags.await() +
-            DividerViewData(2) +
+        typeTags.await() +
+            DividerViewData(1) +
             recordTags.await()
     }
 

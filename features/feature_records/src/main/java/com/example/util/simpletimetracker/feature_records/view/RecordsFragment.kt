@@ -1,27 +1,27 @@
 package com.example.util.simpletimetracker.feature_records.view
 
+import com.example.util.simpletimetracker.feature_records.databinding.RecordsFragmentBinding as Binding
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.util.simpletimetracker.core.base.BaseFragment
+import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
+import com.example.util.simpletimetracker.core.sharedViewModel.RemoveRecordViewModel
+import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.hint.createHintAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.record.createRecordAdapterDelegate
-import com.example.util.simpletimetracker.core.base.BaseFragment
-import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
-import com.example.util.simpletimetracker.core.sharedViewModel.RemoveRecordViewModel
-import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_records.extra.RecordsExtra
 import com.example.util.simpletimetracker.feature_records.viewModel.RecordsViewModel
-import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsParams
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-import com.example.util.simpletimetracker.feature_records.databinding.RecordsFragmentBinding as Binding
 
 @AndroidEntryPoint
 class RecordsFragment : BaseFragment<Binding>() {
@@ -93,8 +93,8 @@ class RecordsFragment : BaseFragment<Binding>() {
     }
 
     private fun switchState(isCalendarView: Boolean) = with(binding) {
-        groupRecordsList.visible = !isCalendarView
-        groupRecordsCalendar.visible = isCalendarView
+        groupRecordsList.isVisible = !isCalendarView
+        groupRecordsCalendar.isVisible = isCalendarView
     }
 
     companion object {

@@ -27,19 +27,13 @@
         android:textStyle="bold"
         tools:text="Help title" />
 
-    <View
+    <com.example.util.simpletimetracker.feature_views.DividerView
         android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="8dp"
-        android:background="?appDividerColor" />
+        android:layout_height="wrap_content" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:paddingVertical="12dp"
         android:scrollbars="vertical">
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -47,6 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingHorizontal="16dp"
+            android:paddingVertical="12dp"
             android:textColor="?appTextPrimaryColor"
             android:textSize="16sp"
             tools:text="Help text" />

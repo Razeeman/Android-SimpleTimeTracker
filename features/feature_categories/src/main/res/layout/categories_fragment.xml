@@ -19,13 +19,30 @@
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvCategoriesHint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        android:gravity="center"
+        android:text="Hint text"
+        android:textColor="?appTextHintColor"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/tvCategoriesTitle"
+        tools:visibility="visible" />
+
+    <com.example.util.simpletimetracker.feature_views.DividerView
+        android:id="@+id/dividerCategories"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tvCategoriesHint" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvCategoriesList"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvCategoriesTitle"
+        app:layout_constraintTop_toBottomOf="@id/dividerCategories"
         tools:listitem="@layout/item_category_layout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
