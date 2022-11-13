@@ -62,6 +62,7 @@
 
     <!--  Categories  -->
     <string name="categories_title">Kategorier och taggar</string>
+    <string name="categories_edit_hint">Klicka på kortet för att redigera</string>
     <string name="categories_record_type_hint">Ge flera aktiviteter samma kategori för att se gruppstatistik</string>
     <string name="categories_record_hint">Ge händelser olika taggar för att skilja dem åt</string>
     <string name="categories_add_category">Lägg till kategori</string>
@@ -290,6 +291,7 @@ Valfria parametrar för att starta aktivitet:<br/>
     <string name="notification_record_type_goal_time">tidsmål %s</string>
 
     <!--  Archive  -->
+    <string name="archive_hint">Klicka på kortet för att se detaljer</string>
     <string name="archive_dialog_delete">Ta bort</string>
     <string name="archive_dialog_restore">Återställ</string>
     <string name="archive_empty">Arkiv tomt</string>

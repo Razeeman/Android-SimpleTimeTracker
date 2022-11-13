@@ -22,6 +22,7 @@ import com.google.android.flexbox.JustifyContent
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import com.example.util.simpletimetracker.feature_archive.databinding.ArchiveFragmentBinding as Binding
+import androidx.core.view.isVisible
 
 @AndroidEntryPoint
 class ArchiveFragment :
@@ -61,7 +62,10 @@ class ArchiveFragment :
     }
 
     override fun initViewModel(): Unit = with(viewModel) {
-        viewData.observe(archiveAdapter::replace)
+        viewData.observe {
+            archiveAdapter.replace(it.items)
+            binding.tvArchiveHint.isVisible = it.showHint
+        }
     }
 
     override fun onDeleteClick(params: ArchiveDialogParams?) =

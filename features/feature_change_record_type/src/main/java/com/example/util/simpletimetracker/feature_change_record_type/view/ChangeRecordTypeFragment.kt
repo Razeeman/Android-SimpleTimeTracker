@@ -1,8 +1,10 @@
 package com.example.util.simpletimetracker.feature_change_record_type.view
 
+import com.example.util.simpletimetracker.feature_change_record_type.databinding.ChangeRecordTypeFragmentBinding as Binding
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
@@ -22,6 +24,7 @@ import com.example.util.simpletimetracker.core.utils.setChooserColor
 import com.example.util.simpletimetracker.domain.model.IconEmojiType
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_base_adapter.category.createCategoryAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.category.createCategoryAddAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.color.createColorAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.color.createColorPaletteAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.divider.createDividerAdapterDelegate
@@ -31,7 +34,6 @@ import com.example.util.simpletimetracker.feature_base_adapter.hint.createHintAd
 import com.example.util.simpletimetracker.feature_base_adapter.info.createInfoAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_change_record_type.R
-import com.example.util.simpletimetracker.feature_base_adapter.category.createCategoryAddAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record_type.adapter.createChangeRecordTypeIconAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record_type.adapter.createChangeRecordTypeIconCategoryAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record_type.adapter.createChangeRecordTypeIconCategoryInfoAdapterDelegate
@@ -45,7 +47,6 @@ import com.example.util.simpletimetracker.feature_views.extension.rotateUp
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.feature_views.extension.setSpanSizeLookup
 import com.example.util.simpletimetracker.feature_views.extension.updatePadding
-import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTypeParams
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
@@ -54,7 +55,6 @@ import com.google.android.flexbox.JustifyContent
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlin.math.max
-import com.example.util.simpletimetracker.feature_change_record_type.databinding.ChangeRecordTypeFragmentBinding as Binding
 
 @AndroidEntryPoint
 class ChangeRecordTypeFragment :
@@ -173,7 +173,7 @@ class ChangeRecordTypeFragment :
     override fun initViewModel(): Unit = with(binding) {
         with(viewModel) {
             extra = params
-            deleteIconVisibility.observeOnce(viewLifecycleOwner, btnChangeRecordTypeDelete::visible::set)
+            deleteIconVisibility.observeOnce(viewLifecycleOwner, btnChangeRecordTypeDelete::isVisible::set)
             saveButtonEnabled.observe(btnChangeRecordTypeSave::setEnabled)
             deleteButtonEnabled.observe(btnChangeRecordTypeDelete::setEnabled)
             recordType.observeOnce(viewLifecycleOwner, ::updateUi)
@@ -185,21 +185,21 @@ class ChangeRecordTypeFragment :
             categories.observe(categoriesAdapter::replace)
             goalTimeViewData.observe(tvChangeRecordTypeGoalTimeTime::setText)
             flipColorChooser.observe { opened ->
-                rvChangeRecordTypeColor.visible = opened
+                rvChangeRecordTypeColor.isVisible = opened
                 fieldChangeRecordTypeColor.setChooserColor(opened)
                 arrowChangeRecordTypeColor.apply {
                     if (opened) rotateDown() else rotateUp()
                 }
             }
             flipIconChooser.observe { opened ->
-                containerChangeRecordTypeIcon.visible = opened
+                containerChangeRecordTypeIcon.isVisible = opened
                 fieldChangeRecordTypeIcon.setChooserColor(opened)
                 arrowChangeRecordTypeIcon.apply {
                     if (opened) rotateDown() else rotateUp()
                 }
             }
             flipCategoryChooser.observe { opened ->
-                rvChangeRecordTypeCategories.visible = opened
+                rvChangeRecordTypeCategories.isVisible = opened
                 fieldChangeRecordTypeCategory.setChooserColor(opened)
                 arrowChangeRecordTypeCategory.apply {
                     if (opened) rotateDown() else rotateUp()

@@ -1,8 +1,5 @@
 package com.example.util.simpletimetracker.feature_archive.interactor
 
-import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
-import com.example.util.simpletimetracker.feature_base_adapter.divider.DividerViewData
-import com.example.util.simpletimetracker.feature_base_adapter.hint.HintViewData
 import com.example.util.simpletimetracker.core.mapper.CategoryViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
@@ -10,6 +7,10 @@ import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.feature_archive.R
+import com.example.util.simpletimetracker.feature_archive.viewData.ArchiveViewData
+import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_base_adapter.divider.DividerViewData
+import com.example.util.simpletimetracker.feature_base_adapter.hint.HintViewData
 import javax.inject.Inject
 
 class ArchiveViewDataInteractor @Inject constructor(
@@ -20,15 +21,15 @@ class ArchiveViewDataInteractor @Inject constructor(
     private val recordTagInteractor: RecordTagInteractor,
     // mappers
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
-    private val categoryViewDataMapper: CategoryViewDataMapper
+    private val categoryViewDataMapper: CategoryViewDataMapper,
 ) {
 
-    suspend fun getViewData(): List<ViewHolderType> {
+    suspend fun getViewData(): ArchiveViewData {
         val result: MutableList<ViewHolderType> = mutableListOf()
         val numberOfCards = prefsInteractor.getNumberOfCards()
         val isDarkTheme = prefsInteractor.getDarkMode()
 
-        val types = recordTypeInteractor.getAll().map { it.id to it }.toMap()
+        val types = recordTypeInteractor.getAll().associateBy { it.id }
         val archivedTypes = types.values.filter { it.hidden }
         val archivedRecordTags = recordTagInteractor.getAll().filter { it.archived }
 
@@ -70,6 +71,12 @@ class ArchiveViewDataInteractor @Inject constructor(
             HintViewData(resourceRepo.getString(R.string.archive_empty)).let(result::add)
         }
 
-        return result
+        val showHint = archivedTypes.isNotEmpty() ||
+            archivedRecordTags.isNotEmpty()
+
+        return ArchiveViewData(
+            items = result,
+            showHint = showHint,
+        )
     }
 }

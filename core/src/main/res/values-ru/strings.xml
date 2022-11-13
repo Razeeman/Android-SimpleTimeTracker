@@ -62,6 +62,7 @@
 
     <!--  Categories  -->
     <string name="categories_title">Категории и теги</string>
+    <string name="categories_edit_hint">Нажмите на карточку для редактирования</string>
     <string name="categories_record_type_hint">Назначьте одну и ту же категорию разным активностям, чтобы просматривать их сгруппированную статистику</string>
     <string name="categories_record_hint">Назначьте разные теги записям, чтобы различать их</string>
     <string name="categories_add_category">Добавить категорию</string>
@@ -290,6 +291,7 @@
     <string name="notification_record_type_goal_time">цель %s</string>
 
     <!--  Archive  -->
+    <string name="archive_hint">Нажмите на карточку для просмотра деталей</string>
     <string name="archive_dialog_delete">Удалить</string>
     <string name="archive_dialog_restore">Восстановить</string>
     <string name="archive_empty">Архив пуст</string>

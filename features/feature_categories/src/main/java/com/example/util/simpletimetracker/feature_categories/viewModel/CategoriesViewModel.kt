@@ -4,13 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.extension.toParams
-import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryAddViewData
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.feature_base_adapter.category.TagType
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.feature_categories.interactor.CategoriesViewDataInteractor
+import com.example.util.simpletimetracker.feature_categories.viewData.CategoriesViewData
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeCategoryFromTagsParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTagFromTagsParams
@@ -23,10 +24,13 @@ class CategoriesViewModel @Inject constructor(
     private val categoriesViewDataInteractor: CategoriesViewDataInteractor,
 ) : ViewModel() {
 
-    val categories: LiveData<List<ViewHolderType>> by lazy {
-        return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
+    val categories: LiveData<CategoriesViewData> by lazy {
+        return@lazy MutableLiveData<CategoriesViewData>().let { initial ->
             viewModelScope.launch {
-                initial.value = listOf(LoaderViewData())
+                initial.value = CategoriesViewData(
+                    items = listOf(LoaderViewData()),
+                    showHint = false
+                )
                 initial.value = loadCategoriesViewData()
             }
             initial
@@ -73,10 +77,10 @@ class CategoriesViewModel @Inject constructor(
 
     private fun updateCategories() = viewModelScope.launch {
         val data = loadCategoriesViewData()
-        (categories as MutableLiveData).value = data
+        categories.set(data)
     }
 
-    private suspend fun loadCategoriesViewData(): List<ViewHolderType> {
+    private suspend fun loadCategoriesViewData(): CategoriesViewData {
         return categoriesViewDataInteractor.getViewData()
     }
 }

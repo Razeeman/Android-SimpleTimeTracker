@@ -19,11 +19,23 @@
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvArchiveHint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        android:gravity="center"
+        android:text="@string/archive_hint"
+        android:textColor="?appTextHintColor"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/tvArchiveTitle"
+        tools:visibility="visible" />
+
     <com.example.util.simpletimetracker.feature_views.DividerView
         android:id="@+id/dividerArchive"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/tvArchiveTitle" />
+        app:layout_constraintTop_toBottomOf="@id/tvArchiveHint" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvArchiveList"

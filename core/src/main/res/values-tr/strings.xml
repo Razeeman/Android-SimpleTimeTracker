@@ -62,6 +62,7 @@
 
     <!--  Categories  -->
     <string name="categories_title">Kategoriler ve etiketler</string>
+    <string name="categories_edit_hint">Düzenlemek için karta tıklayın</string>
     <string name="categories_record_type_hint">Farklı aktivitelerin istatistiklerini grup halinde görmek için aynı kategoriyi farklı aktivitelere atayın</string>
     <string name="categories_record_hint">Aralarında ayrım yapabilmek için kayıtlara farklı etiketler atayın</string>
     <string name="categories_add_category">Kategori ekle</string>
@@ -290,6 +291,7 @@ Aktiviteyi başlatmak için isteğe bağlı parametreler:<br/>
     <string name="notification_record_type_goal_time">hedef %s</string>
 
     <!--  Archive  -->
+    <string name="archive_hint">Ayrıntıları görmek için karta tıklayın</string>
     <string name="archive_dialog_delete">Sil</string>
     <string name="archive_dialog_restore">Geri yükle</string>
     <string name="archive_empty">Arşiv boş</string>

@@ -62,6 +62,7 @@
 
     <!--  Categories  -->
     <string name="categories_title">Categorieën en tags</string>
+    <string name="categories_edit_hint">Klik op de kaart om te bewerken</string>
     <string name="categories_record_type_hint">Wijs hetzelfde categorie toe aan verschillende activiteiten om hun gegroepeerde statistieken te bekijken</string>
     <string name="categories_record_hint">Wijs verschillende labels toe aan records om ze te onderscheiden</string>
     <string name="categories_add_category">Categorie toevoegen</string>
@@ -290,6 +291,7 @@ Optionele parameters voor het starten van activiteit:<br/>
     <string name="notification_record_type_goal_time">doelstelling %s</string>
 
     <!--  Archive  -->
+    <string name="archive_hint">Klik op de kaart om details te bekijken</string>
     <string name="archive_dialog_delete">Verwijderen</string>
     <string name="archive_dialog_restore">Herstellen</string>
     <string name="archive_empty">Archief is leeg</string>

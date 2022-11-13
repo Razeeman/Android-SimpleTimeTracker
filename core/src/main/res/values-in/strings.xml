@@ -62,6 +62,7 @@
 
     <!--  Categories  -->
     <string name="categories_title">Kategori dan tag</string>
+    <string name="categories_edit_hint">Klik pada kartu untuk mengedit</string>
     <string name="categories_record_type_hint">Tetapkan kategori yang sama untuk kegiatan yang berbeda untuk melihat statistik yang dikelompokkan</string>
     <string name="categories_record_hint">Tetapkan label yang berbeda ke rekaman untuk membedakannya</string>
     <string name="categories_add_category">Tambahkan kategori</string>
@@ -290,6 +291,7 @@ Parameter opsional untuk memulai aktivitas:<br/>
     <string name="notification_record_type_goal_time">tujuan %s</string>
 
     <!--  Archive  -->
+    <string name="archive_hint">Klik pada kartu untuk melihat detail</string>
     <string name="archive_dialog_delete">Menghapus</string>
     <string name="archive_dialog_restore">Memulihkan</string>
     <string name="archive_empty">Arsip kosong</string>

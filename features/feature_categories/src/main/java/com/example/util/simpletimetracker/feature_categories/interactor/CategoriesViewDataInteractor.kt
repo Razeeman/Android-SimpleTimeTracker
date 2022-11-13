@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.core.mapper.CategoriesViewDataMapper
+import com.example.util.simpletimetracker.feature_categories.viewData.CategoriesViewData
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import javax.inject.Inject
@@ -21,16 +22,23 @@ class CategoriesViewDataInteractor @Inject constructor(
     private val categoriesViewDataMapper: CategoriesViewDataMapper,
 ) {
 
-    suspend fun getViewData(): List<ViewHolderType> = coroutineScope {
+    suspend fun getViewData(): CategoriesViewData = coroutineScope {
         val typeTags = async { getRecordTypeTagViewData() }
         val recordTags = async { getRecordTagViewData() }
 
-        typeTags.await() +
+        val items = typeTags.await().items +
             DividerViewData(1) +
-            recordTags.await()
+            recordTags.await().items
+        val showHint = typeTags.await().showHint ||
+            recordTags.await().showHint
+
+        return@coroutineScope CategoriesViewData(
+            items = items,
+            showHint = showHint,
+        )
     }
 
-    private suspend fun getRecordTypeTagViewData(): List<ViewHolderType> {
+    private suspend fun getRecordTypeTagViewData(): CategoriesViewData {
         val categories = categoryInteractor.getAll()
         val isDarkTheme = prefsInteractor.getDarkMode()
         val result: MutableList<ViewHolderType> = mutableListOf()
@@ -46,10 +54,13 @@ class CategoriesViewDataInteractor @Inject constructor(
 
         categoriesViewDataMapper.mapToTypeTagAddItem(isDarkTheme).let(result::add)
 
-        return result
+        return CategoriesViewData(
+            items = result,
+            showHint = categories.isNotEmpty(),
+        )
     }
 
-    private suspend fun getRecordTagViewData(): List<ViewHolderType> {
+    private suspend fun getRecordTagViewData(): CategoriesViewData {
         val tags = recordTagInteractor.getAll().filterNot { it.archived }
         val types = recordTypeInteractor.getAll()
         val isDarkTheme = prefsInteractor.getDarkMode()
@@ -70,6 +81,9 @@ class CategoriesViewDataInteractor @Inject constructor(
 
         categoriesViewDataMapper.mapToRecordTagAddItem(isDarkTheme).let(result::add)
 
-        return result
+        return CategoriesViewData(
+            items = result,
+            showHint = tags.isNotEmpty(),
+        )
     }
 }

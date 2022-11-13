@@ -62,6 +62,7 @@
 
     <!--  Categories  -->
     <string name="categories_title">Категорії та теги</string>
+    <string name="categories_edit_hint">Натисніть картку для редагування</string>
     <string name="categories_record_type_hint">Призначте ту саму категорію різним активностям, щоб переглядати їх згруповану статистику</string>
     <string name="categories_record_hint">Призначте різні теги записам, щоб розрізняти їх</string>
     <string name="categories_add_category">Додати категорію</string>
@@ -290,6 +291,7 @@
     <string name="notification_record_type_goal_time">ціль %s</string>
 
     <!--  Archive  -->
+    <string name="archive_hint">Натисніть картку, щоб переглянути деталі</string>
     <string name="archive_dialog_delete">Видалити</string>
     <string name="archive_dialog_restore">Відновити</string>
     <string name="archive_empty">Архів порожній</string>

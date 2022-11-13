@@ -31,8 +31,7 @@ class NotificationInactivityScheduler @Inject constructor(
     private fun scheduleAtTime(timestamp: Long) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             alarmManager?.setAndAllowWhileIdle(RTC_WAKEUP, timestamp, getPendingIntent())
-        }
-        else {
+        } else {
             alarmManager?.set(RTC_WAKEUP, timestamp, getPendingIntent())
         }
     }

@@ -62,6 +62,7 @@
 
     <!--  Categories  -->
     <string name="categories_title">Catégories et étiquettes</string>
+    <string name="categories_edit_hint">Cliquez sur la carte pour modifier</string>
     <string name="categories_record_type_hint">Attribuez la même catégorie à différentes activités pour afficher leurs statistiques groupées</string>
     <string name="categories_record_hint">Attribuez différentes étiquettes aux enregistrements pour les différencier</string>
     <string name="categories_add_category">Créer une catégorie</string>
@@ -290,6 +291,7 @@ Paramètres facultatifs pour le démarrage de l\'activité:<br/>
     <string name="notification_record_type_goal_time">objectif %s</string>
 
     <!--  Archive  -->
+    <string name="archive_hint">Cliquez sur la carte pour voir les détails</string>
     <string name="archive_dialog_delete">Supprimer</string>
     <string name="archive_dialog_restore">Restaurer</string>
     <string name="archive_empty">L\'archive est vide</string>

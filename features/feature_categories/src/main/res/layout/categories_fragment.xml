@@ -20,12 +20,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvCategoriesHint"
+        android:id="@+id/tvCategoriesEditHint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="12dp"
         android:gravity="center"
-        android:text="Hint text"
+        android:text="@string/categories_edit_hint"
         android:textColor="?appTextHintColor"
         android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/tvCategoriesTitle"
@@ -35,7 +35,7 @@
         android:id="@+id/dividerCategories"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/tvCategoriesHint" />
+        app:layout_constraintTop_toBottomOf="@id/tvCategoriesEditHint" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvCategoriesList"

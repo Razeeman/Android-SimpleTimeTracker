@@ -19,6 +19,7 @@ import com.google.android.flexbox.JustifyContent
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import com.example.util.simpletimetracker.feature_categories.databinding.CategoriesFragmentBinding as Binding
+import androidx.core.view.isVisible
 
 @AndroidEntryPoint
 class CategoriesFragment : BaseFragment<Binding>() {
@@ -63,7 +64,10 @@ class CategoriesFragment : BaseFragment<Binding>() {
     }
 
     override fun initViewModel(): Unit = with(viewModel) {
-        categories.observe(categoriesAdapter::replace)
+        categories.observe {
+            categoriesAdapter.replace(it.items)
+            binding.tvCategoriesEditHint.isVisible = it.showHint
+        }
     }
 
     override fun onResume() {

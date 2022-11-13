@@ -62,6 +62,7 @@
 
     <!--  Categories  -->
     <string name="categories_title">カテゴリとタグ</string>
+    <string name="categories_edit_hint">カードをクリックして編集します</string>
     <string name="categories_record_type_hint">同じカテゴリを異なるアクティビティに割り当てて、グループ化された統計を表示します</string>
     <string name="categories_record_hint">計測記録に異なるタグを付与し、計測記録を区別することが可能です</string>
     <string name="categories_add_category">カテゴリを追加</string>
@@ -290,6 +291,7 @@
     <string name="notification_record_type_goal_time">目標 %s</string>
 
     <!--  Archive  -->
+    <string name="archive_hint">カードをクリックすると詳細が表示されます</string>
     <string name="archive_dialog_delete">削除</string>
     <string name="archive_dialog_restore">復元</string>
     <string name="archive_empty">アーカイブはありません</string>

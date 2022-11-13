@@ -104,22 +104,26 @@ class RunningRecordsViewDataInteractor @Inject constructor(
         isDarkTheme: Boolean,
     ): List<ViewHolderType> {
         return when (filter) {
-            is Filter.NoFilter -> emptyList()
-            is Filter.ApplyFilter -> filter.activityFilters
-                .map {
-                    activityFilterViewDataMapper.map(
-                        filter = it,
-                        isDarkTheme = isDarkTheme,
+            is Filter.NoFilter -> {
+                emptyList()
+            }
+            is Filter.ApplyFilter -> {
+                filter.activityFilters
+                    .map {
+                        activityFilterViewDataMapper.map(
+                            filter = it,
+                            isDarkTheme = isDarkTheme,
+                        )
+                    }
+                    .plus(
+                        mapper.mapToActivityFilterAddItem(
+                            isDarkTheme = isDarkTheme,
+                        )
                     )
-                }
-                .plus(
-                    mapper.mapToActivityFilterAddItem(
-                        isDarkTheme = isDarkTheme,
+                    .plus(
+                        DividerViewData(2)
                     )
-                )
-                .plus(
-                    DividerViewData(2)
-                )
+            }
         }
     }
 

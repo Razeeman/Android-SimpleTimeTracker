@@ -31,8 +31,7 @@ class NotificationGoalTimeScheduler @Inject constructor(
     private fun scheduleAtTime(timestamp: Long, typeId: Long) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             alarmManager?.setAndAllowWhileIdle(RTC_WAKEUP, timestamp, getPendingIntent(typeId))
-        }
-        else {
+        } else {
             alarmManager?.set(RTC_WAKEUP, timestamp, getPendingIntent(typeId))
         }
     }

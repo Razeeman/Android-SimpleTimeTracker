@@ -62,6 +62,7 @@
 
     <!--  Categories  -->
     <string name="categories_title">Categorias e tags</string>
+    <string name="categories_edit_hint">Clique no cartão para editar</string>
     <string name="categories_record_type_hint">Atribua a mesma categoria a diferentes atividades para visualizar suas estatísticas agrupadas</string>
     <string name="categories_record_hint">Atribua tags diferentes aos registros para diferenciá-los</string>
     <string name="categories_add_category">Adicionar categoria</string>
@@ -286,6 +287,7 @@ Parâmetros opcionais para iniciar a atividade:<br/>
     <string name="notification_record_type_goal_time">meta %s</string>
 
     <!--  Archive  -->
+    <string name="archive_hint">Clique no cartão para ver os detalhes</string>
     <string name="archive_dialog_delete">Deletar</string>
     <string name="archive_dialog_restore">Restaurar</string>
     <string name="archive_empty">O arquivo está vazio</string>

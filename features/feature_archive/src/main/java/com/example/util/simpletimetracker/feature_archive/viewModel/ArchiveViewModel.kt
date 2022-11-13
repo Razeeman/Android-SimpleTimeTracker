@@ -10,7 +10,7 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.feature_archive.R
 import com.example.util.simpletimetracker.feature_archive.interactor.ArchiveViewDataInteractor
-import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_archive.viewData.ArchiveViewData
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
@@ -29,10 +29,13 @@ class ArchiveViewModel @Inject constructor(
     private val recordTagInteractor: RecordTagInteractor,
 ) : ViewModel() {
 
-    val viewData: LiveData<List<ViewHolderType>> by lazy {
-        return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
+    val viewData: LiveData<ArchiveViewData> by lazy {
+        return@lazy MutableLiveData<ArchiveViewData>().let { initial ->
             viewModelScope.launch {
-                initial.value = listOf(LoaderViewData())
+                initial.value = ArchiveViewData(
+                    items = listOf(LoaderViewData()),
+                    showHint = false,
+                )
                 initial.value = loadViewData()
             }
             initial
@@ -118,7 +121,7 @@ class ArchiveViewModel @Inject constructor(
         viewData.set(data)
     }
 
-    private suspend fun loadViewData(): List<ViewHolderType> {
+    private suspend fun loadViewData(): ArchiveViewData {
         return archiveViewDataInteractor.getViewData()
     }
 

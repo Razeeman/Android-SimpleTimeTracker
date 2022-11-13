@@ -62,6 +62,7 @@
 
     <!--  Categories  -->
     <string name="categories_title">类别和标签</string>
+    <string name="categories_edit_hint">点击卡片进行编辑</string>
     <string name="categories_record_type_hint">将同一类别分配给不同的活动以查看其分组统计信息</string>
     <string name="categories_record_hint">为同一种活动记录分配不同的标签，细致地区分它们</string>
     <string name="categories_add_category">添加类别</string>
@@ -290,6 +291,7 @@
     <string name="notification_record_type_goal_time">目标时间 %s</string>
 
     <!--  Archive  -->
+    <string name="archive_hint">点击卡片查看详情</string>
     <string name="archive_dialog_delete">删除</string>
     <string name="archive_dialog_restore">恢复</string>
     <string name="archive_empty">存档为空</string>

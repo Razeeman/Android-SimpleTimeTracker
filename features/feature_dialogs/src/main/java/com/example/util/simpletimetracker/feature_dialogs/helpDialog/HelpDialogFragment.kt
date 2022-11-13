@@ -28,7 +28,7 @@ class HelpDialogFragment : BaseBottomSheetFragment<Binding>() {
         setFullScreen()
     }
 
-    override fun initUi() = with (binding) {
+    override fun initUi() = with(binding) {
         tvHelpDialogTitle.text = params.title
         tvHelpDialogDescription.text = HtmlCompat.fromHtml(params.text, FROM_HTML_MODE_LEGACY)
     }
