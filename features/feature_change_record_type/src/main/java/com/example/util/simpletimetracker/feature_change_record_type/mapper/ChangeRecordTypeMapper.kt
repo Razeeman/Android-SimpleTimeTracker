@@ -81,6 +81,7 @@ class ChangeRecordTypeMapper @Inject constructor(
     fun mapToIconSwitchViewData(iconType: IconType): List<ViewHolderType> {
         return listOf(
             IconType.IMAGE,
+            IconType.TEXT,
             IconType.EMOJI
         ).map {
             ChangeRecordTypeIconSwitchViewData(
@@ -107,6 +108,7 @@ class ChangeRecordTypeMapper @Inject constructor(
     private fun mapToFilterTypeName(iconType: IconType): String {
         return when (iconType) {
             IconType.IMAGE -> R.string.change_record_type_icon_hint
+            IconType.TEXT -> R.string.change_record_type_text_hint
             IconType.EMOJI -> R.string.change_record_type_emoji_hint
         }.let(resourceRepo::getString)
     }

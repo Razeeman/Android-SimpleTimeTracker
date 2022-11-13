@@ -21,7 +21,9 @@ import com.example.util.simpletimetracker.core.extension.toViewData
 import com.example.util.simpletimetracker.core.repo.DeviceRepo
 import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
 import com.example.util.simpletimetracker.core.utils.setChooserColor
+import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
 import com.example.util.simpletimetracker.domain.model.IconEmojiType
+import com.example.util.simpletimetracker.domain.model.IconType
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_base_adapter.category.createCategoryAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.category.createCategoryAddAdapterDelegate
@@ -38,6 +40,8 @@ import com.example.util.simpletimetracker.feature_change_record_type.adapter.cre
 import com.example.util.simpletimetracker.feature_change_record_type.adapter.createChangeRecordTypeIconCategoryAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record_type.adapter.createChangeRecordTypeIconCategoryInfoAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconCategoryInfoViewData
+import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconStateViewData
+import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconSwitchViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeScrollViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewModel.ChangeRecordTypeViewModel
 import com.example.util.simpletimetracker.feature_views.extension.dpToPx
@@ -52,6 +56,7 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
+import com.google.android.material.appbar.AppBarLayout
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlin.math.max
@@ -167,7 +172,10 @@ class ChangeRecordTypeFragment :
         groupChangeRecordTypeGoalTime.setOnClick(viewModel::onGoalTimeClick)
         btnChangeRecordTypeSave.setOnClick(viewModel::onSaveClick)
         btnChangeRecordTypeDelete.setOnClick(viewModel::onDeleteClick)
-        btnChangeRecordTypeIconSwitch.listener = viewModel::onIconTypeClick
+        btnChangeRecordTypeIconSwitch.listener = {
+            updateIconContainerScroll(it)
+            viewModel.onIconTypeClick(it)
+        }
     }
 
     override fun initViewModel(): Unit = with(binding) {
@@ -179,7 +187,7 @@ class ChangeRecordTypeFragment :
             recordType.observeOnce(viewLifecycleOwner, ::updateUi)
             recordType.observe(::updatePreview)
             colors.observe(colorsAdapter::replace)
-            icons.observe(iconsAdapter::replace)
+            icons.observe(::updateIconsState)
             iconCategories.observe(iconCategoriesAdapter::replace)
             iconsTypeViewData.observe(btnChangeRecordTypeIconSwitch.adapter::replace)
             categories.observe(categoriesAdapter::replace)
@@ -269,6 +277,20 @@ class ChangeRecordTypeFragment :
         }
     }
 
+    private fun updateIconsState(state: ChangeRecordTypeIconStateViewData) = with(binding) {
+        when (state) {
+            is ChangeRecordTypeIconStateViewData.Icons -> {
+                rvChangeRecordTypeIcon.isVisible = true
+                inputChangeRecordTypeIconText.isVisible = false
+                iconsAdapter.replace(state.items)
+            }
+            is ChangeRecordTypeIconStateViewData.Text -> {
+                rvChangeRecordTypeIcon.isVisible = false
+                inputChangeRecordTypeIconText.isVisible = true
+            }
+        }
+    }
+
     private fun getIconsColumnCount(): Int {
         val screenWidth = deviceRepo.getScreenWidthInDp().dpToPx()
         val recyclerWidth = screenWidth -
@@ -293,6 +315,16 @@ class ChangeRecordTypeFragment :
                 1
             }
         }
+    }
+
+    private fun updateIconContainerScroll(item: ButtonsRowViewData) = with(binding) {
+        if (item !is ChangeRecordTypeIconSwitchViewData) return@with
+
+        val scrollFlags = if (item.iconType == IconType.TEXT) 0
+        else AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL
+
+        (btnChangeRecordTypeIconSwitch.layoutParams as? AppBarLayout.LayoutParams)
+            ?.scrollFlags = scrollFlags
     }
 
     companion object {

@@ -11,6 +11,7 @@ import com.example.util.simpletimetracker.domain.model.IconType
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.divider.DividerViewData
 import com.example.util.simpletimetracker.feature_change_record_type.mapper.ChangeRecordTypeMapper
+import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconStateViewData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -76,18 +77,30 @@ class ChangeRecordTypeViewDataInteractor @Inject constructor(
     suspend fun getIconsViewData(
         newColor: AppColor,
         iconType: IconType,
-    ): List<ViewHolderType> = withContext(Dispatchers.IO) {
+    ): ChangeRecordTypeIconStateViewData = withContext(Dispatchers.IO) {
         val isDarkTheme = prefsInteractor.getDarkMode()
 
         when (iconType) {
-            IconType.IMAGE -> mapper.mapIconImageData(newColor, isDarkTheme)
-            IconType.EMOJI -> mapper.mapIconEmojiData(newColor, isDarkTheme)
+            IconType.IMAGE -> {
+                ChangeRecordTypeIconStateViewData.Icons(
+                    mapper.mapIconImageData(newColor, isDarkTheme)
+                )
+            }
+            IconType.TEXT -> {
+                ChangeRecordTypeIconStateViewData.Text
+            }
+            IconType.EMOJI -> {
+                ChangeRecordTypeIconStateViewData.Icons(
+                    mapper.mapIconEmojiData(newColor, isDarkTheme)
+                )
+            }
         }
     }
 
     fun getIconCategoriesViewData(iconType: IconType): List<ViewHolderType> {
         return when (iconType) {
             IconType.IMAGE -> mapper.mapIconImageCategories()
+            IconType.TEXT -> emptyList()
             IconType.EMOJI -> mapper.mapIconEmojiCategories()
         }
     }

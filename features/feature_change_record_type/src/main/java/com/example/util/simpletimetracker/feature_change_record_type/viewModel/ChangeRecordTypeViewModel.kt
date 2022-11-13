@@ -35,6 +35,7 @@ import com.example.util.simpletimetracker.feature_change_record_type.interactor.
 import com.example.util.simpletimetracker.feature_change_record_type.mapper.ChangeRecordTypeMapper
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconCategoryInfoViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconCategoryViewData
+import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconStateViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconSwitchViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeScrollViewData
@@ -83,8 +84,8 @@ class ChangeRecordTypeViewModel @Inject constructor(
             initial
         }
     }
-    val icons: LiveData<List<ViewHolderType>> by lazy {
-        return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
+    val icons: LiveData<ChangeRecordTypeIconStateViewData> by lazy {
+        return@lazy MutableLiveData<ChangeRecordTypeIconStateViewData>().let { initial ->
             viewModelScope.launch { initial.value = loadIconsViewData() }
             initial
         }
@@ -150,41 +151,38 @@ class ChangeRecordTypeViewModel @Inject constructor(
     }
 
     fun onColorChooserClick() {
-        (keyboardVisibility as MutableLiveData).value = false
-        (flipColorChooser as MutableLiveData).value = flipColorChooser.value
-            ?.flip().orTrue()
+        keyboardVisibility.set(false)
+        flipColorChooser.set(flipColorChooser.value?.flip().orTrue())
 
         if (flipIconChooser.value == true) {
-            (flipIconChooser as MutableLiveData).value = false
+            flipIconChooser.set(false)
         }
         if (flipCategoryChooser.value == true) {
-            (flipCategoryChooser as MutableLiveData).value = false
+            flipCategoryChooser.set(false)
         }
     }
 
     fun onIconChooserClick() {
-        (keyboardVisibility as MutableLiveData).value = false
-        (flipIconChooser as MutableLiveData).value = flipIconChooser.value
-            ?.flip().orTrue()
+        keyboardVisibility.set(false)
+        flipIconChooser.set(flipIconChooser.value?.flip().orTrue())
 
         if (flipColorChooser.value == true) {
-            (flipColorChooser as MutableLiveData).value = false
+            flipColorChooser.set(false)
         }
         if (flipCategoryChooser.value == true) {
-            (flipCategoryChooser as MutableLiveData).value = false
+            flipCategoryChooser.set(false)
         }
     }
 
     fun onCategoryChooserClick() {
-        (keyboardVisibility as MutableLiveData).value = false
-        (flipCategoryChooser as MutableLiveData).value = flipCategoryChooser.value
-            ?.flip().orTrue()
+        keyboardVisibility.set(false)
+        flipCategoryChooser.set(flipCategoryChooser.value?.flip().orTrue())
 
         if (flipColorChooser.value == true) {
-            (flipColorChooser as MutableLiveData).value = false
+            flipColorChooser.set(false)
         }
         if (flipIconChooser.value == true) {
-            (flipIconChooser as MutableLiveData).value = false
+            flipIconChooser.set(false)
         }
     }
 
@@ -222,7 +220,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     fun onIconTypeClick(viewData: ButtonsRowViewData) {
         if (viewData !is ChangeRecordTypeIconSwitchViewData) return
         viewModelScope.launch {
-            icons.set(emptyList())
+            icons.set(ChangeRecordTypeIconStateViewData.Icons(emptyList()))
             iconType = viewData.iconType
             updateIconsTypeViewData()
             updateIconCategories()
@@ -231,7 +229,8 @@ class ChangeRecordTypeViewModel @Inject constructor(
     }
 
     fun onIconCategoryClick(viewData: ChangeRecordTypeIconCategoryViewData) {
-        icons.value
+        (icons.value as? ChangeRecordTypeIconStateViewData.Icons)
+            ?.items
             ?.indexOfFirst { (it as? ChangeRecordTypeIconCategoryInfoViewData)?.type == viewData.type }
             ?.let(::updateIconScrollPosition)
     }
@@ -328,7 +327,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     }
 
     fun onDeleteClick() {
-        (deleteButtonEnabled as MutableLiveData).value = false
+        deleteButtonEnabled.set(false)
         viewModelScope.launch {
             if (recordTypeId != 0L) {
                 recordTypeInteractor.archive(recordTypeId)
@@ -336,7 +335,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
                     removeRunningRecordMediator.removeWithRecordAdd(runningRecord)
                 }
                 showMessage(R.string.change_record_type_archived)
-                (keyboardVisibility as MutableLiveData).value = false
+                keyboardVisibility.set(false)
                 router.back()
             }
         }
@@ -347,14 +346,14 @@ class ChangeRecordTypeViewModel @Inject constructor(
             showMessage(R.string.change_record_message_choose_name)
             return
         }
-        (saveButtonEnabled as MutableLiveData).value = false
+        saveButtonEnabled.set(false)
         viewModelScope.launch {
             val addedId = saveRecordType()
             saveCategories(addedId)
             notificationTypeInteractor.checkAndShow(recordTypeId)
             notificationGoalTimeInteractor.checkAndReschedule(recordTypeId)
             widgetInteractor.updateWidgets()
-            (keyboardVisibility as MutableLiveData).value = false
+            keyboardVisibility.set(false)
             router.back()
         }
     }
@@ -414,7 +413,8 @@ class ChangeRecordTypeViewModel @Inject constructor(
     }
 
     private fun updateRecordPreviewViewData() = viewModelScope.launch {
-        (recordType as MutableLiveData).value = loadRecordPreviewViewData()
+        val data = loadRecordPreviewViewData()
+        recordType.set(data)
     }
 
     private suspend fun loadRecordPreviewViewData(): RecordTypeViewData {
@@ -442,13 +442,13 @@ class ChangeRecordTypeViewModel @Inject constructor(
         icons.set(data)
     }
 
-    private suspend fun loadIconsViewData(): List<ViewHolderType> {
+    private suspend fun loadIconsViewData(): ChangeRecordTypeIconStateViewData {
         return viewDataInteractor.getIconsViewData(newColor, iconType)
     }
 
     private fun updateIconCategories() = viewModelScope.launch {
         val data = loadIconCategoriesViewData()
-        (iconCategories as MutableLiveData).value = data
+        iconCategories.set(data)
     }
 
     private fun loadIconCategoriesViewData(): List<ViewHolderType> {
@@ -456,7 +456,8 @@ class ChangeRecordTypeViewModel @Inject constructor(
     }
 
     private fun updateIconsTypeViewData() {
-        (iconsTypeViewData as MutableLiveData).value = loadIconsTypeViewData()
+        val data = loadIconsTypeViewData()
+        iconsTypeViewData.set(data)
     }
 
     private fun loadIconsTypeViewData(): List<ViewHolderType> {
@@ -465,7 +466,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
 
     private fun updateCategoriesViewData() = viewModelScope.launch {
         val data = loadCategoriesViewData()
-        (categories as MutableLiveData).value = data
+        categories.set(data)
     }
 
     private suspend fun loadCategoriesViewData(): List<ViewHolderType> {
@@ -474,7 +475,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
 
     private fun updateGoalTimeViewData() {
         val data = loadGoalTimeViewData()
-        (goalTimeViewData as MutableLiveData).value = data
+        goalTimeViewData.set(data)
     }
 
     private fun loadGoalTimeViewData(): String {
