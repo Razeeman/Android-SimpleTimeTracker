@@ -51,6 +51,7 @@ import com.example.util.simpletimetracker.feature_views.extension.rotateUp
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.feature_views.extension.setSpanSizeLookup
 import com.example.util.simpletimetracker.feature_views.extension.updatePadding
+import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTypeParams
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
@@ -166,6 +167,7 @@ class ChangeRecordTypeFragment :
 
     override fun initUx() = with(binding) {
         etChangeRecordTypeName.doAfterTextChanged { viewModel.onNameChange(it.toString()) }
+        etChangeRecordTypeIconText.doAfterTextChanged { viewModel.onIconTextChange(it.toString()) }
         fieldChangeRecordTypeColor.setOnClick(viewModel::onColorChooserClick)
         fieldChangeRecordTypeIcon.setOnClick(viewModel::onIconChooserClick)
         fieldChangeRecordTypeCategory.setOnClick(viewModel::onCategoryChooserClick)
@@ -249,6 +251,9 @@ class ChangeRecordTypeFragment :
     private fun updateUi(item: RecordTypeViewData) = with(binding) {
         etChangeRecordTypeName.setText(item.name)
         etChangeRecordTypeName.setSelection(item.name.length)
+        (item.iconId as? RecordTypeIcon.Emoji)?.emojiText?.let {
+            etChangeRecordTypeIconText.setText(it)
+        }
     }
 
     private fun updatePreview(item: RecordTypeViewData) {

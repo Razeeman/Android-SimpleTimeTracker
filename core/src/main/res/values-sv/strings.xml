@@ -100,9 +100,11 @@
     <!--  Change record type  -->
     <string name="change_record_type_archived">Aktivitet arkiverad</string>
     <string name="change_record_type_name_hint">Ange nytt namn</string>
+    <string name="change_record_type_new_icon_text_hint">Skriv in ny text</string>
     <string name="change_record_type_color_hint">Färg</string>
-    <string name="change_record_type_icon_hint">Ikon</string>
-    <string name="change_record_type_emoji_hint">Emoji</string>
+    <string name="change_record_type_icon_image_hint">Ikon</string>
+    <string name="change_record_type_icon_text_hint">Text</string>
+    <string name="change_record_type_icon_emoji_hint">Emoji</string>
     <string name="change_record_type_save">Spara</string>
     <string name="change_record_message_choose_name">Ange ett namn</string>
     <string name="change_record_type_categories_empty">Inga kategorier har lagts till</string>

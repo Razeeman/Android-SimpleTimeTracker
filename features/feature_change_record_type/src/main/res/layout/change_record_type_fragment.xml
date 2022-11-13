@@ -113,7 +113,7 @@
                 android:ellipsize="end"
                 android:gravity="center_vertical"
                 android:maxLines="1"
-                android:text="@string/change_record_type_icon_hint"
+                android:text="@string/change_record_type_icon_image_hint"
                 app:layout_constraintEnd_toStartOf="@id/arrowChangeRecordTypeIcon"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -312,7 +312,7 @@
                 style="@style/ChangeItemNameEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/change_record_type_name_hint" />
+                android:hint="@string/change_record_type_new_icon_text_hint" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

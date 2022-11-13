@@ -83,7 +83,7 @@ class AddRecordTypeTest : BaseUiTest() {
         checkViewIsDisplayed(allOf(withId(R.id.viewColorItemSelected), withParent(withCardColor(lastColor))))
 
         // Open icon chooser
-        clickOnViewWithText(R.string.change_record_type_icon_hint)
+        clickOnViewWithText(R.string.change_record_type_icon_image_hint)
         checkViewIsNotDisplayed(withId(R.id.rvChangeRecordTypeColor))
         checkViewIsDisplayed(withId(R.id.rvChangeRecordTypeIcon))
 

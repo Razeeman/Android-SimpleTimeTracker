@@ -62,7 +62,7 @@ object NavUtils {
         name: String,
         color: Int? = null,
         icon: Int? = null,
-        emoji: String? = null,
+        text: String? = null,
         categories: List<String> = emptyList(),
         goalTime: String? = null,
     ) {
@@ -80,14 +80,14 @@ object NavUtils {
 
         // Icon
         if (icon != null) {
-            clickOnViewWithText(R.string.change_record_type_icon_hint)
+            clickOnViewWithText(R.string.change_record_type_icon_image_hint)
             scrollRecyclerToView(R.id.rvChangeRecordTypeIcon, hasDescendant(withTag(icon)))
             clickOnRecyclerItem(R.id.rvChangeRecordTypeIcon, withTag(icon))
-        } else if (emoji != null) {
-            clickOnViewWithText(R.string.change_record_type_icon_hint)
+        } else if (text != null) {
+            clickOnViewWithText(R.string.change_record_type_icon_image_hint)
             onView(withId(R.id.rvChangeRecordTypeIcon)).perform(collapseToolbar())
-            scrollRecyclerToView(R.id.rvChangeRecordTypeIcon, hasDescendant(withText(emoji)))
-            clickOnRecyclerItem(R.id.rvChangeRecordTypeIcon, withText(emoji))
+            scrollRecyclerToView(R.id.rvChangeRecordTypeIcon, hasDescendant(withText(text)))
+            clickOnRecyclerItem(R.id.rvChangeRecordTypeIcon, withText(text))
         }
 
         // Categories

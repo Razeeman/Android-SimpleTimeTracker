@@ -21,6 +21,7 @@
         android:gravity="center"
         android:textColor="?appIconColor"
         android:visibility="gone"
+        app:autoSizeMinTextSize="1sp"
         app:autoSizeTextType="uniform"
         tools:text="\uD83D\uDE00" />
 

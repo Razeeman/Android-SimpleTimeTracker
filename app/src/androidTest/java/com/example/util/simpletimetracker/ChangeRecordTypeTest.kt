@@ -67,7 +67,7 @@ class ChangeRecordTypeTest : BaseUiTest() {
         checkPreviewUpdated(withCardColor(lastColor))
         checkViewIsDisplayed(allOf(withId(R.id.viewColorItemSelected), withParent(withCardColor(lastColor))))
 
-        clickOnViewWithText(R.string.change_record_type_icon_hint)
+        clickOnViewWithText(R.string.change_record_type_icon_image_hint)
         onView(withId(R.id.rvChangeRecordTypeIcon)).perform(collapseToolbar())
         scrollRecyclerToView(R.id.rvChangeRecordTypeIcon, hasDescendant(withTag(lastIcon)))
         clickOnRecyclerItem(R.id.rvChangeRecordTypeIcon, withTag(lastIcon))
@@ -82,11 +82,11 @@ class ChangeRecordTypeTest : BaseUiTest() {
 
         // Change again
         longClickOnView(withText(newName))
-        clickOnViewWithText(R.string.change_record_type_icon_hint)
+        clickOnViewWithText(R.string.change_record_type_icon_image_hint)
         clickOnView(
             allOf(
                 isDescendantOfA(withId(R.id.btnChangeRecordTypeIconSwitch)),
-                withText(R.string.change_record_type_emoji_hint)
+                withText(R.string.change_record_type_icon_emoji_hint)
             )
         )
         clickOnViewWithText(firstEmoji)
@@ -131,7 +131,7 @@ class ChangeRecordTypeTest : BaseUiTest() {
         scrollRecyclerToView(R.id.rvChangeRecordTypeColor, withCardColor(lastColor))
         clickOnRecyclerItem(R.id.rvChangeRecordTypeColor, withCardColor(lastColor))
 
-        clickOnViewWithText(R.string.change_record_type_icon_hint)
+        clickOnViewWithText(R.string.change_record_type_icon_image_hint)
         onView(withId(R.id.rvChangeRecordTypeIcon)).perform(collapseToolbar())
         scrollRecyclerToView(R.id.rvChangeRecordTypeIcon, hasDescendant(withTag(lastIcon)))
         clickOnRecyclerItem(R.id.rvChangeRecordTypeIcon, withTag(lastIcon))

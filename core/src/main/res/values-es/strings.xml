@@ -100,9 +100,11 @@
     <!--  Change record type  -->
     <string name="change_record_type_archived">Actividad archivada</string>
     <string name="change_record_type_name_hint">Introduzca un nuevo nombre</string>
+    <string name="change_record_type_new_icon_text_hint">Ingrese nuevo texto</string>
     <string name="change_record_type_color_hint">Color</string>
-    <string name="change_record_type_icon_hint">Icono</string>
-    <string name="change_record_type_emoji_hint">Emoji</string>
+    <string name="change_record_type_icon_image_hint">Icono</string>
+    <string name="change_record_type_icon_text_hint">Texto</string>
+    <string name="change_record_type_icon_emoji_hint">Emoji</string>
     <string name="change_record_type_save">Guardar</string>
     <string name="change_record_message_choose_name">Escoja un nombre</string>
     <string name="change_record_type_categories_empty">No se añadieron categorías</string>

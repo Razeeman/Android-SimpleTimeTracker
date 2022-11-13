@@ -43,11 +43,11 @@ class IconTest : BaseUiTest() {
         tryAction { clickOnViewWithText(R.string.running_records_add_type) }
 
         // Select emoji
-        clickOnViewWithText(R.string.change_record_type_icon_hint)
+        clickOnViewWithText(R.string.change_record_type_icon_image_hint)
         clickOnView(
             allOf(
                 isDescendantOfA(withId(R.id.btnChangeRecordTypeIconSwitch)),
-                withText(R.string.change_record_type_emoji_hint)
+                withText(R.string.change_record_type_icon_emoji_hint)
             )
         )
         tryAction { clickOnViewWithText(firstEmoji) }
@@ -142,7 +142,7 @@ class IconTest : BaseUiTest() {
         tryAction { clickOnViewWithText(R.string.running_records_add_type) }
 
         // Open image icons
-        clickOnViewWithText(R.string.change_record_type_icon_hint)
+        clickOnViewWithText(R.string.change_record_type_icon_image_hint)
 
         // Check categories
         iconImageMapper.getAvailableImages().forEach { (category, images) ->
@@ -167,11 +167,11 @@ class IconTest : BaseUiTest() {
         tryAction { clickOnViewWithText(R.string.running_records_add_type) }
 
         // Open emoji icons
-        clickOnViewWithText(R.string.change_record_type_icon_hint)
+        clickOnViewWithText(R.string.change_record_type_icon_image_hint)
         clickOnView(
             allOf(
                 isDescendantOfA(withId(R.id.btnChangeRecordTypeIconSwitch)),
-                withText(R.string.change_record_type_emoji_hint)
+                withText(R.string.change_record_type_icon_emoji_hint)
             )
         )
 
@@ -202,11 +202,11 @@ class IconTest : BaseUiTest() {
         typeTextIntoView(R.id.etChangeRecordTypeName, name)
 
         // Open emoji icons
-        clickOnViewWithText(R.string.change_record_type_icon_hint)
+        clickOnViewWithText(R.string.change_record_type_icon_image_hint)
         clickOnView(
             allOf(
                 isDescendantOfA(withId(R.id.btnChangeRecordTypeIconSwitch)),
-                withText(R.string.change_record_type_emoji_hint)
+                withText(R.string.change_record_type_icon_emoji_hint)
             )
         )
         onView(withId(R.id.rvChangeRecordTypeIcon)).perform(collapseToolbar())

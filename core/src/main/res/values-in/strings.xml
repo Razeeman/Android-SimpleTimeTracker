@@ -100,9 +100,11 @@
     <!--  Change record type  -->
     <string name="change_record_type_archived">Kegiatan dihapuskan</string>
     <string name="change_record_type_name_hint">Masukkan nama baru</string>
+    <string name="change_record_type_new_icon_text_hint">Masukkan teks baru</string>
     <string name="change_record_type_color_hint">Warna</string>
-    <string name="change_record_type_icon_hint">Ikon</string>
-    <string name="change_record_type_emoji_hint">Emoji</string>
+    <string name="change_record_type_icon_image_hint">Ikon</string>
+    <string name="change_record_type_icon_text_hint">Teks</string>
+    <string name="change_record_type_icon_emoji_hint">Emoji</string>
     <string name="change_record_type_save">Simpan</string>
     <string name="change_record_message_choose_name">Pilih sebuah nama</string>
     <string name="change_record_type_categories_empty">Tidak ada kategori yang ditambahkan</string>

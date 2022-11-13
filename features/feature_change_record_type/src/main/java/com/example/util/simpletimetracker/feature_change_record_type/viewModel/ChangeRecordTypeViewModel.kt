@@ -219,8 +219,11 @@ class ChangeRecordTypeViewModel @Inject constructor(
 
     fun onIconTypeClick(viewData: ButtonsRowViewData) {
         if (viewData !is ChangeRecordTypeIconSwitchViewData) return
+        if (viewData.iconType == iconType) return
         viewModelScope.launch {
-            icons.set(ChangeRecordTypeIconStateViewData.Icons(emptyList()))
+            if (viewData.iconType != IconType.TEXT) {
+                icons.set(ChangeRecordTypeIconStateViewData.Icons(emptyList()))
+            }
             iconType = viewData.iconType
             updateIconsTypeViewData()
             updateIconCategories()
@@ -253,6 +256,15 @@ class ChangeRecordTypeViewModel @Inject constructor(
                     newIconName = item.emojiText
                     updateRecordPreviewViewData()
                 }
+            }
+        }
+    }
+
+    fun onIconTextChange(text: String) {
+        viewModelScope.launch {
+            if (text != newIconName) {
+                newIconName = text
+                updateRecordPreviewViewData()
             }
         }
     }

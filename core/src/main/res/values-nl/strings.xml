@@ -100,9 +100,11 @@
     <!--  Change record type  -->
     <string name="change_record_type_archived">Activiteit gearchiveerd</string>
     <string name="change_record_type_name_hint">Nieuwe naam invoeren</string>
+    <string name="change_record_type_new_icon_text_hint">Voer nieuwe tekst in</string>
     <string name="change_record_type_color_hint">Kleur</string>
-    <string name="change_record_type_icon_hint">Icoon</string>
-    <string name="change_record_type_emoji_hint">Emoji</string>
+    <string name="change_record_type_icon_image_hint">Icoon</string>
+    <string name="change_record_type_icon_text_hint">Tekst</string>
+    <string name="change_record_type_icon_emoji_hint">Emoji</string>
     <string name="change_record_type_save">Opslaan</string>
     <string name="change_record_message_choose_name">Kies een naam</string>
     <string name="change_record_type_categories_empty">Geen categorieën toegevoegd</string>
