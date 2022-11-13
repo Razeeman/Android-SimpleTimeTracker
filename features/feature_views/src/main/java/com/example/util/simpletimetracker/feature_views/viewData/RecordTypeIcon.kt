@@ -10,5 +10,5 @@ sealed class RecordTypeIcon : Parcelable {
     data class Image(@DrawableRes val iconId: Int) : RecordTypeIcon()
 
     @Parcelize
-    data class Emoji(val emojiText: String) : RecordTypeIcon()
+    data class Text(val text: String) : RecordTypeIcon()
 }

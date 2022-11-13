@@ -119,9 +119,9 @@ class RunningRecordView @JvmOverloads constructor(
                     getResourceId(R.styleable.RunningRecordView_itemIcon, R.drawable.unknown)
                         .let(RecordTypeIcon::Image)
 
-                if (hasValue(R.styleable.RunningRecordView_itemEmoji)) itemIcon =
-                    getString(R.styleable.RunningRecordView_itemEmoji).orEmpty()
-                        .let(RecordTypeIcon::Emoji)
+                if (hasValue(R.styleable.RunningRecordView_itemIconText)) itemIcon =
+                    getString(R.styleable.RunningRecordView_itemIconText).orEmpty()
+                        .let(RecordTypeIcon::Text)
 
                 if (hasValue(R.styleable.RunningRecordView_itemTimeStarted)) itemTimeStarted =
                     getString(R.styleable.RunningRecordView_itemTimeStarted).orEmpty()

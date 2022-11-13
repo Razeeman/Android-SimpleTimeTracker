@@ -50,7 +50,7 @@ class ChangeRecordTest : BaseUiTest() {
 
         // Add activities
         testUtils.addActivity(name = name, color = firstColor, icon = firstIcon)
-        testUtils.addActivity(name = newName, color = lastColor, emoji = lastEmoji)
+        testUtils.addActivity(name = newName, color = lastColor, text = lastEmoji)
         testUtils.addRecordTag(tag1, name)
         testUtils.addRecordTag(tag2, newName)
 

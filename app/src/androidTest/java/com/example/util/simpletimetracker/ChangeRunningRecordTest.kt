@@ -49,7 +49,7 @@ class ChangeRunningRecordTest : BaseUiTest() {
 
         // Add activities
         testUtils.addActivity(name = name1, color = firstColor, icon = firstIcon, goalTime = firstGoalTime)
-        testUtils.addActivity(name = name2, color = lastColor, emoji = lastEmoji)
+        testUtils.addActivity(name = name2, color = lastColor, text = lastEmoji)
         testUtils.addRecordTag(tag2, name2)
 
         // Start timer
@@ -152,7 +152,7 @@ class ChangeRunningRecordTest : BaseUiTest() {
         checkRunningRecordDisplayed(
             name = fullName2,
             color = lastColor,
-            emoji = lastEmoji,
+            text = lastEmoji,
             timeStarted = timeStartedPreview,
             goalTime = "",
             comment = comment
@@ -284,7 +284,7 @@ class ChangeRunningRecordTest : BaseUiTest() {
         name: String,
         color: Int? = null,
         icon: Int? = null,
-        emoji: String? = null,
+        text: String? = null,
         timeStarted: String? = null,
         goalTime: String? = null,
         comment: String? = null,
@@ -297,8 +297,8 @@ class ChangeRunningRecordTest : BaseUiTest() {
         if (icon != null) {
             checkViewIsDisplayed(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withTag(icon)))
         }
-        if (emoji != null) {
-            checkViewIsDisplayed(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(emoji)))
+        if (text != null) {
+            checkViewIsDisplayed(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(text)))
         }
         if (timeStarted != null) {
             checkViewIsDisplayed(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(timeStarted)))

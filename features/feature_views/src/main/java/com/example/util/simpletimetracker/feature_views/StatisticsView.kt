@@ -93,9 +93,9 @@ class StatisticsView @JvmOverloads constructor(
                     getResourceId(R.styleable.StatisticsView_itemIcon, R.drawable.unknown)
                         .let(RecordTypeIcon::Image)
 
-                if (hasValue(R.styleable.StatisticsView_itemEmoji)) itemIcon =
-                    getString(R.styleable.StatisticsView_itemEmoji).orEmpty()
-                        .let(RecordTypeIcon::Emoji)
+                if (hasValue(R.styleable.StatisticsView_itemIconText)) itemIcon =
+                    getString(R.styleable.StatisticsView_itemIconText).orEmpty()
+                        .let(RecordTypeIcon::Text)
 
                 if (hasValue(R.styleable.StatisticsView_itemIconVisible)) itemIconVisible =
                     getBoolean(R.styleable.StatisticsView_itemIconVisible, false)

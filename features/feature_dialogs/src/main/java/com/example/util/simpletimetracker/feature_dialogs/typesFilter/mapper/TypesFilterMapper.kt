@@ -27,7 +27,7 @@ class TypesFilterMapper @Inject constructor(
             typeId = type.id,
             name = R.string.change_record_untagged.let(resourceRepo::getString),
             iconColor = categoryViewDataMapper.getTextColor(isDarkTheme, isFiltered),
-            iconAlpha = categoryViewDataMapper.getIconAlpha(icon, isFiltered),
+            iconAlpha = colorMapper.toIconAlpha(icon, isFiltered),
             color = if (isFiltered) {
                 colorMapper.toFilteredColor(isDarkTheme)
             } else {

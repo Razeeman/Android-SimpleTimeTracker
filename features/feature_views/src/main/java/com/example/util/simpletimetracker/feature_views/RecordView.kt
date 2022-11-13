@@ -118,9 +118,9 @@ class RecordView @JvmOverloads constructor(
                     getResourceId(R.styleable.RecordView_itemIcon, R.drawable.unknown)
                         .let(RecordTypeIcon::Image)
 
-                if (hasValue(R.styleable.RecordView_itemEmoji)) itemIcon =
-                    getString(R.styleable.RecordView_itemEmoji).orEmpty()
-                        .let(RecordTypeIcon::Emoji)
+                if (hasValue(R.styleable.RecordView_itemIconText)) itemIcon =
+                    getString(R.styleable.RecordView_itemIconText).orEmpty()
+                        .let(RecordTypeIcon::Text)
 
                 if (hasValue(R.styleable.RecordView_itemTimeStarted)) itemTimeStarted =
                     getString(R.styleable.RecordView_itemTimeStarted).orEmpty()

@@ -13,7 +13,7 @@ class IconMapper @Inject constructor(
         return if (icon.startsWith("ic_") || icon.isEmpty()) {
             icon.let(iconImageMapper::mapToDrawableResId).let(RecordTypeIcon::Image)
         } else {
-            RecordTypeIcon.Emoji(icon)
+            RecordTypeIcon.Text(icon)
         }
     }
 }

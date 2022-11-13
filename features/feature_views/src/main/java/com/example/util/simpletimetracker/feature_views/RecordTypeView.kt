@@ -52,9 +52,9 @@ class RecordTypeView @JvmOverloads constructor(
                     itemIcon = RecordTypeIcon.Image(data)
                 }
 
-                if (hasValue(R.styleable.RecordTypeView_itemEmoji)) {
-                    val data = getString(R.styleable.RecordTypeView_itemEmoji).orEmpty()
-                    itemIcon = RecordTypeIcon.Emoji(data)
+                if (hasValue(R.styleable.RecordTypeView_itemIconText)) {
+                    val data = getString(R.styleable.RecordTypeView_itemIconText).orEmpty()
+                    itemIcon = RecordTypeIcon.Text(data)
                 }
 
                 if (hasValue(R.styleable.RecordTypeView_itemIconColor)) {

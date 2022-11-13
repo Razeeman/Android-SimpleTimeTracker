@@ -10,7 +10,6 @@ import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.feature_base_adapter.empty.EmptyViewData
 import com.example.util.simpletimetracker.feature_base_adapter.info.InfoViewData
-import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import javax.inject.Inject
 
 class CategoryViewDataMapper @Inject constructor(
@@ -47,7 +46,7 @@ class CategoryViewDataMapper @Inject constructor(
             id = tag.id,
             name = tag.name,
             iconColor = getTextColor(isDarkTheme, isFiltered),
-            iconAlpha = getIconAlpha(icon, isFiltered),
+            iconAlpha = colorMapper.toIconAlpha(icon, isFiltered),
             color = getColor(color, isDarkTheme, isFiltered),
             icon = if (showIcon) icon else null
         )
@@ -86,14 +85,6 @@ class CategoryViewDataMapper @Inject constructor(
         }
     }
 
-    fun getIconAlpha(icon: RecordTypeIcon?, isFiltered: Boolean): Float {
-        return if (icon is RecordTypeIcon.Emoji && isFiltered) {
-            FILTERED_ICON_EMOJI_ALPHA
-        } else {
-            DEFAULT_ICON_EMOJI_ALPHA
-        }
-    }
-
     private fun getColor(
         color: AppColor,
         isDarkTheme: Boolean,
@@ -107,7 +98,7 @@ class CategoryViewDataMapper @Inject constructor(
     }
 
     companion object {
-        private const val DEFAULT_ICON_EMOJI_ALPHA = 1.0f
-        private const val FILTERED_ICON_EMOJI_ALPHA = 0.3f
+        private const val DEFAULT_ICON_TEXT_ALPHA = 1.0f
+        private const val FILTERED_ICON_TEXT_ALPHA = 0.3f
     }
 }

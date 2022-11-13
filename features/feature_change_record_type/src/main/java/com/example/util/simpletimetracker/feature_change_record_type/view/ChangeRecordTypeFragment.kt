@@ -251,7 +251,7 @@ class ChangeRecordTypeFragment :
     private fun updateUi(item: RecordTypeViewData) = with(binding) {
         etChangeRecordTypeName.setText(item.name)
         etChangeRecordTypeName.setSelection(item.name.length)
-        (item.iconId as? RecordTypeIcon.Emoji)?.emojiText?.let {
+        (item.iconId as? RecordTypeIcon.Text)?.text?.let {
             etChangeRecordTypeIconText.setText(it)
         }
     }

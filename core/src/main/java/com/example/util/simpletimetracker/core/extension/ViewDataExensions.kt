@@ -6,13 +6,13 @@ import com.example.util.simpletimetracker.navigation.params.screen.RecordTypeIco
 fun RecordTypeIconParams.toViewData(): RecordTypeIcon {
     return when (this) {
         is RecordTypeIconParams.Image -> RecordTypeIcon.Image(this.iconId)
-        is RecordTypeIconParams.Emoji -> RecordTypeIcon.Emoji(this.emojiText)
+        is RecordTypeIconParams.Text -> RecordTypeIcon.Text(this.text)
     }
 }
 
 fun RecordTypeIcon.toParams(): RecordTypeIconParams {
     return when (this) {
         is RecordTypeIcon.Image -> RecordTypeIconParams.Image(this.iconId)
-        is RecordTypeIcon.Emoji -> RecordTypeIconParams.Emoji(this.emojiText)
+        is RecordTypeIcon.Text -> RecordTypeIconParams.Text(this.text)
     }
 }

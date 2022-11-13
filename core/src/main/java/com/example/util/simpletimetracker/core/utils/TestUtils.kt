@@ -62,7 +62,7 @@ class TestUtils @Inject constructor(
         color: Int? = null,
         colorInt: Int? = null,
         icon: Int? = null,
-        emoji: String? = null,
+        text: String? = null,
         goalTime: Long? = null,
         archived: Boolean = false,
         categories: List<String> = emptyList(),
@@ -70,7 +70,7 @@ class TestUtils @Inject constructor(
         val icons = iconImageMapper.getAvailableImages().values
             .toList().flatMap { it.toList() }.toMap()
         val iconId = icons.filterValues { it == icon }.keys.firstOrNull()
-            ?: emoji
+            ?: text
             ?: icons.keys.first()
 
         val colors = ColorMapper.getAvailableColors()

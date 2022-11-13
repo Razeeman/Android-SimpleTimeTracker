@@ -31,8 +31,8 @@ class IconView @JvmOverloads constructor(
                 if (hasValue(R.styleable.IconView_itemIcon)) itemIcon =
                     getResourceId(R.styleable.IconView_itemIcon, R.drawable.unknown).let(RecordTypeIcon::Image)
 
-                if (hasValue(R.styleable.IconView_itemEmoji)) itemIcon =
-                    getString(R.styleable.IconView_itemEmoji).orEmpty().let(RecordTypeIcon::Emoji)
+                if (hasValue(R.styleable.IconView_itemIconText)) itemIcon =
+                    getString(R.styleable.IconView_itemIconText).orEmpty().let(RecordTypeIcon::Text)
 
                 if (hasValue(R.styleable.IconView_itemIconColor)) itemIconColor =
                     getColor(R.styleable.IconView_itemIconColor, Color.WHITE)
@@ -48,7 +48,7 @@ class IconView @JvmOverloads constructor(
         set(value) {
             when (value) {
                 is RecordTypeIcon.Image -> setImageIcon(value.iconId)
-                is RecordTypeIcon.Emoji -> setEmojiIcon(value.emojiText)
+                is RecordTypeIcon.Text -> setTextIcon(value.text)
             }
             field = value
         }
@@ -75,7 +75,7 @@ class IconView @JvmOverloads constructor(
         tvIconViewEmoji.visible = false
     }
 
-    private fun setEmojiIcon(value: String) = with(binding) {
+    private fun setTextIcon(value: String) = with(binding) {
         tvIconViewEmoji.text = value
 
         tvIconViewEmoji.visible = true

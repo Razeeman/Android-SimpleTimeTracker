@@ -2,13 +2,12 @@ package com.example.util.simpletimetracker.core.mapper
 
 import androidx.annotation.ColorInt
 import com.example.util.simpletimetracker.core.R
-import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
-import com.example.util.simpletimetracker.feature_base_adapter.empty.EmptyViewData
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.model.AppColor
-import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
-import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.model.RecordType
+import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_base_adapter.empty.EmptyViewData
+import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import javax.inject.Inject
 
 class RecordTypeViewDataMapper @Inject constructor(
@@ -66,11 +65,7 @@ class RecordTypeViewDataMapper @Inject constructor(
             default.copy(
                 color = colorMapper.toFilteredColor(isDarkTheme),
                 iconColor = colorMapper.toFilteredIconColor(isDarkTheme),
-                iconAlpha = if (default.iconId is RecordTypeIcon.Emoji) {
-                    FILTERED_ICON_EMOJI_ALPHA
-                } else {
-                    DEFAULT_ICON_EMOJI_ALPHA
-                }
+                iconAlpha = colorMapper.toIconAlpha(default.iconId, true),
             )
         } else {
             default
@@ -79,10 +74,5 @@ class RecordTypeViewDataMapper @Inject constructor(
 
     @ColorInt private fun mapColor(color: AppColor, isDarkTheme: Boolean): Int {
         return colorMapper.mapToColorInt(color, isDarkTheme)
-    }
-
-    companion object {
-        private const val DEFAULT_ICON_EMOJI_ALPHA = 1.0f
-        private const val FILTERED_ICON_EMOJI_ALPHA = 0.3f
     }
 }

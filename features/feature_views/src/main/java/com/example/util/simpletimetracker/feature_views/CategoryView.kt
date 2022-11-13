@@ -45,9 +45,9 @@ class CategoryView @JvmOverloads constructor(
                     getResourceId(R.styleable.CategoryView_itemIcon, R.drawable.unknown)
                         .let(RecordTypeIcon::Image)
 
-                if (hasValue(R.styleable.CategoryView_itemEmoji)) itemIcon =
-                    getString(R.styleable.CategoryView_itemEmoji).orEmpty()
-                        .let(RecordTypeIcon::Emoji)
+                if (hasValue(R.styleable.CategoryView_itemIconText)) itemIcon =
+                    getString(R.styleable.CategoryView_itemIconText).orEmpty()
+                        .let(RecordTypeIcon::Text)
 
                 if (hasValue(R.styleable.CategoryView_itemIconColor)) {
                     itemIconColor = getColor(R.styleable.CategoryView_itemIconColor, Color.WHITE)

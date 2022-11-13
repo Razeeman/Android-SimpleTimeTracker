@@ -29,14 +29,14 @@
 
     <declare-styleable name="IconView">
         <attr name="itemIcon" format="reference" />
-        <attr name="itemEmoji" format="string" />
+        <attr name="itemIconText" format="string" />
         <attr name="itemIconColor" format="color" />
         <attr name="itemIconAlpha" format="float" />
     </declare-styleable>
 
     <declare-styleable name="RecordTypeView">
         <attr name="itemIcon" />
-        <attr name="itemEmoji" />
+        <attr name="itemIconText" />
         <attr name="itemIconColor" />
         <attr name="itemIconAlpha" />
         <attr name="itemName" format="string" />
@@ -47,7 +47,7 @@
     <declare-styleable name="RecordView">
         <attr name="itemName" />
         <attr name="itemIcon" />
-        <attr name="itemEmoji" />
+        <attr name="itemIconText" />
         <attr name="itemColor" />
         <attr name="itemTagName" format="string"/>
         <attr name="itemTagColor" format="color"/>
@@ -60,7 +60,7 @@
     <declare-styleable name="StatisticsView">
         <attr name="itemName" />
         <attr name="itemIcon" />
-        <attr name="itemEmoji" />
+        <attr name="itemIconText" />
         <attr name="itemColor" />
         <attr name="itemDuration" />
         <attr name="itemIconVisible" format="boolean" />
@@ -70,7 +70,7 @@
     <declare-styleable name="RunningRecordView">
         <attr name="itemName" />
         <attr name="itemIcon" />
-        <attr name="itemEmoji" />
+        <attr name="itemIconText" />
         <attr name="itemColor" />
         <attr name="itemTagName" />
         <attr name="itemTagColor" />
@@ -84,7 +84,7 @@
         <attr name="itemName" />
         <attr name="itemColor" />
         <attr name="itemIcon" />
-        <attr name="itemEmoji" />
+        <attr name="itemIconText" />
         <attr name="itemIconColor" />
         <attr name="itemIconAlpha" />
         <attr name="itemIconVisible" />

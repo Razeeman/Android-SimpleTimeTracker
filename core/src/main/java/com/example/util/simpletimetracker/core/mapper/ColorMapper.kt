@@ -6,6 +6,7 @@ import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.mapper.AppColorMapper
 import com.example.util.simpletimetracker.domain.model.AppColor
+import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import javax.inject.Inject
 
 class ColorMapper @Inject constructor(
@@ -33,6 +34,14 @@ class ColorMapper @Inject constructor(
         } else {
             R.color.colorIcon
         }.let(resourceRepo::getColor)
+    }
+
+    fun toIconAlpha(icon: RecordTypeIcon?, isFiltered: Boolean): Float {
+        return if (icon is RecordTypeIcon.Text && isFiltered) {
+            FILTERED_ICON_TEXT_ALPHA
+        } else {
+            DEFAULT_ICON_TEXT_ALPHA
+        }
     }
 
     fun toFilteredColor(isDarkTheme: Boolean): Int {
@@ -83,6 +92,9 @@ class ColorMapper @Inject constructor(
         fun getAvailableColors(): List<Int> {
             return availableColors
         }
+
+        private const val DEFAULT_ICON_TEXT_ALPHA = 1.0f
+        private const val FILTERED_ICON_TEXT_ALPHA = 0.3f
 
         // Don't change color positions as they are saved in DB by it.
         private val availableColors: List<Int> = listOf(
