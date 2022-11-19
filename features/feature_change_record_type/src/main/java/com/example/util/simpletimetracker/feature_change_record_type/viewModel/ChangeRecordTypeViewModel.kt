@@ -15,8 +15,6 @@ import com.example.util.simpletimetracker.core.mapper.IconEmojiMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
-import com.example.util.simpletimetracker.domain.extension.flip
-import com.example.util.simpletimetracker.domain.extension.orTrue
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
@@ -33,6 +31,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.recordType.Record
 import com.example.util.simpletimetracker.feature_change_record_type.R
 import com.example.util.simpletimetracker.feature_change_record_type.interactor.ChangeRecordTypeViewDataInteractor
 import com.example.util.simpletimetracker.feature_change_record_type.mapper.ChangeRecordTypeMapper
+import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconCategoryInfoViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconCategoryViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconStateViewData
@@ -116,9 +115,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
             initial
         }
     }
-    val flipColorChooser: LiveData<Boolean> = MutableLiveData()
-    val flipIconChooser: LiveData<Boolean> = MutableLiveData()
-    val flipCategoryChooser: LiveData<Boolean> = MutableLiveData()
+    val chooserState: LiveData<ChangeRecordTypeChooserState> = MutableLiveData(ChangeRecordTypeChooserState.Closed)
     val deleteButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val deleteIconVisibility: LiveData<Boolean> by lazy { MutableLiveData(recordTypeId != 0L) }
@@ -151,39 +148,15 @@ class ChangeRecordTypeViewModel @Inject constructor(
     }
 
     fun onColorChooserClick() {
-        keyboardVisibility.set(false)
-        flipColorChooser.set(flipColorChooser.value?.flip().orTrue())
-
-        if (flipIconChooser.value == true) {
-            flipIconChooser.set(false)
-        }
-        if (flipCategoryChooser.value == true) {
-            flipCategoryChooser.set(false)
-        }
+        onNewChooserState(ChangeRecordTypeChooserState.Color)
     }
 
     fun onIconChooserClick() {
-        keyboardVisibility.set(false)
-        flipIconChooser.set(flipIconChooser.value?.flip().orTrue())
-
-        if (flipColorChooser.value == true) {
-            flipColorChooser.set(false)
-        }
-        if (flipCategoryChooser.value == true) {
-            flipCategoryChooser.set(false)
-        }
+        onNewChooserState(ChangeRecordTypeChooserState.Icon)
     }
 
     fun onCategoryChooserClick() {
-        keyboardVisibility.set(false)
-        flipCategoryChooser.set(flipCategoryChooser.value?.flip().orTrue())
-
-        if (flipColorChooser.value == true) {
-            flipColorChooser.set(false)
-        }
-        if (flipIconChooser.value == true) {
-            flipIconChooser.set(false)
-        }
+        onNewChooserState(ChangeRecordTypeChooserState.Category)
     }
 
     fun onColorClick(item: ColorViewData) {
@@ -372,6 +345,15 @@ class ChangeRecordTypeViewModel @Inject constructor(
 
     fun onScrolled() {
         iconsScrollPosition.set(ChangeRecordTypeScrollViewData.NoScroll)
+    }
+
+    private fun onNewChooserState(newState: ChangeRecordTypeChooserState) {
+        keyboardVisibility.set(false)
+        if (chooserState.value == newState) {
+            chooserState.set(ChangeRecordTypeChooserState.Closed)
+        } else {
+            chooserState.set(newState)
+        }
     }
 
     private fun openEmojiSelectionDialog(item: EmojiViewData) {

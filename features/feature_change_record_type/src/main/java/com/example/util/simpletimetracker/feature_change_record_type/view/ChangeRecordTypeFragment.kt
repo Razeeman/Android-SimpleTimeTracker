@@ -3,7 +3,9 @@ package com.example.util.simpletimetracker.feature_change_record_type.view
 import com.example.util.simpletimetracker.feature_change_record_type.databinding.ChangeRecordTypeFragmentBinding as Binding
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.cardview.widget.CardView
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
@@ -39,6 +41,11 @@ import com.example.util.simpletimetracker.feature_change_record_type.R
 import com.example.util.simpletimetracker.feature_change_record_type.adapter.createChangeRecordTypeIconAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record_type.adapter.createChangeRecordTypeIconCategoryAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record_type.adapter.createChangeRecordTypeIconCategoryInfoAdapterDelegate
+import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState
+import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.Category
+import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.Closed
+import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.Color
+import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.Icon
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconCategoryInfoViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconStateViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconSwitchViewData
@@ -197,42 +204,7 @@ class ChangeRecordTypeFragment :
             iconsTypeViewData.observe(btnChangeRecordTypeIconSwitch.adapter::replace)
             categories.observe(categoriesAdapter::replace)
             goalTimeViewData.observe(tvChangeRecordTypeGoalTimeTime::setText)
-            flipColorChooser.observe { opened ->
-                rvChangeRecordTypeColor.isVisible = opened
-                fieldChangeRecordTypeColor.setChooserColor(opened)
-                arrowChangeRecordTypeColor.apply {
-                    if (opened) rotateDown() else rotateUp()
-                }
-
-                inputChangeRecordTypeName.isVisible = !opened
-                fieldChangeRecordTypeIcon.isVisible = !opened
-                fieldChangeRecordTypeCategory.isVisible = !opened
-                containerChangeRecordTypeGoalTime.isVisible = !opened
-            }
-            flipIconChooser.observe { opened ->
-                containerChangeRecordTypeIcon.isVisible = opened
-                fieldChangeRecordTypeIcon.setChooserColor(opened)
-                arrowChangeRecordTypeIcon.apply {
-                    if (opened) rotateDown() else rotateUp()
-                }
-
-                inputChangeRecordTypeName.isVisible = !opened
-                fieldChangeRecordTypeColor.isVisible = !opened
-                fieldChangeRecordTypeCategory.isVisible = !opened
-                containerChangeRecordTypeGoalTime.isVisible = !opened
-            }
-            flipCategoryChooser.observe { opened ->
-                rvChangeRecordTypeCategories.isVisible = opened
-                fieldChangeRecordTypeCategory.setChooserColor(opened)
-                arrowChangeRecordTypeCategory.apply {
-                    if (opened) rotateDown() else rotateUp()
-                }
-
-                inputChangeRecordTypeName.isVisible = !opened
-                fieldChangeRecordTypeColor.isVisible = !opened
-                fieldChangeRecordTypeIcon.isVisible = !opened
-                containerChangeRecordTypeGoalTime.isVisible = !opened
-            }
+            chooserState.observe(::updateChooserState)
             keyboardVisibility.observe { visible ->
                 if (visible) showKeyboard(etChangeRecordTypeName) else hideKeyboard()
             }
@@ -297,6 +269,46 @@ class ChangeRecordTypeFragment :
                 itemIcon = it.iconId.toViewData()
                 itemColor = it.color
             }
+        }
+    }
+
+    private fun updateChooserState(state: ChangeRecordTypeChooserState) = with(binding) {
+        updateChooser(
+            opened = state is Color,
+            chooserData = rvChangeRecordTypeColor,
+            chooserView = fieldChangeRecordTypeColor,
+            chooserArrow = arrowChangeRecordTypeColor
+        )
+        updateChooser(
+            opened = state is Icon,
+            chooserData = containerChangeRecordTypeIcon,
+            chooserView = fieldChangeRecordTypeIcon,
+            chooserArrow = arrowChangeRecordTypeIcon
+        )
+        updateChooser(
+            opened = state is Category,
+            chooserData = rvChangeRecordTypeCategories,
+            chooserView = fieldChangeRecordTypeCategory,
+            chooserArrow = arrowChangeRecordTypeCategory
+        )
+
+        inputChangeRecordTypeName.isVisible = state is Closed
+        containerChangeRecordTypeGoalTime.isVisible = state is Closed
+        fieldChangeRecordTypeColor.isVisible = state is Closed || state is Color
+        fieldChangeRecordTypeIcon.isVisible = state is Closed || state is Icon
+        fieldChangeRecordTypeCategory.isVisible = state is Closed || state is Category
+    }
+
+    private fun updateChooser(
+        opened: Boolean,
+        chooserData: View,
+        chooserView: CardView,
+        chooserArrow: View,
+    ) {
+        chooserData.isVisible = opened
+        chooserView.setChooserColor(opened)
+        chooserArrow.apply {
+            if (opened) rotateDown() else rotateUp()
         }
     }
 
