@@ -8,11 +8,11 @@ sealed class ChangeRecordTypeIconTypeViewData {
 
     data class Image(
         val type: IconImageType,
-        override val id: Long = type.ordinal.toLong()
+        override val id: Long,
     ) : ChangeRecordTypeIconTypeViewData()
 
     data class Emoji(
         val type: IconEmojiType,
-        override val id: Long = type.ordinal.toLong()
+        override val id: Long,
     ) : ChangeRecordTypeIconTypeViewData()
 }

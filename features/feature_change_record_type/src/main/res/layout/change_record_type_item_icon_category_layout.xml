@@ -1,11 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.AppCompatImageView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/ivChangeRecordTypeIconCategoryItem"
     android:layout_width="match_parent"
-    android:layout_height="24dp"
-    android:layout_marginVertical="4dp"
-    android:background="?selectableItemBackgroundBorderless"
-    android:gravity="center"
-    android:tint="?colorPrimary"
-    tools:src="@drawable/unknown" />
+    android:layout_height="wrap_content"
+    android:background="?selectableItemBackgroundBorderless">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/viewChangeRecordTypeIconCategoryItem"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/round_corners_background"
+        android:tint="?appInactiveColor"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivChangeRecordTypeIconCategoryItem"
+        android:layout_width="match_parent"
+        android:layout_height="24dp"
+        android:layout_margin="2dp"
+        android:gravity="center"
+        tools:src="@drawable/unknown"
+        tools:tint="?appLightTextColor" />
+
+</FrameLayout>

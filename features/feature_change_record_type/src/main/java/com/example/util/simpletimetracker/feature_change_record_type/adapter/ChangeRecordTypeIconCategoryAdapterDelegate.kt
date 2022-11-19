@@ -4,6 +4,9 @@ import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBin
 import com.example.util.simpletimetracker.feature_views.extension.setOnClickWith
 import com.example.util.simpletimetracker.feature_change_record_type.databinding.ChangeRecordTypeItemIconCategoryLayoutBinding as Binding
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconCategoryViewData as ViewData
+import androidx.core.view.isVisible
+import com.example.util.simpletimetracker.core.extension.getThemedAttr
+import com.example.util.simpletimetracker.feature_change_record_type.R
 
 fun createChangeRecordTypeIconCategoryAdapterDelegate(
     onItemClick: ((ViewData) -> Unit)
@@ -13,8 +16,15 @@ fun createChangeRecordTypeIconCategoryAdapterDelegate(
 
     with(binding) {
         item as ViewData
-        ivChangeRecordTypeIconCategoryItem.setImageResource(item.categoryIcon)
-        ivChangeRecordTypeIconCategoryItem.tag = item.categoryIcon
+        val tint = root.context.getThemedAttr(
+            if (item.selected) R.attr.appLightTextColor else R.attr.colorPrimary
+        )
+        with(ivChangeRecordTypeIconCategoryItem) {
+            setImageResource(item.categoryIcon)
+            setColorFilter(tint)
+            tag = item.categoryIcon
+        }
+        viewChangeRecordTypeIconCategoryItem.isVisible = item.selected
         root.setOnClickWith(item, onItemClick)
     }
 }

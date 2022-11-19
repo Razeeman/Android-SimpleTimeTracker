@@ -6,8 +6,6 @@ import com.example.util.simpletimetracker.core.mapper.IconImageMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.model.AppColor
-import com.example.util.simpletimetracker.domain.model.IconEmojiCategory
-import com.example.util.simpletimetracker.domain.model.IconImageCategory
 import com.example.util.simpletimetracker.domain.model.IconType
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.emoji.EmojiViewData
@@ -40,11 +38,17 @@ class ChangeRecordTypeMapper @Inject constructor(
         newColor: AppColor,
         isDarkTheme: Boolean,
     ): List<ViewHolderType> {
-        return iconImageMapper.getAvailableImages().map { (category, images) ->
-            listOf(mapImageCategoryHintViewData(category)) +
-                images.map { (iconName, iconResId) ->
-                    mapImageViewData(iconName, iconResId, newColor, isDarkTheme)
-                }
+        val iconCategories = iconImageMapper.getAvailableImages()
+        return iconCategories.toList().mapIndexed { index, (category, images) ->
+            listOf(
+                ChangeRecordTypeIconCategoryInfoViewData(
+                    type = ChangeRecordTypeIconTypeViewData.Image(category.type, index.toLong()),
+                    text = category.name,
+                    isLast = index == iconCategories.size - 1,
+                )
+            ) + images.map { (iconName, iconResId) ->
+                mapImageViewData(iconName, iconResId, newColor, isDarkTheme)
+            }
         }.flatten()
     }
 
@@ -52,28 +56,40 @@ class ChangeRecordTypeMapper @Inject constructor(
         newColor: AppColor,
         isDarkTheme: Boolean,
     ): List<ViewHolderType> {
-        return iconEmojiMapper.getAvailableEmojis().map { (category, codes) ->
-            listOf(mapEmojiCategoryHintViewData(category)) +
-                codes.map { code ->
-                    mapEmojiViewData(code, newColor, isDarkTheme)
-                }
+        val iconCategories = iconEmojiMapper.getAvailableEmojis()
+        return iconCategories.toList().mapIndexed { index, (category, codes) ->
+            listOf(
+                ChangeRecordTypeIconCategoryInfoViewData(
+                    type = ChangeRecordTypeIconTypeViewData.Emoji(category.type, index.toLong()),
+                    text = category.name,
+                    isLast = index == iconCategories.size - 1,
+                )
+            ) + codes.map { code ->
+                mapEmojiViewData(code, newColor, isDarkTheme)
+            }
         }.flatten()
     }
 
-    fun mapIconImageCategories(): List<ViewHolderType> {
-        return iconImageMapper.getAvailableCategories().map {
+    fun mapIconImageCategories(
+        selectedIndex: Long,
+    ): List<ViewHolderType> {
+        return iconImageMapper.getAvailableCategories().mapIndexed { index, iconImageCategory ->
             ChangeRecordTypeIconCategoryViewData(
-                type = ChangeRecordTypeIconTypeViewData.Image(it.type),
-                categoryIcon = it.categoryIcon
+                type = ChangeRecordTypeIconTypeViewData.Image(iconImageCategory.type, index.toLong()),
+                categoryIcon = iconImageCategory.categoryIcon,
+                selected = selectedIndex == index.toLong(),
             )
         }
     }
 
-    fun mapIconEmojiCategories(): List<ViewHolderType> {
-        return iconEmojiMapper.getAvailableEmojiCategories().map {
+    fun mapIconEmojiCategories(
+        selectedIndex: Long,
+    ): List<ViewHolderType> {
+        return iconEmojiMapper.getAvailableEmojiCategories().mapIndexed { index, iconEmojiCategory ->
             ChangeRecordTypeIconCategoryViewData(
-                type = ChangeRecordTypeIconTypeViewData.Emoji(it.type),
-                categoryIcon = it.categoryIcon
+                type = ChangeRecordTypeIconTypeViewData.Emoji(iconEmojiCategory.type, index.toLong()),
+                categoryIcon = iconEmojiCategory.categoryIcon,
+                selected = selectedIndex == index.toLong(),
             )
         }
     }
@@ -137,24 +153,6 @@ class ChangeRecordTypeMapper @Inject constructor(
             emojiCodes = codes,
             colorInt = newColor
                 .let { colorMapper.mapToColorInt(it, isDarkTheme) }
-        )
-    }
-
-    private fun mapImageCategoryHintViewData(
-        category: IconImageCategory,
-    ): ChangeRecordTypeIconCategoryInfoViewData {
-        return ChangeRecordTypeIconCategoryInfoViewData(
-            type = ChangeRecordTypeIconTypeViewData.Image(category.type),
-            text = category.name
-        )
-    }
-
-    private fun mapEmojiCategoryHintViewData(
-        category: IconEmojiCategory,
-    ): ChangeRecordTypeIconCategoryInfoViewData {
-        return ChangeRecordTypeIconCategoryInfoViewData(
-            type = ChangeRecordTypeIconTypeViewData.Emoji(category.type),
-            text = category.name
         )
     }
 }

@@ -199,7 +199,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
             }
             iconType = viewData.iconType
             updateIconsTypeViewData()
-            updateIconCategories()
+            updateIconCategories(selectedIndex = 0)
             updateIcons()
         }
     }
@@ -218,6 +218,29 @@ class ChangeRecordTypeViewModel @Inject constructor(
                 updateRecordPreviewViewData()
             }
         }
+    }
+
+    fun onIconsScrolled(
+        firstVisiblePosition: Int,
+        lastVisiblePosition: Int,
+    ) {
+        val items = (icons.value as? ChangeRecordTypeIconStateViewData.Icons?)
+            ?.items ?: return
+        val infoItems = items.filterIsInstance<ChangeRecordTypeIconCategoryInfoViewData>()
+
+        // Last image category has small number of icons, need to check if it is visible,
+        // otherwise it would never be selected by the second check.
+        infoItems
+            .firstOrNull { it.isLast }
+            ?.takeIf { items.indexOf(it) <= lastVisiblePosition }
+            ?.let {
+                updateIconCategories(it.getUniqueId())
+                return
+            }
+
+        infoItems
+            .lastOrNull() { items.indexOf(it) <= firstVisiblePosition }
+            ?.let { updateIconCategories(it.getUniqueId()) }
     }
 
     fun onEmojiClick(item: EmojiViewData) {
@@ -440,13 +463,20 @@ class ChangeRecordTypeViewModel @Inject constructor(
         return viewDataInteractor.getIconsViewData(newColor, iconType)
     }
 
-    private fun updateIconCategories() = viewModelScope.launch {
-        val data = loadIconCategoriesViewData()
+    private fun updateIconCategories(
+        selectedIndex: Long,
+    ) = viewModelScope.launch {
+        val data = loadIconCategoriesViewData(selectedIndex)
         iconCategories.set(data)
     }
 
-    private fun loadIconCategoriesViewData(): List<ViewHolderType> {
-        return viewDataInteractor.getIconCategoriesViewData(iconType)
+    private fun loadIconCategoriesViewData(
+        selectedIndex: Long = 0,
+    ): List<ViewHolderType> {
+        return viewDataInteractor.getIconCategoriesViewData(
+            iconType = iconType,
+            selectedIndex = selectedIndex,
+        )
     }
 
     private fun updateIconsTypeViewData() {

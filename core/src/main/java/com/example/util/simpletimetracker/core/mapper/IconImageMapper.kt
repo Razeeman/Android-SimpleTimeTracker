@@ -101,9 +101,7 @@ class IconImageMapper @Inject constructor(
     )
 
     fun getAvailableImages(): Map<IconImageCategory, Map<String, Int>> =
-        getAvailableCategories()
-            .map { it to mapTypeToArray(it.type).let(repo::getImages) }
-            .toMap()
+        getAvailableCategories().associateWith { mapTypeToArray(it.type).let(repo::getImages) }
 
     fun mapToDrawableResId(iconName: String): Int {
         return context.resources

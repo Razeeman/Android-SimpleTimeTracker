@@ -51,6 +51,7 @@ import com.example.util.simpletimetracker.feature_change_record_type.viewData.Ch
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconSwitchViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeScrollViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewModel.ChangeRecordTypeViewModel
+import com.example.util.simpletimetracker.feature_views.extension.addOnScrollListenerAdapter
 import com.example.util.simpletimetracker.feature_views.extension.dpToPx
 import com.example.util.simpletimetracker.feature_views.extension.pxToDp
 import com.example.util.simpletimetracker.feature_views.extension.rotateDown
@@ -188,6 +189,14 @@ class ChangeRecordTypeFragment :
             updateIconContainerScroll(it)
             viewModel.onIconTypeClick(it)
         }
+        rvChangeRecordTypeIcon.addOnScrollListenerAdapter(onScrolled = { _, _, _ ->
+            iconsLayoutManager?.let {
+                viewModel.onIconsScrolled(
+                    firstVisiblePosition = it.findFirstCompletelyVisibleItemPosition(),
+                    lastVisiblePosition = it.findLastCompletelyVisibleItemPosition(),
+                )
+            }
+        })
     }
 
     override fun initViewModel(): Unit = with(binding) {

@@ -63,9 +63,7 @@ class IconEmojiMapper @Inject constructor(
     )
 
     fun getAvailableEmojis(): Map<IconEmojiCategory, List<String>> =
-        getAvailableEmojiCategories()
-            .map() { it to mapTypeToCodes(it.type) }
-            .toMap()
+        getAvailableEmojiCategories().associateWith { mapTypeToCodes(it.type) }
 
     fun hasSkinToneVariations(codes: String): Boolean =
         codes.contains(IconEmojiRepo.SKIN_TONE)
