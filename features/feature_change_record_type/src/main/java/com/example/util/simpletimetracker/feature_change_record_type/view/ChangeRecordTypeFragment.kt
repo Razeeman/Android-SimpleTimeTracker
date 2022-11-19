@@ -223,6 +223,7 @@ class ChangeRecordTypeFragment :
                     onScrolled()
                 }
             }
+            expandIconTypeSwitch.observe { appBarChangeRecordTypeIcon.setExpanded(true) }
         }
     }
 

@@ -121,6 +121,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     val deleteIconVisibility: LiveData<Boolean> by lazy { MutableLiveData(recordTypeId != 0L) }
     val keyboardVisibility: LiveData<Boolean> by lazy { MutableLiveData(recordTypeId == 0L) }
     val iconsScrollPosition: LiveData<ChangeRecordTypeScrollViewData> = MutableLiveData()
+    val expandIconTypeSwitch: LiveData<Unit> = MutableLiveData()
 
     private val recordTypeId: Long get() = (extra as? ChangeRecordTypeParams.Change)?.id.orZero()
     private var iconType: IconType = IconType.IMAGE
@@ -205,6 +206,9 @@ class ChangeRecordTypeViewModel @Inject constructor(
     }
 
     fun onIconCategoryClick(viewData: ChangeRecordTypeIconCategoryViewData) {
+        if (viewData.getUniqueId() == 0L) {
+            expandIconTypeSwitch.set(Unit)
+        }
         (icons.value as? ChangeRecordTypeIconStateViewData.Icons)
             ?.items
             ?.indexOfFirst { (it as? ChangeRecordTypeIconCategoryInfoViewData)?.type == viewData.type }
