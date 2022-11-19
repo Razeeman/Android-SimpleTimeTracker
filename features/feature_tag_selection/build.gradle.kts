@@ -14,8 +14,6 @@ android {
     defaultConfig {
         minSdkVersion(Base.minSDK)
         targetSdkVersion(Base.currentSDK)
-        versionCode = Base.versionCode
-        versionName = Base.versionName
     }
 
     kotlinOptions {
