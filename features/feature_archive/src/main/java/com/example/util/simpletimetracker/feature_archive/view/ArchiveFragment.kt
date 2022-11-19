@@ -68,10 +68,10 @@ class ArchiveFragment :
         }
     }
 
-    override fun onDeleteClick(params: ArchiveDialogParams?) =
+    override fun onDeleteClick(params: ArchiveDialogParams) =
         viewModel.onDeleteClick(params)
 
-    override fun onRestoreClick(params: ArchiveDialogParams?) =
+    override fun onRestoreClick(params: ArchiveDialogParams) =
         viewModel.onRestoreClick(params)
 
     override fun onPositiveClick(tag: String?, data: Any?) =

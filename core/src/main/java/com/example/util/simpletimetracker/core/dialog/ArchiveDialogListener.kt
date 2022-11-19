@@ -4,6 +4,6 @@ import com.example.util.simpletimetracker.navigation.params.screen.ArchiveDialog
 
 interface ArchiveDialogListener {
 
-    fun onDeleteClick(params: ArchiveDialogParams?)
-    fun onRestoreClick(params: ArchiveDialogParams?)
+    fun onDeleteClick(params: ArchiveDialogParams)
+    fun onRestoreClick(params: ArchiveDialogParams)
 }

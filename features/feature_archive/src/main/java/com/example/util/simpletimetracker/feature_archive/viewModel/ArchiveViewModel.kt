@@ -70,18 +70,16 @@ class ArchiveViewModel @Inject constructor(
         }
     }
 
-    fun onRestoreClick(params: ArchiveDialogParams?) {
+    fun onRestoreClick(params: ArchiveDialogParams) {
         viewModelScope.launch {
-            var message = ""
-
-            when (params) {
+            val message: String = when (params) {
                 is ArchiveDialogParams.Activity -> {
                     recordTypeInteractor.restore(params.id)
-                    message = resourceRepo.getString(R.string.archive_activity_restored)
+                    resourceRepo.getString(R.string.archive_activity_restored)
                 }
                 is ArchiveDialogParams.RecordTag -> {
                     recordTagInteractor.restore(params.id)
-                    message = resourceRepo.getString(R.string.archive_tag_restored)
+                    resourceRepo.getString(R.string.archive_tag_restored)
                 }
             }
 
@@ -96,18 +94,16 @@ class ArchiveViewModel @Inject constructor(
         }
     }
 
-    private fun onDelete(params: ArchiveDialogParams?) {
+    private fun onDelete(params: ArchiveDialogParams) {
         viewModelScope.launch {
-            var message = ""
-
-            when (params) {
+            val message = when (params) {
                 is ArchiveDialogParams.Activity -> {
                     recordTypeInteractor.remove(params.id)
-                    message = resourceRepo.getString(R.string.archive_activity_deleted)
+                    resourceRepo.getString(R.string.archive_activity_deleted)
                 }
                 is ArchiveDialogParams.RecordTag -> {
                     recordTagInteractor.remove(params.id)
-                    message = resourceRepo.getString(R.string.archive_tag_deleted)
+                    resourceRepo.getString(R.string.archive_tag_deleted)
                 }
             }
 

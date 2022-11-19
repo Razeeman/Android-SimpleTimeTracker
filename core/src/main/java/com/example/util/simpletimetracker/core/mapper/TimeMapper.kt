@@ -320,6 +320,9 @@ class TimeMapper @Inject constructor(
                 is RangeLength.Week -> setWeekToFirstDay()
                 is RangeLength.Month -> set(Calendar.DAY_OF_MONTH, 1)
                 is RangeLength.Year -> set(Calendar.DAY_OF_YEAR, 1)
+                else -> {
+                    // Do nothing
+                }
             }
             set(Calendar.HOUR_OF_DAY, 0)
             set(Calendar.MINUTE, 0)
