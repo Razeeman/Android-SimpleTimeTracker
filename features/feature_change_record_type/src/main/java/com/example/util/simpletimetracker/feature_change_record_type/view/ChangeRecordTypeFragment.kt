@@ -96,7 +96,10 @@ class ChangeRecordTypeFragment :
     }
     private val iconCategoriesAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
-            createChangeRecordTypeIconCategoryAdapterDelegate(viewModel::onIconCategoryClick)
+            createChangeRecordTypeIconCategoryAdapterDelegate {
+                viewModel.onIconCategoryClick(it)
+                binding.rvChangeRecordTypeIcon.stopScroll()
+            }
         )
     }
     private val categoriesAdapter: BaseRecyclerAdapter by lazy {
@@ -200,6 +203,11 @@ class ChangeRecordTypeFragment :
                 arrowChangeRecordTypeColor.apply {
                     if (opened) rotateDown() else rotateUp()
                 }
+
+                inputChangeRecordTypeName.isVisible = !opened
+                fieldChangeRecordTypeIcon.isVisible = !opened
+                fieldChangeRecordTypeCategory.isVisible = !opened
+                containerChangeRecordTypeGoalTime.isVisible = !opened
             }
             flipIconChooser.observe { opened ->
                 containerChangeRecordTypeIcon.isVisible = opened
@@ -207,6 +215,11 @@ class ChangeRecordTypeFragment :
                 arrowChangeRecordTypeIcon.apply {
                     if (opened) rotateDown() else rotateUp()
                 }
+
+                inputChangeRecordTypeName.isVisible = !opened
+                fieldChangeRecordTypeColor.isVisible = !opened
+                fieldChangeRecordTypeCategory.isVisible = !opened
+                containerChangeRecordTypeGoalTime.isVisible = !opened
             }
             flipCategoryChooser.observe { opened ->
                 rvChangeRecordTypeCategories.isVisible = opened
@@ -214,6 +227,11 @@ class ChangeRecordTypeFragment :
                 arrowChangeRecordTypeCategory.apply {
                     if (opened) rotateDown() else rotateUp()
                 }
+
+                inputChangeRecordTypeName.isVisible = !opened
+                fieldChangeRecordTypeColor.isVisible = !opened
+                fieldChangeRecordTypeIcon.isVisible = !opened
+                containerChangeRecordTypeGoalTime.isVisible = !opened
             }
             keyboardVisibility.observe { visible ->
                 if (visible) showKeyboard(etChangeRecordTypeName) else hideKeyboard()
