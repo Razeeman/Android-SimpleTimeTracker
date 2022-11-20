@@ -17,4 +17,8 @@ class ApplicationDataProviderImpl @Inject constructor(
     override fun getAppName(): String {
         return resourceRepo.getString(R.string.app_name)
     }
+
+    override fun getAppVersion(): String {
+        return BuildConfig.VERSION_NAME
+    }
 }

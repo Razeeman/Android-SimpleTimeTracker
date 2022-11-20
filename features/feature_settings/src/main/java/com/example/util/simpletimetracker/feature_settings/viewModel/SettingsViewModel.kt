@@ -596,7 +596,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     private fun loadVersionName(): String {
-        return BuildConfig.VERSION_NAME.let {
+        return applicationDataProvider.getAppVersion().let {
             if (BuildConfig.DEBUG) {
                 "$it ${BuildConfig.BUILD_TYPE}"
             } else {
