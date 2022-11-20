@@ -98,28 +98,32 @@ class RecordsCalendarView @JvmOverloads constructor(
     private var listener: (RecordViewData) -> Unit = {}
 
     private val nameTextView: AppCompatTextView by lazy {
-        AppCompatTextView(context).apply {
-            setTextSize(TypedValue.COMPLEX_UNIT_PX, nameTextSize)
-            setTextColor(nameTextColor)
-            maxLines = 1
-            ellipsize = TextUtils.TruncateAt.END
-            typeface = Typeface.DEFAULT_BOLD
-            layoutParams = ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
-            )
-        }
+        getTextView(
+            textColor = nameTextColor,
+            typeface = Typeface.DEFAULT_BOLD,
+            widthLayoutParams = ViewGroup.LayoutParams.MATCH_PARENT,
+        )
     }
-
+    private val durationTextView: AppCompatTextView by lazy {
+        getTextView(
+            textColor = itemTagColor,
+            typeface = Typeface.DEFAULT_BOLD,
+            widthLayoutParams = ViewGroup.LayoutParams.WRAP_CONTENT,
+        )
+    }
+    private val timeTextView: AppCompatTextView by lazy {
+        getTextView(
+            textColor = itemTagColor,
+            typeface = Typeface.DEFAULT,
+            widthLayoutParams = ViewGroup.LayoutParams.MATCH_PARENT,
+        )
+    }
     private val commentTextView: AppCompatTextView by lazy {
-        AppCompatTextView(context).apply {
-            setTextSize(TypedValue.COMPLEX_UNIT_PX, nameTextSize)
-            setTextColor(nameTextColor)
-            maxLines = 1
-            ellipsize = TextUtils.TruncateAt.END
-            layoutParams = ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
-            )
-        }
+        getTextView(
+            textColor = itemTagColor,
+            typeface = Typeface.DEFAULT,
+            widthLayoutParams = ViewGroup.LayoutParams.MATCH_PARENT,
+        )
     }
 
     private val availableMinutesRanges: List<List<Int>> = listOf(
@@ -190,7 +194,7 @@ class RecordsCalendarView @JvmOverloads constructor(
 
         calculateDimensions(w, h)
         drawLegend(canvas, w, h)
-        drawData(canvas, w, h)
+        drawData(canvas, h)
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -300,7 +304,7 @@ class RecordsCalendarView @JvmOverloads constructor(
         chartWidth = pixelRightBound - pixelLeftBound
     }
 
-    private fun drawData(canvas: Canvas, w: Float, h: Float) {
+    private fun drawData(canvas: Canvas, h: Float) {
         var boxHeight: Float
         var boxShift: Float
         var boxWidth: Float
@@ -317,9 +321,13 @@ class RecordsCalendarView @JvmOverloads constructor(
 
         var textWidth: Float
         var textHeight: Int
+        var timesTextHeight: Int
         var commentTextHeight: Int
         var textLeft: Float
         var textTop: Float
+        var availableHeight: Float
+        var availableWidth: Float
+        var newMaxLines: Int
 
         data.forEach { item ->
             /************
@@ -351,10 +359,13 @@ class RecordsCalendarView @JvmOverloads constructor(
                 recordPaint
             )
 
+            availableHeight = recordBounds.height() - 2 * recordVerticalPadding
+            availableWidth = recordBounds.width() - 2 * recordHorizontalPadding
+
             /*************
              * Draw icon *
              *************/
-            iconSize = iconMaxSize.takeIf { it < recordBounds.height() - 2 * recordVerticalPadding }
+            iconSize = iconMaxSize.takeIf { it < availableHeight }
             // If can fit into box.
             iconSize?.let { iconSize ->
                 iconLeft = (recordBounds.left + recordHorizontalPadding).toInt()
@@ -369,19 +380,49 @@ class RecordsCalendarView @JvmOverloads constructor(
                 item.drawable?.bounds = bounds
                 item.drawable?.draw(canvas)
             }
+            availableWidth -= (iconMaxSize + recordHorizontalPadding)
+
+            /*****************
+             * Draw duration *
+             *****************/
+            durationTextView.text = item.point.data.duration
+            durationTextView.measureText(
+                width = 0,
+                widthSpec = MeasureSpec.UNSPECIFIED
+            )
+            textHeight = durationTextView.measuredHeight
+            // If can fit into box.
+            if (textHeight < availableHeight) {
+                textLeft = recordBounds.right - recordHorizontalPadding - durationTextView.measuredWidth
+                textTop = recordBounds.top + recordVerticalPadding
+                availableWidth -= (durationTextView.measuredWidth + recordHorizontalPadding)
+
+                canvas.save()
+                canvas.translate(textLeft, textTop)
+                durationTextView.draw(canvas)
+                canvas.restore()
+            }
 
             /*************
              * Draw name *
              *************/
+
             // 3 paddings - 2 at the sides, 1 between icon.
-            textWidth = recordBounds.width() - iconMaxSize - 3 * recordHorizontalPadding
+            textWidth = recordBounds.width() -
+                iconMaxSize -
+                3 * recordHorizontalPadding -
+                durationTextView.measuredWidth
             nameTextView.text = getItemName(item.point.data)
-            nameTextView.measureText(textWidth.toInt())
+            nameTextView.measureText(
+                width = textWidth.coerceAtLeast(0f).toInt(),
+                widthSpec = MeasureSpec.EXACTLY
+            )
             textHeight = nameTextView.measuredHeight
             // If can fit into box.
-            if (textHeight < recordBounds.height() - 2 * recordVerticalPadding) {
-                textLeft = recordBounds.right - recordHorizontalPadding - textWidth
+            if (textHeight < availableHeight) {
+                textLeft = recordBounds.left + iconMaxSize + 2 * recordHorizontalPadding
                 textTop = recordBounds.top + recordVerticalPadding
+                availableHeight -= (textHeight + recordVerticalPadding)
 
                 canvas.save()
                 canvas.translate(textLeft, textTop)
@@ -389,18 +430,53 @@ class RecordsCalendarView @JvmOverloads constructor(
                 canvas.restore()
             }
 
+            /**************
+             * Draw times *
+             **************/
+            textWidth = recordBounds.width() - 2 * recordHorizontalPadding
+            timeTextView.text = getItemTimes(item.point.data)
+            timeTextView.measureText(
+                width = textWidth.toInt(),
+                widthSpec = MeasureSpec.EXACTLY
+            )
+            timesTextHeight = timeTextView.measuredHeight
+            // If can fit into box.
+            if (timesTextHeight < availableHeight) {
+                textLeft = recordBounds.right - recordHorizontalPadding - textWidth
+                textTop = recordBounds.top + recordVerticalPadding + textHeight
+                availableHeight -= (timesTextHeight + recordVerticalPadding)
+
+                canvas.save()
+                canvas.translate(textLeft, textTop)
+                timeTextView.draw(canvas)
+                canvas.restore()
+            }
+
             /****************
              * Draw comment *
              ****************/
+            availableHeight = availableHeight.coerceAtLeast(0f)
             if (item.point.data.comment.isNotEmpty()) {
                 textWidth = recordBounds.width() - 2 * recordHorizontalPadding
                 commentTextView.text = item.point.data.comment
-                commentTextView.measureText(textWidth.toInt())
+                commentTextView.apply { maxLines = 1 }.measureText(
+                    width = textWidth.toInt(),
+                    widthSpec = MeasureSpec.EXACTLY,
+                    height = 0,
+                    heightSpec = MeasureSpec.UNSPECIFIED
+                )
+                newMaxLines = (availableHeight / commentTextView.measuredHeight).toInt()
+                commentTextView.apply { maxLines = newMaxLines }.measureText(
+                    width = textWidth.toInt(),
+                    widthSpec = MeasureSpec.EXACTLY,
+                    height = availableHeight.toInt(),
+                    heightSpec = MeasureSpec.AT_MOST
+                )
+                // If can fit into box.
                 commentTextHeight = commentTextView.measuredHeight
-                // If can fit into box with item name.
-                if (commentTextHeight < recordBounds.height() - 2 * recordVerticalPadding - textHeight) {
+                if (commentTextHeight < availableHeight) {
                     textLeft = recordBounds.right - recordHorizontalPadding - textWidth
-                    textTop = recordBounds.top + recordVerticalPadding + textHeight
+                    textTop = recordBounds.top + recordVerticalPadding + textHeight + timesTextHeight
 
                     canvas.save()
                     canvas.translate(textLeft, textTop)
@@ -416,7 +492,7 @@ class RecordsCalendarView @JvmOverloads constructor(
             .map { if (it == 24 && startOfDayShift != 0L) 0 else it }
         val lineStep = h / (hours.size - 1)
 
-        val selectedMinutesRange = availableMinutesRanges.firstOrNull() {
+        val selectedMinutesRange = availableMinutesRanges.firstOrNull {
             (lineStep * scaleFactor / (it.size + 1)) > (legendMinutesTextHeight + 2 * legendMinutesTextPadding)
         }.orEmpty()
         val minuteLineStep = lineStep / (selectedMinutesRange.size + 1)
@@ -631,6 +707,10 @@ class RecordsCalendarView @JvmOverloads constructor(
         }
     }
 
+    private fun getItemTimes(item: RecordViewData): String {
+        return "${item.timeStarted} - ${item.timeFinished}"
+    }
+
     private fun onTouch(event: MotionEvent) {
         val x = event.x
         val y = event.y
@@ -682,9 +762,31 @@ class RecordsCalendarView @JvmOverloads constructor(
         panFactor = panFactor.coerceIn(-maxPanAvailable, 0f)
     }
 
-    private fun View.measureText(width: Int) {
-        val specWidth = MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY)
-        val specHeight = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
+    private fun getTextView(
+        textColor: Int,
+        typeface: Typeface,
+        widthLayoutParams: Int,
+    ): AppCompatTextView {
+        return AppCompatTextView(context).apply {
+            setTextSize(TypedValue.COMPLEX_UNIT_PX, nameTextSize)
+            setTextColor(textColor)
+            maxLines = 1
+            ellipsize = TextUtils.TruncateAt.END
+            this.typeface = typeface
+            layoutParams = ViewGroup.LayoutParams(
+                widthLayoutParams, ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+        }
+    }
+
+    private fun View.measureText(
+        width: Int,
+        widthSpec: Int,
+        height: Int = 0,
+        heightSpec: Int = MeasureSpec.UNSPECIFIED,
+    ) {
+        val specWidth = MeasureSpec.makeMeasureSpec(width, widthSpec)
+        val specHeight = MeasureSpec.makeMeasureSpec(height, heightSpec)
         measure(specWidth, specHeight)
         layout(0, 0, measuredWidth, measuredHeight)
     }
@@ -707,5 +809,5 @@ class RecordsCalendarView @JvmOverloads constructor(
         val lastScaleFactor: Float,
         val panFactor: Float,
         val lastPanFactor: Float,
-    ) : View.BaseSavedState(superSavedState)
+    ) : BaseSavedState(superSavedState)
 }
