@@ -16,7 +16,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:descendantFocusability="blocksDescendants"
-            android:paddingBottom="16dp">
+            android:paddingBottom="16dp"
+            app:layout_optimizationLevel="none">
 
             <com.example.util.simpletimetracker.feature_views.StatisticsView
                 android:id="@+id/viewStatisticsDetailItem"
