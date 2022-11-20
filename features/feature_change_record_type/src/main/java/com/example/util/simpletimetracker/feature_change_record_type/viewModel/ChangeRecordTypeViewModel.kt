@@ -243,7 +243,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
             }
 
         infoItems
-            .lastOrNull() { items.indexOf(it) <= firstVisiblePosition }
+            .lastOrNull { items.indexOf(it) <= firstVisiblePosition }
             ?.let { updateIconCategories(it.getUniqueId()) }
     }
 

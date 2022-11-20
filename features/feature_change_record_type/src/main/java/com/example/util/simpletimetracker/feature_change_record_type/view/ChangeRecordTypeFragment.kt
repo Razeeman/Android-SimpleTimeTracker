@@ -189,14 +189,16 @@ class ChangeRecordTypeFragment :
             updateIconContainerScroll(it)
             viewModel.onIconTypeClick(it)
         }
-        rvChangeRecordTypeIcon.addOnScrollListenerAdapter(onScrolled = { _, _, _ ->
-            iconsLayoutManager?.let {
-                viewModel.onIconsScrolled(
-                    firstVisiblePosition = it.findFirstCompletelyVisibleItemPosition(),
-                    lastVisiblePosition = it.findLastCompletelyVisibleItemPosition(),
-                )
+        rvChangeRecordTypeIcon.addOnScrollListenerAdapter(
+            onScrolled = { _, _, _ ->
+                iconsLayoutManager?.let {
+                    viewModel.onIconsScrolled(
+                        firstVisiblePosition = it.findFirstCompletelyVisibleItemPosition(),
+                        lastVisiblePosition = it.findLastCompletelyVisibleItemPosition(),
+                    )
+                }
             }
-        })
+        )
     }
 
     override fun initViewModel(): Unit = with(binding) {

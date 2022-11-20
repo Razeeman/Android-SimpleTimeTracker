@@ -269,7 +269,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
 
         fun getAverage(data: List<ChartBarDataDuration>): Long? {
             if (data.isEmpty()) return null
-            return data.map { it.duration }.sum() / data.size
+            return data.sumOf { it.duration } / data.size
         }
 
         val average = getAverage(data)
@@ -319,8 +319,8 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         data: List<ChartBarDataDuration>,
         rangeLength: RangeLength,
     ): StatisticsDetailChartViewData {
-        val isMinutes = data.map(ChartBarDataDuration::duration)
-            .maxOrNull().orZero()
+        val isMinutes = data.maxOfOrNull(ChartBarDataDuration::duration)
+            .orZero()
             .let(TimeUnit.MILLISECONDS::toHours) == 0L
 
         val legendSuffix = if (isMinutes) {

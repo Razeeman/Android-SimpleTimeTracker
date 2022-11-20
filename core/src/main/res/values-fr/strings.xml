@@ -92,7 +92,6 @@
     <string name="change_record_comment_hint">Commenter</string>
     <string name="change_record_last_comments_hint">Derniers commentaires</string>
     <string name="change_record_categories_empty">Aucune étiquette d\'enregistrement ajoutée</string>
-    <string name="change_record_activity_not_selected">Activité non sélectionnée</string>
     <string name="change_record_save">Sauvegarder</string>
     <string name="change_record_untagged">Non étiqueté</string>
     <string name="change_running_record_removed">Activité en cours d\'exécution supprimée</string>
@@ -145,7 +144,6 @@
 
     <!--  Records all  -->
     <string name="records_all_sort_order">Trier les enregistrements</string>
-    <string name="records_all_filter">Filtrer les activités</string>
     <string name="records_all_sort_time_started">Heure de début</string>
     <string name="records_all_sort_duration">Durée</string>
     <string name="records_all_search_comment">Rechercher un commentaire</string>

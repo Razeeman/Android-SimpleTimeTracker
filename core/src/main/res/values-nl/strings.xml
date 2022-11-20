@@ -92,7 +92,6 @@
     <string name="change_record_comment_hint">Opmerking</string>
     <string name="change_record_last_comments_hint">Laatste opmerkingen</string>
     <string name="change_record_categories_empty">Geen opname labels toegevoegd</string>
-    <string name="change_record_activity_not_selected">Activiteit niet geselecteerd</string>
     <string name="change_record_save">Opslaan</string>
     <string name="change_record_untagged">Niet gelabeld</string>
     <string name="change_running_record_removed">Lopende activiteit verwijderd</string>
@@ -145,7 +144,6 @@
 
     <!--  Records all  -->
     <string name="records_all_sort_order">Records sorteren</string>
-    <string name="records_all_filter">Activiteiten filteren</string>
     <string name="records_all_sort_time_started">Tijd begonnen</string>
     <string name="records_all_sort_duration">Looptijd</string>
     <string name="records_all_search_comment">Opmerking zoeken</string>

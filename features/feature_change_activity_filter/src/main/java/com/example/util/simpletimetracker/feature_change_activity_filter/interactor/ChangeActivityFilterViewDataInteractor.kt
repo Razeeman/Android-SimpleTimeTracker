@@ -52,9 +52,9 @@ class ChangeActivityFilterViewDataInteractor @Inject constructor(
             }
         }
             .takeUnless { it.isEmpty() }
-            ?.let {
-                val selected = it.filter { it.first in selectedIds }.map { it.second }
-                val available = it.filter { it.first !in selectedIds }.map { it.second }
+            ?.let { data ->
+                val selected = data.filter { it.first in selectedIds }.map { it.second }
+                val available = data.filter { it.first !in selectedIds }.map { it.second }
                 selected to available
             }
             ?.let { (selected, available) ->

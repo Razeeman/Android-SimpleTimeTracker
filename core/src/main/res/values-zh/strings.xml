@@ -92,7 +92,6 @@
     <string name="change_record_comment_hint">备注</string>
     <string name="change_record_last_comments_hint">最后评论</string>
     <string name="change_record_categories_empty">未添加记录标签</string>
-    <string name="change_record_activity_not_selected">未选择活动</string>
     <string name="change_record_save">保存</string>
     <string name="change_record_untagged">无标签</string>
     <string name="change_running_record_removed">正在追踪的活动已删除</string>
@@ -145,7 +144,6 @@
 
     <!--  Records all  -->
     <string name="records_all_sort_order">对记录排序</string>
-    <string name="records_all_filter">筛选活动</string>
     <string name="records_all_sort_time_started">开始时间</string>
     <string name="records_all_sort_duration">持续时间</string>
     <string name="records_all_search_comment">搜索评论</string>

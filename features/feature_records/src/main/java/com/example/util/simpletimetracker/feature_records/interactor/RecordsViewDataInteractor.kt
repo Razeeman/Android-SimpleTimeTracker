@@ -36,7 +36,7 @@ class RecordsViewDataInteractor @Inject constructor(
         val startOfDayShift = prefsInteractor.getStartOfDayShift()
         val isCalendarView = prefsInteractor.getShowRecordsCalendar()
         val showUntrackedInRecords = prefsInteractor.getShowUntrackedInRecords()
-        val recordTypes = recordTypeInteractor.getAll().map { it.id to it }.toMap()
+        val recordTypes = recordTypeInteractor.getAll().associateBy { it.id }
         val recordTags = recordTagInteractor.getAll()
         val (rangeStart, rangeEnd) = timeMapper.getRangeStartAndEnd(
             rangeLength = RangeLength.Day,

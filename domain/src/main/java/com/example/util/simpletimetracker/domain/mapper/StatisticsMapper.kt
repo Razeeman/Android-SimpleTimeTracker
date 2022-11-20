@@ -9,16 +9,12 @@ import kotlin.math.roundToLong
 class StatisticsMapper @Inject constructor() {
 
     fun mapToDuration(records: List<Record>): Long {
-        return records
-            .map { it.timeEnded - it.timeStarted }
-            .sum()
+        return records.sumOf { it.timeEnded - it.timeStarted }
     }
 
     fun mapToDurationFromRange(records: List<Record>, start: Long, end: Long): Long {
-        return records
-            // Remove parts of the record that is not in the range
-            .map { min(it.timeEnded, end) - max(it.timeStarted, start) }
-            .sum()
+        // Remove parts of the record that is not in the range
+        return records.sumOf { min(it.timeEnded, end) - max(it.timeStarted, start) }
     }
 
     fun getDurationPercentString(

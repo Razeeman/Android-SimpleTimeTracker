@@ -92,7 +92,6 @@
     <string name="change_record_comment_hint">Коментар</string>
     <string name="change_record_last_comments_hint">Останні коментарі</string>
     <string name="change_record_categories_empty">Теги для активності не додані</string>
-    <string name="change_record_activity_not_selected">Активність не обрана</string>
     <string name="change_record_save">Зберегти</string>
     <string name="change_record_untagged">Без тегу</string>
     <string name="change_running_record_removed">Поточне заняття видалено</string>
@@ -145,7 +144,6 @@
 
     <!--  Records all  -->
     <string name="records_all_sort_order">Сортувати записи</string>
-    <string name="records_all_filter">Фільтрувати заняття</string>
     <string name="records_all_sort_time_started">Початок</string>
     <string name="records_all_sort_duration">Тривалість</string>
     <string name="records_all_search_comment">Шукати коментар</string>

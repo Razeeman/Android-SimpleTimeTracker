@@ -92,7 +92,6 @@
     <string name="change_record_comment_hint">Comment</string>
     <string name="change_record_last_comments_hint">Last comments</string>
     <string name="change_record_categories_empty">No record tags added</string>
-    <string name="change_record_activity_not_selected">Activity not selected</string>
     <string name="change_record_save">Save</string>
     <string name="change_record_untagged">Untagged</string>
     <string name="change_running_record_removed">Running activity removed</string>
@@ -145,7 +144,6 @@
 
     <!--  Records all  -->
     <string name="records_all_sort_order">Sort records</string>
-    <string name="records_all_filter">Filter activities</string>
     <string name="records_all_sort_time_started">Time started</string>
     <string name="records_all_sort_duration">Duration</string>
     <string name="records_all_search_comment">Search comment</string>

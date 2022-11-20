@@ -80,10 +80,6 @@ class EmojiSelectionDialogFragment : BaseBottomSheetFragment<Binding>() {
         }
     }
 
-    override fun initUx() {
-        // Do nothing
-    }
-
     override fun initViewModel(): Unit = with(viewModel) {
         extra = params
         icons.observe(adapter::replace)

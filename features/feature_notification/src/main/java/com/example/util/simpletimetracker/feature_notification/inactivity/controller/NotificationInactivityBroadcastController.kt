@@ -12,6 +12,6 @@ class NotificationInactivityBroadcastController @Inject constructor(
     }
 
     fun onBootCompleted() {
-        // reschedule inactivity reminder
+        // TODO reschedule inactivity reminder
     }
 }

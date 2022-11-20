@@ -220,7 +220,7 @@ fun scrollToBottom(): ViewAction = object : ViewAction {
         "scroll RecyclerView to bottom"
 
     override fun getConstraints(): Matcher<View> =
-        allOf<View>(isAssignableFrom(RecyclerView::class.java), isDisplayed())
+        allOf(isAssignableFrom(RecyclerView::class.java), isDisplayed())
 
     override fun perform(uiController: UiController?, view: View?) {
         val recyclerView = view as RecyclerView

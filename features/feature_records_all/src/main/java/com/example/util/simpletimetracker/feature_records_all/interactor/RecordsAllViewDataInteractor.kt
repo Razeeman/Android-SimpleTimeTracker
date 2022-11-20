@@ -39,7 +39,7 @@ class RecordsAllViewDataInteractor @Inject constructor(
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
         val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
-        val recordTypes = recordTypeInteractor.getAll().map { it.id to it }.toMap()
+        val recordTypes = recordTypeInteractor.getAll().associateBy { it.id }
         val recordTags = recordTagInteractor.getAll()
         val typesSelected = typesFilterInteractor.getTypeIds(filter)
         val records = if (commentSearch.isEmpty()) {

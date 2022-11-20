@@ -58,10 +58,6 @@ class DurationDialogFragment : BaseBottomSheetFragment<Binding>() {
         setFullScreen()
     }
 
-    override fun initUi() {
-        // Do nothing
-    }
-
     override fun initUx(): Unit = with(binding) {
         btnDurationPickerSave.setOnClick(::onSaveClick)
         btnDurationPickerDisable.setOnClick(::onDisableClick)

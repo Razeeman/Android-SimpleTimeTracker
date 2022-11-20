@@ -92,7 +92,6 @@
     <string name="change_record_comment_hint">Komentar</string>
     <string name="change_record_last_comments_hint">Komentar terakhir</string>
     <string name="change_record_categories_empty">Tidak ada label rekaman yang ditambahkan</string>
-    <string name="change_record_activity_not_selected">Kegiatan tidak dipilih</string>
     <string name="change_record_save">Simpan</string>
     <string name="change_record_untagged">Tidak berlabel</string>
     <string name="change_running_record_removed">Kegiatan berjalan dihapus</string>
@@ -145,7 +144,6 @@
 
     <!--  Records all  -->
     <string name="records_all_sort_order">Urutkan rekor</string>
-    <string name="records_all_filter">Saring kegiatan</string>
     <string name="records_all_sort_time_started">Waktu dimulai</string>
     <string name="records_all_sort_duration">Durasi</string>
     <string name="records_all_search_comment">Cari komentar</string>

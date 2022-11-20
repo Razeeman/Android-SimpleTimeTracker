@@ -116,7 +116,7 @@ class RecordTypeInteractor @Inject constructor(
     private suspend fun sortByManualOrder(records: List<RecordType>): List<RecordType> {
         val order = prefsInteractor.getCardOrderManual()
         return records
-            .map { type -> type to order.getOrElse(type.id, { 0 }) }
+            .map { type -> type to order.getOrElse(type.id) { 0 } }
             .sortedBy { (_, order) -> order }
             .map { (type, _) -> type }
     }

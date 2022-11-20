@@ -63,7 +63,7 @@ class NotificationTypeInteractorImpl @Inject constructor(
     }
 
     private suspend fun showAll() {
-        val recordTypes = recordTypeInteractor.getAll().map { it.id to it }.toMap()
+        val recordTypes = recordTypeInteractor.getAll().associateBy { it.id }
         val recordTags = recordTagInteractor.getAll()
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()

@@ -135,8 +135,8 @@ class StatisticsDetailStatsInteractor @Inject constructor(
         )
         val tagSplitData = mapTags(
             records = records,
-            typesMap = types.map { it.id to it }.toMap(),
-            tagsMap = tags.map { it.id to it }.toMap(),
+            typesMap = types.associateBy { it.id },
+            tagsMap = tags.associateBy { it.id },
             isDarkTheme = isDarkTheme,
             useProportionalMinutes = useProportionalMinutes
         )
@@ -289,10 +289,10 @@ class StatisticsDetailStatsInteractor @Inject constructor(
 
         records.forEach { record ->
             record.tagIds.forEach { tagId ->
-                tags.getOrPut(tagId, { mutableListOf() }).add(record)
+                tags.getOrPut(tagId) { mutableListOf() }.add(record)
             }
             if (record.tagIds.isEmpty()) {
-                tags.getOrPut(0, { mutableListOf() }).add(record)
+                tags.getOrPut(0) { mutableListOf() }.add(record)
             }
         }
 

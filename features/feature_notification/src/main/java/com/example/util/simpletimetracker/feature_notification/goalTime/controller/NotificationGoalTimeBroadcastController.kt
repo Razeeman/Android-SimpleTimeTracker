@@ -12,6 +12,6 @@ class NotificationGoalTimeBroadcastController @Inject constructor(
     }
 
     fun onBootCompleted() {
-        // reschedule inactivity reminder
+        // TODO reschedule goal time reminder
     }
 }

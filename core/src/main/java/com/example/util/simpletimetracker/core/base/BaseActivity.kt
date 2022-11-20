@@ -8,6 +8,6 @@ abstract class BaseActivity : AppCompatActivity() {
     inline fun <T> LiveData<T>.observe(
         crossinline onChanged: (T) -> Unit
     ) {
-        observe(this@BaseActivity, { onChanged(it) })
+        observe(this@BaseActivity) { onChanged(it) }
     }
 }

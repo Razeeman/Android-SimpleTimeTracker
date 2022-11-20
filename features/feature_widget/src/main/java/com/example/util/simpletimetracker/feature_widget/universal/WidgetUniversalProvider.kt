@@ -70,7 +70,7 @@ class WidgetUniversalProvider : AppWidgetProvider() {
         context: Context
     ): View = runBlocking {
         val runningRecords = runningRecordInteractor.getAll()
-        val recordTypes = recordTypeInteractor.getAll().map { it.id to it }.toMap()
+        val recordTypes = recordTypeInteractor.getAll().associateBy { it.id }
         val isDarkTheme = prefsInteractor.getDarkMode()
 
         val data = runningRecords

@@ -62,6 +62,6 @@ abstract class BaseBottomSheetFragment<T : ViewBinding> : BottomSheetDialogFragm
     inline fun <T> LiveData<T>.observe(
         crossinline onChanged: (T) -> Unit
     ) {
-        observe(viewLifecycleOwner, { onChanged(it) })
+        observe(viewLifecycleOwner) { onChanged(it) }
     }
 }

@@ -96,9 +96,4 @@ class CategoryViewDataMapper @Inject constructor(
             color.let { colorMapper.mapToColorInt(it, isDarkTheme) }
         }
     }
-
-    companion object {
-        private const val DEFAULT_ICON_TEXT_ALPHA = 1.0f
-        private const val FILTERED_ICON_TEXT_ALPHA = 0.3f
-    }
 }

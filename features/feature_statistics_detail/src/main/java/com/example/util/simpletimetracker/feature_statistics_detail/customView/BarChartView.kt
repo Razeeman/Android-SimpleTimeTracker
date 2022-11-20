@@ -133,7 +133,7 @@ class BarChartView @JvmOverloads constructor(
 
     fun setBars(data: List<ViewData>) {
         bars = data.takeUnless { it.isEmpty() } ?: listOf(ViewData(0f, "", ""))
-        maxValue = data.map(ViewData::value).maxOrNull() ?: 1f
+        maxValue = data.maxOfOrNull(ViewData::value) ?: 1f
         selectedBar = -1
         invalidate()
         if (!isInEditMode) animateBars()

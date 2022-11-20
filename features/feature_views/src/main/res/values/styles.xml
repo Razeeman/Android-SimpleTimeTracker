@@ -201,10 +201,6 @@
         <item name="cardElevation">@dimen/record_type_card_elevation</item>
     </style>
 
-    <style name="RecordTypeIcon">
-        <item name="backgroundTint">?appIconColor</item>
-    </style>
-
     <style name="RecordTypeText">
         <item name="android:maxLines">2</item>
         <item name="android:textColor">?appIconColor</item>

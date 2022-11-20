@@ -94,7 +94,7 @@ class ScaleDetector(
 class SwipeDetector(
     context: Context,
     private val onSlideStart: () -> Unit = {},
-    onSlide: (offset: Float, initialDirection: Direction, event: MotionEvent) -> Unit = { _, _, _ -> Unit },
+    onSlide: (offset: Float, initialDirection: Direction, event: MotionEvent) -> Unit = { _, _, _ -> },
     private val onSlideStop: () -> Unit = {},
 ) {
 

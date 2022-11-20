@@ -58,6 +58,6 @@ abstract class BaseFragment<T : ViewBinding> : Fragment() {
     inline fun <T> LiveData<T>.observe(
         crossinline onChanged: (T) -> Unit
     ) {
-        observe(viewLifecycleOwner, { onChanged(it) })
+        observe(viewLifecycleOwner) { onChanged(it) }
     }
 }
