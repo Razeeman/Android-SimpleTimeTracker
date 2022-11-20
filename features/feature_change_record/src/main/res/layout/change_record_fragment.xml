@@ -36,7 +36,7 @@
         app:layout_constraintHeight_max="200dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:itemComment=""
+        tools:itemComment="Comment"
         tools:itemDuration="5h 23m 3s"
         tools:itemName="Item"
         tools:itemTagName="Tag"
