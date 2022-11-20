@@ -212,33 +212,38 @@ class AddRecordTagTest : BaseUiTest() {
 
     @Test
     fun addRecordTagFromChangeRecord() {
-        val tagName1 = "Category1"
-        val tagName2 = "Category2"
+        val tagName1 = "Tag1"
+        val tagName2 = "Tag2"
         val typeName = "Type"
 
         // Add data
-        testUtils.addActivity(typeName)
+        testUtils.addActivity(name = typeName, color = lastColor, icon = lastIcon)
         testUtils.addRecord(typeName)
 
-        // Add category
+        // Add tag
         NavUtils.openRecordsScreen()
         clickOnView(allOf(withText(typeName), isCompletelyDisplayed()))
         clickOnViewWithId(R.id.fieldChangeRecordCategory)
         clickOnViewWithText(R.string.categories_add_record_tag)
+
+        // Activity already selected
+        checkPreviewUpdated(withCardColor(lastColor))
+        checkPreviewUpdated(hasDescendant(withTag(lastIcon)))
+
         typeTextIntoView(R.id.etChangeRecordTagName, tagName1)
         closeSoftKeyboard()
         clickOnViewWithText(R.string.change_category_save)
 
-        // Category added
+        // Tag added
         checkViewIsDisplayed(withText(tagName1))
 
-        // Change category
+        // Change tag
         longClickOnView(withText(tagName1))
         typeTextIntoView(R.id.etChangeRecordTagName, tagName2)
         closeSoftKeyboard()
         clickOnViewWithText(R.string.change_category_save)
 
-        // Category changed
+        // Tag changed
         checkViewDoesNotExist(withText(tagName1))
         checkViewIsDisplayed(withText(tagName2))
     }

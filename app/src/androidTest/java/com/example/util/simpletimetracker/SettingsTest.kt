@@ -31,6 +31,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.example.util.simpletimetracker.core.extension.setToStartOfDay
 import com.example.util.simpletimetracker.core.extension.setWeekToFirstDay
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
+import com.example.util.simpletimetracker.domain.model.ActivityFilter
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.Direction
@@ -1374,6 +1375,46 @@ class SettingsTest : BaseUiTest() {
         clickOnView(allOf(withText(name), isCompletelyDisplayed()))
         checkViewIsDisplayed(allOf(withText(R.string.title_this_week), isCompletelyDisplayed()))
         pressBack()
+    }
+
+    @Test
+    fun automatedTracking() {
+        NavUtils.openSettingsScreen()
+        NavUtils.openSettingsAdditional()
+        onView(withId(R.id.btnSettingsAutomatedTracking)).perform(nestedScrollTo(), click())
+        checkViewIsDisplayed(
+            allOf(withId(R.id.tvHelpDialogTitle), withText(R.string.settings_automated_tracking))
+        )
+    }
+
+    @Test
+    fun showFiltersOnMain() {
+        val name = "ActivityFilter"
+
+        // Add filter
+        testUtils.addActivityFilter(name, ActivityFilter.Type.Activity)
+
+        // Filters not shown
+        tryAction {
+            checkViewIsDisplayed(withText(R.string.running_records_add_type))
+            checkViewDoesNotExist(withText(R.string.running_records_add_filter))
+            checkViewDoesNotExist(withText(name))
+        }
+
+        // Check settings
+        NavUtils.openSettingsScreen()
+        NavUtils.openSettingsDisplay()
+        onView(withId(R.id.checkboxSettingsShowActivityFilters)).perform(nestedScrollTo())
+        onView(withId(R.id.checkboxSettingsShowActivityFilters)).check(matches(isNotChecked()))
+
+        // Change setting
+        unconstrainedClickOnView(withId(R.id.checkboxSettingsShowActivityFilters))
+        onView(withId(R.id.checkboxSettingsShowActivityFilters)).check(matches(isChecked()))
+
+        // Filters shown
+        NavUtils.openRunningRecordsScreen()
+        checkViewIsDisplayed(withText(R.string.running_records_add_filter))
+        checkViewIsDisplayed(withText(name))
     }
 
     private fun clearDuration() {

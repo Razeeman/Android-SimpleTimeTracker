@@ -12,6 +12,7 @@ import com.example.util.simpletimetracker.domain.interactor.RecordToRecordTagInt
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
+import com.example.util.simpletimetracker.domain.model.ActivityFilter
 import com.example.util.simpletimetracker.domain.model.AppColor
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
@@ -154,9 +155,43 @@ class TestUtils @Inject constructor(
         recordTagInteractor.add(data)
     }
 
-    fun getTypeId(typeName: String): Long = runBlocking {
-        recordTypeInteractor.getAll()
-            .firstOrNull { it.name == typeName }
-            ?.id.orZero()
+    fun addActivityFilter(
+        name: String,
+        type: ActivityFilter.Type,
+        color: Int? = null,
+        colorInt: Int? = null,
+        names: List<String> = emptyList(),
+        selected: Boolean = false,
+    ) = runBlocking {
+        val colors = ColorMapper.getAvailableColors()
+        val colorId = colors.indexOf(color).takeUnless { it == -1 }
+            ?: (0..colors.size).random()
+        val availableCategories = categoryInteractor.getAll()
+        val availableTypes = recordTypeInteractor.getAll()
+        val selectedIds = names
+            .mapNotNull { name ->
+                when (type) {
+                    is ActivityFilter.Type.Activity -> {
+                        availableTypes.firstOrNull { it.name == name }?.id
+                    }
+                    is ActivityFilter.Type.Category -> {
+                        availableCategories.firstOrNull { it.name == name }?.id
+                    }
+                }
+            }
+            .takeUnless {
+                it.isEmpty()
+            }
+            .orEmpty()
+
+        val data = ActivityFilter(
+            selectedIds = selectedIds,
+            type = type,
+            name = name,
+            color = AppColor(colorId = colorId, colorInt = colorInt?.toString().orEmpty()),
+            selected = selected,
+        )
+
+        activityFilterInteractor.add(data)
     }
 }

@@ -236,6 +236,59 @@ object NavUtils {
         clickOnViewWithText(R.string.change_record_save)
     }
 
+    fun addActivityFilter(
+        name: String,
+        color: Int? = null,
+        activities: List<String> = emptyList(),
+        categories: List<String> = emptyList(),
+    ) {
+        tryAction { clickOnViewWithText(R.string.running_records_add_filter) }
+
+        // Name
+        typeTextIntoView(R.id.etChangeActivityFilterName, name)
+
+        // Color
+        if (color != null) {
+            clickOnViewWithText(R.string.change_category_color_hint)
+            scrollRecyclerToView(R.id.rvChangeActivityFilterColor, withCardColor(color))
+            clickOnRecyclerItem(R.id.rvChangeActivityFilterColor, withCardColor(color))
+        }
+
+        // Activity
+        if (activities.isNotEmpty()) {
+            clickOnViewWithId(R.id.fieldChangeActivityFilterType)
+            clickOnView(
+                allOf(
+                    isDescendantOfA(withId(R.id.buttonsChangeActivityFilterType)),
+                    withText(R.string.activity_hint)
+                )
+            )
+            activities.forEach {
+                scrollRecyclerToView(R.id.rvChangeActivityFilterType, hasDescendant(withText(it)))
+                clickOnRecyclerItem(R.id.rvChangeActivityFilterType, withText(it))
+            }
+            clickOnViewWithId(R.id.fieldChangeActivityFilterType)
+        }
+
+        // Category
+        if (categories.isNotEmpty()) {
+            clickOnViewWithId(R.id.fieldChangeActivityFilterType)
+            clickOnView(
+                allOf(
+                    isDescendantOfA(withId(R.id.buttonsChangeActivityFilterType)),
+                    withText(R.string.category_hint)
+                )
+            )
+            categories.forEach {
+                scrollRecyclerToView(R.id.rvChangeActivityFilterType, hasDescendant(withText(it)))
+                clickOnRecyclerItem(R.id.rvChangeActivityFilterType, withText(it))
+            }
+            clickOnViewWithId(R.id.fieldChangeActivityFilterType)
+        }
+
+        clickOnViewWithText(R.string.change_activity_filter_save)
+    }
+
     fun setCustomRange(
         yearStarted: Int,
         monthStarted: Int,

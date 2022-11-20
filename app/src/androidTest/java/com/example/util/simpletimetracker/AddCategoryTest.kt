@@ -140,20 +140,29 @@ class AddCategoryTest : BaseUiTest() {
     fun addCategoryFromChangeActivity() {
         val categoryName1 = "Category1"
         val categoryName2 = "Category2"
-        val typeName = "Type"
+        val typeName1 = "Type1"
+        val typeName2 = "Type2"
 
         // Add activity
-        testUtils.addActivity(typeName)
-        tryAction { longClickOnView(withText(typeName)) }
+        testUtils.addActivity(typeName1)
+        testUtils.addActivity(typeName2)
+        tryAction { longClickOnView(withText(typeName1)) }
 
         // Add category
         clickOnViewWithText(R.string.category_hint)
         clickOnViewWithText(R.string.categories_add_category)
         typeTextIntoView(R.id.etChangeCategoryName, categoryName1)
         closeSoftKeyboard()
-        clickOnViewWithText(R.string.change_category_save)
+
+        // Activity already selected
+        clickOnViewWithText(R.string.change_category_types_hint)
+        checkViewIsDisplayed(withText(R.string.something_selected))
+        checkViewIsDisplayed(withId(R.id.viewDividerItem))
+        onView(withText(typeName1)).check(isCompletelyAbove(withId(R.id.viewDividerItem)))
+        onView(withText(typeName2)).check(isCompletelyBelow(withId(R.id.viewDividerItem)))
 
         // Category added
+        clickOnViewWithText(R.string.change_category_save)
         checkViewIsDisplayed(withText(categoryName1))
 
         // Change category

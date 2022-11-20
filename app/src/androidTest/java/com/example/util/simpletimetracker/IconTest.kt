@@ -33,12 +33,12 @@ import org.junit.runner.RunWith
 class IconTest : BaseUiTest() {
 
     @Test
-    fun emojiTest() {
+    fun iconEmojiTest() {
         val firstName = "first"
-        val lastName = "last"
+        val secondName = "last"
 
         // Add activity
-        testUtils.addActivity(name = lastName, text = lastEmoji)
+        testUtils.addActivity(name = secondName, text = lastEmoji)
 
         // Open change record type screen
         tryAction { clickOnViewWithText(R.string.running_records_add_type) }
@@ -88,7 +88,7 @@ class IconTest : BaseUiTest() {
         longClickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(firstName)))
         checkViewIsDisplayed(allOf(withId(R.id.previewChangeRunningRecord), hasDescendant(withText(firstEmoji))))
         clickOnViewWithText(R.string.change_record_type_field)
-        clickOnRecyclerItem(R.id.rvChangeRunningRecordType, withText(lastName))
+        clickOnRecyclerItem(R.id.rvChangeRunningRecordType, withText(secondName))
         checkViewIsDisplayed(allOf(withId(R.id.previewChangeRunningRecord), hasDescendant(withText(lastEmoji))))
         clickOnViewWithText(R.string.change_record_save)
 
@@ -97,28 +97,28 @@ class IconTest : BaseUiTest() {
             checkViewIsDisplayed(
                 allOf(
                     withId(R.id.viewRunningRecordItem),
-                    hasDescendant(withText(lastName)),
+                    hasDescendant(withText(secondName)),
                     hasDescendant(withText(lastEmoji))
                 )
             )
         }
 
         // Stop timer
-        clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(lastName)))
+        clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(secondName)))
 
         // Record is added
         NavUtils.openRecordsScreen()
         checkViewIsDisplayed(
             allOf(
                 withId(R.id.viewRecordItem),
-                hasDescendant(withText(lastName)),
+                hasDescendant(withText(secondName)),
                 hasDescendant(withText(lastEmoji)),
                 isCompletelyDisplayed()
             )
         )
 
         // Change record
-        clickOnView(allOf(withText(lastName), isCompletelyDisplayed()))
+        clickOnView(allOf(withText(secondName), isCompletelyDisplayed()))
         checkViewIsDisplayed(allOf(withId(R.id.previewChangeRecord), hasDescendant(withText(lastEmoji))))
         clickOnViewWithText(R.string.change_record_type_field)
         clickOnRecyclerItem(R.id.rvChangeRecordType, withText(firstName))
@@ -132,6 +132,114 @@ class IconTest : BaseUiTest() {
                     withId(R.id.viewRecordItem),
                     hasDescendant(withText(firstName)),
                     hasDescendant(withText(firstEmoji)),
+                    isCompletelyDisplayed()
+                )
+            )
+        }
+    }
+
+    @Test
+    fun iconTextTest() {
+        val firstName = "firstName"
+        val firstIconText = "firstIconText"
+        val secondName = "secondName"
+        val secondIconText = "secondIconText"
+
+        // Add activity
+        testUtils.addActivity(name = secondName, text = secondIconText)
+
+        // Open change record type screen
+        tryAction { clickOnViewWithText(R.string.running_records_add_type) }
+
+        // Select emoji
+        clickOnViewWithText(R.string.change_record_type_icon_image_hint)
+        clickOnView(
+            allOf(
+                isDescendantOfA(withId(R.id.btnChangeRecordTypeIconSwitch)),
+                withText(R.string.change_record_type_icon_text_hint)
+            )
+        )
+        tryAction { typeTextIntoView(R.id.etChangeRecordTypeIconText, firstIconText) }
+
+        // Preview is updated
+        checkViewIsDisplayed(allOf(withId(R.id.previewChangeRecordType), hasDescendant(withText(firstIconText))))
+
+        // Save
+        clickOnViewWithId(R.id.fieldChangeRecordTypeIcon)
+        typeTextIntoView(R.id.etChangeRecordTypeName, firstName)
+        clickOnViewWithText(R.string.change_record_type_save)
+
+        // Record type is created
+        tryAction {
+            checkViewIsDisplayed(
+                allOf(
+                    withId(R.id.viewRecordTypeItem),
+                    hasDescendant(withText(firstName)),
+                    hasDescendant(withText(firstIconText))
+                )
+            )
+        }
+
+        // Start timer
+        clickOnViewWithText(firstName)
+
+        // Check running record
+        checkViewIsDisplayed(
+            allOf(
+                withId(R.id.viewRunningRecordItem),
+                hasDescendant(withText(firstName)),
+                hasDescendant(withText(firstIconText))
+            )
+        )
+
+        // Change running record
+        longClickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(firstName)))
+        checkViewIsDisplayed(allOf(withId(R.id.previewChangeRunningRecord), hasDescendant(withText(firstIconText))))
+        clickOnViewWithText(R.string.change_record_type_field)
+        clickOnRecyclerItem(R.id.rvChangeRunningRecordType, withText(secondName))
+        checkViewIsDisplayed(allOf(withId(R.id.previewChangeRunningRecord), hasDescendant(withText(secondIconText))))
+        clickOnViewWithText(R.string.change_record_save)
+
+        // Check running record
+        tryAction {
+            checkViewIsDisplayed(
+                allOf(
+                    withId(R.id.viewRunningRecordItem),
+                    hasDescendant(withText(secondName)),
+                    hasDescendant(withText(secondIconText))
+                )
+            )
+        }
+
+        // Stop timer
+        clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(secondName)))
+
+        // Record is added
+        NavUtils.openRecordsScreen()
+        checkViewIsDisplayed(
+            allOf(
+                withId(R.id.viewRecordItem),
+                hasDescendant(withText(secondName)),
+                hasDescendant(withText(secondIconText)),
+                isCompletelyDisplayed()
+            )
+        )
+
+        // Change record
+        clickOnView(allOf(withText(secondName), isCompletelyDisplayed()))
+        checkViewIsDisplayed(allOf(withId(R.id.previewChangeRecord), hasDescendant(withText(secondIconText))))
+        clickOnViewWithText(R.string.change_record_type_field)
+        clickOnRecyclerItem(R.id.rvChangeRecordType, withText(firstName))
+        checkViewIsDisplayed(allOf(withId(R.id.previewChangeRecord), hasDescendant(withText(firstIconText))))
+        clickOnViewWithText(R.string.change_record_type_save)
+
+        // Check record
+        tryAction {
+            checkViewIsDisplayed(
+                allOf(
+                    withId(R.id.viewRecordItem),
+                    hasDescendant(withText(firstName)),
+                    hasDescendant(withText(firstIconText)),
                     isCompletelyDisplayed()
                 )
             )
