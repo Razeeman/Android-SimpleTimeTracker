@@ -76,6 +76,7 @@ object NavUtils {
             clickOnViewWithText(R.string.change_record_type_color_hint)
             scrollRecyclerToView(R.id.rvChangeRecordTypeColor, withCardColor(color))
             clickOnRecyclerItem(R.id.rvChangeRecordTypeColor, withCardColor(color))
+            clickOnViewWithText(R.string.change_record_type_color_hint)
         }
 
         // Icon
@@ -83,11 +84,13 @@ object NavUtils {
             clickOnViewWithText(R.string.change_record_type_icon_image_hint)
             scrollRecyclerToView(R.id.rvChangeRecordTypeIcon, hasDescendant(withTag(icon)))
             clickOnRecyclerItem(R.id.rvChangeRecordTypeIcon, withTag(icon))
+            clickOnViewWithId(R.id.fieldChangeRecordTypeIcon)
         } else if (text != null) {
             clickOnViewWithText(R.string.change_record_type_icon_image_hint)
             onView(withId(R.id.rvChangeRecordTypeIcon)).perform(collapseToolbar())
             scrollRecyclerToView(R.id.rvChangeRecordTypeIcon, hasDescendant(withText(text)))
             clickOnRecyclerItem(R.id.rvChangeRecordTypeIcon, withText(text))
+            clickOnViewWithId(R.id.fieldChangeRecordTypeIcon)
         }
 
         // Categories

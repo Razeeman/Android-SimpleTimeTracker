@@ -66,6 +66,7 @@ class ChangeRecordTypeTest : BaseUiTest() {
         clickOnRecyclerItem(R.id.rvChangeRecordTypeColor, withCardColor(lastColor))
         checkPreviewUpdated(withCardColor(lastColor))
         checkViewIsDisplayed(allOf(withId(R.id.viewColorItemSelected), withParent(withCardColor(lastColor))))
+        clickOnViewWithText(R.string.change_record_type_color_hint)
 
         clickOnViewWithText(R.string.change_record_type_icon_image_hint)
         onView(withId(R.id.rvChangeRecordTypeIcon)).perform(collapseToolbar())
@@ -130,6 +131,7 @@ class ChangeRecordTypeTest : BaseUiTest() {
         clickOnViewWithText(R.string.change_record_type_color_hint)
         scrollRecyclerToView(R.id.rvChangeRecordTypeColor, withCardColor(lastColor))
         clickOnRecyclerItem(R.id.rvChangeRecordTypeColor, withCardColor(lastColor))
+        clickOnViewWithText(R.string.change_record_type_color_hint)
 
         clickOnViewWithText(R.string.change_record_type_icon_image_hint)
         onView(withId(R.id.rvChangeRecordTypeIcon)).perform(collapseToolbar())

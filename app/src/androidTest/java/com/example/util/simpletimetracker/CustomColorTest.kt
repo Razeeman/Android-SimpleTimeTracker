@@ -211,6 +211,7 @@ class CustomColorTest : BaseUiTest() {
         )
 
         // Save record type
+        clickOnViewWithText(R.string.change_record_type_color_hint)
         typeTextIntoView(R.id.etChangeRecordTypeName, name)
         clickOnViewWithText(R.string.change_record_type_save)
 

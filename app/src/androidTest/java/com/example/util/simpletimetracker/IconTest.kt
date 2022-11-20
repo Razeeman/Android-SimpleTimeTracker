@@ -13,6 +13,7 @@ import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
 import com.example.util.simpletimetracker.utils.clickOnRecyclerItem
 import com.example.util.simpletimetracker.utils.clickOnView
+import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.collapseToolbar
 import com.example.util.simpletimetracker.utils.longClickOnView
@@ -56,6 +57,7 @@ class IconTest : BaseUiTest() {
         checkViewIsDisplayed(allOf(withId(R.id.previewChangeRecordType), hasDescendant(withText(firstEmoji))))
 
         // Save
+        clickOnViewWithId(R.id.fieldChangeRecordTypeIcon)
         typeTextIntoView(R.id.etChangeRecordTypeName, firstName)
         clickOnViewWithText(R.string.change_record_type_save)
 
@@ -151,6 +153,7 @@ class IconTest : BaseUiTest() {
             val firstImage = images.values.first()
 
             if (category == iconImageMapper.getAvailableCategories().last()) {
+                onView(withId(R.id.rvChangeRecordTypeIcon)).perform(collapseToolbar())
                 onView(withId(R.id.rvChangeRecordTypeIcon)).perform(swipeUp(50))
             }
 
