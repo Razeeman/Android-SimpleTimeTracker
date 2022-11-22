@@ -47,7 +47,7 @@ class ChangeRecordViewDataInteractor @Inject constructor(
     ): List<ViewHolderType> {
         return recordInteractor.getByTypeWithComment(listOf(typeId))
             .asSequence()
-            .sortedBy { it.timeStarted }
+            .sortedByDescending { it.timeStarted }
             .map { it.comment }
             .toSet()
             .take(LAST_COMMENTS_TO_SHOW)
