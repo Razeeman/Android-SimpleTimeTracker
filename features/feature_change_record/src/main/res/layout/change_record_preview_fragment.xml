@@ -7,7 +7,7 @@
     android:animateLayoutChanges="true">
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/btnChangeRunningRecordDelete"
+        android:id="@+id/btnChangeRecordDelete"
         android:layout_width="28dp"
         android:layout_height="28dp"
         android:layout_marginTop="8dp"
@@ -17,11 +17,13 @@
         android:focusable="true"
         android:src="@drawable/delete"
         android:tint="?appInactiveColor"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
 
-    <com.example.util.simpletimetracker.feature_views.RunningRecordView
-        android:id="@+id/previewChangeRunningRecord"
+    <com.example.util.simpletimetracker.feature_views.RecordView
+        android:id="@+id/previewChangeRecord"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
@@ -30,21 +32,23 @@
         app:cardElevation="@dimen/record_type_card_elevation"
         app:itemTagColor="@color/white_alpha_60"
         app:layout_constrainedHeight="true"
-        app:layout_constraintEnd_toStartOf="@id/btnChangeRunningRecordDelete"
+        app:layout_constraintEnd_toStartOf="@id/btnChangeRecordDelete"
         app:layout_constraintHeight_max="200dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:itemColor="@color/red_800"
         tools:itemComment="Comment"
-        tools:itemName="Change running record"
-        tools:itemTagName="Tag" />
+        tools:itemDuration="5h 23m 3s"
+        tools:itemName="Item"
+        tools:itemTagName="Tag"
+        tools:itemTimeEnded="11:58"
+        tools:itemTimeStarted="07:35" />
 
     <include
-        android:id="@+id/layoutChangeRunningRecordCore"
+        android:id="@+id/layoutChangeRecordCore"
         layout="@layout/change_record_fragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/previewChangeRunningRecord" />
+        app:layout_constraintTop_toBottomOf="@id/previewChangeRecord" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

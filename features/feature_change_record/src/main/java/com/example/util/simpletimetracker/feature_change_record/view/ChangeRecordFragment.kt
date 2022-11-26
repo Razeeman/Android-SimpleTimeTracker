@@ -42,7 +42,7 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-import com.example.util.simpletimetracker.feature_change_record.databinding.ChangeRecordFragmentBinding as Binding
+import com.example.util.simpletimetracker.feature_change_record.databinding.ChangeRecordPreviewFragmentBinding as Binding
 
 @AndroidEntryPoint
 class ChangeRecordFragment :
@@ -93,7 +93,7 @@ class ChangeRecordFragment :
         key = ARGS_PARAMS, default = ChangeRecordParams.New()
     )
 
-    override fun initUi(): Unit = with(binding) {
+    override fun initUi(): Unit = with(binding.layoutChangeRecordCore) {
         postponeEnterTransition()
 
         setPreview()
@@ -106,7 +106,7 @@ class ChangeRecordFragment :
         setSharedTransitions(
             additionalCondition = { transitionName.isNotEmpty() },
             transitionName = transitionName,
-            sharedView = previewChangeRecord,
+            sharedView = binding.previewChangeRecord,
         )
 
         rvChangeRecordType.apply {
@@ -136,13 +136,13 @@ class ChangeRecordFragment :
             adapter = commentsAdapter
         }
 
-        root.viewTreeObserver.addOnPreDrawListener {
+        binding.root.viewTreeObserver.addOnPreDrawListener {
             startPostponedEnterTransition()
             true
         }
     }
 
-    override fun initUx() = with(binding) {
+    override fun initUx() = with(binding.layoutChangeRecordCore) {
         etChangeRecordComment.doAfterTextChanged { viewModel.onCommentChange(it.toString()) }
         fieldChangeRecordType.setOnClick(viewModel::onTypeChooserClick)
         fieldChangeRecordCategory.setOnClick(viewModel::onCategoryChooserClick)
@@ -150,18 +150,19 @@ class ChangeRecordFragment :
         fieldChangeRecordTimeEnded.setOnClick(viewModel::onTimeEndedClick)
         fieldChangeRecordLastComments.setOnClick(viewModel::onLastCommentsChooserClick)
         btnChangeRecordSave.setOnClick(viewModel::onSaveClick)
-        btnChangeRecordDelete.setOnClick {
+        btnChangeRecordTimeStartedAdjust.setOnClick(viewModel::onAdjustTimeStartedClick)
+        btnChangeRecordTimeEndedAdjust.setOnClick(viewModel::onAdjustTimeEndedClick)
+        containerChangeRecordTimeAdjust.listener = viewModel::onAdjustTimeItemClick
+
+        binding.btnChangeRecordDelete.setOnClick {
             viewModel.onDeleteClick()
             removeRecordViewModel.onDeleteClick(
                 (extra as? ChangeRecordParams.Tracked)?.from
             )
         }
-        btnChangeRecordTimeStartedAdjust.setOnClick(viewModel::onAdjustTimeStartedClick)
-        btnChangeRecordTimeEndedAdjust.setOnClick(viewModel::onAdjustTimeEndedClick)
-        containerChangeRecordTimeAdjust.listener = viewModel::onAdjustTimeItemClick
     }
 
-    override fun initViewModel() = with(binding) {
+    override fun initViewModel() = with(binding.layoutChangeRecordCore) {
         with(viewModel) {
             extra = this@ChangeRecordFragment.extra
             record.observeOnce(viewLifecycleOwner) { updateUi(it.comment) }
@@ -207,8 +208,8 @@ class ChangeRecordFragment :
         }
         with(removeRecordViewModel) {
             prepare((extra as? ChangeRecordParams.Tracked)?.id.orZero())
-            deleteButtonEnabled.observe(btnChangeRecordDelete::setEnabled)
-            deleteIconVisibility.observe(btnChangeRecordDelete::visible::set)
+            deleteButtonEnabled.observe(binding.btnChangeRecordDelete::setEnabled)
+            deleteIconVisibility.observe(binding.btnChangeRecordDelete::visible::set)
         }
     }
 
@@ -221,7 +222,7 @@ class ChangeRecordFragment :
         viewModel.onDateTimeSet(timestamp, tag)
     }
 
-    private fun updateUi(comment: String) = with(binding) {
+    private fun updateUi(comment: String) = with(binding.layoutChangeRecordCore) {
         etChangeRecordComment.setText(comment)
         etChangeRecordComment.setSelection(comment.length)
     }
@@ -245,8 +246,8 @@ class ChangeRecordFragment :
         ).let(::updatePreview)
     }
 
-    private fun updatePreview(item: ChangeRecordViewData) = with(binding) {
-        with(previewChangeRecord) {
+    private fun updatePreview(item: ChangeRecordViewData) = with(binding.layoutChangeRecordCore) {
+        with(binding.previewChangeRecord) {
             itemName = item.name
             itemTagName = item.tagName
             itemIcon = item.iconId

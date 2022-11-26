@@ -6,43 +6,6 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/btnChangeRecordDelete"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="?selectableItemBackgroundBorderless"
-        android:clickable="true"
-        android:focusable="true"
-        android:src="@drawable/delete"
-        android:tint="?appInactiveColor"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="visible" />
-
-    <com.example.util.simpletimetracker.feature_views.RecordView
-        android:id="@+id/previewChangeRecord"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="4dp"
-        app:cardElevation="@dimen/record_type_card_elevation"
-        app:itemTagColor="@color/white_alpha_60"
-        app:layout_constrainedHeight="true"
-        app:layout_constraintEnd_toStartOf="@id/btnChangeRecordDelete"
-        app:layout_constraintHeight_max="200dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:itemComment="Comment"
-        tools:itemDuration="5h 23m 3s"
-        tools:itemName="Item"
-        tools:itemTagName="Tag"
-        tools:itemTimeEnded="11:58"
-        tools:itemTimeStarted="07:35" />
-
     <androidx.cardview.widget.CardView
         android:id="@+id/fieldChangeRecordTimeStarted"
         style="@style/InputFieldCard"
@@ -53,7 +16,8 @@
         android:layout_marginEnd="4dp"
         app:layout_constraintEnd_toStartOf="@id/fieldChangeRecordTimeEnded"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/previewChangeRecord">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_goneMarginEnd="@dimen/input_field_margin">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvChangeRecordTimeStarted"
@@ -80,7 +44,7 @@
         android:layout_marginEnd="@dimen/input_field_margin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/fieldChangeRecordTimeStarted"
-        app:layout_constraintTop_toBottomOf="@id/previewChangeRecord">
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvChangeRecordTimeEnded"

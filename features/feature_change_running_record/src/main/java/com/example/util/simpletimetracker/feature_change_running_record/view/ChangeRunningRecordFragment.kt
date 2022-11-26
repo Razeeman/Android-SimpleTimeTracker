@@ -40,6 +40,7 @@ import com.google.android.flexbox.JustifyContent
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import com.example.util.simpletimetracker.feature_change_running_record.databinding.ChangeRunningRecordFragmentBinding as Binding
+import androidx.core.view.isVisible
 
 @AndroidEntryPoint
 class ChangeRunningRecordFragment :
@@ -80,17 +81,20 @@ class ChangeRunningRecordFragment :
         key = ARGS_PARAMS, default = ChangeRunningRecordParams()
     )
 
-    override fun initUi(): Unit = with(binding) {
+    override fun initUi(): Unit = with(binding.layoutChangeRunningRecordCore) {
+        fieldChangeRecordTimeEnded.isVisible = false
+        btnChangeRecordTimeEndedAdjust.isVisible = false
+
         postponeEnterTransition()
 
         setPreview()
 
         setSharedTransitions(
             transitionName = TransitionNames.RECORD_RUNNING + params.id,
-            sharedView = previewChangeRunningRecord,
+            sharedView = binding.previewChangeRunningRecord,
         )
 
-        rvChangeRunningRecordType.apply {
+        rvChangeRecordType.apply {
             layoutManager = FlexboxLayoutManager(requireContext()).apply {
                 flexDirection = FlexDirection.ROW
                 justifyContent = JustifyContent.CENTER
@@ -99,7 +103,7 @@ class ChangeRunningRecordFragment :
             adapter = typesAdapter
         }
 
-        rvChangeRunningRecordCategories.apply {
+        rvChangeRecordCategories.apply {
             layoutManager = FlexboxLayoutManager(requireContext()).apply {
                 flexDirection = FlexDirection.ROW
                 justifyContent = JustifyContent.CENTER
@@ -108,54 +112,54 @@ class ChangeRunningRecordFragment :
             adapter = categoriesAdapter
         }
 
-        root.viewTreeObserver.addOnPreDrawListener {
+        binding.root.viewTreeObserver.addOnPreDrawListener {
             startPostponedEnterTransition()
             true
         }
     }
 
-    override fun initUx() = with(binding) {
-        etChangeRunningRecordComment.doAfterTextChanged { viewModel.onCommentChange(it.toString()) }
-        fieldChangeRunningRecordType.setOnClick(viewModel::onTypeChooserClick)
-        fieldChangeRunningRecordCategory.setOnClick(viewModel::onCategoryChooserClick)
-        fieldChangeRunningRecordTimeStarted.setOnClick(viewModel::onTimeStartedClick)
-        btnChangeRunningRecordSave.setOnClick(viewModel::onSaveClick)
-        btnChangeRunningRecordDelete.setOnClick(viewModel::onDeleteClick)
-        btnChangeRunningRecordTimeStartedAdjust.setOnClick(viewModel::onAdjustTimeStartedClick)
-        containerChangeRunningRecordTimeAdjust.listener = viewModel::onAdjustTimeItemClick
+    override fun initUx() = with(binding.layoutChangeRunningRecordCore) {
+        etChangeRecordComment.doAfterTextChanged { viewModel.onCommentChange(it.toString()) }
+        fieldChangeRecordType.setOnClick(viewModel::onTypeChooserClick)
+        fieldChangeRecordCategory.setOnClick(viewModel::onCategoryChooserClick)
+        fieldChangeRecordTimeStarted.setOnClick(viewModel::onTimeStartedClick)
+        btnChangeRecordSave.setOnClick(viewModel::onSaveClick)
+        btnChangeRecordTimeStartedAdjust.setOnClick(viewModel::onAdjustTimeStartedClick)
+        containerChangeRecordTimeAdjust.listener = viewModel::onAdjustTimeItemClick
+        binding.btnChangeRunningRecordDelete.setOnClick(viewModel::onDeleteClick)
     }
 
-    override fun initViewModel() = with(binding) {
+    override fun initViewModel() = with(binding.layoutChangeRunningRecordCore) {
         with(viewModel) {
             extra = params
             record.observeOnce(viewLifecycleOwner, ::updateUi)
             record.observe(::updatePreview)
             types.observe(typesAdapter::replace)
             categories.observe(categoriesAdapter::replace)
-            deleteButtonEnabled.observe(btnChangeRunningRecordDelete::setEnabled)
-            saveButtonEnabled.observe(btnChangeRunningRecordSave::setEnabled)
+            deleteButtonEnabled.observe(binding.btnChangeRunningRecordDelete::setEnabled)
+            saveButtonEnabled.observe(btnChangeRecordSave::setEnabled)
             flipTypesChooser.observe { opened ->
-                rvChangeRunningRecordType.visible = opened
-                fieldChangeRunningRecordType.setChooserColor(opened)
-                arrowChangeRunningRecordType.apply {
+                rvChangeRecordType.visible = opened
+                fieldChangeRecordType.setChooserColor(opened)
+                arrowChangeRecordType.apply {
                     if (opened) rotateDown() else rotateUp()
                 }
             }
             flipCategoryChooser.observe { opened ->
-                rvChangeRunningRecordCategories.visible = opened
-                fieldChangeRunningRecordCategory.setChooserColor(opened)
-                arrowChangeRunningRecordCategory.apply {
+                rvChangeRecordCategories.visible = opened
+                fieldChangeRecordCategory.setChooserColor(opened)
+                arrowChangeRecordCategory.apply {
                     if (opened) rotateDown() else rotateUp()
                 }
             }
             keyboardVisibility.observe { visible ->
-                if (visible) showKeyboard(etChangeRunningRecordComment) else hideKeyboard()
+                if (visible) showKeyboard(etChangeRecordComment) else hideKeyboard()
             }
             timeAdjustmentState.observe { isVisible ->
-                containerChangeRunningRecordTimeAdjust.visible = isVisible
-                btnChangeRunningRecordTimeStartedAdjust.setChooserColor(isVisible)
+                containerChangeRecordTimeAdjust.visible = isVisible
+                btnChangeRecordTimeStartedAdjust.setChooserColor(isVisible)
             }
-            timeAdjustmentItems.observe(containerChangeRunningRecordTimeAdjust.adapter::replace)
+            timeAdjustmentItems.observe(containerChangeRecordTimeAdjust.adapter::replace)
             message.observe(::showMessage)
         }
     }
@@ -174,9 +178,9 @@ class ChangeRunningRecordFragment :
         viewModel.onDateTimeSet(timestamp, tag)
     }
 
-    private fun updateUi(item: ChangeRunningRecordViewData) = with(binding) {
-        etChangeRunningRecordComment.setText(item.comment)
-        etChangeRunningRecordComment.setSelection(item.comment.length)
+    private fun updateUi(item: ChangeRunningRecordViewData) = with(binding.layoutChangeRunningRecordCore) {
+        etChangeRecordComment.setText(item.comment)
+        etChangeRecordComment.setSelection(item.comment.length)
     }
 
     private fun setPreview() = params.preview?.run {
@@ -193,8 +197,8 @@ class ChangeRunningRecordFragment :
         ).let(::updatePreview)
     }
 
-    private fun updatePreview(item: ChangeRunningRecordViewData) = with(binding) {
-        with(previewChangeRunningRecord) {
+    private fun updatePreview(item: ChangeRunningRecordViewData) = with(binding.layoutChangeRunningRecordCore) {
+        with(binding.previewChangeRunningRecord) {
             itemName = item.name
             itemTagName = item.tagName
             itemIcon = item.iconId
@@ -204,12 +208,12 @@ class ChangeRunningRecordFragment :
             itemGoalTime = item.goalTime
             itemComment = item.comment
         }
-        tvChangeRunningRecordTimeStarted.text = item.dateTimeStarted
+        tvChangeRecordTimeStarted.text = item.dateTimeStarted
     }
 
     private fun showMessage(message: SnackBarParams?) {
         if (message != null) {
-            router.show(message, binding.btnChangeRunningRecordSave)
+            router.show(message, binding.layoutChangeRunningRecordCore.btnChangeRecordSave)
             viewModel.onMessageShown()
         }
     }
