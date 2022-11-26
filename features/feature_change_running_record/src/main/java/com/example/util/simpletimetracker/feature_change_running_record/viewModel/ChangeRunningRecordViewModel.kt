@@ -14,7 +14,6 @@ import com.example.util.simpletimetracker.core.interactor.RemoveRunningRecordMed
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.view.timeAdjustment.TimeAdjustmentView
 import com.example.util.simpletimetracker.domain.extension.flip
-import com.example.util.simpletimetracker.domain.extension.orFalse
 import com.example.util.simpletimetracker.domain.extension.orTrue
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -23,6 +22,8 @@ import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
+import com.example.util.simpletimetracker.feature_change_record.viewData.TimeAdjustmentState
+import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordCoreViewModel
 import com.example.util.simpletimetracker.feature_change_running_record.R
 import com.example.util.simpletimetracker.feature_change_running_record.interactor.ChangeRunningRecordViewDataInteractor
 import com.example.util.simpletimetracker.feature_change_running_record.viewData.ChangeRunningRecordViewData
@@ -52,7 +53,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
     private val recordTagViewDataInteractor: RecordTagViewDataInteractor,
     private val resourceRepo: ResourceRepo,
     private val prefsInteractor: PrefsInteractor,
-) : ViewModel() {
+) : ViewModel(), ChangeRecordCoreViewModel {
 
     lateinit var extra: ChangeRunningRecordParams
 
@@ -64,13 +65,13 @@ class ChangeRunningRecordViewModel @Inject constructor(
             initial
         }
     }
-    val types: LiveData<List<ViewHolderType>> by lazy {
+    override val types: LiveData<List<ViewHolderType>> by lazy {
         return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
             viewModelScope.launch { initial.value = loadTypesViewData() }
             initial
         }
     }
-    val categories: LiveData<List<ViewHolderType>> by lazy {
+    override val categories: LiveData<List<ViewHolderType>> by lazy {
         return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
             viewModelScope.launch {
                 initializePreviewViewData()
@@ -79,16 +80,21 @@ class ChangeRunningRecordViewModel @Inject constructor(
             initial
         }
     }
-    val timeAdjustmentItems: LiveData<List<ViewHolderType>> by lazy {
+    override val lastComments: LiveData<List<ViewHolderType>> by lazy {
+        return@lazy MutableLiveData() // TODO
+    }
+    override val timeAdjustmentItems: LiveData<List<ViewHolderType>> by lazy {
         MutableLiveData(loadTimeAdjustmentItems())
     }
-    val timeAdjustmentState: LiveData<Boolean> = MutableLiveData(false)
+    override val timeAdjustmentState: LiveData<TimeAdjustmentState> = MutableLiveData(TimeAdjustmentState.HIDDEN)
+    override val flipTypesChooser: LiveData<Boolean> = MutableLiveData()
+    override val flipCategoryChooser: LiveData<Boolean> = MutableLiveData()
+    override val flipLastCommentsChooser: LiveData<Boolean> = MutableLiveData()
+    override val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
+    override val keyboardVisibility: LiveData<Boolean> = MutableLiveData(false)
+    override val comment: LiveData<String> = MutableLiveData()
     val message: LiveData<SnackBarParams?> = MutableLiveData()
-    val flipTypesChooser: LiveData<Boolean> = MutableLiveData()
-    val flipCategoryChooser: LiveData<Boolean> = MutableLiveData()
     val deleteButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
-    val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
-    val keyboardVisibility: LiveData<Boolean> = MutableLiveData(false)
 
     private var newTypeId: Long = 0
     private var newTimeStarted: Long = 0
@@ -96,7 +102,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
     private var newComment: String = ""
     private var newCategoryIds: MutableList<Long> = mutableListOf()
 
-    fun onTypeChooserClick() {
+    override fun onTypeChooserClick() {
         (keyboardVisibility as MutableLiveData).value = false
         (flipTypesChooser as MutableLiveData).value = flipTypesChooser.value
             ?.flip().orTrue()
@@ -106,7 +112,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
         }
     }
 
-    fun onCategoryChooserClick() {
+    override fun onCategoryChooserClick() {
         (keyboardVisibility as MutableLiveData).value = false
         (flipCategoryChooser as MutableLiveData).value = flipCategoryChooser.value
             ?.flip().orTrue()
@@ -116,7 +122,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
         }
     }
 
-    fun onTimeStartedClick() {
+    override fun onTimeStartedClick() {
         viewModelScope.launch {
             val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
             val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
@@ -143,7 +149,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
         }
     }
 
-    fun onSaveClick() {
+    override fun onSaveClick() {
         if (newTypeId == 0L) {
             showMessage(R.string.change_record_message_choose_type)
             return
@@ -157,7 +163,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
         }
     }
 
-    fun onTypeClick(item: RecordTypeViewData) {
+    override fun onTypeClick(item: RecordTypeViewData) {
         viewModelScope.launch {
             if (item.id != newTypeId) {
                 newTypeId = item.id
@@ -168,7 +174,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
         }
     }
 
-    fun onCategoryClick(item: CategoryViewData) {
+    override fun onCategoryClick(item: CategoryViewData) {
         viewModelScope.launch {
             when (item) {
                 is CategoryViewData.Record.Tagged -> {
@@ -184,7 +190,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
         }
     }
 
-    fun onCategoryLongClick(item: CategoryViewData, sharedElements: Pair<Any, String>) {
+    override fun onCategoryLongClick(item: CategoryViewData, sharedElements: Pair<Any, String>) {
         val icon = (item as? CategoryViewData.Record)?.icon?.toParams()
 
         router.navigate(
@@ -203,7 +209,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
         )
     }
 
-    fun onAddCategoryClick() {
+    override fun onAddCategoryClick() {
         val preselectedTypeId: Long? = newTypeId.takeUnless { it == 0L }
         router.navigate(
             data = ChangeRecordTagFromChangeRunningRecordParams(
@@ -226,7 +232,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
         }
     }
 
-    fun onCommentChange(comment: String) {
+    override fun onCommentChange(comment: String) {
         viewModelScope.launch {
             if (comment != newComment) {
                 newComment = comment
@@ -235,12 +241,21 @@ class ChangeRunningRecordViewModel @Inject constructor(
         }
     }
 
-    fun onAdjustTimeStartedClick() {
-        val newValue = timeAdjustmentState.value.orFalse().flip()
-        timeAdjustmentState.set(newValue)
+    override fun onAdjustTimeStartedClick() {
+        when (timeAdjustmentState.value) {
+            TimeAdjustmentState.HIDDEN -> {
+                timeAdjustmentState.set(TimeAdjustmentState.TIME_STARTED)
+            }
+            TimeAdjustmentState.TIME_STARTED -> {
+                timeAdjustmentState.set(TimeAdjustmentState.HIDDEN)
+            }
+            else -> {
+                // Do nothing
+            }
+        }
     }
 
-    fun onAdjustTimeItemClick(viewData: TimeAdjustmentView.ViewData) {
+    override fun onAdjustTimeItemClick(viewData: TimeAdjustmentView.ViewData) {
         viewModelScope.launch {
             when (viewData) {
                 is TimeAdjustmentView.ViewData.Now -> {
