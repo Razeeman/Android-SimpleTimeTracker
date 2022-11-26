@@ -45,7 +45,7 @@
         android:id="@+id/changeRecordFragment"
         android:name="com.example.util.simpletimetracker.feature_change_record.view.ChangeRecordFragment"
         android:label="ChangeRecordFragment"
-        tools:layout="@layout/change_record_preview_fragment" >
+        tools:layout="@layout/change_record_fragment" >
         <action
             android:id="@+id/action_changeRecordFragment_to_changeRecordTagFragment"
             app:destination="@id/changeRecordTagFragment"/>

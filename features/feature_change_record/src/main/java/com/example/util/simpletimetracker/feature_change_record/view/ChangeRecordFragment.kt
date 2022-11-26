@@ -1,6 +1,6 @@
 package com.example.util.simpletimetracker.feature_change_record.view
 
-import com.example.util.simpletimetracker.feature_change_record.databinding.ChangeRecordPreviewFragmentBinding as Binding
+import com.example.util.simpletimetracker.feature_change_record.databinding.ChangeRecordFragmentBinding as Binding
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
