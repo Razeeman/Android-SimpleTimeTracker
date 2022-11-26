@@ -144,3 +144,12 @@ Version 1.19:
 - Add simpler time adjustment
 - Add some translations
 - General bug fixes and improvements
+
+Version 1.20:
+- Add ability to set text as activity icon
+- Add activity filters (Settings - Show activity filters on main screen)
+- Add information about automated tracking (Settings - Automated tracking)
+- Add more record information in Calendar view
+- Add ICS format export
+- Add some translations
+- General bug fixes and improvements
