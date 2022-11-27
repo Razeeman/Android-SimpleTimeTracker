@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_change_record.view
 
+import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.viewbinding.ViewBinding
 import com.example.util.simpletimetracker.core.base.BaseFragment
@@ -95,11 +96,15 @@ class ChangeRecordCore(
         fieldChangeRecordCategory.setOnClick(viewModel::onCategoryChooserClick)
         fieldChangeRecordTimeStarted.setOnClick(viewModel::onTimeStartedClick)
         fieldChangeRecordTimeEnded.setOnClick(viewModel::onTimeEndedClick)
+        fieldChangeRecordTimeSplit.setOnClick(viewModel::onTimeSplitClick)
         fieldChangeRecordLastComments.setOnClick(viewModel::onLastCommentsChooserClick)
         btnChangeRecordTimeStartedAdjust.setOnClick(viewModel::onAdjustTimeStartedClick)
         btnChangeRecordTimeEndedAdjust.setOnClick(viewModel::onAdjustTimeEndedClick)
+        btnChangeRecordTimeSplitAdjust.setOnClick(viewModel::onAdjustTimeSplitClick)
         containerChangeRecordTimeAdjust.listener = viewModel::onAdjustTimeItemClick
+        containerChangeRecordTimeSplitAdjust.listener = viewModel::onAdjustTimeSplitItemClick
         btnChangeRecordSave.setOnClick(viewModel::onSaveClick)
+        btnChangeRecordSplit.setOnClick(viewModel::onSplitClick)
     }
 
     fun <T : ViewBinding> initViewModel(
@@ -116,7 +121,9 @@ class ChangeRecordCore(
             types.observe(typesAdapter::replace)
             categories.observe(categoriesAdapter::replace)
             saveButtonEnabled.observe(btnChangeRecordSave::setEnabled)
+            splitButtonEnabled.observe(btnChangeRecordSplit::setEnabled)
             timeAdjustmentItems.observe(containerChangeRecordTimeAdjust.adapter::replace)
+            timeSplitAdjustmentItems.observe(containerChangeRecordTimeSplitAdjust.adapter::replace)
             flipTypesChooser.observe { opened ->
                 rvChangeRecordType.visible = opened
                 fieldChangeRecordType.setChooserColor(opened)
@@ -147,6 +154,11 @@ class ChangeRecordCore(
                 btnChangeRecordTimeStartedAdjust.setChooserColor(state == TimeAdjustmentState.TIME_STARTED)
                 btnChangeRecordTimeEndedAdjust.setChooserColor(state == TimeAdjustmentState.TIME_ENDED)
             }
+            timeSplitAdjustmentState.observe { opened ->
+                containerChangeRecordTimeSplitAdjust.isVisible = opened
+                btnChangeRecordTimeSplitAdjust.setChooserColor(opened)
+            }
+            timeSplitText.observe(tvChangeRecordTimeSplit::setText)
             lastComments.observe { data ->
                 fieldChangeRecordLastComments.visible = data.isNotEmpty()
                 commentsAdapter.replace(data)

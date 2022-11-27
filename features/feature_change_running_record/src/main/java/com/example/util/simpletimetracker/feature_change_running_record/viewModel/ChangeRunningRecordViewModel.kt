@@ -11,7 +11,9 @@ import com.example.util.simpletimetracker.core.interactor.RemoveRunningRecordMed
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
+import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.feature_change_record.interactor.ChangeRecordViewDataInteractor
 import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordBaseViewModel
@@ -40,6 +42,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
     private val addRunningRecordMediator: AddRunningRecordMediator,
     private val removeRunningRecordMediator: RemoveRunningRecordMediator,
     private val runningRecordInteractor: RunningRecordInteractor,
+    private val recordInteractor: RecordInteractor,
     private val changeRunningRecordViewDataInteractor: ChangeRunningRecordViewDataInteractor,
     private val resourceRepo: ResourceRepo,
 ) : ChangeRecordBaseViewModel(
@@ -76,15 +79,26 @@ class ChangeRunningRecordViewModel @Inject constructor(
         }
     }
 
-    override fun onSaveClick() {
-        if (checkSaveDisabled()) return
-        disableSaveButton()
-        viewModelScope.launch {
-            removeRunningRecordMediator.remove(extra.id)
-            addRunningRecordMediator.add(newTypeId, newTimeStarted, newComment, newCategoryIds)
-            (keyboardVisibility as MutableLiveData).value = false
-            router.back()
+    override suspend fun onSaveClickDelegate() {
+        removeRunningRecordMediator.remove(extra.id)
+        addRunningRecordMediator.add(newTypeId, newTimeStarted, newComment, newCategoryIds)
+        (keyboardVisibility as MutableLiveData).value = false
+        router.back()
+    }
+
+    override suspend fun onSplitClickDelegate() {
+        Record(
+            id = 0, // Zero id creates new record
+            typeId = newTypeId,
+            timeStarted = newTimeStarted,
+            timeEnded = newTimeSplit,
+            comment = newComment,
+            tagIds = newCategoryIds
+        ).let {
+            recordInteractor.add(it)
         }
+        newTimeStarted = newTimeSplit
+        onSaveClick()
     }
 
     override fun getChangeCategoryParams(data: ChangeTagData): ChangeRecordTagFromScreen {
@@ -119,6 +133,10 @@ class ChangeRunningRecordViewModel @Inject constructor(
         // Do nothing
     }
 
+    override fun onTimeSplitChanged() {
+        newTimeSplit = newTimeSplit.coerceIn(newTimeStarted..System.currentTimeMillis())
+    }
+
     override suspend fun updatePreview() {
         (record as MutableLiveData).value = loadPreviewViewData()
     }
@@ -131,6 +149,8 @@ class ChangeRunningRecordViewModel @Inject constructor(
                 newComment = record.comment
                 newCategoryIds = record.tagIds.toMutableList()
             }
+            newTimeSplit = newTimeStarted
+            updateTimeSplitValue()
         }
     }
 

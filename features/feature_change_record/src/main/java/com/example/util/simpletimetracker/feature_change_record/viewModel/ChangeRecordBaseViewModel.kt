@@ -12,6 +12,7 @@ import com.example.util.simpletimetracker.core.interactor.RecordTypesViewDataInt
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.view.timeAdjustment.TimeAdjustmentView
 import com.example.util.simpletimetracker.domain.extension.flip
+import com.example.util.simpletimetracker.domain.extension.orFalse
 import com.example.util.simpletimetracker.domain.extension.orTrue
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
@@ -67,17 +68,24 @@ abstract class ChangeRecordBaseViewModel(
     val timeAdjustmentItems: LiveData<List<ViewHolderType>> by lazy {
         MutableLiveData(loadTimeAdjustmentItems())
     }
+    val timeSplitAdjustmentItems: LiveData<List<ViewHolderType>> by lazy {
+        MutableLiveData(loadTimeSplitAdjustmentItems())
+    }
     val timeAdjustmentState: LiveData<TimeAdjustmentState> = MutableLiveData(TimeAdjustmentState.HIDDEN)
+    val timeSplitAdjustmentState: LiveData<Boolean> = MutableLiveData(false)
+    val timeSplitText: LiveData<String> = MutableLiveData()
     val flipTypesChooser: LiveData<Boolean> = MutableLiveData()
     val flipCategoryChooser: LiveData<Boolean> = MutableLiveData()
     val flipLastCommentsChooser: LiveData<Boolean> = MutableLiveData()
     val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
+    val splitButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val keyboardVisibility: LiveData<Boolean> = MutableLiveData(false)
     val comment: LiveData<String> = MutableLiveData()
 
     protected var newTypeId: Long = 0
     protected var newTimeEnded: Long = 0
     protected var newTimeStarted: Long = 0
+    protected var newTimeSplit: Long = 0
     protected var newComment: String = ""
     protected var newCategoryIds: MutableList<Long> = mutableListOf()
 
@@ -86,7 +94,9 @@ abstract class ChangeRecordBaseViewModel(
     protected abstract fun getChangeCategoryParams(data: ChangeTagData): ChangeRecordTagFromScreen
     protected abstract fun onTimeStartedChanged()
     protected abstract fun onTimeEndedChanged()
-    abstract fun onSaveClick()
+    protected abstract fun onTimeSplitChanged()
+    protected abstract suspend fun onSaveClickDelegate()
+    protected abstract suspend fun onSplitClickDelegate()
 
     fun onTypeChooserClick() {
         keyboardVisibility.set(false)
@@ -101,37 +111,15 @@ abstract class ChangeRecordBaseViewModel(
     }
 
     fun onTimeStartedClick() {
-        viewModelScope.launch {
-            val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
-            val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
-
-            router.navigate(
-                DateTimeDialogParams(
-                    tag = TIME_STARTED_TAG,
-                    timestamp = newTimeStarted,
-                    type = DateTimeDialogType.DATETIME(),
-                    useMilitaryTime = useMilitaryTime,
-                    firstDayOfWeek = firstDayOfWeek
-                )
-            )
-        }
+        onTimeClick(tag = TIME_STARTED_TAG, timestamp = newTimeStarted)
     }
 
     fun onTimeEndedClick() {
-        viewModelScope.launch {
-            val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
-            val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
+        onTimeClick(tag = TIME_ENDED_TAG, timestamp = newTimeEnded)
+    }
 
-            router.navigate(
-                DateTimeDialogParams(
-                    tag = TIME_ENDED_TAG,
-                    timestamp = newTimeEnded,
-                    type = DateTimeDialogType.DATETIME(),
-                    useMilitaryTime = useMilitaryTime,
-                    firstDayOfWeek = firstDayOfWeek
-                )
-            )
-        }
+    fun onTimeSplitClick() {
+        onTimeClick(tag = TIME_SPLIT_TAG, timestamp = newTimeSplit)
     }
 
     fun onLastCommentsChooserClick() {
@@ -139,16 +127,25 @@ abstract class ChangeRecordBaseViewModel(
         flipLastCommentsChooser.set(newValue)
     }
 
-    fun checkSaveDisabled(): Boolean {
+    fun onSaveClick() {
         if (newTypeId == 0L) {
             showMessage(R.string.change_record_message_choose_type)
-            return true
+            return
         }
-        return false
+        viewModelScope.launch {
+            saveButtonEnabled.set(false)
+            onSaveClickDelegate()
+        }
     }
 
-    fun disableSaveButton() {
-        saveButtonEnabled.set(false)
+    fun onSplitClick() {
+        if (newTypeId == 0L) {
+            return // Can't split untracked time or new record.
+        }
+        viewModelScope.launch {
+            splitButtonEnabled.set(false)
+            onSplitClickDelegate()
+        }
     }
 
     fun onTypeClick(item: RecordTypeViewData) {
@@ -237,6 +234,13 @@ abstract class ChangeRecordBaseViewModel(
                         updatePreview()
                     }
                 }
+                TIME_SPLIT_TAG -> {
+                    if (timestamp != newTimeSplit) {
+                        newTimeSplit = timestamp
+                        onTimeSplitChanged()
+                        updateTimeSplitValue()
+                    }
+                }
             }
         }
     }
@@ -255,6 +259,11 @@ abstract class ChangeRecordBaseViewModel(
         )
     }
 
+    fun onAdjustTimeSplitClick() {
+        val newValue = timeSplitAdjustmentState.value?.flip().orFalse()
+        timeSplitAdjustmentState.set(newValue)
+    }
+
     fun onAdjustTimeItemClick(viewData: TimeAdjustmentView.ViewData) {
         viewModelScope.launch {
             when (viewData) {
@@ -263,6 +272,41 @@ abstract class ChangeRecordBaseViewModel(
             }
             updatePreview()
         }
+    }
+
+    fun onAdjustTimeSplitItemClick(viewData: TimeAdjustmentView.ViewData) {
+        // TODO add items for min and max times.
+        viewModelScope.launch {
+            when (viewData) {
+                is TimeAdjustmentView.ViewData.Now -> {
+                    newTimeSplit = System.currentTimeMillis()
+                    onTimeSplitChanged()
+                }
+                is TimeAdjustmentView.ViewData.Adjust -> {
+                    newTimeSplit += TimeUnit.MINUTES.toMillis(viewData.value)
+                    onTimeSplitChanged()
+                }
+            }
+            updateTimeSplitValue()
+        }
+    }
+
+    private fun onTimeClick(
+        tag: String,
+        timestamp: Long,
+    ) = viewModelScope.launch {
+        val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
+        val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
+
+        router.navigate(
+            DateTimeDialogParams(
+                tag = tag,
+                timestamp = timestamp,
+                type = DateTimeDialogType.DATETIME(),
+                useMilitaryTime = useMilitaryTime,
+                firstDayOfWeek = firstDayOfWeek
+            )
+        )
     }
 
     protected fun showMessage(stringResId: Int) {
@@ -347,6 +391,19 @@ abstract class ChangeRecordBaseViewModel(
         return changeRecordViewDataInteractor.getTimeAdjustmentItems()
     }
 
+    private fun loadTimeSplitAdjustmentItems(): List<ViewHolderType> {
+        return changeRecordViewDataInteractor.getTimeAdjustmentItems()
+    }
+
+    protected suspend fun updateTimeSplitValue() {
+        val data = loadTimeSplitValue()
+        timeSplitText.set(data)
+    }
+
+    private suspend fun loadTimeSplitValue(): String {
+        return changeRecordViewDataInteractor.mapTime(newTimeSplit)
+    }
+
     private fun updateLastCommentsViewData() = viewModelScope.launch {
         val data = loadLastCommentsViewData()
         lastComments.set(data)
@@ -360,5 +417,6 @@ abstract class ChangeRecordBaseViewModel(
     companion object {
         const val TIME_STARTED_TAG = "time_started_tag"
         const val TIME_ENDED_TAG = "time_ended_tag"
+        const val TIME_SPLIT_TAG = "time_split_tag"
     }
 }

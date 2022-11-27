@@ -13,7 +13,6 @@
         android:layout_height="@dimen/input_field_height"
         android:layout_marginStart="@dimen/input_field_margin"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="4dp"
         app:layout_constraintEnd_toStartOf="@id/fieldChangeRecordTimeEnded"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -39,7 +38,6 @@
         style="@style/InputFieldCard"
         android:layout_width="0dp"
         android:layout_height="@dimen/input_field_height"
-        android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="@dimen/input_field_margin"
         app:layout_constraintEnd_toEndOf="parent"
@@ -83,17 +81,7 @@
         app:layout_constraintEnd_toEndOf="@id/spaceChangeRecordTimeStartedEnd"
         app:layout_constraintTop_toTopOf="@id/spaceChangeRecordTimeStartedTop">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="40dp"
-            android:layout_height="30dp"
-            android:background="?appInputFieldBorder"
-            android:gravity="center"
-            android:padding="4dp"
-            android:text="+/-"
-            android:textColor="?appTextHintColor"
-            android:textStyle="bold"
-            app:autoSizeMinTextSize="1sp"
-            app:autoSizeTextType="uniform" />
+        <androidx.appcompat.widget.AppCompatTextView style="@style/ButtonTimeAdjust" />
 
     </androidx.cardview.widget.CardView>
 
@@ -119,17 +107,7 @@
         app:layout_constraintEnd_toEndOf="@id/spaceChangeRecordTimeEndedEnd"
         app:layout_constraintTop_toTopOf="@id/spaceChangeRecordTimeEndedTop">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="40dp"
-            android:layout_height="30dp"
-            android:background="?appInputFieldBorder"
-            android:gravity="center"
-            android:padding="4dp"
-            android:text="+/-"
-            android:textColor="?appTextHintColor"
-            android:textStyle="bold"
-            app:autoSizeMinTextSize="1sp"
-            app:autoSizeTextType="uniform" />
+        <androidx.appcompat.widget.AppCompatTextView style="@style/ButtonTimeAdjust" />
 
     </androidx.cardview.widget.CardView>
 
@@ -150,8 +128,6 @@
         android:layout_width="0dp"
         android:layout_height="@dimen/input_field_height"
         android:layout_marginStart="@dimen/input_field_margin"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="4dp"
         app:layout_constraintEnd_toStartOf="@id/fieldChangeRecordCategory"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/containerChangeRecordTimeAdjust">
@@ -191,8 +167,6 @@
         style="@style/InputFieldCard"
         android:layout_width="0dp"
         android:layout_height="@dimen/input_field_height"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="@dimen/input_field_margin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/fieldChangeRecordType"
@@ -239,6 +213,7 @@
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:clipChildren="false"
             android:orientation="vertical">
 
             <com.google.android.material.textfield.TextInputLayout
@@ -246,8 +221,7 @@
                 style="@style/ChangeItemInputField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="8dp">
+                android:layout_marginHorizontal="20dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etChangeRecordComment"
@@ -264,7 +238,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="8dp"
                 android:clipChildren="false"
                 android:clipToPadding="false"
                 android:visibility="gone"
@@ -314,6 +287,89 @@
                 tools:listitem="@layout/change_record_comment_item"
                 tools:visibility="visible" />
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/containerChangeRecordSplit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/fieldChangeRecordTimeSplit"
+                    style="@style/InputFieldCard"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/input_field_height"
+                    android:layout_marginStart="@dimen/input_field_margin"
+                    android:layout_marginTop="12dp"
+                    app:layout_constraintEnd_toStartOf="@id/btnChangeRecordSplit"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_goneMarginEnd="@dimen/input_field_margin">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvChangeRecordTimeSplit"
+                        style="@style/InputFieldCardText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="?appInputFieldBorder"
+                        android:gravity="center_vertical"
+                        android:maxLines="1"
+                        app:autoSizeMaxTextSize="16sp"
+                        app:autoSizeMinTextSize="1sp"
+                        app:autoSizeTextType="uniform"
+                        tools:text="15.02.2020 07:35" />
+
+                </androidx.cardview.widget.CardView>
+
+                <Space
+                    android:id="@+id/spaceChangeRecordTimeSplitEnd"
+                    android:layout_width="8dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toEndOf="@id/fieldChangeRecordTimeSplit"
+                    app:layout_constraintTop_toTopOf="@id/fieldChangeRecordTimeSplit" />
+
+                <Space
+                    android:id="@+id/spaceChangeRecordTimeSplitTop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="12dp"
+                    app:layout_constraintBottom_toTopOf="@id/fieldChangeRecordTimeSplit"
+                    app:layout_constraintEnd_toEndOf="@id/fieldChangeRecordTimeSplit" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/btnChangeRecordTimeSplitAdjust"
+                    style="@style/InputFieldCard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="@id/spaceChangeRecordTimeSplitEnd"
+                    app:layout_constraintTop_toTopOf="@id/spaceChangeRecordTimeSplitTop">
+
+                    <androidx.appcompat.widget.AppCompatTextView style="@style/ButtonTimeAdjust" />
+
+                </androidx.cardview.widget.CardView>
+
+                <com.example.util.simpletimetracker.core.view.timeAdjustment.TimeAdjustmentView
+                    android:id="@+id/containerChangeRecordTimeSplitAdjust"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/input_field_margin"
+                    android:layout_marginEnd="@dimen/input_field_margin"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/fieldChangeRecordTimeSplit"
+                    tools:visibility="visible" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnChangeRecordSplit"
+                    style="@style/AppButtonActive"
+                    android:layout_width="0dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="Split"
+                    app:layout_constraintBottom_toBottomOf="@id/fieldChangeRecordTimeSplit"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/fieldChangeRecordTimeSplit"
+                    app:layout_constraintTop_toTopOf="@id/fieldChangeRecordTimeSplit" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
         </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.core.widget.NestedScrollView>
@@ -322,7 +378,6 @@
         android:id="@+id/rvChangeRecordType"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
         android:background="?android:colorBackground"
         android:overScrollMode="never"
         android:visibility="gone"
@@ -337,7 +392,6 @@
         android:id="@+id/rvChangeRecordCategories"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
         android:background="?android:colorBackground"
         android:overScrollMode="never"
         android:visibility="gone"

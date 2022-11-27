@@ -183,6 +183,19 @@
         <item name="android:textSize">12sp</item>
     </style>
 
+    <style name="ButtonTimeAdjust">
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:background">?appInputFieldBorder</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">4dp</item>
+        <item name="android:text">+/-</item>
+        <item name="android:textColor">?appTextHintColor</item>
+        <item name="android:textStyle">bold</item>
+        <item name="autoSizeMinTextSize">1sp</item>
+        <item name="autoSizeTextType">uniform</item>
+    </style>
+
     <style name="ColorIconItem">
         <item name="android:layout_width">@dimen/color_icon_item_width</item>
         <item name="android:layout_height">@dimen/color_icon_item_height</item>

@@ -64,26 +64,27 @@ class ChangeRecordViewModel @Inject constructor(
         router.back()
     }
 
-    override fun onSaveClick() {
-        if (checkSaveDisabled()) return
-        disableSaveButton()
-        viewModelScope.launch {
-            // Zero id creates new record
-            val id = (extra as? ChangeRecordParams.Tracked)?.id.orZero()
-            Record(
-                id = id,
-                typeId = newTypeId,
-                timeStarted = newTimeStarted,
-                timeEnded = newTimeEnded,
-                comment = newComment,
-                tagIds = newCategoryIds
-            ).let {
-                recordInteractor.add(it)
-                widgetInteractor.updateWidgets(listOf(WidgetType.STATISTICS_CHART))
-                (keyboardVisibility as MutableLiveData).value = false
-                router.back()
-            }
+    override suspend fun onSaveClickDelegate() {
+        // Zero id creates new record
+        val id = (extra as? ChangeRecordParams.Tracked)?.id.orZero()
+        Record(
+            id = id,
+            typeId = newTypeId,
+            timeStarted = newTimeStarted,
+            timeEnded = newTimeEnded,
+            comment = newComment,
+            tagIds = newCategoryIds
+        ).let {
+            recordInteractor.add(it)
+            widgetInteractor.updateWidgets(listOf(WidgetType.STATISTICS_CHART))
+            (keyboardVisibility as MutableLiveData).value = false
+            router.back()
         }
+    }
+
+
+    override suspend fun onSplitClickDelegate() {
+        // TODO
     }
 
     override fun getChangeCategoryParams(data: ChangeTagData): ChangeRecordTagFromScreen {
@@ -92,10 +93,16 @@ class ChangeRecordViewModel @Inject constructor(
 
     override fun onTimeEndedChanged() {
         if (newTimeEnded < newTimeStarted) newTimeStarted = newTimeEnded
+        if (newTimeEnded < newTimeSplit) newTimeSplit = newTimeEnded
     }
 
     override fun onTimeStartedChanged() {
         if (newTimeStarted > newTimeEnded) newTimeEnded = newTimeStarted
+        if (newTimeStarted > newTimeSplit) newTimeSplit = newTimeStarted
+    }
+
+    override fun onTimeSplitChanged() {
+        newTimeSplit = newTimeSplit.coerceIn(newTimeStarted..newTimeEnded)
     }
 
     private fun getInitialDate(daysFromToday: Int): Long {
@@ -126,6 +133,8 @@ class ChangeRecordViewModel @Inject constructor(
                 newTimeStarted = newTimeEnded - ONE_HOUR
             }
         }
+        newTimeSplit = newTimeStarted
+        updateTimeSplitValue()
     }
 
     private suspend fun loadPreviewViewData(): ChangeRecordViewData {

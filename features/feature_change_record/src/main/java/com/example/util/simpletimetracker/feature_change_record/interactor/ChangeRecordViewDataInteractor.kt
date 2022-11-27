@@ -1,15 +1,16 @@
 package com.example.util.simpletimetracker.feature_change_record.interactor
 
+import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.core.view.timeAdjustment.TimeAdjustmentView
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
+import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_change_record.R
-import com.example.util.simpletimetracker.core.view.timeAdjustment.TimeAdjustmentView
-import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.feature_change_record.mapper.ChangeRecordViewDataMapper
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordCommentViewData
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordViewData
@@ -23,6 +24,7 @@ class ChangeRecordViewDataInteractor @Inject constructor(
     private val runningRecordInteractor: RunningRecordInteractor,
     private val changeRecordViewDataMapper: ChangeRecordViewDataMapper,
     private val resourceRepo: ResourceRepo,
+    private val timeMapper: TimeMapper,
 ) {
 
     suspend fun getPreviewViewData(
@@ -48,6 +50,7 @@ class ChangeRecordViewDataInteractor @Inject constructor(
         typeId: Long,
     ): List<ViewHolderType> {
         data class Data(val timeStarted: Long, val comment: String)
+
         val records = recordInteractor.getByTypeWithComment(listOf(typeId))
             .map { Data(it.timeStarted, it.comment) }
         val runningRecords = runningRecordInteractor.getAll()
@@ -73,6 +76,11 @@ class ChangeRecordViewDataInteractor @Inject constructor(
             TimeAdjustmentView.ViewData.Adjust(text = "+5", value = +5),
             TimeAdjustmentView.ViewData.Adjust(text = "+30", value = +30),
         )
+    }
+
+    suspend fun mapTime(time: Long): String {
+        val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
+        return timeMapper.formatDateTime(time, useMilitaryTime)
     }
 
     companion object {
