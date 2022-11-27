@@ -9,6 +9,7 @@ import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_change_record.R
 import com.example.util.simpletimetracker.core.view.timeAdjustment.TimeAdjustmentView
+import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.feature_change_record.mapper.ChangeRecordViewDataMapper
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordCommentViewData
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordViewData
@@ -19,6 +20,7 @@ class ChangeRecordViewDataInteractor @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
     private val recordTagInteractor: RecordTagInteractor,
     private val recordInteractor: RecordInteractor,
+    private val runningRecordInteractor: RunningRecordInteractor,
     private val changeRecordViewDataMapper: ChangeRecordViewDataMapper,
     private val resourceRepo: ResourceRepo,
 ) {
@@ -45,7 +47,14 @@ class ChangeRecordViewDataInteractor @Inject constructor(
     suspend fun getLastCommentsViewData(
         typeId: Long,
     ): List<ViewHolderType> {
-        return recordInteractor.getByTypeWithComment(listOf(typeId))
+        data class Data(val timeStarted: Long, val comment: String)
+        val records = recordInteractor.getByTypeWithComment(listOf(typeId))
+            .map { Data(it.timeStarted, it.comment) }
+        val runningRecords = runningRecordInteractor.getAll()
+            .filter { it.id == typeId && it.comment.isNotEmpty() }
+            .map { Data(it.timeStarted, it.comment) }
+
+        return (records + runningRecords)
             .asSequence()
             .sortedByDescending { it.timeStarted }
             .map { it.comment }
