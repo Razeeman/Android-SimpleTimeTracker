@@ -29,6 +29,7 @@
     <string name="range_year">Année</string>
     <string name="range_overall">Global</string>
     <string name="range_custom">Intervalle</string>
+    <string name="range_last">Les 7 derniers jours</string>
     <string name="range_select_day">Sélectionner une date</string>
     <string name="range_select_week">Sélectionner une semaine</string>
     <string name="range_select_month">Sélectionner un mois</string>

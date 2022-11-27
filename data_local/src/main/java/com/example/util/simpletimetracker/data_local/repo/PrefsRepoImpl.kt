@@ -151,7 +151,8 @@ class PrefsRepoImpl @Inject constructor(
             is RangeLength.Month -> 2
             is RangeLength.Year -> 3
             is RangeLength.All -> 4
-            else -> 0
+            is RangeLength.Last -> 5
+            is RangeLength.Custom -> 0 // Not possible
         }
         val filteredTypesData = data.filteredTypes.map(Long::toString).toSet()
         val filteredCategoriesData = data.filteredCategories.map(Long::toString).toSet()
@@ -176,6 +177,7 @@ class PrefsRepoImpl @Inject constructor(
             2 -> RangeLength.Month
             3 -> RangeLength.Year
             4 -> RangeLength.All
+            5 -> RangeLength.Last
             else -> RangeLength.Day
         }
         val filteredTypes = prefs

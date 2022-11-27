@@ -87,6 +87,7 @@ class StatisticsViewModel @Inject constructor(
                         start = rangeLength.range.timeStarted,
                         end = rangeLength.range.timeEnded,
                     )
+                    is RangeLength.Last -> StatisticsDetailParams.RangeLengthParams.Last
                 },
                 shift = if (prefsInteractor.getKeepStatisticsRange()) {
                     extra?.shift.orZero()

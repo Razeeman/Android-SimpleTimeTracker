@@ -60,8 +60,13 @@ class StatisticsTest : BaseUiTest() {
         clickOnViewWithText(R.string.range_year)
         checkRecordsRange(firstColor, lastColor, firstIcon, lastIcon, name, newName)
 
-        // Switch to overall range
+        // Switch to last days range
         clickOnView(allOf(withText(R.string.title_this_year), isCompletelyDisplayed()))
+        clickOnViewWithText(R.string.range_last)
+        checkRecordsRange(firstColor, lastColor, firstIcon, lastIcon, name, newName, checkPrevious = false)
+
+        // Switch to overall range
+        clickOnView(allOf(withText(R.string.range_last), isCompletelyDisplayed()))
         clickOnViewWithText(R.string.range_overall)
         Thread.sleep(1000)
 
@@ -161,8 +166,13 @@ class StatisticsTest : BaseUiTest() {
         clickOnViewWithText(R.string.range_year)
         checkCategoryRange(firstColor, lastColor, categoryName1, categoryName2, categoryName3)
 
-        // Switch to overall range
+        // Switch to last days range
         clickOnView(allOf(withText(R.string.title_this_year), isCompletelyDisplayed()))
+        clickOnViewWithText(R.string.range_last)
+        checkCategoryRange(firstColor, lastColor, categoryName1, categoryName2, categoryName3, checkPrevious = false)
+
+        // Switch to overall range
+        clickOnView(allOf(withText(R.string.range_last), isCompletelyDisplayed()))
         clickOnViewWithText(R.string.range_overall)
         Thread.sleep(1000)
 
@@ -211,7 +221,8 @@ class StatisticsTest : BaseUiTest() {
         firstIcon: Int,
         lastIcon: Int,
         name: String,
-        newName: String
+        newName: String,
+        checkPrevious: Boolean = true,
     ) {
         checkViewIsDisplayed(
             allOf(
@@ -257,6 +268,7 @@ class StatisticsTest : BaseUiTest() {
                 isCompletelyDisplayed()
             )
         )
+        if (!checkPrevious) return
         clickOnViewWithId(R.id.btnStatisticsContainerPrevious)
         checkViewIsDisplayed(
             allOf(
@@ -289,7 +301,8 @@ class StatisticsTest : BaseUiTest() {
         lastColor: Int,
         categoryName1: String,
         categoryName2: String,
-        categoryName3: String
+        categoryName3: String,
+        checkPrevious: Boolean = true,
     ) {
         checkViewIsDisplayed(
             allOf(
@@ -329,6 +342,7 @@ class StatisticsTest : BaseUiTest() {
                 isCompletelyDisplayed()
             )
         )
+        if (!checkPrevious) return
         clickOnViewWithId(R.id.btnStatisticsContainerPrevious)
         checkViewIsDisplayed(
             allOf(

@@ -304,6 +304,7 @@ class PrefsInteractor @Inject constructor(
                     )
                 }.let(RangeLength::Custom)
             }
+            6 -> RangeLength.Last
             else -> RangeLength.Day
         }
     }
@@ -316,6 +317,7 @@ class PrefsInteractor @Inject constructor(
             is RangeLength.Year -> 3
             is RangeLength.All -> 4
             is RangeLength.Custom -> 5
+            is RangeLength.Last -> 6
         }
     }
 }

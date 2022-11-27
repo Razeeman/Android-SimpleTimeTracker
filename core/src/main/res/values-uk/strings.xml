@@ -29,6 +29,7 @@
     <string name="range_year">Рік</string>
     <string name="range_overall">Весь час</string>
     <string name="range_custom">Діапазон</string>
+    <string name="range_last">Останні 7 днів</string>
     <string name="range_select_day">Обрати дату</string>
     <string name="range_select_week">Обрати тиждень</string>
     <string name="range_select_month">Обрати місяць</string>

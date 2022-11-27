@@ -99,6 +99,7 @@ class TimeMapper @Inject constructor(
             is RangeLength.Year -> Calendar.YEAR
             is RangeLength.All -> return 0
             is RangeLength.Custom -> return 0
+            is RangeLength.Last -> return 0
         }
 
         return if (rangesFromToday != 0) {
@@ -126,6 +127,7 @@ class TimeMapper @Inject constructor(
             is RangeLength.Year -> Calendar.YEAR
             is RangeLength.All -> return 0
             is RangeLength.Custom -> return 0
+            is RangeLength.Last -> return 0
         }
 
         val calendar = Calendar.getInstance()
@@ -371,6 +373,10 @@ class TimeMapper @Inject constructor(
             is RangeLength.Custom -> {
                 rangeStart = rangeLength.range.timeStarted
                 rangeEnd = rangeLength.range.timeEnded
+            }
+            is RangeLength.Last -> {
+                rangeEnd = calendar.apply { add(Calendar.DATE, 1) }.timeInMillis
+                rangeStart = calendar.apply { add(Calendar.DATE, -rangeLength.days) }.timeInMillis
             }
         }
 

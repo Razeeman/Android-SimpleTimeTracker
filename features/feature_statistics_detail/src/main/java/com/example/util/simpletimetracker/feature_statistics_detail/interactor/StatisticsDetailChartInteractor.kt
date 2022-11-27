@@ -126,6 +126,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
         val availableChartGroupings: List<ChartGrouping> = when (rangeLength) {
             is RangeLength.Day,
             is RangeLength.Week,
+            is RangeLength.Last,
             -> listOf(
                 ChartGrouping.DAILY
             )
@@ -163,6 +164,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
             is RangeLength.Week,
             is RangeLength.Month,
             is RangeLength.Year,
+            is RangeLength.Last,
             -> timeMapper.getRangeStartAndEnd(
                 rangeLength, rangePosition, firstDayOfWeek, 0
             ).second - 1
@@ -194,6 +196,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
             is RangeLength.Custom -> {
                 customRangeGroupings.first { it.first == appliedChartGrouping }.second
             }
+            is RangeLength.Last -> rangeLength.days
         }
 
         return when (appliedChartGrouping) {

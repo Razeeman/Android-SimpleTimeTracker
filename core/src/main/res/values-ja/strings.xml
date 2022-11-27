@@ -29,6 +29,7 @@
     <string name="range_year">年</string>
     <string name="range_overall">全期間</string>
     <string name="range_custom">範囲</string>
+    <string name="range_last">過去 7 日間</string>
     <string name="range_select_day">日付指定</string>
     <string name="range_select_week">週指定</string>
     <string name="range_select_month">月指定</string>

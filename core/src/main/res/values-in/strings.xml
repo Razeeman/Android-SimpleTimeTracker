@@ -29,6 +29,7 @@
     <string name="range_year">Tahun</string>
     <string name="range_overall">Keseluruhan</string>
     <string name="range_custom">Rentang</string>
+    <string name="range_last">7 hari terakhir</string>
     <string name="range_select_day">Pilih tanggal</string>
     <string name="range_select_week">Pilih minggu</string>
     <string name="range_select_month">Pilih bulan</string>

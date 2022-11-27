@@ -29,6 +29,7 @@
     <string name="range_year">Jaar</string>
     <string name="range_overall">Algemeen</string>
     <string name="range_custom">Bereik</string>
+    <string name="range_last">Laatste 7 dagen</string>
     <string name="range_select_day">Selecteer dag</string>
     <string name="range_select_week">Selecteer week</string>
     <string name="range_select_month">Selecteer maand</string>

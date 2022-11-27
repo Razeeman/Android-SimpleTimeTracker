@@ -29,6 +29,7 @@
     <string name="range_year">Yıl</string>
     <string name="range_overall">Tümü</string>
     <string name="range_custom">Tarih aralığı</string>
+    <string name="range_last">Son 7 gün</string>
     <string name="range_select_day">Tarih seçin</string>
     <string name="range_select_week">Hafta seçin</string>
     <string name="range_select_month">Ay seçin</string>

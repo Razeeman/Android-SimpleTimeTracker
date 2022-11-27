@@ -306,6 +306,7 @@ class StatisticsDetailViewModel @Inject constructor(
             is StatisticsDetailParams.RangeLengthParams.Custom -> Range(
                 timeStarted = range.start, timeEnded = range.end
             ).let(RangeLength::Custom)
+            is StatisticsDetailParams.RangeLengthParams.Last -> RangeLength.Last
         }
     }
 
@@ -457,7 +458,7 @@ class StatisticsDetailViewModel @Inject constructor(
 
     private fun loadButtonsVisibility(): Boolean {
         return when (rangeLength) {
-            is RangeLength.All, is RangeLength.Custom -> false
+            is RangeLength.All, is RangeLength.Custom, is RangeLength.Last -> false
             else -> true
         }
     }

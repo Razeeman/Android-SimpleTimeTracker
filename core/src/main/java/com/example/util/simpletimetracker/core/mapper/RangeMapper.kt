@@ -50,6 +50,7 @@ class RangeMapper @Inject constructor(
             is RangeLength.Year -> timeMapper.toYearTitle(position, startOfDayShift)
             is RangeLength.All -> resourceRepo.getString(R.string.range_overall)
             is RangeLength.Custom -> resourceRepo.getString(R.string.range_custom)
+            is RangeLength.Last -> resourceRepo.getString(R.string.range_last)
         }
     }
 
@@ -84,6 +85,7 @@ class RangeMapper @Inject constructor(
             is RangeLength.Year -> R.string.range_year
             is RangeLength.All -> R.string.range_overall
             is RangeLength.Custom -> R.string.range_custom
+            is RangeLength.Last -> R.string.range_last
         }.let(resourceRepo::getString)
 
         return RangeViewData(
@@ -110,6 +112,7 @@ class RangeMapper @Inject constructor(
 
     companion object {
         private val ranges: List<RangeLength> = listOf(
+            RangeLength.Last,
             RangeLength.All,
             RangeLength.Year,
             RangeLength.Month,

@@ -120,6 +120,17 @@ class StatisticsRangesTest : BaseUiTest() {
         checkViewIsNotDisplayed(withId(R.id.btnStatisticsContainerPrevious))
         checkViewIsNotDisplayed(withId(R.id.btnStatisticsContainerNext))
 
+        // Switch to last days range
+        clickOnViewWithId(R.id.btnStatisticsContainerToday)
+        checkViewDoesNotExist(withText(R.string.range_select_day))
+        checkViewDoesNotExist(withText(R.string.range_select_week))
+        checkViewDoesNotExist(withText(R.string.range_select_month))
+        checkViewDoesNotExist(withText(R.string.range_select_year))
+        clickOnViewWithText(R.string.range_last)
+        checkViewIsDisplayed(allOf(withText(name), isCompletelyDisplayed()))
+        checkViewIsNotDisplayed(withId(R.id.btnStatisticsContainerPrevious))
+        checkViewIsNotDisplayed(withId(R.id.btnStatisticsContainerNext))
+
         // Switch back to day
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         checkViewDoesNotExist(withText(R.string.range_select_day))
@@ -714,6 +725,52 @@ class StatisticsRangesTest : BaseUiTest() {
 
         checkViewIsDisplayed(allOf(withId(R.id.tvCustomRangeSelectionTimeStarted), withText(timeStarted)))
         checkViewIsDisplayed(allOf(withId(R.id.tvCustomRangeSelectionTimeEnded), withText(timeEnded)))
+    }
+
+    @Test
+    fun lastDaysRange() {
+        val name1 = "Test1"
+
+        // Add data
+        testUtils.addActivity(name1)
+        var calendar = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, 15)
+        }
+        testUtils.addRecord(
+            typeName = name1,
+            timeStarted = calendar.timeInMillis,
+            timeEnded = calendar.timeInMillis + TimeUnit.HOURS.toMillis(1)
+        )
+        calendar = Calendar.getInstance().apply {
+            add(Calendar.DATE, -6)
+            set(Calendar.HOUR_OF_DAY, 15)
+        }
+        testUtils.addRecord(
+            typeName = name1,
+            timeStarted = calendar.timeInMillis,
+            timeEnded = calendar.timeInMillis + TimeUnit.HOURS.toMillis(1)
+        )
+        calendar = Calendar.getInstance().apply {
+            add(Calendar.DATE, -7)
+            set(Calendar.HOUR_OF_DAY, 15)
+        }
+        testUtils.addRecord(
+            typeName = name1,
+            timeStarted = calendar.timeInMillis,
+            timeEnded = calendar.timeInMillis + TimeUnit.HOURS.toMillis(1)
+        )
+
+        // Check records added
+        NavUtils.openStatisticsScreen()
+        clickOnViewWithId(R.id.btnStatisticsContainerToday)
+        clickOnViewWithText(R.string.range_overall)
+        tryAction { checkStatisticsItem(name = name1, hours = 3) }
+
+        // Select range
+        clickOnViewWithId(R.id.btnStatisticsContainerToday)
+        clickOnViewWithText(R.string.range_last)
+        checkViewIsDisplayed(allOf(withId(R.id.btnStatisticsContainerToday), withText(R.string.range_last)))
+        checkStatisticsItem(name = name1, hours = 2)
     }
 
     private fun checkStatisticsItem(

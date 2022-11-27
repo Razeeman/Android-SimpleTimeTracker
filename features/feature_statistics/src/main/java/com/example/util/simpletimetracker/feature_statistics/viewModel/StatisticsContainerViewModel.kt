@@ -170,8 +170,10 @@ class StatisticsContainerViewModel @Inject constructor(
     }
 
     private suspend fun loadNavButtonsVisibility(): Boolean {
-        val rangeLength = getRangeLength()
-        return !(rangeLength is RangeLength.All || rangeLength is RangeLength.Custom)
+        return when (getRangeLength()) {
+            is RangeLength.All, is RangeLength.Custom, is RangeLength.Last -> false
+            else -> true
+        }
     }
 
     companion object {

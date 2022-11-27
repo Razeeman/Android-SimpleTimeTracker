@@ -346,6 +346,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
                 is RangeLength.Year -> data.size <= 12
                 is RangeLength.All,
                 is RangeLength.Custom,
+                is RangeLength.Last,
                 -> data.size <= 10
             }
         )
