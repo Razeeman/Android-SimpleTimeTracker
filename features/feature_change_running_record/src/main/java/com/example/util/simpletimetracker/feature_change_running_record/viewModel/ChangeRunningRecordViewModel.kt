@@ -2,58 +2,54 @@ package com.example.util.simpletimetracker.feature_change_running_record.viewMod
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.util.simpletimetracker.core.extension.addOrRemove
 import com.example.util.simpletimetracker.core.extension.set
-import com.example.util.simpletimetracker.core.extension.toParams
 import com.example.util.simpletimetracker.core.interactor.AddRunningRecordMediator
 import com.example.util.simpletimetracker.core.interactor.RecordTagViewDataInteractor
 import com.example.util.simpletimetracker.core.interactor.RecordTypesViewDataInteractor
 import com.example.util.simpletimetracker.core.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
-import com.example.util.simpletimetracker.core.view.timeAdjustment.TimeAdjustmentView
-import com.example.util.simpletimetracker.domain.extension.flip
-import com.example.util.simpletimetracker.domain.extension.orTrue
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.model.RunningRecord
-import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
-import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
-import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
-import com.example.util.simpletimetracker.feature_change_record.viewData.TimeAdjustmentState
-import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordCoreViewModel
+import com.example.util.simpletimetracker.feature_change_record.interactor.ChangeRecordViewDataInteractor
+import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordBaseViewModel
 import com.example.util.simpletimetracker.feature_change_running_record.R
 import com.example.util.simpletimetracker.feature_change_running_record.interactor.ChangeRunningRecordViewDataInteractor
 import com.example.util.simpletimetracker.feature_change_running_record.viewData.ChangeRunningRecordViewData
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
-import com.example.util.simpletimetracker.navigation.params.notification.ToastParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTagFromChangeRunningRecordParams
+import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTagFromScreen
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRunningRecordParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeTagData
-import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogParams
-import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogType
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class ChangeRunningRecordViewModel @Inject constructor(
+    recordTypesViewDataInteractor: RecordTypesViewDataInteractor,
+    recordTagViewDataInteractor: RecordTagViewDataInteractor,
+    prefsInteractor: PrefsInteractor,
+    changeRecordViewDataInteractor: ChangeRecordViewDataInteractor,
     private val router: Router,
     private val addRunningRecordMediator: AddRunningRecordMediator,
     private val removeRunningRecordMediator: RemoveRunningRecordMediator,
     private val runningRecordInteractor: RunningRecordInteractor,
     private val changeRunningRecordViewDataInteractor: ChangeRunningRecordViewDataInteractor,
-    private val recordTypesViewDataInteractor: RecordTypesViewDataInteractor,
-    private val recordTagViewDataInteractor: RecordTagViewDataInteractor,
     private val resourceRepo: ResourceRepo,
-    private val prefsInteractor: PrefsInteractor,
-) : ViewModel(), ChangeRecordCoreViewModel {
+) : ChangeRecordBaseViewModel(
+    router,
+    resourceRepo,
+    prefsInteractor,
+    recordTypesViewDataInteractor,
+    recordTagViewDataInteractor,
+    changeRecordViewDataInteractor,
+) {
 
     lateinit var extra: ChangeRunningRecordParams
 
@@ -65,79 +61,10 @@ class ChangeRunningRecordViewModel @Inject constructor(
             initial
         }
     }
-    override val types: LiveData<List<ViewHolderType>> by lazy {
-        return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
-            viewModelScope.launch { initial.value = loadTypesViewData() }
-            initial
-        }
-    }
-    override val categories: LiveData<List<ViewHolderType>> by lazy {
-        return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
-            viewModelScope.launch {
-                initializePreviewViewData()
-                initial.value = loadCategoriesViewData()
-            }
-            initial
-        }
-    }
-    override val lastComments: LiveData<List<ViewHolderType>> by lazy {
-        return@lazy MutableLiveData() // TODO
-    }
-    override val timeAdjustmentItems: LiveData<List<ViewHolderType>> by lazy {
-        MutableLiveData(loadTimeAdjustmentItems())
-    }
-    override val timeAdjustmentState: LiveData<TimeAdjustmentState> = MutableLiveData(TimeAdjustmentState.HIDDEN)
-    override val flipTypesChooser: LiveData<Boolean> = MutableLiveData()
-    override val flipCategoryChooser: LiveData<Boolean> = MutableLiveData()
-    override val flipLastCommentsChooser: LiveData<Boolean> = MutableLiveData()
-    override val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
-    override val keyboardVisibility: LiveData<Boolean> = MutableLiveData(false)
-    override val comment: LiveData<String> = MutableLiveData()
     val message: LiveData<SnackBarParams?> = MutableLiveData()
     val deleteButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
 
-    private var newTypeId: Long = 0
-    private var newTimeStarted: Long = 0
     private var timerJob: Job? = null
-    private var newComment: String = ""
-    private var newCategoryIds: MutableList<Long> = mutableListOf()
-
-    override fun onTypeChooserClick() {
-        (keyboardVisibility as MutableLiveData).value = false
-        (flipTypesChooser as MutableLiveData).value = flipTypesChooser.value
-            ?.flip().orTrue()
-
-        if (flipCategoryChooser.value == true) {
-            (flipCategoryChooser as MutableLiveData).value = false
-        }
-    }
-
-    override fun onCategoryChooserClick() {
-        (keyboardVisibility as MutableLiveData).value = false
-        (flipCategoryChooser as MutableLiveData).value = flipCategoryChooser.value
-            ?.flip().orTrue()
-
-        if (flipTypesChooser.value == true) {
-            (flipTypesChooser as MutableLiveData).value = false
-        }
-    }
-
-    override fun onTimeStartedClick() {
-        viewModelScope.launch {
-            val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
-            val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
-
-            router.navigate(
-                DateTimeDialogParams(
-                    tag = TIME_STARTED_TAG,
-                    timestamp = newTimeStarted,
-                    type = DateTimeDialogType.DATETIME(),
-                    useMilitaryTime = useMilitaryTime,
-                    firstDayOfWeek = firstDayOfWeek
-                )
-            )
-        }
-    }
 
     fun onDeleteClick() {
         (deleteButtonEnabled as MutableLiveData).value = false
@@ -150,11 +77,8 @@ class ChangeRunningRecordViewModel @Inject constructor(
     }
 
     override fun onSaveClick() {
-        if (newTypeId == 0L) {
-            showMessage(R.string.change_record_message_choose_type)
-            return
-        }
-        (saveButtonEnabled as MutableLiveData).value = false
+        if (checkSaveDisabled()) return
+        disableSaveButton()
         viewModelScope.launch {
             removeRunningRecordMediator.remove(extra.id)
             addRunningRecordMediator.add(newTypeId, newTimeStarted, newComment, newCategoryIds)
@@ -163,112 +87,8 @@ class ChangeRunningRecordViewModel @Inject constructor(
         }
     }
 
-    override fun onTypeClick(item: RecordTypeViewData) {
-        viewModelScope.launch {
-            if (item.id != newTypeId) {
-                newTypeId = item.id
-                newCategoryIds.clear()
-                updatePreview()
-                updateCategoriesViewData()
-            }
-        }
-    }
-
-    override fun onCategoryClick(item: CategoryViewData) {
-        viewModelScope.launch {
-            when (item) {
-                is CategoryViewData.Record.Tagged -> {
-                    newCategoryIds.addOrRemove(item.id)
-                }
-                is CategoryViewData.Record.Untagged -> {
-                    newCategoryIds.clear()
-                }
-                else -> return@launch
-            }
-            updatePreview()
-            updateCategoriesViewData()
-        }
-    }
-
-    override fun onCategoryLongClick(item: CategoryViewData, sharedElements: Pair<Any, String>) {
-        val icon = (item as? CategoryViewData.Record)?.icon?.toParams()
-
-        router.navigate(
-            data = ChangeRecordTagFromChangeRunningRecordParams(
-                ChangeTagData.Change(
-                    transitionName = sharedElements.second,
-                    id = item.id,
-                    preview = ChangeTagData.Change.Preview(
-                        name = item.name,
-                        color = item.color,
-                        icon = icon,
-                    )
-                )
-            ),
-            sharedElements = mapOf(sharedElements)
-        )
-    }
-
-    override fun onAddCategoryClick() {
-        val preselectedTypeId: Long? = newTypeId.takeUnless { it == 0L }
-        router.navigate(
-            data = ChangeRecordTagFromChangeRunningRecordParams(
-                ChangeTagData.New(preselectedTypeId)
-            )
-        )
-    }
-
-    fun onDateTimeSet(timestamp: Long, tag: String?) {
-        viewModelScope.launch {
-            when (tag) {
-                TIME_STARTED_TAG -> {
-                    if (timestamp != newTimeStarted) {
-                        newTimeStarted = timestamp
-                        checkTimeStarted()
-                        updatePreview()
-                    }
-                }
-            }
-        }
-    }
-
-    override fun onCommentChange(comment: String) {
-        viewModelScope.launch {
-            if (comment != newComment) {
-                newComment = comment
-                updatePreview()
-            }
-        }
-    }
-
-    override fun onAdjustTimeStartedClick() {
-        when (timeAdjustmentState.value) {
-            TimeAdjustmentState.HIDDEN -> {
-                timeAdjustmentState.set(TimeAdjustmentState.TIME_STARTED)
-            }
-            TimeAdjustmentState.TIME_STARTED -> {
-                timeAdjustmentState.set(TimeAdjustmentState.HIDDEN)
-            }
-            else -> {
-                // Do nothing
-            }
-        }
-    }
-
-    override fun onAdjustTimeItemClick(viewData: TimeAdjustmentView.ViewData) {
-        viewModelScope.launch {
-            when (viewData) {
-                is TimeAdjustmentView.ViewData.Now -> {
-                    newTimeStarted = System.currentTimeMillis()
-                    updatePreview()
-                }
-                is TimeAdjustmentView.ViewData.Adjust -> {
-                    newTimeStarted += TimeUnit.MINUTES.toMillis(viewData.value)
-                    checkTimeStarted()
-                    updatePreview()
-                }
-            }
-        }
+    override fun getChangeCategoryParams(data: ChangeTagData): ChangeRecordTagFromScreen {
+        return ChangeRecordTagFromChangeRunningRecordParams(data)
     }
 
     fun onVisible() {
@@ -284,7 +104,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
         message.set(null)
     }
 
-    private fun checkTimeStarted() {
+    override fun onTimeStartedChanged() {
         if (newTimeStarted > System.currentTimeMillis()) {
             newTimeStarted = System.currentTimeMillis()
 
@@ -295,11 +115,15 @@ class ChangeRunningRecordViewModel @Inject constructor(
         }
     }
 
-    private suspend fun updatePreview() {
+    override fun onTimeEndedChanged() {
+        // Do nothing
+    }
+
+    override suspend fun updatePreview() {
         (record as MutableLiveData).value = loadPreviewViewData()
     }
 
-    private suspend fun initializePreviewViewData() {
+    override suspend fun initializePreviewViewData() {
         if (extra.id != 0L) {
             runningRecordInteractor.get(extra.id)?.let { record ->
                 newTypeId = record.id.orZero()
@@ -323,29 +147,6 @@ class ChangeRunningRecordViewModel @Inject constructor(
         return changeRunningRecordViewDataInteractor.getPreviewViewData(record)
     }
 
-    private suspend fun loadTypesViewData(): List<ViewHolderType> {
-        return recordTypesViewDataInteractor.getTypesViewData()
-    }
-
-    private fun updateCategoriesViewData() = viewModelScope.launch {
-        val data = loadCategoriesViewData()
-        categories.set(data)
-    }
-
-    private suspend fun loadCategoriesViewData(): List<ViewHolderType> {
-        return recordTagViewDataInteractor.getViewData(
-            selectedTags = newCategoryIds,
-            typeId = newTypeId,
-            multipleChoiceAvailable = true,
-            showHint = true,
-            showAddButton = true,
-        )
-    }
-
-    private fun loadTimeAdjustmentItems(): List<ViewHolderType> {
-        return changeRunningRecordViewDataInteractor.getTimeAdjustmentItems()
-    }
-
     private fun startUpdate() {
         timerJob = viewModelScope.launch {
             timerJob?.cancelAndJoin()
@@ -362,13 +163,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
         }
     }
 
-    private fun showMessage(stringResId: Int) {
-        val params = ToastParams(message = resourceRepo.getString(stringResId))
-        router.show(params)
-    }
-
     companion object {
         private const val TIMER_UPDATE = 1000L
-        private const val TIME_STARTED_TAG = "time_started_tag"
     }
 }

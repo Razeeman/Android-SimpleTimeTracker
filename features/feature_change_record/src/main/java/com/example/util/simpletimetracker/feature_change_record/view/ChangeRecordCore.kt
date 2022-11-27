@@ -17,7 +17,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.recordType.create
 import com.example.util.simpletimetracker.feature_change_record.adapter.createChangeRecordCommentAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record.databinding.ChangeRecordCoreLayoutBinding
 import com.example.util.simpletimetracker.feature_change_record.viewData.TimeAdjustmentState
-import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordCoreViewModel
+import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordBaseViewModel
 import com.example.util.simpletimetracker.feature_views.extension.rotateDown
 import com.example.util.simpletimetracker.feature_views.extension.rotateUp
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
@@ -28,7 +28,7 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 
 class ChangeRecordCore(
-    private val viewModel: ChangeRecordCoreViewModel,
+    private val viewModel: ChangeRecordBaseViewModel,
 ) {
 
     private val typesAdapter: BaseRecyclerAdapter by lazy {

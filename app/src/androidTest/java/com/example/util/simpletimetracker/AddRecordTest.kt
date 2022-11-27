@@ -22,6 +22,7 @@ import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.typeTextIntoView
+import com.example.util.simpletimetracker.utils.unconstrainedClickOnView
 import com.example.util.simpletimetracker.utils.withCardColor
 import com.example.util.simpletimetracker.utils.withTag
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -310,13 +311,13 @@ class AddRecordTest : BaseUiTest() {
 
         // Check visibility
         checkViewIsNotDisplayed(withId(R.id.containerChangeRecordTimeAdjust))
-        clickOnViewWithId(R.id.btnChangeRecordTimeStartedAdjust)
+        unconstrainedClickOnView(withId(R.id.btnChangeRecordTimeStartedAdjust))
         checkViewIsDisplayed(withId(R.id.containerChangeRecordTimeAdjust))
-        clickOnViewWithId(R.id.btnChangeRecordTimeStartedAdjust)
+        unconstrainedClickOnView(withId(R.id.btnChangeRecordTimeStartedAdjust))
         checkViewIsNotDisplayed(withId(R.id.containerChangeRecordTimeAdjust))
 
         // Check time start adjustments
-        clickOnViewWithId(R.id.btnChangeRecordTimeStartedAdjust)
+        unconstrainedClickOnView(withId(R.id.btnChangeRecordTimeStartedAdjust))
 
         clickOnViewWithText("-30")
         checkAfterTimeAdjustment(
@@ -349,7 +350,7 @@ class AddRecordTest : BaseUiTest() {
         )
 
         // Check time end adjustments
-        clickOnViewWithId(R.id.btnChangeRecordTimeEndedAdjust)
+        unconstrainedClickOnView(withId(R.id.btnChangeRecordTimeEndedAdjust))
 
         tryAction { clickOnViewWithText("+30") }
         clickOnViewWithText("+30")

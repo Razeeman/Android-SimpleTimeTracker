@@ -88,7 +88,7 @@ class IconTest : BaseUiTest() {
         longClickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(firstName)))
         checkViewIsDisplayed(allOf(withId(R.id.previewChangeRunningRecord), hasDescendant(withText(firstEmoji))))
         clickOnViewWithText(R.string.change_record_type_field)
-        clickOnRecyclerItem(R.id.rvChangeRunningRecordType, withText(secondName))
+        clickOnRecyclerItem(R.id.rvChangeRecordType, withText(secondName))
         checkViewIsDisplayed(allOf(withId(R.id.previewChangeRunningRecord), hasDescendant(withText(lastEmoji))))
         clickOnViewWithText(R.string.change_record_save)
 
@@ -196,7 +196,7 @@ class IconTest : BaseUiTest() {
         longClickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(firstName)))
         checkViewIsDisplayed(allOf(withId(R.id.previewChangeRunningRecord), hasDescendant(withText(firstIconText))))
         clickOnViewWithText(R.string.change_record_type_field)
-        clickOnRecyclerItem(R.id.rvChangeRunningRecordType, withText(secondName))
+        clickOnRecyclerItem(R.id.rvChangeRecordType, withText(secondName))
         checkViewIsDisplayed(allOf(withId(R.id.previewChangeRunningRecord), hasDescendant(withText(secondIconText))))
         clickOnViewWithText(R.string.change_record_save)
 

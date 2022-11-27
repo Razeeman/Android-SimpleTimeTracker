@@ -113,7 +113,7 @@ class StartRecordTest : BaseUiTest() {
 
         // Add comment
         longClickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name)))
-        typeTextIntoView(R.id.etChangeRunningRecordComment, comment)
+        typeTextIntoView(R.id.etChangeRecordComment, comment)
         clickOnViewWithText(R.string.change_record_save)
 
         // Stop timer
@@ -151,8 +151,8 @@ class StartRecordTest : BaseUiTest() {
         // Add tag
         tryAction { longClickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name))) }
         clickOnViewWithText(R.string.change_record_tag_field)
-        clickOnRecyclerItem(R.id.rvChangeRunningRecordCategories, withText(tag1))
-        clickOnRecyclerItem(R.id.rvChangeRunningRecordCategories, withText(tag2))
+        clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag1))
+        clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag2))
         clickOnViewWithText(R.string.change_record_tag_field)
         clickOnViewWithText(R.string.change_record_save)
 

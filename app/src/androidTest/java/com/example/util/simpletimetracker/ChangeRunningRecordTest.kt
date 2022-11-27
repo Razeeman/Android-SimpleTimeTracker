@@ -23,6 +23,7 @@ import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.longClickOnView
 import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.typeTextIntoView
+import com.example.util.simpletimetracker.utils.unconstrainedClickOnView
 import com.example.util.simpletimetracker.utils.withCardColor
 import com.example.util.simpletimetracker.utils.withTag
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -74,11 +75,11 @@ class ChangeRunningRecordTest : BaseUiTest() {
 
         // View is set up
         checkViewIsDisplayed(withId(R.id.btnChangeRunningRecordDelete))
-        checkViewIsNotDisplayed(withId(R.id.rvChangeRunningRecordType))
-        checkViewIsNotDisplayed(withId(R.id.rvChangeRunningRecordCategories))
-        checkViewIsNotDisplayed(withId(R.id.containerChangeRunningRecordTimeAdjust))
-        checkViewIsDisplayed(allOf(withId(R.id.tvChangeRunningRecordTimeStarted), withText(timeStarted)))
-        checkViewIsDisplayed(allOf(withId(R.id.etChangeRunningRecordComment), withText("")))
+        checkViewIsNotDisplayed(withId(R.id.rvChangeRecordType))
+        checkViewIsNotDisplayed(withId(R.id.rvChangeRecordCategories))
+        checkViewIsNotDisplayed(withId(R.id.containerChangeRecordTimeAdjust))
+        checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeStarted), withText(timeStarted)))
+        checkViewIsDisplayed(allOf(withId(R.id.etChangeRecordComment), withText("")))
 
         // Preview is updated
         checkPreviewUpdated(hasDescendant(withText(name1)))
@@ -91,10 +92,10 @@ class ChangeRunningRecordTest : BaseUiTest() {
 
         // Change item
         clickOnViewWithText(R.string.change_record_type_field)
-        clickOnRecyclerItem(R.id.rvChangeRunningRecordType, withText(name2))
+        clickOnRecyclerItem(R.id.rvChangeRecordType, withText(name2))
         clickOnViewWithText(R.string.change_record_type_field)
         clickOnViewWithText(R.string.change_record_tag_field)
-        clickOnRecyclerItem(R.id.rvChangeRunningRecordCategories, withText(tag2))
+        clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag2))
         clickOnViewWithText(R.string.change_record_tag_field)
 
         val calendar = Calendar.getInstance().apply {
@@ -106,7 +107,7 @@ class ChangeRunningRecordTest : BaseUiTest() {
         val month = calendar.get(Calendar.MONTH)
         val day = calendar.get(Calendar.DAY_OF_MONTH)
 
-        clickOnViewWithId(R.id.tvChangeRunningRecordTimeStarted)
+        clickOnViewWithId(R.id.tvChangeRecordTimeStarted)
         onView(withClassName(equalTo(TimePicker::class.java.name)))
             .perform(setTime(hourStarted, minutesStarted))
         clickOnViewWithText(R.string.date_time_dialog_date)
@@ -127,8 +128,8 @@ class ChangeRunningRecordTest : BaseUiTest() {
         timeStartedPreview = timeStartedTimestamp
             .let { timeMapper.formatTime(it, true) }
 
-        checkViewIsDisplayed(allOf(withId(R.id.tvChangeRunningRecordTimeStarted), withText(timeStarted)))
-        typeTextIntoView(R.id.etChangeRunningRecordComment, comment)
+        checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeStarted), withText(timeStarted)))
+        typeTextIntoView(R.id.etChangeRecordComment, comment)
 
         // Preview is updated
         checkPreviewUpdated(hasDescendant(withText(fullName2)))
@@ -186,7 +187,7 @@ class ChangeRunningRecordTest : BaseUiTest() {
         longClickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name1)))
         checkPreviewUpdated(hasDescendant(withText(name1)))
         clickOnViewWithText(R.string.change_record_tag_field)
-        clickOnRecyclerItem(R.id.rvChangeRunningRecordCategories, withText(tag1))
+        clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag1))
         checkPreviewUpdated(hasDescendant(withText(fullName1)))
         clickOnViewWithText(R.string.change_record_tag_field)
         clickOnViewWithText(R.string.change_record_save)
@@ -198,12 +199,12 @@ class ChangeRunningRecordTest : BaseUiTest() {
         longClickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(fullName1)))
         checkPreviewUpdated(hasDescendant(withText(fullName1)))
         clickOnViewWithText(R.string.change_record_type_field)
-        clickOnRecyclerItem(R.id.rvChangeRunningRecordType, withText(name2))
+        clickOnRecyclerItem(R.id.rvChangeRecordType, withText(name2))
         checkPreviewUpdated(hasDescendant(withText(name2)))
         clickOnViewWithText(R.string.change_record_type_field)
         clickOnViewWithText(R.string.change_record_tag_field)
-        clickOnRecyclerItem(R.id.rvChangeRunningRecordCategories, withText(tag2))
-        clickOnRecyclerItem(R.id.rvChangeRunningRecordCategories, withText(tag3))
+        clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag2))
+        clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag3))
         checkPreviewUpdated(hasDescendant(withText(fullName2)))
         clickOnViewWithText(R.string.change_record_tag_field)
         clickOnViewWithText(R.string.change_record_save)
@@ -215,7 +216,7 @@ class ChangeRunningRecordTest : BaseUiTest() {
         longClickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(fullName2)))
         checkPreviewUpdated(hasDescendant(withText(fullName2)))
         clickOnViewWithText(R.string.change_record_tag_field)
-        clickOnRecyclerItem(R.id.rvChangeRunningRecordCategories, withText(R.string.change_record_untagged))
+        clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(R.string.change_record_untagged))
         checkPreviewUpdated(hasDescendant(withText(name2)))
         clickOnViewWithText(R.string.change_record_tag_field)
         clickOnViewWithText(R.string.change_record_save)
@@ -236,21 +237,21 @@ class ChangeRunningRecordTest : BaseUiTest() {
 
         tryAction { clickOnViewWithText(name) }
         longClickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name)))
-        clickOnViewWithId(R.id.tvChangeRunningRecordTimeStarted)
+        clickOnViewWithId(R.id.tvChangeRecordTimeStarted)
         onView(withClassName(equalTo(TimePicker::class.java.name))).perform(setTime(hourStarted, minutesStarted))
         clickOnViewWithId(R.id.btnDateTimeDialogPositive)
 
         checkAfterTimeAdjustment(timeStarted = "00:00")
 
         // Check visibility
-        checkViewIsNotDisplayed(withId(R.id.containerChangeRunningRecordTimeAdjust))
-        clickOnViewWithId(R.id.btnChangeRunningRecordTimeStartedAdjust)
-        checkViewIsDisplayed(withId(R.id.containerChangeRunningRecordTimeAdjust))
-        clickOnViewWithId(R.id.btnChangeRunningRecordTimeStartedAdjust)
-        checkViewIsNotDisplayed(withId(R.id.containerChangeRunningRecordTimeAdjust))
+        checkViewIsNotDisplayed(withId(R.id.containerChangeRecordTimeAdjust))
+        unconstrainedClickOnView(withId(R.id.btnChangeRecordTimeStartedAdjust))
+        checkViewIsDisplayed(withId(R.id.containerChangeRecordTimeAdjust))
+        unconstrainedClickOnView(withId(R.id.btnChangeRecordTimeStartedAdjust))
+        checkViewIsNotDisplayed(withId(R.id.containerChangeRecordTimeAdjust))
 
         // Check time adjustments
-        clickOnViewWithId(R.id.btnChangeRunningRecordTimeStartedAdjust)
+        unconstrainedClickOnView(withId(R.id.btnChangeRecordTimeStartedAdjust))
 
         clickOnViewWithText("+30")
         checkAfterTimeAdjustment(timeStarted = "00:30")
@@ -274,7 +275,7 @@ class ChangeRunningRecordTest : BaseUiTest() {
 
     private fun checkAfterTimeAdjustment(timeStarted: String) {
         checkPreviewUpdated(hasDescendant(allOf(withId(R.id.tvRunningRecordItemTimeStarted), withText(timeStarted))))
-        checkViewIsDisplayed(allOf(withId(R.id.tvChangeRunningRecordTimeStarted), withSubstring(timeStarted)))
+        checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeStarted), withSubstring(timeStarted)))
     }
 
     private fun checkPreviewUpdated(matcher: Matcher<View>) =

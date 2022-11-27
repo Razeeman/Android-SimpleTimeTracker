@@ -260,7 +260,7 @@ class AddRecordTagTest : BaseUiTest() {
         longClickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(typeName)))
 
         // Add category
-        clickOnViewWithId(R.id.fieldChangeRunningRecordCategory)
+        clickOnViewWithId(R.id.fieldChangeRecordCategory)
         clickOnViewWithText(R.string.categories_add_record_tag)
         typeTextIntoView(R.id.etChangeRecordTagName, tagName1)
         closeSoftKeyboard()
