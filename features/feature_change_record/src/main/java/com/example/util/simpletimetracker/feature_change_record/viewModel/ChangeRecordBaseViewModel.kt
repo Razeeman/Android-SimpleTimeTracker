@@ -140,7 +140,8 @@ abstract class ChangeRecordBaseViewModel(
 
     fun onSplitClick() {
         if (newTypeId == 0L) {
-            return // Can't split untracked time or new record.
+            showMessage(R.string.change_record_message_choose_type)
+            return
         }
         viewModelScope.launch {
             splitButtonEnabled.set(false)
@@ -275,7 +276,6 @@ abstract class ChangeRecordBaseViewModel(
     }
 
     fun onAdjustTimeSplitItemClick(viewData: TimeAdjustmentView.ViewData) {
-        // TODO add items for min and max times.
         viewModelScope.launch {
             when (viewData) {
                 is TimeAdjustmentView.ViewData.Now -> {

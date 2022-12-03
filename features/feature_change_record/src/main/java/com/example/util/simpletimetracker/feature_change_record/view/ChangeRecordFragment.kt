@@ -55,9 +55,6 @@ class ChangeRecordFragment :
     }
 
     override fun initUi(): Unit = with(binding) {
-        // Can't split untracked time or new record.
-        layoutChangeRecordCore.containerChangeRecordSplit.isVisible = extra is ChangeRecordParams.Tracked
-
         postponeEnterTransition()
 
         setPreview()

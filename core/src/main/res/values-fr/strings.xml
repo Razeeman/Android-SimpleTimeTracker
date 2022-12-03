@@ -96,6 +96,7 @@
     <string name="change_record_save">Sauvegarder</string>
     <string name="change_record_untagged">Non étiqueté</string>
     <string name="change_running_record_removed">Activité en cours d\'exécution supprimée</string>
+    <string name="change_record_split">Diviser</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Activité archivée</string>

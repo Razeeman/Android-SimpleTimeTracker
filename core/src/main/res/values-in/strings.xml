@@ -96,6 +96,7 @@
     <string name="change_record_save">Simpan</string>
     <string name="change_record_untagged">Tidak berlabel</string>
     <string name="change_running_record_removed">Kegiatan berjalan dihapus</string>
+    <string name="change_record_split">Membagi</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Kegiatan dihapuskan</string>

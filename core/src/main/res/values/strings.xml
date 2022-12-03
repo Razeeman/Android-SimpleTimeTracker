@@ -96,6 +96,7 @@
     <string name="change_record_save">Save</string>
     <string name="change_record_untagged">Untagged</string>
     <string name="change_running_record_removed">Running activity removed</string>
+    <string name="change_record_split">Divide</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Activity archived</string>

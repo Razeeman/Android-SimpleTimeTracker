@@ -96,6 +96,7 @@
     <string name="change_record_save">保存</string>
     <string name="change_record_untagged">タグを外す</string>
     <string name="change_running_record_removed">記録中のアクティビティを削除</string>
+    <string name="change_record_split">分ける</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">アクティビティをアーカイブ</string>

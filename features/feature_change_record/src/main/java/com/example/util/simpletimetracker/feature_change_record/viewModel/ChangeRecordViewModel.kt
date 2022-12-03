@@ -82,9 +82,19 @@ class ChangeRecordViewModel @Inject constructor(
         }
     }
 
-
     override suspend fun onSplitClickDelegate() {
-        // TODO
+        Record(
+            id = 0L, // Zero id creates new record
+            typeId = newTypeId,
+            timeStarted = newTimeStarted,
+            timeEnded = newTimeSplit,
+            comment = newComment,
+            tagIds = newCategoryIds
+        ).let {
+            recordInteractor.add(it)
+        }
+        newTimeStarted = newTimeSplit
+        onSaveClick()
     }
 
     override fun getChangeCategoryParams(data: ChangeTagData): ChangeRecordTagFromScreen {
