@@ -1,8 +1,14 @@
 package com.example.util.simpletimetracker.feature_change_record_type.viewData
 
-sealed interface ChangeRecordTypeChooserState {
-    object Closed : ChangeRecordTypeChooserState
-    object Color : ChangeRecordTypeChooserState
-    object Icon : ChangeRecordTypeChooserState
-    object Category : ChangeRecordTypeChooserState
+data class ChangeRecordTypeChooserState(
+    val current: State,
+    val previous: State,
+) {
+
+    sealed interface State {
+        object Closed : State
+        object Color : State
+        object Icon : State
+        object Category : State
+    }
 }

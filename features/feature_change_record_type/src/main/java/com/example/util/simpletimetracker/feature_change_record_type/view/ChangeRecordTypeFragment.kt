@@ -42,10 +42,10 @@ import com.example.util.simpletimetracker.feature_change_record_type.adapter.cre
 import com.example.util.simpletimetracker.feature_change_record_type.adapter.createChangeRecordTypeIconCategoryAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record_type.adapter.createChangeRecordTypeIconCategoryInfoAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState
-import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.Category
-import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.Closed
-import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.Color
-import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.Icon
+import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.State.Category
+import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.State.Closed
+import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.State.Color
+import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.State.Icon
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconCategoryInfoViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconStateViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconSwitchViewData
@@ -285,42 +285,47 @@ class ChangeRecordTypeFragment :
     }
 
     private fun updateChooserState(state: ChangeRecordTypeChooserState) = with(binding) {
-        updateChooser(
-            opened = state is Color,
+        updateChooser<Color>(
+            state = state,
             chooserData = rvChangeRecordTypeColor,
             chooserView = fieldChangeRecordTypeColor,
             chooserArrow = arrowChangeRecordTypeColor
         )
-        updateChooser(
-            opened = state is Icon,
+        updateChooser<Icon>(
+            state = state,
             chooserData = containerChangeRecordTypeIcon,
             chooserView = fieldChangeRecordTypeIcon,
             chooserArrow = arrowChangeRecordTypeIcon
         )
-        updateChooser(
-            opened = state is Category,
+        updateChooser<Category>(
+            state = state,
             chooserData = rvChangeRecordTypeCategories,
             chooserView = fieldChangeRecordTypeCategory,
             chooserArrow = arrowChangeRecordTypeCategory
         )
 
-        inputChangeRecordTypeName.isVisible = state is Closed
-        containerChangeRecordTypeGoalTime.isVisible = state is Closed
-        fieldChangeRecordTypeColor.isVisible = state is Closed || state is Color
-        fieldChangeRecordTypeIcon.isVisible = state is Closed || state is Icon
-        fieldChangeRecordTypeCategory.isVisible = state is Closed || state is Category
+        inputChangeRecordTypeName.isVisible = state.current is Closed
+        containerChangeRecordTypeGoalTime.isVisible = state.current is Closed
+        fieldChangeRecordTypeColor.isVisible = state.current is Closed || state.current is Color
+        fieldChangeRecordTypeIcon.isVisible = state.current is Closed || state.current is Icon
+        fieldChangeRecordTypeCategory.isVisible = state.current is Closed || state.current is Category
     }
 
-    private fun updateChooser(
-        opened: Boolean,
+    private inline fun <reified T : ChangeRecordTypeChooserState.State> updateChooser(
+        state: ChangeRecordTypeChooserState,
         chooserData: View,
         chooserView: CardView,
         chooserArrow: View,
     ) {
+        val opened = state.current is T
+        val opening = state.previous is Closed && state.current is T
+        val closing = state.previous is T && state.current is Closed
+
         chooserData.isVisible = opened
         chooserView.setChooserColor(opened)
         chooserArrow.apply {
-            if (opened) rotateDown() else rotateUp()
+            if (opening) rotateDown()
+            if (closing) rotateUp()
         }
     }
 

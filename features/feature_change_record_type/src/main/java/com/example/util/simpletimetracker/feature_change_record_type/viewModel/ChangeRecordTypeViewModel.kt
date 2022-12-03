@@ -115,7 +115,12 @@ class ChangeRecordTypeViewModel @Inject constructor(
             initial
         }
     }
-    val chooserState: LiveData<ChangeRecordTypeChooserState> = MutableLiveData(ChangeRecordTypeChooserState.Closed)
+    val chooserState: LiveData<ChangeRecordTypeChooserState> = MutableLiveData(
+        ChangeRecordTypeChooserState(
+            current = ChangeRecordTypeChooserState.State.Closed,
+            previous = ChangeRecordTypeChooserState.State.Closed,
+        )
+    )
     val deleteButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val deleteIconVisibility: LiveData<Boolean> by lazy { MutableLiveData(recordTypeId != 0L) }
@@ -149,15 +154,15 @@ class ChangeRecordTypeViewModel @Inject constructor(
     }
 
     fun onColorChooserClick() {
-        onNewChooserState(ChangeRecordTypeChooserState.Color)
+        onNewChooserState(ChangeRecordTypeChooserState.State.Color)
     }
 
     fun onIconChooserClick() {
-        onNewChooserState(ChangeRecordTypeChooserState.Icon)
+        onNewChooserState(ChangeRecordTypeChooserState.State.Icon)
     }
 
     fun onCategoryChooserClick() {
-        onNewChooserState(ChangeRecordTypeChooserState.Category)
+        onNewChooserState(ChangeRecordTypeChooserState.State.Category)
     }
 
     fun onColorClick(item: ColorViewData) {
@@ -374,12 +379,26 @@ class ChangeRecordTypeViewModel @Inject constructor(
         iconsScrollPosition.set(ChangeRecordTypeScrollViewData.NoScroll)
     }
 
-    private fun onNewChooserState(newState: ChangeRecordTypeChooserState) {
+    private fun onNewChooserState(
+        newState: ChangeRecordTypeChooserState.State,
+    ) {
+        val current = chooserState.value?.current ?: ChangeRecordTypeChooserState.State.Closed
+
         keyboardVisibility.set(false)
-        if (chooserState.value == newState) {
-            chooserState.set(ChangeRecordTypeChooserState.Closed)
+        if (current == newState) {
+            chooserState.set(
+                ChangeRecordTypeChooserState(
+                    current = ChangeRecordTypeChooserState.State.Closed,
+                    previous = current,
+                )
+            )
         } else {
-            chooserState.set(newState)
+            chooserState.set(
+                ChangeRecordTypeChooserState(
+                    current = newState,
+                    previous = current
+                )
+            )
         }
     }
 
