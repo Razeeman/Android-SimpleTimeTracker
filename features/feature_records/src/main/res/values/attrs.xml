@@ -6,7 +6,7 @@
         <attr name="calendarRecordsCount" format="integer" />
         <attr name="calendarTextSize" format="dimension" />
         <attr name="calendarTextColor" format="color" />
-        <attr name="calendarTagColor" format="color"/>
+        <attr name="calendarTagColor" format="color" />
         <attr name="calendarLegendTextSize" format="dimension" />
         <attr name="calendarLegendTextColor" format="color" />
         <attr name="calendarLegendLineColor" format="color" />
@@ -14,6 +14,7 @@
         <attr name="calendarCurrentTimeLegendColor" format="color" />
         <attr name="calendarCurrentTimeLegendWidth" format="dimension" />
         <attr name="calendarIconMaxSize" format="dimension" />
+        <attr name="calendarReverseOrder" format="boolean" />
     </declare-styleable>
 
 </resources>

@@ -80,6 +80,10 @@ class PrefsRepoImpl @Inject constructor(
         KEY_SHOW_RECORDS_CALENDAR, false
     )
 
+    override var reverseOrderInCalendar: Boolean by prefs.delegate(
+        KEY_REVERSE_ORDER_IN_CALENDAR, false
+    )
+
     override var showActivityFilters: Boolean by prefs.delegate(
         KEY_SHOW_ACTIVITY_FILTERS, false
     )
@@ -249,6 +253,7 @@ class PrefsRepoImpl @Inject constructor(
         private const val KEY_START_OF_DAY_SHIFT = "startOfDayShift"
         private const val KEY_SHOW_UNTRACKED_IN_RECORDS = "showUntrackedInRecords"
         private const val KEY_SHOW_RECORDS_CALENDAR = "showRecordsCalendar"
+        private const val KEY_REVERSE_ORDER_IN_CALENDAR = "reverseOrderInCalendar"
         private const val KEY_SHOW_ACTIVITY_FILTERS = "showActivityFilters"
         private const val KEY_ALLOW_MULTITASKING = "allowMultitasking"
         private const val KEY_SHOW_NOTIFICATIONS = "showNotifications"

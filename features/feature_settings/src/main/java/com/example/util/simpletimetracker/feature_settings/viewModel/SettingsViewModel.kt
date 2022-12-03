@@ -94,6 +94,15 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    val reverseOrderInCalendarCheckbox: LiveData<Boolean> by lazy {
+        MutableLiveData<Boolean>().let { initial ->
+            viewModelScope.launch {
+                initial.value = prefsInteractor.getReverseOrderInCalendar()
+            }
+            initial
+        }
+    }
+
     val showActivityFiltersCheckbox: LiveData<Boolean> by lazy {
         MutableLiveData<Boolean>().let { initial ->
             viewModelScope.launch {
@@ -339,6 +348,14 @@ class SettingsViewModel @Inject constructor(
             val newValue = !prefsInteractor.getShowRecordsCalendar()
             prefsInteractor.setShowRecordsCalendar(newValue)
             (showRecordsCalendarCheckbox as MutableLiveData).value = newValue
+        }
+    }
+
+    fun onReverseOrderInCalendarClicked() {
+        viewModelScope.launch {
+            val newValue = !prefsInteractor.getReverseOrderInCalendar()
+            prefsInteractor.setReverseOrderInCalendar(newValue)
+            (reverseOrderInCalendarCheckbox as MutableLiveData).value = newValue
         }
     }
 

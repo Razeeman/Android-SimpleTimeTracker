@@ -73,6 +73,7 @@ class SettingsFragment :
             btnCardOrderManual.setOnClick(viewModel::onCardOrderManualClick)
             checkboxSettingsShowUntracked.setOnClick(viewModel::onShowUntrackedClicked)
             checkboxSettingsShowRecordsCalendar.setOnClick(viewModel::onShowRecordsCalendarClicked)
+            checkboxSettingsReverseOrderInCalendar.setOnClick(viewModel::onReverseOrderInCalendarClicked)
             checkboxSettingsShowActivityFilters.setOnClick(viewModel::onShowActivityFiltersClicked)
             checkboxSettingsUseMilitaryTime.setOnClick(viewModel::onUseMilitaryTimeClicked)
             checkboxSettingsUseProportionalMinutes.setOnClick(viewModel::onUseProportionalMinutesClicked)
@@ -117,7 +118,8 @@ class SettingsFragment :
                 }
                 btnCardOrderManualVisibility.observe(btnCardOrderManual::visible::set)
                 showUntrackedCheckbox.observe(checkboxSettingsShowUntracked::setChecked)
-                showRecordsCalendarCheckbox.observe(checkboxSettingsShowRecordsCalendar::setChecked)
+                showRecordsCalendarCheckbox.observe(::updateShowRecordCalendarChecked)
+                reverseOrderInCalendarCheckbox.observe(checkboxSettingsReverseOrderInCalendar::setChecked)
                 showActivityFiltersCheckbox.observe(checkboxSettingsShowActivityFilters::setChecked)
                 useMilitaryTimeCheckbox.observe(checkboxSettingsUseMilitaryTime::setChecked)
                 useProportionalMinutesCheckbox.observe(checkboxSettingsUseProportionalMinutes::setChecked)
@@ -157,6 +159,7 @@ class SettingsFragment :
             spinnerSettingsRecordTypeSort.jumpDrawablesToCurrentState()
             checkboxSettingsShowUntracked.jumpDrawablesToCurrentState()
             checkboxSettingsShowRecordsCalendar.jumpDrawablesToCurrentState()
+            checkboxSettingsReverseOrderInCalendar.jumpDrawablesToCurrentState()
             checkboxSettingsShowActivityFilters.jumpDrawablesToCurrentState()
             checkboxSettingsUseMilitaryTime.jumpDrawablesToCurrentState()
             checkboxSettingsUseProportionalMinutes.jumpDrawablesToCurrentState()
@@ -213,6 +216,13 @@ class SettingsFragment :
     ) = with(binding.layoutSettingsAdditional) {
         checkboxSettingsShowRecordTagSelection.isChecked = isChecked
         groupSettingsRecordTagSelectionClose.visible = isChecked
+    }
+
+    private fun updateShowRecordCalendarChecked(
+        isChecked: Boolean,
+    ) = with(binding.layoutSettingsDisplay) {
+        checkboxSettingsShowRecordsCalendar.isChecked = isChecked
+        groupSettingsReverseOrderInCalendar.visible = isChecked
     }
 
     private fun updateStartOfDayViewData(

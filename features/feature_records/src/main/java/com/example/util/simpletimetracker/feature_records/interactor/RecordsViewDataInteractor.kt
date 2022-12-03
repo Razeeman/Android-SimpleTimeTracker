@@ -36,6 +36,7 @@ class RecordsViewDataInteractor @Inject constructor(
         val startOfDayShift = prefsInteractor.getStartOfDayShift()
         val isCalendarView = prefsInteractor.getShowRecordsCalendar()
         val showUntrackedInRecords = prefsInteractor.getShowUntrackedInRecords()
+        val reverseOrder = prefsInteractor.getReverseOrderInCalendar()
         val recordTypes = recordTypeInteractor.getAll().associateBy { it.id }
         val recordTags = recordTagInteractor.getAll()
         val (rangeStart, rangeEnd) = timeMapper.getRangeStartAndEnd(
@@ -79,6 +80,7 @@ class RecordsViewDataInteractor @Inject constructor(
                     currentTime = currentTime,
                     startOfDayShift = startOfDayShift,
                     points = it,
+                    reverseOrder = reverseOrder,
                 )
             }
             .let(RecordsState::CalendarData)

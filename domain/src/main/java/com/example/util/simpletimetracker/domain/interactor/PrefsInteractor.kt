@@ -152,6 +152,14 @@ class PrefsInteractor @Inject constructor(
         prefsRepo.showRecordsCalendar = isEnabled
     }
 
+    suspend fun getReverseOrderInCalendar(): Boolean = withContext(Dispatchers.IO) {
+        prefsRepo.reverseOrderInCalendar
+    }
+
+    suspend fun setReverseOrderInCalendar(isEnabled: Boolean) = withContext(Dispatchers.IO) {
+        prefsRepo.reverseOrderInCalendar = isEnabled
+    }
+
     suspend fun getShowActivityFilters(): Boolean = withContext(Dispatchers.IO) {
         prefsRepo.showActivityFilters
     }

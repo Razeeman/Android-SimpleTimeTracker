@@ -6,6 +6,7 @@ data class RecordsCalendarViewData(
     val currentTime: Long?,
     val startOfDayShift: Long,
     val points: List<Point>,
+    val reverseOrder: Boolean,
 ) {
 
     data class Point(

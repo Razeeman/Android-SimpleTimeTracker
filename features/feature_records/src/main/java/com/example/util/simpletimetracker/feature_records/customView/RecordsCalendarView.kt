@@ -58,6 +58,7 @@ class RecordsCalendarView @JvmOverloads constructor(
     private var currentTimeLegendColor: Int = 0
     private var currentTimeLegendWidth: Float = 0f
     private var iconMaxSize: Int = 0
+    private var reverseOrder: Boolean = false
     private var recordsCount: Int = 0
     // End of attrs
 
@@ -218,6 +219,7 @@ class RecordsCalendarView @JvmOverloads constructor(
     fun setData(viewData: RecordsCalendarViewData) {
         currentTime = viewData.currentTime
         startOfDayShift = viewData.startOfDayShift
+        reverseOrder = viewData.reverseOrder
         data = processData(viewData.points)
         invalidate()
     }
@@ -250,8 +252,13 @@ class RecordsCalendarView @JvmOverloads constructor(
                     getDimensionPixelSize(R.styleable.RecordsCalendarView_calendarCurrentTimeLegendWidth, 0).toFloat()
                 iconMaxSize =
                     getDimensionPixelSize(R.styleable.RecordsCalendarView_calendarIconMaxSize, 0)
-                recordsCount =
+
+                if (hasValue(R.styleable.RecordsCalendarView_calendarReverseOrder)) reverseOrder =
+                    getBoolean(R.styleable.RecordsCalendarView_calendarReverseOrder, false)
+
+                if (hasValue(R.styleable.RecordsCalendarView_calendarRecordsCount)) recordsCount =
                     getInt(R.styleable.RecordsCalendarView_calendarRecordsCount, 0)
+
                 recycle()
             }
     }
@@ -339,8 +346,10 @@ class RecordsCalendarView @JvmOverloads constructor(
             boxWidth = chartWidth / item.columnCount
             boxLeft = pixelLeftBound + boxWidth * (item.columnNumber - 1)
             boxRight = boxLeft + boxWidth
-            boxTop = (h - boxShift - boxHeight) * scaleFactor + panFactor
-            boxBottom = (h - boxShift) * scaleFactor + panFactor
+            boxBottom = ((h - boxShift) * scaleFactor)
+                .let { if (reverseOrder) (h * scaleFactor - it + boxHeight * scaleFactor) else it }
+                .let { it + panFactor }
+            boxTop = boxBottom - boxHeight * scaleFactor
 
             // Save coordinates for click event.
             item.boxLeft = boxLeft
@@ -488,6 +497,10 @@ class RecordsCalendarView @JvmOverloads constructor(
     }
 
     private fun drawLegend(canvas: Canvas, w: Float, h: Float) {
+        fun Float.checkReverse(): Float {
+            return if (reverseOrder) (h * scaleFactor - this) else this
+        }
+
         val hours = (24 downTo 0)
             .map { if (it == 24 && startOfDayShift != 0L) 0 else it }
         val lineStep = h / (hours.size - 1)
@@ -507,9 +520,9 @@ class RecordsCalendarView @JvmOverloads constructor(
             val currentTimeY = h * scaleFactor * (dayInMillis - currentTime) / dayInMillis
             canvas.drawLine(
                 pixelLeftBound - legendTextPadding,
-                currentTimeY,
+                currentTimeY.checkReverse(),
                 w,
-                currentTimeY,
+                currentTimeY.checkReverse(),
                 currentTimelinePaint
             )
         }
@@ -527,14 +540,14 @@ class RecordsCalendarView @JvmOverloads constructor(
             // Draw hour line
             canvas.drawLine(
                 pixelLeftBound,
-                currentY,
+                currentY.checkReverse(),
                 w,
-                currentY,
+                currentY.checkReverse(),
                 linePaint
             )
 
             // Draw hour text
-            val textCenterY: Float = (currentY + legendTextHeight / 2)
+            val textCenterY: Float = (currentY.checkReverse() + legendTextHeight / 2)
                 .coerceIn(legendTextHeight, h * scaleFactor)
             val hourText = hour.toString()
                 .padStart(2, '0')
@@ -559,14 +572,14 @@ class RecordsCalendarView @JvmOverloads constructor(
                 // Draw minute line
                 canvas.drawLine(
                     pixelLeftBound,
-                    minuteCurrentY,
+                    minuteCurrentY.checkReverse(),
                     w,
-                    minuteCurrentY,
+                    minuteCurrentY.checkReverse(),
                     lineSecondaryPaint
                 )
 
                 // Draw minute text
-                val minuteTextCenterY: Float = (minuteCurrentY + legendMinutesTextHeight / 2)
+                val minuteTextCenterY: Float = (minuteCurrentY.checkReverse() + legendMinutesTextHeight / 2)
                     .coerceIn(legendMinutesTextHeight, h * scaleFactor)
                 val minuteText = minute.toString()
                     .padStart(2, '0')
@@ -610,7 +623,8 @@ class RecordsCalendarView @JvmOverloads constructor(
                     RecordsCalendarViewData(
                         currentTime = 18 * hourInMillis,
                         startOfDayShift = 0,
-                        points = it
+                        points = it,
+                        reverseOrder = reverseOrder,
                     )
                 }.let(::setData)
         }

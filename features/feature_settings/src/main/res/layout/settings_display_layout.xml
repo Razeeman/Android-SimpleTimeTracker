@@ -117,6 +117,33 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/tvSettingsShowRecordsCalendar" />
 
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSettingsReverseOrderInCalendarHint"
+                    style="@style/SettingsText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_reverse_order_in_calendar"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/checkboxSettingsReverseOrderInCalendar"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvSettingsShowRecordsCalendar" />
+
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:id="@+id/checkboxSettingsReverseOrderInCalendar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="@id/tvSettingsReverseOrderInCalendarHint"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tvSettingsReverseOrderInCalendarHint" />
+
+                <androidx.constraintlayout.widget.Group
+                    android:id="@+id/groupSettingsReverseOrderInCalendar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone"
+                    app:constraint_referenced_ids="tvSettingsReverseOrderInCalendarHint, checkboxSettingsReverseOrderInCalendar"
+                    tools:visibility="visible" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <View
