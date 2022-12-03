@@ -133,6 +133,7 @@
     <string name="card_order_hint">Перетягніть, щоб впорядкувати</string>
 
     <string name="chart_filter_hint">Фільтр</string>
+    <string name="types_compare_hint">Порівняння</string>
     <string name="types_filter_show_all">Показати все</string>
     <string name="types_filter_hide_all">Приховати все</string>
     <string name="chart_filter_type_hint">Тип статистики</string>

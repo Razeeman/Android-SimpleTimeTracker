@@ -133,6 +133,7 @@
     <string name="card_order_hint">Drag and drop to reorder</string>
 
     <string name="chart_filter_hint">Filter</string>
+    <string name="types_compare_hint">Comparison</string>
     <string name="types_filter_show_all">Show all</string>
     <string name="types_filter_hide_all">Hide all</string>
     <string name="chart_filter_type_hint">Statistics type</string>

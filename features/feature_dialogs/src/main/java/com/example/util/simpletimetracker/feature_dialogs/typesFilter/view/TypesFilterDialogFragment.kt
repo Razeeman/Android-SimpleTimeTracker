@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_dialogs.typesFilter.view
 
+import com.example.util.simpletimetracker.feature_dialogs.databinding.TypesFilterDialogFragmentBinding as Binding
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
@@ -7,22 +8,22 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
-import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
-import com.example.util.simpletimetracker.feature_base_adapter.category.createCategoryAdapterDelegate
-import com.example.util.simpletimetracker.feature_base_adapter.divider.createDividerAdapterDelegate
-import com.example.util.simpletimetracker.feature_base_adapter.hint.createHintAdapterDelegate
-import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
-import com.example.util.simpletimetracker.feature_base_adapter.recordType.createRecordTypeAdapterDelegate
 import com.example.util.simpletimetracker.core.base.BaseBottomSheetFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.TypesFilterDialogListener
 import com.example.util.simpletimetracker.core.extension.blockContentScroll
 import com.example.util.simpletimetracker.core.extension.getAllFragments
 import com.example.util.simpletimetracker.core.extension.setFullScreen
-import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
 import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
+import com.example.util.simpletimetracker.feature_base_adapter.category.createCategoryAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.divider.createDividerAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.hint.createHintAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.recordType.createRecordTypeAdapterDelegate
 import com.example.util.simpletimetracker.feature_dialogs.typesFilter.viewModel.TypesFilterViewModel
+import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.navigation.params.screen.TypesFilterDialogParams
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
@@ -30,7 +31,6 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-import com.example.util.simpletimetracker.feature_dialogs.databinding.TypesFilterDialogFragmentBinding as Binding
 
 @AndroidEntryPoint
 class TypesFilterDialogFragment : BaseBottomSheetFragment<Binding>() {
@@ -86,8 +86,9 @@ class TypesFilterDialogFragment : BaseBottomSheetFragment<Binding>() {
         blockContentScroll(binding.rvTypesFilterContainer)
     }
 
-    override fun initUi() {
-        binding.rvTypesFilterContainer.apply {
+    override fun initUi(): Unit = with(binding) {
+        tvTypesFilterTitle.text = params.title
+        rvTypesFilterContainer.apply {
             layoutManager = FlexboxLayoutManager(requireContext()).apply {
                 flexDirection = FlexDirection.ROW
                 justifyContent = JustifyContent.CENTER

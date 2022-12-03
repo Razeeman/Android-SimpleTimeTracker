@@ -6,5 +6,6 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class TypesFilterDialogParams(
     val tag: String = "",
+    val title: String = "",
     val filter: TypesFilterParams = TypesFilterParams()
 ) : ScreenParams, Parcelable

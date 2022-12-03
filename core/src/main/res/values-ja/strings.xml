@@ -133,6 +133,7 @@
     <string name="card_order_hint">ドラッグ＆ドロップで並び替え</string>
 
     <string name="chart_filter_hint">フィルタ</string>
+    <string name="types_compare_hint">比較</string>
     <string name="types_filter_show_all">すべて表示</string>
     <string name="types_filter_hide_all">すべて隠す</string>
     <string name="chart_filter_type_hint">統計の種類</string>

@@ -10,6 +10,7 @@ import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.TypesFilterInteractor
 import com.example.util.simpletimetracker.core.mapper.RangeMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
+import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
 import com.example.util.simpletimetracker.core.viewData.RangeViewData
 import com.example.util.simpletimetracker.core.viewData.RangesViewData
@@ -21,6 +22,7 @@ import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_statistics_detail.R
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailChartInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailPreviewInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailSplitChartInteractor
@@ -53,6 +55,7 @@ import javax.inject.Inject
 
 class StatisticsDetailViewModel @Inject constructor(
     private val router: Router,
+    private val resourceRepo: ResourceRepo,
     private val prefsInteractor: PrefsInteractor,
     private val recordInteractor: RecordInteractor,
     private val typesFilterInteractor: TypesFilterInteractor,
@@ -136,11 +139,23 @@ class StatisticsDetailViewModel @Inject constructor(
     }
 
     fun onFilterClick() {
-        router.navigate(TypesFilterDialogParams(FILTER_TAG, typesFilter))
+        router.navigate(
+            TypesFilterDialogParams(
+                tag = FILTER_TAG,
+                title = resourceRepo.getString(R.string.chart_filter_hint),
+                filter = typesFilter
+            )
+        )
     }
 
     fun onCompareClick() {
-        router.navigate(TypesFilterDialogParams(COMPARE_TAG, comparisonTypesFilter))
+        router.navigate(
+            TypesFilterDialogParams(
+                tag = COMPARE_TAG,
+                title = resourceRepo.getString(R.string.types_compare_hint),
+                filter = comparisonTypesFilter
+            )
+        )
     }
 
     fun onTypesFilterSelected(tag: String, newFilter: TypesFilterParams) {

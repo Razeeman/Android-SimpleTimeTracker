@@ -133,6 +133,7 @@
     <string name="card_order_hint">拖放以重新排序</string>
 
     <string name="chart_filter_hint">过滤</string>
+    <string name="types_compare_hint">比较</string>
     <string name="types_filter_show_all">全部显示</string>
     <string name="types_filter_hide_all">全部隐藏</string>
     <string name="chart_filter_type_hint">统计类型</string>

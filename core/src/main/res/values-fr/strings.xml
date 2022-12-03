@@ -133,6 +133,7 @@
     <string name="card_order_hint">Glisser-déposer pour réorganiser</string>
 
     <string name="chart_filter_hint">Filtrer</string>
+    <string name="types_compare_hint">Comparaison</string>
     <string name="types_filter_show_all">Afficher tout</string>
     <string name="types_filter_hide_all">Cacher tout</string>
     <string name="chart_filter_type_hint">Type de statistiques</string>

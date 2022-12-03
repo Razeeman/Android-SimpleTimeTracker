@@ -133,6 +133,7 @@
     <string name="card_order_hint">Arraste e solte para reorganizar</string>
 
     <string name="chart_filter_hint">Filtrar</string>
+    <string name="types_compare_hint">Comparação</string>
     <string name="types_filter_show_all">Mostrar todos</string>
     <string name="types_filter_hide_all">Ocultar todos</string>
     <string name="chart_filter_type_hint">Tipo de estatísticas</string>

@@ -100,7 +100,7 @@
     <string name="change_running_record_removed">Текущая активность удалена</string>
     <string name="change_record_split">Разделить</string>
     <string name="change_record_split_hint">Разрежет текущую запись на две в указанный момент времени</string>
-    <string name="change_record_continue">Продолжать</string>
+    <string name="change_record_continue">Продолжить</string>
     <string name="change_record_continue_hint">Удалит текущую запись и продолжит отслеживать эту активность</string>
 
     <!--  Change record type  -->
@@ -133,6 +133,7 @@
     <string name="card_order_hint">Перетащите, чтобы изменить порядок</string>
 
     <string name="chart_filter_hint">Фильтр</string>
+    <string name="types_compare_hint">Сравнение</string>
     <string name="types_filter_show_all">Показать все</string>
     <string name="types_filter_hide_all">Скрыть все</string>
     <string name="chart_filter_type_hint">Тип статистики</string>
