@@ -99,6 +99,7 @@
     <string name="change_record_untagged">Ej taggad</string>
     <string name="change_running_record_removed">Pågående aktivitet borttagen</string>
     <string name="change_record_split">Dela upp</string>
+    <string name="change_record_continue">Fortsätta</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Aktivitet arkiverad</string>

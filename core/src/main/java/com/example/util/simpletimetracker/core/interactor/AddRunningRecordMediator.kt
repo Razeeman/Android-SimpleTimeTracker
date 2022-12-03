@@ -43,6 +43,7 @@ class AddRunningRecordMediator @Inject constructor(
         typeId: Long,
         tagIds: List<Long>,
         comment: String,
+        timeStarted: Long? = null,
     ) {
         // Check if multitasking disabled
         if (!prefsInteractor.getAllowMultitasking()) {
@@ -53,7 +54,8 @@ class AddRunningRecordMediator @Inject constructor(
         add(
             typeId = typeId,
             comment = comment,
-            tagIds = tagIds
+            tagIds = tagIds,
+            timeStarted = timeStarted,
         )
     }
 

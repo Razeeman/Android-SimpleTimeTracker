@@ -50,8 +50,11 @@ class ChangeRunningRecordFragment :
     }
 
     override fun initUi(): Unit = with(binding) {
+        // No time ended in running record.
         layoutChangeRunningRecordCore.fieldChangeRecordTimeEnded.isVisible = false
         layoutChangeRunningRecordCore.btnChangeRecordTimeEndedAdjust.isVisible = false
+        // Can't continue running record.
+        layoutChangeRunningRecordCore.containerChangeRecordContinue.isVisible = false
 
         postponeEnterTransition()
 

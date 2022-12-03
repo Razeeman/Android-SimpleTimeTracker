@@ -82,6 +82,7 @@ abstract class ChangeRecordBaseViewModel(
     val timeSplitText: LiveData<String> = MutableLiveData()
     val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val splitButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
+    val continueButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val keyboardVisibility: LiveData<Boolean> = MutableLiveData(false)
     val comment: LiveData<String> = MutableLiveData()
 
@@ -100,6 +101,7 @@ abstract class ChangeRecordBaseViewModel(
     protected abstract fun onTimeSplitChanged()
     protected abstract suspend fun onSaveClickDelegate()
     protected abstract suspend fun onSplitClickDelegate()
+    protected open suspend fun onContinueClickDelegate() {}
 
     fun onTypeChooserClick() {
         onNewChooserState(ChangeRecordChooserState.State.Activity)
@@ -130,25 +132,24 @@ abstract class ChangeRecordBaseViewModel(
     }
 
     fun onSaveClick() {
-        if (newTypeId == 0L) {
-            showMessage(R.string.change_record_message_choose_type)
-            return
-        }
-        viewModelScope.launch {
-            saveButtonEnabled.set(false)
-            onSaveClickDelegate()
-        }
+        onRecordChangeButtonClick(
+            buttonEnabledLiveData = saveButtonEnabled,
+            onProceed = ::onSaveClickDelegate,
+        )
     }
 
     fun onSplitClick() {
-        if (newTypeId == 0L) {
-            showMessage(R.string.change_record_message_choose_type)
-            return
-        }
-        viewModelScope.launch {
-            splitButtonEnabled.set(false)
-            onSplitClickDelegate()
-        }
+        onRecordChangeButtonClick(
+            buttonEnabledLiveData = splitButtonEnabled,
+            onProceed = ::onSplitClickDelegate,
+        )
+    }
+
+    fun onContinueClick() {
+        onRecordChangeButtonClick(
+            buttonEnabledLiveData = continueButtonEnabled,
+            onProceed = ::onContinueClickDelegate,
+        )
     }
 
     fun onTypeClick(item: RecordTypeViewData) {
@@ -290,6 +291,20 @@ abstract class ChangeRecordBaseViewModel(
                 }
             }
             updateTimeSplitValue()
+        }
+    }
+
+    private fun onRecordChangeButtonClick(
+        buttonEnabledLiveData: LiveData<Boolean>,
+        onProceed: suspend () -> Unit,
+    ) {
+        if (newTypeId == 0L) {
+            showMessage(R.string.change_record_message_choose_type)
+            return
+        }
+        viewModelScope.launch {
+            buttonEnabledLiveData.set(false)
+            onProceed()
         }
     }
 

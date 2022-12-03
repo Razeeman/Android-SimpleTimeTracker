@@ -3,14 +3,18 @@ package com.example.util.simpletimetracker.feature_change_record.viewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.core.extension.set
+import com.example.util.simpletimetracker.core.interactor.AddRunningRecordMediator
 import com.example.util.simpletimetracker.core.interactor.RecordTagViewDataInteractor
 import com.example.util.simpletimetracker.core.interactor.RecordTypesViewDataInteractor
+import com.example.util.simpletimetracker.core.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.core.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
+import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.WidgetType
@@ -32,6 +36,9 @@ class ChangeRecordViewModel @Inject constructor(
     private val router: Router,
     private val recordInteractor: RecordInteractor,
     private val changeRecordViewDataInteractor: ChangeRecordViewDataInteractor,
+    private val runningRecordInteractor: RunningRecordInteractor,
+    private val addRunningRecordMediator: AddRunningRecordMediator,
+    private val removeRunningRecordMediator: RemoveRunningRecordMediator,
     private val timeMapper: TimeMapper,
     private val widgetInteractor: WidgetInteractor,
 ) : ChangeRecordBaseViewModel(
@@ -60,7 +67,7 @@ class ChangeRecordViewModel @Inject constructor(
     }
 
     fun onDeleteClick() {
-        (keyboardVisibility as MutableLiveData).value = false
+        keyboardVisibility.set(false)
         router.back()
     }
 
@@ -77,7 +84,7 @@ class ChangeRecordViewModel @Inject constructor(
         ).let {
             recordInteractor.add(it)
             widgetInteractor.updateWidgets(listOf(WidgetType.STATISTICS_CHART))
-            (keyboardVisibility as MutableLiveData).value = false
+            keyboardVisibility.set(false)
             router.back()
         }
     }
@@ -95,6 +102,27 @@ class ChangeRecordViewModel @Inject constructor(
         }
         newTimeStarted = newTimeSplit
         onSaveClick()
+    }
+
+    override suspend fun onContinueClickDelegate() {
+        // Remove current record if exist.
+        (extra as? ChangeRecordParams.Tracked)?.id?.let {
+            recordInteractor.remove(it)
+            widgetInteractor.updateWidgets(listOf(WidgetType.STATISTICS_CHART))
+        }
+        // Stop same type running record if exist (only one of the same type can run at once).
+        runningRecordInteractor.get(newTypeId)
+            ?.let { removeRunningRecordMediator.removeWithRecordAdd(it) }
+        // Add new running record.
+        addRunningRecordMediator.startTimer(
+            typeId = newTypeId,
+            timeStarted = newTimeStarted,
+            comment = newComment,
+            tagIds = newCategoryIds,
+        )
+        // Exit.
+        keyboardVisibility.set(false)
+        router.back()
     }
 
     override fun getChangeCategoryParams(data: ChangeTagData): ChangeRecordTagFromScreen {

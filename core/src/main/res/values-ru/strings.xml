@@ -99,6 +99,7 @@
     <string name="change_record_untagged">Без тега</string>
     <string name="change_running_record_removed">Текущая активность удалена</string>
     <string name="change_record_split">Разделить</string>
+    <string name="change_record_continue">Продолжать</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Активность перемещена в архив</string>

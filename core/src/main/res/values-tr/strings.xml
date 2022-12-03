@@ -99,6 +99,7 @@
     <string name="change_record_untagged">Etiketsiz</string>
     <string name="change_running_record_removed">Takip edilen aktivite silindi</string>
     <string name="change_record_split">Bölmek</string>
+    <string name="change_record_continue">Devam et</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Aktivite arşivlendi</string>

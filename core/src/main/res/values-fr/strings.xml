@@ -99,6 +99,7 @@
     <string name="change_record_untagged">Non étiqueté</string>
     <string name="change_running_record_removed">Activité en cours d\'exécution supprimée</string>
     <string name="change_record_split">Diviser</string>
+    <string name="change_record_continue">Continuer</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Activité archivée</string>

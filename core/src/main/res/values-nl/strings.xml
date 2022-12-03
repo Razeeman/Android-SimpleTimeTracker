@@ -99,6 +99,7 @@
     <string name="change_record_untagged">Niet gelabeld</string>
     <string name="change_running_record_removed">Lopende activiteit verwijderd</string>
     <string name="change_record_split">Verdeling</string>
+    <string name="change_record_continue">Doorgaan</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Activiteit gearchiveerd</string>
