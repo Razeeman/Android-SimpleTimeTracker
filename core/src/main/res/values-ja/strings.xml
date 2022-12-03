@@ -90,7 +90,9 @@
     <string name="change_record_message_choose_type">アクティビティを選択してください</string>
     <string name="change_record_type_field">アクティビティ</string>
     <string name="change_record_tag_field">タグ</string>
-    <string name="change_record_comment_hint">コメント</string>
+    <string name="change_record_comment_field">コメント</string>
+    <string name="change_record_comment_hint">新しいコメントを入力</string>
+    <string name="change_record_actions_hint">行動</string>
     <string name="change_record_last_comments_hint">最新コメント</string>
     <string name="change_record_categories_empty">計測タグがありません</string>
     <string name="change_record_save">保存</string>

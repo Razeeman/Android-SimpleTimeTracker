@@ -37,7 +37,7 @@ class IcsRepoImpl @Inject constructor(
 ) : IcsRepo {
 
     private val commentTitle: String by lazy {
-        resourceRepo.getString(R.string.change_record_comment_hint)
+        resourceRepo.getString(R.string.change_record_comment_field)
     }
     private val categoryTitle: String by lazy {
         resourceRepo.getString(R.string.category_hint)

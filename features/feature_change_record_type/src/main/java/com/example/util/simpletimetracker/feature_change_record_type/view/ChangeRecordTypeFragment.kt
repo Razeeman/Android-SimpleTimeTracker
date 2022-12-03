@@ -304,11 +304,14 @@ class ChangeRecordTypeFragment :
             chooserArrow = arrowChangeRecordTypeCategory
         )
 
-        inputChangeRecordTypeName.isVisible = state.current is Closed
-        containerChangeRecordTypeGoalTime.isVisible = state.current is Closed
-        fieldChangeRecordTypeColor.isVisible = state.current is Closed || state.current is Color
-        fieldChangeRecordTypeIcon.isVisible = state.current is Closed || state.current is Icon
-        fieldChangeRecordTypeCategory.isVisible = state.current is Closed || state.current is Category
+        val isClosed = state.current is Closed
+        inputChangeRecordTypeName.isVisible = isClosed
+        containerChangeRecordTypeGoalTime.isVisible = isClosed
+
+        // Chooser fields
+        fieldChangeRecordTypeColor.isVisible = isClosed || state.current is Color
+        fieldChangeRecordTypeIcon.isVisible = isClosed || state.current is Icon
+        fieldChangeRecordTypeCategory.isVisible = isClosed || state.current is Category
     }
 
     private inline fun <reified T : ChangeRecordTypeChooserState.State> updateChooser(

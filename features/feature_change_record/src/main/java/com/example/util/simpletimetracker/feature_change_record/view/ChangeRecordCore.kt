@@ -1,5 +1,7 @@
 package com.example.util.simpletimetracker.feature_change_record.view
 
+import android.view.View
+import androidx.cardview.widget.CardView
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.viewbinding.ViewBinding
@@ -17,6 +19,12 @@ import com.example.util.simpletimetracker.feature_base_adapter.info.createInfoAd
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.createRecordTypeAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record.adapter.createChangeRecordCommentAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record.databinding.ChangeRecordCoreLayoutBinding
+import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordChooserState
+import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordChooserState.State.Action
+import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordChooserState.State.Activity
+import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordChooserState.State.Closed
+import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordChooserState.State.Comment
+import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordChooserState.State.Tag
 import com.example.util.simpletimetracker.feature_change_record.viewData.TimeAdjustmentState
 import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordBaseViewModel
 import com.example.util.simpletimetracker.feature_views.extension.rotateDown
@@ -53,6 +61,7 @@ class ChangeRecordCore(
     }
     private val commentsAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
+            createHintAdapterDelegate(),
             createChangeRecordCommentAdapterDelegate(viewModel::onCommentClick),
         )
     }
@@ -94,10 +103,11 @@ class ChangeRecordCore(
         etChangeRecordComment.doAfterTextChanged { viewModel.onCommentChange(it.toString()) }
         fieldChangeRecordType.setOnClick(viewModel::onTypeChooserClick)
         fieldChangeRecordCategory.setOnClick(viewModel::onCategoryChooserClick)
+        fieldChangeRecordComment.setOnClick(viewModel::onCommentChooserClick)
+        fieldChangeRecordAction.setOnClick(viewModel::onActionChooserClick)
         fieldChangeRecordTimeStarted.setOnClick(viewModel::onTimeStartedClick)
         fieldChangeRecordTimeEnded.setOnClick(viewModel::onTimeEndedClick)
         fieldChangeRecordTimeSplit.setOnClick(viewModel::onTimeSplitClick)
-        fieldChangeRecordLastComments.setOnClick(viewModel::onLastCommentsChooserClick)
         btnChangeRecordTimeStartedAdjust.setOnClick(viewModel::onAdjustTimeStartedClick)
         btnChangeRecordTimeEndedAdjust.setOnClick(viewModel::onAdjustTimeEndedClick)
         btnChangeRecordTimeSplitAdjust.setOnClick(viewModel::onAdjustTimeSplitClick)
@@ -124,27 +134,7 @@ class ChangeRecordCore(
             splitButtonEnabled.observe(btnChangeRecordSplit::setEnabled)
             timeAdjustmentItems.observe(containerChangeRecordTimeAdjust.adapter::replace)
             timeSplitAdjustmentItems.observe(containerChangeRecordTimeSplitAdjust.adapter::replace)
-            flipTypesChooser.observe { opened ->
-                rvChangeRecordType.visible = opened
-                fieldChangeRecordType.setChooserColor(opened)
-                arrowChangeRecordType.apply {
-                    if (opened) rotateDown() else rotateUp()
-                }
-            }
-            flipCategoryChooser.observe { opened ->
-                rvChangeRecordCategories.visible = opened
-                fieldChangeRecordCategory.setChooserColor(opened)
-                arrowChangeRecordCategory.apply {
-                    if (opened) rotateDown() else rotateUp()
-                }
-            }
-            flipLastCommentsChooser.observe { opened ->
-                rvChangeRecordLastComments.visible = opened
-                fieldChangeRecordLastComments.setChooserColor(opened)
-                arrowChangeRecordLastComment.apply {
-                    if (opened) rotateDown() else rotateUp()
-                }
-            }
+            chooserState.observe { updateChooserState(it, binding) }
             keyboardVisibility.observe { visible ->
                 if (visible) showKeyboard(etChangeRecordComment)
                 else hideKeyboard()
@@ -159,10 +149,7 @@ class ChangeRecordCore(
                 btnChangeRecordTimeSplitAdjust.setChooserColor(opened)
             }
             timeSplitText.observe(tvChangeRecordTimeSplit::setText)
-            lastComments.observe { data ->
-                fieldChangeRecordLastComments.visible = data.isNotEmpty()
-                commentsAdapter.replace(data)
-            }
+            lastComments.observe(commentsAdapter::replace)
             comment.observe { updateUi(binding, it) }
         }
     }
@@ -173,5 +160,62 @@ class ChangeRecordCore(
     ) = with(binding) {
         etChangeRecordComment.setText(comment)
         etChangeRecordComment.setSelection(comment.length)
+    }
+
+    private fun updateChooserState(
+        state: ChangeRecordChooserState,
+        binding: ChangeRecordCoreLayoutBinding,
+    ) = with(binding) {
+        updateChooser<Activity>(
+            state = state,
+            chooserData = rvChangeRecordType,
+            chooserView = fieldChangeRecordType,
+            chooserArrow = arrowChangeRecordType,
+        )
+        updateChooser<Tag>(
+            state = state,
+            chooserData = rvChangeRecordCategories,
+            chooserView = fieldChangeRecordCategory,
+            chooserArrow = arrowChangeRecordCategory,
+        )
+        updateChooser<Comment>(
+            state = state,
+            chooserData = containerChangeRecordComment,
+            chooserView = fieldChangeRecordComment,
+            chooserArrow = arrowChangeRecordComment,
+        )
+        updateChooser<Action>(
+            state = state,
+            chooserData = containerChangeRecordAction,
+            chooserView = fieldChangeRecordAction,
+            chooserArrow = arrowChangeRecordAction,
+        )
+
+        val isClosed = state.current is Closed
+        containerChangeRecordTimes.isVisible = isClosed
+
+        // Chooser fields
+        fieldChangeRecordType.isVisible = isClosed || state.current is Activity
+        fieldChangeRecordCategory.isVisible = isClosed || state.current is Tag
+        fieldChangeRecordComment.isVisible = isClosed || state.current is Comment
+        fieldChangeRecordAction.isVisible = isClosed || state.current is Action
+    }
+
+    private inline fun <reified T : ChangeRecordChooserState.State> updateChooser(
+        state: ChangeRecordChooserState,
+        chooserData: View,
+        chooserView: CardView,
+        chooserArrow: View,
+    ) {
+        val opened = state.current is T
+        val opening = state.previous is Closed && state.current is T
+        val closing = state.previous is T && state.current is Closed
+
+        chooserData.isVisible = opened
+        chooserView.setChooserColor(opened)
+        chooserArrow.apply {
+            if (opening) rotateDown()
+            if (closing) rotateUp()
+        }
     }
 }

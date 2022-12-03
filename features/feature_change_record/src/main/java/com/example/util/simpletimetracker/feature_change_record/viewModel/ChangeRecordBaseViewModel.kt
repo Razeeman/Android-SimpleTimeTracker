@@ -13,13 +13,13 @@ import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.view.timeAdjustment.TimeAdjustmentView
 import com.example.util.simpletimetracker.domain.extension.flip
 import com.example.util.simpletimetracker.domain.extension.orFalse
-import com.example.util.simpletimetracker.domain.extension.orTrue
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_change_record.R
 import com.example.util.simpletimetracker.feature_change_record.interactor.ChangeRecordViewDataInteractor
+import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordChooserState
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordCommentViewData
 import com.example.util.simpletimetracker.feature_change_record.viewData.TimeAdjustmentState
 import com.example.util.simpletimetracker.navigation.Router
@@ -71,12 +71,15 @@ abstract class ChangeRecordBaseViewModel(
     val timeSplitAdjustmentItems: LiveData<List<ViewHolderType>> by lazy {
         MutableLiveData(loadTimeSplitAdjustmentItems())
     }
+    val chooserState: LiveData<ChangeRecordChooserState> = MutableLiveData(
+        ChangeRecordChooserState(
+            current = ChangeRecordChooserState.State.Closed,
+            previous = ChangeRecordChooserState.State.Closed,
+        )
+    )
     val timeAdjustmentState: LiveData<TimeAdjustmentState> = MutableLiveData(TimeAdjustmentState.HIDDEN)
     val timeSplitAdjustmentState: LiveData<Boolean> = MutableLiveData(false)
     val timeSplitText: LiveData<String> = MutableLiveData()
-    val flipTypesChooser: LiveData<Boolean> = MutableLiveData()
-    val flipCategoryChooser: LiveData<Boolean> = MutableLiveData()
-    val flipLastCommentsChooser: LiveData<Boolean> = MutableLiveData()
     val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val splitButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val keyboardVisibility: LiveData<Boolean> = MutableLiveData(false)
@@ -99,15 +102,19 @@ abstract class ChangeRecordBaseViewModel(
     protected abstract suspend fun onSplitClickDelegate()
 
     fun onTypeChooserClick() {
-        keyboardVisibility.set(false)
-        flipTypesChooser.set(flipTypesChooser.value?.flip().orTrue())
-        if (flipCategoryChooser.value == true) flipCategoryChooser.set(false)
+        onNewChooserState(ChangeRecordChooserState.State.Activity)
     }
 
     fun onCategoryChooserClick() {
-        keyboardVisibility.set(false)
-        flipCategoryChooser.set(flipCategoryChooser.value?.flip().orTrue())
-        if (flipTypesChooser.value == true) flipTypesChooser.set(false)
+        onNewChooserState(ChangeRecordChooserState.State.Tag)
+    }
+
+    fun onCommentChooserClick() {
+        onNewChooserState(ChangeRecordChooserState.State.Comment)
+    }
+
+    fun onActionChooserClick() {
+        onNewChooserState(ChangeRecordChooserState.State.Action)
     }
 
     fun onTimeStartedClick() {
@@ -120,11 +127,6 @@ abstract class ChangeRecordBaseViewModel(
 
     fun onTimeSplitClick() {
         onTimeClick(tag = TIME_SPLIT_TAG, timestamp = newTimeSplit)
-    }
-
-    fun onLastCommentsChooserClick() {
-        val newValue = flipLastCommentsChooser.value?.flip().orTrue()
-        flipLastCommentsChooser.set(newValue)
     }
 
     fun onSaveClick() {
@@ -291,6 +293,29 @@ abstract class ChangeRecordBaseViewModel(
         }
     }
 
+    private fun onNewChooserState(
+        newState: ChangeRecordChooserState.State,
+    ) {
+        val current = chooserState.value?.current ?: ChangeRecordChooserState.State.Closed
+        keyboardVisibility.set(false)
+        timeAdjustmentState.set(TimeAdjustmentState.HIDDEN)
+        if (current == newState) {
+            chooserState.set(
+                ChangeRecordChooserState(
+                    current = ChangeRecordChooserState.State.Closed,
+                    previous = current,
+                )
+            )
+        } else {
+            chooserState.set(
+                ChangeRecordChooserState(
+                    current = newState,
+                    previous = current
+                )
+            )
+        }
+    }
+
     private fun onTimeClick(
         tag: String,
         timestamp: Long,
@@ -407,7 +432,6 @@ abstract class ChangeRecordBaseViewModel(
     private fun updateLastCommentsViewData() = viewModelScope.launch {
         val data = loadLastCommentsViewData()
         lastComments.set(data)
-        if (data.isEmpty()) flipLastCommentsChooser.set(false)
     }
 
     private suspend fun loadLastCommentsViewData(): List<ViewHolderType> {

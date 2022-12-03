@@ -383,7 +383,6 @@ class ChangeRecordTypeViewModel @Inject constructor(
         newState: ChangeRecordTypeChooserState.State,
     ) {
         val current = chooserState.value?.current ?: ChangeRecordTypeChooserState.State.Closed
-
         keyboardVisibility.set(false)
         if (current == newState) {
             chooserState.set(

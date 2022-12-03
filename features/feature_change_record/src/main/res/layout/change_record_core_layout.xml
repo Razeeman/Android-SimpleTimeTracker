@@ -4,112 +4,121 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:animateLayoutChanges="true">
+    android:animateLayoutChanges="true"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:paddingTop="8dp">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/fieldChangeRecordTimeStarted"
-        style="@style/InputFieldCard"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/input_field_height"
-        android:layout_marginStart="@dimen/input_field_margin"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toStartOf="@id/fieldChangeRecordTimeEnded"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_goneMarginEnd="@dimen/input_field_margin">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvChangeRecordTimeStarted"
-            style="@style/InputFieldCardText"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="?appInputFieldBorder"
-            android:gravity="center_vertical"
-            android:maxLines="1"
-            app:autoSizeMaxTextSize="16sp"
-            app:autoSizeMinTextSize="1sp"
-            app:autoSizeTextType="uniform"
-            tools:text="15.02.2020 07:35" />
-
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/fieldChangeRecordTimeEnded"
-        style="@style/InputFieldCard"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/input_field_height"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="@dimen/input_field_margin"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/fieldChangeRecordTimeStarted"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/containerChangeRecordTimes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvChangeRecordTimeEnded"
-            style="@style/InputFieldCardText"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="?appInputFieldBorder"
-            android:gravity="center_vertical"
-            android:maxLines="1"
-            app:autoSizeMaxTextSize="16sp"
-            app:autoSizeMinTextSize="1sp"
-            app:autoSizeTextType="uniform"
-            tools:text="15.02.2020 11:58" />
+        <androidx.cardview.widget.CardView
+            android:id="@+id/fieldChangeRecordTimeStarted"
+            style="@style/InputFieldCard"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/input_field_height"
+            android:layout_marginStart="@dimen/input_field_margin"
+            app:layout_constraintEnd_toStartOf="@id/fieldChangeRecordTimeEnded"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_goneMarginEnd="@dimen/input_field_margin">
 
-    </androidx.cardview.widget.CardView>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvChangeRecordTimeStarted"
+                style="@style/InputFieldCardText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?appInputFieldBorder"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                app:autoSizeMaxTextSize="16sp"
+                app:autoSizeMinTextSize="1sp"
+                app:autoSizeTextType="uniform"
+                tools:text="15.02.2020 07:35" />
 
-    <Space
-        android:id="@+id/spaceChangeRecordTimeStartedEnd"
-        android:layout_width="8dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/fieldChangeRecordTimeStarted"
-        app:layout_constraintTop_toTopOf="@id/fieldChangeRecordTimeStarted" />
+        </androidx.cardview.widget.CardView>
 
-    <Space
-        android:id="@+id/spaceChangeRecordTimeStartedTop"
-        android:layout_width="wrap_content"
-        android:layout_height="12dp"
-        app:layout_constraintBottom_toTopOf="@id/fieldChangeRecordTimeStarted"
-        app:layout_constraintEnd_toEndOf="@id/fieldChangeRecordTimeStarted" />
+        <androidx.cardview.widget.CardView
+            android:id="@+id/fieldChangeRecordTimeEnded"
+            style="@style/InputFieldCard"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/input_field_height"
+            android:layout_marginEnd="@dimen/input_field_margin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/fieldChangeRecordTimeStarted"
+            app:layout_constraintTop_toTopOf="parent">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/btnChangeRecordTimeStartedAdjust"
-        style="@style/InputFieldCard"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="@id/spaceChangeRecordTimeStartedEnd"
-        app:layout_constraintTop_toTopOf="@id/spaceChangeRecordTimeStartedTop">
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvChangeRecordTimeEnded"
+                style="@style/InputFieldCardText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?appInputFieldBorder"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                app:autoSizeMaxTextSize="16sp"
+                app:autoSizeMinTextSize="1sp"
+                app:autoSizeTextType="uniform"
+                tools:text="15.02.2020 11:58" />
 
-        <androidx.appcompat.widget.AppCompatTextView style="@style/ButtonTimeAdjust" />
+        </androidx.cardview.widget.CardView>
 
-    </androidx.cardview.widget.CardView>
+        <Space
+            android:id="@+id/spaceChangeRecordTimeStartedEnd"
+            android:layout_width="8dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/fieldChangeRecordTimeStarted"
+            app:layout_constraintTop_toTopOf="@id/fieldChangeRecordTimeStarted" />
 
-    <Space
-        android:id="@+id/spaceChangeRecordTimeEndedEnd"
-        android:layout_width="8dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/fieldChangeRecordTimeEnded"
-        app:layout_constraintTop_toTopOf="@id/fieldChangeRecordTimeEnded" />
+        <Space
+            android:id="@+id/spaceChangeRecordTimeStartedTop"
+            android:layout_width="wrap_content"
+            android:layout_height="12dp"
+            app:layout_constraintBottom_toTopOf="@id/fieldChangeRecordTimeStarted"
+            app:layout_constraintEnd_toEndOf="@id/fieldChangeRecordTimeStarted" />
 
-    <Space
-        android:id="@+id/spaceChangeRecordTimeEndedTop"
-        android:layout_width="wrap_content"
-        android:layout_height="12dp"
-        app:layout_constraintBottom_toTopOf="@id/fieldChangeRecordTimeEnded"
-        app:layout_constraintEnd_toEndOf="@id/fieldChangeRecordTimeEnded" />
+        <androidx.cardview.widget.CardView
+            android:id="@+id/btnChangeRecordTimeStartedAdjust"
+            style="@style/InputFieldCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@id/spaceChangeRecordTimeStartedEnd"
+            app:layout_constraintTop_toTopOf="@id/spaceChangeRecordTimeStartedTop">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/btnChangeRecordTimeEndedAdjust"
-        style="@style/InputFieldCard"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="@id/spaceChangeRecordTimeEndedEnd"
-        app:layout_constraintTop_toTopOf="@id/spaceChangeRecordTimeEndedTop">
+            <androidx.appcompat.widget.AppCompatTextView style="@style/ButtonTimeAdjust" />
 
-        <androidx.appcompat.widget.AppCompatTextView style="@style/ButtonTimeAdjust" />
+        </androidx.cardview.widget.CardView>
 
-    </androidx.cardview.widget.CardView>
+        <Space
+            android:id="@+id/spaceChangeRecordTimeEndedEnd"
+            android:layout_width="8dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/fieldChangeRecordTimeEnded"
+            app:layout_constraintTop_toTopOf="@id/fieldChangeRecordTimeEnded" />
+
+        <Space
+            android:id="@+id/spaceChangeRecordTimeEndedTop"
+            android:layout_width="wrap_content"
+            android:layout_height="12dp"
+            app:layout_constraintBottom_toTopOf="@id/fieldChangeRecordTimeEnded"
+            app:layout_constraintEnd_toEndOf="@id/fieldChangeRecordTimeEnded" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/btnChangeRecordTimeEndedAdjust"
+            style="@style/InputFieldCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@id/spaceChangeRecordTimeEndedEnd"
+            app:layout_constraintTop_toTopOf="@id/spaceChangeRecordTimeEndedTop">
+
+            <androidx.appcompat.widget.AppCompatTextView style="@style/ButtonTimeAdjust" />
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.example.util.simpletimetracker.core.view.timeAdjustment.TimeAdjustmentView
         android:id="@+id/containerChangeRecordTimeAdjust"
@@ -119,7 +128,7 @@
         android:layout_marginEnd="@dimen/input_field_margin"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fieldChangeRecordTimeStarted"
+        app:layout_constraintTop_toBottomOf="@id/containerChangeRecordTimes"
         tools:visibility="visible" />
 
     <androidx.cardview.widget.CardView
@@ -130,7 +139,8 @@
         android:layout_marginStart="@dimen/input_field_margin"
         app:layout_constraintEnd_toStartOf="@id/fieldChangeRecordCategory"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/containerChangeRecordTimeAdjust">
+        app:layout_constraintTop_toBottomOf="@id/containerChangeRecordTimeAdjust"
+        app:layout_goneMarginEnd="@dimen/input_field_margin">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -170,7 +180,8 @@
         android:layout_marginEnd="@dimen/input_field_margin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/fieldChangeRecordType"
-        app:layout_constraintTop_toBottomOf="@id/containerChangeRecordTimeAdjust">
+        app:layout_constraintTop_toBottomOf="@id/containerChangeRecordTimeAdjust"
+        app:layout_goneMarginStart="@dimen/input_field_margin">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -204,16 +215,109 @@
 
     </androidx.cardview.widget.CardView>
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/fieldChangeRecordComment"
+        style="@style/InputFieldCard"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/input_field_height"
+        android:layout_marginStart="@dimen/input_field_margin"
+        app:layout_constraintEnd_toStartOf="@id/fieldChangeRecordAction"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fieldChangeRecordType"
+        app:layout_goneMarginEnd="@dimen/input_field_margin">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?appInputFieldBorder">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/InputFieldCardText"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/change_record_comment_field"
+                app:layout_constraintEnd_toStartOf="@id/arrowChangeRecordComment"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <ImageView
+                android:id="@+id/arrowChangeRecordComment"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="8dp"
+                android:background="?selectableItemBackgroundBorderless"
+                android:src="?appArrow"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/fieldChangeRecordAction"
+        style="@style/InputFieldCard"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/input_field_height"
+        android:layout_marginEnd="@dimen/input_field_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/fieldChangeRecordComment"
+        app:layout_constraintTop_toBottomOf="@id/fieldChangeRecordCategory"
+        app:layout_goneMarginStart="@dimen/input_field_margin">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?appInputFieldBorder">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/InputFieldCardText"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:text="@string/change_record_actions_hint"
+                app:layout_constraintEnd_toStartOf="@id/arrowChangeRecordAction"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <ImageView
+                android:id="@+id/arrowChangeRecordAction"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="8dp"
+                android:background="?selectableItemBackgroundBorderless"
+                android:src="?appArrow"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrierChangeRecord"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="fieldChangeRecordComment, fieldChangeRecordAction" />
+
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/containerChangeRecordComment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/btnChangeRecordSave"
-        app:layout_constraintTop_toBottomOf="@id/fieldChangeRecordType">
+        app:layout_constraintTop_toBottomOf="@id/barrierChangeRecord"
+        tools:visibility="gone">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clipChildren="false"
             android:orientation="vertical">
 
             <com.google.android.material.textfield.TextInputLayout
@@ -232,65 +336,38 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/fieldChangeRecordLastComments"
-                style="@style/InputFieldCard"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:clipChildren="false"
-                android:clipToPadding="false"
-                android:visibility="gone"
-                tools:visibility="visible">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:clipChildren="false"
-                    android:clipToPadding="false">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        style="@style/InputFieldCardText"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        android:paddingVertical="4dp"
-                        android:text="@string/change_record_last_comments_hint"
-                        android:textColor="?appTextHintColor"
-                        app:layout_constraintEnd_toStartOf="@id/arrowChangeRecordLastComment"
-                        app:layout_constraintStart_toStartOf="parent" />
-
-                    <ImageView
-                        android:id="@+id/arrowChangeRecordLastComment"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginEnd="6dp"
-                        android:background="?selectableItemBackgroundBorderless"
-                        android:src="?appArrow"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:ignore="ContentDescription" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </androidx.cardview.widget.CardView>
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvChangeRecordLastComments"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:overScrollMode="never"
-                android:visibility="gone"
                 tools:itemCount="3"
-                tools:listitem="@layout/change_record_comment_item"
-                tools:visibility="visible" />
+                tools:listitem="@layout/change_record_comment_item" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/containerChangeRecordAction"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/btnChangeRecordSave"
+        app:layout_constraintTop_toBottomOf="@id/barrierChangeRecord"
+        tools:visibility="gone">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/containerChangeRecordSplit"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true">
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/fieldChangeRecordTimeSplit"
@@ -383,7 +460,7 @@
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/btnChangeRecordSave"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fieldChangeRecordType"
+        app:layout_constraintTop_toBottomOf="@id/barrierChangeRecord"
         tools:itemCount="3"
         tools:listitem="@layout/item_record_type_layout"
         tools:visibility="gone" />
@@ -397,7 +474,7 @@
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/btnChangeRecordSave"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fieldChangeRecordCategory"
+        app:layout_constraintTop_toBottomOf="@id/barrierChangeRecord"
         tools:itemCount="3"
         tools:listitem="@layout/item_category_layout"
         tools:visibility="gone" />

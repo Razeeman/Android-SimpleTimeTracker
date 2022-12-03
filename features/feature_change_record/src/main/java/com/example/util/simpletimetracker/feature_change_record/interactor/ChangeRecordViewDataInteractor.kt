@@ -10,6 +10,7 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_base_adapter.hint.HintViewData
 import com.example.util.simpletimetracker.feature_change_record.R
 import com.example.util.simpletimetracker.feature_change_record.mapper.ChangeRecordViewDataMapper
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordCommentViewData
@@ -64,6 +65,12 @@ class ChangeRecordViewDataInteractor @Inject constructor(
             .toSet()
             .take(LAST_COMMENTS_TO_SHOW)
             .map { ChangeRecordCommentViewData(it) }
+            .takeUnless { it.isEmpty() }
+            ?.let {
+                HintViewData(
+                    text = resourceRepo.getString(R.string.change_record_last_comments_hint)
+                ).let(::listOf) + it
+            }.orEmpty()
     }
 
     fun getTimeAdjustmentItems(): List<ViewHolderType> {

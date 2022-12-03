@@ -90,7 +90,9 @@
     <string name="change_record_message_choose_type">Seleziona attività</string>
     <string name="change_record_type_field">Attività</string>
     <string name="change_record_tag_field">Etichetta</string>
-    <string name="change_record_comment_hint">Commento</string>
+    <string name="change_record_comment_field">Commento</string>
+    <string name="change_record_comment_hint">Inserisci un nuovo commento</string>
+    <string name="change_record_actions_hint">Azioni</string>
     <string name="change_record_last_comments_hint">Ultimi commenti</string>
     <string name="change_record_categories_empty">Nessuna etichetta aggiunta alla registrazione</string>
     <string name="change_record_save">Salva</string>

@@ -90,7 +90,9 @@
     <string name="change_record_message_choose_type">Select activity</string>
     <string name="change_record_type_field">Activity</string>
     <string name="change_record_tag_field">Tag</string>
-    <string name="change_record_comment_hint">Comment</string>
+    <string name="change_record_comment_field">Comment</string>
+    <string name="change_record_comment_hint">Enter new comment</string>
+    <string name="change_record_actions_hint">Actions</string>
     <string name="change_record_last_comments_hint">Last comments</string>
     <string name="change_record_categories_empty">No record tags added</string>
     <string name="change_record_save">Save</string>
