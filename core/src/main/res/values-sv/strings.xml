@@ -99,7 +99,9 @@
     <string name="change_record_untagged">Ej taggad</string>
     <string name="change_running_record_removed">Pågående aktivitet borttagen</string>
     <string name="change_record_split">Dela upp</string>
+    <string name="change_record_split_hint">Kommer att skära det aktuella rekordet i två vid den angivna tidpunkten</string>
     <string name="change_record_continue">Fortsätta</string>
+    <string name="change_record_continue_hint">Tar bort aktuell post och fortsätter att spåra denna aktivitet</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Aktivitet arkiverad</string>

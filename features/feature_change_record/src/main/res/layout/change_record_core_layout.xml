@@ -356,7 +356,7 @@
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/btnChangeRecordSave"
         app:layout_constraintTop_toBottomOf="@id/barrierChangeRecord"
-        tools:visibility="gone">
+        tools:visibility="visible">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -370,16 +370,26 @@
                 android:layout_marginTop="16dp"
                 android:animateLayoutChanges="true">
 
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvChangeRecordTimeSplitHint"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="8dp"
+                    android:gravity="center"
+                    android:paddingVertical="8dp"
+                    android:text="@string/change_record_split_hint"
+                    android:textColor="?appTextHintColor"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <androidx.cardview.widget.CardView
                     android:id="@+id/fieldChangeRecordTimeSplit"
                     style="@style/InputFieldCard"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/input_field_height"
                     android:layout_marginStart="@dimen/input_field_margin"
-                    android:layout_marginTop="12dp"
                     app:layout_constraintEnd_toStartOf="@id/btnChangeRecordSplit"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvChangeRecordTimeSplitHint"
                     app:layout_goneMarginEnd="@dimen/input_field_margin">
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -460,6 +470,17 @@
                     android:layout_marginTop="16dp"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvChangeRecordContinueHint"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="8dp"
+                    android:gravity="center"
+                    android:paddingVertical="8dp"
+                    android:text="@string/change_record_continue_hint"
+                    android:textColor="?appTextHintColor"
+                    app:layout_constraintTop_toBottomOf="@id/dividerChangeRecordContinue" />
+
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnChangeRecordContinue"
                     style="@style/AppButtonActive"
@@ -467,7 +488,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
                     android:text="@string/change_record_continue"
-                    app:layout_constraintTop_toBottomOf="@id/dividerChangeRecordContinue" />
+                    app:layout_constraintTop_toBottomOf="@id/tvChangeRecordContinueHint" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

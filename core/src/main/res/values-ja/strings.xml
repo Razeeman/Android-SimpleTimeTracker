@@ -99,7 +99,9 @@
     <string name="change_record_untagged">タグを外す</string>
     <string name="change_running_record_removed">記録中のアクティビティを削除</string>
     <string name="change_record_split">分ける</string>
+    <string name="change_record_split_hint">指定された時点で現在のレコードを 2 つに分割します</string>
     <string name="change_record_continue">継続する</string>
+    <string name="change_record_continue_hint">現在の記録を削除し、このアクティビティの追跡を継続します</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">アクティビティをアーカイブ</string>

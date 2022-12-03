@@ -99,7 +99,9 @@
     <string name="change_record_untagged">无标签</string>
     <string name="change_running_record_removed">正在追踪的活动已删除</string>
     <string name="change_record_split">划分</string>
+    <string name="change_record_split_hint">会在指定时间点将当前记录一分为二</string>
     <string name="change_record_continue">继续</string>
+    <string name="change_record_continue_hint">将删除当前记录并继续跟踪此活动</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">活动已存档</string>

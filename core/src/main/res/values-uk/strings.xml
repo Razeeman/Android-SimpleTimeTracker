@@ -99,7 +99,9 @@
     <string name="change_record_untagged">Без тегу</string>
     <string name="change_running_record_removed">Поточне заняття видалено</string>
     <string name="change_record_split">Розділити</string>
+    <string name="change_record_split_hint">Розрізає поточний запис на два у вказаний момент часу</string>
     <string name="change_record_continue">Продовжити</string>
+    <string name="change_record_continue_hint">Буде видалено поточний запис і продовжено відстеження цієї діяльності</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Активність переміщено до архіву</string>

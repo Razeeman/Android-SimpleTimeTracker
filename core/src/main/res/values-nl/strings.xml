@@ -99,7 +99,9 @@
     <string name="change_record_untagged">Niet gelabeld</string>
     <string name="change_running_record_removed">Lopende activiteit verwijderd</string>
     <string name="change_record_split">Verdeling</string>
+    <string name="change_record_split_hint">Zal het huidige record in tweeën knippen op het opgegeven tijdstip</string>
     <string name="change_record_continue">Doorgaan</string>
+    <string name="change_record_continue_hint">Verwijdert het huidige record en gaat door met het volgen van deze activiteit</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Activiteit gearchiveerd</string>

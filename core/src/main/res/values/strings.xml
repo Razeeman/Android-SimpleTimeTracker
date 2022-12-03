@@ -99,7 +99,9 @@
     <string name="change_record_untagged">Untagged</string>
     <string name="change_running_record_removed">Running activity removed</string>
     <string name="change_record_split">Divide</string>
+    <string name="change_record_split_hint">Will cut current record into two at the specified point in time</string>
     <string name="change_record_continue">Continue</string>
+    <string name="change_record_continue_hint">Will remove current record and continue tracking this activity</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Activity archived</string>

@@ -99,7 +99,9 @@
     <string name="change_record_untagged">Tidak berlabel</string>
     <string name="change_running_record_removed">Kegiatan berjalan dihapus</string>
     <string name="change_record_split">Membagi</string>
+    <string name="change_record_split_hint">Akan memotong rekor saat ini menjadi dua pada titik waktu yang ditentukan</string>
     <string name="change_record_continue">Melanjutkan</string>
+    <string name="change_record_continue_hint">Akan menghapus catatan saat ini dan terus melacak aktivitas ini</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Kegiatan dihapuskan</string>
