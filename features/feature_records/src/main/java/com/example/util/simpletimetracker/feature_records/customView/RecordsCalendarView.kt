@@ -558,6 +558,7 @@ class RecordsCalendarView @JvmOverloads constructor(
                 legendTextPaint
             )
 
+            if (index == 0) return@forEachIndexed
             // Draw minutes
             selectedMinutesRange.forEachIndexed { minuteIndex, minute ->
                 val minuteCurrentY = (currentY - (minuteIndex + 1) * minuteLineStep * scaleFactor).let {
