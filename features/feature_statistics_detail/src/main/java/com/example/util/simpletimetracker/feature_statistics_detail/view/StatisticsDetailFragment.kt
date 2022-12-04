@@ -125,6 +125,7 @@ class StatisticsDetailFragment :
         previewViewData.observe(::setPreviewViewData)
         emptyRangeAveragesData.observeOnce(viewLifecycleOwner, ::setEmptyRangeAveragesData)
         statsViewData.observe(::setStatsViewData)
+        streaksViewData.observe(::setStreaksViewData)
         chartViewData.observe(::updateChartViewData)
         splitChartViewData.observe(::updateSplitChartViewData)
         comparisonSplitChartViewData.observe(::updateComparisonSplitChartViewData)
@@ -203,6 +204,12 @@ class StatisticsDetailFragment :
         cardStatisticsDetailDates.items = statsViewData.datesTracked
         rvStatisticsDetailTagSplit.visible = statsViewData.tagSplitData.isNotEmpty()
         tagSplitAdapter.replace(statsViewData.tagSplitData)
+    }
+
+    private fun setStreaksViewData(
+        streaksViewData: List<StatisticsDetailCardViewData>,
+    ) = with(binding) {
+        cardStatisticsDetailStreaks.items = streaksViewData
     }
 
     private fun updateChartViewData(

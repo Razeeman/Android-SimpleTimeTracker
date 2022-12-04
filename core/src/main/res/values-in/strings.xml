@@ -275,6 +275,9 @@ Parameter opsional untuk memulai aktivitas:<br/>
     <string name="statistics_detail_record_time">Waktu rekor</string>
     <string name="statistics_detail_first_record">Pertama</string>
     <string name="statistics_detail_last_record">Terakhir</string>
+    <string name="statistics_detail_streaks">Seri</string>
+    <string name="statistics_detail_streaks_longest">Terlama</string>
+    <string name="statistics_detail_streaks_current">Saat ini</string>
     <string name="statistics_detail_tag_split_hint">Distribusi label</string>
     <string name="statistics_detail_day_split_hint">Distribusi harian</string>
     <string name="statistics_detail_duration_split_hint">Distribusi durasi rekaman</string>

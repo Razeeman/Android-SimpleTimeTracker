@@ -275,6 +275,9 @@
     <string name="statistics_detail_record_time">計測記録時間</string>
     <string name="statistics_detail_first_record">最初</string>
     <string name="statistics_detail_last_record">最後</string>
+    <string name="statistics_detail_streaks">シリーズ</string>
+    <string name="statistics_detail_streaks_longest">最長</string>
+    <string name="statistics_detail_streaks_current">現時点の</string>
     <string name="statistics_detail_tag_split_hint">タグ配布</string>
     <string name="statistics_detail_day_split_hint">日次記録</string>
     <string name="statistics_detail_duration_split_hint">記録期間分布</string>

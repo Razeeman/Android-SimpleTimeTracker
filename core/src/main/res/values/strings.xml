@@ -275,6 +275,9 @@ Optional parameters for starting activity:<br/>
     <string name="statistics_detail_record_time">Record time</string>
     <string name="statistics_detail_first_record">First</string>
     <string name="statistics_detail_last_record">Last</string>
+    <string name="statistics_detail_streaks">Series</string>
+    <string name="statistics_detail_streaks_longest">Longest</string>
+    <string name="statistics_detail_streaks_current">Current</string>
     <string name="statistics_detail_tag_split_hint">Tag distribution</string>
     <string name="statistics_detail_day_split_hint">Daily distribution</string>
     <string name="statistics_detail_duration_split_hint">Record duration distribution</string>

@@ -275,6 +275,9 @@
     <string name="statistics_detail_record_time">记录时间</string>
     <string name="statistics_detail_first_record">第一</string>
     <string name="statistics_detail_last_record">最后</string>
+    <string name="statistics_detail_streaks">系列</string>
+    <string name="statistics_detail_streaks_longest">最长</string>
+    <string name="statistics_detail_streaks_current">当前的</string>
     <string name="statistics_detail_tag_split_hint">标签分布</string>
     <string name="statistics_detail_day_split_hint">每日分发</string>
     <string name="statistics_detail_duration_split_hint">记录持续时间分布</string>

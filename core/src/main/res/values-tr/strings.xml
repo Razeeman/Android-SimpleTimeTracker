@@ -275,6 +275,9 @@ Aktiviteyi başlatmak için isteğe bağlı parametreler:<br/>
     <string name="statistics_detail_record_time">Kayıt zamanı</string>
     <string name="statistics_detail_first_record">İlk</string>
     <string name="statistics_detail_last_record">Son</string>
+    <string name="statistics_detail_streaks">Diziler</string>
+    <string name="statistics_detail_streaks_longest">En uzun</string>
+    <string name="statistics_detail_streaks_current">Akım</string>
     <string name="statistics_detail_tag_split_hint">Etiket dağılımı</string>
     <string name="statistics_detail_day_split_hint">Günlük dağılım</string>
     <string name="statistics_detail_duration_split_hint">Kayıt süresi dağılımı</string>

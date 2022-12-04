@@ -27,6 +27,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.interactor.S
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailPreviewInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailSplitChartInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailStatsInteractor
+import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailStreaksInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.StatisticsDetailViewDataMapper
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartGrouping
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartLength
@@ -62,6 +63,7 @@ class StatisticsDetailViewModel @Inject constructor(
     private val chartInteractor: StatisticsDetailChartInteractor,
     private val previewInteractor: StatisticsDetailPreviewInteractor,
     private val statsInteractor: StatisticsDetailStatsInteractor,
+    private val streaksInteractor: StatisticsDetailStreaksInteractor,
     private val splitChartInteractor: StatisticsDetailSplitChartInteractor,
     private val mapper: StatisticsDetailViewDataMapper,
     private val rangeMapper: RangeMapper,
@@ -76,6 +78,9 @@ class StatisticsDetailViewModel @Inject constructor(
     }
     val statsViewData: LiveData<StatisticsDetailStatsViewData> by lazy {
         return@lazy MutableLiveData(loadEmptyStatsViewData())
+    }
+    val streaksViewData: LiveData<List<StatisticsDetailCardViewData>> by lazy {
+        return@lazy MutableLiveData()
     }
     val chartViewData: LiveData<StatisticsDetailChartCompositeViewData> by lazy {
         return@lazy MutableLiveData()
@@ -306,6 +311,7 @@ class StatisticsDetailViewModel @Inject constructor(
 
     private fun updateViewData() {
         updateStatsViewData()
+        updateStreaksViewData()
         updateChartViewData()
         updateSplitChartViewData()
         updateDurationSplitChartViewData()
@@ -366,6 +372,21 @@ class StatisticsDetailViewModel @Inject constructor(
 
     private suspend fun loadStatsViewData(): StatisticsDetailStatsViewData {
         return statsInteractor.getStatsViewData(
+            records = records,
+            compareRecords = compareRecords,
+            showComparison = comparisonTypesFilter.selectedIds.isNotEmpty(),
+            rangeLength = rangeLength,
+            rangePosition = rangePosition
+        )
+    }
+
+    private fun updateStreaksViewData() = viewModelScope.launch(Dispatchers.Default) {
+        val data = loadStreaksViewData()
+        streaksViewData.post(data)
+    }
+
+    private suspend fun loadStreaksViewData(): List<StatisticsDetailCardViewData> {
+        return streaksInteractor.getStreaksViewData(
             records = records,
             compareRecords = compareRecords,
             showComparison = comparisonTypesFilter.selectedIds.isNotEmpty(),

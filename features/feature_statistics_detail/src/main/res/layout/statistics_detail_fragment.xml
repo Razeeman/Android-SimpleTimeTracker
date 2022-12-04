@@ -208,6 +208,17 @@
                 app:itemDescription="@string/statistics_detail_record_time"
                 app:layout_constraintTop_toBottomOf="@+id/cardStatisticsDetailAverage" />
 
+            <com.example.util.simpletimetracker.feature_statistics_detail.customView.StatisticsDetailCardView
+                android:id="@+id/cardStatisticsDetailStreaks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="4dp"
+                app:itemCount="2"
+                app:itemDescription="@string/statistics_detail_streaks"
+                app:layout_constraintTop_toBottomOf="@+id/cardStatisticsDetailDates" />
+
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvStatisticsDetailSplitHint"
                 android:layout_width="match_parent"
@@ -218,7 +229,7 @@
                 android:paddingVertical="8dp"
                 android:text="@string/statistics_detail_day_split_hint"
                 android:textColor="?appTextHintColor"
-                app:layout_constraintTop_toBottomOf="@id/cardStatisticsDetailDates" />
+                app:layout_constraintTop_toBottomOf="@id/cardStatisticsDetailStreaks" />
 
             <com.example.util.simpletimetracker.feature_statistics_detail.customView.BarChartView
                 android:id="@+id/chartStatisticsDetailSplit"
