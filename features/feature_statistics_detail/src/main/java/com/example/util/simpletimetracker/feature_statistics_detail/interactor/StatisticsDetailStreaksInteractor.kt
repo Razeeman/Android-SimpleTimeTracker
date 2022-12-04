@@ -43,7 +43,42 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
             Range(timeStarted = it.first, timeEnded = it.second)
         }
 
-        val (rangeMaxStreak, rangeCurrentStreak) = mapStatsData(
+        val (maxStreak, currentStreak) = mapStatsData(
+            range = range,
+            records = records,
+            rangeLength = rangeLength,
+            firstDayOfWeek = firstDayOfWeek,
+            startOfDayShift = startOfDayShift
+        )
+        val (compareMaxStreak, compareCurrentStreak) = if (showComparison) {
+            mapStatsData(
+                range = range,
+                records = compareRecords,
+                rangeLength = rangeLength,
+                firstDayOfWeek = firstDayOfWeek,
+                startOfDayShift = startOfDayShift
+            )
+        } else {
+            null to null
+        }
+
+        return mapToStatsViewData(
+            rangeLength = rangeLength,
+            maxStreak = maxStreak,
+            compareMaxStreak = compareMaxStreak,
+            currentStreak = currentStreak,
+            compareCurrentStreak = compareCurrentStreak,
+        )
+    }
+
+    private fun mapStatsData(
+        range: Range,
+        records: List<Record>,
+        rangeLength: RangeLength,
+        firstDayOfWeek: DayOfWeek,
+        startOfDayShift: Long,
+    ): Pair<Long, Long> {
+        val (maxStreak, rangeCurrentStreak) = calculate(
             range = range,
             records = records,
             firstDayOfWeek = firstDayOfWeek,
@@ -53,7 +88,7 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
         val currentStreak = if (rangeLength is RangeLength.All) {
             rangeCurrentStreak
         } else {
-            mapStatsData(
+            calculate(
                 range = Range(timeStarted = 0, timeEnded = 0),
                 records = records,
                 firstDayOfWeek = firstDayOfWeek,
@@ -61,15 +96,10 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
             ).second
         }
 
-        return mapToStatsViewData(
-            maxStreak = rangeMaxStreak
-                // No point count streak of one day.
-                .takeUnless { rangeLength is RangeLength.Day },
-            currentStreak = currentStreak,
-        )
+        return maxStreak to currentStreak
     }
 
-    private fun mapStatsData(
+    private fun calculate(
         range: Range,
         records: List<Record>,
         firstDayOfWeek: DayOfWeek,
@@ -119,18 +149,38 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
     }
 
     private fun mapToStatsViewData(
-        maxStreak: Long?,
+        rangeLength: RangeLength,
+        maxStreak: Long,
+        compareMaxStreak: Long?,
         currentStreak: Long,
+        compareCurrentStreak: Long?,
     ): List<StatisticsDetailCardViewData> {
+        fun processComparisonString(value: String?): String {
+            return value
+                ?.let { "($it)" }
+                .orEmpty()
+        }
+
+        fun processMaxStreak(value: Long): String {
+            return value.takeUnless { rangeLength is RangeLength.Day }
+                ?.toString()
+                ?: emptyValue
+        }
+
         return listOf(
             StatisticsDetailCardViewData(
-                value = maxStreak?.toString() ?: emptyValue,
-                secondValue = "", // TODO compare
+                // No point count streak of one day.
+                value = maxStreak.let(::processMaxStreak),
+                secondValue = compareMaxStreak
+                    ?.let(::processMaxStreak)
+                    .let(::processComparisonString),
                 description = resourceRepo.getString(R.string.statistics_detail_streaks_longest)
             ),
             StatisticsDetailCardViewData(
                 value = currentStreak.toString(),
-                secondValue = "",
+                secondValue = compareCurrentStreak
+                    ?.toString()
+                    .let(::processComparisonString),
                 description = resourceRepo.getString(R.string.statistics_detail_streaks_current)
             ),
         )
