@@ -102,6 +102,8 @@
     <string name="change_record_split_hint">Cortará el registro actual en dos en el momento especificado</string>
     <string name="change_record_continue">Continuar</string>
     <string name="change_record_continue_hint">Eliminará el registro actual y seguirá rastreando esta actividad</string>
+    <string name="change_record_merge">Unir</string>
+    <string name="change_record_merge_hint">Agregará esta vez al registro anterior</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Actividad archivada</string>

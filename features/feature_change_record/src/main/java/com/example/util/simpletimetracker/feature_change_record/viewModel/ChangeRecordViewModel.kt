@@ -3,7 +3,6 @@ package com.example.util.simpletimetracker.feature_change_record.viewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.AddRunningRecordMediator
 import com.example.util.simpletimetracker.core.interactor.RecordTagViewDataInteractor
 import com.example.util.simpletimetracker.core.interactor.RecordTypesViewDataInteractor
@@ -67,7 +66,6 @@ class ChangeRecordViewModel @Inject constructor(
     }
 
     fun onDeleteClick() {
-        keyboardVisibility.set(false)
         router.back()
     }
 
@@ -84,7 +82,6 @@ class ChangeRecordViewModel @Inject constructor(
         ).let {
             recordInteractor.add(it)
             widgetInteractor.updateWidgets(listOf(WidgetType.STATISTICS_CHART))
-            keyboardVisibility.set(false)
             router.back()
         }
     }
@@ -121,8 +118,24 @@ class ChangeRecordViewModel @Inject constructor(
             tagIds = newCategoryIds,
         )
         // Exit.
-        keyboardVisibility.set(false)
         router.back()
+    }
+
+    override suspend fun onMergeClickDelegate() {
+        // Find previous record.
+        val previousRecord = recordInteractor.getAll()
+            .sortedByDescending { it.timeEnded }
+            .firstOrNull {
+                it.timeEnded <= newTimeStarted
+            }
+        // Change it.
+        previousRecord?.copy(
+            timeEnded = newTimeEnded,
+        )?.let {
+            recordInteractor.add(it)
+            widgetInteractor.updateWidgets(listOf(WidgetType.STATISTICS_CHART))
+            router.back()
+        }
     }
 
     override fun getChangeCategoryParams(data: ChangeTagData): ChangeRecordTagFromScreen {

@@ -102,6 +102,8 @@
     <string name="change_record_split_hint">Coupera l\'enregistrement actuel en deux au moment spécifié</string>
     <string name="change_record_continue">Continuer</string>
     <string name="change_record_continue_hint">Supprime l\'enregistrement actuel et continue de suivre cette activité</string>
+    <string name="change_record_merge">Fusionner</string>
+    <string name="change_record_merge_hint">Ajoutera cette fois à l\'enregistrement précédent</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Activité archivée</string>

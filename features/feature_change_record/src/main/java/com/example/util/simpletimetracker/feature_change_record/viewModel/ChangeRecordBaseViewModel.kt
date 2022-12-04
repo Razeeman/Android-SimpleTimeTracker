@@ -83,6 +83,7 @@ abstract class ChangeRecordBaseViewModel(
     val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val splitButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val continueButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
+    val mergeButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val keyboardVisibility: LiveData<Boolean> = MutableLiveData(false)
     val comment: LiveData<String> = MutableLiveData()
 
@@ -102,6 +103,7 @@ abstract class ChangeRecordBaseViewModel(
     protected abstract suspend fun onSaveClickDelegate()
     protected abstract suspend fun onSplitClickDelegate()
     protected open suspend fun onContinueClickDelegate() {}
+    protected open suspend fun onMergeClickDelegate() {}
 
     fun onTypeChooserClick() {
         onNewChooserState(ChangeRecordChooserState.State.Activity)
@@ -149,6 +151,14 @@ abstract class ChangeRecordBaseViewModel(
         onRecordChangeButtonClick(
             buttonEnabledLiveData = continueButtonEnabled,
             onProceed = ::onContinueClickDelegate,
+        )
+    }
+
+    fun onMergeClick() {
+        onRecordChangeButtonClick(
+            buttonEnabledLiveData = mergeButtonEnabled,
+            onProceed = ::onMergeClickDelegate,
+            checkTypeSelected = false,
         )
     }
 
@@ -297,8 +307,9 @@ abstract class ChangeRecordBaseViewModel(
     private fun onRecordChangeButtonClick(
         buttonEnabledLiveData: LiveData<Boolean>,
         onProceed: suspend () -> Unit,
+        checkTypeSelected: Boolean = true,
     ) {
-        if (newTypeId == 0L) {
+        if (checkTypeSelected && newTypeId == 0L) {
             showMessage(R.string.change_record_message_choose_type)
             return
         }

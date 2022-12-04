@@ -55,6 +55,8 @@ class ChangeRunningRecordFragment :
         layoutChangeRunningRecordCore.btnChangeRecordTimeEndedAdjust.isVisible = false
         // Can't continue running record.
         layoutChangeRunningRecordCore.containerChangeRecordContinue.isVisible = false
+        // Can't merge running record.
+        layoutChangeRunningRecordCore.containerChangeRecordMerge.isVisible = false
 
         postponeEnterTransition()
 

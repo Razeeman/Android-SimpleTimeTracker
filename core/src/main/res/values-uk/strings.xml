@@ -102,6 +102,8 @@
     <string name="change_record_split_hint">Розрізає поточний запис на два у вказаний момент часу</string>
     <string name="change_record_continue">Продовжити</string>
     <string name="change_record_continue_hint">Буде видалено поточний запис і продовжено відстеження цієї діяльності</string>
+    <string name="change_record_merge">Об’єднати</string>
+    <string name="change_record_merge_hint">Додасть цей час до попереднього запису</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Активність переміщено до архіву</string>

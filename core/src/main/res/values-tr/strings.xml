@@ -102,6 +102,8 @@
     <string name="change_record_split_hint">Geçerli kaydı belirtilen zamanda ikiye böler</string>
     <string name="change_record_continue">Devam et</string>
     <string name="change_record_continue_hint">Geçerli kaydı kaldıracak ve bu etkinliği izlemeye devam edecek</string>
+    <string name="change_record_merge">Birleştirmek</string>
+    <string name="change_record_merge_hint">Bu sefer önceki rekora eklenecek</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Aktivite arşivlendi</string>

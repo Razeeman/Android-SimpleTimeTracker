@@ -102,6 +102,8 @@
     <string name="change_record_split_hint">Zal het huidige record in tweeën knippen op het opgegeven tijdstip</string>
     <string name="change_record_continue">Doorgaan</string>
     <string name="change_record_continue_hint">Verwijdert het huidige record en gaat door met het volgen van deze activiteit</string>
+    <string name="change_record_merge">Samenvoegen</string>
+    <string name="change_record_merge_hint">Zal deze tijd toevoegen aan het vorige record</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Activiteit gearchiveerd</string>

@@ -55,6 +55,9 @@ class ChangeRecordFragment :
     }
 
     override fun initUi(): Unit = with(binding) {
+        // Can merge only untracked time.
+        layoutChangeRecordCore.containerChangeRecordMerge.isVisible = extra is ChangeRecordParams.Untracked
+
         postponeEnterTransition()
 
         setPreview()

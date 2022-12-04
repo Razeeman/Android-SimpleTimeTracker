@@ -116,6 +116,7 @@ class ChangeRecordCore(
         btnChangeRecordSave.setOnClick(viewModel::onSaveClick)
         btnChangeRecordSplit.setOnClick(viewModel::onSplitClick)
         btnChangeRecordContinue.setOnClick(viewModel::onContinueClick)
+        btnChangeRecordMerge.setOnClick(viewModel::onMergeClick)
     }
 
     fun <T : ViewBinding> initViewModel(
@@ -134,6 +135,7 @@ class ChangeRecordCore(
             saveButtonEnabled.observe(btnChangeRecordSave::setEnabled)
             splitButtonEnabled.observe(btnChangeRecordSplit::setEnabled)
             continueButtonEnabled.observe(btnChangeRecordContinue::setEnabled)
+            mergeButtonEnabled.observe(btnChangeRecordMerge::setEnabled)
             timeAdjustmentItems.observe(containerChangeRecordTimeAdjust.adapter::replace)
             timeSplitAdjustmentItems.observe(containerChangeRecordTimeSplitAdjust.adapter::replace)
             chooserState.observe { updateChooserState(it, binding) }

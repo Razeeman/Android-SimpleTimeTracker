@@ -74,7 +74,6 @@ class ChangeRunningRecordViewModel @Inject constructor(
         viewModelScope.launch {
             removeRunningRecordMediator.remove(extra.id)
             showMessage(R.string.change_running_record_removed)
-            (keyboardVisibility as MutableLiveData).value = false
             router.back()
         }
     }
@@ -82,7 +81,6 @@ class ChangeRunningRecordViewModel @Inject constructor(
     override suspend fun onSaveClickDelegate() {
         removeRunningRecordMediator.remove(extra.id)
         addRunningRecordMediator.add(newTypeId, newTimeStarted, newComment, newCategoryIds)
-        (keyboardVisibility as MutableLiveData).value = false
         router.back()
     }
 
