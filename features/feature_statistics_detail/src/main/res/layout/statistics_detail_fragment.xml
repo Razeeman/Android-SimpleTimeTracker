@@ -208,16 +208,44 @@
                 app:itemDescription="@string/statistics_detail_record_time"
                 app:layout_constraintTop_toBottomOf="@+id/cardStatisticsDetailAverage" />
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvStatisticsDetailStreaksHint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:gravity="center"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="8dp"
+                android:text="@string/statistics_detail_streaks"
+                android:textColor="?appTextHintColor"
+                app:layout_constraintTop_toBottomOf="@id/cardStatisticsDetailDates" />
+
             <com.example.util.simpletimetracker.feature_statistics_detail.customView.StatisticsDetailCardView
                 android:id="@+id/cardStatisticsDetailStreaks"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:layout_marginTop="4dp"
                 android:layout_marginEnd="4dp"
                 app:itemCount="2"
-                app:itemDescription="@string/statistics_detail_streaks"
-                app:layout_constraintTop_toBottomOf="@+id/cardStatisticsDetailDates" />
+                app:layout_constraintTop_toBottomOf="@+id/tvStatisticsDetailStreaksHint" />
+
+            <com.example.util.simpletimetracker.feature_statistics_detail.customView.SeriesView
+                android:id="@+id/chartStatisticsStreaks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                app:layout_constraintTop_toBottomOf="@id/cardStatisticsDetailStreaks"
+                app:seriesBarColor="@color/red_300"
+                app:seriesBarCornerRadius="8dp"
+                app:seriesBarCountInPreview="7"
+                app:seriesBarHeight="20dp"
+                app:seriesDividerHeight="1dp"
+                app:seriesLegendTextColor="@color/textSecondary"
+                app:seriesLegendTextPadding="8dp"
+                app:seriesLegendTextSize="11sp"
+                app:seriesMaxValueInPreview="100"
+                app:seriesValueTextColor="?appLightTextColor"
+                app:seriesValueTextSize="11sp" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvStatisticsDetailSplitHint"
@@ -229,7 +257,7 @@
                 android:paddingVertical="8dp"
                 android:text="@string/statistics_detail_day_split_hint"
                 android:textColor="?appTextHintColor"
-                app:layout_constraintTop_toBottomOf="@id/cardStatisticsDetailStreaks" />
+                app:layout_constraintTop_toBottomOf="@id/chartStatisticsStreaks" />
 
             <com.example.util.simpletimetracker.feature_statistics_detail.customView.BarChartView
                 android:id="@+id/chartStatisticsDetailSplit"

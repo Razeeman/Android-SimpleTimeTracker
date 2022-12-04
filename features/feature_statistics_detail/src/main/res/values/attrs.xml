@@ -24,4 +24,18 @@
         <attr name="itemTitleTextSize" format="dimension" />
         <attr name="itemSubtitleTextSize" format="dimension" />
     </declare-styleable>
+
+    <declare-styleable name="SeriesView">
+        <attr name="seriesBarCountInPreview" format="integer" />
+        <attr name="seriesMaxValueInPreview" format="integer" />
+        <attr name="seriesDividerHeight" format="dimension" />
+        <attr name="seriesBarHeight" format="dimension" />
+        <attr name="seriesBarCornerRadius" format="dimension" />
+        <attr name="seriesBarColor" format="color" />
+        <attr name="seriesLegendTextPadding" format="dimension" />
+        <attr name="seriesLegendTextSize" format="dimension" />
+        <attr name="seriesLegendTextColor" format="color" />
+        <attr name="seriesValueTextSize" format="dimension" />
+        <attr name="seriesValueTextColor" format="color" />
+    </declare-styleable>
 </resources>

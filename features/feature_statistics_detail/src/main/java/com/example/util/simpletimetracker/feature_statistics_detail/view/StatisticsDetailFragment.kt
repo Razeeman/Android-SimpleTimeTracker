@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_statistics_detail.view
 
+import com.example.util.simpletimetracker.feature_statistics_detail.databinding.StatisticsDetailFragmentBinding as Binding
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -29,6 +30,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.viewData.Sta
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewCompositeViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStatsViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStreaksViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewModel.StatisticsDetailViewModel
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.feature_views.extension.setOnLongClick
@@ -41,7 +43,6 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-import com.example.util.simpletimetracker.feature_statistics_detail.databinding.StatisticsDetailFragmentBinding as Binding
 
 @AndroidEntryPoint
 class StatisticsDetailFragment :
@@ -182,6 +183,7 @@ class StatisticsDetailFragment :
         chartStatisticsDetail.setBarColor(first.color)
         chartStatisticsDetailSplit.setBarColor(first.color)
         chartStatisticsDetailDurationSplit.setBarColor(first.color)
+        chartStatisticsStreaks.setBarColor(first.color)
 
         viewData.comparisonData
             .filterIsInstance<StatisticsDetailPreviewViewData>()
@@ -207,9 +209,10 @@ class StatisticsDetailFragment :
     }
 
     private fun setStreaksViewData(
-        streaksViewData: List<StatisticsDetailCardViewData>,
+        viewData: StatisticsDetailStreaksViewData,
     ) = with(binding) {
-        cardStatisticsDetailStreaks.items = streaksViewData
+        cardStatisticsDetailStreaks.items = viewData.streaks
+        chartStatisticsStreaks.setData(viewData.data)
     }
 
     private fun updateChartViewData(

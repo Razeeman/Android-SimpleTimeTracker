@@ -41,6 +41,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.viewData.Sta
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailSplitGroupingViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStatsViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStreaksViewData
 import com.example.util.simpletimetracker.feature_views.spinner.CustomSpinner
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.CustomRangeSelectionParams
@@ -79,8 +80,8 @@ class StatisticsDetailViewModel @Inject constructor(
     val statsViewData: LiveData<StatisticsDetailStatsViewData> by lazy {
         return@lazy MutableLiveData(loadEmptyStatsViewData())
     }
-    val streaksViewData: LiveData<List<StatisticsDetailCardViewData>> by lazy {
-        return@lazy MutableLiveData()
+    val streaksViewData: LiveData<StatisticsDetailStreaksViewData> by lazy {
+        return@lazy MutableLiveData(loadEmptyStreaksViewData())
     }
     val chartViewData: LiveData<StatisticsDetailChartCompositeViewData> by lazy {
         return@lazy MutableLiveData()
@@ -385,7 +386,11 @@ class StatisticsDetailViewModel @Inject constructor(
         streaksViewData.post(data)
     }
 
-    private suspend fun loadStreaksViewData(): List<StatisticsDetailCardViewData> {
+    private fun loadEmptyStreaksViewData(): StatisticsDetailStreaksViewData {
+        return streaksInteractor.getEmptyStreaksViewData()
+    }
+
+    private suspend fun loadStreaksViewData(): StatisticsDetailStreaksViewData {
         return streaksInteractor.getStreaksViewData(
             records = records,
             compareRecords = compareRecords,

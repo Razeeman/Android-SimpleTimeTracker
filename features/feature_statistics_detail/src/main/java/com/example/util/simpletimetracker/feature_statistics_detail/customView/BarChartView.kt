@@ -12,12 +12,12 @@ import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
-import androidx.annotation.ColorInt
 import com.example.util.simpletimetracker.core.utils.SingleTapDetector
 import com.example.util.simpletimetracker.core.utils.SwipeDetector
 import com.example.util.simpletimetracker.core.utils.isHorizontal
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_statistics_detail.R
+import com.example.util.simpletimetracker.feature_views.ColorUtils
 import com.example.util.simpletimetracker.feature_views.extension.dpToPx
 import kotlinx.parcelize.Parcelize
 import kotlin.math.abs
@@ -234,7 +234,7 @@ class BarChartView @JvmOverloads constructor(
         }
         selectedBarPaint.apply {
             isAntiAlias = true
-            color = darkenColor(barColor)
+            color = ColorUtils.darkenColor(barColor)
             style = Paint.Style.FILL
         }
         selectedBarBackgroundPaint.apply {
@@ -538,18 +538,6 @@ class BarChartView @JvmOverloads constructor(
                 it
             } + legendTextSuffix
         }
-    }
-
-    /**
-     * Darkens color.
-     */
-    @ColorInt
-    private fun darkenColor(@ColorInt color: Int): Int {
-        return FloatArray(3).apply {
-            Color.colorToHSV(color, this)
-            // change value
-            this[2] -= 0.1f
-        }.let(Color::HSVToColor)
     }
 
     data class ViewData(
