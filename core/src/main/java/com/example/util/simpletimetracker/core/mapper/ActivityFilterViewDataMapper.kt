@@ -1,11 +1,15 @@
 package com.example.util.simpletimetracker.core.mapper
 
+import com.example.util.simpletimetracker.core.R
+import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.model.ActivityFilter
+import com.example.util.simpletimetracker.feature_base_adapter.activityFilter.ActivityFilterAddViewData
 import com.example.util.simpletimetracker.feature_base_adapter.activityFilter.ActivityFilterViewData
 import javax.inject.Inject
 
 class ActivityFilterViewDataMapper @Inject constructor(
     private val colorMapper: ColorMapper,
+    private val resourceRepo: ResourceRepo,
 ) {
 
     fun map(
@@ -27,6 +31,15 @@ class ActivityFilterViewDataMapper @Inject constructor(
                 colorMapper.toFilteredColor(isDarkTheme)
             },
             selected = selected,
+        )
+    }
+
+    fun mapToActivityFilterAddItem(
+        isDarkTheme: Boolean,
+    ): ActivityFilterAddViewData {
+        return ActivityFilterAddViewData(
+            name = resourceRepo.getString(R.string.running_records_add_filter),
+            color = colorMapper.toInactiveColor(isDarkTheme)
         )
     }
 }

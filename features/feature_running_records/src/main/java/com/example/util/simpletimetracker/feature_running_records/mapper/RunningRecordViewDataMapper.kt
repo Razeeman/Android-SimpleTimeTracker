@@ -11,7 +11,6 @@ import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
-import com.example.util.simpletimetracker.feature_base_adapter.activityFilter.ActivityFilterAddViewData
 import com.example.util.simpletimetracker.feature_base_adapter.empty.EmptyViewData
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_running_records.R
@@ -96,15 +95,6 @@ class RunningRecordViewDataMapper @Inject constructor(
             width = recordTypeCardSizeMapper.toCardWidth(numberOfCards),
             height = recordTypeCardSizeMapper.toCardHeight(numberOfCards),
             asRow = recordTypeCardSizeMapper.toCardAsRow(numberOfCards)
-        )
-    }
-
-    fun mapToActivityFilterAddItem(
-        isDarkTheme: Boolean,
-    ): ActivityFilterAddViewData {
-        return ActivityFilterAddViewData(
-            name = resourceRepo.getString(R.string.running_records_add_filter),
-            color = colorMapper.toInactiveColor(isDarkTheme)
         )
     }
 }

@@ -18,6 +18,8 @@ import com.google.android.flexbox.JustifyContent
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import com.example.util.simpletimetracker.feature_widget.databinding.WidgetUniversalFragmentBinding as Binding
+import com.example.util.simpletimetracker.feature_base_adapter.activityFilter.createActivityFilterAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.divider.createDividerAdapterDelegate
 
 @AndroidEntryPoint
 class WidgetUniversalFragment :
@@ -36,7 +38,9 @@ class WidgetUniversalFragment :
 
     private val typesAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
+            createActivityFilterAdapterDelegate(viewModel::onActivityFilterClick),
             createRecordTypeAdapterDelegate(viewModel::onRecordTypeClick),
+            createDividerAdapterDelegate(),
             createEmptyAdapterDelegate(),
             createLoaderAdapterDelegate()
         )

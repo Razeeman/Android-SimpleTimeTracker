@@ -4,13 +4,17 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.core.interactor.ActivityFilterViewDataInteractor
 import com.example.util.simpletimetracker.core.interactor.AddRunningRecordMediator
 import com.example.util.simpletimetracker.core.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
+import com.example.util.simpletimetracker.domain.interactor.ActivityFilterInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_base_adapter.activityFilter.ActivityFilterViewData
+import com.example.util.simpletimetracker.feature_base_adapter.divider.DividerViewData
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_widget.universal.mapper.WidgetUniversalViewDataMapper
@@ -26,8 +30,10 @@ class WidgetUniversalViewModel @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
     private val prefsInteractor: PrefsInteractor,
+    private val activityFilterInteractor: ActivityFilterInteractor,
+    private val activityFilterViewDataInteractor: ActivityFilterViewDataInteractor,
     private val widgetUniversalViewDataMapper: WidgetUniversalViewDataMapper,
-    private val recordTypeViewDataMapper: RecordTypeViewDataMapper
+    private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
 ) : ViewModel() {
 
     val recordTypes: LiveData<List<ViewHolderType>> by lazy {
@@ -59,6 +65,13 @@ class WidgetUniversalViewModel @Inject constructor(
         }
     }
 
+    fun onActivityFilterClick(item: ActivityFilterViewData) {
+        viewModelScope.launch {
+            activityFilterInteractor.changeSelected(item.id, !item.selected)
+            updateRecordTypesViewData()
+        }
+    }
+
     fun onTagSelected() {
         updateRecordTypesViewData()
     }
@@ -74,12 +87,23 @@ class WidgetUniversalViewModel @Inject constructor(
 
     private suspend fun loadRecordTypesViewData(): List<ViewHolderType> {
         val runningRecords = runningRecordInteractor.getAll()
+        val recordTypes = recordTypeInteractor.getAll()
         val recordTypesRunning = runningRecords.map { it.id }
         val numberOfCards = prefsInteractor.getNumberOfCards()
         val isDarkTheme = prefsInteractor.getDarkMode()
 
-        return recordTypeInteractor.getAll()
+        val filter = activityFilterViewDataInteractor.getFilter()
+        val filtersViewData = activityFilterViewDataInteractor.getFilterViewData(
+            filter = filter,
+            isDarkTheme = isDarkTheme,
+            appendAddButton = false,
+        )
+
+        val recordTypesViewData = recordTypes
             .filterNot { it.hidden }
+            .let { list ->
+                activityFilterViewDataInteractor.applyFilter(list, filter)
+            }
             .map {
                 widgetUniversalViewDataMapper.map(
                     recordType = it,
@@ -90,5 +114,14 @@ class WidgetUniversalViewModel @Inject constructor(
             }
             .takeUnless { it.isEmpty() }
             ?: recordTypeViewDataMapper.mapToEmpty()
+
+        return mutableListOf<ViewHolderType>().apply {
+            if (filtersViewData.isNotEmpty()) {
+                filtersViewData.let(::addAll)
+                DividerViewData(1).let(::add)
+            }
+
+            recordTypesViewData.let(::addAll)
+        }
     }
 }

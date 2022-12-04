@@ -10,7 +10,7 @@ import com.example.util.simpletimetracker.feature_views.extension.setOnLongClick
 
 fun createActivityFilterAdapterDelegate(
     onClick: ((ViewData) -> Unit),
-    onLongClick: ((ViewData, Pair<Any, String>) -> Unit),
+    onLongClick: ((ViewData, Pair<Any, String>) -> Unit) = { _, _ -> },
 ) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
     Binding::inflate
 ) { binding, item, _ ->

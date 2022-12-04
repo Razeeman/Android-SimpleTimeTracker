@@ -1,14 +1,10 @@
 package com.example.util.simpletimetracker.feature_running_records.interactor
 
-import com.example.util.simpletimetracker.core.mapper.ActivityFilterViewDataMapper
-import com.example.util.simpletimetracker.domain.interactor.ActivityFilterInteractor
+import com.example.util.simpletimetracker.core.interactor.ActivityFilterViewDataInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
-import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
-import com.example.util.simpletimetracker.domain.model.ActivityFilter
-import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.divider.DividerViewData
 import com.example.util.simpletimetracker.feature_running_records.mapper.RunningRecordViewDataMapper
@@ -19,10 +15,8 @@ class RunningRecordsViewDataInteractor @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
     private val recordTagInteractor: RecordTagInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
-    private val activityFilterInteractor: ActivityFilterInteractor,
-    private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
+    private val activityFilterViewDataInteractor: ActivityFilterViewDataInteractor,
     private val mapper: RunningRecordViewDataMapper,
-    private val activityFilterViewDataMapper: ActivityFilterViewDataMapper,
 ) {
 
     suspend fun getViewData(): List<ViewHolderType> {
@@ -56,18 +50,21 @@ class RunningRecordsViewDataInteractor @Inject constructor(
                     }
         }
 
-        val filter = getFilter()
-        val filtersViewData = getFilterViewData(
+        val filter = activityFilterViewDataInteractor.getFilter()
+        val filtersViewData = activityFilterViewDataInteractor.getFilterViewData(
             filter = filter,
-            isDarkTheme = isDarkTheme
-        )
+            isDarkTheme = isDarkTheme,
+            appendAddButton = true,
+        ).let {
+            if (it.isNotEmpty()) it + DividerViewData(2) else it
+        }
 
         val recordTypesViewData = recordTypes
             .filterNot {
                 it.hidden
             }
             .let { list ->
-                applyFilter(list, filter)
+                activityFilterViewDataInteractor.applyFilter(list, filter)
             }
             .map {
                 mapper.map(
@@ -88,91 +85,5 @@ class RunningRecordsViewDataInteractor @Inject constructor(
             listOf(DividerViewData(1)) +
             filtersViewData +
             recordTypesViewData
-    }
-
-    private suspend fun getFilter(): Filter {
-        return if (prefsInteractor.getShowActivityFilters()) {
-            val activityFilters = activityFilterInteractor.getAll()
-            Filter.ApplyFilter(activityFilters)
-        } else {
-            Filter.NoFilter
-        }
-    }
-
-    private fun getFilterViewData(
-        filter: Filter,
-        isDarkTheme: Boolean,
-    ): List<ViewHolderType> {
-        return when (filter) {
-            is Filter.NoFilter -> {
-                emptyList()
-            }
-            is Filter.ApplyFilter -> {
-                filter.activityFilters
-                    .map {
-                        activityFilterViewDataMapper.map(
-                            filter = it,
-                            isDarkTheme = isDarkTheme,
-                        )
-                    }
-                    .plus(
-                        mapper.mapToActivityFilterAddItem(
-                            isDarkTheme = isDarkTheme,
-                        )
-                    )
-                    .plus(
-                        DividerViewData(2)
-                    )
-            }
-        }
-    }
-
-    private suspend fun applyFilter(
-        list: List<RecordType>,
-        filter: Filter,
-    ): List<RecordType> {
-        return if (filter is Filter.ApplyFilter && filter.activityFilters.any { it.selected }) {
-            val selectedTypes = getSelectedTypeIds(filter.activityFilters)
-            list.filter { it.id in selectedTypes }
-        } else {
-            list
-        }
-    }
-
-    private suspend fun getSelectedTypeIds(filters: List<ActivityFilter>): List<Long> {
-        val selectedFilters = filters.filter { it.selected }
-
-        if (selectedFilters.isEmpty()) return emptyList()
-
-        val activityIds: List<Long> = selectedFilters
-            .filter { it.type is ActivityFilter.Type.Activity }
-            .map { it.selectedIds }
-            .flatten()
-
-        val fromCategoryIds: List<Long> = selectedFilters
-            .filter { it.type is ActivityFilter.Type.Category }
-            .map { it.selectedIds }
-            .flatten()
-            .takeUnless { it.isEmpty() }
-            ?.let { tagIds ->
-                val recordTypeCategories = recordTypeCategoryInteractor.getAll()
-                    .groupBy { it.categoryId }
-                    .mapValues { (_, value) -> value.map { it.recordTypeId } }
-                tagIds.mapNotNull { tagId -> recordTypeCategories[tagId] }.flatten()
-            }
-            .orEmpty()
-
-        return when {
-            fromCategoryIds.isEmpty() -> activityIds
-            activityIds.isEmpty() -> fromCategoryIds
-            else -> activityIds + fromCategoryIds
-        }
-    }
-
-    private sealed interface Filter {
-        object NoFilter : Filter
-        data class ApplyFilter(
-            val activityFilters: List<ActivityFilter>,
-        ) : Filter
     }
 }
