@@ -500,6 +500,14 @@ class RecordsCalendarView @JvmOverloads constructor(
         fun Float.checkReverse(): Float {
             return if (reverseOrder) (h * scaleFactor - this) else this
         }
+        fun Float.checkOverdraw(): Float {
+            // If goes over the end - draw on top, and otherwise.
+            return when {
+                this > h * scaleFactor -> this - h * scaleFactor
+                this < 0 -> this + h * scaleFactor
+                else -> this
+            }
+        }
 
         val hours = (24 downTo 0)
             .map { if (it == 24 && startOfDayShift != 0L) 0 else it }
@@ -517,7 +525,8 @@ class RecordsCalendarView @JvmOverloads constructor(
 
         // Draw current time
         currentTime?.let { currentTime ->
-            val currentTimeY = h * scaleFactor * (dayInMillis - currentTime) / dayInMillis
+            val currentTimeY = (h * scaleFactor * (dayInMillis - currentTime) / dayInMillis).checkOverdraw()
+
             canvas.drawLine(
                 pixelLeftBound - legendTextPadding,
                 currentTimeY.checkReverse(),
@@ -528,14 +537,7 @@ class RecordsCalendarView @JvmOverloads constructor(
         }
 
         hours.forEachIndexed { index, hour ->
-            val currentY = (index * lineStep * scaleFactor + shift * scaleFactor).let {
-                // If goes over the end - draw on top, and otherwise.
-                when {
-                    it > h * scaleFactor -> it - h * scaleFactor
-                    it < 0 -> it + h * scaleFactor
-                    else -> it
-                }
-            }
+            val currentY = (index * lineStep * scaleFactor + shift * scaleFactor).checkOverdraw()
 
             // Draw hour line
             canvas.drawLine(
@@ -561,14 +563,7 @@ class RecordsCalendarView @JvmOverloads constructor(
             if (index == 0) return@forEachIndexed
             // Draw minutes
             selectedMinutesRange.forEachIndexed { minuteIndex, minute ->
-                val minuteCurrentY = (currentY - (minuteIndex + 1) * minuteLineStep * scaleFactor).let {
-                    // If goes over the end - draw on top, and otherwise.
-                    when {
-                        it > h * scaleFactor -> it - h * scaleFactor
-                        it < 0 -> it + h * scaleFactor
-                        else -> it
-                    }
-                }
+                val minuteCurrentY = (currentY - (minuteIndex + 1) * minuteLineStep * scaleFactor).checkOverdraw()
 
                 // Draw minute line
                 canvas.drawLine(
