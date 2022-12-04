@@ -8,6 +8,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.RectF
+import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
@@ -18,6 +19,7 @@ import com.example.util.simpletimetracker.core.utils.isHorizontal
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_statistics_detail.R
 import com.example.util.simpletimetracker.feature_views.extension.dpToPx
+import kotlinx.parcelize.Parcelize
 import kotlin.math.abs
 import kotlin.math.ceil
 import kotlin.math.floor
@@ -44,6 +46,7 @@ class BarChartView @JvmOverloads constructor(
     private var legendLineColor: Int = 0
     private var selectedBarBackgroundColor: Int = 0
     private var selectedBarTextColor: Int = 0
+    private var showSelectedBarOnStart: Boolean = false
     private var addLegendToSelectedBar: Boolean = false
     private var shouldDrawHorizontalLegends: Boolean = true
     // End of attrs
@@ -75,6 +78,7 @@ class BarChartView @JvmOverloads constructor(
     private val selectedBarArrowWidth: Float = 4.dpToPx().toFloat()
     private var barAnimationScale: Float = 1f
     private val barAnimationDuration: Long = 300L // ms
+    private var selectedBarWasShownOnStart: Boolean = false
 
     private val barPaint: Paint = Paint()
     private val selectedBarPaint: Paint = Paint()
@@ -131,10 +135,29 @@ class BarChartView @JvmOverloads constructor(
         return handled or singleTapDetector.onTouchEvent(event) or swipeDetector.onTouchEvent(event)
     }
 
+    override fun onSaveInstanceState(): Parcelable {
+        val superState = super.onSaveInstanceState()
+        return SavedState(
+            superSavedState = superState,
+            selectedBarWasShownOnStart = selectedBarWasShownOnStart,
+        )
+    }
+
+    override fun onRestoreInstanceState(state: Parcelable?) {
+        val savedState = state as? SavedState
+        super.onRestoreInstanceState(savedState?.superSavedState ?: state)
+        selectedBarWasShownOnStart = savedState?.selectedBarWasShownOnStart ?: true
+    }
+
     fun setBars(data: List<ViewData>) {
         bars = data.takeUnless { it.isEmpty() } ?: listOf(ViewData(0f, "", ""))
         maxValue = data.maxOfOrNull(ViewData::value) ?: 1f
-        selectedBar = -1
+        if (showSelectedBarOnStart && !selectedBarWasShownOnStart) {
+            selectedBar = bars.size - 1
+            selectedBarWasShownOnStart = true
+        } else {
+            selectedBar = -1
+        }
         invalidate()
         if (!isInEditMode) animateBars()
     }
@@ -193,6 +216,8 @@ class BarChartView @JvmOverloads constructor(
                     getColor(R.styleable.BarChartView_selectedBarBackgroundColor, Color.WHITE)
                 selectedBarTextColor =
                     getColor(R.styleable.BarChartView_selectedBarTextColor, Color.BLACK)
+                showSelectedBarOnStart =
+                    getBoolean(R.styleable.BarChartView_showSelectedBarOnStart, false)
                 addLegendToSelectedBar =
                     getBoolean(R.styleable.BarChartView_addLegendToSelectedBar, false)
                 shouldDrawHorizontalLegends =
@@ -532,4 +557,10 @@ class BarChartView @JvmOverloads constructor(
         val legend: String,
         val selectedBarLegend: String = legend,
     )
+
+    @Parcelize
+    private class SavedState(
+        val superSavedState: Parcelable?,
+        val selectedBarWasShownOnStart: Boolean,
+    ) : BaseSavedState(superSavedState)
 }

@@ -12,6 +12,7 @@
         <attr name="legendLineColor" format="color" />
         <attr name="selectedBarBackgroundColor" format="color" />
         <attr name="selectedBarTextColor" format="color" />
+        <attr name="showSelectedBarOnStart" format="boolean" />
         <attr name="addLegendToSelectedBar" format="boolean" />
         <attr name="shouldDrawHorizontalLegends" format="boolean" />
     </declare-styleable>
