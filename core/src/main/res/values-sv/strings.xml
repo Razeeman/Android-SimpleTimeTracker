@@ -53,17 +53,17 @@
     <string name="record_removed">Händelse %s borttagen</string>
     <string name="record_removed_undo">Ångra</string>
     <string name="records_empty">Inget att visa</string>
-    <string name="records_hint">Tryck på händelse för att redigera</string>
+    <string name="records_hint">Tryck på händelsen för att redigera</string>
 
     <!--  Statistics  -->
     <string name="statistics_empty">Inget att visa</string>
     <string name="statistics_total_tracked">Totalt</string>
     <string name="statistics_total_tracked_short">Totalt</string>
-    <string name="statistics_hint">Tryck på kort för att detaljerad statistik</string>
+    <string name="statistics_hint">Tryck på kort för att se detaljerad statistik</string>
 
     <!--  Categories  -->
     <string name="categories_title">Kategorier och taggar</string>
-    <string name="categories_edit_hint">Klicka på kortet för att redigera</string>
+    <string name="categories_edit_hint">Tryck på en händelse för att redigera den</string>
     <string name="categories_record_type_hint">Ge flera aktiviteter samma kategori för att se gruppstatistik</string>
     <string name="categories_record_hint">Ge händelser olika taggar för att skilja dem åt</string>
     <string name="categories_add_category">Lägg till kategori</string>
@@ -82,7 +82,7 @@
     <string name="change_record_tag_type_hint">Aktivitet</string>
     <string name="change_record_tag_type">Taggtyp</string>
     <string name="change_record_tag_type_general">Allmän</string>
-    <string name="change_record_tag_type_general_hint">Kan tilldelas händelse oberoende av aktivitet</string>
+    <string name="change_record_tag_type_general_hint">Kan tilldelas händelse oavsett aktivitetstyp</string>
     <string name="change_record_tag_type_typed">Aktivitet</string>
     <string name="change_record_tag_type_typed_hint">Kan endast tilldelas händelse av särskild aktivitet</string>
 
@@ -91,19 +91,19 @@
     <string name="change_record_type_field">Aktivitet</string>
     <string name="change_record_tag_field">Tagg</string>
     <string name="change_record_comment_field">Kommentar</string>
-    <string name="change_record_comment_hint">Skriv en ny kommentar</string>
+    <string name="change_record_comment_hint">Skriv ny kommentar</string>
     <string name="change_record_actions_hint">Åtgärder</string>
-    <string name="change_record_last_comments_hint">Senaste kommentarer</string>
+    <string name="change_record_last_comments_hint">Tidigare kommentarer</string>
     <string name="change_record_categories_empty">Ingen händelsetagg vald</string>
     <string name="change_record_save">Spara</string>
     <string name="change_record_untagged">Ej taggad</string>
     <string name="change_running_record_removed">Pågående aktivitet borttagen</string>
     <string name="change_record_split">Dela upp</string>
-    <string name="change_record_split_hint">Kommer att skära det aktuella rekordet i två vid den angivna tidpunkten</string>
-    <string name="change_record_continue">Fortsätta</string>
-    <string name="change_record_continue_hint">Tar bort aktuell post och fortsätter att spåra denna aktivitet</string>
+    <string name="change_record_split_hint">Delar upp den nuvarande händelsen i två vid den angivna tidpunkten</string>
+    <string name="change_record_continue">Fortsätt</string>
+    <string name="change_record_continue_hint">Tar bort aktuell händelse och fortsätter med denna aktivitet</string>
     <string name="change_record_merge">Sammanfoga</string>
-    <string name="change_record_merge_hint">Lägger den här tiden till tidigare rekord</string>
+    <string name="change_record_merge_hint">Lägger till denna tid till tidigare händelse</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Aktivitet arkiverad</string>
@@ -174,21 +174,21 @@
     <string name="settings_sort_manually">Manuellt</string>
     <string name="settings_first_day_of_week">Första veckodagen</string>
     <string name="settings_show_untracked_time">Visa okategoriserad tid i händelselistan</string>
-    <string name="settings_show_untracked_time_hint">Ospårad tid i statistiken kan döljas med filter på statistikskärmen.</string>
-    <string name="settings_show_records_calendar">Visa poster i kalendervy</string>
-    <string name="settings_reverse_order_in_calendar">Omvänd ordning på poster</string>
+    <string name="settings_show_untracked_time_hint">I statistikvyn kan okategoriserad tid döljas med hjälp av filtrering.</string>
+    <string name="settings_show_records_calendar">Visa händelser i kalendervy</string>
+    <string name="settings_reverse_order_in_calendar">Byt ordning på händelser</string>
     <string name="settings_show_activity_filters">Visa aktivitetsfilter på huvudskärmen</string>
     <string name="settings_allow_multitasking">Tillåt multitasking</string>
     <string name="settings_allow_multitasking_hint">Om inaktiverad så stoppas pågående aktivitet vid start av annan aktivitet.</string>
     <string name="settings_show_notifications">Visa aktivitetsaviseringar</string>
     <string name="settings_show_notifications_hint">Visa notis när tidtagning av aktivitet pågår.</string>
-    <string name="settings_keep_statistics_range">Håll statistik räckvidd</string>
-    <string name="settings_keep_statistics_range_hint">Om aktiverat kommer detaljerad statistik att öppnas med samma tidsintervall som valts i statistiken.</string>
-    <string name="settings_start_of_day">Skiftstart på dagen</string>
+    <string name="settings_keep_statistics_range">Kom ihåg valt intervall för statistik</string>
+    <string name="settings_keep_statistics_range_hint">Om aktiverat så öppnas detaljerad statistik med samma tidsintervall som valts i statistikvyn.</string>
+    <string name="settings_start_of_day">Tid för dagens skiftstart</string>
     <string name="settings_inactivity_reminder">Visa inaktivitetspåminnelse</string>
     <string name="settings_inactivity_reminder_hint">Visa avisering efter angiven tid av inaktivitet.</string>
-    <string name="settings_ignore_short_records">Ignorera korta rekord</string>
-    <string name="settings_ignore_short_records_hint">Spåra inte aktiviteter som är kortare än den angivna tiden.</string>
+    <string name="settings_ignore_short_records">Ignorera kortvariga händelser</string>
+    <string name="settings_ignore_short_records_hint">Ignorera händelser som är kortare än den angivna tidslängden.</string>
     <string name="settings_inactivity_reminder_disabled">Inaktiverad</string>
     <string name="settings_dark_mode">Mörkt läge</string>
     <string name="settings_use_military_time">Använd 24-timmarsklocka</string>
@@ -208,27 +208,27 @@
     <string name="settings_version">Version</string>
     <string name="settings_email_chooser_title">Skicka via…</string>
     <string name="settings_translators">Översättare</string>
-    <string name="settings_automated_tracking">Automatiserad spårning</string>
+    <string name="settings_automated_tracking">Automatiserad aktivitetsaktivering</string>
     <string name="settings_automated_tracking_text"><![CDATA[
-Automatisk spårning är möjlig genom integration med tredjepartsapplikationer som gör det möjligt att automatisera åtgärder baserat på vissa händelser. Dessa appar kan, när en viss händelse inträffar, skicka ett meddelande till appen för att starta eller stoppa aktivitetstimern.<br/>
+Automatisk aktiverng av aktiviteter är möjligt med hjälp av integration mot tredjepartapplikationer som tillåter automatisering baserat på kriterier och händelser. Till exmepel kan du låta tredjepartsappen starta eller stoppa en aktivitet baserat på en händelse i enhetens system.<br/>
 <br/>
-Några exempel på händelser:<br/>
-- Starta en viss app.<br/>
-- Skannar NFC-tagg.<br/>
-- Går till en viss plats.<br/>
-- Vissa tider på dygnet.<br/>
-- Ansluter till Bluetooth eller Wifi.<br/>
+Några exempel på händelser som skulle kunna trigga start av aktivitet:<br/>
+- En viss app startas.<br/>
+- En NFC-tagg skannas.<br/>
+- Enheten befinner sig på en specifik plats.<br/>
+- Det är en viss tid på dygnet.<br/>
+- Enheten ansluts till Bluetooth eller Wifi.<br/>
 <br/>
-För att aktivera detta beteende bör dessa applikationer stödja sändning av \"intent\" eller \"broadcast intent\" med dessa parametrar:<br/>
+För att aktivera detta beteende behöver tredjepartsapplikationen stödja \"intent\" eller \"broadcast intent\" med följande parametrar:<br/>
 <br/>
 <b>Action</b> - \"%s\" eller \"%s\".<br/>
-<b>Extra</b> - \"%s\" med aktivitetsnamn som bör startas eller stoppas.<br/>
+<b>Extra</b> - \"%s\" med namnet på aktiviteten som ska startas eller stoppas.<br/>
 <b>Package</b> - \"%s\".<br/>
 <br/>
-Valfria parametrar för att starta aktivitet:<br/>
+Valfria parametrar för start av aktivitet:<br/>
 <br/>
-<b>Extra</b> - \"%s\" med postkommentar.<br/>
-<b>Extra</b> - \"%s\" med namnet på en posttagg.<br/>
+<b>Extra</b> - \"%s\" med händelsekommentar.<br/>
+<b>Extra</b> - \"%s\" med namnet på en händelsetagg.<br/>
     ]]></string>
 
     <string name="settings_save_backup">Spara säkerhetskopia</string>
@@ -268,19 +268,19 @@ Valfria parametrar för att starta aktivitet:<br/>
     <string name="statistics_detail_range_averages_non_empty">Utan tomma perioder</string>
 
     <string name="statistics_detail_total_duration">Totalt</string>
-    <string name="statistics_detail_record_length">Rekordlängd</string>
+    <string name="statistics_detail_record_length">Händelselängd</string>
     <string name="statistics_detail_shortest_record">Kortaste</string>
     <string name="statistics_detail_average_record">Medel</string>
     <string name="statistics_detail_longest_record">Längsta</string>
-    <string name="statistics_detail_record_time">Rekordtid</string>
+    <string name="statistics_detail_record_time">Händelsetid</string>
     <string name="statistics_detail_first_record">Första</string>
     <string name="statistics_detail_last_record">Senaste</string>
     <string name="statistics_detail_streaks">Serier</string>
     <string name="statistics_detail_streaks_longest">Längsta</string>
     <string name="statistics_detail_streaks_current">Nuvarande</string>
     <string name="statistics_detail_tag_split_hint">Fördelning av taggar</string>
-    <string name="statistics_detail_day_split_hint">Daglig utdelning</string>
-    <string name="statistics_detail_duration_split_hint">Rekordlängdsfördelning</string>
+    <string name="statistics_detail_day_split_hint">Daglig fördelning</string>
+    <string name="statistics_detail_duration_split_hint">Fördelning händelselängd</string>
 
     <plurals name="statistics_detail_times_tracked">
 <!--        <item quantity="zero">händelser</item>-->
@@ -292,7 +292,7 @@ Valfria parametrar för att starta aktivitet:<br/>
     </plurals>
 
     <!--  Widget  -->
-    <string name="widget_name">Enskild Aktivitet</string>
+    <string name="widget_name">Enskild aktivitet</string>
     <string name="widget_universal_name">Samma för alla</string>
     <string name="widget_statistics_chart_name">Statistikdiagram</string>
     <string name="widget_load_error">Saknas</string>
