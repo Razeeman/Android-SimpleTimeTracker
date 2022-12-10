@@ -278,6 +278,7 @@ Optionele parameters voor het starten van activiteit:<br/>
     <string name="statistics_detail_streaks">Serie</string>
     <string name="statistics_detail_streaks_longest">Langste</string>
     <string name="statistics_detail_streaks_current">Huidig</string>
+    <string name="statistics_detail_streaks_latest">Laatste</string>
     <string name="statistics_detail_tag_split_hint">Label verdeling</string>
     <string name="statistics_detail_day_split_hint">Dagelijkse verdeling</string>
     <string name="statistics_detail_duration_split_hint">Verdeling opname duur</string>

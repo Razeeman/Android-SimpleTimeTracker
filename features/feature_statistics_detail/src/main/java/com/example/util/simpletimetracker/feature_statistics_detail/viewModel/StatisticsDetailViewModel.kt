@@ -32,6 +32,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.mapper.Stati
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartGrouping
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartLength
 import com.example.util.simpletimetracker.feature_statistics_detail.model.SplitChartGrouping
+import com.example.util.simpletimetracker.feature_statistics_detail.model.StreaksType
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailCardViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartCompositeViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartLengthViewData
@@ -41,6 +42,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.viewData.Sta
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailSplitGroupingViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStatsViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStreaksTypeViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStreaksViewData
 import com.example.util.simpletimetracker.feature_views.spinner.CustomSpinner
 import com.example.util.simpletimetracker.navigation.Router
@@ -83,6 +85,9 @@ class StatisticsDetailViewModel @Inject constructor(
     val streaksViewData: LiveData<StatisticsDetailStreaksViewData> by lazy {
         return@lazy MutableLiveData(loadEmptyStreaksViewData())
     }
+    val streaksTypeViewData: LiveData<List<ViewHolderType>> by lazy {
+        return@lazy MutableLiveData(loadStreaksTypeViewData())
+    }
     val chartViewData: LiveData<StatisticsDetailChartCompositeViewData> by lazy {
         return@lazy MutableLiveData()
     }
@@ -120,6 +125,7 @@ class StatisticsDetailViewModel @Inject constructor(
     private lateinit var extra: StatisticsDetailParams
 
     private var chartGrouping: ChartGrouping = ChartGrouping.DAILY
+    private var streaksType: StreaksType = StreaksType.LONGEST
     private var chartLength: ChartLength = ChartLength.TEN
     private var splitChartGrouping: SplitChartGrouping = SplitChartGrouping.DAILY
     private var rangeLength: RangeLength = RangeLength.All
@@ -180,6 +186,13 @@ class StatisticsDetailViewModel @Inject constructor(
         loadRecordsCache()
         updatePreviewViewData()
         updateViewData()
+    }
+
+    fun onStreaksTypeClick(viewData: ButtonsRowViewData) {
+        if (viewData !is StatisticsDetailStreaksTypeViewData) return
+        this.streaksType = viewData.type
+        updateStreaksTypeViewData()
+        updateStreaksViewData()
     }
 
     fun onChartGroupingClick(viewData: ButtonsRowViewData) {
@@ -381,6 +394,15 @@ class StatisticsDetailViewModel @Inject constructor(
         )
     }
 
+    private fun updateStreaksTypeViewData() {
+        val data = loadStreaksTypeViewData()
+        streaksTypeViewData.set(data)
+    }
+
+    private fun loadStreaksTypeViewData(): List<ViewHolderType> {
+        return streaksInteractor.mapToStreaksTypeViewData(streaksType)
+    }
+
     private fun updateStreaksViewData() = viewModelScope.launch(Dispatchers.Default) {
         val data = loadStreaksViewData()
         streaksViewData.post(data)
@@ -396,7 +418,8 @@ class StatisticsDetailViewModel @Inject constructor(
             compareRecords = compareRecords,
             showComparison = comparisonTypesFilter.selectedIds.isNotEmpty(),
             rangeLength = rangeLength,
-            rangePosition = rangePosition
+            rangePosition = rangePosition,
+            streaksType = streaksType,
         )
     }
 

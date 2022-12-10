@@ -278,6 +278,7 @@ Parámetros opcionales para iniciar la actividad:<br/>
     <string name="statistics_detail_streaks">Serie</string>
     <string name="statistics_detail_streaks_longest">Más largo</string>
     <string name="statistics_detail_streaks_current">Actual</string>
+    <string name="statistics_detail_streaks_latest">Más reciente</string>
     <string name="statistics_detail_tag_split_hint">Distribución de etiquetas</string>
     <string name="statistics_detail_day_split_hint">Distribución diaria</string>
     <string name="statistics_detail_duration_split_hint">Distribución de la duración del registro</string>

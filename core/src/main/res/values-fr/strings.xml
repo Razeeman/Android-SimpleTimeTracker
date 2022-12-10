@@ -278,6 +278,7 @@ Paramètres facultatifs pour le démarrage de l\'activité:<br/>
     <string name="statistics_detail_streaks">Série</string>
     <string name="statistics_detail_streaks_longest">Le plus long</string>
     <string name="statistics_detail_streaks_current">Courante</string>
+    <string name="statistics_detail_streaks_latest">Dernière</string>
     <string name="statistics_detail_tag_split_hint">Répartition des étiquettes</string>
     <string name="statistics_detail_day_split_hint">Distribution quotidienne</string>
     <string name="statistics_detail_duration_split_hint">Répartition des durées d\'enregistrement</string>

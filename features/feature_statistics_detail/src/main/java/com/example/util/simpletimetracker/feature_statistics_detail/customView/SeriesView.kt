@@ -159,7 +159,7 @@ class SeriesView @JvmOverloads constructor(
     }
 
     private fun calculateDimensions(w: Float) {
-        maxValue = data.maxOfOrNull(ViewData::value) ?: 1
+        maxValue = data.maxOfOrNull(ViewData::value).takeUnless { it == 0L } ?: 1
 
         // Legends
         val legends = data.map { listOf(it.legendStart, it.legendEnd) }

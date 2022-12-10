@@ -4,6 +4,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.databinding.
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.util.simpletimetracker.core.base.BaseFragment
@@ -101,6 +102,7 @@ class StatisticsDetailFragment :
     override fun initUx() = with(binding) {
         cardStatisticsDetailFilter.setOnClick(viewModel::onFilterClick)
         cardStatisticsDetailCompare.setOnClick(viewModel::onCompareClick)
+        buttonsStatisticsDetailStreaksType.listener = viewModel::onStreaksTypeClick
         buttonsStatisticsDetailGrouping.listener = viewModel::onChartGroupingClick
         buttonsStatisticsDetailLength.listener = viewModel::onChartLengthClick
         buttonsStatisticsDetailSplitGrouping.listener = viewModel::onSplitChartGroupingClick
@@ -127,6 +129,7 @@ class StatisticsDetailFragment :
         emptyRangeAveragesData.observeOnce(viewLifecycleOwner, ::setEmptyRangeAveragesData)
         statsViewData.observe(::setStatsViewData)
         streaksViewData.observe(::setStreaksViewData)
+        streaksTypeViewData.observe(binding.buttonsStatisticsDetailStreaksType.adapter::replace)
         chartViewData.observe(::updateChartViewData)
         splitChartViewData.observe(::updateSplitChartViewData)
         comparisonSplitChartViewData.observe(::updateComparisonSplitChartViewData)
@@ -192,6 +195,7 @@ class StatisticsDetailFragment :
                 chartStatisticsDetailCompare.setBarColor(it.color)
                 chartStatisticsDetailComparisonSplit.setBarColor(it.color)
                 chartStatisticsDetailDurationSplitCompare.setBarColor(it.color)
+                chartStatisticsComparisonStreaks.setBarColor(it.color)
             }
 
         previewAdapter.replace(rest)
@@ -213,6 +217,8 @@ class StatisticsDetailFragment :
     ) = with(binding) {
         cardStatisticsDetailStreaks.items = viewData.streaks
         chartStatisticsStreaks.setData(viewData.data)
+        chartStatisticsComparisonStreaks.setData(viewData.compareData)
+        chartStatisticsComparisonStreaks.isVisible = viewData.showComparison
     }
 
     private fun updateChartViewData(
