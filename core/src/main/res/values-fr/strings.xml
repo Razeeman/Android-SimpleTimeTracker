@@ -104,6 +104,7 @@
     <string name="change_record_continue_hint">Supprime l\'enregistrement actuel et continue de suivre cette activité</string>
     <string name="change_record_merge">Fusionner</string>
     <string name="change_record_merge_hint">Ajoutera cette fois à l\'enregistrement précédent</string>
+    <string name="change_record_adjust_prev_record">Modifier également l\'heure de l\'enregistrement précédent</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Activité archivée</string>

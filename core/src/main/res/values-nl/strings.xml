@@ -104,6 +104,7 @@
     <string name="change_record_continue_hint">Verwijdert het huidige record en gaat door met het volgen van deze activiteit</string>
     <string name="change_record_merge">Samenvoegen</string>
     <string name="change_record_merge_hint">Zal deze tijd toevoegen aan het vorige record</string>
+    <string name="change_record_adjust_prev_record">Wijzig ook de tijd van het vorige record</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Activiteit gearchiveerd</string>

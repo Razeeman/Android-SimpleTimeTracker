@@ -104,6 +104,7 @@
     <string name="change_record_continue_hint">Geçerli kaydı kaldıracak ve bu etkinliği izlemeye devam edecek</string>
     <string name="change_record_merge">Birleştirmek</string>
     <string name="change_record_merge_hint">Bu sefer önceki rekora eklenecek</string>
+    <string name="change_record_adjust_prev_record">Ayrıca önceki kaydın zamanını değiştir</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Aktivite arşivlendi</string>

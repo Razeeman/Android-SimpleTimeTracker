@@ -9,6 +9,7 @@ import com.example.util.simpletimetracker.core.interactor.RecordTagViewDataInter
 import com.example.util.simpletimetracker.core.interactor.RecordTypesViewDataInteractor
 import com.example.util.simpletimetracker.core.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.domain.extension.orFalse
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
@@ -68,6 +69,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
     val deleteButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
 
     private var timerJob: Job? = null
+    private var originalTimeStarted: Long = 0
 
     fun onDeleteClick() {
         (deleteButtonEnabled as MutableLiveData).value = false
@@ -79,6 +81,20 @@ class ChangeRunningRecordViewModel @Inject constructor(
     }
 
     override suspend fun onSaveClickDelegate() {
+        if (adjustPrevRecordCheckbox.value.orFalse()) {
+            // Find previous record.
+            val previousRecord = recordInteractor.getAll()
+                .sortedByDescending { it.timeEnded }
+                .firstOrNull {
+                    it.timeEnded <= originalTimeStarted
+                }
+            // Change it.
+            previousRecord?.copy(
+                timeEnded = newTimeStarted,
+            )?.let {
+                recordInteractor.add(it)
+            }
+        }
         removeRunningRecordMediator.remove(extra.id)
         addRunningRecordMediator.add(newTypeId, newTimeStarted, newComment, newCategoryIds)
         router.back()
@@ -125,6 +141,10 @@ class ChangeRunningRecordViewModel @Inject constructor(
                 isShortDuration = true
             ).let(message::set)
         }
+        if (newTimeStarted > newTimeSplit) newTimeSplit = newTimeStarted
+        // TODO also allow in record?
+        timeStartedChanged = true
+        updateAdjustPrevRecordVisible()
     }
 
     override fun onTimeEndedChanged() {
@@ -148,6 +168,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
                 newCategoryIds = record.tagIds.toMutableList()
             }
             newTimeSplit = newTimeStarted
+            originalTimeStarted = newTimeStarted
             updateTimeSplitValue()
         }
     }

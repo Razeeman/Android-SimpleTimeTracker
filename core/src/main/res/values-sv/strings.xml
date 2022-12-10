@@ -104,6 +104,7 @@
     <string name="change_record_continue_hint">Tar bort aktuell post och fortsätter att spåra denna aktivitet</string>
     <string name="change_record_merge">Sammanfoga</string>
     <string name="change_record_merge_hint">Lägger den här tiden till tidigare rekord</string>
+    <string name="change_record_adjust_prev_record">Ändra även tid för tidigare rekord</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Aktivitet arkiverad</string>

@@ -77,6 +77,8 @@ abstract class ChangeRecordBaseViewModel(
             previous = ChangeRecordChooserState.State.Closed,
         )
     )
+    val adjustPrevRecordVisible: LiveData<Boolean> = MutableLiveData(loadAdjustPrevRecordVisible())
+    val adjustPrevRecordCheckbox: LiveData<Boolean> = MutableLiveData(false)
     val timeAdjustmentState: LiveData<TimeAdjustmentState> = MutableLiveData(TimeAdjustmentState.HIDDEN)
     val timeSplitAdjustmentState: LiveData<Boolean> = MutableLiveData(false)
     val timeSplitText: LiveData<String> = MutableLiveData()
@@ -93,6 +95,7 @@ abstract class ChangeRecordBaseViewModel(
     protected var newTimeSplit: Long = 0
     protected var newComment: String = ""
     protected var newCategoryIds: MutableList<Long> = mutableListOf()
+    protected var timeStartedChanged: Boolean = false
 
     protected abstract suspend fun initializePreviewViewData()
     protected abstract suspend fun updatePreview()
@@ -239,6 +242,7 @@ abstract class ChangeRecordBaseViewModel(
                         newTimeStarted = timestamp
                         onTimeStartedChanged()
                         updatePreview()
+                        updateTimeSplitValue()
                     }
                 }
                 TIME_ENDED_TAG -> {
@@ -246,6 +250,7 @@ abstract class ChangeRecordBaseViewModel(
                         newTimeEnded = timestamp
                         onTimeEndedChanged()
                         updatePreview()
+                        updateTimeSplitValue()
                     }
                 }
                 TIME_SPLIT_TAG -> {
@@ -285,6 +290,7 @@ abstract class ChangeRecordBaseViewModel(
                 is TimeAdjustmentView.ViewData.Adjust -> adjustRecordTime(viewData.value)
             }
             updatePreview()
+            updateTimeSplitValue()
         }
     }
 
@@ -302,6 +308,11 @@ abstract class ChangeRecordBaseViewModel(
             }
             updateTimeSplitValue()
         }
+    }
+
+    fun onAdjustPrevRecordClick() {
+        val newValue = !adjustPrevRecordCheckbox.value.orFalse()
+        adjustPrevRecordCheckbox.set(newValue)
     }
 
     private fun onRecordChangeButtonClick(
@@ -340,6 +351,7 @@ abstract class ChangeRecordBaseViewModel(
                 )
             )
         }
+        updateAdjustPrevRecordVisible()
     }
 
     private fun onTimeClick(
@@ -462,6 +474,15 @@ abstract class ChangeRecordBaseViewModel(
 
     private suspend fun loadLastCommentsViewData(): List<ViewHolderType> {
         return changeRecordViewDataInteractor.getLastCommentsViewData(newTypeId)
+    }
+
+    protected fun updateAdjustPrevRecordVisible() {
+        val data = loadAdjustPrevRecordVisible()
+        adjustPrevRecordVisible.set(data)
+    }
+
+    private fun loadAdjustPrevRecordVisible(): Boolean {
+        return timeStartedChanged && chooserState.value?.current is ChangeRecordChooserState.State.Closed
     }
 
     companion object {

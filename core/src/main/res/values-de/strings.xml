@@ -104,6 +104,7 @@
     <string name="change_record_continue_hint">Wird den aktuellen Datensatz entfernen und diese Aktivität weiter verfolgen</string>
     <string name="change_record_merge">Verschmelzen</string>
     <string name="change_record_merge_hint">Wird diese Zeit zum vorherigen Rekord hinzufügen</string>
+    <string name="change_record_adjust_prev_record">Ändern Sie auch die Zeit des vorherigen Datensatzes</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Aktivität archiviert</string>
