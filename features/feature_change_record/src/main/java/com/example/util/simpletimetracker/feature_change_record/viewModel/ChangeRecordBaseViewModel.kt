@@ -95,18 +95,31 @@ abstract class ChangeRecordBaseViewModel(
     protected var newTimeSplit: Long = 0
     protected var newComment: String = ""
     protected var newCategoryIds: MutableList<Long> = mutableListOf()
-    protected var timeStartedChanged: Boolean = false
+    protected var originalTimeStarted: Long = 0
+    protected var originalTimeEnded: Long = 0
+
+    private var timeStartedChanged: Boolean = false
+    private var timeEndedChanged: Boolean = false
 
     protected abstract suspend fun initializePreviewViewData()
     protected abstract suspend fun updatePreview()
     protected abstract fun getChangeCategoryParams(data: ChangeTagData): ChangeRecordTagFromScreen
-    protected abstract fun onTimeStartedChanged()
-    protected abstract fun onTimeEndedChanged()
     protected abstract fun onTimeSplitChanged()
     protected abstract suspend fun onSaveClickDelegate()
     protected abstract suspend fun onSplitClickDelegate()
+    protected abstract suspend fun adjustAdjacentRecords()
     protected open suspend fun onContinueClickDelegate() {}
     protected open suspend fun onMergeClickDelegate() {}
+
+    protected open fun onTimeStartedChanged() {
+        timeStartedChanged = true
+        updateAdjustPrevRecordVisible()
+    }
+
+    protected open fun onTimeEndedChanged() {
+        timeEndedChanged = true
+        updateAdjustPrevRecordVisible()
+    }
 
     fun onTypeChooserClick() {
         onNewChooserState(ChangeRecordChooserState.State.Activity)
@@ -326,6 +339,7 @@ abstract class ChangeRecordBaseViewModel(
         }
         viewModelScope.launch {
             buttonEnabledLiveData.set(false)
+            adjustAdjacentRecords()
             onProceed()
         }
     }
@@ -476,13 +490,14 @@ abstract class ChangeRecordBaseViewModel(
         return changeRecordViewDataInteractor.getLastCommentsViewData(newTypeId)
     }
 
-    protected fun updateAdjustPrevRecordVisible() {
+    private fun updateAdjustPrevRecordVisible() {
         val data = loadAdjustPrevRecordVisible()
         adjustPrevRecordVisible.set(data)
     }
 
     private fun loadAdjustPrevRecordVisible(): Boolean {
-        return timeStartedChanged && chooserState.value?.current is ChangeRecordChooserState.State.Closed
+        return (timeStartedChanged || timeEndedChanged) &&
+            chooserState.value?.current is ChangeRecordChooserState.State.Closed
     }
 
     companion object {

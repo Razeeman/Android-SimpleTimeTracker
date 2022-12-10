@@ -69,7 +69,6 @@ class ChangeRunningRecordViewModel @Inject constructor(
     val deleteButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
 
     private var timerJob: Job? = null
-    private var originalTimeStarted: Long = 0
 
     fun onDeleteClick() {
         (deleteButtonEnabled as MutableLiveData).value = false
@@ -81,20 +80,6 @@ class ChangeRunningRecordViewModel @Inject constructor(
     }
 
     override suspend fun onSaveClickDelegate() {
-        if (adjustPrevRecordCheckbox.value.orFalse()) {
-            // Find previous record.
-            val previousRecord = recordInteractor.getAll()
-                .sortedByDescending { it.timeEnded }
-                .firstOrNull {
-                    it.timeEnded <= originalTimeStarted
-                }
-            // Change it.
-            previousRecord?.copy(
-                timeEnded = newTimeStarted,
-            )?.let {
-                recordInteractor.add(it)
-            }
-        }
         removeRunningRecordMediator.remove(extra.id)
         addRunningRecordMediator.add(newTypeId, newTimeStarted, newComment, newCategoryIds)
         router.back()
@@ -115,6 +100,23 @@ class ChangeRunningRecordViewModel @Inject constructor(
         onSaveClick()
     }
 
+    override suspend fun adjustAdjacentRecords() {
+        if (adjustPrevRecordCheckbox.value.orFalse()) {
+            // Find previous record.
+            val previousRecord = recordInteractor.getAll()
+                .sortedByDescending { it.timeEnded }
+                .firstOrNull {
+                    it.timeEnded <= originalTimeStarted
+                }
+            // Change it.
+            previousRecord?.copy(
+                timeEnded = newTimeStarted,
+            )?.let {
+                recordInteractor.add(it)
+            }
+        }
+    }
+
     override fun getChangeCategoryParams(data: ChangeTagData): ChangeRecordTagFromScreen {
         return ChangeRecordTagFromChangeRunningRecordParams(data)
     }
@@ -133,6 +135,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
     }
 
     override fun onTimeStartedChanged() {
+        super.onTimeStartedChanged()
         if (newTimeStarted > System.currentTimeMillis()) {
             newTimeStarted = System.currentTimeMillis()
 
@@ -142,13 +145,6 @@ class ChangeRunningRecordViewModel @Inject constructor(
             ).let(message::set)
         }
         if (newTimeStarted > newTimeSplit) newTimeSplit = newTimeStarted
-        // TODO also allow in record?
-        timeStartedChanged = true
-        updateAdjustPrevRecordVisible()
-    }
-
-    override fun onTimeEndedChanged() {
-        // Do nothing
     }
 
     override fun onTimeSplitChanged() {
@@ -169,6 +165,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
             }
             newTimeSplit = newTimeStarted
             originalTimeStarted = newTimeStarted
+            originalTimeEnded = newTimeEnded
             updateTimeSplitValue()
         }
     }

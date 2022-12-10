@@ -104,7 +104,8 @@
     <string name="change_record_continue_hint">Irá remover o registro atual e continuar rastreando esta atividade</string>
     <string name="change_record_merge">Mesclar</string>
     <string name="change_record_merge_hint">Irá adicionar este tempo ao recorde anterior</string>
-    <string name="change_record_adjust_prev_record">Mude também a hora do registro anterior</string>
+    <string name="change_record_change_prev_record">Mude também a hora do registro anterior</string>
+    <string name="change_record_change_adjacent_records">Também altere a hora dos registros adjacentes</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Atividade arquivada</string>

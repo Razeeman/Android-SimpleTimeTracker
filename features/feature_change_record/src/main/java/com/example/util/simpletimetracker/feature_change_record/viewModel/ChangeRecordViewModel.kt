@@ -10,6 +10,7 @@ import com.example.util.simpletimetracker.core.interactor.RemoveRunningRecordMed
 import com.example.util.simpletimetracker.core.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.domain.extension.orFalse
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
@@ -138,16 +139,46 @@ class ChangeRecordViewModel @Inject constructor(
         }
     }
 
+    override suspend fun adjustAdjacentRecords() {
+        if (adjustPrevRecordCheckbox.value.orFalse()) {
+            val records = recordInteractor.getAll()
+
+            // Find previous record.
+            val previousRecord = records
+                .sortedByDescending { it.timeEnded }
+                .firstOrNull { it.timeEnded <= originalTimeStarted }
+            // Change it.
+            previousRecord?.copy(
+                timeEnded = newTimeStarted,
+            )?.let {
+                recordInteractor.add(it)
+            }
+
+            // Find next record.
+            val nextRecord = records
+                .sortedByDescending { it.timeStarted }
+                .firstOrNull { it.timeStarted >= originalTimeEnded }
+            // Change it.
+            nextRecord?.copy(
+                timeStarted = newTimeEnded,
+            )?.let {
+                recordInteractor.add(it)
+            }
+        }
+    }
+
     override fun getChangeCategoryParams(data: ChangeTagData): ChangeRecordTagFromScreen {
         return ChangeRecordTagFromChangeRecordParams(data)
     }
 
     override fun onTimeEndedChanged() {
+        super.onTimeEndedChanged()
         if (newTimeEnded < newTimeStarted) newTimeStarted = newTimeEnded
         if (newTimeEnded < newTimeSplit) newTimeSplit = newTimeEnded
     }
 
     override fun onTimeStartedChanged() {
+        super.onTimeStartedChanged()
         if (newTimeStarted > newTimeEnded) newTimeEnded = newTimeStarted
         if (newTimeStarted > newTimeSplit) newTimeSplit = newTimeStarted
     }
@@ -185,6 +216,8 @@ class ChangeRecordViewModel @Inject constructor(
             }
         }
         newTimeSplit = newTimeStarted
+        originalTimeStarted = newTimeStarted
+        originalTimeEnded = newTimeEnded
         updateTimeSplitValue()
     }
 

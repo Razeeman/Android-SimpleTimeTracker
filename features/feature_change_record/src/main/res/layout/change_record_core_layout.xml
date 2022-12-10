@@ -145,11 +145,11 @@
             android:layout_height="wrap_content"
             android:paddingHorizontal="4dp"
             android:paddingVertical="8dp"
-            android:text="@string/change_record_adjust_prev_record"
             android:textColor="?appTextPrimaryColor"
             app:layout_constraintEnd_toStartOf="@id/checkboxChangeRecordAdjustPrevRecord"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/change_record_change_prev_record" />
 
         <androidx.appcompat.widget.AppCompatCheckBox
             android:id="@+id/checkboxChangeRecordAdjustPrevRecord"

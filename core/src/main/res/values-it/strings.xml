@@ -104,7 +104,8 @@
     <string name="change_record_continue_hint">Rimuoverà il record corrente e continuerà a monitorare questa attività</string>
     <string name="change_record_merge">Unisci</string>
     <string name="change_record_merge_hint">Aggiungerà questa volta al record precedente</string>
-    <string name="change_record_adjust_prev_record">Cambia anche l\'ora della registrazione precedente</string>
+    <string name="change_record_change_prev_record">Cambia anche l\'ora della registrazione precedente</string>
+    <string name="change_record_change_adjacent_records">Cambia anche l\'ora dei record adiacenti</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Attività archiviata</string>

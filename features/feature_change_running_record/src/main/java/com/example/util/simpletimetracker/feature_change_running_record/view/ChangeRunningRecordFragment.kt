@@ -13,6 +13,7 @@ import com.example.util.simpletimetracker.core.extension.observeOnce
 import com.example.util.simpletimetracker.core.extension.setSharedTransitions
 import com.example.util.simpletimetracker.core.extension.toViewData
 import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
+import com.example.util.simpletimetracker.feature_change_record.R
 import com.example.util.simpletimetracker.feature_change_record.view.ChangeRecordCore
 import com.example.util.simpletimetracker.feature_change_running_record.viewData.ChangeRunningRecordViewData
 import com.example.util.simpletimetracker.feature_change_running_record.viewModel.ChangeRunningRecordViewModel
@@ -50,14 +51,7 @@ class ChangeRunningRecordFragment :
     }
 
     override fun initUi(): Unit = with(binding) {
-        // No time ended in running record.
-        layoutChangeRunningRecordCore.fieldChangeRecordTimeEnded.isVisible = false
-        layoutChangeRunningRecordCore.btnChangeRecordTimeEndedAdjust.isVisible = false
-        // Can't continue running record.
-        layoutChangeRunningRecordCore.containerChangeRecordContinue.isVisible = false
-        // Can't merge running record.
-        layoutChangeRunningRecordCore.containerChangeRecordMerge.isVisible = false
-
+        coreSetup()
         postponeEnterTransition()
 
         setPreview()
@@ -139,6 +133,19 @@ class ChangeRunningRecordFragment :
             router.show(message, binding.layoutChangeRunningRecordCore.btnChangeRecordSave)
             viewModel.onMessageShown()
         }
+    }
+
+    private fun coreSetup() = with(binding) {
+        // No time ended in running record.
+        layoutChangeRunningRecordCore.fieldChangeRecordTimeEnded.isVisible = false
+        layoutChangeRunningRecordCore.btnChangeRecordTimeEndedAdjust.isVisible = false
+        // Can't continue running record.
+        layoutChangeRunningRecordCore.containerChangeRecordContinue.isVisible = false
+        // Can't merge running record.
+        layoutChangeRunningRecordCore.containerChangeRecordMerge.isVisible = false
+
+        context?.getString(R.string.change_record_change_prev_record)
+            ?.let(layoutChangeRunningRecordCore.tvChangeRecordAdjustPrevRecord::setText)
     }
 
     companion object {

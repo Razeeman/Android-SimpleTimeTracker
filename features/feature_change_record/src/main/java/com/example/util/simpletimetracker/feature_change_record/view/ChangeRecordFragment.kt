@@ -16,6 +16,7 @@ import com.example.util.simpletimetracker.core.extension.toViewData
 import com.example.util.simpletimetracker.core.sharedViewModel.RemoveRecordViewModel
 import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
 import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.feature_change_record.R
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordViewData
 import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordViewModel
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
@@ -55,9 +56,7 @@ class ChangeRecordFragment :
     }
 
     override fun initUi(): Unit = with(binding) {
-        // Can merge only untracked time.
-        layoutChangeRecordCore.containerChangeRecordMerge.isVisible = extra is ChangeRecordParams.Untracked
-
+        coreSetup()
         postponeEnterTransition()
 
         setPreview()
@@ -146,6 +145,14 @@ class ChangeRecordFragment :
         }
         tvChangeRecordTimeStarted.text = item.dateTimeStarted
         tvChangeRecordTimeEnded.text = item.dateTimeFinished
+    }
+
+    private fun coreSetup() = with(binding) {
+        // Can merge only untracked time.
+        layoutChangeRecordCore.containerChangeRecordMerge.isVisible = extra is ChangeRecordParams.Untracked
+
+        context?.getString(R.string.change_record_change_adjacent_records)
+            ?.let(layoutChangeRecordCore.tvChangeRecordAdjustPrevRecord::setText)
     }
 
     companion object {
