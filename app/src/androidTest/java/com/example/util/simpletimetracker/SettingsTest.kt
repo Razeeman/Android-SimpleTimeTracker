@@ -119,9 +119,11 @@ class SettingsTest : BaseUiTest() {
         val name3 = "Test3"
 
         // Add activities
+        NavUtils.openRecordsScreen()
         testUtils.addActivity(name1)
         testUtils.addActivity(name2)
         testUtils.addActivity(name3)
+        NavUtils.openRunningRecordsScreen()
 
         // Start timers
         tryAction { clickOnViewWithText(name2) }
@@ -1340,7 +1342,7 @@ class SettingsTest : BaseUiTest() {
 
         // Check reverse order
         NavUtils.openSettingsScreen()
-        onView(withId(R.id.checkboxSettingsShowRecordsCalendar)).perform(nestedScrollTo())
+        onView(withId(R.id.checkboxSettingsReverseOrderInCalendar)).perform(nestedScrollTo())
         checkViewIsDisplayed(withText(R.string.settings_reverse_order_in_calendar))
         checkViewIsDisplayed(withId(R.id.checkboxSettingsReverseOrderInCalendar))
         onView(withId(R.id.checkboxSettingsReverseOrderInCalendar)).check(matches(isNotChecked()))

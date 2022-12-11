@@ -256,6 +256,7 @@ class ArchiveTest : BaseUiTest() {
         testUtils.addRecord(name1, tagNames = listOf(tag3))
         testUtils.addRecord(name1, tagNames = listOf(tag1, tag3))
         testUtils.addRecord(name1)
+        Thread.sleep(1000)
 
         // Delete
         tryAction { longClickOnView(withText(name1)) }

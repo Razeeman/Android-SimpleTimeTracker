@@ -379,6 +379,7 @@ abstract class ChangeRecordBaseViewModel(
     ) = viewModelScope.launch {
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
         val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
+        val showSeconds = prefsInteractor.getShowSeconds()
 
         router.navigate(
             DateTimeDialogParams(
@@ -386,7 +387,8 @@ abstract class ChangeRecordBaseViewModel(
                 timestamp = timestamp,
                 type = DateTimeDialogType.DATETIME(),
                 useMilitaryTime = useMilitaryTime,
-                firstDayOfWeek = firstDayOfWeek
+                firstDayOfWeek = firstDayOfWeek,
+                showSeconds = showSeconds,
             )
         )
     }

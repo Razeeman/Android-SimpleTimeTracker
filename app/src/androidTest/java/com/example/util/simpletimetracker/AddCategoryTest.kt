@@ -146,6 +146,7 @@ class AddCategoryTest : BaseUiTest() {
         // Add activity
         testUtils.addActivity(typeName1)
         testUtils.addActivity(typeName2)
+        Thread.sleep(1000)
         tryAction { longClickOnView(withText(typeName1)) }
 
         // Add category
