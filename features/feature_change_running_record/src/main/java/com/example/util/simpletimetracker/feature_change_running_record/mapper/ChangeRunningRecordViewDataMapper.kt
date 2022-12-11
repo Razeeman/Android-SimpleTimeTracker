@@ -25,18 +25,37 @@ class ChangeRunningRecordViewDataMapper @Inject constructor(
         recordTags: List<RecordTag>,
         isDarkTheme: Boolean,
         useMilitaryTime: Boolean,
+        showSeconds: Boolean,
     ): ChangeRunningRecordViewData {
         return ChangeRunningRecordViewData(
             name = recordType?.name.orEmpty(),
             tagName = recordTags
                 .getFullName(),
             timeStarted = runningRecord.timeStarted
-                .let { timeMapper.formatTime(it, useMilitaryTime) },
+                .let {
+                    timeMapper.formatTime(
+                        time = it,
+                        useMilitaryTime = useMilitaryTime,
+                        showSeconds = showSeconds,
+                    )
+                },
             dateTimeStarted = runningRecord.timeStarted
-                .let { timeMapper.formatDateTime(it, useMilitaryTime) },
+                .let {
+                    timeMapper.formatDateTime(
+                        time = it,
+                        useMilitaryTime = useMilitaryTime,
+                        showSeconds = showSeconds,
+                    )
+                },
             duration = runningRecord
                 .let { System.currentTimeMillis() - it.timeStarted }
-                .let(timeMapper::formatIntervalWithForcedSeconds),
+                .let {
+                    timeMapper.formatInterval(
+                        interval = it,
+                        forceSeconds = true,
+                        useProportionalMinutes = false,
+                    )
+                },
             goalTime = recordType?.goalTime
                 ?.takeIf { it > 0 }
                 ?.let(timeMapper::formatDuration)

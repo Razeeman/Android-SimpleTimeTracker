@@ -33,6 +33,7 @@ class RecordsViewDataInteractor @Inject constructor(
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
         val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
+        val showSeconds = prefsInteractor.getShowSeconds()
         val startOfDayShift = prefsInteractor.getStartOfDayShift()
         val isCalendarView = prefsInteractor.getShowRecordsCalendar()
         val showUntrackedInRecords = prefsInteractor.getShowUntrackedInRecords()
@@ -61,6 +62,7 @@ class RecordsViewDataInteractor @Inject constructor(
             useMilitaryTime = useMilitaryTime,
             useProportionalMinutes = useProportionalMinutes,
             showUntrackedInRecords = showUntrackedInRecords,
+            showSeconds = showSeconds,
         )
 
         if (isCalendarView) return recordsViewData
@@ -107,6 +109,7 @@ class RecordsViewDataInteractor @Inject constructor(
         useMilitaryTime: Boolean,
         useProportionalMinutes: Boolean,
         showUntrackedInRecords: Boolean,
+        showSeconds: Boolean,
     ): List<RecordViewData> {
         return records
             .mapNotNull { record ->
@@ -118,7 +121,8 @@ class RecordsViewDataInteractor @Inject constructor(
                     rangeEnd = rangeEnd,
                     isDarkTheme = isDarkTheme,
                     useMilitaryTime = useMilitaryTime,
-                    useProportionalMinutes = useProportionalMinutes
+                    useProportionalMinutes = useProportionalMinutes,
+                    showSeconds = showSeconds,
                 )
             }
             .let { trackedRecords ->
@@ -136,7 +140,8 @@ class RecordsViewDataInteractor @Inject constructor(
                             rangeEnd = rangeEnd,
                             isDarkTheme = isDarkTheme,
                             useMilitaryTime = useMilitaryTime,
-                            useProportionalMinutes = useProportionalMinutes
+                            useProportionalMinutes = useProportionalMinutes,
+                            showSeconds = showSeconds,
                         )
                     }
                     .let { untrackedRecords -> trackedRecords + untrackedRecords }

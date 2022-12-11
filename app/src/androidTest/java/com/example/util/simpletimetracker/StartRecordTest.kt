@@ -43,7 +43,7 @@ class StartRecordTest : BaseUiTest() {
         tryAction { clickOnViewWithText(name) }
 
         var currentTime = System.currentTimeMillis()
-        var timeStarted = timeMapper.formatTime(currentTime, true)
+        var timeStarted = timeMapper.formatTime(time = currentTime, useMilitaryTime = true, showSeconds = false)
         checkViewIsDisplayed(
             allOf(
                 withId(R.id.viewRunningRecordItem),
@@ -58,7 +58,7 @@ class StartRecordTest : BaseUiTest() {
         // Start timer
         clickOnViewWithText(newName)
         currentTime = System.currentTimeMillis()
-        timeStarted = timeMapper.formatTime(currentTime, true)
+        timeStarted = timeMapper.formatTime(time = currentTime, useMilitaryTime = true, showSeconds = false)
         checkViewIsDisplayed(
             allOf(
                 withId(R.id.viewRunningRecordItem),

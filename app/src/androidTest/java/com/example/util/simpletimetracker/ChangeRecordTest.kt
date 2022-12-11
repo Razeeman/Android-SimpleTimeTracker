@@ -61,14 +61,18 @@ class ChangeRecordTest : BaseUiTest() {
         val currentTime = System.currentTimeMillis()
         var timeStartedTimestamp = currentTime - 60 * 60 * 1000
         var timeEndedTimestamp = currentTime
-        var timeStarted = timeMapper.formatDateTime(timeStartedTimestamp, true)
-        var timeEnded = timeMapper.formatDateTime(timeEndedTimestamp, true)
+        var timeStarted = timeMapper.formatDateTime(
+            time = timeStartedTimestamp, useMilitaryTime = true, showSeconds = false
+        )
+        var timeEnded = timeMapper.formatDateTime(
+            time = timeEndedTimestamp, useMilitaryTime = true, showSeconds = false
+        )
         var timeStartedPreview = timeStartedTimestamp
-            .let { timeMapper.formatTime(it, true) }
+            .let { timeMapper.formatTime(time = it, useMilitaryTime = true, showSeconds = false) }
         var timeEndedPreview = timeEndedTimestamp
-            .let { timeMapper.formatTime(it, true) }
+            .let { timeMapper.formatTime(time = it, useMilitaryTime = true, showSeconds = false) }
         var timeRangePreview = (timeEndedTimestamp - timeStartedTimestamp)
-            .let { timeMapper.formatInterval(it, false) }
+            .let { timeMapper.formatInterval(interval = it, forceSeconds = false, useProportionalMinutes = false) }
 
         typeTextIntoView(R.id.etChangeRecordComment, comment)
         closeSoftKeyboard()
@@ -151,15 +155,15 @@ class ChangeRecordTest : BaseUiTest() {
             timeInMillis
         }
         timeStarted = timeStartedTimestamp
-            .let { timeMapper.formatDateTime(it, true) }
+            .let { timeMapper.formatDateTime(time = it, useMilitaryTime = true, showSeconds = false) }
         timeEnded = timeEndedTimestamp
-            .let { timeMapper.formatDateTime(it, true) }
+            .let { timeMapper.formatDateTime(time = it, useMilitaryTime = true, showSeconds = false) }
         timeStartedPreview = timeStartedTimestamp
-            .let { timeMapper.formatTime(it, true) }
+            .let { timeMapper.formatTime(time = it, useMilitaryTime = true, showSeconds = false) }
         timeEndedPreview = timeEndedTimestamp
-            .let { timeMapper.formatTime(it, true) }
+            .let { timeMapper.formatTime(time = it, useMilitaryTime = true, showSeconds = false) }
         timeRangePreview = (timeEndedTimestamp - timeStartedTimestamp)
-            .let { timeMapper.formatInterval(it, false) }
+            .let { timeMapper.formatInterval(interval = it, forceSeconds = false, useProportionalMinutes = false) }
 
         checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeStarted), withText(timeStarted)))
         checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeEnded), withText(timeEnded)))

@@ -57,9 +57,11 @@ class ChangeRunningRecordTest : BaseUiTest() {
         tryAction { clickOnViewWithText(name1) }
         val currentTime = System.currentTimeMillis()
         var timeStartedTimestamp = currentTime
-        var timeStarted = timeMapper.formatDateTime(timeStartedTimestamp, true)
+        var timeStarted = timeMapper.formatDateTime(
+            time = timeStartedTimestamp, useMilitaryTime = true, showSeconds = false
+        )
         var timeStartedPreview = timeStartedTimestamp
-            .let { timeMapper.formatTime(it, true) }
+            .let { timeMapper.formatTime(time = it, useMilitaryTime = true, showSeconds = false) }
 
         checkRunningRecordDisplayed(
             name = name1,
@@ -124,9 +126,9 @@ class ChangeRunningRecordTest : BaseUiTest() {
             timeInMillis
         }
         timeStarted = timeStartedTimestamp
-            .let { timeMapper.formatDateTime(it, true) }
+            .let { timeMapper.formatDateTime(time = it, useMilitaryTime = true, showSeconds = false) }
         timeStartedPreview = timeStartedTimestamp
-            .let { timeMapper.formatTime(it, true) }
+            .let { timeMapper.formatTime(time = it, useMilitaryTime = true, showSeconds = false) }
 
         checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeStarted), withText(timeStarted)))
         typeTextIntoView(R.id.etChangeRecordComment, comment)

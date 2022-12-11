@@ -195,6 +195,7 @@
     <string name="settings_dark_mode">Mode sombre</string>
     <string name="settings_use_military_time">Utiliser le format 24 heures</string>
     <string name="settings_use_proportional_minutes">Utiliser le format décimal</string>
+    <string name="settings_show_seconds">Afficher les secondes</string>
     <string name="settings_keep_screen_on">Garder l\'écran allumé</string>
     <string name="settings_change_card_size">Modifier la taille des cartes d\'activité</string>
     <string name="settings_archive">Éléments archivés</string>

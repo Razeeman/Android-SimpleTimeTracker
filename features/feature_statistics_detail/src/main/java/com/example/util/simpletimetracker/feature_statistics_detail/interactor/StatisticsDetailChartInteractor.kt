@@ -42,6 +42,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
         val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
         val startOfDayShift = prefsInteractor.getStartOfDayShift()
         val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
+        val showSeconds = prefsInteractor.getShowSeconds()
 
         val (ranges, compositeData) = getRanges(
             currentChartGrouping = currentChartGrouping,
@@ -71,7 +72,8 @@ class StatisticsDetailChartInteractor @Inject constructor(
             appliedChartGrouping = compositeData.appliedChartGrouping,
             availableChartLengths = compositeData.availableChartLengths,
             appliedChartLength = compositeData.appliedChartLength,
-            useProportionalMinutes = useProportionalMinutes
+            useProportionalMinutes = useProportionalMinutes,
+            showSeconds = showSeconds,
         )
     }
 

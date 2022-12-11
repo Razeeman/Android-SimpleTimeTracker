@@ -60,8 +60,12 @@ class AddRecordTest : BaseUiTest() {
         checkViewIsNotDisplayed(withId(R.id.rvChangeRecordType))
         checkViewIsNotDisplayed(withId(R.id.rvChangeRecordCategories))
         val currentTime = System.currentTimeMillis()
-        var timeStarted = timeMapper.formatDateTime(currentTime - 60 * 60 * 1000, true)
-        var timeEnded = timeMapper.formatDateTime(currentTime, true)
+        var timeStarted = timeMapper.formatDateTime(
+            time = currentTime - 60 * 60 * 1000, useMilitaryTime = true, showSeconds = false
+        )
+        var timeEnded = timeMapper.formatDateTime(
+            time = currentTime, useMilitaryTime = true, showSeconds = false
+        )
         checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeStarted), withText(timeStarted)))
         checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeEnded), withText(timeEnded)))
 
@@ -78,7 +82,9 @@ class AddRecordTest : BaseUiTest() {
             set(Calendar.MINUTE, minutesStarted)
             timeInMillis
         }
-        timeStarted = timeStartedTimestamp.let { timeMapper.formatDateTime(it, true) }
+        timeStarted = timeStartedTimestamp.let {
+            timeMapper.formatDateTime(time = it, useMilitaryTime = true, showSeconds = false)
+        }
         checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeStarted), withText(timeStarted)))
 
         // Set time ended
@@ -94,12 +100,18 @@ class AddRecordTest : BaseUiTest() {
             set(Calendar.MINUTE, minutesEnded)
             timeInMillis
         }
-        timeEnded = timeEndedTimestamp.let { timeMapper.formatDateTime(it, true) }
+        timeEnded = timeEndedTimestamp.let {
+            timeMapper.formatDateTime(time = it, useMilitaryTime = true, showSeconds = false)
+        }
         checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeEnded), withText(timeEnded)))
 
         // Preview is updated
-        val timeStartedPreview = timeStartedTimestamp.let { timeMapper.formatTime(it, true) }
-        val timeEndedPreview = timeEndedTimestamp.let { timeMapper.formatTime(it, true) }
+        val timeStartedPreview = timeStartedTimestamp.let {
+            timeMapper.formatTime(time = it, useMilitaryTime = true, showSeconds = false)
+        }
+        val timeEndedPreview = timeEndedTimestamp.let {
+            timeMapper.formatTime(time = it, useMilitaryTime = true, showSeconds = false)
+        }
         checkPreviewUpdated(hasDescendant(withText(timeStartedPreview)))
         checkPreviewUpdated(hasDescendant(withText(timeEndedPreview)))
         checkPreviewUpdated(hasDescendant(withText("2$hourString 3$minuteString")))

@@ -195,6 +195,7 @@
     <string name="settings_dark_mode">Tema oscuro</string>
     <string name="settings_use_military_time">Usar el formato 24-horas</string>
     <string name="settings_use_proportional_minutes">Usar el formato de minuto proporcional</string>
+    <string name="settings_show_seconds">Mostrar segundos</string>
     <string name="settings_keep_screen_on">Mantener la pantalla encendida</string>
     <string name="settings_change_card_size">Cambiar el tamaño de la tarjeta de actividad</string>
     <string name="settings_archive">Archivar</string>

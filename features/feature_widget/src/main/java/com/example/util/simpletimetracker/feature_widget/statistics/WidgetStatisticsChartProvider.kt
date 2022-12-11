@@ -105,6 +105,7 @@ class WidgetStatisticsChartProvider : AppWidgetProvider() {
         // TODO remove blocking
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
+        val showSeconds = prefsInteractor.getShowSeconds()
         val widgetData = prefsInteractor.getStatisticsWidget(appWidgetId)
         val types = recordTypeInteractor.getAll()
 
@@ -136,7 +137,8 @@ class WidgetStatisticsChartProvider : AppWidgetProvider() {
         val total: String = statisticsMediator.getStatisticsTotalTracked(
             statistics = statistics,
             filteredIds = filteredIds,
-            useProportionalMinutes = useProportionalMinutes
+            useProportionalMinutes = useProportionalMinutes,
+            showSeconds = showSeconds,
         )
         val totalTracked = resourceRepo.getString(R.string.statistics_total_tracked_short) +
             "\n" + total

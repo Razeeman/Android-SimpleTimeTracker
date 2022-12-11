@@ -220,6 +220,15 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    val showSecondsCheckbox: LiveData<Boolean> by lazy {
+        MutableLiveData<Boolean>().let { initial ->
+            viewModelScope.launch {
+                initial.value = prefsInteractor.getShowSeconds()
+            }
+            initial
+        }
+    }
+
     val keepScreenOnCheckbox: LiveData<Boolean> by lazy {
         MutableLiveData<Boolean>().let { initial ->
             viewModelScope.launch {
@@ -438,6 +447,16 @@ class SettingsViewModel @Inject constructor(
             notificationTypeInteractor.updateNotifications()
             widgetInteractor.updateWidgets(listOf(WidgetType.STATISTICS_CHART))
             updateUseProportionalMinutesViewData()
+        }
+    }
+
+    fun onShowSecondsClicked() {
+        viewModelScope.launch {
+            val newValue = !prefsInteractor.getShowSeconds()
+            prefsInteractor.setShowSeconds(newValue)
+            showSecondsCheckbox.set(newValue)
+            notificationTypeInteractor.updateNotifications()
+            widgetInteractor.updateWidgets(listOf(WidgetType.STATISTICS_CHART))
         }
     }
 

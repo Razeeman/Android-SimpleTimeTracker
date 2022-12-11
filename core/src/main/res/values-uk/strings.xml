@@ -195,6 +195,7 @@
     <string name="settings_dark_mode">Темний режим</string>
     <string name="settings_use_military_time">Використовувати 24-годинний формат</string>
     <string name="settings_use_proportional_minutes">Використовуйте пропорційний хвилинний формат</string>
+    <string name="settings_show_seconds">Показати секунди</string>
     <string name="settings_keep_screen_on">Тримайте екран увімкненим</string>
     <string name="settings_change_card_size">Змінити розмір картки активності</string>
     <string name="settings_archive">Архів</string>

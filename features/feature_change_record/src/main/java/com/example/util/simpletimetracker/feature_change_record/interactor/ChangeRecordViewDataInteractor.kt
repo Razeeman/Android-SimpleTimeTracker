@@ -36,6 +36,7 @@ class ChangeRecordViewDataInteractor @Inject constructor(
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
         val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
+        val showSeconds = prefsInteractor.getShowSeconds()
 
         return changeRecordViewDataMapper.map(
             record = record,
@@ -43,7 +44,8 @@ class ChangeRecordViewDataInteractor @Inject constructor(
             recordTags = tags,
             isDarkTheme = isDarkTheme,
             useMilitaryTime = useMilitaryTime,
-            useProportionalMinutes = useProportionalMinutes
+            useProportionalMinutes = useProportionalMinutes,
+            showSeconds = showSeconds,
         )
     }
 
@@ -87,7 +89,13 @@ class ChangeRecordViewDataInteractor @Inject constructor(
 
     suspend fun mapTime(time: Long): String {
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
-        return timeMapper.formatDateTime(time, useMilitaryTime)
+        val showSeconds = prefsInteractor.getShowSeconds()
+
+        return timeMapper.formatDateTime(
+            time = time,
+            useMilitaryTime = useMilitaryTime,
+            showSeconds = showSeconds,
+        )
     }
 
     companion object {

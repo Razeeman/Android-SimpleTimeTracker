@@ -34,6 +34,7 @@ class RunningRecordViewDataMapper @Inject constructor(
         recordTags: List<RecordTag>,
         isDarkTheme: Boolean,
         useMilitaryTime: Boolean,
+        showSeconds: Boolean,
     ): RunningRecordViewData {
         return RunningRecordViewData(
             id = runningRecord.id,
@@ -41,9 +42,21 @@ class RunningRecordViewDataMapper @Inject constructor(
             tagName = recordTags
                 .getFullName(),
             timeStarted = runningRecord.timeStarted
-                .let { timeMapper.formatTime(it, useMilitaryTime) },
+                .let {
+                    timeMapper.formatTime(
+                        time = it,
+                        useMilitaryTime = useMilitaryTime,
+                        showSeconds = showSeconds,
+                    )
+                },
             timer = (System.currentTimeMillis() - runningRecord.timeStarted)
-                .let(timeMapper::formatIntervalWithForcedSeconds),
+                .let {
+                    timeMapper.formatInterval(
+                        interval = it,
+                        forceSeconds = true,
+                        useProportionalMinutes = false,
+                    )
+                },
             goalTime = recordType.goalTime
                 .takeIf { it > 0 }
                 ?.let(timeMapper::formatDuration)

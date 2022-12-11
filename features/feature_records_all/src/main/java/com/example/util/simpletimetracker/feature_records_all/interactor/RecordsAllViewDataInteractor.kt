@@ -39,6 +39,7 @@ class RecordsAllViewDataInteractor @Inject constructor(
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
         val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
+        val showSeconds = prefsInteractor.getShowSeconds()
         val recordTypes = recordTypeInteractor.getAll().associateBy { it.id }
         val recordTags = recordTagInteractor.getAll()
         val typesSelected = typesFilterInteractor.getTypeIds(filter)
@@ -68,7 +69,8 @@ class RecordsAllViewDataInteractor @Inject constructor(
                             recordTags = recordTags.filter { it.id in record.tagIds },
                             isDarkTheme = isDarkTheme,
                             useMilitaryTime = useMilitaryTime,
-                            useProportionalMinutes = useProportionalMinutes
+                            useProportionalMinutes = useProportionalMinutes,
+                            showSeconds = showSeconds,
                         )
                     )
                 }

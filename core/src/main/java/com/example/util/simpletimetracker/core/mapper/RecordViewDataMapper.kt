@@ -26,6 +26,7 @@ class RecordViewDataMapper @Inject constructor(
         isDarkTheme: Boolean,
         useMilitaryTime: Boolean,
         useProportionalMinutes: Boolean,
+        showSeconds: Boolean,
     ): RecordViewData.Tracked {
         return RecordViewData.Tracked(
             id = record.id,
@@ -35,11 +36,29 @@ class RecordViewDataMapper @Inject constructor(
             tagName = recordTags
                 .getFullName(),
             timeStarted = timeStarted
-                .let { timeMapper.formatTime(it, useMilitaryTime) },
+                .let {
+                    timeMapper.formatTime(
+                        time = it,
+                        useMilitaryTime = useMilitaryTime,
+                        showSeconds = showSeconds,
+                    )
+                },
             timeFinished = timeEnded
-                .let { timeMapper.formatTime(it, useMilitaryTime) },
+                .let {
+                    timeMapper.formatTime(
+                        time = it,
+                        useMilitaryTime = useMilitaryTime,
+                        showSeconds = showSeconds,
+                    )
+                },
             duration = (timeEnded - timeStarted)
-                .let { timeMapper.formatInterval(it, useProportionalMinutes) },
+                .let {
+                    timeMapper.formatInterval(
+                        interval = it,
+                        forceSeconds = showSeconds,
+                        useProportionalMinutes = useProportionalMinutes,
+                    )
+                },
             iconId = recordType.icon
                 .let(iconMapper::mapIcon),
             color = recordType.color
@@ -54,18 +73,37 @@ class RecordViewDataMapper @Inject constructor(
         isDarkTheme: Boolean,
         useMilitaryTime: Boolean,
         useProportionalMinutes: Boolean,
+        showSeconds: Boolean,
     ): RecordViewData.Untracked {
         return RecordViewData.Untracked(
             name = R.string.untracked_time_name
                 .let(resourceRepo::getString),
             timeStarted = timeStarted
-                .let { timeMapper.formatTime(it, useMilitaryTime) },
+                .let {
+                    timeMapper.formatTime(
+                        time = it,
+                        useMilitaryTime = useMilitaryTime,
+                        showSeconds = showSeconds,
+                    )
+                },
             timeStartedTimestamp = timeStarted,
             timeFinished = timeEnded
-                .let { timeMapper.formatTime(it, useMilitaryTime) },
+                .let {
+                    timeMapper.formatTime(
+                        time = it,
+                        useMilitaryTime = useMilitaryTime,
+                        showSeconds = showSeconds,
+                    )
+                },
             timeEndedTimestamp = timeEnded,
             duration = (timeEnded - timeStarted)
-                .let { timeMapper.formatInterval(it, useProportionalMinutes) },
+                .let {
+                    timeMapper.formatInterval(
+                        interval = it,
+                        forceSeconds = showSeconds,
+                        useProportionalMinutes = useProportionalMinutes,
+                    )
+                },
             iconId = RecordTypeIcon.Image(R.drawable.unknown),
             color = colorMapper.toUntrackedColor(isDarkTheme),
         )

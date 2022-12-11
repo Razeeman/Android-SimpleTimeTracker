@@ -128,9 +128,21 @@ class CsvExportSettingsViewModel @Inject constructor(
 
         return CsvExportSettingsViewData(
             rangeStartString = rangeStart
-                .let { timeMapper.formatDateTime(it, useMilitaryTime) },
+                .let {
+                    timeMapper.formatDateTime(
+                        time = it,
+                        useMilitaryTime = useMilitaryTime,
+                        showSeconds = false,
+                    )
+                },
             rangeEndString = rangeEnd
-                .let { timeMapper.formatDateTime(it, useMilitaryTime) }
+                .let {
+                    timeMapper.formatDateTime(
+                        time = it,
+                        useMilitaryTime = useMilitaryTime,
+                        showSeconds = false,
+                    )
+                }
         )
     }
 

@@ -866,7 +866,7 @@ class SettingsTest : BaseUiTest() {
 
     @Test
     fun startOfDay() {
-        fun Long.toTimePreview() = timeMapper.formatTime(this, true)
+        fun Long.toTimePreview() = timeMapper.formatTime(time = this, useMilitaryTime = true, showSeconds = false)
 
         val name = "Test"
 
@@ -1236,8 +1236,12 @@ class SettingsTest : BaseUiTest() {
 
         // View is set up
         val currentTime = System.currentTimeMillis()
-        var timeStarted = timeMapper.formatDateTime(currentTime - TimeUnit.DAYS.toMillis(7), true)
-        var timeEnded = timeMapper.formatDateTime(currentTime, true)
+        var timeStarted = timeMapper.formatDateTime(
+            time = currentTime - TimeUnit.DAYS.toMillis(7), useMilitaryTime = true, showSeconds = false
+        )
+        var timeEnded = timeMapper.formatDateTime(
+            time = currentTime, useMilitaryTime = true, showSeconds = false
+        )
         checkViewIsDisplayed(allOf(withId(R.id.tvCsvExportSettingsTimeStarted), withText(timeStarted)))
         checkViewIsDisplayed(allOf(withId(R.id.tvCsvExportSettingsTimeEnded), withText(timeEnded)))
 
@@ -1271,7 +1275,7 @@ class SettingsTest : BaseUiTest() {
             timeInMillis
         }
         timeStarted = timeStartedTimestamp
-            .let { timeMapper.formatDateTime(it, true) }
+            .let { timeMapper.formatDateTime(time = it, useMilitaryTime = true, showSeconds = false) }
 
         checkViewIsDisplayed(allOf(withId(R.id.tvCsvExportSettingsTimeStarted), withText(timeStarted)))
 
@@ -1294,7 +1298,7 @@ class SettingsTest : BaseUiTest() {
             timeInMillis
         }
         timeEnded = timeEndedTimestamp
-            .let { timeMapper.formatDateTime(it, true) }
+            .let { timeMapper.formatDateTime(time = it, useMilitaryTime = true, showSeconds = false) }
 
         checkViewIsDisplayed(allOf(withId(R.id.tvCsvExportSettingsTimeEnded), withText(timeEnded)))
     }

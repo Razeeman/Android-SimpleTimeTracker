@@ -98,6 +98,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         availableChartLengths: List<ChartLength>,
         appliedChartLength: ChartLength,
         useProportionalMinutes: Boolean,
+        showSeconds: Boolean,
     ): StatisticsDetailChartCompositeViewData {
         val chartData = mapChartData(data, rangeLength)
         val compareChartData = mapChartData(compareData, rangeLength)
@@ -106,7 +107,8 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             compareData = compareData,
             showComparison = showComparison,
             chartGrouping = appliedChartGrouping,
-            useProportionalMinutes = useProportionalMinutes
+            useProportionalMinutes = useProportionalMinutes,
+            showSeconds = showSeconds,
         )
 
         return StatisticsDetailChartCompositeViewData(
@@ -261,6 +263,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         showComparison: Boolean,
         chartGrouping: ChartGrouping,
         useProportionalMinutes: Boolean,
+        showSeconds: Boolean,
     ): Pair<String, List<StatisticsDetailCardViewData>> {
         val emptyValue by lazy { resourceRepo.getString(R.string.statistics_detail_empty) }
 
@@ -288,10 +291,22 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         val rangeAverages = listOf(
             StatisticsDetailCardViewData(
                 value = average
-                    ?.let { timeMapper.formatInterval(it, useProportionalMinutes) }
+                    ?.let {
+                        timeMapper.formatInterval(
+                            interval = it,
+                            forceSeconds = showSeconds,
+                            useProportionalMinutes = useProportionalMinutes,
+                        )
+                    }
                     .let { it ?: emptyValue },
                 secondValue = comparisonAverage
-                    ?.let { timeMapper.formatInterval(it, useProportionalMinutes) }
+                    ?.let {
+                        timeMapper.formatInterval(
+                            interval = it,
+                            forceSeconds = showSeconds,
+                            useProportionalMinutes = useProportionalMinutes,
+                        )
+                    }
                     .let { it ?: emptyValue }
                     .let { "($it)" }
                     .takeIf { showComparison }
@@ -300,10 +315,22 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             ),
             StatisticsDetailCardViewData(
                 value = averageByNonEmpty
-                    ?.let { timeMapper.formatInterval(it, useProportionalMinutes) }
+                    ?.let {
+                        timeMapper.formatInterval(
+                            interval = it,
+                            forceSeconds = showSeconds,
+                            useProportionalMinutes = useProportionalMinutes,
+                        )
+                    }
                     .let { it ?: emptyValue },
                 secondValue = comparisonAverageByNonEmpty
-                    ?.let { timeMapper.formatInterval(it, useProportionalMinutes) }
+                    ?.let {
+                        timeMapper.formatInterval(
+                            interval = it,
+                            forceSeconds = showSeconds,
+                            useProportionalMinutes = useProportionalMinutes,
+                        )
+                    }
                     .let { it ?: emptyValue }
                     .let { "($it)" }
                     .takeIf { showComparison }
