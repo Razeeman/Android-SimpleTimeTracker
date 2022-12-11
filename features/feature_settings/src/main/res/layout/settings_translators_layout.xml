@@ -319,6 +319,27 @@
             app:layout_constraintStart_toEndOf="@id/tvSettingsTranslatorsJapanese"
             app:layout_constraintTop_toTopOf="@id/tvSettingsTranslatorsJapanese" />
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvSettingsTranslatorsHindi"
+            style="@style/SettingsTranslatorsText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_translators_hindi"
+            app:layout_constraintEnd_toStartOf="@id/tvSettingsTranslatorsHindiLanguage"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSettingsTranslatorsJapanese" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvSettingsTranslatorsHindiLanguage"
+            style="@style/SettingsTranslatorsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:text="@string/settings_translators_hindi_language"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvSettingsTranslatorsHindi"
+            app:layout_constraintTop_toTopOf="@id/tvSettingsTranslatorsHindi" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>
