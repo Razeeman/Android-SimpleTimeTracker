@@ -101,7 +101,7 @@
     <string name="change_record_split">Dela upp</string>
     <string name="change_record_split_hint">Delar upp den nuvarande händelsen i två vid den angivna tidpunkten</string>
     <string name="change_record_continue">Fortsätt</string>
-    <string name="change_record_continue_hint">Tar bort aktuell händelse och fortsätter med denna aktivitet</string>
+    <string name="change_record_continue_hint">Tar bort sluttid och återaktiverar denna aktivitet</string>
     <string name="change_record_merge">Sammanfoga</string>
     <string name="change_record_merge_hint">Lägger till denna tid till tidigare händelse</string>
 
@@ -293,7 +293,7 @@ Valfria parametrar för start av aktivitet:<br/>
 
     <!--  Widget  -->
     <string name="widget_name">Enskild aktivitet</string>
-    <string name="widget_universal_name">Samma för alla</string>
+    <string name="widget_universal_name">Välj aktivitet</string>
     <string name="widget_statistics_chart_name">Statistikdiagram</string>
     <string name="widget_load_error">Saknas</string>
 
