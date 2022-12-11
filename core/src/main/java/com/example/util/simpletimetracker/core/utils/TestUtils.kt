@@ -19,6 +19,7 @@ import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
+import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.domain.repo.RunningRecordToRecordTagRepo
 import kotlinx.coroutines.runBlocking
 import java.util.concurrent.TimeUnit
@@ -127,6 +128,27 @@ class TestUtils @Inject constructor(
         recordInteractor.add(data)
     }
 
+    fun addRunningRecord(
+        typeName: String,
+        timeStarted: Long? = null,
+        tagNames: List<String> = emptyList(),
+        comment: String = "",
+    ) = runBlocking {
+        val type = recordTypeInteractor.getAll().firstOrNull { it.name == typeName }
+            ?: return@runBlocking
+        val tagIds = recordTagInteractor.getAll().filter { it.name in tagNames }
+            .map { it.id }
+
+        val data = RunningRecord(
+            id = type.id,
+            timeStarted = timeStarted ?: System.currentTimeMillis(),
+            comment = comment,
+            tagIds = tagIds,
+        )
+
+        runningRecordInteractor.add(data)
+    }
+
     fun addCategory(
         tagName: String,
     ) = runBlocking {
@@ -157,7 +179,7 @@ class TestUtils @Inject constructor(
 
     fun addActivityFilter(
         name: String,
-        type: ActivityFilter.Type,
+        type: ActivityFilter.Type = ActivityFilter.Type.Activity,
         color: Int? = null,
         colorInt: Int? = null,
         names: List<String> = emptyList(),

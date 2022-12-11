@@ -200,7 +200,6 @@ class ArchiveTest : BaseUiTest() {
         checkTagVisible(tag3)
         checkTagNotVisible(tag4)
         pressBack()
-        tryAction { clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name1))) }
 
         // Shown in archive
         NavUtils.openSettingsScreen()

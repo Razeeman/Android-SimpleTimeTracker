@@ -164,6 +164,11 @@ abstract class ChangeRecordBaseViewModel(
     }
 
     fun onContinueClick() {
+        // Can't continue future record
+        if (newTimeStarted > System.currentTimeMillis()) {
+            showMessage(R.string.cannot_be_in_the_future)
+            return
+        }
         onRecordChangeButtonClick(
             buttonEnabledLiveData = continueButtonEnabled,
             onProceed = ::onContinueClickDelegate,

@@ -799,6 +799,87 @@ class StatisticsDetailTest : BaseUiTest() {
     }
 
     @Test
+    fun statisticsDetailLastDays() {
+        val name = "TypeName"
+        val tag = "TagName"
+        val color = firstColor
+        val icon = firstIcon
+
+        // Add activity
+        testUtils.addActivity(name = name, color = color, icon = icon)
+        testUtils.addRecordTag(tag, name)
+
+        // Add records
+        var calendar = Calendar.getInstance()
+            .apply { set(Calendar.HOUR_OF_DAY, 15) }
+        testUtils.addRecord(
+            typeName = name,
+            timeStarted = calendar.timeInMillis,
+            timeEnded = calendar.timeInMillis + TimeUnit.HOURS.toMillis(1),
+            tagNames = listOf(tag)
+        )
+        calendar = Calendar.getInstance()
+            .apply { add(Calendar.DATE, -6) }
+        testUtils.addRecord(
+            typeName = name,
+            timeStarted = calendar.timeInMillis,
+            timeEnded = calendar.timeInMillis + TimeUnit.HOURS.toMillis(2),
+            tagNames = listOf(tag)
+        )
+        calendar = Calendar.getInstance()
+            .apply { add(Calendar.DATE, -7) }
+        testUtils.addRecord(
+            typeName = name,
+            timeStarted = calendar.timeInMillis,
+            timeEnded = calendar.timeInMillis + TimeUnit.HOURS.toMillis(1)
+        )
+
+        // Check detailed statistics
+        NavUtils.openStatisticsScreen()
+        tryAction { clickOnView(allOf(withText(name), isCompletelyDisplayed())) }
+
+        checkPreview(color, icon, name)
+
+        // Switch range
+        clickOnViewWithIdOnPager(R.id.btnStatisticsDetailToday)
+        clickOnViewWithText(R.string.range_last)
+
+        // Bar chart
+        checkViewIsDisplayed(allOf(withId(R.id.chartStatisticsDetail), isCompletelyDisplayed()))
+        checkViewDoesNotExist(allOf(withId(R.id.buttonsStatisticsDetailGrouping), isCompletelyDisplayed()))
+        checkViewDoesNotExist(allOf(withId(R.id.buttonsStatisticsDetailLength), isCompletelyDisplayed()))
+        checkRangeAverages(
+            rangeId = R.string.statistics_detail_chart_daily,
+            average = "25$minuteString",
+            averageNonEmpty = "1$hourString 30$minuteString"
+        )
+
+        // Cards
+        checkCards()
+
+        // Split chart
+        onView(withId(R.id.chartStatisticsDetailSplit)).perform(nestedScrollTo())
+        checkViewIsDisplayed(allOf(withId(R.id.chartStatisticsDetailSplit), isCompletelyDisplayed()))
+        checkViewIsDisplayed(allOf(withId(R.id.tvStatisticsDetailSplitHint), isCompletelyDisplayed()))
+        onView(withId(R.id.buttonsStatisticsDetailSplitGrouping)).perform(nestedScrollTo())
+        clickOnSplitChartGrouping(R.string.statistics_detail_chart_hourly)
+        clickOnSplitChartGrouping(R.string.statistics_detail_chart_daily)
+
+        // Duration chart
+        onView(withId(R.id.chartStatisticsDetailDurationSplit)).perform(nestedScrollTo())
+        checkViewIsDisplayed(allOf(withId(R.id.chartStatisticsDetailDurationSplit), isCompletelyDisplayed()))
+        checkViewIsDisplayed(allOf(withId(R.id.tvStatisticsDetailDurationSplitHint), isCompletelyDisplayed()))
+
+        // All records
+        checkAllRecords(4)
+
+        // Tag split
+        onView(withId(R.id.rvStatisticsDetailTagSplit)).perform(nestedScrollTo())
+        checkTagItem(color, tag, "3$hourString 0$minuteString", "100%")
+        checkNoTagItem(getString(R.string.change_record_untagged))
+    }
+
+    @Test
     fun statisticsDetailFilterByType() {
         val name1 = "TypeName1"
         val name2 = "TypeName2"

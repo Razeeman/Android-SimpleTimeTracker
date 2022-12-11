@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.utils
 
 import android.view.View
+import android.widget.TimePicker
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.ViewInteraction
@@ -9,15 +10,18 @@ import androidx.test.espresso.action.ViewActions.longClick
 import androidx.test.espresso.action.ViewActions.replaceText
 import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.contrib.PickerActions.setTime
 import androidx.test.espresso.contrib.RecyclerViewActions.scrollTo
 import androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withClassName
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerViewHolder
 import org.hamcrest.CoreMatchers.allOf
+import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.CoreMatchers.not
 import org.hamcrest.Matcher
 
@@ -79,3 +83,7 @@ fun clickOnSpinnerWithId(id: Int) {
 
 fun checkSliderValue(id: Int, expectedValue: Int): ViewInteraction =
     onView(withId(id)).check(matches(withSliderValue((expectedValue))))
+
+fun setPickerTime(hour: Int, minute: Int) {
+    onView(withClassName(equalTo(TimePicker::class.java.name))).perform(setTime(hour, minute))
+}

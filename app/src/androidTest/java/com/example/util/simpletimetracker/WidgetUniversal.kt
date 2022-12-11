@@ -1,11 +1,11 @@
 package com.example.util.simpletimetracker
 
 import androidx.test.core.app.ActivityScenario
-import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.example.util.simpletimetracker.domain.model.ActivityFilter
 import com.example.util.simpletimetracker.feature_widget.universal.activity.view.WidgetUniversalActivity
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.Widget
@@ -37,17 +37,21 @@ class WidgetUniversal : BaseUiTest() {
         val name1 = "TypeName1"
         val name2 = "TypeName2"
         val name3 = "TypeName3"
+        val filter = "Filter"
 
         // Add data
         testUtils.addActivity(name = name1, color = firstColor)
         testUtils.addActivity(name = name2, color = lastColor)
         testUtils.addActivity(name = name3, archived = true)
+        testUtils.addActivityFilter(filter)
         scenarioRule = ActivityScenario.launch(WidgetUniversalActivity::class.java)
 
         // Check data
         checkType(firstColor, name1)
         checkType(lastColor, name2)
         checkViewDoesNotExist(withText(name3))
+        checkViewDoesNotExist(withText(filter))
+        checkViewDoesNotExist(withText(R.string.running_records_add_filter))
 
         // Start activity
         clickOnViewWithText(name1)
@@ -124,11 +128,46 @@ class WidgetUniversal : BaseUiTest() {
         checkViewIsDisplayed(withText(tag1))
         checkViewDoesNotExist(withText(tag2))
         clickOnViewWithText(tag1)
-        pressBack()
-        tryAction { checkType(R.color.colorFiltered, name1) }
+        clickOnViewWithText(R.string.duration_dialog_save)
+        checkType(R.color.colorFiltered, name1)
 
         clickOnViewWithText(name2)
         checkType(R.color.colorFiltered, name2)
+    }
+
+    @Test
+    fun widgetUniversalFilters() {
+        val name1 = "TypeName1"
+        val name2 = "TypeName2"
+        val filter = "Filter"
+
+        // Add data
+        runBlocking { prefsInteractor.setShowActivityFilters(true) }
+        testUtils.addActivity(name1)
+        testUtils.addActivity(name2)
+        testUtils.addActivityFilter(
+            name = filter,
+            type = ActivityFilter.Type.Activity,
+            color = firstColor,
+            names = listOf(name1)
+        )
+        scenarioRule = ActivityScenario.launch(WidgetUniversalActivity::class.java)
+
+        // Check filters
+        tryAction { checkViewIsDisplayed(withText(name1)) }
+        checkViewIsDisplayed(withText(name2))
+        checkViewIsDisplayed(allOf(withCardColor(R.color.colorFiltered), hasDescendant(withText(filter))))
+        checkViewDoesNotExist(withText(R.string.running_records_add_filter))
+
+        clickOnViewWithText(filter)
+        checkViewIsDisplayed(withText(name1))
+        checkViewDoesNotExist(withText(name2))
+        checkViewIsDisplayed(allOf(withCardColor(firstColor), hasDescendant(withText(filter))))
+
+        clickOnViewWithText(filter)
+        checkViewIsDisplayed(withText(name1))
+        checkViewIsDisplayed(withText(name2))
+        checkViewIsDisplayed(allOf(withCardColor(R.color.colorFiltered), hasDescendant(withText(filter))))
     }
 
     private fun checkType(color: Int, name: String) {

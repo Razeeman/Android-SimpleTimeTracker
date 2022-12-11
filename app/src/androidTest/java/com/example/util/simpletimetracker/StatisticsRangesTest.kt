@@ -760,12 +760,6 @@ class StatisticsRangesTest : BaseUiTest() {
             timeEnded = calendar.timeInMillis + TimeUnit.HOURS.toMillis(1)
         )
 
-        // Check records added
-        NavUtils.openStatisticsScreen()
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.range_overall)
-        tryAction { checkStatisticsItem(name = name1, hours = 3) }
-
         // Select range
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         clickOnViewWithText(R.string.range_last)

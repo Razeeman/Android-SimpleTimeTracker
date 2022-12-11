@@ -16,8 +16,8 @@ import androidx.test.espresso.assertion.PositionAssertions.isTopAlignedWith
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.PickerActions.setDate
 import androidx.test.espresso.contrib.PickerActions.setTime
-import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
+import androidx.test.espresso.matcher.ViewMatchers.hasSibling
 import androidx.test.espresso.matcher.ViewMatchers.isChecked
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
@@ -47,7 +47,7 @@ import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.drag
 import com.example.util.simpletimetracker.utils.longClickOnViewWithId
 import com.example.util.simpletimetracker.utils.nestedScrollTo
-import com.example.util.simpletimetracker.utils.scrollRecyclerToView
+import com.example.util.simpletimetracker.utils.slowHalfSwipe
 import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.unconstrainedClickOnView
 import com.example.util.simpletimetracker.utils.withPluralText
@@ -324,8 +324,12 @@ class SettingsTest : BaseUiTest() {
             val currentItem = name + index
             val previousItem = name + (index - 1)
 
-            scrollRecyclerToView(R.id.rvRunningRecordsList, hasDescendant(withText(currentItem)))
-            tryAction { check(previousItem, currentItem) { matcher -> isCompletelyAbove(matcher) } }
+            try {
+                check(previousItem, currentItem) { matcher -> isCompletelyAbove(matcher) }
+            } catch (e: Throwable) {
+                onView(withId(R.id.rvRunningRecordsList)).perform(slowHalfSwipe())
+                tryAction { check(previousItem, currentItem) { matcher -> isCompletelyAbove(matcher) } }
+            }
         }
     }
 
@@ -782,7 +786,7 @@ class SettingsTest : BaseUiTest() {
         checkViewIsDisplayed(
             allOf(
                 withPluralText(R.plurals.statistics_detail_times_tracked, 1),
-                ViewMatchers.hasSibling(withText("1")),
+                hasSibling(withText("1")),
                 isCompletelyDisplayed()
             )
         )
@@ -835,7 +839,7 @@ class SettingsTest : BaseUiTest() {
         checkViewIsDisplayed(
             allOf(
                 withPluralText(R.plurals.statistics_detail_times_tracked, 0),
-                ViewMatchers.hasSibling(withText("0")),
+                hasSibling(withText("0")),
                 isCompletelyDisplayed()
             )
         )
@@ -843,7 +847,7 @@ class SettingsTest : BaseUiTest() {
         checkViewIsDisplayed(
             allOf(
                 withPluralText(R.plurals.statistics_detail_times_tracked, 1),
-                ViewMatchers.hasSibling(withText("1")),
+                hasSibling(withText("1")),
                 isCompletelyDisplayed()
             )
         )
@@ -1110,7 +1114,7 @@ class SettingsTest : BaseUiTest() {
         // Add data
         testUtils.addActivity(name)
         tryAction { clickOnViewWithText(name) }
-        tryAction { clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name))) }
+        tryAction { clickOnView(allOf(withId(R.id.viewRunningRecordItem), hasDescendant(withText(name)))) }
 
         // Change setting
         NavUtils.openSettingsScreen()
@@ -1134,19 +1138,18 @@ class SettingsTest : BaseUiTest() {
         tryAction { checkViewIsDisplayed(withText(R.string.change_record_untagged)) }
         checkViewIsDisplayed(withText(tag))
         pressBack()
-        tryAction { clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name))) }
 
         // Start untagged
         clickOnViewWithText(name)
         tryAction { clickOnView(withText(tag)) }
         clickOnView(withText(R.string.change_record_untagged))
-        pressBack()
+        clickOnViewWithText(R.string.duration_dialog_save)
         tryAction { clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name))) }
 
         // Start tagged
         clickOnViewWithText(name)
         tryAction { clickOnView(withText(tag)) }
-        pressBack()
+        clickOnViewWithText(R.string.duration_dialog_save)
         tryAction { clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(fullName))) }
 
         // Change setting
@@ -1168,7 +1171,7 @@ class SettingsTest : BaseUiTest() {
         val tag = "TagName"
         val tagGeneral = "TagGeneral"
         val fullName = "$name - $tag"
-        val fullName2 = "$name - $tag, $tagGeneral"
+        val fullName2 = "$name - $tagGeneral, $tag"
 
         // Add data
         testUtils.addActivity(name)
@@ -1215,8 +1218,8 @@ class SettingsTest : BaseUiTest() {
         clickOnViewWithText(name)
         clickOnView(withText(tag))
         clickOnView(withText(tagGeneral))
-        pressBack()
-        tryAction { clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(fullName2))) }
+        clickOnViewWithText(R.string.duration_dialog_save)
+        tryAction { clickOnView(allOf(withId(R.id.viewRunningRecordItem), hasDescendant(withText(fullName2)))) }
 
         // Change setting
         NavUtils.openSettingsScreen()
@@ -1323,6 +1326,8 @@ class SettingsTest : BaseUiTest() {
         NavUtils.openSettingsDisplay()
         onView(withId(R.id.checkboxSettingsShowRecordsCalendar)).perform(nestedScrollTo())
         onView(withId(R.id.checkboxSettingsShowRecordsCalendar)).check(matches(isNotChecked()))
+        checkViewIsNotDisplayed(withText(R.string.settings_reverse_order_in_calendar))
+        checkViewIsNotDisplayed(withId(R.id.checkboxSettingsReverseOrderInCalendar))
         unconstrainedClickOnView(withId(R.id.checkboxSettingsShowRecordsCalendar))
         onView(withId(R.id.checkboxSettingsShowRecordsCalendar)).check(matches(isChecked()))
 
@@ -1333,12 +1338,24 @@ class SettingsTest : BaseUiTest() {
         checkViewDoesNotExist(allOf(withId(R.id.rvRecordsList), isCompletelyDisplayed()))
         checkViewDoesNotExist(allOf(withText(name), isCompletelyDisplayed()))
 
+        // Check reverse order
+        NavUtils.openSettingsScreen()
+        onView(withId(R.id.checkboxSettingsShowRecordsCalendar)).perform(nestedScrollTo())
+        checkViewIsDisplayed(withText(R.string.settings_reverse_order_in_calendar))
+        checkViewIsDisplayed(withId(R.id.checkboxSettingsReverseOrderInCalendar))
+        onView(withId(R.id.checkboxSettingsReverseOrderInCalendar)).check(matches(isNotChecked()))
+        unconstrainedClickOnView(withId(R.id.checkboxSettingsReverseOrderInCalendar))
+        onView(withId(R.id.checkboxSettingsReverseOrderInCalendar)).check(matches(isChecked()))
+        NavUtils.openRecordsScreen()
+
         // Change setting
         NavUtils.openSettingsScreen()
         onView(withId(R.id.checkboxSettingsShowRecordsCalendar)).perform(nestedScrollTo())
         onView(withId(R.id.checkboxSettingsShowRecordsCalendar)).check(matches(isChecked()))
         unconstrainedClickOnView(withId(R.id.checkboxSettingsShowRecordsCalendar))
         onView(withId(R.id.checkboxSettingsShowRecordsCalendar)).check(matches(isNotChecked()))
+        checkViewIsNotDisplayed(withText(R.string.settings_reverse_order_in_calendar))
+        checkViewIsNotDisplayed(withId(R.id.checkboxSettingsReverseOrderInCalendar))
 
         // Record is shown
         NavUtils.openRecordsScreen()
@@ -1467,12 +1484,13 @@ class SettingsTest : BaseUiTest() {
         checkViewIsDisplayed(
             allOf(
                 withPluralText(R.plurals.statistics_detail_times_tracked, count),
-                ViewMatchers.hasSibling(withText(count.toString())),
+                hasSibling(withText(count.toString())),
                 isCompletelyDisplayed()
             )
         )
     }
 
+    @Suppress("SameParameterValue")
     private fun checkManualOrder(name: String) {
         check(name + 2, name + 1) { matcher ->
             isCompletelyRightOf(matcher)

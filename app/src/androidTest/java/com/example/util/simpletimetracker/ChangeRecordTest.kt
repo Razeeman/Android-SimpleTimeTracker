@@ -3,7 +3,6 @@ package com.example.util.simpletimetracker
 import android.view.View
 import android.widget.DatePicker
 import android.widget.TimePicker
-import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.contrib.PickerActions
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
@@ -87,7 +86,7 @@ class ChangeRecordTest : BaseUiTest() {
         checkViewIsDisplayed(allOf(withText(fullName1), isCompletelyDisplayed()))
 
         // Open edit view
-        clickOnView(allOf(withText(fullName1)))
+        clickOnView(withText(fullName1))
 
         // View is set up
         checkViewIsDisplayed(withId(R.id.btnChangeRecordDelete))

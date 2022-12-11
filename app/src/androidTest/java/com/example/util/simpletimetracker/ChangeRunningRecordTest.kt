@@ -277,6 +277,87 @@ class ChangeRunningRecordTest : BaseUiTest() {
         checkPreviewUpdated(hasDescendant(allOf(withId(R.id.tvRunningRecordItemTimer), withText("0$secondString"))))
     }
 
+    @Test
+    fun lastComments() {
+        val nameNoComments = "Name1"
+        val nameComment = "Name2"
+        val nameComments = "Name3"
+        val comment1 = "Comment1"
+        val comment2 = "Comment2"
+        val comment3 = "Comment3"
+
+        // Add data
+        testUtils.addActivity(nameNoComments)
+        testUtils.addActivity(nameComment)
+        testUtils.addActivity(nameComments)
+        testUtils.addRecord(nameNoComments)
+        testUtils.addRecord(nameComment, comment = comment1)
+        testUtils.addRecord(nameComments, comment = comment2)
+        testUtils.addRecord(nameComments, comment = comment3)
+
+        // No last comments
+        tryAction { clickOnViewWithText(nameNoComments) }
+        longClickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(nameNoComments)))
+
+        clickOnViewWithText(R.string.change_record_comment_field)
+        checkViewDoesNotExist(withText(R.string.change_record_last_comments_hint))
+        checkViewDoesNotExist(withText(comment1))
+        checkViewDoesNotExist(withText(comment2))
+        checkViewDoesNotExist(withText(comment3))
+        clickOnViewWithText(R.string.change_record_comment_field)
+
+        // Select activity with one previous comment
+        clickOnViewWithText(R.string.change_record_type_field)
+        clickOnRecyclerItem(R.id.rvChangeRecordType, withText(nameComment))
+        clickOnViewWithText(R.string.change_record_type_field)
+
+        // One last comment
+        clickOnViewWithText(R.string.change_record_comment_field)
+        checkViewIsDisplayed(withText(R.string.change_record_last_comments_hint))
+        checkViewIsDisplayed(withText(comment1))
+        checkViewDoesNotExist(withText(comment2))
+        checkViewDoesNotExist(withText(comment3))
+
+        // Select last comment
+        clickOnViewWithText(comment1)
+        tryAction { checkPreviewUpdated(hasDescendant(withText(comment1))) }
+        typeTextIntoView(R.id.etChangeRecordComment, "")
+        clickOnViewWithText(R.string.change_record_comment_field)
+
+        // Select activity with many previous comments
+        clickOnViewWithText(R.string.change_record_type_field)
+        clickOnRecyclerItem(R.id.rvChangeRecordType, withText(nameComments))
+        clickOnViewWithText(R.string.change_record_type_field)
+
+        // Two last comments
+        clickOnViewWithText(R.string.change_record_comment_field)
+        checkViewIsDisplayed(withText(R.string.change_record_last_comments_hint))
+        checkViewDoesNotExist(withText(comment1))
+        checkViewIsDisplayed(withText(comment2))
+        checkViewIsDisplayed(withText(comment3))
+
+        // Select last comment
+        clickOnViewWithText(comment2)
+        tryAction { checkPreviewUpdated(hasDescendant(withText(comment2))) }
+        clickOnViewWithText(comment3)
+        tryAction { checkPreviewUpdated(hasDescendant(withText(comment3))) }
+        typeTextIntoView(R.id.etChangeRecordComment, "")
+        clickOnViewWithText(R.string.change_record_comment_field)
+
+        // Select activity with no previous comments
+        clickOnViewWithText(R.string.change_record_type_field)
+        clickOnRecyclerItem(R.id.rvChangeRecordType, withText(nameNoComments))
+        clickOnViewWithText(R.string.change_record_type_field)
+
+        // No last comments
+        clickOnViewWithText(R.string.change_record_comment_field)
+        checkViewDoesNotExist(withText(R.string.change_record_last_comments_hint))
+        checkViewDoesNotExist(withText(comment1))
+        checkViewDoesNotExist(withText(comment2))
+        checkViewDoesNotExist(withText(comment3))
+        clickOnViewWithText(R.string.change_record_comment_field)
+    }
+
     private fun checkAfterTimeAdjustment(timeStarted: String) {
         checkPreviewUpdated(hasDescendant(allOf(withId(R.id.tvRunningRecordItemTimeStarted), withText(timeStarted))))
         checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeStarted), withSubstring(timeStarted)))
