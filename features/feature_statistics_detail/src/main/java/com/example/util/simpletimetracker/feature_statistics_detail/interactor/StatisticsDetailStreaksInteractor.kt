@@ -217,11 +217,12 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
         var streakEnd: Long = 0
         durations.forEachIndexed { index, duration ->
             val isLast = index == durations.size - 1
-            if (duration.second > 0 && !isLast) {
+            if (duration.second > 0) {
                 counter++
                 if (streakStart == 0L) streakStart = duration.first
                 streakEnd = duration.first
-            } else {
+            }
+            if (duration.second <= 0 || isLast) {
                 // Series of one day makes no sense.
                 if (counter > 1) {
                     Triple(
@@ -231,6 +232,8 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
                     ).let(data::add)
                 }
                 if (counter > maxStreak) maxStreak = counter
+            }
+            if (duration.second <= 0) {
                 counter = 0
                 streakStart = 0
                 streakEnd = 0

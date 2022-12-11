@@ -32,6 +32,7 @@ import org.junit.runner.RunWith
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
 
+@Suppress("SameParameterValue")
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
 class StatisticsDetailTest : BaseUiTest() {
@@ -1054,6 +1055,62 @@ class StatisticsDetailTest : BaseUiTest() {
         // Range saved
         clickOnView(allOf(withText(name), isCompletelyDisplayed()))
         checkViewIsDisplayed(allOf(withText(R.string.title_this_week), isCompletelyDisplayed()))
+    }
+
+    @Test
+    fun streaks() {
+        val name = "name"
+
+        // Add activity
+        testUtils.addActivity(name)
+
+        // Add records
+        val difference = TimeUnit.HOURS.toMillis(1)
+        val calendar = Calendar.getInstance().apply { set(Calendar.HOUR_OF_DAY, 15) }
+
+        fun addRecord(daysBefore: Int) {
+            calendar.apply { add(Calendar.DATE, daysBefore) }
+            testUtils.addRecord(
+                typeName = name,
+                timeStarted = calendar.timeInMillis,
+                timeEnded = calendar.timeInMillis + difference,
+            )
+        }
+
+        addRecord(0)
+        addRecord(-1)
+        addRecord(-1)
+
+        addRecord(-2)
+        addRecord(-1)
+        addRecord(-1)
+        addRecord(-1)
+        addRecord(-1)
+
+        // Check detailed statistics
+        NavUtils.openStatisticsScreen()
+        tryAction { clickOnView(allOf(withText(name), isCompletelyDisplayed())) }
+        clickOnViewWithIdOnPager(R.id.btnStatisticsDetailToday)
+        clickOnViewWithText(R.string.range_overall)
+
+        onView(withId(R.id.cardStatisticsDetailStreaks)).perform(nestedScrollTo())
+        checkCard(R.string.statistics_detail_streaks_longest, "5")
+        checkCard(R.string.statistics_detail_streaks_current, "3")
+
+        // Streak type
+        onView(withId(R.id.buttonsStatisticsDetailStreaksType)).perform(nestedScrollTo())
+        clickOnView(
+            allOf(
+                withText(R.string.statistics_detail_streaks_longest),
+                isDescendantOfA(withId(R.id.buttonsStatisticsDetailStreaksType))
+            )
+        )
+        clickOnView(
+            allOf(
+                withText(R.string.statistics_detail_streaks_latest),
+                isDescendantOfA(withId(R.id.buttonsStatisticsDetailStreaksType))
+            )
+        )
     }
 
     private fun checkPreview(color: Int, icon: Int, name: String) {
