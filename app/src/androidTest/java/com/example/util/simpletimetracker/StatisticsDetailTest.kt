@@ -1086,7 +1086,14 @@ class StatisticsDetailTest : BaseUiTest() {
         onView(withId(R.id.cardStatisticsDetailAverage)).perform(nestedScrollTo())
         checkCard(R.string.statistics_detail_shortest_record, "-")
         checkCard(R.string.statistics_detail_average_record, "-")
-        checkCard(R.string.statistics_detail_longest_record, "-")
+        checkViewIsDisplayed(
+            allOf(
+                isDescendantOfA(withId(R.id.cardStatisticsDetailAverage)),
+                withText(R.string.statistics_detail_longest_record),
+                hasSibling(withText("-")),
+                isCompletelyDisplayed()
+            )
+        )
 
         onView(withId(R.id.cardStatisticsDetailDates)).perform(nestedScrollTo())
         checkCard(R.string.statistics_detail_first_record, "-")

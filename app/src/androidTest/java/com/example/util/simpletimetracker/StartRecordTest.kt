@@ -113,6 +113,7 @@ class StartRecordTest : BaseUiTest() {
 
         // Add comment
         longClickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name)))
+        clickOnViewWithText(R.string.change_record_comment_field)
         typeTextIntoView(R.id.etChangeRecordComment, comment)
         clickOnViewWithText(R.string.change_record_save)
 
@@ -130,6 +131,7 @@ class StartRecordTest : BaseUiTest() {
             )
         )
         clickOnView(allOf(withText(name), isCompletelyDisplayed()))
+        clickOnViewWithText(R.string.change_record_comment_field)
         checkViewIsDisplayed(allOf(withId(R.id.etChangeRecordComment), withText(comment)))
     }
 

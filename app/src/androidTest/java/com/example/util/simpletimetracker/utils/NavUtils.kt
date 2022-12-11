@@ -219,18 +219,21 @@ object NavUtils {
 
         // Comment
         if (!comment.isNullOrEmpty()) {
+            clickOnViewWithText(R.string.change_record_comment_field)
             typeTextIntoView(R.id.etChangeRecordComment, comment)
-            closeSoftKeyboard()
+            clickOnViewWithText(R.string.change_record_comment_field)
         }
 
         // Activity
         clickOnViewWithText(R.string.change_record_type_field)
         clickOnRecyclerItem(R.id.rvChangeRecordType, withText(name))
+        clickOnViewWithText(R.string.change_record_type_field)
 
         // Tag
         if (tag != null) {
             clickOnViewWithText(R.string.change_record_tag_field)
             clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag))
+            clickOnViewWithText(R.string.change_record_tag_field)
         }
 
         clickOnViewWithText(R.string.change_record_save)

@@ -74,12 +74,15 @@ class ChangeRecordTest : BaseUiTest() {
         var timeRangePreview = (timeEndedTimestamp - timeStartedTimestamp)
             .let { timeMapper.formatInterval(interval = it, forceSeconds = false, useProportionalMinutes = false) }
 
+        clickOnViewWithText(R.string.change_record_comment_field)
         typeTextIntoView(R.id.etChangeRecordComment, comment)
-        closeSoftKeyboard()
+        clickOnViewWithText(R.string.change_record_comment_field)
         clickOnViewWithText(R.string.change_record_type_field)
         clickOnRecyclerItem(R.id.rvChangeRecordType, withText(name))
+        clickOnViewWithText(R.string.change_record_type_field)
         clickOnViewWithText(R.string.change_record_tag_field)
         clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag1))
+        clickOnViewWithText(R.string.change_record_tag_field)
         clickOnViewWithText(R.string.change_record_save)
         checkViewIsDisplayed(allOf(withText(fullName1), isCompletelyDisplayed()))
 
@@ -90,9 +93,9 @@ class ChangeRecordTest : BaseUiTest() {
         checkViewIsDisplayed(withId(R.id.btnChangeRecordDelete))
         checkViewIsNotDisplayed(withId(R.id.rvChangeRecordType))
         checkViewIsNotDisplayed(withId(R.id.rvChangeRecordCategories))
+        checkViewIsNotDisplayed(allOf(withId(R.id.etChangeRecordComment), withText(comment)))
         checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeStarted), withText(timeStarted)))
         checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeEnded), withText(timeEnded)))
-        checkViewIsDisplayed(allOf(withId(R.id.etChangeRecordComment), withText(comment)))
 
         // Preview is updated
         checkPreviewUpdated(hasDescendant(withText(fullName1)))
@@ -168,8 +171,9 @@ class ChangeRecordTest : BaseUiTest() {
         checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeStarted), withText(timeStarted)))
         checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeEnded), withText(timeEnded)))
 
+        clickOnViewWithText(R.string.change_record_comment_field)
         typeTextIntoView(R.id.etChangeRecordComment, newComment)
-        closeSoftKeyboard()
+        clickOnViewWithText(R.string.change_record_comment_field)
 
         // Preview is updated
         checkPreviewUpdated(hasDescendant(withText(fullName2)))

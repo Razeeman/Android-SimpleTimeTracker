@@ -80,8 +80,8 @@ class ChangeRunningRecordTest : BaseUiTest() {
         checkViewIsNotDisplayed(withId(R.id.rvChangeRecordType))
         checkViewIsNotDisplayed(withId(R.id.rvChangeRecordCategories))
         checkViewIsNotDisplayed(withId(R.id.containerChangeRecordTimeAdjust))
+        checkViewIsNotDisplayed(allOf(withId(R.id.etChangeRecordComment), withText("")))
         checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeStarted), withText(timeStarted)))
-        checkViewIsDisplayed(allOf(withId(R.id.etChangeRecordComment), withText("")))
 
         // Preview is updated
         checkPreviewUpdated(hasDescendant(withText(name1)))
@@ -131,7 +131,9 @@ class ChangeRunningRecordTest : BaseUiTest() {
             .let { timeMapper.formatTime(time = it, useMilitaryTime = true, showSeconds = false) }
 
         checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeStarted), withText(timeStarted)))
+        clickOnViewWithText(R.string.change_record_comment_field)
         typeTextIntoView(R.id.etChangeRecordComment, comment)
+        clickOnViewWithText(R.string.change_record_comment_field)
 
         // Preview is updated
         checkPreviewUpdated(hasDescendant(withText(fullName2)))
