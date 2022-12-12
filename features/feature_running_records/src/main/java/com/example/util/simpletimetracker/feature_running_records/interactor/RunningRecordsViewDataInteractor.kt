@@ -28,6 +28,7 @@ class RunningRecordsViewDataInteractor @Inject constructor(
         val numberOfCards = prefsInteractor.getNumberOfCards()
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
+        val showSeconds = prefsInteractor.getShowSeconds()
 
         val runningRecordsViewData = when {
             recordTypes.filterNot { it.hidden }.isEmpty() ->
@@ -45,7 +46,8 @@ class RunningRecordsViewDataInteractor @Inject constructor(
                             recordType = recordTypesMap[runningRecord.id] ?: return@mapNotNull null,
                             recordTags = recordTags.filter { it.id in runningRecord.tagIds },
                             isDarkTheme = isDarkTheme,
-                            useMilitaryTime = useMilitaryTime
+                            useMilitaryTime = useMilitaryTime,
+                            showSeconds = showSeconds,
                         )
                     }
         }

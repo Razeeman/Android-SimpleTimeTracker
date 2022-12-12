@@ -205,6 +205,7 @@ class AddRecordTagTest : BaseUiTest() {
         // Add another general tag
         clickOnViewWithText(R.string.categories_add_record_tag)
         typeTextIntoView(R.id.etChangeRecordTagName, tagNameGeneral)
+        closeSoftKeyboard()
         clickOnViewWithText(R.string.change_record_type_save)
 
         onView(withId(R.id.rvCategoriesList)).check(recyclerItemCount(7))

@@ -104,6 +104,8 @@
     <string name="change_record_continue_hint">将删除当前记录并继续跟踪此活动</string>
     <string name="change_record_merge">合并</string>
     <string name="change_record_merge_hint">将把这个时间添加到以前的记录中</string>
+    <string name="change_record_change_prev_record">同时更改上一个记录的时间</string>
+    <string name="change_record_change_adjacent_records">同时更改相邻记录的时间</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">活动已存档</string>
@@ -193,6 +195,7 @@
     <string name="settings_dark_mode">深色模式</string>
     <string name="settings_use_military_time">使用24小时格式</string>
     <string name="settings_use_proportional_minutes">使用比例分钟格式</string>
+    <string name="settings_show_seconds">显示秒数</string>
     <string name="settings_keep_screen_on">保持屏幕开启</string>
     <string name="settings_change_card_size">更改活动卡片大小</string>
     <string name="settings_archive">存档</string>
@@ -278,6 +281,7 @@
     <string name="statistics_detail_streaks">系列</string>
     <string name="statistics_detail_streaks_longest">最长</string>
     <string name="statistics_detail_streaks_current">当前的</string>
+    <string name="statistics_detail_streaks_latest">最新的</string>
     <string name="statistics_detail_tag_split_hint">标签分布</string>
     <string name="statistics_detail_day_split_hint">每日分发</string>
     <string name="statistics_detail_duration_split_hint">记录持续时间分布</string>

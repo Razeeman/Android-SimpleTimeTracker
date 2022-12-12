@@ -36,6 +36,13 @@ enum class Direction {
     UP, DOWN, LEFT, RIGHT, COORDINATES
 }
 
+fun slowHalfSwipe(): ViewAction = GeneralSwipeAction(
+    Swipe.SLOW,
+    GeneralLocation.CENTER,
+    GeneralLocation.TOP_CENTER,
+    Press.FINGER,
+)
+
 fun swipeUp(requiredViewVisibilityPercentage: Int): ViewAction = object : ViewAction {
     override fun getConstraints(): Matcher<View> {
         return isDisplayingAtLeast(requiredViewVisibilityPercentage)
@@ -240,4 +247,5 @@ fun tryAction(action: () -> Unit) {
             Thread.sleep(1000)
         }
     }
+    action()
 }

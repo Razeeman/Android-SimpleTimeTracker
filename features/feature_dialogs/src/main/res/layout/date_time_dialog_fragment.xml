@@ -1,57 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_height="wrap_content">
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabsDateTimeDialog"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:tabGravity="fill"
-        app:tabIndicatorColor="?appTabSelectedColor"
-        app:tabMode="fixed"
-        app:tabSelectedTextColor="?appTextPrimaryColor">
+        android:orientation="vertical">
 
-        <com.google.android.material.tabs.TabItem
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabsDateTimeDialog"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/date_time_dialog_date" />
+            app:tabGravity="fill"
+            app:tabIndicatorColor="?appTabSelectedColor"
+            app:tabMode="fixed"
+            app:tabSelectedTextColor="?appTextPrimaryColor">
 
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="match_parent"
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/date_time_dialog_date" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/date_time_dialog_time" />
+
+        </com.google.android.material.tabs.TabLayout>
+
+        <FrameLayout
+            android:id="@+id/datePickerContainer"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/date_time_dialog_time" />
+            android:visibility="gone"
+            tools:layout_height="200dp"
+            tools:layout_width="200dp"
+            tools:visibility="visible" />
 
-    </com.google.android.material.tabs.TabLayout>
+        <FrameLayout
+            android:id="@+id/timePickerContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            tools:layout_height="200dp"
+            tools:layout_width="200dp" />
 
-    <FrameLayout
-        android:id="@+id/datePickerContainer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        tools:layout_height="200dp"
-        tools:layout_width="200dp"
-        tools:visibility="visible" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnDateTimeDialogPositive"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginEnd="8dp"
+            android:text="@android:string/ok"
+            android:textColor="?colorSecondary" />
 
-    <FrameLayout
-        android:id="@+id/timePickerContainer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        tools:layout_height="200dp"
-        tools:layout_width="200dp" />
+    </LinearLayout>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnDateTimeDialogPositive"
-        style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:layout_marginEnd="8dp"
-        android:text="@android:string/ok"
-        android:textColor="?colorSecondary" />
-
-</LinearLayout>
+</androidx.core.widget.NestedScrollView>

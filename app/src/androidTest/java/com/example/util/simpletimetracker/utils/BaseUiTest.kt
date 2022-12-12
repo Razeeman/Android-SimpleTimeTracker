@@ -113,6 +113,18 @@ open class BaseUiTest {
             .getColor(id)
     }
 
+    internal fun Long.formatTime(): String {
+        return timeMapper.formatTime(time = this, useMilitaryTime = true, showSeconds = false)
+    }
+
+    internal fun Long.formatDateTime(): String {
+        return timeMapper.formatDateTime(time = this, useMilitaryTime = true, showSeconds = false)
+    }
+
+    internal fun Long.formatInterval(): String {
+        return timeMapper.formatInterval(interval = this, forceSeconds = false, useProportionalMinutes = false)
+    }
+
     private fun clearData() {
         testUtils.clearDatabase()
         testUtils.clearPrefs()

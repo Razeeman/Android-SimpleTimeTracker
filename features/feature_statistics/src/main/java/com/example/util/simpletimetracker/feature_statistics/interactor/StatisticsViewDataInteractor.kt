@@ -24,6 +24,7 @@ class StatisticsViewDataInteractor @Inject constructor(
         val filterType = prefsInteractor.getChartFilterType()
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
+        val showSeconds = prefsInteractor.getShowSeconds()
         val showDuration = rangeLength !is RangeLength.All
         val types = recordTypeInteractor.getAll()
 
@@ -57,12 +58,14 @@ class StatisticsViewDataInteractor @Inject constructor(
             filteredIds = filteredIds,
             showDuration = showDuration,
             isDarkTheme = isDarkTheme,
-            useProportionalMinutes = useProportionalMinutes
+            useProportionalMinutes = useProportionalMinutes,
+            showSeconds = showSeconds,
         )
         val totalTracked: ViewHolderType = statisticsMediator.getStatisticsTotalTracked(
             statistics = statistics,
             filteredIds = filteredIds,
-            useProportionalMinutes = useProportionalMinutes
+            useProportionalMinutes = useProportionalMinutes,
+            showSeconds = showSeconds,
         ).let(statisticsViewDataMapper::mapStatisticsTotalTracked)
 
         // Assemble data.

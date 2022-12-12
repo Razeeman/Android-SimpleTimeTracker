@@ -104,6 +104,8 @@
     <string name="change_record_continue_hint">Irá remover o registro atual e continuar rastreando esta atividade</string>
     <string name="change_record_merge">Mesclar</string>
     <string name="change_record_merge_hint">Irá adicionar este tempo ao recorde anterior</string>
+    <string name="change_record_change_prev_record">Mude também a hora do registro anterior</string>
+    <string name="change_record_change_adjacent_records">Também altere a hora dos registros adjacentes</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Atividade arquivada</string>
@@ -193,6 +195,7 @@
     <string name="settings_dark_mode">Modo noturno</string>
     <string name="settings_use_military_time">Usar formato de 24 horas</string>
     <string name="settings_use_proportional_minutes">Usar o formato de minuto proporcional</string>
+    <string name="settings_show_seconds">Mostrar segundos</string>
     <string name="settings_keep_screen_on">Mantenha a tela ligada</string>
     <string name="settings_change_card_size">Alterar o tamanho do cartão de atividade</string>
     <string name="settings_archive">Arquivo</string>
@@ -278,6 +281,7 @@ Parâmetros opcionais para iniciar a atividade:<br/>
     <string name="statistics_detail_streaks">Series</string>
     <string name="statistics_detail_streaks_longest">Maior</string>
     <string name="statistics_detail_streaks_current">Atual</string>
+    <string name="statistics_detail_streaks_latest">Mais recentes</string>
     <string name="statistics_detail_tag_split_hint">Distribuição de tags</string>
     <string name="statistics_detail_day_split_hint">Distribuição diária</string>
     <string name="statistics_detail_duration_split_hint">Distribuição da duração do registro</string>

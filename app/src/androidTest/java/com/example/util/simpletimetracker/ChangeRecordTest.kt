@@ -3,7 +3,6 @@ package com.example.util.simpletimetracker
 import android.view.View
 import android.widget.DatePicker
 import android.widget.TimePicker
-import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.contrib.PickerActions
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
@@ -61,34 +60,41 @@ class ChangeRecordTest : BaseUiTest() {
         val currentTime = System.currentTimeMillis()
         var timeStartedTimestamp = currentTime - 60 * 60 * 1000
         var timeEndedTimestamp = currentTime
-        var timeStarted = timeMapper.formatDateTime(timeStartedTimestamp, true)
-        var timeEnded = timeMapper.formatDateTime(timeEndedTimestamp, true)
+        var timeStarted = timeMapper.formatDateTime(
+            time = timeStartedTimestamp, useMilitaryTime = true, showSeconds = false
+        )
+        var timeEnded = timeMapper.formatDateTime(
+            time = timeEndedTimestamp, useMilitaryTime = true, showSeconds = false
+        )
         var timeStartedPreview = timeStartedTimestamp
-            .let { timeMapper.formatTime(it, true) }
+            .let { timeMapper.formatTime(time = it, useMilitaryTime = true, showSeconds = false) }
         var timeEndedPreview = timeEndedTimestamp
-            .let { timeMapper.formatTime(it, true) }
+            .let { timeMapper.formatTime(time = it, useMilitaryTime = true, showSeconds = false) }
         var timeRangePreview = (timeEndedTimestamp - timeStartedTimestamp)
-            .let { timeMapper.formatInterval(it, false) }
+            .let { timeMapper.formatInterval(interval = it, forceSeconds = false, useProportionalMinutes = false) }
 
+        clickOnViewWithText(R.string.change_record_comment_field)
         typeTextIntoView(R.id.etChangeRecordComment, comment)
-        closeSoftKeyboard()
+        clickOnViewWithText(R.string.change_record_comment_field)
         clickOnViewWithText(R.string.change_record_type_field)
         clickOnRecyclerItem(R.id.rvChangeRecordType, withText(name))
+        clickOnViewWithText(R.string.change_record_type_field)
         clickOnViewWithText(R.string.change_record_tag_field)
         clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag1))
+        clickOnViewWithText(R.string.change_record_tag_field)
         clickOnViewWithText(R.string.change_record_save)
         checkViewIsDisplayed(allOf(withText(fullName1), isCompletelyDisplayed()))
 
         // Open edit view
-        clickOnView(allOf(withText(fullName1)))
+        clickOnView(withText(fullName1))
 
         // View is set up
         checkViewIsDisplayed(withId(R.id.btnChangeRecordDelete))
         checkViewIsNotDisplayed(withId(R.id.rvChangeRecordType))
         checkViewIsNotDisplayed(withId(R.id.rvChangeRecordCategories))
+        checkViewIsNotDisplayed(allOf(withId(R.id.etChangeRecordComment), withText(comment)))
         checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeStarted), withText(timeStarted)))
         checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeEnded), withText(timeEnded)))
-        checkViewIsDisplayed(allOf(withId(R.id.etChangeRecordComment), withText(comment)))
 
         // Preview is updated
         checkPreviewUpdated(hasDescendant(withText(fullName1)))
@@ -151,21 +157,22 @@ class ChangeRecordTest : BaseUiTest() {
             timeInMillis
         }
         timeStarted = timeStartedTimestamp
-            .let { timeMapper.formatDateTime(it, true) }
+            .let { timeMapper.formatDateTime(time = it, useMilitaryTime = true, showSeconds = false) }
         timeEnded = timeEndedTimestamp
-            .let { timeMapper.formatDateTime(it, true) }
+            .let { timeMapper.formatDateTime(time = it, useMilitaryTime = true, showSeconds = false) }
         timeStartedPreview = timeStartedTimestamp
-            .let { timeMapper.formatTime(it, true) }
+            .let { timeMapper.formatTime(time = it, useMilitaryTime = true, showSeconds = false) }
         timeEndedPreview = timeEndedTimestamp
-            .let { timeMapper.formatTime(it, true) }
+            .let { timeMapper.formatTime(time = it, useMilitaryTime = true, showSeconds = false) }
         timeRangePreview = (timeEndedTimestamp - timeStartedTimestamp)
-            .let { timeMapper.formatInterval(it, false) }
+            .let { timeMapper.formatInterval(interval = it, forceSeconds = false, useProportionalMinutes = false) }
 
         checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeStarted), withText(timeStarted)))
         checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeEnded), withText(timeEnded)))
 
+        clickOnViewWithText(R.string.change_record_comment_field)
         typeTextIntoView(R.id.etChangeRecordComment, newComment)
-        closeSoftKeyboard()
+        clickOnViewWithText(R.string.change_record_comment_field)
 
         // Preview is updated
         checkPreviewUpdated(hasDescendant(withText(fullName2)))

@@ -104,6 +104,8 @@
     <string name="change_record_continue_hint">Geçerli kaydı kaldıracak ve bu etkinliği izlemeye devam edecek</string>
     <string name="change_record_merge">Birleştirmek</string>
     <string name="change_record_merge_hint">Bu sefer önceki rekora eklenecek</string>
+    <string name="change_record_change_prev_record">Ayrıca önceki kaydın zamanını değiştir</string>
+    <string name="change_record_change_adjacent_records">Bitişik kayıtların zamanını da değiştir</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Aktivite arşivlendi</string>
@@ -193,6 +195,7 @@
     <string name="settings_dark_mode">Karanlık mod</string>
     <string name="settings_use_military_time">24-saat formatını kullan</string>
     <string name="settings_use_proportional_minutes">Oransal dakika formatını kullan</string>
+    <string name="settings_show_seconds">Saniye göster</string>
     <string name="settings_keep_screen_on">Ekranı açık tut</string>
     <string name="settings_change_card_size">Aktivite kartı boyutunu değiştir</string>
     <string name="settings_archive">Arşiv</string>
@@ -278,6 +281,7 @@ Aktiviteyi başlatmak için isteğe bağlı parametreler:<br/>
     <string name="statistics_detail_streaks">Diziler</string>
     <string name="statistics_detail_streaks_longest">En uzun</string>
     <string name="statistics_detail_streaks_current">Akım</string>
+    <string name="statistics_detail_streaks_latest">En sonuncu</string>
     <string name="statistics_detail_tag_split_hint">Etiket dağılımı</string>
     <string name="statistics_detail_day_split_hint">Günlük dağılım</string>
     <string name="statistics_detail_duration_split_hint">Kayıt süresi dağılımı</string>

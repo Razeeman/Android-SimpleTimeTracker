@@ -77,6 +77,7 @@ class SettingsFragment :
             checkboxSettingsShowActivityFilters.setOnClick(viewModel::onShowActivityFiltersClicked)
             checkboxSettingsUseMilitaryTime.setOnClick(viewModel::onUseMilitaryTimeClicked)
             checkboxSettingsUseProportionalMinutes.setOnClick(viewModel::onUseProportionalMinutesClicked)
+            checkboxSettingsShowSeconds.setOnClick(viewModel::onShowSecondsClicked)
             checkboxSettingsKeepScreenOn.setOnClick(viewModel::onKeepScreenOnClicked)
             tvSettingsChangeCardSize.setOnClick(viewModel::onChangeCardSizeClick)
         }
@@ -123,6 +124,7 @@ class SettingsFragment :
                 showActivityFiltersCheckbox.observe(checkboxSettingsShowActivityFilters::setChecked)
                 useMilitaryTimeCheckbox.observe(checkboxSettingsUseMilitaryTime::setChecked)
                 useProportionalMinutesCheckbox.observe(checkboxSettingsUseProportionalMinutes::setChecked)
+                showSecondsCheckbox.observe(checkboxSettingsShowSeconds::setChecked)
                 useMilitaryTimeHint.observe(tvSettingsUseMilitaryTimeHint::setText)
                 useProportionalMinutesHint.observe(tvSettingsUseProportionalMinutesHint::setText)
             }
@@ -163,6 +165,7 @@ class SettingsFragment :
             checkboxSettingsShowActivityFilters.jumpDrawablesToCurrentState()
             checkboxSettingsUseMilitaryTime.jumpDrawablesToCurrentState()
             checkboxSettingsUseProportionalMinutes.jumpDrawablesToCurrentState()
+            checkboxSettingsShowSeconds.jumpDrawablesToCurrentState()
             checkboxSettingsKeepScreenOn.jumpDrawablesToCurrentState()
         }
         with(layoutSettingsAdditional) {

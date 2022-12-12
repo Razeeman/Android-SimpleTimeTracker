@@ -104,6 +104,8 @@
     <string name="change_record_continue_hint">Tar bort sluttid och återaktiverar denna aktivitet</string>
     <string name="change_record_merge">Sammanfoga</string>
     <string name="change_record_merge_hint">Lägger till denna tid till tidigare händelse</string>
+    <string name="change_record_change_prev_record">Ändra även tid för tidigare händelse</string>
+    <string name="change_record_change_adjacent_records">Ändra också tiden för de intilliggande händelserna</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Aktivitet arkiverad</string>
@@ -193,6 +195,7 @@
     <string name="settings_dark_mode">Mörkt läge</string>
     <string name="settings_use_military_time">Använd 24-timmarsklocka</string>
     <string name="settings_use_proportional_minutes">Använd decimaltal för tid</string>
+    <string name="settings_show_seconds">Visa sekunder</string>
     <string name="settings_keep_screen_on">Håll skärmen på</string>
     <string name="settings_change_card_size">Ändra storlek på aktivitetskort</string>
     <string name="settings_archive">Arkiv</string>
@@ -278,6 +281,7 @@ Valfria parametrar för start av aktivitet:<br/>
     <string name="statistics_detail_streaks">Serier</string>
     <string name="statistics_detail_streaks_longest">Längsta</string>
     <string name="statistics_detail_streaks_current">Nuvarande</string>
+    <string name="statistics_detail_streaks_latest">Senast</string>
     <string name="statistics_detail_tag_split_hint">Fördelning av taggar</string>
     <string name="statistics_detail_day_split_hint">Daglig fördelning</string>
     <string name="statistics_detail_duration_split_hint">Fördelning händelselängd</string>

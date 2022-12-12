@@ -18,10 +18,14 @@ class TimeMapper @Inject constructor(
 ) {
 
     private val timeFormat = SimpleDateFormat("h:mm a", Locale.getDefault())
+    private val timeFormatWithSeconds = SimpleDateFormat("h:mm:ss a", Locale.getDefault())
     private val timeFormatMilitary = SimpleDateFormat("HH:mm", Locale.getDefault())
+    private val timeFormatMilitaryWithSeconds = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
 
     private val dateTimeFormat = SimpleDateFormat("MMM d h:mm a", Locale.getDefault())
+    private val dateTimeFormatWithSeconds = SimpleDateFormat("MMM d h:mm:ss a", Locale.getDefault())
     private val dateTimeFormatMilitary = SimpleDateFormat("MMM d HH:mm", Locale.getDefault())
+    private val dateTimeFormatMilitaryWithSeconds = SimpleDateFormat("MMM d HH:mm:ss", Locale.getDefault())
 
     private val dateTimeYearFormat = SimpleDateFormat("MMM d yyyy h:mm a", Locale.getDefault())
     private val dateTimeYearFormatMilitary = SimpleDateFormat("MMM d yyyy HH:mm", Locale.getDefault())
@@ -37,20 +41,28 @@ class TimeMapper @Inject constructor(
     private val yearTitleFormat = SimpleDateFormat("yyyy", Locale.getDefault())
 
     // 12:21
-    fun formatTime(time: Long, useMilitaryTime: Boolean): String {
+    fun formatTime(
+        time: Long,
+        useMilitaryTime: Boolean,
+        showSeconds: Boolean,
+    ): String {
         return if (useMilitaryTime) {
-            timeFormatMilitary
+            if (showSeconds) timeFormatMilitaryWithSeconds else timeFormatMilitary
         } else {
-            timeFormat
+            if (showSeconds) timeFormat else timeFormatWithSeconds
         }.format(time)
     }
 
     // Mar 11 12:21
-    fun formatDateTime(time: Long, useMilitaryTime: Boolean): String {
+    fun formatDateTime(
+        time: Long,
+        useMilitaryTime: Boolean,
+        showSeconds: Boolean,
+    ): String {
         return if (useMilitaryTime) {
-            dateTimeFormatMilitary
+            if (showSeconds) dateTimeFormatMilitaryWithSeconds else dateTimeFormatMilitary
         } else {
-            dateTimeFormat
+            if (showSeconds) dateTimeFormatWithSeconds else dateTimeFormat
         }.format(time)
     }
 
@@ -82,14 +94,6 @@ class TimeMapper @Inject constructor(
     fun formatShortYear(time: Long): String {
         return shortYearFormat.format(time)
     }
-
-    // 1h 7m
-    fun formatInterval(interval: Long, useProportionalMinutes: Boolean): String =
-        formatInterval(interval, forceSeconds = false, useProportionalMinutes)
-
-    // 1h 7m 21s
-    fun formatIntervalWithForcedSeconds(interval: Long): String =
-        formatInterval(interval, forceSeconds = true, useProportionalMinutes = false)
 
     fun toTimestampShifted(rangesFromToday: Int, range: RangeLength): Long {
         val calendarStep = when (range) {
@@ -395,7 +399,11 @@ class TimeMapper @Inject constructor(
             .getActualMaximum(field)
     }
 
-    private fun formatInterval(interval: Long, forceSeconds: Boolean, useProportionalMinutes: Boolean): String {
+    /**
+     * @param forceSeconds - true 1h 7m 21s, false 1h 7m
+     * @param useProportionalMinutes - true 1.25h
+     */
+    fun formatInterval(interval: Long, forceSeconds: Boolean, useProportionalMinutes: Boolean): String {
         val hourString = resourceRepo.getString(R.string.time_hour)
         val minuteString = resourceRepo.getString(R.string.time_minute)
         val secondString = resourceRepo.getString(R.string.time_second)
@@ -410,7 +418,7 @@ class TimeMapper @Inject constructor(
             interval - TimeUnit.HOURS.toMillis(hr) - TimeUnit.MINUTES.toMillis(min)
         )
 
-        if (useProportionalMinutes && !forceSeconds)
+        if (useProportionalMinutes)
             return formatIntervalProportional(hr, min)
 
         val willShowHours = hr != 0L

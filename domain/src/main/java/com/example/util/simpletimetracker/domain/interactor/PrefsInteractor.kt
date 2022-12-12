@@ -232,6 +232,14 @@ class PrefsInteractor @Inject constructor(
         prefsRepo.useProportionalMinutes = isUsed
     }
 
+    suspend fun getShowSeconds(): Boolean = withContext(Dispatchers.IO) {
+        prefsRepo.showSeconds
+    }
+
+    suspend fun setShowSeconds(isUsed: Boolean) = withContext(Dispatchers.IO) {
+        prefsRepo.showSeconds = isUsed
+    }
+
     suspend fun getKeepScreenOn(): Boolean = withContext(Dispatchers.IO) {
         prefsRepo.keepScreenOn
     }

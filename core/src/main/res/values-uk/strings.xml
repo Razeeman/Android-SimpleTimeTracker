@@ -104,6 +104,8 @@
     <string name="change_record_continue_hint">Буде видалено поточний запис і продовжено відстеження цієї діяльності</string>
     <string name="change_record_merge">Об’єднати</string>
     <string name="change_record_merge_hint">Додасть цей час до попереднього запису</string>
+    <string name="change_record_change_prev_record">Також змінити час попереднього запису</string>
+    <string name="change_record_change_adjacent_records">Також змінити час суміжних записів</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Активність переміщено до архіву</string>
@@ -193,6 +195,7 @@
     <string name="settings_dark_mode">Темний режим</string>
     <string name="settings_use_military_time">Використовувати 24-годинний формат</string>
     <string name="settings_use_proportional_minutes">Використовуйте пропорційний хвилинний формат</string>
+    <string name="settings_show_seconds">Показати секунди</string>
     <string name="settings_keep_screen_on">Тримайте екран увімкненим</string>
     <string name="settings_change_card_size">Змінити розмір картки активності</string>
     <string name="settings_archive">Архів</string>
@@ -278,6 +281,7 @@
     <string name="statistics_detail_streaks">Серія</string>
     <string name="statistics_detail_streaks_longest">Найдовший</string>
     <string name="statistics_detail_streaks_current">Поточний</string>
+    <string name="statistics_detail_streaks_latest">Останній</string>
     <string name="statistics_detail_tag_split_hint">Розподіл тегів</string>
     <string name="statistics_detail_day_split_hint">Розподіл протягом дня</string>
     <string name="statistics_detail_duration_split_hint">Розподіл тривалості запису</string>

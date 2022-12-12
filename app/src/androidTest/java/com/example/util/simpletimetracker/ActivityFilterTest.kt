@@ -347,15 +347,13 @@ class ActivityFilterTest : BaseUiTest() {
         )
 
         // Check filtering
-        tryAction {
-            checkFilter(filterByActivity1, R.color.colorInactive)
-            checkFilter(filterByActivity2, R.color.colorInactive)
-            checkFilter(filterByCategory1, R.color.colorInactive)
-            checkFilter(filterByCategory2, R.color.colorInactive)
-            checkFilter(filterByCategoryAll, R.color.colorInactive)
-            checkFilter(filterEmpty, R.color.colorInactive)
-            checkTypes(displayed = availableTypes, available = availableTypes)
-        }
+        tryAction { checkFilter(filterByActivity1, R.color.colorFiltered) }
+        checkFilter(filterByActivity2, R.color.colorFiltered)
+        checkFilter(filterByCategory1, R.color.colorFiltered)
+        checkFilter(filterByCategory2, R.color.colorFiltered)
+        checkFilter(filterByCategoryAll, R.color.colorFiltered)
+        checkFilter(filterEmpty, R.color.colorFiltered)
+        checkTypes(displayed = availableTypes, available = availableTypes)
 
         clickOnViewWithText(filterByActivity1)
         checkFilter(filterByActivity1, firstColor)

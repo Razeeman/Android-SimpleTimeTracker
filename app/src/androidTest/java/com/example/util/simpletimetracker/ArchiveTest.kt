@@ -200,7 +200,6 @@ class ArchiveTest : BaseUiTest() {
         checkTagVisible(tag3)
         checkTagNotVisible(tag4)
         pressBack()
-        tryAction { clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name1))) }
 
         // Shown in archive
         NavUtils.openSettingsScreen()
@@ -257,6 +256,7 @@ class ArchiveTest : BaseUiTest() {
         testUtils.addRecord(name1, tagNames = listOf(tag3))
         testUtils.addRecord(name1, tagNames = listOf(tag1, tag3))
         testUtils.addRecord(name1)
+        Thread.sleep(1000)
 
         // Delete
         tryAction { longClickOnView(withText(name1)) }

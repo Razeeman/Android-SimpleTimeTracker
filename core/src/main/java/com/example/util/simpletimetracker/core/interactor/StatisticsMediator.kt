@@ -82,11 +82,16 @@ class StatisticsMediator @Inject constructor(
         statistics: List<Statistics>,
         filteredIds: List<Long>,
         useProportionalMinutes: Boolean,
+        showSeconds: Boolean,
     ): String {
         val statisticsFiltered = statistics
             .filterNot { it.id in filteredIds || it.id == UNTRACKED_ITEM_ID }
         val total = statisticsFiltered.map(Statistics::duration).sum()
-        return timeMapper.formatInterval(total, useProportionalMinutes)
+        return timeMapper.formatInterval(
+            interval = total,
+            forceSeconds = showSeconds,
+            useProportionalMinutes = useProportionalMinutes,
+        )
     }
 
     private suspend fun getAll(

@@ -111,6 +111,7 @@ class ChangeRecordCore(
         btnChangeRecordTimeStartedAdjust.setOnClick(viewModel::onAdjustTimeStartedClick)
         btnChangeRecordTimeEndedAdjust.setOnClick(viewModel::onAdjustTimeEndedClick)
         btnChangeRecordTimeSplitAdjust.setOnClick(viewModel::onAdjustTimeSplitClick)
+        checkboxChangeRecordAdjustPrevRecord.setOnClick(viewModel::onAdjustPrevRecordClick)
         containerChangeRecordTimeAdjust.listener = viewModel::onAdjustTimeItemClick
         containerChangeRecordTimeSplitAdjust.listener = viewModel::onAdjustTimeSplitItemClick
         btnChangeRecordSave.setOnClick(viewModel::onSaveClick)
@@ -155,6 +156,8 @@ class ChangeRecordCore(
             timeSplitText.observe(tvChangeRecordTimeSplit::setText)
             lastComments.observe(commentsAdapter::replace)
             comment.observe { updateUi(binding, it) }
+            adjustPrevRecordVisible.observe(containerChangeRecordAdjustPrevRecord::isVisible::set)
+            adjustPrevRecordCheckbox.observe(checkboxChangeRecordAdjustPrevRecord::setChecked)
         }
     }
 

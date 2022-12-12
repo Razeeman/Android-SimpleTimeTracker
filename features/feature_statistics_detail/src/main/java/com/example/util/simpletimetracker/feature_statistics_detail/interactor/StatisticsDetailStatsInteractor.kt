@@ -47,6 +47,7 @@ class StatisticsDetailStatsInteractor @Inject constructor(
         val startOfDayShift = prefsInteractor.getStartOfDayShift()
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
         val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
+        val showSeconds = prefsInteractor.getShowSeconds()
         val types = recordTypeInteractor.getAll()
         val tags = recordTagInteractor.getAll()
 
@@ -81,7 +82,8 @@ class StatisticsDetailStatsInteractor @Inject constructor(
             tags = tags,
             isDarkTheme = isDarkTheme,
             useMilitaryTime = useMilitaryTime,
-            useProportionalMinutes = useProportionalMinutes
+            useProportionalMinutes = useProportionalMinutes,
+            showSeconds = showSeconds,
         )
     }
 
@@ -115,6 +117,7 @@ class StatisticsDetailStatsInteractor @Inject constructor(
         isDarkTheme: Boolean,
         useMilitaryTime: Boolean,
         useProportionalMinutes: Boolean,
+        showSeconds: Boolean,
     ): StatisticsDetailStatsViewData {
         val recordsSorted = records.sortedBy { it.timeStarted }
         val durations = records.map(::mapToDuration)
@@ -138,12 +141,17 @@ class StatisticsDetailStatsInteractor @Inject constructor(
             typesMap = types.associateBy { it.id },
             tagsMap = tags.associateBy { it.id },
             isDarkTheme = isDarkTheme,
-            useProportionalMinutes = useProportionalMinutes
+            useProportionalMinutes = useProportionalMinutes,
+            showSeconds = showSeconds,
         )
 
         fun formatInterval(value: Long?): String {
             value ?: return emptyValue
-            return timeMapper.formatInterval(value, useProportionalMinutes)
+            return timeMapper.formatInterval(
+                interval = value,
+                forceSeconds = showSeconds,
+                useProportionalMinutes = useProportionalMinutes,
+            )
         }
 
         fun formatDateTimeYear(value: Long?): String {
@@ -284,6 +292,7 @@ class StatisticsDetailStatsInteractor @Inject constructor(
         tagsMap: Map<Long, RecordTag>,
         isDarkTheme: Boolean,
         useProportionalMinutes: Boolean,
+        showSeconds: Boolean,
     ): List<ViewHolderType> {
         val tags: MutableMap<Long, MutableList<Record>> = mutableMapOf()
 
@@ -318,6 +327,7 @@ class StatisticsDetailStatsInteractor @Inject constructor(
                     isDarkTheme = isDarkTheme,
                     statisticsSize = tagsSize,
                     useProportionalMinutes = useProportionalMinutes,
+                    showSeconds = showSeconds,
                 ) to duration
             }
             .sortedByDescending { (_, duration) -> duration }
@@ -332,6 +342,7 @@ class StatisticsDetailStatsInteractor @Inject constructor(
         isDarkTheme: Boolean,
         statisticsSize: Int,
         useProportionalMinutes: Boolean,
+        showSeconds: Boolean,
     ): StatisticsTagViewData {
         val durationPercent = statisticsMapper.getDurationPercentString(
             sumDuration = sumDuration,
@@ -344,7 +355,13 @@ class StatisticsDetailStatsInteractor @Inject constructor(
             name = tag?.name
                 ?: R.string.change_record_untagged.let(resourceRepo::getString),
             duration = duration
-                .let { timeMapper.formatInterval(it, useProportionalMinutes) },
+                .let {
+                    timeMapper.formatInterval(
+                        interval = it,
+                        forceSeconds = showSeconds,
+                        useProportionalMinutes = useProportionalMinutes,
+                    )
+                },
             percent = durationPercent,
             // Take icon and color from recordType if it is a typed tag,
             // show empty icon and tag color for untyped tags,

@@ -30,7 +30,7 @@ object Versions {
     const val navigationKtx = "2.3.5"
 
     const val junit = "4.13"
-    const val junitUi = "1.1.1"
-    const val espresso = "3.2.0"
+    const val junitUi = "1.1.4"
+    const val espresso = "3.5.0"
     const val mockito = "3.1.0"
 }

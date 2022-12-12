@@ -52,7 +52,7 @@ class TimeMapperTest {
             assertEquals(
                 "Test failed for params $input",
                 output,
-                subject.formatInterval(input, useProportionalMinutes = false)
+                subject.formatInterval(input, useProportionalMinutes = false, forceSeconds = false)
             )
         }
 
@@ -98,7 +98,7 @@ class TimeMapperTest {
             assertEquals(
                 "Test failed for params $input",
                 output,
-                subject.formatInterval(input, useProportionalMinutes = true)
+                subject.formatInterval(input, useProportionalMinutes = true, forceSeconds = false)
             )
         }
 
@@ -158,7 +158,7 @@ class TimeMapperTest {
             assertEquals(
                 "Test failed for params $input",
                 output,
-                subject.formatIntervalWithForcedSeconds(input)
+                subject.formatInterval(input, useProportionalMinutes = false, forceSeconds = true)
             )
         }
 

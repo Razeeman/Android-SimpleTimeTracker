@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="day_of_week_monday">सोम</string>
+    <string name="day_of_week_tuesday">मंगल</string>
+    <string name="day_of_week_wednesday">बुध</string>
+    <string name="day_of_week_thursday">गुरु</string>
+    <string name="day_of_week_friday">शुक्र</string>
+    <string name="day_of_week_saturday">शनि</string>
+    <string name="day_of_week_sunday">रवि</string>
+
+    <string name="activity_hint">गतिविधियां</string>
+    <string name="category_hint">श्रेणियाँ</string>
+    <string name="record_tag_hint">टैग दर्ज करे</string>
+    <string name="nothing_selected">कुछ भी चयनित नहीं</string>
+    <string name="something_selected">चयनित:</string>
+
+    <!--  Range selection  -->
+    <string name="title_yesterday">कल</string>
+    <string name="title_today">आज</string>
+    <string name="title_tomorrow">कल का दिन</string>
+    <string name="title_this_week">इस सप्ताह</string>
+    <string name="title_this_month">इस महीने</string>
+    <string name="title_this_year">इस साल</string>
+
+    <string name="range_day">दिन</string>
+    <string name="range_week">सप्ताह</string>
+    <string name="range_month">महीना</string>
+    <string name="range_year">साल</string>
+    <string name="range_overall">कुल मिलाकर</string>
+    <string name="range_custom">सीमा</string>
+    <string name="range_last">पिछले 7 दिन</string>
+    <string name="range_select_day">तारीख़ चुनें</string>
+    <string name="range_select_week">सप्ताह का चयन करें</string>
+    <string name="range_select_month">महीना चुनिए</string>
+    <string name="range_select_year">वर्ष का चयन करें</string>
+
+    <string name="ok">ठीक है</string>
+    <string name="cancel">रद्द करे</string>
+
+    <string name="time_hour">h</string>
+    <string name="time_minute">m</string>
+    <string name="time_second">s</string>
+
+    <string name="untracked_time_name">ट्रैक न किए गए</string>
+    <string name="running_record_goal_time">लक्ष्य %s</string>
+    <string name="record_types_empty">कोई गतिविधियाँ जोड़ी गईं</string>
+    <string name="record_tag_selection_hint">रिकॉर्ड टैग का चयन करें</string>
+    <string name="time_now">अब</string>
+    <string name="cannot_be_in_the_future">समय भविष्य में नहीं हो सकता</string>
+
+    <!--  Records  -->
+    <string name="record_removed">रिकॉर्ड %s हटा दिया गया</string>
+    <string name="record_removed_undo">पूर्ववत</string>
+    <string name="records_empty">दिखाने के लिए कुछ भी नहीं</string>
+    <string name="records_hint">एडिट करने के लिए रिकॉर्ड पर क्लिक करें</string>
+
+    <!--  Statistics  -->
+    <string name="statistics_empty">दिखाने के लिए कुछ भी नहीं</string>
+    <string name="statistics_total_tracked">कुल ट्रैक किया हुआ</string>
+    <string name="statistics_total_tracked_short">कुल</string>
+    <string name="statistics_hint">विस्तृत आँकड़े देखने के लिए कार्ड पर क्लिक करें</string>
+
+    <!--  Categories  -->
+    <string name="categories_title">श्रेणियां और टैग</string>
+    <string name="categories_edit_hint">संपादित करने के लिए कार्ड पर क्लिक करें</string>
+    <string name="categories_record_type_hint">अपने समूहीकृत आँकड़ों को देखने के लिए एक ही श्रेणी को विभिन्न गतिविधियों के लिए असाइन करें</string>
+    <string name="categories_record_hint">उनके बीच अंतर करने के लिए रिकॉर्ड के लिए अलग -अलग टैग असाइन करें</string>
+    <string name="categories_add_category">कैटेगरी जोड़े</string>
+    <string name="categories_add_record_tag">रिकॉर्ड टैग जोड़ें</string>
+
+    <!--  Change category  -->
+    <string name="change_category_removed">श्रेणी हटा दिया गयी</string>
+    <string name="change_category_name_hint">नया नाम दर्ज करें</string>
+    <string name="change_category_color_hint">रंग</string>
+    <string name="change_category_types_hint">गतिविधियां</string>
+    <string name="change_category_save">बचाना</string>
+    <string name="change_category_message_choose_name">एक नाम चुनो</string>
+
+    <!--  Change record tag  -->
+    <string name="change_record_tag_archived">टैग संग्रहीत</string>
+    <string name="change_record_tag_type_hint">गतिविधि</string>
+    <string name="change_record_tag_type">टैग प्रकार</string>
+    <string name="change_record_tag_type_general">सामान्य</string>
+    <string name="change_record_tag_type_general_hint">किसी भी गतिविधि के रिकॉर्ड को सौंपा जा सकता है</string>
+    <string name="change_record_tag_type_typed">गतिविधि</string>
+    <string name="change_record_tag_type_typed_hint">केवल एक विशिष्ट गतिविधि के रिकॉर्ड को सौंपा जा सकता है</string>
+
+    <!--  Change record  -->
+    <string name="change_record_message_choose_type">गतिविधि का चयन करें</string>
+    <string name="change_record_type_field">गतिविधि</string>
+    <string name="change_record_tag_field">उपनाम</string>
+    <string name="change_record_comment_field">टिप्पणी</string>
+    <string name="change_record_comment_hint">नई टिप्पणी दर्ज करें</string>
+    <string name="change_record_actions_hint">कार्रवाई</string>
+    <string name="change_record_last_comments_hint">अंतिम टिप्पणियाँ</string>
+    <string name="change_record_categories_empty">कोई रिकॉर्ड टैग नहीं जोड़ा गया</string>
+    <string name="change_record_save">बचाना</string>
+    <string name="change_record_untagged">टैग नहीं किए गए</string>
+    <string name="change_running_record_removed">चल रही गतिविधि हटा दी गई</string>
+    <string name="change_record_split">विभाजित करे</string>
+    <string name="change_record_split_hint"> ये वर्तमान रिकॉर्ड को निर्धारित समय बिंदु पर दो भागो में काट देगा</string>
+    <string name="change_record_continue">जारी रखे</string>
+    <string name="change_record_continue_hint">वर्तमान रिकॉर्ड को हटा देगा और इस गतिविधि को ट्रैक करना जारी रखेगा</string>
+    <string name="change_record_merge">जोड़े</string>
+    <string name="change_record_merge_hint">इस समय को पिछले रिकॉर्ड में जोड़ देगा</string>
+    <string name="change_record_change_prev_record">पिछले रिकॉर्ड का समय भी बदलें</string>
+    <string name="change_record_change_adjacent_records">पास के रिकॉर्ड का समय भी बदलें</string>
+
+    <!--  Change record type  -->
+    <string name="change_record_type_archived">संग्रहीत गतिविधि</string>
+    <string name="change_record_type_name_hint">नया नाम दर्ज करें</string>
+    <string name="change_record_type_new_icon_text_hint">नया पाठ दर्ज करें</string>
+    <string name="change_record_type_color_hint">रंग</string>
+    <string name="change_record_type_icon_image_hint">चित्र</string>
+    <string name="change_record_type_icon_text_hint">मूलपाठ</string>
+    <string name="change_record_type_icon_emoji_hint">इमोजी</string>
+    <string name="change_record_type_save">बचाना</string>
+    <string name="change_record_message_choose_name">एक नाम चुनो</string>
+    <string name="change_record_type_categories_empty">कोई श्रेणियां नहीं जोड़ी</string>
+    <string name="change_record_type_goal_time_disabled">अक्षम</string>
+    <string name="change_record_type_goal_time">लक्ष्य काल</string>
+    <string name="change_record_type_goal_time_hint">इस गतिविधि को ट्रैक करने के निर्सधारित समय के बाद सूचना दिखाएं।</string>
+
+    <!--  Activity filters  -->
+    <string name="change_activity_filter_removed">फ़िल्टर हटा दिया गया</string>
+    <string name="change_activity_filter_save">सुरक्षित रखना</string>
+    <string name="change_activity_filter_type">फ़िल्टर प्रकार</string>
+
+    <!--  Dialogs  -->
+    <string name="date_time_dialog_date">दिनांक</string>
+    <string name="date_time_dialog_time">समय</string>
+
+    <string name="card_size_default">पूर्व निर्धारित चौड़ाई</string>
+    <string name="card_size_hint">एक पंक्ति में कार्ड की संख्या</string>
+
+    <string name="card_order_hint">क्रम बदलने के लिए दबा कर छोड़े</string>
+
+    <string name="chart_filter_hint">फ़िल्टर</string>
+    <string name="types_compare_hint">तुलना</string>
+    <string name="types_filter_show_all">सब दिखाएं</string>
+    <string name="types_filter_hide_all">सभी को छिपाएं</string>
+    <string name="chart_filter_type_hint">सांख्यिकी प्रकार</string>
+    <string name="chart_filter_categories_empty">कोई टैग नहीं जोड़ा गया</string>
+
+    <string name="duration_dialog_save">बचाना</string>
+    <string name="duration_dialog_disable">बंद करना</string>
+
+    <string name="color_selection_base_color_hint">बेस कलर का चयन करें</string>
+    <string name="color_selection_adjust_color_hint">रंग समायोजित करें</string>
+    <string name="color_selection_final_color_hint">अंतिम रंग</string>
+
+    <string name="csv_export_settings_range">सीमा</string>
+    <string name="csv_export_settings_all">सभी</string>
+    <string name="csv_export_settings_hint">समय सीमा का चयन करें या सभी रिकॉर्ड निर्यात करें</string>
+
+    <!--  Records all  -->
+    <string name="records_all_sort_order">क्रमबद्ध अभिलेख</string>
+    <string name="records_all_sort_time_started">समय शुरू हुआ</string>
+    <string name="records_all_sort_duration">अवधि</string>
+    <string name="records_all_search_comment">खोज टिप्पणी</string>
+
+    <!--  Running records  -->
+    <string name="running_records_types_empty">ट्रैकिंग शुरू करने के लिए गतिविधियों को जोड़ें</string>
+    <string name="running_records_empty">ट्रैकिंग शुरू करने के लिए गतिविधि पर क्लिक करें</string>
+    <string name="running_records_empty_hint">संपादित करने के लिए लंबी क्लिक करें</string>
+    <string name="running_records_add_type">जोड़ें</string>
+    <string name="running_records_add_filter">फ़िल्टर जोड़ें</string>
+
+    <!--  Settings  -->
+    <string name="settings_display_title">प्रदर्शन सेटिंग्स</string>
+    <string name="settings_additional_title">अतिरिक्त सेटिंग्स</string>
+    <string name="settings_sort_order">क्रमबद्ध गतिविधियाँ</string>
+    <string name="settings_sort_by_name">नाम</string>
+    <string name="settings_sort_by_color">रंग</string>
+    <string name="settings_sort_manually">हस्तचालन से</string>
+    <string name="settings_first_day_of_week">सप्ताह का पहला दिन</string>
+    <string name="settings_show_untracked_time">रिकॉर्ड में अनट्रैक समय दिखाएं</string>
+    <string name="settings_show_untracked_time_hint">सांख्यिकी स्क्रीन पर फ़िल्टर का उपयोग करके आंकड़ों में अनट्रैक्ड समय को छिपाया जा सकता है।</string>
+    <string name="settings_show_records_calendar">कैलेंडर दृश्य में रिकॉर्ड दिखाएं</string>
+    <string name="settings_reverse_order_in_calendar">अभिलेखों का उल्टा क्रम</string>
+    <string name="settings_show_activity_filters">मुख्य स्क्रीन पर गतिविधि फ़िल्टर दिखाएं</string>
+    <string name="settings_allow_multitasking">मल्टीटास्किंग की अनुमति दें</string>
+    <string name="settings_allow_multitasking_hint">यदि बंद हे तो नया टाइमर शुरू होने पर यह अन्य स्वचालित गतिविधियों को रोक देगा।</string>
+    <string name="settings_show_notifications">टाइमर नोटिफिकेशन दिखाएं</string>
+    <string name="settings_show_notifications_hint">जब टाइमर चल रहे हों तो सूचनाएं दिखाएं।</string>
+    <string name="settings_keep_statistics_range">सांख्यिकी सीमा रखें</string>
+    <string name="settings_keep_statistics_range_hint">यदि चालू किए गए विस्तृत आँकड़े सांख्यिकी में चयनित एक ही समय सीमा के साथ खोले जाएंगे।</string>
+    <string name="settings_start_of_day">दिन की शिफ्ट शुरुआत</string>
+    <string name="settings_inactivity_reminder">निष्क्रिय गतिविधिया दिखाएं</string>
+    <string name="settings_inactivity_reminder_hint">निर्दिष्ट समय के बाद अधिसूचना दिखाएं यदि कोई टाइमर नहीं चल रहा है।</string>
+    <string name="settings_ignore_short_records">छोटे रिकॉर्ड को अनदेखा करें</string>
+    <string name="settings_ignore_short_records_hint">उन गतिविधियों को ट्रैक न करें जो निर्दिष्ट समय से कम हैं।</string>
+    <string name="settings_inactivity_reminder_disabled">अक्षम</string>
+    <string name="settings_dark_mode">रात्रि मोड</string>
+    <string name="settings_use_military_time">24-घंटे के प्रारूप का उपयोग करें</string>
+    <string name="settings_use_proportional_minutes">आनुपातिक मिनट प्रारूप का उपयोग करें</string>
+    <string name="settings_show_seconds">सेकंड दिखाएँ</string>
+    <string name="settings_keep_screen_on">स्क्रीन को चालू रखें</string>
+    <string name="settings_change_card_size">गतिविधि कार्ड का आकार बदलें</string>
+    <string name="settings_archive">संग्रहालय</string>
+    <string name="settings_edit_categories">श्रेणियां और टैग संपादित करें</string>
+    <string name="settings_edit_categories_hint">गतिविधियों और टैग को दर्कज करने के लिए श्रेणियां नियुक्त करें।</string>
+    <string name="settings_show_record_tag_selection">चयन रिकॉर्ड टैग दिखाएं</string>
+    <string name="settings_show_record_tag_selection_hint">टाइमर शुरू करते समय, यदि गतिविधि में कोई रिकॉर्ड टैग होता है - एक चयन संवाद दिखाया जाएगा।</string>
+    <string name="settings_show_record_tag_close_hint">एक टैग का चयन करने के बाद बंद करें।</string>
+    <string name="settings_rate">हमें रेटिंग दें</string>
+    <string name="settings_rate_description">ऐप को रेट करें और एक समीक्षा छोड़ दें।</string>
+    <string name="settings_feedback">प्रतिपुष्टि</string>
+    <string name="settings_feedback_description">एक सुझाव है? एक बग मिला है? बात करना चाहते है? हमें लिखे!</string>
+    <string name="settings_version">संस्करण</string>
+    <string name="settings_email_chooser_title">के साथ भेजें…</string>
+    <string name="settings_translators">अनुवादक</string>
+    <string name="settings_automated_tracking">स्वचालित ट्रैकिंग</string>
+    <string name="settings_automated_tracking_text"><![CDATA[
+"तृतीय-पक्ष अनुप्रयोगों के साथ एकीकरण के माध्यम से स्वचालित ट्रैकिंग संभव है जो कुछ घटनाओं के आधार पर कार्यों को स्वचालित करने की अनुमति देता है। ये एप्लिकेशन, जब एक निश्चित घटना होती है, तो गतिविधि टाइमर को शुरू करने या रोकने के लिए ऐप को एक संदेश भेज सकती है। <br/>
+<br/>
+घटनाओं के कुछ उदाहरण: <br/>
+- एक निश्चित ऐप लॉन्च करना। <br/>
+- स्कैनिंग एनएफसी टैग। <br/>
+- किसी स्थान पर जाना। <br/>
+- दिन का निश्चित समय। <br/>
+- ब्लूटूथ या वाईफाई से कनेक्ट करना। <br/>
+<br/>
+इस व्यवहार को सक्षम करने के लिए इन अनुप्रयोगों को इन मापदंडों के साथ \" इंटेंट \" या \" प्रसारण इरादे \" भेजने का समर्थन करना चाहिए: <br/>
+<br/>
+<b> एक्शन </b> - \"%s\" या \"%s\"। <br/>
+<b> अतिरिक्त </b> - \"%s\" गतिविधि के नाम के साथ जिसे शुरू या बंद किया जाना चाहिए। <br/>
+<b> पैकेज </b> - \"%s\"। <br/>
+<br/>
+गतिविधि शुरू करने के लिए वैकल्पिक पैरामीटर: <br/>
+<br/>
+रिकॉर्ड टिप्पणी के साथ <b> अतिरिक्त </b> - \"%s\"। <br/>
+<b> अतिरिक्त </b> - \"%s\" एक रिकॉर्ड टैग के नाम के साथ। <br/>"
+    ]]></string>
+
+    <string name="settings_save_backup">बैकअप सहेजें</string>
+    <string name="settings_save_description">सहेजने से पहले, सुनिश्चित करें कि आपके पास संघर्षों से बचने के लिए इंस्टॉल किए गए ऐप का नवीनतम संस्करण है।</string>
+    <string name="settings_restore_backup">बैकअप  पुनः स्थापित करे।</string>
+    <string name="settings_restore_description">वर्तमान डेटा खो जाएगा।</string>
+    <string name="settings_dialog_message">पुनर्स्थापित करे?</string>
+    <string name="settings_export_csv">स्प्रेडशीट निर्यात</string>
+    <string name="settings_export_csv_description">एक पसंदीदा स्प्रेडशीट एप्लिकेशन में देखने के लिए CSV फ़ाइल के रूप में निर्यात गतिविधि रिकॉर्ड।</string>
+    <string name="settings_export_ics">ICS निर्यात</string>
+    <string name="settings_export_warning">इस फ़ाइल का उपयोग बैकअप के रूप में नहीं किया जा सकता है।</string>
+    <string name="settings_file_open_error">त्रुटि खोलने की फ़ाइल</string>
+    <string name="settings_file_create_error">त्रुटि फ़ाइल बनाना</string>
+
+    <string name="message_backup_saved">पुनर्स्थापित करना बचाया</string>
+    <string name="message_backup_restored">पुनर्स्थापित करना</string>
+    <string name="message_save_error">पुनर्स्थापित सहेजने में त्रुटि</string>
+    <string name="message_restore_error">पुनर्स्थापित करने में त्रुटि</string>
+    <string name="message_app_not_found">आवेदन नहीं मिला</string>
+    <string name="message_export_complete">निर्यात पूरा किया गया</string>
+    <string name="message_export_error">निर्यात त्रुटि</string>
+
+    <!--  Statistics detail  -->
+    <string name="statistics_detail_chart_hourly">प्रति घंटा</string>
+    <string name="statistics_detail_chart_daily">प्रतिदिन</string>
+    <string name="statistics_detail_chart_weekly">साप्ताहिक</string>
+    <string name="statistics_detail_chart_monthly">महीना</string>
+    <string name="statistics_detail_chart_yearly">सालाना</string>
+    <string name="statistics_detail_length_ten">10</string>
+    <string name="statistics_detail_length_fifty">50</string>
+    <string name="statistics_detail_length_hundred">100</string>
+    <string name="statistics_detail_legend_minute_suffix">m</string>
+    <string name="statistics_detail_legend_hour_suffix">h</string>
+
+    <string name="statistics_detail_range_averages_title">अवधि के लिए औसत: %s</string>
+    <string name="statistics_detail_range_averages">पूरी सीमा के लिए</string>
+    <string name="statistics_detail_range_averages_non_empty">खाली अवधि के बिना</string>
+
+    <string name="statistics_detail_total_duration">कुल</string>
+    <string name="statistics_detail_record_length">अभिलेख लंबाई</string>
+    <string name="statistics_detail_shortest_record">कम से कम</string>
+    <string name="statistics_detail_average_record">औसत</string>
+    <string name="statistics_detail_longest_record">सबसे लंबे समय तक</string>
+    <string name="statistics_detail_record_time">रिकॉर्ड समय</string>
+    <string name="statistics_detail_first_record">प्रथम</string>
+    <string name="statistics_detail_last_record">अंतिम</string>
+    <string name="statistics_detail_streaks">श्रृंखला</string>
+    <string name="statistics_detail_streaks_longest">सबसे लंबे समय तक</string>
+    <string name="statistics_detail_streaks_current">मौजूदा</string>
+    <string name="statistics_detail_streaks_latest">नवीनतम</string>
+    <string name="statistics_detail_tag_split_hint">टैग वितरण</string>
+    <string name="statistics_detail_day_split_hint">दैनिक वितरण</string>
+    <string name="statistics_detail_duration_split_hint">अभिलेख अवधि वितरण</string>
+
+    <plurals name="statistics_detail_times_tracked">
+<!--        <item quantity="zero">अभिलेख</item>-->
+        <item quantity="one">रिकॉर्ड</item>
+<!--        <item quantity="two">अभिलेख</item>-->
+<!--        <item quantity="few">अभिलेख</item>-->
+<!--        <item quantity="many">अभिलेख</item>-->
+        <item quantity="other">अभिलेख</item>
+    </plurals>
+
+    <!--  Widget  -->
+    <string name="widget_name">एकल गतिविधि</string>
+    <string name="widget_universal_name">सार्वभौमिक</string>
+    <string name="widget_statistics_chart_name">सांख्यिकी चार्ट</string>
+    <string name="widget_load_error">नहीं मिला</string>
+
+    <!--  Notification  -->
+    <string name="notification_inactivity_title">निष्क्रियता अनुस्मारक</string>
+    <string name="notification_inactivity_text">अपना समय ट्रैक करना न भूलें</string>
+    <string name="notification_goal_time_description">%s लक्ष्य समय तक पहुंच गया</string>
+    <string name="notification_time_started">%s पर शुरू किया</string>
+    <string name="notification_record_type_goal_time">लक्ष्य %s</string>
+
+    <!--  Archive  -->
+    <string name="archive_hint">विवरण देखने के लिए कार्ड पर क्लिक करें</string>
+    <string name="archive_dialog_delete">मिटाना</string>
+    <string name="archive_dialog_restore">पुनर्स्थापित करना</string>
+    <string name="archive_empty">आर्काइव खाली है</string>
+    <string name="archive_activity_restored">गतिविधि बहाल</string>
+    <string name="archive_tag_restored">टैग बहाल किया गया</string>
+    <string name="archive_activity_deleted">हटा दी गई गतिविधि</string>
+    <string name="archive_tag_deleted">टैग हटा दिया गया</string>
+    <string name="archive_activity_deletion_message">इस गतिविधि और रिकॉर्ड टैग के सभी रिकॉर्ड भी हटा दिए जाएंगे।</string>
+    <string name="archive_tag_deletion_message">इस टैग के साथ टैग किए गए सभी रिकॉर्ड अप्रकाशित हो जाएंगे।</string>
+    <string name="archive_deletion_alert">क्या आपको यकीन है? इस क्रिया को पूर्ववत नहीं किया जा सकता है।</string>
+    <string name="archive_records_count">अभिलेख</string>
+    <string name="archive_record_tags_count">रिकॉर्ड टैग</string>
+    <string name="archive_tagged_records_count">टैग किए गए अभिलेख</string>
+
+    <!--  Icon emoji category  -->
+    <string name="emojiGroupSmileys">स्माइली और इमोशन</string>
+    <string name="emojiGroupPeople">लोग और शरीर</string>
+    <string name="emojiGroupAnimals">पशु और प्रकृति</string>
+    <string name="emojiGroupFood">भोजन पेय</string>
+    <string name="emojiGroupTravel">यात्रा और स्थान</string>
+    <string name="emojiGroupActivities">गतिविधियां</string>
+    <string name="emojiGroupObjects">वस्तुए</string>
+    <string name="emojiGroupSymbols">प्रतीक</string>
+    <string name="emojiGroupFlags">झंडे</string>
+
+    <!--  Icon image category  -->
+    <string name="imageGroupMaps">नक़्शा</string>
+    <string name="imageGroupPlaces">स्थान</string>
+    <string name="imageGroupSocial">सामाजिक</string>
+    <string name="imageGroupAction">गतिविधि</string>
+    <string name="imageGroupHardware">हार्डवेयर</string>
+    <string name="imageGroupAlert">चेतावनी</string>
+    <string name="imageGroupAv">ऑडियो विडियो</string>
+    <string name="imageGroupCommunication">संचार</string>
+    <string name="imageGroupContent">विषय</string>
+    <string name="imageGroupDevice">उपकरण</string>
+    <string name="imageGroupEditor">संपादक</string>
+    <string name="imageGroupFile">फ़ाइल</string>
+    <string name="imageGroupImage">छवि</string>
+    <string name="imageGroupNavigation">मार्गदर्शन</string>
+    <string name="imageGroupNotification">अधिसूचना</string>
+    <string name="imageGroupToggle">टॉगल</string>
+
+    <!--  Shortcuts  -->
+    <string name="shortcut_navigation_records">अभिलेख</string>
+    <string name="shortcut_navigation_statistics">आंकड़े</string>
+    <string name="shortcut_navigation_settings">सेटिंग</string>
+
+</resources>

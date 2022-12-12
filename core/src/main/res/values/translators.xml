@@ -41,4 +41,7 @@
     <string name="settings_translators_japanese" translatable="false">kyusuke</string>
     <string name="settings_translators_japanese_language" translatable="false">日本語</string>
 
+    <string name="settings_translators_hindi" translatable="false">Hx</string>
+    <string name="settings_translators_hindi_language" translatable="false">हिन्दी</string>
+
 </resources>

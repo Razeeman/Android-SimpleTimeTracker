@@ -27,7 +27,7 @@ class NotificationTypeInteractorImpl @Inject constructor(
     private val iconMapper: IconMapper,
     private val colorMapper: ColorMapper,
     private val timeMapper: TimeMapper,
-    private val resourceRepo: ResourceRepo
+    private val resourceRepo: ResourceRepo,
 ) : NotificationTypeInteractor {
 
     override suspend fun checkAndShow(typeId: Long) {
@@ -38,13 +38,15 @@ class NotificationTypeInteractorImpl @Inject constructor(
         val recordTags = recordTagInteractor.getAll().filter { it.id in runningRecord?.tagIds.orEmpty() }
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
+        val showSeconds = prefsInteractor.getShowSeconds()
 
         show(
             recordType = recordType,
             runningRecord = runningRecord,
             recordTags = recordTags,
             isDarkTheme = isDarkTheme,
-            useMilitaryTime = useMilitaryTime
+            useMilitaryTime = useMilitaryTime,
+            showSeconds = showSeconds,
         )
     }
 
@@ -67,6 +69,7 @@ class NotificationTypeInteractorImpl @Inject constructor(
         val recordTags = recordTagInteractor.getAll()
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
+        val showSeconds = prefsInteractor.getShowSeconds()
 
         runningRecordInteractor.getAll()
             .forEach { runningRecord ->
@@ -75,7 +78,8 @@ class NotificationTypeInteractorImpl @Inject constructor(
                     runningRecord = runningRecord,
                     recordTags = recordTags.filter { it.id in runningRecord.tagIds },
                     isDarkTheme = isDarkTheme,
-                    useMilitaryTime = useMilitaryTime
+                    useMilitaryTime = useMilitaryTime,
+                    showSeconds = showSeconds,
                 )
             }
     }
@@ -91,7 +95,8 @@ class NotificationTypeInteractorImpl @Inject constructor(
         runningRecord: RunningRecord?,
         recordTags: List<RecordTag>,
         isDarkTheme: Boolean,
-        useMilitaryTime: Boolean
+        useMilitaryTime: Boolean,
+        showSeconds: Boolean,
     ) {
         if (recordType == null || runningRecord == null) {
             return
@@ -105,7 +110,13 @@ class NotificationTypeInteractorImpl @Inject constructor(
                 .let { colorMapper.mapToColorInt(it, isDarkTheme) },
             text = getNotificationText(recordType, recordTags),
             timeStarted = runningRecord.timeStarted
-                .let { timeMapper.formatTime(it, useMilitaryTime) }
+                .let {
+                    timeMapper.formatTime(
+                        time = it,
+                        useMilitaryTime = useMilitaryTime,
+                        showSeconds = showSeconds,
+                    )
+                }
                 .let { resourceRepo.getString(R.string.notification_time_started, it) },
             startedTimeStamp = runningRecord.timeStarted,
             goalTime = recordType.goalTime

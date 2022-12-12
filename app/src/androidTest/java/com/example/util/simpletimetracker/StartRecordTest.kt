@@ -43,7 +43,7 @@ class StartRecordTest : BaseUiTest() {
         tryAction { clickOnViewWithText(name) }
 
         var currentTime = System.currentTimeMillis()
-        var timeStarted = timeMapper.formatTime(currentTime, true)
+        var timeStarted = timeMapper.formatTime(time = currentTime, useMilitaryTime = true, showSeconds = false)
         checkViewIsDisplayed(
             allOf(
                 withId(R.id.viewRunningRecordItem),
@@ -58,7 +58,7 @@ class StartRecordTest : BaseUiTest() {
         // Start timer
         clickOnViewWithText(newName)
         currentTime = System.currentTimeMillis()
-        timeStarted = timeMapper.formatTime(currentTime, true)
+        timeStarted = timeMapper.formatTime(time = currentTime, useMilitaryTime = true, showSeconds = false)
         checkViewIsDisplayed(
             allOf(
                 withId(R.id.viewRunningRecordItem),
@@ -113,6 +113,7 @@ class StartRecordTest : BaseUiTest() {
 
         // Add comment
         longClickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name)))
+        clickOnViewWithText(R.string.change_record_comment_field)
         typeTextIntoView(R.id.etChangeRecordComment, comment)
         clickOnViewWithText(R.string.change_record_save)
 
@@ -130,6 +131,7 @@ class StartRecordTest : BaseUiTest() {
             )
         )
         clickOnView(allOf(withText(name), isCompletelyDisplayed()))
+        clickOnViewWithText(R.string.change_record_comment_field)
         checkViewIsDisplayed(allOf(withId(R.id.etChangeRecordComment), withText(comment)))
     }
 

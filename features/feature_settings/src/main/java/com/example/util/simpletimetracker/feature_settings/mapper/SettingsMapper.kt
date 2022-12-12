@@ -111,7 +111,11 @@ class SettingsMapper @Inject constructor(
         startOfDayShift: Long,
     ): String {
         val hintTime = startOfDayShiftToTimeStamp(startOfDayShift)
-        return timeMapper.formatTime(hintTime, true)
+        return timeMapper.formatTime(
+            time = hintTime,
+            useMilitaryTime = true,
+            showSeconds = false,
+        )
     }
 
     fun toStartOfDaySign(shift: Long): String {
@@ -130,11 +134,19 @@ class SettingsMapper @Inject constructor(
             set(Calendar.MILLISECOND, 0)
         }.timeInMillis
 
-        return timeMapper.formatTime(hintTime, useMilitaryTime)
+        return timeMapper.formatTime(
+            time = hintTime,
+            useMilitaryTime = useMilitaryTime,
+            showSeconds = false,
+        )
     }
 
     fun toUseProportionalMinutesHint(useProportionalMinutes: Boolean): String {
-        return timeMapper.formatInterval(4500000, useProportionalMinutes)
+        return timeMapper.formatInterval(
+            interval = 4500000,
+            forceSeconds = false,
+            useProportionalMinutes = useProportionalMinutes
+        )
     }
 
     private fun toPosition(cardOrder: CardOrder): Int {

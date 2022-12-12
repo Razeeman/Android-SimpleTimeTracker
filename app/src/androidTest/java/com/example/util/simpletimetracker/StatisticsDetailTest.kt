@@ -32,6 +32,7 @@ import org.junit.runner.RunWith
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
 
+@Suppress("SameParameterValue")
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
 class StatisticsDetailTest : BaseUiTest() {
@@ -799,6 +800,87 @@ class StatisticsDetailTest : BaseUiTest() {
     }
 
     @Test
+    fun statisticsDetailLastDays() {
+        val name = "TypeName"
+        val tag = "TagName"
+        val color = firstColor
+        val icon = firstIcon
+
+        // Add activity
+        testUtils.addActivity(name = name, color = color, icon = icon)
+        testUtils.addRecordTag(tag, name)
+
+        // Add records
+        var calendar = Calendar.getInstance()
+            .apply { set(Calendar.HOUR_OF_DAY, 15) }
+        testUtils.addRecord(
+            typeName = name,
+            timeStarted = calendar.timeInMillis,
+            timeEnded = calendar.timeInMillis + TimeUnit.HOURS.toMillis(1),
+            tagNames = listOf(tag)
+        )
+        calendar = Calendar.getInstance()
+            .apply { add(Calendar.DATE, -6) }
+        testUtils.addRecord(
+            typeName = name,
+            timeStarted = calendar.timeInMillis,
+            timeEnded = calendar.timeInMillis + TimeUnit.HOURS.toMillis(2),
+            tagNames = listOf(tag)
+        )
+        calendar = Calendar.getInstance()
+            .apply { add(Calendar.DATE, -7) }
+        testUtils.addRecord(
+            typeName = name,
+            timeStarted = calendar.timeInMillis,
+            timeEnded = calendar.timeInMillis + TimeUnit.HOURS.toMillis(1)
+        )
+
+        // Check detailed statistics
+        NavUtils.openStatisticsScreen()
+        tryAction { clickOnView(allOf(withText(name), isCompletelyDisplayed())) }
+
+        checkPreview(color, icon, name)
+
+        // Switch range
+        clickOnViewWithIdOnPager(R.id.btnStatisticsDetailToday)
+        clickOnViewWithText(R.string.range_last)
+
+        // Bar chart
+        checkViewIsDisplayed(allOf(withId(R.id.chartStatisticsDetail), isCompletelyDisplayed()))
+        checkViewDoesNotExist(allOf(withId(R.id.buttonsStatisticsDetailGrouping), isCompletelyDisplayed()))
+        checkViewDoesNotExist(allOf(withId(R.id.buttonsStatisticsDetailLength), isCompletelyDisplayed()))
+        checkRangeAverages(
+            rangeId = R.string.statistics_detail_chart_daily,
+            average = "25$minuteString",
+            averageNonEmpty = "1$hourString 30$minuteString"
+        )
+
+        // Cards
+        checkCards()
+
+        // Split chart
+        onView(withId(R.id.chartStatisticsDetailSplit)).perform(nestedScrollTo())
+        checkViewIsDisplayed(allOf(withId(R.id.chartStatisticsDetailSplit), isCompletelyDisplayed()))
+        checkViewIsDisplayed(allOf(withId(R.id.tvStatisticsDetailSplitHint), isCompletelyDisplayed()))
+        onView(withId(R.id.buttonsStatisticsDetailSplitGrouping)).perform(nestedScrollTo())
+        clickOnSplitChartGrouping(R.string.statistics_detail_chart_hourly)
+        clickOnSplitChartGrouping(R.string.statistics_detail_chart_daily)
+
+        // Duration chart
+        onView(withId(R.id.chartStatisticsDetailDurationSplit)).perform(nestedScrollTo())
+        checkViewIsDisplayed(allOf(withId(R.id.chartStatisticsDetailDurationSplit), isCompletelyDisplayed()))
+        checkViewIsDisplayed(allOf(withId(R.id.tvStatisticsDetailDurationSplitHint), isCompletelyDisplayed()))
+
+        // All records
+        checkAllRecords(4)
+
+        // Tag split
+        onView(withId(R.id.rvStatisticsDetailTagSplit)).perform(nestedScrollTo())
+        checkTagItem(color, tag, "3$hourString 0$minuteString", "100%")
+        checkNoTagItem(getString(R.string.change_record_untagged))
+    }
+
+    @Test
     fun statisticsDetailFilterByType() {
         val name1 = "TypeName1"
         val name2 = "TypeName2"
@@ -975,6 +1057,62 @@ class StatisticsDetailTest : BaseUiTest() {
         checkViewIsDisplayed(allOf(withText(R.string.title_this_week), isCompletelyDisplayed()))
     }
 
+    @Test
+    fun streaks() {
+        val name = "name"
+
+        // Add activity
+        testUtils.addActivity(name)
+
+        // Add records
+        val difference = TimeUnit.HOURS.toMillis(1)
+        val calendar = Calendar.getInstance().apply { set(Calendar.HOUR_OF_DAY, 15) }
+
+        fun addRecord(daysBefore: Int) {
+            calendar.apply { add(Calendar.DATE, daysBefore) }
+            testUtils.addRecord(
+                typeName = name,
+                timeStarted = calendar.timeInMillis,
+                timeEnded = calendar.timeInMillis + difference,
+            )
+        }
+
+        addRecord(0)
+        addRecord(-1)
+        addRecord(-1)
+
+        addRecord(-2)
+        addRecord(-1)
+        addRecord(-1)
+        addRecord(-1)
+        addRecord(-1)
+
+        // Check detailed statistics
+        NavUtils.openStatisticsScreen()
+        tryAction { clickOnView(allOf(withText(name), isCompletelyDisplayed())) }
+        clickOnViewWithIdOnPager(R.id.btnStatisticsDetailToday)
+        clickOnViewWithText(R.string.range_overall)
+
+        onView(withId(R.id.cardStatisticsDetailStreaks)).perform(nestedScrollTo())
+        checkCard(R.string.statistics_detail_streaks_longest, "5")
+        checkCard(R.string.statistics_detail_streaks_current, "3")
+
+        // Streak type
+        onView(withId(R.id.buttonsStatisticsDetailStreaksType)).perform(nestedScrollTo())
+        clickOnView(
+            allOf(
+                withText(R.string.statistics_detail_streaks_longest),
+                isDescendantOfA(withId(R.id.buttonsStatisticsDetailStreaksType))
+            )
+        )
+        clickOnView(
+            allOf(
+                withText(R.string.statistics_detail_streaks_latest),
+                isDescendantOfA(withId(R.id.buttonsStatisticsDetailStreaksType))
+            )
+        )
+    }
+
     private fun checkPreview(color: Int, icon: Int, name: String) {
         checkViewIsDisplayed(
             allOf(
@@ -1086,7 +1224,14 @@ class StatisticsDetailTest : BaseUiTest() {
         onView(withId(R.id.cardStatisticsDetailAverage)).perform(nestedScrollTo())
         checkCard(R.string.statistics_detail_shortest_record, "-")
         checkCard(R.string.statistics_detail_average_record, "-")
-        checkCard(R.string.statistics_detail_longest_record, "-")
+        checkViewIsDisplayed(
+            allOf(
+                isDescendantOfA(withId(R.id.cardStatisticsDetailAverage)),
+                withText(R.string.statistics_detail_longest_record),
+                hasSibling(withText("-")),
+                isCompletelyDisplayed()
+            )
+        )
 
         onView(withId(R.id.cardStatisticsDetailDates)).perform(nestedScrollTo())
         checkCard(R.string.statistics_detail_first_record, "-")

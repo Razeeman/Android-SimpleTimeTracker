@@ -28,6 +28,7 @@ class RecordsViewDataMapper @Inject constructor(
         isDarkTheme: Boolean,
         useMilitaryTime: Boolean,
         useProportionalMinutes: Boolean,
+        showSeconds: Boolean,
     ): RecordViewData.Tracked {
         val (timeStarted, timeEnded) = clampToRange(record, rangeStart, rangeEnd)
 
@@ -39,7 +40,8 @@ class RecordsViewDataMapper @Inject constructor(
             timeEnded = timeEnded,
             isDarkTheme = isDarkTheme,
             useMilitaryTime = useMilitaryTime,
-            useProportionalMinutes = useProportionalMinutes
+            useProportionalMinutes = useProportionalMinutes,
+            showSeconds = showSeconds,
         )
     }
 
@@ -50,6 +52,7 @@ class RecordsViewDataMapper @Inject constructor(
         isDarkTheme: Boolean,
         useMilitaryTime: Boolean,
         useProportionalMinutes: Boolean,
+        showSeconds: Boolean,
     ): RecordViewData.Untracked {
         val (timeStarted, timeEnded) = clampToRange(record, rangeStart, rangeEnd)
 
@@ -58,7 +61,8 @@ class RecordsViewDataMapper @Inject constructor(
             timeEnded = timeEnded,
             isDarkTheme = isDarkTheme,
             useMilitaryTime = useMilitaryTime,
-            useProportionalMinutes = useProportionalMinutes
+            useProportionalMinutes = useProportionalMinutes,
+            showSeconds = showSeconds,
         )
     }
 

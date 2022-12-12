@@ -104,6 +104,8 @@
     <string name="change_record_continue_hint">Verwijdert het huidige record en gaat door met het volgen van deze activiteit</string>
     <string name="change_record_merge">Samenvoegen</string>
     <string name="change_record_merge_hint">Zal deze tijd toevoegen aan het vorige record</string>
+    <string name="change_record_change_prev_record">Wijzig ook de tijd van het vorige record</string>
+    <string name="change_record_change_adjacent_records">Wijzig ook de tijd van aangrenzende records</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Activiteit gearchiveerd</string>
@@ -193,6 +195,7 @@
     <string name="settings_dark_mode">Donkere modus</string>
     <string name="settings_use_military_time">Gebruik 24-uurs formaat</string>
     <string name="settings_use_proportional_minutes">Gebruik proportioneel minutenformaat</string>
+    <string name="settings_show_seconds">Toon seconden</string>
     <string name="settings_keep_screen_on">Scherm aan houden</string>
     <string name="settings_change_card_size">Grootte activiteitskaart wijzigen</string>
     <string name="settings_archive">Archief</string>
@@ -278,6 +281,7 @@ Optionele parameters voor het starten van activiteit:<br/>
     <string name="statistics_detail_streaks">Serie</string>
     <string name="statistics_detail_streaks_longest">Langste</string>
     <string name="statistics_detail_streaks_current">Huidig</string>
+    <string name="statistics_detail_streaks_latest">Laatste</string>
     <string name="statistics_detail_tag_split_hint">Label verdeling</string>
     <string name="statistics_detail_day_split_hint">Dagelijkse verdeling</string>
     <string name="statistics_detail_duration_split_hint">Verdeling opname duur</string>

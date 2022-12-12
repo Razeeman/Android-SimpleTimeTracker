@@ -32,6 +32,7 @@ class StatisticsViewDataMapper @Inject constructor(
         showDuration: Boolean,
         isDarkTheme: Boolean,
         useProportionalMinutes: Boolean,
+        showSeconds: Boolean,
     ): List<StatisticsViewData> {
         val statisticsFiltered = statistics.filterNot { it.id in filteredIds }
         val sumDuration = statisticsFiltered.map(Statistics::duration).sum()
@@ -48,6 +49,7 @@ class StatisticsViewDataMapper @Inject constructor(
                         isDarkTheme = isDarkTheme,
                         statisticsSize = statisticsSize,
                         useProportionalMinutes = useProportionalMinutes,
+                        showSeconds = showSeconds,
                     ) ?: return@mapNotNull null
                     ) to statistic.duration
             }
@@ -82,6 +84,7 @@ class StatisticsViewDataMapper @Inject constructor(
         isDarkTheme: Boolean,
         statisticsSize: Int,
         useProportionalMinutes: Boolean,
+        showSeconds: Boolean,
     ): StatisticsViewData? {
         val durationPercent = statisticsMapper.getDurationPercentString(
             sumDuration = sumDuration,
@@ -96,7 +99,13 @@ class StatisticsViewDataMapper @Inject constructor(
                     name = R.string.untracked_time_name
                         .let(resourceRepo::getString),
                     duration = statistics.duration
-                        .let { timeMapper.formatInterval(it, useProportionalMinutes) },
+                        .let {
+                            timeMapper.formatInterval(
+                                interval = it,
+                                forceSeconds = showSeconds,
+                                useProportionalMinutes = useProportionalMinutes,
+                            )
+                        },
                     percent = durationPercent,
                     icon = RecordTypeIcon.Image(R.drawable.unknown),
                     color = colorMapper.toUntrackedColor(isDarkTheme)
@@ -107,7 +116,11 @@ class StatisticsViewDataMapper @Inject constructor(
                     id = statistics.id,
                     name = dataHolder.name,
                     duration = if (showDuration) {
-                        timeMapper.formatInterval(statistics.duration, useProportionalMinutes)
+                        timeMapper.formatInterval(
+                            interval = statistics.duration,
+                            forceSeconds = showSeconds,
+                            useProportionalMinutes = useProportionalMinutes,
+                        )
                     } else {
                         ""
                     },

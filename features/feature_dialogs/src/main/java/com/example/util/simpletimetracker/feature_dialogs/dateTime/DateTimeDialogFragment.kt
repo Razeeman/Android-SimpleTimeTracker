@@ -90,11 +90,12 @@ class DateTimeDialogFragment :
         newTimestamp = calendar.timeInMillis
     }
 
-    override fun onTimeSet(hourOfDay: Int, minute: Int) {
+    override fun onTimeSet(hourOfDay: Int, minute: Int, seconds: Int) {
         calendar.timeInMillis = newTimestamp
 
         calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
         calendar.set(Calendar.MINUTE, minute)
+        calendar.set(Calendar.SECOND, seconds)
 
         newTimestamp = calendar.timeInMillis
     }
@@ -106,8 +107,8 @@ class DateTimeDialogFragment :
 
     private fun initUx() {
         binding.btnDateTimeDialogPositive.setOnClickListener {
-            timeDialogFragment?.getSelectedTime()?.let { (hour, minute) ->
-                onTimeSet(hour, minute)
+            timeDialogFragment?.getSelectedTime()?.let { (hour, minute, seconds) ->
+                onTimeSet(hour, minute, seconds)
             }
             dateDialogFragment?.getSelectedDate()?.let { (year, month, day) ->
                 onDateSet(year, month, day)
@@ -142,7 +143,12 @@ class DateTimeDialogFragment :
         childFragmentManager.commit {
             replace(
                 R.id.timePickerContainer,
-                TimeDialogFragment.newInstance(params.timestamp, params.useMilitaryTime)
+                TimeDialogFragment
+                    .newInstance(
+                        timestamp = params.timestamp,
+                        useMilitaryTime = params.useMilitaryTime,
+                        showSeconds = params.showSeconds
+                    )
                     .apply { listener = this@DateTimeDialogFragment }
                     .also { timeDialogFragment = it }
             )

@@ -104,6 +104,8 @@
     <string name="change_record_continue_hint">Will remove current record and continue tracking this activity</string>
     <string name="change_record_merge">Merge</string>
     <string name="change_record_merge_hint">Will add this time to previous record</string>
+    <string name="change_record_change_prev_record">Also change time of previous record</string>
+    <string name="change_record_change_adjacent_records">Also change time of adjacent records</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Activity archived</string>
@@ -193,6 +195,7 @@
     <string name="settings_dark_mode">Dark mode</string>
     <string name="settings_use_military_time">Use 24-hour format</string>
     <string name="settings_use_proportional_minutes">Use proportional minute format</string>
+    <string name="settings_show_seconds">Show seconds</string>
     <string name="settings_keep_screen_on">Keep screen on</string>
     <string name="settings_change_card_size">Change activity card size</string>
     <string name="settings_archive">Archive</string>
@@ -278,6 +281,7 @@ Optional parameters for starting activity:<br/>
     <string name="statistics_detail_streaks">Series</string>
     <string name="statistics_detail_streaks_longest">Longest</string>
     <string name="statistics_detail_streaks_current">Current</string>
+    <string name="statistics_detail_streaks_latest">Latest</string>
     <string name="statistics_detail_tag_split_hint">Tag distribution</string>
     <string name="statistics_detail_day_split_hint">Daily distribution</string>
     <string name="statistics_detail_duration_split_hint">Record duration distribution</string>

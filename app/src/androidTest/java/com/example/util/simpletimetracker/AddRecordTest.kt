@@ -42,7 +42,7 @@ class AddRecordTest : BaseUiTest() {
         val name = "Name"
         val color = firstColor
         val icon = firstIcon
-        val comment = "Comment"
+        val comment = "Some_comment"
         val tag1 = "Tag1"
         val tag2 = "Tag2"
 
@@ -60,8 +60,12 @@ class AddRecordTest : BaseUiTest() {
         checkViewIsNotDisplayed(withId(R.id.rvChangeRecordType))
         checkViewIsNotDisplayed(withId(R.id.rvChangeRecordCategories))
         val currentTime = System.currentTimeMillis()
-        var timeStarted = timeMapper.formatDateTime(currentTime - 60 * 60 * 1000, true)
-        var timeEnded = timeMapper.formatDateTime(currentTime, true)
+        var timeStarted = timeMapper.formatDateTime(
+            time = currentTime - 60 * 60 * 1000, useMilitaryTime = true, showSeconds = false
+        )
+        var timeEnded = timeMapper.formatDateTime(
+            time = currentTime, useMilitaryTime = true, showSeconds = false
+        )
         checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeStarted), withText(timeStarted)))
         checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeEnded), withText(timeEnded)))
 
@@ -78,7 +82,9 @@ class AddRecordTest : BaseUiTest() {
             set(Calendar.MINUTE, minutesStarted)
             timeInMillis
         }
-        timeStarted = timeStartedTimestamp.let { timeMapper.formatDateTime(it, true) }
+        timeStarted = timeStartedTimestamp.let {
+            timeMapper.formatDateTime(time = it, useMilitaryTime = true, showSeconds = false)
+        }
         checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeStarted), withText(timeStarted)))
 
         // Set time ended
@@ -94,12 +100,18 @@ class AddRecordTest : BaseUiTest() {
             set(Calendar.MINUTE, minutesEnded)
             timeInMillis
         }
-        timeEnded = timeEndedTimestamp.let { timeMapper.formatDateTime(it, true) }
+        timeEnded = timeEndedTimestamp.let {
+            timeMapper.formatDateTime(time = it, useMilitaryTime = true, showSeconds = false)
+        }
         checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeEnded), withText(timeEnded)))
 
         // Preview is updated
-        val timeStartedPreview = timeStartedTimestamp.let { timeMapper.formatTime(it, true) }
-        val timeEndedPreview = timeEndedTimestamp.let { timeMapper.formatTime(it, true) }
+        val timeStartedPreview = timeStartedTimestamp.let {
+            timeMapper.formatTime(time = it, useMilitaryTime = true, showSeconds = false)
+        }
+        val timeEndedPreview = timeEndedTimestamp.let {
+            timeMapper.formatTime(time = it, useMilitaryTime = true, showSeconds = false)
+        }
         checkPreviewUpdated(hasDescendant(withText(timeStartedPreview)))
         checkPreviewUpdated(hasDescendant(withText(timeEndedPreview)))
         checkPreviewUpdated(hasDescendant(withText("2$hourString 3$minuteString")))
@@ -119,9 +131,11 @@ class AddRecordTest : BaseUiTest() {
         clickOnViewWithText(R.string.change_record_type_field)
 
         // Set comment
+        clickOnViewWithText(R.string.change_record_comment_field)
         typeTextIntoView(R.id.etChangeRecordComment, comment)
         closeSoftKeyboard()
         tryAction { checkPreviewUpdated(hasDescendant(withText(comment))) }
+        clickOnViewWithText(R.string.change_record_comment_field)
 
         // Open tag chooser
         clickOnViewWithId(R.id.fieldChangeRecordCategory)
@@ -185,6 +199,7 @@ class AddRecordTest : BaseUiTest() {
         // Select activity
         clickOnViewWithText(R.string.change_record_type_field)
         clickOnRecyclerItem(R.id.rvChangeRecordType, withText(name))
+        clickOnViewWithText(R.string.change_record_type_field)
 
         // Open tag chooser
         clickOnViewWithId(R.id.fieldChangeRecordCategory)
@@ -214,11 +229,12 @@ class AddRecordTest : BaseUiTest() {
         clickOnViewWithId(R.id.btnRecordAdd)
 
         // No last comments
-        checkViewIsNotDisplayed(withText(R.string.change_record_last_comments_hint))
-        checkViewIsNotDisplayed(withId(R.id.rvChangeRecordLastComments))
+        clickOnViewWithText(R.string.change_record_comment_field)
+        checkViewDoesNotExist(withText(R.string.change_record_last_comments_hint))
         checkViewDoesNotExist(withText(comment1))
         checkViewDoesNotExist(withText(comment2))
         checkViewDoesNotExist(withText(comment3))
+        clickOnViewWithText(R.string.change_record_comment_field)
 
         // Select activity with no previous comments
         clickOnViewWithText(R.string.change_record_type_field)
@@ -226,11 +242,12 @@ class AddRecordTest : BaseUiTest() {
         clickOnViewWithText(R.string.change_record_type_field)
 
         // Still no last comments
-        checkViewIsNotDisplayed(withText(R.string.change_record_last_comments_hint))
-        checkViewIsNotDisplayed(withId(R.id.rvChangeRecordLastComments))
+        clickOnViewWithText(R.string.change_record_comment_field)
+        checkViewDoesNotExist(withText(R.string.change_record_last_comments_hint))
         checkViewDoesNotExist(withText(comment1))
         checkViewDoesNotExist(withText(comment2))
         checkViewDoesNotExist(withText(comment3))
+        clickOnViewWithText(R.string.change_record_comment_field)
 
         // Select activity with one previous comment
         clickOnViewWithText(R.string.change_record_type_field)
@@ -238,14 +255,8 @@ class AddRecordTest : BaseUiTest() {
         clickOnViewWithText(R.string.change_record_type_field)
 
         // One last comment
+        clickOnViewWithText(R.string.change_record_comment_field)
         checkViewIsDisplayed(withText(R.string.change_record_last_comments_hint))
-        checkViewIsNotDisplayed(withId(R.id.rvChangeRecordLastComments))
-        checkViewDoesNotExist(withText(comment1))
-        checkViewDoesNotExist(withText(comment2))
-        checkViewDoesNotExist(withText(comment3))
-
-        clickOnViewWithText(R.string.change_record_last_comments_hint)
-        checkViewIsDisplayed(withId(R.id.rvChangeRecordLastComments))
         checkViewIsDisplayed(withText(comment1))
         checkViewDoesNotExist(withText(comment2))
         checkViewDoesNotExist(withText(comment3))
@@ -254,6 +265,7 @@ class AddRecordTest : BaseUiTest() {
         clickOnViewWithText(comment1)
         tryAction { checkPreviewUpdated(hasDescendant(withText(comment1))) }
         typeTextIntoView(R.id.etChangeRecordComment, "")
+        clickOnViewWithText(R.string.change_record_comment_field)
 
         // Select activity with many previous comments
         clickOnViewWithText(R.string.change_record_type_field)
@@ -261,20 +273,8 @@ class AddRecordTest : BaseUiTest() {
         clickOnViewWithText(R.string.change_record_type_field)
 
         // Two last comments
-        checkViewIsDisplayed(withId(R.id.fieldChangeRecordLastComments))
-        checkViewIsDisplayed(withId(R.id.rvChangeRecordLastComments))
-        checkViewDoesNotExist(withText(comment1))
-        checkViewIsDisplayed(withText(comment2))
-        checkViewIsDisplayed(withText(comment3))
-
-        clickOnViewWithId(R.id.fieldChangeRecordLastComments)
-        checkViewIsNotDisplayed(withId(R.id.rvChangeRecordLastComments))
-        checkViewDoesNotExist(withText(comment1))
-        checkViewIsNotDisplayed(withText(comment2))
-        checkViewIsNotDisplayed(withText(comment3))
-
-        clickOnViewWithId(R.id.fieldChangeRecordLastComments)
-        checkViewIsDisplayed(withId(R.id.rvChangeRecordLastComments))
+        clickOnViewWithText(R.string.change_record_comment_field)
+        checkViewIsDisplayed(withText(R.string.change_record_last_comments_hint))
         checkViewDoesNotExist(withText(comment1))
         checkViewIsDisplayed(withText(comment2))
         checkViewIsDisplayed(withText(comment3))

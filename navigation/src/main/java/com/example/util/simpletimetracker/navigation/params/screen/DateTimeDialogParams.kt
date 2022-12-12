@@ -11,4 +11,5 @@ data class DateTimeDialogParams(
     val type: DateTimeDialogType = DateTimeDialogType.DATETIME(),
     val timestamp: Long = 0,
     val firstDayOfWeek: DayOfWeek = DayOfWeek.MONDAY,
+    val showSeconds: Boolean = false,
 ) : Parcelable, ScreenParams
