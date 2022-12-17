@@ -17,25 +17,31 @@ class AddRunningRecordMediator @Inject constructor(
     private val widgetInteractor: WidgetInteractor
 ) {
 
+    /**
+     * Returns true if activity was started.
+     */
     suspend fun tryStartTimer(
         typeId: Long,
         onNeedToShowTagSelection: () -> Unit
-    ) {
+    ): Boolean {
         // Already running
-        if (runningRecordInteractor.get(typeId) != null) return
+        if (runningRecordInteractor.get(typeId) != null) return false
 
         // Check if need to show tag selection
-        if (prefsInteractor.getShowRecordTagSelection()) {
+        return if (prefsInteractor.getShowRecordTagSelection()) {
             val tags = recordTagInteractor.getByType(typeId)
                 .filterNot { it.archived }
 
             if (tags.isEmpty()) {
                 startTimer(typeId, emptyList(), "")
+                true
             } else {
                 onNeedToShowTagSelection()
+                false
             }
         } else {
             startTimer(typeId, emptyList(), "")
+            true
         }
     }
 

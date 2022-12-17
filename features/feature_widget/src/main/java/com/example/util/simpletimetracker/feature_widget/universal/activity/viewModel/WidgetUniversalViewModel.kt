@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.ActivityFilterViewDataInteractor
 import com.example.util.simpletimetracker.core.interactor.AddRunningRecordMediator
 import com.example.util.simpletimetracker.core.interactor.RemoveRunningRecordMediator
@@ -46,22 +47,26 @@ class WidgetUniversalViewModel @Inject constructor(
         }
     }
 
+    val exit: LiveData<Unit> = MutableLiveData()
+
     fun onRecordTypeClick(item: RecordTypeViewData) {
         viewModelScope.launch {
             val runningRecord = runningRecordInteractor.get(item.id)
+            var started = false
 
             if (runningRecord != null) {
                 // Stop running record, add new record
                 removeRunningRecordMediator.removeWithRecordAdd(runningRecord)
             } else {
                 // Start running record
-                addRunningRecordMediator.tryStartTimer(
+                started = addRunningRecordMediator.tryStartTimer(
                     typeId = item.id,
                     onNeedToShowTagSelection = { showTagSelection(item.id) }
                 )
             }
 
             updateRecordTypesViewData()
+            if (started) exit.set(Unit)
         }
     }
 
@@ -74,6 +79,7 @@ class WidgetUniversalViewModel @Inject constructor(
 
     fun onTagSelected() {
         updateRecordTypesViewData()
+        exit.set(Unit)
     }
 
     private fun showTagSelection(typeId: Long) {
