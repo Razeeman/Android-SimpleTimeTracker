@@ -119,8 +119,8 @@
     <string name="change_record_message_choose_name">Kies een naam</string>
     <string name="change_record_type_categories_empty">Geen categorieën toegevoegd</string>
     <string name="change_record_type_goal_time_disabled">Uitgeschakeld</string>
-    <string name="change_record_type_goal_time">Doeltijd</string>
-    <string name="change_record_type_goal_time_hint">Melding weergeven na het opgegeven tijdstip waarop deze activiteit is gevolgd.</string>
+    <string name="change_record_type_goal_time_hint">Doeltijd</string>
+    <string name="change_record_type_goal_time_description">Melding weergeven na het opgegeven tijdstip waarop deze activiteit is gevolgd.</string>
 
     <!--  Activity filters  -->
     <string name="change_activity_filter_removed">Filter verwijderd</string>

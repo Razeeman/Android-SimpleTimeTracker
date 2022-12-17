@@ -119,8 +119,8 @@
     <string name="change_record_message_choose_name">Choisissez un nom</string>
     <string name="change_record_type_categories_empty">Aucune catégorie ajoutée</string>
     <string name="change_record_type_goal_time_disabled">Désactivé</string>
-    <string name="change_record_type_goal_time">Objectif de durée</string>
-    <string name="change_record_type_goal_time_hint">Afficher une notification dès que la durée spécifiée de suivi de cette activité est dépassée.</string>
+    <string name="change_record_type_goal_time_hint">Objectif de durée</string>
+    <string name="change_record_type_goal_time_description">Afficher une notification dès que la durée spécifiée de suivi de cette activité est dépassée.</string>
 
     <!--  Activity filters  -->
     <string name="change_activity_filter_removed">Filtre supprimé</string>

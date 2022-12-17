@@ -45,6 +45,7 @@ import com.example.util.simpletimetracker.feature_change_record_type.viewData.Ch
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.State.Category
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.State.Closed
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.State.Color
+import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.State.GoalTime
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.State.Icon
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconCategoryInfoViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconStateViewData
@@ -182,7 +183,10 @@ class ChangeRecordTypeFragment :
         fieldChangeRecordTypeColor.setOnClick(viewModel::onColorChooserClick)
         fieldChangeRecordTypeIcon.setOnClick(viewModel::onIconChooserClick)
         fieldChangeRecordTypeCategory.setOnClick(viewModel::onCategoryChooserClick)
-        groupChangeRecordTypeGoalTime.setOnClick(viewModel::onGoalTimeClick)
+        fieldChangeRecordTypeGoalTime.setOnClick(viewModel::onGoalTimeChooserClick)
+        groupChangeRecordTypeSessionGoalTime.setOnClick(viewModel::onSessionGoalTimeClick)
+        groupChangeRecordTypeDailyGoalTime.setOnClick(viewModel::onDailyGoalTimeClick)
+        groupChangeRecordTypeWeeklyGoalTime.setOnClick(viewModel::onWeeklyGoalTimeClick)
         btnChangeRecordTypeSave.setOnClick(viewModel::onSaveClick)
         btnChangeRecordTypeDelete.setOnClick(viewModel::onDeleteClick)
         btnChangeRecordTypeIconSwitch.listener = {
@@ -214,7 +218,9 @@ class ChangeRecordTypeFragment :
             iconCategories.observe(iconCategoriesAdapter::replace)
             iconsTypeViewData.observe(btnChangeRecordTypeIconSwitch.adapter::replace)
             categories.observe(categoriesAdapter::replace)
-            goalTimeViewData.observe(tvChangeRecordTypeGoalTimeTime::setText)
+            sessionGoalTimeViewData.observe(tvChangeRecordTypeSessionGoalTime::setText)
+            dailyGoalTimeViewData.observe(tvChangeRecordTypeDailyGoalTime::setText)
+            weeklyGoalTimeViewData.observe(tvChangeRecordTypeWeeklyGoalTime::setText)
             chooserState.observe(::updateChooserState)
             keyboardVisibility.observe { visible ->
                 if (visible) showKeyboard(etChangeRecordTypeName) else hideKeyboard()
@@ -303,15 +309,21 @@ class ChangeRecordTypeFragment :
             chooserView = fieldChangeRecordTypeCategory,
             chooserArrow = arrowChangeRecordTypeCategory
         )
+        updateChooser<GoalTime>(
+            state = state,
+            chooserData = containerChangeRecordTypeGoalTime,
+            chooserView = fieldChangeRecordTypeGoalTime,
+            chooserArrow = arrowChangeRecordTypeGoalTime
+        )
 
         val isClosed = state.current is Closed
         inputChangeRecordTypeName.isVisible = isClosed
-        containerChangeRecordTypeGoalTime.isVisible = isClosed
 
         // Chooser fields
         fieldChangeRecordTypeColor.isVisible = isClosed || state.current is Color
         fieldChangeRecordTypeIcon.isVisible = isClosed || state.current is Icon
         fieldChangeRecordTypeCategory.isVisible = isClosed || state.current is Category
+        fieldChangeRecordTypeGoalTime.isVisible = isClosed || state.current is GoalTime
     }
 
     private inline fun <reified T : ChangeRecordTypeChooserState.State> updateChooser(

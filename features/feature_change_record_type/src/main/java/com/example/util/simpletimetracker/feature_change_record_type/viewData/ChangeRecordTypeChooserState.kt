@@ -10,5 +10,6 @@ data class ChangeRecordTypeChooserState(
         object Color : State
         object Icon : State
         object Category : State
+        object GoalTime : State
     }
 }

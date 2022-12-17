@@ -119,8 +119,8 @@
     <string name="change_record_message_choose_name">Scegli un nome</string>
     <string name="change_record_type_categories_empty">Nessuna categoria aggiunta</string>
     <string name="change_record_type_goal_time_disabled">Disabilitato</string>
-    <string name="change_record_type_goal_time">Obiettivo temporale</string>
-    <string name="change_record_type_goal_time_hint">Mostra notifiche dopo il tempo di tracciamento specificato per questa attività.</string>
+    <string name="change_record_type_goal_time_hint">Obiettivo temporale</string>
+    <string name="change_record_type_goal_time_description">Mostra notifiche dopo il tempo di tracciamento specificato per questa attività.</string>
 
     <!--  Activity filters  -->
     <string name="change_activity_filter_removed">Filtro rimosso</string>

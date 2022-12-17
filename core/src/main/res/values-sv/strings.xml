@@ -119,8 +119,8 @@
     <string name="change_record_message_choose_name">Ange ett namn</string>
     <string name="change_record_type_categories_empty">Inga kategorier har lagts till</string>
     <string name="change_record_type_goal_time_disabled">Inaktiverad</string>
-    <string name="change_record_type_goal_time">Tidsmål</string>
-    <string name="change_record_type_goal_time_hint">Visa notis efter att aktivitet uppnått sitt tidsmål.</string>
+    <string name="change_record_type_goal_time_hint">Tidsmål</string>
+    <string name="change_record_type_goal_time_description">Visa notis efter att aktivitet uppnått sitt tidsmål.</string>
 
     <!--  Activity filters  -->
     <string name="change_activity_filter_removed">Filter borttaget</string>

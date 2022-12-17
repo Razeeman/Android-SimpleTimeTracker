@@ -119,8 +119,8 @@
     <string name="change_record_message_choose_name">Выберите имя</string>
     <string name="change_record_type_categories_empty">Категории не добавлены</string>
     <string name="change_record_type_goal_time_disabled">Выкл.</string>
-    <string name="change_record_type_goal_time">Время цели</string>
-    <string name="change_record_type_goal_time_hint">Показывать уведомление после указанного времени отслеживания этой активности.</string>
+    <string name="change_record_type_goal_time_hint">Время цели</string>
+    <string name="change_record_type_goal_time_description">Показывать уведомление после указанного времени отслеживания этой активности.</string>
 
     <!--  Activity filters  -->
     <string name="change_activity_filter_removed">Фильтр удален</string>

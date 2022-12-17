@@ -107,10 +107,26 @@ class ChangeRecordTypeViewModel @Inject constructor(
             initial
         }
     }
-    val goalTimeViewData: LiveData<String> by lazy {
+    val sessionGoalTimeViewData: LiveData<String> by lazy {
         MutableLiveData<String>().let { initial ->
             viewModelScope.launch {
-                initial.value = loadGoalTimeViewData()
+                initial.value = loadSessionGoalTimeViewData()
+            }
+            initial
+        }
+    }
+    val dailyGoalTimeViewData: LiveData<String> by lazy {
+        MutableLiveData<String>().let { initial ->
+            viewModelScope.launch {
+                initial.value = loadDailyGoalTimeViewData()
+            }
+            initial
+        }
+    }
+    val weeklyGoalTimeViewData: LiveData<String> by lazy {
+        MutableLiveData<String>().let { initial ->
+            viewModelScope.launch {
+                initial.value = loadWeeklyGoalTimeViewData()
             }
             initial
         }
@@ -165,6 +181,10 @@ class ChangeRecordTypeViewModel @Inject constructor(
 
     fun onCategoryChooserClick() {
         onNewChooserState(ChangeRecordTypeChooserState.State.Category)
+    }
+
+    fun onGoalTimeChooserClick() {
+        onNewChooserState(ChangeRecordTypeChooserState.State.GoalTime)
     }
 
     fun onColorClick(item: ColorViewData) {
@@ -285,29 +305,63 @@ class ChangeRecordTypeViewModel @Inject constructor(
         }
     }
 
-    fun onGoalTimeClick() {
+    fun onSessionGoalTimeClick() {
         router.navigate(
             DurationDialogParams(
-                tag = GOAL_TIME_DIALOG_TAG,
+                tag = SESSION_GOAL_TIME_DIALOG_TAG,
                 duration = newGoalTime
+            )
+        )
+    }
+
+    fun onDailyGoalTimeClick() {
+        router.navigate(
+            DurationDialogParams(
+                tag = DAILY_GOAL_TIME_DIALOG_TAG,
+                duration = newDailyGoalTime
+            )
+        )
+    }
+
+    fun onWeeklyGoalTimeClick() {
+        router.navigate(
+            DurationDialogParams(
+                tag = WEEKLY_GOAL_TIME_DIALOG_TAG,
+                duration = newWeeklyGoalTime
             )
         )
     }
 
     fun onDurationSet(tag: String?, duration: Long) {
         when (tag) {
-            GOAL_TIME_DIALOG_TAG -> viewModelScope.launch {
+            SESSION_GOAL_TIME_DIALOG_TAG -> viewModelScope.launch {
                 newGoalTime = duration
-                updateGoalTimeViewData()
+                updateSessionGoalTimeViewData()
+            }
+            DAILY_GOAL_TIME_DIALOG_TAG -> viewModelScope.launch {
+                newDailyGoalTime = duration
+                updateDailyGoalTimeViewData()
+            }
+            WEEKLY_GOAL_TIME_DIALOG_TAG -> viewModelScope.launch {
+                newWeeklyGoalTime = duration
+                updateWeeklyGoalTimeViewData()
             }
         }
     }
 
     fun onDurationDisabled(tag: String?) {
         when (tag) {
-            GOAL_TIME_DIALOG_TAG -> viewModelScope.launch {
+            SESSION_GOAL_TIME_DIALOG_TAG -> viewModelScope.launch {
                 newGoalTime = 0
-                updateGoalTimeViewData()
+                updateSessionGoalTimeViewData()
+            }
+            DAILY_GOAL_TIME_DIALOG_TAG -> viewModelScope.launch {
+                newDailyGoalTime = 0
+                updateDailyGoalTimeViewData()
+            }
+            WEEKLY_GOAL_TIME_DIALOG_TAG -> viewModelScope.launch {
+                newWeeklyGoalTime = 0
+                updateWeeklyGoalTimeViewData()
             }
         }
     }
@@ -441,9 +495,13 @@ class ChangeRecordTypeViewModel @Inject constructor(
                 newIconName = it.icon
                 newColor = it.color
                 newGoalTime = it.goalTime
+                newDailyGoalTime = it.dailyGoalTime
+                newWeeklyGoalTime = it.weeklyGoalTime
                 updateIcons()
                 updateColors()
-                updateGoalTimeViewData()
+                updateSessionGoalTimeViewData()
+                updateDailyGoalTimeViewData()
+                updateWeeklyGoalTimeViewData()
             }
     }
 
@@ -525,13 +583,31 @@ class ChangeRecordTypeViewModel @Inject constructor(
         return viewDataInteractor.getCategoriesViewData(newCategories)
     }
 
-    private fun updateGoalTimeViewData() {
-        val data = loadGoalTimeViewData()
-        goalTimeViewData.set(data)
+    private fun updateSessionGoalTimeViewData() {
+        val data = loadSessionGoalTimeViewData()
+        sessionGoalTimeViewData.set(data)
     }
 
-    private fun loadGoalTimeViewData(): String {
+    private fun loadSessionGoalTimeViewData(): String {
         return newGoalTime.let(changeRecordTypeMapper::toGoalTimeViewData)
+    }
+
+    private fun updateDailyGoalTimeViewData() {
+        val data = loadDailyGoalTimeViewData()
+        dailyGoalTimeViewData.set(data)
+    }
+
+    private fun loadDailyGoalTimeViewData(): String {
+        return newDailyGoalTime.let(changeRecordTypeMapper::toGoalTimeViewData)
+    }
+
+    private fun updateWeeklyGoalTimeViewData() {
+        val data = loadWeeklyGoalTimeViewData()
+        weeklyGoalTimeViewData.set(data)
+    }
+
+    private fun loadWeeklyGoalTimeViewData(): String {
+        return newWeeklyGoalTime.let(changeRecordTypeMapper::toGoalTimeViewData)
     }
 
     private fun updateIconScrollPosition(position: Int) {
@@ -544,6 +620,8 @@ class ChangeRecordTypeViewModel @Inject constructor(
     }
 
     companion object {
-        private const val GOAL_TIME_DIALOG_TAG = "goal_time_dialog_tag"
+        private const val SESSION_GOAL_TIME_DIALOG_TAG = "session_goal_time_dialog_tag"
+        private const val DAILY_GOAL_TIME_DIALOG_TAG = "daily_goal_time_dialog_tag"
+        private const val WEEKLY_GOAL_TIME_DIALOG_TAG = "weekly_goal_time_dialog_tag"
     }
 }

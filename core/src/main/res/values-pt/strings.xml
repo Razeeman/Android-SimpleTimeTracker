@@ -119,8 +119,8 @@
     <string name="change_record_message_choose_name">Escolha um nome</string>
     <string name="change_record_type_categories_empty">Nenhuma categoria adicionada</string>
     <string name="change_record_type_goal_time_disabled">Desativado</string>
-    <string name="change_record_type_goal_time">Meta</string>
-    <string name="change_record_type_goal_time_hint">Mostrar notificação após atingir o tempo determinado para monitorar esta atividade.</string>
+    <string name="change_record_type_goal_time_hint">Meta</string>
+    <string name="change_record_type_goal_time_description">Mostrar notificação após atingir o tempo determinado para monitorar esta atividade.</string>
 
     <!--  Activity filters  -->
     <string name="change_activity_filter_removed">Filtro removido</string>
