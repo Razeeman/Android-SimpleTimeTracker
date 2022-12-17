@@ -203,7 +203,7 @@ class ActivityFilterTest : BaseUiTest() {
         // Add category
         NavUtils.addActivityFilter(name = name, color = firstColor, activities = listOf(typeName1))
 
-        longClickOnView(withText(name))
+        tryAction { longClickOnView(withText(name)) }
 
         // View is set up
         checkViewIsDisplayed(withId(R.id.btnChangeActivityFilterDelete))

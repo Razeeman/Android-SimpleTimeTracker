@@ -149,6 +149,8 @@ class StatisticsTest : BaseUiTest() {
         pressBack()
 
         // Check day range
+        clickOnViewWithId(R.id.btnStatisticsContainerToday)
+        clickOnViewWithText(R.string.range_day)
         checkCategoryRange(firstColor, lastColor, categoryName1, categoryName2, categoryName3)
 
         // Switch to week range

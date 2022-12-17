@@ -38,6 +38,7 @@ class StartRecordTest : BaseUiTest() {
         // Add activities
         testUtils.addActivity(name = name, color = firstColor, icon = firstIcon, goalTime = firstGoalTime)
         testUtils.addActivity(name = newName, color = lastColor, icon = lastIcon)
+        Thread.sleep(1000)
 
         // Start timer
         tryAction { clickOnViewWithText(name) }

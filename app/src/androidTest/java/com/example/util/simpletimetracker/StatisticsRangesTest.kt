@@ -44,6 +44,7 @@ class StatisticsRangesTest : BaseUiTest() {
 
         // Add activity
         testUtils.addActivity(name)
+        Thread.sleep(1000)
 
         // Start timer
         tryAction { clickOnViewWithText(name) }
@@ -51,6 +52,8 @@ class StatisticsRangesTest : BaseUiTest() {
 
         // Statistics day range
         NavUtils.openStatisticsScreen()
+        clickOnViewWithId(R.id.btnStatisticsContainerToday)
+        clickOnViewWithText(R.string.range_day)
         checkViewIsDisplayed(allOf(withText(name), isCompletelyDisplayed()))
         clickOnViewWithId(R.id.btnStatisticsContainerPrevious)
         clickOnViewWithId(R.id.btnStatisticsContainerPrevious)
@@ -155,6 +158,8 @@ class StatisticsRangesTest : BaseUiTest() {
 
         // Check yesterday
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
+        clickOnViewWithText(R.string.range_day)
+        clickOnViewWithId(R.id.btnStatisticsContainerToday)
         clickOnViewWithText(R.string.range_select_day)
         onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
             setDate(
@@ -200,6 +205,8 @@ class StatisticsRangesTest : BaseUiTest() {
         val titleNext = dayTitleFormat.format(calendarNext.timeInMillis)
 
         // Check prev date
+        clickOnViewWithId(R.id.btnStatisticsContainerToday)
+        clickOnViewWithText(R.string.range_day)
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         clickOnViewWithText(R.string.range_select_day)
         onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
@@ -630,9 +637,13 @@ class StatisticsRangesTest : BaseUiTest() {
         checkViewDoesNotExist(allOf(withText(name1), isCompletelyDisplayed()))
         checkViewDoesNotExist(allOf(withText(name2), isCompletelyDisplayed()))
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
+        clickOnViewWithText(R.string.range_day)
+        clickOnViewWithId(R.id.btnStatisticsContainerToday)
         clickOnViewWithText(R.string.range_custom)
         pressBack()
-        checkViewIsDisplayed(allOf(withId(R.id.btnStatisticsContainerToday), withText(R.string.title_today)))
+        tryAction {
+            checkViewIsDisplayed(allOf(withId(R.id.btnStatisticsContainerToday), withText(R.string.title_today)))
+        }
 
         // Select custom range default
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
@@ -761,6 +772,7 @@ class StatisticsRangesTest : BaseUiTest() {
         )
 
         // Select range
+        NavUtils.openStatisticsScreen()
         clickOnViewWithId(R.id.btnStatisticsContainerToday)
         clickOnViewWithText(R.string.range_last)
         checkViewIsDisplayed(allOf(withId(R.id.btnStatisticsContainerToday), withText(R.string.range_last)))
