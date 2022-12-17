@@ -48,7 +48,7 @@ class NotificationTypeManager @Inject constructor(
     private fun buildNotification(params: NotificationTypeParams): Notification {
         val notificationLayout = prepareView(params)
 
-        val startIntent = router.getMainStartIntent().apply {
+        val startIntent = router.getActivitySelectionIntent().apply {
             flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
         }
 

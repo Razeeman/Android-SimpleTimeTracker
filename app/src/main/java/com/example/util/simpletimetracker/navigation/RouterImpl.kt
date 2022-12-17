@@ -6,6 +6,7 @@ import android.content.Intent
 import androidx.activity.ComponentActivity
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import com.example.util.simpletimetracker.feature_widget.universal.activity.view.WidgetUniversalActivity
 import com.example.util.simpletimetracker.navigation.params.action.ActionParams
 import com.example.util.simpletimetracker.navigation.params.notification.NotificationParams
 import com.example.util.simpletimetracker.navigation.params.screen.ScreenParams
@@ -61,5 +62,9 @@ class RouterImpl @Inject constructor(
 
     override fun getMainStartIntent(): Intent {
         return Intent(context, MainActivity::class.java)
+    }
+
+    override fun getActivitySelectionIntent(): Intent {
+        return Intent(context, WidgetUniversalActivity::class.java)
     }
 }

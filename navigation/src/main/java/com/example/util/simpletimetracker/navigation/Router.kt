@@ -34,4 +34,6 @@ interface Router {
     fun back()
 
     fun getMainStartIntent(): Intent
+
+    fun getActivitySelectionIntent(): Intent
 }
