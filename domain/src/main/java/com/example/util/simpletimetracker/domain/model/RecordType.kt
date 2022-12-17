@@ -6,5 +6,7 @@ data class RecordType(
     val icon: String,
     val color: AppColor,
     val hidden: Boolean = false,
-    val goalTime: Long
+    val goalTime: Long,
+    val dailyGoalTime: Long,
+    val weeklyGoalTime: Long,
 )

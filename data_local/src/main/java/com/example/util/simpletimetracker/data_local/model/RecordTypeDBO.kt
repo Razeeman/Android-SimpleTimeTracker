@@ -27,5 +27,11 @@ data class RecordTypeDBO(
     val hidden: Boolean,
 
     @ColumnInfo(name = "goal_time")
-    val goalTime: Long
+    val goalTime: Long,
+
+    @ColumnInfo(name = "daily_goal_time")
+    val dailyGoalTime: Long,
+
+    @ColumnInfo(name = "weekly_goal_time")
+    val weeklyGoalTime: Long,
 )

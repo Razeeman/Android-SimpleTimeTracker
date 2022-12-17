@@ -24,7 +24,7 @@ import com.example.util.simpletimetracker.data_local.model.RunningRecordToRecord
         RunningRecordToRecordTagDBO::class,
         ActivityFilterDBO::class,
     ],
-    version = 9,
+    version = 10,
     exportSchema = true,
 )
 abstract class AppDatabase : RoomDatabase() {

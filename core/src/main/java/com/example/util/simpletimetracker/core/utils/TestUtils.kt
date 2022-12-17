@@ -85,8 +85,10 @@ class TestUtils @Inject constructor(
             name = name,
             color = AppColor(colorId = colorId, colorInt = colorInt?.toString().orEmpty()),
             icon = iconId,
+            hidden = archived,
             goalTime = goalTime.orZero(),
-            hidden = archived
+            dailyGoalTime = 0,
+            weeklyGoalTime = 0,
         )
 
         val typeId = recordTypeInteractor.add(data)

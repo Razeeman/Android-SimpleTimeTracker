@@ -136,6 +136,8 @@ class ChangeRecordTypeViewModel @Inject constructor(
     private var newCategories: MutableList<Long> = mutableListOf()
     private var newColor: AppColor = AppColor(colorId = (0..ColorMapper.colorsNumber).random(), colorInt = "")
     private var newGoalTime: Long = 0L
+    private var newDailyGoalTime: Long = 0L
+    private var newWeeklyGoalTime: Long = 0L
 
     fun onVisible() = viewModelScope.launch {
         initializeSelectedCategories()
@@ -416,7 +418,9 @@ class ChangeRecordTypeViewModel @Inject constructor(
             name = newName,
             icon = newIconName,
             color = newColor,
-            goalTime = newGoalTime
+            goalTime = newGoalTime,
+            dailyGoalTime = newDailyGoalTime,
+            weeklyGoalTime = newWeeklyGoalTime,
         )
 
         return recordTypeInteractor.add(recordType)
@@ -463,7 +467,9 @@ class ChangeRecordTypeViewModel @Inject constructor(
             name = newName,
             icon = newIconName,
             color = newColor,
-            goalTime = 0
+            goalTime = 0,
+            dailyGoalTime = 0,
+            weeklyGoalTime = 0,
         ).let { recordTypeViewDataMapper.map(it, isDarkTheme) }
     }
 
