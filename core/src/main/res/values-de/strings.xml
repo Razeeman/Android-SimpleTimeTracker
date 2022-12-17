@@ -130,6 +130,7 @@
     <!--  Dialogs  -->
     <string name="date_time_dialog_date">Datum</string>
     <string name="date_time_dialog_time">Zeit</string>
+    <string name="date_time_dialog_seconds">Sekunden</string>
 
     <string name="card_size_default">Standardbreite</string>
     <string name="card_size_hint">Anzahl der Karten in einer Reihe</string>

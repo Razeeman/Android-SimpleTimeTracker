@@ -130,6 +130,7 @@
     <!--  Dialogs  -->
     <string name="date_time_dialog_date">Tarih</string>
     <string name="date_time_dialog_time">Zaman</string>
+    <string name="date_time_dialog_seconds">Saniye</string>
 
     <string name="card_size_default">Varsayılan genişlik</string>
     <string name="card_size_hint">Bir satırdaki kart sayısı</string>

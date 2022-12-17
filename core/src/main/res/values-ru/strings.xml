@@ -130,6 +130,7 @@
     <!--  Dialogs  -->
     <string name="date_time_dialog_date">Дата</string>
     <string name="date_time_dialog_time">Время</string>
+    <string name="date_time_dialog_seconds">Секунды</string>
 
     <string name="card_size_default">Ширина по умолчанию</string>
     <string name="card_size_hint">Количество карточек в ряду</string>

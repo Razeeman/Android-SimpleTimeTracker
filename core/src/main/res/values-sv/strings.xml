@@ -130,6 +130,7 @@
     <!--  Dialogs  -->
     <string name="date_time_dialog_date">Datum</string>
     <string name="date_time_dialog_time">Tid</string>
+    <string name="date_time_dialog_seconds">Sekunder</string>
 
     <string name="card_size_default">Standardbredd</string>
     <string name="card_size_hint">Antal kort per rad</string>

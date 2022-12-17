@@ -130,6 +130,7 @@
     <!--  Dialogs  -->
     <string name="date_time_dialog_date">日</string>
     <string name="date_time_dialog_time">時間</string>
+    <string name="date_time_dialog_seconds">秒</string>
 
     <string name="card_size_default">デフォルト幅</string>
     <string name="card_size_hint">列あたりのカード数</string>

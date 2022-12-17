@@ -24,7 +24,7 @@
             style="@style/ChangeItemNameEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Seconds"
+            android:hint="@string/date_time_dialog_seconds"
             android:inputType="numberDecimal"
             tools:text="59" />
 

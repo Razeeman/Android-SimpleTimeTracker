@@ -130,6 +130,7 @@
     <!--  Dialogs  -->
     <string name="date_time_dialog_date">दिनांक</string>
     <string name="date_time_dialog_time">समय</string>
+    <string name="date_time_dialog_seconds">सेकंड</string>
 
     <string name="card_size_default">पूर्व निर्धारित चौड़ाई</string>
     <string name="card_size_hint">एक पंक्ति में कार्ड की संख्या</string>
