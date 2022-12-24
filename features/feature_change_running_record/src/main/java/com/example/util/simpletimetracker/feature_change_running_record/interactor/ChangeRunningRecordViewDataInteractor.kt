@@ -1,5 +1,7 @@
 package com.example.util.simpletimetracker.feature_change_running_record.interactor
 
+import com.example.util.simpletimetracker.core.interactor.GetCurrentRecordsDurationInteractor
+import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
@@ -13,6 +15,7 @@ class ChangeRunningRecordViewDataInteractor @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
     private val recordTagInteractor: RecordTagInteractor,
     private val changeRunningRecordViewDataMapper: ChangeRunningRecordViewDataMapper,
+    private val getCurrentRecordsDurationInteractor: GetCurrentRecordsDurationInteractor,
 ) {
 
     suspend fun getPreviewViewData(record: RunningRecord): ChangeRunningRecordViewData {
@@ -22,8 +25,21 @@ class ChangeRunningRecordViewDataInteractor @Inject constructor(
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
         val showSeconds = prefsInteractor.getShowSeconds()
 
+        val dailyCurrent = if (type?.dailyGoalTime.orZero() > 0L) {
+            getCurrentRecordsDurationInteractor.getDailyCurrent(record.id)
+        } else {
+            0L
+        }
+        val weeklyCurrent = if (type?.weeklyGoalTime.orZero() > 0L) {
+            getCurrentRecordsDurationInteractor.getWeeklyCurrent(record.id)
+        } else {
+            0L
+        }
+
         return changeRunningRecordViewDataMapper.map(
             runningRecord = record,
+            dailyCurrent = dailyCurrent,
+            weeklyCurrent = weeklyCurrent,
             recordType = type,
             recordTags = tags,
             isDarkTheme = isDarkTheme,

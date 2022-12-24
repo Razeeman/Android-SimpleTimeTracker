@@ -1,12 +1,12 @@
 package com.example.util.simpletimetracker.feature_running_records.mapper
 
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
+import com.example.util.simpletimetracker.core.mapper.GoalTimeMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeCardSizeMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
-import com.example.util.simpletimetracker.core.viewData.GoalTimeViewData
 import com.example.util.simpletimetracker.domain.extension.getFullName
 import com.example.util.simpletimetracker.domain.model.GoalTimeType
 import com.example.util.simpletimetracker.domain.model.RecordTag
@@ -26,6 +26,7 @@ class RunningRecordViewDataMapper @Inject constructor(
     private val colorMapper: ColorMapper,
     private val resourceRepo: ResourceRepo,
     private val timeMapper: TimeMapper,
+    private val goalTimeMapper: GoalTimeMapper,
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
     private val recordTypeCardSizeMapper: RecordTypeCardSizeMapper,
 ) {
@@ -62,17 +63,17 @@ class RunningRecordViewDataMapper @Inject constructor(
                         useProportionalMinutes = false,
                     )
                 },
-            goalTime = getGoalTimeString(
+            goalTime = goalTimeMapper.map(
                 goalTime = recordType.goalTime,
                 current = currentDuration,
                 type = GoalTimeType.Session
             ),
-            goalTime2 = getGoalTimeString(
+            goalTime2 = goalTimeMapper.map(
                 goalTime = recordType.dailyGoalTime,
                 current = dailyCurrent + currentDuration,
                 type = GoalTimeType.Day,
             ),
-            goalTime3 = getGoalTimeString(
+            goalTime3 = goalTimeMapper.map(
                 goalTime = recordType.weeklyGoalTime,
                 current = weeklyCurrent + currentDuration,
                 type = GoalTimeType.Week,
@@ -82,38 +83,6 @@ class RunningRecordViewDataMapper @Inject constructor(
             color = recordType.color
                 .let { colorMapper.mapToColorInt(it, isDarkTheme) },
             comment = runningRecord.comment
-        )
-    }
-
-    private fun getGoalTimeString(
-        goalTime: Long,
-        current: Long,
-        type: GoalTimeType,
-    ): GoalTimeViewData {
-        if (goalTime <= 0L) return GoalTimeViewData(
-            text = "",
-            complete = false
-        )
-
-        val typeString = when (type) {
-            is GoalTimeType.Session -> R.string.change_record_type_session_goal_time
-            is GoalTimeType.Day -> R.string.change_record_type_daily_goal_time
-            is GoalTimeType.Week -> R.string.change_record_type_weekly_goal_time
-        }.let(resourceRepo::getString).lowercase()
-
-        val durationLeft = goalTime - current / 1000
-        val complete = durationLeft <= 0L
-        val durationLeftString = if (complete) {
-            typeString
-        } else {
-            // TODO format interval with seconds?
-            // TODO maybe doesn't show seconds then minutes high enough
-            "$typeString ${timeMapper.formatDuration(durationLeft)}"
-        }
-
-        return GoalTimeViewData(
-            text = durationLeftString,
-            complete = complete
         )
     }
 

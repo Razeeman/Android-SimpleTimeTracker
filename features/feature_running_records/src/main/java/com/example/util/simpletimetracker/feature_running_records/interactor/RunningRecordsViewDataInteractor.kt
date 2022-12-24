@@ -1,14 +1,11 @@
 package com.example.util.simpletimetracker.feature_running_records.interactor
 
 import com.example.util.simpletimetracker.core.interactor.ActivityFilterViewDataInteractor
-import com.example.util.simpletimetracker.core.mapper.RangeMapper
-import com.example.util.simpletimetracker.core.mapper.TimeMapper
+import com.example.util.simpletimetracker.core.interactor.GetCurrentRecordsDurationInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
-import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
-import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.divider.DividerViewData
 import com.example.util.simpletimetracker.feature_running_records.mapper.RunningRecordViewDataMapper
@@ -19,11 +16,9 @@ class RunningRecordsViewDataInteractor @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
     private val recordTagInteractor: RecordTagInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
-    private val recordInteractor: RecordInteractor,
     private val activityFilterViewDataInteractor: ActivityFilterViewDataInteractor,
+    private val getCurrentRecordsDurationInteractor: GetCurrentRecordsDurationInteractor,
     private val mapper: RunningRecordViewDataMapper,
-    private val timeMapper: TimeMapper,
-    private val rangeMapper: RangeMapper,
 ) {
 
     suspend fun getViewData(): List<ViewHolderType> {
@@ -43,9 +38,6 @@ class RunningRecordsViewDataInteractor @Inject constructor(
             runningRecords.isEmpty() ->
                 listOf(mapper.mapToEmpty())
             else -> {
-                val (todayRangeStart, todayRangeEnd) = getRange(RangeLength.Day)
-                val (weekRangeStart, weekRangeEnd) = getRange(RangeLength.Week)
-
                 runningRecords
                     .sortedByDescending {
                         it.timeStarted
@@ -53,18 +45,12 @@ class RunningRecordsViewDataInteractor @Inject constructor(
                     .mapNotNull { runningRecord ->
                         val recordType = recordTypesMap[runningRecord.id] ?: return@mapNotNull null
                         val dailyCurrent = if (recordType.dailyGoalTime > 0L) {
-                            recordInteractor.getFromRange(todayRangeStart, todayRangeEnd)
-                                .filter { it.typeId == runningRecord.id }
-                                .map { rangeMapper.clampToRange(it, todayRangeStart, todayRangeEnd) }
-                                .let(rangeMapper::mapToDuration)
+                            getCurrentRecordsDurationInteractor.getDailyCurrent(runningRecord.id)
                         } else {
                             0L
                         }
                         val weeklyCurrent = if (recordType.weeklyGoalTime > 0L) {
-                            recordInteractor.getFromRange(weekRangeStart, weekRangeEnd)
-                                .filter { it.typeId == runningRecord.id }
-                                .map { rangeMapper.clampToRange(it, weekRangeStart, weekRangeEnd) }
-                                .let(rangeMapper::mapToDuration)
+                            getCurrentRecordsDurationInteractor.getWeeklyCurrent(runningRecord.id)
                         } else {
                             0L
                         }
@@ -118,17 +104,5 @@ class RunningRecordsViewDataInteractor @Inject constructor(
             listOf(DividerViewData(1)) +
             filtersViewData +
             recordTypesViewData
-    }
-
-    private suspend fun getRange(rangeLength: RangeLength): Pair<Long, Long> {
-        val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
-        val startOfDayShift = prefsInteractor.getStartOfDayShift()
-
-        return timeMapper.getRangeStartAndEnd(
-            rangeLength = rangeLength,
-            shift = 0,
-            firstDayOfWeek = firstDayOfWeek,
-            startOfDayShift = startOfDayShift,
-        )
     }
 }

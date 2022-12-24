@@ -1,17 +1,15 @@
 package com.example.util.simpletimetracker.feature_notification.goalTime.interactor
 
+import com.example.util.simpletimetracker.core.interactor.GetCurrentRecordsDurationInteractor
 import com.example.util.simpletimetracker.core.interactor.NotificationGoalTimeInteractor
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
-import com.example.util.simpletimetracker.core.mapper.RangeMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
-import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.model.GoalTimeType
-import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.feature_notification.R
 import com.example.util.simpletimetracker.feature_notification.goalTime.manager.NotificationGoalTimeManager
 import com.example.util.simpletimetracker.feature_notification.goalTime.manager.NotificationGoalTimeParams
@@ -23,22 +21,19 @@ import javax.inject.Inject
 class NotificationGoalTimeInteractorImpl @Inject constructor(
     private val resourceRepo: ResourceRepo,
     private val recordTypeInteractor: RecordTypeInteractor,
-    private val recordInteractor: RecordInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
+    private val getCurrentRecordsDurationInteractor: GetCurrentRecordsDurationInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val manager: NotificationGoalTimeManager,
     private val scheduler: NotificationGoalTimeScheduler,
     private val timeMapper: TimeMapper,
     private val colorMapper: ColorMapper,
     private val iconMapper: IconMapper,
-    private val rangeMapper: RangeMapper,
 ) : NotificationGoalTimeInteractor {
 
     override suspend fun checkAndReschedule(typeId: Long) {
         val recordType = recordTypeInteractor.get(typeId)
         val runningRecord = runningRecordInteractor.get(typeId)
-        val startOfDayShift = prefsInteractor.getStartOfDayShift()
-        val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
 
         if (recordType == null || runningRecord == null) return
 
@@ -54,36 +49,20 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
 
         // Daily
         val dailyGoalTime = recordType.dailyGoalTime * 1000
-        val (todayRangeStart, todayRangeEnd) = timeMapper.getRangeStartAndEnd(
-            rangeLength = RangeLength.Day,
-            shift = 0,
-            firstDayOfWeek = firstDayOfWeek,
-            startOfDayShift = startOfDayShift,
-        )
-        val dailyCurrent = recordInteractor.getFromRange(todayRangeStart, todayRangeEnd)
-            .filter { it.typeId == typeId }
-            .map { rangeMapper.clampToRange(it, todayRangeStart, todayRangeEnd) }
-            .let(rangeMapper::mapToDuration) + sessionCurrent
-
-        if (dailyGoalTime > 0 && dailyGoalTime > dailyCurrent) {
-            scheduler.schedule(dailyGoalTime - dailyCurrent, typeId, GoalTimeType.Day)
+        if (dailyGoalTime > 0) {
+            val dailyCurrent = getCurrentRecordsDurationInteractor.getDailyCurrent(typeId) + sessionCurrent
+            if (dailyGoalTime > dailyCurrent) {
+                scheduler.schedule(dailyGoalTime - dailyCurrent, typeId, GoalTimeType.Day)
+            }
         }
 
         // Weekly
         val weeklyGoalTime = recordType.weeklyGoalTime * 1000
-        val (weekRangeStart, weekRangeEnd) = timeMapper.getRangeStartAndEnd(
-            rangeLength = RangeLength.Week,
-            shift = 0,
-            firstDayOfWeek = firstDayOfWeek,
-            startOfDayShift = startOfDayShift,
-        )
-        val weeklyCurrent = recordInteractor.getFromRange(weekRangeStart, weekRangeEnd)
-            .filter { it.typeId == typeId }
-            .map { rangeMapper.clampToRange(it, weekRangeStart, weekRangeEnd) }
-            .let(rangeMapper::mapToDuration) + sessionCurrent
-
-        if (weeklyGoalTime > 0 && weeklyGoalTime > weeklyCurrent) {
-            scheduler.schedule(weeklyGoalTime - weeklyCurrent, typeId, GoalTimeType.Week)
+        if (weeklyGoalTime > 0) {
+            val weeklyCurrent = getCurrentRecordsDurationInteractor.getWeeklyCurrent(typeId) + sessionCurrent
+            if (weeklyGoalTime > weeklyCurrent) {
+                scheduler.schedule(weeklyGoalTime - weeklyCurrent, typeId, GoalTimeType.Week)
+            }
         }
     }
 

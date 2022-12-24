@@ -275,6 +275,9 @@ class TimeMapper @Inject constructor(
         return year1 == year2 && day1 == day2 && hour1 == hour2
     }
 
+    /**
+     * @param interval in seconds.
+     */
     fun formatDuration(interval: Long): String {
         val hourString = resourceRepo.getString(R.string.time_hour)
         val minuteString = resourceRepo.getString(R.string.time_minute)
