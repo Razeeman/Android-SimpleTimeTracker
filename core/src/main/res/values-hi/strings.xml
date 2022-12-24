@@ -121,6 +121,9 @@
     <string name="change_record_type_goal_time_disabled">अक्षम</string>
     <string name="change_record_type_goal_time_hint">लक्ष्य काल</string>
     <string name="change_record_type_goal_time_description">इस गतिविधि को ट्रैक करने के निर्सधारित समय के बाद सूचना दिखाएं।</string>
+    <string name="change_record_type_session_goal_time">सत्र</string>
+    <string name="change_record_type_daily_goal_time">@string/range_day</string>
+    <string name="change_record_type_weekly_goal_time">@string/range_week</string>
 
     <!--  Activity filters  -->
     <string name="change_activity_filter_removed">फ़िल्टर हटा दिया गया</string>

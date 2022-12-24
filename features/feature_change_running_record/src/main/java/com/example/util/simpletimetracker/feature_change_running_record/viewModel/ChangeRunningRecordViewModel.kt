@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.extension.set
+import com.example.util.simpletimetracker.core.interactor.AddRecordMediator
 import com.example.util.simpletimetracker.core.interactor.AddRunningRecordMediator
 import com.example.util.simpletimetracker.core.interactor.RecordTagViewDataInteractor
 import com.example.util.simpletimetracker.core.interactor.RecordTypesViewDataInteractor
@@ -44,6 +45,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
     private val removeRunningRecordMediator: RemoveRunningRecordMediator,
     private val runningRecordInteractor: RunningRecordInteractor,
     private val recordInteractor: RecordInteractor,
+    private val addRecordMediator: AddRecordMediator,
     private val changeRunningRecordViewDataInteractor: ChangeRunningRecordViewDataInteractor,
     private val resourceRepo: ResourceRepo,
 ) : ChangeRecordBaseViewModel(
@@ -94,7 +96,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
             comment = newComment,
             tagIds = newCategoryIds
         ).let {
-            recordInteractor.add(it)
+            addRecordMediator.add(it)
         }
         newTimeStarted = newTimeSplit
         onSaveClick()
@@ -112,7 +114,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
             previousRecord?.copy(
                 timeEnded = newTimeStarted,
             )?.let {
-                recordInteractor.add(it)
+                addRecordMediator.add(it)
             }
         }
     }

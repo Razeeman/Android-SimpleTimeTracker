@@ -3,11 +3,12 @@ package com.example.util.simpletimetracker.feature_change_record.viewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.core.interactor.AddRecordMediator
 import com.example.util.simpletimetracker.core.interactor.AddRunningRecordMediator
 import com.example.util.simpletimetracker.core.interactor.RecordTagViewDataInteractor
 import com.example.util.simpletimetracker.core.interactor.RecordTypesViewDataInteractor
+import com.example.util.simpletimetracker.core.interactor.RemoveRecordMediator
 import com.example.util.simpletimetracker.core.interactor.RemoveRunningRecordMediator
-import com.example.util.simpletimetracker.core.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.extension.orFalse
@@ -17,7 +18,6 @@ import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.Record
-import com.example.util.simpletimetracker.domain.model.WidgetType
 import com.example.util.simpletimetracker.feature_change_record.interactor.ChangeRecordViewDataInteractor
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordViewData
 import com.example.util.simpletimetracker.navigation.Router
@@ -35,12 +35,13 @@ class ChangeRecordViewModel @Inject constructor(
     resourceRepo: ResourceRepo,
     private val router: Router,
     private val recordInteractor: RecordInteractor,
+    private val addRecordMediator: AddRecordMediator,
+    private val removeRecordMediator: RemoveRecordMediator,
     private val changeRecordViewDataInteractor: ChangeRecordViewDataInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
     private val addRunningRecordMediator: AddRunningRecordMediator,
     private val removeRunningRecordMediator: RemoveRunningRecordMediator,
     private val timeMapper: TimeMapper,
-    private val widgetInteractor: WidgetInteractor,
 ) : ChangeRecordBaseViewModel(
     router,
     resourceRepo,
@@ -81,8 +82,7 @@ class ChangeRecordViewModel @Inject constructor(
             comment = newComment,
             tagIds = newCategoryIds
         ).let {
-            recordInteractor.add(it)
-            widgetInteractor.updateWidgets(listOf(WidgetType.STATISTICS_CHART))
+            addRecordMediator.add(it)
             router.back()
         }
     }
@@ -96,7 +96,7 @@ class ChangeRecordViewModel @Inject constructor(
             comment = newComment,
             tagIds = newCategoryIds
         ).let {
-            recordInteractor.add(it)
+            addRecordMediator.add(it)
         }
         newTimeStarted = newTimeSplit
         onSaveClick()
@@ -105,8 +105,8 @@ class ChangeRecordViewModel @Inject constructor(
     override suspend fun onContinueClickDelegate() {
         // Remove current record if exist.
         (extra as? ChangeRecordParams.Tracked)?.id?.let {
-            recordInteractor.remove(it)
-            widgetInteractor.updateWidgets(listOf(WidgetType.STATISTICS_CHART))
+            val typeId = recordInteractor.get(it)?.typeId.orZero()
+            removeRecordMediator.remove(it, typeId)
         }
         // Stop same type running record if exist (only one of the same type can run at once).
         runningRecordInteractor.get(newTypeId)
@@ -133,8 +133,7 @@ class ChangeRecordViewModel @Inject constructor(
         previousRecord?.copy(
             timeEnded = newTimeEnded,
         )?.let {
-            recordInteractor.add(it)
-            widgetInteractor.updateWidgets(listOf(WidgetType.STATISTICS_CHART))
+            addRecordMediator.add(it)
             router.back()
         }
     }
@@ -151,7 +150,7 @@ class ChangeRecordViewModel @Inject constructor(
             previousRecord?.copy(
                 timeEnded = newTimeStarted,
             )?.let {
-                recordInteractor.add(it)
+                addRecordMediator.add(it)
             }
 
             // Find next record.
@@ -162,7 +161,7 @@ class ChangeRecordViewModel @Inject constructor(
             nextRecord?.copy(
                 timeStarted = newTimeEnded,
             )?.let {
-                recordInteractor.add(it)
+                addRecordMediator.add(it)
             }
         }
     }

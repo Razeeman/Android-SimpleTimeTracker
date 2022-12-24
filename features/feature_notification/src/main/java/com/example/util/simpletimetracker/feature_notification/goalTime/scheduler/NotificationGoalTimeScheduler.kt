@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import com.example.util.simpletimetracker.core.utils.PendingIntents
+import com.example.util.simpletimetracker.domain.model.GoalTimeType
 import com.example.util.simpletimetracker.feature_notification.recevier.NotificationReceiver
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
@@ -18,27 +19,31 @@ class NotificationGoalTimeScheduler @Inject constructor(
     private val alarmManager
         get() = context.getSystemService(Context.ALARM_SERVICE) as? AlarmManager
 
-    fun schedule(durationMillis: Long, typeId: Long) {
-        val timestamp = System.currentTimeMillis() + durationMillis
+    fun schedule(durationMillisFromNow: Long, typeId: Long, goalTimeType: GoalTimeType) {
+        val timestamp = System.currentTimeMillis() + durationMillisFromNow
 
-        scheduleAtTime(timestamp, typeId)
+        scheduleAtTime(timestamp, typeId, goalTimeType)
     }
 
-    fun cancelSchedule(typeId: Long) {
-        alarmManager?.cancel(getPendingIntent(typeId))
+    fun cancelSchedule(typeId: Long, goalTimeType: GoalTimeType) {
+        alarmManager?.cancel(getPendingIntent(typeId, goalTimeType))
     }
 
-    private fun scheduleAtTime(timestamp: Long, typeId: Long) {
+    private fun scheduleAtTime(timestamp: Long, typeId: Long, goalTimeType: GoalTimeType) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            alarmManager?.setAndAllowWhileIdle(RTC_WAKEUP, timestamp, getPendingIntent(typeId))
+            alarmManager?.setAndAllowWhileIdle(RTC_WAKEUP, timestamp, getPendingIntent(typeId, goalTimeType))
         } else {
-            alarmManager?.set(RTC_WAKEUP, timestamp, getPendingIntent(typeId))
+            alarmManager?.set(RTC_WAKEUP, timestamp, getPendingIntent(typeId, goalTimeType))
         }
     }
 
-    private fun getPendingIntent(typeId: Long): PendingIntent {
+    private fun getPendingIntent(typeId: Long, goalTimeType: GoalTimeType): PendingIntent {
         val intent = Intent(context, NotificationReceiver::class.java).apply {
-            action = NotificationReceiver.ACTION_GOAL_TIME_REMINDER
+            action = when (goalTimeType) {
+                is GoalTimeType.Session -> NotificationReceiver.ACTION_GOAL_TIME_REMINDER_SESSION
+                is GoalTimeType.Day -> NotificationReceiver.ACTION_GOAL_TIME_REMINDER_DAILY
+                is GoalTimeType.Week -> NotificationReceiver.ACTION_GOAL_TIME_REMINDER_WEEKLY
+            }
             putExtra(NotificationReceiver.EXTRA_GOAL_TIME_TYPE_ID, typeId)
         }
 

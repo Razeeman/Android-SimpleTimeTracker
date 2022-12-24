@@ -5,12 +5,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.R
-import com.example.util.simpletimetracker.core.interactor.WidgetInteractor
+import com.example.util.simpletimetracker.core.interactor.AddRecordMediator
+import com.example.util.simpletimetracker.core.interactor.RemoveRecordMediator
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.Record
-import com.example.util.simpletimetracker.domain.model.WidgetType
 import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordParams
 import kotlinx.coroutines.launch
@@ -19,8 +20,9 @@ import javax.inject.Inject
 class RemoveRecordViewModel @Inject constructor(
     private val resourceRepo: ResourceRepo,
     private val recordInteractor: RecordInteractor,
+    private val addRecordMediator: AddRecordMediator,
+    private val removeRecordMediator: RemoveRecordMediator,
     private val recordTypeInteractor: RecordTypeInteractor,
-    private val widgetInteractor: WidgetInteractor,
 ) : ViewModel() {
 
     val deleteButtonEnabled: LiveData<Boolean> = MutableLiveData()
@@ -41,7 +43,8 @@ class RemoveRecordViewModel @Inject constructor(
         viewModelScope.launch {
             if (recordId != 0L) {
                 val removedRecord = recordInteractor.get(recordId)
-                val removedName = removedRecord?.typeId
+                val typeId = removedRecord?.typeId
+                val removedName = typeId
                     ?.let { recordTypeInteractor.get(it) }
                     ?.name
                     .orEmpty()
@@ -53,8 +56,7 @@ class RemoveRecordViewModel @Inject constructor(
                     else -> null
                 }
 
-                recordInteractor.remove(recordId)
-                widgetInteractor.updateWidgets(listOf(WidgetType.STATISTICS_CHART))
+                removeRecordMediator.remove(recordId, typeId.orZero())
 
                 (needUpdate as MutableLiveData).value = true
 
@@ -78,7 +80,7 @@ class RemoveRecordViewModel @Inject constructor(
 
     private fun onAction(removedRecord: Record) {
         viewModelScope.launch {
-            recordInteractor.add(removedRecord)
+            addRecordMediator.add(removedRecord)
             (needUpdate as MutableLiveData).value = true
         }
     }

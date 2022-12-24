@@ -15,10 +15,11 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.example.util.simpletimetracker.core.utils.PendingIntents
-import com.example.util.simpletimetracker.feature_views.extension.getBitmapFromView
-import com.example.util.simpletimetracker.feature_views.extension.measureExactly
+import com.example.util.simpletimetracker.domain.model.GoalTimeType
 import com.example.util.simpletimetracker.feature_notification.R
 import com.example.util.simpletimetracker.feature_notification.recordType.customView.NotificationIconView
+import com.example.util.simpletimetracker.feature_views.extension.getBitmapFromView
+import com.example.util.simpletimetracker.feature_views.extension.measureExactly
 import com.example.util.simpletimetracker.navigation.Router
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
@@ -27,7 +28,7 @@ import javax.inject.Singleton
 @Singleton
 class NotificationGoalTimeManager @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val router: Router
+    private val router: Router,
 ) {
 
     private val notificationManager: NotificationManagerCompat =
@@ -50,11 +51,19 @@ class NotificationGoalTimeManager @Inject constructor(
     fun show(params: NotificationGoalTimeParams) {
         val notification: Notification = buildNotification(params)
         createAndroidNotificationChannel()
-        notificationManager.notify(NOTIFICATION_TAG, params.typeId.toInt(), notification)
+        notificationManager.notify(getNotificationTag(params.goalTimeType), params.typeId.toInt(), notification)
     }
 
-    fun hide(typeId: Long) {
-        notificationManager.cancel(NOTIFICATION_TAG, typeId.toInt())
+    fun hide(typeId: Long, goalTimeType: GoalTimeType) {
+        notificationManager.cancel(getNotificationTag(goalTimeType), typeId.toInt())
+    }
+
+    private fun getNotificationTag(goalTimeType: GoalTimeType): String {
+        return NOTIFICATION_TAG + when (goalTimeType) {
+            is GoalTimeType.Session -> "" // back support for previous versions, keep same tag
+            is GoalTimeType.Day -> "day"
+            is GoalTimeType.Week -> "week"
+        }
     }
 
     private fun buildNotification(params: NotificationGoalTimeParams): Notification {

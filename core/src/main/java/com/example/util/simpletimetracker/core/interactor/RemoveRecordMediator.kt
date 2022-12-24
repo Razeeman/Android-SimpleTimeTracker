@@ -1,0 +1,18 @@
+package com.example.util.simpletimetracker.core.interactor
+
+import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
+import com.example.util.simpletimetracker.domain.model.WidgetType
+import javax.inject.Inject
+
+class RemoveRecordMediator @Inject constructor(
+    private val recordInteractor: RecordInteractor,
+    private val notificationGoalTimeInteractor: NotificationGoalTimeInteractor,
+    private val widgetInteractor: WidgetInteractor,
+) {
+
+    suspend fun remove(recordId: Long, typeId: Long) {
+        recordInteractor.remove(recordId)
+        notificationGoalTimeInteractor.checkAndReschedule(typeId)
+        widgetInteractor.updateWidgets(listOf(WidgetType.STATISTICS_CHART))
+    }
+}
