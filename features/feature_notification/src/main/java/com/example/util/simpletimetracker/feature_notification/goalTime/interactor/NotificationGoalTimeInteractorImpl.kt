@@ -61,6 +61,7 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
             startOfDayShift = startOfDayShift,
         )
         val dailyCurrent = recordInteractor.getFromRange(todayRangeStart, todayRangeEnd)
+            .filter { it.typeId == typeId }
             .map { rangeMapper.clampToRange(it, todayRangeStart, todayRangeEnd) }
             .let(rangeMapper::mapToDuration) + sessionCurrent
 
@@ -77,6 +78,7 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
             startOfDayShift = startOfDayShift,
         )
         val weeklyCurrent = recordInteractor.getFromRange(weekRangeStart, weekRangeEnd)
+            .filter { it.typeId == typeId }
             .map { rangeMapper.clampToRange(it, weekRangeStart, weekRangeEnd) }
             .let(rangeMapper::mapToDuration) + sessionCurrent
 

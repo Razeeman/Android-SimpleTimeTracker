@@ -7,6 +7,8 @@ import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.extension.getFullName
+import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.domain.model.GoalTimeType
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RunningRecord
@@ -30,12 +32,15 @@ class RunningRecordViewDataMapper @Inject constructor(
 
     fun map(
         runningRecord: RunningRecord,
+        dailyCurrent: Long,
+        weeklyCurrent: Long,
         recordType: RecordType,
         recordTags: List<RecordTag>,
         isDarkTheme: Boolean,
         useMilitaryTime: Boolean,
         showSeconds: Boolean,
     ): RunningRecordViewData {
+        val currentDuration = System.currentTimeMillis() - runningRecord.timeStarted
         return RunningRecordViewData(
             id = runningRecord.id,
             name = recordType.name,
@@ -49,7 +54,7 @@ class RunningRecordViewDataMapper @Inject constructor(
                         showSeconds = showSeconds,
                     )
                 },
-            timer = (System.currentTimeMillis() - runningRecord.timeStarted)
+            timer = currentDuration
                 .let {
                     timeMapper.formatInterval(
                         interval = it,
@@ -57,17 +62,48 @@ class RunningRecordViewDataMapper @Inject constructor(
                         useProportionalMinutes = false,
                     )
                 },
-            goalTime = recordType.goalTime
-                .takeIf { it > 0 }
-                ?.let(timeMapper::formatDuration)
-                ?.let { resourceRepo.getString(R.string.running_record_goal_time, it) }
-                .orEmpty(),
+            goalTime = getGoalTimeString(
+                goalTime = recordType.goalTime,
+                current = currentDuration,
+                type = GoalTimeType.Session
+            ),
+            goalTime2 = getGoalTimeString(
+                goalTime = recordType.dailyGoalTime,
+                current = dailyCurrent + currentDuration,
+                type = GoalTimeType.Day,
+            ),
+            goalTime3 = getGoalTimeString(
+                goalTime = recordType.weeklyGoalTime,
+                current = weeklyCurrent + currentDuration,
+                type = GoalTimeType.Week,
+            ),
             iconId = recordType.icon
                 .let(iconMapper::mapIcon),
             color = recordType.color
                 .let { colorMapper.mapToColorInt(it, isDarkTheme) },
             comment = runningRecord.comment
         )
+    }
+
+    private fun getGoalTimeString(
+        goalTime: Long,
+        current: Long,
+        type: GoalTimeType,
+    ): String {
+        if (goalTime <= 0L) return ""
+
+        val typeString = when (type) {
+            is GoalTimeType.Session -> R.string.change_record_type_session_goal_time
+            is GoalTimeType.Day -> R.string.change_record_type_daily_goal_time
+            is GoalTimeType.Week -> R.string.change_record_type_weekly_goal_time
+        }.let(resourceRepo::getString).lowercase()
+
+        val durationLeftString = (goalTime - current / 1000)
+            .takeIf { it > 0L }
+            .orZero()
+            .let(timeMapper::formatDuration) // TODO format interval with seconds?
+
+        return "$typeString $durationLeftString"
     }
 
     fun map(

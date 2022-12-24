@@ -38,6 +38,12 @@ fun createRunningRecordAdapterDelegate(
         if (rebind || updates.contains(ViewData.UPDATE_GOAL_TIME).orFalse()) {
             itemGoalTime = item.goalTime
         }
+        if (rebind || updates.contains(ViewData.UPDATE_GOAL_TIME2).orFalse()) {
+            itemGoalTime2 = item.goalTime2
+        }
+        if (rebind || updates.contains(ViewData.UPDATE_GOAL_TIME3).orFalse()) {
+            itemGoalTime3 = item.goalTime3
+        }
         if (rebind || updates.contains(ViewData.UPDATE_ICON).orFalse()) {
             itemIcon = item.iconId
         }
