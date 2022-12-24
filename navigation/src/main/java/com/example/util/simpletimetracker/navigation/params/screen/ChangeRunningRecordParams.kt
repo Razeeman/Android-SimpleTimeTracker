@@ -7,7 +7,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class ChangeRunningRecordParams(
     val id: Long = 0,
-    val preview: Preview? = null
+    val preview: Preview? = null,
 ) : Parcelable, ScreenParams {
 
     @Parcelize
@@ -16,9 +16,18 @@ data class ChangeRunningRecordParams(
         val tagName: String,
         var timeStarted: String,
         var duration: String,
-        var goalTime: String,
+        var goalTime: GoalTimeParams,
+        var goalTime2: GoalTimeParams,
+        var goalTime3: GoalTimeParams,
         val iconId: RecordTypeIconParams,
         @ColorInt val color: Int,
-        val comment: String
-    ) : Parcelable
+        val comment: String,
+    ) : Parcelable {
+
+        @Parcelize
+        data class GoalTimeParams(
+            val text: String,
+            val complete: Boolean,
+        ) : Parcelable
+    }
 }

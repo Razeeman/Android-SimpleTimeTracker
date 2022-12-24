@@ -6,8 +6,8 @@ import com.example.util.simpletimetracker.core.mapper.RecordTypeCardSizeMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.core.viewData.GoalTimeViewData
 import com.example.util.simpletimetracker.domain.extension.getFullName
-import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.model.GoalTimeType
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
@@ -89,8 +89,11 @@ class RunningRecordViewDataMapper @Inject constructor(
         goalTime: Long,
         current: Long,
         type: GoalTimeType,
-    ): String {
-        if (goalTime <= 0L) return ""
+    ): GoalTimeViewData {
+        if (goalTime <= 0L) return GoalTimeViewData(
+            text = "",
+            complete = false
+        )
 
         val typeString = when (type) {
             is GoalTimeType.Session -> R.string.change_record_type_session_goal_time
@@ -98,12 +101,20 @@ class RunningRecordViewDataMapper @Inject constructor(
             is GoalTimeType.Week -> R.string.change_record_type_weekly_goal_time
         }.let(resourceRepo::getString).lowercase()
 
-        val durationLeftString = (goalTime - current / 1000)
-            .takeIf { it > 0L }
-            .orZero()
-            .let(timeMapper::formatDuration) // TODO format interval with seconds?
+        val durationLeft = goalTime - current / 1000
+        val complete = durationLeft <= 0L
+        val durationLeftString = if (complete) {
+            typeString
+        } else {
+            // TODO format interval with seconds?
+            // TODO maybe doesn't show seconds then minutes high enough
+            "$typeString ${timeMapper.formatDuration(durationLeft)}"
+        }
 
-        return "$typeString $durationLeftString"
+        return GoalTimeViewData(
+            text = durationLeftString,
+            complete = complete
+        )
     }
 
     fun map(

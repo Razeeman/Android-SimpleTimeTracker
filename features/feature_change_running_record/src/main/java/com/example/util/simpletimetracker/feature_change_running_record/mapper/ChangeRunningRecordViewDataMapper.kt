@@ -4,11 +4,11 @@ import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.core.viewData.GoalTimeViewData
 import com.example.util.simpletimetracker.domain.extension.getFullName
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RunningRecord
-import com.example.util.simpletimetracker.feature_change_running_record.R
 import com.example.util.simpletimetracker.feature_change_running_record.viewData.ChangeRunningRecordViewData
 import javax.inject.Inject
 
@@ -56,11 +56,14 @@ class ChangeRunningRecordViewDataMapper @Inject constructor(
                         useProportionalMinutes = false,
                     )
                 },
-            goalTime = recordType?.goalTime
-                ?.takeIf { it > 0 }
-                ?.let(timeMapper::formatDuration)
-                ?.let { resourceRepo.getString(R.string.running_record_goal_time, it) }
-                .orEmpty(),
+            goalTime = getGoalTimeString(),
+            goalTime2 = getGoalTimeString(),
+            goalTime3 = getGoalTimeString(),
+//            goalTime = recordType?.goalTime
+//                ?.takeIf { it > 0 }
+//                ?.let(timeMapper::formatDuration)
+//                ?.let { resourceRepo.getString(R.string.running_record_goal_time, it) }
+//                .orEmpty(),
             iconId = recordType?.icon.orEmpty()
                 .let(iconMapper::mapIcon),
             color = recordType?.color
@@ -68,5 +71,10 @@ class ChangeRunningRecordViewDataMapper @Inject constructor(
                 ?: ColorMapper.getAvailableColors().random().let(resourceRepo::getColor),
             comment = runningRecord.comment
         )
+    }
+
+    private fun getGoalTimeString(): GoalTimeViewData {
+        // TODO
+        return GoalTimeViewData("", false)
     }
 }

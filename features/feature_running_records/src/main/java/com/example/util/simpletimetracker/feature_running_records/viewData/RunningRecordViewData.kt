@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.feature_running_records.viewData
 
 import androidx.annotation.ColorInt
+import com.example.util.simpletimetracker.core.viewData.GoalTimeViewData
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 
@@ -10,12 +11,12 @@ data class RunningRecordViewData(
     val tagName: String,
     val timeStarted: String,
     val timer: String,
-    val goalTime: String,
-    val goalTime2: String,
-    val goalTime3: String,
+    val goalTime: GoalTimeViewData,
+    val goalTime2: GoalTimeViewData,
+    val goalTime3: GoalTimeViewData,
     val iconId: RecordTypeIcon,
     @ColorInt val color: Int,
-    val comment: String
+    val comment: String,
 ) : ViewHolderType {
 
     override fun getUniqueId(): Long = id

@@ -75,6 +75,12 @@ class RunningRecordView @JvmOverloads constructor(
             field = value
         }
 
+    var itemGoalTimeComplete: Boolean = false
+        set(value) {
+            binding.ivRunningRecordItemGoalTimeCheck.visible = value
+            field = value
+        }
+
     var itemGoalTime2: String = ""
         set(value) {
             binding.tvRunningRecordItemGoalTime2.text = value
@@ -82,10 +88,22 @@ class RunningRecordView @JvmOverloads constructor(
             field = value
         }
 
+    var itemGoalTime2Complete: Boolean = false
+        set(value) {
+            binding.ivRunningRecordItemGoalTimeCheck2.visible = value
+            field = value
+        }
+
     var itemGoalTime3: String = ""
         set(value) {
             binding.tvRunningRecordItemGoalTime3.text = value
             binding.tvRunningRecordItemGoalTime3.visible = value.isNotEmpty()
+            field = value
+        }
+
+    var itemGoalTime3Complete: Boolean = false
+        set(value) {
+            binding.ivRunningRecordItemGoalTimeCheck3.visible = value
             field = value
         }
 

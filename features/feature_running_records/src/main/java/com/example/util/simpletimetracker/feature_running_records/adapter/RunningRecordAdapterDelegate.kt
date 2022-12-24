@@ -36,13 +36,16 @@ fun createRunningRecordAdapterDelegate(
             itemTimer = item.timer
         }
         if (rebind || updates.contains(ViewData.UPDATE_GOAL_TIME).orFalse()) {
-            itemGoalTime = item.goalTime
+            itemGoalTime = item.goalTime.text
+            itemGoalTimeComplete = item.goalTime.complete
         }
         if (rebind || updates.contains(ViewData.UPDATE_GOAL_TIME2).orFalse()) {
-            itemGoalTime2 = item.goalTime2
+            itemGoalTime2 = item.goalTime2.text
+            itemGoalTime2Complete = item.goalTime2.complete
         }
         if (rebind || updates.contains(ViewData.UPDATE_GOAL_TIME3).orFalse()) {
-            itemGoalTime3 = item.goalTime3
+            itemGoalTime3 = item.goalTime3.text
+            itemGoalTime3Complete = item.goalTime3.complete
         }
         if (rebind || updates.contains(ViewData.UPDATE_ICON).orFalse()) {
             itemIcon = item.iconId
