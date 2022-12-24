@@ -5,8 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.R
-import com.example.util.simpletimetracker.core.interactor.AddRecordMediator
-import com.example.util.simpletimetracker.core.interactor.RemoveRecordMediator
+import com.example.util.simpletimetracker.domain.interactor.AddRecordMediator
+import com.example.util.simpletimetracker.domain.interactor.RemoveRecordMediator
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor

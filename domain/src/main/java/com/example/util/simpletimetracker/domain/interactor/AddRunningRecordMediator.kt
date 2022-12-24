@@ -1,8 +1,5 @@
-package com.example.util.simpletimetracker.core.interactor
+package com.example.util.simpletimetracker.domain.interactor
 
-import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
-import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
-import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.model.RunningRecord
 import javax.inject.Inject
 

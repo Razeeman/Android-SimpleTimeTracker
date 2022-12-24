@@ -1,7 +1,7 @@
 package com.example.util.simpletimetracker.feature_notification.recordType.interactor
 
-import com.example.util.simpletimetracker.core.interactor.AddRunningRecordMediator
-import com.example.util.simpletimetracker.core.interactor.RemoveRunningRecordMediator
+import com.example.util.simpletimetracker.domain.interactor.AddRunningRecordMediator
+import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor

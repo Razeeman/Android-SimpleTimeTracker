@@ -6,10 +6,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.extension.addOrRemove
 import com.example.util.simpletimetracker.core.extension.set
-import com.example.util.simpletimetracker.core.interactor.NotificationGoalTimeInteractor
-import com.example.util.simpletimetracker.core.interactor.NotificationTypeInteractor
-import com.example.util.simpletimetracker.core.interactor.RemoveRunningRecordMediator
-import com.example.util.simpletimetracker.core.interactor.WidgetInteractor
+import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTimeInteractor
+import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
+import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
+import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconEmojiMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper

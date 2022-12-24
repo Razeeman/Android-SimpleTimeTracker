@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.extension.addOrRemove
 import com.example.util.simpletimetracker.core.extension.set
-import com.example.util.simpletimetracker.core.interactor.WidgetInteractor
+import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.core.mapper.RangeMapper
 import com.example.util.simpletimetracker.core.utils.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData

@@ -14,9 +14,9 @@ import android.view.View.MeasureSpec
 import android.widget.FrameLayout
 import android.widget.RemoteViews
 import com.example.util.simpletimetracker.feature_views.extension.getBitmapFromView
-import com.example.util.simpletimetracker.core.interactor.AddRunningRecordMediator
-import com.example.util.simpletimetracker.core.interactor.RemoveRunningRecordMediator
-import com.example.util.simpletimetracker.core.interactor.WidgetInteractor
+import com.example.util.simpletimetracker.domain.interactor.AddRunningRecordMediator
+import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
+import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper

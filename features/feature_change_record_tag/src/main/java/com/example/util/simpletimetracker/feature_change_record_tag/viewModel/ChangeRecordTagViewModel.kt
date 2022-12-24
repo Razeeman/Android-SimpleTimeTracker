@@ -8,7 +8,7 @@ import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.ColorViewDataInteractor
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
-import com.example.util.simpletimetracker.core.interactor.NotificationTypeInteractor
+import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.core.interactor.RecordTypesViewDataInteractor
 import com.example.util.simpletimetracker.core.mapper.CategoryViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.ColorMapper

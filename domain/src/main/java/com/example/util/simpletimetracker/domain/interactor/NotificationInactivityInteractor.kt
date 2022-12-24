@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.core.interactor
+package com.example.util.simpletimetracker.domain.interactor
 
 interface NotificationInactivityInteractor {
 

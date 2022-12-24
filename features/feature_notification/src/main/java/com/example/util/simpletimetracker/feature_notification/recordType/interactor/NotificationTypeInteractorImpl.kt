@@ -1,6 +1,6 @@
 package com.example.util.simpletimetracker.feature_notification.recordType.interactor
 
-import com.example.util.simpletimetracker.core.interactor.NotificationTypeInteractor
+import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper

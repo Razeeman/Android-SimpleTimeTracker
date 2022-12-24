@@ -1,6 +1,6 @@
 package com.example.util.simpletimetracker.feature_notification.inactivity.controller
 
-import com.example.util.simpletimetracker.core.interactor.NotificationInactivityInteractor
+import com.example.util.simpletimetracker.domain.interactor.NotificationInactivityInteractor
 import javax.inject.Inject
 
 class NotificationInactivityBroadcastController @Inject constructor(

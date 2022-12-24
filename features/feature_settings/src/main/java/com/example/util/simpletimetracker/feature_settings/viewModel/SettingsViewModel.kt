@@ -6,9 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.BuildConfig
 import com.example.util.simpletimetracker.core.extension.set
-import com.example.util.simpletimetracker.core.interactor.NotificationInactivityInteractor
-import com.example.util.simpletimetracker.core.interactor.NotificationTypeInteractor
-import com.example.util.simpletimetracker.core.interactor.WidgetInteractor
+import com.example.util.simpletimetracker.domain.interactor.NotificationInactivityInteractor
+import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
+import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.core.provider.ApplicationDataProvider
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.sharedViewModel.BackupViewModel.Companion.CSV_EXPORT_DIALOG_TAG

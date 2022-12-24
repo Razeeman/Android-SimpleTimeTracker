@@ -2,8 +2,8 @@ package com.example.util.simpletimetracker.feature_main.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.util.simpletimetracker.core.interactor.NotificationTypeInteractor
-import com.example.util.simpletimetracker.core.interactor.WidgetInteractor
+import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
+import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

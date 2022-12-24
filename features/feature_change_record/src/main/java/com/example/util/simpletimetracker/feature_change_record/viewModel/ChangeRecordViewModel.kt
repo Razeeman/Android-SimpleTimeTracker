@@ -3,12 +3,12 @@ package com.example.util.simpletimetracker.feature_change_record.viewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.util.simpletimetracker.core.interactor.AddRecordMediator
-import com.example.util.simpletimetracker.core.interactor.AddRunningRecordMediator
+import com.example.util.simpletimetracker.domain.interactor.AddRecordMediator
+import com.example.util.simpletimetracker.domain.interactor.AddRunningRecordMediator
 import com.example.util.simpletimetracker.core.interactor.RecordTagViewDataInteractor
 import com.example.util.simpletimetracker.core.interactor.RecordTypesViewDataInteractor
-import com.example.util.simpletimetracker.core.interactor.RemoveRecordMediator
-import com.example.util.simpletimetracker.core.interactor.RemoveRunningRecordMediator
+import com.example.util.simpletimetracker.domain.interactor.RemoveRecordMediator
+import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.extension.orFalse
