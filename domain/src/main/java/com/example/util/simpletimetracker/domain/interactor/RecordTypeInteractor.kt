@@ -1,6 +1,5 @@
 package com.example.util.simpletimetracker.domain.interactor
 
-import android.graphics.Color
 import com.example.util.simpletimetracker.domain.mapper.AppColorMapper
 import com.example.util.simpletimetracker.domain.model.CardOrder
 import com.example.util.simpletimetracker.domain.model.RecordType
@@ -96,8 +95,7 @@ class RecordTypeInteractor @Inject constructor(
                 type to appColorMapper.mapToColorInt(color = type.color)
             }
             .map { (type, colorInt) ->
-                val hsv = FloatArray(3)
-                Color.colorToHSV(colorInt, hsv)
+                val hsv = appColorMapper.mapToHsv(colorInt)
                 type to hsv
             }
             .sortedWith(

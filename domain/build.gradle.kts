@@ -1,19 +1,13 @@
-import com.example.util.simpletimetracker.Base
 import com.example.util.simpletimetracker.Deps
 
 plugins {
-    id("com.android.library") // TODO java library
-    id("kotlin-android")
-    id("kotlin-kapt")
+    id("java-library")
+    id("kotlin")
 }
 
-android {
-    compileSdkVersion(Base.currentSDK)
-
-    defaultConfig {
-        minSdkVersion(Base.minSDK)
-        targetSdkVersion(Base.currentSDK)
-    }
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 dependencies {

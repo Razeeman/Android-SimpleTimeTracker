@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.core.mapper
 
+import android.graphics.Color
 import androidx.annotation.ColorInt
 import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
@@ -17,5 +18,11 @@ class AppColorMapperImpl @Inject constructor(
         } else {
             ColorMapper.getAvailableColors().getOrNull(color.colorId)?.let(resourceRepo::getColor)
         } ?: resourceRepo.getColor(R.color.black)
+    }
+
+    override fun mapToHsv(@ColorInt colorInt: Int): FloatArray {
+        val hsv = FloatArray(3)
+        Color.colorToHSV(colorInt, hsv)
+        return hsv
     }
 }
