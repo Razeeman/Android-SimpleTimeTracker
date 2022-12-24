@@ -38,6 +38,7 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
                 currentStreak = "",
                 compareCurrentStreak = "",
             ),
+            showData = false,
             data = emptyList(),
             showComparison = false,
             compareData = emptyList(),
@@ -113,6 +114,7 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
 
         return StatisticsDetailStreaksViewData(
             streaks = streaks,
+            showData = rangeLength !is RangeLength.Day, // No point count streak of one day.
             data = data,
             showComparison = showComparison,
             compareData = compareData,
@@ -159,8 +161,8 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
             streaksType = streaksType,
         )
 
-        val (currentStreak, currentData) = if (rangeLength is RangeLength.All) {
-            rangeCurrentStreak to rangeCurrentData
+        val currentStreak = if (rangeLength is RangeLength.All) {
+            rangeCurrentStreak
         } else {
             calculate(
                 range = Range(timeStarted = 0, timeEnded = 0),
@@ -168,12 +170,10 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
                 firstDayOfWeek = firstDayOfWeek,
                 startOfDayShift = startOfDayShift,
                 streaksType = streaksType,
-            ).let {
-                it.second to it.third
-            }
+            ).second
         }
 
-        return Triple(maxStreak, currentStreak, currentData)
+        return Triple(maxStreak, currentStreak, rangeCurrentData)
     }
 
     private fun calculate(

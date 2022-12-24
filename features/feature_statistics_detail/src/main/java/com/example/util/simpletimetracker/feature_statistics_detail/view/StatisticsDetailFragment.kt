@@ -217,6 +217,7 @@ class StatisticsDetailFragment :
     ) = with(binding) {
         cardStatisticsDetailStreaks.items = viewData.streaks
         chartStatisticsStreaks.setData(viewData.data)
+        chartStatisticsStreaks.isVisible = viewData.showData
         chartStatisticsComparisonStreaks.setData(viewData.compareData)
         chartStatisticsComparisonStreaks.isVisible = viewData.showComparison
     }
