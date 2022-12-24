@@ -92,6 +92,11 @@ class RecordsFragment : BaseFragment<Binding>() {
         viewModel.onVisible()
     }
 
+    override fun onPause() {
+        super.onPause()
+        viewModel.onHidden()
+    }
+
     private fun switchState(isCalendarView: Boolean) = with(binding) {
         groupRecordsList.isVisible = !isCalendarView
         groupRecordsCalendar.isVisible = isCalendarView

@@ -18,6 +18,10 @@ import com.example.util.simpletimetracker.feature_records.model.RecordsState
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordFromMainParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordParams
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancelAndJoin
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -34,6 +38,9 @@ class RecordsViewModel @Inject constructor(
         MutableLiveData(listOf(LoaderViewData() as ViewHolderType))
     }
     val calendarData: LiveData<RecordsCalendarViewData> = MutableLiveData()
+
+    private var timerJob: Job? = null
+    private val shift: Int get() = extra?.shift.orZero()
 
     fun onRecordClick(item: RecordViewData, sharedElements: Pair<Any, String>? = null) {
         val preview = ChangeRecordParams.Preview(
@@ -68,7 +75,15 @@ class RecordsViewModel @Inject constructor(
     }
 
     fun onVisible() {
-        updateRecords()
+        if (shift == 0) {
+            startUpdate()
+        } else {
+            updateRecords()
+        }
+    }
+
+    fun onHidden() {
+        stopUpdate()
     }
 
     fun onNeedUpdate() {
@@ -85,6 +100,26 @@ class RecordsViewModel @Inject constructor(
     }
 
     private suspend fun loadRecordsViewData(): RecordsState {
-        return recordsViewDataInteractor.getViewData(extra?.shift.orZero())
+        return recordsViewDataInteractor.getViewData(shift)
+    }
+
+    private fun startUpdate() {
+        timerJob = viewModelScope.launch {
+            timerJob?.cancelAndJoin()
+            while (isActive) {
+                updateRecords()
+                delay(TIMER_UPDATE)
+            }
+        }
+    }
+
+    private fun stopUpdate() {
+        viewModelScope.launch {
+            timerJob?.cancelAndJoin()
+        }
+    }
+
+    companion object {
+        private const val TIMER_UPDATE = 1000L
     }
 }

@@ -4,13 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.extension.toParams
-import com.example.util.simpletimetracker.core.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.core.utils.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.model.RangeLength
-import com.example.util.simpletimetracker.domain.model.WidgetType
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.feature_base_adapter.statistics.StatisticsViewData
@@ -21,6 +20,10 @@ import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.ChartFilterDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.StatisticsDetailParams
 import com.example.util.simpletimetracker.navigation.params.screen.TypesFilterParams
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancelAndJoin
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -28,7 +31,6 @@ class StatisticsViewModel @Inject constructor(
     private val router: Router,
     private val statisticsViewDataInteractor: StatisticsViewDataInteractor,
     private val prefsInteractor: PrefsInteractor,
-    private val widgetInteractor: WidgetInteractor,
 ) : ViewModel() {
 
     var extra: StatisticsExtra? = null
@@ -38,14 +40,21 @@ class StatisticsViewModel @Inject constructor(
     }
 
     private var isVisible: Boolean = false
+    private var timerJob: Job? = null
+    private val shift: Int get() = extra?.shift.orZero()
 
     fun onVisible() {
         isVisible = true
-        updateStatistics()
+        if (shift == 0) {
+            startUpdate()
+        } else {
+            updateStatistics()
+        }
     }
 
     fun onHidden() {
         isVisible = false
+        stopUpdate()
     }
 
     fun onRangeUpdated() {
@@ -89,11 +98,7 @@ class StatisticsViewModel @Inject constructor(
                     )
                     is RangeLength.Last -> StatisticsDetailParams.RangeLengthParams.Last
                 },
-                shift = if (prefsInteractor.getKeepStatisticsRange()) {
-                    extra?.shift.orZero()
-                } else {
-                    0
-                },
+                shift = if (prefsInteractor.getKeepStatisticsRange()) shift else 0,
                 preview = StatisticsDetailParams.Preview(
                     name = item.name,
                     iconId = item.icon?.toParams(),
@@ -106,18 +111,37 @@ class StatisticsViewModel @Inject constructor(
 
     fun onFilterApplied() {
         updateStatistics()
-        widgetInteractor.updateWidgets(listOf(WidgetType.STATISTICS_CHART))
     }
 
     private fun updateStatistics() = viewModelScope.launch {
         val data = loadStatisticsViewData()
-        (statistics as MutableLiveData).value = data
+        statistics.set(data)
     }
 
     private suspend fun loadStatisticsViewData(): List<ViewHolderType> {
         return statisticsViewDataInteractor.getViewData(
             rangeLength = prefsInteractor.getStatisticsRange(),
-            shift = extra?.shift.orZero()
+            shift = shift,
         )
+    }
+
+    private fun startUpdate() {
+        timerJob = viewModelScope.launch {
+            timerJob?.cancelAndJoin()
+            while (isActive) {
+                updateStatistics()
+                delay(TIMER_UPDATE)
+            }
+        }
+    }
+
+    private fun stopUpdate() {
+        viewModelScope.launch {
+            timerJob?.cancelAndJoin()
+        }
+    }
+
+    companion object {
+        private const val TIMER_UPDATE = 1000L
     }
 }

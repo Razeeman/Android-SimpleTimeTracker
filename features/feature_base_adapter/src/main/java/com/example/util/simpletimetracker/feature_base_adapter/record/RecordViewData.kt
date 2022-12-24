@@ -51,10 +51,7 @@ sealed class RecordViewData : ViewHolderType {
         override val comment: String = ""
 
         override fun getUniqueId(): Long {
-            var result = 31L
-            result = 31L * result + timeStartedTimestamp.hashCode()
-            result = 31L * result + timeEndedTimestamp.hashCode()
-            return result
+            return timeStartedTimestamp.hashCode().toLong()
         }
 
         override fun isValidType(other: ViewHolderType): Boolean = other is Untracked
