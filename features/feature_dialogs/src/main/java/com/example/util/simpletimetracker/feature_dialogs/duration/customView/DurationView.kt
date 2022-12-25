@@ -8,7 +8,7 @@ import android.graphics.Rect
 import android.util.AttributeSet
 import android.view.View
 import com.example.util.simpletimetracker.feature_dialogs.R
-import kotlin.math.min
+import java.lang.Float.min
 
 class DurationView @JvmOverloads constructor(
     context: Context,
@@ -57,7 +57,7 @@ class DurationView @JvmOverloads constructor(
         val h = height.toFloat()
 
         calculateDimensions(w, h)
-        drawText(canvas, w, h)
+        drawText(canvas)
     }
 
     fun setData(data: ViewData) {
@@ -106,46 +106,49 @@ class DurationView @JvmOverloads constructor(
     }
 
     private fun calculateDimensions(w: Float, h: Float) {
-        val legendsTextWidth =
-            listOf(hourString, minuteString, secondString).map(legendTextPaint::measureText).sum()
-        val desiredSegmentWidth =
-            min((w - legendsTextWidth - 2 * legendPadding) / 3, h)
-        textStartHorizontal =
-            (w - desiredSegmentWidth * 3 - legendsTextWidth - 2 * legendPadding) / 2
+        val legendsTextWidth = listOf(hourString, minuteString, secondString)
+            .map(legendTextPaint::measureText).sum()
+        val desiredWidth = w - legendsTextWidth - 2 * legendPadding
+        val text = data.hours.format() + data.minutes.format() + data.seconds.format()
+        val textLength = text.length
+        val hoursWidth = min(data.hours.format().length.toFloat() / textLength * desiredWidth, h)
+        setTextSizeForWidth(textPaint, data.hours.format(), hoursWidth)
 
-        setTextSizeForWidth(textPaint, desiredSegmentWidth)
+        val fullTextWidth = textPaint.measureText(data.hours.format()) +
+            textPaint.measureText(data.minutes.format()) +
+            textPaint.measureText(data.seconds.format()) +
+            legendsTextWidth
+        textStartHorizontal = (w - fullTextWidth - 2 * legendPadding) / 2
+
         textPaint.getTextBounds("0", 0, 1, bounds)
         val textHeight = bounds.height()
         textStartVertical = textHeight + (h - textHeight) / 2
     }
 
-    private fun drawText(canvas: Canvas, w: Float, h: Float) {
-        fun format(value: Int): String = min(value, 99).toString().padStart(2, '0')
-
+    private fun drawText(canvas: Canvas) {
         // Center text
         canvas.translate(textStartHorizontal, textStartVertical)
 
-        var text = format(data.hours)
-        canvas.drawText(format(data.hours), 0f, 0f, textPaint)
+        var text = data.hours.format()
+        canvas.drawText(text, 0f, 0f, textPaint)
         canvas.translate(textPaint.measureText(text), 0f)
         canvas.drawText(hourString, 0f, 0f, legendTextPaint)
         canvas.translate(legendTextPaint.measureText(hourString) + legendPadding, 0f)
 
-        text = format(data.minutes)
-        canvas.drawText(format(data.minutes), 0f, 0f, textPaint)
+        text = data.minutes.format()
+        canvas.drawText(text, 0f, 0f, textPaint)
         canvas.translate(textPaint.measureText(text), 0f)
         canvas.drawText(minuteString, 0f, 0f, legendTextPaint)
         canvas.translate(legendTextPaint.measureText(minuteString) + legendPadding, 0f)
 
-        text = format(data.hours)
-        canvas.drawText(format(data.seconds), 0f, 0f, textPaint)
+        text = data.seconds.format()
+        canvas.drawText(text, 0f, 0f, textPaint)
         canvas.translate(textPaint.measureText(text), 0f)
         canvas.drawText(secondString, 0f, 0f, legendTextPaint)
         canvas.translate(legendTextPaint.measureText(secondString), 0f)
     }
 
-    private fun setTextSizeForWidth(paint: Paint, desiredWidth: Float) {
-        val text = "00"
+    private fun setTextSizeForWidth(paint: Paint, text: String, desiredWidth: Float) {
         val testTextSize = 48f
         paint.textSize = testTextSize
         val width = paint.measureText(text)
@@ -154,9 +157,13 @@ class DurationView @JvmOverloads constructor(
         paint.textSize = desiredTextSize
     }
 
+    private fun Long.format(): String {
+        return this.toString().padStart(2, '0')
+    }
+
     data class ViewData(
-        val hours: Int = 0,
-        val minutes: Int = 0,
-        val seconds: Int = 0
+        val hours: Long = 0,
+        val minutes: Long = 0,
+        val seconds: Long = 0
     )
 }

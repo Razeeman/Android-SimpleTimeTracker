@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_dialogs.duration.customView.DurationView
 import com.example.util.simpletimetracker.feature_dialogs.duration.extra.DurationPickerExtra
@@ -28,7 +29,7 @@ class DurationPickerViewModel @Inject constructor() : ViewModel() {
     private var reformattedDuration: Long = 0
 
     fun onNumberPressed(number: Int) {
-        if (reformattedDuration <= 9_99_99) {
+        if (reformattedDuration <= 999_99_99) {
             reformattedDuration = reformattedDuration * 10 + number
             updateDurationViewData()
         }
@@ -41,7 +42,7 @@ class DurationPickerViewModel @Inject constructor() : ViewModel() {
 
     private fun updateDurationViewData() {
         val data = loadDurationViewData()
-        (durationViewData as MutableLiveData).value = data
+        durationViewData.set(data)
     }
 
     private fun loadDurationViewData(): DurationView.ViewData {
@@ -49,15 +50,11 @@ class DurationPickerViewModel @Inject constructor() : ViewModel() {
     }
 
     private fun mapToViewData(durationString: Long): DurationView.ViewData {
-        val hours = (durationString / 10000) % 100
+        val hours = durationString / 10000
         val minutes = (durationString / 100) % 100
         val seconds = durationString % 100
 
-        return DurationView.ViewData(
-            hours.toInt(),
-            minutes.toInt(),
-            seconds.toInt()
-        )
+        return DurationView.ViewData(hours, minutes, seconds)
     }
 
     private fun reformatDuration(duration: Long): Long {
