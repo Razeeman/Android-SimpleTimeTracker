@@ -21,6 +21,8 @@ class NotificationGoalTimeBroadcastController @Inject constructor(
     }
 
     fun onBootCompleted() {
-        // TODO reschedule goal time reminder
+        GlobalScope.launch {
+            notificationGoalTimeInteractor.checkAndReschedule()
+        }
     }
 }
