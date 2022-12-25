@@ -49,7 +49,7 @@ class TimeMapper @Inject constructor(
         return if (useMilitaryTime) {
             if (showSeconds) timeFormatMilitaryWithSeconds else timeFormatMilitary
         } else {
-            if (showSeconds) timeFormat else timeFormatWithSeconds
+            if (showSeconds) timeFormatWithSeconds else timeFormat
         }.format(time)
     }
 
