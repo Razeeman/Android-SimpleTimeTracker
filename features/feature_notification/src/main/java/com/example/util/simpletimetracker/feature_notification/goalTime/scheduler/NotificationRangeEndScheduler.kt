@@ -10,33 +10,31 @@ import com.example.util.simpletimetracker.feature_notification.recevier.Notifica
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
-class NotificationGoalTimeScheduler @Inject constructor(
+class NotificationRangeEndScheduler @Inject constructor(
     @ApplicationContext private val context: Context,
     private val alarmManagerController: AlarmManagerController,
 ) {
 
-    fun schedule(durationMillisFromNow: Long, typeId: Long, goalTimeType: GoalTimeType) {
-        val timestamp = System.currentTimeMillis() + durationMillisFromNow
-        alarmManagerController.scheduleAtTime(timestamp, getPendingIntent(typeId, goalTimeType))
+    fun schedule(timestamp: Long, goalTimeType: GoalTimeType) {
+        alarmManagerController.scheduleAtTime(timestamp, getPendingIntent(goalTimeType) ?: return)
     }
 
-    fun cancelSchedule(typeId: Long, goalTimeType: GoalTimeType) {
-        alarmManagerController.cancelSchedule(getPendingIntent(typeId, goalTimeType))
+    fun cancelSchedule(goalTimeType: GoalTimeType) {
+        alarmManagerController.cancelSchedule(getPendingIntent(goalTimeType) ?: return)
     }
 
-    private fun getPendingIntent(typeId: Long, goalTimeType: GoalTimeType): PendingIntent {
+    private fun getPendingIntent(goalTimeType: GoalTimeType): PendingIntent? {
         val intent = Intent(context, NotificationReceiver::class.java).apply {
             action = when (goalTimeType) {
-                is GoalTimeType.Session -> NotificationReceiver.ACTION_GOAL_TIME_REMINDER_SESSION
-                is GoalTimeType.Day -> NotificationReceiver.ACTION_GOAL_TIME_REMINDER_DAILY
-                is GoalTimeType.Week -> NotificationReceiver.ACTION_GOAL_TIME_REMINDER_WEEKLY
+                is GoalTimeType.Session -> return null // No need to reschedule.
+                is GoalTimeType.Day -> NotificationReceiver.ACTION_GOAL_TIME_REMINDER_DAY_END
+                is GoalTimeType.Week -> NotificationReceiver.ACTION_GOAL_TIME_REMINDER_WEEK_END
             }
-            putExtra(NotificationReceiver.EXTRA_GOAL_TIME_TYPE_ID, typeId)
         }
 
         return PendingIntent.getBroadcast(
             context,
-            typeId.toInt(),
+            0,
             intent,
             PendingIntents.getFlags(),
         )

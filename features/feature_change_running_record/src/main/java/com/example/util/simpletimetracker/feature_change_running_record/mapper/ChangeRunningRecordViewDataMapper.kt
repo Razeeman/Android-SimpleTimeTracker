@@ -68,12 +68,12 @@ class ChangeRunningRecordViewDataMapper @Inject constructor(
             ),
             goalTime2 = goalTimeMapper.map(
                 goalTime = recordType?.dailyGoalTime.orZero(),
-                current = dailyCurrent + currentDuration,
+                current = dailyCurrent,
                 type = GoalTimeType.Day,
             ),
             goalTime3 = goalTimeMapper.map(
                 goalTime = recordType?.weeklyGoalTime.orZero(),
-                current = weeklyCurrent + currentDuration,
+                current = weeklyCurrent,
                 type = GoalTimeType.Week,
             ),
             iconId = recordType?.icon.orEmpty()

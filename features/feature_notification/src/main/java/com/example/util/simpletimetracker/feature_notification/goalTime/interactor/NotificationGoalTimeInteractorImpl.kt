@@ -1,19 +1,21 @@
 package com.example.util.simpletimetracker.feature_notification.goalTime.interactor
 
 import com.example.util.simpletimetracker.core.interactor.GetCurrentRecordsDurationInteractor
-import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTimeInteractor
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTimeInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.model.GoalTimeType
+import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.feature_notification.R
 import com.example.util.simpletimetracker.feature_notification.goalTime.manager.NotificationGoalTimeManager
 import com.example.util.simpletimetracker.feature_notification.goalTime.manager.NotificationGoalTimeParams
 import com.example.util.simpletimetracker.feature_notification.goalTime.scheduler.NotificationGoalTimeScheduler
+import com.example.util.simpletimetracker.feature_notification.goalTime.scheduler.NotificationRangeEndScheduler
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -26,10 +28,17 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val manager: NotificationGoalTimeManager,
     private val scheduler: NotificationGoalTimeScheduler,
+    private val rangeEndScheduler: NotificationRangeEndScheduler,
     private val timeMapper: TimeMapper,
     private val colorMapper: ColorMapper,
     private val iconMapper: IconMapper,
 ) : NotificationGoalTimeInteractor {
+
+    override suspend fun checkAndReschedule() {
+        runningRecordInteractor.getAll().forEach {
+            checkAndReschedule(it.id)
+        }
+    }
 
     override suspend fun checkAndReschedule(typeId: Long) {
         val recordType = recordTypeInteractor.get(typeId)
@@ -39,10 +48,14 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
 
         cancel(typeId)
 
-        // Session
-        val sessionGoalTime = recordType.goalTime * 1000
-        val sessionCurrent = System.currentTimeMillis() - runningRecord.timeStarted
+        listOf(
+            GoalTimeType.Day,
+            GoalTimeType.Week,
+        ).forEach(rangeEndScheduler::cancelSchedule)
 
+        // Session
+        val sessionCurrent = System.currentTimeMillis() - runningRecord.timeStarted
+        val sessionGoalTime = recordType.goalTime * 1000
         if (sessionGoalTime > 0L && sessionGoalTime > sessionCurrent) {
             scheduler.schedule(sessionGoalTime - sessionCurrent, typeId, GoalTimeType.Session)
         }
@@ -50,18 +63,23 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
         // Daily
         val dailyGoalTime = recordType.dailyGoalTime * 1000
         if (dailyGoalTime > 0) {
-            val dailyCurrent = getCurrentRecordsDurationInteractor.getDailyCurrent(typeId) + sessionCurrent
+            val range = getCurrentRecordsDurationInteractor.getRange(RangeLength.Day)
+            val dailyCurrent = getCurrentRecordsDurationInteractor.getRangeCurrent(runningRecord, range)
+
             if (dailyGoalTime > dailyCurrent) {
                 scheduler.schedule(dailyGoalTime - dailyCurrent, typeId, GoalTimeType.Day)
+                rangeEndScheduler.schedule(range.timeEnded, GoalTimeType.Day)
             }
         }
 
         // Weekly
         val weeklyGoalTime = recordType.weeklyGoalTime * 1000
         if (weeklyGoalTime > 0) {
-            val weeklyCurrent = getCurrentRecordsDurationInteractor.getWeeklyCurrent(typeId) + sessionCurrent
+            val range = getCurrentRecordsDurationInteractor.getRange(RangeLength.Week)
+            val weeklyCurrent = getCurrentRecordsDurationInteractor.getRangeCurrent(runningRecord, range)
             if (weeklyGoalTime > weeklyCurrent) {
                 scheduler.schedule(weeklyGoalTime - weeklyCurrent, typeId, GoalTimeType.Week)
+                rangeEndScheduler.schedule(range.timeEnded, GoalTimeType.Week)
             }
         }
     }
@@ -72,13 +90,9 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
             GoalTimeType.Day,
             GoalTimeType.Week
         ).forEach {
-            cancel(typeId, it)
+            scheduler.cancelSchedule(typeId, it)
+            manager.hide(typeId, it)
         }
-    }
-
-    override fun cancel(typeId: Long, goalTimeType: GoalTimeType) {
-        scheduler.cancelSchedule(typeId, goalTimeType)
-        manager.hide(typeId, goalTimeType)
     }
 
     override fun show(typeId: Long, goalTimeType: GoalTimeType) {

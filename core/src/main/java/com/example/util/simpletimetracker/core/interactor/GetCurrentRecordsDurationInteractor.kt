@@ -4,7 +4,10 @@ import com.example.util.simpletimetracker.core.mapper.RangeMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
+import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RangeLength
+import com.example.util.simpletimetracker.domain.model.RunningRecord
+import java.lang.Long.max
 import javax.inject.Inject
 
 class GetCurrentRecordsDurationInteractor @Inject constructor(
@@ -14,25 +17,29 @@ class GetCurrentRecordsDurationInteractor @Inject constructor(
     private val timeMapper: TimeMapper,
 ) {
 
-    suspend fun getDailyCurrent(typeId: Long): Long {
-        val (todayRangeStart, todayRangeEnd) = getRange(RangeLength.Day)
-
-        return recordInteractor.getFromRange(todayRangeStart, todayRangeEnd)
-            .filter { it.typeId == typeId }
-            .map { rangeMapper.clampToRange(it, todayRangeStart, todayRangeEnd) }
-            .let(rangeMapper::mapToDuration)
+    suspend fun getDailyCurrent(runningRecord: RunningRecord): Long {
+        return getRangeCurrent(runningRecord, getRange(RangeLength.Day))
     }
 
-    suspend fun getWeeklyCurrent(typeId: Long): Long {
-        val (weekRangeStart, weekRangeEnd) = getRange(RangeLength.Week)
-
-        return recordInteractor.getFromRange(weekRangeStart, weekRangeEnd)
-            .filter { it.typeId == typeId }
-            .map { rangeMapper.clampToRange(it, weekRangeStart, weekRangeEnd) }
-            .let(rangeMapper::mapToDuration)
+    suspend fun getWeeklyCurrent(runningRecord: RunningRecord): Long {
+        return getRangeCurrent(runningRecord, getRange(RangeLength.Week))
     }
 
-    private suspend fun getRange(rangeLength: RangeLength): Pair<Long, Long> {
+    suspend fun getRangeCurrent(
+        runningRecord: RunningRecord,
+        range: Range
+    ): Long {
+        val (rangeStart, rangeEnd) = range
+        // Clamp current running record
+        val currentRunning = System.currentTimeMillis() - max(runningRecord.timeStarted, range.timeStarted)
+
+        return recordInteractor.getFromRange(rangeStart, rangeEnd)
+            .filter { it.typeId == runningRecord.id }
+            .map { rangeMapper.clampToRange(it, rangeStart, rangeEnd) }
+            .let(rangeMapper::mapToDuration) + currentRunning
+    }
+
+    suspend fun getRange(rangeLength: RangeLength): Range {
         val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
         val startOfDayShift = prefsInteractor.getStartOfDayShift()
 
@@ -41,6 +48,11 @@ class GetCurrentRecordsDurationInteractor @Inject constructor(
             shift = 0,
             firstDayOfWeek = firstDayOfWeek,
             startOfDayShift = startOfDayShift,
-        )
+        ).let { (start, end) ->
+            Range(
+                timeStarted = start,
+                timeEnded = end
+            )
+        }
     }
 }

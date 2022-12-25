@@ -45,12 +45,12 @@ class RunningRecordsViewDataInteractor @Inject constructor(
                     .mapNotNull { runningRecord ->
                         val recordType = recordTypesMap[runningRecord.id] ?: return@mapNotNull null
                         val dailyCurrent = if (recordType.dailyGoalTime > 0L) {
-                            getCurrentRecordsDurationInteractor.getDailyCurrent(runningRecord.id)
+                            getCurrentRecordsDurationInteractor.getDailyCurrent(runningRecord)
                         } else {
                             0L
                         }
                         val weeklyCurrent = if (recordType.weeklyGoalTime > 0L) {
-                            getCurrentRecordsDurationInteractor.getWeeklyCurrent(runningRecord.id)
+                            getCurrentRecordsDurationInteractor.getWeeklyCurrent(runningRecord)
                         } else {
                             0L
                         }

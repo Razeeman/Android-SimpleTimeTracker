@@ -15,6 +15,7 @@ import com.example.util.simpletimetracker.core.sharedViewModel.BackupViewModel.C
 import com.example.util.simpletimetracker.core.sharedViewModel.BackupViewModel.Companion.ICS_EXPORT_DIALOG_TAG
 import com.example.util.simpletimetracker.domain.extension.flip
 import com.example.util.simpletimetracker.domain.extension.orFalse
+import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTimeInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.model.CardOrder
 import com.example.util.simpletimetracker.domain.model.WidgetType
@@ -47,6 +48,7 @@ class SettingsViewModel @Inject constructor(
     private val notificationTypeInteractor: NotificationTypeInteractor,
     private val widgetInteractor: WidgetInteractor,
     private val notificationInactivityInteractor: NotificationInactivityInteractor,
+    private val notificationGoalTimeInteractor: NotificationGoalTimeInteractor,
 ) : ViewModel() {
 
     val cardOrderViewData: LiveData<CardOrderViewData> by lazy {
@@ -319,6 +321,8 @@ class SettingsViewModel @Inject constructor(
 
         viewModelScope.launch {
             prefsInteractor.setFirstDayOfWeek(newDayOfWeek)
+            widgetInteractor.updateWidgets(listOf(WidgetType.STATISTICS_CHART))
+            notificationGoalTimeInteractor.checkAndReschedule()
             updateFirstDayOfWeekViewData()
         }
     }
@@ -340,6 +344,7 @@ class SettingsViewModel @Inject constructor(
             val newValue = prefsInteractor.getStartOfDayShift() * -1
             prefsInteractor.setStartOfDayShift(newValue)
             widgetInteractor.updateWidgets(listOf(WidgetType.STATISTICS_CHART))
+            notificationGoalTimeInteractor.checkAndReschedule()
             updateStartOfDayViewData()
         }
     }
@@ -531,6 +536,7 @@ class SettingsViewModel @Inject constructor(
                 val newValue = settingsMapper.toStartOfDayShift(timestamp, wasPositive)
                 prefsInteractor.setStartOfDayShift(newValue)
                 widgetInteractor.updateWidgets(listOf(WidgetType.STATISTICS_CHART))
+                notificationGoalTimeInteractor.checkAndReschedule()
                 updateStartOfDayViewData()
             }
         }

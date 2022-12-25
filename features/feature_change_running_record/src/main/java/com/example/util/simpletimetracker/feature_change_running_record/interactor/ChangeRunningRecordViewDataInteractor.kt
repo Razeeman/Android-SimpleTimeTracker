@@ -26,12 +26,12 @@ class ChangeRunningRecordViewDataInteractor @Inject constructor(
         val showSeconds = prefsInteractor.getShowSeconds()
 
         val dailyCurrent = if (type?.dailyGoalTime.orZero() > 0L) {
-            getCurrentRecordsDurationInteractor.getDailyCurrent(record.id)
+            getCurrentRecordsDurationInteractor.getDailyCurrent(record)
         } else {
             0L
         }
         val weeklyCurrent = if (type?.weeklyGoalTime.orZero() > 0L) {
-            getCurrentRecordsDurationInteractor.getWeeklyCurrent(record.id)
+            getCurrentRecordsDurationInteractor.getWeeklyCurrent(record)
         } else {
             0L
         }

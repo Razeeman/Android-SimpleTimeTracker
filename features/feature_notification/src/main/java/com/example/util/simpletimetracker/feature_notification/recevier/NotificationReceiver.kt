@@ -48,6 +48,11 @@ class NotificationReceiver : BroadcastReceiver() {
                 }
                 goalTimeController.onGoalTimeReminder(typeId, goalTimeType)
             }
+            ACTION_GOAL_TIME_REMINDER_DAY_END,
+            ACTION_GOAL_TIME_REMINDER_WEEK_END,
+            -> {
+                goalTimeController.onRangeEndReminder()
+            }
             ACTION_START_ACTIVITY -> {
                 val name = intent.getStringExtra(EXTRA_ACTIVITY_NAME)
                 val comment = intent.getStringExtra(EXTRA_RECORD_COMMENT)
@@ -83,6 +88,11 @@ class NotificationReceiver : BroadcastReceiver() {
             "com.razeeman.util.simpletimetracker.ACTION_GOAL_TIME_REMINDER_DAILY"
         const val ACTION_GOAL_TIME_REMINDER_WEEKLY =
             "com.razeeman.util.simpletimetracker.ACTION_GOAL_TIME_REMINDER_WEEKLY"
+        const val ACTION_GOAL_TIME_REMINDER_DAY_END =
+            "com.razeeman.util.simpletimetracker.ACTION_GOAL_TIME_REMINDER_DAY_END"
+        const val ACTION_GOAL_TIME_REMINDER_WEEK_END =
+            "com.razeeman.util.simpletimetracker.ACTION_GOAL_TIME_REMINDER_WEEK_END"
+
         const val EXTRA_GOAL_TIME_TYPE_ID =
             "extra_goal_time_type_id"
     }
