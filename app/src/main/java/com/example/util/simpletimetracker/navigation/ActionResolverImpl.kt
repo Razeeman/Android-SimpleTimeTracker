@@ -4,6 +4,8 @@ import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
+import android.provider.Settings
 import androidx.activity.ComponentActivity
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
@@ -11,6 +13,7 @@ import com.example.util.simpletimetracker.navigation.params.action.ActionParams
 import com.example.util.simpletimetracker.navigation.params.action.CreateFileParams
 import com.example.util.simpletimetracker.navigation.params.action.OpenFileParams
 import com.example.util.simpletimetracker.navigation.params.action.OpenMarketParams
+import com.example.util.simpletimetracker.navigation.params.action.OpenSystemSettings
 import com.example.util.simpletimetracker.navigation.params.action.SendEmailParams
 import javax.inject.Inject
 
@@ -32,6 +35,7 @@ class ActionResolverImpl @Inject constructor(
             is SendEmailParams -> sendEmail(activity, data)
             is CreateFileParams -> createFile(activity, data)
             is OpenFileParams -> openFile(activity, data)
+            is OpenSystemSettings -> openSystemSettings(activity, data)
         }
     }
 
@@ -90,6 +94,17 @@ class ActionResolverImpl @Inject constructor(
             createFileResultLauncher?.launch(intent)
         } else {
             data.notHandledCallback()
+        }
+    }
+
+    private fun openSystemSettings(activity: Activity?, data: OpenSystemSettings) {
+        when (data) {
+            is OpenSystemSettings.ExactAlarms -> runCatching {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                    val intent = Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM)
+                    activity?.startActivity(intent)
+                }
+            }
         }
     }
 

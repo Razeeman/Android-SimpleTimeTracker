@@ -2,6 +2,7 @@
     package="com.example.util.simpletimetracker.feature_notification">
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
 
     <application android:theme="@style/AppTheme">
 
@@ -15,6 +16,7 @@
                 <action android:name="com.htc.intent.action.QUICKBOOT_POWERON" />
                 <action android:name="com.razeeman.util.simpletimetracker.ACTION_START_ACTIVITY" />
                 <action android:name="com.razeeman.util.simpletimetracker.ACTION_STOP_ACTIVITY" />
+                <action android:name="android.app.action.SCHEDULE_EXACT_ALARM_PERMISSION_STATE_CHANGED" />
             </intent-filter>
         </receiver>
 

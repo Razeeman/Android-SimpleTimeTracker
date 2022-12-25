@@ -6,9 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.BuildConfig
 import com.example.util.simpletimetracker.core.extension.set
-import com.example.util.simpletimetracker.domain.interactor.NotificationInactivityInteractor
-import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
-import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
+import com.example.util.simpletimetracker.core.interactor.CheckExactAlarmPermissionInteractor
 import com.example.util.simpletimetracker.core.provider.ApplicationDataProvider
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.sharedViewModel.BackupViewModel.Companion.CSV_EXPORT_DIALOG_TAG
@@ -16,7 +14,10 @@ import com.example.util.simpletimetracker.core.sharedViewModel.BackupViewModel.C
 import com.example.util.simpletimetracker.domain.extension.flip
 import com.example.util.simpletimetracker.domain.extension.orFalse
 import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTimeInteractor
+import com.example.util.simpletimetracker.domain.interactor.NotificationInactivityInteractor
+import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
+import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.domain.model.CardOrder
 import com.example.util.simpletimetracker.domain.model.WidgetType
 import com.example.util.simpletimetracker.feature_settings.R
@@ -49,6 +50,7 @@ class SettingsViewModel @Inject constructor(
     private val widgetInteractor: WidgetInteractor,
     private val notificationInactivityInteractor: NotificationInactivityInteractor,
     private val notificationGoalTimeInteractor: NotificationGoalTimeInteractor,
+    private val checkExactAlarmPermissionInteractor: CheckExactAlarmPermissionInteractor,
 ) : ViewModel() {
 
     val cardOrderViewData: LiveData<CardOrderViewData> by lazy {
@@ -507,6 +509,7 @@ class SettingsViewModel @Inject constructor(
                 prefsInteractor.setInactivityReminderDuration(duration)
                 updateInactivityReminderViewData()
                 // TODO check and schedule inactivity reminder or reschedule at new time?
+                checkExactAlarmPermissionInteractor.execute()
             }
             IGNORE_SHORT_RECORDS_DIALOG_TAG -> viewModelScope.launch {
                 prefsInteractor.setIgnoreShortRecordsDuration(duration)

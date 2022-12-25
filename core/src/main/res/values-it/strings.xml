@@ -158,6 +158,9 @@
     <string name="csv_export_settings_all">Tutto</string>
     <string name="csv_export_settings_hint">Seleziona un intervallo temporale per esportare tutte le registrazioni</string>
 
+    <string name="schedule_exact_alarms">L\'impostazione di sistema deve essere abilitata per questa app per programmare gli allarmi esatti</string>
+    <string name="schedule_exact_alarms_open_settings">Aprire</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">Ordina le registrazioni</string>
     <string name="records_all_sort_time_started">Ora di inizio</string>

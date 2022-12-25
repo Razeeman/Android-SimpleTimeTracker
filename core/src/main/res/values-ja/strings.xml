@@ -158,6 +158,9 @@
     <string name="csv_export_settings_all">すべて</string>
     <string name="csv_export_settings_hint">時間範囲を選択、または全計測記録をエクスポート</string>
 
+    <string name="schedule_exact_alarms">正確なアラームをスケジュールするには、このアプリのシステム設定を有効にする必要があります</string>
+    <string name="schedule_exact_alarms_open_settings">開ける</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">計測記録をソート</string>
     <string name="records_all_sort_time_started">時間の開始</string>

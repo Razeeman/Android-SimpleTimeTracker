@@ -143,7 +143,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
 
             SnackBarParams(
                 message = resourceRepo.getString(R.string.cannot_be_in_the_future),
-                isShortDuration = true
+                duration = SnackBarParams.Duration.Short,
             ).let(message::set)
         }
         if (newTimeStarted > newTimeSplit) newTimeSplit = newTimeStarted

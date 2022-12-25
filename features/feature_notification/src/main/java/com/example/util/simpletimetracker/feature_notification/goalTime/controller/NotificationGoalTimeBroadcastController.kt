@@ -15,12 +15,18 @@ class NotificationGoalTimeBroadcastController @Inject constructor(
     }
 
     fun onRangeEndReminder() {
-        GlobalScope.launch {
-            notificationGoalTimeInteractor.checkAndReschedule()
-        }
+        reschedule()
     }
 
     fun onBootCompleted() {
+        reschedule()
+    }
+
+    fun onExactAlarmPermissionStateChanged() {
+        reschedule()
+    }
+
+    private fun reschedule() {
         GlobalScope.launch {
             notificationGoalTimeInteractor.checkAndReschedule()
         }

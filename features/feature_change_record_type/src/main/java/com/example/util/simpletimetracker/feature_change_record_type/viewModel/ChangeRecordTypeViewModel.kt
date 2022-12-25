@@ -6,20 +6,21 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.extension.addOrRemove
 import com.example.util.simpletimetracker.core.extension.set
-import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTimeInteractor
-import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
-import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
-import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
+import com.example.util.simpletimetracker.core.interactor.CheckExactAlarmPermissionInteractor
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconEmojiMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
 import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTimeInteractor
+import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
+import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
+import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.domain.model.AppColor
 import com.example.util.simpletimetracker.domain.model.IconType
 import com.example.util.simpletimetracker.domain.model.RecordType
@@ -64,6 +65,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     private val resourceRepo: ResourceRepo,
     private val iconEmojiMapper: IconEmojiMapper,
     private val colorMapper: ColorMapper,
+    private val checkExactAlarmPermissionInteractor: CheckExactAlarmPermissionInteractor,
 ) : ViewModel() {
 
     lateinit var extra: ChangeRecordTypeParams
@@ -337,14 +339,17 @@ class ChangeRecordTypeViewModel @Inject constructor(
             SESSION_GOAL_TIME_DIALOG_TAG -> viewModelScope.launch {
                 newGoalTime = duration
                 updateSessionGoalTimeViewData()
+                checkExactAlarmPermissionInteractor.execute()
             }
             DAILY_GOAL_TIME_DIALOG_TAG -> viewModelScope.launch {
                 newDailyGoalTime = duration
                 updateDailyGoalTimeViewData()
+                checkExactAlarmPermissionInteractor.execute()
             }
             WEEKLY_GOAL_TIME_DIALOG_TAG -> viewModelScope.launch {
                 newWeeklyGoalTime = duration
                 updateWeeklyGoalTimeViewData()
+                checkExactAlarmPermissionInteractor.execute()
             }
         }
     }

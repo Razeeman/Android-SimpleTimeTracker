@@ -158,6 +158,9 @@
     <string name="csv_export_settings_all">Semua</string>
     <string name="csv_export_settings_hint">Pilih rentang waktu atau ekspor semua rekor</string>
 
+    <string name="schedule_exact_alarms">Setelan sistem harus diaktifkan untuk aplikasi ini agar dapat menjadwalkan alarm yang tepat</string>
+    <string name="schedule_exact_alarms_open_settings">Membuka</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">Urutkan rekor</string>
     <string name="records_all_sort_time_started">Waktu dimulai</string>

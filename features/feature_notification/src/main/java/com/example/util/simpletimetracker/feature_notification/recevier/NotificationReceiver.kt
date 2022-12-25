@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_notification.recevier
 
+import android.app.AlarmManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -69,6 +70,9 @@ class NotificationReceiver : BroadcastReceiver() {
             }
             Intent.ACTION_BOOT_COMPLETED -> {
                 onBootCompleted()
+            }
+            AlarmManager.ACTION_SCHEDULE_EXACT_ALARM_PERMISSION_STATE_CHANGED -> {
+                goalTimeController.onExactAlarmPermissionStateChanged()
             }
         }
     }

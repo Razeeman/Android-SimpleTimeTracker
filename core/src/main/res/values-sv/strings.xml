@@ -158,6 +158,9 @@
     <string name="csv_export_settings_all">Allt</string>
     <string name="csv_export_settings_hint">Välj tidsintervall eller exportera alla händelser</string>
 
+    <string name="schedule_exact_alarms">Systeminställningen bör vara aktiverad för den här appen för att kunna schemalägga exakta larm</string>
+    <string name="schedule_exact_alarms_open_settings">Öppen</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">Sortera händelser</string>
     <string name="records_all_sort_time_started">Starttid</string>

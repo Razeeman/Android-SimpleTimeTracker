@@ -158,6 +158,9 @@
     <string name="csv_export_settings_all">Все</string>
     <string name="csv_export_settings_hint">Выберите временной диапазон или экспортируйте все записи</string>
 
+    <string name="schedule_exact_alarms">Системные настройки должны быть изменены для этого приложения, чтобы планировать точные оповещения.</string>
+    <string name="schedule_exact_alarms_open_settings">Открыть</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">Сортировка</string>
     <string name="records_all_sort_time_started">Дата</string>
