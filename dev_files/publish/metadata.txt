@@ -153,3 +153,16 @@ Version 1.20:
 - Add ICS format export
 - Add some translations
 - General bug fixes and improvements
+
+Version 1.21:
+- Add daily and weekly goals
+- Add record edit actions (split, continue, merge)
+- Add streaks in detailed statistics
+- Add option to change time of adjacent records then editing a record time
+- Add reverse calendar order setting (Settings - Reverse order of records)
+- Add statistics range for last 7 days
+- Add setting to show seconds (Settings - Show seconds)
+- Inactivity reminder made recurrent
+- Add statistics sharing
+- Add some translations
+- General bug fixes and improvements
