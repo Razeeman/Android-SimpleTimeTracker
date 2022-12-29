@@ -4,8 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.core.base.SingleLiveEvent
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.extension.toParams
+import com.example.util.simpletimetracker.core.interactor.SharingInteractor
 import com.example.util.simpletimetracker.core.utils.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -30,6 +32,7 @@ import javax.inject.Inject
 class StatisticsViewModel @Inject constructor(
     private val router: Router,
     private val statisticsViewDataInteractor: StatisticsViewDataInteractor,
+    private val sharingInteractor: SharingInteractor,
     private val prefsInteractor: PrefsInteractor,
 ) : ViewModel() {
 
@@ -38,6 +41,7 @@ class StatisticsViewModel @Inject constructor(
     val statistics: LiveData<List<ViewHolderType>> by lazy {
         MutableLiveData(listOf(LoaderViewData() as ViewHolderType))
     }
+    val sharingData: SingleLiveEvent<List<ViewHolderType>> = SingleLiveEvent()
 
     private var isVisible: Boolean = false
     private var timerJob: Job? = null
@@ -63,6 +67,11 @@ class StatisticsViewModel @Inject constructor(
 
     fun onFilterClick() {
         router.navigate(ChartFilterDialogParams)
+    }
+
+    fun onShareClick() = viewModelScope.launch {
+        val data = loadStatisticsViewData(forSharing = true)
+        sharingData.set(data)
     }
 
     fun onItemClick(
@@ -113,15 +122,20 @@ class StatisticsViewModel @Inject constructor(
         updateStatistics()
     }
 
+    fun onShareView(view: Any) = viewModelScope.launch {
+        sharingInteractor.execute(view, SHARING_NAME)
+    }
+
     private fun updateStatistics() = viewModelScope.launch {
         val data = loadStatisticsViewData()
         statistics.set(data)
     }
 
-    private suspend fun loadStatisticsViewData(): List<ViewHolderType> {
+    private suspend fun loadStatisticsViewData(forSharing: Boolean = false): List<ViewHolderType> {
         return statisticsViewDataInteractor.getViewData(
             rangeLength = prefsInteractor.getStatisticsRange(),
             shift = shift,
+            forSharing = forSharing,
         )
     }
 
@@ -143,5 +157,6 @@ class StatisticsViewModel @Inject constructor(
 
     companion object {
         private const val TIMER_UPDATE = 1000L
+        private const val SHARING_NAME = "stt_statistics"
     }
 }

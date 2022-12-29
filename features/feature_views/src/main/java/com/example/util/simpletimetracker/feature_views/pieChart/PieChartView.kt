@@ -82,6 +82,11 @@ class PieChartView @JvmOverloads constructor(
         drawIcons(canvas, w, h, r)
     }
 
+    // Set before setting data.
+    fun setAnimated(animated: Boolean) {
+        this.animated = animated
+    }
+
     fun setSegments(data: List<PiePortion>) {
         val res = mutableListOf<Arc>()
         val valuesSum = data.map(PiePortion::value).sum()
@@ -136,7 +141,8 @@ class PieChartView @JvmOverloads constructor(
                     getInt(R.styleable.PieChartView_segmentCount, 0)
                 drawIcons =
                     getBoolean(R.styleable.PieChartView_drawIcons, false)
-                animated =
+
+                if (hasValue(R.styleable.PieChartView_pieChartAnimated)) animated =
                     getBoolean(R.styleable.PieChartView_pieChartAnimated, true)
                 recycle()
             }

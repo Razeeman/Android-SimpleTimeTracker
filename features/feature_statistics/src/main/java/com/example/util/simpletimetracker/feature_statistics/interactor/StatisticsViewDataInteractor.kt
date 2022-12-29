@@ -20,7 +20,11 @@ class StatisticsViewDataInteractor @Inject constructor(
     private val statisticsViewDataMapper: StatisticsViewDataMapper,
 ) {
 
-    suspend fun getViewData(rangeLength: RangeLength, shift: Int): List<ViewHolderType> {
+    suspend fun getViewData(
+        rangeLength: RangeLength,
+        shift: Int,
+        forSharing: Boolean,
+    ): List<ViewHolderType> {
         val filterType = prefsInteractor.getChartFilterType()
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
@@ -51,7 +55,13 @@ class StatisticsViewDataInteractor @Inject constructor(
             dataHolders = dataHolders,
             types = types,
             isDarkTheme = isDarkTheme
-        ).let(::StatisticsChartViewData)
+        ).let {
+            StatisticsChartViewData(
+                data = it,
+                animated = !forSharing,
+                buttonsVisible = !forSharing,
+            )
+        }
         val list = statisticsViewDataMapper.mapItemsList(
             statistics = statistics,
             data = dataHolders,
@@ -78,7 +88,7 @@ class StatisticsViewDataInteractor @Inject constructor(
             list.let(result::addAll)
             totalTracked.let(result::add)
             // If has any activity or tag other than untracked
-            if (list.any { it.id != UNTRACKED_ITEM_ID }) {
+            if (list.any { it.id != UNTRACKED_ITEM_ID } && !forSharing) {
                 statisticsViewDataMapper.mapToHint().let(result::add)
             }
         }

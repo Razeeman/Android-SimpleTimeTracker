@@ -6,7 +6,7 @@ data class SnackBarParams(
     val duration: Duration = Duration.Normal,
     val dismissedListener: ((TAG?) -> Unit)? = null,
     val actionText: String = "",
-    val actionListener: ((TAG?) -> Unit)? = null
+    val actionListener: ((TAG?) -> Unit)? = null,
 ) : NotificationParams {
 
     enum class TAG {
@@ -15,9 +15,9 @@ data class SnackBarParams(
     }
 
     sealed interface Duration {
-        object Short: Duration
-        object Normal: Duration
-        object Long: Duration
-        object Indefinite: Duration
+        object Short : Duration
+        object Normal : Duration
+        object Long : Duration
+        object Indefinite : Duration
     }
 }

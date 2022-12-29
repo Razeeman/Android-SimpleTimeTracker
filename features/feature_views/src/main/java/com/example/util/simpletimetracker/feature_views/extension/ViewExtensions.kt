@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.view.View
+import android.view.View.MeasureSpec
 import android.view.ViewGroup
 import android.view.animation.LinearInterpolator
 import android.widget.AdapterView
@@ -20,10 +21,6 @@ var View.visible: Boolean
     get() {
         return visibility == View.VISIBLE
     }
-
-fun View.flipVisibility() {
-    visibility = if (visibility == View.VISIBLE) View.GONE else View.VISIBLE
-}
 
 fun View.rotate(from: Float, to: Float, duration: Long = 300) {
     ObjectAnimator.ofFloat(this, "rotation", from, to).apply {
@@ -143,10 +140,19 @@ fun View.getBitmapFromView(): Bitmap {
 }
 
 fun View.measureExactly(width: Int, height: Int = width) {
-    val specWidth = View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY)
-    val specHeight = View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.EXACTLY)
+    val specWidth = MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY)
+    val specHeight = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY)
     measure(specWidth, specHeight)
     layout(0, 0, measuredWidth, measuredHeight)
+}
+
+fun View.measureForSharing(): View {
+    // Measure with width matched to screen width and height as wrap content.
+    val specWidth = MeasureSpec.makeMeasureSpec(context.resources.displayMetrics.widthPixels, MeasureSpec.EXACTLY)
+    val specHeight = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
+    measure(specWidth, specHeight)
+    layout(0, 0, measuredWidth, measuredHeight)
+    return this
 }
 
 fun GridLayoutManager.setSpanSizeLookup(getSpanSize: (position: Int) -> Int) {

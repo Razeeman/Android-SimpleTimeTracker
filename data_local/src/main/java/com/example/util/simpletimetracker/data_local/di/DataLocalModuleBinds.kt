@@ -13,6 +13,7 @@ import com.example.util.simpletimetracker.data_local.repo.RunningRecordToRecordT
 import com.example.util.simpletimetracker.data_local.resolver.BackupRepoImpl
 import com.example.util.simpletimetracker.data_local.resolver.CsvRepoImpl
 import com.example.util.simpletimetracker.data_local.resolver.IcsRepoImpl
+import com.example.util.simpletimetracker.data_local.resolver.SharingRepoImpl
 import com.example.util.simpletimetracker.domain.repo.ActivityFilterRepo
 import com.example.util.simpletimetracker.domain.repo.CategoryRepo
 import com.example.util.simpletimetracker.domain.repo.PrefsRepo
@@ -26,6 +27,7 @@ import com.example.util.simpletimetracker.domain.repo.RunningRecordToRecordTagRe
 import com.example.util.simpletimetracker.domain.resolver.BackupRepo
 import com.example.util.simpletimetracker.domain.resolver.CsvRepo
 import com.example.util.simpletimetracker.domain.resolver.IcsRepo
+import com.example.util.simpletimetracker.domain.resolver.SharingRepo
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -63,6 +65,10 @@ interface DataLocalModuleBinds {
     @Binds
     @Singleton
     fun IcsRepoImpl.bindIcsRepo(): IcsRepo
+
+    @Binds
+    @Singleton
+    fun SharingRepoImpl.bindSharingRepo(): SharingRepo
 
     @Binds
     @Singleton

@@ -15,6 +15,7 @@ import com.example.util.simpletimetracker.navigation.params.action.OpenFileParam
 import com.example.util.simpletimetracker.navigation.params.action.OpenMarketParams
 import com.example.util.simpletimetracker.navigation.params.action.OpenSystemSettings
 import com.example.util.simpletimetracker.navigation.params.action.SendEmailParams
+import com.example.util.simpletimetracker.navigation.params.action.ShareImageParams
 import javax.inject.Inject
 
 class ActionResolverImpl @Inject constructor(
@@ -36,6 +37,7 @@ class ActionResolverImpl @Inject constructor(
             is CreateFileParams -> createFile(activity, data)
             is OpenFileParams -> openFile(activity, data)
             is OpenSystemSettings -> openSystemSettings(activity, data)
+            is ShareImageParams -> shareImage(activity, data)
         }
     }
 
@@ -105,6 +107,20 @@ class ActionResolverImpl @Inject constructor(
                     activity?.startActivity(intent)
                 }
             }
+        }
+    }
+
+    private fun shareImage(activity: Activity?, data: ShareImageParams) {
+        try {
+            val uri = Uri.parse(data.uriString)
+            val intent = Intent(Intent.ACTION_SEND).apply {
+                setDataAndType(uri, activity?.contentResolver?.getType(uri))
+                putExtra(Intent.EXTRA_STREAM, uri)
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            }
+            activity?.startActivity(Intent.createChooser(intent, null))
+        } catch (e: ActivityNotFoundException) {
+            data.notHandledCallback.invoke()
         }
     }
 
