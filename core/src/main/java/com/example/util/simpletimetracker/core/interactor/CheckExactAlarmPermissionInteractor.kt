@@ -14,7 +14,7 @@ class CheckExactAlarmPermissionInteractor @Inject constructor(
     private val permissionRepo: PermissionRepo,
 ) {
 
-    fun execute() {
+    fun execute(anchor: Any? = null) {
         if (!permissionRepo.canScheduleExactAlarms()) {
             val message = resourceRepo.getString(R.string.schedule_exact_alarms)
             SnackBarParams(
@@ -24,7 +24,9 @@ class CheckExactAlarmPermissionInteractor @Inject constructor(
                 actionListener = {
                     router.execute(OpenSystemSettings.ExactAlarms)
                 },
-            ).let(router::show)
+            ).let {
+                router.show(it, anchor)
+            }
         }
     }
 }

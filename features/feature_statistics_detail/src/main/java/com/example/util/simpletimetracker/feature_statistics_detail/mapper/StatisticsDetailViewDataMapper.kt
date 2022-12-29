@@ -90,7 +90,9 @@ class StatisticsDetailViewDataMapper @Inject constructor(
 
     fun mapToChartViewData(
         data: List<ChartBarDataDuration>,
+        goalValue: Long,
         compareData: List<ChartBarDataDuration>,
+        compareGoalValue: Long,
         showComparison: Boolean,
         rangeLength: RangeLength,
         availableChartGroupings: List<ChartGrouping>,
@@ -100,8 +102,8 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         useProportionalMinutes: Boolean,
         showSeconds: Boolean,
     ): StatisticsDetailChartCompositeViewData {
-        val chartData = mapChartData(data, rangeLength)
-        val compareChartData = mapChartData(compareData, rangeLength)
+        val chartData = mapChartData(data, goalValue, rangeLength)
+        val compareChartData = mapChartData(compareData, compareGoalValue, rangeLength)
         val (title, rangeAverages) = getRangeAverages(
             data = data,
             compareData = compareData,
@@ -179,7 +181,8 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             data = viewData,
             legendSuffix = SPLIT_CHART_LEGEND,
             addLegendToSelectedBar = false,
-            shouldDrawHorizontalLegends = true
+            shouldDrawHorizontalLegends = true,
+            goalValue = 0f,
         )
     }
 
@@ -204,7 +207,8 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             data = viewData,
             legendSuffix = SPLIT_CHART_LEGEND,
             addLegendToSelectedBar = false,
-            shouldDrawHorizontalLegends = true
+            shouldDrawHorizontalLegends = true,
+            goalValue = 0f,
         )
     }
 
@@ -254,6 +258,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             legendSuffix = SPLIT_CHART_LEGEND,
             addLegendToSelectedBar = true,
             shouldDrawHorizontalLegends = true,
+            goalValue = 0f,
         )
     }
 
@@ -344,6 +349,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
 
     private fun mapChartData(
         data: List<ChartBarDataDuration>,
+        goal: Long,
         rangeLength: RangeLength,
     ): StatisticsDetailChartViewData {
         val isMinutes = data.maxOfOrNull(ChartBarDataDuration::duration)
@@ -375,7 +381,8 @@ class StatisticsDetailViewDataMapper @Inject constructor(
                 is RangeLength.Custom,
                 is RangeLength.Last,
                 -> data.size <= 10
-            }
+            },
+            goalValue = formatInterval(goal, isMinutes = isMinutes),
         )
     }
 
@@ -391,7 +398,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         )
 
         return if (isMinutes) {
-            min + sec / 60f
+            hr * 60f + min + sec / 60f
         } else {
             hr + min / 60f
         }

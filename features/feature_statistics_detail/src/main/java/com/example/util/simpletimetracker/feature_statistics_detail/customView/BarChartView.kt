@@ -49,6 +49,7 @@ class BarChartView @JvmOverloads constructor(
     private var showSelectedBarOnStart: Boolean = false
     private var addLegendToSelectedBar: Boolean = false
     private var shouldDrawHorizontalLegends: Boolean = true
+    private var goalValue: Float = 0f
     // End of attrs
 
     private val bounds: RectF = RectF(0f, 0f, 0f, 0f)
@@ -86,6 +87,7 @@ class BarChartView @JvmOverloads constructor(
     private val textPaint: Paint = Paint()
     private val selectedBarTextPaint: Paint = Paint()
     private val linePaint: Paint = Paint()
+    private val goalLinePaint: Paint = Paint()
 
     private val singleTapDetector = SingleTapDetector(
         context = context,
@@ -121,6 +123,7 @@ class BarChartView @JvmOverloads constructor(
         drawText(canvas, w)
         drawLines(canvas)
         drawBars(canvas)
+        drawGoalValue(canvas)
         drawSelectedBarIcon(canvas)
     }
 
@@ -183,6 +186,11 @@ class BarChartView @JvmOverloads constructor(
         invalidate()
     }
 
+    fun setGoalValue(value: Float) {
+        goalValue = value
+        invalidate()
+    }
+
     private fun initArgs(
         context: Context,
         attrs: AttributeSet? = null,
@@ -210,8 +218,6 @@ class BarChartView @JvmOverloads constructor(
                     getColor(R.styleable.BarChartView_legendTextColor, Color.BLACK)
                 legendLineColor =
                     getColor(R.styleable.BarChartView_legendLineColor, Color.BLACK)
-                legendLineColor =
-                    getColor(R.styleable.BarChartView_legendLineColor, Color.BLACK)
                 selectedBarBackgroundColor =
                     getColor(R.styleable.BarChartView_selectedBarBackgroundColor, Color.WHITE)
                 selectedBarTextColor =
@@ -222,6 +228,8 @@ class BarChartView @JvmOverloads constructor(
                     getBoolean(R.styleable.BarChartView_addLegendToSelectedBar, false)
                 shouldDrawHorizontalLegends =
                     getBoolean(R.styleable.BarChartView_shouldDrawHorizontalLegends, true)
+                goalValue =
+                    getFloat(R.styleable.BarChartView_goalValue, 0f)
                 recycle()
             }
     }
@@ -255,6 +263,12 @@ class BarChartView @JvmOverloads constructor(
         linePaint.apply {
             isAntiAlias = true
             color = legendLineColor
+        }
+        goalLinePaint.apply {
+            isAntiAlias = true
+            color = ColorUtils.darkenColor(barColor)
+            style = Paint.Style.STROKE
+            strokeWidth = 1.dpToPx().toFloat()
         }
     }
 
@@ -391,6 +405,19 @@ class BarChartView @JvmOverloads constructor(
                 linePaint
             )
         }
+    }
+
+    private fun drawGoalValue(canvas: Canvas) {
+        if (goalValue == 0f) return
+
+        val scaled = goalValue / valueUpperBound
+        canvas.drawLine(
+            0f,
+            pixelBottomBound - chartHeight * scaled,
+            pixelRightBound,
+            pixelBottomBound - chartHeight * scaled,
+            goalLinePaint,
+        )
     }
 
     private fun drawSelectedBarIcon(canvas: Canvas) {

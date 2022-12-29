@@ -334,22 +334,22 @@ class ChangeRecordTypeViewModel @Inject constructor(
         )
     }
 
-    fun onDurationSet(tag: String?, duration: Long) {
+    fun onDurationSet(tag: String?, duration: Long, anchor: Any) {
         when (tag) {
             SESSION_GOAL_TIME_DIALOG_TAG -> viewModelScope.launch {
                 newGoalTime = duration
                 updateSessionGoalTimeViewData()
-                checkExactAlarmPermissionInteractor.execute()
+                checkExactAlarmPermissionInteractor.execute(anchor)
             }
             DAILY_GOAL_TIME_DIALOG_TAG -> viewModelScope.launch {
                 newDailyGoalTime = duration
                 updateDailyGoalTimeViewData()
-                checkExactAlarmPermissionInteractor.execute()
+                checkExactAlarmPermissionInteractor.execute(anchor)
             }
             WEEKLY_GOAL_TIME_DIALOG_TAG -> viewModelScope.launch {
                 newWeeklyGoalTime = duration
                 updateWeeklyGoalTimeViewData()
-                checkExactAlarmPermissionInteractor.execute()
+                checkExactAlarmPermissionInteractor.execute(anchor)
             }
         }
     }

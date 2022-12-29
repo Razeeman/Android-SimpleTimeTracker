@@ -241,7 +241,11 @@ class ChangeRecordTypeFragment :
     }
 
     override fun onDurationSet(duration: Long, tag: String?) {
-        viewModel.onDurationSet(tag, duration)
+        viewModel.onDurationSet(
+            tag = tag,
+            duration = duration,
+            anchor = binding.btnChangeRecordTypeSave
+        )
     }
 
     override fun onDisable(tag: String?) {

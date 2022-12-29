@@ -104,6 +104,7 @@
                 app:showSelectedBarOnStart="true"
                 tools:barColor="@color/black"
                 tools:barCount="14"
+                tools:goalValue="12"
                 tools:legendTextSuffix="h" />
 
             <com.example.util.simpletimetracker.feature_statistics_detail.customView.BarChartView

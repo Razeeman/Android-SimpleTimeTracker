@@ -15,6 +15,7 @@
         <attr name="showSelectedBarOnStart" format="boolean" />
         <attr name="addLegendToSelectedBar" format="boolean" />
         <attr name="shouldDrawHorizontalLegends" format="boolean" />
+        <attr name="goalValue" format="float" />
     </declare-styleable>
 
     <declare-styleable name="StatisticsDetailCardView">

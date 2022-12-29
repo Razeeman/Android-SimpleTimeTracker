@@ -305,6 +305,7 @@ class StatisticsDetailFragment :
         setLegendTextSuffix(viewData.legendSuffix)
         shouldAddLegendToSelectedBar(viewData.addLegendToSelectedBar)
         shouldDrawHorizontalLegends(viewData.shouldDrawHorizontalLegends)
+        setGoalValue(viewData.goalValue)
     }
 
     companion object {

@@ -6,6 +6,8 @@ import com.example.util.simpletimetracker.core.interactor.TypesFilterInteractor
 import com.example.util.simpletimetracker.core.mapper.RangeMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
+import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.Record
@@ -27,6 +29,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
     private val typesFilterInteractor: TypesFilterInteractor,
     private val statisticsDetailViewDataMapper: StatisticsDetailViewDataMapper,
     private val prefsInteractor: PrefsInteractor,
+    private val recordTypeInteractor: RecordTypeInteractor,
 ) {
 
     suspend fun getChartViewData(
@@ -65,7 +68,9 @@ class StatisticsDetailChartInteractor @Inject constructor(
 
         return statisticsDetailViewDataMapper.mapToChartViewData(
             data = data,
+            goalValue = getGoalValue(filter, compositeData.appliedChartGrouping),
             compareData = compareData,
+            compareGoalValue = getGoalValue(compare, compositeData.appliedChartGrouping),
             showComparison = compare.selectedIds.isNotEmpty(),
             rangeLength = rangeLength,
             availableChartGroupings = compositeData.availableChartGroupings,
@@ -79,6 +84,25 @@ class StatisticsDetailChartInteractor @Inject constructor(
 
     fun getEmptyRangeAveragesData(): List<StatisticsDetailCardViewData> {
         return statisticsDetailViewDataMapper.mapToEmptyRangeAverages()
+    }
+
+    private suspend fun getGoalValue(
+        filter: TypesFilterParams,
+        appliedChartGrouping: ChartGrouping,
+    ): Long {
+        // Show goal only if one activity is selected.
+        if (filter.filterType != ChartFilterType.ACTIVITY) return 0
+        if (filter.selectedIds.size != 1) return 0
+        val typeId = filter.selectedIds.firstOrNull() ?: return 0
+        val type = recordTypeInteractor.get(typeId) ?: return 0
+
+        return when (appliedChartGrouping) {
+            ChartGrouping.DAILY -> type.dailyGoalTime
+            ChartGrouping.WEEKLY -> type.weeklyGoalTime
+            ChartGrouping.MONTHLY,
+            ChartGrouping.YEARLY,
+            -> 0
+        } * 1000
     }
 
     private suspend fun getChartData(
