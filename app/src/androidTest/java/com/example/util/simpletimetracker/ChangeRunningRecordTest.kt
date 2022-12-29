@@ -3,10 +3,12 @@ package com.example.util.simpletimetracker
 import android.view.View
 import android.widget.DatePicker
 import android.widget.TimePicker
+import androidx.annotation.IdRes
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.contrib.PickerActions
 import androidx.test.espresso.contrib.PickerActions.setTime
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
+import androidx.test.espresso.matcher.ViewMatchers.hasSibling
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.withClassName
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -21,6 +23,7 @@ import com.example.util.simpletimetracker.utils.clickOnRecyclerItem
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.longClickOnView
+import com.example.util.simpletimetracker.utils.scrollRecyclerToView
 import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.typeTextIntoView
 import com.example.util.simpletimetracker.utils.unconstrainedClickOnView
@@ -158,7 +161,6 @@ class ChangeRunningRecordTest : BaseUiTest() {
             color = lastColor,
             text = lastEmoji,
             timeStarted = timeStartedPreview,
-            goalTime = "",
             comment = comment
         )
     }
@@ -355,6 +357,280 @@ class ChangeRunningRecordTest : BaseUiTest() {
         checkViewDoesNotExist(withText(comment2))
         checkViewDoesNotExist(withText(comment3))
         clickOnViewWithText(R.string.change_record_comment_field)
+    }
+
+    @Test
+    fun goalTimes() {
+        fun checkGoal(typeName: String, @IdRes goalTextId: Int, goal: String) {
+            allOf(
+                isDescendantOfA(withId(R.id.viewRunningRecordItem)),
+                hasSibling(withText(typeName)),
+                withId(goalTextId),
+                withSubstring(goal),
+            ).let(::checkViewIsDisplayed)
+        }
+
+        fun checkNoGoal(typeName: String, @IdRes goalTextId: Int) {
+            allOf(
+                isDescendantOfA(withId(R.id.viewRunningRecordItem)),
+                hasSibling(withText(typeName)),
+                withId(goalTextId),
+            ).let(::checkViewIsNotDisplayed)
+        }
+
+        fun checkGoalMark(typeName: String, @IdRes checkId: Int, isVisible: Boolean) {
+            allOf(
+                isDescendantOfA(withId(R.id.viewRunningRecordItem)),
+                hasSibling(withText(typeName)),
+                withId(checkId),
+            ).let {
+                if (isVisible) checkViewIsDisplayed(it) else checkViewIsNotDisplayed(it)
+            }
+        }
+
+        fun scrollTo(typeName: String) {
+            tryAction {
+                scrollRecyclerToView(
+                    R.id.rvRunningRecordsList,
+                    allOf(withId(R.id.viewRunningRecordItem), hasDescendant(withText(typeName)))
+                )
+            }
+        }
+
+        val sessionGoal = getString(R.string.change_record_type_session_goal_time).lowercase()
+        val dailyGoal = getString(R.string.change_record_type_daily_goal_time).lowercase()
+        val weeklyGoal = getString(R.string.change_record_type_weekly_goal_time).lowercase()
+        val currentTime = Calendar.getInstance().timeInMillis
+
+        val noGoals = "noGoals"
+        val sessionGoalNotFinished = "sessionGoalNotFinished"
+        val sessionGoalFinished = "sessionGoalFinished"
+        val dailyGoalNotFinished = "dailyGoalNotFinished"
+        val dailyGoalFinished = "dailyGoalFinished"
+        val weeklyGoalNotFinished = "weeklyGoalNotFinished"
+        val weeklyGoalFinished = "weeklyGoalFinished"
+        val allGoalsNotFinished = "allGoalsNotFinished"
+        val allGoalsFinished = "allGoalsFinished"
+        val allGoalsSessionFinished = "allGoalsSessionFinished"
+        val allGoalsDailyFinished = "allGoalsDailyFinished"
+        val allGoalsWeeklyFinished = "allGoalsWeeklyFinished"
+
+        // Add data
+        testUtils.addActivity(noGoals)
+        testUtils.addRunningRecord(noGoals)
+
+        testUtils.addActivity(sessionGoalNotFinished, goalTime = TimeUnit.MINUTES.toSeconds(10))
+        testUtils.addRecord(sessionGoalNotFinished)
+        testUtils.addRunningRecord(sessionGoalNotFinished)
+
+        testUtils.addActivity(sessionGoalFinished, goalTime = TimeUnit.MINUTES.toSeconds(10))
+        testUtils.addRunningRecord(
+            typeName = sessionGoalFinished,
+            timeStarted = currentTime - TimeUnit.MINUTES.toMillis(10),
+        )
+
+        testUtils.addActivity(dailyGoalNotFinished, dailyGoalTime = TimeUnit.MINUTES.toSeconds(10))
+        testUtils.addRecord(
+            typeName = dailyGoalNotFinished,
+            timeStarted = currentTime - TimeUnit.MINUTES.toMillis(5),
+            timeEnded = currentTime,
+        )
+        testUtils.addRunningRecord(dailyGoalNotFinished)
+
+        testUtils.addActivity(dailyGoalFinished, dailyGoalTime = TimeUnit.MINUTES.toSeconds(10))
+        testUtils.addRecord(
+            typeName = dailyGoalFinished,
+            timeStarted = currentTime - TimeUnit.MINUTES.toMillis(10),
+            timeEnded = currentTime,
+        )
+        testUtils.addRunningRecord(dailyGoalFinished)
+
+        testUtils.addActivity(weeklyGoalNotFinished, weeklyGoalTime = TimeUnit.MINUTES.toSeconds(10))
+        testUtils.addRecord(
+            typeName = weeklyGoalNotFinished,
+            timeStarted = currentTime - TimeUnit.MINUTES.toMillis(5),
+            timeEnded = currentTime,
+        )
+        testUtils.addRunningRecord(weeklyGoalNotFinished)
+
+        testUtils.addActivity(weeklyGoalFinished, weeklyGoalTime = TimeUnit.MINUTES.toSeconds(10))
+        testUtils.addRecord(
+            typeName = weeklyGoalFinished,
+            timeStarted = currentTime - TimeUnit.MINUTES.toMillis(10),
+            timeEnded = currentTime,
+        )
+        testUtils.addRunningRecord(weeklyGoalFinished)
+
+        testUtils.addActivity(
+            name = allGoalsNotFinished,
+            goalTime = TimeUnit.MINUTES.toSeconds(10),
+            dailyGoalTime = TimeUnit.MINUTES.toSeconds(20),
+            weeklyGoalTime = TimeUnit.MINUTES.toSeconds(30),
+        )
+        testUtils.addRecord(
+            typeName = allGoalsNotFinished,
+            timeStarted = currentTime - TimeUnit.MINUTES.toMillis(5),
+            timeEnded = currentTime,
+        )
+        testUtils.addRunningRecord(allGoalsNotFinished)
+
+        testUtils.addActivity(
+            name = allGoalsFinished,
+            goalTime = TimeUnit.MINUTES.toSeconds(10),
+            dailyGoalTime = TimeUnit.MINUTES.toSeconds(10),
+            weeklyGoalTime = TimeUnit.MINUTES.toSeconds(10),
+        )
+        testUtils.addRecord(
+            typeName = allGoalsFinished,
+            timeStarted = currentTime - TimeUnit.MINUTES.toMillis(10),
+            timeEnded = currentTime,
+        )
+        testUtils.addRunningRecord(
+            typeName = allGoalsFinished,
+            timeStarted = currentTime - TimeUnit.MINUTES.toMillis(10),
+        )
+
+        testUtils.addActivity(
+            name = allGoalsSessionFinished,
+            goalTime = TimeUnit.MINUTES.toSeconds(10),
+            dailyGoalTime = TimeUnit.MINUTES.toSeconds(20),
+            weeklyGoalTime = TimeUnit.MINUTES.toSeconds(30),
+        )
+        testUtils.addRunningRecord(
+            typeName = allGoalsSessionFinished,
+            timeStarted = currentTime - TimeUnit.MINUTES.toMillis(10),
+        )
+
+        testUtils.addActivity(
+            name = allGoalsDailyFinished,
+            goalTime = TimeUnit.MINUTES.toSeconds(20),
+            dailyGoalTime = TimeUnit.MINUTES.toSeconds(10),
+            weeklyGoalTime = TimeUnit.MINUTES.toSeconds(30),
+        )
+        testUtils.addRunningRecord(
+            typeName = allGoalsDailyFinished,
+            timeStarted = currentTime - TimeUnit.MINUTES.toMillis(10),
+        )
+
+        testUtils.addActivity(
+            name = allGoalsWeeklyFinished,
+            goalTime = TimeUnit.MINUTES.toSeconds(20),
+            dailyGoalTime = TimeUnit.MINUTES.toSeconds(30),
+            weeklyGoalTime = TimeUnit.MINUTES.toSeconds(10),
+        )
+        testUtils.addRunningRecord(
+            typeName = allGoalsWeeklyFinished,
+            timeStarted = currentTime - TimeUnit.MINUTES.toMillis(10),
+        )
+
+        // No goals
+        Thread.sleep(1000)
+        scrollTo(noGoals)
+        checkNoGoal(noGoals, R.id.tvRunningRecordItemGoalTime)
+        checkGoalMark(noGoals, R.id.ivRunningRecordItemGoalTimeCheck, isVisible = false)
+        checkNoGoal(noGoals, R.id.tvRunningRecordItemGoalTime2)
+        checkGoalMark(noGoals, R.id.ivRunningRecordItemGoalTimeCheck2, isVisible = false)
+        checkNoGoal(noGoals, R.id.tvRunningRecordItemGoalTime3)
+        checkGoalMark(noGoals, R.id.ivRunningRecordItemGoalTimeCheck3, isVisible = false)
+
+        // Session goal not finished
+        scrollTo(sessionGoalNotFinished)
+        checkGoal(sessionGoalNotFinished, R.id.tvRunningRecordItemGoalTime, "$sessionGoal 9$minuteString")
+        checkGoalMark(sessionGoalNotFinished, R.id.ivRunningRecordItemGoalTimeCheck, isVisible = false)
+        checkNoGoal(sessionGoalNotFinished, R.id.tvRunningRecordItemGoalTime2)
+        checkGoalMark(sessionGoalNotFinished, R.id.ivRunningRecordItemGoalTimeCheck2, isVisible = false)
+        checkNoGoal(sessionGoalNotFinished, R.id.tvRunningRecordItemGoalTime3)
+        checkGoalMark(sessionGoalNotFinished, R.id.ivRunningRecordItemGoalTimeCheck3, isVisible = false)
+
+        // Session goal finished
+        scrollTo(sessionGoalFinished)
+        checkGoal(sessionGoalFinished, R.id.tvRunningRecordItemGoalTime, sessionGoal)
+        checkGoalMark(sessionGoalFinished, R.id.ivRunningRecordItemGoalTimeCheck, isVisible = true)
+        checkNoGoal(sessionGoalFinished, R.id.tvRunningRecordItemGoalTime2)
+        checkGoalMark(sessionGoalFinished, R.id.ivRunningRecordItemGoalTimeCheck2, isVisible = false)
+        checkNoGoal(sessionGoalFinished, R.id.tvRunningRecordItemGoalTime3)
+        checkGoalMark(sessionGoalFinished, R.id.ivRunningRecordItemGoalTimeCheck3, isVisible = false)
+
+        // Daily goal not finished
+        scrollTo(dailyGoalNotFinished)
+        checkNoGoal(dailyGoalNotFinished, R.id.tvRunningRecordItemGoalTime)
+        checkGoalMark(dailyGoalNotFinished, R.id.ivRunningRecordItemGoalTimeCheck, isVisible = false)
+        checkGoal(dailyGoalNotFinished, R.id.tvRunningRecordItemGoalTime2, "$dailyGoal 4$minuteString")
+        checkGoalMark(dailyGoalNotFinished, R.id.ivRunningRecordItemGoalTimeCheck2, isVisible = false)
+        checkNoGoal(dailyGoalNotFinished, R.id.tvRunningRecordItemGoalTime3)
+        checkGoalMark(dailyGoalNotFinished, R.id.ivRunningRecordItemGoalTimeCheck3, isVisible = false)
+
+        // Daily goal finished
+        scrollTo(dailyGoalFinished)
+        checkNoGoal(dailyGoalFinished, R.id.tvRunningRecordItemGoalTime)
+        checkGoalMark(dailyGoalFinished, R.id.ivRunningRecordItemGoalTimeCheck, isVisible = false)
+        checkGoal(dailyGoalFinished, R.id.tvRunningRecordItemGoalTime2, dailyGoal)
+        checkGoalMark(dailyGoalFinished, R.id.ivRunningRecordItemGoalTimeCheck2, isVisible = true)
+        checkNoGoal(dailyGoalFinished, R.id.tvRunningRecordItemGoalTime3)
+        checkGoalMark(dailyGoalFinished, R.id.ivRunningRecordItemGoalTimeCheck3, isVisible = false)
+
+        // Weekly goal not finished
+        scrollTo(weeklyGoalNotFinished)
+        checkNoGoal(weeklyGoalNotFinished, R.id.tvRunningRecordItemGoalTime)
+        checkGoalMark(weeklyGoalNotFinished, R.id.ivRunningRecordItemGoalTimeCheck, isVisible = false)
+        checkNoGoal(weeklyGoalNotFinished, R.id.tvRunningRecordItemGoalTime2)
+        checkGoalMark(weeklyGoalNotFinished, R.id.ivRunningRecordItemGoalTimeCheck2, isVisible = false)
+        checkGoal(weeklyGoalNotFinished, R.id.tvRunningRecordItemGoalTime3, "$weeklyGoal 4$minuteString")
+        checkGoalMark(weeklyGoalNotFinished, R.id.ivRunningRecordItemGoalTimeCheck3, isVisible = false)
+
+        // Weekly goal finished
+        scrollTo(weeklyGoalFinished)
+        checkNoGoal(weeklyGoalFinished, R.id.tvRunningRecordItemGoalTime)
+        checkGoalMark(weeklyGoalFinished, R.id.ivRunningRecordItemGoalTimeCheck, isVisible = false)
+        checkNoGoal(weeklyGoalFinished, R.id.tvRunningRecordItemGoalTime2)
+        checkGoalMark(weeklyGoalFinished, R.id.ivRunningRecordItemGoalTimeCheck2, isVisible = false)
+        checkGoal(weeklyGoalFinished, R.id.tvRunningRecordItemGoalTime3, weeklyGoal)
+        checkGoalMark(weeklyGoalFinished, R.id.ivRunningRecordItemGoalTimeCheck3, isVisible = true)
+
+        // All goals, all not finished
+        scrollTo(allGoalsNotFinished)
+        checkGoal(allGoalsNotFinished, R.id.tvRunningRecordItemGoalTime, "$sessionGoal 9$minuteString")
+        checkGoalMark(allGoalsNotFinished, R.id.ivRunningRecordItemGoalTimeCheck, isVisible = false)
+        checkGoal(allGoalsNotFinished, R.id.tvRunningRecordItemGoalTime2, "$dailyGoal 14$minuteString")
+        checkGoalMark(allGoalsNotFinished, R.id.ivRunningRecordItemGoalTimeCheck2, isVisible = false)
+        checkGoal(allGoalsNotFinished, R.id.tvRunningRecordItemGoalTime3, "$weeklyGoal 24$minuteString")
+        checkGoalMark(allGoalsNotFinished, R.id.ivRunningRecordItemGoalTimeCheck3, isVisible = false)
+
+        // All goals, all finished
+        scrollTo(allGoalsFinished)
+        checkGoal(allGoalsFinished, R.id.tvRunningRecordItemGoalTime, sessionGoal)
+        checkGoalMark(allGoalsFinished, R.id.ivRunningRecordItemGoalTimeCheck, isVisible = true)
+        checkGoal(allGoalsFinished, R.id.tvRunningRecordItemGoalTime2, dailyGoal)
+        checkGoalMark(allGoalsFinished, R.id.ivRunningRecordItemGoalTimeCheck2, isVisible = true)
+        checkGoal(allGoalsFinished, R.id.tvRunningRecordItemGoalTime3, weeklyGoal)
+        checkGoalMark(allGoalsFinished, R.id.ivRunningRecordItemGoalTimeCheck3, isVisible = true)
+
+        // All goals, session finished
+        scrollTo(allGoalsSessionFinished)
+        checkGoal(allGoalsSessionFinished, R.id.tvRunningRecordItemGoalTime, sessionGoal)
+        checkGoalMark(allGoalsSessionFinished, R.id.ivRunningRecordItemGoalTimeCheck, isVisible = true)
+        checkGoal(allGoalsSessionFinished, R.id.tvRunningRecordItemGoalTime2, "$dailyGoal 9$minuteString")
+        checkGoalMark(allGoalsSessionFinished, R.id.ivRunningRecordItemGoalTimeCheck2, isVisible = false)
+        checkGoal(allGoalsSessionFinished, R.id.tvRunningRecordItemGoalTime3, "$weeklyGoal 19$minuteString")
+        checkGoalMark(allGoalsSessionFinished, R.id.ivRunningRecordItemGoalTimeCheck3, isVisible = false)
+
+        // All goals, daily finished
+        scrollTo(allGoalsDailyFinished)
+        checkGoal(allGoalsDailyFinished, R.id.tvRunningRecordItemGoalTime, "$sessionGoal 9$minuteString")
+        checkGoalMark(allGoalsDailyFinished, R.id.ivRunningRecordItemGoalTimeCheck, isVisible = false)
+        checkGoal(allGoalsDailyFinished, R.id.tvRunningRecordItemGoalTime2, dailyGoal)
+        checkGoalMark(allGoalsDailyFinished, R.id.ivRunningRecordItemGoalTimeCheck2, isVisible = true)
+        checkGoal(allGoalsDailyFinished, R.id.tvRunningRecordItemGoalTime3, "$weeklyGoal 19$minuteString")
+        checkGoalMark(allGoalsDailyFinished, R.id.ivRunningRecordItemGoalTimeCheck3, isVisible = false)
+
+        // All goals, weekly finished
+        scrollTo(allGoalsWeeklyFinished)
+        checkGoal(allGoalsWeeklyFinished, R.id.tvRunningRecordItemGoalTime, "$sessionGoal 9$minuteString")
+        checkGoalMark(allGoalsWeeklyFinished, R.id.ivRunningRecordItemGoalTimeCheck, isVisible = false)
+        checkGoal(allGoalsWeeklyFinished, R.id.tvRunningRecordItemGoalTime2, "$dailyGoal 19$minuteString")
+        checkGoalMark(allGoalsWeeklyFinished, R.id.ivRunningRecordItemGoalTimeCheck2, isVisible = false)
+        checkGoal(allGoalsWeeklyFinished, R.id.tvRunningRecordItemGoalTime3, weeklyGoal)
+        checkGoalMark(allGoalsWeeklyFinished, R.id.ivRunningRecordItemGoalTimeCheck3, isVisible = true)
     }
 
     private fun checkAfterTimeAdjustment(timeStarted: String) {

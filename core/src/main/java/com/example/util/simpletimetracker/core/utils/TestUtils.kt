@@ -66,6 +66,8 @@ class TestUtils @Inject constructor(
         icon: Int? = null,
         text: String? = null,
         goalTime: Long? = null,
+        dailyGoalTime: Long? = null,
+        weeklyGoalTime: Long? = null,
         archived: Boolean = false,
         categories: List<String> = emptyList(),
     ) = runBlocking {
@@ -87,8 +89,8 @@ class TestUtils @Inject constructor(
             icon = iconId,
             hidden = archived,
             goalTime = goalTime.orZero(),
-            dailyGoalTime = 0,
-            weeklyGoalTime = 0,
+            dailyGoalTime = dailyGoalTime.orZero(),
+            weeklyGoalTime = weeklyGoalTime.orZero(),
         )
 
         val typeId = recordTypeInteractor.add(data)
