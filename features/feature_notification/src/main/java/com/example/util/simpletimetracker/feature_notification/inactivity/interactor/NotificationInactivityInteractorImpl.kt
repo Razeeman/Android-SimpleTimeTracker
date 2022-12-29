@@ -14,16 +14,15 @@ class NotificationInactivityInteractorImpl @Inject constructor(
     private val manager: NotificationInactivityManager,
     private val scheduler: NotificationInactivityScheduler,
     private val prefsInteractor: PrefsInteractor,
-    private val runningRecordInteractor: RunningRecordInteractor
+    private val runningRecordInteractor: RunningRecordInteractor,
 ) : NotificationInactivityInteractor {
 
     override suspend fun checkAndSchedule() {
-        if (runningRecordInteractor.getAll().isEmpty()) {
-            prefsInteractor.getInactivityReminderDuration()
-                .takeIf { it > 0 }
-                ?.let { it * 1000L }
-                ?.let(scheduler::schedule)
-        }
+        prefsInteractor.getInactivityReminderDuration()
+            .takeIf { it > 0 }
+            ?.takeIf { runningRecordInteractor.getAll().isEmpty() }
+            ?.let { it * 1000L }
+            ?.let(scheduler::schedule)
     }
 
     override fun cancel() {
