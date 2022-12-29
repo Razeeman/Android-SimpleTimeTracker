@@ -2,14 +2,17 @@ package com.example.util.simpletimetracker.feature_statistics.interactor
 
 import com.example.util.simpletimetracker.core.interactor.StatisticsChartViewDataInteractor
 import com.example.util.simpletimetracker.core.interactor.StatisticsMediator
+import com.example.util.simpletimetracker.core.mapper.RangeMapper
 import com.example.util.simpletimetracker.core.utils.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_base_adapter.divider.DividerViewData
 import com.example.util.simpletimetracker.feature_statistics.mapper.StatisticsViewDataMapper
 import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsChartViewData
+import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsTitleViewData
 import javax.inject.Inject
 
 class StatisticsViewDataInteractor @Inject constructor(
@@ -18,6 +21,7 @@ class StatisticsViewDataInteractor @Inject constructor(
     private val statisticsChartViewDataInteractor: StatisticsChartViewDataInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val statisticsViewDataMapper: StatisticsViewDataMapper,
+    private val rangeMapper: RangeMapper,
 ) {
 
     suspend fun getViewData(
@@ -84,6 +88,7 @@ class StatisticsViewDataInteractor @Inject constructor(
         if (list.isEmpty()) {
             statisticsViewDataMapper.mapToEmpty().let(result::add)
         } else {
+            if (forSharing) getSharingTitle(rangeLength, shift).let(result::addAll)
             chart.let(result::add)
             list.let(result::addAll)
             totalTracked.let(result::add)
@@ -94,5 +99,19 @@ class StatisticsViewDataInteractor @Inject constructor(
         }
 
         return result
+    }
+
+    private suspend fun getSharingTitle(
+        rangeLength: RangeLength,
+        shift: Int,
+    ): List<ViewHolderType> = mutableListOf<ViewHolderType>().apply {
+        val title = rangeMapper.mapToShareTitle(
+            rangeLength = rangeLength,
+            position = shift,
+            startOfDayShift = prefsInteractor.getStartOfDayShift(),
+            firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
+        )
+        StatisticsTitleViewData(title).let(::add)
+        DividerViewData(1).let(::add)
     }
 }

@@ -17,7 +17,7 @@ import kotlin.math.min
 
 class RangeMapper @Inject constructor(
     private val resourceRepo: ResourceRepo,
-    private val timeMapper: TimeMapper
+    private val timeMapper: TimeMapper,
 ) {
 
     fun mapToRanges(currentRange: RangeLength, addSelection: Boolean = true): RangesViewData {
@@ -41,7 +41,7 @@ class RangeMapper @Inject constructor(
         rangeLength: RangeLength,
         position: Int,
         startOfDayShift: Long,
-        firstDayOfWeek: DayOfWeek
+        firstDayOfWeek: DayOfWeek,
     ): String {
         return when (rangeLength) {
             is RangeLength.Day -> timeMapper.toDayTitle(position, startOfDayShift)
@@ -54,10 +54,28 @@ class RangeMapper @Inject constructor(
         }
     }
 
+    fun mapToShareTitle(
+        rangeLength: RangeLength,
+        position: Int,
+        startOfDayShift: Long,
+        firstDayOfWeek: DayOfWeek,
+    ): String {
+        return when (rangeLength) {
+            is RangeLength.Day -> timeMapper.toDayDateTitle(position, startOfDayShift)
+            is RangeLength.Week -> timeMapper.toWeekDateTitle(position, startOfDayShift, firstDayOfWeek)
+            is RangeLength.Month -> timeMapper.toMonthDateTitle(position, startOfDayShift)
+            is RangeLength.Year -> timeMapper.toYearDateTitle(position, startOfDayShift)
+            is RangeLength.All,
+            is RangeLength.Custom,
+            is RangeLength.Last,
+            -> mapToTitle(rangeLength, position, startOfDayShift, firstDayOfWeek)
+        }
+    }
+
     fun getRecordsFromRange(
         records: List<Record>,
         rangeStart: Long,
-        rangeEnd: Long
+        rangeEnd: Long,
     ): List<Record> {
         return records.filter { it.timeStarted < rangeEnd && it.timeEnded > rangeStart }
     }
@@ -65,7 +83,7 @@ class RangeMapper @Inject constructor(
     fun clampToRange(
         record: Record,
         rangeStart: Long,
-        rangeEnd: Long
+        rangeEnd: Long,
     ): Range {
         return Range(
             timeStarted = max(record.timeStarted, rangeStart),

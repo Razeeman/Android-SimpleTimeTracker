@@ -447,7 +447,7 @@ class TimeMapper @Inject constructor(
         return "$proportionalString$hourString"
     }
 
-    private fun toDayDateTitle(
+    fun toDayDateTitle(
         daysFromToday: Int,
         startOfDayShift: Long,
     ): String {
@@ -461,7 +461,7 @@ class TimeMapper @Inject constructor(
         return dayTitleFormat.format(calendar.timeInMillis)
     }
 
-    private fun toWeekDateTitle(
+    fun toWeekDateTitle(
         weeksFromToday: Int,
         startOfDayShift: Long,
         firstDayOfWeek: DayOfWeek,
@@ -481,7 +481,7 @@ class TimeMapper @Inject constructor(
         return weekTitleFormat.format(rangeStart) + " - " + weekTitleFormat.format(rangeEnd)
     }
 
-    private fun toMonthDateTitle(
+    fun toMonthDateTitle(
         monthsFromToday: Int,
         startOfDayShift: Long,
     ): String {
@@ -495,7 +495,7 @@ class TimeMapper @Inject constructor(
         return monthTitleFormat.format(calendar.timeInMillis)
     }
 
-    private fun toYearDateTitle(
+    fun toYearDateTitle(
         yearsFromToday: Int,
         startOfDayShift: Long,
     ): String {

@@ -16,6 +16,7 @@ import com.example.util.simpletimetracker.core.repo.DeviceRepo
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_base_adapter.divider.createDividerAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.hint.createHintAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.statistics.createStatisticsAdapterDelegate
@@ -23,6 +24,7 @@ import com.example.util.simpletimetracker.feature_statistics.R
 import com.example.util.simpletimetracker.feature_statistics.adapter.createStatisticsChartAdapterDelegate
 import com.example.util.simpletimetracker.feature_statistics.adapter.createStatisticsEmptyAdapterDelegate
 import com.example.util.simpletimetracker.feature_statistics.adapter.createStatisticsInfoAdapterDelegate
+import com.example.util.simpletimetracker.feature_statistics.adapter.createStatisticsTitleAdapterDelegate
 import com.example.util.simpletimetracker.feature_statistics.extra.StatisticsExtra
 import com.example.util.simpletimetracker.feature_statistics.viewModel.StatisticsSettingsViewModel
 import com.example.util.simpletimetracker.feature_statistics.viewModel.StatisticsViewModel
@@ -115,7 +117,6 @@ class StatisticsFragment :
                 onShareClick = viewModel::onShareClick,
             ),
             createStatisticsInfoAdapterDelegate(),
-            createHintAdapterDelegate(),
             createStatisticsAdapterDelegate(
                 addTransitionNames = true,
                 onItemClick = viewModel::onItemClick
@@ -123,7 +124,10 @@ class StatisticsFragment :
             createStatisticsEmptyAdapterDelegate(
                 onFilterClick = viewModel::onFilterClick,
             ),
-            createLoaderAdapterDelegate()
+            createStatisticsTitleAdapterDelegate(),
+            createHintAdapterDelegate(),
+            createLoaderAdapterDelegate(),
+            createDividerAdapterDelegate(),
         )
     }
 
