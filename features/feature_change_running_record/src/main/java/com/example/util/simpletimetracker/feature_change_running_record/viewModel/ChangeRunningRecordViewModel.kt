@@ -107,9 +107,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
             // Find previous record.
             val previousRecord = recordInteractor.getAll()
                 .sortedByDescending { it.timeEnded }
-                .firstOrNull {
-                    it.timeEnded <= originalTimeStarted
-                }
+                .firstOrNull { it.timeEnded <= originalTimeStarted }
             // Change it.
             previousRecord?.copy(
                 timeEnded = newTimeStarted,

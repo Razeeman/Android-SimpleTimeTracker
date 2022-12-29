@@ -62,13 +62,14 @@ class ChangeRunningRecordTest : BaseUiTest() {
         )
         var timeStartedPreview = timeStartedTimestamp
             .let { timeMapper.formatTime(time = it, useMilitaryTime = true, showSeconds = false) }
+        val goalString = getString(R.string.change_record_type_session_goal_time).lowercase() + " 9$minuteString"
 
         checkRunningRecordDisplayed(
             name = name1,
             color = firstColor,
             icon = firstIcon,
             timeStarted = timeStartedPreview,
-            goalTime = "10$minuteString",
+            goalTime = goalString,
             comment = ""
         )
 
@@ -88,9 +89,7 @@ class ChangeRunningRecordTest : BaseUiTest() {
         checkPreviewUpdated(withCardColor(firstColor))
         checkPreviewUpdated(hasDescendant(withTag(firstIcon)))
         checkPreviewUpdated(hasDescendant(withText(timeStartedPreview)))
-        checkPreviewUpdated(
-            hasDescendant(withText(getString(R.string.running_record_goal_time, "10$minuteString")))
-        )
+        checkPreviewUpdated(hasDescendant(withSubstring(goalString)))
 
         // Change item
         clickOnViewWithText(R.string.change_record_type_field)
@@ -393,7 +392,7 @@ class ChangeRunningRecordTest : BaseUiTest() {
             checkViewIsDisplayed(
                 allOf(
                     isDescendantOfA(withId(R.id.viewRunningRecordItem)),
-                    withText(getString(R.string.running_record_goal_time, goalTime))
+                    withSubstring(goalTime),
                 )
             )
         } else {

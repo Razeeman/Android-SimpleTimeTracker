@@ -6,7 +6,6 @@ import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.contrib.PickerActions.setDate
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
-import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.withClassName
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withSubstring
@@ -19,7 +18,6 @@ import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
 import com.example.util.simpletimetracker.utils.checkViewIsNotDisplayed
-import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.longClickOnViewWithId
@@ -41,14 +39,15 @@ class StatisticsRangesTest : BaseUiTest() {
     @Test
     fun statisticsRanges() {
         val name = "Test"
+        val calendar = Calendar.getInstance()
 
-        // Add activity
+        // Add data
         testUtils.addActivity(name)
-        Thread.sleep(1000)
-
-        // Start timer
-        tryAction { clickOnViewWithText(name) }
-        clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name)))
+        testUtils.addRecord(
+            typeName = name,
+            timeStarted = calendar.timeInMillis - TimeUnit.MINUTES.toMillis(1),
+            timeEnded = calendar.timeInMillis
+        )
 
         // Statistics day range
         NavUtils.openStatisticsScreen()

@@ -311,7 +311,7 @@ class SettingsTest : BaseUiTest() {
         // 99h 99m 99s
         clickOnViewWithId(R.id.groupSettingsInactivityReminder)
         repeat(10) { clickOnViewWithId(R.id.ivDurationPickerDelete) }
-        repeat(10) { clickOnViewWithId(R.id.tvNumberKeyboard9) }
+        repeat(6) { clickOnViewWithId(R.id.tvNumberKeyboard9) }
         clickOnViewWithText(R.string.duration_dialog_save)
         checkViewIsDisplayed(withText("100$hourString 40$minuteString 39$secondString"))
 

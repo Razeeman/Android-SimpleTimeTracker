@@ -134,14 +134,17 @@ class AddRecordTypeTest : BaseUiTest() {
         clickOnViewWithText(R.string.category_hint)
 
         // Selecting goal time
-        clickOnViewWithId(R.id.groupChangeRecordTypeGoalTime)
+        clickOnViewWithText(R.string.change_record_type_goal_time_hint)
+        clickOnViewWithId(R.id.groupChangeRecordTypeSessionGoalTime)
         clickOnViewWithId(R.id.tvNumberKeyboard1)
         clickOnViewWithId(R.id.tvNumberKeyboard0)
         clickOnViewWithId(R.id.tvNumberKeyboard0)
         clickOnViewWithId(R.id.tvNumberKeyboard0)
         clickOnViewWithText(R.string.duration_dialog_save)
         checkViewIsDisplayed(withText("10$minuteString"))
+        clickOnViewWithText(R.string.change_record_type_goal_time_hint)
 
+        // Save
         clickOnViewWithText(R.string.change_record_type_save)
 
         // Record type added
@@ -163,12 +166,14 @@ class AddRecordTypeTest : BaseUiTest() {
         tryAction { clickOnViewWithText(R.string.running_records_add_type) }
 
         // Goal time is disabled
+        clickOnViewWithText(R.string.change_record_type_goal_time_hint)
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.tvChangeRecordTypeGoalTimeTime),
+                withId(R.id.tvChangeRecordTypeSessionGoalTime),
                 withText(R.string.change_record_type_goal_time_disabled)
             )
         )
+        clickOnViewWithText(R.string.change_record_type_goal_time_hint)
 
         // Open category chooser
         clickOnViewWithText(R.string.category_hint)

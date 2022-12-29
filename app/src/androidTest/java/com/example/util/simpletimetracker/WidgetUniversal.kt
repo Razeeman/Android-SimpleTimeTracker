@@ -63,66 +63,71 @@ class WidgetUniversal : BaseUiTest() {
     }
 
     @Test
-    fun widgetUniversalMultitasking() {
+    fun widgetUniversalMultitaskingDisabled() {
         val name1 = "TypeName1"
         val name2 = "TypeName2"
 
         // Add data
         testUtils.addActivity(name = name1, color = firstColor)
         testUtils.addActivity(name = name2, color = lastColor)
+        testUtils.addRunningRecord(typeName = name2)
         scenarioRule = ActivityScenario.launch(WidgetUniversalActivity::class.java)
 
-        // Start timers
+        // Start timer
         clickOnViewWithText(name1)
         checkType(R.color.colorFiltered, name1)
-        clickOnViewWithText(name2)
         checkType(R.color.colorFiltered, name2)
+    }
 
-        // Stop timer
-        clickOnViewWithText(name2)
-        checkType(R.color.colorFiltered, name1)
-        checkType(lastColor, name2)
+    @Test
+    fun widgetUniversalMultitaskingEnabled() {
+        val name1 = "TypeName1"
+        val name2 = "TypeName2"
 
-        // Change setting
+        // Add data
+        testUtils.addActivity(name = name1, color = firstColor)
+        testUtils.addActivity(name = name2, color = lastColor)
+        testUtils.addRunningRecord(typeName = name1)
         runBlocking { prefsInteractor.setAllowMultitasking(false) }
+        scenarioRule = ActivityScenario.launch(WidgetUniversalActivity::class.java)
 
         // Start another
         clickOnViewWithText(name2)
         checkType(firstColor, name1)
         checkType(R.color.colorFiltered, name2)
-
-        // Start another
-        clickOnViewWithText(name1)
-        checkType(R.color.colorFiltered, name1)
-        checkType(lastColor, name2)
     }
 
     @Test
-    fun widgetUniversalTagSelection() {
+    fun widgetUniversalTagSelectionDisabled() {
         val name1 = "TypeName1"
-        val name2 = "TypeName2"
         val tag1 = "TagName1"
         val tag2 = "TagName2"
 
         // Add data
         testUtils.addActivity(name = name1, color = firstColor)
-        testUtils.addActivity(name = name2, color = lastColor)
         testUtils.addRecordTag(tag1, name1)
         testUtils.addRecordTag(tag2, name1, archived = true)
         scenarioRule = ActivityScenario.launch(WidgetUniversalActivity::class.java)
 
-        // Start timers
+        // Start timer
         tryAction { clickOnViewWithText(name1) }
         checkType(R.color.colorFiltered, name1)
-        clickOnViewWithText(name2)
-        checkType(R.color.colorFiltered, name2)
-        clickOnViewWithText(name1)
-        clickOnViewWithText(name2)
+    }
 
-        // Change setting
+    @Test
+    fun widgetUniversalTagSelectionEnabled() {
+        val name1 = "TypeName1"
+        val tag1 = "TagName1"
+        val tag2 = "TagName2"
+
+        // Add data
+        testUtils.addActivity(name = name1, color = firstColor)
+        testUtils.addRecordTag(tag1, name1)
+        testUtils.addRecordTag(tag2, name1, archived = true)
         runBlocking { prefsInteractor.setShowRecordTagSelection(true) }
+        scenarioRule = ActivityScenario.launch(WidgetUniversalActivity::class.java)
 
-        // Start timers
+        // Start timer
         clickOnViewWithText(name1)
         tryAction { checkViewIsDisplayed(withText(R.string.change_record_untagged)) }
         checkViewIsDisplayed(withText(tag1))
@@ -130,9 +135,6 @@ class WidgetUniversal : BaseUiTest() {
         clickOnViewWithText(tag1)
         clickOnViewWithText(R.string.duration_dialog_save)
         checkType(R.color.colorFiltered, name1)
-
-        clickOnViewWithText(name2)
-        checkType(R.color.colorFiltered, name2)
     }
 
     @Test

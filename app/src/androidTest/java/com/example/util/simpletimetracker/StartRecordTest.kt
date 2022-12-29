@@ -45,6 +45,7 @@ class StartRecordTest : BaseUiTest() {
 
         var currentTime = System.currentTimeMillis()
         var timeStarted = timeMapper.formatTime(time = currentTime, useMilitaryTime = true, showSeconds = false)
+        val goalString = getString(R.string.change_record_type_session_goal_time).lowercase() + " 9$minuteString"
         checkViewIsDisplayed(
             allOf(
                 withId(R.id.viewRunningRecordItem),
@@ -52,7 +53,7 @@ class StartRecordTest : BaseUiTest() {
                 hasDescendant(withText(name)),
                 hasDescendant(withTag(firstIcon)),
                 hasDescendant(withText(timeStarted)),
-                hasDescendant(withText(getString(R.string.running_record_goal_time, "10$minuteString")))
+                hasDescendant(withSubstring(goalString))
             )
         )
 
@@ -73,7 +74,7 @@ class StartRecordTest : BaseUiTest() {
             allOf(
                 withId(R.id.viewRunningRecordItem),
                 hasDescendant(withText(newName)),
-                hasDescendant(withSubstring("goal"))
+                hasDescendant(withSubstring(getString(R.string.change_record_type_session_goal_time)))
             )
         )
 

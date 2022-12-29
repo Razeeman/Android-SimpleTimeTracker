@@ -107,11 +107,13 @@ object NavUtils {
 
         // Goal time
         if (!goalTime.isNullOrEmpty()) {
-            clickOnViewWithId(R.id.groupChangeRecordTypeGoalTime)
+            clickOnViewWithText(R.string.change_record_type_goal_time_hint)
+            clickOnViewWithId(R.id.groupChangeRecordTypeSessionGoalTime)
             goalTime.forEach { char ->
                 clickOnViewWithText(char.toString())
             }
             clickOnViewWithText(R.string.duration_dialog_save)
+            clickOnViewWithText(R.string.change_record_type_goal_time_hint)
         }
 
         closeSoftKeyboard()

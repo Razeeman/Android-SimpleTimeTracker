@@ -119,7 +119,7 @@ class ChangeRecordTypeTest : BaseUiTest() {
                 hasDescendant(withTag(firstIcon))
             )
         )
-        checkViewDoesNotExist(withSubstring("goal"))
+        checkViewDoesNotExist(withSubstring(getString(R.string.change_record_type_session_goal_time).lowercase()))
 
         // Change activity
         longClickOnView(
@@ -139,13 +139,15 @@ class ChangeRecordTypeTest : BaseUiTest() {
         clickOnRecyclerItem(R.id.rvChangeRecordTypeIcon, withTag(lastIcon))
         clickOnViewWithId(R.id.fieldChangeRecordTypeIcon)
 
-        clickOnViewWithId(R.id.groupChangeRecordTypeGoalTime)
+        clickOnViewWithText(R.string.change_record_type_goal_time_hint)
+        clickOnViewWithId(R.id.groupChangeRecordTypeSessionGoalTime)
         clickOnViewWithId(R.id.tvNumberKeyboard1)
         clickOnViewWithId(R.id.tvNumberKeyboard0)
         clickOnViewWithId(R.id.tvNumberKeyboard0)
         clickOnViewWithId(R.id.tvNumberKeyboard0)
         clickOnViewWithText(R.string.duration_dialog_save)
         tryAction { checkViewIsDisplayed(withText("10$minuteString")) }
+        clickOnViewWithText(R.string.change_record_type_goal_time_hint)
 
         clickOnViewWithText(R.string.change_record_type_save)
 
@@ -161,7 +163,7 @@ class ChangeRecordTypeTest : BaseUiTest() {
         checkViewIsDisplayed(
             allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withTag(lastIcon))
         )
-        checkViewIsDisplayed(withText(getString(R.string.running_record_goal_time, "10$minuteString")))
+        checkViewIsDisplayed(withSubstring(getString(R.string.change_record_type_session_goal_time).lowercase()))
     }
 
     private fun checkPreviewUpdated(matcher: Matcher<View>) =
