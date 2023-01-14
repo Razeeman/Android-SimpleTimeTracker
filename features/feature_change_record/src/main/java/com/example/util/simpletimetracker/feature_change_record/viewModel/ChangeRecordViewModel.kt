@@ -148,6 +148,7 @@ class ChangeRecordViewModel @Inject constructor(
                 .firstOrNull { it.timeEnded <= originalTimeStarted }
             // Change it.
             previousRecord?.copy(
+                timeStarted = previousRecord.timeStarted.coerceAtMost(newTimeStarted),
                 timeEnded = newTimeStarted,
             )?.let {
                 addRecordMediator.add(it)
@@ -160,6 +161,7 @@ class ChangeRecordViewModel @Inject constructor(
             // Change it.
             nextRecord?.copy(
                 timeStarted = newTimeEnded,
+                timeEnded = nextRecord.timeEnded.coerceAtLeast(newTimeEnded)
             )?.let {
                 addRecordMediator.add(it)
             }

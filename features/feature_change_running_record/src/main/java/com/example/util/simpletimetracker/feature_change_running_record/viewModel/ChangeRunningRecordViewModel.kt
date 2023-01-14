@@ -103,13 +103,17 @@ class ChangeRunningRecordViewModel @Inject constructor(
     }
 
     override suspend fun adjustAdjacentRecords() {
+        // TODO refactor duplication with other class.
         if (adjustPrevRecordCheckbox.value.orFalse()) {
+            val records = recordInteractor.getAll()
+
             // Find previous record.
-            val previousRecord = recordInteractor.getAll()
+            val previousRecord = records
                 .sortedByDescending { it.timeEnded }
                 .firstOrNull { it.timeEnded <= originalTimeStarted }
             // Change it.
             previousRecord?.copy(
+                timeStarted = previousRecord.timeStarted.coerceAtMost(newTimeStarted),
                 timeEnded = newTimeStarted,
             )?.let {
                 addRecordMediator.add(it)
