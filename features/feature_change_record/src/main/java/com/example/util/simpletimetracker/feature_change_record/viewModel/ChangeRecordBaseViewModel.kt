@@ -350,26 +350,23 @@ abstract class ChangeRecordBaseViewModel(
     }
 
     private fun onNewChooserState(
-        newState: ChangeRecordChooserState.State,
+        state: ChangeRecordChooserState.State,
     ) {
         val current = chooserState.value?.current ?: ChangeRecordChooserState.State.Closed
-        keyboardVisibility.set(false)
-        timeAdjustmentState.set(TimeAdjustmentState.HIDDEN)
-        if (current == newState) {
-            chooserState.set(
-                ChangeRecordChooserState(
-                    current = ChangeRecordChooserState.State.Closed,
-                    previous = current,
-                )
-            )
+        val newState = if (current == state) {
+            ChangeRecordChooserState.State.Closed
         } else {
-            chooserState.set(
-                ChangeRecordChooserState(
-                    current = newState,
-                    previous = current
-                )
-            )
+            state
         }
+
+        keyboardVisibility.set(newState is ChangeRecordChooserState.State.Comment)
+        timeAdjustmentState.set(TimeAdjustmentState.HIDDEN)
+        chooserState.set(
+            ChangeRecordChooserState(
+                current = newState,
+                previous = current,
+            )
+        )
         updateAdjustPrevRecordVisible()
     }
 
