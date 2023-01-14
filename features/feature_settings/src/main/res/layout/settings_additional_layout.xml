@@ -73,13 +73,17 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSettingsInactivityReminderHint"
                     style="@style/SettingsSecondaryText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:paddingBottom="0dp"
                     android:text="@string/settings_inactivity_reminder_hint"
+                    app:layout_constraintBottom_toTopOf="@id/tvSettingsInactivityReminderRecurrentHint"
                     app:layout_constraintEnd_toStartOf="@id/groupSettingsInactivityReminder"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvSettingsInactivityReminder" />
+                    app:layout_constraintTop_toBottomOf="@id/tvSettingsInactivityReminder"
+                    app:layout_goneMarginBottom="12dp" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/groupSettingsInactivityReminder"
@@ -108,6 +112,33 @@
                         tools:ignore="ContentDescription" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSettingsInactivityReminderRecurrentHint"
+                    style="@style/SettingsText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_inactivity_reminder_recurrent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/checkboxSettingsInactivityReminderRecurrent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvSettingsInactivityReminderHint" />
+
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:id="@+id/checkboxSettingsInactivityReminderRecurrent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="@id/tvSettingsInactivityReminderRecurrentHint"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tvSettingsInactivityReminderRecurrentHint" />
+
+                <androidx.constraintlayout.widget.Group
+                    android:id="@+id/groupSettingsInactivityReminderRecurrent"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone"
+                    app:constraint_referenced_ids="tvSettingsInactivityReminderRecurrentHint, checkboxSettingsInactivityReminderRecurrent"
+                    tools:visibility="visible" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

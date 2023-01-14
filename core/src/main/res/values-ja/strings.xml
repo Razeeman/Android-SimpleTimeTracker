@@ -196,6 +196,7 @@
     <string name="settings_start_of_day">1日の開始時間</string>
     <string name="settings_inactivity_reminder">非アクティブ時のリマインダーを表示</string>
     <string name="settings_inactivity_reminder_hint">タイマーが作動していない場合、指定時間後に通知を表示する。</string>
+    <string name="settings_inactivity_reminder_recurrent">再発性</string>
     <string name="settings_ignore_short_records">短い記録は無視</string>
     <string name="settings_ignore_short_records_hint">指定された時間より短いアクティビティは計測しません。</string>
     <string name="settings_inactivity_reminder_disabled">未設定</string>

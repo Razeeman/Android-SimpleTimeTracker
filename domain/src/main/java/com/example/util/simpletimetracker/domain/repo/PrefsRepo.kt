@@ -40,6 +40,8 @@ interface PrefsRepo {
 
     var inactivityReminderDuration: Long // in seconds
 
+    var inactivityReminderRecurrent: Boolean
+
     var ignoreShortRecordsDuration: Long // in seconds
 
     var darkMode: Boolean

@@ -196,6 +196,7 @@
     <string name="settings_start_of_day">Tid för dagens skiftstart</string>
     <string name="settings_inactivity_reminder">Visa inaktivitetspåminnelse</string>
     <string name="settings_inactivity_reminder_hint">Visa avisering efter angiven tid av inaktivitet.</string>
+    <string name="settings_inactivity_reminder_recurrent">Återkommande</string>
     <string name="settings_ignore_short_records">Ignorera kortvariga händelser</string>
     <string name="settings_ignore_short_records_hint">Ignorera händelser som är kortare än den angivna tidslängden.</string>
     <string name="settings_inactivity_reminder_disabled">Inaktiverad</string>

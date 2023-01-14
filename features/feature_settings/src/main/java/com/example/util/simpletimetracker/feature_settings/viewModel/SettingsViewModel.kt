@@ -24,6 +24,7 @@ import com.example.util.simpletimetracker.feature_settings.R
 import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
 import com.example.util.simpletimetracker.feature_settings.viewData.CardOrderViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.FirstDayOfWeekViewData
+import com.example.util.simpletimetracker.feature_settings.viewData.SettingsDurationViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.SettingsStartOfDayViewData
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.action.OpenMarketParams
@@ -152,10 +153,19 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    val inactivityReminderViewData: LiveData<String> by lazy {
-        MutableLiveData<String>().let { initial ->
+    val inactivityReminderViewData: LiveData<SettingsDurationViewData> by lazy {
+        MutableLiveData<SettingsDurationViewData>().let { initial ->
             viewModelScope.launch {
                 initial.value = loadInactivityReminderViewData()
+            }
+            initial
+        }
+    }
+
+    val inactivityReminderRecurrentCheckbox: LiveData<Boolean> by lazy {
+        MutableLiveData<Boolean>().let { initial ->
+            viewModelScope.launch {
+                initial.value = prefsInteractor.getInactivityReminderRecurrent()
             }
             initial
         }
@@ -417,6 +427,14 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    fun onInactivityReminderRecurrentClicked() {
+        viewModelScope.launch {
+            val newValue = !prefsInteractor.getInactivityReminderRecurrent()
+            prefsInteractor.setInactivityReminderRecurrent(newValue)
+            inactivityReminderRecurrentCheckbox.set(newValue)
+        }
+    }
+
     fun onIgnoreShortRecordsClicked() {
         viewModelScope.launch {
             DurationDialogParams(
@@ -605,9 +623,9 @@ class SettingsViewModel @Inject constructor(
         inactivityReminderViewData.set(data)
     }
 
-    private suspend fun loadInactivityReminderViewData(): String {
+    private suspend fun loadInactivityReminderViewData(): SettingsDurationViewData {
         return prefsInteractor.getInactivityReminderDuration()
-            .let(settingsMapper::toDurationText)
+            .let(settingsMapper::toDurationViewData)
     }
 
     private suspend fun updateIgnoreShortRecordsViewData() {
@@ -617,7 +635,8 @@ class SettingsViewModel @Inject constructor(
 
     private suspend fun loadIgnoreShortRecordsViewData(): String {
         return prefsInteractor.getIgnoreShortRecordsDuration()
-            .let(settingsMapper::toDurationText)
+            .let(settingsMapper::toDurationViewData)
+            .text
     }
 
     private suspend fun updateUseMilitaryTimeViewData() {

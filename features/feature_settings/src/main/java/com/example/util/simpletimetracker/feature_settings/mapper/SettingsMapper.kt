@@ -14,6 +14,7 @@ import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.feature_settings.R
 import com.example.util.simpletimetracker.feature_settings.viewData.CardOrderViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.FirstDayOfWeekViewData
+import com.example.util.simpletimetracker.feature_settings.viewData.SettingsDurationViewData
 import com.example.util.simpletimetracker.feature_views.spinner.CustomSpinner
 import com.example.util.simpletimetracker.navigation.params.screen.HelpDialogParams
 import java.util.Calendar
@@ -84,11 +85,17 @@ class SettingsMapper @Inject constructor(
         return dayOfWeekList.getOrElse(position) { dayOfWeekList.first() }
     }
 
-    fun toDurationText(duration: Long): String {
+    fun toDurationViewData(duration: Long): SettingsDurationViewData {
         return if (duration > 0) {
-            timeMapper.formatDuration(duration)
+            SettingsDurationViewData(
+                text = timeMapper.formatDuration(duration),
+                enabled = true,
+            )
         } else {
-            resourceRepo.getString(R.string.settings_inactivity_reminder_disabled)
+            SettingsDurationViewData(
+                text = resourceRepo.getString(R.string.settings_inactivity_reminder_disabled),
+                enabled = false,
+            )
         }
     }
 

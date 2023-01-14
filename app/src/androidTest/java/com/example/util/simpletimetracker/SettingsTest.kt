@@ -261,6 +261,7 @@ class SettingsTest : BaseUiTest() {
                 withText(R.string.settings_inactivity_reminder_disabled)
             )
         )
+        checkViewIsNotDisplayed(withId(R.id.checkboxSettingsInactivityReminderRecurrent))
 
         // 1s
         clickOnViewWithId(R.id.groupSettingsInactivityReminder)
@@ -268,12 +269,21 @@ class SettingsTest : BaseUiTest() {
         clickOnViewWithText(R.string.duration_dialog_save)
         checkViewIsDisplayed(withText("1$secondString"))
 
+        // Check recurrent
+        onView(withId(R.id.checkboxSettingsInactivityReminderRecurrent)).perform(nestedScrollTo())
+        checkViewIsDisplayed(withId(R.id.checkboxSettingsInactivityReminderRecurrent))
+        onView(withId(R.id.checkboxSettingsInactivityReminderRecurrent)).check(matches(isNotChecked()))
+        unconstrainedClickOnView(withId(R.id.checkboxSettingsInactivityReminderRecurrent))
+        onView(withId(R.id.checkboxSettingsInactivityReminderRecurrent)).check(matches(isChecked()))
+
         // 1m
         clickOnViewWithId(R.id.groupSettingsInactivityReminder)
         clickOnViewWithId(R.id.tvNumberKeyboard0)
         clickOnViewWithId(R.id.tvNumberKeyboard0)
         clickOnViewWithText(R.string.duration_dialog_save)
         checkViewIsDisplayed(withText("1$minuteString"))
+        onView(withId(R.id.checkboxSettingsInactivityReminderRecurrent)).perform(nestedScrollTo())
+        checkViewIsDisplayed(withId(R.id.checkboxSettingsInactivityReminderRecurrent))
 
         // 1h
         clickOnViewWithId(R.id.groupSettingsInactivityReminder)
@@ -281,6 +291,8 @@ class SettingsTest : BaseUiTest() {
         clickOnViewWithId(R.id.tvNumberKeyboard0)
         clickOnViewWithText(R.string.duration_dialog_save)
         checkViewIsDisplayed(withText("1$hourString"))
+        onView(withId(R.id.checkboxSettingsInactivityReminderRecurrent)).perform(nestedScrollTo())
+        checkViewIsDisplayed(withId(R.id.checkboxSettingsInactivityReminderRecurrent))
 
         // 1m 1s
         clickOnViewWithId(R.id.groupSettingsInactivityReminder)
@@ -290,6 +302,8 @@ class SettingsTest : BaseUiTest() {
         clickOnViewWithId(R.id.tvNumberKeyboard1)
         clickOnViewWithText(R.string.duration_dialog_save)
         checkViewIsDisplayed(withText("1$minuteString 01$secondString"))
+        onView(withId(R.id.checkboxSettingsInactivityReminderRecurrent)).perform(nestedScrollTo())
+        checkViewIsDisplayed(withId(R.id.checkboxSettingsInactivityReminderRecurrent))
 
         // 1h 1m 1s
         clickOnViewWithId(R.id.groupSettingsInactivityReminder)
@@ -297,6 +311,8 @@ class SettingsTest : BaseUiTest() {
         clickOnViewWithId(R.id.tvNumberKeyboard1)
         clickOnViewWithText(R.string.duration_dialog_save)
         checkViewIsDisplayed(withText("1$hourString 01$minuteString 01$secondString"))
+        onView(withId(R.id.checkboxSettingsInactivityReminderRecurrent)).perform(nestedScrollTo())
+        checkViewIsDisplayed(withId(R.id.checkboxSettingsInactivityReminderRecurrent))
 
         // 1h 30m
         clickOnViewWithId(R.id.groupSettingsInactivityReminder)
@@ -307,6 +323,8 @@ class SettingsTest : BaseUiTest() {
         clickOnViewWithId(R.id.tvNumberKeyboard0)
         clickOnViewWithText(R.string.duration_dialog_save)
         checkViewIsDisplayed(withText("1$hourString 30$minuteString"))
+        onView(withId(R.id.checkboxSettingsInactivityReminderRecurrent)).perform(nestedScrollTo())
+        checkViewIsDisplayed(withId(R.id.checkboxSettingsInactivityReminderRecurrent))
 
         // 99h 99m 99s
         clickOnViewWithId(R.id.groupSettingsInactivityReminder)
@@ -314,6 +332,8 @@ class SettingsTest : BaseUiTest() {
         repeat(6) { clickOnViewWithId(R.id.tvNumberKeyboard9) }
         clickOnViewWithText(R.string.duration_dialog_save)
         checkViewIsDisplayed(withText("100$hourString 40$minuteString 39$secondString"))
+        onView(withId(R.id.checkboxSettingsInactivityReminderRecurrent)).perform(nestedScrollTo())
+        checkViewIsDisplayed(withId(R.id.checkboxSettingsInactivityReminderRecurrent))
 
         // Disable
         clickOnViewWithId(R.id.groupSettingsInactivityReminder)
@@ -324,6 +344,7 @@ class SettingsTest : BaseUiTest() {
                 withText(R.string.settings_inactivity_reminder_disabled)
             )
         )
+        checkViewIsNotDisplayed(withId(R.id.checkboxSettingsInactivityReminderRecurrent))
     }
 
     @Test

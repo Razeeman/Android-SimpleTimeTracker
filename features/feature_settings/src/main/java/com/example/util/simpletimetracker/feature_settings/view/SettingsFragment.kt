@@ -24,6 +24,8 @@ import com.example.util.simpletimetracker.navigation.params.screen.DataExportSet
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import com.example.util.simpletimetracker.feature_settings.databinding.SettingsFragmentBinding as Binding
+import androidx.core.view.isVisible
+import com.example.util.simpletimetracker.feature_settings.viewData.SettingsDurationViewData
 
 @AndroidEntryPoint
 class SettingsFragment :
@@ -88,6 +90,7 @@ class SettingsFragment :
             btnSettingsStartOfDaySign.setOnClick(viewModel::onStartOfDaySignClicked)
             checkboxSettingsKeepStatisticsRange.setOnClick(viewModel::onKeepStatisticsRangeClicked)
             groupSettingsInactivityReminder.setOnClick(viewModel::onInactivityReminderClicked)
+            checkboxSettingsInactivityReminderRecurrent.setOnClick(viewModel::onInactivityReminderRecurrentClicked)
             groupSettingsIgnoreShortRecords.setOnClick(viewModel::onIgnoreShortRecordsClicked)
             checkboxSettingsShowRecordTagSelection.setOnClick(viewModel::onShowRecordTagSelectionClicked)
             checkboxSettingsRecordTagSelectionClose.setOnClick(viewModel::onRecordTagSelectionCloseClicked)
@@ -134,7 +137,8 @@ class SettingsFragment :
                     arrowSettingsAdditional.apply { if (opened) rotateDown() else rotateUp() }
                 }
                 keepStatisticsRangeCheckbox.observe(checkboxSettingsKeepStatisticsRange::setChecked)
-                inactivityReminderViewData.observe(tvSettingsInactivityReminderTime::setText)
+                inactivityReminderViewData.observe(::updateInactivityReminder)
+                inactivityReminderRecurrentCheckbox.observe(checkboxSettingsInactivityReminderRecurrent::setChecked)
                 ignoreShortRecordsViewData.observe(tvSettingsIgnoreShortRecordsTime::setText)
                 recordTagSelectionCloseCheckbox.observe(checkboxSettingsRecordTagSelectionClose::setChecked)
             }
@@ -172,6 +176,7 @@ class SettingsFragment :
             spinnerSettingsFirstDayOfWeek.jumpDrawablesToCurrentState()
             checkboxSettingsKeepStatisticsRange.jumpDrawablesToCurrentState()
             checkboxSettingsShowRecordTagSelection.jumpDrawablesToCurrentState()
+            checkboxSettingsInactivityReminderRecurrent.jumpDrawablesToCurrentState()
             checkboxSettingsRecordTagSelectionClose.jumpDrawablesToCurrentState()
         }
         viewModel.onVisible()
@@ -219,6 +224,13 @@ class SettingsFragment :
     ) = with(binding.layoutSettingsAdditional) {
         checkboxSettingsShowRecordTagSelection.isChecked = isChecked
         groupSettingsRecordTagSelectionClose.visible = isChecked
+    }
+
+    private fun updateInactivityReminder(
+        data: SettingsDurationViewData,
+    ) = with(binding.layoutSettingsAdditional) {
+        tvSettingsInactivityReminderTime.text = data.text
+        groupSettingsInactivityReminderRecurrent.isVisible = data.enabled
     }
 
     private fun updateShowRecordCalendarChecked(

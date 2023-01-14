@@ -196,6 +196,7 @@
     <string name="settings_start_of_day">改变一天的开始</string>
     <string name="settings_inactivity_reminder">显示无活动提醒</string>
     <string name="settings_inactivity_reminder_hint">如果没有追踪中的活动，则在指定时间后显示通知。</string>
+    <string name="settings_inactivity_reminder_recurrent">复发性</string>
     <string name="settings_ignore_short_records">忽略短记录</string>
     <string name="settings_ignore_short_records_hint">不要跟踪短于指定时间的活动。</string>
     <string name="settings_inactivity_reminder_disabled">不启用</string>

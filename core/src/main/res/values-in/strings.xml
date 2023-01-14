@@ -196,6 +196,7 @@
     <string name="settings_start_of_day">Pergeseran awal hari</string>
     <string name="settings_inactivity_reminder">Tampilkan pengingat tidak berkegiatan</string>
     <string name="settings_inactivity_reminder_hint">Tampilkan notifikasi setelah waktu yang ditentukan jika tidak ada pewaktu yang berjalan.</string>
+    <string name="settings_inactivity_reminder_recurrent">Berulang</string>
     <string name="settings_ignore_short_records">Abaikan rekor pendek</string>
     <string name="settings_ignore_short_records_hint">Jangan melacak aktivitas yang lebih pendek dari waktu yang ditentukan.</string>
     <string name="settings_inactivity_reminder_disabled">Dinonaktifkan</string>

@@ -196,6 +196,7 @@
     <string name="settings_start_of_day">Shift begin van de dag</string>
     <string name="settings_inactivity_reminder">Herinnering voor inactiviteit weergeven</string>
     <string name="settings_inactivity_reminder_hint">Toon melding na gespecificeerde tijd als er geen timers lopen.</string>
+    <string name="settings_inactivity_reminder_recurrent">Terugkerend</string>
     <string name="settings_ignore_short_records">Negeer korte records</string>
     <string name="settings_ignore_short_records_hint">Houd geen activiteiten bij die korter zijn dan de opgegeven tijd.</string>
     <string name="settings_inactivity_reminder_disabled">Uitgeschakeld</string>

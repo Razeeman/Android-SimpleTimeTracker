@@ -196,6 +196,7 @@
     <string name="settings_start_of_day">Turno di inizio giornata</string>
     <string name="settings_inactivity_reminder">Mostra avviso per inattività</string>
     <string name="settings_inactivity_reminder_hint">Mostra una notifica dopo un certo tempo se non ci sono timer in esecuzione.</string>
+    <string name="settings_inactivity_reminder_recurrent">Ricorrente</string>
     <string name="settings_ignore_short_records">Ignora i record brevi</string>
     <string name="settings_ignore_short_records_hint">Non tenere traccia delle attività più brevi del tempo specificato.</string>
     <string name="settings_inactivity_reminder_disabled">Disabilitato</string>

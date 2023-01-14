@@ -192,6 +192,14 @@ class PrefsInteractor @Inject constructor(
         prefsRepo.inactivityReminderDuration = duration
     }
 
+    suspend fun getInactivityReminderRecurrent(): Boolean = withContext(Dispatchers.IO) {
+        prefsRepo.inactivityReminderRecurrent
+    }
+
+    suspend fun setInactivityReminderRecurrent(isRecurrent: Boolean) = withContext(Dispatchers.IO) {
+        prefsRepo.inactivityReminderRecurrent = isRecurrent
+    }
+
     suspend fun getIgnoreShortRecordsDuration(): Long = withContext(Dispatchers.IO) {
         prefsRepo.ignoreShortRecordsDuration
     }
