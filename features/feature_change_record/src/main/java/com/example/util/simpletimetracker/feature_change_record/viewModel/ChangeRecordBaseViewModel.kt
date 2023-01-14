@@ -193,6 +193,7 @@ abstract class ChangeRecordBaseViewModel(
                 updateLastCommentsViewData()
             }
         }
+        onTypeChooserClick()
     }
 
     fun onCategoryClick(item: CategoryViewData) {
@@ -361,6 +362,7 @@ abstract class ChangeRecordBaseViewModel(
 
         // Show keyboard on comment chooser opened, hide otherwise.
         keyboardVisibility.set(newState is ChangeRecordChooserState.State.Comment)
+        timeAdjustmentState.set(TimeAdjustmentState.HIDDEN)
         chooserState.set(
             ChangeRecordChooserState(
                 current = newState,
