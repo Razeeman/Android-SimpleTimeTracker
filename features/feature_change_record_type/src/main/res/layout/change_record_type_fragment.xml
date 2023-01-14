@@ -246,10 +246,11 @@
         android:layout_marginTop="8dp"
         android:background="?android:colorBackground"
         android:overScrollMode="never"
+        android:scrollbars="vertical"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/btnChangeRecordTypeSave"
         app:layout_constraintTop_toBottomOf="@id/containerChangeRecordTypeMain"
-        tools:itemCount="3"
+        tools:itemCount="30"
         tools:listitem="@layout/item_color_layout"
         tools:visibility="gone" />
 
@@ -263,7 +264,7 @@
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/btnChangeRecordTypeSave"
         app:layout_constraintTop_toBottomOf="@id/containerChangeRecordTypeMain"
-        tools:visibility="gone">
+        tools:visibility="visible">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarChangeRecordTypeIcon"
@@ -298,7 +299,7 @@
             android:overScrollMode="never"
             android:visibility="gone"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-            tools:itemCount="3"
+            tools:itemCount="30"
             tools:listitem="@layout/change_record_type_item_icon_layout"
             tools:visibility="visible" />
 
@@ -331,10 +332,11 @@
         android:layout_marginTop="8dp"
         android:background="?android:colorBackground"
         android:overScrollMode="never"
+        android:scrollbars="vertical"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/btnChangeRecordTypeSave"
         app:layout_constraintTop_toBottomOf="@id/containerChangeRecordTypeMain"
-        tools:itemCount="3"
+        tools:itemCount="30"
         tools:listitem="@layout/item_category_layout"
         tools:visibility="gone" />
 
@@ -345,10 +347,11 @@
         android:layout_marginHorizontal="@dimen/color_icon_recycler_margin"
         android:layout_marginTop="8dp"
         android:background="?android:colorBackground"
+        android:scrollbars="vertical"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/btnChangeRecordTypeSave"
         app:layout_constraintTop_toBottomOf="@id/containerChangeRecordTypeMain"
-        tools:visibility="visible">
+        tools:visibility="gone">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
