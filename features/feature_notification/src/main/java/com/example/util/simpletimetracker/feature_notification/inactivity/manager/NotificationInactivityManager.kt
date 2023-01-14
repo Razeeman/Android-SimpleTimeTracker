@@ -52,7 +52,7 @@ class NotificationInactivityManager @Inject constructor(
     private fun buildNotification(params: NotificationInactivityParams): Notification {
         val notificationLayout = prepareView(params)
 
-        val startIntent = router.getActivitySelectionIntent().apply {
+        val startIntent = router.getMainStartIntent().apply {
             flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
         }
 
