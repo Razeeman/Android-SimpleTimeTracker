@@ -10,28 +10,28 @@ import android.os.SystemClock
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.MeasureSpec
 import android.widget.FrameLayout
 import android.widget.RemoteViews
-import com.example.util.simpletimetracker.feature_views.extension.getBitmapFromView
-import com.example.util.simpletimetracker.domain.interactor.AddRunningRecordMediator
-import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
-import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.utils.PendingIntents
-import com.example.util.simpletimetracker.feature_views.RecordTypeView
-import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.domain.interactor.AddRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
+import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
+import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RunningRecord
+import com.example.util.simpletimetracker.feature_views.RecordTypeView
+import com.example.util.simpletimetracker.feature_views.extension.getBitmapFromView
+import com.example.util.simpletimetracker.feature_views.extension.measureExactly
+import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.feature_widget.R
 import com.example.util.simpletimetracker.navigation.params.screen.RecordTagSelectionParams
 import dagger.hilt.android.AndroidEntryPoint
@@ -184,18 +184,12 @@ class WidgetProvider : AppWidgetProvider() {
         val inflater = LayoutInflater.from(context)
 
         val entireView: View = inflater.inflate(R.layout.widget_layout, null)
-        var specWidth = MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY)
-        var specHeight = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY)
-        entireView.measure(specWidth, specHeight)
-        entireView.layout(0, 0, entireView.measuredWidth, entireView.measuredHeight)
+        entireView.measureExactly(width = width, height = height)
 
         val imageView = entireView.findViewById<View>(R.id.ivWidgetBackground)
         width = imageView.measuredWidth
         height = imageView.measuredHeight
-        specWidth = MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY)
-        specHeight = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY)
-        view.measure(specWidth, specHeight)
-        view.layout(0, 0, view.measuredWidth, view.measuredHeight)
+        view.measureExactly(width = width, height = height)
     }
 
     private fun onClick(

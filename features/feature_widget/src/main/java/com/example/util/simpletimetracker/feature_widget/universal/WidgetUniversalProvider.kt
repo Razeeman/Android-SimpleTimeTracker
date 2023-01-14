@@ -8,13 +8,13 @@ import android.content.Intent
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.MeasureSpec
 import android.widget.RemoteViews
 import com.example.util.simpletimetracker.core.utils.PendingIntents
-import com.example.util.simpletimetracker.feature_views.extension.getBitmapFromView
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
+import com.example.util.simpletimetracker.feature_views.extension.getBitmapFromView
+import com.example.util.simpletimetracker.feature_views.extension.measureExactly
 import com.example.util.simpletimetracker.feature_widget.R
 import com.example.util.simpletimetracker.feature_widget.universal.activity.view.WidgetUniversalActivity
 import com.example.util.simpletimetracker.feature_widget.universal.customView.WidgetUniversalView
@@ -89,18 +89,12 @@ class WidgetUniversalProvider : AppWidgetProvider() {
         val inflater = LayoutInflater.from(context)
 
         val entireView: View = inflater.inflate(R.layout.widget_layout, null)
-        var specWidth = MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY)
-        var specHeight = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY)
-        entireView.measure(specWidth, specHeight)
-        entireView.layout(0, 0, entireView.measuredWidth, entireView.measuredHeight)
+        entireView.measureExactly(width = width, height = height)
 
         val imageView = entireView.findViewById<View>(R.id.ivWidgetBackground)
         width = imageView.measuredWidth
         height = imageView.measuredHeight
-        specWidth = MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY)
-        specHeight = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY)
-        view.measure(specWidth, specHeight)
-        view.layout(0, 0, view.measuredWidth, view.measuredHeight)
+        view.measureExactly(width = width, height = height)
     }
 
     private fun getPendingIntent(context: Context): PendingIntent {

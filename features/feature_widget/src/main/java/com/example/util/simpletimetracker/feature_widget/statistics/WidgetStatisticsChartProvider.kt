@@ -156,8 +156,10 @@ class WidgetStatisticsChartProvider : AppWidgetProvider() {
         val defaultWidth = context.resources.getDimensionPixelSize(R.dimen.record_type_card_width).pxToDp()
         val defaultHeight = context.resources.getDimensionPixelSize(R.dimen.record_type_card_height).pxToDp()
 
-        var width = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH, defaultWidth).dpToPx()
-        var height = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT, defaultHeight).dpToPx()
+        var width = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH, defaultWidth)
+            .dpToPx().takeUnless { it == 0 } ?: defaultWidth
+        var height = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT, defaultHeight)
+            .dpToPx().takeUnless { it == 0 } ?: defaultHeight
         val inflater = LayoutInflater.from(context)
 
         val entireView: View = inflater.inflate(R.layout.widget_layout, null)

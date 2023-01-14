@@ -81,7 +81,7 @@ fun AppCompatSpinner.onItemSelected(func: (Int) -> Unit) {
             parent: AdapterView<*>?,
             view: View?,
             position: Int,
-            id: Long
+            id: Long,
         ) {
             func(position)
         }
@@ -108,7 +108,7 @@ fun View.setMargins(
     top: Int? = null,
     bottom: Int? = null,
     start: Int? = null,
-    end: Int? = null
+    end: Int? = null,
 ) {
     layoutParams = layoutParams.also { params ->
         (params as? ViewGroup.MarginLayoutParams)?.let {
@@ -124,15 +124,18 @@ fun View.updatePadding(
     left: Int = paddingLeft,
     top: Int = paddingTop,
     right: Int = paddingRight,
-    bottom: Int = paddingBottom
+    bottom: Int = paddingBottom,
 ) {
     setPadding(left, top, right, bottom)
 }
 
 fun View.getBitmapFromView(): Bitmap {
+    val defaultSize by lazy { 100.dpToPx() }
+    fun Int.checkValue(): Int = this.takeUnless { it <= 0 } ?: defaultSize
+
     return Bitmap.createBitmap(
-        measuredWidth,
-        measuredHeight,
+        measuredWidth.checkValue(),
+        measuredHeight.checkValue(),
         Bitmap.Config.ARGB_8888
     ).also {
         draw(Canvas(it))
@@ -165,7 +168,7 @@ fun GridLayoutManager.setSpanSizeLookup(getSpanSize: (position: Int) -> Int) {
 
 fun RecyclerView.addOnScrollListenerAdapter(
     onScrolled: (recyclerView: RecyclerView, dx: Int, dy: Int) -> Unit = { _, _, _ -> },
-    onScrollStateChanged: (recyclerView: RecyclerView, newState: Int) -> Unit = { _, _ -> }
+    onScrollStateChanged: (recyclerView: RecyclerView, newState: Int) -> Unit = { _, _ -> },
 ) = object : RecyclerView.OnScrollListener() {
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         onScrolled(recyclerView, dx, dy)
