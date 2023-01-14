@@ -1,0 +1,4 @@
+- Add app icon shortcuts
+- Add keep screen on setting
+- Add some translations
+- General bug fixes and improvements

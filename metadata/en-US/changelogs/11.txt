@@ -1,0 +1,6 @@
+- Add tags and comments to csv export
+- Add am/pm time setting
+- Add time ranges to detailed statistics
+- Add ability to enter a comment for a running timer
+- Add some translations
+- General bug fixes and improvements

@@ -1,0 +1,13 @@
+Simple Time Tracker membantu Anda melacak berapa banyak waktu yang Anda habiskan sepanjang hari dalam berbagai kegiatan. Mulai kegiatan baru dengan satu ketukan. Lihat rekor dan statistik sebelumnya dari waktu ke waktu. Aplikasi ini gratis dan bersumber terbuka. Juga widget, cadangan, notifikasi, dan mode gelap.
+
+<b>Antarmuka sederhana</b>
+Aplikasi memiliki sebuah antarmuka minimalis yang sangat mudah untuk digunakan.
+
+<b>Widget</b>
+Lacak kegiatan-kegiatan Anda secara langsung dari layar beranda.
+
+<b>Bekerja luring dan menghormati privasi Anda</b>
+Aplikasi tidak membutuhkan sebuah koneksi internet atau pun pendaftaran akun. Data Anda tidak pernah meninggalkan ponsel Anda. Baik para pengembang maupun pihak ketiga lainnya tidak memiliki akses terhadap data tersebut.
+
+<b>Gratis dan bersumber terbuka</b>
+Tidak ada iklan, pembelian di dalam aplikasi, atau izin-izin menggangu. Kode sumber utuh juga tersedia.

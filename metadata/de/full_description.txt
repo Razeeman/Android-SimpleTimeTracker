@@ -1,0 +1,13 @@
+Mit Simple Time Tracker kannst Du verfolgen, wie viel Zeit Du im Laufe des Tages für verschiedene Aktivitäten aufwendest. Starte neue Aktivitäten mit einem Klick. Zeige frühere Einträge und Statistiken an. Die App ist kostenlos und quelloffen. Zusätzlich gibt es Widgets, Backups, Benachrichtigungen und einen dunklen Modus.
+
+<b>Einfache Oberfläche</b>
+Die App hat eine minimalistische Oberfläche, die sehr einfach zu bedienen ist.
+
+<b>Widgets</b>
+Erfasse Deine Aktivitäten direkt von Deinem Startbildschirm aus.
+
+<b>Arbeitet offline und respektiert Deine Privatsphäre</b>
+Die App erfordert weder eine Internetverbindung noch eine Kontoregistrierung. Deine Daten bleiben immer auf deinem Telefon. Weder die Entwickler noch Dritte haben Zugang zu diesen.
+
+<b>Frei und quelloffen</b>
+Es gibt keine Werbung, In-App-Käufe oder auffällige Berechtigungen. Der komplette Quellcode ist auch verfügbar.

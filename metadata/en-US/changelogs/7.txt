@@ -1,0 +1,5 @@
+- Add dark mode
+- Add activity running time shown in notification
+- Add ability to export records to csv file
+- Add ability to select specific date on statistics screen
+- General bug fixes and improvements

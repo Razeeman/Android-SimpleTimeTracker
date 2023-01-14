@@ -1,0 +1,3 @@
+- Add ability to change activity card size
+- Add ability to manually order activity cards
+- General bug fixes and improvements

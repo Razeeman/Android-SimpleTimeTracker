@@ -1,0 +1,4 @@
+- Add first day of week setting
+- Add record tags
+- Add archive
+- General bug fixes and improvements

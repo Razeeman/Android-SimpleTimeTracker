@@ -1,0 +1,6 @@
+- Add custom color selection
+- Add start of day setting
+- Add custom range to statistics
+- Add statistics widget
+- Add some translations
+- General bug fixes and improvements

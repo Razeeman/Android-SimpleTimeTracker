@@ -1,0 +1,4 @@
+- Add detailed statistics for activities
+- Add a setting to disable multitasking
+- Add ability to select specific date in records
+- General bug fixes and improvements

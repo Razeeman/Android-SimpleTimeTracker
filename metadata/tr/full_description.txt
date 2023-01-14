@@ -1,0 +1,13 @@
+Simple Time Tracker gün boyu farklı aktivitelere ne kadar zaman harcadığınızı takip etmenize yardım eder. Tek tıkla yeni aktivite başlatın. Eski kayıtları ve istatistikleri izleyin. Uygulama ücretsizdir ve açık kaynak kodludur. Aynı zamanda widgetlara, yedeklemeye, bildirimlere ve karanlık moda sahiptir.
+
+<b>Basit arayüz</b>
+Uygulama, kullanımı çok kolay, minimalist bir arayüze sahiptir.
+
+<b>Widgetlar</b>
+Aktivitelerinizi direkt ana ekranınızdan takip edin.
+
+<b>Çevrimdışı çalışır ve gizliliğinize önem verir</b>
+Uygulama internet erişimi veya hesap girişi gerektirmez. Verileriniz telefonunuzu asla terk etmez. Uygulama geliştiricilerinin de üçüncü kişilerin de verilerinize erişimi yoktur.
+
+<b>Ücretsiz ve açık kaynak kodlu</b>
+Reklam, uygulama içi satın alma veya gizliliğinizi ihlal eden izinler yoktur. Uygulamanın tüm kaynak kodu açıktır.

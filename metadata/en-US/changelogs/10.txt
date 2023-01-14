@@ -1,0 +1,4 @@
+- Add activity goal time
+- Add record comments
+- Add inactivity reminder
+- General bug fixes and improvements

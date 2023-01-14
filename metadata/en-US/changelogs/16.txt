@@ -1,0 +1,4 @@
+- Add general record tags
+- Add ability to assign several tags to a record
+- Add some translations
+- General bug fixes and improvements
