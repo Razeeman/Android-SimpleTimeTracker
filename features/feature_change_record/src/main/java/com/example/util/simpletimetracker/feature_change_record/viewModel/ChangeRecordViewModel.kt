@@ -156,7 +156,7 @@ class ChangeRecordViewModel @Inject constructor(
             // Find next record.
             val nextRecord = records
                 .sortedByDescending { it.timeStarted }
-                .firstOrNull { it.timeStarted >= originalTimeEnded }
+                .lastOrNull() { it.timeStarted >= originalTimeEnded }
             // Change it.
             nextRecord?.copy(
                 timeStarted = newTimeEnded,
