@@ -359,8 +359,8 @@ abstract class ChangeRecordBaseViewModel(
             state
         }
 
+        // Show keyboard on comment chooser opened, hide otherwise.
         keyboardVisibility.set(newState is ChangeRecordChooserState.State.Comment)
-        timeAdjustmentState.set(TimeAdjustmentState.HIDDEN)
         chooserState.set(
             ChangeRecordChooserState(
                 current = newState,

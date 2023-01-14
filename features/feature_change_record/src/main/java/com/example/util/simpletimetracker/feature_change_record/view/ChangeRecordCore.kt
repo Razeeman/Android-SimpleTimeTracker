@@ -199,7 +199,6 @@ class ChangeRecordCore(
         )
 
         val isClosed = state.current is Closed
-        containerChangeRecordTimes.isVisible = isClosed
 
         // Chooser fields
         fieldChangeRecordType.isVisible = isClosed || state.current is Activity
@@ -215,8 +214,8 @@ class ChangeRecordCore(
         chooserArrow: View,
     ) {
         val opened = state.current is T
-        val opening = state.previous is Closed && state.current is T
-        val closing = state.previous is T && state.current is Closed
+        val opening = state.previous !is T && state.current is T
+        val closing = state.previous is T && state.current !is T
 
         chooserData.isVisible = opened
         chooserView.setChooserColor(opened)

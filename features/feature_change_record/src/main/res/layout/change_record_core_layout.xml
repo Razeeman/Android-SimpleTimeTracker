@@ -340,6 +340,7 @@
         android:id="@+id/containerChangeRecordComment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:clipToOutline="true"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/btnChangeRecordSave"
         app:layout_constraintTop_toBottomOf="@id/barrierChangeRecord"
@@ -383,10 +384,11 @@
         android:id="@+id/containerChangeRecordAction"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:clipToOutline="true"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/btnChangeRecordSave"
         app:layout_constraintTop_toBottomOf="@id/barrierChangeRecord"
-        tools:visibility="visible">
+        tools:visibility="gone">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -563,12 +565,13 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="?android:colorBackground"
+        android:clipToOutline="true"
         android:overScrollMode="never"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/btnChangeRecordSave"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/barrierChangeRecord"
-        tools:itemCount="3"
+        tools:itemCount="30"
         tools:listitem="@layout/item_record_type_layout"
         tools:visibility="gone" />
 
@@ -577,12 +580,13 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="?android:colorBackground"
+        android:clipToOutline="true"
         android:overScrollMode="never"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/btnChangeRecordSave"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/barrierChangeRecord"
-        tools:itemCount="3"
+        tools:itemCount="30"
         tools:listitem="@layout/item_category_layout"
         tools:visibility="gone" />
 
