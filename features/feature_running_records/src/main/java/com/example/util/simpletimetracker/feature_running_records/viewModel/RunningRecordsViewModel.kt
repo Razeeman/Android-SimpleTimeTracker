@@ -4,7 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.core.base.SingleLiveEvent
+import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.extension.toParams
+import com.example.util.simpletimetracker.core.model.NavigationTab
 import com.example.util.simpletimetracker.domain.interactor.AddRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.ActivityFilterInteractor
@@ -41,6 +44,7 @@ class RunningRecordsViewModel @Inject constructor(
     val runningRecords: LiveData<List<ViewHolderType>> by lazy {
         MutableLiveData(listOf(LoaderViewData() as ViewHolderType))
     }
+    val resetScreen: SingleLiveEvent<Unit> = SingleLiveEvent()
 
     private var timerJob: Job? = null
 
@@ -150,6 +154,12 @@ class RunningRecordsViewModel @Inject constructor(
 
     fun onTagSelected() {
         updateRunningRecords()
+    }
+
+    fun onTabReselected(tab: NavigationTab?) {
+        if (tab is NavigationTab.RunningRecords) {
+            resetScreen.set(Unit)
+        }
     }
 
     private fun showTagSelection(typeId: Long) {

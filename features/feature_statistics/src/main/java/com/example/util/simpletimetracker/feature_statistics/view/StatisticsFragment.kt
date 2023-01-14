@@ -13,6 +13,7 @@ import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.ChartFilterDialogListener
 import com.example.util.simpletimetracker.core.extension.getThemedAttr
 import com.example.util.simpletimetracker.core.repo.DeviceRepo
+import com.example.util.simpletimetracker.core.sharedViewModel.MainTabsViewModel
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
@@ -41,20 +42,27 @@ class StatisticsFragment :
         Binding::inflate
 
     @Inject
+    lateinit var viewModelFactory: BaseViewModelFactory<StatisticsViewModel>
+
+    @Inject
     lateinit var settingsViewModelFactory: BaseViewModelFactory<StatisticsSettingsViewModel>
 
     @Inject
-    lateinit var viewModelFactory: BaseViewModelFactory<StatisticsViewModel>
+    lateinit var mainTabsViewModelFactory: BaseViewModelFactory<MainTabsViewModel>
 
     @Inject
     lateinit var deviceRepo: DeviceRepo
 
+    private val viewModel: StatisticsViewModel by viewModels(
+        factoryProducer = { viewModelFactory }
+    )
     private val settingsViewModel: StatisticsSettingsViewModel by viewModels(
         ownerProducer = { activity as AppCompatActivity },
         factoryProducer = { settingsViewModelFactory }
     )
-    private val viewModel: StatisticsViewModel by viewModels(
-        factoryProducer = { viewModelFactory }
+    private val mainTabsViewModel: MainTabsViewModel by viewModels(
+        ownerProducer = { activity as AppCompatActivity },
+        factoryProducer = { mainTabsViewModelFactory }
     )
 
     private val statisticsAdapter: BaseRecyclerAdapter by lazy { buildAdapter() }
@@ -73,14 +81,21 @@ class StatisticsFragment :
         }
     }
 
-    override fun initViewModel() {
+    override fun initViewModel() = with(binding) {
         with(viewModel) {
             extra = StatisticsExtra(shift = arguments?.getInt(ARGS_POSITION).orZero())
             statistics.observe(statisticsAdapter::replace)
             sharingData.observe(::onNewSharingData)
+            resetScreen.observe {
+                rvStatisticsList.smoothScrollToPosition(0)
+                mainTabsViewModel.onHandled()
+            }
         }
         with(settingsViewModel) {
             rangeUpdated.observe { viewModel.onRangeUpdated() }
+        }
+        with(mainTabsViewModel) {
+            tabReselected.observe(viewModel::onTabReselected)
         }
     }
 

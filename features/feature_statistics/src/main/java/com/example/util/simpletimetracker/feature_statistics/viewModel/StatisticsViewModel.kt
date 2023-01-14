@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.core.base.SingleLiveEvent
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.extension.toParams
 import com.example.util.simpletimetracker.core.interactor.SharingInteractor
+import com.example.util.simpletimetracker.core.model.NavigationTab
 import com.example.util.simpletimetracker.core.utils.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -42,6 +43,7 @@ class StatisticsViewModel @Inject constructor(
         MutableLiveData(listOf(LoaderViewData() as ViewHolderType))
     }
     val sharingData: SingleLiveEvent<List<ViewHolderType>> = SingleLiveEvent()
+    val resetScreen: SingleLiveEvent<Unit> = SingleLiveEvent()
 
     private var isVisible: Boolean = false
     private var timerJob: Job? = null
@@ -124,6 +126,12 @@ class StatisticsViewModel @Inject constructor(
 
     fun onShareView(view: Any) = viewModelScope.launch {
         sharingInteractor.execute(view, SHARING_NAME)
+    }
+
+    fun onTabReselected(tab: NavigationTab?) {
+        if (isVisible && tab is NavigationTab.Statistics) {
+            resetScreen.set(Unit)
+        }
     }
 
     private fun updateStatistics() = viewModelScope.launch {

@@ -4,8 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.core.base.SingleLiveEvent
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.extension.toParams
+import com.example.util.simpletimetracker.core.model.NavigationTab
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
@@ -38,7 +40,9 @@ class RecordsViewModel @Inject constructor(
         MutableLiveData(listOf(LoaderViewData() as ViewHolderType))
     }
     val calendarData: LiveData<RecordsCalendarViewData> = MutableLiveData()
+    val resetScreen: SingleLiveEvent<Unit> = SingleLiveEvent()
 
+    private var isVisible: Boolean = false
     private var timerJob: Job? = null
     private val shift: Int get() = extra?.shift.orZero()
 
@@ -75,6 +79,7 @@ class RecordsViewModel @Inject constructor(
     }
 
     fun onVisible() {
+        isVisible = true
         if (shift == 0) {
             startUpdate()
         } else {
@@ -83,11 +88,18 @@ class RecordsViewModel @Inject constructor(
     }
 
     fun onHidden() {
+        isVisible = false
         stopUpdate()
     }
 
     fun onNeedUpdate() {
         updateRecords()
+    }
+
+    fun onTabReselected(tab: NavigationTab?) {
+        if (isVisible && tab is NavigationTab.Records) {
+            resetScreen.set(Unit)
+        }
     }
 
     private fun updateRecords() = viewModelScope.launch {

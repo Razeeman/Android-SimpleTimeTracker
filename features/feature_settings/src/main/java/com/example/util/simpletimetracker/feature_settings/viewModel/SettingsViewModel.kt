@@ -5,8 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.BuildConfig
+import com.example.util.simpletimetracker.core.base.SingleLiveEvent
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.CheckExactAlarmPermissionInteractor
+import com.example.util.simpletimetracker.core.model.NavigationTab
 import com.example.util.simpletimetracker.core.provider.ApplicationDataProvider
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.sharedViewModel.BackupViewModel.Companion.CSV_EXPORT_DIALOG_TAG
@@ -268,6 +270,7 @@ class SettingsViewModel @Inject constructor(
     val themeChanged: LiveData<Boolean> = MutableLiveData(false)
     val settingsDisplayVisibility: LiveData<Boolean> = MutableLiveData(false)
     val settingsAdditionalVisibility: LiveData<Boolean> = MutableLiveData(false)
+    val resetScreen: SingleLiveEvent<Unit> = SingleLiveEvent()
 
     fun onVisible() {
         // Need to update card order because it changes on card order dialog
@@ -571,6 +574,12 @@ class SettingsViewModel @Inject constructor(
         router.navigate(
             settingsMapper.toAutomatedTrackingHelpDialog()
         )
+    }
+
+    fun onTabReselected(tab: NavigationTab?) {
+        if (tab is NavigationTab.Settings) {
+            resetScreen.set(Unit)
+        }
     }
 
     private fun openCardOrderDialog(cardOrder: CardOrder) {

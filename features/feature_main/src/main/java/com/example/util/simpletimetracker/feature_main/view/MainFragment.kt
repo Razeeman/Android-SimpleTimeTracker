@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_main.view
 
+import com.example.util.simpletimetracker.feature_main.databinding.MainFragmentBinding as Binding
 import android.graphics.ColorFilter
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -12,19 +13,17 @@ import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.extension.getThemedAttr
 import com.example.util.simpletimetracker.core.sharedViewModel.BackupViewModel
+import com.example.util.simpletimetracker.core.sharedViewModel.MainTabsViewModel
 import com.example.util.simpletimetracker.core.utils.SHORTCUT_NAVIGATION_KEY
-import com.example.util.simpletimetracker.core.utils.SHORTCUT_NAVIGATION_RECORDS
-import com.example.util.simpletimetracker.core.utils.SHORTCUT_NAVIGATION_SETTINGS
-import com.example.util.simpletimetracker.core.utils.SHORTCUT_NAVIGATION_STATISTICS
 import com.example.util.simpletimetracker.feature_main.R
 import com.example.util.simpletimetracker.feature_main.adapter.MainContentAdapter
+import com.example.util.simpletimetracker.feature_main.mapper.MainMapper
 import com.example.util.simpletimetracker.feature_main.viewModel.MainViewModel
 import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-import com.example.util.simpletimetracker.feature_main.databinding.MainFragmentBinding as Binding
 
 @AndroidEntryPoint
 class MainFragment : BaseFragment<Binding>() {
@@ -34,8 +33,15 @@ class MainFragment : BaseFragment<Binding>() {
 
     @Inject
     lateinit var viewModelFactory: BaseViewModelFactory<MainViewModel>
+
     @Inject
     lateinit var backupViewModelFactory: BaseViewModelFactory<BackupViewModel>
+
+    @Inject
+    lateinit var mainTabsViewModelFactory: BaseViewModelFactory<MainTabsViewModel>
+
+    @Inject
+    lateinit var mainMapper: MainMapper
 
     private val viewModel: MainViewModel by viewModels(
         factoryProducer = { viewModelFactory }
@@ -43,6 +49,10 @@ class MainFragment : BaseFragment<Binding>() {
     private val backupViewModel: BackupViewModel by viewModels(
         ownerProducer = { activity as AppCompatActivity },
         factoryProducer = { backupViewModelFactory }
+    )
+    private val mainTabsViewModel: MainTabsViewModel by viewModels(
+        ownerProducer = { activity as AppCompatActivity },
+        factoryProducer = { mainTabsViewModelFactory }
     )
 
     private val selectedColorFilter by lazy { getColorFilter(R.attr.appTabSelectedColor) }
@@ -63,13 +73,10 @@ class MainFragment : BaseFragment<Binding>() {
         mainPager.offscreenPageLimit = 3 // Same as number of pages to avoid recreating.
 
         TabLayoutMediator(mainTabs, mainPager) { tab, position ->
-            when (position) {
-                0 -> R.drawable.ic_tab_running_records
-                1 -> R.drawable.ic_tab_records
-                2 -> R.drawable.ic_tab_statistics
-                3 -> R.drawable.ic_tab_settings
-                else -> R.drawable.unknown
-            }.let(tab::setIcon)
+            position
+                .let(mainMapper::mapPositionToTab)
+                .let(mainMapper::mapToIcon)
+                .let(tab::setIcon)
 
             tab.icon?.colorFilter = if (position == 0) {
                 selectedColorFilter
@@ -80,7 +87,9 @@ class MainFragment : BaseFragment<Binding>() {
 
         mainTabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabReselected(tab: TabLayout.Tab?) {
-                // Do nothing
+                tab?.position
+                    ?.let(mainMapper::mapPositionToTab)
+                    ?.let(mainTabsViewModel::onTabReselected)
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
@@ -94,13 +103,11 @@ class MainFragment : BaseFragment<Binding>() {
     }
 
     private fun checkForShortcutNavigation() = with(binding) {
-        val extras = activity?.intent?.extras
-
-        when (extras?.getString(SHORTCUT_NAVIGATION_KEY)) {
-            SHORTCUT_NAVIGATION_RECORDS -> mainPager.setCurrentItem(1, true)
-            SHORTCUT_NAVIGATION_STATISTICS -> mainPager.setCurrentItem(2, true)
-            SHORTCUT_NAVIGATION_SETTINGS -> mainPager.setCurrentItem(3, true)
-        }
+        activity?.intent?.extras
+            ?.getString(SHORTCUT_NAVIGATION_KEY)
+            ?.let(mainMapper::mapNavigationToTab)
+            ?.let(mainMapper::mapTabToPosition)
+            ?.let { mainPager.setCurrentItem(it, true) }
     }
 
     private fun getColorFilter(@AttrRes attrRes: Int): ColorFilter? {

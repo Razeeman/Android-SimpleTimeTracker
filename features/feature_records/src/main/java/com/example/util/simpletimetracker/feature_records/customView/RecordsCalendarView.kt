@@ -224,6 +224,14 @@ class RecordsCalendarView @JvmOverloads constructor(
         invalidate()
     }
 
+    fun reset() {
+        scaleFactor = 1f
+        lastScaleFactor = 1f
+        panFactor = 0f
+        lastPanFactor = 0f
+        invalidate()
+    }
+
     private fun initArgs(
         context: Context,
         attrs: AttributeSet? = null,

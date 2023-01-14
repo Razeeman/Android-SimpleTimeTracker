@@ -25,6 +25,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import com.example.util.simpletimetracker.feature_settings.databinding.SettingsFragmentBinding as Binding
 import androidx.core.view.isVisible
+import com.example.util.simpletimetracker.core.sharedViewModel.MainTabsViewModel
 import com.example.util.simpletimetracker.feature_settings.viewData.SettingsDurationViewData
 
 @AndroidEntryPoint
@@ -44,12 +45,19 @@ class SettingsFragment :
     @Inject
     lateinit var backupViewModelFactory: BaseViewModelFactory<BackupViewModel>
 
+    @Inject
+    lateinit var mainTabsViewModelFactory: BaseViewModelFactory<MainTabsViewModel>
+
     private val viewModel: SettingsViewModel by viewModels(
         factoryProducer = { viewModelFactory }
     )
     private val backupViewModel: BackupViewModel by viewModels(
         ownerProducer = { activity as AppCompatActivity },
         factoryProducer = { backupViewModelFactory }
+    )
+    private val mainTabsViewModel: MainTabsViewModel by viewModels(
+        ownerProducer = { activity as AppCompatActivity },
+        factoryProducer = { mainTabsViewModelFactory }
     )
 
     override fun initUi() = with(binding) {
@@ -151,6 +159,13 @@ class SettingsFragment :
             keepScreenOnCheckbox.observe(::setKeepScreenOn)
             showRecordTagSelectionCheckbox.observe(::updateShowRecordTagSelectionChecked)
             themeChanged.observe(::changeTheme)
+            resetScreen.observe {
+                containerSettings.smoothScrollTo(0, 0)
+                mainTabsViewModel.onHandled()
+            }
+        }
+        with(mainTabsViewModel) {
+            tabReselected.observe(viewModel::onTabReselected)
         }
     }
 

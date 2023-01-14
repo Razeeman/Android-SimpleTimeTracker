@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
+import com.example.util.simpletimetracker.core.sharedViewModel.MainTabsViewModel
 import com.example.util.simpletimetracker.core.sharedViewModel.RemoveRecordViewModel
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
@@ -35,12 +36,19 @@ class RecordsFragment : BaseFragment<Binding>() {
     @Inject
     lateinit var removeRecordViewModelFactory: BaseViewModelFactory<RemoveRecordViewModel>
 
+    @Inject
+    lateinit var mainTabsViewModelFactory: BaseViewModelFactory<MainTabsViewModel>
+
     private val viewModel: RecordsViewModel by viewModels(
         factoryProducer = { viewModelFactory }
     )
     private val removeRecordViewModel: RemoveRecordViewModel by viewModels(
         ownerProducer = { activity as AppCompatActivity },
         factoryProducer = { removeRecordViewModelFactory }
+    )
+    private val mainTabsViewModel: MainTabsViewModel by viewModels(
+        ownerProducer = { activity as AppCompatActivity },
+        factoryProducer = { mainTabsViewModelFactory }
     )
     private val recordsAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
@@ -70,12 +78,17 @@ class RecordsFragment : BaseFragment<Binding>() {
         binding.viewRecordsCalendar.setClickListener(viewModel::onRecordClick)
     }
 
-    override fun initViewModel() {
+    override fun initViewModel() = with(binding) {
         with(viewModel) {
             extra = RecordsExtra(shift = arguments?.getInt(ARGS_POSITION).orZero())
             isCalendarView.observe(::switchState)
             records.observe(recordsAdapter::replace)
             calendarData.observe(binding.viewRecordsCalendar::setData)
+            resetScreen.observe {
+                rvRecordsList.smoothScrollToPosition(0)
+                viewRecordsCalendar.reset()
+                mainTabsViewModel.onHandled()
+            }
         }
         with(removeRecordViewModel) {
             needUpdate.observe {
@@ -84,6 +97,9 @@ class RecordsFragment : BaseFragment<Binding>() {
                     removeRecordViewModel.onUpdated()
                 }
             }
+        }
+        with(mainTabsViewModel) {
+            tabReselected.observe(viewModel::onTabReselected)
         }
     }
 
