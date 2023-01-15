@@ -4,9 +4,9 @@ import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import androidx.annotation.ColorInt
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
+import com.example.util.simpletimetracker.feature_views.ColorUtils.normalizeLightness
 import com.example.util.simpletimetracker.feature_views.databinding.StatisticsViewLayoutBinding
 import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
@@ -116,22 +116,5 @@ class StatisticsView @JvmOverloads constructor(
         } else {
             itemColor
         }.let(binding.dividerStatisticsPercent::setBackgroundColor)
-    }
-
-    /**
-     * Lightens dark colors and darkens light colors.
-     */
-    @ColorInt
-    private fun normalizeLightness(@ColorInt color: Int): Int {
-        val colorNormalization = 0.05f
-        return FloatArray(3).apply {
-            Color.colorToHSV(color, this)
-            // change value
-            if (this[2] > 0.5f) {
-                this[2] -= colorNormalization
-            } else {
-                this[2] += colorNormalization
-            }
-        }.let(Color::HSVToColor)
     }
 }

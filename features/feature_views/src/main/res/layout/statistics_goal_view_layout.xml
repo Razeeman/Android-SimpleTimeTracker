@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="@color/black"
+    app:cardCornerRadius="@dimen/record_type_card_corner_radius"
+    app:cardElevation="@dimen/record_type_card_elevation"
+    app:cardPreventCornerOverlap="false"
+    app:cardUseCompatPadding="true"
+    tools:parentTag="androidx.cardview.widget.CardView">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?selectableItemBackground"
+        android:minHeight="40dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp">
+
+        <com.example.util.simpletimetracker.feature_views.IconView
+            android:id="@+id/ivStatisticsGoalItemIcon"
+            android:layout_width="24dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="h,1:1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvStatisticsGoalItemName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textColor="?appLightTextColor"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tvStatisticsGoalItemDuration"
+            app:layout_constraintStart_toEndOf="@id/ivStatisticsGoalItemIcon"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Item name" />
+
+        <View
+            android:id="@+id/dividerStatisticsGoalPercent"
+            android:layout_width="2dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tvStatisticsGoalItemPercentWidth"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:background="@color/white" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvStatisticsGoalItemDuration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:gravity="center"
+            android:textColor="?appLightTextColor"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/dividerStatisticsGoalPercent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="1h 30m\n(8h 30m)" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvStatisticsGoalItemPercent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="?appLightTextColor"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/tvStatisticsGoalItemPercentWidth"
+            app:layout_constraintStart_toStartOf="@id/tvStatisticsGoalItemPercentWidth"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="33%" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivStatisticsGoalItemCheck"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:src="@drawable/spinner_check_mark"
+            app:layout_constraintBottom_toBottomOf="@id/tvStatisticsGoalItemPercent"
+            app:layout_constraintEnd_toEndOf="@id/tvStatisticsGoalItemPercent"
+            app:layout_constraintStart_toStartOf="@id/tvStatisticsGoalItemPercent"
+            app:layout_constraintTop_toTopOf="@id/tvStatisticsGoalItemPercent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvStatisticsGoalItemPercentWidth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="100%"
+            android:textStyle="bold"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="HardcodedText" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</merge>

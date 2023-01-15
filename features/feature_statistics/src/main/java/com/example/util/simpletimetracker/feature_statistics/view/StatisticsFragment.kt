@@ -21,6 +21,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.divider.createDiv
 import com.example.util.simpletimetracker.feature_base_adapter.hint.createHintAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.statistics.createStatisticsAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.statisticsGoal.createStatisticsGoalAdapterDelegate
 import com.example.util.simpletimetracker.feature_statistics.R
 import com.example.util.simpletimetracker.feature_statistics.adapter.createStatisticsChartAdapterDelegate
 import com.example.util.simpletimetracker.feature_statistics.adapter.createStatisticsEmptyAdapterDelegate
@@ -139,6 +140,7 @@ class StatisticsFragment :
             createStatisticsEmptyAdapterDelegate(
                 onFilterClick = viewModel::onFilterClick,
             ),
+            createStatisticsGoalAdapterDelegate(),
             createStatisticsTitleAdapterDelegate(),
             createHintAdapterDelegate(),
             createLoaderAdapterDelegate(),

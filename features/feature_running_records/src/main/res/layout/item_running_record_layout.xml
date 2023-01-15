@@ -10,7 +10,6 @@
     app:itemTagColor="@color/white_alpha_60"
     tools:itemColor="@color/red_800"
     tools:itemGoalTime="goal 10m"
-    tools:itemIcon="@drawable/ic_account_balance_24px"
     tools:itemName="Running record"
     tools:itemTagName="Tag"
     tools:itemTimeStarted="11:58"

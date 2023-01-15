@@ -5,6 +5,7 @@ import com.example.util.simpletimetracker.core.utils.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.core.viewData.StatisticsDataHolder
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.StatisticsCategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.StatisticsInteractor
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
@@ -19,6 +20,7 @@ class StatisticsMediator @Inject constructor(
     private val categoryInteractor: CategoryInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val timeMapper: TimeMapper,
+    private val recordTypeInteractor: RecordTypeInteractor,
 ) {
 
     suspend fun getStatistics(
@@ -51,6 +53,10 @@ class StatisticsMediator @Inject constructor(
         }
     }
 
+    suspend fun getRunningStatistics(): List<Statistics> {
+        return statisticsInteractor.getAllRunning()
+    }
+
     suspend fun getDataHolders(
         filterType: ChartFilterType,
         types: List<RecordType>,
@@ -61,7 +67,10 @@ class StatisticsMediator @Inject constructor(
                     type.id to StatisticsDataHolder(
                         name = type.name,
                         color = type.color,
-                        icon = type.icon
+                        icon = type.icon,
+                        dailyGoalTime = type.dailyGoalTime,
+                        weeklyGoalTime = type.weeklyGoalTime,
+                        monthlyGoalTime = type.monthlyGoalTime,
                     )
                 }
             }
@@ -71,7 +80,10 @@ class StatisticsMediator @Inject constructor(
                     tag.id to StatisticsDataHolder(
                         name = tag.name,
                         color = tag.color,
-                        icon = null
+                        icon = null,
+                        dailyGoalTime = 0L,
+                        weeklyGoalTime = 0L,
+                        monthlyGoalTime = 0L,
                     )
                 }
             }
@@ -92,6 +104,37 @@ class StatisticsMediator @Inject constructor(
             forceSeconds = showSeconds,
             useProportionalMinutes = useProportionalMinutes,
         )
+    }
+
+    suspend fun getGoals(
+        statistics: List<Statistics>,
+        rangeLength: RangeLength,
+        filterType: ChartFilterType,
+    ): List<Statistics> {
+        if (filterType != ChartFilterType.ACTIVITY) {
+            return emptyList()
+        }
+        if (rangeLength !in listOf(RangeLength.Day, RangeLength.Week, RangeLength.Month)) {
+            return emptyList()
+        }
+
+        return recordTypeInteractor.getAll()
+            .filter { type ->
+                when {
+                    type.hidden -> false
+                    rangeLength is RangeLength.Day -> type.dailyGoalTime > 0L
+                    rangeLength is RangeLength.Week -> type.weeklyGoalTime > 0L
+                    rangeLength is RangeLength.Month -> type.monthlyGoalTime > 0L
+                    else -> false
+                }
+            }.map { type ->
+                Statistics(
+                    id = type.id,
+                    duration = statistics
+                        .filter { it.id == type.id }
+                        .sumOf { it.duration }
+                )
+            }
     }
 
     private suspend fun getAll(

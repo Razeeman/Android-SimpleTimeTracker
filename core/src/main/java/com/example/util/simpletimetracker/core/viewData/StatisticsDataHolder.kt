@@ -6,4 +6,7 @@ data class StatisticsDataHolder(
     val name: String,
     val color: AppColor,
     val icon: String?,
+    val dailyGoalTime: Long,
+    val weeklyGoalTime: Long,
+    val monthlyGoalTime: Long,
 )

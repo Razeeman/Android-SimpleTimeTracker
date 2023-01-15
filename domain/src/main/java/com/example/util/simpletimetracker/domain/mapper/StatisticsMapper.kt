@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.domain.mapper
 
 import com.example.util.simpletimetracker.domain.model.Record
+import com.example.util.simpletimetracker.domain.model.RunningRecord
 import javax.inject.Inject
 import kotlin.math.max
 import kotlin.math.min
@@ -10,6 +11,10 @@ class StatisticsMapper @Inject constructor() {
 
     fun mapToDuration(records: List<Record>): Long {
         return records.sumOf { it.timeEnded - it.timeStarted }
+    }
+
+    fun mapToRunningDuration(runningRecords: List<RunningRecord>): Long {
+        return runningRecords.sumOf { System.currentTimeMillis() - it.timeStarted }
     }
 
     fun mapToDurationFromRange(records: List<Record>, start: Long, end: Long): Long {

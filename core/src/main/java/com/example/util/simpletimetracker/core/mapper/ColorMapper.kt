@@ -76,6 +76,7 @@ class ColorMapper @Inject constructor(
         }.let(resourceRepo::getColor)
     }
 
+    // TODO move to ColorUtils
     /**
      * Darkens color.
      */

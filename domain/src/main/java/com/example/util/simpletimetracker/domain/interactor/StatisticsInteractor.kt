@@ -12,6 +12,7 @@ import kotlin.math.min
 
 class StatisticsInteractor @Inject constructor(
     private val recordInteractor: RecordInteractor,
+    private val runningRecordInteractor: RunningRecordInteractor,
     private val coveredRangeMapper: CoveredRangeMapper,
     private val statisticsMapper: StatisticsMapper
 ) {
@@ -23,6 +24,17 @@ class StatisticsInteractor @Inject constructor(
                 Statistics(
                     id = entry.key,
                     duration = entry.value.let(statisticsMapper::mapToDuration)
+                )
+            }
+    }
+
+    suspend fun getAllRunning(): List<Statistics> {
+        return runningRecordInteractor.getAll()
+            .groupBy { it.id }
+            .map { entry ->
+                Statistics(
+                    id = entry.key,
+                    duration = entry.value.let(statisticsMapper::mapToRunningDuration)
                 )
             }
     }
