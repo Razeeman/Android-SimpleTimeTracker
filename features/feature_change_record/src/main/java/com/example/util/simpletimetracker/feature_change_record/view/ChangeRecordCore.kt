@@ -25,6 +25,7 @@ import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeR
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordChooserState.State.Closed
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordChooserState.State.Comment
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordChooserState.State.Tag
+import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordPreviewChange
 import com.example.util.simpletimetracker.feature_change_record.viewData.TimeAdjustmentState
 import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordBaseViewModel
 import com.example.util.simpletimetracker.feature_views.extension.rotateDown
@@ -153,6 +154,7 @@ class ChangeRecordCore(
             timeSplitText.observe(tvChangeRecordTimeSplit::setText)
             lastComments.observe(commentsAdapter::replace)
             comment.observe { updateUi(binding, it) }
+            mergePreview.observe { setMergePreview(it, binding) }
         }
     }
 
@@ -211,6 +213,26 @@ class ChangeRecordCore(
         btnChangeRecordAdjust.isEnabled = isEnabled
         btnChangeRecordContinue.isEnabled = isEnabled
         btnChangeRecordMerge.isEnabled = isEnabled
+    }
+
+    private fun setMergePreview(
+        data: ChangeRecordPreviewChange,
+        binding: ChangeRecordCoreLayoutBinding,
+    ) = with(binding.containerChangeRecordMergePreview) {
+        root.isVisible = true
+
+        // TODO refactor
+        viewChangeRecordPreviewBefore.itemName = data.before.name
+        viewChangeRecordPreviewBefore.itemTime = data.before.time
+        viewChangeRecordPreviewBefore.itemDuration = data.before.duration
+        viewChangeRecordPreviewBefore.itemIcon = data.before.iconId
+        viewChangeRecordPreviewBefore.itemColor = data.before.color
+
+        viewChangeRecordPreviewAfter.itemName = data.after.name
+        viewChangeRecordPreviewAfter.itemTime = data.after.time
+        viewChangeRecordPreviewAfter.itemDuration = data.after.duration
+        viewChangeRecordPreviewAfter.itemIcon = data.after.iconId
+        viewChangeRecordPreviewAfter.itemColor = data.after.color
     }
 
     private inline fun <reified T : ChangeRecordChooserState.State> updateChooser(

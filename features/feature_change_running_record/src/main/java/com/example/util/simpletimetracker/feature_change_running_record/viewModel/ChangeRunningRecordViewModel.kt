@@ -55,6 +55,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
     recordTagViewDataInteractor,
     changeRecordViewDataInteractor,
     addRecordMediator,
+    recordInteractor,
 ) {
 
     lateinit var extra: ChangeRunningRecordParams
@@ -161,6 +162,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
             originalTimeStarted = newTimeStarted
             originalTimeEnded = newTimeEnded
             updateTimeSplitValue()
+            updateMergePreviewViewData()
         }
     }
 

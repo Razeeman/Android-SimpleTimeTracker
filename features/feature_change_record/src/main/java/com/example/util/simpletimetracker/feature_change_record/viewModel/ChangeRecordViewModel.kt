@@ -49,6 +49,7 @@ class ChangeRecordViewModel @Inject constructor(
     recordTagViewDataInteractor,
     changeRecordViewDataInteractor,
     addRecordMediator,
+    recordInteractor,
 ) {
 
     lateinit var extra: ChangeRecordParams
@@ -124,11 +125,8 @@ class ChangeRecordViewModel @Inject constructor(
 
     override suspend fun onMergeClickDelegate() {
         // Find previous record.
-        val previousRecord = recordInteractor.getAll()
-            .sortedByDescending { it.timeEnded }
-            .firstOrNull {
-                it.timeEnded <= newTimeStarted
-            }
+        val records = recordInteractor.getAll()
+        val previousRecord = getPrevRecord(records)
         // Change it.
         previousRecord?.copy(
             timeEnded = newTimeEnded,
@@ -195,6 +193,7 @@ class ChangeRecordViewModel @Inject constructor(
         originalTimeStarted = newTimeStarted
         originalTimeEnded = newTimeEnded
         updateTimeSplitValue()
+        updateMergePreviewViewData()
     }
 
     private suspend fun loadPreviewViewData(): ChangeRecordViewData {

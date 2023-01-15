@@ -15,6 +15,7 @@ import com.example.util.simpletimetracker.domain.extension.flip
 import com.example.util.simpletimetracker.domain.extension.orFalse
 import com.example.util.simpletimetracker.domain.interactor.AddRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
@@ -23,6 +24,8 @@ import com.example.util.simpletimetracker.feature_change_record.R
 import com.example.util.simpletimetracker.feature_change_record.interactor.ChangeRecordViewDataInteractor
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordChooserState
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordCommentViewData
+import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordPreviewChange
+import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordSimpleViewData
 import com.example.util.simpletimetracker.feature_change_record.viewData.TimeAdjustmentState
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.notification.ToastParams
@@ -42,6 +45,7 @@ abstract class ChangeRecordBaseViewModel(
     private val recordTagViewDataInteractor: RecordTagViewDataInteractor,
     private val changeRecordViewDataInteractor: ChangeRecordViewDataInteractor,
     private val addRecordMediator: AddRecordMediator,
+    private val recordInteractor: RecordInteractor,
 ) : ViewModel() {
 
     val types: LiveData<List<ViewHolderType>> by lazy {
@@ -86,6 +90,7 @@ abstract class ChangeRecordBaseViewModel(
     val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val keyboardVisibility: LiveData<Boolean> = MutableLiveData(false)
     val comment: LiveData<String> = MutableLiveData()
+    val mergePreview: LiveData<ChangeRecordPreviewChange> = MutableLiveData()
 
     protected var newTypeId: Long = 0
     protected var newTimeEnded: Long = 0
@@ -110,9 +115,7 @@ abstract class ChangeRecordBaseViewModel(
 
     protected suspend fun adjustPrevRecord(records: List<Record>) {
         // Find previous record.
-        val previousRecord = records
-            .sortedByDescending { it.timeEnded }
-            .firstOrNull { it.timeEnded <= originalTimeStarted }
+        val previousRecord = getPrevRecord(records)
         // Change it.
         previousRecord?.copy(
             timeStarted = previousRecord.timeStarted.coerceAtMost(newTimeStarted),
@@ -134,6 +137,13 @@ abstract class ChangeRecordBaseViewModel(
         )?.let {
             addRecordMediator.add(it)
         }
+    }
+
+    protected fun getPrevRecord(records: List<Record>): Record? {
+        // TODO get directly from room
+        return records
+            .sortedByDescending { it.timeEnded }
+            .firstOrNull { it.timeEnded <= originalTimeStarted }
     }
 
     fun onTypeChooserClick() {
@@ -503,6 +513,43 @@ abstract class ChangeRecordBaseViewModel(
 
     private suspend fun loadLastCommentsViewData(): List<ViewHolderType> {
         return changeRecordViewDataInteractor.getLastCommentsViewData(newTypeId)
+    }
+
+    protected suspend fun updateMergePreviewViewData() {
+        val data = loadMergePreviewViewData() ?: return
+        mergePreview.set(data)
+    }
+
+    private suspend fun loadMergePreviewViewData(): ChangeRecordPreviewChange? {
+        // TODO refactor
+        val records = recordInteractor.getAll()
+        val previousRecord = getPrevRecord(records) ?: return null
+        val changedRecord = previousRecord.copy(
+            timeEnded = newTimeEnded,
+        )
+
+        val previousRecordPreview = changeRecordViewDataInteractor
+            .getPreviewViewData(previousRecord)
+
+        val changedRecordPreview = changeRecordViewDataInteractor
+            .getPreviewViewData(changedRecord)
+
+        return ChangeRecordPreviewChange(
+            before = ChangeRecordSimpleViewData(
+                name = previousRecordPreview.name,
+                time = "${previousRecordPreview.timeStarted} - ${previousRecordPreview.timeFinished}",
+                duration = previousRecordPreview.duration,
+                iconId = previousRecordPreview.iconId,
+                color = previousRecordPreview.color,
+            ),
+            after = ChangeRecordSimpleViewData(
+                name = changedRecordPreview.name,
+                time = "${changedRecordPreview.timeStarted} - ${changedRecordPreview.timeFinished}",
+                duration = changedRecordPreview.duration,
+                iconId = changedRecordPreview.iconId,
+                color = changedRecordPreview.color,
+            ),
+        )
     }
 
     companion object {

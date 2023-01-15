@@ -359,7 +359,7 @@
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/btnChangeRecordSave"
         app:layout_constraintTop_toBottomOf="@id/barrierChangeRecord"
-        tools:visibility="gone">
+        tools:visibility="visible">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -557,6 +557,15 @@
                     android:layout_marginEnd="8dp"
                     android:text="@string/change_record_merge"
                     app:layout_constraintTop_toBottomOf="@id/tvChangeRecordMergeHint" />
+
+                <include
+                    android:id="@+id/containerChangeRecordMergePreview"
+                    layout="@layout/change_record_preview_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toBottomOf="@id/btnChangeRecordMerge"
+                    tools:visibility="visible" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

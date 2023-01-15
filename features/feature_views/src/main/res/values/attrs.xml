@@ -50,12 +50,21 @@
         <attr name="itemIcon" />
         <attr name="itemIconText" />
         <attr name="itemColor" />
-        <attr name="itemTagName" format="string"/>
-        <attr name="itemTagColor" format="color"/>
+        <attr name="itemTagName" format="string" />
+        <attr name="itemTagColor" format="color" />
         <attr name="itemTimeStarted" format="string" />
         <attr name="itemTimeEnded" format="string" />
         <attr name="itemDuration" format="string" />
         <attr name="itemComment" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="RecordSimpleView">
+        <attr name="itemName" />
+        <attr name="itemIcon" />
+        <attr name="itemIconText" />
+        <attr name="itemColor" />
+        <attr name="itemDuration" />
+        <attr name="itemTime" format="string" />
     </declare-styleable>
 
     <declare-styleable name="StatisticsView">
