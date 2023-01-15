@@ -26,6 +26,7 @@
         <item name="appInputFieldBorderDialog">@drawable/bg_input_field_border</item>
         <item name="appInputFieldBorderColor">@color/inputFieldBorder</item>
         <item name="appInputFieldBorderDialogColor">@color/inputFieldBorder</item>
+        <item name="appInputFieldBorderTimeDialogColor">@color/inputFieldBorder</item>
         <item name="appPieChartDividerColor">@color/pieChartDivider</item>
         <item name="appCardBackgroundColor">@color/cardBackground</item>
         <item name="appButtonOnCardBackgroundColor">@color/buttonOnCardBackground</item>
@@ -65,6 +66,7 @@
         <item name="appInputFieldBorderDialog">@drawable/bg_input_field_border_dialog_dark</item>
         <item name="appInputFieldBorderColor">@color/inputFieldBorderDark</item>
         <item name="appInputFieldBorderDialogColor">@color/inputFieldBorderDialogDark</item>
+        <item name="appInputFieldBorderTimeDialogColor">@color/inputFieldBorderTimeDialogDark</item>
         <item name="appPieChartDividerColor">@color/pieChartDividerDark</item>
         <item name="appCardBackgroundColor">@color/cardBackgroundDark</item>
         <item name="appButtonOnCardBackgroundColor">@color/buttonOnCardBackgroundDark</item>
@@ -172,6 +174,10 @@
 
     <style name="ChangeItemInputFieldDialog" parent="ChangeItemInputField">
         <item name="boxStrokeColor">@color/states_input_field_border_dialog_color</item>
+    </style>
+
+    <style name="ChangeItemInputFieldTimeDialog" parent="ChangeItemInputField">
+        <item name="boxStrokeColor">@color/states_input_field_border_time_dialog_color</item>
     </style>
 
     <style name="ChangeItemHintStyle">
