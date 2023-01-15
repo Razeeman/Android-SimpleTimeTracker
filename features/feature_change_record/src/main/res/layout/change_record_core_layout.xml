@@ -364,6 +364,7 @@
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingBottom="32dp"
             android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -486,6 +487,22 @@
                     app:layout_constraintTop_toBottomOf="@id/dividerChangeRecordAdjust"
                     tools:text="@string/change_record_change_prev_record" />
 
+                <include
+                    android:id="@+id/containerChangeRecordAdjustPrevPreview"
+                    layout="@layout/change_record_preview_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/tvChangeRecordAdjustHint" />
+
+                <include
+                    android:id="@+id/containerChangeRecordAdjustNextPreview"
+                    layout="@layout/change_record_preview_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    app:layout_constraintTop_toBottomOf="@id/containerChangeRecordAdjustPrevPreview"
+                    app:layout_goneMarginTop="0dp" />
+
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnChangeRecordAdjust"
                     style="@style/AppButtonActive"
@@ -493,7 +510,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
                     android:text="@string/change_record_adjust"
-                    app:layout_constraintTop_toBottomOf="@id/tvChangeRecordAdjustHint" />
+                    app:layout_constraintTop_toBottomOf="@id/containerChangeRecordAdjustNextPreview" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

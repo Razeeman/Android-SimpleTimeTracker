@@ -19,7 +19,9 @@ class ChangeRecordMergeDelegateImpl @Inject constructor(
     private val changeRecordViewDataInteractor: ChangeRecordViewDataInteractor,
     private val addRecordMediator: AddRecordMediator,
 ) : ChangeRecordMergeDelegate {
-    override val mergePreview: LiveData<ChangeRecordPreview> = MutableLiveData()
+
+    override val mergePreview: LiveData<ChangeRecordPreview> =
+        MutableLiveData(ChangeRecordPreview.NotAvailable)
 
     suspend fun onMergeClickDelegate(
         prevRecord: Record?,

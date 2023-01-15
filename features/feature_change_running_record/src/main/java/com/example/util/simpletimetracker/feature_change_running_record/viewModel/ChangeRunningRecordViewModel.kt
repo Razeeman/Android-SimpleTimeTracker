@@ -8,7 +8,6 @@ import com.example.util.simpletimetracker.core.interactor.RecordTagViewDataInter
 import com.example.util.simpletimetracker.core.interactor.RecordTypesViewDataInteractor
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.extension.orZero
-import com.example.util.simpletimetracker.domain.interactor.AddRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.AddRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
@@ -17,6 +16,7 @@ import com.example.util.simpletimetracker.domain.interactor.RunningRecordInterac
 import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.feature_change_record.interactor.ChangeRecordViewDataInteractor
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordChooserState
+import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordAdjustDelegateImpl
 import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordBaseViewModel
 import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordMergeDelegateImpl
 import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordSplitDelegateImpl
@@ -43,8 +43,8 @@ class ChangeRunningRecordViewModel @Inject constructor(
     changeRecordViewDataInteractor: ChangeRecordViewDataInteractor,
     changeRecordMergeDelegate: ChangeRecordMergeDelegateImpl,
     changeRecordSplitDelegate: ChangeRecordSplitDelegateImpl,
+    changeRecordAdjustDelegate: ChangeRecordAdjustDelegateImpl,
     recordInteractor: RecordInteractor,
-    addRecordMediator: AddRecordMediator,
     private val router: Router,
     private val addRunningRecordMediator: AddRunningRecordMediator,
     private val removeRunningRecordMediator: RemoveRunningRecordMediator,
@@ -58,10 +58,10 @@ class ChangeRunningRecordViewModel @Inject constructor(
     recordTypesViewDataInteractor,
     recordTagViewDataInteractor,
     changeRecordViewDataInteractor,
-    addRecordMediator,
     recordInteractor,
     changeRecordMergeDelegate,
     changeRecordSplitDelegate,
+    changeRecordAdjustDelegate,
 ) {
 
     lateinit var extra: ChangeRunningRecordParams
@@ -69,6 +69,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
     override val mergeAvailable: Boolean = false
     override val splitPreviewTimeEnded: Long get() = System.currentTimeMillis()
     override val showTimeEndedOnSplitPreview: Boolean get() = false
+    override val adjustNextRecordAvailable: Boolean get() = false
 
     val record: LiveData<ChangeRunningRecordViewData> by lazy {
         return@lazy MutableLiveData<ChangeRunningRecordViewData>().let { initial ->
@@ -98,11 +99,6 @@ class ChangeRunningRecordViewModel @Inject constructor(
         router.back()
     }
 
-    override suspend fun onAdjustClickDelegate() {
-        adjustPrevRecord()
-        onSaveClick()
-    }
-
     override fun getChangeCategoryParams(data: ChangeTagData): ChangeRecordTagFromScreen {
         return ChangeRecordTagFromChangeRunningRecordParams(data)
     }
@@ -120,7 +116,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
         message.set(null)
     }
 
-    override fun onTimeStartedChanged() {
+    override suspend fun onTimeStartedChanged() {
         if (newTimeStarted > System.currentTimeMillis()) {
             newTimeStarted = System.currentTimeMillis()
 
@@ -130,10 +126,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
             ).let(message::set)
         }
         if (newTimeStarted > newTimeSplit) newTimeSplit = newTimeStarted
-    }
-
-    override fun onTimeEndedChanged() {
-        // Do nothing
+        super.onTimeStartedChanged()
     }
 
     override suspend fun updatePreview() {
@@ -145,6 +138,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
             runningRecordInteractor.get(extra.id)?.let { record ->
                 newTypeId = record.id.orZero()
                 newTimeStarted = record.timeStarted
+                newTimeEnded = System.currentTimeMillis()
                 newComment = record.comment
                 newCategoryIds = record.tagIds.toMutableList()
             }
@@ -175,7 +169,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
                 updatePreview()
                 // Update split preview only if it is visible
                 if (chooserState.value?.current is ChangeRecordChooserState.State.Action) {
-                    updateTimeSplitValue()
+                    updateTimeSplitData()
                 }
                 delay(TIMER_UPDATE)
             }

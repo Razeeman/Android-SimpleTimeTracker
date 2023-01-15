@@ -11,7 +11,6 @@ import com.example.util.simpletimetracker.core.interactor.RecordTagViewDataInter
 import com.example.util.simpletimetracker.core.interactor.RecordTypesViewDataInteractor
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.view.timeAdjustment.TimeAdjustmentView
-import com.example.util.simpletimetracker.domain.interactor.AddRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.model.Record
@@ -40,13 +39,14 @@ abstract class ChangeRecordBaseViewModel(
     private val recordTypesViewDataInteractor: RecordTypesViewDataInteractor,
     private val recordTagViewDataInteractor: RecordTagViewDataInteractor,
     private val changeRecordViewDataInteractor: ChangeRecordViewDataInteractor,
-    private val addRecordMediator: AddRecordMediator,
     private val recordInteractor: RecordInteractor,
     private val changeRecordMergeDelegate: ChangeRecordMergeDelegateImpl,
     private val changeRecordSplitDelegate: ChangeRecordSplitDelegateImpl,
+    private val changeRecordAdjustDelegate: ChangeRecordAdjustDelegateImpl,
 ) : ViewModel(),
     ChangeRecordMergeDelegate by changeRecordMergeDelegate,
-    ChangeRecordSplitDelegate by changeRecordSplitDelegate {
+    ChangeRecordSplitDelegate by changeRecordSplitDelegate,
+    ChangeRecordAdjustDelegate by changeRecordAdjustDelegate {
 
     val types: LiveData<List<ViewHolderType>> by lazy {
         return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
@@ -95,55 +95,38 @@ abstract class ChangeRecordBaseViewModel(
     protected var originalTimeStarted: Long = 0
     protected var originalTimeEnded: Long = 0
 
-    protected var prevRecord: Record? = null
-    protected var nextRecord: Record? = null
-
     protected abstract suspend fun updatePreview()
     protected abstract fun getChangeCategoryParams(data: ChangeTagData): ChangeRecordTagFromScreen
-    protected abstract fun onTimeStartedChanged()
-    protected abstract fun onTimeEndedChanged()
     protected abstract suspend fun onSaveClickDelegate()
-    protected abstract suspend fun onAdjustClickDelegate()
     protected open suspend fun onContinueClickDelegate() {}
     protected abstract val mergeAvailable: Boolean
     protected abstract val splitPreviewTimeEnded: Long
     protected abstract val showTimeEndedOnSplitPreview: Boolean
+    protected abstract val adjustNextRecordAvailable: Boolean
+
+    private var prevRecord: Record? = null
+    private var nextRecord: Record? = null
 
     protected open suspend fun initializePreviewViewData() {
         initializePrevNextRecords()
-        updateTimeSplitValue()
-        changeRecordMergeDelegate.updateMergePreviewViewData(
-            mergeAvailable = mergeAvailable,
-            prevRecord = prevRecord,
-            newTimeEnded = newTimeEnded,
-        )
+        updateTimeSplitData()
+        updateMergeData()
+        updateAdjustData()
     }
 
-    protected suspend fun adjustPrevRecord() {
-        prevRecord
-            ?.let {
-                it.copy(
-                    timeStarted = it.timeStarted.coerceAtMost(newTimeStarted),
-                    timeEnded = newTimeStarted,
-                )
-            }?.let {
-                addRecordMediator.add(it)
-            }
+    protected open suspend fun onTimeStartedChanged() {
+        updatePreview()
+        updateTimeSplitData()
+        updateAdjustData()
     }
 
-    protected suspend fun adjustNextRecord() {
-        nextRecord
-            ?.let {
-                it.copy(
-                    timeStarted = newTimeEnded,
-                    timeEnded = it.timeEnded.coerceAtLeast(newTimeEnded)
-                )
-            }?.let {
-                addRecordMediator.add(it)
-            }
+    protected open suspend fun onTimeEndedChanged() {
+        updatePreview()
+        updateTimeSplitData()
+        updateAdjustData()
     }
 
-    protected suspend fun updateTimeSplitValue() {
+    protected suspend fun updateTimeSplitData() {
         changeRecordSplitDelegate.updateTimeSplitValue(
             newTimeSplit = newTimeSplit
         )
@@ -210,7 +193,18 @@ abstract class ChangeRecordBaseViewModel(
 
     fun onAdjustClick() {
         onRecordChangeButtonClick(
-            onProceed = ::onAdjustClickDelegate,
+            onProceed = {
+                changeRecordAdjustDelegate.onAdjustClickDelegate(
+                    adjustNextRecordAvailable = adjustNextRecordAvailable,
+                    prevRecord = prevRecord,
+                    nextRecord = nextRecord,
+                    newTimeStarted = newTimeStarted,
+                    newTimeEnded = newTimeEnded,
+                    onAdjustComplete = {
+                        onSaveClick()
+                    }
+                )
+            }
         )
     }
 
@@ -248,7 +242,8 @@ abstract class ChangeRecordBaseViewModel(
                 updatePreview()
                 updateCategoriesViewData()
                 updateLastCommentsViewData()
-                updateTimeSplitValue()
+                updateTimeSplitData()
+                updateMergeData()
             }
         }
         onTypeChooserClick()
@@ -318,23 +313,18 @@ abstract class ChangeRecordBaseViewModel(
                     if (timestamp != newTimeStarted) {
                         newTimeStarted = timestamp
                         onTimeStartedChanged()
-                        updatePreview()
-                        updateTimeSplitValue()
                     }
                 }
                 TIME_ENDED_TAG -> {
                     if (timestamp != newTimeEnded) {
                         newTimeEnded = timestamp
                         onTimeEndedChanged()
-                        updatePreview()
-                        updateTimeSplitValue()
                     }
                 }
                 TIME_SPLIT_TAG -> {
                     if (timestamp != newTimeSplit) {
                         newTimeSplit = timestamp
                         onTimeSplitChanged()
-                        updateTimeSplitValue()
                     }
                 }
             }
@@ -361,8 +351,6 @@ abstract class ChangeRecordBaseViewModel(
                 is TimeAdjustmentView.ViewData.Now -> onAdjustTimeNowClick()
                 is TimeAdjustmentView.ViewData.Adjust -> adjustRecordTime(viewData.value)
             }
-            updatePreview()
-            updateTimeSplitValue()
         }
     }
 
@@ -378,8 +366,25 @@ abstract class ChangeRecordBaseViewModel(
                     onTimeSplitChanged()
                 }
             }
-            updateTimeSplitValue()
         }
+    }
+
+    private suspend fun updateMergeData() {
+        changeRecordMergeDelegate.updateMergePreviewViewData(
+            mergeAvailable = mergeAvailable,
+            prevRecord = prevRecord,
+            newTimeEnded = newTimeEnded,
+        )
+    }
+
+    private suspend fun updateAdjustData() {
+        changeRecordAdjustDelegate.updateAdjustPreviewViewData(
+            adjustNextRecordAvailable = adjustNextRecordAvailable,
+            prevRecord = prevRecord,
+            nextRecord = nextRecord,
+            newTimeStarted = newTimeStarted,
+            newTimeEnded = newTimeEnded
+        )
     }
 
     private fun onRecordChangeButtonClick(
@@ -442,7 +447,7 @@ abstract class ChangeRecordBaseViewModel(
         router.show(params)
     }
 
-    private fun onAdjustTimeNowClick() {
+    private suspend fun onAdjustTimeNowClick() {
         when (timeAdjustmentState.value) {
             TimeAdjustmentState.TIME_STARTED -> {
                 newTimeStarted = System.currentTimeMillis()
@@ -458,7 +463,7 @@ abstract class ChangeRecordBaseViewModel(
         }
     }
 
-    private fun adjustRecordTime(shiftInMinutes: Long) {
+    private suspend fun adjustRecordTime(shiftInMinutes: Long) {
         when (timeAdjustmentState.value) {
             TimeAdjustmentState.TIME_STARTED -> {
                 newTimeStarted += TimeUnit.MINUTES.toMillis(shiftInMinutes)
@@ -496,8 +501,9 @@ abstract class ChangeRecordBaseViewModel(
         }
     }
 
-    private fun onTimeSplitChanged() {
+    private suspend fun onTimeSplitChanged() {
         newTimeSplit = newTimeSplit.coerceIn(newTimeStarted..splitPreviewTimeEnded)
+        updateTimeSplitData()
     }
 
     private suspend fun initializePrevNextRecords() {

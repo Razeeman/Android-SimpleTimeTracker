@@ -34,6 +34,7 @@ class ChangeRecordViewModel @Inject constructor(
     resourceRepo: ResourceRepo,
     changeRecordMergeDelegate: ChangeRecordMergeDelegateImpl,
     changeRecordSplitDelegate: ChangeRecordSplitDelegateImpl,
+    changeRecordAdjustDelegate: ChangeRecordAdjustDelegateImpl,
     private val router: Router,
     private val recordInteractor: RecordInteractor,
     private val addRecordMediator: AddRecordMediator,
@@ -50,17 +51,18 @@ class ChangeRecordViewModel @Inject constructor(
     recordTypesViewDataInteractor,
     recordTagViewDataInteractor,
     changeRecordViewDataInteractor,
-    addRecordMediator,
     recordInteractor,
     changeRecordMergeDelegate,
     changeRecordSplitDelegate,
+    changeRecordAdjustDelegate,
 ) {
 
     lateinit var extra: ChangeRecordParams
 
-    override val mergeAvailable: Boolean get() = extra is ChangeRecordParams.Untracked
+    override val mergeAvailable: Boolean get() = extra is ChangeRecordParams.Untracked && newTypeId == 0L
     override val splitPreviewTimeEnded: Long get() = newTimeEnded
     override val showTimeEndedOnSplitPreview: Boolean get() = true
+    override val adjustNextRecordAvailable: Boolean get() = true
 
     val record: LiveData<ChangeRecordViewData> by lazy {
         return@lazy MutableLiveData<ChangeRecordViewData>().let { initial ->
@@ -116,24 +118,20 @@ class ChangeRecordViewModel @Inject constructor(
         router.back()
     }
 
-    override suspend fun onAdjustClickDelegate() {
-        adjustPrevRecord()
-        adjustNextRecord()
-        onSaveClick()
-    }
-
     override fun getChangeCategoryParams(data: ChangeTagData): ChangeRecordTagFromScreen {
         return ChangeRecordTagFromChangeRecordParams(data)
     }
 
-    override fun onTimeEndedChanged() {
+    override suspend fun onTimeEndedChanged() {
         if (newTimeEnded < newTimeStarted) newTimeStarted = newTimeEnded
         if (newTimeEnded < newTimeSplit) newTimeSplit = newTimeEnded
+        super.onTimeEndedChanged()
     }
 
-    override fun onTimeStartedChanged() {
+    override suspend fun onTimeStartedChanged() {
         if (newTimeStarted > newTimeEnded) newTimeEnded = newTimeStarted
         if (newTimeStarted > newTimeSplit) newTimeSplit = newTimeStarted
+        super.onTimeStartedChanged()
     }
 
     private fun getInitialDate(daysFromToday: Int): Long {

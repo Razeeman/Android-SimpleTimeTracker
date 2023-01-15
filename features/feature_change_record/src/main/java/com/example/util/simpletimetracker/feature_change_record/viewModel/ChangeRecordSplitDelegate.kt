@@ -27,12 +27,14 @@ class ChangeRecordSplitDelegateImpl @Inject constructor(
     private val changeRecordViewDataInteractor: ChangeRecordViewDataInteractor,
     private val addRecordMediator: AddRecordMediator,
 ) : ChangeRecordSplitDelegate {
+
     override val timeSplitAdjustmentItems: LiveData<List<ViewHolderType>> by lazy {
         MutableLiveData(loadTimeSplitAdjustmentItems())
     }
     override val timeSplitAdjustmentState: LiveData<Boolean> = MutableLiveData(false)
     override val timeSplitText: LiveData<String> = MutableLiveData()
-    override val splitPreview: LiveData<ChangeRecordPreview> = MutableLiveData()
+    override val splitPreview: LiveData<ChangeRecordPreview> =
+        MutableLiveData(ChangeRecordPreview.NotAvailable)
 
     override fun onAdjustTimeSplitClick() {
         val newValue = timeSplitAdjustmentState.value?.flip().orFalse()

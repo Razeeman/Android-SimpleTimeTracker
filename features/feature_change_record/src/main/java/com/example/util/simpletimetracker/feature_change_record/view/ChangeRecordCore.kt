@@ -20,6 +20,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.info.createInfoAd
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.createRecordTypeAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record.adapter.createChangeRecordCommentAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record.databinding.ChangeRecordCoreLayoutBinding
+import com.example.util.simpletimetracker.feature_change_record.databinding.ChangeRecordPreviewLayoutBinding
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordChooserState
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordChooserState.State.Action
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordChooserState.State.Activity
@@ -159,6 +160,7 @@ class ChangeRecordCore(
             comment.observe { updateUi(binding, it) }
             mergePreview.observe { setMergePreview(it, binding) }
             splitPreview.observe { setSplitPreview(it, binding) }
+            adjustPreview.observe { setAdjustPreview(it, binding) }
         }
     }
 
@@ -223,35 +225,41 @@ class ChangeRecordCore(
         data: ChangeRecordPreview,
         binding: ChangeRecordCoreLayoutBinding,
     ) = with(binding) {
-        when (data) {
-            is ChangeRecordPreview.NotAvailable -> {
-                containerChangeRecordMerge.isVisible = false
-            }
-            is ChangeRecordPreview.Available -> {
-                containerChangeRecordMerge.isVisible = true
-                with(containerChangeRecordMergePreview) {
-                    viewChangeRecordPreviewBefore.setData(data.before)
-                    viewChangeRecordPreviewAfter.setData(data.after)
-                }
-            }
-        }
+        containerChangeRecordMerge.isVisible = data is ChangeRecordPreview.Available
+        containerChangeRecordMergePreview.setData(data)
     }
 
     private fun setSplitPreview(
         data: ChangeRecordPreview,
         binding: ChangeRecordCoreLayoutBinding,
     ) = with(binding) {
+        containerChangeRecordSplit.isVisible = data is ChangeRecordPreview.Available
+        containerChangeRecordSplitPreview.setData(data)
+        containerChangeRecordSplitPreview.ivChangeRecordPreviewCompare.isInvisible = true
+    }
+
+    private fun setAdjustPreview(
+        data: Pair<ChangeRecordPreview, ChangeRecordPreview>,
+        binding: ChangeRecordCoreLayoutBinding,
+    ) = with(binding) {
+        val prev = data.first
+        val next = data.second
+
+        containerChangeRecordAdjust.isVisible = prev is ChangeRecordPreview.Available ||
+            next is ChangeRecordPreview.Available
+        containerChangeRecordAdjustPrevPreview.setData(prev)
+        containerChangeRecordAdjustNextPreview.setData(next)
+    }
+
+    private fun ChangeRecordPreviewLayoutBinding.setData(data: ChangeRecordPreview) {
         when (data) {
             is ChangeRecordPreview.NotAvailable -> {
-                containerChangeRecordSplit.isVisible = false
+                root.isVisible = false
             }
             is ChangeRecordPreview.Available -> {
-                containerChangeRecordSplit.isVisible = true
-                with(containerChangeRecordSplitPreview) {
-                    ivChangeRecordPreviewCompare.isInvisible = true
-                    viewChangeRecordPreviewBefore.setData(data.before)
-                    viewChangeRecordPreviewAfter.setData(data.after)
-                }
+                root.isVisible = true
+                viewChangeRecordPreviewBefore.setData(data.before)
+                viewChangeRecordPreviewAfter.setData(data.after)
             }
         }
     }
