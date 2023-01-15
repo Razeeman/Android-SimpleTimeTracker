@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.extension.toParams
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
@@ -82,6 +83,7 @@ class RecordsAllViewModel @Inject constructor(
 
     fun onRecordTypeOrderSelected(position: Int) {
         sortOrder = recordsAllViewDataMapper.toSortOrder(position)
+        records.set(listOf(LoaderViewData()))
         updateRecords()
         updateSortOrderViewData()
     }
@@ -97,7 +99,7 @@ class RecordsAllViewModel @Inject constructor(
 
     private fun updateRecords() = viewModelScope.launch {
         val data = loadRecordsViewData()
-        (records as MutableLiveData).value = data
+        records.set(data)
     }
 
     private suspend fun loadRecordsViewData(): List<ViewHolderType> {
@@ -112,7 +114,7 @@ class RecordsAllViewModel @Inject constructor(
 
     private fun updateSortOrderViewData() {
         val data = loadSortOrderViewData()
-        (sortOrderViewData as MutableLiveData).value = data
+        sortOrderViewData.set(data)
     }
 
     private fun loadSortOrderViewData(): RecordsAllSortOrderViewData {
