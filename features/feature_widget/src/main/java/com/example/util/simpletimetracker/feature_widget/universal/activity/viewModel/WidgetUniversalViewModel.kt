@@ -118,8 +118,6 @@ class WidgetUniversalViewModel @Inject constructor(
                     isDarkTheme = isDarkTheme
                 )
             }
-            .takeUnless { it.isEmpty() }
-            ?: recordTypeViewDataMapper.mapToEmpty()
 
         return mutableListOf<ViewHolderType>().apply {
             if (filtersViewData.isNotEmpty()) {
@@ -127,7 +125,12 @@ class WidgetUniversalViewModel @Inject constructor(
                 DividerViewData(1).let(::add)
             }
 
-            recordTypesViewData.let(::addAll)
+            if (recordTypesViewData.isEmpty()) {
+                recordTypeViewDataMapper.mapToEmpty().let(::addAll)
+            } else {
+                recordTypesViewData.let(::addAll)
+                widgetUniversalViewDataMapper.mapToHint().let(::add)
+            }
         }
     }
 }

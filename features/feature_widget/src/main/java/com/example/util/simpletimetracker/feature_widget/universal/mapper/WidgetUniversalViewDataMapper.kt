@@ -9,6 +9,8 @@ import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RunningRecord
+import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_base_adapter.hint.HintViewData
 import com.example.util.simpletimetracker.feature_widget.R
 import com.example.util.simpletimetracker.feature_widget.universal.customView.IconStackData
 import com.example.util.simpletimetracker.feature_widget.universal.customView.WidgetUniversalViewData
@@ -67,6 +69,12 @@ class WidgetUniversalViewDataMapper @Inject constructor(
         return WidgetUniversalViewData(
             data = listOf(data),
             iconColor = R.color.widget_universal_empty_color.let(resourceRepo::getColor)
+        )
+    }
+
+    fun mapToHint(): ViewHolderType {
+        return HintViewData(
+            text = R.string.running_records_empty.let(resourceRepo::getString)
         )
     }
 }

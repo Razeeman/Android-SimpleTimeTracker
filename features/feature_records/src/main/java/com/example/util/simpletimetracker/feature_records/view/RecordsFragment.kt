@@ -55,8 +55,7 @@ class RecordsFragment : BaseFragment<Binding>() {
             createRecordAdapterDelegate(viewModel::onRecordClick),
             createEmptyAdapterDelegate(),
             createLoaderAdapterDelegate(),
-            createHintAdapterDelegate()
-
+            createHintAdapterDelegate(),
         )
     }
 
