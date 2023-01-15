@@ -130,37 +130,6 @@
         app:layout_constraintTop_toBottomOf="@id/containerChangeRecordTimes"
         tools:visibility="visible" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/containerChangeRecordAdjustPrevRecord"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/input_field_margin"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/containerChangeRecordTimeAdjust"
-        tools:visibility="visible">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvChangeRecordAdjustPrevRecord"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="4dp"
-            android:paddingVertical="8dp"
-            android:textColor="?appTextPrimaryColor"
-            app:layout_constraintEnd_toStartOf="@id/checkboxChangeRecordAdjustPrevRecord"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="@string/change_record_change_prev_record" />
-
-        <androidx.appcompat.widget.AppCompatCheckBox
-            android:id="@+id/checkboxChangeRecordAdjustPrevRecord"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="@id/tvChangeRecordAdjustPrevRecord"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tvChangeRecordAdjustPrevRecord" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
     <androidx.cardview.widget.CardView
         android:id="@+id/fieldChangeRecordType"
         style="@style/InputFieldCard"
@@ -169,7 +138,7 @@
         android:layout_marginStart="@dimen/input_field_margin"
         app:layout_constraintEnd_toStartOf="@id/fieldChangeRecordCategory"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/containerChangeRecordAdjustPrevRecord"
+        app:layout_constraintTop_toBottomOf="@id/containerChangeRecordTimeAdjust"
         app:layout_goneMarginEnd="@dimen/input_field_margin">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -210,7 +179,7 @@
         android:layout_marginEnd="@dimen/input_field_margin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/fieldChangeRecordType"
-        app:layout_constraintTop_toBottomOf="@id/containerChangeRecordAdjustPrevRecord"
+        app:layout_constraintTop_toBottomOf="@id/containerChangeRecordTimeAdjust"
         app:layout_goneMarginStart="@dimen/input_field_margin">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -489,6 +458,39 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/fieldChangeRecordTimeSplit"
                     app:layout_constraintTop_toTopOf="@id/fieldChangeRecordTimeSplit" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/containerChangeRecordAdjust"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.example.util.simpletimetracker.feature_views.DividerView
+                    android:id="@+id/dividerChangeRecordAdjust"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvChangeRecordAdjustHint"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="8dp"
+                    android:gravity="center"
+                    android:paddingVertical="8dp"
+                    android:textColor="?appTextHintColor"
+                    app:layout_constraintTop_toBottomOf="@id/dividerChangeRecordAdjust"
+                    tools:text="@string/change_record_change_prev_record" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnChangeRecordAdjust"
+                    style="@style/AppButtonActive"
+                    android:layout_width="match_parent"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="@string/change_record_adjust"
+                    app:layout_constraintTop_toBottomOf="@id/tvChangeRecordAdjustHint" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

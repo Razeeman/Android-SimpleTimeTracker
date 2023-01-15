@@ -13,7 +13,9 @@ import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.view.timeAdjustment.TimeAdjustmentView
 import com.example.util.simpletimetracker.domain.extension.flip
 import com.example.util.simpletimetracker.domain.extension.orFalse
+import com.example.util.simpletimetracker.domain.interactor.AddRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
+import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
@@ -39,6 +41,7 @@ abstract class ChangeRecordBaseViewModel(
     private val recordTypesViewDataInteractor: RecordTypesViewDataInteractor,
     private val recordTagViewDataInteractor: RecordTagViewDataInteractor,
     private val changeRecordViewDataInteractor: ChangeRecordViewDataInteractor,
+    private val addRecordMediator: AddRecordMediator,
 ) : ViewModel() {
 
     val types: LiveData<List<ViewHolderType>> by lazy {
@@ -77,15 +80,10 @@ abstract class ChangeRecordBaseViewModel(
             previous = ChangeRecordChooserState.State.Closed,
         )
     )
-    val adjustPrevRecordVisible: LiveData<Boolean> = MutableLiveData(loadAdjustPrevRecordVisible())
-    val adjustPrevRecordCheckbox: LiveData<Boolean> = MutableLiveData(false)
     val timeAdjustmentState: LiveData<TimeAdjustmentState> = MutableLiveData(TimeAdjustmentState.HIDDEN)
     val timeSplitAdjustmentState: LiveData<Boolean> = MutableLiveData(false)
     val timeSplitText: LiveData<String> = MutableLiveData()
     val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
-    val splitButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
-    val continueButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
-    val mergeButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val keyboardVisibility: LiveData<Boolean> = MutableLiveData(false)
     val comment: LiveData<String> = MutableLiveData()
 
@@ -98,27 +96,44 @@ abstract class ChangeRecordBaseViewModel(
     protected var originalTimeStarted: Long = 0
     protected var originalTimeEnded: Long = 0
 
-    private var timeStartedChanged: Boolean = false
-    private var timeEndedChanged: Boolean = false
-
     protected abstract suspend fun initializePreviewViewData()
     protected abstract suspend fun updatePreview()
     protected abstract fun getChangeCategoryParams(data: ChangeTagData): ChangeRecordTagFromScreen
     protected abstract fun onTimeSplitChanged()
+    protected abstract fun onTimeStartedChanged()
+    protected abstract fun onTimeEndedChanged()
     protected abstract suspend fun onSaveClickDelegate()
     protected abstract suspend fun onSplitClickDelegate()
-    protected abstract suspend fun adjustAdjacentRecords()
+    protected abstract suspend fun onAdjustClickDelegate()
     protected open suspend fun onContinueClickDelegate() {}
     protected open suspend fun onMergeClickDelegate() {}
 
-    protected open fun onTimeStartedChanged() {
-        timeStartedChanged = true
-        updateAdjustPrevRecordVisible()
+    protected suspend fun adjustPrevRecord(records: List<Record>) {
+        // Find previous record.
+        val previousRecord = records
+            .sortedByDescending { it.timeEnded }
+            .firstOrNull { it.timeEnded <= originalTimeStarted }
+        // Change it.
+        previousRecord?.copy(
+            timeStarted = previousRecord.timeStarted.coerceAtMost(newTimeStarted),
+            timeEnded = newTimeStarted,
+        )?.let {
+            addRecordMediator.add(it)
+        }
     }
 
-    protected open fun onTimeEndedChanged() {
-        timeEndedChanged = true
-        updateAdjustPrevRecordVisible()
+    protected suspend fun adjustNextRecord(records: List<Record>) {
+        // Find next record.
+        val nextRecord = records
+            .sortedByDescending { it.timeStarted }
+            .lastOrNull { it.timeStarted >= originalTimeEnded }
+        // Change it.
+        nextRecord?.copy(
+            timeStarted = newTimeEnded,
+            timeEnded = nextRecord.timeEnded.coerceAtLeast(newTimeEnded)
+        )?.let {
+            addRecordMediator.add(it)
+        }
     }
 
     fun onTypeChooserClick() {
@@ -151,15 +166,19 @@ abstract class ChangeRecordBaseViewModel(
 
     fun onSaveClick() {
         onRecordChangeButtonClick(
-            buttonEnabledLiveData = saveButtonEnabled,
             onProceed = ::onSaveClickDelegate,
         )
     }
 
     fun onSplitClick() {
         onRecordChangeButtonClick(
-            buttonEnabledLiveData = splitButtonEnabled,
             onProceed = ::onSplitClickDelegate,
+        )
+    }
+
+    fun onAdjustClick() {
+        onRecordChangeButtonClick(
+            onProceed = ::onAdjustClickDelegate,
         )
     }
 
@@ -170,14 +189,12 @@ abstract class ChangeRecordBaseViewModel(
             return
         }
         onRecordChangeButtonClick(
-            buttonEnabledLiveData = continueButtonEnabled,
             onProceed = ::onContinueClickDelegate,
         )
     }
 
     fun onMergeClick() {
         onRecordChangeButtonClick(
-            buttonEnabledLiveData = mergeButtonEnabled,
             onProceed = ::onMergeClickDelegate,
             checkTypeSelected = false,
         )
@@ -329,13 +346,7 @@ abstract class ChangeRecordBaseViewModel(
         }
     }
 
-    fun onAdjustPrevRecordClick() {
-        val newValue = !adjustPrevRecordCheckbox.value.orFalse()
-        adjustPrevRecordCheckbox.set(newValue)
-    }
-
     private fun onRecordChangeButtonClick(
-        buttonEnabledLiveData: LiveData<Boolean>,
         onProceed: suspend () -> Unit,
         checkTypeSelected: Boolean = true,
     ) {
@@ -344,8 +355,7 @@ abstract class ChangeRecordBaseViewModel(
             return
         }
         viewModelScope.launch {
-            buttonEnabledLiveData.set(false)
-            adjustAdjacentRecords()
+            saveButtonEnabled.set(false)
             onProceed()
         }
     }
@@ -369,7 +379,6 @@ abstract class ChangeRecordBaseViewModel(
                 previous = current,
             )
         )
-        updateAdjustPrevRecordVisible()
     }
 
     private fun onTimeClick(
@@ -494,16 +503,6 @@ abstract class ChangeRecordBaseViewModel(
 
     private suspend fun loadLastCommentsViewData(): List<ViewHolderType> {
         return changeRecordViewDataInteractor.getLastCommentsViewData(newTypeId)
-    }
-
-    private fun updateAdjustPrevRecordVisible() {
-        val data = loadAdjustPrevRecordVisible()
-        adjustPrevRecordVisible.set(data)
-    }
-
-    private fun loadAdjustPrevRecordVisible(): Boolean {
-        return (timeStartedChanged || timeEndedChanged) &&
-            chooserState.value?.current is ChangeRecordChooserState.State.Closed
     }
 
     companion object {

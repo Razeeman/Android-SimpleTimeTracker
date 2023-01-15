@@ -111,11 +111,11 @@ class ChangeRecordCore(
         btnChangeRecordTimeStartedAdjust.setOnClick(viewModel::onAdjustTimeStartedClick)
         btnChangeRecordTimeEndedAdjust.setOnClick(viewModel::onAdjustTimeEndedClick)
         btnChangeRecordTimeSplitAdjust.setOnClick(viewModel::onAdjustTimeSplitClick)
-        checkboxChangeRecordAdjustPrevRecord.setOnClick(viewModel::onAdjustPrevRecordClick)
         containerChangeRecordTimeAdjust.listener = viewModel::onAdjustTimeItemClick
         containerChangeRecordTimeSplitAdjust.listener = viewModel::onAdjustTimeSplitItemClick
         btnChangeRecordSave.setOnClick(viewModel::onSaveClick)
         btnChangeRecordSplit.setOnClick(viewModel::onSplitClick)
+        btnChangeRecordAdjust.setOnClick(viewModel::onAdjustClick)
         btnChangeRecordContinue.setOnClick(viewModel::onContinueClick)
         btnChangeRecordMerge.setOnClick(viewModel::onMergeClick)
     }
@@ -133,10 +133,7 @@ class ChangeRecordCore(
         with(viewModel) {
             types.observe(typesAdapter::replace)
             categories.observe(categoriesAdapter::replace)
-            saveButtonEnabled.observe(btnChangeRecordSave::setEnabled)
-            splitButtonEnabled.observe(btnChangeRecordSplit::setEnabled)
-            continueButtonEnabled.observe(btnChangeRecordContinue::setEnabled)
-            mergeButtonEnabled.observe(btnChangeRecordMerge::setEnabled)
+            saveButtonEnabled.observe { enableModifyingButtons(it, binding) }
             timeAdjustmentItems.observe(containerChangeRecordTimeAdjust.adapter::replace)
             timeSplitAdjustmentItems.observe(containerChangeRecordTimeSplitAdjust.adapter::replace)
             chooserState.observe { updateChooserState(it, binding) }
@@ -156,8 +153,6 @@ class ChangeRecordCore(
             timeSplitText.observe(tvChangeRecordTimeSplit::setText)
             lastComments.observe(commentsAdapter::replace)
             comment.observe { updateUi(binding, it) }
-            adjustPrevRecordVisible.observe(containerChangeRecordAdjustPrevRecord::isVisible::set)
-            adjustPrevRecordCheckbox.observe(checkboxChangeRecordAdjustPrevRecord::setChecked)
         }
     }
 
@@ -205,6 +200,17 @@ class ChangeRecordCore(
         fieldChangeRecordCategory.isVisible = isClosed || state.current is Tag
         fieldChangeRecordComment.isVisible = isClosed || state.current is Comment
         fieldChangeRecordAction.isVisible = isClosed || state.current is Action
+    }
+
+    private fun enableModifyingButtons(
+        isEnabled: Boolean,
+        binding: ChangeRecordCoreLayoutBinding,
+    ) = with(binding) {
+        btnChangeRecordSave.isEnabled = isEnabled
+        btnChangeRecordSplit.isEnabled = isEnabled
+        btnChangeRecordAdjust.isEnabled = isEnabled
+        btnChangeRecordContinue.isEnabled = isEnabled
+        btnChangeRecordMerge.isEnabled = isEnabled
     }
 
     private inline fun <reified T : ChangeRecordChooserState.State> updateChooser(

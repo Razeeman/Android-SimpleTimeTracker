@@ -155,7 +155,7 @@ class ChangeRunningRecordFragment :
         layoutChangeRunningRecordCore.containerChangeRecordMerge.isVisible = false
 
         context?.getString(R.string.change_record_change_prev_record)
-            ?.let(layoutChangeRunningRecordCore.tvChangeRecordAdjustPrevRecord::setText)
+            ?.let(layoutChangeRunningRecordCore.tvChangeRecordAdjustHint::setText)
     }
 
     companion object {

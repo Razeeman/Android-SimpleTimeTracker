@@ -104,6 +104,7 @@
     <string name="change_record_continue_hint">現在の記録を削除し、このアクティビティの追跡を継続します</string>
     <string name="change_record_merge">マージ</string>
     <string name="change_record_merge_hint">今回は前の記録に追加します</string>
+    <string name="change_record_adjust">変化する</string>
     <string name="change_record_change_prev_record">前のレコードの時刻も変更</string>
     <string name="change_record_change_adjacent_records">隣接レコードの時刻も変更</string>
 

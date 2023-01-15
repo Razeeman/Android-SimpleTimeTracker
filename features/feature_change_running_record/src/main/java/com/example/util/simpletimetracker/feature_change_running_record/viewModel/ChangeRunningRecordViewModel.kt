@@ -4,16 +4,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.extension.set
-import com.example.util.simpletimetracker.domain.interactor.AddRecordMediator
-import com.example.util.simpletimetracker.domain.interactor.AddRunningRecordMediator
 import com.example.util.simpletimetracker.core.interactor.RecordTagViewDataInteractor
 import com.example.util.simpletimetracker.core.interactor.RecordTypesViewDataInteractor
-import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
-import com.example.util.simpletimetracker.domain.extension.orFalse
 import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.domain.interactor.AddRecordMediator
+import com.example.util.simpletimetracker.domain.interactor.AddRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
+import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RunningRecord
@@ -55,6 +54,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
     recordTypesViewDataInteractor,
     recordTagViewDataInteractor,
     changeRecordViewDataInteractor,
+    addRecordMediator,
 ) {
 
     lateinit var extra: ChangeRunningRecordParams
@@ -102,23 +102,10 @@ class ChangeRunningRecordViewModel @Inject constructor(
         onSaveClick()
     }
 
-    override suspend fun adjustAdjacentRecords() {
-        // TODO refactor duplication with other class.
-        if (adjustPrevRecordCheckbox.value.orFalse()) {
-            val records = recordInteractor.getAll()
-
-            // Find previous record.
-            val previousRecord = records
-                .sortedByDescending { it.timeEnded }
-                .firstOrNull { it.timeEnded <= originalTimeStarted }
-            // Change it.
-            previousRecord?.copy(
-                timeStarted = previousRecord.timeStarted.coerceAtMost(newTimeStarted),
-                timeEnded = newTimeStarted,
-            )?.let {
-                addRecordMediator.add(it)
-            }
-        }
+    override suspend fun onAdjustClickDelegate() {
+        val records = recordInteractor.getAll()
+        adjustPrevRecord(records)
+        onSaveClick()
     }
 
     override fun getChangeCategoryParams(data: ChangeTagData): ChangeRecordTagFromScreen {
@@ -139,7 +126,6 @@ class ChangeRunningRecordViewModel @Inject constructor(
     }
 
     override fun onTimeStartedChanged() {
-        super.onTimeStartedChanged()
         if (newTimeStarted > System.currentTimeMillis()) {
             newTimeStarted = System.currentTimeMillis()
 
@@ -149,6 +135,10 @@ class ChangeRunningRecordViewModel @Inject constructor(
             ).let(message::set)
         }
         if (newTimeStarted > newTimeSplit) newTimeSplit = newTimeStarted
+    }
+
+    override fun onTimeEndedChanged() {
+        // Do nothing
     }
 
     override fun onTimeSplitChanged() {

@@ -152,7 +152,7 @@ class ChangeRecordFragment :
         layoutChangeRecordCore.containerChangeRecordMerge.isVisible = extra is ChangeRecordParams.Untracked
 
         context?.getString(R.string.change_record_change_adjacent_records)
-            ?.let(layoutChangeRecordCore.tvChangeRecordAdjustPrevRecord::setText)
+            ?.let(layoutChangeRecordCore.tvChangeRecordAdjustHint::setText)
     }
 
     companion object {

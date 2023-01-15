@@ -104,6 +104,7 @@
     <string name="change_record_continue_hint">Will remove current record and continue tracking this activity</string>
     <string name="change_record_merge">Merge</string>
     <string name="change_record_merge_hint">Will add this time to previous record</string>
+    <string name="change_record_adjust">Change</string>
     <string name="change_record_change_prev_record">Also change time of previous record</string>
     <string name="change_record_change_adjacent_records">Also change time of adjacent records</string>
 

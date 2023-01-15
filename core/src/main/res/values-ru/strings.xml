@@ -104,6 +104,7 @@
     <string name="change_record_continue_hint">Удалит текущую запись и продолжит отслеживать эту активность</string>
     <string name="change_record_merge">Объединить</string>
     <string name="change_record_merge_hint">Добавит это время к предыдущей записи</string>
+    <string name="change_record_adjust">Изменить</string>
     <string name="change_record_change_prev_record">Также изменить время предыдущей записи</string>
     <string name="change_record_change_adjacent_records">Также изменить время соседних записей</string>
 

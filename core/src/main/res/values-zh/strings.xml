@@ -104,6 +104,7 @@
     <string name="change_record_continue_hint">将删除当前记录并继续跟踪此活动</string>
     <string name="change_record_merge">合并</string>
     <string name="change_record_merge_hint">将把这个时间添加到以前的记录中</string>
+    <string name="change_record_adjust">改变</string>
     <string name="change_record_change_prev_record">同时更改上一个记录的时间</string>
     <string name="change_record_change_adjacent_records">同时更改相邻记录的时间</string>
 
