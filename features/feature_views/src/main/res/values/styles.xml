@@ -317,8 +317,8 @@
         <item name="android:gravity">center_vertical</item>
         <item name="android:maxLines">1</item>
         <item name="android:textColor">?appLightTextColor</item>
-        <item name="android:textSize">8sp</item>
-        <item name="autoSizeMaxTextSize">8sp</item>
+        <item name="android:textSize">10sp</item>
+        <item name="autoSizeMaxTextSize">10sp</item>
         <item name="autoSizeMinTextSize">1sp</item>
         <item name="autoSizeTextType">uniform</item>
     </style>

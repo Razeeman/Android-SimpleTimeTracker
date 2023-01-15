@@ -24,8 +24,6 @@ import com.example.util.simpletimetracker.feature_change_record.R
 import com.example.util.simpletimetracker.feature_change_record.interactor.ChangeRecordViewDataInteractor
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordChooserState
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordCommentViewData
-import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordPreviewChange
-import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordSimpleViewData
 import com.example.util.simpletimetracker.feature_change_record.viewData.TimeAdjustmentState
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.notification.ToastParams
@@ -46,7 +44,9 @@ abstract class ChangeRecordBaseViewModel(
     private val changeRecordViewDataInteractor: ChangeRecordViewDataInteractor,
     private val addRecordMediator: AddRecordMediator,
     private val recordInteractor: RecordInteractor,
-) : ViewModel() {
+    private val changeRecordMergeDelegate: ChangeRecordMergeDelegateImpl,
+) : ViewModel(),
+    ChangeRecordMergeDelegate by changeRecordMergeDelegate {
 
     val types: LiveData<List<ViewHolderType>> by lazy {
         return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
@@ -90,7 +90,6 @@ abstract class ChangeRecordBaseViewModel(
     val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val keyboardVisibility: LiveData<Boolean> = MutableLiveData(false)
     val comment: LiveData<String> = MutableLiveData()
-    val mergePreview: LiveData<ChangeRecordPreviewChange> = MutableLiveData()
 
     protected var newTypeId: Long = 0
     protected var newTimeEnded: Long = 0
@@ -100,8 +99,9 @@ abstract class ChangeRecordBaseViewModel(
     protected var newCategoryIds: MutableList<Long> = mutableListOf()
     protected var originalTimeStarted: Long = 0
     protected var originalTimeEnded: Long = 0
+    protected var prevRecord: Record? = null
+    protected var nextRecord: Record? = null
 
-    protected abstract suspend fun initializePreviewViewData()
     protected abstract suspend fun updatePreview()
     protected abstract fun getChangeCategoryParams(data: ChangeTagData): ChangeRecordTagFromScreen
     protected abstract fun onTimeSplitChanged()
@@ -111,39 +111,40 @@ abstract class ChangeRecordBaseViewModel(
     protected abstract suspend fun onSplitClickDelegate()
     protected abstract suspend fun onAdjustClickDelegate()
     protected open suspend fun onContinueClickDelegate() {}
-    protected open suspend fun onMergeClickDelegate() {}
+    protected abstract val mergeAvailable: Boolean
 
-    protected suspend fun adjustPrevRecord(records: List<Record>) {
-        // Find previous record.
-        val previousRecord = getPrevRecord(records)
-        // Change it.
-        previousRecord?.copy(
-            timeStarted = previousRecord.timeStarted.coerceAtMost(newTimeStarted),
-            timeEnded = newTimeStarted,
-        )?.let {
-            addRecordMediator.add(it)
-        }
+    protected open suspend fun initializePreviewViewData() {
+        initializePrevNextRecords()
+        updateTimeSplitValue()
+        changeRecordMergeDelegate.updateMergePreviewViewData(
+            mergeAvailable = mergeAvailable,
+            prevRecord = prevRecord,
+            newTimeEnded = newTimeEnded,
+        )
     }
 
-    protected suspend fun adjustNextRecord(records: List<Record>) {
-        // Find next record.
-        val nextRecord = records
-            .sortedByDescending { it.timeStarted }
-            .lastOrNull { it.timeStarted >= originalTimeEnded }
-        // Change it.
-        nextRecord?.copy(
-            timeStarted = newTimeEnded,
-            timeEnded = nextRecord.timeEnded.coerceAtLeast(newTimeEnded)
-        )?.let {
-            addRecordMediator.add(it)
-        }
+    protected suspend fun adjustPrevRecord() {
+        prevRecord
+            ?.let {
+                it.copy(
+                    timeStarted = it.timeStarted.coerceAtMost(newTimeStarted),
+                    timeEnded = newTimeStarted,
+                )
+            }?.let {
+                addRecordMediator.add(it)
+            }
     }
 
-    protected fun getPrevRecord(records: List<Record>): Record? {
-        // TODO get directly from room
-        return records
-            .sortedByDescending { it.timeEnded }
-            .firstOrNull { it.timeEnded <= originalTimeStarted }
+    protected suspend fun adjustNextRecord() {
+        nextRecord
+            ?.let {
+                it.copy(
+                    timeStarted = newTimeEnded,
+                    timeEnded = it.timeEnded.coerceAtLeast(newTimeEnded)
+                )
+            }?.let {
+                addRecordMediator.add(it)
+            }
     }
 
     fun onTypeChooserClick() {
@@ -205,7 +206,15 @@ abstract class ChangeRecordBaseViewModel(
 
     fun onMergeClick() {
         onRecordChangeButtonClick(
-            onProceed = ::onMergeClickDelegate,
+            onProceed = {
+                onMergeClickDelegate(
+                    prevRecord = prevRecord,
+                    newTimeEnded = newTimeEnded,
+                    onMergeComplete = {
+                        router.back()
+                    }
+                )
+            },
             checkTypeSelected = false,
         )
     }
@@ -470,6 +479,17 @@ abstract class ChangeRecordBaseViewModel(
         }
     }
 
+    private suspend fun initializePrevNextRecords() {
+        // TODO get directly from room
+        val records = recordInteractor.getAll()
+        prevRecord = records
+            .sortedByDescending { it.timeEnded }
+            .firstOrNull { it.timeEnded <= originalTimeStarted }
+        nextRecord = records
+            .sortedByDescending { it.timeStarted }
+            .lastOrNull { it.timeStarted >= originalTimeEnded }
+    }
+
     private suspend fun loadTypesViewData(): List<ViewHolderType> {
         return recordTypesViewDataInteractor.getTypesViewData()
     }
@@ -497,7 +517,7 @@ abstract class ChangeRecordBaseViewModel(
         return changeRecordViewDataInteractor.getTimeAdjustmentItems()
     }
 
-    protected suspend fun updateTimeSplitValue() {
+    private suspend fun updateTimeSplitValue() {
         val data = loadTimeSplitValue()
         timeSplitText.set(data)
     }
@@ -513,43 +533,6 @@ abstract class ChangeRecordBaseViewModel(
 
     private suspend fun loadLastCommentsViewData(): List<ViewHolderType> {
         return changeRecordViewDataInteractor.getLastCommentsViewData(newTypeId)
-    }
-
-    protected suspend fun updateMergePreviewViewData() {
-        val data = loadMergePreviewViewData() ?: return
-        mergePreview.set(data)
-    }
-
-    private suspend fun loadMergePreviewViewData(): ChangeRecordPreviewChange? {
-        // TODO refactor
-        val records = recordInteractor.getAll()
-        val previousRecord = getPrevRecord(records) ?: return null
-        val changedRecord = previousRecord.copy(
-            timeEnded = newTimeEnded,
-        )
-
-        val previousRecordPreview = changeRecordViewDataInteractor
-            .getPreviewViewData(previousRecord)
-
-        val changedRecordPreview = changeRecordViewDataInteractor
-            .getPreviewViewData(changedRecord)
-
-        return ChangeRecordPreviewChange(
-            before = ChangeRecordSimpleViewData(
-                name = previousRecordPreview.name,
-                time = "${previousRecordPreview.timeStarted} - ${previousRecordPreview.timeFinished}",
-                duration = previousRecordPreview.duration,
-                iconId = previousRecordPreview.iconId,
-                color = previousRecordPreview.color,
-            ),
-            after = ChangeRecordSimpleViewData(
-                name = changedRecordPreview.name,
-                time = "${changedRecordPreview.timeStarted} - ${changedRecordPreview.timeFinished}",
-                duration = changedRecordPreview.duration,
-                iconId = changedRecordPreview.iconId,
-                color = changedRecordPreview.color,
-            ),
-        )
     }
 
     companion object {

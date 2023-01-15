@@ -25,9 +25,11 @@ import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeR
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordChooserState.State.Closed
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordChooserState.State.Comment
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordChooserState.State.Tag
-import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordPreviewChange
+import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordPreview
+import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordSimpleViewData
 import com.example.util.simpletimetracker.feature_change_record.viewData.TimeAdjustmentState
 import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordBaseViewModel
+import com.example.util.simpletimetracker.feature_views.RecordSimpleView
 import com.example.util.simpletimetracker.feature_views.extension.rotateDown
 import com.example.util.simpletimetracker.feature_views.extension.rotateUp
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
@@ -216,23 +218,29 @@ class ChangeRecordCore(
     }
 
     private fun setMergePreview(
-        data: ChangeRecordPreviewChange,
+        data: ChangeRecordPreview,
         binding: ChangeRecordCoreLayoutBinding,
-    ) = with(binding.containerChangeRecordMergePreview) {
-        root.isVisible = true
+    ) = with(binding) {
+        when (data) {
+            is ChangeRecordPreview.NotAvailable -> {
+                containerChangeRecordMerge.isVisible = false
+            }
+            is ChangeRecordPreview.Available -> {
+                containerChangeRecordMerge.isVisible = true
+                with(containerChangeRecordMergePreview) {
+                    viewChangeRecordPreviewBefore.setData(data.before)
+                    viewChangeRecordPreviewAfter.setData(data.after)
+                }
+            }
+        }
+    }
 
-        // TODO refactor
-        viewChangeRecordPreviewBefore.itemName = data.before.name
-        viewChangeRecordPreviewBefore.itemTime = data.before.time
-        viewChangeRecordPreviewBefore.itemDuration = data.before.duration
-        viewChangeRecordPreviewBefore.itemIcon = data.before.iconId
-        viewChangeRecordPreviewBefore.itemColor = data.before.color
-
-        viewChangeRecordPreviewAfter.itemName = data.after.name
-        viewChangeRecordPreviewAfter.itemTime = data.after.time
-        viewChangeRecordPreviewAfter.itemDuration = data.after.duration
-        viewChangeRecordPreviewAfter.itemIcon = data.after.iconId
-        viewChangeRecordPreviewAfter.itemColor = data.after.color
+    private fun RecordSimpleView.setData(data: ChangeRecordSimpleViewData) {
+        itemName = data.name
+        itemTime = data.time
+        itemDuration = data.duration
+        itemIcon = data.iconId
+        itemColor = data.color
     }
 
     private inline fun <reified T : ChangeRecordChooserState.State> updateChooser(

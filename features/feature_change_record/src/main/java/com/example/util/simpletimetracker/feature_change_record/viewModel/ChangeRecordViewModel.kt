@@ -32,6 +32,7 @@ class ChangeRecordViewModel @Inject constructor(
     recordTagViewDataInteractor: RecordTagViewDataInteractor,
     prefsInteractor: PrefsInteractor,
     resourceRepo: ResourceRepo,
+    changeRecordMergeDelegate: ChangeRecordMergeDelegateImpl,
     private val router: Router,
     private val recordInteractor: RecordInteractor,
     private val addRecordMediator: AddRecordMediator,
@@ -50,9 +51,13 @@ class ChangeRecordViewModel @Inject constructor(
     changeRecordViewDataInteractor,
     addRecordMediator,
     recordInteractor,
+    changeRecordMergeDelegate,
 ) {
 
     lateinit var extra: ChangeRecordParams
+
+    override val mergeAvailable: Boolean
+        get() = extra is ChangeRecordParams.Untracked
 
     val record: LiveData<ChangeRecordViewData> by lazy {
         return@lazy MutableLiveData<ChangeRecordViewData>().let { initial ->
@@ -123,23 +128,9 @@ class ChangeRecordViewModel @Inject constructor(
         router.back()
     }
 
-    override suspend fun onMergeClickDelegate() {
-        // Find previous record.
-        val records = recordInteractor.getAll()
-        val previousRecord = getPrevRecord(records)
-        // Change it.
-        previousRecord?.copy(
-            timeEnded = newTimeEnded,
-        )?.let {
-            addRecordMediator.add(it)
-            router.back()
-        }
-    }
-
     override suspend fun onAdjustClickDelegate() {
-        val records = recordInteractor.getAll()
-        adjustPrevRecord(records)
-        adjustNextRecord(records)
+        adjustPrevRecord()
+        adjustNextRecord()
         onSaveClick()
     }
 
@@ -192,8 +183,7 @@ class ChangeRecordViewModel @Inject constructor(
         newTimeSplit = newTimeStarted
         originalTimeStarted = newTimeStarted
         originalTimeEnded = newTimeEnded
-        updateTimeSplitValue()
-        updateMergePreviewViewData()
+        super.initializePreviewViewData()
     }
 
     private suspend fun loadPreviewViewData(): ChangeRecordViewData {

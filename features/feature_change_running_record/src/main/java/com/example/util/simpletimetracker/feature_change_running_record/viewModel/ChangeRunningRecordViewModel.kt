@@ -18,6 +18,7 @@ import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.feature_change_record.interactor.ChangeRecordViewDataInteractor
 import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordBaseViewModel
+import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordMergeDelegateImpl
 import com.example.util.simpletimetracker.feature_change_running_record.R
 import com.example.util.simpletimetracker.feature_change_running_record.interactor.ChangeRunningRecordViewDataInteractor
 import com.example.util.simpletimetracker.feature_change_running_record.viewData.ChangeRunningRecordViewData
@@ -39,11 +40,12 @@ class ChangeRunningRecordViewModel @Inject constructor(
     recordTagViewDataInteractor: RecordTagViewDataInteractor,
     prefsInteractor: PrefsInteractor,
     changeRecordViewDataInteractor: ChangeRecordViewDataInteractor,
+    changeRecordMergeDelegate: ChangeRecordMergeDelegateImpl,
+    recordInteractor: RecordInteractor,
     private val router: Router,
     private val addRunningRecordMediator: AddRunningRecordMediator,
     private val removeRunningRecordMediator: RemoveRunningRecordMediator,
     private val runningRecordInteractor: RunningRecordInteractor,
-    private val recordInteractor: RecordInteractor,
     private val addRecordMediator: AddRecordMediator,
     private val changeRunningRecordViewDataInteractor: ChangeRunningRecordViewDataInteractor,
     private val resourceRepo: ResourceRepo,
@@ -56,9 +58,12 @@ class ChangeRunningRecordViewModel @Inject constructor(
     changeRecordViewDataInteractor,
     addRecordMediator,
     recordInteractor,
+    changeRecordMergeDelegate,
 ) {
 
     lateinit var extra: ChangeRunningRecordParams
+
+    override val mergeAvailable: Boolean = false
 
     val record: LiveData<ChangeRunningRecordViewData> by lazy {
         return@lazy MutableLiveData<ChangeRunningRecordViewData>().let { initial ->
@@ -104,8 +109,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
     }
 
     override suspend fun onAdjustClickDelegate() {
-        val records = recordInteractor.getAll()
-        adjustPrevRecord(records)
+        adjustPrevRecord()
         onSaveClick()
     }
 
@@ -161,8 +165,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
             newTimeSplit = newTimeStarted
             originalTimeStarted = newTimeStarted
             originalTimeEnded = newTimeEnded
-            updateTimeSplitValue()
-            updateMergePreviewViewData()
+            super.initializePreviewViewData()
         }
     }
 

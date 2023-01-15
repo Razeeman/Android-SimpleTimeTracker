@@ -146,13 +146,12 @@ class ChangeRunningRecordFragment :
     }
 
     private fun coreSetup() = with(binding) {
+        // TODO move to view model
         // No time ended in running record.
         layoutChangeRunningRecordCore.fieldChangeRecordTimeEnded.isVisible = false
         layoutChangeRunningRecordCore.btnChangeRecordTimeEndedAdjust.isVisible = false
         // Can't continue running record.
         layoutChangeRunningRecordCore.containerChangeRecordContinue.isVisible = false
-        // Can't merge running record.
-        layoutChangeRunningRecordCore.containerChangeRecordMerge.isVisible = false
 
         context?.getString(R.string.change_record_change_prev_record)
             ?.let(layoutChangeRunningRecordCore.tvChangeRecordAdjustHint::setText)

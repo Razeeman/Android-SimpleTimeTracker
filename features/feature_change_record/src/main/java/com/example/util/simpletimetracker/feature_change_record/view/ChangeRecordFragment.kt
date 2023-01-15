@@ -148,9 +148,7 @@ class ChangeRecordFragment :
     }
 
     private fun coreSetup() = with(binding) {
-        // Can merge only untracked time.
-        layoutChangeRecordCore.containerChangeRecordMerge.isVisible = extra is ChangeRecordParams.Untracked
-
+        // TODO move to view model
         context?.getString(R.string.change_record_change_adjacent_records)
             ?.let(layoutChangeRecordCore.tvChangeRecordAdjustHint::setText)
     }
