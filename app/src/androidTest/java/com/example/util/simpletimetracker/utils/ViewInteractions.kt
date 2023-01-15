@@ -20,6 +20,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withClassName
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerViewHolder
+import com.example.util.simpletimetracker.feature_dialogs.dateTime.CustomTimePicker
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.CoreMatchers.not
@@ -85,5 +86,5 @@ fun checkSliderValue(id: Int, expectedValue: Int): ViewInteraction =
     onView(withId(id)).check(matches(withSliderValue((expectedValue))))
 
 fun setPickerTime(hour: Int, minute: Int) {
-    onView(withClassName(equalTo(TimePicker::class.java.name))).perform(setTime(hour, minute))
+    onView(withClassName(equalTo(CustomTimePicker::class.java.name))).perform(setTime(hour, minute))
 }

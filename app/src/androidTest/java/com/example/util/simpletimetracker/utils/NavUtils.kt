@@ -13,6 +13,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withClassName
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.example.util.simpletimetracker.R
+import com.example.util.simpletimetracker.feature_dialogs.dateTime.CustomTimePicker
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.equalTo
 
@@ -209,13 +210,13 @@ object NavUtils {
 
         // Time started
         clickOnViewWithId(R.id.tvChangeRecordTimeStarted)
-        onView(withClassName(equalTo(TimePicker::class.java.name)))
+        onView(withClassName(equalTo(CustomTimePicker::class.java.name)))
             .perform(setTime(hourStarted, minutesStarted))
         clickOnViewWithId(R.id.btnDateTimeDialogPositive)
 
         // Time ended
         clickOnViewWithId(R.id.tvChangeRecordTimeEnded)
-        onView(withClassName(equalTo(TimePicker::class.java.name)))
+        onView(withClassName(equalTo(CustomTimePicker::class.java.name)))
             .perform(setTime(hourEnded, minutesEnded))
         clickOnViewWithId(R.id.btnDateTimeDialogPositive)
 
@@ -229,7 +230,6 @@ object NavUtils {
         // Activity
         clickOnViewWithText(R.string.change_record_type_field)
         clickOnRecyclerItem(R.id.rvChangeRecordType, withText(name))
-        clickOnViewWithText(R.string.change_record_type_field)
 
         // Tag
         if (tag != null) {

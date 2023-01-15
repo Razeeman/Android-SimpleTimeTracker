@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.annotation.ColorInt
 import androidx.emoji2.bundled.BundledEmojiCompatConfig
 import androidx.emoji2.text.EmojiCompat
+import androidx.emoji2.text.EmojiCompat.init
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.ext.junit.rules.ActivityScenarioRule
@@ -24,6 +25,7 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
+import java.util.Calendar
 import javax.inject.Inject
 
 @HiltAndroidTest
@@ -77,6 +79,8 @@ open class BaseUiTest {
     val hourString: String by lazy { getString(R.string.time_hour) }
     val minuteString: String by lazy { getString(R.string.time_minute) }
     val secondString: String by lazy { getString(R.string.time_second) }
+
+    val calendar: Calendar = Calendar.getInstance()
 
     init {
         val app = ApplicationProvider.getApplicationContext() as Context

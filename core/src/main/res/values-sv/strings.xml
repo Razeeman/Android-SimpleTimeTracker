@@ -104,7 +104,7 @@
     <string name="change_record_continue_hint">Tar bort sluttid och återaktiverar denna aktivitet</string>
     <string name="change_record_merge">Sammanfoga</string>
     <string name="change_record_merge_hint">Lägger till denna tid till tidigare händelse</string>
-    <string name="change_record_adjust">Change</string>
+    <string name="change_record_adjust">Förändra</string>
     <string name="change_record_change_prev_record">Ändra även tid för tidigare händelse</string>
     <string name="change_record_change_adjacent_records">Ändra också tiden för de intilliggande händelserna</string>
 

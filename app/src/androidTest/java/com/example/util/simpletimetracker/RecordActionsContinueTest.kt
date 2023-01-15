@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker
 
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -17,6 +18,7 @@ import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.longClickOnView
+import com.example.util.simpletimetracker.utils.nestedScrollTo
 import com.example.util.simpletimetracker.utils.recyclerItemCount
 import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.unconstrainedClickOnView
@@ -69,7 +71,7 @@ class RecordActionsContinueTest : BaseUiTest() {
         // Continue
         clickOnViewWithText(fullName)
         clickOnViewWithText(R.string.change_record_actions_hint)
-        clickOnViewWithText(R.string.change_record_continue)
+        onView(withText(R.string.change_record_continue)).perform(nestedScrollTo(), click())
 
         // Check no record
         checkViewDoesNotExist(allOf(withText(fullName), isCompletelyDisplayed()))
@@ -111,17 +113,16 @@ class RecordActionsContinueTest : BaseUiTest() {
 
         // Continue untracked doesn't work
         clickOnViewWithText(R.string.change_record_actions_hint)
-        clickOnViewWithText(R.string.change_record_continue)
+        onView(withText(R.string.change_record_continue)).perform(nestedScrollTo(), click())
         clickOnViewWithText(R.string.change_record_actions_hint)
 
         // Select activity
         clickOnViewWithText(R.string.change_record_type_field)
         clickOnRecyclerItem(R.id.rvChangeRecordType, withText(name))
-        clickOnViewWithText(R.string.change_record_type_field)
 
         // Continue
         clickOnViewWithText(R.string.change_record_actions_hint)
-        clickOnViewWithText(R.string.change_record_continue)
+        onView(withText(R.string.change_record_continue)).perform(nestedScrollTo(), click())
 
         checkViewIsDisplayed(
             allOf(
@@ -173,11 +174,10 @@ class RecordActionsContinueTest : BaseUiTest() {
         // Select activity
         clickOnViewWithText(R.string.change_record_type_field)
         clickOnRecyclerItem(R.id.rvChangeRecordType, withText(name))
-        clickOnViewWithText(R.string.change_record_type_field)
 
         // Continue
         clickOnViewWithText(R.string.change_record_actions_hint)
-        clickOnViewWithText(R.string.change_record_continue)
+        onView(withText(R.string.change_record_continue)).perform(nestedScrollTo(), click())
 
         checkViewDoesNotExist(allOf(withText(name), isCompletelyDisplayed()))
         onView(allOf(withId(R.id.rvRecordsList), isCompletelyDisplayed())).check(recyclerItemCount(1))
@@ -213,20 +213,19 @@ class RecordActionsContinueTest : BaseUiTest() {
         NavUtils.openRecordsScreen()
         clickOnView(allOf(withText(name), isCompletelyDisplayed()))
         clickOnViewWithText(R.string.change_record_actions_hint)
-        clickOnViewWithText(R.string.change_record_continue)
+        onView(withText(R.string.change_record_continue)).perform(nestedScrollTo(), click())
         pressBack()
 
         // Try continue from add record
         clickOnViewWithId(R.id.btnRecordAdd)
         clickOnViewWithText(R.string.change_record_type_field)
         clickOnRecyclerItem(R.id.rvChangeRecordType, withText(name))
-        clickOnViewWithText(R.string.change_record_type_field)
         unconstrainedClickOnView(withId(R.id.btnChangeRecordTimeStartedAdjust))
         clickOnViewWithText("+30")
         clickOnViewWithText("+30")
         clickOnViewWithText("+5")
         clickOnViewWithText(R.string.change_record_actions_hint)
-        clickOnViewWithText(R.string.change_record_continue)
+        onView(withText(R.string.change_record_continue)).perform(nestedScrollTo(), click())
 
         // Still on edit screen
         checkViewIsDisplayed(withText(R.string.change_record_save))
@@ -259,9 +258,8 @@ class RecordActionsContinueTest : BaseUiTest() {
         clickOnViewWithId(R.id.btnRecordAdd)
         clickOnViewWithText(R.string.change_record_type_field)
         clickOnRecyclerItem(R.id.rvChangeRecordType, withText(name))
-        clickOnViewWithText(R.string.change_record_type_field)
         clickOnViewWithText(R.string.change_record_actions_hint)
-        clickOnViewWithText(R.string.change_record_continue)
+        onView(withText(R.string.change_record_continue)).perform(nestedScrollTo(), click())
 
         // Running record stopped
         checkViewIsDisplayed(allOf(withText(name), isCompletelyDisplayed()))
@@ -287,9 +285,8 @@ class RecordActionsContinueTest : BaseUiTest() {
         clickOnViewWithId(R.id.btnRecordAdd)
         clickOnViewWithText(R.string.change_record_type_field)
         clickOnRecyclerItem(R.id.rvChangeRecordType, withText(name2))
-        clickOnViewWithText(R.string.change_record_type_field)
         clickOnViewWithText(R.string.change_record_actions_hint)
-        clickOnViewWithText(R.string.change_record_continue)
+        onView(withText(R.string.change_record_continue)).perform(nestedScrollTo(), click())
 
         // Running record stopped
         checkViewIsDisplayed(allOf(withText(name1), isCompletelyDisplayed()))

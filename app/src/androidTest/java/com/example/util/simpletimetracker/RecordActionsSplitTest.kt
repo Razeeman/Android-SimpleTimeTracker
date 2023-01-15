@@ -191,7 +191,6 @@ class RecordActionsSplitTest : BaseUiTest() {
         // Select activity
         clickOnViewWithText(R.string.change_record_type_field)
         clickOnRecyclerItem(R.id.rvChangeRecordType, withText(name))
-        clickOnViewWithText(R.string.change_record_type_field)
 
         // Split
         clickOnViewWithText(R.string.change_record_actions_hint)
@@ -223,7 +222,6 @@ class RecordActionsSplitTest : BaseUiTest() {
         // Select activity
         clickOnViewWithText(R.string.change_record_type_field)
         clickOnRecyclerItem(R.id.rvChangeRecordType, withText(name))
-        clickOnViewWithText(R.string.change_record_type_field)
 
         // Split
         clickOnViewWithText(R.string.change_record_actions_hint)

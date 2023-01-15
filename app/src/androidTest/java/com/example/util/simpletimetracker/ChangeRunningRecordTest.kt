@@ -15,6 +15,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withSubstring
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.example.util.simpletimetracker.feature_dialogs.dateTime.CustomTimePicker
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
@@ -97,7 +98,6 @@ class ChangeRunningRecordTest : BaseUiTest() {
         // Change item
         clickOnViewWithText(R.string.change_record_type_field)
         clickOnRecyclerItem(R.id.rvChangeRecordType, withText(name2))
-        clickOnViewWithText(R.string.change_record_type_field)
         clickOnViewWithText(R.string.change_record_tag_field)
         clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag2))
         clickOnViewWithText(R.string.change_record_tag_field)
@@ -112,7 +112,7 @@ class ChangeRunningRecordTest : BaseUiTest() {
         val day = calendar.get(Calendar.DAY_OF_MONTH)
 
         clickOnViewWithId(R.id.tvChangeRecordTimeStarted)
-        onView(withClassName(equalTo(TimePicker::class.java.name)))
+        onView(withClassName(equalTo(CustomTimePicker::class.java.name)))
             .perform(setTime(hourStarted, minutesStarted))
         clickOnViewWithText(R.string.date_time_dialog_date)
         onView(withClassName(equalTo(DatePicker::class.java.name)))
@@ -206,7 +206,6 @@ class ChangeRunningRecordTest : BaseUiTest() {
         clickOnViewWithText(R.string.change_record_type_field)
         clickOnRecyclerItem(R.id.rvChangeRecordType, withText(name2))
         checkPreviewUpdated(hasDescendant(withText(name2)))
-        clickOnViewWithText(R.string.change_record_type_field)
         clickOnViewWithText(R.string.change_record_tag_field)
         clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag2))
         clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag3))
@@ -243,7 +242,7 @@ class ChangeRunningRecordTest : BaseUiTest() {
         tryAction { clickOnViewWithText(name) }
         longClickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name)))
         clickOnViewWithId(R.id.tvChangeRecordTimeStarted)
-        onView(withClassName(equalTo(TimePicker::class.java.name))).perform(setTime(hourStarted, minutesStarted))
+        onView(withClassName(equalTo(CustomTimePicker::class.java.name))).perform(setTime(hourStarted, minutesStarted))
         clickOnViewWithId(R.id.btnDateTimeDialogPositive)
 
         checkAfterTimeAdjustment(timeStarted = "00:00")
@@ -310,7 +309,6 @@ class ChangeRunningRecordTest : BaseUiTest() {
         // Select activity with one previous comment
         clickOnViewWithText(R.string.change_record_type_field)
         clickOnRecyclerItem(R.id.rvChangeRecordType, withText(nameComment))
-        clickOnViewWithText(R.string.change_record_type_field)
 
         // One last comment
         clickOnViewWithText(R.string.change_record_comment_field)
@@ -328,7 +326,6 @@ class ChangeRunningRecordTest : BaseUiTest() {
         // Select activity with many previous comments
         clickOnViewWithText(R.string.change_record_type_field)
         clickOnRecyclerItem(R.id.rvChangeRecordType, withText(nameComments))
-        clickOnViewWithText(R.string.change_record_type_field)
 
         // Two last comments
         clickOnViewWithText(R.string.change_record_comment_field)
@@ -348,7 +345,6 @@ class ChangeRunningRecordTest : BaseUiTest() {
         // Select activity with no previous comments
         clickOnViewWithText(R.string.change_record_type_field)
         clickOnRecyclerItem(R.id.rvChangeRecordType, withText(nameNoComments))
-        clickOnViewWithText(R.string.change_record_type_field)
 
         // No last comments
         clickOnViewWithText(R.string.change_record_comment_field)

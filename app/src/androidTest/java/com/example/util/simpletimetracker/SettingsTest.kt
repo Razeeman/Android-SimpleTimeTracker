@@ -1,7 +1,6 @@
 package com.example.util.simpletimetracker
 
 import android.widget.DatePicker
-import android.widget.TimePicker
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.action.ViewActions.click
@@ -23,6 +22,7 @@ import com.example.util.simpletimetracker.core.extension.setToStartOfDay
 import com.example.util.simpletimetracker.core.extension.setWeekToFirstDay
 import com.example.util.simpletimetracker.domain.model.ActivityFilter
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
+import com.example.util.simpletimetracker.feature_dialogs.dateTime.CustomTimePicker
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
@@ -704,7 +704,7 @@ class SettingsTest : BaseUiTest() {
 
         // Change setting to +1
         clickOnView(withId(R.id.groupSettingsStartOfDay))
-        onView(withClassName(equalTo(TimePicker::class.java.name))).perform(setTime(1, 0))
+        onView(withClassName(equalTo(CustomTimePicker::class.java.name))).perform(setTime(1, 0))
         clickOnViewWithId(R.id.btnDateTimeDialogPositive)
         startOfDayTimeStamp = calendar.timeInMillis + TimeUnit.HOURS.toMillis(1)
         startOfDayPreview = startOfDayTimeStamp.toTimePreview()
@@ -810,7 +810,7 @@ class SettingsTest : BaseUiTest() {
 
         NavUtils.openSettingsScreen()
         onView(withId(R.id.groupSettingsStartOfDay)).perform(nestedScrollTo(), click())
-        onView(withClassName(equalTo(TimePicker::class.java.name))).perform(setTime(2, 0))
+        onView(withClassName(equalTo(CustomTimePicker::class.java.name))).perform(setTime(2, 0))
         clickOnViewWithId(R.id.btnDateTimeDialogPositive)
         checkViewIsDisplayed(allOf(withId(R.id.tvSettingsStartOfDayTime), withText(startOfDayPreview)))
         checkViewIsDisplayed(
@@ -864,7 +864,7 @@ class SettingsTest : BaseUiTest() {
 
         NavUtils.openSettingsScreen()
         onView(withId(R.id.groupSettingsStartOfDay)).perform(nestedScrollTo(), click())
-        onView(withClassName(equalTo(TimePicker::class.java.name))).perform(setTime(0, 0))
+        onView(withClassName(equalTo(CustomTimePicker::class.java.name))).perform(setTime(0, 0))
         clickOnViewWithId(R.id.btnDateTimeDialogPositive)
         checkViewIsDisplayed(allOf(withId(R.id.tvSettingsStartOfDayTime), withText(startOfDayPreview)))
         checkViewIsNotDisplayed(withId(R.id.btnSettingsStartOfDaySign))
@@ -1030,7 +1030,7 @@ class SettingsTest : BaseUiTest() {
         onView(withClassName(equalTo(DatePicker::class.java.name)))
             .perform(setDate(year, month + 1, day))
         clickOnView(allOf(isDescendantOfA(withId(R.id.tabsDateTimeDialog)), withText(R.string.date_time_dialog_time)))
-        onView(withClassName(equalTo(TimePicker::class.java.name)))
+        onView(withClassName(equalTo(CustomTimePicker::class.java.name)))
             .perform(setTime(hourStarted, minutesStarted))
         clickOnViewWithId(R.id.btnDateTimeDialogPositive)
 
@@ -1053,7 +1053,7 @@ class SettingsTest : BaseUiTest() {
         onView(withClassName(equalTo(DatePicker::class.java.name)))
             .perform(setDate(year, month + 1, day))
         clickOnView(allOf(isDescendantOfA(withId(R.id.tabsDateTimeDialog)), withText(R.string.date_time_dialog_time)))
-        onView(withClassName(equalTo(TimePicker::class.java.name)))
+        onView(withClassName(equalTo(CustomTimePicker::class.java.name)))
             .perform(setTime(hourEnded, minutesEnded))
         clickOnViewWithId(R.id.btnDateTimeDialogPositive)
 

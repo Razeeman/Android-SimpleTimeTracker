@@ -5,7 +5,6 @@ import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.platform.app.InstrumentationRegistry
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
@@ -44,11 +43,9 @@ class DeleteRecordTest : BaseUiTest() {
         clickOnViewWithId(R.id.btnChangeRecordDelete)
 
         // Check message
-        val message = InstrumentationRegistry.getInstrumentation().targetContext
-            .resources.getString(R.string.record_removed, name)
         checkViewIsDisplayed(
             allOf(
-                withText(message),
+                withText(getString(R.string.record_removed, name)),
                 withId(com.google.android.material.R.id.snackbar_text)
             )
         )

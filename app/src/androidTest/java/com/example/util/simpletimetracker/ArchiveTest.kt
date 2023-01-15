@@ -173,7 +173,6 @@ class ArchiveTest : BaseUiTest() {
         clickOnViewWithId(R.id.btnRecordAdd)
         clickOnViewWithText(R.string.change_record_type_field)
         clickOnView(withText(name1))
-        clickOnViewWithText(R.string.change_record_type_field)
         clickOnViewWithText(R.string.change_record_tag_field)
         checkTagVisible(tag1)
         checkTagNotVisible(tag2)

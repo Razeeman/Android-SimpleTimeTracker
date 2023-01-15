@@ -12,6 +12,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withSubstring
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.example.util.simpletimetracker.feature_dialogs.dateTime.CustomTimePicker
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
@@ -73,7 +74,7 @@ class AddRecordTest : BaseUiTest() {
         val hourStarted = 15
         val minutesStarted = 16
         clickOnViewWithId(R.id.tvChangeRecordTimeStarted)
-        onView(withClassName(equalTo(TimePicker::class.java.name)))
+        onView(withClassName(equalTo(CustomTimePicker::class.java.name)))
             .perform(setTime(hourStarted, minutesStarted))
         clickOnViewWithId(R.id.btnDateTimeDialogPositive)
 
@@ -91,7 +92,7 @@ class AddRecordTest : BaseUiTest() {
         val hourEnded = 17
         val minutesEnded = 19
         clickOnViewWithId(R.id.tvChangeRecordTimeEnded)
-        onView(withClassName(equalTo(TimePicker::class.java.name)))
+        onView(withClassName(equalTo(CustomTimePicker::class.java.name)))
             .perform(setTime(hourEnded, minutesEnded))
         clickOnViewWithId(R.id.btnDateTimeDialogPositive)
 
@@ -128,7 +129,6 @@ class AddRecordTest : BaseUiTest() {
         checkPreviewUpdated(hasDescendant(withText(name)))
         checkPreviewUpdated(withCardColor(color))
         checkPreviewUpdated(hasDescendant(withTag(icon)))
-        clickOnViewWithText(R.string.change_record_type_field)
 
         // Set comment
         clickOnViewWithText(R.string.change_record_comment_field)
@@ -199,7 +199,6 @@ class AddRecordTest : BaseUiTest() {
         // Select activity
         clickOnViewWithText(R.string.change_record_type_field)
         clickOnRecyclerItem(R.id.rvChangeRecordType, withText(name))
-        clickOnViewWithText(R.string.change_record_type_field)
 
         // Open tag chooser
         clickOnViewWithId(R.id.fieldChangeRecordCategory)
@@ -239,7 +238,6 @@ class AddRecordTest : BaseUiTest() {
         // Select activity with no previous comments
         clickOnViewWithText(R.string.change_record_type_field)
         clickOnRecyclerItem(R.id.rvChangeRecordType, withText(nameNoComments))
-        clickOnViewWithText(R.string.change_record_type_field)
 
         // Still no last comments
         clickOnViewWithText(R.string.change_record_comment_field)
@@ -252,7 +250,6 @@ class AddRecordTest : BaseUiTest() {
         // Select activity with one previous comment
         clickOnViewWithText(R.string.change_record_type_field)
         clickOnRecyclerItem(R.id.rvChangeRecordType, withText(nameComment))
-        clickOnViewWithText(R.string.change_record_type_field)
 
         // One last comment
         clickOnViewWithText(R.string.change_record_comment_field)
@@ -270,7 +267,6 @@ class AddRecordTest : BaseUiTest() {
         // Select activity with many previous comments
         clickOnViewWithText(R.string.change_record_type_field)
         clickOnRecyclerItem(R.id.rvChangeRecordType, withText(nameComments))
-        clickOnViewWithText(R.string.change_record_type_field)
 
         // Two last comments
         clickOnViewWithText(R.string.change_record_comment_field)
@@ -296,13 +292,13 @@ class AddRecordTest : BaseUiTest() {
         val hourStarted = 15
         val minutesStarted = 0
         clickOnViewWithId(R.id.tvChangeRecordTimeStarted)
-        onView(withClassName(equalTo(TimePicker::class.java.name))).perform(setTime(hourStarted, minutesStarted))
+        onView(withClassName(equalTo(CustomTimePicker::class.java.name))).perform(setTime(hourStarted, minutesStarted))
         clickOnViewWithId(R.id.btnDateTimeDialogPositive)
 
         val hourEnded = 16
         val minutesEnded = 0
         clickOnViewWithId(R.id.tvChangeRecordTimeEnded)
-        onView(withClassName(equalTo(TimePicker::class.java.name))).perform(setTime(hourEnded, minutesEnded))
+        onView(withClassName(equalTo(CustomTimePicker::class.java.name))).perform(setTime(hourEnded, minutesEnded))
         clickOnViewWithId(R.id.btnDateTimeDialogPositive)
 
         checkAfterTimeAdjustment(

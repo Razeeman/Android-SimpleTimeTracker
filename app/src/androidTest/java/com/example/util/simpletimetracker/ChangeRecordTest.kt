@@ -11,6 +11,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withClassName
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.example.util.simpletimetracker.feature_dialogs.dateTime.CustomTimePicker
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
@@ -78,7 +79,6 @@ class ChangeRecordTest : BaseUiTest() {
         clickOnViewWithText(R.string.change_record_comment_field)
         clickOnViewWithText(R.string.change_record_type_field)
         clickOnRecyclerItem(R.id.rvChangeRecordType, withText(name))
-        clickOnViewWithText(R.string.change_record_type_field)
         clickOnViewWithText(R.string.change_record_tag_field)
         clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag1))
         clickOnViewWithText(R.string.change_record_tag_field)
@@ -108,7 +108,6 @@ class ChangeRecordTest : BaseUiTest() {
         // Change item
         clickOnViewWithText(R.string.change_record_type_field)
         clickOnRecyclerItem(R.id.rvChangeRecordType, withText(newName))
-        clickOnViewWithText(R.string.change_record_type_field)
         clickOnViewWithText(R.string.change_record_tag_field)
         clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag2))
         clickOnViewWithText(R.string.change_record_tag_field)
@@ -125,7 +124,7 @@ class ChangeRecordTest : BaseUiTest() {
         val day = calendar.get(Calendar.DAY_OF_MONTH)
 
         clickOnViewWithId(R.id.tvChangeRecordTimeStarted)
-        onView(withClassName(equalTo(TimePicker::class.java.name)))
+        onView(withClassName(equalTo(CustomTimePicker::class.java.name)))
             .perform(PickerActions.setTime(hourStarted, minutesStarted))
         clickOnViewWithText(R.string.date_time_dialog_date)
         onView(withClassName(equalTo(DatePicker::class.java.name)))
@@ -133,7 +132,7 @@ class ChangeRecordTest : BaseUiTest() {
         clickOnViewWithId(R.id.btnDateTimeDialogPositive)
 
         clickOnViewWithId(R.id.tvChangeRecordTimeEnded)
-        onView(withClassName(equalTo(TimePicker::class.java.name)))
+        onView(withClassName(equalTo(CustomTimePicker::class.java.name)))
             .perform(PickerActions.setTime(hourEnded, minutesEnded))
         clickOnViewWithText(R.string.date_time_dialog_date)
         onView(withClassName(equalTo(DatePicker::class.java.name)))

@@ -1,24 +1,21 @@
 package com.example.util.simpletimetracker
 
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.action.ViewActions.swipeUp
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
-import androidx.test.espresso.matcher.ViewMatchers.isChecked
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
-import androidx.test.espresso.matcher.ViewMatchers.isNotChecked
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
-import com.example.util.simpletimetracker.utils.checkViewIsNotDisplayed
 import com.example.util.simpletimetracker.utils.clickOnRecyclerItem
-import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.getMillis
 import com.example.util.simpletimetracker.utils.longClickOnView
+import com.example.util.simpletimetracker.utils.nestedScrollTo
 import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.unconstrainedClickOnView
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -81,17 +78,15 @@ class RecordAdjustTimeTest : BaseUiTest() {
 
         // Change record
         longClickOnView(allOf(withText(name2), isCompletelyDisplayed()))
-        checkViewIsNotDisplayed(withId(R.id.checkboxChangeRecordAdjustPrevRecord))
         unconstrainedClickOnView(withId(R.id.btnChangeRecordTimeStartedAdjust))
         clickOnViewWithText("-30")
-        checkViewIsDisplayed(withId(R.id.checkboxChangeRecordAdjustPrevRecord))
-        onView(withId(R.id.checkboxChangeRecordAdjustPrevRecord)).check(matches(isNotChecked()))
         unconstrainedClickOnView(withId(R.id.btnChangeRecordTimeEndedAdjust))
         tryAction { clickOnViewWithText("+30") }
         clickOnViewWithText("+30")
-        clickOnViewWithId(R.id.checkboxChangeRecordAdjustPrevRecord)
-        onView(withId(R.id.checkboxChangeRecordAdjustPrevRecord)).check(matches(isChecked()))
-        clickOnViewWithText(R.string.change_record_save)
+        clickOnViewWithText(R.string.change_record_actions_hint)
+        onView(withText(R.string.change_record_adjust)).perform(nestedScrollTo())
+        onView(withId(R.id.containerChangeRecordAction)).perform(swipeUp())
+        clickOnViewWithText(R.string.change_record_adjust)
 
         // Check records
         checkRecord(
@@ -169,20 +164,17 @@ class RecordAdjustTimeTest : BaseUiTest() {
                 isCompletelyDisplayed()
             )
         )
-        checkViewIsNotDisplayed(withId(R.id.checkboxChangeRecordAdjustPrevRecord))
         unconstrainedClickOnView(withId(R.id.btnChangeRecordTimeStartedAdjust))
         clickOnViewWithText("-1")
         clickOnViewWithText("-1")
-        checkViewIsDisplayed(withId(R.id.checkboxChangeRecordAdjustPrevRecord))
-        onView(withId(R.id.checkboxChangeRecordAdjustPrevRecord)).check(matches(isNotChecked()))
         unconstrainedClickOnView(withId(R.id.btnChangeRecordTimeEndedAdjust))
         tryAction { clickOnViewWithText("+1") }
-        clickOnViewWithId(R.id.checkboxChangeRecordAdjustPrevRecord)
-        onView(withId(R.id.checkboxChangeRecordAdjustPrevRecord)).check(matches(isChecked()))
         clickOnViewWithText(R.string.change_record_type_field)
         clickOnRecyclerItem(R.id.rvChangeRecordType, withText(name2))
-        clickOnViewWithText(R.string.change_record_type_field)
-        clickOnViewWithText(R.string.change_record_save)
+        clickOnViewWithText(R.string.change_record_actions_hint)
+        onView(withText(R.string.change_record_adjust)).perform(nestedScrollTo())
+        onView(withId(R.id.containerChangeRecordAction)).perform(swipeUp())
+        clickOnViewWithText(R.string.change_record_adjust)
 
         // Check records
         val newUntrackedTimeStarted = timeEndedTimeStamp1 - TimeUnit.MINUTES.toMillis(2)
@@ -241,14 +233,12 @@ class RecordAdjustTimeTest : BaseUiTest() {
 
         // Change record
         longClickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name2)))
-        checkViewIsNotDisplayed(withId(R.id.checkboxChangeRecordAdjustPrevRecord))
         unconstrainedClickOnView(withId(R.id.btnChangeRecordTimeStartedAdjust))
         clickOnViewWithText("-5")
-        checkViewIsDisplayed(withId(R.id.checkboxChangeRecordAdjustPrevRecord))
-        onView(withId(R.id.checkboxChangeRecordAdjustPrevRecord)).check(matches(isNotChecked()))
-        clickOnViewWithId(R.id.checkboxChangeRecordAdjustPrevRecord)
-        onView(withId(R.id.checkboxChangeRecordAdjustPrevRecord)).check(matches(isChecked()))
-        clickOnViewWithText(R.string.change_record_save)
+        clickOnViewWithText(R.string.change_record_actions_hint)
+        onView(withText(R.string.change_record_adjust)).perform(nestedScrollTo())
+        onView(withId(R.id.containerChangeRecordAction)).perform(swipeUp())
+        clickOnViewWithText(R.string.change_record_adjust)
 
         // Check records
         val newTimeEnded = current - TimeUnit.MINUTES.toMillis(5)
