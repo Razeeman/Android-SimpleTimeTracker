@@ -387,11 +387,9 @@
                 <androidx.cardview.widget.CardView
                     android:id="@+id/fieldChangeRecordTimeSplit"
                     style="@style/InputFieldCard"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="@dimen/input_field_height"
-                    android:layout_marginStart="@dimen/input_field_margin"
-                    app:layout_constraintEnd_toStartOf="@id/btnChangeRecordSplit"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginHorizontal="@dimen/input_field_margin"
                     app:layout_constraintTop_toBottomOf="@id/tvChangeRecordTimeSplitHint"
                     app:layout_goneMarginEnd="@dimen/input_field_margin">
 
@@ -447,17 +445,22 @@
                     app:layout_constraintTop_toBottomOf="@id/fieldChangeRecordTimeSplit"
                     tools:visibility="visible" />
 
+                <include
+                    android:id="@+id/containerChangeRecordSplitPreview"
+                    layout="@layout/change_record_preview_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    app:layout_constraintTop_toBottomOf="@id/containerChangeRecordTimeSplitAdjust" />
+
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnChangeRecordSplit"
                     style="@style/AppButtonActive"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
                     android:text="@string/change_record_split"
-                    app:layout_constraintBottom_toBottomOf="@id/fieldChangeRecordTimeSplit"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/fieldChangeRecordTimeSplit"
-                    app:layout_constraintTop_toTopOf="@id/fieldChangeRecordTimeSplit" />
+                    app:layout_constraintTop_toBottomOf="@id/containerChangeRecordSplitPreview" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -549,6 +552,13 @@
                     android:textColor="?appTextHintColor"
                     app:layout_constraintTop_toBottomOf="@id/dividerChangeRecordMerge" />
 
+                <include
+                    android:id="@+id/containerChangeRecordMergePreview"
+                    layout="@layout/change_record_preview_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/tvChangeRecordMergeHint" />
+
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnChangeRecordMerge"
                     style="@style/AppButtonActive"
@@ -556,14 +566,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
                     android:text="@string/change_record_merge"
-                    app:layout_constraintTop_toBottomOf="@id/tvChangeRecordMergeHint" />
-
-                <include
-                    android:id="@+id/containerChangeRecordMergePreview"
-                    layout="@layout/change_record_preview_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/btnChangeRecordMerge" />
+                    app:layout_constraintTop_toBottomOf="@id/containerChangeRecordMergePreview" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

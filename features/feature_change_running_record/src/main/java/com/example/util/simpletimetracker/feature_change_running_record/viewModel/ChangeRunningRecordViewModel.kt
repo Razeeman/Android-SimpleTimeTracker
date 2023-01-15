@@ -14,11 +14,12 @@ import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
-import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.feature_change_record.interactor.ChangeRecordViewDataInteractor
+import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordChooserState
 import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordBaseViewModel
 import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordMergeDelegateImpl
+import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordSplitDelegateImpl
 import com.example.util.simpletimetracker.feature_change_running_record.R
 import com.example.util.simpletimetracker.feature_change_running_record.interactor.ChangeRunningRecordViewDataInteractor
 import com.example.util.simpletimetracker.feature_change_running_record.viewData.ChangeRunningRecordViewData
@@ -41,12 +42,13 @@ class ChangeRunningRecordViewModel @Inject constructor(
     prefsInteractor: PrefsInteractor,
     changeRecordViewDataInteractor: ChangeRecordViewDataInteractor,
     changeRecordMergeDelegate: ChangeRecordMergeDelegateImpl,
+    changeRecordSplitDelegate: ChangeRecordSplitDelegateImpl,
     recordInteractor: RecordInteractor,
+    addRecordMediator: AddRecordMediator,
     private val router: Router,
     private val addRunningRecordMediator: AddRunningRecordMediator,
     private val removeRunningRecordMediator: RemoveRunningRecordMediator,
     private val runningRecordInteractor: RunningRecordInteractor,
-    private val addRecordMediator: AddRecordMediator,
     private val changeRunningRecordViewDataInteractor: ChangeRunningRecordViewDataInteractor,
     private val resourceRepo: ResourceRepo,
 ) : ChangeRecordBaseViewModel(
@@ -59,11 +61,14 @@ class ChangeRunningRecordViewModel @Inject constructor(
     addRecordMediator,
     recordInteractor,
     changeRecordMergeDelegate,
+    changeRecordSplitDelegate,
 ) {
 
     lateinit var extra: ChangeRunningRecordParams
 
     override val mergeAvailable: Boolean = false
+    override val splitPreviewTimeEnded: Long get() = System.currentTimeMillis()
+    override val showTimeEndedOnSplitPreview: Boolean get() = false
 
     val record: LiveData<ChangeRunningRecordViewData> by lazy {
         return@lazy MutableLiveData<ChangeRunningRecordViewData>().let { initial ->
@@ -91,21 +96,6 @@ class ChangeRunningRecordViewModel @Inject constructor(
         removeRunningRecordMediator.remove(extra.id)
         addRunningRecordMediator.add(newTypeId, newTimeStarted, newComment, newCategoryIds)
         router.back()
-    }
-
-    override suspend fun onSplitClickDelegate() {
-        Record(
-            id = 0, // Zero id creates new record
-            typeId = newTypeId,
-            timeStarted = newTimeStarted,
-            timeEnded = newTimeSplit,
-            comment = newComment,
-            tagIds = newCategoryIds
-        ).let {
-            addRecordMediator.add(it)
-        }
-        newTimeStarted = newTimeSplit
-        onSaveClick()
     }
 
     override suspend fun onAdjustClickDelegate() {
@@ -146,10 +136,6 @@ class ChangeRunningRecordViewModel @Inject constructor(
         // Do nothing
     }
 
-    override fun onTimeSplitChanged() {
-        newTimeSplit = newTimeSplit.coerceIn(newTimeStarted..System.currentTimeMillis())
-    }
-
     override suspend fun updatePreview() {
         (record as MutableLiveData).value = loadPreviewViewData()
     }
@@ -187,6 +173,10 @@ class ChangeRunningRecordViewModel @Inject constructor(
             timerJob?.cancelAndJoin()
             while (isActive) {
                 updatePreview()
+                // Update split preview only if it is visible
+                if (chooserState.value?.current is ChangeRecordChooserState.State.Action) {
+                    updateTimeSplitValue()
+                }
                 delay(TIMER_UPDATE)
             }
         }

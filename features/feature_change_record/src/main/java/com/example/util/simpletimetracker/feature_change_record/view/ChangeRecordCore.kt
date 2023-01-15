@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.feature_change_record.view
 
 import android.view.View
 import androidx.cardview.widget.CardView
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.viewbinding.ViewBinding
@@ -27,7 +28,7 @@ import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeR
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordChooserState.State.Tag
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordPreview
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordSimpleViewData
-import com.example.util.simpletimetracker.feature_change_record.viewData.TimeAdjustmentState
+import com.example.util.simpletimetracker.feature_change_record.model.TimeAdjustmentState
 import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordBaseViewModel
 import com.example.util.simpletimetracker.feature_views.RecordSimpleView
 import com.example.util.simpletimetracker.feature_views.extension.rotateDown
@@ -157,6 +158,7 @@ class ChangeRecordCore(
             lastComments.observe(commentsAdapter::replace)
             comment.observe { updateUi(binding, it) }
             mergePreview.observe { setMergePreview(it, binding) }
+            splitPreview.observe { setSplitPreview(it, binding) }
         }
     }
 
@@ -228,6 +230,25 @@ class ChangeRecordCore(
             is ChangeRecordPreview.Available -> {
                 containerChangeRecordMerge.isVisible = true
                 with(containerChangeRecordMergePreview) {
+                    viewChangeRecordPreviewBefore.setData(data.before)
+                    viewChangeRecordPreviewAfter.setData(data.after)
+                }
+            }
+        }
+    }
+
+    private fun setSplitPreview(
+        data: ChangeRecordPreview,
+        binding: ChangeRecordCoreLayoutBinding,
+    ) = with(binding) {
+        when (data) {
+            is ChangeRecordPreview.NotAvailable -> {
+                containerChangeRecordSplit.isVisible = false
+            }
+            is ChangeRecordPreview.Available -> {
+                containerChangeRecordSplit.isVisible = true
+                with(containerChangeRecordSplitPreview) {
+                    ivChangeRecordPreviewCompare.isInvisible = true
                     viewChangeRecordPreviewBefore.setData(data.before)
                     viewChangeRecordPreviewAfter.setData(data.after)
                 }

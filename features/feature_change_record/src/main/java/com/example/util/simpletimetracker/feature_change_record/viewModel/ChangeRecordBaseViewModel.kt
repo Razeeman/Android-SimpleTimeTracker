@@ -11,8 +11,6 @@ import com.example.util.simpletimetracker.core.interactor.RecordTagViewDataInter
 import com.example.util.simpletimetracker.core.interactor.RecordTypesViewDataInteractor
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.view.timeAdjustment.TimeAdjustmentView
-import com.example.util.simpletimetracker.domain.extension.flip
-import com.example.util.simpletimetracker.domain.extension.orFalse
 import com.example.util.simpletimetracker.domain.interactor.AddRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
@@ -22,9 +20,9 @@ import com.example.util.simpletimetracker.feature_base_adapter.category.Category
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_change_record.R
 import com.example.util.simpletimetracker.feature_change_record.interactor.ChangeRecordViewDataInteractor
+import com.example.util.simpletimetracker.feature_change_record.model.TimeAdjustmentState
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordChooserState
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordCommentViewData
-import com.example.util.simpletimetracker.feature_change_record.viewData.TimeAdjustmentState
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.notification.ToastParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTagFromScreen
@@ -45,8 +43,10 @@ abstract class ChangeRecordBaseViewModel(
     private val addRecordMediator: AddRecordMediator,
     private val recordInteractor: RecordInteractor,
     private val changeRecordMergeDelegate: ChangeRecordMergeDelegateImpl,
+    private val changeRecordSplitDelegate: ChangeRecordSplitDelegateImpl,
 ) : ViewModel(),
-    ChangeRecordMergeDelegate by changeRecordMergeDelegate {
+    ChangeRecordMergeDelegate by changeRecordMergeDelegate,
+    ChangeRecordSplitDelegate by changeRecordSplitDelegate {
 
     val types: LiveData<List<ViewHolderType>> by lazy {
         return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
@@ -75,9 +75,6 @@ abstract class ChangeRecordBaseViewModel(
     val timeAdjustmentItems: LiveData<List<ViewHolderType>> by lazy {
         MutableLiveData(loadTimeAdjustmentItems())
     }
-    val timeSplitAdjustmentItems: LiveData<List<ViewHolderType>> by lazy {
-        MutableLiveData(loadTimeSplitAdjustmentItems())
-    }
     val chooserState: LiveData<ChangeRecordChooserState> = MutableLiveData(
         ChangeRecordChooserState(
             current = ChangeRecordChooserState.State.Closed,
@@ -85,8 +82,6 @@ abstract class ChangeRecordBaseViewModel(
         )
     )
     val timeAdjustmentState: LiveData<TimeAdjustmentState> = MutableLiveData(TimeAdjustmentState.HIDDEN)
-    val timeSplitAdjustmentState: LiveData<Boolean> = MutableLiveData(false)
-    val timeSplitText: LiveData<String> = MutableLiveData()
     val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val keyboardVisibility: LiveData<Boolean> = MutableLiveData(false)
     val comment: LiveData<String> = MutableLiveData()
@@ -99,19 +94,20 @@ abstract class ChangeRecordBaseViewModel(
     protected var newCategoryIds: MutableList<Long> = mutableListOf()
     protected var originalTimeStarted: Long = 0
     protected var originalTimeEnded: Long = 0
+
     protected var prevRecord: Record? = null
     protected var nextRecord: Record? = null
 
     protected abstract suspend fun updatePreview()
     protected abstract fun getChangeCategoryParams(data: ChangeTagData): ChangeRecordTagFromScreen
-    protected abstract fun onTimeSplitChanged()
     protected abstract fun onTimeStartedChanged()
     protected abstract fun onTimeEndedChanged()
     protected abstract suspend fun onSaveClickDelegate()
-    protected abstract suspend fun onSplitClickDelegate()
     protected abstract suspend fun onAdjustClickDelegate()
     protected open suspend fun onContinueClickDelegate() {}
     protected abstract val mergeAvailable: Boolean
+    protected abstract val splitPreviewTimeEnded: Long
+    protected abstract val showTimeEndedOnSplitPreview: Boolean
 
     protected open suspend fun initializePreviewViewData() {
         initializePrevNextRecords()
@@ -145,6 +141,19 @@ abstract class ChangeRecordBaseViewModel(
             }?.let {
                 addRecordMediator.add(it)
             }
+    }
+
+    protected suspend fun updateTimeSplitValue() {
+        changeRecordSplitDelegate.updateTimeSplitValue(
+            newTimeSplit = newTimeSplit
+        )
+        changeRecordSplitDelegate.updateSplitPreviewViewData(
+            newTypeId = newTypeId,
+            newTimeStarted = newTimeStarted,
+            newTimeSplit = newTimeSplit,
+            newTimeEnded = splitPreviewTimeEnded,
+            showTimeEnded = showTimeEndedOnSplitPreview,
+        )
     }
 
     fun onTypeChooserClick() {
@@ -183,7 +192,19 @@ abstract class ChangeRecordBaseViewModel(
 
     fun onSplitClick() {
         onRecordChangeButtonClick(
-            onProceed = ::onSplitClickDelegate,
+            onProceed = {
+                changeRecordSplitDelegate.onSplitClickDelegate(
+                    newTypeId = newTypeId,
+                    newTimeStarted = newTimeStarted,
+                    newTimeSplit = newTimeSplit,
+                    newComment = newComment,
+                    newCategoryIds = newCategoryIds,
+                    onSplitComplete = {
+                        newTimeStarted = newTimeSplit
+                        onSaveClick()
+                    }
+                )
+            },
         )
     }
 
@@ -207,7 +228,7 @@ abstract class ChangeRecordBaseViewModel(
     fun onMergeClick() {
         onRecordChangeButtonClick(
             onProceed = {
-                onMergeClickDelegate(
+                changeRecordMergeDelegate.onMergeClickDelegate(
                     prevRecord = prevRecord,
                     newTimeEnded = newTimeEnded,
                     onMergeComplete = {
@@ -227,6 +248,7 @@ abstract class ChangeRecordBaseViewModel(
                 updatePreview()
                 updateCategoriesViewData()
                 updateLastCommentsViewData()
+                updateTimeSplitValue()
             }
         }
         onTypeChooserClick()
@@ -331,11 +353,6 @@ abstract class ChangeRecordBaseViewModel(
             clicked = TimeAdjustmentState.TIME_ENDED,
             other = TimeAdjustmentState.TIME_STARTED
         )
-    }
-
-    fun onAdjustTimeSplitClick() {
-        val newValue = timeSplitAdjustmentState.value?.flip().orFalse()
-        timeSplitAdjustmentState.set(newValue)
     }
 
     fun onAdjustTimeItemClick(viewData: TimeAdjustmentView.ViewData) {
@@ -479,6 +496,10 @@ abstract class ChangeRecordBaseViewModel(
         }
     }
 
+    private fun onTimeSplitChanged() {
+        newTimeSplit = newTimeSplit.coerceIn(newTimeStarted..splitPreviewTimeEnded)
+    }
+
     private suspend fun initializePrevNextRecords() {
         // TODO get directly from room
         val records = recordInteractor.getAll()
@@ -511,19 +532,6 @@ abstract class ChangeRecordBaseViewModel(
 
     private fun loadTimeAdjustmentItems(): List<ViewHolderType> {
         return changeRecordViewDataInteractor.getTimeAdjustmentItems()
-    }
-
-    private fun loadTimeSplitAdjustmentItems(): List<ViewHolderType> {
-        return changeRecordViewDataInteractor.getTimeAdjustmentItems()
-    }
-
-    private suspend fun updateTimeSplitValue() {
-        val data = loadTimeSplitValue()
-        timeSplitText.set(data)
-    }
-
-    private suspend fun loadTimeSplitValue(): String {
-        return changeRecordViewDataInteractor.mapTime(newTimeSplit)
     }
 
     private fun updateLastCommentsViewData() = viewModelScope.launch {

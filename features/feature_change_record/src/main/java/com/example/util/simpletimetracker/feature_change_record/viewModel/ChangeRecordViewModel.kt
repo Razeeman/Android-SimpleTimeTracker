@@ -33,6 +33,7 @@ class ChangeRecordViewModel @Inject constructor(
     prefsInteractor: PrefsInteractor,
     resourceRepo: ResourceRepo,
     changeRecordMergeDelegate: ChangeRecordMergeDelegateImpl,
+    changeRecordSplitDelegate: ChangeRecordSplitDelegateImpl,
     private val router: Router,
     private val recordInteractor: RecordInteractor,
     private val addRecordMediator: AddRecordMediator,
@@ -52,12 +53,14 @@ class ChangeRecordViewModel @Inject constructor(
     addRecordMediator,
     recordInteractor,
     changeRecordMergeDelegate,
+    changeRecordSplitDelegate,
 ) {
 
     lateinit var extra: ChangeRecordParams
 
-    override val mergeAvailable: Boolean
-        get() = extra is ChangeRecordParams.Untracked
+    override val mergeAvailable: Boolean get() = extra is ChangeRecordParams.Untracked
+    override val splitPreviewTimeEnded: Long get() = newTimeEnded
+    override val showTimeEndedOnSplitPreview: Boolean get() = true
 
     val record: LiveData<ChangeRecordViewData> by lazy {
         return@lazy MutableLiveData<ChangeRecordViewData>().let { initial ->
@@ -91,21 +94,6 @@ class ChangeRecordViewModel @Inject constructor(
             addRecordMediator.add(it)
             router.back()
         }
-    }
-
-    override suspend fun onSplitClickDelegate() {
-        Record(
-            id = 0L, // Zero id creates new record
-            typeId = newTypeId,
-            timeStarted = newTimeStarted,
-            timeEnded = newTimeSplit,
-            comment = newComment,
-            tagIds = newCategoryIds
-        ).let {
-            addRecordMediator.add(it)
-        }
-        newTimeStarted = newTimeSplit
-        onSaveClick()
     }
 
     override suspend fun onContinueClickDelegate() {
@@ -146,10 +134,6 @@ class ChangeRecordViewModel @Inject constructor(
     override fun onTimeStartedChanged() {
         if (newTimeStarted > newTimeEnded) newTimeEnded = newTimeStarted
         if (newTimeStarted > newTimeSplit) newTimeSplit = newTimeStarted
-    }
-
-    override fun onTimeSplitChanged() {
-        newTimeSplit = newTimeSplit.coerceIn(newTimeStarted..newTimeEnded)
     }
 
     private fun getInitialDate(daysFromToday: Int): Long {

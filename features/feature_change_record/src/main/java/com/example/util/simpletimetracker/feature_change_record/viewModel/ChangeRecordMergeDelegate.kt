@@ -13,12 +13,6 @@ import javax.inject.Inject
 
 interface ChangeRecordMergeDelegate {
     val mergePreview: LiveData<ChangeRecordPreview>
-
-    suspend fun onMergeClickDelegate(
-        prevRecord: Record?,
-        newTimeEnded: Long,
-        onMergeComplete: () -> Unit,
-    )
 }
 
 class ChangeRecordMergeDelegateImpl @Inject constructor(
@@ -27,7 +21,7 @@ class ChangeRecordMergeDelegateImpl @Inject constructor(
 ) : ChangeRecordMergeDelegate {
     override val mergePreview: LiveData<ChangeRecordPreview> = MutableLiveData()
 
-    override suspend fun onMergeClickDelegate(
+    suspend fun onMergeClickDelegate(
         prevRecord: Record?,
         newTimeEnded: Long,
         onMergeComplete: () -> Unit,
@@ -39,6 +33,15 @@ class ChangeRecordMergeDelegateImpl @Inject constructor(
             addRecordMediator.add(it)
             onMergeComplete()
         }
+    }
+
+    private fun getChangedRecord(
+        previousRecord: Record,
+        newTimeEnded: Long,
+    ): Record {
+        return previousRecord.copy(
+            timeEnded = newTimeEnded,
+        )
     }
 
     suspend fun updateMergePreviewViewData(
@@ -53,15 +56,6 @@ class ChangeRecordMergeDelegateImpl @Inject constructor(
             newTimeEnded = newTimeEnded
         )
         mergePreview.set(data)
-    }
-
-    private fun getChangedRecord(
-        previousRecord: Record,
-        newTimeEnded: Long,
-    ): Record {
-        return previousRecord.copy(
-            timeEnded = newTimeEnded,
-        )
     }
 
     private suspend fun loadMergePreviewViewData(
@@ -85,7 +79,7 @@ class ChangeRecordMergeDelegateImpl @Inject constructor(
         )
     }
 
-    fun map(preview: ChangeRecordViewData): ChangeRecordSimpleViewData {
+    private fun map(preview: ChangeRecordViewData): ChangeRecordSimpleViewData {
         return ChangeRecordSimpleViewData(
             name = preview.name,
             time = "${preview.timeStarted} - ${preview.timeFinished}",
