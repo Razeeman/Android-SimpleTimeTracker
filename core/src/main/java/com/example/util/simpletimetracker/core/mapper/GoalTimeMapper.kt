@@ -25,6 +25,7 @@ class GoalTimeMapper @Inject constructor(
             is GoalTimeType.Session -> R.string.change_record_type_session_goal_time
             is GoalTimeType.Day -> R.string.change_record_type_daily_goal_time
             is GoalTimeType.Week -> R.string.change_record_type_weekly_goal_time
+            is GoalTimeType.Month -> R.string.change_record_type_monthly_goal_time
         }.let(resourceRepo::getString).lowercase()
 
         val durationLeft = goalTime * 1000 - current

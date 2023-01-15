@@ -19,6 +19,7 @@ data class ChangeRunningRecordParams(
         var goalTime: GoalTimeParams,
         var goalTime2: GoalTimeParams,
         var goalTime3: GoalTimeParams,
+        var goalTime4: GoalTimeParams,
         val iconId: RecordTypeIconParams,
         @ColorInt val color: Int,
         val comment: String,

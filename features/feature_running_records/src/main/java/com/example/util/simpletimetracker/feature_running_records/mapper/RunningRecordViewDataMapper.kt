@@ -35,6 +35,7 @@ class RunningRecordViewDataMapper @Inject constructor(
         runningRecord: RunningRecord,
         dailyCurrent: Long,
         weeklyCurrent: Long,
+        monthlyCurrent: Long,
         recordType: RecordType,
         recordTags: List<RecordTag>,
         isDarkTheme: Boolean,
@@ -77,6 +78,11 @@ class RunningRecordViewDataMapper @Inject constructor(
                 goalTime = recordType.weeklyGoalTime,
                 current = weeklyCurrent,
                 type = GoalTimeType.Week,
+            ),
+            goalTime4 = goalTimeMapper.map(
+                goalTime = recordType.monthlyGoalTime,
+                current = monthlyCurrent,
+                type = GoalTimeType.Month,
             ),
             iconId = recordType.icon
                 .let(iconMapper::mapIcon),

@@ -187,6 +187,7 @@ class ChangeRecordTypeFragment :
         groupChangeRecordTypeSessionGoalTime.setOnClick(viewModel::onSessionGoalTimeClick)
         groupChangeRecordTypeDailyGoalTime.setOnClick(viewModel::onDailyGoalTimeClick)
         groupChangeRecordTypeWeeklyGoalTime.setOnClick(viewModel::onWeeklyGoalTimeClick)
+        groupChangeRecordTypeMonthlyGoalTime.setOnClick(viewModel::onMonthlyGoalTimeClick)
         btnChangeRecordTypeSave.setOnClick(viewModel::onSaveClick)
         btnChangeRecordTypeDelete.setOnClick(viewModel::onDeleteClick)
         btnChangeRecordTypeIconSwitch.listener = {
@@ -221,6 +222,7 @@ class ChangeRecordTypeFragment :
             sessionGoalTimeViewData.observe(tvChangeRecordTypeSessionGoalTime::setText)
             dailyGoalTimeViewData.observe(tvChangeRecordTypeDailyGoalTime::setText)
             weeklyGoalTimeViewData.observe(tvChangeRecordTypeWeeklyGoalTime::setText)
+            monthlyGoalTimeViewData.observe(tvChangeRecordTypeMonthlyGoalTime::setText)
             chooserState.observe(::updateChooserState)
             keyboardVisibility.observe { visible ->
                 if (visible) showKeyboard(etChangeRecordTypeName) else hideKeyboard()

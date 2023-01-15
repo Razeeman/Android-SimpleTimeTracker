@@ -51,6 +51,7 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
         listOf(
             GoalTimeType.Day,
             GoalTimeType.Week,
+            GoalTimeType.Month,
         ).forEach(rangeEndScheduler::cancelSchedule)
 
         // Session
@@ -82,13 +83,25 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
                 rangeEndScheduler.schedule(range.timeEnded, GoalTimeType.Week)
             }
         }
+
+        // Monthly
+        val monthlyGoalTime = recordType.monthlyGoalTime * 1000
+        if (monthlyGoalTime > 0) {
+            val range = getCurrentRecordsDurationInteractor.getRange(RangeLength.Month)
+            val monthlyCurrent = getCurrentRecordsDurationInteractor.getRangeCurrent(runningRecord, range)
+            if (monthlyGoalTime > monthlyCurrent) {
+                scheduler.schedule(monthlyGoalTime - monthlyCurrent, typeId, GoalTimeType.Month)
+                rangeEndScheduler.schedule(range.timeEnded, GoalTimeType.Month)
+            }
+        }
     }
 
     override fun cancel(typeId: Long) {
         listOf(
             GoalTimeType.Session,
             GoalTimeType.Day,
-            GoalTimeType.Week
+            GoalTimeType.Week,
+            GoalTimeType.Month,
         ).forEach {
             scheduler.cancelSchedule(typeId, it)
             manager.hide(typeId, it)
@@ -104,11 +117,13 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
                 is GoalTimeType.Session -> recordType.goalTime
                 is GoalTimeType.Day -> recordType.dailyGoalTime
                 is GoalTimeType.Week -> recordType.weeklyGoalTime
+                is GoalTimeType.Month -> recordType.monthlyGoalTime
             }.let(timeMapper::formatDuration)
             val goalTimeTypeString = when (goalTimeType) {
                 is GoalTimeType.Session -> R.string.change_record_type_session_goal_time
                 is GoalTimeType.Day -> R.string.change_record_type_daily_goal_time
                 is GoalTimeType.Week -> R.string.change_record_type_weekly_goal_time
+                is GoalTimeType.Month -> R.string.change_record_type_monthly_goal_time
             }.let(resourceRepo::getString).let { " ($it)" }
 
             NotificationGoalTimeParams(

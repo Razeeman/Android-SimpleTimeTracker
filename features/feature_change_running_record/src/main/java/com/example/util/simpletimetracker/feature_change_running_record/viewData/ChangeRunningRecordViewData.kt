@@ -13,6 +13,7 @@ data class ChangeRunningRecordViewData(
     var goalTime: GoalTimeViewData,
     var goalTime2: GoalTimeViewData,
     var goalTime3: GoalTimeViewData,
+    var goalTime4: GoalTimeViewData,
     val iconId: RecordTypeIcon,
     @ColorInt val color: Int,
     val comment: String

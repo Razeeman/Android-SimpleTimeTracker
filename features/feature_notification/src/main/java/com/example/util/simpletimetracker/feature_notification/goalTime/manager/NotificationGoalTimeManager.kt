@@ -63,6 +63,7 @@ class NotificationGoalTimeManager @Inject constructor(
             is GoalTimeType.Session -> "" // back support for previous versions, keep same tag
             is GoalTimeType.Day -> "day"
             is GoalTimeType.Week -> "week"
+            is GoalTimeType.Month -> "month"
         }
     }
 

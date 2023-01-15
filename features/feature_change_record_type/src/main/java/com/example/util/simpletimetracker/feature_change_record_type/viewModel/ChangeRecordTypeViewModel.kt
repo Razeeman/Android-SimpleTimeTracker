@@ -133,6 +133,14 @@ class ChangeRecordTypeViewModel @Inject constructor(
             initial
         }
     }
+    val monthlyGoalTimeViewData: LiveData<String> by lazy {
+        MutableLiveData<String>().let { initial ->
+            viewModelScope.launch {
+                initial.value = loadMonthlyGoalTimeViewData()
+            }
+            initial
+        }
+    }
     val chooserState: LiveData<ChangeRecordTypeChooserState> = MutableLiveData(
         ChangeRecordTypeChooserState(
             current = ChangeRecordTypeChooserState.State.Closed,
@@ -156,6 +164,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     private var newGoalTime: Long = 0L
     private var newDailyGoalTime: Long = 0L
     private var newWeeklyGoalTime: Long = 0L
+    private var newMonthlyGoalTime: Long = 0L
 
     fun onVisible() = viewModelScope.launch {
         initializeSelectedCategories()
@@ -334,6 +343,15 @@ class ChangeRecordTypeViewModel @Inject constructor(
         )
     }
 
+    fun onMonthlyGoalTimeClick() {
+        router.navigate(
+            DurationDialogParams(
+                tag = MONTHLY_GOAL_TIME_DIALOG_TAG,
+                duration = newMonthlyGoalTime
+            )
+        )
+    }
+
     fun onDurationSet(tag: String?, duration: Long, anchor: Any) {
         when (tag) {
             SESSION_GOAL_TIME_DIALOG_TAG -> viewModelScope.launch {
@@ -349,6 +367,11 @@ class ChangeRecordTypeViewModel @Inject constructor(
             WEEKLY_GOAL_TIME_DIALOG_TAG -> viewModelScope.launch {
                 newWeeklyGoalTime = duration
                 updateWeeklyGoalTimeViewData()
+                checkExactAlarmPermissionInteractor.execute(anchor)
+            }
+            MONTHLY_GOAL_TIME_DIALOG_TAG -> viewModelScope.launch {
+                newMonthlyGoalTime = duration
+                updateMonthlyGoalTimeViewData()
                 checkExactAlarmPermissionInteractor.execute(anchor)
             }
         }
@@ -367,6 +390,10 @@ class ChangeRecordTypeViewModel @Inject constructor(
             WEEKLY_GOAL_TIME_DIALOG_TAG -> viewModelScope.launch {
                 newWeeklyGoalTime = 0
                 updateWeeklyGoalTimeViewData()
+            }
+            MONTHLY_GOAL_TIME_DIALOG_TAG -> viewModelScope.launch {
+                newMonthlyGoalTime = 0
+                updateMonthlyGoalTimeViewData()
             }
         }
     }
@@ -480,6 +507,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
             goalTime = newGoalTime,
             dailyGoalTime = newDailyGoalTime,
             weeklyGoalTime = newWeeklyGoalTime,
+            monthlyGoalTime = newMonthlyGoalTime,
         )
 
         return recordTypeInteractor.add(recordType)
@@ -502,11 +530,13 @@ class ChangeRecordTypeViewModel @Inject constructor(
                 newGoalTime = it.goalTime
                 newDailyGoalTime = it.dailyGoalTime
                 newWeeklyGoalTime = it.weeklyGoalTime
+                newMonthlyGoalTime = it.monthlyGoalTime
                 updateIcons()
                 updateColors()
                 updateSessionGoalTimeViewData()
                 updateDailyGoalTimeViewData()
                 updateWeeklyGoalTimeViewData()
+                updateMonthlyGoalTimeViewData()
             }
     }
 
@@ -533,6 +563,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
             goalTime = 0,
             dailyGoalTime = 0,
             weeklyGoalTime = 0,
+            monthlyGoalTime = 0,
         ).let { recordTypeViewDataMapper.map(it, isDarkTheme) }
     }
 
@@ -615,6 +646,15 @@ class ChangeRecordTypeViewModel @Inject constructor(
         return newWeeklyGoalTime.let(changeRecordTypeMapper::toGoalTimeViewData)
     }
 
+    private fun updateMonthlyGoalTimeViewData() {
+        val data = loadMonthlyGoalTimeViewData()
+        monthlyGoalTimeViewData.set(data)
+    }
+
+    private fun loadMonthlyGoalTimeViewData(): String {
+        return newMonthlyGoalTime.let(changeRecordTypeMapper::toGoalTimeViewData)
+    }
+
     private fun updateIconScrollPosition(position: Int) {
         iconsScrollPosition.set(ChangeRecordTypeScrollViewData.ScrollTo(position))
     }
@@ -628,5 +668,6 @@ class ChangeRecordTypeViewModel @Inject constructor(
         private const val SESSION_GOAL_TIME_DIALOG_TAG = "session_goal_time_dialog_tag"
         private const val DAILY_GOAL_TIME_DIALOG_TAG = "daily_goal_time_dialog_tag"
         private const val WEEKLY_GOAL_TIME_DIALOG_TAG = "weekly_goal_time_dialog_tag"
+        private const val MONTHLY_GOAL_TIME_DIALOG_TAG = "monthly_goal_time_dialog_tag"
     }
 }

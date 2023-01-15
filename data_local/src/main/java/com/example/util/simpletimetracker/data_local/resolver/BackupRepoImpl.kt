@@ -200,7 +200,7 @@ class BackupRepoImpl @Inject constructor(
 
     private fun toBackupString(recordType: RecordType): String {
         return String.format(
-            "$ROW_RECORD_TYPE\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n",
+            "$ROW_RECORD_TYPE\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n",
             recordType.id.toString(),
             recordType.name.clean(),
             recordType.icon,
@@ -210,6 +210,7 @@ class BackupRepoImpl @Inject constructor(
             recordType.color.colorInt,
             recordType.dailyGoalTime.toString(),
             recordType.weeklyGoalTime.toString(),
+            recordType.monthlyGoalTime.toString(),
         )
     }
 
@@ -294,6 +295,7 @@ class BackupRepoImpl @Inject constructor(
             goalTime = parts.getOrNull(6)?.toLongOrNull().orZero(),
             dailyGoalTime = parts.getOrNull(8)?.toLongOrNull().orZero(),
             weeklyGoalTime = parts.getOrNull(9)?.toLongOrNull().orZero(),
+            monthlyGoalTime = parts.getOrNull(10)?.toLongOrNull().orZero(),
         )
     }
 

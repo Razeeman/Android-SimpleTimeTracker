@@ -107,6 +107,19 @@ class RunningRecordView @JvmOverloads constructor(
             field = value
         }
 
+    var itemGoalTime4: String = ""
+        set(value) {
+            binding.tvRunningRecordItemGoalTime4.text = value
+            binding.tvRunningRecordItemGoalTime4.visible = value.isNotEmpty()
+            field = value
+        }
+
+    var itemGoalTime4Complete: Boolean = false
+        set(value) {
+            binding.ivRunningRecordItemGoalTimeCheck4.visible = value
+            field = value
+        }
+
     var itemComment: String = ""
         set(value) {
             binding.tvRunningRecordItemComment.text = value

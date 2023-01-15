@@ -25,6 +25,10 @@ class GetCurrentRecordsDurationInteractor @Inject constructor(
         return getRangeCurrent(runningRecord, getRange(RangeLength.Week))
     }
 
+    suspend fun getMonthlyCurrent(runningRecord: RunningRecord): Long {
+        return getRangeCurrent(runningRecord, getRange(RangeLength.Month))
+    }
+
     suspend fun getRangeCurrent(
         runningRecord: RunningRecord,
         range: Range

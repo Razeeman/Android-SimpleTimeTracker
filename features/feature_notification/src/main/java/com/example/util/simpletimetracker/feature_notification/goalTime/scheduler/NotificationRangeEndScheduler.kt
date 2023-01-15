@@ -29,6 +29,7 @@ class NotificationRangeEndScheduler @Inject constructor(
                 is GoalTimeType.Session -> return null // No need to reschedule.
                 is GoalTimeType.Day -> NotificationReceiver.ACTION_GOAL_TIME_REMINDER_DAY_END
                 is GoalTimeType.Week -> NotificationReceiver.ACTION_GOAL_TIME_REMINDER_WEEK_END
+                is GoalTimeType.Month -> NotificationReceiver.ACTION_GOAL_TIME_REMINDER_MONTH_END
             }
         }
 

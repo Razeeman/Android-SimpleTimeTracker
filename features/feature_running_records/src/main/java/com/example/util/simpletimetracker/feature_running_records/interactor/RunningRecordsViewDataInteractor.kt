@@ -54,11 +54,17 @@ class RunningRecordsViewDataInteractor @Inject constructor(
                         } else {
                             0L
                         }
+                        val monthlyCurrent = if (recordType.monthlyGoalTime > 0L) {
+                            getCurrentRecordsDurationInteractor.getMonthlyCurrent(runningRecord)
+                        } else {
+                            0L
+                        }
 
                         mapper.map(
                             runningRecord = runningRecord,
                             dailyCurrent = dailyCurrent,
                             weeklyCurrent = weeklyCurrent,
+                            monthlyCurrent = monthlyCurrent,
                             recordType = recordType,
                             recordTags = recordTags.filter { it.id in runningRecord.tagIds },
                             isDarkTheme = isDarkTheme,

@@ -15,6 +15,7 @@ class NotificationGoalTimeBroadcastController @Inject constructor(
     }
 
     fun onRangeEndReminder() {
+        // TODO reschedule only from this range (day, week, etc)
         reschedule()
     }
 

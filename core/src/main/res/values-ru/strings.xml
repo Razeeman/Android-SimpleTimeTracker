@@ -124,6 +124,7 @@
     <string name="change_record_type_session_goal_time">Сессия</string>
     <string name="change_record_type_daily_goal_time">@string/range_day</string>
     <string name="change_record_type_weekly_goal_time">@string/range_week</string>
+    <string name="change_record_type_monthly_goal_time">@string/range_month</string>
 
     <!--  Activity filters  -->
     <string name="change_activity_filter_removed">Фильтр удален</string>

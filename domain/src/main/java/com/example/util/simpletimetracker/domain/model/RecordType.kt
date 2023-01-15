@@ -9,4 +9,5 @@ data class RecordType(
     val goalTime: Long, // Seconds.
     val dailyGoalTime: Long, // Seconds.
     val weeklyGoalTime: Long, // Seconds.
+    val monthlyGoalTime: Long, // Seconds.
 )

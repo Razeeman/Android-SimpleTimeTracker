@@ -99,9 +99,8 @@ class StatisticsDetailChartInteractor @Inject constructor(
         return when (appliedChartGrouping) {
             ChartGrouping.DAILY -> type.dailyGoalTime
             ChartGrouping.WEEKLY -> type.weeklyGoalTime
-            ChartGrouping.MONTHLY,
-            ChartGrouping.YEARLY,
-            -> 0
+            ChartGrouping.MONTHLY -> type.monthlyGoalTime
+            ChartGrouping.YEARLY -> 0
         } * 1000
     }
 

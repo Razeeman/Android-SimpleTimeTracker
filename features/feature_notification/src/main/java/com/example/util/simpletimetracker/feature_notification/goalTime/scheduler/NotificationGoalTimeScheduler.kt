@@ -30,6 +30,7 @@ class NotificationGoalTimeScheduler @Inject constructor(
                 is GoalTimeType.Session -> NotificationReceiver.ACTION_GOAL_TIME_REMINDER_SESSION
                 is GoalTimeType.Day -> NotificationReceiver.ACTION_GOAL_TIME_REMINDER_DAILY
                 is GoalTimeType.Week -> NotificationReceiver.ACTION_GOAL_TIME_REMINDER_WEEKLY
+                is GoalTimeType.Month -> NotificationReceiver.ACTION_GOAL_TIME_REMINDER_MONTHLY
             }
             putExtra(NotificationReceiver.EXTRA_GOAL_TIME_TYPE_ID, typeId)
         }

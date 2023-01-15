@@ -39,18 +39,21 @@ class NotificationReceiver : BroadcastReceiver() {
             ACTION_GOAL_TIME_REMINDER_SESSION,
             ACTION_GOAL_TIME_REMINDER_DAILY,
             ACTION_GOAL_TIME_REMINDER_WEEKLY,
+            ACTION_GOAL_TIME_REMINDER_MONTHLY,
             -> {
                 val typeId = intent.getLongExtra(EXTRA_GOAL_TIME_TYPE_ID, 0)
                 val goalTimeType = when (action) {
                     ACTION_GOAL_TIME_REMINDER_SESSION -> GoalTimeType.Session
                     ACTION_GOAL_TIME_REMINDER_DAILY -> GoalTimeType.Day
                     ACTION_GOAL_TIME_REMINDER_WEEKLY -> GoalTimeType.Week
+                    ACTION_GOAL_TIME_REMINDER_MONTHLY -> GoalTimeType.Month
                     else -> GoalTimeType.Session
                 }
                 goalTimeController.onGoalTimeReminder(typeId, goalTimeType)
             }
             ACTION_GOAL_TIME_REMINDER_DAY_END,
             ACTION_GOAL_TIME_REMINDER_WEEK_END,
+            ACTION_GOAL_TIME_REMINDER_MONTH_END,
             -> {
                 goalTimeController.onRangeEndReminder()
             }
@@ -92,10 +95,14 @@ class NotificationReceiver : BroadcastReceiver() {
             "com.razeeman.util.simpletimetracker.ACTION_GOAL_TIME_REMINDER_DAILY"
         const val ACTION_GOAL_TIME_REMINDER_WEEKLY =
             "com.razeeman.util.simpletimetracker.ACTION_GOAL_TIME_REMINDER_WEEKLY"
+        const val ACTION_GOAL_TIME_REMINDER_MONTHLY =
+            "com.razeeman.util.simpletimetracker.ACTION_GOAL_TIME_REMINDER_MONTHLY"
         const val ACTION_GOAL_TIME_REMINDER_DAY_END =
             "com.razeeman.util.simpletimetracker.ACTION_GOAL_TIME_REMINDER_DAY_END"
         const val ACTION_GOAL_TIME_REMINDER_WEEK_END =
             "com.razeeman.util.simpletimetracker.ACTION_GOAL_TIME_REMINDER_WEEK_END"
+        const val ACTION_GOAL_TIME_REMINDER_MONTH_END =
+            "com.razeeman.util.simpletimetracker.ACTION_GOAL_TIME_REMINDER_MONTH_END"
 
         const val EXTRA_GOAL_TIME_TYPE_ID =
             "extra_goal_time_type_id"

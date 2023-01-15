@@ -37,4 +37,8 @@ data class RecordTypeDBO(
     // Seconds.
     @ColumnInfo(name = "weekly_goal_time")
     val weeklyGoalTime: Long,
+
+    // Seconds.
+    @ColumnInfo(name = "monthly_goal_time")
+    val monthlyGoalTime: Long,
 )

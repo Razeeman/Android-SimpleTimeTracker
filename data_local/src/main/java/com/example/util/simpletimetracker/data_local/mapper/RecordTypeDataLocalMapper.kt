@@ -20,6 +20,7 @@ class RecordTypeDataLocalMapper @Inject constructor() {
             goalTime = dbo.goalTime,
             dailyGoalTime = dbo.dailyGoalTime,
             weeklyGoalTime = dbo.weeklyGoalTime,
+            monthlyGoalTime = dbo.monthlyGoalTime,
         )
     }
 
@@ -34,6 +35,7 @@ class RecordTypeDataLocalMapper @Inject constructor() {
             goalTime = domain.goalTime,
             dailyGoalTime = domain.dailyGoalTime,
             weeklyGoalTime = domain.weeklyGoalTime,
+            monthlyGoalTime = domain.monthlyGoalTime,
         )
     }
 }

@@ -110,6 +110,7 @@ class ChangeRunningRecordFragment :
             goalTime = goalTime.toViewData(),
             goalTime2 = goalTime2.toViewData(),
             goalTime3 = goalTime3.toViewData(),
+            goalTime4 = goalTime4.toViewData(),
             iconId = iconId.toViewData(),
             color = color,
             comment = comment
@@ -130,6 +131,8 @@ class ChangeRunningRecordFragment :
             itemGoalTime2Complete = item.goalTime2.complete
             itemGoalTime3 = item.goalTime3.text
             itemGoalTime3Complete = item.goalTime3.complete
+            itemGoalTime4 = item.goalTime4.text
+            itemGoalTime4Complete = item.goalTime4.complete
             itemComment = item.comment
         }
         tvChangeRecordTimeStarted.text = item.dateTimeStarted

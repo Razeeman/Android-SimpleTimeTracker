@@ -264,7 +264,7 @@
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/btnChangeRecordTypeSave"
         app:layout_constraintTop_toBottomOf="@id/containerChangeRecordTypeMain"
-        tools:visibility="visible">
+        tools:visibility="gone">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarChangeRecordTypeIcon"
@@ -469,6 +469,45 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvChangeRecordTypeWeeklyGoalTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end|center_vertical"
+                    android:paddingHorizontal="8dp"
+                    android:textColor="?appTextPrimaryColor"
+                    tools:text="99h 99m 99s" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="24dp"
+                    android:layout_height="match_parent"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:src="?appArrow"
+                    tools:ignore="ContentDescription" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvChangeRecordTypeMonthlyGoalTimeTitle"
+                style="@style/SettingsText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:padding="0dp"
+                android:text="@string/change_record_type_monthly_goal_time"
+                app:layout_constraintEnd_toStartOf="@id/groupChangeRecordTypeMonthlyGoalTime"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvChangeRecordTypeWeeklyGoalTimeTitle" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/groupChangeRecordTypeMonthlyGoalTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="@id/tvChangeRecordTypeMonthlyGoalTimeTitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tvChangeRecordTypeMonthlyGoalTimeTitle">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvChangeRecordTypeMonthlyGoalTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="end|center_vertical"
