@@ -7,6 +7,7 @@ data class SnackBarParams(
     val dismissedListener: ((TAG?) -> Unit)? = null,
     val actionText: String = "",
     val actionListener: ((TAG?) -> Unit)? = null,
+    val margins: Margins = Margins(),
 ) : NotificationParams {
 
     enum class TAG {
@@ -20,4 +21,11 @@ data class SnackBarParams(
         object Long : Duration
         object Indefinite : Duration
     }
+
+    data class Margins(
+        val left: Int? = null,
+        val top: Int? = null,
+        val right: Int? = null,
+        val bottom: Int? = null,
+    )
 }

@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
+import com.example.util.simpletimetracker.feature_views.extension.setMargins
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.navigation.params.notification.NotificationParams
 import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
@@ -46,6 +47,17 @@ class NotificationResolverImpl @Inject constructor() : NotificationResolver {
         snackBar.view.findViewById<TextView>(textViewId)?.apply {
             setTextColor(Color.WHITE)
             maxLines = 5
+        }
+
+        snackBar.view.apply {
+            post {
+                setMargins(
+                    top = data.margins.top,
+                    bottom = data.margins.bottom,
+                    start = data.margins.left,
+                    end = data.margins.right,
+                )
+            }
         }
 
         if (anchor is View) {
