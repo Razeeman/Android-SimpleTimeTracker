@@ -10,7 +10,7 @@
     <string name="settings_translators_spanish" translatable="false">Manuel Morante</string>
     <string name="settings_translators_spanish_language" translatable="false">Español</string>
 
-    <string name="settings_translators_french" translatable="false">R3da, Corentin Forler</string>
+    <string name="settings_translators_french" translatable="false">R3da, Corentin\u00A0Forler</string>
     <string name="settings_translators_french_language" translatable="false">Français</string>
 
     <string name="settings_translators_italian" translatable="false">Pyr0x1</string>
@@ -34,7 +34,7 @@
     <string name="settings_translators_ukrainian" translatable="false">Божен Новак</string>
     <string name="settings_translators_ukrainian_language" translatable="false">Українська</string>
 
-    <string name="settings_translators_chinese" translatable="false">超级大咸鱼</string>
+    <string name="settings_translators_chinese" translatable="false">超级大咸鱼, KenXRan</string>
     <string name="settings_translators_chinese_language" translatable="false">中文</string>
 
     <string name="settings_translators_japanese" translatable="false">kyusuke</string>
