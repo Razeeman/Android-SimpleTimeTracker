@@ -181,7 +181,8 @@ class BackupViewModel @Inject constructor(
         }
     }
 
-    private fun onSaveBackup(uriString: String) {
+    private fun onSaveBackup(uriString: String?) {
+        if (uriString == null) return
         executeFileWork(
             successMessageId = R.string.message_backup_saved,
             errorMessageId = R.string.message_save_error,
@@ -190,8 +191,12 @@ class BackupViewModel @Inject constructor(
         }
     }
 
-    private fun onAutomaticBackup(uriString: String) {
+    private fun onAutomaticBackup(uriString: String?) {
         viewModelScope.launch {
+            if (uriString == null) {
+                updateAutomaticBackupEnabled()
+                return@launch
+            }
             prefsInteractor.setAutomaticBackupUri(uriString)
             permissionRepo.releasePersistableUriPermissions(uriString)
             if (permissionRepo.takePersistableUriPermission(uriString)) {
@@ -215,7 +220,8 @@ class BackupViewModel @Inject constructor(
         }
     }
 
-    private fun onRestoreBackup(uriString: String) {
+    private fun onRestoreBackup(uriString: String?) {
+        if (uriString == null) return
         executeFileWork(
             successMessageId = R.string.message_backup_restored,
             errorMessageId = R.string.message_restore_error,
@@ -224,7 +230,8 @@ class BackupViewModel @Inject constructor(
         }
     }
 
-    private fun onSaveCsvFile(uriString: String) {
+    private fun onSaveCsvFile(uriString: String?) {
+        if (uriString == null) return
         executeFileWork(
             successMessageId = R.string.message_export_complete,
             errorMessageId = R.string.message_export_error,
@@ -236,7 +243,8 @@ class BackupViewModel @Inject constructor(
         }
     }
 
-    private fun onSaveIcsFile(uriString: String) {
+    private fun onSaveIcsFile(uriString: String?) {
+        if (uriString == null) return
         executeFileWork(
             successMessageId = R.string.message_export_complete,
             errorMessageId = R.string.message_export_error,
@@ -250,11 +258,11 @@ class BackupViewModel @Inject constructor(
 
     private fun requestFileWork(
         requestCode: String,
-        work: (uriString: String) -> Unit,
+        work: (uriString: String?) -> Unit,
         params: ActionParams,
     ) {
         router.setResultListener(requestCode) { result ->
-            if (result is String) work(result)
+            work(result as? String)
         }
         router.execute(params)
     }
