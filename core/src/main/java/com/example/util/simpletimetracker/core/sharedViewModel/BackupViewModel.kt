@@ -56,6 +56,13 @@ class BackupViewModel @Inject constructor(
     val automaticBackupProgress: LiveData<Boolean> = automaticBackupRepo.inProgress
     private var dataExportSettingsResult: DataExportSettingsResult? = null
 
+    fun onVisible() {
+        viewModelScope.launch {
+            checkForAutomaticBackupError()
+            updateAutomaticBackupEnabled()
+        }
+    }
+
     fun onSaveClick() {
         requestFileWork(
             requestCode = RequestCode.REQUEST_CODE_CREATE_FILE,
@@ -81,20 +88,6 @@ class BackupViewModel @Inject constructor(
                     notHandledCallback = ::onFileCreateError
                 )
             )
-        }
-    }
-
-    fun checkForAutomaticBackupError() {
-        viewModelScope.launch {
-            if (prefsInteractor.getAutomaticBackupError()) {
-                router.show(
-                    SnackBarParams(
-                        message = resourceRepo.getString(R.string.message_automatic_backup_error),
-                        duration = SnackBarParams.Duration.Indefinite,
-                    )
-                )
-                prefsInteractor.setAutomaticBackupError(false)
-            }
         }
     }
 
@@ -145,6 +138,18 @@ class BackupViewModel @Inject constructor(
             }
         }
         dataExportSettingsResult = data
+    }
+
+    private suspend fun checkForAutomaticBackupError() {
+        if (prefsInteractor.getAutomaticBackupError()) {
+            router.show(
+                SnackBarParams(
+                    message = resourceRepo.getString(R.string.message_automatic_backup_error),
+                    duration = SnackBarParams.Duration.Indefinite,
+                )
+            )
+            prefsInteractor.setAutomaticBackupError(false)
+        }
     }
 
     private fun onSaveBackup(uriString: String) {

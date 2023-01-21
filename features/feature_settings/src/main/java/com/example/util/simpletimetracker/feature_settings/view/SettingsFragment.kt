@@ -202,6 +202,7 @@ class SettingsFragment :
             checkboxSettingsAutomaticBackup.jumpDrawablesToCurrentState()
         }
         viewModel.onVisible()
+        backupViewModel.onVisible()
     }
 
     override fun onPositiveClick(tag: String?, data: Any?) {

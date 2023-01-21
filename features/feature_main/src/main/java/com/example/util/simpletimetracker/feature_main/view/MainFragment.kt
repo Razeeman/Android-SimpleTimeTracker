@@ -11,17 +11,13 @@ import androidx.core.graphics.BlendModeCompat
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
-import com.example.util.simpletimetracker.core.extension.combineTuple
 import com.example.util.simpletimetracker.core.extension.getThemedAttr
-import com.example.util.simpletimetracker.core.sharedViewModel.BackupViewModel
 import com.example.util.simpletimetracker.core.sharedViewModel.MainTabsViewModel
 import com.example.util.simpletimetracker.core.utils.SHORTCUT_NAVIGATION_KEY
-import com.example.util.simpletimetracker.domain.extension.orFalse
 import com.example.util.simpletimetracker.feature_main.R
 import com.example.util.simpletimetracker.feature_main.adapter.MainContentAdapter
 import com.example.util.simpletimetracker.feature_main.mapper.MainMapper
 import com.example.util.simpletimetracker.feature_main.viewModel.MainViewModel
-import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
@@ -37,9 +33,6 @@ class MainFragment : BaseFragment<Binding>() {
     lateinit var viewModelFactory: BaseViewModelFactory<MainViewModel>
 
     @Inject
-    lateinit var backupViewModelFactory: BaseViewModelFactory<BackupViewModel>
-
-    @Inject
     lateinit var mainTabsViewModelFactory: BaseViewModelFactory<MainTabsViewModel>
 
     @Inject
@@ -47,10 +40,6 @@ class MainFragment : BaseFragment<Binding>() {
 
     private val viewModel: MainViewModel by viewModels(
         factoryProducer = { viewModelFactory }
-    )
-    private val backupViewModel: BackupViewModel by viewModels(
-        ownerProducer = { activity as AppCompatActivity },
-        factoryProducer = { backupViewModelFactory }
     )
     private val mainTabsViewModel: MainTabsViewModel by viewModels(
         ownerProducer = { activity as AppCompatActivity },
@@ -65,19 +54,8 @@ class MainFragment : BaseFragment<Binding>() {
         checkForShortcutNavigation()
     }
 
-    override fun initViewModel() = with(binding) {
+    override fun initViewModel() {
         viewModel.initialize
-        combineTuple(
-            backupViewModel.progressVisibility,
-            backupViewModel.automaticBackupProgress
-        ).observe {
-            mainProgress.visible = it.first.orFalse() || it.second.orFalse()
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        backupViewModel.checkForAutomaticBackupError()
     }
 
     private fun setupPager() = with(binding) {
