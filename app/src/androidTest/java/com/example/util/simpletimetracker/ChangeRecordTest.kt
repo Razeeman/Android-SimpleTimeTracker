@@ -2,7 +2,6 @@ package com.example.util.simpletimetracker
 
 import android.view.View
 import android.widget.DatePicker
-import android.widget.TimePicker
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.contrib.PickerActions
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant

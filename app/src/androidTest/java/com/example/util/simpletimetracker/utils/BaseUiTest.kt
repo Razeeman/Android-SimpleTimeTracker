@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.annotation.ColorInt
 import androidx.emoji2.bundled.BundledEmojiCompatConfig
 import androidx.emoji2.text.EmojiCompat
-import androidx.emoji2.text.EmojiCompat.init
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.ext.junit.rules.ActivityScenarioRule

@@ -1,7 +1,6 @@
 package com.example.util.simpletimetracker
 
 import android.view.View
-import android.widget.TimePicker
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.contrib.PickerActions.setTime

@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.feature_statistics.interactor
 
 import com.example.util.simpletimetracker.core.interactor.StatisticsChartViewDataInteractor
 import com.example.util.simpletimetracker.core.interactor.StatisticsMediator
+import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.RangeMapper
 import com.example.util.simpletimetracker.core.utils.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -13,6 +14,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.divider.DividerVi
 import com.example.util.simpletimetracker.feature_statistics.mapper.StatisticsViewDataMapper
 import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsChartViewData
 import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsTitleViewData
+import com.example.util.simpletimetracker.feature_views.pieChart.PiePortion
 import javax.inject.Inject
 
 class StatisticsViewDataInteractor @Inject constructor(
@@ -22,6 +24,7 @@ class StatisticsViewDataInteractor @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val statisticsViewDataMapper: StatisticsViewDataMapper,
     private val rangeMapper: RangeMapper,
+    private val colorMapper: ColorMapper,
 ) {
 
     suspend fun getViewData(
@@ -76,8 +79,16 @@ class StatisticsViewDataInteractor @Inject constructor(
             types = types,
             isDarkTheme = isDarkTheme
         ).let {
+            // If there is no data but have goals - show empty chart.
+            val data = it
+                .takeUnless { it.isEmpty() }
+                ?: PiePortion(
+                    value = 0,
+                    colorInt = colorMapper.toUntrackedColor(isDarkTheme)
+                ).let(::listOf)
+
             StatisticsChartViewData(
-                data = it,
+                data = data,
                 animated = !forSharing,
                 buttonsVisible = !forSharing,
             )
@@ -115,7 +126,7 @@ class StatisticsViewDataInteractor @Inject constructor(
             statisticsViewDataMapper.mapToEmpty().let(result::add)
         } else {
             if (forSharing) getSharingTitle(rangeLength, shift).let(result::addAll)
-            chart.let(result::add) // TODO fix chart in prev dates when there are goals but no records.
+            chart.let(result::add)
             list.let(result::addAll)
             totalTracked.let(result::add)
             // If has any activity or tag other than untracked
