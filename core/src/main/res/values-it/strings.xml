@@ -247,8 +247,9 @@ Parametri facoltativi per l\'avvio dell\'attività:<br/>
     <string name="settings_save_backup">Effettua un backup</string>
     <string name="settings_save_description">Prima di salvare, assicurati di avere l\'ultima versione dell\'app per evitare conflitti.</string>
     <string name="settings_automatic_backup">Abilita il backup automatico</string>
-    <string name="settings_automatic_backup_description">Il backup verrà salvato nella posizione selezionata sovrascrivendo il file salvato in precedenza ogni giorno a mezzanotte.</string>
-    <string name="settings_automatic_backup_last_save">Ultimo salvataggio:</string>
+    <string name="settings_automatic_export">Abilita l\'esportazione automatica del foglio di lavoro</string>
+    <string name="settings_automatic_description">Il file verrà salvato nella posizione selezionata sovrascrivendo il file salvato in precedenza ogni giorno a mezzanotte.</string>
+    <string name="settings_automatic_last_save">Ultimo salvataggio:</string>
     <string name="settings_restore_backup">Ripristina backup</string>
     <string name="settings_restore_description">I dati attuali verrano persi.</string>
     <string name="settings_dialog_message">Ripristina backup?</string>
@@ -266,7 +267,9 @@ Parametri facoltativi per l\'avvio dell\'attività:<br/>
     <string name="message_app_not_found">Applicazione non trovata</string>
     <string name="message_export_complete">Esportazione completata</string>
     <string name="message_export_error">Errore di esportazione</string>
-    <string name="message_automatic_backup_error">Si è verificato un errore con il backup automatico. Prova a selezionare una posizione diversa</string>
+    <string name="message_automatic_backup_error">Si è verificato un errore con il backup automatico.</string>
+    <string name="message_automatic_export_error">Si è verificato un errore con l\'esportazione automatica.</string>
+    <string name="message_automatic_error_hint">Prova a selezionare una posizione diversa</string>
 
     <!--  Statistics detail  -->
     <string name="statistics_detail_chart_hourly">orario</string>

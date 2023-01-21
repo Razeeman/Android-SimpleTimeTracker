@@ -247,8 +247,9 @@ Aktiviteyi başlatmak için isteğe bağlı parametreler:<br/>
     <string name="settings_save_backup">Yedekleme kaydet</string>
     <string name="settings_save_description">Kaydetmeden önce, uyuşmazlık yaşamamak için uygulamanın güncel olduğundan emin olun.</string>
     <string name="settings_automatic_backup">Otomatik yedeklemeyi etkinleştir</string>
-    <string name="settings_automatic_backup_description">Yedekleme, her gün gece yarısı önceden kaydedilmiş dosyayı geçersiz kılarak seçilen konuma kaydedilecektir.</string>
-    <string name="settings_automatic_backup_last_save">Son kaydetme:</string>
+    <string name="settings_automatic_export">Otomatik e-tablo dışa aktarmayı etkinleştir</string>
+    <string name="settings_automatic_description">Dosya, her gün gece yarısında önceden kaydedilmiş dosyanın üzerine yazılarak seçilen konuma kaydedilecektir.</string>
+    <string name="settings_automatic_last_save">Son kaydetme:</string>
     <string name="settings_restore_backup">Yedeklemeyi geri yükle</string>
     <string name="settings_restore_description">Varolan veri silinecek.</string>
     <string name="settings_dialog_message">Yedeklemeyi geri yükle?</string>
@@ -266,7 +267,9 @@ Aktiviteyi başlatmak için isteğe bağlı parametreler:<br/>
     <string name="message_app_not_found">Uygulama bulunumadı</string>
     <string name="message_export_complete">Dışa aktarma tamamlandı</string>
     <string name="message_export_error">Dışa aktarma hatası</string>
-    <string name="message_automatic_backup_error">Otomatik yedeklemede bir hata oluştu. Farklı bir konum seçmeyi deneyin</string>
+    <string name="message_automatic_backup_error">Otomatik yedeklemede bir hata oluştu.</string>
+    <string name="message_automatic_export_error">Otomatik dışa aktarmayla ilgili bir hata oluştu.</string>
+    <string name="message_automatic_error_hint">Farklı bir konum seçmeyi deneyin</string>
 
     <!--  Statistics detail  -->
     <string name="statistics_detail_chart_hourly">Saatlik</string>

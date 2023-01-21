@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import com.example.util.simpletimetracker.core.base.BaseActivity
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
-import com.example.util.simpletimetracker.core.extension.combineTuple
+import com.example.util.simpletimetracker.core.extension.combineLiveData
 import com.example.util.simpletimetracker.core.manager.ThemeManager
 import com.example.util.simpletimetracker.core.sharedViewModel.BackupViewModel
 import com.example.util.simpletimetracker.databinding.MainActivityBinding
@@ -52,11 +52,12 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initViewModel() {
-        combineTuple(
+        combineLiveData(
             backupViewModel.progressVisibility,
-            backupViewModel.automaticBackupProgress
+            backupViewModel.automaticBackupProgress,
+            backupViewModel.automaticExportProgress,
         ).observe {
-            binding.mainProgress.visible = it.first.orFalse() || it.second.orFalse()
+            binding.mainProgress.visible = it.first.orFalse() || it.second.orFalse() || it.third.orFalse()
             backupViewModel.onFileWork()
         }
     }

@@ -247,8 +247,9 @@ Parâmetros opcionais para iniciar a atividade:<br/>
     <string name="settings_save_backup">Salvar backup</string>
     <string name="settings_save_description">Antes de salvar, verifique se você tem a versão mais recente do aplicativo instalada para evitar conflitos.</string>
     <string name="settings_automatic_backup">Ativar backup automático</string>
-    <string name="settings_automatic_backup_description">O backup será salvo no local selecionado substituindo o arquivo salvo anteriormente todos os dias à meia-noite.</string>
-    <string name="settings_automatic_backup_last_save">Último salvamento:</string>
+    <string name="settings_automatic_export">Ativar exportação automática de planilha</string>
+    <string name="settings_automatic_description">O arquivo será salvo no local selecionado substituindo o arquivo salvo anteriormente todos os dias à meia-noite.</string>
+    <string name="settings_automatic_last_save">Último salvamento:</string>
     <string name="settings_restore_backup">Restaurar backup</string>
     <string name="settings_restore_description">Os dados atuais serão perdidos.</string>
     <string name="settings_dialog_message">Restaurar backup?</string>
@@ -266,7 +267,9 @@ Parâmetros opcionais para iniciar a atividade:<br/>
     <string name="message_app_not_found">Aplicação não encontrada</string>
     <string name="message_export_complete">Exportação concluída</string>
     <string name="message_export_error">Erro de exportação</string>
-    <string name="message_automatic_backup_error">Ocorreu um erro com o backup automático. Tente selecionar um local diferente</string>
+    <string name="message_automatic_backup_error">Ocorreu um erro com o backup automático.</string>
+    <string name="message_automatic_export_error">Ocorreu um erro com a exportação automática.</string>
+    <string name="message_automatic_error_hint">Tente selecionar um local diferente</string>
 
     <!--  Statistics detail  -->
     <string name="statistics_detail_chart_hourly">por hora</string>

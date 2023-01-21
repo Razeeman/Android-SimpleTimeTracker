@@ -247,8 +247,9 @@
     <string name="settings_save_backup">保存备份</string>
     <string name="settings_save_description">保存前，请确保已安装最新版本的应用程序，以避免冲突。</string>
     <string name="settings_automatic_backup">启用自动备份</string>
-    <string name="settings_automatic_backup_description">备份将在每天午夜覆盖之前保存的文件保存在选定的位置。</string>
-    <string name="settings_automatic_backup_last_save">最后保存：</string>
+    <string name="settings_automatic_export">启用自动电子表格导出</string>
+    <string name="settings_automatic_description">文件将在每天午夜覆盖之前保存的文件保存在选定的位置。</string>
+    <string name="settings_automatic_last_save">最后保存：</string>
     <string name="settings_restore_backup">还原备份</string>
     <string name="settings_restore_description">当前数据将丢失。</string>
     <string name="settings_dialog_message">恢复备份？</string>
@@ -266,7 +267,9 @@
     <string name="message_app_not_found">找不到应用程序</string>
     <string name="message_export_complete">导出已完成</string>
     <string name="message_export_error">导出错误</string>
-    <string name="message_automatic_backup_error">自动备份出错。尝试选择不同的位置</string>
+    <string name="message_automatic_backup_error">自动备份出错。</string>
+    <string name="message_automatic_export_error">自动导出时出错。</string>
+    <string name="message_automatic_error_hint">尝试选择不同的位置</string>
 
     <!--  Statistics detail  -->
     <string name="statistics_detail_chart_hourly">每小时</string>

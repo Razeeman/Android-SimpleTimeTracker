@@ -40,7 +40,7 @@ class CsvRepoImpl @Inject constructor(
 
         try {
             val uri = Uri.parse(uriString)
-            fileDescriptor = contentResolver.openFileDescriptor(uri, "w")
+            fileDescriptor = contentResolver.openFileDescriptor(uri, "wt")
             fileOutputStream = fileDescriptor?.fileDescriptor?.let(::FileOutputStream)
 
             // Write csv header

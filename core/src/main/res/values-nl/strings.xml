@@ -247,8 +247,9 @@ Optionele parameters voor het starten van activiteit:<br/>
     <string name="settings_save_backup">Back-up opslaan</string>
     <string name="settings_save_description">Zorg ervoor dat je de nieuwste versie van de app hebt geïnstalleerd voordat je opslaat om conflicten te voorkomen.</string>
     <string name="settings_automatic_backup">Schakel automatische back-up in</string>
-    <string name="settings_automatic_backup_description">Back-up wordt elke dag om middernacht opgeslagen op de geselecteerde locatie en vervangt het eerder opgeslagen bestand.</string>
-    <string name="settings_automatic_backup_last_save">Laatste opslag:</string>
+    <string name="settings_automatic_export">Schakel automatische spreadsheetexport in</string>
+    <string name="settings_automatic_description">Het bestand wordt elke dag om middernacht op de geselecteerde locatie opgeslagen en vervangt het eerder opgeslagen bestand.</string>
+    <string name="settings_automatic_last_save">Laatste opslag:</string>
     <string name="settings_restore_backup">Back-up terugzetten</string>
     <string name="settings_restore_description">De huidige gegevens gaan verloren.</string>
     <string name="settings_dialog_message">Back-up terugzetten?</string>
@@ -266,7 +267,9 @@ Optionele parameters voor het starten van activiteit:<br/>
     <string name="message_app_not_found">Applicatie niet gevonden</string>
     <string name="message_export_complete">Export voltooid</string>
     <string name="message_export_error">Exportfout</string>
-    <string name="message_automatic_backup_error">Er is een fout opgetreden bij de automatische back-up. Probeer een andere locatie te selecteren</string>
+    <string name="message_automatic_backup_error">Er is een fout opgetreden bij de automatische back-up.</string>
+    <string name="message_automatic_export_error">Er is een fout opgetreden bij het automatisch exporteren.</string>
+    <string name="message_automatic_error_hint">Probeer een andere locatie te selecteren</string>
 
     <!--  Statistics detail  -->
     <string name="statistics_detail_chart_hourly">elk uur</string>

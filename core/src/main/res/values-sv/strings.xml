@@ -247,8 +247,9 @@ Valfria parametrar för start av aktivitet:<br/>
     <string name="settings_save_backup">Spara säkerhetskopia</string>
     <string name="settings_save_description">Innan du sparar, se till att du har den senaste versionen av appen för att förhindra datakonflikter.</string>
     <string name="settings_automatic_backup">Aktivera automatisk säkerhetskopiering</string>
-    <string name="settings_automatic_backup_description">Säkerhetskopiering kommer att sparas på den valda platsen och åsidosätter tidigare sparad fil varje dag vid midnatt.</string>
-    <string name="settings_automatic_backup_last_save">Senast sparad:</string>
+    <string name="settings_automatic_export">Aktivera automatisk export av kalkylblad</string>
+    <string name="settings_automatic_description">Filen kommer att sparas på den valda platsen och åsidosätter tidigare sparad fil varje dag vid midnatt.</string>
+    <string name="settings_automatic_last_save">Senast sparad:</string>
     <string name="settings_restore_backup">Återställ säkerhetskopia</string>
     <string name="settings_restore_description">Nuvarande data kommer tas bort.</string>
     <string name="settings_dialog_message">Återställa säkerhetskopia?</string>
@@ -266,7 +267,9 @@ Valfria parametrar för start av aktivitet:<br/>
     <string name="message_app_not_found">Applikation ej hittad</string>
     <string name="message_export_complete">Export slutförd</string>
     <string name="message_export_error">Exportfel</string>
-    <string name="message_automatic_backup_error">Det uppstod ett fel med automatisk säkerhetskopiering. Försök att välja en annan plats</string>
+    <string name="message_automatic_backup_error">Det uppstod ett fel med automatisk säkerhetskopiering.</string>
+    <string name="message_automatic_export_error">Det uppstod ett fel med automatisk export.</string>
+    <string name="message_automatic_error_hint">Försök att välja en annan plats</string>
 
     <!--  Statistics detail  -->
     <string name="statistics_detail_chart_hourly">timvis</string>

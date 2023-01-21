@@ -328,6 +328,30 @@ class PrefsInteractor @Inject constructor(
         prefsRepo.automaticBackupLastSaveTime
     }
 
+    suspend fun setAutomaticExportUri(uri: String) = withContext(Dispatchers.IO) {
+        prefsRepo.automaticExportUri = uri
+    }
+
+    suspend fun getAutomaticExportUri(): String = withContext(Dispatchers.IO) {
+        prefsRepo.automaticExportUri
+    }
+
+    suspend fun setAutomaticExportError(isError: Boolean) = withContext(Dispatchers.IO) {
+        prefsRepo.automaticExportError = isError
+    }
+
+    suspend fun getAutomaticExportError(): Boolean = withContext(Dispatchers.IO) {
+        prefsRepo.automaticExportError
+    }
+
+    suspend fun setAutomaticExportLastSaveTime(value: Long) = withContext(Dispatchers.IO) {
+        prefsRepo.automaticExportLastSaveTime = value
+    }
+
+    suspend fun getAutomaticExportLastSaveTime(): Long = withContext(Dispatchers.IO) {
+        prefsRepo.automaticExportLastSaveTime
+    }
+
     suspend fun clear() = withContext(Dispatchers.IO) {
         prefsRepo.clear()
     }

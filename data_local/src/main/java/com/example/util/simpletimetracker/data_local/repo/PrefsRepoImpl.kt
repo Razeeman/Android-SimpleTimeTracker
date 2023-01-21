@@ -152,6 +152,18 @@ class PrefsRepoImpl @Inject constructor(
         KEY_AUTOMATIC_BACKUP_LAST_SAVE_TIME, 0
     )
 
+    override var automaticExportUri: String by prefs.delegate(
+        KEY_AUTOMATIC_EXPORT_URI, ""
+    )
+
+    override var automaticExportError: Boolean by prefs.delegate(
+        KEY_AUTOMATIC_EXPORT_ERROR, false
+    )
+
+    override var automaticExportLastSaveTime: Long by prefs.delegate(
+        KEY_AUTOMATIC_EXPORT_LAST_SAVE_TIME, 0
+    )
+
     override fun setWidget(widgetId: Int, recordType: Long) {
         prefs.edit().putLong(KEY_WIDGET + widgetId, recordType).apply()
     }
@@ -291,6 +303,9 @@ class PrefsRepoImpl @Inject constructor(
         private const val KEY_AUTOMATIC_BACKUP_URI = "automaticBackupUri"
         private const val KEY_AUTOMATIC_BACKUP_ERROR = "automaticBackupError"
         private const val KEY_AUTOMATIC_BACKUP_LAST_SAVE_TIME = "automaticBackupLastSaveTime"
+        private const val KEY_AUTOMATIC_EXPORT_URI = "automaticExportUri"
+        private const val KEY_AUTOMATIC_EXPORT_ERROR = "automaticExportError"
+        private const val KEY_AUTOMATIC_EXPORT_LAST_SAVE_TIME = "automaticExportLastSaveTime"
         private const val KEY_WIDGET = "widget_"
         private const val KEY_STATISTICS_WIDGET_FILTERED_TYPES = "statistics_widget_filtered_types_"
         private const val KEY_STATISTICS_WIDGET_FILTERED_CATEGORIES = "statistics_widget_filtered_categories_"

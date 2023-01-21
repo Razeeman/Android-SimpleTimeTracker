@@ -9,9 +9,11 @@ import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.AutomaticBackupRepo
+import com.example.util.simpletimetracker.core.repo.AutomaticExportRepo
 import com.example.util.simpletimetracker.core.repo.PermissionRepo
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.interactor.AutomaticBackupInteractor
+import com.example.util.simpletimetracker.domain.interactor.AutomaticExportInteractor
 import com.example.util.simpletimetracker.domain.interactor.BackupInteractor
 import com.example.util.simpletimetracker.domain.interactor.CsvExportInteractor
 import com.example.util.simpletimetracker.domain.interactor.IcsExportInteractor
@@ -36,6 +38,7 @@ import javax.inject.Inject
 
 class BackupViewModel @Inject constructor(
     automaticBackupRepo: AutomaticBackupRepo,
+    automaticExportRepo: AutomaticExportRepo,
     private val resourceRepo: ResourceRepo,
     private val permissionRepo: PermissionRepo,
     private val router: Router,
@@ -44,6 +47,7 @@ class BackupViewModel @Inject constructor(
     private val icsExportInteractor: IcsExportInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val automaticBackupInteractor: AutomaticBackupInteractor,
+    private val automaticExportInteractor: AutomaticExportInteractor,
     private val timeMapper: TimeMapper,
 ) : ViewModel() {
 
@@ -63,8 +67,25 @@ class BackupViewModel @Inject constructor(
             initial
         }
     }
+    val automaticExportCheckbox: LiveData<Boolean> by lazy {
+        MutableLiveData<Boolean>().let { initial ->
+            viewModelScope.launch {
+                initial.value = loadAutomaticExportEnabled()
+            }
+            initial
+        }
+    }
+    val automaticExportLastSaveTime: LiveData<String> by lazy {
+        MutableLiveData<String>().let { initial ->
+            viewModelScope.launch {
+                initial.value = loadAutomaticExportLastSaveTime()
+            }
+            initial
+        }
+    }
     val progressVisibility: LiveData<Boolean> = MutableLiveData(false)
     val automaticBackupProgress: LiveData<Boolean> = automaticBackupRepo.inProgress
+    val automaticExportProgress: LiveData<Boolean> = automaticExportRepo.inProgress
 
     private var dataExportSettingsResult: DataExportSettingsResult? = null
 
@@ -73,6 +94,8 @@ class BackupViewModel @Inject constructor(
             checkForAutomaticBackupError()
             updateAutomaticBackupEnabled()
             updateAutomaticBackupLastSaveTime()
+            updateAutomaticExportEnabled()
+            updateAutomaticExportLastSaveTime()
         }
     }
 
@@ -98,6 +121,22 @@ class BackupViewModel @Inject constructor(
                 params = CreateFileParams(
                     fileName = "stt_automatic.backup",
                     type = "application/x-binary",
+                    notHandledCallback = ::onFileCreateError
+                )
+            )
+        }
+    }
+
+    fun onAutomaticExportClick() {
+        if (automaticExportCheckbox.value == true) {
+            disableAutomaticExport()
+        } else {
+            requestFileWork(
+                requestCode = RequestCode.REQUEST_CODE_CREATE_FILE,
+                work = ::onAutomaticExport,
+                params = CreateFileParams(
+                    fileName = "stt_records_automatic.csv",
+                    type = "text/csv",
                     notHandledCallback = ::onFileCreateError
                 )
             )
@@ -166,19 +205,34 @@ class BackupViewModel @Inject constructor(
             checkForAutomaticBackupError()
             updateAutomaticBackupEnabled()
             updateAutomaticBackupLastSaveTime()
+            updateAutomaticExportEnabled()
+            updateAutomaticExportLastSaveTime()
         }
     }
 
     private suspend fun checkForAutomaticBackupError() {
-        if (prefsInteractor.getAutomaticBackupError()) {
+        val automaticBackupError = prefsInteractor.getAutomaticBackupError()
+        val automaticExportError = prefsInteractor.getAutomaticExportError()
+
+        if (automaticBackupError || automaticExportError) {
+            val backupString = resourceRepo.getString(R.string.message_automatic_backup_error)
+                .takeIf { automaticBackupError }
+            val exportString = resourceRepo.getString(R.string.message_automatic_export_error)
+                .takeIf { automaticExportError }
+            val hint = resourceRepo.getString(R.string.message_automatic_error_hint)
+            val message = listOfNotNull(backupString, exportString, hint)
+                .joinToString(separator = " ")
+
             router.show(
                 SnackBarParams(
-                    message = resourceRepo.getString(R.string.message_automatic_backup_error),
+                    message = message,
                     duration = SnackBarParams.Duration.Indefinite,
                 )
             )
-            prefsInteractor.setAutomaticBackupError(false)
         }
+
+        if (automaticBackupError) prefsInteractor.setAutomaticBackupError(false)
+        if (automaticExportError) prefsInteractor.setAutomaticExportError(false)
     }
 
     private fun onSaveBackup(uriString: String?) {
@@ -197,16 +251,43 @@ class BackupViewModel @Inject constructor(
                 updateAutomaticBackupEnabled()
                 return@launch
             }
-            prefsInteractor.setAutomaticBackupUri(uriString)
-            permissionRepo.releasePersistableUriPermissions(uriString)
+
+            val exportUri = prefsInteractor.getAutomaticExportUri()
+            permissionRepo.releasePersistableUriPermissions(exportUri)
+
             if (permissionRepo.takePersistableUriPermission(uriString)) {
+                prefsInteractor.setAutomaticBackupUri(uriString)
                 automaticBackupInteractor.schedule()
             } else {
                 prefsInteractor.setAutomaticBackupUri("")
                 onFileCreateError()
             }
+
             updateAutomaticBackupEnabled()
             updateAutomaticBackupLastSaveTime()
+        }
+    }
+
+    private fun onAutomaticExport(uriString: String?) {
+        viewModelScope.launch {
+            if (uriString == null) {
+                updateAutomaticExportEnabled()
+                return@launch
+            }
+
+            val backupUri = prefsInteractor.getAutomaticBackupUri()
+            permissionRepo.releasePersistableUriPermissions(backupUri)
+
+            if (permissionRepo.takePersistableUriPermission(uriString)) {
+                prefsInteractor.setAutomaticExportUri(uriString)
+                automaticExportInteractor.schedule()
+            } else {
+                prefsInteractor.setAutomaticExportUri("")
+                onFileCreateError()
+            }
+
+            updateAutomaticExportEnabled()
+            updateAutomaticExportLastSaveTime()
         }
     }
 
@@ -217,6 +298,16 @@ class BackupViewModel @Inject constructor(
             automaticBackupInteractor.cancel()
             updateAutomaticBackupEnabled()
             updateAutomaticBackupLastSaveTime()
+        }
+    }
+
+    private fun disableAutomaticExport() {
+        viewModelScope.launch {
+            prefsInteractor.setAutomaticExportUri("")
+            prefsInteractor.setAutomaticExportError(false)
+            automaticExportInteractor.cancel()
+            updateAutomaticExportEnabled()
+            updateAutomaticExportLastSaveTime()
         }
     }
 
@@ -335,7 +426,35 @@ class BackupViewModel @Inject constructor(
             prefsInteractor.getAutomaticBackupLastSaveTime()
                 .takeUnless { it == 0L }
                 ?.let { timeMapper.formatDateTimeYear(it, useMilitaryTime) }
-                ?.let { resourceRepo.getString(R.string.settings_automatic_backup_last_save) + " " + it }
+                ?.let { resourceRepo.getString(R.string.settings_automatic_last_save) + " " + it }
+                .orEmpty()
+        } else {
+            ""
+        }
+    }
+
+    private suspend fun updateAutomaticExportEnabled() {
+        val data = loadAutomaticExportEnabled()
+        automaticExportCheckbox.set(data)
+    }
+
+    private suspend fun loadAutomaticExportEnabled(): Boolean {
+        return prefsInteractor.getAutomaticExportUri().isNotEmpty()
+    }
+
+    private suspend fun updateAutomaticExportLastSaveTime() {
+        val data = loadAutomaticExportLastSaveTime()
+        automaticExportLastSaveTime.set(data)
+    }
+
+    private suspend fun loadAutomaticExportLastSaveTime(): String {
+        return if (loadAutomaticExportEnabled()) {
+            val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
+
+            prefsInteractor.getAutomaticExportLastSaveTime()
+                .takeUnless { it == 0L }
+                ?.let { timeMapper.formatDateTimeYear(it, useMilitaryTime) }
+                ?.let { resourceRepo.getString(R.string.settings_automatic_last_save) + " " + it }
                 .orEmpty()
         } else {
             ""

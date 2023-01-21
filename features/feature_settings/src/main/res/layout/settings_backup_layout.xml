@@ -64,7 +64,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:paddingBottom="0dp"
-                android:text="@string/settings_automatic_backup_description"
+                android:text="@string/settings_automatic_description"
                 app:layout_constraintEnd_toStartOf="@id/checkboxSettingsAutomaticBackup"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvSettingsAutomaticBackup" />
@@ -162,6 +162,63 @@
         <View
             style="@style/SettingsDivider"
             android:layout_width="match_parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="12dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvSettingsAutomaticExport"
+                style="@style/SettingsText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingTop="0dp"
+                android:paddingBottom="0dp"
+                android:text="@string/settings_automatic_export"
+                app:layout_constraintEnd_toStartOf="@id/checkboxSettingsAutomaticExport"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvSettingsAutomaticExportHint"
+                style="@style/SettingsSecondaryText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingBottom="0dp"
+                android:text="@string/settings_automatic_description"
+                app:layout_constraintEnd_toStartOf="@id/checkboxSettingsAutomaticExport"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvSettingsAutomaticExport" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/checkboxSettingsAutomaticExport"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="@id/tvSettingsAutomaticExport"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tvSettingsAutomaticExport" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvSettingsAutomaticExportLastSaveTime"
+                style="@style/SettingsSecondaryText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingBottom="0dp"
+                android:textColor="?colorSecondary"
+                android:visibility="gone"
+                app:layout_constraintEnd_toStartOf="@id/checkboxSettingsAutomaticExport"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvSettingsAutomaticExportHint"
+                tools:text="Last save: Jan 17 2023 16:00"
+                tools:visibility="visible" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            style="@style/SettingsDivider"
+            android:layout_width="match_parent"
+            android:layout_marginTop="12dp" />
 
         <LinearLayout
             android:id="@+id/layoutSettingsExportIcs"

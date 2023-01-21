@@ -247,8 +247,9 @@ Parameter opsional untuk memulai aktivitas:<br/>
     <string name="settings_save_backup">Simpan cadangan</string>
     <string name="settings_save_description">Sebelum menyimpan, pastikan Anda memiliki versi terbaru aplikasi terinstal untuk menghindari masalah teknis.</string>
     <string name="settings_automatic_backup">Aktifkan pencadangan otomatis</string>
-    <string name="settings_automatic_backup_description">Cadangan akan disimpan di lokasi yang dipilih mengesampingkan file yang disimpan sebelumnya setiap hari pada tengah malam.</string>
-    <string name="settings_automatic_backup_last_save">Penyimpanan terakhir:</string>
+    <string name="settings_automatic_export">Aktifkan ekspor spreadsheet otomatis</string>
+    <string name="settings_automatic_description">File akan disimpan di lokasi yang dipilih menggantikan file yang disimpan sebelumnya setiap hari pada tengah malam.</string>
+    <string name="settings_automatic_last_save">Penyimpanan terakhir:</string>
     <string name="settings_restore_backup">Pulihkan cadangan</string>
     <string name="settings_restore_description">Data saat ini akan lenyap.</string>
     <string name="settings_dialog_message">Pulihkan cadangan?</string>
@@ -266,7 +267,9 @@ Parameter opsional untuk memulai aktivitas:<br/>
     <string name="message_app_not_found">Aplikasi tidak ditemukan</string>
     <string name="message_export_complete">Ekspor selesai</string>
     <string name="message_export_error">Kesalahan ekspor</string>
-    <string name="message_automatic_backup_error">Terjadi kesalahan dengan pencadangan otomatis. Cobalah untuk memilih lokasi yang berbeda</string>
+    <string name="message_automatic_backup_error">Terjadi kesalahan dengan pencadangan otomatis.</string>
+    <string name="message_automatic_export_error">Terjadi kesalahan dengan ekspor otomatis.</string>
+    <string name="message_automatic_error_hint">Cobalah untuk memilih lokasi yang berbeda</string>
 
     <!--  Statistics detail  -->
     <string name="statistics_detail_chart_hourly">jam</string>

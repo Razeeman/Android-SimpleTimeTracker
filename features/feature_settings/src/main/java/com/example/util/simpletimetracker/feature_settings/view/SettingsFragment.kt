@@ -114,6 +114,7 @@ class SettingsFragment :
             layoutSettingsExportCsv.setOnClick(backupViewModel::onExportCsvClick)
             layoutSettingsExportIcs.setOnClick(backupViewModel::onExportIcsClick)
             checkboxSettingsAutomaticBackup.setOnClick(backupViewModel::onAutomaticBackupClick)
+            checkboxSettingsAutomaticExport.setOnClick(backupViewModel::onAutomaticExportClick)
         }
     }
 
@@ -171,6 +172,11 @@ class SettingsFragment :
                 layoutSettingsBackup.tvSettingsAutomaticBackupLastSaveTime.visible = it.isNotEmpty()
                 layoutSettingsBackup.tvSettingsAutomaticBackupLastSaveTime.text = it
             }
+            automaticExportCheckbox.observe(layoutSettingsBackup.checkboxSettingsAutomaticExport::setChecked)
+            automaticExportLastSaveTime.observe {
+                layoutSettingsBackup.tvSettingsAutomaticExportLastSaveTime.visible = it.isNotEmpty()
+                layoutSettingsBackup.tvSettingsAutomaticExportLastSaveTime.text = it
+            }
         }
         with(mainTabsViewModel) {
             tabReselected.observe(viewModel::onTabReselected)
@@ -204,6 +210,7 @@ class SettingsFragment :
         }
         with(layoutSettingsBackup) {
             checkboxSettingsAutomaticBackup.jumpDrawablesToCurrentState()
+            checkboxSettingsAutomaticExport.jumpDrawablesToCurrentState()
         }
         viewModel.onVisible()
     }

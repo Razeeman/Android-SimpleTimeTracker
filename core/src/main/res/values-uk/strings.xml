@@ -247,8 +247,9 @@
     <string name="settings_save_backup">Зберегти резервну копію</string>
     <string name="settings_save_description">Перед збереженням переконайтесь, що у вас встановлена остання версія додатку, щоб уникнути конфліктів.</string>
     <string name="settings_automatic_backup">Увімкнути автоматичне резервне копіювання</string>
-    <string name="settings_automatic_backup_description">Резервна копія зберігатиметься у вибраному місці, замінюючи попередньо збережений файл щодня опівночі.</string>
-    <string name="settings_automatic_backup_last_save">Останнє збереження:</string>
+    <string name="settings_automatic_export">Увімкнути автоматичний експорт електронної таблиці</string>
+    <string name="settings_automatic_description">Файл буде збережено у вибраному місці, замінюючи попередньо збережений файл щодня опівночі.</string>
+    <string name="settings_automatic_last_save">Останнє збереження:</string>
     <string name="settings_restore_backup">Відновлення резервної копії</string>
     <string name="settings_restore_description">Поточні дані будуть втрачені.</string>
     <string name="settings_dialog_message">Відновити резервну копію?</string>
@@ -266,7 +267,9 @@
     <string name="message_app_not_found">Додаток не знайдено</string>
     <string name="message_export_complete">Експорт завершено</string>
     <string name="message_export_error">Помилка експорту</string>
-    <string name="message_automatic_backup_error">Під час автоматичного резервного копіювання сталася помилка. Спробуйте вибрати інше місце</string>
+    <string name="message_automatic_backup_error">Під час автоматичного резервного копіювання сталася помилка.</string>
+    <string name="message_automatic_export_error">Під час автоматичного експорту сталася помилка.</string>
+    <string name="message_automatic_error_hint">Спробуйте вибрати інше місце</string>
 
     <!--  Statistics detail  -->
     <string name="statistics_detail_chart_hourly">година</string>
