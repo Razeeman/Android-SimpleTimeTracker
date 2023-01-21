@@ -304,6 +304,22 @@ class PrefsInteractor @Inject constructor(
         prefsRepo.getCardOrderManual()
     }
 
+    suspend fun setAutomaticBackupUri(uri: String) = withContext(Dispatchers.IO) {
+        prefsRepo.automaticBackupUri = uri
+    }
+
+    suspend fun getAutomaticBackupUri(): String = withContext(Dispatchers.IO) {
+        prefsRepo.automaticBackupUri
+    }
+
+    suspend fun setAutomaticBackupError(isError: Boolean) = withContext(Dispatchers.IO) {
+        prefsRepo.automaticBackupError = isError
+    }
+
+    suspend fun getAutomaticBackupError(): Boolean = withContext(Dispatchers.IO) {
+        prefsRepo.automaticBackupError
+    }
+
     suspend fun clear() = withContext(Dispatchers.IO) {
         prefsRepo.clear()
     }

@@ -246,6 +246,8 @@ Paramètres facultatifs pour le démarrage de l\'activité:<br/>
 
     <string name="settings_save_backup">Enregistrer la sauvegarde</string>
     <string name="settings_save_description">Avant de créer une sauvegarde, assurez-vous que la dernière version de l\'application est installée pour éviter tout conflit.</string>
+    <string name="settings_automatic_backup">Activer la sauvegarde automatique</string>
+    <string name="settings_automatic_backup_description">La sauvegarde sera enregistrée à l\'emplacement sélectionné en remplaçant le fichier précédemment enregistré tous les jours à minuit.</string>
     <string name="settings_restore_backup">Restaurer une sauvegarde</string>
     <string name="settings_restore_description">Les données actuelles seront perdues.</string>
     <string name="settings_dialog_message">Restaurer la sauvegarde ?</string>
@@ -263,6 +265,7 @@ Paramètres facultatifs pour le démarrage de l\'activité:<br/>
     <string name="message_app_not_found">Application non trouvée</string>
     <string name="message_export_complete">Exportation terminée</string>
     <string name="message_export_error">Erreur d\'exportation</string>
+    <string name="message_automatic_backup_error">Une erreur s\'est produite lors de la sauvegarde automatique. Essayez de sélectionner un emplacement différent</string>
 
     <!--  Statistics detail  -->
     <string name="statistics_detail_chart_hourly">toutes les heures</string>

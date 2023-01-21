@@ -113,6 +113,7 @@ class SettingsFragment :
             layoutSettingsRestoreBackup.setOnClick(backupViewModel::onRestoreClick)
             layoutSettingsExportCsv.setOnClick(viewModel::onExportCsvClick)
             layoutSettingsExportIcs.setOnClick(viewModel::onExportIcsClick)
+            checkboxSettingsAutomaticBackup.setOnClick(backupViewModel::onAutomaticBackupClick)
         }
     }
 
@@ -164,6 +165,9 @@ class SettingsFragment :
                 mainTabsViewModel.onHandled()
             }
         }
+        with(backupViewModel) {
+            automaticBackupCheckbox.observe(layoutSettingsBackup.checkboxSettingsAutomaticBackup::setChecked)
+        }
         with(mainTabsViewModel) {
             tabReselected.observe(viewModel::onTabReselected)
         }
@@ -193,6 +197,9 @@ class SettingsFragment :
             checkboxSettingsShowRecordTagSelection.jumpDrawablesToCurrentState()
             checkboxSettingsInactivityReminderRecurrent.jumpDrawablesToCurrentState()
             checkboxSettingsRecordTagSelectionClose.jumpDrawablesToCurrentState()
+        }
+        with(layoutSettingsBackup) {
+            checkboxSettingsAutomaticBackup.jumpDrawablesToCurrentState()
         }
         viewModel.onVisible()
     }

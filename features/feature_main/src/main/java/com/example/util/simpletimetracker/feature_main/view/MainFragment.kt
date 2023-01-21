@@ -68,6 +68,11 @@ class MainFragment : BaseFragment<Binding>() {
         backupViewModel.progressVisibility.observe(mainProgress::visible::set)
     }
 
+    override fun onResume() {
+        super.onResume()
+        backupViewModel.checkForAutomaticBackupError()
+    }
+
     private fun setupPager() = with(binding) {
         mainPager.adapter = MainContentAdapter(this@MainFragment)
         mainPager.offscreenPageLimit = 3 // Same as number of pages to avoid recreating.

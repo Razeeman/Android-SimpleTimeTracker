@@ -140,6 +140,14 @@ class PrefsRepoImpl @Inject constructor(
         KEY_RECORD_TAG_SELECTION_CLOSE_AFTER_ONE, false
     )
 
+    override var automaticBackupUri: String by prefs.delegate(
+        KEY_AUTOMATIC_BACKUP_URI, ""
+    )
+
+    override var automaticBackupError: Boolean by prefs.delegate(
+        KEY_AUTOMATIC_BACKUP_ERROR, false
+    )
+
     override fun setWidget(widgetId: Int, recordType: Long) {
         prefs.edit().putLong(KEY_WIDGET + widgetId, recordType).apply()
     }
@@ -276,6 +284,8 @@ class PrefsRepoImpl @Inject constructor(
         private const val KEY_KEEP_SCREEN_ON = "keepScreenOn"
         private const val KEY_SHOW_RECORD_TAG_SELECTION = "showRecordTagSelection"
         private const val KEY_RECORD_TAG_SELECTION_CLOSE_AFTER_ONE = "recordTagSelectionCloseAfterOne"
+        private const val KEY_AUTOMATIC_BACKUP_URI = "automaticBackupUri"
+        private const val KEY_AUTOMATIC_BACKUP_ERROR = "automaticBackupError"
         private const val KEY_WIDGET = "widget_"
         private const val KEY_STATISTICS_WIDGET_FILTERED_TYPES = "statistics_widget_filtered_types_"
         private const val KEY_STATISTICS_WIDGET_FILTERED_CATEGORIES = "statistics_widget_filtered_categories_"

@@ -60,6 +60,10 @@ interface PrefsRepo {
 
     var recordTagSelectionCloseAfterOne: Boolean
 
+    var automaticBackupUri: String
+
+    var automaticBackupError: Boolean
+
     fun setWidget(widgetId: Int, recordType: Long)
 
     fun getWidget(widgetId: Int): Long

@@ -246,6 +246,8 @@
 
     <string name="settings_save_backup">Сохранить резервную копию</string>
     <string name="settings_save_description">Перед сохранением убедитесь, что у вас установлена последняя версия приложения, чтобы избежать конфликтов.</string>
+    <string name="settings_automatic_backup">Включить автоматическое резервное копирование</string>
+    <string name="settings_automatic_backup_description">Резервная копия будет сохраняться в выбранном месте каждый день в полночь вместо ранее сохраненного файла.</string>
     <string name="settings_restore_backup">Восстановление резервной копии</string>
     <string name="settings_restore_description">Текущие данные будут потеряны.</string>
     <string name="settings_dialog_message">Восстановить из резервной копии?</string>
@@ -263,6 +265,7 @@
     <string name="message_app_not_found">Приложение не найдено</string>
     <string name="message_export_complete">Экспорт завершен</string>
     <string name="message_export_error">Ошибка экспорта</string>
+    <string name="message_automatic_backup_error">Произошла ошибка с автоматическим резервным копированием. Попробуйте выбрать другое место</string>
 
     <!--  Statistics detail  -->
     <string name="statistics_detail_chart_hourly">час</string>

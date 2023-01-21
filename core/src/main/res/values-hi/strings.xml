@@ -246,6 +246,8 @@
 
     <string name="settings_save_backup">बैकअप सहेजें</string>
     <string name="settings_save_description">सहेजने से पहले, सुनिश्चित करें कि आपके पास संघर्षों से बचने के लिए इंस्टॉल किए गए ऐप का नवीनतम संस्करण है।</string>
+    <string name="settings_automatic_backup">स्वचालित बैकअप सक्षम करें</string>
+    <string name="settings_automatic_backup_description">हर दिन आधी रात को पहले से सहेजी गई फ़ाइल को ओवरराइड करते हुए चयनित स्थान पर बैकअप सहेजा जाएगा।</string>
     <string name="settings_restore_backup">बैकअप  पुनः स्थापित करे।</string>
     <string name="settings_restore_description">वर्तमान डेटा खो जाएगा।</string>
     <string name="settings_dialog_message">पुनर्स्थापित करे?</string>
@@ -263,6 +265,7 @@
     <string name="message_app_not_found">आवेदन नहीं मिला</string>
     <string name="message_export_complete">निर्यात पूरा किया गया</string>
     <string name="message_export_error">निर्यात त्रुटि</string>
+    <string name="message_automatic_backup_error">स्वचालित बैकअप के साथ एक त्रुटि हुई थी। अलग स्थान का चयन करने का प्रयास करें</string>
 
     <!--  Statistics detail  -->
     <string name="statistics_detail_chart_hourly">प्रति घंटा</string>

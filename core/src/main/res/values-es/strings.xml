@@ -246,6 +246,8 @@ Parámetros opcionales para iniciar la actividad:<br/>
 
     <string name="settings_save_backup">Guardar copia de seguridad</string>
     <string name="settings_save_description">Antes de guardar, asegúrese de que tiene la última versión de la aplicación instalada para evitar conflictos.</string>
+    <string name="settings_automatic_backup">Habilitar copia de seguridad automática</string>
+    <string name="settings_automatic_backup_description">La copia de seguridad se guardará en la ubicación seleccionada anulando el archivo guardado previamente todos los días a la medianoche.</string>
     <string name="settings_restore_backup">Restaurar copia de seguridad</string>
     <string name="settings_restore_description">Los datos actuales serán eliminados.</string>
     <string name="settings_dialog_message">¿Desea restaurar la copia de seguridad?</string>
@@ -263,6 +265,7 @@ Parámetros opcionales para iniciar la actividad:<br/>
     <string name="message_app_not_found">No se encontró la apliación</string>
     <string name="message_export_complete">Exportación completada</string>
     <string name="message_export_error">Error de exportación</string>
+    <string name="message_automatic_backup_error">Hubo un error con la copia de seguridad automática. Intenta seleccionar una ubicación diferente</string>
 
     <!--  Statistics detail  -->
     <string name="statistics_detail_chart_hourly">hora</string>

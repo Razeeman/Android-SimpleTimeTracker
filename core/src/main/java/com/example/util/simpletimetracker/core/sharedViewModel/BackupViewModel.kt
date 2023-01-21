@@ -6,10 +6,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.R
+import com.example.util.simpletimetracker.core.extension.set
+import com.example.util.simpletimetracker.core.repo.PermissionRepo
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.domain.interactor.AutomaticBackupInteractor
 import com.example.util.simpletimetracker.domain.interactor.BackupInteractor
 import com.example.util.simpletimetracker.domain.interactor.CsvExportInteractor
 import com.example.util.simpletimetracker.domain.interactor.IcsExportInteractor
+import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.resolver.ResultCode
 import com.example.util.simpletimetracker.navigation.RequestCode
@@ -17,6 +21,7 @@ import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.action.ActionParams
 import com.example.util.simpletimetracker.navigation.params.action.CreateFileParams
 import com.example.util.simpletimetracker.navigation.params.action.OpenFileParams
+import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
 import com.example.util.simpletimetracker.navigation.params.notification.ToastParams
 import com.example.util.simpletimetracker.navigation.params.screen.DataExportSettingsResult
 import com.example.util.simpletimetracker.navigation.params.screen.StandardDialogParams
@@ -28,12 +33,23 @@ import javax.inject.Inject
 
 class BackupViewModel @Inject constructor(
     private val resourceRepo: ResourceRepo,
+    private val permissionRepo: PermissionRepo,
     private val router: Router,
     private val backupInteractor: BackupInteractor,
     private val csvExportInteractor: CsvExportInteractor,
     private val icsExportInteractor: IcsExportInteractor,
+    private val prefsInteractor: PrefsInteractor,
+    private val automaticBackupInteractor: AutomaticBackupInteractor,
 ) : ViewModel() {
 
+    val automaticBackupCheckbox: LiveData<Boolean> by lazy {
+        MutableLiveData<Boolean>().let { initial ->
+            viewModelScope.launch {
+                initial.value = loadAutomaticBackupEnabled()
+            }
+            initial
+        }
+    }
     val progressVisibility: LiveData<Boolean> = MutableLiveData(false)
     private var dataExportSettingsResult: DataExportSettingsResult? = null
 
@@ -47,6 +63,36 @@ class BackupViewModel @Inject constructor(
                 notHandledCallback = ::onFileCreateError
             )
         )
+    }
+
+    fun onAutomaticBackupClick() {
+        if (automaticBackupCheckbox.value == true) {
+            disableAutomaticBackup()
+        } else {
+            requestFileWork(
+                requestCode = RequestCode.REQUEST_CODE_CREATE_FILE,
+                work = ::onAutomaticBackup,
+                params = CreateFileParams(
+                    fileName = "stt_automatic.backup",
+                    type = "application/x-binary",
+                    notHandledCallback = ::onFileCreateError
+                )
+            )
+        }
+    }
+
+    fun checkForAutomaticBackupError() {
+        viewModelScope.launch {
+            if (prefsInteractor.getAutomaticBackupError()) {
+                router.show(
+                    SnackBarParams(
+                        message = resourceRepo.getString(R.string.message_automatic_backup_error),
+                        duration = SnackBarParams.Duration.Indefinite,
+                    )
+                )
+                prefsInteractor.setAutomaticBackupError(false)
+            }
+        }
     }
 
     fun onRestoreClick() {
@@ -104,6 +150,29 @@ class BackupViewModel @Inject constructor(
             errorMessageId = R.string.message_save_error,
         ) {
             backupInteractor.saveBackupFile(uriString)
+        }
+    }
+
+    private fun onAutomaticBackup(uriString: String) {
+        viewModelScope.launch {
+            prefsInteractor.setAutomaticBackupUri(uriString)
+            permissionRepo.releasePersistableUriPermissions(uriString)
+            if (permissionRepo.takePersistableUriPermission(uriString)) {
+                automaticBackupInteractor.schedule()
+            } else {
+                prefsInteractor.setAutomaticBackupUri("")
+                onFileCreateError()
+            }
+            updateAutomaticBackupEnabled()
+        }
+    }
+
+    private fun disableAutomaticBackup() {
+        viewModelScope.launch {
+            prefsInteractor.setAutomaticBackupUri("")
+            prefsInteractor.setAutomaticBackupError(false)
+            automaticBackupInteractor.cancel()
+            updateAutomaticBackupEnabled()
         }
     }
 
@@ -196,6 +265,15 @@ class BackupViewModel @Inject constructor(
                 timeEnded = it.rangeEnd,
             )
         }
+    }
+
+    private suspend fun updateAutomaticBackupEnabled() {
+        val data = loadAutomaticBackupEnabled()
+        automaticBackupCheckbox.set(data)
+    }
+
+    private suspend fun loadAutomaticBackupEnabled(): Boolean {
+        return prefsInteractor.getAutomaticBackupUri().isNotEmpty()
     }
 
     companion object {
