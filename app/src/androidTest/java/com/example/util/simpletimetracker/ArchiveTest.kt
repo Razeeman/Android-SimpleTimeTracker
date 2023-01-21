@@ -39,6 +39,7 @@ class ArchiveTest : BaseUiTest() {
         testUtils.addActivity(name1)
         testUtils.addActivity(name2)
         testUtils.addRecord(name1)
+        Thread.sleep(1000)
 
         tryAction { checkTypeVisible(name1) }
         checkTypeVisible(name2)
@@ -46,6 +47,8 @@ class ArchiveTest : BaseUiTest() {
         // Delete one
         longClickOnView(withText(name2))
         clickOnViewWithId(R.id.btnChangeRecordTypeDelete)
+        // Snackbar is in the way of Add button
+        clickOnViewWithId(com.google.android.material.R.id.snackbar_text)
         tryAction { checkTypeVisible(name1) }
         checkTypeNotVisible(name2)
 

@@ -8,7 +8,7 @@ import com.example.util.simpletimetracker.feature_views.extension.getBitmapFromV
 import com.example.util.simpletimetracker.feature_views.extension.measureForSharing
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.action.ShareImageParams
-import com.example.util.simpletimetracker.navigation.params.notification.ToastParams
+import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
 import javax.inject.Inject
 
 class SharingInteractor @Inject constructor(
@@ -41,7 +41,12 @@ class SharingInteractor @Inject constructor(
     }
 
     private fun showMessage(stringResId: Int) {
-        val params = ToastParams(message = resourceRepo.getString(stringResId))
+        val params = SnackBarParams(
+            message = resourceRepo.getString(stringResId),
+            margins = SnackBarParams.Margins(
+                bottom = resourceRepo.getDimenInDp(R.dimen.button_height),
+            )
+        )
         router.show(params)
     }
 }

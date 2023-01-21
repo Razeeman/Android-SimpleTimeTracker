@@ -29,7 +29,7 @@ import com.example.util.simpletimetracker.feature_settings.viewData.SettingsStar
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.action.OpenMarketParams
 import com.example.util.simpletimetracker.navigation.params.action.SendEmailParams
-import com.example.util.simpletimetracker.navigation.params.notification.ToastParams
+import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
 import com.example.util.simpletimetracker.navigation.params.screen.ArchiveParams
 import com.example.util.simpletimetracker.navigation.params.screen.CardOrderDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.CardSizeDialogParams
@@ -578,7 +578,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     private fun showMessage(stringResId: Int) {
-        val params = ToastParams(message = resourceRepo.getString(stringResId))
+        val params = SnackBarParams(message = resourceRepo.getString(stringResId))
         router.show(params)
     }
 

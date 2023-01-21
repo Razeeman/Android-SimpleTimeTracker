@@ -1,6 +1,6 @@
 package com.example.util.simpletimetracker
 
-import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.util.simpletimetracker.utils.BaseUiTest
@@ -10,7 +10,7 @@ import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.tryAction
 import dagger.hilt.android.testing.HiltAndroidTest
-import org.hamcrest.Matchers
+import org.hamcrest.Matchers.allOf
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -24,21 +24,23 @@ class MessagesTest : BaseUiTest() {
         clickOnViewWithId(R.id.fieldChangeRecordTypeColor)
         clickOnViewWithText(R.string.change_record_type_save)
         checkViewIsDisplayed(
-            Matchers.allOf(
+            allOf(
                 withText(R.string.change_record_message_choose_name),
-                ViewMatchers.withId(com.google.android.material.R.id.snackbar_text)
+                withId(com.google.android.material.R.id.snackbar_text)
             )
         )
     }
 
     @Test
     fun messageRecordActivity() {
-        return // TODO doesn't work
         NavUtils.openRecordsScreen()
         clickOnViewWithId(R.id.btnRecordAdd)
         clickOnViewWithText(R.string.change_record_save)
-        tryAction {
-            checkViewIsDisplayed(withText(R.string.change_record_message_choose_type))
-        }
+        checkViewIsDisplayed(
+            allOf(
+                withText(R.string.change_record_message_choose_type),
+                withId(com.google.android.material.R.id.snackbar_text)
+            )
+        )
     }
 }

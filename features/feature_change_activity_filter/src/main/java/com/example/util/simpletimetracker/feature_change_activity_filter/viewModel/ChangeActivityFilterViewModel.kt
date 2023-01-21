@@ -28,7 +28,7 @@ import com.example.util.simpletimetracker.feature_change_activity_filter.interac
 import com.example.util.simpletimetracker.feature_change_activity_filter.mapper.ChangeActivityFilterMapper
 import com.example.util.simpletimetracker.feature_change_activity_filter.viewData.ChangeActivityFilterTypeSwitchViewData
 import com.example.util.simpletimetracker.navigation.Router
-import com.example.util.simpletimetracker.navigation.params.notification.ToastParams
+import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeActivityFilterParams
 import com.example.util.simpletimetracker.navigation.params.screen.ColorSelectionDialogParams
 import kotlinx.coroutines.launch
@@ -288,7 +288,13 @@ class ChangeActivityFilterViewModel @Inject constructor(
     }
 
     private fun showMessage(stringResId: Int) {
-        val params = ToastParams(message = resourceRepo.getString(stringResId))
+        val params = SnackBarParams(
+            message = resourceRepo.getString(stringResId),
+            duration = SnackBarParams.Duration.Short,
+            margins = SnackBarParams.Margins(
+                bottom = resourceRepo.getDimenInDp(R.dimen.button_height),
+            )
+        )
         router.show(params)
     }
 }

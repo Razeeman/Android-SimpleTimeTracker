@@ -26,7 +26,6 @@ import com.example.util.simpletimetracker.navigation.params.action.ActionParams
 import com.example.util.simpletimetracker.navigation.params.action.CreateFileParams
 import com.example.util.simpletimetracker.navigation.params.action.OpenFileParams
 import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
-import com.example.util.simpletimetracker.navigation.params.notification.ToastParams
 import com.example.util.simpletimetracker.navigation.params.screen.DataExportSettingDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DataExportSettingsResult
 import com.example.util.simpletimetracker.navigation.params.screen.StandardDialogParams
@@ -384,7 +383,7 @@ class BackupViewModel @Inject constructor(
     }
 
     private fun showMessage(stringResId: Int) {
-        val params = ToastParams(message = resourceRepo.getString(stringResId))
+        val params = SnackBarParams(message = resourceRepo.getString(stringResId))
         router.show(params)
     }
 

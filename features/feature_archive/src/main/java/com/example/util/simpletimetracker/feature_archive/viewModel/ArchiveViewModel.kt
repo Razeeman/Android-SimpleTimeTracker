@@ -15,7 +15,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.category.Category
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.navigation.Router
-import com.example.util.simpletimetracker.navigation.params.notification.ToastParams
+import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
 import com.example.util.simpletimetracker.navigation.params.screen.ArchiveDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.StandardDialogParams
 import kotlinx.coroutines.launch
@@ -84,7 +84,7 @@ class ArchiveViewModel @Inject constructor(
             }
 
             updateViewData()
-            router.show(ToastParams(message))
+            showMessage(message)
         }
     }
 
@@ -108,8 +108,19 @@ class ArchiveViewModel @Inject constructor(
             }
 
             updateViewData()
-            router.show(ToastParams(message))
+            showMessage(message)
         }
+    }
+
+    private fun showMessage(string: String) {
+        val params = SnackBarParams(
+            message = string,
+            duration = SnackBarParams.Duration.Short,
+            margins = SnackBarParams.Margins(
+                bottom = resourceRepo.getDimenInDp(R.dimen.button_height),
+            )
+        )
+        router.show(params)
     }
 
     private suspend fun updateViewData() {

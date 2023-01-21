@@ -23,7 +23,7 @@ import com.example.util.simpletimetracker.feature_change_record.model.TimeAdjust
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordChooserState
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordCommentViewData
 import com.example.util.simpletimetracker.navigation.Router
-import com.example.util.simpletimetracker.navigation.params.notification.ToastParams
+import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTagFromScreen
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeTagData
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogParams
@@ -443,7 +443,13 @@ abstract class ChangeRecordBaseViewModel(
     }
 
     protected fun showMessage(stringResId: Int) {
-        val params = ToastParams(message = resourceRepo.getString(stringResId))
+        val params = SnackBarParams(
+            message = resourceRepo.getString(stringResId),
+            duration = SnackBarParams.Duration.Short,
+            margins = SnackBarParams.Margins(
+                bottom = resourceRepo.getDimenInDp(R.dimen.button_height),
+            )
+        )
         router.show(params)
     }
 

@@ -6,13 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.ColorViewDataInteractor
-import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.mapper.CategoryViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
-import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
-import com.example.util.simpletimetracker.feature_base_adapter.color.ColorViewData
-import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.extension.flip
 import com.example.util.simpletimetracker.domain.extension.orTrue
 import com.example.util.simpletimetracker.domain.extension.orZero
@@ -21,11 +17,15 @@ import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.model.AppColor
 import com.example.util.simpletimetracker.domain.model.Category
+import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
+import com.example.util.simpletimetracker.feature_base_adapter.color.ColorViewData
+import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_change_category.R
 import com.example.util.simpletimetracker.feature_change_category.interactor.ChangeCategoryViewDataInteractor
 import com.example.util.simpletimetracker.navigation.Router
+import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeTagData
-import com.example.util.simpletimetracker.navigation.params.notification.ToastParams
 import com.example.util.simpletimetracker.navigation.params.screen.ColorSelectionDialogParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -259,7 +259,13 @@ class ChangeCategoryViewModel @Inject constructor(
     }
 
     private fun showMessage(stringResId: Int) {
-        val params = ToastParams(message = resourceRepo.getString(stringResId))
+        val params = SnackBarParams(
+            message = resourceRepo.getString(stringResId),
+            duration = SnackBarParams.Duration.Short,
+            margins = SnackBarParams.Margins(
+                bottom = resourceRepo.getDimenInDp(R.dimen.button_height),
+            )
+        )
         router.show(params)
     }
 }
