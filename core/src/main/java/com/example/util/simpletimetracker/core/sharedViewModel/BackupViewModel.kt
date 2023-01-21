@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.extension.set
+import com.example.util.simpletimetracker.core.repo.AutomaticBackupRepo
 import com.example.util.simpletimetracker.core.repo.PermissionRepo
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.interactor.AutomaticBackupInteractor
@@ -32,6 +33,7 @@ import java.util.Locale
 import javax.inject.Inject
 
 class BackupViewModel @Inject constructor(
+    automaticBackupRepo: AutomaticBackupRepo,
     private val resourceRepo: ResourceRepo,
     private val permissionRepo: PermissionRepo,
     private val router: Router,
@@ -51,6 +53,7 @@ class BackupViewModel @Inject constructor(
         }
     }
     val progressVisibility: LiveData<Boolean> = MutableLiveData(false)
+    val automaticBackupProgress: LiveData<Boolean> = automaticBackupRepo.inProgress
     private var dataExportSettingsResult: DataExportSettingsResult? = null
 
     fun onSaveClick() {

@@ -62,7 +62,7 @@ class NotificationReceiver : BroadcastReceiver() {
             -> {
                 goalTimeController.onRangeEndReminder()
             }
-            ACTION_AUTOMATIC_BACKUP -> goAsync {
+            ACTION_AUTOMATIC_BACKUP -> goAsync() {
                 automaticBackupController.onReminder()
             }
             ACTION_START_ACTIVITY -> {

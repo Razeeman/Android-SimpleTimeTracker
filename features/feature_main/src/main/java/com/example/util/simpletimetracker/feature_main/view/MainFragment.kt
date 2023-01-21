@@ -11,10 +11,12 @@ import androidx.core.graphics.BlendModeCompat
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
+import com.example.util.simpletimetracker.core.extension.combineTuple
 import com.example.util.simpletimetracker.core.extension.getThemedAttr
 import com.example.util.simpletimetracker.core.sharedViewModel.BackupViewModel
 import com.example.util.simpletimetracker.core.sharedViewModel.MainTabsViewModel
 import com.example.util.simpletimetracker.core.utils.SHORTCUT_NAVIGATION_KEY
+import com.example.util.simpletimetracker.domain.extension.orFalse
 import com.example.util.simpletimetracker.feature_main.R
 import com.example.util.simpletimetracker.feature_main.adapter.MainContentAdapter
 import com.example.util.simpletimetracker.feature_main.mapper.MainMapper
@@ -65,7 +67,12 @@ class MainFragment : BaseFragment<Binding>() {
 
     override fun initViewModel() = with(binding) {
         viewModel.initialize
-        backupViewModel.progressVisibility.observe(mainProgress::visible::set)
+        combineTuple(
+            backupViewModel.progressVisibility,
+            backupViewModel.automaticBackupProgress
+        ).observe {
+            mainProgress.visible = it.first.orFalse() || it.second.orFalse()
+        }
     }
 
     override fun onResume() {

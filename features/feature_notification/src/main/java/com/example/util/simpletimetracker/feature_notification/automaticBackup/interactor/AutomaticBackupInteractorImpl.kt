@@ -1,5 +1,7 @@
 package com.example.util.simpletimetracker.feature_notification.automaticBackup.interactor
 
+import com.example.util.simpletimetracker.core.extension.post
+import com.example.util.simpletimetracker.core.repo.AutomaticBackupRepo
 import com.example.util.simpletimetracker.domain.interactor.AutomaticBackupInteractor
 import com.example.util.simpletimetracker.domain.interactor.BackupInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -12,11 +14,12 @@ class AutomaticBackupInteractorImpl @Inject constructor(
     private val scheduler: AutomaticBackupScheduler,
     private val backupInteractor: BackupInteractor,
     private val prefsInteractor: PrefsInteractor,
+    private val automaticBackupRepo: AutomaticBackupRepo,
 ) : AutomaticBackupInteractor {
 
     override fun schedule() {
         // TODO schedule at midnight
-        val timestamp = TimeUnit.MINUTES.toMillis(1)
+        val timestamp = TimeUnit.SECONDS.toMillis(20)
         scheduler.schedule(timestamp)
     }
 
@@ -25,15 +28,18 @@ class AutomaticBackupInteractorImpl @Inject constructor(
     }
 
     override suspend fun backup() {
+        schedule()
+        automaticBackupRepo.inProgress.post(true)
         val uri = prefsInteractor.getAutomaticBackupUri()
         val result = backupInteractor.saveBackupFile(uri)
 
         if (result == ResultCode.SUCCESS) {
-            // TODO add progress loader if app is opened at this time
             schedule()
         } else {
+            cancel()
             prefsInteractor.setAutomaticBackupError(true)
             prefsInteractor.setAutomaticBackupUri("")
         }
+        automaticBackupRepo.inProgress.post(false)
     }
 }
