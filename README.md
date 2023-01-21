@@ -75,14 +75,14 @@ Simple app that helps track how much time you spend on all the useless activitie
 - Drag and Drop, Gesture detection
 - Gradle Kotlin DSL
 - View Binding
-- Database backup and restore, export to csv
+- Database backup and restore, export to csv, automatic backup
 - Dark mode
 - Unit tests, UI tests
 - CI with github actions
 - Emojis with EmojiCompat
 
 ## License
-Copyright (C) 2020-2022 Anton Razinkov devrazeeman@gmail.com
+Copyright (C) 2020-2023 Anton Razinkov devrazeeman@gmail.com
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

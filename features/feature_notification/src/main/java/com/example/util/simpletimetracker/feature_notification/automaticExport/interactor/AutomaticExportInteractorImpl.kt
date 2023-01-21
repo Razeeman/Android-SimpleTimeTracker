@@ -28,9 +28,11 @@ class AutomaticExportInteractorImpl @Inject constructor(
     }
 
     override suspend fun export() {
-        schedule()
         automaticExportRepo.inProgress.post(true)
+
         val uri = prefsInteractor.getAutomaticExportUri()
+            .takeUnless { it.isEmpty() }
+            ?: return
         val result = csvExportInteractor.saveCsvFile(uri, range = null)
 
         if (result == ResultCode.SUCCESS) {
@@ -41,6 +43,7 @@ class AutomaticExportInteractorImpl @Inject constructor(
             prefsInteractor.setAutomaticExportError(true)
             prefsInteractor.setAutomaticExportUri("")
         }
+
         automaticExportRepo.inProgress.post(false)
     }
 }
