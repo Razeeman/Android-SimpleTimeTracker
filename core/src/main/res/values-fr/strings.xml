@@ -248,6 +248,7 @@ Paramètres facultatifs pour le démarrage de l\'activité:<br/>
     <string name="settings_save_description">Avant de créer une sauvegarde, assurez-vous que la dernière version de l\'application est installée pour éviter tout conflit.</string>
     <string name="settings_automatic_backup">Activer la sauvegarde automatique</string>
     <string name="settings_automatic_backup_description">La sauvegarde sera enregistrée à l\'emplacement sélectionné en remplaçant le fichier précédemment enregistré tous les jours à minuit.</string>
+    <string name="settings_automatic_backup_last_save">Dernière sauvegarde:</string>
     <string name="settings_restore_backup">Restaurer une sauvegarde</string>
     <string name="settings_restore_description">Les données actuelles seront perdues.</string>
     <string name="settings_dialog_message">Restaurer la sauvegarde ?</string>

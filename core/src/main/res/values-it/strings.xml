@@ -248,6 +248,7 @@ Parametri facoltativi per l\'avvio dell\'attività:<br/>
     <string name="settings_save_description">Prima di salvare, assicurati di avere l\'ultima versione dell\'app per evitare conflitti.</string>
     <string name="settings_automatic_backup">Abilita il backup automatico</string>
     <string name="settings_automatic_backup_description">Il backup verrà salvato nella posizione selezionata sovrascrivendo il file salvato in precedenza ogni giorno a mezzanotte.</string>
+    <string name="settings_automatic_backup_last_save">Ultimo salvataggio:</string>
     <string name="settings_restore_backup">Ripristina backup</string>
     <string name="settings_restore_description">I dati attuali verrano persi.</string>
     <string name="settings_dialog_message">Ripristina backup?</string>

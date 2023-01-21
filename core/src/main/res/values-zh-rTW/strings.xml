@@ -248,6 +248,7 @@
     <string name="settings_save_description">在保存之前，請確保您已安裝最新版本的應用程序以避免衝突。</string>
     <string name="settings_automatic_backup">啟用自動備份</string>
     <string name="settings_automatic_backup_description">每天午夜，備份將保存在選定的位置，覆蓋以前保存的文件。</string>
+    <string name="settings_automatic_backup_last_save">最後保存：</string>
     <string name="settings_restore_backup">還原備份</string>
     <string name="settings_restore_description">目前資料會遺失</string>
     <string name="settings_dialog_message">還原備份？</string>

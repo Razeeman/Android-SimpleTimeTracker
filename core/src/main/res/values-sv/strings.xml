@@ -248,6 +248,7 @@ Valfria parametrar för start av aktivitet:<br/>
     <string name="settings_save_description">Innan du sparar, se till att du har den senaste versionen av appen för att förhindra datakonflikter.</string>
     <string name="settings_automatic_backup">Aktivera automatisk säkerhetskopiering</string>
     <string name="settings_automatic_backup_description">Säkerhetskopiering kommer att sparas på den valda platsen och åsidosätter tidigare sparad fil varje dag vid midnatt.</string>
+    <string name="settings_automatic_backup_last_save">Senast sparad:</string>
     <string name="settings_restore_backup">Återställ säkerhetskopia</string>
     <string name="settings_restore_description">Nuvarande data kommer tas bort.</string>
     <string name="settings_dialog_message">Återställa säkerhetskopia?</string>

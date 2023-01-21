@@ -248,6 +248,7 @@
     <string name="settings_save_description">Перед збереженням переконайтесь, що у вас встановлена остання версія додатку, щоб уникнути конфліктів.</string>
     <string name="settings_automatic_backup">Увімкнути автоматичне резервне копіювання</string>
     <string name="settings_automatic_backup_description">Резервна копія зберігатиметься у вибраному місці, замінюючи попередньо збережений файл щодня опівночі.</string>
+    <string name="settings_automatic_backup_last_save">Останнє збереження:</string>
     <string name="settings_restore_backup">Відновлення резервної копії</string>
     <string name="settings_restore_description">Поточні дані будуть втрачені.</string>
     <string name="settings_dialog_message">Відновити резервну копію?</string>

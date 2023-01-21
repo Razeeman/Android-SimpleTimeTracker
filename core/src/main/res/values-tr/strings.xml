@@ -248,6 +248,7 @@ Aktiviteyi başlatmak için isteğe bağlı parametreler:<br/>
     <string name="settings_save_description">Kaydetmeden önce, uyuşmazlık yaşamamak için uygulamanın güncel olduğundan emin olun.</string>
     <string name="settings_automatic_backup">Otomatik yedeklemeyi etkinleştir</string>
     <string name="settings_automatic_backup_description">Yedekleme, her gün gece yarısı önceden kaydedilmiş dosyayı geçersiz kılarak seçilen konuma kaydedilecektir.</string>
+    <string name="settings_automatic_backup_last_save">Son kaydetme:</string>
     <string name="settings_restore_backup">Yedeklemeyi geri yükle</string>
     <string name="settings_restore_description">Varolan veri silinecek.</string>
     <string name="settings_dialog_message">Yedeklemeyi geri yükle?</string>

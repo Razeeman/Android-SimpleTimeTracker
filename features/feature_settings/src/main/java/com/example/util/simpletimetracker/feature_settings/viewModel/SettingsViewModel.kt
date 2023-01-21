@@ -11,8 +11,6 @@ import com.example.util.simpletimetracker.core.interactor.CheckExactAlarmPermiss
 import com.example.util.simpletimetracker.core.model.NavigationTab
 import com.example.util.simpletimetracker.core.provider.ApplicationDataProvider
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
-import com.example.util.simpletimetracker.core.sharedViewModel.BackupViewModel.Companion.CSV_EXPORT_DIALOG_TAG
-import com.example.util.simpletimetracker.core.sharedViewModel.BackupViewModel.Companion.ICS_EXPORT_DIALOG_TAG
 import com.example.util.simpletimetracker.domain.extension.flip
 import com.example.util.simpletimetracker.domain.extension.orFalse
 import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTimeInteractor
@@ -36,7 +34,6 @@ import com.example.util.simpletimetracker.navigation.params.screen.ArchiveParams
 import com.example.util.simpletimetracker.navigation.params.screen.CardOrderDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.CardSizeDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.CategoriesParams
-import com.example.util.simpletimetracker.navigation.params.screen.DataExportSettingDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogType
 import com.example.util.simpletimetracker.navigation.params.screen.DurationDialogParams
@@ -287,14 +284,6 @@ class SettingsViewModel @Inject constructor(
     fun onSettingsAdditionalClick() {
         val newValue = settingsAdditionalVisibility.value?.flip().orFalse()
         settingsAdditionalVisibility.set(newValue)
-    }
-
-    fun onExportCsvClick() {
-        router.navigate(DataExportSettingDialogParams(CSV_EXPORT_DIALOG_TAG))
-    }
-
-    fun onExportIcsClick() {
-        router.navigate(DataExportSettingDialogParams(ICS_EXPORT_DIALOG_TAG))
     }
 
     fun onRateClick() {

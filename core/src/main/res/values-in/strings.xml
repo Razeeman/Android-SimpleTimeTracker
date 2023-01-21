@@ -248,6 +248,7 @@ Parameter opsional untuk memulai aktivitas:<br/>
     <string name="settings_save_description">Sebelum menyimpan, pastikan Anda memiliki versi terbaru aplikasi terinstal untuk menghindari masalah teknis.</string>
     <string name="settings_automatic_backup">Aktifkan pencadangan otomatis</string>
     <string name="settings_automatic_backup_description">Cadangan akan disimpan di lokasi yang dipilih mengesampingkan file yang disimpan sebelumnya setiap hari pada tengah malam.</string>
+    <string name="settings_automatic_backup_last_save">Penyimpanan terakhir:</string>
     <string name="settings_restore_backup">Pulihkan cadangan</string>
     <string name="settings_restore_description">Data saat ini akan lenyap.</string>
     <string name="settings_dialog_message">Pulihkan cadangan?</string>

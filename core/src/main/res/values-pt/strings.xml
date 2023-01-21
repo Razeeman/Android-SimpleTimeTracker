@@ -248,6 +248,7 @@ Parâmetros opcionais para iniciar a atividade:<br/>
     <string name="settings_save_description">Antes de salvar, verifique se você tem a versão mais recente do aplicativo instalada para evitar conflitos.</string>
     <string name="settings_automatic_backup">Ativar backup automático</string>
     <string name="settings_automatic_backup_description">O backup será salvo no local selecionado substituindo o arquivo salvo anteriormente todos os dias à meia-noite.</string>
+    <string name="settings_automatic_backup_last_save">Último salvamento:</string>
     <string name="settings_restore_backup">Restaurar backup</string>
     <string name="settings_restore_description">Os dados atuais serão perdidos.</string>
     <string name="settings_dialog_message">Restaurar backup?</string>

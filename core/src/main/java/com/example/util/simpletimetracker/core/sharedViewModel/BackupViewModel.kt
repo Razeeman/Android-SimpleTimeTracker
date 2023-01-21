@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.extension.set
+import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.AutomaticBackupRepo
 import com.example.util.simpletimetracker.core.repo.PermissionRepo
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
@@ -24,6 +25,7 @@ import com.example.util.simpletimetracker.navigation.params.action.CreateFilePar
 import com.example.util.simpletimetracker.navigation.params.action.OpenFileParams
 import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
 import com.example.util.simpletimetracker.navigation.params.notification.ToastParams
+import com.example.util.simpletimetracker.navigation.params.screen.DataExportSettingDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DataExportSettingsResult
 import com.example.util.simpletimetracker.navigation.params.screen.StandardDialogParams
 import kotlinx.coroutines.launch
@@ -42,6 +44,7 @@ class BackupViewModel @Inject constructor(
     private val icsExportInteractor: IcsExportInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val automaticBackupInteractor: AutomaticBackupInteractor,
+    private val timeMapper: TimeMapper,
 ) : ViewModel() {
 
     val automaticBackupCheckbox: LiveData<Boolean> by lazy {
@@ -52,14 +55,24 @@ class BackupViewModel @Inject constructor(
             initial
         }
     }
+    val automaticBackupLastSaveTime: LiveData<String> by lazy {
+        MutableLiveData<String>().let { initial ->
+            viewModelScope.launch {
+                initial.value = loadAutomaticBackupLastSaveTime()
+            }
+            initial
+        }
+    }
     val progressVisibility: LiveData<Boolean> = MutableLiveData(false)
     val automaticBackupProgress: LiveData<Boolean> = automaticBackupRepo.inProgress
+
     private var dataExportSettingsResult: DataExportSettingsResult? = null
 
     fun onVisible() {
         viewModelScope.launch {
             checkForAutomaticBackupError()
             updateAutomaticBackupEnabled()
+            updateAutomaticBackupLastSaveTime()
         }
     }
 
@@ -102,6 +115,14 @@ class BackupViewModel @Inject constructor(
         )
     }
 
+    fun onExportCsvClick() {
+        router.navigate(DataExportSettingDialogParams(CSV_EXPORT_DIALOG_TAG))
+    }
+
+    fun onExportIcsClick() {
+        router.navigate(DataExportSettingDialogParams(ICS_EXPORT_DIALOG_TAG))
+    }
+
     fun onPositiveDialogClick(tag: String?) {
         when (tag) {
             ALERT_DIALOG_TAG -> requestFileWork(
@@ -140,6 +161,14 @@ class BackupViewModel @Inject constructor(
         dataExportSettingsResult = data
     }
 
+    fun onFileWork() {
+        viewModelScope.launch {
+            checkForAutomaticBackupError()
+            updateAutomaticBackupEnabled()
+            updateAutomaticBackupLastSaveTime()
+        }
+    }
+
     private suspend fun checkForAutomaticBackupError() {
         if (prefsInteractor.getAutomaticBackupError()) {
             router.show(
@@ -172,6 +201,7 @@ class BackupViewModel @Inject constructor(
                 onFileCreateError()
             }
             updateAutomaticBackupEnabled()
+            updateAutomaticBackupLastSaveTime()
         }
     }
 
@@ -181,6 +211,7 @@ class BackupViewModel @Inject constructor(
             prefsInteractor.setAutomaticBackupError(false)
             automaticBackupInteractor.cancel()
             updateAutomaticBackupEnabled()
+            updateAutomaticBackupLastSaveTime()
         }
     }
 
@@ -284,9 +315,28 @@ class BackupViewModel @Inject constructor(
         return prefsInteractor.getAutomaticBackupUri().isNotEmpty()
     }
 
+    private suspend fun updateAutomaticBackupLastSaveTime() {
+        val data = loadAutomaticBackupLastSaveTime()
+        automaticBackupLastSaveTime.set(data)
+    }
+
+    private suspend fun loadAutomaticBackupLastSaveTime(): String {
+        return if (loadAutomaticBackupEnabled()) {
+            val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
+
+            prefsInteractor.getAutomaticBackupLastSaveTime()
+                .takeUnless { it == 0L }
+                ?.let { timeMapper.formatDateTimeYear(it, useMilitaryTime) }
+                ?.let { resourceRepo.getString(R.string.settings_automatic_backup_last_save) + " " + it }
+                .orEmpty()
+        } else {
+            ""
+        }
+    }
+
     companion object {
-        const val CSV_EXPORT_DIALOG_TAG = "csv_export_dialog_tag"
-        const val ICS_EXPORT_DIALOG_TAG = "ics_export_dialog_tag"
+        private const val CSV_EXPORT_DIALOG_TAG = "csv_export_dialog_tag"
+        private const val ICS_EXPORT_DIALOG_TAG = "ics_export_dialog_tag"
         private const val ALERT_DIALOG_TAG = "alert_dialog_tag"
     }
 }

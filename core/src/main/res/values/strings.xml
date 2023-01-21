@@ -248,6 +248,7 @@ Optional parameters for starting activity:<br/>
     <string name="settings_save_description">Before saving, make sure that you have the latest version of the app installed to avoid conflicts.</string>
     <string name="settings_automatic_backup">Enable automatic backup</string>
     <string name="settings_automatic_backup_description">Backup will be saved in the selected location overriding previously saved file every day at midnight.</string>
+    <string name="settings_automatic_backup_last_save">Last save:</string>
     <string name="settings_restore_backup">Restore backup</string>
     <string name="settings_restore_description">Current data will be lost.</string>
     <string name="settings_dialog_message">Restore backup?</string>

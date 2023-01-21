@@ -248,6 +248,7 @@
     <string name="settings_save_description">Перед сохранением убедитесь, что у вас установлена последняя версия приложения, чтобы избежать конфликтов.</string>
     <string name="settings_automatic_backup">Включить автоматическое резервное копирование</string>
     <string name="settings_automatic_backup_description">Резервная копия будет сохраняться в выбранном месте каждый день в полночь вместо ранее сохраненного файла.</string>
+    <string name="settings_automatic_backup_last_save">Последнее сохранение:</string>
     <string name="settings_restore_backup">Восстановление резервной копии</string>
     <string name="settings_restore_description">Текущие данные будут потеряны.</string>
     <string name="settings_dialog_message">Восстановить из резервной копии?</string>

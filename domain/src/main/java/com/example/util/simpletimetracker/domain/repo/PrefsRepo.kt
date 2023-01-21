@@ -64,6 +64,8 @@ interface PrefsRepo {
 
     var automaticBackupError: Boolean
 
+    var automaticBackupLastSaveTime: Long
+
     fun setWidget(widgetId: Int, recordType: Long)
 
     fun getWidget(widgetId: Int): Long

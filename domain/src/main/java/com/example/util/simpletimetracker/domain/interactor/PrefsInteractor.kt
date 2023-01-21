@@ -320,6 +320,14 @@ class PrefsInteractor @Inject constructor(
         prefsRepo.automaticBackupError
     }
 
+    suspend fun setAutomaticBackupLastSaveTime(value: Long) = withContext(Dispatchers.IO) {
+        prefsRepo.automaticBackupLastSaveTime = value
+    }
+
+    suspend fun getAutomaticBackupLastSaveTime(): Long = withContext(Dispatchers.IO) {
+        prefsRepo.automaticBackupLastSaveTime
+    }
+
     suspend fun clear() = withContext(Dispatchers.IO) {
         prefsRepo.clear()
     }

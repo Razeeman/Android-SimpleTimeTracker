@@ -248,6 +248,7 @@
     <string name="settings_save_description">保存する前に競合を避けるため、最新バージョンのアプリがインストールされていることを確認してください。</string>
     <string name="settings_automatic_backup">自動バックアップを有効にする</string>
     <string name="settings_automatic_backup_description">バックアップは、毎日午前 0 時に以前に保存されたファイルを上書きして、選択した場所に保存されます。</string>
+    <string name="settings_automatic_backup_last_save">最後の保存:</string>
     <string name="settings_restore_backup">バックアップの復元</string>
     <string name="settings_restore_description">現在のデータは失われます。</string>
     <string name="settings_dialog_message">バックアップを復元しますか？</string>

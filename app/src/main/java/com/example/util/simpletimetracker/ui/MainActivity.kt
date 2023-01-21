@@ -57,6 +57,7 @@ class MainActivity : BaseActivity() {
             backupViewModel.automaticBackupProgress
         ).observe {
             binding.mainProgress.visible = it.first.orFalse() || it.second.orFalse()
+            backupViewModel.onFileWork()
         }
     }
 }

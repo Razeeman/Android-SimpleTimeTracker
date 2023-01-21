@@ -111,8 +111,8 @@ class SettingsFragment :
         with(layoutSettingsBackup) {
             layoutSettingsSaveBackup.setOnClick(backupViewModel::onSaveClick)
             layoutSettingsRestoreBackup.setOnClick(backupViewModel::onRestoreClick)
-            layoutSettingsExportCsv.setOnClick(viewModel::onExportCsvClick)
-            layoutSettingsExportIcs.setOnClick(viewModel::onExportIcsClick)
+            layoutSettingsExportCsv.setOnClick(backupViewModel::onExportCsvClick)
+            layoutSettingsExportIcs.setOnClick(backupViewModel::onExportIcsClick)
             checkboxSettingsAutomaticBackup.setOnClick(backupViewModel::onAutomaticBackupClick)
         }
     }
@@ -167,6 +167,10 @@ class SettingsFragment :
         }
         with(backupViewModel) {
             automaticBackupCheckbox.observe(layoutSettingsBackup.checkboxSettingsAutomaticBackup::setChecked)
+            automaticBackupLastSaveTime.observe {
+                layoutSettingsBackup.tvSettingsAutomaticBackupLastSaveTime.visible = it.isNotEmpty()
+                layoutSettingsBackup.tvSettingsAutomaticBackupLastSaveTime.text = it
+            }
         }
         with(mainTabsViewModel) {
             tabReselected.observe(viewModel::onTabReselected)
@@ -202,7 +206,6 @@ class SettingsFragment :
             checkboxSettingsAutomaticBackup.jumpDrawablesToCurrentState()
         }
         viewModel.onVisible()
-        backupViewModel.onVisible()
     }
 
     override fun onPositiveClick(tag: String?, data: Any?) {

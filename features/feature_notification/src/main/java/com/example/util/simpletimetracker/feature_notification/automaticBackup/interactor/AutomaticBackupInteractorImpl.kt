@@ -35,6 +35,7 @@ class AutomaticBackupInteractorImpl @Inject constructor(
 
         if (result == ResultCode.SUCCESS) {
             schedule()
+            prefsInteractor.setAutomaticBackupLastSaveTime(System.currentTimeMillis())
         } else {
             cancel()
             prefsInteractor.setAutomaticBackupError(true)

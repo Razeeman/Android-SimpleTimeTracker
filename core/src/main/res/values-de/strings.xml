@@ -248,6 +248,7 @@ Optionale Parameter zum Starten der Aktivität:<br/>
     <string name="settings_save_description">Stelle vor dem Speichern sicher, dass die neueste Version der App installiert ist, um Konflikte zu vermeiden.</string>
     <string name="settings_automatic_backup">Aktivieren Sie die automatische Sicherung</string>
     <string name="settings_automatic_backup_description">Die Sicherung wird jeden Tag um Mitternacht am ausgewählten Ort gespeichert und überschreibt die zuvor gespeicherte Datei.</string>
+    <string name="settings_automatic_backup_last_save">Zuletzt gespeichert:</string>
     <string name="settings_restore_backup">Backup wiederherstellen</string>
     <string name="settings_restore_description">Aktuelle Daten gehen verloren.</string>
     <string name="settings_dialog_message">Backup wiederherstellen?</string>

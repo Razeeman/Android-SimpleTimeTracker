@@ -248,6 +248,7 @@
     <string name="settings_save_description">सहेजने से पहले, सुनिश्चित करें कि आपके पास संघर्षों से बचने के लिए इंस्टॉल किए गए ऐप का नवीनतम संस्करण है।</string>
     <string name="settings_automatic_backup">स्वचालित बैकअप सक्षम करें</string>
     <string name="settings_automatic_backup_description">हर दिन आधी रात को पहले से सहेजी गई फ़ाइल को ओवरराइड करते हुए चयनित स्थान पर बैकअप सहेजा जाएगा।</string>
+    <string name="settings_automatic_backup_last_save">अंतिम बचत:</string>
     <string name="settings_restore_backup">बैकअप  पुनः स्थापित करे।</string>
     <string name="settings_restore_description">वर्तमान डेटा खो जाएगा।</string>
     <string name="settings_dialog_message">पुनर्स्थापित करे?</string>
