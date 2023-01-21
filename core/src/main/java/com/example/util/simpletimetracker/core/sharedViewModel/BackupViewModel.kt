@@ -105,7 +105,7 @@ class BackupViewModel @Inject constructor(
             work = ::onSaveBackup,
             params = CreateFileParams(
                 fileName = "stt_${getFileNameTimeStamp()}.backup",
-                type = "application/x-binary",
+                type = FILE_TYPE_BIN,
                 notHandledCallback = ::onFileCreateError
             )
         )
@@ -120,7 +120,7 @@ class BackupViewModel @Inject constructor(
                 work = ::onAutomaticBackup,
                 params = CreateFileParams(
                     fileName = "stt_automatic.backup",
-                    type = "application/x-binary",
+                    type = FILE_TYPE_BIN,
                     notHandledCallback = ::onFileCreateError
                 )
             )
@@ -136,7 +136,7 @@ class BackupViewModel @Inject constructor(
                 work = ::onAutomaticExport,
                 params = CreateFileParams(
                     fileName = "stt_records_automatic.csv",
-                    type = "text/csv",
+                    type = FILE_TYPE_CSV,
                     notHandledCallback = ::onFileCreateError
                 )
             )
@@ -180,7 +180,7 @@ class BackupViewModel @Inject constructor(
                     work = ::onSaveCsvFile,
                     params = CreateFileParams(
                         fileName = "stt_records_${getFileNameTimeStamp()}.csv",
-                        type = "text/csv",
+                        type = FILE_TYPE_CSV,
                         notHandledCallback = ::onFileCreateError
                     ),
                 )
@@ -191,7 +191,7 @@ class BackupViewModel @Inject constructor(
                     work = ::onSaveIcsFile,
                     params = CreateFileParams(
                         fileName = "stt_events_${getFileNameTimeStamp()}.ics",
-                        type = "application/ics",
+                        type = FILE_TYPE_ICS,
                         notHandledCallback = ::onFileCreateError
                     ),
                 )
@@ -405,6 +405,16 @@ class BackupViewModel @Inject constructor(
         }
     }
 
+    private suspend fun getLastSaveString(timestamp: Long): String {
+        val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
+
+        return timestamp
+            .takeUnless { it == 0L }
+            ?.let { timeMapper.formatDateTimeYear(it, useMilitaryTime) }
+            ?.let { resourceRepo.getString(R.string.settings_automatic_last_save) + " " + it }
+            .orEmpty()
+    }
+
     private suspend fun updateAutomaticBackupEnabled() {
         val data = loadAutomaticBackupEnabled()
         automaticBackupCheckbox.set(data)
@@ -421,13 +431,7 @@ class BackupViewModel @Inject constructor(
 
     private suspend fun loadAutomaticBackupLastSaveTime(): String {
         return if (loadAutomaticBackupEnabled()) {
-            val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
-
-            prefsInteractor.getAutomaticBackupLastSaveTime()
-                .takeUnless { it == 0L }
-                ?.let { timeMapper.formatDateTimeYear(it, useMilitaryTime) }
-                ?.let { resourceRepo.getString(R.string.settings_automatic_last_save) + " " + it }
-                .orEmpty()
+            getLastSaveString(prefsInteractor.getAutomaticBackupLastSaveTime())
         } else {
             ""
         }
@@ -449,13 +453,7 @@ class BackupViewModel @Inject constructor(
 
     private suspend fun loadAutomaticExportLastSaveTime(): String {
         return if (loadAutomaticExportEnabled()) {
-            val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
-
-            prefsInteractor.getAutomaticExportLastSaveTime()
-                .takeUnless { it == 0L }
-                ?.let { timeMapper.formatDateTimeYear(it, useMilitaryTime) }
-                ?.let { resourceRepo.getString(R.string.settings_automatic_last_save) + " " + it }
-                .orEmpty()
+            getLastSaveString(prefsInteractor.getAutomaticExportLastSaveTime())
         } else {
             ""
         }
@@ -465,5 +463,9 @@ class BackupViewModel @Inject constructor(
         private const val CSV_EXPORT_DIALOG_TAG = "csv_export_dialog_tag"
         private const val ICS_EXPORT_DIALOG_TAG = "ics_export_dialog_tag"
         private const val ALERT_DIALOG_TAG = "alert_dialog_tag"
+
+        private const val FILE_TYPE_BIN = "application/x-binary"
+        private const val FILE_TYPE_CSV = "text/csv"
+        private const val FILE_TYPE_ICS = "application/ics"
     }
 }
