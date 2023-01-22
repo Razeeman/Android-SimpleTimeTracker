@@ -1,0 +1,9 @@
+- Add automatic backup and spreadsheet export
+- Add goals to statistics tab
+- Add record edit actions preview
+- Move previous records adjustment into actions
+- Add monthly goals
+- Add screen reset on tab reselection
+- Add recurrent setting for inactivity reminder
+- Add some translations
+- General bug fixes and improvements
