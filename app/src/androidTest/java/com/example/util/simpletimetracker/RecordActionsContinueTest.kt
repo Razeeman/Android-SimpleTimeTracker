@@ -214,6 +214,8 @@ class RecordActionsContinueTest : BaseUiTest() {
         clickOnView(allOf(withText(name), isCompletelyDisplayed()))
         clickOnViewWithText(R.string.change_record_actions_hint)
         onView(withText(R.string.change_record_continue)).perform(nestedScrollTo(), click())
+        // Snackbar is in the way of Add button
+        clickOnViewWithId(com.google.android.material.R.id.snackbar_text)
         pressBack()
 
         // Try continue from add record
