@@ -117,17 +117,8 @@ class CsvRepoImpl @Inject constructor(
     }
 
     private fun formatDuration(interval: Long): String {
-        val hr: Long = TimeUnit.MILLISECONDS.toHours(
-            interval
-        )
-        val min: Long = TimeUnit.MILLISECONDS.toMinutes(
-            interval - TimeUnit.HOURS.toMillis(hr)
-        )
-        val sec: Long = TimeUnit.MILLISECONDS.toSeconds(
-            interval - TimeUnit.HOURS.toMillis(hr) - TimeUnit.MINUTES.toMillis(min)
-        )
-
-        return "$hr:$min:$sec"
+        val min: Long = TimeUnit.MILLISECONDS.toMinutes(interval)
+        return min.toString()
     }
 
     companion object {
