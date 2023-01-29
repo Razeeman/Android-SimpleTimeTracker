@@ -4,10 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:animateLayoutChanges="true"
-    android:clipChildren="false"
-    android:clipToPadding="false"
-    android:paddingTop="8dp">
+    android:animateLayoutChanges="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/containerChangeRecordTimes"
@@ -21,6 +18,7 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/input_field_height"
             android:layout_marginStart="@dimen/input_field_margin"
+            android:layout_marginTop="8dp"
             app:layout_constraintEnd_toStartOf="@id/fieldChangeRecordTimeEnded"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -46,6 +44,7 @@
             style="@style/InputFieldCard"
             android:layout_width="0dp"
             android:layout_height="@dimen/input_field_height"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="@dimen/input_field_margin"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/fieldChangeRecordTimeStarted"
@@ -309,7 +308,6 @@
         android:id="@+id/containerChangeRecordComment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:clipToOutline="true"
         android:scrollbars="vertical"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/btnChangeRecordSave"
@@ -354,7 +352,6 @@
         android:id="@+id/containerChangeRecordAction"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:clipToOutline="true"
         android:scrollbars="vertical"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/btnChangeRecordSave"
@@ -364,8 +361,8 @@
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="32dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="32dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/containerChangeRecordSplit"
@@ -596,7 +593,6 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="?android:colorBackground"
-        android:clipToOutline="true"
         android:overScrollMode="never"
         android:scrollbars="vertical"
         android:visibility="gone"
@@ -612,7 +608,6 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="?android:colorBackground"
-        android:clipToOutline="true"
         android:overScrollMode="never"
         android:scrollbars="vertical"
         android:visibility="gone"
