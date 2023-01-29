@@ -108,10 +108,8 @@ abstract class ChangeRecordBaseViewModel(
     private var nextRecord: Record? = null
 
     protected open suspend fun initializePreviewViewData() {
-        initializePrevNextRecords()
-        updateTimeSplitData()
-        updateMergeData()
-        updateAdjustData()
+        // Don't wait for the completion.
+        viewModelScope.launch { initializeActions() }
     }
 
     protected open suspend fun onTimeStartedChanged() {
@@ -510,6 +508,13 @@ abstract class ChangeRecordBaseViewModel(
     private suspend fun onTimeSplitChanged() {
         newTimeSplit = newTimeSplit.coerceIn(newTimeStarted..splitPreviewTimeEnded)
         updateTimeSplitData()
+    }
+
+    private suspend fun initializeActions() {
+        initializePrevNextRecords()
+        updateTimeSplitData()
+        updateMergeData()
+        updateAdjustData()
     }
 
     private suspend fun initializePrevNextRecords() {
