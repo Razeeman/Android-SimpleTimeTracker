@@ -60,6 +60,8 @@ interface PrefsRepo {
 
     var recordTagSelectionCloseAfterOne: Boolean
 
+    var recordTagSelectionEvenForGeneralTags: Boolean
+
     var automaticBackupUri: String
 
     var automaticBackupError: Boolean

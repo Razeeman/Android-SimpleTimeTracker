@@ -214,6 +214,7 @@
     <string name="settings_show_record_tag_selection">चयन रिकॉर्ड टैग दिखाएं</string>
     <string name="settings_show_record_tag_selection_hint">टाइमर शुरू करते समय, यदि गतिविधि में कोई रिकॉर्ड टैग होता है - एक चयन संवाद दिखाया जाएगा।</string>
     <string name="settings_show_record_tag_close_hint">एक टैग का चयन करने के बाद बंद करें।</string>
+    <string name="settings_show_record_tag_general_hint">केवल सामान्य टैग के साथ भी दिखाएं।</string>
     <string name="settings_rate">हमें रेटिंग दें</string>
     <string name="settings_rate_description">ऐप को रेट करें और एक समीक्षा छोड़ दें।</string>
     <string name="settings_feedback">प्रतिपुष्टि</string>

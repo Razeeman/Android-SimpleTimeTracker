@@ -214,6 +214,7 @@
     <string name="settings_show_record_tag_selection">Afficher la sélection d\'étiquette d\'enregistrement</string>
     <string name="settings_show_record_tag_selection_hint">Lors du démarrage d\'une activité, afficher une boîte de sélection si l\'activité a des étiquettes d\'enregistrement.</string>
     <string name="settings_show_record_tag_close_hint">Fermer après avoir sélectionné une étiquette</string>
+    <string name="settings_show_record_tag_general_hint">Afficher même avec uniquement des étiquettes générales.</string>
     <string name="settings_rate">Évaluez nous</string>
     <string name="settings_rate_description">Évaluez l\'application et laissez un avis.</string>
     <string name="settings_feedback">Retours</string>

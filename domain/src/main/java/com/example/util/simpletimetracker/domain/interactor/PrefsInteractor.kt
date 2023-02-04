@@ -272,6 +272,14 @@ class PrefsInteractor @Inject constructor(
         prefsRepo.recordTagSelectionCloseAfterOne = value
     }
 
+    suspend fun getRecordTagSelectionEvenForGeneralTags(): Boolean = withContext(Dispatchers.IO) {
+        prefsRepo.recordTagSelectionEvenForGeneralTags
+    }
+
+    suspend fun setRecordTagSelectionEvenForGeneralTags(value: Boolean) = withContext(Dispatchers.IO) {
+        prefsRepo.recordTagSelectionEvenForGeneralTags = value
+    }
+
     suspend fun setWidget(widgetId: Int, recordType: Long) = withContext(Dispatchers.IO) {
         prefsRepo.setWidget(widgetId, recordType)
     }

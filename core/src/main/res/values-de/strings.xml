@@ -214,6 +214,7 @@
     <string name="settings_show_record_tag_selection">Datensatz-Tag-Auswahl zeigen</string>
     <string name="settings_show_record_tag_selection_hint">Beim Starten eines Zählers wird ein Auswahldialog angezeigt, wenn die Aktivität Aufzeichnungs-Tags hat.</string>
     <string name="settings_show_record_tag_close_hint">Schließen nach Auswahl eines Tags.</string>
+    <string name="settings_show_record_tag_general_hint">Auch mit nur allgemeinen Tags anzeigen.</string>
     <string name="settings_rate">Bewerte uns</string>
     <string name="settings_rate_description">Bewerten die App und schreibe eine Rezension.</string>
     <string name="settings_feedback">Feedback</string>

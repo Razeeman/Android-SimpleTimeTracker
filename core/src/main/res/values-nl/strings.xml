@@ -214,6 +214,7 @@
     <string name="settings_show_record_tag_selection">Toon opname label selectie</string>
     <string name="settings_show_record_tag_selection_hint">Als bij het starten van een timer, een activiteit opname labels heeft, wordt er een selectiedialoogvenster weergegeven.</string>
     <string name="settings_show_record_tag_close_hint">Sluiten na het selecteren van een label.</string>
+    <string name="settings_show_record_tag_general_hint">Toon zelfs met alleen algemene labels.</string>
     <string name="settings_rate">Beoordeel ons</string>
     <string name="settings_rate_description">Beoordeel de app en laat een recensie achter.</string>
     <string name="settings_feedback">Feedback</string>

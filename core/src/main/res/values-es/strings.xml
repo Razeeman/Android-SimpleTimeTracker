@@ -214,6 +214,7 @@
     <string name="settings_show_record_tag_selection">Mostrar selección de etiqueta de registro</string>
     <string name="settings_show_record_tag_selection_hint">Cuando se inicie un temporizador, si la actividad tiene asignada alguna etiqueta de registro – se mostrará una ventana de selección.</string>
     <string name="settings_show_record_tag_close_hint">Cerrar después de seleccionar una etiqueta.</string>
+    <string name="settings_show_record_tag_general_hint">Mostrar incluso con solo etiquetas generales.</string>
     <string name="settings_rate">Valórenos</string>
     <string name="settings_rate_description">Valore la aplicación y deje un comentario.</string>
     <string name="settings_feedback">Sugerencias</string>

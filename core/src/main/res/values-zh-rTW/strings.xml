@@ -214,6 +214,7 @@
     <string name="settings_show_record_tag_selection">顯示記錄標籤選擇</string>
     <string name="settings_show_record_tag_selection_hint">啟動計時器時，如果活動有任何記錄標籤 - 將顯示一個選擇對話框。</string>
     <string name="settings_show_record_tag_close_hint">選擇一個標籤後關閉。</string>
+    <string name="settings_show_record_tag_general_hint">即使只有一般標籤也能顯示。</string>
     <string name="settings_rate">給我們投票</string>
     <string name="settings_rate_description">給我們的應用留下評分</string>
     <string name="settings_feedback">回饋</string>

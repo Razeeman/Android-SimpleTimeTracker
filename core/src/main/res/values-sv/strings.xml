@@ -214,6 +214,7 @@
     <string name="settings_show_record_tag_selection">Dialog för händelsetagg</string>
     <string name="settings_show_record_tag_selection_hint">Visa dialogruta för val av händelsetaggar om den påbörjade aktiviteten har tilldelade händelsetaggar.</string>
     <string name="settings_show_record_tag_close_hint">Stäng efter att ha valt en tagg.</string>
+    <string name="settings_show_record_tag_general_hint">Visa även med bara allmänna taggar.</string>
     <string name="settings_rate">Ge oss ett betyg</string>
     <string name="settings_rate_description">Betygsätt appen och lämna en recension.</string>
     <string name="settings_feedback">Feedback</string>

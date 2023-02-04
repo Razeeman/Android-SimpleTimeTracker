@@ -140,6 +140,10 @@ class PrefsRepoImpl @Inject constructor(
         KEY_RECORD_TAG_SELECTION_CLOSE_AFTER_ONE, false
     )
 
+    override var recordTagSelectionEvenForGeneralTags: Boolean by prefs.delegate(
+        RECORD_TAG_SELECTION_EVEN_FOR_GENERAL_TAGS, false
+    )
+
     override var automaticBackupUri: String by prefs.delegate(
         KEY_AUTOMATIC_BACKUP_URI, ""
     )
@@ -300,6 +304,7 @@ class PrefsRepoImpl @Inject constructor(
         private const val KEY_KEEP_SCREEN_ON = "keepScreenOn"
         private const val KEY_SHOW_RECORD_TAG_SELECTION = "showRecordTagSelection"
         private const val KEY_RECORD_TAG_SELECTION_CLOSE_AFTER_ONE = "recordTagSelectionCloseAfterOne"
+        private const val RECORD_TAG_SELECTION_EVEN_FOR_GENERAL_TAGS = "recordTagSelectionEvenForGeneralTags"
         private const val KEY_AUTOMATIC_BACKUP_URI = "automaticBackupUri"
         private const val KEY_AUTOMATIC_BACKUP_ERROR = "automaticBackupError"
         private const val KEY_AUTOMATIC_BACKUP_LAST_SAVE_TIME = "automaticBackupLastSaveTime"

@@ -206,6 +206,15 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    val recordTagSelectionForGeneralTagsCheckbox: LiveData<Boolean> by lazy {
+        MutableLiveData<Boolean>().let { initial ->
+            viewModelScope.launch {
+                initial.value = prefsInteractor.getRecordTagSelectionEvenForGeneralTags()
+            }
+            initial
+        }
+    }
+
     val useMilitaryTimeCheckbox: LiveData<Boolean> by lazy {
         MutableLiveData<Boolean>().let { initial ->
             viewModelScope.launch {
@@ -489,7 +498,7 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch {
             val newValue = !prefsInteractor.getShowRecordTagSelection()
             prefsInteractor.setShowRecordTagSelection(newValue)
-            (showRecordTagSelectionCheckbox as MutableLiveData).value = newValue
+            showRecordTagSelectionCheckbox.set(newValue)
         }
     }
 
@@ -497,7 +506,15 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch {
             val newValue = !prefsInteractor.getRecordTagSelectionCloseAfterOne()
             prefsInteractor.setRecordTagSelectionCloseAfterOne(newValue)
-            (recordTagSelectionCloseCheckbox as MutableLiveData).value = newValue
+            recordTagSelectionCloseCheckbox.set(newValue)
+        }
+    }
+
+    fun onRecordTagSelectionGeneralClicked() {
+        viewModelScope.launch {
+            val newValue = !prefsInteractor.getRecordTagSelectionEvenForGeneralTags()
+            prefsInteractor.setRecordTagSelectionEvenForGeneralTags(newValue)
+            recordTagSelectionForGeneralTagsCheckbox.set(newValue)
         }
     }
 

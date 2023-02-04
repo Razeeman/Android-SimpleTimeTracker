@@ -213,7 +213,8 @@
     <string name="settings_edit_categories_hint">アクティビティにカテゴリを割り当て、レコードにタグを割り当てます。</string>
     <string name="settings_show_record_tag_selection">記録タグの選択を表示</string>
     <string name="settings_show_record_tag_selection_hint">計測を開始する際、アクティビティに記録タグがある場合、選択ダイアログが表示されます。</string>
-    <string name="settings_show_record_tag_close_hint">タグを1つ選択したら閉じる</string>
+    <string name="settings_show_record_tag_close_hint">タグを1つ選択したら閉じる。</string>
+    <string name="settings_show_record_tag_general_hint">一般的なタグだけでも表示します。</string>
     <string name="settings_rate">評価する</string>
     <string name="settings_rate_description">アプリを評価して、レビューを残す。</string>
     <string name="settings_feedback">フィードバック</string>

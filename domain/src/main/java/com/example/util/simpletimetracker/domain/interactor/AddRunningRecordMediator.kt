@@ -26,8 +26,11 @@ class AddRunningRecordMediator @Inject constructor(
 
         // Check if need to show tag selection
         return if (prefsInteractor.getShowRecordTagSelection()) {
-            val tags = recordTagInteractor.getByTypeOrUntyped(typeId)
-                .filterNot { it.archived }
+            val tags = if (prefsInteractor.getRecordTagSelectionEvenForGeneralTags()) {
+                recordTagInteractor.getByTypeOrUntyped(typeId)
+            } else {
+                recordTagInteractor.getByType(typeId)
+            }.filterNot { it.archived }
 
             if (tags.isEmpty()) {
                 startTimer(typeId, emptyList(), "")

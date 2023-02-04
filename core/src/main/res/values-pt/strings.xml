@@ -214,6 +214,7 @@
     <string name="settings_show_record_tag_selection">Mostrar seleção de tag de registro</string>
     <string name="settings_show_record_tag_selection_hint">Ao iniciar um timer, se a atividade tiver alguma tag de registro - uma caixa de diálogo de seleção será exibida.</string>
     <string name="settings_show_record_tag_close_hint">Fechar após selecionar uma tag.</string>
+    <string name="settings_show_record_tag_general_hint">Mostrar mesmo com apenas tags gerais.</string>
     <string name="settings_rate">Avalie-nos</string>
     <string name="settings_rate_description">Avalie o aplicativo e deixe um comentário.</string>
     <string name="settings_feedback">Feedback</string>

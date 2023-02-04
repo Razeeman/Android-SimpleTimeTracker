@@ -214,6 +214,7 @@
     <string name="settings_show_record_tag_selection">Mostra la selezione delle etichette relative alle registrazioni</string>
     <string name="settings_show_record_tag_selection_hint">Quando avvii un timer, se l\'attività ha delle etichette relative ad un record, verrà mostrato un dialog di selezione.</string>
     <string name="settings_show_record_tag_close_hint">Chiudi dopo aver selezionato un tag.</string>
+    <string name="settings_show_record_tag_general_hint">Mostra anche solo con tag generali.</string>
     <string name="settings_rate">Votaci</string>
     <string name="settings_rate_description">Valuta l\'app e lascia una recensione.</string>
     <string name="settings_feedback">Feedback</string>

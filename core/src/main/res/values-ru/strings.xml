@@ -214,6 +214,7 @@
     <string name="settings_show_record_tag_selection">Показывать диалог выбора тега для записи</string>
     <string name="settings_show_record_tag_selection_hint">При запуске таймера, если у активности есть теги для записей - будет показан диалог для выбора.</string>
     <string name="settings_show_record_tag_close_hint">Закрыть после выбора одного тега.</string>
+    <string name="settings_show_record_tag_general_hint">Показать даже только с общими тегами.</string>
     <string name="settings_rate">Оцените нас</string>
     <string name="settings_rate_description">Оцените приложение и оставьте отзыв.</string>
     <string name="settings_feedback">Обратная связь</string>
