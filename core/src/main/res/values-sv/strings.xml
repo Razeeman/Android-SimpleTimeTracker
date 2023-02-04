@@ -324,6 +324,7 @@ Valfria parametrar för start av aktivitet:<br/>
     <string name="notification_goal_time_description">Tidsmål för %s uppnått</string>
     <string name="notification_time_started">Påbörjade %s</string>
     <string name="notification_record_type_goal_time">tidsmål %s</string>
+    <string name="notification_record_type_stop">Sluta</string>
 
     <!--  Archive  -->
     <string name="archive_hint">Klicka på kortet för att se detaljer</string>

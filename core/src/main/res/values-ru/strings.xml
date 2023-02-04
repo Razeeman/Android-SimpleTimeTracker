@@ -324,6 +324,7 @@
     <string name="notification_goal_time_description">%s целевое время достигнуто</string>
     <string name="notification_time_started">Начато в %s</string>
     <string name="notification_record_type_goal_time">цель %s</string>
+    <string name="notification_record_type_stop">Стоп</string>
 
     <!--  Archive  -->
     <string name="archive_hint">Нажмите на карточку для просмотра деталей</string>

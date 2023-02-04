@@ -324,6 +324,7 @@
     <string name="notification_goal_time_description">%s 目標時間達成</string>
     <string name="notification_time_started">開始於 %s</string>
     <string name="notification_record_type_goal_time">目標 %s</string>
+    <string name="notification_record_type_stop">停止</string>
 
     <!--  Archive  -->
     <string name="archive_hint">點擊卡片檢視詳細內容</string>

@@ -103,7 +103,7 @@ class NotificationTypeInteractorImpl @Inject constructor(
         }
 
         NotificationTypeParams(
-            id = recordType.id.toInt(),
+            id = recordType.id,
             icon = recordType.icon
                 .let(iconMapper::mapIcon),
             color = recordType.color
@@ -123,7 +123,8 @@ class NotificationTypeInteractorImpl @Inject constructor(
                 .takeIf { it > 0 }
                 ?.let(timeMapper::formatDuration)
                 ?.let { resourceRepo.getString(R.string.notification_record_type_goal_time, it) }
-                .orEmpty()
+                .orEmpty(),
+            stopButton = resourceRepo.getString(R.string.notification_record_type_stop),
         ).let(notificationTypeManager::show)
     }
 

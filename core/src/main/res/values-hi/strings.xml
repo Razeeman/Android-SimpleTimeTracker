@@ -324,6 +324,7 @@
     <string name="notification_goal_time_description">%s लक्ष्य समय तक पहुंच गया</string>
     <string name="notification_time_started">%s पर शुरू किया</string>
     <string name="notification_record_type_goal_time">लक्ष्य %s</string>
+    <string name="notification_record_type_stop">रुकना</string>
 
     <!--  Archive  -->
     <string name="archive_hint">विवरण देखने के लिए कार्ड पर क्लिक करें</string>

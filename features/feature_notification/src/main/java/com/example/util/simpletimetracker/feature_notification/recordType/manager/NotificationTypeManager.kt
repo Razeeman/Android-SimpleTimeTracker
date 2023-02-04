@@ -14,6 +14,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.example.util.simpletimetracker.core.utils.PendingIntents
 import com.example.util.simpletimetracker.feature_notification.R
+import com.example.util.simpletimetracker.feature_notification.recevier.NotificationReceiver
 import com.example.util.simpletimetracker.feature_notification.recordType.customView.NotificationIconView
 import com.example.util.simpletimetracker.feature_views.extension.getBitmapFromView
 import com.example.util.simpletimetracker.feature_views.extension.measureExactly
@@ -39,7 +40,7 @@ class NotificationTypeManager @Inject constructor(
     fun show(params: NotificationTypeParams) {
         val notification: Notification = buildNotification(params)
         createAndroidNotificationChannel()
-        notificationManager.notify(params.id, notification)
+        notificationManager.notify(params.id.toInt(), notification)
     }
 
     fun hide(id: Int) {
@@ -66,6 +67,7 @@ class NotificationTypeManager @Inject constructor(
             .setOngoing(true)
             .setAutoCancel(false)
             .setCustomContentView(notificationLayout)
+            .addAction(0, params.stopButton, getPendingSelfIntent(context, params.id))
             .setStyle(NotificationCompat.DecoratedCustomViewStyle())
             .setPriority(NotificationCompat.PRIORITY_LOW) // no sound
         return builder.build().apply {
@@ -101,7 +103,21 @@ class NotificationTypeManager @Inject constructor(
         }
     }
 
+    private fun getPendingSelfIntent(
+        context: Context,
+        recordTypeId: Long
+    ): PendingIntent {
+        val intent = Intent(context, NotificationReceiver::class.java)
+        intent.action = ACTION_NOTIFICATION_STOP
+        intent.putExtra(ARGS_RECORD_TYPE_ID, recordTypeId)
+        return PendingIntent.getBroadcast(context, recordTypeId.toInt(), intent, PendingIntents.getFlags())
+    }
+
     companion object {
+        const val ACTION_NOTIFICATION_STOP =
+            "com.example.util.simpletimetracker.feature_notification.recordType.onStopClick"
+        const val ARGS_RECORD_TYPE_ID = "recordTypeId"
+
         private const val NOTIFICATIONS_CHANNEL_ID = "NOTIFICATIONS"
         private const val NOTIFICATIONS_CHANNEL_NAME = "Notifications"
     }

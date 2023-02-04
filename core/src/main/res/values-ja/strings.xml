@@ -324,6 +324,7 @@
     <string name="notification_goal_time_description">%s 目標時間到達</string>
     <string name="notification_time_started">%s に開始</string>
     <string name="notification_record_type_goal_time">目標 %s</string>
+    <string name="notification_record_type_stop">ストップ</string>
 
     <!--  Archive  -->
     <string name="archive_hint">カードをクリックすると詳細が表示されます</string>

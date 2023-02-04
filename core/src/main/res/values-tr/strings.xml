@@ -324,6 +324,7 @@ Aktiviteyi başlatmak için isteğe bağlı parametreler:<br/>
     <string name="notification_goal_time_description">%s hedef süreye ulaşıldı</string>
     <string name="notification_time_started">Başlangıç zamanı %s</string>
     <string name="notification_record_type_goal_time">hedef %s</string>
+    <string name="notification_record_type_stop">Durmak</string>
 
     <!--  Archive  -->
     <string name="archive_hint">Ayrıntıları görmek için karta tıklayın</string>

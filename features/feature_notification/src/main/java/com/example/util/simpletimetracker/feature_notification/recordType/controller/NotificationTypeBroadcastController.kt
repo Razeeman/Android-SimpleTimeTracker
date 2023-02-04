@@ -33,6 +33,15 @@ class NotificationTypeBroadcastController @Inject constructor(
         }
     }
 
+    fun onActionActivityStop(
+        typeId: Long
+    ) {
+        if (typeId == 0L) return
+        GlobalScope.launch {
+            activityStartStopFromBroadcastInteractor.onActionActivityStop(typeId)
+        }
+    }
+
     fun onBootCompleted() {
         GlobalScope.launch {
             notificationTypeInteractor.updateNotifications()

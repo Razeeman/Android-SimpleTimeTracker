@@ -324,6 +324,7 @@
     <string name="notification_goal_time_description">Досягнутий цільовий час активності %s</string>
     <string name="notification_time_started">Початок в %s</string>
     <string name="notification_record_type_goal_time">ціль %s</string>
+    <string name="notification_record_type_stop">Стій</string>
 
     <!--  Archive  -->
     <string name="archive_hint">Натисніть картку, щоб переглянути деталі</string>

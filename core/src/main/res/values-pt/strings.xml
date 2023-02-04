@@ -320,6 +320,7 @@ Parâmetros opcionais para iniciar a atividade:<br/>
     <string name="notification_goal_time_description">%s meta atingida</string>
     <string name="notification_time_started">Iniciado às %s</string>
     <string name="notification_record_type_goal_time">meta %s</string>
+    <string name="notification_record_type_stop">Parar</string>
 
     <!--  Archive  -->
     <string name="archive_hint">Clique no cartão para ver os detalhes</string>

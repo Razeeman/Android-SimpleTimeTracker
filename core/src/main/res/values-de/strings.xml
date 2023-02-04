@@ -324,6 +324,7 @@ Optionale Parameter zum Starten der Aktivität:<br/>
     <string name="notification_goal_time_description">%s zielzeit erreicht</string>
     <string name="notification_time_started">Gestartet bei %s</string>
     <string name="notification_record_type_goal_time">ziel %s</string>
+    <string name="notification_record_type_stop">Stoppen</string>
 
     <!--  Archive  -->
     <string name="archive_hint">Klicken Sie auf die Karte, um Details anzuzeigen</string>

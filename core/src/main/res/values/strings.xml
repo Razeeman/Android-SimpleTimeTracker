@@ -324,6 +324,7 @@ Optional parameters for starting activity:<br/>
     <string name="notification_goal_time_description">%s goal time reached</string>
     <string name="notification_time_started">Started at %s</string>
     <string name="notification_record_type_goal_time">goal %s</string>
+    <string name="notification_record_type_stop">Stop</string>
 
     <!--  Archive  -->
     <string name="archive_hint">Click on card to view details</string>

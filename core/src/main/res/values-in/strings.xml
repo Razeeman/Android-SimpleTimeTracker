@@ -324,6 +324,7 @@ Parameter opsional untuk memulai aktivitas:<br/>
     <string name="notification_goal_time_description">%s waktu tujuan tercapai</string>
     <string name="notification_time_started">Dimulai pada %s</string>
     <string name="notification_record_type_goal_time">tujuan %s</string>
+    <string name="notification_record_type_stop">Berhenti</string>
 
     <!--  Archive  -->
     <string name="archive_hint">Klik pada kartu untuk melihat detail</string>

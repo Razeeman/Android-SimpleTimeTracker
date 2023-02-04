@@ -36,6 +36,12 @@ class ActivityStartStopFromBroadcastInteractor @Inject constructor(
         name: String,
     ) {
         val typeId = getTypeIdByName(name) ?: return
+        onActionActivityStop(typeId)
+    }
+
+    suspend fun onActionActivityStop(
+        typeId: Long,
+    ) {
         val runningRecord = runningRecordInteractor.get(typeId)
             ?: return // Not running.
 

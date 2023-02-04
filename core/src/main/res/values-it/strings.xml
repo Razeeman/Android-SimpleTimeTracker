@@ -324,6 +324,7 @@ Parametri facoltativi per l\'avvio dell\'attività:<br/>
     <string name="notification_goal_time_description">%s raggiunto obiettivo di tempo</string>
     <string name="notification_time_started">Iniziato alle %s</string>
     <string name="notification_record_type_goal_time">obiettivo %s</string>
+    <string name="notification_record_type_stop">Fermare</string>
 
     <!--  Archive  -->
     <string name="archive_hint">Clicca sulla scheda per visualizzare i dettagli</string>
