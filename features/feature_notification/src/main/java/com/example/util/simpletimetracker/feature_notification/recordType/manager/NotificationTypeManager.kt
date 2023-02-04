@@ -7,15 +7,16 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.os.SystemClock
 import android.view.ContextThemeWrapper
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.example.util.simpletimetracker.core.utils.PendingIntents
-import com.example.util.simpletimetracker.feature_views.extension.getBitmapFromView
-import com.example.util.simpletimetracker.feature_views.extension.measureExactly
 import com.example.util.simpletimetracker.feature_notification.R
 import com.example.util.simpletimetracker.feature_notification.recordType.customView.NotificationIconView
+import com.example.util.simpletimetracker.feature_views.extension.getBitmapFromView
+import com.example.util.simpletimetracker.feature_views.extension.measureExactly
 import com.example.util.simpletimetracker.navigation.Router
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
@@ -67,8 +68,6 @@ class NotificationTypeManager @Inject constructor(
             .setCustomContentView(notificationLayout)
             .setStyle(NotificationCompat.DecoratedCustomViewStyle())
             .setPriority(NotificationCompat.PRIORITY_LOW) // no sound
-            .setUsesChronometer(true)
-            .setWhen(params.startedTimeStamp)
         return builder.build().apply {
             flags = flags or Notification.FLAG_NO_CLEAR
         }
@@ -97,6 +96,8 @@ class NotificationTypeManager @Inject constructor(
             setTextViewText(R.id.tvNotificationTimeStarted, params.timeStarted)
             setTextViewText(R.id.tvNotificationGoalTime, params.goalTime)
             setImageViewBitmap(R.id.ivNotificationIcon, iconBitmap)
+            val base = SystemClock.elapsedRealtime() - (System.currentTimeMillis() - params.startedTimeStamp)
+            setChronometer(R.id.timerNotification, base, null, true)
         }
     }
 
