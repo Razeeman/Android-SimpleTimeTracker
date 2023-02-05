@@ -1,12 +1,12 @@
 package com.example.util.simpletimetracker.feature_change_category.view
 
+import com.example.util.simpletimetracker.feature_change_category.databinding.ChangeCategoryFragmentBinding as Binding
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseFragment
-import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.ColorSelectionDialogListener
 import com.example.util.simpletimetracker.core.extension.hideKeyboard
 import com.example.util.simpletimetracker.core.extension.observeOnce
@@ -34,8 +34,6 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
-import com.example.util.simpletimetracker.feature_change_category.databinding.ChangeCategoryFragmentBinding as Binding
 
 @AndroidEntryPoint
 class ChangeCategoryFragment :
@@ -44,12 +42,8 @@ class ChangeCategoryFragment :
 
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding = Binding::inflate
 
-    @Inject
-    lateinit var viewModelFactory: BaseViewModelFactory<ChangeCategoryViewModel>
+    private val viewModel: ChangeCategoryViewModel by viewModels()
 
-    private val viewModel: ChangeCategoryViewModel by viewModels(
-        factoryProducer = { viewModelFactory }
-    )
     private val colorsAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
             createColorAdapterDelegate(viewModel::onColorClick),

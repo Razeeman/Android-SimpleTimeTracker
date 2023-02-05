@@ -1,21 +1,21 @@
 package com.example.util.simpletimetracker.feature_dialogs.cardOrder.view
 
+import com.example.util.simpletimetracker.feature_dialogs.databinding.CardOrderDialogFragmentBinding as Binding
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
-import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
-import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
-import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
-import com.example.util.simpletimetracker.feature_base_adapter.recordType.createRecordTypeAdapterDelegate
 import com.example.util.simpletimetracker.core.base.BaseBottomSheetFragment
-import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.extension.onItemMoved
 import com.example.util.simpletimetracker.core.extension.setFullScreen
 import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
 import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
+import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.recordType.createRecordTypeAdapterDelegate
 import com.example.util.simpletimetracker.feature_dialogs.cardOrder.viewModel.CardOrderViewModel
 import com.example.util.simpletimetracker.navigation.params.screen.CardOrderDialogParams
 import com.google.android.flexbox.FlexDirection
@@ -23,8 +23,6 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
-import com.example.util.simpletimetracker.feature_dialogs.databinding.CardOrderDialogFragmentBinding as Binding
 
 @AndroidEntryPoint
 class CardOrderDialogFragment : BaseBottomSheetFragment<Binding>() {
@@ -32,12 +30,8 @@ class CardOrderDialogFragment : BaseBottomSheetFragment<Binding>() {
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
         Binding::inflate
 
-    @Inject
-    lateinit var viewModelFactory: BaseViewModelFactory<CardOrderViewModel>
+    private val viewModel: CardOrderViewModel by viewModels()
 
-    private val viewModel: CardOrderViewModel by viewModels(
-        factoryProducer = { viewModelFactory }
-    )
     private val recordTypesAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
             createEmptyAdapterDelegate(),

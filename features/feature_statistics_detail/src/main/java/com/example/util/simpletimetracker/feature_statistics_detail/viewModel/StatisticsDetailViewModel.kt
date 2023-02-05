@@ -53,10 +53,12 @@ import com.example.util.simpletimetracker.navigation.params.screen.RecordsAllPar
 import com.example.util.simpletimetracker.navigation.params.screen.StatisticsDetailParams
 import com.example.util.simpletimetracker.navigation.params.screen.TypesFilterDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.TypesFilterParams
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class StatisticsDetailViewModel @Inject constructor(
     private val router: Router,
     private val resourceRepo: ResourceRepo,

@@ -11,7 +11,6 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.util.simpletimetracker.core.base.BaseFragment
-import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.ColorSelectionDialogListener
 import com.example.util.simpletimetracker.core.dialog.DurationDialogListener
 import com.example.util.simpletimetracker.core.dialog.EmojiSelectionDialogListener
@@ -82,14 +81,10 @@ class ChangeRecordTypeFragment :
         Binding::inflate
 
     @Inject
-    lateinit var viewModelFactory: BaseViewModelFactory<ChangeRecordTypeViewModel>
-
-    @Inject
     lateinit var deviceRepo: DeviceRepo
 
-    private val viewModel: ChangeRecordTypeViewModel by viewModels(
-        factoryProducer = { viewModelFactory }
-    )
+    private val viewModel: ChangeRecordTypeViewModel by viewModels()
+
     private val colorsAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
             createColorAdapterDelegate(viewModel::onColorClick),

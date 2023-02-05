@@ -10,7 +10,6 @@ import com.example.util.simpletimetracker.feature_base_adapter.hint.createHintAd
 import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.createRecordTypeAdapterDelegate
 import com.example.util.simpletimetracker.core.base.BaseFragment
-import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.ArchiveDialogListener
 import com.example.util.simpletimetracker.core.dialog.StandardDialogListener
 import com.example.util.simpletimetracker.feature_archive.viewModel.ArchiveViewModel
@@ -20,7 +19,6 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 import com.example.util.simpletimetracker.feature_archive.databinding.ArchiveFragmentBinding as Binding
 import androidx.core.view.isVisible
 
@@ -33,12 +31,7 @@ class ArchiveFragment :
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
         Binding::inflate
 
-    @Inject
-    lateinit var viewModelFactory: BaseViewModelFactory<ArchiveViewModel>
-
-    private val viewModel: ArchiveViewModel by viewModels(
-        factoryProducer = { viewModelFactory }
-    )
+    private val viewModel: ArchiveViewModel by viewModels()
 
     private val archiveAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(

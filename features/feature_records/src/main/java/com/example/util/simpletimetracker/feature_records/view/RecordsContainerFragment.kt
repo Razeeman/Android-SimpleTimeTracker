@@ -1,22 +1,22 @@
 package com.example.util.simpletimetracker.feature_records.view
 
+import com.example.util.simpletimetracker.feature_records.databinding.RecordsContainerFragmentBinding as Binding
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
-import com.example.util.simpletimetracker.feature_views.extension.setOnClick
-import com.example.util.simpletimetracker.feature_views.extension.setOnLongClick
 import com.example.util.simpletimetracker.core.sharedViewModel.RemoveRecordViewModel
 import com.example.util.simpletimetracker.feature_records.adapter.RecordsContainerAdapter
 import com.example.util.simpletimetracker.feature_records.viewModel.RecordsContainerViewModel
+import com.example.util.simpletimetracker.feature_views.extension.setOnClick
+import com.example.util.simpletimetracker.feature_views.extension.setOnLongClick
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-import com.example.util.simpletimetracker.feature_records.databinding.RecordsContainerFragmentBinding as Binding
 
 @AndroidEntryPoint
 class RecordsContainerFragment :
@@ -27,19 +27,13 @@ class RecordsContainerFragment :
         Binding::inflate
 
     @Inject
-    lateinit var viewModelFactory: BaseViewModelFactory<RecordsContainerViewModel>
-
-    @Inject
     lateinit var removeRecordViewModelFactory: BaseViewModelFactory<RemoveRecordViewModel>
 
     @Inject
     lateinit var router: Router
 
-    private val viewModel: RecordsContainerViewModel by viewModels(
-        factoryProducer = { viewModelFactory }
-    )
-    private val removeRecordViewModel: RemoveRecordViewModel by viewModels(
-        ownerProducer = { activity as AppCompatActivity },
+    private val viewModel: RecordsContainerViewModel by viewModels()
+    private val removeRecordViewModel: RemoveRecordViewModel by activityViewModels(
         factoryProducer = { removeRecordViewModelFactory }
     )
 

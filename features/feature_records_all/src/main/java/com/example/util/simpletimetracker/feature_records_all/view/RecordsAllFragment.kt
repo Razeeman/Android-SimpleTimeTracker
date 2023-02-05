@@ -1,29 +1,29 @@
 package com.example.util.simpletimetracker.feature_records_all.view
 
+import com.example.util.simpletimetracker.feature_records_all.databinding.RecordsAllFragmentBinding as Binding
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
-import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
-import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
-import com.example.util.simpletimetracker.feature_base_adapter.record.createRecordAdapterDelegate
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.sharedViewModel.RemoveRecordViewModel
 import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
+import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.record.createRecordAdapterDelegate
 import com.example.util.simpletimetracker.feature_records_all.adapter.createRecordAllDateAdapterDelegate
 import com.example.util.simpletimetracker.feature_records_all.viewData.RecordsAllSortOrderViewData
 import com.example.util.simpletimetracker.feature_records_all.viewModel.RecordsAllViewModel
 import com.example.util.simpletimetracker.navigation.Router
-import com.example.util.simpletimetracker.navigation.params.screen.RecordsAllParams
 import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
+import com.example.util.simpletimetracker.navigation.params.screen.RecordsAllParams
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-import com.example.util.simpletimetracker.feature_records_all.databinding.RecordsAllFragmentBinding as Binding
 
 @AndroidEntryPoint
 class RecordsAllFragment : BaseFragment<Binding>() {
@@ -32,19 +32,13 @@ class RecordsAllFragment : BaseFragment<Binding>() {
         Binding::inflate
 
     @Inject
-    lateinit var viewModelFactory: BaseViewModelFactory<RecordsAllViewModel>
-
-    @Inject
     lateinit var removeRecordViewModelFactory: BaseViewModelFactory<RemoveRecordViewModel>
 
     @Inject
     lateinit var router: Router
 
-    private val viewModel: RecordsAllViewModel by viewModels(
-        factoryProducer = { viewModelFactory }
-    )
-    private val removeRecordViewModel: RemoveRecordViewModel by viewModels(
-        ownerProducer = { activity as AppCompatActivity },
+    private val viewModel: RecordsAllViewModel by viewModels()
+    private val removeRecordViewModel: RemoveRecordViewModel by activityViewModels(
         factoryProducer = { removeRecordViewModelFactory }
     )
     private val recordsAdapter: BaseRecyclerAdapter by lazy {

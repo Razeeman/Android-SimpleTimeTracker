@@ -1,8 +1,9 @@
 package com.example.util.simpletimetracker.feature_statistics.view
 
+import com.example.util.simpletimetracker.feature_statistics.databinding.StatisticsContainerFragmentBinding as Binding
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
@@ -18,7 +19,6 @@ import com.example.util.simpletimetracker.feature_views.extension.setOnLongClick
 import com.example.util.simpletimetracker.feature_views.extension.visible
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-import com.example.util.simpletimetracker.feature_statistics.databinding.StatisticsContainerFragmentBinding as Binding
 
 @AndroidEntryPoint
 class StatisticsContainerFragment :
@@ -32,15 +32,9 @@ class StatisticsContainerFragment :
     @Inject
     lateinit var settingsViewModelFactory: BaseViewModelFactory<StatisticsSettingsViewModel>
 
-    @Inject
-    lateinit var viewModelFactory: BaseViewModelFactory<StatisticsContainerViewModel>
-
-    private val settingsViewModel: StatisticsSettingsViewModel by viewModels(
-        ownerProducer = { activity as AppCompatActivity },
+    private val viewModel: StatisticsContainerViewModel by viewModels()
+    private val settingsViewModel: StatisticsSettingsViewModel by activityViewModels(
         factoryProducer = { settingsViewModelFactory }
-    )
-    private val viewModel: StatisticsContainerViewModel by viewModels(
-        factoryProducer = { viewModelFactory }
     )
 
     override fun initUi(): Unit = with(binding) {

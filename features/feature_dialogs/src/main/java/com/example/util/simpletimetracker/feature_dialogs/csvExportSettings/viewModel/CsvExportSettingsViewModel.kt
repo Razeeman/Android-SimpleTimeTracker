@@ -13,10 +13,12 @@ import com.example.util.simpletimetracker.navigation.params.screen.DataExportSet
 import com.example.util.simpletimetracker.navigation.params.screen.DataExportSettingsResult
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogType
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
+@HiltViewModel
 class CsvExportSettingsViewModel @Inject constructor(
     private val router: Router,
     private val prefsInteractor: PrefsInteractor,

@@ -13,8 +13,10 @@ import com.example.util.simpletimetracker.feature_dialogs.colorSelection.model.H
 import com.example.util.simpletimetracker.feature_dialogs.colorSelection.model.RGBUpdate
 import com.example.util.simpletimetracker.feature_dialogs.colorSelection.viewData.ColorSelectionViewData
 import com.example.util.simpletimetracker.navigation.params.screen.ColorSelectionDialogParams
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
+@HiltViewModel
 class ColorSelectionViewModel @Inject constructor() : ViewModel() {
 
     lateinit var extra: ColorSelectionDialogParams

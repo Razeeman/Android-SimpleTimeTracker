@@ -27,9 +27,11 @@ import com.example.util.simpletimetracker.feature_base_adapter.recordType.Record
 import com.example.util.simpletimetracker.feature_dialogs.chartFilter.mapper.ChartFilterViewDataMapper
 import com.example.util.simpletimetracker.feature_dialogs.chartFilter.viewData.ChartFilterTypeViewData
 import com.example.util.simpletimetracker.feature_views.spinner.CustomSpinner
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class WidgetStatisticsSettingsViewModel @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val widgetInteractor: WidgetInteractor,

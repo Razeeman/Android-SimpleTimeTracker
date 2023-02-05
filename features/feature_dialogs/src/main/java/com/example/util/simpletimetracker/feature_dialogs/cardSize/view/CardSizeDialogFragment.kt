@@ -1,27 +1,25 @@
 package com.example.util.simpletimetracker.feature_dialogs.cardSize.view
 
+import com.example.util.simpletimetracker.feature_dialogs.databinding.CardSizeDialogFragmentBinding as Binding
 import android.content.DialogInterface
 import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import com.example.util.simpletimetracker.core.base.BaseBottomSheetFragment
+import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.createRecordTypeAdapterDelegate
-import com.example.util.simpletimetracker.core.base.BaseBottomSheetFragment
-import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
-import com.example.util.simpletimetracker.feature_views.extension.setOnClick
-import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
 import com.example.util.simpletimetracker.feature_dialogs.cardSize.viewData.CardSizeDefaultButtonViewData
 import com.example.util.simpletimetracker.feature_dialogs.cardSize.viewModel.CardSizeViewModel
+import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
-import com.example.util.simpletimetracker.feature_dialogs.databinding.CardSizeDialogFragmentBinding as Binding
 
 @AndroidEntryPoint
 class CardSizeDialogFragment : BaseBottomSheetFragment<Binding>() {
@@ -29,12 +27,7 @@ class CardSizeDialogFragment : BaseBottomSheetFragment<Binding>() {
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
         Binding::inflate
 
-    @Inject
-    lateinit var viewModelFactory: BaseViewModelFactory<CardSizeViewModel>
-
-    private val viewModel: CardSizeViewModel by viewModels(
-        factoryProducer = { viewModelFactory }
-    )
+    private val viewModel: CardSizeViewModel by viewModels()
 
     private val recordTypesAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(

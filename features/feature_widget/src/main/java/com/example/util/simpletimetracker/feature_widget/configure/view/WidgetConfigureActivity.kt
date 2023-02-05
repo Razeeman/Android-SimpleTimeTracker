@@ -5,12 +5,11 @@ import android.appwidget.AppWidgetManager
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
+import com.example.util.simpletimetracker.core.base.BaseActivity
+import com.example.util.simpletimetracker.core.manager.ThemeManager
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
-import com.example.util.simpletimetracker.core.base.BaseActivity
-import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
-import com.example.util.simpletimetracker.core.manager.ThemeManager
 import com.example.util.simpletimetracker.feature_widget.configure.adapter.createWidgetAdapterDelegate
 import com.example.util.simpletimetracker.feature_widget.configure.extra.WidgetExtra
 import com.example.util.simpletimetracker.feature_widget.configure.viewModel.WidgetViewModel
@@ -26,14 +25,9 @@ import javax.inject.Inject
 class WidgetConfigureActivity : BaseActivity() {
 
     @Inject
-    lateinit var viewModelFactory: BaseViewModelFactory<WidgetViewModel>
-
-    @Inject
     lateinit var themeManager: ThemeManager
 
-    private val viewModel: WidgetViewModel by viewModels(
-        factoryProducer = { viewModelFactory }
-    )
+    private val viewModel: WidgetViewModel by viewModels()
 
     private val typesAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(

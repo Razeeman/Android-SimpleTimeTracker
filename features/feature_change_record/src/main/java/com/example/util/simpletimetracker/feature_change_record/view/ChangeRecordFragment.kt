@@ -4,7 +4,7 @@ import com.example.util.simpletimetracker.feature_change_record.databinding.Chan
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
@@ -34,16 +34,10 @@ class ChangeRecordFragment :
         Binding::inflate
 
     @Inject
-    lateinit var viewModelFactory: BaseViewModelFactory<ChangeRecordViewModel>
-
-    @Inject
     lateinit var removeRecordViewModelFactory: BaseViewModelFactory<RemoveRecordViewModel>
 
-    private val viewModel: ChangeRecordViewModel by viewModels(
-        factoryProducer = { viewModelFactory }
-    )
-    private val removeRecordViewModel: RemoveRecordViewModel by viewModels(
-        ownerProducer = { activity as AppCompatActivity },
+    private val viewModel: ChangeRecordViewModel by viewModels()
+    private val removeRecordViewModel: RemoveRecordViewModel by activityViewModels(
         factoryProducer = { removeRecordViewModelFactory }
     )
     private val extra: ChangeRecordParams by fragmentArgumentDelegate(

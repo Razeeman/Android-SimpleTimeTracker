@@ -8,7 +8,6 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.util.simpletimetracker.core.base.BaseFragment
-import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.CustomRangeSelectionDialogListener
 import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
 import com.example.util.simpletimetracker.core.dialog.TypesFilterDialogListener
@@ -43,7 +42,6 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class StatisticsDetailFragment :
@@ -55,12 +53,8 @@ class StatisticsDetailFragment :
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
         Binding::inflate
 
-    @Inject
-    lateinit var viewModelFactory: BaseViewModelFactory<StatisticsDetailViewModel>
+    private val viewModel: StatisticsDetailViewModel by viewModels()
 
-    private val viewModel: StatisticsDetailViewModel by viewModels(
-        factoryProducer = { viewModelFactory }
-    )
     private val previewAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
             createStatisticsPreviewCompareAdapterDelegate(),

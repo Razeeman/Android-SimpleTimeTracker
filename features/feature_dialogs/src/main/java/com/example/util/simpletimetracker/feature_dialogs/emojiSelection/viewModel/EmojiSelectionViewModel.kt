@@ -12,9 +12,11 @@ import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.model.AppColor
 import com.example.util.simpletimetracker.feature_dialogs.emojiSelection.mapper.EmojiSelectionMapper
 import com.example.util.simpletimetracker.navigation.params.screen.EmojiSelectionDialogParams
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class EmojiSelectionViewModel @Inject constructor(
     private val mapper: EmojiSelectionMapper,
     private val prefsInteractor: PrefsInteractor

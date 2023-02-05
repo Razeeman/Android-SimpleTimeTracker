@@ -14,10 +14,12 @@ import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.CustomRangeSelectionParams
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogType
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.util.Calendar
 import javax.inject.Inject
 
+@HiltViewModel
 class CustomRangeSelectionViewModel @Inject constructor(
     private val router: Router,
     private val prefsInteractor: PrefsInteractor,

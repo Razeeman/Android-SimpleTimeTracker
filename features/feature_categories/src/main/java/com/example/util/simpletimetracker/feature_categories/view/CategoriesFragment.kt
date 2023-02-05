@@ -1,25 +1,23 @@
 package com.example.util.simpletimetracker.feature_categories.view
 
+import com.example.util.simpletimetracker.feature_categories.databinding.CategoriesFragmentBinding as Binding
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
+import com.example.util.simpletimetracker.feature_base_adapter.category.createCategoryAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.category.createCategoryAddAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.divider.createDividerAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.hint.createHintAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
-import com.example.util.simpletimetracker.core.base.BaseFragment
-import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
-import com.example.util.simpletimetracker.feature_base_adapter.category.createCategoryAdapterDelegate
-import com.example.util.simpletimetracker.feature_base_adapter.category.createCategoryAddAdapterDelegate
 import com.example.util.simpletimetracker.feature_categories.viewModel.CategoriesViewModel
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
-import com.example.util.simpletimetracker.feature_categories.databinding.CategoriesFragmentBinding as Binding
-import androidx.core.view.isVisible
 
 @AndroidEntryPoint
 class CategoriesFragment : BaseFragment<Binding>() {
@@ -27,12 +25,7 @@ class CategoriesFragment : BaseFragment<Binding>() {
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
         Binding::inflate
 
-    @Inject
-    lateinit var viewModelFactory: BaseViewModelFactory<CategoriesViewModel>
-
-    private val viewModel: CategoriesViewModel by viewModels(
-        factoryProducer = { viewModelFactory }
-    )
+    private val viewModel: CategoriesViewModel by viewModels()
 
     private val categoriesAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(

@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseFragment
-import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.OnTagSelectedListener
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_base_adapter.activityFilter.createActivityFilterAdapterDelegate
@@ -22,7 +21,6 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class WidgetUniversalFragment :
@@ -32,12 +30,7 @@ class WidgetUniversalFragment :
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
         Binding::inflate
 
-    @Inject
-    lateinit var viewModelFactory: BaseViewModelFactory<WidgetUniversalViewModel>
-
-    private val viewModel: WidgetUniversalViewModel by viewModels(
-        factoryProducer = { viewModelFactory }
-    )
+    private val viewModel: WidgetUniversalViewModel by viewModels()
 
     private val typesAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(

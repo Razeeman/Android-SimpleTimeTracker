@@ -1,9 +1,11 @@
 package com.example.util.simpletimetracker.feature_settings.view
 
+import com.example.util.simpletimetracker.feature_settings.databinding.SettingsFragmentBinding as Binding
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.WindowManager
-import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
@@ -12,8 +14,10 @@ import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
 import com.example.util.simpletimetracker.core.dialog.DurationDialogListener
 import com.example.util.simpletimetracker.core.dialog.StandardDialogListener
 import com.example.util.simpletimetracker.core.sharedViewModel.BackupViewModel
+import com.example.util.simpletimetracker.core.sharedViewModel.MainTabsViewModel
 import com.example.util.simpletimetracker.feature_settings.viewData.CardOrderViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.FirstDayOfWeekViewData
+import com.example.util.simpletimetracker.feature_settings.viewData.SettingsDurationViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.SettingsStartOfDayViewData
 import com.example.util.simpletimetracker.feature_settings.viewModel.SettingsViewModel
 import com.example.util.simpletimetracker.feature_views.extension.rotateDown
@@ -23,10 +27,6 @@ import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.navigation.params.screen.DataExportSettingsResult
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-import com.example.util.simpletimetracker.feature_settings.databinding.SettingsFragmentBinding as Binding
-import androidx.core.view.isVisible
-import com.example.util.simpletimetracker.core.sharedViewModel.MainTabsViewModel
-import com.example.util.simpletimetracker.feature_settings.viewData.SettingsDurationViewData
 
 @AndroidEntryPoint
 class SettingsFragment :
@@ -40,23 +40,16 @@ class SettingsFragment :
         Binding::inflate
 
     @Inject
-    lateinit var viewModelFactory: BaseViewModelFactory<SettingsViewModel>
-
-    @Inject
     lateinit var backupViewModelFactory: BaseViewModelFactory<BackupViewModel>
 
     @Inject
     lateinit var mainTabsViewModelFactory: BaseViewModelFactory<MainTabsViewModel>
 
-    private val viewModel: SettingsViewModel by viewModels(
-        factoryProducer = { viewModelFactory }
-    )
-    private val backupViewModel: BackupViewModel by viewModels(
-        ownerProducer = { activity as AppCompatActivity },
+    private val viewModel: SettingsViewModel by viewModels()
+    private val backupViewModel: BackupViewModel by activityViewModels(
         factoryProducer = { backupViewModelFactory }
     )
-    private val mainTabsViewModel: MainTabsViewModel by viewModels(
-        ownerProducer = { activity as AppCompatActivity },
+    private val mainTabsViewModel: MainTabsViewModel by activityViewModels(
         factoryProducer = { mainTabsViewModelFactory }
     )
 

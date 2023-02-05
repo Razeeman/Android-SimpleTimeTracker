@@ -25,6 +25,7 @@ import com.example.util.simpletimetracker.navigation.params.screen.ChangeActivit
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTypeParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRunningRecordParams
 import com.example.util.simpletimetracker.navigation.params.screen.RecordTagSelectionParams
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.delay
@@ -32,6 +33,7 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class RunningRecordsViewModel @Inject constructor(
     private val router: Router,
     private val addRunningRecordMediator: AddRunningRecordMediator,

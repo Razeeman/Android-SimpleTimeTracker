@@ -24,9 +24,11 @@ import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordP
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTagFromChangeRecordParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTagFromScreen
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeTagData
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class ChangeRecordViewModel @Inject constructor(
     recordTypesViewDataInteractor: RecordTypesViewDataInteractor,
     recordTagViewDataInteractor: RecordTagViewDataInteractor,

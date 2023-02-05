@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_dialogs.duration.view
 
+import com.example.util.simpletimetracker.feature_dialogs.databinding.DurationDialogFragmentBinding as Binding
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,20 +8,17 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseBottomSheetFragment
-import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.DurationDialogListener
 import com.example.util.simpletimetracker.core.extension.getAllFragments
 import com.example.util.simpletimetracker.core.extension.observeOnce
 import com.example.util.simpletimetracker.core.extension.setFullScreen
-import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_dialogs.duration.extra.DurationPickerExtra
 import com.example.util.simpletimetracker.feature_dialogs.duration.viewModel.DurationPickerViewModel
+import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.navigation.params.screen.DurationDialogParams
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
-import com.example.util.simpletimetracker.feature_dialogs.databinding.DurationDialogFragmentBinding as Binding
 
 @AndroidEntryPoint
 class DurationDialogFragment : BaseBottomSheetFragment<Binding>() {
@@ -28,12 +26,7 @@ class DurationDialogFragment : BaseBottomSheetFragment<Binding>() {
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
         Binding::inflate
 
-    @Inject
-    lateinit var viewModelFactory: BaseViewModelFactory<DurationPickerViewModel>
-
-    private val viewModel: DurationPickerViewModel by viewModels(
-        factoryProducer = { viewModelFactory }
-    )
+    private val viewModel: DurationPickerViewModel by viewModels()
 
     private var dialogListener: DurationDialogListener? = null
     private val dialogTag: String? by lazy { arguments?.getString(ARGS_TAG) }

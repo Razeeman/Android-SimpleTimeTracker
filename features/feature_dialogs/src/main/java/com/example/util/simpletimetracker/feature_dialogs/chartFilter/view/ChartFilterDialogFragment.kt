@@ -1,31 +1,29 @@
 package com.example.util.simpletimetracker.feature_dialogs.chartFilter.view
 
+import com.example.util.simpletimetracker.feature_dialogs.databinding.ChartFilterDialogFragmentBinding as Binding
 import android.content.Context
 import android.content.DialogInterface
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
+import com.example.util.simpletimetracker.core.base.BaseBottomSheetFragment
+import com.example.util.simpletimetracker.core.dialog.ChartFilterDialogListener
+import com.example.util.simpletimetracker.core.extension.blockContentScroll
+import com.example.util.simpletimetracker.core.extension.getAllFragments
+import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_base_adapter.category.createCategoryAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.createRecordTypeAdapterDelegate
-import com.example.util.simpletimetracker.core.base.BaseBottomSheetFragment
-import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
-import com.example.util.simpletimetracker.core.dialog.ChartFilterDialogListener
-import com.example.util.simpletimetracker.core.extension.blockContentScroll
-import com.example.util.simpletimetracker.core.extension.getAllFragments
-import com.example.util.simpletimetracker.feature_views.extension.setOnClick
-import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
 import com.example.util.simpletimetracker.feature_dialogs.chartFilter.viewModel.ChartFilterViewModel
+import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
-import com.example.util.simpletimetracker.feature_dialogs.databinding.ChartFilterDialogFragmentBinding as Binding
 
 @AndroidEntryPoint
 class ChartFilterDialogFragment : BaseBottomSheetFragment<Binding>() {
@@ -33,12 +31,7 @@ class ChartFilterDialogFragment : BaseBottomSheetFragment<Binding>() {
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
         Binding::inflate
 
-    @Inject
-    lateinit var viewModelFactory: BaseViewModelFactory<ChartFilterViewModel>
-
-    private val viewModel: ChartFilterViewModel by viewModels(
-        factoryProducer = { viewModelFactory }
-    )
+    private val viewModel: ChartFilterViewModel by viewModels()
 
     private val recordTypesAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(

@@ -46,9 +46,11 @@ import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordT
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeTagData
 import com.example.util.simpletimetracker.navigation.params.screen.ColorSelectionDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DurationDialogParams
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class ChangeRecordTypeViewModel @Inject constructor(
     private val router: Router,
     private val removeRunningRecordMediator: RemoveRunningRecordMediator,

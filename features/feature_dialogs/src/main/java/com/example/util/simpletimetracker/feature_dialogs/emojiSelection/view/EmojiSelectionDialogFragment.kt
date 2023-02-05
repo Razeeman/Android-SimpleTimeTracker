@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_dialogs.emojiSelection.view
 
+import com.example.util.simpletimetracker.feature_dialogs.databinding.EmojiSelectionDialogFragmentBinding as Binding
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +8,6 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseBottomSheetFragment
-import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.EmojiSelectionDialogListener
 import com.example.util.simpletimetracker.core.extension.getAllFragments
 import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
@@ -22,8 +22,6 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
-import com.example.util.simpletimetracker.feature_dialogs.databinding.EmojiSelectionDialogFragmentBinding as Binding
 
 @AndroidEntryPoint
 class EmojiSelectionDialogFragment : BaseBottomSheetFragment<Binding>() {
@@ -31,12 +29,7 @@ class EmojiSelectionDialogFragment : BaseBottomSheetFragment<Binding>() {
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
         Binding::inflate
 
-    @Inject
-    lateinit var viewModelFactory: BaseViewModelFactory<EmojiSelectionViewModel>
-
-    private val viewModel: EmojiSelectionViewModel by viewModels(
-        factoryProducer = { viewModelFactory }
-    )
+    private val viewModel: EmojiSelectionViewModel by viewModels()
 
     private val adapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(

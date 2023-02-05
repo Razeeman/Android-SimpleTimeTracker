@@ -4,8 +4,8 @@ import com.example.util.simpletimetracker.feature_records.databinding.RecordsFra
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.util.simpletimetracker.core.base.BaseFragment
@@ -31,23 +31,16 @@ class RecordsFragment : BaseFragment<Binding>() {
         Binding::inflate
 
     @Inject
-    lateinit var viewModelFactory: BaseViewModelFactory<RecordsViewModel>
-
-    @Inject
     lateinit var removeRecordViewModelFactory: BaseViewModelFactory<RemoveRecordViewModel>
 
     @Inject
     lateinit var mainTabsViewModelFactory: BaseViewModelFactory<MainTabsViewModel>
 
-    private val viewModel: RecordsViewModel by viewModels(
-        factoryProducer = { viewModelFactory }
-    )
-    private val removeRecordViewModel: RemoveRecordViewModel by viewModels(
-        ownerProducer = { activity as AppCompatActivity },
+    private val viewModel: RecordsViewModel by viewModels()
+    private val removeRecordViewModel: RemoveRecordViewModel by activityViewModels(
         factoryProducer = { removeRecordViewModelFactory }
     )
-    private val mainTabsViewModel: MainTabsViewModel by viewModels(
-        ownerProducer = { activity as AppCompatActivity },
+    private val mainTabsViewModel: MainTabsViewModel by activityViewModels(
         factoryProducer = { mainTabsViewModelFactory }
     )
     private val recordsAdapter: BaseRecyclerAdapter by lazy {

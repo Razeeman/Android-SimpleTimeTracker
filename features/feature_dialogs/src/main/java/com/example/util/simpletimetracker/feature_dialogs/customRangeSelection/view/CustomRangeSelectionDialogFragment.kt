@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_dialogs.customRangeSelection.view
 
+import com.example.util.simpletimetracker.feature_dialogs.databinding.CustomRangeSelectionFragmentBinding as Binding
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +8,6 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseBottomSheetFragment
-import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.CustomRangeSelectionDialogListener
 import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
 import com.example.util.simpletimetracker.core.extension.getAllFragments
@@ -18,8 +18,6 @@ import com.example.util.simpletimetracker.feature_dialogs.customRangeSelection.v
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.navigation.params.screen.CustomRangeSelectionParams
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
-import com.example.util.simpletimetracker.feature_dialogs.databinding.CustomRangeSelectionFragmentBinding as Binding
 
 @AndroidEntryPoint
 class CustomRangeSelectionDialogFragment :
@@ -29,12 +27,8 @@ class CustomRangeSelectionDialogFragment :
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
         Binding::inflate
 
-    @Inject
-    lateinit var viewModelFactory: BaseViewModelFactory<CustomRangeSelectionViewModel>
+    private val viewModel: CustomRangeSelectionViewModel by viewModels()
 
-    private val viewModel: CustomRangeSelectionViewModel by viewModels(
-        factoryProducer = { viewModelFactory }
-    )
     private val params: CustomRangeSelectionParams by fragmentArgumentDelegate(
         key = ARGS_PARAMS, default = CustomRangeSelectionParams()
     )

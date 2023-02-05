@@ -16,9 +16,11 @@ import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeCategoryFromTagsParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTagFromTagsParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeTagData
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class CategoriesViewModel @Inject constructor(
     private val router: Router,
     private val categoriesViewDataInteractor: CategoriesViewDataInteractor,

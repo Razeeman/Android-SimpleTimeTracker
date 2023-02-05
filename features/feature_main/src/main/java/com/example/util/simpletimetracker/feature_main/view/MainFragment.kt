@@ -5,9 +5,9 @@ import android.graphics.ColorFilter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.AttrRes
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
@@ -30,19 +30,13 @@ class MainFragment : BaseFragment<Binding>() {
         Binding::inflate
 
     @Inject
-    lateinit var viewModelFactory: BaseViewModelFactory<MainViewModel>
-
-    @Inject
     lateinit var mainTabsViewModelFactory: BaseViewModelFactory<MainTabsViewModel>
 
     @Inject
     lateinit var mainMapper: MainMapper
 
-    private val viewModel: MainViewModel by viewModels(
-        factoryProducer = { viewModelFactory }
-    )
-    private val mainTabsViewModel: MainTabsViewModel by viewModels(
-        ownerProducer = { activity as AppCompatActivity },
+    private val viewModel: MainViewModel by viewModels()
+    private val mainTabsViewModel: MainTabsViewModel by activityViewModels(
         factoryProducer = { mainTabsViewModelFactory }
     )
 

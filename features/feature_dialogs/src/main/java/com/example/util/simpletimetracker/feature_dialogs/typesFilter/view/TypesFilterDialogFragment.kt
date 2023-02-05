@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseBottomSheetFragment
-import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.TypesFilterDialogListener
 import com.example.util.simpletimetracker.core.extension.blockContentScroll
 import com.example.util.simpletimetracker.core.extension.getAllFragments
@@ -30,7 +29,6 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class TypesFilterDialogFragment : BaseBottomSheetFragment<Binding>() {
@@ -38,12 +36,8 @@ class TypesFilterDialogFragment : BaseBottomSheetFragment<Binding>() {
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
         Binding::inflate
 
-    @Inject
-    lateinit var viewModelFactory: BaseViewModelFactory<TypesFilterViewModel>
+    private val viewModel: TypesFilterViewModel by viewModels()
 
-    private val viewModel: TypesFilterViewModel by viewModels(
-        factoryProducer = { viewModelFactory }
-    )
     private val params: TypesFilterDialogParams by fragmentArgumentDelegate(
         key = ARGS_PARAMS, default = TypesFilterDialogParams()
     )

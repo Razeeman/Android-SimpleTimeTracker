@@ -8,10 +8,12 @@ import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_dialogs.duration.customView.DurationView
 import com.example.util.simpletimetracker.feature_dialogs.duration.extra.DurationPickerExtra
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
+@HiltViewModel
 class DurationPickerViewModel @Inject constructor() : ViewModel() {
 
     lateinit var extra: DurationPickerExtra

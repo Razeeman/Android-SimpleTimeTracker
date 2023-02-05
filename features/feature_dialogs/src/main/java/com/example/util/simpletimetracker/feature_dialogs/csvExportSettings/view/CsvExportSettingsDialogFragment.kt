@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseBottomSheetFragment
-import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.DataExportSettingsDialogListener
 import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
 import com.example.util.simpletimetracker.core.extension.getAllFragments
@@ -19,7 +18,6 @@ import com.example.util.simpletimetracker.feature_dialogs.csvExportSettings.view
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.navigation.params.screen.DataExportSettingDialogParams
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class CsvExportSettingsDialogFragment :
@@ -29,12 +27,8 @@ class CsvExportSettingsDialogFragment :
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
         Binding::inflate
 
-    @Inject
-    lateinit var viewModelFactory: BaseViewModelFactory<CsvExportSettingsViewModel>
+    private val viewModel: CsvExportSettingsViewModel by viewModels()
 
-    private val viewModel: CsvExportSettingsViewModel by viewModels(
-        factoryProducer = { viewModelFactory }
-    )
     private val params: DataExportSettingDialogParams by fragmentArgumentDelegate(
         key = ARGS_PARAMS, default = DataExportSettingDialogParams()
     )

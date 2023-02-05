@@ -23,6 +23,7 @@ import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.ChartFilterDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.StatisticsDetailParams
 import com.example.util.simpletimetracker.navigation.params.screen.TypesFilterParams
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.delay
@@ -30,6 +31,7 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class StatisticsViewModel @Inject constructor(
     private val router: Router,
     private val statisticsViewDataInteractor: StatisticsViewDataInteractor,

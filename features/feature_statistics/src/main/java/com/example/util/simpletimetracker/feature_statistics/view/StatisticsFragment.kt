@@ -4,7 +4,7 @@ import com.example.util.simpletimetracker.feature_statistics.databinding.Statist
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -43,9 +43,6 @@ class StatisticsFragment :
         Binding::inflate
 
     @Inject
-    lateinit var viewModelFactory: BaseViewModelFactory<StatisticsViewModel>
-
-    @Inject
     lateinit var settingsViewModelFactory: BaseViewModelFactory<StatisticsSettingsViewModel>
 
     @Inject
@@ -54,15 +51,11 @@ class StatisticsFragment :
     @Inject
     lateinit var deviceRepo: DeviceRepo
 
-    private val viewModel: StatisticsViewModel by viewModels(
-        factoryProducer = { viewModelFactory }
-    )
-    private val settingsViewModel: StatisticsSettingsViewModel by viewModels(
-        ownerProducer = { activity as AppCompatActivity },
+    private val viewModel: StatisticsViewModel by viewModels()
+    private val settingsViewModel: StatisticsSettingsViewModel by activityViewModels(
         factoryProducer = { settingsViewModelFactory }
     )
-    private val mainTabsViewModel: MainTabsViewModel by viewModels(
-        ownerProducer = { activity as AppCompatActivity },
+    private val mainTabsViewModel: MainTabsViewModel by activityViewModels(
         factoryProducer = { mainTabsViewModelFactory }
     )
 

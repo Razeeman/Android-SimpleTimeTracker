@@ -21,9 +21,11 @@ import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderView
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_dialogs.typesFilter.interactor.TypesFilterViewDataInteractor
 import com.example.util.simpletimetracker.navigation.params.screen.TypesFilterParams
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class TypesFilterViewModel @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
     private val categoryInteractor: CategoryInteractor,

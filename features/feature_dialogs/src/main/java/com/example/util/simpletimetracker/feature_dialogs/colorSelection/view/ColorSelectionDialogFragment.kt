@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_dialogs.colorSelection.view
 
+import com.example.util.simpletimetracker.feature_dialogs.databinding.ColorSelectionDialogFragmentBinding as Binding
 import android.content.Context
 import android.os.Bundle
 import android.text.TextWatcher
@@ -9,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseBottomSheetFragment
-import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.ColorSelectionDialogListener
 import com.example.util.simpletimetracker.core.extension.getAllFragments
 import com.example.util.simpletimetracker.core.extension.setFullScreen
@@ -23,8 +23,6 @@ import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.navigation.params.screen.ColorSelectionDialogParams
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
-import com.example.util.simpletimetracker.feature_dialogs.databinding.ColorSelectionDialogFragmentBinding as Binding
 
 @AndroidEntryPoint
 class ColorSelectionDialogFragment : BaseBottomSheetFragment<Binding>() {
@@ -32,12 +30,7 @@ class ColorSelectionDialogFragment : BaseBottomSheetFragment<Binding>() {
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
         Binding::inflate
 
-    @Inject
-    lateinit var viewModelFactory: BaseViewModelFactory<ColorSelectionViewModel>
-
-    private val viewModel: ColorSelectionViewModel by viewModels(
-        factoryProducer = { viewModelFactory }
-    )
+    private val viewModel: ColorSelectionViewModel by viewModels()
 
     private val params: ColorSelectionDialogParams by fragmentArgumentDelegate(
         key = ARGS_PARAMS, default = ColorSelectionDialogParams(),

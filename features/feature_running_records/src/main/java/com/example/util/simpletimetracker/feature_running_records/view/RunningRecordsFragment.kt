@@ -3,7 +3,7 @@ package com.example.util.simpletimetracker.feature_running_records.view
 import com.example.util.simpletimetracker.feature_running_records.databinding.RunningRecordsFragmentBinding as Binding
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
@@ -35,16 +35,10 @@ class RunningRecordsFragment :
         Binding::inflate
 
     @Inject
-    lateinit var viewModelFactory: BaseViewModelFactory<RunningRecordsViewModel>
-
-    @Inject
     lateinit var mainTabsViewModelFactory: BaseViewModelFactory<MainTabsViewModel>
 
-    private val viewModel: RunningRecordsViewModel by viewModels(
-        factoryProducer = { viewModelFactory }
-    )
-    private val mainTabsViewModel: MainTabsViewModel by viewModels(
-        ownerProducer = { activity as AppCompatActivity },
+    private val viewModel: RunningRecordsViewModel by viewModels()
+    private val mainTabsViewModel: MainTabsViewModel by activityViewModels(
         factoryProducer = { mainTabsViewModelFactory }
     )
 

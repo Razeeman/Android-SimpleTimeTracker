@@ -13,9 +13,11 @@ import com.example.util.simpletimetracker.feature_base_adapter.category.Category
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.feature_tag_selection.interactor.RecordTagSelectionViewDataInteractor
 import com.example.util.simpletimetracker.navigation.params.screen.RecordTagSelectionParams
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class RecordTagSelectionViewModel @Inject constructor(
     private val viewDataInteractor: RecordTagSelectionViewDataInteractor,
     private val addRunningRecordMediator: AddRunningRecordMediator,

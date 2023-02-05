@@ -34,14 +34,10 @@ class ChangeRunningRecordFragment :
         Binding::inflate
 
     @Inject
-    lateinit var viewModelFactory: BaseViewModelFactory<ChangeRunningRecordViewModel>
-
-    @Inject
     lateinit var router: Router
 
-    private val viewModel: ChangeRunningRecordViewModel by viewModels(
-        factoryProducer = { viewModelFactory }
-    )
+    private val viewModel: ChangeRunningRecordViewModel by viewModels()
+
     private val params: ChangeRunningRecordParams by fragmentArgumentDelegate(
         key = ARGS_PARAMS, default = ChangeRunningRecordParams()
     )

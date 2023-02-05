@@ -6,7 +6,6 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import com.example.util.simpletimetracker.core.base.BaseActivity
-import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.manager.ThemeManager
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_base_adapter.category.createCategoryAdapterDelegate
@@ -26,14 +25,9 @@ import javax.inject.Inject
 class WidgetStatisticsSettingsActivity : BaseActivity() {
 
     @Inject
-    lateinit var viewModelFactory: BaseViewModelFactory<WidgetStatisticsSettingsViewModel>
-
-    @Inject
     lateinit var themeManager: ThemeManager
 
-    private val viewModel: WidgetStatisticsSettingsViewModel by viewModels(
-        factoryProducer = { viewModelFactory }
-    )
+    private val viewModel: WidgetStatisticsSettingsViewModel by viewModels()
 
     private val recordTypesAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
