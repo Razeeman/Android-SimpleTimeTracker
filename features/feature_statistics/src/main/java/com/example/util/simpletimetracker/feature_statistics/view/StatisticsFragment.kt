@@ -74,11 +74,10 @@ class StatisticsFragment :
         rvStatisticsList.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = statisticsAdapter
+        }
 
-            viewTreeObserver.addOnPreDrawListener {
-                parentFragment?.startPostponedEnterTransition()
-                true
-            }
+        setOnPreDrawListener {
+            parentFragment?.startPostponedEnterTransition()
         }
     }
 

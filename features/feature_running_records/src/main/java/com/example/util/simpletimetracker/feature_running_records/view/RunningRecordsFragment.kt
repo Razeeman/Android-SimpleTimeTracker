@@ -72,11 +72,10 @@ class RunningRecordsFragment :
             }
             adapter = runningRecordsAdapter
             setHasFixedSize(true)
+        }
 
-            viewTreeObserver.addOnPreDrawListener {
-                parentFragment?.startPostponedEnterTransition()
-                true
-            }
+        setOnPreDrawListener {
+            parentFragment?.startPostponedEnterTransition()
         }
     }
 

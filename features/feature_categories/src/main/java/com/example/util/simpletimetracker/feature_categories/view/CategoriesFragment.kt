@@ -55,11 +55,10 @@ class CategoriesFragment : BaseFragment<Binding>() {
             }
             adapter = categoriesAdapter
             setHasFixedSize(true)
+        }
 
-            viewTreeObserver.addOnPreDrawListener {
-                startPostponedEnterTransition()
-                true
-            }
+        setOnPreDrawListener {
+            startPostponedEnterTransition()
         }
     }
 

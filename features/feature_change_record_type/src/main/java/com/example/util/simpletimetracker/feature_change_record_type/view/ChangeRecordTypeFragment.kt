@@ -171,9 +171,8 @@ class ChangeRecordTypeFragment :
             adapter = categoriesAdapter
         }
 
-        root.viewTreeObserver.addOnPreDrawListener {
+        setOnPreDrawListener {
             startPostponedEnterTransition()
-            true
         }
     }
 

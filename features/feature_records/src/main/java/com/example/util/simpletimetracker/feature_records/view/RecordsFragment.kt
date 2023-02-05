@@ -65,11 +65,10 @@ class RecordsFragment : BaseFragment<Binding>() {
         rvRecordsList.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = recordsAdapter
+        }
 
-            viewTreeObserver.addOnPreDrawListener {
-                parentFragment?.startPostponedEnterTransition()
-                true
-            }
+        setOnPreDrawListener {
+            parentFragment?.startPostponedEnterTransition()
         }
     }
 

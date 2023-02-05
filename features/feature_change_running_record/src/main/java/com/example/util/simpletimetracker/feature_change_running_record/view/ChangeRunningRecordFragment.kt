@@ -61,9 +61,8 @@ class ChangeRunningRecordFragment :
         )
         core.initUi(binding.layoutChangeRunningRecordCore)
 
-        root.viewTreeObserver.addOnPreDrawListener {
+        setOnPreDrawListener {
             startPostponedEnterTransition()
-            true
         }
     }
 

@@ -71,9 +71,8 @@ class ChangeRecordFragment :
         )
         core.initUi(binding.layoutChangeRecordCore)
 
-        root.viewTreeObserver.addOnPreDrawListener {
+        setOnPreDrawListener {
             startPostponedEnterTransition()
-            true
         }
     }
 
