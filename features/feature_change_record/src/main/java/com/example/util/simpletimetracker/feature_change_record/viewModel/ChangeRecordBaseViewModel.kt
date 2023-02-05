@@ -518,14 +518,8 @@ abstract class ChangeRecordBaseViewModel(
     }
 
     private suspend fun initializePrevNextRecords() {
-        // TODO get directly from room
-        val records = recordInteractor.getAll()
-        prevRecord = records
-            .sortedByDescending { it.timeEnded }
-            .firstOrNull { it.timeEnded <= originalTimeStarted }
-        nextRecord = records
-            .sortedByDescending { it.timeStarted }
-            .lastOrNull { it.timeStarted >= originalTimeEnded }
+        prevRecord = recordInteractor.getPrev(timeStarted = originalTimeStarted)
+        nextRecord = recordInteractor.getNext(timeEnded = originalTimeEnded)
     }
 
     private suspend fun loadTypesViewData(): List<ViewHolderType> {

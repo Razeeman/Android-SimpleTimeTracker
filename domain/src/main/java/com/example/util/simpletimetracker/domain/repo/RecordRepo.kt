@@ -16,6 +16,10 @@ interface RecordRepo {
 
     suspend fun getFromRange(start: Long, end: Long): List<Record>
 
+    suspend fun getPrev(timeStarted: Long): Record?
+
+    suspend fun getNext(timeEnded: Long): Record?
+
     suspend fun add(record: Record): Long
 
     suspend fun remove(id: Long)
