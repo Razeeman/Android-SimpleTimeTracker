@@ -31,7 +31,7 @@ class ChangeRecordSplitDelegateImpl @Inject constructor(
     override val timeSplitAdjustmentItems: LiveData<List<ViewHolderType>> by lazy {
         MutableLiveData(loadTimeSplitAdjustmentItems())
     }
-    override val timeSplitAdjustmentState: LiveData<Boolean> = MutableLiveData(false)
+    override val timeSplitAdjustmentState: LiveData<Boolean> = MutableLiveData(true)
     override val timeSplitText: LiveData<String> = MutableLiveData()
     override val splitPreview: LiveData<ChangeRecordPreview> =
         MutableLiveData(ChangeRecordPreview.NotAvailable)
