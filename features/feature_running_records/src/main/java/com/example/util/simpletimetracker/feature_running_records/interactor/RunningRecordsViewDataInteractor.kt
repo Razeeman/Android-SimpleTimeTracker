@@ -103,10 +103,20 @@ class RunningRecordsViewDataInteractor @Inject constructor(
             }
             .plus(
                 mapper.mapToAddItem(
-                    numberOfCards,
-                    isDarkTheme
+                    numberOfCards = numberOfCards,
+                    isDarkTheme = isDarkTheme
                 )
             )
+            .let {
+                if (recordTypes.isEmpty()) {
+                    it + mapper.mapToAddDefaultItem(
+                        numberOfCards = numberOfCards,
+                        isDarkTheme = isDarkTheme
+                    )
+                } else {
+                    it
+                }
+            }
 
         return runningRecordsViewData +
             listOf(DividerViewData(1)) +

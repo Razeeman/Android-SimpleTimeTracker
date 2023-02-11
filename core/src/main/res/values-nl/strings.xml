@@ -175,6 +175,7 @@
     <string name="running_records_empty_hint">Lang klikken om te bewerken</string>
     <string name="running_records_add_type">Toevoegen</string>
     <string name="running_records_add_filter">Filter toevoegen</string>
+    <string name="running_records_add_default">Standaard</string>
 
     <!--  Settings  -->
     <string name="settings_display_title">Scherminstellingen</string>

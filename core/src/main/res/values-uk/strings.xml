@@ -175,6 +175,7 @@
     <string name="running_records_empty_hint">Натисність та утримуйте для редагування</string>
     <string name="running_records_add_type">Додати</string>
     <string name="running_records_add_filter">Додайте фільтр</string>
+    <string name="running_records_add_default">За замовчуванням</string>
 
     <!--  Settings  -->
     <string name="settings_display_title">Налаштування дисплея</string>

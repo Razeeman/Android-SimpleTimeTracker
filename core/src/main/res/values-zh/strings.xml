@@ -175,6 +175,7 @@
     <string name="running_records_empty_hint">长按以编辑</string>
     <string name="running_records_add_type">添加</string>
     <string name="running_records_add_filter">添加过滤器</string>
+    <string name="running_records_add_default">默认</string>
 
     <!--  Settings  -->
     <string name="settings_display_title">显示设置</string>

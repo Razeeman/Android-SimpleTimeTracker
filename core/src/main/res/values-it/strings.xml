@@ -175,6 +175,7 @@
     <string name="running_records_empty_hint">Tieni premuto per modificare</string>
     <string name="running_records_add_type">Aggiungi</string>
     <string name="running_records_add_filter">Aggiungi filtro</string>
+    <string name="running_records_add_default">Predefinito</string>
 
     <!--  Settings  -->
     <string name="settings_display_title">Impostazioni di visualizzazione</string>

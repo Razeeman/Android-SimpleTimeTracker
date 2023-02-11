@@ -175,6 +175,7 @@
     <string name="running_records_empty_hint">Long click to edit</string>
     <string name="running_records_add_type">Add</string>
     <string name="running_records_add_filter">Add filter</string>
+    <string name="running_records_add_default">Default</string>
 
     <!--  Settings  -->
     <string name="settings_display_title">Display settings</string>

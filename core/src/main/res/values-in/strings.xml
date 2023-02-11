@@ -175,6 +175,7 @@
     <string name="running_records_empty_hint">Ketuk lama untuk menyunting</string>
     <string name="running_records_add_type">Tambah</string>
     <string name="running_records_add_filter">Tambahkan filter</string>
+    <string name="running_records_add_default">Bawaan</string>
 
     <!--  Settings  -->
     <string name="settings_display_title">Pengaturan tampilan</string>

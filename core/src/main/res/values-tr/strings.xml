@@ -175,6 +175,7 @@
     <string name="running_records_empty_hint">Düzenlemek için uzun dokunun</string>
     <string name="running_records_add_type">Ekle</string>
     <string name="running_records_add_filter">Filtre ekle</string>
+    <string name="running_records_add_default">Varsayılan</string>
 
     <!--  Settings  -->
     <string name="settings_display_title">Görüntü ayarları</string>

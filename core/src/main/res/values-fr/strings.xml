@@ -175,6 +175,7 @@
     <string name="running_records_empty_hint">Cliquez longuement pour éditer</string>
     <string name="running_records_add_type">Ajouter</string>
     <string name="running_records_add_filter">Ajouter un filtre</string>
+    <string name="running_records_add_default">Défaut</string>
 
     <!--  Settings  -->
     <string name="settings_display_title">Paramètres d\'affichage</string>

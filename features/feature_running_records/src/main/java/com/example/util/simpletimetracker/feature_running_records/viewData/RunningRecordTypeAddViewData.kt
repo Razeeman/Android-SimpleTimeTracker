@@ -5,6 +5,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 
 class RunningRecordTypeAddViewData(
+    val type: Type,
     val name: String,
     val iconId: RecordTypeIcon,
     @ColorInt val color: Int,
@@ -13,8 +14,12 @@ class RunningRecordTypeAddViewData(
     val asRow: Boolean = false
 ) : ViewHolderType {
 
-    // Only one add item on screen
-    override fun getUniqueId(): Long = 1L
+    override fun getUniqueId(): Long = type.hashCode().toLong()
 
     override fun isValidType(other: ViewHolderType): Boolean = other is RunningRecordTypeAddViewData
+
+    sealed interface Type {
+        object Add: Type
+        object Default: Type
+    }
 }

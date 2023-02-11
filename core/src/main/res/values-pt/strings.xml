@@ -175,6 +175,7 @@
     <string name="running_records_empty_hint">Clique e segure para editar</string>
     <string name="running_records_add_type">Adicionar</string>
     <string name="running_records_add_filter">Adicionar filtro</string>
+    <string name="running_records_add_default">Padrão</string>
 
     <!--  Settings  -->
     <string name="settings_display_title">Configurações do visor</string>

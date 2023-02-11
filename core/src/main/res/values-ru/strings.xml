@@ -175,6 +175,7 @@
     <string name="running_records_empty_hint">Нажмите и удерживайте для редактирования</string>
     <string name="running_records_add_type">Добав.</string>
     <string name="running_records_add_filter">Добавить фильтр</string>
+    <string name="running_records_add_default">По умолч.</string>
 
     <!--  Settings  -->
     <string name="settings_display_title">Настройки отображения</string>

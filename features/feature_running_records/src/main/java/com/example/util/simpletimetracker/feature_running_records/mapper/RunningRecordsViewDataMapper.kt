@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_running_records.mapper
 
+import androidx.annotation.StringRes
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeCardSizeMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
@@ -51,8 +52,35 @@ class RunningRecordsViewDataMapper @Inject constructor(
         numberOfCards: Int,
         isDarkTheme: Boolean,
     ): RunningRecordTypeAddViewData {
+        return mapToAdd(
+            type = RunningRecordTypeAddViewData.Type.Add,
+            name = R.string.running_records_add_type,
+            numberOfCards = numberOfCards,
+            isDarkTheme = isDarkTheme
+        )
+    }
+
+    fun mapToAddDefaultItem(
+        numberOfCards: Int,
+        isDarkTheme: Boolean,
+    ): RunningRecordTypeAddViewData {
+        return mapToAdd(
+            type = RunningRecordTypeAddViewData.Type.Default,
+            name = R.string.running_records_add_default,
+            numberOfCards = numberOfCards,
+            isDarkTheme = isDarkTheme
+        )
+    }
+
+    private fun mapToAdd(
+        type: RunningRecordTypeAddViewData.Type,
+        @StringRes name: Int,
+        numberOfCards: Int,
+        isDarkTheme: Boolean,
+    ): RunningRecordTypeAddViewData {
         return RunningRecordTypeAddViewData(
-            name = R.string.running_records_add_type.let(resourceRepo::getString),
+            type = type,
+            name = name.let(resourceRepo::getString),
             iconId = RecordTypeIcon.Image(R.drawable.add),
             color = colorMapper.toInactiveColor(isDarkTheme),
             width = recordTypeCardSizeMapper.toCardWidth(numberOfCards),

@@ -175,6 +175,7 @@
     <string name="running_records_empty_hint">संपादित करने के लिए लंबी क्लिक करें</string>
     <string name="running_records_add_type">जोड़ें</string>
     <string name="running_records_add_filter">फ़िल्टर जोड़ें</string>
+    <string name="running_records_add_default">गलती करना</string>
 
     <!--  Settings  -->
     <string name="settings_display_title">प्रदर्शन सेटिंग्स</string>

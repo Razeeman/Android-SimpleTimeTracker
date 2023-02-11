@@ -175,6 +175,7 @@
     <string name="running_records_empty_hint">長押しで編集</string>
     <string name="running_records_add_type">追加</string>
     <string name="running_records_add_filter">フィルタを追加</string>
+    <string name="running_records_add_default">デフォルト</string>
 
     <!--  Settings  -->
     <string name="settings_display_title">設定を表示</string>

@@ -175,6 +175,7 @@
     <string name="running_records_empty_hint">Håll intryckt för att redigera</string>
     <string name="running_records_add_type">Lägg till</string>
     <string name="running_records_add_filter">Lägg till filter</string>
+    <string name="running_records_add_default">Standard</string>
 
     <!--  Settings  -->
     <string name="settings_display_title">Bildskärmsinställningar</string>

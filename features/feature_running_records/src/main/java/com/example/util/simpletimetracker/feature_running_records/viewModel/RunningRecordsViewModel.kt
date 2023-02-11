@@ -9,6 +9,7 @@ import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.extension.toParams
 import com.example.util.simpletimetracker.core.model.NavigationTab
 import com.example.util.simpletimetracker.domain.interactor.ActivityFilterInteractor
+import com.example.util.simpletimetracker.domain.interactor.AddDefaultRecordTypesInteractor
 import com.example.util.simpletimetracker.domain.interactor.AddRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
@@ -41,6 +42,7 @@ class RunningRecordsViewModel @Inject constructor(
     private val runningRecordInteractor: RunningRecordInteractor,
     private val runningRecordsViewDataInteractor: RunningRecordsViewDataInteractor,
     private val activityFilterInteractor: ActivityFilterInteractor,
+    private val addDefaultRecordTypesInteractor: AddDefaultRecordTypesInteractor,
 ) : ViewModel() {
 
     val runningRecords: LiveData<List<ViewHolderType>> by lazy {
@@ -81,15 +83,25 @@ class RunningRecordsViewModel @Inject constructor(
     }
 
     fun onAddRecordTypeClick(item: RunningRecordTypeAddViewData) {
-        router.navigate(
-            data = ChangeRecordTypeParams.New(
-                sizePreview = ChangeRecordTypeParams.SizePreview(
-                    width = item.width,
-                    height = item.height,
-                    asRow = item.asRow
+        when (item.type) {
+            is RunningRecordTypeAddViewData.Type.Add -> {
+                router.navigate(
+                    data = ChangeRecordTypeParams.New(
+                        sizePreview = ChangeRecordTypeParams.SizePreview(
+                            width = item.width,
+                            height = item.height,
+                            asRow = item.asRow
+                        )
+                    )
                 )
-            )
-        )
+            }
+            is RunningRecordTypeAddViewData.Type.Default -> {
+                viewModelScope.launch {
+                    addDefaultRecordTypesInteractor.execute()
+                    updateRunningRecords()
+                }
+            }
+        }
     }
 
     @Suppress("UNUSED_PARAMETER")
