@@ -244,6 +244,15 @@
 रिकॉर्ड टिप्पणी के साथ <b> अतिरिक्त </b> - \"%s\"। <br/>
 <b> अतिरिक्त </b> - \"%s\" एक रिकॉर्ड टैग के नाम के साथ। <br/>"
     ]]></string>
+    <string name="settings_automated_tracking_send_events">घटनाएँ भेजें</string>
+    <string name="settings_automated_tracking_send_events_text"><![CDATA[
+यदि <b>\"%s\"</b> सेटिंग सक्षम है, तो ऐप इन पैरामीटर के साथ स्वचालित ट्रैकिंग के लिए तृतीय-पक्ष एप्लिकेशन को प्रारंभ या बंद की गई गतिविधि पर ईवेंट भेजेगा:<br/>
+<br/>
+<b> एक्शन </b> - \"%s\" या \"%s\"। <br/>
+<b> अतिरिक्त </b> - \"%s\".<br/>
+<b> अतिरिक्त </b> - \"%s\".<br/>
+<b> अतिरिक्त </b> - \"%s\".<br/>
+    ]]></string>
 
     <string name="settings_save_backup">बैकअप सहेजें</string>
     <string name="settings_save_description">सहेजने से पहले, सुनिश्चित करें कि आपके पास संघर्षों से बचने के लिए इंस्टॉल किए गए ऐप का नवीनतम संस्करण है।</string>

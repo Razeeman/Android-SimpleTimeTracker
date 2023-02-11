@@ -244,6 +244,15 @@ Parameter opsional untuk memulai aktivitas:<br/>
 <b>Extra</b> - \"%s\" dengan catatan komentar.<br/>
 <b>Extra</b> - \"%s\" dengan nama tag rekaman.<br/>
     ]]></string>
+    <string name="settings_automated_tracking_send_events">Kirim acara</string>
+    <string name="settings_automated_tracking_send_events_text"><![CDATA[
+Jika setelan <b>\"%s\"</b> diaktifkan, aplikasi akan mengirimkan peristiwa pada aktivitas yang dimulai atau dihentikan ke aplikasi pihak ketiga untuk pelacakan otomatis dengan parameter berikut:<br/>
+<br/>
+<b>Action</b> - \"%s\" atau \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+    ]]></string>
 
     <string name="settings_save_backup">Simpan cadangan</string>
     <string name="settings_save_description">Sebelum menyimpan, pastikan Anda memiliki versi terbaru aplikasi terinstal untuk menghindari masalah teknis.</string>

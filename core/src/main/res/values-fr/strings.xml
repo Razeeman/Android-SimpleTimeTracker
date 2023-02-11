@@ -244,6 +244,15 @@ Paramètres facultatifs pour le démarrage de l\'activité:<br/>
 <b>Extra</b> - \"%s\" avec commentaire d\'enregistrement.<br/>
 <b>Extra</b> - \"%s\" avec le nom d\'une balise d\'enregistrement.<br/>
     ]]></string>
+    <string name="settings_automated_tracking_send_events">Envoyer des événements</string>
+    <string name="settings_automated_tracking_send_events_text"><![CDATA[
+Si le paramètre <b>\"%s\"</b> est activé, l\'application enverra des événements sur l\'activité démarrée ou arrêtée à des applications tierces pour un suivi automatisé avec ces paramètres:<br/>
+<br/>
+<b>Action</b> - \"%s\" ou \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+    ]]></string>
 
     <string name="settings_save_backup">Enregistrer la sauvegarde</string>
     <string name="settings_save_description">Avant de créer une sauvegarde, assurez-vous que la dernière version de l\'application est installée pour éviter tout conflit.</string>

@@ -5,6 +5,8 @@ import com.example.util.simpletimetracker.core.provider.ApplicationDataProvider
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.utils.ACTION_START_ACTIVITY
 import com.example.util.simpletimetracker.core.utils.ACTION_STOP_ACTIVITY
+import com.example.util.simpletimetracker.core.utils.EVENT_STARTED_ACTIVITY
+import com.example.util.simpletimetracker.core.utils.EVENT_STOPPED_ACTIVITY
 import com.example.util.simpletimetracker.core.utils.EXTRA_ACTIVITY_NAME
 import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_COMMENT
 import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_TAG_NAME
@@ -47,11 +49,22 @@ class SettingsMapper @Inject constructor(
     fun toAutomatedTrackingHelpDialog(): HelpDialogParams {
         return HelpDialogParams(
             title = resourceRepo.getString(R.string.settings_automated_tracking),
-            text = resourceRepo.getString(R.string.settings_automated_tracking_text).format(
+            text = resourceRepo.getString(
+                R.string.settings_automated_tracking_text
+            ).format(
                 ACTION_START_ACTIVITY,
                 ACTION_STOP_ACTIVITY,
                 EXTRA_ACTIVITY_NAME,
                 applicationDataProvider.getPackageName(),
+                EXTRA_RECORD_COMMENT,
+                EXTRA_RECORD_TAG_NAME,
+            ) + "<br/>" + resourceRepo.getString(
+                R.string.settings_automated_tracking_send_events_text
+            ).format(
+                resourceRepo.getString(R.string.settings_automated_tracking_send_events),
+                EVENT_STARTED_ACTIVITY,
+                EVENT_STOPPED_ACTIVITY,
+                EXTRA_ACTIVITY_NAME,
                 EXTRA_RECORD_COMMENT,
                 EXTRA_RECORD_TAG_NAME,
             ),

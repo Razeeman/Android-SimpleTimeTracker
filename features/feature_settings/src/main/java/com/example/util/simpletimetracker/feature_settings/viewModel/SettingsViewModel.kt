@@ -217,6 +217,15 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    val automatedTrackingSendEventsCheckbox: LiveData<Boolean> by lazy {
+        MutableLiveData<Boolean>().let { initial ->
+            viewModelScope.launch {
+                initial.value = prefsInteractor.getAutomatedTrackingSendEvents()
+            }
+            initial
+        }
+    }
+
     val useMilitaryTimeCheckbox: LiveData<Boolean> by lazy {
         MutableLiveData<Boolean>().let { initial ->
             viewModelScope.launch {
@@ -517,6 +526,14 @@ class SettingsViewModel @Inject constructor(
             val newValue = !prefsInteractor.getRecordTagSelectionEvenForGeneralTags()
             prefsInteractor.setRecordTagSelectionEvenForGeneralTags(newValue)
             recordTagSelectionForGeneralTagsCheckbox.set(newValue)
+        }
+    }
+
+    fun onAutomatedTrackingSendEventsClicked() {
+        viewModelScope.launch {
+            val newValue = !prefsInteractor.getAutomatedTrackingSendEvents()
+            prefsInteractor.setAutomatedTrackingSendEvents(newValue)
+            automatedTrackingSendEventsCheckbox.set(newValue)
         }
     }
 

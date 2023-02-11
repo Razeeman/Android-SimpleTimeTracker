@@ -244,6 +244,15 @@ Parámetros opcionales para iniciar la actividad:<br/>
 <b>Extra</b> - \"%s\" con comentario de registro.<br/>
 <b>Extra</b> - \"%s\" con el nombre de una etiqueta de registro.<br/>
     ]]></string>
+    <string name="settings_automated_tracking_send_events">Enviar eventos</string>
+    <string name="settings_automated_tracking_send_events_text"><![CDATA[
+Si la configuración <b>\"%s\"</b> está habilitada, la aplicación enviará eventos sobre la actividad iniciada o detenida a aplicaciones de terceros para un seguimiento automático con estos parámetros:<br/>
+<br/>
+<b>Action</b> - \"%s\" o \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+    ]]></string>
 
     <string name="settings_save_backup">Guardar copia de seguridad</string>
     <string name="settings_save_description">Antes de guardar, asegúrese de que tiene la última versión de la aplicación instalada para evitar conflictos.</string>

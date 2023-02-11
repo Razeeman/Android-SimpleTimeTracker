@@ -280,6 +280,14 @@ class PrefsInteractor @Inject constructor(
         prefsRepo.recordTagSelectionEvenForGeneralTags = value
     }
 
+    suspend fun getAutomatedTrackingSendEvents(): Boolean = withContext(Dispatchers.IO) {
+        prefsRepo.automatedTrackingSendEvents
+    }
+
+    suspend fun setAutomatedTrackingSendEvents(value: Boolean) = withContext(Dispatchers.IO) {
+        prefsRepo.automatedTrackingSendEvents = value
+    }
+
     suspend fun setWidget(widgetId: Int, recordType: Long) = withContext(Dispatchers.IO) {
         prefsRepo.setWidget(widgetId, recordType)
     }

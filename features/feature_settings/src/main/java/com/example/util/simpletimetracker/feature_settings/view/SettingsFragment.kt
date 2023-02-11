@@ -96,6 +96,7 @@ class SettingsFragment :
             checkboxSettingsShowRecordTagSelection.setOnClick(viewModel::onShowRecordTagSelectionClicked)
             checkboxSettingsRecordTagSelectionClose.setOnClick(viewModel::onRecordTagSelectionCloseClicked)
             checkboxSettingsRecordTagSelectionGeneral.setOnClick(viewModel::onRecordTagSelectionGeneralClicked)
+            checkboxSettingsAutomatedTrackingSend.setOnClick(viewModel::onAutomatedTrackingSendEventsClicked)
             btnSettingsAutomatedTracking.setOnClick(viewModel::onAutomatedTrackingHelpClick)
         }
         with(layoutSettingsRating) {
@@ -146,6 +147,7 @@ class SettingsFragment :
                 ignoreShortRecordsViewData.observe(tvSettingsIgnoreShortRecordsTime::setText)
                 recordTagSelectionCloseCheckbox.observe(checkboxSettingsRecordTagSelectionClose::setChecked)
                 recordTagSelectionForGeneralTagsCheckbox.observe(checkboxSettingsRecordTagSelectionGeneral::setChecked)
+                automatedTrackingSendEventsCheckbox.observe(checkboxSettingsAutomatedTrackingSend::setChecked)
             }
             with(layoutSettingsRating) {
                 versionName.observe(tvSettingsVersionName::setText)
@@ -203,6 +205,7 @@ class SettingsFragment :
             checkboxSettingsInactivityReminderRecurrent.jumpDrawablesToCurrentState()
             checkboxSettingsRecordTagSelectionClose.jumpDrawablesToCurrentState()
             checkboxSettingsRecordTagSelectionGeneral.jumpDrawablesToCurrentState()
+            checkboxSettingsAutomatedTrackingSend.jumpDrawablesToCurrentState()
         }
         with(layoutSettingsBackup) {
             checkboxSettingsAutomaticBackup.jumpDrawablesToCurrentState()

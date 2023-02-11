@@ -244,6 +244,15 @@
 <b>Extra</b> - \"%s\" レコード コメント付き。<br/>
 <b>Extra</b> - \"%s\" にレコード タグの名前を付けます。<br/>
     ]]></string>
+    <string name="settings_automated_tracking_send_events">イベントを送信する</string>
+    <string name="settings_automated_tracking_send_events_text"><![CDATA[
+<b>\"%s\"</b> 設定が有効になっている場合、アプリはアクティビティの開始または停止に関するイベントをサードパーティ アプリケーションに送信し、これらのパラメータを使用して自動追跡を行います:<br/>
+<br/>
+<b>Action</b> - \"%s\" または \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+    ]]></string>
 
     <string name="settings_save_backup">バックアップの保存</string>
     <string name="settings_save_description">保存する前に競合を避けるため、最新バージョンのアプリがインストールされていることを確認してください。</string>

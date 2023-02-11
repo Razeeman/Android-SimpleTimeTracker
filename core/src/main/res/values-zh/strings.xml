@@ -244,6 +244,15 @@
 <b>Extra</b> - 带有记录评论的\"%s\"。<br/>
 <b>Extra</b> - 带有记录标签名称的\"%s\"。<br/>
     ]]></string>
+    <string name="settings_automated_tracking_send_events">发送事件</string>
+    <string name="settings_automated_tracking_send_events_text"><![CDATA[
+如果启用了 <b>\"%s\"</b> 设置，应用程序将在活动开始或停止时将事件发送到第三方应用程序以使用以下参数进行自动跟踪：<br/>
+<br/>
+<b>Action</b> - \"%s\" 或 \"%s\"。<br/>
+<b>Extra</b> - \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+    ]]></string>
 
     <string name="settings_save_backup">保存备份</string>
     <string name="settings_save_description">保存前，请确保已安装最新版本的应用程序，以避免冲突。</string>

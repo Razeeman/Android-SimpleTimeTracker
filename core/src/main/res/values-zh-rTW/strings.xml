@@ -244,6 +244,15 @@
 <b>Extra</b> - \"%s\" with record comment.<br/>
 <b>Extra</b> - \"%s\" 帶有記錄標籤的名稱。<br/>
     ]]></string>
+    <string name="settings_automated_tracking_send_events">發送事件</string>
+    <string name="settings_automated_tracking_send_events_text"><![CDATA[
+如果啟用了 <b>\"%s\"</b> 設置，應用程序將在活動開始或停止時將事件發送到第三方應用程序以使用以下參數進行自動跟踪：<br/>
+<br/>
+<b>行動</b> - \"%s\" 或 \"%s\"。<br/>
+<b>Extra</b> - \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+    ]]></string>
 
     <string name="settings_save_backup">儲存備份</string>
     <string name="settings_save_description">在保存之前，請確保您已安裝最新版本的應用程序以避免衝突。</string>

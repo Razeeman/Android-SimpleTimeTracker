@@ -244,6 +244,15 @@
 <b>Extra</b> - \"%s\" із записом коментаря.<br/>
 <b>Extra</b> - \"%s\" з назвою тегу запису.<br/>
     ]]></string>
+    <string name="settings_automated_tracking_send_events">Надсилати події</string>
+    <string name="settings_automated_tracking_send_events_text"><![CDATA[
+Якщо параметр <b>\"%s\"</b> увімкнено, програма надсилатиме події про розпочату або зупинену активність стороннім програмам для автоматичного відстеження з такими параметрами:<br/>
+<br/>
+<b>Action</b> - \"%s\" або \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+    ]]></string>
 
     <string name="settings_save_backup">Зберегти резервну копію</string>
     <string name="settings_save_description">Перед збереженням переконайтесь, що у вас встановлена остання версія додатку, щоб уникнути конфліктів.</string>

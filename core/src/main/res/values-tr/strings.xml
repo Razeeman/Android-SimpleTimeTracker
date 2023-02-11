@@ -244,6 +244,15 @@ Aktiviteyi başlatmak için isteğe bağlı parametreler:<br/>
 <b>Extra</b> - Kayıt yorumuyla \"%s\".<br/>
 <b>Extra</b> - Bir kayıt etiketi adıyla \"%s\".<br/>
     ]]></string>
+    <string name="settings_automated_tracking_send_events">Etkinlikleri gönder</string>
+    <string name="settings_automated_tracking_send_events_text"><![CDATA[
+<b>\"%s\"</b> ayarı etkinleştirilirse uygulama, başlatılan veya durdurulan etkinliklerle ilgili olayları otomatik izleme için şu parametrelerle üçüncü taraf uygulamalara gönderir:<br/>
+<br/>
+<b>Action</b> - \"%s\" veya \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+    ]]></string>
 
     <string name="settings_save_backup">Yedekleme kaydet</string>
     <string name="settings_save_description">Kaydetmeden önce, uyuşmazlık yaşamamak için uygulamanın güncel olduğundan emin olun.</string>

@@ -62,6 +62,8 @@ interface PrefsRepo {
 
     var recordTagSelectionEvenForGeneralTags: Boolean
 
+    var automatedTrackingSendEvents: Boolean
+
     var automaticBackupUri: String
 
     var automaticBackupError: Boolean

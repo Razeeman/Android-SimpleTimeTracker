@@ -244,6 +244,15 @@ Optionele parameters voor het starten van activiteit:<br/>
 <b>Extra</b> - \"%s\" met recordopmerking.<br/>
 <b>Extra</b> - \"%s\" met de naam van een recordtag.<br/>
     ]]></string>
+    <string name="settings_automated_tracking_send_events">Stuur evenementen</string>
+    <string name="settings_automated_tracking_send_events_text"><![CDATA[
+Als de instelling <b>\"%s\"</b> is ingeschakeld, stuurt de app gebeurtenissen over gestarte of gestopte activiteit naar applicaties van derden voor automatische tracking met deze parameters:<br/>
+<br/>
+<b>Action</b> - \"%s\" of \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+    ]]></string>
 
     <string name="settings_save_backup">Back-up opslaan</string>
     <string name="settings_save_description">Zorg ervoor dat je de nieuwste versie van de app hebt geïnstalleerd voordat je opslaat om conflicten te voorkomen.</string>

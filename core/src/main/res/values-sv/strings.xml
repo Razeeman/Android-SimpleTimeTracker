@@ -244,6 +244,15 @@ Valfria parametrar för start av aktivitet:<br/>
 <b>Extra</b> - \"%s\" med händelsekommentar.<br/>
 <b>Extra</b> - \"%s\" med namnet på en händelsetagg.<br/>
     ]]></string>
+    <string name="settings_automated_tracking_send_events">Skicka händelser</string>
+    <string name="settings_automated_tracking_send_events_text"><![CDATA[
+Om inställningen <b>\"%s\"</b> är aktiverad, kommer appen att skicka händelser vid påbörjad eller stoppad aktivitet till tredjepartsprogram för automatisk spårning med dessa parametrar:<br/>
+<br/>
+<b>Action</b> - \"%s\" eller \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+    ]]></string>
 
     <string name="settings_save_backup">Spara säkerhetskopia</string>
     <string name="settings_save_description">Innan du sparar, se till att du har den senaste versionen av appen för att förhindra datakonflikter.</string>

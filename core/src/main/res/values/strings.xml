@@ -244,6 +244,15 @@ Optional parameters for starting activity:<br/>
 <b>Extra</b> - \"%s\" with record comment.<br/>
 <b>Extra</b> - \"%s\" with the name of a record tag.<br/>
     ]]></string>
+    <string name="settings_automated_tracking_send_events">Send events</string>
+    <string name="settings_automated_tracking_send_events_text"><![CDATA[
+If <b>\"%s\"</b> setting is enabled, app will send events on activity started or stopped to third-party applications for automated tracking with these parameters:<br/>
+<br/>
+<b>Action</b> - \"%s\" or \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+    ]]></string>
 
     <string name="settings_save_backup">Save backup</string>
     <string name="settings_save_description">Before saving, make sure that you have the latest version of the app installed to avoid conflicts.</string>

@@ -11,7 +11,8 @@ class AddRunningRecordMediator @Inject constructor(
     private val notificationTypeInteractor: NotificationTypeInteractor,
     private val notificationInactivityInteractor: NotificationInactivityInteractor,
     private val notificationGoalTimeInteractor: NotificationGoalTimeInteractor,
-    private val widgetInteractor: WidgetInteractor
+    private val widgetInteractor: WidgetInteractor,
+    private val activityStartedStoppedBroadcastInteractor: ActivityStartedStoppedBroadcastInteractor,
 ) {
 
     /**
@@ -57,6 +58,11 @@ class AddRunningRecordMediator @Inject constructor(
                 .filter { it.id != typeId }
                 .forEach { removeRunningRecordMediator.removeWithRecordAdd(it) }
         }
+        activityStartedStoppedBroadcastInteractor.onActionActivityStarted(
+            typeId = typeId,
+            tagIds = tagIds,
+            comment = comment,
+        )
         add(
             typeId = typeId,
             comment = comment,

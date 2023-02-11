@@ -244,6 +244,15 @@ Parametri facoltativi per l\'avvio dell\'attività:<br/>
 <b>Extra</b> - \"%s\" con commento al record.<br/>
 <b>Extra</b> - \"%s\" con il nome di un tag record.<br/>
     ]]></string>
+    <string name="settings_automated_tracking_send_events">Invia eventi</string>
+    <string name="settings_automated_tracking_send_events_text"><![CDATA[
+Se l\'impostazione <b>\"%s\"</b> è abilitata, l\'app invierà eventi sull\'attività avviata o interrotta ad applicazioni di terze parti per il tracciamento automatico con questi parametri:<br/>
+<br/>
+<b>Action</b> - \"%s\" o \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+    ]]></string>
 
     <string name="settings_save_backup">Effettua un backup</string>
     <string name="settings_save_description">Prima di salvare, assicurati di avere l\'ultima versione dell\'app per evitare conflitti.</string>
