@@ -6,6 +6,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class ChangeRunningRecordParams(
+    val transitionName: String = "",
     val id: Long = 0,
     val preview: Preview? = null,
 ) : Parcelable, ScreenParams {

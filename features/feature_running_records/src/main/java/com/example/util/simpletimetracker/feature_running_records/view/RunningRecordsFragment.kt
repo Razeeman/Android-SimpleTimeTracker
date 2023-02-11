@@ -19,6 +19,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.runningRecord.cre
 import com.example.util.simpletimetracker.feature_running_records.adapter.createRunningRecordTypeAdapterDelegate
 import com.example.util.simpletimetracker.feature_running_records.adapter.createRunningRecordTypeAddAdapterDelegate
 import com.example.util.simpletimetracker.feature_running_records.viewModel.RunningRecordsViewModel
+import com.example.util.simpletimetracker.feature_views.TransitionNames
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
@@ -47,7 +48,11 @@ class RunningRecordsFragment :
             createLoaderAdapterDelegate(),
             createEmptyAdapterDelegate(),
             createDividerAdapterDelegate(),
-            createRunningRecordAdapterDelegate(viewModel::onRunningRecordClick, viewModel::onRunningRecordLongClick),
+            createRunningRecordAdapterDelegate(
+                transitionNamePrefix = TransitionNames.RUNNING_RECORD_FROM_MAIN,
+                onItemClick = viewModel::onRunningRecordClick,
+                onItemLongClick = viewModel::onRunningRecordLongClick
+            ),
             createRunningRecordTypeAdapterDelegate(viewModel::onRecordTypeClick, viewModel::onRecordTypeLongClick),
             createRunningRecordTypeAddAdapterDelegate(viewModel::onAddRecordTypeClick),
             createActivityFilterAdapterDelegate(viewModel::onActivityFilterClick, viewModel::onActivityFilterLongClick),

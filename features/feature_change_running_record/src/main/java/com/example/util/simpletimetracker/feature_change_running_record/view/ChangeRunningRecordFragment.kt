@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseFragment
-import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
 import com.example.util.simpletimetracker.core.extension.observeOnce
 import com.example.util.simpletimetracker.core.extension.setSharedTransitions
@@ -17,7 +16,6 @@ import com.example.util.simpletimetracker.feature_change_record.R
 import com.example.util.simpletimetracker.feature_change_record.view.ChangeRecordCore
 import com.example.util.simpletimetracker.feature_change_running_record.viewData.ChangeRunningRecordViewData
 import com.example.util.simpletimetracker.feature_change_running_record.viewModel.ChangeRunningRecordViewModel
-import com.example.util.simpletimetracker.feature_views.TransitionNames
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
@@ -52,7 +50,8 @@ class ChangeRunningRecordFragment :
 
         setPreview()
         setSharedTransitions(
-            transitionName = TransitionNames.RECORD_RUNNING + params.id,
+            additionalCondition = { params.transitionName.isNotEmpty() },
+            transitionName = params.transitionName,
             sharedView = binding.previewChangeRunningRecord,
         )
         core.initUi(binding.layoutChangeRunningRecordCore)

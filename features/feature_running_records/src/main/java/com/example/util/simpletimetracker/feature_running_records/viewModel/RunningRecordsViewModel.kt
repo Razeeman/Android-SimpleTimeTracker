@@ -8,17 +8,17 @@ import com.example.util.simpletimetracker.core.base.SingleLiveEvent
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.extension.toParams
 import com.example.util.simpletimetracker.core.model.NavigationTab
+import com.example.util.simpletimetracker.domain.interactor.ActivityFilterInteractor
 import com.example.util.simpletimetracker.domain.interactor.AddRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
-import com.example.util.simpletimetracker.domain.interactor.ActivityFilterInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.activityFilter.ActivityFilterViewData
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
+import com.example.util.simpletimetracker.feature_base_adapter.runningRecord.RunningRecordViewData
 import com.example.util.simpletimetracker.feature_running_records.interactor.RunningRecordsViewDataInteractor
 import com.example.util.simpletimetracker.feature_running_records.viewData.RunningRecordTypeAddViewData
-import com.example.util.simpletimetracker.feature_base_adapter.runningRecord.RunningRecordViewData
 import com.example.util.simpletimetracker.feature_views.TransitionNames
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeActivityFilterParams
@@ -92,7 +92,8 @@ class RunningRecordsViewModel @Inject constructor(
         )
     }
 
-    fun onRunningRecordClick(item: RunningRecordViewData) {
+    @Suppress("UNUSED_PARAMETER")
+    fun onRunningRecordClick(item: RunningRecordViewData, sharedElements: Pair<Any, String>) {
         viewModelScope.launch {
             runningRecordInteractor.get(item.id)
                 ?.let { removeRunningRecordMediator.removeWithRecordAdd(it) }
@@ -100,9 +101,10 @@ class RunningRecordsViewModel @Inject constructor(
         }
     }
 
-    fun onRunningRecordLongClick(item: RunningRecordViewData, sharedElements: Map<Any, String>) {
+    fun onRunningRecordLongClick(item: RunningRecordViewData, sharedElements: Pair<Any, String>) {
         router.navigate(
             data = ChangeRunningRecordParams(
+                transitionName = sharedElements.second,
                 id = item.id,
                 preview = ChangeRunningRecordParams.Preview(
                     name = item.name,
@@ -118,7 +120,7 @@ class RunningRecordsViewModel @Inject constructor(
                     comment = item.comment
                 )
             ),
-            sharedElements = sharedElements
+            sharedElements = sharedElements.let(::mapOf)
         )
     }
 

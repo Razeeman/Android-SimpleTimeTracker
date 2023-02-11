@@ -21,6 +21,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.record.createReco
 import com.example.util.simpletimetracker.feature_base_adapter.runningRecord.createRunningRecordAdapterDelegate
 import com.example.util.simpletimetracker.feature_records.extra.RecordsExtra
 import com.example.util.simpletimetracker.feature_records.viewModel.RecordsViewModel
+import com.example.util.simpletimetracker.feature_views.TransitionNames
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsParams
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -46,7 +47,10 @@ class RecordsFragment : BaseFragment<Binding>() {
     )
     private val recordsAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
-            createRunningRecordAdapterDelegate(viewModel::onRunningRecordClick),
+            createRunningRecordAdapterDelegate(
+                transitionNamePrefix = TransitionNames.RUNNING_RECORD_FROM_RECORDS,
+                onItemClick = viewModel::onRunningRecordClick
+            ),
             createRecordAdapterDelegate(viewModel::onRecordClick),
             createEmptyAdapterDelegate(),
             createLoaderAdapterDelegate(),
