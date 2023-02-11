@@ -163,6 +163,8 @@
     <string name="schedule_exact_alarms">应为此应用启用系统设置，以便安排准确的警报</string>
     <string name="schedule_exact_alarms_open_settings">打开</string>
 
+    <string name="default_types_selection_title">选择要添加的活动</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">对记录排序</string>
     <string name="records_all_sort_time_started">开始时间</string>

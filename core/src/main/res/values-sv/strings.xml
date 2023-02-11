@@ -163,6 +163,8 @@
     <string name="schedule_exact_alarms">Systeminställningen bör vara aktiverad för den här appen för att kunna schemalägga exakta larm</string>
     <string name="schedule_exact_alarms_open_settings">Öppen</string>
 
+    <string name="default_types_selection_title">Välj aktiviteter att lägga till</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">Sortera händelser</string>
     <string name="records_all_sort_time_started">Starttid</string>

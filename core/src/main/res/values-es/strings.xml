@@ -163,6 +163,8 @@
     <string name="schedule_exact_alarms">La configuración del sistema debe estar habilitada para esta aplicación para programar alarmas exactas</string>
     <string name="schedule_exact_alarms_open_settings">Abierto</string>
 
+    <string name="default_types_selection_title">Seleccionar actividades para agregar</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">Ordenar los registros</string>
     <string name="records_all_sort_time_started">Tiempo de inicio</string>

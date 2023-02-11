@@ -163,6 +163,8 @@
     <string name="schedule_exact_alarms">सटीक अलार्म शेड्यूल करने के लिए इस ऐप के लिए सिस्टम सेटिंग सक्षम होनी चाहिए</string>
     <string name="schedule_exact_alarms_open_settings">खुला</string>
 
+    <string name="default_types_selection_title">जोड़ने के लिए गतिविधियों का चयन करें</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">क्रमबद्ध अभिलेख</string>
     <string name="records_all_sort_time_started">समय शुरू हुआ</string>

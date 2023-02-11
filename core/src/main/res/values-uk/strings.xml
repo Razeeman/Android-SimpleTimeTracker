@@ -163,6 +163,8 @@
     <string name="schedule_exact_alarms">Для цього додатка потрібно ввімкнути налаштування системи, щоб запланувати точні будильники</string>
     <string name="schedule_exact_alarms_open_settings">Відкрити</string>
 
+    <string name="default_types_selection_title">Виберіть дії для додавання</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">Сортувати записи</string>
     <string name="records_all_sort_time_started">Початок</string>

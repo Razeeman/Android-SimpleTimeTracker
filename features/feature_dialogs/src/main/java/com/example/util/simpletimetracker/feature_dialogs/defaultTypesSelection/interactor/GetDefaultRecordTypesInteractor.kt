@@ -1,37 +1,32 @@
-package com.example.util.simpletimetracker.domain.interactor
+package com.example.util.simpletimetracker.feature_dialogs.defaultTypesSelection.interactor
 
+import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.AppColor
-import com.example.util.simpletimetracker.domain.model.CardOrder
 import com.example.util.simpletimetracker.domain.model.RecordType
 import javax.inject.Inject
 
-class AddDefaultRecordTypesInteractor @Inject constructor(
+class GetDefaultRecordTypesInteractor @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
-    private val prefsInteractor: PrefsInteractor,
 ) {
 
-    suspend fun execute() {
-        defaultTypes.forEach {
-            recordTypeInteractor.add(
+    suspend fun execute(): List<RecordType> {
+        val currentTypes = recordTypeInteractor.getAll().map { it.name }
+
+        return defaultTypes
+            .filter { it.name !in currentTypes }
+            .mapIndexed { index, type ->
                 RecordType(
-                    name = it.name,
-                    icon = it.icon,
-                    color = AppColor(colorId = it.colorId, colorInt = ""),
+                    id = index.toLong(),
+                    name = type.name,
+                    icon = type.icon,
+                    color = AppColor(colorId = type.colorId, colorInt = ""),
                     goalTime = 0,
                     dailyGoalTime = 0,
                     weeklyGoalTime = 0,
                     monthlyGoalTime = 0,
                 )
-            )
-        }
-        prefsInteractor.setCardOrder(CardOrder.COLOR)
+            }
     }
-
-    private data class DefaultRecordType(
-        val name: String,
-        val icon: String,
-        val colorId: Int,
-    )
 
     private val defaultTypes: List<DefaultRecordType> by lazy {
         listOf(
@@ -59,4 +54,10 @@ class AddDefaultRecordTypesInteractor @Inject constructor(
             DefaultRecordType(name = "Work", icon = "ic_business_center_24px", colorId = 10),
         )
     }
+
+    private data class DefaultRecordType(
+        val name: String,
+        val icon: String,
+        val colorId: Int,
+    )
 }

@@ -163,6 +163,8 @@
     <string name="schedule_exact_alarms">Le paramètre système doit être activé pour cette application afin de programmer des alarmes exactes</string>
     <string name="schedule_exact_alarms_open_settings">Ouvrir</string>
 
+    <string name="default_types_selection_title">Sélectionnez les activités à ajouter</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">Trier les enregistrements</string>
     <string name="records_all_sort_time_started">Heure de début</string>

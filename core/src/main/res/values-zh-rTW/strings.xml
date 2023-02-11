@@ -163,6 +163,8 @@
     <string name="schedule_exact_alarms">為了排程更多鬧鐘，系統設定應開啟給此應用程式</string>
     <string name="schedule_exact_alarms_open_settings">開啟</string>
 
+    <string name="default_types_selection_title">選擇要添加的活動</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">排序紀錄</string>
     <string name="records_all_sort_time_started">開始時間</string>

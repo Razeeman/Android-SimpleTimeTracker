@@ -163,6 +163,8 @@
     <string name="schedule_exact_alarms">Die Systemeinstellung sollte für diese App aktiviert werden, um genaue Alarme zu planen</string>
     <string name="schedule_exact_alarms_open_settings">Offen</string>
 
+    <string name="default_types_selection_title">Wählen Sie die hinzuzufügenden Aktivitäten aus</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">Einträge sortieren</string>
     <string name="records_all_sort_time_started">Zeit gestartet</string>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?appDialogBackground"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/dialog_arrow"
+        android:tint="?appContrastColor" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        style="@style/DialogTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/default_types_selection_title" />
+
+    <com.example.util.simpletimetracker.feature_views.DividerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvDefaultTypesSelectionContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_weight="1"
+        tools:listitem="@layout/item_record_type_layout" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnDefaultTypesSelectionShowAll"
+            style="@style/AppButton"
+            android:layout_width="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="4dp"
+            android:ellipsize="marquee"
+            android:paddingHorizontal="0dp"
+            android:singleLine="true"
+            android:text="@string/types_filter_show_all"
+            app:layout_constraintBottom_toTopOf="@id/btnDefaultTypesSelectionSave"
+            app:layout_constraintEnd_toStartOf="@id/btnDefaultTypesSelectionHideAll"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnDefaultTypesSelectionHideAll"
+            style="@style/AppButton"
+            android:layout_width="0dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="8dp"
+            android:ellipsize="marquee"
+            android:paddingHorizontal="0dp"
+            android:singleLine="true"
+            android:text="@string/types_filter_hide_all"
+            app:layout_constraintBottom_toTopOf="@id/btnDefaultTypesSelectionSave"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btnDefaultTypesSelectionShowAll" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnDefaultTypesSelectionSave"
+            style="@style/AppButtonActive"
+            android:layout_width="match_parent"
+            android:layout_marginHorizontal="8dp"
+            android:text="@string/duration_dialog_save"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

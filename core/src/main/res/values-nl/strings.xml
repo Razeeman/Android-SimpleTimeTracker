@@ -163,6 +163,8 @@
     <string name="schedule_exact_alarms">Systeeminstellingen moeten voor deze app zijn ingeschakeld om exacte alarmen in te plannen</string>
     <string name="schedule_exact_alarms_open_settings">Open</string>
 
+    <string name="default_types_selection_title">Selecteer activiteiten om toe te voegen</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">Records sorteren</string>
     <string name="records_all_sort_time_started">Tijd begonnen</string>

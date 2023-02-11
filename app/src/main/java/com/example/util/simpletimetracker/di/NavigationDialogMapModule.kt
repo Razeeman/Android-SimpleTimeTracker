@@ -24,6 +24,7 @@ import com.example.util.simpletimetracker.navigation.params.screen.ColorSelectio
 import com.example.util.simpletimetracker.navigation.params.screen.DataExportSettingDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.CustomRangeSelectionParams
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.DefaultTypesSelectionDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DurationDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.EmojiSelectionDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.HelpDialogParams
@@ -76,6 +77,16 @@ class NavigationDialogMapModule {
     fun chartFilterDialog(): NavigationData {
         return NavigationData(
             R.id.chartFilerDialogFragment,
+            BundleCreator.empty()
+        )
+    }
+
+    @IntoMap
+    @Provides
+    @ScreenKey(DefaultTypesSelectionDialogParams::class)
+    fun defaultTypesSelectionDialog(): NavigationData {
+        return NavigationData(
+            R.id.defaultTypesSelectionDialogFragment,
             BundleCreator.empty()
         )
     }

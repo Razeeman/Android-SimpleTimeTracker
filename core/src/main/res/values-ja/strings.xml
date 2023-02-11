@@ -163,6 +163,8 @@
     <string name="schedule_exact_alarms">正確なアラームをスケジュールするには、このアプリのシステム設定を有効にする必要があります</string>
     <string name="schedule_exact_alarms_open_settings">開ける</string>
 
+    <string name="default_types_selection_title">追加するアクティビティを選択</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">計測記録をソート</string>
     <string name="records_all_sort_time_started">時間の開始</string>

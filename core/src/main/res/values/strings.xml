@@ -163,6 +163,8 @@
     <string name="schedule_exact_alarms">System setting should be enabled for this app in order to schedule exact alarms</string>
     <string name="schedule_exact_alarms_open_settings">Open</string>
 
+    <string name="default_types_selection_title">Select activities to add</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">Sort records</string>
     <string name="records_all_sort_time_started">Time started</string>

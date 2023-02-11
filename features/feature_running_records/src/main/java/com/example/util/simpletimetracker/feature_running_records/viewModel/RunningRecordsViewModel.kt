@@ -9,7 +9,6 @@ import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.extension.toParams
 import com.example.util.simpletimetracker.core.model.NavigationTab
 import com.example.util.simpletimetracker.domain.interactor.ActivityFilterInteractor
-import com.example.util.simpletimetracker.domain.interactor.AddDefaultRecordTypesInteractor
 import com.example.util.simpletimetracker.domain.interactor.AddRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
@@ -25,6 +24,7 @@ import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeActivityFilterParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTypeParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRunningRecordParams
+import com.example.util.simpletimetracker.navigation.params.screen.DefaultTypesSelectionDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.RecordTagSelectionParams
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -42,7 +42,6 @@ class RunningRecordsViewModel @Inject constructor(
     private val runningRecordInteractor: RunningRecordInteractor,
     private val runningRecordsViewDataInteractor: RunningRecordsViewDataInteractor,
     private val activityFilterInteractor: ActivityFilterInteractor,
-    private val addDefaultRecordTypesInteractor: AddDefaultRecordTypesInteractor,
 ) : ViewModel() {
 
     val runningRecords: LiveData<List<ViewHolderType>> by lazy {
@@ -96,10 +95,9 @@ class RunningRecordsViewModel @Inject constructor(
                 )
             }
             is RunningRecordTypeAddViewData.Type.Default -> {
-                viewModelScope.launch {
-                    addDefaultRecordTypesInteractor.execute()
-                    updateRunningRecords()
-                }
+                router.navigate(
+                    data = DefaultTypesSelectionDialogParams,
+                )
             }
         }
     }
