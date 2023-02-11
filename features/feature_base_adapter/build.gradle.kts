@@ -26,6 +26,7 @@ android {
 
 dependencies {
     implementation(project(":feature_views"))
+    implementation(project(":domain"))
 
     implementation(Deps.Androidx.recyclerView)
     implementation(Deps.Androidx.constraintLayout)

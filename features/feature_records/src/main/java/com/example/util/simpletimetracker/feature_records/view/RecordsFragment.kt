@@ -18,6 +18,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmpty
 import com.example.util.simpletimetracker.feature_base_adapter.hint.createHintAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.record.createRecordAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.runningRecord.createRunningRecordAdapterDelegate
 import com.example.util.simpletimetracker.feature_records.extra.RecordsExtra
 import com.example.util.simpletimetracker.feature_records.viewModel.RecordsViewModel
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsParams
@@ -45,6 +46,7 @@ class RecordsFragment : BaseFragment<Binding>() {
     )
     private val recordsAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
+            createRunningRecordAdapterDelegate(viewModel::onRunningRecordClick),
             createRecordAdapterDelegate(viewModel::onRecordClick),
             createEmptyAdapterDelegate(),
             createLoaderAdapterDelegate(),

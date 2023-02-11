@@ -13,6 +13,7 @@ import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.feature_base_adapter.record.RecordViewData
+import com.example.util.simpletimetracker.feature_base_adapter.runningRecord.RunningRecordViewData
 import com.example.util.simpletimetracker.feature_records.customView.RecordsCalendarViewData
 import com.example.util.simpletimetracker.feature_records.extra.RecordsExtra
 import com.example.util.simpletimetracker.feature_records.interactor.RecordsViewDataInteractor
@@ -47,6 +48,10 @@ class RecordsViewModel @Inject constructor(
     private var isVisible: Boolean = false
     private var timerJob: Job? = null
     private val shift: Int get() = extra?.shift.orZero()
+
+    fun onRunningRecordClick(item: RunningRecordViewData, sharedElements: Pair<Any, String>? = null) {
+        // TODO
+    }
 
     fun onRecordClick(item: RecordViewData, sharedElements: Pair<Any, String>? = null) {
         val preview = ChangeRecordParams.Preview(

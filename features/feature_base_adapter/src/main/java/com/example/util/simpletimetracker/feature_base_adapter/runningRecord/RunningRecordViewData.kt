@@ -1,7 +1,6 @@
-package com.example.util.simpletimetracker.feature_running_records.viewData
+package com.example.util.simpletimetracker.feature_base_adapter.runningRecord
 
 import androidx.annotation.ColorInt
-import com.example.util.simpletimetracker.core.viewData.GoalTimeViewData
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 

@@ -9,6 +9,7 @@ import com.example.util.simpletimetracker.feature_views.TransitionNames
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData as ViewData
 import com.example.util.simpletimetracker.feature_running_records.databinding.ItemRunningRecordTypeLayoutBinding as Binding
 
+// TODO use RecordTypeAdapterDelegate from base
 fun createRunningRecordTypeAdapterDelegate(
     onItemClick: ((ViewData) -> Unit),
     onItemLongClick: ((ViewData, Map<Any, String>) -> Unit)

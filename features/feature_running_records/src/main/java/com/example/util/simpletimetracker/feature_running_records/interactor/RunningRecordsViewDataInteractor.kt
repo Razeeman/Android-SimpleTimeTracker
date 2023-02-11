@@ -2,13 +2,14 @@ package com.example.util.simpletimetracker.feature_running_records.interactor
 
 import com.example.util.simpletimetracker.core.interactor.ActivityFilterViewDataInteractor
 import com.example.util.simpletimetracker.core.interactor.GetCurrentRecordsDurationInteractor
+import com.example.util.simpletimetracker.core.mapper.RunningRecordViewDataMapper
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.divider.DividerViewData
-import com.example.util.simpletimetracker.feature_running_records.mapper.RunningRecordViewDataMapper
+import com.example.util.simpletimetracker.feature_running_records.mapper.RunningRecordsViewDataMapper
 import javax.inject.Inject
 
 class RunningRecordsViewDataInteractor @Inject constructor(
@@ -18,7 +19,8 @@ class RunningRecordsViewDataInteractor @Inject constructor(
     private val runningRecordInteractor: RunningRecordInteractor,
     private val activityFilterViewDataInteractor: ActivityFilterViewDataInteractor,
     private val getCurrentRecordsDurationInteractor: GetCurrentRecordsDurationInteractor,
-    private val mapper: RunningRecordViewDataMapper,
+    private val mapper: RunningRecordsViewDataMapper,
+    private val runningRecordViewDataMapper: RunningRecordViewDataMapper,
 ) {
 
     suspend fun getViewData(): List<ViewHolderType> {
@@ -60,7 +62,7 @@ class RunningRecordsViewDataInteractor @Inject constructor(
                             0L
                         }
 
-                        mapper.map(
+                        runningRecordViewDataMapper.map(
                             runningRecord = runningRecord,
                             dailyCurrent = dailyCurrent,
                             weeklyCurrent = weeklyCurrent,

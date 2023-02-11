@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.feature_running_records.adapter
+package com.example.util.simpletimetracker.feature_base_adapter.runningRecord
 
 import androidx.core.view.ViewCompat
 import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
@@ -6,12 +6,12 @@ import com.example.util.simpletimetracker.feature_views.extension.setOnClickWith
 import com.example.util.simpletimetracker.feature_views.extension.setOnLongClick
 import com.example.util.simpletimetracker.feature_views.TransitionNames
 import com.example.util.simpletimetracker.domain.extension.orFalse
-import com.example.util.simpletimetracker.feature_running_records.databinding.ItemRunningRecordLayoutBinding as Binding
-import com.example.util.simpletimetracker.feature_running_records.viewData.RunningRecordViewData as ViewData
+import com.example.util.simpletimetracker.feature_base_adapter.databinding.ItemRunningRecordLayoutBinding as Binding
+import com.example.util.simpletimetracker.feature_base_adapter.runningRecord.RunningRecordViewData as ViewData
 
 fun createRunningRecordAdapterDelegate(
     onItemClick: ((ViewData) -> Unit),
-    onItemLongClick: ((ViewData, Map<Any, String>) -> Unit)
+    onItemLongClick: ((ViewData, Map<Any, String>) -> Unit) = { _, _ -> },
 ) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
     Binding::inflate
 ) { binding, item, payloads ->

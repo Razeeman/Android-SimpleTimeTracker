@@ -1,6 +1,6 @@
 package com.example.util.simpletimetracker.core.extension
 
-import com.example.util.simpletimetracker.core.viewData.GoalTimeViewData
+import com.example.util.simpletimetracker.feature_base_adapter.runningRecord.GoalTimeViewData
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRunningRecordParams
 import com.example.util.simpletimetracker.navigation.params.screen.RecordTypeIconParams
