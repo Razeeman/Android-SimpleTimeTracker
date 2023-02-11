@@ -11,6 +11,7 @@ import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.Record
+import com.example.util.simpletimetracker.domain.model.RunningRecord
 import javax.inject.Inject
 import kotlin.math.max
 import kotlin.math.min
@@ -78,6 +79,14 @@ class RangeMapper @Inject constructor(
         rangeEnd: Long,
     ): List<Record> {
         return records.filter { it.timeStarted < rangeEnd && it.timeEnded > rangeStart }
+    }
+
+    fun getRunningRecordsFromRange(
+        records: List<RunningRecord>,
+        rangeStart: Long,
+        rangeEnd: Long,
+    ): List<RunningRecord> {
+        return records.filter { it.timeStarted < rangeEnd && System.currentTimeMillis() > rangeStart }
     }
 
     fun clampToRange(

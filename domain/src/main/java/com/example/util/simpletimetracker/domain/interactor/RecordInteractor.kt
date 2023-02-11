@@ -1,6 +1,5 @@
 package com.example.util.simpletimetracker.domain.interactor
 
-import com.example.util.simpletimetracker.domain.mapper.UntrackedRecordMapper
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.repo.RecordRepo
 import com.example.util.simpletimetracker.domain.repo.RecordToRecordTagRepo
@@ -9,7 +8,6 @@ import javax.inject.Inject
 class RecordInteractor @Inject constructor(
     private val recordRepo: RecordRepo,
     private val recordToRecordTagRepo: RecordToRecordTagRepo,
-    private val untrackedRecordMapper: UntrackedRecordMapper,
 ) {
 
     suspend fun getAll(): List<Record> {
@@ -42,11 +40,6 @@ class RecordInteractor @Inject constructor(
 
     suspend fun getFromRange(start: Long, end: Long): List<Record> {
         return recordRepo.getFromRange(start, end)
-    }
-
-    suspend fun getUntrackedFromRange(start: Long, end: Long): List<Record> {
-        return getFromRange(start, end)
-            .let { untrackedRecordMapper.mapToUntrackedRecords(it, start, end) }
     }
 
     suspend fun add(

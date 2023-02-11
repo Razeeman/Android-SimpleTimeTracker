@@ -27,7 +27,9 @@ import com.example.util.simpletimetracker.core.utils.SingleTapDetector
 import com.example.util.simpletimetracker.core.utils.SwipeDetector
 import com.example.util.simpletimetracker.core.utils.isHorizontal
 import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.record.RecordViewData
+import com.example.util.simpletimetracker.feature_base_adapter.runningRecord.RunningRecordViewData
 import com.example.util.simpletimetracker.feature_records.R
 import com.example.util.simpletimetracker.feature_views.IconView
 import com.example.util.simpletimetracker.feature_views.extension.dpToPx
@@ -96,7 +98,7 @@ class RecordsCalendarView @JvmOverloads constructor(
     private var currentTime: Long? = null
     private var startOfDayShift: Long = 0
     private val iconView: IconView = IconView(ContextThemeWrapper(context, R.style.AppTheme))
-    private var listener: (RecordViewData) -> Unit = {}
+    private var listener: (ViewHolderType) -> Unit = {}
 
     private val nameTextView: AppCompatTextView by lazy {
         getTextView(
@@ -212,7 +214,7 @@ class RecordsCalendarView @JvmOverloads constructor(
             scaleDetector.onTouchEvent(event)
     }
 
-    fun setClickListener(listener: (RecordViewData) -> Unit) {
+    fun setClickListener(listener: (ViewHolderType) -> Unit) {
         this.listener = listener
     }
 
@@ -622,7 +624,11 @@ class RecordsCalendarView @JvmOverloads constructor(
                         color = Color.RED,
                         comment = "Comment $it"
                     )
-                    RecordsCalendarViewData.Point(start, end, record)
+                    RecordsCalendarViewData.Point(
+                        start = start,
+                        end = end,
+                        data = RecordsCalendarViewData.Point.Data.RecordData(record),
+                    )
                 }.let {
                     RecordsCalendarViewData(
                         currentTime = 18 * hourInMillis,
@@ -710,7 +716,7 @@ class RecordsCalendarView @JvmOverloads constructor(
             .let { BitmapDrawable(resources, it) }
     }
 
-    private fun getItemName(item: RecordViewData): CharSequence {
+    private fun getItemName(item: RecordsCalendarViewData.Point.Data): CharSequence {
         return if (item.tagName.isEmpty()) {
             item.name
         } else {
@@ -725,8 +731,12 @@ class RecordsCalendarView @JvmOverloads constructor(
         }
     }
 
-    private fun getItemTimes(item: RecordViewData): String {
-        return "${item.timeStarted} - ${item.timeFinished}"
+    private fun getItemTimes(item: RecordsCalendarViewData.Point.Data): String {
+        return when (val value = item.value) {
+            is RecordViewData -> "${value.timeStarted} - ${value.timeFinished}"
+            is RunningRecordViewData -> value.timeStarted
+            else -> ""
+        }
     }
 
     private fun onTouch(event: MotionEvent) {
@@ -735,7 +745,7 @@ class RecordsCalendarView @JvmOverloads constructor(
 
         data.firstOrNull {
             it.boxLeft < x && it.boxTop < y && it.boxRight > x && it.boxBottom > y
-        }?.point?.data?.let(listener)
+        }?.point?.data?.value?.let(listener)
     }
 
     private fun onScaleStart() {

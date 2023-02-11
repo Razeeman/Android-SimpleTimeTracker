@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.domain.mapper
 
+import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.Record
 import javax.inject.Inject
 import kotlin.math.max
@@ -10,7 +11,7 @@ class UntrackedRecordMapper @Inject constructor(
 ) {
 
     fun mapToUntrackedRecords(
-        records: List<Record>,
+        records: List<Range>,
         start: Long,
         end: Long
     ): List<Record> {
@@ -25,7 +26,7 @@ class UntrackedRecordMapper @Inject constructor(
     }
 
     private fun calculateUntrackedRanges(
-        records: List<Record>,
+        records: List<Range>,
         start: Long,
         end: Long
     ): List<Pair<Long, Long>> {

@@ -49,6 +49,13 @@ class RecordsViewModel @Inject constructor(
     private var timerJob: Job? = null
     private val shift: Int get() = extra?.shift.orZero()
 
+    fun onCalendarClick(item: ViewHolderType) {
+        when (item) {
+            is RecordViewData -> onRecordClick(item)
+            is RunningRecordViewData -> onRunningRecordClick(item)
+        }
+    }
+
     fun onRunningRecordClick(item: RunningRecordViewData, sharedElements: Pair<Any, String>? = null) {
         // TODO
     }

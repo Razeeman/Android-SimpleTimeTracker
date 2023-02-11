@@ -68,7 +68,7 @@ class RecordsFragment : BaseFragment<Binding>() {
     }
 
     override fun initUx() {
-        binding.viewRecordsCalendar.setClickListener(viewModel::onRecordClick)
+        binding.viewRecordsCalendar.setClickListener(viewModel::onCalendarClick)
     }
 
     override fun initViewModel() = with(binding) {
