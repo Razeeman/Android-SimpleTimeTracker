@@ -246,6 +246,12 @@
 <br/>
 <b>Extra</b> - \"%s\" レコード コメント付き。<br/>
 <b>Extra</b> - \"%s\" にレコード タグの名前を付けます。<br/>
+<br/>
+追加：<br/>
+<br/>
+<b>Action</b> - \"%s\".<br/>
+<b>Action</b> - \"%s\".<br/>
+<b>Action</b> - \"%s\".<br/>
     ]]></string>
     <string name="settings_automated_tracking_send_events">イベントを送信する</string>
     <string name="settings_automated_tracking_send_events_text"><![CDATA[

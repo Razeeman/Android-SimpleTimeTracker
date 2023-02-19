@@ -14,8 +14,13 @@
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
                 <!--For HTC devices-->
                 <action android:name="com.htc.intent.action.QUICKBOOT_POWERON" />
+
                 <action android:name="com.razeeman.util.simpletimetracker.ACTION_START_ACTIVITY" />
                 <action android:name="com.razeeman.util.simpletimetracker.ACTION_STOP_ACTIVITY" />
+                <action android:name="com.razeeman.util.simpletimetracker.ACTION_STOP_ALL_ACTIVITIES" />
+                <action android:name="com.razeeman.util.simpletimetracker.ACTION_STOP_SHORTEST_ACTIVITY" />
+                <action android:name="com.razeeman.util.simpletimetracker.ACTION_STOP_LONGEST_ACTIVITY" />
+
                 <action android:name="android.app.action.SCHEDULE_EXACT_ALARM_PERMISSION_STATE_CHANGED" />
             </intent-filter>
         </receiver>

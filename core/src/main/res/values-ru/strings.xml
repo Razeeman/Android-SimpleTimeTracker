@@ -246,6 +246,12 @@
 <br/>
 <b>Extra</b> - \"%s\" с комментарием к записи.<br/>
 <b>Extra</b> - \"%s\" с названием тега записи.<br/>
+<br/>
+Дополнительно:<br/>
+<br/>
+<b>Action</b> - \"%s\".<br/>
+<b>Action</b> - \"%s\".<br/>
+<b>Action</b> - \"%s\".<br/>
     ]]></string>
     <string name="settings_automated_tracking_send_events">Отправлять события</string>
     <string name="settings_automated_tracking_send_events_text"><![CDATA[

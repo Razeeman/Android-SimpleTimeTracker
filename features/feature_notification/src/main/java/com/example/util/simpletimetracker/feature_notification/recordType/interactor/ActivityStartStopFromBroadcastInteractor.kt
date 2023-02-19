@@ -1,9 +1,9 @@
 package com.example.util.simpletimetracker.feature_notification.recordType.interactor
 
 import com.example.util.simpletimetracker.domain.interactor.AddRunningRecordMediator
-import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
+import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import javax.inject.Inject
 
@@ -48,6 +48,23 @@ class ActivityStartStopFromBroadcastInteractor @Inject constructor(
         removeRunningRecordMediator.removeWithRecordAdd(
             runningRecord = runningRecord
         )
+    }
+
+    suspend fun onActionActivityStopAll() {
+        runningRecordInteractor.getAll()
+            .forEach { removeRunningRecordMediator.removeWithRecordAdd(it) }
+    }
+
+    suspend fun onActionActivityStopShortest() {
+        runningRecordInteractor.getAll()
+            .maxByOrNull { it.timeStarted }
+            ?.let { removeRunningRecordMediator.removeWithRecordAdd(it) }
+    }
+
+    suspend fun onActionActivityStopLongest() {
+        runningRecordInteractor.getAll()
+            .minByOrNull { it.timeStarted }
+            ?.let { removeRunningRecordMediator.removeWithRecordAdd(it) }
     }
 
     private suspend fun getTypeIdByName(name: String): Long? {

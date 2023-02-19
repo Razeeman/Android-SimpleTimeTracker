@@ -5,6 +5,9 @@ import com.example.util.simpletimetracker.core.provider.ApplicationDataProvider
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.utils.ACTION_START_ACTIVITY
 import com.example.util.simpletimetracker.core.utils.ACTION_STOP_ACTIVITY
+import com.example.util.simpletimetracker.core.utils.ACTION_STOP_ALL_ACTIVITIES
+import com.example.util.simpletimetracker.core.utils.ACTION_STOP_LONGEST_ACTIVITY
+import com.example.util.simpletimetracker.core.utils.ACTION_STOP_SHORTEST_ACTIVITY
 import com.example.util.simpletimetracker.core.utils.EVENT_STARTED_ACTIVITY
 import com.example.util.simpletimetracker.core.utils.EVENT_STOPPED_ACTIVITY
 import com.example.util.simpletimetracker.core.utils.EXTRA_ACTIVITY_NAME
@@ -58,6 +61,9 @@ class SettingsMapper @Inject constructor(
                 applicationDataProvider.getPackageName(),
                 EXTRA_RECORD_COMMENT,
                 EXTRA_RECORD_TAG_NAME,
+                ACTION_STOP_ALL_ACTIVITIES,
+                ACTION_STOP_SHORTEST_ACTIVITY,
+                ACTION_STOP_LONGEST_ACTIVITY,
             ) + "<br/>" + resourceRepo.getString(
                 R.string.settings_automated_tracking_send_events_text
             ).format(

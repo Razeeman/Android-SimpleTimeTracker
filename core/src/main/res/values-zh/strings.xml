@@ -246,6 +246,12 @@
 <br/>
 <b>Extra</b> - 带有记录评论的\"%s\"。<br/>
 <b>Extra</b> - 带有记录标签名称的\"%s\"。<br/>
+<br/>
+额外的：<br/>
+<br/>
+<b>Action</b> - \"%s\".<br/>
+<b>Action</b> - \"%s\".<br/>
+<b>Action</b> - \"%s\".<br/>
     ]]></string>
     <string name="settings_automated_tracking_send_events">发送事件</string>
     <string name="settings_automated_tracking_send_events_text"><![CDATA[

@@ -246,6 +246,12 @@
 <br/>
 <b>Extra</b> - \"%s\" із записом коментаря.<br/>
 <b>Extra</b> - \"%s\" з назвою тегу запису.<br/>
+<br/>
+Додатково:<br/>
+<br/>
+<b>Action</b> - \"%s\".<br/>
+<b>Action</b> - \"%s\".<br/>
+<b>Action</b> - \"%s\".<br/>
     ]]></string>
     <string name="settings_automated_tracking_send_events">Надсилати події</string>
     <string name="settings_automated_tracking_send_events_text"><![CDATA[

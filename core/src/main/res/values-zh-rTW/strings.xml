@@ -246,6 +246,12 @@
 <br/>
 <b>Extra</b> - \"%s\" with record comment.<br/>
 <b>Extra</b> - \"%s\" 帶有記錄標籤的名稱。<br/>
+<br/>
+額外的：<br/>
+<br/>
+<b>Action</b> - \"%s\".<br/>
+<b>Action</b> - \"%s\".<br/>
+<b>Action</b> - \"%s\".<br/>
     ]]></string>
     <string name="settings_automated_tracking_send_events">發送事件</string>
     <string name="settings_automated_tracking_send_events_text"><![CDATA[

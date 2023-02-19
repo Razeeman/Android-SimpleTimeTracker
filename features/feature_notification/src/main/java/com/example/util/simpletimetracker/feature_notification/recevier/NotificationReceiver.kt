@@ -7,6 +7,9 @@ import android.content.Intent
 import com.example.util.simpletimetracker.core.extension.goAsync
 import com.example.util.simpletimetracker.core.utils.ACTION_START_ACTIVITY
 import com.example.util.simpletimetracker.core.utils.ACTION_STOP_ACTIVITY
+import com.example.util.simpletimetracker.core.utils.ACTION_STOP_ALL_ACTIVITIES
+import com.example.util.simpletimetracker.core.utils.ACTION_STOP_LONGEST_ACTIVITY
+import com.example.util.simpletimetracker.core.utils.ACTION_STOP_SHORTEST_ACTIVITY
 import com.example.util.simpletimetracker.core.utils.EXTRA_ACTIVITY_NAME
 import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_COMMENT
 import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_TAG_NAME
@@ -87,6 +90,15 @@ class NotificationReceiver : BroadcastReceiver() {
             ACTION_STOP_ACTIVITY -> {
                 val name = intent.getStringExtra(EXTRA_ACTIVITY_NAME)
                 typeController.onActionActivityStop(name)
+            }
+            ACTION_STOP_ALL_ACTIVITIES -> {
+                typeController.onActionActivityStopAll()
+            }
+            ACTION_STOP_SHORTEST_ACTIVITY -> {
+                typeController.onActionActivityStopShortest()
+            }
+            ACTION_STOP_LONGEST_ACTIVITY -> {
+                typeController.onActionActivityStopLongest()
             }
             ACTION_NOTIFICATION_STOP -> {
                 val typeId = intent.getLongExtra(ARGS_RECORD_TYPE_ID, 0)

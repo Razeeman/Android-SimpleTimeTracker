@@ -246,6 +246,12 @@ Parametri facoltativi per l\'avvio dell\'attività:<br/>
 <br/>
 <b>Extra</b> - \"%s\" con commento al record.<br/>
 <b>Extra</b> - \"%s\" con il nome di un tag record.<br/>
+<br/>
+Aggiuntivo:<br/>
+<br/>
+<b>Action</b> - \"%s\".<br/>
+<b>Action</b> - \"%s\".<br/>
+<b>Action</b> - \"%s\".<br/>
     ]]></string>
     <string name="settings_automated_tracking_send_events">Invia eventi</string>
     <string name="settings_automated_tracking_send_events_text"><![CDATA[

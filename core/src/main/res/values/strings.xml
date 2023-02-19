@@ -246,6 +246,12 @@ Optional parameters for starting activity:<br/>
 <br/>
 <b>Extra</b> - \"%s\" with record comment.<br/>
 <b>Extra</b> - \"%s\" with the name of a record tag.<br/>
+<br/>
+Additional:<br/>
+<br/>
+<b>Action</b> - \"%s\".<br/>
+<b>Action</b> - \"%s\".<br/>
+<b>Action</b> - \"%s\".<br/>
     ]]></string>
     <string name="settings_automated_tracking_send_events">Send events</string>
     <string name="settings_automated_tracking_send_events_text"><![CDATA[

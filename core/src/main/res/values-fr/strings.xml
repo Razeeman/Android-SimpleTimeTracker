@@ -246,6 +246,12 @@ Paramètres facultatifs pour le démarrage de l\'activité:<br/>
 <br/>
 <b>Extra</b> - \"%s\" avec commentaire d\'enregistrement.<br/>
 <b>Extra</b> - \"%s\" avec le nom d\'une balise d\'enregistrement.<br/>
+<br/>
+Supplémentaire:<br/>
+<br/>
+<b>Action</b> - \"%s\".<br/>
+<b>Action</b> - \"%s\".<br/>
+<b>Action</b> - \"%s\".<br/>
     ]]></string>
     <string name="settings_automated_tracking_send_events">Envoyer des événements</string>
     <string name="settings_automated_tracking_send_events_text"><![CDATA[

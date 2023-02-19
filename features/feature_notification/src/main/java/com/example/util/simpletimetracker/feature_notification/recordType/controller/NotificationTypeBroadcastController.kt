@@ -2,10 +2,12 @@ package com.example.util.simpletimetracker.feature_notification.recordType.contr
 
 import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.feature_notification.recordType.interactor.ActivityStartStopFromBroadcastInteractor
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@OptIn(DelicateCoroutinesApi::class)
 class NotificationTypeBroadcastController @Inject constructor(
     private val notificationTypeInteractor: NotificationTypeInteractor,
     private val activityStartStopFromBroadcastInteractor: ActivityStartStopFromBroadcastInteractor,
@@ -39,6 +41,24 @@ class NotificationTypeBroadcastController @Inject constructor(
         if (typeId == 0L) return
         GlobalScope.launch {
             activityStartStopFromBroadcastInteractor.onActionActivityStop(typeId)
+        }
+    }
+
+    fun onActionActivityStopAll() {
+        GlobalScope.launch {
+            activityStartStopFromBroadcastInteractor.onActionActivityStopAll()
+        }
+    }
+
+    fun onActionActivityStopShortest() {
+        GlobalScope.launch {
+            activityStartStopFromBroadcastInteractor.onActionActivityStopShortest()
+        }
+    }
+
+    fun onActionActivityStopLongest() {
+        GlobalScope.launch {
+            activityStartStopFromBroadcastInteractor.onActionActivityStopLongest()
         }
     }
 

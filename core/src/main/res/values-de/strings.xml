@@ -246,6 +246,12 @@ Optionale Parameter zum Starten der Aktivität:<br/>
 <br/>
 <b>Extra</b> - \"%s\" mit Datensatzkommentar.<br/>
 <b>Extra</b> - \"%s\" mit dem Namen eines Datensatz-Tags.<br/>
+<br/>
+Zusätzlich:<br/>
+<br/>
+<b>Action</b> - \"%s\".<br/>
+<b>Action</b> - \"%s\".<br/>
+<b>Action</b> - \"%s\".<br/>
     ]]></string>
     <string name="settings_automated_tracking_send_events">Ereignisse senden</string>
     <string name="settings_automated_tracking_send_events_text"><![CDATA[

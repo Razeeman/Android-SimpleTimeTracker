@@ -246,6 +246,12 @@ Aktiviteyi başlatmak için isteğe bağlı parametreler:<br/>
 <br/>
 <b>Extra</b> - Kayıt yorumuyla \"%s\".<br/>
 <b>Extra</b> - Bir kayıt etiketi adıyla \"%s\".<br/>
+<br/>
+Ek olarak:<br/>
+<br/>
+<b>Action</b> - \"%s\".<br/>
+<b>Action</b> - \"%s\".<br/>
+<b>Action</b> - \"%s\".<br/>
     ]]></string>
     <string name="settings_automated_tracking_send_events">Etkinlikleri gönder</string>
     <string name="settings_automated_tracking_send_events_text"><![CDATA[

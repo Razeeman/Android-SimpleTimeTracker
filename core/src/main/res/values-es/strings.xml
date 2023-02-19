@@ -246,6 +246,12 @@ Parámetros opcionales para iniciar la actividad:<br/>
 <br/>
 <b>Extra</b> - \"%s\" con comentario de registro.<br/>
 <b>Extra</b> - \"%s\" con el nombre de una etiqueta de registro.<br/>
+<br/>
+Adicional:<br/>
+<br/>
+<b>Action</b> - \"%s\".<br/>
+<b>Action</b> - \"%s\".<br/>
+<b>Action</b> - \"%s\".<br/>
     ]]></string>
     <string name="settings_automated_tracking_send_events">Enviar eventos</string>
     <string name="settings_automated_tracking_send_events_text"><![CDATA[

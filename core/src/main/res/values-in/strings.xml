@@ -246,6 +246,12 @@ Parameter opsional untuk memulai aktivitas:<br/>
 <br/>
 <b>Extra</b> - \"%s\" dengan catatan komentar.<br/>
 <b>Extra</b> - \"%s\" dengan nama tag rekaman.<br/>
+<br/>
+Tambahan:<br/>
+<br/>
+<b>Action</b> - \"%s\".<br/>
+<b>Action</b> - \"%s\".<br/>
+<b>Action</b> - \"%s\".<br/>
     ]]></string>
     <string name="settings_automated_tracking_send_events">Kirim acara</string>
     <string name="settings_automated_tracking_send_events_text"><![CDATA[

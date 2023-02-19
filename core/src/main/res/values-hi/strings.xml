@@ -246,6 +246,12 @@
 <br/>
 रिकॉर्ड टिप्पणी के साथ <b> अतिरिक्त </b> - \"%s\"। <br/>
 <b> अतिरिक्त </b> - \"%s\" एक रिकॉर्ड टैग के नाम के साथ। <br/>"
+<br/>
+अतिरिक्त:<br/>
+<br/>
+<b>Action</b> - \"%s\".<br/>
+<b>Action</b> - \"%s\".<br/>
+<b>Action</b> - \"%s\".<br/>
     ]]></string>
     <string name="settings_automated_tracking_send_events">घटनाएँ भेजें</string>
     <string name="settings_automated_tracking_send_events_text"><![CDATA[
