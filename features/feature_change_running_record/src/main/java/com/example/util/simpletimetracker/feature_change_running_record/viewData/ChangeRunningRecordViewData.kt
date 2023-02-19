@@ -16,5 +16,6 @@ data class ChangeRunningRecordViewData(
     var goalTime4: GoalTimeViewData,
     val iconId: RecordTypeIcon,
     @ColorInt val color: Int,
-    val comment: String
+    val comment: String,
+    val nowIconVisible: Boolean,
 )

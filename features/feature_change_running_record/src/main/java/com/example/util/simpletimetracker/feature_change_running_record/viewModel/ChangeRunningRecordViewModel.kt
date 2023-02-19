@@ -161,7 +161,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
             tagIds = newCategoryIds
         )
 
-        return changeRunningRecordViewDataInteractor.getPreviewViewData(record)
+        return changeRunningRecordViewDataInteractor.getPreviewViewData(record, extra)
     }
 
     private fun startUpdate() {

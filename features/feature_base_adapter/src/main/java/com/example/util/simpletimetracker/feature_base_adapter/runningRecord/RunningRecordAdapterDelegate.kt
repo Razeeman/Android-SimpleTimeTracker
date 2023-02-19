@@ -60,6 +60,9 @@ fun createRunningRecordAdapterDelegate(
         if (rebind || updates.contains(ViewData.UPDATE_COMMENT).orFalse()) {
             itemComment = item.comment
         }
+        if (rebind || updates.contains(ViewData.UPDATE_NOW_ICON).orFalse()) {
+            itemNowIconVisible = item.nowIconVisible
+        }
         if (rebind) {
             setOnClick { onItemClick(item, this to transitionName) }
             setOnLongClick { onItemLongClick(item, this to transitionName) }

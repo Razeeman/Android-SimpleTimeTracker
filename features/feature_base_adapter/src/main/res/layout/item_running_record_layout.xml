@@ -11,6 +11,7 @@
     tools:itemColor="@color/red_800"
     tools:itemGoalTime="goal 10m"
     tools:itemName="Running record"
+    tools:itemNowIconVisible="true"
     tools:itemTagName="Tag"
     tools:itemTimeStarted="11:58"
     tools:itemTimer="07:35" />

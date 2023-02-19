@@ -116,6 +116,7 @@ class RunningRecordsViewModel @Inject constructor(
             data = ChangeRunningRecordParams(
                 transitionName = sharedElements.second,
                 id = item.id,
+                from = ChangeRunningRecordParams.From.RunningRecords,
                 preview = ChangeRunningRecordParams.Preview(
                     name = item.name,
                     tagName = item.tagName,

@@ -1,14 +1,17 @@
 package com.example.util.simpletimetracker.feature_views
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import androidx.annotation.ColorInt
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
 import com.example.util.simpletimetracker.feature_views.databinding.RecordRunningViewLayoutBinding
 import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
@@ -40,8 +43,9 @@ class RunningRecordView @JvmOverloads constructor(
 
     var itemColor: Int = 0
         set(value) {
-            setCardBackgroundColor(value)
             field = value
+            setCardBackgroundColor(value)
+            setNowIconColor(value)
         }
 
     var itemTagColor: Int = Color.WHITE
@@ -127,6 +131,12 @@ class RunningRecordView @JvmOverloads constructor(
             field = value
         }
 
+    var itemNowIconVisible: Boolean = false
+        set(value) {
+            binding.tvRunningRecordItemNow.visible = value
+            field = value
+        }
+
     init {
         initProps()
         initAttrs(context, attrs, defStyleAttr)
@@ -186,6 +196,9 @@ class RunningRecordView @JvmOverloads constructor(
                 if (hasValue(R.styleable.RunningRecordView_itemComment)) itemComment =
                     getString(R.styleable.RunningRecordView_itemComment).orEmpty()
 
+                if (hasValue(R.styleable.RunningRecordView_itemNowIconVisible)) itemNowIconVisible =
+                    getBoolean(R.styleable.RunningRecordView_itemNowIconVisible, false)
+
                 recycle()
             }
     }
@@ -203,5 +216,11 @@ class RunningRecordView @JvmOverloads constructor(
             )
             tvRunningRecordItemName.text = spannable
         }
+    }
+
+    private fun setNowIconColor(@ColorInt value: Int) {
+        ColorUtils.darkenColor(value)
+            .let(ColorStateList::valueOf)
+            .let { ViewCompat.setBackgroundTintList(binding.tvRunningRecordItemNow, it) }
     }
 }

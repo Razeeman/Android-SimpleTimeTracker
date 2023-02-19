@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.feature_change_running_record.mapper.ChangeRunningRecordViewDataMapper
 import com.example.util.simpletimetracker.feature_change_running_record.viewData.ChangeRunningRecordViewData
+import com.example.util.simpletimetracker.navigation.params.screen.ChangeRunningRecordParams
 import javax.inject.Inject
 
 class ChangeRunningRecordViewDataInteractor @Inject constructor(
@@ -18,7 +19,10 @@ class ChangeRunningRecordViewDataInteractor @Inject constructor(
     private val getCurrentRecordsDurationInteractor: GetCurrentRecordsDurationInteractor,
 ) {
 
-    suspend fun getPreviewViewData(record: RunningRecord): ChangeRunningRecordViewData {
+    suspend fun getPreviewViewData(
+        record: RunningRecord,
+        params: ChangeRunningRecordParams,
+    ): ChangeRunningRecordViewData {
         val type = recordTypeInteractor.get(record.id)
         val tags = recordTagInteractor.getAll().filter { it.id in record.tagIds }
         val isDarkTheme = prefsInteractor.getDarkMode()
@@ -51,6 +55,7 @@ class ChangeRunningRecordViewDataInteractor @Inject constructor(
             isDarkTheme = isDarkTheme,
             useMilitaryTime = useMilitaryTime,
             showSeconds = showSeconds,
+            nowIconVisible = params.from is ChangeRunningRecordParams.From.Records,
         )
     }
 }

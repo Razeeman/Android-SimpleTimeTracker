@@ -60,15 +60,32 @@
             android:id="@+id/tvRunningRecordItemTimer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="2dp"
             android:textColor="?appLightTextColor"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@id/tvRunningRecordItemGoalTime"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tvRunningRecordItemNow"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed"
-            app:layout_goneMarginEnd="0dp"
+            app:layout_goneMarginEnd="8dp"
             tools:text="5m 14s" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/tvRunningRecordItemNow"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_marginEnd="6dp"
+            android:background="@drawable/bg_rounded_corners"
+            android:gravity="center"
+            android:padding="2dp"
+            android:src="@drawable/ic_running_record_now"
+            android:visibility="gone"
+            app:backgroundTint="@color/red_600"
+            app:layout_constraintBottom_toBottomOf="@id/tvRunningRecordItemTimer"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvRunningRecordItemTimer"
+            app:tint="@color/white"
+            tools:visibility="visible" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvRunningRecordItemGoalTime"

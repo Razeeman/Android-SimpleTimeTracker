@@ -25,6 +25,7 @@ class RunningRecordViewDataMapper @Inject constructor(
         isDarkTheme: Boolean,
         useMilitaryTime: Boolean,
         showSeconds: Boolean,
+        nowIconVisible: Boolean,
     ): RunningRecordViewData {
         val currentDuration = System.currentTimeMillis() - runningRecord.timeStarted
         return RunningRecordViewData(
@@ -72,7 +73,8 @@ class RunningRecordViewDataMapper @Inject constructor(
                 .let(iconMapper::mapIcon),
             color = recordType.color
                 .let { colorMapper.mapToColorInt(it, isDarkTheme) },
-            comment = runningRecord.comment
+            comment = runningRecord.comment,
+            nowIconVisible = nowIconVisible,
         )
     }
 }

@@ -32,6 +32,7 @@ class ChangeRunningRecordViewDataMapper @Inject constructor(
         isDarkTheme: Boolean,
         useMilitaryTime: Boolean,
         showSeconds: Boolean,
+        nowIconVisible: Boolean,
     ): ChangeRunningRecordViewData {
         val currentDuration = System.currentTimeMillis() - runningRecord.timeStarted
         return ChangeRunningRecordViewData(
@@ -87,7 +88,8 @@ class ChangeRunningRecordViewDataMapper @Inject constructor(
             color = recordType?.color
                 ?.let { colorMapper.mapToColorInt(it, isDarkTheme) }
                 ?: ColorMapper.getAvailableColors().random().let(resourceRepo::getColor),
-            comment = runningRecord.comment
+            comment = runningRecord.comment,
+            nowIconVisible = nowIconVisible,
         )
     }
 }

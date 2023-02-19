@@ -107,7 +107,8 @@ class ChangeRunningRecordFragment :
             goalTime4 = goalTime4.toViewData(),
             iconId = iconId.toViewData(),
             color = color,
-            comment = comment
+            comment = comment,
+            nowIconVisible = params.from is ChangeRunningRecordParams.From.Records,
         ).let(::updatePreview)
     }
 
@@ -128,6 +129,7 @@ class ChangeRunningRecordFragment :
             itemGoalTime4 = item.goalTime4.text
             itemGoalTime4Complete = item.goalTime4.complete
             itemComment = item.comment
+            itemNowIconVisible = item.nowIconVisible
         }
         tvChangeRecordTimeStarted.text = item.dateTimeStarted
     }

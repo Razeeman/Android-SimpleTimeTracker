@@ -190,6 +190,7 @@ class RecordsViewDataInteractor @Inject constructor(
                     isDarkTheme = isDarkTheme,
                     useMilitaryTime = useMilitaryTime,
                     showSeconds = showSeconds,
+                    nowIconVisible = true,
                 ).let {
                     RecordHolder(
                         timeStartedTimestamp = runningRecord.timeStarted,

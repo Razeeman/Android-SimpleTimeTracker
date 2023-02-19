@@ -72,6 +72,7 @@ class RunningRecordsViewDataInteractor @Inject constructor(
                             isDarkTheme = isDarkTheme,
                             useMilitaryTime = useMilitaryTime,
                             showSeconds = showSeconds,
+                            nowIconVisible = false,
                         )
                     }
             }

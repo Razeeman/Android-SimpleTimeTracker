@@ -17,6 +17,7 @@ data class RunningRecordViewData(
     val iconId: RecordTypeIcon,
     @ColorInt val color: Int,
     val comment: String,
+    val nowIconVisible: Boolean,
 ) : ViewHolderType {
 
     override fun getUniqueId(): Long = id
@@ -37,6 +38,7 @@ data class RunningRecordViewData(
         if (this.goalTime3 != other.goalTime3) updates.add(UPDATE_GOAL_TIME3)
         if (this.goalTime4 != other.goalTime4) updates.add(UPDATE_GOAL_TIME4)
         if (this.comment != other.comment) updates.add(UPDATE_COMMENT)
+        if (this.nowIconVisible != other.nowIconVisible) updates.add(UPDATE_NOW_ICON)
 
         return updates.takeIf { it.isNotEmpty() }
     }
@@ -53,5 +55,6 @@ data class RunningRecordViewData(
         const val UPDATE_GOAL_TIME4 = 9
         const val UPDATE_COMMENT = 10
         const val UPDATE_TAG_NAME = 11
+        const val UPDATE_NOW_ICON = 12
     }
 }
