@@ -81,25 +81,53 @@ class StartRecordTest : BaseUiTest() {
         // Click on already running
         clickOnView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name)))
         NavUtils.openRecordsScreen()
-        checkViewDoesNotExist(allOf(withText(name), isCompletelyDisplayed()))
+        checkViewDoesNotExist(
+            allOf(
+                withText(name), isDescendantOfA(withId(R.id.viewRecordItem)), isCompletelyDisplayed()
+            )
+        )
 
         // Stop timer
         NavUtils.openRunningRecordsScreen()
-        clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name)))
-        checkViewDoesNotExist(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name)))
+        clickOnView(
+            allOf(
+                isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name), isCompletelyDisplayed()
+            )
+        )
+        checkViewDoesNotExist(
+            allOf(
+                isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name), isCompletelyDisplayed()
+            )
+        )
 
         // Record is added
         NavUtils.openRecordsScreen()
-        checkViewIsDisplayed(allOf(withText(name), isCompletelyDisplayed()))
+        checkViewIsDisplayed(
+            allOf(
+                withText(name), isDescendantOfA(withId(R.id.viewRecordItem)), isCompletelyDisplayed()
+            )
+        )
 
         // Stop timer
         NavUtils.openRunningRecordsScreen()
-        clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(newName)))
-        checkViewDoesNotExist(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(newName)))
+        clickOnView(
+            allOf(
+                isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(newName), isCompletelyDisplayed()
+            )
+        )
+        checkViewDoesNotExist(
+            allOf(
+                isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(newName), isCompletelyDisplayed()
+            )
+        )
 
         // Record is added
         NavUtils.openRecordsScreen()
-        checkViewIsDisplayed(allOf(withText(newName), isCompletelyDisplayed()))
+        checkViewIsDisplayed(
+            allOf(
+                withText(newName), isDescendantOfA(withId(R.id.viewRecordItem)), isCompletelyDisplayed()
+            )
+        )
     }
 
     @Test

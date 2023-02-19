@@ -78,7 +78,6 @@ class RecordAdjustTimeTest : BaseUiTest() {
 
         // Change record
         longClickOnView(allOf(withText(name2), isCompletelyDisplayed()))
-        unconstrainedClickOnView(withId(R.id.btnChangeRecordTimeStartedAdjust))
         clickOnViewWithText("-30")
         unconstrainedClickOnView(withId(R.id.btnChangeRecordTimeEndedAdjust))
         tryAction { clickOnViewWithText("+30") }
@@ -164,7 +163,6 @@ class RecordAdjustTimeTest : BaseUiTest() {
                 isCompletelyDisplayed()
             )
         )
-        unconstrainedClickOnView(withId(R.id.btnChangeRecordTimeStartedAdjust))
         clickOnViewWithText("-1")
         clickOnViewWithText("-1")
         unconstrainedClickOnView(withId(R.id.btnChangeRecordTimeEndedAdjust))
@@ -232,8 +230,9 @@ class RecordAdjustTimeTest : BaseUiTest() {
         )
 
         // Change record
-        longClickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name2)))
-        unconstrainedClickOnView(withId(R.id.btnChangeRecordTimeStartedAdjust))
+        longClickOnView(
+            allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name2), isCompletelyDisplayed())
+        )
         clickOnViewWithText("-5")
         clickOnViewWithText(R.string.change_record_actions_hint)
         onView(withText(R.string.change_record_adjust)).perform(nestedScrollTo())

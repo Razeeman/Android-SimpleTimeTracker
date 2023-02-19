@@ -39,6 +39,7 @@ class MainScreenTest : BaseUiTest() {
         typeTextIntoView(R.id.etChangeRecordTypeName, name)
         closeSoftKeyboard()
         clickOnView(withText(R.string.change_record_type_save))
+        Thread.sleep(1000)
 
         // Start timer
         clickOnViewWithText(name)

@@ -48,14 +48,20 @@ class RecordActionsMergeTest : BaseUiTest() {
         Thread.sleep(1000)
 
         // Running record - not shown
-        tryAction { longClickOnView(allOf(withId(R.id.viewRunningRecordItem), hasDescendant(withText(name)))) }
+        tryAction {
+            longClickOnView(
+                allOf(withId(R.id.viewRunningRecordItem), hasDescendant(withText(name)), isCompletelyDisplayed())
+            )
+        }
         clickOnViewWithText(R.string.change_record_actions_hint)
         checkViewIsNotDisplayed(withText(R.string.change_record_merge))
         pressBack()
 
         // Record - not shown
         NavUtils.openRecordsScreen()
-        clickOnView(allOf(withText(name), isCompletelyDisplayed()))
+        clickOnView(
+            allOf(withId(R.id.viewRecordItem), hasDescendant(withText(name)), isCompletelyDisplayed())
+        )
         clickOnViewWithText(R.string.change_record_actions_hint)
         checkViewIsNotDisplayed(withText(R.string.change_record_merge))
         pressBack()

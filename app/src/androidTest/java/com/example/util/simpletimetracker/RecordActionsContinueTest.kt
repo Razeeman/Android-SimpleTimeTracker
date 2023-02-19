@@ -5,6 +5,7 @@ import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -21,7 +22,6 @@ import com.example.util.simpletimetracker.utils.longClickOnView
 import com.example.util.simpletimetracker.utils.nestedScrollTo
 import com.example.util.simpletimetracker.utils.recyclerItemCount
 import com.example.util.simpletimetracker.utils.tryAction
-import com.example.util.simpletimetracker.utils.unconstrainedClickOnView
 import com.example.util.simpletimetracker.utils.withCardColor
 import com.example.util.simpletimetracker.utils.withTag
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -74,7 +74,9 @@ class RecordActionsContinueTest : BaseUiTest() {
         onView(withText(R.string.change_record_continue)).perform(nestedScrollTo(), click())
 
         // Check no record
-        checkViewDoesNotExist(allOf(withText(fullName), isCompletelyDisplayed()))
+        checkViewDoesNotExist(
+            allOf(withText(fullName), isDescendantOfA(withId(R.id.viewRecordItem)), isCompletelyDisplayed())
+        )
 
         // Check running record
         NavUtils.openRunningRecordsScreen()
@@ -114,6 +116,7 @@ class RecordActionsContinueTest : BaseUiTest() {
         // Continue untracked doesn't work
         clickOnViewWithText(R.string.change_record_actions_hint)
         onView(withText(R.string.change_record_continue)).perform(nestedScrollTo(), click())
+        clickOnViewWithId(com.google.android.material.R.id.snackbar_text)
         clickOnViewWithText(R.string.change_record_actions_hint)
 
         // Select activity
@@ -126,15 +129,13 @@ class RecordActionsContinueTest : BaseUiTest() {
 
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.viewRecordItem),
-                hasDescendant(withText(R.string.untracked_time_name)),
+                withId(R.id.viewRunningRecordItem),
+                hasDescendant(withText(name)),
                 hasDescendant(withText(timeStartedPreview)),
-                hasDescendant(withText(timeEndedPreview)),
-                hasDescendant(withText(timeRangePreview)),
                 isCompletelyDisplayed()
             )
         )
-        checkViewDoesNotExist(allOf(withText(name), isCompletelyDisplayed()))
+        checkViewDoesNotExist(allOf(withText(R.string.untracked_time_name), isCompletelyDisplayed()))
         onView(allOf(withId(R.id.rvRecordsList), isCompletelyDisplayed())).check(recyclerItemCount(2))
 
         NavUtils.openRunningRecordsScreen()
@@ -169,6 +170,7 @@ class RecordActionsContinueTest : BaseUiTest() {
         // Continue untracked doesn't work
         clickOnViewWithText(R.string.change_record_actions_hint)
         clickOnViewWithText(R.string.change_record_continue)
+        clickOnViewWithId(com.google.android.material.R.id.snackbar_text)
         clickOnViewWithText(R.string.change_record_actions_hint)
 
         // Select activity
@@ -179,8 +181,22 @@ class RecordActionsContinueTest : BaseUiTest() {
         clickOnViewWithText(R.string.change_record_actions_hint)
         onView(withText(R.string.change_record_continue)).perform(nestedScrollTo(), click())
 
-        checkViewDoesNotExist(allOf(withText(name), isCompletelyDisplayed()))
-        onView(allOf(withId(R.id.rvRecordsList), isCompletelyDisplayed())).check(recyclerItemCount(1))
+        checkViewDoesNotExist(
+            allOf(
+                withText(name),
+                isDescendantOfA(withId(R.id.viewRecordItem)),
+                isCompletelyDisplayed()
+            )
+        )
+        checkViewIsDisplayed(
+            allOf(
+                withId(R.id.viewRunningRecordItem),
+                hasDescendant(withText(name)),
+                hasDescendant(withText(timeStartedPreview)),
+                isCompletelyDisplayed()
+            )
+        )
+        onView(allOf(withId(R.id.rvRecordsList), isCompletelyDisplayed())).check(recyclerItemCount(2))
 
         NavUtils.openRunningRecordsScreen()
         checkViewIsDisplayed(
@@ -222,7 +238,6 @@ class RecordActionsContinueTest : BaseUiTest() {
         clickOnViewWithId(R.id.btnRecordAdd)
         clickOnViewWithText(R.string.change_record_type_field)
         clickOnRecyclerItem(R.id.rvChangeRecordType, withText(name))
-        unconstrainedClickOnView(withId(R.id.btnChangeRecordTimeStartedAdjust))
         clickOnViewWithText("+30")
         clickOnViewWithText("+30")
         clickOnViewWithText("+5")
@@ -238,9 +253,18 @@ class RecordActionsContinueTest : BaseUiTest() {
         val name = "Name"
 
         // Setup
+        Thread.sleep(1000)
         testUtils.addActivity(name)
-        tryAction { clickOnView(allOf(withId(R.id.viewRecordTypeItem), hasDescendant(withText(name)))) }
-        tryAction { longClickOnView(allOf(withId(R.id.viewRunningRecordItem), hasDescendant(withText(name)))) }
+        tryAction {
+            clickOnView(
+                allOf(withId(R.id.viewRecordTypeItem), hasDescendant(withText(name)))
+            )
+        }
+        tryAction {
+            longClickOnView(
+                allOf(withId(R.id.viewRunningRecordItem), hasDescendant(withText(name)), isCompletelyDisplayed())
+            )
+        }
 
         // Try continue record
         clickOnViewWithText(R.string.change_record_actions_hint)
@@ -264,11 +288,15 @@ class RecordActionsContinueTest : BaseUiTest() {
         onView(withText(R.string.change_record_continue)).perform(nestedScrollTo(), click())
 
         // Running record stopped
-        checkViewIsDisplayed(allOf(withText(name), isCompletelyDisplayed()))
+        checkViewIsDisplayed(
+            allOf(withText(name), isDescendantOfA(withId(R.id.viewRecordItem)), isCompletelyDisplayed())
+        )
 
         // New running record
         NavUtils.openRunningRecordsScreen()
-        checkViewIsDisplayed(allOf(withId(R.id.viewRunningRecordItem), hasDescendant(withText(name))))
+        checkViewIsDisplayed(
+            allOf(withId(R.id.viewRunningRecordItem), hasDescendant(withText(name)), isCompletelyDisplayed())
+        )
     }
 
     @Test
@@ -295,7 +323,9 @@ class RecordActionsContinueTest : BaseUiTest() {
 
         // New running record
         NavUtils.openRunningRecordsScreen()
-        checkViewIsDisplayed(allOf(withId(R.id.viewRunningRecordItem), hasDescendant(withText(name2))))
+        checkViewIsDisplayed(
+            allOf(withId(R.id.viewRunningRecordItem), hasDescendant(withText(name2)), isCompletelyDisplayed())
+        )
     }
 
     @Suppress("SameParameterValue")

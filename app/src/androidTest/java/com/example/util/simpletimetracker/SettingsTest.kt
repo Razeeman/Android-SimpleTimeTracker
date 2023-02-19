@@ -120,38 +120,64 @@ class SettingsTest : BaseUiTest() {
         // Click on already running
         clickOnView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2)))
         NavUtils.openRecordsScreen()
-        checkViewDoesNotExist(allOf(withText(name1), isCompletelyDisplayed()))
-        checkViewDoesNotExist(allOf(withText(name2), isCompletelyDisplayed()))
-        checkViewDoesNotExist(allOf(withText(name3), isCompletelyDisplayed()))
+        checkViewDoesNotExist(
+            allOf(withText(name1), isDescendantOfA(withId(R.id.viewRecordItem)), isCompletelyDisplayed())
+        )
+        checkViewDoesNotExist(
+            allOf(withText(name2), isDescendantOfA(withId(R.id.viewRecordItem)), isCompletelyDisplayed())
+        )
+        checkViewDoesNotExist(
+            allOf(withText(name3), isDescendantOfA(withId(R.id.viewRecordItem)), isCompletelyDisplayed())
+        )
 
         // Change setting
         NavUtils.openSettingsScreen()
         onView(withId(R.id.checkboxSettingsAllowMultitasking)).perform(nestedScrollTo())
-        onView(withId(R.id.checkboxSettingsAllowMultitasking)).check(matches(isChecked()))
+        tryAction { onView(withId(R.id.checkboxSettingsAllowMultitasking)).check(matches(isChecked())) }
         unconstrainedClickOnView(withId(R.id.checkboxSettingsAllowMultitasking))
         onView(withId(R.id.checkboxSettingsAllowMultitasking)).check(matches(isNotChecked()))
 
         // Click on one not running
         NavUtils.openRunningRecordsScreen()
         clickOnView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1)))
-        tryAction { checkViewIsDisplayed(allOf(withId(R.id.viewRunningRecordItem), hasDescendant(withText(name1)))) }
-        checkViewDoesNotExist(allOf(withId(R.id.viewRunningRecordItem), hasDescendant(withText(name2))))
-        checkViewDoesNotExist(allOf(withId(R.id.viewRunningRecordItem), hasDescendant(withText(name3))))
+        tryAction {
+            checkViewIsDisplayed(
+                allOf(withId(R.id.viewRunningRecordItem), hasDescendant(withText(name1)), isCompletelyDisplayed())
+            )
+        }
+        checkViewDoesNotExist(
+            allOf(withId(R.id.viewRunningRecordItem), hasDescendant(withText(name2)), isCompletelyDisplayed())
+        )
+        checkViewDoesNotExist(
+            allOf(withId(R.id.viewRunningRecordItem), hasDescendant(withText(name3)), isCompletelyDisplayed())
+        )
 
         // Records added
         NavUtils.openRecordsScreen()
-        checkViewIsDisplayed(allOf(withText(name2), isCompletelyDisplayed()))
-        checkViewIsDisplayed(allOf(withText(name3), isCompletelyDisplayed()))
+        checkViewIsDisplayed(
+            allOf(withText(name2), isDescendantOfA(withId(R.id.viewRecordItem)), isCompletelyDisplayed())
+        )
+        checkViewIsDisplayed(
+            allOf(withText(name3), isDescendantOfA(withId(R.id.viewRecordItem)), isCompletelyDisplayed())
+        )
 
         // Click another
         NavUtils.openRunningRecordsScreen()
         clickOnView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2)))
-        tryAction { checkViewIsDisplayed(allOf(withId(R.id.viewRunningRecordItem), hasDescendant(withText(name2)))) }
-        checkViewDoesNotExist(allOf(withId(R.id.viewRunningRecordItem), hasDescendant(withText(name1))))
+        tryAction {
+            checkViewIsDisplayed(
+                allOf(withId(R.id.viewRunningRecordItem), hasDescendant(withText(name2)), isCompletelyDisplayed())
+            )
+        }
+        checkViewDoesNotExist(
+            allOf(withId(R.id.viewRunningRecordItem), hasDescendant(withText(name1)), isCompletelyDisplayed())
+        )
 
         // Record added
         NavUtils.openRecordsScreen()
-        checkViewIsDisplayed(allOf(withText(name1), isCompletelyDisplayed()))
+        checkViewIsDisplayed(
+            allOf(withText(name1), isDescendantOfA(withId(R.id.viewRecordItem)), isCompletelyDisplayed())
+        )
 
         // Change setting back
         NavUtils.openSettingsScreen()
@@ -163,14 +189,26 @@ class SettingsTest : BaseUiTest() {
         // Start another timer
         NavUtils.openRunningRecordsScreen()
         clickOnView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name3)))
-        tryAction { checkViewIsDisplayed(allOf(withId(R.id.viewRunningRecordItem), hasDescendant(withText(name2)))) }
-        checkViewIsDisplayed(allOf(withId(R.id.viewRunningRecordItem), hasDescendant(withText(name3))))
+        tryAction {
+            checkViewIsDisplayed(
+                allOf(withId(R.id.viewRunningRecordItem), hasDescendant(withText(name2)), isCompletelyDisplayed())
+            )
+        }
+        checkViewIsDisplayed(
+            allOf(withId(R.id.viewRunningRecordItem), hasDescendant(withText(name3)), isCompletelyDisplayed())
+        )
 
         // No new records added
         NavUtils.openRecordsScreen()
-        checkViewIsDisplayed(allOf(withText(name1), isCompletelyDisplayed()))
-        checkViewIsDisplayed(allOf(withText(name2), isCompletelyDisplayed()))
-        checkViewIsDisplayed(allOf(withText(name3), isCompletelyDisplayed()))
+        checkViewIsDisplayed(
+            allOf(withText(name1), isDescendantOfA(withId(R.id.viewRecordItem)), isCompletelyDisplayed())
+        )
+        checkViewIsDisplayed(
+            allOf(withText(name2), isDescendantOfA(withId(R.id.viewRecordItem)), isCompletelyDisplayed())
+        )
+        checkViewIsDisplayed(
+            allOf(withText(name3), isDescendantOfA(withId(R.id.viewRecordItem)), isCompletelyDisplayed())
+        )
     }
 
     @Test

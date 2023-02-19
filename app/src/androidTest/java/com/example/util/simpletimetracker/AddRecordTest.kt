@@ -305,15 +305,13 @@ class AddRecordTest : BaseUiTest() {
         )
 
         // Check visibility
-        checkViewIsNotDisplayed(withId(R.id.containerChangeRecordTimeAdjust))
-        unconstrainedClickOnView(withId(R.id.btnChangeRecordTimeStartedAdjust))
         checkViewIsDisplayed(withId(R.id.containerChangeRecordTimeAdjust))
         unconstrainedClickOnView(withId(R.id.btnChangeRecordTimeStartedAdjust))
         checkViewIsNotDisplayed(withId(R.id.containerChangeRecordTimeAdjust))
+        unconstrainedClickOnView(withId(R.id.btnChangeRecordTimeStartedAdjust))
+        checkViewIsDisplayed(withId(R.id.containerChangeRecordTimeAdjust))
 
         // Check time start adjustments
-        unconstrainedClickOnView(withId(R.id.btnChangeRecordTimeStartedAdjust))
-
         clickOnViewWithText("-30")
         checkAfterTimeAdjustment(
             timeStarted = "14:30", timeEnded = "16:00", duration = "1$hourString 30$minuteString"

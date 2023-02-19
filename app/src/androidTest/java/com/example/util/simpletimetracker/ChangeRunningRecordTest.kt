@@ -83,7 +83,7 @@ class ChangeRunningRecordTest : BaseUiTest() {
         checkViewIsDisplayed(withId(R.id.btnChangeRunningRecordDelete))
         checkViewIsNotDisplayed(withId(R.id.rvChangeRecordType))
         checkViewIsNotDisplayed(withId(R.id.rvChangeRecordCategories))
-        checkViewIsNotDisplayed(withId(R.id.containerChangeRecordTimeAdjust))
+        checkViewIsDisplayed(withId(R.id.containerChangeRecordTimeAdjust))
         checkViewIsNotDisplayed(allOf(withId(R.id.etChangeRecordComment), withText("")))
         checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeStarted), withText(timeStarted)))
 
@@ -247,15 +247,13 @@ class ChangeRunningRecordTest : BaseUiTest() {
         checkAfterTimeAdjustment(timeStarted = "00:00")
 
         // Check visibility
-        checkViewIsNotDisplayed(withId(R.id.containerChangeRecordTimeAdjust))
-        unconstrainedClickOnView(withId(R.id.btnChangeRecordTimeStartedAdjust))
         checkViewIsDisplayed(withId(R.id.containerChangeRecordTimeAdjust))
         unconstrainedClickOnView(withId(R.id.btnChangeRecordTimeStartedAdjust))
         checkViewIsNotDisplayed(withId(R.id.containerChangeRecordTimeAdjust))
+        unconstrainedClickOnView(withId(R.id.btnChangeRecordTimeStartedAdjust))
+        checkViewIsDisplayed(withId(R.id.containerChangeRecordTimeAdjust))
 
         // Check time adjustments
-        unconstrainedClickOnView(withId(R.id.btnChangeRecordTimeStartedAdjust))
-
         clickOnViewWithText("+30")
         checkAfterTimeAdjustment(timeStarted = "00:30")
         clickOnViewWithText("+5")
