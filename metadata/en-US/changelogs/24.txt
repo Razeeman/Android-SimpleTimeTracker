@@ -1,0 +1,6 @@
+- Add stop button to activity notification
+- Add current activities to records list
+- Add setting to send events for automated tracking
+- Improve application memory handling
+- Add some translations
+- General bug fixes and improvements
