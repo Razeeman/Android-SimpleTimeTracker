@@ -19,7 +19,7 @@ class RunningRecordTypeAddViewData(
     override fun isValidType(other: ViewHolderType): Boolean = other is RunningRecordTypeAddViewData
 
     sealed interface Type {
-        object Add: Type
-        object Default: Type
+        object Add : Type
+        object Default : Type
     }
 }

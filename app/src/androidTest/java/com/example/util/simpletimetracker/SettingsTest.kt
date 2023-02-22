@@ -1037,6 +1037,59 @@ class SettingsTest : BaseUiTest() {
     }
 
     @Test
+    fun recordTagSelectionWithOnlyGeneral() {
+        val name = "TypeName"
+        val tagGeneral = "TagGeneral"
+        val fullName = "$name - $tagGeneral"
+
+        // Add data
+        testUtils.addActivity(name)
+        Thread.sleep(1000)
+        tryAction { clickOnViewWithText(name) }
+        tryAction { clickOnView(allOf(withId(R.id.viewRunningRecordItem), hasDescendant(withText(name)))) }
+
+        // Change setting
+        NavUtils.openSettingsScreen()
+        NavUtils.openSettingsAdditional()
+        onView(withId(R.id.checkboxSettingsShowRecordTagSelection)).perform(nestedScrollTo())
+        checkViewIsNotDisplayed(withText(R.string.settings_show_record_tag_general_hint))
+        checkViewIsNotDisplayed(withId(R.id.checkboxSettingsRecordTagSelectionGeneral))
+
+        unconstrainedClickOnView(withId(R.id.checkboxSettingsShowRecordTagSelection))
+        onView(withId(R.id.checkboxSettingsRecordTagSelectionGeneral)).perform(nestedScrollTo())
+        checkViewIsDisplayed(withText(R.string.settings_show_record_tag_general_hint))
+        onView(withId(R.id.checkboxSettingsRecordTagSelectionGeneral)).check(matches(isNotChecked()))
+        unconstrainedClickOnView(withId(R.id.checkboxSettingsRecordTagSelectionGeneral))
+        onView(withId(R.id.checkboxSettingsRecordTagSelectionGeneral)).check(matches(isChecked()))
+
+        // No tags - started right away
+        NavUtils.openRunningRecordsScreen()
+        clickOnViewWithText(name)
+        tryAction { clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name))) }
+
+        // Add tag
+        testUtils.addRecordTag(tagGeneral)
+
+        // Has a tag - show dialog
+        clickOnViewWithText(name)
+        tryAction { checkViewIsDisplayed(withText(R.string.change_record_untagged)) }
+        checkViewIsDisplayed(withText(tagGeneral))
+        pressBack()
+
+        // Change setting
+        NavUtils.openSettingsScreen()
+        onView(withId(R.id.checkboxSettingsRecordTagSelectionGeneral)).perform(nestedScrollTo())
+        onView(withId(R.id.checkboxSettingsRecordTagSelectionGeneral)).check(matches(isChecked()))
+        unconstrainedClickOnView(withId(R.id.checkboxSettingsRecordTagSelectionGeneral))
+        onView(withId(R.id.checkboxSettingsRecordTagSelectionGeneral)).check(matches(isNotChecked()))
+
+        // Start with tags - no dialog
+        NavUtils.openRunningRecordsScreen()
+        clickOnViewWithText(name)
+        tryAction { clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name))) }
+    }
+
+    @Test
     fun csvExportSettings() {
         NavUtils.openSettingsScreen()
         onView(withId(R.id.layoutSettingsExportCsv)).perform(nestedScrollTo(), click())
@@ -1210,6 +1263,39 @@ class SettingsTest : BaseUiTest() {
         checkViewIsDisplayed(
             allOf(withId(R.id.tvHelpDialogTitle), withText(R.string.settings_automated_tracking))
         )
+    }
+
+    @Test
+    fun automatedTrackingSendEvents() {
+        val name = "name"
+
+        // Add data
+        testUtils.addActivity(name)
+
+        // Change setting
+        NavUtils.openSettingsScreen()
+        NavUtils.openSettingsAdditional()
+        onView(withId(R.id.checkboxSettingsAutomatedTrackingSend)).perform(nestedScrollTo())
+        onView(withId(R.id.checkboxSettingsAutomatedTrackingSend)).check(matches(isNotChecked()))
+        unconstrainedClickOnView(withId(R.id.checkboxSettingsAutomatedTrackingSend))
+        onView(withId(R.id.checkboxSettingsAutomatedTrackingSend)).check(matches(isChecked()))
+
+        // Start stop activity
+        NavUtils.openRunningRecordsScreen()
+        clickOnViewWithText(name)
+        tryAction { clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name))) }
+
+        // Change setting
+        NavUtils.openSettingsScreen()
+        onView(withId(R.id.checkboxSettingsAutomatedTrackingSend)).perform(nestedScrollTo())
+        onView(withId(R.id.checkboxSettingsAutomatedTrackingSend)).check(matches(isChecked()))
+        unconstrainedClickOnView(withId(R.id.checkboxSettingsAutomatedTrackingSend))
+        onView(withId(R.id.checkboxSettingsAutomatedTrackingSend)).check(matches(isNotChecked()))
+
+        // Start stop activity
+        NavUtils.openRunningRecordsScreen()
+        clickOnView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name)))
+        tryAction { clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name))) }
     }
 
     @Test
