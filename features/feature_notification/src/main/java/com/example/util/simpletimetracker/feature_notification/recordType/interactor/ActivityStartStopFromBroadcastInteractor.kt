@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.feature_notification.recordType.interactor
 
 import com.example.util.simpletimetracker.domain.interactor.AddRunningRecordMediator
+import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
@@ -12,6 +13,7 @@ class ActivityStartStopFromBroadcastInteractor @Inject constructor(
     private val addRunningRecordMediator: AddRunningRecordMediator,
     private val removeRunningRecordMediator: RemoveRunningRecordMediator,
     private val runningRecordInteractor: RunningRecordInteractor,
+    private val recordInteractor: RecordInteractor,
     private val recordTagInteractor: RecordTagInteractor,
 ) {
 
@@ -67,6 +69,25 @@ class ActivityStartStopFromBroadcastInteractor @Inject constructor(
             ?.let { removeRunningRecordMediator.removeWithRecordAdd(it) }
     }
 
+    suspend fun onActionActivityRestart(
+        comment: String?,
+        tagName: String?,
+    ) {
+        val previousRecord = recordInteractor.getPrev(System.currentTimeMillis())
+            ?: return
+        val typeId = previousRecord.typeId
+        val tagId = findTagIdByName(tagName, typeId)
+
+        addRunningRecordMediator.startTimer(
+            typeId = typeId,
+            comment = comment
+                ?: previousRecord.comment,
+            tagIds = listOfNotNull(tagId)
+                .takeUnless { tagName == null }
+                ?: previousRecord.tagIds,
+        )
+    }
+
     private suspend fun getTypeIdByName(name: String): Long? {
         return recordTypeInteractor.getAll().firstOrNull { it.name == name }?.id
     }
@@ -75,6 +96,8 @@ class ActivityStartStopFromBroadcastInteractor @Inject constructor(
         name: String?,
         typeId: Long,
     ): Long? {
+        name ?: return null
+
         val tags = recordTagInteractor.getAll()
             .filter { it.name == name && !it.archived }
 

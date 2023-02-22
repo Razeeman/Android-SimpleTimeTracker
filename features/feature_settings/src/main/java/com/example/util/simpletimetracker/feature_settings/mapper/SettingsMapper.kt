@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.feature_settings.mapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.provider.ApplicationDataProvider
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.core.utils.ACTION_RESTART_ACTIVITY
 import com.example.util.simpletimetracker.core.utils.ACTION_START_ACTIVITY
 import com.example.util.simpletimetracker.core.utils.ACTION_STOP_ACTIVITY
 import com.example.util.simpletimetracker.core.utils.ACTION_STOP_ALL_ACTIVITIES
@@ -64,6 +65,7 @@ class SettingsMapper @Inject constructor(
                 ACTION_STOP_ALL_ACTIVITIES,
                 ACTION_STOP_SHORTEST_ACTIVITY,
                 ACTION_STOP_LONGEST_ACTIVITY,
+                ACTION_RESTART_ACTIVITY,
             ) + "<br/>" + resourceRepo.getString(
                 R.string.settings_automated_tracking_send_events_text
             ).format(

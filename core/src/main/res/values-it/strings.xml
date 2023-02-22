@@ -252,6 +252,7 @@ Aggiuntivo:<br/>
 <b>Action</b> - \"%s\".<br/>
 <b>Action</b> - \"%s\".<br/>
 <b>Action</b> - \"%s\".<br/>
+<b>Action</b> - \"%s\".<br/>
     ]]></string>
     <string name="settings_automated_tracking_send_events">Invia eventi</string>
     <string name="settings_automated_tracking_send_events_text"><![CDATA[

@@ -252,6 +252,7 @@
 <b>Action</b> - \"%s\".<br/>
 <b>Action</b> - \"%s\".<br/>
 <b>Action</b> - \"%s\".<br/>
+<b>Action</b> - \"%s\".<br/>
     ]]></string>
     <string name="settings_automated_tracking_send_events">Отправлять события</string>
     <string name="settings_automated_tracking_send_events_text"><![CDATA[

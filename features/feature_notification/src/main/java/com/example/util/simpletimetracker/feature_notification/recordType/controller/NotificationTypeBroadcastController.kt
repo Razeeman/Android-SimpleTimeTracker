@@ -62,6 +62,17 @@ class NotificationTypeBroadcastController @Inject constructor(
         }
     }
 
+    fun onActionActivityRestart(
+        comment: String?,
+        tagName: String?,
+    ) {
+        GlobalScope.launch {
+            activityStartStopFromBroadcastInteractor.onActionActivityRestart(
+                comment = comment, tagName = tagName
+            )
+        }
+    }
+
     fun onBootCompleted() {
         GlobalScope.launch {
             notificationTypeInteractor.updateNotifications()

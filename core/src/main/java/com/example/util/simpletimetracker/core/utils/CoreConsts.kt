@@ -13,6 +13,7 @@ const val ACTION_STOP_ACTIVITY = "com.razeeman.util.simpletimetracker.ACTION_STO
 const val ACTION_STOP_ALL_ACTIVITIES = "com.razeeman.util.simpletimetracker.ACTION_STOP_ALL_ACTIVITIES"
 const val ACTION_STOP_SHORTEST_ACTIVITY = "com.razeeman.util.simpletimetracker.ACTION_STOP_SHORTEST_ACTIVITY"
 const val ACTION_STOP_LONGEST_ACTIVITY = "com.razeeman.util.simpletimetracker.ACTION_STOP_LONGEST_ACTIVITY"
+const val ACTION_RESTART_ACTIVITY = "com.razeeman.util.simpletimetracker.ACTION_RESTART_ACTIVITY"
 const val EVENT_STARTED_ACTIVITY = "com.razeeman.util.simpletimetracker.EVENT_STARTED_ACTIVITY"
 const val EVENT_STOPPED_ACTIVITY = "com.razeeman.util.simpletimetracker.EVENT_STOPPED_ACTIVITY"
 const val EXTRA_ACTIVITY_NAME = "extra_activity_name"
