@@ -917,6 +917,7 @@ class SettingsTest : BaseUiTest() {
 
         // Add data
         testUtils.addActivity(name)
+        Thread.sleep(1000)
         tryAction { clickOnViewWithText(name) }
         tryAction { clickOnView(allOf(withId(R.id.viewRunningRecordItem), hasDescendant(withText(name)))) }
 

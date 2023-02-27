@@ -61,13 +61,13 @@ abstract class BaseFragment<T : ViewBinding> : Fragment() {
     fun setOnPreDrawListener(block: () -> Unit) {
         val listener = object : OnPreDrawListener {
             override fun onPreDraw(): Boolean {
-                binding.root.viewTreeObserver.removeOnPreDrawListener(this)
+                view?.viewTreeObserver?.removeOnPreDrawListener(this)
                 block()
                 return true
             }
         }
         preDrawListeners.add(listener)
-        binding.root.viewTreeObserver.addOnPreDrawListener(listener)
+        view?.viewTreeObserver?.addOnPreDrawListener(listener)
     }
 
     inline fun <T> LiveData<T>.observe(
