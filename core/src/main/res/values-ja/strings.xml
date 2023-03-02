@@ -10,7 +10,7 @@
     <string name="day_of_week_sunday">日</string>
 
     <string name="activity_hint">アクティビティ</string>
-    <string name="category_hint">カテゴリー</string>
+    <string name="category_hint">カテゴリ</string>
     <string name="record_tag_hint">計測タグ</string>
     <string name="nothing_selected">何も選択されていません</string>
     <string name="something_selected">選択済み:</string>
@@ -103,8 +103,8 @@
     <string name="change_record_continue">継続する</string>
     <string name="change_record_continue_hint">現在の記録を削除し、このアクティビティの追跡を継続します</string>
     <string name="change_record_merge">マージ</string>
-    <string name="change_record_merge_hint">今回は前の記録に追加します</string>
-    <string name="change_record_adjust">変化する</string>
+    <string name="change_record_merge_hint">現在の記録を前の記録に追加します</string>
+    <string name="change_record_adjust">変更する</string>
     <string name="change_record_change_prev_record">前のレコードの時刻も変更</string>
     <string name="change_record_change_adjacent_records">隣接レコードの時刻も変更</string>
 
@@ -128,9 +128,9 @@
     <string name="change_record_type_monthly_goal_time">@string/range_month</string>
 
     <!--  Activity filters  -->
-    <string name="change_activity_filter_removed">フィルターを取り外しました</string>
+    <string name="change_activity_filter_removed">フィルタを取り外しました</string>
     <string name="change_activity_filter_save">保存</string>
-    <string name="change_activity_filter_type">フィルターの種類</string>
+    <string name="change_activity_filter_type">フィルタの種類</string>
 
     <!--  Dialogs  -->
     <string name="date_time_dialog_date">日</string>
@@ -188,10 +188,10 @@
     <string name="settings_sort_manually">手動</string>
     <string name="settings_first_day_of_week">週の始まり</string>
     <string name="settings_show_untracked_time">記録中の未追跡時間の表示</string>
-    <string name="settings_show_untracked_time_hint">統計で追跡されていない時間は、統計画面のフィルターを使用して非表示にすることができます。</string>
+    <string name="settings_show_untracked_time_hint">統計で追跡されていない時間は、統計画面のフィルタを使用して非表示にすることができます。</string>
     <string name="settings_show_records_calendar">カレンダービューで計測記録を表示</string>
     <string name="settings_reverse_order_in_calendar">レコードの逆順</string>
-    <string name="settings_show_activity_filters">メイン画面にアクティビティ フィルターを表示する</string>
+    <string name="settings_show_activity_filters">メイン画面にアクティビティ フィルタを表示する</string>
     <string name="settings_allow_multitasking">マルチタスクを可能にする</string>
     <string name="settings_allow_multitasking_hint">無効の場合、新しいタイマーを開始すると、他のアクティビティが自動的に停止します。</string>
     <string name="settings_show_notifications">タイマーの通知を表示する</string>
@@ -201,7 +201,7 @@
     <string name="settings_start_of_day">1日の開始時間</string>
     <string name="settings_inactivity_reminder">非アクティブ時のリマインダーを表示</string>
     <string name="settings_inactivity_reminder_hint">タイマーが作動していない場合、指定時間後に通知を表示する。</string>
-    <string name="settings_inactivity_reminder_recurrent">再発性</string>
+    <string name="settings_inactivity_reminder_recurrent">繰り返す</string>
     <string name="settings_ignore_short_records">短い記録は無視</string>
     <string name="settings_ignore_short_records_hint">指定された時間より短いアクティビティは計測しません。</string>
     <string name="settings_inactivity_reminder_disabled">未設定</string>
@@ -217,7 +217,7 @@
     <string name="settings_show_record_tag_selection">記録タグの選択を表示</string>
     <string name="settings_show_record_tag_selection_hint">計測を開始する際、アクティビティに記録タグがある場合、選択ダイアログが表示されます。</string>
     <string name="settings_show_record_tag_close_hint">タグを1つ選択したら閉じる。</string>
-    <string name="settings_show_record_tag_general_hint">一般的なタグだけでも表示します。</string>
+    <string name="settings_show_record_tag_general_hint">タグ種別が一般のみでも表示する。</string>
     <string name="settings_rate">評価する</string>
     <string name="settings_rate_description">アプリを評価して、レビューを残す。</string>
     <string name="settings_feedback">フィードバック</string>
@@ -275,7 +275,7 @@
     <string name="settings_dialog_message">バックアップを復元しますか？</string>
     <string name="settings_export_csv">スプレッドシートのエクスポート</string>
     <string name="settings_export_csv_description">アクティビティ記録をcsvファイルとしてエクスポートし、お好みのスプレッドシートアプリケーションで表示することができます。</string>
-    <string name="settings_export_ics">ICS 輸出</string>
+    <string name="settings_export_ics">ICS エクスポート</string>
     <string name="settings_export_warning">このファイルはバックアップとして使用できません。</string>
     <string name="settings_file_open_error">ファイルを開く際にエラーが発生しました</string>
     <string name="settings_file_create_error">ファイル作成時にエラーが発生しました</string>
@@ -286,7 +286,7 @@
     <string name="message_restore_error">バックアップの復元に失敗</string>
     <string name="message_app_not_found">アプリケーションが見つかりません</string>
     <string name="message_export_complete">エクスポート完了</string>
-    <string name="message_export_error">エクスポート エラー</string>
+    <string name="message_export_error">エクスポートエラー</string>
     <string name="message_automatic_backup_error">自動バックアップでエラーが発生しました。</string>
     <string name="message_automatic_export_error">自動エクスポートでエラーが発生しました。</string>
     <string name="message_automatic_error_hint">別の場所を選択してみてください</string>
@@ -317,7 +317,7 @@
     <string name="statistics_detail_last_record">最後</string>
     <string name="statistics_detail_streaks">シリーズ</string>
     <string name="statistics_detail_streaks_longest">最長</string>
-    <string name="statistics_detail_streaks_current">現時点の</string>
+    <string name="statistics_detail_streaks_current">現時点</string>
     <string name="statistics_detail_streaks_latest">最新</string>
     <string name="statistics_detail_tag_split_hint">タグ配布</string>
     <string name="statistics_detail_day_split_hint">日次記録</string>
