@@ -8,11 +8,11 @@ plugins {
 }
 
 android {
-    compileSdkVersion(Base.currentSDK)
+    compileSdk = Base.currentSDK
 
     defaultConfig {
-        minSdkVersion(Base.minSDK)
-        targetSdkVersion(Base.currentSDK)
+        minSdk = Base.minSDK
+        targetSdk = Base.currentSDK
     }
 
     kotlinOptions {

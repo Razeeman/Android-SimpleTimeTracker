@@ -9,12 +9,12 @@ plugins {
 }
 
 android {
-    compileSdkVersion(Base.currentSDK)
+    compileSdk = Base.currentSDK
 
     defaultConfig {
         applicationId = "com.razeeman.util.simpletimetracker"
-        minSdkVersion(Base.minSDK)
-        targetSdkVersion(Base.currentSDK)
+        minSdk = Base.minSDK
+        targetSdk = Base.currentSDK
         versionCode = Base.versionCode
         versionName = Base.versionName
 
