@@ -120,15 +120,6 @@ fun View.setMargins(
     }
 }
 
-fun View.updatePadding(
-    left: Int = paddingLeft,
-    top: Int = paddingTop,
-    right: Int = paddingRight,
-    bottom: Int = paddingBottom,
-) {
-    setPadding(left, top, right, bottom)
-}
-
 fun View.getBitmapFromView(): Bitmap {
     val defaultSize by lazy { 100.dpToPx() }
     fun Int.checkValue(): Int = this.takeUnless { it <= 0 } ?: defaultSize

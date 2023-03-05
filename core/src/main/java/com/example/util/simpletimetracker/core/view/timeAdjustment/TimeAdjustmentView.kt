@@ -4,11 +4,13 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
+import androidx.core.view.updatePadding
 import com.example.util.simpletimetracker.core.databinding.TimeAdjustmentItemLayoutBinding
 import com.example.util.simpletimetracker.core.databinding.TimeAdjustmentViewLayoutBinding
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
+import com.example.util.simpletimetracker.feature_views.extension.dpToPx
 import com.example.util.simpletimetracker.feature_views.extension.setOnClickWith
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
@@ -75,6 +77,8 @@ class TimeAdjustmentView @JvmOverloads constructor(
 
             tvTimeAdjustmentItem.text = item.text
             root.setOnClickWith(item, onItemClick)
+            val padding = (if (item is ViewData.Now) 12 else 4).dpToPx()
+            tvTimeAdjustmentItem.updatePadding(left = padding, right = padding)
 
             (root.layoutParams as? FlexboxLayoutManager.LayoutParams)?.apply {
                 flexGrow = if (item is ViewData.Now) 0f else 1f

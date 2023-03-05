@@ -10,10 +10,11 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvTimeAdjustmentItem"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         android:background="?appInputFieldBorder"
         android:gravity="center"
-        android:padding="4dp"
+        android:paddingHorizontal="4dp"
+        android:paddingVertical="8dp"
         android:textColor="?appTextPrimaryColor"
         app:autoSizeMaxTextSize="14sp"
         app:autoSizeMinTextSize="1sp"

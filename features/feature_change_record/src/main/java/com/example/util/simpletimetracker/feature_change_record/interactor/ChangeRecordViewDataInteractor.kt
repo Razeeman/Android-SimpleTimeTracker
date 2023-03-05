@@ -77,13 +77,13 @@ class ChangeRecordViewDataInteractor @Inject constructor(
 
     fun getTimeAdjustmentItems(): List<ViewHolderType> {
         return listOf(
-            TimeAdjustmentView.ViewData.Now(text = resourceRepo.getString(R.string.time_now)),
             TimeAdjustmentView.ViewData.Adjust(text = "-30", value = -30),
             TimeAdjustmentView.ViewData.Adjust(text = "-5", value = -5),
             TimeAdjustmentView.ViewData.Adjust(text = "-1", value = -1),
             TimeAdjustmentView.ViewData.Adjust(text = "+1", value = +1),
             TimeAdjustmentView.ViewData.Adjust(text = "+5", value = +5),
             TimeAdjustmentView.ViewData.Adjust(text = "+30", value = +30),
+            TimeAdjustmentView.ViewData.Now(text = resourceRepo.getString(R.string.time_now)),
         )
     }
 
