@@ -13,7 +13,7 @@ object Versions {
     const val constraintLayout = "2.1.4"
     const val recyclerView = "1.1.0"
     const val lifecycleExtensions = "2.2.0"
-    const val room = "2.2.5"
+    const val room = "2.4.3"
     const val dagger = "2.42"
     const val viewpager2 = "1.0.0"
     const val flexBox = "2.0.1"
@@ -26,7 +26,6 @@ object Versions {
     const val liveDataCoreKtx = "2.2.0"
     const val liveDataKtx = "2.2.0"
     const val viewModelKtx = "2.2.0"
-    const val roomKtx = "2.2.5"
     const val navigationKtx = "2.3.5"
 
     const val junit = "4.13"

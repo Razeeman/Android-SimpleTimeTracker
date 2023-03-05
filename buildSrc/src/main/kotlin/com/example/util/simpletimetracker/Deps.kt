@@ -53,7 +53,7 @@ object Deps {
         const val viewModel =
             "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.viewModelKtx}"
         const val room =
-            "androidx.room:room-ktx:${Versions.roomKtx}"
+            "androidx.room:room-ktx:${Versions.room}"
         const val navigationFragment =
             "androidx.navigation:navigation-fragment-ktx:${Versions.navigationKtx}"
         const val navigationUi =

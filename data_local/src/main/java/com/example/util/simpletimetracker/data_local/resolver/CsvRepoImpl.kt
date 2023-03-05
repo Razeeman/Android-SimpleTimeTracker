@@ -96,7 +96,7 @@ class CsvRepoImpl @Inject constructor(
     ): String? {
         return if (recordType != null) {
             String.format(
-                "\"%s\",%s,%s,\"%s\",\"%s\",\"%s\",%s\n",
+                "\"%s\",%s,%s,\"%s\",\"%s\",\"%s\",%s,%s\n",
                 recordType.name,
                 formatDateTime(record.timeStarted),
                 formatDateTime(record.timeEnded),
@@ -104,6 +104,7 @@ class CsvRepoImpl @Inject constructor(
                 categories.takeUnless { it.isEmpty() }?.joinToString(separator = ", ") { it.name }.orEmpty(),
                 recordTags.takeUnless { it.isEmpty() }?.joinToString(separator = ", ") { it.name }.orEmpty(),
                 formatDuration(record.timeEnded - record.timeStarted),
+                formatDurationMinutes(record.timeEnded - record.timeStarted),
             )
         } else {
             null
@@ -116,13 +117,27 @@ class CsvRepoImpl @Inject constructor(
         }
     }
 
-    private fun formatDuration(interval: Long): String {
+    private fun formatDurationMinutes(interval: Long): String {
         val min: Long = TimeUnit.MILLISECONDS.toMinutes(interval)
         return min.toString()
     }
 
+    private fun formatDuration(interval: Long): String {
+        val hr: Long = TimeUnit.MILLISECONDS.toHours(
+            interval
+        )
+        val min: Long = TimeUnit.MILLISECONDS.toMinutes(
+            interval - TimeUnit.HOURS.toMillis(hr)
+        )
+        val sec: Long = TimeUnit.MILLISECONDS.toSeconds(
+            interval - TimeUnit.HOURS.toMillis(hr) - TimeUnit.MINUTES.toMillis(min)
+        )
+
+        return "$hr:$min:$sec"
+    }
+
     companion object {
-        private const val CSV_HEADER = "activity name,time started,time ended,comment,categories,record tags,duration\n"
+        private const val CSV_HEADER = "activity name,time started,time ended,comment,categories,record tags,duration,duration minutes\n"
 
         private val dateTimeFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US)
     }
