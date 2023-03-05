@@ -13,6 +13,7 @@ import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.view.timeAdjustment.TimeAdjustmentView
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
@@ -40,6 +41,7 @@ abstract class ChangeRecordBaseViewModel(
     private val recordTagViewDataInteractor: RecordTagViewDataInteractor,
     private val changeRecordViewDataInteractor: ChangeRecordViewDataInteractor,
     private val recordInteractor: RecordInteractor,
+    private val recordTagInteractor: RecordTagInteractor,
     private val changeRecordMergeDelegate: ChangeRecordMergeDelegateImpl,
     private val changeRecordSplitDelegate: ChangeRecordSplitDelegateImpl,
     private val changeRecordAdjustDelegate: ChangeRecordAdjustDelegateImpl,
@@ -243,8 +245,15 @@ abstract class ChangeRecordBaseViewModel(
                 updateTimeSplitData()
                 updateMergeData()
             }
+
+            // Close type selection after type is selected
+            onTypeChooserClick()
+            // If type has any record tags - open tag selection
+            if (recordTagInteractor.getByType(newTypeId).isNotEmpty()) {
+                delay(300)
+                onCategoryChooserClick()
+            }
         }
-        onTypeChooserClick()
     }
 
     fun onCategoryClick(item: CategoryViewData) {
@@ -525,7 +534,7 @@ abstract class ChangeRecordBaseViewModel(
         return recordTypesViewDataInteractor.getTypesViewData()
     }
 
-    protected fun updateCategoriesViewData() = viewModelScope.launch {
+    protected suspend fun updateCategoriesViewData() {
         val data = loadCategoriesViewData()
         categories.set(data)
     }
@@ -544,7 +553,7 @@ abstract class ChangeRecordBaseViewModel(
         return changeRecordViewDataInteractor.getTimeAdjustmentItems()
     }
 
-    private fun updateLastCommentsViewData() = viewModelScope.launch {
+    private suspend fun updateLastCommentsViewData() {
         val data = loadLastCommentsViewData()
         lastComments.set(data)
     }

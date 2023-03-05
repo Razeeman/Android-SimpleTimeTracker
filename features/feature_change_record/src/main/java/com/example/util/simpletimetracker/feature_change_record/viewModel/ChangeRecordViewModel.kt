@@ -12,6 +12,7 @@ import com.example.util.simpletimetracker.domain.interactor.AddRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.AddRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RemoveRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
@@ -37,6 +38,7 @@ class ChangeRecordViewModel @Inject constructor(
     changeRecordMergeDelegate: ChangeRecordMergeDelegateImpl,
     changeRecordSplitDelegate: ChangeRecordSplitDelegateImpl,
     changeRecordAdjustDelegate: ChangeRecordAdjustDelegateImpl,
+    recordTagInteractor: RecordTagInteractor,
     private val router: Router,
     private val recordInteractor: RecordInteractor,
     private val addRecordMediator: AddRecordMediator,
@@ -54,6 +56,7 @@ class ChangeRecordViewModel @Inject constructor(
     recordTagViewDataInteractor,
     changeRecordViewDataInteractor,
     recordInteractor,
+    recordTagInteractor,
     changeRecordMergeDelegate,
     changeRecordSplitDelegate,
     changeRecordAdjustDelegate,
@@ -77,7 +80,9 @@ class ChangeRecordViewModel @Inject constructor(
     }
 
     fun onVisible() {
-        updateCategoriesViewData()
+        viewModelScope.launch {
+            updateCategoriesViewData()
+        }
     }
 
     fun onDeleteClick() {
