@@ -46,6 +46,7 @@ class MainFragment : BaseFragment<Binding>() {
     private val selectedColorFilter by lazy { getColorFilter(R.attr.appTabSelectedColor) }
     private val unselectedColorFilter by lazy { getColorFilter(R.attr.appTabUnselectedColor) }
     private val backPressedCallback: OnBackPressedCallback = getOnBackPressedCallback()
+    private var shortcutNavigationHandled = false
     private val mainPagePosition by lazy {
         NavigationTab.RunningRecords.let(mainMapper::mapTabToPosition)
     }
@@ -104,11 +105,16 @@ class MainFragment : BaseFragment<Binding>() {
     }
 
     private fun checkForShortcutNavigation() = with(binding) {
+        if (shortcutNavigationHandled) return@with
+
         activity?.intent?.extras
             ?.getString(SHORTCUT_NAVIGATION_KEY)
             ?.let(mainMapper::mapNavigationToTab)
             ?.let(mainMapper::mapTabToPosition)
-            ?.let { mainPager.setCurrentItem(it, true) }
+            ?.let {
+                mainPager.setCurrentItem(it, true)
+                shortcutNavigationHandled = true
+            }
     }
 
     private fun getColorFilter(@AttrRes attrRes: Int): ColorFilter? {
