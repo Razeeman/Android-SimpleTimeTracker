@@ -550,7 +550,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
             }
     }
 
-    private fun updateRecordPreviewViewData() = viewModelScope.launch {
+    private suspend fun updateRecordPreviewViewData() {
         val data = loadRecordPreviewViewData()
         recordType.set(data)
     }
@@ -569,7 +569,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
         ).let { recordTypeViewDataMapper.map(it, isDarkTheme) }
     }
 
-    private fun updateColors() = viewModelScope.launch {
+    private suspend fun updateColors() {
         val data = loadColorsViewData()
         colors.set(data)
     }
@@ -578,7 +578,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
         return viewDataInteractor.getColorsViewData(newColor)
     }
 
-    private fun updateIcons() = viewModelScope.launch {
+    private suspend fun updateIcons() {
         val data = loadIconsViewData()
         icons.set(data)
     }
@@ -587,16 +587,12 @@ class ChangeRecordTypeViewModel @Inject constructor(
         return viewDataInteractor.getIconsViewData(newColor, iconType)
     }
 
-    private fun updateIconCategories(
-        selectedIndex: Long,
-    ) = viewModelScope.launch {
+    private fun updateIconCategories(selectedIndex: Long) {
         val data = loadIconCategoriesViewData(selectedIndex)
         iconCategories.set(data)
     }
 
-    private fun loadIconCategoriesViewData(
-        selectedIndex: Long = 0,
-    ): List<ViewHolderType> {
+    private fun loadIconCategoriesViewData(selectedIndex: Long = 0): List<ViewHolderType> {
         return viewDataInteractor.getIconCategoriesViewData(
             iconType = iconType,
             selectedIndex = selectedIndex,
@@ -612,7 +608,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
         return changeRecordTypeMapper.mapToIconSwitchViewData(iconType)
     }
 
-    private fun updateCategoriesViewData() = viewModelScope.launch {
+    private suspend fun updateCategoriesViewData() {
         val data = loadCategoriesViewData()
         categories.set(data)
     }

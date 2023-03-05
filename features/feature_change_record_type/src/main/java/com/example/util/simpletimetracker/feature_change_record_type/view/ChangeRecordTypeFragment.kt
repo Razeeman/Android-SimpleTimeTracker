@@ -173,7 +173,6 @@ class ChangeRecordTypeFragment :
 
     override fun initUx() = with(binding) {
         etChangeRecordTypeName.doAfterTextChanged { viewModel.onNameChange(it.toString()) }
-        etChangeRecordTypeIconText.doAfterTextChanged { viewModel.onIconTextChange(it.toString()) }
         fieldChangeRecordTypeColor.setOnClick(viewModel::onColorChooserClick)
         fieldChangeRecordTypeIcon.setOnClick(viewModel::onIconChooserClick)
         fieldChangeRecordTypeCategory.setOnClick(viewModel::onCategoryChooserClick)
@@ -262,6 +261,8 @@ class ChangeRecordTypeFragment :
         (item.iconId as? RecordTypeIcon.Text)?.text?.let {
             etChangeRecordTypeIconText.setText(it)
         }
+        // Set listener only after text is set to avoid trigger on screen return.
+        etChangeRecordTypeIconText.doAfterTextChanged { viewModel.onIconTextChange(it.toString()) }
     }
 
     private fun updatePreview(item: RecordTypeViewData) {
