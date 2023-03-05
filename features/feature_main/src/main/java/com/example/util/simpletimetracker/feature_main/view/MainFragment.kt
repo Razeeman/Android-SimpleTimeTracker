@@ -1,9 +1,9 @@
 package com.example.util.simpletimetracker.feature_main.view
 
-import com.example.util.simpletimetracker.feature_main.databinding.MainFragmentBinding as Binding
 import android.graphics.ColorFilter
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.annotation.AttrRes
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
@@ -12,8 +12,10 @@ import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.extension.getThemedAttr
+import com.example.util.simpletimetracker.core.model.NavigationTab
 import com.example.util.simpletimetracker.core.sharedViewModel.MainTabsViewModel
 import com.example.util.simpletimetracker.core.utils.SHORTCUT_NAVIGATION_KEY
+import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_main.R
 import com.example.util.simpletimetracker.feature_main.adapter.MainContentAdapter
 import com.example.util.simpletimetracker.feature_main.mapper.MainMapper
@@ -22,6 +24,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import com.example.util.simpletimetracker.feature_main.databinding.MainFragmentBinding as Binding
 
 @AndroidEntryPoint
 class MainFragment : BaseFragment<Binding>() {
@@ -42,10 +45,15 @@ class MainFragment : BaseFragment<Binding>() {
 
     private val selectedColorFilter by lazy { getColorFilter(R.attr.appTabSelectedColor) }
     private val unselectedColorFilter by lazy { getColorFilter(R.attr.appTabUnselectedColor) }
+    private val backPressedCallback: OnBackPressedCallback = getOnBackPressedCallback()
+    private val mainPagePosition by lazy {
+        NavigationTab.RunningRecords.let(mainMapper::mapTabToPosition)
+    }
 
     override fun initUi() {
         setupPager()
         checkForShortcutNavigation()
+        activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, backPressedCallback)
     }
 
     override fun initViewModel() {
@@ -62,7 +70,7 @@ class MainFragment : BaseFragment<Binding>() {
                 .let(mainMapper::mapToIcon)
                 .let(tab::setIcon)
 
-            tab.icon?.colorFilter = if (position == 0) {
+            tab.icon?.colorFilter = if (position == mainPagePosition) {
                 selectedColorFilter
             } else {
                 unselectedColorFilter
@@ -82,8 +90,17 @@ class MainFragment : BaseFragment<Binding>() {
 
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 tab?.icon?.colorFilter = selectedColorFilter
+                backPressedCallback.isEnabled = tab?.position.orZero() != mainPagePosition
             }
         })
+    }
+
+    private fun getOnBackPressedCallback(): OnBackPressedCallback {
+        return object : OnBackPressedCallback(/* enabled = */ false) {
+            override fun handleOnBackPressed() {
+                binding.mainPager.setCurrentItem(mainPagePosition, true)
+            }
+        }
     }
 
     private fun checkForShortcutNavigation() = with(binding) {
