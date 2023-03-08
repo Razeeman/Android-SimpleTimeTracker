@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.empty.EmptyViewData
+import com.example.util.simpletimetracker.feature_base_adapter.hint.HintViewData
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_running_records.R
 import com.example.util.simpletimetracker.feature_running_records.viewData.RunningRecordTypeAddViewData
@@ -45,6 +46,13 @@ class RunningRecordsViewDataMapper @Inject constructor(
         return EmptyViewData(
             message = R.string.running_records_empty.let(resourceRepo::getString),
             hint = R.string.running_records_empty_hint.let(resourceRepo::getString)
+        )
+    }
+
+    fun mapToHasRunningRecords(): ViewHolderType {
+        return HintViewData(
+            text = R.string.running_records_has_timers.let(resourceRepo::getString),
+            paddingVertical = 0,
         )
     }
 

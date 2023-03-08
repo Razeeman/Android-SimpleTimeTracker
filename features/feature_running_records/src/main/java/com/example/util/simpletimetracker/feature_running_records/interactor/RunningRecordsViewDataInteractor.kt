@@ -75,6 +75,9 @@ class RunningRecordsViewDataInteractor @Inject constructor(
                             nowIconVisible = false,
                         )
                     }
+                    .plus(
+                        mapper.mapToHasRunningRecords()
+                    )
             }
         }
 
