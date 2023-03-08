@@ -150,7 +150,7 @@ class NotificationTypeManager @Inject constructor(
         RemoteViews(context.packageName, R.layout.notification_container_layout)
             .apply {
                 setImageViewBitmap(R.id.ivNotificationContainer, getIconBitmap(icon, color))
-                setOnClickPendingIntent(R.id.ivNotificationContainer, intent) // TODO add ripple
+                setOnClickPendingIntent(R.id.btnNotificationContainer, intent)
             }
             .let {
                 addView(R.id.containerNotificationControls, it)
