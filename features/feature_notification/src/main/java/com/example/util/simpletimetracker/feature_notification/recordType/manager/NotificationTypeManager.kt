@@ -116,7 +116,8 @@ class NotificationTypeManager @Inject constructor(
                     recordTypesShift = (params.typesShift - TYPES_LIST_SIZE).coerceAtLeast(0),
                 )
             )
-            params.types.drop(params.typesShift).take(TYPES_LIST_SIZE).forEach {
+            val currentTypes = params.types.drop(params.typesShift).take(TYPES_LIST_SIZE)
+            currentTypes.forEach {
                 addTypesControlIcon(
                     icon = it.icon,
                     color = it.color,
@@ -125,6 +126,14 @@ class NotificationTypeManager @Inject constructor(
                         action = if (it.id == params.id) ACTION_NOTIFICATION_STOP else ACTION_NOTIFICATION_START,
                         recordTypeId = it.id
                     )
+                )
+            }
+            // Populate container with empty items to preserve prev next controls position
+            repeat(TYPES_LIST_SIZE - currentTypes.size) {
+                addTypesControlIcon(
+                    icon = null,
+                    color = null,
+                    intent = null
                 )
             }
             addTypesControlIcon(
@@ -143,14 +152,18 @@ class NotificationTypeManager @Inject constructor(
     }
 
     private fun RemoteViews.addTypesControlIcon(
-        icon: RecordTypeIcon,
-        color: Int,
-        intent: PendingIntent,
+        icon: RecordTypeIcon?,
+        color: Int?,
+        intent: PendingIntent?,
     ) {
         RemoteViews(context.packageName, R.layout.notification_container_layout)
             .apply {
-                setImageViewBitmap(R.id.ivNotificationContainer, getIconBitmap(icon, color))
-                setOnClickPendingIntent(R.id.btnNotificationContainer, intent)
+                if (icon != null && color != null) {
+                    setImageViewBitmap(R.id.ivNotificationContainer, getIconBitmap(icon, color))
+                }
+                if (intent != null) {
+                    setOnClickPendingIntent(R.id.btnNotificationContainer, intent)
+                }
             }
             .let {
                 addView(R.id.containerNotificationControls, it)
