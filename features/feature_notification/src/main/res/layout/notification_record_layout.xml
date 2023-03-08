@@ -8,7 +8,6 @@
         android:id="@+id/ivNotificationIcon"
         android:layout_width="@dimen/notification_icon_size"
         android:layout_height="@dimen/notification_icon_size"
-        android:layout_centerVertical="true"
         android:layout_marginEnd="8dp"
         tools:background="@drawable/circle_drawable"
         tools:backgroundTint="@color/red_400"
@@ -55,5 +54,15 @@
         android:layout_alignParentEnd="true"
         android:gravity="center_vertical"
         tools:text="goal 10m" />
+
+    <LinearLayout
+        android:id="@+id/containerNotificationControls"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/notification_icon_size"
+        android:layout_below="@id/tvNotificationTimeStarted"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        tools:visibility="visible" />
 
 </RelativeLayout>

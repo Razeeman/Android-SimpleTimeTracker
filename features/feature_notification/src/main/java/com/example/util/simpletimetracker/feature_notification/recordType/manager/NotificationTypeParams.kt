@@ -11,4 +11,16 @@ data class NotificationTypeParams(
     val startedTimeStamp: Long,
     val goalTime: String,
     val stopButton: String,
-)
+    val types: List<Type>,
+    val typesShift: Int,
+    val controlIconPrev: RecordTypeIcon,
+    val controlIconNext: RecordTypeIcon,
+    val controlIconColor: Int
+) {
+
+    data class Type(
+        val id: Long,
+        val icon: RecordTypeIcon,
+        val color: Int,
+    )
+}

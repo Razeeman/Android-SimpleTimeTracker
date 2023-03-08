@@ -20,7 +20,11 @@ import com.example.util.simpletimetracker.feature_notification.automaticExport.c
 import com.example.util.simpletimetracker.feature_notification.goalTime.controller.NotificationGoalTimeBroadcastController
 import com.example.util.simpletimetracker.feature_notification.inactivity.controller.NotificationInactivityBroadcastController
 import com.example.util.simpletimetracker.feature_notification.recordType.controller.NotificationTypeBroadcastController
+import com.example.util.simpletimetracker.feature_notification.recordType.manager.NotificationTypeManager.Companion.ACTION_NOTIFICATION_NEXT
+import com.example.util.simpletimetracker.feature_notification.recordType.manager.NotificationTypeManager.Companion.ACTION_NOTIFICATION_PREV
+import com.example.util.simpletimetracker.feature_notification.recordType.manager.NotificationTypeManager.Companion.ACTION_NOTIFICATION_START
 import com.example.util.simpletimetracker.feature_notification.recordType.manager.NotificationTypeManager.Companion.ACTION_NOTIFICATION_STOP
+import com.example.util.simpletimetracker.feature_notification.recordType.manager.NotificationTypeManager.Companion.ARGS_RECORD_TYPES_SHIFT
 import com.example.util.simpletimetracker.feature_notification.recordType.manager.NotificationTypeManager.Companion.ARGS_RECORD_TYPE_ID
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -112,6 +116,20 @@ class NotificationReceiver : BroadcastReceiver() {
             ACTION_NOTIFICATION_STOP -> {
                 val typeId = intent.getLongExtra(ARGS_RECORD_TYPE_ID, 0)
                 typeController.onActionActivityStop(typeId)
+            }
+            ACTION_NOTIFICATION_START -> {
+                val typeId = intent.getLongExtra(ARGS_RECORD_TYPE_ID, 0)
+                typeController.onActionActivityStart(typeId)
+            }
+            ACTION_NOTIFICATION_PREV -> {
+                val typeId = intent.getLongExtra(ARGS_RECORD_TYPE_ID, 0)
+                val shift = intent.getIntExtra(ARGS_RECORD_TYPES_SHIFT, 0)
+                typeController.onActionTypesPrev(typeId, shift)
+            }
+            ACTION_NOTIFICATION_NEXT -> {
+                val typeId = intent.getLongExtra(ARGS_RECORD_TYPE_ID, 0)
+                val shift = intent.getIntExtra(ARGS_RECORD_TYPES_SHIFT, 0)
+                typeController.onActionTypesNext(typeId, shift)
             }
             Intent.ACTION_BOOT_COMPLETED -> {
                 onBootCompleted()

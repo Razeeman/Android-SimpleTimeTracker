@@ -16,6 +16,7 @@ import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.feature_notification.R
 import com.example.util.simpletimetracker.feature_notification.recordType.manager.NotificationTypeManager
 import com.example.util.simpletimetracker.feature_notification.recordType.manager.NotificationTypeParams
+import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import javax.inject.Inject
 
 class NotificationTypeInteractorImpl @Inject constructor(
@@ -30,10 +31,11 @@ class NotificationTypeInteractorImpl @Inject constructor(
     private val resourceRepo: ResourceRepo,
 ) : NotificationTypeInteractor {
 
-    override suspend fun checkAndShow(typeId: Long) {
+    override suspend fun checkAndShow(typeId: Long, typesShift: Int) {
         if (!prefsInteractor.getShowNotifications()) return
 
         val recordType = recordTypeInteractor.get(typeId)
+        val recordTypes = recordTypeInteractor.getAll()
         val runningRecord = runningRecordInteractor.get(typeId)
         val recordTags = recordTagInteractor.getAll().filter { it.id in runningRecord?.tagIds.orEmpty() }
         val isDarkTheme = prefsInteractor.getDarkMode()
@@ -47,6 +49,8 @@ class NotificationTypeInteractorImpl @Inject constructor(
             isDarkTheme = isDarkTheme,
             useMilitaryTime = useMilitaryTime,
             showSeconds = showSeconds,
+            types = recordTypes,
+            typesShift = typesShift,
         )
     }
 
@@ -80,6 +84,7 @@ class NotificationTypeInteractorImpl @Inject constructor(
                     isDarkTheme = isDarkTheme,
                     useMilitaryTime = useMilitaryTime,
                     showSeconds = showSeconds,
+                    types = recordTypes.values.toList()
                 )
             }
     }
@@ -97,6 +102,8 @@ class NotificationTypeInteractorImpl @Inject constructor(
         isDarkTheme: Boolean,
         useMilitaryTime: Boolean,
         showSeconds: Boolean,
+        types: List<RecordType>,
+        typesShift: Int = 0,
     ) {
         if (recordType == null || runningRecord == null) {
             return
@@ -125,6 +132,19 @@ class NotificationTypeInteractorImpl @Inject constructor(
                 ?.let { resourceRepo.getString(R.string.notification_record_type_goal_time, it) }
                 .orEmpty(),
             stopButton = resourceRepo.getString(R.string.notification_record_type_stop),
+            types = types
+                .filter { !it.hidden }
+                .map { type ->
+                    NotificationTypeParams.Type(
+                        id = type.id,
+                        icon = type.icon.let(iconMapper::mapIcon),
+                        color = type.color.let { colorMapper.mapToColorInt(it, isDarkTheme) },
+                    )
+                },
+            typesShift = typesShift,
+            controlIconPrev = RecordTypeIcon.Image(R.drawable.arrow_left),
+            controlIconNext = RecordTypeIcon.Image(R.drawable.arrow_right),
+            controlIconColor = colorMapper.toInactiveColor(isDarkTheme),
         ).let(notificationTypeManager::show)
     }
 

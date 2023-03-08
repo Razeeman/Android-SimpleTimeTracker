@@ -438,6 +438,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
         viewModelScope.launch {
             if (recordTypeId != 0L) {
                 recordTypeInteractor.archive(recordTypeId)
+                notificationTypeInteractor.updateNotifications()
                 runningRecordInteractor.get(recordTypeId)?.let { runningRecord ->
                     removeRunningRecordMediator.removeWithRecordAdd(runningRecord)
                 }
@@ -457,7 +458,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
         viewModelScope.launch {
             val addedId = saveRecordType()
             saveCategories(addedId)
-            notificationTypeInteractor.checkAndShow(recordTypeId)
+            notificationTypeInteractor.updateNotifications()
             notificationGoalTimeInteractor.checkAndReschedule(recordTypeId)
             widgetInteractor.updateWidgets()
             keyboardVisibility.set(false)

@@ -26,6 +26,15 @@ class NotificationTypeBroadcastController @Inject constructor(
         }
     }
 
+    fun onActionActivityStart(
+        typeId: Long,
+    ) {
+        if (typeId == 0L) return
+        GlobalScope.launch {
+            activityStartStopFromBroadcastInteractor.onActionActivityStart(typeId)
+        }
+    }
+
     fun onActionActivityStop(
         name: String?
     ) {
@@ -70,6 +79,26 @@ class NotificationTypeBroadcastController @Inject constructor(
             activityStartStopFromBroadcastInteractor.onActionActivityRestart(
                 comment = comment, tagName = tagName
             )
+        }
+    }
+
+    fun onActionTypesPrev(
+        typeId: Long,
+        shift: Int,
+    ) {
+        if (typeId == 0L) return
+        GlobalScope.launch {
+            notificationTypeInteractor.checkAndShow(typeId, shift)
+        }
+    }
+
+    fun onActionTypesNext(
+        typeId: Long,
+        shift: Int,
+    ) {
+        if (typeId == 0L) return
+        GlobalScope.launch {
+            notificationTypeInteractor.checkAndShow(typeId, shift)
         }
     }
 

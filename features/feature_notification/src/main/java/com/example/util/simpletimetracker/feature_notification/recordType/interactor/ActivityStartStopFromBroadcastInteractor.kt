@@ -34,6 +34,16 @@ class ActivityStartStopFromBroadcastInteractor @Inject constructor(
         )
     }
 
+    suspend fun onActionActivityStart(
+        typeId: Long,
+    ) {
+        addRunningRecordMediator.startTimer(
+            typeId = typeId,
+            comment = "",
+            tagIds = emptyList(),
+        )
+    }
+
     suspend fun onActionActivityStop(
         name: String,
     ) {
