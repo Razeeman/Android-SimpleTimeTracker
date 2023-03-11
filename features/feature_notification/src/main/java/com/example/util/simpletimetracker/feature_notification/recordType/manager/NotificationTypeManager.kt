@@ -265,7 +265,10 @@ class NotificationTypeManager @Inject constructor(
         return RemoteViews(context.packageName, R.layout.notification_type_layout)
             .apply {
                 if (icon != null && color != null) {
+                    setViewVisibility(R.id.containerNotificationType, View.VISIBLE)
                     setImageViewBitmap(R.id.ivNotificationType, getIconBitmap(icon, color))
+                } else {
+                    setViewVisibility(R.id.containerNotificationType, View.INVISIBLE)
                 }
                 if (intent != null) {
                     setOnClickPendingIntent(R.id.btnNotificationType, intent)
@@ -282,7 +285,10 @@ class NotificationTypeManager @Inject constructor(
             .apply {
                 setTextViewText(R.id.tvNotificationTag, text)
                 if (color != null) {
+                    setViewVisibility(R.id.containerNotificationTag, View.VISIBLE)
                     setInt(R.id.ivNotificationTag, "setColorFilter", color)
+                } else {
+                    setViewVisibility(R.id.containerNotificationTag, View.INVISIBLE)
                 }
                 if (intent != null) {
                     setOnClickPendingIntent(R.id.btnNotificationTag, intent)
