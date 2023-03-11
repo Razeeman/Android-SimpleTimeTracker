@@ -79,7 +79,6 @@ class ArchiveViewModel @Inject constructor(
             val message: String = when (params) {
                 is ArchiveDialogParams.Activity -> {
                     recordTypeInteractor.restore(params.id)
-                    notificationTypeInteractor.updateNotifications()
                     resourceRepo.getString(R.string.archive_activity_restored)
                 }
                 is ArchiveDialogParams.RecordTag -> {
@@ -88,6 +87,7 @@ class ArchiveViewModel @Inject constructor(
                 }
             }
 
+            notificationTypeInteractor.updateNotifications()
             updateViewData()
             showMessage(message)
         }

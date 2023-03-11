@@ -13,14 +13,23 @@ data class NotificationTypeParams(
     val stopButton: String,
     val types: List<Type>,
     val typesShift: Int,
+    val tags: List<Tag>,
+    val tagsShift: Int,
     val controlIconPrev: RecordTypeIcon,
     val controlIconNext: RecordTypeIcon,
-    val controlIconColor: Int
+    val controlIconColor: Int,
+    val selectedTypeId: Long?,
 ) {
 
     data class Type(
         val id: Long,
         val icon: RecordTypeIcon,
+        val color: Int,
+    )
+
+    data class Tag(
+        val id: Long,
+        val text: String,
         val color: Int,
     )
 }

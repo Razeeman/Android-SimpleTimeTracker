@@ -99,8 +99,11 @@ class NotificationTypeManager @Inject constructor(
     ): RemoteViews {
         return RemoteViews(context.packageName, R.layout.notification_record_layout).apply {
             val typesControlsVisibility = if (isBig) View.VISIBLE else View.GONE
-            setViewVisibility(R.id.containerNotificationControls, typesControlsVisibility)
+            setViewVisibility(R.id.containerNotificationTypes, typesControlsVisibility)
             setViewVisibility(R.id.tvNotificationControlsHint, typesControlsVisibility)
+
+            val tagsControlsVisibility = if (params.tags.isNotEmpty()) View.VISIBLE else View.GONE
+            setViewVisibility(R.id.containerNotificationTags, tagsControlsVisibility)
 
             setTextViewText(R.id.tvNotificationText, params.text)
             setTextViewText(R.id.tvNotificationTimeStarted, params.timeStarted)
@@ -109,30 +112,33 @@ class NotificationTypeManager @Inject constructor(
             val base = SystemClock.elapsedRealtime() - (System.currentTimeMillis() - params.startedTimeStamp)
             setChronometer(R.id.timerNotification, base, null, true)
 
-            if (isBig) addTypesControls(params)
+            if (isBig) addTypeControls(params)
+            if (isBig && params.tags.isNotEmpty()) addTagControls(params)
         }
     }
 
-    private fun RemoteViews.addTypesControls(
+    private fun RemoteViews.addTypeControls(
         params: NotificationTypeParams,
     ) {
         // Prev button
-        addTypesControlIcon(
+        getTypeControlView(
             icon = params.controlIconPrev,
             color = params.controlIconColor,
             intent = getPendingSelfIntent(
                 context = context,
-                action = ACTION_NOTIFICATION_PREV,
+                action = ACTION_NOTIFICATION_TYPES_PREV,
                 recordTypeId = params.id,
                 recordTypesShift = (params.typesShift - TYPES_LIST_SIZE)
                     .coerceAtLeast(0),
             )
-        )
+        ).let {
+            addView(R.id.containerNotificationTypes, it)
+        }
 
         // Types buttons
         val currentTypes = params.types.drop(params.typesShift).take(TYPES_LIST_SIZE)
         currentTypes.forEach {
-            addTypesControlIcon(
+            getTypeControlView(
                 icon = it.icon,
                 color = it.color,
                 intent = getPendingSelfIntent(
@@ -140,53 +146,147 @@ class NotificationTypeManager @Inject constructor(
                     action = if (it.id == params.id) {
                         ACTION_NOTIFICATION_STOP
                     } else {
-                        ACTION_NOTIFICATION_START
+                        ACTION_NOTIFICATION_TYPE_CLICK
                     },
-                    recordTypeId = it.id
+                    requestCode = it.id.toInt(),
+                    recordTypeId = params.id,
+                    recordTypesShift = params.typesShift,
+                    selectedTypeId = it.id,
                 )
-            )
+            ).let {
+                addView(R.id.containerNotificationTypes, it)
+            }
         }
 
         // Populate container with empty items to preserve prev next controls position
         repeat(TYPES_LIST_SIZE - currentTypes.size) {
-            addTypesControlIcon(
+            getTypeControlView(
                 icon = null,
                 color = null,
                 intent = null
-            )
+            ).let {
+                addView(R.id.containerNotificationTypes, it)
+            }
         }
 
         // Next button
-        addTypesControlIcon(
+        getTypeControlView(
             icon = params.controlIconNext,
             color = params.controlIconColor,
             intent = getPendingSelfIntent(
                 context = context,
-                action = ACTION_NOTIFICATION_NEXT,
+                action = ACTION_NOTIFICATION_TYPES_NEXT,
                 recordTypeId = params.id,
                 recordTypesShift = (params.typesShift + TYPES_LIST_SIZE)
                     .takeUnless { it >= params.types.size }
                     ?: params.typesShift
             )
-        )
+        ).let {
+            addView(R.id.containerNotificationTypes, it)
+        }
     }
 
-    private fun RemoteViews.addTypesControlIcon(
+    private fun RemoteViews.addTagControls(
+        params: NotificationTypeParams,
+    ) {
+        // TODO move prev next buttons directly to layout
+        // Prev button
+        getTypeControlView(
+            icon = params.controlIconPrev,
+            color = params.controlIconColor,
+            intent = getPendingSelfIntent(
+                context = context,
+                action = ACTION_NOTIFICATION_TAGS_PREV,
+                recordTypeId = params.id,
+                selectedTypeId = params.selectedTypeId,
+                recordTypesShift = params.typesShift,
+                recordTagsShift = (params.tagsShift - TAGS_LIST_SIZE)
+                    .coerceAtLeast(0),
+            )
+        ).let {
+            addView(R.id.containerNotificationTags, it)
+        }
+
+        // Types buttons
+        val currentTags = params.tags.drop(params.tagsShift).take(TAGS_LIST_SIZE)
+        currentTags.forEach {
+            getTagControlView(
+                text = it.text,
+                color = it.color,
+                intent = getPendingSelfIntent(
+                    context = context,
+                    action = ACTION_NOTIFICATION_TAG_CLICK,
+                    requestCode = it.id.toInt(),
+                    selectedTypeId = params.selectedTypeId,
+                    recordTypeId = params.id,
+                    recordTagId = it.id,
+                    recordTypesShift = params.typesShift,
+                )
+            ).let {
+                addView(R.id.containerNotificationTags, it)
+            }
+        }
+
+        // Populate container with empty items to preserve prev next controls position
+        repeat(TAGS_LIST_SIZE - currentTags.size) {
+            getTagControlView(
+                text = "",
+                color = null,
+                intent = null
+            ).let {
+                addView(R.id.containerNotificationTags, it)
+            }
+        }
+
+        // Next button
+        getTypeControlView(
+            icon = params.controlIconNext,
+            color = params.controlIconColor,
+            intent = getPendingSelfIntent(
+                context = context,
+                action = ACTION_NOTIFICATION_TAGS_NEXT,
+                recordTypeId = params.id,
+                selectedTypeId = params.selectedTypeId,
+                recordTypesShift = params.typesShift,
+                recordTagsShift = (params.tagsShift + TAGS_LIST_SIZE)
+                    .takeUnless { it >= params.tags.size }
+                    ?: params.tagsShift
+            )
+        ).let {
+            addView(R.id.containerNotificationTags, it)
+        }
+    }
+
+    private fun getTypeControlView(
         icon: RecordTypeIcon?,
         color: Int?,
         intent: PendingIntent?,
-    ) {
-        RemoteViews(context.packageName, R.layout.notification_container_layout)
+    ): RemoteViews {
+        return RemoteViews(context.packageName, R.layout.notification_type_layout)
             .apply {
                 if (icon != null && color != null) {
-                    setImageViewBitmap(R.id.ivNotificationContainer, getIconBitmap(icon, color))
+                    setImageViewBitmap(R.id.ivNotificationType, getIconBitmap(icon, color))
                 }
                 if (intent != null) {
-                    setOnClickPendingIntent(R.id.btnNotificationContainer, intent)
+                    setOnClickPendingIntent(R.id.btnNotificationType, intent)
                 }
             }
-            .let {
-                addView(R.id.containerNotificationControls, it)
+    }
+
+    private fun getTagControlView(
+        text: String,
+        color: Int?,
+        intent: PendingIntent?,
+    ): RemoteViews {
+        return RemoteViews(context.packageName, R.layout.notification_tag_layout)
+            .apply {
+                setTextViewText(R.id.tvNotificationTag, text)
+                if (color != null) {
+                    setInt(R.id.ivNotificationTag, "setColorFilter", color)
+                }
+                if (intent != null) {
+                    setOnClickPendingIntent(R.id.btnNotificationTag, intent)
+                }
             }
     }
 
@@ -194,13 +294,25 @@ class NotificationTypeManager @Inject constructor(
         context: Context,
         action: String,
         recordTypeId: Long,
-        recordTypesShift: Int? = null
+        requestCode: Int? = null,
+        selectedTypeId: Long? = null,
+        recordTagId: Long? = null,
+        recordTypesShift: Int? = null,
+        recordTagsShift: Int? = null,
     ): PendingIntent {
         val intent = Intent(context, NotificationReceiver::class.java)
         intent.action = action
-        intent.putExtra(ARGS_RECORD_TYPE_ID, recordTypeId)
-        recordTypesShift?.let { intent.putExtra(ARGS_RECORD_TYPES_SHIFT, it) }
-        return PendingIntent.getBroadcast(context, recordTypeId.toInt(), intent, PendingIntents.getFlags())
+        intent.putExtra(ARGS_TYPE_ID, recordTypeId)
+        selectedTypeId?.let { intent.putExtra(ARGS_SELECTED_TYPE_ID, it) }
+        recordTagId?.let { intent.putExtra(ARGS_TAG_ID, it) }
+        recordTypesShift?.let { intent.putExtra(ARGS_TYPES_SHIFT, it) }
+        recordTagsShift?.let { intent.putExtra(ARGS_TAGS_SHIFT, it) }
+        return PendingIntent.getBroadcast(
+            context,
+            requestCode ?: recordTypeId.toInt(),
+            intent,
+            PendingIntents.getFlags()
+        )
     }
 
     private fun getIconBitmap(
@@ -216,20 +328,31 @@ class NotificationTypeManager @Inject constructor(
 
     companion object {
         const val ACTION_NOTIFICATION_STOP =
-            "com.example.util.simpletimetracker.feature_notification.recordType.onStopClick"
-        const val ACTION_NOTIFICATION_START =
-            "com.example.util.simpletimetracker.feature_notification.recordType.onStartClick"
-        const val ACTION_NOTIFICATION_PREV =
-            "com.example.util.simpletimetracker.feature_notification.recordType.onPrevClick"
-        const val ACTION_NOTIFICATION_NEXT =
-            "com.example.util.simpletimetracker.feature_notification.recordType.onNextClick"
+            "com.example.util.simpletimetracker.feature_notification.recordType.onStop"
+        const val ACTION_NOTIFICATION_TYPE_CLICK =
+            "com.example.util.simpletimetracker.feature_notification.recordType.onTypeClick"
+        const val ACTION_NOTIFICATION_TAG_CLICK =
+            "com.example.util.simpletimetracker.feature_notification.recordType.onTagClick"
 
-        const val ARGS_RECORD_TYPE_ID = "recordTypeId"
-        const val ARGS_RECORD_TYPES_SHIFT = "recordTypesShift"
+        const val ACTION_NOTIFICATION_TYPES_PREV =
+            "com.example.util.simpletimetracker.feature_notification.recordType.onTypesPrevClick"
+        const val ACTION_NOTIFICATION_TYPES_NEXT =
+            "com.example.util.simpletimetracker.feature_notification.recordType.onTypesNextClick"
+        const val ACTION_NOTIFICATION_TAGS_PREV =
+            "com.example.util.simpletimetracker.feature_notification.recordType.onTagsPrevClick"
+        const val ACTION_NOTIFICATION_TAGS_NEXT =
+            "com.example.util.simpletimetracker.feature_notification.recordType.onTagsNextClick"
+
+        const val ARGS_TYPE_ID = "typeId"
+        const val ARGS_SELECTED_TYPE_ID = "selectedTypeId"
+        const val ARGS_TAG_ID = "tagId"
+        const val ARGS_TYPES_SHIFT = "typesShift"
+        const val ARGS_TAGS_SHIFT = "tagsShift"
 
         private const val NOTIFICATIONS_CHANNEL_ID = "NOTIFICATIONS"
         private const val NOTIFICATIONS_CHANNEL_NAME = "Notifications"
 
         private const val TYPES_LIST_SIZE = 7
+        private const val TAGS_LIST_SIZE = 4
     }
 }

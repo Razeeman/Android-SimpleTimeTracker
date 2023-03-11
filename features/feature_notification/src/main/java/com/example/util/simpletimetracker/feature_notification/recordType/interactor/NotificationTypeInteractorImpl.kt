@@ -31,26 +31,39 @@ class NotificationTypeInteractorImpl @Inject constructor(
     private val resourceRepo: ResourceRepo,
 ) : NotificationTypeInteractor {
 
-    override suspend fun checkAndShow(typeId: Long, typesShift: Int) {
+    override suspend fun checkAndShow(
+        typeId: Long,
+        typesShift: Int,
+        tagsShift: Int,
+        selectedTypeId: Long,
+    ) {
         if (!prefsInteractor.getShowNotifications()) return
 
         val recordType = recordTypeInteractor.get(typeId)
         val recordTypes = recordTypeInteractor.getAll()
         val runningRecord = runningRecordInteractor.get(typeId)
-        val recordTags = recordTagInteractor.getAll().filter { it.id in runningRecord?.tagIds.orEmpty() }
+        val recordTags = recordTagInteractor.getAll()
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
         val showSeconds = prefsInteractor.getShowSeconds()
+        val viewedTags = if (selectedTypeId != 0L) {
+            recordTags.filter { it.typeId == selectedTypeId || it.typeId == 0L }
+        } else {
+            emptyList()
+        }
 
         show(
             recordType = recordType,
             runningRecord = runningRecord,
-            recordTags = recordTags,
+            recordTags = recordTags.filter { it.id in runningRecord?.tagIds.orEmpty() },
             isDarkTheme = isDarkTheme,
             useMilitaryTime = useMilitaryTime,
             showSeconds = showSeconds,
             types = recordTypes,
             typesShift = typesShift,
+            tags = viewedTags,
+            tagsShift = tagsShift,
+            selectedTypeId = selectedTypeId,
         )
     }
 
@@ -84,7 +97,7 @@ class NotificationTypeInteractorImpl @Inject constructor(
                     isDarkTheme = isDarkTheme,
                     useMilitaryTime = useMilitaryTime,
                     showSeconds = showSeconds,
-                    types = recordTypes.values.toList()
+                    types = recordTypes.values.toList(),
                 )
             }
     }
@@ -104,6 +117,9 @@ class NotificationTypeInteractorImpl @Inject constructor(
         showSeconds: Boolean,
         types: List<RecordType>,
         typesShift: Int = 0,
+        tags: List<RecordTag> = emptyList(),
+        tagsShift: Int = 0,
+        selectedTypeId: Long? = null,
     ) {
         if (recordType == null || runningRecord == null) {
             return
@@ -142,9 +158,33 @@ class NotificationTypeInteractorImpl @Inject constructor(
                     )
                 },
             typesShift = typesShift,
+            tags = tags
+                .filter { !it.archived }
+                .map { tag ->
+                    NotificationTypeParams.Tag(
+                        id = tag.id,
+                        text = tag.name,
+                        color = (types.firstOrNull { it.id == tag.typeId }?.color ?: tag.color)
+                            .let { colorMapper.mapToColorInt(it, isDarkTheme) },
+                    )
+                }
+                .let {
+                    if (it.isNotEmpty()) {
+                        val untagged = NotificationTypeParams.Tag(
+                            id = 0L,
+                            text = R.string.change_record_untagged.let(resourceRepo::getString),
+                            color = colorMapper.toUntrackedColor(isDarkTheme),
+                        )
+                        it + untagged
+                    } else {
+                        it
+                    }
+                },
+            tagsShift = tagsShift,
             controlIconPrev = RecordTypeIcon.Image(R.drawable.arrow_left),
             controlIconNext = RecordTypeIcon.Image(R.drawable.arrow_right),
             controlIconColor = colorMapper.toInactiveColor(isDarkTheme),
+            selectedTypeId = selectedTypeId,
         ).let(notificationTypeManager::show)
     }
 

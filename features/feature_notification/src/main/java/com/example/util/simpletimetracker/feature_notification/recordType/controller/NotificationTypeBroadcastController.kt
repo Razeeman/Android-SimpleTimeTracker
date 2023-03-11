@@ -26,15 +26,6 @@ class NotificationTypeBroadcastController @Inject constructor(
         }
     }
 
-    fun onActionActivityStart(
-        typeId: Long,
-    ) {
-        if (typeId == 0L) return
-        GlobalScope.launch {
-            activityStartStopFromBroadcastInteractor.onActionActivityStart(typeId)
-        }
-    }
-
     fun onActionActivityStop(
         name: String?
     ) {
@@ -82,23 +73,52 @@ class NotificationTypeBroadcastController @Inject constructor(
         }
     }
 
-    fun onActionTypesPrev(
+    fun onActionTypeClick(
         typeId: Long,
-        shift: Int,
+        selectedTypeId: Long,
+        typesShift: Int,
     ) {
         if (typeId == 0L) return
         GlobalScope.launch {
-            notificationTypeInteractor.checkAndShow(typeId, shift)
+            activityStartStopFromBroadcastInteractor.onActionTypeClick(
+                typeId = typeId,
+                selectedTypeId = selectedTypeId,
+                typesShift = typesShift,
+            )
         }
     }
 
-    fun onActionTypesNext(
+    fun onActionTagClick(
         typeId: Long,
-        shift: Int,
+        selectedTypeId: Long,
+        tagId: Long,
+        typesShift: Int,
     ) {
         if (typeId == 0L) return
         GlobalScope.launch {
-            notificationTypeInteractor.checkAndShow(typeId, shift)
+            activityStartStopFromBroadcastInteractor.onActionTagClick(
+                typeId = typeId,
+                selectedTypeId = selectedTypeId,
+                tagId = tagId,
+                typesShift = typesShift,
+            )
+        }
+    }
+
+    fun onRequestUpdate(
+        typeId: Long,
+        selectedTypeId: Long,
+        typesShift: Int,
+        tagsShift: Int,
+    ) {
+        if (typeId == 0L) return
+        GlobalScope.launch {
+            notificationTypeInteractor.checkAndShow(
+                typeId = typeId,
+                selectedTypeId = selectedTypeId,
+                typesShift = typesShift,
+                tagsShift = tagsShift,
+            )
         }
     }
 

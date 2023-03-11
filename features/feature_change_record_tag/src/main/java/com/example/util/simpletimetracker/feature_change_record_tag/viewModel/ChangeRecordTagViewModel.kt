@@ -178,6 +178,7 @@ class ChangeRecordTagViewModel @Inject constructor(
         viewModelScope.launch {
             if (recordTagId != 0L) {
                 recordTagInteractor.archive(recordTagId)
+                notificationTypeInteractor.updateNotifications()
                 showMessage(R.string.change_record_tag_archived)
                 (keyboardVisibility as MutableLiveData).value = false
                 router.back()
@@ -200,7 +201,7 @@ class ChangeRecordTagViewModel @Inject constructor(
                 color = newColor,
             ).let {
                 recordTagInteractor.add(it)
-                notificationTypeInteractor.checkAndShow(newTypeId)
+                notificationTypeInteractor.updateNotifications()
                 (keyboardVisibility as MutableLiveData).value = false
                 router.back()
             }

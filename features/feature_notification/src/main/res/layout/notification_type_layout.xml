@@ -7,14 +7,14 @@
     android:padding="1dp">
 
     <ImageView
-        android:id="@+id/ivNotificationContainer"
+        android:id="@+id/ivNotificationType"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:background="@drawable/unknown"
         tools:ignore="ContentDescription" />
 
     <Button
-        android:id="@+id/btnNotificationContainer"
+        android:id="@+id/btnNotificationType"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/bg_widget_button" />

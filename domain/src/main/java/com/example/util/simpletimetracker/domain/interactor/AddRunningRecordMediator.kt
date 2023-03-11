@@ -20,7 +20,7 @@ class AddRunningRecordMediator @Inject constructor(
      */
     suspend fun tryStartTimer(
         typeId: Long,
-        onNeedToShowTagSelection: () -> Unit
+        onNeedToShowTagSelection: suspend () -> Unit
     ): Boolean {
         // Already running
         if (runningRecordInteractor.get(typeId) != null) return false

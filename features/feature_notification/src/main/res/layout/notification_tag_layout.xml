@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="1"
+    android:padding="1dp">
+
+    <ImageView
+        android:id="@+id/ivNotificationTag"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/bg_rounded_tag"
+        tools:ignore="ContentDescription"
+        tools:tint="@color/black" />
+
+    <TextView
+        android:id="@+id/tvNotificationTag"
+        style="@style/TextAppearance.Compat.Notification.Info"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="1"
+        android:textColor="@color/white"
+        android:textSize="11sp"
+        tools:text="Some really long tag name" />
+
+    <Button
+        android:id="@+id/btnNotificationTag"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_widget_button" />
+
+</RelativeLayout>

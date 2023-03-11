@@ -6,6 +6,7 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
+import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
 import javax.inject.Inject
 
 class ActivityStartStopFromBroadcastInteractor @Inject constructor(
@@ -15,6 +16,7 @@ class ActivityStartStopFromBroadcastInteractor @Inject constructor(
     private val runningRecordInteractor: RunningRecordInteractor,
     private val recordInteractor: RecordInteractor,
     private val recordTagInteractor: RecordTagInteractor,
+    private val notificationTypeInteractor: NotificationTypeInteractor,
 ) {
 
     suspend fun onActionActivityStart(
@@ -31,16 +33,6 @@ class ActivityStartStopFromBroadcastInteractor @Inject constructor(
             typeId = typeId,
             comment = comment.orEmpty(),
             tagIds = listOfNotNull(tagId),
-        )
-    }
-
-    suspend fun onActionActivityStart(
-        typeId: Long,
-    ) {
-        addRunningRecordMediator.startTimer(
-            typeId = typeId,
-            comment = "",
-            tagIds = emptyList(),
         )
     }
 
@@ -95,6 +87,43 @@ class ActivityStartStopFromBroadcastInteractor @Inject constructor(
             tagIds = listOfNotNull(tagId)
                 .takeUnless { tagName == null }
                 ?: previousRecord.tagIds,
+        )
+    }
+
+    suspend fun onActionTypeClick(
+        typeId: Long,
+        selectedTypeId: Long,
+        typesShift: Int,
+    ) {
+        val started = addRunningRecordMediator.tryStartTimer(selectedTypeId) {
+            notificationTypeInteractor.checkAndShow(
+                typeId = typeId,
+                typesShift = typesShift,
+                selectedTypeId = selectedTypeId,
+            )
+        }
+        if (started) {
+            notificationTypeInteractor.checkAndShow(
+                typeId = typeId,
+                typesShift = typesShift
+            )
+        }
+    }
+
+    suspend fun onActionTagClick(
+        typeId: Long,
+        selectedTypeId: Long,
+        tagId: Long,
+        typesShift: Int,
+    ) {
+        addRunningRecordMediator.startTimer(
+            typeId = selectedTypeId,
+            comment = "",
+            tagIds = listOfNotNull(tagId.takeUnless { it == 0L }),
+        )
+        notificationTypeInteractor.checkAndShow(
+            typeId = typeId,
+            typesShift = typesShift
         )
     }
 

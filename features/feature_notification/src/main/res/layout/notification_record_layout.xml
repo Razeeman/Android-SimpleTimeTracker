@@ -61,16 +61,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/tvNotificationTimeStarted"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:gravity="center"
         android:text="@string/running_records_empty"
         android:textSize="11sp" />
 
     <LinearLayout
-        android:id="@+id/containerNotificationControls"
+        android:id="@+id/containerNotificationTypes"
         android:layout_width="match_parent"
         android:layout_height="@dimen/notification_icon_size"
         android:layout_below="@id/tvNotificationControlsHint"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+    <LinearLayout
+        android:id="@+id/containerNotificationTags"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/notification_icon_size"
+        android:layout_below="@id/containerNotificationTypes"
+        android:gravity="center"
         android:orientation="horizontal"
         android:visibility="gone"
         tools:visibility="visible" />
