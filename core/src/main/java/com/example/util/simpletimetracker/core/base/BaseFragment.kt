@@ -35,7 +35,7 @@ abstract class BaseFragment<T : ViewBinding> : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        preDrawListeners.forEach(binding.root.viewTreeObserver::removeOnPreDrawListener)
+        preDrawListeners.forEach { view?.viewTreeObserver?.removeOnPreDrawListener(it) }
         _binding = null
     }
 
