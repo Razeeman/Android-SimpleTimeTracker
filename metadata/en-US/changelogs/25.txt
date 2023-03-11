@@ -1,0 +1,3 @@
+- Add ability to change activities from timer notification
+- Add return to main tab on back press
+- General bug fixes and improvements
