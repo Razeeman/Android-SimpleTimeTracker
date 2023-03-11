@@ -228,6 +228,7 @@ class AddRecordTest : BaseUiTest() {
 
         // No last comments
         clickOnViewWithText(R.string.change_record_comment_field)
+        closeSoftKeyboard()
         checkViewDoesNotExist(withText(R.string.change_record_last_comments_hint))
         checkViewDoesNotExist(withText(comment1))
         checkViewDoesNotExist(withText(comment2))
@@ -240,6 +241,7 @@ class AddRecordTest : BaseUiTest() {
 
         // Still no last comments
         clickOnViewWithText(R.string.change_record_comment_field)
+        closeSoftKeyboard()
         checkViewDoesNotExist(withText(R.string.change_record_last_comments_hint))
         checkViewDoesNotExist(withText(comment1))
         checkViewDoesNotExist(withText(comment2))
@@ -252,6 +254,7 @@ class AddRecordTest : BaseUiTest() {
 
         // One last comment
         clickOnViewWithText(R.string.change_record_comment_field)
+        closeSoftKeyboard()
         checkViewIsDisplayed(withText(R.string.change_record_last_comments_hint))
         checkViewIsDisplayed(withText(comment1))
         checkViewDoesNotExist(withText(comment2))
@@ -269,6 +272,7 @@ class AddRecordTest : BaseUiTest() {
 
         // Two last comments
         clickOnViewWithText(R.string.change_record_comment_field)
+        closeSoftKeyboard()
         checkViewIsDisplayed(withText(R.string.change_record_last_comments_hint))
         checkViewDoesNotExist(withText(comment1))
         checkViewIsDisplayed(withText(comment2))

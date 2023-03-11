@@ -169,6 +169,8 @@ class ArchiveTest : BaseUiTest() {
         checkTagNotVisible(tag2)
         checkTagVisible(tag3)
         checkTagNotVisible(tag4)
+        // Snackbar is in the way of Add button
+        clickOnViewWithId(com.google.android.material.R.id.snackbar_text)
         pressBack()
 
         // Not shown on records
