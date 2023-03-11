@@ -101,9 +101,13 @@ class NotificationTypeManager @Inject constructor(
             val typesControlsVisibility = if (isBig) View.VISIBLE else View.GONE
             setViewVisibility(R.id.containerNotificationTypes, typesControlsVisibility)
             setViewVisibility(R.id.tvNotificationControlsHint, typesControlsVisibility)
+            setViewVisibility(R.id.containerNotificationTypesPrev, typesControlsVisibility)
+            setViewVisibility(R.id.containerNotificationTypesNext, typesControlsVisibility)
 
             val tagsControlsVisibility = if (params.tags.isNotEmpty()) View.VISIBLE else View.GONE
             setViewVisibility(R.id.containerNotificationTags, tagsControlsVisibility)
+            setViewVisibility(R.id.containerNotificationTagsPrev, tagsControlsVisibility)
+            setViewVisibility(R.id.containerNotificationTagsNext, tagsControlsVisibility)
 
             setTextViewText(R.id.tvNotificationText, params.text)
             setTextViewText(R.id.tvNotificationTimeStarted, params.timeStarted)
@@ -121,19 +125,20 @@ class NotificationTypeManager @Inject constructor(
         params: NotificationTypeParams,
     ) {
         // Prev button
-        getTypeControlView(
-            icon = params.controlIconPrev,
-            color = params.controlIconColor,
-            intent = getPendingSelfIntent(
+        setImageViewBitmap(
+            R.id.ivNotificationTypesPrev,
+            getIconBitmap(params.controlIconPrev, params.controlIconColor)
+        )
+        setOnClickPendingIntent(
+            R.id.btnNotificationTypesPrev,
+            getPendingSelfIntent(
                 context = context,
                 action = ACTION_NOTIFICATION_TYPES_PREV,
                 recordTypeId = params.id,
                 recordTypesShift = (params.typesShift - TYPES_LIST_SIZE)
                     .coerceAtLeast(0),
             )
-        ).let {
-            addView(R.id.containerNotificationTypes, it)
-        }
+        )
 
         // Types buttons
         val currentTypes = params.types.drop(params.typesShift).take(TYPES_LIST_SIZE)
@@ -170,10 +175,13 @@ class NotificationTypeManager @Inject constructor(
         }
 
         // Next button
-        getTypeControlView(
-            icon = params.controlIconNext,
-            color = params.controlIconColor,
-            intent = getPendingSelfIntent(
+        setImageViewBitmap(
+            R.id.ivNotificationTypesNext,
+            getIconBitmap(params.controlIconNext, params.controlIconColor)
+        )
+        setOnClickPendingIntent(
+            R.id.btnNotificationTypesNext,
+            getPendingSelfIntent(
                 context = context,
                 action = ACTION_NOTIFICATION_TYPES_NEXT,
                 recordTypeId = params.id,
@@ -181,20 +189,20 @@ class NotificationTypeManager @Inject constructor(
                     .takeUnless { it >= params.types.size }
                     ?: params.typesShift
             )
-        ).let {
-            addView(R.id.containerNotificationTypes, it)
-        }
+        )
     }
 
     private fun RemoteViews.addTagControls(
         params: NotificationTypeParams,
     ) {
-        // TODO move prev next buttons directly to layout
         // Prev button
-        getTypeControlView(
-            icon = params.controlIconPrev,
-            color = params.controlIconColor,
-            intent = getPendingSelfIntent(
+        setImageViewBitmap(
+            R.id.ivNotificationTagsPrev,
+            getIconBitmap(params.controlIconPrev, params.controlIconColor)
+        )
+        setOnClickPendingIntent(
+            R.id.btnNotificationTagsPrev,
+            getPendingSelfIntent(
                 context = context,
                 action = ACTION_NOTIFICATION_TAGS_PREV,
                 recordTypeId = params.id,
@@ -203,9 +211,7 @@ class NotificationTypeManager @Inject constructor(
                 recordTagsShift = (params.tagsShift - TAGS_LIST_SIZE)
                     .coerceAtLeast(0),
             )
-        ).let {
-            addView(R.id.containerNotificationTags, it)
-        }
+        )
 
         // Types buttons
         val currentTags = params.tags.drop(params.tagsShift).take(TAGS_LIST_SIZE)
@@ -239,10 +245,13 @@ class NotificationTypeManager @Inject constructor(
         }
 
         // Next button
-        getTypeControlView(
-            icon = params.controlIconNext,
-            color = params.controlIconColor,
-            intent = getPendingSelfIntent(
+        setImageViewBitmap(
+            R.id.ivNotificationTagsNext,
+            getIconBitmap(params.controlIconNext, params.controlIconColor)
+        )
+        setOnClickPendingIntent(
+            R.id.btnNotificationTagsNext,
+            getPendingSelfIntent(
                 context = context,
                 action = ACTION_NOTIFICATION_TAGS_NEXT,
                 recordTypeId = params.id,
@@ -252,9 +261,7 @@ class NotificationTypeManager @Inject constructor(
                     .takeUnless { it >= params.tags.size }
                     ?: params.tagsShift
             )
-        ).let {
-            addView(R.id.containerNotificationTags, it)
-        }
+        )
     }
 
     private fun getTypeControlView(
