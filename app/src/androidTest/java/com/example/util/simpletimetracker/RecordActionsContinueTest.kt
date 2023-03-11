@@ -169,7 +169,7 @@ class RecordActionsContinueTest : BaseUiTest() {
 
         // Continue untracked doesn't work
         clickOnViewWithText(R.string.change_record_actions_hint)
-        clickOnViewWithText(R.string.change_record_continue)
+        onView(withText(R.string.change_record_continue)).perform(nestedScrollTo(), click())
         clickOnViewWithId(com.google.android.material.R.id.snackbar_text)
         clickOnViewWithText(R.string.change_record_actions_hint)
 

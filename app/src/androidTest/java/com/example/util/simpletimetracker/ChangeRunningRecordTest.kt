@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker
 import android.view.View
 import android.widget.DatePicker
 import androidx.annotation.IdRes
+import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.contrib.PickerActions
 import androidx.test.espresso.contrib.PickerActions.setTime
@@ -97,8 +98,7 @@ class ChangeRunningRecordTest : BaseUiTest() {
         // Change item
         clickOnViewWithText(R.string.change_record_type_field)
         clickOnRecyclerItem(R.id.rvChangeRecordType, withText(name2))
-        clickOnViewWithText(R.string.change_record_tag_field)
-        clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag2))
+        tryAction { clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag2)) }
         clickOnViewWithText(R.string.change_record_tag_field)
 
         val calendar = Calendar.getInstance().apply {
@@ -180,6 +180,7 @@ class ChangeRunningRecordTest : BaseUiTest() {
         testUtils.addRecordTag(tag1, name1)
         testUtils.addRecordTag(tag2, name2)
         testUtils.addRecordTag(tag3)
+        Thread.sleep(1000)
 
         // Add running record
         tryAction { clickOnViewWithText(name1) }
@@ -205,8 +206,7 @@ class ChangeRunningRecordTest : BaseUiTest() {
         clickOnViewWithText(R.string.change_record_type_field)
         clickOnRecyclerItem(R.id.rvChangeRecordType, withText(name2))
         checkPreviewUpdated(hasDescendant(withText(name2)))
-        clickOnViewWithText(R.string.change_record_tag_field)
-        clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag2))
+        tryAction { clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag2)) }
         clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag3))
         checkPreviewUpdated(hasDescendant(withText(fullName2)))
         clickOnViewWithText(R.string.change_record_tag_field)
@@ -291,12 +291,14 @@ class ChangeRunningRecordTest : BaseUiTest() {
         testUtils.addRecord(nameComment, comment = comment1)
         testUtils.addRecord(nameComments, comment = comment2)
         testUtils.addRecord(nameComments, comment = comment3)
+        Thread.sleep(1000)
 
         // No last comments
         tryAction { clickOnViewWithText(nameNoComments) }
         longClickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(nameNoComments)))
 
         clickOnViewWithText(R.string.change_record_comment_field)
+        closeSoftKeyboard()
         checkViewDoesNotExist(withText(R.string.change_record_last_comments_hint))
         checkViewDoesNotExist(withText(comment1))
         checkViewDoesNotExist(withText(comment2))
@@ -309,6 +311,7 @@ class ChangeRunningRecordTest : BaseUiTest() {
 
         // One last comment
         clickOnViewWithText(R.string.change_record_comment_field)
+        closeSoftKeyboard()
         checkViewIsDisplayed(withText(R.string.change_record_last_comments_hint))
         checkViewIsDisplayed(withText(comment1))
         checkViewDoesNotExist(withText(comment2))
@@ -326,6 +329,7 @@ class ChangeRunningRecordTest : BaseUiTest() {
 
         // Two last comments
         clickOnViewWithText(R.string.change_record_comment_field)
+        closeSoftKeyboard()
         checkViewIsDisplayed(withText(R.string.change_record_last_comments_hint))
         checkViewDoesNotExist(withText(comment1))
         checkViewIsDisplayed(withText(comment2))
@@ -345,6 +349,7 @@ class ChangeRunningRecordTest : BaseUiTest() {
 
         // No last comments
         clickOnViewWithText(R.string.change_record_comment_field)
+        closeSoftKeyboard()
         checkViewDoesNotExist(withText(R.string.change_record_last_comments_hint))
         checkViewDoesNotExist(withText(comment1))
         checkViewDoesNotExist(withText(comment2))

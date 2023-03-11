@@ -232,8 +232,7 @@ object NavUtils {
 
         // Tag
         if (tag != null) {
-            clickOnViewWithText(R.string.change_record_tag_field)
-            clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag))
+            tryAction { clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag)) }
             clickOnViewWithText(R.string.change_record_tag_field)
         }
 

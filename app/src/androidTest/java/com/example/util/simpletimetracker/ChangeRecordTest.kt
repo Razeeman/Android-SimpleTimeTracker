@@ -78,8 +78,7 @@ class ChangeRecordTest : BaseUiTest() {
         clickOnViewWithText(R.string.change_record_comment_field)
         clickOnViewWithText(R.string.change_record_type_field)
         clickOnRecyclerItem(R.id.rvChangeRecordType, withText(name))
-        clickOnViewWithText(R.string.change_record_tag_field)
-        clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag1))
+        tryAction { clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag1)) }
         clickOnViewWithText(R.string.change_record_tag_field)
         clickOnViewWithText(R.string.change_record_save)
         checkViewIsDisplayed(allOf(withText(fullName1), isCompletelyDisplayed()))
@@ -107,8 +106,7 @@ class ChangeRecordTest : BaseUiTest() {
         // Change item
         clickOnViewWithText(R.string.change_record_type_field)
         clickOnRecyclerItem(R.id.rvChangeRecordType, withText(newName))
-        clickOnViewWithText(R.string.change_record_tag_field)
-        clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag2))
+        tryAction { clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag2)) }
         clickOnViewWithText(R.string.change_record_tag_field)
 
         val calendar = Calendar.getInstance().apply {

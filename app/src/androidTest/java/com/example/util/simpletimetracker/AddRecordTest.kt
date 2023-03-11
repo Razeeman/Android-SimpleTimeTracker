@@ -129,16 +129,8 @@ class AddRecordTest : BaseUiTest() {
         checkPreviewUpdated(withCardColor(color))
         checkPreviewUpdated(hasDescendant(withTag(icon)))
 
-        // Set comment
-        clickOnViewWithText(R.string.change_record_comment_field)
-        typeTextIntoView(R.id.etChangeRecordComment, comment)
-        closeSoftKeyboard()
-        tryAction { checkPreviewUpdated(hasDescendant(withText(comment))) }
-        clickOnViewWithText(R.string.change_record_comment_field)
-
         // Open tag chooser
-        clickOnViewWithId(R.id.fieldChangeRecordCategory)
-        checkViewIsDisplayed(withId(R.id.rvChangeRecordCategories))
+        tryAction { checkViewIsDisplayed(withId(R.id.rvChangeRecordCategories)) }
 
         // Selecting tags
         clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag1))
@@ -157,6 +149,14 @@ class AddRecordTest : BaseUiTest() {
         clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag2))
         clickOnViewWithId(R.id.fieldChangeRecordCategory)
 
+        // Set comment
+        clickOnViewWithText(R.string.change_record_comment_field)
+        typeTextIntoView(R.id.etChangeRecordComment, comment)
+        closeSoftKeyboard()
+        tryAction { checkPreviewUpdated(hasDescendant(withText(comment))) }
+        clickOnViewWithText(R.string.change_record_comment_field)
+
+        // Save
         clickOnViewWithText(R.string.change_record_save)
 
         // Record added
