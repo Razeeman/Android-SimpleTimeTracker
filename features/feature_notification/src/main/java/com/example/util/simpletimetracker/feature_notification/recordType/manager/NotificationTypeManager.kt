@@ -98,7 +98,10 @@ class NotificationTypeManager @Inject constructor(
         isBig: Boolean,
     ): RemoteViews {
         return RemoteViews(context.packageName, R.layout.notification_record_layout).apply {
-            setViewVisibility(R.id.containerNotificationControls, if (isBig) View.VISIBLE else View.GONE)
+            val typesControlsVisibility = if (isBig) View.VISIBLE else View.GONE
+            setViewVisibility(R.id.containerNotificationControls, typesControlsVisibility)
+            setViewVisibility(R.id.tvNotificationControlsHint, typesControlsVisibility)
+
             setTextViewText(R.id.tvNotificationText, params.text)
             setTextViewText(R.id.tvNotificationTimeStarted, params.timeStarted)
             setTextViewText(R.id.tvNotificationGoalTime, params.goalTime)
@@ -106,49 +109,66 @@ class NotificationTypeManager @Inject constructor(
             val base = SystemClock.elapsedRealtime() - (System.currentTimeMillis() - params.startedTimeStamp)
             setChronometer(R.id.timerNotification, base, null, true)
 
-            addTypesControlIcon(
-                icon = params.controlIconPrev,
-                color = params.controlIconColor,
-                intent = getPendingSelfIntent(
-                    context = context,
-                    action = ACTION_NOTIFICATION_PREV,
-                    recordTypeId = params.id,
-                    recordTypesShift = (params.typesShift - TYPES_LIST_SIZE).coerceAtLeast(0),
-                )
+            if (isBig) addTypesControls(params)
+        }
+    }
+
+    private fun RemoteViews.addTypesControls(
+        params: NotificationTypeParams,
+    ) {
+        // Prev button
+        addTypesControlIcon(
+            icon = params.controlIconPrev,
+            color = params.controlIconColor,
+            intent = getPendingSelfIntent(
+                context = context,
+                action = ACTION_NOTIFICATION_PREV,
+                recordTypeId = params.id,
+                recordTypesShift = (params.typesShift - TYPES_LIST_SIZE)
+                    .coerceAtLeast(0),
             )
-            val currentTypes = params.types.drop(params.typesShift).take(TYPES_LIST_SIZE)
-            currentTypes.forEach {
-                addTypesControlIcon(
-                    icon = it.icon,
-                    color = it.color,
-                    intent = getPendingSelfIntent(
-                        context = context,
-                        action = if (it.id == params.id) ACTION_NOTIFICATION_STOP else ACTION_NOTIFICATION_START,
-                        recordTypeId = it.id
-                    )
-                )
-            }
-            // Populate container with empty items to preserve prev next controls position
-            repeat(TYPES_LIST_SIZE - currentTypes.size) {
-                addTypesControlIcon(
-                    icon = null,
-                    color = null,
-                    intent = null
-                )
-            }
+        )
+
+        // Types buttons
+        val currentTypes = params.types.drop(params.typesShift).take(TYPES_LIST_SIZE)
+        currentTypes.forEach {
             addTypesControlIcon(
-                icon = params.controlIconNext,
-                color = params.controlIconColor,
+                icon = it.icon,
+                color = it.color,
                 intent = getPendingSelfIntent(
                     context = context,
-                    action = ACTION_NOTIFICATION_NEXT,
-                    recordTypeId = params.id,
-                    recordTypesShift = (params.typesShift + TYPES_LIST_SIZE)
-                        .takeUnless { it >= params.types.size }
-                        ?: params.typesShift
+                    action = if (it.id == params.id) {
+                        ACTION_NOTIFICATION_STOP
+                    } else {
+                        ACTION_NOTIFICATION_START
+                    },
+                    recordTypeId = it.id
                 )
             )
         }
+
+        // Populate container with empty items to preserve prev next controls position
+        repeat(TYPES_LIST_SIZE - currentTypes.size) {
+            addTypesControlIcon(
+                icon = null,
+                color = null,
+                intent = null
+            )
+        }
+
+        // Next button
+        addTypesControlIcon(
+            icon = params.controlIconNext,
+            color = params.controlIconColor,
+            intent = getPendingSelfIntent(
+                context = context,
+                action = ACTION_NOTIFICATION_NEXT,
+                recordTypeId = params.id,
+                recordTypesShift = (params.typesShift + TYPES_LIST_SIZE)
+                    .takeUnless { it >= params.types.size }
+                    ?: params.typesShift
+            )
+        )
     }
 
     private fun RemoteViews.addTypesControlIcon(

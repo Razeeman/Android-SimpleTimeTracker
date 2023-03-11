@@ -55,12 +55,22 @@
         android:gravity="center_vertical"
         tools:text="goal 10m" />
 
+    <TextView
+        android:id="@+id/tvNotificationControlsHint"
+        style="@style/TextAppearance.Compat.Notification.Info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvNotificationTimeStarted"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="@string/running_records_empty"
+        android:textSize="11sp" />
+
     <LinearLayout
         android:id="@+id/containerNotificationControls"
         android:layout_width="match_parent"
         android:layout_height="@dimen/notification_icon_size"
-        android:layout_below="@id/tvNotificationTimeStarted"
-        android:layout_marginTop="20dp"
+        android:layout_below="@id/tvNotificationControlsHint"
         android:orientation="horizontal"
         android:visibility="gone"
         tools:visibility="visible" />
