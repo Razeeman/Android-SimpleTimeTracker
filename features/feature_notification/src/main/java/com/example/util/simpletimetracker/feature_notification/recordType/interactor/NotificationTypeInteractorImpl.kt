@@ -174,8 +174,8 @@ class NotificationTypeInteractorImpl @Inject constructor(
                             id = 0L,
                             text = R.string.change_record_untagged.let(resourceRepo::getString),
                             color = colorMapper.toUntrackedColor(isDarkTheme),
-                        )
-                        it + untagged
+                        ).let(::listOf)
+                        untagged + it
                     } else {
                         it
                     }
