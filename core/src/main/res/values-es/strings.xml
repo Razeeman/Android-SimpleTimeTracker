@@ -203,6 +203,8 @@
     <string name="settings_inactivity_reminder">Mostrar recordatorio de inactividad</string>
     <string name="settings_inactivity_reminder_hint">Mostrar una notificación si no se ha iniciado ningún temporizador tras el tiempo especificado.</string>
     <string name="settings_inactivity_reminder_recurrent">Recurrente</string>
+    <string name="settings_activity_reminder">Mostrar recordatorio de actividad</string>
+    <string name="settings_activity_reminder_hint">Mostrar notificación después del tiempo especificado si los temporizadores se están ejecutando.</string>
     <string name="settings_ignore_short_records">Ignorar registros cortos</string>
     <string name="settings_ignore_short_records_hint">No rastree actividades que sean más cortas que el tiempo especificado.</string>
     <string name="settings_inactivity_reminder_disabled">Deshabilitado</string>
@@ -342,6 +344,8 @@ Si la configuración <b>\"%s\"</b> está habilitada, la aplicación enviará eve
     <!--  Notification  -->
     <string name="notification_inactivity_title">Recordatorio de inactividad</string>
     <string name="notification_inactivity_text">No olvide registrar su tiempo</string>
+    <string name="notification_activity_title">Recordatorio de actividad</string>
+    <string name="notification_activity_text">¿Sigues haciendo: %s?</string>
     <string name="notification_goal_time_description">%s objetivo alcanzado</string>
     <string name="notification_time_started">Comenzó en %s</string>
     <string name="notification_record_type_goal_time">objetivo %s</string>

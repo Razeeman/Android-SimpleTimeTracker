@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/ivNotificationInactivityIcon"
         android:gravity="center_vertical"
-        android:text="@string/notification_inactivity_title" />
+        tools:text="@string/notification_inactivity_title" />
 
     <TextView
         android:id="@+id/tvNotificationInactivityDescription"
@@ -31,6 +31,6 @@
         android:layout_below="@id/tvNotificationInactivityText"
         android:layout_toEndOf="@id/ivNotificationInactivityIcon"
         android:gravity="center_vertical"
-        android:text="@string/notification_inactivity_text" />
+        tools:text="@string/notification_inactivity_text" />
 
 </RelativeLayout>

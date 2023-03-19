@@ -203,6 +203,8 @@
     <string name="settings_inactivity_reminder">İnaktivite hatırlatıcısı göster</string>
     <string name="settings_inactivity_reminder_hint">Eğer herhangi bir zamanlayıcı çalışmıyorsa belirtilen süre sonunda bildirim göster.</string>
     <string name="settings_inactivity_reminder_recurrent">Tekrarlayan</string>
+    <string name="settings_activity_reminder">Etkinlik hatırlatıcısını göster</string>
+    <string name="settings_activity_reminder_hint">Zamanlayıcılar çalışıyorsa, belirtilen süreden sonra bildirim göster.</string>
     <string name="settings_ignore_short_records">Kısa kayıtları yoksay</string>
     <string name="settings_ignore_short_records_hint">Belirtilen süreden daha kısa olan kayıtları yoksay.</string>
     <string name="settings_inactivity_reminder_disabled">Devre dışı</string>
@@ -342,6 +344,8 @@ Ek olarak:<br/>
     <!--  Notification  -->
     <string name="notification_inactivity_title">İnaktivite hatırlatıcısı</string>
     <string name="notification_inactivity_text">Zaman takibi yapmayı unutma</string>
+    <string name="notification_activity_title">Etkinlik hatırlatıcısı</string>
+    <string name="notification_activity_text">Hala şunu yapıyor musunuz: %s?</string>
     <string name="notification_goal_time_description">%s hedef süreye ulaşıldı</string>
     <string name="notification_time_started">Başlangıç zamanı %s</string>
     <string name="notification_record_type_goal_time">hedef %s</string>

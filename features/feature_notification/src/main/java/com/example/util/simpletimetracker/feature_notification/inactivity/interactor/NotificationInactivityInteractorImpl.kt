@@ -1,16 +1,17 @@
 package com.example.util.simpletimetracker.feature_notification.inactivity.interactor
 
+import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.interactor.NotificationInactivityInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
+import com.example.util.simpletimetracker.feature_notification.R
 import com.example.util.simpletimetracker.feature_notification.inactivity.manager.NotificationInactivityManager
 import com.example.util.simpletimetracker.feature_notification.inactivity.manager.NotificationInactivityParams
 import com.example.util.simpletimetracker.feature_notification.inactivity.scheduler.NotificationInactivityScheduler
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class NotificationInactivityInteractorImpl @Inject constructor(
+    private val resourceRepo: ResourceRepo,
     private val manager: NotificationInactivityManager,
     private val scheduler: NotificationInactivityScheduler,
     private val prefsInteractor: PrefsInteractor,
@@ -30,11 +31,11 @@ class NotificationInactivityInteractorImpl @Inject constructor(
         manager.hide()
     }
 
-    override fun show() {
-        GlobalScope.launch {
-            NotificationInactivityParams(
-                isDarkTheme = prefsInteractor.getDarkMode()
-            ).let(manager::show)
-        }
+    override suspend fun show() {
+        NotificationInactivityParams(
+            title = resourceRepo.getString(R.string.notification_inactivity_title),
+            subtitle = resourceRepo.getString(R.string.notification_inactivity_text),
+            isDarkTheme = prefsInteractor.getDarkMode()
+        ).let(manager::show)
     }
 }

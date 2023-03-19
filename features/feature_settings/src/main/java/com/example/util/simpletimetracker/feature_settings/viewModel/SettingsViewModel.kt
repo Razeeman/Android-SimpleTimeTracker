@@ -15,6 +15,7 @@ import com.example.util.simpletimetracker.domain.extension.flip
 import com.example.util.simpletimetracker.domain.extension.orFalse
 import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTimeInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationInactivityInteractor
+import com.example.util.simpletimetracker.domain.interactor.NotificationActivityInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
@@ -51,6 +52,7 @@ class SettingsViewModel @Inject constructor(
     private val notificationTypeInteractor: NotificationTypeInteractor,
     private val widgetInteractor: WidgetInteractor,
     private val notificationInactivityInteractor: NotificationInactivityInteractor,
+    private val notificationActivityInteractor: NotificationActivityInteractor,
     private val notificationGoalTimeInteractor: NotificationGoalTimeInteractor,
     private val checkExactAlarmPermissionInteractor: CheckExactAlarmPermissionInteractor,
 ) : ViewModel() {
@@ -167,6 +169,24 @@ class SettingsViewModel @Inject constructor(
         MutableLiveData<Boolean>().let { initial ->
             viewModelScope.launch {
                 initial.value = prefsInteractor.getInactivityReminderRecurrent()
+            }
+            initial
+        }
+    }
+
+    val activityReminderViewData: LiveData<SettingsDurationViewData> by lazy {
+        MutableLiveData<SettingsDurationViewData>().let { initial ->
+            viewModelScope.launch {
+                initial.value = loadActivityReminderViewData()
+            }
+            initial
+        }
+    }
+
+    val activityReminderRecurrentCheckbox: LiveData<Boolean> by lazy {
+        MutableLiveData<Boolean>().let { initial ->
+            viewModelScope.launch {
+                initial.value = prefsInteractor.getActivityReminderRecurrent()
             }
             initial
         }
@@ -447,6 +467,23 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    fun onActivityReminderClicked() {
+        viewModelScope.launch {
+            DurationDialogParams(
+                tag = ACTIVITY_DURATION_DIALOG_TAG,
+                duration = prefsInteractor.getActivityReminderDuration()
+            ).let(router::navigate)
+        }
+    }
+
+    fun onActivityReminderRecurrentClicked() {
+        viewModelScope.launch {
+            val newValue = !prefsInteractor.getActivityReminderRecurrent()
+            prefsInteractor.setActivityReminderRecurrent(newValue)
+            activityReminderRecurrentCheckbox.set(newValue)
+        }
+    }
+
     fun onIgnoreShortRecordsClicked() {
         viewModelScope.launch {
             DurationDialogParams(
@@ -554,7 +591,15 @@ class SettingsViewModel @Inject constructor(
             INACTIVITY_DURATION_DIALOG_TAG -> viewModelScope.launch {
                 prefsInteractor.setInactivityReminderDuration(duration)
                 updateInactivityReminderViewData()
-                // TODO check and schedule inactivity reminder or reschedule at new time?
+                notificationInactivityInteractor.cancel()
+                notificationInactivityInteractor.checkAndSchedule()
+                checkExactAlarmPermissionInteractor.execute()
+            }
+            ACTIVITY_DURATION_DIALOG_TAG -> viewModelScope.launch {
+                prefsInteractor.setActivityReminderDuration(duration)
+                updateActivityReminderViewData()
+                notificationActivityInteractor.cancel()
+                notificationActivityInteractor.checkAndSchedule()
                 checkExactAlarmPermissionInteractor.execute()
             }
             IGNORE_SHORT_RECORDS_DIALOG_TAG -> viewModelScope.launch {
@@ -570,6 +615,11 @@ class SettingsViewModel @Inject constructor(
                 prefsInteractor.setInactivityReminderDuration(0)
                 updateInactivityReminderViewData()
                 notificationInactivityInteractor.cancel()
+            }
+            ACTIVITY_DURATION_DIALOG_TAG -> viewModelScope.launch {
+                prefsInteractor.setActivityReminderDuration(0)
+                updateActivityReminderViewData()
+                notificationActivityInteractor.cancel()
             }
             IGNORE_SHORT_RECORDS_DIALOG_TAG -> viewModelScope.launch {
                 prefsInteractor.setIgnoreShortRecordsDuration(0)
@@ -662,6 +712,16 @@ class SettingsViewModel @Inject constructor(
             .let(settingsMapper::toDurationViewData)
     }
 
+    private suspend fun updateActivityReminderViewData() {
+        val data = loadActivityReminderViewData()
+        activityReminderViewData.set(data)
+    }
+
+    private suspend fun loadActivityReminderViewData(): SettingsDurationViewData {
+        return prefsInteractor.getActivityReminderDuration()
+            .let(settingsMapper::toDurationViewData)
+    }
+
     private suspend fun updateIgnoreShortRecordsViewData() {
         val data = loadIgnoreShortRecordsViewData()
         ignoreShortRecordsViewData.set(data)
@@ -705,6 +765,7 @@ class SettingsViewModel @Inject constructor(
 
     companion object {
         private const val INACTIVITY_DURATION_DIALOG_TAG = "inactivity_duration_dialog_tag"
+        private const val ACTIVITY_DURATION_DIALOG_TAG = "activity_duration_dialog_tag"
         private const val IGNORE_SHORT_RECORDS_DIALOG_TAG = "ignore_short_records_dialog_tag"
         private const val START_OF_DAY_DIALOG_TAG = "start_of_day_dialog_tag"
     }

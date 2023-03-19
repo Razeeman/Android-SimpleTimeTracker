@@ -203,6 +203,8 @@
     <string name="settings_inactivity_reminder">Herinnering voor inactiviteit weergeven</string>
     <string name="settings_inactivity_reminder_hint">Toon melding na gespecificeerde tijd als er geen timers lopen.</string>
     <string name="settings_inactivity_reminder_recurrent">Terugkerend</string>
+    <string name="settings_activity_reminder">Toon activiteitsherinnering</string>
+    <string name="settings_activity_reminder_hint">Toon melding na opgegeven tijd als timers lopen.</string>
     <string name="settings_ignore_short_records">Negeer korte records</string>
     <string name="settings_ignore_short_records_hint">Houd geen activiteiten bij die korter zijn dan de opgegeven tijd.</string>
     <string name="settings_inactivity_reminder_disabled">Uitgeschakeld</string>
@@ -342,6 +344,8 @@ Als de instelling <b>\"%s\"</b> is ingeschakeld, stuurt de app gebeurtenissen ov
     <!--  Notification  -->
     <string name="notification_inactivity_title">Inactiviteit herinnering</string>
     <string name="notification_inactivity_text">Vergeet niet uw tijd bij te houden</string>
+    <string name="notification_activity_title">Activiteitsherinnering</string>
+    <string name="notification_activity_text">Ben je nog steeds bezig met: %s?</string>
     <string name="notification_goal_time_description">%s doeltijd bereikt</string>
     <string name="notification_time_started">Gestart om %s</string>
     <string name="notification_record_type_goal_time">doelstelling %s</string>

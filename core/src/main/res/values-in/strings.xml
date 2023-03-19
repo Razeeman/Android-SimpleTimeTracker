@@ -203,6 +203,8 @@
     <string name="settings_inactivity_reminder">Tampilkan pengingat tidak berkegiatan</string>
     <string name="settings_inactivity_reminder_hint">Tampilkan notifikasi setelah waktu yang ditentukan jika tidak ada pewaktu yang berjalan.</string>
     <string name="settings_inactivity_reminder_recurrent">Berulang</string>
+    <string name="settings_activity_reminder">Tampilkan pengingat aktivitas</string>
+    <string name="settings_activity_reminder_hint">Tampilkan pemberitahuan setelah waktu yang ditentukan jika penghitung waktu sedang berjalan.</string>
     <string name="settings_ignore_short_records">Abaikan rekor pendek</string>
     <string name="settings_ignore_short_records_hint">Jangan melacak aktivitas yang lebih pendek dari waktu yang ditentukan.</string>
     <string name="settings_inactivity_reminder_disabled">Dinonaktifkan</string>
@@ -342,6 +344,8 @@ Jika setelan <b>\"%s\"</b> diaktifkan, aplikasi akan mengirimkan peristiwa pada 
     <!--  Notification  -->
     <string name="notification_inactivity_title">Pengingat tidak berkegiatan</string>
     <string name="notification_inactivity_text">Jangan lupa untuk lacak waktu Anda</string>
+    <string name="notification_activity_title">Pengingat aktivitas</string>
+    <string name="notification_activity_text">Apakah Anda masih melakukan: %s?</string>
     <string name="notification_goal_time_description">%s waktu tujuan tercapai</string>
     <string name="notification_time_started">Dimulai pada %s</string>
     <string name="notification_record_type_goal_time">tujuan %s</string>

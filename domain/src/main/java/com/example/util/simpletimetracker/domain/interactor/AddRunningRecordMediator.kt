@@ -10,6 +10,7 @@ class AddRunningRecordMediator @Inject constructor(
     private val recordTagInteractor: RecordTagInteractor,
     private val notificationTypeInteractor: NotificationTypeInteractor,
     private val notificationInactivityInteractor: NotificationInactivityInteractor,
+    private val notificationActivityInteractor: NotificationActivityInteractor,
     private val notificationGoalTimeInteractor: NotificationGoalTimeInteractor,
     private val widgetInteractor: WidgetInteractor,
     private val activityStartedStoppedBroadcastInteractor: ActivityStartedStoppedBroadcastInteractor,
@@ -87,6 +88,8 @@ class AddRunningRecordMediator @Inject constructor(
                 runningRecordInteractor.add(it)
                 notificationTypeInteractor.checkAndShow(typeId)
                 notificationInactivityInteractor.cancel()
+                // Schedule only on first activity start.
+                if (runningRecordInteractor.getAll().size == 1) notificationActivityInteractor.checkAndSchedule()
                 notificationGoalTimeInteractor.checkAndReschedule(typeId)
                 widgetInteractor.updateWidgets()
             }

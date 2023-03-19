@@ -1,6 +1,6 @@
 package com.example.util.simpletimetracker.domain.interactor
 
-interface NotificationInactivityInteractor {
+interface NotificationActivityInteractor {
 
     suspend fun checkAndSchedule()
 

@@ -203,6 +203,8 @@
     <string name="settings_inactivity_reminder">非アクティブ時のリマインダーを表示</string>
     <string name="settings_inactivity_reminder_hint">タイマーが作動していない場合、指定時間後に通知を表示する。</string>
     <string name="settings_inactivity_reminder_recurrent">繰り返す</string>
+    <string name="settings_activity_reminder">アクティビティリマインダーを表示</string>
+    <string name="settings_activity_reminder_hint">タイマーが実行されている場合、指定した時間後に通知を表示します。</string>
     <string name="settings_ignore_short_records">短い記録は無視</string>
     <string name="settings_ignore_short_records_hint">指定された時間より短いアクティビティは計測しません。</string>
     <string name="settings_inactivity_reminder_disabled">未設定</string>
@@ -342,6 +344,8 @@
     <!--  Notification  -->
     <string name="notification_inactivity_title">非活動時のリマインダー</string>
     <string name="notification_inactivity_text">時間を記録することを忘れずに</string>
+    <string name="notification_activity_title">アクティビティリマインダー</string>
+    <string name="notification_activity_text">まだやってますか: %s?</string>
     <string name="notification_goal_time_description">%s 目標時間到達</string>
     <string name="notification_time_started">%s に開始</string>
     <string name="notification_record_type_goal_time">目標 %s</string>

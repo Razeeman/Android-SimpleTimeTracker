@@ -92,6 +92,8 @@ class SettingsFragment :
             checkboxSettingsKeepStatisticsRange.setOnClick(viewModel::onKeepStatisticsRangeClicked)
             groupSettingsInactivityReminder.setOnClick(viewModel::onInactivityReminderClicked)
             checkboxSettingsInactivityReminderRecurrent.setOnClick(viewModel::onInactivityReminderRecurrentClicked)
+            groupSettingsActivityReminder.setOnClick(viewModel::onActivityReminderClicked)
+            checkboxSettingsActivityReminderRecurrent.setOnClick(viewModel::onActivityReminderRecurrentClicked)
             groupSettingsIgnoreShortRecords.setOnClick(viewModel::onIgnoreShortRecordsClicked)
             checkboxSettingsShowRecordTagSelection.setOnClick(viewModel::onShowRecordTagSelectionClicked)
             checkboxSettingsRecordTagSelectionClose.setOnClick(viewModel::onRecordTagSelectionCloseClicked)
@@ -144,6 +146,8 @@ class SettingsFragment :
                 keepStatisticsRangeCheckbox.observe(checkboxSettingsKeepStatisticsRange::setChecked)
                 inactivityReminderViewData.observe(::updateInactivityReminder)
                 inactivityReminderRecurrentCheckbox.observe(checkboxSettingsInactivityReminderRecurrent::setChecked)
+                activityReminderViewData.observe(::updateActivityReminder)
+                activityReminderRecurrentCheckbox.observe(checkboxSettingsActivityReminderRecurrent::setChecked)
                 ignoreShortRecordsViewData.observe(tvSettingsIgnoreShortRecordsTime::setText)
                 recordTagSelectionCloseCheckbox.observe(checkboxSettingsRecordTagSelectionClose::setChecked)
                 recordTagSelectionForGeneralTagsCheckbox.observe(checkboxSettingsRecordTagSelectionGeneral::setChecked)
@@ -203,6 +207,7 @@ class SettingsFragment :
             checkboxSettingsKeepStatisticsRange.jumpDrawablesToCurrentState()
             checkboxSettingsShowRecordTagSelection.jumpDrawablesToCurrentState()
             checkboxSettingsInactivityReminderRecurrent.jumpDrawablesToCurrentState()
+            checkboxSettingsActivityReminderRecurrent.jumpDrawablesToCurrentState()
             checkboxSettingsRecordTagSelectionClose.jumpDrawablesToCurrentState()
             checkboxSettingsRecordTagSelectionGeneral.jumpDrawablesToCurrentState()
             checkboxSettingsAutomatedTrackingSend.jumpDrawablesToCurrentState()
@@ -263,6 +268,13 @@ class SettingsFragment :
     ) = with(binding.layoutSettingsAdditional) {
         tvSettingsInactivityReminderTime.text = data.text
         groupSettingsInactivityReminderRecurrent.isVisible = data.enabled
+    }
+
+    private fun updateActivityReminder(
+        data: SettingsDurationViewData,
+    ) = with(binding.layoutSettingsAdditional) {
+        tvSettingsActivityReminderTime.text = data.text
+        groupSettingsActivityReminderRecurrent.isVisible = data.enabled
     }
 
     private fun updateShowRecordCalendarChecked(

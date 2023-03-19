@@ -386,6 +386,104 @@ class SettingsTest : BaseUiTest() {
     }
 
     @Test
+    fun activityReminder() {
+        // Change settings
+        NavUtils.openSettingsScreen()
+        NavUtils.openSettingsAdditional()
+        onView(withId(R.id.groupSettingsActivityReminder)).perform(nestedScrollTo())
+        checkViewIsDisplayed(
+            allOf(
+                withId(R.id.tvSettingsActivityReminderTime),
+                withText(R.string.settings_inactivity_reminder_disabled)
+            )
+        )
+        checkViewIsNotDisplayed(withId(R.id.checkboxSettingsActivityReminderRecurrent))
+
+        // 1s
+        clickOnViewWithId(R.id.groupSettingsActivityReminder)
+        clickOnViewWithId(R.id.tvNumberKeyboard1)
+        clickOnViewWithText(R.string.duration_dialog_save)
+        checkViewIsDisplayed(withText("1$secondString"))
+
+        // Check recurrent
+        onView(withId(R.id.checkboxSettingsActivityReminderRecurrent)).perform(nestedScrollTo())
+        checkViewIsDisplayed(withId(R.id.checkboxSettingsActivityReminderRecurrent))
+        onView(withId(R.id.checkboxSettingsActivityReminderRecurrent)).check(matches(isNotChecked()))
+        unconstrainedClickOnView(withId(R.id.checkboxSettingsActivityReminderRecurrent))
+        onView(withId(R.id.checkboxSettingsActivityReminderRecurrent)).check(matches(isChecked()))
+
+        // 1m
+        clickOnViewWithId(R.id.groupSettingsActivityReminder)
+        clickOnViewWithId(R.id.tvNumberKeyboard0)
+        clickOnViewWithId(R.id.tvNumberKeyboard0)
+        clickOnViewWithText(R.string.duration_dialog_save)
+        checkViewIsDisplayed(withText("1$minuteString"))
+        onView(withId(R.id.checkboxSettingsActivityReminderRecurrent)).perform(nestedScrollTo())
+        checkViewIsDisplayed(withId(R.id.checkboxSettingsActivityReminderRecurrent))
+
+        // 1h
+        clickOnViewWithId(R.id.groupSettingsActivityReminder)
+        clickOnViewWithId(R.id.tvNumberKeyboard0)
+        clickOnViewWithId(R.id.tvNumberKeyboard0)
+        clickOnViewWithText(R.string.duration_dialog_save)
+        checkViewIsDisplayed(withText("1$hourString"))
+        onView(withId(R.id.checkboxSettingsActivityReminderRecurrent)).perform(nestedScrollTo())
+        checkViewIsDisplayed(withId(R.id.checkboxSettingsActivityReminderRecurrent))
+
+        // 1m 1s
+        clickOnViewWithId(R.id.groupSettingsActivityReminder)
+        clickOnViewWithId(R.id.ivDurationPickerDelete)
+        clickOnViewWithId(R.id.ivDurationPickerDelete)
+        clickOnViewWithId(R.id.ivDurationPickerDelete)
+        clickOnViewWithId(R.id.tvNumberKeyboard1)
+        clickOnViewWithText(R.string.duration_dialog_save)
+        checkViewIsDisplayed(withText("1$minuteString 01$secondString"))
+        onView(withId(R.id.checkboxSettingsActivityReminderRecurrent)).perform(nestedScrollTo())
+        checkViewIsDisplayed(withId(R.id.checkboxSettingsActivityReminderRecurrent))
+
+        // 1h 1m 1s
+        clickOnViewWithId(R.id.groupSettingsActivityReminder)
+        clickOnViewWithId(R.id.tvNumberKeyboard0)
+        clickOnViewWithId(R.id.tvNumberKeyboard1)
+        clickOnViewWithText(R.string.duration_dialog_save)
+        checkViewIsDisplayed(withText("1$hourString 01$minuteString 01$secondString"))
+        onView(withId(R.id.checkboxSettingsActivityReminderRecurrent)).perform(nestedScrollTo())
+        checkViewIsDisplayed(withId(R.id.checkboxSettingsActivityReminderRecurrent))
+
+        // 1h 30m
+        clickOnViewWithId(R.id.groupSettingsActivityReminder)
+        clearDuration()
+        clickOnViewWithId(R.id.tvNumberKeyboard9)
+        clickOnViewWithId(R.id.tvNumberKeyboard0)
+        clickOnViewWithId(R.id.tvNumberKeyboard0)
+        clickOnViewWithId(R.id.tvNumberKeyboard0)
+        clickOnViewWithText(R.string.duration_dialog_save)
+        checkViewIsDisplayed(withText("1$hourString 30$minuteString"))
+        onView(withId(R.id.checkboxSettingsActivityReminderRecurrent)).perform(nestedScrollTo())
+        checkViewIsDisplayed(withId(R.id.checkboxSettingsActivityReminderRecurrent))
+
+        // 99h 99m 99s
+        clickOnViewWithId(R.id.groupSettingsActivityReminder)
+        repeat(10) { clickOnViewWithId(R.id.ivDurationPickerDelete) }
+        repeat(6) { clickOnViewWithId(R.id.tvNumberKeyboard9) }
+        clickOnViewWithText(R.string.duration_dialog_save)
+        checkViewIsDisplayed(withText("100$hourString 40$minuteString 39$secondString"))
+        onView(withId(R.id.checkboxSettingsActivityReminderRecurrent)).perform(nestedScrollTo())
+        checkViewIsDisplayed(withId(R.id.checkboxSettingsActivityReminderRecurrent))
+
+        // Disable
+        clickOnViewWithId(R.id.groupSettingsActivityReminder)
+        clickOnViewWithText(R.string.duration_dialog_disable)
+        checkViewIsDisplayed(
+            allOf(
+                withId(R.id.tvSettingsActivityReminderTime),
+                withText(R.string.settings_inactivity_reminder_disabled)
+            )
+        )
+        checkViewIsNotDisplayed(withId(R.id.checkboxSettingsActivityReminderRecurrent))
+    }
+
+    @Test
     fun ignoreShortRecords() {
         val name = "Test"
 

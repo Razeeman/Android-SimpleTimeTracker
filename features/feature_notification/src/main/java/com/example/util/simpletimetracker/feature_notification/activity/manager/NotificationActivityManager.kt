@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.feature_notification.inactivity.manager
+package com.example.util.simpletimetracker.feature_notification.activity.manager
 
 import android.app.Notification
 import android.app.NotificationChannel
@@ -25,7 +25,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class NotificationInactivityManager @Inject constructor(
+class NotificationActivityManager @Inject constructor(
     @ApplicationContext private val context: Context,
     private val colorMapper: ColorMapper,
     private val router: Router
@@ -39,7 +39,7 @@ class NotificationInactivityManager @Inject constructor(
         context.resources.getDimensionPixelSize(R.dimen.notification_icon_size)
     }
 
-    fun show(params: NotificationInactivityParams) {
+    fun show(params: NotificationActivityParams) {
         val notification: Notification = buildNotification(params)
         createAndroidNotificationChannel()
         notificationManager.notify(NOTIFICATION_TAG, NOTIFICATION_ID, notification)
@@ -49,7 +49,7 @@ class NotificationInactivityManager @Inject constructor(
         notificationManager.cancel(NOTIFICATION_TAG, NOTIFICATION_ID)
     }
 
-    private fun buildNotification(params: NotificationInactivityParams): Notification {
+    private fun buildNotification(params: NotificationActivityParams): Notification {
         val notificationLayout = prepareView(params)
 
         val startIntent = router.getMainStartIntent().apply {
@@ -84,7 +84,7 @@ class NotificationInactivityManager @Inject constructor(
         }
     }
 
-    private fun prepareView(params: NotificationInactivityParams): RemoteViews {
+    private fun prepareView(params: NotificationActivityParams): RemoteViews {
         val iconBitmap = iconView.apply {
             itemIcon = RecordTypeIcon.Image(R.drawable.unknown)
             itemColor = colorMapper.toUntrackedColor(params.isDarkTheme)
@@ -99,10 +99,10 @@ class NotificationInactivityManager @Inject constructor(
     }
 
     companion object {
-        private const val NOTIFICATIONS_CHANNEL_ID = "INACTIVITY"
-        private const val NOTIFICATIONS_CHANNEL_NAME = "Inactivity"
+        private const val NOTIFICATIONS_CHANNEL_ID = "ACTIVITY"
+        private const val NOTIFICATIONS_CHANNEL_NAME = "Activity"
 
-        private const val NOTIFICATION_TAG = "inactivity_tag"
+        private const val NOTIFICATION_TAG = "activity_tag"
         private const val NOTIFICATION_ID = 0
     }
 }

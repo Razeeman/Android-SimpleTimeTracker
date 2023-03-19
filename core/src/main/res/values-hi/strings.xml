@@ -203,6 +203,8 @@
     <string name="settings_inactivity_reminder">निष्क्रिय गतिविधिया दिखाएं</string>
     <string name="settings_inactivity_reminder_hint">निर्दिष्ट समय के बाद अधिसूचना दिखाएं यदि कोई टाइमर नहीं चल रहा है।</string>
     <string name="settings_inactivity_reminder_recurrent">आवर्तक</string>
+    <string name="settings_activity_reminder">गतिविधि अनुस्मारक दिखाएं</string>
+    <string name="settings_activity_reminder_hint">टाइमर चल रहे हैं तो निर्दिष्ट समय के बाद अधिसूचना दिखाएं।</string>
     <string name="settings_ignore_short_records">छोटे रिकॉर्ड को अनदेखा करें</string>
     <string name="settings_ignore_short_records_hint">उन गतिविधियों को ट्रैक न करें जो निर्दिष्ट समय से कम हैं।</string>
     <string name="settings_inactivity_reminder_disabled">अक्षम</string>
@@ -342,6 +344,8 @@
     <!--  Notification  -->
     <string name="notification_inactivity_title">निष्क्रियता अनुस्मारक</string>
     <string name="notification_inactivity_text">अपना समय ट्रैक करना न भूलें</string>
+    <string name="notification_activity_title">गतिविधि अनुस्मारक</string>
+    <string name="notification_activity_text">क्या आप अब भी कर रहे हैं: %s?</string>
     <string name="notification_goal_time_description">%s लक्ष्य समय तक पहुंच गया</string>
     <string name="notification_time_started">%s पर शुरू किया</string>
     <string name="notification_record_type_goal_time">लक्ष्य %s</string>

@@ -203,6 +203,8 @@
     <string name="settings_inactivity_reminder">Inaktivitätserinnerung anzeigen</string>
     <string name="settings_inactivity_reminder_hint">Benachrichtigung nach der angegebenen Zeit anzeigen, wenn keine Zeiten aktiv sind.</string>
     <string name="settings_inactivity_reminder_recurrent">Wiederkehrend</string>
+    <string name="settings_activity_reminder">Aktivitätserinnerung anzeigen</string>
+    <string name="settings_activity_reminder_hint">Benachrichtigung nach angegebener Zeit anzeigen, wenn Timer laufen.</string>
     <string name="settings_ignore_short_records">Ignorieren Sie kurze Aufzeichnungen</string>
     <string name="settings_ignore_short_records_hint">Verfolgen Sie keine Aktivitäten, die kürzer als die angegebene Zeit sind.</string>
     <string name="settings_inactivity_reminder_disabled">Deaktiviert</string>
@@ -342,6 +344,8 @@ Wenn die Einstellung <b>\"%s\"</b> aktiviert ist, sendet die App Ereignisse zu g
     <!--  Notification  -->
     <string name="notification_inactivity_title">Inaktivitätserinnerung</string>
     <string name="notification_inactivity_text">Vergiss nicht, deine Zeit zu erfassen</string>
+    <string name="notification_activity_title">Aktivitätserinnerung</string>
+    <string name="notification_activity_text">Machst du immer noch: %s?</string>
     <string name="notification_goal_time_description">%s zielzeit erreicht</string>
     <string name="notification_time_started">Gestartet bei %s</string>
     <string name="notification_record_type_goal_time">ziel %s</string>

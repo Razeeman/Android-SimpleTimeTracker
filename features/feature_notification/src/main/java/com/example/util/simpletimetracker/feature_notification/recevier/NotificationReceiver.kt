@@ -15,6 +15,7 @@ import com.example.util.simpletimetracker.core.utils.EXTRA_ACTIVITY_NAME
 import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_COMMENT
 import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_TAG_NAME
 import com.example.util.simpletimetracker.domain.model.GoalTimeType
+import com.example.util.simpletimetracker.feature_notification.activity.controller.NotificationActivityBroadcastController
 import com.example.util.simpletimetracker.feature_notification.automaticBackup.controller.AutomaticBackupBroadcastController
 import com.example.util.simpletimetracker.feature_notification.automaticExport.controller.AutomaticExportBroadcastController
 import com.example.util.simpletimetracker.feature_notification.goalTime.controller.NotificationGoalTimeBroadcastController
@@ -45,6 +46,9 @@ class NotificationReceiver : BroadcastReceiver() {
     lateinit var inactivityController: NotificationInactivityBroadcastController
 
     @Inject
+    lateinit var activityController: NotificationActivityBroadcastController
+
+    @Inject
     lateinit var goalTimeController: NotificationGoalTimeBroadcastController
 
     @Inject
@@ -60,6 +64,9 @@ class NotificationReceiver : BroadcastReceiver() {
         when (action) {
             ACTION_INACTIVITY_REMINDER -> {
                 inactivityController.onInactivityReminder()
+            }
+            ACTION_ACTIVITY_REMINDER -> {
+                activityController.onActivityReminder()
             }
             ACTION_GOAL_TIME_REMINDER_SESSION,
             ACTION_GOAL_TIME_REMINDER_DAILY,
@@ -172,6 +179,7 @@ class NotificationReceiver : BroadcastReceiver() {
 
     private fun onBootCompleted() {
         inactivityController.onBootCompleted()
+        activityController.onBootCompleted()
         goalTimeController.onBootCompleted()
         typeController.onBootCompleted()
         automaticBackupController.onBootCompleted()
@@ -181,6 +189,8 @@ class NotificationReceiver : BroadcastReceiver() {
     companion object {
         const val ACTION_INACTIVITY_REMINDER =
             "com.razeeman.util.simpletimetracker.ACTION_INACTIVITY_REMINDER"
+        const val ACTION_ACTIVITY_REMINDER =
+            "com.razeeman.util.simpletimetracker.ACTION_ACTIVITY_REMINDER"
         const val ACTION_GOAL_TIME_REMINDER_SESSION =
             "com.razeeman.util.simpletimetracker.ACTION_GOAL_TIME_REMINDER"
         const val ACTION_GOAL_TIME_REMINDER_DAILY =

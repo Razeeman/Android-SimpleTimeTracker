@@ -203,6 +203,8 @@
     <string name="settings_inactivity_reminder">Mostrar lembrete de inatividade</string>
     <string name="settings_inactivity_reminder_hint">Mostrar notificação após o tempo especificado se nenhum timer estiver em execução.</string>
     <string name="settings_inactivity_reminder_recurrent">Recorrente</string>
+    <string name="settings_activity_reminder">Mostrar lembrete de atividade</string>
+    <string name="settings_activity_reminder_hint">Mostrar notificação após o tempo especificado se os cronômetros estiverem em execução.</string>
     <string name="settings_ignore_short_records">Ignorar registros curtos</string>
     <string name="settings_ignore_short_records_hint">Não rastreie atividades mais curtas que o tempo especificado.</string>
     <string name="settings_inactivity_reminder_disabled">Desativado</string>
@@ -338,6 +340,8 @@ Se a configuração <b>\"%s\"</b> estiver habilitada, o aplicativo enviará even
     <!--  Notification  -->
     <string name="notification_inactivity_title">Lembrete de inatividade</string>
     <string name="notification_inactivity_text">Não esqueça de monitorar seu tempo</string>
+    <string name="notification_activity_title">Lembrete de atividade</string>
+    <string name="notification_activity_text">Você ainda está fazendo: %s?</string>
     <string name="notification_goal_time_description">%s meta atingida</string>
     <string name="notification_time_started">Iniciado às %s</string>
     <string name="notification_record_type_goal_time">meta %s</string>

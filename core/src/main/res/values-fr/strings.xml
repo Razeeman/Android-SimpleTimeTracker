@@ -203,6 +203,8 @@
     <string name="settings_inactivity_reminder">Afficher le rappel d\'inactivité</string>
     <string name="settings_inactivity_reminder_hint">Afficher une notification après la durée spécifiée s\'il n\'y a aucune activité en cours.</string>
     <string name="settings_inactivity_reminder_recurrent">Récurrente</string>
+    <string name="settings_activity_reminder">Afficher le rappel d\'activité</string>
+    <string name="settings_activity_reminder_hint">Afficher la notification après l\'heure spécifiée si les minuteries sont en cours d\'exécution.</string>
     <string name="settings_ignore_short_records">Ignorer les enregistrements courts</string>
     <string name="settings_ignore_short_records_hint">Ne pas enregistrer les activités qui sont plus courtes que la durée spécifiée.</string>
     <string name="settings_inactivity_reminder_disabled">Désactivé</string>
@@ -342,6 +344,8 @@ Si le paramètre <b>\"%s\"</b> est activé, l\'application enverra des événeme
     <!--  Notification  -->
     <string name="notification_inactivity_title">Rappel d\'inactivité</string>
     <string name="notification_inactivity_text">N\'oubliez pas de suivre votre temps</string>
+    <string name="notification_activity_title">Rappel d\'activité</string>
+    <string name="notification_activity_text">Faites-vous toujours: %s?</string>
     <string name="notification_goal_time_description">%s : objectif de durée atteint</string>
     <string name="notification_time_started">Commencé à %s</string>
     <string name="notification_record_type_goal_time">objectif %s</string>

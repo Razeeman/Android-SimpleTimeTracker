@@ -203,6 +203,8 @@
     <string name="settings_inactivity_reminder">Show inactivity reminder</string>
     <string name="settings_inactivity_reminder_hint">Show notification after specified time if no timers are running.</string>
     <string name="settings_inactivity_reminder_recurrent">Recurrent</string>
+    <string name="settings_activity_reminder">Show activity reminder</string>
+    <string name="settings_activity_reminder_hint">Show notification after specified time if timers are running.</string>
     <string name="settings_ignore_short_records">Ignore short records</string>
     <string name="settings_ignore_short_records_hint">Do not track activities that are shorter than the specified time.</string>
     <string name="settings_inactivity_reminder_disabled">Disabled</string>
@@ -342,6 +344,8 @@ If <b>\"%s\"</b> setting is enabled, app will send events on activity started or
     <!--  Notification  -->
     <string name="notification_inactivity_title">Inactivity reminder</string>
     <string name="notification_inactivity_text">Don\'t forget to track your time</string>
+    <string name="notification_activity_title">Activity reminder</string>
+    <string name="notification_activity_text">Are you still doing: %s?</string>
     <string name="notification_goal_time_description">%s goal time reached</string>
     <string name="notification_time_started">Started at %s</string>
     <string name="notification_record_type_goal_time">goal %s</string>

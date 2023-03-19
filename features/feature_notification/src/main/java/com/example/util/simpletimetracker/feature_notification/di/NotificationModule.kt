@@ -7,6 +7,7 @@ import com.example.util.simpletimetracker.domain.interactor.AutomaticBackupInter
 import com.example.util.simpletimetracker.domain.interactor.AutomaticExportInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTimeInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationInactivityInteractor
+import com.example.util.simpletimetracker.domain.interactor.NotificationActivityInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.feature_notification.automaticBackup.interactor.AutomaticBackupInteractorImpl
 import com.example.util.simpletimetracker.feature_notification.automaticBackup.repo.AutomaticBackupRepoImpl
@@ -14,6 +15,7 @@ import com.example.util.simpletimetracker.feature_notification.automaticExport.i
 import com.example.util.simpletimetracker.feature_notification.automaticExport.repo.AutomaticExportRepoImpl
 import com.example.util.simpletimetracker.feature_notification.goalTime.interactor.NotificationGoalTimeInteractorImpl
 import com.example.util.simpletimetracker.feature_notification.inactivity.interactor.NotificationInactivityInteractorImpl
+import com.example.util.simpletimetracker.feature_notification.activity.interactor.NotificationActivityInteractorImpl
 import com.example.util.simpletimetracker.feature_notification.recordType.interactor.ActivityStartedStoppedBroadcastInteractorImpl
 import com.example.util.simpletimetracker.feature_notification.recordType.interactor.NotificationTypeInteractorImpl
 import dagger.Binds
@@ -30,6 +32,9 @@ interface NotificationModule {
 
     @Binds
     fun NotificationInactivityInteractorImpl.bindNotificationInactivityInteractor(): NotificationInactivityInteractor
+
+    @Binds
+    fun NotificationActivityInteractorImpl.bindNotificationActivityInteractor(): NotificationActivityInteractor
 
     @Binds
     fun NotificationGoalTimeInteractorImpl.bindNotificationGoalTimeInteractor(): NotificationGoalTimeInteractor

@@ -203,6 +203,8 @@
     <string name="settings_inactivity_reminder">Показать напоминание о бездействии</string>
     <string name="settings_inactivity_reminder_hint">Показывать уведомление по истечении указанного времени, если таймеры не запущены.</string>
     <string name="settings_inactivity_reminder_recurrent">Повторяющееся</string>
+    <string name="settings_activity_reminder">Показать напоминание об активности</string>
+    <string name="settings_activity_reminder_hint">Показать уведомление через указанное время, если таймеры работают.</string>
     <string name="settings_ignore_short_records">Игнорировать короткие записи</string>
     <string name="settings_ignore_short_records_hint">Не отслеживать активности, которые короче указанного времени.</string>
     <string name="settings_inactivity_reminder_disabled">Выкл.</string>
@@ -342,6 +344,8 @@
     <!--  Notification  -->
     <string name="notification_inactivity_title">Напоминание о бездействии</string>
     <string name="notification_inactivity_text">Не забывайте отслеживать свое время</string>
+    <string name="notification_activity_title">Напоминание об активности</string>
+    <string name="notification_activity_text">Вы все еще делаете: %s?</string>
     <string name="notification_goal_time_description">%s целевое время достигнуто</string>
     <string name="notification_time_started">Начато в %s</string>
     <string name="notification_record_type_goal_time">цель %s</string>
