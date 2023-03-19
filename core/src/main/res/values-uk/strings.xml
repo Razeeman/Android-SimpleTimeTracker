@@ -183,6 +183,7 @@
     <!--  Settings  -->
     <string name="settings_display_title">Налаштування дисплея</string>
     <string name="settings_additional_title">Додаткові налаштування</string>
+    <string name="settings_notification_title">Налаштування сповіщень</string>
     <string name="settings_sort_order">Сортувати активності</string>
     <string name="settings_sort_by_name">Ім\'я</string>
     <string name="settings_sort_by_color">Колір</string>

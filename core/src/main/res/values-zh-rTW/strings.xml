@@ -183,6 +183,7 @@
     <!--  Settings  -->
     <string name="settings_display_title">顯示設定</string>
     <string name="settings_additional_title">附加設定</string>
+    <string name="settings_notification_title">通知設置</string>
     <string name="settings_sort_order">排序活動</string>
     <string name="settings_sort_by_name">名稱</string>
     <string name="settings_sort_by_color">顏色</string>

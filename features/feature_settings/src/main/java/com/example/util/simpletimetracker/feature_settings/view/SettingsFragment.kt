@@ -65,10 +65,17 @@ class SettingsFragment :
     override fun initUx() = with(binding) {
         with(layoutSettingsMain) {
             checkboxSettingsAllowMultitasking.setOnClick(viewModel::onAllowMultitaskingClicked)
-            checkboxSettingsShowNotifications.setOnClick(viewModel::onShowNotificationsClicked)
             checkboxSettingsDarkMode.setOnClick(viewModel::onDarkModeClicked)
             layoutSettingsEditCategories.setOnClick(viewModel::onEditCategoriesClick)
             tvSettingsArchive.setOnClick(viewModel::onArchiveClick)
+        }
+        with(layoutSettingsNotifications) {
+            layoutSettingsNotificationsTitle.setOnClick(viewModel::onSettingsNotificationsClick)
+            checkboxSettingsShowNotifications.setOnClick(viewModel::onShowNotificationsClicked)
+            groupSettingsInactivityReminder.setOnClick(viewModel::onInactivityReminderClicked)
+            checkboxSettingsInactivityReminderRecurrent.setOnClick(viewModel::onInactivityReminderRecurrentClicked)
+            groupSettingsActivityReminder.setOnClick(viewModel::onActivityReminderClicked)
+            checkboxSettingsActivityReminderRecurrent.setOnClick(viewModel::onActivityReminderRecurrentClicked)
         }
         with(layoutSettingsDisplay) {
             layoutSettingsDisplayTitle.setOnClick(viewModel::onSettingsDisplayClick)
@@ -90,10 +97,6 @@ class SettingsFragment :
             groupSettingsStartOfDay.setOnClick(viewModel::onStartOfDayClicked)
             btnSettingsStartOfDaySign.setOnClick(viewModel::onStartOfDaySignClicked)
             checkboxSettingsKeepStatisticsRange.setOnClick(viewModel::onKeepStatisticsRangeClicked)
-            groupSettingsInactivityReminder.setOnClick(viewModel::onInactivityReminderClicked)
-            checkboxSettingsInactivityReminderRecurrent.setOnClick(viewModel::onInactivityReminderRecurrentClicked)
-            groupSettingsActivityReminder.setOnClick(viewModel::onActivityReminderClicked)
-            checkboxSettingsActivityReminderRecurrent.setOnClick(viewModel::onActivityReminderRecurrentClicked)
             groupSettingsIgnoreShortRecords.setOnClick(viewModel::onIgnoreShortRecordsClicked)
             checkboxSettingsShowRecordTagSelection.setOnClick(viewModel::onShowRecordTagSelectionClicked)
             checkboxSettingsRecordTagSelectionClose.setOnClick(viewModel::onRecordTagSelectionCloseClicked)
@@ -119,8 +122,18 @@ class SettingsFragment :
         with(viewModel) {
             with(layoutSettingsMain) {
                 allowMultitaskingCheckbox.observe(checkboxSettingsAllowMultitasking::setChecked)
-                showNotificationsCheckbox.observe(checkboxSettingsShowNotifications::setChecked)
                 darkModeCheckbox.observe(checkboxSettingsDarkMode::setChecked)
+            }
+            with(layoutSettingsNotifications) {
+                settingsNotificationsVisibility.observe { opened ->
+                    layoutSettingsNotificationsContent.visible = opened
+                    arrowSettingsNotifications.apply { if (opened) rotateDown() else rotateUp() }
+                }
+                showNotificationsCheckbox.observe(checkboxSettingsShowNotifications::setChecked)
+                inactivityReminderViewData.observe(::updateInactivityReminder)
+                inactivityReminderRecurrentCheckbox.observe(checkboxSettingsInactivityReminderRecurrent::setChecked)
+                activityReminderViewData.observe(::updateActivityReminder)
+                activityReminderRecurrentCheckbox.observe(checkboxSettingsActivityReminderRecurrent::setChecked)
             }
             with(layoutSettingsDisplay) {
                 settingsDisplayVisibility.observe { opened ->
@@ -144,10 +157,6 @@ class SettingsFragment :
                     arrowSettingsAdditional.apply { if (opened) rotateDown() else rotateUp() }
                 }
                 keepStatisticsRangeCheckbox.observe(checkboxSettingsKeepStatisticsRange::setChecked)
-                inactivityReminderViewData.observe(::updateInactivityReminder)
-                inactivityReminderRecurrentCheckbox.observe(checkboxSettingsInactivityReminderRecurrent::setChecked)
-                activityReminderViewData.observe(::updateActivityReminder)
-                activityReminderRecurrentCheckbox.observe(checkboxSettingsActivityReminderRecurrent::setChecked)
                 ignoreShortRecordsViewData.observe(tvSettingsIgnoreShortRecordsTime::setText)
                 recordTagSelectionCloseCheckbox.observe(checkboxSettingsRecordTagSelectionClose::setChecked)
                 recordTagSelectionForGeneralTagsCheckbox.observe(checkboxSettingsRecordTagSelectionGeneral::setChecked)
@@ -188,8 +197,12 @@ class SettingsFragment :
         super.onResume()
         with(layoutSettingsMain) {
             checkboxSettingsAllowMultitasking.jumpDrawablesToCurrentState()
-            checkboxSettingsShowNotifications.jumpDrawablesToCurrentState()
             checkboxSettingsDarkMode.jumpDrawablesToCurrentState()
+        }
+        with(layoutSettingsNotifications) {
+            checkboxSettingsShowNotifications.jumpDrawablesToCurrentState()
+            checkboxSettingsInactivityReminderRecurrent.jumpDrawablesToCurrentState()
+            checkboxSettingsActivityReminderRecurrent.jumpDrawablesToCurrentState()
         }
         with(layoutSettingsDisplay) {
             spinnerSettingsRecordTypeSort.jumpDrawablesToCurrentState()
@@ -206,8 +219,6 @@ class SettingsFragment :
             spinnerSettingsFirstDayOfWeek.jumpDrawablesToCurrentState()
             checkboxSettingsKeepStatisticsRange.jumpDrawablesToCurrentState()
             checkboxSettingsShowRecordTagSelection.jumpDrawablesToCurrentState()
-            checkboxSettingsInactivityReminderRecurrent.jumpDrawablesToCurrentState()
-            checkboxSettingsActivityReminderRecurrent.jumpDrawablesToCurrentState()
             checkboxSettingsRecordTagSelectionClose.jumpDrawablesToCurrentState()
             checkboxSettingsRecordTagSelectionGeneral.jumpDrawablesToCurrentState()
             checkboxSettingsAutomatedTrackingSend.jumpDrawablesToCurrentState()
@@ -265,14 +276,14 @@ class SettingsFragment :
 
     private fun updateInactivityReminder(
         data: SettingsDurationViewData,
-    ) = with(binding.layoutSettingsAdditional) {
+    ) = with(binding.layoutSettingsNotifications) {
         tvSettingsInactivityReminderTime.text = data.text
         groupSettingsInactivityReminderRecurrent.isVisible = data.enabled
     }
 
     private fun updateActivityReminder(
         data: SettingsDurationViewData,
-    ) = with(binding.layoutSettingsAdditional) {
+    ) = with(binding.layoutSettingsNotifications) {
         tvSettingsActivityReminderTime.text = data.text
         groupSettingsActivityReminderRecurrent.isVisible = data.enabled
     }

@@ -54,46 +54,6 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="12dp">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvSettingsShowNotifications"
-                style="@style/SettingsText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingTop="0dp"
-                android:paddingBottom="0dp"
-                android:text="@string/settings_show_notifications"
-                app:layout_constraintEnd_toStartOf="@id/checkboxSettingsShowNotifications"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                style="@style/SettingsSecondaryText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@string/settings_show_notifications_hint"
-                app:layout_constraintEnd_toStartOf="@id/checkboxSettingsShowNotifications"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvSettingsShowNotifications" />
-
-            <androidx.appcompat.widget.AppCompatCheckBox
-                android:id="@+id/checkboxSettingsShowNotifications"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                app:layout_constraintBottom_toBottomOf="@id/tvSettingsShowNotifications"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/tvSettingsShowNotifications" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <View
-            style="@style/SettingsDivider"
-            android:layout_width="match_parent" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <androidx.appcompat.widget.AppCompatTextView

@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/SettingsCard"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutSettingsNotificationsTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?selectableItemBackground">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvSettingsNotificationsTitle"
+                style="@style/SettingsText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_notification_title"
+                app:layout_constraintEnd_toStartOf="@id/arrowSettingsNotifications"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/arrowSettingsNotifications"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="16dp"
+                android:background="?selectableItemBackgroundBorderless"
+                android:src="?appArrow"
+                app:layout_constraintBottom_toBottomOf="@id/tvSettingsNotificationsTitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tvSettingsNotificationsTitle"
+                tools:ignore="ContentDescription" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/layoutSettingsNotificationsContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <View
+                style="@style/SettingsDivider"
+                android:layout_width="match_parent" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="12dp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSettingsShowNotifications"
+                    style="@style/SettingsText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="0dp"
+                    android:paddingBottom="0dp"
+                    android:text="@string/settings_show_notifications"
+                    app:layout_constraintEnd_toStartOf="@id/checkboxSettingsShowNotifications"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/SettingsSecondaryText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_show_notifications_hint"
+                    app:layout_constraintEnd_toStartOf="@id/checkboxSettingsShowNotifications"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvSettingsShowNotifications" />
+
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:id="@+id/checkboxSettingsShowNotifications"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="@id/tvSettingsShowNotifications"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tvSettingsShowNotifications" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                style="@style/SettingsDivider"
+                android:layout_width="match_parent" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="12dp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSettingsInactivityReminder"
+                    style="@style/SettingsText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="0dp"
+                    android:paddingBottom="0dp"
+                    android:text="@string/settings_inactivity_reminder"
+                    app:layout_constraintEnd_toStartOf="@id/groupSettingsInactivityReminder"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSettingsInactivityReminderHint"
+                    style="@style/SettingsSecondaryText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="0dp"
+                    android:text="@string/settings_inactivity_reminder_hint"
+                    app:layout_constraintBottom_toTopOf="@id/tvSettingsInactivityReminderRecurrentHint"
+                    app:layout_constraintEnd_toStartOf="@id/groupSettingsInactivityReminder"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvSettingsInactivityReminder"
+                    app:layout_goneMarginBottom="12dp" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/groupSettingsInactivityReminder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvSettingsInactivityReminderTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="end|center_vertical"
+                        android:paddingHorizontal="8dp"
+                        android:textColor="?appTextPrimaryColor"
+                        tools:text="99h 99m 99s" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/arrowSettingsInactivityReminder"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="?selectableItemBackgroundBorderless"
+                        android:src="?appArrow"
+                        tools:ignore="ContentDescription" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSettingsInactivityReminderRecurrentHint"
+                    style="@style/SettingsText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_inactivity_reminder_recurrent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/checkboxSettingsInactivityReminderRecurrent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvSettingsInactivityReminderHint" />
+
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:id="@+id/checkboxSettingsInactivityReminderRecurrent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="@id/tvSettingsInactivityReminderRecurrentHint"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tvSettingsInactivityReminderRecurrentHint" />
+
+                <androidx.constraintlayout.widget.Group
+                    android:id="@+id/groupSettingsInactivityReminderRecurrent"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone"
+                    app:constraint_referenced_ids="tvSettingsInactivityReminderRecurrentHint, checkboxSettingsInactivityReminderRecurrent"
+                    tools:visibility="visible" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                style="@style/SettingsDivider"
+                android:layout_width="match_parent" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="12dp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSettingsActivityReminder"
+                    style="@style/SettingsText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="0dp"
+                    android:paddingBottom="0dp"
+                    android:text="@string/settings_activity_reminder"
+                    app:layout_constraintEnd_toStartOf="@id/groupSettingsActivityReminder"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSettingsActivityReminderHint"
+                    style="@style/SettingsSecondaryText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="0dp"
+                    android:text="@string/settings_activity_reminder_hint"
+                    app:layout_constraintBottom_toTopOf="@id/tvSettingsActivityReminderRecurrentHint"
+                    app:layout_constraintEnd_toStartOf="@id/groupSettingsActivityReminder"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvSettingsActivityReminder"
+                    app:layout_goneMarginBottom="12dp" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/groupSettingsActivityReminder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvSettingsActivityReminderTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="end|center_vertical"
+                        android:paddingHorizontal="8dp"
+                        android:textColor="?appTextPrimaryColor"
+                        tools:text="99h 99m 99s" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/arrowSettingsActivityReminder"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="?selectableItemBackgroundBorderless"
+                        android:src="?appArrow"
+                        tools:ignore="ContentDescription" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSettingsActivityReminderRecurrentHint"
+                    style="@style/SettingsText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_inactivity_reminder_recurrent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/checkboxSettingsActivityReminderRecurrent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvSettingsActivityReminderHint" />
+
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:id="@+id/checkboxSettingsActivityReminderRecurrent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="@id/tvSettingsActivityReminderRecurrentHint"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tvSettingsActivityReminderRecurrentHint" />
+
+                <androidx.constraintlayout.widget.Group
+                    android:id="@+id/groupSettingsActivityReminderRecurrent"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone"
+                    app:constraint_referenced_ids="tvSettingsActivityReminderRecurrentHint, checkboxSettingsActivityReminderRecurrent"
+                    tools:visibility="visible" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.cardview.widget.CardView>

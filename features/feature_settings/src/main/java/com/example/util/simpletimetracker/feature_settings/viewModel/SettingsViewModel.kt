@@ -305,6 +305,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     val themeChanged: LiveData<Boolean> = MutableLiveData(false)
+    val settingsNotificationsVisibility: LiveData<Boolean> = MutableLiveData(false)
     val settingsDisplayVisibility: LiveData<Boolean> = MutableLiveData(false)
     val settingsAdditionalVisibility: LiveData<Boolean> = MutableLiveData(false)
     val resetScreen: SingleLiveEvent<Unit> = SingleLiveEvent()
@@ -314,6 +315,11 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch {
             updateCardOrderViewData()
         }
+    }
+
+    fun onSettingsNotificationsClick() {
+        val newValue = settingsNotificationsVisibility.value?.flip().orFalse()
+        settingsNotificationsVisibility.set(newValue)
     }
 
     fun onSettingsDisplayClick() {

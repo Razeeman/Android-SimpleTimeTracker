@@ -183,6 +183,7 @@
     <!--  Settings  -->
     <string name="settings_display_title">Impostazioni di visualizzazione</string>
     <string name="settings_additional_title">Altre impostazioni</string>
+    <string name="settings_notification_title">Impostazioni di notifica</string>
     <string name="settings_sort_order">Ordina attività</string>
     <string name="settings_sort_by_name">Nome</string>
     <string name="settings_sort_by_color">Colore</string>

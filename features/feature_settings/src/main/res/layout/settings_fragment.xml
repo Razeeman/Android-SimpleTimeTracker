@@ -16,6 +16,10 @@
             layout="@layout/settings_main_layout" />
 
         <include
+            android:id="@+id/layoutSettingsNotifications"
+            layout="@layout/settings_notifications_layout"/>
+
+        <include
             android:id="@+id/layoutSettingsDisplay"
             layout="@layout/settings_display_layout" />
 

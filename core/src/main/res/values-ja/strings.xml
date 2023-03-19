@@ -183,6 +183,7 @@
     <!--  Settings  -->
     <string name="settings_display_title">設定を表示</string>
     <string name="settings_additional_title">追加設定</string>
+    <string name="settings_notification_title">通知設定</string>
     <string name="settings_sort_order">アクティビティをソート</string>
     <string name="settings_sort_by_name">名前</string>
     <string name="settings_sort_by_color">色</string>

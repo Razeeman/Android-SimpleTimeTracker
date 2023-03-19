@@ -38,6 +38,10 @@ object NavUtils {
         Thread.sleep(1000)
     }
 
+    fun openSettingsNotifications() {
+        onView(withText(R.string.settings_notification_title)).perform(nestedScrollTo(), click())
+    }
+
     fun openSettingsDisplay() {
         onView(withText(R.string.settings_display_title)).perform(nestedScrollTo(), click())
     }

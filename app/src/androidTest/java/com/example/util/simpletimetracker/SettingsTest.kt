@@ -225,6 +225,7 @@ class SettingsTest : BaseUiTest() {
 
         // Change settings
         NavUtils.openSettingsScreen()
+        NavUtils.openSettingsNotifications()
         onView(withId(R.id.checkboxSettingsShowNotifications)).perform(nestedScrollTo())
         onView(withId(R.id.checkboxSettingsShowNotifications)).check(matches(isNotChecked()))
         unconstrainedClickOnView(withId(R.id.checkboxSettingsShowNotifications))
@@ -291,7 +292,7 @@ class SettingsTest : BaseUiTest() {
     fun inactivityReminder() {
         // Change settings
         NavUtils.openSettingsScreen()
-        NavUtils.openSettingsAdditional()
+        NavUtils.openSettingsNotifications()
         onView(withId(R.id.groupSettingsInactivityReminder)).perform(nestedScrollTo())
         checkViewIsDisplayed(
             allOf(
@@ -389,7 +390,7 @@ class SettingsTest : BaseUiTest() {
     fun activityReminder() {
         // Change settings
         NavUtils.openSettingsScreen()
-        NavUtils.openSettingsAdditional()
+        NavUtils.openSettingsNotifications()
         onView(withId(R.id.groupSettingsActivityReminder)).perform(nestedScrollTo())
         checkViewIsDisplayed(
             allOf(
@@ -1140,7 +1141,6 @@ class SettingsTest : BaseUiTest() {
     fun recordTagSelectionWithOnlyGeneral() {
         val name = "TypeName"
         val tagGeneral = "TagGeneral"
-        val fullName = "$name - $tagGeneral"
 
         // Add data
         testUtils.addActivity(name)
