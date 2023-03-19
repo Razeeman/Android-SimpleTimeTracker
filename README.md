@@ -89,6 +89,38 @@ Simple app that helps track how much time you spend on all the useless activitie
 - CI with github actions
 - Emojis with EmojiCompat
 
+## Directory structure
+    .
+    ├── .github                               # CI files.
+    ├── app                                   # Mobile app.
+    ├── buildSrc                              # Deps and versions.
+    ├── core                                  # Shared classes, strings.
+    ├── data_local                            # Database.
+    ├── domain                                # Business logic.
+    ├── navigation                            # Navigation interfaces and screen params.
+    ├── features
+    │   ├── feature_archive                   # Screen for archived data.
+    │   ├── feature_base_adapter              # Shared recycler adapters.
+    │   ├── feature_categories                # Screen for categories and tags.
+    │   ├── feature_change_activity_filter    # Edit activity filter screen.
+    │   ├── feature_change_category           # Edit category screen.
+    │   ├── feature_change_record             # Edit record screen.
+    │   ├── feature_change_record_tag         # Edit tag screen.
+    │   ├── feature_change_record_type        # Edit type screen.
+    │   ├── feature_change_running_record     # Edit timer screen.
+    │   ├── feature_dialogs                   # Dialogs.
+    │   ├── feature_main                      # Main screen with tabs.
+    │   ├── feature_notification              # Notifications.
+    │   ├── feature_records                   # One of main tabs, records list.
+    │   ├── feature_records_all               # Screen showing all records.
+    │   ├── feature_running_records           # One of main tabs, timers.
+    │   ├── feature_settings                  # One of main tabs, settings.
+    │   ├── feature_statistics                # One of main tabs, statistics.
+    │   ├── feature_statistics_detail         # Screen showing detailed statistics.
+    │   ├── feature_tag_selection             # Screen for selecting tags.
+    │   ├── feature_views                     # Custom views.
+    │   └── feature_widget                    # Widgets.
+
 ## License
 Copyright (C) 2020-2023 Anton Razinkov devrazeeman@gmail.com
 
