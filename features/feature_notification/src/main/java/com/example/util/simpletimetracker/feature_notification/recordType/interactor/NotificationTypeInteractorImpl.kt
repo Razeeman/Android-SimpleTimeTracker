@@ -47,7 +47,9 @@ class NotificationTypeInteractorImpl @Inject constructor(
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
         val showSeconds = prefsInteractor.getShowSeconds()
         val viewedTags = if (selectedTypeId != 0L) {
-            recordTags.filter { it.typeId == selectedTypeId || it.typeId == 0L }
+            val typedTags = recordTags.filter { it.typeId == selectedTypeId }
+            val generalTags = recordTags.filter { it.typeId == 0L }
+            typedTags + generalTags
         } else {
             emptyList()
         }
