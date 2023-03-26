@@ -100,7 +100,7 @@ class StatisticsDetailFragment :
         buttonsStatisticsDetailGrouping.listener = viewModel::onChartGroupingClick
         buttonsStatisticsDetailLength.listener = viewModel::onChartLengthClick
         buttonsStatisticsDetailSplitGrouping.listener = viewModel::onSplitChartGroupingClick
-        cardStatisticsDetailRecords.listener = viewModel::onRecordsClick
+        cardStatisticsDetailRecords.listener = throttle(viewModel::onRecordsClick)
         spinnerStatisticsDetail.onItemSelected = viewModel::onRangeSelected
         btnStatisticsDetailPrevious.setOnClick(viewModel::onPreviousClick)
         btnStatisticsDetailNext.setOnClick(viewModel::onNextClick)

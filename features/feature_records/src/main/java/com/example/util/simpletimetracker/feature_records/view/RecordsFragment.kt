@@ -49,9 +49,9 @@ class RecordsFragment : BaseFragment<Binding>() {
         BaseRecyclerAdapter(
             createRunningRecordAdapterDelegate(
                 transitionNamePrefix = TransitionNames.RUNNING_RECORD_FROM_RECORDS,
-                onItemClick = viewModel::onRunningRecordClick
+                onItemClick = throttle(viewModel::onRunningRecordClick),
             ),
-            createRecordAdapterDelegate(viewModel::onRecordClick),
+            createRecordAdapterDelegate(throttle(viewModel::onRecordClick)),
             createEmptyAdapterDelegate(),
             createLoaderAdapterDelegate(),
             createHintAdapterDelegate(),
@@ -72,7 +72,7 @@ class RecordsFragment : BaseFragment<Binding>() {
     }
 
     override fun initUx() {
-        binding.viewRecordsCalendar.setClickListener(viewModel::onCalendarClick)
+        binding.viewRecordsCalendar.setClickListener(throttle(viewModel::onCalendarClick))
     }
 
     override fun initViewModel() = with(binding) {

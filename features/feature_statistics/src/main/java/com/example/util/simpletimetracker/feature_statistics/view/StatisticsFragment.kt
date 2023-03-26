@@ -122,12 +122,12 @@ class StatisticsFragment :
         return BaseRecyclerAdapter(
             createStatisticsChartAdapterDelegate(
                 onFilterClick = viewModel::onFilterClick,
-                onShareClick = viewModel::onShareClick,
+                onShareClick = throttle(viewModel::onShareClick),
             ),
             createStatisticsInfoAdapterDelegate(),
             createStatisticsAdapterDelegate(
                 addTransitionNames = true,
-                onItemClick = viewModel::onItemClick
+                onItemClick = throttle(viewModel::onItemClick)
             ),
             createStatisticsEmptyAdapterDelegate(
                 onFilterClick = viewModel::onFilterClick,

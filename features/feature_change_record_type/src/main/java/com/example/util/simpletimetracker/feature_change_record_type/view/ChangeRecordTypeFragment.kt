@@ -112,7 +112,7 @@ class ChangeRecordTypeFragment :
                 onClick = viewModel::onCategoryClick,
                 onLongClickWithTransition = viewModel::onCategoryLongClick
             ),
-            createCategoryAddAdapterDelegate { viewModel.onAddCategoryClick() },
+            createCategoryAddAdapterDelegate { throttle(viewModel::onAddCategoryClick).invoke() },
             createDividerAdapterDelegate(),
             createInfoAdapterDelegate(),
             createHintAdapterDelegate(),

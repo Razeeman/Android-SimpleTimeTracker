@@ -43,7 +43,7 @@ class RecordsAllFragment : BaseFragment<Binding>() {
     )
     private val recordsAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
-            createRecordAdapterDelegate(viewModel::onRecordClick),
+            createRecordAdapterDelegate(throttle(viewModel::onRecordClick)),
             createRecordAllDateAdapterDelegate(),
             createEmptyAdapterDelegate(),
             createLoaderAdapterDelegate()

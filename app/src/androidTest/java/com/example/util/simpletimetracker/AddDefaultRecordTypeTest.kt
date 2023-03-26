@@ -34,6 +34,7 @@ class AddDefaultRecordTypeTest : BaseUiTest() {
 
         // Open dialog
         clickOnViewWithText(R.string.running_records_add_default)
+        Thread.sleep(1000)
         checkActivity(name1, color1)
         checkActivity(name2, color2)
 

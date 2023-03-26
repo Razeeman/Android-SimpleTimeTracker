@@ -66,8 +66,8 @@ class SettingsFragment :
         with(layoutSettingsMain) {
             checkboxSettingsAllowMultitasking.setOnClick(viewModel::onAllowMultitaskingClicked)
             checkboxSettingsDarkMode.setOnClick(viewModel::onDarkModeClicked)
-            layoutSettingsEditCategories.setOnClick(viewModel::onEditCategoriesClick)
-            tvSettingsArchive.setOnClick(viewModel::onArchiveClick)
+            layoutSettingsEditCategories.setOnClick(throttle(viewModel::onEditCategoriesClick))
+            tvSettingsArchive.setOnClick(throttle(viewModel::onArchiveClick))
         }
         with(layoutSettingsNotifications) {
             layoutSettingsNotificationsTitle.setOnClick(viewModel::onSettingsNotificationsClick)

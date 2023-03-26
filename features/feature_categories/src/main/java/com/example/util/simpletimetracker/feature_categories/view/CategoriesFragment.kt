@@ -32,8 +32,8 @@ class CategoriesFragment : BaseFragment<Binding>() {
             createLoaderAdapterDelegate(),
             createDividerAdapterDelegate(),
             createHintAdapterDelegate(),
-            createCategoryAdapterDelegate(onClickWithTransition = viewModel::onCategoryClick),
-            createCategoryAddAdapterDelegate(viewModel::onAddCategoryClick)
+            createCategoryAdapterDelegate(onClickWithTransition = throttle(viewModel::onCategoryClick)),
+            createCategoryAddAdapterDelegate(throttle(viewModel::onAddCategoryClick))
         )
     }
 

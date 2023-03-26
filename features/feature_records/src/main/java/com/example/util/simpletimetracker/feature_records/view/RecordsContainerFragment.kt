@@ -47,7 +47,7 @@ class RecordsContainerFragment :
     }
 
     override fun initUx() = with(binding) {
-        btnRecordAdd.setOnClick(viewModel::onRecordAddClick)
+        btnRecordAdd.setOnClick(throttle(viewModel::onRecordAddClick))
         btnRecordsContainerPrevious.setOnClick(viewModel::onPreviousClick)
         btnRecordsContainerNext.setOnClick(viewModel::onNextClick)
         btnRecordsContainerToday.setOnClick(viewModel::onTodayClick)
