@@ -78,16 +78,7 @@ class StartRecordTest : BaseUiTest() {
             )
         )
 
-        // Click on already running
-        clickOnView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name)))
-        NavUtils.openRecordsScreen()
-        checkViewDoesNotExist(
-            allOf(
-                withText(name), isDescendantOfA(withId(R.id.viewRecordItem)), isCompletelyDisplayed()
-            )
-        )
-
-        // Stop timer
+        // Stop timer by clicking on running record
         NavUtils.openRunningRecordsScreen()
         clickOnView(
             allOf(
@@ -108,11 +99,11 @@ class StartRecordTest : BaseUiTest() {
             )
         )
 
-        // Stop timer
+        // Stop timer by clicking on record type
         NavUtils.openRunningRecordsScreen()
         clickOnView(
             allOf(
-                isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(newName), isCompletelyDisplayed()
+                isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(newName), isCompletelyDisplayed()
             )
         )
         checkViewDoesNotExist(

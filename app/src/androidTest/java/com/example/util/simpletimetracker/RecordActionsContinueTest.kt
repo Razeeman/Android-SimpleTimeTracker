@@ -253,8 +253,8 @@ class RecordActionsContinueTest : BaseUiTest() {
         val name = "Name"
 
         // Setup
-        Thread.sleep(1000)
         testUtils.addActivity(name)
+        Thread.sleep(1000)
         tryAction {
             clickOnView(
                 allOf(withId(R.id.viewRecordTypeItem), hasDescendant(withText(name)))

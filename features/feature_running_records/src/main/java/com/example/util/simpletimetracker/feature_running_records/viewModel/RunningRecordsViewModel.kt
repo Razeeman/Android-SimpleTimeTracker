@@ -53,10 +53,18 @@ class RunningRecordsViewModel @Inject constructor(
 
     fun onRecordTypeClick(item: RecordTypeViewData) {
         viewModelScope.launch {
-            addRunningRecordMediator.tryStartTimer(
-                typeId = item.id,
-                onNeedToShowTagSelection = { showTagSelection(item.id) }
-            )
+            val runningRecord = runningRecordInteractor.get(item.id)
+
+            if (runningRecord != null) {
+                // Stop running record, add new record
+                removeRunningRecordMediator.removeWithRecordAdd(runningRecord)
+            } else {
+                // Start running record
+                addRunningRecordMediator.tryStartTimer(
+                    typeId = item.id,
+                    onNeedToShowTagSelection = { showTagSelection(item.id) }
+                )
+            }
             updateRunningRecords()
         }
     }
