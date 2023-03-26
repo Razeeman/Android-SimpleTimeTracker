@@ -324,6 +324,7 @@ Ek olarak:<br/>
     <string name="statistics_detail_streaks_longest">En uzun</string>
     <string name="statistics_detail_streaks_current">Akım</string>
     <string name="statistics_detail_streaks_latest">En sonuncu</string>
+    <string name="statistics_detail_activity_split_hint">Etkinlik dağılımı</string>
     <string name="statistics_detail_tag_split_hint">Etiket dağılımı</string>
     <string name="statistics_detail_day_split_hint">Günlük dağılım</string>
     <string name="statistics_detail_duration_split_hint">Kayıt süresi dağılımı</string>

@@ -14,6 +14,7 @@ import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
+import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.hint.HintViewData
 import com.example.util.simpletimetracker.feature_base_adapter.statisticsTag.StatisticsTagViewData
@@ -36,6 +37,7 @@ class StatisticsDetailStatsInteractor @Inject constructor(
 ) {
 
     suspend fun getStatsViewData(
+        filterType: ChartFilterType,
         records: List<Record>,
         compareRecords: List<Record>,
         showComparison: Boolean,
@@ -59,6 +61,7 @@ class StatisticsDetailStatsInteractor @Inject constructor(
         )
 
         return mapStatsData(
+            filterType = filterType,
             records = if (range.first == 0L && range.second == 0L) {
                 records
             } else {
@@ -104,11 +107,12 @@ class StatisticsDetailStatsInteractor @Inject constructor(
             compareFirstRecord = "",
             lastRecord = "",
             compareLastRecord = "",
-            tagSplitData = emptyList()
+            splitData = emptyList()
         )
     }
 
     private fun mapStatsData(
+        filterType: ChartFilterType,
         records: List<Record>,
         compareRecords: List<Record>,
         showComparison: Boolean,
@@ -135,6 +139,14 @@ class StatisticsDetailStatsInteractor @Inject constructor(
             } else {
                 R.color.colorInactive
             }.let(resourceRepo::getColor)
+        )
+        val activitySplitData = mapActivities(
+            filterType = filterType,
+            records = records,
+            typesMap = types.associateBy { it.id },
+            isDarkTheme = isDarkTheme,
+            useProportionalMinutes = useProportionalMinutes,
+            showSeconds = showSeconds,
         )
         val tagSplitData = mapTags(
             records = records,
@@ -209,7 +221,7 @@ class StatisticsDetailStatsInteractor @Inject constructor(
             compareLastRecord = compareRecordsSorted.lastOrNull()?.timeEnded
                 .let(::formatDateTimeYear)
                 .let(::processComparisonString),
-            tagSplitData = tagSplitData
+            splitData = activitySplitData + tagSplitData,
         )
     }
 
@@ -229,7 +241,7 @@ class StatisticsDetailStatsInteractor @Inject constructor(
         compareFirstRecord: String,
         lastRecord: String,
         compareLastRecord: String,
-        tagSplitData: List<ViewHolderType>,
+        splitData: List<ViewHolderType>,
     ): StatisticsDetailStatsViewData {
         return StatisticsDetailStatsViewData(
             totalDuration = listOf(
@@ -278,12 +290,57 @@ class StatisticsDetailStatsInteractor @Inject constructor(
                     description = resourceRepo.getString(R.string.statistics_detail_last_record)
                 )
             ),
-            tagSplitData = tagSplitData
+            splitData = splitData
         )
     }
 
     private fun mapToDuration(record: Record): Long {
         return record.let { it.timeEnded - it.timeStarted }
+    }
+
+    private fun mapActivities(
+        filterType: ChartFilterType,
+        records: List<Record>,
+        typesMap: Map<Long, RecordType>,
+        isDarkTheme: Boolean,
+        useProportionalMinutes: Boolean,
+        showSeconds: Boolean,
+    ): List<ViewHolderType> {
+        if (filterType != ChartFilterType.CATEGORY) return emptyList()
+
+        val activities: MutableMap<Long, MutableList<Record>> = mutableMapOf()
+
+        records.forEach { record ->
+            activities.getOrPut(record.typeId) { mutableListOf() }.add(record)
+        }
+
+        val durations = activities
+            .takeUnless { it.isEmpty() }
+            ?.mapValues { (_, records) -> records.let(statisticsMapper::mapToDuration) }
+            ?: return emptyList()
+        val activitiesSize = activities.size
+        val sumDuration = durations.map { (_, duration) -> duration }.sum()
+        val hint = resourceRepo.getString(R.string.statistics_detail_activity_split_hint)
+            .let(::HintViewData).let(::listOf)
+
+        return hint + durations
+            .mapNotNull { (typeId, duration) ->
+                val type = typesMap[typeId] ?: return@mapNotNull null
+
+                mapTag(
+                    id = "activity_$typeId".hashCode().toLong(),
+                    name = type.name,
+                    icon = type.icon.let(iconMapper::mapIcon),
+                    color = type.color.let { colorMapper.mapToColorInt(it, isDarkTheme) },
+                    duration = duration,
+                    sumDuration = sumDuration,
+                    statisticsSize = activitiesSize,
+                    useProportionalMinutes = useProportionalMinutes,
+                    showSeconds = showSeconds,
+                ) to duration
+            }
+            .sortedByDescending { (_, duration) -> duration }
+            .map { (statistics, _) -> statistics }
     }
 
     private fun mapTags(
@@ -320,11 +377,17 @@ class StatisticsDetailStatsInteractor @Inject constructor(
                 val type = typesMap[tag?.typeId]
 
                 mapTag(
-                    tag = tag,
-                    recordType = type,
+                    id = "tag_${tag?.id.orZero()}".hashCode().toLong(),
+                    name = tag?.name ?: R.string.change_record_untagged.let(resourceRepo::getString),
+                    icon = type?.icon
+                        ?.let(iconMapper::mapIcon)
+                        ?: tag?.run { RecordTypeIcon.Image(0) }
+                        ?: RecordTypeIcon.Image(R.drawable.unknown),
+                    color = type?.color?.let { colorMapper.mapToColorInt(it, isDarkTheme) }
+                        ?: tag?.color?.let { colorMapper.mapToColorInt(it, isDarkTheme) }
+                        ?: colorMapper.toUntrackedColor(isDarkTheme),
                     duration = duration,
                     sumDuration = sumDuration,
-                    isDarkTheme = isDarkTheme,
                     statisticsSize = tagsSize,
                     useProportionalMinutes = useProportionalMinutes,
                     showSeconds = showSeconds,
@@ -335,11 +398,12 @@ class StatisticsDetailStatsInteractor @Inject constructor(
     }
 
     private fun mapTag(
-        tag: RecordTag?,
-        recordType: RecordType?,
+        id: Long,
+        name: String,
+        icon: RecordTypeIcon,
+        color: Int,
         duration: Long,
         sumDuration: Long,
-        isDarkTheme: Boolean,
         statisticsSize: Int,
         useProportionalMinutes: Boolean,
         showSeconds: Boolean,
@@ -351,9 +415,8 @@ class StatisticsDetailStatsInteractor @Inject constructor(
         )
 
         return StatisticsTagViewData(
-            id = tag?.id.orZero(),
-            name = tag?.name
-                ?: R.string.change_record_untagged.let(resourceRepo::getString),
+            id = id,
+            name = name,
             duration = duration
                 .let {
                     timeMapper.formatInterval(
@@ -366,13 +429,8 @@ class StatisticsDetailStatsInteractor @Inject constructor(
             // Take icon and color from recordType if it is a typed tag,
             // show empty icon and tag color for untyped tags,
             // show unknown icon and untracked color if tagId == 0, meaning it is untagged.
-            icon = recordType?.icon
-                ?.let(iconMapper::mapIcon)
-                ?: tag?.run { RecordTypeIcon.Image(0) }
-                ?: RecordTypeIcon.Image(R.drawable.unknown),
-            color = recordType?.color?.let { colorMapper.mapToColorInt(it, isDarkTheme) }
-                ?: tag?.color?.let { colorMapper.mapToColorInt(it, isDarkTheme) }
-                ?: colorMapper.toUntrackedColor(isDarkTheme)
+            icon = icon,
+            color = color,
         )
     }
 }

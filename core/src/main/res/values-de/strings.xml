@@ -324,6 +324,7 @@ Wenn die Einstellung <b>\"%s\"</b> aktiviert ist, sendet die App Ereignisse zu g
     <string name="statistics_detail_streaks_longest">Längste</string>
     <string name="statistics_detail_streaks_current">Aktuell</string>
     <string name="statistics_detail_streaks_latest">Neueste</string>
+    <string name="statistics_detail_activity_split_hint">Aktivitätsverteilung</string>
     <string name="statistics_detail_tag_split_hint">Tag Verteilung</string>
     <string name="statistics_detail_day_split_hint">Tägliche Verteilung</string>
     <string name="statistics_detail_duration_split_hint">Verteilung der Aufzeichnungsdauer</string>

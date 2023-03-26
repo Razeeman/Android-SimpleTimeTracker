@@ -324,6 +324,7 @@ Als de instelling <b>\"%s\"</b> is ingeschakeld, stuurt de app gebeurtenissen ov
     <string name="statistics_detail_streaks_longest">Langste</string>
     <string name="statistics_detail_streaks_current">Huidig</string>
     <string name="statistics_detail_streaks_latest">Laatste</string>
+    <string name="statistics_detail_activity_split_hint">Activiteitsverdeling</string>
     <string name="statistics_detail_tag_split_hint">Label verdeling</string>
     <string name="statistics_detail_day_split_hint">Dagelijkse verdeling</string>
     <string name="statistics_detail_duration_split_hint">Verdeling opname duur</string>

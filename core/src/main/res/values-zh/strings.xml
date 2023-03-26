@@ -324,6 +324,7 @@
     <string name="statistics_detail_streaks_longest">最长</string>
     <string name="statistics_detail_streaks_current">当前的</string>
     <string name="statistics_detail_streaks_latest">最新的</string>
+    <string name="statistics_detail_activity_split_hint">活动分布</string>
     <string name="statistics_detail_tag_split_hint">标签分布</string>
     <string name="statistics_detail_day_split_hint">每日分发</string>
     <string name="statistics_detail_duration_split_hint">记录持续时间分布</string>

@@ -366,7 +366,7 @@
                 tools:barCount="7" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvStatisticsDetailTagSplit"
+                android:id="@+id/rvStatisticsDetailSplit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"

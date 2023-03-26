@@ -388,6 +388,7 @@ class StatisticsDetailViewModel @Inject constructor(
 
     private suspend fun loadStatsViewData(): StatisticsDetailStatsViewData {
         return statsInteractor.getStatsViewData(
+            filterType = typesFilter.filterType,
             records = records,
             compareRecords = compareRecords,
             showComparison = comparisonTypesFilter.selectedIds.isNotEmpty(),

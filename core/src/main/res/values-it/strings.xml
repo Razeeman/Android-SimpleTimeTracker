@@ -324,6 +324,7 @@ Se l\'impostazione <b>\"%s\"</b> è abilitata, l\'app invierà eventi sull\'atti
     <string name="statistics_detail_streaks_longest">Più lunga</string>
     <string name="statistics_detail_streaks_current">Attuale</string>
     <string name="statistics_detail_streaks_latest">Ultima</string>
+    <string name="statistics_detail_activity_split_hint">Distribuzione delle attività</string>
     <string name="statistics_detail_tag_split_hint">Distribuzione etichette</string>
     <string name="statistics_detail_day_split_hint">Distribuzione giornaliera</string>
     <string name="statistics_detail_duration_split_hint">Distribuzione della durata del record</string>

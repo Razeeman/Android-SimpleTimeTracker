@@ -324,6 +324,7 @@ Se a configuração <b>\"%s\"</b> estiver habilitada, o aplicativo enviará even
     <string name="statistics_detail_streaks_longest">Maior</string>
     <string name="statistics_detail_streaks_current">Atual</string>
     <string name="statistics_detail_streaks_latest">Mais recentes</string>
+    <string name="statistics_detail_activity_split_hint">Distribuição de atividades</string>
     <string name="statistics_detail_tag_split_hint">Distribuição de tags</string>
     <string name="statistics_detail_day_split_hint">Distribuição diária</string>
     <string name="statistics_detail_duration_split_hint">Distribuição da duração do registro</string>

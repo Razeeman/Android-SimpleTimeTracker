@@ -324,6 +324,7 @@ Jika setelan <b>\"%s\"</b> diaktifkan, aplikasi akan mengirimkan peristiwa pada 
     <string name="statistics_detail_streaks_longest">Terlama</string>
     <string name="statistics_detail_streaks_current">Saat ini</string>
     <string name="statistics_detail_streaks_latest">Terbaru</string>
+    <string name="statistics_detail_activity_split_hint">Distribusi aktivitas</string>
     <string name="statistics_detail_tag_split_hint">Distribusi label</string>
     <string name="statistics_detail_day_split_hint">Distribusi harian</string>
     <string name="statistics_detail_duration_split_hint">Distribusi durasi rekaman</string>

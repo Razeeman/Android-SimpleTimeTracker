@@ -324,6 +324,7 @@
     <string name="statistics_detail_streaks_longest">最長</string>
     <string name="statistics_detail_streaks_current">現時点</string>
     <string name="statistics_detail_streaks_latest">最新</string>
+    <string name="statistics_detail_activity_split_hint">活動分布</string>
     <string name="statistics_detail_tag_split_hint">タグ配布</string>
     <string name="statistics_detail_day_split_hint">日次記録</string>
     <string name="statistics_detail_duration_split_hint">記録期間分布</string>

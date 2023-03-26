@@ -324,6 +324,7 @@ Si la configuración <b>\"%s\"</b> está habilitada, la aplicación enviará eve
     <string name="statistics_detail_streaks_longest">Más largo</string>
     <string name="statistics_detail_streaks_current">Actual</string>
     <string name="statistics_detail_streaks_latest">Más reciente</string>
+    <string name="statistics_detail_activity_split_hint">Distribución de actividad</string>
     <string name="statistics_detail_tag_split_hint">Distribución de etiquetas</string>
     <string name="statistics_detail_day_split_hint">Distribución diaria</string>
     <string name="statistics_detail_duration_split_hint">Distribución de la duración del registro</string>

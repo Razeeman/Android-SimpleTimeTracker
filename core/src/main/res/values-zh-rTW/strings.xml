@@ -324,6 +324,7 @@
     <string name="statistics_detail_streaks_longest">最久</string>
     <string name="statistics_detail_streaks_current">現在</string>
     <string name="statistics_detail_streaks_latest">最新</string>
+    <string name="statistics_detail_activity_split_hint">活動分佈</string>
     <string name="statistics_detail_tag_split_hint">標籤分配</string>
     <string name="statistics_detail_day_split_hint">每日分配</string>
     <string name="statistics_detail_duration_split_hint">紀錄期間分配</string>

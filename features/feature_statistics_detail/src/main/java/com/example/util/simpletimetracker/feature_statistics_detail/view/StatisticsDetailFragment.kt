@@ -61,7 +61,7 @@ class StatisticsDetailFragment :
             createStatisticsPreviewAdapterDelegate()
         )
     }
-    private val tagSplitAdapter: BaseRecyclerAdapter by lazy {
+    private val dataSplitAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
             createHintAdapterDelegate(),
             createStatisticsTagAdapterDelegate()
@@ -87,9 +87,9 @@ class StatisticsDetailFragment :
             }
             adapter = previewAdapter
         }
-        rvStatisticsDetailTagSplit.apply {
+        rvStatisticsDetailSplit.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = tagSplitAdapter
+            adapter = dataSplitAdapter
         }
     }
 
@@ -202,8 +202,8 @@ class StatisticsDetailFragment :
         cardStatisticsDetailRecords.items = statsViewData.timesTracked
         cardStatisticsDetailAverage.items = statsViewData.averageRecord
         cardStatisticsDetailDates.items = statsViewData.datesTracked
-        rvStatisticsDetailTagSplit.visible = statsViewData.tagSplitData.isNotEmpty()
-        tagSplitAdapter.replace(statsViewData.tagSplitData)
+        rvStatisticsDetailSplit.visible = statsViewData.splitData.isNotEmpty()
+        dataSplitAdapter.replace(statsViewData.splitData)
     }
 
     private fun setStreaksViewData(
