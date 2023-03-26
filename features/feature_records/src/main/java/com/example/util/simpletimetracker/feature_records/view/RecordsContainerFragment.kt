@@ -9,6 +9,7 @@ import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
 import com.example.util.simpletimetracker.core.sharedViewModel.RemoveRecordViewModel
+import com.example.util.simpletimetracker.core.view.SafeFragmentStateAdapter
 import com.example.util.simpletimetracker.feature_records.adapter.RecordsContainerAdapter
 import com.example.util.simpletimetracker.feature_records.viewModel.RecordsContainerViewModel
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
@@ -39,7 +40,7 @@ class RecordsContainerFragment :
 
     override fun initUi(): Unit = with(binding) {
         pagerRecordsContainer.apply {
-            adapter = RecordsContainerAdapter(this@RecordsContainerFragment)
+            adapter = SafeFragmentStateAdapter(RecordsContainerAdapter(this@RecordsContainerFragment))
             offscreenPageLimit = 1
             isUserInputEnabled = false
         }

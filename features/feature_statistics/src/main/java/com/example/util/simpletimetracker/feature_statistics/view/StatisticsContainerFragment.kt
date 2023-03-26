@@ -9,6 +9,7 @@ import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.CustomRangeSelectionDialogListener
 import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
+import com.example.util.simpletimetracker.core.view.SafeFragmentStateAdapter
 import com.example.util.simpletimetracker.core.viewData.RangesViewData
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.feature_statistics.adapter.StatisticsContainerAdapter
@@ -39,7 +40,7 @@ class StatisticsContainerFragment :
 
     override fun initUi(): Unit = with(binding) {
         pagerStatisticsContainer.apply {
-            adapter = StatisticsContainerAdapter(this@StatisticsContainerFragment)
+            adapter = SafeFragmentStateAdapter(StatisticsContainerAdapter(this@StatisticsContainerFragment))
             offscreenPageLimit = 1
             isUserInputEnabled = false
         }

@@ -15,6 +15,7 @@ import com.example.util.simpletimetracker.core.extension.getThemedAttr
 import com.example.util.simpletimetracker.core.model.NavigationTab
 import com.example.util.simpletimetracker.core.sharedViewModel.MainTabsViewModel
 import com.example.util.simpletimetracker.core.utils.SHORTCUT_NAVIGATION_KEY
+import com.example.util.simpletimetracker.core.view.SafeFragmentStateAdapter
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_main.R
 import com.example.util.simpletimetracker.feature_main.adapter.MainContentAdapter
@@ -62,7 +63,7 @@ class MainFragment : BaseFragment<Binding>() {
     }
 
     private fun setupPager() = with(binding) {
-        mainPager.adapter = MainContentAdapter(this@MainFragment)
+        mainPager.adapter = SafeFragmentStateAdapter(MainContentAdapter(this@MainFragment))
         mainPager.offscreenPageLimit = 3 // Same as number of pages to avoid recreating.
 
         TabLayoutMediator(mainTabs, mainPager) { tab, position ->
