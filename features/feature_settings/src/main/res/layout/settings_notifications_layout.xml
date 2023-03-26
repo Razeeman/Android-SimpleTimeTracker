@@ -73,13 +73,17 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSettingsShowNotificationsHint"
                     style="@style/SettingsSecondaryText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:paddingBottom="0dp"
                     android:text="@string/settings_show_notifications_hint"
+                    app:layout_constraintBottom_toTopOf="@id/tvSettingsShowNotificationsControls"
                     app:layout_constraintEnd_toStartOf="@id/checkboxSettingsShowNotifications"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvSettingsShowNotifications" />
+                    app:layout_constraintTop_toBottomOf="@id/tvSettingsShowNotifications"
+                    app:layout_goneMarginBottom="12dp" />
 
                 <androidx.appcompat.widget.AppCompatCheckBox
                     android:id="@+id/checkboxSettingsShowNotifications"
@@ -88,6 +92,33 @@
                     app:layout_constraintBottom_toBottomOf="@id/tvSettingsShowNotifications"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/tvSettingsShowNotifications" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSettingsShowNotificationsControls"
+                    style="@style/SettingsText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_show_notifications_controls"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/checkboxSettingsShowNotificationsControls"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvSettingsShowNotificationsHint" />
+
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:id="@+id/checkboxSettingsShowNotificationsControls"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="@id/tvSettingsShowNotificationsControls"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tvSettingsShowNotificationsControls" />
+
+                <androidx.constraintlayout.widget.Group
+                    android:id="@+id/groupSettingsShowNotifications"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone"
+                    app:constraint_referenced_ids="tvSettingsShowNotificationsControls, checkboxSettingsShowNotificationsControls"
+                    tools:visibility="visible" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

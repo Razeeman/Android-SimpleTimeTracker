@@ -198,6 +198,7 @@
     <string name="settings_allow_multitasking_hint">Jika dinonaktifkan memulai pewaktu baru akan secara otomatis menghentikan kegiatan-kegiatan lain.</string>
     <string name="settings_show_notifications">Tampilkan notifikasi pewaktu</string>
     <string name="settings_show_notifications_hint">Tampilkan notifikasi saat pewaktu berjalan.</string>
+    <string name="settings_show_notifications_controls">Aktifkan pengalihan aktivitas dari notifikasi</string>
     <string name="settings_keep_statistics_range">Pertahankan rentang statistik</string>
     <string name="settings_keep_statistics_range_hint">Jika diaktifkan, statistik terperinci akan dibuka dengan rentang waktu yang sama yang dipilih dalam statistik.</string>
     <string name="settings_start_of_day">Pergeseran awal hari</string>

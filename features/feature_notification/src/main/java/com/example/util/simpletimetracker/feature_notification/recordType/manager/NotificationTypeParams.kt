@@ -11,14 +11,7 @@ data class NotificationTypeParams(
     val startedTimeStamp: Long,
     val goalTime: String,
     val stopButton: String,
-    val types: List<Type>,
-    val typesShift: Int,
-    val tags: List<Tag>,
-    val tagsShift: Int,
-    val controlIconPrev: RecordTypeIcon,
-    val controlIconNext: RecordTypeIcon,
-    val controlIconColor: Int,
-    val selectedTypeId: Long?,
+    val controls: Controls,
 ) {
 
     data class Type(
@@ -32,4 +25,18 @@ data class NotificationTypeParams(
         val text: String,
         val color: Int,
     )
+
+    sealed interface Controls {
+        object Disabled : Controls
+        data class Enabled(
+            val types: List<Type>,
+            val typesShift: Int,
+            val tags: List<Tag>,
+            val tagsShift: Int,
+            val controlIconPrev: RecordTypeIcon,
+            val controlIconNext: RecordTypeIcon,
+            val controlIconColor: Int,
+            val selectedTypeId: Long?,
+        ) : Controls
+    }
 }

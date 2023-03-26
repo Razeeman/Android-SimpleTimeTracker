@@ -198,6 +198,7 @@
     <string name="settings_allow_multitasking_hint">Se desativado, iniciar um novo timer interromperá automaticamente outras atividades.</string>
     <string name="settings_show_notifications">Mostrar notificações de timer</string>
     <string name="settings_show_notifications_hint">Mostrar notificações quando timers estiverem em execução.</string>
+    <string name="settings_show_notifications_controls">Habilitar troca de atividade da notificação</string>
     <string name="settings_keep_statistics_range">Manter intervalo de estatísticas</string>
     <string name="settings_keep_statistics_range_hint">Se ativado, as estatísticas detalhadas serão abertas com o mesmo intervalo de tempo selecionado nas estatísticas.</string>
     <string name="settings_start_of_day">Mudar início do dia</string>

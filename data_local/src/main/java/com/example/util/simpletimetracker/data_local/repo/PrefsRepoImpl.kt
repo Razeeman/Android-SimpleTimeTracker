@@ -96,6 +96,10 @@ class PrefsRepoImpl @Inject constructor(
         KEY_SHOW_NOTIFICATIONS, false
     )
 
+    override var showNotificationsControls: Boolean by prefs.delegate(
+        KEY_SHOW_NOTIFICATIONS_CONTROLS, true
+    )
+
     override var inactivityReminderDuration: Long by prefs.delegate(
         KEY_INACTIVITY_REMINDER_DURATION, 0 // 0 is for disabled
     )
@@ -305,6 +309,7 @@ class PrefsRepoImpl @Inject constructor(
         private const val KEY_SHOW_ACTIVITY_FILTERS = "showActivityFilters"
         private const val KEY_ALLOW_MULTITASKING = "allowMultitasking"
         private const val KEY_SHOW_NOTIFICATIONS = "showNotifications"
+        private const val KEY_SHOW_NOTIFICATIONS_CONTROLS = "showNotificationsControls"
         private const val KEY_INACTIVITY_REMINDER_DURATION = "inactivityReminderDuration"
         private const val KEY_INACTIVITY_REMINDER_RECURRENT = "inactivityReminderRecurrent"
         private const val KEY_ACTIVITY_REMINDER_DURATION = "activityReminderDuration"

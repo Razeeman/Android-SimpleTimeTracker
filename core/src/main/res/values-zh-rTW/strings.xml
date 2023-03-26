@@ -198,6 +198,7 @@
     <string name="settings_allow_multitasking_hint">如果禁用啟動新計時器將自動停止其他活動。</string>
     <string name="settings_show_notifications">顯示計時器提醒</string>
     <string name="settings_show_notifications_hint">當計時器正在跑時，顯示提醒</string>
+    <string name="settings_show_notifications_controls">啟用從通知切換活動</string>
     <string name="settings_keep_statistics_range">保持統計範圍</string>
     <string name="settings_keep_statistics_range_hint">如果啟用，詳細統計訊息，將以在統計訊息中，選擇相同時間範圍打開</string>
     <string name="settings_start_of_day">推移開始</string>

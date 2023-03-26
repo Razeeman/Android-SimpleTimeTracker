@@ -184,6 +184,14 @@ class PrefsInteractor @Inject constructor(
         prefsRepo.showNotifications = isEnabled
     }
 
+    suspend fun getShowNotificationsControls(): Boolean = withContext(Dispatchers.IO) {
+        prefsRepo.showNotificationsControls
+    }
+
+    suspend fun setShowNotificationsControls(isEnabled: Boolean) = withContext(Dispatchers.IO) {
+        prefsRepo.showNotificationsControls = isEnabled
+    }
+
     suspend fun getInactivityReminderDuration(): Long = withContext(Dispatchers.IO) {
         prefsRepo.inactivityReminderDuration
     }

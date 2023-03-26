@@ -72,6 +72,7 @@ class SettingsFragment :
         with(layoutSettingsNotifications) {
             layoutSettingsNotificationsTitle.setOnClick(viewModel::onSettingsNotificationsClick)
             checkboxSettingsShowNotifications.setOnClick(viewModel::onShowNotificationsClicked)
+            checkboxSettingsShowNotificationsControls.setOnClick(viewModel::onShowNotificationsControlsClicked)
             groupSettingsInactivityReminder.setOnClick(viewModel::onInactivityReminderClicked)
             checkboxSettingsInactivityReminderRecurrent.setOnClick(viewModel::onInactivityReminderRecurrentClicked)
             groupSettingsActivityReminder.setOnClick(viewModel::onActivityReminderClicked)
@@ -129,7 +130,8 @@ class SettingsFragment :
                     layoutSettingsNotificationsContent.visible = opened
                     arrowSettingsNotifications.apply { if (opened) rotateDown() else rotateUp() }
                 }
-                showNotificationsCheckbox.observe(checkboxSettingsShowNotifications::setChecked)
+                showNotificationsCheckbox.observe(::updateShowNotifications)
+                showNotificationsControlsCheckbox.observe(checkboxSettingsShowNotificationsControls::setChecked)
                 inactivityReminderViewData.observe(::updateInactivityReminder)
                 inactivityReminderRecurrentCheckbox.observe(checkboxSettingsInactivityReminderRecurrent::setChecked)
                 activityReminderViewData.observe(::updateActivityReminder)
@@ -201,6 +203,7 @@ class SettingsFragment :
         }
         with(layoutSettingsNotifications) {
             checkboxSettingsShowNotifications.jumpDrawablesToCurrentState()
+            checkboxSettingsShowNotificationsControls.jumpDrawablesToCurrentState()
             checkboxSettingsInactivityReminderRecurrent.jumpDrawablesToCurrentState()
             checkboxSettingsActivityReminderRecurrent.jumpDrawablesToCurrentState()
         }
@@ -272,6 +275,13 @@ class SettingsFragment :
     ) = with(binding.layoutSettingsAdditional) {
         checkboxSettingsShowRecordTagSelection.isChecked = isChecked
         groupSettingsRecordTagSelectionClose.visible = isChecked
+    }
+
+    private fun updateShowNotifications(
+        isChecked: Boolean,
+    ) = with(binding.layoutSettingsNotifications) {
+        checkboxSettingsShowNotifications.isChecked = isChecked
+        groupSettingsShowNotifications.visible = isChecked
     }
 
     private fun updateInactivityReminder(

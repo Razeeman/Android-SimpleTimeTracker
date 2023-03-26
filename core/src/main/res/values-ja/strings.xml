@@ -198,6 +198,7 @@
     <string name="settings_allow_multitasking_hint">無効の場合、新しいタイマーを開始すると、他のアクティビティが自動的に停止します。</string>
     <string name="settings_show_notifications">タイマーの通知を表示する</string>
     <string name="settings_show_notifications_hint">タイマー作動時に通知を表示する。</string>
+    <string name="settings_show_notifications_controls">通知からのアクティビティ切り替えを有効にする</string>
     <string name="settings_keep_statistics_range">統計値を保持する範囲</string>
     <string name="settings_keep_statistics_range_hint">有効にすると、統計で選択された同じ時間範囲で詳細な統計が開かれます。</string>
     <string name="settings_start_of_day">1日の開始時間</string>

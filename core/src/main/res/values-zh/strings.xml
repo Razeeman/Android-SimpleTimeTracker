@@ -198,6 +198,7 @@
     <string name="settings_allow_multitasking_hint">如果不启用，启动新活动追踪时，将自动停止追踪其他活动。</string>
     <string name="settings_show_notifications">显示计时通知</string>
     <string name="settings_show_notifications_hint">追踪活动多长时间后显示通知。</string>
+    <string name="settings_show_notifications_controls">启用从通知切换活动</string>
     <string name="settings_keep_statistics_range">保持统计范围</string>
     <string name="settings_keep_statistics_range_hint">如果启用，详细统计信息将在统计信息中选择的相同时间范围内打开。</string>
     <string name="settings_start_of_day">改变一天的开始</string>

@@ -46,12 +46,25 @@ class NotificationTypeInteractorImpl @Inject constructor(
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
         val showSeconds = prefsInteractor.getShowSeconds()
+        val showControls = prefsInteractor.getShowNotificationsControls()
         val viewedTags = if (selectedTypeId != 0L) {
             val typedTags = recordTags.filter { it.typeId == selectedTypeId }
             val generalTags = recordTags.filter { it.typeId == 0L }
             typedTags + generalTags
         } else {
             emptyList()
+        }
+        val controls = if (showControls) {
+            getControls(
+                isDarkTheme = isDarkTheme,
+                types = recordTypes,
+                typesShift = typesShift,
+                tags = viewedTags,
+                tagsShift = tagsShift,
+                selectedTypeId = selectedTypeId,
+            )
+        } else {
+            NotificationTypeParams.Controls.Disabled
         }
 
         show(
@@ -61,11 +74,7 @@ class NotificationTypeInteractorImpl @Inject constructor(
             isDarkTheme = isDarkTheme,
             useMilitaryTime = useMilitaryTime,
             showSeconds = showSeconds,
-            types = recordTypes,
-            typesShift = typesShift,
-            tags = viewedTags,
-            tagsShift = tagsShift,
-            selectedTypeId = selectedTypeId,
+            controls = controls,
         )
     }
 
@@ -89,6 +98,15 @@ class NotificationTypeInteractorImpl @Inject constructor(
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
         val showSeconds = prefsInteractor.getShowSeconds()
+        val showControls = prefsInteractor.getShowNotificationsControls()
+        val controls = if (showControls) {
+            getControls(
+                isDarkTheme = isDarkTheme,
+                types = recordTypes.values.toList()
+            )
+        } else {
+            NotificationTypeParams.Controls.Disabled
+        }
 
         runningRecordInteractor.getAll()
             .forEach { runningRecord ->
@@ -99,7 +117,7 @@ class NotificationTypeInteractorImpl @Inject constructor(
                     isDarkTheme = isDarkTheme,
                     useMilitaryTime = useMilitaryTime,
                     showSeconds = showSeconds,
-                    types = recordTypes.values.toList(),
+                    controls = controls,
                 )
             }
     }
@@ -117,11 +135,7 @@ class NotificationTypeInteractorImpl @Inject constructor(
         isDarkTheme: Boolean,
         useMilitaryTime: Boolean,
         showSeconds: Boolean,
-        types: List<RecordType>,
-        typesShift: Int = 0,
-        tags: List<RecordTag> = emptyList(),
-        tagsShift: Int = 0,
-        selectedTypeId: Long? = null,
+        controls: NotificationTypeParams.Controls,
     ) {
         if (recordType == null || runningRecord == null) {
             return
@@ -150,45 +164,56 @@ class NotificationTypeInteractorImpl @Inject constructor(
                 ?.let { resourceRepo.getString(R.string.notification_record_type_goal_time, it) }
                 .orEmpty(),
             stopButton = resourceRepo.getString(R.string.notification_record_type_stop),
-            types = types
-                .filter { !it.hidden }
-                .map { type ->
-                    NotificationTypeParams.Type(
-                        id = type.id,
-                        icon = type.icon.let(iconMapper::mapIcon),
-                        color = type.color.let { colorMapper.mapToColorInt(it, isDarkTheme) },
-                    )
-                },
-            typesShift = typesShift,
-            tags = tags
-                .filter { !it.archived }
-                .map { tag ->
-                    NotificationTypeParams.Tag(
-                        id = tag.id,
-                        text = tag.name,
-                        color = (types.firstOrNull { it.id == tag.typeId }?.color ?: tag.color)
-                            .let { colorMapper.mapToColorInt(it, isDarkTheme) },
-                    )
-                }
-                .let {
-                    if (it.isNotEmpty()) {
-                        val untagged = NotificationTypeParams.Tag(
-                            id = 0L,
-                            text = R.string.change_record_untagged.let(resourceRepo::getString),
-                            color = colorMapper.toUntrackedColor(isDarkTheme),
-                        ).let(::listOf)
-                        untagged + it
-                    } else {
-                        it
-                    }
-                },
-            tagsShift = tagsShift,
-            controlIconPrev = RecordTypeIcon.Image(R.drawable.arrow_left),
-            controlIconNext = RecordTypeIcon.Image(R.drawable.arrow_right),
-            controlIconColor = colorMapper.toInactiveColor(isDarkTheme),
-            selectedTypeId = selectedTypeId,
+            controls = controls,
         ).let(notificationTypeManager::show)
     }
+
+    private fun getControls(
+        isDarkTheme: Boolean,
+        types: List<RecordType>,
+        typesShift: Int = 0,
+        tags: List<RecordTag> = emptyList(),
+        tagsShift: Int = 0,
+        selectedTypeId: Long? = null,
+    ): NotificationTypeParams.Controls = NotificationTypeParams.Controls.Enabled(
+        types = types
+            .filter { !it.hidden }
+            .map { type ->
+                NotificationTypeParams.Type(
+                    id = type.id,
+                    icon = type.icon.let(iconMapper::mapIcon),
+                    color = type.color.let { colorMapper.mapToColorInt(it, isDarkTheme) },
+                )
+            },
+        typesShift = typesShift,
+        tags = tags
+            .filter { !it.archived }
+            .map { tag ->
+                NotificationTypeParams.Tag(
+                    id = tag.id,
+                    text = tag.name,
+                    color = (types.firstOrNull { it.id == tag.typeId }?.color ?: tag.color)
+                        .let { colorMapper.mapToColorInt(it, isDarkTheme) },
+                )
+            }
+            .let {
+                if (it.isNotEmpty()) {
+                    val untagged = NotificationTypeParams.Tag(
+                        id = 0L,
+                        text = R.string.change_record_untagged.let(resourceRepo::getString),
+                        color = colorMapper.toUntrackedColor(isDarkTheme),
+                    ).let(::listOf)
+                    untagged + it
+                } else {
+                    it
+                }
+            },
+        tagsShift = tagsShift,
+        controlIconPrev = RecordTypeIcon.Image(R.drawable.arrow_left),
+        controlIconNext = RecordTypeIcon.Image(R.drawable.arrow_right),
+        controlIconColor = colorMapper.toInactiveColor(isDarkTheme),
+        selectedTypeId = selectedTypeId,
+    )
 
     private fun getNotificationText(
         recordType: RecordType,

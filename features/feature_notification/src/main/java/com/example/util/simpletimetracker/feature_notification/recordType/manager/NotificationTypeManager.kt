@@ -98,13 +98,27 @@ class NotificationTypeManager @Inject constructor(
         isBig: Boolean,
     ): RemoteViews {
         return RemoteViews(context.packageName, R.layout.notification_record_layout).apply {
-            val typesControlsVisibility = if (isBig) View.VISIBLE else View.GONE
+            val typesControlsVisible: Boolean
+            val tagsControlsVisible: Boolean
+
+            if (params.controls is NotificationTypeParams.Controls.Enabled) {
+                typesControlsVisible = isBig
+                tagsControlsVisible = typesControlsVisible && params.controls.tags.isNotEmpty()
+
+                if (typesControlsVisible) addTypeControls(params.id, params.controls)
+                if (tagsControlsVisible) addTagControls(params.id, params.controls)
+            } else {
+                typesControlsVisible = false
+                tagsControlsVisible = false
+            }
+
+            val typesControlsVisibility = if (typesControlsVisible) View.VISIBLE else View.GONE
             setViewVisibility(R.id.containerNotificationTypes, typesControlsVisibility)
             setViewVisibility(R.id.tvNotificationControlsHint, typesControlsVisibility)
             setViewVisibility(R.id.containerNotificationTypesPrev, typesControlsVisibility)
             setViewVisibility(R.id.containerNotificationTypesNext, typesControlsVisibility)
 
-            val tagsControlsVisibility = if (params.tags.isNotEmpty()) View.VISIBLE else View.GONE
+            val tagsControlsVisibility = if (tagsControlsVisible) View.VISIBLE else View.GONE
             setViewVisibility(R.id.containerNotificationTags, tagsControlsVisibility)
             setViewVisibility(R.id.containerNotificationTagsPrev, tagsControlsVisibility)
             setViewVisibility(R.id.containerNotificationTagsNext, tagsControlsVisibility)
@@ -115,14 +129,12 @@ class NotificationTypeManager @Inject constructor(
             setImageViewBitmap(R.id.ivNotificationIcon, getIconBitmap(params.icon, params.color))
             val base = SystemClock.elapsedRealtime() - (System.currentTimeMillis() - params.startedTimeStamp)
             setChronometer(R.id.timerNotification, base, null, true)
-
-            if (isBig) addTypeControls(params)
-            if (isBig && params.tags.isNotEmpty()) addTagControls(params)
         }
     }
 
     private fun RemoteViews.addTypeControls(
-        params: NotificationTypeParams,
+        recordTypeId: Long,
+        params: NotificationTypeParams.Controls.Enabled,
     ) {
         // Prev button
         setImageViewBitmap(
@@ -134,7 +146,7 @@ class NotificationTypeManager @Inject constructor(
             getPendingSelfIntent(
                 context = context,
                 action = ACTION_NOTIFICATION_TYPES_PREV,
-                recordTypeId = params.id,
+                recordTypeId = recordTypeId,
                 recordTypesShift = (params.typesShift - TYPES_LIST_SIZE)
                     .coerceAtLeast(0),
             )
@@ -148,13 +160,13 @@ class NotificationTypeManager @Inject constructor(
                 color = it.color,
                 intent = getPendingSelfIntent(
                     context = context,
-                    action = if (it.id == params.id) {
+                    action = if (it.id == recordTypeId) {
                         ACTION_NOTIFICATION_STOP
                     } else {
                         ACTION_NOTIFICATION_TYPE_CLICK
                     },
                     requestCode = it.id.toInt(),
-                    recordTypeId = params.id,
+                    recordTypeId = recordTypeId,
                     recordTypesShift = params.typesShift,
                     selectedTypeId = it.id,
                 )
@@ -184,7 +196,7 @@ class NotificationTypeManager @Inject constructor(
             getPendingSelfIntent(
                 context = context,
                 action = ACTION_NOTIFICATION_TYPES_NEXT,
-                recordTypeId = params.id,
+                recordTypeId = recordTypeId,
                 recordTypesShift = (params.typesShift + TYPES_LIST_SIZE)
                     .takeUnless { it >= params.types.size }
                     ?: params.typesShift
@@ -193,7 +205,8 @@ class NotificationTypeManager @Inject constructor(
     }
 
     private fun RemoteViews.addTagControls(
-        params: NotificationTypeParams,
+        recordTypeId: Long,
+        params: NotificationTypeParams.Controls.Enabled,
     ) {
         // Prev button
         setImageViewBitmap(
@@ -205,7 +218,7 @@ class NotificationTypeManager @Inject constructor(
             getPendingSelfIntent(
                 context = context,
                 action = ACTION_NOTIFICATION_TAGS_PREV,
-                recordTypeId = params.id,
+                recordTypeId = recordTypeId,
                 selectedTypeId = params.selectedTypeId,
                 recordTypesShift = params.typesShift,
                 recordTagsShift = (params.tagsShift - TAGS_LIST_SIZE)
@@ -224,7 +237,7 @@ class NotificationTypeManager @Inject constructor(
                     action = ACTION_NOTIFICATION_TAG_CLICK,
                     requestCode = it.id.toInt(),
                     selectedTypeId = params.selectedTypeId,
-                    recordTypeId = params.id,
+                    recordTypeId = recordTypeId,
                     recordTagId = it.id,
                     recordTypesShift = params.typesShift,
                 )
@@ -254,7 +267,7 @@ class NotificationTypeManager @Inject constructor(
             getPendingSelfIntent(
                 context = context,
                 action = ACTION_NOTIFICATION_TAGS_NEXT,
-                recordTypeId = params.id,
+                recordTypeId = recordTypeId,
                 selectedTypeId = params.selectedTypeId,
                 recordTypesShift = params.typesShift,
                 recordTagsShift = (params.tagsShift + TAGS_LIST_SIZE)

@@ -198,6 +198,7 @@
     <string name="settings_allow_multitasking_hint">If disabled starting new timer will automatically stop other activities.</string>
     <string name="settings_show_notifications">Show timer notifications</string>
     <string name="settings_show_notifications_hint">Show notifications when timers are running.</string>
+    <string name="settings_show_notifications_controls">Enable activity switching from notification</string>
     <string name="settings_keep_statistics_range">Keep statistics range</string>
     <string name="settings_keep_statistics_range_hint">If enabled detailed statistics will be opened with the same time range selected in statistics.</string>
     <string name="settings_start_of_day">Shift start of the day</string>

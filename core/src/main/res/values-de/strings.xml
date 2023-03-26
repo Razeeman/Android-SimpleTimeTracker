@@ -198,6 +198,7 @@
     <string name="settings_allow_multitasking_hint">Wenn diese Funktion deaktiviert ist, werden beim Starten eines neuen Timers andere Aktivitäten automatisch gestoppt.</string>
     <string name="settings_show_notifications">Timer-Benachrichtigungen anzeigen</string>
     <string name="settings_show_notifications_hint">Benachrichtigungen anzeigen, wenn die Zeiten laufen.</string>
+    <string name="settings_show_notifications_controls">Aktivitätswechsel von der Benachrichtigung aus aktivieren</string>
     <string name="settings_keep_statistics_range">Behalten Sie den Statistikbereich bei</string>
     <string name="settings_keep_statistics_range_hint">Wenn aktiviert, werden detaillierte Statistiken mit dem gleichen Zeitraum geöffnet, der in den Statistiken ausgewählt wurde.</string>
     <string name="settings_start_of_day">Schichtstart in den Tag</string>

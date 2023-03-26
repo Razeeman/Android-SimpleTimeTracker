@@ -38,6 +38,8 @@ interface PrefsRepo {
 
     var showNotifications: Boolean
 
+    var showNotificationsControls: Boolean
+
     var inactivityReminderDuration: Long // in seconds
 
     var inactivityReminderRecurrent: Boolean

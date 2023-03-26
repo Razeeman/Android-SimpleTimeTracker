@@ -198,6 +198,7 @@
     <string name="settings_allow_multitasking_hint">Якщо вимкнено, запуск нового таймера автоматично зупинить інші дії.</string>
     <string name="settings_show_notifications">Показувати сповіщення таймера</string>
     <string name="settings_show_notifications_hint">Показувати сповіщення, коли таймери працюють.</string>
+    <string name="settings_show_notifications_controls">Увімкнути перемикання активності зі сповіщень</string>
     <string name="settings_keep_statistics_range">Зберігайте діапазон статистики</string>
     <string name="settings_keep_statistics_range_hint">Якщо ввімкнено, буде відкрита детальна статистика з тим самим діапазоном часу, вибраним у статистиці.</string>
     <string name="settings_start_of_day">Зміщення початку доби</string>
