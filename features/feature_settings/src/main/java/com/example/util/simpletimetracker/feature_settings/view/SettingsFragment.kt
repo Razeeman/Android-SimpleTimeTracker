@@ -75,8 +75,12 @@ class SettingsFragment :
             checkboxSettingsShowNotificationsControls.setOnClick(viewModel::onShowNotificationsControlsClicked)
             groupSettingsInactivityReminder.setOnClick(viewModel::onInactivityReminderClicked)
             checkboxSettingsInactivityReminderRecurrent.setOnClick(viewModel::onInactivityReminderRecurrentClicked)
+            tvSettingsInactivityReminderDndStart.setOnClick(viewModel::onInactivityReminderDoNotDisturbStartClicked)
+            tvSettingsInactivityReminderDndEnd.setOnClick(viewModel::onInactivityReminderDoNotDisturbEndClicked)
             groupSettingsActivityReminder.setOnClick(viewModel::onActivityReminderClicked)
             checkboxSettingsActivityReminderRecurrent.setOnClick(viewModel::onActivityReminderRecurrentClicked)
+            tvSettingsActivityReminderDndStart.setOnClick(viewModel::onActivityReminderDoNotDisturbStartClicked)
+            tvSettingsActivityReminderDndEnd.setOnClick(viewModel::onActivityReminderDoNotDisturbEndClicked)
         }
         with(layoutSettingsDisplay) {
             layoutSettingsDisplayTitle.setOnClick(viewModel::onSettingsDisplayClick)
@@ -134,8 +138,12 @@ class SettingsFragment :
                 showNotificationsControlsCheckbox.observe(checkboxSettingsShowNotificationsControls::setChecked)
                 inactivityReminderViewData.observe(::updateInactivityReminder)
                 inactivityReminderRecurrentCheckbox.observe(checkboxSettingsInactivityReminderRecurrent::setChecked)
+                inactivityReminderDndStartViewData.observe(tvSettingsInactivityReminderDndStart::setText)
+                inactivityReminderDndEndViewData.observe(tvSettingsInactivityReminderDndEnd::setText)
                 activityReminderViewData.observe(::updateActivityReminder)
                 activityReminderRecurrentCheckbox.observe(checkboxSettingsActivityReminderRecurrent::setChecked)
+                activityReminderDndStartViewData.observe(tvSettingsActivityReminderDndStart::setText)
+                activityReminderDndEndViewData.observe(tvSettingsActivityReminderDndEnd::setText)
             }
             with(layoutSettingsDisplay) {
                 settingsDisplayVisibility.observe { opened ->

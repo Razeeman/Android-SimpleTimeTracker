@@ -183,6 +183,24 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    val inactivityReminderDndStartViewData: LiveData<String> by lazy {
+        MutableLiveData<String>().let { initial ->
+            viewModelScope.launch {
+                initial.value = loadInactivityReminderDndStartViewData()
+            }
+            initial
+        }
+    }
+
+    val inactivityReminderDndEndViewData: LiveData<String> by lazy {
+        MutableLiveData<String>().let { initial ->
+            viewModelScope.launch {
+                initial.value = loadInactivityReminderDndEndViewData()
+            }
+            initial
+        }
+    }
+
     val activityReminderViewData: LiveData<SettingsDurationViewData> by lazy {
         MutableLiveData<SettingsDurationViewData>().let { initial ->
             viewModelScope.launch {
@@ -196,6 +214,24 @@ class SettingsViewModel @Inject constructor(
         MutableLiveData<Boolean>().let { initial ->
             viewModelScope.launch {
                 initial.value = prefsInteractor.getActivityReminderRecurrent()
+            }
+            initial
+        }
+    }
+
+    val activityReminderDndStartViewData: LiveData<String> by lazy {
+        MutableLiveData<String>().let { initial ->
+            viewModelScope.launch {
+                initial.value = loadActivityReminderDndStartViewData()
+            }
+            initial
+        }
+    }
+
+    val activityReminderDndEndViewData: LiveData<String> by lazy {
+        MutableLiveData<String>().let { initial ->
+            viewModelScope.launch {
+                initial.value = loadActivityReminderDndEndViewData()
             }
             initial
         }
@@ -388,13 +424,11 @@ class SettingsViewModel @Inject constructor(
 
     fun onStartOfDayClicked() {
         viewModelScope.launch {
-            DateTimeDialogParams(
+            openDateTimeDialog(
                 tag = START_OF_DAY_DIALOG_TAG,
-                type = DateTimeDialogType.TIME,
-                timestamp = prefsInteractor.getStartOfDayShift()
-                    .let(settingsMapper::startOfDayShiftToTimeStamp),
+                timestamp = prefsInteractor.getStartOfDayShift(),
                 useMilitaryTime = true,
-            ).let(router::navigate)
+            )
         }
     }
 
@@ -491,6 +525,26 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    fun onInactivityReminderDoNotDisturbStartClicked() {
+        viewModelScope.launch {
+            openDateTimeDialog(
+                tag = INACTIVITY_REMINDER_DND_START_DIALOG_TAG,
+                timestamp = prefsInteractor.getInactivityReminderDoNotDisturbStart(),
+                useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat(),
+            )
+        }
+    }
+
+    fun onInactivityReminderDoNotDisturbEndClicked() {
+        viewModelScope.launch {
+            openDateTimeDialog(
+                tag = INACTIVITY_REMINDER_DND_END_DIALOG_TAG,
+                timestamp = prefsInteractor.getInactivityReminderDoNotDisturbEnd(),
+                useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat(),
+            )
+        }
+    }
+
     fun onActivityReminderClicked() {
         viewModelScope.launch {
             DurationDialogParams(
@@ -505,6 +559,26 @@ class SettingsViewModel @Inject constructor(
             val newValue = !prefsInteractor.getActivityReminderRecurrent()
             prefsInteractor.setActivityReminderRecurrent(newValue)
             activityReminderRecurrentCheckbox.set(newValue)
+        }
+    }
+
+    fun onActivityReminderDoNotDisturbStartClicked() {
+        viewModelScope.launch {
+            openDateTimeDialog(
+                tag = ACTIVITY_REMINDER_DND_START_DIALOG_TAG,
+                timestamp = prefsInteractor.getActivityReminderDoNotDisturbStart(),
+                useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat(),
+            )
+        }
+    }
+
+    fun onActivityReminderDoNotDisturbEndClicked() {
+        viewModelScope.launch {
+            openDateTimeDialog(
+                tag = ACTIVITY_REMINDER_DND_END_DIALOG_TAG,
+                timestamp = prefsInteractor.getActivityReminderDoNotDisturbEnd(),
+                useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat(),
+            )
         }
     }
 
@@ -662,6 +736,26 @@ class SettingsViewModel @Inject constructor(
                 notificationGoalTimeInteractor.checkAndReschedule()
                 updateStartOfDayViewData()
             }
+            INACTIVITY_REMINDER_DND_START_DIALOG_TAG -> {
+                val newValue = settingsMapper.toStartOfDayShift(timestamp, wasPositive = true)
+                prefsInteractor.setInactivityReminderDoNotDisturbStart(newValue)
+                updateInactivityReminderDndStartViewData()
+            }
+            INACTIVITY_REMINDER_DND_END_DIALOG_TAG -> {
+                val newValue = settingsMapper.toStartOfDayShift(timestamp, wasPositive = true)
+                prefsInteractor.setInactivityReminderDoNotDisturbEnd(newValue)
+                updateInactivityReminderDndEndViewData()
+            }
+            ACTIVITY_REMINDER_DND_START_DIALOG_TAG -> {
+                val newValue = settingsMapper.toStartOfDayShift(timestamp, wasPositive = true)
+                prefsInteractor.setActivityReminderDoNotDisturbStart(newValue)
+                updateActivityReminderDndStartViewData()
+            }
+            ACTIVITY_REMINDER_DND_END_DIALOG_TAG -> {
+                val newValue = settingsMapper.toStartOfDayShift(timestamp, wasPositive = true)
+                prefsInteractor.setActivityReminderDoNotDisturbEnd(newValue)
+                updateActivityReminderDndEndViewData()
+            }
         }
     }
 
@@ -679,6 +773,19 @@ class SettingsViewModel @Inject constructor(
         if (tab is NavigationTab.Settings) {
             resetScreen.set(Unit)
         }
+    }
+
+    private fun openDateTimeDialog(
+        tag: String,
+        timestamp: Long,
+        useMilitaryTime: Boolean,
+    ) {
+        DateTimeDialogParams(
+            tag = tag,
+            type = DateTimeDialogType.TIME,
+            timestamp = timestamp.let(settingsMapper::startOfDayShiftToTimeStamp),
+            useMilitaryTime = useMilitaryTime,
+        ).let(router::navigate)
     }
 
     private fun openCardOrderDialog(cardOrder: CardOrder) {
@@ -721,8 +828,8 @@ class SettingsViewModel @Inject constructor(
         val shift = prefsInteractor.getStartOfDayShift()
 
         return SettingsStartOfDayViewData(
-            startOfDayValue = settingsMapper.toStartOfDayText(startOfDayShift = shift),
-            startOfDaySign = settingsMapper.toStartOfDaySign(shift = shift)
+            startOfDayValue = settingsMapper.toStartOfDayText(shift, useMilitaryTime = true),
+            startOfDaySign = settingsMapper.toStartOfDaySign(shift)
         )
     }
 
@@ -736,6 +843,28 @@ class SettingsViewModel @Inject constructor(
             .let(settingsMapper::toDurationViewData)
     }
 
+    private suspend fun updateInactivityReminderDndStartViewData() {
+        val data = loadInactivityReminderDndStartViewData()
+        inactivityReminderDndStartViewData.set(data)
+    }
+
+    private suspend fun loadInactivityReminderDndStartViewData(): String {
+        val shift = prefsInteractor.getInactivityReminderDoNotDisturbStart()
+        val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
+        return settingsMapper.toStartOfDayText(shift, useMilitaryTime)
+    }
+
+    private suspend fun updateInactivityReminderDndEndViewData() {
+        val data = loadInactivityReminderDndEndViewData()
+        inactivityReminderDndEndViewData.set(data)
+    }
+
+    private suspend fun loadInactivityReminderDndEndViewData(): String {
+        val shift = prefsInteractor.getInactivityReminderDoNotDisturbEnd()
+        val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
+        return settingsMapper.toStartOfDayText(shift, useMilitaryTime)
+    }
+
     private suspend fun updateActivityReminderViewData() {
         val data = loadActivityReminderViewData()
         activityReminderViewData.set(data)
@@ -744,6 +873,28 @@ class SettingsViewModel @Inject constructor(
     private suspend fun loadActivityReminderViewData(): SettingsDurationViewData {
         return prefsInteractor.getActivityReminderDuration()
             .let(settingsMapper::toDurationViewData)
+    }
+
+    private suspend fun updateActivityReminderDndStartViewData() {
+        val data = loadActivityReminderDndStartViewData()
+        activityReminderDndStartViewData.set(data)
+    }
+
+    private suspend fun loadActivityReminderDndStartViewData(): String {
+        val shift = prefsInteractor.getActivityReminderDoNotDisturbStart()
+        val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
+        return settingsMapper.toStartOfDayText(shift, useMilitaryTime)
+    }
+
+    private suspend fun updateActivityReminderDndEndViewData() {
+        val data = loadActivityReminderDndEndViewData()
+        activityReminderDndEndViewData.set(data)
+    }
+
+    private suspend fun loadActivityReminderDndEndViewData(): String {
+        val shift = prefsInteractor.getActivityReminderDoNotDisturbEnd()
+        val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
+        return settingsMapper.toStartOfDayText(shift, useMilitaryTime)
     }
 
     private suspend fun updateIgnoreShortRecordsViewData() {
@@ -789,7 +940,11 @@ class SettingsViewModel @Inject constructor(
 
     companion object {
         private const val INACTIVITY_DURATION_DIALOG_TAG = "inactivity_duration_dialog_tag"
+        private const val INACTIVITY_REMINDER_DND_START_DIALOG_TAG = "inactivity_reminder_dnd_start_dialog_tag"
+        private const val INACTIVITY_REMINDER_DND_END_DIALOG_TAG = "inactivity_reminder_dnd_end_dialog_tag"
         private const val ACTIVITY_DURATION_DIALOG_TAG = "activity_duration_dialog_tag"
+        private const val ACTIVITY_REMINDER_DND_START_DIALOG_TAG = "activity_reminder_dnd_start_dialog_tag"
+        private const val ACTIVITY_REMINDER_DND_END_DIALOG_TAG = "activity_reminder_dnd_end_dialog_tag"
         private const val IGNORE_SHORT_RECORDS_DIALOG_TAG = "ignore_short_records_dialog_tag"
         private const val START_OF_DAY_DIALOG_TAG = "start_of_day_dialog_tag"
     }

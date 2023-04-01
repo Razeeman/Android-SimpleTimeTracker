@@ -189,8 +189,9 @@
                     style="@style/SettingsText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:paddingBottom="0dp"
                     android:text="@string/settings_inactivity_reminder_recurrent"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/tvSettingsInactivityReminderDoNotDisturb"
                     app:layout_constraintEnd_toStartOf="@id/checkboxSettingsInactivityReminderRecurrent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvSettingsInactivityReminderHint" />
@@ -203,12 +204,62 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/tvSettingsInactivityReminderRecurrentHint" />
 
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSettingsInactivityReminderDoNotDisturb"
+                    style="@style/SettingsText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Do no not disturb"
+                    app:layout_constraintEnd_toStartOf="@id/tvSettingsInactivityReminderDndStart"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvSettingsInactivityReminderRecurrentHint" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSettingsInactivityReminderDndStart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:gravity="center"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    android:textColor="?appTextPrimaryColor"
+                    app:layout_constraintBottom_toBottomOf="@id/tvSettingsInactivityReminderDoNotDisturb"
+                    app:layout_constraintEnd_toStartOf="@id/tvSettingsInactivityReminderDndDivider"
+                    app:layout_constraintTop_toTopOf="@id/tvSettingsInactivityReminderDoNotDisturb"
+                    tools:text="01:23" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSettingsInactivityReminderDndDivider"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end|center_vertical"
+                    android:text="-"
+                    android:textColor="?appTextPrimaryColor"
+                    app:layout_constraintBottom_toBottomOf="@id/tvSettingsInactivityReminderDoNotDisturb"
+                    app:layout_constraintEnd_toStartOf="@id/tvSettingsInactivityReminderDndEnd"
+                    app:layout_constraintTop_toTopOf="@id/tvSettingsInactivityReminderDoNotDisturb" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSettingsInactivityReminderDndEnd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="16dp"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:gravity="center"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    android:textColor="?appTextPrimaryColor"
+                    app:layout_constraintBottom_toBottomOf="@id/tvSettingsInactivityReminderDoNotDisturb"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tvSettingsInactivityReminderDoNotDisturb"
+                    tools:text="01:23" />
+
                 <androidx.constraintlayout.widget.Group
                     android:id="@+id/groupSettingsInactivityReminderRecurrent"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:visibility="gone"
-                    app:constraint_referenced_ids="tvSettingsInactivityReminderRecurrentHint, checkboxSettingsInactivityReminderRecurrent"
+                    app:constraint_referenced_ids="tvSettingsInactivityReminderRecurrentHint, checkboxSettingsInactivityReminderRecurrent, tvSettingsInactivityReminderDoNotDisturb, tvSettingsInactivityReminderDndDivider, tvSettingsInactivityReminderDndStart, tvSettingsInactivityReminderDndEnd"
                     tools:visibility="visible" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -280,8 +331,9 @@
                     style="@style/SettingsText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:paddingBottom="0dp"
                     android:text="@string/settings_inactivity_reminder_recurrent"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/tvSettingsInactivityReminderDoNotDisturb"
                     app:layout_constraintEnd_toStartOf="@id/checkboxSettingsActivityReminderRecurrent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvSettingsActivityReminderHint" />
@@ -294,12 +346,62 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/tvSettingsActivityReminderRecurrentHint" />
 
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSettingsActivityReminderDoNotDisturb"
+                    style="@style/SettingsText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Do no not disturb"
+                    app:layout_constraintEnd_toStartOf="@id/tvSettingsActivityReminderDndStart"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvSettingsActivityReminderRecurrentHint" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSettingsActivityReminderDndStart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:gravity="center"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    android:textColor="?appTextPrimaryColor"
+                    app:layout_constraintBottom_toBottomOf="@id/tvSettingsActivityReminderDoNotDisturb"
+                    app:layout_constraintEnd_toStartOf="@id/tvSettingsActivityReminderDndDivider"
+                    app:layout_constraintTop_toTopOf="@id/tvSettingsActivityReminderDoNotDisturb"
+                    tools:text="01:23" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSettingsActivityReminderDndDivider"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end|center_vertical"
+                    android:text="-"
+                    android:textColor="?appTextPrimaryColor"
+                    app:layout_constraintBottom_toBottomOf="@id/tvSettingsActivityReminderDoNotDisturb"
+                    app:layout_constraintEnd_toStartOf="@id/tvSettingsActivityReminderDndEnd"
+                    app:layout_constraintTop_toTopOf="@id/tvSettingsActivityReminderDoNotDisturb" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSettingsActivityReminderDndEnd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="16dp"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:gravity="center"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    android:textColor="?appTextPrimaryColor"
+                    app:layout_constraintBottom_toBottomOf="@id/tvSettingsActivityReminderDoNotDisturb"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tvSettingsActivityReminderDoNotDisturb"
+                    tools:text="01:23" />
+
                 <androidx.constraintlayout.widget.Group
                     android:id="@+id/groupSettingsActivityReminderRecurrent"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:visibility="gone"
-                    app:constraint_referenced_ids="tvSettingsActivityReminderRecurrentHint, checkboxSettingsActivityReminderRecurrent"
+                    app:constraint_referenced_ids="tvSettingsActivityReminderRecurrentHint, checkboxSettingsActivityReminderRecurrent, tvSettingsActivityReminderDoNotDisturb, tvSettingsActivityReminderDndStart, tvSettingsActivityReminderDndDivider, tvSettingsActivityReminderDndEnd"
                     tools:visibility="visible" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

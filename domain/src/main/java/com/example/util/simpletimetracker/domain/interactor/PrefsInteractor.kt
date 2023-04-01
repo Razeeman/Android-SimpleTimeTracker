@@ -208,6 +208,22 @@ class PrefsInteractor @Inject constructor(
         prefsRepo.inactivityReminderRecurrent = isRecurrent
     }
 
+    suspend fun getInactivityReminderDoNotDisturbStart(): Long = withContext(Dispatchers.IO) {
+        prefsRepo.inactivityReminderDoNotDisturbStart
+    }
+
+    suspend fun setInactivityReminderDoNotDisturbStart(start: Long) = withContext(Dispatchers.IO) {
+        prefsRepo.inactivityReminderDoNotDisturbStart = start
+    }
+
+    suspend fun getInactivityReminderDoNotDisturbEnd(): Long = withContext(Dispatchers.IO) {
+        prefsRepo.inactivityReminderDoNotDisturbEnd
+    }
+
+    suspend fun setInactivityReminderDoNotDisturbEnd(end: Long) = withContext(Dispatchers.IO) {
+        prefsRepo.inactivityReminderDoNotDisturbEnd = end
+    }
+
     suspend fun getActivityReminderDuration(): Long = withContext(Dispatchers.IO) {
         prefsRepo.activityReminderDuration
     }
@@ -222,6 +238,22 @@ class PrefsInteractor @Inject constructor(
 
     suspend fun setActivityReminderRecurrent(isRecurrent: Boolean) = withContext(Dispatchers.IO) {
         prefsRepo.activityReminderRecurrent = isRecurrent
+    }
+
+    suspend fun getActivityReminderDoNotDisturbStart(): Long = withContext(Dispatchers.IO) {
+        prefsRepo.activityReminderDoNotDisturbStart
+    }
+
+    suspend fun setActivityReminderDoNotDisturbStart(start: Long) = withContext(Dispatchers.IO) {
+        prefsRepo.activityReminderDoNotDisturbStart = start
+    }
+
+    suspend fun getActivityReminderDoNotDisturbEnd(): Long = withContext(Dispatchers.IO) {
+        prefsRepo.activityReminderDoNotDisturbEnd
+    }
+
+    suspend fun setActivityReminderDoNotDisturbEnd(end: Long) = withContext(Dispatchers.IO) {
+        prefsRepo.activityReminderDoNotDisturbEnd = end
     }
 
     suspend fun getIgnoreShortRecordsDuration(): Long = withContext(Dispatchers.IO) {

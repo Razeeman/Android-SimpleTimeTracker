@@ -137,11 +137,12 @@ class SettingsMapper @Inject constructor(
 
     fun toStartOfDayText(
         startOfDayShift: Long,
+        useMilitaryTime: Boolean,
     ): String {
         val hintTime = startOfDayShiftToTimeStamp(startOfDayShift)
         return timeMapper.formatTime(
             time = hintTime,
-            useMilitaryTime = true,
+            useMilitaryTime = useMilitaryTime,
             showSeconds = false,
         )
     }

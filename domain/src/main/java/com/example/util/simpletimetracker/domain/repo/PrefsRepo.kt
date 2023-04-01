@@ -44,9 +44,17 @@ interface PrefsRepo {
 
     var inactivityReminderRecurrent: Boolean
 
+    var inactivityReminderDoNotDisturbStart: Long // in milliseconds
+
+    var inactivityReminderDoNotDisturbEnd: Long // in milliseconds
+
     var activityReminderDuration: Long // in seconds
 
     var activityReminderRecurrent: Boolean
+
+    var activityReminderDoNotDisturbStart: Long // in milliseconds
+
+    var activityReminderDoNotDisturbEnd: Long // in milliseconds
 
     var ignoreShortRecordsDuration: Long // in seconds
 
