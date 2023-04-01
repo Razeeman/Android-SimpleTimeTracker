@@ -378,7 +378,7 @@ class NotificationTypeManager @Inject constructor(
         private const val NOTIFICATIONS_CHANNEL_ID = "NOTIFICATIONS"
         private const val NOTIFICATIONS_CHANNEL_NAME = "Notifications"
 
-        private const val TYPES_LIST_SIZE = 7
+        private const val TYPES_LIST_SIZE = 6
         private const val TAGS_LIST_SIZE = 4
     }
 }

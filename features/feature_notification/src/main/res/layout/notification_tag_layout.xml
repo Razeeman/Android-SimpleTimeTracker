@@ -5,7 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_weight="1"
-    android:padding="1dp">
+    android:padding="1dp"
+    tools:layout_height="@dimen/notification_controls_size"
+    tools:layout_width="100dp">
 
     <ImageView
         android:id="@+id/ivNotificationTag"
@@ -23,6 +25,7 @@
         android:ellipsize="end"
         android:gravity="center"
         android:maxLines="1"
+        android:paddingHorizontal="2dp"
         android:textColor="@color/white"
         android:textSize="11sp"
         tools:text="Some really long tag name" />
