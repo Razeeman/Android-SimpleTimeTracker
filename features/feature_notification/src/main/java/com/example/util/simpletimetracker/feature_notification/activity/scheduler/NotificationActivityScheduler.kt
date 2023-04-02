@@ -14,8 +14,7 @@ class NotificationActivityScheduler @Inject constructor(
     private val alarmManagerController: AlarmManagerController,
 ) {
 
-    fun schedule(durationMillis: Long) {
-        val timestamp = System.currentTimeMillis() + durationMillis
+    fun schedule(timestamp: Long) {
         alarmManagerController.scheduleAtTime(timestamp, getPendingIntent())
     }
 

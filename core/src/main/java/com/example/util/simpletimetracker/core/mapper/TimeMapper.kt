@@ -509,6 +509,18 @@ class TimeMapper @Inject constructor(
         return yearTitleFormat.format(calendar.timeInMillis)
     }
 
+    fun getStartOfDayTimeStamp(
+        timestamp: Long = System.currentTimeMillis(),
+    ): Long {
+        return Calendar.getInstance().apply {
+            timeInMillis = timestamp
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }.timeInMillis
+    }
+
     private fun isFirstWeekOfNextYear(calendar: Calendar): Boolean {
         return calendar.get(Calendar.WEEK_OF_YEAR) == 1 &&
             calendar.get(Calendar.MONTH) == calendar.getActualMaximum(Calendar.MONTH)

@@ -522,6 +522,8 @@ class SettingsViewModel @Inject constructor(
             val newValue = !prefsInteractor.getInactivityReminderRecurrent()
             prefsInteractor.setInactivityReminderRecurrent(newValue)
             inactivityReminderRecurrentCheckbox.set(newValue)
+            notificationInactivityInteractor.cancel()
+            notificationInactivityInteractor.checkAndSchedule()
         }
     }
 
@@ -559,6 +561,8 @@ class SettingsViewModel @Inject constructor(
             val newValue = !prefsInteractor.getActivityReminderRecurrent()
             prefsInteractor.setActivityReminderRecurrent(newValue)
             activityReminderRecurrentCheckbox.set(newValue)
+            notificationActivityInteractor.cancel()
+            notificationActivityInteractor.checkAndSchedule()
         }
     }
 
@@ -740,21 +744,29 @@ class SettingsViewModel @Inject constructor(
                 val newValue = settingsMapper.toStartOfDayShift(timestamp, wasPositive = true)
                 prefsInteractor.setInactivityReminderDoNotDisturbStart(newValue)
                 updateInactivityReminderDndStartViewData()
+                notificationInactivityInteractor.cancel()
+                notificationInactivityInteractor.checkAndSchedule()
             }
             INACTIVITY_REMINDER_DND_END_DIALOG_TAG -> {
                 val newValue = settingsMapper.toStartOfDayShift(timestamp, wasPositive = true)
                 prefsInteractor.setInactivityReminderDoNotDisturbEnd(newValue)
                 updateInactivityReminderDndEndViewData()
+                notificationInactivityInteractor.cancel()
+                notificationInactivityInteractor.checkAndSchedule()
             }
             ACTIVITY_REMINDER_DND_START_DIALOG_TAG -> {
                 val newValue = settingsMapper.toStartOfDayShift(timestamp, wasPositive = true)
                 prefsInteractor.setActivityReminderDoNotDisturbStart(newValue)
                 updateActivityReminderDndStartViewData()
+                notificationActivityInteractor.cancel()
+                notificationActivityInteractor.checkAndSchedule()
             }
             ACTIVITY_REMINDER_DND_END_DIALOG_TAG -> {
                 val newValue = settingsMapper.toStartOfDayShift(timestamp, wasPositive = true)
                 prefsInteractor.setActivityReminderDoNotDisturbEnd(newValue)
                 updateActivityReminderDndEndViewData()
+                notificationActivityInteractor.cancel()
+                notificationActivityInteractor.checkAndSchedule()
             }
         }
     }

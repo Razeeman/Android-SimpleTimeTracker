@@ -125,14 +125,14 @@ class SettingsMapper @Inject constructor(
         wasPositive: Boolean,
     ): Long {
         val maxValue = TimeUnit.HOURS.toMillis(24) - TimeUnit.MINUTES.toMillis(1)
-        return (timestamp - getStartOfDayTimeStamp()).coerceIn(0..maxValue)
+        return (timestamp - timeMapper.getStartOfDayTimeStamp()).coerceIn(0..maxValue)
             .let { if (wasPositive) it else it * -1 }
     }
 
     fun startOfDayShiftToTimeStamp(
         startOfDayShift: Long,
     ): Long {
-        return getStartOfDayTimeStamp() + startOfDayShift.absoluteValue
+        return timeMapper.getStartOfDayTimeStamp() + startOfDayShift.absoluteValue
     }
 
     fun toStartOfDayText(
@@ -192,14 +192,5 @@ class SettingsMapper @Inject constructor(
 
     private fun toPosition(dayOfWeek: DayOfWeek): Int {
         return dayOfWeekList.indexOf(dayOfWeek).takeUnless { it == -1 }.orZero()
-    }
-
-    private fun getStartOfDayTimeStamp(): Long {
-        return Calendar.getInstance().apply {
-            set(Calendar.HOUR_OF_DAY, 0)
-            set(Calendar.MINUTE, 0)
-            set(Calendar.SECOND, 0)
-            set(Calendar.MILLISECOND, 0)
-        }.timeInMillis
     }
 }

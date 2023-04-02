@@ -9,6 +9,7 @@ import com.example.util.simpletimetracker.feature_notification.R
 import com.example.util.simpletimetracker.feature_notification.activity.manager.NotificationActivityManager
 import com.example.util.simpletimetracker.feature_notification.activity.manager.NotificationActivityParams
 import com.example.util.simpletimetracker.feature_notification.activity.scheduler.NotificationActivityScheduler
+import com.example.util.simpletimetracker.feature_notification.core.GetDoNotDisturbHandledScheduleInteractor
 import javax.inject.Inject
 
 class NotificationActivityInteractorImpl @Inject constructor(
@@ -18,13 +19,21 @@ class NotificationActivityInteractorImpl @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
+    private val getDoNotDisturbHandledScheduleInteractor: GetDoNotDisturbHandledScheduleInteractor,
 ) : NotificationActivityInteractor {
 
     override suspend fun checkAndSchedule() {
         prefsInteractor.getActivityReminderDuration()
             .takeIf { it > 0 }
             ?.takeIf { runningRecordInteractor.getAll().isNotEmpty() }
-            ?.let { it * 1000L }
+            ?.let { it * 1000L + System.currentTimeMillis() }
+            ?.let {
+                getDoNotDisturbHandledScheduleInteractor.execute(
+                    timestamp = it,
+                    dndStart = prefsInteractor.getActivityReminderDoNotDisturbStart(),
+                    dndEnd = prefsInteractor.getActivityReminderDoNotDisturbEnd(),
+                )
+            }
             ?.let(scheduler::schedule)
     }
 

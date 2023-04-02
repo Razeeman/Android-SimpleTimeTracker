@@ -5,6 +5,7 @@ import com.example.util.simpletimetracker.domain.interactor.NotificationInactivi
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.feature_notification.R
+import com.example.util.simpletimetracker.feature_notification.core.GetDoNotDisturbHandledScheduleInteractor
 import com.example.util.simpletimetracker.feature_notification.inactivity.manager.NotificationInactivityManager
 import com.example.util.simpletimetracker.feature_notification.inactivity.manager.NotificationInactivityParams
 import com.example.util.simpletimetracker.feature_notification.inactivity.scheduler.NotificationInactivityScheduler
@@ -16,13 +17,21 @@ class NotificationInactivityInteractorImpl @Inject constructor(
     private val scheduler: NotificationInactivityScheduler,
     private val prefsInteractor: PrefsInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
+    private val getDoNotDisturbHandledScheduleInteractor: GetDoNotDisturbHandledScheduleInteractor,
 ) : NotificationInactivityInteractor {
 
     override suspend fun checkAndSchedule() {
         prefsInteractor.getInactivityReminderDuration()
             .takeIf { it > 0 }
             ?.takeIf { runningRecordInteractor.getAll().isEmpty() }
-            ?.let { it * 1000L }
+            ?.let { it * 1000L + System.currentTimeMillis() }
+            ?.let {
+                getDoNotDisturbHandledScheduleInteractor.execute(
+                    timestamp = it,
+                    dndStart = prefsInteractor.getInactivityReminderDoNotDisturbStart(),
+                    dndEnd = prefsInteractor.getInactivityReminderDoNotDisturbEnd(),
+                )
+            }
             ?.let(scheduler::schedule)
     }
 
