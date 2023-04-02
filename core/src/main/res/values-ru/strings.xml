@@ -217,6 +217,7 @@
     <string name="settings_keep_screen_on">Держать экран включенным</string>
     <string name="settings_change_card_size">Изменить размер карточки активности</string>
     <string name="settings_archive">Архив</string>
+    <string name="settings_data_edit">Редактировать данные</string>
     <string name="settings_edit_categories">Редактировать категории и теги</string>
     <string name="settings_edit_categories_hint">Назначайте категории действиям и теги записям.</string>
     <string name="settings_show_record_tag_selection">Показывать диалог выбора тега для записи</string>
@@ -369,6 +370,9 @@
     <string name="archive_records_count">Записи</string>
     <string name="archive_record_tags_count">Теги записей</string>
     <string name="archive_tagged_records_count">Записи, отмеченные тегом</string>
+
+    <!--  Data edit  -->
+    <string name="data_edit_hint">Эти изменения нельзя отменить. Обязательно создайте файл резервной копии, прежде чем что-либо делать.</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Смайлы и эмоции</string>

@@ -217,6 +217,7 @@
     <string name="settings_keep_screen_on">保持螢幕長開</string>
     <string name="settings_change_card_size">改變活動卡片尺寸</string>
     <string name="settings_archive">備存</string>
+    <string name="settings_data_edit">數據編輯</string>
     <string name="settings_edit_categories">編輯類別和標籤</string>
     <string name="settings_edit_categories_hint">為活動分配類別，為記錄分配標籤。</string>
     <string name="settings_show_record_tag_selection">顯示記錄標籤選擇</string>
@@ -369,6 +370,9 @@
     <string name="archive_records_count">紀錄</string>
     <string name="archive_record_tags_count">紀錄標記</string>
     <string name="archive_tagged_records_count">已標記紀錄</string>
+
+    <!--  Data edit  -->
+    <string name="data_edit_hint">這些更改無法撤消。確保在執行任何操作之前創建備份文件。</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">表情</string>

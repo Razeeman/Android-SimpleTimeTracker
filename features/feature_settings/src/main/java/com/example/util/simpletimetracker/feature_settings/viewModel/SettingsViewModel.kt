@@ -32,6 +32,7 @@ import com.example.util.simpletimetracker.navigation.params.action.OpenMarketPar
 import com.example.util.simpletimetracker.navigation.params.action.SendEmailParams
 import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
 import com.example.util.simpletimetracker.navigation.params.screen.ArchiveParams
+import com.example.util.simpletimetracker.navigation.params.screen.DataEditParams
 import com.example.util.simpletimetracker.navigation.params.screen.CardOrderDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.CardSizeDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.CategoriesParams
@@ -686,6 +687,10 @@ class SettingsViewModel @Inject constructor(
 
     fun onArchiveClick() {
         router.navigate(ArchiveParams)
+    }
+
+    fun onDataEditClick() {
+        router.navigate(DataEditParams)
     }
 
     fun onDurationSet(tag: String?, duration: Long) {

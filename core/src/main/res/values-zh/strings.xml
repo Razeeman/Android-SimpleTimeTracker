@@ -217,6 +217,7 @@
     <string name="settings_keep_screen_on">保持屏幕开启</string>
     <string name="settings_change_card_size">更改活动卡片大小</string>
     <string name="settings_archive">存档</string>
+    <string name="settings_data_edit">数据编辑</string>
     <string name="settings_edit_categories">编辑类别和标签</string>
     <string name="settings_edit_categories_hint">将类别分配给活动，将标签分配给记录。</string>
     <string name="settings_show_record_tag_selection">显示记录标签选择</string>
@@ -369,6 +370,9 @@
     <string name="archive_records_count">记录</string>
     <string name="archive_record_tags_count">记录标签</string>
     <string name="archive_tagged_records_count">标签标记的记录</string>
+
+    <!--  Data edit  -->
+    <string name="data_edit_hint">这些更改无法撤消。确保在执行任何操作之前创建备份文件。</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">微笑与情感</string>

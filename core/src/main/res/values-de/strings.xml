@@ -217,6 +217,7 @@
     <string name="settings_keep_screen_on">Bildschirm anlassen</string>
     <string name="settings_change_card_size">Aktivitätskartengröße ändern</string>
     <string name="settings_archive">Archiv</string>
+    <string name="settings_data_edit">Daten bearbeiten</string>
     <string name="settings_edit_categories">Kategorien und Tags bearbeiten</string>
     <string name="settings_edit_categories_hint">Weisen Sie Aktivitäten Kategorien und Datensätzen Tags zu.</string>
     <string name="settings_show_record_tag_selection">Datensatz-Tag-Auswahl zeigen</string>
@@ -369,6 +370,9 @@ Wenn die Einstellung <b>\"%s\"</b> aktiviert ist, sendet die App Ereignisse zu g
     <string name="archive_records_count">Einträge</string>
     <string name="archive_record_tags_count">Tags erfassen</string>
     <string name="archive_tagged_records_count">Markierte Einträge</string>
+
+    <!--  Data edit  -->
+    <string name="data_edit_hint">Diese Änderungen können nicht rückgängig gemacht werden. Stellen Sie sicher, dass Sie eine Sicherungsdatei erstellen, bevor Sie etwas tun.</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Lächeln &amp; Stimmung</string>

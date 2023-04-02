@@ -217,6 +217,7 @@
     <string name="settings_keep_screen_on">画面表示の維持</string>
     <string name="settings_change_card_size">アクティビティカードのサイズを変更する</string>
     <string name="settings_archive">アーカイブ</string>
+    <string name="settings_data_edit">データ編集</string>
     <string name="settings_edit_categories">カテゴリとタグを編集する</string>
     <string name="settings_edit_categories_hint">アクティビティにカテゴリを割り当て、レコードにタグを割り当てます。</string>
     <string name="settings_show_record_tag_selection">記録タグの選択を表示</string>
@@ -369,6 +370,9 @@
     <string name="archive_records_count">計測記録</string>
     <string name="archive_record_tags_count">計測記録タグ</string>
     <string name="archive_tagged_records_count">タグ付けされた計測記録</string>
+
+    <!--  Data edit  -->
+    <string name="data_edit_hint">これらの変更は元に戻せません。何かを行う前に、必ずバックアップ ファイルを作成してください。</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">顔文字とエモート</string>

@@ -217,6 +217,7 @@
     <string name="settings_keep_screen_on">Keep screen on</string>
     <string name="settings_change_card_size">Change activity card size</string>
     <string name="settings_archive">Archive</string>
+    <string name="settings_data_edit">Data edit</string>
     <string name="settings_edit_categories">Edit categories and tags</string>
     <string name="settings_edit_categories_hint">Assign categories to activities and tags to records.</string>
     <string name="settings_show_record_tag_selection">Show record tag selection</string>
@@ -369,6 +370,9 @@ If <b>\"%s\"</b> setting is enabled, app will send events on activity started or
     <string name="archive_records_count">Records</string>
     <string name="archive_record_tags_count">Record tags</string>
     <string name="archive_tagged_records_count">Tagged records</string>
+
+    <!--  Data edit  -->
+    <string name="data_edit_hint">These changes cannot be undone. Make sure to create a backup file before doing anything.</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Smileys &amp; Emotion</string>

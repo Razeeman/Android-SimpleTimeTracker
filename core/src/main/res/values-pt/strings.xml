@@ -217,6 +217,7 @@
     <string name="settings_keep_screen_on">Mantenha a tela ligada</string>
     <string name="settings_change_card_size">Alterar o tamanho do cartão de atividade</string>
     <string name="settings_archive">Arquivo</string>
+    <string name="settings_data_edit">Edição de dados</string>
     <string name="settings_edit_categories">Editar categorias e tags</string>
     <string name="settings_edit_categories_hint">Atribua categorias a atividades e tags a registros.</string>
     <string name="settings_show_record_tag_selection">Mostrar seleção de tag de registro</string>
@@ -365,6 +366,9 @@ Se a configuração <b>\"%s\"</b> estiver habilitada, o aplicativo enviará even
     <string name="archive_records_count">Registros</string>
     <string name="archive_record_tags_count">Tags de registro</string>
     <string name="archive_tagged_records_count">Registros com tag</string>
+
+    <!--  Data edit  -->
+    <string name="data_edit_hint">Essas alterações não podem ser desfeitas. Certifique-se de criar um arquivo de backup antes de fazer qualquer coisa.</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Smileys &amp; Emoções</string>

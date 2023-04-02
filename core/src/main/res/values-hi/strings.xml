@@ -217,6 +217,7 @@
     <string name="settings_keep_screen_on">स्क्रीन को चालू रखें</string>
     <string name="settings_change_card_size">गतिविधि कार्ड का आकार बदलें</string>
     <string name="settings_archive">संग्रहालय</string>
+    <string name="settings_data_edit">डेटा संपादित करें</string>
     <string name="settings_edit_categories">श्रेणियां और टैग संपादित करें</string>
     <string name="settings_edit_categories_hint">गतिविधियों और टैग को दर्कज करने के लिए श्रेणियां नियुक्त करें।</string>
     <string name="settings_show_record_tag_selection">चयन रिकॉर्ड टैग दिखाएं</string>
@@ -369,6 +370,9 @@
     <string name="archive_records_count">अभिलेख</string>
     <string name="archive_record_tags_count">रिकॉर्ड टैग</string>
     <string name="archive_tagged_records_count">टैग किए गए अभिलेख</string>
+
+    <!--  Data edit  -->
+    <string name="data_edit_hint">इन परिवर्तनों को पूर्ववत नहीं किया जा सकता है। कुछ भी करने से पहले बैकअप फ़ाइल बनाना सुनिश्चित करें।</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">स्माइली और इमोशन</string>

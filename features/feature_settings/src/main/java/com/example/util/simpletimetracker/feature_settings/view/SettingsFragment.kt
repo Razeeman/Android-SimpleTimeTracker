@@ -68,6 +68,7 @@ class SettingsFragment :
             checkboxSettingsDarkMode.setOnClick(viewModel::onDarkModeClicked)
             layoutSettingsEditCategories.setOnClick(throttle(viewModel::onEditCategoriesClick))
             tvSettingsArchive.setOnClick(throttle(viewModel::onArchiveClick))
+            tvSettingsDataEdit.setOnClick(throttle(viewModel::onDataEditClick))
         }
         with(layoutSettingsNotifications) {
             layoutSettingsNotificationsTitle.setOnClick(viewModel::onSettingsNotificationsClick)

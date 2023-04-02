@@ -80,6 +80,7 @@ dependencies {
     implementation(project(":feature_change_activity_filter"))
     implementation(project(":feature_archive"))
     implementation(project(":feature_tag_selection"))
+    implementation(project(":feature_data_edit"))
 
     implementation(Deps.Androidx.room)
     implementation(Deps.Ktx.navigationFragment)

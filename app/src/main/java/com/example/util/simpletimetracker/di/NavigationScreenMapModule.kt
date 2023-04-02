@@ -13,6 +13,7 @@ import com.example.util.simpletimetracker.navigation.NavigationData
 import com.example.util.simpletimetracker.navigation.bundleCreator.BundleCreator
 import com.example.util.simpletimetracker.navigation.bundleCreator.bundleCreatorDelegate
 import com.example.util.simpletimetracker.navigation.params.screen.ArchiveParams
+import com.example.util.simpletimetracker.navigation.params.screen.DataEditParams
 import com.example.util.simpletimetracker.navigation.params.screen.CategoriesParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeActivityFilterParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeCategoryFromChangeActivityParams
@@ -122,6 +123,16 @@ class NavigationScreenMapModule {
     fun archive(): NavigationData {
         return NavigationData(
             R.id.action_mainFragment_to_archiveFragment,
+            BundleCreator.empty()
+        )
+    }
+
+    @IntoMap
+    @Provides
+    @ScreenKey(DataEditParams::class)
+    fun dataEdit(): NavigationData {
+        return NavigationData(
+            R.id.action_mainFragment_to_dataEditFragment,
             BundleCreator.empty()
         )
     }

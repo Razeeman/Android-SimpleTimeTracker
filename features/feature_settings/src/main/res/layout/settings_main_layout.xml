@@ -118,6 +118,20 @@
             android:focusable="true"
             android:text="@string/settings_archive" />
 
+        <View
+            style="@style/SettingsDivider"
+            android:layout_width="match_parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvSettingsDataEdit"
+            style="@style/SettingsText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:text="@string/settings_data_edit" />
+
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

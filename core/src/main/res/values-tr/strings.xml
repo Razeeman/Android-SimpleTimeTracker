@@ -217,6 +217,7 @@
     <string name="settings_keep_screen_on">Ekranı açık tut</string>
     <string name="settings_change_card_size">Aktivite kartı boyutunu değiştir</string>
     <string name="settings_archive">Arşiv</string>
+    <string name="settings_data_edit">Veri düzenleme</string>
     <string name="settings_edit_categories">Kategorileri ve etiketleri düzenle</string>
     <string name="settings_edit_categories_hint">Etkinliklere kategoriler ve kayıtlara etiketler atayın.</string>
     <string name="settings_show_record_tag_selection">Kayıt etiketi seçimini göster</string>
@@ -369,6 +370,9 @@ Ek olarak:<br/>
     <string name="archive_records_count">Kayıtlar</string>
     <string name="archive_record_tags_count">Kayıt etiketleri</string>
     <string name="archive_tagged_records_count">Etiketin atandığı kayıtlar</string>
+
+    <!--  Data edit  -->
+    <string name="data_edit_hint">Bu değişiklikler geri alınamaz. Herhangi bir şey yapmadan önce bir yedekleme dosyası oluşturduğunuzdan emin olun.</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">İfadeler</string>

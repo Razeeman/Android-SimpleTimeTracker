@@ -217,6 +217,7 @@
     <string name="settings_keep_screen_on">Scherm aan houden</string>
     <string name="settings_change_card_size">Grootte activiteitskaart wijzigen</string>
     <string name="settings_archive">Archief</string>
+    <string name="settings_data_edit">Gegevens bewerken</string>
     <string name="settings_edit_categories">Categorieën en labels bewerken</string>
     <string name="settings_edit_categories_hint">Wijs categorieën toe aan activiteiten en labels aan records.</string>
     <string name="settings_show_record_tag_selection">Toon opname label selectie</string>
@@ -369,6 +370,9 @@ Als de instelling <b>\"%s\"</b> is ingeschakeld, stuurt de app gebeurtenissen ov
     <string name="archive_records_count">Gegevens</string>
     <string name="archive_record_tags_count">Gegevens labelen</string>
     <string name="archive_tagged_records_count">Gelabelde gegevens</string>
+
+    <!--  Data edit  -->
+    <string name="data_edit_hint">Deze wijzigingen kunnen niet ongedaan worden gemaakt. Zorg ervoor dat u een back-upbestand maakt voordat u iets doet.</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Smileys &amp; Emotie</string>

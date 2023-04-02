@@ -31,6 +31,9 @@
         <action
             android:id="@+id/action_mainFragment_to_archiveFragment"
             app:destination="@id/archiveFragment"/>
+        <action
+            android:id="@+id/action_mainFragment_to_dataEditFragment"
+            app:destination="@id/dataEditFragment"/>
     </fragment>
     <fragment
         android:id="@+id/changeRecordTypeFragment"
@@ -178,6 +181,11 @@
         android:name="com.example.util.simpletimetracker.feature_archive.view.ArchiveFragment"
         android:label="ArchiveFragment"
         tools:layout="@layout/archive_fragment" />
+    <fragment
+        android:id="@+id/dataEditFragment"
+        android:name="com.example.util.simpletimetracker.feature_data_edit.view.DataEditFragment"
+        android:label="DataEditFragment"
+        tools:layout="@layout/data_edit_fragment" />
     <fragment
         android:id="@+id/changeActivityFilterFragment"
         android:name="com.example.util.simpletimetracker.feature_change_activity_filter.view.ChangeActivityFilterFragment"

@@ -217,6 +217,7 @@
     <string name="settings_keep_screen_on">Biarkan layarnya menyala</string>
     <string name="settings_change_card_size">Ubah ukuran kartu kegiatan</string>
     <string name="settings_archive">Arsip</string>
+    <string name="settings_data_edit">Pengeditan data</string>
     <string name="settings_edit_categories">Sunting kategori dan label</string>
     <string name="settings_edit_categories_hint">Tetapkan kategori untuk aktivitas dan label untuk rekaman.</string>
     <string name="settings_show_record_tag_selection">Tampilkan pilihan label rekor</string>
@@ -369,6 +370,9 @@ Jika setelan <b>\"%s\"</b> diaktifkan, aplikasi akan mengirimkan peristiwa pada 
     <string name="archive_records_count">Rekor</string>
     <string name="archive_record_tags_count">Label rekor</string>
     <string name="archive_tagged_records_count">Rekor yang label</string>
+
+    <!--  Data edit  -->
+    <string name="data_edit_hint">Perubahan ini tidak dapat diurungkan. Pastikan untuk membuat file cadangan sebelum melakukan apa pun.</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Senyuman &amp; Emosi</string>

@@ -217,6 +217,7 @@
     <string name="settings_keep_screen_on">Garder l\'écran allumé</string>
     <string name="settings_change_card_size">Modifier la taille des cartes d\'activité</string>
     <string name="settings_archive">Éléments archivés</string>
+    <string name="settings_data_edit">Modification des données</string>
     <string name="settings_edit_categories">Édition les catégories et les étiquettes</string>
     <string name="settings_edit_categories_hint">Attribuez des catégories aux activités et des étiquettes aux enregistrements.</string>
     <string name="settings_show_record_tag_selection">Afficher la sélection d\'étiquette d\'enregistrement</string>
@@ -369,6 +370,9 @@ Si le paramètre <b>\"%s\"</b> est activé, l\'application enverra des événeme
     <string name="archive_records_count">Enregistrements</string>
     <string name="archive_record_tags_count">Étiquettes d\'enregistrement</string>
     <string name="archive_tagged_records_count">Enregistrements étiquetés</string>
+
+    <!--  Data edit  -->
+    <string name="data_edit_hint">Ces modifications ne peuvent pas être annulées. Assurez-vous de créer un fichier de sauvegarde avant de faire quoi que ce soit.</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Smileys &amp; Émotion</string>

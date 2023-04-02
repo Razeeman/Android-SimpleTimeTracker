@@ -217,6 +217,7 @@
     <string name="settings_keep_screen_on">Tieni lo schermo acceso</string>
     <string name="settings_change_card_size">Cambia la dimensione della carta attività</string>
     <string name="settings_archive">Archivio</string>
+    <string name="settings_data_edit">Modifica dati</string>
     <string name="settings_edit_categories">Modifica categorie ed etichette</string>
     <string name="settings_edit_categories_hint">Assegna categorie alle attività ed etichette ai record.</string>
     <string name="settings_show_record_tag_selection">Mostra la selezione delle etichette relative alle registrazioni</string>
@@ -369,6 +370,9 @@ Se l\'impostazione <b>\"%s\"</b> è abilitata, l\'app invierà eventi sull\'atti
     <string name="archive_records_count">Registrazioni</string>
     <string name="archive_record_tags_count">Etichette registrazione</string>
     <string name="archive_tagged_records_count">Registrazioni etichettate</string>
+
+    <!--  Data edit  -->
+    <string name="data_edit_hint">Queste modifiche non possono essere annullate. Assicurati di creare un file di backup prima di fare qualsiasi cosa.</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Faccine &amp; Emozioni</string>

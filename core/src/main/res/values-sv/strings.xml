@@ -217,6 +217,7 @@
     <string name="settings_keep_screen_on">Håll skärmen på</string>
     <string name="settings_change_card_size">Ändra storlek på aktivitetskort</string>
     <string name="settings_archive">Arkiv</string>
+    <string name="settings_data_edit">Dataredigering</string>
     <string name="settings_edit_categories">Redigera kategorier och taggar</string>
     <string name="settings_edit_categories_hint">Tilldela kategorier till aktiviteter och taggar till poster.</string>
     <string name="settings_show_record_tag_selection">Dialog för händelsetagg</string>
@@ -369,6 +370,9 @@ Om inställningen <b>\"%s\"</b> är aktiverad, kommer appen att skicka händelse
     <string name="archive_records_count">Händelser</string>
     <string name="archive_record_tags_count">Händelsetaggar</string>
     <string name="archive_tagged_records_count">Taggade händelser</string>
+
+    <!--  Data edit  -->
+    <string name="data_edit_hint">Dessa ändringar kan inte ångras. Se till att skapa en säkerhetskopia innan du gör något.</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Ansiktsuttryck &amp; Känslor</string>
