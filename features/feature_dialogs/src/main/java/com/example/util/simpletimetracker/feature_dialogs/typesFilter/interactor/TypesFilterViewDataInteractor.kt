@@ -1,8 +1,5 @@
 package com.example.util.simpletimetracker.feature_dialogs.typesFilter.interactor
 
-import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
-import com.example.util.simpletimetracker.feature_base_adapter.divider.DividerViewData
-import com.example.util.simpletimetracker.feature_base_adapter.hint.HintViewData
 import com.example.util.simpletimetracker.core.mapper.CategoryViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
@@ -12,8 +9,10 @@ import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RecordTypeCategory
+import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_base_adapter.divider.DividerViewData
+import com.example.util.simpletimetracker.feature_base_adapter.hint.HintViewData
 import com.example.util.simpletimetracker.feature_dialogs.R
-import com.example.util.simpletimetracker.feature_dialogs.typesFilter.mapper.TypesFilterMapper
 import com.example.util.simpletimetracker.navigation.params.screen.TypesFilterParams
 import javax.inject.Inject
 
@@ -21,7 +20,6 @@ class TypesFilterViewDataInteractor @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
     private val categoryViewDataMapper: CategoryViewDataMapper,
-    private val typesFilterMapper: TypesFilterMapper,
     private val resourceRepo: ResourceRepo,
 ) {
 
@@ -75,7 +73,7 @@ class TypesFilterViewDataInteractor @Inject constructor(
                 typeId to recordTags.filter { it.typeId == typeId }
             }
             .mapNotNull { (typeId, tags) ->
-                typeId to typesFilterMapper.mapRecordTagUntagged(
+                typeId to categoryViewDataMapper.mapRecordTagUntagged(
                     type = typesMap[typeId] ?: return@mapNotNull null,
                     isDarkTheme = isDarkTheme,
                     isFiltered = typeId in filter.filteredRecordTags

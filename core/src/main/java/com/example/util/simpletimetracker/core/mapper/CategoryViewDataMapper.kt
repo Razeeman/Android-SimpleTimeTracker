@@ -52,6 +52,27 @@ class CategoryViewDataMapper @Inject constructor(
         )
     }
 
+    fun mapRecordTagUntagged(
+        type: RecordType,
+        isDarkTheme: Boolean,
+        isFiltered: Boolean
+    ): CategoryViewData.Record.Untagged {
+        val icon = type.icon.let(iconMapper::mapIcon)
+
+        return CategoryViewData.Record.Untagged(
+            typeId = type.id,
+            name = R.string.change_record_untagged.let(resourceRepo::getString),
+            iconColor = getTextColor(isDarkTheme, isFiltered),
+            iconAlpha = colorMapper.toIconAlpha(icon, isFiltered),
+            color = if (isFiltered) {
+                colorMapper.toFilteredColor(isDarkTheme)
+            } else {
+                colorMapper.toUntrackedColor(isDarkTheme)
+            },
+            icon = icon
+        )
+    }
+
     fun mapToRecordTagsEmpty(): ViewHolderType {
         return EmptyViewData(
             message = resourceRepo.getString(R.string.change_record_categories_empty)

@@ -1,12 +1,14 @@
 package com.example.util.simpletimetracker.feature_records_filter.interactor
 
 import com.example.util.simpletimetracker.core.interactor.RecordFilterInteractor
+import com.example.util.simpletimetracker.core.mapper.CategoryViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
+import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
@@ -27,8 +29,9 @@ class RecordsFilterViewDataInteractor @Inject constructor(
     private val recordTagInteractor: RecordTagInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val mapper: RecordsFilterViewDataMapper,
-    private val colorMapper: ColorMapper,
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
+    private val categoryViewDataMapper: CategoryViewDataMapper,
+    private val colorMapper: ColorMapper,
     private val resourceRepo: ResourceRepo,
 ) {
 
@@ -96,6 +99,9 @@ class RecordsFilterViewDataInteractor @Inject constructor(
             val clazz = mapper.mapToClass(type)
             val filter = filters.filterIsInstance(clazz).firstOrNull()
             val enabled = filter != null
+            // TODO add string translations
+            // TODO add different highlighting for currently being selected filter
+            //  otherwise enabled filter and selected are the same.
             val active = enabled || (selectionState as? RecordsFilterSelectionState.Visible)?.type == type
 
             RecordFilterViewData(
@@ -161,5 +167,107 @@ class RecordsFilterViewDataInteractor @Inject constructor(
             id = 1L, // Only one at the time.
             text = comment
         ).let(::listOf)
+    }
+
+    suspend fun getTagsFilterSelectionViewData(
+        type: RecordFilterViewData.Type,
+        filters: List<RecordsFilter>,
+        types: List<RecordType>,
+        recordTags: List<RecordTag>,
+    ): List<ViewHolderType> {
+        val result: MutableList<ViewHolderType> = mutableListOf()
+
+        val isDarkTheme = prefsInteractor.getDarkMode()
+        val typesMap = types.associateBy { it.id }
+        val selectedTypes = filters
+            .filterIsInstance<RecordsFilter.Activity>()
+            .map { it.typeIds }
+            .flatten()
+            .takeUnless { it.isEmpty() }
+            ?: types.map { it.id }
+        val selectedTags: List<RecordsFilter.Tag> = when (type) {
+            RecordFilterViewData.Type.SELECTED_TAGS -> {
+                filters.filterIsInstance<RecordsFilter.SelectedTags>().map { it.tags }
+            }
+            RecordFilterViewData.Type.FILTERED_TAGS -> {
+                filters.filterIsInstance<RecordsFilter.FilteredTags>().map { it.tags }
+            }
+            else -> {
+                emptyList()
+            }
+        }.flatten()
+        val selectedTaggedIds: List<Long> = selectedTags.filterIsInstance<RecordsFilter.Tag.Tagged>()
+            .map { it.tagId }
+        val selectedUntaggedIds: List<Long> = selectedTags.filterIsInstance<RecordsFilter.Tag.Untagged>()
+            .map { it.typeId }
+
+        val recordTagsViewData = selectedTypes
+            .map { typeId ->
+                typeId to recordTags.filter { it.typeId == typeId }
+            }
+            .mapNotNull { (typeId, tags) ->
+                typeId to mapUntaggedTags(
+                    selectedIds = selectedUntaggedIds,
+                    type = typesMap[typeId] ?: return@mapNotNull null,
+                    typeId = typeId,
+                    isDarkTheme = isDarkTheme,
+                ) + mapTaggedTags(
+                    selectedIds = selectedTaggedIds,
+                    tags = tags,
+                    typesMap = typesMap,
+                    isDarkTheme = isDarkTheme
+                )
+            }
+            .map { (_, tags) -> tags }
+            .flatten()
+            .toList()
+            .takeUnless { it.isEmpty() }
+            ?.plus(
+                mapTaggedTags(
+                    selectedIds = selectedTaggedIds,
+                    tags = recordTags.filter { it.typeId == 0L },
+                    typesMap = typesMap,
+                    isDarkTheme = isDarkTheme
+                )
+            )
+            .orEmpty()
+
+        if (recordTagsViewData.isNotEmpty()) {
+            HintViewData(resourceRepo.getString(R.string.record_tag_hint)).let(result::add)
+            recordTagsViewData.let(result::addAll)
+        } else {
+            HintViewData(resourceRepo.getString(R.string.change_record_categories_empty)).let(result::add)
+        }
+
+        return result
+    }
+
+    private fun mapUntaggedTags(
+        selectedIds: List<Long>,
+        type: RecordType,
+        typeId: Long,
+        isDarkTheme: Boolean,
+    ): List<ViewHolderType> {
+        return categoryViewDataMapper.mapRecordTagUntagged(
+            type = type,
+            isDarkTheme = isDarkTheme,
+            isFiltered = typeId !in selectedIds,
+        ).let(::listOf)
+    }
+
+    private fun mapTaggedTags(
+        selectedIds: List<Long>,
+        tags: List<RecordTag>,
+        typesMap: Map<Long, RecordType>,
+        isDarkTheme: Boolean,
+    ): List<ViewHolderType> {
+        return tags.map { tag ->
+            categoryViewDataMapper.mapRecordTag(
+                tag = tag,
+                type = typesMap[tag.typeId],
+                isDarkTheme = isDarkTheme,
+                isFiltered = tag.id !in selectedIds,
+            )
+        }
     }
 }

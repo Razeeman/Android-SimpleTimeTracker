@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.extension.addOrRemove
 import com.example.util.simpletimetracker.core.extension.set
+import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.RecordTag
@@ -32,6 +33,7 @@ class RecordsFilterViewModel @Inject constructor(
     private val viewDataInteractor: RecordsFilterViewDataInteractor,
     private val recordsFilterViewDataMapper: RecordsFilterViewDataMapper,
     private val recordTypeInteractor: RecordTypeInteractor,
+    private val recordTagInteractor: RecordTagInteractor,
 ) : ViewModel() {
 
     val filtersViewData: LiveData<List<ViewHolderType>> by lazy {
@@ -113,20 +115,20 @@ class RecordsFilterViewModel @Inject constructor(
     }
 
     fun onRecordTypeClick(item: RecordTypeViewData) {
-        val currentFilter = filters
+        val currentIds = filters
             .filterIsInstance<RecordsFilter.Activity>()
             .firstOrNull()
+            ?.typeIds
+            .orEmpty()
 
-        if (currentFilter == null) {
-            val filter = RecordsFilter.Activity(listOf(item.id))
-            filters.add(filter)
-        } else {
-            val newIds = currentFilter.typeIds
-                .toMutableList()
-                .apply { addOrRemove(item.id) }
-            filters.removeAll { it is RecordsFilter.Activity }
-            if (newIds.isNotEmpty()) filters.add(RecordsFilter.Activity(newIds))
-        }
+        val newIds = currentIds
+            .toMutableList()
+            .apply { addOrRemove(item.id) }
+
+        filters.removeAll { it is RecordsFilter.Activity }
+        if (newIds.isNotEmpty()) filters.add(RecordsFilter.Activity(newIds))
+
+        // TODO Remove tags from filter if they activity removed
 
         updateFilters()
         updateFilterSelectionViewData()
@@ -134,7 +136,44 @@ class RecordsFilterViewModel @Inject constructor(
     }
 
     fun onCategoryClick(item: CategoryViewData) {
-        // TODO add categories to activity filter
+        when (item) {
+            is CategoryViewData.Category -> {
+                // TODO add categories to activity selection
+            }
+            is CategoryViewData.Record -> {
+                val currentState = (filterSelectionState as? RecordsFilterSelectionState.Visible)
+                    ?.type ?: return
+
+                val currentTags = when (currentState) {
+                    RecordFilterViewData.Type.SELECTED_TAGS ->
+                        filters.filterIsInstance<RecordsFilter.SelectedTags>().firstOrNull()?.tags.orEmpty()
+                    RecordFilterViewData.Type.FILTERED_TAGS ->
+                        filters.filterIsInstance<RecordsFilter.FilteredTags>().firstOrNull()?.tags.orEmpty()
+                    else -> return
+                }
+
+                val newTags = when (item) {
+                    is CategoryViewData.Record.Tagged -> RecordsFilter.Tag.Tagged(item.id)
+                    is CategoryViewData.Record.Untagged -> RecordsFilter.Tag.Untagged(item.id)
+                }.let { currentTags.toMutableList().apply { addOrRemove(it) } }
+
+                when (currentState) {
+                    RecordFilterViewData.Type.SELECTED_TAGS -> {
+                        filters.removeAll { it is RecordsFilter.SelectedTags }
+                        if (newTags.isNotEmpty()) filters.add(RecordsFilter.SelectedTags(newTags))
+                    }
+                    RecordFilterViewData.Type.FILTERED_TAGS -> {
+                        filters.removeAll { it is RecordsFilter.FilteredTags }
+                        if (newTags.isNotEmpty()) filters.add(RecordsFilter.FilteredTags(newTags))
+                    }
+                    else -> return
+                }
+
+                updateFilters()
+                updateFilterSelectionViewData()
+                updateRecords()
+            }
+        }
     }
 
     fun onCommentChange(text: String) {
@@ -174,6 +213,10 @@ class RecordsFilterViewModel @Inject constructor(
         return types.takeUnless { it.isEmpty() } ?: recordTypeInteractor.getAll()
     }
 
+    private suspend fun getTagsCache(): List<RecordTag> {
+        return recordTags.takeUnless { it.isEmpty() } ?: recordTagInteractor.getAll()
+    }
+
     private fun updateFilterSelectionVisibility() {
         val data = loadFilterSelectionVisibility()
         filterSelectionVisibility.set(data)
@@ -197,7 +240,7 @@ class RecordsFilterViewModel @Inject constructor(
         recordsLoadJob = viewModelScope.launch {
             recordsViewData.set(
                 RecordsFilterSelectedRecordsViewData(
-                    selectedRecordsCount = "",
+                    selectedRecordsCount = recordsViewData.value?.selectedRecordsCount.orEmpty(),
                     recordsViewData = listOf(LoaderViewData()),
                 )
             )
@@ -229,6 +272,15 @@ class RecordsFilterViewModel @Inject constructor(
             RecordFilterViewData.Type.COMMENT -> {
                 viewDataInteractor.getCommentFilterSelectionViewData(
                     filters = filters,
+                )
+            }
+            RecordFilterViewData.Type.SELECTED_TAGS,
+            RecordFilterViewData.Type.FILTERED_TAGS -> {
+                viewDataInteractor.getTagsFilterSelectionViewData(
+                    type = type,
+                    filters = filters,
+                    types = getTypesCache(),
+                    recordTags = getTagsCache(),
                 )
             }
             else -> emptyList()

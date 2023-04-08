@@ -56,7 +56,7 @@ class RecordsFilterViewDataMapper @Inject constructor(
             count
         ).lowercase()
 
-        return "$selected: $count $recordsString"
+        return "$selected $count $recordsString"
     }
 
     fun mapInactiveFilterName(
