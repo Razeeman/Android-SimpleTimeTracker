@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.feature_data_edit.R
 import com.example.util.simpletimetracker.navigation.Router
+import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterParams
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -21,7 +22,7 @@ class DataEditViewModel @Inject constructor(
     private var selectedRecordsCount: Int = 0
 
     fun onSelectRecordsClick() {
-        // TODO
+        router.navigate(RecordsFilterParams)
     }
 
     private fun loadSelectedRecordsCountViewData(): String {

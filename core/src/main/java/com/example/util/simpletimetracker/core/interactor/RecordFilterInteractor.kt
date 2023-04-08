@@ -6,7 +6,7 @@ import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
 import javax.inject.Inject
 
-class RecordsFilterInteractor @Inject constructor(
+class RecordFilterInteractor @Inject constructor(
     private val interactor: RecordInteractor,
 ) {
 
@@ -72,7 +72,7 @@ class RecordsFilterInteractor @Inject constructor(
         fun Record.selectedByComment(): Boolean {
             if (comments.isEmpty()) return true
             val comment = this.comment.lowercase()
-            return comments.any { it.contains(comment) }
+            return comments.any { comment.contains(it) }
         }
 
         fun Record.selectedByDate(): Boolean {

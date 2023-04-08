@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvRecordsFilterTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginTop="12dp"
+        android:gravity="center"
+        android:paddingHorizontal="16dp"
+        android:text="@string/data_edit_select_records"
+        android:textColor="?appTextPrimaryColor"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.example.util.simpletimetracker.feature_views.DividerView
+        android:id="@+id/dividerRecordsFilterTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tvRecordsFilterTitle" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvRecordsFilterFilters"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="4dp"
+        app:layout_constraintTop_toBottomOf="@id/dividerRecordsFilterTitle"
+        tools:itemCount="5"
+        tools:layoutManager="com.google.android.flexbox.FlexboxLayoutManager"
+        tools:listitem="@layout/item_record_filter_layout"
+        tools:orientation="horizontal" />
+
+    <com.example.util.simpletimetracker.feature_views.DividerView
+        android:id="@+id/dividerRecordsFilter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/rvRecordsFilterFilters" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvRecordsFilterList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dividerRecordsFilter"
+        tools:itemCount="15"
+        tools:listitem="@layout/item_record_layout" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

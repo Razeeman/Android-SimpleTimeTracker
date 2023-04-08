@@ -13,7 +13,6 @@ import com.example.util.simpletimetracker.navigation.NavigationData
 import com.example.util.simpletimetracker.navigation.bundleCreator.BundleCreator
 import com.example.util.simpletimetracker.navigation.bundleCreator.bundleCreatorDelegate
 import com.example.util.simpletimetracker.navigation.params.screen.ArchiveParams
-import com.example.util.simpletimetracker.navigation.params.screen.DataEditParams
 import com.example.util.simpletimetracker.navigation.params.screen.CategoriesParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeActivityFilterParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeCategoryFromChangeActivityParams
@@ -25,7 +24,9 @@ import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordT
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTagFromTagsParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTypeParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRunningRecordParams
+import com.example.util.simpletimetracker.navigation.params.screen.DataEditParams
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsAllParams
+import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterParams
 import com.example.util.simpletimetracker.navigation.params.screen.StatisticsDetailParams
 import dagger.Module
 import dagger.Provides
@@ -133,6 +134,16 @@ class NavigationScreenMapModule {
     fun dataEdit(): NavigationData {
         return NavigationData(
             R.id.action_mainFragment_to_dataEditFragment,
+            BundleCreator.empty()
+        )
+    }
+
+    @IntoMap
+    @Provides
+    @ScreenKey(RecordsFilterParams::class)
+    fun recordsFilter(): NavigationData {
+        return NavigationData(
+            R.id.action_dataEdit_to_recordsFilter,
             BundleCreator.empty()
         )
     }

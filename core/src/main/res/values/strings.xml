@@ -375,6 +375,13 @@ If <b>\"%s\"</b> setting is enabled, app will send events on activity started or
     <string name="data_edit_hint">These changes cannot be undone. Make sure to create a backup file before doing anything.</string>
     <string name="data_edit_select_records">Select records</string>
 
+    <!--  Records filter  -->
+    <string name="records_filter_activity">Activity</string>
+    <string name="records_filter_comment">Comment</string>
+    <string name="records_filter_date">Date</string>
+    <string name="records_filter_select_tags">Select tags</string>
+    <string name="records_filter_filter_tags">Filter tags</string>
+
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Smileys &amp; Emotion</string>
     <string name="emojiGroupPeople">People &amp; Body</string>
