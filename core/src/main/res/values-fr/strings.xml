@@ -373,6 +373,7 @@ Si le paramètre <b>\"%s\"</b> est activé, l\'application enverra des événeme
 
     <!--  Data edit  -->
     <string name="data_edit_hint">Ces modifications ne peuvent pas être annulées. Assurez-vous de créer un fichier de sauvegarde avant de faire quoi que ce soit.</string>
+    <string name="data_edit_select_records">Sélectionnez des enregistrements</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Smileys &amp; Émotion</string>

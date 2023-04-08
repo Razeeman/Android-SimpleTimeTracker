@@ -373,6 +373,7 @@ Se l\'impostazione <b>\"%s\"</b> è abilitata, l\'app invierà eventi sull\'atti
 
     <!--  Data edit  -->
     <string name="data_edit_hint">Queste modifiche non possono essere annullate. Assicurati di creare un file di backup prima di fare qualsiasi cosa.</string>
+    <string name="data_edit_select_records">Seleziona record</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Faccine &amp; Emozioni</string>

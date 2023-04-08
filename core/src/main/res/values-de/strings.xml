@@ -373,6 +373,7 @@ Wenn die Einstellung <b>\"%s\"</b> aktiviert ist, sendet die App Ereignisse zu g
 
     <!--  Data edit  -->
     <string name="data_edit_hint">Diese Änderungen können nicht rückgängig gemacht werden. Stellen Sie sicher, dass Sie eine Sicherungsdatei erstellen, bevor Sie etwas tun.</string>
+    <string name="data_edit_select_records">Datensätze auswählen</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Lächeln &amp; Stimmung</string>

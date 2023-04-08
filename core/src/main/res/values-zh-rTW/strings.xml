@@ -373,6 +373,7 @@
 
     <!--  Data edit  -->
     <string name="data_edit_hint">這些更改無法撤消。確保在執行任何操作之前創建備份文件。</string>
+    <string name="data_edit_select_records">選擇記錄</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">表情</string>

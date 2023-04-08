@@ -373,6 +373,7 @@ Ek olarak:<br/>
 
     <!--  Data edit  -->
     <string name="data_edit_hint">Bu değişiklikler geri alınamaz. Herhangi bir şey yapmadan önce bir yedekleme dosyası oluşturduğunuzdan emin olun.</string>
+    <string name="data_edit_select_records">Kayıtları seç</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">İfadeler</string>

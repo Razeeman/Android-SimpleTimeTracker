@@ -373,6 +373,7 @@
 
     <!--  Data edit  -->
     <string name="data_edit_hint">Эти изменения нельзя отменить. Обязательно создайте файл резервной копии, прежде чем что-либо делать.</string>
+    <string name="data_edit_select_records">Выберите записи</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Смайлы и эмоции</string>

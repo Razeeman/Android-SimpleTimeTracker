@@ -373,6 +373,7 @@ Als de instelling <b>\"%s\"</b> is ingeschakeld, stuurt de app gebeurtenissen ov
 
     <!--  Data edit  -->
     <string name="data_edit_hint">Deze wijzigingen kunnen niet ongedaan worden gemaakt. Zorg ervoor dat u een back-upbestand maakt voordat u iets doet.</string>
+    <string name="data_edit_select_records">Selecteer records</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Smileys &amp; Emotie</string>

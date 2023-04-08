@@ -373,6 +373,7 @@
 
     <!--  Data edit  -->
     <string name="data_edit_hint">Ці зміни не можна скасувати. Перш ніж щось робити, обов’язково створіть файл резервної копії.</string>
+    <string name="data_edit_select_records">Виберіть записи</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Смайли та емоції</string>

@@ -373,6 +373,7 @@ Jika setelan <b>\"%s\"</b> diaktifkan, aplikasi akan mengirimkan peristiwa pada 
 
     <!--  Data edit  -->
     <string name="data_edit_hint">Perubahan ini tidak dapat diurungkan. Pastikan untuk membuat file cadangan sebelum melakukan apa pun.</string>
+    <string name="data_edit_select_records">Pilih rekaman</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Senyuman &amp; Emosi</string>

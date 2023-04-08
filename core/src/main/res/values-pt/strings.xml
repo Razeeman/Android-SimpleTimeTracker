@@ -369,6 +369,7 @@ Se a configuração <b>\"%s\"</b> estiver habilitada, o aplicativo enviará even
 
     <!--  Data edit  -->
     <string name="data_edit_hint">Essas alterações não podem ser desfeitas. Certifique-se de criar um arquivo de backup antes de fazer qualquer coisa.</string>
+    <string name="data_edit_select_records">Selecionar registros</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Smileys &amp; Emoções</string>

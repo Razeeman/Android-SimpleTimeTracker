@@ -373,6 +373,7 @@ Si la configuración <b>\"%s\"</b> está habilitada, la aplicación enviará eve
 
     <!--  Data edit  -->
     <string name="data_edit_hint">Estos cambios no se pueden deshacer. Asegúrese de crear un archivo de copia de seguridad antes de hacer nada.</string>
+    <string name="data_edit_select_records">Seleccionar registros</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Emoticonos y Emociones</string>

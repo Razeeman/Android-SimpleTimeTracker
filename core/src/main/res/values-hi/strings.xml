@@ -373,6 +373,7 @@
 
     <!--  Data edit  -->
     <string name="data_edit_hint">इन परिवर्तनों को पूर्ववत नहीं किया जा सकता है। कुछ भी करने से पहले बैकअप फ़ाइल बनाना सुनिश्चित करें।</string>
+    <string name="data_edit_select_records">अभिलेखों का चयन करें</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">स्माइली और इमोशन</string>

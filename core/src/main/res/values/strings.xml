@@ -373,6 +373,7 @@ If <b>\"%s\"</b> setting is enabled, app will send events on activity started or
 
     <!--  Data edit  -->
     <string name="data_edit_hint">These changes cannot be undone. Make sure to create a backup file before doing anything.</string>
+    <string name="data_edit_select_records">Select records</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Smileys &amp; Emotion</string>

@@ -373,6 +373,7 @@
 
     <!--  Data edit  -->
     <string name="data_edit_hint">これらの変更は元に戻せません。何かを行う前に、必ずバックアップ ファイルを作成してください。</string>
+    <string name="data_edit_select_records">レコードを選択</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">顔文字とエモート</string>
