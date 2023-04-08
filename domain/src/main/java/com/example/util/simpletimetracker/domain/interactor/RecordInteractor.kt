@@ -42,6 +42,10 @@ class RecordInteractor @Inject constructor(
         return recordRepo.getFromRange(start, end)
     }
 
+    suspend fun getFromRangeByType(typeIds: List<Long>, start: Long, end: Long): List<Record> {
+        return recordRepo.getFromRangeByType(typeIds, start, end)
+    }
+
     suspend fun add(
         typeId: Long,
         timeStarted: Long,

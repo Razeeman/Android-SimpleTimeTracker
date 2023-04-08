@@ -56,6 +56,13 @@ class RecordRepoImpl @Inject constructor(
                 .map(recordDataLocalMapper::map)
         }
 
+    override suspend fun getFromRangeByType(typeIds: List<Long>, start: Long, end: Long): List<Record> =
+        withContext(Dispatchers.IO) {
+            Timber.d("getFromRangeByType")
+            recordDao.getFromRangeByType(typeIds, start, end)
+                .map(recordDataLocalMapper::map)
+        }
+
     override suspend fun getPrev(timeStarted: Long): Record? =
         withContext(Dispatchers.IO) {
             Timber.d("getPrev")
