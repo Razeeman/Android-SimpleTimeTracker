@@ -2,12 +2,17 @@ package com.example.util.simpletimetracker.feature_records_filter.interactor
 
 import com.example.util.simpletimetracker.core.interactor.RecordFilterInteractor
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
+import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
+import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
+import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_base_adapter.hint.HintViewData
 import com.example.util.simpletimetracker.feature_base_adapter.recordFilter.RecordFilterViewData
+import com.example.util.simpletimetracker.feature_records_filter.R
 import com.example.util.simpletimetracker.feature_records_filter.mapper.RecordsFilterViewDataMapper
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
@@ -20,6 +25,8 @@ class RecordsFilterViewDataInteractor @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val mapper: RecordsFilterViewDataMapper,
     private val colorMapper: ColorMapper,
+    private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
+    private val resourceRepo: ResourceRepo,
 ) {
 
     suspend fun getViewData(
@@ -31,7 +38,11 @@ class RecordsFilterViewDataInteractor @Inject constructor(
         val showSeconds = prefsInteractor.getShowSeconds()
         val recordTypes = recordTypeInteractor.getAll().associateBy { it.id }
         val recordTags = recordTagInteractor.getAll()
-        val records = recordFilterInteractor.getByFilter(filters)
+        val records = if (filters.isEmpty()) {
+            emptyList()
+        } else {
+            recordFilterInteractor.getByFilter(filters)
+        }
 
         return withContext(Dispatchers.Default) {
             records
@@ -86,5 +97,38 @@ class RecordsFilterViewDataInteractor @Inject constructor(
                 enabled = enabled,
             )
         }
+    }
+
+    suspend fun getActivityFilterSelectionViewData(
+        filters: List<RecordsFilter>,
+        types: List<RecordType>,
+    ): List<ViewHolderType> {
+        val result: MutableList<ViewHolderType> = mutableListOf()
+
+        val numberOfCards = prefsInteractor.getNumberOfCards()
+        val isDarkTheme = prefsInteractor.getDarkMode()
+
+        val selectedTypes = filters
+            .filterIsInstance<RecordsFilter.Activity>()
+            .map { it.typeIds }
+            .flatten()
+
+        val typesViewData = types.map { type ->
+            recordTypeViewDataMapper.mapFiltered(
+                recordType = type,
+                numberOfCards = numberOfCards,
+                isDarkTheme = isDarkTheme,
+                isFiltered = type.id !in selectedTypes
+            )
+        }
+
+        if (typesViewData.isNotEmpty()) {
+            HintViewData(resourceRepo.getString(R.string.activity_hint)).let(result::add)
+            typesViewData.let(result::addAll)
+        } else {
+            HintViewData(resourceRepo.getString(R.string.record_types_empty)).let(result::add)
+        }
+
+        return result
     }
 }

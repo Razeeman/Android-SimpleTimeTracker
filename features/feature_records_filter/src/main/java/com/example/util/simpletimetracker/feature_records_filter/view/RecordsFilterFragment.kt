@@ -2,15 +2,21 @@ package com.example.util.simpletimetracker.feature_records_filter.view
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
+import com.example.util.simpletimetracker.feature_base_adapter.category.createCategoryAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.divider.createDividerAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.hint.createHintAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.record.createRecordAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.recordFilter.createRecordFilterAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.recordType.createRecordTypeAdapterDelegate
 import com.example.util.simpletimetracker.feature_records_filter.viewModel.RecordsFilterViewModel
+import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
@@ -28,18 +34,27 @@ class RecordsFilterFragment : BaseFragment<Binding>() {
 
     private val filtersAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
+            createLoaderAdapterDelegate(),
             createRecordFilterAdapterDelegate(
                 onClick = viewModel::onFilterClick,
                 onRemoveClick = viewModel::onFilterRemoveClick,
             ),
+        )
+    }
+    private val filterSelectionAdapter: BaseRecyclerAdapter by lazy {
+        BaseRecyclerAdapter(
             createLoaderAdapterDelegate(),
+            createHintAdapterDelegate(),
+            createDividerAdapterDelegate(),
+            createRecordTypeAdapterDelegate(viewModel::onRecordTypeClick),
+            createCategoryAdapterDelegate(viewModel::onCategoryClick)
         )
     }
     private val recordsAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
-            createRecordAdapterDelegate(throttle(viewModel::onRecordClick)),
+            createLoaderAdapterDelegate(),
             createEmptyAdapterDelegate(),
-            createLoaderAdapterDelegate()
+            createRecordAdapterDelegate(throttle(viewModel::onRecordClick))
         )
     }
 
@@ -52,16 +67,30 @@ class RecordsFilterFragment : BaseFragment<Binding>() {
             }
             adapter = filtersAdapter
         }
+        rvRecordsFilterSelection.apply {
+            layoutManager = FlexboxLayoutManager(requireContext()).apply {
+                flexDirection = FlexDirection.ROW
+                justifyContent = JustifyContent.CENTER
+                flexWrap = FlexWrap.WRAP
+            }
+            adapter = filterSelectionAdapter
+        }
         rvRecordsFilterList.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = recordsAdapter
         }
     }
 
+    override fun initUx() = with(binding) {
+        btnRecordsFilterSelection.setOnClick(viewModel::onFiltersSelected)
+    }
+
     override fun initViewModel(): Unit = with(viewModel) {
         with(binding) {
             filtersViewData.observe(filtersAdapter::replace)
+            filterSelectionContent.observe(filterSelectionAdapter::replace)
             recordsViewData.observe(recordsAdapter::replaceAsNew)
+            filterSelectionVisibility.observe(groupRecordsFilterContent::isVisible::set)
         }
     }
 }
