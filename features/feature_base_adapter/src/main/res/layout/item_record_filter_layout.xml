@@ -23,6 +23,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:gravity="center"
+            android:maxLines="1"
             android:paddingVertical="6dp"
             android:textColor="?appLightTextColor"
             app:layout_constraintBottom_toBottomOf="parent"

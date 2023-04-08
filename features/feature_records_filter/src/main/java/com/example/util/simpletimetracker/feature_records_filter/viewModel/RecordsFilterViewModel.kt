@@ -20,6 +20,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.recordFilter.Reco
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_records_filter.interactor.RecordsFilterViewDataInteractor
 import com.example.util.simpletimetracker.feature_records_filter.mapper.RecordsFilterViewDataMapper
+import com.example.util.simpletimetracker.feature_records_filter.model.RecordsFilterSelectedRecordsViewData
 import com.example.util.simpletimetracker.feature_records_filter.model.RecordsFilterSelectionState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -53,10 +54,13 @@ class RecordsFilterViewModel @Inject constructor(
         }
     }
 
-    val recordsViewData: LiveData<List<ViewHolderType>> by lazy {
-        return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
+    val recordsViewData: LiveData<RecordsFilterSelectedRecordsViewData> by lazy {
+        return@lazy MutableLiveData<RecordsFilterSelectedRecordsViewData>().let { initial ->
             viewModelScope.launch {
-                initial.value = listOf(LoaderViewData())
+                initial.value = RecordsFilterSelectedRecordsViewData(
+                    selectedRecordsCount = "",
+                    recordsViewData = listOf(LoaderViewData()),
+                )
                 initial.value = loadRecordsViewData()
             }
             initial
@@ -66,6 +70,8 @@ class RecordsFilterViewModel @Inject constructor(
     val filterSelectionVisibility: LiveData<Boolean> by lazy {
         MutableLiveData(loadFilterSelectionVisibility())
     }
+
+    val keyboardVisibility: LiveData<Boolean> = MutableLiveData(false)
 
     private val filters: MutableList<RecordsFilter> = mutableListOf()
     private var filterSelectionState: RecordsFilterSelectionState = RecordsFilterSelectionState.Hidden
@@ -91,6 +97,8 @@ class RecordsFilterViewModel @Inject constructor(
             }
         }
 
+        keyboardVisibility.set(false)
+        updateFilters()
         updateFilterSelectionViewData()
         updateFilterSelectionVisibility()
     }
@@ -129,7 +137,28 @@ class RecordsFilterViewModel @Inject constructor(
         // TODO add categories to activity filter
     }
 
-    fun onRecordClick(item: RecordViewData, sharedElements: Pair<Any, String>) {
+    fun onCommentChange(text: String) {
+        val currentFilter = filters
+            .filterIsInstance<RecordsFilter.Comment>()
+            .firstOrNull()
+
+        if (currentFilter == null && text.isNotEmpty()) {
+            val filter = RecordsFilter.Comment(text)
+            filters.add(filter)
+        } else {
+            filters.removeAll { it is RecordsFilter.Comment }
+            if (text.isNotEmpty()) filters.add(RecordsFilter.Comment(text))
+        }
+
+        updateFilters()
+        updateFilterSelectionViewData()
+        updateRecords()
+    }
+
+    fun onRecordClick(
+        item: RecordViewData,
+        @Suppress("UNUSED_PARAMETER") sharedElements: Pair<Any, String>
+    ) {
         // TODO add manual filter
     }
 
@@ -160,19 +189,24 @@ class RecordsFilterViewModel @Inject constructor(
     }
 
     private suspend fun loadFiltersViewData(): List<ViewHolderType> {
-        return viewDataInteractor.getFiltersViewData(filters)
+        return viewDataInteractor.getFiltersViewData(filterSelectionState, filters)
     }
 
     private fun updateRecords() {
         recordsLoadJob?.cancel()
         recordsLoadJob = viewModelScope.launch {
-            recordsViewData.set(listOf(LoaderViewData()))
+            recordsViewData.set(
+                RecordsFilterSelectedRecordsViewData(
+                    selectedRecordsCount = "",
+                    recordsViewData = listOf(LoaderViewData()),
+                )
+            )
             val data = loadRecordsViewData()
             recordsViewData.set(data)
         }
     }
 
-    private suspend fun loadRecordsViewData(): List<ViewHolderType> {
+    private suspend fun loadRecordsViewData(): RecordsFilterSelectedRecordsViewData {
         return viewDataInteractor.getViewData(filters)
     }
 
@@ -190,6 +224,11 @@ class RecordsFilterViewModel @Inject constructor(
                 viewDataInteractor.getActivityFilterSelectionViewData(
                     filters = filters,
                     types = getTypesCache(),
+                )
+            }
+            RecordFilterViewData.Type.COMMENT -> {
+                viewDataInteractor.getCommentFilterSelectionViewData(
+                    filters = filters,
                 )
             }
             else -> emptyList()

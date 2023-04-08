@@ -7,7 +7,7 @@ data class RecordFilterViewData(
     val type: Type,
     val name: String,
     @ColorInt val color: Int,
-    val enabled: Boolean,
+    val removeBtnVisible: Boolean,
 ) : ViewHolderType {
 
     override fun getUniqueId(): Long = type.hashCode().toLong()

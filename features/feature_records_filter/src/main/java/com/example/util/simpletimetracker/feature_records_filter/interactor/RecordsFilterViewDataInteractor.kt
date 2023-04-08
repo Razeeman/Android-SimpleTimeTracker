@@ -13,7 +13,10 @@ import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.hint.HintViewData
 import com.example.util.simpletimetracker.feature_base_adapter.recordFilter.RecordFilterViewData
 import com.example.util.simpletimetracker.feature_records_filter.R
+import com.example.util.simpletimetracker.feature_records_filter.adapter.RecordsFilterCommentViewData
 import com.example.util.simpletimetracker.feature_records_filter.mapper.RecordsFilterViewDataMapper
+import com.example.util.simpletimetracker.feature_records_filter.model.RecordsFilterSelectedRecordsViewData
+import com.example.util.simpletimetracker.feature_records_filter.model.RecordsFilterSelectionState
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -31,7 +34,7 @@ class RecordsFilterViewDataInteractor @Inject constructor(
 
     suspend fun getViewData(
         filters: List<RecordsFilter>,
-    ): List<ViewHolderType> {
+    ): RecordsFilterSelectedRecordsViewData {
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
         val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
@@ -44,8 +47,9 @@ class RecordsFilterViewDataInteractor @Inject constructor(
             recordFilterInteractor.getByFilter(filters)
         }
 
-        return withContext(Dispatchers.Default) {
-            records
+        val (count, viewData) = withContext(Dispatchers.Default) {
+            var count: Int
+            val viewData = records
                 .mapNotNull { record ->
                     mapper.map(
                         record = record,
@@ -57,13 +61,24 @@ class RecordsFilterViewDataInteractor @Inject constructor(
                         showSeconds = showSeconds,
                     )
                 }
+                .also {
+                    count = it.size
+                }
                 .ifEmpty {
                     listOf(mapper.mapToEmpty())
                 }
+
+            count to viewData
         }
+
+        return RecordsFilterSelectedRecordsViewData(
+            selectedRecordsCount = mapper.mapRecordsCount(count),
+            recordsViewData = viewData,
+        )
     }
 
     suspend fun getFiltersViewData(
+        selectionState: RecordsFilterSelectionState,
         filters: List<RecordsFilter>,
     ): List<ViewHolderType> {
         val isDarkTheme = prefsInteractor.getDarkMode()
@@ -81,6 +96,7 @@ class RecordsFilterViewDataInteractor @Inject constructor(
             val clazz = mapper.mapToClass(type)
             val filter = filters.filterIsInstance(clazz).firstOrNull()
             val enabled = filter != null
+            val active = enabled || (selectionState as? RecordsFilterSelectionState.Visible)?.type == type
 
             RecordFilterViewData(
                 type = type,
@@ -89,12 +105,12 @@ class RecordsFilterViewDataInteractor @Inject constructor(
                 } else {
                     mapper.mapInactiveFilterName(type)
                 },
-                color = if (enabled) {
+                color = if (active) {
                     colorMapper.toActiveColor(isDarkTheme)
                 } else {
                     colorMapper.toInactiveColor(isDarkTheme)
                 },
-                enabled = enabled,
+                removeBtnVisible = enabled,
             )
         }
     }
@@ -130,5 +146,20 @@ class RecordsFilterViewDataInteractor @Inject constructor(
         }
 
         return result
+    }
+
+    fun getCommentFilterSelectionViewData(
+        filters: List<RecordsFilter>,
+    ): List<ViewHolderType> {
+        val comment = filters
+            .filterIsInstance<RecordsFilter.Comment>()
+            .firstOrNull()
+            ?.comment
+            .orEmpty()
+
+        return RecordsFilterCommentViewData(
+            id = 1L, // Only one at the time.
+            text = comment
+        ).let(::listOf)
     }
 }

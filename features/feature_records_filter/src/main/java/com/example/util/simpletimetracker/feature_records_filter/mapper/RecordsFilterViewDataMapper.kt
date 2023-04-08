@@ -49,6 +49,16 @@ class RecordsFilterViewDataMapper @Inject constructor(
         )
     }
 
+    fun mapRecordsCount(count: Int): String {
+        val selected = resourceRepo.getString(R.string.something_selected)
+        val recordsString: String = resourceRepo.getQuantityString(
+            R.plurals.statistics_detail_times_tracked,
+            count
+        ).lowercase()
+
+        return "$selected: $count $recordsString"
+    }
+
     fun mapInactiveFilterName(
         filter: RecordFilterViewData.Type,
     ): String {
@@ -72,9 +82,11 @@ class RecordsFilterViewDataMapper @Inject constructor(
                 "${filter.typeIds.size}"
             }
             is RecordsFilter.Comment -> {
-                filter.comment.let {
-                    if (it.length > 10) it.take(10) + "..." else it
-                }
+                filter.comment
+                    .replace("\n", " ")
+                    .let {
+                        if (it.length > 10) it.take(10) + "..." else it
+                    }
             }
             is RecordsFilter.Date -> {
                 val startedDate = timeMapper.formatDateYear(filter.range.timeStarted)
