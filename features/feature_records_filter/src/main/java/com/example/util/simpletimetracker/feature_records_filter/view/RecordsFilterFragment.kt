@@ -112,7 +112,7 @@ class RecordsFilterFragment :
     }
 
     private fun setSelectedRecords(viewData: RecordsFilterSelectedRecordsViewData) {
-        binding.tvRecordsFilterRecordsCount.text = viewData.selectedRecordsCount
+        binding.tvRecordsFilterTitle.text = viewData.selectedRecordsCount
         recordsAdapter.replaceAsNew(viewData.recordsViewData)
     }
 

@@ -14,11 +14,11 @@
         android:layout_marginTop="12dp"
         android:gravity="center"
         android:paddingHorizontal="16dp"
-        android:text="@string/data_edit_select_records"
         android:textColor="?appTextPrimaryColor"
         android:textSize="22sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@string/data_edit_select_records" />
 
     <com.example.util.simpletimetracker.feature_views.DividerView
         android:id="@+id/dividerRecordsFilterTitle"
@@ -44,31 +44,13 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/rvRecordsFilterFilters" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvRecordsFilterRecordsCount"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="12dp"
-        android:gravity="center"
-        android:paddingHorizontal="16dp"
-        tools:text="Selected: 0 records"
-        android:textColor="?appTextPrimaryColor"
-        android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/dividerRecordsFilter"/>
-
-    <com.example.util.simpletimetracker.feature_views.DividerView
-        android:id="@+id/dividerRecordsFilterRecordsCount"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/tvRecordsFilterRecordsCount" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvRecordsFilterList"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/dividerRecordsFilterRecordsCount"
+        app:layout_constraintTop_toBottomOf="@id/dividerRecordsFilter"
         tools:itemCount="15"
         tools:listitem="@layout/item_record_layout" />
 
@@ -87,7 +69,7 @@
         android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintBottom_toTopOf="@id/btnRecordsFilterSelection"
-        app:layout_constraintTop_toBottomOf="@id/dividerRecordsFilterRecordsCount"
+        app:layout_constraintTop_toBottomOf="@id/dividerRecordsFilter"
         tools:itemCount="15"
         tools:listitem="@layout/item_record_type_layout" />
 

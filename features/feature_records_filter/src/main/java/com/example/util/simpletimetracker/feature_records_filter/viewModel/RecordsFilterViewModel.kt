@@ -63,7 +63,7 @@ class RecordsFilterViewModel @Inject constructor(
         return@lazy MutableLiveData<RecordsFilterSelectedRecordsViewData>().let { initial ->
             viewModelScope.launch {
                 initial.value = RecordsFilterSelectedRecordsViewData(
-                    selectedRecordsCount = "",
+                    selectedRecordsCount = recordsFilterViewDataMapper.mapRecordsCount(0),
                     recordsViewData = listOf(LoaderViewData()),
                 )
                 initial.value = loadRecordsViewData()
@@ -118,7 +118,7 @@ class RecordsFilterViewModel @Inject constructor(
         updateFilterSelectionVisibility()
     }
 
-    fun onRecordTypeClick(item: RecordTypeViewData) {
+    fun onRecordTypeClick(item: RecordTypeViewData) = viewModelScope.launch {
         val currentIds = filters
             .filterIsInstance<RecordsFilter.Activity>()
             .firstOrNull()
@@ -132,8 +132,7 @@ class RecordsFilterViewModel @Inject constructor(
         filters.removeAll { it is RecordsFilter.Activity }
         if (newIds.isNotEmpty()) filters.add(RecordsFilter.Activity(newIds))
 
-        // TODO Remove tags from filter if they activity removed
-
+        checkTagFilterConsistency()
         updateFilters()
         updateFilterSelectionViewData()
         updateRecords()
@@ -252,6 +251,49 @@ class RecordsFilterViewModel @Inject constructor(
         @Suppress("UNUSED_PARAMETER") sharedElements: Pair<Any, String>
     ) {
         // TODO add manual filter
+    }
+
+    private suspend fun checkTagFilterConsistency() {
+        // Update tags according to selected activities
+        val newTypeIds = filters
+            .filterIsInstance<RecordsFilter.Activity>()
+            .firstOrNull()
+            ?.typeIds
+            ?.takeUnless { it.isEmpty() }
+            ?: return
+
+        suspend fun update(tags: List<RecordsFilter.Tag>): List<RecordsFilter.Tag> {
+            return tags.filter {
+                when (it) {
+                    is RecordsFilter.Tag.Tagged -> {
+                        it.tagId in getTagsCache()
+                            .filter { tag -> tag.typeId in newTypeIds || tag.typeId == 0L }
+                            .map { tag -> tag.id }
+                    }
+                    is RecordsFilter.Tag.Untagged -> {
+                        it.typeId in newTypeIds
+                    }
+                }
+            }
+        }
+
+        val newSelectedTags = filters
+            .filterIsInstance<RecordsFilter.SelectedTags>()
+            .firstOrNull()
+            ?.tags.orEmpty()
+            .let { update(it) }
+
+        filters.removeAll { filter -> filter is RecordsFilter.SelectedTags }
+        if (newSelectedTags.isNotEmpty()) filters.add(RecordsFilter.SelectedTags(newSelectedTags))
+
+        val newFilteredTags = filters
+            .filterIsInstance<RecordsFilter.FilteredTags>()
+            .firstOrNull()
+            ?.tags.orEmpty()
+            .let { update(it) }
+
+        filters.removeAll { filter -> filter is RecordsFilter.FilteredTags }
+        if (newFilteredTags.isNotEmpty()) filters.add(RecordsFilter.FilteredTags(newFilteredTags))
     }
 
     private fun removeFilter(type: RecordFilterViewData.Type) {
