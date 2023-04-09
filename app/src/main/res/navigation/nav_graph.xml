@@ -145,6 +145,11 @@
         android:name="com.example.util.simpletimetracker.feature_dialogs.helpDialog.HelpDialogFragment"
         android:label="HelpDialogFragment"
         tools:layout="@layout/help_dialog_fragment"/>
+    <dialog
+        android:id="@+id/dataEditTypeSelectionDialogFragment"
+        android:name="com.example.util.simpletimetracker.feature_data_edit.dialog.DataEditTypeSelectionDialogFragment"
+        android:label="DataEditTypeSelectionDialogFragment"
+        tools:layout="@layout/data_edit_type_selection_dialog_fragment" />
     <fragment
         android:id="@+id/recordsAllFragment"
         android:name="com.example.util.simpletimetracker.feature_records_all.view.RecordsAllFragment"

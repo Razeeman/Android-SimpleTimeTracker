@@ -235,6 +235,13 @@
         <item name="cardElevation">@dimen/record_type_card_elevation</item>
     </style>
 
+    <style name="SettingsDivider">
+        <item name="android:layout_height">2dp</item>
+        <item name="android:layout_marginStart">8dp</item>
+        <item name="android:layout_marginEnd">8dp</item>
+        <item name="android:background">?appDividerColor</item>
+    </style>
+
     <style name="SettingsCard">
         <item name="cardBackgroundColor">?appCardBackgroundColor</item>
         <item name="cardCornerRadius">8dp</item>

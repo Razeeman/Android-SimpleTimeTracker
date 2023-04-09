@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.di
 
 import com.example.util.simpletimetracker.R
+import com.example.util.simpletimetracker.feature_data_edit.dialog.DataEditTypeSelectionDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.archive.view.ArchiveDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.cardOrder.view.CardOrderDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.colorSelection.view.ColorSelectionDialogFragment
@@ -23,6 +24,7 @@ import com.example.util.simpletimetracker.navigation.params.screen.ChartFilterDi
 import com.example.util.simpletimetracker.navigation.params.screen.ColorSelectionDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DataExportSettingDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.CustomRangeSelectionParams
+import com.example.util.simpletimetracker.navigation.params.screen.DataEditTypeSelectionDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DefaultTypesSelectionDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DurationDialogParams
@@ -198,6 +200,16 @@ class NavigationDialogMapModule {
         return NavigationData(
             R.id.helpDialogFragment,
             bundleCreatorDelegate(HelpDialogFragment::createBundle)
+        )
+    }
+
+    @IntoMap
+    @Provides
+    @ScreenKey(DataEditTypeSelectionDialogParams::class)
+    fun dataEditTypeSelectionDialog(): NavigationData {
+        return NavigationData(
+            R.id.dataEditTypeSelectionDialogFragment,
+            BundleCreator.empty()
         )
     }
 }
