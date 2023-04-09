@@ -71,7 +71,10 @@ class RecordsFilterViewDataMapper @Inject constructor(
         }.let(resourceRepo::getString)
     }
 
-    fun mapActiveFilterName(filter: RecordsFilter): String {
+    fun mapActiveFilterName(
+        filter: RecordsFilter,
+        useMilitaryTime: Boolean,
+    ): String {
         val filterName = filter::class.java
             .let(::mapToViewData)
             ?.let(::mapInactiveFilterName)
@@ -89,8 +92,16 @@ class RecordsFilterViewDataMapper @Inject constructor(
                     }
             }
             is RecordsFilter.Date -> {
-                val startedDate = timeMapper.formatDateYear(filter.range.timeStarted)
-                val endedDate = timeMapper.formatDateYear(filter.range.timeEnded)
+                val startedDate = timeMapper.formatDateTime(
+                    time = filter.range.timeStarted,
+                    useMilitaryTime = useMilitaryTime,
+                    showSeconds = false,
+                )
+                val endedDate = timeMapper.formatDateTime(
+                    time = filter.range.timeEnded,
+                    useMilitaryTime = useMilitaryTime,
+                    showSeconds = false,
+                )
                 "$startedDate - $endedDate"
             }
             is RecordsFilter.SelectedTags -> {

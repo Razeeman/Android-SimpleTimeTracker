@@ -9,6 +9,7 @@ import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.Category
+import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RecordTypeCategory
@@ -23,6 +24,7 @@ import com.example.util.simpletimetracker.feature_records_filter.interactor.Reco
 import com.example.util.simpletimetracker.feature_records_filter.mapper.RecordsFilterViewDataMapper
 import com.example.util.simpletimetracker.feature_records_filter.model.RecordsFilterSelectedRecordsViewData
 import com.example.util.simpletimetracker.feature_records_filter.model.RecordsFilterSelectionState
+import com.example.util.simpletimetracker.navigation.Router
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.Job
@@ -34,6 +36,7 @@ class RecordsFilterViewModel @Inject constructor(
     private val recordsFilterViewDataMapper: RecordsFilterViewDataMapper,
     private val recordTypeInteractor: RecordTypeInteractor,
     private val recordTagInteractor: RecordTagInteractor,
+    private val router: Router,
 ) : ViewModel() {
 
     val filtersViewData: LiveData<List<ViewHolderType>> by lazy {
@@ -76,6 +79,7 @@ class RecordsFilterViewModel @Inject constructor(
     val keyboardVisibility: LiveData<Boolean> = MutableLiveData(false)
 
     private val filters: MutableList<RecordsFilter> = mutableListOf()
+    private val defaultRange: Range by lazy { viewDataInteractor.getDefaultDateRange() }
     private var filterSelectionState: RecordsFilterSelectionState = RecordsFilterSelectionState.Hidden
     private var recordsLoadJob: Job? = null
 
@@ -109,7 +113,7 @@ class RecordsFilterViewModel @Inject constructor(
         removeFilter(item.type)
     }
 
-    fun onFiltersSelected() {
+    fun onFilterApplied() {
         filterSelectionState = RecordsFilterSelectionState.Hidden
         updateFilterSelectionVisibility()
     }
@@ -177,17 +181,66 @@ class RecordsFilterViewModel @Inject constructor(
     }
 
     fun onCommentChange(text: String) {
-        val currentFilter = filters
-            .filterIsInstance<RecordsFilter.Comment>()
-            .firstOrNull()
+        filters.removeAll { it is RecordsFilter.Comment }
+        if (text.isNotEmpty()) filters.add(RecordsFilter.Comment(text))
 
-        if (currentFilter == null && text.isNotEmpty()) {
-            val filter = RecordsFilter.Comment(text)
-            filters.add(filter)
-        } else {
-            filters.removeAll { it is RecordsFilter.Comment }
-            if (text.isNotEmpty()) filters.add(RecordsFilter.Comment(text))
+        updateFilters()
+        updateFilterSelectionViewData()
+        updateRecords()
+    }
+
+    fun onRangeTimeStartedClick() {
+        viewModelScope.launch {
+            val range = filters.filterIsInstance<RecordsFilter.Date>()
+                .firstOrNull()
+                ?.range
+                ?: defaultRange
+
+            viewDataInteractor.getDateTimeDialogParams(
+                tag = TIME_STARTED_TAG,
+                timestamp = range.timeStarted,
+            ).let(router::navigate)
         }
+    }
+
+    fun onRangeTimeEndedClick() {
+        viewModelScope.launch {
+            val range = filters.filterIsInstance<RecordsFilter.Date>()
+                .firstOrNull()
+                ?.range
+                ?: defaultRange
+
+            viewDataInteractor.getDateTimeDialogParams(
+                tag = TIME_ENDED_TAG,
+                timestamp = range.timeEnded,
+            ).let(router::navigate)
+        }
+    }
+
+    fun onDateTimeSet(timestamp: Long, tag: String?) {
+        var (rangeStart, rangeEnd) = filters
+            .filterIsInstance<RecordsFilter.Date>()
+            .firstOrNull()
+            ?.range
+            ?: defaultRange
+
+        when (tag) {
+            TIME_STARTED_TAG -> {
+                if (timestamp != rangeStart) {
+                    rangeStart = timestamp
+                    if (timestamp > rangeEnd) rangeEnd = timestamp
+                }
+            }
+            TIME_ENDED_TAG -> {
+                if (timestamp != rangeEnd) {
+                    rangeEnd = timestamp
+                    if (timestamp < rangeStart) rangeStart = timestamp
+                }
+            }
+        }
+
+        filters.removeAll { it is RecordsFilter.Date }
+        filters.add(RecordsFilter.Date(Range(rangeStart, rangeEnd)))
 
         updateFilters()
         updateFilterSelectionViewData()
@@ -283,7 +336,17 @@ class RecordsFilterViewModel @Inject constructor(
                     recordTags = getTagsCache(),
                 )
             }
-            else -> emptyList()
+            RecordFilterViewData.Type.DATE -> {
+                viewDataInteractor.getDateFilterSelectionViewData(
+                    filters = filters,
+                    defaultRange = defaultRange,
+                )
+            }
         }
+    }
+
+    companion object {
+        private const val TIME_STARTED_TAG = "records_filter_range_selection_time_started_tag"
+        private const val TIME_ENDED_TAG = "records_filter_range_selection_time_ended_tag"
     }
 }

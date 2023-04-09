@@ -6,6 +6,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.util.simpletimetracker.core.base.BaseFragment
+import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
 import com.example.util.simpletimetracker.core.extension.hideKeyboard
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_base_adapter.category.createCategoryAdapterDelegate
@@ -17,6 +18,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.record.createReco
 import com.example.util.simpletimetracker.feature_base_adapter.recordFilter.createRecordFilterAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.createRecordTypeAdapterDelegate
 import com.example.util.simpletimetracker.feature_records_filter.adapter.createRecordsFilterCommentAdapterDelegate
+import com.example.util.simpletimetracker.feature_records_filter.adapter.createRecordsFilterRangeAdapterDelegate
 import com.example.util.simpletimetracker.feature_records_filter.model.RecordsFilterSelectedRecordsViewData
 import com.example.util.simpletimetracker.feature_records_filter.viewModel.RecordsFilterViewModel
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
@@ -28,7 +30,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import com.example.util.simpletimetracker.feature_records_filter.databinding.RecordsFilterFragmentBinding as Binding
 
 @AndroidEntryPoint
-class RecordsFilterFragment : BaseFragment<Binding>() {
+class RecordsFilterFragment :
+    BaseFragment<Binding>(),
+    DateTimeDialogListener {
 
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
         Binding::inflate
@@ -51,7 +55,11 @@ class RecordsFilterFragment : BaseFragment<Binding>() {
             createDividerAdapterDelegate(),
             createRecordTypeAdapterDelegate(viewModel::onRecordTypeClick),
             createCategoryAdapterDelegate(viewModel::onCategoryClick),
-            createRecordsFilterCommentAdapterDelegate(viewModel::onCommentChange)
+            createRecordsFilterCommentAdapterDelegate(viewModel::onCommentChange),
+            createRecordsFilterRangeAdapterDelegate(
+                viewModel::onRangeTimeStartedClick,
+                viewModel::onRangeTimeEndedClick,
+            ),
         )
     }
     private val recordsAdapter: BaseRecyclerAdapter by lazy {
@@ -86,7 +94,7 @@ class RecordsFilterFragment : BaseFragment<Binding>() {
     }
 
     override fun initUx() = with(binding) {
-        btnRecordsFilterSelection.setOnClick(viewModel::onFiltersSelected)
+        btnRecordsFilterSelection.setOnClick(viewModel::onFilterApplied)
     }
 
     override fun initViewModel(): Unit = with(viewModel) {
@@ -97,6 +105,10 @@ class RecordsFilterFragment : BaseFragment<Binding>() {
             filterSelectionVisibility.observe(groupRecordsFilterContent::isVisible::set)
             keyboardVisibility.observe(::showKeyboard)
         }
+    }
+
+    override fun onDateTimeSet(timestamp: Long, tag: String?) {
+        viewModel.onDateTimeSet(timestamp, tag)
     }
 
     private fun setSelectedRecords(viewData: RecordsFilterSelectedRecordsViewData) {
