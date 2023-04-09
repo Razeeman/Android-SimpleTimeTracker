@@ -102,6 +102,8 @@
     <string name="change_record_split_hint">Schneidet den aktuellen Datensatz zum angegebenen Zeitpunkt in zwei Teile</string>
     <string name="change_record_continue">Fortsetzen</string>
     <string name="change_record_continue_hint">Wird den aktuellen Datensatz entfernen und diese Aktivität weiter verfolgen</string>
+    <string name="change_record_duplicate">Duplikat</string>
+    <string name="change_record_duplicate_hint">Erstellt eine Kopie dieses Datensatzes</string>
     <string name="change_record_merge">Verschmelzen</string>
     <string name="change_record_merge_hint">Wird diese Zeit zum vorherigen Rekord hinzufügen</string>
     <string name="change_record_adjust">Ändern</string>

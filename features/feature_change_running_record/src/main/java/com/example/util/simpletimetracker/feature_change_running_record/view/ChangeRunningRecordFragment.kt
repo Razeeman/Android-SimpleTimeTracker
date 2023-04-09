@@ -148,6 +148,8 @@ class ChangeRunningRecordFragment :
         layoutChangeRunningRecordCore.btnChangeRecordTimeEndedAdjust.isVisible = false
         // Can't continue running record.
         layoutChangeRunningRecordCore.containerChangeRecordContinue.isVisible = false
+        // Can't duplicate running record.
+        layoutChangeRunningRecordCore.containerChangeRecordDuplicate.isVisible = false
 
         context?.getString(R.string.change_record_change_prev_record)
             ?.let(layoutChangeRunningRecordCore.tvChangeRecordAdjustHint::setText)

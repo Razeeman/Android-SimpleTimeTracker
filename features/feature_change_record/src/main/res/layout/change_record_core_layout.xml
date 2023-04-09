@@ -545,6 +545,39 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/containerChangeRecordDuplicate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.example.util.simpletimetracker.feature_views.DividerView
+                    android:id="@+id/dividerChangeRecordDuplicate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvChangeRecordDuplicateHint"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="8dp"
+                    android:gravity="center"
+                    android:paddingVertical="8dp"
+                    android:text="@string/change_record_duplicate_hint"
+                    android:textColor="?appTextHintColor"
+                    app:layout_constraintTop_toBottomOf="@id/dividerChangeRecordDuplicate" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnChangeRecordDuplicate"
+                    style="@style/AppButtonActive"
+                    android:layout_width="match_parent"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="@string/change_record_duplicate"
+                    app:layout_constraintTop_toBottomOf="@id/tvChangeRecordDuplicateHint" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/containerChangeRecordMerge"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">

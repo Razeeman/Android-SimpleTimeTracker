@@ -125,6 +125,19 @@ class ChangeRecordViewModel @Inject constructor(
         router.back()
     }
 
+    override suspend fun onDuplicateClickDelegate() {
+        Record(
+            typeId = newTypeId,
+            timeStarted = newTimeStarted,
+            timeEnded = newTimeEnded,
+            comment = newComment,
+            tagIds = newCategoryIds
+        ).let {
+            addRecordMediator.add(it)
+        }
+        onSaveClickDelegate()
+    }
+
     override fun getChangeCategoryParams(data: ChangeTagData): ChangeRecordTagFromScreen {
         return ChangeRecordTagFromChangeRecordParams(data)
     }

@@ -102,6 +102,8 @@
     <string name="change_record_split_hint">Cortará o registro atual em dois no ponto especificado no tempo</string>
     <string name="change_record_continue">Continuar</string>
     <string name="change_record_continue_hint">Irá remover o registro atual e continuar rastreando esta atividade</string>
+    <string name="change_record_duplicate">Duplicada</string>
+    <string name="change_record_duplicate_hint">Irá criar uma cópia deste registro</string>
     <string name="change_record_merge">Mesclar</string>
     <string name="change_record_merge_hint">Irá adicionar este tempo ao recorde anterior</string>
     <string name="change_record_adjust">Mudar</string>

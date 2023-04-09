@@ -102,6 +102,8 @@
     <string name="change_record_split_hint">指定された時点で現在のレコードを 2 つに分割します</string>
     <string name="change_record_continue">継続する</string>
     <string name="change_record_continue_hint">現在の記録を削除し、このアクティビティの追跡を継続します</string>
+    <string name="change_record_duplicate">複製</string>
+    <string name="change_record_duplicate_hint">このレコードのコピーを作成します</string>
     <string name="change_record_merge">マージ</string>
     <string name="change_record_merge_hint">現在の記録を前の記録に追加します</string>
     <string name="change_record_adjust">変更する</string>

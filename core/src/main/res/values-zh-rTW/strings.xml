@@ -102,6 +102,8 @@
     <string name="change_record_split_hint">現有紀錄將會切成兩個指定的時間點</string>
     <string name="change_record_continue">繼續</string>
     <string name="change_record_continue_hint">現有紀錄將會移除與繼續追總此活動</string>
+    <string name="change_record_duplicate">複製</string>
+    <string name="change_record_duplicate_hint">將創建此記錄的副本</string>
     <string name="change_record_merge">合併</string>
     <string name="change_record_merge_hint">將會新增此時間到前一筆紀錄</string>
     <string name="change_record_adjust">改變</string>
