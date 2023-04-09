@@ -100,9 +100,8 @@ class RecordsFilterViewDataInteractor @Inject constructor(
             val filter = filters.filterIsInstance(clazz).firstOrNull()
             val enabled = filter != null
             // TODO add string translations
-            // TODO add different highlighting for currently being selected filter
-            //  otherwise enabled filter and selected are the same.
-            val active = enabled || (selectionState as? RecordsFilterSelectionState.Visible)?.type == type
+            val selected = (selectionState as? RecordsFilterSelectionState.Visible)
+                ?.type == type
 
             RecordFilterViewData(
                 type = type,
@@ -111,12 +110,13 @@ class RecordsFilterViewDataInteractor @Inject constructor(
                 } else {
                     mapper.mapInactiveFilterName(type)
                 },
-                color = if (active) {
+                color = if (enabled) {
                     colorMapper.toActiveColor(isDarkTheme)
                 } else {
                     colorMapper.toInactiveColor(isDarkTheme)
                 },
                 removeBtnVisible = enabled,
+                selected = selected,
             )
         }
     }

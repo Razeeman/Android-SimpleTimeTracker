@@ -53,6 +53,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="8dp"
                 android:padding="16dp"
+                app:iconTint="?appLightTextColor"
                 android:text="@string/data_edit_select_records"
                 app:icon="@drawable/ic_list_24px"
                 app:iconGravity="end" />

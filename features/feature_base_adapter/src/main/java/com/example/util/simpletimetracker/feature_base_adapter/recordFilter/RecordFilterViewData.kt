@@ -7,6 +7,7 @@ data class RecordFilterViewData(
     val type: Type,
     val name: String,
     @ColorInt val color: Int,
+    val selected: Boolean,
     val removeBtnVisible: Boolean,
 ) : ViewHolderType {
 

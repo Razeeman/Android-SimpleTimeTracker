@@ -17,8 +17,9 @@ fun createRecordFilterAdapterDelegate(
         item as ViewData
 
         containerRecordFilter.setCardBackgroundColor(item.color)
-        tvActivityFilterItemName.text = item.name
+        tvRecordFilterItemName.text = item.name
         ivRecordFilterItemRemove.isVisible = item.removeBtnVisible
+        cardRecordFilterBackground.isVisible = item.selected
 
         containerRecordFilter.setOnClickWith(item, onClick)
         ivRecordFilterItemRemove.setOnClickWith(item, onRemoveClick)
