@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.extension.addOrRemove
 import com.example.util.simpletimetracker.core.extension.set
+import com.example.util.simpletimetracker.core.extension.toModel
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.Category
@@ -25,6 +26,8 @@ import com.example.util.simpletimetracker.feature_records_filter.mapper.RecordsF
 import com.example.util.simpletimetracker.feature_records_filter.model.RecordsFilterSelectedRecordsViewData
 import com.example.util.simpletimetracker.feature_records_filter.model.RecordsFilterSelectionState
 import com.example.util.simpletimetracker.navigation.Router
+import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterParam
+import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterParams
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.Job
@@ -38,6 +41,8 @@ class RecordsFilterViewModel @Inject constructor(
     private val recordTagInteractor: RecordTagInteractor,
     private val router: Router,
 ) : ViewModel() {
+
+    lateinit var extra: RecordsFilterParams
 
     val filtersViewData: LiveData<List<ViewHolderType>> by lazy {
         return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
@@ -78,7 +83,9 @@ class RecordsFilterViewModel @Inject constructor(
 
     val keyboardVisibility: LiveData<Boolean> = MutableLiveData(false)
 
-    private val filters: MutableList<RecordsFilter> = mutableListOf()
+    private val filters: MutableList<RecordsFilter> by lazy {
+        extra.filters.map(RecordsFilterParam::toModel).toMutableList()
+    }
     private val defaultRange: Range by lazy { viewDataInteractor.getDefaultDateRange() }
     private var filterSelectionState: RecordsFilterSelectionState = RecordsFilterSelectionState.Hidden
     private var recordsLoadJob: Job? = null
@@ -111,6 +118,11 @@ class RecordsFilterViewModel @Inject constructor(
 
     fun onFilterRemoveClick(item: RecordFilterViewData) {
         removeFilter(item.type)
+    }
+
+    fun onFilterSelect() {
+        router.sendResult(extra.tag, filters)
+        router.back()
     }
 
     fun onFilterApplied() {
@@ -345,7 +357,7 @@ class RecordsFilterViewModel @Inject constructor(
     }
 
     private suspend fun loadRecordsViewData(): RecordsFilterSelectedRecordsViewData {
-        return viewDataInteractor.getViewData(filters)
+        return viewDataInteractor.getRecordsViewData(filters)
     }
 
     private fun updateFilterSelectionViewData() = viewModelScope.launch {

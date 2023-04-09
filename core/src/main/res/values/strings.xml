@@ -382,6 +382,7 @@ If <b>\"%s\"</b> setting is enabled, app will send events on activity started or
     <string name="records_filter_select_tags">Select tags</string>
     <string name="records_filter_filter_tags">Filter tags</string>
     <string name="records_filter_apply">Apply</string>
+    <string name="records_filter_select">Select</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Smileys &amp; Emotion</string>

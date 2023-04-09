@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_records_filter.view
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
 import com.example.util.simpletimetracker.core.extension.hideKeyboard
+import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_base_adapter.category.createCategoryAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.divider.createDividerAdapterDelegate
@@ -22,6 +24,7 @@ import com.example.util.simpletimetracker.feature_records_filter.adapter.createR
 import com.example.util.simpletimetracker.feature_records_filter.model.RecordsFilterSelectedRecordsViewData
 import com.example.util.simpletimetracker.feature_records_filter.viewModel.RecordsFilterViewModel
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
+import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterParams
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
@@ -69,6 +72,9 @@ class RecordsFilterFragment :
             createRecordAdapterDelegate(throttle(viewModel::onRecordClick))
         )
     }
+    private val params: RecordsFilterParams by fragmentArgumentDelegate(
+        key = ARGS_PARAMS, default = RecordsFilterParams()
+    )
 
     override fun initUi(): Unit = with(binding) {
         rvRecordsFilterFilters.apply {
@@ -94,11 +100,13 @@ class RecordsFilterFragment :
     }
 
     override fun initUx() = with(binding) {
-        btnRecordsFilterSelection.setOnClick(viewModel::onFilterApplied)
+        btnRecordsFilterSelect.setOnClick(viewModel::onFilterSelect)
+        btnRecordsFilterApply.setOnClick(viewModel::onFilterApplied)
     }
 
     override fun initViewModel(): Unit = with(viewModel) {
         with(binding) {
+            extra = params
             filtersViewData.observe(filtersAdapter::replace)
             filterSelectionContent.observe(filterSelectionAdapter::replace)
             recordsViewData.observe(::setSelectedRecords)
@@ -121,6 +129,14 @@ class RecordsFilterFragment :
             // Do nothing.
         } else {
             hideKeyboard()
+        }
+    }
+
+    companion object {
+        private const val ARGS_PARAMS = "args_params"
+
+        fun createBundle(data: RecordsFilterParams): Bundle = Bundle().apply {
+            putParcelable(ARGS_PARAMS, data)
         }
     }
 }

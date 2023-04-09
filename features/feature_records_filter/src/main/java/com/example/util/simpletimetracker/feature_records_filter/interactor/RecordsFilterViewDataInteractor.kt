@@ -72,7 +72,7 @@ class RecordsFilterViewDataInteractor @Inject constructor(
         )
     }
 
-    suspend fun getViewData(
+    suspend fun getRecordsViewData(
         filters: List<RecordsFilter>,
     ): RecordsFilterSelectedRecordsViewData {
         val isDarkTheme = prefsInteractor.getDarkMode()

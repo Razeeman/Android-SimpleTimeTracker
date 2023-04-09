@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.feature_change_record_tag.view.ChangeR
 import com.example.util.simpletimetracker.feature_change_record_type.view.ChangeRecordTypeFragment
 import com.example.util.simpletimetracker.feature_change_running_record.view.ChangeRunningRecordFragment
 import com.example.util.simpletimetracker.feature_records_all.view.RecordsAllFragment
+import com.example.util.simpletimetracker.feature_records_filter.view.RecordsFilterFragment
 import com.example.util.simpletimetracker.feature_statistics_detail.view.StatisticsDetailFragment
 import com.example.util.simpletimetracker.navigation.NavigationData
 import com.example.util.simpletimetracker.navigation.bundleCreator.BundleCreator
@@ -144,7 +145,7 @@ class NavigationScreenMapModule {
     fun recordsFilter(): NavigationData {
         return NavigationData(
             R.id.action_dataEdit_to_recordsFilter,
-            BundleCreator.empty()
+            bundleCreatorDelegate(RecordsFilterFragment::createBundle)
         )
     }
 

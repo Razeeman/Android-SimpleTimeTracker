@@ -49,10 +49,18 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:scrollbars="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btnRecordsFilterSelect"
         app:layout_constraintTop_toBottomOf="@id/dividerRecordsFilter"
         tools:itemCount="15"
         tools:listitem="@layout/item_record_layout" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnRecordsFilterSelect"
+        style="@style/AppButtonActive"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="8dp"
+        android:text="@string/records_filter_select"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <View
         android:id="@+id/viewRecordsFilterSelectionBackground"
@@ -68,13 +76,13 @@
         android:layout_height="0dp"
         android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/btnRecordsFilterSelection"
+        app:layout_constraintBottom_toTopOf="@id/btnRecordsFilterApply"
         app:layout_constraintTop_toBottomOf="@id/dividerRecordsFilter"
         tools:itemCount="15"
         tools:listitem="@layout/item_record_type_layout" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnRecordsFilterSelection"
+        android:id="@+id/btnRecordsFilterApply"
         style="@style/AppButtonActive"
         android:layout_width="match_parent"
         android:layout_marginHorizontal="8dp"
@@ -86,7 +94,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:constraint_referenced_ids="rvRecordsFilterSelection, btnRecordsFilterSelection, viewRecordsFilterSelectionBackground"
-        tools:visibility="visible" />
+        app:constraint_referenced_ids="rvRecordsFilterSelection, btnRecordsFilterApply, viewRecordsFilterSelectionBackground"
+        tools:visibility="gone" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

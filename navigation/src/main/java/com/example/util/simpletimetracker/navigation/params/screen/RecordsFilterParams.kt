@@ -1,3 +1,10 @@
 package com.example.util.simpletimetracker.navigation.params.screen
 
-object RecordsFilterParams : ScreenParams
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
+data class RecordsFilterParams(
+    val tag: String = "",
+    val filters: List<RecordsFilterParam> = emptyList(),
+) : ScreenParams, Parcelable
