@@ -11,6 +11,10 @@ class AutomaticBackupBroadcastController @Inject constructor(
         automaticBackupInteractor.backup()
     }
 
+    fun onFinished() {
+        automaticBackupInteractor.onFinished()
+    }
+
     fun onBootCompleted() {
         automaticBackupInteractor.schedule()
     }

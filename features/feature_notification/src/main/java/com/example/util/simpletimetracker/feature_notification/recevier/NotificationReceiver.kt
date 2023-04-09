@@ -21,13 +21,13 @@ import com.example.util.simpletimetracker.feature_notification.automaticExport.c
 import com.example.util.simpletimetracker.feature_notification.goalTime.controller.NotificationGoalTimeBroadcastController
 import com.example.util.simpletimetracker.feature_notification.inactivity.controller.NotificationInactivityBroadcastController
 import com.example.util.simpletimetracker.feature_notification.recordType.controller.NotificationTypeBroadcastController
-import com.example.util.simpletimetracker.feature_notification.recordType.manager.NotificationTypeManager.Companion.ACTION_NOTIFICATION_TYPES_NEXT
-import com.example.util.simpletimetracker.feature_notification.recordType.manager.NotificationTypeManager.Companion.ACTION_NOTIFICATION_TYPES_PREV
-import com.example.util.simpletimetracker.feature_notification.recordType.manager.NotificationTypeManager.Companion.ACTION_NOTIFICATION_TYPE_CLICK
 import com.example.util.simpletimetracker.feature_notification.recordType.manager.NotificationTypeManager.Companion.ACTION_NOTIFICATION_STOP
 import com.example.util.simpletimetracker.feature_notification.recordType.manager.NotificationTypeManager.Companion.ACTION_NOTIFICATION_TAGS_NEXT
 import com.example.util.simpletimetracker.feature_notification.recordType.manager.NotificationTypeManager.Companion.ACTION_NOTIFICATION_TAGS_PREV
 import com.example.util.simpletimetracker.feature_notification.recordType.manager.NotificationTypeManager.Companion.ACTION_NOTIFICATION_TAG_CLICK
+import com.example.util.simpletimetracker.feature_notification.recordType.manager.NotificationTypeManager.Companion.ACTION_NOTIFICATION_TYPES_NEXT
+import com.example.util.simpletimetracker.feature_notification.recordType.manager.NotificationTypeManager.Companion.ACTION_NOTIFICATION_TYPES_PREV
+import com.example.util.simpletimetracker.feature_notification.recordType.manager.NotificationTypeManager.Companion.ACTION_NOTIFICATION_TYPE_CLICK
 import com.example.util.simpletimetracker.feature_notification.recordType.manager.NotificationTypeManager.Companion.ARGS_SELECTED_TYPE_ID
 import com.example.util.simpletimetracker.feature_notification.recordType.manager.NotificationTypeManager.Companion.ARGS_TAGS_SHIFT
 import com.example.util.simpletimetracker.feature_notification.recordType.manager.NotificationTypeManager.Companion.ARGS_TAG_ID
@@ -89,12 +89,14 @@ class NotificationReceiver : BroadcastReceiver() {
             -> {
                 goalTimeController.onRangeEndReminder()
             }
-            ACTION_AUTOMATIC_BACKUP -> goAsync() {
-                automaticBackupController.onReminder()
-            }
-            ACTION_AUTOMATIC_EXPORT -> goAsync() {
-                automaticExportController.onReminder()
-            }
+            ACTION_AUTOMATIC_BACKUP -> goAsync(
+                finally = { automaticBackupController.onFinished() },
+                block = { automaticBackupController.onReminder() }
+            )
+            ACTION_AUTOMATIC_EXPORT -> goAsync(
+                finally = { automaticExportController.onFinished() },
+                block = { automaticExportController.onReminder() }
+            )
             ACTION_START_ACTIVITY -> {
                 val name = intent.getStringExtra(EXTRA_ACTIVITY_NAME)
                 val comment = intent.getStringExtra(EXTRA_RECORD_COMMENT)

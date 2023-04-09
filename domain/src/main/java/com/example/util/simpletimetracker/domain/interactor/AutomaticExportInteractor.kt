@@ -6,5 +6,7 @@ interface AutomaticExportInteractor {
 
     fun cancel()
 
+    fun onFinished()
+
     suspend fun export()
 }

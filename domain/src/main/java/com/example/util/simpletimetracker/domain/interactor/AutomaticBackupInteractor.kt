@@ -6,5 +6,7 @@ interface AutomaticBackupInteractor {
 
     fun cancel()
 
+    fun onFinished()
+
     suspend fun backup()
 }

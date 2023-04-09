@@ -11,6 +11,10 @@ class AutomaticExportBroadcastController @Inject constructor(
         automaticExportInteractor.export()
     }
 
+    fun onFinished() {
+        automaticExportInteractor.onFinished()
+    }
+
     fun onBootCompleted() {
         automaticExportInteractor.schedule()
     }

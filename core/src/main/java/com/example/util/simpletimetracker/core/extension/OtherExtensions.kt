@@ -57,6 +57,7 @@ fun Calendar.setToStartOfDay() {
 @OptIn(DelicateCoroutinesApi::class)
 fun BroadcastReceiver.goAsync(
     coroutineScope: CoroutineScope = GlobalScope,
+    finally: () -> Unit,
     block: suspend () -> Unit,
 ) {
     val result = goAsync()
@@ -64,6 +65,7 @@ fun BroadcastReceiver.goAsync(
         try {
             block()
         } finally {
+            finally()
             // Always call finish(), even if the coroutineScope was cancelled
             result.finish()
         }

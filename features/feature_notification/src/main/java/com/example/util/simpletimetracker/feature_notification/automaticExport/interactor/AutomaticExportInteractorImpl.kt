@@ -27,6 +27,10 @@ class AutomaticExportInteractorImpl @Inject constructor(
         scheduler.cancelSchedule()
     }
 
+    override fun onFinished() {
+        automaticExportRepo.inProgress.post(false)
+    }
+
     override suspend fun export() {
         automaticExportRepo.inProgress.post(true)
 
@@ -44,6 +48,6 @@ class AutomaticExportInteractorImpl @Inject constructor(
             prefsInteractor.setAutomaticExportUri("")
         }
 
-        automaticExportRepo.inProgress.post(false)
+        onFinished()
     }
 }

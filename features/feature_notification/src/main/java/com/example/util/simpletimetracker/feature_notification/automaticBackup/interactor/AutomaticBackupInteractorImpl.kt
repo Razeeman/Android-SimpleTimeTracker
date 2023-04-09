@@ -27,6 +27,10 @@ class AutomaticBackupInteractorImpl @Inject constructor(
         scheduler.cancelSchedule()
     }
 
+    override fun onFinished() {
+        automaticBackupRepo.inProgress.post(false)
+    }
+
     override suspend fun backup() {
         automaticBackupRepo.inProgress.post(true)
 
@@ -44,6 +48,6 @@ class AutomaticBackupInteractorImpl @Inject constructor(
             prefsInteractor.setAutomaticBackupUri("")
         }
 
-        automaticBackupRepo.inProgress.post(false)
+        onFinished()
     }
 }
