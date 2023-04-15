@@ -150,6 +150,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
                 newCategoryIds = record.tagIds.toMutableList()
             }
             newTimeSplit = newTimeStarted
+            originalTypeId = newTypeId
             originalTimeStarted = newTimeStarted
             originalTimeEnded = newTimeEnded
             super.initializePreviewViewData()

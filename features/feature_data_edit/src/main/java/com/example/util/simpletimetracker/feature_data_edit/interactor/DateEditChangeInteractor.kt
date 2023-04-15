@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.feature_data_edit.interactor
 
 import com.example.util.simpletimetracker.core.interactor.RecordFilterInteractor
 import com.example.util.simpletimetracker.domain.interactor.AddRecordMediator
+import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTimeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
@@ -12,6 +13,7 @@ class DateEditChangeInteractor @Inject constructor(
     private val addRecordMediator: AddRecordMediator,
     private val recordFilterInteractor: RecordFilterInteractor,
     private val recordTagInteractor: RecordTagInteractor,
+    private val notificationGoalTimeInteractor: NotificationGoalTimeInteractor,
 ) {
 
     suspend fun changeData(
@@ -23,10 +25,15 @@ class DateEditChangeInteractor @Inject constructor(
 
         val records = recordFilterInteractor.getByFilter(filters)
         val tags = recordTagInteractor.getAll().associateBy { it.id }
+        val oldTypeIds = mutableSetOf<Long>()
 
         records.forEach { record ->
-            // Remove all typed tags.
-            val newTagIds = record.tagIds.filter { tagId -> tags[tagId]?.typeId == 0L }
+            // Remove all typed tags of previous activity.
+            val newTagIds = record.tagIds.filter { tagId ->
+                val tagTypeId = tags[tagId]?.typeId
+                tagTypeId == 0L || tagTypeId == newTypeId
+            }
+            oldTypeIds.add(record.typeId)
             // Change activity
             record.copy(
                 typeId = newTypeId,
@@ -34,7 +41,12 @@ class DateEditChangeInteractor @Inject constructor(
             ).let {
                 recordInteractor.add(it)
             }
-            addRecordMediator.doAfterAdd(newTypeId)
         }
+
+        // Check goal time and statistics widget consistency.
+        oldTypeIds.forEach { typeId ->
+            notificationGoalTimeInteractor.checkAndReschedule(typeId)
+        }
+        addRecordMediator.doAfterAdd(newTypeId)
     }
 }

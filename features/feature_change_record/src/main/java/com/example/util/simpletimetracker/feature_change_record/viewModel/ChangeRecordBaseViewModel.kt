@@ -94,6 +94,7 @@ abstract class ChangeRecordBaseViewModel(
     protected var newTimeSplit: Long = 0
     protected var newComment: String = ""
     protected var newCategoryIds: MutableList<Long> = mutableListOf()
+    protected var originalTypeId: Long = 0
     protected var originalTimeStarted: Long = 0
     protected var originalTimeEnded: Long = 0
 
