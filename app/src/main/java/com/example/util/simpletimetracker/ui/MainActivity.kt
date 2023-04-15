@@ -4,11 +4,9 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import com.example.util.simpletimetracker.core.base.BaseActivity
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
-import com.example.util.simpletimetracker.core.extension.combineLiveData
 import com.example.util.simpletimetracker.core.manager.ThemeManager
 import com.example.util.simpletimetracker.core.sharedViewModel.BackupViewModel
 import com.example.util.simpletimetracker.databinding.MainActivityBinding
-import com.example.util.simpletimetracker.domain.extension.orFalse
 import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.navigation.Router
 import dagger.hilt.android.AndroidEntryPoint
@@ -52,12 +50,10 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initViewModel() {
-        combineLiveData(
-            backupViewModel.progressVisibility,
-            backupViewModel.automaticBackupProgress,
-            backupViewModel.automaticExportProgress,
-        ).observe {
-            binding.mainProgress.visible = it.first.orFalse() || it.second.orFalse() || it.third.orFalse()
+        backupViewModel.progressVisibility.observe {
+            binding.mainProgress.visible = it
+            // TODO here to check that if automatic update finishes with error while app is opened.
+            //  probably can be moved to VM because progress cen be shown for other reasons.
             backupViewModel.onFileWork()
         }
     }

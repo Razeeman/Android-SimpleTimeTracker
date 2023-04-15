@@ -6,13 +6,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.extension.toParams
-import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
-import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
-import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
+import com.example.util.simpletimetracker.core.repo.DataEditRepo
+import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
+import com.example.util.simpletimetracker.feature_data_edit.R
+import com.example.util.simpletimetracker.feature_data_edit.interactor.DateEditChangeInteractor
 import com.example.util.simpletimetracker.feature_data_edit.interactor.DateEditViewDataInteractor
 import com.example.util.simpletimetracker.feature_data_edit.model.DataEditChangeActivityState
+import com.example.util.simpletimetracker.feature_data_edit.model.DataEditChangeButtonState
 import com.example.util.simpletimetracker.navigation.Router
+import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
 import com.example.util.simpletimetracker.navigation.params.screen.DataEditTypeSelectionDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterParams
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,10 +25,10 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class DataEditViewModel @Inject constructor(
     private val router: Router,
-    private val dateEditViewDataInteractor: DateEditViewDataInteractor,
-    private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
-    private val prefsInteractor: PrefsInteractor,
-    private val recordTypeInteractor: RecordTypeInteractor,
+    private val resourceRepo: ResourceRepo,
+    private val dataEditRepo: DataEditRepo,
+    private val dataEditViewDataInteractor: DateEditViewDataInteractor,
+    private val dataEditChangeInteractor: DateEditChangeInteractor,
 ) : ViewModel() {
 
     val selectedRecordsCountViewData: LiveData<String> by lazy {
@@ -34,17 +37,22 @@ class DataEditViewModel @Inject constructor(
             initial
         }
     }
-    val changeActivityCheckbox: LiveData<DataEditChangeActivityState> by lazy {
+    val changeActivityState: LiveData<DataEditChangeActivityState> by lazy {
         MutableLiveData<DataEditChangeActivityState>().let { initial ->
-            viewModelScope.launch {
-                initial.value = loadChangeActivityCheckbox()
-            }
+            viewModelScope.launch { initial.value = loadChangeActivityState() }
+            initial
+        }
+    }
+    val changeButtonState: LiveData<DataEditChangeButtonState> by lazy {
+        MutableLiveData<DataEditChangeButtonState>().let { initial ->
+            viewModelScope.launch { initial.value = loadChangeButtonState() }
             initial
         }
     }
 
     private var filters: List<RecordsFilter> = emptyList()
     private var newTypeId: Long? = null
+    private val changeButtonEnabled: Boolean get() = newTypeId != null
 
     fun onSelectRecordsClick() {
         router.setResultListener(FILTER_TAG) {
@@ -61,18 +69,34 @@ class DataEditViewModel @Inject constructor(
             router.navigate(DataEditTypeSelectionDialogParams)
         } else {
             newTypeId = null
-            updateChangeActivityCheckbox()
+            updateChangeActivityState()
+            updateChangeButtonState()
         }
     }
 
     fun onTypeSelected(typeId: Long) {
         newTypeId = typeId
-        updateChangeActivityCheckbox()
+        updateChangeActivityState()
+        updateChangeButtonState()
+    }
+
+    fun onChangeClick() = viewModelScope.launch {
+        changeButtonState.set(dataEditViewDataInteractor.getChangeButtonState(false))
+        dataEditRepo.inProgress.set(true)
+        dataEditChangeInteractor.changeData(newTypeId, filters)
+        dataEditRepo.inProgress.set(false)
+        showMessage(R.string.data_edit_success_message)
+        router.back()
     }
 
     private fun onFilterSelected(filters: List<RecordsFilter>) {
         this.filters = filters
         updateSelectedRecordsCountViewData()
+    }
+
+    private fun showMessage(stringResId: Int) {
+        val params = SnackBarParams(message = resourceRepo.getString(stringResId))
+        router.show(params)
     }
 
     private fun updateSelectedRecordsCountViewData() = viewModelScope.launch {
@@ -81,27 +105,25 @@ class DataEditViewModel @Inject constructor(
     }
 
     private suspend fun loadSelectedRecordsCountViewData(): String {
-        return dateEditViewDataInteractor.getSelectedRecordsCount(filters)
+        return dataEditViewDataInteractor.getSelectedRecordsCount(filters)
     }
 
-    private fun updateChangeActivityCheckbox() = viewModelScope.launch {
-        val data = loadChangeActivityCheckbox()
-        changeActivityCheckbox.set(data)
+    private fun updateChangeActivityState() = viewModelScope.launch {
+        val data = loadChangeActivityState()
+        changeActivityState.set(data)
     }
 
-    private suspend fun loadChangeActivityCheckbox(): DataEditChangeActivityState {
-        // TODO move to interactor
-        val type = newTypeId?.let { recordTypeInteractor.get(it) }
-        return if (type == null) {
-            DataEditChangeActivityState.Disabled
-        } else {
-            DataEditChangeActivityState.Enabled(
-                recordTypeViewDataMapper.map(
-                    recordType = type,
-                    isDarkTheme = prefsInteractor.getDarkMode(),
-                )
-            )
-        }
+    private suspend fun loadChangeActivityState(): DataEditChangeActivityState {
+        return dataEditViewDataInteractor.getChangeActivityState(newTypeId)
+    }
+
+    private fun updateChangeButtonState() = viewModelScope.launch {
+        val data = loadChangeButtonState()
+        changeButtonState.set(data)
+    }
+
+    private suspend fun loadChangeButtonState(): DataEditChangeButtonState {
+        return dataEditViewDataInteractor.getChangeButtonState(changeButtonEnabled)
     }
 
     companion object {

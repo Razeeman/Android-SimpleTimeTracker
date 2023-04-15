@@ -36,7 +36,10 @@ class AutomaticExportInteractorImpl @Inject constructor(
 
         val uri = prefsInteractor.getAutomaticExportUri()
             .takeUnless { it.isEmpty() }
-            ?: return
+            ?: run {
+                onFinished()
+                return
+            }
         val result = csvExportInteractor.saveCsvFile(uri, range = null)
 
         if (result == ResultCode.SUCCESS) {

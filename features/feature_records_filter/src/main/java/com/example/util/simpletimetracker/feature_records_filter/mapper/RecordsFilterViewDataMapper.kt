@@ -49,8 +49,13 @@ class RecordsFilterViewDataMapper @Inject constructor(
         )
     }
 
-    fun mapRecordsCount(count: Int): String {
-        if (count == 0) return resourceRepo.getString(R.string.data_edit_select_records)
+    fun mapRecordsCount(
+        count: Int,
+        filter: List<RecordsFilter>,
+    ): String {
+        if (count == 0 && filter.isEmpty()) {
+            return resourceRepo.getString(R.string.data_edit_select_records)
+        }
 
         val selected = resourceRepo.getString(R.string.something_selected)
         val recordsString: String = resourceRepo.getQuantityString(

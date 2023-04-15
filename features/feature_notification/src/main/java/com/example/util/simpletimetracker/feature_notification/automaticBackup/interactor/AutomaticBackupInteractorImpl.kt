@@ -36,7 +36,10 @@ class AutomaticBackupInteractorImpl @Inject constructor(
 
         val uri = prefsInteractor.getAutomaticBackupUri()
             .takeUnless { it.isEmpty() }
-            ?: return
+            ?: run {
+                onFinished()
+                return
+            }
         val result = backupInteractor.saveBackupFile(uri)
 
         if (result == ResultCode.SUCCESS) {

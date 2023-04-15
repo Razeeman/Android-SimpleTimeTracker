@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.core.sharedViewModel
 
 import androidx.annotation.StringRes
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,8 +11,10 @@ import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.AutomaticBackupRepo
 import com.example.util.simpletimetracker.core.repo.AutomaticExportRepo
+import com.example.util.simpletimetracker.core.repo.DataEditRepo
 import com.example.util.simpletimetracker.core.repo.PermissionRepo
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.domain.extension.orFalse
 import com.example.util.simpletimetracker.domain.interactor.AutomaticBackupInteractor
 import com.example.util.simpletimetracker.domain.interactor.AutomaticExportInteractor
 import com.example.util.simpletimetracker.domain.interactor.BackupInteractor
@@ -29,15 +32,16 @@ import com.example.util.simpletimetracker.navigation.params.notification.SnackBa
 import com.example.util.simpletimetracker.navigation.params.screen.DataExportSettingDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DataExportSettingsResult
 import com.example.util.simpletimetracker.navigation.params.screen.StandardDialogParams
-import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import javax.inject.Inject
+import kotlinx.coroutines.launch
 
 class BackupViewModel @Inject constructor(
-    automaticBackupRepo: AutomaticBackupRepo,
-    automaticExportRepo: AutomaticExportRepo,
+    private val dataEditRepo: DataEditRepo,
+    private val automaticBackupRepo: AutomaticBackupRepo,
+    private val automaticExportRepo: AutomaticExportRepo,
     private val resourceRepo: ResourceRepo,
     private val permissionRepo: PermissionRepo,
     private val router: Router,
@@ -82,20 +86,16 @@ class BackupViewModel @Inject constructor(
             initial
         }
     }
-    val progressVisibility: LiveData<Boolean> = MutableLiveData(false)
-    val automaticBackupProgress: LiveData<Boolean> = automaticBackupRepo.inProgress
-    val automaticExportProgress: LiveData<Boolean> = automaticExportRepo.inProgress
+    val progressVisibility: MediatorLiveData<Boolean> = MediatorLiveData<Boolean>().apply {
+        addSource(automaticBackupRepo.inProgress) { updateProgress() }
+        addSource(automaticExportRepo.inProgress) { updateProgress() }
+        addSource(dataEditRepo.inProgress) { updateProgress() }
+    }
 
     private var dataExportSettingsResult: DataExportSettingsResult? = null
 
     fun onVisible() {
-        viewModelScope.launch {
-            checkForAutomaticBackupError()
-            updateAutomaticBackupEnabled()
-            updateAutomaticBackupLastSaveTime()
-            updateAutomaticExportEnabled()
-            updateAutomaticExportLastSaveTime()
-        }
+        onFileWork()
     }
 
     fun onSaveClick() {
@@ -362,7 +362,7 @@ class BackupViewModel @Inject constructor(
         @StringRes errorMessageId: Int,
         doWork: suspend () -> ResultCode,
     ) = viewModelScope.launch {
-        showProgress(true)
+        progressVisibility.set(true)
 
         val resultCode = doWork()
         if (resultCode == ResultCode.SUCCESS) {
@@ -371,7 +371,7 @@ class BackupViewModel @Inject constructor(
             errorMessageId
         }.let(::showMessage)
 
-        showProgress(false)
+        progressVisibility.set(false)
     }
 
     private fun onFileOpenError() {
@@ -387,8 +387,12 @@ class BackupViewModel @Inject constructor(
         router.show(params)
     }
 
-    private fun showProgress(isVisible: Boolean) {
-        (progressVisibility as MutableLiveData).value = isVisible
+    private fun updateProgress() {
+        val visible = dataEditRepo.inProgress.value.orFalse() ||
+            automaticBackupRepo.inProgress.value.orFalse() ||
+            automaticExportRepo.inProgress.value.orFalse()
+
+        progressVisibility.set(visible)
     }
 
     private fun getFileNameTimeStamp(): String {

@@ -22,6 +22,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -46,11 +47,13 @@ interface NotificationModule {
     fun AutomaticBackupInteractorImpl.bindAutomaticBackupInteractor(): AutomaticBackupInteractor
 
     @Binds
+    @Singleton
     fun AutomaticBackupRepoImpl.bindAutomaticBackupRepo(): AutomaticBackupRepo
 
     @Binds
     fun AutomaticExportInteractorImpl.bindAutomaticExportInteractor(): AutomaticExportInteractor
 
     @Binds
+    @Singleton
     fun AutomaticExportRepoImpl.bindAutomaticExportRepo(): AutomaticExportRepo
 }

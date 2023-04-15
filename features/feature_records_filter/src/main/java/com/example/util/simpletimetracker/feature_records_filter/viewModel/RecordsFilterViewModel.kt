@@ -68,7 +68,10 @@ class RecordsFilterViewModel @Inject constructor(
         return@lazy MutableLiveData<RecordsFilterSelectedRecordsViewData>().let { initial ->
             viewModelScope.launch {
                 initial.value = RecordsFilterSelectedRecordsViewData(
-                    selectedRecordsCount = recordsFilterViewDataMapper.mapRecordsCount(0),
+                    selectedRecordsCount = recordsFilterViewDataMapper.mapRecordsCount(
+                        count = 0,
+                        filter = emptyList()
+                    ),
                     recordsViewData = listOf(LoaderViewData()),
                 )
                 initial.value = loadRecordsViewData()
@@ -126,6 +129,7 @@ class RecordsFilterViewModel @Inject constructor(
     }
 
     fun onFilterApplied() {
+        checkIfDefaultDateFilterShouldBeApplied()
         filterSelectionState = RecordsFilterSelectionState.Hidden
         updateFilterSelectionVisibility()
     }
@@ -263,6 +267,23 @@ class RecordsFilterViewModel @Inject constructor(
         @Suppress("UNUSED_PARAMETER") sharedElements: Pair<Any, String>
     ) {
         // TODO add manual filter
+    }
+
+    private fun checkIfDefaultDateFilterShouldBeApplied() {
+        val state = filterSelectionState
+
+        val shouldApplyDefaultDateFilter = state is RecordsFilterSelectionState.Visible
+            && state.type == RecordFilterViewData.Type.DATE
+            && filters.none { it is RecordsFilter.Date }
+
+        if (shouldApplyDefaultDateFilter) {
+            filters.removeAll { it is RecordsFilter.Date }
+            filters.add(RecordsFilter.Date(defaultRange))
+
+            updateFilters()
+            updateFilterSelectionViewData()
+            updateRecords()
+        }
     }
 
     private suspend fun checkTagFilterConsistency() {

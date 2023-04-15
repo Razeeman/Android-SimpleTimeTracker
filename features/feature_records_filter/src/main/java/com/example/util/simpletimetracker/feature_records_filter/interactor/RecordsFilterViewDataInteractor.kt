@@ -112,7 +112,7 @@ class RecordsFilterViewDataInteractor @Inject constructor(
         }
 
         return RecordsFilterSelectedRecordsViewData(
-            selectedRecordsCount = mapper.mapRecordsCount(count),
+            selectedRecordsCount = mapper.mapRecordsCount(count, filters),
             recordsViewData = viewData,
         )
     }

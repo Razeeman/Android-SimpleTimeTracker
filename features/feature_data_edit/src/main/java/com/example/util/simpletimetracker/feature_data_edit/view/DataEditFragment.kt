@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_data_edit.view
 
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
@@ -7,6 +8,7 @@ import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.feature_data_edit.dialog.DataEditTypeSelectionDialogListener
 import com.example.util.simpletimetracker.feature_data_edit.model.DataEditChangeActivityState
+import com.example.util.simpletimetracker.feature_data_edit.model.DataEditChangeButtonState
 import com.example.util.simpletimetracker.feature_data_edit.viewModel.DataEditViewModel
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,30 +30,14 @@ class DataEditFragment :
 
     override fun initUx() = with(binding) {
         checkboxDataEditChangeActivity.setOnClick(viewModel::onChangeActivityClick)
+        btnDataEditChange.setOnClick(throttle(viewModel::onChangeClick))
     }
 
     override fun initViewModel(): Unit = with(viewModel) {
         with(binding) {
             selectedRecordsCountViewData.observe(tvDataEditSelectedRecords::setText)
-            changeActivityCheckbox.observe {
-                when (it) {
-                    is DataEditChangeActivityState.Disabled -> {
-                        checkboxDataEditChangeActivity.isChecked = false
-                        viewDataEditChangeActivityPreview.isVisible = false
-                    }
-                    is DataEditChangeActivityState.Enabled -> {
-                        checkboxDataEditChangeActivity.isChecked = true
-                        viewDataEditChangeActivityPreview.isVisible = true
-                        viewDataEditChangeActivityPreview.apply {
-                            itemColor = it.viewData.color
-                            itemIcon = it.viewData.iconId
-                            itemIconColor = it.viewData.iconColor
-                            itemIconAlpha = it.viewData.iconAlpha
-                            itemName = it.viewData.name
-                        }
-                    }
-                }
-            }
+            changeActivityState.observe(::setChangeActivityState)
+            changeButtonState.observe(::setChangeButtonState)
         }
     }
 
@@ -65,5 +51,34 @@ class DataEditFragment :
 
     override fun onTypeSelected(typeId: Long) {
         viewModel.onTypeSelected(typeId)
+    }
+
+    private fun setChangeActivityState(
+        state: DataEditChangeActivityState,
+    ) = with(binding) {
+        when (state) {
+            is DataEditChangeActivityState.Disabled -> {
+                checkboxDataEditChangeActivity.isChecked = false
+                viewDataEditChangeActivityPreview.isVisible = false
+            }
+            is DataEditChangeActivityState.Enabled -> {
+                checkboxDataEditChangeActivity.isChecked = true
+                viewDataEditChangeActivityPreview.isVisible = true
+                viewDataEditChangeActivityPreview.apply {
+                    itemColor = state.viewData.color
+                    itemIcon = state.viewData.iconId
+                    itemIconColor = state.viewData.iconColor
+                    itemIconAlpha = state.viewData.iconAlpha
+                    itemName = state.viewData.name
+                }
+            }
+        }
+    }
+
+    private fun setChangeButtonState(
+        state: DataEditChangeButtonState
+    ) = with(binding) {
+        btnDataEditChange.isEnabled = state.enabled
+        btnDataEditChange.backgroundTintList = ColorStateList.valueOf(state.backgroundTint)
     }
 }
