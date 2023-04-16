@@ -18,6 +18,7 @@ import com.example.util.simpletimetracker.core.utils.SHORTCUT_NAVIGATION_STATIST
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
+import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_views.extension.dpToPx
 import com.example.util.simpletimetracker.feature_views.extension.getBitmapFromView
 import com.example.util.simpletimetracker.feature_views.extension.measureExactly
@@ -107,12 +108,13 @@ class WidgetStatisticsChartProvider : AppWidgetProvider() {
         val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
         val showSeconds = prefsInteractor.getShowSeconds()
         val widgetData = prefsInteractor.getStatisticsWidget(appWidgetId)
-        val types = recordTypeInteractor.getAll()
+        val types = recordTypeInteractor.getAll().associateBy(RecordType::id)
 
         val filterType = widgetData.chartFilterType
         val filteredIds = when (filterType) {
             ChartFilterType.ACTIVITY -> widgetData.filteredTypes
             ChartFilterType.CATEGORY -> widgetData.filteredCategories
+            ChartFilterType.RECORD_TAG -> widgetData.filteredTags
         }.toList()
         val rangeLength = widgetData.rangeLength
 
@@ -127,11 +129,9 @@ class WidgetStatisticsChartProvider : AppWidgetProvider() {
             shift = 0
         )
         val chart = statisticsChartViewDataInteractor.getChart(
-            filterType = filterType,
             filteredIds = filteredIds,
             statistics = statistics,
             dataHolders = dataHolders,
-            types = types,
             isDarkTheme = isDarkTheme
         )
         val total: String = statisticsMediator.getStatisticsTotalTracked(

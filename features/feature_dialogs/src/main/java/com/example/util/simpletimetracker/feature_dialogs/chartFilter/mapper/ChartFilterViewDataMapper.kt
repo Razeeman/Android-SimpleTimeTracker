@@ -13,6 +13,7 @@ import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
+import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_dialogs.R
 import com.example.util.simpletimetracker.feature_dialogs.chartFilter.viewData.ChartFilterTypeViewData
@@ -80,14 +81,35 @@ class ChartFilterViewDataMapper @Inject constructor(
 
     fun mapCategoriesEmpty(): List<EmptyViewData> {
         return EmptyViewData(
-            message = R.string.chart_filter_categories_empty.let(resourceRepo::getString)
+            message = R.string.change_record_type_categories_empty.let(resourceRepo::getString)
+        ).let(::listOf)
+    }
+
+    fun mapTag(
+        tag: RecordTag,
+        type: RecordType?,
+        tagIdsFiltered: List<Long>,
+        isDarkTheme: Boolean
+    ): CategoryViewData {
+        return categoryViewDataMapper.mapRecordTag(
+            tag = tag,
+            type = type,
+            isDarkTheme = isDarkTheme,
+            isFiltered = tag.id in tagIdsFiltered,
+        )
+    }
+
+    fun mapTagsEmpty(): List<EmptyViewData> {
+        return EmptyViewData(
+            message = R.string.change_record_categories_empty.let(resourceRepo::getString)
         ).let(::listOf)
     }
 
     fun mapToFilterTypeViewData(filterType: ChartFilterType): List<ViewHolderType> {
         return listOf(
             ChartFilterType.ACTIVITY,
-            ChartFilterType.CATEGORY
+            ChartFilterType.CATEGORY,
+            ChartFilterType.RECORD_TAG,
         ).map {
             ChartFilterTypeViewData(
                 filterType = it,
@@ -101,6 +123,7 @@ class ChartFilterViewDataMapper @Inject constructor(
         return when (filterType) {
             ChartFilterType.ACTIVITY -> R.string.activity_hint
             ChartFilterType.CATEGORY -> R.string.category_hint
+            ChartFilterType.RECORD_TAG -> R.string.record_tag_hint_short
         }.let(resourceRepo::getString)
     }
 }

@@ -5,9 +5,6 @@ import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.utils.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.core.viewData.StatisticsDataHolder
-import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
-import com.example.util.simpletimetracker.domain.model.ChartFilterType
-import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.Statistics
 import com.example.util.simpletimetracker.feature_views.pieChart.PiePortion
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
@@ -16,34 +13,15 @@ import javax.inject.Inject
 class StatisticsChartViewDataInteractor @Inject constructor(
     private val iconMapper: IconMapper,
     private val colorMapper: ColorMapper,
-    private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
 ) {
 
-    suspend fun getChart(
-        filterType: ChartFilterType,
+    fun getChart(
         filteredIds: List<Long>,
         statistics: List<Statistics>,
         dataHolders: Map<Long, StatisticsDataHolder>,
-        types: List<RecordType>,
         isDarkTheme: Boolean,
     ): List<PiePortion> {
-        // Add icons for tag chart, use first activity from tag.
-        val chartDataHolders: Map<Long, StatisticsDataHolder> = when (filterType) {
-            ChartFilterType.ACTIVITY -> {
-                dataHolders
-            }
-            ChartFilterType.CATEGORY -> {
-                dataHolders.map { (id, data) ->
-                    val typeCategories = recordTypeCategoryInteractor.getAll()
-                    val icon = typeCategories
-                        .firstOrNull { it.categoryId == id }
-                        ?.recordTypeId
-                        ?.let { typeId -> types.firstOrNull { it.id == typeId } }
-                        ?.icon
-                    id to data.copy(icon = icon)
-                }.toMap()
-            }
-        }
+        val chartDataHolders: Map<Long, StatisticsDataHolder> = dataHolders
 
         return mapChart(
             statistics = statistics,

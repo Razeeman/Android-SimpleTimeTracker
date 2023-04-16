@@ -5,9 +5,12 @@ import com.example.util.simpletimetracker.core.utils.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.core.viewData.StatisticsDataHolder
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.StatisticsCategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.StatisticsInteractor
+import com.example.util.simpletimetracker.domain.interactor.StatisticsTagInteractor
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.RecordType
@@ -17,10 +20,13 @@ import javax.inject.Inject
 class StatisticsMediator @Inject constructor(
     private val statisticsInteractor: StatisticsInteractor,
     private val statisticsCategoryInteractor: StatisticsCategoryInteractor,
+    private val statisticsTagInteractor: StatisticsTagInteractor,
     private val categoryInteractor: CategoryInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val timeMapper: TimeMapper,
     private val recordTypeInteractor: RecordTypeInteractor,
+    private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
+    private val recordTagInteractor: RecordTagInteractor,
 ) {
 
     suspend fun getStatistics(
@@ -59,11 +65,11 @@ class StatisticsMediator @Inject constructor(
 
     suspend fun getDataHolders(
         filterType: ChartFilterType,
-        types: List<RecordType>,
+        types: Map<Long, RecordType>,
     ): Map<Long, StatisticsDataHolder> {
         return when (filterType) {
             ChartFilterType.ACTIVITY -> {
-                types.map { type ->
+                types.map { (_, type) ->
                     type.id to StatisticsDataHolder(
                         name = type.name,
                         color = type.color,
@@ -76,11 +82,33 @@ class StatisticsMediator @Inject constructor(
             }
             ChartFilterType.CATEGORY -> {
                 val categories = categoryInteractor.getAll()
-                categories.map { tag ->
+                val typeCategories = recordTypeCategoryInteractor.getAll()
+                categories.map { category ->
+                    // Add icons for tag chart, use first activity from tag.
+                    val icon = typeCategories
+                        .firstOrNull { it.categoryId == category.id }
+                        ?.recordTypeId
+                        ?.let { typeId -> types[typeId] }
+                        ?.icon
+
+                    category.id to StatisticsDataHolder(
+                        name = category.name,
+                        color = category.color,
+                        icon = icon,
+                        dailyGoalTime = 0L,
+                        weeklyGoalTime = 0L,
+                        monthlyGoalTime = 0L,
+                    )
+                }
+            }
+            ChartFilterType.RECORD_TAG -> {
+                val tags = recordTagInteractor.getAll()
+                tags.map { tag ->
+                    val isTyped = tag.typeId != 0L
                     tag.id to StatisticsDataHolder(
                         name = tag.name,
-                        color = tag.color,
-                        icon = null,
+                        color = types[tag.typeId]?.color.takeIf { isTyped } ?: tag.color,
+                        icon = types[tag.typeId]?.icon.takeIf { isTyped },
                         dailyGoalTime = 0L,
                         weeklyGoalTime = 0L,
                         monthlyGoalTime = 0L,
@@ -143,6 +171,7 @@ class StatisticsMediator @Inject constructor(
         return when (filterType) {
             ChartFilterType.ACTIVITY -> statisticsInteractor.getAll()
             ChartFilterType.CATEGORY -> statisticsCategoryInteractor.getAll()
+            ChartFilterType.RECORD_TAG -> statisticsTagInteractor.getAll()
         }
     }
 
@@ -155,6 +184,7 @@ class StatisticsMediator @Inject constructor(
         return when (filterType) {
             ChartFilterType.ACTIVITY -> statisticsInteractor.getFromRange(start, end, addUntracked)
             ChartFilterType.CATEGORY -> statisticsCategoryInteractor.getFromRange(start, end)
+            ChartFilterType.RECORD_TAG -> statisticsTagInteractor.getFromRange(start, end)
         }
     }
 }

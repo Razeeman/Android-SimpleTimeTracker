@@ -3,8 +3,10 @@ package com.example.util.simpletimetracker.feature_statistics_detail.interactor
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
+import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.StatisticsDetailViewDataMapper
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewCompareViewData
 import com.example.util.simpletimetracker.navigation.params.screen.TypesFilterParams
@@ -14,6 +16,7 @@ class StatisticsDetailPreviewInteractor @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
     private val categoryInteractor: CategoryInteractor,
+    private val recordTagInteractor: RecordTagInteractor,
     private val statisticsDetailViewDataMapper: StatisticsDetailViewDataMapper,
 ) {
 
@@ -46,6 +49,19 @@ class StatisticsDetailPreviewInteractor @Inject constructor(
                             category = category,
                             isDarkTheme = isDarkTheme,
                             isForComparison = isForComparison,
+                        )
+                    }
+            }
+            ChartFilterType.RECORD_TAG -> {
+                val types = recordTypeInteractor.getAll().associateBy(RecordType::id)
+                recordTagInteractor.getAll()
+                    .filter { it.id in selectedIds }
+                    .map { tag ->
+                        statisticsDetailViewDataMapper.mapToPreview(
+                            tag = tag,
+                            type = types[tag.typeId],
+                            isDarkTheme = isDarkTheme,
+                            isForComparison = isForComparison
                         )
                     }
             }

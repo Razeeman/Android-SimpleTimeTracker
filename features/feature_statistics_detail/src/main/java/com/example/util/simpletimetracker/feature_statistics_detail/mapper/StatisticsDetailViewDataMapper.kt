@@ -10,6 +10,7 @@ import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RangeLength
+import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_statistics_detail.R
@@ -73,6 +74,29 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             iconId = null,
             color = category.color
                 .let { colorMapper.mapToColorInt(it, isDarkTheme) },
+        )
+    }
+
+    fun mapToPreview(
+        tag: RecordTag,
+        type: RecordType?,
+        isDarkTheme: Boolean,
+        isForComparison: Boolean,
+    ): StatisticsDetailPreviewViewData {
+        val isTyped = tag.typeId != 0L
+        val icon = type?.icon?.let(iconMapper::mapIcon).takeIf { isTyped }
+        val color = type?.color.takeIf { isTyped } ?: tag.color
+
+        return StatisticsDetailPreviewViewData(
+            id = tag.id,
+            type = if (isForComparison) {
+                StatisticsDetailPreviewViewData.Type.COMPARISON
+            } else {
+                StatisticsDetailPreviewViewData.Type.FILTER
+            },
+            name = tag.name,
+            iconId = icon,
+            color = color.let { colorMapper.mapToColorInt(it, isDarkTheme) },
         )
     }
 

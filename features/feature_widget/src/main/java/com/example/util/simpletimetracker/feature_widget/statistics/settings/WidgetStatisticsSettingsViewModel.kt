@@ -14,10 +14,12 @@ import com.example.util.simpletimetracker.core.viewData.RangeViewData
 import com.example.util.simpletimetracker.core.viewData.RangesViewData
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.model.RangeLength
+import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.StatisticsWidgetData
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
@@ -37,6 +39,7 @@ class WidgetStatisticsSettingsViewModel @Inject constructor(
     private val widgetInteractor: WidgetInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
     private val categoryInteractor: CategoryInteractor,
+    private val recordTagInteractor: RecordTagInteractor,
     private val chartFilterViewDataMapper: ChartFilterViewDataMapper,
     private val rangeMapper: RangeMapper,
 ) : ViewModel() {
@@ -82,13 +85,16 @@ class WidgetStatisticsSettingsViewModel @Inject constructor(
     }
     val handled: LiveData<Int> = MutableLiveData()
 
-    private var recordTypes: List<RecordType> = emptyList()
-    private var categories: List<Category> = emptyList()
+    private var recordTypesCache: List<RecordType>? = null
+    private var categoriesCache: List<Category>? = null
+    private var recordTagsCache: List<RecordTag>? = null
+
     private var widgetData: StatisticsWidgetData = StatisticsWidgetData(
         chartFilterType = ChartFilterType.ACTIVITY,
         rangeLength = RangeLength.Day,
         filteredTypes = emptySet(),
         filteredCategories = emptySet(),
+        filteredTags = emptySet(),
     )
 
     fun onFilterTypeClick(viewData: ButtonsRowViewData) {
@@ -131,6 +137,9 @@ class WidgetStatisticsSettingsViewModel @Inject constructor(
                 ChartFilterType.CATEGORY -> {
                     widgetData.copy(filteredCategories = emptySet())
                 }
+                ChartFilterType.RECORD_TAG -> {
+                    widgetData.copy(filteredTags = emptySet())
+                }
             }
             updateTypesViewData()
         }
@@ -141,12 +150,17 @@ class WidgetStatisticsSettingsViewModel @Inject constructor(
             widgetData = when (widgetData.chartFilterType) {
                 ChartFilterType.ACTIVITY -> {
                     widgetData.copy(
-                        filteredTypes = (recordTypes.map { it.id } + UNTRACKED_ITEM_ID).toSet()
+                        filteredTypes = (getTypesCache().map(RecordType::id) + UNTRACKED_ITEM_ID).toSet()
                     )
                 }
                 ChartFilterType.CATEGORY -> {
                     widgetData.copy(
-                        filteredTypes = categories.map { it.id }.toSet()
+                        filteredTypes = getCategoriesCache().map(Category::id).toSet()
+                    )
+                }
+                ChartFilterType.RECORD_TAG -> {
+                    widgetData.copy(
+                        filteredTags = getTagsCache().map(RecordTag::id).toSet()
                     )
                 }
             }
@@ -189,6 +203,7 @@ class WidgetStatisticsSettingsViewModel @Inject constructor(
         when (widgetData.chartFilterType) {
             ChartFilterType.ACTIVITY -> updateRecordTypesViewData()
             ChartFilterType.CATEGORY -> updateCategoriesViewData()
+            ChartFilterType.RECORD_TAG -> updateTagsViewData()
         }
     }
 
@@ -196,6 +211,25 @@ class WidgetStatisticsSettingsViewModel @Inject constructor(
         return when (widgetData.chartFilterType) {
             ChartFilterType.ACTIVITY -> loadRecordTypesViewData()
             ChartFilterType.CATEGORY -> loadCategoriesViewData()
+            ChartFilterType.RECORD_TAG -> loadTagsViewData()
+        }
+    }
+
+    private suspend fun getTypesCache(): List<RecordType> {
+        return recordTypesCache ?: run {
+            recordTypeInteractor.getAll().also { recordTypesCache = it }
+        }
+    }
+
+    private suspend fun getCategoriesCache(): List<Category> {
+        return categoriesCache ?: run {
+            categoryInteractor.getAll().also { categoriesCache = it }
+        }
+    }
+
+    private suspend fun getTagsCache(): List<RecordTag> {
+        return recordTagsCache ?: run {
+            recordTagInteractor.getAll().also { recordTagsCache = it }
         }
     }
 
@@ -209,9 +243,7 @@ class WidgetStatisticsSettingsViewModel @Inject constructor(
         val isDarkTheme = prefsInteractor.getDarkMode()
         val typeIdsFiltered = widgetData.filteredTypes.toList()
 
-        if (recordTypes.isEmpty()) recordTypes = recordTypeInteractor.getAll()
-
-        return recordTypes
+        return getTypesCache()
             .map { type ->
                 chartFilterViewDataMapper
                     .mapRecordType(type, typeIdsFiltered, numberOfCards, isDarkTheme)
@@ -231,12 +263,29 @@ class WidgetStatisticsSettingsViewModel @Inject constructor(
         val isDarkTheme = prefsInteractor.getDarkMode()
         val categoryIdsFiltered = widgetData.filteredCategories.toList()
 
-        if (categories.isEmpty()) categories = categoryInteractor.getAll()
-
-        return categories
+        return getCategoriesCache()
             .map { type ->
                 chartFilterViewDataMapper
                     .mapCategory(type, categoryIdsFiltered, isDarkTheme)
+            }
+            .takeUnless { it.isEmpty() }
+            ?: chartFilterViewDataMapper.mapCategoriesEmpty()
+    }
+
+    private fun updateTagsViewData() = viewModelScope.launch {
+        val data = loadTagsViewData()
+        types.set(data)
+    }
+
+    private suspend fun loadTagsViewData(): List<ViewHolderType> {
+        val isDarkTheme = prefsInteractor.getDarkMode()
+        val tagIdsFiltered = widgetData.filteredTags.toList()
+        val types = getTypesCache().associateBy(RecordType::id)
+
+        return getTagsCache()
+            .map { tag ->
+                chartFilterViewDataMapper
+                    .mapTag(tag, types[tag.typeId], tagIdsFiltered, isDarkTheme)
             }
             .takeUnless { it.isEmpty() }
             ?: chartFilterViewDataMapper.mapCategoriesEmpty()

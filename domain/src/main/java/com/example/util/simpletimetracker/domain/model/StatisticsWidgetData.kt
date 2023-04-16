@@ -5,4 +5,5 @@ data class StatisticsWidgetData(
     val rangeLength: RangeLength,
     val filteredTypes: Set<Long>,
     val filteredCategories: Set<Long>,
+    val filteredTags: Set<Long>,
 )

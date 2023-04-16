@@ -92,6 +92,7 @@ class TypesFilterViewModel @Inject constructor(
     ) {
         var newFilter = currentFilter
 
+        // FIXME
         if (currentFilter.filterType != ChartFilterType.ACTIVITY) {
             // Switch from tags to types in these tags
             val currentTypes = recordTypeCategories
@@ -116,6 +117,7 @@ class TypesFilterViewModel @Inject constructor(
     ) {
         var newFilter = currentFilter
 
+        // FIXME
         if (currentFilter.filterType != ChartFilterType.CATEGORY) {
             newFilter = TypesFilterParams(
                 filterType = ChartFilterType.CATEGORY,

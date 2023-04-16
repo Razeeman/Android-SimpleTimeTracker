@@ -1,5 +1,5 @@
 package com.example.util.simpletimetracker.domain.model
 
 enum class ChartFilterType {
-    ACTIVITY, CATEGORY
+    ACTIVITY, CATEGORY, RECORD_TAG
 }

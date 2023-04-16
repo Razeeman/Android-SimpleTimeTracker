@@ -28,6 +28,10 @@ class PrefsRepoImpl @Inject constructor(
         KEY_CATEGORIES_TYPES_FILTERED_ON_CHART, emptySet()
     )
 
+    override var tagsFilteredOnChart: Set<String> by prefs.delegate(
+        KEY_TAGS_FILTERED_ON_CHART, emptySet()
+    )
+
     override var chartFilterType: Int by prefs.delegate(
         KEY_CHART_FILTER_TYPE, 0
     )
@@ -216,6 +220,7 @@ class PrefsRepoImpl @Inject constructor(
         val filterTypeData = when (data.chartFilterType) {
             ChartFilterType.ACTIVITY -> 0
             ChartFilterType.CATEGORY -> 1
+            ChartFilterType.RECORD_TAG -> 2
         }
         val rangeData = when (data.rangeLength) {
             is RangeLength.Day -> 0
@@ -228,12 +233,14 @@ class PrefsRepoImpl @Inject constructor(
         }
         val filteredTypesData = data.filteredTypes.map(Long::toString).toSet()
         val filteredCategoriesData = data.filteredCategories.map(Long::toString).toSet()
+        val filteredTagsData = data.filteredTags.map(Long::toString).toSet()
 
         prefs.edit()
             .putInt(KEY_STATISTICS_WIDGET_FILTER_TYPE + widgetId, filterTypeData)
             .putInt(KEY_STATISTICS_WIDGET_RANGE + widgetId, rangeData)
             .putStringSet(KEY_STATISTICS_WIDGET_FILTERED_TYPES + widgetId, filteredTypesData)
             .putStringSet(KEY_STATISTICS_WIDGET_FILTERED_CATEGORIES + widgetId, filteredCategoriesData)
+            .putStringSet(KEY_STATISTICS_WIDGET_FILTERED_TAGS + widgetId, filteredTagsData)
             .apply()
     }
 
@@ -241,6 +248,7 @@ class PrefsRepoImpl @Inject constructor(
         val filterType = when (prefs.getInt(KEY_STATISTICS_WIDGET_FILTER_TYPE + widgetId, 0)) {
             0 -> ChartFilterType.ACTIVITY
             1 -> ChartFilterType.CATEGORY
+            2 -> ChartFilterType.RECORD_TAG
             else -> ChartFilterType.ACTIVITY
         }
         val range = when (prefs.getInt(KEY_STATISTICS_WIDGET_RANGE + widgetId, 0)) {
@@ -258,12 +266,16 @@ class PrefsRepoImpl @Inject constructor(
         val filteredCategories = prefs
             .getStringSet(KEY_STATISTICS_WIDGET_FILTERED_CATEGORIES + widgetId, emptySet())
             ?.mapNotNull { it.toLongOrNull() }.orEmpty().toSet()
+        val filteredTags = prefs
+            .getStringSet(KEY_STATISTICS_WIDGET_FILTERED_TAGS + widgetId, emptySet())
+            ?.mapNotNull { it.toLongOrNull() }.orEmpty().toSet()
 
         return StatisticsWidgetData(
             chartFilterType = filterType,
             rangeLength = range,
             filteredTypes = filteredTypes,
             filteredCategories = filteredCategories,
+            filteredTags = filteredTags,
         )
     }
 
@@ -273,6 +285,7 @@ class PrefsRepoImpl @Inject constructor(
             .remove(KEY_STATISTICS_WIDGET_RANGE + widgetId)
             .remove(KEY_STATISTICS_WIDGET_FILTERED_TYPES + widgetId)
             .remove(KEY_STATISTICS_WIDGET_FILTERED_CATEGORIES + widgetId)
+            .remove(KEY_STATISTICS_WIDGET_FILTERED_TAGS + widgetId)
             .apply()
     }
 
@@ -310,6 +323,7 @@ class PrefsRepoImpl @Inject constructor(
 
         private const val KEY_RECORD_TYPES_FILTERED_ON_CHART = "recordTypesFilteredOnChart"
         private const val KEY_CATEGORIES_TYPES_FILTERED_ON_CHART = "categoriesFilteredOnChart"
+        private const val KEY_TAGS_FILTERED_ON_CHART = "tagsFilteredOnChart"
         private const val KEY_CHART_FILTER_TYPE = "chartFilterType"
         private const val KEY_CARD_ORDER = "cardOrder"
         private const val KEY_STATISTICS_RANGE = "statisticsRange"
@@ -356,6 +370,7 @@ class PrefsRepoImpl @Inject constructor(
         private const val KEY_WIDGET = "widget_"
         private const val KEY_STATISTICS_WIDGET_FILTERED_TYPES = "statistics_widget_filtered_types_"
         private const val KEY_STATISTICS_WIDGET_FILTERED_CATEGORIES = "statistics_widget_filtered_categories_"
+        private const val KEY_STATISTICS_WIDGET_FILTERED_TAGS = "statistics_widget_filtered_tags_"
         private const val KEY_STATISTICS_WIDGET_FILTER_TYPE = "statistics_widget_filter_type_"
         private const val KEY_STATISTICS_WIDGET_RANGE = "statistics_widget_range_"
         private const val KEY_CARD_ORDER_MANUAL = "cardOrderManual"

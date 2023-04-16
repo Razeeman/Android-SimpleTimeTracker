@@ -8,6 +8,8 @@ interface PrefsRepo {
 
     var categoriesFilteredOnChart: Set<String>
 
+    var tagsFilteredOnChart: Set<String>
+
     var chartFilterType: Int
 
     var cardOrder: Int

@@ -12,6 +12,7 @@
     <string name="activity_hint">Activities</string>
     <string name="category_hint">Categories</string>
     <string name="record_tag_hint">Record tags</string>
+    <string name="record_tag_hint_short">Tags</string>
     <string name="nothing_selected">Nothing selected</string>
     <string name="something_selected">Selected:</string>
 

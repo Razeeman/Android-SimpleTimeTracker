@@ -8,7 +8,6 @@ import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
-import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.hint.HintViewData
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
@@ -35,19 +34,13 @@ class DataEditTypeSelectionViewModel @Inject constructor(
         }
     }
 
-    private var types: List<RecordType> = emptyList()
-
-    private suspend fun getCache(): List<RecordType> {
-        return types.takeUnless { it.isEmpty() } ?: recordTypeInteractor.getAll()
-    }
-
     private suspend fun loadViewData(): List<ViewHolderType> {
         val result: MutableList<ViewHolderType> = mutableListOf()
 
         val numberOfCards = prefsInteractor.getNumberOfCards()
         val isDarkTheme = prefsInteractor.getDarkMode()
 
-        val typesViewData = getCache().map { type ->
+        val typesViewData = recordTypeInteractor.getAll().map { type ->
             recordTypeViewDataMapper.map(
                 recordType = type,
                 numberOfCards = numberOfCards,

@@ -35,10 +35,21 @@ class PrefsInteractor @Inject constructor(
             .map(Long::toString).toSet()
     }
 
+    suspend fun getFilteredTags(): List<Long> = withContext(Dispatchers.IO) {
+        prefsRepo.tagsFilteredOnChart
+            .mapNotNull(String::toLongOrNull)
+    }
+
+    suspend fun setFilteredTags(tagIdsFiltered: List<Long>) = withContext(Dispatchers.IO) {
+        prefsRepo.tagsFilteredOnChart = tagIdsFiltered
+            .map(Long::toString).toSet()
+    }
+
     suspend fun getChartFilterType(): ChartFilterType = withContext(Dispatchers.IO) {
         when (prefsRepo.chartFilterType) {
             0 -> ChartFilterType.ACTIVITY
             1 -> ChartFilterType.CATEGORY
+            2 -> ChartFilterType.RECORD_TAG
             else -> ChartFilterType.ACTIVITY
         }
     }
@@ -47,6 +58,7 @@ class PrefsInteractor @Inject constructor(
         prefsRepo.chartFilterType = when (chartFilterType) {
             ChartFilterType.ACTIVITY -> 0
             ChartFilterType.CATEGORY -> 1
+            ChartFilterType.RECORD_TAG -> 2
         }
     }
 

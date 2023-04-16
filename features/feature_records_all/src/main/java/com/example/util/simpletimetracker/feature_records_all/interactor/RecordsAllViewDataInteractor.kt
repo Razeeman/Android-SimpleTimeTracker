@@ -1,32 +1,29 @@
 package com.example.util.simpletimetracker.feature_records_all.interactor
 
-import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
-import com.example.util.simpletimetracker.core.extension.isNotFiltered
-import com.example.util.simpletimetracker.core.interactor.TypesFilterInteractor
-import com.example.util.simpletimetracker.core.mapper.RangeMapper
+import com.example.util.simpletimetracker.core.interactor.RecordFilterInteractor
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
-import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
+import com.example.util.simpletimetracker.domain.model.Range
+import com.example.util.simpletimetracker.domain.model.RecordsFilter
+import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_records_all.mapper.RecordsAllViewDataMapper
 import com.example.util.simpletimetracker.feature_records_all.model.RecordsAllSortOrder
 import com.example.util.simpletimetracker.feature_records_all.viewData.RecordsAllDateViewData
 import com.example.util.simpletimetracker.navigation.params.screen.TypesFilterParams
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import java.util.Calendar
 import javax.inject.Inject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class RecordsAllViewDataInteractor @Inject constructor(
-    private val recordInteractor: RecordInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
     private val recordTagInteractor: RecordTagInteractor,
     private val prefsInteractor: PrefsInteractor,
-    private val typesFilterInteractor: TypesFilterInteractor,
+    private val recordFilterInteractor: RecordFilterInteractor,
     private val recordsAllViewDataMapper: RecordsAllViewDataMapper,
     private val timeMapper: TimeMapper,
-    private val rangeMapper: RangeMapper,
 ) {
 
     suspend fun getViewData(
@@ -42,20 +39,18 @@ class RecordsAllViewDataInteractor @Inject constructor(
         val showSeconds = prefsInteractor.getShowSeconds()
         val recordTypes = recordTypeInteractor.getAll().associateBy { it.id }
         val recordTags = recordTagInteractor.getAll()
-        val typesSelected = typesFilterInteractor.getTypeIds(filter)
-        val records = if (commentSearch.isEmpty()) {
-            recordInteractor.getByType(typesSelected)
-        } else {
-            recordInteractor.searchComments(typesSelected, commentSearch)
-        }
-            .filter { it.isNotFiltered(filter) }
-            .let {
-                if (rangeStart != 0L && rangeEnd != 0L) {
-                    rangeMapper.getRecordsFromRange(it, rangeStart, rangeEnd)
-                } else {
-                    it
-                }
+        val recordFilter = recordFilterInteractor.mapFilter(filter).let {
+            if (rangeStart != 0L && rangeEnd != 0L) {
+                it + RecordsFilter.Date(Range(rangeStart, rangeEnd))
+            } else {
+                it
             }
+        }
+        val records = if (commentSearch.isEmpty()) {
+            recordFilterInteractor.getByFilter(recordFilter)
+        } else {
+            recordFilterInteractor.getByFilter(recordFilter + RecordsFilter.Comment(commentSearch))
+        }
 
         return withContext(Dispatchers.Default) {
             records

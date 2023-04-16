@@ -2,13 +2,11 @@ package com.example.util.simpletimetracker.core.extension
 
 import android.content.BroadcastReceiver
 import android.os.StrictMode
-import com.example.util.simpletimetracker.domain.model.Record
-import com.example.util.simpletimetracker.navigation.params.screen.TypesFilterParams
+import java.util.Calendar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import java.util.Calendar
 
 inline fun <T, R> T.allowDiskWrite(block: T.() -> R): R {
     val oldPolicy = StrictMode.allowThreadDiskWrites()
@@ -16,18 +14,6 @@ inline fun <T, R> T.allowDiskWrite(block: T.() -> R): R {
         return block()
     } finally {
         StrictMode.setThreadPolicy(oldPolicy)
-    }
-}
-
-fun Record.isNotFiltered(filter: TypesFilterParams): Boolean {
-    return if (tagIds.isNotEmpty()) {
-        tagIds.all { tagId ->
-            tagId !in filter.filteredRecordTags
-                .filterIsInstance<TypesFilterParams.FilteredRecordTag.Tagged>().map { it.id }
-        }
-    } else {
-        typeId !in filter.filteredRecordTags
-            .filterIsInstance<TypesFilterParams.FilteredRecordTag.Untagged>().map { it.typeId }
     }
 }
 

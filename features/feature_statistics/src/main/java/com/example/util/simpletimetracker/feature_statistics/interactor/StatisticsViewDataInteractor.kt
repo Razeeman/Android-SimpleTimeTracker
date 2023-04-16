@@ -9,6 +9,7 @@ import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.model.RangeLength
+import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.divider.DividerViewData
 import com.example.util.simpletimetracker.feature_statistics.mapper.StatisticsViewDataMapper
@@ -37,11 +38,12 @@ class StatisticsViewDataInteractor @Inject constructor(
         val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
         val showSeconds = prefsInteractor.getShowSeconds()
         val showDuration = rangeLength !is RangeLength.All
-        val types = recordTypeInteractor.getAll()
+        val types = recordTypeInteractor.getAll().associateBy(RecordType::id)
 
         val filteredIds = when (filterType) {
             ChartFilterType.ACTIVITY -> prefsInteractor.getFilteredTypes()
             ChartFilterType.CATEGORY -> prefsInteractor.getFilteredCategories()
+            ChartFilterType.RECORD_TAG -> prefsInteractor.getFilteredTags()
         }
 
         // Get data.
@@ -72,11 +74,9 @@ class StatisticsViewDataInteractor @Inject constructor(
             emptyList()
         }
         val chart = statisticsChartViewDataInteractor.getChart(
-            filterType = filterType,
             filteredIds = filteredIds,
             statistics = statistics,
             dataHolders = dataHolders,
-            types = types,
             isDarkTheme = isDarkTheme
         ).let {
             // If there is no data but have goals - show empty chart.

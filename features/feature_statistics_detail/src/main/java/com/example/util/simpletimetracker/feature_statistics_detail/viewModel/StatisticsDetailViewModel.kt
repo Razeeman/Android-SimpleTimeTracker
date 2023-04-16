@@ -4,10 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.util.simpletimetracker.core.extension.isNotFiltered
 import com.example.util.simpletimetracker.core.extension.post
 import com.example.util.simpletimetracker.core.extension.set
-import com.example.util.simpletimetracker.core.interactor.TypesFilterInteractor
+import com.example.util.simpletimetracker.core.interactor.RecordFilterInteractor
 import com.example.util.simpletimetracker.core.mapper.RangeMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
@@ -17,7 +16,6 @@ import com.example.util.simpletimetracker.core.viewData.RangesViewData
 import com.example.util.simpletimetracker.core.viewData.SelectDateViewData
 import com.example.util.simpletimetracker.core.viewData.SelectRangeViewData
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
-import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.Record
@@ -54,17 +52,16 @@ import com.example.util.simpletimetracker.navigation.params.screen.StatisticsDet
 import com.example.util.simpletimetracker.navigation.params.screen.TypesFilterDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.TypesFilterParams
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class StatisticsDetailViewModel @Inject constructor(
     private val router: Router,
     private val resourceRepo: ResourceRepo,
     private val prefsInteractor: PrefsInteractor,
-    private val recordInteractor: RecordInteractor,
-    private val typesFilterInteractor: TypesFilterInteractor,
+    private val recordFilterInteractor: RecordFilterInteractor,
     private val chartInteractor: StatisticsDetailChartInteractor,
     private val previewInteractor: StatisticsDetailPreviewInteractor,
     private val statsInteractor: StatisticsDetailStatsInteractor,
@@ -348,12 +345,10 @@ class StatisticsDetailViewModel @Inject constructor(
     }
 
     private suspend fun loadRecordsCache() {
-        records = recordInteractor
-            .getByType(typesFilterInteractor.getTypeIds(typesFilter))
-            .filter { it.isNotFiltered(typesFilter) }
-        compareRecords = recordInteractor
-            .getByType(typesFilterInteractor.getTypeIds(comparisonTypesFilter))
-            .filter { it.isNotFiltered(comparisonTypesFilter) }
+        records = recordFilterInteractor.mapFilter(typesFilter)
+            .let { recordFilterInteractor.getByFilter(it) }
+        compareRecords = recordFilterInteractor.mapFilter(comparisonTypesFilter)
+            .let { recordFilterInteractor.getByFilter(it) }
     }
 
     private fun updatePreviewViewData() = viewModelScope.launch {

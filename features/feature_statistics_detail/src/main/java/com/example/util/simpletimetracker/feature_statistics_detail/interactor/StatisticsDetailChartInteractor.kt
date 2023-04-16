@@ -2,7 +2,6 @@ package com.example.util.simpletimetracker.feature_statistics_detail.interactor
 
 import com.example.util.simpletimetracker.core.extension.setToStartOfDay
 import com.example.util.simpletimetracker.core.extension.setWeekToFirstDay
-import com.example.util.simpletimetracker.core.interactor.TypesFilterInteractor
 import com.example.util.simpletimetracker.core.mapper.RangeMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -26,7 +25,6 @@ import kotlin.math.abs
 class StatisticsDetailChartInteractor @Inject constructor(
     private val timeMapper: TimeMapper,
     private val rangeMapper: RangeMapper,
-    private val typesFilterInteractor: TypesFilterInteractor,
     private val statisticsDetailViewDataMapper: StatisticsDetailViewDataMapper,
     private val prefsInteractor: PrefsInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
@@ -57,12 +55,10 @@ class StatisticsDetailChartInteractor @Inject constructor(
         )
         val data = getChartData(
             allRecords = records,
-            filter = filter,
             ranges = ranges,
         )
         val compareData = getChartData(
             allRecords = compareRecords,
-            filter = compare,
             ranges = ranges,
         )
 
@@ -104,18 +100,13 @@ class StatisticsDetailChartInteractor @Inject constructor(
         } * 1000
     }
 
-    private suspend fun getChartData(
+    private fun getChartData(
         allRecords: List<Record>,
-        filter: TypesFilterParams,
         ranges: List<ChartBarDataRange>,
     ): List<ChartBarDataDuration> {
         fun mapEmpty(): List<ChartBarDataDuration> {
             return ranges.map { ChartBarDataDuration(legend = it.legend, duration = 0L) }
         }
-
-        val typeIds = typesFilterInteractor.getTypeIds(filter)
-
-        if (typeIds.isEmpty()) return mapEmpty()
 
         val records = rangeMapper.getRecordsFromRange(
             records = allRecords,

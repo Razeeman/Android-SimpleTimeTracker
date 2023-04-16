@@ -38,12 +38,17 @@ class TypesFilterViewDataInteractor @Inject constructor(
 
         val selectedTypes = types.map(RecordType::id).filter { typeId ->
             when (filter.filterType) {
-                ChartFilterType.ACTIVITY ->
+                ChartFilterType.ACTIVITY -> {
                     typeId in filter.selectedIds
-                ChartFilterType.CATEGORY ->
+                }
+                ChartFilterType.CATEGORY -> {
                     typeId in recordTypeCategories
                         .filter { it.categoryId in filter.selectedIds }
                         .map { it.recordTypeId }
+                }
+                ChartFilterType.RECORD_TAG -> {
+                    false
+                }
             }
         }
 
@@ -56,18 +61,20 @@ class TypesFilterViewDataInteractor @Inject constructor(
             )
         }
 
-        val categoriesViewData = categories.map { tag ->
-            val isFiltered = filter.filterType != ChartFilterType.CATEGORY ||
-                tag.id !in filter.selectedIds
+        val categoriesViewData = categories.map { category ->
+            val isNotFiltered = filter.filterType == ChartFilterType.CATEGORY &&
+                category.id in filter.selectedIds
 
             categoryViewDataMapper.mapCategory(
-                category = tag,
+                category = category,
                 isDarkTheme = isDarkTheme,
-                isFiltered = isFiltered
+                isFiltered = !isNotFiltered
             )
         }
 
+        // FIXME isFiltered
         val recordTagsViewData = selectedTypes
+            .ifEmpty { typesMap.keys }
             .asSequence()
             .map { typeId ->
                 typeId to recordTags.filter { it.typeId == typeId }

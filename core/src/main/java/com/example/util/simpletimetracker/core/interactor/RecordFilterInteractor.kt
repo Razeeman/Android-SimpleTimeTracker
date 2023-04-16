@@ -1,14 +1,58 @@
 package com.example.util.simpletimetracker.core.interactor
 
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
+import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
+import com.example.util.simpletimetracker.navigation.params.screen.TypesFilterParams
 import javax.inject.Inject
 
 class RecordFilterInteractor @Inject constructor(
     private val interactor: RecordInteractor,
+    private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
 ) {
+
+    suspend fun mapFilter(filter: TypesFilterParams): List<RecordsFilter> {
+        return when (filter.filterType) {
+            ChartFilterType.ACTIVITY -> {
+                RecordsFilter.Activity(filter.selectedIds)
+                    .let(::listOf)
+            }
+            ChartFilterType.CATEGORY -> {
+                recordTypeCategoryInteractor.getAll()
+                    .filter { it.categoryId in filter.selectedIds }
+                    .map { it.recordTypeId }
+                    .distinct()
+                    .let(RecordsFilter::Activity)
+                    .let(::listOf)
+            }
+            ChartFilterType.RECORD_TAG -> {
+                filter.selectedIds
+                    .map(RecordsFilter.Tag::Tagged)
+                    .let(RecordsFilter::SelectedTags)
+                    .let(::listOf)
+            }
+        }.let {
+            val filterTags = filter.filteredRecordTags.map {
+                when (it) {
+                    is TypesFilterParams.FilteredRecordTag.Tagged -> {
+                        RecordsFilter.Tag.Tagged(it.id)
+                    }
+                    is TypesFilterParams.FilteredRecordTag.Untagged -> {
+                        RecordsFilter.Tag.Untagged(it.typeId)
+                    }
+                }
+            }
+
+            if (filterTags.isNotEmpty()) {
+                it + RecordsFilter.FilteredTags(filterTags)
+            } else {
+                it
+            }
+        }
+    }
 
     suspend fun getByFilter(filters: List<RecordsFilter>): List<Record> {
         val typeIds: List<Long> = filters.filterIsInstance<RecordsFilter.Activity>()

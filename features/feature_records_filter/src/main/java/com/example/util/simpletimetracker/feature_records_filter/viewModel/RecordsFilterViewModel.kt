@@ -346,11 +346,13 @@ class RecordsFilterViewModel @Inject constructor(
     }
 
     private suspend fun getTypesCache(): List<RecordType> {
-        return types.takeUnless { it.isEmpty() } ?: recordTypeInteractor.getAll()
+        return types.takeUnless { it.isEmpty() }
+            ?: run { recordTypeInteractor.getAll().also { types = it } }
     }
 
     private suspend fun getTagsCache(): List<RecordTag> {
-        return recordTags.takeUnless { it.isEmpty() } ?: recordTagInteractor.getAll()
+        return recordTags.takeUnless { it.isEmpty() }
+            ?: run { recordTagInteractor.getAll().also { recordTags = it } }
     }
 
     private fun updateFilterSelectionVisibility() {
