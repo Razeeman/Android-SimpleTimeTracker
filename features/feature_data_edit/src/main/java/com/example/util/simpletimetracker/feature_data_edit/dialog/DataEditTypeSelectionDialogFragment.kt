@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.feature_data_edit.dialog
 
 import android.content.Context
+import android.content.DialogInterface
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
@@ -53,6 +54,11 @@ class DataEditTypeSelectionDialogFragment : BaseBottomSheetFragment<Binding>() {
                     ?.let { listener = it as? DataEditTypeSelectionDialogListener }
             }
         }
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        listener?.onDismissed()
+        super.onDismiss(dialog)
     }
 
     override fun initDialog() {

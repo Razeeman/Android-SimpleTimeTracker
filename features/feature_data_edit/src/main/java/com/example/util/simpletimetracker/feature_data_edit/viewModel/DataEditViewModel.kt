@@ -14,6 +14,7 @@ import com.example.util.simpletimetracker.feature_data_edit.interactor.DateEditC
 import com.example.util.simpletimetracker.feature_data_edit.interactor.DateEditViewDataInteractor
 import com.example.util.simpletimetracker.feature_data_edit.model.DataEditChangeActivityState
 import com.example.util.simpletimetracker.feature_data_edit.model.DataEditChangeButtonState
+import com.example.util.simpletimetracker.feature_data_edit.model.DataEditChangeCommentState
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
 import com.example.util.simpletimetracker.navigation.params.screen.DataEditTypeSelectionDialogParams
@@ -38,10 +39,10 @@ class DataEditViewModel @Inject constructor(
         }
     }
     val changeActivityState: LiveData<DataEditChangeActivityState> by lazy {
-        MutableLiveData<DataEditChangeActivityState>().let { initial ->
-            viewModelScope.launch { initial.value = loadChangeActivityState() }
-            initial
-        }
+        MutableLiveData(typeState)
+    }
+    val changeCommentState: LiveData<DataEditChangeCommentState> by lazy {
+        MutableLiveData(commentState)
     }
     val changeButtonState: LiveData<DataEditChangeButtonState> by lazy {
         MutableLiveData<DataEditChangeButtonState>().let { initial ->
@@ -49,10 +50,15 @@ class DataEditViewModel @Inject constructor(
             initial
         }
     }
+    val keyboardVisibility: LiveData<Boolean> = MutableLiveData(false)
 
     private var filters: List<RecordsFilter> = emptyList()
-    private var newTypeId: Long? = null
-    private val changeButtonEnabled: Boolean get() = newTypeId != null
+    private var typeState: DataEditChangeActivityState = DataEditChangeActivityState.Disabled
+    private var commentState: DataEditChangeCommentState = DataEditChangeCommentState.Disabled
+
+    private val changeButtonEnabled: Boolean
+        get() = typeState is DataEditChangeActivityState.Enabled ||
+            commentState is DataEditChangeCommentState.Enabled
 
     fun onSelectRecordsClick() {
         router.setResultListener(FILTER_TAG) {
@@ -65,25 +71,52 @@ class DataEditViewModel @Inject constructor(
     }
 
     fun onChangeActivityClick() {
-        if (newTypeId == null) {
+        if (typeState is DataEditChangeActivityState.Disabled) {
             router.navigate(DataEditTypeSelectionDialogParams)
         } else {
-            newTypeId = null
+            typeState = DataEditChangeActivityState.Disabled
             updateChangeActivityState()
             updateChangeButtonState()
         }
     }
 
-    fun onTypeSelected(typeId: Long) {
-        newTypeId = typeId
+    fun onTypeSelected(typeId: Long) = viewModelScope.launch {
+        typeState = dataEditViewDataInteractor.getChangeActivityState(typeId)
         updateChangeActivityState()
         updateChangeButtonState()
+    }
+
+    fun onTypeDismissed() {
+        updateChangeActivityState()
+    }
+
+    fun onChangeCommentClick() {
+        if (commentState is DataEditChangeCommentState.Disabled) {
+            commentState = dataEditViewDataInteractor.getChangeCommentState("")
+        } else {
+            commentState = DataEditChangeCommentState.Disabled
+            keyboardVisibility.set(false)
+        }
+        updateChangeCommentState()
+        updateChangeButtonState()
+    }
+
+    fun onCommentChange(text: String) {
+        val state = commentState
+        if (state is DataEditChangeCommentState.Enabled && state.viewData != text) {
+            commentState = DataEditChangeCommentState.Enabled(text)
+            updateChangeCommentState()
+        }
     }
 
     fun onChangeClick() = viewModelScope.launch {
         changeButtonState.set(dataEditViewDataInteractor.getChangeButtonState(false))
         dataEditRepo.inProgress.set(true)
-        dataEditChangeInteractor.changeData(newTypeId, filters)
+        dataEditChangeInteractor.changeData(
+            typeState = typeState,
+            commentState = commentState,
+            filters = filters
+        )
         dataEditRepo.inProgress.set(false)
         showMessage(R.string.data_edit_success_message)
         router.back()
@@ -109,12 +142,11 @@ class DataEditViewModel @Inject constructor(
     }
 
     private fun updateChangeActivityState() = viewModelScope.launch {
-        val data = loadChangeActivityState()
-        changeActivityState.set(data)
+        changeActivityState.set(typeState)
     }
 
-    private suspend fun loadChangeActivityState(): DataEditChangeActivityState {
-        return dataEditViewDataInteractor.getChangeActivityState(newTypeId)
+    private fun updateChangeCommentState() = viewModelScope.launch {
+        changeCommentState.set(commentState)
     }
 
     private fun updateChangeButtonState() = viewModelScope.launch {

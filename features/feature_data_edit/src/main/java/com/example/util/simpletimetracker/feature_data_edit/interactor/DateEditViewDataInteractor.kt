@@ -9,6 +9,7 @@ import com.example.util.simpletimetracker.domain.model.RecordsFilter
 import com.example.util.simpletimetracker.feature_data_edit.R
 import com.example.util.simpletimetracker.feature_data_edit.model.DataEditChangeActivityState
 import com.example.util.simpletimetracker.feature_data_edit.model.DataEditChangeButtonState
+import com.example.util.simpletimetracker.feature_data_edit.model.DataEditChangeCommentState
 import javax.inject.Inject
 
 class DateEditViewDataInteractor @Inject constructor(
@@ -38,9 +39,9 @@ class DateEditViewDataInteractor @Inject constructor(
     }
 
     suspend fun getChangeActivityState(
-        newTypeId: Long?,
+        newTypeId: Long,
     ): DataEditChangeActivityState {
-        val type = newTypeId?.let { recordTypeInteractor.get(it) }
+        val type = newTypeId.let { recordTypeInteractor.get(it) }
 
         return if (type == null) {
             DataEditChangeActivityState.Disabled
@@ -52,6 +53,12 @@ class DateEditViewDataInteractor @Inject constructor(
                 )
             )
         }
+    }
+
+    fun getChangeCommentState(
+        newComment: String,
+    ): DataEditChangeCommentState {
+        return DataEditChangeCommentState.Enabled(newComment)
     }
 
     suspend fun getChangeButtonState(
