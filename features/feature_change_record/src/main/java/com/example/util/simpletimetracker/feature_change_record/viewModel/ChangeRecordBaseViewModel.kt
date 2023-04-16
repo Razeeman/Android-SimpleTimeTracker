@@ -554,6 +554,8 @@ abstract class ChangeRecordBaseViewModel(
             multipleChoiceAvailable = true,
             showHint = true,
             showAddButton = true,
+            showArchived = false,
+            showUntaggedButton = true,
         )
     }
 

@@ -56,7 +56,6 @@ class DataEditTypeSelectionViewModel @Inject constructor(
         }
 
         if (typesViewData.isNotEmpty()) {
-            HintViewData(resourceRepo.getString(R.string.activity_hint)).let(result::add)
             typesViewData.let(result::addAll)
         } else {
             HintViewData(resourceRepo.getString(R.string.record_types_empty)).let(result::add)

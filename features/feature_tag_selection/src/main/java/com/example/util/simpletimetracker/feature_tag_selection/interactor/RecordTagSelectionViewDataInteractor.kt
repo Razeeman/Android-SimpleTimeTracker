@@ -27,6 +27,8 @@ class RecordTagSelectionViewDataInteractor @Inject constructor(
             multipleChoiceAvailable = !closeAfterOneTagSelected,
             showHint = false,
             showAddButton = false,
+            showArchived = false,
+            showUntaggedButton = true,
         ).let(result::addAll)
 
         return result

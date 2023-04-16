@@ -1,12 +1,15 @@
 package com.example.util.simpletimetracker.feature_data_edit.interactor
 
 import com.example.util.simpletimetracker.core.interactor.RecordFilterInteractor
+import com.example.util.simpletimetracker.core.mapper.CategoryViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
 import com.example.util.simpletimetracker.feature_data_edit.R
+import com.example.util.simpletimetracker.feature_data_edit.model.DataEditAddTagsState
 import com.example.util.simpletimetracker.feature_data_edit.model.DataEditChangeActivityState
 import com.example.util.simpletimetracker.feature_data_edit.model.DataEditChangeButtonState
 import com.example.util.simpletimetracker.feature_data_edit.model.DataEditChangeCommentState
@@ -16,7 +19,9 @@ class DateEditViewDataInteractor @Inject constructor(
     private val resourceRepo: ResourceRepo,
     private val recordFilterInteractor: RecordFilterInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
+    private val recordTagInteractor: RecordTagInteractor,
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
+    private val categoryViewDataMapper: CategoryViewDataMapper,
     private val prefsInteractor: PrefsInteractor,
 ) {
 
@@ -41,6 +46,7 @@ class DateEditViewDataInteractor @Inject constructor(
     suspend fun getChangeActivityState(
         newTypeId: Long,
     ): DataEditChangeActivityState {
+        val isDarkTheme = prefsInteractor.getDarkMode()
         val type = newTypeId.let { recordTypeInteractor.get(it) }
 
         return if (type == null) {
@@ -49,7 +55,7 @@ class DateEditViewDataInteractor @Inject constructor(
             DataEditChangeActivityState.Enabled(
                 recordTypeViewDataMapper.map(
                     recordType = type,
-                    isDarkTheme = prefsInteractor.getDarkMode(),
+                    isDarkTheme = isDarkTheme,
                 )
             )
         }
@@ -59,6 +65,26 @@ class DateEditViewDataInteractor @Inject constructor(
         newComment: String,
     ): DataEditChangeCommentState {
         return DataEditChangeCommentState.Enabled(newComment)
+    }
+
+    suspend fun getAddTagState(
+        tagIds: List<Long>,
+    ): DataEditAddTagsState {
+        val isDarkTheme = prefsInteractor.getDarkMode()
+        val types = recordTypeInteractor.getAll().associateBy { it.id }
+
+        return recordTagInteractor.getAll()
+            .filter { it.id in tagIds }
+            .map {
+                categoryViewDataMapper.mapRecordTag(
+                    tag = it,
+                    type = types[it.typeId],
+                    isDarkTheme = isDarkTheme,
+                )
+            }
+            .takeUnless { it.isEmpty() }
+            ?.let(DataEditAddTagsState::Enabled)
+            ?: DataEditAddTagsState.Disabled
     }
 
     suspend fun getChangeButtonState(

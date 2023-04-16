@@ -29,6 +29,8 @@ class RecordTagViewDataInteractor @Inject constructor(
         multipleChoiceAvailable: Boolean,
         showHint: Boolean,
         showAddButton: Boolean,
+        showArchived: Boolean,
+        showUntaggedButton: Boolean,
     ): List<ViewHolderType> {
         val isDarkTheme = prefsInteractor.getDarkMode()
         val type = recordTypeInteractor.get(typeId)
@@ -39,7 +41,7 @@ class RecordTagViewDataInteractor @Inject constructor(
         } + recordTagInteractor.getUntyped()
 
         return recordTags
-            .filterNot { it.archived }
+            .let { tags -> if (showArchived) tags else tags.filterNot { it.archived } }
             .takeUnless { it.isEmpty() }
             ?.let { tags ->
                 val selected = tags.filter { it.id in selectedTags }
@@ -77,11 +79,13 @@ class RecordTagViewDataInteractor @Inject constructor(
                     )
                 }.let(viewData::addAll)
 
-                if (selected.isNotEmpty() || available.isNotEmpty()) {
-                    DividerViewData(2)
-                        .takeIf { multipleChoiceAvailable }
-                        ?.let(viewData::add)
-                    mapRecordTagUntagged(isDarkTheme).let(viewData::add)
+                if (showUntaggedButton) {
+                    if (selected.isNotEmpty() || available.isNotEmpty()) {
+                        DividerViewData(2)
+                            .takeIf { multipleChoiceAvailable }
+                            ?.let(viewData::add)
+                        mapRecordTagUntagged(isDarkTheme).let(viewData::add)
+                    }
                 }
 
                 categoriesViewDataMapper.mapToRecordTagAddItem(isDarkTheme)

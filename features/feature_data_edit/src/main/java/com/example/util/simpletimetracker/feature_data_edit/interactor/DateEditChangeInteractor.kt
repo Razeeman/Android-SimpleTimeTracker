@@ -6,6 +6,8 @@ import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTime
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
+import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
+import com.example.util.simpletimetracker.feature_data_edit.model.DataEditAddTagsState
 import com.example.util.simpletimetracker.feature_data_edit.model.DataEditChangeActivityState
 import com.example.util.simpletimetracker.feature_data_edit.model.DataEditChangeCommentState
 import javax.inject.Inject
@@ -21,33 +23,45 @@ class DateEditChangeInteractor @Inject constructor(
     suspend fun changeData(
         typeState: DataEditChangeActivityState,
         commentState: DataEditChangeCommentState,
+        addTagState: DataEditAddTagsState,
         filters: List<RecordsFilter>
     ) {
         if (filters.isEmpty()) return
-        val newTypeId = (typeState as? DataEditChangeActivityState.Enabled)?.viewData?.id
-        val newComment = (commentState as? DataEditChangeCommentState.Enabled)?.viewData
-        if (newTypeId == null && newComment == null) return
+
+        val newTypeId = (typeState as? DataEditChangeActivityState.Enabled)
+            ?.viewData?.id
+        val newComment = (commentState as? DataEditChangeCommentState.Enabled)
+            ?.viewData
+        val addTags = (addTagState as? DataEditAddTagsState.Enabled)
+            ?.viewData?.map(CategoryViewData.Record::id)
+
+        if (newTypeId == null && newComment == null && addTags == null) return
 
         val records = recordFilterInteractor.getByFilter(filters)
         val tags = recordTagInteractor.getAll().associateBy { it.id }
         val oldTypeIds = mutableSetOf<Long>()
-        var newTagIds: List<Long>? = null
 
         records.forEach { record ->
-            if (newTypeId != null && record.typeId != newTypeId) {
-                // Remove all typed tags.
-                newTagIds = record.tagIds.filter { tagId ->
-                    tags[tagId]?.typeId == 0L
+            val finalTypeId = newTypeId ?: record.typeId
+            val finalComment = newComment ?: record.comment
+            val finalTagIds: Set<Long> = record.tagIds
+                .plus(addTags.orEmpty())
+                .filter { tagId ->
+                    val tag = tags[tagId] ?: return@filter false
+                    tag.typeId == 0L || tag.typeId == finalTypeId
                 }
-                // Save old typeId before change to update data later.
+                .toSet()
+
+            // Save old typeId before change to update data later.
+            if (finalTypeId != record.typeId) {
                 oldTypeIds.add(record.typeId)
             }
 
             // Change activity
             record.copy(
-                typeId = newTypeId ?: record.typeId,
-                comment = newComment ?: record.comment,
-                tagIds = newTagIds ?: record.tagIds
+                typeId = finalTypeId,
+                comment = finalComment,
+                tagIds = finalTagIds.toList(),
             ).let {
                 recordInteractor.add(it)
             }
