@@ -98,7 +98,7 @@ class DataEditTagSelectionDialogFragment : BaseBottomSheetFragment<Binding>() {
     }
 
     private fun dismiss(tagIds: List<Long>) {
-        listener?.onTagsSelected(tagIds)
+        listener?.onTagsSelected(params.tag, tagIds)
         dismiss()
     }
 

@@ -4,12 +4,14 @@ import com.example.util.simpletimetracker.core.interactor.RecordFilterInteractor
 import com.example.util.simpletimetracker.core.mapper.CategoryViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
+import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
+import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.feature_data_edit.R
-import com.example.util.simpletimetracker.feature_data_edit.model.DataEditAddTagsState
 import com.example.util.simpletimetracker.feature_data_edit.model.DataEditChangeActivityState
 import com.example.util.simpletimetracker.feature_data_edit.model.DataEditChangeButtonState
 import com.example.util.simpletimetracker.feature_data_edit.model.DataEditChangeCommentState
@@ -67,9 +69,9 @@ class DateEditViewDataInteractor @Inject constructor(
         return DataEditChangeCommentState.Enabled(newComment)
     }
 
-    suspend fun getAddTagState(
+    suspend fun getTagState(
         tagIds: List<Long>,
-    ): DataEditAddTagsState {
+    ): List<CategoryViewData.Record> {
         val isDarkTheme = prefsInteractor.getDarkMode()
         val types = recordTypeInteractor.getAll().associateBy { it.id }
 
@@ -82,9 +84,6 @@ class DateEditViewDataInteractor @Inject constructor(
                     isDarkTheme = isDarkTheme,
                 )
             }
-            .takeUnless { it.isEmpty() }
-            ?.let(DataEditAddTagsState::Enabled)
-            ?: DataEditAddTagsState.Disabled
     }
 
     suspend fun getChangeButtonState(
@@ -101,5 +100,20 @@ class DateEditViewDataInteractor @Inject constructor(
             backgroundTint = (if (enabled) R.attr.appActiveColor else R.attr.appInactiveColor)
                 .let { resourceRepo.getThemedAttr(it, theme) },
         )
+    }
+
+    fun filterTags(
+        typeForTagSelection: Long?,
+        tags: List<CategoryViewData.Record>,
+        allTags: Map<Long, RecordTag>,
+    ): List<CategoryViewData.Record> {
+        // If there is a specific type selected by filter or change activity state,
+        val typeId = typeForTagSelection.orZero()
+        // Filter tags selected to add to have typed tags only for this selected activity.
+        val newTags = tags.filter {
+            val tag = allTags[it.id] ?: return@filter false
+            tag.typeId == 0L || tag.typeId == typeId
+        }
+        return newTags
     }
 }

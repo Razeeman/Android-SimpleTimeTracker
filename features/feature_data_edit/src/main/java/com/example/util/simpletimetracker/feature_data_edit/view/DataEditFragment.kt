@@ -17,6 +17,7 @@ import com.example.util.simpletimetracker.feature_data_edit.model.DataEditAddTag
 import com.example.util.simpletimetracker.feature_data_edit.model.DataEditChangeActivityState
 import com.example.util.simpletimetracker.feature_data_edit.model.DataEditChangeButtonState
 import com.example.util.simpletimetracker.feature_data_edit.model.DataEditChangeCommentState
+import com.example.util.simpletimetracker.feature_data_edit.model.DataEditRemoveTagsState
 import com.example.util.simpletimetracker.feature_data_edit.viewModel.DataEditViewModel
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.google.android.flexbox.FlexDirection
@@ -38,9 +39,10 @@ class DataEditFragment :
     private val viewModel: DataEditViewModel by viewModels()
 
     private val addTagsPreviewAdapter: BaseRecyclerAdapter by lazy {
-        BaseRecyclerAdapter(
-            createCategoryAdapterDelegate(),
-        )
+        BaseRecyclerAdapter(createCategoryAdapterDelegate())
+    }
+    private val removeTagsPreviewAdapter: BaseRecyclerAdapter by lazy {
+        BaseRecyclerAdapter(createCategoryAdapterDelegate())
     }
 
     override fun initUi(): Unit = with(binding) {
@@ -52,6 +54,14 @@ class DataEditFragment :
             }
             adapter = addTagsPreviewAdapter
         }
+        rvDataEditRemoveTagsPreview.apply {
+            layoutManager = FlexboxLayoutManager(requireContext()).apply {
+                flexDirection = FlexDirection.ROW
+                justifyContent = JustifyContent.FLEX_START
+                flexWrap = FlexWrap.WRAP
+            }
+            adapter = removeTagsPreviewAdapter
+        }
     }
 
     override fun initUx() = with(binding) {
@@ -59,6 +69,7 @@ class DataEditFragment :
         checkboxDataEditChangeActivity.setOnClick(viewModel::onChangeActivityClick)
         checkboxDataEditChangeComment.setOnClick(viewModel::onChangeCommentClick)
         checkboxDataEditAddTag.setOnClick(viewModel::onAddTagsClick)
+        checkboxDataEditRemoveTag.setOnClick(viewModel::onRemoveTagsClick)
         etDataEditChangeComment.doAfterTextChanged { viewModel.onCommentChange(it.toString()) }
         btnDataEditChange.setOnClick(throttle(viewModel::onChangeClick))
     }
@@ -69,6 +80,7 @@ class DataEditFragment :
             changeActivityState.observe(::setChangeActivityState)
             changeCommentState.observe(::setChangeCommentState)
             addTagsState.observe(::setAddTagState)
+            removeTagsState.observe(::setRemoveTagState)
             changeButtonState.observe(::setChangeButtonState)
             keyboardVisibility.observe { visible ->
                 if (visible) showKeyboard(etDataEditChangeComment)
@@ -93,8 +105,8 @@ class DataEditFragment :
         viewModel.onTypeDismissed()
     }
 
-    override fun onTagsSelected(tagIds: List<Long>) {
-        viewModel.onTagsSelected(tagIds)
+    override fun onTagsSelected(tag: String, tagIds: List<Long>) {
+        viewModel.onTagsSelected(tag, tagIds)
     }
 
     override fun onTagsDismissed() {
@@ -153,6 +165,22 @@ class DataEditFragment :
                 checkboxDataEditAddTag.isChecked = true
                 rvDataEditAddTagsPreview.isVisible = true
                 addTagsPreviewAdapter.replace(state.viewData)
+            }
+        }
+    }
+
+    private fun setRemoveTagState(
+        state: DataEditRemoveTagsState,
+    ) = with(binding) {
+        when (state) {
+            is DataEditRemoveTagsState.Disabled -> {
+                checkboxDataEditRemoveTag.isChecked = false
+                rvDataEditRemoveTagsPreview.isVisible = false
+            }
+            is DataEditRemoveTagsState.Enabled -> {
+                checkboxDataEditRemoveTag.isChecked = true
+                rvDataEditRemoveTagsPreview.isVisible = true
+                removeTagsPreviewAdapter.replace(state.viewData)
             }
         }
     }

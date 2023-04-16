@@ -19,6 +19,7 @@ import com.example.util.simpletimetracker.feature_data_edit.model.DataEditAddTag
 import com.example.util.simpletimetracker.feature_data_edit.model.DataEditChangeActivityState
 import com.example.util.simpletimetracker.feature_data_edit.model.DataEditChangeButtonState
 import com.example.util.simpletimetracker.feature_data_edit.model.DataEditChangeCommentState
+import com.example.util.simpletimetracker.feature_data_edit.model.DataEditRemoveTagsState
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
 import com.example.util.simpletimetracker.navigation.params.screen.DataEditTagSelectionDialogParams
@@ -54,6 +55,9 @@ class DataEditViewModel @Inject constructor(
     val addTagsState: LiveData<DataEditAddTagsState> by lazy {
         MutableLiveData(addTagState)
     }
+    val removeTagsState: LiveData<DataEditRemoveTagsState> by lazy {
+        MutableLiveData(removeTagState)
+    }
     val changeButtonState: LiveData<DataEditChangeButtonState> by lazy {
         MutableLiveData<DataEditChangeButtonState>().let { initial ->
             viewModelScope.launch { initial.value = loadChangeButtonState() }
@@ -67,11 +71,13 @@ class DataEditViewModel @Inject constructor(
     private var typeState: DataEditChangeActivityState = DataEditChangeActivityState.Disabled
     private var commentState: DataEditChangeCommentState = DataEditChangeCommentState.Disabled
     private var addTagState: DataEditAddTagsState = DataEditAddTagsState.Disabled
+    private var removeTagState: DataEditRemoveTagsState = DataEditRemoveTagsState.Disabled
 
     private val changeButtonEnabled: Boolean
         get() = typeState is DataEditChangeActivityState.Enabled ||
             commentState is DataEditChangeCommentState.Enabled ||
-            addTagState is DataEditAddTagsState.Enabled
+            addTagState is DataEditAddTagsState.Enabled ||
+            removeTagState is DataEditRemoveTagsState.Enabled
 
     fun onSelectRecordsClick() {
         router.setResultListener(FILTER_TAG) {
@@ -88,7 +94,7 @@ class DataEditViewModel @Inject constructor(
             router.navigate(DataEditTypeSelectionDialogParams)
         } else {
             typeState = DataEditChangeActivityState.Disabled
-            checkAddTagStateConsistency()
+            checkTagStateConsistency()
             updateChangeActivityState()
             updateChangeButtonState()
         }
@@ -96,7 +102,7 @@ class DataEditViewModel @Inject constructor(
 
     fun onTypeSelected(typeId: Long) = viewModelScope.launch {
         typeState = dataEditViewDataInteractor.getChangeActivityState(typeId)
-        checkAddTagStateConsistency()
+        checkTagStateConsistency()
         updateChangeActivityState()
         updateChangeButtonState()
     }
@@ -118,11 +124,7 @@ class DataEditViewModel @Inject constructor(
 
     fun onAddTagsClick() {
         if (addTagState is DataEditAddTagsState.Disabled) {
-            // Show tag selection with typed tags for changed activity (if it is selected)
-            // or for filtered activity (if it is only one).
-            // Otherwise show only general tags.
-            val typeId = getTypeForTagSelection().orZero()
-            router.navigate(DataEditTagSelectionDialogParams(typeId))
+            openTagSelection(ADD_TAGS_TAG)
         } else {
             addTagState = DataEditAddTagsState.Disabled
             updateAddTagState()
@@ -130,14 +132,40 @@ class DataEditViewModel @Inject constructor(
         }
     }
 
-    fun onTagsSelected(tagIds: List<Long>) = viewModelScope.launch {
-        addTagState = dataEditViewDataInteractor.getAddTagState(tagIds)
-        updateAddTagState()
-        updateChangeButtonState()
+    fun onRemoveTagsClick() {
+        if (removeTagState is DataEditRemoveTagsState.Disabled) {
+            openTagSelection(REMOVE_TAGS_TAG)
+        } else {
+            removeTagState = DataEditRemoveTagsState.Disabled
+            updateRemoveTagState()
+            updateChangeButtonState()
+        }
+    }
+
+    fun onTagsSelected(tag: String, tagIds: List<Long>) = viewModelScope.launch {
+        when (tag) {
+            ADD_TAGS_TAG -> {
+                addTagState = dataEditViewDataInteractor.getTagState(tagIds)
+                    .takeUnless { it.isEmpty() }
+                    ?.let(DataEditAddTagsState::Enabled)
+                    ?: DataEditAddTagsState.Disabled
+                updateAddTagState()
+                updateChangeButtonState()
+            }
+            REMOVE_TAGS_TAG -> {
+                removeTagState = dataEditViewDataInteractor.getTagState(tagIds)
+                    .takeUnless { it.isEmpty() }
+                    ?.let(DataEditRemoveTagsState::Enabled)
+                    ?: DataEditRemoveTagsState.Disabled
+                updateRemoveTagState()
+                updateChangeButtonState()
+            }
+        }
     }
 
     fun onTagsDismissed() {
         updateAddTagState()
+        updateRemoveTagState()
     }
 
     fun onCommentChange(text: String) {
@@ -155,6 +183,7 @@ class DataEditViewModel @Inject constructor(
             typeState = typeState,
             commentState = commentState,
             addTagState = addTagState,
+            removeTagState = removeTagState,
             filters = filters,
         )
         dataEditRepo.inProgress.set(false)
@@ -165,8 +194,16 @@ class DataEditViewModel @Inject constructor(
     private fun onFilterSelected(result: RecordsFilterResultParams) {
         filters = result.filters
         filteredRecordsTypeId = result.filteredRecordsTypeId
-        checkAddTagStateConsistency()
+        checkTagStateConsistency()
         updateSelectedRecordsCountViewData()
+    }
+
+    private fun openTagSelection(tag: String) {
+        // Show tag selection with typed tags for changed activity (if it is selected)
+        // or for filtered activity (if it is only one).
+        // Otherwise show only general tags.
+        val typeId = getTypeForTagSelection().orZero()
+        router.navigate(DataEditTagSelectionDialogParams(tag, typeId))
     }
 
     private fun showMessage(stringResId: Int) {
@@ -174,26 +211,44 @@ class DataEditViewModel @Inject constructor(
         router.show(params)
     }
 
-    private fun checkAddTagStateConsistency() = viewModelScope.launch {
-        // If there are some tags selected to add,
-        val tags = (addTagState as? DataEditAddTagsState.Enabled)
-            ?.viewData
-            ?: return@launch
+    private fun checkTagStateConsistency() = viewModelScope.launch {
+        val tagsToAdd = (addTagState as? DataEditAddTagsState.Enabled)?.viewData
+        val tagsToRemove = (removeTagState as? DataEditRemoveTagsState.Enabled)?.viewData
+
+        // If there are some tags selected to add or remove.
+        if (tagsToAdd == null && tagsToRemove == null) return@launch
+
         val allTags = recordTagInteractor.getAll().associateBy(RecordTag::id)
-        // Find if there is a specific type selected by filter or change activity state,
-        val typeId = getTypeForTagSelection().orZero()
-        // Filter tags selected to add to have typed tags only for this selected activity.
-        val newTags = tags.filter {
-            val tag = allTags[it.id] ?: return@filter false
-            tag.typeId == 0L || tag.typeId == typeId
+
+        if (tagsToAdd != null) {
+            val newTags = dataEditViewDataInteractor.filterTags(
+                typeForTagSelection = getTypeForTagSelection(),
+                tags = tagsToAdd,
+                allTags = allTags,
+            )
+            addTagState = if (newTags.isNotEmpty()) {
+                DataEditAddTagsState.Enabled(newTags)
+            } else {
+                DataEditAddTagsState.Disabled
+            }
+            updateAddTagState()
         }
 
-        addTagState = if (newTags.isNotEmpty()) {
-            DataEditAddTagsState.Enabled(newTags)
-        } else {
-            DataEditAddTagsState.Disabled
+        // If there are some tags selected to remove.
+        if (tagsToRemove != null) {
+            val newTags = dataEditViewDataInteractor.filterTags(
+                typeForTagSelection = getTypeForTagSelection(),
+                tags = tagsToRemove,
+                allTags = allTags,
+            )
+            removeTagState = if (newTags.isNotEmpty()) {
+                DataEditRemoveTagsState.Enabled(newTags)
+            } else {
+                DataEditRemoveTagsState.Disabled
+            }
+            updateRemoveTagState()
         }
-        updateAddTagState()
+
         updateChangeButtonState()
     }
 
@@ -224,6 +279,10 @@ class DataEditViewModel @Inject constructor(
         addTagsState.set(addTagState)
     }
 
+    private fun updateRemoveTagState() = viewModelScope.launch {
+        removeTagsState.set(removeTagState)
+    }
+
     private fun updateChangeButtonState() = viewModelScope.launch {
         val data = loadChangeButtonState()
         changeButtonState.set(data)
@@ -234,6 +293,8 @@ class DataEditViewModel @Inject constructor(
     }
 
     companion object {
-        private const val FILTER_TAG = "date_edit_filter_tag"
+        private const val FILTER_TAG = "data_edit_filter_tag"
+        private const val ADD_TAGS_TAG = "data_edit_add_tags_tag"
+        private const val REMOVE_TAGS_TAG = "data_edit_remove_tags_tag"
     }
 }

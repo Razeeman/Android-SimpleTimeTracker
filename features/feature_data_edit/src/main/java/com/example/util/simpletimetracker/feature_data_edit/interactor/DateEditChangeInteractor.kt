@@ -10,6 +10,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.category.Category
 import com.example.util.simpletimetracker.feature_data_edit.model.DataEditAddTagsState
 import com.example.util.simpletimetracker.feature_data_edit.model.DataEditChangeActivityState
 import com.example.util.simpletimetracker.feature_data_edit.model.DataEditChangeCommentState
+import com.example.util.simpletimetracker.feature_data_edit.model.DataEditRemoveTagsState
 import javax.inject.Inject
 
 class DateEditChangeInteractor @Inject constructor(
@@ -24,6 +25,7 @@ class DateEditChangeInteractor @Inject constructor(
         typeState: DataEditChangeActivityState,
         commentState: DataEditChangeCommentState,
         addTagState: DataEditAddTagsState,
+        removeTagState: DataEditRemoveTagsState,
         filters: List<RecordsFilter>
     ) {
         if (filters.isEmpty()) return
@@ -34,8 +36,15 @@ class DateEditChangeInteractor @Inject constructor(
             ?.viewData
         val addTags = (addTagState as? DataEditAddTagsState.Enabled)
             ?.viewData?.map(CategoryViewData.Record::id)
+        val removeTags = (removeTagState as? DataEditRemoveTagsState.Enabled)
+            ?.viewData?.map(CategoryViewData.Record::id)
 
-        if (newTypeId == null && newComment == null && addTags == null) return
+        if (
+            newTypeId == null &&
+            newComment == null &&
+            addTags == null &&
+            removeTags == null
+        ) return
 
         val records = recordFilterInteractor.getByFilter(filters)
         val tags = recordTagInteractor.getAll().associateBy { it.id }
@@ -46,6 +55,7 @@ class DateEditChangeInteractor @Inject constructor(
             val finalComment = newComment ?: record.comment
             val finalTagIds: Set<Long> = record.tagIds
                 .plus(addTags.orEmpty())
+                .filter { it !in removeTags.orEmpty() }
                 .filter { tagId ->
                     val tag = tags[tagId] ?: return@filter false
                     tag.typeId == 0L || tag.typeId == finalTypeId

@@ -5,5 +5,6 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class DataEditTagSelectionDialogParams(
-    val typeId: Long = 0L
+    val tag: String = "",
+    val typeId: Long = 0L,
 ) : Parcelable, ScreenParams
