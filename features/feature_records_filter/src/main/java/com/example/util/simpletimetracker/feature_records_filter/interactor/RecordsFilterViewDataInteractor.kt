@@ -86,6 +86,7 @@ class RecordsFilterViewDataInteractor @Inject constructor(
         } else {
             recordFilterInteractor.getByFilter(filters)
         }
+        val selectedTypeIds = records.map { it.typeId }.toSet()
 
         val (count, viewData) = withContext(Dispatchers.Default) {
             var count: Int
@@ -114,6 +115,7 @@ class RecordsFilterViewDataInteractor @Inject constructor(
         return RecordsFilterSelectedRecordsViewData(
             selectedRecordsCount = mapper.mapRecordsCount(count, filters),
             recordsViewData = viewData,
+            filteredRecordsTypeId = selectedTypeIds.takeIf { it.size == 1 }?.firstOrNull(),
         )
     }
 

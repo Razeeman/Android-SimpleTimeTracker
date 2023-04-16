@@ -24,6 +24,7 @@ import com.example.util.simpletimetracker.navigation.params.notification.SnackBa
 import com.example.util.simpletimetracker.navigation.params.screen.DataEditTagSelectionDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DataEditTypeSelectionDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterParams
+import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterResultParams
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.launch
@@ -62,6 +63,7 @@ class DataEditViewModel @Inject constructor(
     val keyboardVisibility: LiveData<Boolean> = MutableLiveData(false)
 
     private var filters: List<RecordsFilter> = emptyList()
+    private var filteredRecordsTypeId: Long? = null
     private var typeState: DataEditChangeActivityState = DataEditChangeActivityState.Disabled
     private var commentState: DataEditChangeCommentState = DataEditChangeCommentState.Disabled
     private var addTagState: DataEditAddTagsState = DataEditAddTagsState.Disabled
@@ -73,7 +75,7 @@ class DataEditViewModel @Inject constructor(
 
     fun onSelectRecordsClick() {
         router.setResultListener(FILTER_TAG) {
-            (it as? List<*>)?.filterIsInstance<RecordsFilter>()?.let(::onFilterSelected)
+            (it as? RecordsFilterResultParams)?.let(::onFilterSelected)
         }
         RecordsFilterParams(
             tag = FILTER_TAG,
@@ -160,8 +162,9 @@ class DataEditViewModel @Inject constructor(
         router.back()
     }
 
-    private fun onFilterSelected(filters: List<RecordsFilter>) {
-        this.filters = filters
+    private fun onFilterSelected(result: RecordsFilterResultParams) {
+        filters = result.filters
+        filteredRecordsTypeId = result.filteredRecordsTypeId
         checkAddTagStateConsistency()
         updateSelectedRecordsCountViewData()
     }
@@ -197,12 +200,7 @@ class DataEditViewModel @Inject constructor(
     private fun getTypeForTagSelection(): Long? {
         return (typeState as? DataEditChangeActivityState.Enabled)
             ?.viewData?.id
-            ?: filters
-                .filterIsInstance<RecordsFilter.Activity>()
-                .firstOrNull()
-                ?.typeIds
-                ?.takeIf { it.size == 1 }
-                ?.firstOrNull()
+            ?: filteredRecordsTypeId
     }
 
     private fun updateSelectedRecordsCountViewData() = viewModelScope.launch {

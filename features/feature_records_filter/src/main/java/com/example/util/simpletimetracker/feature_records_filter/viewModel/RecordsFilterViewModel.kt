@@ -28,6 +28,7 @@ import com.example.util.simpletimetracker.feature_records_filter.model.RecordsFi
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterParam
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterParams
+import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterResultParams
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.Job
@@ -70,9 +71,10 @@ class RecordsFilterViewModel @Inject constructor(
                 initial.value = RecordsFilterSelectedRecordsViewData(
                     selectedRecordsCount = recordsFilterViewDataMapper.mapRecordsCount(
                         count = 0,
-                        filter = emptyList()
+                        filter = emptyList(),
                     ),
                     recordsViewData = listOf(LoaderViewData()),
+                    filteredRecordsTypeId = null,
                 )
                 initial.value = loadRecordsViewData()
             }
@@ -124,7 +126,13 @@ class RecordsFilterViewModel @Inject constructor(
     }
 
     fun onFilterSelect() {
-        router.sendResult(extra.tag, filters)
+        router.sendResult(
+            key = extra.tag,
+            data = RecordsFilterResultParams(
+                filters = filters,
+                filteredRecordsTypeId = recordsViewData.value?.filteredRecordsTypeId,
+            )
+        )
         router.back()
     }
 
@@ -370,6 +378,7 @@ class RecordsFilterViewModel @Inject constructor(
                 RecordsFilterSelectedRecordsViewData(
                     selectedRecordsCount = recordsViewData.value?.selectedRecordsCount.orEmpty(),
                     recordsViewData = listOf(LoaderViewData()),
+                    filteredRecordsTypeId = recordsViewData.value?.filteredRecordsTypeId,
                 )
             )
             val data = loadRecordsViewData()
