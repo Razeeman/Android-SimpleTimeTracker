@@ -57,13 +57,13 @@ class TypesFilterViewModel @Inject constructor(
 
     fun onRecordTypeClick(item: RecordTypeViewData) {
         val currentFilter = typesFilter.value ?: return
-        switchToActivityFilter(currentFilter, item)
+        updateActivityFilter(currentFilter, item)
     }
 
     fun onCategoryClick(item: CategoryViewData) {
         val currentFilter = typesFilter.value ?: return
         when (item) {
-            is CategoryViewData.Category -> switchToCategoryFilter(currentFilter, item)
+            is CategoryViewData.Category -> updateCategoryFilter(currentFilter, item)
             is CategoryViewData.Record -> updateRecordTagFilter(currentFilter, item)
         }
     }
@@ -86,14 +86,13 @@ class TypesFilterViewModel @Inject constructor(
         updateViewData()
     }
 
-    private fun switchToActivityFilter(
+    private fun updateActivityFilter(
         currentFilter: TypesFilterParams,
         item: RecordTypeViewData
     ) {
         var newFilter = currentFilter
 
-        // FIXME
-        if (currentFilter.filterType != ChartFilterType.ACTIVITY) {
+        if (currentFilter.filterType == ChartFilterType.CATEGORY) {
             // Switch from tags to types in these tags
             val currentTypes = recordTypeCategories
                 .filter { it.categoryId in currentFilter.selectedIds }
@@ -107,17 +106,23 @@ class TypesFilterViewModel @Inject constructor(
                 filteredRecordTags = currentFilter.filteredRecordTags
             )
         }
+        if (currentFilter.filterType == ChartFilterType.RECORD_TAG) {
+            newFilter = TypesFilterParams(
+                filterType = ChartFilterType.ACTIVITY,
+                selectedIds = emptyList(),
+                filteredRecordTags = emptyList(),
+            )
+        }
 
         updateItemInFilter(newFilter, item.id)
     }
 
-    private fun switchToCategoryFilter(
+    private fun updateCategoryFilter(
         currentFilter: TypesFilterParams,
         item: CategoryViewData.Category
     ) {
         var newFilter = currentFilter
 
-        // FIXME
         if (currentFilter.filterType != ChartFilterType.CATEGORY) {
             newFilter = TypesFilterParams(
                 filterType = ChartFilterType.CATEGORY,
@@ -133,14 +138,20 @@ class TypesFilterViewModel @Inject constructor(
         filter: TypesFilterParams,
         item: CategoryViewData.Record
     ) {
-        val selectedRecordTags = filter.filteredRecordTags.toMutableList()
-        when (item) {
-            is CategoryViewData.Record.Tagged -> TypesFilterParams.FilteredRecordTag.Tagged(item.id)
-            is CategoryViewData.Record.Untagged -> TypesFilterParams.FilteredRecordTag.Untagged(item.id)
-        }.let { selectedRecordTags.addOrRemove(it) }
-        val newFilter = filter.copy(filteredRecordTags = selectedRecordTags)
-        typesFilter.set(newFilter)
-        updateViewData()
+        if (filter.filterType != ChartFilterType.RECORD_TAG) {
+            val selectedRecordTags = filter.filteredRecordTags.toMutableList()
+
+            when (item) {
+                is CategoryViewData.Record.Tagged -> TypesFilterParams.FilteredRecordTag.Tagged(item.id)
+                is CategoryViewData.Record.Untagged -> TypesFilterParams.FilteredRecordTag.Untagged(item.id)
+            }.let { selectedRecordTags.addOrRemove(it) }
+
+            val newFilter = filter.copy(filteredRecordTags = selectedRecordTags)
+            typesFilter.set(newFilter)
+            updateViewData()
+        } else {
+            updateItemInFilter(filter, item.id)
+        }
     }
 
     private fun updateItemInFilter(
@@ -149,7 +160,17 @@ class TypesFilterViewModel @Inject constructor(
     ) {
         val selectedIds = filter.selectedIds.toMutableList()
         selectedIds.addOrRemove(id)
-        val newFilter = filter.copy(selectedIds = selectedIds)
+
+        val newFilter = if (selectedIds.isEmpty()) {
+            filter.copy(
+                filterType = ChartFilterType.RECORD_TAG,
+                selectedIds = selectedIds,
+                filteredRecordTags = emptyList(),
+            )
+        } else {
+            filter.copy(selectedIds = selectedIds)
+        }
+
         typesFilter.set(newFilter)
         updateViewData()
     }

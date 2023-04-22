@@ -39,18 +39,25 @@ class RecordsAllViewDataInteractor @Inject constructor(
         val showSeconds = prefsInteractor.getShowSeconds()
         val recordTypes = recordTypeInteractor.getAll().associateBy { it.id }
         val recordTags = recordTagInteractor.getAll()
-        val recordFilter = recordFilterInteractor.mapFilter(filter).let {
-            if (rangeStart != 0L && rangeEnd != 0L) {
-                it + RecordsFilter.Date(Range(rangeStart, rangeEnd))
-            } else {
-                it
+
+        val records = recordFilterInteractor.mapFilter(filter)
+            .let { mainFilters ->
+                var finalFilters = mainFilters
+
+                if (finalFilters.isEmpty()) {
+                    return@let finalFilters
+                }
+                if (rangeStart != 0L && rangeEnd != 0L) {
+                    finalFilters = finalFilters + RecordsFilter.Date(Range(rangeStart, rangeEnd))
+                }
+                if (commentSearch.isNotEmpty()) {
+                    finalFilters = finalFilters + RecordsFilter.Comment(commentSearch)
+                }
+
+                finalFilters
+            }.let {
+                recordFilterInteractor.getByFilter(it)
             }
-        }
-        val records = if (commentSearch.isEmpty()) {
-            recordFilterInteractor.getByFilter(recordFilter)
-        } else {
-            recordFilterInteractor.getByFilter(recordFilter + RecordsFilter.Comment(commentSearch))
-        }
 
         return withContext(Dispatchers.Default) {
             records

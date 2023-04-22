@@ -80,13 +80,19 @@ class TypesFilterViewDataInteractor @Inject constructor(
                 typeId to recordTags.filter { it.typeId == typeId }
             }
             .mapNotNull { (typeId, tags) ->
-                typeId to categoryViewDataMapper.mapRecordTagUntagged(
-                    type = typesMap[typeId] ?: return@mapNotNull null,
-                    isDarkTheme = isDarkTheme,
-                    isFiltered = typeId in filter.filteredRecordTags
-                        .filterIsInstance<TypesFilterParams.FilteredRecordTag.Untagged>()
-                        .map { it.typeId }
-                ).let(::listOf) + mapTags(
+                // FIXME add untagged also to tag filter
+                val untagged = if (filter.filterType != ChartFilterType.RECORD_TAG) {
+                    categoryViewDataMapper.mapRecordTagUntagged(
+                        type = typesMap[typeId] ?: return@mapNotNull null,
+                        isDarkTheme = isDarkTheme,
+                        isFiltered = typeId in filter.filteredRecordTags
+                            .filterIsInstance<TypesFilterParams.FilteredRecordTag.Untagged>()
+                            .map { it.typeId }
+                    ).let(::listOf)
+                } else {
+                    emptyList()
+                }
+                typeId to untagged + mapTags(
                     filter = filter,
                     tags = tags,
                     typesMap = typesMap,
@@ -136,13 +142,17 @@ class TypesFilterViewDataInteractor @Inject constructor(
         isDarkTheme: Boolean,
     ): List<ViewHolderType> {
         return tags.map { tag ->
+            val isSelected = filter.filterType != ChartFilterType.RECORD_TAG ||
+                tag.id in filter.selectedIds
+            val isFiltered = tag.id in filter.filteredRecordTags
+                .filterIsInstance<TypesFilterParams.FilteredRecordTag.Tagged>()
+                .map { it.id }
+
             categoryViewDataMapper.mapRecordTag(
                 tag = tag,
                 type = typesMap[tag.typeId],
                 isDarkTheme = isDarkTheme,
-                isFiltered = tag.id in filter.filteredRecordTags
-                    .filterIsInstance<TypesFilterParams.FilteredRecordTag.Tagged>()
-                    .map { it.id }
+                isFiltered = !isSelected || isFiltered
             )
         }
     }

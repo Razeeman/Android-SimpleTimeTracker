@@ -15,27 +15,32 @@ class RecordFilterInteractor @Inject constructor(
 ) {
 
     suspend fun mapFilter(filter: TypesFilterParams): List<RecordsFilter> {
-        return when (filter.filterType) {
+        val filters = when (filter.filterType) {
             ChartFilterType.ACTIVITY -> {
                 RecordsFilter.Activity(filter.selectedIds)
-                    .let(::listOf)
+                    .takeUnless { filter.selectedIds.isEmpty() }
+                    .let(::listOfNotNull)
             }
             ChartFilterType.CATEGORY -> {
                 recordTypeCategoryInteractor.getAll()
                     .filter { it.categoryId in filter.selectedIds }
                     .map { it.recordTypeId }
                     .distinct()
-                    .let(RecordsFilter::Activity)
-                    .let(::listOf)
+                    .takeUnless { it.isEmpty() }
+                    ?.let(RecordsFilter::Activity)
+                    .let(::listOfNotNull)
             }
             ChartFilterType.RECORD_TAG -> {
                 filter.selectedIds
-                    .map(RecordsFilter.Tag::Tagged)
-                    .let(RecordsFilter::SelectedTags)
-                    .let(::listOf)
+                    .takeUnless { it.isEmpty() }
+                    ?.map(RecordsFilter.Tag::Tagged)
+                    ?.let(RecordsFilter::SelectedTags)
+                    .let(::listOfNotNull)
             }
-        }.let {
-            val filterTags = filter.filteredRecordTags.map {
+        }
+
+        val filterTags = filter.filteredRecordTags
+            .map {
                 when (it) {
                     is TypesFilterParams.FilteredRecordTag.Tagged -> {
                         RecordsFilter.Tag.Tagged(it.id)
@@ -45,16 +50,16 @@ class RecordFilterInteractor @Inject constructor(
                     }
                 }
             }
+            .takeUnless { it.isEmpty() }
+            ?.let(RecordsFilter::FilteredTags)
+            .let { listOfNotNull(it) }
 
-            if (filterTags.isNotEmpty()) {
-                it + RecordsFilter.FilteredTags(filterTags)
-            } else {
-                it
-            }
-        }
+        return filters + filterTags
     }
 
     suspend fun getByFilter(filters: List<RecordsFilter>): List<Record> {
+        if (filters.isEmpty()) return emptyList()
+
         val typeIds: List<Long> = filters.filterIsInstance<RecordsFilter.Activity>()
             .map { it.typeIds }.flatten()
         val comments: List<String> = filters.filterIsInstance<RecordsFilter.Comment>()

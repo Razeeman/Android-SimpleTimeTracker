@@ -81,11 +81,7 @@ class RecordsFilterViewDataInteractor @Inject constructor(
         val showSeconds = prefsInteractor.getShowSeconds()
         val recordTypes = recordTypeInteractor.getAll().associateBy { it.id }
         val recordTags = recordTagInteractor.getAll()
-        val records = if (filters.isEmpty()) {
-            emptyList()
-        } else {
-            recordFilterInteractor.getByFilter(filters)
-        }
+        val records = recordFilterInteractor.getByFilter(filters)
         val selectedTypeIds = records.map { it.typeId }.toSet()
 
         val (count, viewData) = withContext(Dispatchers.Default) {

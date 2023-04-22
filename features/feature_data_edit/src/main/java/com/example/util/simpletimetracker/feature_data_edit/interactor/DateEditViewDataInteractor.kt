@@ -30,13 +30,8 @@ class DateEditViewDataInteractor @Inject constructor(
     suspend fun getSelectedRecordsCount(
         filters: List<RecordsFilter>,
     ): String {
-        val records = if (filters.isEmpty()) {
-            emptyList()
-        } else {
-            recordFilterInteractor.getByFilter(filters)
-        }
+        val records = recordFilterInteractor.getByFilter(filters)
         val selectedRecordsCount = records.size
-
         val recordsString = resourceRepo.getQuantityString(
             R.plurals.statistics_detail_times_tracked,
             selectedRecordsCount
