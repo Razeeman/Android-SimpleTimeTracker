@@ -80,9 +80,6 @@ class DataEditViewModel @Inject constructor(
             removeTagState is DataEditRemoveTagsState.Enabled
 
     fun onSelectRecordsClick() {
-        router.setResultListener(FILTER_TAG) {
-            (it as? RecordsFilterResultParams)?.let(::onFilterSelected)
-        }
         RecordsFilterParams(
             tag = FILTER_TAG,
             filters = filters.map(RecordsFilter::toParams),
@@ -191,7 +188,8 @@ class DataEditViewModel @Inject constructor(
         router.back()
     }
 
-    private fun onFilterSelected(result: RecordsFilterResultParams) {
+    fun onFilterSelected(result: RecordsFilterResultParams) {
+        if (result.tag != FILTER_TAG) return
         filters = result.filters
         filteredRecordsTypeId = result.filteredRecordsTypeId
         checkTagStateConsistency()

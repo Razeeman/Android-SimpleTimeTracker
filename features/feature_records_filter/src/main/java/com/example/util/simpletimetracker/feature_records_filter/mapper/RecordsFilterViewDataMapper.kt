@@ -54,7 +54,7 @@ class RecordsFilterViewDataMapper @Inject constructor(
         filter: List<RecordsFilter>,
     ): String {
         if (count == 0 && filter.isEmpty()) {
-            return resourceRepo.getString(R.string.data_edit_select_records)
+            return resourceRepo.getString(R.string.chart_filter_hint)
         }
 
         val selected = resourceRepo.getString(R.string.something_selected)

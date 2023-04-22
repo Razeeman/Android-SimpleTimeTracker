@@ -7,6 +7,7 @@ import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseFragment
+import com.example.util.simpletimetracker.core.dialog.RecordsFilterListener
 import com.example.util.simpletimetracker.core.extension.hideKeyboard
 import com.example.util.simpletimetracker.core.extension.showKeyboard
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
@@ -20,6 +21,7 @@ import com.example.util.simpletimetracker.feature_data_edit.model.DataEditChange
 import com.example.util.simpletimetracker.feature_data_edit.model.DataEditRemoveTagsState
 import com.example.util.simpletimetracker.feature_data_edit.viewModel.DataEditViewModel
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
+import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterResultParams
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
@@ -30,6 +32,7 @@ import com.example.util.simpletimetracker.feature_data_edit.databinding.DataEdit
 @AndroidEntryPoint
 class DataEditFragment :
     BaseFragment<Binding>(),
+    RecordsFilterListener,
     DataEditTypeSelectionDialogListener,
     DataEditTagSelectionDialogListener {
 
@@ -95,6 +98,10 @@ class DataEditFragment :
         checkboxDataEditChangeComment.jumpDrawablesToCurrentState()
         checkboxDataEditAddTag.jumpDrawablesToCurrentState()
         checkboxDataEditRemoveTag.jumpDrawablesToCurrentState()
+    }
+
+    override fun onFilterChanged(result: RecordsFilterResultParams) {
+        viewModel.onFilterSelected(result)
     }
 
     override fun onTypeSelected(typeId: Long) {

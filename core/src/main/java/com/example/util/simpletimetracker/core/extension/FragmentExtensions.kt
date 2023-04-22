@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.core.extension
 
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.transition.TransitionInflater
@@ -29,4 +30,13 @@ inline fun Fragment.setSharedTransitions(
             .inflateTransition(android.R.transition.move)
     }
     ViewCompat.setTransitionName(sharedView, transitionName)
+}
+
+fun Fragment.addOnBackPressedListener(isEnabled: Boolean = true, action: () -> Unit) {
+    activity?.onBackPressedDispatcher?.addCallback(
+        this,
+        object : OnBackPressedCallback(isEnabled) {
+            override fun handleOnBackPressed() = action()
+        }
+    )
 }

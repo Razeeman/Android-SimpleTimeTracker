@@ -15,6 +15,7 @@ import com.example.util.simpletimetracker.feature_dialogs.helpDialog.HelpDialogF
 import com.example.util.simpletimetracker.feature_dialogs.recordTagSelection.RecordTagSelectionDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.standard.StandardDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.typesFilter.view.TypesFilterDialogFragment
+import com.example.util.simpletimetracker.feature_records_filter.view.RecordsFilterFragment
 import com.example.util.simpletimetracker.navigation.NavigationData
 import com.example.util.simpletimetracker.navigation.bundleCreator.BundleCreator
 import com.example.util.simpletimetracker.navigation.bundleCreator.bundleCreatorDelegate
@@ -33,6 +34,7 @@ import com.example.util.simpletimetracker.navigation.params.screen.DurationDialo
 import com.example.util.simpletimetracker.navigation.params.screen.EmojiSelectionDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.HelpDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.RecordTagSelectionParams
+import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterParams
 import com.example.util.simpletimetracker.navigation.params.screen.StandardDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.TypesFilterDialogParams
 import dagger.Module
@@ -222,6 +224,16 @@ class NavigationDialogMapModule {
         return NavigationData(
             R.id.dataEditTagSelectionDialogFragment,
             bundleCreatorDelegate(DataEditTagSelectionDialogFragment::createBundle)
+        )
+    }
+
+    @IntoMap
+    @Provides
+    @ScreenKey(RecordsFilterParams::class)
+    fun recordsFilter(): NavigationData {
+        return NavigationData(
+            R.id.recordsFilterDialogFragment,
+            bundleCreatorDelegate(RecordsFilterFragment::createBundle)
         )
     }
 }

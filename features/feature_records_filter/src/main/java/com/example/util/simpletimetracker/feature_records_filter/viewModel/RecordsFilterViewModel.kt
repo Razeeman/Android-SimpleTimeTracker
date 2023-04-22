@@ -54,7 +54,6 @@ class RecordsFilterViewModel @Inject constructor(
             initial
         }
     }
-
     val filterSelectionContent: LiveData<List<ViewHolderType>> by lazy {
         return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
             viewModelScope.launch {
@@ -64,7 +63,6 @@ class RecordsFilterViewModel @Inject constructor(
             initial
         }
     }
-
     val recordsViewData: LiveData<RecordsFilterSelectedRecordsViewData> by lazy {
         return@lazy MutableLiveData<RecordsFilterSelectedRecordsViewData>().let { initial ->
             viewModelScope.launch {
@@ -81,11 +79,10 @@ class RecordsFilterViewModel @Inject constructor(
             initial
         }
     }
-
     val filterSelectionVisibility: LiveData<Boolean> by lazy {
         MutableLiveData(loadFilterSelectionVisibility())
     }
-
+    val changedFilters: LiveData<RecordsFilterResultParams> = MutableLiveData()
     val keyboardVisibility: LiveData<Boolean> = MutableLiveData(false)
 
     private val filters: MutableList<RecordsFilter> by lazy {
@@ -125,20 +122,10 @@ class RecordsFilterViewModel @Inject constructor(
         removeFilter(item.type)
     }
 
-    fun onFilterSelect() {
-        router.sendResult(
-            key = extra.tag,
-            data = RecordsFilterResultParams(
-                filters = filters,
-                filteredRecordsTypeId = recordsViewData.value?.filteredRecordsTypeId,
-            )
-        )
-        router.back()
-    }
-
     fun onFilterApplied() {
         checkIfDefaultDateFilterShouldBeApplied()
         filterSelectionState = RecordsFilterSelectionState.Hidden
+        updateFilters()
         updateFilterSelectionVisibility()
     }
 
@@ -385,6 +372,13 @@ class RecordsFilterViewModel @Inject constructor(
             )
             val data = loadRecordsViewData()
             recordsViewData.set(data)
+            changedFilters.set(
+                RecordsFilterResultParams(
+                    tag = extra.tag,
+                    filters = filters,
+                    filteredRecordsTypeId = data.filteredRecordsTypeId
+                )
+            )
         }
     }
 

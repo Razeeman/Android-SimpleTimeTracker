@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?appDialogBackground"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -18,7 +19,7 @@
         android:textSize="22sp"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="@string/data_edit_select_records" />
+        tools:text="@string/chart_filter_hint" />
 
     <com.example.util.simpletimetracker.feature_views.DividerView
         android:id="@+id/dividerRecordsFilterTitle"
@@ -49,18 +50,10 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:scrollbars="vertical"
-        app:layout_constraintBottom_toTopOf="@id/btnRecordsFilterSelect"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/dividerRecordsFilter"
         tools:itemCount="15"
         tools:listitem="@layout/item_record_layout" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnRecordsFilterSelect"
-        style="@style/AppButtonActive"
-        android:layout_width="match_parent"
-        android:layout_marginHorizontal="8dp"
-        android:text="@string/records_filter_select"
-        app:layout_constraintBottom_toBottomOf="parent" />
 
     <View
         android:id="@+id/viewRecordsFilterSelectionBackground"

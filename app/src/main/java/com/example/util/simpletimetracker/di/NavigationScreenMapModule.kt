@@ -141,16 +141,6 @@ class NavigationScreenMapModule {
 
     @IntoMap
     @Provides
-    @ScreenKey(RecordsFilterParams::class)
-    fun recordsFilter(): NavigationData {
-        return NavigationData(
-            R.id.action_dataEdit_to_recordsFilter,
-            bundleCreatorDelegate(RecordsFilterFragment::createBundle)
-        )
-    }
-
-    @IntoMap
-    @Provides
     @ScreenKey(ChangeCategoryFromTagsParams::class)
     fun changeCategoryFromTags(): NavigationData {
         return NavigationData(

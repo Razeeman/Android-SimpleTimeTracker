@@ -1,14 +1,20 @@
 package com.example.util.simpletimetracker.feature_records_filter.view
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.util.simpletimetracker.core.base.BaseFragment
+import com.example.util.simpletimetracker.core.base.BaseBottomSheetFragment
 import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
+import com.example.util.simpletimetracker.core.dialog.RecordsFilterListener
+import com.example.util.simpletimetracker.core.extension.blockContentScroll
+import com.example.util.simpletimetracker.core.extension.findListener
 import com.example.util.simpletimetracker.core.extension.hideKeyboard
+import com.example.util.simpletimetracker.core.extension.setFullScreen
+import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
 import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_base_adapter.category.createCategoryAdapterDelegate
@@ -34,7 +40,7 @@ import com.example.util.simpletimetracker.feature_records_filter.databinding.Rec
 
 @AndroidEntryPoint
 class RecordsFilterFragment :
-    BaseFragment<Binding>(),
+    BaseBottomSheetFragment<Binding>(),
     DateTimeDialogListener {
 
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
@@ -69,14 +75,28 @@ class RecordsFilterFragment :
         BaseRecyclerAdapter(
             createLoaderAdapterDelegate(),
             createEmptyAdapterDelegate(),
-            createRecordAdapterDelegate(throttle(viewModel::onRecordClick))
+            createRecordAdapterDelegate(viewModel::onRecordClick)
         )
     }
     private val params: RecordsFilterParams by fragmentArgumentDelegate(
         key = ARGS_PARAMS, default = RecordsFilterParams()
     )
+    private var listener: RecordsFilterListener? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        listener = context.findListener()
+    }
+
+    override fun initDialog() {
+        setSkipCollapsed()
+        setFullScreen()
+        blockContentScroll(binding.rvRecordsFilterList)
+        blockContentScroll(binding.rvRecordsFilterSelection)
+    }
 
     override fun initUi(): Unit = with(binding) {
+        rvRecordsFilterFilters.isNestedScrollingEnabled = false
         rvRecordsFilterFilters.apply {
             layoutManager = FlexboxLayoutManager(requireContext()).apply {
                 flexDirection = FlexDirection.ROW
@@ -100,7 +120,6 @@ class RecordsFilterFragment :
     }
 
     override fun initUx() = with(binding) {
-        btnRecordsFilterSelect.setOnClick(viewModel::onFilterSelect)
         btnRecordsFilterApply.setOnClick(viewModel::onFilterApplied)
     }
 
@@ -112,6 +131,7 @@ class RecordsFilterFragment :
             recordsViewData.observe(::setSelectedRecords)
             filterSelectionVisibility.observe(groupRecordsFilterContent::isVisible::set)
             keyboardVisibility.observe(::showKeyboard)
+            changedFilters.observe { listener?.onFilterChanged(it) }
         }
     }
 

@@ -155,6 +155,11 @@
         android:name="com.example.util.simpletimetracker.feature_data_edit.dialog.DataEditTagSelectionDialogFragment"
         android:label="DataEditTagSelectionDialogFragment"
         tools:layout="@layout/data_edit_tag_selection_dialog_fragment" />
+    <dialog
+        android:id="@+id/recordsFilterDialogFragment"
+        android:name="com.example.util.simpletimetracker.feature_records_filter.view.RecordsFilterFragment"
+        android:label="RecordsFilterFragment"
+        tools:layout="@layout/records_filter_fragment" />
     <fragment
         android:id="@+id/recordsAllFragment"
         android:name="com.example.util.simpletimetracker.feature_records_all.view.RecordsAllFragment"
@@ -195,16 +200,7 @@
         android:id="@+id/dataEditFragment"
         android:name="com.example.util.simpletimetracker.feature_data_edit.view.DataEditFragment"
         android:label="DataEditFragment"
-        tools:layout="@layout/data_edit_fragment" >
-        <action
-            android:id="@+id/action_dataEdit_to_recordsFilter"
-            app:destination="@id/recordsFilterFragment"/>
-    </fragment>
-    <fragment
-        android:id="@+id/recordsFilterFragment"
-        android:name="com.example.util.simpletimetracker.feature_records_filter.view.RecordsFilterFragment"
-        android:label="RecordsFilterFragment"
-        tools:layout="@layout/records_filter_fragment" />
+        tools:layout="@layout/data_edit_fragment" />
     <fragment
         android:id="@+id/changeActivityFilterFragment"
         android:name="com.example.util.simpletimetracker.feature_change_activity_filter.view.ChangeActivityFilterFragment"
