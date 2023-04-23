@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_marginStart="4dp"
     android:layout_marginEnd="4dp"
-    app:cardBackgroundColor="@color/black"
+    app:cardBackgroundColor="@color/red_600"
     app:cardCornerRadius="@dimen/record_type_card_corner_radius"
     app:cardElevation="@dimen/record_type_card_elevation"
     app:cardPreventCornerOverlap="false"
@@ -16,9 +16,37 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?selectableItemBackground"
+        android:clipToPadding="false"
+        android:foreground="?selectableItemBackground"
         android:paddingTop="8dp"
-        android:paddingBottom="8dp">
+        android:paddingBottom="8dp"
+        tools:ignore="UnusedAttribute">
+
+        <View
+            android:id="@+id/viewRecordItemStripeStart"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:rotation="30"
+            android:scaleY="10"
+            android:translationX="-20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.3"
+            tools:background="@color/red_500" />
+
+        <View
+            android:id="@+id/viewRecordItemStripeEnd"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:rotation="30"
+            android:scaleY="10"
+            android:translationX="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.2"
+            tools:background="@color/red_500" />
 
         <com.example.util.simpletimetracker.feature_views.IconView
             android:id="@+id/ivRunningRecordItemIcon"

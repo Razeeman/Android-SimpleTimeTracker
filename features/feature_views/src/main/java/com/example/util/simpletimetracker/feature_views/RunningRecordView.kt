@@ -45,6 +45,7 @@ class RunningRecordView @JvmOverloads constructor(
         set(value) {
             field = value
             setCardBackgroundColor(value)
+            setStripesColor(value)
             setNowIconColor(value)
         }
 
@@ -216,6 +217,12 @@ class RunningRecordView @JvmOverloads constructor(
             )
             tvRunningRecordItemName.text = spannable
         }
+    }
+
+    private fun setStripesColor(@ColorInt value: Int) {
+        ColorUtils.normalizeLightness(value, factor = 0.03f)
+            .also(binding.viewRecordItemStripeStart::setBackgroundColor)
+            .also(binding.viewRecordItemStripeEnd::setBackgroundColor)
     }
 
     private fun setNowIconColor(@ColorInt value: Int) {

@@ -21,15 +21,17 @@ object ColorUtils {
      * Lightens dark colors and darkens light colors.
      */
     @ColorInt
-    fun normalizeLightness(@ColorInt color: Int): Int {
-        val colorNormalization = 0.05f
+    fun normalizeLightness(
+        @ColorInt color: Int,
+        factor: Float = 0.05f,
+    ): Int {
         return FloatArray(3).apply {
             Color.colorToHSV(color, this)
             // change value
             if (this[2] > 0.5f) {
-                this[2] -= colorNormalization
+                this[2] -= factor
             } else {
-                this[2] += colorNormalization
+                this[2] += factor
             }
         }.let(Color::HSVToColor)
     }
