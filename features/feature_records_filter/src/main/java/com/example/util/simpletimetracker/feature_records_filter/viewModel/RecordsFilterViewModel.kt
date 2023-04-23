@@ -80,6 +80,7 @@ class RecordsFilterViewModel @Inject constructor(
             viewModelScope.launch {
                 initial.value = RecordsFilterSelectedRecordsViewData(
                     selectedRecordsCount = recordsFilterViewDataMapper.mapRecordsCount(
+                        extra = extra,
                         count = 0,
                         filter = emptyList(),
                     ),
@@ -379,7 +380,10 @@ class RecordsFilterViewModel @Inject constructor(
     }
 
     private suspend fun loadFiltersViewData(): List<ViewHolderType> {
-        return viewDataInteractor.getFiltersViewData(filterSelectionState, filters)
+        return viewDataInteractor.getFiltersViewData(
+            selectionState = filterSelectionState,
+            filters = filters
+        )
     }
 
     private fun updateRecords() {
@@ -406,6 +410,7 @@ class RecordsFilterViewModel @Inject constructor(
 
     private suspend fun loadRecordsViewData(): RecordsFilterSelectedRecordsViewData {
         return viewDataInteractor.getRecordsViewData(
+            extra = extra,
             filters = filters,
             recordTypes = getTypesCache().associateBy(RecordType::id),
             recordTags = getTagsCache(),

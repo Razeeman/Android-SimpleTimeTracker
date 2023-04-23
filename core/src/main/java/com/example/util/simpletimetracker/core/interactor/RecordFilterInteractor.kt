@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.core.interactor
 
+import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.extension.getAllTypeIds
 import com.example.util.simpletimetracker.domain.extension.getComment
 import com.example.util.simpletimetracker.domain.extension.getDate
@@ -8,10 +9,12 @@ import com.example.util.simpletimetracker.domain.extension.getManuallyFilteredRe
 import com.example.util.simpletimetracker.domain.extension.getSelectedTags
 import com.example.util.simpletimetracker.domain.extension.getTaggedIds
 import com.example.util.simpletimetracker.domain.extension.getUntaggedIds
+import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.model.Range
+import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
 import com.example.util.simpletimetracker.navigation.params.screen.TypesFilterParams
@@ -20,6 +23,8 @@ import javax.inject.Inject
 class RecordFilterInteractor @Inject constructor(
     private val interactor: RecordInteractor,
     private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
+    private val timeMapper: TimeMapper,
+    private val prefsInteractor: PrefsInteractor,
 ) {
 
     fun mapFilter(filter: TypesFilterParams): List<RecordsFilter> {
@@ -59,6 +64,27 @@ class RecordFilterInteractor @Inject constructor(
             .let { listOfNotNull(it) }
 
         return filters + filterTags
+    }
+
+    suspend fun mapDateFilter(
+        rangeLength: RangeLength,
+        rangePosition: Int,
+    ): RecordsFilter? {
+        val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
+        val startOfDayShift = prefsInteractor.getStartOfDayShift()
+
+        val range = timeMapper.getRangeStartAndEnd(
+            rangeLength = rangeLength,
+            shift = rangePosition,
+            firstDayOfWeek = firstDayOfWeek,
+            startOfDayShift = startOfDayShift
+        )
+
+        return if (range.first == 0L && range.second == 0L) {
+            null
+        } else {
+            RecordsFilter.Date(Range(range.first, range.second))
+        }
     }
 
     suspend fun getByFilter(filters: List<RecordsFilter>): List<Record> {

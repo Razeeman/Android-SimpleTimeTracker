@@ -5,6 +5,7 @@ import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
 import com.example.util.simpletimetracker.feature_base_adapter.recordFilter.RecordFilterViewData
 import com.example.util.simpletimetracker.feature_records_filter.R
+import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterParams
 import javax.inject.Inject
 
 class RecordsFilterViewDataMapper @Inject constructor(
@@ -13,11 +14,12 @@ class RecordsFilterViewDataMapper @Inject constructor(
 ) {
 
     fun mapRecordsCount(
+        extra: RecordsFilterParams,
         count: Int,
         filter: List<RecordsFilter>,
     ): String {
         if (count == 0 && filter.isEmpty()) {
-            return resourceRepo.getString(R.string.chart_filter_hint)
+            return extra.title
         }
 
         val selected = resourceRepo.getString(R.string.something_selected)

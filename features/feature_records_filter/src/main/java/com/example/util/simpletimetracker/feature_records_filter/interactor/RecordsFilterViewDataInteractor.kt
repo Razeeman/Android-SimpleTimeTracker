@@ -36,6 +36,7 @@ import com.example.util.simpletimetracker.feature_records_filter.model.RecordsFi
 import com.example.util.simpletimetracker.feature_records_filter.model.RecordsFilterSelectionState
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogType
+import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterParams
 import java.util.Calendar
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
@@ -84,6 +85,7 @@ class RecordsFilterViewDataInteractor @Inject constructor(
     }
 
     suspend fun getRecordsViewData(
+        extra: RecordsFilterParams,
         filters: List<RecordsFilter>,
         recordTypes: Map<Long, RecordType>,
         recordTags: List<RecordTag>,
@@ -120,7 +122,11 @@ class RecordsFilterViewDataInteractor @Inject constructor(
         }
 
         return RecordsFilterSelectedRecordsViewData(
-            selectedRecordsCount = mapper.mapRecordsCount(count, filters),
+            selectedRecordsCount = mapper.mapRecordsCount(
+                extra = extra,
+                count = count,
+                filter = filters,
+            ),
             recordsViewData = viewData,
             filteredRecordsTypeId = selectedTypeIds.takeIf { it.size == 1 }?.firstOrNull(),
         )
@@ -135,7 +141,11 @@ class RecordsFilterViewDataInteractor @Inject constructor(
         val hasCategoryFilter = filters.any { it is RecordsFilter.Category }
 
         val availableFilters = listOf(
-            if (hasCategoryFilter) RecordFilterViewData.Type.CATEGORY else RecordFilterViewData.Type.ACTIVITY,
+            if (hasCategoryFilter) {
+                RecordFilterViewData.Type.CATEGORY
+            } else {
+                RecordFilterViewData.Type.ACTIVITY
+            },
             RecordFilterViewData.Type.COMMENT,
             RecordFilterViewData.Type.DATE,
             RecordFilterViewData.Type.SELECTED_TAGS,
@@ -301,15 +311,13 @@ class RecordsFilterViewDataInteractor @Inject constructor(
 
         return RecordsFilterRangeViewData(
             id = 1L, // Only one at the time.
-            timeStarted = timeMapper.formatDateTime(
+            timeStarted = timeMapper.formatDateTimeYear(
                 time = range.timeStarted,
                 useMilitaryTime = useMilitaryTime,
-                showSeconds = false,
             ),
-            timeEnded = timeMapper.formatDateTime(
+            timeEnded = timeMapper.formatDateTimeYear(
                 time = range.timeEnded,
                 useMilitaryTime = useMilitaryTime,
-                showSeconds = false,
             ),
         ).let(::listOf)
     }

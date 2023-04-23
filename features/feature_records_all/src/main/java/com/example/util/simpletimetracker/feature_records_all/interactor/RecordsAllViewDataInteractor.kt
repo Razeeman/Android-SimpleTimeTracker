@@ -10,7 +10,6 @@ import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_records_all.model.RecordsAllSortOrder
-import com.example.util.simpletimetracker.navigation.params.screen.TypesFilterParams
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -25,10 +24,8 @@ class RecordsAllViewDataInteractor @Inject constructor(
 ) {
 
     suspend fun getViewData(
-        filter: TypesFilterParams,
+        filter: List<RecordsFilter>,
         sortOrder: RecordsAllSortOrder,
-        rangeStart: Long,
-        rangeEnd: Long,
         commentSearch: String,
     ): List<ViewHolderType> {
         val isDarkTheme = prefsInteractor.getDarkMode()
@@ -38,16 +35,14 @@ class RecordsAllViewDataInteractor @Inject constructor(
         val recordTypes = recordTypeInteractor.getAll().associateBy { it.id }
         val recordTags = recordTagInteractor.getAll()
 
-        val records = recordFilterInteractor.mapFilter(filter)
+        val records = filter
             .let { mainFilters ->
                 var finalFilters = mainFilters
 
                 if (finalFilters.isEmpty()) {
                     return@let finalFilters
                 }
-                if (rangeStart != 0L && rangeEnd != 0L) {
-                    finalFilters = finalFilters + RecordsFilter.Date(Range(rangeStart, rangeEnd))
-                }
+                // TODO remove comment
                 if (commentSearch.isNotEmpty()) {
                     finalFilters = finalFilters + RecordsFilter.Comment(commentSearch)
                 }

@@ -17,12 +17,10 @@ class DateDividerViewDataMapper @Inject constructor(
         var previousTimeStarted = 0L
 
         viewData.forEach { (timeStarted, recordViewData) ->
-            synchronized(timeMapper) {
-                if (!timeMapper.sameDay(timeStarted, previousTimeStarted, calendar)) {
-                    timeMapper.formatDateYear(timeStarted)
-                        .let(::RecordsDateDividerViewData)
-                        .let(newViewData::add)
-                }
+            if (!timeMapper.sameDay(timeStarted, previousTimeStarted, calendar)) {
+                timeMapper.formatDateYear(timeStarted)
+                    .let(::RecordsDateDividerViewData)
+                    .let(newViewData::add)
             }
             previousTimeStarted = timeStarted
             newViewData.add(recordViewData)

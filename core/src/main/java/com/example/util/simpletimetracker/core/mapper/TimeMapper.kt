@@ -40,12 +40,14 @@ class TimeMapper @Inject constructor(
     private val monthTitleFormat = SimpleDateFormat("MMMM", Locale.getDefault())
     private val yearTitleFormat = SimpleDateFormat("yyyy", Locale.getDefault())
 
+    private val lock = Any()
+
     // 12:21
     fun formatTime(
         time: Long,
         useMilitaryTime: Boolean,
         showSeconds: Boolean,
-    ): String {
+    ): String = synchronized(lock) {
         return if (useMilitaryTime) {
             if (showSeconds) timeFormatMilitaryWithSeconds else timeFormatMilitary
         } else {
@@ -58,7 +60,7 @@ class TimeMapper @Inject constructor(
         time: Long,
         useMilitaryTime: Boolean,
         showSeconds: Boolean,
-    ): String {
+    ): String = synchronized(lock) {
         return if (useMilitaryTime) {
             if (showSeconds) dateTimeFormatMilitaryWithSeconds else dateTimeFormatMilitary
         } else {
@@ -67,7 +69,7 @@ class TimeMapper @Inject constructor(
     }
 
     // Mar 12 2021 12:21
-    fun formatDateTimeYear(time: Long, useMilitaryTime: Boolean): String {
+    fun formatDateTimeYear(time: Long, useMilitaryTime: Boolean): String = synchronized(lock) {
         return if (useMilitaryTime) {
             dateTimeYearFormatMilitary
         } else {
@@ -76,22 +78,22 @@ class TimeMapper @Inject constructor(
     }
 
     // Mar 12 2021
-    fun formatDateYear(time: Long): String {
+    fun formatDateYear(time: Long): String = synchronized(lock) {
         return dateYearFormat.format(time)
     }
 
     // 12.03
-    fun formatShortDay(time: Long): String {
+    fun formatShortDay(time: Long): String = synchronized(lock) {
         return shortDayFormat.format(time)
     }
 
     // Mar
-    fun formatShortMonth(time: Long): String {
+    fun formatShortMonth(time: Long): String = synchronized(lock) {
         return shortMonthFormat.format(time)
     }
 
     // 21
-    fun formatShortYear(time: Long): String {
+    fun formatShortYear(time: Long): String = synchronized(lock) {
         return shortYearFormat.format(time)
     }
 
@@ -450,7 +452,7 @@ class TimeMapper @Inject constructor(
     fun toDayDateTitle(
         daysFromToday: Int,
         startOfDayShift: Long,
-    ): String {
+    ): String = synchronized(lock) {
         val calendar = Calendar.getInstance()
 
         calendar.apply {
@@ -465,7 +467,7 @@ class TimeMapper @Inject constructor(
         weeksFromToday: Int,
         startOfDayShift: Long,
         firstDayOfWeek: DayOfWeek,
-    ): String {
+    ): String = synchronized(lock) {
         val calendar = Calendar.getInstance()
         val dayOfWeek = toCalendarDayOfWeek(firstDayOfWeek)
 
@@ -484,7 +486,7 @@ class TimeMapper @Inject constructor(
     fun toMonthDateTitle(
         monthsFromToday: Int,
         startOfDayShift: Long,
-    ): String {
+    ): String = synchronized(lock) {
         val calendar = Calendar.getInstance()
 
         calendar.apply {
@@ -498,7 +500,7 @@ class TimeMapper @Inject constructor(
     fun toYearDateTitle(
         yearsFromToday: Int,
         startOfDayShift: Long,
-    ): String {
+    ): String = synchronized(lock) {
         val calendar = Calendar.getInstance()
 
         calendar.apply {

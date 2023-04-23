@@ -5,7 +5,5 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class RecordsAllParams(
-    val filter: TypesFilterParams = TypesFilterParams(),
-    val rangeStart: Long = 0L,
-    val rangeEnd: Long = 0L
+    val filter: List<RecordsFilterParam> = emptyList(),
 ) : Parcelable, ScreenParams

@@ -14,7 +14,6 @@ import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
-import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.hint.HintViewData
 import com.example.util.simpletimetracker.feature_base_adapter.statisticsTag.StatisticsTagViewData
@@ -37,7 +36,6 @@ class StatisticsDetailStatsInteractor @Inject constructor(
 ) {
 
     suspend fun getStatsViewData(
-        filterType: ChartFilterType,
         records: List<Record>,
         compareRecords: List<Record>,
         showComparison: Boolean,
@@ -61,7 +59,6 @@ class StatisticsDetailStatsInteractor @Inject constructor(
         )
 
         return mapStatsData(
-            filterType = filterType,
             records = if (range.first == 0L && range.second == 0L) {
                 records
             } else {
@@ -112,7 +109,6 @@ class StatisticsDetailStatsInteractor @Inject constructor(
     }
 
     private fun mapStatsData(
-        filterType: ChartFilterType,
         records: List<Record>,
         compareRecords: List<Record>,
         showComparison: Boolean,
@@ -141,7 +137,6 @@ class StatisticsDetailStatsInteractor @Inject constructor(
             }.let(resourceRepo::getColor)
         )
         val activitySplitData = mapActivities(
-            filterType = filterType,
             records = records,
             typesMap = types.associateBy { it.id },
             isDarkTheme = isDarkTheme,
@@ -299,15 +294,12 @@ class StatisticsDetailStatsInteractor @Inject constructor(
     }
 
     private fun mapActivities(
-        filterType: ChartFilterType,
         records: List<Record>,
         typesMap: Map<Long, RecordType>,
         isDarkTheme: Boolean,
         useProportionalMinutes: Boolean,
         showSeconds: Boolean,
     ): List<ViewHolderType> {
-        if (filterType != ChartFilterType.CATEGORY) return emptyList()
-
         val activities: MutableMap<Long, MutableList<Record>> = mutableMapOf()
 
         records.forEach { record ->

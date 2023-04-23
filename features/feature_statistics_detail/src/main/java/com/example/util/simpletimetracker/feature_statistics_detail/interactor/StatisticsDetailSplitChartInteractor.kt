@@ -7,10 +7,10 @@ import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.Record
+import com.example.util.simpletimetracker.domain.model.RecordsFilter
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.StatisticsDetailViewDataMapper
 import com.example.util.simpletimetracker.feature_statistics_detail.model.SplitChartGrouping
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartViewData
-import com.example.util.simpletimetracker.navigation.params.screen.TypesFilterParams
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -27,7 +27,7 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
 
     suspend fun getSplitChartViewData(
         records: List<Record>,
-        filter: TypesFilterParams,
+        filter: List<RecordsFilter>,
         isForComparison: Boolean,
         rangeLength: RangeLength,
         rangePosition: Int,
@@ -41,12 +41,12 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
             firstDayOfWeek = firstDayOfWeek,
             startOfDayShift = startOfDayShift
         )
-        val data = if (isForComparison && filter.selectedIds.isEmpty()) {
+        val data = if (isForComparison && filter.isEmpty()) {
             emptyMap()
         } else {
             getDurations(records, range, splitChartGrouping, startOfDayShift)
         }
-        val isVisible = (isForComparison && filter.selectedIds.isNotEmpty()) || !isForComparison
+        val isVisible = (isForComparison && filter.isNotEmpty()) || !isForComparison
 
         return when (splitChartGrouping) {
             SplitChartGrouping.HOURLY ->
@@ -58,7 +58,7 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
 
     suspend fun getDurationSplitViewData(
         records: List<Record>,
-        filter: TypesFilterParams,
+        filter: List<RecordsFilter>,
         isForComparison: Boolean,
         rangeLength: RangeLength,
         rangePosition: Int,
@@ -77,7 +77,7 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
         } else {
             records
         }.map { Range(it.timeStarted, it.timeEnded) }
-        val isVisible = (isForComparison && filter.selectedIds.isNotEmpty()) || !isForComparison
+        val isVisible = (isForComparison && filter.isNotEmpty()) || !isForComparison
 
         val minDuration = ranges
             .minByOrNull { it.duration }?.duration.orZero()

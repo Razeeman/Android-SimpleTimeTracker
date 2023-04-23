@@ -79,3 +79,11 @@ fun List<RecordsFilter>.hasActivityFilter(): Boolean {
     return filterIsInstance<RecordsFilter.Activity>().isNotEmpty()
 }
 
+fun List<RecordsFilter>.hasCategoryFilter(): Boolean {
+    return filterIsInstance<RecordsFilter.Category>().isNotEmpty()
+}
+
+fun List<RecordsFilter>.hasSelectedTagsFilter(): Boolean {
+    return filterIsInstance<RecordsFilter.SelectedTags>().isNotEmpty()
+}
+

@@ -77,7 +77,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         )
     }
 
-    fun mapToPreview(
+    fun mapToTaggedPreview(
         tag: RecordTag,
         type: RecordType?,
         isDarkTheme: Boolean,
@@ -97,6 +97,24 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             name = tag.name,
             iconId = icon,
             color = color.let { colorMapper.mapToColorInt(it, isDarkTheme) },
+        )
+    }
+
+    fun mapToUntaggedPreview(
+        type: RecordType,
+        isDarkTheme: Boolean,
+        isForComparison: Boolean,
+    ): StatisticsDetailPreviewViewData {
+        return StatisticsDetailPreviewViewData(
+            id = type.id,
+            type = if (isForComparison) {
+                StatisticsDetailPreviewViewData.Type.COMPARISON
+            } else {
+                StatisticsDetailPreviewViewData.Type.FILTER
+            },
+            name = resourceRepo.getString(R.string.change_record_untagged),
+            iconId = type.icon.let(iconMapper::mapIcon),
+            color = colorMapper.toUntrackedColor(isDarkTheme),
         )
     }
 

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.extension.set
+import com.example.util.simpletimetracker.core.extension.toModel
 import com.example.util.simpletimetracker.core.extension.toParams
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
@@ -17,9 +18,10 @@ import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordFromRecordsAllParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordParams
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsAllParams
+import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterParam
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlinx.coroutines.launch
 
 @HiltViewModel
 class RecordsAllViewModel @Inject constructor(
@@ -106,10 +108,8 @@ class RecordsAllViewModel @Inject constructor(
 
     private suspend fun loadRecordsViewData(): List<ViewHolderType> {
         return recordsAllViewDataInteractor.getViewData(
-            filter = extra.filter,
+            filter = extra.filter.map(RecordsFilterParam::toModel),
             sortOrder = sortOrder,
-            rangeStart = extra.rangeStart,
-            rangeEnd = extra.rangeEnd,
             commentSearch = commentSearch,
         )
     }

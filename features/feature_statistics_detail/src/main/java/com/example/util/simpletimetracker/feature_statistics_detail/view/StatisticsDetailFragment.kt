@@ -1,6 +1,5 @@
 package com.example.util.simpletimetracker.feature_statistics_detail.view
 
-import com.example.util.simpletimetracker.feature_statistics_detail.databinding.StatisticsDetailFragmentBinding as Binding
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -10,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.dialog.CustomRangeSelectionDialogListener
 import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
-import com.example.util.simpletimetracker.core.dialog.TypesFilterDialogListener
+import com.example.util.simpletimetracker.core.dialog.RecordsFilterListener
 import com.example.util.simpletimetracker.core.extension.observeOnce
 import com.example.util.simpletimetracker.core.extension.setSharedTransitions
 import com.example.util.simpletimetracker.core.extension.toViewData
@@ -35,20 +34,21 @@ import com.example.util.simpletimetracker.feature_statistics_detail.viewModel.St
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.feature_views.extension.setOnLongClick
 import com.example.util.simpletimetracker.feature_views.extension.visible
+import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterResultParams
 import com.example.util.simpletimetracker.navigation.params.screen.StatisticsDetailParams
-import com.example.util.simpletimetracker.navigation.params.screen.TypesFilterParams
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import dagger.hilt.android.AndroidEntryPoint
+import com.example.util.simpletimetracker.feature_statistics_detail.databinding.StatisticsDetailFragmentBinding as Binding
 
 @AndroidEntryPoint
 class StatisticsDetailFragment :
     BaseFragment<Binding>(),
     DateTimeDialogListener,
     CustomRangeSelectionDialogListener,
-    TypesFilterDialogListener {
+    RecordsFilterListener {
 
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
         Binding::inflate
@@ -140,12 +140,8 @@ class StatisticsDetailFragment :
         viewModel.onVisible()
     }
 
-    override fun onTypesFilterSelected(tag: String, filter: TypesFilterParams) {
-        viewModel.onTypesFilterSelected(tag, filter)
-    }
-
-    override fun onTypesFilterDismissed(tag: String) {
-        viewModel.onTypesFilterDismissed()
+    override fun onFilterChanged(result: RecordsFilterResultParams) {
+        viewModel.onTypesFilterSelected(result)
     }
 
     private fun setPreview() = params.preview?.run {

@@ -82,6 +82,7 @@ class DataEditViewModel @Inject constructor(
     fun onSelectRecordsClick() {
         RecordsFilterParams(
             tag = FILTER_TAG,
+            title = resourceRepo.getString(R.string.chart_filter_hint),
             filters = filters.map(RecordsFilter::toParams),
         ).let(router::navigate)
     }

@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.extension.post
 import com.example.util.simpletimetracker.core.extension.set
+import com.example.util.simpletimetracker.core.extension.toParams
 import com.example.util.simpletimetracker.core.interactor.RecordFilterInteractor
 import com.example.util.simpletimetracker.core.mapper.RangeMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
@@ -19,6 +20,7 @@ import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.Record
+import com.example.util.simpletimetracker.domain.model.RecordsFilter
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_statistics_detail.R
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailChartInteractor
@@ -48,12 +50,13 @@ import com.example.util.simpletimetracker.navigation.params.screen.CustomRangeSe
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogType
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsAllParams
+import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterParams
+import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterResultParams
 import com.example.util.simpletimetracker.navigation.params.screen.StatisticsDetailParams
-import com.example.util.simpletimetracker.navigation.params.screen.TypesFilterDialogParams
-import com.example.util.simpletimetracker.navigation.params.screen.TypesFilterParams
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 @HiltViewModel
@@ -129,13 +132,13 @@ class StatisticsDetailViewModel @Inject constructor(
     private var splitChartGrouping: SplitChartGrouping = SplitChartGrouping.DAILY
     private var rangeLength: RangeLength = RangeLength.All
     private var rangePosition: Int = 0
-    private val typesFilter: TypesFilterParams get() = typesFilterContainer.first()
-    private val typesFilterContainer: MutableList<TypesFilterParams> by lazy {
-        mutableListOf(extra.filter)
+    private val filter: MutableList<RecordsFilter> by lazy {
+        recordFilterInteractor.mapFilter(extra.filter).toMutableList()
     }
-    private var comparisonTypesFilter: TypesFilterParams = TypesFilterParams()
+    private val comparisonFilter: MutableList<RecordsFilter> = mutableListOf()
     private var records: List<Record> = emptyList() // all records with selected ids
     private var compareRecords: List<Record> = emptyList() // all records with selected ids
+    private var loadJob: Job? = null
 
     fun initialize(extra: StatisticsDetailParams) {
         if (this::extra.isInitialized) return
@@ -144,47 +147,66 @@ class StatisticsDetailViewModel @Inject constructor(
         rangePosition = extra.shift
     }
 
-    fun onVisible() = viewModelScope.launch {
-        loadRecordsCache()
-        updateViewData()
-    }
-
-    fun onFilterClick() {
-        router.navigate(
-            TypesFilterDialogParams(
-                tag = FILTER_TAG,
-                title = resourceRepo.getString(R.string.chart_filter_hint),
-                filter = typesFilter
-            )
-        )
-    }
-
-    fun onCompareClick() {
-        router.navigate(
-            TypesFilterDialogParams(
-                tag = COMPARE_TAG,
-                title = resourceRepo.getString(R.string.types_compare_hint),
-                filter = comparisonTypesFilter
-            )
-        )
-    }
-
-    fun onTypesFilterSelected(tag: String, newFilter: TypesFilterParams) {
-        when (tag) {
-            FILTER_TAG -> {
-                typesFilterContainer.clear()
-                typesFilterContainer.add(newFilter)
-            }
-            COMPARE_TAG -> {
-                comparisonTypesFilter = newFilter
-            }
+    fun onVisible() {
+        loadJob?.cancel()
+        loadJob = viewModelScope.launch {
+            loadRecordsCache()
+            updateViewData()
         }
     }
 
-    fun onTypesFilterDismissed() = viewModelScope.launch {
-        loadRecordsCache()
-        updatePreviewViewData()
-        updateViewData()
+    fun onFilterClick() = viewModelScope.launch {
+        val dateFilter = recordFilterInteractor.mapDateFilter(rangeLength, rangePosition)
+            ?.let(::listOf).orEmpty()
+
+        // TODO block date filter
+        router.navigate(
+            RecordsFilterParams(
+                tag = FILTER_TAG,
+                title = resourceRepo.getString(R.string.chart_filter_hint),
+                filters = filter
+                    .plus(dateFilter)
+                    .map(RecordsFilter::toParams).toList(),
+            )
+        )
+    }
+
+    fun onCompareClick() = viewModelScope.launch {
+        val dateFilter = recordFilterInteractor.mapDateFilter(rangeLength, rangePosition)
+            ?.let(::listOf).orEmpty()
+
+        // TODO block date filter
+        router.navigate(
+            RecordsFilterParams(
+                tag = COMPARE_TAG,
+                title = resourceRepo.getString(R.string.types_compare_hint),
+                filters = comparisonFilter
+                    .plus(dateFilter)
+                    .map(RecordsFilter::toParams).toList(),
+            )
+        )
+    }
+
+    fun onTypesFilterSelected(result: RecordsFilterResultParams) {
+        val finalFilters = result.filters.filter { it !is RecordsFilter.Date }
+
+        when (result.tag) {
+            FILTER_TAG -> {
+                filter.clear()
+                filter.addAll(finalFilters)
+            }
+            COMPARE_TAG -> {
+                comparisonFilter.clear()
+                comparisonFilter.addAll(finalFilters)
+            }
+        }
+
+        loadJob?.cancel()
+        loadJob = viewModelScope.launch {
+            loadRecordsCache()
+            updatePreviewViewData()
+            updateViewData()
+        }
     }
 
     fun onStreaksTypeClick(viewData: ButtonsRowViewData) {
@@ -215,22 +237,13 @@ class StatisticsDetailViewModel @Inject constructor(
 
     fun onRecordsClick() {
         viewModelScope.launch {
-            val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
-            val startOfDayShift = prefsInteractor.getStartOfDayShift()
-            val range = timeMapper.getRangeStartAndEnd(
-                rangeLength = rangeLength,
-                shift = rangePosition,
-                firstDayOfWeek = firstDayOfWeek,
-                startOfDayShift = startOfDayShift
-            )
+            val dateFilter = recordFilterInteractor.mapDateFilter(rangeLength, rangePosition)
+                ?.let(::listOf).orEmpty()
+            val finalFilters = filter
+                .plus(dateFilter)
+                .map(RecordsFilter::toParams).toList()
 
-            router.navigate(
-                RecordsAllParams(
-                    filter = typesFilter,
-                    rangeStart = range.first,
-                    rangeEnd = range.second
-                )
-            )
+            router.navigate(RecordsAllParams(finalFilters))
         }
     }
 
@@ -345,10 +358,8 @@ class StatisticsDetailViewModel @Inject constructor(
     }
 
     private suspend fun loadRecordsCache() {
-        records = recordFilterInteractor.mapFilter(typesFilter)
-            .let { recordFilterInteractor.getByFilter(it) }
-        compareRecords = recordFilterInteractor.mapFilter(comparisonTypesFilter)
-            .let { recordFilterInteractor.getByFilter(it) }
+        records = recordFilterInteractor.getByFilter(filter)
+        compareRecords = recordFilterInteractor.getByFilter(comparisonFilter)
     }
 
     private fun updatePreviewViewData() = viewModelScope.launch {
@@ -358,11 +369,11 @@ class StatisticsDetailViewModel @Inject constructor(
 
     private suspend fun loadPreviewViewData(): StatisticsDetailPreviewCompositeViewData {
         val data = previewInteractor.getPreviewData(
-            filterParams = typesFilter,
+            filterParams = filter,
             isForComparison = false,
         )
         val comparisonData = previewInteractor.getPreviewData(
-            filterParams = comparisonTypesFilter,
+            filterParams = comparisonFilter,
             isForComparison = true,
         )
         return StatisticsDetailPreviewCompositeViewData(
@@ -383,10 +394,9 @@ class StatisticsDetailViewModel @Inject constructor(
 
     private suspend fun loadStatsViewData(): StatisticsDetailStatsViewData {
         return statsInteractor.getStatsViewData(
-            filterType = typesFilter.filterType,
             records = records,
             compareRecords = compareRecords,
-            showComparison = comparisonTypesFilter.selectedIds.isNotEmpty(),
+            showComparison = comparisonFilter.isNotEmpty(),
             rangeLength = rangeLength,
             rangePosition = rangePosition
         )
@@ -414,7 +424,7 @@ class StatisticsDetailViewModel @Inject constructor(
         return streaksInteractor.getStreaksViewData(
             records = records,
             compareRecords = compareRecords,
-            showComparison = comparisonTypesFilter.selectedIds.isNotEmpty(),
+            showComparison = comparisonFilter.isNotEmpty(),
             rangeLength = rangeLength,
             rangePosition = rangePosition,
             streaksType = streaksType,
@@ -436,8 +446,8 @@ class StatisticsDetailViewModel @Inject constructor(
         return chartInteractor.getChartViewData(
             records = records,
             compareRecords = compareRecords,
-            filter = typesFilter,
-            compare = comparisonTypesFilter,
+            filter = filter,
+            compare = comparisonFilter,
             currentChartGrouping = chartGrouping,
             currentChartLength = chartLength,
             rangeLength = rangeLength,
@@ -459,7 +469,7 @@ class StatisticsDetailViewModel @Inject constructor(
 
         return splitChartInteractor.getSplitChartViewData(
             records = if (isForComparison) compareRecords else records,
-            filter = if (isForComparison) comparisonTypesFilter else typesFilter,
+            filter = if (isForComparison) comparisonFilter else filter,
             isForComparison = isForComparison,
             rangeLength = rangeLength,
             rangePosition = rangePosition,
@@ -477,7 +487,7 @@ class StatisticsDetailViewModel @Inject constructor(
     private suspend fun loadDurationSplitChartViewData(isForComparison: Boolean): StatisticsDetailChartViewData {
         return splitChartInteractor.getDurationSplitViewData(
             records = if (isForComparison) compareRecords else records,
-            filter = if (isForComparison) comparisonTypesFilter else typesFilter,
+            filter = if (isForComparison) comparisonFilter else filter,
             isForComparison = isForComparison,
             rangeLength = rangeLength,
             rangePosition = rangePosition,

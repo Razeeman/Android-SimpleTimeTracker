@@ -4,12 +4,14 @@ import com.example.util.simpletimetracker.core.extension.setToStartOfDay
 import com.example.util.simpletimetracker.core.extension.setWeekToFirstDay
 import com.example.util.simpletimetracker.core.mapper.RangeMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
+import com.example.util.simpletimetracker.domain.extension.getTypeIds
+import com.example.util.simpletimetracker.domain.extension.hasActivityFilter
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
-import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.Record
+import com.example.util.simpletimetracker.domain.model.RecordsFilter
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.StatisticsDetailViewDataMapper
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartBarDataDuration
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartBarDataRange
@@ -17,7 +19,6 @@ import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartG
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartLength
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailCardViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartCompositeViewData
-import com.example.util.simpletimetracker.navigation.params.screen.TypesFilterParams
 import java.util.Calendar
 import javax.inject.Inject
 import kotlin.math.abs
@@ -33,8 +34,8 @@ class StatisticsDetailChartInteractor @Inject constructor(
     suspend fun getChartViewData(
         records: List<Record>,
         compareRecords: List<Record>,
-        filter: TypesFilterParams,
-        compare: TypesFilterParams,
+        filter: List<RecordsFilter>,
+        compare: List<RecordsFilter>,
         currentChartGrouping: ChartGrouping,
         currentChartLength: ChartLength,
         rangeLength: RangeLength,
@@ -67,7 +68,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
             goalValue = getGoalValue(filter, compositeData.appliedChartGrouping),
             compareData = compareData,
             compareGoalValue = getGoalValue(compare, compositeData.appliedChartGrouping),
-            showComparison = compare.selectedIds.isNotEmpty(),
+            showComparison = compare.isNotEmpty(),
             rangeLength = rangeLength,
             availableChartGroupings = compositeData.availableChartGroupings,
             appliedChartGrouping = compositeData.appliedChartGrouping,
@@ -83,13 +84,14 @@ class StatisticsDetailChartInteractor @Inject constructor(
     }
 
     private suspend fun getGoalValue(
-        filter: TypesFilterParams,
+        filter: List<RecordsFilter>,
         appliedChartGrouping: ChartGrouping,
     ): Long {
         // Show goal only if one activity is selected.
-        if (filter.filterType != ChartFilterType.ACTIVITY) return 0
-        if (filter.selectedIds.size != 1) return 0
-        val typeId = filter.selectedIds.firstOrNull() ?: return 0
+        if (!filter.hasActivityFilter()) return 0
+        val typeIds = filter.getTypeIds()
+        if (typeIds.size != 1) return 0
+        val typeId = typeIds.firstOrNull() ?: return 0
         val type = recordTypeInteractor.get(typeId) ?: return 0
 
         return when (appliedChartGrouping) {
