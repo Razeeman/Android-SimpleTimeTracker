@@ -7,5 +7,6 @@ import kotlinx.parcelize.Parcelize
 data class RecordsFilterParams(
     val tag: String = "",
     val title: String = "",
+    val dateSelectionAvailable: Boolean = true,
     val filters: List<RecordsFilterParam> = emptyList(),
 ) : ScreenParams, Parcelable

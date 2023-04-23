@@ -94,7 +94,11 @@ class RecordsFilterViewDataInteractor @Inject constructor(
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
         val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
         val showSeconds = prefsInteractor.getShowSeconds()
-        val records = recordFilterInteractor.getByFilter(filters)
+        val finalFilters = filters.takeUnless {
+            // If date isn't available and no other filters - show empty records even if date is present.
+            !extra.dateSelectionAvailable && filters.none { it !is RecordsFilter.Date }
+        }.orEmpty()
+        val records = recordFilterInteractor.getByFilter(finalFilters)
         val selectedTypeIds = records.map { it.typeId }.toSet()
 
         val (count, viewData) = withContext(Dispatchers.Default) {
@@ -125,7 +129,7 @@ class RecordsFilterViewDataInteractor @Inject constructor(
             selectedRecordsCount = mapper.mapRecordsCount(
                 extra = extra,
                 count = count,
-                filter = filters,
+                filter = finalFilters,
             ),
             recordsViewData = viewData,
             filteredRecordsTypeId = selectedTypeIds.takeIf { it.size == 1 }?.firstOrNull(),
@@ -133,6 +137,7 @@ class RecordsFilterViewDataInteractor @Inject constructor(
     }
 
     suspend fun getFiltersViewData(
+        extra: RecordsFilterParams,
         selectionState: RecordsFilterSelectionState,
         filters: List<RecordsFilter>,
     ): List<ViewHolderType> {
@@ -140,14 +145,14 @@ class RecordsFilterViewDataInteractor @Inject constructor(
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
         val hasCategoryFilter = filters.any { it is RecordsFilter.Category }
 
-        val availableFilters = listOf(
+        val availableFilters = listOfNotNull(
             if (hasCategoryFilter) {
                 RecordFilterViewData.Type.CATEGORY
             } else {
                 RecordFilterViewData.Type.ACTIVITY
             },
             RecordFilterViewData.Type.COMMENT,
-            RecordFilterViewData.Type.DATE,
+            RecordFilterViewData.Type.DATE.takeIf { extra.dateSelectionAvailable },
             RecordFilterViewData.Type.SELECTED_TAGS,
             RecordFilterViewData.Type.FILTERED_TAGS,
         )

@@ -6,7 +6,6 @@ import com.example.util.simpletimetracker.core.mapper.RecordViewDataMapper
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
-import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_records_all.model.RecordsAllSortOrder
@@ -39,8 +38,9 @@ class RecordsAllViewDataInteractor @Inject constructor(
             .let { mainFilters ->
                 var finalFilters = mainFilters
 
-                if (finalFilters.isEmpty()) {
-                    return@let finalFilters
+                // Show empty records if no filters other than date.
+                if (finalFilters.none { it !is RecordsFilter.Date }) {
+                    return@let emptyList()
                 }
                 // TODO remove comment
                 if (commentSearch.isNotEmpty()) {

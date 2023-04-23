@@ -381,6 +381,7 @@ class RecordsFilterViewModel @Inject constructor(
 
     private suspend fun loadFiltersViewData(): List<ViewHolderType> {
         return viewDataInteractor.getFiltersViewData(
+            extra = extra,
             selectionState = filterSelectionState,
             filters = filters
         )

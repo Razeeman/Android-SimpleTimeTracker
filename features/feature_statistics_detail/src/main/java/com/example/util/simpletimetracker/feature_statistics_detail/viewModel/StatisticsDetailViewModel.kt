@@ -161,11 +161,11 @@ class StatisticsDetailViewModel @Inject constructor(
         val dateFilter = recordFilterInteractor.mapDateFilter(rangeLength, rangePosition)
             ?.let(::listOf).orEmpty()
 
-        // TODO block date filter
         router.navigate(
             RecordsFilterParams(
                 tag = FILTER_TAG,
                 title = resourceRepo.getString(R.string.chart_filter_hint),
+                dateSelectionAvailable = false,
                 filters = filter
                     .plus(dateFilter)
                     .map(RecordsFilter::toParams).toList(),
@@ -177,11 +177,11 @@ class StatisticsDetailViewModel @Inject constructor(
         val dateFilter = recordFilterInteractor.mapDateFilter(rangeLength, rangePosition)
             ?.let(::listOf).orEmpty()
 
-        // TODO block date filter
         router.navigate(
             RecordsFilterParams(
                 tag = COMPARE_TAG,
                 title = resourceRepo.getString(R.string.types_compare_hint),
+                dateSelectionAvailable = false,
                 filters = comparisonFilter
                     .plus(dateFilter)
                     .map(RecordsFilter::toParams).toList(),
