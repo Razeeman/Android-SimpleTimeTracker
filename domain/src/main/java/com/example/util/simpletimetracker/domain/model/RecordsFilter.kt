@@ -4,6 +4,8 @@ sealed interface RecordsFilter {
 
     data class Activity(val typeIds: List<Long>) : RecordsFilter
 
+    data class Category(val categoryIds: List<Long>) : RecordsFilter
+
     data class Comment(val comment: String) : RecordsFilter
 
     data class Date(val range: Range) : RecordsFilter

@@ -9,6 +9,9 @@ sealed interface RecordsFilterParam : Parcelable {
     data class Activity(val typeIds: List<Long>) : RecordsFilterParam
 
     @Parcelize
+    data class Category(val categoryIds: List<Long>) : RecordsFilterParam
+
+    @Parcelize
     data class Comment(val comment: String) : RecordsFilterParam
 
     @Parcelize

@@ -2,7 +2,6 @@ package com.example.util.simpletimetracker.di
 
 import com.example.util.simpletimetracker.R
 import com.example.util.simpletimetracker.feature_data_edit.dialog.DataEditTagSelectionDialogFragment
-import com.example.util.simpletimetracker.feature_data_edit.dialog.DataEditTypeSelectionDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.archive.view.ArchiveDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.cardOrder.view.CardOrderDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.colorSelection.view.ColorSelectionDialogFragment

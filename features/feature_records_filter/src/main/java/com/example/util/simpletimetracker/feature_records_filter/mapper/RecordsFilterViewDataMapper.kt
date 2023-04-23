@@ -33,9 +33,10 @@ class RecordsFilterViewDataMapper @Inject constructor(
         filter: RecordFilterViewData.Type,
     ): String {
         return when (filter) {
-            RecordFilterViewData.Type.ACTIVITY -> R.string.records_filter_activity
-            RecordFilterViewData.Type.COMMENT -> R.string.records_filter_comment
-            RecordFilterViewData.Type.DATE -> R.string.records_filter_date
+            RecordFilterViewData.Type.ACTIVITY -> R.string.activity_hint
+            RecordFilterViewData.Type.CATEGORY -> R.string.category_hint
+            RecordFilterViewData.Type.COMMENT -> R.string.change_record_comment_field
+            RecordFilterViewData.Type.DATE -> R.string.date_time_dialog_date
             RecordFilterViewData.Type.SELECTED_TAGS -> R.string.records_filter_select_tags
             RecordFilterViewData.Type.FILTERED_TAGS -> R.string.records_filter_filter_tags
         }.let(resourceRepo::getString)
@@ -53,6 +54,9 @@ class RecordsFilterViewDataMapper @Inject constructor(
         val filterValue = when (filter) {
             is RecordsFilter.Activity -> {
                 "${filter.typeIds.size}"
+            }
+            is RecordsFilter.Category -> {
+                "${filter.categoryIds.size}"
             }
             is RecordsFilter.Comment -> {
                 filter.comment
@@ -89,6 +93,7 @@ class RecordsFilterViewDataMapper @Inject constructor(
     fun mapToClass(type: RecordFilterViewData.Type): Class<out RecordsFilter> {
         return when (type) {
             RecordFilterViewData.Type.ACTIVITY -> RecordsFilter.Activity::class.java
+            RecordFilterViewData.Type.CATEGORY -> RecordsFilter.Category::class.java
             RecordFilterViewData.Type.COMMENT -> RecordsFilter.Comment::class.java
             RecordFilterViewData.Type.DATE -> RecordsFilter.Date::class.java
             RecordFilterViewData.Type.SELECTED_TAGS -> RecordsFilter.SelectedTags::class.java
@@ -99,6 +104,7 @@ class RecordsFilterViewDataMapper @Inject constructor(
     private fun mapToViewData(clazz: Class<out RecordsFilter>): RecordFilterViewData.Type? {
         return when (clazz) {
             RecordsFilter.Activity::class.java -> RecordFilterViewData.Type.ACTIVITY
+            RecordsFilter.Category::class.java -> RecordFilterViewData.Type.CATEGORY
             RecordsFilter.Comment::class.java -> RecordFilterViewData.Type.COMMENT
             RecordsFilter.Date::class.java -> RecordFilterViewData.Type.DATE
             RecordsFilter.SelectedTags::class.java -> RecordFilterViewData.Type.SELECTED_TAGS

@@ -1,5 +1,13 @@
 package com.example.util.simpletimetracker.core.interactor
 
+import com.example.util.simpletimetracker.domain.extension.getAllTypeIds
+import com.example.util.simpletimetracker.domain.extension.getComment
+import com.example.util.simpletimetracker.domain.extension.getDate
+import com.example.util.simpletimetracker.domain.extension.getFilteredTags
+import com.example.util.simpletimetracker.domain.extension.getManuallyFilteredRecordIds
+import com.example.util.simpletimetracker.domain.extension.getSelectedTags
+import com.example.util.simpletimetracker.domain.extension.getTaggedIds
+import com.example.util.simpletimetracker.domain.extension.getUntaggedIds
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
@@ -14,7 +22,7 @@ class RecordFilterInteractor @Inject constructor(
     private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
 ) {
 
-    suspend fun mapFilter(filter: TypesFilterParams): List<RecordsFilter> {
+    fun mapFilter(filter: TypesFilterParams): List<RecordsFilter> {
         val filters = when (filter.filterType) {
             ChartFilterType.ACTIVITY -> {
                 RecordsFilter.Activity(filter.selectedIds)
@@ -22,12 +30,8 @@ class RecordFilterInteractor @Inject constructor(
                     .let(::listOfNotNull)
             }
             ChartFilterType.CATEGORY -> {
-                recordTypeCategoryInteractor.getAll()
-                    .filter { it.categoryId in filter.selectedIds }
-                    .map { it.recordTypeId }
-                    .distinct()
-                    .takeUnless { it.isEmpty() }
-                    ?.let(RecordsFilter::Activity)
+                RecordsFilter.Category(filter.selectedIds)
+                    .takeUnless { filter.selectedIds.isEmpty() }
                     .let(::listOfNotNull)
             }
             ChartFilterType.RECORD_TAG -> {
@@ -60,26 +64,16 @@ class RecordFilterInteractor @Inject constructor(
     suspend fun getByFilter(filters: List<RecordsFilter>): List<Record> {
         if (filters.isEmpty()) return emptyList()
 
-        val typeIds: List<Long> = filters.filterIsInstance<RecordsFilter.Activity>()
-            .map { it.typeIds }.flatten()
-        val comments: List<String> = filters.filterIsInstance<RecordsFilter.Comment>()
-            .map { it.comment.lowercase() }
-        val ranges: List<Range> = filters.filterIsInstance<RecordsFilter.Date>()
-            .map { it.range }
-        val selectedTags: List<RecordsFilter.Tag> = filters.filterIsInstance<RecordsFilter.SelectedTags>()
-            .map { it.tags }.flatten()
-        val selectedTaggedIds: List<Long> = selectedTags.filterIsInstance<RecordsFilter.Tag.Tagged>()
-            .map { it.tagId }
-        val selectedUntaggedIds: List<Long> = selectedTags.filterIsInstance<RecordsFilter.Tag.Untagged>()
-            .map { it.typeId }
-        val filteredTags: List<RecordsFilter.Tag> = filters.filterIsInstance<RecordsFilter.FilteredTags>()
-            .map { it.tags }.flatten()
-        val filteredTaggedIds: List<Long> = filteredTags.filterIsInstance<RecordsFilter.Tag.Tagged>()
-            .map { it.tagId }
-        val filteredUntaggedIds: List<Long> = filteredTags.filterIsInstance<RecordsFilter.Tag.Untagged>()
-            .map { it.typeId }
-        val manuallyFilteredIds: List<Long> = filters.filterIsInstance<RecordsFilter.ManuallyFiltered>()
-            .map { it.recordIds }.flatten()
+        val typeIds: List<Long> = filters.getAllTypeIds(recordTypeCategoryInteractor.getAll())
+        val comments: List<String> = filters.getComment()?.lowercase()?.let(::listOf).orEmpty()
+        val ranges: List<Range> = filters.getDate()?.let(::listOf).orEmpty()
+        val selectedTags: List<RecordsFilter.Tag> = filters.getSelectedTags()
+        val selectedTaggedIds: List<Long> = selectedTags.getTaggedIds()
+        val selectedUntaggedIds: List<Long> = selectedTags.getUntaggedIds()
+        val filteredTags: List<RecordsFilter.Tag> = filters.getFilteredTags()
+        val filteredTaggedIds: List<Long> = filteredTags.getTaggedIds()
+        val filteredUntaggedIds: List<Long> = filteredTags.getUntaggedIds()
+        val manuallyFilteredIds: List<Long> = filters.getManuallyFilteredRecordIds()
 
         // Use different queries for optimization.
         // TODO by tag (tagged, untagged).

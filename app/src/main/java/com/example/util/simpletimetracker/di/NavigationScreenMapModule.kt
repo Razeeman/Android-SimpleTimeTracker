@@ -8,7 +8,6 @@ import com.example.util.simpletimetracker.feature_change_record_tag.view.ChangeR
 import com.example.util.simpletimetracker.feature_change_record_type.view.ChangeRecordTypeFragment
 import com.example.util.simpletimetracker.feature_change_running_record.view.ChangeRunningRecordFragment
 import com.example.util.simpletimetracker.feature_records_all.view.RecordsAllFragment
-import com.example.util.simpletimetracker.feature_records_filter.view.RecordsFilterFragment
 import com.example.util.simpletimetracker.feature_statistics_detail.view.StatisticsDetailFragment
 import com.example.util.simpletimetracker.navigation.NavigationData
 import com.example.util.simpletimetracker.navigation.bundleCreator.BundleCreator
@@ -27,7 +26,6 @@ import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordT
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRunningRecordParams
 import com.example.util.simpletimetracker.navigation.params.screen.DataEditParams
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsAllParams
-import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterParams
 import com.example.util.simpletimetracker.navigation.params.screen.StatisticsDetailParams
 import dagger.Module
 import dagger.Provides
