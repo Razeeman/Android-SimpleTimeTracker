@@ -16,7 +16,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapt
 import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.record.createRecordAdapterDelegate
-import com.example.util.simpletimetracker.feature_records_all.adapter.createRecordAllDateAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.recordsDateDivider.createRecordsDateDividerAdapterDelegate
 import com.example.util.simpletimetracker.feature_records_all.viewData.RecordsAllSortOrderViewData
 import com.example.util.simpletimetracker.feature_records_all.viewModel.RecordsAllViewModel
 import com.example.util.simpletimetracker.navigation.Router
@@ -44,7 +44,7 @@ class RecordsAllFragment : BaseFragment<Binding>() {
     private val recordsAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
             createRecordAdapterDelegate(throttle(viewModel::onRecordClick)),
-            createRecordAllDateAdapterDelegate(),
+            createRecordsDateDividerAdapterDelegate(),
             createEmptyAdapterDelegate(),
             createLoaderAdapterDelegate()
         )

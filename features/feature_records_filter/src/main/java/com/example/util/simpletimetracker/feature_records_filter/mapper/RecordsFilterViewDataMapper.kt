@@ -1,53 +1,16 @@
 package com.example.util.simpletimetracker.feature_records_filter.mapper
 
-import com.example.util.simpletimetracker.core.mapper.RecordViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
-import com.example.util.simpletimetracker.domain.model.Record
-import com.example.util.simpletimetracker.domain.model.RecordTag
-import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
-import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
-import com.example.util.simpletimetracker.feature_base_adapter.empty.EmptyViewData
 import com.example.util.simpletimetracker.feature_base_adapter.recordFilter.RecordFilterViewData
 import com.example.util.simpletimetracker.feature_records_filter.R
 import javax.inject.Inject
 
 class RecordsFilterViewDataMapper @Inject constructor(
     private val resourceRepo: ResourceRepo,
-    private val recordViewDataMapper: RecordViewDataMapper,
     private val timeMapper: TimeMapper,
 ) {
-
-    fun map(
-        record: Record,
-        recordType: RecordType,
-        recordTags: List<RecordTag>,
-        isDarkTheme: Boolean,
-        useMilitaryTime: Boolean,
-        useProportionalMinutes: Boolean,
-        showSeconds: Boolean,
-    ): ViewHolderType {
-        val (timeStarted, timeEnded) = record.timeStarted to record.timeEnded
-
-        return recordViewDataMapper.map(
-            record = record,
-            recordType = recordType,
-            recordTags = recordTags,
-            timeStarted = timeStarted,
-            timeEnded = timeEnded,
-            isDarkTheme = isDarkTheme,
-            useMilitaryTime = useMilitaryTime,
-            useProportionalMinutes = useProportionalMinutes,
-            showSeconds = showSeconds,
-        )
-    }
-
-    fun mapToEmpty(): ViewHolderType {
-        return EmptyViewData(
-            message = R.string.records_empty.let(resourceRepo::getString)
-        )
-    }
 
     fun mapRecordsCount(
         count: Int,

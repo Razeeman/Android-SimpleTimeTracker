@@ -1,58 +1,21 @@
 package com.example.util.simpletimetracker.feature_records_all.mapper
 
-import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
-import com.example.util.simpletimetracker.feature_base_adapter.empty.EmptyViewData
-import com.example.util.simpletimetracker.core.mapper.RecordViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
-import com.example.util.simpletimetracker.feature_views.spinner.CustomSpinner
 import com.example.util.simpletimetracker.domain.extension.orZero
-import com.example.util.simpletimetracker.domain.model.Record
-import com.example.util.simpletimetracker.domain.model.RecordTag
-import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_records_all.R
 import com.example.util.simpletimetracker.feature_records_all.model.RecordsAllSortOrder
 import com.example.util.simpletimetracker.feature_records_all.viewData.RecordsAllSortOrderViewData
+import com.example.util.simpletimetracker.feature_views.spinner.CustomSpinner
 import javax.inject.Inject
 
 class RecordsAllViewDataMapper @Inject constructor(
     private val resourceRepo: ResourceRepo,
-    private val recordViewDataMapper: RecordViewDataMapper
 ) {
 
     private val sortOrderList: List<RecordsAllSortOrder> = listOf(
         RecordsAllSortOrder.TIME_STARTED,
         RecordsAllSortOrder.DURATION
     )
-
-    fun map(
-        record: Record,
-        recordType: RecordType,
-        recordTags: List<RecordTag>,
-        isDarkTheme: Boolean,
-        useMilitaryTime: Boolean,
-        useProportionalMinutes: Boolean,
-        showSeconds: Boolean,
-    ): ViewHolderType {
-        val (timeStarted, timeEnded) = record.timeStarted to record.timeEnded
-
-        return recordViewDataMapper.map(
-            record = record,
-            recordType = recordType,
-            recordTags = recordTags,
-            timeStarted = timeStarted,
-            timeEnded = timeEnded,
-            isDarkTheme = isDarkTheme,
-            useMilitaryTime = useMilitaryTime,
-            useProportionalMinutes = useProportionalMinutes,
-            showSeconds = showSeconds,
-        )
-    }
-
-    fun mapToEmpty(): ViewHolderType {
-        return EmptyViewData(
-            message = R.string.records_empty.let(resourceRepo::getString)
-        )
-    }
 
     fun toSortOrderViewData(currentOrder: RecordsAllSortOrder): RecordsAllSortOrderViewData {
         return RecordsAllSortOrderViewData(

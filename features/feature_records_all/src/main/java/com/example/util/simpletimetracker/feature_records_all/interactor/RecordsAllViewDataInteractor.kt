@@ -1,18 +1,16 @@
 package com.example.util.simpletimetracker.feature_records_all.interactor
 
 import com.example.util.simpletimetracker.core.interactor.RecordFilterInteractor
-import com.example.util.simpletimetracker.core.mapper.TimeMapper
+import com.example.util.simpletimetracker.core.mapper.DateDividerViewDataMapper
+import com.example.util.simpletimetracker.core.mapper.RecordViewDataMapper
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
-import com.example.util.simpletimetracker.feature_records_all.mapper.RecordsAllViewDataMapper
 import com.example.util.simpletimetracker.feature_records_all.model.RecordsAllSortOrder
-import com.example.util.simpletimetracker.feature_records_all.viewData.RecordsAllDateViewData
 import com.example.util.simpletimetracker.navigation.params.screen.TypesFilterParams
-import java.util.Calendar
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -22,8 +20,8 @@ class RecordsAllViewDataInteractor @Inject constructor(
     private val recordTagInteractor: RecordTagInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val recordFilterInteractor: RecordFilterInteractor,
-    private val recordsAllViewDataMapper: RecordsAllViewDataMapper,
-    private val timeMapper: TimeMapper,
+    private val recordViewDataMapper: RecordViewDataMapper,
+    private val dateDividerViewDataMapper: DateDividerViewDataMapper,
 ) {
 
     suspend fun getViewData(
@@ -65,10 +63,12 @@ class RecordsAllViewDataInteractor @Inject constructor(
                     Triple(
                         record.timeStarted,
                         record.timeEnded - record.timeStarted,
-                        recordsAllViewDataMapper.map(
+                        recordViewDataMapper.map(
                             record = record,
                             recordType = recordTypes[record.typeId] ?: return@mapNotNull null,
                             recordTags = recordTags.filter { it.id in record.tagIds },
+                            timeStarted = record.timeStarted,
+                            timeEnded = record.timeEnded,
                             isDarkTheme = isDarkTheme,
                             useMilitaryTime = useMilitaryTime,
                             useProportionalMinutes = useProportionalMinutes,
@@ -85,34 +85,12 @@ class RecordsAllViewDataInteractor @Inject constructor(
                 .map { (timeStarted, _, record) -> timeStarted to record }
                 .let { viewData ->
                     if (sortOrder == RecordsAllSortOrder.TIME_STARTED) {
-                        addDateViewData(viewData)
+                        dateDividerViewDataMapper.addDateViewData(viewData)
                     } else {
                         viewData.map { it.second }
                     }
                 }
-                .ifEmpty {
-                    listOf(recordsAllViewDataMapper.mapToEmpty())
-                }
+                .ifEmpty { listOf(recordViewDataMapper.mapToEmpty()) }
         }
-    }
-
-    private fun addDateViewData(viewData: List<Pair<Long, ViewHolderType>>): List<ViewHolderType> {
-        val calendar = Calendar.getInstance()
-        val newViewData = mutableListOf<ViewHolderType>()
-        var previousTimeStarted = 0L
-
-        viewData.forEach { (timeStarted, recordViewData) ->
-            synchronized(timeMapper) {
-                if (!timeMapper.sameDay(timeStarted, previousTimeStarted, calendar)) {
-                    timeMapper.formatDateYear(timeStarted)
-                        .let(::RecordsAllDateViewData)
-                        .let(newViewData::add)
-                }
-            }
-            previousTimeStarted = timeStarted
-            newViewData.add(recordViewData)
-        }
-
-        return newViewData
     }
 }

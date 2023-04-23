@@ -4,7 +4,9 @@ import com.example.util.simpletimetracker.core.extension.setToStartOfDay
 import com.example.util.simpletimetracker.core.interactor.RecordFilterInteractor
 import com.example.util.simpletimetracker.core.mapper.CategoryViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
+import com.example.util.simpletimetracker.core.mapper.DateDividerViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
+import com.example.util.simpletimetracker.core.mapper.RecordViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -38,6 +40,8 @@ class RecordsFilterViewDataInteractor @Inject constructor(
     private val mapper: RecordsFilterViewDataMapper,
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
     private val categoryViewDataMapper: CategoryViewDataMapper,
+    private val recordViewDataMapper: RecordViewDataMapper,
+    private val dateDividerViewDataMapper: DateDividerViewDataMapper,
     private val colorMapper: ColorMapper,
     private val timeMapper: TimeMapper,
     private val resourceRepo: ResourceRepo,
@@ -88,22 +92,22 @@ class RecordsFilterViewDataInteractor @Inject constructor(
             var count: Int
             val viewData = records
                 .mapNotNull { record ->
-                    mapper.map(
+                    record.timeStarted to recordViewDataMapper.map(
                         record = record,
                         recordType = recordTypes[record.typeId] ?: return@mapNotNull null,
                         recordTags = recordTags.filter { it.id in record.tagIds },
+                        timeStarted = record.timeStarted,
+                        timeEnded = record.timeEnded,
                         isDarkTheme = isDarkTheme,
                         useMilitaryTime = useMilitaryTime,
                         useProportionalMinutes = useProportionalMinutes,
                         showSeconds = showSeconds,
                     )
                 }
-                .also {
-                    count = it.size
-                }
-                .ifEmpty {
-                    listOf(mapper.mapToEmpty())
-                }
+                .sortedByDescending { (timeStarted, _) -> timeStarted }
+                .also { count = it.size }
+                .let(dateDividerViewDataMapper::addDateViewData)
+                .ifEmpty { listOf(recordViewDataMapper.mapToEmpty()) }
 
             count to viewData
         }
