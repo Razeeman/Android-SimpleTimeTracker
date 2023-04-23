@@ -11,6 +11,7 @@ import com.example.util.simpletimetracker.domain.extension.getAllTypeIds
 import com.example.util.simpletimetracker.domain.extension.getCategoryIds
 import com.example.util.simpletimetracker.domain.extension.getDate
 import com.example.util.simpletimetracker.domain.extension.getFilteredTags
+import com.example.util.simpletimetracker.domain.extension.getManuallyFilteredRecordIds
 import com.example.util.simpletimetracker.domain.extension.getSelectedTags
 import com.example.util.simpletimetracker.domain.extension.getTypeIds
 import com.example.util.simpletimetracker.domain.extension.getTypeIdsFromCategories
@@ -223,7 +224,11 @@ class RecordsFilterViewModel @Inject constructor(
         item: RecordViewData,
         @Suppress("UNUSED_PARAMETER") sharedElements: Pair<Any, String>
     ) {
-        // TODO add manual filter
+        handleRecordClick(item.getUniqueId())
+
+        updateFilters()
+        updateFilterSelectionViewData()
+        updateRecords()
     }
 
     private suspend fun handleTypeClick(id: Long) {
@@ -285,6 +290,14 @@ class RecordsFilterViewModel @Inject constructor(
             }
             else -> return
         }
+    }
+
+    private fun handleRecordClick(id: Long) {
+        val newIds = filters.getManuallyFilteredRecordIds()
+            .toMutableList()
+            .apply { addOrRemove(id) }
+        filters.removeAll { it is RecordsFilter.ManuallyFiltered }
+        if (newIds.isNotEmpty()) filters.add(RecordsFilter.ManuallyFiltered(newIds))
     }
 
     private fun checkIfDefaultDateFilterShouldBeApplied() {
@@ -456,6 +469,13 @@ class RecordsFilterViewModel @Inject constructor(
                 viewDataInteractor.getDateFilterSelectionViewData(
                     filters = filters,
                     defaultRange = defaultRange,
+                )
+            }
+            RecordFilterViewData.Type.MANUALLY_FILTERED -> {
+                viewDataInteractor.getManualFilterSelectionViewData(
+                    filters = filters,
+                    recordTypes = getTypesCache().associateBy(RecordType::id),
+                    recordTags = getTagsCache(),
                 )
             }
         }

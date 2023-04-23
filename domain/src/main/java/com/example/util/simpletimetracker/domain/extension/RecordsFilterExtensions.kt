@@ -76,14 +76,18 @@ fun List<RecordsFilter.Tag>.getUntaggedIds(): List<Long> {
 }
 
 fun List<RecordsFilter>.hasActivityFilter(): Boolean {
-    return filterIsInstance<RecordsFilter.Activity>().isNotEmpty()
+    return any { it is RecordsFilter.Activity }
 }
 
 fun List<RecordsFilter>.hasCategoryFilter(): Boolean {
-    return filterIsInstance<RecordsFilter.Category>().isNotEmpty()
+    return any { it is RecordsFilter.Category }
 }
 
 fun List<RecordsFilter>.hasSelectedTagsFilter(): Boolean {
-    return filterIsInstance<RecordsFilter.SelectedTags>().isNotEmpty()
+    return any { it is RecordsFilter.SelectedTags }
+}
+
+fun List<RecordsFilter>.hasManuallyFiltered(): Boolean {
+    return any { it is RecordsFilter.ManuallyFiltered }
 }
 

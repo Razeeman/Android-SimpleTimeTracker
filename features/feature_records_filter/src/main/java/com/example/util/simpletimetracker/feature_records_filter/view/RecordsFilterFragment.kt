@@ -63,8 +63,10 @@ class RecordsFilterFragment :
             createLoaderAdapterDelegate(),
             createHintAdapterDelegate(),
             createDividerAdapterDelegate(),
+            createRecordsDateDividerAdapterDelegate(),
             createRecordTypeAdapterDelegate(viewModel::onRecordTypeClick),
             createCategoryAdapterDelegate(viewModel::onCategoryClick),
+            createRecordAdapterDelegate(viewModel::onRecordClick),
             createRecordsFilterCommentAdapterDelegate(viewModel::onCommentChange),
             createRecordsFilterRangeAdapterDelegate(
                 viewModel::onRangeTimeStartedClick,

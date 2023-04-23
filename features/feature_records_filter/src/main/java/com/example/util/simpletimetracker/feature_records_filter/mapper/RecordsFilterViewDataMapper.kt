@@ -41,6 +41,7 @@ class RecordsFilterViewDataMapper @Inject constructor(
             RecordFilterViewData.Type.DATE -> R.string.date_time_dialog_date
             RecordFilterViewData.Type.SELECTED_TAGS -> R.string.records_filter_select_tags
             RecordFilterViewData.Type.FILTERED_TAGS -> R.string.records_filter_filter_tags
+            RecordFilterViewData.Type.MANUALLY_FILTERED -> R.string.records_filter_manually_filtered
         }.let(resourceRepo::getString)
     }
 
@@ -86,7 +87,9 @@ class RecordsFilterViewDataMapper @Inject constructor(
             is RecordsFilter.FilteredTags -> {
                 "${filter.tags.size}"
             }
-            else -> ""
+            is RecordsFilter.ManuallyFiltered -> {
+                "${filter.recordIds.size}"
+            }
         }
 
         return "$filterName($filterValue)"
@@ -100,6 +103,7 @@ class RecordsFilterViewDataMapper @Inject constructor(
             RecordFilterViewData.Type.DATE -> RecordsFilter.Date::class.java
             RecordFilterViewData.Type.SELECTED_TAGS -> RecordsFilter.SelectedTags::class.java
             RecordFilterViewData.Type.FILTERED_TAGS -> RecordsFilter.FilteredTags::class.java
+            RecordFilterViewData.Type.MANUALLY_FILTERED -> RecordsFilter.ManuallyFiltered::class.java
         }
     }
 
@@ -111,6 +115,7 @@ class RecordsFilterViewDataMapper @Inject constructor(
             RecordsFilter.Date::class.java -> RecordFilterViewData.Type.DATE
             RecordsFilter.SelectedTags::class.java -> RecordFilterViewData.Type.SELECTED_TAGS
             RecordsFilter.FilteredTags::class.java -> RecordFilterViewData.Type.FILTERED_TAGS
+            RecordsFilter.ManuallyFiltered::class.java -> RecordFilterViewData.Type.MANUALLY_FILTERED
             else -> null
         }
     }

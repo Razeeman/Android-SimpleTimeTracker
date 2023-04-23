@@ -14,12 +14,17 @@ import com.example.util.simpletimetracker.domain.extension.getCategoryIds
 import com.example.util.simpletimetracker.domain.extension.getComment
 import com.example.util.simpletimetracker.domain.extension.getDate
 import com.example.util.simpletimetracker.domain.extension.getFilteredTags
+import com.example.util.simpletimetracker.domain.extension.getManuallyFilteredRecordIds
 import com.example.util.simpletimetracker.domain.extension.getSelectedTags
 import com.example.util.simpletimetracker.domain.extension.getTaggedIds
 import com.example.util.simpletimetracker.domain.extension.getUntaggedIds
+import com.example.util.simpletimetracker.domain.extension.hasCategoryFilter
+import com.example.util.simpletimetracker.domain.extension.hasManuallyFiltered
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.Range
+import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RecordTypeCategory
@@ -27,6 +32,7 @@ import com.example.util.simpletimetracker.domain.model.RecordsFilter
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.divider.DividerViewData
 import com.example.util.simpletimetracker.feature_base_adapter.hint.HintViewData
+import com.example.util.simpletimetracker.feature_base_adapter.record.RecordViewData
 import com.example.util.simpletimetracker.feature_base_adapter.recordFilter.RecordFilterViewData
 import com.example.util.simpletimetracker.feature_records_filter.R
 import com.example.util.simpletimetracker.feature_records_filter.adapter.RecordsFilterCommentViewData
@@ -44,6 +50,7 @@ import kotlinx.coroutines.withContext
 
 class RecordsFilterViewDataInteractor @Inject constructor(
     private val recordFilterInteractor: RecordFilterInteractor,
+    private val recordInteractor: RecordInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val mapper: RecordsFilterViewDataMapper,
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
@@ -94,12 +101,31 @@ class RecordsFilterViewDataInteractor @Inject constructor(
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
         val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
         val showSeconds = prefsInteractor.getShowSeconds()
-        val finalFilters = filters.takeUnless {
-            // If date isn't available and no other filters - show empty records even if date is present.
-            !extra.dateSelectionAvailable && filters.none { it !is RecordsFilter.Date }
-        }.orEmpty()
+        val finalFilters = filters
+            .takeUnless {
+                // If date isn't available and no other filters -
+                // show empty records even if date is present.
+                !extra.dateSelectionAvailable && filters.none { it !is RecordsFilter.Date }
+            }
+            .orEmpty()
         val records = recordFilterInteractor.getByFilter(finalFilters)
         val selectedTypeIds = records.map { it.typeId }.toSet()
+        val manuallyFilteredRecords = filters
+            .getManuallyFilteredRecordIds()
+            .mapNotNull { recordInteractor.get(it) } // TODO do better
+            .mapNotNull { record ->
+                val mapped = mapFilteredRecord(
+                    record = record,
+                    recordTypes = recordTypes,
+                    allRecordTags = recordTags,
+                    isDarkTheme = isDarkTheme,
+                    useMilitaryTime = useMilitaryTime,
+                    useProportionalMinutes = useProportionalMinutes,
+                    showSeconds = showSeconds,
+                    isFiltered = true,
+                ) ?: return@mapNotNull null
+                record.timeStarted to mapped
+            }
 
         val (count, viewData) = withContext(Dispatchers.Default) {
             var count: Int
@@ -117,8 +143,9 @@ class RecordsFilterViewDataInteractor @Inject constructor(
                         showSeconds = showSeconds,
                     )
                 }
-                .sortedByDescending { (timeStarted, _) -> timeStarted }
                 .also { count = it.size }
+                .plus(manuallyFilteredRecords)
+                .sortedByDescending { (timeStarted, _) -> timeStarted }
                 .let(dateDividerViewDataMapper::addDateViewData)
                 .ifEmpty { listOf(recordViewDataMapper.mapToEmpty()) }
 
@@ -143,18 +170,22 @@ class RecordsFilterViewDataInteractor @Inject constructor(
     ): List<ViewHolderType> {
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
-        val hasCategoryFilter = filters.any { it is RecordsFilter.Category }
 
         val availableFilters = listOfNotNull(
-            if (hasCategoryFilter) {
+            if (filters.hasCategoryFilter()) {
                 RecordFilterViewData.Type.CATEGORY
             } else {
                 RecordFilterViewData.Type.ACTIVITY
             },
             RecordFilterViewData.Type.COMMENT,
-            RecordFilterViewData.Type.DATE.takeIf { extra.dateSelectionAvailable },
+            RecordFilterViewData.Type.DATE.takeIf {
+                extra.dateSelectionAvailable
+            },
             RecordFilterViewData.Type.SELECTED_TAGS,
             RecordFilterViewData.Type.FILTERED_TAGS,
+            RecordFilterViewData.Type.MANUALLY_FILTERED.takeIf {
+                filters.hasManuallyFiltered()
+            }
         )
 
         return availableFilters.mapIndexed { index, type ->
@@ -327,6 +358,36 @@ class RecordsFilterViewDataInteractor @Inject constructor(
         ).let(::listOf)
     }
 
+    suspend fun getManualFilterSelectionViewData(
+        filters: List<RecordsFilter>,
+        recordTypes: Map<Long, RecordType>,
+        recordTags: List<RecordTag>,
+    ): List<ViewHolderType> {
+        val isDarkTheme = prefsInteractor.getDarkMode()
+        val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
+        val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
+        val showSeconds = prefsInteractor.getShowSeconds()
+
+        return filters
+            .getManuallyFilteredRecordIds()
+            .mapNotNull { recordInteractor.get(it) } // TODO do better
+            .mapNotNull { record ->
+                val mapped = mapFilteredRecord(
+                    record = record,
+                    recordTypes = recordTypes,
+                    allRecordTags = recordTags,
+                    isDarkTheme = isDarkTheme,
+                    useMilitaryTime = useMilitaryTime,
+                    useProportionalMinutes = useProportionalMinutes,
+                    showSeconds = showSeconds,
+                    isFiltered = false,
+                ) ?: return@mapNotNull null
+                record.timeStarted to mapped
+            }
+            .sortedByDescending { (timeStarted, _) -> timeStarted }
+            .let(dateDividerViewDataMapper::addDateViewData)
+    }
+
     private fun mapUntaggedTags(
         selectedIds: List<Long>,
         type: RecordType,
@@ -353,6 +414,35 @@ class RecordsFilterViewDataInteractor @Inject constructor(
                 isDarkTheme = isDarkTheme,
                 isFiltered = tag.id !in selectedIds,
             )
+        }
+    }
+
+    private fun mapFilteredRecord(
+        record: Record,
+        recordTypes: Map<Long, RecordType>,
+        allRecordTags: List<RecordTag>,
+        isDarkTheme: Boolean,
+        useMilitaryTime: Boolean,
+        useProportionalMinutes: Boolean,
+        showSeconds: Boolean,
+        isFiltered: Boolean,
+    ): RecordViewData.Tracked? {
+        return recordViewDataMapper.map(
+            record = record,
+            recordType = recordTypes[record.typeId] ?: return null,
+            recordTags = allRecordTags.filter { it.id in record.tagIds },
+            timeStarted = record.timeStarted,
+            timeEnded = record.timeEnded,
+            isDarkTheme = isDarkTheme,
+            useMilitaryTime = useMilitaryTime,
+            useProportionalMinutes = useProportionalMinutes,
+            showSeconds = showSeconds,
+        ).let {
+            if (isFiltered) {
+                it.copy(color = colorMapper.toFilteredColor(isDarkTheme))
+            } else {
+                it
+            }
         }
     }
 }

@@ -24,5 +24,6 @@ data class RecordFilterViewData(
         DATE,
         SELECTED_TAGS,
         FILTERED_TAGS,
+        MANUALLY_FILTERED,
     }
 }
