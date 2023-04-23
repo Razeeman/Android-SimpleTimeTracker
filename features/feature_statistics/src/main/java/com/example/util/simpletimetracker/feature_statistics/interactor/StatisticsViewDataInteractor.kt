@@ -4,7 +4,7 @@ import com.example.util.simpletimetracker.core.interactor.StatisticsChartViewDat
 import com.example.util.simpletimetracker.core.interactor.StatisticsMediator
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.RangeMapper
-import com.example.util.simpletimetracker.core.utils.UNTRACKED_ITEM_ID
+import com.example.util.simpletimetracker.domain.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
@@ -74,9 +74,11 @@ class StatisticsViewDataInteractor @Inject constructor(
             emptyList()
         }
         val chart = statisticsChartViewDataInteractor.getChart(
+            filterType = filterType,
             filteredIds = filteredIds,
             statistics = statistics,
             dataHolders = dataHolders,
+            types = types,
             isDarkTheme = isDarkTheme
         ).let {
             // If there is no data but have goals - show empty chart.

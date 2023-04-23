@@ -1,8 +1,8 @@
 package com.example.util.simpletimetracker.core.interactor
 
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
-import com.example.util.simpletimetracker.core.utils.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.core.viewData.StatisticsDataHolder
+import com.example.util.simpletimetracker.domain.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
@@ -82,19 +82,11 @@ class StatisticsMediator @Inject constructor(
             }
             ChartFilterType.CATEGORY -> {
                 val categories = categoryInteractor.getAll()
-                val typeCategories = recordTypeCategoryInteractor.getAll()
                 categories.map { category ->
-                    // Add icons for tag chart, use first activity from tag.
-                    val icon = typeCategories
-                        .firstOrNull { it.categoryId == category.id }
-                        ?.recordTypeId
-                        ?.let { typeId -> types[typeId] }
-                        ?.icon
-
                     category.id to StatisticsDataHolder(
                         name = category.name,
                         color = category.color,
-                        icon = icon,
+                        icon = null,
                         dailyGoalTime = 0L,
                         weeklyGoalTime = 0L,
                         monthlyGoalTime = 0L,
@@ -182,9 +174,15 @@ class StatisticsMediator @Inject constructor(
         addUntracked: Boolean,
     ): List<Statistics> {
         return when (filterType) {
-            ChartFilterType.ACTIVITY -> statisticsInteractor.getFromRange(start, end, addUntracked)
-            ChartFilterType.CATEGORY -> statisticsCategoryInteractor.getFromRange(start, end)
-            ChartFilterType.RECORD_TAG -> statisticsTagInteractor.getFromRange(start, end)
+            ChartFilterType.ACTIVITY -> {
+                statisticsInteractor.getFromRange(start, end, addUntracked)
+            }
+            ChartFilterType.CATEGORY -> {
+                statisticsCategoryInteractor.getFromRange(start, end, addUntracked)
+            }
+            ChartFilterType.RECORD_TAG -> {
+                statisticsTagInteractor.getFromRange(start, end, addUntracked)
+            }
         }
     }
 }

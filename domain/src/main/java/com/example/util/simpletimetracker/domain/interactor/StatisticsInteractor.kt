@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.domain.interactor
 
+import com.example.util.simpletimetracker.domain.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.domain.mapper.CoveredRangeMapper
 import com.example.util.simpletimetracker.domain.mapper.StatisticsMapper
 import com.example.util.simpletimetracker.domain.model.Record
@@ -39,34 +40,37 @@ class StatisticsInteractor @Inject constructor(
             }
     }
 
-    suspend fun getFromRange(start: Long, end: Long, addUntracked: Boolean): List<Statistics> =
-        withContext(Dispatchers.IO) {
-            var untrackedTime = 0L
-            recordInteractor.getFromRange(start, end)
-                .also { records ->
-                    if (addUntracked) untrackedTime = calculateUntracked(records, start, end)
-                }
-                .groupBy { it.typeId }
-                .map { entry ->
-                    Statistics(
-                        id = entry.key,
-                        duration = statisticsMapper.mapToDurationFromRange(entry.value, start, end)
+    suspend fun getFromRange(
+        start: Long,
+        end: Long,
+        addUntracked: Boolean,
+    ): List<Statistics> = withContext(Dispatchers.IO) {
+        var untrackedTime = 0L
+        recordInteractor.getFromRange(start, end)
+            .also { records ->
+                if (addUntracked) untrackedTime = calculateUntracked(records, start, end)
+            }
+            .groupBy { it.typeId }
+            .map { entry ->
+                Statistics(
+                    id = entry.key,
+                    duration = statisticsMapper.mapToDurationFromRange(entry.value, start, end)
+                )
+            }
+            .apply {
+                if (addUntracked && untrackedTime > 0L) {
+                    this as MutableList
+                    add(
+                        Statistics(
+                            id = UNTRACKED_ITEM_ID,
+                            duration = untrackedTime
+                        )
                     )
                 }
-                .apply {
-                    if (addUntracked && untrackedTime > 0L) {
-                        this as MutableList
-                        add(
-                            Statistics(
-                                id = -1L,
-                                duration = untrackedTime
-                            )
-                        )
-                    }
-                }
-        }
+            }
+    }
 
-    private fun calculateUntracked(records: List<Record>, start: Long, end: Long): Long {
+    fun calculateUntracked(records: List<Record>, start: Long, end: Long): Long {
         // Bound end range of calculation to current time,
         // to not show untracked time in the future
         val todayEnd = System.currentTimeMillis()

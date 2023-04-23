@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.domain.interactor
 
+import com.example.util.simpletimetracker.domain.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.domain.mapper.StatisticsMapper
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordTag
@@ -11,6 +12,7 @@ import kotlinx.coroutines.withContext
 class StatisticsTagInteractor @Inject constructor(
     private val recordInteractor: RecordInteractor,
     private val recordTagInteractor: RecordTagInteractor,
+    private val statisticsInteractor: StatisticsInteractor,
     private val statisticsMapper: StatisticsMapper
 ) {
 
@@ -28,7 +30,8 @@ class StatisticsTagInteractor @Inject constructor(
 
     suspend fun getFromRange(
         start: Long,
-        end: Long
+        end: Long,
+        addUntracked: Boolean,
     ): List<Statistics> = withContext(Dispatchers.IO) {
         val allRecords = recordInteractor.getFromRange(start, end)
 
@@ -38,6 +41,19 @@ class StatisticsTagInteractor @Inject constructor(
                     id = tagId,
                     duration = statisticsMapper.mapToDurationFromRange(records, start, end)
                 )
+            }
+            .apply {
+                val untrackedTime = statisticsInteractor
+                    .calculateUntracked(allRecords, start, end)
+                if (addUntracked && untrackedTime > 0L) {
+                    this as MutableList
+                    add(
+                        Statistics(
+                            id = UNTRACKED_ITEM_ID,
+                            duration = untrackedTime
+                        )
+                    )
+                }
             }
     }
 

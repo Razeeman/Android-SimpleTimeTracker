@@ -9,8 +9,8 @@ import com.example.util.simpletimetracker.feature_base_adapter.category.Category
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.core.extension.addOrRemove
 import com.example.util.simpletimetracker.core.extension.set
-import com.example.util.simpletimetracker.core.utils.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
+import com.example.util.simpletimetracker.domain.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -123,11 +123,13 @@ class ChartFilterViewModel @Inject constructor(
             }
             ChartFilterType.CATEGORY -> {
                 getCategoriesCache().map { it.id }.let(categoryIdsFiltered::addAll)
+                categoryIdsFiltered.add(UNTRACKED_ITEM_ID)
                 prefsInteractor.setFilteredCategories(categoryIdsFiltered)
             }
             ChartFilterType.RECORD_TAG -> {
                 getTagsCache().map { it.id }.let(recordTagsFiltered::addAll)
                 // TODO add untagged
+                recordTagsFiltered.add(UNTRACKED_ITEM_ID)
                 prefsInteractor.setFilteredTags(recordTagsFiltered)
             }
         }
@@ -198,10 +200,12 @@ class ChartFilterViewModel @Inject constructor(
                 chartFilterViewDataMapper
                     .mapRecordType(type, typeIdsFiltered, numberOfCards, isDarkTheme)
             }
-            .plus(
+            .takeUnless { it.isEmpty() }
+            ?.plus(
                 chartFilterViewDataMapper
                     .mapToUntrackedItem(typeIdsFiltered, numberOfCards, isDarkTheme)
             )
+            ?: chartFilterViewDataMapper.mapTypesEmpty()
     }
 
     private fun updateCategoriesViewData() = viewModelScope.launch {
@@ -218,6 +222,10 @@ class ChartFilterViewModel @Inject constructor(
                     .mapCategory(category, categoryIdsFiltered, isDarkTheme)
             }
             .takeUnless { it.isEmpty() }
+            ?.plus(
+                chartFilterViewDataMapper
+                    .mapToCategoryUntrackedItem(categoryIdsFiltered, isDarkTheme)
+            )
             ?: chartFilterViewDataMapper.mapCategoriesEmpty()
     }
 
@@ -236,6 +244,10 @@ class ChartFilterViewModel @Inject constructor(
                     .mapTag(tag, types[tag.typeId], recordTagsFiltered, isDarkTheme)
             }
             .takeUnless { it.isEmpty() }
+            ?.plus(
+                chartFilterViewDataMapper
+                    .mapToTagUntrackedItem(recordTagsFiltered, isDarkTheme)
+            )
             ?: chartFilterViewDataMapper.mapTagsEmpty()
     }
 }

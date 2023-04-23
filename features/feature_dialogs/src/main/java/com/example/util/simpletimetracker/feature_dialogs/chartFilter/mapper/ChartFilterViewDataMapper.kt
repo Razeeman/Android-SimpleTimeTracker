@@ -8,7 +8,7 @@ import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeCardSizeMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
-import com.example.util.simpletimetracker.core.utils.UNTRACKED_ITEM_ID
+import com.example.util.simpletimetracker.domain.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.model.Category
@@ -41,6 +41,12 @@ class ChartFilterViewDataMapper @Inject constructor(
         )
     }
 
+    fun mapTypesEmpty(): List<EmptyViewData> {
+        return EmptyViewData(
+            message = R.string.record_types_empty.let(resourceRepo::getString)
+        ).let(::listOf)
+    }
+
     fun mapToUntrackedItem(
         typeIdsFiltered: List<Long>,
         numberOfCards: Int,
@@ -51,11 +57,10 @@ class ChartFilterViewDataMapper @Inject constructor(
             name = R.string.untracked_time_name
                 .let(resourceRepo::getString),
             iconId = RecordTypeIcon.Image(R.drawable.unknown),
-            iconColor = if (UNTRACKED_ITEM_ID in typeIdsFiltered) {
-                colorMapper.toFilteredIconColor(isDarkTheme)
-            } else {
-                colorMapper.toIconColor(isDarkTheme)
-            },
+            iconColor = categoryViewDataMapper.getTextColor(
+                isDarkTheme = isDarkTheme,
+                isFiltered = UNTRACKED_ITEM_ID in typeIdsFiltered
+            ),
             color = if (UNTRACKED_ITEM_ID in typeIdsFiltered) {
                 colorMapper.toFilteredColor(isDarkTheme)
             } else {
@@ -85,6 +90,26 @@ class ChartFilterViewDataMapper @Inject constructor(
         ).let(::listOf)
     }
 
+    fun mapToCategoryUntrackedItem(
+        categoryIdsFiltered: List<Long>,
+        isDarkTheme: Boolean
+    ): CategoryViewData {
+        return CategoryViewData.Category(
+            id = UNTRACKED_ITEM_ID,
+            name = R.string.untracked_time_name
+                .let(resourceRepo::getString),
+            iconColor = categoryViewDataMapper.getTextColor(
+                isDarkTheme = isDarkTheme,
+                isFiltered = UNTRACKED_ITEM_ID in categoryIdsFiltered
+            ),
+            color = if (UNTRACKED_ITEM_ID in categoryIdsFiltered) {
+                colorMapper.toFilteredColor(isDarkTheme)
+            } else {
+                colorMapper.toUntrackedColor(isDarkTheme)
+            },
+        )
+    }
+
     fun mapTag(
         tag: RecordTag,
         type: RecordType?,
@@ -103,6 +128,27 @@ class ChartFilterViewDataMapper @Inject constructor(
         return EmptyViewData(
             message = R.string.change_record_categories_empty.let(resourceRepo::getString)
         ).let(::listOf)
+    }
+
+    fun mapToTagUntrackedItem(
+        tagIdsFiltered: List<Long>,
+        isDarkTheme: Boolean
+    ): CategoryViewData {
+        return CategoryViewData.Record.Tagged(
+            id = UNTRACKED_ITEM_ID,
+            name = R.string.untracked_time_name
+                .let(resourceRepo::getString),
+            icon = RecordTypeIcon.Image(R.drawable.unknown),
+            iconColor = categoryViewDataMapper.getTextColor(
+                isDarkTheme = isDarkTheme,
+                isFiltered = UNTRACKED_ITEM_ID in tagIdsFiltered
+            ),
+            color = if (UNTRACKED_ITEM_ID in tagIdsFiltered) {
+                colorMapper.toFilteredColor(isDarkTheme)
+            } else {
+                colorMapper.toUntrackedColor(isDarkTheme)
+            },
+        )
     }
 
     fun mapToFilterTypeViewData(filterType: ChartFilterType): List<ViewHolderType> {

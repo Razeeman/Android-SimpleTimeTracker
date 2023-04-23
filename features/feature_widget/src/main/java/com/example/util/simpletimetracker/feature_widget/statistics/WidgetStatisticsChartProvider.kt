@@ -129,9 +129,11 @@ class WidgetStatisticsChartProvider : AppWidgetProvider() {
             shift = 0
         )
         val chart = statisticsChartViewDataInteractor.getChart(
+            filterType = filterType,
             filteredIds = filteredIds,
             statistics = statistics,
             dataHolders = dataHolders,
+            types = types,
             isDarkTheme = isDarkTheme
         )
         val total: String = statisticsMediator.getStatisticsTotalTracked(

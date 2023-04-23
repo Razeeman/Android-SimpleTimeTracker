@@ -3,8 +3,11 @@ package com.example.util.simpletimetracker.core.interactor
 import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
-import com.example.util.simpletimetracker.core.utils.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.core.viewData.StatisticsDataHolder
+import com.example.util.simpletimetracker.domain.UNTRACKED_ITEM_ID
+import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
+import com.example.util.simpletimetracker.domain.model.ChartFilterType
+import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.Statistics
 import com.example.util.simpletimetracker.feature_views.pieChart.PiePortion
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
@@ -13,15 +16,34 @@ import javax.inject.Inject
 class StatisticsChartViewDataInteractor @Inject constructor(
     private val iconMapper: IconMapper,
     private val colorMapper: ColorMapper,
+    private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
 ) {
 
-    fun getChart(
+    suspend fun getChart(
+        filterType: ChartFilterType,
         filteredIds: List<Long>,
         statistics: List<Statistics>,
         dataHolders: Map<Long, StatisticsDataHolder>,
+        types: Map<Long, RecordType>,
         isDarkTheme: Boolean,
     ): List<PiePortion> {
-        val chartDataHolders: Map<Long, StatisticsDataHolder> = dataHolders
+        // Add icons for tag chart, use first activity from tag.
+        val chartDataHolders: Map<Long, StatisticsDataHolder> = when (filterType) {
+            ChartFilterType.CATEGORY -> {
+                val typeCategories = recordTypeCategoryInteractor.getAll()
+                dataHolders.map { (id, data) ->
+                    val icon = typeCategories
+                        .firstOrNull { it.categoryId == id }
+                        ?.recordTypeId
+                        ?.let(types::get)
+                        ?.icon
+                    id to data.copy(icon = icon)
+                }.toMap()
+            }
+            else -> {
+                dataHolders
+            }
+        }
 
         return mapChart(
             statistics = statistics,
