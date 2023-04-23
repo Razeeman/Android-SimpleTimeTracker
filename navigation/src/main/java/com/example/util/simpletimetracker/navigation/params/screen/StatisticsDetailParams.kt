@@ -7,7 +7,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class StatisticsDetailParams(
     val transitionName: String = "",
-    val filter: TypesFilterParams = TypesFilterParams(),
+    val filter: List<RecordsFilterParam> = emptyList(),
     val range: RangeLengthParams = RangeLengthParams.All,
     val shift: Int = 0,
     val preview: Preview? = null,

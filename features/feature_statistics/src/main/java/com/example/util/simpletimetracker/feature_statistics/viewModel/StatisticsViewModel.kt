@@ -7,12 +7,14 @@ import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.base.SingleLiveEvent
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.extension.toParams
+import com.example.util.simpletimetracker.core.interactor.RecordFilterInteractor
 import com.example.util.simpletimetracker.core.interactor.SharingInteractor
 import com.example.util.simpletimetracker.core.model.NavigationTab
 import com.example.util.simpletimetracker.core.utils.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.model.RangeLength
+import com.example.util.simpletimetracker.domain.model.RecordsFilter
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.feature_base_adapter.statistics.StatisticsViewData
@@ -22,14 +24,13 @@ import com.example.util.simpletimetracker.feature_views.TransitionNames
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.ChartFilterDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.StatisticsDetailParams
-import com.example.util.simpletimetracker.navigation.params.screen.TypesFilterParams
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class StatisticsViewModel @Inject constructor(
@@ -37,6 +38,7 @@ class StatisticsViewModel @Inject constructor(
     private val statisticsViewDataInteractor: StatisticsViewDataInteractor,
     private val sharingInteractor: SharingInteractor,
     private val prefsInteractor: PrefsInteractor,
+    private val recordFilterInteractor: RecordFilterInteractor,
 ) : ViewModel() {
 
     var extra: StatisticsExtra? = null
@@ -95,10 +97,10 @@ class StatisticsViewModel @Inject constructor(
         router.navigate(
             data = StatisticsDetailParams(
                 transitionName = TransitionNames.STATISTICS_DETAIL + item.id,
-                filter = TypesFilterParams(
-                    selectedIds = listOf(item.id),
-                    filterType = filterType
-                ),
+                filter = recordFilterInteractor.mapFilter(
+                    filterType = filterType,
+                    selectedIds = listOf(item.id)
+                ).map(RecordsFilter::toParams),
                 range = when (rangeLength) {
                     is RangeLength.Day -> StatisticsDetailParams.RangeLengthParams.Day
                     is RangeLength.Week -> StatisticsDetailParams.RangeLengthParams.Week

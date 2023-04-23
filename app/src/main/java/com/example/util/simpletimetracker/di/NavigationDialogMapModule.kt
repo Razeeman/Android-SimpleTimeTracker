@@ -13,7 +13,6 @@ import com.example.util.simpletimetracker.feature_dialogs.emojiSelection.view.Em
 import com.example.util.simpletimetracker.feature_dialogs.helpDialog.HelpDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.recordTagSelection.RecordTagSelectionDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.standard.StandardDialogFragment
-import com.example.util.simpletimetracker.feature_dialogs.typesFilter.view.TypesFilterDialogFragment
 import com.example.util.simpletimetracker.feature_records_filter.view.RecordsFilterFragment
 import com.example.util.simpletimetracker.navigation.NavigationData
 import com.example.util.simpletimetracker.navigation.bundleCreator.BundleCreator
@@ -23,10 +22,10 @@ import com.example.util.simpletimetracker.navigation.params.screen.CardOrderDial
 import com.example.util.simpletimetracker.navigation.params.screen.CardSizeDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChartFilterDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.ColorSelectionDialogParams
-import com.example.util.simpletimetracker.navigation.params.screen.DataExportSettingDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.CustomRangeSelectionParams
 import com.example.util.simpletimetracker.navigation.params.screen.DataEditTagSelectionDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DataEditTypeSelectionDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.DataExportSettingDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DefaultTypesSelectionDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DurationDialogParams
@@ -35,7 +34,6 @@ import com.example.util.simpletimetracker.navigation.params.screen.HelpDialogPar
 import com.example.util.simpletimetracker.navigation.params.screen.RecordTagSelectionParams
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterParams
 import com.example.util.simpletimetracker.navigation.params.screen.StandardDialogParams
-import com.example.util.simpletimetracker.navigation.params.screen.TypesFilterDialogParams
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -93,16 +91,6 @@ class NavigationDialogMapModule {
         return NavigationData(
             R.id.defaultTypesSelectionDialogFragment,
             BundleCreator.empty()
-        )
-    }
-
-    @IntoMap
-    @Provides
-    @ScreenKey(TypesFilterDialogParams::class)
-    fun typesFilterDialog(): NavigationData {
-        return NavigationData(
-            R.id.typesFilterDialogFragment,
-            bundleCreatorDelegate(TypesFilterDialogFragment::createBundle)
         )
     }
 

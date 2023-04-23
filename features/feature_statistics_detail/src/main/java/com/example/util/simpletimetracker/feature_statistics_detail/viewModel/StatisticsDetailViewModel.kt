@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.extension.post
 import com.example.util.simpletimetracker.core.extension.set
+import com.example.util.simpletimetracker.core.extension.toModel
 import com.example.util.simpletimetracker.core.extension.toParams
 import com.example.util.simpletimetracker.core.interactor.RecordFilterInteractor
 import com.example.util.simpletimetracker.core.mapper.RangeMapper
@@ -50,6 +51,7 @@ import com.example.util.simpletimetracker.navigation.params.screen.CustomRangeSe
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogType
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsAllParams
+import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterParam
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterParams
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterResultParams
 import com.example.util.simpletimetracker.navigation.params.screen.StatisticsDetailParams
@@ -133,7 +135,7 @@ class StatisticsDetailViewModel @Inject constructor(
     private var rangeLength: RangeLength = RangeLength.All
     private var rangePosition: Int = 0
     private val filter: MutableList<RecordsFilter> by lazy {
-        recordFilterInteractor.mapFilter(extra.filter).toMutableList()
+        extra.filter.map(RecordsFilterParam::toModel).toMutableList()
     }
     private val comparisonFilter: MutableList<RecordsFilter> = mutableListOf()
     private var records: List<Record> = emptyList() // all records with selected ids

@@ -17,7 +17,6 @@ import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
-import com.example.util.simpletimetracker.navigation.params.screen.TypesFilterParams
 import javax.inject.Inject
 
 class RecordFilterInteractor @Inject constructor(
@@ -27,20 +26,23 @@ class RecordFilterInteractor @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
 ) {
 
-    fun mapFilter(filter: TypesFilterParams): List<RecordsFilter> {
-        val filters = when (filter.filterType) {
+    fun mapFilter(
+        filterType: ChartFilterType,
+        selectedIds: List<Long>,
+    ): List<RecordsFilter> {
+        val filters = when (filterType) {
             ChartFilterType.ACTIVITY -> {
-                RecordsFilter.Activity(filter.selectedIds)
-                    .takeUnless { filter.selectedIds.isEmpty() }
+                RecordsFilter.Activity(selectedIds)
+                    .takeUnless { selectedIds.isEmpty() }
                     .let(::listOfNotNull)
             }
             ChartFilterType.CATEGORY -> {
-                RecordsFilter.Category(filter.selectedIds)
-                    .takeUnless { filter.selectedIds.isEmpty() }
+                RecordsFilter.Category(selectedIds)
+                    .takeUnless { selectedIds.isEmpty() }
                     .let(::listOfNotNull)
             }
             ChartFilterType.RECORD_TAG -> {
-                filter.selectedIds
+                selectedIds
                     .takeUnless { it.isEmpty() }
                     ?.map(RecordsFilter.Tag::Tagged)
                     ?.let(RecordsFilter::SelectedTags)
@@ -48,22 +50,7 @@ class RecordFilterInteractor @Inject constructor(
             }
         }
 
-        val filterTags = filter.filteredRecordTags
-            .map {
-                when (it) {
-                    is TypesFilterParams.FilteredRecordTag.Tagged -> {
-                        RecordsFilter.Tag.Tagged(it.id)
-                    }
-                    is TypesFilterParams.FilteredRecordTag.Untagged -> {
-                        RecordsFilter.Tag.Untagged(it.typeId)
-                    }
-                }
-            }
-            .takeUnless { it.isEmpty() }
-            ?.let(RecordsFilter::FilteredTags)
-            .let { listOfNotNull(it) }
-
-        return filters + filterTags
+        return filters
     }
 
     suspend fun mapDateFilter(

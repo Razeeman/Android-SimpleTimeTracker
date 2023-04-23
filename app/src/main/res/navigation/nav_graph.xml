@@ -96,11 +96,6 @@
         android:label="DefaultTypesSelectionDialogFragment"
         tools:layout="@layout/default_types_selection_dialog_fragment" />
     <dialog
-        android:id="@+id/typesFilterDialogFragment"
-        android:name="com.example.util.simpletimetracker.feature_dialogs.typesFilter.view.TypesFilterDialogFragment"
-        android:label="TypesFilterDialogFragment"
-        tools:layout="@layout/types_filter_dialog_fragment" />
-    <dialog
         android:id="@+id/cardSizeDialogFragment"
         android:name="com.example.util.simpletimetracker.feature_dialogs.cardSize.view.CardSizeDialogFragment"
         android:label="CardSizeDialogFragment"
