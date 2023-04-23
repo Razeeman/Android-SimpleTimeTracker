@@ -50,7 +50,6 @@ class RecordsAllViewModel @Inject constructor(
     }
 
     private var sortOrder: RecordsAllSortOrder = RecordsAllSortOrder.TIME_STARTED
-    private var commentSearch: String = ""
 
     fun onRecordClick(item: RecordViewData, sharedElements: Pair<Any, String>) {
         if (item is RecordViewData.Tracked) {
@@ -92,15 +91,6 @@ class RecordsAllViewModel @Inject constructor(
         updateSortOrderViewData()
     }
 
-    fun onCommentChange(text: String) {
-        viewModelScope.launch {
-            if (text != commentSearch) {
-                commentSearch = text
-                updateRecords()
-            }
-        }
-    }
-
     private fun updateRecords() = viewModelScope.launch {
         val data = loadRecordsViewData()
         records.set(data)
@@ -110,7 +100,6 @@ class RecordsAllViewModel @Inject constructor(
         return recordsAllViewDataInteractor.getViewData(
             filter = extra.filter.map(RecordsFilterParam::toModel),
             sortOrder = sortOrder,
-            commentSearch = commentSearch,
         )
     }
 

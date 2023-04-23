@@ -4,7 +4,6 @@ import com.example.util.simpletimetracker.feature_records_all.databinding.Record
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -67,7 +66,6 @@ class RecordsAllFragment : BaseFragment<Binding>() {
     }
 
     override fun initUx() = with(binding) {
-        etRecordsAllSearchComment.doAfterTextChanged { viewModel.onCommentChange(it.toString()) }
         spinnerRecordsAllSort.onPositionSelected = viewModel::onRecordTypeOrderSelected
     }
 

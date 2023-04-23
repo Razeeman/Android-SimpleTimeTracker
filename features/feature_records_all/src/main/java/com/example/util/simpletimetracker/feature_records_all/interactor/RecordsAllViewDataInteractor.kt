@@ -25,7 +25,6 @@ class RecordsAllViewDataInteractor @Inject constructor(
     suspend fun getViewData(
         filter: List<RecordsFilter>,
         sortOrder: RecordsAllSortOrder,
-        commentSearch: String,
     ): List<ViewHolderType> {
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
@@ -34,23 +33,11 @@ class RecordsAllViewDataInteractor @Inject constructor(
         val recordTypes = recordTypeInteractor.getAll().associateBy { it.id }
         val recordTags = recordTagInteractor.getAll()
 
+        // Show empty records if no filters other than date.
         val records = filter
-            .let { mainFilters ->
-                var finalFilters = mainFilters
-
-                // Show empty records if no filters other than date.
-                if (finalFilters.none { it !is RecordsFilter.Date }) {
-                    return@let emptyList()
-                }
-                // TODO remove comment
-                if (commentSearch.isNotEmpty()) {
-                    finalFilters = finalFilters + RecordsFilter.Comment(commentSearch)
-                }
-
-                finalFilters
-            }.let {
-                recordFilterInteractor.getByFilter(it)
-            }
+            .takeUnless { it.none { filter -> filter !is RecordsFilter.Date } }
+            .orEmpty()
+            .let { recordFilterInteractor.getByFilter(it) }
 
         return withContext(Dispatchers.Default) {
             records
