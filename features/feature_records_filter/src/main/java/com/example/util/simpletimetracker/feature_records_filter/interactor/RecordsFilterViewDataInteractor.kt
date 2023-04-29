@@ -11,6 +11,7 @@ import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.extension.getAllTypeIds
 import com.example.util.simpletimetracker.domain.extension.getCategoryIds
+import com.example.util.simpletimetracker.domain.extension.getCategoryItems
 import com.example.util.simpletimetracker.domain.extension.getComment
 import com.example.util.simpletimetracker.domain.extension.getDate
 import com.example.util.simpletimetracker.domain.extension.getFilteredTags
@@ -19,6 +20,7 @@ import com.example.util.simpletimetracker.domain.extension.getSelectedTags
 import com.example.util.simpletimetracker.domain.extension.getTaggedIds
 import com.example.util.simpletimetracker.domain.extension.hasCategoryFilter
 import com.example.util.simpletimetracker.domain.extension.hasManuallyFiltered
+import com.example.util.simpletimetracker.domain.extension.hasUncategorizedItem
 import com.example.util.simpletimetracker.domain.extension.hasUntaggedItem
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
@@ -227,8 +229,9 @@ class RecordsFilterViewDataInteractor @Inject constructor(
         val numberOfCards = prefsInteractor.getNumberOfCards()
         val isDarkTheme = prefsInteractor.getDarkMode()
 
+        val selectedCategoryItems: List<RecordsFilter.CategoryItem> = filters.getCategoryItems()
         val selectedCategoryIds: List<Long> = filters.getCategoryIds()
-        val allSelectedTypeIds: List<Long> = filters.getAllTypeIds(recordTypeCategories)
+        val allSelectedTypeIds: List<Long> = filters.getAllTypeIds(types, recordTypeCategories)
 
         val typesViewData = types.map { type ->
             recordTypeViewDataMapper.mapFiltered(
@@ -239,13 +242,22 @@ class RecordsFilterViewDataInteractor @Inject constructor(
             )
         }
 
-        val categoriesViewData = categories.map { category ->
-            categoryViewDataMapper.mapCategory(
-                category = category,
-                isDarkTheme = isDarkTheme,
-                isFiltered = category.id !in selectedCategoryIds,
+        val categoriesViewData = categories
+            .map { category ->
+                categoryViewDataMapper.mapCategory(
+                    category = category,
+                    isDarkTheme = isDarkTheme,
+                    isFiltered = category.id !in selectedCategoryIds,
+                )
+            }
+            .takeUnless { it.isEmpty() }
+            ?.plus(
+                categoryViewDataMapper.mapToUncategorizedItem(
+                    isFiltered = !selectedCategoryItems.hasUncategorizedItem(),
+                    isDarkTheme = isDarkTheme
+                )
             )
-        }
+            .orEmpty()
 
         if (categoriesViewData.isNotEmpty()) {
             HintViewData(resourceRepo.getString(R.string.category_hint)).let(result::add)
@@ -286,10 +298,10 @@ class RecordsFilterViewDataInteractor @Inject constructor(
         val isDarkTheme = prefsInteractor.getDarkMode()
         val typesMap = types.associateBy(RecordType::id)
         val selectedTypes = filters
-            .getAllTypeIds(recordTypeCategories)
+            .getAllTypeIds(types, recordTypeCategories)
             .takeUnless { it.isEmpty() }
             ?: types.map(RecordType::id)
-        val selectedTags: List<RecordsFilter.Tag> = when (type) {
+        val selectedTags: List<RecordsFilter.TagItem> = when (type) {
             RecordFilterViewData.Type.SELECTED_TAGS -> filters.getSelectedTags()
             RecordFilterViewData.Type.FILTERED_TAGS -> filters.getFilteredTags()
             else -> emptyList()
@@ -302,12 +314,12 @@ class RecordsFilterViewDataInteractor @Inject constructor(
                 val recordType = types.firstOrNull { it.id == tag.typeId } ?: 0
                 types.indexOf(recordType)
             }
-            .let { tags ->
-                mapTaggedTags(
-                    selectedIds = selectedTaggedIds,
-                    tags = tags,
-                    typesMap = typesMap,
-                    isDarkTheme = isDarkTheme
+            .map { tag ->
+                categoryViewDataMapper.mapRecordTag(
+                    tag = tag,
+                    type = typesMap[tag.typeId],
+                    isDarkTheme = isDarkTheme,
+                    isFiltered = tag.id !in selectedTaggedIds,
                 )
             }
             .takeUnless { it.isEmpty() }
@@ -377,22 +389,6 @@ class RecordsFilterViewDataInteractor @Inject constructor(
             }
             .sortedByDescending { (timeStarted, _) -> timeStarted }
             .let(dateDividerViewDataMapper::addDateViewData)
-    }
-
-    private fun mapTaggedTags(
-        selectedIds: List<Long>,
-        tags: List<RecordTag>,
-        typesMap: Map<Long, RecordType>,
-        isDarkTheme: Boolean,
-    ): List<ViewHolderType> {
-        return tags.map { tag ->
-            categoryViewDataMapper.mapRecordTag(
-                tag = tag,
-                type = typesMap[tag.typeId],
-                isDarkTheme = isDarkTheme,
-                isFiltered = tag.id !in selectedIds,
-            )
-        }
     }
 
     private fun mapFilteredRecord(

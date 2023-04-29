@@ -72,7 +72,7 @@ class StatisticsDetailPreviewInteractor @Inject constructor(
                 val tags = recordTagInteractor.getAll().associateBy(RecordTag::id)
                 selectedTags.mapNotNull {
                     when (it) {
-                        is RecordsFilter.Tag.Tagged -> {
+                        is RecordsFilter.TagItem.Tagged -> {
                             val tag = tags[it.tagId] ?: return@mapNotNull null
                             statisticsDetailViewDataMapper.mapToTaggedPreview(
                                 tag = tag,
@@ -81,7 +81,7 @@ class StatisticsDetailPreviewInteractor @Inject constructor(
                                 isForComparison = isForComparison
                             )
                         }
-                        is RecordsFilter.Tag.Untagged -> {
+                        is RecordsFilter.TagItem.Untagged -> {
                             statisticsDetailViewDataMapper.mapToUntaggedPreview(
                                 isDarkTheme = isDarkTheme,
                                 isForComparison = isForComparison

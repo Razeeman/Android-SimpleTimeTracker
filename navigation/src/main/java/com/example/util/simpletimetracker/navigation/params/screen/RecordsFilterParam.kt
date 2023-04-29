@@ -9,7 +9,7 @@ sealed interface RecordsFilterParam : Parcelable {
     data class Activity(val typeIds: List<Long>) : RecordsFilterParam
 
     @Parcelize
-    data class Category(val categoryIds: List<Long>) : RecordsFilterParam
+    data class Category(val items: List<CategoryItem>) : RecordsFilterParam
 
     @Parcelize
     data class Comment(val comment: String) : RecordsFilterParam
@@ -18,19 +18,27 @@ sealed interface RecordsFilterParam : Parcelable {
     data class Date(val rangeStart: Long, val rangeEnd: Long) : RecordsFilterParam
 
     @Parcelize
-    data class SelectedTags(val tags: List<Tag>) : RecordsFilterParam
+    data class SelectedTags(val items: List<TagItem>) : RecordsFilterParam
 
     @Parcelize
-    data class FilteredTags(val tags: List<Tag>) : RecordsFilterParam
+    data class FilteredTags(val items: List<TagItem>) : RecordsFilterParam
 
     @Parcelize
     data class ManuallyFiltered(val recordIds: List<Long>) : RecordsFilterParam
 
-    sealed interface Tag : Parcelable {
+    sealed interface CategoryItem : Parcelable {
         @Parcelize
-        data class Tagged(val tagId: Long) : Tag
+        data class Categorized(val categoryId: Long) : CategoryItem
 
         @Parcelize
-        object Untagged : Tag
+        object Uncategorized : CategoryItem
+    }
+
+    sealed interface TagItem : Parcelable {
+        @Parcelize
+        data class Tagged(val tagId: Long) : TagItem
+
+        @Parcelize
+        object Untagged : TagItem
     }
 }

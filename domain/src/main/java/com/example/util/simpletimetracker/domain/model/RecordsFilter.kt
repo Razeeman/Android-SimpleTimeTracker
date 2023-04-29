@@ -4,20 +4,25 @@ sealed interface RecordsFilter {
 
     data class Activity(val typeIds: List<Long>) : RecordsFilter
 
-    data class Category(val categoryIds: List<Long>) : RecordsFilter
+    data class Category(val items: List<CategoryItem>) : RecordsFilter
 
     data class Comment(val comment: String) : RecordsFilter
 
     data class Date(val range: Range) : RecordsFilter
 
-    data class SelectedTags(val tags: List<Tag>) : RecordsFilter
+    data class SelectedTags(val items: List<TagItem>) : RecordsFilter
 
-    data class FilteredTags(val tags: List<Tag>) : RecordsFilter
+    data class FilteredTags(val items: List<TagItem>) : RecordsFilter
 
     data class ManuallyFiltered(val recordIds: List<Long>) : RecordsFilter
 
-    sealed interface Tag {
-        data class Tagged(val tagId: Long) : Tag
-        object Untagged : Tag
+    sealed interface CategoryItem {
+        data class Categorized(val categoryId: Long) : CategoryItem
+        object Uncategorized: CategoryItem
+    }
+
+    sealed interface TagItem {
+        data class Tagged(val tagId: Long) : TagItem
+        object Untagged : TagItem
     }
 }

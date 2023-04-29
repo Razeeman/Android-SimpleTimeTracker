@@ -50,7 +50,7 @@ class StatisticsViewDataInteractor @Inject constructor(
                     return RecordsFilter.Activity(typesNotInCategories)
                 }
                 ChartFilterType.RECORD_TAG -> {
-                    return RecordsFilter.Tag.Untagged
+                    return RecordsFilter.TagItem.Untagged
                         .let(::listOf)
                         .let(RecordsFilter::SelectedTags)
                 }
@@ -65,10 +65,10 @@ class StatisticsViewDataInteractor @Inject constructor(
                 listOf(selectedId).let(RecordsFilter::Activity)
             }
             ChartFilterType.CATEGORY -> {
-                listOf(selectedId).let(RecordsFilter::Category)
+                listOf(selectedId).map(RecordsFilter.CategoryItem::Categorized).let(RecordsFilter::Category)
             }
             ChartFilterType.RECORD_TAG -> {
-                listOf(selectedId).map(RecordsFilter.Tag::Tagged).let(RecordsFilter::SelectedTags)
+                listOf(selectedId).map(RecordsFilter.TagItem::Tagged).let(RecordsFilter::SelectedTags)
             }
         }
     }

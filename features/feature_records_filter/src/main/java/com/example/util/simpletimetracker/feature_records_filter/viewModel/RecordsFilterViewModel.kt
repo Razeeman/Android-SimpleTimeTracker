@@ -7,8 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.extension.addOrRemove
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.extension.toModel
+import com.example.util.simpletimetracker.domain.UNCATEGORIZED_ITEM_ID
 import com.example.util.simpletimetracker.domain.extension.getAllTypeIds
-import com.example.util.simpletimetracker.domain.extension.getCategoryIds
+import com.example.util.simpletimetracker.domain.extension.getCategoryItems
 import com.example.util.simpletimetracker.domain.extension.getDate
 import com.example.util.simpletimetracker.domain.extension.getFilteredTags
 import com.example.util.simpletimetracker.domain.extension.getManuallyFilteredRecordIds
@@ -237,7 +238,10 @@ class RecordsFilterViewModel @Inject constructor(
 
     private suspend fun handleTypeClick(id: Long) {
         val currentIds = filters.getTypeIds().toMutableList()
-        val currentIdsFromCategories = filters.getTypeIdsFromCategories(getRecordTypeCategoriesCache())
+        val currentIdsFromCategories = filters.getTypeIdsFromCategories(
+            recordTypes = getTypesCache(),
+            recordTypeCategories = getRecordTypeCategoriesCache()
+        )
 
         // Switch from categories to types in these categories.
         if (currentIdsFromCategories.isNotEmpty()) {
@@ -253,15 +257,19 @@ class RecordsFilterViewModel @Inject constructor(
     }
 
     private suspend fun handleCategoryClick(id: Long) {
-        val currentIds = filters.getCategoryIds().toMutableList()
+        val currentItems = filters.getCategoryItems()
 
         filters.removeAll { it is RecordsFilter.Activity }
         filterSelectionState = RecordsFilterSelectionState.Visible(RecordFilterViewData.Type.CATEGORY)
 
-        val newIds = currentIds.toMutableList().apply { addOrRemove(id) }
+        val newItems = if (id == UNCATEGORIZED_ITEM_ID) {
+            RecordsFilter.CategoryItem.Uncategorized
+        } else {
+            RecordsFilter.CategoryItem.Categorized(id)
+        }.let { currentItems.toMutableList().apply { addOrRemove(it) } }
 
         filters.removeAll { it is RecordsFilter.Category }
-        if (newIds.isNotEmpty()) filters.add(RecordsFilter.Category(newIds))
+        if (newItems.isNotEmpty()) filters.add(RecordsFilter.Category(newItems))
 
         checkTagFilterConsistency()
     }
@@ -277,8 +285,8 @@ class RecordsFilterViewModel @Inject constructor(
         }
 
         val newTags = when (item) {
-            is CategoryViewData.Record.Tagged -> RecordsFilter.Tag.Tagged(item.id)
-            is CategoryViewData.Record.Untagged -> RecordsFilter.Tag.Untagged
+            is CategoryViewData.Record.Tagged -> RecordsFilter.TagItem.Tagged(item.id)
+            is CategoryViewData.Record.Untagged -> RecordsFilter.TagItem.Untagged
         }.let { currentTags.toMutableList().apply { addOrRemove(it) } }
 
         when (currentState) {
@@ -304,17 +312,20 @@ class RecordsFilterViewModel @Inject constructor(
 
     private suspend fun checkTagFilterConsistency() {
         // Update tags according to selected activities
-        val newTypeIds: List<Long> = filters.getAllTypeIds(getRecordTypeCategoriesCache())
+        val newTypeIds: List<Long> = filters.getAllTypeIds(
+            recordTypes = getTypesCache(),
+            recordTypeCategories = getRecordTypeCategoriesCache()
+        )
 
-        suspend fun update(tags: List<RecordsFilter.Tag>): List<RecordsFilter.Tag> {
+        suspend fun update(tags: List<RecordsFilter.TagItem>): List<RecordsFilter.TagItem> {
             return tags.filter {
                 when (it) {
-                    is RecordsFilter.Tag.Tagged -> {
+                    is RecordsFilter.TagItem.Tagged -> {
                         it.tagId in getTagsCache()
                             .filter { tag -> tag.typeId in newTypeIds || tag.typeId == 0L }
                             .map { tag -> tag.id }
                     }
-                    is RecordsFilter.Tag.Untagged -> {
+                    is RecordsFilter.TagItem.Untagged -> {
                         true
                     }
                 }

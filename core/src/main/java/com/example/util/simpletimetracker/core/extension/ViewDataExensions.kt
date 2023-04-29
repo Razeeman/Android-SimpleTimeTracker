@@ -39,11 +39,11 @@ fun GoalTimeViewData.toParams(): ChangeRunningRecordParams.Preview.GoalTimeParam
 fun RecordsFilterParam.toModel(): RecordsFilter {
     return when (this) {
         is RecordsFilterParam.Activity -> RecordsFilter.Activity(typeIds)
-        is RecordsFilterParam.Category -> RecordsFilter.Category(categoryIds)
+        is RecordsFilterParam.Category -> RecordsFilter.Category(items.map { it.toModel() })
         is RecordsFilterParam.Comment -> RecordsFilter.Comment(comment)
         is RecordsFilterParam.Date -> RecordsFilter.Date(Range(rangeStart, rangeEnd))
-        is RecordsFilterParam.SelectedTags -> RecordsFilter.SelectedTags(tags.map { it.toModel() })
-        is RecordsFilterParam.FilteredTags -> RecordsFilter.FilteredTags(tags.map { it.toModel() })
+        is RecordsFilterParam.SelectedTags -> RecordsFilter.SelectedTags(items.map { it.toModel() })
+        is RecordsFilterParam.FilteredTags -> RecordsFilter.FilteredTags(items.map { it.toModel() })
         is RecordsFilterParam.ManuallyFiltered -> RecordsFilter.ManuallyFiltered(recordIds)
     }
 }
@@ -51,25 +51,39 @@ fun RecordsFilterParam.toModel(): RecordsFilter {
 fun RecordsFilter.toParams(): RecordsFilterParam {
     return when (this) {
         is RecordsFilter.Activity -> RecordsFilterParam.Activity(typeIds)
-        is RecordsFilter.Category -> RecordsFilterParam.Category(categoryIds)
+        is RecordsFilter.Category -> RecordsFilterParam.Category(items.map { it.toParams() })
         is RecordsFilter.Comment -> RecordsFilterParam.Comment(comment)
         is RecordsFilter.Date -> RecordsFilterParam.Date(range.timeStarted, range.timeEnded)
-        is RecordsFilter.SelectedTags -> RecordsFilterParam.SelectedTags(tags.map { it.toParams() })
-        is RecordsFilter.FilteredTags -> RecordsFilterParam.FilteredTags(tags.map { it.toParams() })
+        is RecordsFilter.SelectedTags -> RecordsFilterParam.SelectedTags(items.map { it.toParams() })
+        is RecordsFilter.FilteredTags -> RecordsFilterParam.FilteredTags(items.map { it.toParams() })
         is RecordsFilter.ManuallyFiltered -> RecordsFilterParam.ManuallyFiltered(recordIds)
     }
 }
 
-fun RecordsFilterParam.Tag.toModel(): RecordsFilter.Tag {
+fun RecordsFilterParam.CategoryItem.toModel(): RecordsFilter.CategoryItem {
     return when (this) {
-        is RecordsFilterParam.Tag.Tagged -> RecordsFilter.Tag.Tagged(tagId)
-        is RecordsFilterParam.Tag.Untagged -> RecordsFilter.Tag.Untagged
+        is RecordsFilterParam.CategoryItem.Categorized -> RecordsFilter.CategoryItem.Categorized(categoryId)
+        is RecordsFilterParam.CategoryItem.Uncategorized -> RecordsFilter.CategoryItem.Uncategorized
     }
 }
 
-fun RecordsFilter.Tag.toParams(): RecordsFilterParam.Tag {
+fun RecordsFilter.CategoryItem.toParams(): RecordsFilterParam.CategoryItem {
     return when (this) {
-        is RecordsFilter.Tag.Tagged -> RecordsFilterParam.Tag.Tagged(tagId)
-        is RecordsFilter.Tag.Untagged -> RecordsFilterParam.Tag.Untagged
+        is RecordsFilter.CategoryItem.Categorized -> RecordsFilterParam.CategoryItem.Categorized(categoryId)
+        is RecordsFilter.CategoryItem.Uncategorized -> RecordsFilterParam.CategoryItem.Uncategorized
+    }
+}
+
+fun RecordsFilterParam.TagItem.toModel(): RecordsFilter.TagItem {
+    return when (this) {
+        is RecordsFilterParam.TagItem.Tagged -> RecordsFilter.TagItem.Tagged(tagId)
+        is RecordsFilterParam.TagItem.Untagged -> RecordsFilter.TagItem.Untagged
+    }
+}
+
+fun RecordsFilter.TagItem.toParams(): RecordsFilterParam.TagItem {
+    return when (this) {
+        is RecordsFilter.TagItem.Tagged -> RecordsFilterParam.TagItem.Tagged(tagId)
+        is RecordsFilter.TagItem.Untagged -> RecordsFilterParam.TagItem.Untagged
     }
 }

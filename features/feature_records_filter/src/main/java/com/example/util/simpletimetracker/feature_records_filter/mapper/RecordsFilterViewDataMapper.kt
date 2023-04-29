@@ -59,7 +59,7 @@ class RecordsFilterViewDataMapper @Inject constructor(
                 "${filter.typeIds.size}"
             }
             is RecordsFilter.Category -> {
-                "${filter.categoryIds.size}"
+                "${filter.items.size}"
             }
             is RecordsFilter.Comment -> {
                 filter.comment
@@ -82,10 +82,10 @@ class RecordsFilterViewDataMapper @Inject constructor(
                 "$startedDate - $endedDate"
             }
             is RecordsFilter.SelectedTags -> {
-                "${filter.tags.size}"
+                "${filter.items.size}"
             }
             is RecordsFilter.FilteredTags -> {
-                "${filter.tags.size}"
+                "${filter.items.size}"
             }
             is RecordsFilter.ManuallyFiltered -> {
                 "${filter.recordIds.size}"

@@ -8,10 +8,13 @@ import com.example.util.simpletimetracker.domain.extension.getFilteredTags
 import com.example.util.simpletimetracker.domain.extension.getManuallyFilteredRecordIds
 import com.example.util.simpletimetracker.domain.extension.getSelectedTags
 import com.example.util.simpletimetracker.domain.extension.getTaggedIds
+import com.example.util.simpletimetracker.domain.extension.getTypeIds
+import com.example.util.simpletimetracker.domain.extension.hasCategoryFilter
 import com.example.util.simpletimetracker.domain.extension.hasUntaggedItem
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.Record
@@ -20,6 +23,7 @@ import javax.inject.Inject
 
 class RecordFilterInteractor @Inject constructor(
     private val interactor: RecordInteractor,
+    private val recordTypeInteractor: RecordTypeInteractor,
     private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
     private val timeMapper: TimeMapper,
     private val prefsInteractor: PrefsInteractor,
@@ -49,13 +53,20 @@ class RecordFilterInteractor @Inject constructor(
     suspend fun getByFilter(filters: List<RecordsFilter>): List<Record> {
         if (filters.isEmpty()) return emptyList()
 
-        val typeIds: List<Long> = filters.getAllTypeIds(recordTypeCategoryInteractor.getAll())
+        val typeIds: List<Long> = when {
+            filters.hasCategoryFilter() -> {
+                val types = recordTypeInteractor.getAll()
+                val typeCategories = recordTypeCategoryInteractor.getAll()
+                filters.getAllTypeIds(types, typeCategories)
+            }
+            else -> filters.getTypeIds()
+        }
         val comments: List<String> = filters.getComment()?.lowercase()?.let(::listOf).orEmpty()
         val ranges: List<Range> = filters.getDate()?.let(::listOf).orEmpty()
-        val selectedTags: List<RecordsFilter.Tag> = filters.getSelectedTags()
+        val selectedTags: List<RecordsFilter.TagItem> = filters.getSelectedTags()
         val selectedTaggedIds: List<Long> = selectedTags.getTaggedIds()
         val selectedUntagged: Boolean = selectedTags.hasUntaggedItem()
-        val filteredTags: List<RecordsFilter.Tag> = filters.getFilteredTags()
+        val filteredTags: List<RecordsFilter.TagItem> = filters.getFilteredTags()
         val filteredTaggedIds: List<Long> = filteredTags.getTaggedIds()
         val filteredUntagged: Boolean = filteredTags.hasUntaggedItem()
         val manuallyFilteredIds: List<Long> = filters.getManuallyFilteredRecordIds()
