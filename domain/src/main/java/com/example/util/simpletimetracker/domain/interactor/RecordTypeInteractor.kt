@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.domain.interactor
 
+import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.mapper.AppColorMapper
 import com.example.util.simpletimetracker.domain.model.CardOrder
 import com.example.util.simpletimetracker.domain.model.RecordType
@@ -111,11 +112,12 @@ class RecordTypeInteractor @Inject constructor(
             }
     }
 
-    private suspend fun sortByManualOrder(records: List<RecordType>): List<RecordType> {
+    private suspend fun sortByManualOrder(types: List<RecordType>): List<RecordType> {
         val order = prefsInteractor.getCardOrderManual()
-        return records
-            .map { type -> type to order.getOrElse(type.id) { 0 } }
-            .sortedBy { (_, order) -> order }
-            .map { (type, _) -> type }
+        return types
+            .filter { it.id in order.keys }
+            .sortedBy { order[it.id].orZero() } +
+            types.filter { it.id !in order.keys }
+                .sortedBy { it.id }
     }
 }
