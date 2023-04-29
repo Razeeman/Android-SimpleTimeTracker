@@ -65,8 +65,14 @@ class StatisticsDetailStatsInteractor @Inject constructor(
                 rangeMapper.getRecordsFromRange(
                     records = records,
                     rangeStart = range.first,
-                    rangeEnd = range.second
-                )
+                    rangeEnd = range.second,
+                ).map {
+                    rangeMapper.clampRecordToRange(
+                        record = it,
+                        rangeStart = range.first,
+                        rangeEnd = range.second,
+                    )
+                }
             },
             compareRecords = if (range.first == 0L && range.second == 0L) {
                 compareRecords
@@ -74,8 +80,14 @@ class StatisticsDetailStatsInteractor @Inject constructor(
                 rangeMapper.getRecordsFromRange(
                     records = compareRecords,
                     rangeStart = range.first,
-                    rangeEnd = range.second
-                )
+                    rangeEnd = range.second,
+                ).map {
+                    rangeMapper.clampRecordToRange(
+                        record = it,
+                        rangeStart = range.first,
+                        rangeEnd = range.second,
+                    )
+                }
             },
             showComparison = showComparison,
             types = types,

@@ -73,10 +73,22 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
         )
 
         val ranges = if (range.first != 0L && range.second != 0L) {
-            rangeMapper.getRecordsFromRange(records, range.first, range.second)
+            rangeMapper
+                .getRecordsFromRange(
+                    records = records,
+                    rangeStart = range.first,
+                    rangeEnd = range.second
+                )
+                .map {
+                    rangeMapper.clampToRange(
+                        record = it,
+                        rangeStart = range.first,
+                        rangeEnd = range.second
+                    )
+                }
         } else {
-            records
-        }.map { Range(it.timeStarted, it.timeEnded) }
+            records.map { Range(it.timeStarted, it.timeEnded) }
+        }
         val isVisible = (isForComparison && filter.isNotEmpty()) || !isForComparison
 
         val minDuration = ranges

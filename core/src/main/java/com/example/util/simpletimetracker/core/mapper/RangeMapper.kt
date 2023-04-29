@@ -78,7 +78,7 @@ class RangeMapper @Inject constructor(
         rangeStart: Long,
         rangeEnd: Long,
     ): List<Record> {
-        return records.filter { it.timeStarted < rangeEnd && it.timeEnded > rangeStart }
+        return records.filter { it.isInRange(rangeStart, rangeEnd) }
     }
 
     fun getRunningRecordsFromRange(
@@ -98,6 +98,21 @@ class RangeMapper @Inject constructor(
             timeStarted = max(record.timeStarted, rangeStart),
             timeEnded = min(record.timeEnded, rangeEnd)
         )
+    }
+
+    fun clampRecordToRange(
+        record: Record,
+        rangeStart: Long,
+        rangeEnd: Long,
+    ): Record {
+        return if (!record.isInRange(rangeStart, rangeEnd)) {
+            record.copy(
+                timeStarted = max(record.timeStarted, rangeStart),
+                timeEnded = min(record.timeEnded, rangeEnd)
+            )
+        } else {
+            record
+        }
     }
 
     fun mapToDuration(ranges: List<Range>): Long {
@@ -135,6 +150,13 @@ class RangeMapper @Inject constructor(
 
     private fun mapToSelectRange(): SelectRangeViewData {
         return SelectRangeViewData(text = resourceRepo.getString(R.string.range_custom))
+    }
+
+    private fun Record.isInRange(
+        rangeStart: Long,
+        rangeEnd: Long,
+    ): Boolean {
+        return this.timeStarted < rangeEnd && this.timeEnded > rangeStart
     }
 
     companion object {

@@ -366,6 +366,7 @@ class StatisticsDetailViewModel @Inject constructor(
     }
 
     private suspend fun loadRecordsCache() {
+        // Load all records without date filter for faster date selection.
         records = recordFilterInteractor.getByFilter(filter)
         compareRecords = recordFilterInteractor.getByFilter(comparisonFilter)
     }
