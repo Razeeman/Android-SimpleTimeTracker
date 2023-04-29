@@ -1,11 +1,11 @@
-package com.example.util.simpletimetracker.feature_widget.configure.adapter
+package com.example.util.simpletimetracker.feature_widget.single.settings.adapter
 
 import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
 import com.example.util.simpletimetracker.feature_views.extension.setOnClickWith
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData as ViewData
 import com.example.util.simpletimetracker.feature_widget.databinding.ItemWidgetRecordTypeLayoutBinding as Binding
 
-fun createWidgetAdapterDelegate(
+fun createWidgetSingleSettingsAdapterDelegate(
     onItemClick: ((ViewData) -> Unit)
 ) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
     Binding::inflate

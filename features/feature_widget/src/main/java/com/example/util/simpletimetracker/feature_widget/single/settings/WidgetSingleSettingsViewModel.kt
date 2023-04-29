@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.feature_widget.configure.viewModel
+package com.example.util.simpletimetracker.feature_widget.single.settings
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,20 +10,19 @@ import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
-import com.example.util.simpletimetracker.feature_widget.configure.extra.WidgetExtra
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class WidgetViewModel @Inject constructor(
+class WidgetSingleSettingsViewModel @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val widgetInteractor: WidgetInteractor,
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper
 ) : ViewModel() {
 
-    lateinit var extra: WidgetExtra
+    lateinit var extra: WidgetSingleSettingsExtra
 
     val recordTypes: LiveData<List<ViewHolderType>> by lazy {
         MutableLiveData<List<ViewHolderType>>().let { initial ->

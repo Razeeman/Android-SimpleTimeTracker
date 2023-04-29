@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.feature_widget.widget
+package com.example.util.simpletimetracker.feature_widget.single
 
 import android.content.Context
 import android.content.Intent
@@ -15,7 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class WidgetTagSelectionActivity :
+class WidgetSingleTagSelectionActivity :
     BaseActivity(),
     OnTagSelectedListener {
 
@@ -53,7 +53,7 @@ class WidgetTagSelectionActivity :
             context: Context,
             data: RecordTagSelectionParams,
         ): Intent {
-            return Intent(context, WidgetTagSelectionActivity::class.java).apply {
+            return Intent(context, WidgetSingleTagSelectionActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 putExtra(ARGS_PARAMS, data)
             }

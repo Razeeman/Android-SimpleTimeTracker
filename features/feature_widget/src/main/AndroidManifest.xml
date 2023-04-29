@@ -4,7 +4,7 @@
     <application android:theme="@style/AppTheme">
 
         <activity
-            android:name=".configure.view.WidgetConfigureActivity"
+            android:name=".single.settings.WidgetSingleSettingsActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
@@ -26,13 +26,13 @@
             android:noHistory="true" />
 
         <activity
-            android:name=".widget.WidgetTagSelectionActivity"
+            android:name=".single.WidgetSingleTagSelectionActivity"
             android:documentLaunchMode="intoExisting"
             android:excludeFromRecents="true"
             android:noHistory="true" />
 
         <receiver
-            android:name=".widget.WidgetProvider"
+            android:name=".single.WidgetSingleProvider"
             android:exported="false"
             android:label="@string/widget_name">
             <intent-filter>
@@ -40,7 +40,7 @@
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/widget_info" />
+                android:resource="@xml/widget_single_info" />
         </receiver>
 
         <receiver

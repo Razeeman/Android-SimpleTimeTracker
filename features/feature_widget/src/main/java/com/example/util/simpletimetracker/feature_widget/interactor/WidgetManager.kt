@@ -7,7 +7,7 @@ import android.content.Intent
 import com.example.util.simpletimetracker.domain.model.WidgetType
 import com.example.util.simpletimetracker.feature_widget.statistics.WidgetStatisticsChartProvider
 import com.example.util.simpletimetracker.feature_widget.universal.WidgetUniversalProvider
-import com.example.util.simpletimetracker.feature_widget.widget.WidgetProvider
+import com.example.util.simpletimetracker.feature_widget.single.WidgetSingleProvider
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -18,7 +18,7 @@ class WidgetManager @Inject constructor(
 ) {
 
     fun updateWidget(widgetId: Int) {
-        val intent = Intent(context, WidgetProvider::class.java)
+        val intent = Intent(context, WidgetSingleProvider::class.java)
         intent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, intArrayOf(widgetId))
         context.sendBroadcast(intent)
@@ -38,7 +38,7 @@ class WidgetManager @Inject constructor(
 
         val providers = widgetsToUpdate.map { type ->
             when (type) {
-                WidgetType.RECORD_TYPE -> WidgetProvider::class.java
+                WidgetType.RECORD_TYPE -> WidgetSingleProvider::class.java
                 WidgetType.UNIVERSAL -> WidgetUniversalProvider::class.java
                 WidgetType.STATISTICS_CHART -> WidgetStatisticsChartProvider::class.java
             }

@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.feature_widget.configure.view
+package com.example.util.simpletimetracker.feature_widget.single.settings
 
 import android.app.Activity
 import android.appwidget.AppWidgetManager
@@ -10,10 +10,8 @@ import com.example.util.simpletimetracker.core.manager.ThemeManager
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
-import com.example.util.simpletimetracker.feature_widget.configure.adapter.createWidgetAdapterDelegate
-import com.example.util.simpletimetracker.feature_widget.configure.extra.WidgetExtra
-import com.example.util.simpletimetracker.feature_widget.configure.viewModel.WidgetViewModel
-import com.example.util.simpletimetracker.feature_widget.databinding.WidgetConfigureActivityBinding
+import com.example.util.simpletimetracker.feature_widget.databinding.WidgetSingleSettingsConfigureActivityBinding
+import com.example.util.simpletimetracker.feature_widget.single.settings.adapter.createWidgetSingleSettingsAdapterDelegate
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
@@ -22,16 +20,16 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class WidgetConfigureActivity : BaseActivity() {
+class WidgetSingleSettingsActivity : BaseActivity() {
 
     @Inject
     lateinit var themeManager: ThemeManager
 
-    private val viewModel: WidgetViewModel by viewModels()
+    private val viewModel: WidgetSingleSettingsViewModel by viewModels()
 
     private val typesAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
-            createWidgetAdapterDelegate(viewModel::onRecordTypeClick),
+            createWidgetSingleSettingsAdapterDelegate(viewModel::onRecordTypeClick),
             createEmptyAdapterDelegate(),
             createLoaderAdapterDelegate()
         )
@@ -49,10 +47,10 @@ class WidgetConfigureActivity : BaseActivity() {
 
     private fun initUi() {
         themeManager.setTheme(this)
-        val binding = WidgetConfigureActivityBinding.inflate(layoutInflater)
+        val binding = WidgetSingleSettingsConfigureActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.rvWidgetConfigureRecordType.apply {
+        binding.rvWidgetSingleSettingsRecordType.apply {
             layoutManager = FlexboxLayoutManager(context).apply {
                 flexDirection = FlexDirection.ROW
                 justifyContent = JustifyContent.CENTER
@@ -70,7 +68,7 @@ class WidgetConfigureActivity : BaseActivity() {
             )
             ?: AppWidgetManager.INVALID_APPWIDGET_ID
 
-        extra = WidgetExtra(widgetId)
+        extra = WidgetSingleSettingsExtra(widgetId)
         recordTypes.observe(typesAdapter::replace)
         handled.observe(::exit)
     }

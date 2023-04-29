@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.feature_widget.widget
+package com.example.util.simpletimetracker.feature_widget.single
 
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
@@ -42,7 +42,7 @@ import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class WidgetProvider : AppWidgetProvider() {
+class WidgetSingleProvider : AppWidgetProvider() {
 
     @Inject
     lateinit var addRunningRecordMediator: AddRunningRecordMediator
@@ -224,7 +224,7 @@ class WidgetProvider : AppWidgetProvider() {
     private fun showTagSelection(context: Context?, typeId: Long) {
         context ?: return
 
-        WidgetTagSelectionActivity.getStartIntent(
+        WidgetSingleTagSelectionActivity.getStartIntent(
             context = context,
             data = RecordTagSelectionParams(typeId)
         ).let(context::startActivity)
