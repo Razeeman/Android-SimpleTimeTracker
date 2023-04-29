@@ -142,14 +142,12 @@ class StatisticsViewDataMapper @Inject constructor(
                     id = statistics.id,
                     name = R.string.untracked_time_name
                         .let(resourceRepo::getString),
-                    duration = statistics.duration
-                        .let {
-                            timeMapper.formatInterval(
-                                interval = it,
-                                forceSeconds = showSeconds,
-                                useProportionalMinutes = useProportionalMinutes,
-                            )
-                        },
+                    duration = mapDuration(
+                        statistics = statistics,
+                        showDuration = showDuration,
+                        showSeconds = showSeconds,
+                        useProportionalMinutes = useProportionalMinutes
+                    ),
                     percent = durationPercent,
                     icon = RecordTypeIcon.Image(R.drawable.unknown),
                     color = colorMapper.toUntrackedColor(isDarkTheme)
@@ -163,14 +161,12 @@ class StatisticsViewDataMapper @Inject constructor(
                     } else {
                         R.string.uncategorized_time_name
                     }.let(resourceRepo::getString),
-                    duration = statistics.duration
-                        .let {
-                            timeMapper.formatInterval(
-                                interval = it,
-                                forceSeconds = showSeconds,
-                                useProportionalMinutes = useProportionalMinutes,
-                            )
-                        },
+                    duration = mapDuration(
+                        statistics = statistics,
+                        showDuration = showDuration,
+                        showSeconds = showSeconds,
+                        useProportionalMinutes = useProportionalMinutes
+                    ),
                     percent = durationPercent,
                     icon = RecordTypeIcon.Image(R.drawable.untagged),
                     color = colorMapper.toUntrackedColor(isDarkTheme)
@@ -180,15 +176,12 @@ class StatisticsViewDataMapper @Inject constructor(
                 return StatisticsViewData(
                     id = statistics.id,
                     name = dataHolder.name,
-                    duration = if (showDuration) {
-                        timeMapper.formatInterval(
-                            interval = statistics.duration,
-                            forceSeconds = showSeconds,
-                            useProportionalMinutes = useProportionalMinutes,
-                        )
-                    } else {
-                        ""
-                    },
+                    duration = mapDuration(
+                        statistics = statistics,
+                        showDuration = showDuration,
+                        showSeconds = showSeconds,
+                        useProportionalMinutes = useProportionalMinutes
+                    ),
                     percent = durationPercent,
                     icon = dataHolder.icon
                         ?.let(iconMapper::mapIcon),
@@ -199,6 +192,23 @@ class StatisticsViewDataMapper @Inject constructor(
             else -> {
                 return null
             }
+        }
+    }
+
+    private fun mapDuration(
+        statistics: Statistics,
+        showDuration: Boolean,
+        showSeconds: Boolean,
+        useProportionalMinutes: Boolean,
+    ): String {
+        return if (showDuration) {
+            timeMapper.formatInterval(
+                interval = statistics.duration,
+                forceSeconds = showSeconds,
+                useProportionalMinutes = useProportionalMinutes,
+            )
+        } else {
+            ""
         }
     }
 

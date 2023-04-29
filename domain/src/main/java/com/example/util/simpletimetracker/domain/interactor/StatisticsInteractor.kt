@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.domain.interactor
 
 import com.example.util.simpletimetracker.domain.UNTRACKED_ITEM_ID
+import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.mapper.CoveredRangeMapper
 import com.example.util.simpletimetracker.domain.mapper.StatisticsMapper
 import com.example.util.simpletimetracker.domain.model.Range
@@ -19,17 +20,6 @@ class StatisticsInteractor @Inject constructor(
     private val statisticsMapper: StatisticsMapper
 ) {
 
-    suspend fun getAll(): List<Statistics> {
-        return recordInteractor.getAll()
-            .groupBy { it.typeId }
-            .map { entry ->
-                Statistics(
-                    id = entry.key,
-                    duration = entry.value.let(statisticsMapper::mapToDuration)
-                )
-            }
-    }
-
     suspend fun getAllRunning(): List<Statistics> {
         return runningRecordInteractor.getAll()
             .groupBy { it.id }
@@ -45,32 +35,76 @@ class StatisticsInteractor @Inject constructor(
         range: Range,
         addUntracked: Boolean,
     ): List<Statistics> = withContext(Dispatchers.IO) {
-        var untrackedTime = 0L
-        recordInteractor.getFromRange(range.timeStarted, range.timeEnded)
-            .also { records ->
-                if (addUntracked) untrackedTime = calculateUntracked(records, range)
-            }
+        val records = getRecords(range)
+
+        records
             .groupBy { it.typeId }
-            .map { entry ->
-                Statistics(
-                    id = entry.key,
-                    duration = statisticsMapper.mapToDurationFromRange(entry.value, range)
-                )
+            .let {
+                getStatistics(range, it)
             }
-            .apply {
-                if (addUntracked && untrackedTime > 0L) {
-                    this as MutableList
-                    add(
-                        Statistics(
-                            id = UNTRACKED_ITEM_ID,
-                            duration = untrackedTime
-                        )
-                    )
-                }
-            }
+            .plus(
+                getUntracked(range, records, addUntracked)
+            )
     }
 
-    fun calculateUntracked(records: List<Record>, range: Range): Long {
+    suspend fun getRecords(range: Range): List<Record> {
+        return if (rangeIsAllRecords(range)) {
+            recordInteractor.getAll()
+        } else {
+            recordInteractor.getFromRange(range.timeStarted, range.timeEnded)
+        }
+    }
+
+    fun getStatistics(
+        range: Range,
+        records: Map<Long, List<Record>>,
+    ): List<Statistics> {
+        return records.map { (id, records) ->
+            Statistics(id, getDuration(range, records))
+        }
+    }
+
+    fun getDuration(
+        range: Range,
+        records: List<Record>,
+    ): Long {
+        // If range is all records - do not clamp to range.
+        return if (rangeIsAllRecords(range)) {
+            statisticsMapper.mapToDuration(records)
+        } else {
+            statisticsMapper.mapToDurationFromRange(records, range)
+        }
+    }
+
+    suspend fun getUntracked(
+        range: Range,
+        records: List<Record>,
+        addUntracked: Boolean,
+    ): List<Statistics> {
+        if (addUntracked) {
+            // If range is all records - calculate from first records to current time.
+            val actualRange = if (rangeIsAllRecords(range)) {
+                Range(
+                    timeStarted = recordInteractor.getNext(0)?.timeStarted.orZero(),
+                    timeEnded = System.currentTimeMillis()
+                )
+            } else {
+                range
+            }
+            val untrackedTime = calculateUntracked(records, actualRange)
+
+            if (untrackedTime > 0L) {
+                return Statistics(
+                    id = UNTRACKED_ITEM_ID,
+                    duration = untrackedTime
+                ).let(::listOf)
+            }
+        }
+
+        return emptyList()
+    }
+
+    private fun calculateUntracked(records: List<Record>, range: Range): Long {
         // Bound end range of calculation to current time,
         // to not show untracked time in the future
         val todayEnd = System.currentTimeMillis()
@@ -85,5 +119,9 @@ class StatisticsInteractor @Inject constructor(
             .let(coveredRangeMapper::map)
             // Calculate uncovered range
             .let { untrackedTimeEndRange - range.timeStarted - it }
+    }
+
+    private fun rangeIsAllRecords(range: Range): Boolean {
+        return range.timeStarted == 0L && range.timeEnded == 0L
     }
 }

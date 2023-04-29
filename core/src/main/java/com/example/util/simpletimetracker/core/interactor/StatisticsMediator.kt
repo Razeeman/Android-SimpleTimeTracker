@@ -45,18 +45,12 @@ class StatisticsMediator @Inject constructor(
             startOfDayShift = startOfDayShift,
         )
 
-        return if (start != 0L && end != 0L) {
-            getFromRange(
-                filterType = filterType,
-                range = Range(start, end),
-                addUntracked = !filteredIds.contains(UNTRACKED_ITEM_ID),
-                addUncategorized = !filteredIds.contains(UNCATEGORIZED_ITEM_ID),
-            )
-        } else {
-            getAll(
-                filterType = filterType
-            )
-        }
+        return getFromRange(
+            filterType = filterType,
+            range = Range(start, end),
+            addUntracked = !filteredIds.contains(UNTRACKED_ITEM_ID),
+            addUncategorized = !filteredIds.contains(UNCATEGORIZED_ITEM_ID),
+        )
     }
 
     suspend fun getRunningStatistics(): List<Statistics> {
@@ -155,16 +149,6 @@ class StatisticsMediator @Inject constructor(
                         .sumOf { it.duration }
                 )
             }
-    }
-
-    private suspend fun getAll(
-        filterType: ChartFilterType,
-    ): List<Statistics> {
-        return when (filterType) {
-            ChartFilterType.ACTIVITY -> statisticsInteractor.getAll()
-            ChartFilterType.CATEGORY -> statisticsCategoryInteractor.getAll()
-            ChartFilterType.RECORD_TAG -> statisticsTagInteractor.getAll()
-        }
     }
 
     private suspend fun getFromRange(

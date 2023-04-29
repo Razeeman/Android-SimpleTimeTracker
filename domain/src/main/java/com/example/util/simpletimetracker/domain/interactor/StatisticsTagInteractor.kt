@@ -1,8 +1,6 @@
 package com.example.util.simpletimetracker.domain.interactor
 
 import com.example.util.simpletimetracker.domain.UNCATEGORIZED_ITEM_ID
-import com.example.util.simpletimetracker.domain.UNTRACKED_ITEM_ID
-import com.example.util.simpletimetracker.domain.mapper.StatisticsMapper
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordTag
@@ -12,65 +10,48 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class StatisticsTagInteractor @Inject constructor(
-    private val recordInteractor: RecordInteractor,
     private val recordTagInteractor: RecordTagInteractor,
     private val statisticsInteractor: StatisticsInteractor,
-    private val statisticsMapper: StatisticsMapper
 ) {
-
-    suspend fun getAll(): List<Statistics> = withContext(Dispatchers.IO) {
-        val allRecords = recordInteractor.getAll() // TODO expensive, get by filter
-
-        getTagRecords(allRecords)
-            .map { (tagId, records) ->
-                Statistics(
-                    id = tagId,
-                    duration = records.let(statisticsMapper::mapToDuration)
-                )
-            }
-        // TODO add addUncategorized
-    }
 
     suspend fun getFromRange(
         range: Range,
         addUntracked: Boolean,
         addUncategorized: Boolean,
     ): List<Statistics> = withContext(Dispatchers.IO) {
-        val allRecords = recordInteractor.getFromRange(range.timeStarted, range.timeEnded)
+        val records = statisticsInteractor.getRecords(range)
 
-        getTagRecords(allRecords)
-            .map { (tagId, records) ->
-                Statistics(
-                    id = tagId,
-                    duration = statisticsMapper.mapToDurationFromRange(records, range)
-                )
+        getTagRecords(records)
+            .let {
+                statisticsInteractor.getStatistics(range, it)
             }
-            .apply {
-                if (addUntracked) {
-                    val untrackedTime = statisticsInteractor
-                        .calculateUntracked(allRecords, range)
-                    if (untrackedTime > 0L) {
-                        this as MutableList
-                        Statistics(
-                            id = UNTRACKED_ITEM_ID,
-                            duration = untrackedTime
-                        ).let(::add)
-                    }
-                }
+            .plus(
+                statisticsInteractor.getUntracked(range, records, addUntracked)
+            )
+            .plus(
+                getUntagged(range, records, addUncategorized)
+            )
+    }
+
+    private fun getUntagged(
+        range: Range,
+        records: List<Record>,
+        addUncategorized: Boolean,
+    ): List<Statistics> {
+        if (addUncategorized) {
+            val uncategorizedTime = statisticsInteractor.getDuration(
+                range = range,
+                records = getUntagged(records),
+            )
+            if (uncategorizedTime > 0L) {
+                return Statistics(
+                    id = UNCATEGORIZED_ITEM_ID,
+                    duration = uncategorizedTime,
+                ).let(::listOf)
             }
-            .apply {
-                if (addUncategorized) {
-                    val untaggedTime = getUntagged(allRecords)
-                        .let(statisticsMapper::mapToDuration) // TODO from range (remove parts not in range).
-                    if (untaggedTime > 0L) {
-                        this as MutableList
-                        Statistics(
-                            id = UNCATEGORIZED_ITEM_ID,
-                            duration = untaggedTime,
-                        ).let(::add)
-                    }
-                }
-            }
+        }
+
+        return emptyList()
     }
 
     private suspend fun getTagRecords(allRecords: List<Record>): Map<Long, List<Record>> {
