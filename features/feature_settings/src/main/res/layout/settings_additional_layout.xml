@@ -158,7 +158,6 @@
                     style="@style/SettingsText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="0dp"
                     android:text="@string/settings_show_record_tag_close_hint"
                     app:layout_constraintBottom_toTopOf="@id/tvSettingsRecordTagSelectionGeneralHint"
                     app:layout_constraintEnd_toStartOf="@id/checkboxSettingsRecordTagSelectionClose"
@@ -177,6 +176,7 @@
                     android:id="@+id/tvSettingsRecordTagSelectionGeneralHint"
                     style="@style/SettingsText"
                     android:layout_width="0dp"
+                    android:paddingTop="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/settings_show_record_tag_general_hint"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -188,6 +188,7 @@
                     android:id="@+id/checkboxSettingsRecordTagSelectionGeneral"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
+                    android:layout_marginBottom="12dp"
                     app:layout_constraintBottom_toBottomOf="@id/tvSettingsRecordTagSelectionGeneralHint"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/tvSettingsRecordTagSelectionGeneralHint" />
@@ -419,6 +420,7 @@
                     android:id="@+id/checkboxSettingsAutomatedTrackingSend"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
+                    android:layout_marginBottom="12dp"
                     app:layout_constraintBottom_toBottomOf="@id/tvSettingsAutomatedTrackingSendTitle"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/tvSettingsAutomatedTrackingSendTitle" />

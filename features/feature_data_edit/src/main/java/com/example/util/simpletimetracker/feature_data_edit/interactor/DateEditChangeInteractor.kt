@@ -10,6 +10,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.category.Category
 import com.example.util.simpletimetracker.feature_data_edit.model.DataEditAddTagsState
 import com.example.util.simpletimetracker.feature_data_edit.model.DataEditChangeActivityState
 import com.example.util.simpletimetracker.feature_data_edit.model.DataEditChangeCommentState
+import com.example.util.simpletimetracker.feature_data_edit.model.DataEditDeleteRecordsState
 import com.example.util.simpletimetracker.feature_data_edit.model.DataEditRemoveTagsState
 import javax.inject.Inject
 
@@ -26,6 +27,7 @@ class DateEditChangeInteractor @Inject constructor(
         commentState: DataEditChangeCommentState,
         addTagState: DataEditAddTagsState,
         removeTagState: DataEditRemoveTagsState,
+        deleteRecordsState: DataEditDeleteRecordsState,
         filters: List<RecordsFilter>
     ) {
         if (filters.isEmpty()) return
@@ -38,12 +40,14 @@ class DateEditChangeInteractor @Inject constructor(
             ?.viewData?.map(CategoryViewData.Record::id)
         val removeTags = (removeTagState as? DataEditRemoveTagsState.Enabled)
             ?.viewData?.map(CategoryViewData.Record::id)
+        val deleteRecord = deleteRecordsState is DataEditDeleteRecordsState.Enabled
 
         if (
             newTypeId == null &&
             newComment == null &&
             addTags == null &&
-            removeTags == null
+            removeTags == null &&
+            !deleteRecord
         ) return
 
         val records = recordFilterInteractor.getByFilter(filters)
@@ -51,6 +55,11 @@ class DateEditChangeInteractor @Inject constructor(
         val oldTypeIds = mutableSetOf<Long>()
 
         records.forEach { record ->
+            if (deleteRecord) {
+                recordInteractor.remove(record.id)
+                return@forEach
+            }
+
             val finalTypeId = newTypeId ?: record.typeId
             val finalComment = newComment ?: record.comment
             val finalTagIds: Set<Long> = record.tagIds

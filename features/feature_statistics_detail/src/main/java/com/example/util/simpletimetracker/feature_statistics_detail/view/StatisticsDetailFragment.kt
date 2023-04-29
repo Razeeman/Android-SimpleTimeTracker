@@ -144,7 +144,7 @@ class StatisticsDetailFragment :
         viewModel.onTypesFilterSelected(result)
     }
 
-    override fun onDismissed(tag: String) {
+    override fun onFilterDismissed(tag: String) {
         viewModel.onTypesFilterDismissed(tag)
     }
 

@@ -19,6 +19,7 @@ import com.example.util.simpletimetracker.feature_data_edit.model.DataEditAddTag
 import com.example.util.simpletimetracker.feature_data_edit.model.DataEditChangeActivityState
 import com.example.util.simpletimetracker.feature_data_edit.model.DataEditChangeButtonState
 import com.example.util.simpletimetracker.feature_data_edit.model.DataEditChangeCommentState
+import com.example.util.simpletimetracker.feature_data_edit.model.DataEditDeleteRecordsState
 import com.example.util.simpletimetracker.feature_data_edit.model.DataEditRemoveTagsState
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
@@ -26,6 +27,7 @@ import com.example.util.simpletimetracker.navigation.params.screen.DataEditTagSe
 import com.example.util.simpletimetracker.navigation.params.screen.DataEditTypeSelectionDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterParams
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterResultParams
+import com.example.util.simpletimetracker.navigation.params.screen.StandardDialogParams
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.launch
@@ -58,6 +60,9 @@ class DataEditViewModel @Inject constructor(
     val removeTagsState: LiveData<DataEditRemoveTagsState> by lazy {
         MutableLiveData(removeTagState)
     }
+    val deleteRecordsState: LiveData<DataEditDeleteRecordsState> by lazy {
+        MutableLiveData(deleteState)
+    }
     val changeButtonState: LiveData<DataEditChangeButtonState> by lazy {
         MutableLiveData<DataEditChangeButtonState>().let { initial ->
             viewModelScope.launch { initial.value = loadChangeButtonState() }
@@ -72,12 +77,14 @@ class DataEditViewModel @Inject constructor(
     private var commentState: DataEditChangeCommentState = DataEditChangeCommentState.Disabled
     private var addTagState: DataEditAddTagsState = DataEditAddTagsState.Disabled
     private var removeTagState: DataEditRemoveTagsState = DataEditRemoveTagsState.Disabled
+    private var deleteState: DataEditDeleteRecordsState = DataEditDeleteRecordsState.Disabled
 
     private val changeButtonEnabled: Boolean
         get() = typeState is DataEditChangeActivityState.Enabled ||
             commentState is DataEditChangeCommentState.Enabled ||
             addTagState is DataEditAddTagsState.Enabled ||
-            removeTagState is DataEditRemoveTagsState.Enabled
+            removeTagState is DataEditRemoveTagsState.Enabled ||
+            deleteState is DataEditDeleteRecordsState.Enabled
 
     fun onSelectRecordsClick() {
         RecordsFilterParams(
@@ -141,6 +148,26 @@ class DataEditViewModel @Inject constructor(
         }
     }
 
+    fun onDeleteRecordsClick() {
+        if (deleteState is DataEditDeleteRecordsState.Disabled) {
+            deleteState = DataEditDeleteRecordsState.Enabled
+        } else {
+            deleteState = DataEditDeleteRecordsState.Disabled
+
+            typeState = DataEditChangeActivityState.Disabled
+            commentState = DataEditChangeCommentState.Disabled
+            addTagState = DataEditAddTagsState.Disabled
+            removeTagState = DataEditRemoveTagsState.Disabled
+
+            updateChangeActivityState()
+            updateChangeCommentState()
+            updateAddTagState()
+            updateRemoveTagState()
+        }
+        updateDeleteRecordsState()
+        updateChangeButtonState()
+    }
+
     fun onTagsSelected(tag: String, tagIds: List<Long>) = viewModelScope.launch {
         when (tag) {
             ADD_TAGS_TAG -> {
@@ -175,19 +202,21 @@ class DataEditViewModel @Inject constructor(
         }
     }
 
-    fun onChangeClick() = viewModelScope.launch {
-        changeButtonState.set(dataEditViewDataInteractor.getChangeButtonState(false))
-        dataEditRepo.inProgress.set(true)
-        dataEditChangeInteractor.changeData(
-            typeState = typeState,
-            commentState = commentState,
-            addTagState = addTagState,
-            removeTagState = removeTagState,
-            filters = filters,
+    fun onChangeClick() {
+        router.navigate(
+            StandardDialogParams(
+                tag = ALERT_DIALOG_TAG,
+                message = resourceRepo.getString(R.string.archive_deletion_alert),
+                btnPositive = resourceRepo.getString(R.string.archive_dialog_delete),
+                btnNegative = resourceRepo.getString(R.string.cancel)
+            )
         )
-        dataEditRepo.inProgress.set(false)
-        showMessage(R.string.data_edit_success_message)
-        router.back()
+    }
+
+    fun onPositiveDialogClick(tag: String?) {
+        if (tag == ALERT_DIALOG_TAG) {
+            onChangeConfirmed()
+        }
     }
 
     fun onFilterSelected(result: RecordsFilterResultParams) {
@@ -201,6 +230,24 @@ class DataEditViewModel @Inject constructor(
         if (tag != FILTER_TAG) return
         checkTagStateConsistency()
         updateSelectedRecordsCountViewData()
+    }
+
+    private fun onChangeConfirmed() = viewModelScope.launch {
+        changeButtonState.set(dataEditViewDataInteractor.getChangeButtonState(false))
+        dataEditRepo.inProgress.set(true)
+
+        dataEditChangeInteractor.changeData(
+            typeState = typeState,
+            commentState = commentState,
+            addTagState = addTagState,
+            removeTagState = removeTagState,
+            deleteRecordsState = deleteState,
+            filters = filters,
+        )
+
+        dataEditRepo.inProgress.set(false)
+        showMessage(R.string.data_edit_success_message)
+        router.back()
     }
 
     private fun openTagSelection(tag: String) {
@@ -288,6 +335,10 @@ class DataEditViewModel @Inject constructor(
         removeTagsState.set(removeTagState)
     }
 
+    private fun updateDeleteRecordsState() = viewModelScope.launch {
+        deleteRecordsState.set(deleteState)
+    }
+
     private fun updateChangeButtonState() = viewModelScope.launch {
         val data = loadChangeButtonState()
         changeButtonState.set(data)
@@ -301,5 +352,6 @@ class DataEditViewModel @Inject constructor(
         private const val FILTER_TAG = "data_edit_filter_tag"
         private const val ADD_TAGS_TAG = "data_edit_add_tags_tag"
         private const val REMOVE_TAGS_TAG = "data_edit_remove_tags_tag"
+        private const val ALERT_DIALOG_TAG = "alert_dialog_tag"
     }
 }

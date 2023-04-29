@@ -290,6 +290,35 @@
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
+                    <View
+                        style="@style/SettingsDivider"
+                        android:layout_width="match_parent" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvDataEditDeleteRecords"
+                            style="@style/SettingsText"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/archive_dialog_delete"
+                            app:layout_constraintEnd_toStartOf="@id/checkboxDataEditDeleteRecords"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.appcompat.widget.AppCompatCheckBox
+                            android:id="@+id/checkboxDataEditDeleteRecords"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            app:layout_constraintBottom_toBottomOf="@id/tvDataEditDeleteRecords"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/tvDataEditDeleteRecords" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>

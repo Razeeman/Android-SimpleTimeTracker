@@ -59,19 +59,17 @@ class ArchiveViewModel @Inject constructor(
     }
 
     fun onDeleteClick(params: ArchiveDialogParams?) {
-        viewModelScope.launch {
-            if (params == null) return@launch
+        if (params == null) return
 
-            router.navigate(
-                StandardDialogParams(
-                    tag = ALERT_DIALOG_TAG,
-                    data = params,
-                    message = resourceRepo.getString(R.string.archive_deletion_alert),
-                    btnPositive = resourceRepo.getString(R.string.archive_dialog_delete),
-                    btnNegative = resourceRepo.getString(R.string.cancel)
-                )
+        router.navigate(
+            StandardDialogParams(
+                tag = ALERT_DIALOG_TAG,
+                data = params,
+                message = resourceRepo.getString(R.string.archive_deletion_alert),
+                btnPositive = resourceRepo.getString(R.string.archive_dialog_delete),
+                btnNegative = resourceRepo.getString(R.string.cancel)
             )
-        }
+        )
     }
 
     fun onRestoreClick(params: ArchiveDialogParams) {

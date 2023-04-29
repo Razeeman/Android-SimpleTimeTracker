@@ -141,7 +141,7 @@ class RecordsFilterFragment :
     }
 
     override fun onDismiss(dialog: DialogInterface) {
-        listener?.onDismissed(params.tag)
+        listener?.onFilterDismissed(params.tag)
         super.onDismiss(dialog)
     }
 

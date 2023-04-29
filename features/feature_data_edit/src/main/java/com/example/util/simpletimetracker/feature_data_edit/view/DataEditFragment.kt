@@ -8,6 +8,7 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.dialog.RecordsFilterListener
+import com.example.util.simpletimetracker.core.dialog.StandardDialogListener
 import com.example.util.simpletimetracker.core.extension.hideKeyboard
 import com.example.util.simpletimetracker.core.extension.showKeyboard
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
@@ -18,6 +19,7 @@ import com.example.util.simpletimetracker.feature_data_edit.model.DataEditAddTag
 import com.example.util.simpletimetracker.feature_data_edit.model.DataEditChangeActivityState
 import com.example.util.simpletimetracker.feature_data_edit.model.DataEditChangeButtonState
 import com.example.util.simpletimetracker.feature_data_edit.model.DataEditChangeCommentState
+import com.example.util.simpletimetracker.feature_data_edit.model.DataEditDeleteRecordsState
 import com.example.util.simpletimetracker.feature_data_edit.model.DataEditRemoveTagsState
 import com.example.util.simpletimetracker.feature_data_edit.viewModel.DataEditViewModel
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
@@ -33,6 +35,7 @@ import com.example.util.simpletimetracker.feature_data_edit.databinding.DataEdit
 class DataEditFragment :
     BaseFragment<Binding>(),
     RecordsFilterListener,
+    StandardDialogListener,
     DataEditTypeSelectionDialogListener,
     DataEditTagSelectionDialogListener {
 
@@ -73,6 +76,7 @@ class DataEditFragment :
         checkboxDataEditChangeComment.setOnClick(viewModel::onChangeCommentClick)
         checkboxDataEditAddTag.setOnClick(viewModel::onAddTagsClick)
         checkboxDataEditRemoveTag.setOnClick(viewModel::onRemoveTagsClick)
+        checkboxDataEditDeleteRecords.setOnClick(viewModel::onDeleteRecordsClick)
         etDataEditChangeComment.doAfterTextChanged { viewModel.onCommentChange(it.toString()) }
         btnDataEditChange.setOnClick(throttle(viewModel::onChangeClick))
     }
@@ -84,6 +88,7 @@ class DataEditFragment :
             changeCommentState.observe(::setChangeCommentState)
             addTagsState.observe(::setAddTagState)
             removeTagsState.observe(::setRemoveTagState)
+            deleteRecordsState.observe(::setDeleteRecordsState)
             changeButtonState.observe(::setChangeButtonState)
             keyboardVisibility.observe { visible ->
                 if (visible) showKeyboard(etDataEditChangeComment)
@@ -98,14 +103,19 @@ class DataEditFragment :
         checkboxDataEditChangeComment.jumpDrawablesToCurrentState()
         checkboxDataEditAddTag.jumpDrawablesToCurrentState()
         checkboxDataEditRemoveTag.jumpDrawablesToCurrentState()
+        checkboxDataEditDeleteRecords.jumpDrawablesToCurrentState()
     }
 
     override fun onFilterChanged(result: RecordsFilterResultParams) {
         viewModel.onFilterSelected(result)
     }
 
-    override fun onDismissed(tag: String) {
+    override fun onFilterDismissed(tag: String) {
         viewModel.onFilterDismissed(tag)
+    }
+
+    override fun onPositiveClick(tag: String?, data: Any?) {
+        viewModel.onPositiveDialogClick(tag)
     }
 
     override fun onTypeSelected(typeId: Long) {
@@ -192,6 +202,29 @@ class DataEditFragment :
                 checkboxDataEditRemoveTag.isChecked = true
                 rvDataEditRemoveTagsPreview.isVisible = true
                 removeTagsPreviewAdapter.replace(state.viewData)
+            }
+        }
+    }
+
+    private fun setDeleteRecordsState(
+        state: DataEditDeleteRecordsState,
+    ) = with(binding) {
+        when (state) {
+            is DataEditDeleteRecordsState.Disabled -> {
+                checkboxDataEditDeleteRecords.isChecked = false
+
+                checkboxDataEditChangeActivity.isEnabled = true
+                checkboxDataEditChangeComment.isEnabled = true
+                checkboxDataEditAddTag.isEnabled = true
+                checkboxDataEditRemoveTag.isEnabled = true
+            }
+            is DataEditDeleteRecordsState.Enabled -> {
+                checkboxDataEditDeleteRecords.isChecked = true
+
+                checkboxDataEditChangeActivity.isEnabled = false
+                checkboxDataEditChangeComment.isEnabled = false
+                checkboxDataEditAddTag.isEnabled = false
+                checkboxDataEditRemoveTag.isEnabled = false
             }
         }
     }
