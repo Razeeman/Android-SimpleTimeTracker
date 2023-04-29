@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.feature_records_filter.view
 
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -30,7 +31,6 @@ import com.example.util.simpletimetracker.feature_records_filter.adapter.createR
 import com.example.util.simpletimetracker.feature_records_filter.adapter.createRecordsFilterRangeAdapterDelegate
 import com.example.util.simpletimetracker.feature_records_filter.model.RecordsFilterSelectedRecordsViewData
 import com.example.util.simpletimetracker.feature_records_filter.viewModel.RecordsFilterViewModel
-import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterParams
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
@@ -123,20 +123,26 @@ class RecordsFilterFragment :
         }
     }
 
-    override fun initUx() = with(binding) {
-        btnRecordsFilterApply.setOnClick(viewModel::onFilterApplied)
-    }
-
     override fun initViewModel(): Unit = with(viewModel) {
         with(binding) {
-            extra = params
+            init(params)
             filtersViewData.observe(filtersAdapter::replace)
             filterSelectionContent.observe(filterSelectionAdapter::replace)
             recordsViewData.observe(::setSelectedRecords)
-            filterSelectionVisibility.observe(groupRecordsFilterContent::isVisible::set)
+            filterSelectionVisibility.observe { filterOpened ->
+                rvRecordsFilterList.isVisible = !filterOpened
+                rvRecordsFilterList.isNestedScrollingEnabled = !filterOpened
+                rvRecordsFilterSelection.isVisible = filterOpened
+                rvRecordsFilterSelection.isNestedScrollingEnabled = filterOpened
+            }
             keyboardVisibility.observe(::showKeyboard)
             changedFilters.observe { listener?.onFilterChanged(it) }
         }
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        listener?.onDismissed(params.tag)
+        super.onDismiss(dialog)
     }
 
     override fun onDateTimeSet(timestamp: Long, tag: String?) {

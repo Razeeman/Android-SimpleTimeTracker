@@ -5,4 +5,5 @@ import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilter
 interface RecordsFilterListener {
 
     fun onFilterChanged(result: RecordsFilterResultParams)
+    fun onDismissed(tag: String)
 }

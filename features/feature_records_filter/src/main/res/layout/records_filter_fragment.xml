@@ -55,39 +55,14 @@
         tools:itemCount="15"
         tools:listitem="@layout/item_record_layout" />
 
-    <View
-        android:id="@+id/viewRecordsFilterSelectionBackground"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="?appBackgroundColor"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="@id/rvRecordsFilterSelection" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvRecordsFilterSelection"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/btnRecordsFilterApply"
         app:layout_constraintTop_toBottomOf="@id/dividerRecordsFilter"
         tools:itemCount="15"
         tools:listitem="@layout/item_record_type_layout" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnRecordsFilterApply"
-        style="@style/AppButtonActive"
-        android:layout_width="match_parent"
-        android:layout_marginHorizontal="8dp"
-        android:text="@string/records_filter_apply"
-        app:layout_constraintBottom_toBottomOf="parent" />
-
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/groupRecordsFilterContent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:constraint_referenced_ids="rvRecordsFilterSelection, btnRecordsFilterApply, viewRecordsFilterSelectionBackground"
-        tools:visibility="gone" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

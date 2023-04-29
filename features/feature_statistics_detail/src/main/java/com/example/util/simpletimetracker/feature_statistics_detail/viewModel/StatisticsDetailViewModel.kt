@@ -203,6 +203,12 @@ class StatisticsDetailViewModel @Inject constructor(
             }
         }
 
+        // Update is on dismiss.
+    }
+
+    fun onTypesFilterDismissed(tag: String) {
+        if (tag !in listOf(FILTER_TAG, COMPARE_TAG)) return
+
         loadJob?.cancel()
         loadJob = viewModelScope.launch {
             loadRecordsCache()

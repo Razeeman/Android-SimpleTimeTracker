@@ -144,6 +144,10 @@ class StatisticsDetailFragment :
         viewModel.onTypesFilterSelected(result)
     }
 
+    override fun onDismissed(tag: String) {
+        viewModel.onTypesFilterDismissed(tag)
+    }
+
     private fun setPreview() = params.preview?.run {
         val preview = StatisticsDetailPreviewViewData(
             id = 0L,

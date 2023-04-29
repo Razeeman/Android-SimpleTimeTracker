@@ -104,6 +104,10 @@ class DataEditFragment :
         viewModel.onFilterSelected(result)
     }
 
+    override fun onDismissed(tag: String) {
+        viewModel.onFilterDismissed(tag)
+    }
+
     override fun onTypeSelected(typeId: Long) {
         viewModel.onTypeSelected(typeId)
     }

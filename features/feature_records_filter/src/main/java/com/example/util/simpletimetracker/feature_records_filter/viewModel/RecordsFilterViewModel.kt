@@ -15,7 +15,7 @@ import com.example.util.simpletimetracker.domain.extension.getManuallyFilteredRe
 import com.example.util.simpletimetracker.domain.extension.getSelectedTags
 import com.example.util.simpletimetracker.domain.extension.getTypeIds
 import com.example.util.simpletimetracker.domain.extension.getTypeIdsFromCategories
-import com.example.util.simpletimetracker.domain.extension.hasActivityFilter
+import com.example.util.simpletimetracker.domain.extension.hasCategoryFilter
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
@@ -56,7 +56,7 @@ class RecordsFilterViewModel @Inject constructor(
     private val router: Router,
 ) : ViewModel() {
 
-    lateinit var extra: RecordsFilterParams
+    private lateinit var extra: RecordsFilterParams
 
     val filtersViewData: LiveData<List<ViewHolderType>> by lazy {
         return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
@@ -102,8 +102,8 @@ class RecordsFilterViewModel @Inject constructor(
     private val filters: MutableList<RecordsFilter> by lazy {
         extra.filters.map(RecordsFilterParam::toModel).toMutableList()
     }
-    private val defaultRange: Range by lazy { viewDataInteractor.getDefaultDateRange() }
     private var filterSelectionState: RecordsFilterSelectionState = RecordsFilterSelectionState.Hidden
+    private val defaultRange: Range by lazy { viewDataInteractor.getDefaultDateRange() }
     private var recordsLoadJob: Job? = null
 
     // Cache
@@ -111,6 +111,17 @@ class RecordsFilterViewModel @Inject constructor(
     private var recordTypeCategories: List<RecordTypeCategory>? = null
     private var categories: List<Category>? = null
     private var recordTags: List<RecordTag>? = null
+
+    fun init(extra: RecordsFilterParams) {
+        this.extra = extra
+        filterSelectionState = RecordsFilterSelectionState.Visible(
+            if (filters.hasCategoryFilter()) {
+                RecordFilterViewData.Type.CATEGORY
+            } else {
+                RecordFilterViewData.Type.ACTIVITY
+            }
+        )
+    }
 
     fun onFilterClick(item: RecordFilterViewData) {
         filterSelectionState = when (val currentFilterState = filterSelectionState) {
@@ -134,13 +145,6 @@ class RecordsFilterViewModel @Inject constructor(
 
     fun onFilterRemoveClick(item: RecordFilterViewData) {
         removeFilter(item.type)
-    }
-
-    fun onFilterApplied() {
-        checkIfDefaultDateFilterShouldBeApplied()
-        filterSelectionState = RecordsFilterSelectionState.Hidden
-        updateFilters()
-        updateFilterSelectionVisibility()
     }
 
     fun onRecordTypeClick(item: RecordTypeViewData) = viewModelScope.launch {
@@ -251,10 +255,8 @@ class RecordsFilterViewModel @Inject constructor(
     private suspend fun handleCategoryClick(id: Long) {
         val currentIds = filters.getCategoryIds().toMutableList()
 
-        if (filters.hasActivityFilter()) {
-            filters.removeAll { it is RecordsFilter.Activity }
-            filterSelectionState = RecordsFilterSelectionState.Visible(RecordFilterViewData.Type.CATEGORY)
-        }
+        filters.removeAll { it is RecordsFilter.Activity }
+        filterSelectionState = RecordsFilterSelectionState.Visible(RecordFilterViewData.Type.CATEGORY)
 
         val newIds = currentIds.toMutableList().apply { addOrRemove(id) }
 
@@ -300,23 +302,6 @@ class RecordsFilterViewModel @Inject constructor(
         if (newIds.isNotEmpty()) filters.add(RecordsFilter.ManuallyFiltered(newIds))
     }
 
-    private fun checkIfDefaultDateFilterShouldBeApplied() {
-        val state = filterSelectionState
-
-        val shouldApplyDefaultDateFilter = state is RecordsFilterSelectionState.Visible &&
-            state.type == RecordFilterViewData.Type.DATE &&
-            filters.none { it is RecordsFilter.Date }
-
-        if (shouldApplyDefaultDateFilter) {
-            filters.removeAll { it is RecordsFilter.Date }
-            filters.add(RecordsFilter.Date(defaultRange))
-
-            updateFilters()
-            updateFilterSelectionViewData()
-            updateRecords()
-        }
-    }
-
     private suspend fun checkTagFilterConsistency() {
         // Update tags according to selected activities
         val newTypeIds: List<Long> = filters.getAllTypeIds(getRecordTypeCategoriesCache())
@@ -350,6 +335,13 @@ class RecordsFilterViewModel @Inject constructor(
     private fun removeFilter(type: RecordFilterViewData.Type) {
         val filterClass = recordsFilterViewDataMapper.mapToClass(type)
         filters.removeAll { filterClass.isInstance(it) }
+
+        // Switch back to activity if category removed.
+        val currentSelectionType = (filterSelectionState as? RecordsFilterSelectionState.Visible)?.type
+        if (currentSelectionType == RecordFilterViewData.Type.CATEGORY) {
+            filterSelectionState = RecordsFilterSelectionState.Visible(RecordFilterViewData.Type.ACTIVITY)
+        }
+
         updateFilters()
         updateFilterSelectionViewData()
         updateRecords()

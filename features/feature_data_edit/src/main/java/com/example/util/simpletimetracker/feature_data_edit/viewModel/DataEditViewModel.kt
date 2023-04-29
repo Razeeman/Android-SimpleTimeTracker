@@ -194,6 +194,11 @@ class DataEditViewModel @Inject constructor(
         if (result.tag != FILTER_TAG) return
         filters = result.filters
         filteredRecordsTypeId = result.filteredRecordsTypeId
+        // Update is on dismiss.
+    }
+
+    fun onFilterDismissed(tag: String) {
+        if (tag != FILTER_TAG) return
         checkTagStateConsistency()
         updateSelectedRecordsCountViewData()
     }
