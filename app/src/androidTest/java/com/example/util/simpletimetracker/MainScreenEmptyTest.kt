@@ -25,6 +25,11 @@ import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.allOf
 import org.junit.Test
 import org.junit.runner.RunWith
+import com.example.util.simpletimetracker.core.R as coreR
+import com.example.util.simpletimetracker.feature_base_adapter.R as baseR
+import com.example.util.simpletimetracker.feature_change_record_type.R as changeRecordTypeR
+import com.example.util.simpletimetracker.feature_records.R as recordsR
+import com.example.util.simpletimetracker.feature_statistics.R as statisticsR
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
@@ -34,23 +39,23 @@ class MainScreenEmptyTest : BaseUiTest() {
     fun mainScreenEmpty() {
         val name = "Test"
 
-        tryAction { checkViewIsDisplayed(withText(R.string.running_records_types_empty)) }
-        checkViewDoesNotExist(withText(R.string.running_records_empty))
+        tryAction { checkViewIsDisplayed(withText(coreR.string.running_records_types_empty)) }
+        checkViewDoesNotExist(withText(coreR.string.running_records_empty))
 
         // Add activity
         NavUtils.openRunningRecordsScreen()
-        clickOnView(withText(R.string.running_records_add_type))
-        typeTextIntoView(R.id.etChangeRecordTypeName, name)
+        clickOnView(withText(coreR.string.running_records_add_type))
+        typeTextIntoView(changeRecordTypeR.id.etChangeRecordTypeName, name)
         closeSoftKeyboard()
-        clickOnView(withText(R.string.change_record_type_save))
-        checkViewDoesNotExist(withText(R.string.running_records_types_empty))
-        checkViewIsDisplayed(withText(R.string.running_records_empty))
+        clickOnView(withText(coreR.string.change_record_type_save))
+        checkViewDoesNotExist(withText(coreR.string.running_records_types_empty))
+        checkViewIsDisplayed(withText(coreR.string.running_records_empty))
 
         // Start timer
         clickOnViewWithText(name)
-        checkViewDoesNotExist(withText(R.string.running_records_empty))
-        clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name)))
-        tryAction { checkViewIsDisplayed(withText(R.string.running_records_empty)) }
+        checkViewDoesNotExist(withText(coreR.string.running_records_empty))
+        clickOnView(allOf(isDescendantOfA(withId(baseR.id.viewRunningRecordItem)), withText(name)))
+        tryAction { checkViewIsDisplayed(withText(coreR.string.running_records_empty)) }
     }
 
     @Test
@@ -60,27 +65,27 @@ class MainScreenEmptyTest : BaseUiTest() {
         NavUtils.openRecordsScreen()
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.viewRecordItem),
-                hasDescendant(withText(R.string.untracked_time_name)),
+                withId(baseR.id.viewRecordItem),
+                hasDescendant(withText(coreR.string.untracked_time_name)),
                 isCompletelyDisplayed()
             )
         )
-        checkViewIsDisplayed(allOf(withText(R.string.records_hint), isCompletelyDisplayed()))
-        clickOnViewWithId(R.id.btnRecordsContainerPrevious)
+        checkViewIsDisplayed(allOf(withText(coreR.string.records_hint), isCompletelyDisplayed()))
+        clickOnViewWithId(recordsR.id.btnRecordsContainerPrevious)
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.viewRecordItem),
-                hasDescendant(withText(R.string.untracked_time_name)),
+                withId(baseR.id.viewRecordItem),
+                hasDescendant(withText(coreR.string.untracked_time_name)),
                 hasDescendant(withSubstring("24$hourString 0$minuteString")),
                 isCompletelyDisplayed()
             )
         )
-        checkViewIsDisplayed(allOf(withText(R.string.records_hint), isCompletelyDisplayed()))
-        clickOnViewWithId(R.id.btnRecordsContainerNext)
-        clickOnViewWithId(R.id.btnRecordsContainerNext)
-        checkViewIsDisplayed(allOf(withText(R.string.records_empty), isCompletelyDisplayed()))
-        checkViewDoesNotExist(allOf(withText(R.string.records_hint), isCompletelyDisplayed()))
-        checkViewDoesNotExist(allOf(withText(R.string.untracked_time_name), isCompletelyDisplayed()))
+        checkViewIsDisplayed(allOf(withText(coreR.string.records_hint), isCompletelyDisplayed()))
+        clickOnViewWithId(recordsR.id.btnRecordsContainerNext)
+        clickOnViewWithId(recordsR.id.btnRecordsContainerNext)
+        checkViewIsDisplayed(allOf(withText(coreR.string.records_empty), isCompletelyDisplayed()))
+        checkViewDoesNotExist(allOf(withText(coreR.string.records_hint), isCompletelyDisplayed()))
+        checkViewDoesNotExist(allOf(withText(coreR.string.untracked_time_name), isCompletelyDisplayed()))
     }
 
     @Test
@@ -89,86 +94,91 @@ class MainScreenEmptyTest : BaseUiTest() {
         checkRanges()
 
         // Week range
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.range_week)
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithText(coreR.string.range_week)
         checkRanges()
 
         // Month range
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.range_month)
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithText(coreR.string.range_month)
         checkRanges()
 
         // Year range
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.range_year)
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithText(coreR.string.range_year)
         checkRanges()
 
         // Overall range
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.range_overall)
-        tryAction { checkViewIsDisplayed(allOf(withText(R.string.statistics_empty), isCompletelyDisplayed())) }
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithText(coreR.string.range_overall)
+        checkViewIsDisplayed(
+            allOf(
+                withId(baseR.id.viewStatisticsItem),
+                hasDescendant(withText(coreR.string.untracked_time_name)),
+                hasDescendant(withSubstring("100%")),
+                isCompletelyDisplayed()
+            )
+        )
 
         // Back to day range
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.range_day)
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithText(coreR.string.range_day)
         checkRanges()
 
         // Empty category statistics
-        clickOnViewWithIdOnPager(R.id.btnStatisticsEmptyFilter)
-        clickOnViewWithText(R.string.category_hint)
+        clickOnViewWithIdOnPager(statisticsR.id.btnStatisticsEmptyFilter)
+        clickOnViewWithText(coreR.string.category_hint)
         pressBack()
+        longClickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
 
         // Day range
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.range_day)
-        checkCategoryRanges()
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithText(coreR.string.range_day)
+        checkRanges()
 
         // Week range
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.range_week)
-        checkCategoryRanges()
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithText(coreR.string.range_week)
+        checkRanges()
 
         // Month range
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.range_month)
-        checkCategoryRanges()
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithText(coreR.string.range_month)
+        checkRanges()
 
         // Year range
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.range_year)
-        checkCategoryRanges()
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithText(coreR.string.range_year)
+        checkRanges()
 
         // Overall range
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.range_overall)
-        tryAction { checkViewIsDisplayed(allOf(withText(R.string.statistics_empty), isCompletelyDisplayed())) }
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithText(coreR.string.range_overall)
+        checkViewIsDisplayed(
+            allOf(
+                withId(baseR.id.viewStatisticsItem),
+                hasDescendant(withText(coreR.string.untracked_time_name)),
+                hasDescendant(withSubstring("100%")),
+                isCompletelyDisplayed()
+            )
+        )
 
         // Back to day range
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.range_day)
-        checkCategoryRanges()
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithText(coreR.string.range_day)
+        checkRanges()
     }
 
     private fun checkRanges() {
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.viewStatisticsItem),
-                hasDescendant(withText(R.string.untracked_time_name)),
+                withId(baseR.id.viewStatisticsItem),
+                hasDescendant(withText(coreR.string.untracked_time_name)),
                 hasDescendant(withSubstring("100%")),
                 isCompletelyDisplayed()
             )
         )
-        clickOnViewWithId(R.id.btnStatisticsContainerNext)
-        checkViewIsDisplayed(allOf(withText(R.string.statistics_empty), isCompletelyDisplayed()))
-    }
-
-    private fun checkCategoryRanges() {
-        longClickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithId(R.id.btnStatisticsContainerPrevious)
-        checkViewIsDisplayed(allOf(withText(R.string.statistics_empty), isCompletelyDisplayed()))
-        clickOnViewWithId(R.id.btnStatisticsContainerNext)
-        checkViewIsDisplayed(allOf(withText(R.string.statistics_empty), isCompletelyDisplayed()))
-        clickOnViewWithId(R.id.btnStatisticsContainerNext)
-        checkViewIsDisplayed(allOf(withText(R.string.statistics_empty), isCompletelyDisplayed()))
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerNext)
+        checkViewIsDisplayed(allOf(withText(coreR.string.statistics_empty), isCompletelyDisplayed()))
     }
 }

@@ -25,12 +25,17 @@ import com.example.util.simpletimetracker.utils.unconstrainedClickOnView
 import com.example.util.simpletimetracker.utils.withCardColor
 import com.example.util.simpletimetracker.utils.withTag
 import dagger.hilt.android.testing.HiltAndroidTest
+import java.util.Calendar
+import java.util.concurrent.TimeUnit
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.allOf
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.util.Calendar
-import java.util.concurrent.TimeUnit
+import com.example.util.simpletimetracker.core.R as coreR
+import com.example.util.simpletimetracker.feature_base_adapter.R as baseR
+import com.example.util.simpletimetracker.feature_change_record.R as changeRecordR
+import com.example.util.simpletimetracker.feature_dialogs.R as dialogsR
+import com.example.util.simpletimetracker.feature_records.R as recordsR
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
@@ -50,25 +55,29 @@ class RecordActionsSplitTest : BaseUiTest() {
         // Open record
         NavUtils.openRecordsScreen()
         clickOnView(allOf(withText(name), isCompletelyDisplayed()))
-        clickOnViewWithText(R.string.change_record_actions_hint)
+        clickOnViewWithText(coreR.string.change_record_actions_hint)
 
         // Check new time set
         val newHour = 16
         val newMinute = 30
-        clickOnViewWithId(R.id.tvChangeRecordTimeSplit)
+        clickOnViewWithId(changeRecordR.id.tvChangeRecordTimeSplit)
         setPickerTime(newHour, newMinute)
-        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+        clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
         var timePreview = calendar.getMillis(newHour, newMinute).formatDateTime()
-        checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeSplit), withText(timePreview)))
+        checkViewIsDisplayed(allOf(withId(changeRecordR.id.tvChangeRecordTimeSplit), withText(timePreview)))
 
         // Check time adjust
-        clickOnView(allOf(isDescendantOfA(withId(R.id.containerChangeRecordTimeSplitAdjust)), withText("-5")))
+        clickOnView(
+            allOf(isDescendantOfA(withId(changeRecordR.id.containerChangeRecordTimeSplitAdjust)), withText("-5"))
+        )
         timePreview = calendar.apply { add(Calendar.MINUTE, -5) }.timeInMillis.formatDateTime()
-        checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeSplit), withText(timePreview)))
+        checkViewIsDisplayed(allOf(withId(changeRecordR.id.tvChangeRecordTimeSplit), withText(timePreview)))
 
-        clickOnView(allOf(isDescendantOfA(withId(R.id.containerChangeRecordTimeSplitAdjust)), withText("+5")))
+        clickOnView(
+            allOf(isDescendantOfA(withId(changeRecordR.id.containerChangeRecordTimeSplitAdjust)), withText("+5"))
+        )
         timePreview = calendar.apply { add(Calendar.MINUTE, +5) }.timeInMillis.formatDateTime()
-        checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeSplit), withText(timePreview)))
+        checkViewIsDisplayed(allOf(withId(changeRecordR.id.tvChangeRecordTimeSplit), withText(timePreview)))
     }
 
     @Test
@@ -85,45 +94,57 @@ class RecordActionsSplitTest : BaseUiTest() {
         // Check record limits
         NavUtils.openRecordsScreen()
         clickOnView(allOf(withText(name), isCompletelyDisplayed()))
-        clickOnViewWithText(R.string.change_record_actions_hint)
+        clickOnViewWithText(coreR.string.change_record_actions_hint)
 
         repeat(4) {
             clickOnView(
-                allOf(isDescendantOfA(withId(R.id.containerChangeRecordTimeSplitAdjust)), withText("-30"))
+                allOf(
+                    isDescendantOfA(withId(changeRecordR.id.containerChangeRecordTimeSplitAdjust)),
+                    withText("-30")
+                )
             )
         }
         var timePreview = timeStartedTimestamp.formatDateTime()
-        checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeSplit), withText(timePreview)))
+        checkViewIsDisplayed(allOf(withId(changeRecordR.id.tvChangeRecordTimeSplit), withText(timePreview)))
         repeat(4) {
             clickOnView(
-                allOf(isDescendantOfA(withId(R.id.containerChangeRecordTimeSplitAdjust)), withText("+30"))
+                allOf(
+                    isDescendantOfA(withId(changeRecordR.id.containerChangeRecordTimeSplitAdjust)),
+                    withText("+30")
+                )
             )
         }
         timePreview = timeEndedTimestamp.formatDateTime()
-        checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeSplit), withText(timePreview)))
+        checkViewIsDisplayed(allOf(withId(changeRecordR.id.tvChangeRecordTimeSplit), withText(timePreview)))
         pressBack()
 
         // Check running record limits
         timeStartedTimestamp = System.currentTimeMillis() - TimeUnit.HOURS.toMillis(1)
         testUtils.addRunningRecord(typeName = name, timeStarted = timeStartedTimestamp)
         NavUtils.openRunningRecordsScreen()
-        longClickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name)))
-        clickOnViewWithText(R.string.change_record_actions_hint)
+        longClickOnView(allOf(isDescendantOfA(withId(baseR.id.viewRunningRecordItem)), withText(name)))
+        clickOnViewWithText(coreR.string.change_record_actions_hint)
 
         repeat(4) {
             clickOnView(
-                allOf(isDescendantOfA(withId(R.id.containerChangeRecordTimeSplitAdjust)), withText("-30"))
+                allOf(
+                    isDescendantOfA(withId(changeRecordR.id.containerChangeRecordTimeSplitAdjust)),
+                    withText("-30")
+                )
             )
         }
         timePreview = timeStartedTimestamp.formatDateTime()
-        checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeSplit), withText(timePreview)))
+        checkViewIsDisplayed(allOf(withId(changeRecordR.id.tvChangeRecordTimeSplit), withText(timePreview)))
         repeat(4) {
             clickOnView(
-                allOf(isDescendantOfA(withId(R.id.containerChangeRecordTimeSplitAdjust)), withText("+30"))
+                allOf(
+                    isDescendantOfA(withId(changeRecordR.id.containerChangeRecordTimeSplitAdjust)),
+                    withText("+30")
+                )
             )
         }
         timePreview = System.currentTimeMillis().formatDateTime()
-        checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeSplit), withText(timePreview)))
+        checkViewIsDisplayed(allOf(withId(changeRecordR.id.tvChangeRecordTimeSplit), withText(timePreview)))
     }
 
     @Test
@@ -159,13 +180,18 @@ class RecordActionsSplitTest : BaseUiTest() {
 
         // Check time split set to time started
         clickOnViewWithText(fullName)
-        clickOnViewWithText(R.string.change_record_actions_hint)
+        clickOnViewWithText(coreR.string.change_record_actions_hint)
         timeStartedPreview = timeStartedTimestamp.formatDateTime()
-        checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeSplit), withText(timeStartedPreview)))
+        checkViewIsDisplayed(allOf(withId(changeRecordR.id.tvChangeRecordTimeSplit), withText(timeStartedPreview)))
 
         // Divide
-        clickOnView(allOf(isDescendantOfA(withId(R.id.containerChangeRecordTimeSplitAdjust)), withText("+30")))
-        clickOnViewWithText(R.string.change_record_split)
+        clickOnView(
+            allOf(
+                isDescendantOfA(withId(changeRecordR.id.containerChangeRecordTimeSplitAdjust)),
+                withText("+30")
+            )
+        )
+        clickOnViewWithText(coreR.string.change_record_split)
 
         // Check that two records created
         val difference = TimeUnit.MINUTES.toMillis(30)
@@ -192,25 +218,35 @@ class RecordActionsSplitTest : BaseUiTest() {
         NavUtils.openRecordsScreen()
 
         // Open untracked time
-        onView(allOf(withId(R.id.rvRecordsList), isCompletelyDisplayed())).check(recyclerItemCount(2))
-        clickOnViewWithText(R.string.untracked_time_name)
+        onView(
+            allOf(withId(recordsR.id.rvRecordsList), isCompletelyDisplayed())
+        ).check(
+            recyclerItemCount(2)
+        )
+        clickOnViewWithText(coreR.string.untracked_time_name)
 
         // Split untracked doesn't work
-        clickOnViewWithText(R.string.change_record_actions_hint)
-        clickOnViewWithText(R.string.change_record_split)
-        clickOnViewWithText(R.string.change_record_actions_hint)
+        clickOnViewWithText(coreR.string.change_record_actions_hint)
+        clickOnViewWithText(coreR.string.change_record_split)
+        clickOnViewWithText(coreR.string.change_record_actions_hint)
 
         // Select activity
-        clickOnViewWithText(R.string.change_record_type_field)
-        clickOnRecyclerItem(R.id.rvChangeRecordType, withText(name))
+        clickOnViewWithText(coreR.string.change_record_type_field)
+        clickOnRecyclerItem(changeRecordR.id.rvChangeRecordType, withText(name))
 
         // Split
-        clickOnViewWithText(R.string.change_record_actions_hint)
-        clickOnView(allOf(isDescendantOfA(withId(R.id.containerChangeRecordTimeSplitAdjust)), withText("+1")))
-        clickOnViewWithText(R.string.change_record_split)
+        clickOnViewWithText(coreR.string.change_record_actions_hint)
+        clickOnView(
+            allOf(isDescendantOfA(withId(changeRecordR.id.containerChangeRecordTimeSplitAdjust)), withText("+1"))
+        )
+        clickOnViewWithText(coreR.string.change_record_split)
 
-        checkViewDoesNotExist(allOf(withText(R.string.untracked_time_name), isCompletelyDisplayed()))
-        onView(allOf(withId(R.id.rvRecordsList), isCompletelyDisplayed())).check(recyclerItemCount(3))
+        checkViewDoesNotExist(allOf(withText(coreR.string.untracked_time_name), isCompletelyDisplayed()))
+        onView(
+            allOf(withId(recordsR.id.rvRecordsList), isCompletelyDisplayed())
+        ).check(
+            recyclerItemCount(3)
+        )
     }
 
     @Test
@@ -222,24 +258,32 @@ class RecordActionsSplitTest : BaseUiTest() {
         NavUtils.openRecordsScreen()
 
         // Open untracked time
-        onView(allOf(withId(R.id.rvRecordsList), isCompletelyDisplayed())).check(recyclerItemCount(1))
-        clickOnViewWithId(R.id.btnRecordAdd)
+        onView(
+            allOf(withId(recordsR.id.rvRecordsList), isCompletelyDisplayed())
+        ).check(
+            recyclerItemCount(1)
+        )
+        clickOnViewWithId(recordsR.id.btnRecordAdd)
 
         // Split untracked doesn't work
-        clickOnViewWithText(R.string.change_record_actions_hint)
-        clickOnViewWithText(R.string.change_record_split)
-        clickOnViewWithText(R.string.change_record_actions_hint)
+        clickOnViewWithText(coreR.string.change_record_actions_hint)
+        clickOnViewWithText(coreR.string.change_record_split)
+        clickOnViewWithText(coreR.string.change_record_actions_hint)
 
         // Select activity
-        clickOnViewWithText(R.string.change_record_type_field)
-        clickOnRecyclerItem(R.id.rvChangeRecordType, withText(name))
+        clickOnViewWithText(coreR.string.change_record_type_field)
+        clickOnRecyclerItem(changeRecordR.id.rvChangeRecordType, withText(name))
 
         // Split
-        clickOnViewWithText(R.string.change_record_actions_hint)
-        clickOnViewWithText(R.string.change_record_split)
+        clickOnViewWithText(coreR.string.change_record_actions_hint)
+        clickOnViewWithText(coreR.string.change_record_split)
 
-        checkViewDoesNotExist(allOf(withText(R.string.untracked_time_name), isCompletelyDisplayed()))
-        onView(allOf(withId(R.id.rvRecordsList), isCompletelyDisplayed())).check(recyclerItemCount(3))
+        checkViewDoesNotExist(allOf(withText(coreR.string.untracked_time_name), isCompletelyDisplayed()))
+        onView(
+            allOf(withId(recordsR.id.rvRecordsList), isCompletelyDisplayed())
+        ).check(
+            recyclerItemCount(3)
+        )
     }
 
     @Test
@@ -269,16 +313,18 @@ class RecordActionsSplitTest : BaseUiTest() {
         longClickOnView(withText(fullName))
         clickOnViewWithText("-30")
         clickOnViewWithText("-30")
-        unconstrainedClickOnView(withId(R.id.btnChangeRecordTimeStartedAdjust))
+        unconstrainedClickOnView(withId(changeRecordR.id.btnChangeRecordTimeStartedAdjust))
 
         // Check time split set to time started
-        clickOnViewWithText(R.string.change_record_actions_hint)
+        clickOnViewWithText(coreR.string.change_record_actions_hint)
         timeStartedPreview = currentTime.formatDateTime()
-        checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeSplit), withText(timeStartedPreview)))
+        checkViewIsDisplayed(allOf(withId(changeRecordR.id.tvChangeRecordTimeSplit), withText(timeStartedPreview)))
 
         // Divide
-        clickOnView(allOf(withText("-30"), isDescendantOfA(withId(R.id.containerChangeRecordTimeSplitAdjust))))
-        clickOnViewWithText(R.string.change_record_split)
+        clickOnView(
+            allOf(withText("-30"), isDescendantOfA(withId(changeRecordR.id.containerChangeRecordTimeSplitAdjust)))
+        )
+        clickOnViewWithText(coreR.string.change_record_split)
 
         // Check that two records created
         val difference = TimeUnit.MINUTES.toMillis(30)
@@ -301,7 +347,7 @@ class RecordActionsSplitTest : BaseUiTest() {
     ) {
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.viewRecordItem),
+                withId(baseR.id.viewRecordItem),
                 withCardColor(firstColor),
                 hasDescendant(withText(name)),
                 hasDescendant(withTag(firstIcon)),
@@ -322,7 +368,7 @@ class RecordActionsSplitTest : BaseUiTest() {
     ) {
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.viewRunningRecordItem),
+                withId(baseR.id.viewRunningRecordItem),
                 withCardColor(firstColor),
                 hasDescendant(withText(name)),
                 hasDescendant(withTag(firstIcon)),

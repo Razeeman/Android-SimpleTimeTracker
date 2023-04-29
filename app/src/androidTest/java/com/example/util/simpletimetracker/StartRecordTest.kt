@@ -20,10 +20,13 @@ import com.example.util.simpletimetracker.utils.typeTextIntoView
 import com.example.util.simpletimetracker.utils.withCardColor
 import com.example.util.simpletimetracker.utils.withTag
 import dagger.hilt.android.testing.HiltAndroidTest
+import java.util.concurrent.TimeUnit
 import org.hamcrest.CoreMatchers.allOf
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.util.concurrent.TimeUnit
+import com.example.util.simpletimetracker.core.R as coreR
+import com.example.util.simpletimetracker.feature_base_adapter.R as baseR
+import com.example.util.simpletimetracker.feature_change_record.R as changeRecordR
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
@@ -45,10 +48,10 @@ class StartRecordTest : BaseUiTest() {
 
         var currentTime = System.currentTimeMillis()
         var timeStarted = timeMapper.formatTime(time = currentTime, useMilitaryTime = true, showSeconds = false)
-        val goalString = getString(R.string.change_record_type_session_goal_time).lowercase() + " 9$minuteString"
+        val goalString = getString(coreR.string.change_record_type_session_goal_time).lowercase() + " 9$minuteString"
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.viewRunningRecordItem),
+                withId(baseR.id.viewRunningRecordItem),
                 withCardColor(firstColor),
                 hasDescendant(withText(name)),
                 hasDescendant(withTag(firstIcon)),
@@ -63,7 +66,7 @@ class StartRecordTest : BaseUiTest() {
         timeStarted = timeMapper.formatTime(time = currentTime, useMilitaryTime = true, showSeconds = false)
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.viewRunningRecordItem),
+                withId(baseR.id.viewRunningRecordItem),
                 withCardColor(lastColor),
                 hasDescendant(withText(newName)),
                 hasDescendant(withTag(lastIcon)),
@@ -72,9 +75,9 @@ class StartRecordTest : BaseUiTest() {
         )
         checkViewDoesNotExist(
             allOf(
-                withId(R.id.viewRunningRecordItem),
+                withId(baseR.id.viewRunningRecordItem),
                 hasDescendant(withText(newName)),
-                hasDescendant(withSubstring(getString(R.string.change_record_type_session_goal_time)))
+                hasDescendant(withSubstring(getString(coreR.string.change_record_type_session_goal_time)))
             )
         )
 
@@ -82,12 +85,12 @@ class StartRecordTest : BaseUiTest() {
         NavUtils.openRunningRecordsScreen()
         clickOnView(
             allOf(
-                isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name), isCompletelyDisplayed()
+                isDescendantOfA(withId(baseR.id.viewRunningRecordItem)), withText(name), isCompletelyDisplayed()
             )
         )
         checkViewDoesNotExist(
             allOf(
-                isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name), isCompletelyDisplayed()
+                isDescendantOfA(withId(baseR.id.viewRunningRecordItem)), withText(name), isCompletelyDisplayed()
             )
         )
 
@@ -95,7 +98,7 @@ class StartRecordTest : BaseUiTest() {
         NavUtils.openRecordsScreen()
         checkViewIsDisplayed(
             allOf(
-                withText(name), isDescendantOfA(withId(R.id.viewRecordItem)), isCompletelyDisplayed()
+                withText(name), isDescendantOfA(withId(baseR.id.viewRecordItem)), isCompletelyDisplayed()
             )
         )
 
@@ -103,12 +106,12 @@ class StartRecordTest : BaseUiTest() {
         NavUtils.openRunningRecordsScreen()
         clickOnView(
             allOf(
-                isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(newName), isCompletelyDisplayed()
+                isDescendantOfA(withId(baseR.id.viewRecordTypeItem)), withText(newName), isCompletelyDisplayed()
             )
         )
         checkViewDoesNotExist(
             allOf(
-                isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(newName), isCompletelyDisplayed()
+                isDescendantOfA(withId(baseR.id.viewRunningRecordItem)), withText(newName), isCompletelyDisplayed()
             )
         )
 
@@ -116,7 +119,7 @@ class StartRecordTest : BaseUiTest() {
         NavUtils.openRecordsScreen()
         checkViewIsDisplayed(
             allOf(
-                withText(newName), isDescendantOfA(withId(R.id.viewRecordItem)), isCompletelyDisplayed()
+                withText(newName), isDescendantOfA(withId(baseR.id.viewRecordItem)), isCompletelyDisplayed()
             )
         )
     }
@@ -133,28 +136,28 @@ class StartRecordTest : BaseUiTest() {
         clickOnViewWithText(name)
 
         // Add comment
-        longClickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name)))
-        clickOnViewWithText(R.string.change_record_comment_field)
-        typeTextIntoView(R.id.etChangeRecordComment, comment)
-        clickOnViewWithText(R.string.change_record_comment_field)
-        clickOnViewWithText(R.string.change_record_save)
+        longClickOnView(allOf(isDescendantOfA(withId(baseR.id.viewRunningRecordItem)), withText(name)))
+        clickOnViewWithText(coreR.string.change_record_comment_field)
+        typeTextIntoView(changeRecordR.id.etChangeRecordComment, comment)
+        clickOnViewWithText(coreR.string.change_record_comment_field)
+        clickOnViewWithText(coreR.string.change_record_save)
 
         // Stop timer
-        clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name)))
+        clickOnView(allOf(isDescendantOfA(withId(baseR.id.viewRunningRecordItem)), withText(name)))
 
         // Check record
         NavUtils.openRecordsScreen()
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.viewRecordItem),
+                withId(baseR.id.viewRecordItem),
                 hasDescendant(withText(name)),
                 hasDescendant(withText(comment)),
                 isCompletelyDisplayed()
             )
         )
         clickOnView(allOf(withText(name), isCompletelyDisplayed()))
-        clickOnViewWithText(R.string.change_record_comment_field)
-        checkViewIsDisplayed(allOf(withId(R.id.etChangeRecordComment), withText(comment)))
+        clickOnViewWithText(coreR.string.change_record_comment_field)
+        checkViewIsDisplayed(allOf(withId(changeRecordR.id.etChangeRecordComment), withText(comment)))
     }
 
     @Test
@@ -173,26 +176,26 @@ class StartRecordTest : BaseUiTest() {
         tryAction { clickOnViewWithText(name) }
 
         // Add tag
-        tryAction { longClickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name))) }
-        clickOnViewWithText(R.string.change_record_tag_field)
-        clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag1))
-        clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag2))
-        clickOnViewWithText(R.string.change_record_tag_field)
-        clickOnViewWithText(R.string.change_record_save)
+        tryAction { longClickOnView(allOf(isDescendantOfA(withId(baseR.id.viewRunningRecordItem)), withText(name))) }
+        clickOnViewWithText(coreR.string.change_record_tag_field)
+        clickOnRecyclerItem(changeRecordR.id.rvChangeRecordCategories, withText(tag1))
+        clickOnRecyclerItem(changeRecordR.id.rvChangeRecordCategories, withText(tag2))
+        clickOnViewWithText(coreR.string.change_record_tag_field)
+        clickOnViewWithText(coreR.string.change_record_save)
 
         // Stop timer
-        tryAction { clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(fullName))) }
+        tryAction { clickOnView(allOf(isDescendantOfA(withId(baseR.id.viewRunningRecordItem)), withText(fullName))) }
 
         // Check record
         NavUtils.openRecordsScreen()
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.viewRecordItem),
+                withId(baseR.id.viewRecordItem),
                 hasDescendant(withText(fullName)),
                 isCompletelyDisplayed()
             )
         )
         clickOnView(allOf(withText(fullName), isCompletelyDisplayed()))
-        checkViewIsDisplayed(allOf(withId(R.id.previewChangeRecord), hasDescendant(withText(fullName))))
+        checkViewIsDisplayed(allOf(withId(changeRecordR.id.previewChangeRecord), hasDescendant(withText(fullName))))
     }
 }

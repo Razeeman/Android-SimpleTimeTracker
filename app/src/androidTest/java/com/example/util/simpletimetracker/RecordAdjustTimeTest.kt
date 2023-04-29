@@ -19,12 +19,15 @@ import com.example.util.simpletimetracker.utils.nestedScrollTo
 import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.unconstrainedClickOnView
 import dagger.hilt.android.testing.HiltAndroidTest
+import java.util.Calendar
+import java.util.concurrent.TimeUnit
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.allOf
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.util.Calendar
-import java.util.concurrent.TimeUnit
+import com.example.util.simpletimetracker.core.R as coreR
+import com.example.util.simpletimetracker.feature_base_adapter.R as baseR
+import com.example.util.simpletimetracker.feature_change_record.R as changeRecordR
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
@@ -79,13 +82,13 @@ class RecordAdjustTimeTest : BaseUiTest() {
         // Change record
         longClickOnView(allOf(withText(name2), isCompletelyDisplayed()))
         clickOnViewWithText("-30")
-        unconstrainedClickOnView(withId(R.id.btnChangeRecordTimeEndedAdjust))
+        unconstrainedClickOnView(withId(changeRecordR.id.btnChangeRecordTimeEndedAdjust))
         tryAction { clickOnViewWithText("+30") }
         clickOnViewWithText("+30")
-        clickOnViewWithText(R.string.change_record_actions_hint)
-        onView(withText(R.string.change_record_adjust)).perform(nestedScrollTo())
-        onView(withId(R.id.containerChangeRecordAction)).perform(swipeUp())
-        clickOnViewWithText(R.string.change_record_adjust)
+        clickOnViewWithText(coreR.string.change_record_actions_hint)
+        onView(withText(coreR.string.change_record_adjust)).perform(nestedScrollTo())
+        onView(withId(changeRecordR.id.containerChangeRecordAction)).perform(swipeUp())
+        clickOnViewWithText(coreR.string.change_record_adjust)
 
         // Check records
         checkRecord(
@@ -143,7 +146,7 @@ class RecordAdjustTimeTest : BaseUiTest() {
             timeEndedPreview = timeEndedTimeStamp2.formatTime(),
         )
         checkRecord(
-            name = getString(R.string.untracked_time_name),
+            name = getString(coreR.string.untracked_time_name),
             timeStartedPreview = timeEndedTimeStamp1.formatTime(),
             timeEndedPreview = timeStartedTimeStamp2.formatTime(),
         )
@@ -156,8 +159,8 @@ class RecordAdjustTimeTest : BaseUiTest() {
         // Change record
         longClickOnView(
             allOf(
-                withId(R.id.viewRecordItem),
-                hasDescendant(withText(R.string.untracked_time_name)),
+                withId(baseR.id.viewRecordItem),
+                hasDescendant(withText(coreR.string.untracked_time_name)),
                 hasDescendant(withText(timeEndedTimeStamp1.formatTime())),
                 hasDescendant(withText(timeStartedTimeStamp2.formatTime())),
                 isCompletelyDisplayed()
@@ -165,14 +168,14 @@ class RecordAdjustTimeTest : BaseUiTest() {
         )
         clickOnViewWithText("-1")
         clickOnViewWithText("-1")
-        unconstrainedClickOnView(withId(R.id.btnChangeRecordTimeEndedAdjust))
+        unconstrainedClickOnView(withId(changeRecordR.id.btnChangeRecordTimeEndedAdjust))
         tryAction { clickOnViewWithText("+1") }
-        clickOnViewWithText(R.string.change_record_type_field)
-        clickOnRecyclerItem(R.id.rvChangeRecordType, withText(name2))
-        clickOnViewWithText(R.string.change_record_actions_hint)
-        onView(withText(R.string.change_record_adjust)).perform(nestedScrollTo())
-        onView(withId(R.id.containerChangeRecordAction)).perform(swipeUp())
-        clickOnViewWithText(R.string.change_record_adjust)
+        clickOnViewWithText(coreR.string.change_record_type_field)
+        clickOnRecyclerItem(changeRecordR.id.rvChangeRecordType, withText(name2))
+        clickOnViewWithText(coreR.string.change_record_actions_hint)
+        onView(withText(coreR.string.change_record_adjust)).perform(nestedScrollTo())
+        onView(withId(changeRecordR.id.containerChangeRecordAction)).perform(swipeUp())
+        clickOnViewWithText(coreR.string.change_record_adjust)
 
         // Check records
         val newUntrackedTimeStarted = timeEndedTimeStamp1 - TimeUnit.MINUTES.toMillis(2)
@@ -231,13 +234,13 @@ class RecordAdjustTimeTest : BaseUiTest() {
 
         // Change record
         longClickOnView(
-            allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name2), isCompletelyDisplayed())
+            allOf(isDescendantOfA(withId(baseR.id.viewRunningRecordItem)), withText(name2), isCompletelyDisplayed())
         )
         clickOnViewWithText("-5")
-        clickOnViewWithText(R.string.change_record_actions_hint)
-        onView(withText(R.string.change_record_adjust)).perform(nestedScrollTo())
-        onView(withId(R.id.containerChangeRecordAction)).perform(swipeUp())
-        clickOnViewWithText(R.string.change_record_adjust)
+        clickOnViewWithText(coreR.string.change_record_actions_hint)
+        onView(withText(coreR.string.change_record_adjust)).perform(nestedScrollTo())
+        onView(withId(changeRecordR.id.containerChangeRecordAction)).perform(swipeUp())
+        clickOnViewWithText(coreR.string.change_record_adjust)
 
         // Check records
         val newTimeEnded = current - TimeUnit.MINUTES.toMillis(5)
@@ -261,7 +264,7 @@ class RecordAdjustTimeTest : BaseUiTest() {
     ) {
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.viewRecordItem),
+                withId(baseR.id.viewRecordItem),
                 hasDescendant(withText(name)),
                 hasDescendant(withText(timeStartedPreview)),
                 hasDescendant(withText(timeEndedPreview)),
@@ -277,7 +280,7 @@ class RecordAdjustTimeTest : BaseUiTest() {
     ) {
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.viewRunningRecordItem),
+                withId(baseR.id.viewRunningRecordItem),
                 hasDescendant(withText(name)),
                 hasDescendant(withText(timeStartedPreview)),
                 isCompletelyDisplayed()

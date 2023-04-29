@@ -30,6 +30,9 @@ import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.Matcher
 import org.junit.Test
 import org.junit.runner.RunWith
+import com.example.util.simpletimetracker.core.R as coreR
+import com.example.util.simpletimetracker.feature_change_record_type.R as changeRecordTypeR
+import com.example.util.simpletimetracker.feature_dialogs.R as dialogsR
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
@@ -46,10 +49,10 @@ class ChangeRecordTypeTest : BaseUiTest() {
         longClickOnView(withText(name))
 
         // View is set up
-        checkViewIsDisplayed(withId(R.id.btnChangeRecordTypeDelete))
-        checkViewIsNotDisplayed(withId(R.id.rvChangeRecordTypeColor))
-        checkViewIsNotDisplayed(withId(R.id.rvChangeRecordTypeIcon))
-        checkViewIsDisplayed(allOf(withId(R.id.etChangeRecordTypeName), withText(name)))
+        checkViewIsDisplayed(withId(changeRecordTypeR.id.btnChangeRecordTypeDelete))
+        checkViewIsNotDisplayed(withId(changeRecordTypeR.id.rvChangeRecordTypeColor))
+        checkViewIsNotDisplayed(withId(changeRecordTypeR.id.rvChangeRecordTypeIcon))
+        checkViewIsDisplayed(allOf(withId(changeRecordTypeR.id.etChangeRecordTypeName), withText(name)))
 
         // Preview is updated
         checkPreviewUpdated(hasDescendant(withText(name)))
@@ -57,24 +60,28 @@ class ChangeRecordTypeTest : BaseUiTest() {
         checkPreviewUpdated(hasDescendant(withTag(firstIcon)))
 
         // Change item
-        typeTextIntoView(R.id.etChangeRecordTypeName, newName)
+        typeTextIntoView(changeRecordTypeR.id.etChangeRecordTypeName, newName)
         checkPreviewUpdated(hasDescendant(withText(newName)))
 
-        clickOnViewWithText(R.string.change_record_type_color_hint)
-        checkViewIsDisplayed(allOf(withId(R.id.viewColorItemSelected), withParent(withCardColor(firstColor))))
-        scrollRecyclerToView(R.id.rvChangeRecordTypeColor, withCardColor(lastColor))
-        clickOnRecyclerItem(R.id.rvChangeRecordTypeColor, withCardColor(lastColor))
+        clickOnViewWithText(coreR.string.change_record_type_color_hint)
+        checkViewIsDisplayed(
+            allOf(withId(changeRecordTypeR.id.viewColorItemSelected), withParent(withCardColor(firstColor)))
+        )
+        scrollRecyclerToView(changeRecordTypeR.id.rvChangeRecordTypeColor, withCardColor(lastColor))
+        clickOnRecyclerItem(changeRecordTypeR.id.rvChangeRecordTypeColor, withCardColor(lastColor))
         checkPreviewUpdated(withCardColor(lastColor))
-        checkViewIsDisplayed(allOf(withId(R.id.viewColorItemSelected), withParent(withCardColor(lastColor))))
-        clickOnViewWithText(R.string.change_record_type_color_hint)
+        checkViewIsDisplayed(
+            allOf(withId(changeRecordTypeR.id.viewColorItemSelected), withParent(withCardColor(lastColor)))
+        )
+        clickOnViewWithText(coreR.string.change_record_type_color_hint)
 
-        clickOnViewWithText(R.string.change_record_type_icon_image_hint)
-        onView(withId(R.id.rvChangeRecordTypeIcon)).perform(collapseToolbar())
-        scrollRecyclerToView(R.id.rvChangeRecordTypeIcon, hasDescendant(withTag(lastIcon)))
-        clickOnRecyclerItem(R.id.rvChangeRecordTypeIcon, withTag(lastIcon))
+        clickOnViewWithText(coreR.string.change_record_type_icon_image_hint)
+        onView(withId(changeRecordTypeR.id.rvChangeRecordTypeIcon)).perform(collapseToolbar())
+        scrollRecyclerToView(changeRecordTypeR.id.rvChangeRecordTypeIcon, hasDescendant(withTag(lastIcon)))
+        clickOnRecyclerItem(changeRecordTypeR.id.rvChangeRecordTypeIcon, withTag(lastIcon))
         checkPreviewUpdated(hasDescendant(withTag(lastIcon)))
 
-        clickOnViewWithText(R.string.change_record_type_save)
+        clickOnViewWithText(coreR.string.change_record_type_save)
 
         // Record type updated
         tryAction { checkViewIsDisplayed(withText(newName)) }
@@ -83,11 +90,11 @@ class ChangeRecordTypeTest : BaseUiTest() {
 
         // Change again
         longClickOnView(withText(newName))
-        clickOnViewWithText(R.string.change_record_type_icon_image_hint)
+        clickOnViewWithText(coreR.string.change_record_type_icon_image_hint)
         clickOnView(
             allOf(
-                isDescendantOfA(withId(R.id.btnChangeRecordTypeIconSwitch)),
-                withText(R.string.change_record_type_icon_emoji_hint)
+                isDescendantOfA(withId(changeRecordTypeR.id.btnChangeRecordTypeIconSwitch)),
+                withText(coreR.string.change_record_type_icon_emoji_hint)
             )
         )
         clickOnViewWithText(firstEmoji)
@@ -95,7 +102,7 @@ class ChangeRecordTypeTest : BaseUiTest() {
         // Preview is updated
         checkPreviewUpdated(hasDescendant(withText(firstEmoji)))
 
-        clickOnViewWithText(R.string.change_record_type_save)
+        clickOnViewWithText(coreR.string.change_record_type_save)
 
         // Record type updated
         tryAction { checkViewIsDisplayed(withText(firstEmoji)) }
@@ -113,59 +120,59 @@ class ChangeRecordTypeTest : BaseUiTest() {
         tryAction { clickOnViewWithText(name) }
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.viewRunningRecordItem),
+                withId(changeRecordTypeR.id.viewRunningRecordItem),
                 withCardColor(firstColor),
                 hasDescendant(withText(name)),
                 hasDescendant(withTag(firstIcon))
             )
         )
-        checkViewDoesNotExist(withSubstring(getString(R.string.change_record_type_session_goal_time).lowercase()))
+        checkViewDoesNotExist(withSubstring(getString(coreR.string.change_record_type_session_goal_time).lowercase()))
 
         // Change activity
         longClickOnView(
-            allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name))
+            allOf(isDescendantOfA(withId(changeRecordTypeR.id.viewRecordTypeItem)), withText(name))
         )
 
-        typeTextIntoView(R.id.etChangeRecordTypeName, newName)
+        typeTextIntoView(changeRecordTypeR.id.etChangeRecordTypeName, newName)
 
-        clickOnViewWithText(R.string.change_record_type_color_hint)
-        scrollRecyclerToView(R.id.rvChangeRecordTypeColor, withCardColor(lastColor))
-        clickOnRecyclerItem(R.id.rvChangeRecordTypeColor, withCardColor(lastColor))
-        clickOnViewWithText(R.string.change_record_type_color_hint)
+        clickOnViewWithText(coreR.string.change_record_type_color_hint)
+        scrollRecyclerToView(changeRecordTypeR.id.rvChangeRecordTypeColor, withCardColor(lastColor))
+        clickOnRecyclerItem(changeRecordTypeR.id.rvChangeRecordTypeColor, withCardColor(lastColor))
+        clickOnViewWithText(coreR.string.change_record_type_color_hint)
 
-        clickOnViewWithText(R.string.change_record_type_icon_image_hint)
-        onView(withId(R.id.rvChangeRecordTypeIcon)).perform(collapseToolbar())
-        scrollRecyclerToView(R.id.rvChangeRecordTypeIcon, hasDescendant(withTag(lastIcon)))
-        clickOnRecyclerItem(R.id.rvChangeRecordTypeIcon, withTag(lastIcon))
-        clickOnViewWithId(R.id.fieldChangeRecordTypeIcon)
+        clickOnViewWithText(coreR.string.change_record_type_icon_image_hint)
+        onView(withId(changeRecordTypeR.id.rvChangeRecordTypeIcon)).perform(collapseToolbar())
+        scrollRecyclerToView(changeRecordTypeR.id.rvChangeRecordTypeIcon, hasDescendant(withTag(lastIcon)))
+        clickOnRecyclerItem(changeRecordTypeR.id.rvChangeRecordTypeIcon, withTag(lastIcon))
+        clickOnViewWithId(changeRecordTypeR.id.fieldChangeRecordTypeIcon)
 
-        clickOnViewWithText(R.string.change_record_type_goal_time_hint)
-        clickOnViewWithId(R.id.groupChangeRecordTypeSessionGoalTime)
-        clickOnViewWithId(R.id.tvNumberKeyboard1)
-        clickOnViewWithId(R.id.tvNumberKeyboard0)
-        clickOnViewWithId(R.id.tvNumberKeyboard0)
-        clickOnViewWithId(R.id.tvNumberKeyboard0)
-        clickOnViewWithText(R.string.duration_dialog_save)
+        clickOnViewWithText(coreR.string.change_record_type_goal_time_hint)
+        clickOnViewWithId(changeRecordTypeR.id.groupChangeRecordTypeSessionGoalTime)
+        clickOnViewWithId(dialogsR.id.tvNumberKeyboard1)
+        clickOnViewWithId(dialogsR.id.tvNumberKeyboard0)
+        clickOnViewWithId(dialogsR.id.tvNumberKeyboard0)
+        clickOnViewWithId(dialogsR.id.tvNumberKeyboard0)
+        clickOnViewWithText(coreR.string.duration_dialog_save)
         tryAction { checkViewIsDisplayed(withText("10$minuteString")) }
-        clickOnViewWithText(R.string.change_record_type_goal_time_hint)
+        clickOnViewWithText(coreR.string.change_record_type_goal_time_hint)
 
-        clickOnViewWithText(R.string.change_record_type_save)
+        clickOnViewWithText(coreR.string.change_record_type_save)
 
         // Record running record updated
         tryAction {
             checkViewIsDisplayed(
-                allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(newName))
+                allOf(isDescendantOfA(withId(changeRecordTypeR.id.viewRunningRecordItem)), withText(newName))
             )
         }
         checkViewIsDisplayed(
-            allOf(withId(R.id.viewRunningRecordItem), withCardColor(lastColor))
+            allOf(withId(changeRecordTypeR.id.viewRunningRecordItem), withCardColor(lastColor))
         )
         checkViewIsDisplayed(
-            allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withTag(lastIcon))
+            allOf(isDescendantOfA(withId(changeRecordTypeR.id.viewRunningRecordItem)), withTag(lastIcon))
         )
-        checkViewIsDisplayed(withSubstring(getString(R.string.change_record_type_session_goal_time).lowercase()))
+        checkViewIsDisplayed(withSubstring(getString(coreR.string.change_record_type_session_goal_time).lowercase()))
     }
 
     private fun checkPreviewUpdated(matcher: Matcher<View>) =
-        checkViewIsDisplayed(allOf(withId(R.id.previewChangeRecordType), matcher))
+        checkViewIsDisplayed(allOf(withId(changeRecordTypeR.id.previewChangeRecordType), matcher))
 }

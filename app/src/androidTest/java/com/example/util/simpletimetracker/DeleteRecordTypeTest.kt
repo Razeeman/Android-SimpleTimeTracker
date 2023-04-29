@@ -15,10 +15,14 @@ import com.example.util.simpletimetracker.utils.longClickOnView
 import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.withCardColor
 import com.example.util.simpletimetracker.utils.withTag
+import com.google.android.material.R
 import dagger.hilt.android.testing.HiltAndroidTest
-import org.hamcrest.CoreMatchers.allOf
+import org.hamcrest.Matchers.allOf
 import org.junit.Test
 import org.junit.runner.RunWith
+import com.example.util.simpletimetracker.core.R as coreR
+import com.example.util.simpletimetracker.feature_base_adapter.R as baseR
+import com.example.util.simpletimetracker.feature_change_record_type.R as changeRecordTypeR
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
@@ -37,7 +41,7 @@ class DeleteRecordTypeTest : BaseUiTest() {
         tryAction {
             checkViewIsDisplayed(
                 allOf(
-                    withId(R.id.viewRecordTypeItem),
+                    withId(baseR.id.viewRecordTypeItem),
                     hasDescendant(withText(name)),
                     hasDescendant(withTag(icon)),
                     withCardColor(color)
@@ -47,15 +51,19 @@ class DeleteRecordTypeTest : BaseUiTest() {
 
         // Archive item
         longClickOnView(withText(name))
-        checkViewIsDisplayed(withId(R.id.btnChangeRecordTypeDelete))
-        clickOnViewWithId(R.id.btnChangeRecordTypeDelete)
-
-        // TODO check message
+        checkViewIsDisplayed(withId(changeRecordTypeR.id.btnChangeRecordTypeDelete))
+        clickOnViewWithId(changeRecordTypeR.id.btnChangeRecordTypeDelete)
+        checkViewIsDisplayed(
+            allOf(
+                withText(coreR.string.change_record_type_archived),
+                withId(R.id.snackbar_text)
+            )
+        )
 
         // Record type is deleted
         checkViewDoesNotExist(
             allOf(
-                withId(R.id.viewRecordTypeItem),
+                withId(baseR.id.viewRecordTypeItem),
                 hasDescendant(withText(name)),
                 hasDescendant(withTag(icon)),
                 withCardColor(color)
@@ -66,10 +74,16 @@ class DeleteRecordTypeTest : BaseUiTest() {
         NavUtils.openSettingsScreen()
         NavUtils.openArchiveScreen()
         clickOnViewWithText(name)
-        clickOnViewWithText(R.string.archive_dialog_delete)
-        clickOnViewWithText(R.string.archive_dialog_delete)
+        clickOnViewWithText(coreR.string.archive_dialog_delete)
+        clickOnViewWithText(coreR.string.archive_dialog_delete)
         checkViewDoesNotExist(withText(name))
-        checkViewIsDisplayed(withText(R.string.archive_empty))
+        tryAction { checkViewIsDisplayed(withText(coreR.string.archive_empty)) }
+        checkViewIsDisplayed(
+            allOf(
+                withText(coreR.string.archive_activity_deleted),
+                withId(R.id.snackbar_text)
+            )
+        )
         pressBack()
 
         // Record removed

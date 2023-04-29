@@ -11,55 +11,63 @@ import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.withClassName
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
-import com.example.util.simpletimetracker.R
 import com.example.util.simpletimetracker.feature_dialogs.dateTime.CustomTimePicker
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.equalTo
+import com.example.util.simpletimetracker.core.R as coreR
+import com.example.util.simpletimetracker.feature_change_activity_filter.R as changeActivityFilterR
+import com.example.util.simpletimetracker.feature_change_category.R as changeCategoryR
+import com.example.util.simpletimetracker.feature_change_record.R as changeRecordR
+import com.example.util.simpletimetracker.feature_change_record_tag.R as changeRecordTagR
+import com.example.util.simpletimetracker.feature_change_record_type.R as changeRecordTypeR
+import com.example.util.simpletimetracker.feature_dialogs.R as dialogsR
+import com.example.util.simpletimetracker.feature_main.R as mainR
+import com.example.util.simpletimetracker.feature_records.R as recordsR
 
 object NavUtils {
 
     fun openRunningRecordsScreen() {
-        onView(withId(R.id.mainTabs)).perform(selectTabAtPosition(0))
+        onView(withId(mainR.id.mainTabs)).perform(selectTabAtPosition(0))
         Thread.sleep(1000)
     }
 
     fun openRecordsScreen() {
-        onView(withId(R.id.mainTabs)).perform(selectTabAtPosition(1))
+        onView(withId(mainR.id.mainTabs)).perform(selectTabAtPosition(1))
         Thread.sleep(1000)
     }
 
     fun openStatisticsScreen() {
-        onView(withId(R.id.mainTabs)).perform(selectTabAtPosition(2))
+        onView(withId(mainR.id.mainTabs)).perform(selectTabAtPosition(2))
         Thread.sleep(1000)
     }
 
     fun openSettingsScreen() {
-        onView(withId(R.id.mainTabs)).perform(selectTabAtPosition(3))
+        onView(withId(mainR.id.mainTabs)).perform(selectTabAtPosition(3))
         Thread.sleep(1000)
     }
 
     fun openSettingsNotifications() {
-        onView(withText(R.string.settings_notification_title)).perform(nestedScrollTo(), click())
+        onView(withText(coreR.string.settings_notification_title)).perform(nestedScrollTo(), click())
     }
 
     fun openSettingsDisplay() {
-        onView(withText(R.string.settings_display_title)).perform(nestedScrollTo(), click())
+        onView(withText(coreR.string.settings_display_title)).perform(nestedScrollTo(), click())
     }
 
     fun openSettingsAdditional() {
-        onView(withText(R.string.settings_additional_title)).perform(nestedScrollTo(), click())
+        onView(withText(coreR.string.settings_additional_title)).perform(nestedScrollTo(), click())
     }
 
     fun openCategoriesScreen() {
-        onView(withText(R.string.settings_edit_categories)).perform(nestedScrollTo(), click())
+        onView(withText(coreR.string.settings_edit_categories)).perform(nestedScrollTo(), click())
     }
 
     fun openArchiveScreen() {
-        onView(withText(R.string.settings_archive)).perform(nestedScrollTo(), click())
+        onView(withText(coreR.string.settings_archive)).perform(nestedScrollTo(), click())
     }
 
     fun openCardSizeScreen() {
-        onView(withText(R.string.settings_change_card_size)).perform(nestedScrollTo(), click())
+        onView(withText(coreR.string.settings_change_card_size)).perform(nestedScrollTo(), click())
     }
 
     fun addActivity(
@@ -70,58 +78,58 @@ object NavUtils {
         categories: List<String> = emptyList(),
         goalTime: String? = null,
     ) {
-        tryAction { clickOnViewWithText(R.string.running_records_add_type) }
+        tryAction { clickOnViewWithText(coreR.string.running_records_add_type) }
 
         // Name
-        typeTextIntoView(R.id.etChangeRecordTypeName, name)
+        typeTextIntoView(changeRecordTypeR.id.etChangeRecordTypeName, name)
 
         // Color
         if (color != null) {
-            clickOnViewWithText(R.string.change_record_type_color_hint)
-            scrollRecyclerToView(R.id.rvChangeRecordTypeColor, withCardColor(color))
-            clickOnRecyclerItem(R.id.rvChangeRecordTypeColor, withCardColor(color))
-            clickOnViewWithText(R.string.change_record_type_color_hint)
+            clickOnViewWithText(coreR.string.change_record_type_color_hint)
+            scrollRecyclerToView(changeRecordTypeR.id.rvChangeRecordTypeColor, withCardColor(color))
+            clickOnRecyclerItem(changeRecordTypeR.id.rvChangeRecordTypeColor, withCardColor(color))
+            clickOnViewWithText(coreR.string.change_record_type_color_hint)
         }
 
         // Icon
         if (icon != null) {
-            clickOnViewWithText(R.string.change_record_type_icon_image_hint)
-            scrollRecyclerToView(R.id.rvChangeRecordTypeIcon, hasDescendant(withTag(icon)))
-            clickOnRecyclerItem(R.id.rvChangeRecordTypeIcon, withTag(icon))
-            clickOnViewWithId(R.id.fieldChangeRecordTypeIcon)
+            clickOnViewWithText(coreR.string.change_record_type_icon_image_hint)
+            scrollRecyclerToView(changeRecordTypeR.id.rvChangeRecordTypeIcon, hasDescendant(withTag(icon)))
+            clickOnRecyclerItem(changeRecordTypeR.id.rvChangeRecordTypeIcon, withTag(icon))
+            clickOnViewWithId(changeRecordTypeR.id.fieldChangeRecordTypeIcon)
         } else if (text != null) {
-            clickOnViewWithText(R.string.change_record_type_icon_image_hint)
-            onView(withId(R.id.rvChangeRecordTypeIcon)).perform(collapseToolbar())
-            scrollRecyclerToView(R.id.rvChangeRecordTypeIcon, hasDescendant(withText(text)))
-            clickOnRecyclerItem(R.id.rvChangeRecordTypeIcon, withText(text))
-            clickOnViewWithId(R.id.fieldChangeRecordTypeIcon)
+            clickOnViewWithText(coreR.string.change_record_type_icon_image_hint)
+            onView(withId(changeRecordTypeR.id.rvChangeRecordTypeIcon)).perform(collapseToolbar())
+            scrollRecyclerToView(changeRecordTypeR.id.rvChangeRecordTypeIcon, hasDescendant(withText(text)))
+            clickOnRecyclerItem(changeRecordTypeR.id.rvChangeRecordTypeIcon, withText(text))
+            clickOnViewWithId(changeRecordTypeR.id.fieldChangeRecordTypeIcon)
         }
 
         // Categories
         if (categories.isNotEmpty()) {
-            clickOnViewWithText(R.string.category_hint)
+            clickOnViewWithText(coreR.string.category_hint)
             categories.forEach { categoryName ->
                 scrollRecyclerToView(
-                    R.id.rvChangeRecordTypeCategories, hasDescendant(withText(categoryName))
+                    changeRecordTypeR.id.rvChangeRecordTypeCategories, hasDescendant(withText(categoryName))
                 )
-                clickOnRecyclerItem(R.id.rvChangeRecordTypeCategories, withText(categoryName))
+                clickOnRecyclerItem(changeRecordTypeR.id.rvChangeRecordTypeCategories, withText(categoryName))
             }
-            clickOnViewWithText(R.string.category_hint)
+            clickOnViewWithText(coreR.string.category_hint)
         }
 
         // Goal time
         if (!goalTime.isNullOrEmpty()) {
-            clickOnViewWithText(R.string.change_record_type_goal_time_hint)
-            clickOnViewWithId(R.id.groupChangeRecordTypeSessionGoalTime)
+            clickOnViewWithText(coreR.string.change_record_type_goal_time_hint)
+            clickOnViewWithId(changeRecordTypeR.id.groupChangeRecordTypeSessionGoalTime)
             goalTime.forEach { char ->
                 clickOnViewWithText(char.toString())
             }
-            clickOnViewWithText(R.string.duration_dialog_save)
-            clickOnViewWithText(R.string.change_record_type_goal_time_hint)
+            clickOnViewWithText(coreR.string.duration_dialog_save)
+            clickOnViewWithText(coreR.string.change_record_type_goal_time_hint)
         }
 
         closeSoftKeyboard()
-        clickOnViewWithText(R.string.change_record_type_save)
+        clickOnViewWithText(coreR.string.change_record_type_save)
     }
 
     fun addCategory(
@@ -129,26 +137,26 @@ object NavUtils {
         color: Int? = null,
         activities: List<String> = emptyList(),
     ) {
-        tryAction { clickOnViewWithText(R.string.categories_add_category) }
+        tryAction { clickOnViewWithText(coreR.string.categories_add_category) }
 
         // Name
-        typeTextIntoView(R.id.etChangeCategoryName, name)
+        typeTextIntoView(changeCategoryR.id.etChangeCategoryName, name)
 
         // Color
         if (color != null) {
-            clickOnViewWithText(R.string.change_category_color_hint)
-            scrollRecyclerToView(R.id.rvChangeCategoryColor, withCardColor(color))
-            clickOnRecyclerItem(R.id.rvChangeCategoryColor, withCardColor(color))
+            clickOnViewWithText(coreR.string.change_category_color_hint)
+            scrollRecyclerToView(changeCategoryR.id.rvChangeCategoryColor, withCardColor(color))
+            clickOnRecyclerItem(changeCategoryR.id.rvChangeCategoryColor, withCardColor(color))
         }
 
         // Activities
-        clickOnViewWithText(R.string.change_category_types_hint)
+        clickOnViewWithText(coreR.string.change_category_types_hint)
         activities.forEach { typeName ->
-            scrollRecyclerToView(R.id.rvChangeCategoryType, hasDescendant(withText(typeName)))
-            clickOnRecyclerItem(R.id.rvChangeCategoryType, withText(typeName))
+            scrollRecyclerToView(changeCategoryR.id.rvChangeCategoryType, hasDescendant(withText(typeName)))
+            clickOnRecyclerItem(changeCategoryR.id.rvChangeCategoryType, withText(typeName))
         }
 
-        clickOnViewWithText(R.string.change_category_save)
+        clickOnViewWithText(coreR.string.change_category_save)
     }
 
     fun addRecordTag(
@@ -156,48 +164,48 @@ object NavUtils {
         activity: String? = null,
         color: Int? = null,
     ) {
-        tryAction { clickOnViewWithText(R.string.categories_add_record_tag) }
+        tryAction { clickOnViewWithText(coreR.string.categories_add_record_tag) }
 
         // Name
-        typeTextIntoView(R.id.etChangeRecordTagName, name)
+        typeTextIntoView(changeRecordTagR.id.etChangeRecordTagName, name)
 
         // Color
         if (color != null) {
             clickOnView(
                 allOf(
-                    isDescendantOfA(withId(R.id.buttonsChangeRecordTagType)),
-                    withText(R.string.change_record_tag_type_general)
+                    isDescendantOfA(withId(changeRecordTagR.id.buttonsChangeRecordTagType)),
+                    withText(coreR.string.change_record_tag_type_general)
                 )
             )
-            clickOnViewWithId(R.id.fieldChangeRecordTagColor)
-            scrollRecyclerToView(R.id.rvChangeRecordTagColor, withCardColor(color))
-            clickOnRecyclerItem(R.id.rvChangeRecordTagColor, withCardColor(color))
+            clickOnViewWithId(changeRecordTagR.id.fieldChangeRecordTagColor)
+            scrollRecyclerToView(changeRecordTagR.id.rvChangeRecordTagColor, withCardColor(color))
+            clickOnRecyclerItem(changeRecordTagR.id.rvChangeRecordTagColor, withCardColor(color))
         }
 
         // Activity
         if (!activity.isNullOrEmpty()) {
             clickOnView(
                 allOf(
-                    isDescendantOfA(withId(R.id.buttonsChangeRecordTagType)),
-                    withText(R.string.change_record_tag_type_typed)
+                    isDescendantOfA(withId(changeRecordTagR.id.buttonsChangeRecordTagType)),
+                    withText(coreR.string.change_record_tag_type_typed)
                 )
             )
-            clickOnViewWithId(R.id.fieldChangeRecordTagType)
-            scrollRecyclerToView(R.id.rvChangeRecordTagType, hasDescendant(withText(activity)))
-            clickOnRecyclerItem(R.id.rvChangeRecordTagType, withText(activity))
+            clickOnViewWithId(changeRecordTagR.id.fieldChangeRecordTagType)
+            scrollRecyclerToView(changeRecordTagR.id.rvChangeRecordTagType, hasDescendant(withText(activity)))
+            clickOnRecyclerItem(changeRecordTagR.id.rvChangeRecordTagType, withText(activity))
         }
 
-        clickOnViewWithText(R.string.change_category_save)
+        clickOnViewWithText(coreR.string.change_category_save)
     }
 
     fun addRecord(name: String) {
-        tryAction { clickOnViewWithId(R.id.btnRecordAdd) }
+        tryAction { clickOnViewWithId(recordsR.id.btnRecordAdd) }
 
         // Activity
-        clickOnViewWithText(R.string.change_record_type_field)
-        clickOnRecyclerItem(R.id.rvChangeRecordType, withText(name))
+        clickOnViewWithText(coreR.string.change_record_type_field)
+        clickOnRecyclerItem(changeRecordR.id.rvChangeRecordType, withText(name))
 
-        clickOnViewWithText(R.string.change_record_save)
+        clickOnViewWithText(coreR.string.change_record_save)
     }
 
     fun addRecordWithTime(
@@ -209,38 +217,38 @@ object NavUtils {
         comment: String? = null,
         tag: String? = null,
     ) {
-        tryAction { clickOnViewWithId(R.id.btnRecordAdd) }
+        tryAction { clickOnViewWithId(recordsR.id.btnRecordAdd) }
 
         // Time started
-        clickOnViewWithId(R.id.tvChangeRecordTimeStarted)
+        clickOnViewWithId(changeRecordR.id.tvChangeRecordTimeStarted)
         onView(withClassName(equalTo(CustomTimePicker::class.java.name)))
             .perform(setTime(hourStarted, minutesStarted))
-        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+        clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
         // Time ended
-        clickOnViewWithId(R.id.tvChangeRecordTimeEnded)
+        clickOnViewWithId(changeRecordR.id.tvChangeRecordTimeEnded)
         onView(withClassName(equalTo(CustomTimePicker::class.java.name)))
             .perform(setTime(hourEnded, minutesEnded))
-        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+        clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
         // Comment
         if (!comment.isNullOrEmpty()) {
-            clickOnViewWithText(R.string.change_record_comment_field)
-            typeTextIntoView(R.id.etChangeRecordComment, comment)
-            clickOnViewWithText(R.string.change_record_comment_field)
+            clickOnViewWithText(coreR.string.change_record_comment_field)
+            typeTextIntoView(changeRecordR.id.etChangeRecordComment, comment)
+            clickOnViewWithText(coreR.string.change_record_comment_field)
         }
 
         // Activity
-        clickOnViewWithText(R.string.change_record_type_field)
-        clickOnRecyclerItem(R.id.rvChangeRecordType, withText(name))
+        clickOnViewWithText(coreR.string.change_record_type_field)
+        clickOnRecyclerItem(changeRecordR.id.rvChangeRecordType, withText(name))
 
         // Tag
         if (tag != null) {
-            tryAction { clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag)) }
-            clickOnViewWithText(R.string.change_record_tag_field)
+            tryAction { clickOnRecyclerItem(changeRecordR.id.rvChangeRecordCategories, withText(tag)) }
+            clickOnViewWithText(coreR.string.change_record_tag_field)
         }
 
-        clickOnViewWithText(R.string.change_record_save)
+        clickOnViewWithText(coreR.string.change_record_save)
     }
 
     fun addActivityFilter(
@@ -249,51 +257,51 @@ object NavUtils {
         activities: List<String> = emptyList(),
         categories: List<String> = emptyList(),
     ) {
-        tryAction { clickOnViewWithText(R.string.running_records_add_filter) }
+        tryAction { clickOnViewWithText(coreR.string.running_records_add_filter) }
 
         // Name
-        typeTextIntoView(R.id.etChangeActivityFilterName, name)
+        typeTextIntoView(changeActivityFilterR.id.etChangeActivityFilterName, name)
 
         // Color
         if (color != null) {
-            clickOnViewWithText(R.string.change_category_color_hint)
-            scrollRecyclerToView(R.id.rvChangeActivityFilterColor, withCardColor(color))
-            clickOnRecyclerItem(R.id.rvChangeActivityFilterColor, withCardColor(color))
+            clickOnViewWithText(coreR.string.change_category_color_hint)
+            scrollRecyclerToView(changeActivityFilterR.id.rvChangeActivityFilterColor, withCardColor(color))
+            clickOnRecyclerItem(changeActivityFilterR.id.rvChangeActivityFilterColor, withCardColor(color))
         }
 
         // Activity
         if (activities.isNotEmpty()) {
-            clickOnViewWithId(R.id.fieldChangeActivityFilterType)
+            clickOnViewWithId(changeActivityFilterR.id.fieldChangeActivityFilterType)
             clickOnView(
                 allOf(
-                    isDescendantOfA(withId(R.id.buttonsChangeActivityFilterType)),
-                    withText(R.string.activity_hint)
+                    isDescendantOfA(withId(changeActivityFilterR.id.buttonsChangeActivityFilterType)),
+                    withText(coreR.string.activity_hint)
                 )
             )
             activities.forEach {
-                scrollRecyclerToView(R.id.rvChangeActivityFilterType, hasDescendant(withText(it)))
-                clickOnRecyclerItem(R.id.rvChangeActivityFilterType, withText(it))
+                scrollRecyclerToView(changeActivityFilterR.id.rvChangeActivityFilterType, hasDescendant(withText(it)))
+                clickOnRecyclerItem(changeActivityFilterR.id.rvChangeActivityFilterType, withText(it))
             }
-            clickOnViewWithId(R.id.fieldChangeActivityFilterType)
+            clickOnViewWithId(changeActivityFilterR.id.fieldChangeActivityFilterType)
         }
 
         // Category
         if (categories.isNotEmpty()) {
-            clickOnViewWithId(R.id.fieldChangeActivityFilterType)
+            clickOnViewWithId(changeActivityFilterR.id.fieldChangeActivityFilterType)
             clickOnView(
                 allOf(
-                    isDescendantOfA(withId(R.id.buttonsChangeActivityFilterType)),
-                    withText(R.string.category_hint)
+                    isDescendantOfA(withId(changeActivityFilterR.id.buttonsChangeActivityFilterType)),
+                    withText(coreR.string.category_hint)
                 )
             )
             categories.forEach {
-                scrollRecyclerToView(R.id.rvChangeActivityFilterType, hasDescendant(withText(it)))
-                clickOnRecyclerItem(R.id.rvChangeActivityFilterType, withText(it))
+                scrollRecyclerToView(changeActivityFilterR.id.rvChangeActivityFilterType, hasDescendant(withText(it)))
+                clickOnRecyclerItem(changeActivityFilterR.id.rvChangeActivityFilterType, withText(it))
             }
-            clickOnViewWithId(R.id.fieldChangeActivityFilterType)
+            clickOnViewWithId(changeActivityFilterR.id.fieldChangeActivityFilterType)
         }
 
-        clickOnViewWithText(R.string.change_activity_filter_save)
+        clickOnViewWithText(coreR.string.change_activity_filter_save)
     }
 
     fun setCustomRange(
@@ -305,17 +313,17 @@ object NavUtils {
         dayEnded: Int,
     ) {
         // Set time started
-        clickOnViewWithId(R.id.tvCustomRangeSelectionTimeStarted)
+        clickOnViewWithId(dialogsR.id.tvCustomRangeSelectionTimeStarted)
         onView(withClassName(equalTo(DatePicker::class.java.name)))
             .perform(setDate(yearStarted, monthStarted + 1, dayStarted))
-        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+        clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
         // Set time ended
-        clickOnViewWithId(R.id.tvCustomRangeSelectionTimeEnded)
+        clickOnViewWithId(dialogsR.id.tvCustomRangeSelectionTimeEnded)
         onView(withClassName(equalTo(DatePicker::class.java.name)))
             .perform(setDate(yearEnded, monthEnded + 1, dayEnded))
-        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+        clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
-        clickOnViewWithId(R.id.btnCustomRangeSelection)
+        clickOnViewWithId(dialogsR.id.btnCustomRangeSelection)
     }
 }

@@ -23,14 +23,18 @@ import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.longClickOnViewWithId
 import com.example.util.simpletimetracker.utils.tryAction
 import dagger.hilt.android.testing.HiltAndroidTest
-import org.hamcrest.CoreMatchers.allOf
-import org.hamcrest.CoreMatchers.equalTo
-import org.junit.Test
-import org.junit.runner.RunWith
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 import java.util.concurrent.TimeUnit
+import org.hamcrest.CoreMatchers.allOf
+import org.hamcrest.CoreMatchers.equalTo
+import org.junit.Test
+import org.junit.runner.RunWith
+import com.example.util.simpletimetracker.core.R as coreR
+import com.example.util.simpletimetracker.feature_base_adapter.R as baseR
+import com.example.util.simpletimetracker.feature_dialogs.R as dialogsR
+import com.example.util.simpletimetracker.feature_statistics.R as statisticsR
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
@@ -51,97 +55,97 @@ class StatisticsRangesTest : BaseUiTest() {
 
         // Statistics day range
         NavUtils.openStatisticsScreen()
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.range_day)
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithText(coreR.string.range_day)
         checkViewIsDisplayed(allOf(withText(name), isCompletelyDisplayed()))
-        clickOnViewWithId(R.id.btnStatisticsContainerPrevious)
-        clickOnViewWithId(R.id.btnStatisticsContainerPrevious)
-        longClickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithId(R.id.btnStatisticsContainerNext)
-        checkViewIsDisplayed(allOf(withText(R.string.statistics_empty), isCompletelyDisplayed()))
-        clickOnViewWithId(R.id.btnStatisticsContainerNext)
-        checkViewIsDisplayed(allOf(withText(R.string.statistics_empty), isCompletelyDisplayed()))
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerPrevious)
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerPrevious)
+        longClickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerNext)
+        checkViewIsDisplayed(allOf(withText(coreR.string.statistics_empty), isCompletelyDisplayed()))
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerNext)
+        checkViewIsDisplayed(allOf(withText(coreR.string.statistics_empty), isCompletelyDisplayed()))
 
         // Switch to week range
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        checkViewIsDisplayed(withText(R.string.range_select_day))
-        clickOnViewWithText(R.string.range_week)
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        checkViewIsDisplayed(withText(coreR.string.range_select_day))
+        clickOnViewWithText(coreR.string.range_week)
         checkViewIsDisplayed(allOf(withText(name), isCompletelyDisplayed()))
-        clickOnViewWithId(R.id.btnStatisticsContainerPrevious)
-        clickOnViewWithId(R.id.btnStatisticsContainerPrevious)
-        longClickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithId(R.id.btnStatisticsContainerNext)
-        checkViewIsDisplayed(allOf(withText(R.string.statistics_empty), isCompletelyDisplayed()))
-        clickOnViewWithId(R.id.btnStatisticsContainerNext)
-        checkViewIsDisplayed(allOf(withText(R.string.statistics_empty), isCompletelyDisplayed()))
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerPrevious)
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerPrevious)
+        longClickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerNext)
+        checkViewIsDisplayed(allOf(withText(coreR.string.statistics_empty), isCompletelyDisplayed()))
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerNext)
+        checkViewIsDisplayed(allOf(withText(coreR.string.statistics_empty), isCompletelyDisplayed()))
 
         // Switch to month range
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        checkViewIsDisplayed(withText(R.string.range_select_week))
-        clickOnViewWithText(R.string.range_month)
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        checkViewIsDisplayed(withText(coreR.string.range_select_week))
+        clickOnViewWithText(coreR.string.range_month)
         checkViewIsDisplayed(allOf(withText(name), isCompletelyDisplayed()))
-        clickOnViewWithId(R.id.btnStatisticsContainerPrevious)
-        clickOnViewWithId(R.id.btnStatisticsContainerPrevious)
-        longClickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithId(R.id.btnStatisticsContainerNext)
-        checkViewIsDisplayed(allOf(withText(R.string.statistics_empty), isCompletelyDisplayed()))
-        clickOnViewWithId(R.id.btnStatisticsContainerNext)
-        checkViewIsDisplayed(allOf(withText(R.string.statistics_empty), isCompletelyDisplayed()))
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerPrevious)
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerPrevious)
+        longClickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerNext)
+        checkViewIsDisplayed(allOf(withText(coreR.string.statistics_empty), isCompletelyDisplayed()))
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerNext)
+        checkViewIsDisplayed(allOf(withText(coreR.string.statistics_empty), isCompletelyDisplayed()))
 
         // Switch to year range
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        checkViewIsDisplayed(withText(R.string.range_select_month))
-        clickOnViewWithText(R.string.range_year)
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        checkViewIsDisplayed(withText(coreR.string.range_select_month))
+        clickOnViewWithText(coreR.string.range_year)
         checkViewIsDisplayed(allOf(withText(name), isCompletelyDisplayed()))
-        clickOnViewWithId(R.id.btnStatisticsContainerPrevious)
-        clickOnViewWithId(R.id.btnStatisticsContainerPrevious)
-        longClickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithId(R.id.btnStatisticsContainerNext)
-        checkViewIsDisplayed(allOf(withText(R.string.statistics_empty), isCompletelyDisplayed()))
-        clickOnViewWithId(R.id.btnStatisticsContainerNext)
-        checkViewIsDisplayed(allOf(withText(R.string.statistics_empty), isCompletelyDisplayed()))
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerPrevious)
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerPrevious)
+        longClickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerNext)
+        checkViewIsDisplayed(allOf(withText(coreR.string.statistics_empty), isCompletelyDisplayed()))
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerNext)
+        checkViewIsDisplayed(allOf(withText(coreR.string.statistics_empty), isCompletelyDisplayed()))
 
         // Switch to overall range
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        checkViewIsDisplayed(withText(R.string.range_select_year))
-        clickOnViewWithText(R.string.range_overall)
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        checkViewIsDisplayed(withText(coreR.string.range_select_year))
+        clickOnViewWithText(coreR.string.range_overall)
         Thread.sleep(1000)
         checkViewIsDisplayed(allOf(withText(name), isCompletelyDisplayed()))
-        checkViewIsNotDisplayed(withId(R.id.btnStatisticsContainerPrevious))
-        checkViewIsNotDisplayed(withId(R.id.btnStatisticsContainerNext))
+        checkViewIsNotDisplayed(withId(statisticsR.id.btnStatisticsContainerPrevious))
+        checkViewIsNotDisplayed(withId(statisticsR.id.btnStatisticsContainerNext))
 
         // Switch to custom range
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        checkViewDoesNotExist(withText(R.string.range_select_day))
-        checkViewDoesNotExist(withText(R.string.range_select_week))
-        checkViewDoesNotExist(withText(R.string.range_select_month))
-        checkViewDoesNotExist(withText(R.string.range_select_year))
-        clickOnViewWithText(R.string.range_custom)
-        tryAction { clickOnViewWithId(R.id.btnCustomRangeSelection) }
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        checkViewDoesNotExist(withText(coreR.string.range_select_day))
+        checkViewDoesNotExist(withText(coreR.string.range_select_week))
+        checkViewDoesNotExist(withText(coreR.string.range_select_month))
+        checkViewDoesNotExist(withText(coreR.string.range_select_year))
+        clickOnViewWithText(coreR.string.range_custom)
+        tryAction { clickOnViewWithId(dialogsR.id.btnCustomRangeSelection) }
         checkViewIsDisplayed(allOf(withText(name), isCompletelyDisplayed()))
-        checkViewIsNotDisplayed(withId(R.id.btnStatisticsContainerPrevious))
-        checkViewIsNotDisplayed(withId(R.id.btnStatisticsContainerNext))
+        checkViewIsNotDisplayed(withId(statisticsR.id.btnStatisticsContainerPrevious))
+        checkViewIsNotDisplayed(withId(statisticsR.id.btnStatisticsContainerNext))
 
         // Switch to last days range
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        checkViewDoesNotExist(withText(R.string.range_select_day))
-        checkViewDoesNotExist(withText(R.string.range_select_week))
-        checkViewDoesNotExist(withText(R.string.range_select_month))
-        checkViewDoesNotExist(withText(R.string.range_select_year))
-        clickOnViewWithText(R.string.range_last)
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        checkViewDoesNotExist(withText(coreR.string.range_select_day))
+        checkViewDoesNotExist(withText(coreR.string.range_select_week))
+        checkViewDoesNotExist(withText(coreR.string.range_select_month))
+        checkViewDoesNotExist(withText(coreR.string.range_select_year))
+        clickOnViewWithText(coreR.string.range_last)
         checkViewIsDisplayed(allOf(withText(name), isCompletelyDisplayed()))
-        checkViewIsNotDisplayed(withId(R.id.btnStatisticsContainerPrevious))
-        checkViewIsNotDisplayed(withId(R.id.btnStatisticsContainerNext))
+        checkViewIsNotDisplayed(withId(statisticsR.id.btnStatisticsContainerPrevious))
+        checkViewIsNotDisplayed(withId(statisticsR.id.btnStatisticsContainerNext))
 
         // Switch back to day
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        checkViewDoesNotExist(withText(R.string.range_select_day))
-        checkViewDoesNotExist(withText(R.string.range_select_week))
-        checkViewDoesNotExist(withText(R.string.range_select_month))
-        checkViewDoesNotExist(withText(R.string.range_select_year))
-        clickOnViewWithText(R.string.range_day)
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        checkViewIsDisplayed(withText(R.string.range_select_day))
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        checkViewDoesNotExist(withText(coreR.string.range_select_day))
+        checkViewDoesNotExist(withText(coreR.string.range_select_week))
+        checkViewDoesNotExist(withText(coreR.string.range_select_month))
+        checkViewDoesNotExist(withText(coreR.string.range_select_year))
+        clickOnViewWithText(coreR.string.range_day)
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        checkViewIsDisplayed(withText(coreR.string.range_select_day))
     }
 
     @Test
@@ -156,10 +160,10 @@ class StatisticsRangesTest : BaseUiTest() {
         }
 
         // Check yesterday
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.range_day)
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.range_select_day)
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithText(coreR.string.range_day)
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithText(coreR.string.range_select_day)
         onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
             setDate(
                 calendarPrev.get(Calendar.YEAR),
@@ -167,13 +171,13 @@ class StatisticsRangesTest : BaseUiTest() {
                 calendarPrev.get(Calendar.DAY_OF_MONTH)
             )
         )
-        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+        clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
-        checkViewIsDisplayed(allOf(withText(R.string.title_yesterday), isCompletelyDisplayed()))
+        checkViewIsDisplayed(allOf(withText(coreR.string.title_yesterday), isCompletelyDisplayed()))
 
         // Check tomorrow
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.range_select_day)
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithText(coreR.string.range_select_day)
         onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
             setDate(
                 calendarNext.get(Calendar.YEAR),
@@ -181,9 +185,9 @@ class StatisticsRangesTest : BaseUiTest() {
                 calendarNext.get(Calendar.DAY_OF_MONTH)
             )
         )
-        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+        clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
-        checkViewIsDisplayed(allOf(withText(R.string.title_tomorrow), isCompletelyDisplayed()))
+        checkViewIsDisplayed(allOf(withText(coreR.string.title_tomorrow), isCompletelyDisplayed()))
     }
 
     @Test
@@ -204,10 +208,10 @@ class StatisticsRangesTest : BaseUiTest() {
         val titleNext = dayTitleFormat.format(calendarNext.timeInMillis)
 
         // Check prev date
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.range_day)
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.range_select_day)
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithText(coreR.string.range_day)
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithText(coreR.string.range_select_day)
         onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
             setDate(
                 calendarPrev.get(Calendar.YEAR),
@@ -215,13 +219,13 @@ class StatisticsRangesTest : BaseUiTest() {
                 calendarPrev.get(Calendar.DAY_OF_MONTH)
             )
         )
-        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+        clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
         checkViewIsDisplayed(allOf(withText(titlePrev), isCompletelyDisplayed()))
 
         // Check next date
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.range_select_day)
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithText(coreR.string.range_select_day)
         onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
             setDate(
                 calendarNext.get(Calendar.YEAR),
@@ -229,7 +233,7 @@ class StatisticsRangesTest : BaseUiTest() {
                 calendarNext.get(Calendar.DAY_OF_MONTH)
             )
         )
-        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+        clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
         checkViewIsDisplayed(allOf(withText(titleNext), isCompletelyDisplayed()))
     }
@@ -249,10 +253,10 @@ class StatisticsRangesTest : BaseUiTest() {
         val titleNext = timeMapper.toWeekTitle(1, 0, DayOfWeek.SUNDAY)
 
         // Check prev week
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.range_week)
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.range_select_week)
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithText(coreR.string.range_week)
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithText(coreR.string.range_select_week)
         onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
             setDate(
                 calendarPrev.get(Calendar.YEAR),
@@ -260,13 +264,13 @@ class StatisticsRangesTest : BaseUiTest() {
                 calendarPrev.get(Calendar.DAY_OF_MONTH)
             )
         )
-        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+        clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
         checkViewIsDisplayed(allOf(withText(titlePrev), isCompletelyDisplayed()))
 
         // Check next week
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.range_select_week)
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithText(coreR.string.range_select_week)
         onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
             setDate(
                 calendarNext.get(Calendar.YEAR),
@@ -274,7 +278,7 @@ class StatisticsRangesTest : BaseUiTest() {
                 calendarNext.get(Calendar.DAY_OF_MONTH)
             )
         )
-        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+        clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
         checkViewIsDisplayed(allOf(withText(titleNext), isCompletelyDisplayed()))
     }
@@ -294,10 +298,10 @@ class StatisticsRangesTest : BaseUiTest() {
         val titleNext = timeMapper.toWeekTitle(2500, 0, DayOfWeek.SUNDAY)
 
         // Check prev date
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.range_week)
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.range_select_week)
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithText(coreR.string.range_week)
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithText(coreR.string.range_select_week)
         onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
             setDate(
                 calendarPrev.get(Calendar.YEAR),
@@ -305,13 +309,13 @@ class StatisticsRangesTest : BaseUiTest() {
                 calendarPrev.get(Calendar.DAY_OF_MONTH)
             )
         )
-        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+        clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
         checkViewIsDisplayed(allOf(withText(titlePrev), isCompletelyDisplayed()))
 
         // Check next date
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.range_select_week)
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithText(coreR.string.range_select_week)
         onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
             setDate(
                 calendarNext.get(Calendar.YEAR),
@@ -319,7 +323,7 @@ class StatisticsRangesTest : BaseUiTest() {
                 calendarNext.get(Calendar.DAY_OF_MONTH)
             )
         )
-        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+        clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
         checkViewIsDisplayed(allOf(withText(titleNext), isCompletelyDisplayed()))
     }
@@ -342,10 +346,10 @@ class StatisticsRangesTest : BaseUiTest() {
         val titleNext = toWeekDateTitle(calendarNext.timeInMillis)
 
         // Check prev date
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.range_week)
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.range_select_week)
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithText(coreR.string.range_week)
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithText(coreR.string.range_select_week)
         onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
             setDate(
                 calendarPrev.get(Calendar.YEAR),
@@ -353,13 +357,13 @@ class StatisticsRangesTest : BaseUiTest() {
                 calendarPrev.get(Calendar.DAY_OF_MONTH)
             )
         )
-        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+        clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
         checkViewIsDisplayed(allOf(withText(titlePrev), isCompletelyDisplayed()))
 
         // Check next date
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.range_select_week)
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithText(coreR.string.range_select_week)
         onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
             setDate(
                 calendarNext.get(Calendar.YEAR),
@@ -367,7 +371,7 @@ class StatisticsRangesTest : BaseUiTest() {
                 calendarNext.get(Calendar.DAY_OF_MONTH)
             )
         )
-        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+        clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
         checkViewIsDisplayed(allOf(withText(titleNext), isCompletelyDisplayed()))
     }
@@ -390,10 +394,10 @@ class StatisticsRangesTest : BaseUiTest() {
         val titleNext = toWeekDateTitle(calendarNext.timeInMillis)
 
         // Check prev date
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.range_week)
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.range_select_week)
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithText(coreR.string.range_week)
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithText(coreR.string.range_select_week)
         onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
             setDate(
                 calendarPrev.get(Calendar.YEAR),
@@ -401,13 +405,13 @@ class StatisticsRangesTest : BaseUiTest() {
                 calendarPrev.get(Calendar.DAY_OF_MONTH)
             )
         )
-        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+        clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
         checkViewIsDisplayed(allOf(withText(titlePrev), isCompletelyDisplayed()))
 
         // Check next date
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.range_select_week)
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithText(coreR.string.range_select_week)
         onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
             setDate(
                 calendarNext.get(Calendar.YEAR),
@@ -415,7 +419,7 @@ class StatisticsRangesTest : BaseUiTest() {
                 calendarNext.get(Calendar.DAY_OF_MONTH)
             )
         )
-        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+        clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
         checkViewIsDisplayed(allOf(withText(titleNext), isCompletelyDisplayed()))
     }
@@ -434,10 +438,10 @@ class StatisticsRangesTest : BaseUiTest() {
         val titleNext = monthTitleFormat.format(calendarNext.timeInMillis)
 
         // Check prev months
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.range_month)
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.range_select_month)
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithText(coreR.string.range_month)
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithText(coreR.string.range_select_month)
         onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
             setDate(
                 calendarPrev.get(Calendar.YEAR),
@@ -445,13 +449,13 @@ class StatisticsRangesTest : BaseUiTest() {
                 calendarPrev.get(Calendar.DAY_OF_MONTH)
             )
         )
-        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+        clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
         checkViewIsDisplayed(allOf(withText(titlePrev), isCompletelyDisplayed()))
 
         // Check next month
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.range_select_month)
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithText(coreR.string.range_select_month)
         onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
             setDate(
                 calendarNext.get(Calendar.YEAR),
@@ -459,7 +463,7 @@ class StatisticsRangesTest : BaseUiTest() {
                 calendarNext.get(Calendar.DAY_OF_MONTH)
             )
         )
-        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+        clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
         checkViewIsDisplayed(allOf(withText(titleNext), isCompletelyDisplayed()))
     }
@@ -482,10 +486,10 @@ class StatisticsRangesTest : BaseUiTest() {
         val titleNext = monthTitleFormat.format(calendarNext.timeInMillis)
 
         // Check prev date
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.range_month)
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.range_select_month)
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithText(coreR.string.range_month)
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithText(coreR.string.range_select_month)
         onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
             setDate(
                 calendarPrev.get(Calendar.YEAR),
@@ -493,13 +497,13 @@ class StatisticsRangesTest : BaseUiTest() {
                 calendarPrev.get(Calendar.DAY_OF_MONTH)
             )
         )
-        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+        clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
         checkViewIsDisplayed(allOf(withText(titlePrev), isCompletelyDisplayed()))
 
         // Check next date
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.range_select_month)
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithText(coreR.string.range_select_month)
         onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
             setDate(
                 calendarNext.get(Calendar.YEAR),
@@ -507,7 +511,7 @@ class StatisticsRangesTest : BaseUiTest() {
                 calendarNext.get(Calendar.DAY_OF_MONTH)
             )
         )
-        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+        clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
         checkViewIsDisplayed(allOf(withText(titleNext), isCompletelyDisplayed()))
     }
@@ -526,10 +530,10 @@ class StatisticsRangesTest : BaseUiTest() {
         val titleNext = yearTitleFormat.format(calendarNext.timeInMillis)
 
         // Check prev months
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.range_year)
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.range_select_year)
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithText(coreR.string.range_year)
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithText(coreR.string.range_select_year)
         onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
             setDate(
                 calendarPrev.get(Calendar.YEAR),
@@ -537,13 +541,13 @@ class StatisticsRangesTest : BaseUiTest() {
                 calendarPrev.get(Calendar.DAY_OF_MONTH)
             )
         )
-        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+        clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
         checkViewIsDisplayed(allOf(withText(titlePrev), isCompletelyDisplayed()))
 
         // Check next month
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.range_select_year)
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithText(coreR.string.range_select_year)
         onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
             setDate(
                 calendarNext.get(Calendar.YEAR),
@@ -551,7 +555,7 @@ class StatisticsRangesTest : BaseUiTest() {
                 calendarNext.get(Calendar.DAY_OF_MONTH)
             )
         )
-        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+        clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
         checkViewIsDisplayed(allOf(withText(titleNext), isCompletelyDisplayed()))
     }
@@ -574,10 +578,10 @@ class StatisticsRangesTest : BaseUiTest() {
         val titleNext = yearTitleFormat.format(calendarNext.timeInMillis)
 
         // Check prev date
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.range_year)
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.range_select_year)
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithText(coreR.string.range_year)
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithText(coreR.string.range_select_year)
         onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
             setDate(
                 calendarPrev.get(Calendar.YEAR),
@@ -585,13 +589,13 @@ class StatisticsRangesTest : BaseUiTest() {
                 calendarPrev.get(Calendar.DAY_OF_MONTH)
             )
         )
-        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+        clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
         checkViewIsDisplayed(allOf(withText(titlePrev), isCompletelyDisplayed()))
 
         // Check next date
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.range_select_year)
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithText(coreR.string.range_select_year)
         onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
             setDate(
                 calendarNext.get(Calendar.YEAR),
@@ -599,7 +603,7 @@ class StatisticsRangesTest : BaseUiTest() {
                 calendarNext.get(Calendar.DAY_OF_MONTH)
             )
         )
-        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+        clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
         checkViewIsDisplayed(allOf(withText(titleNext), isCompletelyDisplayed()))
     }
@@ -635,26 +639,30 @@ class StatisticsRangesTest : BaseUiTest() {
         NavUtils.openStatisticsScreen()
         checkViewDoesNotExist(allOf(withText(name1), isCompletelyDisplayed()))
         checkViewDoesNotExist(allOf(withText(name2), isCompletelyDisplayed()))
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.range_day)
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.range_custom)
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithText(coreR.string.range_day)
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithText(coreR.string.range_custom)
         pressBack()
         tryAction {
-            checkViewIsDisplayed(allOf(withId(R.id.btnStatisticsContainerToday), withText(R.string.title_today)))
+            checkViewIsDisplayed(
+                allOf(withId(statisticsR.id.btnStatisticsContainerToday), withText(coreR.string.title_today))
+            )
         }
 
         // Select custom range default
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.range_custom)
-        clickOnViewWithId(R.id.btnCustomRangeSelection)
-        checkViewIsDisplayed(allOf(withId(R.id.btnStatisticsContainerToday), withText(R.string.range_custom)))
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithText(coreR.string.range_custom)
+        clickOnViewWithId(dialogsR.id.btnCustomRangeSelection)
+        checkViewIsDisplayed(
+            allOf(withId(statisticsR.id.btnStatisticsContainerToday), withText(coreR.string.range_custom))
+        )
         checkViewDoesNotExist(allOf(withText(name1), isCompletelyDisplayed()))
         checkViewDoesNotExist(allOf(withText(name2), isCompletelyDisplayed()))
 
         // Select custom range yesterday
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.range_custom)
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithText(coreR.string.range_custom)
         calendar = Calendar.getInstance().apply {
             add(Calendar.DATE, -1)
         }
@@ -668,18 +676,18 @@ class StatisticsRangesTest : BaseUiTest() {
         )
 
         // Check statistics
-        checkStatisticsItem(nameResId = R.string.untracked_time_name, hours = 23)
+        checkStatisticsItem(nameResId = coreR.string.untracked_time_name, hours = 23)
         checkStatisticsItem(name = name1, hours = 1)
         checkViewDoesNotExist(allOf(withText(name2), isCompletelyDisplayed()))
 
         // Check time set
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.range_custom)
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithText(coreR.string.range_custom)
         var timeStarted = calendar.timeInMillis.let(timeMapper::formatDateYear)
         var timeEnded = timeStarted
 
-        checkViewIsDisplayed(allOf(withId(R.id.tvCustomRangeSelectionTimeStarted), withText(timeStarted)))
-        checkViewIsDisplayed(allOf(withId(R.id.tvCustomRangeSelectionTimeEnded), withText(timeEnded)))
+        checkViewIsDisplayed(allOf(withId(dialogsR.id.tvCustomRangeSelectionTimeStarted), withText(timeStarted)))
+        checkViewIsDisplayed(allOf(withId(dialogsR.id.tvCustomRangeSelectionTimeEnded), withText(timeEnded)))
 
         // Select custom range three days
         var calendarStart = Calendar.getInstance().apply {
@@ -694,18 +702,18 @@ class StatisticsRangesTest : BaseUiTest() {
             dayEnded = calendar.get(Calendar.DAY_OF_MONTH),
         )
 
-        checkStatisticsItem(nameResId = R.string.untracked_time_name, hours = 69)
+        checkStatisticsItem(nameResId = coreR.string.untracked_time_name, hours = 69)
         checkStatisticsItem(name = name1, hours = 1)
         checkStatisticsItem(name = name2, hours = 2)
 
         // Check time set
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.range_custom)
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithText(coreR.string.range_custom)
         timeStarted = calendarStart.timeInMillis.let(timeMapper::formatDateYear)
         timeEnded = calendar.timeInMillis.let(timeMapper::formatDateYear)
 
-        checkViewIsDisplayed(allOf(withId(R.id.tvCustomRangeSelectionTimeStarted), withText(timeStarted)))
-        checkViewIsDisplayed(allOf(withId(R.id.tvCustomRangeSelectionTimeEnded), withText(timeEnded)))
+        checkViewIsDisplayed(allOf(withId(dialogsR.id.tvCustomRangeSelectionTimeStarted), withText(timeStarted)))
+        checkViewIsDisplayed(allOf(withId(dialogsR.id.tvCustomRangeSelectionTimeEnded), withText(timeEnded)))
 
         // Select custom range long time ago
         calendar = Calendar.getInstance().apply {
@@ -723,18 +731,18 @@ class StatisticsRangesTest : BaseUiTest() {
             dayEnded = calendar.get(Calendar.DAY_OF_MONTH),
         )
 
-        checkStatisticsItem(nameResId = R.string.untracked_time_name, hours = 240)
+        checkStatisticsItem(nameResId = coreR.string.untracked_time_name, hours = 240)
         checkViewDoesNotExist(allOf(withText(name1), isCompletelyDisplayed()))
         checkViewDoesNotExist(allOf(withText(name2), isCompletelyDisplayed()))
 
         // Check time set
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.range_custom)
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithText(coreR.string.range_custom)
         timeStarted = calendarStart.timeInMillis.let(timeMapper::formatDateYear)
         timeEnded = calendar.timeInMillis.let(timeMapper::formatDateYear)
 
-        checkViewIsDisplayed(allOf(withId(R.id.tvCustomRangeSelectionTimeStarted), withText(timeStarted)))
-        checkViewIsDisplayed(allOf(withId(R.id.tvCustomRangeSelectionTimeEnded), withText(timeEnded)))
+        checkViewIsDisplayed(allOf(withId(dialogsR.id.tvCustomRangeSelectionTimeStarted), withText(timeStarted)))
+        checkViewIsDisplayed(allOf(withId(dialogsR.id.tvCustomRangeSelectionTimeEnded), withText(timeEnded)))
     }
 
     @Test
@@ -772,9 +780,11 @@ class StatisticsRangesTest : BaseUiTest() {
 
         // Select range
         NavUtils.openStatisticsScreen()
-        clickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithText(R.string.range_last)
-        checkViewIsDisplayed(allOf(withId(R.id.btnStatisticsContainerToday), withText(R.string.range_last)))
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithText(coreR.string.range_last)
+        checkViewIsDisplayed(
+            allOf(withId(statisticsR.id.btnStatisticsContainerToday), withText(coreR.string.range_last))
+        )
         checkStatisticsItem(name = name1, hours = 2)
     }
 
@@ -785,7 +795,7 @@ class StatisticsRangesTest : BaseUiTest() {
     ) {
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.viewStatisticsItem),
+                withId(baseR.id.viewStatisticsItem),
                 hasDescendant(if (nameResId != null) withText(nameResId) else withText(name)),
                 hasDescendant(withSubstring("$hours$hourString 0$minuteString")),
                 isCompletelyDisplayed()

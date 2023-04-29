@@ -26,12 +26,16 @@ import com.example.util.simpletimetracker.utils.unconstrainedClickOnView
 import com.example.util.simpletimetracker.utils.withCardColor
 import com.example.util.simpletimetracker.utils.withTag
 import dagger.hilt.android.testing.HiltAndroidTest
+import java.util.Calendar
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.Matcher
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.util.Calendar
+import com.example.util.simpletimetracker.core.R as coreR
+import com.example.util.simpletimetracker.feature_change_record.R as changeRecordR
+import com.example.util.simpletimetracker.feature_dialogs.R as dialogsR
+import com.example.util.simpletimetracker.feature_records.R as recordsR
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
@@ -53,12 +57,12 @@ class AddRecordTest : BaseUiTest() {
 
         // Add record
         NavUtils.openRecordsScreen()
-        clickOnViewWithId(R.id.btnRecordAdd)
+        clickOnViewWithId(recordsR.id.btnRecordAdd)
 
         // View is set up
-        checkViewIsNotDisplayed(withId(R.id.btnChangeRecordDelete))
-        checkViewIsNotDisplayed(withId(R.id.rvChangeRecordType))
-        checkViewIsNotDisplayed(withId(R.id.rvChangeRecordCategories))
+        checkViewIsNotDisplayed(withId(changeRecordR.id.btnChangeRecordDelete))
+        checkViewIsNotDisplayed(withId(changeRecordR.id.rvChangeRecordType))
+        checkViewIsNotDisplayed(withId(changeRecordR.id.rvChangeRecordCategories))
         val currentTime = System.currentTimeMillis()
         var timeStarted = timeMapper.formatDateTime(
             time = currentTime - 60 * 60 * 1000, useMilitaryTime = true, showSeconds = false
@@ -66,16 +70,16 @@ class AddRecordTest : BaseUiTest() {
         var timeEnded = timeMapper.formatDateTime(
             time = currentTime, useMilitaryTime = true, showSeconds = false
         )
-        checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeStarted), withText(timeStarted)))
-        checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeEnded), withText(timeEnded)))
+        checkViewIsDisplayed(allOf(withId(changeRecordR.id.tvChangeRecordTimeStarted), withText(timeStarted)))
+        checkViewIsDisplayed(allOf(withId(changeRecordR.id.tvChangeRecordTimeEnded), withText(timeEnded)))
 
         // Set time started
         val hourStarted = 15
         val minutesStarted = 16
-        clickOnViewWithId(R.id.tvChangeRecordTimeStarted)
+        clickOnViewWithId(changeRecordR.id.tvChangeRecordTimeStarted)
         onView(withClassName(equalTo(CustomTimePicker::class.java.name)))
             .perform(setTime(hourStarted, minutesStarted))
-        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+        clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
         val timeStartedTimestamp = Calendar.getInstance().run {
             set(Calendar.HOUR_OF_DAY, hourStarted)
@@ -85,15 +89,15 @@ class AddRecordTest : BaseUiTest() {
         timeStarted = timeStartedTimestamp.let {
             timeMapper.formatDateTime(time = it, useMilitaryTime = true, showSeconds = false)
         }
-        checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeStarted), withText(timeStarted)))
+        checkViewIsDisplayed(allOf(withId(changeRecordR.id.tvChangeRecordTimeStarted), withText(timeStarted)))
 
         // Set time ended
         val hourEnded = 17
         val minutesEnded = 19
-        clickOnViewWithId(R.id.tvChangeRecordTimeEnded)
+        clickOnViewWithId(changeRecordR.id.tvChangeRecordTimeEnded)
         onView(withClassName(equalTo(CustomTimePicker::class.java.name)))
             .perform(setTime(hourEnded, minutesEnded))
-        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+        clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
         val timeEndedTimestamp = Calendar.getInstance().run {
             set(Calendar.HOUR_OF_DAY, hourEnded)
@@ -103,7 +107,7 @@ class AddRecordTest : BaseUiTest() {
         timeEnded = timeEndedTimestamp.let {
             timeMapper.formatDateTime(time = it, useMilitaryTime = true, showSeconds = false)
         }
-        checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeEnded), withText(timeEnded)))
+        checkViewIsDisplayed(allOf(withId(changeRecordR.id.tvChangeRecordTimeEnded), withText(timeEnded)))
 
         // Preview is updated
         val timeStartedPreview = timeStartedTimestamp.let {
@@ -117,53 +121,53 @@ class AddRecordTest : BaseUiTest() {
         checkPreviewUpdated(hasDescendant(withText("2$hourString 3$minuteString")))
 
         // Activity not selected
-        clickOnViewWithText(R.string.change_record_save)
+        clickOnViewWithText(coreR.string.change_record_save)
 
         // Open activity chooser
-        clickOnViewWithText(R.string.change_record_type_field)
-        checkViewIsDisplayed(withId(R.id.rvChangeRecordType))
+        clickOnViewWithText(coreR.string.change_record_type_field)
+        checkViewIsDisplayed(withId(changeRecordR.id.rvChangeRecordType))
 
         // Selecting activity
-        clickOnRecyclerItem(R.id.rvChangeRecordType, withText(name))
+        clickOnRecyclerItem(changeRecordR.id.rvChangeRecordType, withText(name))
         checkPreviewUpdated(hasDescendant(withText(name)))
         checkPreviewUpdated(withCardColor(color))
         checkPreviewUpdated(hasDescendant(withTag(icon)))
 
         // Open tag chooser
-        tryAction { checkViewIsDisplayed(withId(R.id.rvChangeRecordCategories)) }
+        tryAction { checkViewIsDisplayed(withId(changeRecordR.id.rvChangeRecordCategories)) }
 
         // Selecting tags
-        clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag1))
+        clickOnRecyclerItem(changeRecordR.id.rvChangeRecordCategories, withText(tag1))
         checkPreviewUpdated(hasDescendant(withText("$name - $tag1")))
 
-        clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag2))
+        clickOnRecyclerItem(changeRecordR.id.rvChangeRecordCategories, withText(tag2))
         checkPreviewUpdated(hasDescendant(withText("$name - $tag1, $tag2")))
 
-        clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag1))
+        clickOnRecyclerItem(changeRecordR.id.rvChangeRecordCategories, withText(tag1))
         checkPreviewUpdated(hasDescendant(withText("$name - $tag2")))
 
-        clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag2))
+        clickOnRecyclerItem(changeRecordR.id.rvChangeRecordCategories, withText(tag2))
         checkPreviewUpdated(hasDescendant(withText(name)))
 
-        clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag1))
-        clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag2))
-        clickOnViewWithId(R.id.fieldChangeRecordCategory)
+        clickOnRecyclerItem(changeRecordR.id.rvChangeRecordCategories, withText(tag1))
+        clickOnRecyclerItem(changeRecordR.id.rvChangeRecordCategories, withText(tag2))
+        clickOnViewWithId(changeRecordR.id.fieldChangeRecordCategory)
 
         // Set comment
-        clickOnViewWithText(R.string.change_record_comment_field)
-        typeTextIntoView(R.id.etChangeRecordComment, comment)
+        clickOnViewWithText(coreR.string.change_record_comment_field)
+        typeTextIntoView(changeRecordR.id.etChangeRecordComment, comment)
         closeSoftKeyboard()
         tryAction { checkPreviewUpdated(hasDescendant(withText(comment))) }
-        clickOnViewWithText(R.string.change_record_comment_field)
+        clickOnViewWithText(coreR.string.change_record_comment_field)
 
         // Save
-        clickOnViewWithText(R.string.change_record_save)
+        clickOnViewWithText(coreR.string.change_record_save)
 
         // Record added
         tryAction {
             checkViewIsDisplayed(
                 allOf(
-                    withId(R.id.viewRecordItem),
+                    withId(changeRecordR.id.viewRecordItem),
                     withCardColor(color),
                     hasDescendant(withText("$name - $tag1, $tag2")),
                     hasDescendant(withTag(icon)),
@@ -180,11 +184,11 @@ class AddRecordTest : BaseUiTest() {
     @Test
     fun addRecordTypesEmpty() {
         NavUtils.openRecordsScreen()
-        clickOnViewWithId(R.id.btnRecordAdd)
+        clickOnViewWithId(recordsR.id.btnRecordAdd)
 
         // Open activity chooser
-        clickOnViewWithText(R.string.change_record_type_field)
-        checkViewIsDisplayed(withText(R.string.record_types_empty))
+        clickOnViewWithText(coreR.string.change_record_type_field)
+        checkViewIsDisplayed(withText(coreR.string.record_types_empty))
     }
 
     @Test
@@ -193,15 +197,15 @@ class AddRecordTest : BaseUiTest() {
         testUtils.addActivity(name)
 
         NavUtils.openRecordsScreen()
-        clickOnViewWithId(R.id.btnRecordAdd)
+        clickOnViewWithId(recordsR.id.btnRecordAdd)
 
         // Select activity
-        clickOnViewWithText(R.string.change_record_type_field)
-        clickOnRecyclerItem(R.id.rvChangeRecordType, withText(name))
+        clickOnViewWithText(coreR.string.change_record_type_field)
+        clickOnRecyclerItem(changeRecordR.id.rvChangeRecordType, withText(name))
 
         // Open tag chooser
-        clickOnViewWithId(R.id.fieldChangeRecordCategory)
-        checkViewIsDisplayed(withText(R.string.change_record_categories_empty))
+        clickOnViewWithId(changeRecordR.id.fieldChangeRecordCategory)
+        checkViewIsDisplayed(withText(coreR.string.change_record_categories_empty))
     }
 
     @Test
@@ -224,38 +228,38 @@ class AddRecordTest : BaseUiTest() {
 
         // Check comments
         NavUtils.openRecordsScreen()
-        clickOnViewWithId(R.id.btnRecordAdd)
+        clickOnViewWithId(recordsR.id.btnRecordAdd)
 
         // No last comments
-        clickOnViewWithText(R.string.change_record_comment_field)
+        clickOnViewWithText(coreR.string.change_record_comment_field)
         closeSoftKeyboard()
-        checkViewDoesNotExist(withText(R.string.change_record_last_comments_hint))
+        checkViewDoesNotExist(withText(coreR.string.change_record_last_comments_hint))
         checkViewDoesNotExist(withText(comment1))
         checkViewDoesNotExist(withText(comment2))
         checkViewDoesNotExist(withText(comment3))
-        clickOnViewWithText(R.string.change_record_comment_field)
+        clickOnViewWithText(coreR.string.change_record_comment_field)
 
         // Select activity with no previous comments
-        clickOnViewWithText(R.string.change_record_type_field)
-        clickOnRecyclerItem(R.id.rvChangeRecordType, withText(nameNoComments))
+        clickOnViewWithText(coreR.string.change_record_type_field)
+        clickOnRecyclerItem(changeRecordR.id.rvChangeRecordType, withText(nameNoComments))
 
         // Still no last comments
-        clickOnViewWithText(R.string.change_record_comment_field)
+        clickOnViewWithText(coreR.string.change_record_comment_field)
         closeSoftKeyboard()
-        checkViewDoesNotExist(withText(R.string.change_record_last_comments_hint))
+        checkViewDoesNotExist(withText(coreR.string.change_record_last_comments_hint))
         checkViewDoesNotExist(withText(comment1))
         checkViewDoesNotExist(withText(comment2))
         checkViewDoesNotExist(withText(comment3))
-        clickOnViewWithText(R.string.change_record_comment_field)
+        clickOnViewWithText(coreR.string.change_record_comment_field)
 
         // Select activity with one previous comment
-        clickOnViewWithText(R.string.change_record_type_field)
-        clickOnRecyclerItem(R.id.rvChangeRecordType, withText(nameComment))
+        clickOnViewWithText(coreR.string.change_record_type_field)
+        clickOnRecyclerItem(changeRecordR.id.rvChangeRecordType, withText(nameComment))
 
         // One last comment
-        clickOnViewWithText(R.string.change_record_comment_field)
+        clickOnViewWithText(coreR.string.change_record_comment_field)
         closeSoftKeyboard()
-        checkViewIsDisplayed(withText(R.string.change_record_last_comments_hint))
+        checkViewIsDisplayed(withText(coreR.string.change_record_last_comments_hint))
         checkViewIsDisplayed(withText(comment1))
         checkViewDoesNotExist(withText(comment2))
         checkViewDoesNotExist(withText(comment3))
@@ -263,17 +267,17 @@ class AddRecordTest : BaseUiTest() {
         // Select last comment
         clickOnViewWithText(comment1)
         tryAction { checkPreviewUpdated(hasDescendant(withText(comment1))) }
-        typeTextIntoView(R.id.etChangeRecordComment, "")
-        clickOnViewWithText(R.string.change_record_comment_field)
+        typeTextIntoView(changeRecordR.id.etChangeRecordComment, "")
+        clickOnViewWithText(coreR.string.change_record_comment_field)
 
         // Select activity with many previous comments
-        clickOnViewWithText(R.string.change_record_type_field)
-        clickOnRecyclerItem(R.id.rvChangeRecordType, withText(nameComments))
+        clickOnViewWithText(coreR.string.change_record_type_field)
+        clickOnRecyclerItem(changeRecordR.id.rvChangeRecordType, withText(nameComments))
 
         // Two last comments
-        clickOnViewWithText(R.string.change_record_comment_field)
+        clickOnViewWithText(coreR.string.change_record_comment_field)
         closeSoftKeyboard()
-        checkViewIsDisplayed(withText(R.string.change_record_last_comments_hint))
+        checkViewIsDisplayed(withText(coreR.string.change_record_last_comments_hint))
         checkViewDoesNotExist(withText(comment1))
         checkViewIsDisplayed(withText(comment2))
         checkViewIsDisplayed(withText(comment3))
@@ -289,31 +293,31 @@ class AddRecordTest : BaseUiTest() {
     fun addRecordAdjustTime() {
         // Add record
         NavUtils.openRecordsScreen()
-        clickOnViewWithId(R.id.btnRecordAdd)
+        clickOnViewWithId(recordsR.id.btnRecordAdd)
 
         // Setup
         val hourStarted = 15
         val minutesStarted = 0
-        clickOnViewWithId(R.id.tvChangeRecordTimeStarted)
+        clickOnViewWithId(changeRecordR.id.tvChangeRecordTimeStarted)
         onView(withClassName(equalTo(CustomTimePicker::class.java.name))).perform(setTime(hourStarted, minutesStarted))
-        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+        clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
         val hourEnded = 16
         val minutesEnded = 0
-        clickOnViewWithId(R.id.tvChangeRecordTimeEnded)
+        clickOnViewWithId(changeRecordR.id.tvChangeRecordTimeEnded)
         onView(withClassName(equalTo(CustomTimePicker::class.java.name))).perform(setTime(hourEnded, minutesEnded))
-        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+        clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
         checkAfterTimeAdjustment(
             timeStarted = "15:00", timeEnded = "16:00", duration = "1$hourString 0$minuteString"
         )
 
         // Check visibility
-        checkViewIsDisplayed(withId(R.id.containerChangeRecordTimeAdjust))
-        unconstrainedClickOnView(withId(R.id.btnChangeRecordTimeStartedAdjust))
-        checkViewIsNotDisplayed(withId(R.id.containerChangeRecordTimeAdjust))
-        unconstrainedClickOnView(withId(R.id.btnChangeRecordTimeStartedAdjust))
-        checkViewIsDisplayed(withId(R.id.containerChangeRecordTimeAdjust))
+        checkViewIsDisplayed(withId(changeRecordR.id.containerChangeRecordTimeAdjust))
+        unconstrainedClickOnView(withId(changeRecordR.id.btnChangeRecordTimeStartedAdjust))
+        checkViewIsNotDisplayed(withId(changeRecordR.id.containerChangeRecordTimeAdjust))
+        unconstrainedClickOnView(withId(changeRecordR.id.btnChangeRecordTimeStartedAdjust))
+        checkViewIsDisplayed(withId(changeRecordR.id.containerChangeRecordTimeAdjust))
 
         // Check time start adjustments
         clickOnViewWithText("-30")
@@ -347,7 +351,7 @@ class AddRecordTest : BaseUiTest() {
         )
 
         // Check time end adjustments
-        unconstrainedClickOnView(withId(R.id.btnChangeRecordTimeEndedAdjust))
+        unconstrainedClickOnView(withId(changeRecordR.id.btnChangeRecordTimeEndedAdjust))
 
         tryAction { clickOnViewWithText("+30") }
         clickOnViewWithText("+30")
@@ -386,13 +390,23 @@ class AddRecordTest : BaseUiTest() {
         timeEnded: String,
         duration: String,
     ) {
-        checkPreviewUpdated(hasDescendant(allOf(withId(R.id.tvRecordItemTimeStarted), withText(timeStarted))))
-        checkPreviewUpdated(hasDescendant(allOf(withId(R.id.tvRecordItemTimeFinished), withText(timeEnded))))
-        checkPreviewUpdated(hasDescendant(allOf(withId(R.id.tvRecordItemDuration), withText(duration))))
-        checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeStarted), withSubstring(timeStarted)))
-        checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeEnded), withSubstring(timeEnded)))
+        checkPreviewUpdated(
+            hasDescendant(allOf(withId(changeRecordR.id.tvRecordItemTimeStarted), withText(timeStarted)))
+        )
+        checkPreviewUpdated(
+            hasDescendant(allOf(withId(changeRecordR.id.tvRecordItemTimeFinished), withText(timeEnded)))
+        )
+        checkPreviewUpdated(
+            hasDescendant(allOf(withId(changeRecordR.id.tvRecordItemDuration), withText(duration)))
+        )
+        checkViewIsDisplayed(
+            allOf(withId(changeRecordR.id.tvChangeRecordTimeStarted), withSubstring(timeStarted))
+        )
+        checkViewIsDisplayed(
+            allOf(withId(changeRecordR.id.tvChangeRecordTimeEnded), withSubstring(timeEnded))
+        )
     }
 
     private fun checkPreviewUpdated(matcher: Matcher<View>) =
-        checkViewIsDisplayed(allOf(withId(R.id.previewChangeRecord), matcher))
+        checkViewIsDisplayed(allOf(withId(changeRecordR.id.previewChangeRecord), matcher))
 }

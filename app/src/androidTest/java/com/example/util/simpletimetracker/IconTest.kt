@@ -27,6 +27,12 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.CoreMatchers.allOf
 import org.junit.Test
 import org.junit.runner.RunWith
+import com.example.util.simpletimetracker.core.R as coreR
+import com.example.util.simpletimetracker.feature_base_adapter.R as baseR
+import com.example.util.simpletimetracker.feature_change_record.R as changeRecordR
+import com.example.util.simpletimetracker.feature_change_record_type.R as changeRecordTypeR
+import com.example.util.simpletimetracker.feature_change_running_record.R as changeRunningRecordR
+import com.example.util.simpletimetracker.feature_dialogs.R as dialogsR
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
@@ -41,31 +47,33 @@ class IconTest : BaseUiTest() {
         testUtils.addActivity(name = secondName, text = lastEmoji)
 
         // Open change record type screen
-        tryAction { clickOnViewWithText(R.string.running_records_add_type) }
+        tryAction { clickOnViewWithText(coreR.string.running_records_add_type) }
 
         // Select emoji
-        clickOnViewWithText(R.string.change_record_type_icon_image_hint)
+        clickOnViewWithText(coreR.string.change_record_type_icon_image_hint)
         clickOnView(
             allOf(
-                isDescendantOfA(withId(R.id.btnChangeRecordTypeIconSwitch)),
-                withText(R.string.change_record_type_icon_emoji_hint)
+                isDescendantOfA(withId(changeRecordTypeR.id.btnChangeRecordTypeIconSwitch)),
+                withText(coreR.string.change_record_type_icon_emoji_hint)
             )
         )
         tryAction { clickOnViewWithText(firstEmoji) }
 
         // Preview is updated
-        checkViewIsDisplayed(allOf(withId(R.id.previewChangeRecordType), hasDescendant(withText(firstEmoji))))
+        checkViewIsDisplayed(
+            allOf(withId(changeRecordTypeR.id.previewChangeRecordType), hasDescendant(withText(firstEmoji)))
+        )
 
         // Save
-        clickOnViewWithId(R.id.fieldChangeRecordTypeIcon)
-        typeTextIntoView(R.id.etChangeRecordTypeName, firstName)
-        clickOnViewWithText(R.string.change_record_type_save)
+        clickOnViewWithId(changeRecordTypeR.id.fieldChangeRecordTypeIcon)
+        typeTextIntoView(changeRecordTypeR.id.etChangeRecordTypeName, firstName)
+        clickOnViewWithText(coreR.string.change_record_type_save)
 
         // Record type is created
         tryAction {
             checkViewIsDisplayed(
                 allOf(
-                    withId(R.id.viewRecordTypeItem),
+                    withId(baseR.id.viewRecordTypeItem),
                     hasDescendant(withText(firstName)),
                     hasDescendant(withText(firstEmoji))
                 )
@@ -78,25 +86,29 @@ class IconTest : BaseUiTest() {
         // Check running record
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.viewRunningRecordItem),
+                withId(baseR.id.viewRunningRecordItem),
                 hasDescendant(withText(firstName)),
                 hasDescendant(withText(firstEmoji))
             )
         )
 
         // Change running record
-        longClickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(firstName)))
-        checkViewIsDisplayed(allOf(withId(R.id.previewChangeRunningRecord), hasDescendant(withText(firstEmoji))))
-        clickOnViewWithText(R.string.change_record_type_field)
-        clickOnRecyclerItem(R.id.rvChangeRecordType, withText(secondName))
-        checkViewIsDisplayed(allOf(withId(R.id.previewChangeRunningRecord), hasDescendant(withText(lastEmoji))))
-        clickOnViewWithText(R.string.change_record_save)
+        longClickOnView(allOf(isDescendantOfA(withId(baseR.id.viewRunningRecordItem)), withText(firstName)))
+        checkViewIsDisplayed(
+            allOf(withId(changeRunningRecordR.id.previewChangeRunningRecord), hasDescendant(withText(firstEmoji)))
+        )
+        clickOnViewWithText(coreR.string.change_record_type_field)
+        clickOnRecyclerItem(changeRecordR.id.rvChangeRecordType, withText(secondName))
+        checkViewIsDisplayed(
+            allOf(withId(changeRunningRecordR.id.previewChangeRunningRecord), hasDescendant(withText(lastEmoji)))
+        )
+        clickOnViewWithText(coreR.string.change_record_save)
 
         // Check running record
         tryAction {
             checkViewIsDisplayed(
                 allOf(
-                    withId(R.id.viewRunningRecordItem),
+                    withId(baseR.id.viewRunningRecordItem),
                     hasDescendant(withText(secondName)),
                     hasDescendant(withText(lastEmoji))
                 )
@@ -104,13 +116,13 @@ class IconTest : BaseUiTest() {
         }
 
         // Stop timer
-        clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(secondName)))
+        clickOnView(allOf(isDescendantOfA(withId(baseR.id.viewRunningRecordItem)), withText(secondName)))
 
         // Record is added
         NavUtils.openRecordsScreen()
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.viewRecordItem),
+                withId(baseR.id.viewRecordItem),
                 hasDescendant(withText(secondName)),
                 hasDescendant(withText(lastEmoji)),
                 isCompletelyDisplayed()
@@ -119,17 +131,17 @@ class IconTest : BaseUiTest() {
 
         // Change record
         clickOnView(allOf(withText(secondName), isCompletelyDisplayed()))
-        checkViewIsDisplayed(allOf(withId(R.id.previewChangeRecord), hasDescendant(withText(lastEmoji))))
-        clickOnViewWithText(R.string.change_record_type_field)
-        clickOnRecyclerItem(R.id.rvChangeRecordType, withText(firstName))
-        checkViewIsDisplayed(allOf(withId(R.id.previewChangeRecord), hasDescendant(withText(firstEmoji))))
-        clickOnViewWithText(R.string.change_record_type_save)
+        checkViewIsDisplayed(allOf(withId(changeRecordR.id.previewChangeRecord), hasDescendant(withText(lastEmoji))))
+        clickOnViewWithText(coreR.string.change_record_type_field)
+        clickOnRecyclerItem(changeRecordR.id.rvChangeRecordType, withText(firstName))
+        checkViewIsDisplayed(allOf(withId(changeRecordR.id.previewChangeRecord), hasDescendant(withText(firstEmoji))))
+        clickOnViewWithText(coreR.string.change_record_type_save)
 
         // Check record
         tryAction {
             checkViewIsDisplayed(
                 allOf(
-                    withId(R.id.viewRecordItem),
+                    withId(baseR.id.viewRecordItem),
                     hasDescendant(withText(firstName)),
                     hasDescendant(withText(firstEmoji)),
                     isCompletelyDisplayed()
@@ -149,31 +161,33 @@ class IconTest : BaseUiTest() {
         testUtils.addActivity(name = secondName, text = secondIconText)
 
         // Open change record type screen
-        tryAction { clickOnViewWithText(R.string.running_records_add_type) }
+        tryAction { clickOnViewWithText(coreR.string.running_records_add_type) }
 
         // Select emoji
-        clickOnViewWithText(R.string.change_record_type_icon_image_hint)
+        clickOnViewWithText(coreR.string.change_record_type_icon_image_hint)
         clickOnView(
             allOf(
-                isDescendantOfA(withId(R.id.btnChangeRecordTypeIconSwitch)),
-                withText(R.string.change_record_type_icon_text_hint)
+                isDescendantOfA(withId(changeRecordTypeR.id.btnChangeRecordTypeIconSwitch)),
+                withText(coreR.string.change_record_type_icon_text_hint)
             )
         )
-        tryAction { typeTextIntoView(R.id.etChangeRecordTypeIconText, firstIconText) }
+        tryAction { typeTextIntoView(changeRecordTypeR.id.etChangeRecordTypeIconText, firstIconText) }
 
         // Preview is updated
-        checkViewIsDisplayed(allOf(withId(R.id.previewChangeRecordType), hasDescendant(withText(firstIconText))))
+        checkViewIsDisplayed(
+            allOf(withId(changeRecordTypeR.id.previewChangeRecordType), hasDescendant(withText(firstIconText)))
+        )
 
         // Save
-        clickOnViewWithId(R.id.fieldChangeRecordTypeIcon)
-        typeTextIntoView(R.id.etChangeRecordTypeName, firstName)
-        clickOnViewWithText(R.string.change_record_type_save)
+        clickOnViewWithId(changeRecordTypeR.id.fieldChangeRecordTypeIcon)
+        typeTextIntoView(changeRecordTypeR.id.etChangeRecordTypeName, firstName)
+        clickOnViewWithText(coreR.string.change_record_type_save)
 
         // Record type is created
         tryAction {
             checkViewIsDisplayed(
                 allOf(
-                    withId(R.id.viewRecordTypeItem),
+                    withId(baseR.id.viewRecordTypeItem),
                     hasDescendant(withText(firstName)),
                     hasDescendant(withText(firstIconText))
                 )
@@ -186,25 +200,29 @@ class IconTest : BaseUiTest() {
         // Check running record
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.viewRunningRecordItem),
+                withId(baseR.id.viewRunningRecordItem),
                 hasDescendant(withText(firstName)),
                 hasDescendant(withText(firstIconText))
             )
         )
 
         // Change running record
-        longClickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(firstName)))
-        checkViewIsDisplayed(allOf(withId(R.id.previewChangeRunningRecord), hasDescendant(withText(firstIconText))))
-        clickOnViewWithText(R.string.change_record_type_field)
-        clickOnRecyclerItem(R.id.rvChangeRecordType, withText(secondName))
-        checkViewIsDisplayed(allOf(withId(R.id.previewChangeRunningRecord), hasDescendant(withText(secondIconText))))
-        clickOnViewWithText(R.string.change_record_save)
+        longClickOnView(allOf(isDescendantOfA(withId(baseR.id.viewRunningRecordItem)), withText(firstName)))
+        checkViewIsDisplayed(
+            allOf(withId(changeRunningRecordR.id.previewChangeRunningRecord), hasDescendant(withText(firstIconText)))
+        )
+        clickOnViewWithText(coreR.string.change_record_type_field)
+        clickOnRecyclerItem(changeRecordR.id.rvChangeRecordType, withText(secondName))
+        checkViewIsDisplayed(
+            allOf(withId(changeRunningRecordR.id.previewChangeRunningRecord), hasDescendant(withText(secondIconText)))
+        )
+        clickOnViewWithText(coreR.string.change_record_save)
 
         // Check running record
         tryAction {
             checkViewIsDisplayed(
                 allOf(
-                    withId(R.id.viewRunningRecordItem),
+                    withId(baseR.id.viewRunningRecordItem),
                     hasDescendant(withText(secondName)),
                     hasDescendant(withText(secondIconText))
                 )
@@ -212,13 +230,13 @@ class IconTest : BaseUiTest() {
         }
 
         // Stop timer
-        clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(secondName)))
+        clickOnView(allOf(isDescendantOfA(withId(baseR.id.viewRunningRecordItem)), withText(secondName)))
 
         // Record is added
         NavUtils.openRecordsScreen()
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.viewRecordItem),
+                withId(baseR.id.viewRecordItem),
                 hasDescendant(withText(secondName)),
                 hasDescendant(withText(secondIconText)),
                 isCompletelyDisplayed()
@@ -227,17 +245,21 @@ class IconTest : BaseUiTest() {
 
         // Change record
         clickOnView(allOf(withText(secondName), isCompletelyDisplayed()))
-        checkViewIsDisplayed(allOf(withId(R.id.previewChangeRecord), hasDescendant(withText(secondIconText))))
-        clickOnViewWithText(R.string.change_record_type_field)
-        clickOnRecyclerItem(R.id.rvChangeRecordType, withText(firstName))
-        checkViewIsDisplayed(allOf(withId(R.id.previewChangeRecord), hasDescendant(withText(firstIconText))))
-        clickOnViewWithText(R.string.change_record_type_save)
+        checkViewIsDisplayed(
+            allOf(withId(changeRecordR.id.previewChangeRecord), hasDescendant(withText(secondIconText)))
+        )
+        clickOnViewWithText(coreR.string.change_record_type_field)
+        clickOnRecyclerItem(changeRecordR.id.rvChangeRecordType, withText(firstName))
+        checkViewIsDisplayed(
+            allOf(withId(changeRecordR.id.previewChangeRecord), hasDescendant(withText(firstIconText)))
+        )
+        clickOnViewWithText(coreR.string.change_record_type_save)
 
         // Check record
         tryAction {
             checkViewIsDisplayed(
                 allOf(
-                    withId(R.id.viewRecordItem),
+                    withId(baseR.id.viewRecordItem),
                     hasDescendant(withText(firstName)),
                     hasDescendant(withText(firstIconText)),
                     isCompletelyDisplayed()
@@ -249,10 +271,10 @@ class IconTest : BaseUiTest() {
     @Test
     fun iconImageCategorySelection() {
         // Open record type add
-        tryAction { clickOnViewWithText(R.string.running_records_add_type) }
+        tryAction { clickOnViewWithText(coreR.string.running_records_add_type) }
 
         // Open image icons
-        clickOnViewWithText(R.string.change_record_type_icon_image_hint)
+        clickOnViewWithText(coreR.string.change_record_type_icon_image_hint)
 
         // Check categories
         iconImageMapper.getAvailableImages().forEach { (category, images) ->
@@ -261,8 +283,12 @@ class IconTest : BaseUiTest() {
             val firstImage = images.values.first()
 
             if (category == iconImageMapper.getAvailableCategories().last()) {
-                onView(withId(R.id.rvChangeRecordTypeIcon)).perform(collapseToolbar())
-                onView(withId(R.id.rvChangeRecordTypeIcon)).perform(swipeUp(50))
+                onView(
+                    withId(changeRecordTypeR.id.rvChangeRecordTypeIcon)).perform(collapseToolbar()
+                )
+                onView(
+                    withId(changeRecordTypeR.id.rvChangeRecordTypeIcon)).perform(swipeUp(50)
+                )
             }
 
             // Check category hint
@@ -275,14 +301,14 @@ class IconTest : BaseUiTest() {
     @Test
     fun iconEmojiCategorySelection() {
         // Open record type add
-        tryAction { clickOnViewWithText(R.string.running_records_add_type) }
+        tryAction { clickOnViewWithText(coreR.string.running_records_add_type) }
 
         // Open emoji icons
-        clickOnViewWithText(R.string.change_record_type_icon_image_hint)
+        clickOnViewWithText(coreR.string.change_record_type_icon_image_hint)
         clickOnView(
             allOf(
-                isDescendantOfA(withId(R.id.btnChangeRecordTypeIconSwitch)),
-                withText(R.string.change_record_type_icon_emoji_hint)
+                isDescendantOfA(withId(changeRecordTypeR.id.btnChangeRecordTypeIconSwitch)),
+                withText(coreR.string.change_record_type_icon_emoji_hint)
             )
         )
 
@@ -309,23 +335,23 @@ class IconTest : BaseUiTest() {
         val emojiSkinTone = emojiSkinTones.last()
 
         // Open record type add
-        tryAction { clickOnViewWithText(R.string.running_records_add_type) }
-        typeTextIntoView(R.id.etChangeRecordTypeName, name)
+        tryAction { clickOnViewWithText(coreR.string.running_records_add_type) }
+        typeTextIntoView(changeRecordTypeR.id.etChangeRecordTypeName, name)
 
         // Open emoji icons
-        clickOnViewWithText(R.string.change_record_type_icon_image_hint)
+        clickOnViewWithText(coreR.string.change_record_type_icon_image_hint)
         clickOnView(
             allOf(
-                isDescendantOfA(withId(R.id.btnChangeRecordTypeIconSwitch)),
-                withText(R.string.change_record_type_icon_emoji_hint)
+                isDescendantOfA(withId(changeRecordTypeR.id.btnChangeRecordTypeIconSwitch)),
+                withText(coreR.string.change_record_type_icon_emoji_hint)
             )
         )
-        onView(withId(R.id.rvChangeRecordTypeIcon)).perform(collapseToolbar())
-        scrollRecyclerToView(R.id.rvChangeRecordTypeIcon, hasDescendant(withText(emojiDefault)))
-        clickOnRecyclerItem(R.id.rvChangeRecordTypeIcon, withText(emojiDefault))
+        onView(withId(changeRecordTypeR.id.rvChangeRecordTypeIcon)).perform(collapseToolbar())
+        scrollRecyclerToView(changeRecordTypeR.id.rvChangeRecordTypeIcon, hasDescendant(withText(emojiDefault)))
+        clickOnRecyclerItem(changeRecordTypeR.id.rvChangeRecordTypeIcon, withText(emojiDefault))
 
         // Check dialog
-        onView(withId(R.id.rvEmojiSelectionContainer)).check(recyclerItemCount(6))
+        onView(withId(dialogsR.id.rvEmojiSelectionContainer)).check(recyclerItemCount(6))
 
         // Check emojis
         checkViewIsDisplayed(withText(emojiDefault))
@@ -336,13 +362,15 @@ class IconTest : BaseUiTest() {
         clickOnViewWithText(emojiSkinTone)
 
         // Preview is updated
-        checkViewIsDisplayed(allOf(withId(R.id.previewChangeRecordType), hasDescendant(withText(emojiSkinTone))))
+        checkViewIsDisplayed(
+            allOf(withId(changeRecordTypeR.id.previewChangeRecordType), hasDescendant(withText(emojiSkinTone)))
+        )
 
         // Check record type
-        clickOnViewWithText(R.string.change_record_type_save)
+        clickOnViewWithText(coreR.string.change_record_type_save)
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.viewRecordTypeItem),
+                withId(baseR.id.viewRecordTypeItem),
                 hasDescendant(withText(name)),
                 hasDescendant(withText(emojiSkinTone))
             )

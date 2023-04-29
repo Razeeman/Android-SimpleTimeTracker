@@ -18,14 +18,18 @@ import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.longClickOnViewWithId
 import dagger.hilt.android.testing.HiltAndroidTest
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.equalTo
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
+import com.example.util.simpletimetracker.core.R as coreR
+import com.example.util.simpletimetracker.feature_base_adapter.R as baseR
+import com.example.util.simpletimetracker.feature_dialogs.R as dialogsR
+import com.example.util.simpletimetracker.feature_records.R as recordsR
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
@@ -42,36 +46,36 @@ class RecordsRangesTest : BaseUiTest() {
 
         // Start timer
         clickOnViewWithText(name)
-        clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name)))
+        clickOnView(allOf(isDescendantOfA(withId(baseR.id.viewRunningRecordItem)), withText(name)))
 
         // Records
         NavUtils.openRecordsScreen()
         checkViewIsDisplayed(allOf(withText(name), isCompletelyDisplayed()))
 
-        clickOnViewWithId(R.id.btnRecordsContainerPrevious)
+        clickOnViewWithId(recordsR.id.btnRecordsContainerPrevious)
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.viewRecordItem),
-                hasDescendant(withText(R.string.untracked_time_name)),
+                withId(baseR.id.viewRecordItem),
+                hasDescendant(withText(coreR.string.untracked_time_name)),
                 isCompletelyDisplayed()
             )
         )
-        clickOnViewWithId(R.id.btnRecordsContainerPrevious)
+        clickOnViewWithId(recordsR.id.btnRecordsContainerPrevious)
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.viewRecordItem),
-                hasDescendant(withText(R.string.untracked_time_name)),
+                withId(baseR.id.viewRecordItem),
+                hasDescendant(withText(coreR.string.untracked_time_name)),
                 isCompletelyDisplayed()
             )
         )
 
-        longClickOnViewWithId(R.id.btnRecordsContainerToday)
+        longClickOnViewWithId(recordsR.id.btnRecordsContainerToday)
         checkViewIsDisplayed(allOf(withText(name), isCompletelyDisplayed()))
 
-        clickOnViewWithId(R.id.btnRecordsContainerNext)
-        checkViewIsDisplayed(allOf(withText(R.string.records_empty), isCompletelyDisplayed()))
-        clickOnViewWithId(R.id.btnRecordsContainerNext)
-        checkViewIsDisplayed(allOf(withText(R.string.records_empty), isCompletelyDisplayed()))
+        clickOnViewWithId(recordsR.id.btnRecordsContainerNext)
+        checkViewIsDisplayed(allOf(withText(coreR.string.records_empty), isCompletelyDisplayed()))
+        clickOnViewWithId(recordsR.id.btnRecordsContainerNext)
+        checkViewIsDisplayed(allOf(withText(coreR.string.records_empty), isCompletelyDisplayed()))
     }
 
     @Test
@@ -86,7 +90,7 @@ class RecordsRangesTest : BaseUiTest() {
         }
 
         // Check yesterday
-        clickOnViewWithId(R.id.btnRecordsContainerToday)
+        clickOnViewWithId(recordsR.id.btnRecordsContainerToday)
         onView(withClassName(equalTo(DatePicker::class.java.name)))
             .perform(
                 setDate(
@@ -95,12 +99,12 @@ class RecordsRangesTest : BaseUiTest() {
                     calendarPrev.get(Calendar.DAY_OF_MONTH)
                 )
             )
-        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+        clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
-        checkViewIsDisplayed(allOf(withText(R.string.title_yesterday), isCompletelyDisplayed()))
+        checkViewIsDisplayed(allOf(withText(coreR.string.title_yesterday), isCompletelyDisplayed()))
 
         // Check tomorrow
-        clickOnViewWithId(R.id.btnRecordsContainerToday)
+        clickOnViewWithId(recordsR.id.btnRecordsContainerToday)
         onView(withClassName(equalTo(DatePicker::class.java.name)))
             .perform(
                 setDate(
@@ -109,9 +113,9 @@ class RecordsRangesTest : BaseUiTest() {
                     calendarNext.get(Calendar.DAY_OF_MONTH)
                 )
             )
-        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+        clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
-        checkViewIsDisplayed(allOf(withText(R.string.title_tomorrow), isCompletelyDisplayed()))
+        checkViewIsDisplayed(allOf(withText(coreR.string.title_tomorrow), isCompletelyDisplayed()))
     }
 
     @Test
@@ -132,7 +136,7 @@ class RecordsRangesTest : BaseUiTest() {
         val titleNext = dayTitleFormat.format(calendarNext.timeInMillis)
 
         // Check prev date
-        clickOnViewWithId(R.id.btnRecordsContainerToday)
+        clickOnViewWithId(recordsR.id.btnRecordsContainerToday)
         onView(withClassName(equalTo(DatePicker::class.java.name)))
             .perform(
                 setDate(
@@ -141,12 +145,12 @@ class RecordsRangesTest : BaseUiTest() {
                     calendarPrev.get(Calendar.DAY_OF_MONTH)
                 )
             )
-        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+        clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
         checkViewIsDisplayed(allOf(withText(titlePrev), isCompletelyDisplayed()))
 
         // Check next date
-        clickOnViewWithId(R.id.btnRecordsContainerToday)
+        clickOnViewWithId(recordsR.id.btnRecordsContainerToday)
         onView(withClassName(equalTo(DatePicker::class.java.name)))
             .perform(
                 setDate(
@@ -155,7 +159,7 @@ class RecordsRangesTest : BaseUiTest() {
                     calendarNext.get(Calendar.DAY_OF_MONTH)
                 )
             )
-        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+        clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
         checkViewIsDisplayed(allOf(withText(titleNext), isCompletelyDisplayed()))
     }

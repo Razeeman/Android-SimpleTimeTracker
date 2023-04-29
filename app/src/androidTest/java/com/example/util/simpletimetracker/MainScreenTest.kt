@@ -21,6 +21,12 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.CoreMatchers.allOf
 import org.junit.Test
 import org.junit.runner.RunWith
+import com.example.util.simpletimetracker.core.R as coreR
+import com.example.util.simpletimetracker.feature_base_adapter.R as baseR
+import com.example.util.simpletimetracker.feature_change_record.R as changeRecordR
+import com.example.util.simpletimetracker.feature_change_record_type.R as changeRecordTypeR
+import com.example.util.simpletimetracker.feature_records.R as recordsR
+import com.example.util.simpletimetracker.feature_statistics.R as statisticsR
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
@@ -31,21 +37,21 @@ class MainScreenTest : BaseUiTest() {
         val name = "Test"
 
         // Add activity
-        tryAction { clickOnView(withText(R.string.running_records_add_type)) }
+        tryAction { clickOnView(withText(coreR.string.running_records_add_type)) }
         closeSoftKeyboard()
         pressBack()
 
-        clickOnView(withText(R.string.running_records_add_type))
-        typeTextIntoView(R.id.etChangeRecordTypeName, name)
+        clickOnView(withText(coreR.string.running_records_add_type))
+        typeTextIntoView(changeRecordTypeR.id.etChangeRecordTypeName, name)
         closeSoftKeyboard()
-        clickOnView(withText(R.string.change_record_type_save))
+        clickOnView(withText(coreR.string.change_record_type_save))
         Thread.sleep(1000)
 
         // Start timer
         clickOnViewWithText(name)
 
         // Stop timer
-        clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name)))
+        clickOnView(allOf(isDescendantOfA(withId(baseR.id.viewRunningRecordItem)), withText(name)))
 
         // Records
         NavUtils.openRecordsScreen()
@@ -53,25 +59,25 @@ class MainScreenTest : BaseUiTest() {
         clickOnView(allOf(withText(name), isCompletelyDisplayed()))
         pressBack()
 
-        clickOnViewWithId(R.id.btnRecordAdd)
+        clickOnViewWithId(recordsR.id.btnRecordAdd)
         pressBack()
 
-        clickOnViewWithId(R.id.btnRecordAdd)
-        clickOnViewWithText(R.string.change_record_type_field)
-        clickOnRecyclerItem(R.id.rvChangeRecordType, withText(name))
-        clickOnViewWithText(R.string.change_record_save)
+        clickOnViewWithId(recordsR.id.btnRecordAdd)
+        clickOnViewWithText(coreR.string.change_record_type_field)
+        clickOnRecyclerItem(changeRecordR.id.rvChangeRecordType, withText(name))
+        clickOnViewWithText(coreR.string.change_record_save)
 
-        clickOnViewWithId(R.id.btnRecordsContainerPrevious)
-        longClickOnViewWithId(R.id.btnRecordsContainerToday)
-        clickOnViewWithId(R.id.btnRecordsContainerNext)
+        clickOnViewWithId(recordsR.id.btnRecordsContainerPrevious)
+        longClickOnViewWithId(recordsR.id.btnRecordsContainerToday)
+        clickOnViewWithId(recordsR.id.btnRecordsContainerNext)
 
         // Statistics
         NavUtils.openStatisticsScreen()
-        clickOnViewWithIdOnPager(R.id.btnStatisticsChartFilter)
+        clickOnViewWithIdOnPager(statisticsR.id.btnStatisticsChartFilter)
         pressBack()
-        clickOnViewWithId(R.id.btnStatisticsContainerPrevious)
-        longClickOnViewWithId(R.id.btnStatisticsContainerToday)
-        clickOnViewWithId(R.id.btnStatisticsContainerNext)
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerPrevious)
+        longClickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerNext)
 
         // Settings
         NavUtils.openSettingsScreen()

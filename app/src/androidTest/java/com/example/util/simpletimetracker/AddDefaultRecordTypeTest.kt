@@ -16,6 +16,9 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.CoreMatchers.allOf
 import org.junit.Test
 import org.junit.runner.RunWith
+import com.example.util.simpletimetracker.core.R as coreR
+import com.example.util.simpletimetracker.feature_base_adapter.R as baseR
+import com.example.util.simpletimetracker.feature_views.R as viewsR
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
@@ -28,55 +31,55 @@ class AddDefaultRecordTypeTest : BaseUiTest() {
         val name2 = "Work"
         val color2 = ColorMapper.getAvailableColors()[10]
 
-        tryAction { checkViewIsDisplayed(withText(R.string.running_records_types_empty)) }
-        checkViewIsDisplayed(withText(R.string.running_records_add_type))
-        checkViewIsDisplayed(withText(R.string.running_records_add_default))
+        tryAction { checkViewIsDisplayed(withText(coreR.string.running_records_types_empty)) }
+        checkViewIsDisplayed(withText(coreR.string.running_records_add_type))
+        checkViewIsDisplayed(withText(coreR.string.running_records_add_default))
 
         // Open dialog
-        clickOnViewWithText(R.string.running_records_add_default)
+        clickOnViewWithText(coreR.string.running_records_add_default)
         Thread.sleep(1000)
         checkActivity(name1, color1)
         checkActivity(name2, color2)
 
         // Close without saving
         pressBack()
-        checkViewIsDisplayed(withText(R.string.running_records_add_type))
-        checkViewIsDisplayed(withText(R.string.running_records_add_default))
+        checkViewIsDisplayed(withText(coreR.string.running_records_add_type))
+        checkViewIsDisplayed(withText(coreR.string.running_records_add_default))
         checkViewDoesNotExist(withText(name1))
         checkViewDoesNotExist(withText(name2))
 
         // Check selection
-        clickOnViewWithText(R.string.running_records_add_default)
+        clickOnViewWithText(coreR.string.running_records_add_default)
         clickOnViewWithText(name1)
-        checkActivity(name1, R.color.colorFiltered)
+        checkActivity(name1, viewsR.color.colorFiltered)
         checkActivity(name2, color2)
 
         clickOnViewWithText(name1)
         clickOnViewWithText(name2)
         checkActivity(name1, color1)
-        checkActivity(name2, R.color.colorFiltered)
+        checkActivity(name2, viewsR.color.colorFiltered)
 
-        clickOnViewWithText(R.string.types_filter_show_all)
+        clickOnViewWithText(coreR.string.types_filter_show_all)
         checkActivity(name1, color1)
         checkActivity(name2, color2)
 
-        clickOnViewWithText(R.string.types_filter_hide_all)
-        checkActivity(name1, R.color.colorFiltered)
-        checkActivity(name2, R.color.colorFiltered)
+        clickOnViewWithText(coreR.string.types_filter_hide_all)
+        checkActivity(name1, viewsR.color.colorFiltered)
+        checkActivity(name2, viewsR.color.colorFiltered)
 
         // Try to save when nothing selected
-        clickOnViewWithText(R.string.duration_dialog_save)
-        checkViewIsDisplayed(withText(R.string.duration_dialog_save))
+        clickOnViewWithText(coreR.string.duration_dialog_save)
+        checkViewIsDisplayed(withText(coreR.string.duration_dialog_save))
 
         // Save
         clickOnViewWithText(name1)
         clickOnViewWithText(name2)
-        clickOnViewWithText(R.string.duration_dialog_save)
+        clickOnViewWithText(coreR.string.duration_dialog_save)
         Thread.sleep(1000)
 
         // Types added
-        checkViewIsDisplayed(withText(R.string.running_records_add_type))
-        checkViewDoesNotExist(withText(R.string.running_records_add_default))
+        checkViewIsDisplayed(withText(coreR.string.running_records_add_type))
+        checkViewDoesNotExist(withText(coreR.string.running_records_add_default))
         checkActivity(name1, color1)
         checkActivity(name2, color2)
     }
@@ -87,7 +90,7 @@ class AddDefaultRecordTypeTest : BaseUiTest() {
     ) {
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.viewRecordTypeItem),
+                withId(baseR.id.viewRecordTypeItem),
                 withCardColor(color),
                 hasDescendant(withText(name))
             )

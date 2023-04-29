@@ -31,6 +31,10 @@ import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.Matcher
 import org.junit.Test
 import org.junit.runner.RunWith
+import com.example.util.simpletimetracker.core.R as coreR
+import com.example.util.simpletimetracker.feature_base_adapter.R as baseR
+import com.example.util.simpletimetracker.feature_running_records.R as runningRecordsR
+import com.example.util.simpletimetracker.feature_settings.R as settingsR
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
@@ -84,7 +88,7 @@ class SettingsCardOrder : BaseUiTest() {
         Thread.sleep(1000)
         checkOrder(name1, name2, ::isCompletelyAbove)
         checkOrder(name2, name3, ::isCompletelyAbove)
-        clickOnViewWithText(R.string.card_size_default)
+        clickOnViewWithText(coreR.string.card_size_default)
 
         // Check order
         checkOrder(name1, name2, ::isCompletelyLeftOf)
@@ -112,9 +116,9 @@ class SettingsCardOrder : BaseUiTest() {
         // Check settings
         NavUtils.openSettingsScreen()
         NavUtils.openSettingsDisplay()
-        onView(withId(R.id.spinnerSettingsRecordTypeSort)).perform(nestedScrollTo())
+        onView(withId(settingsR.id.spinnerSettingsRecordTypeSort)).perform(nestedScrollTo())
         checkViewIsDisplayed(
-            allOf(withId(R.id.tvSettingsRecordTypeSortValue), withText(R.string.settings_sort_by_name))
+            allOf(withId(settingsR.id.tvSettingsRecordTypeSortValue), withText(coreR.string.settings_sort_by_name))
         )
     }
 
@@ -160,10 +164,10 @@ class SettingsCardOrder : BaseUiTest() {
         clickOnViewWithText("1")
         pressBack()
 
-        clickOnSpinnerWithId(R.id.spinnerSettingsRecordTypeSort)
-        clickOnViewWithText(R.string.settings_sort_by_color)
+        clickOnSpinnerWithId(settingsR.id.spinnerSettingsRecordTypeSort)
+        clickOnViewWithText(coreR.string.settings_sort_by_color)
         checkViewIsDisplayed(
-            allOf(withId(R.id.tvSettingsRecordTypeSortValue), withText(R.string.settings_sort_by_color))
+            allOf(withId(settingsR.id.tvSettingsRecordTypeSortValue), withText(coreR.string.settings_sort_by_color))
         )
 
         // Check new order
@@ -178,7 +182,7 @@ class SettingsCardOrder : BaseUiTest() {
             try {
                 checkOrder(previousItem, currentItem, ::isCompletelyAbove)
             } catch (e: Throwable) {
-                onView(withId(R.id.rvRunningRecordsList)).perform(slowHalfSwipe())
+                onView(withId(runningRecordsR.id.rvRunningRecordsList)).perform(slowHalfSwipe())
                 tryAction { checkOrder(previousItem, currentItem, ::isCompletelyAbove) }
             }
         }
@@ -198,8 +202,8 @@ class SettingsCardOrder : BaseUiTest() {
         // Change settings
         NavUtils.openSettingsScreen()
         NavUtils.openSettingsDisplay()
-        clickOnSpinnerWithId(R.id.spinnerSettingsRecordTypeSort)
-        clickOnViewWithText(R.string.settings_sort_manually)
+        clickOnSpinnerWithId(settingsR.id.spinnerSettingsRecordTypeSort)
+        clickOnViewWithText(coreR.string.settings_sort_manually)
         Thread.sleep(1000)
 
         // Check old order
@@ -207,13 +211,13 @@ class SettingsCardOrder : BaseUiTest() {
         checkOrder(name2, name3, ::isCompletelyLeftOf)
 
         // Drag
-        onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2)))
+        onView(allOf(isDescendantOfA(withId(baseR.id.viewRecordTypeItem)), withText(name2)))
             .perform(drag(Direction.LEFT, 300))
 
         // Check new order
         pressBack()
         checkViewIsDisplayed(
-            allOf(withId(R.id.tvSettingsRecordTypeSortValue), withText(R.string.settings_sort_manually))
+            allOf(withId(settingsR.id.tvSettingsRecordTypeSortValue), withText(coreR.string.settings_sort_manually))
         )
         NavUtils.openRunningRecordsScreen()
         checkOrder(name2, name1, ::isCompletelyLeftOf)
@@ -221,11 +225,11 @@ class SettingsCardOrder : BaseUiTest() {
 
         // Change order
         NavUtils.openSettingsScreen()
-        onView(withId(R.id.btnCardOrderManual)).perform(nestedScrollTo())
-        clickOnViewWithId(R.id.btnCardOrderManual)
+        onView(withId(settingsR.id.btnCardOrderManual)).perform(nestedScrollTo())
+        clickOnViewWithId(settingsR.id.btnCardOrderManual)
         checkOrder(name2, name1, ::isCompletelyLeftOf)
         checkOrder(name1, name3, ::isCompletelyLeftOf)
-        onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1)))
+        onView(allOf(isDescendantOfA(withId(baseR.id.viewRecordTypeItem)), withText(name1)))
             .perform(drag(Direction.RIGHT, 300))
 
         // Check new order
@@ -251,10 +255,10 @@ class SettingsCardOrder : BaseUiTest() {
         NavUtils.openCardSizeScreen()
         tryAction { clickOnViewWithText("4") }
         pressBack()
-        clickOnSpinnerWithId(R.id.spinnerSettingsRecordTypeSort)
-        clickOnViewWithText(R.string.settings_sort_by_color)
-        clickOnSpinnerWithId(R.id.spinnerSettingsRecordTypeSort)
-        clickOnViewWithText(R.string.settings_sort_manually)
+        clickOnSpinnerWithId(settingsR.id.spinnerSettingsRecordTypeSort)
+        clickOnViewWithText(coreR.string.settings_sort_by_color)
+        clickOnSpinnerWithId(settingsR.id.spinnerSettingsRecordTypeSort)
+        clickOnViewWithText(coreR.string.settings_sort_manually)
         Thread.sleep(1000)
 
         val resources = InstrumentationRegistry.getInstrumentation().targetContext.resources
@@ -263,7 +267,7 @@ class SettingsCardOrder : BaseUiTest() {
 
         // Drag
         (1..cardsCount).forEach {
-            onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText("$name$it")))
+            onView(allOf(isDescendantOfA(withId(baseR.id.viewRecordTypeItem)), withText("$name$it")))
                 .perform(
                     drag(Direction.RIGHT, screenWidth),
                     drag(Direction.DOWN, screenHeight),
@@ -281,8 +285,8 @@ class SettingsCardOrder : BaseUiTest() {
 
     private fun checkOrder(first: String, second: String, vararg matchers: (Matcher<View>) -> ViewAssertion) {
         matchers.forEach { matcher ->
-            onView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(first))).check(
-                matcher(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(second)))
+            onView(allOf(isDescendantOfA(withId(baseR.id.viewRecordTypeItem)), withText(first))).check(
+                matcher(allOf(isDescendantOfA(withId(baseR.id.viewRecordTypeItem)), withText(second)))
             )
         }
     }

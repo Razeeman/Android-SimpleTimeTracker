@@ -18,7 +18,7 @@ sealed interface RecordsFilter {
 
     sealed interface CategoryItem {
         data class Categorized(val categoryId: Long) : CategoryItem
-        object Uncategorized: CategoryItem
+        object Uncategorized : CategoryItem
     }
 
     sealed interface TagItem {

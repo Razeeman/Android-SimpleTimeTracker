@@ -19,6 +19,9 @@ import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.allOf
 import org.junit.Test
 import org.junit.runner.RunWith
+import com.example.util.simpletimetracker.core.R as coreR
+import com.example.util.simpletimetracker.feature_base_adapter.R as baseR
+import com.example.util.simpletimetracker.feature_views.R as viewsR
 
 @HiltAndroidTest
 @Widget
@@ -51,11 +54,11 @@ class WidgetUniversal : BaseUiTest() {
         checkType(lastColor, name2)
         checkViewDoesNotExist(withText(name3))
         checkViewDoesNotExist(withText(filter))
-        checkViewDoesNotExist(withText(R.string.running_records_add_filter))
+        checkViewDoesNotExist(withText(coreR.string.running_records_add_filter))
 
         // Start activity
         clickOnViewWithText(name1)
-        checkType(R.color.colorFiltered, name1)
+        checkType(viewsR.color.colorFiltered, name1)
 
         // Stop activity
         clickOnViewWithText(name1)
@@ -75,8 +78,8 @@ class WidgetUniversal : BaseUiTest() {
 
         // Start timer
         clickOnViewWithText(name1)
-        checkType(R.color.colorFiltered, name1)
-        checkType(R.color.colorFiltered, name2)
+        checkType(viewsR.color.colorFiltered, name1)
+        checkType(viewsR.color.colorFiltered, name2)
     }
 
     @Test
@@ -94,7 +97,7 @@ class WidgetUniversal : BaseUiTest() {
         // Start another
         clickOnViewWithText(name2)
         checkType(firstColor, name1)
-        checkType(R.color.colorFiltered, name2)
+        checkType(viewsR.color.colorFiltered, name2)
     }
 
     @Test
@@ -111,7 +114,7 @@ class WidgetUniversal : BaseUiTest() {
 
         // Start timer
         tryAction { clickOnViewWithText(name1) }
-        checkType(R.color.colorFiltered, name1)
+        checkType(viewsR.color.colorFiltered, name1)
     }
 
     @Test
@@ -129,12 +132,12 @@ class WidgetUniversal : BaseUiTest() {
 
         // Start timer
         clickOnViewWithText(name1)
-        tryAction { checkViewIsDisplayed(withText(R.string.change_record_untagged)) }
+        tryAction { checkViewIsDisplayed(withText(coreR.string.change_record_untagged)) }
         checkViewIsDisplayed(withText(tag1))
         checkViewDoesNotExist(withText(tag2))
         clickOnViewWithText(tag1)
-        clickOnViewWithText(R.string.duration_dialog_save)
-        checkType(R.color.colorFiltered, name1)
+        clickOnViewWithText(coreR.string.duration_dialog_save)
+        checkType(viewsR.color.colorFiltered, name1)
     }
 
     @Test
@@ -158,8 +161,8 @@ class WidgetUniversal : BaseUiTest() {
         // Check filters
         tryAction { checkViewIsDisplayed(withText(name1)) }
         checkViewIsDisplayed(withText(name2))
-        checkViewIsDisplayed(allOf(withCardColor(R.color.colorFiltered), hasDescendant(withText(filter))))
-        checkViewDoesNotExist(withText(R.string.running_records_add_filter))
+        checkViewIsDisplayed(allOf(withCardColor(viewsR.color.colorFiltered), hasDescendant(withText(filter))))
+        checkViewDoesNotExist(withText(coreR.string.running_records_add_filter))
 
         clickOnViewWithText(filter)
         checkViewIsDisplayed(withText(name1))
@@ -169,13 +172,13 @@ class WidgetUniversal : BaseUiTest() {
         clickOnViewWithText(filter)
         checkViewIsDisplayed(withText(name1))
         checkViewIsDisplayed(withText(name2))
-        checkViewIsDisplayed(allOf(withCardColor(R.color.colorFiltered), hasDescendant(withText(filter))))
+        checkViewIsDisplayed(allOf(withCardColor(viewsR.color.colorFiltered), hasDescendant(withText(filter))))
     }
 
     private fun checkType(color: Int, name: String) {
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.viewRecordTypeItem),
+                withId(baseR.id.viewRecordTypeItem),
                 withCardColor(color),
                 hasDescendant(withText(name))
             )

@@ -115,4 +115,3 @@ fun List<RecordsFilter.CategoryItem>.hasUncategorizedItem(): Boolean {
 fun List<RecordsFilter>.hasManuallyFiltered(): Boolean {
     return any { it is RecordsFilter.ManuallyFiltered }
 }
-

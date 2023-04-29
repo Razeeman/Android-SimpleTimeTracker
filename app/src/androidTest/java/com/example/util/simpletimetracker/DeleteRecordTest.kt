@@ -19,6 +19,9 @@ import org.hamcrest.CoreMatchers
 import org.hamcrest.Matchers.allOf
 import org.junit.Test
 import org.junit.runner.RunWith
+import com.example.util.simpletimetracker.core.R as coreR
+import com.example.util.simpletimetracker.feature_base_adapter.R as baseR
+import com.example.util.simpletimetracker.feature_change_record.R as changeRecordR
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
@@ -39,13 +42,13 @@ class DeleteRecordTest : BaseUiTest() {
 
         // Delete item
         clickOnView(allOf(withText(name), isCompletelyDisplayed()))
-        checkViewIsDisplayed(withId(R.id.btnChangeRecordDelete))
-        clickOnViewWithId(R.id.btnChangeRecordDelete)
+        checkViewIsDisplayed(withId(changeRecordR.id.btnChangeRecordDelete))
+        clickOnViewWithId(changeRecordR.id.btnChangeRecordDelete)
 
         // Check message
         checkViewIsDisplayed(
             allOf(
-                withText(getString(R.string.record_removed, name)),
+                withText(getString(coreR.string.record_removed, name)),
                 withId(com.google.android.material.R.id.snackbar_text)
             )
         )
@@ -56,12 +59,12 @@ class DeleteRecordTest : BaseUiTest() {
         checkViewDoesNotExist(allOf(withTag(icon), isCompletelyDisplayed()))
 
         // Check undo
-        clickOnViewWithText(R.string.record_removed_undo)
+        clickOnViewWithText(coreR.string.record_removed_undo)
 
         // Record is back
         checkViewIsDisplayed(
             CoreMatchers.allOf(
-                withId(R.id.viewRecordItem),
+                withId(baseR.id.viewRecordItem),
                 withCardColor(color),
                 hasDescendant(withText(name)),
                 hasDescendant(withTag(icon)),

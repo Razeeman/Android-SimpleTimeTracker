@@ -32,6 +32,9 @@ import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.Matcher
 import org.junit.Test
 import org.junit.runner.RunWith
+import com.example.util.simpletimetracker.core.R as coreR
+import com.example.util.simpletimetracker.feature_change_record_type.R as changeRecordTypeR
+import com.example.util.simpletimetracker.feature_dialogs.R as dialogsR
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
@@ -51,101 +54,105 @@ class AddRecordTypeTest : BaseUiTest() {
 
         pressBack()
         NavUtils.openRunningRecordsScreen()
-        clickOnViewWithText(R.string.running_records_add_type)
+        clickOnViewWithText(coreR.string.running_records_add_type)
 
         // View is set up
-        checkViewIsNotDisplayed(withId(R.id.btnChangeRecordTypeDelete))
-        checkViewIsNotDisplayed(withId(R.id.rvChangeRecordTypeColor))
-        checkViewIsNotDisplayed(withId(R.id.rvChangeRecordTypeIcon))
+        checkViewIsNotDisplayed(withId(changeRecordTypeR.id.btnChangeRecordTypeDelete))
+        checkViewIsNotDisplayed(withId(changeRecordTypeR.id.rvChangeRecordTypeColor))
+        checkViewIsNotDisplayed(withId(changeRecordTypeR.id.rvChangeRecordTypeIcon))
 
         // Name is not selected
         closeSoftKeyboard()
-        clickOnViewWithText(R.string.change_record_type_save)
+        clickOnViewWithText(coreR.string.change_record_type_save)
 
         // Typing name
-        typeTextIntoView(R.id.etChangeRecordTypeName, name)
+        typeTextIntoView(changeRecordTypeR.id.etChangeRecordTypeName, name)
         checkPreviewUpdated(hasDescendant(withText(name)))
 
         // Open color chooser
-        clickOnViewWithText(R.string.change_record_type_color_hint)
-        checkViewIsDisplayed(withId(R.id.rvChangeRecordTypeColor))
-        checkViewIsNotDisplayed(withId(R.id.rvChangeRecordTypeIcon))
+        clickOnViewWithText(coreR.string.change_record_type_color_hint)
+        checkViewIsDisplayed(withId(changeRecordTypeR.id.rvChangeRecordTypeColor))
+        checkViewIsNotDisplayed(withId(changeRecordTypeR.id.rvChangeRecordTypeIcon))
 
         // Selecting color
-        clickOnRecyclerItem(R.id.rvChangeRecordTypeColor, withCardColor(firstColor))
+        clickOnRecyclerItem(changeRecordTypeR.id.rvChangeRecordTypeColor, withCardColor(firstColor))
         checkPreviewUpdated(withCardColor(firstColor))
-        checkViewIsDisplayed(allOf(withId(R.id.viewColorItemSelected), withParent(withCardColor(firstColor))))
+        checkViewIsDisplayed(
+            allOf(withId(changeRecordTypeR.id.viewColorItemSelected), withParent(withCardColor(firstColor)))
+        )
 
         // Selecting color
-        scrollRecyclerToPosition(R.id.rvChangeRecordTypeColor, lastColorPosition)
-        clickOnRecyclerItem(R.id.rvChangeRecordTypeColor, withCardColor(lastColor))
+        scrollRecyclerToPosition(changeRecordTypeR.id.rvChangeRecordTypeColor, lastColorPosition)
+        clickOnRecyclerItem(changeRecordTypeR.id.rvChangeRecordTypeColor, withCardColor(lastColor))
         checkPreviewUpdated(withCardColor(lastColor))
-        checkViewIsDisplayed(allOf(withId(R.id.viewColorItemSelected), withParent(withCardColor(lastColor))))
+        checkViewIsDisplayed(
+            allOf(withId(changeRecordTypeR.id.viewColorItemSelected), withParent(withCardColor(lastColor)))
+        )
 
         // Open icon chooser
-        clickOnViewWithText(R.string.change_record_type_color_hint)
-        clickOnViewWithText(R.string.change_record_type_icon_image_hint)
-        checkViewIsNotDisplayed(withId(R.id.rvChangeRecordTypeColor))
-        checkViewIsDisplayed(withId(R.id.rvChangeRecordTypeIcon))
+        clickOnViewWithText(coreR.string.change_record_type_color_hint)
+        clickOnViewWithText(coreR.string.change_record_type_icon_image_hint)
+        checkViewIsNotDisplayed(withId(changeRecordTypeR.id.rvChangeRecordTypeColor))
+        checkViewIsDisplayed(withId(changeRecordTypeR.id.rvChangeRecordTypeIcon))
 
         // Selecting icon
-        clickOnRecyclerItem(R.id.rvChangeRecordTypeIcon, withTag(firstIcon))
+        clickOnRecyclerItem(changeRecordTypeR.id.rvChangeRecordTypeIcon, withTag(firstIcon))
         checkPreviewUpdated(hasDescendant(withTag(firstIcon)))
 
         // Selecting icon
-        onView(withId(R.id.rvChangeRecordTypeIcon)).perform(collapseToolbar())
-        scrollRecyclerToView(R.id.rvChangeRecordTypeIcon, hasDescendant(withTag(lastIcon)))
-        clickOnRecyclerItem(R.id.rvChangeRecordTypeIcon, withTag(lastIcon))
+        onView(withId(changeRecordTypeR.id.rvChangeRecordTypeIcon)).perform(collapseToolbar())
+        scrollRecyclerToView(changeRecordTypeR.id.rvChangeRecordTypeIcon, hasDescendant(withTag(lastIcon)))
+        clickOnRecyclerItem(changeRecordTypeR.id.rvChangeRecordTypeIcon, withTag(lastIcon))
         checkPreviewUpdated(hasDescendant(withTag(lastIcon)))
 
         // Open category chooser
-        clickOnViewWithId(R.id.fieldChangeRecordTypeIcon)
-        clickOnViewWithText(R.string.category_hint)
-        checkViewIsNotDisplayed(withId(R.id.rvChangeRecordTypeIcon))
-        checkViewIsDisplayed(withId(R.id.rvChangeRecordTypeCategories))
+        clickOnViewWithId(changeRecordTypeR.id.fieldChangeRecordTypeIcon)
+        clickOnViewWithText(coreR.string.category_hint)
+        checkViewIsNotDisplayed(withId(changeRecordTypeR.id.rvChangeRecordTypeIcon))
+        checkViewIsDisplayed(withId(changeRecordTypeR.id.rvChangeRecordTypeCategories))
         checkViewIsDisplayed(withText(categoryName1))
         checkViewIsDisplayed(withText(categoryName2))
-        checkViewIsDisplayed(withText(R.string.nothing_selected))
-        checkViewIsDisplayed(withId(R.id.viewDividerItem))
-        onView(withText(categoryName1)).check(isCompletelyBelow(withId(R.id.viewDividerItem)))
-        onView(withText(categoryName2)).check(isCompletelyBelow(withId(R.id.viewDividerItem)))
+        checkViewIsDisplayed(withText(coreR.string.nothing_selected))
+        checkViewIsDisplayed(withId(changeRecordTypeR.id.viewDividerItem))
+        onView(withText(categoryName1)).check(isCompletelyBelow(withId(changeRecordTypeR.id.viewDividerItem)))
+        onView(withText(categoryName2)).check(isCompletelyBelow(withId(changeRecordTypeR.id.viewDividerItem)))
 
         // Selecting category
-        clickOnRecyclerItem(R.id.rvChangeRecordTypeCategories, withText(categoryName1))
-        checkViewIsDisplayed(withText(R.string.something_selected))
-        checkViewIsDisplayed(withId(R.id.viewDividerItem))
-        onView(withText(categoryName1)).check(isCompletelyAbove(withId(R.id.viewDividerItem)))
-        onView(withText(categoryName2)).check(isCompletelyBelow(withId(R.id.viewDividerItem)))
+        clickOnRecyclerItem(changeRecordTypeR.id.rvChangeRecordTypeCategories, withText(categoryName1))
+        checkViewIsDisplayed(withText(coreR.string.something_selected))
+        checkViewIsDisplayed(withId(changeRecordTypeR.id.viewDividerItem))
+        onView(withText(categoryName1)).check(isCompletelyAbove(withId(changeRecordTypeR.id.viewDividerItem)))
+        onView(withText(categoryName2)).check(isCompletelyBelow(withId(changeRecordTypeR.id.viewDividerItem)))
 
-        clickOnRecyclerItem(R.id.rvChangeRecordTypeCategories, withText(categoryName2))
-        checkViewIsDisplayed(withText(R.string.something_selected))
-        checkViewIsDisplayed(withId(R.id.viewDividerItem))
+        clickOnRecyclerItem(changeRecordTypeR.id.rvChangeRecordTypeCategories, withText(categoryName2))
+        checkViewIsDisplayed(withText(coreR.string.something_selected))
+        checkViewIsDisplayed(withId(changeRecordTypeR.id.viewDividerItem))
         checkViewIsDisplayed(withText(categoryName1))
         checkViewIsDisplayed(withText(categoryName2))
 
-        clickOnRecyclerItem(R.id.rvChangeRecordTypeCategories, withText(categoryName1))
-        clickOnRecyclerItem(R.id.rvChangeRecordTypeCategories, withText(categoryName2))
-        checkViewIsDisplayed(withText(R.string.nothing_selected))
-        checkViewIsDisplayed(withId(R.id.viewDividerItem))
-        onView(withText(categoryName1)).check(isCompletelyBelow(withId(R.id.viewDividerItem)))
-        onView(withText(categoryName2)).check(isCompletelyBelow(withId(R.id.viewDividerItem)))
+        clickOnRecyclerItem(changeRecordTypeR.id.rvChangeRecordTypeCategories, withText(categoryName1))
+        clickOnRecyclerItem(changeRecordTypeR.id.rvChangeRecordTypeCategories, withText(categoryName2))
+        checkViewIsDisplayed(withText(coreR.string.nothing_selected))
+        checkViewIsDisplayed(withId(changeRecordTypeR.id.viewDividerItem))
+        onView(withText(categoryName1)).check(isCompletelyBelow(withId(changeRecordTypeR.id.viewDividerItem)))
+        onView(withText(categoryName2)).check(isCompletelyBelow(withId(changeRecordTypeR.id.viewDividerItem)))
 
-        clickOnRecyclerItem(R.id.rvChangeRecordTypeCategories, withText(categoryName1))
-        clickOnViewWithText(R.string.category_hint)
+        clickOnRecyclerItem(changeRecordTypeR.id.rvChangeRecordTypeCategories, withText(categoryName1))
+        clickOnViewWithText(coreR.string.category_hint)
 
         // Selecting goal time
-        clickOnViewWithText(R.string.change_record_type_goal_time_hint)
-        clickOnViewWithId(R.id.groupChangeRecordTypeSessionGoalTime)
-        clickOnViewWithId(R.id.tvNumberKeyboard1)
-        clickOnViewWithId(R.id.tvNumberKeyboard0)
-        clickOnViewWithId(R.id.tvNumberKeyboard0)
-        clickOnViewWithId(R.id.tvNumberKeyboard0)
-        clickOnViewWithText(R.string.duration_dialog_save)
+        clickOnViewWithText(coreR.string.change_record_type_goal_time_hint)
+        clickOnViewWithId(changeRecordTypeR.id.groupChangeRecordTypeSessionGoalTime)
+        clickOnViewWithId(dialogsR.id.tvNumberKeyboard1)
+        clickOnViewWithId(dialogsR.id.tvNumberKeyboard0)
+        clickOnViewWithId(dialogsR.id.tvNumberKeyboard0)
+        clickOnViewWithId(dialogsR.id.tvNumberKeyboard0)
+        clickOnViewWithText(coreR.string.duration_dialog_save)
         checkViewIsDisplayed(withText("10$minuteString"))
-        clickOnViewWithText(R.string.change_record_type_goal_time_hint)
+        clickOnViewWithText(coreR.string.change_record_type_goal_time_hint)
 
         // Save
-        clickOnViewWithText(R.string.change_record_type_save)
+        clickOnViewWithText(coreR.string.change_record_type_save)
 
         // Record type added
         checkViewIsDisplayed(withText(name))
@@ -154,32 +161,32 @@ class AddRecordTypeTest : BaseUiTest() {
 
         // Check categories saved
         longClickOnView(withText(name))
-        clickOnViewWithText(R.string.category_hint)
-        checkViewIsDisplayed(withText(R.string.something_selected))
-        checkViewIsDisplayed(withId(R.id.viewDividerItem))
-        onView(withText(categoryName1)).check(isCompletelyAbove(withId(R.id.viewDividerItem)))
-        onView(withText(categoryName2)).check(isCompletelyBelow(withId(R.id.viewDividerItem)))
+        clickOnViewWithText(coreR.string.category_hint)
+        checkViewIsDisplayed(withText(coreR.string.something_selected))
+        checkViewIsDisplayed(withId(changeRecordTypeR.id.viewDividerItem))
+        onView(withText(categoryName1)).check(isCompletelyAbove(withId(changeRecordTypeR.id.viewDividerItem)))
+        onView(withText(categoryName2)).check(isCompletelyBelow(withId(changeRecordTypeR.id.viewDividerItem)))
     }
 
     @Test
     fun addRecordTypeCategoriesEmpty() {
-        tryAction { clickOnViewWithText(R.string.running_records_add_type) }
+        tryAction { clickOnViewWithText(coreR.string.running_records_add_type) }
 
         // Goal time is disabled
-        clickOnViewWithText(R.string.change_record_type_goal_time_hint)
+        clickOnViewWithText(coreR.string.change_record_type_goal_time_hint)
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.tvChangeRecordTypeSessionGoalTime),
-                withText(R.string.change_record_type_goal_time_disabled)
+                withId(changeRecordTypeR.id.tvChangeRecordTypeSessionGoalTime),
+                withText(coreR.string.change_record_type_goal_time_disabled)
             )
         )
-        clickOnViewWithText(R.string.change_record_type_goal_time_hint)
+        clickOnViewWithText(coreR.string.change_record_type_goal_time_hint)
 
         // Open category chooser
-        clickOnViewWithText(R.string.category_hint)
-        checkViewIsDisplayed(withText(R.string.change_record_type_categories_empty))
+        clickOnViewWithText(coreR.string.category_hint)
+        checkViewIsDisplayed(withText(coreR.string.change_record_type_categories_empty))
     }
 
     private fun checkPreviewUpdated(matcher: Matcher<View>) =
-        checkViewIsDisplayed(allOf(withId(R.id.previewChangeRecordType), matcher))
+        checkViewIsDisplayed(allOf(withId(changeRecordTypeR.id.previewChangeRecordType), matcher))
 }

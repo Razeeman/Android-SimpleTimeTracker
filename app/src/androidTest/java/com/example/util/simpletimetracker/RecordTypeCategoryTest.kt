@@ -15,6 +15,10 @@ import com.example.util.simpletimetracker.utils.longClickOnView
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 import org.junit.runner.RunWith
+import com.example.util.simpletimetracker.core.R as coreR
+import com.example.util.simpletimetracker.feature_base_adapter.R as baseR
+import com.example.util.simpletimetracker.feature_change_category.R as changeCategoryR
+import com.example.util.simpletimetracker.feature_change_record_type.R as changeRecordTypeR
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
@@ -44,72 +48,72 @@ class RecordTypeCategoryTest : BaseUiTest() {
         NavUtils.openCategoriesScreen()
 
         longClickOnView(withText(categoryName1))
-        clickOnViewWithText(R.string.change_category_types_hint)
-        onView(withText(typeName1)).check(isCompletelyAbove(withId(R.id.viewDividerItem)))
-        onView(withText(typeName2)).check(isCompletelyBelow(withId(R.id.viewDividerItem)))
+        clickOnViewWithText(coreR.string.change_category_types_hint)
+        onView(withText(typeName1)).check(isCompletelyAbove(withId(baseR.id.viewDividerItem)))
+        onView(withText(typeName2)).check(isCompletelyBelow(withId(baseR.id.viewDividerItem)))
 
-        clickOnRecyclerItem(R.id.rvChangeCategoryType, withText(typeName1))
-        clickOnRecyclerItem(R.id.rvChangeCategoryType, withText(typeName2))
-        onView(withText(typeName1)).check(isCompletelyBelow(withId(R.id.viewDividerItem)))
-        onView(withText(typeName2)).check(isCompletelyAbove(withId(R.id.viewDividerItem)))
-        clickOnViewWithText(R.string.change_category_save)
+        clickOnRecyclerItem(changeCategoryR.id.rvChangeCategoryType, withText(typeName1))
+        clickOnRecyclerItem(changeCategoryR.id.rvChangeCategoryType, withText(typeName2))
+        onView(withText(typeName1)).check(isCompletelyBelow(withId(baseR.id.viewDividerItem)))
+        onView(withText(typeName2)).check(isCompletelyAbove(withId(baseR.id.viewDividerItem)))
+        clickOnViewWithText(coreR.string.change_category_save)
 
         // Check second category
         longClickOnView(withText(categoryName2))
-        clickOnViewWithText(R.string.change_category_types_hint)
-        onView(withText(typeName1)).check(isCompletelyBelow(withId(R.id.viewDividerItem)))
-        onView(withText(typeName2)).check(isCompletelyAbove(withId(R.id.viewDividerItem)))
+        clickOnViewWithText(coreR.string.change_category_types_hint)
+        onView(withText(typeName1)).check(isCompletelyBelow(withId(baseR.id.viewDividerItem)))
+        onView(withText(typeName2)).check(isCompletelyAbove(withId(baseR.id.viewDividerItem)))
 
-        clickOnRecyclerItem(R.id.rvChangeCategoryType, withText(typeName1))
-        clickOnRecyclerItem(R.id.rvChangeCategoryType, withText(typeName2))
-        onView(withText(typeName1)).check(isCompletelyAbove(withId(R.id.viewDividerItem)))
-        onView(withText(typeName2)).check(isCompletelyBelow(withId(R.id.viewDividerItem)))
+        clickOnRecyclerItem(changeCategoryR.id.rvChangeCategoryType, withText(typeName1))
+        clickOnRecyclerItem(changeCategoryR.id.rvChangeCategoryType, withText(typeName2))
+        onView(withText(typeName1)).check(isCompletelyAbove(withId(baseR.id.viewDividerItem)))
+        onView(withText(typeName2)).check(isCompletelyBelow(withId(baseR.id.viewDividerItem)))
 
-        clickOnViewWithText(R.string.change_category_save)
+        clickOnViewWithText(coreR.string.change_category_save)
         pressBack()
 
         // Check first activity
         NavUtils.openRunningRecordsScreen()
         longClickOnView(withText(typeName1))
-        clickOnViewWithText(R.string.category_hint)
-        onView(withText(categoryName1)).check(isCompletelyBelow(withId(R.id.viewDividerItem)))
-        onView(withText(categoryName2)).check(isCompletelyAbove(withId(R.id.viewDividerItem)))
+        clickOnViewWithText(coreR.string.category_hint)
+        onView(withText(categoryName1)).check(isCompletelyBelow(withId(baseR.id.viewDividerItem)))
+        onView(withText(categoryName2)).check(isCompletelyAbove(withId(baseR.id.viewDividerItem)))
 
-        clickOnRecyclerItem(R.id.rvChangeRecordTypeCategories, withText(categoryName1))
-        clickOnRecyclerItem(R.id.rvChangeRecordTypeCategories, withText(categoryName2))
-        onView(withText(categoryName1)).check(isCompletelyAbove(withId(R.id.viewDividerItem)))
-        onView(withText(categoryName2)).check(isCompletelyBelow(withId(R.id.viewDividerItem)))
+        clickOnRecyclerItem(changeRecordTypeR.id.rvChangeRecordTypeCategories, withText(categoryName1))
+        clickOnRecyclerItem(changeRecordTypeR.id.rvChangeRecordTypeCategories, withText(categoryName2))
+        onView(withText(categoryName1)).check(isCompletelyAbove(withId(baseR.id.viewDividerItem)))
+        onView(withText(categoryName2)).check(isCompletelyBelow(withId(baseR.id.viewDividerItem)))
 
-        clickOnViewWithText(R.string.change_record_type_save)
+        clickOnViewWithText(coreR.string.change_record_type_save)
 
         // Check second activity
         longClickOnView(withText(typeName2))
-        clickOnViewWithText(R.string.category_hint)
-        onView(withText(categoryName1)).check(isCompletelyAbove(withId(R.id.viewDividerItem)))
-        onView(withText(categoryName2)).check(isCompletelyBelow(withId(R.id.viewDividerItem)))
+        clickOnViewWithText(coreR.string.category_hint)
+        onView(withText(categoryName1)).check(isCompletelyAbove(withId(baseR.id.viewDividerItem)))
+        onView(withText(categoryName2)).check(isCompletelyBelow(withId(baseR.id.viewDividerItem)))
 
-        clickOnRecyclerItem(R.id.rvChangeRecordTypeCategories, withText(categoryName1))
-        clickOnRecyclerItem(R.id.rvChangeRecordTypeCategories, withText(categoryName2))
-        onView(withText(categoryName1)).check(isCompletelyBelow(withId(R.id.viewDividerItem)))
-        onView(withText(categoryName2)).check(isCompletelyAbove(withId(R.id.viewDividerItem)))
+        clickOnRecyclerItem(changeRecordTypeR.id.rvChangeRecordTypeCategories, withText(categoryName1))
+        clickOnRecyclerItem(changeRecordTypeR.id.rvChangeRecordTypeCategories, withText(categoryName2))
+        onView(withText(categoryName1)).check(isCompletelyBelow(withId(baseR.id.viewDividerItem)))
+        onView(withText(categoryName2)).check(isCompletelyAbove(withId(baseR.id.viewDividerItem)))
 
-        clickOnViewWithText(R.string.change_record_type_save)
+        clickOnViewWithText(coreR.string.change_record_type_save)
 
         // Check first category again
         NavUtils.openSettingsScreen()
         NavUtils.openCategoriesScreen()
 
         longClickOnView(withText(categoryName1))
-        clickOnViewWithText(R.string.change_category_types_hint)
-        onView(withText(typeName1)).check(isCompletelyAbove(withId(R.id.viewDividerItem)))
-        onView(withText(typeName2)).check(isCompletelyBelow(withId(R.id.viewDividerItem)))
+        clickOnViewWithText(coreR.string.change_category_types_hint)
+        onView(withText(typeName1)).check(isCompletelyAbove(withId(baseR.id.viewDividerItem)))
+        onView(withText(typeName2)).check(isCompletelyBelow(withId(baseR.id.viewDividerItem)))
 
         pressBack()
 
         // Check second category
         longClickOnView(withText(categoryName2))
-        clickOnViewWithText(R.string.change_category_types_hint)
-        onView(withText(typeName1)).check(isCompletelyBelow(withId(R.id.viewDividerItem)))
-        onView(withText(typeName2)).check(isCompletelyAbove(withId(R.id.viewDividerItem)))
+        clickOnViewWithText(coreR.string.change_category_types_hint)
+        onView(withText(typeName1)).check(isCompletelyBelow(withId(baseR.id.viewDividerItem)))
+        onView(withText(typeName2)).check(isCompletelyAbove(withId(baseR.id.viewDividerItem)))
     }
 }

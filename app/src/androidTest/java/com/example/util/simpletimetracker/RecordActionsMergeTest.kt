@@ -20,12 +20,16 @@ import com.example.util.simpletimetracker.utils.longClickOnView
 import com.example.util.simpletimetracker.utils.nestedScrollTo
 import com.example.util.simpletimetracker.utils.tryAction
 import dagger.hilt.android.testing.HiltAndroidTest
+import java.util.Calendar
+import java.util.concurrent.TimeUnit
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.allOf
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.util.Calendar
-import java.util.concurrent.TimeUnit
+import com.example.util.simpletimetracker.core.R as coreR
+import com.example.util.simpletimetracker.feature_base_adapter.R as baseR
+import com.example.util.simpletimetracker.feature_change_record.R as changeRecordR
+import com.example.util.simpletimetracker.feature_records.R as recordsR
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
@@ -50,43 +54,43 @@ class RecordActionsMergeTest : BaseUiTest() {
         // Running record - not shown
         tryAction {
             longClickOnView(
-                allOf(withId(R.id.viewRunningRecordItem), hasDescendant(withText(name)), isCompletelyDisplayed())
+                allOf(withId(baseR.id.viewRunningRecordItem), hasDescendant(withText(name)), isCompletelyDisplayed())
             )
         }
-        clickOnViewWithText(R.string.change_record_actions_hint)
-        checkViewIsNotDisplayed(withText(R.string.change_record_merge))
+        clickOnViewWithText(coreR.string.change_record_actions_hint)
+        checkViewIsNotDisplayed(withText(coreR.string.change_record_merge))
         pressBack()
 
         // Record - not shown
         NavUtils.openRecordsScreen()
         clickOnView(
-            allOf(withId(R.id.viewRecordItem), hasDescendant(withText(name)), isCompletelyDisplayed())
+            allOf(withId(baseR.id.viewRecordItem), hasDescendant(withText(name)), isCompletelyDisplayed())
         )
-        clickOnViewWithText(R.string.change_record_actions_hint)
-        checkViewIsNotDisplayed(withText(R.string.change_record_merge))
+        clickOnViewWithText(coreR.string.change_record_actions_hint)
+        checkViewIsNotDisplayed(withText(coreR.string.change_record_merge))
         pressBack()
 
         // New record - not shown
-        clickOnViewWithId(R.id.btnRecordAdd)
-        clickOnViewWithText(R.string.change_record_actions_hint)
-        checkViewIsNotDisplayed(withText(R.string.change_record_merge))
+        clickOnViewWithId(recordsR.id.btnRecordAdd)
+        clickOnViewWithText(coreR.string.change_record_actions_hint)
+        checkViewIsNotDisplayed(withText(coreR.string.change_record_merge))
         pressBack()
 
         // Untracked and have prev record - shown
-        clickOnView(allOf(withText(R.string.untracked_time_name), isCompletelyDisplayed()))
-        clickOnViewWithText(R.string.change_record_actions_hint)
-        onView(withText(R.string.change_record_merge)).perform(nestedScrollTo())
-        checkViewIsDisplayed(withText(R.string.change_record_merge))
+        clickOnView(allOf(withText(coreR.string.untracked_time_name), isCompletelyDisplayed()))
+        clickOnViewWithText(coreR.string.change_record_actions_hint)
+        onView(withText(coreR.string.change_record_merge)).perform(nestedScrollTo())
+        checkViewIsDisplayed(withText(coreR.string.change_record_merge))
         pressBack()
 
         // Untracked and have no prev record - not shown
-        clickOnViewWithId(R.id.btnRecordsContainerPrevious)
+        clickOnViewWithId(recordsR.id.btnRecordsContainerPrevious)
         clickOnView(allOf(withText(name), isCompletelyDisplayed()))
-        clickOnViewWithId(R.id.btnChangeRecordDelete)
-        clickOnViewWithId(R.id.btnRecordsContainerNext)
-        clickOnView(allOf(withText(R.string.untracked_time_name), isCompletelyDisplayed()))
-        clickOnViewWithText(R.string.change_record_actions_hint)
-        checkViewIsNotDisplayed(withText(R.string.change_record_merge))
+        clickOnViewWithId(changeRecordR.id.btnChangeRecordDelete)
+        clickOnViewWithId(recordsR.id.btnRecordsContainerNext)
+        clickOnView(allOf(withText(coreR.string.untracked_time_name), isCompletelyDisplayed()))
+        clickOnViewWithText(coreR.string.change_record_actions_hint)
+        checkViewIsNotDisplayed(withText(coreR.string.change_record_merge))
     }
 
     @Test
@@ -109,8 +113,8 @@ class RecordActionsMergeTest : BaseUiTest() {
         tryAction {
             checkViewIsDisplayed(
                 allOf(
-                    withId(R.id.viewRecordItem),
-                    hasDescendant(withText(R.string.untracked_time_name)),
+                    withId(baseR.id.viewRecordItem),
+                    hasDescendant(withText(coreR.string.untracked_time_name)),
                     hasDescendant(withText(current.formatTime())),
                     hasDescendant(withText(timeEndedTimestamp.formatTime())),
                     hasDescendant(withText(untrackedRangePreview)),
@@ -120,7 +124,7 @@ class RecordActionsMergeTest : BaseUiTest() {
         }
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.viewRecordItem),
+                withId(baseR.id.viewRecordItem),
                 hasDescendant(withText(name)),
                 hasDescendant(withText(timeStartedTimestamp.formatTime())),
                 hasDescendant(withText(timeEndedTimestamp.formatTime())),
@@ -132,20 +136,20 @@ class RecordActionsMergeTest : BaseUiTest() {
         // Merge
         clickOnView(
             allOf(
-                withId(R.id.viewRecordItem),
-                hasDescendant(withText(R.string.untracked_time_name)),
+                withId(baseR.id.viewRecordItem),
+                hasDescendant(withText(coreR.string.untracked_time_name)),
                 hasDescendant(withText(untrackedRangePreview)),
                 isCompletelyDisplayed()
             )
         )
-        clickOnViewWithText(R.string.change_record_actions_hint)
-        onView(withText(R.string.change_record_merge)).perform(nestedScrollTo(), click())
+        clickOnViewWithText(coreR.string.change_record_actions_hint)
+        onView(withText(coreR.string.change_record_merge)).perform(nestedScrollTo(), click())
 
         // Check records
         checkViewDoesNotExist(
             allOf(
-                withId(R.id.viewRecordItem),
-                hasDescendant(withText(R.string.untracked_time_name)),
+                withId(baseR.id.viewRecordItem),
+                hasDescendant(withText(coreR.string.untracked_time_name)),
                 hasDescendant(withText(untrackedRangePreview)),
                 isCompletelyDisplayed()
             )
@@ -153,7 +157,7 @@ class RecordActionsMergeTest : BaseUiTest() {
         timeRangePreview = (current - timeStartedTimestamp).formatInterval()
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.viewRecordItem),
+                withId(baseR.id.viewRecordItem),
                 hasDescendant(withText(name)),
                 hasDescendant(withText(timeStartedTimestamp.formatTime())),
                 hasDescendant(withText(current.formatTime())),

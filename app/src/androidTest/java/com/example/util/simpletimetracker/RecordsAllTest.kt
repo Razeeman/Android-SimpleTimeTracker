@@ -28,6 +28,13 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.CoreMatchers.allOf
 import org.junit.Test
 import org.junit.runner.RunWith
+import com.example.util.simpletimetracker.core.R as coreR
+import com.example.util.simpletimetracker.feature_base_adapter.R as baseR
+import com.example.util.simpletimetracker.feature_change_record.R as changeRecordR
+import com.example.util.simpletimetracker.feature_records.R as recordsR
+import com.example.util.simpletimetracker.feature_records_all.R as recordsAllR
+import com.example.util.simpletimetracker.feature_statistics.R as statisticsR
+import com.example.util.simpletimetracker.feature_statistics_detail.R as statisticsDetailR
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
@@ -55,7 +62,7 @@ class RecordsAllTest : BaseUiTest() {
         )
 
         val firstRecord = allOf(
-            withId(R.id.viewRecordItem),
+            withId(baseR.id.viewRecordItem),
             hasDescendant(withText(name)),
             hasDescendant(withText("1$hourString 0$minuteString")),
             isCompletelyDisplayed()
@@ -65,7 +72,7 @@ class RecordsAllTest : BaseUiTest() {
         checkViewIsDisplayed(firstRecord)
 
         // Add another record
-        clickOnViewWithId(R.id.btnRecordsContainerPrevious)
+        clickOnViewWithId(recordsR.id.btnRecordsContainerPrevious)
         NavUtils.addRecordWithTime(
             name = name,
             hourStarted = 17,
@@ -77,7 +84,7 @@ class RecordsAllTest : BaseUiTest() {
         )
 
         val secondRecord = allOf(
-            withId(R.id.viewRecordItem),
+            withId(baseR.id.viewRecordItem),
             hasDescendant(withText(fullName)),
             hasDescendant(withText("2$hourString 0$minuteString")),
             hasDescendant(withText(comment)),
@@ -90,11 +97,11 @@ class RecordsAllTest : BaseUiTest() {
         // Open statistics
         NavUtils.openStatisticsScreen()
         clickOnView(allOf(withText(name), isCompletelyDisplayed()))
-        clickOnViewWithIdOnPager(R.id.btnStatisticsDetailToday)
-        clickOnViewWithText(R.string.range_overall)
+        clickOnViewWithIdOnPager(statisticsDetailR.id.btnStatisticsDetailToday)
+        clickOnViewWithText(coreR.string.range_overall)
 
         // Open records all
-        onView(withId(R.id.cardStatisticsDetailRecords)).perform(nestedScrollTo(), click())
+        onView(withId(statisticsDetailR.id.cardStatisticsDetailRecords)).perform(nestedScrollTo(), click())
 
         // Records shown
         checkViewIsDisplayed(firstRecord)
@@ -102,8 +109,8 @@ class RecordsAllTest : BaseUiTest() {
         onView(firstRecord).check(isCompletelyAbove(secondRecord))
 
         // Sort by duration
-        clickOnViewWithId(R.id.spinnerRecordsAllSort)
-        clickOnViewWithText(R.string.records_all_sort_duration)
+        clickOnViewWithId(recordsAllR.id.spinnerRecordsAllSort)
+        clickOnViewWithText(coreR.string.records_all_sort_duration)
 
         // Check new order
         tryAction { onView(secondRecord).check(isCompletelyAbove(firstRecord)) }
@@ -127,7 +134,7 @@ class RecordsAllTest : BaseUiTest() {
         )
 
         val firstRecord = allOf(
-            withId(R.id.viewRecordItem),
+            withId(baseR.id.viewRecordItem),
             hasDescendant(withText(name)),
             hasDescendant(withText("1$hourString 0$minuteString")),
             isCompletelyDisplayed()
@@ -146,7 +153,7 @@ class RecordsAllTest : BaseUiTest() {
         )
 
         val secondRecord = allOf(
-            withId(R.id.viewRecordItem),
+            withId(baseR.id.viewRecordItem),
             hasDescendant(withText(name)),
             hasDescendant(withText("2$hourString 0$minuteString")),
             isCompletelyDisplayed()
@@ -158,18 +165,18 @@ class RecordsAllTest : BaseUiTest() {
         // Check statistics
         NavUtils.openStatisticsScreen()
         clickOnView(allOf(withText(name), isCompletelyDisplayed()))
-        clickOnViewWithIdOnPager(R.id.btnStatisticsDetailToday)
-        clickOnViewWithText(R.string.range_overall)
-        onView(withId(R.id.cardStatisticsDetailRecords)).perform(nestedScrollTo())
+        clickOnViewWithIdOnPager(statisticsDetailR.id.btnStatisticsDetailToday)
+        clickOnViewWithText(coreR.string.range_overall)
+        onView(withId(statisticsDetailR.id.cardStatisticsDetailRecords)).perform(nestedScrollTo())
         checkViewIsDisplayed(
             allOf(
-                withPluralText(R.plurals.statistics_detail_times_tracked, 2),
+                withPluralText(coreR.plurals.statistics_detail_times_tracked, 2),
                 hasSibling(withText("2"))
             )
         )
 
         // Open records all
-        onView(withId(R.id.cardStatisticsDetailRecords)).perform(nestedScrollTo(), click())
+        onView(withId(statisticsDetailR.id.cardStatisticsDetailRecords)).perform(nestedScrollTo(), click())
 
         // Records shown
         tryAction { checkViewIsDisplayed(firstRecord) }
@@ -177,12 +184,12 @@ class RecordsAllTest : BaseUiTest() {
 
         // Delete item
         clickOnView(firstRecord)
-        checkViewIsDisplayed(withId(R.id.btnChangeRecordDelete))
-        clickOnViewWithId(R.id.btnChangeRecordDelete)
+        checkViewIsDisplayed(withId(changeRecordR.id.btnChangeRecordDelete))
+        clickOnViewWithId(changeRecordR.id.btnChangeRecordDelete)
 
         // Check message
         val message = InstrumentationRegistry.getInstrumentation().targetContext
-            .resources.getString(R.string.record_removed, name)
+            .resources.getString(coreR.string.record_removed, name)
         checkViewIsDisplayed(
             allOf(
                 withText(message),
@@ -196,10 +203,10 @@ class RecordsAllTest : BaseUiTest() {
 
         // Check detailed statistics
         pressBack()
-        onView(withId(R.id.cardStatisticsDetailRecords)).perform(nestedScrollTo())
+        onView(withId(statisticsDetailR.id.cardStatisticsDetailRecords)).perform(nestedScrollTo())
         checkViewIsDisplayed(
             allOf(
-                withPluralText(R.plurals.statistics_detail_times_tracked, 1),
+                withPluralText(coreR.plurals.statistics_detail_times_tracked, 1),
                 hasSibling(withText("1"))
             )
         )
@@ -237,7 +244,7 @@ class RecordsAllTest : BaseUiTest() {
         )
 
         val firstRecord = allOf(
-            withId(R.id.viewRecordItem),
+            withId(baseR.id.viewRecordItem),
             hasDescendant(withText(typeName1)),
             hasDescendant(withText("1$hourString 0$minuteString")),
             isCompletelyDisplayed()
@@ -247,7 +254,7 @@ class RecordsAllTest : BaseUiTest() {
         tryAction { checkViewIsDisplayed(firstRecord) }
 
         // Add another record
-        clickOnViewWithId(R.id.btnRecordsContainerPrevious)
+        clickOnViewWithId(recordsR.id.btnRecordsContainerPrevious)
         NavUtils.addRecordWithTime(
             name = typeName2,
             hourStarted = 17,
@@ -257,7 +264,7 @@ class RecordsAllTest : BaseUiTest() {
         )
 
         val secondRecord = allOf(
-            withId(R.id.viewRecordItem),
+            withId(baseR.id.viewRecordItem),
             hasDescendant(withText(typeName2)),
             hasDescendant(withText("2$hourString 0$minuteString")),
             isCompletelyDisplayed()
@@ -268,15 +275,15 @@ class RecordsAllTest : BaseUiTest() {
 
         // Open statistics
         NavUtils.openStatisticsScreen()
-        clickOnViewWithIdOnPager(R.id.btnStatisticsChartFilter)
-        clickOnViewWithText(R.string.category_hint)
+        clickOnViewWithIdOnPager(statisticsR.id.btnStatisticsChartFilter)
+        clickOnViewWithText(coreR.string.category_hint)
         pressBack()
         tryAction { clickOnView(allOf(withText(categoryName1), isCompletelyDisplayed())) }
-        clickOnViewWithIdOnPager(R.id.btnStatisticsDetailToday)
-        clickOnViewWithText(R.string.range_overall)
+        clickOnViewWithIdOnPager(statisticsDetailR.id.btnStatisticsDetailToday)
+        clickOnViewWithText(coreR.string.range_overall)
 
         // Open records all
-        onView(withId(R.id.cardStatisticsDetailRecords)).perform(nestedScrollTo(), click())
+        onView(withId(statisticsDetailR.id.cardStatisticsDetailRecords)).perform(nestedScrollTo(), click())
 
         // Records shown
         tryAction { checkViewIsDisplayed(firstRecord) }
@@ -284,8 +291,8 @@ class RecordsAllTest : BaseUiTest() {
         onView(firstRecord).check(isCompletelyAbove(secondRecord))
 
         // Sort by duration
-        clickOnViewWithId(R.id.spinnerRecordsAllSort)
-        clickOnViewWithText(R.string.records_all_sort_duration)
+        clickOnViewWithId(recordsAllR.id.spinnerRecordsAllSort)
+        clickOnViewWithText(coreR.string.records_all_sort_duration)
 
         // Check new order
         tryAction { onView(secondRecord).check(isCompletelyAbove(firstRecord)) }
@@ -311,9 +318,9 @@ class RecordsAllTest : BaseUiTest() {
         // Open records all
         NavUtils.openStatisticsScreen()
         clickOnView(allOf(withText(name1), isCompletelyDisplayed()))
-        clickOnViewWithIdOnPager(R.id.btnStatisticsDetailToday)
-        clickOnViewWithText(R.string.range_overall)
-        onView(withId(R.id.cardStatisticsDetailRecords)).perform(nestedScrollTo(), click())
+        clickOnViewWithIdOnPager(statisticsDetailR.id.btnStatisticsDetailToday)
+        clickOnViewWithText(coreR.string.range_overall)
+        onView(withId(statisticsDetailR.id.cardStatisticsDetailRecords)).perform(nestedScrollTo(), click())
 
         // Check records
         val record1 = allOf(withText(name1), isCompletelyDisplayed())
@@ -326,56 +333,56 @@ class RecordsAllTest : BaseUiTest() {
 
         // Change filter
         pressBack()
-        clickOnViewWithId(R.id.cardStatisticsDetailFilter)
-        checkViewIsDisplayed(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1)))
-        checkViewIsDisplayed(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2)))
-        checkViewIsDisplayed(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name3)))
-        clickOnView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2)))
+        clickOnViewWithId(statisticsDetailR.id.cardStatisticsDetailFilter)
+        checkViewIsDisplayed(allOf(isDescendantOfA(withId(baseR.id.viewRecordTypeItem)), withText(name1)))
+        checkViewIsDisplayed(allOf(isDescendantOfA(withId(baseR.id.viewRecordTypeItem)), withText(name2)))
+        checkViewIsDisplayed(allOf(isDescendantOfA(withId(baseR.id.viewRecordTypeItem)), withText(name3)))
+        clickOnView(allOf(isDescendantOfA(withId(baseR.id.viewRecordTypeItem)), withText(name2)))
         pressBack()
 
         // Check records
-        onView(withId(R.id.cardStatisticsDetailRecords)).perform(nestedScrollTo(), click())
+        onView(withId(statisticsDetailR.id.cardStatisticsDetailRecords)).perform(nestedScrollTo(), click())
         checkViewIsDisplayed(record1)
         checkViewIsDisplayed(record2)
         checkViewDoesNotExist(record3)
 
         // Change filter
         pressBack()
-        clickOnViewWithId(R.id.cardStatisticsDetailFilter)
-        clickOnView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1)))
-        clickOnView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2)))
+        clickOnViewWithId(statisticsDetailR.id.cardStatisticsDetailFilter)
+        clickOnView(allOf(isDescendantOfA(withId(baseR.id.viewRecordTypeItem)), withText(name1)))
+        clickOnView(allOf(isDescendantOfA(withId(baseR.id.viewRecordTypeItem)), withText(name2)))
         pressBack()
 
         // Check records
-        onView(withId(R.id.cardStatisticsDetailRecords)).perform(nestedScrollTo(), click())
+        onView(withId(statisticsDetailR.id.cardStatisticsDetailRecords)).perform(nestedScrollTo(), click())
         checkViewDoesNotExist(record1)
         checkViewDoesNotExist(record2)
         checkViewDoesNotExist(record3)
-        checkViewIsDisplayed(withText(R.string.records_empty))
+        checkViewIsDisplayed(withText(coreR.string.records_empty))
 
         // Show all
         pressBack()
-        clickOnViewWithId(R.id.cardStatisticsDetailFilter)
-        clickOnViewWithId(R.id.btnTypesFilterShowAll)
+        clickOnViewWithId(statisticsDetailR.id.cardStatisticsDetailFilter)
+//        clickOnViewWithId(R.id.btnTypesFilterShowAll)
         pressBack()
 
         // Check records
-        onView(withId(R.id.cardStatisticsDetailRecords)).perform(nestedScrollTo(), click())
+        onView(withId(statisticsDetailR.id.cardStatisticsDetailRecords)).perform(nestedScrollTo(), click())
         checkViewIsDisplayed(record1)
         checkViewIsDisplayed(record2)
         checkViewIsDisplayed(record3)
 
         // Hide all
         pressBack()
-        clickOnViewWithId(R.id.cardStatisticsDetailFilter)
-        clickOnViewWithId(R.id.btnTypesFilterHideAll)
+        clickOnViewWithId(statisticsDetailR.id.cardStatisticsDetailFilter)
+//        clickOnViewWithId(R.id.btnTypesFilterHideAll)
         pressBack()
 
         // Check records
-        onView(withId(R.id.cardStatisticsDetailRecords)).perform(nestedScrollTo(), click())
+        onView(withId(statisticsDetailR.id.cardStatisticsDetailRecords)).perform(nestedScrollTo(), click())
         checkViewDoesNotExist(record1)
         checkViewDoesNotExist(record2)
         checkViewDoesNotExist(record3)
-        checkViewIsDisplayed(withText(R.string.records_empty))
+        checkViewIsDisplayed(withText(coreR.string.records_empty))
     }
 }

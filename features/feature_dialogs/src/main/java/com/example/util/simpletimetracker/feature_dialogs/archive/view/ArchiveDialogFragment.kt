@@ -1,6 +1,5 @@
 package com.example.util.simpletimetracker.feature_dialogs.archive.view
 
-import com.example.util.simpletimetracker.feature_dialogs.databinding.ArchiveDialogFragmentBinding as Binding
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -26,8 +25,9 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
+import com.example.util.simpletimetracker.feature_dialogs.databinding.ArchiveDialogFragmentBinding as Binding
 
 @AndroidEntryPoint
 class ArchiveDialogFragment : BaseBottomSheetFragment<Binding>() {
@@ -91,12 +91,12 @@ class ArchiveDialogFragment : BaseBottomSheetFragment<Binding>() {
     }
 
     private fun onDeleteClick() {
-        GlobalScope.launch { archiveDialogListener?.onDeleteClick(params) }
+        MainScope().launch { archiveDialogListener?.onDeleteClick(params) }
         dismiss()
     }
 
     private fun onRestoreClick() {
-        GlobalScope.launch { archiveDialogListener?.onRestoreClick(params) }
+        MainScope().launch { archiveDialogListener?.onRestoreClick(params) }
         dismiss()
     }
 

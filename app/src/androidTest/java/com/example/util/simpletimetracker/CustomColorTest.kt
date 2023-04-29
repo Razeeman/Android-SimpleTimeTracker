@@ -31,6 +31,13 @@ import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.Matcher
 import org.junit.Test
 import org.junit.runner.RunWith
+import com.example.util.simpletimetracker.core.R as coreR
+import com.example.util.simpletimetracker.feature_base_adapter.R as baseR
+import com.example.util.simpletimetracker.feature_change_category.R as changeCategoryR
+import com.example.util.simpletimetracker.feature_change_record_tag.R as changeRecordTagR
+import com.example.util.simpletimetracker.feature_change_record_type.R as changeRecordTypeR
+import com.example.util.simpletimetracker.feature_dialogs.R as dialogsR
+import com.example.util.simpletimetracker.feature_statistics.R as statisticsR
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
@@ -38,48 +45,48 @@ class CustomColorTest : BaseUiTest() {
 
     @Test
     fun colorSelectionDialog() {
-        tryAction { clickOnViewWithText(R.string.running_records_add_type) }
+        tryAction { clickOnViewWithText(coreR.string.running_records_add_type) }
 
         // Open color selection dialog
-        clickOnViewWithText(R.string.change_record_type_color_hint)
-        scrollRecyclerToView(R.id.rvChangeRecordTypeColor, withId(R.id.layoutColorPaletteItem))
-        clickOnRecyclerItem(R.id.rvChangeRecordTypeColor, withId(R.id.layoutColorPaletteItem))
+        clickOnViewWithText(coreR.string.change_record_type_color_hint)
+        scrollRecyclerToView(changeRecordTypeR.id.rvChangeRecordTypeColor, withId(baseR.id.layoutColorPaletteItem))
+        clickOnRecyclerItem(changeRecordTypeR.id.rvChangeRecordTypeColor, withId(baseR.id.layoutColorPaletteItem))
 
-        checkViewIsDisplayed(withText(R.string.color_selection_base_color_hint))
-        checkViewIsDisplayed(withText(R.string.color_selection_adjust_color_hint))
-        checkViewIsDisplayed(withText(R.string.color_selection_final_color_hint))
+        checkViewIsDisplayed(withText(coreR.string.color_selection_base_color_hint))
+        checkViewIsDisplayed(withText(coreR.string.color_selection_adjust_color_hint))
+        checkViewIsDisplayed(withText(coreR.string.color_selection_final_color_hint))
 
         // Change slider hue
-        onView(withId(R.id.sliderColorSelectionHue)).perform(clickLocation(GeneralLocation.CENTER_LEFT))
-        checkSliderValue(R.id.sliderColorSelectionHue, 0)
-        checkViewIsDisplayed(allOf(withId(R.id.etColorSelectionHue), withText("0")))
+        onView(withId(dialogsR.id.sliderColorSelectionHue)).perform(clickLocation(GeneralLocation.CENTER_LEFT))
+        checkSliderValue(dialogsR.id.sliderColorSelectionHue, 0)
+        checkViewIsDisplayed(allOf(withId(dialogsR.id.etColorSelectionHue), withText("0")))
 
-        onView(withId(R.id.sliderColorSelectionHue)).perform(clickLocation(GeneralLocation.CENTER_RIGHT))
-        checkSliderValue(R.id.sliderColorSelectionHue, 360)
-        checkViewIsDisplayed(allOf(withId(R.id.etColorSelectionHue), withText("360")))
+        onView(withId(dialogsR.id.sliderColorSelectionHue)).perform(clickLocation(GeneralLocation.CENTER_RIGHT))
+        checkSliderValue(dialogsR.id.sliderColorSelectionHue, 360)
+        checkViewIsDisplayed(allOf(withId(dialogsR.id.etColorSelectionHue), withText("360")))
 
         // Change hex
-        typeTextIntoView(R.id.etColorSelectionHex, "#FF0000")
+        typeTextIntoView(dialogsR.id.etColorSelectionHex, "#FF0000")
         checkColorState(
             finalColorInt = 0xffff0000.toInt(),
             colorRed = 255,
         )
 
-        typeTextIntoView(R.id.etColorSelectionHex, "#00FF00")
+        typeTextIntoView(dialogsR.id.etColorSelectionHex, "#00FF00")
         checkColorState(
             finalColorInt = 0xff00ff00.toInt(),
             colorGreen = 255,
             colorHue = 120
         )
 
-        typeTextIntoView(R.id.etColorSelectionHex, "#0000FF")
+        typeTextIntoView(dialogsR.id.etColorSelectionHex, "#0000FF")
         checkColorState(
             finalColorInt = 0xff0000ff.toInt(),
             colorBlue = 255,
             colorHue = 240
         )
 
-        typeTextIntoView(R.id.etColorSelectionHex, "#29a674")
+        typeTextIntoView(dialogsR.id.etColorSelectionHex, "#29a674")
         checkColorState(
             finalColorInt = 0xff29a674.toInt(),
             colorRed = 41,
@@ -91,35 +98,35 @@ class CustomColorTest : BaseUiTest() {
         )
 
         // Change RGB
-        typeTextIntoView(R.id.etColorSelectionRed, "255")
-        typeTextIntoView(R.id.etColorSelectionGreen, "0")
-        typeTextIntoView(R.id.etColorSelectionBlue, "0")
+        typeTextIntoView(dialogsR.id.etColorSelectionRed, "255")
+        typeTextIntoView(dialogsR.id.etColorSelectionGreen, "0")
+        typeTextIntoView(dialogsR.id.etColorSelectionBlue, "0")
         checkColorState(
             finalColorInt = 0xffff0000.toInt(),
             colorRed = 255,
         )
 
-        typeTextIntoView(R.id.etColorSelectionRed, "0")
-        typeTextIntoView(R.id.etColorSelectionGreen, "255")
-        typeTextIntoView(R.id.etColorSelectionBlue, "0")
+        typeTextIntoView(dialogsR.id.etColorSelectionRed, "0")
+        typeTextIntoView(dialogsR.id.etColorSelectionGreen, "255")
+        typeTextIntoView(dialogsR.id.etColorSelectionBlue, "0")
         checkColorState(
             finalColorInt = 0xff00ff00.toInt(),
             colorGreen = 255,
             colorHue = 120
         )
 
-        typeTextIntoView(R.id.etColorSelectionRed, "0")
-        typeTextIntoView(R.id.etColorSelectionGreen, "0")
-        typeTextIntoView(R.id.etColorSelectionBlue, "255")
+        typeTextIntoView(dialogsR.id.etColorSelectionRed, "0")
+        typeTextIntoView(dialogsR.id.etColorSelectionGreen, "0")
+        typeTextIntoView(dialogsR.id.etColorSelectionBlue, "255")
         checkColorState(
             finalColorInt = 0xff0000ff.toInt(),
             colorBlue = 255,
             colorHue = 240
         )
 
-        typeTextIntoView(R.id.etColorSelectionRed, "41")
-        typeTextIntoView(R.id.etColorSelectionGreen, "166")
-        typeTextIntoView(R.id.etColorSelectionBlue, "116")
+        typeTextIntoView(dialogsR.id.etColorSelectionRed, "41")
+        typeTextIntoView(dialogsR.id.etColorSelectionGreen, "166")
+        typeTextIntoView(dialogsR.id.etColorSelectionBlue, "116")
         checkColorState(
             finalColorInt = 0xff29a674.toInt(),
             colorRed = 41,
@@ -131,31 +138,31 @@ class CustomColorTest : BaseUiTest() {
         )
 
         // Change HSV
-        typeTextIntoView(R.id.etColorSelectionHue, "0")
-        typeTextIntoView(R.id.etColorSelectionSaturation, "100")
-        typeTextIntoView(R.id.etColorSelectionValue, "100")
+        typeTextIntoView(dialogsR.id.etColorSelectionHue, "0")
+        typeTextIntoView(dialogsR.id.etColorSelectionSaturation, "100")
+        typeTextIntoView(dialogsR.id.etColorSelectionValue, "100")
         checkColorState(
             finalColorInt = 0xffff0000.toInt(),
             colorRed = 255,
         )
 
-        typeTextIntoView(R.id.etColorSelectionHue, "120")
+        typeTextIntoView(dialogsR.id.etColorSelectionHue, "120")
         checkColorState(
             finalColorInt = 0xff00ff00.toInt(),
             colorGreen = 255,
             colorHue = 120
         )
 
-        typeTextIntoView(R.id.etColorSelectionHue, "240")
+        typeTextIntoView(dialogsR.id.etColorSelectionHue, "240")
         checkColorState(
             finalColorInt = 0xff0000ff.toInt(),
             colorBlue = 255,
             colorHue = 240
         )
 
-        typeTextIntoView(R.id.etColorSelectionHue, "156")
-        typeTextIntoView(R.id.etColorSelectionSaturation, "75")
-        typeTextIntoView(R.id.etColorSelectionValue, "65")
+        typeTextIntoView(dialogsR.id.etColorSelectionHue, "156")
+        typeTextIntoView(dialogsR.id.etColorSelectionSaturation, "75")
+        typeTextIntoView(dialogsR.id.etColorSelectionValue, "65")
         checkColorState(
             finalColorInt = 0xff29a674.toInt(),
             colorRed = 41,
@@ -170,7 +177,7 @@ class CustomColorTest : BaseUiTest() {
     @Test
     fun colorTransferRecordType() {
         fun checkPreviewUpdated(matcher: Matcher<View>) =
-            checkViewIsDisplayed(allOf(withId(R.id.previewChangeRecordType), matcher))
+            checkViewIsDisplayed(allOf(withId(changeRecordTypeR.id.previewChangeRecordType), matcher))
 
         val name = "name"
         val tagName = "tag"
@@ -178,17 +185,17 @@ class CustomColorTest : BaseUiTest() {
         val colorInt = colorId.let(::getColor) // red
         val customColorInt = 0xff29a674.toInt()
 
-        tryAction { clickOnViewWithText(R.string.running_records_add_type) }
+        tryAction { clickOnViewWithText(coreR.string.running_records_add_type) }
 
         // Select color
-        clickOnViewWithText(R.string.change_record_type_color_hint)
-        clickOnRecyclerItem(R.id.rvChangeRecordTypeColor, withCardColorInt(colorInt))
+        clickOnViewWithText(coreR.string.change_record_type_color_hint)
+        clickOnRecyclerItem(changeRecordTypeR.id.rvChangeRecordTypeColor, withCardColorInt(colorInt))
         checkPreviewUpdated(withCardColorInt(colorInt))
-        checkViewIsDisplayed(allOf(withId(R.id.viewColorItemSelected), withParent(withCardColorInt(colorInt))))
+        checkViewIsDisplayed(allOf(withId(dialogsR.id.viewColorItemSelected), withParent(withCardColorInt(colorInt))))
 
         // Check selected color is preselected on color selection
-        scrollRecyclerToView(R.id.rvChangeRecordTypeColor, withId(R.id.layoutColorPaletteItem))
-        clickOnRecyclerItem(R.id.rvChangeRecordTypeColor, withId(R.id.layoutColorPaletteItem))
+        scrollRecyclerToView(changeRecordTypeR.id.rvChangeRecordTypeColor, withId(dialogsR.id.layoutColorPaletteItem))
+        clickOnRecyclerItem(changeRecordTypeR.id.rvChangeRecordTypeColor, withId(dialogsR.id.layoutColorPaletteItem))
         checkColorState(
             finalColorInt = 0xfff53639.toInt(),
             colorRed = 245,
@@ -200,37 +207,45 @@ class CustomColorTest : BaseUiTest() {
         )
 
         // Select different color
-        typeTextIntoView(R.id.etColorSelectionHex, "#29a674")
-        clickOnViewWithText(R.string.duration_dialog_save)
+        typeTextIntoView(dialogsR.id.etColorSelectionHex, "#29a674")
+        clickOnViewWithText(coreR.string.duration_dialog_save)
 
         // Check new color selected
         checkPreviewUpdated(withCardColorInt(customColorInt))
-        checkViewIsNotDisplayed(allOf(withId(R.id.viewColorItemSelected), withParent(withCardColorInt(colorInt))))
+        checkViewIsNotDisplayed(
+            allOf(withId(dialogsR.id.viewColorItemSelected), withParent(withCardColorInt(colorInt)))
+        )
         checkViewIsDisplayed(
-            allOf(withId(R.id.viewColorPaletteItemSelected), withParent(withId(R.id.layoutColorPaletteItem)))
+            allOf(
+                withId(dialogsR.id.viewColorPaletteItemSelected),
+                withParent(withId(dialogsR.id.layoutColorPaletteItem))
+            )
         )
 
         // Save record type
-        clickOnViewWithText(R.string.change_record_type_color_hint)
-        typeTextIntoView(R.id.etChangeRecordTypeName, name)
-        clickOnViewWithText(R.string.change_record_type_save)
+        clickOnViewWithText(coreR.string.change_record_type_color_hint)
+        typeTextIntoView(changeRecordTypeR.id.etChangeRecordTypeName, name)
+        clickOnViewWithText(coreR.string.change_record_type_save)
 
         // Record type saved
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.viewRecordTypeItem),
+                withId(dialogsR.id.viewRecordTypeItem),
                 withCardColorInt(customColorInt),
                 hasDescendant(withText(name)),
             )
         )
         longClickOnView(withText(name))
         checkPreviewUpdated(withCardColorInt(customColorInt))
-        clickOnViewWithText(R.string.change_record_type_color_hint)
+        clickOnViewWithText(coreR.string.change_record_type_color_hint)
         checkViewIsDisplayed(
-            allOf(withId(R.id.viewColorPaletteItemSelected), withParent(withId(R.id.layoutColorPaletteItem)))
+            allOf(
+                withId(dialogsR.id.viewColorPaletteItemSelected),
+                withParent(withId(dialogsR.id.layoutColorPaletteItem))
+            )
         )
-        scrollRecyclerToView(R.id.rvChangeRecordTypeColor, withId(R.id.layoutColorPaletteItem))
-        clickOnRecyclerItem(R.id.rvChangeRecordTypeColor, withId(R.id.layoutColorPaletteItem))
+        scrollRecyclerToView(changeRecordTypeR.id.rvChangeRecordTypeColor, withId(dialogsR.id.layoutColorPaletteItem))
+        clickOnRecyclerItem(changeRecordTypeR.id.rvChangeRecordTypeColor, withId(dialogsR.id.layoutColorPaletteItem))
         checkColorState(
             finalColorInt = 0xff29a674.toInt(),
             colorRed = 41,
@@ -249,7 +264,7 @@ class CustomColorTest : BaseUiTest() {
         NavUtils.openRecordsScreen()
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.viewRecordItem),
+                withId(dialogsR.id.viewRecordItem),
                 withCardColorInt(customColorInt),
                 hasDescendant(withText(name)),
                 isCompletelyDisplayed()
@@ -260,7 +275,7 @@ class CustomColorTest : BaseUiTest() {
         NavUtils.openStatisticsScreen()
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.viewStatisticsItem),
+                withId(dialogsR.id.viewStatisticsItem),
                 withCardColorInt(customColorInt),
                 hasDescendant(withText(name)),
                 isCompletelyDisplayed()
@@ -272,7 +287,7 @@ class CustomColorTest : BaseUiTest() {
         NavUtils.openCategoriesScreen()
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.viewCategoryItem),
+                withId(dialogsR.id.viewCategoryItem),
                 withCardColorInt(customColorInt),
                 hasDescendant(withText(tagName)),
             )
@@ -282,7 +297,7 @@ class CustomColorTest : BaseUiTest() {
     @Test
     fun colorTransferCategory() {
         fun checkPreviewUpdated(matcher: Matcher<View>) =
-            checkViewIsDisplayed(allOf(withId(R.id.previewChangeCategory), matcher))
+            checkViewIsDisplayed(allOf(withId(changeCategoryR.id.previewChangeCategory), matcher))
 
         val name = "name"
         val categoryName = "category"
@@ -292,17 +307,17 @@ class CustomColorTest : BaseUiTest() {
 
         NavUtils.openSettingsScreen()
         NavUtils.openCategoriesScreen()
-        clickOnViewWithText(R.string.categories_add_category)
+        clickOnViewWithText(coreR.string.categories_add_category)
 
         // Select color
-        clickOnViewWithText(R.string.change_category_color_hint)
-        clickOnRecyclerItem(R.id.rvChangeCategoryColor, withCardColorInt(colorInt))
+        clickOnViewWithText(coreR.string.change_category_color_hint)
+        clickOnRecyclerItem(changeCategoryR.id.rvChangeCategoryColor, withCardColorInt(colorInt))
         checkPreviewUpdated(withCardColorInt(colorInt))
-        checkViewIsDisplayed(allOf(withId(R.id.viewColorItemSelected), withParent(withCardColorInt(colorInt))))
+        checkViewIsDisplayed(allOf(withId(dialogsR.id.viewColorItemSelected), withParent(withCardColorInt(colorInt))))
 
         // Check selected color is preselected on color selection
-        scrollRecyclerToView(R.id.rvChangeCategoryColor, withId(R.id.layoutColorPaletteItem))
-        clickOnRecyclerItem(R.id.rvChangeCategoryColor, withId(R.id.layoutColorPaletteItem))
+        scrollRecyclerToView(changeCategoryR.id.rvChangeCategoryColor, withId(dialogsR.id.layoutColorPaletteItem))
+        clickOnRecyclerItem(changeCategoryR.id.rvChangeCategoryColor, withId(dialogsR.id.layoutColorPaletteItem))
         checkColorState(
             finalColorInt = 0xfff53639.toInt(),
             colorRed = 245,
@@ -314,37 +329,47 @@ class CustomColorTest : BaseUiTest() {
         )
 
         // Select different color
-        typeTextIntoView(R.id.etColorSelectionHex, "#29a674")
-        clickOnViewWithText(R.string.duration_dialog_save)
+        typeTextIntoView(dialogsR.id.etColorSelectionHex, "#29a674")
+        clickOnViewWithText(coreR.string.duration_dialog_save)
 
         // Check new color selected
         checkPreviewUpdated(withCardColorInt(customColorInt))
-        checkViewIsNotDisplayed(allOf(withId(R.id.viewColorItemSelected), withParent(withCardColorInt(colorInt))))
+        checkViewIsNotDisplayed(
+            allOf(withId(dialogsR.id.viewColorItemSelected), withParent(withCardColorInt(colorInt)))
+        )
         checkViewIsDisplayed(
-            allOf(withId(R.id.viewColorPaletteItemSelected), withParent(withId(R.id.layoutColorPaletteItem)))
+            allOf(
+                withId(dialogsR.id.viewColorPaletteItemSelected),
+                withParent(withId(dialogsR.id.layoutColorPaletteItem))
+            )
         )
 
         // Save tag
-        typeTextIntoView(R.id.etChangeCategoryName, categoryName)
-        clickOnViewWithText(R.string.change_category_save)
+        typeTextIntoView(changeCategoryR.id.etChangeCategoryName, categoryName)
+        clickOnViewWithText(coreR.string.change_category_save)
 
         // Tag saved
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.viewCategoryItem),
+                withId(dialogsR.id.viewCategoryItem),
                 withCardColorInt(customColorInt),
                 hasDescendant(withText(categoryName)),
             )
         )
         longClickOnView(withText(categoryName))
         checkPreviewUpdated(withCardColorInt(customColorInt))
-        clickOnViewWithText(R.string.change_category_color_hint)
-        checkViewIsNotDisplayed(allOf(withId(R.id.viewColorItemSelected), withParent(withCardColorInt(colorInt))))
-        checkViewIsDisplayed(
-            allOf(withId(R.id.viewColorPaletteItemSelected), withParent(withId(R.id.layoutColorPaletteItem)))
+        clickOnViewWithText(coreR.string.change_category_color_hint)
+        checkViewIsNotDisplayed(
+            allOf(withId(dialogsR.id.viewColorItemSelected), withParent(withCardColorInt(colorInt)))
         )
-        scrollRecyclerToView(R.id.rvChangeCategoryColor, withId(R.id.layoutColorPaletteItem))
-        clickOnRecyclerItem(R.id.rvChangeCategoryColor, withId(R.id.layoutColorPaletteItem))
+        checkViewIsDisplayed(
+            allOf(
+                withId(dialogsR.id.viewColorPaletteItemSelected),
+                withParent(withId(dialogsR.id.layoutColorPaletteItem))
+            )
+        )
+        scrollRecyclerToView(changeCategoryR.id.rvChangeCategoryColor, withId(dialogsR.id.layoutColorPaletteItem))
+        clickOnRecyclerItem(changeCategoryR.id.rvChangeCategoryColor, withId(dialogsR.id.layoutColorPaletteItem))
         checkColorState(
             finalColorInt = 0xff29a674.toInt(),
             colorRed = 41,
@@ -362,13 +387,13 @@ class CustomColorTest : BaseUiTest() {
         testUtils.addActivity(name = name, categories = listOf(categoryName))
         testUtils.addRecord(name)
         NavUtils.openStatisticsScreen()
-        clickOnViewWithIdOnPager(R.id.btnStatisticsChartFilter)
-        clickOnViewWithText(R.string.category_hint)
+        clickOnViewWithIdOnPager(statisticsR.id.btnStatisticsChartFilter)
+        clickOnViewWithText(coreR.string.category_hint)
         pressBack()
         Thread.sleep(1000)
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.viewStatisticsItem),
+                withId(dialogsR.id.viewStatisticsItem),
                 withCardColorInt(customColorInt),
                 hasDescendant(withText(categoryName)),
                 isCompletelyDisplayed()
@@ -379,7 +404,7 @@ class CustomColorTest : BaseUiTest() {
     @Test
     fun colorTransferGeneralRecordTag() {
         fun checkPreviewUpdated(matcher: Matcher<View>) =
-            checkViewIsDisplayed(allOf(withId(R.id.previewChangeRecordTag), matcher))
+            checkViewIsDisplayed(allOf(withId(changeRecordTagR.id.previewChangeRecordTag), matcher))
 
         val tagName = "tag"
         val colorId = ColorMapper.getAvailableColors()[1]
@@ -388,17 +413,17 @@ class CustomColorTest : BaseUiTest() {
 
         NavUtils.openSettingsScreen()
         NavUtils.openCategoriesScreen()
-        clickOnViewWithText(R.string.categories_add_record_tag)
+        clickOnViewWithText(coreR.string.categories_add_record_tag)
 
         // Select color
-        clickOnViewWithText(R.string.change_category_color_hint)
-        clickOnRecyclerItem(R.id.rvChangeRecordTagColor, withCardColorInt(colorInt))
+        clickOnViewWithText(coreR.string.change_category_color_hint)
+        clickOnRecyclerItem(changeRecordTagR.id.rvChangeRecordTagColor, withCardColorInt(colorInt))
         checkPreviewUpdated(withCardColorInt(colorInt))
-        checkViewIsDisplayed(allOf(withId(R.id.viewColorItemSelected), withParent(withCardColorInt(colorInt))))
+        checkViewIsDisplayed(allOf(withId(dialogsR.id.viewColorItemSelected), withParent(withCardColorInt(colorInt))))
 
         // Check selected color is preselected on color selection
-        scrollRecyclerToView(R.id.rvChangeRecordTagColor, withId(R.id.layoutColorPaletteItem))
-        clickOnRecyclerItem(R.id.rvChangeRecordTagColor, withId(R.id.layoutColorPaletteItem))
+        scrollRecyclerToView(changeRecordTagR.id.rvChangeRecordTagColor, withId(dialogsR.id.layoutColorPaletteItem))
+        clickOnRecyclerItem(changeRecordTagR.id.rvChangeRecordTagColor, withId(dialogsR.id.layoutColorPaletteItem))
         checkColorState(
             finalColorInt = 0xfff53639.toInt(),
             colorRed = 245,
@@ -410,37 +435,47 @@ class CustomColorTest : BaseUiTest() {
         )
 
         // Select different color
-        typeTextIntoView(R.id.etColorSelectionHex, "#29a674")
-        clickOnViewWithText(R.string.duration_dialog_save)
+        typeTextIntoView(dialogsR.id.etColorSelectionHex, "#29a674")
+        clickOnViewWithText(coreR.string.duration_dialog_save)
 
         // Check new color selected
         checkPreviewUpdated(withCardColorInt(customColorInt))
-        checkViewIsNotDisplayed(allOf(withId(R.id.viewColorItemSelected), withParent(withCardColorInt(colorInt))))
+        checkViewIsNotDisplayed(
+            allOf(withId(dialogsR.id.viewColorItemSelected), withParent(withCardColorInt(colorInt)))
+        )
         checkViewIsDisplayed(
-            allOf(withId(R.id.viewColorPaletteItemSelected), withParent(withId(R.id.layoutColorPaletteItem)))
+            allOf(
+                withId(dialogsR.id.viewColorPaletteItemSelected),
+                withParent(withId(dialogsR.id.layoutColorPaletteItem))
+            )
         )
 
         // Save tag
-        typeTextIntoView(R.id.etChangeRecordTagName, tagName)
-        clickOnViewWithText(R.string.change_category_save)
+        typeTextIntoView(changeRecordTagR.id.etChangeRecordTagName, tagName)
+        clickOnViewWithText(coreR.string.change_category_save)
 
         // Tag saved
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.viewCategoryItem),
+                withId(dialogsR.id.viewCategoryItem),
                 withCardColorInt(customColorInt),
                 hasDescendant(withText(tagName)),
             )
         )
         longClickOnView(withText(tagName))
         checkPreviewUpdated(withCardColorInt(customColorInt))
-        clickOnViewWithText(R.string.change_category_color_hint)
-        checkViewIsNotDisplayed(allOf(withId(R.id.viewColorItemSelected), withParent(withCardColorInt(colorInt))))
-        checkViewIsDisplayed(
-            allOf(withId(R.id.viewColorPaletteItemSelected), withParent(withId(R.id.layoutColorPaletteItem)))
+        clickOnViewWithText(coreR.string.change_category_color_hint)
+        checkViewIsNotDisplayed(
+            allOf(withId(dialogsR.id.viewColorItemSelected), withParent(withCardColorInt(colorInt)))
         )
-        scrollRecyclerToView(R.id.rvChangeRecordTagColor, withId(R.id.layoutColorPaletteItem))
-        clickOnRecyclerItem(R.id.rvChangeRecordTagColor, withId(R.id.layoutColorPaletteItem))
+        checkViewIsDisplayed(
+            allOf(
+                withId(dialogsR.id.viewColorPaletteItemSelected),
+                withParent(withId(dialogsR.id.layoutColorPaletteItem))
+            )
+        )
+        scrollRecyclerToView(changeRecordTagR.id.rvChangeRecordTagColor, withId(dialogsR.id.layoutColorPaletteItem))
+        clickOnRecyclerItem(changeRecordTagR.id.rvChangeRecordTagColor, withId(dialogsR.id.layoutColorPaletteItem))
         checkColorState(
             finalColorInt = 0xff29a674.toInt(),
             colorRed = 41,
@@ -461,13 +496,27 @@ class CustomColorTest : BaseUiTest() {
         colorSaturation: Int = 100,
         colorValue: Int = 100,
     ) {
-        checkSliderValue(R.id.sliderColorSelectionHue, colorHue)
-        checkViewIsDisplayed(allOf(withId(R.id.cardColorSelectionSelectedColor), withCardColorInt(finalColorInt)))
-        checkViewIsDisplayed(allOf(withId(R.id.etColorSelectionRed), withText(colorRed.toString())))
-        checkViewIsDisplayed(allOf(withId(R.id.etColorSelectionGreen), withText(colorGreen.toString())))
-        checkViewIsDisplayed(allOf(withId(R.id.etColorSelectionBlue), withText(colorBlue.toString())))
-        checkViewIsDisplayed(allOf(withId(R.id.etColorSelectionHue), withText(colorHue.toString())))
-        checkViewIsDisplayed(allOf(withId(R.id.etColorSelectionSaturation), withText(colorSaturation.toString())))
-        checkViewIsDisplayed(allOf(withId(R.id.etColorSelectionValue), withText(colorValue.toString())))
+        checkSliderValue(dialogsR.id.sliderColorSelectionHue, colorHue)
+        checkViewIsDisplayed(
+            allOf(withId(dialogsR.id.cardColorSelectionSelectedColor), withCardColorInt(finalColorInt))
+        )
+        checkViewIsDisplayed(
+            allOf(withId(dialogsR.id.etColorSelectionRed), withText(colorRed.toString()))
+        )
+        checkViewIsDisplayed(
+            allOf(withId(dialogsR.id.etColorSelectionGreen), withText(colorGreen.toString()))
+        )
+        checkViewIsDisplayed(
+            allOf(withId(dialogsR.id.etColorSelectionBlue), withText(colorBlue.toString()))
+        )
+        checkViewIsDisplayed(
+            allOf(withId(dialogsR.id.etColorSelectionHue), withText(colorHue.toString()))
+        )
+        checkViewIsDisplayed(
+            allOf(withId(dialogsR.id.etColorSelectionSaturation), withText(colorSaturation.toString()))
+        )
+        checkViewIsDisplayed(
+            allOf(withId(dialogsR.id.etColorSelectionValue), withText(colorValue.toString()))
+        )
     }
 }

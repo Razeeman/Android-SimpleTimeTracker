@@ -15,6 +15,7 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.CoreMatchers.allOf
 import org.junit.Test
 import org.junit.runner.RunWith
+import com.example.util.simpletimetracker.feature_base_adapter.R as baseR
 
 @HiltAndroidTest
 @Widget
@@ -49,7 +50,7 @@ class Widget : BaseUiTest() {
     private fun checkType(color: Int, name: String) {
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.viewRecordTypeItem),
+                withId(baseR.id.viewRecordTypeItem),
                 withCardColor(color),
                 hasDescendant(withText(name))
             )

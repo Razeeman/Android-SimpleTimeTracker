@@ -21,6 +21,10 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.CoreMatchers.allOf
 import org.junit.Test
 import org.junit.runner.RunWith
+import com.example.util.simpletimetracker.core.R as coreR
+import com.example.util.simpletimetracker.feature_base_adapter.R as baseR
+import com.example.util.simpletimetracker.feature_statistics.R as statisticsR
+import com.example.util.simpletimetracker.feature_statistics_detail.R as statisticsDetailR
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
@@ -45,7 +49,7 @@ class ZeroDurationRecordTest : BaseUiTest() {
 
         // Record added
         val record = allOf(
-            withId(R.id.viewRecordItem),
+            withId(baseR.id.viewRecordItem),
             hasDescendant(withText(name)),
             hasDescendant(withText("0$secondString")),
             isCompletelyDisplayed()
@@ -54,28 +58,28 @@ class ZeroDurationRecordTest : BaseUiTest() {
 
         // Check statistics
         NavUtils.openStatisticsScreen()
-        clickOnViewWithIdOnPager(R.id.btnStatisticsChartFilter)
+        clickOnViewWithIdOnPager(statisticsR.id.btnStatisticsChartFilter)
         Thread.sleep(1000)
         clickOnView(
             allOf(
-                isDescendantOfA(withId(R.id.viewRecordTypeItem)),
-                withText(R.string.untracked_time_name)
+                isDescendantOfA(withId(baseR.id.viewRecordTypeItem)),
+                withText(coreR.string.untracked_time_name)
             )
         )
         pressBack()
 
         // Check detailed statistics
         clickOnView(allOf(withText(name), isCompletelyDisplayed()))
-        onView(withId(R.id.cardStatisticsDetailRecords)).perform(nestedScrollTo())
+        onView(withId(statisticsDetailR.id.cardStatisticsDetailRecords)).perform(nestedScrollTo())
         checkViewIsDisplayed(
             allOf(
-                withPluralText(R.plurals.statistics_detail_times_tracked, 1),
+                withPluralText(coreR.plurals.statistics_detail_times_tracked, 1),
                 hasSibling(withText("1"))
             )
         )
 
         // Check records all
-        onView(withId(R.id.cardStatisticsDetailRecords)).perform(nestedScrollTo(), click())
+        onView(withId(statisticsDetailR.id.cardStatisticsDetailRecords)).perform(nestedScrollTo(), click())
         checkViewIsDisplayed(record)
     }
 }

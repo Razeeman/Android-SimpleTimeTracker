@@ -22,6 +22,8 @@ import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.Matcher
 import org.junit.Test
 import org.junit.runner.RunWith
+import com.example.util.simpletimetracker.core.R as coreR
+import com.example.util.simpletimetracker.feature_change_record_tag.R as changeRecordTagR
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
@@ -44,23 +46,23 @@ class ChangeRecordTagTest : BaseUiTest() {
         clickOnViewWithText(name)
 
         // View is set up
-        checkViewIsDisplayed(withId(R.id.btnChangeRecordTagDelete))
-        checkViewIsNotDisplayed(withId(R.id.rvChangeRecordTagColor))
-        checkViewIsNotDisplayed(withId(R.id.rvChangeRecordTagType))
-        checkViewIsNotDisplayed(withId(R.id.buttonsChangeRecordTagType))
-        checkViewIsNotDisplayed(withId(R.id.fieldChangeRecordTagColor))
-        checkViewIsNotDisplayed(withId(R.id.fieldChangeRecordTagType))
-        checkViewIsDisplayed(allOf(withId(R.id.etChangeRecordTagName), withText(name)))
+        checkViewIsDisplayed(withId(changeRecordTagR.id.btnChangeRecordTagDelete))
+        checkViewIsNotDisplayed(withId(changeRecordTagR.id.rvChangeRecordTagColor))
+        checkViewIsNotDisplayed(withId(changeRecordTagR.id.rvChangeRecordTagType))
+        checkViewIsNotDisplayed(withId(changeRecordTagR.id.buttonsChangeRecordTagType))
+        checkViewIsNotDisplayed(withId(changeRecordTagR.id.fieldChangeRecordTagColor))
+        checkViewIsNotDisplayed(withId(changeRecordTagR.id.fieldChangeRecordTagType))
+        checkViewIsDisplayed(allOf(withId(changeRecordTagR.id.etChangeRecordTagName), withText(name)))
 
         // Preview is updated
         checkPreviewUpdated(hasDescendant(withText(name)))
         checkPreviewUpdated(withCardColor(firstColor))
 
         // Change item
-        typeTextIntoView(R.id.etChangeRecordTagName, newName)
+        typeTextIntoView(changeRecordTagR.id.etChangeRecordTagName, newName)
         tryAction { checkPreviewUpdated(hasDescendant(withText(newName))) }
 
-        clickOnViewWithText(R.string.change_record_type_save)
+        clickOnViewWithText(coreR.string.change_record_type_save)
 
         // Record tag updated
         checkViewIsDisplayed(withText(newName))
@@ -83,31 +85,35 @@ class ChangeRecordTagTest : BaseUiTest() {
         clickOnViewWithText(name)
 
         // View is set up
-        checkViewIsDisplayed(withId(R.id.btnChangeRecordTagDelete))
-        checkViewIsNotDisplayed(withId(R.id.rvChangeRecordTagColor))
-        checkViewIsNotDisplayed(withId(R.id.rvChangeRecordTagType))
-        checkViewIsNotDisplayed(withId(R.id.buttonsChangeRecordTagType))
-        checkViewIsDisplayed(withId(R.id.fieldChangeRecordTagColor))
-        checkViewIsNotDisplayed(withId(R.id.fieldChangeRecordTagType))
-        checkViewIsDisplayed(allOf(withId(R.id.etChangeRecordTagName), withText(name)))
+        checkViewIsDisplayed(withId(changeRecordTagR.id.btnChangeRecordTagDelete))
+        checkViewIsNotDisplayed(withId(changeRecordTagR.id.rvChangeRecordTagColor))
+        checkViewIsNotDisplayed(withId(changeRecordTagR.id.rvChangeRecordTagType))
+        checkViewIsNotDisplayed(withId(changeRecordTagR.id.buttonsChangeRecordTagType))
+        checkViewIsDisplayed(withId(changeRecordTagR.id.fieldChangeRecordTagColor))
+        checkViewIsNotDisplayed(withId(changeRecordTagR.id.fieldChangeRecordTagType))
+        checkViewIsDisplayed(allOf(withId(changeRecordTagR.id.etChangeRecordTagName), withText(name)))
 
         // Preview is updated
         checkPreviewUpdated(hasDescendant(withText(name)))
         checkPreviewUpdated(withCardColor(firstColor))
 
         // Change item name
-        typeTextIntoView(R.id.etChangeRecordTagName, newName)
+        typeTextIntoView(changeRecordTagR.id.etChangeRecordTagName, newName)
         tryAction { checkPreviewUpdated(hasDescendant(withText(newName))) }
 
         // Change item color
-        clickOnViewWithId(R.id.fieldChangeRecordTagColor)
-        checkViewIsDisplayed(allOf(withId(R.id.viewColorItemSelected), withParent(withCardColor(firstColor))))
-        scrollRecyclerToView(R.id.rvChangeRecordTagColor, withCardColor(lastColor))
-        clickOnRecyclerItem(R.id.rvChangeRecordTagColor, withCardColor(lastColor))
+        clickOnViewWithId(changeRecordTagR.id.fieldChangeRecordTagColor)
+        checkViewIsDisplayed(
+            allOf(withId(changeRecordTagR.id.viewColorItemSelected), withParent(withCardColor(firstColor)))
+        )
+        scrollRecyclerToView(changeRecordTagR.id.rvChangeRecordTagColor, withCardColor(lastColor))
+        clickOnRecyclerItem(changeRecordTagR.id.rvChangeRecordTagColor, withCardColor(lastColor))
         tryAction { checkPreviewUpdated(withCardColor(lastColor)) }
-        checkViewIsDisplayed(allOf(withId(R.id.viewColorItemSelected), withParent(withCardColor(lastColor))))
+        checkViewIsDisplayed(
+            allOf(withId(changeRecordTagR.id.viewColorItemSelected), withParent(withCardColor(lastColor)))
+        )
 
-        clickOnViewWithText(R.string.change_record_type_save)
+        clickOnViewWithText(coreR.string.change_record_type_save)
 
         // Record tag updated
         checkViewIsDisplayed(withText(newName))
@@ -115,5 +121,5 @@ class ChangeRecordTagTest : BaseUiTest() {
     }
 
     private fun checkPreviewUpdated(matcher: Matcher<View>) =
-        checkViewIsDisplayed(allOf(withId(R.id.previewChangeRecordTag), matcher))
+        checkViewIsDisplayed(allOf(withId(changeRecordTagR.id.previewChangeRecordTag), matcher))
 }

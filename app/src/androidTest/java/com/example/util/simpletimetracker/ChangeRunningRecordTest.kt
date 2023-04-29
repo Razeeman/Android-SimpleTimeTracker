@@ -31,13 +31,18 @@ import com.example.util.simpletimetracker.utils.unconstrainedClickOnView
 import com.example.util.simpletimetracker.utils.withCardColor
 import com.example.util.simpletimetracker.utils.withTag
 import dagger.hilt.android.testing.HiltAndroidTest
+import java.util.Calendar
+import java.util.concurrent.TimeUnit
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.Matcher
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.util.Calendar
-import java.util.concurrent.TimeUnit
+import com.example.util.simpletimetracker.core.R as coreR
+import com.example.util.simpletimetracker.feature_change_record.R as changeRecordR
+import com.example.util.simpletimetracker.feature_change_running_record.R as changeRunningRecordR
+import com.example.util.simpletimetracker.feature_dialogs.R as dialogsR
+import com.example.util.simpletimetracker.feature_running_records.R as runningRecordsR
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
@@ -66,7 +71,7 @@ class ChangeRunningRecordTest : BaseUiTest() {
         )
         var timeStartedPreview = timeStartedTimestamp
             .let { timeMapper.formatTime(time = it, useMilitaryTime = true, showSeconds = false) }
-        val goalString = getString(R.string.change_record_type_session_goal_time).lowercase() + " 9$minuteString"
+        val goalString = getString(coreR.string.change_record_type_session_goal_time).lowercase() + " 9$minuteString"
 
         checkRunningRecordDisplayed(
             name = name1,
@@ -78,15 +83,15 @@ class ChangeRunningRecordTest : BaseUiTest() {
         )
 
         // Open edit view
-        longClickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name1)))
+        longClickOnView(allOf(isDescendantOfA(withId(changeRecordR.id.viewRunningRecordItem)), withText(name1)))
 
         // View is set up
-        checkViewIsDisplayed(withId(R.id.btnChangeRunningRecordDelete))
-        checkViewIsNotDisplayed(withId(R.id.rvChangeRecordType))
-        checkViewIsNotDisplayed(withId(R.id.rvChangeRecordCategories))
-        checkViewIsDisplayed(withId(R.id.containerChangeRecordTimeAdjust))
-        checkViewIsNotDisplayed(allOf(withId(R.id.etChangeRecordComment), withText("")))
-        checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeStarted), withText(timeStarted)))
+        checkViewIsDisplayed(withId(changeRunningRecordR.id.btnChangeRunningRecordDelete))
+        checkViewIsNotDisplayed(withId(changeRecordR.id.rvChangeRecordType))
+        checkViewIsNotDisplayed(withId(changeRecordR.id.rvChangeRecordCategories))
+        checkViewIsDisplayed(withId(changeRecordR.id.containerChangeRecordTimeAdjust))
+        checkViewIsNotDisplayed(allOf(withId(changeRecordR.id.etChangeRecordComment), withText("")))
+        checkViewIsDisplayed(allOf(withId(changeRecordR.id.tvChangeRecordTimeStarted), withText(timeStarted)))
 
         // Preview is updated
         checkPreviewUpdated(hasDescendant(withText(name1)))
@@ -96,10 +101,10 @@ class ChangeRunningRecordTest : BaseUiTest() {
         checkPreviewUpdated(hasDescendant(withSubstring(goalString)))
 
         // Change item
-        clickOnViewWithText(R.string.change_record_type_field)
-        clickOnRecyclerItem(R.id.rvChangeRecordType, withText(name2))
-        tryAction { clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag2)) }
-        clickOnViewWithText(R.string.change_record_tag_field)
+        clickOnViewWithText(coreR.string.change_record_type_field)
+        clickOnRecyclerItem(changeRecordR.id.rvChangeRecordType, withText(name2))
+        tryAction { clickOnRecyclerItem(changeRecordR.id.rvChangeRecordCategories, withText(tag2)) }
+        clickOnViewWithText(coreR.string.change_record_tag_field)
 
         val calendar = Calendar.getInstance().apply {
             add(Calendar.DATE, -1)
@@ -110,13 +115,13 @@ class ChangeRunningRecordTest : BaseUiTest() {
         val month = calendar.get(Calendar.MONTH)
         val day = calendar.get(Calendar.DAY_OF_MONTH)
 
-        clickOnViewWithId(R.id.tvChangeRecordTimeStarted)
+        clickOnViewWithId(changeRecordR.id.tvChangeRecordTimeStarted)
         onView(withClassName(equalTo(CustomTimePicker::class.java.name)))
             .perform(setTime(hourStarted, minutesStarted))
-        clickOnViewWithText(R.string.date_time_dialog_date)
+        clickOnViewWithText(coreR.string.date_time_dialog_date)
         onView(withClassName(equalTo(DatePicker::class.java.name)))
             .perform(PickerActions.setDate(year, month + 1, day))
-        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+        clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
         timeStartedTimestamp = Calendar.getInstance().run {
             set(Calendar.YEAR, year)
@@ -131,10 +136,10 @@ class ChangeRunningRecordTest : BaseUiTest() {
         timeStartedPreview = timeStartedTimestamp
             .let { timeMapper.formatTime(time = it, useMilitaryTime = true, showSeconds = false) }
 
-        checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeStarted), withText(timeStarted)))
-        clickOnViewWithText(R.string.change_record_comment_field)
-        typeTextIntoView(R.id.etChangeRecordComment, comment)
-        clickOnViewWithText(R.string.change_record_comment_field)
+        checkViewIsDisplayed(allOf(withId(changeRecordR.id.tvChangeRecordTimeStarted), withText(timeStarted)))
+        clickOnViewWithText(coreR.string.change_record_comment_field)
+        typeTextIntoView(changeRecordR.id.etChangeRecordComment, comment)
+        clickOnViewWithText(coreR.string.change_record_comment_field)
 
         // Preview is updated
         checkPreviewUpdated(hasDescendant(withText(fullName2)))
@@ -143,16 +148,19 @@ class ChangeRunningRecordTest : BaseUiTest() {
         checkPreviewUpdated(hasDescendant(withText(timeStartedPreview)))
         checkPreviewUpdated(hasDescendant(withText(comment)))
         checkViewIsNotDisplayed(
-            allOf(isDescendantOfA(withId(R.id.previewChangeRunningRecord)), withId(R.id.tvRunningRecordItemGoalTime))
+            allOf(
+                isDescendantOfA(withId(changeRunningRecordR.id.previewChangeRunningRecord)),
+                withId(changeRecordR.id.tvRunningRecordItemGoalTime)
+            )
         )
 
         // Save
-        clickOnViewWithText(R.string.change_record_save)
+        clickOnViewWithText(coreR.string.change_record_save)
 
         // Record updated
         tryAction {
             checkViewDoesNotExist(
-                allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name1))
+                allOf(isDescendantOfA(withId(changeRecordR.id.viewRunningRecordItem)), withText(name1))
             )
         }
         checkRunningRecordDisplayed(
@@ -189,40 +197,40 @@ class ChangeRunningRecordTest : BaseUiTest() {
         checkRunningRecordDisplayed(name = name1)
 
         // Change tag
-        longClickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name1)))
+        longClickOnView(allOf(isDescendantOfA(withId(changeRecordR.id.viewRunningRecordItem)), withText(name1)))
         checkPreviewUpdated(hasDescendant(withText(name1)))
-        clickOnViewWithText(R.string.change_record_tag_field)
-        clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag1))
+        clickOnViewWithText(coreR.string.change_record_tag_field)
+        clickOnRecyclerItem(changeRecordR.id.rvChangeRecordCategories, withText(tag1))
         checkPreviewUpdated(hasDescendant(withText(fullName1)))
-        clickOnViewWithText(R.string.change_record_tag_field)
-        clickOnViewWithText(R.string.change_record_save)
+        clickOnViewWithText(coreR.string.change_record_tag_field)
+        clickOnViewWithText(coreR.string.change_record_save)
 
         // Record updated
         tryAction { checkRunningRecordDisplayed(name = fullName1) }
 
         // Change activity and tag
-        longClickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(fullName1)))
+        longClickOnView(allOf(isDescendantOfA(withId(changeRecordR.id.viewRunningRecordItem)), withText(fullName1)))
         checkPreviewUpdated(hasDescendant(withText(fullName1)))
-        clickOnViewWithText(R.string.change_record_type_field)
-        clickOnRecyclerItem(R.id.rvChangeRecordType, withText(name2))
+        clickOnViewWithText(coreR.string.change_record_type_field)
+        clickOnRecyclerItem(changeRecordR.id.rvChangeRecordType, withText(name2))
         checkPreviewUpdated(hasDescendant(withText(name2)))
-        tryAction { clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag2)) }
-        clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(tag3))
+        tryAction { clickOnRecyclerItem(changeRecordR.id.rvChangeRecordCategories, withText(tag2)) }
+        clickOnRecyclerItem(changeRecordR.id.rvChangeRecordCategories, withText(tag3))
         checkPreviewUpdated(hasDescendant(withText(fullName2)))
-        clickOnViewWithText(R.string.change_record_tag_field)
-        clickOnViewWithText(R.string.change_record_save)
+        clickOnViewWithText(coreR.string.change_record_tag_field)
+        clickOnViewWithText(coreR.string.change_record_save)
 
         // Record updated
         tryAction { checkRunningRecordDisplayed(name = fullName2) }
 
         // Remove tag
-        longClickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(fullName2)))
+        longClickOnView(allOf(isDescendantOfA(withId(changeRecordR.id.viewRunningRecordItem)), withText(fullName2)))
         checkPreviewUpdated(hasDescendant(withText(fullName2)))
-        clickOnViewWithText(R.string.change_record_tag_field)
-        clickOnRecyclerItem(R.id.rvChangeRecordCategories, withText(R.string.change_record_untagged))
+        clickOnViewWithText(coreR.string.change_record_tag_field)
+        clickOnRecyclerItem(changeRecordR.id.rvChangeRecordCategories, withText(coreR.string.change_record_untagged))
         checkPreviewUpdated(hasDescendant(withText(name2)))
-        clickOnViewWithText(R.string.change_record_tag_field)
-        clickOnViewWithText(R.string.change_record_save)
+        clickOnViewWithText(coreR.string.change_record_tag_field)
+        clickOnViewWithText(coreR.string.change_record_save)
 
         // Record updated
         tryAction { checkRunningRecordDisplayed(name = name2) }
@@ -239,19 +247,19 @@ class ChangeRunningRecordTest : BaseUiTest() {
         val minutesStarted = 0
 
         tryAction { clickOnViewWithText(name) }
-        longClickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name)))
-        clickOnViewWithId(R.id.tvChangeRecordTimeStarted)
+        longClickOnView(allOf(isDescendantOfA(withId(changeRecordR.id.viewRunningRecordItem)), withText(name)))
+        clickOnViewWithId(changeRecordR.id.tvChangeRecordTimeStarted)
         onView(withClassName(equalTo(CustomTimePicker::class.java.name))).perform(setTime(hourStarted, minutesStarted))
-        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+        clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
         checkAfterTimeAdjustment(timeStarted = "00:00")
 
         // Check visibility
-        checkViewIsDisplayed(withId(R.id.containerChangeRecordTimeAdjust))
-        unconstrainedClickOnView(withId(R.id.btnChangeRecordTimeStartedAdjust))
-        checkViewIsNotDisplayed(withId(R.id.containerChangeRecordTimeAdjust))
-        unconstrainedClickOnView(withId(R.id.btnChangeRecordTimeStartedAdjust))
-        checkViewIsDisplayed(withId(R.id.containerChangeRecordTimeAdjust))
+        checkViewIsDisplayed(withId(changeRecordR.id.containerChangeRecordTimeAdjust))
+        unconstrainedClickOnView(withId(changeRecordR.id.btnChangeRecordTimeStartedAdjust))
+        checkViewIsNotDisplayed(withId(changeRecordR.id.containerChangeRecordTimeAdjust))
+        unconstrainedClickOnView(withId(changeRecordR.id.btnChangeRecordTimeStartedAdjust))
+        checkViewIsDisplayed(withId(changeRecordR.id.containerChangeRecordTimeAdjust))
 
         // Check time adjustments
         clickOnViewWithText("+30")
@@ -268,10 +276,14 @@ class ChangeRunningRecordTest : BaseUiTest() {
         checkAfterTimeAdjustment(timeStarted = "00:00")
         clickOnViewWithText("-30")
         checkAfterTimeAdjustment(timeStarted = "23:30")
-        clickOnViewWithText(R.string.time_now)
-        checkPreviewUpdated(hasDescendant(allOf(withId(R.id.tvRunningRecordItemTimer), withText("0$secondString"))))
+        clickOnViewWithText(coreR.string.time_now)
+        checkPreviewUpdated(
+            hasDescendant(allOf(withId(changeRecordR.id.tvRunningRecordItemTimer), withText("0$secondString")))
+        )
         clickOnViewWithText("+30")
-        checkPreviewUpdated(hasDescendant(allOf(withId(R.id.tvRunningRecordItemTimer), withText("0$secondString"))))
+        checkPreviewUpdated(
+            hasDescendant(allOf(withId(changeRecordR.id.tvRunningRecordItemTimer), withText("0$secondString")))
+        )
     }
 
     @Test
@@ -295,24 +307,26 @@ class ChangeRunningRecordTest : BaseUiTest() {
 
         // No last comments
         tryAction { clickOnViewWithText(nameNoComments) }
-        longClickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(nameNoComments)))
+        longClickOnView(
+            allOf(isDescendantOfA(withId(changeRecordR.id.viewRunningRecordItem)), withText(nameNoComments))
+        )
 
-        clickOnViewWithText(R.string.change_record_comment_field)
+        clickOnViewWithText(coreR.string.change_record_comment_field)
         closeSoftKeyboard()
-        checkViewDoesNotExist(withText(R.string.change_record_last_comments_hint))
+        checkViewDoesNotExist(withText(coreR.string.change_record_last_comments_hint))
         checkViewDoesNotExist(withText(comment1))
         checkViewDoesNotExist(withText(comment2))
         checkViewDoesNotExist(withText(comment3))
-        clickOnViewWithText(R.string.change_record_comment_field)
+        clickOnViewWithText(coreR.string.change_record_comment_field)
 
         // Select activity with one previous comment
-        clickOnViewWithText(R.string.change_record_type_field)
-        clickOnRecyclerItem(R.id.rvChangeRecordType, withText(nameComment))
+        clickOnViewWithText(coreR.string.change_record_type_field)
+        clickOnRecyclerItem(changeRecordR.id.rvChangeRecordType, withText(nameComment))
 
         // One last comment
-        clickOnViewWithText(R.string.change_record_comment_field)
+        clickOnViewWithText(coreR.string.change_record_comment_field)
         closeSoftKeyboard()
-        checkViewIsDisplayed(withText(R.string.change_record_last_comments_hint))
+        checkViewIsDisplayed(withText(coreR.string.change_record_last_comments_hint))
         checkViewIsDisplayed(withText(comment1))
         checkViewDoesNotExist(withText(comment2))
         checkViewDoesNotExist(withText(comment3))
@@ -320,17 +334,17 @@ class ChangeRunningRecordTest : BaseUiTest() {
         // Select last comment
         clickOnViewWithText(comment1)
         tryAction { checkPreviewUpdated(hasDescendant(withText(comment1))) }
-        typeTextIntoView(R.id.etChangeRecordComment, "")
-        clickOnViewWithText(R.string.change_record_comment_field)
+        typeTextIntoView(changeRecordR.id.etChangeRecordComment, "")
+        clickOnViewWithText(coreR.string.change_record_comment_field)
 
         // Select activity with many previous comments
-        clickOnViewWithText(R.string.change_record_type_field)
-        clickOnRecyclerItem(R.id.rvChangeRecordType, withText(nameComments))
+        clickOnViewWithText(coreR.string.change_record_type_field)
+        clickOnRecyclerItem(changeRecordR.id.rvChangeRecordType, withText(nameComments))
 
         // Two last comments
-        clickOnViewWithText(R.string.change_record_comment_field)
+        clickOnViewWithText(coreR.string.change_record_comment_field)
         closeSoftKeyboard()
-        checkViewIsDisplayed(withText(R.string.change_record_last_comments_hint))
+        checkViewIsDisplayed(withText(coreR.string.change_record_last_comments_hint))
         checkViewDoesNotExist(withText(comment1))
         checkViewIsDisplayed(withText(comment2))
         checkViewIsDisplayed(withText(comment3))
@@ -340,28 +354,28 @@ class ChangeRunningRecordTest : BaseUiTest() {
         tryAction { checkPreviewUpdated(hasDescendant(withText(comment2))) }
         clickOnViewWithText(comment3)
         tryAction { checkPreviewUpdated(hasDescendant(withText(comment3))) }
-        typeTextIntoView(R.id.etChangeRecordComment, "")
-        clickOnViewWithText(R.string.change_record_comment_field)
+        typeTextIntoView(changeRecordR.id.etChangeRecordComment, "")
+        clickOnViewWithText(coreR.string.change_record_comment_field)
 
         // Select activity with no previous comments
-        clickOnViewWithText(R.string.change_record_type_field)
-        clickOnRecyclerItem(R.id.rvChangeRecordType, withText(nameNoComments))
+        clickOnViewWithText(coreR.string.change_record_type_field)
+        clickOnRecyclerItem(changeRecordR.id.rvChangeRecordType, withText(nameNoComments))
 
         // No last comments
-        clickOnViewWithText(R.string.change_record_comment_field)
+        clickOnViewWithText(coreR.string.change_record_comment_field)
         closeSoftKeyboard()
-        checkViewDoesNotExist(withText(R.string.change_record_last_comments_hint))
+        checkViewDoesNotExist(withText(coreR.string.change_record_last_comments_hint))
         checkViewDoesNotExist(withText(comment1))
         checkViewDoesNotExist(withText(comment2))
         checkViewDoesNotExist(withText(comment3))
-        clickOnViewWithText(R.string.change_record_comment_field)
+        clickOnViewWithText(coreR.string.change_record_comment_field)
     }
 
     @Test
     fun goalTimes() {
         fun checkGoal(typeName: String, @IdRes goalTextId: Int, goal: String) {
             allOf(
-                isDescendantOfA(withId(R.id.viewRunningRecordItem)),
+                isDescendantOfA(withId(changeRecordR.id.viewRunningRecordItem)),
                 hasSibling(withText(typeName)),
                 withId(goalTextId),
                 withSubstring(goal),
@@ -370,7 +384,7 @@ class ChangeRunningRecordTest : BaseUiTest() {
 
         fun checkNoGoal(typeName: String, @IdRes goalTextId: Int) {
             allOf(
-                isDescendantOfA(withId(R.id.viewRunningRecordItem)),
+                isDescendantOfA(withId(changeRecordR.id.viewRunningRecordItem)),
                 hasSibling(withText(typeName)),
                 withId(goalTextId),
             ).let(::checkViewIsNotDisplayed)
@@ -378,7 +392,7 @@ class ChangeRunningRecordTest : BaseUiTest() {
 
         fun checkGoalMark(typeName: String, @IdRes checkId: Int, isVisible: Boolean) {
             allOf(
-                isDescendantOfA(withId(R.id.viewRunningRecordItem)),
+                isDescendantOfA(withId(changeRecordR.id.viewRunningRecordItem)),
                 hasSibling(withText(typeName)),
                 withId(checkId),
             ).let {
@@ -389,15 +403,15 @@ class ChangeRunningRecordTest : BaseUiTest() {
         fun scrollTo(typeName: String) {
             tryAction {
                 scrollRecyclerToView(
-                    R.id.rvRunningRecordsList,
-                    allOf(withId(R.id.viewRunningRecordItem), hasDescendant(withText(typeName)))
+                    runningRecordsR.id.rvRunningRecordsList,
+                    allOf(withId(changeRecordR.id.viewRunningRecordItem), hasDescendant(withText(typeName)))
                 )
             }
         }
 
-        val sessionGoal = getString(R.string.change_record_type_session_goal_time).lowercase()
-        val dailyGoal = getString(R.string.change_record_type_daily_goal_time).lowercase()
-        val weeklyGoal = getString(R.string.change_record_type_weekly_goal_time).lowercase()
+        val sessionGoal = getString(coreR.string.change_record_type_session_goal_time).lowercase()
+        val dailyGoal = getString(coreR.string.change_record_type_daily_goal_time).lowercase()
+        val weeklyGoal = getString(coreR.string.change_record_type_weekly_goal_time).lowercase()
         val currentTime = Calendar.getInstance().timeInMillis
 
         val noGoals = "noGoals"
@@ -524,120 +538,154 @@ class ChangeRunningRecordTest : BaseUiTest() {
         // No goals
         Thread.sleep(1000)
         scrollTo(noGoals)
-        checkNoGoal(noGoals, R.id.tvRunningRecordItemGoalTime)
-        checkGoalMark(noGoals, R.id.ivRunningRecordItemGoalTimeCheck, isVisible = false)
-        checkNoGoal(noGoals, R.id.tvRunningRecordItemGoalTime2)
-        checkGoalMark(noGoals, R.id.ivRunningRecordItemGoalTimeCheck2, isVisible = false)
-        checkNoGoal(noGoals, R.id.tvRunningRecordItemGoalTime3)
-        checkGoalMark(noGoals, R.id.ivRunningRecordItemGoalTimeCheck3, isVisible = false)
+        checkNoGoal(noGoals, changeRecordR.id.tvRunningRecordItemGoalTime)
+        checkGoalMark(noGoals, changeRecordR.id.ivRunningRecordItemGoalTimeCheck, isVisible = false)
+        checkNoGoal(noGoals, changeRecordR.id.tvRunningRecordItemGoalTime2)
+        checkGoalMark(noGoals, changeRecordR.id.ivRunningRecordItemGoalTimeCheck2, isVisible = false)
+        checkNoGoal(noGoals, changeRecordR.id.tvRunningRecordItemGoalTime3)
+        checkGoalMark(noGoals, changeRecordR.id.ivRunningRecordItemGoalTimeCheck3, isVisible = false)
 
         // Session goal not finished
         scrollTo(sessionGoalNotFinished)
-        checkGoal(sessionGoalNotFinished, R.id.tvRunningRecordItemGoalTime, "$sessionGoal 9$minuteString")
-        checkGoalMark(sessionGoalNotFinished, R.id.ivRunningRecordItemGoalTimeCheck, isVisible = false)
-        checkNoGoal(sessionGoalNotFinished, R.id.tvRunningRecordItemGoalTime2)
-        checkGoalMark(sessionGoalNotFinished, R.id.ivRunningRecordItemGoalTimeCheck2, isVisible = false)
-        checkNoGoal(sessionGoalNotFinished, R.id.tvRunningRecordItemGoalTime3)
-        checkGoalMark(sessionGoalNotFinished, R.id.ivRunningRecordItemGoalTimeCheck3, isVisible = false)
+        checkGoal(
+            sessionGoalNotFinished, changeRecordR.id.tvRunningRecordItemGoalTime, "$sessionGoal 9$minuteString"
+        )
+        checkGoalMark(sessionGoalNotFinished, changeRecordR.id.ivRunningRecordItemGoalTimeCheck, isVisible = false)
+        checkNoGoal(sessionGoalNotFinished, changeRecordR.id.tvRunningRecordItemGoalTime2)
+        checkGoalMark(sessionGoalNotFinished, changeRecordR.id.ivRunningRecordItemGoalTimeCheck2, isVisible = false)
+        checkNoGoal(sessionGoalNotFinished, changeRecordR.id.tvRunningRecordItemGoalTime3)
+        checkGoalMark(sessionGoalNotFinished, changeRecordR.id.ivRunningRecordItemGoalTimeCheck3, isVisible = false)
 
         // Session goal finished
         scrollTo(sessionGoalFinished)
-        checkGoal(sessionGoalFinished, R.id.tvRunningRecordItemGoalTime, sessionGoal)
-        checkGoalMark(sessionGoalFinished, R.id.ivRunningRecordItemGoalTimeCheck, isVisible = true)
-        checkNoGoal(sessionGoalFinished, R.id.tvRunningRecordItemGoalTime2)
-        checkGoalMark(sessionGoalFinished, R.id.ivRunningRecordItemGoalTimeCheck2, isVisible = false)
-        checkNoGoal(sessionGoalFinished, R.id.tvRunningRecordItemGoalTime3)
-        checkGoalMark(sessionGoalFinished, R.id.ivRunningRecordItemGoalTimeCheck3, isVisible = false)
+        checkGoal(sessionGoalFinished, changeRecordR.id.tvRunningRecordItemGoalTime, sessionGoal)
+        checkGoalMark(sessionGoalFinished, changeRecordR.id.ivRunningRecordItemGoalTimeCheck, isVisible = true)
+        checkNoGoal(sessionGoalFinished, changeRecordR.id.tvRunningRecordItemGoalTime2)
+        checkGoalMark(sessionGoalFinished, changeRecordR.id.ivRunningRecordItemGoalTimeCheck2, isVisible = false)
+        checkNoGoal(sessionGoalFinished, changeRecordR.id.tvRunningRecordItemGoalTime3)
+        checkGoalMark(sessionGoalFinished, changeRecordR.id.ivRunningRecordItemGoalTimeCheck3, isVisible = false)
 
         // Daily goal not finished
         scrollTo(dailyGoalNotFinished)
-        checkNoGoal(dailyGoalNotFinished, R.id.tvRunningRecordItemGoalTime)
-        checkGoalMark(dailyGoalNotFinished, R.id.ivRunningRecordItemGoalTimeCheck, isVisible = false)
-        checkGoal(dailyGoalNotFinished, R.id.tvRunningRecordItemGoalTime2, "$dailyGoal 4$minuteString")
-        checkGoalMark(dailyGoalNotFinished, R.id.ivRunningRecordItemGoalTimeCheck2, isVisible = false)
-        checkNoGoal(dailyGoalNotFinished, R.id.tvRunningRecordItemGoalTime3)
-        checkGoalMark(dailyGoalNotFinished, R.id.ivRunningRecordItemGoalTimeCheck3, isVisible = false)
+        checkNoGoal(dailyGoalNotFinished, changeRecordR.id.tvRunningRecordItemGoalTime)
+        checkGoalMark(dailyGoalNotFinished, changeRecordR.id.ivRunningRecordItemGoalTimeCheck, isVisible = false)
+        checkGoal(
+            dailyGoalNotFinished, changeRecordR.id.tvRunningRecordItemGoalTime2, "$dailyGoal 4$minuteString"
+        )
+        checkGoalMark(dailyGoalNotFinished, changeRecordR.id.ivRunningRecordItemGoalTimeCheck2, isVisible = false)
+        checkNoGoal(dailyGoalNotFinished, changeRecordR.id.tvRunningRecordItemGoalTime3)
+        checkGoalMark(dailyGoalNotFinished, changeRecordR.id.ivRunningRecordItemGoalTimeCheck3, isVisible = false)
 
         // Daily goal finished
         scrollTo(dailyGoalFinished)
-        checkNoGoal(dailyGoalFinished, R.id.tvRunningRecordItemGoalTime)
-        checkGoalMark(dailyGoalFinished, R.id.ivRunningRecordItemGoalTimeCheck, isVisible = false)
-        checkGoal(dailyGoalFinished, R.id.tvRunningRecordItemGoalTime2, dailyGoal)
-        checkGoalMark(dailyGoalFinished, R.id.ivRunningRecordItemGoalTimeCheck2, isVisible = true)
-        checkNoGoal(dailyGoalFinished, R.id.tvRunningRecordItemGoalTime3)
-        checkGoalMark(dailyGoalFinished, R.id.ivRunningRecordItemGoalTimeCheck3, isVisible = false)
+        checkNoGoal(dailyGoalFinished, changeRecordR.id.tvRunningRecordItemGoalTime)
+        checkGoalMark(dailyGoalFinished, changeRecordR.id.ivRunningRecordItemGoalTimeCheck, isVisible = false)
+        checkGoal(dailyGoalFinished, changeRecordR.id.tvRunningRecordItemGoalTime2, dailyGoal)
+        checkGoalMark(dailyGoalFinished, changeRecordR.id.ivRunningRecordItemGoalTimeCheck2, isVisible = true)
+        checkNoGoal(dailyGoalFinished, changeRecordR.id.tvRunningRecordItemGoalTime3)
+        checkGoalMark(dailyGoalFinished, changeRecordR.id.ivRunningRecordItemGoalTimeCheck3, isVisible = false)
 
         // Weekly goal not finished
         scrollTo(weeklyGoalNotFinished)
-        checkNoGoal(weeklyGoalNotFinished, R.id.tvRunningRecordItemGoalTime)
-        checkGoalMark(weeklyGoalNotFinished, R.id.ivRunningRecordItemGoalTimeCheck, isVisible = false)
-        checkNoGoal(weeklyGoalNotFinished, R.id.tvRunningRecordItemGoalTime2)
-        checkGoalMark(weeklyGoalNotFinished, R.id.ivRunningRecordItemGoalTimeCheck2, isVisible = false)
-        checkGoal(weeklyGoalNotFinished, R.id.tvRunningRecordItemGoalTime3, "$weeklyGoal 4$minuteString")
-        checkGoalMark(weeklyGoalNotFinished, R.id.ivRunningRecordItemGoalTimeCheck3, isVisible = false)
+        checkNoGoal(weeklyGoalNotFinished, changeRecordR.id.tvRunningRecordItemGoalTime)
+        checkGoalMark(weeklyGoalNotFinished, changeRecordR.id.ivRunningRecordItemGoalTimeCheck, isVisible = false)
+        checkNoGoal(weeklyGoalNotFinished, changeRecordR.id.tvRunningRecordItemGoalTime2)
+        checkGoalMark(weeklyGoalNotFinished, changeRecordR.id.ivRunningRecordItemGoalTimeCheck2, isVisible = false)
+        checkGoal(
+            weeklyGoalNotFinished, changeRecordR.id.tvRunningRecordItemGoalTime3, "$weeklyGoal 4$minuteString"
+        )
+        checkGoalMark(weeklyGoalNotFinished, changeRecordR.id.ivRunningRecordItemGoalTimeCheck3, isVisible = false)
 
         // Weekly goal finished
         scrollTo(weeklyGoalFinished)
-        checkNoGoal(weeklyGoalFinished, R.id.tvRunningRecordItemGoalTime)
-        checkGoalMark(weeklyGoalFinished, R.id.ivRunningRecordItemGoalTimeCheck, isVisible = false)
-        checkNoGoal(weeklyGoalFinished, R.id.tvRunningRecordItemGoalTime2)
-        checkGoalMark(weeklyGoalFinished, R.id.ivRunningRecordItemGoalTimeCheck2, isVisible = false)
-        checkGoal(weeklyGoalFinished, R.id.tvRunningRecordItemGoalTime3, weeklyGoal)
-        checkGoalMark(weeklyGoalFinished, R.id.ivRunningRecordItemGoalTimeCheck3, isVisible = true)
+        checkNoGoal(weeklyGoalFinished, changeRecordR.id.tvRunningRecordItemGoalTime)
+        checkGoalMark(weeklyGoalFinished, changeRecordR.id.ivRunningRecordItemGoalTimeCheck, isVisible = false)
+        checkNoGoal(weeklyGoalFinished, changeRecordR.id.tvRunningRecordItemGoalTime2)
+        checkGoalMark(weeklyGoalFinished, changeRecordR.id.ivRunningRecordItemGoalTimeCheck2, isVisible = false)
+        checkGoal(weeklyGoalFinished, changeRecordR.id.tvRunningRecordItemGoalTime3, weeklyGoal)
+        checkGoalMark(weeklyGoalFinished, changeRecordR.id.ivRunningRecordItemGoalTimeCheck3, isVisible = true)
 
         // All goals, all not finished
         scrollTo(allGoalsNotFinished)
-        checkGoal(allGoalsNotFinished, R.id.tvRunningRecordItemGoalTime, "$sessionGoal 9$minuteString")
-        checkGoalMark(allGoalsNotFinished, R.id.ivRunningRecordItemGoalTimeCheck, isVisible = false)
-        checkGoal(allGoalsNotFinished, R.id.tvRunningRecordItemGoalTime2, "$dailyGoal 14$minuteString")
-        checkGoalMark(allGoalsNotFinished, R.id.ivRunningRecordItemGoalTimeCheck2, isVisible = false)
-        checkGoal(allGoalsNotFinished, R.id.tvRunningRecordItemGoalTime3, "$weeklyGoal 24$minuteString")
-        checkGoalMark(allGoalsNotFinished, R.id.ivRunningRecordItemGoalTimeCheck3, isVisible = false)
+        checkGoal(
+            allGoalsNotFinished, changeRecordR.id.tvRunningRecordItemGoalTime, "$sessionGoal 9$minuteString"
+        )
+        checkGoalMark(allGoalsNotFinished, changeRecordR.id.ivRunningRecordItemGoalTimeCheck, isVisible = false)
+        checkGoal(
+            allGoalsNotFinished, changeRecordR.id.tvRunningRecordItemGoalTime2, "$dailyGoal 14$minuteString"
+        )
+        checkGoalMark(allGoalsNotFinished, changeRecordR.id.ivRunningRecordItemGoalTimeCheck2, isVisible = false)
+        checkGoal(
+            allGoalsNotFinished, changeRecordR.id.tvRunningRecordItemGoalTime3, "$weeklyGoal 24$minuteString"
+        )
+        checkGoalMark(allGoalsNotFinished, changeRecordR.id.ivRunningRecordItemGoalTimeCheck3, isVisible = false)
 
         // All goals, all finished
         scrollTo(allGoalsFinished)
-        checkGoal(allGoalsFinished, R.id.tvRunningRecordItemGoalTime, sessionGoal)
-        checkGoalMark(allGoalsFinished, R.id.ivRunningRecordItemGoalTimeCheck, isVisible = true)
-        checkGoal(allGoalsFinished, R.id.tvRunningRecordItemGoalTime2, dailyGoal)
-        checkGoalMark(allGoalsFinished, R.id.ivRunningRecordItemGoalTimeCheck2, isVisible = true)
-        checkGoal(allGoalsFinished, R.id.tvRunningRecordItemGoalTime3, weeklyGoal)
-        checkGoalMark(allGoalsFinished, R.id.ivRunningRecordItemGoalTimeCheck3, isVisible = true)
+        checkGoal(allGoalsFinished, changeRecordR.id.tvRunningRecordItemGoalTime, sessionGoal)
+        checkGoalMark(allGoalsFinished, changeRecordR.id.ivRunningRecordItemGoalTimeCheck, isVisible = true)
+        checkGoal(allGoalsFinished, changeRecordR.id.tvRunningRecordItemGoalTime2, dailyGoal)
+        checkGoalMark(allGoalsFinished, changeRecordR.id.ivRunningRecordItemGoalTimeCheck2, isVisible = true)
+        checkGoal(allGoalsFinished, changeRecordR.id.tvRunningRecordItemGoalTime3, weeklyGoal)
+        checkGoalMark(allGoalsFinished, changeRecordR.id.ivRunningRecordItemGoalTimeCheck3, isVisible = true)
 
         // All goals, session finished
         scrollTo(allGoalsSessionFinished)
-        checkGoal(allGoalsSessionFinished, R.id.tvRunningRecordItemGoalTime, sessionGoal)
-        checkGoalMark(allGoalsSessionFinished, R.id.ivRunningRecordItemGoalTimeCheck, isVisible = true)
-        checkGoal(allGoalsSessionFinished, R.id.tvRunningRecordItemGoalTime2, "$dailyGoal 9$minuteString")
-        checkGoalMark(allGoalsSessionFinished, R.id.ivRunningRecordItemGoalTimeCheck2, isVisible = false)
-        checkGoal(allGoalsSessionFinished, R.id.tvRunningRecordItemGoalTime3, "$weeklyGoal 19$minuteString")
-        checkGoalMark(allGoalsSessionFinished, R.id.ivRunningRecordItemGoalTimeCheck3, isVisible = false)
+        checkGoal(allGoalsSessionFinished, changeRecordR.id.tvRunningRecordItemGoalTime, sessionGoal)
+        checkGoalMark(allGoalsSessionFinished, changeRecordR.id.ivRunningRecordItemGoalTimeCheck, isVisible = true)
+        checkGoal(
+            allGoalsSessionFinished, changeRecordR.id.tvRunningRecordItemGoalTime2, "$dailyGoal 9$minuteString"
+        )
+        checkGoalMark(
+            allGoalsSessionFinished, changeRecordR.id.ivRunningRecordItemGoalTimeCheck2, isVisible = false
+        )
+        checkGoal(
+            allGoalsSessionFinished, changeRecordR.id.tvRunningRecordItemGoalTime3, "$weeklyGoal 19$minuteString"
+        )
+        checkGoalMark(
+            allGoalsSessionFinished, changeRecordR.id.ivRunningRecordItemGoalTimeCheck3, isVisible = false
+        )
 
         // All goals, daily finished
         scrollTo(allGoalsDailyFinished)
-        checkGoal(allGoalsDailyFinished, R.id.tvRunningRecordItemGoalTime, "$sessionGoal 9$minuteString")
-        checkGoalMark(allGoalsDailyFinished, R.id.ivRunningRecordItemGoalTimeCheck, isVisible = false)
-        checkGoal(allGoalsDailyFinished, R.id.tvRunningRecordItemGoalTime2, dailyGoal)
-        checkGoalMark(allGoalsDailyFinished, R.id.ivRunningRecordItemGoalTimeCheck2, isVisible = true)
-        checkGoal(allGoalsDailyFinished, R.id.tvRunningRecordItemGoalTime3, "$weeklyGoal 19$minuteString")
-        checkGoalMark(allGoalsDailyFinished, R.id.ivRunningRecordItemGoalTimeCheck3, isVisible = false)
+        checkGoal(
+            allGoalsDailyFinished, changeRecordR.id.tvRunningRecordItemGoalTime, "$sessionGoal 9$minuteString"
+        )
+        checkGoalMark(allGoalsDailyFinished, changeRecordR.id.ivRunningRecordItemGoalTimeCheck, isVisible = false)
+        checkGoal(
+            allGoalsDailyFinished, changeRecordR.id.tvRunningRecordItemGoalTime2, dailyGoal
+        )
+        checkGoalMark(allGoalsDailyFinished, changeRecordR.id.ivRunningRecordItemGoalTimeCheck2, isVisible = true)
+        checkGoal(
+            allGoalsDailyFinished, changeRecordR.id.tvRunningRecordItemGoalTime3, "$weeklyGoal 19$minuteString"
+        )
+        checkGoalMark(allGoalsDailyFinished, changeRecordR.id.ivRunningRecordItemGoalTimeCheck3, isVisible = false)
 
         // All goals, weekly finished
         scrollTo(allGoalsWeeklyFinished)
-        checkGoal(allGoalsWeeklyFinished, R.id.tvRunningRecordItemGoalTime, "$sessionGoal 9$minuteString")
-        checkGoalMark(allGoalsWeeklyFinished, R.id.ivRunningRecordItemGoalTimeCheck, isVisible = false)
-        checkGoal(allGoalsWeeklyFinished, R.id.tvRunningRecordItemGoalTime2, "$dailyGoal 19$minuteString")
-        checkGoalMark(allGoalsWeeklyFinished, R.id.ivRunningRecordItemGoalTimeCheck2, isVisible = false)
-        checkGoal(allGoalsWeeklyFinished, R.id.tvRunningRecordItemGoalTime3, weeklyGoal)
-        checkGoalMark(allGoalsWeeklyFinished, R.id.ivRunningRecordItemGoalTimeCheck3, isVisible = true)
+        checkGoal(
+            allGoalsWeeklyFinished, changeRecordR.id.tvRunningRecordItemGoalTime, "$sessionGoal 9$minuteString"
+        )
+        checkGoalMark(allGoalsWeeklyFinished, changeRecordR.id.ivRunningRecordItemGoalTimeCheck, isVisible = false)
+        checkGoal(
+            allGoalsWeeklyFinished, changeRecordR.id.tvRunningRecordItemGoalTime2, "$dailyGoal 19$minuteString"
+        )
+        checkGoalMark(allGoalsWeeklyFinished, changeRecordR.id.ivRunningRecordItemGoalTimeCheck2, isVisible = false)
+        checkGoal(
+            allGoalsWeeklyFinished, changeRecordR.id.tvRunningRecordItemGoalTime3, weeklyGoal
+        )
+        checkGoalMark(allGoalsWeeklyFinished, changeRecordR.id.ivRunningRecordItemGoalTimeCheck3, isVisible = true)
     }
 
     private fun checkAfterTimeAdjustment(timeStarted: String) {
-        checkPreviewUpdated(hasDescendant(allOf(withId(R.id.tvRunningRecordItemTimeStarted), withText(timeStarted))))
-        checkViewIsDisplayed(allOf(withId(R.id.tvChangeRecordTimeStarted), withSubstring(timeStarted)))
+        checkPreviewUpdated(
+            hasDescendant(allOf(withId(changeRecordR.id.tvRunningRecordItemTimeStarted), withText(timeStarted)))
+        )
+        checkViewIsDisplayed(allOf(withId(changeRecordR.id.tvChangeRecordTimeStarted), withSubstring(timeStarted)))
     }
 
     private fun checkPreviewUpdated(matcher: Matcher<View>) =
-        checkViewIsDisplayed(allOf(withId(R.id.previewChangeRunningRecord), matcher))
+        checkViewIsDisplayed(allOf(withId(changeRunningRecordR.id.previewChangeRunningRecord), matcher))
 
     private fun checkRunningRecordDisplayed(
         name: String,
@@ -648,39 +696,45 @@ class ChangeRunningRecordTest : BaseUiTest() {
         goalTime: String? = null,
         comment: String? = null,
     ) {
-        checkViewIsDisplayed(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name)))
+        checkViewIsDisplayed(allOf(isDescendantOfA(withId(changeRecordR.id.viewRunningRecordItem)), withText(name)))
 
         if (color != null) {
-            checkViewIsDisplayed(allOf(withId(R.id.viewRunningRecordItem), withCardColor(color)))
+            checkViewIsDisplayed(allOf(withId(changeRecordR.id.viewRunningRecordItem), withCardColor(color)))
         }
         if (icon != null) {
-            checkViewIsDisplayed(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withTag(icon)))
+            checkViewIsDisplayed(
+                allOf(isDescendantOfA(withId(changeRecordR.id.viewRunningRecordItem)), withTag(icon))
+            )
         }
         if (text != null) {
-            checkViewIsDisplayed(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(text)))
+            checkViewIsDisplayed(
+                allOf(isDescendantOfA(withId(changeRecordR.id.viewRunningRecordItem)), withText(text))
+            )
         }
         if (timeStarted != null) {
-            checkViewIsDisplayed(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(timeStarted)))
+            checkViewIsDisplayed(
+                allOf(isDescendantOfA(withId(changeRecordR.id.viewRunningRecordItem)), withText(timeStarted))
+            )
         }
         if (!goalTime.isNullOrEmpty()) {
             checkViewIsDisplayed(
                 allOf(
-                    isDescendantOfA(withId(R.id.viewRunningRecordItem)),
+                    isDescendantOfA(withId(changeRecordR.id.viewRunningRecordItem)),
                     withSubstring(goalTime),
                 )
             )
         } else {
             checkViewIsNotDisplayed(
                 allOf(
-                    isDescendantOfA(withId(R.id.viewRunningRecordItem)),
-                    withId(R.id.tvRunningRecordItemGoalTime)
+                    isDescendantOfA(withId(changeRecordR.id.viewRunningRecordItem)),
+                    withId(changeRecordR.id.tvRunningRecordItemGoalTime)
                 )
             )
         }
         if (!comment.isNullOrEmpty()) {
             checkViewIsDisplayed(
                 allOf(
-                    isDescendantOfA(withId(R.id.viewRunningRecordItem)),
+                    isDescendantOfA(withId(changeRecordR.id.viewRunningRecordItem)),
                     withText(comment)
                 )
             )

@@ -13,6 +13,9 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.Matchers.allOf
 import org.junit.Test
 import org.junit.runner.RunWith
+import com.example.util.simpletimetracker.core.R as coreR
+import com.example.util.simpletimetracker.feature_change_record_type.R as changeRecordTypeR
+import com.example.util.simpletimetracker.feature_records.R as recordsR
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
@@ -20,12 +23,12 @@ class MessagesTest : BaseUiTest() {
 
     @Test
     fun messageRecordTypeName() {
-        tryAction { clickOnViewWithText(R.string.running_records_add_type) }
-        clickOnViewWithId(R.id.fieldChangeRecordTypeColor)
-        clickOnViewWithText(R.string.change_record_type_save)
+        tryAction { clickOnViewWithText(coreR.string.running_records_add_type) }
+        clickOnViewWithId(changeRecordTypeR.id.fieldChangeRecordTypeColor)
+        clickOnViewWithText(coreR.string.change_record_type_save)
         checkViewIsDisplayed(
             allOf(
-                withText(R.string.change_record_message_choose_name),
+                withText(coreR.string.change_record_message_choose_name),
                 withId(com.google.android.material.R.id.snackbar_text)
             )
         )
@@ -34,11 +37,11 @@ class MessagesTest : BaseUiTest() {
     @Test
     fun messageRecordActivity() {
         NavUtils.openRecordsScreen()
-        clickOnViewWithId(R.id.btnRecordAdd)
-        clickOnViewWithText(R.string.change_record_save)
+        clickOnViewWithId(recordsR.id.btnRecordAdd)
+        clickOnViewWithText(coreR.string.change_record_save)
         checkViewIsDisplayed(
             allOf(
-                withText(R.string.change_record_message_choose_type),
+                withText(coreR.string.change_record_message_choose_type),
                 withId(com.google.android.material.R.id.snackbar_text)
             )
         )

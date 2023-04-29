@@ -26,6 +26,14 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.CoreMatchers.allOf
 import org.junit.Test
 import org.junit.runner.RunWith
+import com.example.util.simpletimetracker.core.R as coreR
+import com.example.util.simpletimetracker.feature_change_record_tag.R as changeRecordTagR
+import com.example.util.simpletimetracker.feature_change_record_type.R as changeRecordTypeR
+import com.example.util.simpletimetracker.feature_dialogs.R as dialogsR
+import com.example.util.simpletimetracker.feature_records.R as recordsR
+import com.example.util.simpletimetracker.feature_settings.R as settingsR
+import com.example.util.simpletimetracker.feature_statistics.R as statisticsR
+import com.example.util.simpletimetracker.feature_statistics_detail.R as statisticsDetailR
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
@@ -46,7 +54,7 @@ class ArchiveTest : BaseUiTest() {
 
         // Delete one
         longClickOnView(withText(name2))
-        clickOnViewWithId(R.id.btnChangeRecordTypeDelete)
+        clickOnViewWithId(changeRecordTypeR.id.btnChangeRecordTypeDelete)
         // Snackbar is in the way of Add button
         clickOnViewWithId(com.google.android.material.R.id.snackbar_text)
         tryAction { checkTypeVisible(name1) }
@@ -54,22 +62,22 @@ class ArchiveTest : BaseUiTest() {
 
         // Not shown on records
         NavUtils.openRecordsScreen()
-        clickOnViewWithId(R.id.btnRecordAdd)
-        clickOnViewWithText(R.string.change_record_type_field)
+        clickOnViewWithId(recordsR.id.btnRecordAdd)
+        clickOnViewWithText(coreR.string.change_record_type_field)
         checkTypeVisible(name1)
         checkTypeNotVisible(name2)
         pressBack()
 
         // Still shown in stat filter
         NavUtils.openStatisticsScreen()
-        clickOnViewWithIdOnPager(R.id.btnStatisticsChartFilter)
+        clickOnViewWithIdOnPager(statisticsR.id.btnStatisticsChartFilter)
         tryAction { checkTypeVisible(name1) }
         checkTypeVisible(name2)
         pressBack()
 
         // Still shown in stat detail filter
         clickOnView(allOf(withText(name1), isCompletelyDisplayed()))
-        clickOnViewWithId(R.id.cardStatisticsDetailFilter)
+        clickOnViewWithId(statisticsDetailR.id.cardStatisticsDetailFilter)
         tryAction { checkTypeVisible(name1) }
         checkTypeVisible(name2)
         pressBack()
@@ -78,23 +86,23 @@ class ArchiveTest : BaseUiTest() {
         // Not shown categories selection
         NavUtils.openSettingsScreen()
         NavUtils.openCategoriesScreen()
-        clickOnViewWithText(R.string.categories_add_category)
+        clickOnViewWithText(coreR.string.categories_add_category)
         closeSoftKeyboard()
-        clickOnViewWithText(R.string.change_category_types_hint)
+        clickOnViewWithText(coreR.string.change_category_types_hint)
         checkTypeVisible(name1)
         checkTypeNotVisible(name2)
         pressBack()
 
         // Not shown in record tag selection
-        clickOnViewWithText(R.string.categories_add_record_tag)
+        clickOnViewWithText(coreR.string.categories_add_record_tag)
         closeSoftKeyboard()
         clickOnView(
             allOf(
-                isDescendantOfA(withId(R.id.buttonsChangeRecordTagType)),
-                withText(R.string.change_record_tag_type_typed)
+                isDescendantOfA(withId(changeRecordTagR.id.buttonsChangeRecordTagType)),
+                withText(coreR.string.change_record_tag_type_typed)
             )
         )
-        clickOnViewWithId(R.id.fieldChangeRecordTagType)
+        clickOnViewWithId(changeRecordTagR.id.fieldChangeRecordTagType)
         checkTypeVisible(name1)
         checkTypeNotVisible(name2)
         pressBack()
@@ -108,8 +116,8 @@ class ArchiveTest : BaseUiTest() {
         pressBack()
 
         // Not shown in manual order
-        clickOnSpinnerWithId(R.id.spinnerSettingsRecordTypeSort)
-        clickOnViewWithText(R.string.settings_sort_manually)
+        clickOnSpinnerWithId(settingsR.id.spinnerSettingsRecordTypeSort)
+        clickOnViewWithText(coreR.string.settings_sort_manually)
         tryAction { checkTypeVisible(name1) }
         checkTypeNotVisible(name2)
         pressBack()
@@ -121,12 +129,12 @@ class ArchiveTest : BaseUiTest() {
 
         // Restore
         clickOnViewWithText(name2)
-        clickOnViewWithText(R.string.archive_dialog_restore)
+        clickOnViewWithText(coreR.string.archive_dialog_restore)
 
         // Archive is empty
         checkTypeNotVisible(name1)
         checkTypeNotVisible(name2)
-        checkViewIsDisplayed(withText(R.string.archive_empty))
+        checkViewIsDisplayed(withText(coreR.string.archive_empty))
         pressBack()
 
         // Shown again
@@ -152,8 +160,8 @@ class ArchiveTest : BaseUiTest() {
 
         NavUtils.openSettingsScreen()
         NavUtils.openSettingsAdditional()
-        onView(withId(R.id.checkboxSettingsShowRecordTagSelection)).perform(nestedScrollTo())
-        unconstrainedClickOnView(withId(R.id.checkboxSettingsShowRecordTagSelection))
+        onView(withId(settingsR.id.checkboxSettingsShowRecordTagSelection)).perform(nestedScrollTo())
+        unconstrainedClickOnView(withId(settingsR.id.checkboxSettingsShowRecordTagSelection))
         NavUtils.openCategoriesScreen()
         checkTagVisible(tag1)
         checkTagVisible(tag2)
@@ -162,9 +170,9 @@ class ArchiveTest : BaseUiTest() {
 
         // Delete one
         clickOnView(withText(tag2))
-        clickOnViewWithId(R.id.btnChangeRecordTagDelete)
+        clickOnViewWithId(changeRecordTagR.id.btnChangeRecordTagDelete)
         clickOnView(withText(tag4))
-        clickOnViewWithId(R.id.btnChangeRecordTagDelete)
+        clickOnViewWithId(changeRecordTagR.id.btnChangeRecordTagDelete)
         checkTagVisible(tag1)
         checkTagNotVisible(tag2)
         checkTagVisible(tag3)
@@ -175,8 +183,8 @@ class ArchiveTest : BaseUiTest() {
 
         // Not shown on records
         NavUtils.openRecordsScreen()
-        clickOnViewWithId(R.id.btnRecordAdd)
-        clickOnViewWithText(R.string.change_record_type_field)
+        clickOnViewWithId(recordsR.id.btnRecordAdd)
+        clickOnViewWithText(coreR.string.change_record_type_field)
         clickOnView(withText(name1))
         tryAction { checkTagVisible(tag1) }
         checkTagNotVisible(tag2)
@@ -187,7 +195,8 @@ class ArchiveTest : BaseUiTest() {
         // Still shown in stat detail filter
         NavUtils.openStatisticsScreen()
         clickOnView(allOf(withText(name1), isCompletelyDisplayed()))
-        clickOnViewWithId(R.id.cardStatisticsDetailFilter)
+        clickOnViewWithId(statisticsDetailR.id.cardStatisticsDetailFilter)
+        clickOnViewWithText(coreR.string.records_filter_select_tags)
         checkTagVisible(tag1)
         checkTagVisible(tag2)
         checkTagVisible(tag3)
@@ -214,16 +223,16 @@ class ArchiveTest : BaseUiTest() {
 
         // Restore
         clickOnViewWithText(tag2)
-        clickOnViewWithText(R.string.archive_dialog_restore)
+        clickOnViewWithText(coreR.string.archive_dialog_restore)
         clickOnViewWithText(tag4)
-        clickOnViewWithText(R.string.archive_dialog_restore)
+        clickOnViewWithText(coreR.string.archive_dialog_restore)
 
         // Archive is empty
         checkTagNotVisible(tag1)
         checkTagNotVisible(tag2)
         checkTagNotVisible(tag3)
         checkTagNotVisible(tag4)
-        checkViewIsDisplayed(withText(R.string.archive_empty))
+        checkViewIsDisplayed(withText(coreR.string.archive_empty))
         pressBack()
 
         // Shown again
@@ -263,19 +272,19 @@ class ArchiveTest : BaseUiTest() {
 
         // Delete
         tryAction { longClickOnView(withText(name1)) }
-        clickOnViewWithId(R.id.btnChangeRecordTypeDelete)
+        clickOnViewWithId(changeRecordTypeR.id.btnChangeRecordTypeDelete)
         tryAction { longClickOnView(withText(name2)) }
-        clickOnViewWithId(R.id.btnChangeRecordTypeDelete)
+        clickOnViewWithId(changeRecordTypeR.id.btnChangeRecordTypeDelete)
         NavUtils.openSettingsScreen()
         NavUtils.openCategoriesScreen()
         tryAction { clickOnViewWithText(tag1) }
-        clickOnViewWithId(R.id.btnChangeRecordTagDelete)
+        clickOnViewWithId(changeRecordTagR.id.btnChangeRecordTagDelete)
         tryAction { clickOnViewWithText(tag2) }
-        clickOnViewWithId(R.id.btnChangeRecordTagDelete)
+        clickOnViewWithId(changeRecordTagR.id.btnChangeRecordTagDelete)
         tryAction { clickOnViewWithText(tag3) }
-        clickOnViewWithId(R.id.btnChangeRecordTagDelete)
+        clickOnViewWithId(changeRecordTagR.id.btnChangeRecordTagDelete)
         tryAction { clickOnViewWithText(tag4) }
-        clickOnViewWithId(R.id.btnChangeRecordTagDelete)
+        clickOnViewWithId(changeRecordTagR.id.btnChangeRecordTagDelete)
         pressBack()
 
         // Check archive
@@ -291,15 +300,15 @@ class ArchiveTest : BaseUiTest() {
         clickOnViewWithText(name1)
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.layoutArchiveDialogInfoItem),
-                hasDescendant(withText(R.string.archive_records_count)),
+                withId(dialogsR.id.layoutArchiveDialogInfoItem),
+                hasDescendant(withText(coreR.string.archive_records_count)),
                 hasDescendant(withText("6"))
             )
         )
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.layoutArchiveDialogInfoItem),
-                hasDescendant(withText(R.string.archive_record_tags_count)),
+                withId(dialogsR.id.layoutArchiveDialogInfoItem),
+                hasDescendant(withText(coreR.string.archive_record_tags_count)),
                 hasDescendant(withText("2"))
             )
         )
@@ -309,15 +318,15 @@ class ArchiveTest : BaseUiTest() {
         clickOnViewWithText(name2)
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.layoutArchiveDialogInfoItem),
-                hasDescendant(withText(R.string.archive_records_count)),
+                withId(dialogsR.id.layoutArchiveDialogInfoItem),
+                hasDescendant(withText(coreR.string.archive_records_count)),
                 hasDescendant(withText("0"))
             )
         )
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.layoutArchiveDialogInfoItem),
-                hasDescendant(withText(R.string.archive_record_tags_count)),
+                withId(dialogsR.id.layoutArchiveDialogInfoItem),
+                hasDescendant(withText(coreR.string.archive_record_tags_count)),
                 hasDescendant(withText("0"))
             )
         )
@@ -327,8 +336,8 @@ class ArchiveTest : BaseUiTest() {
         clickOnViewWithText(tag1)
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.layoutArchiveDialogInfoItem),
-                hasDescendant(withText(R.string.archive_tagged_records_count)),
+                withId(dialogsR.id.layoutArchiveDialogInfoItem),
+                hasDescendant(withText(coreR.string.archive_tagged_records_count)),
                 hasDescendant(withText("4"))
             )
         )
@@ -338,8 +347,8 @@ class ArchiveTest : BaseUiTest() {
         clickOnViewWithText(tag2)
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.layoutArchiveDialogInfoItem),
-                hasDescendant(withText(R.string.archive_tagged_records_count)),
+                withId(dialogsR.id.layoutArchiveDialogInfoItem),
+                hasDescendant(withText(coreR.string.archive_tagged_records_count)),
                 hasDescendant(withText("0"))
             )
         )
@@ -349,8 +358,8 @@ class ArchiveTest : BaseUiTest() {
         clickOnViewWithText(tag3)
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.layoutArchiveDialogInfoItem),
-                hasDescendant(withText(R.string.archive_tagged_records_count)),
+                withId(dialogsR.id.layoutArchiveDialogInfoItem),
+                hasDescendant(withText(coreR.string.archive_tagged_records_count)),
                 hasDescendant(withText("2"))
             )
         )
@@ -360,8 +369,8 @@ class ArchiveTest : BaseUiTest() {
         clickOnViewWithText(tag4)
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.layoutArchiveDialogInfoItem),
-                hasDescendant(withText(R.string.archive_tagged_records_count)),
+                withId(dialogsR.id.layoutArchiveDialogInfoItem),
+                hasDescendant(withText(coreR.string.archive_tagged_records_count)),
                 hasDescendant(withText("0"))
             )
         )
@@ -370,7 +379,7 @@ class ArchiveTest : BaseUiTest() {
     private fun checkTypeVisible(name: String) {
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.viewRecordTypeItem),
+                withId(dialogsR.id.viewRecordTypeItem),
                 hasDescendant(withText(name)),
                 isCompletelyDisplayed()
             )
@@ -380,7 +389,7 @@ class ArchiveTest : BaseUiTest() {
     private fun checkTypeNotVisible(name: String) {
         checkViewDoesNotExist(
             allOf(
-                withId(R.id.viewRecordTypeItem),
+                withId(dialogsR.id.viewRecordTypeItem),
                 hasDescendant(withText(name)),
                 isCompletelyDisplayed()
             )
@@ -390,7 +399,7 @@ class ArchiveTest : BaseUiTest() {
     private fun checkTagVisible(name: String) {
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.viewCategoryItem),
+                withId(dialogsR.id.viewCategoryItem),
                 hasDescendant(withText(name)),
                 isCompletelyDisplayed()
             )
@@ -400,7 +409,7 @@ class ArchiveTest : BaseUiTest() {
     private fun checkTagNotVisible(name: String) {
         checkViewDoesNotExist(
             allOf(
-                withId(R.id.viewCategoryItem),
+                withId(dialogsR.id.viewCategoryItem),
                 hasDescendant(withText(name)),
                 isCompletelyDisplayed()
             )

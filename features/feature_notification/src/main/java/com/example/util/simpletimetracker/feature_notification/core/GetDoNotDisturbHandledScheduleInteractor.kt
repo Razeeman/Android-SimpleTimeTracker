@@ -1,7 +1,7 @@
 package com.example.util.simpletimetracker.feature_notification.core
 
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
-import java.util.*
+import java.util.Calendar
 import javax.inject.Inject
 
 class GetDoNotDisturbHandledScheduleInteractor @Inject constructor(

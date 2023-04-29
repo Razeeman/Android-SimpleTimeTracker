@@ -24,6 +24,10 @@ import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.Matcher
 import org.junit.Test
 import org.junit.runner.RunWith
+import com.example.util.simpletimetracker.core.R as coreR
+import com.example.util.simpletimetracker.feature_base_adapter.R as baseR
+import com.example.util.simpletimetracker.feature_change_record.R as changeRecordR
+import com.example.util.simpletimetracker.feature_views.R as viewsR
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
@@ -41,16 +45,16 @@ class ChangeUntrackedTest : BaseUiTest() {
 
         // Open edit view
         NavUtils.openRecordsScreen()
-        clickOnView(allOf(withText(R.string.untracked_time_name), isCompletelyDisplayed()))
+        clickOnView(allOf(withText(coreR.string.untracked_time_name), isCompletelyDisplayed()))
 
         // View is set up
-        checkViewIsNotDisplayed(withId(R.id.btnChangeRecordDelete))
-        checkViewIsNotDisplayed(withId(R.id.rvChangeRecordType))
-        checkPreviewUpdated(withCardColor(R.color.colorUntracked))
+        checkViewIsNotDisplayed(withId(changeRecordR.id.btnChangeRecordDelete))
+        checkViewIsNotDisplayed(withId(changeRecordR.id.rvChangeRecordType))
+        checkPreviewUpdated(withCardColor(viewsR.color.colorUntracked))
 
         // Change item
-        clickOnViewWithText(R.string.change_record_type_field)
-        clickOnRecyclerItem(R.id.rvChangeRecordType, withText(name))
+        clickOnViewWithText(coreR.string.change_record_type_field)
+        clickOnRecyclerItem(changeRecordR.id.rvChangeRecordType, withText(name))
 
         // Preview is updated
         checkPreviewUpdated(hasDescendant(withText(name)))
@@ -58,13 +62,13 @@ class ChangeUntrackedTest : BaseUiTest() {
         checkPreviewUpdated(hasDescendant(withTag(icon)))
 
         // Save
-        clickOnViewWithText(R.string.change_record_type_save)
+        clickOnViewWithText(coreR.string.change_record_type_save)
 
         // Record updated
-        tryAction { checkViewDoesNotExist(allOf(withText(R.string.untracked_time_name), isCompletelyDisplayed())) }
+        tryAction { checkViewDoesNotExist(allOf(withText(coreR.string.untracked_time_name), isCompletelyDisplayed())) }
         checkViewIsDisplayed(
             allOf(
-                withId(R.id.viewRecordItem),
+                withId(baseR.id.viewRecordItem),
                 withCardColor(color),
                 hasDescendant(withText(name)),
                 hasDescendant(withTag(icon)),
@@ -74,13 +78,13 @@ class ChangeUntrackedTest : BaseUiTest() {
 
         // Delete record
         clickOnView(allOf(withText(name), isCompletelyDisplayed()))
-        clickOnViewWithId(R.id.btnChangeRecordDelete)
+        clickOnViewWithId(changeRecordR.id.btnChangeRecordDelete)
 
         // Untracked is back
         tryAction { checkViewDoesNotExist(allOf(withText(name), isCompletelyDisplayed())) }
-        checkViewIsDisplayed(allOf(withText(R.string.untracked_time_name), isCompletelyDisplayed()))
+        checkViewIsDisplayed(allOf(withText(coreR.string.untracked_time_name), isCompletelyDisplayed()))
     }
 
     private fun checkPreviewUpdated(matcher: Matcher<View>) =
-        checkViewIsDisplayed(allOf(withId(R.id.previewChangeRecord), matcher))
+        checkViewIsDisplayed(allOf(withId(changeRecordR.id.previewChangeRecord), matcher))
 }

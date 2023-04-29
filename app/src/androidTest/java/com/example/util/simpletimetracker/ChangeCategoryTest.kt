@@ -24,6 +24,8 @@ import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.Matcher
 import org.junit.Test
 import org.junit.runner.RunWith
+import com.example.util.simpletimetracker.core.R as coreR
+import com.example.util.simpletimetracker.feature_change_category.R as changeCategoryR
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
@@ -48,45 +50,49 @@ class ChangeCategoryTest : BaseUiTest() {
         longClickOnView(withText(name))
 
         // View is set up
-        checkViewIsDisplayed(withId(R.id.btnChangeCategoryDelete))
-        checkViewIsNotDisplayed(withId(R.id.rvChangeCategoryColor))
-        checkViewIsNotDisplayed(withId(R.id.rvChangeCategoryType))
-        checkViewIsDisplayed(allOf(withId(R.id.etChangeCategoryName), withText(name)))
+        checkViewIsDisplayed(withId(changeCategoryR.id.btnChangeCategoryDelete))
+        checkViewIsNotDisplayed(withId(changeCategoryR.id.rvChangeCategoryColor))
+        checkViewIsNotDisplayed(withId(changeCategoryR.id.rvChangeCategoryType))
+        checkViewIsDisplayed(allOf(withId(changeCategoryR.id.etChangeCategoryName), withText(name)))
 
         // Preview is updated
         checkPreviewUpdated(hasDescendant(withText(name)))
         checkPreviewUpdated(withCardColor(firstColor))
 
         // Change item
-        typeTextIntoView(R.id.etChangeCategoryName, newName)
+        typeTextIntoView(changeCategoryR.id.etChangeCategoryName, newName)
         checkPreviewUpdated(hasDescendant(withText(newName)))
 
-        clickOnViewWithText(R.string.change_record_type_color_hint)
-        checkViewIsDisplayed(allOf(withId(R.id.viewColorItemSelected), withParent(withCardColor(firstColor))))
-        scrollRecyclerToView(R.id.rvChangeCategoryColor, withCardColor(lastColor))
-        clickOnRecyclerItem(R.id.rvChangeCategoryColor, withCardColor(lastColor))
+        clickOnViewWithText(coreR.string.change_record_type_color_hint)
+        checkViewIsDisplayed(
+            allOf(withId(changeCategoryR.id.viewColorItemSelected), withParent(withCardColor(firstColor)))
+        )
+        scrollRecyclerToView(changeCategoryR.id.rvChangeCategoryColor, withCardColor(lastColor))
+        clickOnRecyclerItem(changeCategoryR.id.rvChangeCategoryColor, withCardColor(lastColor))
         checkPreviewUpdated(withCardColor(lastColor))
-        checkViewIsDisplayed(allOf(withId(R.id.viewColorItemSelected), withParent(withCardColor(lastColor))))
+        checkViewIsDisplayed(
+            allOf(withId(changeCategoryR.id.viewColorItemSelected), withParent(withCardColor(lastColor)))
+        )
 
-        clickOnViewWithText(R.string.change_category_types_hint)
-        onView(withText(typeName1)).check(isCompletelyAbove(withId(R.id.viewDividerItem)))
-        onView(withText(typeName2)).check(isCompletelyBelow(withId(R.id.viewDividerItem)))
-        clickOnRecyclerItem(R.id.rvChangeCategoryType, withText(typeName1))
-        clickOnRecyclerItem(R.id.rvChangeCategoryType, withText(typeName2))
-        onView(withText(typeName1)).check(isCompletelyBelow(withId(R.id.viewDividerItem)))
-        onView(withText(typeName2)).check(isCompletelyAbove(withId(R.id.viewDividerItem)))
+        clickOnViewWithText(coreR.string.change_category_types_hint)
+        onView(withText(typeName1)).check(isCompletelyAbove(withId(changeCategoryR.id.viewDividerItem)))
+        onView(withText(typeName2)).check(isCompletelyBelow(withId(changeCategoryR.id.viewDividerItem)))
+        clickOnRecyclerItem(changeCategoryR.id.rvChangeCategoryType, withText(typeName1))
+        clickOnRecyclerItem(changeCategoryR.id.rvChangeCategoryType, withText(typeName2))
+        onView(withText(typeName1)).check(isCompletelyBelow(withId(changeCategoryR.id.viewDividerItem)))
+        onView(withText(typeName2)).check(isCompletelyAbove(withId(changeCategoryR.id.viewDividerItem)))
 
-        clickOnViewWithText(R.string.change_record_type_save)
+        clickOnViewWithText(coreR.string.change_record_type_save)
 
         // Record type updated
         checkViewIsDisplayed(withText(newName))
         checkViewIsDisplayed(withCardColor(lastColor))
         longClickOnView(withText(newName))
-        clickOnViewWithText(R.string.change_category_types_hint)
-        onView(withText(typeName1)).check(isCompletelyBelow(withId(R.id.viewDividerItem)))
-        onView(withText(typeName2)).check(isCompletelyAbove(withId(R.id.viewDividerItem)))
+        clickOnViewWithText(coreR.string.change_category_types_hint)
+        onView(withText(typeName1)).check(isCompletelyBelow(withId(changeCategoryR.id.viewDividerItem)))
+        onView(withText(typeName2)).check(isCompletelyAbove(withId(changeCategoryR.id.viewDividerItem)))
     }
 
     private fun checkPreviewUpdated(matcher: Matcher<View>) =
-        checkViewIsDisplayed(allOf(withId(R.id.previewChangeCategory), matcher))
+        checkViewIsDisplayed(allOf(withId(changeCategoryR.id.previewChangeCategory), matcher))
 }
