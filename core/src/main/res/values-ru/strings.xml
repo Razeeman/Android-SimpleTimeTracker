@@ -12,6 +12,7 @@
     <string name="activity_hint">Активности</string>
     <string name="category_hint">Категории</string>
     <string name="record_tag_hint">Теги записей</string>
+    <string name="record_tag_hint_short">Теги</string>
     <string name="nothing_selected">Ничего не выбрано</string>
     <string name="something_selected">Выбрано:</string>
 
@@ -43,6 +44,7 @@
     <string name="time_second">с</string>
 
     <string name="untracked_time_name">Без отслеживания</string>
+    <string name="uncategorized_time_name">Без категории</string>
     <string name="running_record_goal_time">цель %s</string>
     <string name="record_types_empty">Активности не добавлены</string>
     <string name="record_tag_selection_hint">Выберите тег для записи</string>
@@ -345,6 +347,7 @@
     <string name="widget_name">Одна активность</string>
     <string name="widget_universal_name">Универсальный</string>
     <string name="widget_statistics_chart_name">Диаграмма статистики</string>
+    <string name="widget_quick_settings_name">Быстрые настройки</string>
     <string name="widget_load_error">Не найден</string>
 
     <!--  Notification  -->
@@ -376,6 +379,19 @@
     <!--  Data edit  -->
     <string name="data_edit_hint">Эти изменения нельзя отменить. Обязательно создайте файл резервной копии, прежде чем что-либо делать.</string>
     <string name="data_edit_select_records">Выберите записи</string>
+    <string name="data_edit_change_activity">Изменить активность</string>
+    <string name="data_edit_change_activity_hint">Теги текущей активности будут удалены.</string>
+    <string name="data_edit_change_comment">Изменить комментарий</string>
+    <string name="data_edit_change_add_tag">Добавить теги</string>
+    <string name="data_edit_change_remove_tag">Удалить теги</string>
+    <string name="data_edit_button_change">Изменить</string>
+    <string name="data_edit_success_message">Данные изменены</string>
+
+    <!--  Records filter  -->
+    <string name="records_filter_select_tags">Выбрать теги</string>
+    <string name="records_filter_filter_tags">Отфильтровать теги</string>
+    <string name="records_filter_manually_filtered">Отфильтровано</string>
+    <string name="records_filter_select">Выбрать</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Смайлы и эмоции</string>

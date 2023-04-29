@@ -12,6 +12,7 @@
     <string name="activity_hint">Atividades</string>
     <string name="category_hint">Categorias</string>
     <string name="record_tag_hint">Tags de registro</string>
+    <string name="record_tag_hint_short">Tags</string>
     <string name="nothing_selected">Nada selecionado</string>
     <string name="something_selected">Selecionada:</string>
 
@@ -43,6 +44,7 @@
     <string name="time_second">s</string>
 
     <string name="untracked_time_name">Não monitorado</string>
+    <string name="uncategorized_time_name">Sem categoria</string>
     <string name="running_record_goal_time">meta %s</string>
     <string name="record_types_empty">Nenhuma atividade adicionada</string>
     <string name="record_tag_selection_hint">Selecione uma tag de registro</string>
@@ -341,6 +343,7 @@ Se a configuração <b>\"%s\"</b> estiver habilitada, o aplicativo enviará even
     <string name="widget_name">Uma atividade</string>
     <string name="widget_universal_name">Universal</string>
     <string name="widget_statistics_chart_name">Gráfico de estatísticas</string>
+    <string name="widget_quick_settings_name">Configurações rápidas</string>
     <string name="widget_load_error">Não encontrado</string>
 
     <!--  Notification  -->
@@ -372,6 +375,19 @@ Se a configuração <b>\"%s\"</b> estiver habilitada, o aplicativo enviará even
     <!--  Data edit  -->
     <string name="data_edit_hint">Essas alterações não podem ser desfeitas. Certifique-se de criar um arquivo de backup antes de fazer qualquer coisa.</string>
     <string name="data_edit_select_records">Selecionar registros</string>
+    <string name="data_edit_change_activity">Alterar atividade</string>
+    <string name="data_edit_change_activity_hint">As tags da atividade atual serão removidas.</string>
+    <string name="data_edit_change_comment">Alterar comentário</string>
+    <string name="data_edit_change_add_tag">Adicionar tags</string>
+    <string name="data_edit_change_remove_tag">Remover tags</string>
+    <string name="data_edit_button_change">Mudar</string>
+    <string name="data_edit_success_message">Dados alterados</string>
+
+    <!--  Records filter  -->
+    <string name="records_filter_select_tags">Selecionar tags</string>
+    <string name="records_filter_filter_tags">Filtrar tags</string>
+    <string name="records_filter_manually_filtered">Filtrada</string>
+    <string name="records_filter_select">Selecione</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Smileys &amp; Emoções</string>

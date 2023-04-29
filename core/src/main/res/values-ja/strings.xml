@@ -12,6 +12,7 @@
     <string name="activity_hint">アクティビティ</string>
     <string name="category_hint">カテゴリ</string>
     <string name="record_tag_hint">計測タグ</string>
+    <string name="record_tag_hint_short">タグ</string>
     <string name="nothing_selected">何も選択されていません</string>
     <string name="something_selected">選択済み:</string>
 
@@ -43,6 +44,7 @@
     <string name="time_second">秒</string>
 
     <string name="untracked_time_name">未計測</string>
+    <string name="uncategorized_time_name">未分類</string>
     <string name="running_record_goal_time">ゴール %s</string>
     <string name="record_types_empty">アクティビティがありません</string>
     <string name="record_tag_selection_hint">計測タグを選択</string>
@@ -345,6 +347,7 @@
     <string name="widget_name">アクティビティ</string>
     <string name="widget_universal_name">ユニバーサル</string>
     <string name="widget_statistics_chart_name">統計チャート</string>
+    <string name="widget_quick_settings_name">クイック設定</string>
     <string name="widget_load_error">見つかりません</string>
 
     <!--  Notification  -->
@@ -376,6 +379,19 @@
     <!--  Data edit  -->
     <string name="data_edit_hint">これらの変更は元に戻せません。何かを行う前に、必ずバックアップ ファイルを作成してください。</string>
     <string name="data_edit_select_records">レコードを選択</string>
+    <string name="data_edit_change_activity">アクティビティを変更</string>
+    <string name="data_edit_change_activity_hint">現在のアクティビティのタグは削除されます。</string>
+    <string name="data_edit_change_comment">コメントを変更</string>
+    <string name="data_edit_change_add_tag">タグを追加する</string>
+    <string name="data_edit_change_remove_tag">タグを削除</string>
+    <string name="data_edit_button_change">変化</string>
+    <string name="data_edit_success_message">データが変更されました</string>
+
+    <!--  Records filter  -->
+    <string name="records_filter_select_tags">タグを選択</string>
+    <string name="records_filter_filter_tags">タグのフィルター</string>
+    <string name="records_filter_manually_filtered">フィルタリングされた</string>
+    <string name="records_filter_select">選択する</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">顔文字とエモート</string>

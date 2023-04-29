@@ -12,6 +12,7 @@
     <string name="activity_hint">Aktiviteler</string>
     <string name="category_hint">Kategoriler</string>
     <string name="record_tag_hint">Kayıt etiketleri</string>
+    <string name="record_tag_hint_short">Etiketler</string>
     <string name="nothing_selected">Hiçbir şey seçilmedi</string>
     <string name="something_selected">Seçildi:</string>
 
@@ -43,6 +44,7 @@
     <string name="time_second">sn</string>
 
     <string name="untracked_time_name">Takipsiz</string>
+    <string name="uncategorized_time_name">Kategorize edilmemiş</string>
     <string name="running_record_goal_time">hedef %s</string>
     <string name="record_types_empty">Aktivite eklenmedi</string>
     <string name="record_tag_selection_hint">Kayıt etiketi seçin</string>
@@ -345,6 +347,7 @@ Ek olarak:<br/>
     <string name="widget_name">Tek Aktivite</string>
     <string name="widget_universal_name">Evrensel</string>
     <string name="widget_statistics_chart_name">İstatistik Grafiği</string>
+    <string name="widget_quick_settings_name">Hızlı Ayarlar</string>
     <string name="widget_load_error">Bulunamadı</string>
 
     <!--  Notification  -->
@@ -376,6 +379,19 @@ Ek olarak:<br/>
     <!--  Data edit  -->
     <string name="data_edit_hint">Bu değişiklikler geri alınamaz. Herhangi bir şey yapmadan önce bir yedekleme dosyası oluşturduğunuzdan emin olun.</string>
     <string name="data_edit_select_records">Kayıtları seç</string>
+    <string name="data_edit_change_activity">Etkinliği değiştir</string>
+    <string name="data_edit_change_activity_hint">Mevcut etkinliğin etiketleri kaldırılacak.</string>
+    <string name="data_edit_change_comment">Yorumu değiştir</string>
+    <string name="data_edit_change_add_tag">Etiket ekle</string>
+    <string name="data_edit_change_remove_tag">Etiketleri kaldır</string>
+    <string name="data_edit_button_change">Değiştirmek</string>
+    <string name="data_edit_success_message">Veri değişti</string>
+
+    <!--  Records filter  -->
+    <string name="records_filter_select_tags">Etiketleri seçin</string>
+    <string name="records_filter_filter_tags">Filtre etiketleri</string>
+    <string name="records_filter_manually_filtered">Filtrelendi</string>
+    <string name="records_filter_select">Seçme</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">İfadeler</string>

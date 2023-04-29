@@ -12,6 +12,7 @@
     <string name="activity_hint">Заняття</string>
     <string name="category_hint">Категорії</string>
     <string name="record_tag_hint">Теги записів</string>
+    <string name="record_tag_hint_short">Теги</string>
     <string name="nothing_selected">Нічого не вибрано</string>
     <string name="something_selected">Вибрано:</string>
 
@@ -43,6 +44,7 @@
     <string name="time_second">с</string>
 
     <string name="untracked_time_name">Без відстеження</string>
+    <string name="uncategorized_time_name">Без категорії</string>
     <string name="running_record_goal_time">ціль %s</string>
     <string name="record_types_empty">Жодної активності не додано</string>
     <string name="record_tag_selection_hint">Виберіть тег запису</string>
@@ -345,6 +347,7 @@
     <string name="widget_name">Окрема активність</string>
     <string name="widget_universal_name">Універсальний</string>
     <string name="widget_statistics_chart_name">Статистичний графік</string>
+    <string name="widget_quick_settings_name">Швидкі налаштування</string>
     <string name="widget_load_error">Не знайдено</string>
 
     <!--  Notification  -->
@@ -376,6 +379,19 @@
     <!--  Data edit  -->
     <string name="data_edit_hint">Ці зміни не можна скасувати. Перш ніж щось робити, обов’язково створіть файл резервної копії.</string>
     <string name="data_edit_select_records">Виберіть записи</string>
+    <string name="data_edit_change_activity">Змінити діяльність</string>
+    <string name="data_edit_change_activity_hint">Теги поточної активності буде видалено.</string>
+    <string name="data_edit_change_comment">Змінити коментар</string>
+    <string name="data_edit_change_add_tag">Додайте теги</string>
+    <string name="data_edit_change_remove_tag">Видаліть теги</string>
+    <string name="data_edit_button_change">Зміна</string>
+    <string name="data_edit_success_message">Дані змінено</string>
+
+    <!--  Records filter  -->
+    <string name="records_filter_select_tags">Виберіть теги</string>
+    <string name="records_filter_filter_tags">Теги фільтрів</string>
+    <string name="records_filter_manually_filtered">Відфільтрований</string>
+    <string name="records_filter_select">Виберіть</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Смайли та емоції</string>

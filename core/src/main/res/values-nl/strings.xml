@@ -12,6 +12,7 @@
     <string name="activity_hint">Activiteiten</string>
     <string name="category_hint">Categorieën</string>
     <string name="record_tag_hint">Opname labels</string>
+    <string name="record_tag_hint_short">Labels</string>
     <string name="nothing_selected">Niets geselecteerd</string>
     <string name="something_selected">Geselecteerd:</string>
 
@@ -43,6 +44,7 @@
     <string name="time_second">s</string>
 
     <string name="untracked_time_name">Niet bijgehouden</string>
+    <string name="uncategorized_time_name">Niet gecategoriseerd</string>
     <string name="running_record_goal_time">doel %s</string>
     <string name="record_types_empty">Geen activiteiten toegevoegd</string>
     <string name="record_tag_selection_hint">Selecteer recordlabel</string>
@@ -345,6 +347,7 @@ Als de instelling <b>\"%s\"</b> is ingeschakeld, stuurt de app gebeurtenissen ov
     <string name="widget_name">Enkele Activiteit</string>
     <string name="widget_universal_name">Universeel</string>
     <string name="widget_statistics_chart_name">Statistieken Grafiek</string>
+    <string name="widget_quick_settings_name">Snelle instellingen</string>
     <string name="widget_load_error">Niet gevonden</string>
 
     <!--  Notification  -->
@@ -376,6 +379,19 @@ Als de instelling <b>\"%s\"</b> is ingeschakeld, stuurt de app gebeurtenissen ov
     <!--  Data edit  -->
     <string name="data_edit_hint">Deze wijzigingen kunnen niet ongedaan worden gemaakt. Zorg ervoor dat u een back-upbestand maakt voordat u iets doet.</string>
     <string name="data_edit_select_records">Selecteer records</string>
+    <string name="data_edit_change_activity">Activiteit wijzigen</string>
+    <string name="data_edit_change_activity_hint">Tags van huidige activiteit worden verwijderd.</string>
+    <string name="data_edit_change_comment">Opmerking wijzigen</string>
+    <string name="data_edit_change_add_tag">Labels toevoegen</string>
+    <string name="data_edit_change_remove_tag">Labels verwijderen</string>
+    <string name="data_edit_button_change">Wijziging</string>
+    <string name="data_edit_success_message">Gegevens gewijzigd</string>
+
+    <!--  Records filter  -->
+    <string name="records_filter_select_tags">Selecteer labels</string>
+    <string name="records_filter_filter_tags">Filterlabels</string>
+    <string name="records_filter_manually_filtered">Gefilterd</string>
+    <string name="records_filter_select">Selecteer</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Smileys &amp; Emotie</string>

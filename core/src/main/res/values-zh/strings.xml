@@ -12,6 +12,7 @@
     <string name="activity_hint">活动</string>
     <string name="category_hint">类别</string>
     <string name="record_tag_hint">记录标签</string>
+    <string name="record_tag_hint_short">标签</string>
     <string name="nothing_selected">未选择任何内容</string>
     <string name="something_selected">已选择：</string>
 
@@ -43,6 +44,7 @@
     <string name="time_second">秒</string>
 
     <string name="untracked_time_name">未追踪</string>
+    <string name="uncategorized_time_name">未分类</string>
     <string name="running_record_goal_time">目标 %s</string>
     <string name="record_types_empty">未添加任何活动</string>
     <string name="record_tag_selection_hint">选择记录标签</string>
@@ -345,6 +347,7 @@
     <string name="widget_name">单个活动</string>
     <string name="widget_universal_name">通用</string>
     <string name="widget_statistics_chart_name">统计图表</string>
+    <string name="widget_quick_settings_name">快速设置</string>
     <string name="widget_load_error">找不到</string>
 
     <!--  Notification  -->
@@ -376,6 +379,19 @@
     <!--  Data edit  -->
     <string name="data_edit_hint">这些更改无法撤消。确保在执行任何操作之前创建备份文件。</string>
     <string name="data_edit_select_records">选择记录</string>
+    <string name="data_edit_change_activity">更改活动</string>
+    <string name="data_edit_change_activity_hint">当前活动的标签将被删除。</string>
+    <string name="data_edit_change_comment">更改评论</string>
+    <string name="data_edit_change_add_tag">添加标签</string>
+    <string name="data_edit_change_remove_tag">删除标签</string>
+    <string name="data_edit_button_change">改变</string>
+    <string name="data_edit_success_message">数据已更改</string>
+
+    <!--  Records filter  -->
+    <string name="records_filter_select_tags">选择标签</string>
+    <string name="records_filter_filter_tags">过滤标签</string>
+    <string name="records_filter_manually_filtered">已过滤</string>
+    <string name="records_filter_select">选择</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">微笑与情感</string>

@@ -12,6 +12,7 @@
     <string name="activity_hint">गतिविधियां</string>
     <string name="category_hint">श्रेणियाँ</string>
     <string name="record_tag_hint">टैग दर्ज करे</string>
+    <string name="record_tag_hint_short">टैग</string>
     <string name="nothing_selected">कुछ भी चयनित नहीं</string>
     <string name="something_selected">चयनित:</string>
 
@@ -43,6 +44,7 @@
     <string name="time_second">s</string>
 
     <string name="untracked_time_name">ट्रैक न किए गए</string>
+    <string name="uncategorized_time_name">अवर्गीकृत</string>
     <string name="running_record_goal_time">लक्ष्य %s</string>
     <string name="record_types_empty">कोई गतिविधियाँ जोड़ी गईं</string>
     <string name="record_tag_selection_hint">रिकॉर्ड टैग का चयन करें</string>
@@ -345,6 +347,7 @@
     <string name="widget_name">एकल गतिविधि</string>
     <string name="widget_universal_name">सार्वभौमिक</string>
     <string name="widget_statistics_chart_name">सांख्यिकी चार्ट</string>
+    <string name="widget_quick_settings_name">त्वरित सेटिंग</string>
     <string name="widget_load_error">नहीं मिला</string>
 
     <!--  Notification  -->
@@ -376,6 +379,19 @@
     <!--  Data edit  -->
     <string name="data_edit_hint">इन परिवर्तनों को पूर्ववत नहीं किया जा सकता है। कुछ भी करने से पहले बैकअप फ़ाइल बनाना सुनिश्चित करें।</string>
     <string name="data_edit_select_records">अभिलेखों का चयन करें</string>
+    <string name="data_edit_change_activity">गतिविधि बदलें</string>
+    <string name="data_edit_change_activity_hint">वर्तमान गतिविधि के टैग हटा दिए जाएंगे।</string>
+    <string name="data_edit_change_comment">टिप्पणी बदलें</string>
+    <string name="data_edit_change_add_tag">टैगों को जोड़ें</string>
+    <string name="data_edit_change_remove_tag">टैग हटाएं</string>
+    <string name="data_edit_button_change">परिवर्तन</string>
+    <string name="data_edit_success_message">डेटा बदल गया</string>
+
+    <!--  Records filter  -->
+    <string name="records_filter_select_tags">टैग चुनें</string>
+    <string name="records_filter_filter_tags">फ़िल्टर टैग</string>
+    <string name="records_filter_manually_filtered">छाना हुआ</string>
+    <string name="records_filter_select">चुनना</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">स्माइली और इमोशन</string>

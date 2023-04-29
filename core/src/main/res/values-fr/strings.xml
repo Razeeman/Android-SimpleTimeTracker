@@ -12,6 +12,7 @@
     <string name="activity_hint">Activités</string>
     <string name="category_hint">Catégories</string>
     <string name="record_tag_hint">Étiquettes d\'enregistrement</string>
+    <string name="record_tag_hint_short">Étiquettes</string>
     <string name="nothing_selected">Rien de sélectionné</string>
     <string name="something_selected">Choisie:</string>
 
@@ -43,6 +44,7 @@
     <string name="time_second">s</string>
 
     <string name="untracked_time_name">Non suivi</string>
+    <string name="uncategorized_time_name">Non classé</string>
     <string name="running_record_goal_time">objectif %s</string>
     <string name="record_types_empty">Aucune activité ajoutée</string>
     <string name="record_tag_selection_hint">Sélectionnez une étiquette d\'enregistrement</string>
@@ -345,6 +347,7 @@ Si le paramètre <b>\"%s\"</b> est activé, l\'application enverra des événeme
     <string name="widget_name">Activité unique</string>
     <string name="widget_universal_name">Universel</string>
     <string name="widget_statistics_chart_name">Statistiques</string>
+    <string name="widget_quick_settings_name">Réglages rapides</string>
     <string name="widget_load_error">Widget non trouvé</string>
 
     <!--  Notification  -->
@@ -376,6 +379,19 @@ Si le paramètre <b>\"%s\"</b> est activé, l\'application enverra des événeme
     <!--  Data edit  -->
     <string name="data_edit_hint">Ces modifications ne peuvent pas être annulées. Assurez-vous de créer un fichier de sauvegarde avant de faire quoi que ce soit.</string>
     <string name="data_edit_select_records">Sélectionnez des enregistrements</string>
+    <string name="data_edit_change_activity">Changer d\'activité</string>
+    <string name="data_edit_change_activity_hint">Les balises de l\'activité en cours seront supprimées.</string>
+    <string name="data_edit_change_comment">Modifier le commentaire</string>
+    <string name="data_edit_change_add_tag">Ajouter des balises</string>
+    <string name="data_edit_change_remove_tag">Supprimer les balises</string>
+    <string name="data_edit_button_change">Changement</string>
+    <string name="data_edit_success_message">Données modifiées</string>
+
+    <!--  Records filter  -->
+    <string name="records_filter_select_tags">Sélectionnez les balises</string>
+    <string name="records_filter_filter_tags">Filtrer les balises</string>
+    <string name="records_filter_manually_filtered">Filtrée</string>
+    <string name="records_filter_select">Sélectionner</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Smileys &amp; Émotion</string>

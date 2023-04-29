@@ -5,7 +5,7 @@
     android:initialLayout="@layout/widget_layout"
     android:minWidth="20dp"
     android:minHeight="20dp"
-    android:previewImage="@drawable/preview_widget_single"
+    android:previewImage="@drawable/preview_widget_quick_setting"
     android:resizeMode="none"
     android:updatePeriodMillis="1800000"
     android:widgetCategory="home_screen"

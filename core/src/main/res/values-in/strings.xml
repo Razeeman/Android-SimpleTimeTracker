@@ -12,6 +12,7 @@
     <string name="activity_hint">Kegiatan</string>
     <string name="category_hint">Kategori</string>
     <string name="record_tag_hint">Label rekaman</string>
+    <string name="record_tag_hint_short">Label</string>
     <string name="nothing_selected">Tidak ada yang dipilih</string>
     <string name="something_selected">Terpilih:</string>
 
@@ -43,6 +44,7 @@
     <string name="time_second">d</string>
 
     <string name="untracked_time_name">Tidak dilacak</string>
+    <string name="uncategorized_time_name">Tidak dikategorikan</string>
     <string name="running_record_goal_time">tujuan %s</string>
     <string name="record_types_empty">Tidak ada kegiatan yang ditambahkan</string>
     <string name="record_tag_selection_hint">Pilih label rekaman</string>
@@ -345,6 +347,7 @@ Jika setelan <b>\"%s\"</b> diaktifkan, aplikasi akan mengirimkan peristiwa pada 
     <string name="widget_name">Kegiatan Tunggal</string>
     <string name="widget_universal_name">Sedunia</string>
     <string name="widget_statistics_chart_name">Bagan Statistik</string>
+    <string name="widget_quick_settings_name">Pengaturan cepat</string>
     <string name="widget_load_error">Tidak ditemukan</string>
 
     <!--  Notification  -->
@@ -376,6 +379,19 @@ Jika setelan <b>\"%s\"</b> diaktifkan, aplikasi akan mengirimkan peristiwa pada 
     <!--  Data edit  -->
     <string name="data_edit_hint">Perubahan ini tidak dapat diurungkan. Pastikan untuk membuat file cadangan sebelum melakukan apa pun.</string>
     <string name="data_edit_select_records">Pilih rekaman</string>
+    <string name="data_edit_change_activity">Ubah aktivitas</string>
+    <string name="data_edit_change_activity_hint">Tag aktivitas saat ini akan dihapus.</string>
+    <string name="data_edit_change_comment">Ubah komentar</string>
+    <string name="data_edit_change_add_tag">Tambahkan tanda</string>
+    <string name="data_edit_change_remove_tag">Hapus tag</string>
+    <string name="data_edit_button_change">Mengubah</string>
+    <string name="data_edit_success_message">Data berubah</string>
+
+    <!--  Records filter  -->
+    <string name="records_filter_select_tags">Pilih tag</string>
+    <string name="records_filter_filter_tags">Filter tag</string>
+    <string name="records_filter_manually_filtered">Tersaring</string>
+    <string name="records_filter_select">Pilih</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Senyuman &amp; Emosi</string>

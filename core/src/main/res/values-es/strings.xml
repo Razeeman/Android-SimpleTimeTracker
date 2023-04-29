@@ -12,6 +12,7 @@
     <string name="activity_hint">Actividades</string>
     <string name="category_hint">Categorías</string>
     <string name="record_tag_hint">Etiquetas de registros</string>
+    <string name="record_tag_hint_short">Etiquetas</string>
     <string name="nothing_selected">Nada seleccionado</string>
     <string name="something_selected">Seleccionada:</string>
 
@@ -43,6 +44,7 @@
     <string name="time_second">s</string>
 
     <string name="untracked_time_name">Sin seguimiento</string>
+    <string name="uncategorized_time_name">Sin categorizar</string>
     <string name="running_record_goal_time">objetivo %s</string>
     <string name="record_types_empty">No se añadieron actividades</string>
     <string name="record_tag_selection_hint">Seleccione etiqueta</string>
@@ -345,6 +347,7 @@ Si la configuración <b>\"%s\"</b> está habilitada, la aplicación enviará eve
     <string name="widget_name">Actividad Única</string>
     <string name="widget_universal_name">Universal</string>
     <string name="widget_statistics_chart_name">Cuadro estadístico</string>
+    <string name="widget_quick_settings_name">Ajustes rápidos</string>
     <string name="widget_load_error">No encontrado</string>
 
     <!--  Notification  -->
@@ -376,6 +379,19 @@ Si la configuración <b>\"%s\"</b> está habilitada, la aplicación enviará eve
     <!--  Data edit  -->
     <string name="data_edit_hint">Estos cambios no se pueden deshacer. Asegúrese de crear un archivo de copia de seguridad antes de hacer nada.</string>
     <string name="data_edit_select_records">Seleccionar registros</string>
+    <string name="data_edit_change_activity">Cambiar actividad</string>
+    <string name="data_edit_change_activity_hint">Se eliminarán las etiquetas de la actividad actual.</string>
+    <string name="data_edit_change_comment">Cambiar comentario</string>
+    <string name="data_edit_change_add_tag">Agregar etiquetas</string>
+    <string name="data_edit_change_remove_tag">Eliminar etiquetas</string>
+    <string name="data_edit_button_change">Cambiar</string>
+    <string name="data_edit_success_message">Datos cambiados</string>
+
+    <!--  Records filter  -->
+    <string name="records_filter_select_tags">Seleccionar etiquetas</string>
+    <string name="records_filter_filter_tags">Filtrar etiquetas</string>
+    <string name="records_filter_manually_filtered">Filtrada</string>
+    <string name="records_filter_select">Seleccionar</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Emoticonos y Emociones</string>

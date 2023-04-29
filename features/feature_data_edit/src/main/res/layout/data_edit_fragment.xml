@@ -26,7 +26,7 @@
         android:layout_marginHorizontal="12dp"
         android:gravity="center"
         android:text="@string/data_edit_hint"
-        android:textColor="?appTextHintColor"
+        android:textColor="?colorSecondary"
         app:layout_constraintTop_toBottomOf="@id/tvDataEditTitle" />
 
     <com.example.util.simpletimetracker.feature_views.DividerView
@@ -175,7 +175,7 @@
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/inputDataEditChangeComment"
-                            style="@style/ChangeItemInputField"
+                            style="@style/ChangeItemInputFieldDialog"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="16dp"

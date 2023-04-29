@@ -12,6 +12,7 @@
     <string name="activity_hint">Aktiviteter</string>
     <string name="category_hint">Kategorier</string>
     <string name="record_tag_hint">Händelsetaggar</string>
+    <string name="record_tag_hint_short">Taggar</string>
     <string name="nothing_selected">Inget valt</string>
     <string name="something_selected">Vald:</string>
 
@@ -43,6 +44,7 @@
     <string name="time_second">s</string>
 
     <string name="untracked_time_name">Okategoriserad</string>
+    <string name="uncategorized_time_name">Okategoriserad</string>
     <string name="running_record_goal_time">mål %s</string>
     <string name="record_types_empty">Inga tillagda aktiviteter</string>
     <string name="record_tag_selection_hint">Välj händelsetagg</string>
@@ -345,6 +347,7 @@ Om inställningen <b>\"%s\"</b> är aktiverad, kommer appen att skicka händelse
     <string name="widget_name">Enskild aktivitet</string>
     <string name="widget_universal_name">Välj aktivitet</string>
     <string name="widget_statistics_chart_name">Statistikdiagram</string>
+    <string name="widget_quick_settings_name">Snabbinställningar</string>
     <string name="widget_load_error">Saknas</string>
 
     <!--  Notification  -->
@@ -376,6 +379,19 @@ Om inställningen <b>\"%s\"</b> är aktiverad, kommer appen att skicka händelse
     <!--  Data edit  -->
     <string name="data_edit_hint">Dessa ändringar kan inte ångras. Se till att skapa en säkerhetskopia innan du gör något.</string>
     <string name="data_edit_select_records">Välj poster</string>
+    <string name="data_edit_change_activity">Ändra aktivitet</string>
+    <string name="data_edit_change_activity_hint">Taggar för aktuell aktivitet kommer att tas bort.</string>
+    <string name="data_edit_change_comment">Ändra kommentar</string>
+    <string name="data_edit_change_add_tag">Lägg till taggar</string>
+    <string name="data_edit_change_remove_tag">Ta bort taggar</string>
+    <string name="data_edit_button_change">Förändra</string>
+    <string name="data_edit_success_message">Data har ändrats</string>
+
+    <!--  Records filter  -->
+    <string name="records_filter_select_tags">Välj taggar</string>
+    <string name="records_filter_filter_tags">Filtrera taggar</string>
+    <string name="records_filter_manually_filtered">Filtrerad</string>
+    <string name="records_filter_select">Välj</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Ansiktsuttryck &amp; Känslor</string>

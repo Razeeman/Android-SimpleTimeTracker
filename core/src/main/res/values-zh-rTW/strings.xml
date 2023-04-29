@@ -12,6 +12,7 @@
     <string name="activity_hint">活動</string>
     <string name="category_hint">分類</string>
     <string name="record_tag_hint">紀錄標記</string>
+    <string name="record_tag_hint_short">標籤</string>
     <string name="nothing_selected">未選取</string>
     <string name="something_selected">已選取:</string>
 
@@ -43,6 +44,7 @@
     <string name="time_second">秒</string>
 
     <string name="untracked_time_name">不追蹤</string>
+    <string name="uncategorized_time_name">未分類</string>
     <string name="running_record_goal_time">目標 %s</string>
     <string name="record_types_empty">未有已加入的活動</string>
     <string name="record_tag_selection_hint">選擇記錄標記</string>
@@ -345,6 +347,7 @@
     <string name="widget_name">單一活動</string>
     <string name="widget_universal_name">萬用</string>
     <string name="widget_statistics_chart_name">統計表</string>
+    <string name="widget_quick_settings_name">快速設置</string>
     <string name="widget_load_error">未找到</string>
 
     <!--  Notification  -->
@@ -376,6 +379,19 @@
     <!--  Data edit  -->
     <string name="data_edit_hint">這些更改無法撤消。確保在執行任何操作之前創建備份文件。</string>
     <string name="data_edit_select_records">選擇記錄</string>
+    <string name="data_edit_change_activity">更改活動</string>
+    <string name="data_edit_change_activity_hint">當前活動的標籤將被刪除。</string>
+    <string name="data_edit_change_comment">更改評論</string>
+    <string name="data_edit_change_add_tag">添加標籤</string>
+    <string name="data_edit_change_remove_tag">刪除標籤</string>
+    <string name="data_edit_button_change">改變</string>
+    <string name="data_edit_success_message">數據已更改</string>
+
+    <!--  Records filter  -->
+    <string name="records_filter_select_tags">選擇標籤</string>
+    <string name="records_filter_filter_tags">過濾標籤</string>
+    <string name="records_filter_manually_filtered">已過濾</string>
+    <string name="records_filter_select">選擇</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">表情</string>
