@@ -5,8 +5,10 @@ import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.viewData.StatisticsDataHolder
+import com.example.util.simpletimetracker.domain.UNCATEGORIZED_ITEM_ID
 import com.example.util.simpletimetracker.domain.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.domain.mapper.StatisticsMapper
+import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.Statistics
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
@@ -31,6 +33,7 @@ class StatisticsViewDataMapper @Inject constructor(
     fun mapItemsList(
         statistics: List<Statistics>,
         data: Map<Long, StatisticsDataHolder>,
+        filterType: ChartFilterType,
         filteredIds: List<Long>,
         showDuration: Boolean,
         isDarkTheme: Boolean,
@@ -44,6 +47,7 @@ class StatisticsViewDataMapper @Inject constructor(
         return statisticsFiltered
             .mapNotNull { statistic ->
                 val item = mapItem(
+                    filterType = filterType,
                     statistics = statistic,
                     sumDuration = sumDuration,
                     dataHolder = data[statistic.id],
@@ -116,6 +120,7 @@ class StatisticsViewDataMapper @Inject constructor(
     }
 
     private fun mapItem(
+        filterType: ChartFilterType,
         statistics: Statistics,
         sumDuration: Long,
         dataHolder: StatisticsDataHolder?,
@@ -147,6 +152,27 @@ class StatisticsViewDataMapper @Inject constructor(
                         },
                     percent = durationPercent,
                     icon = RecordTypeIcon.Image(R.drawable.unknown),
+                    color = colorMapper.toUntrackedColor(isDarkTheme)
+                )
+            }
+            statistics.id == UNCATEGORIZED_ITEM_ID -> {
+                return StatisticsViewData(
+                    id = statistics.id,
+                    name = if (filterType == ChartFilterType.RECORD_TAG) {
+                        R.string.change_record_untagged
+                    } else {
+                        R.string.uncategorized_time_name
+                    }.let(resourceRepo::getString),
+                    duration = statistics.duration
+                        .let {
+                            timeMapper.formatInterval(
+                                interval = it,
+                                forceSeconds = showSeconds,
+                                useProportionalMinutes = useProportionalMinutes,
+                            )
+                        },
+                    percent = durationPercent,
+                    icon = RecordTypeIcon.Image(R.drawable.untagged),
                     color = colorMapper.toUntrackedColor(isDarkTheme)
                 )
             }

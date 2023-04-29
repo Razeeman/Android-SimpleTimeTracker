@@ -4,6 +4,7 @@ import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.viewData.StatisticsDataHolder
+import com.example.util.simpletimetracker.domain.UNCATEGORIZED_ITEM_ID
 import com.example.util.simpletimetracker.domain.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
@@ -85,6 +86,13 @@ class StatisticsChartViewDataInteractor @Inject constructor(
                     value = statistics.duration,
                     colorInt = colorMapper.toUntrackedColor(isDarkTheme),
                     iconId = RecordTypeIcon.Image(R.drawable.unknown)
+                )
+            }
+            statistics.id == UNCATEGORIZED_ITEM_ID -> {
+                PiePortion(
+                    value = statistics.duration,
+                    colorInt = colorMapper.toUntrackedColor(isDarkTheme),
+                    iconId = RecordTypeIcon.Image(R.drawable.untagged),
                 )
             }
             dataHolder != null -> {

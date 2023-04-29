@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.base.SingleLiveEvent
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.extension.toParams
-import com.example.util.simpletimetracker.core.interactor.RecordFilterInteractor
 import com.example.util.simpletimetracker.core.interactor.SharingInteractor
 import com.example.util.simpletimetracker.core.model.NavigationTab
 import com.example.util.simpletimetracker.domain.UNTRACKED_ITEM_ID
@@ -38,7 +37,6 @@ class StatisticsViewModel @Inject constructor(
     private val statisticsViewDataInteractor: StatisticsViewDataInteractor,
     private val sharingInteractor: SharingInteractor,
     private val prefsInteractor: PrefsInteractor,
-    private val recordFilterInteractor: RecordFilterInteractor,
 ) : ViewModel() {
 
     var extra: StatisticsExtra? = null
@@ -97,10 +95,10 @@ class StatisticsViewModel @Inject constructor(
         router.navigate(
             data = StatisticsDetailParams(
                 transitionName = TransitionNames.STATISTICS_DETAIL + item.id,
-                filter = recordFilterInteractor.mapFilter(
+                filter = statisticsViewDataInteractor.mapFilter(
                     filterType = filterType,
-                    selectedIds = listOf(item.id)
-                ).map(RecordsFilter::toParams),
+                    selectedId = item.id,
+                ).let(::listOf).map(RecordsFilter::toParams),
                 range = when (rangeLength) {
                     is RangeLength.Day -> StatisticsDetailParams.RangeLengthParams.Day
                     is RangeLength.Week -> StatisticsDetailParams.RangeLengthParams.Week

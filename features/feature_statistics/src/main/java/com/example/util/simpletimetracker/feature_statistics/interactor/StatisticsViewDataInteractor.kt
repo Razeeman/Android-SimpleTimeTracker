@@ -4,12 +4,16 @@ import com.example.util.simpletimetracker.core.interactor.StatisticsChartViewDat
 import com.example.util.simpletimetracker.core.interactor.StatisticsMediator
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.RangeMapper
+import com.example.util.simpletimetracker.domain.UNCATEGORIZED_ITEM_ID
 import com.example.util.simpletimetracker.domain.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.RecordType
+import com.example.util.simpletimetracker.domain.model.RecordTypeCategory
+import com.example.util.simpletimetracker.domain.model.RecordsFilter
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.divider.DividerViewData
 import com.example.util.simpletimetracker.feature_statistics.mapper.StatisticsViewDataMapper
@@ -20,6 +24,7 @@ import javax.inject.Inject
 
 class StatisticsViewDataInteractor @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
+    private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
     private val statisticsMediator: StatisticsMediator,
     private val statisticsChartViewDataInteractor: StatisticsChartViewDataInteractor,
     private val prefsInteractor: PrefsInteractor,
@@ -27,6 +32,49 @@ class StatisticsViewDataInteractor @Inject constructor(
     private val rangeMapper: RangeMapper,
     private val colorMapper: ColorMapper,
 ) {
+
+    suspend fun mapFilter(
+        filterType: ChartFilterType,
+        selectedId: Long,
+    ): RecordsFilter {
+        if (selectedId == UNCATEGORIZED_ITEM_ID) {
+            when (filterType) {
+                ChartFilterType.CATEGORY -> {
+                    val typesInCategories = recordTypeCategoryInteractor.getAll()
+                        .map(RecordTypeCategory::recordTypeId)
+                        .distinct()
+                    val typesNotInCategories = recordTypeInteractor.getAll()
+                        .filterNot { it.id in typesInCategories }
+                        .map(RecordType::id)
+
+                    return RecordsFilter.Activity(typesNotInCategories)
+                }
+                ChartFilterType.RECORD_TAG -> {
+                    val types = recordTypeInteractor.getAll()
+
+                    return types
+                        .map(RecordType::id)
+                        .map(RecordsFilter.Tag::Untagged)
+                        .let(RecordsFilter::SelectedTags)
+                }
+                ChartFilterType.ACTIVITY -> {
+                    // Shouldn't happen normally.
+                }
+            }
+        }
+
+        return when (filterType) {
+            ChartFilterType.ACTIVITY -> {
+                listOf(selectedId).let(RecordsFilter::Activity)
+            }
+            ChartFilterType.CATEGORY -> {
+                listOf(selectedId).let(RecordsFilter::Category)
+            }
+            ChartFilterType.RECORD_TAG -> {
+                listOf(selectedId).map(RecordsFilter.Tag::Tagged).let(RecordsFilter::SelectedTags)
+            }
+        }
+    }
 
     suspend fun getViewData(
         rangeLength: RangeLength,
@@ -96,6 +144,7 @@ class StatisticsViewDataInteractor @Inject constructor(
             )
         }
         val list = statisticsViewDataMapper.mapItemsList(
+            filterType = filterType,
             statistics = statistics,
             data = dataHolders,
             filteredIds = filteredIds,

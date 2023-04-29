@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.feature_dialogs.chartFilter.viewData
+package com.example.util.simpletimetracker.core.viewData
 
 import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
 import com.example.util.simpletimetracker.domain.model.ChartFilterType

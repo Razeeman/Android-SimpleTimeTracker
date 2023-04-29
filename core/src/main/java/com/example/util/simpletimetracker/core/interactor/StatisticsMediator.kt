@@ -2,16 +2,17 @@ package com.example.util.simpletimetracker.core.interactor
 
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.viewData.StatisticsDataHolder
+import com.example.util.simpletimetracker.domain.UNCATEGORIZED_ITEM_ID
 import com.example.util.simpletimetracker.domain.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
-import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.StatisticsCategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.StatisticsInteractor
 import com.example.util.simpletimetracker.domain.interactor.StatisticsTagInteractor
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
+import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.Statistics
@@ -25,7 +26,6 @@ class StatisticsMediator @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val timeMapper: TimeMapper,
     private val recordTypeInteractor: RecordTypeInteractor,
-    private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
     private val recordTagInteractor: RecordTagInteractor,
 ) {
 
@@ -48,9 +48,9 @@ class StatisticsMediator @Inject constructor(
         return if (start != 0L && end != 0L) {
             getFromRange(
                 filterType = filterType,
-                start = start,
-                end = end,
-                addUntracked = !filteredIds.contains(UNTRACKED_ITEM_ID)
+                range = Range(start, end),
+                addUntracked = !filteredIds.contains(UNTRACKED_ITEM_ID),
+                addUncategorized = !filteredIds.contains(UNCATEGORIZED_ITEM_ID),
             )
         } else {
             getAll(
@@ -169,19 +169,30 @@ class StatisticsMediator @Inject constructor(
 
     private suspend fun getFromRange(
         filterType: ChartFilterType,
-        start: Long,
-        end: Long,
+        range: Range,
         addUntracked: Boolean,
+        addUncategorized: Boolean,
     ): List<Statistics> {
         return when (filterType) {
             ChartFilterType.ACTIVITY -> {
-                statisticsInteractor.getFromRange(start, end, addUntracked)
+                statisticsInteractor.getFromRange(
+                    range = range,
+                    addUntracked = addUntracked
+                )
             }
             ChartFilterType.CATEGORY -> {
-                statisticsCategoryInteractor.getFromRange(start, end, addUntracked)
+                statisticsCategoryInteractor.getFromRange(
+                    range = range,
+                    addUntracked = addUntracked,
+                    addUncategorized = addUncategorized
+                )
             }
             ChartFilterType.RECORD_TAG -> {
-                statisticsTagInteractor.getFromRange(start, end, addUntracked)
+                statisticsTagInteractor.getFromRange(
+                    range = range,
+                    addUntracked = addUntracked,
+                    addUncategorized = addUncategorized
+                )
             }
         }
     }

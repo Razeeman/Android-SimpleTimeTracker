@@ -6,9 +6,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.extension.addOrRemove
 import com.example.util.simpletimetracker.core.extension.set
-import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
+import com.example.util.simpletimetracker.core.interactor.ChartFilterViewDataInteractor
+import com.example.util.simpletimetracker.core.mapper.ChartFilterViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.RangeMapper
 import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
+import com.example.util.simpletimetracker.core.viewData.ChartFilterTypeViewData
 import com.example.util.simpletimetracker.core.viewData.RangeViewData
 import com.example.util.simpletimetracker.core.viewData.RangesViewData
 import com.example.util.simpletimetracker.domain.UNTRACKED_ITEM_ID
@@ -16,6 +18,7 @@ import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
+import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.model.RangeLength
@@ -26,12 +29,10 @@ import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
-import com.example.util.simpletimetracker.feature_dialogs.chartFilter.mapper.ChartFilterViewDataMapper
-import com.example.util.simpletimetracker.feature_dialogs.chartFilter.viewData.ChartFilterTypeViewData
 import com.example.util.simpletimetracker.feature_views.spinner.CustomSpinner
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlinx.coroutines.launch
 
 @HiltViewModel
 class WidgetStatisticsSettingsViewModel @Inject constructor(
@@ -42,6 +43,7 @@ class WidgetStatisticsSettingsViewModel @Inject constructor(
     private val recordTagInteractor: RecordTagInteractor,
     private val chartFilterViewDataMapper: ChartFilterViewDataMapper,
     private val rangeMapper: RangeMapper,
+    private val chartFilterViewDataInteractor: ChartFilterViewDataInteractor,
 ) : ViewModel() {
 
     lateinit var extra: WidgetStatisticsSettingsExtra
@@ -242,21 +244,12 @@ class WidgetStatisticsSettingsViewModel @Inject constructor(
     }
 
     private suspend fun loadRecordTypesViewData(): List<ViewHolderType> {
-        val numberOfCards = prefsInteractor.getNumberOfCards()
-        val isDarkTheme = prefsInteractor.getDarkMode()
         val typeIdsFiltered = widgetData.filteredTypes.toList()
 
-        return getTypesCache()
-            .map { type ->
-                chartFilterViewDataMapper
-                    .mapRecordType(type, typeIdsFiltered, numberOfCards, isDarkTheme)
-            }
-            .takeUnless { it.isEmpty() }
-            ?.plus(
-                chartFilterViewDataMapper
-                    .mapToUntrackedItem(typeIdsFiltered, numberOfCards, isDarkTheme)
-            )
-            ?: chartFilterViewDataMapper.mapTypesEmpty()
+        return chartFilterViewDataInteractor.loadRecordTypesViewData(
+            types = getTypesCache(),
+            typeIdsFiltered = typeIdsFiltered,
+        )
     }
 
     private fun updateCategoriesViewData() = viewModelScope.launch {
@@ -265,20 +258,12 @@ class WidgetStatisticsSettingsViewModel @Inject constructor(
     }
 
     private suspend fun loadCategoriesViewData(): List<ViewHolderType> {
-        val isDarkTheme = prefsInteractor.getDarkMode()
         val categoryIdsFiltered = widgetData.filteredCategories.toList()
 
-        return getCategoriesCache()
-            .map { type ->
-                chartFilterViewDataMapper
-                    .mapCategory(type, categoryIdsFiltered, isDarkTheme)
-            }
-            .takeUnless { it.isEmpty() }
-            ?.plus(
-                chartFilterViewDataMapper
-                    .mapToCategoryUntrackedItem(categoryIdsFiltered, isDarkTheme)
-            )
-            ?: chartFilterViewDataMapper.mapCategoriesEmpty()
+        return chartFilterViewDataInteractor.loadCategoriesViewData(
+            categories = getCategoriesCache(),
+            categoryIdsFiltered = categoryIdsFiltered
+        )
     }
 
     private fun updateTagsViewData() = viewModelScope.launch {
@@ -287,21 +272,13 @@ class WidgetStatisticsSettingsViewModel @Inject constructor(
     }
 
     private suspend fun loadTagsViewData(): List<ViewHolderType> {
-        val isDarkTheme = prefsInteractor.getDarkMode()
         val tagIdsFiltered = widgetData.filteredTags.toList()
-        val types = getTypesCache().associateBy(RecordType::id)
 
-        return getTagsCache()
-            .map { tag ->
-                chartFilterViewDataMapper
-                    .mapTag(tag, types[tag.typeId], tagIdsFiltered, isDarkTheme)
-            }
-            .takeUnless { it.isEmpty() }
-            ?.plus(
-                chartFilterViewDataMapper
-                    .mapToTagUntrackedItem(tagIdsFiltered, isDarkTheme)
-            )
-            ?: chartFilterViewDataMapper.mapTagsEmpty()
+        return chartFilterViewDataInteractor.loadTagsViewData(
+            tags = getTagsCache(),
+            types = getTypesCache().associateBy(RecordType::id),
+            recordTagsFiltered = tagIdsFiltered,
+        )
     }
 
     private fun updateTitle() = viewModelScope.launch {

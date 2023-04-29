@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.domain.mapper
 
+import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RunningRecord
 import javax.inject.Inject
@@ -17,9 +18,9 @@ class StatisticsMapper @Inject constructor() {
         return runningRecords.sumOf { System.currentTimeMillis() - it.timeStarted }
     }
 
-    fun mapToDurationFromRange(records: List<Record>, start: Long, end: Long): Long {
+    fun mapToDurationFromRange(records: List<Record>, range: Range): Long {
         // Remove parts of the record that is not in the range
-        return records.sumOf { min(it.timeEnded, end) - max(it.timeStarted, start) }
+        return records.sumOf { min(it.timeEnded, range.timeEnded) - max(it.timeStarted, range.timeStarted) }
     }
 
     fun getDurationPercentString(

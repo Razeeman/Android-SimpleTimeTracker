@@ -12,7 +12,6 @@ import com.example.util.simpletimetracker.domain.extension.getUntaggedIds
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
-import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.Record
@@ -25,33 +24,6 @@ class RecordFilterInteractor @Inject constructor(
     private val timeMapper: TimeMapper,
     private val prefsInteractor: PrefsInteractor,
 ) {
-
-    fun mapFilter(
-        filterType: ChartFilterType,
-        selectedIds: List<Long>,
-    ): List<RecordsFilter> {
-        val filters = when (filterType) {
-            ChartFilterType.ACTIVITY -> {
-                RecordsFilter.Activity(selectedIds)
-                    .takeUnless { selectedIds.isEmpty() }
-                    .let(::listOfNotNull)
-            }
-            ChartFilterType.CATEGORY -> {
-                RecordsFilter.Category(selectedIds)
-                    .takeUnless { selectedIds.isEmpty() }
-                    .let(::listOfNotNull)
-            }
-            ChartFilterType.RECORD_TAG -> {
-                selectedIds
-                    .takeUnless { it.isEmpty() }
-                    ?.map(RecordsFilter.Tag::Tagged)
-                    ?.let(RecordsFilter::SelectedTags)
-                    .let(::listOfNotNull)
-            }
-        }
-
-        return filters
-    }
 
     suspend fun mapDateFilter(
         rangeLength: RangeLength,

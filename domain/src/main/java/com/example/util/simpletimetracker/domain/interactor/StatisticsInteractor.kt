@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.domain.interactor
 import com.example.util.simpletimetracker.domain.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.domain.mapper.CoveredRangeMapper
 import com.example.util.simpletimetracker.domain.mapper.StatisticsMapper
+import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.Statistics
 import kotlinx.coroutines.Dispatchers
@@ -41,20 +42,19 @@ class StatisticsInteractor @Inject constructor(
     }
 
     suspend fun getFromRange(
-        start: Long,
-        end: Long,
+        range: Range,
         addUntracked: Boolean,
     ): List<Statistics> = withContext(Dispatchers.IO) {
         var untrackedTime = 0L
-        recordInteractor.getFromRange(start, end)
+        recordInteractor.getFromRange(range.timeStarted, range.timeEnded)
             .also { records ->
-                if (addUntracked) untrackedTime = calculateUntracked(records, start, end)
+                if (addUntracked) untrackedTime = calculateUntracked(records, range)
             }
             .groupBy { it.typeId }
             .map { entry ->
                 Statistics(
                     id = entry.key,
-                    duration = statisticsMapper.mapToDurationFromRange(entry.value, start, end)
+                    duration = statisticsMapper.mapToDurationFromRange(entry.value, range)
                 )
             }
             .apply {
@@ -70,20 +70,20 @@ class StatisticsInteractor @Inject constructor(
             }
     }
 
-    fun calculateUntracked(records: List<Record>, start: Long, end: Long): Long {
+    fun calculateUntracked(records: List<Record>, range: Range): Long {
         // Bound end range of calculation to current time,
         // to not show untracked time in the future
         val todayEnd = System.currentTimeMillis()
 
-        val untrackedTimeEndRange = min(todayEnd, end)
-        if (start > untrackedTimeEndRange) return 0L
+        val untrackedTimeEndRange = min(todayEnd, range.timeEnded)
+        if (range.timeStarted > untrackedTimeEndRange) return 0L
 
         return records
             // Remove parts of the record that are not in the range
-            .map { max(it.timeStarted, start) to min(it.timeEnded, untrackedTimeEndRange) }
+            .map { max(it.timeStarted, range.timeStarted) to min(it.timeEnded, untrackedTimeEndRange) }
             // Calculate covered range
             .let(coveredRangeMapper::map)
             // Calculate uncovered range
-            .let { untrackedTimeEndRange - start - it }
+            .let { untrackedTimeEndRange - range.timeStarted - it }
     }
 }
