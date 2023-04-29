@@ -25,7 +25,7 @@ class WidgetQuickSettingsView @JvmOverloads constructor(
 
     init {
         ContextCompat.getColor(context, R.color.widget_universal_background_color).let(::setCardBackgroundColor)
-        radius = resources.getDimensionPixelOffset(R.dimen.record_type_card_corner_radius).toFloat()
+        radius = resources.getDimensionPixelOffset(R.dimen.widget_universal_corner_radius).toFloat()
         cardElevation = 0f
         preventCornerOverlap = false
         useCompatPadding = false

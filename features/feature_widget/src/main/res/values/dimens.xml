@@ -3,5 +3,5 @@
     <dimen name="widget_width">@dimen/record_type_card_width</dimen>
     <dimen name="widget_height">@dimen/record_type_card_height</dimen>
 
-    <dimen name="widget_universal_corner_radius">8dp</dimen>
+    <dimen name="widget_universal_corner_radius">16dp</dimen>
 </resources>
