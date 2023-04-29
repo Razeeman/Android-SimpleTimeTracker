@@ -357,9 +357,13 @@ class SettingsViewModel @Inject constructor(
     val resetScreen: SingleLiveEvent<Unit> = SingleLiveEvent()
 
     fun onVisible() {
-        // Need to update card order because it changes on card order dialog
         viewModelScope.launch {
+            // Need to update card order because it changes on card order dialog
             updateCardOrderViewData()
+
+            // Update can come from quick settings widget
+            allowMultitaskingCheckbox.set(prefsInteractor.getAllowMultitasking())
+            showRecordTagSelectionCheckbox.set(prefsInteractor.getShowRecordTagSelection())
         }
     }
 
@@ -479,7 +483,8 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch {
             val newValue = !prefsInteractor.getAllowMultitasking()
             prefsInteractor.setAllowMultitasking(newValue)
-            (allowMultitaskingCheckbox as MutableLiveData).value = newValue
+            widgetInteractor.updateWidgets(listOf(WidgetType.QUICK_SETTINGS))
+            allowMultitaskingCheckbox.set(newValue)
         }
     }
 
@@ -649,6 +654,7 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch {
             val newValue = !prefsInteractor.getShowRecordTagSelection()
             prefsInteractor.setShowRecordTagSelection(newValue)
+            widgetInteractor.updateWidgets(listOf(WidgetType.QUICK_SETTINGS))
             showRecordTagSelectionCheckbox.set(newValue)
         }
     }

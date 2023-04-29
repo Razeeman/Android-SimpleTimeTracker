@@ -10,7 +10,7 @@ import com.example.util.simpletimetracker.core.manager.ThemeManager
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
-import com.example.util.simpletimetracker.feature_widget.databinding.WidgetSingleSettingsConfigureActivityBinding
+import com.example.util.simpletimetracker.feature_widget.databinding.WidgetSingleConfigureActivityBinding
 import com.example.util.simpletimetracker.feature_widget.single.settings.adapter.createWidgetSingleSettingsAdapterDelegate
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
@@ -47,10 +47,10 @@ class WidgetSingleSettingsActivity : BaseActivity() {
 
     private fun initUi() {
         themeManager.setTheme(this)
-        val binding = WidgetSingleSettingsConfigureActivityBinding.inflate(layoutInflater)
+        val binding = WidgetSingleConfigureActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.rvWidgetSingleSettingsRecordType.apply {
+        binding.rvWidgetSingleConfigureRecordType.apply {
             layoutManager = FlexboxLayoutManager(context).apply {
                 flexDirection = FlexDirection.ROW
                 justifyContent = JustifyContent.CENTER

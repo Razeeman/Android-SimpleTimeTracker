@@ -8,5 +8,7 @@ interface WidgetInteractor {
 
     fun updateStatisticsWidget(widgetId: Int)
 
+    fun updateQuickSettingsWidget(widgetId: Int)
+
     fun updateWidgets(types: List<WidgetType> = emptyList())
 }

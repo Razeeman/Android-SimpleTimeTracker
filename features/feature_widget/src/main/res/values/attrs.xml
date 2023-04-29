@@ -6,4 +6,10 @@
         <attr name="iconPadding" format="dimension" />
         <attr name="iconBackgroundPadding" format="dimension" />
     </declare-styleable>
+
+    <declare-styleable name="WidgetQuickSettingsView">
+        <attr name="itemIcon" />
+        <attr name="itemIconColor" />
+        <attr name="itemName" />
+    </declare-styleable>
 </resources>

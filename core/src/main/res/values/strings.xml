@@ -347,6 +347,7 @@ If <b>\"%s\"</b> setting is enabled, app will send events on activity started or
     <string name="widget_name">Single Activity</string>
     <string name="widget_universal_name">Universal</string>
     <string name="widget_statistics_chart_name">Statistics Chart</string>
+    <string name="widget_quick_settings_name">Quick settings</string>
     <string name="widget_load_error">Not found</string>
 
     <!--  Notification  -->

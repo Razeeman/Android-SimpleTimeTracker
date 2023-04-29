@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import com.example.util.simpletimetracker.data_local.extension.delegate
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
+import com.example.util.simpletimetracker.domain.model.QuickSettingsWidgetType
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.StatisticsWidgetData
 import com.example.util.simpletimetracker.domain.repo.PrefsRepo
@@ -289,6 +290,26 @@ class PrefsRepoImpl @Inject constructor(
             .apply()
     }
 
+    override fun setQuickSettingsWidget(widgetId: Int, data: QuickSettingsWidgetType) {
+        val type = when (data) {
+            is QuickSettingsWidgetType.AllowMultitasking -> 0L
+            is QuickSettingsWidgetType.ShowRecordTagSelection -> 1L
+        }
+        prefs.edit().putLong(KEY_QUICK_SETTINGS_WIDGET_TYPE + widgetId, type).apply()
+    }
+
+    override fun getQuickSettingsWidget(widgetId: Int): QuickSettingsWidgetType {
+        return when (prefs.getLong(KEY_QUICK_SETTINGS_WIDGET_TYPE + widgetId, 0)) {
+            0L -> QuickSettingsWidgetType.AllowMultitasking
+            1L -> QuickSettingsWidgetType.ShowRecordTagSelection
+            else -> QuickSettingsWidgetType.AllowMultitasking
+        }
+    }
+
+    override fun removeQuickSettingsWidget(widgetId: Int) {
+        prefs.edit().remove(KEY_QUICK_SETTINGS_WIDGET_TYPE + widgetId).apply()
+    }
+
     override fun setCardOrderManual(cardOrder: Map<Long, Long>) {
         val set = cardOrder.map { (typeId, order) ->
             "$typeId$CARDS_ORDER_DELIMITER${order.toShort()}"
@@ -373,6 +394,7 @@ class PrefsRepoImpl @Inject constructor(
         private const val KEY_STATISTICS_WIDGET_FILTERED_TAGS = "statistics_widget_filtered_tags_"
         private const val KEY_STATISTICS_WIDGET_FILTER_TYPE = "statistics_widget_filter_type_"
         private const val KEY_STATISTICS_WIDGET_RANGE = "statistics_widget_range_"
+        private const val KEY_QUICK_SETTINGS_WIDGET_TYPE = "quick_settings_widget_type_"
         private const val KEY_CARD_ORDER_MANUAL = "cardOrderManual"
 
         // Removed

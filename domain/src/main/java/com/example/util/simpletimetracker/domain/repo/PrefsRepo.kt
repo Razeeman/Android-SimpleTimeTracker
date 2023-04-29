@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.domain.repo
 
+import com.example.util.simpletimetracker.domain.model.QuickSettingsWidgetType
 import com.example.util.simpletimetracker.domain.model.StatisticsWidgetData
 
 interface PrefsRepo {
@@ -103,6 +104,12 @@ interface PrefsRepo {
     fun getStatisticsWidget(widgetId: Int): StatisticsWidgetData
 
     fun removeStatisticsWidget(widgetId: Int)
+
+    fun setQuickSettingsWidget(widgetId: Int, data: QuickSettingsWidgetType)
+
+    fun getQuickSettingsWidget(widgetId: Int): QuickSettingsWidgetType
+
+    fun removeQuickSettingsWidget(widgetId: Int)
 
     fun setCardOrderManual(cardOrder: Map<Long, Long>)
 

@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.domain.interactor
 import com.example.util.simpletimetracker.domain.model.CardOrder
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
+import com.example.util.simpletimetracker.domain.model.QuickSettingsWidgetType
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.StatisticsWidgetData
@@ -378,6 +379,18 @@ class PrefsInteractor @Inject constructor(
 
     suspend fun removeStatisticsWidget(widgetId: Int) = withContext(Dispatchers.IO) {
         prefsRepo.removeStatisticsWidget(widgetId)
+    }
+
+    suspend fun setQuickSettingsWidget(widgetId: Int, data: QuickSettingsWidgetType) = withContext(Dispatchers.IO) {
+        prefsRepo.setQuickSettingsWidget(widgetId, data)
+    }
+
+    suspend fun getQuickSettingsWidget(widgetId: Int): QuickSettingsWidgetType = withContext(Dispatchers.IO) {
+        prefsRepo.getQuickSettingsWidget(widgetId)
+    }
+
+    suspend fun removeQuickSettingsWidget(widgetId: Int) = withContext(Dispatchers.IO) {
+        prefsRepo.removeQuickSettingsWidget(widgetId)
     }
 
     suspend fun setCardOrderManual(cardsOrder: Map<Long, Long>) = withContext(Dispatchers.IO) {
