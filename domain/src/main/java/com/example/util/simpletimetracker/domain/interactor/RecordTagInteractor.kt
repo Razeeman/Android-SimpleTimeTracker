@@ -71,6 +71,7 @@ class RecordTagInteractor @Inject constructor(
         repo.clear()
     }
 
+    // TODO remove sort and sort when needed.
     private fun sort(items: List<RecordTag>): List<RecordTag> {
         return items.sortedBy { it.name.lowercase(Locale.getDefault()) }
     }

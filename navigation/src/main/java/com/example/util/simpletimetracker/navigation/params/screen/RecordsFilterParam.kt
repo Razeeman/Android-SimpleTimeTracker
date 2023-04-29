@@ -31,6 +31,6 @@ sealed interface RecordsFilterParam : Parcelable {
         data class Tagged(val tagId: Long) : Tag
 
         @Parcelize
-        data class Untagged(val typeId: Long) : Tag
+        object Untagged : Tag
     }
 }

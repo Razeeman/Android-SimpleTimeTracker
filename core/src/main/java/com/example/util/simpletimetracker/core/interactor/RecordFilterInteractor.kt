@@ -8,7 +8,7 @@ import com.example.util.simpletimetracker.domain.extension.getFilteredTags
 import com.example.util.simpletimetracker.domain.extension.getManuallyFilteredRecordIds
 import com.example.util.simpletimetracker.domain.extension.getSelectedTags
 import com.example.util.simpletimetracker.domain.extension.getTaggedIds
-import com.example.util.simpletimetracker.domain.extension.getUntaggedIds
+import com.example.util.simpletimetracker.domain.extension.hasUntaggedItem
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
@@ -54,10 +54,10 @@ class RecordFilterInteractor @Inject constructor(
         val ranges: List<Range> = filters.getDate()?.let(::listOf).orEmpty()
         val selectedTags: List<RecordsFilter.Tag> = filters.getSelectedTags()
         val selectedTaggedIds: List<Long> = selectedTags.getTaggedIds()
-        val selectedUntaggedIds: List<Long> = selectedTags.getUntaggedIds()
+        val selectedUntagged: Boolean = selectedTags.hasUntaggedItem()
         val filteredTags: List<RecordsFilter.Tag> = filters.getFilteredTags()
         val filteredTaggedIds: List<Long> = filteredTags.getTaggedIds()
-        val filteredUntaggedIds: List<Long> = filteredTags.getUntaggedIds()
+        val filteredUntagged: Boolean = filteredTags.hasUntaggedItem()
         val manuallyFilteredIds: List<Long> = filters.getManuallyFilteredRecordIds()
 
         // Use different queries for optimization.
@@ -113,7 +113,7 @@ class RecordFilterInteractor @Inject constructor(
             return if (tagIds.isNotEmpty()) {
                 tagIds.any { tagId -> tagId in selectedTaggedIds }
             } else {
-                typeId in selectedUntaggedIds
+                selectedUntagged
             }
         }
 
@@ -122,7 +122,7 @@ class RecordFilterInteractor @Inject constructor(
             return if (tagIds.isNotEmpty()) {
                 tagIds.any { tagId -> tagId in filteredTaggedIds }
             } else {
-                typeId in filteredUntaggedIds
+                filteredUntagged
             }
         }
 

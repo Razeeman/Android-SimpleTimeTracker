@@ -34,6 +34,7 @@ class AddRunningRecordMediator @Inject constructor(
                 recordTagInteractor.getByType(typeId)
             }.filterNot { it.archived }
 
+            // TODO add query to repo to find out if has tags.
             if (tags.isEmpty()) {
                 startTimer(typeId, emptyList(), "")
                 true

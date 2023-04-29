@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_statistics_detail.mapper
 
+import com.example.util.simpletimetracker.core.mapper.CategoryViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
@@ -35,6 +36,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
     private val colorMapper: ColorMapper,
     private val timeMapper: TimeMapper,
     private val resourceRepo: ResourceRepo,
+    private val categoryViewDataMapper: CategoryViewDataMapper,
 ) {
 
     fun mapToPreview(
@@ -101,20 +103,24 @@ class StatisticsDetailViewDataMapper @Inject constructor(
     }
 
     fun mapToUntaggedPreview(
-        type: RecordType,
         isDarkTheme: Boolean,
         isForComparison: Boolean,
     ): StatisticsDetailPreviewViewData {
+        val item = categoryViewDataMapper.mapToUntaggedItem(
+            isDarkTheme = isDarkTheme,
+            isFiltered = false
+        )
+
         return StatisticsDetailPreviewViewData(
-            id = type.id,
+            id = item.id,
             type = if (isForComparison) {
                 StatisticsDetailPreviewViewData.Type.COMPARISON
             } else {
                 StatisticsDetailPreviewViewData.Type.FILTER
             },
-            name = resourceRepo.getString(R.string.change_record_untagged),
-            iconId = type.icon.let(iconMapper::mapIcon),
-            color = colorMapper.toUntrackedColor(isDarkTheme),
+            name = item.name,
+            iconId = item.icon,
+            color = item.color,
         )
     }
 

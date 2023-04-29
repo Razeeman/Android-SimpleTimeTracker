@@ -50,11 +50,8 @@ class StatisticsViewDataInteractor @Inject constructor(
                     return RecordsFilter.Activity(typesNotInCategories)
                 }
                 ChartFilterType.RECORD_TAG -> {
-                    val types = recordTypeInteractor.getAll()
-
-                    return types
-                        .map(RecordType::id)
-                        .map(RecordsFilter.Tag::Untagged)
+                    return RecordsFilter.Tag.Untagged
+                        .let(::listOf)
                         .let(RecordsFilter::SelectedTags)
                 }
                 ChartFilterType.ACTIVITY -> {

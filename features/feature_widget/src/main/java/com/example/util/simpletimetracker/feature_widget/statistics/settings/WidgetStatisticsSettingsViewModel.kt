@@ -276,7 +276,7 @@ class WidgetStatisticsSettingsViewModel @Inject constructor(
 
         return chartFilterViewDataInteractor.loadTagsViewData(
             tags = getTagsCache(),
-            types = getTypesCache().associateBy(RecordType::id),
+            types = getTypesCache(),
             recordTagsFiltered = tagIdsFiltered,
         )
     }

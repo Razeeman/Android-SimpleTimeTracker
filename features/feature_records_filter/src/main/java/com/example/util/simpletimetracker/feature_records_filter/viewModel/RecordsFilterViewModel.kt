@@ -278,7 +278,7 @@ class RecordsFilterViewModel @Inject constructor(
 
         val newTags = when (item) {
             is CategoryViewData.Record.Tagged -> RecordsFilter.Tag.Tagged(item.id)
-            is CategoryViewData.Record.Untagged -> RecordsFilter.Tag.Untagged(item.id)
+            is CategoryViewData.Record.Untagged -> RecordsFilter.Tag.Untagged
         }.let { currentTags.toMutableList().apply { addOrRemove(it) } }
 
         when (currentState) {
@@ -315,7 +315,7 @@ class RecordsFilterViewModel @Inject constructor(
                             .map { tag -> tag.id }
                     }
                     is RecordsFilter.Tag.Untagged -> {
-                        it.typeId in newTypeIds
+                        true
                     }
                 }
             }

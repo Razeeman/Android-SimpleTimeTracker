@@ -83,7 +83,6 @@ class StatisticsDetailPreviewInteractor @Inject constructor(
                         }
                         is RecordsFilter.Tag.Untagged -> {
                             statisticsDetailViewDataMapper.mapToUntaggedPreview(
-                                type = types[it.typeId] ?: return@mapNotNull null,
                                 isDarkTheme = isDarkTheme,
                                 isForComparison = isForComparison
                             )

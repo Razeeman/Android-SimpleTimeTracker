@@ -63,13 +63,13 @@ fun RecordsFilter.toParams(): RecordsFilterParam {
 fun RecordsFilterParam.Tag.toModel(): RecordsFilter.Tag {
     return when (this) {
         is RecordsFilterParam.Tag.Tagged -> RecordsFilter.Tag.Tagged(tagId)
-        is RecordsFilterParam.Tag.Untagged -> RecordsFilter.Tag.Untagged(typeId)
+        is RecordsFilterParam.Tag.Untagged -> RecordsFilter.Tag.Untagged
     }
 }
 
 fun RecordsFilter.Tag.toParams(): RecordsFilterParam.Tag {
     return when (this) {
         is RecordsFilter.Tag.Tagged -> RecordsFilterParam.Tag.Tagged(tagId)
-        is RecordsFilter.Tag.Untagged -> RecordsFilterParam.Tag.Untagged(typeId)
+        is RecordsFilter.Tag.Untagged -> RecordsFilterParam.Tag.Untagged
     }
 }

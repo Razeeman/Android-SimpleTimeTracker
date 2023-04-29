@@ -220,7 +220,7 @@ class ChartFilterViewModel @Inject constructor(
     private suspend fun loadTagsViewData(): List<ViewHolderType> {
         return chartFilterViewDataInteractor.loadTagsViewData(
             tags = getTagsCache(),
-            types = getTypesCache().associateBy(RecordType::id),
+            types = getTypesCache(),
             recordTagsFiltered = recordTagsFiltered,
         )
     }

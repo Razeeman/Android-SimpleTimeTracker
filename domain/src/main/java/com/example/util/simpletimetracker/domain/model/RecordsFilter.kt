@@ -18,7 +18,6 @@ sealed interface RecordsFilter {
 
     sealed interface Tag {
         data class Tagged(val tagId: Long) : Tag
-
-        data class Untagged(val typeId: Long) : Tag
+        object Untagged : Tag
     }
 }

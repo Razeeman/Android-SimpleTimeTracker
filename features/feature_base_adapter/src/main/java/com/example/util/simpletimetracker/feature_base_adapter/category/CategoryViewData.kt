@@ -39,15 +39,13 @@ sealed class CategoryViewData : ViewHolderType {
         }
 
         data class Untagged(
-            val typeId: Long,
+            override val id: Long,
             override val name: String,
             @ColorInt override val iconColor: Int,
             @ColorInt override val color: Int,
             override val icon: RecordTypeIcon?,
             override val iconAlpha: Float = 1.0f
         ) : Record() {
-
-            override val id: Long get() = typeId
 
             override fun isValidType(other: ViewHolderType): Boolean = other is Untagged
         }

@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.core.mapper
 
 import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.domain.UNCATEGORIZED_ITEM_ID
 import com.example.util.simpletimetracker.domain.model.AppColor
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.RecordTag
@@ -10,6 +11,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.feature_base_adapter.empty.EmptyViewData
 import com.example.util.simpletimetracker.feature_base_adapter.info.InfoViewData
+import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import javax.inject.Inject
 
 class CategoryViewDataMapper @Inject constructor(
@@ -28,6 +30,26 @@ class CategoryViewDataMapper @Inject constructor(
             name = category.name,
             iconColor = getTextColor(isDarkTheme, isFiltered),
             color = getColor(category.color, isDarkTheme, isFiltered)
+        )
+    }
+
+    fun mapToUncategorizedItem(
+        isFiltered: Boolean,
+        isDarkTheme: Boolean
+    ): CategoryViewData {
+        return CategoryViewData.Category(
+            id = UNCATEGORIZED_ITEM_ID,
+            name = R.string.uncategorized_time_name
+                .let(resourceRepo::getString),
+            iconColor = getTextColor(
+                isDarkTheme = isDarkTheme,
+                isFiltered = isFiltered,
+            ),
+            color = if (isFiltered) {
+                colorMapper.toFilteredColor(isDarkTheme)
+            } else {
+                colorMapper.toUntrackedColor(isDarkTheme)
+            },
         )
     }
 
@@ -52,24 +74,21 @@ class CategoryViewDataMapper @Inject constructor(
         )
     }
 
-    fun mapRecordTagUntagged(
-        type: RecordType,
+    fun mapToUntaggedItem(
         isDarkTheme: Boolean,
-        isFiltered: Boolean
+        isFiltered: Boolean,
     ): CategoryViewData.Record.Untagged {
-        val icon = type.icon.let(iconMapper::mapIcon)
-
         return CategoryViewData.Record.Untagged(
-            typeId = type.id,
-            name = R.string.change_record_untagged.let(resourceRepo::getString),
+            id = UNCATEGORIZED_ITEM_ID,
+            name = R.string.change_record_untagged
+                .let(resourceRepo::getString),
             iconColor = getTextColor(isDarkTheme, isFiltered),
-            iconAlpha = colorMapper.toIconAlpha(icon, isFiltered),
             color = if (isFiltered) {
                 colorMapper.toFilteredColor(isDarkTheme)
             } else {
                 colorMapper.toUntrackedColor(isDarkTheme)
             },
-            icon = icon
+            icon = RecordTypeIcon.Image(R.drawable.untagged)
         )
     }
 
