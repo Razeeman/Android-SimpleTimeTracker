@@ -24,7 +24,7 @@ class ActivityFilterView @JvmOverloads constructor(
 
     init {
         ContextCompat.getColor(context, R.color.black).let(::setCardBackgroundColor)
-        radius = 100.dpToPx().toFloat()
+        radius = 16.dpToPx().toFloat()
         // TODO doesn't work here for some reason, need to set in the layout
         cardElevation = resources.getDimensionPixelOffset(R.dimen.record_type_card_elevation)
             .toFloat()

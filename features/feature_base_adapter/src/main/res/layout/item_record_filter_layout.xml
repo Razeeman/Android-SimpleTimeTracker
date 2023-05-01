@@ -12,7 +12,7 @@
         android:translationY="2dp"
         android:visibility="gone"
         app:cardBackgroundColor="?colorAccent"
-        app:cardCornerRadius="100dp"
+        app:cardCornerRadius="16dp"
         app:cardElevation="@dimen/record_type_card_elevation"
         app:cardPreventCornerOverlap="false"
         app:cardUseCompatPadding="true"
@@ -27,7 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:cardBackgroundColor="?appInactiveColor"
-        app:cardCornerRadius="100dp"
+        app:cardCornerRadius="16dp"
         app:cardElevation="@dimen/record_type_card_elevation"
         app:cardPreventCornerOverlap="false"
         app:cardUseCompatPadding="true">
