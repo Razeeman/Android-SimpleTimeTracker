@@ -5,6 +5,7 @@ import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.RangeMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.domain.UNCATEGORIZED_ITEM_ID
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
@@ -362,7 +363,7 @@ class StatisticsDetailStatsInteractor @Inject constructor(
                 tags.getOrPut(tagId) { mutableListOf() }.add(record)
             }
             if (record.tagIds.isEmpty()) {
-                tags.getOrPut(0) { mutableListOf() }.add(record)
+                tags.getOrPut(UNCATEGORIZED_ITEM_ID) { mutableListOf() }.add(record)
             }
         }
 
@@ -386,7 +387,7 @@ class StatisticsDetailStatsInteractor @Inject constructor(
                     icon = type?.icon
                         ?.let(iconMapper::mapIcon)
                         ?: tag?.run { RecordTypeIcon.Image(0) }
-                        ?: RecordTypeIcon.Image(R.drawable.unknown),
+                        ?: RecordTypeIcon.Image(R.drawable.untagged),
                     color = type?.color?.let { colorMapper.mapToColorInt(it, isDarkTheme) }
                         ?: tag?.color?.let { colorMapper.mapToColorInt(it, isDarkTheme) }
                         ?: colorMapper.toUntrackedColor(isDarkTheme),

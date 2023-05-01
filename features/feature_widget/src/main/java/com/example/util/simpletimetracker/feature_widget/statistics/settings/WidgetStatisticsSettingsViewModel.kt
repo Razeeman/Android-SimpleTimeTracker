@@ -13,6 +13,7 @@ import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowVie
 import com.example.util.simpletimetracker.core.viewData.ChartFilterTypeViewData
 import com.example.util.simpletimetracker.core.viewData.RangeViewData
 import com.example.util.simpletimetracker.core.viewData.RangesViewData
+import com.example.util.simpletimetracker.domain.UNCATEGORIZED_ITEM_ID
 import com.example.util.simpletimetracker.domain.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -121,12 +122,21 @@ class WidgetStatisticsSettingsViewModel @Inject constructor(
     }
 
     fun onCategoryClick(item: CategoryViewData) {
-        viewModelScope.launch {
-            val oldIds = widgetData.filteredCategories.toMutableList()
-            widgetData = widgetData.copy(
-                filteredCategories = oldIds.apply { addOrRemove(item.id) }.toSet()
-            )
-            updateCategoriesViewData()
+        when (item) {
+            is CategoryViewData.Category -> {
+                val oldIds = widgetData.filteredCategories.toMutableList()
+                widgetData = widgetData.copy(
+                    filteredCategories = oldIds.apply { addOrRemove(item.id) }.toSet()
+                )
+                updateCategoriesViewData()
+            }
+            is CategoryViewData.Record -> {
+                val oldIds = widgetData.filteredTags.toMutableList()
+                widgetData = widgetData.copy(
+                    filteredTags = oldIds.apply { addOrRemove(item.id) }.toSet()
+                )
+                updateTagsViewData()
+            }
         }
     }
 
@@ -152,19 +162,28 @@ class WidgetStatisticsSettingsViewModel @Inject constructor(
             widgetData = when (widgetData.chartFilterType) {
                 ChartFilterType.ACTIVITY -> {
                     widgetData.copy(
-                        filteredTypes = (getTypesCache().map(RecordType::id) + UNTRACKED_ITEM_ID)
-                            .toSet()
+                        filteredTypes = (
+                            getTypesCache().map(RecordType::id) +
+                                UNTRACKED_ITEM_ID
+                            ).toSet()
                     )
                 }
                 ChartFilterType.CATEGORY -> {
                     widgetData.copy(
-                        filteredTypes = (getCategoriesCache().map(Category::id) + UNTRACKED_ITEM_ID)
-                            .toSet()
+                        filteredCategories = (
+                            getCategoriesCache().map(Category::id) +
+                                UNTRACKED_ITEM_ID +
+                                UNCATEGORIZED_ITEM_ID
+                            ).toSet()
                     )
                 }
                 ChartFilterType.RECORD_TAG -> {
                     widgetData.copy(
-                        filteredTags = (getTagsCache().map(RecordTag::id) + UNTRACKED_ITEM_ID)
+                        filteredTags = (
+                            getTagsCache().map(RecordTag::id) +
+                                UNTRACKED_ITEM_ID +
+                                UNCATEGORIZED_ITEM_ID
+                            )
                             .toSet()
                     )
                 }

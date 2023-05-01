@@ -7,12 +7,10 @@ import com.example.util.simpletimetracker.core.mapper.RangeMapper
 import com.example.util.simpletimetracker.domain.UNCATEGORIZED_ITEM_ID
 import com.example.util.simpletimetracker.domain.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
-import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.RecordType
-import com.example.util.simpletimetracker.domain.model.RecordTypeCategory
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.divider.DividerViewData
@@ -24,7 +22,6 @@ import javax.inject.Inject
 
 class StatisticsViewDataInteractor @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
-    private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
     private val statisticsMediator: StatisticsMediator,
     private val statisticsChartViewDataInteractor: StatisticsChartViewDataInteractor,
     private val prefsInteractor: PrefsInteractor,
@@ -33,21 +30,16 @@ class StatisticsViewDataInteractor @Inject constructor(
     private val colorMapper: ColorMapper,
 ) {
 
-    suspend fun mapFilter(
+    fun mapFilter(
         filterType: ChartFilterType,
         selectedId: Long,
     ): RecordsFilter {
         if (selectedId == UNCATEGORIZED_ITEM_ID) {
             when (filterType) {
                 ChartFilterType.CATEGORY -> {
-                    val typesInCategories = recordTypeCategoryInteractor.getAll()
-                        .map(RecordTypeCategory::recordTypeId)
-                        .distinct()
-                    val typesNotInCategories = recordTypeInteractor.getAll()
-                        .filterNot { it.id in typesInCategories }
-                        .map(RecordType::id)
-
-                    return RecordsFilter.Activity(typesNotInCategories)
+                    return RecordsFilter.CategoryItem.Uncategorized
+                        .let(::listOf)
+                        .let(RecordsFilter::Category)
                 }
                 ChartFilterType.RECORD_TAG -> {
                     return RecordsFilter.TagItem.Untagged

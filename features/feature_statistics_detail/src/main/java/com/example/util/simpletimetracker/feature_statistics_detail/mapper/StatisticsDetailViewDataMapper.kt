@@ -60,7 +60,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         )
     }
 
-    fun mapToPreview(
+    fun mapToCategorizedPreview(
         category: Category,
         isDarkTheme: Boolean,
         isForComparison: Boolean,
@@ -76,6 +76,28 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             iconId = null,
             color = category.color
                 .let { colorMapper.mapToColorInt(it, isDarkTheme) },
+        )
+    }
+
+    fun mapToUncategorizedPreview(
+        isDarkTheme: Boolean,
+        isForComparison: Boolean,
+    ): StatisticsDetailPreviewViewData {
+        val item = categoryViewDataMapper.mapToUncategorizedItem(
+            isDarkTheme = isDarkTheme,
+            isFiltered = false
+        )
+
+        return StatisticsDetailPreviewViewData(
+            id = item.id,
+            type = if (isForComparison) {
+                StatisticsDetailPreviewViewData.Type.COMPARISON
+            } else {
+                StatisticsDetailPreviewViewData.Type.FILTER
+            },
+            name = item.name,
+            iconId = RecordTypeIcon.Image(R.drawable.untagged),
+            color = item.color,
         )
     }
 

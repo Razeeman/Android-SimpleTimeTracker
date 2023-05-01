@@ -114,9 +114,8 @@ class RecordActionsContinueTest : BaseUiTest() {
                 isCompletelyDisplayed()
             )
         )
-        onView(
-            allOf(withId(recordsR.id.rvRecordsList), isCompletelyDisplayed())).check(recyclerItemCount(2)
-        )
+        onView(allOf(withId(recordsR.id.rvRecordsList), isCompletelyDisplayed()))
+            .check(recyclerItemCount(2))
         clickOnViewWithText(coreR.string.untracked_time_name)
 
         // Continue untracked doesn't work
@@ -142,9 +141,8 @@ class RecordActionsContinueTest : BaseUiTest() {
             )
         )
         checkViewDoesNotExist(allOf(withText(coreR.string.untracked_time_name), isCompletelyDisplayed()))
-        onView(
-            allOf(withId(recordsR.id.rvRecordsList), isCompletelyDisplayed())).check(recyclerItemCount(2)
-        )
+        onView(allOf(withId(recordsR.id.rvRecordsList), isCompletelyDisplayed()))
+            .check(recyclerItemCount(2))
 
         NavUtils.openRunningRecordsScreen()
         checkViewIsDisplayed(
@@ -172,9 +170,8 @@ class RecordActionsContinueTest : BaseUiTest() {
         NavUtils.openRecordsScreen()
 
         // Open add new record
-        onView(
-            allOf(withId(recordsR.id.rvRecordsList), isCompletelyDisplayed())).check(recyclerItemCount(1)
-        )
+        onView(allOf(withId(recordsR.id.rvRecordsList), isCompletelyDisplayed()))
+            .check(recyclerItemCount(1))
         clickOnViewWithId(recordsR.id.btnRecordAdd)
 
         // Continue untracked doesn't work
@@ -206,9 +203,8 @@ class RecordActionsContinueTest : BaseUiTest() {
                 isCompletelyDisplayed()
             )
         )
-        onView(
-            allOf(withId(recordsR.id.rvRecordsList), isCompletelyDisplayed())).check(recyclerItemCount(2)
-        )
+        onView(allOf(withId(recordsR.id.rvRecordsList), isCompletelyDisplayed()))
+            .check(recyclerItemCount(2))
 
         NavUtils.openRunningRecordsScreen()
         checkViewIsDisplayed(

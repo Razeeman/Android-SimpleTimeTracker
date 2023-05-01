@@ -1,20 +1,21 @@
 package com.example.util.simpletimetracker.feature_statistics_detail.interactor
 
 import com.example.util.simpletimetracker.core.interactor.RecordFilterInteractor
-import com.example.util.simpletimetracker.domain.extension.getCategoryIds
+import com.example.util.simpletimetracker.domain.extension.getCategoryItems
 import com.example.util.simpletimetracker.domain.extension.getSelectedTags
 import com.example.util.simpletimetracker.domain.extension.getTypeIds
 import com.example.util.simpletimetracker.domain.extension.hasActivityFilter
 import com.example.util.simpletimetracker.domain.extension.hasCategoryFilter
 import com.example.util.simpletimetracker.domain.extension.hasSelectedTagsFilter
-import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
+import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
+import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.StatisticsDetailViewDataMapper
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewCompareViewData
 import javax.inject.Inject
@@ -55,16 +56,26 @@ class StatisticsDetailPreviewInteractor @Inject constructor(
                 mapActivities(selectedIds)
             }
             filterParams.hasCategoryFilter() -> {
-                val selectedIds = filterParams.getCategoryIds()
-                categoryInteractor.getAll()
-                    .filter { it.id in selectedIds }
-                    .map { category ->
-                        statisticsDetailViewDataMapper.mapToPreview(
-                            category = category,
-                            isDarkTheme = isDarkTheme,
-                            isForComparison = isForComparison,
-                        )
+                val selectedCategories = filterParams.getCategoryItems()
+                val categories = categoryInteractor.getAll().associateBy(Category::id)
+                selectedCategories.mapNotNull {
+                    when (it) {
+                        is RecordsFilter.CategoryItem.Categorized -> {
+                            val category = categories[it.categoryId] ?: return@mapNotNull null
+                            statisticsDetailViewDataMapper.mapToCategorizedPreview(
+                                category = category,
+                                isDarkTheme = isDarkTheme,
+                                isForComparison = isForComparison,
+                            )
+                        }
+                        is RecordsFilter.CategoryItem.Uncategorized -> {
+                            statisticsDetailViewDataMapper.mapToUncategorizedPreview(
+                                isDarkTheme = isDarkTheme,
+                                isForComparison = isForComparison,
+                            )
+                        }
                     }
+                }
             }
             filterParams.hasSelectedTagsFilter() -> {
                 val selectedTags = filterParams.getSelectedTags()

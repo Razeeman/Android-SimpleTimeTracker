@@ -36,26 +36,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.5" />
+            app:layout_constraintGuide_percent="0.45" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvWidgetQuickSettingsName"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginHorizontal="4dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp"
+            android:layout_marginBottom="8dp"
             android:ellipsize="end"
             android:gravity="center"
-            android:maxLines="2"
+            android:maxLines="3"
             android:textColor="@color/widget_universal_empty_color"
             android:textStyle="bold"
             app:autoSizeMaxTextSize="14sp"
-            app:autoSizeMinTextSize="1sp"
+            app:autoSizeMinTextSize="12sp"
             app:autoSizeTextType="uniform"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/guideWidgetQuickSettings"
-            tools:text="@string/settings_allow_multitasking" />
+            tools:text="Show record tag selection show record tag selection show record tag selection" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

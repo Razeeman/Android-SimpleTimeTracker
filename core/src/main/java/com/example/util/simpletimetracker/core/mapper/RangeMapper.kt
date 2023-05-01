@@ -105,7 +105,7 @@ class RangeMapper @Inject constructor(
         rangeStart: Long,
         rangeEnd: Long,
     ): Record {
-        return if (!record.isInRange(rangeStart, rangeEnd)) {
+        return if (!record.isCompletelyRange(rangeStart, rangeEnd)) {
             record.copy(
                 timeStarted = max(record.timeStarted, rangeStart),
                 timeEnded = min(record.timeEnded, rangeEnd)
@@ -157,6 +157,13 @@ class RangeMapper @Inject constructor(
         rangeEnd: Long,
     ): Boolean {
         return this.timeStarted < rangeEnd && this.timeEnded > rangeStart
+    }
+
+    private fun Record.isCompletelyRange(
+        rangeStart: Long,
+        rangeEnd: Long,
+    ): Boolean {
+        return this.timeStarted >= rangeStart && this.timeEnded <= rangeEnd
     }
 
     companion object {

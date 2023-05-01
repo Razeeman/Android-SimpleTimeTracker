@@ -10,6 +10,7 @@ import com.example.util.simpletimetracker.core.interactor.ChartFilterViewDataInt
 import com.example.util.simpletimetracker.core.mapper.ChartFilterViewDataMapper
 import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
 import com.example.util.simpletimetracker.core.viewData.ChartFilterTypeViewData
+import com.example.util.simpletimetracker.domain.UNCATEGORIZED_ITEM_ID
 import com.example.util.simpletimetracker.domain.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -126,12 +127,13 @@ class ChartFilterViewModel @Inject constructor(
             ChartFilterType.CATEGORY -> {
                 getCategoriesCache().map { it.id }.let(categoryIdsFiltered::addAll)
                 categoryIdsFiltered.add(UNTRACKED_ITEM_ID)
+                categoryIdsFiltered.add(UNCATEGORIZED_ITEM_ID)
                 prefsInteractor.setFilteredCategories(categoryIdsFiltered)
             }
             ChartFilterType.RECORD_TAG -> {
                 getTagsCache().map { it.id }.let(recordTagsFiltered::addAll)
-                // TODO add untagged
                 recordTagsFiltered.add(UNTRACKED_ITEM_ID)
+                recordTagsFiltered.add(UNCATEGORIZED_ITEM_ID)
                 prefsInteractor.setFilteredTags(recordTagsFiltered)
             }
         }

@@ -284,11 +284,11 @@ class IconTest : BaseUiTest() {
 
             if (category == iconImageMapper.getAvailableCategories().last()) {
                 onView(
-                    withId(changeRecordTypeR.id.rvChangeRecordTypeIcon)).perform(collapseToolbar()
-                )
+                    withId(changeRecordTypeR.id.rvChangeRecordTypeIcon)
+                ).perform(collapseToolbar())
                 onView(
-                    withId(changeRecordTypeR.id.rvChangeRecordTypeIcon)).perform(swipeUp(50)
-                )
+                    withId(changeRecordTypeR.id.rvChangeRecordTypeIcon)
+                ).perform(swipeUp(50))
             }
 
             // Check category hint

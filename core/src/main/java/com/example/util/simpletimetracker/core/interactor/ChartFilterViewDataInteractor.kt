@@ -93,8 +93,8 @@ class ChartFilterViewDataInteractor @Inject constructor(
                 categoryViewDataMapper.mapRecordTag(
                     tag = tag,
                     type = typesMap[tag.typeId],
-                    isDarkTheme = tag.id in recordTagsFiltered,
-                    isFiltered = isDarkTheme
+                    isDarkTheme = isDarkTheme,
+                    isFiltered = tag.id in recordTagsFiltered,
                 )
             }
             .takeUnless { it.isEmpty() }

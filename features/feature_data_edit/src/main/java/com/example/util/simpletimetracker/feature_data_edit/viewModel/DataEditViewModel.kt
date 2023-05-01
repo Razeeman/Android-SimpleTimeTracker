@@ -151,8 +151,6 @@ class DataEditViewModel @Inject constructor(
     fun onDeleteRecordsClick() {
         if (deleteState is DataEditDeleteRecordsState.Disabled) {
             deleteState = DataEditDeleteRecordsState.Enabled
-        } else {
-            deleteState = DataEditDeleteRecordsState.Disabled
 
             typeState = DataEditChangeActivityState.Disabled
             commentState = DataEditChangeCommentState.Disabled
@@ -163,6 +161,8 @@ class DataEditViewModel @Inject constructor(
             updateChangeCommentState()
             updateAddTagState()
             updateRemoveTagState()
+        } else {
+            deleteState = DataEditDeleteRecordsState.Disabled
         }
         updateDeleteRecordsState()
         updateChangeButtonState()
@@ -207,7 +207,7 @@ class DataEditViewModel @Inject constructor(
             StandardDialogParams(
                 tag = ALERT_DIALOG_TAG,
                 message = resourceRepo.getString(R.string.archive_deletion_alert),
-                btnPositive = resourceRepo.getString(R.string.archive_dialog_delete),
+                btnPositive = resourceRepo.getString(R.string.data_edit_button_change),
                 btnNegative = resourceRepo.getString(R.string.cancel)
             )
         )
