@@ -68,7 +68,7 @@ class PieChartView @JvmOverloads constructor(
         initArgs(context, attrs, defStyleAttr)
         initPaint()
         initEditMode()
-        setLayerType(LAYER_TYPE_SOFTWARE, null)
+        setLayerType(LAYER_TYPE_HARDWARE, null)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -174,7 +174,6 @@ class PieChartView @JvmOverloads constructor(
             style = Paint.Style.STROKE
         }
         particlePaint.apply {
-            isAntiAlias = true
             xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_ATOP)
         }
     }
@@ -200,22 +199,20 @@ class PieChartView @JvmOverloads constructor(
     @Suppress("DEPRECATION")
     private fun drawSegments(canvas: Canvas, w: Float, h: Float, r: Float) {
         val segmentWidth = r - r * innerRadiusRatio
-        val segmentCenterLine = r - segmentWidth / 2
+        val segmentCenterLine = r - segmentWidth / 2f
         var currentSweepAngle = -90f
         var sweepAngle: Float
         segmentPaint.strokeWidth = segmentWidth
 
+        canvas.save()
+        canvas.translate(w / 2f, h / 2f)
         bounds.set(
-            w / 2 - segmentCenterLine, h / 2 - segmentCenterLine,
-            w / 2 + segmentCenterLine, h / 2 + segmentCenterLine
+            -segmentCenterLine, -segmentCenterLine,
+            segmentCenterLine, +segmentCenterLine
         )
-        layerBounds.set(
-            w / 2 - r, h / 2 - r,
-            w / 2 + r, h / 2 + r
-        )
+        layerBounds.set(-r, -r, r, r)
         segments.forEach {
             canvas.saveLayerAlpha(layerBounds, 0xFF, Canvas.ALL_SAVE_FLAG)
-
             sweepAngle = it.arcPercent * 360f * segmentAnimationScale
             segmentPaint.color = it.color
             canvas.drawArc(
@@ -230,23 +227,19 @@ class PieChartView @JvmOverloads constructor(
                 canvas = canvas,
                 currentSweepAngle = currentSweepAngle,
                 sweepAngle = sweepAngle,
-                w = w,
-                h = h,
                 r = r,
             )
             currentSweepAngle += sweepAngle
-
             canvas.restore()
         }
+        canvas.restore()
     }
 
     private fun drawParticles(
-        segment: PieChartView.Arc,
+        segment: Arc,
         canvas: Canvas,
         currentSweepAngle: Float,
         sweepAngle: Float,
-        w: Float,
-        h: Float,
         r: Float,
     ) {
         if (!drawParticles) return
@@ -287,8 +280,8 @@ class PieChartView @JvmOverloads constructor(
             ) {
                 val alpha = PARTICLES_BASE_ALPHA + PARTICLES_ALPHA_VARIATION * pseudoRandom(angle + 1)
                 val scale = PARTICLES_BASE_SCALE + PARTICLES_SCALE_VARIATION * pseudoRandom(angle + 2)
-                val x = (w / 2) + particleDistance * cos(Math.toRadians(angle))
-                val y = (h / 2) + particleDistance * sin(Math.toRadians(angle))
+                val x = particleDistance * cos(Math.toRadians(angle))
+                val y = particleDistance * sin(Math.toRadians(angle))
                 particlePaint.alpha = (0xFF * alpha).toInt()
 
                 canvas.save()
@@ -299,9 +292,7 @@ class PieChartView @JvmOverloads constructor(
             }
         }
 
-        if (animateParticles) {
-            invalidate()
-        }
+        if (animateParticles) invalidate()
     }
 
     private fun drawDividers(canvas: Canvas, w: Float, h: Float, r: Float) {
@@ -438,14 +429,14 @@ class PieChartView @JvmOverloads constructor(
 
         private const val SEGMENT_OPEN_ANIMATION_DURATION_MS: Long = 250L
 
-        private const val PARTICLES_ANGLE_STEP = 5.0
-        private const val PARTICLES_ANGLE_CUTOFF = 7.0
-        private const val PARTICLES_CYCLE = 30000.0
-        private const val PARTICLES_BASE_SPEED = 1.0
-        private const val PARTICLES_SPEED_VARIATION = 1.0
-        private const val PARTICLES_BASE_ALPHA = 0.35
-        private const val PARTICLES_ALPHA_VARIATION = -0.25
-        private const val PARTICLES_BASE_SCALE = 0.7
-        private const val PARTICLES_SCALE_VARIATION = -0.25
+        private const val PARTICLES_ANGLE_STEP: Double = 5.0
+        private const val PARTICLES_ANGLE_CUTOFF: Double = 7.0
+        private const val PARTICLES_CYCLE: Double = 30000.0
+        private const val PARTICLES_BASE_SPEED: Double = 1.0
+        private const val PARTICLES_SPEED_VARIATION: Double = 1.0
+        private const val PARTICLES_BASE_ALPHA: Double = 0.35
+        private const val PARTICLES_ALPHA_VARIATION: Double = -0.25
+        private const val PARTICLES_BASE_SCALE: Double = 0.7
+        private const val PARTICLES_SCALE_VARIATION: Double = -0.25
     }
 }
