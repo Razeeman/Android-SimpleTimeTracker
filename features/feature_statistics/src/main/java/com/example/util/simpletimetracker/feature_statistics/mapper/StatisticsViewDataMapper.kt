@@ -18,6 +18,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.statistics.Statis
 import com.example.util.simpletimetracker.feature_base_adapter.statisticsGoal.StatisticsGoalViewData
 import com.example.util.simpletimetracker.feature_statistics.R
 import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsInfoViewData
+import com.example.util.simpletimetracker.feature_views.TransitionNames
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import javax.inject.Inject
 import kotlin.math.roundToLong
@@ -31,6 +32,7 @@ class StatisticsViewDataMapper @Inject constructor(
 ) {
 
     fun mapItemsList(
+        shift: Int,
         statistics: List<Statistics>,
         data: Map<Long, StatisticsDataHolder>,
         filterType: ChartFilterType,
@@ -47,6 +49,7 @@ class StatisticsViewDataMapper @Inject constructor(
         return statisticsFiltered
             .mapNotNull { statistic ->
                 val item = mapItem(
+                    shift = shift,
                     filterType = filterType,
                     statistics = statistic,
                     sumDuration = sumDuration,
@@ -120,6 +123,7 @@ class StatisticsViewDataMapper @Inject constructor(
     }
 
     private fun mapItem(
+        shift: Int,
         filterType: ChartFilterType,
         statistics: Statistics,
         sumDuration: Long,
@@ -135,6 +139,7 @@ class StatisticsViewDataMapper @Inject constructor(
             duration = statistics.duration,
             statisticsSize = statisticsSize
         )
+        val transitionName = "${TransitionNames.STATISTICS_DETAIL}_shift${shift}_id${statistics.id}"
 
         when {
             statistics.id == UNTRACKED_ITEM_ID -> {
@@ -150,7 +155,8 @@ class StatisticsViewDataMapper @Inject constructor(
                     ),
                     percent = durationPercent,
                     icon = RecordTypeIcon.Image(R.drawable.unknown),
-                    color = colorMapper.toUntrackedColor(isDarkTheme)
+                    color = colorMapper.toUntrackedColor(isDarkTheme),
+                    transitionName = transitionName,
                 )
             }
             statistics.id == UNCATEGORIZED_ITEM_ID -> {
@@ -169,7 +175,8 @@ class StatisticsViewDataMapper @Inject constructor(
                     ),
                     percent = durationPercent,
                     icon = RecordTypeIcon.Image(R.drawable.untagged),
-                    color = colorMapper.toUntrackedColor(isDarkTheme)
+                    color = colorMapper.toUntrackedColor(isDarkTheme),
+                    transitionName = transitionName,
                 )
             }
             dataHolder != null -> {
@@ -187,6 +194,7 @@ class StatisticsViewDataMapper @Inject constructor(
                         ?.let(iconMapper::mapIcon),
                     color = dataHolder.color
                         .let { colorMapper.mapToColorInt(it, isDarkTheme) },
+                    transitionName = transitionName,
                 )
             }
             else -> {

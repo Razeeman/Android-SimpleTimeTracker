@@ -112,7 +112,7 @@ class StatisticsViewModel @Inject constructor(
 
         router.navigate(
             data = StatisticsDetailParams(
-                transitionName = TransitionNames.STATISTICS_DETAIL + item.id,
+                transitionName = item.transitionName,
                 filter = statisticsViewDataInteractor.mapFilter(
                     filterType = filterType,
                     selectedId = item.id,

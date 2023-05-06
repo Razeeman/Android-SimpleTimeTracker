@@ -142,7 +142,6 @@ class StatisticsFragment :
             ),
             createStatisticsInfoAdapterDelegate(),
             createStatisticsAdapterDelegate(
-                addTransitionNames = true,
                 onItemClick = throttle(viewModel::onItemClick)
             ),
             createStatisticsEmptyAdapterDelegate(

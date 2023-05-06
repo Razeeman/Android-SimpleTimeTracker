@@ -133,6 +133,7 @@ class StatisticsViewDataInteractor @Inject constructor(
             )
         }
         val list = statisticsViewDataMapper.mapItemsList(
+            shift = shift,
             filterType = filterType,
             statistics = statistics,
             data = dataHolders,
