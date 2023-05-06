@@ -5,7 +5,8 @@ import com.example.util.simpletimetracker.feature_views.pieChart.PiePortion
 
 data class StatisticsChartViewData(
     val data: List<PiePortion>,
-    val animated: Boolean,
+    val animatedOpen: Boolean,
+    val animateParticles: Boolean,
     val buttonsVisible: Boolean,
 ) : ViewHolderType {
 

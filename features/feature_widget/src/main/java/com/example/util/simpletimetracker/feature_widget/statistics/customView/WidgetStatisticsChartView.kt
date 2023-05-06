@@ -36,7 +36,11 @@ class WidgetStatisticsChartView @JvmOverloads constructor(
             switchDataVisibility(hasData = false)
         } else {
             switchDataVisibility(hasData = true)
-            chartWidgetStatistics.setSegments(data)
+            chartWidgetStatistics.setSegments(
+                data = data,
+                animateOpen = false,
+                animateParticles = false
+            )
             tvWidgetStatisticsTotal.text = total
         }
         invalidate()

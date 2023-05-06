@@ -1,6 +1,5 @@
 package com.example.util.simpletimetracker.feature_statistics.view
 
-import com.example.util.simpletimetracker.feature_statistics.databinding.StatisticsFragmentBinding as Binding
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -33,6 +32,7 @@ import com.example.util.simpletimetracker.feature_statistics.viewModel.Statistic
 import com.example.util.simpletimetracker.navigation.params.screen.StatisticsParams
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import com.example.util.simpletimetracker.feature_statistics.databinding.StatisticsFragmentBinding as Binding
 
 @AndroidEntryPoint
 class StatisticsFragment :

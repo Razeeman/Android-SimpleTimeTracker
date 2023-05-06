@@ -69,6 +69,7 @@ class StatisticsViewDataInteractor @Inject constructor(
         rangeLength: RangeLength,
         shift: Int,
         forSharing: Boolean,
+        isVisible: Boolean,
     ): List<ViewHolderType> {
         val filterType = prefsInteractor.getChartFilterType()
         val isDarkTheme = prefsInteractor.getDarkMode()
@@ -128,7 +129,8 @@ class StatisticsViewDataInteractor @Inject constructor(
 
             StatisticsChartViewData(
                 data = data,
-                animated = !forSharing,
+                animatedOpen = !forSharing,
+                animateParticles = isVisible,
                 buttonsVisible = !forSharing,
             )
         }

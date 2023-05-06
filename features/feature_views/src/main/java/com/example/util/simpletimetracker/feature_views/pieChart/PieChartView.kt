@@ -2,24 +2,30 @@ package com.example.util.simpletimetracker.feature_views.pieChart
 
 import android.animation.ValueAnimator
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.BlurMaskFilter
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffXfermode
 import android.graphics.Rect
 import android.graphics.RectF
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.ContextThemeWrapper
 import android.view.View
+import androidx.annotation.FloatRange
+import com.example.util.simpletimetracker.feature_views.IconView
+import com.example.util.simpletimetracker.feature_views.R
 import com.example.util.simpletimetracker.feature_views.extension.getBitmapFromView
 import com.example.util.simpletimetracker.feature_views.extension.measureExactly
-import com.example.util.simpletimetracker.feature_views.IconView
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
-import com.example.util.simpletimetracker.feature_views.R
+import kotlin.math.ceil
+import kotlin.math.cos
+import kotlin.math.floor
 import kotlin.math.max
 import kotlin.math.min
+import kotlin.math.sin
 
 class PieChartView @JvmOverloads constructor(
     context: Context,
@@ -39,20 +45,23 @@ class PieChartView @JvmOverloads constructor(
     private var iconMaxSize: Int = 0
     private var segmentCount: Int = 0
     private var drawIcons: Boolean = false
-    private var animated: Boolean = true
+    private var drawParticles: Boolean = false
     // End of attrs
 
     private val segmentPaint: Paint = Paint()
     private val shadowPaint: Paint = Paint()
     private val dividerPaint: Paint = Paint()
+    private val particlePaint: Paint = Paint()
 
     private val animator = ValueAnimator.ofFloat(0f, 1f)
     private val bounds: RectF = RectF(0f, 0f, 0f, 0f)
+    private val layerBounds: RectF = RectF(0f, 0f, 0f, 0f)
+    private val particleBounds: RectF = RectF(0f, 0f, 0f, 0f)
     private var segments: List<Arc> = emptyList()
     private var shadowColor: Int = 0x40000000
     private var segmentAnimationScale: Float = 1f
-    private val segmentAnimationDuration: Long = 200L // ms
-    private var shouldAnimate: Boolean = true
+    private var shouldAnimateOpen: Boolean = true
+    private var animateParticles: Boolean = false
     private val iconView: IconView = IconView(ContextThemeWrapper(context, R.style.AppTheme))
 
     init {
@@ -82,16 +91,15 @@ class PieChartView @JvmOverloads constructor(
         drawIcons(canvas, w, h, r)
     }
 
-    // Set before setting data.
-    fun setAnimated(animated: Boolean) {
-        this.animated = animated
-    }
-
-    fun setSegments(data: List<PiePortion>) {
+    fun setSegments(
+        data: List<PiePortion>,
+        animateOpen: Boolean,
+        animateParticles: Boolean,
+    ) {
         val res = mutableListOf<Arc>()
         val valuesSum = data.map(PiePortion::value).sum()
         var segmentPercent: Float
-        var drawable: Drawable? = null
+        var drawable: Bitmap? = null
 
         data.forEach { segment ->
             if (drawIcons && segment.iconId != null) {
@@ -112,8 +120,9 @@ class PieChartView @JvmOverloads constructor(
         }
 
         segments = res
+        this.animateParticles = animateParticles
         invalidate()
-        if (!isInEditMode) animateSegments()
+        if (!isInEditMode && animateOpen) animateSegmentsAppearing()
     }
 
     private fun initArgs(
@@ -141,9 +150,8 @@ class PieChartView @JvmOverloads constructor(
                     getInt(R.styleable.PieChartView_segmentCount, 0)
                 drawIcons =
                     getBoolean(R.styleable.PieChartView_drawIcons, false)
-
-                if (hasValue(R.styleable.PieChartView_pieChartAnimated)) animated =
-                    getBoolean(R.styleable.PieChartView_pieChartAnimated, true)
+                drawParticles =
+                    getBoolean(R.styleable.PieChartView_drawParticles, false)
                 recycle()
             }
     }
@@ -165,6 +173,10 @@ class PieChartView @JvmOverloads constructor(
             strokeWidth = dividerWidth.toFloat()
             style = Paint.Style.STROKE
         }
+        particlePaint.apply {
+            isAntiAlias = true
+            xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_ATOP)
+        }
     }
 
     private fun drawShadow(canvas: Canvas, w: Float, h: Float, r: Float) {
@@ -185,21 +197,25 @@ class PieChartView @JvmOverloads constructor(
         )
     }
 
+    @Suppress("DEPRECATION")
     private fun drawSegments(canvas: Canvas, w: Float, h: Float, r: Float) {
         val segmentWidth = r - r * innerRadiusRatio
         val segmentCenterLine = r - segmentWidth / 2
-        var currentSweepAngle = 0f
+        var currentSweepAngle = -90f
         var sweepAngle: Float
         segmentPaint.strokeWidth = segmentWidth
-
-        canvas.save()
-        canvas.rotate(-90f, w / 2, h / 2)
 
         bounds.set(
             w / 2 - segmentCenterLine, h / 2 - segmentCenterLine,
             w / 2 + segmentCenterLine, h / 2 + segmentCenterLine
         )
+        layerBounds.set(
+            w / 2 - r, h / 2 - r,
+            w / 2 + r, h / 2 + r
+        )
         segments.forEach {
+            canvas.saveLayerAlpha(layerBounds, 0xFF, Canvas.ALL_SAVE_FLAG)
+
             sweepAngle = it.arcPercent * 360f * segmentAnimationScale
             segmentPaint.color = it.color
             canvas.drawArc(
@@ -209,10 +225,83 @@ class PieChartView @JvmOverloads constructor(
                 false,
                 segmentPaint
             )
+            drawParticles(
+                segment = it,
+                canvas = canvas,
+                currentSweepAngle = currentSweepAngle,
+                sweepAngle = sweepAngle,
+                w = w,
+                h = h,
+                r = r,
+            )
             currentSweepAngle += sweepAngle
+
+            canvas.restore()
+        }
+    }
+
+    private fun drawParticles(
+        segment: PieChartView.Arc,
+        canvas: Canvas,
+        currentSweepAngle: Float,
+        sweepAngle: Float,
+        w: Float,
+        h: Float,
+        r: Float,
+    ) {
+        if (!drawParticles) return
+        if (segment.drawable == null) return
+        if (sweepAngle < PARTICLES_ANGLE_CUTOFF) return
+
+        val now = System.currentTimeMillis()
+        if (initializationTime == -1L) {
+            initializationTime = now
+        }
+        val time = (now - initializationTime) / PARTICLES_CYCLE
+
+        val iconSizeHalfSize = calculateIconSize(r) / 2f
+        particleBounds.set(
+            -iconSizeHalfSize, -iconSizeHalfSize,
+            iconSizeHalfSize, iconSizeHalfSize
+        )
+
+        val fromAngle = floor(currentSweepAngle / PARTICLES_ANGLE_STEP).toInt()
+        val toAngle = ceil((currentSweepAngle + sweepAngle) / PARTICLES_ANGLE_STEP).toInt()
+
+        for (i in fromAngle..toAngle) {
+            val angle = i * PARTICLES_ANGLE_STEP
+
+            val startTimeVariation = PARTICLES_CYCLE * 100 * pseudoRandom(angle)
+            val speedVariation = PARTICLES_BASE_SPEED + PARTICLES_SPEED_VARIATION * pseudoRandom(angle)
+            val distanceVariation = ((time + startTimeVariation) * speedVariation) % 1.0
+
+            val innerParticleSpanDistance = r * innerRadiusRatio - iconSizeHalfSize
+            val outerParticleSpanDistance = r + iconSizeHalfSize
+            val particleDistance = interpolate(
+                0f, outerParticleSpanDistance, distanceVariation
+            )
+
+            if (
+                particleDistance > innerParticleSpanDistance &&
+                particleDistance < outerParticleSpanDistance
+            ) {
+                val alpha = PARTICLES_BASE_ALPHA + PARTICLES_ALPHA_VARIATION * pseudoRandom(angle + 1)
+                val scale = PARTICLES_BASE_SCALE + PARTICLES_SCALE_VARIATION * pseudoRandom(angle + 2)
+                val x = (w / 2) + particleDistance * cos(Math.toRadians(angle))
+                val y = (h / 2) + particleDistance * sin(Math.toRadians(angle))
+                particlePaint.alpha = (0xFF * alpha).toInt()
+
+                canvas.save()
+                canvas.translate(x.toFloat(), y.toFloat())
+                canvas.scale(scale.toFloat(), scale.toFloat())
+                canvas.drawBitmap(segment.drawable, null, particleBounds, particlePaint)
+                canvas.restore()
+            }
         }
 
-        canvas.restore()
+        if (animateParticles) {
+            invalidate()
+        }
     }
 
     private fun drawDividers(canvas: Canvas, w: Float, h: Float, r: Float) {
@@ -254,6 +343,8 @@ class PieChartView @JvmOverloads constructor(
         var center = canvas.save()
 
         segments.forEach {
+            it.drawable ?: return@forEach
+
             // circleCircumference = 2 * Math.PI * r
             // segmentRatio = it.sweepAngle / 360f
             // segmentLength = circleCircumference * segmentRatio
@@ -265,8 +356,7 @@ class PieChartView @JvmOverloads constructor(
             canvas.rotate(rotation)
             canvas.translate(0f, -iconPositionFromCenter)
             canvas.rotate(-rotation)
-            it.drawable?.bounds = bounds
-            it.drawable?.draw(canvas)
+            canvas.drawBitmap(it.drawable, null, bounds, null)
 
             currentSweepAngle += sweepAngle
             canvas.restoreToCount(center)
@@ -296,35 +386,66 @@ class PieChartView @JvmOverloads constructor(
                         colorInt = Color.BLACK,
                         iconId = RecordTypeIcon.Image(R.drawable.unknown)
                     )
-                }.let(::setSegments)
+                }.let {
+                    setSegments(
+                        data = it,
+                        animateOpen = false,
+                        animateParticles = false
+                    )
+                }
         }
     }
 
-    private fun getIconDrawable(iconId: RecordTypeIcon): Drawable {
+    private fun getIconDrawable(iconId: RecordTypeIcon): Bitmap {
         return iconView
             .apply {
                 itemIcon = iconId
                 measureExactly(iconMaxSize)
             }
             .getBitmapFromView()
-            .let { BitmapDrawable(resources, it) }
     }
 
-    private fun animateSegments() {
-        if (animated && shouldAnimate) {
-            animator.duration = segmentAnimationDuration
+    private fun animateSegmentsAppearing() {
+        if (shouldAnimateOpen) {
+            animator.duration = SEGMENT_OPEN_ANIMATION_DURATION_MS
             animator.addUpdateListener { animation ->
                 segmentAnimationScale = animation.animatedValue as Float
                 invalidate()
             }
             animator.start()
-            shouldAnimate = false
+            shouldAnimateOpen = false
         }
+    }
+
+    @FloatRange(from = 0.0, to = 1.0)
+    private fun pseudoRandom(seed: Double): Double {
+        return sin(seed) / 2.0 + 0.5
+    }
+
+    @Suppress("SameParameterValue")
+    private fun interpolate(a: Float, b: Float, f: Double): Double {
+        return a + f * (b - a)
     }
 
     private inner class Arc(
         val color: Int,
-        val drawable: Drawable? = null,
+        val drawable: Bitmap? = null,
         val arcPercent: Float
     )
+
+    companion object {
+        private var initializationTime: Long = -1
+
+        private const val SEGMENT_OPEN_ANIMATION_DURATION_MS: Long = 250L
+
+        private const val PARTICLES_ANGLE_STEP = 5.0
+        private const val PARTICLES_ANGLE_CUTOFF = 7.0
+        private const val PARTICLES_CYCLE = 30000.0
+        private const val PARTICLES_BASE_SPEED = 1.0
+        private const val PARTICLES_SPEED_VARIATION = 1.0
+        private const val PARTICLES_BASE_ALPHA = 0.35
+        private const val PARTICLES_ALPHA_VARIATION = -0.25
+        private const val PARTICLES_BASE_SCALE = 0.7
+        private const val PARTICLES_SCALE_VARIATION = -0.25
+    }
 }

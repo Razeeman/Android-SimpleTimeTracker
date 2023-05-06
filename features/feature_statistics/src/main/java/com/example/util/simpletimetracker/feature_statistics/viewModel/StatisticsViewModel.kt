@@ -63,6 +63,7 @@ class StatisticsViewModel @Inject constructor(
     fun onHidden() {
         isVisible = false
         stopUpdate()
+        updateStatistics()
     }
 
     fun onRangeUpdated() {
@@ -146,6 +147,7 @@ class StatisticsViewModel @Inject constructor(
             rangeLength = prefsInteractor.getStatisticsRange(),
             shift = shift,
             forSharing = forSharing,
+            isVisible = isVisible,
         )
     }
 

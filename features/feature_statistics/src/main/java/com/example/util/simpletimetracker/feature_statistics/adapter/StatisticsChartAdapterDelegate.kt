@@ -16,8 +16,11 @@ fun createStatisticsChartAdapterDelegate(
     with(binding) {
         item as ViewData
 
-        chartStatisticsItem.setAnimated(item.animated)
-        chartStatisticsItem.setSegments(item.data)
+        chartStatisticsItem.setSegments(
+            data = item.data,
+            animateOpen = item.animatedOpen,
+            animateParticles = item.animateParticles
+        )
 
         btnStatisticsChartFilter.isVisible = item.buttonsVisible
         btnStatisticsChartShare.isVisible = item.buttonsVisible

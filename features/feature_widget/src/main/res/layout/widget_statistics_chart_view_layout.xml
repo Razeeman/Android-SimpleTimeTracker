@@ -24,6 +24,7 @@
             app:dividerColor="@color/grey_950"
             app:dividerWidth="2dp"
             app:drawIcons="true"
+            app:drawParticles="false"
             app:iconMaxSize="48dp"
             app:iconPadding="4dp"
             app:innerRadiusRatio="0.625"
@@ -32,7 +33,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="0.975"
-            app:pieChartAnimated="false"
             tools:segmentCount="5" />
 
         <androidx.appcompat.widget.AppCompatTextView

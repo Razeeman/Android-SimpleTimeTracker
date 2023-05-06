@@ -56,6 +56,7 @@
         app:dividerColor="?appPieChartDividerColor"
         app:dividerWidth="2dp"
         app:drawIcons="true"
+        app:drawParticles="true"
         app:iconMaxSize="24dp"
         app:iconPadding="4dp"
         app:innerRadiusRatio="0.625"

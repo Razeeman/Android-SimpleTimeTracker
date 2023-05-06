@@ -132,6 +132,6 @@
         <attr name="iconMaxSize" format="dimension" />
         <attr name="innerRadiusRatio" format="float" />
         <attr name="drawIcons" format="boolean" />
-        <attr name="pieChartAnimated" format="boolean" />
+        <attr name="drawParticles" format="boolean" />
     </declare-styleable>
 </resources>
