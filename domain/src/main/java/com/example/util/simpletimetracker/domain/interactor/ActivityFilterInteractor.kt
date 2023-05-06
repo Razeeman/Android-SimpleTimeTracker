@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.domain.interactor
 
 import com.example.util.simpletimetracker.domain.model.ActivityFilter
 import com.example.util.simpletimetracker.domain.repo.ActivityFilterRepo
+import java.util.Locale
 import javax.inject.Inject
 
 class ActivityFilterInteractor @Inject constructor(
@@ -10,6 +11,7 @@ class ActivityFilterInteractor @Inject constructor(
 
     suspend fun getAll(): List<ActivityFilter> {
         return activityFilterRepo.getAll()
+            .sortedBy { it.name.lowercase(Locale.getDefault()) }
     }
 
     suspend fun get(id: Long): ActivityFilter? {
