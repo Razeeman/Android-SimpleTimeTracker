@@ -9,8 +9,10 @@ import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.viewpager2.widget.ViewPager2
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
+import com.example.util.simpletimetracker.core.extension.addOnPageChangeCallback
 import com.example.util.simpletimetracker.core.extension.getThemedAttr
 import com.example.util.simpletimetracker.core.model.NavigationTab
 import com.example.util.simpletimetracker.core.sharedViewModel.MainTabsViewModel
@@ -65,6 +67,11 @@ class MainFragment : BaseFragment<Binding>() {
     private fun setupPager() = with(binding) {
         mainPager.adapter = SafeFragmentStateAdapter(MainContentAdapter(this@MainFragment))
         mainPager.offscreenPageLimit = 3 // Same as number of pages to avoid recreating.
+        mainPager.addOnPageChangeCallback(lifecycleOwner = this@MainFragment) { state ->
+            mainTabsViewModel.onScrollStateChanged(
+                isScrolling = state != ViewPager2.SCROLL_STATE_IDLE
+            )
+        }
 
         TabLayoutMediator(mainTabs, mainPager) { tab, position ->
             position

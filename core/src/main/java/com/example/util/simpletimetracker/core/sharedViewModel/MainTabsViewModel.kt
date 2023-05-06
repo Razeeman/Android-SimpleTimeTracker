@@ -10,6 +10,7 @@ import javax.inject.Inject
 class MainTabsViewModel @Inject constructor() : ViewModel() {
 
     val tabReselected: LiveData<NavigationTab?> = MutableLiveData()
+    val isScrolling: LiveData<Boolean> = MutableLiveData(false)
 
     fun onTabReselected(tab: NavigationTab) {
         tabReselected.set(tab)
@@ -17,5 +18,9 @@ class MainTabsViewModel @Inject constructor() : ViewModel() {
 
     fun onHandled() {
         tabReselected.set(null)
+    }
+
+    fun onScrollStateChanged(isScrolling: Boolean) {
+        this.isScrolling.set(isScrolling)
     }
 }

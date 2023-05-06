@@ -2,6 +2,9 @@ package com.example.util.simpletimetracker.core.extension
 
 import android.content.BroadcastReceiver
 import android.os.StrictMode
+import androidx.lifecycle.LifecycleOwner
+import androidx.viewpager2.widget.ViewPager2
+import com.example.util.simpletimetracker.core.utils.getLifecycleObserverAdapter
 import java.util.Calendar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -56,4 +59,27 @@ fun BroadcastReceiver.goAsync(
             result.finish()
         }
     }
+}
+
+fun ViewPager2.addOnPageChangeCallback(
+    lifecycleOwner: LifecycleOwner,
+    onPageScrolled: (Int, Float, Int) -> Unit = { _, _, _ -> },
+    onPageSelected: (Int) -> Unit = {},
+    onPageScrollStateChanged: (Int) -> Unit = {},
+) {
+    val callback = object : ViewPager2.OnPageChangeCallback() {
+        override fun onPageScrolled(
+            position: Int,
+            positionOffset: Float,
+            positionOffsetPixels: Int
+        ) = onPageScrolled(position, positionOffset, positionOffsetPixels)
+
+        override fun onPageSelected(position: Int) = onPageSelected(position)
+        override fun onPageScrollStateChanged(state: Int) = onPageScrollStateChanged(state)
+    }
+
+    registerOnPageChangeCallback(callback)
+    getLifecycleObserverAdapter(
+        onDestroy = { unregisterOnPageChangeCallback(callback) }
+    ).let(lifecycleOwner.lifecycle::addObserver)
 }

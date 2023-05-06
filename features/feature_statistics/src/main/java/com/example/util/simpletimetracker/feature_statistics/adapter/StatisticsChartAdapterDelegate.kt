@@ -9,6 +9,7 @@ import androidx.core.view.isVisible
 fun createStatisticsChartAdapterDelegate(
     onFilterClick: (() -> Unit),
     onShareClick: (() -> Unit),
+    onChartAttached: (Boolean) -> Unit,
 ) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
     Binding::inflate
 ) { binding, item, _ ->
@@ -19,8 +20,8 @@ fun createStatisticsChartAdapterDelegate(
         chartStatisticsItem.setSegments(
             data = item.data,
             animateOpen = item.animatedOpen,
-            animateParticles = item.animateParticles
         )
+        chartStatisticsItem.setAttachedListener(onChartAttached)
 
         btnStatisticsChartFilter.isVisible = item.buttonsVisible
         btnStatisticsChartShare.isVisible = item.buttonsVisible

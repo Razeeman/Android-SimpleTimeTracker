@@ -46,8 +46,12 @@ class StatisticsViewModel @Inject constructor(
     }
     val sharingData: SingleLiveEvent<List<ViewHolderType>> = SingleLiveEvent()
     val resetScreen: SingleLiveEvent<Unit> = SingleLiveEvent()
+    val animateChartParticles: LiveData<Boolean> = MutableLiveData()
 
     private var isVisible: Boolean = false
+    private var isTabScrolling: Boolean = false
+    private var isChartAttached: Boolean = false
+    private var isChartFilterOpened: Boolean = false
     private var timerJob: Job? = null
     private val shift: Int get() = extra?.shift.orZero()
 
@@ -58,12 +62,23 @@ class StatisticsViewModel @Inject constructor(
         } else {
             updateStatistics()
         }
+        updateAnimateChartParticles()
     }
 
     fun onHidden() {
         isVisible = false
         stopUpdate()
-        updateStatistics()
+        updateAnimateChartParticles()
+    }
+
+    fun onChartAttached(isAttached: Boolean) {
+        isChartAttached = isAttached
+        updateAnimateChartParticles()
+    }
+
+    fun isScrolling(isScrolling: Boolean) {
+        isTabScrolling = isScrolling
+        updateAnimateChartParticles()
     }
 
     fun onRangeUpdated() {
@@ -72,6 +87,8 @@ class StatisticsViewModel @Inject constructor(
 
     fun onFilterClick() {
         router.navigate(ChartFilterDialogParams)
+        isChartFilterOpened = true
+        updateAnimateChartParticles()
     }
 
     fun onShareClick() = viewModelScope.launch {
@@ -125,6 +142,8 @@ class StatisticsViewModel @Inject constructor(
 
     fun onFilterApplied() {
         updateStatistics()
+        isChartFilterOpened = false
+        updateAnimateChartParticles()
     }
 
     fun onShareView(view: Any) = viewModelScope.launch {
@@ -137,6 +156,11 @@ class StatisticsViewModel @Inject constructor(
         }
     }
 
+    private fun updateAnimateChartParticles() {
+        val shouldAnimate = isVisible && isChartAttached && !isTabScrolling && !isChartFilterOpened
+        animateChartParticles.set(shouldAnimate)
+    }
+
     private fun updateStatistics() = viewModelScope.launch {
         val data = loadStatisticsViewData()
         statistics.set(data)
@@ -147,7 +171,6 @@ class StatisticsViewModel @Inject constructor(
             rangeLength = prefsInteractor.getStatisticsRange(),
             shift = shift,
             forSharing = forSharing,
-            isVisible = isVisible,
         )
     }
 

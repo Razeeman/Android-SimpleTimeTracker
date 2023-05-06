@@ -53,6 +53,7 @@ class PieChartView @JvmOverloads constructor(
     private val dividerPaint: Paint = Paint()
     private val particlePaint: Paint = Paint()
 
+    private var attachedListener: ((Boolean) -> Unit)? = null
     private val animator = ValueAnimator.ofFloat(0f, 1f)
     private val bounds: RectF = RectF(0f, 0f, 0f, 0f)
     private val layerBounds: RectF = RectF(0f, 0f, 0f, 0f)
@@ -91,10 +92,28 @@ class PieChartView @JvmOverloads constructor(
         drawIcons(canvas, w, h, r)
     }
 
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        attachedListener?.invoke(true)
+    }
+
+    override fun onDetachedFromWindow() {
+        attachedListener?.invoke(false)
+        super.onDetachedFromWindow()
+    }
+
+    fun setAnimateParticles(animate: Boolean) {
+        animateParticles = animate
+        if (animateParticles) invalidate()
+    }
+
+    fun setAttachedListener(listener: (Boolean) -> Unit) {
+        attachedListener = listener
+    }
+
     fun setSegments(
         data: List<PiePortion>,
         animateOpen: Boolean,
-        animateParticles: Boolean,
     ) {
         val res = mutableListOf<Arc>()
         val valuesSum = data.map(PiePortion::value).sum()
@@ -120,7 +139,6 @@ class PieChartView @JvmOverloads constructor(
         }
 
         segments = res
-        this.animateParticles = animateParticles
         invalidate()
         if (!isInEditMode && animateOpen) animateSegmentsAppearing()
     }
@@ -381,7 +399,6 @@ class PieChartView @JvmOverloads constructor(
                     setSegments(
                         data = it,
                         animateOpen = false,
-                        animateParticles = false
                     )
                 }
         }

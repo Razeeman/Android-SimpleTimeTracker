@@ -27,8 +27,10 @@ import com.example.util.simpletimetracker.feature_statistics.adapter.createStati
 import com.example.util.simpletimetracker.feature_statistics.adapter.createStatisticsInfoAdapterDelegate
 import com.example.util.simpletimetracker.feature_statistics.adapter.createStatisticsTitleAdapterDelegate
 import com.example.util.simpletimetracker.feature_statistics.extra.StatisticsExtra
+import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsChartViewData
 import com.example.util.simpletimetracker.feature_statistics.viewModel.StatisticsSettingsViewModel
 import com.example.util.simpletimetracker.feature_statistics.viewModel.StatisticsViewModel
+import com.example.util.simpletimetracker.feature_views.pieChart.PieChartView
 import com.example.util.simpletimetracker.navigation.params.screen.StatisticsParams
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -83,12 +85,14 @@ class StatisticsFragment :
                 rvStatisticsList.smoothScrollToPosition(0)
                 mainTabsViewModel.onHandled()
             }
+            animateChartParticles.observe(::setAnimateParticles)
         }
         with(settingsViewModel) {
             rangeUpdated.observe { viewModel.onRangeUpdated() }
         }
         with(mainTabsViewModel) {
             tabReselected.observe(viewModel::onTabReselected)
+            isScrolling.observe(viewModel::isScrolling)
         }
     }
 
@@ -100,6 +104,17 @@ class StatisticsFragment :
     override fun onPause() {
         super.onPause()
         viewModel.onHidden()
+    }
+
+    private fun setAnimateParticles(animate: Boolean) {
+        statisticsAdapter.currentList
+            .indexOfFirst { it is StatisticsChartViewData }
+            .let {
+                binding.rvStatisticsList
+                    .findViewHolderForAdapterPosition(it)
+                    ?.itemView?.findViewById<PieChartView>(R.id.chartStatisticsItem)
+            }
+            ?.setAnimateParticles(animate)
     }
 
     override fun onChartFilterDialogDismissed() {
@@ -123,6 +138,7 @@ class StatisticsFragment :
             createStatisticsChartAdapterDelegate(
                 onFilterClick = viewModel::onFilterClick,
                 onShareClick = throttle(viewModel::onShareClick),
+                onChartAttached = viewModel::onChartAttached,
             ),
             createStatisticsInfoAdapterDelegate(),
             createStatisticsAdapterDelegate(

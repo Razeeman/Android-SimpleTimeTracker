@@ -39,7 +39,6 @@ class WidgetStatisticsChartView @JvmOverloads constructor(
             chartWidgetStatistics.setSegments(
                 data = data,
                 animateOpen = false,
-                animateParticles = false
             )
             tvWidgetStatisticsTotal.text = total
         }
