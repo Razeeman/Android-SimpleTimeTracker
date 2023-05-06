@@ -1,0 +1,13 @@
+Simple Time Tracker us ajuda a fer un seguiment de l'estona que dediqueu a diferents activitats durant el dia. Comenceu les noves activitats amb un clic. Veieu els enregistraments anteriors i les estadístiques al llarg del temps. L'aplicació és gratuïta i de codi obert. També «widgets», còpies de seguretat, notificacions i mode fosc.
+
+<b>Interfície Simple</b>
+L'aplicació té una interfície minimalista i molt fàcil de fer servir.
+
+<b>Widgets</b>
+Feu un seguiment de les vostres activitats directament des de la pantalla d'inici.
+
+<b>Funciona sense connexió i respecta la teva privadesa</b>
+L'aplicació no necessita connexió a internet o registre. Les dades no surten mai del telèfon. Ni els desenvolupadors ni cap altre tercer hi té accés.
+
+<b>Gratuïta i de codi obert</b>
+No hi ha anuncis, compres dins l'aplicació ni permisos intrusius. El codi font també està disponible.
