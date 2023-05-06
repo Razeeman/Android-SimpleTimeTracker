@@ -54,14 +54,17 @@ class PieChartView @JvmOverloads constructor(
     private val particlePaint: Paint = Paint()
 
     private var attachedListener: ((Boolean) -> Unit)? = null
-    private val animator = ValueAnimator.ofFloat(0f, 1f)
+    private val segmentsOpenAnimator = ValueAnimator.ofFloat(0f, 1f)
+    private val particlesAppearAnimator = ValueAnimator.ofFloat(0f, 1f)
     private val bounds: RectF = RectF(0f, 0f, 0f, 0f)
     private val layerBounds: RectF = RectF(0f, 0f, 0f, 0f)
     private val particleBounds: RectF = RectF(0f, 0f, 0f, 0f)
     private var segments: List<Arc> = emptyList()
     private var shadowColor: Int = 0x40000000
     private var segmentAnimationScale: Float = 1f
-    private var shouldAnimateOpen: Boolean = true
+    private var shouldAnimateSegmentsOpen: Boolean = true
+    private var particlesAppearAnimationAlpha: Float = 1f
+    private var shouldAnimateParticlesAppearing: Boolean = true
     private var animateParticles: Boolean = false
     private var animateParticlesPaused: Boolean = false
     private val iconView: IconView = IconView(ContextThemeWrapper(context, R.style.AppTheme))
@@ -141,7 +144,10 @@ class PieChartView @JvmOverloads constructor(
 
         segments = res
         invalidate()
-        if (!isInEditMode && animateOpen) animateSegmentsAppearing()
+        if (!isInEditMode && animateOpen) {
+            animateSegmentsAppearing()
+            animateParticlesAppearing()
+        }
     }
 
     private fun initArgs(
@@ -310,7 +316,7 @@ class PieChartView @JvmOverloads constructor(
                 val scale = PARTICLES_BASE_SCALE + PARTICLES_SCALE_VARIATION * pseudoRandom(angle + 2)
                 val x = particleDistance * cos(Math.toRadians(angle))
                 val y = particleDistance * sin(Math.toRadians(angle))
-                particlePaint.alpha = (0xFF * alpha).toInt()
+                particlePaint.alpha = (0xFF * alpha * particlesAppearAnimationAlpha).toInt()
 
                 canvas.save()
                 canvas.translate(x.toFloat(), y.toFloat())
@@ -424,14 +430,26 @@ class PieChartView @JvmOverloads constructor(
     }
 
     private fun animateSegmentsAppearing() {
-        if (shouldAnimateOpen) {
-            animator.duration = SEGMENT_OPEN_ANIMATION_DURATION_MS
-            animator.addUpdateListener { animation ->
+        if (shouldAnimateSegmentsOpen) {
+            segmentsOpenAnimator.duration = SEGMENT_OPEN_ANIMATION_DURATION_MS
+            segmentsOpenAnimator.addUpdateListener { animation ->
                 segmentAnimationScale = animation.animatedValue as Float
                 invalidate()
             }
-            animator.start()
-            shouldAnimateOpen = false
+            segmentsOpenAnimator.start()
+            shouldAnimateSegmentsOpen = false
+        }
+    }
+
+    private fun animateParticlesAppearing() {
+        if (shouldAnimateParticlesAppearing) {
+            particlesAppearAnimator.duration = PARTICLES_APPEAR_ANIMATION_DURATION_MS
+            particlesAppearAnimator.addUpdateListener { animation ->
+                particlesAppearAnimationAlpha = animation.animatedValue as Float
+                invalidate()
+            }
+            particlesAppearAnimator.start()
+            shouldAnimateParticlesAppearing = false
         }
     }
 
@@ -456,13 +474,14 @@ class PieChartView @JvmOverloads constructor(
         private var animateParticlesFrameTime: Long = -1
 
         private const val SEGMENT_OPEN_ANIMATION_DURATION_MS: Long = 250L
+        private const val PARTICLES_APPEAR_ANIMATION_DURATION_MS: Long = 2000L
 
         private const val PARTICLES_ANGLE_STEP: Double = 5.0
         private const val PARTICLES_ANGLE_CUTOFF: Double = 7.0
         private const val PARTICLES_CYCLE: Double = 30000.0
         private const val PARTICLES_BASE_SPEED: Double = 1.0
         private const val PARTICLES_SPEED_VARIATION: Double = 1.0
-        private const val PARTICLES_BASE_ALPHA: Double = 0.35
+        private const val PARTICLES_BASE_ALPHA: Double = 0.3
         private const val PARTICLES_ALPHA_VARIATION: Double = -0.25
         private const val PARTICLES_BASE_SCALE: Double = 0.7
         private const val PARTICLES_SCALE_VARIATION: Double = -0.25
