@@ -391,6 +391,8 @@
     <string name="records_filter_select_tags">タグを選択</string>
     <string name="records_filter_filter_tags">タグのフィルター</string>
     <string name="records_filter_manually_filtered">フィルタリングされた</string>
+    <string name="records_filter_no_comment">コメント無し</string>
+    <string name="records_filter_any_comment">任意のコメント</string>
     <string name="records_filter_select">選択する</string>
 
     <!--  Icon emoji category  -->

@@ -54,7 +54,7 @@ class ChangeRecordViewDataInteractor @Inject constructor(
     ): List<ViewHolderType> {
         data class Data(val timeStarted: Long, val comment: String)
 
-        val records = recordInteractor.getByTypeWithComment(listOf(typeId))
+        val records = recordInteractor.getByTypeWithAnyComment(listOf(typeId))
             .map { Data(it.timeStarted, it.comment) }
         val runningRecords = runningRecordInteractor.getAll()
             .filter { it.id == typeId && it.comment.isNotEmpty() }

@@ -57,10 +57,10 @@ fun List<RecordsFilter>.getAllTypeIds(
     return getTypeIds() + getTypeIdsFromCategories(recordTypes, recordTypeCategories)
 }
 
-fun List<RecordsFilter>.getComment(): String? {
+fun List<RecordsFilter>.getCommentItems(): List<RecordsFilter.CommentItem> {
     return filterIsInstance<RecordsFilter.Comment>()
-        .map(RecordsFilter.Comment::comment)
-        .firstOrNull()
+        .map(RecordsFilter.Comment::items)
+        .flatten()
 }
 
 fun List<RecordsFilter>.getDate(): Range? {
@@ -98,6 +98,19 @@ fun List<RecordsFilter>.hasActivityFilter(): Boolean {
 
 fun List<RecordsFilter>.hasCategoryFilter(): Boolean {
     return any { it is RecordsFilter.Category }
+}
+
+fun List<RecordsFilter.CommentItem>.hasNoComment(): Boolean {
+    return any { it is RecordsFilter.CommentItem.NoComment }
+}
+
+fun List<RecordsFilter.CommentItem>.hasAnyComment(): Boolean {
+    return any { it is RecordsFilter.CommentItem.AnyComment }
+}
+
+fun List<RecordsFilter.CommentItem>.getComments(): List<String> {
+    return filterIsInstance<RecordsFilter.CommentItem.Comment>()
+        .map(RecordsFilter.CommentItem.Comment::text)
 }
 
 fun List<RecordsFilter>.hasSelectedTagsFilter(): Boolean {

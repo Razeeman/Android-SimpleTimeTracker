@@ -40,7 +40,7 @@ fun RecordsFilterParam.toModel(): RecordsFilter {
     return when (this) {
         is RecordsFilterParam.Activity -> RecordsFilter.Activity(typeIds)
         is RecordsFilterParam.Category -> RecordsFilter.Category(items.map { it.toModel() })
-        is RecordsFilterParam.Comment -> RecordsFilter.Comment(comment)
+        is RecordsFilterParam.Comment -> RecordsFilter.Comment(items.map { it.toModel() })
         is RecordsFilterParam.Date -> RecordsFilter.Date(Range(rangeStart, rangeEnd))
         is RecordsFilterParam.SelectedTags -> RecordsFilter.SelectedTags(items.map { it.toModel() })
         is RecordsFilterParam.FilteredTags -> RecordsFilter.FilteredTags(items.map { it.toModel() })
@@ -52,11 +52,27 @@ fun RecordsFilter.toParams(): RecordsFilterParam {
     return when (this) {
         is RecordsFilter.Activity -> RecordsFilterParam.Activity(typeIds)
         is RecordsFilter.Category -> RecordsFilterParam.Category(items.map { it.toParams() })
-        is RecordsFilter.Comment -> RecordsFilterParam.Comment(comment)
+        is RecordsFilter.Comment -> RecordsFilterParam.Comment(items.map { it.toParams() })
         is RecordsFilter.Date -> RecordsFilterParam.Date(range.timeStarted, range.timeEnded)
         is RecordsFilter.SelectedTags -> RecordsFilterParam.SelectedTags(items.map { it.toParams() })
         is RecordsFilter.FilteredTags -> RecordsFilterParam.FilteredTags(items.map { it.toParams() })
         is RecordsFilter.ManuallyFiltered -> RecordsFilterParam.ManuallyFiltered(recordIds)
+    }
+}
+
+fun RecordsFilterParam.CommentItem.toModel(): RecordsFilter.CommentItem {
+    return when (this) {
+        is RecordsFilterParam.CommentItem.NoComment -> RecordsFilter.CommentItem.NoComment
+        is RecordsFilterParam.CommentItem.AnyComment -> RecordsFilter.CommentItem.AnyComment
+        is RecordsFilterParam.CommentItem.Comment -> RecordsFilter.CommentItem.Comment(text)
+    }
+}
+
+fun RecordsFilter.CommentItem.toParams(): RecordsFilterParam.CommentItem {
+    return when (this) {
+        is RecordsFilter.CommentItem.NoComment -> RecordsFilterParam.CommentItem.NoComment
+        is RecordsFilter.CommentItem.AnyComment -> RecordsFilterParam.CommentItem.AnyComment
+        is RecordsFilter.CommentItem.Comment -> RecordsFilterParam.CommentItem.Comment(text)
     }
 }
 

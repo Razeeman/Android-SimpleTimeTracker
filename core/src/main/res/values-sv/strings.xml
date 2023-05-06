@@ -391,6 +391,8 @@ Om inställningen <b>\"%s\"</b> är aktiverad, kommer appen att skicka händelse
     <string name="records_filter_select_tags">Välj taggar</string>
     <string name="records_filter_filter_tags">Filtrera taggar</string>
     <string name="records_filter_manually_filtered">Filtrerad</string>
+    <string name="records_filter_no_comment">Ingen kommentar</string>
+    <string name="records_filter_any_comment">Någon kommentar</string>
     <string name="records_filter_select">Välj</string>
 
     <!--  Icon emoji category  -->

@@ -391,6 +391,8 @@ Si le paramètre <b>\"%s\"</b> est activé, l\'application enverra des événeme
     <string name="records_filter_select_tags">Sélectionnez les balises</string>
     <string name="records_filter_filter_tags">Filtrer les balises</string>
     <string name="records_filter_manually_filtered">Filtrée</string>
+    <string name="records_filter_no_comment">Aucun commentaire</string>
+    <string name="records_filter_any_comment">Avez-vous des commentaires</string>
     <string name="records_filter_select">Sélectionner</string>
 
     <!--  Icon emoji category  -->

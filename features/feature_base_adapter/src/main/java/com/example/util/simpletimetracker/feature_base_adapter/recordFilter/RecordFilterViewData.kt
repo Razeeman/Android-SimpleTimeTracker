@@ -26,4 +26,9 @@ data class RecordFilterViewData(
         FILTERED_TAGS,
         MANUALLY_FILTERED,
     }
+
+    enum class CommentType {
+        NO_COMMENT,
+        ANY_COMMENT,
+    }
 }

@@ -391,6 +391,8 @@ Si la configuració <b>\"%s\"</b> és habilitada, l\'aplicació enviarà esdeven
     <string name="records_filter_select_tags">Seleccioneu etiquetes</string>
     <string name="records_filter_filter_tags">Filtre les etiquetes</string>
     <string name="records_filter_manually_filtered">Filtrat</string>
+    <string name="records_filter_no_comment">Sense comentaris</string>
+    <string name="records_filter_any_comment">Qualsevol comentari</string>
     <string name="records_filter_select">Seleccioneu</string>
 
     <!--  Icon emoji category  -->

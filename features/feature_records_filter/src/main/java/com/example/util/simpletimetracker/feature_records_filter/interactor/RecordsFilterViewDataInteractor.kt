@@ -12,7 +12,8 @@ import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.extension.getAllTypeIds
 import com.example.util.simpletimetracker.domain.extension.getCategoryIds
 import com.example.util.simpletimetracker.domain.extension.getCategoryItems
-import com.example.util.simpletimetracker.domain.extension.getComment
+import com.example.util.simpletimetracker.domain.extension.getCommentItems
+import com.example.util.simpletimetracker.domain.extension.getComments
 import com.example.util.simpletimetracker.domain.extension.getDate
 import com.example.util.simpletimetracker.domain.extension.getFilteredTags
 import com.example.util.simpletimetracker.domain.extension.getManuallyFilteredRecordIds
@@ -277,13 +278,37 @@ class RecordsFilterViewDataInteractor @Inject constructor(
         return result
     }
 
-    fun getCommentFilterSelectionViewData(
+    suspend fun getCommentFilterSelectionViewData(
         filters: List<RecordsFilter>,
     ): List<ViewHolderType> {
-        return RecordsFilterCommentViewData(
+        val result: MutableList<ViewHolderType> = mutableListOf()
+
+        val isDarkTheme = prefsInteractor.getDarkMode()
+        val commentFilters = listOf(
+            RecordFilterViewData.CommentType.NO_COMMENT,
+            RecordFilterViewData.CommentType.ANY_COMMENT,
+        )
+
+        commentFilters.forEach {
+            mapper.mapCommentFilter(
+                type = it,
+                filters = filters,
+                isDarkTheme = isDarkTheme
+            ).let(result::add)
+        }
+
+        DividerViewData(1).let(result::add)
+
+        val comment = filters
+            .getCommentItems()
+            .getComments()
+            .firstOrNull()
+        RecordsFilterCommentViewData(
             id = 1L, // Only one at the time.
-            text = filters.getComment().orEmpty()
-        ).let(::listOf)
+            text = comment.orEmpty()
+        ).let(result::add)
+
+        return result
     }
 
     suspend fun getTagsFilterSelectionViewData(

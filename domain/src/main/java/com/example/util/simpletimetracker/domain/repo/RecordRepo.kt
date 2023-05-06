@@ -8,9 +8,13 @@ interface RecordRepo {
 
     suspend fun getByType(typeIds: List<Long>): List<Record>
 
-    suspend fun getByTypeWithComment(typeIds: List<Long>): List<Record>
+    suspend fun getByTypeWithAnyComment(typeIds: List<Long>): List<Record>
 
-    suspend fun searchComments(typeIds: List<Long>, text: String): List<Record>
+    suspend fun searchComment(text: String): List<Record>
+
+    suspend fun searchByTypeWithComment(typeIds: List<Long>, text: String): List<Record>
+
+    suspend fun searchAnyComments(): List<Record>
 
     suspend fun get(id: Long): Record?
 

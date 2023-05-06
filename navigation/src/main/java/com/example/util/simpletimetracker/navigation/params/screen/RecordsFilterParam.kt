@@ -12,7 +12,7 @@ sealed interface RecordsFilterParam : Parcelable {
     data class Category(val items: List<CategoryItem>) : RecordsFilterParam
 
     @Parcelize
-    data class Comment(val comment: String) : RecordsFilterParam
+    data class Comment(val items: List<CommentItem>) : RecordsFilterParam
 
     @Parcelize
     data class Date(val rangeStart: Long, val rangeEnd: Long) : RecordsFilterParam
@@ -25,6 +25,17 @@ sealed interface RecordsFilterParam : Parcelable {
 
     @Parcelize
     data class ManuallyFiltered(val recordIds: List<Long>) : RecordsFilterParam
+
+    sealed interface CommentItem : Parcelable {
+        @Parcelize
+        object NoComment : CommentItem
+
+        @Parcelize
+        object AnyComment : CommentItem
+
+        @Parcelize
+        data class Comment(val text: String) : CommentItem
+    }
 
     sealed interface CategoryItem : Parcelable {
         @Parcelize

@@ -18,12 +18,20 @@ class RecordInteractor @Inject constructor(
         return recordRepo.getByType(typeIds)
     }
 
-    suspend fun getByTypeWithComment(typeIds: List<Long>): List<Record> {
-        return recordRepo.getByTypeWithComment(typeIds)
+    suspend fun getByTypeWithAnyComment(typeIds: List<Long>): List<Record> {
+        return recordRepo.getByTypeWithAnyComment(typeIds)
     }
 
-    suspend fun searchComments(typeIds: List<Long>, text: String): List<Record> {
-        return recordRepo.searchComments(typeIds, text)
+    suspend fun searchComment(text: String): List<Record> {
+        return recordRepo.searchComment(text)
+    }
+
+    suspend fun searchByTypeWithComment(typeIds: List<Long>, text: String): List<Record> {
+        return recordRepo.searchByTypeWithComment(typeIds, text)
+    }
+
+    suspend fun searchAnyComments(): List<Record> {
+        return recordRepo.searchAnyComments()
     }
 
     suspend fun get(id: Long): Record? {

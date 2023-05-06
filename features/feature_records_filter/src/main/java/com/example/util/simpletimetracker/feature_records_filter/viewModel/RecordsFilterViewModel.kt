@@ -10,6 +10,7 @@ import com.example.util.simpletimetracker.core.extension.toModel
 import com.example.util.simpletimetracker.domain.UNCATEGORIZED_ITEM_ID
 import com.example.util.simpletimetracker.domain.extension.getAllTypeIds
 import com.example.util.simpletimetracker.domain.extension.getCategoryItems
+import com.example.util.simpletimetracker.domain.extension.getCommentItems
 import com.example.util.simpletimetracker.domain.extension.getDate
 import com.example.util.simpletimetracker.domain.extension.getFilteredTags
 import com.example.util.simpletimetracker.domain.extension.getManuallyFilteredRecordIds
@@ -168,9 +169,23 @@ class RecordsFilterViewModel @Inject constructor(
         updateRecords()
     }
 
+    fun onInnerFilterClick(item: RecordFilterViewData) {
+        when (item.type) {
+            RecordFilterViewData.Type.COMMENT -> {
+                handleCommentFilterClick(item)
+            }
+            else -> {
+                // Do nothing.
+            }
+        }
+
+        updateFilters()
+        updateFilterSelectionViewData()
+        updateRecords()
+    }
+
     fun onCommentChange(text: String) {
-        filters.removeAll { it is RecordsFilter.Comment }
-        if (text.isNotEmpty()) filters.add(RecordsFilter.Comment(text))
+        handleCommentChange(text)
 
         updateFilters()
         updateFilterSelectionViewData()
@@ -272,6 +287,35 @@ class RecordsFilterViewModel @Inject constructor(
         if (newItems.isNotEmpty()) filters.add(RecordsFilter.Category(newItems))
 
         checkTagFilterConsistency()
+    }
+
+    private fun handleCommentFilterClick(item: RecordFilterViewData) {
+        val currentItems = filters.getCommentItems()
+
+        val clickedItem = when (item.id) {
+            RecordFilterViewData.CommentType.NO_COMMENT.ordinal.toLong() -> {
+                RecordsFilter.CommentItem.NoComment
+            }
+            RecordFilterViewData.CommentType.ANY_COMMENT.ordinal.toLong() -> {
+                RecordsFilter.CommentItem.AnyComment
+            }
+            else -> return
+        }
+        val newItems = currentItems.toMutableList().apply {
+            if (clickedItem !in this) clear()
+            addOrRemove(clickedItem)
+        }
+
+        filters.removeAll { it is RecordsFilter.Comment }
+        if (newItems.isNotEmpty()) filters.add(RecordsFilter.Comment(newItems))
+    }
+
+    private fun handleCommentChange(text: String) {
+        filters.removeAll { it is RecordsFilter.Comment }
+        if (text.isNotEmpty()) {
+            val newItems = RecordsFilter.CommentItem.Comment(text).let(::listOf)
+            filters.add(RecordsFilter.Comment(newItems))
+        }
     }
 
     private fun handleTagClick(item: CategoryViewData.Record) {

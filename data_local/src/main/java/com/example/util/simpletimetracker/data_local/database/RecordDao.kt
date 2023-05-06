@@ -21,11 +21,19 @@ interface RecordDao {
 
     @Transaction
     @Query("SELECT * FROM records WHERE type_id IN (:typesIds) AND comment != \"\"")
-    suspend fun getByTypeWithComment(typesIds: List<Long>): List<RecordWithRecordTagsDBO>
+    suspend fun getByTypeWithAnyComment(typesIds: List<Long>): List<RecordWithRecordTagsDBO>
+
+    @Transaction
+    @Query("SELECT * FROM records WHERE instr(lower(comment), lower(:text)) > 0")
+    suspend fun searchComment(text: String): List<RecordWithRecordTagsDBO>
 
     @Transaction
     @Query("SELECT * FROM records WHERE type_id IN (:typesIds) AND instr(lower(comment), lower(:text)) > 0")
-    suspend fun searchComments(typesIds: List<Long>, text: String): List<RecordWithRecordTagsDBO>
+    suspend fun searchByTypeWithComment(typesIds: List<Long>, text: String): List<RecordWithRecordTagsDBO>
+
+    @Transaction
+    @Query("SELECT * FROM records WHERE comment != \"\"")
+    suspend fun searchAnyComments(): List<RecordWithRecordTagsDBO>
 
     @Transaction
     @Query("SELECT * FROM records WHERE id = :id LIMIT 1")

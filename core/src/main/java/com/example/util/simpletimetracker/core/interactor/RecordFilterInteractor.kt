@@ -2,14 +2,17 @@ package com.example.util.simpletimetracker.core.interactor
 
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.extension.getAllTypeIds
-import com.example.util.simpletimetracker.domain.extension.getComment
+import com.example.util.simpletimetracker.domain.extension.getCommentItems
+import com.example.util.simpletimetracker.domain.extension.getComments
 import com.example.util.simpletimetracker.domain.extension.getDate
 import com.example.util.simpletimetracker.domain.extension.getFilteredTags
 import com.example.util.simpletimetracker.domain.extension.getManuallyFilteredRecordIds
 import com.example.util.simpletimetracker.domain.extension.getSelectedTags
 import com.example.util.simpletimetracker.domain.extension.getTaggedIds
 import com.example.util.simpletimetracker.domain.extension.getTypeIds
+import com.example.util.simpletimetracker.domain.extension.hasAnyComment
 import com.example.util.simpletimetracker.domain.extension.hasCategoryFilter
+import com.example.util.simpletimetracker.domain.extension.hasNoComment
 import com.example.util.simpletimetracker.domain.extension.hasUntaggedItem
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
@@ -61,14 +64,17 @@ class RecordFilterInteractor @Inject constructor(
             }
             else -> filters.getTypeIds()
         }
-        val comments: List<String> = filters.getComment()?.lowercase()?.let(::listOf).orEmpty()
+        val selectedCommentItems: List<RecordsFilter.CommentItem> = filters.getCommentItems()
+        val comments: List<String> = selectedCommentItems.getComments().map(String::lowercase)
+        val selectedNoComment: Boolean = selectedCommentItems.hasNoComment()
+        val selectedAnyComment: Boolean = selectedCommentItems.hasAnyComment()
         val ranges: List<Range> = filters.getDate()?.let(::listOf).orEmpty()
-        val selectedTags: List<RecordsFilter.TagItem> = filters.getSelectedTags()
-        val selectedTaggedIds: List<Long> = selectedTags.getTaggedIds()
-        val selectedUntagged: Boolean = selectedTags.hasUntaggedItem()
-        val filteredTags: List<RecordsFilter.TagItem> = filters.getFilteredTags()
-        val filteredTaggedIds: List<Long> = filteredTags.getTaggedIds()
-        val filteredUntagged: Boolean = filteredTags.hasUntaggedItem()
+        val selectedTagItems: List<RecordsFilter.TagItem> = filters.getSelectedTags()
+        val selectedTaggedIds: List<Long> = selectedTagItems.getTaggedIds()
+        val selectedUntagged: Boolean = selectedTagItems.hasUntaggedItem()
+        val filteredTagItems: List<RecordsFilter.TagItem> = filters.getFilteredTags()
+        val filteredTaggedIds: List<Long> = filteredTagItems.getTaggedIds()
+        val filteredUntagged: Boolean = filteredTagItems.hasUntaggedItem()
         val manuallyFilteredIds: List<Long> = filters.getManuallyFilteredRecordIds()
 
         // Use different queries for optimization.
@@ -85,7 +91,7 @@ class RecordFilterInteractor @Inject constructor(
             typeIds.isNotEmpty() && comments.isNotEmpty() -> {
                 val result = mutableMapOf<Long, Record>()
                 comments
-                    .map { interactor.searchComments(typeIds, it) }
+                    .map { interactor.searchByTypeWithComment(typeIds, it) }
                     .flatten()
                     .forEach { result[it.id] = it }
                 result.values.toList()
@@ -101,6 +107,12 @@ class RecordFilterInteractor @Inject constructor(
                     .forEach { result[it.id] = it }
                 result.values.toList()
             }
+            comments.isNotEmpty() -> {
+                interactor.searchComment(comments.firstOrNull().orEmpty())
+            }
+            selectedAnyComment -> {
+                interactor.searchAnyComments()
+            }
             else -> interactor.getAll()
         }
 
@@ -109,9 +121,11 @@ class RecordFilterInteractor @Inject constructor(
         }
 
         fun Record.selectedByComment(): Boolean {
-            if (comments.isEmpty()) return true
+            if (selectedCommentItems.isEmpty()) return true
             val comment = this.comment.lowercase()
-            return comments.any { comment.contains(it) }
+            return (selectedNoComment && comment.isEmpty()) ||
+                (selectedAnyComment && comment.isNotEmpty()) ||
+                (comment.isNotEmpty() && comments.any { comment.contains(it) })
         }
 
         fun Record.selectedByDate(): Boolean {
@@ -120,7 +134,7 @@ class RecordFilterInteractor @Inject constructor(
         }
 
         fun Record.selectedByTag(): Boolean {
-            if (selectedTags.isEmpty()) return true
+            if (selectedTagItems.isEmpty()) return true
             return if (tagIds.isNotEmpty()) {
                 tagIds.any { tagId -> tagId in selectedTaggedIds }
             } else {
@@ -129,7 +143,7 @@ class RecordFilterInteractor @Inject constructor(
         }
 
         fun Record.filteredByTag(): Boolean {
-            if (filteredTags.isEmpty()) return false
+            if (filteredTagItems.isEmpty()) return false
             return if (tagIds.isNotEmpty()) {
                 tagIds.any { tagId -> tagId in filteredTaggedIds }
             } else {
@@ -147,7 +161,7 @@ class RecordFilterInteractor @Inject constructor(
                 record.selectedByComment() &&
                 record.selectedByDate() &&
                 record.selectedByTag() &&
-                (record.selectedByTag() && !record.filteredByTag()) &&
+                !record.filteredByTag() &&
                 !record.isManuallyFiltered()
         }
     }

@@ -391,6 +391,8 @@ Si la configuración <b>\"%s\"</b> está habilitada, la aplicación enviará eve
     <string name="records_filter_select_tags">Seleccionar etiquetas</string>
     <string name="records_filter_filter_tags">Filtrar etiquetas</string>
     <string name="records_filter_manually_filtered">Filtrada</string>
+    <string name="records_filter_no_comment">Sin comentarios</string>
+    <string name="records_filter_any_comment">Cualquier comentario</string>
     <string name="records_filter_select">Seleccionar</string>
 
     <!--  Icon emoji category  -->

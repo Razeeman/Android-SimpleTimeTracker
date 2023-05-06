@@ -28,18 +28,32 @@ class RecordRepoImpl @Inject constructor(
             .map(recordDataLocalMapper::map)
     }
 
-    override suspend fun getByTypeWithComment(typeIds: List<Long>): List<Record> = withContext(Dispatchers.IO) {
-        Timber.d("getByTypeWithComment")
-        recordDao.getByTypeWithComment(typeIds)
+    override suspend fun getByTypeWithAnyComment(typeIds: List<Long>): List<Record> = withContext(Dispatchers.IO) {
+        Timber.d("getByTypeWithAnyComment")
+        recordDao.getByTypeWithAnyComment(typeIds)
             .map(recordDataLocalMapper::map)
     }
 
-    override suspend fun searchComments(
+    override suspend fun searchComment(
+        text: String,
+    ): List<Record> = withContext(Dispatchers.IO) {
+        Timber.d("searchComment")
+        recordDao.searchComment(text)
+            .map(recordDataLocalMapper::map)
+    }
+
+    override suspend fun searchByTypeWithComment(
         typeIds: List<Long>,
         text: String,
     ): List<Record> = withContext(Dispatchers.IO) {
-        Timber.d("searchComments")
-        recordDao.searchComments(typeIds, text)
+        Timber.d("searchByTypeWithComment")
+        recordDao.searchByTypeWithComment(typeIds, text)
+            .map(recordDataLocalMapper::map)
+    }
+
+    override suspend fun searchAnyComments(): List<Record> = withContext(Dispatchers.IO) {
+        Timber.d("searchAnyComments")
+        recordDao.searchAnyComments()
             .map(recordDataLocalMapper::map)
     }
 

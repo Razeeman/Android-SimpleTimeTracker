@@ -391,6 +391,8 @@
     <string name="records_filter_select_tags">Виберіть теги</string>
     <string name="records_filter_filter_tags">Теги фільтрів</string>
     <string name="records_filter_manually_filtered">Відфільтрований</string>
+    <string name="records_filter_no_comment">Без коментарів</string>
+    <string name="records_filter_any_comment">Будь-який коментар</string>
     <string name="records_filter_select">Виберіть</string>
 
     <!--  Icon emoji category  -->

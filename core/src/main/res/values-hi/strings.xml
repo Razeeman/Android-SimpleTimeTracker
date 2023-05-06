@@ -391,6 +391,8 @@
     <string name="records_filter_select_tags">टैग चुनें</string>
     <string name="records_filter_filter_tags">फ़िल्टर टैग</string>
     <string name="records_filter_manually_filtered">छाना हुआ</string>
+    <string name="records_filter_no_comment">कोई टिप्पणी नहीं</string>
+    <string name="records_filter_any_comment">कोई टिप्पणी</string>
     <string name="records_filter_select">चुनना</string>
 
     <!--  Icon emoji category  -->

@@ -391,6 +391,8 @@ Als de instelling <b>\"%s\"</b> is ingeschakeld, stuurt de app gebeurtenissen ov
     <string name="records_filter_select_tags">Selecteer labels</string>
     <string name="records_filter_filter_tags">Filterlabels</string>
     <string name="records_filter_manually_filtered">Gefilterd</string>
+    <string name="records_filter_no_comment">Geen commentaar</string>
+    <string name="records_filter_any_comment">Elke opmerking</string>
     <string name="records_filter_select">Selecteer</string>
 
     <!--  Icon emoji category  -->

@@ -72,6 +72,10 @@ class RecordsFilterFragment :
                 viewModel::onRangeTimeStartedClick,
                 viewModel::onRangeTimeEndedClick,
             ),
+            createRecordFilterAdapterDelegate(
+                onClick = viewModel::onInnerFilterClick,
+                onRemoveClick = {},
+            ),
         )
     }
     private val recordsAdapter: BaseRecyclerAdapter by lazy {

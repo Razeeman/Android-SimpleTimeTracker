@@ -391,6 +391,8 @@ Wenn die Einstellung <b>\"%s\"</b> aktiviert ist, sendet die App Ereignisse zu g
     <string name="records_filter_select_tags">Tags auswählen</string>
     <string name="records_filter_filter_tags">Tags filtern</string>
     <string name="records_filter_manually_filtered">Gefiltert</string>
+    <string name="records_filter_no_comment">Kein Kommentar</string>
+    <string name="records_filter_any_comment">Jeglicher Kommentar</string>
     <string name="records_filter_select">Wählen</string>
 
     <!--  Icon emoji category  -->

@@ -391,6 +391,8 @@ Jika setelan <b>\"%s\"</b> diaktifkan, aplikasi akan mengirimkan peristiwa pada 
     <string name="records_filter_select_tags">Pilih tag</string>
     <string name="records_filter_filter_tags">Filter tag</string>
     <string name="records_filter_manually_filtered">Tersaring</string>
+    <string name="records_filter_no_comment">Tidak ada komentar</string>
+    <string name="records_filter_any_comment">Ada komentar</string>
     <string name="records_filter_select">Pilih</string>
 
     <!--  Icon emoji category  -->
