@@ -63,6 +63,7 @@ class PieChartView @JvmOverloads constructor(
     private var segmentAnimationScale: Float = 1f
     private var shouldAnimateOpen: Boolean = true
     private var animateParticles: Boolean = false
+    private var animateParticlesPaused: Boolean = false
     private val iconView: IconView = IconView(ContextThemeWrapper(context, R.style.AppTheme))
 
     init {
@@ -265,10 +266,19 @@ class PieChartView @JvmOverloads constructor(
         if (sweepAngle < PARTICLES_ANGLE_CUTOFF) return
 
         val now = System.currentTimeMillis()
-        if (initializationTime == -1L) {
-            initializationTime = now
+        if (animateParticlesStartTime == -1L) {
+            animateParticlesStartTime = now
         }
-        val time = (now - initializationTime) / PARTICLES_CYCLE
+        if (animateParticles) {
+            if (animateParticlesPaused) {
+                animateParticlesStartTime = now - animateParticlesFrameTime
+                animateParticlesPaused = false
+            }
+            animateParticlesFrameTime = now - animateParticlesStartTime
+        } else {
+            animateParticlesPaused = true
+        }
+        val time = animateParticlesFrameTime / PARTICLES_CYCLE
 
         val iconSizeHalfSize = calculateIconSize(r) / 2f
         particleBounds.set(
@@ -442,7 +452,8 @@ class PieChartView @JvmOverloads constructor(
     )
 
     companion object {
-        private var initializationTime: Long = -1
+        private var animateParticlesStartTime: Long = -1
+        private var animateParticlesFrameTime: Long = -1
 
         private const val SEGMENT_OPEN_ANIMATION_DURATION_MS: Long = 250L
 
