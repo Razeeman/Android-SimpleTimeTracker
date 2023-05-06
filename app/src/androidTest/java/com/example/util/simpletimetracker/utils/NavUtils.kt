@@ -195,6 +195,7 @@ object NavUtils {
             clickOnRecyclerItem(changeRecordTagR.id.rvChangeRecordTagType, withText(activity))
         }
 
+        closeSoftKeyboard()
         clickOnViewWithText(coreR.string.change_category_save)
     }
 

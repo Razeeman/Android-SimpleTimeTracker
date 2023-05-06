@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.utils
 
 import android.view.View
+import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.TextView
 import androidx.annotation.ColorInt
@@ -11,11 +12,11 @@ import androidx.test.espresso.Root
 import androidx.test.espresso.matcher.BoundedMatcher
 import androidx.test.espresso.matcher.ViewMatchers.withTagValue
 import com.google.android.material.slider.Slider
+import kotlin.math.roundToInt
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.TypeSafeMatcher
-import kotlin.math.roundToInt
 
 fun withCardColor(expectedId: Int): Matcher<View> =
     object : BoundedMatcher<View, CardView>(CardView::class.java) {
@@ -83,3 +84,19 @@ fun withSliderValue(expectedValue: Int): Matcher<View> =
             description.appendText("expected: $expectedValue")
         }
     }
+
+fun nthChildOf(parentMatcher: Matcher<View?>, childPosition: Int): Matcher<View> {
+    return object : TypeSafeMatcher<View>() {
+        override fun describeTo(description: Description) {
+            description.appendText("with $childPosition child view of type parentMatcher")
+        }
+
+        override fun matchesSafely(view: View): Boolean {
+            if (view.parent !is ViewGroup) {
+                return parentMatcher.matches(view.parent)
+            }
+            val group: ViewGroup = view.parent as ViewGroup
+            return parentMatcher.matches(view.parent) && group.getChildAt(childPosition).equals(view)
+        }
+    }
+}

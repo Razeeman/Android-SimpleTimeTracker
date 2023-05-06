@@ -255,6 +255,32 @@ class SettingsTest : BaseUiTest() {
     }
 
     @Test
+    fun showNotificationsControls() {
+        NavUtils.openSettingsScreen()
+        NavUtils.openSettingsNotifications()
+
+        // Check settings
+        onView(withId(settingsR.id.checkboxSettingsShowNotifications)).perform(nestedScrollTo())
+        checkViewIsNotDisplayed(withText(coreR.string.settings_show_notifications_controls))
+        checkViewIsNotDisplayed(withId(settingsR.id.checkboxSettingsShowNotificationsControls))
+
+        unconstrainedClickOnView(withId(settingsR.id.checkboxSettingsShowNotifications))
+        onView(withId(settingsR.id.checkboxSettingsShowNotificationsControls)).perform(nestedScrollTo())
+        checkViewIsDisplayed(withText(coreR.string.settings_show_notifications_controls))
+        onView(withId(settingsR.id.checkboxSettingsShowNotificationsControls)).check(matches(isChecked()))
+        unconstrainedClickOnView(withId(settingsR.id.checkboxSettingsShowNotificationsControls))
+        onView(withId(settingsR.id.checkboxSettingsShowNotificationsControls)).check(matches(isNotChecked()))
+        unconstrainedClickOnView(withId(settingsR.id.checkboxSettingsShowNotificationsControls))
+        onView(withId(settingsR.id.checkboxSettingsShowNotificationsControls)).check(matches(isChecked()))
+
+        // Change settings
+        onView(withId(settingsR.id.checkboxSettingsShowNotifications)).perform(nestedScrollTo())
+        unconstrainedClickOnView(withId(settingsR.id.checkboxSettingsShowNotifications))
+        checkViewIsNotDisplayed(withText(coreR.string.settings_show_notifications_controls))
+        checkViewIsNotDisplayed(withId(settingsR.id.checkboxSettingsShowNotificationsControls))
+    }
+
+    @Test
     fun enableEnableDarkMode() {
         val name1 = "Test1"
         val name2 = "Test2"
