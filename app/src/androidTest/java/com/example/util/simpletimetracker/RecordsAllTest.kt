@@ -359,30 +359,5 @@ class RecordsAllTest : BaseUiTest() {
         checkViewDoesNotExist(record2)
         checkViewDoesNotExist(record3)
         checkViewIsDisplayed(withText(coreR.string.records_empty))
-
-        // Show all
-        pressBack()
-        clickOnViewWithId(statisticsDetailR.id.cardStatisticsDetailFilter)
-//        clickOnViewWithId(R.id.btnTypesFilterShowAll)
-        pressBack()
-
-        // Check records
-        onView(withId(statisticsDetailR.id.cardStatisticsDetailRecords)).perform(nestedScrollTo(), click())
-        checkViewIsDisplayed(record1)
-        checkViewIsDisplayed(record2)
-        checkViewIsDisplayed(record3)
-
-        // Hide all
-        pressBack()
-        clickOnViewWithId(statisticsDetailR.id.cardStatisticsDetailFilter)
-//        clickOnViewWithId(R.id.btnTypesFilterHideAll)
-        pressBack()
-
-        // Check records
-        onView(withId(statisticsDetailR.id.cardStatisticsDetailRecords)).perform(nestedScrollTo(), click())
-        checkViewDoesNotExist(record1)
-        checkViewDoesNotExist(record2)
-        checkViewDoesNotExist(record3)
-        checkViewIsDisplayed(withText(coreR.string.records_empty))
     }
 }

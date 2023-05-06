@@ -17,9 +17,9 @@ sealed interface RecordsFilter {
     data class ManuallyFiltered(val recordIds: List<Long>) : RecordsFilter
 
     sealed interface CommentItem {
-        object NoComment: CommentItem
-        object AnyComment: CommentItem
-        data class Comment(val text: String): CommentItem
+        object NoComment : CommentItem
+        object AnyComment : CommentItem
+        data class Comment(val text: String) : CommentItem
     }
 
     sealed interface CategoryItem {

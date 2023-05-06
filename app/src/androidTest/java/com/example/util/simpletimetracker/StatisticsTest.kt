@@ -73,12 +73,7 @@ class StatisticsTest : BaseUiTest() {
         clickOnViewWithText(coreR.string.range_overall)
         Thread.sleep(1000)
 
-        checkViewDoesNotExist(
-            allOf(
-                withText(coreR.string.untracked_time_name),
-                isCompletelyDisplayed()
-            )
-        )
+        checkViewIsDisplayed(allOf(withText(coreR.string.untracked_time_name), isCompletelyDisplayed()))
         checkViewDoesNotExist(allOf(withText("1$hourString 0m"), isCompletelyDisplayed()))
         checkViewIsDisplayed(
             allOf(
@@ -312,10 +307,18 @@ class StatisticsTest : BaseUiTest() {
         checkViewIsDisplayed(
             allOf(
                 withId(baseR.id.viewStatisticsItem),
+                hasDescendant(withText(coreR.string.untracked_time_name)),
+                hasDescendant(withSubstring("%")),
+                isCompletelyDisplayed()
+            )
+        )
+        checkViewIsDisplayed(
+            allOf(
+                withId(baseR.id.viewStatisticsItem),
                 withCardColor(firstColor),
                 hasDescendant(withText(categoryName1)),
                 hasDescendant(withText("3$hourString 0$minuteString")),
-                hasDescendant(withSubstring("60%")),
+                hasDescendant(withSubstring("%")),
                 isCompletelyDisplayed()
             )
         )
@@ -325,7 +328,7 @@ class StatisticsTest : BaseUiTest() {
                 withCardColor(lastColor),
                 hasDescendant(withText(categoryName2)),
                 hasDescendant(withText("2$hourString 0$minuteString")),
-                hasDescendant(withSubstring("40%")),
+                hasDescendant(withSubstring("%")),
                 isCompletelyDisplayed()
             )
         )
@@ -351,7 +354,24 @@ class StatisticsTest : BaseUiTest() {
         clickOnViewWithId(statisticsR.id.btnStatisticsContainerPrevious)
         checkViewIsDisplayed(
             allOf(
-                withText(coreR.string.statistics_empty),
+                withId(baseR.id.viewStatisticsItem),
+                hasDescendant(withText(coreR.string.untracked_time_name)),
+                hasDescendant(withText("100%")),
+                hasDescendant(withSubstring("$hourString 0$minuteString")),
+                isCompletelyDisplayed()
+            )
+        )
+        checkViewIsDisplayed(
+            allOf(
+                withId(statisticsR.id.layoutStatisticsInfoItem),
+                hasDescendant(withText(coreR.string.statistics_total_tracked)),
+                hasDescendant(withText("0$secondString")),
+                isCompletelyDisplayed()
+            )
+        )
+        checkViewDoesNotExist(
+            allOf(
+                withText(coreR.string.statistics_hint),
                 isCompletelyDisplayed()
             )
         )

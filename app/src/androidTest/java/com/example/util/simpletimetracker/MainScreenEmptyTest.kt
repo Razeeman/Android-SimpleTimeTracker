@@ -167,6 +167,49 @@ class MainScreenEmptyTest : BaseUiTest() {
         clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
         clickOnViewWithText(coreR.string.range_day)
         checkRanges()
+
+        // Empty tag statistics
+        clickOnViewWithIdOnPager(statisticsR.id.btnStatisticsEmptyFilter)
+        clickOnViewWithText(coreR.string.record_tag_hint_short)
+        pressBack()
+        longClickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+
+        // Day range
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithText(coreR.string.range_day)
+        checkRanges()
+
+        // Week range
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithText(coreR.string.range_week)
+        checkRanges()
+
+        // Month range
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithText(coreR.string.range_month)
+        checkRanges()
+
+        // Year range
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithText(coreR.string.range_year)
+        checkRanges()
+
+        // Overall range
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithText(coreR.string.range_overall)
+        checkViewIsDisplayed(
+            allOf(
+                withId(baseR.id.viewStatisticsItem),
+                hasDescendant(withText(coreR.string.untracked_time_name)),
+                hasDescendant(withSubstring("100%")),
+                isCompletelyDisplayed()
+            )
+        )
+
+        // Back to day range
+        clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
+        clickOnViewWithText(coreR.string.range_day)
+        checkRanges()
     }
 
     private fun checkRanges() {

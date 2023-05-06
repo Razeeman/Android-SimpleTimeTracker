@@ -18,6 +18,7 @@ import com.example.util.simpletimetracker.core.utils.TestUtils
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.feature_records.view.RecordsContainerFragment
 import com.example.util.simpletimetracker.feature_statistics.view.StatisticsContainerFragment
+import com.example.util.simpletimetracker.feature_views.pieChart.PieChartView
 import com.example.util.simpletimetracker.ui.MainActivity
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -136,11 +137,13 @@ open class BaseUiTest {
     private fun disableAnimations() {
         RecordsContainerFragment.viewPagerSmoothScroll = false
         StatisticsContainerFragment.viewPagerSmoothScroll = false
+        PieChartView.disableAnimationsForTest = true
     }
 
     private fun enableAnimations() {
         RecordsContainerFragment.viewPagerSmoothScroll = true
         StatisticsContainerFragment.viewPagerSmoothScroll = true
+        PieChartView.disableAnimationsForTest = false
     }
 
     private fun registerIdlingResource() {

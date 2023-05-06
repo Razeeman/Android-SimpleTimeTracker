@@ -140,6 +140,19 @@ class StatisticsFilterTest : BaseUiTest() {
         pressBack()
 
         // All tags displayed
+        tryAction { checkViewIsDisplayed(allOf(withText(coreR.string.untracked_time_name), isCompletelyDisplayed())) }
+        checkViewIsDisplayed(allOf(withText(tag1), isCompletelyDisplayed()))
+        checkViewIsDisplayed(allOf(withText(tag2), isCompletelyDisplayed()))
+        checkViewIsDisplayed(
+            allOf(withId(statisticsR.id.tvStatisticsInfoText), withText("2$hourString 0$minuteString"))
+        )
+
+        // Filter untracked
+        clickOnViewWithIdOnPager(statisticsR.id.btnStatisticsChartFilter)
+        clickOnView(
+            allOf(isDescendantOfA(withId(baseR.id.viewCategoryItem)), withText(coreR.string.untracked_time_name))
+        )
+        pressBack()
         tryAction { checkViewDoesNotExist(allOf(withText(coreR.string.untracked_time_name), isCompletelyDisplayed())) }
         checkViewIsDisplayed(allOf(withText(tag1), isCompletelyDisplayed()))
         checkViewIsDisplayed(allOf(withText(tag2), isCompletelyDisplayed()))

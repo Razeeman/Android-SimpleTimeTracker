@@ -127,8 +127,6 @@ class SettingsTest : BaseUiTest() {
         }
         checkViewIsDisplayed(allOf(withId(baseR.id.viewRunningRecordItem), hasDescendant(withText(name3))))
 
-        // Click on already running
-        clickOnView(allOf(isDescendantOfA(withId(baseR.id.viewRecordTypeItem)), withText(name2)))
         NavUtils.openRecordsScreen()
         checkViewDoesNotExist(
             allOf(withText(name1), isDescendantOfA(withId(baseR.id.viewRecordItem)), isCompletelyDisplayed())

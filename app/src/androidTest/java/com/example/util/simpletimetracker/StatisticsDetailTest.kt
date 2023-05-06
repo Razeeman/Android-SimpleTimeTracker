@@ -8,6 +8,7 @@ import androidx.test.espresso.matcher.ViewMatchers.hasSibling
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withSubstring
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.util.simpletimetracker.utils.BaseUiTest
@@ -1117,6 +1118,7 @@ class StatisticsDetailTest : BaseUiTest() {
 
         // Filter untagged records
         clickOnViewWithId(statisticsDetailR.id.cardStatisticsDetailFilter)
+        clickOnView(withSubstring(getString(coreR.string.records_filter_filter_tags)))
         clickOnView(
             allOf(isDescendantOfA(withId(baseR.id.viewCategoryItem)), withText(coreR.string.change_record_untagged))
         )
@@ -1125,31 +1127,41 @@ class StatisticsDetailTest : BaseUiTest() {
 
         // Change filter
         clickOnViewWithId(statisticsDetailR.id.cardStatisticsDetailFilter)
+        clickOnView(withSubstring(getString(coreR.string.records_filter_filter_tags)))
         clickOnView(allOf(isDescendantOfA(withId(baseR.id.viewCategoryItem)), withText(tag1)))
         pressBack()
         checkRecordsCard(2)
 
         // Change filter
         clickOnViewWithId(statisticsDetailR.id.cardStatisticsDetailFilter)
+        clickOnView(withSubstring(getString(coreR.string.records_filter_filter_tags)))
         clickOnView(allOf(isDescendantOfA(withId(baseR.id.viewCategoryItem)), withText(tag2)))
         pressBack()
         checkRecordsCard(1)
 
         // Change filter
         clickOnViewWithId(statisticsDetailR.id.cardStatisticsDetailFilter)
+        clickOnView(withSubstring(getString(coreR.string.records_filter_filter_tags)))
         clickOnView(allOf(isDescendantOfA(withId(baseR.id.viewCategoryItem)), withText(tag3)))
         pressBack()
         checkRecordsCard(0)
 
         // Change filter
         clickOnViewWithId(statisticsDetailR.id.cardStatisticsDetailFilter)
-        clickOnViewWithText(coreR.string.types_filter_show_all)
+        clickOnView(
+            allOf(
+                hasSibling(withSubstring(getString(coreR.string.records_filter_filter_tags))),
+                withId(baseR.id.ivRecordFilterItemRemove)
+            )
+        )
+        clickOnView(withSubstring(getString(coreR.string.records_filter_filter_tags)))
         clickOnView(allOf(isDescendantOfA(withId(baseR.id.viewCategoryItem)), withText(tag3)))
         pressBack()
         checkRecordsCard(4)
 
         // Change filter
         clickOnViewWithId(statisticsDetailR.id.cardStatisticsDetailFilter)
+        clickOnView(withSubstring(getString(coreR.string.records_filter_filter_tags)))
         clickOnView(allOf(isDescendantOfA(withId(baseR.id.viewCategoryItem)), withText(tag1)))
         pressBack()
         checkRecordsCard(2)

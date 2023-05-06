@@ -267,6 +267,7 @@ class PieChartView @JvmOverloads constructor(
         sweepAngle: Float,
         r: Float,
     ) {
+        if (disableAnimationsForTest) return
         if (!drawParticles) return
         if (segment.drawable == null) return
         if (sweepAngle < PARTICLES_ANGLE_CUTOFF) return
@@ -470,6 +471,8 @@ class PieChartView @JvmOverloads constructor(
     )
 
     companion object {
+        var disableAnimationsForTest: Boolean = false
+
         private var animateParticlesStartTime: Long = -1
         private var animateParticlesFrameTime: Long = -1
 
