@@ -21,6 +21,14 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="@string/chart_filter_hint" />
 
+    <ProgressBar
+        android:id="@+id/loaderRecordsFilter"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:indeterminate="true"
+        app:layout_constraintBottom_toBottomOf="@id/tvRecordsFilterTitle"
+        app:layout_constraintTop_toTopOf="@id/tvRecordsFilterTitle" />
+
     <com.example.util.simpletimetracker.feature_views.DividerView
         android:id="@+id/dividerRecordsFilterTitle"
         android:layout_width="match_parent"

@@ -156,6 +156,7 @@ class RecordsFilterViewDataInteractor @Inject constructor(
         }
 
         return RecordsFilterSelectedRecordsViewData(
+            isLoading = false,
             selectedRecordsCount = mapper.mapRecordsCount(
                 extra = extra,
                 count = count,

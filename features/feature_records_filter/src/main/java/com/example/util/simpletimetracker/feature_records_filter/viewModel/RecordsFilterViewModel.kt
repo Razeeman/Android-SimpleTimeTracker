@@ -81,15 +81,7 @@ class RecordsFilterViewModel @Inject constructor(
     val recordsViewData: LiveData<RecordsFilterSelectedRecordsViewData> by lazy {
         return@lazy MutableLiveData<RecordsFilterSelectedRecordsViewData>().let { initial ->
             viewModelScope.launch {
-                initial.value = RecordsFilterSelectedRecordsViewData(
-                    selectedRecordsCount = recordsFilterViewDataMapper.mapRecordsCount(
-                        extra = extra,
-                        count = 0,
-                        filter = emptyList(),
-                    ),
-                    recordsViewData = listOf(LoaderViewData()),
-                    filteredRecordsTypeId = null,
-                )
+                initial.value = RecordsFilterSelectedRecordsViewData.Loading
                 initial.value = loadRecordsViewData()
             }
             initial
@@ -450,13 +442,7 @@ class RecordsFilterViewModel @Inject constructor(
     private fun updateRecords() {
         recordsLoadJob?.cancel()
         recordsLoadJob = viewModelScope.launch {
-            recordsViewData.set(
-                RecordsFilterSelectedRecordsViewData(
-                    selectedRecordsCount = recordsViewData.value?.selectedRecordsCount.orEmpty(),
-                    recordsViewData = listOf(LoaderViewData()),
-                    filteredRecordsTypeId = recordsViewData.value?.filteredRecordsTypeId,
-                )
-            )
+            recordsViewData.set(RecordsFilterSelectedRecordsViewData.Loading)
             val data = loadRecordsViewData()
             recordsViewData.set(data)
             changedFilters.set(

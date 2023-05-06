@@ -5,6 +5,7 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -133,12 +134,7 @@ class RecordsFilterFragment :
             filtersViewData.observe(filtersAdapter::replace)
             filterSelectionContent.observe(filterSelectionAdapter::replace)
             recordsViewData.observe(::setSelectedRecords)
-            filterSelectionVisibility.observe { filterOpened ->
-                rvRecordsFilterList.isVisible = !filterOpened
-                rvRecordsFilterList.isNestedScrollingEnabled = !filterOpened
-                rvRecordsFilterSelection.isVisible = filterOpened
-                rvRecordsFilterSelection.isNestedScrollingEnabled = filterOpened
-            }
+            filterSelectionVisibility.observe(::setFilterSelectionVisibility)
             keyboardVisibility.observe(::showKeyboard)
             changedFilters.observe { listener?.onFilterChanged(it) }
         }
@@ -153,8 +149,17 @@ class RecordsFilterFragment :
         viewModel.onDateTimeSet(timestamp, tag)
     }
 
-    private fun setSelectedRecords(viewData: RecordsFilterSelectedRecordsViewData) {
-        binding.tvRecordsFilterTitle.text = viewData.selectedRecordsCount
+    private fun setFilterSelectionVisibility(filterOpened: Boolean) = with(binding) {
+        rvRecordsFilterList.isVisible = !filterOpened
+        rvRecordsFilterList.isNestedScrollingEnabled = !filterOpened
+        rvRecordsFilterSelection.isVisible = filterOpened
+        rvRecordsFilterSelection.isNestedScrollingEnabled = filterOpened
+    }
+
+    private fun setSelectedRecords(viewData: RecordsFilterSelectedRecordsViewData) = with(binding) {
+        loaderRecordsFilter.isVisible = viewData.isLoading
+        tvRecordsFilterTitle.isInvisible = viewData.isLoading
+        tvRecordsFilterTitle.text = viewData.selectedRecordsCount
         recordsAdapter.replaceAsNew(viewData.recordsViewData)
     }
 
