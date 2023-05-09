@@ -25,6 +25,7 @@ android {
         getByName("debug") {
             applicationIdSuffix = ".debug"
             isMinifyEnabled = true
+            isCrunchPngs = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android.txt"),
                 "proguard-debug-rules.pro"
@@ -33,6 +34,7 @@ android {
         }
         getByName("release") {
             isMinifyEnabled = true
+            isCrunchPngs = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android.txt"),
                 "proguard-rules.pro"
