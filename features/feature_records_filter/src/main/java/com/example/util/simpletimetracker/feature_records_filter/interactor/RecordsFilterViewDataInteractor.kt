@@ -112,7 +112,6 @@ class RecordsFilterViewDataInteractor @Inject constructor(
             }
             .orEmpty()
         val records = recordFilterInteractor.getByFilter(finalFilters)
-        val selectedTypeIds = records.map { it.typeId }.toSet()
         val manuallyFilteredRecords = filters
             .getManuallyFilteredRecordIds()
             .mapNotNull { recordInteractor.get(it) } // TODO do better
@@ -163,7 +162,6 @@ class RecordsFilterViewDataInteractor @Inject constructor(
                 filter = finalFilters,
             ),
             recordsViewData = viewData,
-            filteredRecordsTypeId = selectedTypeIds.takeIf { it.size == 1 }?.firstOrNull(),
         )
     }
 

@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.extension.toParams
 import com.example.util.simpletimetracker.core.repo.DataEditRepo
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.domain.extension.getTypeIds
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.model.RecordTag
@@ -72,7 +73,6 @@ class DataEditViewModel @Inject constructor(
     val keyboardVisibility: LiveData<Boolean> = MutableLiveData(false)
 
     private var filters: List<RecordsFilter> = emptyList()
-    private var filteredRecordsTypeId: Long? = null
     private var typeState: DataEditChangeActivityState = DataEditChangeActivityState.Disabled
     private var commentState: DataEditChangeCommentState = DataEditChangeCommentState.Disabled
     private var addTagState: DataEditAddTagsState = DataEditAddTagsState.Disabled
@@ -222,7 +222,6 @@ class DataEditViewModel @Inject constructor(
     fun onFilterSelected(result: RecordsFilterResultParams) {
         if (result.tag != FILTER_TAG) return
         filters = result.filters
-        filteredRecordsTypeId = result.filteredRecordsTypeId
         // Update is on dismiss.
     }
 
@@ -307,7 +306,9 @@ class DataEditViewModel @Inject constructor(
     private fun getTypeForTagSelection(): Long? {
         return (typeState as? DataEditChangeActivityState.Enabled)
             ?.viewData?.id
-            ?: filteredRecordsTypeId
+            ?: filters.getTypeIds()
+                .takeIf { it.size == 1 }
+                ?.firstOrNull()
     }
 
     private fun updateSelectedRecordsCountViewData() = viewModelScope.launch {

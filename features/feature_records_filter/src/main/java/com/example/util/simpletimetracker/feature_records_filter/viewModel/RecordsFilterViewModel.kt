@@ -427,6 +427,12 @@ class RecordsFilterViewModel @Inject constructor(
     }
 
     private fun updateFilters() = viewModelScope.launch {
+        changedFilters.set(
+            RecordsFilterResultParams(
+                tag = extra.tag,
+                filters = filters,
+            )
+        )
         val data = loadFiltersViewData()
         filtersViewData.set(data)
     }
@@ -445,13 +451,6 @@ class RecordsFilterViewModel @Inject constructor(
             recordsViewData.set(RecordsFilterSelectedRecordsViewData.Loading)
             val data = loadRecordsViewData()
             recordsViewData.set(data)
-            changedFilters.set(
-                RecordsFilterResultParams(
-                    tag = extra.tag,
-                    filters = filters,
-                    filteredRecordsTypeId = data.filteredRecordsTypeId
-                )
-            )
         }
     }
 

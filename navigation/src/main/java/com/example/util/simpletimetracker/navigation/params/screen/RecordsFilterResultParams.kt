@@ -5,5 +5,4 @@ import com.example.util.simpletimetracker.domain.model.RecordsFilter
 data class RecordsFilterResultParams(
     val tag: String,
     val filters: List<RecordsFilter>,
-    val filteredRecordsTypeId: Long?, // If all records of one type.
 ) : ScreenParams

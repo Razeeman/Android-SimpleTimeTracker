@@ -7,7 +7,6 @@ data class RecordsFilterSelectedRecordsViewData(
     val isLoading: Boolean,
     val selectedRecordsCount: String,
     val recordsViewData: List<ViewHolderType>,
-    val filteredRecordsTypeId: Long?,
 ) {
 
     companion object {
@@ -15,7 +14,6 @@ data class RecordsFilterSelectedRecordsViewData(
             isLoading = true,
             selectedRecordsCount = "",
             recordsViewData = listOf(LoaderViewData()),
-            filteredRecordsTypeId = null,
         )
     }
 }
