@@ -81,6 +81,7 @@ class RecordsCalendarView @JvmOverloads constructor(
     private val recordCornerRadius: Float = 8.dpToPx().toFloat()
     private val recordVerticalPadding: Float = 2.dpToPx().toFloat()
     private val recordHorizontalPadding: Float = 4.dpToPx().toFloat()
+    private val paddingBetweenDays: Float = 2.dpToPx().toFloat()
     private val dayInMillis = TimeUnit.DAYS.toMillis(1)
     private val hourInMillis = TimeUnit.HOURS.toMillis(1)
 
@@ -199,7 +200,14 @@ class RecordsCalendarView @JvmOverloads constructor(
         calculateDimensions(w, h)
         drawLegend(canvas, w, h)
         data.forEachIndexed { index, data ->
-            drawData(canvas, h, data, index)
+            drawData(
+                canvas = canvas,
+                h = h,
+                data = data,
+                index = index,
+                isFirst = index == 0,
+                isLast = index == data.size - 1
+            )
         }
     }
 
@@ -329,6 +337,8 @@ class RecordsCalendarView @JvmOverloads constructor(
         h: Float,
         data: List<Data>,
         index: Int,
+        isFirst: Boolean,
+        isLast: Boolean,
     ) {
         var boxHeight: Float
         var boxShift: Float
@@ -363,8 +373,13 @@ class RecordsCalendarView @JvmOverloads constructor(
             boxHeight = h * (item.point.end - item.point.start) / dayInMillis
             boxShift = h * item.point.start / dayInMillis
             boxWidth = chartWidth / item.columnCount
-            boxLeft = pixelLeftBound + chartWidth * index + boxWidth * (item.columnNumber - 1)
-            boxRight = boxLeft + boxWidth
+            boxLeft = pixelLeftBound +
+                chartWidth * index +
+                boxWidth * (item.columnNumber - 1) +
+                (paddingBetweenDays / 2).takeUnless { isFirst }.orZero()
+            boxRight = boxLeft +
+                boxWidth -
+                (paddingBetweenDays / 2).takeUnless { isLast }.orZero()
             boxBottom = ((h - boxShift) * scaleFactor)
                 .let { if (reverseOrder) (h * scaleFactor - it + boxHeight * scaleFactor) else it }
                 .let { it + panFactor }
