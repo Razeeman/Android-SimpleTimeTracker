@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.base.SingleLiveEvent
+import com.example.util.simpletimetracker.core.extension.post
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.extension.toParams
 import com.example.util.simpletimetracker.core.model.NavigationTab
@@ -29,6 +30,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlinx.coroutines.Dispatchers
 
 @HiltViewModel
 class RecordsViewModel @Inject constructor(
@@ -137,12 +139,12 @@ class RecordsViewModel @Inject constructor(
         }
     }
 
-    private fun updateRecords() = viewModelScope.launch {
-        isCalendarView.set(prefsInteractor.getShowRecordsCalendar())
+    private fun updateRecords() = viewModelScope.launch(Dispatchers.Default) {
+        isCalendarView.post(prefsInteractor.getShowRecordsCalendar())
 
         when (val state = loadRecordsViewData()) {
-            is RecordsState.RecordsData -> records.set(state.data)
-            is RecordsState.CalendarData -> calendarData.set(state.data)
+            is RecordsState.RecordsData -> records.post(state.data)
+            is RecordsState.CalendarData -> calendarData.post(state.data)
         }
     }
 

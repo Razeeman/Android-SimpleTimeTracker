@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -29,12 +30,16 @@ class RecordsContainerViewModel @Inject constructor(
 
     val title: LiveData<String> by lazy {
         return@lazy MutableLiveData<String>().let { initial ->
-            viewModelScope.launch { initial.value = loadTitle() }
+            viewModelScope.launch { initial.value = loadTitle(0) }
             initial
         }
     }
     val position: LiveData<Int> by lazy {
         return@lazy MutableLiveData(0)
+    }
+
+    fun onVisible() {
+        updateTitle(position.value.orZero())
     }
 
     fun onRecordAddClick() {
@@ -43,7 +48,7 @@ class RecordsContainerViewModel @Inject constructor(
     }
 
     fun onPreviousClick() {
-        updatePosition(position.value.orZero() - 1)
+        updateData(position.value.orZero() - 1)
     }
 
     fun onTodayClick() {
@@ -74,11 +79,11 @@ class RecordsContainerViewModel @Inject constructor(
     }
 
     fun onTodayLongClick() {
-        updatePosition(0)
+        updateData(0)
     }
 
     fun onNextClick() {
-        updatePosition(position.value.orZero() + 1)
+        updateData(position.value.orZero() + 1)
     }
 
     fun onDateTimeSet(timestamp: Long, tag: String?) = viewModelScope.launch {
@@ -98,18 +103,26 @@ class RecordsContainerViewModel @Inject constructor(
                             shift
                         }
                     }
-                    .let(::updatePosition)
+                    .let(::updateData)
             }
         }
     }
 
-    private fun updatePosition(newPosition: Int) = viewModelScope.launch {
-        (position as MutableLiveData).value = newPosition
-        (title as MutableLiveData).value = loadTitle()
+    private fun updateData(newPosition: Int) {
+        updatePosition(newPosition)
+        updateTitle(newPosition)
     }
 
-    private suspend fun loadTitle(): String {
-        val shift = position.value.orZero()
+    private fun updatePosition(shift: Int) = viewModelScope.launch {
+        position.set(shift)
+    }
+
+    private fun updateTitle(newPosition: Int) = viewModelScope.launch {
+        val data = loadTitle(newPosition)
+        title.set(data)
+    }
+
+    private suspend fun loadTitle(shift: Int): String {
         val startOfDayShift = prefsInteractor.getStartOfDayShift()
         val isCalendarView = prefsInteractor.getShowRecordsCalendar()
         val calendarDayCount = prefsInteractor.getDaysInCalendar()
