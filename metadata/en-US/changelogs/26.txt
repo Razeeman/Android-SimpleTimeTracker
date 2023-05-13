@@ -1,0 +1,11 @@
+- Add more complex filters to detailed statistics
+- Add data edit screen to settings
+- Add tag statistics on third tab
+- Add untracked and uncategorized time to category and tag statistics
+- Add quick settings widget
+- Add activity reminder
+- Add do not disturb time to activity and inactivity reminders
+- Add activity distribution to detailed statistics
+- Add duplicate action to record edit
+- Add some translations
+- General bug fixes and improvements
