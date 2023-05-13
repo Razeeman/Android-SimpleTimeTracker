@@ -94,7 +94,8 @@ class RecordsCalendarView @JvmOverloads constructor(
     private val bounds: Rect = Rect(0, 0, 0, 0)
     private val textBounds: Rect = Rect(0, 0, 0, 0)
     private val recordBounds: RectF = RectF(0f, 0f, 0f, 0f)
-    private var data: List<Data> = emptyList()
+    private var data: List<List<Data>> = emptyList()
+    private val dataSize: Int get() = data.size.takeUnless { it == 0 } ?: 1
     private var currentTime: Long? = null
     private var startOfDayShift: Long = 0
     private val iconView: IconView = IconView(ContextThemeWrapper(context, R.style.AppTheme))
@@ -197,7 +198,9 @@ class RecordsCalendarView @JvmOverloads constructor(
 
         calculateDimensions(w, h)
         drawLegend(canvas, w, h)
-        drawData(canvas, h)
+        data.forEachIndexed { index, data ->
+            drawData(canvas, h, data, index)
+        }
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -222,7 +225,7 @@ class RecordsCalendarView @JvmOverloads constructor(
         currentTime = viewData.currentTime
         startOfDayShift = viewData.startOfDayShift
         reverseOrder = viewData.reverseOrder
-        data = processData(viewData.points)
+        data = viewData.points.map(::processData)
         invalidate()
     }
 
@@ -318,10 +321,15 @@ class RecordsCalendarView @JvmOverloads constructor(
         // Chart dimensions
         pixelLeftBound = legendTextWidth + 2 * legendTextPadding
         pixelRightBound = w - legendTextPadding
-        chartWidth = pixelRightBound - pixelLeftBound
+        chartWidth = (pixelRightBound - pixelLeftBound) / dataSize
     }
 
-    private fun drawData(canvas: Canvas, h: Float) {
+    private fun drawData(
+        canvas: Canvas,
+        h: Float,
+        data: List<Data>,
+        index: Int,
+    ) {
         var boxHeight: Float
         var boxShift: Float
         var boxWidth: Float
@@ -354,7 +362,7 @@ class RecordsCalendarView @JvmOverloads constructor(
             boxHeight = h * (item.point.end - item.point.start) / dayInMillis
             boxShift = h * item.point.start / dayInMillis
             boxWidth = chartWidth / item.columnCount
-            boxLeft = pixelLeftBound + boxWidth * (item.columnNumber - 1)
+            boxLeft = pixelLeftBound + chartWidth * index + boxWidth * (item.columnNumber - 1)
             boxRight = boxLeft + boxWidth
             boxBottom = ((h - boxShift) * scaleFactor)
                 .let { if (reverseOrder) (h * scaleFactor - it + boxHeight * scaleFactor) else it }
@@ -510,6 +518,7 @@ class RecordsCalendarView @JvmOverloads constructor(
         fun Float.checkReverse(): Float {
             return if (reverseOrder) (h * scaleFactor - this) else this
         }
+
         fun Float.checkOverdraw(): Float {
             // If goes over the end - draw on top, and otherwise.
             return when {
@@ -633,7 +642,7 @@ class RecordsCalendarView @JvmOverloads constructor(
                     RecordsCalendarViewData(
                         currentTime = 18 * hourInMillis,
                         startOfDayShift = 0,
-                        points = it,
+                        points = listOf(it),
                         reverseOrder = reverseOrder,
                     )
                 }.let(::setData)
@@ -743,7 +752,7 @@ class RecordsCalendarView @JvmOverloads constructor(
         val x = event.x
         val y = event.y
 
-        data.firstOrNull {
+        data.flatten().firstOrNull {
             it.boxLeft < x && it.boxTop < y && it.boxRight > x && it.boxBottom > y
         }?.point?.data?.value?.let(listener)
     }

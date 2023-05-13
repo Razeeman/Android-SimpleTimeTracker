@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.feature_records.mapper
 
 import com.example.util.simpletimetracker.core.mapper.RecordViewDataMapper
+import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordTag
@@ -17,6 +18,7 @@ import kotlin.math.min
 class RecordsViewDataMapper @Inject constructor(
     private val resourceRepo: ResourceRepo,
     private val recordViewDataMapper: RecordViewDataMapper,
+    private val timeMapper: TimeMapper,
 ) {
 
     fun map(
@@ -76,6 +78,24 @@ class RecordsViewDataMapper @Inject constructor(
         return HintViewData(
             text = R.string.records_hint.let(resourceRepo::getString)
         )
+    }
+
+    fun mapTitle(
+        shift: Int,
+        startOfDayShift: Long,
+        isCalendarView: Boolean,
+        calendarDayCount: Int,
+    ): String {
+        return if (isCalendarView && calendarDayCount > 1) {
+            val start = shift * calendarDayCount - calendarDayCount + 1
+            val end = shift * calendarDayCount
+
+            timeMapper.toDayShortDateTitle(start, startOfDayShift) +
+                " - " +
+                timeMapper.toDayShortDateTitle(end, startOfDayShift)
+        } else {
+            timeMapper.toDayTitle(shift, startOfDayShift)
+        }
     }
 
     private fun clampToRange(

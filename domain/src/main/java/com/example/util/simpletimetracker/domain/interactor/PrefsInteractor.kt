@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.domain.interactor
 import com.example.util.simpletimetracker.domain.model.CardOrder
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
+import com.example.util.simpletimetracker.domain.model.DaysInCalendar
 import com.example.util.simpletimetracker.domain.model.QuickSettingsWidgetType
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RangeLength
@@ -171,6 +172,25 @@ class PrefsInteractor @Inject constructor(
 
     suspend fun setReverseOrderInCalendar(isEnabled: Boolean) = withContext(Dispatchers.IO) {
         prefsRepo.reverseOrderInCalendar = isEnabled
+    }
+
+    suspend fun getDaysInCalendar(): DaysInCalendar = withContext(Dispatchers.IO) {
+        when (prefsRepo.daysInCalendar) {
+            1 -> DaysInCalendar.ONE
+            3 -> DaysInCalendar.THREE
+            5 -> DaysInCalendar.FIVE
+            7 -> DaysInCalendar.SEVEN
+            else -> DaysInCalendar.ONE
+        }
+    }
+
+    suspend fun setDaysInCalendar(days: DaysInCalendar) = withContext(Dispatchers.IO) {
+        prefsRepo.daysInCalendar = when (days) {
+            DaysInCalendar.ONE -> 1
+            DaysInCalendar.THREE -> 3
+            DaysInCalendar.FIVE -> 5
+            DaysInCalendar.SEVEN -> 7
+        }
     }
 
     suspend fun getShowActivityFilters(): Boolean = withContext(Dispatchers.IO) {

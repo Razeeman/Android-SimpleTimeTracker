@@ -35,6 +35,8 @@ interface PrefsRepo {
 
     var reverseOrderInCalendar: Boolean
 
+    var daysInCalendar: Int
+
     var showActivityFilters: Boolean
 
     var allowMultitasking: Boolean

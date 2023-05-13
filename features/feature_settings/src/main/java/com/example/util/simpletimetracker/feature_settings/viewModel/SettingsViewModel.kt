@@ -24,6 +24,7 @@ import com.example.util.simpletimetracker.domain.model.WidgetType
 import com.example.util.simpletimetracker.feature_settings.R
 import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
 import com.example.util.simpletimetracker.feature_settings.viewData.CardOrderViewData
+import com.example.util.simpletimetracker.feature_settings.viewData.DaysInCalendarViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.FirstDayOfWeekViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.SettingsDurationViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.SettingsStartOfDayViewData
@@ -57,6 +58,15 @@ class SettingsViewModel @Inject constructor(
     private val notificationGoalTimeInteractor: NotificationGoalTimeInteractor,
     private val checkExactAlarmPermissionInteractor: CheckExactAlarmPermissionInteractor,
 ) : ViewModel() {
+
+    val daysInCalendarViewData: LiveData<DaysInCalendarViewData> by lazy {
+        MutableLiveData<DaysInCalendarViewData>().let { initial ->
+            viewModelScope.launch {
+                initial.value = loadDaysInCalendarViewData()
+            }
+            initial
+        }
+    }
 
     val cardOrderViewData: LiveData<CardOrderViewData> by lazy {
         MutableLiveData<CardOrderViewData>().let { initial ->
@@ -395,6 +405,16 @@ class SettingsViewModel @Inject constructor(
                 notHandledCallback = { R.string.message_app_not_found.let(::showMessage) }
             )
         )
+    }
+
+    fun onDaysInCalendarSelected(position: Int) {
+        viewModelScope.launch {
+            val currentValue = prefsInteractor.getDaysInCalendar()
+            val newValue = settingsMapper.toDaysInCalendar(position)
+            if (newValue == currentValue) return@launch
+            prefsInteractor.setDaysInCalendar(newValue)
+            updateDaysInCalendarViewData()
+        }
     }
 
     fun onRecordTypeOrderSelected(position: Int) {
@@ -820,6 +840,16 @@ class SettingsViewModel @Inject constructor(
     private fun showMessage(stringResId: Int) {
         val params = SnackBarParams(message = resourceRepo.getString(stringResId))
         router.show(params)
+    }
+
+    private suspend fun updateDaysInCalendarViewData() {
+        val data = loadDaysInCalendarViewData()
+        daysInCalendarViewData.set(data)
+    }
+
+    private suspend fun loadDaysInCalendarViewData(): DaysInCalendarViewData {
+        return prefsInteractor.getDaysInCalendar()
+            .let(settingsMapper::toDaysInCalendarViewData)
     }
 
     private suspend fun updateCardOrderViewData() {

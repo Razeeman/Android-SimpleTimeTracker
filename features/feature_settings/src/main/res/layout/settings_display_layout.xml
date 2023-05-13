@@ -123,7 +123,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/settings_reverse_order_in_calendar"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/checkboxSettingsReverseOrderInCalendar"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvSettingsShowRecordsCalendar" />
@@ -136,12 +135,54 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/tvSettingsReverseOrderInCalendarHint" />
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/containerSettingsDaysInCalendar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvSettingsReverseOrderInCalendarHint">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvSettingsDaysInCalendar"
+                        style="@style/SettingsText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_days_in_calendar"
+                        app:layout_constraintEnd_toStartOf="@id/tvSettingsDaysInCalendarValue"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvSettingsDaysInCalendarValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_marginEnd="32dp"
+                        android:gravity="end|center_vertical"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
+                        android:textColor="?appTextPrimaryColor"
+                        app:layout_constraintBottom_toBottomOf="@id/spinnerSettingsDaysInCalendar"
+                        app:layout_constraintEnd_toEndOf="@id/spinnerSettingsDaysInCalendar"
+                        app:layout_constraintTop_toTopOf="@id/spinnerSettingsDaysInCalendar"
+                        tools:text="7" />
+
+                    <com.example.util.simpletimetracker.feature_views.spinner.CustomSpinner
+                        android:id="@+id/spinnerSettingsDaysInCalendar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_marginEnd="8dp"
+                        app:layout_constraintBottom_toBottomOf="@id/tvSettingsDaysInCalendar"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tvSettingsDaysInCalendar" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
                 <androidx.constraintlayout.widget.Group
                     android:id="@+id/groupSettingsReverseOrderInCalendar"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:visibility="gone"
-                    app:constraint_referenced_ids="tvSettingsReverseOrderInCalendarHint, checkboxSettingsReverseOrderInCalendar"
+                    app:constraint_referenced_ids="tvSettingsReverseOrderInCalendarHint, checkboxSettingsReverseOrderInCalendar, containerSettingsDaysInCalendar"
                     tools:visibility="visible" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

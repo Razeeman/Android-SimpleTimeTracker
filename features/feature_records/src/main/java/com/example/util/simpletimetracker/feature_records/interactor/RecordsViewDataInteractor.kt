@@ -17,6 +17,7 @@ import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RunningRecord
+import com.example.util.simpletimetracker.domain.model.count
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.record.RecordViewData
 import com.example.util.simpletimetracker.feature_base_adapter.runningRecord.RunningRecordViewData
@@ -50,53 +51,89 @@ class RecordsViewDataInteractor @Inject constructor(
         val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
         val showSeconds = prefsInteractor.getShowSeconds()
         val startOfDayShift = prefsInteractor.getStartOfDayShift()
-        val isCalendarView = prefsInteractor.getShowRecordsCalendar()
         val showUntrackedInRecords = prefsInteractor.getShowUntrackedInRecords()
         val reverseOrder = prefsInteractor.getReverseOrderInCalendar()
         val recordTypes = recordTypeInteractor.getAll().associateBy { it.id }
         val recordTags = recordTagInteractor.getAll()
-        val (rangeStart, rangeEnd) = timeMapper.getRangeStartAndEnd(
-            rangeLength = RangeLength.Day,
-            shift = shift,
-            firstDayOfWeek = DayOfWeek.MONDAY, // Doesn't matter for days.
-            startOfDayShift = startOfDayShift,
-        )
-        val records = recordInteractor.getFromRange(rangeStart, rangeEnd)
         val runningRecords = runningRecordInteractor.getAll()
+        val isCalendarView = prefsInteractor.getShowRecordsCalendar()
+        val calendarDayCount = prefsInteractor.getDaysInCalendar().count
+        val daysCountInShift = if (isCalendarView) calendarDayCount else 1
 
-        val recordsViewData = getRecordsViewData(
-            records = records,
-            runningRecords = runningRecords,
-            recordTypes = recordTypes,
-            recordTags = recordTags,
-            rangeStart = rangeStart,
-            rangeEnd = rangeEnd,
-            isDarkTheme = isDarkTheme,
-            useMilitaryTime = useMilitaryTime,
-            useProportionalMinutes = useProportionalMinutes,
-            showUntrackedInRecords = showUntrackedInRecords,
-            showSeconds = showSeconds,
-        )
+        return (daysCountInShift - 1 downTo 0).map { dayInShift ->
+            val actualShift = shift * daysCountInShift - dayInShift
 
-        if (isCalendarView) return recordsViewData
-            .map { record ->
-                mapToCalendarPoint(
-                    holder = record,
+            val (rangeStart, rangeEnd) = timeMapper.getRangeStartAndEnd(
+                rangeLength = RangeLength.Day,
+                shift = actualShift,
+                firstDayOfWeek = DayOfWeek.MONDAY, // Doesn't matter for days.
+                startOfDayShift = startOfDayShift,
+            )
+            val records = recordInteractor.getFromRange(rangeStart, rangeEnd)
+
+            val data =  getRecordsViewData(
+                records = records,
+                runningRecords = runningRecords,
+                recordTypes = recordTypes,
+                recordTags = recordTags,
+                rangeStart = rangeStart,
+                rangeEnd = rangeEnd,
+                isDarkTheme = isDarkTheme,
+                useMilitaryTime = useMilitaryTime,
+                useProportionalMinutes = useProportionalMinutes,
+                showUntrackedInRecords = showUntrackedInRecords,
+                showSeconds = showSeconds,
+            )
+
+            ViewDataIntermediate(
+                rangeStart = rangeStart,
+                rangeEnd = rangeEnd,
+                records = data,
+            )
+        }.let { data ->
+            if (isCalendarView) {
+                mapCalendarData(
+                    data = data,
                     calendar = calendar,
                     startOfDayShift = startOfDayShift,
-                    rangeStart = rangeStart,
-                    rangeEnd = rangeEnd
+                    shift = shift,
+                    reverseOrder = reverseOrder
                 )
+            } else {
+                mapRecordsData(data)
+            }
+        }
+    }
+
+    private fun mapCalendarData(
+        data: List<ViewDataIntermediate>,
+        calendar: Calendar,
+        startOfDayShift: Long,
+        shift: Int,
+        reverseOrder: Boolean
+    ): RecordsState.CalendarData {
+        val currentTime = if (shift == 0) {
+            mapFromStartOfDay(
+                timeStamp = System.currentTimeMillis(),
+                calendar = calendar
+            ) - startOfDayShift
+        } else {
+            null
+        }
+
+        return data
+            .map {
+                it.records.map { record ->
+                    mapToCalendarPoint(
+                        holder = record,
+                        calendar = calendar,
+                        startOfDayShift = startOfDayShift,
+                        rangeStart = it.rangeStart,
+                        rangeEnd = it.rangeEnd,
+                    )
+                }
             }
             .let {
-                val currentTime = if (shift == 0) {
-                    mapFromStartOfDay(
-                        timeStamp = System.currentTimeMillis(),
-                        calendar = calendar
-                    ) - startOfDayShift
-                } else {
-                    null
-                }
                 RecordsCalendarViewData(
                     currentTime = currentTime,
                     startOfDayShift = startOfDayShift,
@@ -105,8 +142,15 @@ class RecordsViewDataInteractor @Inject constructor(
                 )
             }
             .let(RecordsState::CalendarData)
+    }
 
-        return recordsViewData
+    private fun mapRecordsData(
+        data: List<ViewDataIntermediate>,
+    ): RecordsState.RecordsData {
+        return data
+            .firstOrNull()
+            ?.records
+            .orEmpty()
             .sortedByDescending { it.timeStartedTimestamp }
             .map { it.data.value }
             .let {
@@ -294,6 +338,12 @@ class RecordsViewDataInteractor @Inject constructor(
             data class RunningRecordData(override val value: RunningRecordViewData) : Data
         }
     }
+
+    private data class ViewDataIntermediate(
+        val rangeStart: Long,
+        val rangeEnd: Long,
+        val records: List<RecordHolder>,
+    )
 
     companion object {
         private const val UNTRACKED_RECORD_LENGTH_LIMIT: Long = 60 * 1000L // 1 min

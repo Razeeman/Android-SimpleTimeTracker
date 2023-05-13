@@ -16,6 +16,7 @@ import com.example.util.simpletimetracker.core.dialog.StandardDialogListener
 import com.example.util.simpletimetracker.core.sharedViewModel.BackupViewModel
 import com.example.util.simpletimetracker.core.sharedViewModel.MainTabsViewModel
 import com.example.util.simpletimetracker.feature_settings.viewData.CardOrderViewData
+import com.example.util.simpletimetracker.feature_settings.viewData.DaysInCalendarViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.FirstDayOfWeekViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.SettingsDurationViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.SettingsStartOfDayViewData
@@ -55,6 +56,7 @@ class SettingsFragment :
 
     override fun initUi() = with(binding) {
         with(layoutSettingsDisplay) {
+            spinnerSettingsDaysInCalendar.setProcessSameItemSelection(false)
             spinnerSettingsRecordTypeSort.setProcessSameItemSelection(false)
         }
         with(layoutSettingsAdditional) {
@@ -85,6 +87,7 @@ class SettingsFragment :
         }
         with(layoutSettingsDisplay) {
             layoutSettingsDisplayTitle.setOnClick(viewModel::onSettingsDisplayClick)
+            spinnerSettingsDaysInCalendar.onPositionSelected = viewModel::onDaysInCalendarSelected
             spinnerSettingsRecordTypeSort.onPositionSelected = viewModel::onRecordTypeOrderSelected
             btnCardOrderManual.setOnClick(viewModel::onCardOrderManualClick)
             checkboxSettingsShowUntracked.setOnClick(viewModel::onShowUntrackedClicked)
@@ -177,6 +180,7 @@ class SettingsFragment :
                 versionName.observe(tvSettingsVersionName::setText)
             }
             cardOrderViewData.observe(::updateCardOrderViewData)
+            daysInCalendarViewData.observe(::updateDaysInCalendarViewData)
             firstDayOfWeekViewData.observe(::updateFirstDayOfWeekViewData)
             startOfDayViewData.observe(::updateStartOfDayViewData)
             keepScreenOnCheckbox.observe(::setKeepScreenOn)
@@ -217,6 +221,7 @@ class SettingsFragment :
             checkboxSettingsActivityReminderRecurrent.jumpDrawablesToCurrentState()
         }
         with(layoutSettingsDisplay) {
+            spinnerSettingsDaysInCalendar.jumpDrawablesToCurrentState()
             spinnerSettingsRecordTypeSort.jumpDrawablesToCurrentState()
             checkboxSettingsShowUntracked.jumpDrawablesToCurrentState()
             checkboxSettingsShowRecordsCalendar.jumpDrawablesToCurrentState()
@@ -268,6 +273,14 @@ class SettingsFragment :
         btnCardOrderManual.visible = viewData.isManualConfigButtonVisible
         spinnerSettingsRecordTypeSort.setData(viewData.items, viewData.selectedPosition)
         tvSettingsRecordTypeSortValue.text = viewData.items
+            .getOrNull(viewData.selectedPosition)?.text.orEmpty()
+    }
+
+    private fun updateDaysInCalendarViewData(
+        viewData: DaysInCalendarViewData,
+    ) = with(binding.layoutSettingsDisplay) {
+        spinnerSettingsDaysInCalendar.setData(viewData.items, viewData.selectedPosition)
+        tvSettingsDaysInCalendarValue.text = viewData.items
             .getOrNull(viewData.selectedPosition)?.text.orEmpty()
     }
 

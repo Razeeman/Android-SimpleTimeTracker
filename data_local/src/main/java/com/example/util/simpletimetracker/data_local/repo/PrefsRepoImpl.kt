@@ -89,6 +89,10 @@ class PrefsRepoImpl @Inject constructor(
         KEY_REVERSE_ORDER_IN_CALENDAR, false
     )
 
+    override var daysInCalendar: Int by prefs.delegate(
+        KEY_DAYS_IN_CALENDAR, 0
+    )
+
     override var showActivityFilters: Boolean by prefs.delegate(
         KEY_SHOW_ACTIVITY_FILTERS, false
     )
@@ -359,6 +363,7 @@ class PrefsRepoImpl @Inject constructor(
         private const val KEY_SHOW_UNTRACKED_IN_RECORDS = "showUntrackedInRecords"
         private const val KEY_SHOW_RECORDS_CALENDAR = "showRecordsCalendar"
         private const val KEY_REVERSE_ORDER_IN_CALENDAR = "reverseOrderInCalendar"
+        private const val KEY_DAYS_IN_CALENDAR = "daysInCalendar"
         private const val KEY_SHOW_ACTIVITY_FILTERS = "showActivityFilters"
         private const val KEY_ALLOW_MULTITASKING = "allowMultitasking"
         private const val KEY_SHOW_NOTIFICATIONS = "showNotifications"

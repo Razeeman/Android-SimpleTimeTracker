@@ -8,6 +8,8 @@ import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.model.RangeLength
+import com.example.util.simpletimetracker.domain.model.count
+import com.example.util.simpletimetracker.feature_records.mapper.RecordsViewDataMapper
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordFromMainParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordParams
@@ -21,6 +23,7 @@ import javax.inject.Inject
 class RecordsContainerViewModel @Inject constructor(
     private val router: Router,
     private val timeMapper: TimeMapper,
+    private val recordsViewDataMapper: RecordsViewDataMapper,
     private val prefsInteractor: PrefsInteractor,
 ) : ViewModel() {
 
@@ -47,8 +50,14 @@ class RecordsContainerViewModel @Inject constructor(
         viewModelScope.launch {
             val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
             val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
+            val shift = position.value.orZero()
+            val actualShift = if (prefsInteractor.getShowRecordsCalendar()) {
+                shift * prefsInteractor.getDaysInCalendar().count
+            } else {
+                shift
+            }
             val current = timeMapper.toTimestampShifted(
-                rangesFromToday = position.value.orZero(),
+                rangesFromToday = actualShift,
                 range = RangeLength.Day
             )
 
@@ -75,11 +84,21 @@ class RecordsContainerViewModel @Inject constructor(
     fun onDateTimeSet(timestamp: Long, tag: String?) = viewModelScope.launch {
         when (tag) {
             DATE_TAG -> {
-                timeMapper.toTimestampShift(
-                    toTime = timestamp,
-                    range = RangeLength.Day,
-                    firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
-                ).toInt().let(::updatePosition)
+                timeMapper
+                    .toTimestampShift(
+                        toTime = timestamp,
+                        range = RangeLength.Day,
+                        firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
+                    )
+                    .toInt()
+                    .let { shift ->
+                        if (prefsInteractor.getShowRecordsCalendar()) {
+                            shift / prefsInteractor.getDaysInCalendar().count
+                        } else {
+                            shift
+                        }
+                    }
+                    .let(::updatePosition)
             }
         }
     }
@@ -90,8 +109,17 @@ class RecordsContainerViewModel @Inject constructor(
     }
 
     private suspend fun loadTitle(): String {
+        val shift = position.value.orZero()
         val startOfDayShift = prefsInteractor.getStartOfDayShift()
-        return timeMapper.toDayTitle(position.value.orZero(), startOfDayShift)
+        val isCalendarView = prefsInteractor.getShowRecordsCalendar()
+        val calendarDayCount = prefsInteractor.getDaysInCalendar()
+
+        return recordsViewDataMapper.mapTitle(
+            shift = shift,
+            startOfDayShift = startOfDayShift,
+            isCalendarView = isCalendarView,
+            calendarDayCount = calendarDayCount.count
+        )
     }
 
     companion object {

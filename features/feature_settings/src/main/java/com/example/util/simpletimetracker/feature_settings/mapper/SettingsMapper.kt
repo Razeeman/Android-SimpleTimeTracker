@@ -17,8 +17,11 @@ import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_TAG_NAME
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.model.CardOrder
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
+import com.example.util.simpletimetracker.domain.model.DaysInCalendar
+import com.example.util.simpletimetracker.domain.model.count
 import com.example.util.simpletimetracker.feature_settings.R
 import com.example.util.simpletimetracker.feature_settings.viewData.CardOrderViewData
+import com.example.util.simpletimetracker.feature_settings.viewData.DaysInCalendarViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.FirstDayOfWeekViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.SettingsDurationViewData
 import com.example.util.simpletimetracker.feature_views.spinner.CustomSpinner
@@ -38,6 +41,13 @@ class SettingsMapper @Inject constructor(
         CardOrder.NAME,
         CardOrder.COLOR,
         CardOrder.MANUAL
+    )
+
+    private val daysInCalendarList: List<DaysInCalendar> = listOf(
+        DaysInCalendar.ONE,
+        DaysInCalendar.THREE,
+        DaysInCalendar.FIVE,
+        DaysInCalendar.SEVEN,
     )
 
     private val dayOfWeekList: List<DayOfWeek> = listOf(
@@ -91,6 +101,19 @@ class SettingsMapper @Inject constructor(
 
     fun toCardOrder(position: Int): CardOrder {
         return cardOrderList.getOrElse(position) { cardOrderList.first() }
+    }
+
+    fun toDaysInCalendarViewData(currentValue: DaysInCalendar): DaysInCalendarViewData {
+        return DaysInCalendarViewData(
+            items = daysInCalendarList
+                .map(::toDaysInCalendarName)
+                .map(CustomSpinner::CustomSpinnerTextItem),
+            selectedPosition = toPosition(currentValue),
+        )
+    }
+
+    fun toDaysInCalendar(position: Int): DaysInCalendar {
+        return daysInCalendarList.getOrElse(position) { daysInCalendarList.first() }
     }
 
     fun toFirstDayOfWeekViewData(currentOrder: DayOfWeek): FirstDayOfWeekViewData {
@@ -188,6 +211,14 @@ class SettingsMapper @Inject constructor(
             CardOrder.COLOR -> R.string.settings_sort_by_color
             CardOrder.MANUAL -> R.string.settings_sort_manually
         }.let(resourceRepo::getString)
+    }
+
+    private fun toPosition(daysInCalendar: DaysInCalendar): Int {
+        return daysInCalendarList.indexOf(daysInCalendar).takeUnless { it == -1 }.orZero()
+    }
+
+    private fun toDaysInCalendarName(daysInCalendar: DaysInCalendar): String {
+        return daysInCalendar.count.toString()
     }
 
     private fun toPosition(dayOfWeek: DayOfWeek): Int {

@@ -463,6 +463,20 @@ class TimeMapper @Inject constructor(
         return dayTitleFormat.format(calendar.timeInMillis)
     }
 
+    fun toDayShortDateTitle(
+        daysFromToday: Int,
+        startOfDayShift: Long,
+    ): String = synchronized(lock) {
+        val calendar = Calendar.getInstance()
+
+        calendar.apply {
+            timeInMillis = currentTimestampProvider.get() - startOfDayShift
+            add(Calendar.DATE, daysFromToday)
+        }
+
+        return weekTitleFormat.format(calendar.timeInMillis)
+    }
+
     fun toWeekDateTitle(
         weeksFromToday: Int,
         startOfDayShift: Long,
