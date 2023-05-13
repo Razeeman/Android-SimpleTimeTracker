@@ -195,7 +195,6 @@ class RecordsFilterViewDataInteractor @Inject constructor(
             // Only one filter type.
             val filter = filters.filterIsInstance(clazz).firstOrNull()
             val enabled = filter != null
-            // TODO add string translations
             val selected = (selectionState as? RecordsFilterSelectionState.Visible)
                 ?.type == type
 

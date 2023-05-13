@@ -105,7 +105,6 @@ class RecordActionsDuplicateTest : BaseUiTest() {
         onView(allOf(withId(recordsR.id.rvRecordsList), isCompletelyDisplayed()))
             .check(recyclerItemCount(2))
         checkRecord(
-            recordsR.id.rvRecordsList,
             listOf(0),
             fullName,
             timeStartedPreview,
@@ -123,15 +122,16 @@ class RecordActionsDuplicateTest : BaseUiTest() {
             onView(allOf(withId(recordsR.id.rvRecordsList), isCompletelyDisplayed()))
                 .check(recyclerItemCount(3))
         }
-        checkRecord(
-            recordsR.id.rvRecordsList,
-            listOf(0, 1),
-            fullName,
-            timeStartedPreview,
-            timeEndedPreview,
-            timeRangePreview,
-            comment
-        )
+        tryAction {
+            checkRecord(
+                listOf(0, 1),
+                fullName,
+                timeStartedPreview,
+                timeEndedPreview,
+                timeRangePreview,
+                comment
+            )
+        }
     }
 
     @Test
@@ -141,15 +141,15 @@ class RecordActionsDuplicateTest : BaseUiTest() {
         val calendar = Calendar.getInstance()
 
         // Setup
+        testUtils.addActivity(name)
+        runBlocking { prefsInteractor.setShowUntrackedInRecords(true) }
+        NavUtils.openRecordsScreen()
+
         val current = calendar.timeInMillis
         val startOfDay = calendar.getMillis(0, 0)
         val timeStartedPreview = startOfDay.formatTime()
         val timeEndedPreview = current.formatTime()
         val timeRangePreview = (current - startOfDay).formatInterval()
-
-        testUtils.addActivity(name)
-        runBlocking { prefsInteractor.setShowUntrackedInRecords(true) }
-        NavUtils.openRecordsScreen()
 
         // Open untracked time
         checkViewIsDisplayed(
@@ -188,15 +188,16 @@ class RecordActionsDuplicateTest : BaseUiTest() {
             onView(allOf(withId(recordsR.id.rvRecordsList), isCompletelyDisplayed()))
                 .check(recyclerItemCount(3))
         }
-        checkRecord(
-            recordsR.id.rvRecordsList,
-            listOf(0, 1),
-            name,
-            timeStartedPreview,
-            timeEndedPreview,
-            timeRangePreview,
-            comment
-        )
+        tryAction {
+            checkRecord(
+                listOf(0, 1),
+                name,
+                timeStartedPreview,
+                timeEndedPreview,
+                timeRangePreview,
+                comment
+            )
+        }
     }
 
     @Test
@@ -206,15 +207,15 @@ class RecordActionsDuplicateTest : BaseUiTest() {
         val calendar = Calendar.getInstance()
 
         // Setup
+        testUtils.addActivity(name)
+        NavUtils.openRecordsScreen()
+
         val current = calendar.timeInMillis
         val difference = TimeUnit.HOURS.toMillis(1)
         val timeStartedTimestamp = current - difference
         val timeStartedPreview = timeStartedTimestamp.formatTime()
         val timeEndedPreview = current.formatTime()
         val timeRangePreview = difference.formatInterval()
-
-        testUtils.addActivity(name)
-        NavUtils.openRecordsScreen()
 
         // Open add new record
         onView(allOf(withId(recordsR.id.rvRecordsList), isCompletelyDisplayed()))
@@ -243,20 +244,20 @@ class RecordActionsDuplicateTest : BaseUiTest() {
             onView(allOf(withId(recordsR.id.rvRecordsList), isCompletelyDisplayed()))
                 .check(recyclerItemCount(3))
         }
-        checkRecord(
-            recordsR.id.rvRecordsList,
-            listOf(0, 1),
-            name,
-            timeStartedPreview,
-            timeEndedPreview,
-            timeRangePreview,
-            comment
-        )
+        tryAction {
+            checkRecord(
+                listOf(0, 1),
+                name,
+                timeStartedPreview,
+                timeEndedPreview,
+                timeRangePreview,
+                comment
+            )
+        }
     }
 
     @Suppress("SameParameterValue")
     private fun checkRecord(
-        parentId: Int,
         indexes: List<Int>,
         name: String,
         timeStartedPreview: String,
@@ -267,7 +268,7 @@ class RecordActionsDuplicateTest : BaseUiTest() {
         indexes.forEach { index ->
             checkViewIsDisplayed(
                 allOf(
-                    nthChildOf(withId(parentId), index),
+                    nthChildOf(withId(recordsR.id.rvRecordsList), index),
                     withId(baseR.id.viewRecordItem),
                     withCardColor(firstColor),
                     hasDescendant(withText(name)),

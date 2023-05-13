@@ -66,6 +66,10 @@ object NavUtils {
         onView(withText(coreR.string.settings_archive)).perform(nestedScrollTo(), click())
     }
 
+    fun openDataEditScreen() {
+        onView(withText(coreR.string.settings_data_edit)).perform(nestedScrollTo(), click())
+    }
+
     fun openCardSizeScreen() {
         onView(withText(coreR.string.settings_change_card_size)).perform(nestedScrollTo(), click())
     }

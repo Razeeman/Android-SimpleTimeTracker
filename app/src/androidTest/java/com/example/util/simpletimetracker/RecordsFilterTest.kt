@@ -486,7 +486,7 @@ class RecordsFilterTest : BaseUiTest() {
         checkViewIsDisplayed(
             allOf(withId(statisticsDetailR.id.viewStatisticsDetailItem), hasDescendant(withText(name1)))
         )
-            checkRecordsCard(12)
+        checkRecordsCard(12)
 
         clickOnViewWithId(statisticsDetailR.id.cardStatisticsDetailFilter)
         clickOnView(allOf(isDescendantOfA(withId(baseR.id.viewRecordTypeItem)), withText(name1)))

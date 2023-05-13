@@ -20,6 +20,7 @@ import com.example.util.simpletimetracker.feature_data_edit.model.DataEditChange
 import com.example.util.simpletimetracker.feature_data_edit.model.DataEditChangeButtonState
 import com.example.util.simpletimetracker.feature_data_edit.model.DataEditChangeCommentState
 import com.example.util.simpletimetracker.feature_data_edit.model.DataEditDeleteRecordsState
+import com.example.util.simpletimetracker.feature_data_edit.model.DataEditRecordsCountState
 import com.example.util.simpletimetracker.feature_data_edit.model.DataEditRemoveTagsState
 import com.example.util.simpletimetracker.feature_data_edit.viewModel.DataEditViewModel
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
@@ -83,7 +84,7 @@ class DataEditFragment :
 
     override fun initViewModel(): Unit = with(viewModel) {
         with(binding) {
-            selectedRecordsCountViewData.observe(tvDataEditSelectedRecords::setText)
+            selectedRecordsCountViewData.observe(::setRecordsCountState)
             changeActivityState.observe(::setChangeActivityState)
             changeCommentState.observe(::setChangeCommentState)
             addTagsState.observe(::setAddTagState)
@@ -132,6 +133,12 @@ class DataEditFragment :
 
     override fun onTagsDismissed() {
         viewModel.onTagsDismissed()
+    }
+
+    private fun setRecordsCountState(
+        state: DataEditRecordsCountState,
+    ) = with(binding) {
+        tvDataEditSelectedRecords.text = state.countText
     }
 
     private fun setChangeActivityState(

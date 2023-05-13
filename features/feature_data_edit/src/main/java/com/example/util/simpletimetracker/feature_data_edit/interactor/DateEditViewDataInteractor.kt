@@ -15,6 +15,7 @@ import com.example.util.simpletimetracker.feature_data_edit.R
 import com.example.util.simpletimetracker.feature_data_edit.model.DataEditChangeActivityState
 import com.example.util.simpletimetracker.feature_data_edit.model.DataEditChangeButtonState
 import com.example.util.simpletimetracker.feature_data_edit.model.DataEditChangeCommentState
+import com.example.util.simpletimetracker.feature_data_edit.model.DataEditRecordsCountState
 import javax.inject.Inject
 
 class DateEditViewDataInteractor @Inject constructor(
@@ -29,7 +30,7 @@ class DateEditViewDataInteractor @Inject constructor(
 
     suspend fun getSelectedRecordsCount(
         filters: List<RecordsFilter>,
-    ): String {
+    ): DataEditRecordsCountState {
         val records = recordFilterInteractor.getByFilter(filters)
         val selectedRecordsCount = records.size
         val recordsString = resourceRepo.getQuantityString(
@@ -37,7 +38,10 @@ class DateEditViewDataInteractor @Inject constructor(
             selectedRecordsCount
         ).lowercase()
 
-        return "$selectedRecordsCount $recordsString"
+        return DataEditRecordsCountState(
+            count = selectedRecordsCount,
+            countText = "$selectedRecordsCount $recordsString"
+        )
     }
 
     suspend fun getChangeActivityState(

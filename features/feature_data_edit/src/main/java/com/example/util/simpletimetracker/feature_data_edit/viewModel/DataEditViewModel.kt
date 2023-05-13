@@ -21,6 +21,7 @@ import com.example.util.simpletimetracker.feature_data_edit.model.DataEditChange
 import com.example.util.simpletimetracker.feature_data_edit.model.DataEditChangeButtonState
 import com.example.util.simpletimetracker.feature_data_edit.model.DataEditChangeCommentState
 import com.example.util.simpletimetracker.feature_data_edit.model.DataEditDeleteRecordsState
+import com.example.util.simpletimetracker.feature_data_edit.model.DataEditRecordsCountState
 import com.example.util.simpletimetracker.feature_data_edit.model.DataEditRemoveTagsState
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
@@ -31,6 +32,7 @@ import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilter
 import com.example.util.simpletimetracker.navigation.params.screen.StandardDialogParams
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @HiltViewModel
@@ -43,8 +45,8 @@ class DataEditViewModel @Inject constructor(
     private val recordTagInteractor: RecordTagInteractor,
 ) : ViewModel() {
 
-    val selectedRecordsCountViewData: LiveData<String> by lazy {
-        return@lazy MutableLiveData<String>().let { initial ->
+    val selectedRecordsCountViewData: LiveData<DataEditRecordsCountState> by lazy {
+        return@lazy MutableLiveData<DataEditRecordsCountState>().let { initial ->
             viewModelScope.launch { initial.value = loadSelectedRecordsCountViewData() }
             initial
         }
@@ -80,11 +82,13 @@ class DataEditViewModel @Inject constructor(
     private var deleteState: DataEditDeleteRecordsState = DataEditDeleteRecordsState.Disabled
 
     private val changeButtonEnabled: Boolean
-        get() = typeState is DataEditChangeActivityState.Enabled ||
-            commentState is DataEditChangeCommentState.Enabled ||
-            addTagState is DataEditAddTagsState.Enabled ||
-            removeTagState is DataEditRemoveTagsState.Enabled ||
-            deleteState is DataEditDeleteRecordsState.Enabled
+        get() = selectedRecordsCountViewData.value?.count.orZero() != 0 && (
+            typeState is DataEditChangeActivityState.Enabled ||
+                commentState is DataEditChangeCommentState.Enabled ||
+                addTagState is DataEditAddTagsState.Enabled ||
+                removeTagState is DataEditRemoveTagsState.Enabled ||
+                deleteState is DataEditDeleteRecordsState.Enabled
+            )
 
     fun onSelectRecordsClick() {
         RecordsFilterParams(
@@ -246,6 +250,7 @@ class DataEditViewModel @Inject constructor(
 
         dataEditRepo.inProgress.set(false)
         showMessage(R.string.data_edit_success_message)
+        delay(100) // wait for dialog to close.
         router.back()
     }
 
@@ -314,9 +319,10 @@ class DataEditViewModel @Inject constructor(
     private fun updateSelectedRecordsCountViewData() = viewModelScope.launch {
         val data = loadSelectedRecordsCountViewData()
         selectedRecordsCountViewData.set(data)
+        updateChangeButtonState()
     }
 
-    private suspend fun loadSelectedRecordsCountViewData(): String {
+    private suspend fun loadSelectedRecordsCountViewData(): DataEditRecordsCountState {
         return dataEditViewDataInteractor.getSelectedRecordsCount(filters)
     }
 
