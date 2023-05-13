@@ -113,7 +113,10 @@ class DateTimeDialogFragment :
             dateDialogFragment?.getSelectedDate()?.let { (year, month, day) ->
                 onDateSet(year, month, day)
             }
-            dateTimeDialogListeners.forEach { it.onDateTimeSet(newTimestamp, params.tag) }
+            dateTimeDialogListeners.forEach {
+                // Drop milliseconds.
+                it.onDateTimeSet((newTimestamp / 1000) * 1000, params.tag)
+            }
             dismiss()
         }
     }

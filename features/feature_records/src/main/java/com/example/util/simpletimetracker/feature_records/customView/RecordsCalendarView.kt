@@ -119,7 +119,7 @@ class RecordsCalendarView @JvmOverloads constructor(
         getTextView(
             textColor = itemTagColor,
             typeface = Typeface.DEFAULT,
-            widthLayoutParams = ViewGroup.LayoutParams.MATCH_PARENT,
+            widthLayoutParams = ViewGroup.LayoutParams.WRAP_CONTENT,
         )
     }
     private val commentTextView: AppCompatTextView by lazy {
@@ -338,7 +338,6 @@ class RecordsCalendarView @JvmOverloads constructor(
         var boxTop: Float
         var boxBottom: Float
 
-        var iconSize: Int?
         var iconLeft: Int
         var iconRight: Int
         var iconTop: Int
@@ -347,7 +346,6 @@ class RecordsCalendarView @JvmOverloads constructor(
         var textWidth: Float
         var textHeight: Int
         var timesTextHeight: Int
-        var commentTextHeight: Int
         var textLeft: Float
         var textTop: Float
         var availableHeight: Float
@@ -355,6 +353,9 @@ class RecordsCalendarView @JvmOverloads constructor(
         var newMaxLines: Int
 
         data.forEach { item ->
+            var iconDrawn = false
+            var timesDrawn = false
+
             /************
              * Draw box *
              ************/
@@ -392,13 +393,12 @@ class RecordsCalendarView @JvmOverloads constructor(
             /*************
              * Draw icon *
              *************/
-            iconSize = iconMaxSize.takeIf { it < availableHeight }
             // If can fit into box.
-            iconSize?.let { iconSize ->
+            if (iconMaxSize < availableHeight && iconMaxSize < availableWidth) {
                 iconLeft = (recordBounds.left + recordHorizontalPadding).toInt()
-                iconRight = iconLeft + iconSize
+                iconRight = iconLeft + iconMaxSize
                 iconTop = (recordBounds.top + recordVerticalPadding).toInt()
-                iconBottom = iconTop + iconSize
+                iconBottom = iconTop + iconMaxSize
 
                 bounds.set(
                     iconLeft, iconTop,
@@ -406,8 +406,11 @@ class RecordsCalendarView @JvmOverloads constructor(
                 )
                 item.drawable?.bounds = bounds
                 item.drawable?.draw(canvas)
+
+                iconDrawn = true
+                availableWidth = (availableWidth - iconMaxSize - recordHorizontalPadding)
+                    .coerceAtLeast(0f)
             }
-            availableWidth -= (iconMaxSize + recordHorizontalPadding)
 
             /*****************
              * Draw duration *
@@ -419,37 +422,39 @@ class RecordsCalendarView @JvmOverloads constructor(
             )
             textHeight = durationTextView.measuredHeight
             // If can fit into box.
-            if (textHeight < availableHeight) {
+            if (
+                iconDrawn &&
+                textHeight < availableHeight &&
+                durationTextView.measuredWidth < availableWidth
+            ) {
                 textLeft = recordBounds.right - recordHorizontalPadding - durationTextView.measuredWidth
                 textTop = recordBounds.top + recordVerticalPadding
-                availableWidth -= (durationTextView.measuredWidth + recordHorizontalPadding)
 
                 canvas.save()
                 canvas.translate(textLeft, textTop)
                 durationTextView.draw(canvas)
                 canvas.restore()
+
+                availableWidth = (availableWidth - durationTextView.measuredWidth - recordHorizontalPadding)
+                    .coerceAtLeast(0f)
             }
 
             /*************
              * Draw name *
              *************/
-
-            // 3 paddings - 2 at the sides, 1 between icon.
-            textWidth = recordBounds.width() -
-                iconMaxSize -
-                3 * recordHorizontalPadding -
-                durationTextView.measuredWidth
             nameTextView.text = getItemName(item.point.data)
             nameTextView.measureText(
-                width = textWidth.coerceAtLeast(0f).toInt(),
+                width = availableWidth.toInt(),
                 widthSpec = MeasureSpec.EXACTLY
             )
             textHeight = nameTextView.measuredHeight
             // If can fit into box.
-            if (textHeight < availableHeight) {
+            if (
+                iconDrawn &&
+                textHeight < availableHeight
+            ) {
                 textLeft = recordBounds.left + iconMaxSize + 2 * recordHorizontalPadding
                 textTop = recordBounds.top + recordVerticalPadding
-                availableHeight -= (textHeight + recordVerticalPadding)
 
                 canvas.save()
                 canvas.translate(textLeft, textTop)
@@ -457,32 +462,43 @@ class RecordsCalendarView @JvmOverloads constructor(
                 canvas.restore()
             }
 
+            if (iconDrawn)                 {
+                availableHeight = (availableHeight - iconMaxSize - recordVerticalPadding)
+                    .coerceAtLeast(0f)
+            }
+
             /**************
              * Draw times *
              **************/
-            textWidth = recordBounds.width() - 2 * recordHorizontalPadding
+            availableWidth = recordBounds.width() - 2 * recordHorizontalPadding
             timeTextView.text = getItemTimes(item.point.data)
             timeTextView.measureText(
-                width = textWidth.toInt(),
-                widthSpec = MeasureSpec.EXACTLY
+                width = 0,
+                widthSpec = MeasureSpec.UNSPECIFIED
             )
             timesTextHeight = timeTextView.measuredHeight
             // If can fit into box.
-            if (timesTextHeight < availableHeight) {
-                textLeft = recordBounds.right - recordHorizontalPadding - textWidth
-                textTop = recordBounds.top + recordVerticalPadding + textHeight
-                availableHeight -= (timesTextHeight + recordVerticalPadding)
+            if (
+                iconDrawn &&
+                timeTextView.measuredWidth < availableWidth &&
+                timesTextHeight < availableHeight
+            ) {
+                textLeft = recordBounds.left + recordHorizontalPadding
+                textTop = recordBounds.top + recordVerticalPadding + iconMaxSize
 
                 canvas.save()
                 canvas.translate(textLeft, textTop)
                 timeTextView.draw(canvas)
                 canvas.restore()
+
+                timesDrawn = true
+                availableHeight = (availableHeight - timesTextHeight - recordVerticalPadding)
+                    .coerceAtLeast(0f)
             }
 
             /****************
              * Draw comment *
              ****************/
-            availableHeight = availableHeight.coerceAtLeast(0f)
             if (item.point.data.comment.isNotEmpty()) {
                 textWidth = recordBounds.width() - 2 * recordHorizontalPadding
                 commentTextView.text = item.point.data.comment
@@ -500,10 +516,14 @@ class RecordsCalendarView @JvmOverloads constructor(
                     heightSpec = MeasureSpec.AT_MOST
                 )
                 // If can fit into box.
-                commentTextHeight = commentTextView.measuredHeight
-                if (commentTextHeight < availableHeight) {
-                    textLeft = recordBounds.right - recordHorizontalPadding - textWidth
-                    textTop = recordBounds.top + recordVerticalPadding + textHeight + timesTextHeight
+                if (
+                    iconDrawn &&
+                    commentTextView.measuredHeight < availableHeight
+                ) {
+                    textLeft = recordBounds.left + recordHorizontalPadding
+                    textTop = recordBounds.top + recordVerticalPadding +
+                        iconMaxSize +
+                        timesTextHeight.takeIf { timesDrawn }.orZero()
 
                     canvas.save()
                     canvas.translate(textLeft, textTop)
