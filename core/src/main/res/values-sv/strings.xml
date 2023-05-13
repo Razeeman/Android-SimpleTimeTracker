@@ -197,6 +197,7 @@
     <string name="settings_show_untracked_time_hint">I statistikvyn kan okategoriserad tid döljas med hjälp av filtrering.</string>
     <string name="settings_show_records_calendar">Visa händelser i kalendervy</string>
     <string name="settings_reverse_order_in_calendar">Byt ordning på händelser</string>
+    <string name="settings_days_in_calendar">Dagar i kalendern</string>
     <string name="settings_show_activity_filters">Visa aktivitetsfilter på huvudskärmen</string>
     <string name="settings_allow_multitasking">Tillåt multitasking</string>
     <string name="settings_allow_multitasking_hint">Om inaktiverad så stoppas pågående aktivitet vid start av annan aktivitet.</string>
@@ -211,6 +212,7 @@
     <string name="settings_inactivity_reminder_recurrent">Återkommande</string>
     <string name="settings_activity_reminder">Visa aktivitetspåminnelse</string>
     <string name="settings_activity_reminder_hint">Visa meddelande efter angiven tid om timers körs.</string>
+    <string name="settings_do_not_disturb">Stör inte</string>
     <string name="settings_ignore_short_records">Ignorera kortvariga händelser</string>
     <string name="settings_ignore_short_records_hint">Ignorera händelser som är kortare än den angivna tidslängden.</string>
     <string name="settings_inactivity_reminder_disabled">Inaktiverad</string>

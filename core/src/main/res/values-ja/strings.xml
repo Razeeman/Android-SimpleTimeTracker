@@ -197,6 +197,7 @@
     <string name="settings_show_untracked_time_hint">統計で追跡されていない時間は、統計画面のフィルタを使用して非表示にすることができます。</string>
     <string name="settings_show_records_calendar">カレンダービューで計測記録を表示</string>
     <string name="settings_reverse_order_in_calendar">レコードの逆順</string>
+    <string name="settings_days_in_calendar">カレンダーの日数</string>
     <string name="settings_show_activity_filters">メイン画面にアクティビティ フィルタを表示する</string>
     <string name="settings_allow_multitasking">マルチタスクを可能にする</string>
     <string name="settings_allow_multitasking_hint">無効の場合、新しいタイマーを開始すると、他のアクティビティが自動的に停止します。</string>
@@ -211,6 +212,7 @@
     <string name="settings_inactivity_reminder_recurrent">繰り返す</string>
     <string name="settings_activity_reminder">アクティビティリマインダーを表示</string>
     <string name="settings_activity_reminder_hint">タイマーが実行されている場合、指定した時間後に通知を表示します。</string>
+    <string name="settings_do_not_disturb">邪魔しないでください</string>
     <string name="settings_ignore_short_records">短い記録は無視</string>
     <string name="settings_ignore_short_records_hint">指定された時間より短いアクティビティは計測しません。</string>
     <string name="settings_inactivity_reminder_disabled">未設定</string>

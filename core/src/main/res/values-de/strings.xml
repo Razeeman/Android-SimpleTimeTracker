@@ -197,6 +197,7 @@
     <string name="settings_show_untracked_time_hint">Nicht erfasste Zeit in Statistiken kann mithilfe von Filtern auf dem Statistikbildschirm ausgeblendet werden.</string>
     <string name="settings_show_records_calendar">Datensätze in der Kalenderansicht anzeigen</string>
     <string name="settings_reverse_order_in_calendar">Umgekehrte Reihenfolge der Aufzeichnungen</string>
+    <string name="settings_days_in_calendar">Tage im Kalender</string>
     <string name="settings_show_activity_filters">Aktivitätsfilter auf dem Hauptbildschirm anzeigen</string>
     <string name="settings_allow_multitasking">Multitasking erlauben</string>
     <string name="settings_allow_multitasking_hint">Wenn diese Funktion deaktiviert ist, werden beim Starten eines neuen Timers andere Aktivitäten automatisch gestoppt.</string>
@@ -211,6 +212,7 @@
     <string name="settings_inactivity_reminder_recurrent">Wiederkehrend</string>
     <string name="settings_activity_reminder">Aktivitätserinnerung anzeigen</string>
     <string name="settings_activity_reminder_hint">Benachrichtigung nach angegebener Zeit anzeigen, wenn Timer laufen.</string>
+    <string name="settings_do_not_disturb">Bitte nicht stören</string>
     <string name="settings_ignore_short_records">Ignorieren Sie kurze Aufzeichnungen</string>
     <string name="settings_ignore_short_records_hint">Verfolgen Sie keine Aktivitäten, die kürzer als die angegebene Zeit sind.</string>
     <string name="settings_inactivity_reminder_disabled">Deaktiviert</string>

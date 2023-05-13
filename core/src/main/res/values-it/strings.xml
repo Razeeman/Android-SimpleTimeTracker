@@ -197,6 +197,7 @@
     <string name="settings_show_untracked_time_hint">Il tempo non tracciato nelle statistiche può essere nascosto utilizzando i filtri nella schermata delle statistiche.</string>
     <string name="settings_show_records_calendar">Mostra i record nella vista calendario</string>
     <string name="settings_reverse_order_in_calendar">Ordine inverso dei record</string>
+    <string name="settings_days_in_calendar">Giorni in calendario</string>
     <string name="settings_show_activity_filters">Mostra i filtri delle attività sulla schermata principale</string>
     <string name="settings_allow_multitasking">Abilita multitasking</string>
     <string name="settings_allow_multitasking_hint">Se disabilitato, avviare un nuovo timer fermerà automaticamente le altre attività.</string>
@@ -211,6 +212,7 @@
     <string name="settings_inactivity_reminder_recurrent">Ricorrente</string>
     <string name="settings_activity_reminder">Mostra avviso per attività</string>
     <string name="settings_activity_reminder_hint">Mostra la notifica dopo l\'ora specificata se i timer sono in esecuzione.</string>
+    <string name="settings_do_not_disturb">Non disturbare</string>
     <string name="settings_ignore_short_records">Ignora i record brevi</string>
     <string name="settings_ignore_short_records_hint">Non tenere traccia delle attività più brevi del tempo specificato.</string>
     <string name="settings_inactivity_reminder_disabled">Disabilitato</string>

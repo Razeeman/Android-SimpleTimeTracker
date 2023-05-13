@@ -197,6 +197,7 @@
     <string name="settings_show_untracked_time_hint">Невідслідкований час у статистиці можна приховати за допомогою фільтрів на екрані статистики.</string>
     <string name="settings_show_records_calendar">Показувати записи в календарі</string>
     <string name="settings_reverse_order_in_calendar">Зворотний порядок записів</string>
+    <string name="settings_days_in_calendar">Дні в календарі</string>
     <string name="settings_show_activity_filters">Показувати фільтри активності на головному екрані</string>
     <string name="settings_allow_multitasking">Дозволити багатозадачність</string>
     <string name="settings_allow_multitasking_hint">Якщо вимкнено, запуск нового таймера автоматично зупинить інші дії.</string>
@@ -211,6 +212,7 @@
     <string name="settings_inactivity_reminder_recurrent">Рецидивуючий</string>
     <string name="settings_activity_reminder">Показати нагадування про діяльність</string>
     <string name="settings_activity_reminder_hint">Показувати сповіщення після вказаного часу, якщо таймери запущено.</string>
+    <string name="settings_do_not_disturb">Ні не турбувати</string>
     <string name="settings_ignore_short_records">Ігноруйте короткі записи</string>
     <string name="settings_ignore_short_records_hint">Не відстежуйте дії, які коротші за вказаний час.</string>
     <string name="settings_inactivity_reminder_disabled">Вимкнено</string>

@@ -209,7 +209,7 @@
                     style="@style/SettingsText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Do no not disturb"
+                    android:text="@string/settings_do_not_disturb"
                     app:layout_constraintEnd_toStartOf="@id/tvSettingsInactivityReminderDndStart"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvSettingsInactivityReminderRecurrentHint" />
@@ -351,7 +351,7 @@
                     style="@style/SettingsText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Do no not disturb"
+                    android:text="@string/settings_do_not_disturb"
                     app:layout_constraintEnd_toStartOf="@id/tvSettingsActivityReminderDndStart"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvSettingsActivityReminderRecurrentHint" />

@@ -197,6 +197,7 @@
     <string name="settings_show_untracked_time_hint">可以使用統計屏幕上的過濾器隱藏統計中未跟踪的時間。</string>
     <string name="settings_show_records_calendar">顯示月曆檢視紀錄</string>
     <string name="settings_reverse_order_in_calendar">反轉記錄順序</string>
+    <string name="settings_days_in_calendar">日曆中的天數</string>
     <string name="settings_show_activity_filters">主視窗上顯示活動過濾器</string>
     <string name="settings_allow_multitasking">允許多任務</string>
     <string name="settings_allow_multitasking_hint">如果禁用啟動新計時器將自動停止其他活動。</string>
@@ -211,6 +212,7 @@
     <string name="settings_inactivity_reminder_recurrent">經常性的</string>
     <string name="settings_activity_reminder">顯示活動提醒</string>
     <string name="settings_activity_reminder_hint">如果計時器正在運行，則在指定時間後顯示通知。</string>
+    <string name="settings_do_not_disturb">請勿打擾</string>
     <string name="settings_ignore_short_records">忽略短時間</string>
     <string name="settings_ignore_short_records_hint">短於指定時間，不要追蹤活動</string>
     <string name="settings_inactivity_reminder_disabled">已關閉</string>

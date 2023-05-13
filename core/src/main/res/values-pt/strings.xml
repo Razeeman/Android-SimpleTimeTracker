@@ -197,6 +197,7 @@
     <string name="settings_show_untracked_time_hint">O tempo não rastreado nas estatísticas pode ser ocultado usando filtros na tela de estatísticas.</string>
     <string name="settings_show_records_calendar">Mostrar registros na visualização de calendário</string>
     <string name="settings_reverse_order_in_calendar">Ordem inversa dos registros</string>
+    <string name="settings_days_in_calendar">Dias no calendário</string>
     <string name="settings_show_activity_filters">Mostrar filtros de atividade na tela principal</string>
     <string name="settings_allow_multitasking">Permitir atividades simultâneas</string>
     <string name="settings_allow_multitasking_hint">Se desativado, iniciar um novo timer interromperá automaticamente outras atividades.</string>
@@ -211,6 +212,7 @@
     <string name="settings_inactivity_reminder_recurrent">Recorrente</string>
     <string name="settings_activity_reminder">Mostrar lembrete de atividade</string>
     <string name="settings_activity_reminder_hint">Mostrar notificação após o tempo especificado se os cronômetros estiverem em execução.</string>
+    <string name="settings_do_not_disturb">Não perturbe</string>
     <string name="settings_ignore_short_records">Ignorar registros curtos</string>
     <string name="settings_ignore_short_records_hint">Não rastreie atividades mais curtas que o tempo especificado.</string>
     <string name="settings_inactivity_reminder_disabled">Desativado</string>

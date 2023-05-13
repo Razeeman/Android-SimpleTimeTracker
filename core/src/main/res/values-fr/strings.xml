@@ -197,6 +197,7 @@
     <string name="settings_show_untracked_time_hint">Le temps non suivi dans les statistiques peut être masqué à l\'aide de filtres sur l\'écran des statistiques.</string>
     <string name="settings_show_records_calendar">Utiliser une vue calendrier pour la liste des enregistrements</string>
     <string name="settings_reverse_order_in_calendar">Inverser l\'ordre des enregistrements</string>
+    <string name="settings_days_in_calendar">Jours dans le calendrier</string>
     <string name="settings_show_activity_filters">Afficher les filtres d\'activité sur l\'écran principal</string>
     <string name="settings_allow_multitasking">Autoriser le multitâche</string>
     <string name="settings_allow_multitasking_hint">Si désactivé, le démarrage d\'une nouvelle activité arrêtera automatiquement les autres activités en cours.</string>
@@ -211,6 +212,7 @@
     <string name="settings_inactivity_reminder_recurrent">Récurrente</string>
     <string name="settings_activity_reminder">Afficher le rappel d\'activité</string>
     <string name="settings_activity_reminder_hint">Afficher la notification après l\'heure spécifiée si les minuteries sont en cours d\'exécution.</string>
+    <string name="settings_do_not_disturb">Ne pas déranger</string>
     <string name="settings_ignore_short_records">Ignorer les enregistrements courts</string>
     <string name="settings_ignore_short_records_hint">Ne pas enregistrer les activités qui sont plus courtes que la durée spécifiée.</string>
     <string name="settings_inactivity_reminder_disabled">Désactivé</string>

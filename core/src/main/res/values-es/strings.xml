@@ -197,6 +197,7 @@
     <string name="settings_show_untracked_time_hint">El tiempo sin seguimiento en las estadísticas se puede ocultar usando filtros en la pantalla de estadísticas.</string>
     <string name="settings_show_records_calendar">Mostrar registros en la vista de calendario</string>
     <string name="settings_reverse_order_in_calendar">Orden inverso de registros</string>
+    <string name="settings_days_in_calendar">Días en el calendario</string>
     <string name="settings_show_activity_filters">Mostrar filtros de actividad en la pantalla principal</string>
     <string name="settings_allow_multitasking">Permitir el registro multitarea</string>
     <string name="settings_allow_multitasking_hint">Si está deshabilitado, al iniciar un nuevo temporizador se detendrá automáticamente el de las otras actividades.</string>
@@ -211,6 +212,7 @@
     <string name="settings_inactivity_reminder_recurrent">Recurrente</string>
     <string name="settings_activity_reminder">Mostrar recordatorio de actividad</string>
     <string name="settings_activity_reminder_hint">Mostrar notificación después del tiempo especificado si los temporizadores se están ejecutando.</string>
+    <string name="settings_do_not_disturb">No molestar</string>
     <string name="settings_ignore_short_records">Ignorar registros cortos</string>
     <string name="settings_ignore_short_records_hint">No rastree actividades que sean más cortas que el tiempo especificado.</string>
     <string name="settings_inactivity_reminder_disabled">Deshabilitado</string>

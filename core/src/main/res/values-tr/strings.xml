@@ -197,6 +197,7 @@
     <string name="settings_show_untracked_time_hint">İstatistiklerde izlenmeyen zaman, istatistik ekranındaki filtreler kullanılarak gizlenebilir.</string>
     <string name="settings_show_records_calendar">Kayıtları takvim görünümünde göster</string>
     <string name="settings_reverse_order_in_calendar">Kayıtların ters sırası</string>
+    <string name="settings_days_in_calendar">Takvimdeki günler</string>
     <string name="settings_show_activity_filters">Aktivite filtrelerini ana ekranda göster</string>
     <string name="settings_allow_multitasking">Çoklu göreve izin ver</string>
     <string name="settings_allow_multitasking_hint">Devre dışı bırakılırsa, yeni zamanlayıcı başlatmak diğer aktivitelerin zamanlayıcısını otomatik olarak durdurur.</string>
@@ -211,6 +212,7 @@
     <string name="settings_inactivity_reminder_recurrent">Tekrarlayan</string>
     <string name="settings_activity_reminder">Etkinlik hatırlatıcısını göster</string>
     <string name="settings_activity_reminder_hint">Zamanlayıcılar çalışıyorsa, belirtilen süreden sonra bildirim göster.</string>
+    <string name="settings_do_not_disturb">Rahatsız etme</string>
     <string name="settings_ignore_short_records">Kısa kayıtları yoksay</string>
     <string name="settings_ignore_short_records_hint">Belirtilen süreden daha kısa olan kayıtları yoksay.</string>
     <string name="settings_inactivity_reminder_disabled">Devre dışı</string>

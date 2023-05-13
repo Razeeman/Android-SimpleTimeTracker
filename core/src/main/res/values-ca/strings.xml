@@ -197,6 +197,7 @@
     <string name="settings_show_untracked_time_hint">El temps sense enregistrar es pot amagar fent servir filtres a la pantalla d\'estadístiques.</string>
     <string name="settings_show_records_calendar">Mostra els enregistraments en vista de calendari</string>
     <string name="settings_reverse_order_in_calendar">Inverteix l\'ordre dels enregistraments</string>
+    <string name="settings_days_in_calendar">Dies al calendari</string>
     <string name="settings_show_activity_filters">Mostra els filtres d\'activitat a la pantalla principal.</string>
     <string name="settings_allow_multitasking">Permet la multitasca</string>
     <string name="settings_allow_multitasking_hint">Si és desactivat, en començar un nou temporitzador s\'aturaran automàticament les altres activitats.</string>
@@ -211,6 +212,7 @@
     <string name="settings_inactivity_reminder_recurrent">Recurrent</string>
     <string name="settings_activity_reminder">Mostra el recordatori d\'activitat</string>
     <string name="settings_activity_reminder_hint">Mostra la notificació després de l\'hora especificada si els temporitzadors s\'estan executant.</string>
+    <string name="settings_do_not_disturb">No molesteu</string>
     <string name="settings_ignore_short_records">Ignora els enregistraments curts</string>
     <string name="settings_ignore_short_records_hint">No enregistra les activitats més curtes que el temps especificat.</string>
     <string name="settings_inactivity_reminder_disabled">Desactivat</string>
