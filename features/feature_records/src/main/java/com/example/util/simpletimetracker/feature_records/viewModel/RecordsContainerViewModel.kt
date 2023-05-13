@@ -43,8 +43,16 @@ class RecordsContainerViewModel @Inject constructor(
     }
 
     fun onRecordAddClick() {
-        val params = ChangeRecordParams.New(daysFromToday = position.value.orZero())
-        router.navigate(ChangeRecordFromMainParams(params))
+        viewModelScope.launch {
+            val shift = position.value.orZero()
+            val actualShift = if (prefsInteractor.getShowRecordsCalendar()) {
+                shift * prefsInteractor.getDaysInCalendar().count
+            } else {
+                shift
+            }
+            val params = ChangeRecordParams.New(actualShift)
+            router.navigate(ChangeRecordFromMainParams(params))
+        }
     }
 
     fun onPreviousClick() {
