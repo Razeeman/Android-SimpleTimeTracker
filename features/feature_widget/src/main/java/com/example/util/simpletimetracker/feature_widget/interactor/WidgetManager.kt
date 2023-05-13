@@ -56,7 +56,8 @@ class WidgetManager @Inject constructor(
         providers.forEach { provider ->
             val intent = Intent(context, provider)
             intent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
-            val ids = AppWidgetManager.getInstance(context).getAppWidgetIds(ComponentName(context, provider))
+            val ids = AppWidgetManager.getInstance(context)
+                ?.getAppWidgetIds(ComponentName(context, provider)) ?: intArrayOf()
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
             context.sendBroadcast(intent)
         }
