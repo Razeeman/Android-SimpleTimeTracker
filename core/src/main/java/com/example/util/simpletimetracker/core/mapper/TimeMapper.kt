@@ -30,6 +30,7 @@ class TimeMapper @Inject constructor(
     private val dateTimeYearFormat = SimpleDateFormat("MMM d yyyy h:mm a", Locale.getDefault())
     private val dateTimeYearFormatMilitary = SimpleDateFormat("MMM d yyyy HH:mm", Locale.getDefault())
 
+    private val dayDateYearFormat = SimpleDateFormat("E, MMM d yyyy", Locale.getDefault())
     private val dateYearFormat = SimpleDateFormat("MMM d yyyy", Locale.getDefault())
     private val shortDayFormat = SimpleDateFormat("dd.MM", Locale.getDefault())
     private val shortMonthFormat = SimpleDateFormat("MMM", Locale.getDefault())
@@ -80,6 +81,11 @@ class TimeMapper @Inject constructor(
     // Mar 12 2021
     fun formatDateYear(time: Long): String = synchronized(lock) {
         return dateYearFormat.format(time)
+    }
+
+    // Tue, Mar 12 2021
+    fun formatDayDateYear(time: Long): String = synchronized(lock) {
+        return dayDateYearFormat.format(time)
     }
 
     // 12.03
