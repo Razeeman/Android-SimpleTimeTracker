@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.domain.extension
 
+import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RecordTypeCategory
@@ -84,6 +85,12 @@ fun List<RecordsFilter>.getFilteredTags(): List<RecordsFilter.TagItem> {
 fun List<RecordsFilter>.getManuallyFilteredRecordIds(): List<Long> {
     return filterIsInstance<RecordsFilter.ManuallyFiltered>()
         .map(RecordsFilter.ManuallyFiltered::recordIds)
+        .flatten()
+}
+
+fun List<RecordsFilter>.getDaysOfWeek(): List<DayOfWeek> {
+    return filterIsInstance<RecordsFilter.DaysOfWeek>()
+        .map(RecordsFilter.DaysOfWeek::items)
         .flatten()
 }
 

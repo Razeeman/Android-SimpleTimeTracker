@@ -257,6 +257,19 @@ class TimeMapper @Inject constructor(
         }
     }
 
+    fun toDayOfWeek(dayOfWeek: Int): DayOfWeek {
+        return when (dayOfWeek) {
+            Calendar.SUNDAY -> DayOfWeek.SUNDAY
+            Calendar.MONDAY -> DayOfWeek.MONDAY
+            Calendar.TUESDAY -> DayOfWeek.TUESDAY
+            Calendar.WEDNESDAY -> DayOfWeek.WEDNESDAY
+            Calendar.THURSDAY -> DayOfWeek.THURSDAY
+            Calendar.FRIDAY -> DayOfWeek.FRIDAY
+            Calendar.SATURDAY -> DayOfWeek.SATURDAY
+            else -> DayOfWeek.SUNDAY
+        }
+    }
+
     fun sameDay(date1: Long, date2: Long, calendar: Calendar): Boolean {
         calendar.apply { timeInMillis = date1 }
         val year1: Int = calendar.get(Calendar.YEAR)
@@ -541,6 +554,20 @@ class TimeMapper @Inject constructor(
             set(Calendar.SECOND, 0)
             set(Calendar.MILLISECOND, 0)
         }.timeInMillis
+    }
+
+    fun getDayOfWeek(
+        timestamp: Long,
+        calendar: Calendar,
+        startOfDayShift: Long,
+    ): DayOfWeek {
+        return calendar
+            .apply { timeInMillis = timestamp }
+            .let {
+                it.timeInMillis -= startOfDayShift
+                it.get(Calendar.DAY_OF_WEEK)
+            }
+            .let(::toDayOfWeek)
     }
 
     private fun isFirstWeekOfNextYear(calendar: Calendar): Boolean {

@@ -25,6 +25,7 @@ data class RecordFilterViewData(
         SELECTED_TAGS,
         FILTERED_TAGS,
         MANUALLY_FILTERED,
+        DAYS_OF_WEEK,
     }
 
     enum class CommentType {

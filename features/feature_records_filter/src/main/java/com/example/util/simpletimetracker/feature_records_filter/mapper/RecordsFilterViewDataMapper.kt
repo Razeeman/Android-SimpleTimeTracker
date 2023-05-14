@@ -49,6 +49,7 @@ class RecordsFilterViewDataMapper @Inject constructor(
             RecordFilterViewData.Type.SELECTED_TAGS -> R.string.records_filter_select_tags
             RecordFilterViewData.Type.FILTERED_TAGS -> R.string.records_filter_filter_tags
             RecordFilterViewData.Type.MANUALLY_FILTERED -> R.string.records_filter_manually_filtered
+            RecordFilterViewData.Type.DAYS_OF_WEEK -> R.string.range_day
         }.let(resourceRepo::getString)
     }
 
@@ -110,6 +111,9 @@ class RecordsFilterViewDataMapper @Inject constructor(
             is RecordsFilter.ManuallyFiltered -> {
                 "${filter.recordIds.size}"
             }
+            is RecordsFilter.DaysOfWeek -> {
+                "${filter.items.size}"
+            }
         }
 
         return "$filterName($filterValue)"
@@ -157,6 +161,7 @@ class RecordsFilterViewDataMapper @Inject constructor(
             RecordFilterViewData.Type.SELECTED_TAGS -> RecordsFilter.SelectedTags::class.java
             RecordFilterViewData.Type.FILTERED_TAGS -> RecordsFilter.FilteredTags::class.java
             RecordFilterViewData.Type.MANUALLY_FILTERED -> RecordsFilter.ManuallyFiltered::class.java
+            RecordFilterViewData.Type.DAYS_OF_WEEK -> RecordsFilter.DaysOfWeek::class.java
         }
     }
 
@@ -169,6 +174,7 @@ class RecordsFilterViewDataMapper @Inject constructor(
             RecordsFilter.SelectedTags::class.java -> RecordFilterViewData.Type.SELECTED_TAGS
             RecordsFilter.FilteredTags::class.java -> RecordFilterViewData.Type.FILTERED_TAGS
             RecordsFilter.ManuallyFiltered::class.java -> RecordFilterViewData.Type.MANUALLY_FILTERED
+            RecordsFilter.DaysOfWeek::class.java -> RecordFilterViewData.Type.DAYS_OF_WEEK
             else -> null
         }
     }

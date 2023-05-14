@@ -30,6 +30,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.recordType.create
 import com.example.util.simpletimetracker.feature_base_adapter.recordsDateDivider.createRecordsDateDividerAdapterDelegate
 import com.example.util.simpletimetracker.feature_records_filter.adapter.createRecordsFilterButtonAdapterDelegate
 import com.example.util.simpletimetracker.feature_records_filter.adapter.createRecordsFilterCommentAdapterDelegate
+import com.example.util.simpletimetracker.feature_records_filter.adapter.createRecordsFilterDayOfWeekAdapterDelegate
 import com.example.util.simpletimetracker.feature_records_filter.adapter.createRecordsFilterRangeAdapterDelegate
 import com.example.util.simpletimetracker.feature_records_filter.model.RecordsFilterSelectedRecordsViewData
 import com.example.util.simpletimetracker.feature_records_filter.viewModel.RecordsFilterViewModel
@@ -71,6 +72,7 @@ class RecordsFilterFragment :
             createRecordAdapterDelegate(viewModel::onRecordClick),
             createRecordsFilterCommentAdapterDelegate(viewModel::onCommentChange),
             createRecordsFilterButtonAdapterDelegate(viewModel::onInnerFilterButtonClick),
+            createRecordsFilterDayOfWeekAdapterDelegate(viewModel::onDayOfWeekClick),
             createRecordsFilterRangeAdapterDelegate(
                 viewModel::onRangeTimeStartedClick,
                 viewModel::onRangeTimeEndedClick,

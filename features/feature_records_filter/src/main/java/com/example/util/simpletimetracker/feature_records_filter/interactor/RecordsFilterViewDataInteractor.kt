@@ -15,6 +15,7 @@ import com.example.util.simpletimetracker.domain.extension.getCategoryItems
 import com.example.util.simpletimetracker.domain.extension.getCommentItems
 import com.example.util.simpletimetracker.domain.extension.getComments
 import com.example.util.simpletimetracker.domain.extension.getDate
+import com.example.util.simpletimetracker.domain.extension.getDaysOfWeek
 import com.example.util.simpletimetracker.domain.extension.getFilteredTags
 import com.example.util.simpletimetracker.domain.extension.getManuallyFilteredRecordIds
 import com.example.util.simpletimetracker.domain.extension.getSelectedTags
@@ -26,6 +27,7 @@ import com.example.util.simpletimetracker.domain.extension.hasUntaggedItem
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.model.Category
+import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordTag
@@ -40,6 +42,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.recordFilter.Reco
 import com.example.util.simpletimetracker.feature_records_filter.R
 import com.example.util.simpletimetracker.feature_records_filter.adapter.RecordsFilterButtonViewData
 import com.example.util.simpletimetracker.feature_records_filter.adapter.RecordsFilterCommentViewData
+import com.example.util.simpletimetracker.feature_records_filter.adapter.RecordsFilterDayOfWeekViewData
 import com.example.util.simpletimetracker.feature_records_filter.adapter.RecordsFilterRangeViewData
 import com.example.util.simpletimetracker.feature_records_filter.mapper.RecordsFilterViewDataMapper
 import com.example.util.simpletimetracker.feature_records_filter.model.RecordsFilterSelectedRecordsViewData
@@ -186,6 +189,7 @@ class RecordsFilterViewDataInteractor @Inject constructor(
             },
             RecordFilterViewData.Type.SELECTED_TAGS,
             RecordFilterViewData.Type.FILTERED_TAGS,
+            RecordFilterViewData.Type.DAYS_OF_WEEK,
             RecordFilterViewData.Type.MANUALLY_FILTERED.takeIf {
                 filters.hasManuallyFiltered()
             }
@@ -417,6 +421,26 @@ class RecordsFilterViewDataInteractor @Inject constructor(
             }
             .sortedByDescending { (timeStarted, _) -> timeStarted }
             .let(dateDividerViewDataMapper::addDateViewData)
+    }
+
+    suspend fun getDaysOfWeekFilterSelectionViewData(
+        filters: List<RecordsFilter>,
+    ): List<ViewHolderType> {
+        val selectedDays = filters.getDaysOfWeek()
+        val isDarkTheme = prefsInteractor.getDarkMode()
+
+        return DayOfWeek.values().map {
+            val selected = it in selectedDays
+            RecordsFilterDayOfWeekViewData(
+                dayOfWeek = it,
+                text = timeMapper.toShortDayOfWeekName(it),
+                color = if (selected) {
+                    colorMapper.toActiveColor(isDarkTheme)
+                } else {
+                    colorMapper.toInactiveColor(isDarkTheme)
+                },
+            )
+        }
     }
 
     private fun mapFilteredRecord(

@@ -5,6 +5,7 @@ import com.example.util.simpletimetracker.domain.extension.getAllTypeIds
 import com.example.util.simpletimetracker.domain.extension.getCommentItems
 import com.example.util.simpletimetracker.domain.extension.getComments
 import com.example.util.simpletimetracker.domain.extension.getDate
+import com.example.util.simpletimetracker.domain.extension.getDaysOfWeek
 import com.example.util.simpletimetracker.domain.extension.getFilteredTags
 import com.example.util.simpletimetracker.domain.extension.getManuallyFilteredRecordIds
 import com.example.util.simpletimetracker.domain.extension.getSelectedTags
@@ -18,10 +19,13 @@ import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
+import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
+import java.util.Calendar
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class RecordFilterInteractor @Inject constructor(
@@ -56,6 +60,8 @@ class RecordFilterInteractor @Inject constructor(
     suspend fun getByFilter(filters: List<RecordsFilter>): List<Record> {
         if (filters.isEmpty()) return emptyList()
 
+        val startOfDayShift = prefsInteractor.getStartOfDayShift()
+        val calendar: Calendar = Calendar.getInstance()
         val typeIds: List<Long> = when {
             filters.hasCategoryFilter() -> {
                 val types = recordTypeInteractor.getAll()
@@ -76,6 +82,7 @@ class RecordFilterInteractor @Inject constructor(
         val filteredTaggedIds: List<Long> = filteredTagItems.getTaggedIds()
         val filteredUntagged: Boolean = filteredTagItems.hasUntaggedItem()
         val manuallyFilteredIds: List<Long> = filters.getManuallyFilteredRecordIds()
+        val daysOfWeek: List<DayOfWeek> = filters.getDaysOfWeek()
 
         // Use different queries for optimization.
         // TODO by tag (tagged, untagged).
@@ -156,13 +163,59 @@ class RecordFilterInteractor @Inject constructor(
             return id in manuallyFilteredIds
         }
 
+        fun Record.selectedByDayOfWeek(): Boolean {
+            if (daysOfWeek.isEmpty()) return true
+
+            val daysOfRecord: MutableSet<DayOfWeek> = mutableSetOf()
+            val startDay = timeMapper.getDayOfWeek(
+                timestamp = timeStarted,
+                calendar = calendar,
+                startOfDayShift = startOfDayShift
+            )
+            val endDay = timeMapper.getDayOfWeek(
+                timestamp = timeEnded,
+                calendar = calendar,
+                startOfDayShift = startOfDayShift
+            )
+            daysOfRecord.add(startDay)
+            daysOfRecord.add(endDay)
+
+            // Check long records.
+            if (timeEnded - timeStarted > dayInMillis) {
+                var check = true
+                calendar.timeInMillis = timeStarted
+                // Continuously add one day to time start until reach time ended.
+                while (check && daysOfRecord.size != 7) {
+                    calendar.apply {
+                        add(Calendar.DATE, 1)
+                        if (timeInMillis < timeEnded) {
+                            timeInMillis -= startOfDayShift
+                            get(Calendar.DAY_OF_WEEK)
+                                .let(timeMapper::toDayOfWeek)
+                                .let(daysOfRecord::add)
+                            timeInMillis += startOfDayShift
+                        } else {
+                            check = false
+                        }
+                    }
+                }
+            }
+
+            return daysOfRecord.any { it in daysOfWeek }
+        }
+
         return records.filter { record ->
             record.selectedByActivity() &&
                 record.selectedByComment() &&
                 record.selectedByDate() &&
                 record.selectedByTag() &&
                 !record.filteredByTag() &&
-                !record.isManuallyFiltered()
+                !record.isManuallyFiltered() &&
+                record.selectedByDayOfWeek()
         }
+    }
+
+    companion object {
+        private val dayInMillis = TimeUnit.DAYS.toMillis(1)
     }
 }

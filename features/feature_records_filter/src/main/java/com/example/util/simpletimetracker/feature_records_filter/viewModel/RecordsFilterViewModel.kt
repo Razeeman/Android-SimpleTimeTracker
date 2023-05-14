@@ -12,6 +12,7 @@ import com.example.util.simpletimetracker.domain.extension.getAllTypeIds
 import com.example.util.simpletimetracker.domain.extension.getCategoryItems
 import com.example.util.simpletimetracker.domain.extension.getCommentItems
 import com.example.util.simpletimetracker.domain.extension.getDate
+import com.example.util.simpletimetracker.domain.extension.getDaysOfWeek
 import com.example.util.simpletimetracker.domain.extension.getFilteredTags
 import com.example.util.simpletimetracker.domain.extension.getManuallyFilteredRecordIds
 import com.example.util.simpletimetracker.domain.extension.getSelectedTags
@@ -24,6 +25,7 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.Category
+import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
@@ -36,6 +38,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.record.RecordView
 import com.example.util.simpletimetracker.feature_base_adapter.recordFilter.RecordFilterViewData
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_records_filter.adapter.RecordsFilterButtonViewData
+import com.example.util.simpletimetracker.feature_records_filter.adapter.RecordsFilterDayOfWeekViewData
 import com.example.util.simpletimetracker.feature_records_filter.interactor.RecordsFilterViewDataInteractor
 import com.example.util.simpletimetracker.feature_records_filter.mapper.RecordsFilterViewDataMapper
 import com.example.util.simpletimetracker.feature_records_filter.model.RecordsFilterSelectedRecordsViewData
@@ -252,6 +255,18 @@ class RecordsFilterViewModel @Inject constructor(
                 handleInvertSelection()
             }
         }
+
+        updateFilters()
+        updateFilterSelectionViewData()
+        updateRecords()
+    }
+
+    fun onDayOfWeekClick(viewData: RecordsFilterDayOfWeekViewData) {
+        handleDayOfWeekClick(viewData.dayOfWeek)
+
+        updateFilters()
+        updateFilterSelectionViewData()
+        updateRecords()
     }
 
     private suspend fun handleTypeClick(id: Long) {
@@ -419,10 +434,15 @@ class RecordsFilterViewModel @Inject constructor(
         filters.removeAll { it is RecordsFilter.ManuallyFiltered }
         if (selectedIds.isNotEmpty()) filters.add(RecordsFilter.ManuallyFiltered(selectedIds))
         checkManualFilterVisibility()
+    }
 
-        updateFilters()
-        updateFilterSelectionViewData()
-        updateRecords()
+    private fun handleDayOfWeekClick(dayOfWeek: DayOfWeek) {
+        val newDays = filters.getDaysOfWeek()
+            .toMutableList()
+            .apply { addOrRemove(dayOfWeek) }
+
+        filters.removeAll { it is RecordsFilter.DaysOfWeek }
+        if (newDays.isNotEmpty()) filters.add(RecordsFilter.DaysOfWeek(newDays))
     }
 
     private fun checkManualFilterVisibility() {
@@ -548,6 +568,11 @@ class RecordsFilterViewModel @Inject constructor(
                     filters = filters,
                     recordTypes = getTypesCache().associateBy(RecordType::id),
                     recordTags = getTagsCache(),
+                )
+            }
+            RecordFilterViewData.Type.DAYS_OF_WEEK -> {
+                viewDataInteractor.getDaysOfWeekFilterSelectionViewData(
+                    filters = filters,
                 )
             }
         }

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/containerRecordFilterDayOfWeekItem"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="@dimen/button_corner_radius"
+    app:cardElevation="@dimen/record_type_card_elevation"
+    app:cardPreventCornerOverlap="false"
+    app:cardUseCompatPadding="true"
+    tools:cardBackgroundColor="?appInactiveColor">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/btnRecordsFilterDayOfWeekItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?selectableItemBackground"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp"
+        android:textColor="?appLightTextColor"
+        android:textStyle="bold"
+        tools:text="@string/day_of_week_sunday" />
+
+</androidx.cardview.widget.CardView>
