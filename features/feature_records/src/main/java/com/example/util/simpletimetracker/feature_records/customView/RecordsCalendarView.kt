@@ -477,7 +477,7 @@ class RecordsCalendarView @JvmOverloads constructor(
                 canvas.restore()
             }
 
-            if (iconDrawn)                 {
+            if (iconDrawn) {
                 availableHeight = (availableHeight - iconMaxSize - recordVerticalPadding)
                     .coerceAtLeast(0f)
             }

@@ -396,6 +396,7 @@ Si la configuración <b>\"%s\"</b> está habilitada, la aplicación enviará eve
     <string name="records_filter_no_comment">Sin comentarios</string>
     <string name="records_filter_any_comment">Cualquier comentario</string>
     <string name="records_filter_select">Seleccionar</string>
+    <string name="records_filter_invert_selection">Invertir selección</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Emoticonos y Emociones</string>

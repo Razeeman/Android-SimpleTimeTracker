@@ -71,7 +71,7 @@ class RecordsViewDataInteractor @Inject constructor(
             )
             val records = recordInteractor.getFromRange(rangeStart, rangeEnd)
 
-            val data =  getRecordsViewData(
+            val data = getRecordsViewData(
                 records = records,
                 runningRecords = runningRecords,
                 recordTypes = recordTypes,

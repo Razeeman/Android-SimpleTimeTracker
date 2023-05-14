@@ -396,6 +396,7 @@ Ek olarak:<br/>
     <string name="records_filter_no_comment">Yorum yok</string>
     <string name="records_filter_any_comment">Herhangi bir yorum</string>
     <string name="records_filter_select">Seçme</string>
+    <string name="records_filter_invert_selection">Zıt seçim</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">İfadeler</string>

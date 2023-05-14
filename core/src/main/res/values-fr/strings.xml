@@ -396,6 +396,7 @@ Si le paramètre <b>\"%s\"</b> est activé, l\'application enverra des événeme
     <string name="records_filter_no_comment">Aucun commentaire</string>
     <string name="records_filter_any_comment">Avez-vous des commentaires</string>
     <string name="records_filter_select">Sélectionner</string>
+    <string name="records_filter_invert_selection">Inverser la sélection</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Smileys &amp; Émotion</string>

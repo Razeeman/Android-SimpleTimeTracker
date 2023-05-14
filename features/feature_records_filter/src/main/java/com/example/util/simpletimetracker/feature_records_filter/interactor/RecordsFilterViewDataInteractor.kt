@@ -38,6 +38,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.hint.HintViewData
 import com.example.util.simpletimetracker.feature_base_adapter.record.RecordViewData
 import com.example.util.simpletimetracker.feature_base_adapter.recordFilter.RecordFilterViewData
 import com.example.util.simpletimetracker.feature_records_filter.R
+import com.example.util.simpletimetracker.feature_records_filter.adapter.RecordsFilterButtonViewData
 import com.example.util.simpletimetracker.feature_records_filter.adapter.RecordsFilterCommentViewData
 import com.example.util.simpletimetracker.feature_records_filter.adapter.RecordsFilterRangeViewData
 import com.example.util.simpletimetracker.feature_records_filter.mapper.RecordsFilterViewDataMapper
@@ -393,8 +394,12 @@ class RecordsFilterViewDataInteractor @Inject constructor(
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
         val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
         val showSeconds = prefsInteractor.getShowSeconds()
+        val button = RecordsFilterButtonViewData(
+            type = RecordsFilterButtonViewData.Type.INVERT_SELECTION,
+            text = resourceRepo.getString(R.string.records_filter_invert_selection),
+        )
 
-        return filters
+        return button.let(::listOf) + filters
             .getManuallyFilteredRecordIds()
             .mapNotNull { recordInteractor.get(it) } // TODO do better
             .mapNotNull { record ->

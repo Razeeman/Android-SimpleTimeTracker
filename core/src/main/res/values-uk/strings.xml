@@ -396,6 +396,7 @@
     <string name="records_filter_no_comment">Без коментарів</string>
     <string name="records_filter_any_comment">Будь-який коментар</string>
     <string name="records_filter_select">Виберіть</string>
+    <string name="records_filter_invert_selection">Інвертувати виділення</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Смайли та емоції</string>

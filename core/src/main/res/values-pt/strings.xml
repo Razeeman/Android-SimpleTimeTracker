@@ -392,6 +392,7 @@ Se a configuração <b>\"%s\"</b> estiver habilitada, o aplicativo enviará even
     <string name="records_filter_no_comment">Sem comentários</string>
     <string name="records_filter_any_comment">Qualquer comentário</string>
     <string name="records_filter_select">Selecione</string>
+    <string name="records_filter_invert_selection">Seleção invertida</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Smileys &amp; Emoções</string>

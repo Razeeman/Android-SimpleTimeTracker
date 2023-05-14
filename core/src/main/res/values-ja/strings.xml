@@ -396,6 +396,7 @@
     <string name="records_filter_no_comment">コメント無し</string>
     <string name="records_filter_any_comment">任意のコメント</string>
     <string name="records_filter_select">選択する</string>
+    <string name="records_filter_invert_selection">選択範囲を反転する</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">顔文字とエモート</string>

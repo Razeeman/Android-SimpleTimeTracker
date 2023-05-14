@@ -396,6 +396,7 @@ Om inställningen <b>\"%s\"</b> är aktiverad, kommer appen att skicka händelse
     <string name="records_filter_no_comment">Ingen kommentar</string>
     <string name="records_filter_any_comment">Någon kommentar</string>
     <string name="records_filter_select">Välj</string>
+    <string name="records_filter_invert_selection">Invertera urval</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Ansiktsuttryck &amp; Känslor</string>

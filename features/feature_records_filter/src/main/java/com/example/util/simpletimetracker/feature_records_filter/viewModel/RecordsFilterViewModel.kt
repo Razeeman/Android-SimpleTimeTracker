@@ -18,6 +18,7 @@ import com.example.util.simpletimetracker.domain.extension.getSelectedTags
 import com.example.util.simpletimetracker.domain.extension.getTypeIds
 import com.example.util.simpletimetracker.domain.extension.getTypeIdsFromCategories
 import com.example.util.simpletimetracker.domain.extension.hasCategoryFilter
+import com.example.util.simpletimetracker.domain.extension.hasManuallyFiltered
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
@@ -34,10 +35,12 @@ import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderView
 import com.example.util.simpletimetracker.feature_base_adapter.record.RecordViewData
 import com.example.util.simpletimetracker.feature_base_adapter.recordFilter.RecordFilterViewData
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
+import com.example.util.simpletimetracker.feature_records_filter.adapter.RecordsFilterButtonViewData
 import com.example.util.simpletimetracker.feature_records_filter.interactor.RecordsFilterViewDataInteractor
 import com.example.util.simpletimetracker.feature_records_filter.mapper.RecordsFilterViewDataMapper
 import com.example.util.simpletimetracker.feature_records_filter.model.RecordsFilterSelectedRecordsViewData
 import com.example.util.simpletimetracker.feature_records_filter.model.RecordsFilterSelectionState
+import com.example.util.simpletimetracker.feature_records_filter.model.type
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterParam
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterParams
@@ -243,6 +246,14 @@ class RecordsFilterViewModel @Inject constructor(
         updateRecords()
     }
 
+    fun onInnerFilterButtonClick(viewData: RecordsFilterButtonViewData) {
+        when (viewData.type) {
+            RecordsFilterButtonViewData.Type.INVERT_SELECTION -> {
+                handleInvertSelection()
+            }
+        }
+    }
+
     private suspend fun handleTypeClick(id: Long) {
         val currentIds = filters.getTypeIds().toMutableList()
         val currentIdsFromCategories = filters.getTypeIdsFromCategories(
@@ -311,8 +322,7 @@ class RecordsFilterViewModel @Inject constructor(
     }
 
     private fun handleTagClick(item: CategoryViewData.Record) {
-        val currentState = (filterSelectionState as? RecordsFilterSelectionState.Visible)
-            ?.type ?: return
+        val currentState = filterSelectionState.type ?: return
 
         val currentTags = when (currentState) {
             RecordFilterViewData.Type.SELECTED_TAGS -> filters.getSelectedTags()
@@ -344,6 +354,7 @@ class RecordsFilterViewModel @Inject constructor(
             .apply { addOrRemove(id) }
         filters.removeAll { it is RecordsFilter.ManuallyFiltered }
         if (newIds.isNotEmpty()) filters.add(RecordsFilter.ManuallyFiltered(newIds))
+        checkManualFilterVisibility()
     }
 
     private suspend fun checkTagFilterConsistency() {
@@ -388,10 +399,40 @@ class RecordsFilterViewModel @Inject constructor(
         if (currentSelectionType == RecordFilterViewData.Type.CATEGORY) {
             filterSelectionState = RecordsFilterSelectionState.Visible(RecordFilterViewData.Type.ACTIVITY)
         }
+        checkManualFilterVisibility()
 
         updateFilters()
         updateFilterSelectionViewData()
         updateRecords()
+    }
+
+    private fun handleInvertSelection() {
+        val filteredIds = filters.getManuallyFilteredRecordIds()
+            .toMutableList()
+        val selectedIds = recordsViewData.value
+            ?.recordsViewData
+            .orEmpty()
+            .filterIsInstance<RecordViewData.Tracked>()
+            .filter { it.id !in filteredIds }
+            .map { it.id }
+
+        filters.removeAll { it is RecordsFilter.ManuallyFiltered }
+        if (selectedIds.isNotEmpty()) filters.add(RecordsFilter.ManuallyFiltered(selectedIds))
+        checkManualFilterVisibility()
+
+        updateFilters()
+        updateFilterSelectionViewData()
+        updateRecords()
+    }
+
+    private fun checkManualFilterVisibility() {
+        if (
+            !filters.hasManuallyFiltered() &&
+            filterSelectionState.type == RecordFilterViewData.Type.MANUALLY_FILTERED
+        ) {
+            filterSelectionState = RecordsFilterSelectionState.Hidden
+            updateFilterSelectionVisibility()
+        }
     }
 
     private suspend fun getTypesCache(): List<RecordType> {
@@ -469,8 +510,7 @@ class RecordsFilterViewModel @Inject constructor(
     }
 
     private suspend fun loadFilterSelectionViewData(): List<ViewHolderType> {
-        val type = (filterSelectionState as? RecordsFilterSelectionState.Visible)
-            ?.type ?: return emptyList()
+        val type = filterSelectionState.type ?: return emptyList()
 
         return when (type) {
             RecordFilterViewData.Type.ACTIVITY,

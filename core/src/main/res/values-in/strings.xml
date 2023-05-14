@@ -396,6 +396,7 @@ Jika setelan <b>\"%s\"</b> diaktifkan, aplikasi akan mengirimkan peristiwa pada 
     <string name="records_filter_no_comment">Tidak ada komentar</string>
     <string name="records_filter_any_comment">Ada komentar</string>
     <string name="records_filter_select">Pilih</string>
+    <string name="records_filter_invert_selection">Pilihan sebaliknya</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Senyuman &amp; Emosi</string>

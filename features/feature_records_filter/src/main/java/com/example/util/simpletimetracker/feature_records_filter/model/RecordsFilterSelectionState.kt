@@ -8,3 +8,6 @@ sealed interface RecordsFilterSelectionState {
 
     data class Visible(val type: RecordFilterViewData.Type) : RecordsFilterSelectionState
 }
+
+val RecordsFilterSelectionState.type: RecordFilterViewData.Type?
+    get() = (this as? RecordsFilterSelectionState.Visible)?.type

@@ -396,6 +396,7 @@
     <string name="records_filter_no_comment">没有意见</string>
     <string name="records_filter_any_comment">任何意见</string>
     <string name="records_filter_select">选择</string>
+    <string name="records_filter_invert_selection">反转选择</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">微笑与情感</string>

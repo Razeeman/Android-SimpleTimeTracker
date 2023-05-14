@@ -396,6 +396,7 @@ Se l\'impostazione <b>\"%s\"</b> è abilitata, l\'app invierà eventi sull\'atti
     <string name="records_filter_no_comment">No comment</string>
     <string name="records_filter_any_comment">Qualsiasi commento</string>
     <string name="records_filter_select">Selezionare</string>
+    <string name="records_filter_invert_selection">Inverti selezione</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Faccine &amp; Emozioni</string>

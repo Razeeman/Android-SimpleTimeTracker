@@ -396,6 +396,7 @@
     <string name="records_filter_no_comment">Без комментариев</string>
     <string name="records_filter_any_comment">Любой комментарий</string>
     <string name="records_filter_select">Выбрать</string>
+    <string name="records_filter_invert_selection">Инвертировать выбор</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Смайлы и эмоции</string>

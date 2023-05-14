@@ -396,6 +396,7 @@
     <string name="records_filter_no_comment">कोई टिप्पणी नहीं</string>
     <string name="records_filter_any_comment">कोई टिप्पणी</string>
     <string name="records_filter_select">चुनना</string>
+    <string name="records_filter_invert_selection">उलट चयन</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">स्माइली और इमोशन</string>
