@@ -1,5 +1,5 @@
-import com.example.util.simpletimetracker.Base
 import com.example.util.simpletimetracker.Deps
+import com.example.util.simpletimetracker.applyAndroidLibrary
 
 plugins {
     id("com.android.library")
@@ -8,14 +8,9 @@ plugins {
     id("kotlin-kapt")
 }
 
+applyAndroidLibrary()
+
 android {
-    compileSdk = Base.currentSDK
-
-    defaultConfig {
-        minSdk = Base.minSDK
-        targetSdk = Base.currentSDK
-    }
-
     buildTypes {
         getByName("debug") {
             buildConfigField("String", "VERSION_NAME", "\"${defaultConfig.versionName}\"")
@@ -23,14 +18,6 @@ android {
         getByName("release") {
             buildConfigField("String", "VERSION_NAME", "\"${defaultConfig.versionName}\"")
         }
-    }
-
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
-    }
-
-    buildFeatures {
-        viewBinding = true
     }
 }
 

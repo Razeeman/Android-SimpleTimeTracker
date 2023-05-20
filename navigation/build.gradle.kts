@@ -1,5 +1,5 @@
-import com.example.util.simpletimetracker.Base
 import com.example.util.simpletimetracker.Deps
+import com.example.util.simpletimetracker.applyAndroidLibrary
 
 plugins {
     id("com.android.library")
@@ -8,14 +8,7 @@ plugins {
     id("kotlin-kapt")
 }
 
-android {
-    compileSdk = Base.currentSDK
-
-    defaultConfig {
-        minSdk = Base.minSDK
-        targetSdk = Base.currentSDK
-    }
-}
+applyAndroidLibrary()
 
 dependencies {
     implementation(project(":domain"))

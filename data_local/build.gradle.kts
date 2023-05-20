@@ -1,5 +1,5 @@
-import com.example.util.simpletimetracker.Base
 import com.example.util.simpletimetracker.Deps
+import com.example.util.simpletimetracker.applyAndroidLibrary
 
 plugins {
     id("com.android.library")
@@ -7,22 +7,15 @@ plugins {
     id("kotlin-kapt")
 }
 
+applyAndroidLibrary()
+
 android {
-    compileSdk = Base.currentSDK
-
     defaultConfig {
-        minSdk = Base.minSDK
-        targetSdk = Base.currentSDK
-
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments += mapOf("room.schemaLocation" to "$projectDir/schemas")
             }
         }
-    }
-
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
 }
 

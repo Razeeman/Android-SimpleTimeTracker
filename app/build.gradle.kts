@@ -1,5 +1,6 @@
 import com.example.util.simpletimetracker.Base
 import com.example.util.simpletimetracker.Deps
+import com.example.util.simpletimetracker.applyAndroidLibrary
 
 plugins {
     id("com.android.application")
@@ -8,13 +9,11 @@ plugins {
     id("dagger.hilt.android.plugin")
 }
 
-android {
-    compileSdk = Base.currentSDK
+applyAndroidLibrary()
 
+android {
     defaultConfig {
         applicationId = "com.razeeman.util.simpletimetracker"
-        minSdk = Base.minSDK
-        targetSdk = Base.currentSDK
         versionCode = Base.versionCode
         versionName = Base.versionName
 
@@ -42,10 +41,6 @@ android {
         }
     }
 
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
-    }
-
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -53,10 +48,6 @@ android {
 
     testOptions {
         animationsDisabled = true
-    }
-
-    buildFeatures {
-        viewBinding = true
     }
 }
 

@@ -1,0 +1,18 @@
+import com.example.util.simpletimetracker.Base
+
+android {
+    compileSdk = Base.currentSDK
+
+    defaultConfig {
+        minSdk = Base.minSDK
+        targetSdk = Base.currentSDK
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+
+    buildFeatures {
+        viewBinding = true
+    }
+}
