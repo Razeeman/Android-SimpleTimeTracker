@@ -13,6 +13,7 @@ import com.example.util.simpletimetracker.domain.extension.getCategoryItems
 import com.example.util.simpletimetracker.domain.extension.getCommentItems
 import com.example.util.simpletimetracker.domain.extension.getDate
 import com.example.util.simpletimetracker.domain.extension.getDaysOfWeek
+import com.example.util.simpletimetracker.domain.extension.getDuration
 import com.example.util.simpletimetracker.domain.extension.getFilteredTags
 import com.example.util.simpletimetracker.domain.extension.getManuallyFilteredRecordIds
 import com.example.util.simpletimetracker.domain.extension.getSelectedTags
@@ -39,12 +40,15 @@ import com.example.util.simpletimetracker.feature_base_adapter.recordFilter.Reco
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_records_filter.adapter.RecordsFilterButtonViewData
 import com.example.util.simpletimetracker.feature_records_filter.adapter.RecordsFilterDayOfWeekViewData
+import com.example.util.simpletimetracker.feature_records_filter.adapter.RecordsFilterDurationViewData
+import com.example.util.simpletimetracker.feature_records_filter.adapter.RecordsFilterRangeViewData
 import com.example.util.simpletimetracker.feature_records_filter.interactor.RecordsFilterViewDataInteractor
 import com.example.util.simpletimetracker.feature_records_filter.mapper.RecordsFilterViewDataMapper
 import com.example.util.simpletimetracker.feature_records_filter.model.RecordsFilterSelectedRecordsViewData
 import com.example.util.simpletimetracker.feature_records_filter.model.RecordsFilterSelectionState
 import com.example.util.simpletimetracker.feature_records_filter.model.type
 import com.example.util.simpletimetracker.navigation.Router
+import com.example.util.simpletimetracker.navigation.params.screen.DurationDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterParam
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterParams
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterResultParams
@@ -104,6 +108,7 @@ class RecordsFilterViewModel @Inject constructor(
     }
     private var filterSelectionState: RecordsFilterSelectionState = RecordsFilterSelectionState.Hidden
     private val defaultRange: Range by lazy { viewDataInteractor.getDefaultDateRange() }
+    private val defaultDurationRange: Range by lazy { viewDataInteractor.getDefaultDurationRange() }
     private var recordsLoadJob: Job? = null
 
     // Cache
@@ -190,25 +195,24 @@ class RecordsFilterViewModel @Inject constructor(
         updateRecords()
     }
 
-    fun onRangeTimeStartedClick() {
+    fun onRangeTimeClick(fieldType: RecordsFilterRangeViewData.FieldType) {
         viewModelScope.launch {
             val range = filters.getDate() ?: defaultRange
 
-            viewDataInteractor.getDateTimeDialogParams(
-                tag = TIME_STARTED_TAG,
-                timestamp = range.timeStarted,
-            ).let(router::navigate)
-        }
-    }
-
-    fun onRangeTimeEndedClick() {
-        viewModelScope.launch {
-            val range = filters.getDate() ?: defaultRange
-
-            viewDataInteractor.getDateTimeDialogParams(
-                tag = TIME_ENDED_TAG,
-                timestamp = range.timeEnded,
-            ).let(router::navigate)
+            when (fieldType) {
+                RecordsFilterRangeViewData.FieldType.TIME_STARTED -> {
+                    viewDataInteractor.getDateTimeDialogParams(
+                        tag = TIME_STARTED_TAG,
+                        timestamp = range.timeStarted,
+                    )
+                }
+                RecordsFilterRangeViewData.FieldType.TIME_ENDED -> {
+                    viewDataInteractor.getDateTimeDialogParams(
+                        tag = TIME_ENDED_TAG,
+                        timestamp = range.timeEnded,
+                    )
+                }
+            }.let(router::navigate)
         }
     }
 
@@ -232,6 +236,48 @@ class RecordsFilterViewModel @Inject constructor(
 
         filters.removeAll { it is RecordsFilter.Date }
         filters.add(RecordsFilter.Date(Range(rangeStart, rangeEnd)))
+
+        updateFilters()
+        updateFilterSelectionViewData()
+        updateRecords()
+    }
+
+    fun onDurationClick(fieldType: RecordsFilterDurationViewData.FieldType) {
+        val range = filters.getDuration() ?: defaultDurationRange
+
+        when (fieldType) {
+            RecordsFilterDurationViewData.FieldType.FROM -> DurationDialogParams(
+                tag = DURATION_FROM_TAG,
+                duration = range.timeStarted / 1000,
+            )
+            RecordsFilterDurationViewData.FieldType.TO -> DurationDialogParams(
+                tag = DURATION_TO_TAG,
+                duration = range.timeEnded / 1000,
+            )
+        }.let(router::navigate)
+    }
+
+    fun onDurationSet(duration: Long, tag: String?) {
+        val durationInMillis = duration * 1000
+        var (rangeStart, rangeEnd) = filters.getDuration() ?: defaultDurationRange
+
+        when (tag) {
+            DURATION_FROM_TAG -> {
+                if (durationInMillis != rangeStart) {
+                    rangeStart = durationInMillis
+                    if (durationInMillis > rangeEnd) rangeEnd = durationInMillis
+                }
+            }
+            DURATION_TO_TAG -> {
+                if (durationInMillis != rangeEnd) {
+                    rangeEnd = durationInMillis
+                    if (durationInMillis < rangeStart) rangeStart = durationInMillis
+                }
+            }
+        }
+
+        filters.removeAll { it is RecordsFilter.Duration }
+        filters.add(RecordsFilter.Duration(Range(rangeStart, rangeEnd)))
 
         updateFilters()
         updateFilterSelectionViewData()
@@ -575,11 +621,19 @@ class RecordsFilterViewModel @Inject constructor(
                     filters = filters,
                 )
             }
+            RecordFilterViewData.Type.DURATION -> {
+                viewDataInteractor.getDurationFilterSelectionViewData(
+                    filters = filters,
+                    defaultRange = defaultDurationRange,
+                )
+            }
         }
     }
 
     companion object {
         private const val TIME_STARTED_TAG = "records_filter_range_selection_time_started_tag"
         private const val TIME_ENDED_TAG = "records_filter_range_selection_time_ended_tag"
+        private const val DURATION_FROM_TAG = "records_filter_duration_selection_from_tag"
+        private const val DURATION_TO_TAG = "records_filter_duration_selection_to_tag"
     }
 }

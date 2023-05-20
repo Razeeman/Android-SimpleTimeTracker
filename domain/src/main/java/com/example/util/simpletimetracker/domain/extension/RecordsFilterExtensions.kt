@@ -94,6 +94,12 @@ fun List<RecordsFilter>.getDaysOfWeek(): List<DayOfWeek> {
         .flatten()
 }
 
+fun List<RecordsFilter>.getDuration(): Range? {
+    return filterIsInstance<RecordsFilter.Duration>()
+        .map(RecordsFilter.Duration::range)
+        .firstOrNull()
+}
+
 fun List<RecordsFilter.TagItem>.getTaggedIds(): List<Long> {
     return filterIsInstance<RecordsFilter.TagItem.Tagged>()
         .map(RecordsFilter.TagItem.Tagged::tagId)

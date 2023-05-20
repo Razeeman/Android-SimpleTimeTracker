@@ -50,6 +50,7 @@ class RecordsFilterViewDataMapper @Inject constructor(
             RecordFilterViewData.Type.FILTERED_TAGS -> R.string.records_filter_filter_tags
             RecordFilterViewData.Type.MANUALLY_FILTERED -> R.string.records_filter_manually_filtered
             RecordFilterViewData.Type.DAYS_OF_WEEK -> R.string.range_day
+            RecordFilterViewData.Type.DURATION -> R.string.records_all_sort_duration
         }.let(resourceRepo::getString)
     }
 
@@ -114,6 +115,11 @@ class RecordsFilterViewDataMapper @Inject constructor(
             is RecordsFilter.DaysOfWeek -> {
                 "${filter.items.size}"
             }
+            is RecordsFilter.Duration -> {
+                val start = timeMapper.formatDuration(filter.range.timeStarted / 1000)
+                val end = timeMapper.formatDuration(interval = filter.range.timeEnded / 1000)
+                "$start - $end"
+            }
         }
 
         return "$filterName($filterValue)"
@@ -162,6 +168,7 @@ class RecordsFilterViewDataMapper @Inject constructor(
             RecordFilterViewData.Type.FILTERED_TAGS -> RecordsFilter.FilteredTags::class.java
             RecordFilterViewData.Type.MANUALLY_FILTERED -> RecordsFilter.ManuallyFiltered::class.java
             RecordFilterViewData.Type.DAYS_OF_WEEK -> RecordsFilter.DaysOfWeek::class.java
+            RecordFilterViewData.Type.DURATION -> RecordsFilter.Duration::class.java
         }
     }
 
@@ -175,6 +182,7 @@ class RecordsFilterViewDataMapper @Inject constructor(
             RecordsFilter.FilteredTags::class.java -> RecordFilterViewData.Type.FILTERED_TAGS
             RecordsFilter.ManuallyFiltered::class.java -> RecordFilterViewData.Type.MANUALLY_FILTERED
             RecordsFilter.DaysOfWeek::class.java -> RecordFilterViewData.Type.DAYS_OF_WEEK
+            RecordsFilter.Duration::class.java -> RecordFilterViewData.Type.DURATION
             else -> null
         }
     }

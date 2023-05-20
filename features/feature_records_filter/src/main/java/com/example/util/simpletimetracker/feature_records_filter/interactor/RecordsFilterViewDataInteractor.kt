@@ -16,6 +16,7 @@ import com.example.util.simpletimetracker.domain.extension.getCommentItems
 import com.example.util.simpletimetracker.domain.extension.getComments
 import com.example.util.simpletimetracker.domain.extension.getDate
 import com.example.util.simpletimetracker.domain.extension.getDaysOfWeek
+import com.example.util.simpletimetracker.domain.extension.getDuration
 import com.example.util.simpletimetracker.domain.extension.getFilteredTags
 import com.example.util.simpletimetracker.domain.extension.getManuallyFilteredRecordIds
 import com.example.util.simpletimetracker.domain.extension.getSelectedTags
@@ -43,6 +44,7 @@ import com.example.util.simpletimetracker.feature_records_filter.R
 import com.example.util.simpletimetracker.feature_records_filter.adapter.RecordsFilterButtonViewData
 import com.example.util.simpletimetracker.feature_records_filter.adapter.RecordsFilterCommentViewData
 import com.example.util.simpletimetracker.feature_records_filter.adapter.RecordsFilterDayOfWeekViewData
+import com.example.util.simpletimetracker.feature_records_filter.adapter.RecordsFilterDurationViewData
 import com.example.util.simpletimetracker.feature_records_filter.adapter.RecordsFilterRangeViewData
 import com.example.util.simpletimetracker.feature_records_filter.mapper.RecordsFilterViewDataMapper
 import com.example.util.simpletimetracker.feature_records_filter.model.RecordsFilterSelectedRecordsViewData
@@ -51,6 +53,7 @@ import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialo
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogType
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterParams
 import java.util.Calendar
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -79,6 +82,13 @@ class RecordsFilterViewDataInteractor @Inject constructor(
                 timeInMillis = timeStarted
                 add(Calendar.DATE, 1)
             }.timeInMillis,
+        )
+    }
+
+    fun getDefaultDurationRange(): Range {
+        return Range(
+            timeStarted = 0L,
+            timeEnded = TimeUnit.HOURS.toMillis(1),
         )
     }
 
@@ -190,6 +200,7 @@ class RecordsFilterViewDataInteractor @Inject constructor(
             RecordFilterViewData.Type.SELECTED_TAGS,
             RecordFilterViewData.Type.FILTERED_TAGS,
             RecordFilterViewData.Type.DAYS_OF_WEEK,
+            RecordFilterViewData.Type.DURATION,
             RecordFilterViewData.Type.MANUALLY_FILTERED.takeIf {
                 filters.hasManuallyFiltered()
             }
@@ -441,6 +452,19 @@ class RecordsFilterViewDataInteractor @Inject constructor(
                 },
             )
         }
+    }
+
+    fun getDurationFilterSelectionViewData(
+        filters: List<RecordsFilter>,
+        defaultRange: Range,
+    ): List<ViewHolderType> {
+        val range = filters.getDuration() ?: defaultRange
+
+        return RecordsFilterDurationViewData(
+            id = 1L, // Only one at the time.
+            durationFrom = timeMapper.formatDuration(range.timeStarted / 1000),
+            durationTo = timeMapper.formatDuration(range.timeEnded / 1000),
+        ).let(::listOf)
     }
 
     private fun mapFilteredRecord(

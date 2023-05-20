@@ -4,5 +4,5 @@ interface DurationDialogListener {
 
     fun onDurationSet(duration: Long, tag: String? = null)
 
-    fun onDisable(tag: String?)
+    fun onDisable(tag: String?) {}
 }

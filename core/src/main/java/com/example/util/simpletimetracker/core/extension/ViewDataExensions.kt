@@ -5,6 +5,7 @@ import com.example.util.simpletimetracker.domain.model.RecordsFilter
 import com.example.util.simpletimetracker.feature_base_adapter.runningRecord.GoalTimeViewData
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRunningRecordParams
+import com.example.util.simpletimetracker.navigation.params.screen.RangeParams
 import com.example.util.simpletimetracker.navigation.params.screen.RecordTypeIconParams
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterParam
 
@@ -20,6 +21,20 @@ fun RecordTypeIcon.toParams(): RecordTypeIconParams {
         is RecordTypeIcon.Image -> RecordTypeIconParams.Image(this.iconId)
         is RecordTypeIcon.Text -> RecordTypeIconParams.Text(this.text)
     }
+}
+
+fun RangeParams.toModel(): Range {
+    return Range(
+        timeStarted = timeStarted,
+        timeEnded = timeEnded,
+    )
+}
+
+fun Range.toParams(): RangeParams {
+    return RangeParams(
+        timeStarted = timeStarted,
+        timeEnded = timeEnded,
+    )
 }
 
 fun ChangeRunningRecordParams.Preview.GoalTimeParams.toViewData(): GoalTimeViewData {
@@ -46,6 +61,7 @@ fun RecordsFilterParam.toModel(): RecordsFilter {
         is RecordsFilterParam.FilteredTags -> RecordsFilter.FilteredTags(items.map { it.toModel() })
         is RecordsFilterParam.ManuallyFiltered -> RecordsFilter.ManuallyFiltered(recordIds)
         is RecordsFilterParam.DaysOfWeek -> RecordsFilter.DaysOfWeek(items)
+        is RecordsFilterParam.Duration -> RecordsFilter.Duration(range.toModel())
     }
 }
 
@@ -59,6 +75,7 @@ fun RecordsFilter.toParams(): RecordsFilterParam {
         is RecordsFilter.FilteredTags -> RecordsFilterParam.FilteredTags(items.map { it.toParams() })
         is RecordsFilter.ManuallyFiltered -> RecordsFilterParam.ManuallyFiltered(recordIds)
         is RecordsFilter.DaysOfWeek -> RecordsFilterParam.DaysOfWeek(items)
+        is RecordsFilter.Duration -> RecordsFilterParam.Duration(range.toParams())
     }
 }
 

@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.util.simpletimetracker.core.base.BaseBottomSheetFragment
 import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
+import com.example.util.simpletimetracker.core.dialog.DurationDialogListener
 import com.example.util.simpletimetracker.core.dialog.RecordsFilterListener
 import com.example.util.simpletimetracker.core.extension.blockContentScroll
 import com.example.util.simpletimetracker.core.extension.findListener
@@ -31,6 +32,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.recordsDateDivide
 import com.example.util.simpletimetracker.feature_records_filter.adapter.createRecordsFilterButtonAdapterDelegate
 import com.example.util.simpletimetracker.feature_records_filter.adapter.createRecordsFilterCommentAdapterDelegate
 import com.example.util.simpletimetracker.feature_records_filter.adapter.createRecordsFilterDayOfWeekAdapterDelegate
+import com.example.util.simpletimetracker.feature_records_filter.adapter.createRecordsFilterDurationAdapterDelegate
 import com.example.util.simpletimetracker.feature_records_filter.adapter.createRecordsFilterRangeAdapterDelegate
 import com.example.util.simpletimetracker.feature_records_filter.model.RecordsFilterSelectedRecordsViewData
 import com.example.util.simpletimetracker.feature_records_filter.viewModel.RecordsFilterViewModel
@@ -45,7 +47,8 @@ import com.example.util.simpletimetracker.feature_records_filter.databinding.Rec
 @AndroidEntryPoint
 class RecordsFilterFragment :
     BaseBottomSheetFragment<Binding>(),
-    DateTimeDialogListener {
+    DateTimeDialogListener,
+    DurationDialogListener {
 
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
         Binding::inflate
@@ -73,10 +76,8 @@ class RecordsFilterFragment :
             createRecordsFilterCommentAdapterDelegate(viewModel::onCommentChange),
             createRecordsFilterButtonAdapterDelegate(viewModel::onInnerFilterButtonClick),
             createRecordsFilterDayOfWeekAdapterDelegate(viewModel::onDayOfWeekClick),
-            createRecordsFilterRangeAdapterDelegate(
-                viewModel::onRangeTimeStartedClick,
-                viewModel::onRangeTimeEndedClick,
-            ),
+            createRecordsFilterRangeAdapterDelegate(viewModel::onRangeTimeClick),
+            createRecordsFilterDurationAdapterDelegate(viewModel::onDurationClick),
             createRecordFilterAdapterDelegate(
                 onClick = viewModel::onInnerFilterClick,
                 onRemoveClick = {},
@@ -151,6 +152,10 @@ class RecordsFilterFragment :
 
     override fun onDateTimeSet(timestamp: Long, tag: String?) {
         viewModel.onDateTimeSet(timestamp, tag)
+    }
+
+    override fun onDurationSet(duration: Long, tag: String?) {
+        viewModel.onDurationSet(duration, tag)
     }
 
     private fun setFilterSelectionVisibility(filterOpened: Boolean) = with(binding) {

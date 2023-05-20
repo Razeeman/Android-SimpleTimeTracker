@@ -7,4 +7,7 @@ data class Record(
     val timeEnded: Long,
     val comment: String,
     val tagIds: List<Long> = emptyList(),
-)
+) {
+
+    val duration: Long = timeEnded - timeStarted
+}

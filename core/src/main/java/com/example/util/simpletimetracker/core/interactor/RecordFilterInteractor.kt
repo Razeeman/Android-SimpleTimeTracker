@@ -6,6 +6,7 @@ import com.example.util.simpletimetracker.domain.extension.getCommentItems
 import com.example.util.simpletimetracker.domain.extension.getComments
 import com.example.util.simpletimetracker.domain.extension.getDate
 import com.example.util.simpletimetracker.domain.extension.getDaysOfWeek
+import com.example.util.simpletimetracker.domain.extension.getDuration
 import com.example.util.simpletimetracker.domain.extension.getFilteredTags
 import com.example.util.simpletimetracker.domain.extension.getManuallyFilteredRecordIds
 import com.example.util.simpletimetracker.domain.extension.getSelectedTags
@@ -83,6 +84,7 @@ class RecordFilterInteractor @Inject constructor(
         val filteredUntagged: Boolean = filteredTagItems.hasUntaggedItem()
         val manuallyFilteredIds: List<Long> = filters.getManuallyFilteredRecordIds()
         val daysOfWeek: List<DayOfWeek> = filters.getDaysOfWeek()
+        val durations: List<Range> = filters.getDuration()?.let(::listOf).orEmpty()
 
         // Use different queries for optimization.
         // TODO by tag (tagged, untagged).
@@ -204,6 +206,11 @@ class RecordFilterInteractor @Inject constructor(
             return daysOfRecord.any { it in daysOfWeek }
         }
 
+        fun Record.selectedByDuration(): Boolean {
+            if (durations.isEmpty()) return true
+            return durations.any { duration >= it.timeStarted && duration <= it.timeEnded }
+        }
+
         return records.filter { record ->
             record.selectedByActivity() &&
                 record.selectedByComment() &&
@@ -211,7 +218,8 @@ class RecordFilterInteractor @Inject constructor(
                 record.selectedByTag() &&
                 !record.filteredByTag() &&
                 !record.isManuallyFiltered() &&
-                record.selectedByDayOfWeek()
+                record.selectedByDayOfWeek() &&
+                record.selectedByDuration()
         }
     }
 

@@ -6,8 +6,7 @@ import com.example.util.simpletimetracker.feature_records_filter.adapter.Records
 import com.example.util.simpletimetracker.feature_records_filter.databinding.ItemRecordsFilterRangeBinding as Binding
 
 fun createRecordsFilterRangeAdapterDelegate(
-    onTimeStartedClick: () -> Unit,
-    onTimeEndedClick: () -> Unit,
+    onClick: (ViewData.FieldType) -> Unit,
 ) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
     Binding::inflate
 ) { binding, item, _ ->
@@ -17,7 +16,7 @@ fun createRecordsFilterRangeAdapterDelegate(
 
         tvRecordsFilterRangeTimeStarted.text = item.timeStarted
         tvRecordsFilterRangeTimeEnded.text = item.timeEnded
-        fieldRecordsFilterRangeTimeStarted.setOnClick(onTimeStartedClick)
-        fieldRecordsFilterRangeTimeEnded.setOnClick(onTimeEndedClick)
+        fieldRecordsFilterRangeTimeStarted.setOnClick { onClick(ViewData.FieldType.TIME_STARTED) }
+        fieldRecordsFilterRangeTimeEnded.setOnClick { onClick(ViewData.FieldType.TIME_ENDED) }
     }
 }
