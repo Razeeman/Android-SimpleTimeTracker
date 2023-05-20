@@ -1,11 +1,11 @@
 package com.example.util.simpletimetracker.feature_dialogs.duration.view
 
-import com.example.util.simpletimetracker.feature_dialogs.databinding.DurationDialogFragmentBinding as Binding
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isGone
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseBottomSheetFragment
 import com.example.util.simpletimetracker.core.dialog.DurationDialogListener
@@ -13,12 +13,13 @@ import com.example.util.simpletimetracker.core.extension.getAllFragments
 import com.example.util.simpletimetracker.core.extension.observeOnce
 import com.example.util.simpletimetracker.core.extension.setFullScreen
 import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
-import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
 import com.example.util.simpletimetracker.feature_dialogs.duration.extra.DurationPickerExtra
 import com.example.util.simpletimetracker.feature_dialogs.duration.viewModel.DurationPickerViewModel
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.navigation.params.screen.DurationDialogParams
 import dagger.hilt.android.AndroidEntryPoint
+import com.example.util.simpletimetracker.feature_dialogs.databinding.DurationDialogFragmentBinding as Binding
 
 @AndroidEntryPoint
 class DurationDialogFragment : BaseBottomSheetFragment<Binding>() {
@@ -29,7 +30,9 @@ class DurationDialogFragment : BaseBottomSheetFragment<Binding>() {
     private val viewModel: DurationPickerViewModel by viewModels()
 
     private var dialogListener: DurationDialogListener? = null
-    private val dialogTag: String? by lazy { arguments?.getString(ARGS_TAG) }
+    private val params: DurationDialogParams by fragmentArgumentDelegate(
+        key = ARGS_PARAMS, default = DurationDialogParams(),
+    )
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -51,6 +54,10 @@ class DurationDialogFragment : BaseBottomSheetFragment<Binding>() {
         setFullScreen()
     }
 
+    override fun initUi() {
+        binding.btnDurationPickerDisable.isGone = params.hideDisableButton
+    }
+
     override fun initUx(): Unit = with(binding) {
         btnDurationPickerSave.setOnClick(::onSaveClick)
         btnDurationPickerDisable.setOnClick(::onDisableClick)
@@ -59,30 +66,28 @@ class DurationDialogFragment : BaseBottomSheetFragment<Binding>() {
     }
 
     override fun initViewModel(): Unit = with(viewModel) {
-        extra = DurationPickerExtra(arguments?.getLong(ARGS_DURATION).orZero())
+        extra = DurationPickerExtra(params.duration)
         durationViewData.observe(binding.viewDurationPickerValue::setData)
     }
 
     private fun onSaveClick() {
         viewModel.durationViewData.observeOnce(viewLifecycleOwner) { data ->
             val duration = data.seconds + data.minutes * 60L + data.hours * 3600L
-            dialogListener?.onDurationSet(duration, dialogTag)
+            dialogListener?.onDurationSet(duration, params.tag)
             dismiss()
         }
     }
 
     private fun onDisableClick() {
-        dialogListener?.onDisable(dialogTag)
+        dialogListener?.onDisable(params.tag)
         dismiss()
     }
 
     companion object {
-        private const val ARGS_TAG = "tag"
-        private const val ARGS_DURATION = "duration"
+        private const val ARGS_PARAMS = "args_params"
 
         fun createBundle(data: DurationDialogParams): Bundle = Bundle().apply {
-            putString(ARGS_TAG, data.tag)
-            putLong(ARGS_DURATION, data.duration)
+            putParcelable(ARGS_PARAMS, data)
         }
     }
 }
