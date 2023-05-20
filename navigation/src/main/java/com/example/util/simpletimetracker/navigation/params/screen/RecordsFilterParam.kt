@@ -31,6 +31,9 @@ sealed interface RecordsFilterParam : Parcelable {
     data class DaysOfWeek(val items: List<DayOfWeek>) : RecordsFilterParam
 
     @Parcelize
+    data class TimeOfDay(val range: RangeParams) : RecordsFilterParam
+
+    @Parcelize
     data class Duration(val range: RangeParams) : RecordsFilterParam
 
     sealed interface CommentItem : Parcelable {

@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.extension.addOrRemove
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.extension.toModel
+import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.UNCATEGORIZED_ITEM_ID
 import com.example.util.simpletimetracker.domain.extension.getAllTypeIds
 import com.example.util.simpletimetracker.domain.extension.getCategoryItems
@@ -17,11 +18,13 @@ import com.example.util.simpletimetracker.domain.extension.getDuration
 import com.example.util.simpletimetracker.domain.extension.getFilteredTags
 import com.example.util.simpletimetracker.domain.extension.getManuallyFilteredRecordIds
 import com.example.util.simpletimetracker.domain.extension.getSelectedTags
+import com.example.util.simpletimetracker.domain.extension.getTimeOfDay
 import com.example.util.simpletimetracker.domain.extension.getTypeIds
 import com.example.util.simpletimetracker.domain.extension.getTypeIdsFromCategories
 import com.example.util.simpletimetracker.domain.extension.hasCategoryFilter
 import com.example.util.simpletimetracker.domain.extension.hasManuallyFiltered
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
+import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
@@ -40,7 +43,6 @@ import com.example.util.simpletimetracker.feature_base_adapter.recordFilter.Reco
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_records_filter.adapter.RecordsFilterButtonViewData
 import com.example.util.simpletimetracker.feature_records_filter.adapter.RecordsFilterDayOfWeekViewData
-import com.example.util.simpletimetracker.feature_records_filter.adapter.RecordsFilterDurationViewData
 import com.example.util.simpletimetracker.feature_records_filter.adapter.RecordsFilterRangeViewData
 import com.example.util.simpletimetracker.feature_records_filter.interactor.RecordsFilterViewDataInteractor
 import com.example.util.simpletimetracker.feature_records_filter.mapper.RecordsFilterViewDataMapper
@@ -48,11 +50,14 @@ import com.example.util.simpletimetracker.feature_records_filter.model.RecordsFi
 import com.example.util.simpletimetracker.feature_records_filter.model.RecordsFilterSelectionState
 import com.example.util.simpletimetracker.feature_records_filter.model.type
 import com.example.util.simpletimetracker.navigation.Router
+import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogType
 import com.example.util.simpletimetracker.navigation.params.screen.DurationDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterParam
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterParams
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterResultParams
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -65,6 +70,8 @@ class RecordsFilterViewModel @Inject constructor(
     private val categoryInteractor: CategoryInteractor,
     private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
     private val recordTagInteractor: RecordTagInteractor,
+    private val prefsInteractor: PrefsInteractor,
+    private val timeMapper: TimeMapper,
     private val router: Router,
 ) : ViewModel() {
 
@@ -109,6 +116,7 @@ class RecordsFilterViewModel @Inject constructor(
     private var filterSelectionState: RecordsFilterSelectionState = RecordsFilterSelectionState.Hidden
     private val defaultRange: Range by lazy { viewDataInteractor.getDefaultDateRange() }
     private val defaultDurationRange: Range by lazy { viewDataInteractor.getDefaultDurationRange() }
+    private val defaultTimeOfDayRange: Range by lazy { viewDataInteractor.getDefaultTimeOfDayRange() }
     private var recordsLoadJob: Job? = null
 
     // Cache
@@ -195,68 +203,22 @@ class RecordsFilterViewModel @Inject constructor(
         updateRecords()
     }
 
+    fun onDateTimeSet(timestamp: Long, tag: String?) {
+        when (tag) {
+            TIME_STARTED_TAG, TIME_ENDED_TAG -> handleDateSet(timestamp, tag)
+            TIME_OF_DAY_FROM_TAG, TIME_OF_DAY_TO_TAG -> handleTimeOfDaySet(timestamp, tag)
+        }
+    }
+
     fun onRangeTimeClick(fieldType: RecordsFilterRangeViewData.FieldType) {
         viewModelScope.launch {
-            val range = filters.getDate() ?: defaultRange
-
-            when (fieldType) {
-                RecordsFilterRangeViewData.FieldType.TIME_STARTED -> {
-                    viewDataInteractor.getDateTimeDialogParams(
-                        tag = TIME_STARTED_TAG,
-                        timestamp = range.timeStarted,
-                    )
-                }
-                RecordsFilterRangeViewData.FieldType.TIME_ENDED -> {
-                    viewDataInteractor.getDateTimeDialogParams(
-                        tag = TIME_ENDED_TAG,
-                        timestamp = range.timeEnded,
-                    )
-                }
-            }.let(router::navigate)
-        }
-    }
-
-    fun onDateTimeSet(timestamp: Long, tag: String?) {
-        var (rangeStart, rangeEnd) = filters.getDate() ?: defaultRange
-
-        when (tag) {
-            TIME_STARTED_TAG -> {
-                if (timestamp != rangeStart) {
-                    rangeStart = timestamp
-                    if (timestamp > rangeEnd) rangeEnd = timestamp
-                }
-            }
-            TIME_ENDED_TAG -> {
-                if (timestamp != rangeEnd) {
-                    rangeEnd = timestamp
-                    if (timestamp < rangeStart) rangeStart = timestamp
-                }
+            when (filterSelectionState.type) {
+                RecordFilterViewData.Type.DATE -> handleDateFieldClick(fieldType)
+                RecordFilterViewData.Type.DURATION -> handleDurationFieldClick(fieldType)
+                RecordFilterViewData.Type.TIME_OF_DAY -> handleTimeOfDayFieldClick(fieldType)
+                else -> return@launch
             }
         }
-
-        filters.removeAll { it is RecordsFilter.Date }
-        filters.add(RecordsFilter.Date(Range(rangeStart, rangeEnd)))
-
-        updateFilters()
-        updateFilterSelectionViewData()
-        updateRecords()
-    }
-
-    fun onDurationClick(fieldType: RecordsFilterDurationViewData.FieldType) {
-        val range = filters.getDuration() ?: defaultDurationRange
-
-        when (fieldType) {
-            RecordsFilterDurationViewData.FieldType.FROM -> DurationDialogParams(
-                tag = DURATION_FROM_TAG,
-                duration = range.timeStarted / 1000,
-                hideDisableButton = true,
-            )
-            RecordsFilterDurationViewData.FieldType.TO -> DurationDialogParams(
-                tag = DURATION_TO_TAG,
-                duration = range.timeEnded / 1000,
-                hideDisableButton = true,
-            )
-        }.let(router::navigate)
     }
 
     fun onDurationSet(duration: Long, tag: String?) {
@@ -503,6 +465,108 @@ class RecordsFilterViewModel @Inject constructor(
         }
     }
 
+    private suspend fun handleDateFieldClick(fieldType: RecordsFilterRangeViewData.FieldType) {
+        val range = filters.getDate() ?: defaultRange
+
+        when (fieldType) {
+            RecordsFilterRangeViewData.FieldType.TIME_STARTED -> {
+                viewDataInteractor.getDateTimeDialogParams(
+                    tag = TIME_STARTED_TAG,
+                    timestamp = range.timeStarted,
+                )
+            }
+            RecordsFilterRangeViewData.FieldType.TIME_ENDED -> {
+                viewDataInteractor.getDateTimeDialogParams(
+                    tag = TIME_ENDED_TAG,
+                    timestamp = range.timeEnded,
+                )
+            }
+        }.let(router::navigate)
+    }
+
+    private fun handleDurationFieldClick(fieldType: RecordsFilterRangeViewData.FieldType) {
+        val range = filters.getDuration() ?: defaultDurationRange
+
+        when (fieldType) {
+            RecordsFilterRangeViewData.FieldType.TIME_STARTED -> DurationDialogParams(
+                tag = DURATION_FROM_TAG,
+                duration = range.timeStarted / 1000,
+                hideDisableButton = true,
+            )
+            RecordsFilterRangeViewData.FieldType.TIME_ENDED -> DurationDialogParams(
+                tag = DURATION_TO_TAG,
+                duration = range.timeEnded / 1000,
+                hideDisableButton = true,
+            )
+        }.let(router::navigate)
+    }
+
+    private suspend fun handleTimeOfDayFieldClick(fieldType: RecordsFilterRangeViewData.FieldType) {
+        val range = filters.getTimeOfDay() ?: defaultTimeOfDayRange
+        val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
+        val startOfDay = timeMapper.getStartOfDayTimeStamp()
+
+        when (fieldType) {
+            RecordsFilterRangeViewData.FieldType.TIME_STARTED -> DateTimeDialogParams(
+                tag = TIME_OF_DAY_FROM_TAG,
+                type = DateTimeDialogType.TIME,
+                timestamp = startOfDay + range.timeStarted,
+                useMilitaryTime = useMilitaryTime,
+            )
+            RecordsFilterRangeViewData.FieldType.TIME_ENDED -> DateTimeDialogParams(
+                tag = TIME_OF_DAY_TO_TAG,
+                type = DateTimeDialogType.TIME,
+                timestamp = startOfDay + range.timeEnded,
+                useMilitaryTime = useMilitaryTime,
+            )
+        }.let(router::navigate)
+    }
+
+    private fun handleDateSet(timestamp: Long, tag: String?) {
+        var (rangeStart, rangeEnd) = filters.getDate() ?: defaultRange
+
+        when (tag) {
+            TIME_STARTED_TAG -> {
+                if (timestamp != rangeStart) {
+                    rangeStart = timestamp
+                    if (timestamp > rangeEnd) rangeEnd = timestamp
+                }
+            }
+            TIME_ENDED_TAG -> {
+                if (timestamp != rangeEnd) {
+                    rangeEnd = timestamp
+                    if (timestamp < rangeStart) rangeStart = timestamp
+                }
+            }
+        }
+
+        filters.removeAll { it is RecordsFilter.Date }
+        filters.add(RecordsFilter.Date(Range(rangeStart, rangeEnd)))
+
+        updateFilters()
+        updateFilterSelectionViewData()
+        updateRecords()
+    }
+
+    private fun handleTimeOfDaySet(timestamp: Long, tag: String?) {
+        var (rangeStart, rangeEnd) = filters.getTimeOfDay() ?: defaultTimeOfDayRange
+        val startOfDay = timeMapper.getStartOfDayTimeStamp()
+        val normalizedTimeStamp = (timestamp - startOfDay)
+            .coerceIn(0..TimeUnit.DAYS.toMillis(1))
+
+        when (tag) {
+            TIME_OF_DAY_FROM_TAG -> rangeStart = normalizedTimeStamp
+            TIME_OF_DAY_TO_TAG -> rangeEnd = normalizedTimeStamp
+        }
+
+        filters.removeAll { it is RecordsFilter.TimeOfDay }
+        filters.add(RecordsFilter.TimeOfDay(Range(rangeStart, rangeEnd)))
+
+        updateFilters()
+        updateFilterSelectionViewData()
+        updateRecords()
+    }
+
     private suspend fun getTypesCache(): List<RecordType> {
         return types.takeUnless { it.isEmpty() }
             ?: run { recordTypeInteractor.getAll().also { types = it } }
@@ -623,6 +687,12 @@ class RecordsFilterViewModel @Inject constructor(
                     filters = filters,
                 )
             }
+            RecordFilterViewData.Type.TIME_OF_DAY -> {
+                viewDataInteractor.getTimeOfDayFilterSelectionViewData(
+                    filters = filters,
+                    defaultRange = defaultTimeOfDayRange,
+                )
+            }
             RecordFilterViewData.Type.DURATION -> {
                 viewDataInteractor.getDurationFilterSelectionViewData(
                     filters = filters,
@@ -637,5 +707,7 @@ class RecordsFilterViewModel @Inject constructor(
         private const val TIME_ENDED_TAG = "records_filter_range_selection_time_ended_tag"
         private const val DURATION_FROM_TAG = "records_filter_duration_selection_from_tag"
         private const val DURATION_TO_TAG = "records_filter_duration_selection_to_tag"
+        private const val TIME_OF_DAY_FROM_TAG = "records_filter_time_of_day_selection_from_tag"
+        private const val TIME_OF_DAY_TO_TAG = "records_filter_time_of_day_selection_to_tag"
     }
 }

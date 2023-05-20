@@ -21,6 +21,7 @@ import com.example.util.simpletimetracker.domain.extension.getFilteredTags
 import com.example.util.simpletimetracker.domain.extension.getManuallyFilteredRecordIds
 import com.example.util.simpletimetracker.domain.extension.getSelectedTags
 import com.example.util.simpletimetracker.domain.extension.getTaggedIds
+import com.example.util.simpletimetracker.domain.extension.getTimeOfDay
 import com.example.util.simpletimetracker.domain.extension.hasCategoryFilter
 import com.example.util.simpletimetracker.domain.extension.hasManuallyFiltered
 import com.example.util.simpletimetracker.domain.extension.hasUncategorizedItem
@@ -44,7 +45,6 @@ import com.example.util.simpletimetracker.feature_records_filter.R
 import com.example.util.simpletimetracker.feature_records_filter.adapter.RecordsFilterButtonViewData
 import com.example.util.simpletimetracker.feature_records_filter.adapter.RecordsFilterCommentViewData
 import com.example.util.simpletimetracker.feature_records_filter.adapter.RecordsFilterDayOfWeekViewData
-import com.example.util.simpletimetracker.feature_records_filter.adapter.RecordsFilterDurationViewData
 import com.example.util.simpletimetracker.feature_records_filter.adapter.RecordsFilterRangeViewData
 import com.example.util.simpletimetracker.feature_records_filter.mapper.RecordsFilterViewDataMapper
 import com.example.util.simpletimetracker.feature_records_filter.model.RecordsFilterSelectedRecordsViewData
@@ -88,7 +88,14 @@ class RecordsFilterViewDataInteractor @Inject constructor(
     fun getDefaultDurationRange(): Range {
         return Range(
             timeStarted = 0L,
-            timeEnded = TimeUnit.HOURS.toMillis(1),
+            timeEnded = TimeUnit.HOURS.toMillis(24),
+        )
+    }
+
+    fun getDefaultTimeOfDayRange(): Range {
+        return Range(
+            timeStarted = 0L,
+            timeEnded = TimeUnit.DAYS.toMillis(1) - TimeUnit.MINUTES.toMillis(1),
         )
     }
 
@@ -113,7 +120,7 @@ class RecordsFilterViewDataInteractor @Inject constructor(
         filters: List<RecordsFilter>,
         recordTypes: Map<Long, RecordType>,
         recordTags: List<RecordTag>,
-    ): RecordsFilterSelectedRecordsViewData {
+    ): RecordsFilterSelectedRecordsViewData = withContext(Dispatchers.Default) {
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
         val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
@@ -143,32 +150,28 @@ class RecordsFilterViewDataInteractor @Inject constructor(
                 record.timeStarted to mapped
             }
 
-        val (count, viewData) = withContext(Dispatchers.Default) {
-            var count: Int
-            val viewData = records
-                .mapNotNull { record ->
-                    record.timeStarted to recordViewDataMapper.map(
-                        record = record,
-                        recordType = recordTypes[record.typeId] ?: return@mapNotNull null,
-                        recordTags = recordTags.filter { it.id in record.tagIds },
-                        timeStarted = record.timeStarted,
-                        timeEnded = record.timeEnded,
-                        isDarkTheme = isDarkTheme,
-                        useMilitaryTime = useMilitaryTime,
-                        useProportionalMinutes = useProportionalMinutes,
-                        showSeconds = showSeconds,
-                    )
-                }
-                .also { count = it.size }
-                .plus(manuallyFilteredRecords)
-                .sortedByDescending { (timeStarted, _) -> timeStarted }
-                .let(dateDividerViewDataMapper::addDateViewData)
-                .ifEmpty { listOf(recordViewDataMapper.mapToEmpty()) }
+        var count: Int
+        val viewData = records
+            .mapNotNull { record ->
+                record.timeStarted to recordViewDataMapper.map(
+                    record = record,
+                    recordType = recordTypes[record.typeId] ?: return@mapNotNull null,
+                    recordTags = recordTags.filter { it.id in record.tagIds },
+                    timeStarted = record.timeStarted,
+                    timeEnded = record.timeEnded,
+                    isDarkTheme = isDarkTheme,
+                    useMilitaryTime = useMilitaryTime,
+                    useProportionalMinutes = useProportionalMinutes,
+                    showSeconds = showSeconds,
+                )
+            }
+            .also { count = it.size }
+            .plus(manuallyFilteredRecords)
+            .sortedByDescending { (timeStarted, _) -> timeStarted }
+            .let(dateDividerViewDataMapper::addDateViewData)
+            .ifEmpty { listOf(recordViewDataMapper.mapToEmpty()) }
 
-            count to viewData
-        }
-
-        return RecordsFilterSelectedRecordsViewData(
+        return@withContext RecordsFilterSelectedRecordsViewData(
             isLoading = false,
             selectedRecordsCount = mapper.mapRecordsCount(
                 extra = extra,
@@ -200,6 +203,7 @@ class RecordsFilterViewDataInteractor @Inject constructor(
             RecordFilterViewData.Type.SELECTED_TAGS,
             RecordFilterViewData.Type.FILTERED_TAGS,
             RecordFilterViewData.Type.DAYS_OF_WEEK,
+            RecordFilterViewData.Type.TIME_OF_DAY,
             RecordFilterViewData.Type.DURATION,
             RecordFilterViewData.Type.MANUALLY_FILTERED.takeIf {
                 filters.hasManuallyFiltered()
@@ -397,6 +401,8 @@ class RecordsFilterViewDataInteractor @Inject constructor(
                 time = range.timeEnded,
                 useMilitaryTime = useMilitaryTime,
             ),
+            gravity = RecordsFilterRangeViewData.Gravity.CENTER_VERTICAL,
+            separatorVisible = false,
         ).let(::listOf)
     }
 
@@ -454,16 +460,43 @@ class RecordsFilterViewDataInteractor @Inject constructor(
         }
     }
 
+    suspend fun getTimeOfDayFilterSelectionViewData(
+        filters: List<RecordsFilter>,
+        defaultRange: Range,
+    ): List<ViewHolderType> {
+        val range = filters.getTimeOfDay() ?: defaultRange
+        val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
+        val startOfDay = timeMapper.getStartOfDayTimeStamp()
+
+        return RecordsFilterRangeViewData(
+            id = 1L, // Only one at the time.
+            timeStarted = timeMapper.formatTime(
+                time = range.timeStarted + startOfDay,
+                useMilitaryTime = useMilitaryTime,
+                showSeconds = false
+            ),
+            timeEnded = timeMapper.formatTime(
+                time = range.timeEnded + startOfDay,
+                useMilitaryTime = useMilitaryTime,
+                showSeconds = false
+            ),
+            gravity = RecordsFilterRangeViewData.Gravity.CENTER,
+            separatorVisible = true,
+        ).let(::listOf)
+    }
+
     fun getDurationFilterSelectionViewData(
         filters: List<RecordsFilter>,
         defaultRange: Range,
     ): List<ViewHolderType> {
         val range = filters.getDuration() ?: defaultRange
 
-        return RecordsFilterDurationViewData(
+        return RecordsFilterRangeViewData(
             id = 1L, // Only one at the time.
-            durationFrom = timeMapper.formatDuration(range.timeStarted / 1000),
-            durationTo = timeMapper.formatDuration(range.timeEnded / 1000),
+            timeStarted = timeMapper.formatDuration(range.timeStarted / 1000),
+            timeEnded = timeMapper.formatDuration(range.timeEnded / 1000),
+            gravity = RecordsFilterRangeViewData.Gravity.CENTER,
+            separatorVisible = true,
         ).let(::listOf)
     }
 

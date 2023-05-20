@@ -26,6 +26,7 @@ data class RecordFilterViewData(
         FILTERED_TAGS,
         MANUALLY_FILTERED,
         DAYS_OF_WEEK,
+        TIME_OF_DAY,
         DURATION,
     }
 

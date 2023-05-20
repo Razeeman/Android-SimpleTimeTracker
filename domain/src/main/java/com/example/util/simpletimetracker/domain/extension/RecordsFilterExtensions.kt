@@ -94,6 +94,12 @@ fun List<RecordsFilter>.getDaysOfWeek(): List<DayOfWeek> {
         .flatten()
 }
 
+fun List<RecordsFilter>.getTimeOfDay(): Range? {
+    return filterIsInstance<RecordsFilter.TimeOfDay>()
+        .map(RecordsFilter.TimeOfDay::range)
+        .firstOrNull()
+}
+
 fun List<RecordsFilter>.getDuration(): Range? {
     return filterIsInstance<RecordsFilter.Duration>()
         .map(RecordsFilter.Duration::range)

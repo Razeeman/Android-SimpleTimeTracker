@@ -7,4 +7,8 @@ data class Range(
 ) {
 
     val duration: Long = timeEnded - timeStarted
+
+    fun isOverlappingWith(other: Range): Boolean {
+        return timeStarted < other.timeEnded && timeEnded > other.timeStarted
+    }
 }

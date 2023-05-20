@@ -11,6 +11,7 @@ import com.example.util.simpletimetracker.domain.extension.getFilteredTags
 import com.example.util.simpletimetracker.domain.extension.getManuallyFilteredRecordIds
 import com.example.util.simpletimetracker.domain.extension.getSelectedTags
 import com.example.util.simpletimetracker.domain.extension.getTaggedIds
+import com.example.util.simpletimetracker.domain.extension.getTimeOfDay
 import com.example.util.simpletimetracker.domain.extension.getTypeIds
 import com.example.util.simpletimetracker.domain.extension.hasAnyComment
 import com.example.util.simpletimetracker.domain.extension.hasCategoryFilter
@@ -28,6 +29,8 @@ import com.example.util.simpletimetracker.domain.model.RecordsFilter
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class RecordFilterInteractor @Inject constructor(
     private val interactor: RecordInteractor,
@@ -58,8 +61,10 @@ class RecordFilterInteractor @Inject constructor(
         }
     }
 
-    suspend fun getByFilter(filters: List<RecordsFilter>): List<Record> {
-        if (filters.isEmpty()) return emptyList()
+    suspend fun getByFilter(
+        filters: List<RecordsFilter>,
+    ): List<Record> = withContext(Dispatchers.Default) {
+        if (filters.isEmpty()) return@withContext emptyList()
 
         val startOfDayShift = prefsInteractor.getStartOfDayShift()
         val calendar: Calendar = Calendar.getInstance()
@@ -84,6 +89,7 @@ class RecordFilterInteractor @Inject constructor(
         val filteredUntagged: Boolean = filteredTagItems.hasUntaggedItem()
         val manuallyFilteredIds: List<Long> = filters.getManuallyFilteredRecordIds()
         val daysOfWeek: List<DayOfWeek> = filters.getDaysOfWeek()
+        val timeOfDay: Range? = filters.getTimeOfDay()
         val durations: List<Range> = filters.getDuration()?.let(::listOf).orEmpty()
 
         // Use different queries for optimization.
@@ -206,12 +212,38 @@ class RecordFilterInteractor @Inject constructor(
             return daysOfRecord.any { it in daysOfWeek }
         }
 
+        fun Record.selectedByTimeOfDay(): Boolean {
+            if (timeOfDay == null) return true
+
+            // Check empty range.
+            if (timeOfDay.duration == 0L) return false
+            // Check long records.
+            if (duration > dayInMillis) return true
+
+            val recordStart = timeStarted - timeMapper.getStartOfDayTimeStamp(timeStarted, calendar)
+            val recordEnd = timeEnded - timeMapper.getStartOfDayTimeStamp(timeEnded, calendar)
+            val recordRanges = if (recordStart <= recordEnd) {
+                listOf(Range(recordStart, recordEnd))
+            } else {
+                listOf(Range(0, recordEnd), Range(recordStart, dayInMillis))
+            }
+            val timeOfDayRanges = if (timeOfDay.timeStarted <= timeOfDay.timeEnded) {
+                listOf(Range(timeOfDay.timeStarted, timeOfDay.timeEnded))
+            } else {
+                listOf(Range(0, timeOfDay.timeEnded), Range(timeOfDay.timeStarted, dayInMillis))
+            }
+
+            return recordRanges.any { recordRange ->
+                timeOfDayRanges.any { it.isOverlappingWith(recordRange) }
+            }
+        }
+
         fun Record.selectedByDuration(): Boolean {
             if (durations.isEmpty()) return true
             return durations.any { duration >= it.timeStarted && duration <= it.timeEnded }
         }
 
-        return records.filter { record ->
+        return@withContext records.filter { record ->
             record.selectedByActivity() &&
                 record.selectedByComment() &&
                 record.selectedByDate() &&
@@ -219,6 +251,7 @@ class RecordFilterInteractor @Inject constructor(
                 !record.filteredByTag() &&
                 !record.isManuallyFiltered() &&
                 record.selectedByDayOfWeek() &&
+                record.selectedByTimeOfDay() &&
                 record.selectedByDuration()
         }
     }

@@ -18,6 +18,8 @@ sealed interface RecordsFilter {
 
     data class DaysOfWeek(val items: List<DayOfWeek>) : RecordsFilter
 
+    data class TimeOfDay(val range: Range) : RecordsFilter // duration-from, duration-to in range.
+
     data class Duration(val range: Range) : RecordsFilter // duration-from, duration-to in range.
 
     sealed interface CommentItem {

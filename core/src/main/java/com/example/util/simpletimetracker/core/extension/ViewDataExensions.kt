@@ -61,6 +61,7 @@ fun RecordsFilterParam.toModel(): RecordsFilter {
         is RecordsFilterParam.FilteredTags -> RecordsFilter.FilteredTags(items.map { it.toModel() })
         is RecordsFilterParam.ManuallyFiltered -> RecordsFilter.ManuallyFiltered(recordIds)
         is RecordsFilterParam.DaysOfWeek -> RecordsFilter.DaysOfWeek(items)
+        is RecordsFilterParam.TimeOfDay -> RecordsFilter.TimeOfDay(range.toModel())
         is RecordsFilterParam.Duration -> RecordsFilter.Duration(range.toModel())
     }
 }
@@ -75,6 +76,7 @@ fun RecordsFilter.toParams(): RecordsFilterParam {
         is RecordsFilter.FilteredTags -> RecordsFilterParam.FilteredTags(items.map { it.toParams() })
         is RecordsFilter.ManuallyFiltered -> RecordsFilterParam.ManuallyFiltered(recordIds)
         is RecordsFilter.DaysOfWeek -> RecordsFilterParam.DaysOfWeek(items)
+        is RecordsFilter.TimeOfDay -> RecordsFilterParam.TimeOfDay(range.toParams())
         is RecordsFilter.Duration -> RecordsFilterParam.Duration(range.toParams())
     }
 }

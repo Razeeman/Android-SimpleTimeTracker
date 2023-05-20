@@ -6,6 +6,8 @@ data class RecordsFilterRangeViewData(
     val id: Long,
     val timeStarted: String,
     val timeEnded: String,
+    val gravity: Gravity,
+    val separatorVisible: Boolean,
 ) : ViewHolderType {
 
     override fun getUniqueId(): Long = id
@@ -16,5 +18,10 @@ data class RecordsFilterRangeViewData(
     enum class FieldType {
         TIME_STARTED,
         TIME_ENDED,
+    }
+
+    enum class Gravity {
+        CENTER,
+        CENTER_VERTICAL,
     }
 }

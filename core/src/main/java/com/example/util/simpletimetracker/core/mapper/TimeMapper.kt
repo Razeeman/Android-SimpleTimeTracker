@@ -546,8 +546,9 @@ class TimeMapper @Inject constructor(
 
     fun getStartOfDayTimeStamp(
         timestamp: Long = System.currentTimeMillis(),
+        calendar: Calendar = Calendar.getInstance(),
     ): Long {
-        return Calendar.getInstance().apply {
+        return calendar.apply {
             timeInMillis = timestamp
             set(Calendar.HOUR_OF_DAY, 0)
             set(Calendar.MINUTE, 0)
