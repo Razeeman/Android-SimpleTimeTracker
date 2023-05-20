@@ -28,6 +28,7 @@
         android:paddingHorizontal="2dp"
         android:textColor="@color/white"
         android:textSize="11sp"
+        android:textStyle="bold"
         tools:text="Some really long tag name" />
 
     <Button

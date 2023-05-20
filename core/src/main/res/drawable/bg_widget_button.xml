@@ -2,7 +2,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_enabled="true" android:state_pressed="true">
         <shape android:shape="rectangle">
-            <corners android:radius="@dimen/record_type_card_corner_radius" />
+            <corners android:radius="@dimen/widget_universal_corner_radius" />
             <solid android:color="#50ffffff" />
         </shape>
     </item>

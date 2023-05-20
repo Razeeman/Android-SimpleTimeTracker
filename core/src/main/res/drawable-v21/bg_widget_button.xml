@@ -3,7 +3,7 @@
     android:color="#50ffffff">
     <item android:id="@android:id/mask">
         <shape android:shape="rectangle">
-            <corners android:radius="@dimen/record_type_card_corner_radius" />
+            <corners android:radius="@dimen/widget_universal_corner_radius" />
             <solid android:color="@color/black" />
         </shape>
     </item>
