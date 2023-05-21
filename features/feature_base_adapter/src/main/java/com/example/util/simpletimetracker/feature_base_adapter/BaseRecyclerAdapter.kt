@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.feature_base_adapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
+import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
 import java.util.Collections
 
 class BaseRecyclerAdapter(
@@ -13,7 +14,7 @@ class BaseRecyclerAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseRecyclerViewHolder =
         delegates.getOrNull(viewType)?.onCreateViewHolder(parent)
-            ?: throw IllegalStateException(getErrorMessage(viewType))
+            ?: createLoaderAdapterDelegate().onCreateViewHolder(parent)
 
     override fun onBindViewHolder(
         holder: BaseRecyclerViewHolder,
@@ -55,10 +56,5 @@ class BaseRecyclerAdapter(
     fun replaceAsNew(newItems: List<ViewHolderType>) {
         submitList(emptyList())
         submitList(newItems)
-    }
-
-    private fun getErrorMessage(viewType: Int): String {
-        return "No delegate found for viewType: $viewType items: ${currentList.map { it::class.java.simpleName }
-            .toSet()} delegates: ${delegates.map { it.getViewHolderTypeName() }}"
     }
 }
