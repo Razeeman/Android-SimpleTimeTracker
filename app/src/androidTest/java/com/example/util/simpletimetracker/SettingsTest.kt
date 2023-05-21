@@ -1365,6 +1365,86 @@ class SettingsTest : BaseUiTest() {
     }
 
     @Test
+    fun daysInCalendar() {
+        fun mapTitle(
+            shiftStart: Int,
+            shiftEnd: Int,
+        ): String {
+            return timeMapper.toDayShortDateTitle(shiftStart, 0) +
+                " - " +
+                timeMapper.toDayShortDateTitle(shiftEnd, 0)
+        }
+
+        // Disabled
+        NavUtils.openRecordsScreen()
+        checkViewIsDisplayed(allOf(withText(coreR.string.title_today), isCompletelyDisplayed()))
+
+        NavUtils.openSettingsScreen()
+        NavUtils.openSettingsDisplay()
+        onView(withId(settingsR.id.checkboxSettingsShowRecordsCalendar)).perform(nestedScrollTo())
+        onView(withId(settingsR.id.checkboxSettingsShowRecordsCalendar)).check(matches(isNotChecked()))
+        checkViewIsNotDisplayed(withText(coreR.string.settings_days_in_calendar))
+
+        // Change setting
+        unconstrainedClickOnView(withId(settingsR.id.checkboxSettingsShowRecordsCalendar))
+        onView(withText(coreR.string.settings_days_in_calendar)).perform(nestedScrollTo())
+        checkViewIsDisplayed(withText(coreR.string.settings_days_in_calendar))
+
+        // One day
+        NavUtils.openRecordsScreen()
+        checkViewIsDisplayed(allOf(withText(coreR.string.title_today), isCompletelyDisplayed()))
+
+        // Three days
+        NavUtils.openSettingsScreen()
+        clickOnSpinnerWithId(settingsR.id.spinnerSettingsDaysInCalendar)
+        clickOnViewWithText("3")
+        NavUtils.openRecordsScreen()
+
+        checkViewIsDisplayed(withText(mapTitle(-2, 0)))
+        clickOnViewWithId(recordsR.id.btnRecordsContainerPrevious)
+        checkViewIsDisplayed(withText(mapTitle(-5, -3)))
+        clickOnViewWithId(recordsR.id.btnRecordsContainerNext)
+        clickOnViewWithId(recordsR.id.btnRecordsContainerNext)
+        checkViewIsDisplayed(withText(mapTitle(1, 3)))
+        clickOnViewWithId(recordsR.id.btnRecordsContainerPrevious)
+
+        // Five days
+        NavUtils.openSettingsScreen()
+        clickOnSpinnerWithId(settingsR.id.spinnerSettingsDaysInCalendar)
+        clickOnViewWithText("5")
+        NavUtils.openRecordsScreen()
+
+        checkViewIsDisplayed(withText(mapTitle(-4, 0)))
+        clickOnViewWithId(recordsR.id.btnRecordsContainerPrevious)
+        checkViewIsDisplayed(withText(mapTitle(-9, -5)))
+        clickOnViewWithId(recordsR.id.btnRecordsContainerNext)
+        clickOnViewWithId(recordsR.id.btnRecordsContainerNext)
+        checkViewIsDisplayed(withText(mapTitle(1, 5)))
+        clickOnViewWithId(recordsR.id.btnRecordsContainerPrevious)
+
+        // Seven days
+        NavUtils.openSettingsScreen()
+        clickOnSpinnerWithId(settingsR.id.spinnerSettingsDaysInCalendar)
+        clickOnViewWithText("7")
+        NavUtils.openRecordsScreen()
+
+        checkViewIsDisplayed(withText(mapTitle(-6, 0)))
+        clickOnViewWithId(recordsR.id.btnRecordsContainerPrevious)
+        checkViewIsDisplayed(withText(mapTitle(-13, -7)))
+        clickOnViewWithId(recordsR.id.btnRecordsContainerNext)
+        clickOnViewWithId(recordsR.id.btnRecordsContainerNext)
+        checkViewIsDisplayed(withText(mapTitle(1, 7)))
+        clickOnViewWithId(recordsR.id.btnRecordsContainerPrevious)
+
+        // Disable
+        NavUtils.openSettingsScreen()
+        unconstrainedClickOnView(withId(settingsR.id.checkboxSettingsShowRecordsCalendar))
+        checkViewIsNotDisplayed(withText(coreR.string.settings_days_in_calendar))
+        NavUtils.openRecordsScreen()
+        checkViewIsDisplayed(allOf(withText(coreR.string.title_today), isCompletelyDisplayed()))
+    }
+
+    @Test
     fun keepStatisticsRange() {
         val name = "Test"
 

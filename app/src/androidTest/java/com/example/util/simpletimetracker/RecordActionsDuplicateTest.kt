@@ -141,7 +141,7 @@ class RecordActionsDuplicateTest : BaseUiTest() {
         val calendar = Calendar.getInstance()
 
         // Setup
-        testUtils.addActivity(name)
+        testUtils.addActivity(name = name, color = firstColor, icon = firstIcon)
         runBlocking { prefsInteractor.setShowUntrackedInRecords(true) }
         NavUtils.openRecordsScreen()
 
@@ -207,7 +207,7 @@ class RecordActionsDuplicateTest : BaseUiTest() {
         val calendar = Calendar.getInstance()
 
         // Setup
-        testUtils.addActivity(name)
+        testUtils.addActivity(name = name, color = firstColor, icon = firstIcon)
         NavUtils.openRecordsScreen()
 
         val current = calendar.timeInMillis
