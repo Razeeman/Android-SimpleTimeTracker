@@ -6,6 +6,8 @@ android {
     defaultConfig {
         minSdk = Base.minSDK
         targetSdk = Base.currentSDK
+
+        vectorDrawables.generatedDensities()
     }
 
     kotlinOptions {
