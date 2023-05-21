@@ -8,7 +8,8 @@ data class StatisticsDetailCardViewData(
     val value: String,
     val secondValue: String,
     val description: String,
-    val icon: Icon? = null
+    val icon: Icon? = null,
+    val accented: Boolean = false,
 ) : ViewHolderType {
 
     override fun getUniqueId(): Long = description.hashCode().toLong()

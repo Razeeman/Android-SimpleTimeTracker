@@ -258,7 +258,8 @@ class StatisticsDetailStatsInteractor @Inject constructor(
                 StatisticsDetailCardViewData(
                     value = totalDuration,
                     secondValue = compareTotalDuration,
-                    description = resourceRepo.getString(R.string.statistics_detail_total_duration)
+                    description = resourceRepo.getString(R.string.statistics_detail_total_duration),
+                    accented = true,
                 )
             ),
             timesTracked = listOf(
@@ -268,7 +269,8 @@ class StatisticsDetailStatsInteractor @Inject constructor(
                     description = resourceRepo.getQuantityString(
                         R.plurals.statistics_detail_times_tracked, timesTracked.orZero()
                     ),
-                    icon = timesTrackedIcon
+                    icon = timesTrackedIcon,
+                    accented = true,
                 )
             ),
             averageRecord = listOf(
