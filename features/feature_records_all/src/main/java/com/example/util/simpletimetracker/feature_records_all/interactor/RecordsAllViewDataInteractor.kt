@@ -25,7 +25,7 @@ class RecordsAllViewDataInteractor @Inject constructor(
     suspend fun getViewData(
         filter: List<RecordsFilter>,
         sortOrder: RecordsAllSortOrder,
-    ): List<ViewHolderType> {
+    ): List<ViewHolderType> = withContext(Dispatchers.Default) {
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
         val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
@@ -39,40 +39,38 @@ class RecordsAllViewDataInteractor @Inject constructor(
             .orEmpty()
             .let { recordFilterInteractor.getByFilter(it) }
 
-        return withContext(Dispatchers.Default) {
-            records
-                .mapNotNull { record ->
-                    Triple(
-                        record.timeStarted,
-                        record.timeEnded - record.timeStarted,
-                        recordViewDataMapper.map(
-                            record = record,
-                            recordType = recordTypes[record.typeId] ?: return@mapNotNull null,
-                            recordTags = recordTags.filter { it.id in record.tagIds },
-                            timeStarted = record.timeStarted,
-                            timeEnded = record.timeEnded,
-                            isDarkTheme = isDarkTheme,
-                            useMilitaryTime = useMilitaryTime,
-                            useProportionalMinutes = useProportionalMinutes,
-                            showSeconds = showSeconds,
-                        )
+        return@withContext records
+            .mapNotNull { record ->
+                Triple(
+                    record.timeStarted,
+                    record.timeEnded - record.timeStarted,
+                    recordViewDataMapper.map(
+                        record = record,
+                        recordType = recordTypes[record.typeId] ?: return@mapNotNull null,
+                        recordTags = recordTags.filter { it.id in record.tagIds },
+                        timeStarted = record.timeStarted,
+                        timeEnded = record.timeEnded,
+                        isDarkTheme = isDarkTheme,
+                        useMilitaryTime = useMilitaryTime,
+                        useProportionalMinutes = useProportionalMinutes,
+                        showSeconds = showSeconds,
                     )
+                )
+            }
+            .sortedByDescending { (timeStarted, duration, _) ->
+                when (sortOrder) {
+                    RecordsAllSortOrder.TIME_STARTED -> timeStarted
+                    RecordsAllSortOrder.DURATION -> duration
                 }
-                .sortedByDescending { (timeStarted, duration, _) ->
-                    when (sortOrder) {
-                        RecordsAllSortOrder.TIME_STARTED -> timeStarted
-                        RecordsAllSortOrder.DURATION -> duration
-                    }
+            }
+            .map { (timeStarted, _, record) -> timeStarted to record }
+            .let { viewData ->
+                if (sortOrder == RecordsAllSortOrder.TIME_STARTED) {
+                    dateDividerViewDataMapper.addDateViewData(viewData)
+                } else {
+                    viewData.map { it.second }
                 }
-                .map { (timeStarted, _, record) -> timeStarted to record }
-                .let { viewData ->
-                    if (sortOrder == RecordsAllSortOrder.TIME_STARTED) {
-                        dateDividerViewDataMapper.addDateViewData(viewData)
-                    } else {
-                        viewData.map { it.second }
-                    }
-                }
-                .ifEmpty { listOf(recordViewDataMapper.mapToEmpty()) }
-        }
+            }
+            .ifEmpty { listOf(recordViewDataMapper.mapToEmpty()) }
     }
 }

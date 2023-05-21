@@ -22,6 +22,8 @@ import com.example.util.simpletimetracker.feature_statistics_detail.viewData.Sta
 import java.util.Calendar
 import javax.inject.Inject
 import kotlin.math.abs
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class StatisticsDetailChartInteractor @Inject constructor(
     private val timeMapper: TimeMapper,
@@ -40,7 +42,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
         currentChartLength: ChartLength,
         rangeLength: RangeLength,
         rangePosition: Int,
-    ): StatisticsDetailChartCompositeViewData {
+    ): StatisticsDetailChartCompositeViewData = withContext(Dispatchers.Default) {
         val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
         val startOfDayShift = prefsInteractor.getStartOfDayShift()
         val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
@@ -63,7 +65,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
             ranges = ranges,
         )
 
-        return statisticsDetailViewDataMapper.mapToChartViewData(
+        return@withContext statisticsDetailViewDataMapper.mapToChartViewData(
             data = data,
             goalValue = getGoalValue(filter, compositeData.appliedChartGrouping),
             compareData = compareData,

@@ -19,6 +19,8 @@ import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.StatisticsDetailViewDataMapper
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewCompareViewData
 import javax.inject.Inject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class StatisticsDetailPreviewInteractor @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
@@ -32,7 +34,7 @@ class StatisticsDetailPreviewInteractor @Inject constructor(
     suspend fun getPreviewData(
         filterParams: List<RecordsFilter>,
         isForComparison: Boolean,
-    ): List<ViewHolderType> {
+    ): List<ViewHolderType> = withContext(Dispatchers.Default) {
         val isDarkTheme = prefsInteractor.getDarkMode()
 
         suspend fun mapActivities(
@@ -108,7 +110,7 @@ class StatisticsDetailPreviewInteractor @Inject constructor(
             }
         }
 
-        return if (isForComparison) {
+        return@withContext if (isForComparison) {
             buildComparisonViewData(viewData)
         } else {
             buildFilterViewData(viewData, isDarkTheme)

@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.util.simpletimetracker.core.extension.post
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.extension.toModel
 import com.example.util.simpletimetracker.core.extension.toParams
@@ -57,7 +56,6 @@ import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilter
 import com.example.util.simpletimetracker.navigation.params.screen.StatisticsDetailParams
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
@@ -372,8 +370,7 @@ class StatisticsDetailViewModel @Inject constructor(
     }
 
     private fun updatePreviewViewData() = viewModelScope.launch {
-        val data = loadPreviewViewData()
-        previewViewData.set(data)
+        previewViewData.set(loadPreviewViewData())
     }
 
     private suspend fun loadPreviewViewData(): StatisticsDetailPreviewCompositeViewData {
@@ -392,9 +389,8 @@ class StatisticsDetailViewModel @Inject constructor(
         )
     }
 
-    private fun updateStatsViewData() = viewModelScope.launch(Dispatchers.Default) {
-        val data = loadStatsViewData()
-        statsViewData.post(data)
+    private fun updateStatsViewData() = viewModelScope.launch {
+        statsViewData.set(loadStatsViewData())
     }
 
     private fun loadEmptyStatsViewData(): StatisticsDetailStatsViewData {
@@ -412,17 +408,15 @@ class StatisticsDetailViewModel @Inject constructor(
     }
 
     private fun updateStreaksTypeViewData() {
-        val data = loadStreaksTypeViewData()
-        streaksTypeViewData.set(data)
+        streaksTypeViewData.set(loadStreaksTypeViewData())
     }
 
     private fun loadStreaksTypeViewData(): List<ViewHolderType> {
         return streaksInteractor.mapToStreaksTypeViewData(streaksType)
     }
 
-    private fun updateStreaksViewData() = viewModelScope.launch(Dispatchers.Default) {
-        val data = loadStreaksViewData()
-        streaksViewData.post(data)
+    private fun updateStreaksViewData() = viewModelScope.launch {
+        streaksViewData.set(loadStreaksViewData())
     }
 
     private fun loadEmptyStreaksViewData(): StatisticsDetailStreaksViewData {
@@ -440,9 +434,9 @@ class StatisticsDetailViewModel @Inject constructor(
         )
     }
 
-    private fun updateChartViewData() = viewModelScope.launch(Dispatchers.Default) {
+    private fun updateChartViewData() = viewModelScope.launch {
         val data = loadChartViewData()
-        chartViewData.post(data)
+        chartViewData.set(data)
         chartGrouping = data.appliedChartGrouping
         chartLength = data.appliedChartLength
     }
@@ -464,11 +458,9 @@ class StatisticsDetailViewModel @Inject constructor(
         )
     }
 
-    private fun updateSplitChartViewData() = viewModelScope.launch(Dispatchers.Default) {
-        val data = loadSplitChartViewData(isForComparison = false)
-        splitChartViewData.post(data)
-        val comparisonData = loadSplitChartViewData(isForComparison = true)
-        comparisonSplitChartViewData.post(comparisonData)
+    private fun updateSplitChartViewData() = viewModelScope.launch {
+        splitChartViewData.set(loadSplitChartViewData(isForComparison = false))
+        comparisonSplitChartViewData.set(loadSplitChartViewData(isForComparison = true))
     }
 
     private suspend fun loadSplitChartViewData(isForComparison: Boolean): StatisticsDetailChartViewData {
@@ -486,11 +478,11 @@ class StatisticsDetailViewModel @Inject constructor(
         )
     }
 
-    private fun updateDurationSplitChartViewData() = viewModelScope.launch(Dispatchers.Default) {
-        val data = loadDurationSplitChartViewData(isForComparison = false)
-        durationSplitChartViewData.post(data)
-        val comparisonData = loadDurationSplitChartViewData(isForComparison = true)
-        comparisonDurationSplitChartViewData.post(comparisonData)
+    private fun updateDurationSplitChartViewData() = viewModelScope.launch {
+        durationSplitChartViewData
+            .set(loadDurationSplitChartViewData(isForComparison = false))
+        comparisonDurationSplitChartViewData
+            .set(loadDurationSplitChartViewData(isForComparison = true))
     }
 
     private suspend fun loadDurationSplitChartViewData(isForComparison: Boolean): StatisticsDetailChartViewData {
@@ -504,8 +496,7 @@ class StatisticsDetailViewModel @Inject constructor(
     }
 
     private fun updateSplitChartGroupingViewData() {
-        val data = loadSplitChartGroupingViewData()
-        splitChartGroupingViewData.set(data)
+        splitChartGroupingViewData.set(loadSplitChartGroupingViewData())
     }
 
     private fun loadSplitChartGroupingViewData(): List<ViewHolderType> {
@@ -513,8 +504,7 @@ class StatisticsDetailViewModel @Inject constructor(
     }
 
     private fun updateTitle() = viewModelScope.launch {
-        val data = loadTitle()
-        title.set(data)
+        title.set(loadTitle())
     }
 
     private suspend fun loadTitle(): String {
@@ -524,8 +514,7 @@ class StatisticsDetailViewModel @Inject constructor(
     }
 
     private fun updateRanges() {
-        val data = loadRanges()
-        rangeItems.set(data)
+        rangeItems.set(loadRanges())
     }
 
     private fun loadRanges(): RangesViewData {
@@ -533,8 +522,7 @@ class StatisticsDetailViewModel @Inject constructor(
     }
 
     private fun updateButtonsVisibility() {
-        val data = loadButtonsVisibility()
-        rangeButtonsVisibility.set(data)
+        rangeButtonsVisibility.set(loadButtonsVisibility())
     }
 
     private fun loadButtonsVisibility(): Boolean {

@@ -20,6 +20,8 @@ import com.example.util.simpletimetracker.feature_statistics_detail.viewData.Sta
 import java.util.Calendar
 import javax.inject.Inject
 import kotlin.math.abs
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class StatisticsDetailStreaksInteractor @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
@@ -52,7 +54,7 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
         rangeLength: RangeLength,
         rangePosition: Int,
         streaksType: StreaksType,
-    ): StatisticsDetailStreaksViewData {
+    ): StatisticsDetailStreaksViewData = withContext(Dispatchers.Default) {
         val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
         val startOfDayShift = prefsInteractor.getStartOfDayShift()
 
@@ -112,7 +114,7 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
                 .let(::processComparisonString),
         )
 
-        return StatisticsDetailStreaksViewData(
+        return@withContext StatisticsDetailStreaksViewData(
             streaks = streaks,
             showData = rangeLength !is RangeLength.Day, // No point count streak of one day.
             data = data,

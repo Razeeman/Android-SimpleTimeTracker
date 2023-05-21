@@ -19,6 +19,8 @@ import com.example.util.simpletimetracker.feature_statistics.viewData.Statistics
 import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsTitleViewData
 import com.example.util.simpletimetracker.feature_views.pieChart.PiePortion
 import javax.inject.Inject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class StatisticsViewDataInteractor @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
@@ -69,7 +71,7 @@ class StatisticsViewDataInteractor @Inject constructor(
         rangeLength: RangeLength,
         shift: Int,
         forSharing: Boolean,
-    ): List<ViewHolderType> {
+    ): List<ViewHolderType> = withContext(Dispatchers.Default) {
         val filterType = prefsInteractor.getChartFilterType()
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
@@ -181,7 +183,7 @@ class StatisticsViewDataInteractor @Inject constructor(
             }
         }
 
-        return result
+        return@withContext result
     }
 
     private suspend fun getSharingTitle(

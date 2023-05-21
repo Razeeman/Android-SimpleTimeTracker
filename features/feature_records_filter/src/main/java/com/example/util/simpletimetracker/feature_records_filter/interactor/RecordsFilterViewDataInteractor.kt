@@ -186,7 +186,7 @@ class RecordsFilterViewDataInteractor @Inject constructor(
         extra: RecordsFilterParams,
         selectionState: RecordsFilterSelectionState,
         filters: List<RecordsFilter>,
-    ): List<ViewHolderType> {
+    ): List<ViewHolderType> = withContext(Dispatchers.Default) {
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
 
@@ -210,7 +210,7 @@ class RecordsFilterViewDataInteractor @Inject constructor(
             }
         )
 
-        return availableFilters.mapIndexed { index, type ->
+        return@withContext availableFilters.mapIndexed { index, type ->
             val clazz = mapper.mapToClass(type)
             // Only one filter type.
             val filter = filters.filterIsInstance(clazz).firstOrNull()
@@ -242,7 +242,7 @@ class RecordsFilterViewDataInteractor @Inject constructor(
         types: List<RecordType>,
         recordTypeCategories: List<RecordTypeCategory>,
         categories: List<Category>,
-    ): List<ViewHolderType> {
+    ): List<ViewHolderType> = withContext(Dispatchers.Default) {
         val result: MutableList<ViewHolderType> = mutableListOf()
 
         val numberOfCards = prefsInteractor.getNumberOfCards()
@@ -293,12 +293,12 @@ class RecordsFilterViewDataInteractor @Inject constructor(
             HintViewData(resourceRepo.getString(R.string.record_types_empty)).let(result::add)
         }
 
-        return result
+        return@withContext result
     }
 
     suspend fun getCommentFilterSelectionViewData(
         filters: List<RecordsFilter>,
-    ): List<ViewHolderType> {
+    ): List<ViewHolderType> = withContext(Dispatchers.Default) {
         val result: MutableList<ViewHolderType> = mutableListOf()
 
         val isDarkTheme = prefsInteractor.getDarkMode()
@@ -326,7 +326,7 @@ class RecordsFilterViewDataInteractor @Inject constructor(
             text = comment.orEmpty()
         ).let(result::add)
 
-        return result
+        return@withContext result
     }
 
     suspend fun getTagsFilterSelectionViewData(
@@ -335,7 +335,7 @@ class RecordsFilterViewDataInteractor @Inject constructor(
         types: List<RecordType>,
         recordTypeCategories: List<RecordTypeCategory>,
         recordTags: List<RecordTag>,
-    ): List<ViewHolderType> {
+    ): List<ViewHolderType> = withContext(Dispatchers.Default) {
         val result: MutableList<ViewHolderType> = mutableListOf()
 
         val isDarkTheme = prefsInteractor.getDarkMode()
@@ -381,17 +381,17 @@ class RecordsFilterViewDataInteractor @Inject constructor(
             HintViewData(resourceRepo.getString(R.string.change_record_categories_empty)).let(result::add)
         }
 
-        return result
+        return@withContext result
     }
 
     suspend fun getDateFilterSelectionViewData(
         filters: List<RecordsFilter>,
         defaultRange: Range,
-    ): List<ViewHolderType> {
+    ): List<ViewHolderType> = withContext(Dispatchers.Default) {
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
         val range = filters.getDate() ?: defaultRange
 
-        return RecordsFilterRangeViewData(
+        return@withContext RecordsFilterRangeViewData(
             id = 1L, // Only one at the time.
             timeStarted = timeMapper.formatDateTimeYear(
                 time = range.timeStarted,
@@ -410,7 +410,7 @@ class RecordsFilterViewDataInteractor @Inject constructor(
         filters: List<RecordsFilter>,
         recordTypes: Map<Long, RecordType>,
         recordTags: List<RecordTag>,
-    ): List<ViewHolderType> {
+    ): List<ViewHolderType> = withContext(Dispatchers.Default) {
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
         val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
@@ -420,7 +420,7 @@ class RecordsFilterViewDataInteractor @Inject constructor(
             text = resourceRepo.getString(R.string.records_filter_invert_selection),
         )
 
-        return button.let(::listOf) + filters
+        return@withContext button.let(::listOf) + filters
             .getManuallyFilteredRecordIds()
             .mapNotNull { recordInteractor.get(it) } // TODO do better
             .mapNotNull { record ->
@@ -442,11 +442,11 @@ class RecordsFilterViewDataInteractor @Inject constructor(
 
     suspend fun getDaysOfWeekFilterSelectionViewData(
         filters: List<RecordsFilter>,
-    ): List<ViewHolderType> {
+    ): List<ViewHolderType> = withContext(Dispatchers.Default) {
         val selectedDays = filters.getDaysOfWeek()
         val isDarkTheme = prefsInteractor.getDarkMode()
 
-        return DayOfWeek.values().map {
+        return@withContext DayOfWeek.values().map {
             val selected = it in selectedDays
             RecordsFilterDayOfWeekViewData(
                 dayOfWeek = it,
@@ -463,12 +463,12 @@ class RecordsFilterViewDataInteractor @Inject constructor(
     suspend fun getTimeOfDayFilterSelectionViewData(
         filters: List<RecordsFilter>,
         defaultRange: Range,
-    ): List<ViewHolderType> {
+    ): List<ViewHolderType> = withContext(Dispatchers.Default) {
         val range = filters.getTimeOfDay() ?: defaultRange
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
         val startOfDay = timeMapper.getStartOfDayTimeStamp()
 
-        return RecordsFilterRangeViewData(
+        return@withContext RecordsFilterRangeViewData(
             id = 1L, // Only one at the time.
             timeStarted = timeMapper.formatTime(
                 time = range.timeStarted + startOfDay,

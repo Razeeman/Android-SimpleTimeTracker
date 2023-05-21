@@ -29,6 +29,8 @@ import java.util.Calendar
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.math.max
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class RecordsViewDataInteractor @Inject constructor(
     private val recordInteractor: RecordInteractor,
@@ -44,7 +46,7 @@ class RecordsViewDataInteractor @Inject constructor(
     private val rangeMapper: RangeMapper,
 ) {
 
-    suspend fun getViewData(shift: Int): RecordsState {
+    suspend fun getViewData(shift: Int): RecordsState = withContext(Dispatchers.Default) {
         val calendar = Calendar.getInstance()
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
@@ -60,7 +62,7 @@ class RecordsViewDataInteractor @Inject constructor(
         val calendarDayCount = prefsInteractor.getDaysInCalendar().count
         val daysCountInShift = if (isCalendarView) calendarDayCount else 1
 
-        return (daysCountInShift - 1 downTo 0).map { dayInShift ->
+        return@withContext (daysCountInShift - 1 downTo 0).map { dayInShift ->
             val actualShift = shift * daysCountInShift - dayInShift
 
             val (rangeStart, rangeEnd) = timeMapper.getRangeStartAndEnd(

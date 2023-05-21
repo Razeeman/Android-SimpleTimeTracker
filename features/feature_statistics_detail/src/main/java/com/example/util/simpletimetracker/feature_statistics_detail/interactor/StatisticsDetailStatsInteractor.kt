@@ -23,6 +23,8 @@ import com.example.util.simpletimetracker.feature_statistics_detail.viewData.Sta
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStatsViewData
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import javax.inject.Inject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class StatisticsDetailStatsInteractor @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
@@ -42,7 +44,7 @@ class StatisticsDetailStatsInteractor @Inject constructor(
         showComparison: Boolean,
         rangeLength: RangeLength,
         rangePosition: Int,
-    ): StatisticsDetailStatsViewData {
+    ): StatisticsDetailStatsViewData = withContext(Dispatchers.Default) {
         val isDarkTheme = prefsInteractor.getDarkMode()
         val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
         val startOfDayShift = prefsInteractor.getStartOfDayShift()
@@ -59,7 +61,7 @@ class StatisticsDetailStatsInteractor @Inject constructor(
             startOfDayShift = startOfDayShift
         )
 
-        return mapStatsData(
+        return@withContext mapStatsData(
             records = if (range.first == 0L && range.second == 0L) {
                 records
             } else {

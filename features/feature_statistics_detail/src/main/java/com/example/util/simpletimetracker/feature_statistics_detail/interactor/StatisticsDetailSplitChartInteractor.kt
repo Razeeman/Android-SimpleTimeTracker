@@ -17,6 +17,8 @@ import javax.inject.Inject
 import kotlin.math.abs
 import kotlin.math.ceil
 import kotlin.math.floor
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class StatisticsDetailSplitChartInteractor @Inject constructor(
     private val mapper: StatisticsDetailViewDataMapper,
@@ -32,7 +34,7 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
         rangeLength: RangeLength,
         rangePosition: Int,
         splitChartGrouping: SplitChartGrouping,
-    ): StatisticsDetailChartViewData {
+    ): StatisticsDetailChartViewData = withContext(Dispatchers.Default) {
         val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
         val startOfDayShift = prefsInteractor.getStartOfDayShift()
         val range = timeMapper.getRangeStartAndEnd(
@@ -48,7 +50,7 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
         }
         val isVisible = (isForComparison && filter.isNotEmpty()) || !isForComparison
 
-        return when (splitChartGrouping) {
+        return@withContext when (splitChartGrouping) {
             SplitChartGrouping.HOURLY ->
                 mapper.mapToHourlyChartViewData(data, isVisible)
             SplitChartGrouping.DAILY ->
@@ -62,7 +64,7 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
         isForComparison: Boolean,
         rangeLength: RangeLength,
         rangePosition: Int,
-    ): StatisticsDetailChartViewData {
+    ): StatisticsDetailChartViewData = withContext(Dispatchers.Default) {
         val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
         val startOfDayShift = prefsInteractor.getStartOfDayShift()
         val range = timeMapper.getRangeStartAndEnd(
@@ -112,7 +114,7 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
             ?: availableSteps.last()
 
         if (total == 0L || durationSpread == 0L || step == 0L) {
-            return mapper.mapToDurationsSlipChartViewData(emptyMap(), isVisible)
+            return@withContext mapper.mapToDurationsSlipChartViewData(emptyMap(), isVisible)
         }
 
         val buckets: MutableMap<Range, Long> = mutableMapOf()
@@ -147,7 +149,7 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
             count * 100f / total
         }
 
-        return mapper.mapToDurationsSlipChartViewData(data, isVisible)
+        return@withContext mapper.mapToDurationsSlipChartViewData(data, isVisible)
     }
 
     private fun getDurations(

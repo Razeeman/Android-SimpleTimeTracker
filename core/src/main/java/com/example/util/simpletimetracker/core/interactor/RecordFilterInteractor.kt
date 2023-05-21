@@ -43,7 +43,7 @@ class RecordFilterInteractor @Inject constructor(
     suspend fun mapDateFilter(
         rangeLength: RangeLength,
         rangePosition: Int,
-    ): RecordsFilter? {
+    ): RecordsFilter? = withContext(Dispatchers.Default) {
         val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
         val startOfDayShift = prefsInteractor.getStartOfDayShift()
 
@@ -54,7 +54,7 @@ class RecordFilterInteractor @Inject constructor(
             startOfDayShift = startOfDayShift
         )
 
-        return if (range.first == 0L && range.second == 0L) {
+        return@withContext if (range.first == 0L && range.second == 0L) {
             null
         } else {
             RecordsFilter.Date(Range(range.first, range.second))
