@@ -81,7 +81,7 @@ class RecordsCalendarView @JvmOverloads constructor(
     private val recordCornerRadius: Float = 8.dpToPx().toFloat()
     private val recordVerticalPadding: Float = 2.dpToPx().toFloat()
     private val recordHorizontalPadding: Float = 4.dpToPx().toFloat()
-    private val paddingBetweenDays: Float = 2.dpToPx().toFloat()
+    private val paddingBetweenDays: Float = 1.dpToPx().toFloat()
     private val dayInMillis = TimeUnit.DAYS.toMillis(1)
     private val hourInMillis = TimeUnit.HOURS.toMillis(1)
 
@@ -206,7 +206,7 @@ class RecordsCalendarView @JvmOverloads constructor(
                 data = data,
                 index = index,
                 isFirst = index == 0,
-                isLast = index == data.size - 1
+                isLast = index == this.data.size - 1
             )
         }
     }
@@ -375,11 +375,8 @@ class RecordsCalendarView @JvmOverloads constructor(
             boxWidth = chartWidth / item.columnCount
             boxLeft = pixelLeftBound +
                 chartWidth * index +
-                boxWidth * (item.columnNumber - 1) +
-                (paddingBetweenDays / 2).takeUnless { isFirst }.orZero()
-            boxRight = boxLeft +
-                boxWidth -
-                (paddingBetweenDays / 2).takeUnless { isLast }.orZero()
+                boxWidth * (item.columnNumber - 1)
+            boxRight = boxLeft + boxWidth
             boxBottom = ((h - boxShift) * scaleFactor)
                 .let { if (reverseOrder) (h * scaleFactor - it + boxHeight * scaleFactor) else it }
                 .let { it + panFactor }
@@ -392,8 +389,10 @@ class RecordsCalendarView @JvmOverloads constructor(
             item.boxBottom = boxBottom
 
             recordBounds.set(
-                boxLeft, boxTop,
-                boxRight, boxBottom,
+                boxLeft + (paddingBetweenDays / 2).takeUnless { isFirst }.orZero(),
+                boxTop,
+                boxRight - (paddingBetweenDays / 2).takeUnless { isLast }.orZero(),
+                boxBottom,
             )
             canvas.drawRoundRect(
                 recordBounds,
