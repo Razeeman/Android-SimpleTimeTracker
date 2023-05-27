@@ -95,6 +95,7 @@ class DataEditViewModel @Inject constructor(
             tag = FILTER_TAG,
             title = resourceRepo.getString(R.string.chart_filter_hint),
             dateSelectionAvailable = true,
+            untrackedSelectionAvailable = false,
             filters = filters.map(RecordsFilter::toParams),
         ).let(router::navigate)
     }

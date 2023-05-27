@@ -36,6 +36,10 @@ class StatisticsViewDataInteractor @Inject constructor(
         filterType: ChartFilterType,
         selectedId: Long,
     ): RecordsFilter {
+        if (selectedId == UNTRACKED_ITEM_ID) {
+            return RecordsFilter.Untracked
+        }
+
         if (selectedId == UNCATEGORIZED_ITEM_ID) {
             when (filterType) {
                 ChartFilterType.CATEGORY -> {

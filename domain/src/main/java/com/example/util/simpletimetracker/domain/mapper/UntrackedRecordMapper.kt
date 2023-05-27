@@ -25,5 +25,13 @@ class UntrackedRecordMapper @Inject constructor(
             .map { max(it.timeStarted, range.timeStarted) to min(it.timeEnded, untrackedTimeEndRange) }
             // Calculate uncovered ranges
             .let { unCoveredRangesMapper.map(range.timeStarted, untrackedTimeEndRange, it) }
+            .filter {
+                // Filter only untracked records that are longer than a minute
+                (it.second - it.first) >= UNTRACKED_RECORD_LENGTH_LIMIT
+            }
+    }
+
+    companion object {
+        private const val UNTRACKED_RECORD_LENGTH_LIMIT: Long = 60 * 1000L // 1 min
     }
 }

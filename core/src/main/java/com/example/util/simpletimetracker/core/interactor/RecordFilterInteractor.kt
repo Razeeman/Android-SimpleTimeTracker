@@ -17,6 +17,8 @@ import com.example.util.simpletimetracker.domain.extension.hasAnyComment
 import com.example.util.simpletimetracker.domain.extension.hasCategoryFilter
 import com.example.util.simpletimetracker.domain.extension.hasNoComment
 import com.example.util.simpletimetracker.domain.extension.hasUntaggedItem
+import com.example.util.simpletimetracker.domain.extension.hasUntrackedFilter
+import com.example.util.simpletimetracker.domain.interactor.GetUntrackedRecordsInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
@@ -36,6 +38,7 @@ class RecordFilterInteractor @Inject constructor(
     private val interactor: RecordInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
     private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
+    private val getUntrackedRecordsInteractor: GetUntrackedRecordsInteractor,
     private val timeMapper: TimeMapper,
     private val prefsInteractor: PrefsInteractor,
 ) {
@@ -92,9 +95,18 @@ class RecordFilterInteractor @Inject constructor(
         val timeOfDay: Range? = filters.getTimeOfDay()
         val durations: List<Range> = filters.getDuration()?.let(::listOf).orEmpty()
 
-        // Use different queries for optimization.
+        // TODO Use different queries for optimization.
         // TODO by tag (tagged, untagged).
         val records: List<Record> = when {
+            filters.hasUntrackedFilter() -> {
+                val range = ranges.firstOrNull() ?: Range(0, 0)
+                val records = if (range.timeStarted == 0L && range.timeEnded == 0L) {
+                    interactor.getAll()
+                } else {
+                    interactor.getFromRange(range.timeStarted, range.timeEnded)
+                }
+                getUntrackedRecordsInteractor.get(range, records)
+            }
             typeIds.isNotEmpty() && ranges.isNotEmpty() -> {
                 val result = mutableMapOf<Long, Record>()
                 ranges

@@ -9,7 +9,6 @@ import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.extension.toParams
 import com.example.util.simpletimetracker.core.interactor.SharingInteractor
 import com.example.util.simpletimetracker.core.model.NavigationTab
-import com.example.util.simpletimetracker.domain.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.model.RangeLength
@@ -99,9 +98,6 @@ class StatisticsViewModel @Inject constructor(
         item: StatisticsViewData,
         sharedElements: Map<Any, String>,
     ) = viewModelScope.launch {
-        // TODO untracked detailed statistics
-        if (item.id == UNTRACKED_ITEM_ID) return@launch
-
         val filterType = prefsInteractor.getChartFilterType()
         val rangeLength = if (prefsInteractor.getKeepStatisticsRange()) {
             prefsInteractor.getStatisticsRange()

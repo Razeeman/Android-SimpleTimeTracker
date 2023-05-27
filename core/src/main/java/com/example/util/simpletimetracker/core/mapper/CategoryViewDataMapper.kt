@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.core.mapper
 import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.UNCATEGORIZED_ITEM_ID
+import com.example.util.simpletimetracker.domain.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.domain.model.AppColor
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.RecordTag
@@ -53,6 +54,26 @@ class CategoryViewDataMapper @Inject constructor(
         )
     }
 
+    fun mapToCategoryUntrackedItem(
+        isFiltered: Boolean,
+        isDarkTheme: Boolean
+    ): CategoryViewData {
+        return CategoryViewData.Category(
+            id = UNTRACKED_ITEM_ID,
+            name = R.string.untracked_time_name
+                .let(resourceRepo::getString),
+            iconColor = getTextColor(
+                isDarkTheme = isDarkTheme,
+                isFiltered = isFiltered,
+            ),
+            color = if (isFiltered) {
+                colorMapper.toFilteredColor(isDarkTheme)
+            } else {
+                colorMapper.toUntrackedColor(isDarkTheme)
+            },
+        )
+    }
+
     fun mapRecordTag(
         tag: RecordTag,
         type: RecordType?,
@@ -89,6 +110,27 @@ class CategoryViewDataMapper @Inject constructor(
                 colorMapper.toUntrackedColor(isDarkTheme)
             },
             icon = RecordTypeIcon.Image(R.drawable.untagged)
+        )
+    }
+
+    fun mapToTagUntrackedItem(
+        isFiltered: Boolean,
+        isDarkTheme: Boolean
+    ): CategoryViewData {
+        return CategoryViewData.Record.Tagged(
+            id = UNTRACKED_ITEM_ID,
+            name = R.string.untracked_time_name
+                .let(resourceRepo::getString),
+            icon = RecordTypeIcon.Image(R.drawable.unknown),
+            iconColor = getTextColor(
+                isDarkTheme = isDarkTheme,
+                isFiltered = isFiltered
+            ),
+            color = if (isFiltered) {
+                colorMapper.toFilteredColor(isDarkTheme)
+            } else {
+                colorMapper.toUntrackedColor(isDarkTheme)
+            },
         )
     }
 

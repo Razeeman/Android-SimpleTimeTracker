@@ -62,7 +62,7 @@ class ChartFilterViewDataInteractor @Inject constructor(
             }
             .takeUnless { it.isEmpty() }
             ?.plus(
-                chartFilterViewDataMapper.mapToCategoryUntrackedItem(
+                categoryViewDataMapper.mapToCategoryUntrackedItem(
                     isFiltered = UNTRACKED_ITEM_ID in categoryIdsFiltered,
                     isDarkTheme = isDarkTheme
                 )
@@ -99,7 +99,7 @@ class ChartFilterViewDataInteractor @Inject constructor(
             }
             .takeUnless { it.isEmpty() }
             ?.plus(
-                chartFilterViewDataMapper.mapToTagUntrackedItem(
+                categoryViewDataMapper.mapToTagUntrackedItem(
                     isFiltered = UNTRACKED_ITEM_ID in recordTagsFiltered,
                     isDarkTheme = isDarkTheme
                 )

@@ -1,9 +1,7 @@
 package com.example.util.simpletimetracker.domain.interactor
 
 import com.example.util.simpletimetracker.domain.UNTRACKED_ITEM_ID
-import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.mapper.StatisticsMapper
-import com.example.util.simpletimetracker.domain.mapper.UntrackedRecordMapper
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.Statistics
@@ -14,7 +12,7 @@ import kotlinx.coroutines.withContext
 class StatisticsInteractor @Inject constructor(
     private val recordInteractor: RecordInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
-    private val untrackedRecordMapper: UntrackedRecordMapper,
+    private val getUntrackedRecordsInteractor: GetUntrackedRecordsInteractor,
     private val statisticsMapper: StatisticsMapper,
 ) {
 
@@ -80,19 +78,8 @@ class StatisticsInteractor @Inject constructor(
         addUntracked: Boolean,
     ): List<Statistics> {
         if (addUntracked) {
-            // If range is all records - calculate from first records to current time.
-            val actualRange = if (rangeIsAllRecords(range)) {
-                Range(
-                    timeStarted = recordInteractor.getNext(0)?.timeStarted.orZero(),
-                    timeEnded = System.currentTimeMillis()
-                )
-            } else {
-                range
-            }
-            val untrackedTime = untrackedRecordMapper.calculateUntrackedRanges(
-                records.map { Range(it.timeStarted, it.timeEnded) },
-                actualRange,
-            ).sumOf { it.second - it.first }
+            val untrackedTime = getUntrackedRecordsInteractor.get(range, records)
+                .sumOf { it.duration }
 
             if (untrackedTime > 0L) {
                 return Statistics(

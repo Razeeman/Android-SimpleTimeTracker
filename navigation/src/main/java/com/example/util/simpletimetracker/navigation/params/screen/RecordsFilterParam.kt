@@ -7,6 +7,9 @@ import kotlinx.parcelize.Parcelize
 sealed interface RecordsFilterParam : Parcelable {
 
     @Parcelize
+    object Untracked : RecordsFilterParam
+
+    @Parcelize
     data class Activity(val typeIds: List<Long>) : RecordsFilterParam
 
     @Parcelize

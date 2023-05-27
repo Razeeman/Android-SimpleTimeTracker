@@ -7,6 +7,7 @@ import com.example.util.simpletimetracker.domain.extension.getTypeIds
 import com.example.util.simpletimetracker.domain.extension.hasActivityFilter
 import com.example.util.simpletimetracker.domain.extension.hasCategoryFilter
 import com.example.util.simpletimetracker.domain.extension.hasSelectedTagsFilter
+import com.example.util.simpletimetracker.domain.extension.hasUntrackedFilter
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
@@ -53,6 +54,12 @@ class StatisticsDetailPreviewInteractor @Inject constructor(
         }
 
         val viewData = when {
+            filterParams.hasUntrackedFilter() -> {
+                statisticsDetailViewDataMapper.mapUntrackedPreview(
+                    isDarkTheme = isDarkTheme,
+                    isForComparison = isForComparison,
+                ).let(::listOf)
+            }
             filterParams.hasActivityFilter() -> {
                 val selectedIds = filterParams.getTypeIds()
                 mapActivities(selectedIds)

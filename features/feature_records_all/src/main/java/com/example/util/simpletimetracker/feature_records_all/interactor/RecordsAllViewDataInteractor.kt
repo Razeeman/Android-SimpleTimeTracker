@@ -40,13 +40,12 @@ class RecordsAllViewDataInteractor @Inject constructor(
             .let { recordFilterInteractor.getByFilter(it) }
 
         return@withContext records
-            .mapNotNull { record ->
-                Triple(
-                    record.timeStarted,
-                    record.timeEnded - record.timeStarted,
+            .map { record ->
+                val type = recordTypes[record.typeId]
+                val viewData = if (type != null) {
                     recordViewDataMapper.map(
                         record = record,
-                        recordType = recordTypes[record.typeId] ?: return@mapNotNull null,
+                        recordType = type,
                         recordTags = recordTags.filter { it.id in record.tagIds },
                         timeStarted = record.timeStarted,
                         timeEnded = record.timeEnded,
@@ -55,6 +54,21 @@ class RecordsAllViewDataInteractor @Inject constructor(
                         useProportionalMinutes = useProportionalMinutes,
                         showSeconds = showSeconds,
                     )
+                } else {
+                    recordViewDataMapper.mapToUntracked(
+                        timeStarted = record.timeStarted,
+                        timeEnded = record.timeEnded,
+                        isDarkTheme = isDarkTheme,
+                        useMilitaryTime = useMilitaryTime,
+                        useProportionalMinutes = useProportionalMinutes,
+                        showSeconds = showSeconds,
+                    )
+                }
+
+                Triple(
+                    record.timeStarted,
+                    record.duration,
+                    viewData,
                 )
             }
             .sortedByDescending { (timeStarted, duration, _) ->

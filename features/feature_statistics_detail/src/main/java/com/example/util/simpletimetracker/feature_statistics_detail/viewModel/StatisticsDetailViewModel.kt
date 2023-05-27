@@ -164,6 +164,7 @@ class StatisticsDetailViewModel @Inject constructor(
                 tag = FILTER_TAG,
                 title = resourceRepo.getString(R.string.chart_filter_hint),
                 dateSelectionAvailable = false,
+                untrackedSelectionAvailable = true,
                 filters = filter
                     .plus(dateFilter)
                     .map(RecordsFilter::toParams).toList(),

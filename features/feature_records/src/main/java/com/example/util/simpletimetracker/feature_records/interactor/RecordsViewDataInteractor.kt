@@ -272,10 +272,6 @@ class RecordsViewDataInteractor @Inject constructor(
                         comment = ""
                     )
                 }
-                .filter {
-                    // Filter only untracked records that are longer than a minute
-                    it.duration >= UNTRACKED_RECORD_LENGTH_LIMIT
-                }
                 .map { untrackedRecord ->
                     recordsViewDataMapper.mapToUntracked(
                         record = untrackedRecord,
@@ -373,7 +369,6 @@ class RecordsViewDataInteractor @Inject constructor(
     )
 
     companion object {
-        private const val UNTRACKED_RECORD_LENGTH_LIMIT: Long = 60 * 1000L // 1 min
         private val minuteInMillis = TimeUnit.MINUTES.toMillis(1)
     }
 }

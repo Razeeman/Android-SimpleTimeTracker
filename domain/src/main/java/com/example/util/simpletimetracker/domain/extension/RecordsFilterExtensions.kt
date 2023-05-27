@@ -111,6 +111,10 @@ fun List<RecordsFilter.TagItem>.getTaggedIds(): List<Long> {
         .map(RecordsFilter.TagItem.Tagged::tagId)
 }
 
+fun List<RecordsFilter>.hasUntrackedFilter(): Boolean {
+    return any { it is RecordsFilter.Untracked }
+}
+
 fun List<RecordsFilter>.hasActivityFilter(): Boolean {
     return any { it is RecordsFilter.Activity }
 }

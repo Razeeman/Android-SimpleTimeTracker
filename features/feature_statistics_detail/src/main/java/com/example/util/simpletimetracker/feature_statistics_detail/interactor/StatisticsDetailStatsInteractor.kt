@@ -333,14 +333,17 @@ class StatisticsDetailStatsInteractor @Inject constructor(
             .let(::HintViewData).let(::listOf)
 
         return hint + durations
-            .mapNotNull { (typeId, duration) ->
-                val type = typesMap[typeId] ?: return@mapNotNull null
+            .map { (typeId, duration) ->
+                val type = typesMap[typeId]
 
                 mapTag(
                     id = "activity_$typeId".hashCode().toLong(),
-                    name = type.name,
-                    icon = type.icon.let(iconMapper::mapIcon),
-                    color = type.color.let { colorMapper.mapToColorInt(it, isDarkTheme) },
+                    name = type?.name
+                        ?: resourceRepo.getString(R.string.untracked_time_name),
+                    icon = type?.icon?.let(iconMapper::mapIcon)
+                        ?: RecordTypeIcon.Image(R.drawable.unknown),
+                    color = type?.color?.let { colorMapper.mapToColorInt(it, isDarkTheme) }
+                        ?: colorMapper.toUntrackedColor(isDarkTheme),
                     duration = duration,
                     sumDuration = sumDuration,
                     statisticsSize = activitiesSize,

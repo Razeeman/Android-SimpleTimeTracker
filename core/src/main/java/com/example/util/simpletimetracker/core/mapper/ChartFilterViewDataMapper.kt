@@ -43,47 +43,6 @@ class ChartFilterViewDataMapper @Inject constructor(
         )
     }
 
-    fun mapToCategoryUntrackedItem(
-        isFiltered: Boolean,
-        isDarkTheme: Boolean
-    ): CategoryViewData {
-        return CategoryViewData.Category(
-            id = UNTRACKED_ITEM_ID,
-            name = R.string.untracked_time_name
-                .let(resourceRepo::getString),
-            iconColor = categoryViewDataMapper.getTextColor(
-                isDarkTheme = isDarkTheme,
-                isFiltered = isFiltered,
-            ),
-            color = if (isFiltered) {
-                colorMapper.toFilteredColor(isDarkTheme)
-            } else {
-                colorMapper.toUntrackedColor(isDarkTheme)
-            },
-        )
-    }
-
-    fun mapToTagUntrackedItem(
-        isFiltered: Boolean,
-        isDarkTheme: Boolean
-    ): CategoryViewData {
-        return CategoryViewData.Record.Tagged(
-            id = UNTRACKED_ITEM_ID,
-            name = R.string.untracked_time_name
-                .let(resourceRepo::getString),
-            icon = RecordTypeIcon.Image(R.drawable.unknown),
-            iconColor = categoryViewDataMapper.getTextColor(
-                isDarkTheme = isDarkTheme,
-                isFiltered = isFiltered
-            ),
-            color = if (isFiltered) {
-                colorMapper.toFilteredColor(isDarkTheme)
-            } else {
-                colorMapper.toUntrackedColor(isDarkTheme)
-            },
-        )
-    }
-
     fun mapToFilterTypeViewData(filterType: ChartFilterType): List<ViewHolderType> {
         return listOf(
             ChartFilterType.ACTIVITY,

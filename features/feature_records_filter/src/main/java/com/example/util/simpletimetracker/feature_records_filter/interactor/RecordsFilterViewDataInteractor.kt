@@ -26,6 +26,7 @@ import com.example.util.simpletimetracker.domain.extension.hasCategoryFilter
 import com.example.util.simpletimetracker.domain.extension.hasManuallyFiltered
 import com.example.util.simpletimetracker.domain.extension.hasUncategorizedItem
 import com.example.util.simpletimetracker.domain.extension.hasUntaggedItem
+import com.example.util.simpletimetracker.domain.extension.hasUntrackedFilter
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.model.Category
@@ -152,18 +153,31 @@ class RecordsFilterViewDataInteractor @Inject constructor(
 
         var count: Int
         val viewData = records
-            .mapNotNull { record ->
-                record.timeStarted to recordViewDataMapper.map(
-                    record = record,
-                    recordType = recordTypes[record.typeId] ?: return@mapNotNull null,
-                    recordTags = recordTags.filter { it.id in record.tagIds },
-                    timeStarted = record.timeStarted,
-                    timeEnded = record.timeEnded,
-                    isDarkTheme = isDarkTheme,
-                    useMilitaryTime = useMilitaryTime,
-                    useProportionalMinutes = useProportionalMinutes,
-                    showSeconds = showSeconds,
-                )
+            .map { record ->
+                val type = recordTypes[record.typeId]
+                val viewData = if (type != null) {
+                    recordViewDataMapper.map(
+                        record = record,
+                        recordType = type,
+                        recordTags = recordTags.filter { it.id in record.tagIds },
+                        timeStarted = record.timeStarted,
+                        timeEnded = record.timeEnded,
+                        isDarkTheme = isDarkTheme,
+                        useMilitaryTime = useMilitaryTime,
+                        useProportionalMinutes = useProportionalMinutes,
+                        showSeconds = showSeconds,
+                    )
+                } else {
+                    recordViewDataMapper.mapToUntracked(
+                        timeStarted = record.timeStarted,
+                        timeEnded = record.timeEnded,
+                        isDarkTheme = isDarkTheme,
+                        useMilitaryTime = useMilitaryTime,
+                        useProportionalMinutes = useProportionalMinutes,
+                        showSeconds = showSeconds,
+                    )
+                }
+                record.timeStarted to viewData
             }
             .also { count = it.size }
             .plus(manuallyFilteredRecords)
@@ -189,24 +203,23 @@ class RecordsFilterViewDataInteractor @Inject constructor(
     ): List<ViewHolderType> = withContext(Dispatchers.Default) {
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
+        val hasUntracked = filters.hasUntrackedFilter()
 
         val availableFilters = listOfNotNull(
-            if (filters.hasCategoryFilter()) {
-                RecordFilterViewData.Type.CATEGORY
-            } else {
-                RecordFilterViewData.Type.ACTIVITY
+            when {
+                hasUntracked -> RecordFilterViewData.Type.UNTRACKED
+                filters.hasCategoryFilter() -> RecordFilterViewData.Type.CATEGORY
+                else -> RecordFilterViewData.Type.ACTIVITY
             },
-            RecordFilterViewData.Type.COMMENT,
-            RecordFilterViewData.Type.DATE.takeIf {
-                extra.dateSelectionAvailable
-            },
-            RecordFilterViewData.Type.SELECTED_TAGS,
-            RecordFilterViewData.Type.FILTERED_TAGS,
+            RecordFilterViewData.Type.COMMENT.takeUnless { hasUntracked },
+            RecordFilterViewData.Type.DATE.takeIf { extra.dateSelectionAvailable },
+            RecordFilterViewData.Type.SELECTED_TAGS.takeUnless { hasUntracked },
+            RecordFilterViewData.Type.FILTERED_TAGS.takeUnless { hasUntracked },
             RecordFilterViewData.Type.DAYS_OF_WEEK,
             RecordFilterViewData.Type.TIME_OF_DAY,
             RecordFilterViewData.Type.DURATION,
             RecordFilterViewData.Type.MANUALLY_FILTERED.takeIf {
-                filters.hasManuallyFiltered()
+                filters.hasManuallyFiltered() && !hasUntracked
             }
         )
 
@@ -238,6 +251,7 @@ class RecordsFilterViewDataInteractor @Inject constructor(
     }
 
     suspend fun getActivityFilterSelectionViewData(
+        extra: RecordsFilterParams,
         filters: List<RecordsFilter>,
         types: List<RecordType>,
         recordTypeCategories: List<RecordTypeCategory>,
@@ -281,16 +295,22 @@ class RecordsFilterViewDataInteractor @Inject constructor(
         if (categoriesViewData.isNotEmpty()) {
             HintViewData(resourceRepo.getString(R.string.category_hint)).let(result::add)
             categoriesViewData.let(result::addAll)
+            DividerViewData(1).let(result::add)
         }
 
         if (typesViewData.isNotEmpty()) {
-            if (categoriesViewData.isNotEmpty()) {
-                DividerViewData(1).let(result::add)
-            }
             HintViewData(resourceRepo.getString(R.string.activity_hint)).let(result::add)
             typesViewData.let(result::addAll)
         } else {
             HintViewData(resourceRepo.getString(R.string.record_types_empty)).let(result::add)
+        }
+
+        if (extra.untrackedSelectionAvailable) {
+            DividerViewData(2).let(result::add)
+            categoryViewDataMapper.mapToTagUntrackedItem(
+                isFiltered = !filters.hasUntrackedFilter(),
+                isDarkTheme = isDarkTheme,
+            ).let(result::add)
         }
 
         return@withContext result

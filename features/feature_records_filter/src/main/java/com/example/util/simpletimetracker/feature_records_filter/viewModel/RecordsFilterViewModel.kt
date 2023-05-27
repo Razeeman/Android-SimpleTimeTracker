@@ -9,6 +9,7 @@ import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.extension.toModel
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.UNCATEGORIZED_ITEM_ID
+import com.example.util.simpletimetracker.domain.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.domain.extension.getAllTypeIds
 import com.example.util.simpletimetracker.domain.extension.getCategoryItems
 import com.example.util.simpletimetracker.domain.extension.getCommentItems
@@ -21,8 +22,8 @@ import com.example.util.simpletimetracker.domain.extension.getSelectedTags
 import com.example.util.simpletimetracker.domain.extension.getTimeOfDay
 import com.example.util.simpletimetracker.domain.extension.getTypeIds
 import com.example.util.simpletimetracker.domain.extension.getTypeIdsFromCategories
-import com.example.util.simpletimetracker.domain.extension.hasCategoryFilter
 import com.example.util.simpletimetracker.domain.extension.hasManuallyFiltered
+import com.example.util.simpletimetracker.domain.extension.hasUntrackedFilter
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
@@ -127,13 +128,11 @@ class RecordsFilterViewModel @Inject constructor(
 
     fun init(extra: RecordsFilterParams) {
         this.extra = extra
-        filterSelectionState = RecordsFilterSelectionState.Visible(
-            if (filters.hasCategoryFilter()) {
-                RecordFilterViewData.Type.CATEGORY
-            } else {
-                RecordFilterViewData.Type.ACTIVITY
-            }
-        )
+
+        filters.firstOrNull()
+            ?.let { recordsFilterViewDataMapper.mapToViewData(it::class.java) }
+            ?.let(RecordsFilterSelectionState::Visible)
+            ?.let(this::filterSelectionState::set)
     }
 
     fun onFilterClick(item: RecordFilterViewData) {
@@ -171,8 +170,14 @@ class RecordsFilterViewModel @Inject constructor(
 
     fun onCategoryClick(item: CategoryViewData) = viewModelScope.launch {
         when (item) {
-            is CategoryViewData.Category -> handleCategoryClick(item.id)
-            is CategoryViewData.Record -> handleTagClick(item)
+            is CategoryViewData.Category -> {
+                handleCategoryClick(item.id)
+            }
+            is CategoryViewData.Record -> if (item.id == UNTRACKED_ITEM_ID) {
+                handleUntrackedClick()
+            } else {
+                handleTagClick(item)
+            }
         }
 
         updateFilters()
@@ -252,6 +257,8 @@ class RecordsFilterViewModel @Inject constructor(
         item: RecordViewData,
         @Suppress("UNUSED_PARAMETER") sharedElements: Pair<Any, String>
     ) {
+        if (item is RecordViewData.Untracked) return // TODO manually filter untracked records?
+
         handleRecordClick(item.getUniqueId())
 
         updateFilters()
@@ -286,23 +293,24 @@ class RecordsFilterViewModel @Inject constructor(
             recordTypeCategories = getRecordTypeCategoriesCache()
         )
 
+        filterSelectionState = RecordsFilterSelectionState.Visible(RecordFilterViewData.Type.ACTIVITY)
+
         // Switch from categories to types in these categories.
         if (currentIdsFromCategories.isNotEmpty()) {
-            filters.removeAll { it is RecordsFilter.Category }
             currentIds.addAll(currentIdsFromCategories)
-            filterSelectionState = RecordsFilterSelectionState.Visible(RecordFilterViewData.Type.ACTIVITY)
         }
 
         val newIds = currentIds.toMutableList().apply { addOrRemove(id) }
 
         filters.removeAll { it is RecordsFilter.Activity }
+        filters.removeAll { it is RecordsFilter.Category }
+        filters.removeAll { it is RecordsFilter.Untracked }
         if (newIds.isNotEmpty()) filters.add(RecordsFilter.Activity(newIds))
     }
 
     private suspend fun handleCategoryClick(id: Long) {
         val currentItems = filters.getCategoryItems()
 
-        filters.removeAll { it is RecordsFilter.Activity }
         filterSelectionState = RecordsFilterSelectionState.Visible(RecordFilterViewData.Type.CATEGORY)
 
         val newItems = if (id == UNCATEGORIZED_ITEM_ID) {
@@ -311,10 +319,34 @@ class RecordsFilterViewModel @Inject constructor(
             RecordsFilter.CategoryItem.Categorized(id)
         }.let { currentItems.toMutableList().apply { addOrRemove(it) } }
 
+        filters.removeAll { it is RecordsFilter.Activity }
         filters.removeAll { it is RecordsFilter.Category }
+        filters.removeAll { it is RecordsFilter.Untracked }
         if (newItems.isNotEmpty()) filters.add(RecordsFilter.Category(newItems))
 
         checkTagFilterConsistency()
+    }
+
+    private fun handleUntrackedClick() {
+        val hasUntrackedFilter = filters.hasUntrackedFilter()
+
+        filterSelectionState = RecordsFilterSelectionState.Visible(RecordFilterViewData.Type.UNTRACKED)
+
+        if (!hasUntrackedFilter) {
+            val filtersAvailableWithUntrackedFilter = listOf(
+                RecordsFilter.Date::class.java,
+                RecordsFilter.DaysOfWeek::class.java,
+                RecordsFilter.TimeOfDay::class.java,
+                RecordsFilter.Duration::class.java,
+            )
+            filters.removeAll {
+                it::class.java !in filtersAvailableWithUntrackedFilter
+            }
+
+            filters.add(RecordsFilter.Untracked)
+        } else {
+            filters.removeAll { it is RecordsFilter.Untracked }
+        }
     }
 
     private fun handleCommentFilterClick(item: RecordFilterViewData) {
@@ -360,6 +392,7 @@ class RecordsFilterViewModel @Inject constructor(
             is CategoryViewData.Record.Untagged -> RecordsFilter.TagItem.Untagged
         }.let { currentTags.toMutableList().apply { addOrRemove(it) } }
 
+        filters.removeAll { it is RecordsFilter.Untracked }
         when (currentState) {
             RecordFilterViewData.Type.SELECTED_TAGS -> {
                 filters.removeAll { it is RecordsFilter.SelectedTags }
@@ -645,9 +678,11 @@ class RecordsFilterViewModel @Inject constructor(
         val type = filterSelectionState.type ?: return emptyList()
 
         return when (type) {
+            RecordFilterViewData.Type.UNTRACKED,
             RecordFilterViewData.Type.ACTIVITY,
             RecordFilterViewData.Type.CATEGORY -> {
                 viewDataInteractor.getActivityFilterSelectionViewData(
+                    extra = extra,
                     filters = filters,
                     types = getTypesCache(),
                     recordTypeCategories = getRecordTypeCategoriesCache(),

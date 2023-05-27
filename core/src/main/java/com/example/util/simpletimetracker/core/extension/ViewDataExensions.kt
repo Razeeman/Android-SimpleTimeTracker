@@ -53,6 +53,7 @@ fun GoalTimeViewData.toParams(): ChangeRunningRecordParams.Preview.GoalTimeParam
 
 fun RecordsFilterParam.toModel(): RecordsFilter {
     return when (this) {
+        is RecordsFilterParam.Untracked -> RecordsFilter.Untracked
         is RecordsFilterParam.Activity -> RecordsFilter.Activity(typeIds)
         is RecordsFilterParam.Category -> RecordsFilter.Category(items.map { it.toModel() })
         is RecordsFilterParam.Comment -> RecordsFilter.Comment(items.map { it.toModel() })
@@ -68,6 +69,7 @@ fun RecordsFilterParam.toModel(): RecordsFilter {
 
 fun RecordsFilter.toParams(): RecordsFilterParam {
     return when (this) {
+        is RecordsFilter.Untracked -> RecordsFilterParam.Untracked
         is RecordsFilter.Activity -> RecordsFilterParam.Activity(typeIds)
         is RecordsFilter.Category -> RecordsFilterParam.Category(items.map { it.toParams() })
         is RecordsFilter.Comment -> RecordsFilterParam.Comment(items.map { it.toParams() })

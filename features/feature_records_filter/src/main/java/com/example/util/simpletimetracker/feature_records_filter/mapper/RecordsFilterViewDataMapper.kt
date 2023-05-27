@@ -42,6 +42,7 @@ class RecordsFilterViewDataMapper @Inject constructor(
         filter: RecordFilterViewData.Type,
     ): String {
         return when (filter) {
+            RecordFilterViewData.Type.UNTRACKED -> R.string.untracked_time_name
             RecordFilterViewData.Type.ACTIVITY -> R.string.activity_hint
             RecordFilterViewData.Type.CATEGORY -> R.string.category_hint
             RecordFilterViewData.Type.COMMENT -> R.string.change_record_comment_field
@@ -62,9 +63,12 @@ class RecordsFilterViewDataMapper @Inject constructor(
         val filterName = filter::class.java
             .let(::mapToViewData)
             ?.let(::mapInactiveFilterName)
-            .orEmpty() + " "
+            .orEmpty()
 
         val filterValue = when (filter) {
+            is RecordsFilter.Untracked -> {
+                ""
+            }
             is RecordsFilter.Activity -> {
                 "${filter.typeIds.size}"
             }
@@ -138,7 +142,7 @@ class RecordsFilterViewDataMapper @Inject constructor(
             }
         }
 
-        return "$filterName($filterValue)"
+        return if (filterValue.isNotEmpty()) "$filterName ($filterValue)" else filterName
     }
 
     fun mapCommentFilter(
@@ -176,6 +180,7 @@ class RecordsFilterViewDataMapper @Inject constructor(
 
     fun mapToClass(type: RecordFilterViewData.Type): Class<out RecordsFilter> {
         return when (type) {
+            RecordFilterViewData.Type.UNTRACKED -> RecordsFilter.Untracked::class.java
             RecordFilterViewData.Type.ACTIVITY -> RecordsFilter.Activity::class.java
             RecordFilterViewData.Type.CATEGORY -> RecordsFilter.Category::class.java
             RecordFilterViewData.Type.COMMENT -> RecordsFilter.Comment::class.java
@@ -189,8 +194,9 @@ class RecordsFilterViewDataMapper @Inject constructor(
         }
     }
 
-    private fun mapToViewData(clazz: Class<out RecordsFilter>): RecordFilterViewData.Type? {
+    fun mapToViewData(clazz: Class<out RecordsFilter>): RecordFilterViewData.Type? {
         return when (clazz) {
+            RecordsFilter.Untracked::class.java -> RecordFilterViewData.Type.UNTRACKED
             RecordsFilter.Activity::class.java -> RecordFilterViewData.Type.ACTIVITY
             RecordsFilter.Category::class.java -> RecordFilterViewData.Type.CATEGORY
             RecordsFilter.Comment::class.java -> RecordFilterViewData.Type.COMMENT
