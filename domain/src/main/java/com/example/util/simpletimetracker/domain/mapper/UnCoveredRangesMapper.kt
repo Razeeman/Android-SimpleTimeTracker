@@ -8,6 +8,9 @@ class UnCoveredRangesMapper @Inject constructor() {
 
     /**
      * Finds parts of the range from start to end that are not covered by segments.
+     *
+     * Implementation of Klee's algorithm for length of union of segments,
+     * taken from here https://www.geeksforgeeks.org/klees-algorithm-length-union-segments-line/
      */
     fun map(start: Long, end: Long, segments: List<Pair<Long, Long>>): List<Pair<Long, Long>> {
         if (start > end) return emptyList()
