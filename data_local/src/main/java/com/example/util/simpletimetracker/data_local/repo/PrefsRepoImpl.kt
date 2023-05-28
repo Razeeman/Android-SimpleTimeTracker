@@ -149,6 +149,14 @@ class PrefsRepoImpl @Inject constructor(
         KEY_IGNORE_SHORT_UNTRACKED_DURATION, 60 // 0 is for disabled
     )
 
+    override var untrackedRangeStart: Long by prefs.delegate(
+        KEY_UNTRACKED_RANGE_START, 0
+    )
+
+    override var untrackedRangeEnd: Long by prefs.delegate(
+        KEY_UNTRACKED_RANGE_END, 0
+    )
+
     override var darkMode: Boolean by prefs.delegate(
         KEY_DARK_MODE, false
     )
@@ -382,6 +390,8 @@ class PrefsRepoImpl @Inject constructor(
         private const val KEY_ACTIVITY_REMINDER_DND_END = "activityReminderDndEnd"
         private const val KEY_IGNORE_SHORT_RECORDS_DURATION = "ignoreShortRecordsDuration"
         private const val KEY_IGNORE_SHORT_UNTRACKED_DURATION = "ignoreShortUntrackedDuration"
+        private const val KEY_UNTRACKED_RANGE_START = "untrackedRangeStart"
+        private const val KEY_UNTRACKED_RANGE_END = "untrackedRangeEnd"
         private const val KEY_DARK_MODE = "darkMode"
         private const val KEY_NUMBER_OF_CARDS = "numberOfCards" // 0 - default width
         private const val KEY_USE_MILITARY_TIME_FORMAT = "useMilitaryTimeFormat"

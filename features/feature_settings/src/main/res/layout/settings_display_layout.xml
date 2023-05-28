@@ -146,6 +146,72 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSettingsUntrackedRange"
+                    style="@style/SettingsText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="0dp"
+                    android:paddingBottom="0dp"
+                    android:text="@string/settings_untracked_range"
+                    app:layout_constraintEnd_toStartOf="@id/tvSettingsUntrackedRangeStart"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/SettingsSecondaryText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_untracked_range_hint"
+                    app:layout_constraintEnd_toEndOf="@id/tvSettingsUntrackedRange"
+                    app:layout_constraintStart_toStartOf="@id/tvSettingsUntrackedRange"
+                    app:layout_constraintTop_toBottomOf="@id/tvSettingsUntrackedRange" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSettingsUntrackedRangeStart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:gravity="center"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    android:textColor="?appTextPrimaryColor"
+                    app:layout_constraintBottom_toBottomOf="@id/tvSettingsUntrackedRange"
+                    app:layout_constraintEnd_toStartOf="@id/tvSettingsUntrackedRangeDivider"
+                    app:layout_constraintTop_toTopOf="@id/tvSettingsUntrackedRange"
+                    tools:text="01:23" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSettingsUntrackedRangeDivider"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end|center_vertical"
+                    android:text="-"
+                    android:textColor="?appTextPrimaryColor"
+                    app:layout_constraintBottom_toBottomOf="@id/tvSettingsUntrackedRange"
+                    app:layout_constraintEnd_toStartOf="@id/tvSettingsUntrackedRangeEnd"
+                    app:layout_constraintTop_toTopOf="@id/tvSettingsUntrackedRange" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSettingsUntrackedRangeEnd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="16dp"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:gravity="center"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    android:textColor="?appTextPrimaryColor"
+                    app:layout_constraintBottom_toBottomOf="@id/tvSettingsUntrackedRange"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tvSettingsUntrackedRange"
+                    tools:text="01:23" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <View
                 style="@style/SettingsDivider"

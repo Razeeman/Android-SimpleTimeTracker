@@ -197,6 +197,8 @@
     <string name="settings_show_untracked_time_hint">Неотслеженное время в статистике можно скрыть с помощью фильтров на экране статистики.</string>
     <string name="settings_ignore_short_untracked">Игнорировать короткое неотслеживаемое время</string>
     <string name="settings_ignore_short_untracked_hint">Не показывать неотслеживаемое время, которое короче указанного времени.</string>
+    <string name="settings_untracked_range">Неотслеживаемый диапазон</string>
+    <string name="settings_untracked_range_hint">Игнорировать неотслеживаемое время за пределами указанного диапазона.</string>
     <string name="settings_show_records_calendar">Показывать записи в виде календаря</string>
     <string name="settings_reverse_order_in_calendar">Обратный порядок записей</string>
     <string name="settings_days_in_calendar">Дней в календаре</string>

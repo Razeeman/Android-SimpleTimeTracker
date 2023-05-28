@@ -197,6 +197,8 @@
     <string name="settings_show_untracked_time_hint">I statistikvyn kan okategoriserad tid döljas med hjälp av filtrering.</string>
     <string name="settings_ignore_short_untracked">Ignorera kort ospårad tid</string>
     <string name="settings_ignore_short_untracked_hint">Visa inte ospårad tid som är kortare än den angivna tiden.</string>
+    <string name="settings_untracked_range">Ospårad räckvidd</string>
+    <string name="settings_untracked_range_hint">Ignorera ospårad tid utanför det angivna intervallet.</string>
     <string name="settings_show_records_calendar">Visa händelser i kalendervy</string>
     <string name="settings_reverse_order_in_calendar">Byt ordning på händelser</string>
     <string name="settings_days_in_calendar">Dagar i kalendern</string>

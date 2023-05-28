@@ -197,6 +197,8 @@
     <string name="settings_show_untracked_time_hint">Nicht erfasste Zeit in Statistiken kann mithilfe von Filtern auf dem Statistikbildschirm ausgeblendet werden.</string>
     <string name="settings_ignore_short_untracked">Ignorieren Sie kurze, nicht verfolgte Zeit</string>
     <string name="settings_ignore_short_untracked_hint">Nicht verfolgte Zeit, die kürzer als die angegebene Zeit ist, wird nicht angezeigt.</string>
+    <string name="settings_untracked_range">Unverfolgter Bereich</string>
+    <string name="settings_untracked_range_hint">Nicht verfolgte Zeit außerhalb des angegebenen Bereichs ignorieren.</string>
     <string name="settings_show_records_calendar">Datensätze in der Kalenderansicht anzeigen</string>
     <string name="settings_reverse_order_in_calendar">Umgekehrte Reihenfolge der Aufzeichnungen</string>
     <string name="settings_days_in_calendar">Tage im Kalender</string>

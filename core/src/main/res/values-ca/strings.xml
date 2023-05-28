@@ -197,6 +197,8 @@
     <string name="settings_show_untracked_time_hint">El temps sense enregistrar es pot amagar fent servir filtres a la pantalla d\'estadístiques.</string>
     <string name="settings_ignore_short_untracked">Ignora el temps curt sense seguiment</string>
     <string name="settings_ignore_short_untracked_hint">No mostris temps sense seguiment que sigui més curt que el temps especificat.</string>
+    <string name="settings_untracked_range">Interval sense seguiment</string>
+    <string name="settings_untracked_range_hint">Ignora el temps sense seguiment fora de l\'interval especificat.</string>
     <string name="settings_show_records_calendar">Mostra els enregistraments en vista de calendari</string>
     <string name="settings_reverse_order_in_calendar">Inverteix l\'ordre dels enregistraments</string>
     <string name="settings_days_in_calendar">Dies al calendari</string>

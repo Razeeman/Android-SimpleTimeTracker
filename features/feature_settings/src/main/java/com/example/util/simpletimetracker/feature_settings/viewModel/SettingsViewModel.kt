@@ -104,6 +104,24 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    val untrackedRangeStartViewData: LiveData<String> by lazy {
+        MutableLiveData<String>().let { initial ->
+            viewModelScope.launch {
+                initial.value = loadUntrackedRangeStartViewData()
+            }
+            initial
+        }
+    }
+
+    val untrackedRangeEndViewData: LiveData<String> by lazy {
+        MutableLiveData<String>().let { initial ->
+            viewModelScope.launch {
+                initial.value = loadUntrackedRangeEndViewData()
+            }
+            initial
+        }
+    }
+
     val showRecordsCalendarCheckbox: LiveData<Boolean> by lazy {
         MutableLiveData<Boolean>().let { initial ->
             viewModelScope.launch {
@@ -484,6 +502,26 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    fun onUntrackedRangeStartClicked() {
+        viewModelScope.launch {
+            openDateTimeDialog(
+                tag = UNTRACKED_RANGE_START_DIALOG_TAG,
+                timestamp = prefsInteractor.getUntrackedRangeStart(),
+                useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat(),
+            )
+        }
+    }
+
+    fun onUntrackedRangeEndClicked() {
+        viewModelScope.launch {
+            openDateTimeDialog(
+                tag = UNTRACKED_RANGE_END_DIALOG_TAG,
+                timestamp = prefsInteractor.getUntrackedRangeEnd(),
+                useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat(),
+            )
+        }
+    }
+
     fun onShowRecordsCalendarClicked() {
         viewModelScope.launch {
             val newValue = !prefsInteractor.getShowRecordsCalendar()
@@ -655,7 +693,14 @@ class SettingsViewModel @Inject constructor(
             (useMilitaryTimeCheckbox as MutableLiveData).value = newValue
             notificationTypeInteractor.updateNotifications()
             updateUseMilitaryTimeViewData()
+
             updateStartOfDayViewData()
+            updateActivityReminderDndStartViewData()
+            updateActivityReminderDndEndViewData()
+            updateInactivityReminderDndStartViewData()
+            updateInactivityReminderDndEndViewData()
+            updateUntrackedRangeStartViewData()
+            updateUntrackedRangeEndViewData()
         }
     }
 
@@ -824,6 +869,16 @@ class SettingsViewModel @Inject constructor(
                 updateActivityReminderDndEndViewData()
                 notificationActivityInteractor.cancel()
                 notificationActivityInteractor.checkAndSchedule()
+            }
+            UNTRACKED_RANGE_START_DIALOG_TAG -> {
+                val newValue = settingsMapper.toStartOfDayShift(timestamp, wasPositive = true)
+                prefsInteractor.setUntrackedRangeStart(newValue)
+                updateUntrackedRangeStartViewData()
+            }
+            UNTRACKED_RANGE_END_DIALOG_TAG -> {
+                val newValue = settingsMapper.toStartOfDayShift(timestamp, wasPositive = true)
+                prefsInteractor.setUntrackedRangeEnd(newValue)
+                updateUntrackedRangeEndViewData()
             }
         }
     }
@@ -998,6 +1053,28 @@ class SettingsViewModel @Inject constructor(
             .text
     }
 
+    private suspend fun updateUntrackedRangeStartViewData() {
+        val data = loadUntrackedRangeStartViewData()
+        untrackedRangeStartViewData.set(data)
+    }
+
+    private suspend fun loadUntrackedRangeStartViewData(): String {
+        val shift = prefsInteractor.getUntrackedRangeStart()
+        val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
+        return settingsMapper.toStartOfDayText(shift, useMilitaryTime)
+    }
+
+    private suspend fun updateUntrackedRangeEndViewData() {
+        val data = loadUntrackedRangeEndViewData()
+        untrackedRangeEndViewData.set(data)
+    }
+
+    private suspend fun loadUntrackedRangeEndViewData(): String {
+        val shift = prefsInteractor.getUntrackedRangeEnd()
+        val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
+        return settingsMapper.toStartOfDayText(shift, useMilitaryTime)
+    }
+
     private suspend fun updateUseMilitaryTimeViewData() {
         val data = loadUseMilitaryTimeViewData()
         useMilitaryTimeHint.set(data)
@@ -1037,6 +1114,8 @@ class SettingsViewModel @Inject constructor(
         private const val ACTIVITY_REMINDER_DND_END_DIALOG_TAG = "activity_reminder_dnd_end_dialog_tag"
         private const val IGNORE_SHORT_RECORDS_DIALOG_TAG = "ignore_short_records_dialog_tag"
         private const val IGNORE_SHORT_UNTRACKED_DIALOG_TAG = "ignore_short_untracked_dialog_tag"
+        private const val UNTRACKED_RANGE_START_DIALOG_TAG = "untracked_range_start_dialog_tag"
+        private const val UNTRACKED_RANGE_END_DIALOG_TAG = "untracked_range_end_dialog_tag"
         private const val START_OF_DAY_DIALOG_TAG = "start_of_day_dialog_tag"
     }
 }

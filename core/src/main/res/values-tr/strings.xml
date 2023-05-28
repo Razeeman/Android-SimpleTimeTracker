@@ -197,6 +197,8 @@
     <string name="settings_show_untracked_time_hint">İstatistiklerde izlenmeyen zaman, istatistik ekranındaki filtreler kullanılarak gizlenebilir.</string>
     <string name="settings_ignore_short_untracked">Takip edilmeyen kısa süreyi yoksay</string>
     <string name="settings_ignore_short_untracked_hint">Belirtilen süreden daha kısa olan izlenmeyen süreyi gösterme.</string>
+    <string name="settings_untracked_range">Izlenmeyen aralık</string>
+    <string name="settings_untracked_range_hint">Belirtilen aralığın dışında izlenmeyen süreyi yok sayın.</string>
     <string name="settings_show_records_calendar">Kayıtları takvim görünümünde göster</string>
     <string name="settings_reverse_order_in_calendar">Kayıtların ters sırası</string>
     <string name="settings_days_in_calendar">Takvimdeki günler</string>

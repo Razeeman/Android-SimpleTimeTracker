@@ -197,6 +197,8 @@
     <string name="settings_show_untracked_time_hint">Il tempo non tracciato nelle statistiche può essere nascosto utilizzando i filtri nella schermata delle statistiche.</string>
     <string name="settings_ignore_short_untracked">Ignora il breve tempo non tracciato</string>
     <string name="settings_ignore_short_untracked_hint">Non mostrare il tempo non tracciato che è più breve del tempo specificato.</string>
+    <string name="settings_untracked_range">Gamma non tracciata</string>
+    <string name="settings_untracked_range_hint">Ignora il tempo non tracciato al di fuori dell\'intervallo specificato.</string>
     <string name="settings_show_records_calendar">Mostra i record nella vista calendario</string>
     <string name="settings_reverse_order_in_calendar">Ordine inverso dei record</string>
     <string name="settings_days_in_calendar">Giorni in calendario</string>

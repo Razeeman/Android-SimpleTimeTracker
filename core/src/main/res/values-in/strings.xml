@@ -197,6 +197,8 @@
     <string name="settings_show_untracked_time_hint">Waktu yang tidak terlacak dalam statistik dapat disembunyikan menggunakan filter pada layar statistik.</string>
     <string name="settings_ignore_short_untracked">Abaikan waktu singkat yang tidak terlacak</string>
     <string name="settings_ignore_short_untracked_hint">Jangan tampilkan waktu yang tidak terlacak yang lebih pendek dari waktu yang ditentukan.</string>
+    <string name="settings_untracked_range">Rentang yang tidak terlacak</string>
+    <string name="settings_untracked_range_hint">Abaikan waktu yang tidak terlacak di luar rentang yang ditentukan.</string>
     <string name="settings_show_records_calendar">Tampilkan rekor dalam tampilan kalender</string>
     <string name="settings_reverse_order_in_calendar">Urutan terbalik catatan</string>
     <string name="settings_days_in_calendar">Hari dalam kalender</string>

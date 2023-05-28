@@ -197,6 +197,8 @@
     <string name="settings_show_untracked_time_hint">Niet-bijgehouden tijd in statistieken kan worden verborgen met behulp van filters op het statistiekenscherm.</string>
     <string name="settings_ignore_short_untracked">Negeer korte niet-gevolgde tijd</string>
     <string name="settings_ignore_short_untracked_hint">Laat geen niet-gevolgde tijd zien die korter is dan de opgegeven tijd.</string>
+    <string name="settings_untracked_range">Ongevolgd bereik</string>
+    <string name="settings_untracked_range_hint">Negeer niet-gevolgde tijd buiten het opgegeven bereik.</string>
     <string name="settings_show_records_calendar">Toon records in kalenderweergave</string>
     <string name="settings_reverse_order_in_calendar">Omgekeerde volgorde van records</string>
     <string name="settings_days_in_calendar">Dagen in kalender</string>

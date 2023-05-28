@@ -65,6 +65,10 @@ interface PrefsRepo {
 
     var ignoreShortUntrackedDuration: Long // in seconds
 
+    var untrackedRangeStart: Long // in milliseconds
+
+    var untrackedRangeEnd: Long // in milliseconds
+
     var darkMode: Boolean
 
     var numberOfCards: Int
