@@ -5,13 +5,12 @@ import com.example.util.simpletimetracker.core.interactor.GetCurrentRecordsDurat
 import com.example.util.simpletimetracker.core.mapper.RangeMapper
 import com.example.util.simpletimetracker.core.mapper.RunningRecordViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
-import com.example.util.simpletimetracker.domain.UNTRACKED_ITEM_ID
+import com.example.util.simpletimetracker.domain.interactor.GetUntrackedRecordsInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
-import com.example.util.simpletimetracker.domain.mapper.UntrackedRecordMapper
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RangeLength
@@ -41,7 +40,7 @@ class RecordsViewDataInteractor @Inject constructor(
     private val recordTagInteractor: RecordTagInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val getCurrentRecordsDurationInteractor: GetCurrentRecordsDurationInteractor,
-    private val untrackedRecordMapper: UntrackedRecordMapper,
+    private val getUntrackedRecordsInteractor: GetUntrackedRecordsInteractor,
     private val recordsViewDataMapper: RecordsViewDataMapper,
     private val runningRecordViewDataMapper: RunningRecordViewDataMapper,
     private val timeMapper: TimeMapper,
@@ -260,34 +259,25 @@ class RecordsViewDataInteractor @Inject constructor(
                     timeEnded = System.currentTimeMillis(),
                 )
             }
-            untrackedRecordMapper.calculateUntrackedRanges(
-                records = recordRanges + runningRecordRanges,
+            getUntrackedRecordsInteractor.get(
                 range = Range(rangeStart, rangeEnd),
-            )
-                .map {
-                    Record(
-                        typeId = UNTRACKED_ITEM_ID,
-                        timeStarted = it.first,
-                        timeEnded = it.second,
-                        comment = ""
+                records = recordRanges + runningRecordRanges,
+            ).map { untrackedRecord ->
+                recordsViewDataMapper.mapToUntracked(
+                    record = untrackedRecord,
+                    rangeStart = rangeStart,
+                    rangeEnd = rangeEnd,
+                    isDarkTheme = isDarkTheme,
+                    useMilitaryTime = useMilitaryTime,
+                    useProportionalMinutes = useProportionalMinutes,
+                    showSeconds = showSeconds,
+                ).let {
+                    RecordHolder(
+                        timeStartedTimestamp = it.timeStartedTimestamp,
+                        data = RecordHolder.Data.RecordData(it),
                     )
                 }
-                .map { untrackedRecord ->
-                    recordsViewDataMapper.mapToUntracked(
-                        record = untrackedRecord,
-                        rangeStart = rangeStart,
-                        rangeEnd = rangeEnd,
-                        isDarkTheme = isDarkTheme,
-                        useMilitaryTime = useMilitaryTime,
-                        useProportionalMinutes = useProportionalMinutes,
-                        showSeconds = showSeconds,
-                    ).let {
-                        RecordHolder(
-                            timeStartedTimestamp = it.timeStartedTimestamp,
-                            data = RecordHolder.Data.RecordData(it),
-                        )
-                    }
-                }
+            }
         } else {
             emptyList()
         }

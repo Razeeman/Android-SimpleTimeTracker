@@ -1,7 +1,6 @@
 package com.example.util.simpletimetracker.domain.interactor
 
 import com.example.util.simpletimetracker.domain.UNTRACKED_ITEM_ID
-import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.mapper.UntrackedRecordMapper
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.Record
@@ -14,20 +13,25 @@ class GetUntrackedRecordsInteractor @Inject constructor(
 
     suspend fun get(
         range: Range,
-        records: List<Record>,
+        records: List<Range>,
     ): List<Record> {
+        // Calculate from first record. No records - don't calculate.
+        val minStart = recordInteractor.getNext(0)?.timeStarted ?: return emptyList()
+        // Bound end range of calculation to current time,
+        // to not show untracked time in the future
+        val maxEnd = System.currentTimeMillis()
+
         // If range is all records - calculate from first records to current time.
         val actualRange = if (range.timeStarted == 0L && range.timeEnded == 0L) {
-            Range(
-                timeStarted = recordInteractor.getNext(0)?.timeStarted.orZero(),
-                timeEnded = System.currentTimeMillis()
-            )
+            Range(timeStarted = minStart, timeEnded = maxEnd)
         } else {
             range
         }
         return untrackedRecordMapper.calculateUntrackedRanges(
-            records = records.map { Range(it.timeStarted, it.timeEnded) },
+            records = records,
             range = actualRange,
+            minStart = minStart,
+            maxEnd = maxEnd,
         ).map {
             Record(
                 typeId = UNTRACKED_ITEM_ID,

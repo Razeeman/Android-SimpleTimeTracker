@@ -78,8 +78,10 @@ class StatisticsInteractor @Inject constructor(
         addUntracked: Boolean,
     ): List<Statistics> {
         if (addUntracked) {
-            val untrackedTime = getUntrackedRecordsInteractor.get(range, records)
-                .sumOf { it.duration }
+            val untrackedTime = getUntrackedRecordsInteractor.get(
+                range = range,
+                records = records.map { Range(it.timeStarted, it.timeEnded) }
+            ).sumOf { it.duration }
 
             if (untrackedTime > 0L) {
                 return Statistics(

@@ -104,7 +104,7 @@ class RecordFilterInteractor @Inject constructor(
                     interactor.getAll()
                 } else {
                     interactor.getFromRange(range.timeStarted, range.timeEnded)
-                }
+                }.map { Range(it.timeStarted, it.timeEnded) }
                 getUntrackedRecordsInteractor.get(range, records)
             }
             typeIds.isNotEmpty() && ranges.isNotEmpty() -> {

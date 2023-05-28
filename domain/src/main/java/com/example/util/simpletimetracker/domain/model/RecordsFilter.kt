@@ -2,7 +2,7 @@ package com.example.util.simpletimetracker.domain.model
 
 sealed interface RecordsFilter {
 
-    object Untracked: RecordsFilter
+    object Untracked : RecordsFilter
 
     data class Activity(val typeIds: List<Long>) : RecordsFilter
 
