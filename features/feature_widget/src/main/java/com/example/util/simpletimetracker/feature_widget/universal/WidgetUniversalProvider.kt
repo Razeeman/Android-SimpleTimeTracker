@@ -5,19 +5,23 @@ import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
+import android.os.SystemClock
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.RemoteViews
 import com.example.util.simpletimetracker.core.utils.PendingIntents
+import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
+import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.feature_views.extension.getBitmapFromView
 import com.example.util.simpletimetracker.feature_views.extension.measureExactly
 import com.example.util.simpletimetracker.feature_widget.R
 import com.example.util.simpletimetracker.feature_widget.universal.activity.view.WidgetUniversalActivity
 import com.example.util.simpletimetracker.feature_widget.universal.customView.WidgetUniversalView
+import com.example.util.simpletimetracker.feature_widget.universal.customView.WidgetUniversalViewData
 import com.example.util.simpletimetracker.feature_widget.universal.mapper.WidgetUniversalViewDataMapper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.runBlocking
@@ -55,11 +59,31 @@ class WidgetUniversalProvider : AppWidgetProvider() {
     ) {
         if (context == null || appWidgetManager == null) return
 
-        val view = prepareView(context)
+        val runningRecords: List<RunningRecord>
+        val data: WidgetUniversalViewData
+        runBlocking {
+            runningRecords = runningRecordInteractor.getAll()
+            val recordTypes = recordTypeInteractor.getAll().associateBy { it.id }
+            val isDarkTheme = prefsInteractor.getDarkMode()
+
+            data = runningRecords
+                .let { widgetUniversalViewDataMapper.mapToWidgetViewData(it, recordTypes, isDarkTheme) }
+                .takeUnless { it.data.isEmpty() }
+                ?: widgetUniversalViewDataMapper.mapToEmptyWidgetViewData()
+        }
+
+        val view = prepareView(context, data)
         measureView(context, view)
         val bitmap = view.getBitmapFromView()
 
         val views = RemoteViews(context.packageName, R.layout.widget_layout)
+        if (data.data.size > 2) {
+            views.setViewVisibility(R.id.timerWidget, View.GONE)
+            views.setViewVisibility(R.id.timerWidget2, View.GONE)
+        } else {
+            setChronometer(runningRecords.getOrNull(0), R.id.timerWidget, views)
+            setChronometer(runningRecords.getOrNull(1), R.id.timerWidget2, views)
+        }
         views.setImageViewBitmap(R.id.ivWidgetBackground, bitmap)
         views.setOnClickPendingIntent(R.id.btnWidget, getPendingIntent(context))
 
@@ -67,19 +91,28 @@ class WidgetUniversalProvider : AppWidgetProvider() {
     }
 
     private fun prepareView(
-        context: Context
-    ): View = runBlocking {
-        val runningRecords = runningRecordInteractor.getAll()
-        val recordTypes = recordTypeInteractor.getAll().associateBy { it.id }
-        val isDarkTheme = prefsInteractor.getDarkMode()
-
-        val data = runningRecords
-            .let { widgetUniversalViewDataMapper.mapToWidgetViewData(it, recordTypes, isDarkTheme) }
-            .takeUnless { it.data.isEmpty() }
-            ?: widgetUniversalViewDataMapper.mapToEmptyWidgetViewData()
-
-        WidgetUniversalView(ContextThemeWrapper(context, R.style.AppTheme)).apply {
+        context: Context,
+        data: WidgetUniversalViewData,
+    ): View {
+        return WidgetUniversalView(
+            ContextThemeWrapper(context, R.style.AppTheme)
+        ).apply {
             setData(data)
+        }
+    }
+
+    private fun setChronometer(
+        runningRecord: RunningRecord?,
+        chronometerId: Int,
+        views: RemoteViews,
+    ) {
+        if (runningRecord != null) {
+            val timeStarted = runningRecord.timeStarted.orZero()
+            val base = SystemClock.elapsedRealtime() - (System.currentTimeMillis() - timeStarted)
+            views.setChronometer(chronometerId, base, null, true)
+            views.setViewVisibility(chronometerId, View.VISIBLE)
+        } else {
+            views.setViewVisibility(chronometerId, View.GONE)
         }
     }
 

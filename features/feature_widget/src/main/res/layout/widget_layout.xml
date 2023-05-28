@@ -25,6 +25,21 @@
         android:visibility="gone"
         tools:visibility="visible" />
 
+    <Chronometer
+        android:id="@+id/timerWidget2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/bg_widget_timer"
+        android:gravity="center"
+        android:paddingHorizontal="4dp"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
     <Button
         android:id="@+id/btnWidget"
         android:layout_width="match_parent"
