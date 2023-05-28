@@ -1,0 +1,7 @@
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:interpolator="@android:anim/accelerate_decelerate_interpolator">
+    <translate
+        android:duration="@integer/screen_animation_time"
+        android:fromXDelta="0"
+        android:toXDelta="-100%p" />
+</set>

@@ -12,55 +12,71 @@
         tools:layout="@layout/main_fragment">
         <action
             android:id="@+id/action_mainFragment_to_changeRecordTypeFragment"
-            app:destination="@id/changeRecordTypeFragment"/>
+            app:destination="@id/changeRecordTypeFragment" />
         <action
             android:id="@+id/action_mainFragment_to_changeRecordFragment"
-            app:destination="@id/changeRecordFragment"/>
+            app:destination="@id/changeRecordFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_mainFragment_to_changeRunningRecordFragment"
-            app:destination="@id/changeRunningRecordFragment"/>
+            app:destination="@id/changeRunningRecordFragment" />
         <action
             android:id="@+id/action_mainFragment_to_changeActivityFilterFragment"
-            app:destination="@+id/changeActivityFilterFragment"/>
+            app:destination="@+id/changeActivityFilterFragment" />
         <action
             android:id="@+id/action_mainFragment_to_statisticsDetailFragment"
-            app:destination="@id/statisticsDetailFragment"/>
+            app:destination="@id/statisticsDetailFragment" />
         <action
             android:id="@+id/action_mainFragment_to_categoriesFragment"
-            app:destination="@id/categoriesFragment"/>
+            app:destination="@id/categoriesFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_mainFragment_to_archiveFragment"
-            app:destination="@id/archiveFragment"/>
+            app:destination="@id/archiveFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_mainFragment_to_dataEditFragment"
-            app:destination="@id/dataEditFragment"/>
+            app:destination="@id/dataEditFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/changeRecordTypeFragment"
         android:name="com.example.util.simpletimetracker.feature_change_record_type.view.ChangeRecordTypeFragment"
         android:label="ChangeRecordTypeFragment"
-        tools:layout="@layout/change_record_type_fragment" >
+        tools:layout="@layout/change_record_type_fragment">
         <action
             android:id="@+id/action_changeRecordTypeFragment_to_changeCategoryFragment"
-            app:destination="@id/changeCategoryFragment"/>
+            app:destination="@id/changeCategoryFragment" />
     </fragment>
     <fragment
         android:id="@+id/changeRecordFragment"
         android:name="com.example.util.simpletimetracker.feature_change_record.view.ChangeRecordFragment"
         android:label="ChangeRecordFragment"
-        tools:layout="@layout/change_record_fragment" >
+        tools:layout="@layout/change_record_fragment">
         <action
             android:id="@+id/action_changeRecordFragment_to_changeRecordTagFragment"
-            app:destination="@id/changeRecordTagFragment"/>
+            app:destination="@id/changeRecordTagFragment" />
     </fragment>
     <fragment
         android:id="@+id/changeRunningRecordFragment"
         android:name="com.example.util.simpletimetracker.feature_change_running_record.view.ChangeRunningRecordFragment"
         android:label="ChangeRunningRecordFragment"
-        tools:layout="@layout/change_running_record_fragment" >
+        tools:layout="@layout/change_running_record_fragment">
         <action
             android:id="@+id/action_changeRunningRecordFragment_to_changeRecordTagFragment"
-            app:destination="@id/changeRecordTagFragment"/>
+            app:destination="@id/changeRecordTagFragment" />
     </fragment>
     <fragment
         android:id="@+id/statisticsDetailFragment"
@@ -69,8 +85,58 @@
         tools:layout="@layout/statistics_detail_fragment">
         <action
             android:id="@+id/action_statisticsDetailFragment_to_recordsAllFragment"
-            app:destination="@id/recordsAllFragment"/>
+            app:destination="@id/recordsAllFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
+    <fragment
+        android:id="@+id/recordsAllFragment"
+        android:name="com.example.util.simpletimetracker.feature_records_all.view.RecordsAllFragment"
+        android:label="RecordsAllFragment"
+        tools:layout="@layout/records_all_fragment">
+        <action
+            android:id="@+id/action_recordsAllFragment_to_changeRecordFragment"
+            app:destination="@id/changeRecordFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/categoriesFragment"
+        android:name="com.example.util.simpletimetracker.feature_categories.view.CategoriesFragment"
+        android:label="CategoriesFragment"
+        tools:layout="@layout/categories_fragment">
+        <action
+            android:id="@+id/action_categoriesFragment_to_changeCategoryFragment"
+            app:destination="@id/changeCategoryFragment" />
+        <action
+            android:id="@+id/action_categoriesFragment_to_changeRecordTagFragment"
+            app:destination="@id/changeRecordTagFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/changeCategoryFragment"
+        android:name="com.example.util.simpletimetracker.feature_change_category.view.ChangeCategoryFragment"
+        android:label="ChangeCategoryFragment"
+        tools:layout="@layout/change_category_fragment" />
+    <fragment
+        android:id="@+id/changeRecordTagFragment"
+        android:name="com.example.util.simpletimetracker.feature_change_record_tag.view.ChangeRecordTagFragment"
+        android:label="ChangeRecordTagFragment"
+        tools:layout="@layout/change_record_tag_fragment" />
+    <fragment
+        android:id="@+id/archiveFragment"
+        android:name="com.example.util.simpletimetracker.feature_archive.view.ArchiveFragment"
+        android:label="ArchiveFragment"
+        tools:layout="@layout/archive_fragment" />
+    <fragment
+        android:id="@+id/dataEditFragment"
+        android:name="com.example.util.simpletimetracker.feature_data_edit.view.DataEditFragment"
+        android:label="DataEditFragment"
+        tools:layout="@layout/data_edit_fragment" />
+    <fragment
+        android:id="@+id/changeActivityFilterFragment"
+        android:name="com.example.util.simpletimetracker.feature_change_activity_filter.view.ChangeActivityFilterFragment"
+        android:label="ChangeActivityFilterFragment"
+        tools:layout="@layout/change_activity_filter_fragment" />
     <dialog
         android:id="@+id/dateTimeDialog"
         android:name="com.example.util.simpletimetracker.feature_dialogs.dateTime.DateTimeDialogFragment"
@@ -139,7 +205,7 @@
         android:id="@+id/helpDialogFragment"
         android:name="com.example.util.simpletimetracker.feature_dialogs.helpDialog.HelpDialogFragment"
         android:label="HelpDialogFragment"
-        tools:layout="@layout/help_dialog_fragment"/>
+        tools:layout="@layout/help_dialog_fragment" />
     <dialog
         android:id="@+id/dataEditTypeSelectionDialogFragment"
         android:name="com.example.util.simpletimetracker.feature_data_edit.dialog.DataEditTypeSelectionDialogFragment"
@@ -155,50 +221,4 @@
         android:name="com.example.util.simpletimetracker.feature_records_filter.view.RecordsFilterFragment"
         android:label="RecordsFilterFragment"
         tools:layout="@layout/records_filter_fragment" />
-    <fragment
-        android:id="@+id/recordsAllFragment"
-        android:name="com.example.util.simpletimetracker.feature_records_all.view.RecordsAllFragment"
-        android:label="RecordsAllFragment"
-        tools:layout="@layout/records_all_fragment">
-        <action
-            android:id="@+id/action_recordsAllFragment_to_changeRecordFragment"
-            app:destination="@id/changeRecordFragment"/>
-    </fragment>
-    <fragment
-        android:id="@+id/categoriesFragment"
-        android:name="com.example.util.simpletimetracker.feature_categories.view.CategoriesFragment"
-        android:label="CategoriesFragment"
-        tools:layout="@layout/categories_fragment">
-        <action
-            android:id="@+id/action_categoriesFragment_to_changeCategoryFragment"
-            app:destination="@id/changeCategoryFragment"/>
-        <action
-            android:id="@+id/action_categoriesFragment_to_changeRecordTagFragment"
-            app:destination="@id/changeRecordTagFragment"/>
-    </fragment>
-    <fragment
-        android:id="@+id/changeCategoryFragment"
-        android:name="com.example.util.simpletimetracker.feature_change_category.view.ChangeCategoryFragment"
-        android:label="ChangeCategoryFragment"
-        tools:layout="@layout/change_category_fragment" />
-    <fragment
-        android:id="@+id/changeRecordTagFragment"
-        android:name="com.example.util.simpletimetracker.feature_change_record_tag.view.ChangeRecordTagFragment"
-        android:label="ChangeRecordTagFragment"
-        tools:layout="@layout/change_record_tag_fragment" />
-    <fragment
-        android:id="@+id/archiveFragment"
-        android:name="com.example.util.simpletimetracker.feature_archive.view.ArchiveFragment"
-        android:label="ArchiveFragment"
-        tools:layout="@layout/archive_fragment" />
-    <fragment
-        android:id="@+id/dataEditFragment"
-        android:name="com.example.util.simpletimetracker.feature_data_edit.view.DataEditFragment"
-        android:label="DataEditFragment"
-        tools:layout="@layout/data_edit_fragment" />
-    <fragment
-        android:id="@+id/changeActivityFilterFragment"
-        android:name="com.example.util.simpletimetracker.feature_change_activity_filter.view.ChangeActivityFilterFragment"
-        android:label="ChangeActivityFilterFragment"
-        tools:layout="@layout/change_activity_filter_fragment" />
 </navigation>
