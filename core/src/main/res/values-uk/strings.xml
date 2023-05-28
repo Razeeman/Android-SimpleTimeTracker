@@ -195,6 +195,8 @@
     <string name="settings_first_day_of_week">Перший день тижня</string>
     <string name="settings_show_untracked_time">Показувати не відстежений час у записах</string>
     <string name="settings_show_untracked_time_hint">Невідслідкований час у статистиці можна приховати за допомогою фільтрів на екрані статистики.</string>
+    <string name="settings_ignore_short_untracked">Ігноруйте короткий невідстежуваний час</string>
+    <string name="settings_ignore_short_untracked_hint">Не показувати невідстежуваний час, який коротший за вказаний час.</string>
     <string name="settings_show_records_calendar">Показувати записи в календарі</string>
     <string name="settings_reverse_order_in_calendar">Зворотний порядок записів</string>
     <string name="settings_days_in_calendar">Дні в календарі</string>

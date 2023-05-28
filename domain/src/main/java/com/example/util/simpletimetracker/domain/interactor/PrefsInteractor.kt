@@ -297,6 +297,14 @@ class PrefsInteractor @Inject constructor(
         prefsRepo.ignoreShortRecordsDuration = duration
     }
 
+    suspend fun getIgnoreShortUntrackedDuration(): Long = withContext(Dispatchers.IO) {
+        prefsRepo.ignoreShortUntrackedDuration
+    }
+
+    suspend fun setIgnoreShortUntrackedDuration(duration: Long) = withContext(Dispatchers.IO) {
+        prefsRepo.ignoreShortUntrackedDuration = duration
+    }
+
     suspend fun getDarkMode(): Boolean = withContext(Dispatchers.IO) {
         prefsRepo.darkMode
     }

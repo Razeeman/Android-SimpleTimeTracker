@@ -195,6 +195,8 @@
     <string name="settings_first_day_of_week">週の始まり</string>
     <string name="settings_show_untracked_time">記録中の未追跡時間の表示</string>
     <string name="settings_show_untracked_time_hint">統計で追跡されていない時間は、統計画面のフィルタを使用して非表示にすることができます。</string>
+    <string name="settings_ignore_short_untracked">追跡されていない短い時間を無視する</string>
+    <string name="settings_ignore_short_untracked_hint">指定された時間より短い未追跡時間を表示しません。</string>
     <string name="settings_show_records_calendar">カレンダービューで計測記録を表示</string>
     <string name="settings_reverse_order_in_calendar">レコードの逆順</string>
     <string name="settings_days_in_calendar">カレンダーの日数</string>

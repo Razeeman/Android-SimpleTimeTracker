@@ -257,6 +257,15 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    val ignoreShortUntrackedViewData: LiveData<String> by lazy {
+        MutableLiveData<String>().let { initial ->
+            viewModelScope.launch {
+                initial.value = loadIgnoreShortUntrackedViewData()
+            }
+            initial
+        }
+    }
+
     val darkModeCheckbox: LiveData<Boolean> by lazy {
         MutableLiveData<Boolean>().let { initial ->
             viewModelScope.launch {
@@ -621,6 +630,15 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    fun onIgnoreShortUntrackedClicked() {
+        viewModelScope.launch {
+            DurationDialogParams(
+                tag = IGNORE_SHORT_UNTRACKED_DIALOG_TAG,
+                duration = prefsInteractor.getIgnoreShortUntrackedDuration()
+            ).let(router::navigate)
+        }
+    }
+
     fun onDarkModeClicked() {
         viewModelScope.launch {
             val newValue = !prefsInteractor.getDarkMode()
@@ -739,6 +757,10 @@ class SettingsViewModel @Inject constructor(
                 prefsInteractor.setIgnoreShortRecordsDuration(duration)
                 updateIgnoreShortRecordsViewData()
             }
+            IGNORE_SHORT_UNTRACKED_DIALOG_TAG -> viewModelScope.launch {
+                prefsInteractor.setIgnoreShortUntrackedDuration(duration)
+                updateIgnoreShortUntrackedViewData()
+            }
         }
     }
 
@@ -757,6 +779,10 @@ class SettingsViewModel @Inject constructor(
             IGNORE_SHORT_RECORDS_DIALOG_TAG -> viewModelScope.launch {
                 prefsInteractor.setIgnoreShortRecordsDuration(0)
                 updateIgnoreShortRecordsViewData()
+            }
+            IGNORE_SHORT_UNTRACKED_DIALOG_TAG -> viewModelScope.launch {
+                prefsInteractor.setIgnoreShortUntrackedDuration(0)
+                updateIgnoreShortUntrackedViewData()
             }
         }
     }
@@ -961,6 +987,17 @@ class SettingsViewModel @Inject constructor(
             .text
     }
 
+    private suspend fun updateIgnoreShortUntrackedViewData() {
+        val data = loadIgnoreShortUntrackedViewData()
+        ignoreShortUntrackedViewData.set(data)
+    }
+
+    private suspend fun loadIgnoreShortUntrackedViewData(): String {
+        return prefsInteractor.getIgnoreShortUntrackedDuration()
+            .let(settingsMapper::toDurationViewData)
+            .text
+    }
+
     private suspend fun updateUseMilitaryTimeViewData() {
         val data = loadUseMilitaryTimeViewData()
         useMilitaryTimeHint.set(data)
@@ -999,6 +1036,7 @@ class SettingsViewModel @Inject constructor(
         private const val ACTIVITY_REMINDER_DND_START_DIALOG_TAG = "activity_reminder_dnd_start_dialog_tag"
         private const val ACTIVITY_REMINDER_DND_END_DIALOG_TAG = "activity_reminder_dnd_end_dialog_tag"
         private const val IGNORE_SHORT_RECORDS_DIALOG_TAG = "ignore_short_records_dialog_tag"
+        private const val IGNORE_SHORT_UNTRACKED_DIALOG_TAG = "ignore_short_untracked_dialog_tag"
         private const val START_OF_DAY_DIALOG_TAG = "start_of_day_dialog_tag"
     }
 }

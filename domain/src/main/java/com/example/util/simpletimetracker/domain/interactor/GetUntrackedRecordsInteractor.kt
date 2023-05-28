@@ -9,6 +9,7 @@ import javax.inject.Inject
 class GetUntrackedRecordsInteractor @Inject constructor(
     private val untrackedRecordMapper: UntrackedRecordMapper,
     private val recordInteractor: RecordInteractor,
+    private val prefsInteractor: PrefsInteractor,
 ) {
 
     suspend fun get(
@@ -32,6 +33,7 @@ class GetUntrackedRecordsInteractor @Inject constructor(
             range = actualRange,
             minStart = minStart,
             maxEnd = maxEnd,
+            durationCutoff = prefsInteractor.getIgnoreShortUntrackedDuration(),
         ).map {
             Record(
                 typeId = UNTRACKED_ITEM_ID,

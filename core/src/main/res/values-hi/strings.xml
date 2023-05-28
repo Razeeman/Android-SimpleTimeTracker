@@ -195,6 +195,8 @@
     <string name="settings_first_day_of_week">सप्ताह का पहला दिन</string>
     <string name="settings_show_untracked_time">रिकॉर्ड में अनट्रैक समय दिखाएं</string>
     <string name="settings_show_untracked_time_hint">सांख्यिकी स्क्रीन पर फ़िल्टर का उपयोग करके आंकड़ों में अनट्रैक्ड समय को छिपाया जा सकता है।</string>
+    <string name="settings_ignore_short_untracked">कम अनट्रैक समय पर ध्यान न दें</string>
+    <string name="settings_ignore_short_untracked_hint">अनट्रैक समय न दिखाएं जो निर्दिष्ट समय से कम हो।</string>
     <string name="settings_show_records_calendar">कैलेंडर दृश्य में रिकॉर्ड दिखाएं</string>
     <string name="settings_reverse_order_in_calendar">अभिलेखों का उल्टा क्रम</string>
     <string name="settings_days_in_calendar">कैलेंडर में दिन</string>

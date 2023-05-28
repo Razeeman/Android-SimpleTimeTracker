@@ -91,6 +91,62 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSettingsIgnoreShortUntracked"
+                    style="@style/SettingsText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="0dp"
+                    android:paddingBottom="0dp"
+                    android:text="@string/settings_ignore_short_untracked"
+                    app:layout_constraintEnd_toStartOf="@id/groupSettingsIgnoreShortUntracked"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/SettingsSecondaryText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_ignore_short_untracked_hint"
+                    app:layout_constraintEnd_toStartOf="@id/groupSettingsIgnoreShortUntracked"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvSettingsIgnoreShortUntracked" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/groupSettingsIgnoreShortUntracked"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvSettingsIgnoreShortUntrackedTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="end|center_vertical"
+                        android:paddingHorizontal="8dp"
+                        android:textColor="?appTextPrimaryColor"
+                        tools:text="99h 99m 99s" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/arrowSettingsIgnoreShortUntracked"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="?selectableItemBackgroundBorderless"
+                        android:src="?appArrow"
+                        tools:ignore="ContentDescription" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
             <View
                 style="@style/SettingsDivider"
                 android:layout_width="match_parent" />

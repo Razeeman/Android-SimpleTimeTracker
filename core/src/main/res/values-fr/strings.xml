@@ -195,6 +195,8 @@
     <string name="settings_first_day_of_week">Premier jour de la semaine</string>
     <string name="settings_show_untracked_time">Afficher le temps non suivi dans la liste des enregistrements</string>
     <string name="settings_show_untracked_time_hint">Le temps non suivi dans les statistiques peut être masqué à l\'aide de filtres sur l\'écran des statistiques.</string>
+    <string name="settings_ignore_short_untracked">Ignorer le temps court non suivi</string>
+    <string name="settings_ignore_short_untracked_hint">Ne pas afficher le temps non suivi qui est plus court que le temps spécifié.</string>
     <string name="settings_show_records_calendar">Utiliser une vue calendrier pour la liste des enregistrements</string>
     <string name="settings_reverse_order_in_calendar">Inverser l\'ordre des enregistrements</string>
     <string name="settings_days_in_calendar">Jours dans le calendrier</string>

@@ -195,6 +195,8 @@
     <string name="settings_first_day_of_week">Primeiro dia da semana</string>
     <string name="settings_show_untracked_time">Mostrar tempo não rastreado nos registros</string>
     <string name="settings_show_untracked_time_hint">O tempo não rastreado nas estatísticas pode ser ocultado usando filtros na tela de estatísticas.</string>
+    <string name="settings_ignore_short_untracked">Ignorar tempo curto não rastreado</string>
+    <string name="settings_ignore_short_untracked_hint">Não mostre o tempo não rastreado que seja menor do que o tempo especificado.</string>
     <string name="settings_show_records_calendar">Mostrar registros na visualização de calendário</string>
     <string name="settings_reverse_order_in_calendar">Ordem inversa dos registros</string>
     <string name="settings_days_in_calendar">Dias no calendário</string>

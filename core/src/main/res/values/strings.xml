@@ -195,6 +195,8 @@
     <string name="settings_first_day_of_week">First day of week</string>
     <string name="settings_show_untracked_time">Show untracked time in records</string>
     <string name="settings_show_untracked_time_hint">Untracked time in statistics can be hidden using filters on statistics screen.</string>
+    <string name="settings_ignore_short_untracked">Ignore short untracked time</string>
+    <string name="settings_ignore_short_untracked_hint">Do not show untracked time that is shorter than the specified time.</string>
     <string name="settings_show_records_calendar">Show records in calendar view</string>
     <string name="settings_reverse_order_in_calendar">Reverse order of records</string>
     <string name="settings_days_in_calendar">Days in calendar</string>

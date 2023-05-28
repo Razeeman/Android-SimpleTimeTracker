@@ -195,6 +195,8 @@
     <string name="settings_first_day_of_week">每周第一天</string>
     <string name="settings_show_untracked_time">顯示紀錄未追蹤時間</string>
     <string name="settings_show_untracked_time_hint">可以使用統計屏幕上的過濾器隱藏統計中未跟踪的時間。</string>
+    <string name="settings_ignore_short_untracked">忽略短的未跟踪時間</string>
+    <string name="settings_ignore_short_untracked_hint">不要顯示比指定時間短的未跟踪時間。</string>
     <string name="settings_show_records_calendar">顯示月曆檢視紀錄</string>
     <string name="settings_reverse_order_in_calendar">反轉記錄順序</string>
     <string name="settings_days_in_calendar">日曆中的天數</string>

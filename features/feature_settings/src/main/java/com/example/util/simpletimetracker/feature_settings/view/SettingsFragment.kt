@@ -91,6 +91,7 @@ class SettingsFragment :
             spinnerSettingsRecordTypeSort.onPositionSelected = viewModel::onRecordTypeOrderSelected
             btnCardOrderManual.setOnClick(viewModel::onCardOrderManualClick)
             checkboxSettingsShowUntracked.setOnClick(viewModel::onShowUntrackedClicked)
+            groupSettingsIgnoreShortUntracked.setOnClick(viewModel::onIgnoreShortUntrackedClicked)
             checkboxSettingsShowRecordsCalendar.setOnClick(viewModel::onShowRecordsCalendarClicked)
             checkboxSettingsReverseOrderInCalendar.setOnClick(viewModel::onReverseOrderInCalendarClicked)
             checkboxSettingsShowActivityFilters.setOnClick(viewModel::onShowActivityFiltersClicked)
@@ -156,6 +157,7 @@ class SettingsFragment :
                 }
                 btnCardOrderManualVisibility.observe(btnCardOrderManual::visible::set)
                 showUntrackedCheckbox.observe(checkboxSettingsShowUntracked::setChecked)
+                ignoreShortUntrackedViewData.observe(tvSettingsIgnoreShortUntrackedTime::setText)
                 showRecordsCalendarCheckbox.observe(::updateShowRecordCalendarChecked)
                 reverseOrderInCalendarCheckbox.observe(checkboxSettingsReverseOrderInCalendar::setChecked)
                 showActivityFiltersCheckbox.observe(checkboxSettingsShowActivityFilters::setChecked)
