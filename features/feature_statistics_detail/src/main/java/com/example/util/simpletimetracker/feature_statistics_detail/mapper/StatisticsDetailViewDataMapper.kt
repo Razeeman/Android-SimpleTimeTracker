@@ -31,6 +31,8 @@ import com.example.util.simpletimetracker.feature_statistics_detail.viewData.Sta
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import kotlin.math.abs
+import kotlin.math.roundToLong
 
 class StatisticsDetailViewDataMapper @Inject constructor(
     private val iconMapper: IconMapper,
@@ -178,6 +180,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
 
     fun mapToChartViewData(
         data: List<ChartBarDataDuration>,
+        prevData: List<ChartBarDataDuration>,
         goalValue: Long,
         compareData: List<ChartBarDataDuration>,
         compareGoalValue: Long,
@@ -189,16 +192,20 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         appliedChartLength: ChartLength,
         useProportionalMinutes: Boolean,
         showSeconds: Boolean,
+        isDarkTheme: Boolean,
     ): StatisticsDetailChartCompositeViewData {
         val chartData = mapChartData(data, goalValue, rangeLength)
         val compareChartData = mapChartData(compareData, compareGoalValue, rangeLength)
         val (title, rangeAverages) = getRangeAverages(
             data = data,
+            prevData = prevData,
             compareData = compareData,
             showComparison = showComparison,
+            rangeLength = rangeLength,
             chartGrouping = appliedChartGrouping,
             useProportionalMinutes = useProportionalMinutes,
             showSeconds = showSeconds,
+            isDarkTheme = isDarkTheme,
         )
 
         return StatisticsDetailChartCompositeViewData(
@@ -226,11 +233,13 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         return listOf(
             StatisticsDetailCardViewData(
                 value = emptyValue,
+                valueChange = StatisticsDetailCardViewData.ValueChange.None,
                 secondValue = "",
                 description = resourceRepo.getString(R.string.statistics_detail_range_averages)
             ),
             StatisticsDetailCardViewData(
                 value = emptyValue,
+                valueChange = StatisticsDetailCardViewData.ValueChange.None,
                 secondValue = "",
                 description = resourceRepo.getString(R.string.statistics_detail_range_averages_non_empty)
             )
@@ -352,19 +361,20 @@ class StatisticsDetailViewDataMapper @Inject constructor(
 
     private fun getRangeAverages(
         data: List<ChartBarDataDuration>,
+        prevData: List<ChartBarDataDuration>,
         compareData: List<ChartBarDataDuration>,
         showComparison: Boolean,
+        rangeLength: RangeLength,
         chartGrouping: ChartGrouping,
         useProportionalMinutes: Boolean,
         showSeconds: Boolean,
+        isDarkTheme: Boolean,
     ): Pair<String, List<StatisticsDetailCardViewData>> {
-        val emptyValue by lazy { resourceRepo.getString(R.string.statistics_detail_empty) }
-
         // No reason to show average of one value.
         if (data.size < 2 && compareData.size < 2) return "" to emptyList()
 
-        fun getAverage(data: List<ChartBarDataDuration>): Long? {
-            if (data.isEmpty()) return null
+        fun getAverage(data: List<ChartBarDataDuration>): Long {
+            if (data.isEmpty()) return 0L
             return data.sumOf { it.duration } / data.size
         }
 
@@ -376,6 +386,10 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         val comparisonNonEmptyData = compareData.filter { it.duration > 0 }
         val comparisonAverageByNonEmpty = getAverage(comparisonNonEmptyData)
 
+        val prevAverage = getAverage(prevData)
+        val prevNonEmptyData = prevData.filter { it.duration > 0 }
+        val prevAverageByNonEmpty = getAverage(prevNonEmptyData)
+
         val title = resourceRepo.getString(
             R.string.statistics_detail_range_averages_title,
             mapToGroupingName(chartGrouping)
@@ -383,48 +397,54 @@ class StatisticsDetailViewDataMapper @Inject constructor(
 
         val rangeAverages = listOf(
             StatisticsDetailCardViewData(
-                value = average
-                    ?.let {
-                        timeMapper.formatInterval(
-                            interval = it,
-                            forceSeconds = showSeconds,
-                            useProportionalMinutes = useProportionalMinutes,
-                        )
-                    }
-                    .let { it ?: emptyValue },
+                value = average.let {
+                    timeMapper.formatInterval(
+                        interval = it,
+                        forceSeconds = showSeconds,
+                        useProportionalMinutes = useProportionalMinutes,
+                    )
+                },
+                valueChange = mapValueChange(
+                    average = average,
+                    prevAverage = prevAverage,
+                    rangeLength = rangeLength,
+                    isDarkTheme = isDarkTheme,
+                ),
                 secondValue = comparisonAverage
-                    ?.let {
+                    .let {
                         timeMapper.formatInterval(
                             interval = it,
                             forceSeconds = showSeconds,
                             useProportionalMinutes = useProportionalMinutes,
                         )
                     }
-                    .let { it ?: emptyValue }
                     .let { "($it)" }
                     .takeIf { showComparison }
                     .orEmpty(),
                 description = resourceRepo.getString(R.string.statistics_detail_range_averages)
             ),
             StatisticsDetailCardViewData(
-                value = averageByNonEmpty
-                    ?.let {
-                        timeMapper.formatInterval(
-                            interval = it,
-                            forceSeconds = showSeconds,
-                            useProportionalMinutes = useProportionalMinutes,
-                        )
-                    }
-                    .let { it ?: emptyValue },
+                value = averageByNonEmpty.let {
+                    timeMapper.formatInterval(
+                        interval = it,
+                        forceSeconds = showSeconds,
+                        useProportionalMinutes = useProportionalMinutes,
+                    )
+                },
+                valueChange = mapValueChange(
+                    average = averageByNonEmpty,
+                    prevAverage = prevAverageByNonEmpty,
+                    rangeLength = rangeLength,
+                    isDarkTheme = isDarkTheme,
+                ),
                 secondValue = comparisonAverageByNonEmpty
-                    ?.let {
+                    .let {
                         timeMapper.formatInterval(
                             interval = it,
                             forceSeconds = showSeconds,
                             useProportionalMinutes = useProportionalMinutes,
                         )
                     }
-                    .let { it ?: emptyValue }
                     .let { "($it)" }
                     .takeIf { showComparison }
                     .orEmpty(),
@@ -433,6 +453,48 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         )
 
         return title to rangeAverages
+    }
+
+    private fun mapValueChange(
+        average: Long,
+        prevAverage: Long,
+        rangeLength: RangeLength,
+        isDarkTheme: Boolean,
+    ): StatisticsDetailCardViewData.ValueChange {
+        if (rangeLength == RangeLength.All) {
+            return StatisticsDetailCardViewData.ValueChange.None
+        }
+
+        val change: Float = when {
+            prevAverage.orZero() == 0L && average.orZero() == 0L -> 0f
+            prevAverage.orZero() == 0L && average.orZero() > 0L -> 100f
+            prevAverage.orZero() > 0L && average.orZero() == 0L -> -100f
+            prevAverage > 0 -> {
+                (average.orZero() - prevAverage) * 100f / prevAverage
+            }
+            else -> 0f
+        }
+
+        fun formatChange(value: Float): String {
+            val abs = abs(value)
+            val text = when {
+                abs >= 1_000_000f -> "∞"
+                abs >= 1_000f -> "${(abs / 1000).toLong()}K"
+                abs >= 10 -> abs.toLong()
+                (abs * 10).roundToLong() % 10L == 0L -> abs.toLong()
+                else -> String.format("%.1f", abs)
+            }
+            return if (value >= 0) "+$text%" else "-$text%"
+        }
+
+        return StatisticsDetailCardViewData.ValueChange.Present(
+            text = formatChange(change),
+            color = if (change >= 0f) {
+                colorMapper.toPositiveColor(isDarkTheme)
+            } else {
+                colorMapper.toNegativeColor(isDarkTheme)
+            }
+        )
     }
 
     private fun mapChartData(

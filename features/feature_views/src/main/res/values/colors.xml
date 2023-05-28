@@ -74,4 +74,9 @@
     <color name="inputFieldBorderDialogDark">@color/grey_800</color>
     <color name="inputFieldBorderTimeDialogDark">@color/grey_700</color>
 
+    <color name="colorPositive">@color/green_600</color>
+    <color name="colorPositiveDark">@color/green_700</color>
+    <color name="colorNegative">@color/red_600</color>
+    <color name="colorNegativeDark">@color/red_700</color>
+
 </resources>

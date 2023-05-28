@@ -269,11 +269,13 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
         return listOf(
             StatisticsDetailCardViewData(
                 value = maxStreak,
+                valueChange = StatisticsDetailCardViewData.ValueChange.None,
                 secondValue = compareMaxStreak,
                 description = resourceRepo.getString(R.string.statistics_detail_streaks_longest)
             ),
             StatisticsDetailCardViewData(
                 value = currentStreak,
+                valueChange = StatisticsDetailCardViewData.ValueChange.None,
                 secondValue = compareCurrentStreak,
                 description = resourceRepo.getString(R.string.statistics_detail_streaks_current)
             ),

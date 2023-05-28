@@ -257,6 +257,7 @@ class StatisticsDetailStatsInteractor @Inject constructor(
             totalDuration = listOf(
                 StatisticsDetailCardViewData(
                     value = totalDuration,
+                    valueChange = StatisticsDetailCardViewData.ValueChange.None,
                     secondValue = compareTotalDuration,
                     description = resourceRepo.getString(R.string.statistics_detail_total_duration),
                     accented = true,
@@ -265,6 +266,7 @@ class StatisticsDetailStatsInteractor @Inject constructor(
             timesTracked = listOf(
                 StatisticsDetailCardViewData(
                     value = timesTracked?.toString() ?: "",
+                    valueChange = StatisticsDetailCardViewData.ValueChange.None,
                     secondValue = compareTimesTracked,
                     description = resourceRepo.getQuantityString(
                         R.plurals.statistics_detail_times_tracked, timesTracked.orZero()
@@ -276,16 +278,19 @@ class StatisticsDetailStatsInteractor @Inject constructor(
             averageRecord = listOf(
                 StatisticsDetailCardViewData(
                     value = shortestRecord,
+                    valueChange = StatisticsDetailCardViewData.ValueChange.None,
                     secondValue = compareShortestRecord,
                     description = resourceRepo.getString(R.string.statistics_detail_shortest_record)
                 ),
                 StatisticsDetailCardViewData(
                     value = averageRecord,
+                    valueChange = StatisticsDetailCardViewData.ValueChange.None,
                     secondValue = compareAverageRecord,
                     description = resourceRepo.getString(R.string.statistics_detail_average_record)
                 ),
                 StatisticsDetailCardViewData(
                     value = longestRecord,
+                    valueChange = StatisticsDetailCardViewData.ValueChange.None,
                     secondValue = compareLongestRecord,
                     description = resourceRepo.getString(R.string.statistics_detail_longest_record)
                 )
@@ -293,11 +298,13 @@ class StatisticsDetailStatsInteractor @Inject constructor(
             datesTracked = listOf(
                 StatisticsDetailCardViewData(
                     value = firstRecord,
+                    valueChange = StatisticsDetailCardViewData.ValueChange.None,
                     secondValue = compareFirstRecord,
                     description = resourceRepo.getString(R.string.statistics_detail_first_record)
                 ),
                 StatisticsDetailCardViewData(
                     value = lastRecord,
+                    valueChange = StatisticsDetailCardViewData.ValueChange.None,
                     secondValue = compareLastRecord,
                     description = resourceRepo.getString(R.string.statistics_detail_last_record)
                 )

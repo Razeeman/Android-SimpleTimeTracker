@@ -6,6 +6,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 
 data class StatisticsDetailCardViewData(
     val value: String,
+    val valueChange: ValueChange,
     val secondValue: String,
     val description: String,
     val icon: Icon? = null,
@@ -20,4 +21,12 @@ data class StatisticsDetailCardViewData(
         @DrawableRes val iconDrawable: Int,
         @ColorInt val iconColor: Int
     )
+
+    sealed interface ValueChange {
+        object None: ValueChange
+        data class Present(
+            val text: String,
+            @ColorInt val color: Int,
+        ): ValueChange
+    }
 }

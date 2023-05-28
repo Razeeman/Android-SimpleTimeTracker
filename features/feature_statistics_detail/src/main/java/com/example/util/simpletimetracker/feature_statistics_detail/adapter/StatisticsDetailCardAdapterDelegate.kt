@@ -33,6 +33,17 @@ fun createStatisticsDetailCardAdapterDelegate(
             tvStatisticsDetailCardValue.letterSpacing = -0.05f
         }
 
+        when (item.valueChange) {
+            is ViewData.ValueChange.None -> {
+                tvStatisticsDetailCardValueChange.visible = false
+            }
+            is ViewData.ValueChange.Present -> {
+                tvStatisticsDetailCardValueChange.visible = true
+                tvStatisticsDetailCardValueChange.text = item.valueChange.text
+                tvStatisticsDetailCardValueChange.setTextColor(item.valueChange.color)
+            }
+        }
+
         tvStatisticsDetailCardSecondValue.visible = item.secondValue.isNotEmpty()
         tvStatisticsDetailCardSecondValue.text = item.secondValue
         tvStatisticsDetailCardSecondValue.setTextSize(TypedValue.COMPLEX_UNIT_PX, subtitleTextSize.toFloat())

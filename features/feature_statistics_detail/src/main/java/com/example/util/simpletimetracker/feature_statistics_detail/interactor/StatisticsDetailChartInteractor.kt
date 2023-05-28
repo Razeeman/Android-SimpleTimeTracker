@@ -47,6 +47,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
         val startOfDayShift = prefsInteractor.getStartOfDayShift()
         val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
         val showSeconds = prefsInteractor.getShowSeconds()
+        val isDarkTheme = prefsInteractor.getDarkMode()
 
         val (ranges, compositeData) = getRanges(
             currentChartGrouping = currentChartGrouping,
@@ -60,6 +61,22 @@ class StatisticsDetailChartInteractor @Inject constructor(
             allRecords = records,
             ranges = ranges,
         )
+        val prevData = if (rangeLength != RangeLength.All) {
+            val (prevRanges, _) = getRanges(
+                currentChartGrouping = currentChartGrouping,
+                currentChartLength = currentChartLength,
+                rangeLength = rangeLength,
+                rangePosition = rangePosition - 1,
+                firstDayOfWeek = firstDayOfWeek,
+                startOfDayShift = startOfDayShift,
+            )
+            getChartData(
+                allRecords = records,
+                ranges = prevRanges,
+            )
+        } else {
+            emptyList()
+        }
         val compareData = getChartData(
             allRecords = compareRecords,
             ranges = ranges,
@@ -67,6 +84,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
 
         return@withContext statisticsDetailViewDataMapper.mapToChartViewData(
             data = data,
+            prevData = prevData,
             goalValue = getGoalValue(filter, compositeData.appliedChartGrouping),
             compareData = compareData,
             compareGoalValue = getGoalValue(compare, compositeData.appliedChartGrouping),
@@ -78,6 +96,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
             appliedChartLength = compositeData.appliedChartLength,
             useProportionalMinutes = useProportionalMinutes,
             showSeconds = showSeconds,
+            isDarkTheme = isDarkTheme,
         )
     }
 

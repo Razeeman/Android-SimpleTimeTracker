@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.feature_statistics_detail.customView
 
 import android.content.Context
+import android.graphics.Color
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
@@ -112,6 +113,7 @@ class StatisticsDetailCardView @JvmOverloads constructor(
                 .map {
                     StatisticsDetailCardViewData(
                         value = "$DEFAULT_TITLE$it",
+                        valueChange = StatisticsDetailCardViewData.ValueChange.None,
                         secondValue = "",
                         description = "$DEFAULT_SUBTITLE$it"
                     )

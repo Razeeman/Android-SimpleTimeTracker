@@ -76,6 +76,22 @@ class ColorMapper @Inject constructor(
         }.let(resourceRepo::getColor)
     }
 
+    fun toPositiveColor(isDarkTheme: Boolean): Int {
+        return if (isDarkTheme) {
+            R.color.colorPositiveDark
+        } else {
+            R.color.colorPositive
+        }.let(resourceRepo::getColor)
+    }
+
+    fun toNegativeColor(isDarkTheme: Boolean): Int {
+        return if (isDarkTheme) {
+            R.color.colorNegativeDark
+        } else {
+            R.color.colorNegative
+        }.let(resourceRepo::getColor)
+    }
+
     // TODO move to ColorUtils
     /**
      * Darkens color.

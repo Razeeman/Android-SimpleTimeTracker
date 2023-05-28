@@ -11,13 +11,33 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvStatisticsDetailCardValue"
         style="@style/StatisticsText"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        app:layout_constraintEnd_toStartOf="@id/cardStatisticsDetailCardIcon"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintEnd_toStartOf="@id/tvStatisticsDetailCardValueChange"
+        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Value" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvStatisticsDetailCardValueChange"
+        style="@style/StatisticsText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:textColor="?appPositiveColor"
+        android:textSize="12sp"
+        android:visibility="gone"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintBaseline_toBaselineOf="@id/tvStatisticsDetailCardValue"
+        app:layout_constraintEnd_toStartOf="@id/cardStatisticsDetailCardIcon"
+        app:layout_constraintStart_toEndOf="@id/tvStatisticsDetailCardValue"
+        tools:text="+10.5%"
+        tools:visibility="visible" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvStatisticsDetailCardSecondValue"
@@ -26,11 +46,11 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:visibility="gone"
-        tools:visibility="visible"
         app:layout_constraintEnd_toStartOf="@id/cardStatisticsDetailCardIcon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvStatisticsDetailCardValue"
-        tools:text="(Value)" />
+        tools:text="(Value)"
+        tools:visibility="visible" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvStatisticsDetailCardDescription"
