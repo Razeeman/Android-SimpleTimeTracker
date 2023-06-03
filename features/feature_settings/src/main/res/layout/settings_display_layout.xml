@@ -158,7 +158,7 @@
                     android:paddingTop="0dp"
                     android:paddingBottom="0dp"
                     android:text="@string/settings_untracked_range"
-                    app:layout_constraintEnd_toStartOf="@id/tvSettingsUntrackedRangeStart"
+                    app:layout_constraintEnd_toStartOf="@id/barrierSettingsUntrackedRange"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -171,18 +171,33 @@
                     app:layout_constraintStart_toStartOf="@id/tvSettingsUntrackedRange"
                     app:layout_constraintTop_toBottomOf="@id/tvSettingsUntrackedRange" />
 
+                <androidx.constraintlayout.widget.Barrier
+                    android:id="@+id/barrierSettingsUntrackedRange"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:barrierDirection="start"
+                    app:constraint_referenced_ids="tvSettingsUntrackedRangeStart, checkboxSettingsUntrackedRange" />
+
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:id="@+id/checkboxSettingsUntrackedRange"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="@id/tvSettingsUntrackedRange"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tvSettingsUntrackedRange" />
+
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvSettingsUntrackedRangeStart"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:background="?selectableItemBackgroundBorderless"
                     android:gravity="center"
                     android:paddingHorizontal="8dp"
                     android:paddingVertical="4dp"
                     android:textColor="?appTextPrimaryColor"
-                    app:layout_constraintBottom_toBottomOf="@id/tvSettingsUntrackedRange"
                     app:layout_constraintEnd_toStartOf="@id/tvSettingsUntrackedRangeDivider"
-                    app:layout_constraintTop_toTopOf="@id/tvSettingsUntrackedRange"
+                    app:layout_constraintTop_toBottomOf="@id/checkboxSettingsUntrackedRange"
                     tools:text="01:23" />
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -192,9 +207,9 @@
                     android:gravity="end|center_vertical"
                     android:text="-"
                     android:textColor="?appTextPrimaryColor"
-                    app:layout_constraintBottom_toBottomOf="@id/tvSettingsUntrackedRange"
+                    app:layout_constraintBottom_toBottomOf="@id/tvSettingsUntrackedRangeStart"
                     app:layout_constraintEnd_toStartOf="@id/tvSettingsUntrackedRangeEnd"
-                    app:layout_constraintTop_toTopOf="@id/tvSettingsUntrackedRange" />
+                    app:layout_constraintTop_toTopOf="@id/tvSettingsUntrackedRangeStart" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvSettingsUntrackedRangeEnd"
@@ -206,10 +221,18 @@
                     android:paddingHorizontal="8dp"
                     android:paddingVertical="4dp"
                     android:textColor="?appTextPrimaryColor"
-                    app:layout_constraintBottom_toBottomOf="@id/tvSettingsUntrackedRange"
+                    app:layout_constraintBottom_toBottomOf="@id/tvSettingsUntrackedRangeStart"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/tvSettingsUntrackedRange"
+                    app:layout_constraintTop_toTopOf="@id/tvSettingsUntrackedRangeStart"
                     tools:text="01:23" />
+
+                <androidx.constraintlayout.widget.Group
+                    android:id="@+id/groupSettingsUntrackedRange"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:constraint_referenced_ids="tvSettingsUntrackedRangeStart, tvSettingsUntrackedRangeDivider, tvSettingsUntrackedRangeEnd"
+                    tools:visibility="visible" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -305,6 +305,14 @@ class PrefsInteractor @Inject constructor(
         prefsRepo.ignoreShortUntrackedDuration = duration
     }
 
+    suspend fun getUntrackedRangeEnabled(): Boolean = withContext(Dispatchers.IO) {
+        prefsRepo.untrackedRangeEnabled
+    }
+
+    suspend fun setUntrackedRangeEnabled(enabled: Boolean) = withContext(Dispatchers.IO) {
+        prefsRepo.untrackedRangeEnabled = enabled
+    }
+
     suspend fun getUntrackedRangeStart(): Long = withContext(Dispatchers.IO) {
         prefsRepo.untrackedRangeStart
     }

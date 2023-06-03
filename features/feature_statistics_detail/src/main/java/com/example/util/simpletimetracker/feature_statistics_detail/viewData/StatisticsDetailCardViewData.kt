@@ -23,10 +23,10 @@ data class StatisticsDetailCardViewData(
     )
 
     sealed interface ValueChange {
-        object None: ValueChange
+        object None : ValueChange
         data class Present(
             val text: String,
             @ColorInt val color: Int,
-        ): ValueChange
+        ) : ValueChange
     }
 }

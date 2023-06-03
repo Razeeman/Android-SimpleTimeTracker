@@ -53,18 +53,15 @@ class GetUntrackedRecordsInteractorImpl @Inject constructor(
         }.let {
             processTimeOfDayRange(it)
         }.filter {
-            if (durationCutoff > 0) {
-                it.duration >= durationCutoff * 1000
-            } else {
-                true
-            }
+            untrackedRecordMapper.filter(it.duration, durationCutoff)
         }
-        // TODO settings, add time of day checkbox for disabling.
     }
 
     private suspend fun processTimeOfDayRange(
         records: List<Record>,
     ): List<Record> {
+        val enabled = prefsInteractor.getUntrackedRangeEnabled()
+        if (!enabled) return records
         val timeOfDay = Range(
             timeStarted = prefsInteractor.getUntrackedRangeStart(),
             timeEnded = prefsInteractor.getUntrackedRangeEnd(),

@@ -65,6 +65,8 @@ interface PrefsRepo {
 
     var ignoreShortUntrackedDuration: Long // in seconds
 
+    var untrackedRangeEnabled: Boolean
+
     var untrackedRangeStart: Long // in milliseconds
 
     var untrackedRangeEnd: Long // in milliseconds

@@ -13,9 +13,9 @@ import com.example.util.simpletimetracker.core.provider.ApplicationDataProvider
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.extension.flip
 import com.example.util.simpletimetracker.domain.extension.orFalse
+import com.example.util.simpletimetracker.domain.interactor.NotificationActivityInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTimeInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationInactivityInteractor
-import com.example.util.simpletimetracker.domain.interactor.NotificationActivityInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
@@ -28,21 +28,22 @@ import com.example.util.simpletimetracker.feature_settings.viewData.DaysInCalend
 import com.example.util.simpletimetracker.feature_settings.viewData.FirstDayOfWeekViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.SettingsDurationViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.SettingsStartOfDayViewData
+import com.example.util.simpletimetracker.feature_settings.viewData.SettingsUntrackedRangeViewData
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.action.OpenMarketParams
 import com.example.util.simpletimetracker.navigation.params.action.SendEmailParams
 import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
 import com.example.util.simpletimetracker.navigation.params.screen.ArchiveParams
-import com.example.util.simpletimetracker.navigation.params.screen.DataEditParams
 import com.example.util.simpletimetracker.navigation.params.screen.CardOrderDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.CardSizeDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.CategoriesParams
+import com.example.util.simpletimetracker.navigation.params.screen.DataEditParams
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogType
 import com.example.util.simpletimetracker.navigation.params.screen.DurationDialogParams
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlinx.coroutines.launch
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
@@ -104,19 +105,10 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    val untrackedRangeStartViewData: LiveData<String> by lazy {
-        MutableLiveData<String>().let { initial ->
+    val untrackedRangeViewData: LiveData<SettingsUntrackedRangeViewData> by lazy {
+        MutableLiveData<SettingsUntrackedRangeViewData>().let { initial ->
             viewModelScope.launch {
-                initial.value = loadUntrackedRangeStartViewData()
-            }
-            initial
-        }
-    }
-
-    val untrackedRangeEndViewData: LiveData<String> by lazy {
-        MutableLiveData<String>().let { initial ->
-            viewModelScope.launch {
-                initial.value = loadUntrackedRangeEndViewData()
+                initial.value = loadUntrackedRangeViewData()
             }
             initial
         }
@@ -502,6 +494,14 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    fun onUntrackedRangeClicked() {
+        viewModelScope.launch {
+            val newValue = !prefsInteractor.getUntrackedRangeEnabled()
+            prefsInteractor.setUntrackedRangeEnabled(newValue)
+            updateUntrackedRangeViewData()
+        }
+    }
+
     fun onUntrackedRangeStartClicked() {
         viewModelScope.launch {
             openDateTimeDialog(
@@ -699,8 +699,7 @@ class SettingsViewModel @Inject constructor(
             updateActivityReminderDndEndViewData()
             updateInactivityReminderDndStartViewData()
             updateInactivityReminderDndEndViewData()
-            updateUntrackedRangeStartViewData()
-            updateUntrackedRangeEndViewData()
+            updateUntrackedRangeViewData()
         }
     }
 
@@ -873,12 +872,12 @@ class SettingsViewModel @Inject constructor(
             UNTRACKED_RANGE_START_DIALOG_TAG -> {
                 val newValue = settingsMapper.toStartOfDayShift(timestamp, wasPositive = true)
                 prefsInteractor.setUntrackedRangeStart(newValue)
-                updateUntrackedRangeStartViewData()
+                updateUntrackedRangeViewData()
             }
             UNTRACKED_RANGE_END_DIALOG_TAG -> {
                 val newValue = settingsMapper.toStartOfDayShift(timestamp, wasPositive = true)
                 prefsInteractor.setUntrackedRangeEnd(newValue)
-                updateUntrackedRangeEndViewData()
+                updateUntrackedRangeViewData()
             }
         }
     }
@@ -1053,26 +1052,25 @@ class SettingsViewModel @Inject constructor(
             .text
     }
 
-    private suspend fun updateUntrackedRangeStartViewData() {
-        val data = loadUntrackedRangeStartViewData()
-        untrackedRangeStartViewData.set(data)
+    private suspend fun updateUntrackedRangeViewData() {
+        val data = loadUntrackedRangeViewData()
+        untrackedRangeViewData.set(data)
     }
 
-    private suspend fun loadUntrackedRangeStartViewData(): String {
-        val shift = prefsInteractor.getUntrackedRangeStart()
-        val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
-        return settingsMapper.toStartOfDayText(shift, useMilitaryTime)
-    }
+    private suspend fun loadUntrackedRangeViewData(): SettingsUntrackedRangeViewData {
+        val enabled = prefsInteractor.getUntrackedRangeEnabled()
 
-    private suspend fun updateUntrackedRangeEndViewData() {
-        val data = loadUntrackedRangeEndViewData()
-        untrackedRangeEndViewData.set(data)
-    }
-
-    private suspend fun loadUntrackedRangeEndViewData(): String {
-        val shift = prefsInteractor.getUntrackedRangeEnd()
-        val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
-        return settingsMapper.toStartOfDayText(shift, useMilitaryTime)
+        return if (enabled) {
+            val start = prefsInteractor.getUntrackedRangeStart()
+            val end = prefsInteractor.getUntrackedRangeEnd()
+            val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
+            SettingsUntrackedRangeViewData.Enabled(
+                settingsMapper.toStartOfDayText(start, useMilitaryTime),
+                settingsMapper.toStartOfDayText(end, useMilitaryTime),
+            )
+        } else {
+            SettingsUntrackedRangeViewData.Disabled
+        }
     }
 
     private suspend fun updateUseMilitaryTimeViewData() {

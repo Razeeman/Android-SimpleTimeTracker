@@ -1,7 +1,6 @@
 package com.example.util.simpletimetracker.feature_statistics_detail.customView
 
 import android.content.Context
-import android.graphics.Color
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout

@@ -1,6 +1,5 @@
 package com.example.util.simpletimetracker.feature_settings.view
 
-import com.example.util.simpletimetracker.feature_settings.databinding.SettingsFragmentBinding as Binding
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.WindowManager
@@ -20,6 +19,7 @@ import com.example.util.simpletimetracker.feature_settings.viewData.DaysInCalend
 import com.example.util.simpletimetracker.feature_settings.viewData.FirstDayOfWeekViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.SettingsDurationViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.SettingsStartOfDayViewData
+import com.example.util.simpletimetracker.feature_settings.viewData.SettingsUntrackedRangeViewData
 import com.example.util.simpletimetracker.feature_settings.viewModel.SettingsViewModel
 import com.example.util.simpletimetracker.feature_views.extension.rotateDown
 import com.example.util.simpletimetracker.feature_views.extension.rotateUp
@@ -28,6 +28,7 @@ import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.navigation.params.screen.DataExportSettingsResult
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import com.example.util.simpletimetracker.feature_settings.databinding.SettingsFragmentBinding as Binding
 
 @AndroidEntryPoint
 class SettingsFragment :
@@ -92,6 +93,7 @@ class SettingsFragment :
             btnCardOrderManual.setOnClick(viewModel::onCardOrderManualClick)
             checkboxSettingsShowUntracked.setOnClick(viewModel::onShowUntrackedClicked)
             groupSettingsIgnoreShortUntracked.setOnClick(viewModel::onIgnoreShortUntrackedClicked)
+            checkboxSettingsUntrackedRange.setOnClick(viewModel::onUntrackedRangeClicked)
             tvSettingsUntrackedRangeStart.setOnClick(viewModel::onUntrackedRangeStartClicked)
             tvSettingsUntrackedRangeEnd.setOnClick(viewModel::onUntrackedRangeEndClicked)
             checkboxSettingsShowRecordsCalendar.setOnClick(viewModel::onShowRecordsCalendarClicked)
@@ -160,8 +162,7 @@ class SettingsFragment :
                 btnCardOrderManualVisibility.observe(btnCardOrderManual::visible::set)
                 showUntrackedCheckbox.observe(checkboxSettingsShowUntracked::setChecked)
                 ignoreShortUntrackedViewData.observe(tvSettingsIgnoreShortUntrackedTime::setText)
-                untrackedRangeStartViewData.observe(tvSettingsUntrackedRangeStart::setText)
-                untrackedRangeEndViewData.observe(tvSettingsUntrackedRangeEnd::setText)
+                untrackedRangeViewData.observe(::setUntrackedRangeViewData)
                 showRecordsCalendarCheckbox.observe(::updateShowRecordCalendarChecked)
                 reverseOrderInCalendarCheckbox.observe(checkboxSettingsReverseOrderInCalendar::setChecked)
                 showActivityFiltersCheckbox.observe(checkboxSettingsShowActivityFilters::setChecked)
@@ -230,6 +231,7 @@ class SettingsFragment :
             spinnerSettingsDaysInCalendar.jumpDrawablesToCurrentState()
             spinnerSettingsRecordTypeSort.jumpDrawablesToCurrentState()
             checkboxSettingsShowUntracked.jumpDrawablesToCurrentState()
+            checkboxSettingsUntrackedRange.jumpDrawablesToCurrentState()
             checkboxSettingsShowRecordsCalendar.jumpDrawablesToCurrentState()
             checkboxSettingsReverseOrderInCalendar.jumpDrawablesToCurrentState()
             checkboxSettingsShowActivityFilters.jumpDrawablesToCurrentState()
@@ -331,6 +333,18 @@ class SettingsFragment :
     ) = with(binding.layoutSettingsDisplay) {
         checkboxSettingsShowRecordsCalendar.isChecked = isChecked
         groupSettingsReverseOrderInCalendar.visible = isChecked
+    }
+
+    private fun setUntrackedRangeViewData(
+        viewData: SettingsUntrackedRangeViewData,
+    ) = with(binding.layoutSettingsDisplay) {
+        groupSettingsUntrackedRange.visible = viewData is SettingsUntrackedRangeViewData.Enabled
+        checkboxSettingsUntrackedRange.isChecked = viewData is SettingsUntrackedRangeViewData.Enabled
+
+        if (viewData is SettingsUntrackedRangeViewData.Enabled) {
+            tvSettingsUntrackedRangeStart.text = viewData.rangeStart
+            tvSettingsUntrackedRangeEnd.text = viewData.rangeEnd
+        }
     }
 
     private fun updateStartOfDayViewData(

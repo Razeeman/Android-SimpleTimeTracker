@@ -26,13 +26,18 @@ class UntrackedRecordMapper @Inject constructor(
             .map { max(it.timeStarted, untrackedTimeStart) to min(it.timeEnded, untrackedTimeEndRange) }
             // Calculate uncovered ranges
             .let { unCoveredRangesMapper.map(untrackedTimeStart, untrackedTimeEndRange, it) }
-            .filter {
-                if (durationCutoff > 0) {
-                    // Filter only untracked records that are longer than a cutoff
-                    (it.second - it.first) >= durationCutoff * 1000
-                } else {
-                    true
-                }
-            }
+            .filter { filter(it.second - it.first, durationCutoff) }
+    }
+
+    fun filter(
+        duration: Long,
+        durationCutoff: Long,
+    ): Boolean {
+        return if (durationCutoff > 0) {
+            // Filter only untracked records that are longer than a cutoff
+            duration >= durationCutoff * 1000
+        } else {
+            true
+        }
     }
 }
