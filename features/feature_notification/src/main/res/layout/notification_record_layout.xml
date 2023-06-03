@@ -19,14 +19,16 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="2dp"
-        android:layout_toStartOf="@id/tvNotificationGoalTime"
+        android:layout_toStartOf="@id/timerNotification"
         android:layout_toEndOf="@id/ivNotificationIcon"
+        android:ellipsize="end"
         android:gravity="center_vertical"
+        android:maxLines="1"
         tools:text="Activity name" />
 
     <Chronometer
         android:id="@+id/timerNotification"
-        style="@style/TextAppearance.Compat.Notification.Time"
+        style="@style/TextAppearance.Compat.Notification.Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/tvNotificationText"
@@ -44,7 +46,9 @@
         android:layout_marginEnd="2dp"
         android:layout_toStartOf="@id/tvNotificationGoalTime"
         android:layout_toEndOf="@id/ivNotificationIcon"
+        android:ellipsize="end"
         android:gravity="center_vertical"
+        android:maxLines="1"
         tools:text="Activity description" />
 
     <TextView

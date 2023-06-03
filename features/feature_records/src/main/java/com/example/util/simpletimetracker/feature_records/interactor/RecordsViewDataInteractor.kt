@@ -1,9 +1,8 @@
 package com.example.util.simpletimetracker.feature_records.interactor
 
 import com.example.util.simpletimetracker.core.extension.setToStartOfDay
-import com.example.util.simpletimetracker.core.interactor.GetCurrentRecordsDurationInteractor
+import com.example.util.simpletimetracker.core.interactor.GetRunningRecordViewDataMediator
 import com.example.util.simpletimetracker.core.mapper.RangeMapper
-import com.example.util.simpletimetracker.core.mapper.RunningRecordViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.interactor.GetUntrackedRecordsInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -39,12 +38,11 @@ class RecordsViewDataInteractor @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
     private val recordTagInteractor: RecordTagInteractor,
     private val prefsInteractor: PrefsInteractor,
-    private val getCurrentRecordsDurationInteractor: GetCurrentRecordsDurationInteractor,
     private val getUntrackedRecordsInteractor: GetUntrackedRecordsInteractor,
     private val recordsViewDataMapper: RecordsViewDataMapper,
-    private val runningRecordViewDataMapper: RunningRecordViewDataMapper,
     private val timeMapper: TimeMapper,
     private val rangeMapper: RangeMapper,
+    private val getRunningRecordViewDataMediator: GetRunningRecordViewDataMediator,
 ) {
 
     suspend fun getViewData(shift: Int): RecordsState = withContext(Dispatchers.Default) {
@@ -208,36 +206,17 @@ class RecordsViewDataInteractor @Inject constructor(
                 )
             }
             .mapNotNull { runningRecord ->
-                val recordType = recordTypes[runningRecord.id] ?: return@mapNotNull null
-
-                // TODO simplify with running records view data interactor
-                val dailyCurrent = if (recordType.dailyGoalTime > 0L) {
-                    getCurrentRecordsDurationInteractor.getDailyCurrent(runningRecord)
-                } else {
-                    0L
-                }
-                val weeklyCurrent = if (recordType.weeklyGoalTime > 0L) {
-                    getCurrentRecordsDurationInteractor.getWeeklyCurrent(runningRecord)
-                } else {
-                    0L
-                }
-                val monthlyCurrent = if (recordType.monthlyGoalTime > 0L) {
-                    getCurrentRecordsDurationInteractor.getMonthlyCurrent(runningRecord)
-                } else {
-                    0L
-                }
-
-                runningRecordViewDataMapper.map(
-                    runningRecord = runningRecord,
-                    dailyCurrent = dailyCurrent,
-                    weeklyCurrent = weeklyCurrent,
-                    monthlyCurrent = monthlyCurrent,
-                    recordType = recordType,
-                    recordTags = recordTags.filter { it.id in runningRecord.tagIds },
+                getRunningRecordViewDataMediator.execute(
+                    type = recordTypes[runningRecord.id] ?: return@mapNotNull null,
+                    tags = recordTags.filter { it.id in runningRecord.tagIds },
+                    record = runningRecord,
+                    nowIconVisible = true,
+                    goalsVisible = false,
+                    totalDurationVisible = false,
                     isDarkTheme = isDarkTheme,
                     useMilitaryTime = useMilitaryTime,
+                    useProportionalMinutes = useProportionalMinutes,
                     showSeconds = showSeconds,
-                    nowIconVisible = true,
                 ).let {
                     RecordHolder(
                         timeStartedTimestamp = runningRecord.timeStarted,

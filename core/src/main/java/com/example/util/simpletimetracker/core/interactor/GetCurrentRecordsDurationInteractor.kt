@@ -17,33 +17,40 @@ class GetCurrentRecordsDurationInteractor @Inject constructor(
     private val timeMapper: TimeMapper,
 ) {
 
-    suspend fun getDailyCurrent(runningRecord: RunningRecord): Long {
+    suspend fun getDailyCurrent(runningRecord: RunningRecord): Result {
         return getRangeCurrent(runningRecord, getRange(RangeLength.Day))
     }
 
-    suspend fun getWeeklyCurrent(runningRecord: RunningRecord): Long {
+    suspend fun getWeeklyCurrent(runningRecord: RunningRecord): Result {
         return getRangeCurrent(runningRecord, getRange(RangeLength.Week))
     }
 
-    suspend fun getMonthlyCurrent(runningRecord: RunningRecord): Long {
+    suspend fun getMonthlyCurrent(runningRecord: RunningRecord): Result {
         return getRangeCurrent(runningRecord, getRange(RangeLength.Month))
     }
 
-    suspend fun getRangeCurrent(
+    private suspend fun getRangeCurrent(
         runningRecord: RunningRecord,
         range: Range
-    ): Long {
+    ): Result {
         val (rangeStart, rangeEnd) = range
-        // Clamp current running record
-        val currentRunning = System.currentTimeMillis() - max(runningRecord.timeStarted, range.timeStarted)
+        val current = System.currentTimeMillis()
+        val currentRunning = current - runningRecord.timeStarted
+        val currentRunningClamped = current - max(runningRecord.timeStarted, range.timeStarted)
 
-        return recordInteractor.getFromRange(rangeStart, rangeEnd)
+        val duration = recordInteractor.getFromRange(rangeStart, rangeEnd)
             .filter { it.typeId == runningRecord.id }
             .map { rangeMapper.clampToRange(it, rangeStart, rangeEnd) }
-            .let(rangeMapper::mapToDuration) + currentRunning
+            .let(rangeMapper::mapToDuration)
+
+        return Result(
+            range = range,
+            duration = duration + currentRunningClamped,
+            durationDiffersFromCurrent = duration != 0L || currentRunning != currentRunningClamped
+        )
     }
 
-    suspend fun getRange(rangeLength: RangeLength): Range {
+    private suspend fun getRange(rangeLength: RangeLength): Range {
         val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
         val startOfDayShift = prefsInteractor.getStartOfDayShift()
 
@@ -59,4 +66,10 @@ class GetCurrentRecordsDurationInteractor @Inject constructor(
             )
         }
     }
+
+    data class Result(
+        val range: Range,
+        val duration: Long,
+        val durationDiffersFromCurrent: Boolean,
+    )
 }

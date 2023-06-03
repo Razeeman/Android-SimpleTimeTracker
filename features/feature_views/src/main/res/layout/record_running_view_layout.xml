@@ -91,12 +91,26 @@
             android:layout_marginEnd="2dp"
             android:textColor="?appLightTextColor"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/tvRunningRecordItemGoalTime"
+            app:layout_constraintBottom_toTopOf="@id/tvRunningRecordItemTimerTotal"
             app:layout_constraintEnd_toStartOf="@id/tvRunningRecordItemNow"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed"
             app:layout_goneMarginEnd="8dp"
-            tools:text="5m 14s" />
+            tools:text="1h 5m 14s" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvRunningRecordItemTimerTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:textColor="?appLightTextColor"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/tvRunningRecordItemGoalTime"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvRunningRecordItemTimer"
+            app:layout_goneMarginEnd="8dp"
+            tools:text="total 1h 5m 14s"
+            tools:visibility="visible" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/tvRunningRecordItemNow"
@@ -106,12 +120,12 @@
             android:background="@drawable/bg_rounded_corners"
             android:gravity="center"
             android:padding="2dp"
-            android:src="@drawable/ic_running_record_now"
             android:visibility="gone"
             app:backgroundTint="@color/red_600"
             app:layout_constraintBottom_toBottomOf="@id/tvRunningRecordItemTimer"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tvRunningRecordItemTimer"
+            app:srcCompat="@drawable/ic_running_record_now"
             app:tint="@color/white"
             tools:visibility="visible" />
 
@@ -121,10 +135,11 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="4dp"
             android:textColor="?appLightTextColor"
+            android:textSize="12sp"
             android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/tvRunningRecordItemGoalTime2"
             app:layout_constraintEnd_toStartOf="@id/ivRunningRecordItemGoalTimeCheck"
-            app:layout_constraintTop_toBottomOf="@id/tvRunningRecordItemTimer"
+            app:layout_constraintTop_toBottomOf="@id/tvRunningRecordItemTimerTotal"
             app:layout_goneMarginEnd="8dp"
             tools:text="session 30m 10s"
             tools:visibility="visible" />
@@ -134,11 +149,11 @@
             android:layout_width="14dp"
             android:layout_height="14dp"
             android:layout_marginEnd="8dp"
-            android:src="@drawable/spinner_check_mark"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/tvRunningRecordItemGoalTime"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tvRunningRecordItemGoalTime"
+            app:srcCompat="@drawable/spinner_check_mark"
             tools:visibility="visible" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -147,6 +162,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="4dp"
             android:textColor="?appLightTextColor"
+            android:textSize="12sp"
             android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@id/tvRunningRecordItemGoalTime3"
             app:layout_constraintEnd_toStartOf="@id/ivRunningRecordItemGoalTimeCheck2"
@@ -160,11 +176,11 @@
             android:layout_width="14dp"
             android:layout_height="14dp"
             android:layout_marginEnd="8dp"
-            android:src="@drawable/spinner_check_mark"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/tvRunningRecordItemGoalTime2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tvRunningRecordItemGoalTime2"
+            app:srcCompat="@drawable/spinner_check_mark"
             tools:visibility="visible" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -173,6 +189,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="4dp"
             android:textColor="?appLightTextColor"
+            android:textSize="12sp"
             android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@id/tvRunningRecordItemGoalTime4"
             app:layout_constraintEnd_toStartOf="@id/ivRunningRecordItemGoalTimeCheck3"
@@ -186,11 +203,11 @@
             android:layout_width="14dp"
             android:layout_height="14dp"
             android:layout_marginEnd="8dp"
-            android:src="@drawable/spinner_check_mark"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/tvRunningRecordItemGoalTime3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tvRunningRecordItemGoalTime3"
+            app:srcCompat="@drawable/spinner_check_mark"
             tools:visibility="visible" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -199,6 +216,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="4dp"
             android:textColor="?appLightTextColor"
+            android:textSize="12sp"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/ivRunningRecordItemGoalTimeCheck4"
@@ -212,11 +230,11 @@
             android:layout_width="14dp"
             android:layout_height="14dp"
             android:layout_marginEnd="8dp"
-            android:src="@drawable/spinner_check_mark"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/tvRunningRecordItemGoalTime4"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tvRunningRecordItemGoalTime4"
+            app:srcCompat="@drawable/spinner_check_mark"
             tools:visibility="visible" />
 
         <androidx.constraintlayout.widget.Barrier

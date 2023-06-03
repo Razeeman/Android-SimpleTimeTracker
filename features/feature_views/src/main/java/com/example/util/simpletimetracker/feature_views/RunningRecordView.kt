@@ -73,6 +73,13 @@ class RunningRecordView @JvmOverloads constructor(
             field = value
         }
 
+    var itemTimerTotal: String = ""
+        set(value) {
+            binding.tvRunningRecordItemTimerTotal.text = value
+            binding.tvRunningRecordItemTimerTotal.visible = value.isNotEmpty()
+            field = value
+        }
+
     var itemGoalTime: String = ""
         set(value) {
             binding.tvRunningRecordItemGoalTime.text = value
@@ -184,6 +191,9 @@ class RunningRecordView @JvmOverloads constructor(
 
                 if (hasValue(R.styleable.RunningRecordView_itemTimer)) itemTimer =
                     getString(R.styleable.RunningRecordView_itemTimer).orEmpty()
+
+                if (hasValue(R.styleable.RunningRecordView_itemTimerDay)) itemTimerTotal =
+                    getString(R.styleable.RunningRecordView_itemTimerDay).orEmpty()
 
                 if (hasValue(R.styleable.RunningRecordView_itemGoalTime)) itemGoalTime =
                     getString(R.styleable.RunningRecordView_itemGoalTime).orEmpty()

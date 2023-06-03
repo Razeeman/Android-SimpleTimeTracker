@@ -10,15 +10,14 @@ import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.model.GoalTimeType
-import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.feature_notification.R
 import com.example.util.simpletimetracker.feature_notification.goalTime.manager.NotificationGoalTimeManager
 import com.example.util.simpletimetracker.feature_notification.goalTime.manager.NotificationGoalTimeParams
 import com.example.util.simpletimetracker.feature_notification.goalTime.scheduler.NotificationGoalTimeScheduler
 import com.example.util.simpletimetracker.feature_notification.goalTime.scheduler.NotificationRangeEndScheduler
+import javax.inject.Inject
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 class NotificationGoalTimeInteractorImpl @Inject constructor(
     private val resourceRepo: ResourceRepo,
@@ -64,34 +63,43 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
         // Daily
         val dailyGoalTime = recordType.dailyGoalTime * 1000
         if (dailyGoalTime > 0) {
-            val range = getCurrentRecordsDurationInteractor.getRange(RangeLength.Day)
-            val dailyCurrent = getCurrentRecordsDurationInteractor.getRangeCurrent(runningRecord, range)
+            val dailyCurrent = getCurrentRecordsDurationInteractor.getDailyCurrent(runningRecord)
 
-            if (dailyGoalTime > dailyCurrent) {
-                scheduler.schedule(dailyGoalTime - dailyCurrent, typeId, GoalTimeType.Day)
-                rangeEndScheduler.schedule(range.timeEnded, GoalTimeType.Day)
+            if (dailyGoalTime > dailyCurrent.duration) {
+                scheduler.schedule(
+                    durationMillisFromNow = dailyGoalTime - dailyCurrent.duration,
+                    typeId = typeId,
+                    goalTimeType = GoalTimeType.Day
+                )
+                rangeEndScheduler.schedule(dailyCurrent.range.timeEnded, GoalTimeType.Day)
             }
         }
 
         // Weekly
         val weeklyGoalTime = recordType.weeklyGoalTime * 1000
         if (weeklyGoalTime > 0) {
-            val range = getCurrentRecordsDurationInteractor.getRange(RangeLength.Week)
-            val weeklyCurrent = getCurrentRecordsDurationInteractor.getRangeCurrent(runningRecord, range)
-            if (weeklyGoalTime > weeklyCurrent) {
-                scheduler.schedule(weeklyGoalTime - weeklyCurrent, typeId, GoalTimeType.Week)
-                rangeEndScheduler.schedule(range.timeEnded, GoalTimeType.Week)
+            val weeklyCurrent = getCurrentRecordsDurationInteractor.getWeeklyCurrent(runningRecord)
+            if (weeklyGoalTime > weeklyCurrent.duration) {
+                scheduler.schedule(
+                    durationMillisFromNow = weeklyGoalTime - weeklyCurrent.duration,
+                    typeId = typeId,
+                    goalTimeType = GoalTimeType.Week
+                )
+                rangeEndScheduler.schedule(weeklyCurrent.range.timeEnded, GoalTimeType.Week)
             }
         }
 
         // Monthly
         val monthlyGoalTime = recordType.monthlyGoalTime * 1000
         if (monthlyGoalTime > 0) {
-            val range = getCurrentRecordsDurationInteractor.getRange(RangeLength.Month)
-            val monthlyCurrent = getCurrentRecordsDurationInteractor.getRangeCurrent(runningRecord, range)
-            if (monthlyGoalTime > monthlyCurrent) {
-                scheduler.schedule(monthlyGoalTime - monthlyCurrent, typeId, GoalTimeType.Month)
-                rangeEndScheduler.schedule(range.timeEnded, GoalTimeType.Month)
+            val monthlyCurrent = getCurrentRecordsDurationInteractor.getMonthlyCurrent(runningRecord)
+            if (monthlyGoalTime > monthlyCurrent.duration) {
+                scheduler.schedule(
+                    durationMillisFromNow = monthlyGoalTime - monthlyCurrent.duration,
+                    typeId = typeId,
+                    goalTimeType = GoalTimeType.Month
+                )
+                rangeEndScheduler.schedule(monthlyCurrent.range.timeEnded, GoalTimeType.Month)
             }
         }
     }

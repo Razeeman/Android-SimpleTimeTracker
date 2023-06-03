@@ -68,6 +68,7 @@ class RecordsViewModel @Inject constructor(
                     tagName = item.tagName,
                     timeStarted = item.timeStarted,
                     duration = item.timer,
+                    durationTotal = item.timerTotal,
                     goalTime = item.goalTime.toParams(),
                     goalTime2 = item.goalTime2.toParams(),
                     goalTime3 = item.goalTime3.toParams(),

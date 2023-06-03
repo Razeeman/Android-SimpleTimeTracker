@@ -1,12 +1,11 @@
 package com.example.util.simpletimetracker.feature_change_running_record.interactor
 
-import com.example.util.simpletimetracker.core.interactor.GetCurrentRecordsDurationInteractor
-import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.core.interactor.GetRunningRecordViewDataMediator
+import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.RunningRecord
-import com.example.util.simpletimetracker.feature_change_running_record.mapper.ChangeRunningRecordViewDataMapper
 import com.example.util.simpletimetracker.feature_change_running_record.viewData.ChangeRunningRecordViewData
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRunningRecordParams
 import javax.inject.Inject
@@ -15,8 +14,8 @@ class ChangeRunningRecordViewDataInteractor @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
     private val recordTagInteractor: RecordTagInteractor,
-    private val changeRunningRecordViewDataMapper: ChangeRunningRecordViewDataMapper,
-    private val getCurrentRecordsDurationInteractor: GetCurrentRecordsDurationInteractor,
+    private val timeMapper: TimeMapper,
+    private val getRunningRecordViewDataMediator: GetRunningRecordViewDataMediator,
 ) {
 
     suspend fun getPreviewViewData(
@@ -24,38 +23,36 @@ class ChangeRunningRecordViewDataInteractor @Inject constructor(
         params: ChangeRunningRecordParams,
     ): ChangeRunningRecordViewData {
         val type = recordTypeInteractor.get(record.id)
-        val tags = recordTagInteractor.getAll().filter { it.id in record.tagIds }
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
         val showSeconds = prefsInteractor.getShowSeconds()
+        val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
+        val fromRecords = params.from is ChangeRunningRecordParams.From.Records
 
-        val dailyCurrent = if (type?.dailyGoalTime.orZero() > 0L) {
-            getCurrentRecordsDurationInteractor.getDailyCurrent(record)
+        val recordPreview = if (type != null) {
+            getRunningRecordViewDataMediator.execute(
+                type = type,
+                tags = recordTagInteractor.getAll().filter { it.id in record.tagIds },
+                record = record,
+                nowIconVisible = fromRecords,
+                goalsVisible = !fromRecords,
+                totalDurationVisible = !fromRecords,
+                isDarkTheme = isDarkTheme,
+                useMilitaryTime = useMilitaryTime,
+                useProportionalMinutes = useProportionalMinutes,
+                showSeconds = showSeconds,
+            )
         } else {
-            0L
-        }
-        val weeklyCurrent = if (type?.weeklyGoalTime.orZero() > 0L) {
-            getCurrentRecordsDurationInteractor.getWeeklyCurrent(record)
-        } else {
-            0L
-        }
-        val monthlyCurrent = if (type?.monthlyGoalTime.orZero() > 0L) {
-            getCurrentRecordsDurationInteractor.getMonthlyCurrent(record)
-        } else {
-            0L
+            null
         }
 
-        return changeRunningRecordViewDataMapper.map(
-            runningRecord = record,
-            dailyCurrent = dailyCurrent,
-            weeklyCurrent = weeklyCurrent,
-            monthlyCurrent = monthlyCurrent,
-            recordType = type,
-            recordTags = tags,
-            isDarkTheme = isDarkTheme,
-            useMilitaryTime = useMilitaryTime,
-            showSeconds = showSeconds,
-            nowIconVisible = params.from is ChangeRunningRecordParams.From.Records,
+        return ChangeRunningRecordViewData(
+            recordPreview = recordPreview,
+            dateTimeStarted = timeMapper.formatDateTime(
+                time = record.timeStarted,
+                useMilitaryTime = useMilitaryTime,
+                showSeconds = showSeconds,
+            ),
         )
     }
 }

@@ -18,6 +18,7 @@ data class ChangeRunningRecordParams(
         val tagName: String,
         var timeStarted: String,
         var duration: String,
+        var durationTotal: String,
         var goalTime: GoalTimeParams,
         var goalTime2: GoalTimeParams,
         var goalTime3: GoalTimeParams,

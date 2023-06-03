@@ -12,6 +12,7 @@ import com.example.util.simpletimetracker.core.extension.observeOnce
 import com.example.util.simpletimetracker.core.extension.setSharedTransitions
 import com.example.util.simpletimetracker.core.extension.toViewData
 import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.runningRecord.RunningRecordViewData
 import com.example.util.simpletimetracker.feature_change_record.R
 import com.example.util.simpletimetracker.feature_change_record.view.ChangeRecordCore
 import com.example.util.simpletimetracker.feature_change_running_record.viewData.ChangeRunningRecordViewData
@@ -70,7 +71,7 @@ class ChangeRunningRecordFragment :
         with(viewModel) {
             extra = params
             record.observeOnce(viewLifecycleOwner) {
-                core.updateUi(binding.layoutChangeRunningRecordCore, it.comment)
+                core.updateUi(binding.layoutChangeRunningRecordCore, it.recordPreview?.comment.orEmpty())
             }
             record.observe(::updatePreview)
             core.initViewModel(this@ChangeRunningRecordFragment, binding.layoutChangeRunningRecordCore)
@@ -96,42 +97,49 @@ class ChangeRunningRecordFragment :
 
     private fun setPreview() = params.preview?.run {
         ChangeRunningRecordViewData(
-            name = name,
-            tagName = tagName,
-            timeStarted = timeStarted,
+            RunningRecordViewData(
+                id = 0, // Doesn't matter for preview.
+                name = name,
+                tagName = tagName,
+                timeStarted = timeStarted,
+                timer = duration,
+                timerTotal = durationTotal,
+                goalTime = goalTime.toViewData(),
+                goalTime2 = goalTime2.toViewData(),
+                goalTime3 = goalTime3.toViewData(),
+                goalTime4 = goalTime4.toViewData(),
+                iconId = iconId.toViewData(),
+                color = color,
+                comment = comment,
+                nowIconVisible = params.from is ChangeRunningRecordParams.From.Records,
+            ),
             dateTimeStarted = "",
-            duration = duration,
-            goalTime = goalTime.toViewData(),
-            goalTime2 = goalTime2.toViewData(),
-            goalTime3 = goalTime3.toViewData(),
-            goalTime4 = goalTime4.toViewData(),
-            iconId = iconId.toViewData(),
-            color = color,
-            comment = comment,
-            nowIconVisible = params.from is ChangeRunningRecordParams.From.Records,
         ).let(::updatePreview)
     }
 
     private fun updatePreview(item: ChangeRunningRecordViewData) = with(binding.layoutChangeRunningRecordCore) {
-        with(binding.previewChangeRunningRecord) {
-            itemName = item.name
-            itemTagName = item.tagName
-            itemIcon = item.iconId
-            itemColor = item.color
-            itemTimeStarted = item.timeStarted
-            itemTimer = item.duration
-            itemGoalTime = item.goalTime.text
-            itemGoalTimeComplete = item.goalTime.complete
-            itemGoalTime2 = item.goalTime2.text
-            itemGoalTime2Complete = item.goalTime2.complete
-            itemGoalTime3 = item.goalTime3.text
-            itemGoalTime3Complete = item.goalTime3.complete
-            itemGoalTime4 = item.goalTime4.text
-            itemGoalTime4Complete = item.goalTime4.complete
-            itemComment = item.comment
-            itemNowIconVisible = item.nowIconVisible
-        }
         tvChangeRecordTimeStarted.text = item.dateTimeStarted
+
+        if (item.recordPreview == null) return
+        with(binding.previewChangeRunningRecord) {
+            itemName = item.recordPreview.name
+            itemTagName = item.recordPreview.tagName
+            itemIcon = item.recordPreview.iconId
+            itemColor = item.recordPreview.color
+            itemTimeStarted = item.recordPreview.timeStarted
+            itemTimer = item.recordPreview.timer
+            itemTimerTotal = item.recordPreview.timerTotal
+            itemGoalTime = item.recordPreview.goalTime.text
+            itemGoalTimeComplete = item.recordPreview.goalTime.complete
+            itemGoalTime2 = item.recordPreview.goalTime2.text
+            itemGoalTime2Complete = item.recordPreview.goalTime2.complete
+            itemGoalTime3 = item.recordPreview.goalTime3.text
+            itemGoalTime3Complete = item.recordPreview.goalTime3.complete
+            itemGoalTime4 = item.recordPreview.goalTime4.text
+            itemGoalTime4Complete = item.recordPreview.goalTime4.complete
+            itemComment = item.recordPreview.comment
+            itemNowIconVisible = item.recordPreview.nowIconVisible
+        }
     }
 
     private fun showMessage(message: SnackBarParams?) {

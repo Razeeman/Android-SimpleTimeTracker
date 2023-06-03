@@ -143,20 +143,15 @@ class NotificationTypeInteractorImpl @Inject constructor(
 
         NotificationTypeParams(
             id = recordType.id,
-            icon = recordType.icon
-                .let(iconMapper::mapIcon),
-            color = recordType.color
-                .let { colorMapper.mapToColorInt(it, isDarkTheme) },
+            icon = recordType.icon.let(iconMapper::mapIcon),
+            color = colorMapper.mapToColorInt(recordType.color, isDarkTheme),
             text = getNotificationText(recordType, recordTags),
-            timeStarted = runningRecord.timeStarted
-                .let {
-                    timeMapper.formatTime(
-                        time = it,
-                        useMilitaryTime = useMilitaryTime,
-                        showSeconds = showSeconds,
-                    )
-                }
-                .let { resourceRepo.getString(R.string.notification_time_started, it) },
+            timeStarted =
+            timeMapper.formatTime(
+                time = runningRecord.timeStarted,
+                useMilitaryTime = useMilitaryTime,
+                showSeconds = showSeconds,
+            ).let { resourceRepo.getString(R.string.notification_time_started, it) },
             startedTimeStamp = runningRecord.timeStarted,
             goalTime = recordType.goalTime
                 .takeIf { it > 0 }

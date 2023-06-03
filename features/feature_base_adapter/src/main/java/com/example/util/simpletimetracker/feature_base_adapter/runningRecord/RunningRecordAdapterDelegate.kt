@@ -35,6 +35,9 @@ fun createRunningRecordAdapterDelegate(
         if (rebind || updates.contains(ViewData.UPDATE_TIMER).orFalse()) {
             itemTimer = item.timer
         }
+        if (rebind || updates.contains(ViewData.UPDATE_TIMER_TOTAL).orFalse()) {
+            itemTimerTotal = item.timerTotal
+        }
         if (rebind || updates.contains(ViewData.UPDATE_GOAL_TIME).orFalse()) {
             itemGoalTime = item.goalTime.text
             itemGoalTimeComplete = item.goalTime.complete

@@ -19,6 +19,8 @@ import com.example.util.simpletimetracker.domain.repo.RecordTagRepo
 import com.example.util.simpletimetracker.domain.repo.RecordToRecordTagRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeCategoryRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeRepo
+import com.example.util.simpletimetracker.domain.repo.RunningRecordRepo
+import com.example.util.simpletimetracker.domain.repo.RunningRecordToRecordTagRepo
 import com.example.util.simpletimetracker.domain.resolver.BackupRepo
 import com.example.util.simpletimetracker.domain.resolver.ResultCode
 import kotlinx.coroutines.Dispatchers
@@ -46,6 +48,8 @@ class BackupRepoImpl @Inject constructor(
     private val recordToRecordTagRepo: RecordToRecordTagRepo,
     private val recordTagRepo: RecordTagRepo,
     private val activityFilterRepo: ActivityFilterRepo,
+    private val runningRecordRepo: RunningRecordRepo,
+    private val runningRecordToRecordTagRepo: RunningRecordToRecordTagRepo,
 ) : BackupRepo {
 
     override suspend fun saveBackupFile(uriString: String): ResultCode =
@@ -139,6 +143,8 @@ class BackupRepoImpl @Inject constructor(
                 recordTagRepo.clear()
                 recordToRecordTagRepo.clear()
                 activityFilterRepo.clear()
+                runningRecordRepo.clear()
+                runningRecordToRecordTagRepo.clear()
 
                 // Read data
                 while (reader?.readLine()?.also { line = it } != null) {

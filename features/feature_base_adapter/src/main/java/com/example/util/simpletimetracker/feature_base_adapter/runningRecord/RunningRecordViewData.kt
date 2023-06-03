@@ -10,6 +10,7 @@ data class RunningRecordViewData(
     val tagName: String,
     val timeStarted: String,
     val timer: String,
+    val timerTotal: String,
     val goalTime: GoalTimeViewData,
     val goalTime2: GoalTimeViewData,
     val goalTime3: GoalTimeViewData,
@@ -31,6 +32,7 @@ data class RunningRecordViewData(
         if (this.tagName != other.tagName) updates.add(UPDATE_TAG_NAME)
         if (this.timeStarted != other.timeStarted) updates.add(UPDATE_TIME_STARTED)
         if (this.timer != other.timer) updates.add(UPDATE_TIMER)
+        if (this.timerTotal != other.timerTotal) updates.add(UPDATE_TIMER_TOTAL)
         if (this.iconId != other.iconId) updates.add(UPDATE_ICON)
         if (this.color != other.color) updates.add(UPDATE_COLOR)
         if (this.goalTime != other.goalTime) updates.add(UPDATE_GOAL_TIME)
@@ -47,14 +49,15 @@ data class RunningRecordViewData(
         const val UPDATE_NAME = 1
         const val UPDATE_TIME_STARTED = 2
         const val UPDATE_TIMER = 3
-        const val UPDATE_ICON = 4
-        const val UPDATE_COLOR = 5
-        const val UPDATE_GOAL_TIME = 6
-        const val UPDATE_GOAL_TIME2 = 7
-        const val UPDATE_GOAL_TIME3 = 8
-        const val UPDATE_GOAL_TIME4 = 9
-        const val UPDATE_COMMENT = 10
-        const val UPDATE_TAG_NAME = 11
-        const val UPDATE_NOW_ICON = 12
+        const val UPDATE_TIMER_TOTAL = 4
+        const val UPDATE_ICON = 5
+        const val UPDATE_COLOR = 6
+        const val UPDATE_GOAL_TIME = 7
+        const val UPDATE_GOAL_TIME2 = 8
+        const val UPDATE_GOAL_TIME3 = 9
+        const val UPDATE_GOAL_TIME4 = 10
+        const val UPDATE_COMMENT = 11
+        const val UPDATE_TAG_NAME = 12
+        const val UPDATE_NOW_ICON = 13
     }
 }

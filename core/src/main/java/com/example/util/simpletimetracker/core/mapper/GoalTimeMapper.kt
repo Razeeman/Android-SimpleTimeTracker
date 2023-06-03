@@ -15,11 +15,14 @@ class GoalTimeMapper @Inject constructor(
         goalTime: Long,
         current: Long,
         type: GoalTimeType,
+        goalsVisible: Boolean,
     ): GoalTimeViewData {
-        if (goalTime <= 0L) return GoalTimeViewData(
-            text = "",
-            complete = false
-        )
+        if (goalTime <= 0L || !goalsVisible) {
+            return GoalTimeViewData(
+                text = "",
+                complete = false
+            )
+        }
 
         val typeString = when (type) {
             is GoalTimeType.Session -> R.string.change_record_type_session_goal_time
