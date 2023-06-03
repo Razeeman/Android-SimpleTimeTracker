@@ -2,7 +2,7 @@ package com.example.util.simpletimetracker.feature_records.interactor
 
 import com.example.util.simpletimetracker.core.extension.setToStartOfDay
 import com.example.util.simpletimetracker.core.interactor.GetRunningRecordViewDataMediator
-import com.example.util.simpletimetracker.core.mapper.RangeMapper
+import com.example.util.simpletimetracker.domain.mapper.RangeMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.interactor.GetUntrackedRecordsInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -70,7 +70,7 @@ class RecordsViewDataInteractor @Inject constructor(
                 firstDayOfWeek = DayOfWeek.MONDAY, // Doesn't matter for days.
                 startOfDayShift = startOfDayShift,
             )
-            val records = recordInteractor.getFromRange(rangeStart, rangeEnd)
+            val records = recordInteractor.getFromRange(Range(rangeStart, rangeEnd))
 
             val data = getRecordsViewData(
                 records = records,
@@ -201,8 +201,7 @@ class RecordsViewDataInteractor @Inject constructor(
             .let {
                 rangeMapper.getRunningRecordsFromRange(
                     records = it,
-                    rangeStart = rangeStart,
-                    rangeEnd = rangeEnd
+                    range = Range(rangeStart, rangeEnd),
                 )
             }
             .mapNotNull { runningRecord ->

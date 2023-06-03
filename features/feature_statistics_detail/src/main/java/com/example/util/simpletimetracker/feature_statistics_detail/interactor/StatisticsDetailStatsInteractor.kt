@@ -2,7 +2,7 @@ package com.example.util.simpletimetracker.feature_statistics_detail.interactor
 
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
-import com.example.util.simpletimetracker.core.mapper.RangeMapper
+import com.example.util.simpletimetracker.domain.mapper.RangeMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.UNCATEGORIZED_ITEM_ID
@@ -11,6 +11,7 @@ import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.mapper.StatisticsMapper
+import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordTag
@@ -59,38 +60,22 @@ class StatisticsDetailStatsInteractor @Inject constructor(
             shift = rangePosition,
             firstDayOfWeek = firstDayOfWeek,
             startOfDayShift = startOfDayShift
-        )
+        ).let {
+            Range(it.first, it.second)
+        }
 
         return@withContext mapStatsData(
-            records = if (range.first == 0L && range.second == 0L) {
+            records = if (range.timeStarted == 0L && range.timeEnded == 0L) {
                 records
             } else {
-                rangeMapper.getRecordsFromRange(
-                    records = records,
-                    rangeStart = range.first,
-                    rangeEnd = range.second,
-                ).map {
-                    rangeMapper.clampRecordToRange(
-                        record = it,
-                        rangeStart = range.first,
-                        rangeEnd = range.second,
-                    )
-                }
+                rangeMapper.getRecordsFromRange(records, range)
+                    .map { rangeMapper.clampRecordToRange(it, range) }
             },
-            compareRecords = if (range.first == 0L && range.second == 0L) {
+            compareRecords = if (range.timeStarted == 0L && range.timeEnded == 0L) {
                 compareRecords
             } else {
-                rangeMapper.getRecordsFromRange(
-                    records = compareRecords,
-                    rangeStart = range.first,
-                    rangeEnd = range.second,
-                ).map {
-                    rangeMapper.clampRecordToRange(
-                        record = it,
-                        rangeStart = range.first,
-                        rangeEnd = range.second,
-                    )
-                }
+                rangeMapper.getRecordsFromRange(compareRecords, range)
+                    .map { rangeMapper.clampRecordToRange(it, range) }
             },
             showComparison = showComparison,
             types = types,

@@ -8,7 +8,7 @@ import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.extension.toModel
 import com.example.util.simpletimetracker.core.extension.toParams
 import com.example.util.simpletimetracker.core.interactor.RecordFilterInteractor
-import com.example.util.simpletimetracker.core.mapper.RangeMapper
+import com.example.util.simpletimetracker.core.mapper.RangeViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
@@ -71,7 +71,7 @@ class StatisticsDetailViewModel @Inject constructor(
     private val streaksInteractor: StatisticsDetailStreaksInteractor,
     private val splitChartInteractor: StatisticsDetailSplitChartInteractor,
     private val mapper: StatisticsDetailViewDataMapper,
-    private val rangeMapper: RangeMapper,
+    private val rangeViewDataMapper: RangeViewDataMapper,
     private val timeMapper: TimeMapper,
 ) : ViewModel() {
 
@@ -511,7 +511,7 @@ class StatisticsDetailViewModel @Inject constructor(
     private suspend fun loadTitle(): String {
         val startOfDayShift = prefsInteractor.getStartOfDayShift()
         val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
-        return rangeMapper.mapToTitle(rangeLength, rangePosition, startOfDayShift, firstDayOfWeek)
+        return rangeViewDataMapper.mapToTitle(rangeLength, rangePosition, startOfDayShift, firstDayOfWeek)
     }
 
     private fun updateRanges() {
@@ -519,7 +519,7 @@ class StatisticsDetailViewModel @Inject constructor(
     }
 
     private fun loadRanges(): RangesViewData {
-        return rangeMapper.mapToRanges(rangeLength)
+        return rangeViewDataMapper.mapToRanges(rangeLength)
     }
 
     private fun updateButtonsVisibility() {

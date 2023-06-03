@@ -53,10 +53,6 @@ class StatisticsMediator @Inject constructor(
         )
     }
 
-    suspend fun getRunningStatistics(): List<Statistics> {
-        return statisticsInteractor.getAllRunning()
-    }
-
     suspend fun getDataHolders(
         filterType: ChartFilterType,
         types: Map<Long, RecordType>,

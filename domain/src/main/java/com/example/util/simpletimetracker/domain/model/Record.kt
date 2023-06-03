@@ -2,12 +2,9 @@ package com.example.util.simpletimetracker.domain.model
 
 data class Record(
     val id: Long = 0,
-    val typeId: Long,
-    val timeStarted: Long,
-    val timeEnded: Long,
-    val comment: String,
-    val tagIds: List<Long> = emptyList(),
-) {
-
-    val duration: Long = timeEnded - timeStarted
-}
+    override val typeId: Long,
+    override val timeStarted: Long,
+    override val timeEnded: Long,
+    override val comment: String,
+    override val tagIds: List<Long> = emptyList(),
+) : RecordBase

@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.domain.repo
 
+import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.Record
 
 interface RecordRepo {
@@ -18,9 +19,9 @@ interface RecordRepo {
 
     suspend fun get(id: Long): Record?
 
-    suspend fun getFromRange(start: Long, end: Long): List<Record>
+    suspend fun getFromRange(range: Range): List<Record>
 
-    suspend fun getFromRangeByType(typeIds: List<Long>, start: Long, end: Long): List<Record>
+    suspend fun getFromRangeByType(typeIds: List<Long>, range: Range): List<Record>
 
     suspend fun getPrev(timeStarted: Long): Record?
 

@@ -70,7 +70,6 @@ class StatisticsViewDataMapper @Inject constructor(
     fun mapGoalItemsList(
         rangeLength: RangeLength,
         statistics: List<Statistics>,
-        runningStatistics: List<Statistics>,
         data: Map<Long, StatisticsDataHolder>,
         filteredIds: List<Long>,
         isDarkTheme: Boolean,
@@ -81,12 +80,8 @@ class StatisticsViewDataMapper @Inject constructor(
 
         return statisticsFiltered
             .mapNotNull { statistic ->
-                val currentRunningDuration = runningStatistics
-                    .filter { it.id == statistic.id }
-                    .sumOf { it.duration }
                 mapGoalItem(
                     rangeLength = rangeLength,
-                    currentRunningDuration = currentRunningDuration,
                     statistics = statistic,
                     dataHolder = data[statistic.id] ?: return@mapNotNull null,
                     isDarkTheme = isDarkTheme,
@@ -222,7 +217,6 @@ class StatisticsViewDataMapper @Inject constructor(
 
     private fun mapGoalItem(
         rangeLength: RangeLength,
-        currentRunningDuration: Long,
         statistics: Statistics,
         dataHolder: StatisticsDataHolder,
         isDarkTheme: Boolean,
@@ -237,7 +231,6 @@ class StatisticsViewDataMapper @Inject constructor(
             color = dataHolder.color
                 .let { colorMapper.mapToColorInt(it, isDarkTheme) },
             goal = mapGoal(
-                currentRunningDuration = currentRunningDuration,
                 statistics = statistics,
                 dataHolder = dataHolder,
                 rangeLength = rangeLength,
@@ -248,7 +241,6 @@ class StatisticsViewDataMapper @Inject constructor(
     }
 
     private fun mapGoal(
-        currentRunningDuration: Long,
         statistics: Statistics,
         dataHolder: StatisticsDataHolder,
         rangeLength: RangeLength,
@@ -264,7 +256,7 @@ class StatisticsViewDataMapper @Inject constructor(
 
         if (goal == 0L) return StatisticsGoalViewData.Goal.empty()
 
-        val current = statistics.duration + currentRunningDuration
+        val current = statistics.duration
         val goalComplete = goal - current <= 0L
         val currentString = timeMapper.formatInterval(
             interval = current,

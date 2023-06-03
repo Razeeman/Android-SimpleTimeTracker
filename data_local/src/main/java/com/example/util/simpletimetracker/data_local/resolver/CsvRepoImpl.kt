@@ -63,7 +63,7 @@ class CsvRepoImpl @Inject constructor(
 
             // Write data
             val records = if (range != null) {
-                recordRepo.getFromRange(range.timeStarted, range.timeEnded)
+                recordRepo.getFromRange(range)
             } else {
                 recordRepo.getAll()
             }

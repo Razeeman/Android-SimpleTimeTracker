@@ -2,13 +2,14 @@ package com.example.util.simpletimetracker.feature_statistics_detail.interactor
 
 import com.example.util.simpletimetracker.core.extension.setToStartOfDay
 import com.example.util.simpletimetracker.core.extension.setWeekToFirstDay
-import com.example.util.simpletimetracker.core.mapper.RangeMapper
+import com.example.util.simpletimetracker.domain.mapper.RangeMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.extension.getTypeIds
 import com.example.util.simpletimetracker.domain.extension.hasActivityFilter
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
+import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
@@ -133,15 +134,17 @@ class StatisticsDetailChartInteractor @Inject constructor(
 
         val records = rangeMapper.getRecordsFromRange(
             records = allRecords,
-            rangeStart = ranges.first().rangeStart,
-            rangeEnd = ranges.last().rangeEnd
+            range = Range(
+                timeStarted = ranges.first().rangeStart,
+                timeEnded = ranges.last().rangeEnd,
+            ),
         )
 
         if (records.isEmpty()) return mapEmpty()
 
         return ranges
             .map { data ->
-                val duration = rangeMapper.getRecordsFromRange(records, data.rangeStart, data.rangeEnd)
+                val duration = rangeMapper.getRecordsFromRange(records, Range(data.rangeStart, data.rangeEnd))
                     .map { record -> rangeMapper.clampToRange(record, data.rangeStart, data.rangeEnd) }
                     .let(rangeMapper::mapToDuration)
 

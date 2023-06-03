@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.domain.interactor
 
+import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.repo.RecordRepo
 import com.example.util.simpletimetracker.domain.repo.RecordToRecordTagRepo
@@ -46,12 +47,12 @@ class RecordInteractor @Inject constructor(
         return recordRepo.getNext(timeEnded)
     }
 
-    suspend fun getFromRange(start: Long, end: Long): List<Record> {
-        return recordRepo.getFromRange(start, end)
+    suspend fun getFromRange(range: Range): List<Record> {
+        return recordRepo.getFromRange(range)
     }
 
-    suspend fun getFromRangeByType(typeIds: List<Long>, start: Long, end: Long): List<Record> {
-        return recordRepo.getFromRangeByType(typeIds, start, end)
+    suspend fun getFromRangeByType(typeIds: List<Long>, range: Range): List<Record> {
+        return recordRepo.getFromRangeByType(typeIds, range)
     }
 
     suspend fun add(

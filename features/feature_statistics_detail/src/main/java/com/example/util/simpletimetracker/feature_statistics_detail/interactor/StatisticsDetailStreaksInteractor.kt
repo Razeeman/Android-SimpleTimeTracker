@@ -1,7 +1,7 @@
 package com.example.util.simpletimetracker.feature_statistics_detail.interactor
 
 import com.example.util.simpletimetracker.core.extension.setToStartOfDay
-import com.example.util.simpletimetracker.core.mapper.RangeMapper
+import com.example.util.simpletimetracker.domain.mapper.RangeMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.extension.orZero
@@ -199,8 +199,7 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
         ).map { day ->
             day.timeStarted to rangeMapper.getRecordsFromRange(
                 records = records,
-                rangeStart = day.timeStarted,
-                rangeEnd = day.timeEnded,
+                range = Range(day.timeStarted, day.timeEnded),
             ).map {
                 rangeMapper.clampToRange(
                     record = it,

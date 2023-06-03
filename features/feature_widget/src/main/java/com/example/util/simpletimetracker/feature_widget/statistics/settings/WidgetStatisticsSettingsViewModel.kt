@@ -8,7 +8,8 @@ import com.example.util.simpletimetracker.core.extension.addOrRemove
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.ChartFilterViewDataInteractor
 import com.example.util.simpletimetracker.core.mapper.ChartFilterViewDataMapper
-import com.example.util.simpletimetracker.core.mapper.RangeMapper
+import com.example.util.simpletimetracker.domain.mapper.RangeMapper
+import com.example.util.simpletimetracker.core.mapper.RangeViewDataMapper
 import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
 import com.example.util.simpletimetracker.core.viewData.ChartFilterTypeViewData
 import com.example.util.simpletimetracker.core.viewData.RangeViewData
@@ -43,7 +44,7 @@ class WidgetStatisticsSettingsViewModel @Inject constructor(
     private val categoryInteractor: CategoryInteractor,
     private val recordTagInteractor: RecordTagInteractor,
     private val chartFilterViewDataMapper: ChartFilterViewDataMapper,
-    private val rangeMapper: RangeMapper,
+    private val rangeViewDataMapper: RangeViewDataMapper,
     private val chartFilterViewDataInteractor: ChartFilterViewDataInteractor,
 ) : ViewModel() {
 
@@ -307,7 +308,7 @@ class WidgetStatisticsSettingsViewModel @Inject constructor(
     private suspend fun loadTitle(): String {
         val startOfDayShift = prefsInteractor.getStartOfDayShift()
         val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
-        return rangeMapper.mapToTitle(
+        return rangeViewDataMapper.mapToTitle(
             rangeLength = widgetData.rangeLength,
             position = 0,
             startOfDayShift = startOfDayShift,
@@ -320,6 +321,6 @@ class WidgetStatisticsSettingsViewModel @Inject constructor(
     }
 
     private fun loadRanges(): RangesViewData {
-        return rangeMapper.mapToRanges(widgetData.rangeLength, addSelection = false)
+        return rangeViewDataMapper.mapToRanges(widgetData.rangeLength, addSelection = false)
     }
 }

@@ -103,14 +103,14 @@ class RecordFilterInteractor @Inject constructor(
                 val records = if (range.timeStarted == 0L && range.timeEnded == 0L) {
                     interactor.getAll()
                 } else {
-                    interactor.getFromRange(range.timeStarted, range.timeEnded)
+                    interactor.getFromRange(range)
                 }.map { Range(it.timeStarted, it.timeEnded) }
                 getUntrackedRecordsInteractor.get(range, records)
             }
             typeIds.isNotEmpty() && ranges.isNotEmpty() -> {
                 val result = mutableMapOf<Long, Record>()
                 ranges
-                    .map { interactor.getFromRangeByType(typeIds, it.timeStarted, it.timeEnded) }
+                    .map { interactor.getFromRangeByType(typeIds, it) }
                     .flatten()
                     .forEach { result[it.id] = it }
                 result.values.toList()
@@ -129,7 +129,7 @@ class RecordFilterInteractor @Inject constructor(
             ranges.isNotEmpty() -> {
                 val result = mutableMapOf<Long, Record>()
                 ranges
-                    .map { interactor.getFromRange(it.timeStarted, it.timeEnded) }
+                    .map { interactor.getFromRange(it) }
                     .flatten()
                     .forEach { result[it.id] = it }
                 result.values.toList()

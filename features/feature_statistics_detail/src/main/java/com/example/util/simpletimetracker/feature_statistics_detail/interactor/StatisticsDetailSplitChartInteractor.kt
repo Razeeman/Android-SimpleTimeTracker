@@ -1,6 +1,6 @@
 package com.example.util.simpletimetracker.feature_statistics_detail.interactor
 
-import com.example.util.simpletimetracker.core.mapper.RangeMapper
+import com.example.util.simpletimetracker.domain.mapper.RangeMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -78,8 +78,7 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
             rangeMapper
                 .getRecordsFromRange(
                     records = records,
-                    rangeStart = range.first,
-                    rangeEnd = range.second
+                    range = Range(range.first, range.second),
                 )
                 .map {
                     rangeMapper.clampToRange(
@@ -184,7 +183,7 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
 
     private fun mapToRanges(records: List<Record>, range: Pair<Long, Long>): List<Range> {
         return if (range.first != 0L && range.second != 0L) {
-            rangeMapper.getRecordsFromRange(records, range.first, range.second)
+            rangeMapper.getRecordsFromRange(records, Range(range.first, range.second))
                 .map { rangeMapper.clampToRange(it, range.first, range.second) }
         } else {
             records.map { Range(it.timeStarted, it.timeEnded) }

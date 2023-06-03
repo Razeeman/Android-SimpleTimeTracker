@@ -2,7 +2,11 @@ package com.example.util.simpletimetracker.domain.model
 
 data class RunningRecord(
     val id: Long,
-    val timeStarted: Long,
-    val comment: String,
-    val tagIds: List<Long> = emptyList()
-)
+    override val timeStarted: Long,
+    override val comment: String,
+    override val tagIds: List<Long> = emptyList(),
+) : RecordBase {
+
+    override val typeId: Long = id
+    override val timeEnded: Long get() = System.currentTimeMillis()
+}

@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.data_local.repo
 
 import com.example.util.simpletimetracker.data_local.database.RecordDao
 import com.example.util.simpletimetracker.data_local.mapper.RecordDataLocalMapper
+import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.repo.RecordRepo
 import kotlinx.coroutines.Dispatchers
@@ -63,17 +64,17 @@ class RecordRepoImpl @Inject constructor(
             ?.let(recordDataLocalMapper::map)
     }
 
-    override suspend fun getFromRange(start: Long, end: Long): List<Record> =
+    override suspend fun getFromRange(range: Range): List<Record> =
         withContext(Dispatchers.IO) {
             Timber.d("getFromRange")
-            recordDao.getFromRange(start, end)
+            recordDao.getFromRange(range.timeStarted, range.timeEnded)
                 .map(recordDataLocalMapper::map)
         }
 
-    override suspend fun getFromRangeByType(typeIds: List<Long>, start: Long, end: Long): List<Record> =
+    override suspend fun getFromRangeByType(typeIds: List<Long>, range: Range): List<Record> =
         withContext(Dispatchers.IO) {
             Timber.d("getFromRangeByType")
-            recordDao.getFromRangeByType(typeIds, start, end)
+            recordDao.getFromRangeByType(typeIds, range.timeStarted, range.timeEnded)
                 .map(recordDataLocalMapper::map)
         }
 

@@ -3,7 +3,7 @@ package com.example.util.simpletimetracker.feature_statistics.interactor
 import com.example.util.simpletimetracker.core.interactor.StatisticsChartViewDataInteractor
 import com.example.util.simpletimetracker.core.interactor.StatisticsMediator
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
-import com.example.util.simpletimetracker.core.mapper.RangeMapper
+import com.example.util.simpletimetracker.core.mapper.RangeViewDataMapper
 import com.example.util.simpletimetracker.domain.UNCATEGORIZED_ITEM_ID
 import com.example.util.simpletimetracker.domain.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -28,7 +28,7 @@ class StatisticsViewDataInteractor @Inject constructor(
     private val statisticsChartViewDataInteractor: StatisticsChartViewDataInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val statisticsViewDataMapper: StatisticsViewDataMapper,
-    private val rangeMapper: RangeMapper,
+    private val rangeViewDataMapper: RangeViewDataMapper,
     private val colorMapper: ColorMapper,
 ) {
 
@@ -110,12 +110,6 @@ class StatisticsViewDataInteractor @Inject constructor(
                 filterType = filterType,
             )
         }
-        // Count running records only for actual period.
-        val runningStatistics = if (shift == 0) {
-            statisticsMediator.getRunningStatistics()
-        } else {
-            emptyList()
-        }
         val chart = statisticsChartViewDataInteractor.getChart(
             filterType = filterType,
             filteredIds = filteredIds,
@@ -152,7 +146,6 @@ class StatisticsViewDataInteractor @Inject constructor(
         val goalsList = statisticsViewDataMapper.mapGoalItemsList(
             rangeLength = rangeLength,
             statistics = goalsStatistics,
-            runningStatistics = runningStatistics,
             data = dataHolders,
             filteredIds = filteredIds,
             isDarkTheme = isDarkTheme,
@@ -194,7 +187,7 @@ class StatisticsViewDataInteractor @Inject constructor(
         rangeLength: RangeLength,
         shift: Int,
     ): List<ViewHolderType> = mutableListOf<ViewHolderType>().apply {
-        val title = rangeMapper.mapToShareTitle(
+        val title = rangeViewDataMapper.mapToShareTitle(
             rangeLength = rangeLength,
             position = shift,
             startOfDayShift = prefsInteractor.getStartOfDayShift(),

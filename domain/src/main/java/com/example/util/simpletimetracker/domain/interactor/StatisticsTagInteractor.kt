@@ -2,7 +2,7 @@ package com.example.util.simpletimetracker.domain.interactor
 
 import com.example.util.simpletimetracker.domain.UNCATEGORIZED_ITEM_ID
 import com.example.util.simpletimetracker.domain.model.Range
-import com.example.util.simpletimetracker.domain.model.Record
+import com.example.util.simpletimetracker.domain.model.RecordBase
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.Statistics
 import javax.inject.Inject
@@ -35,7 +35,7 @@ class StatisticsTagInteractor @Inject constructor(
 
     private fun getUntagged(
         range: Range,
-        records: List<Record>,
+        records: List<RecordBase>,
         addUncategorized: Boolean,
     ): List<Statistics> {
         if (addUncategorized) {
@@ -54,15 +54,19 @@ class StatisticsTagInteractor @Inject constructor(
         return emptyList()
     }
 
-    private suspend fun getTagRecords(allRecords: List<Record>): Map<Long, List<Record>> {
+    private suspend fun getTagRecords(
+        allRecords: List<RecordBase>
+    ): Map<Long, List<RecordBase>> {
         val recordTags = recordTagInteractor.getAll().map(RecordTag::id)
 
         return recordTags
             .associateWith { tagId -> allRecords.filter { tagId in it.tagIds } }
-            .filterValues(List<Record>::isNotEmpty)
+            .filterValues(List<RecordBase>::isNotEmpty)
     }
 
-    private fun getUntagged(allRecords: List<Record>): List<Record> {
+    private fun getUntagged(
+        allRecords: List<RecordBase>
+    ): List<RecordBase> {
         return allRecords.filter { it.tagIds.isEmpty() }
     }
 }

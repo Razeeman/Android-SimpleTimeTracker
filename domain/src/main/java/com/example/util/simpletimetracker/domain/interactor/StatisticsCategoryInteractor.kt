@@ -2,7 +2,7 @@ package com.example.util.simpletimetracker.domain.interactor
 
 import com.example.util.simpletimetracker.domain.UNCATEGORIZED_ITEM_ID
 import com.example.util.simpletimetracker.domain.model.Range
-import com.example.util.simpletimetracker.domain.model.Record
+import com.example.util.simpletimetracker.domain.model.RecordBase
 import com.example.util.simpletimetracker.domain.model.RecordTypeCategory
 import com.example.util.simpletimetracker.domain.model.Statistics
 import javax.inject.Inject
@@ -35,7 +35,7 @@ class StatisticsCategoryInteractor @Inject constructor(
 
     private suspend fun getUncategorized(
         range: Range,
-        records: List<Record>,
+        records: List<RecordBase>,
         addUncategorized: Boolean,
     ): List<Statistics> {
         if (addUncategorized) {
@@ -54,17 +54,21 @@ class StatisticsCategoryInteractor @Inject constructor(
         return emptyList()
     }
 
-    private suspend fun getCategoryRecords(allRecords: List<Record>): Map<Long, List<Record>> {
+    private suspend fun getCategoryRecords(
+        allRecords: List<RecordBase>
+    ): Map<Long, List<RecordBase>> {
         val recordTypeCategories = recordTypeCategoryInteractor.getAll()
             .groupBy(RecordTypeCategory::categoryId)
             .mapValues { it.value.map(RecordTypeCategory::recordTypeId) }
 
         return recordTypeCategories
             .mapValues { (_, typeIds) -> allRecords.filter { it.typeId in typeIds } }
-            .filterValues(List<Record>::isNotEmpty)
+            .filterValues(List<RecordBase>::isNotEmpty)
     }
 
-    private suspend fun getUncategorized(allRecords: List<Record>): List<Record> {
+    private suspend fun getUncategorized(
+        allRecords: List<RecordBase>
+    ): List<RecordBase> {
         val recordTypeCategories = recordTypeCategoryInteractor.getAll().map { it.recordTypeId }
 
         return allRecords.filter { it.typeId !in recordTypeCategories }

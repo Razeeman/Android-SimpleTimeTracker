@@ -100,7 +100,7 @@ class RunningRecordViewDataMapper @Inject constructor(
         if (dailyCurrent == null) return ""
         if (!dailyCurrent.durationDiffersFromCurrent) return ""
 
-        val hint = resourceRepo.getString(R.string.statistics_detail_total_duration).lowercase()
+        val hint = resourceRepo.getString(R.string.title_today).lowercase()
         val duration = timeMapper.formatInterval(
             interval = dailyCurrent.duration,
             forceSeconds = showSeconds,

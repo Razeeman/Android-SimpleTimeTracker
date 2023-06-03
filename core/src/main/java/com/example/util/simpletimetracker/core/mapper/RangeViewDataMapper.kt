@@ -8,15 +8,10 @@ import com.example.util.simpletimetracker.core.viewData.SelectDateViewData
 import com.example.util.simpletimetracker.core.viewData.SelectRangeViewData
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
-import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RangeLength
-import com.example.util.simpletimetracker.domain.model.Record
-import com.example.util.simpletimetracker.domain.model.RunningRecord
 import javax.inject.Inject
-import kotlin.math.max
-import kotlin.math.min
 
-class RangeMapper @Inject constructor(
+class RangeViewDataMapper @Inject constructor(
     private val resourceRepo: ResourceRepo,
     private val timeMapper: TimeMapper,
 ) {
@@ -73,52 +68,6 @@ class RangeMapper @Inject constructor(
         }
     }
 
-    fun getRecordsFromRange(
-        records: List<Record>,
-        rangeStart: Long,
-        rangeEnd: Long,
-    ): List<Record> {
-        return records.filter { it.isInRange(rangeStart, rangeEnd) }
-    }
-
-    fun getRunningRecordsFromRange(
-        records: List<RunningRecord>,
-        rangeStart: Long,
-        rangeEnd: Long,
-    ): List<RunningRecord> {
-        return records.filter { it.timeStarted < rangeEnd && System.currentTimeMillis() > rangeStart }
-    }
-
-    fun clampToRange(
-        record: Record,
-        rangeStart: Long,
-        rangeEnd: Long,
-    ): Range {
-        return Range(
-            timeStarted = max(record.timeStarted, rangeStart),
-            timeEnded = min(record.timeEnded, rangeEnd)
-        )
-    }
-
-    fun clampRecordToRange(
-        record: Record,
-        rangeStart: Long,
-        rangeEnd: Long,
-    ): Record {
-        return if (!record.isCompletelyRange(rangeStart, rangeEnd)) {
-            record.copy(
-                timeStarted = max(record.timeStarted, rangeStart),
-                timeEnded = min(record.timeEnded, rangeEnd)
-            )
-        } else {
-            record
-        }
-    }
-
-    fun mapToDuration(ranges: List<Range>): Long {
-        return ranges.sumOf { it.duration }
-    }
-
     private fun mapToRangeName(rangeLength: RangeLength): RangeViewData {
         val text = when (rangeLength) {
             is RangeLength.Day -> R.string.range_day
@@ -150,20 +99,6 @@ class RangeMapper @Inject constructor(
 
     private fun mapToSelectRange(): SelectRangeViewData {
         return SelectRangeViewData(text = resourceRepo.getString(R.string.range_custom))
-    }
-
-    private fun Record.isInRange(
-        rangeStart: Long,
-        rangeEnd: Long,
-    ): Boolean {
-        return this.timeStarted < rangeEnd && this.timeEnded > rangeStart
-    }
-
-    private fun Record.isCompletelyRange(
-        rangeStart: Long,
-        rangeEnd: Long,
-    ): Boolean {
-        return this.timeStarted >= rangeStart && this.timeEnded <= rangeEnd
     }
 
     companion object {

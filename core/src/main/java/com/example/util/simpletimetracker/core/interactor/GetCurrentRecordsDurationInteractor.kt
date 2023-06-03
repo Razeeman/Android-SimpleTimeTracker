@@ -1,6 +1,6 @@
 package com.example.util.simpletimetracker.core.interactor
 
-import com.example.util.simpletimetracker.core.mapper.RangeMapper
+import com.example.util.simpletimetracker.domain.mapper.RangeMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
@@ -38,7 +38,7 @@ class GetCurrentRecordsDurationInteractor @Inject constructor(
         val currentRunning = current - runningRecord.timeStarted
         val currentRunningClamped = current - max(runningRecord.timeStarted, range.timeStarted)
 
-        val duration = recordInteractor.getFromRange(rangeStart, rangeEnd)
+        val duration = recordInteractor.getFromRange(range)
             .filter { it.typeId == runningRecord.id }
             .map { rangeMapper.clampToRange(it, rangeStart, rangeEnd) }
             .let(rangeMapper::mapToDuration)
