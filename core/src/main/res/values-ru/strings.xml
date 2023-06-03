@@ -188,6 +188,7 @@
     <string name="settings_display_title">Настройки отображения</string>
     <string name="settings_additional_title">Дополнительные настройки</string>
     <string name="settings_notification_title">Настройки уведомлений</string>
+    <string name="settings_backup_title">Настройки резервного копирования</string>
     <string name="settings_sort_order">Сортировать активности</string>
     <string name="settings_sort_by_name">Имя</string>
     <string name="settings_sort_by_color">Цвет</string>

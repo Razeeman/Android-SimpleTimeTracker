@@ -188,6 +188,7 @@
     <string name="settings_display_title">Bildschirmeinstellungen</string>
     <string name="settings_additional_title">Zusätzliche Einstellungen</string>
     <string name="settings_notification_title">Benachrichtigungseinstellungen</string>
+    <string name="settings_backup_title">Backup-Einstellungen</string>
     <string name="settings_sort_order">Aktivitäten sortieren</string>
     <string name="settings_sort_by_name">Name</string>
     <string name="settings_sort_by_color">Farbe</string>

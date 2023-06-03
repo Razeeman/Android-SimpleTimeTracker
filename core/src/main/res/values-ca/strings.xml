@@ -188,6 +188,7 @@
     <string name="settings_display_title">Configuració de visualització</string>
     <string name="settings_additional_title">Configuració addicional</string>
     <string name="settings_notification_title">Configuració de notificacions</string>
+    <string name="settings_backup_title">Configuració de còpia de seguretat</string>
     <string name="settings_sort_order">Endreçar activitats</string>
     <string name="settings_sort_by_name">Nom</string>
     <string name="settings_sort_by_color">Color</string>

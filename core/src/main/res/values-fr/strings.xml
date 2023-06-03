@@ -188,6 +188,7 @@
     <string name="settings_display_title">Paramètres d\'affichage</string>
     <string name="settings_additional_title">Paramètres additionnels</string>
     <string name="settings_notification_title">Paramètres de notification</string>
+    <string name="settings_backup_title">Paramètres de sauvegarde</string>
     <string name="settings_sort_order">Trier les activités</string>
     <string name="settings_sort_by_name">Par nom</string>
     <string name="settings_sort_by_color">Par couleur</string>

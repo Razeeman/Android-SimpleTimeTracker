@@ -108,11 +108,13 @@ Simple app that helps track how much time you spend on all the useless activitie
     │   ├── feature_change_record_tag         # Edit tag screen.
     │   ├── feature_change_record_type        # Edit type screen.
     │   ├── feature_change_running_record     # Edit timer screen.
+    │   ├── feature_date_edit                 # Data edit screen.
     │   ├── feature_dialogs                   # Dialogs.
     │   ├── feature_main                      # Main screen with tabs.
     │   ├── feature_notification              # Notifications.
     │   ├── feature_records                   # One of main tabs, records list.
     │   ├── feature_records_all               # Screen showing all records.
+    │   ├── feature_records_filter            # Dialog for records filters.
     │   ├── feature_running_records           # One of main tabs, timers.
     │   ├── feature_settings                  # One of main tabs, settings.
     │   ├── feature_statistics                # One of main tabs, statistics.

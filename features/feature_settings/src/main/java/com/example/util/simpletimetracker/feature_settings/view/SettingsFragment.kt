@@ -123,6 +123,7 @@ class SettingsFragment :
             layoutSettingsFeedback.setOnClick(viewModel::onFeedbackClick)
         }
         with(layoutSettingsBackup) {
+            layoutSettingsBackupTitle.setOnClick(viewModel::onSettingsBackupClick)
             layoutSettingsSaveBackup.setOnClick(backupViewModel::onSaveClick)
             layoutSettingsRestoreBackup.setOnClick(backupViewModel::onRestoreClick)
             layoutSettingsExportCsv.setOnClick(backupViewModel::onExportCsvClick)
@@ -201,15 +202,21 @@ class SettingsFragment :
             }
         }
         with(backupViewModel) {
-            automaticBackupCheckbox.observe(layoutSettingsBackup.checkboxSettingsAutomaticBackup::setChecked)
-            automaticBackupLastSaveTime.observe {
-                layoutSettingsBackup.tvSettingsAutomaticBackupLastSaveTime.visible = it.isNotEmpty()
-                layoutSettingsBackup.tvSettingsAutomaticBackupLastSaveTime.text = it
-            }
-            automaticExportCheckbox.observe(layoutSettingsBackup.checkboxSettingsAutomaticExport::setChecked)
-            automaticExportLastSaveTime.observe {
-                layoutSettingsBackup.tvSettingsAutomaticExportLastSaveTime.visible = it.isNotEmpty()
-                layoutSettingsBackup.tvSettingsAutomaticExportLastSaveTime.text = it
+            with(layoutSettingsBackup) {
+                viewModel.settingsBackupVisibility.observe { opened ->
+                    layoutSettingsBackupContent.visible = opened
+                    arrowSettingsBackup.apply { if (opened) rotateDown() else rotateUp() }
+                }
+                automaticBackupCheckbox.observe(checkboxSettingsAutomaticBackup::setChecked)
+                automaticBackupLastSaveTime.observe {
+                    tvSettingsAutomaticBackupLastSaveTime.visible = it.isNotEmpty()
+                    tvSettingsAutomaticBackupLastSaveTime.text = it
+                }
+                automaticExportCheckbox.observe(checkboxSettingsAutomaticExport::setChecked)
+                automaticExportLastSaveTime.observe {
+                    tvSettingsAutomaticExportLastSaveTime.visible = it.isNotEmpty()
+                    tvSettingsAutomaticExportLastSaveTime.text = it
+                }
             }
         }
         with(mainTabsViewModel) {

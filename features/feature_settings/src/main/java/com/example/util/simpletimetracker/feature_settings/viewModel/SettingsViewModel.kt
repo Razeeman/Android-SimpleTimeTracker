@@ -383,6 +383,7 @@ class SettingsViewModel @Inject constructor(
     val settingsNotificationsVisibility: LiveData<Boolean> = MutableLiveData(false)
     val settingsDisplayVisibility: LiveData<Boolean> = MutableLiveData(false)
     val settingsAdditionalVisibility: LiveData<Boolean> = MutableLiveData(false)
+    val settingsBackupVisibility: LiveData<Boolean> = MutableLiveData(false)
     val resetScreen: SingleLiveEvent<Unit> = SingleLiveEvent()
 
     fun onVisible() {
@@ -409,6 +410,11 @@ class SettingsViewModel @Inject constructor(
     fun onSettingsAdditionalClick() {
         val newValue = settingsAdditionalVisibility.value?.flip().orFalse()
         settingsAdditionalVisibility.set(newValue)
+    }
+
+    fun onSettingsBackupClick() {
+        val newValue = settingsBackupVisibility.value?.flip().orFalse()
+        settingsBackupVisibility.set(newValue)
     }
 
     fun onRateClick() {

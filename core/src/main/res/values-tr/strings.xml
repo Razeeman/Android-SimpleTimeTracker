@@ -188,6 +188,7 @@
     <string name="settings_display_title">Görüntü ayarları</string>
     <string name="settings_additional_title">Ek ayarlar</string>
     <string name="settings_notification_title">Bildirim ayarları</string>
+    <string name="settings_backup_title">Yedekleme ayarları</string>
     <string name="settings_sort_order">Aktiviteleri sırala</string>
     <string name="settings_sort_by_name">İsim</string>
     <string name="settings_sort_by_color">Renk</string>

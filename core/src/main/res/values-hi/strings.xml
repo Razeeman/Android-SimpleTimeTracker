@@ -188,6 +188,7 @@
     <string name="settings_display_title">प्रदर्शन सेटिंग्स</string>
     <string name="settings_additional_title">अतिरिक्त सेटिंग्स</string>
     <string name="settings_notification_title">अधिसूचना सेटिंग्स</string>
+    <string name="settings_backup_title">बैकअप सेटिंग्स</string>
     <string name="settings_sort_order">क्रमबद्ध गतिविधियाँ</string>
     <string name="settings_sort_by_name">नाम</string>
     <string name="settings_sort_by_color">रंग</string>
