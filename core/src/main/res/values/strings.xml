@@ -291,6 +291,20 @@ If <b>\"%s\"</b> setting is enabled, app will send events on activity started or
     <string name="settings_dialog_message">Restore backup?</string>
     <string name="settings_export_csv">Spreadsheet export</string>
     <string name="settings_export_csv_description">Export activity records as a csv file to view in a preferred spreadsheet application.</string>
+    <string name="settings_import_csv">Spreadsheet import</string>
+    <string name="settings_import_csv_description">Import activity records from a csv file. Current data will not be lost.</string>
+    <string name="settings_import_csv_help"><![CDATA[
+The csv file must contain these columns separated by commas:<br/>
+<br/>
+- Activity name in quotes.<br/>
+- Start time of record in the format \"yyyy-MM-dd HH:mm:ss\"<br/>
+- End time of record in the format \"yyyy-MM-dd HH:mm:ss\"<br/>
+- Comment in quotes.<br/>
+<br/>
+Example:<br/>
+<br/>
+\"Reading\",2023-05-30 14:45:21,2023-05-30 15:45:21,\"Comment, comment\"
+    ]]></string>
     <string name="settings_export_ics">ICS export</string>
     <string name="settings_export_warning">This file cannot be used as a backup.</string>
     <string name="settings_file_open_error">Error opening file</string>
@@ -303,6 +317,9 @@ If <b>\"%s\"</b> setting is enabled, app will send events on activity started or
     <string name="message_app_not_found">Application not found</string>
     <string name="message_export_complete">Export completed</string>
     <string name="message_export_error">Export error</string>
+    <string name="message_import_complete">Import completed</string>
+    <string name="message_import_complete_hint">Records added: %s</string>
+    <string name="message_import_error">Import error</string>
     <string name="message_automatic_backup_error">There was an error with automatic backup.</string>
     <string name="message_automatic_export_error">There was an error with automatic export.</string>
     <string name="message_automatic_error_hint">Try to select different location</string>

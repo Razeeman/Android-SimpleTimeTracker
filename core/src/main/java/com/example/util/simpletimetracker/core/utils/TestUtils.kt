@@ -5,10 +5,10 @@ import com.example.util.simpletimetracker.core.mapper.IconImageMapper
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.ActivityFilterInteractor
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
+import com.example.util.simpletimetracker.domain.interactor.ClearDataInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
-import com.example.util.simpletimetracker.domain.interactor.RecordToRecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
@@ -20,10 +20,9 @@ import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RunningRecord
-import com.example.util.simpletimetracker.domain.repo.RunningRecordToRecordTagRepo
-import kotlinx.coroutines.runBlocking
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import kotlinx.coroutines.runBlocking
 
 class TestUtils @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
@@ -32,23 +31,14 @@ class TestUtils @Inject constructor(
     private val categoryInteractor: CategoryInteractor,
     private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
     private val recordTagInteractor: RecordTagInteractor,
-    private val recordToRecordTagInteractor: RecordToRecordTagInteractor,
     private val activityFilterInteractor: ActivityFilterInteractor,
-    private val runningRecordToRecordTagRepo: RunningRecordToRecordTagRepo,
     private val prefsInteractor: PrefsInteractor,
     private val iconImageMapper: IconImageMapper,
+    private val clearDataInteractor: ClearDataInteractor,
 ) {
 
     fun clearDatabase() = runBlocking {
-        recordTypeInteractor.clear()
-        recordInteractor.clear()
-        runningRecordInteractor.clear()
-        categoryInteractor.clear()
-        recordTypeCategoryInteractor.clear()
-        recordTagInteractor.clear()
-        recordToRecordTagInteractor.clear()
-        runningRecordToRecordTagRepo.clear() // TODO what's weird, can't use interactor because of test crash
-        activityFilterInteractor.clear()
+        clearDataInteractor.execute()
     }
 
     fun clearPrefs() = runBlocking {

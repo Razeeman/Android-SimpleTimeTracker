@@ -3,7 +3,10 @@ package com.example.util.simpletimetracker.data_local.resolver
 import android.content.ContentResolver
 import android.net.Uri
 import android.os.ParcelFileDescriptor
+import com.example.util.simpletimetracker.core.R
+import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.domain.interactor.ClearDataInteractor
 import com.example.util.simpletimetracker.domain.model.ActivityFilter
 import com.example.util.simpletimetracker.domain.model.AppColor
 import com.example.util.simpletimetracker.domain.model.Category
@@ -19,13 +22,8 @@ import com.example.util.simpletimetracker.domain.repo.RecordTagRepo
 import com.example.util.simpletimetracker.domain.repo.RecordToRecordTagRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeCategoryRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeRepo
-import com.example.util.simpletimetracker.domain.repo.RunningRecordRepo
-import com.example.util.simpletimetracker.domain.repo.RunningRecordToRecordTagRepo
 import com.example.util.simpletimetracker.domain.resolver.BackupRepo
 import com.example.util.simpletimetracker.domain.resolver.ResultCode
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import timber.log.Timber
 import java.io.BufferedReader
 import java.io.FileOutputStream
 import java.io.IOException
@@ -33,6 +31,9 @@ import java.io.InputStream
 import java.io.InputStreamReader
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 /**
  * Do not change backup parts order, always add new to the end.
@@ -48,161 +49,156 @@ class BackupRepoImpl @Inject constructor(
     private val recordToRecordTagRepo: RecordToRecordTagRepo,
     private val recordTagRepo: RecordTagRepo,
     private val activityFilterRepo: ActivityFilterRepo,
-    private val runningRecordRepo: RunningRecordRepo,
-    private val runningRecordToRecordTagRepo: RunningRecordToRecordTagRepo,
+    private val clearDataInteractor: ClearDataInteractor,
+    private val resourceRepo: ResourceRepo,
 ) : BackupRepo {
 
-    override suspend fun saveBackupFile(uriString: String): ResultCode =
-        withContext(Dispatchers.IO) {
-            var fileDescriptor: ParcelFileDescriptor? = null
-            var fileOutputStream: FileOutputStream? = null
+    override suspend fun saveBackupFile(
+        uriString: String
+    ): ResultCode = withContext(Dispatchers.IO) {
+        var fileDescriptor: ParcelFileDescriptor? = null
+        var fileOutputStream: FileOutputStream? = null
 
+        try {
+            val uri = Uri.parse(uriString)
+            fileDescriptor = contentResolver.openFileDescriptor(uri, "wt")
+            fileOutputStream = fileDescriptor?.fileDescriptor?.let(::FileOutputStream)
+
+            // Write file identification
+            val identificationBackupRow: String = BACKUP_IDENTIFICATION + "\n"
+            fileOutputStream?.write(identificationBackupRow.toByteArray())
+
+            // Write data
+            recordTypeRepo.getAll().forEach {
+                fileOutputStream?.write(
+                    it.let(::toBackupString).toByteArray()
+                )
+            }
+            recordRepo.getAll().forEach {
+                fileOutputStream?.write(
+                    it.let(::toBackupString).toByteArray()
+                )
+            }
+            categoryRepo.getAll().forEach {
+                fileOutputStream?.write(
+                    it.let(::toBackupString).toByteArray()
+                )
+            }
+            recordTypeCategoryRepo.getAll().forEach {
+                fileOutputStream?.write(
+                    it.let(::toBackupString).toByteArray()
+                )
+            }
+            recordTagRepo.getAll().forEach {
+                fileOutputStream?.write(
+                    it.let(::toBackupString).toByteArray()
+                )
+            }
+            recordToRecordTagRepo.getAll().forEach {
+                fileOutputStream?.write(
+                    it.let(::toBackupString).toByteArray()
+                )
+            }
+            activityFilterRepo.getAll().forEach {
+                fileOutputStream?.write(
+                    it.let(::toBackupString).toByteArray()
+                )
+            }
+
+            fileOutputStream?.close()
+            fileDescriptor?.close()
+            ResultCode.Success(resourceRepo.getString(R.string.message_backup_saved))
+        } catch (e: Exception) {
+            Timber.e(e)
+            ResultCode.Error(resourceRepo.getString(R.string.message_save_error))
+        } finally {
             try {
-                val uri = Uri.parse(uriString)
-                fileDescriptor = contentResolver.openFileDescriptor(uri, "wt")
-                fileOutputStream = fileDescriptor?.fileDescriptor?.let(::FileOutputStream)
-
-                // Write file identification
-                val identificationBackupRow: String = BACKUP_IDENTIFICATION + "\n"
-                fileOutputStream?.write(identificationBackupRow.toByteArray())
-
-                // Write data
-                recordTypeRepo.getAll().forEach {
-                    fileOutputStream?.write(
-                        it.let(::toBackupString).toByteArray()
-                    )
-                }
-                recordRepo.getAll().forEach {
-                    fileOutputStream?.write(
-                        it.let(::toBackupString).toByteArray()
-                    )
-                }
-                categoryRepo.getAll().forEach {
-                    fileOutputStream?.write(
-                        it.let(::toBackupString).toByteArray()
-                    )
-                }
-                recordTypeCategoryRepo.getAll().forEach {
-                    fileOutputStream?.write(
-                        it.let(::toBackupString).toByteArray()
-                    )
-                }
-                recordTagRepo.getAll().forEach {
-                    fileOutputStream?.write(
-                        it.let(::toBackupString).toByteArray()
-                    )
-                }
-                recordToRecordTagRepo.getAll().forEach {
-                    fileOutputStream?.write(
-                        it.let(::toBackupString).toByteArray()
-                    )
-                }
-                activityFilterRepo.getAll().forEach {
-                    fileOutputStream?.write(
-                        it.let(::toBackupString).toByteArray()
-                    )
-                }
-
                 fileOutputStream?.close()
                 fileDescriptor?.close()
-                ResultCode.SUCCESS
-            } catch (e: Exception) {
-                Timber.e(e)
-                ResultCode.ERROR
-            } finally {
-                try {
-                    fileOutputStream?.close()
-                    fileDescriptor?.close()
-                } catch (e: IOException) {
-                    // Do nothing
-                }
+            } catch (e: IOException) {
+                // Do nothing
             }
         }
+    }
 
-    override suspend fun restoreBackupFile(uriString: String): ResultCode =
-        withContext(Dispatchers.IO) {
-            var inputStream: InputStream? = null
-            var reader: BufferedReader? = null
+    override suspend fun restoreBackupFile(
+        uriString: String
+    ): ResultCode = withContext(Dispatchers.IO) {
+        var inputStream: InputStream? = null
+        var reader: BufferedReader? = null
+        val errorCode = ResultCode.Error(resourceRepo.getString(R.string.message_restore_error))
 
-            try {
-                val uri = Uri.parse(uriString)
-                inputStream = contentResolver.openInputStream(uri)
-                reader = inputStream?.let(::InputStreamReader)?.let(::BufferedReader)
+        try {
+            val uri = Uri.parse(uriString)
+            inputStream = contentResolver.openInputStream(uri)
+            reader = inputStream?.let(::InputStreamReader)?.let(::BufferedReader)
 
-                var line: String
-                var parts: List<String>
+            var line: String
+            var parts: List<String>
 
-                // Check file identification
-                line = reader?.readLine().orEmpty()
-                if (line != BACKUP_IDENTIFICATION) return@withContext ResultCode.ERROR
+            // Check file identification
+            line = reader?.readLine().orEmpty()
+            if (line != BACKUP_IDENTIFICATION) return@withContext errorCode
 
-                recordTypeRepo.clear()
-                recordRepo.clear()
-                categoryRepo.clear()
-                recordTypeCategoryRepo.clear()
-                recordTagRepo.clear()
-                recordToRecordTagRepo.clear()
-                activityFilterRepo.clear()
-                runningRecordRepo.clear()
-                runningRecordToRecordTagRepo.clear()
+            clearDataInteractor.execute()
 
-                // Read data
-                while (reader?.readLine()?.also { line = it } != null) {
-                    parts = line.split("\t")
-                    when (parts[0]) {
-                        ROW_RECORD_TYPE -> {
-                            recordTypeFromBackupString(parts).let {
-                                recordTypeRepo.add(it)
-                            }
+            // Read data
+            while (reader?.readLine()?.also { line = it } != null) {
+                parts = line.split("\t")
+                when (parts[0]) {
+                    ROW_RECORD_TYPE -> {
+                        recordTypeFromBackupString(parts).let {
+                            recordTypeRepo.add(it)
                         }
-                        ROW_RECORD -> {
-                            recordFromBackupString(parts).let { (record, recordToRecordTag) ->
-                                recordRepo.add(record)
-                                if (recordToRecordTag != null) {
-                                    recordToRecordTagRepo.add(recordToRecordTag)
-                                }
-                            }
-                        }
-                        ROW_CATEGORY -> {
-                            categoryFromBackupString(parts).let {
-                                categoryRepo.add(it)
-                            }
-                        }
-                        ROW_TYPE_CATEGORY -> {
-                            typeCategoryFromBackupString(parts).let {
-                                recordTypeCategoryRepo.add(it)
-                            }
-                        }
-                        ROW_RECORD_TAG -> {
-                            recordTagFromBackupString(parts).let {
-                                recordTagRepo.add(it)
-                            }
-                        }
-                        ROW_RECORD_TO_RECORD_TAG -> {
-                            recordToRecordTagFromBackupString(parts).let {
-                                recordToRecordTagRepo.add(it)
-                            }
-                        }
-                        ROW_ACTIVITY_FILTER -> {
-                            activityFilterFromBackupString(parts).let {
-                                activityFilterRepo.add(it)
+                    }
+                    ROW_RECORD -> {
+                        recordFromBackupString(parts).let { (record, recordToRecordTag) ->
+                            recordRepo.add(record)
+                            if (recordToRecordTag != null) {
+                                recordToRecordTagRepo.add(recordToRecordTag)
                             }
                         }
                     }
-                }
-                ResultCode.SUCCESS
-            } catch (e: Exception) {
-                Timber.e(e)
-                ResultCode.ERROR
-            } finally {
-                try {
-                    inputStream?.close()
-                    reader?.close()
-                } catch (e: IOException) {
-                    // Do nothing
+                    ROW_CATEGORY -> {
+                        categoryFromBackupString(parts).let {
+                            categoryRepo.add(it)
+                        }
+                    }
+                    ROW_TYPE_CATEGORY -> {
+                        typeCategoryFromBackupString(parts).let {
+                            recordTypeCategoryRepo.add(it)
+                        }
+                    }
+                    ROW_RECORD_TAG -> {
+                        recordTagFromBackupString(parts).let {
+                            recordTagRepo.add(it)
+                        }
+                    }
+                    ROW_RECORD_TO_RECORD_TAG -> {
+                        recordToRecordTagFromBackupString(parts).let {
+                            recordToRecordTagRepo.add(it)
+                        }
+                    }
+                    ROW_ACTIVITY_FILTER -> {
+                        activityFilterFromBackupString(parts).let {
+                            activityFilterRepo.add(it)
+                        }
+                    }
                 }
             }
+            ResultCode.Success(resourceRepo.getString(R.string.message_backup_restored))
+        } catch (e: Exception) {
+            Timber.e(e)
+            errorCode
+        } finally {
+            try {
+                inputStream?.close()
+                reader?.close()
+            } catch (e: IOException) {
+                // Do nothing
+            }
         }
+    }
 
     private fun toBackupString(recordType: RecordType): String {
         return String.format(

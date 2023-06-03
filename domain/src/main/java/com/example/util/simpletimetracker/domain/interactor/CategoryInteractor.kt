@@ -28,8 +28,4 @@ class CategoryInteractor @Inject constructor(
         categoryRepo.remove(id)
         recordTypeCategoryRepo.removeAll(id)
     }
-
-    suspend fun clear() {
-        categoryRepo.clear()
-    }
 }

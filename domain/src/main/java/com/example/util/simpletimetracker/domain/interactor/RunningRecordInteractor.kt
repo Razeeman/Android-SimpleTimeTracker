@@ -28,8 +28,4 @@ class RunningRecordInteractor @Inject constructor(
         runningRecordToRecordTagRepo.removeAllByRunningRecordId(id)
         runningRecordRepo.remove(id)
     }
-
-    suspend fun clear() {
-        runningRecordRepo.clear()
-    }
 }

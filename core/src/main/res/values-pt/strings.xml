@@ -291,6 +291,20 @@ Se a configuração <b>\"%s\"</b> estiver habilitada, o aplicativo enviará even
     <string name="settings_dialog_message">Restaurar backup?</string>
     <string name="settings_export_csv">Exportação de planilha</string>
     <string name="settings_export_csv_description">Exporte registros de atividades como um arquivo csv para visualizar no aplicativo de planilhas de sua preferência.</string>
+    <string name="settings_import_csv">Importação de planilha</string>
+    <string name="settings_import_csv_description">Importe registros de atividades de um arquivo csv. Os dados atuais não serão perdidos.</string>
+    <string name="settings_import_csv_help"><![CDATA[
+O arquivo csv deve conter estas colunas separadas por vírgulas:<br/>
+<br/>
+- Nome da atividade entre aspas.<br/>
+- Hora de início da gravação no formato \"aaaa-MM-dd HH:mm:ss\"<br/>
+- Hora de término do registro no formato \"aaaa-MM-dd HH:mm:ss\"<br/>
+- Comente entre aspas.<br/>
+<br/>
+Exemplo:<br/>
+<br/>
+\"Reading\",2023-05-30 14:45:21,2023-05-30 15:45:21,\"Comment, comment\"
+    ]]></string>
     <string name="settings_export_ics">Exportação de ICS</string>
     <string name="settings_export_warning">Este arquivo não pode ser usado como backup.</string>
     <string name="settings_file_open_error">Erro ao abrir o arquivo</string>
@@ -303,6 +317,9 @@ Se a configuração <b>\"%s\"</b> estiver habilitada, o aplicativo enviará even
     <string name="message_app_not_found">Aplicação não encontrada</string>
     <string name="message_export_complete">Exportação concluída</string>
     <string name="message_export_error">Erro de exportação</string>
+    <string name="message_import_complete">Importação concluída</string>
+    <string name="message_import_complete_hint">Registros adicionados: %s</string>
+    <string name="message_import_error">Erro de importação</string>
     <string name="message_automatic_backup_error">Ocorreu um erro com o backup automático.</string>
     <string name="message_automatic_export_error">Ocorreu um erro com a exportação automática.</string>
     <string name="message_automatic_error_hint">Tente selecionar um local diferente</string>

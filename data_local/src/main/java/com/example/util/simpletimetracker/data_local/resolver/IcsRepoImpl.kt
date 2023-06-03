@@ -91,10 +91,10 @@ class IcsRepoImpl @Inject constructor(
 
             fileOutputStream?.close()
             fileDescriptor?.close()
-            ResultCode.SUCCESS
+            ResultCode.Success(resourceRepo.getString(R.string.message_export_complete))
         } catch (e: Exception) {
             Timber.e(e)
-            ResultCode.ERROR
+            ResultCode.Error(resourceRepo.getString(R.string.message_export_error))
         } finally {
             try {
                 fileOutputStream?.close()

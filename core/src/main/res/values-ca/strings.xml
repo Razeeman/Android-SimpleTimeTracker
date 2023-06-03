@@ -291,6 +291,20 @@ Si la configuració <b>\"%s\"</b> és habilitada, l\'aplicació enviarà esdeven
     <string name="settings_dialog_message">Voleu restaurar la còpia de seguretat?</string>
     <string name="settings_export_csv">Exporta a full de càlcul</string>
     <string name="settings_export_csv_description">Exporteu els enregistraments de l\'activitat com un fitxer csv per a veure\'ls al programa de fulls de càlcul preferit.</string>
+    <string name="settings_import_csv">Importació de fulls de càlcul</string>
+    <string name="settings_import_csv_description">Importa registres d\'activitat des d\'un fitxer csv. Les dades actuals no es perdran.</string>
+    <string name="settings_import_csv_help"><![CDATA[
+El fitxer csv ha de contenir aquestes columnes separades per comes:<br/>
+<br/>
+- Nom de l\'activitat entre cometes.<br/>
+- Hora d\'inici de l\'enregistrament en el format \"aaaa-MM-dd HH:mm:ss\"<br/>
+- Hora de finalització del registre en el format \"aaaa-MM-dd HH:mm:ss\"<br/>
+- Comenta entre cometes.<br/>
+<br/>
+Exemple:<br/>
+<br/>
+\"Reading\",2023-05-30 14:45:21,2023-05-30 15:45:21,\"Comment, comment\"
+    ]]></string>
     <string name="settings_export_ics">Exportació ICS</string>
     <string name="settings_export_warning">Aquest arxiu no es pot fer servir com a còpia de seguretat.</string>
     <string name="settings_file_open_error">Hi ha un error en obrir el fitxer</string>
@@ -303,6 +317,9 @@ Si la configuració <b>\"%s\"</b> és habilitada, l\'aplicació enviarà esdeven
     <string name="message_app_not_found">No es troba l\'aplicació</string>
     <string name="message_export_complete">Exportació complerta</string>
     <string name="message_export_error">Error d\'exportació</string>
+    <string name="message_import_complete">Importació completada</string>
+    <string name="message_import_complete_hint">Registres afegits: %s</string>
+    <string name="message_import_error">Error d\'importació</string>
     <string name="message_automatic_backup_error">Hi ha hagut un error amb la còpia de seguretat automàtica.</string>
     <string name="message_automatic_export_error">Hi ha hagut un error amb l\'exportació automàtica.</string>
     <string name="message_automatic_error_hint">Proveu de seleccionar una ubicació diferent</string>

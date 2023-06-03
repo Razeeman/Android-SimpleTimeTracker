@@ -81,8 +81,4 @@ class RecordInteractor @Inject constructor(
         recordToRecordTagRepo.removeAllByRecordId(id)
         recordRepo.remove(id)
     }
-
-    suspend fun clear() {
-        recordRepo.clear()
-    }
 }

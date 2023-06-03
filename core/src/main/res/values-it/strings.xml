@@ -291,6 +291,20 @@ Se l\'impostazione <b>\"%s\"</b> è abilitata, l\'app invierà eventi sull\'atti
     <string name="settings_dialog_message">Ripristina backup?</string>
     <string name="settings_export_csv">Esporta foglio di calcolo</string>
     <string name="settings_export_csv_description">Esporta le registrazioni dell\'attività come file csv da visualizzare con l\'applicazione predefinita per i fogli di calcolo.</string>
+    <string name="settings_import_csv">Importazione da foglio di calcolo</string>
+    <string name="settings_import_csv_description">Importa i record delle attività da un file csv. I dati correnti non andranno persi.</string>
+    <string name="settings_import_csv_help"><![CDATA[
+Il file csv deve contenere queste colonne separate da virgole:<br/>
+<br/>
+- Nome dell\'attività tra virgolette.<br/>
+- Ora di inizio della registrazione nel formato \"aaaa-MM-gg HH:mm:ss\"<br/>
+- Ora di fine registrazione nel formato \"aaaa-MM-gg HH:mm:ss\"<br/>
+- Commento tra virgolette.<br/>
+<br/>
+Esempio:<br/>
+<br/>
+\"Reading\",2023-05-30 14:45:21,2023-05-30 15:45:21,\"Comment, comment\"
+    ]]></string>
     <string name="settings_export_ics">Esportazione ICS</string>
     <string name="settings_export_warning">Questo file non può essere utilizzato come backup.</string>
     <string name="settings_file_open_error">Errore nell\'apertura del file</string>
@@ -303,6 +317,9 @@ Se l\'impostazione <b>\"%s\"</b> è abilitata, l\'app invierà eventi sull\'atti
     <string name="message_app_not_found">Applicazione non trovata</string>
     <string name="message_export_complete">Esportazione completata</string>
     <string name="message_export_error">Errore di esportazione</string>
+    <string name="message_import_complete">Importazione completata</string>
+    <string name="message_import_complete_hint">Record aggiunti: %s</string>
+    <string name="message_import_error">Errore di importazione</string>
     <string name="message_automatic_backup_error">Si è verificato un errore con il backup automatico.</string>
     <string name="message_automatic_export_error">Si è verificato un errore con l\'esportazione automatica.</string>
     <string name="message_automatic_error_hint">Prova a selezionare una posizione diversa</string>

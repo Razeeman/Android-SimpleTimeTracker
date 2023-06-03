@@ -291,6 +291,20 @@
     <string name="settings_dialog_message">還原備份？</string>
     <string name="settings_export_csv">匯出工作簿</string>
     <string name="settings_export_csv_description">將活動記錄導出為 csv 文件，以便在首選電子表格應用程序中查看。</string>
+    <string name="settings_import_csv">電子表格導入</string>
+    <string name="settings_import_csv_description">從 csv 文件導入活動記錄。當前數據不會丟失。</string>
+    <string name="settings_import_csv_help"><![CDATA[
+csv 文件必須包含以逗號分隔的這些列：<br/>
+<br/>
+- 引號中的活動名稱。<br/>
+- 記錄開始時間格式為\"yyyy-MM-dd HH:mm:ss\"<br/>
+- 記錄結束時間格式為\"yyyy-MM-dd HH:mm:ss\"<br/>
+- 評論用引號。<br/>
+<br/>
+示例：<br/>
+<br/>
+\"Reading\",2023-05-30 14:45:21,2023-05-30 15:45:21,\"Comment, comment\"
+    ]]></string>
     <string name="settings_export_ics">匯出 ICS</string>
     <string name="settings_export_warning">此檔案不能用在備份上</string>
     <string name="settings_file_open_error">開啟檔案錯誤</string>
@@ -303,6 +317,9 @@
     <string name="message_app_not_found">應用未找到</string>
     <string name="message_export_complete">已匯出成功</string>
     <string name="message_export_error">匯出錯誤</string>
+    <string name="message_import_complete">導入完成</string>
+    <string name="message_import_complete_hint">添加的記錄：%s</string>
+    <string name="message_import_error">導入錯誤</string>
     <string name="message_automatic_backup_error">自動備份出錯。</string>
     <string name="message_automatic_export_error">自動導出時出錯。</string>
     <string name="message_automatic_error_hint">嘗試選擇不同的位置</string>

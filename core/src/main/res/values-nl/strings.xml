@@ -291,6 +291,20 @@ Als de instelling <b>\"%s\"</b> is ingeschakeld, stuurt de app gebeurtenissen ov
     <string name="settings_dialog_message">Back-up terugzetten?</string>
     <string name="settings_export_csv">Spreadsheet exporteren</string>
     <string name="settings_export_csv_description">Exporteer activiteitenrecords als een csv-bestand om ze te bekijken in een voorkeurspreadsheet-applicatie.</string>
+    <string name="settings_import_csv">Spreadsheets importeren</string>
+    <string name="settings_import_csv_description">Activiteitenrecords importeren vanuit een csv-bestand. Huidige gegevens gaan niet verloren.</string>
+    <string name="settings_import_csv_help"><![CDATA[
+Het csv-bestand moet deze kolommen bevatten, gescheiden door komma\'s:<br/>
+<br/>
+- Activiteitsnaam tussen aanhalingstekens.<br/>
+- Starttijd van opname in het formaat \"jjjj-MM-dd UU:mm:ss\"<br/>
+- Eindtijd van opname in het formaat \"jjjj-MM-dd UU:mm:ss\"<br/>
+- Reageer tussen aanhalingstekens.<br/>
+<br/>
+Voorbeeld:<br/>
+<br/>
+\"Reading\",2023-05-30 14:45:21,2023-05-30 15:45:21,\"Comment, comment\"
+    ]]></string>
     <string name="settings_export_ics">ICS-export</string>
     <string name="settings_export_warning">Dit bestand kan niet als back-up worden gebruikt.</string>
     <string name="settings_file_open_error">Fout bij openen bestand</string>
@@ -303,6 +317,9 @@ Als de instelling <b>\"%s\"</b> is ingeschakeld, stuurt de app gebeurtenissen ov
     <string name="message_app_not_found">Applicatie niet gevonden</string>
     <string name="message_export_complete">Export voltooid</string>
     <string name="message_export_error">Exportfout</string>
+    <string name="message_import_complete">Importeren voltooid</string>
+    <string name="message_import_complete_hint">Records toegevoegd: %s</string>
+    <string name="message_import_error">Fout importeren</string>
     <string name="message_automatic_backup_error">Er is een fout opgetreden bij de automatische back-up.</string>
     <string name="message_automatic_export_error">Er is een fout opgetreden bij het automatisch exporteren.</string>
     <string name="message_automatic_error_hint">Probeer een andere locatie te selecteren</string>

@@ -291,6 +291,20 @@ Si le paramètre <b>\"%s\"</b> est activé, l\'application enverra des événeme
     <string name="settings_dialog_message">Restaurer la sauvegarde ?</string>
     <string name="settings_export_csv">Exporter dans une feuille de calcul</string>
     <string name="settings_export_csv_description">Exportez les enregistrements d\'activité sous la forme de fichier CSV pour les afficher dans le tableur de votre choix.</string>
+    <string name="settings_import_csv">Importation de feuille de calcul</string>
+    <string name="settings_import_csv_description">Importez des enregistrements d\'activité à partir d\'un fichier csv. Les données actuelles ne seront pas perdues.</string>
+    <string name="settings_import_csv_help"><![CDATA[
+Le fichier CSV doit contenir ces colonnes séparées par des virgules:<br/>
+<br/>
+- Nom de l\'activité entre guillemets.<br/>
+- Heure de début de l\'enregistrement au format \"aaaa-MM-jj HH:mm:ss\"<br/>
+- Heure de fin d\'enregistrement au format \"aaaa-MM-jj HH:mm:ss\"<br/>
+- Commentaire entre guillemets.<br/>
+<br/>
+Exemple:<br/>
+<br/>
+\"Reading\",2023-05-30 14:45:21,2023-05-30 15:45:21,\"Comment, comment\"
+    ]]></string>
     <string name="settings_export_ics">Exportation ICS</string>
     <string name="settings_export_warning">Ce fichier ne peut pas être utilisé comme sauvegarde.</string>
     <string name="settings_file_open_error">Erreur lors de l\'ouverture du fichier</string>
@@ -303,6 +317,9 @@ Si le paramètre <b>\"%s\"</b> est activé, l\'application enverra des événeme
     <string name="message_app_not_found">Application non trouvée</string>
     <string name="message_export_complete">Exportation terminée</string>
     <string name="message_export_error">Erreur d\'exportation</string>
+    <string name="message_import_complete">Importation terminée</string>
+    <string name="message_import_complete_hint">Enregistrements ajoutés: %s</string>
+    <string name="message_import_error">Erreur d\'importation</string>
     <string name="message_automatic_backup_error">Une erreur s\'est produite lors de la sauvegarde automatique.</string>
     <string name="message_automatic_export_error">Une erreur s\'est produite lors de l\'exportation automatique.</string>
     <string name="message_automatic_error_hint">Essayez de sélectionner un emplacement différent</string>

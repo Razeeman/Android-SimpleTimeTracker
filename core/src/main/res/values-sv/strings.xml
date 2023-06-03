@@ -291,6 +291,20 @@ Om inställningen <b>\"%s\"</b> är aktiverad, kommer appen att skicka händelse
     <string name="settings_dialog_message">Återställa säkerhetskopia?</string>
     <string name="settings_export_csv">Exportera kalkyblad</string>
     <string name="settings_export_csv_description">Exportera händelser som en csv-fil för att öppna med kalkylbladsprogram.</string>
+    <string name="settings_import_csv">Importera kalkylark</string>
+    <string name="settings_import_csv_description">Importera aktivitetsposter från en csv-fil. Aktuell data kommer inte att gå förlorad.</string>
+    <string name="settings_import_csv_help"><![CDATA[
+Csv-filen måste innehålla dessa kolumner separerade med kommatecken:<br/>
+<br/>
+- Aktivitetsnamn inom citattecken.<br/>
+- Starttid för registrering i formatet \"åååå-MM-dd HH:mm:ss\"<br/>
+- Sluttid för posten i formatet \"åååå-MM-dd HH:mm:ss\"<br/>
+- Kommentera inom citattecken.<br/>
+<br/>
+Exempel:<br/>
+<br/>
+\"Reading\",2023-05-30 14:45:21,2023-05-30 15:45:21,\"Comment, comment\"
+    ]]></string>
     <string name="settings_export_ics">ICS export</string>
     <string name="settings_export_warning">Den här filen kan inte användas som säkerhetskopia.</string>
     <string name="settings_file_open_error">Fel vid öppnandet av fil</string>
@@ -303,6 +317,9 @@ Om inställningen <b>\"%s\"</b> är aktiverad, kommer appen att skicka händelse
     <string name="message_app_not_found">Applikation ej hittad</string>
     <string name="message_export_complete">Export slutförd</string>
     <string name="message_export_error">Exportfel</string>
+    <string name="message_import_complete">Importen slutförd</string>
+    <string name="message_import_complete_hint">Poster tillagda: %s</string>
+    <string name="message_import_error">Importfel</string>
     <string name="message_automatic_backup_error">Det uppstod ett fel med automatisk säkerhetskopiering.</string>
     <string name="message_automatic_export_error">Det uppstod ett fel med automatisk export.</string>
     <string name="message_automatic_error_hint">Försök att välja en annan plats</string>

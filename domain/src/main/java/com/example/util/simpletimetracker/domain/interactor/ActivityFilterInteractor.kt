@@ -29,8 +29,4 @@ class ActivityFilterInteractor @Inject constructor(
     suspend fun remove(id: Long) {
         activityFilterRepo.remove(id)
     }
-
-    suspend fun clear() {
-        activityFilterRepo.clear()
-    }
 }

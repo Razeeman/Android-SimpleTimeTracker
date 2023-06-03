@@ -291,6 +291,20 @@
     <string name="settings_dialog_message">Восстановить из резервной копии?</string>
     <string name="settings_export_csv">Экспорт таблицы</string>
     <string name="settings_export_csv_description">Экспортируйте записи в виде файла CSV для просмотра в предпочтительном приложении для работы с электронными таблицами.</string>
+    <string name="settings_import_csv">Импорт таблицы</string>
+    <string name="settings_import_csv_description">Импорт записей об активности из CSV-файла. Текущие данные не будут потеряны.</string>
+    <string name="settings_import_csv_help"><![CDATA[
+CSV-файл должен содержать следующие столбцы, разделенные запятыми:<br/>
+<br/>
+- Название действия в кавычках.<br/>
+- Время начала записи в формате \"гггг-ММ-дд ЧЧ:мм:сс\"<br/>
+- Время окончания записи в формате \"гггг-ММ-дд ЧЧ:мм:сс\"<br/>
+- Комментарий в кавычках.<br/>
+<br/>
+Пример:<br/>
+<br/>
+\"Reading\",2023-05-30 14:45:21,2023-05-30 15:45:21,\"Comment, comment\"
+    ]]></string>
     <string name="settings_export_ics">ICS экспорт</string>
     <string name="settings_export_warning">Этот файл не может быть использован в качестве резервной копии.</string>
     <string name="settings_file_open_error">Ошибка при открытии файла</string>
@@ -303,6 +317,9 @@
     <string name="message_app_not_found">Приложение не найдено</string>
     <string name="message_export_complete">Экспорт завершен</string>
     <string name="message_export_error">Ошибка экспорта</string>
+    <string name="message_import_complete">Импорт завершен</string>
+    <string name="message_import_complete_hint">Добавлено записей: %s</string>
+    <string name="message_import_error">Ошибка импорта</string>
     <string name="message_automatic_backup_error">Произошла ошибка с автоматическим резервным копированием.</string>
     <string name="message_automatic_export_error">Произошла ошибка при автоматическом экспорте.</string>
     <string name="message_automatic_error_hint">Попробуйте выбрать другое место</string>

@@ -1,5 +1,8 @@
 package com.example.util.simpletimetracker.domain.resolver
 
-enum class ResultCode {
-    SUCCESS, ERROR
+sealed interface ResultCode {
+    val message: String
+
+    data class Success(override val message: String) : ResultCode
+    data class Error(override val message: String) : ResultCode
 }

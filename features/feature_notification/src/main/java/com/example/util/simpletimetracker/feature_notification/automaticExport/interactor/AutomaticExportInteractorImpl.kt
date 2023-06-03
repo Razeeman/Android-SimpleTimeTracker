@@ -42,7 +42,7 @@ class AutomaticExportInteractorImpl @Inject constructor(
             }
         val result = csvExportInteractor.saveCsvFile(uri, range = null)
 
-        if (result == ResultCode.SUCCESS) {
+        if (result is ResultCode.Success) {
             schedule()
             prefsInteractor.setAutomaticExportLastSaveTime(System.currentTimeMillis())
         } else {

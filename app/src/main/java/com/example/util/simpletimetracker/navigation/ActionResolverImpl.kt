@@ -77,7 +77,7 @@ class ActionResolverImpl @Inject constructor(
     private fun openFile(activity: Activity?, data: OpenFileParams) {
         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
             .addCategory(Intent.CATEGORY_OPENABLE)
-            .setType("application/*")
+            .setType(data.type)
 
         if (activity.checkIfIntentResolves(intent)) {
             openFileResultLauncher?.launch(intent)

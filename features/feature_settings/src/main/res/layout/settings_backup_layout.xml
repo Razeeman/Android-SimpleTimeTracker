@@ -220,6 +220,76 @@
             android:layout_width="match_parent"
             android:layout_marginTop="12dp" />
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutSettingsImportCsv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvSettingsImportCsvTitle"
+                style="@style/SettingsText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingBottom="0dp"
+                android:text="@string/settings_import_csv"
+                app:layout_constraintEnd_toStartOf="@id/btnSettingsImportCsvHelp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvSettingsImportCsvHint"
+                style="@style/SettingsSecondaryText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingBottom="0dp"
+                android:text="@string/settings_import_csv_description"
+                app:layout_constraintEnd_toStartOf="@id/btnSettingsImportCsvHelp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvSettingsImportCsvTitle" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvSettingsImportCsvAlert"
+                style="@style/SettingsSecondaryText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/data_edit_hint"
+                android:textColor="@color/colorSecondary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvSettingsImportCsvHint" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/btnSettingsImportCsvHelp"
+                style="@style/SettingsCard"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:layout_marginEnd="16dp"
+                android:foreground="?selectableItemBackground"
+                app:cardBackgroundColor="?appButtonOnCardBackgroundColor"
+                app:cardCornerRadius="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tvSettingsImportCsvTitle">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="\?"
+                    android:textColor="?appInactiveColor"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+            </androidx.cardview.widget.CardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            style="@style/SettingsDivider"
+            android:layout_width="match_parent" />
+
         <LinearLayout
             android:id="@+id/layoutSettingsExportIcs"
             android:layout_width="match_parent"

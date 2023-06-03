@@ -67,10 +67,6 @@ class RecordTagInteractor @Inject constructor(
         repo.removeByType(typeId)
     }
 
-    suspend fun clear() {
-        repo.clear()
-    }
-
     // TODO remove sort and sort when needed.
     private fun sort(items: List<RecordTag>): List<RecordTag> {
         return items.sortedBy { it.name.lowercase(Locale.getDefault()) }

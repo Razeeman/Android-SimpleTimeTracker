@@ -3,6 +3,10 @@ package com.example.util.simpletimetracker.data_local.resolver
 import android.content.ContentResolver
 import android.net.Uri
 import android.os.ParcelFileDescriptor
+import com.example.util.simpletimetracker.core.R
+import com.example.util.simpletimetracker.core.mapper.ColorMapper
+import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.domain.model.AppColor
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.Record
@@ -14,15 +18,18 @@ import com.example.util.simpletimetracker.domain.repo.RecordTypeCategoryRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeRepo
 import com.example.util.simpletimetracker.domain.resolver.CsvRepo
 import com.example.util.simpletimetracker.domain.resolver.ResultCode
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import timber.log.Timber
+import java.io.BufferedReader
 import java.io.FileOutputStream
 import java.io.IOException
+import java.io.InputStream
+import java.io.InputStreamReader
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 class CsvRepoImpl @Inject constructor(
     private val contentResolver: ContentResolver,
@@ -30,6 +37,7 @@ class CsvRepoImpl @Inject constructor(
     private val recordRepo: RecordRepo,
     private val recordTypeCategoryRepo: RecordTypeCategoryRepo,
     private val recordTagRepo: RecordTagRepo,
+    private val resourceRepo: ResourceRepo,
 ) : CsvRepo {
 
     override suspend fun saveCsvFile(
@@ -74,14 +82,98 @@ class CsvRepoImpl @Inject constructor(
 
             fileOutputStream?.close()
             fileDescriptor?.close()
-            ResultCode.SUCCESS
+            ResultCode.Success(resourceRepo.getString(R.string.message_export_complete))
         } catch (e: Exception) {
             Timber.e(e)
-            ResultCode.ERROR
+            ResultCode.Error(resourceRepo.getString(R.string.message_export_error))
         } finally {
             try {
                 fileOutputStream?.close()
                 fileDescriptor?.close()
+            } catch (e: IOException) {
+                // Do nothing
+            }
+        }
+    }
+
+    override suspend fun importCsvFile(
+        uriString: String
+    ): ResultCode = withContext(Dispatchers.IO) {
+        var inputStream: InputStream? = null
+        var reader: BufferedReader? = null
+
+        try {
+            val uri = Uri.parse(uriString)
+            inputStream = contentResolver.openInputStream(uri)
+            reader = inputStream?.let(::InputStreamReader)?.let(::BufferedReader)
+
+            var line = ""
+            var addedRecords = 0L
+            val currentTypes = recordTypeRepo.getAll()
+            val newAddedTypes = mutableListOf<RecordType>()
+
+            // Read data
+            while (reader?.readLine()?.also { line = it } != null) {
+                line = line.removePrefix("\"")
+                val typeName = line.substringBefore(delimiter = "\"", missingDelimiterValue = "")
+                line = line.removePrefix("$typeName\",")
+
+                val timeStartedString = line.substringBefore(delimiter = ",", missingDelimiterValue = "")
+                val timeStarted = parseDateTime(timeStartedString)
+                line = line.removePrefix("$timeStartedString,")
+
+                val timeEndedString = line.substringBefore(delimiter = ",", missingDelimiterValue = "")
+                val timeEnded = parseDateTime(timeEndedString)
+                line = line.removePrefix("$timeEndedString,")
+
+                line = line.removePrefix("\"")
+                val comment = line.substringBefore(delimiter = "\"", missingDelimiterValue = "")
+
+                if (
+                    typeName.isNotEmpty() &&
+                    timeStarted != null &&
+                    timeEnded != null
+                ) {
+                    val typeId: Long = currentTypes.firstOrNull { it.name == typeName }?.id
+                        ?: newAddedTypes.firstOrNull { it.name == typeName }?.id
+                        ?: run {
+                            val newType = RecordType(
+                                name = typeName,
+                                icon = "",
+                                color = AppColor(
+                                    colorId = (0..ColorMapper.colorsNumber).random(),
+                                    colorInt = "",
+                                ),
+                                hidden = false,
+                                goalTime = 0,
+                                dailyGoalTime = 0,
+                                weeklyGoalTime = 0,
+                                monthlyGoalTime = 0,
+                            )
+                            val newTypeId = recordTypeRepo.add(newType)
+                            newType.copy(id = newTypeId).let(newAddedTypes::add)
+                            newTypeId
+                        }
+                    val record = Record(
+                        typeId = typeId,
+                        timeStarted = timeStarted,
+                        timeEnded = timeEnded,
+                        comment = comment,
+                    )
+                    recordRepo.add(record)
+                    addedRecords++
+                }
+            }
+            val messageText = resourceRepo.getString(R.string.message_import_complete)
+            val messageHint = resourceRepo.getString(R.string.message_import_complete_hint, addedRecords)
+            ResultCode.Success("$messageText\n$messageHint")
+        } catch (e: Exception) {
+            Timber.e(e)
+            ResultCode.Error(resourceRepo.getString(R.string.message_import_error))
+        } finally {
+            try {
+                inputStream?.close()
+                reader?.close()
             } catch (e: IOException) {
                 // Do nothing
             }
@@ -134,6 +226,14 @@ class CsvRepoImpl @Inject constructor(
         )
 
         return "$hr:$min:$sec"
+    }
+
+    private fun parseDateTime(timeString: String): Long? {
+        return synchronized(dateTimeFormat) {
+            runCatching {
+                dateTimeFormat.parse(timeString)
+            }.getOrNull()?.time
+        }
     }
 
     companion object {

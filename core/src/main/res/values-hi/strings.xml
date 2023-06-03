@@ -291,6 +291,20 @@
     <string name="settings_dialog_message">पुनर्स्थापित करे?</string>
     <string name="settings_export_csv">स्प्रेडशीट निर्यात</string>
     <string name="settings_export_csv_description">एक पसंदीदा स्प्रेडशीट एप्लिकेशन में देखने के लिए CSV फ़ाइल के रूप में निर्यात गतिविधि रिकॉर्ड।</string>
+    <string name="settings_import_csv">स्प्रेडशीट आयात</string>
+    <string name="settings_import_csv_description">CSV फ़ाइल से गतिविधि रिकॉर्ड आयात करें। वर्तमान डेटा नष्ट नहीं होगा।</string>
+    <string name="settings_import_csv_help"><![CDATA[
+csv फ़ाइल में कॉमा से अलग किए गए ये कॉलम होने चाहिए:<br/>
+<br/>
+- गतिविधि का नाम उद्धरणों में।<br/>
+- रिकॉर्ड का प्रारंभ समय \"yyyy-MM-dd HH:mm:ss\"<br/> प्रारूप में
+- रिकॉर्ड का समाप्ति समय \"yyyy-MM-dd HH:mm:ss\"<br/> प्रारूप में
+- उद्धरणों में टिप्पणी करें।<br/>
+<br/>
+उदाहरण:<br/>
+<br/>
+\"Reading\",2023-05-30 14:45:21,2023-05-30 15:45:21,\"Comment, comment\"
+    ]]></string>
     <string name="settings_export_ics">ICS निर्यात</string>
     <string name="settings_export_warning">इस फ़ाइल का उपयोग बैकअप के रूप में नहीं किया जा सकता है।</string>
     <string name="settings_file_open_error">त्रुटि खोलने की फ़ाइल</string>
@@ -303,6 +317,9 @@
     <string name="message_app_not_found">आवेदन नहीं मिला</string>
     <string name="message_export_complete">निर्यात पूरा किया गया</string>
     <string name="message_export_error">निर्यात त्रुटि</string>
+    <string name="message_import_complete">आयात पूरा हुआ</string>
+    <string name="message_import_complete_hint">रिकॉर्ड जोड़े गए: %s</string>
+    <string name="message_import_error">आयात त्रुटि</string>
     <string name="message_automatic_backup_error">स्वचालित बैकअप के साथ एक त्रुटि हुई थी।</string>
     <string name="message_automatic_export_error">स्वचालित निर्यात में त्रुटि हुई थी।</string>
     <string name="message_automatic_error_hint">अलग स्थान का चयन करने का प्रयास करें</string>

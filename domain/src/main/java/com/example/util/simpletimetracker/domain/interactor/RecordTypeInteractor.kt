@@ -67,10 +67,6 @@ class RecordTypeInteractor @Inject constructor(
         recordTypeRepo.remove(id)
     }
 
-    suspend fun clear() {
-        recordTypeRepo.clear()
-    }
-
     private suspend fun sort(
         cardOrder: CardOrder?,
         records: List<RecordType>,

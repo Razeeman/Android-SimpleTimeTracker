@@ -1,6 +1,5 @@
 package com.example.util.simpletimetracker.core.sharedViewModel
 
-import androidx.annotation.StringRes
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
@@ -31,6 +30,7 @@ import com.example.util.simpletimetracker.navigation.params.action.OpenFileParam
 import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
 import com.example.util.simpletimetracker.navigation.params.screen.DataExportSettingDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DataExportSettingsResult
+import com.example.util.simpletimetracker.navigation.params.screen.HelpDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.StandardDialogParams
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -157,6 +157,24 @@ class BackupViewModel @Inject constructor(
         router.navigate(DataExportSettingDialogParams(CSV_EXPORT_DIALOG_TAG))
     }
 
+    fun onImportCsvClick() {
+        router.navigate(
+            StandardDialogParams(
+                tag = CSV_IMPORT_ALERT_DIALOG_TAG,
+                message = resourceRepo.getString(R.string.archive_deletion_alert),
+                btnPositive = resourceRepo.getString(R.string.ok),
+                btnNegative = resourceRepo.getString(R.string.cancel)
+            )
+        )
+    }
+
+    fun onImportCsvHelpClick() {
+        HelpDialogParams(
+            title = resourceRepo.getString(R.string.settings_import_csv),
+            text = resourceRepo.getString(R.string.settings_import_csv_help),
+        ).let(router::navigate)
+    }
+
     fun onExportIcsClick() {
         router.navigate(DataExportSettingDialogParams(ICS_EXPORT_DIALOG_TAG))
     }
@@ -166,7 +184,18 @@ class BackupViewModel @Inject constructor(
             ALERT_DIALOG_TAG -> requestFileWork(
                 requestCode = RequestCode.REQUEST_CODE_OPEN_FILE,
                 work = ::onRestoreBackup,
-                params = OpenFileParams(::onFileOpenError),
+                params = OpenFileParams(
+                    type = FILE_TYPE_BIN_OPEN,
+                    notHandledCallback = ::onFileOpenError
+                ),
+            )
+            CSV_IMPORT_ALERT_DIALOG_TAG -> requestFileWork(
+                requestCode = RequestCode.REQUEST_CODE_OPEN_FILE,
+                work = ::onImportCsvFile,
+                params = OpenFileParams(
+                    type = FILE_TYPE_CSV_OPEN,
+                    notHandledCallback = ::onFileOpenError
+                ),
             )
         }
     }
@@ -236,10 +265,7 @@ class BackupViewModel @Inject constructor(
 
     private fun onSaveBackup(uriString: String?) {
         if (uriString == null) return
-        executeFileWork(
-            successMessageId = R.string.message_backup_saved,
-            errorMessageId = R.string.message_save_error,
-        ) {
+        executeFileWork {
             backupInteractor.saveBackupFile(uriString)
         }
     }
@@ -312,20 +338,14 @@ class BackupViewModel @Inject constructor(
 
     private fun onRestoreBackup(uriString: String?) {
         if (uriString == null) return
-        executeFileWork(
-            successMessageId = R.string.message_backup_restored,
-            errorMessageId = R.string.message_restore_error,
-        ) {
+        executeFileWork {
             backupInteractor.restoreBackupFile(uriString)
         }
     }
 
     private fun onSaveCsvFile(uriString: String?) {
         if (uriString == null) return
-        executeFileWork(
-            successMessageId = R.string.message_export_complete,
-            errorMessageId = R.string.message_export_error,
-        ) {
+        executeFileWork {
             csvExportInteractor.saveCsvFile(
                 uriString = uriString,
                 range = getRange()
@@ -333,12 +353,16 @@ class BackupViewModel @Inject constructor(
         }
     }
 
+    private fun onImportCsvFile(uriString: String?) {
+        if (uriString == null) return
+        executeFileWork {
+            csvExportInteractor.importCsvFile(uriString)
+        }
+    }
+
     private fun onSaveIcsFile(uriString: String?) {
         if (uriString == null) return
-        executeFileWork(
-            successMessageId = R.string.message_export_complete,
-            errorMessageId = R.string.message_export_error,
-        ) {
+        executeFileWork {
             icsExportInteractor.saveIcsFile(
                 uriString = uriString,
                 range = getRange()
@@ -358,32 +382,26 @@ class BackupViewModel @Inject constructor(
     }
 
     private fun executeFileWork(
-        @StringRes successMessageId: Int,
-        @StringRes errorMessageId: Int,
         doWork: suspend () -> ResultCode,
     ) = viewModelScope.launch {
         progressVisibility.set(true)
 
         val resultCode = doWork()
-        if (resultCode == ResultCode.SUCCESS) {
-            successMessageId
-        } else {
-            errorMessageId
-        }.let(::showMessage)
+        resultCode.message.let(::showMessage)
 
         progressVisibility.set(false)
     }
 
     private fun onFileOpenError() {
-        showMessage(R.string.settings_file_open_error)
+        showMessage(resourceRepo.getString(R.string.settings_file_open_error))
     }
 
     private fun onFileCreateError() {
-        showMessage(R.string.settings_file_create_error)
+        showMessage(resourceRepo.getString(R.string.settings_file_create_error))
     }
 
-    private fun showMessage(stringResId: Int) {
-        val params = SnackBarParams(message = resourceRepo.getString(stringResId))
+    private fun showMessage(string: String) {
+        val params = SnackBarParams(message = string)
         router.show(params)
     }
 
@@ -466,9 +484,12 @@ class BackupViewModel @Inject constructor(
         private const val CSV_EXPORT_DIALOG_TAG = "csv_export_dialog_tag"
         private const val ICS_EXPORT_DIALOG_TAG = "ics_export_dialog_tag"
         private const val ALERT_DIALOG_TAG = "alert_dialog_tag"
+        private const val CSV_IMPORT_ALERT_DIALOG_TAG = "csv_import_alert_dialog_tag"
 
         private const val FILE_TYPE_BIN = "application/x-binary"
+        private const val FILE_TYPE_BIN_OPEN = "application/*"
         private const val FILE_TYPE_CSV = "text/csv"
+        private const val FILE_TYPE_CSV_OPEN = "text/*"
         private const val FILE_TYPE_ICS = "application/ics"
     }
 }

@@ -8,4 +8,8 @@ interface CsvRepo {
         uriString: String,
         range: Range?,
     ): ResultCode
+
+    suspend fun importCsvFile(
+        uriString: String,
+    ): ResultCode
 }

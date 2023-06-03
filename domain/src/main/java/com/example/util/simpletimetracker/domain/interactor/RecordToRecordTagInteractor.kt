@@ -10,8 +10,4 @@ class RecordToRecordTagInteractor @Inject constructor(
     suspend fun getRecordIdsByTagId(tagId: Long): List<Long> {
         return repo.getRecordIdsByTagId(tagId)
     }
-
-    suspend fun clear() {
-        repo.clear()
-    }
 }

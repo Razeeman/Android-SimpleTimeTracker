@@ -291,6 +291,20 @@
     <string name="settings_dialog_message">バックアップを復元しますか？</string>
     <string name="settings_export_csv">スプレッドシートのエクスポート</string>
     <string name="settings_export_csv_description">アクティビティ記録をcsvファイルとしてエクスポートし、お好みのスプレッドシートアプリケーションで表示することができます。</string>
+    <string name="settings_import_csv">スプレッドシートのインポート</string>
+    <string name="settings_import_csv_description">CSV ファイルからアクティビティ記録をインポートします。現在のデータは失われません。</string>
+    <string name="settings_import_csv_help"><![CDATA[
+CSV ファイルには、カンマで区切られた次の列が含まれている必要があります。<br/>
+<br/>
+- 引用符で囲んだアクティビティ名。<br/>
+- 「yyyy-MM-dd HH:mm:ss」形式の記録開始時刻<br/>
+- 「yyyy-MM-dd HH:mm:ss」形式の記録の終了時刻<br/>
+- 引用符で囲んだコメント。<br/>
+<br/>
+例:<br/>
+<br/>
+\"Reading\",2023-05-30 14:45:21,2023-05-30 15:45:21,\"Comment, comment\"
+    ]]></string>
     <string name="settings_export_ics">ICS エクスポート</string>
     <string name="settings_export_warning">このファイルはバックアップとして使用できません。</string>
     <string name="settings_file_open_error">ファイルを開く際にエラーが発生しました</string>
@@ -303,6 +317,9 @@
     <string name="message_app_not_found">アプリケーションが見つかりません</string>
     <string name="message_export_complete">エクスポート完了</string>
     <string name="message_export_error">エクスポートエラー</string>
+    <string name="message_import_complete">インポートが完了しました</string>
+    <string name="message_import_complete_hint">追加されたレコード: %s</string>
+    <string name="message_import_error">インポートエラー</string>
     <string name="message_automatic_backup_error">自動バックアップでエラーが発生しました。</string>
     <string name="message_automatic_export_error">自動エクスポートでエラーが発生しました。</string>
     <string name="message_automatic_error_hint">別の場所を選択してみてください</string>

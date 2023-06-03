@@ -126,6 +126,8 @@ class SettingsFragment :
             layoutSettingsSaveBackup.setOnClick(backupViewModel::onSaveClick)
             layoutSettingsRestoreBackup.setOnClick(backupViewModel::onRestoreClick)
             layoutSettingsExportCsv.setOnClick(backupViewModel::onExportCsvClick)
+            layoutSettingsImportCsv.setOnClick(backupViewModel::onImportCsvClick)
+            btnSettingsImportCsvHelp.setOnClick(backupViewModel::onImportCsvHelpClick)
             layoutSettingsExportIcs.setOnClick(backupViewModel::onExportIcsClick)
             checkboxSettingsAutomaticBackup.setOnClick(backupViewModel::onAutomaticBackupClick)
             checkboxSettingsAutomaticExport.setOnClick(backupViewModel::onAutomaticExportClick)

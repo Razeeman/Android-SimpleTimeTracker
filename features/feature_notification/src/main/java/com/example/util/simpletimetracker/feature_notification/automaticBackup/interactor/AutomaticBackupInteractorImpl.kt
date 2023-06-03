@@ -42,7 +42,7 @@ class AutomaticBackupInteractorImpl @Inject constructor(
             }
         val result = backupInteractor.saveBackupFile(uri)
 
-        if (result == ResultCode.SUCCESS) {
+        if (result is ResultCode.Success) {
             schedule()
             prefsInteractor.setAutomaticBackupLastSaveTime(System.currentTimeMillis())
         } else {

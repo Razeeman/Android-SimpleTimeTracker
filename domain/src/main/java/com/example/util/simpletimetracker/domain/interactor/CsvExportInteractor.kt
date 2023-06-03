@@ -12,4 +12,8 @@ class CsvExportInteractor @Inject constructor(
     suspend fun saveCsvFile(uriString: String, range: Range?): ResultCode {
         return csvRepo.saveCsvFile(uriString = uriString, range = range)
     }
+
+    suspend fun importCsvFile(uriString: String): ResultCode {
+        return csvRepo.importCsvFile(uriString)
+    }
 }

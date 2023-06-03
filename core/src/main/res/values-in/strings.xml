@@ -291,6 +291,20 @@ Jika setelan <b>\"%s\"</b> diaktifkan, aplikasi akan mengirimkan peristiwa pada 
     <string name="settings_dialog_message">Pulihkan cadangan?</string>
     <string name="settings_export_csv">Ekspor lembar kerja</string>
     <string name="settings_export_csv_description">Ekspor rekor-rekor kegiatan sebagai sebuah berkas csv untuk melihatnya dalam aplikasi spreadsheet yang diinginkan.</string>
+    <string name="settings_import_csv">Impor spreadsheet</string>
+    <string name="settings_import_csv_description">Impor rekaman aktivitas dari file csv. Data saat ini tidak akan hilang.</string>
+    <string name="settings_import_csv_help"><![CDATA[
+File csv harus berisi kolom berikut yang dipisahkan dengan koma:<br/>
+<br/>
+- Nama aktivitas dalam tanda kutip.<br/>
+- Waktu mulai pencatatan dalam format \"yyyy-MM-dd HH:mm:ss\"<br/>
+- Waktu akhir pencatatan dalam format \"yyyy-MM-dd HH:mm:ss\"<br/>
+- Beri komentar dalam tanda kutip.<br/>
+<br/>
+Contoh:<br/>
+<br/>
+\"Reading\",2023-05-30 14:45:21,2023-05-30 15:45:21,\"Comment, comment\"
+    ]]></string>
     <string name="settings_export_ics">Ekspor ICS</string>
     <string name="settings_export_warning">File ini tidak dapat digunakan sebagai cadangan.</string>
     <string name="settings_file_open_error">Galat membuka berkas</string>
@@ -303,6 +317,9 @@ Jika setelan <b>\"%s\"</b> diaktifkan, aplikasi akan mengirimkan peristiwa pada 
     <string name="message_app_not_found">Aplikasi tidak ditemukan</string>
     <string name="message_export_complete">Ekspor selesai</string>
     <string name="message_export_error">Kesalahan ekspor</string>
+    <string name="message_import_complete">Impor selesai</string>
+    <string name="message_import_complete_hint">Catatan ditambahkan: %s</string>
+    <string name="message_import_error">Kesalahan impor</string>
     <string name="message_automatic_backup_error">Terjadi kesalahan dengan pencadangan otomatis.</string>
     <string name="message_automatic_export_error">Terjadi kesalahan dengan ekspor otomatis.</string>
     <string name="message_automatic_error_hint">Cobalah untuk memilih lokasi yang berbeda</string>

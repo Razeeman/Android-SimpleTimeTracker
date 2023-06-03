@@ -291,6 +291,20 @@ Wenn die Einstellung <b>\"%s\"</b> aktiviert ist, sendet die App Ereignisse zu g
     <string name="settings_dialog_message">Backup wiederherstellen?</string>
     <string name="settings_export_csv">Tabellenkalkulation exportieren</string>
     <string name="settings_export_csv_description">Exportiere die Aktivitätsdaten als csv-Datei, um sie in einer bevorzugten Tabellenkalkulationsanwendung anzuzeigen.</string>
+    <string name="settings_import_csv">Tabellenimport</string>
+    <string name="settings_import_csv_description">Aktivitätsdatensätze aus einer CSV-Datei importieren. Aktuelle Daten gehen nicht verloren.</string>
+    <string name="settings_import_csv_help"><![CDATA[
+Die CSV-Datei muss diese durch Kommas getrennten Spalten enthalten:<br/>
+<br/>
+- Aktivitätsname in Anführungszeichen.<br/>
+– Startzeit der Aufzeichnung im Format „jjjj-MM-tt HH:mm:ss“<br/>
+– Endzeit der Aufzeichnung im Format „jjjj-MM-tt HH:mm:ss“<br/>
+- Comment in quotes.<br/>
+<br/>
+Beispiel:<br/>
+<br/>
+\"Reading\",2023-05-30 14:45:21,2023-05-30 15:45:21,\"Comment, comment\"
+    ]]></string>
     <string name="settings_export_ics">ICS-Export</string>
     <string name="settings_export_warning">Diese Datei kann nicht als Backup verwendet werden.</string>
     <string name="settings_file_open_error">Fehler beim Öffnen der Datei</string>
@@ -303,6 +317,9 @@ Wenn die Einstellung <b>\"%s\"</b> aktiviert ist, sendet die App Ereignisse zu g
     <string name="message_app_not_found">App nicht gefunden</string>
     <string name="message_export_complete">Export beendet</string>
     <string name="message_export_error">Exportfehler</string>
+    <string name="message_import_complete">Import abgeschlossen</string>
+    <string name="message_import_complete_hint">Hinzugefügte Datensätze: %s</string>
+    <string name="message_import_error">Importfehler</string>
     <string name="message_automatic_backup_error">Bei der automatischen Sicherung ist ein Fehler aufgetreten.</string>
     <string name="message_automatic_export_error">Beim automatischen Export ist ein Fehler aufgetreten.</string>
     <string name="message_automatic_error_hint">Versuchen Sie, einen anderen Ort auszuwählen</string>
