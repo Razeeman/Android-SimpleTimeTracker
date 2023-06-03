@@ -6,8 +6,9 @@ import javax.inject.Inject
 
 class AddRecordMediator @Inject constructor(
     private val recordInteractor: RecordInteractor,
-    private val widgetInteractor: WidgetInteractor,
+    private val notificationTypeInteractor: NotificationTypeInteractor,
     private val notificationGoalTimeInteractor: NotificationGoalTimeInteractor,
+    private val widgetInteractor: WidgetInteractor,
 ) {
 
     suspend fun add(
@@ -18,6 +19,7 @@ class AddRecordMediator @Inject constructor(
     }
 
     suspend fun doAfterAdd(typeId: Long) {
+        notificationTypeInteractor.checkAndShow(typeId)
         notificationGoalTimeInteractor.checkAndReschedule(typeId)
         widgetInteractor.updateWidgets(listOf(WidgetType.STATISTICS_CHART))
     }

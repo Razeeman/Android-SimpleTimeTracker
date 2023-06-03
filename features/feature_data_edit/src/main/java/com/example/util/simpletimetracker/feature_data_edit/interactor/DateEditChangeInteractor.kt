@@ -5,6 +5,7 @@ import com.example.util.simpletimetracker.domain.interactor.AddRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTimeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
+import com.example.util.simpletimetracker.domain.interactor.RemoveRecordMediator
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.feature_data_edit.model.DataEditAddTagsState
@@ -17,6 +18,7 @@ import javax.inject.Inject
 class DateEditChangeInteractor @Inject constructor(
     private val recordInteractor: RecordInteractor,
     private val addRecordMediator: AddRecordMediator,
+    private val removeRecordMediator: RemoveRecordMediator,
     private val recordFilterInteractor: RecordFilterInteractor,
     private val recordTagInteractor: RecordTagInteractor,
     private val notificationGoalTimeInteractor: NotificationGoalTimeInteractor,
@@ -56,6 +58,7 @@ class DateEditChangeInteractor @Inject constructor(
 
         records.forEach { record ->
             if (deleteRecord) {
+                oldTypeIds.add(record.typeId)
                 recordInteractor.remove(record.id)
                 return@forEach
             }
@@ -86,6 +89,11 @@ class DateEditChangeInteractor @Inject constructor(
             }
         }
 
+        if (deleteRecord) {
+            oldTypeIds.forEach { typeId ->
+                removeRecordMediator.doAfterRemove(typeId)
+            }
+        }
         // Check goal time and statistics widget consistency.
         if (newTypeId != null) {
             oldTypeIds.forEach { typeId ->

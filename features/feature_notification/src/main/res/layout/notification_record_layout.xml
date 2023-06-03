@@ -4,70 +4,95 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/ivNotificationIcon"
-        android:layout_width="@dimen/notification_icon_size"
-        android:layout_height="@dimen/notification_icon_size"
-        android:layout_marginEnd="8dp"
-        tools:background="@drawable/circle_drawable"
-        tools:backgroundTint="@color/red_400"
-        tools:ignore="ContentDescription" />
+    <RelativeLayout
+        android:id="@+id/containerNotificationMainContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/tvNotificationText"
-        style="@style/TextAppearance.Compat.Notification.Title"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="2dp"
-        android:layout_toStartOf="@id/timerNotification"
-        android:layout_toEndOf="@id/ivNotificationIcon"
-        android:ellipsize="end"
-        android:gravity="center_vertical"
-        android:maxLines="1"
-        tools:text="Activity name" />
+        <ImageView
+            android:id="@+id/ivNotificationIcon"
+            android:layout_width="@dimen/notification_icon_size"
+            android:layout_height="@dimen/notification_icon_size"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="4dp"
+            tools:background="@drawable/circle_drawable"
+            tools:backgroundTint="@color/red_400"
+            tools:ignore="ContentDescription" />
 
-    <Chronometer
-        android:id="@+id/timerNotification"
-        style="@style/TextAppearance.Compat.Notification.Title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@id/tvNotificationText"
-        android:layout_alignBottom="@id/tvNotificationText"
-        android:layout_alignParentEnd="true"
-        android:gravity="center_vertical"
-        android:textStyle="bold" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@id/containerNotificationTimes"
+            android:layout_toEndOf="@id/ivNotificationIcon"
+            android:gravity="center|start"
+            android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tvNotificationTimeStarted"
-        style="@style/TextAppearance.Compat.Notification.Info"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/ivNotificationIcon"
-        android:layout_marginEnd="2dp"
-        android:layout_toStartOf="@id/tvNotificationGoalTime"
-        android:layout_toEndOf="@id/ivNotificationIcon"
-        android:ellipsize="end"
-        android:gravity="center_vertical"
-        android:maxLines="1"
-        tools:text="Activity description" />
+            <TextView
+                android:id="@+id/tvNotificationText"
+                style="@style/TextAppearance.Compat.Notification.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="2dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                tools:text="Activity name" />
 
-    <TextView
-        android:id="@+id/tvNotificationGoalTime"
-        style="@style/TextAppearance.Compat.Notification.Info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@id/tvNotificationTimeStarted"
-        android:layout_alignBottom="@id/tvNotificationTimeStarted"
-        android:layout_alignParentEnd="true"
-        android:gravity="center_vertical"
-        tools:text="goal 10m" />
+            <TextView
+                android:id="@+id/tvNotificationTimeStarted"
+                style="@style/TextAppearance.Compat.Notification.Info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="2dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                tools:text="Activity description" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/containerNotificationTimes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:gravity="center|end"
+            android:orientation="vertical">
+
+            <Chronometer
+                android:id="@+id/timerNotification"
+                style="@style/TextAppearance.Compat.Notification.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <Chronometer
+                android:id="@+id/timerNotificationTotal"
+                style="@style/TextAppearance.Compat.Notification.Info"
+                android:layout_width="wrap_content"
+                android:visibility="gone"
+                tools:visibility="visible"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/tvNotificationGoalTime"
+                style="@style/TextAppearance.Compat.Notification.Info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="11sp"
+                android:visibility="gone"
+                tools:text="goal 10m"
+                tools:visibility="visible" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/tvNotificationControlsHint"
         style="@style/TextAppearance.Compat.Notification.Info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tvNotificationTimeStarted"
+        android:layout_below="@id/containerNotificationMainContent"
         android:layout_marginTop="8dp"
         android:gravity="center"
         android:text="@string/running_records_empty"

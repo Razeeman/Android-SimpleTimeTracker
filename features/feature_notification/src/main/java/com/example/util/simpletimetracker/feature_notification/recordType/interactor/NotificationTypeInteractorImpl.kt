@@ -1,11 +1,12 @@
 package com.example.util.simpletimetracker.feature_notification.recordType.interactor
 
-import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
+import com.example.util.simpletimetracker.core.interactor.GetCurrentRecordsDurationInteractor
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.extension.getFullName
+import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
@@ -24,6 +25,7 @@ class NotificationTypeInteractorImpl @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
     private val recordTagInteractor: RecordTagInteractor,
+    private val getCurrentRecordsDurationInteractor: GetCurrentRecordsDurationInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val iconMapper: IconMapper,
     private val colorMapper: ColorMapper,
@@ -69,8 +71,9 @@ class NotificationTypeInteractorImpl @Inject constructor(
 
         show(
             recordType = recordType,
-            runningRecord = runningRecord,
-            recordTags = recordTags.filter { it.id in runningRecord?.tagIds.orEmpty() },
+            runningRecord = runningRecord ?: return,
+            recordTags = recordTags.filter { it.id in runningRecord.tagIds },
+            dailyCurrent = getCurrentRecordsDurationInteractor.getDailyCurrent(runningRecord),
             isDarkTheme = isDarkTheme,
             useMilitaryTime = useMilitaryTime,
             showSeconds = showSeconds,
@@ -114,6 +117,7 @@ class NotificationTypeInteractorImpl @Inject constructor(
                     recordType = recordTypes[runningRecord.id],
                     runningRecord = runningRecord,
                     recordTags = recordTags.filter { it.id in runningRecord.tagIds },
+                    dailyCurrent = getCurrentRecordsDurationInteractor.getDailyCurrent(runningRecord),
                     isDarkTheme = isDarkTheme,
                     useMilitaryTime = useMilitaryTime,
                     showSeconds = showSeconds,
@@ -130,16 +134,15 @@ class NotificationTypeInteractorImpl @Inject constructor(
 
     private fun show(
         recordType: RecordType?,
-        runningRecord: RunningRecord?,
+        runningRecord: RunningRecord,
         recordTags: List<RecordTag>,
+        dailyCurrent: GetCurrentRecordsDurationInteractor.Result,
         isDarkTheme: Boolean,
         useMilitaryTime: Boolean,
         showSeconds: Boolean,
         controls: NotificationTypeParams.Controls,
     ) {
-        if (recordType == null || runningRecord == null) {
-            return
-        }
+        if (recordType == null) return
 
         NotificationTypeParams(
             id = recordType.id,
@@ -153,6 +156,9 @@ class NotificationTypeInteractorImpl @Inject constructor(
                 showSeconds = showSeconds,
             ).let { resourceRepo.getString(R.string.notification_time_started, it) },
             startedTimeStamp = runningRecord.timeStarted,
+            totalDuration = dailyCurrent.let {
+                if (it.durationDiffersFromCurrent) it.duration else null
+            },
             goalTime = recordType.goalTime
                 .takeIf { it > 0 }
                 ?.let(timeMapper::formatDuration)

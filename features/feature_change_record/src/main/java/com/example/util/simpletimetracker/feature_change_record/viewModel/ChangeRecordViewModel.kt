@@ -11,6 +11,7 @@ import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.AddRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.AddRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTimeInteractor
+import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
@@ -49,6 +50,7 @@ class ChangeRecordViewModel @Inject constructor(
     private val addRunningRecordMediator: AddRunningRecordMediator,
     private val removeRunningRecordMediator: RemoveRunningRecordMediator,
     private val notificationGoalTimeInteractor: NotificationGoalTimeInteractor,
+    private val notificationTypeInteractor: NotificationTypeInteractor,
     private val timeMapper: TimeMapper,
 ) : ChangeRecordBaseViewModel(
     router,
@@ -102,7 +104,10 @@ class ChangeRecordViewModel @Inject constructor(
             comment = newComment,
             tagIds = newCategoryIds
         ).let {
-            notificationGoalTimeInteractor.checkAndReschedule(originalTypeId)
+            if (newTypeId != originalTypeId) {
+                notificationTypeInteractor.checkAndShow(originalTypeId)
+                notificationGoalTimeInteractor.checkAndReschedule(originalTypeId)
+            }
             addRecordMediator.add(it)
             router.back()
         }

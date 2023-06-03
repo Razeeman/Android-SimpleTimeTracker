@@ -9,6 +9,7 @@ data class NotificationTypeParams(
     val text: String,
     val timeStarted: String,
     val startedTimeStamp: Long,
+    val totalDuration: Long?,
     val goalTime: String,
     val stopButton: String,
     val controls: Controls,

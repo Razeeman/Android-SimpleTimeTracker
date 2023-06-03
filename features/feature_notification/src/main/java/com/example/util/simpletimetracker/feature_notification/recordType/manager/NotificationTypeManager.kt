@@ -125,10 +125,21 @@ class NotificationTypeManager @Inject constructor(
 
             setTextViewText(R.id.tvNotificationText, params.text)
             setTextViewText(R.id.tvNotificationTimeStarted, params.timeStarted)
-            setTextViewText(R.id.tvNotificationGoalTime, params.goalTime)
             setImageViewBitmap(R.id.ivNotificationIcon, getIconBitmap(params.icon, params.color))
+
             val base = SystemClock.elapsedRealtime() - (System.currentTimeMillis() - params.startedTimeStamp)
             setChronometer(R.id.timerNotification, base, null, true)
+
+            if (params.totalDuration != null) {
+                val baseTotal = SystemClock.elapsedRealtime() - params.totalDuration
+                setChronometer(R.id.timerNotificationTotal, baseTotal, "(%s)", true)
+                setViewVisibility(R.id.timerNotificationTotal, View.VISIBLE)
+            } else {
+                setViewVisibility(R.id.timerNotificationTotal, View.GONE)
+            }
+
+            // TODO show only closest goal time, count down to it?
+            setTextViewText(R.id.tvNotificationGoalTime, params.goalTime)
         }
     }
 
