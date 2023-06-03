@@ -23,7 +23,8 @@ import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordT
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTagFromChangeRunningRecordParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTagFromTagsParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTypeParams
-import com.example.util.simpletimetracker.navigation.params.screen.ChangeRunningRecordParams
+import com.example.util.simpletimetracker.navigation.params.screen.ChangeRunningRecordFromMainParams
+import com.example.util.simpletimetracker.navigation.params.screen.ChangeRunningRecordFromRecordsAllParams
 import com.example.util.simpletimetracker.navigation.params.screen.DataEditParams
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsAllParams
 import com.example.util.simpletimetracker.navigation.params.screen.StatisticsDetailParams
@@ -59,10 +60,20 @@ class NavigationScreenMapModule {
 
     @IntoMap
     @Provides
-    @ScreenKey(ChangeRunningRecordParams::class)
-    fun changeRecordRunning(): NavigationData {
+    @ScreenKey(ChangeRunningRecordFromMainParams::class)
+    fun changeRecordRunningFromMain(): NavigationData {
         return NavigationData(
             R.id.action_mainFragment_to_changeRunningRecordFragment,
+            bundleCreatorDelegate(ChangeRunningRecordFragment::createBundle)
+        )
+    }
+
+    @IntoMap
+    @Provides
+    @ScreenKey(ChangeRunningRecordFromRecordsAllParams::class)
+    fun changeRecordRunningFromRecordsAll(): NavigationData {
+        return NavigationData(
+            R.id.action_recordsAllFragment_to_changeRunningRecordFragment,
             bundleCreatorDelegate(ChangeRunningRecordFragment::createBundle)
         )
     }

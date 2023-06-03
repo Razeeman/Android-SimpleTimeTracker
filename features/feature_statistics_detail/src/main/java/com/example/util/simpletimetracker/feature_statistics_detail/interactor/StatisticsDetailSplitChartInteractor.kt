@@ -1,12 +1,12 @@
 package com.example.util.simpletimetracker.feature_statistics_detail.interactor
 
-import com.example.util.simpletimetracker.domain.mapper.RangeMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
+import com.example.util.simpletimetracker.domain.mapper.RangeMapper
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RangeLength
-import com.example.util.simpletimetracker.domain.model.Record
+import com.example.util.simpletimetracker.domain.model.RecordBase
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.StatisticsDetailViewDataMapper
 import com.example.util.simpletimetracker.feature_statistics_detail.model.SplitChartGrouping
@@ -28,7 +28,7 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
 ) {
 
     suspend fun getSplitChartViewData(
-        records: List<Record>,
+        records: List<RecordBase>,
         filter: List<RecordsFilter>,
         isForComparison: Boolean,
         rangeLength: RangeLength,
@@ -59,7 +59,7 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
     }
 
     suspend fun getDurationSplitViewData(
-        records: List<Record>,
+        records: List<RecordBase>,
         filter: List<RecordsFilter>,
         isForComparison: Boolean,
         rangeLength: RangeLength,
@@ -74,19 +74,9 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
             startOfDayShift = startOfDayShift
         )
 
-        val ranges = if (range.first != 0L && range.second != 0L) {
-            rangeMapper
-                .getRecordsFromRange(
-                    records = records,
-                    range = Range(range.first, range.second),
-                )
-                .map {
-                    rangeMapper.clampToRange(
-                        record = it,
-                        rangeStart = range.first,
-                        rangeEnd = range.second
-                    )
-                }
+        val ranges = if (range.timeStarted != 0L && range.timeEnded != 0L) {
+            rangeMapper.getRecordsFromRange(records, range)
+                .map { rangeMapper.clampToRange(it, range) }
         } else {
             records.map { Range(it.timeStarted, it.timeEnded) }
         }
@@ -152,8 +142,8 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
     }
 
     private fun getDurations(
-        records: List<Record>,
-        range: Pair<Long, Long>,
+        records: List<RecordBase>,
+        range: Range,
         splitChartGrouping: SplitChartGrouping,
         startOfDayShift: Long,
     ): Map<Int, Float> {
@@ -181,10 +171,10 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
         }
     }
 
-    private fun mapToRanges(records: List<Record>, range: Pair<Long, Long>): List<Range> {
-        return if (range.first != 0L && range.second != 0L) {
-            rangeMapper.getRecordsFromRange(records, Range(range.first, range.second))
-                .map { rangeMapper.clampToRange(it, range.first, range.second) }
+    private fun mapToRanges(records: List<RecordBase>, range: Range): List<Range> {
+        return if (range.timeStarted != 0L && range.timeEnded != 0L) {
+            rangeMapper.getRecordsFromRange(records, range)
+                .map { rangeMapper.clampToRange(it, range) }
         } else {
             records.map { Range(it.timeStarted, it.timeEnded) }
         }

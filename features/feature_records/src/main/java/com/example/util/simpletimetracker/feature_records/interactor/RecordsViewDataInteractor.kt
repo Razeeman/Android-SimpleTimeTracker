@@ -64,21 +64,20 @@ class RecordsViewDataInteractor @Inject constructor(
         return@withContext (daysCountInShift - 1 downTo 0).map { dayInShift ->
             val actualShift = shift * daysCountInShift - dayInShift
 
-            val (rangeStart, rangeEnd) = timeMapper.getRangeStartAndEnd(
+            val range = timeMapper.getRangeStartAndEnd(
                 rangeLength = RangeLength.Day,
                 shift = actualShift,
                 firstDayOfWeek = DayOfWeek.MONDAY, // Doesn't matter for days.
                 startOfDayShift = startOfDayShift,
             )
-            val records = recordInteractor.getFromRange(Range(rangeStart, rangeEnd))
+            val records = recordInteractor.getFromRange(range)
 
             val data = getRecordsViewData(
                 records = records,
                 runningRecords = runningRecords,
                 recordTypes = recordTypes,
                 recordTags = recordTags,
-                rangeStart = rangeStart,
-                rangeEnd = rangeEnd,
+                range = range,
                 isDarkTheme = isDarkTheme,
                 useMilitaryTime = useMilitaryTime,
                 useProportionalMinutes = useProportionalMinutes,
@@ -87,8 +86,8 @@ class RecordsViewDataInteractor @Inject constructor(
             )
 
             ViewDataIntermediate(
-                rangeStart = rangeStart,
-                rangeEnd = rangeEnd,
+                rangeStart = range.timeStarted,
+                rangeEnd = range.timeEnded,
                 records = data,
             )
         }.let { data ->
@@ -169,8 +168,7 @@ class RecordsViewDataInteractor @Inject constructor(
         runningRecords: List<RunningRecord>,
         recordTypes: Map<Long, RecordType>,
         recordTags: List<RecordTag>,
-        rangeStart: Long,
-        rangeEnd: Long,
+        range: Range,
         isDarkTheme: Boolean,
         useMilitaryTime: Boolean,
         useProportionalMinutes: Boolean,
@@ -183,8 +181,7 @@ class RecordsViewDataInteractor @Inject constructor(
                     record = record,
                     recordType = recordTypes[record.typeId] ?: return@mapNotNull null,
                     recordTags = recordTags.filter { it.id in record.tagIds },
-                    rangeStart = rangeStart,
-                    rangeEnd = rangeEnd,
+                    range = range,
                     isDarkTheme = isDarkTheme,
                     useMilitaryTime = useMilitaryTime,
                     useProportionalMinutes = useProportionalMinutes,
@@ -199,10 +196,7 @@ class RecordsViewDataInteractor @Inject constructor(
 
         val runningRecordsData = runningRecords
             .let {
-                rangeMapper.getRunningRecordsFromRange(
-                    records = it,
-                    range = Range(rangeStart, rangeEnd),
-                )
+                rangeMapper.getRunningRecordsFromRange(it, range,)
             }
             .mapNotNull { runningRecord ->
                 getRunningRecordViewDataMediator.execute(
@@ -234,17 +228,16 @@ class RecordsViewDataInteractor @Inject constructor(
             val runningRecordRanges = runningRecords.map {
                 Range(
                     timeStarted = it.timeStarted,
-                    timeEnded = System.currentTimeMillis(),
+                    timeEnded = it.timeEnded,
                 )
             }
             getUntrackedRecordsInteractor.get(
-                range = Range(rangeStart, rangeEnd),
+                range = range,
                 records = recordRanges + runningRecordRanges,
             ).map { untrackedRecord ->
                 recordsViewDataMapper.mapToUntracked(
                     record = untrackedRecord,
-                    rangeStart = rangeStart,
-                    rangeEnd = rangeEnd,
+                    range = range,
                     isDarkTheme = isDarkTheme,
                     useMilitaryTime = useMilitaryTime,
                     useProportionalMinutes = useProportionalMinutes,

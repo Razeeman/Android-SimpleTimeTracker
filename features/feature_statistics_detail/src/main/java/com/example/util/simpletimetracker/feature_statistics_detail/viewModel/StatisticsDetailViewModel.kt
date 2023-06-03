@@ -19,7 +19,7 @@ import com.example.util.simpletimetracker.core.viewData.SelectRangeViewData
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RangeLength
-import com.example.util.simpletimetracker.domain.model.Record
+import com.example.util.simpletimetracker.domain.model.RecordBase
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_statistics_detail.R
@@ -136,8 +136,8 @@ class StatisticsDetailViewModel @Inject constructor(
         extra.filter.map(RecordsFilterParam::toModel).toMutableList()
     }
     private val comparisonFilter: MutableList<RecordsFilter> = mutableListOf()
-    private var records: List<Record> = emptyList() // all records with selected ids
-    private var compareRecords: List<Record> = emptyList() // all records with selected ids
+    private var records: List<RecordBase> = emptyList() // all records with selected ids
+    private var compareRecords: List<RecordBase> = emptyList() // all records with selected ids
     private var loadJob: Job? = null
 
     fun initialize(extra: StatisticsDetailParams) {

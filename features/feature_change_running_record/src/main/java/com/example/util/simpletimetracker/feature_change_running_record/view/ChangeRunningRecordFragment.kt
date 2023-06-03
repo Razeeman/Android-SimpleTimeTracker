@@ -20,6 +20,7 @@ import com.example.util.simpletimetracker.feature_change_running_record.viewMode
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
+import com.example.util.simpletimetracker.navigation.params.screen.ChangeRunningRecordFromScreen
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRunningRecordParams
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -166,8 +167,8 @@ class ChangeRunningRecordFragment :
     companion object {
         private const val ARGS_PARAMS = "args_running_record_params"
 
-        fun createBundle(data: ChangeRunningRecordParams): Bundle = Bundle().apply {
-            putParcelable(ARGS_PARAMS, data)
+        fun createBundle(data: ChangeRunningRecordFromScreen): Bundle = Bundle().apply {
+            putParcelable(ARGS_PARAMS, data.params)
         }
     }
 }

@@ -10,6 +10,7 @@ import com.example.util.simpletimetracker.core.extension.toParams
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.feature_base_adapter.record.RecordViewData
+import com.example.util.simpletimetracker.feature_base_adapter.runningRecord.RunningRecordViewData
 import com.example.util.simpletimetracker.feature_records_all.interactor.RecordsAllViewDataInteractor
 import com.example.util.simpletimetracker.feature_records_all.mapper.RecordsAllViewDataMapper
 import com.example.util.simpletimetracker.feature_records_all.model.RecordsAllSortOrder
@@ -17,6 +18,8 @@ import com.example.util.simpletimetracker.feature_records_all.viewData.RecordsAl
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordFromRecordsAllParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordParams
+import com.example.util.simpletimetracker.navigation.params.screen.ChangeRunningRecordFromRecordsAllParams
+import com.example.util.simpletimetracker.navigation.params.screen.ChangeRunningRecordParams
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsAllParams
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterParam
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -51,29 +54,65 @@ class RecordsAllViewModel @Inject constructor(
 
     private var sortOrder: RecordsAllSortOrder = RecordsAllSortOrder.TIME_STARTED
 
+    fun onRunningRecordClick(
+        item: RunningRecordViewData,
+        sharedElements: Pair<Any, String>,
+    ) {
+        val params = ChangeRunningRecordParams(
+            transitionName = sharedElements.second,
+            id = item.id,
+            from = ChangeRunningRecordParams.From.Records,
+            preview = ChangeRunningRecordParams.Preview(
+                name = item.name,
+                tagName = item.tagName,
+                timeStarted = item.timeStarted,
+                duration = item.timer,
+                durationTotal = item.timerTotal,
+                goalTime = item.goalTime.toParams(),
+                goalTime2 = item.goalTime2.toParams(),
+                goalTime3 = item.goalTime3.toParams(),
+                goalTime4 = item.goalTime4.toParams(),
+                iconId = item.iconId.toParams(),
+                color = item.color,
+                comment = item.comment
+            )
+        )
+        router.navigate(
+            data = ChangeRunningRecordFromRecordsAllParams(params),
+            sharedElements = mapOf(sharedElements)
+        )
+    }
+
     fun onRecordClick(item: RecordViewData, sharedElements: Pair<Any, String>) {
-        if (item is RecordViewData.Tracked) {
-            ChangeRecordParams.Tracked(
+        val preview = ChangeRecordParams.Preview(
+            name = item.name,
+            tagName = item.tagName,
+            timeStarted = item.timeStarted,
+            timeFinished = item.timeFinished,
+            duration = item.duration,
+            iconId = item.iconId.toParams(),
+            color = item.color,
+            comment = item.comment
+        )
+
+        val params = when (item) {
+            is RecordViewData.Tracked -> ChangeRecordParams.Tracked(
                 transitionName = sharedElements.second,
                 id = item.id,
                 from = ChangeRecordParams.From.RecordsAll,
-                preview = ChangeRecordParams.Preview(
-                    name = item.name,
-                    tagName = item.tagName,
-                    timeStarted = item.timeStarted,
-                    timeFinished = item.timeFinished,
-                    duration = item.duration,
-                    iconId = item.iconId.toParams(),
-                    color = item.color,
-                    comment = item.comment
-                )
-            ).let { params ->
-                router.navigate(
-                    data = ChangeRecordFromRecordsAllParams(params),
-                    sharedElements = mapOf(sharedElements)
-                )
-            }
+                preview = preview,
+            )
+            is RecordViewData.Untracked -> ChangeRecordParams.Untracked(
+                transitionName = sharedElements.second,
+                timeStarted = item.timeStartedTimestamp,
+                timeEnded = item.timeEndedTimestamp,
+                preview = preview
+            )
         }
+        router.navigate(
+            data = ChangeRecordFromRecordsAllParams(params),
+            sharedElements = mapOf(sharedElements)
+        )
     }
 
     fun onVisible() {

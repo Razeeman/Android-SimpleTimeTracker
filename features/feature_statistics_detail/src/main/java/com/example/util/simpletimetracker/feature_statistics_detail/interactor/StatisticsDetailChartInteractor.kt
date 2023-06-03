@@ -2,16 +2,16 @@ package com.example.util.simpletimetracker.feature_statistics_detail.interactor
 
 import com.example.util.simpletimetracker.core.extension.setToStartOfDay
 import com.example.util.simpletimetracker.core.extension.setWeekToFirstDay
-import com.example.util.simpletimetracker.domain.mapper.RangeMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.extension.getTypeIds
 import com.example.util.simpletimetracker.domain.extension.hasActivityFilter
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
+import com.example.util.simpletimetracker.domain.mapper.RangeMapper
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RangeLength
-import com.example.util.simpletimetracker.domain.model.Record
+import com.example.util.simpletimetracker.domain.model.RecordBase
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.StatisticsDetailViewDataMapper
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartBarDataDuration
@@ -35,8 +35,8 @@ class StatisticsDetailChartInteractor @Inject constructor(
 ) {
 
     suspend fun getChartViewData(
-        records: List<Record>,
-        compareRecords: List<Record>,
+        records: List<RecordBase>,
+        compareRecords: List<RecordBase>,
         filter: List<RecordsFilter>,
         compare: List<RecordsFilter>,
         currentChartGrouping: ChartGrouping,
@@ -125,7 +125,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
     }
 
     private fun getChartData(
-        allRecords: List<Record>,
+        allRecords: List<RecordBase>,
         ranges: List<ChartBarDataRange>,
     ): List<ChartBarDataDuration> {
         fun mapEmpty(): List<ChartBarDataDuration> {
@@ -144,8 +144,9 @@ class StatisticsDetailChartInteractor @Inject constructor(
 
         return ranges
             .map { data ->
-                val duration = rangeMapper.getRecordsFromRange(records, Range(data.rangeStart, data.rangeEnd))
-                    .map { record -> rangeMapper.clampToRange(record, data.rangeStart, data.rangeEnd) }
+                val range = Range(data.rangeStart, data.rangeEnd)
+                val duration = rangeMapper.getRecordsFromRange(records, range)
+                    .map { record -> rangeMapper.clampToRange(record, range) }
                     .let(rangeMapper::mapToDuration)
 
                 ChartBarDataDuration(
@@ -209,7 +210,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
             is RangeLength.Last,
             -> timeMapper.getRangeStartAndEnd(
                 rangeLength, rangePosition, firstDayOfWeek, 0
-            ).second - 1
+            ).timeEnded - 1
             is RangeLength.All -> System.currentTimeMillis()
             is RangeLength.Custom -> rangeLength.range.timeEnded - 1
         }

@@ -43,7 +43,7 @@ class TimeMapperGetRangeStartAndEndTest {
 
             assertEquals(
                 "Test failed for params $input",
-                output,
+                Range(output.first, output.second),
                 subject.getRangeStartAndEnd(
                     rangeLength = input[0] as RangeLength,
                     shift = input[1] as Int,
@@ -130,7 +130,7 @@ class TimeMapperGetRangeStartAndEndTest {
 
             assertEquals(
                 "Test failed for params $input",
-                output,
+                Range(output.first, output.second),
                 subject.getRangeStartAndEnd(
                     rangeLength = input[0] as RangeLength,
                     shift = input[1] as Int,
@@ -301,7 +301,7 @@ class TimeMapperGetRangeStartAndEndTest {
 
             assertEquals(
                 "Test failed for params $input",
-                output,
+                Range(output.first, output.second),
                 subject.getRangeStartAndEnd(
                     rangeLength = input[0] as RangeLength,
                     shift = input[1] as Int,
@@ -442,7 +442,7 @@ class TimeMapperGetRangeStartAndEndTest {
 
             assertEquals(
                 "Test failed for params $input",
-                output,
+                Range(output.first, output.second),
                 subject.getRangeStartAndEnd(
                     rangeLength = input[0] as RangeLength,
                     shift = input[1] as Int,
@@ -583,7 +583,7 @@ class TimeMapperGetRangeStartAndEndTest {
 
             assertEquals(
                 "Test failed for params $input",
-                output,
+                Range(output.first, output.second),
                 subject.getRangeStartAndEnd(
                     rangeLength = input[0] as RangeLength,
                     shift = input[1] as Int,

@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.domain.mapper
 
+import com.example.util.simpletimetracker.domain.model.Range
 import javax.inject.Inject
 import kotlin.math.max
 import kotlin.math.min
@@ -12,7 +13,7 @@ class UnCoveredRangesMapper @Inject constructor() {
      * Implementation of Klee's algorithm for length of union of segments,
      * taken from here https://www.geeksforgeeks.org/klees-algorithm-length-union-segments-line/
      */
-    fun map(start: Long, end: Long, segments: List<Pair<Long, Long>>): List<Pair<Long, Long>> {
+    fun map(start: Long, end: Long, segments: List<Range>): List<Range> {
         if (start > end) return emptyList()
 
         val n = segments.size
@@ -23,13 +24,13 @@ class UnCoveredRangesMapper @Inject constructor() {
         var secondIsHigher: Boolean
         for (i in (0 until n)) {
             // Ignore segments outside of range
-            if (segments[i].first < start && segments[i].second < start) continue
-            if (segments[i].first > end && segments[i].second > end) continue
+            if (segments[i].timeStarted < start && segments[i].timeEnded < start) continue
+            if (segments[i].timeStarted > end && segments[i].timeEnded > end) continue
 
             // Reverse segments if needed
-            secondIsHigher = segments[i].second > segments[i].first
-            points.add(max(start, segments[i].first) to !secondIsHigher)
-            points.add(min(end, segments[i].second) to secondIsHigher)
+            secondIsHigher = segments[i].timeEnded > segments[i].timeStarted
+            points.add(max(start, segments[i].timeStarted) to !secondIsHigher)
+            points.add(min(end, segments[i].timeEnded) to secondIsHigher)
         }
 
         // Sorting all points by point value
@@ -40,7 +41,7 @@ class UnCoveredRangesMapper @Inject constructor() {
         points.add(end to false)
 
         // Initialize result
-        val result = mutableListOf<Pair<Long, Long>>()
+        val result = mutableListOf<Range>()
 
         // To keep track of counts of current open segments
         // (Starting point is processed, but ending point is not)
@@ -50,8 +51,8 @@ class UnCoveredRangesMapper @Inject constructor() {
         for (i in (1 until points.size)) {
             // If there are no open points, then we add the
             // difference between previous and current point.
-            if (counter == 0) (points[i - 1].first to points[i].first)
-                .takeUnless { it.first == it.second }
+            if (counter == 0) Range(points[i - 1].first, points[i].first)
+                .takeUnless { it.timeStarted == it.timeEnded }
                 ?.let(result::add)
 
             // If this is an ending point, reduce count of open points

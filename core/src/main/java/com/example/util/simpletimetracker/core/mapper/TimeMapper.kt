@@ -5,6 +5,7 @@ import com.example.util.simpletimetracker.core.extension.setWeekToFirstDay
 import com.example.util.simpletimetracker.core.provider.CurrentTimestampProvider
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
+import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -337,7 +338,7 @@ class TimeMapper @Inject constructor(
         shift: Int,
         firstDayOfWeek: DayOfWeek,
         startOfDayShift: Long,
-    ): Pair<Long, Long> {
+    ): Range {
         val dayOfWeek = toCalendarDayOfWeek(firstDayOfWeek)
         val rangeStart: Long
         val rangeEnd: Long
@@ -408,7 +409,7 @@ class TimeMapper @Inject constructor(
             }
         }
 
-        return rangeStart to rangeEnd
+        return Range(rangeStart, rangeEnd)
     }
 
     fun getActualMaximum(

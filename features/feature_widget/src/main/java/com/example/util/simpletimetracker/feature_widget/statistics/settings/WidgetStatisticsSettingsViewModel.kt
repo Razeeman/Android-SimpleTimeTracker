@@ -8,7 +8,6 @@ import com.example.util.simpletimetracker.core.extension.addOrRemove
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.ChartFilterViewDataInteractor
 import com.example.util.simpletimetracker.core.mapper.ChartFilterViewDataMapper
-import com.example.util.simpletimetracker.domain.mapper.RangeMapper
 import com.example.util.simpletimetracker.core.mapper.RangeViewDataMapper
 import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
 import com.example.util.simpletimetracker.core.viewData.ChartFilterTypeViewData

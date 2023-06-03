@@ -15,7 +15,7 @@ class UntrackedRecordMapper @Inject constructor(
         minStart: Long,
         maxEnd: Long,
         durationCutoff: Long,
-    ): List<Pair<Long, Long>> {
+    ): List<Range> {
         val untrackedTimeStart = max(minStart, range.timeStarted)
         if (range.timeEnded < untrackedTimeStart) return emptyList()
         val untrackedTimeEndRange = min(maxEnd, range.timeEnded)
@@ -23,10 +23,15 @@ class UntrackedRecordMapper @Inject constructor(
 
         return records
             // Remove parts of the record that are not in the range
-            .map { max(it.timeStarted, untrackedTimeStart) to min(it.timeEnded, untrackedTimeEndRange) }
+            .map {
+                Range(
+                    max(it.timeStarted, untrackedTimeStart),
+                    min(it.timeEnded, untrackedTimeEndRange)
+                )
+            }
             // Calculate uncovered ranges
             .let { unCoveredRangesMapper.map(untrackedTimeStart, untrackedTimeEndRange, it) }
-            .filter { filter(it.second - it.first, durationCutoff) }
+            .filter { filter(it.duration, durationCutoff) }
     }
 
     fun filter(

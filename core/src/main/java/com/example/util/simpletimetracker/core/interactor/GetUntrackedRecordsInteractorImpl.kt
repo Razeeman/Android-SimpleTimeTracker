@@ -46,8 +46,8 @@ class GetUntrackedRecordsInteractorImpl @Inject constructor(
         ).map {
             Record(
                 typeId = UNTRACKED_ITEM_ID,
-                timeStarted = it.first,
-                timeEnded = it.second,
+                timeStarted = it.timeStarted,
+                timeEnded = it.timeEnded,
                 comment = ""
             )
         }.let {

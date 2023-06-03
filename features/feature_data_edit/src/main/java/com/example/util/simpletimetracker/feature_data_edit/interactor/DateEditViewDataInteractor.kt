@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
+import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
@@ -32,6 +33,7 @@ class DateEditViewDataInteractor @Inject constructor(
         filters: List<RecordsFilter>,
     ): DataEditRecordsCountState {
         val records = recordFilterInteractor.getByFilter(filters)
+            .filterIsInstance<Record>()
         val selectedRecordsCount = records.size
         val recordsString = resourceRepo.getQuantityString(
             R.plurals.statistics_detail_times_tracked,

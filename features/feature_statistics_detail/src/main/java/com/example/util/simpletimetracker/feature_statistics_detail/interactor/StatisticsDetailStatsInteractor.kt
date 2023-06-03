@@ -2,7 +2,6 @@ package com.example.util.simpletimetracker.feature_statistics_detail.interactor
 
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
-import com.example.util.simpletimetracker.domain.mapper.RangeMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.UNCATEGORIZED_ITEM_ID
@@ -10,10 +9,10 @@ import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
+import com.example.util.simpletimetracker.domain.mapper.RangeMapper
 import com.example.util.simpletimetracker.domain.mapper.StatisticsMapper
-import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RangeLength
-import com.example.util.simpletimetracker.domain.model.Record
+import com.example.util.simpletimetracker.domain.model.RecordBase
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
@@ -40,8 +39,8 @@ class StatisticsDetailStatsInteractor @Inject constructor(
 ) {
 
     suspend fun getStatsViewData(
-        records: List<Record>,
-        compareRecords: List<Record>,
+        records: List<RecordBase>,
+        compareRecords: List<RecordBase>,
         showComparison: Boolean,
         rangeLength: RangeLength,
         rangePosition: Int,
@@ -60,9 +59,7 @@ class StatisticsDetailStatsInteractor @Inject constructor(
             shift = rangePosition,
             firstDayOfWeek = firstDayOfWeek,
             startOfDayShift = startOfDayShift
-        ).let {
-            Range(it.first, it.second)
-        }
+        )
 
         return@withContext mapStatsData(
             records = if (range.timeStarted == 0L && range.timeEnded == 0L) {
@@ -109,8 +106,8 @@ class StatisticsDetailStatsInteractor @Inject constructor(
     }
 
     private fun mapStatsData(
-        records: List<Record>,
-        compareRecords: List<Record>,
+        records: List<RecordBase>,
+        compareRecords: List<RecordBase>,
         showComparison: Boolean,
         types: List<RecordType>,
         tags: List<RecordTag>,
@@ -120,10 +117,10 @@ class StatisticsDetailStatsInteractor @Inject constructor(
         showSeconds: Boolean,
     ): StatisticsDetailStatsViewData {
         val recordsSorted = records.sortedBy { it.timeStarted }
-        val durations = records.map(::mapToDuration)
+        val durations = records.map(RecordBase::duration)
 
         val compareRecordsSorted = compareRecords.sortedBy { it.timeStarted }
-        val compareDurations = compareRecords.map(::mapToDuration)
+        val compareDurations = compareRecords.map(RecordBase::duration)
 
         val emptyValue by lazy {
             resourceRepo.getString(R.string.statistics_detail_empty)
@@ -298,18 +295,14 @@ class StatisticsDetailStatsInteractor @Inject constructor(
         )
     }
 
-    private fun mapToDuration(record: Record): Long {
-        return record.let { it.timeEnded - it.timeStarted }
-    }
-
     private fun mapActivities(
-        records: List<Record>,
+        records: List<RecordBase>,
         typesMap: Map<Long, RecordType>,
         isDarkTheme: Boolean,
         useProportionalMinutes: Boolean,
         showSeconds: Boolean,
     ): List<ViewHolderType> {
-        val activities: MutableMap<Long, MutableList<Record>> = mutableMapOf()
+        val activities: MutableMap<Long, MutableList<RecordBase>> = mutableMapOf()
 
         records.forEach { record ->
             activities.getOrPut(record.typeId) { mutableListOf() }.add(record)
@@ -348,14 +341,14 @@ class StatisticsDetailStatsInteractor @Inject constructor(
     }
 
     private fun mapTags(
-        records: List<Record>,
+        records: List<RecordBase>,
         typesMap: Map<Long, RecordType>,
         tagsMap: Map<Long, RecordTag>,
         isDarkTheme: Boolean,
         useProportionalMinutes: Boolean,
         showSeconds: Boolean,
     ): List<ViewHolderType> {
-        val tags: MutableMap<Long, MutableList<Record>> = mutableMapOf()
+        val tags: MutableMap<Long, MutableList<RecordBase>> = mutableMapOf()
 
         records.forEach { record ->
             record.tagIds.forEach { tagId ->

@@ -23,10 +23,13 @@ import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
+import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
+import com.example.util.simpletimetracker.domain.mapper.RangeMapper
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.Record
+import com.example.util.simpletimetracker.domain.model.RecordBase
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
@@ -38,8 +41,10 @@ class RecordFilterInteractor @Inject constructor(
     private val interactor: RecordInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
     private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
+    private val runningRecordInteractor: RunningRecordInteractor,
     private val getUntrackedRecordsInteractor: GetUntrackedRecordsInteractor,
     private val timeMapper: TimeMapper,
+    private val rangeMapper: RangeMapper,
     private val prefsInteractor: PrefsInteractor,
 ) {
 
@@ -57,16 +62,16 @@ class RecordFilterInteractor @Inject constructor(
             startOfDayShift = startOfDayShift
         )
 
-        return@withContext if (range.first == 0L && range.second == 0L) {
+        return@withContext if (range.timeStarted == 0L && range.timeEnded == 0L) {
             null
         } else {
-            RecordsFilter.Date(Range(range.first, range.second))
+            RecordsFilter.Date(range)
         }
     }
 
     suspend fun getByFilter(
         filters: List<RecordsFilter>,
-    ): List<Record> = withContext(Dispatchers.Default) {
+    ): List<RecordBase> = withContext(Dispatchers.Default) {
         if (filters.isEmpty()) return@withContext emptyList()
 
         val startOfDayShift = prefsInteractor.getStartOfDayShift()
@@ -79,6 +84,7 @@ class RecordFilterInteractor @Inject constructor(
             }
             else -> filters.getTypeIds()
         }
+        val runningRecords = runningRecordInteractor.getAll()
         val selectedCommentItems: List<RecordsFilter.CommentItem> = filters.getCommentItems()
         val comments: List<String> = selectedCommentItems.getComments().map(String::lowercase)
         val selectedNoComment: Boolean = selectedCommentItems.hasNoComment()
@@ -97,13 +103,14 @@ class RecordFilterInteractor @Inject constructor(
 
         // TODO Use different queries for optimization.
         // TODO by tag (tagged, untagged).
-        val records: List<Record> = when {
+        val records: List<RecordBase> = when {
             filters.hasUntrackedFilter() -> {
                 val range = ranges.firstOrNull() ?: Range(0, 0)
                 val records = if (range.timeStarted == 0L && range.timeEnded == 0L) {
-                    interactor.getAll()
+                    interactor.getAll() + runningRecords
                 } else {
-                    interactor.getFromRange(range)
+                    interactor.getFromRange(range) +
+                        rangeMapper.getRunningRecordsFromRange(runningRecords, range)
                 }.map { Range(it.timeStarted, it.timeEnded) }
                 getUntrackedRecordsInteractor.get(range, records)
             }
@@ -141,13 +148,15 @@ class RecordFilterInteractor @Inject constructor(
                 interactor.searchAnyComments()
             }
             else -> interactor.getAll()
+        }.let {
+            if (filters.hasUntrackedFilter()) it else it + runningRecords
         }
 
-        fun Record.selectedByActivity(): Boolean {
+        fun RecordBase.selectedByActivity(): Boolean {
             return typeIds.isEmpty() || typeId in typeIds
         }
 
-        fun Record.selectedByComment(): Boolean {
+        fun RecordBase.selectedByComment(): Boolean {
             if (selectedCommentItems.isEmpty()) return true
             val comment = this.comment.lowercase()
             return (selectedNoComment && comment.isEmpty()) ||
@@ -155,12 +164,12 @@ class RecordFilterInteractor @Inject constructor(
                 (comment.isNotEmpty() && comments.any { comment.contains(it) })
         }
 
-        fun Record.selectedByDate(): Boolean {
+        fun RecordBase.selectedByDate(): Boolean {
             if (ranges.isEmpty()) return true
             return ranges.any { range -> timeStarted < range.timeEnded && timeEnded > range.timeStarted }
         }
 
-        fun Record.selectedByTag(): Boolean {
+        fun RecordBase.selectedByTag(): Boolean {
             if (selectedTagItems.isEmpty()) return true
             return if (tagIds.isNotEmpty()) {
                 tagIds.any { tagId -> tagId in selectedTaggedIds }
@@ -169,7 +178,7 @@ class RecordFilterInteractor @Inject constructor(
             }
         }
 
-        fun Record.filteredByTag(): Boolean {
+        fun RecordBase.filteredByTag(): Boolean {
             if (filteredTagItems.isEmpty()) return false
             return if (tagIds.isNotEmpty()) {
                 tagIds.any { tagId -> tagId in filteredTaggedIds }
@@ -178,12 +187,13 @@ class RecordFilterInteractor @Inject constructor(
             }
         }
 
-        fun Record.isManuallyFiltered(): Boolean {
+        fun RecordBase.isManuallyFiltered(): Boolean {
             if (manuallyFilteredIds.isEmpty()) return false
+            if (this !is Record) return false
             return id in manuallyFilteredIds
         }
 
-        fun Record.selectedByDayOfWeek(): Boolean {
+        fun RecordBase.selectedByDayOfWeek(): Boolean {
             if (daysOfWeek.isEmpty()) return true
 
             val daysOfRecord: MutableSet<DayOfWeek> = mutableSetOf()
@@ -224,7 +234,7 @@ class RecordFilterInteractor @Inject constructor(
             return daysOfRecord.any { it in daysOfWeek }
         }
 
-        fun Record.selectedByTimeOfDay(): Boolean {
+        fun RecordBase.selectedByTimeOfDay(): Boolean {
             if (timeOfDay == null) return true
 
             // Check empty range.
@@ -250,7 +260,7 @@ class RecordFilterInteractor @Inject constructor(
             }
         }
 
-        fun Record.selectedByDuration(): Boolean {
+        fun RecordBase.selectedByDuration(): Boolean {
             if (durations.isEmpty()) return true
             return durations.any { duration >= it.timeStarted && duration <= it.timeEnded }
         }

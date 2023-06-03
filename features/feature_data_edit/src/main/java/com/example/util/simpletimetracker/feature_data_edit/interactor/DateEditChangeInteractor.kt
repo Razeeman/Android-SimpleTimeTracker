@@ -6,6 +6,7 @@ import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTime
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RemoveRecordMediator
+import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.feature_data_edit.model.DataEditAddTagsState
@@ -53,6 +54,7 @@ class DateEditChangeInteractor @Inject constructor(
         ) return
 
         val records = recordFilterInteractor.getByFilter(filters)
+            .filterIsInstance<Record>()
         val tags = recordTagInteractor.getAll().associateBy { it.id }
         val oldTypeIds = mutableSetOf<Long>()
 

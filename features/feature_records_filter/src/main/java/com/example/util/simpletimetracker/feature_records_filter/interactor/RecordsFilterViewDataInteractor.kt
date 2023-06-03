@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.feature_records_filter.interactor
 
 import com.example.util.simpletimetracker.core.extension.setToStartOfDay
+import com.example.util.simpletimetracker.core.interactor.GetRunningRecordViewDataMediator
 import com.example.util.simpletimetracker.core.interactor.RecordFilterInteractor
 import com.example.util.simpletimetracker.core.mapper.CategoryViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
@@ -37,6 +38,7 @@ import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RecordTypeCategory
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
+import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.divider.DividerViewData
 import com.example.util.simpletimetracker.feature_base_adapter.hint.HintViewData
@@ -67,6 +69,7 @@ class RecordsFilterViewDataInteractor @Inject constructor(
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
     private val categoryViewDataMapper: CategoryViewDataMapper,
     private val recordViewDataMapper: RecordViewDataMapper,
+    private val getRunningRecordViewDataMediator: GetRunningRecordViewDataMediator,
     private val dateDividerViewDataMapper: DateDividerViewDataMapper,
     private val colorMapper: ColorMapper,
     private val timeMapper: TimeMapper,
@@ -134,6 +137,7 @@ class RecordsFilterViewDataInteractor @Inject constructor(
             }
             .orEmpty()
         val records = recordFilterInteractor.getByFilter(finalFilters)
+            .let { if (extra.addRunningRecords) it else it.filterIsInstance<Record>() }
         val manuallyFilteredRecords = filters
             .getManuallyFilteredRecordIds()
             .mapNotNull { recordInteractor.get(it) } // TODO do better
@@ -156,17 +160,31 @@ class RecordsFilterViewDataInteractor @Inject constructor(
             .map { record ->
                 val type = recordTypes[record.typeId]
                 val viewData = if (type != null) {
-                    recordViewDataMapper.map(
-                        record = record,
-                        recordType = type,
-                        recordTags = recordTags.filter { it.id in record.tagIds },
-                        timeStarted = record.timeStarted,
-                        timeEnded = record.timeEnded,
-                        isDarkTheme = isDarkTheme,
-                        useMilitaryTime = useMilitaryTime,
-                        useProportionalMinutes = useProportionalMinutes,
-                        showSeconds = showSeconds,
-                    )
+                    when (record) {
+                        is Record -> recordViewDataMapper.map(
+                            record = record,
+                            recordType = type,
+                            recordTags = recordTags.filter { it.id in record.tagIds },
+                            timeStarted = record.timeStarted,
+                            timeEnded = record.timeEnded,
+                            isDarkTheme = isDarkTheme,
+                            useMilitaryTime = useMilitaryTime,
+                            useProportionalMinutes = useProportionalMinutes,
+                            showSeconds = showSeconds,
+                        )
+                        is RunningRecord -> getRunningRecordViewDataMediator.execute(
+                            type = type,
+                            tags = recordTags.filter { it.id in record.tagIds },
+                            record = record,
+                            nowIconVisible = true,
+                            goalsVisible = false,
+                            totalDurationVisible = false,
+                            isDarkTheme = isDarkTheme,
+                            useMilitaryTime = useMilitaryTime,
+                            useProportionalMinutes = useProportionalMinutes,
+                            showSeconds = showSeconds,
+                        )
+                    }
                 } else {
                     recordViewDataMapper.mapToUntracked(
                         timeStarted = record.timeStarted,

@@ -33,14 +33,13 @@ class GetCurrentRecordsDurationInteractor @Inject constructor(
         runningRecord: RunningRecord,
         range: Range
     ): Result {
-        val (rangeStart, rangeEnd) = range
         val current = System.currentTimeMillis()
         val currentRunning = current - runningRecord.timeStarted
         val currentRunningClamped = current - max(runningRecord.timeStarted, range.timeStarted)
 
         val duration = recordInteractor.getFromRange(range)
             .filter { it.typeId == runningRecord.id }
-            .map { rangeMapper.clampToRange(it, rangeStart, rangeEnd) }
+            .map { rangeMapper.clampToRange(it, range) }
             .let(rangeMapper::mapToDuration)
 
         return Result(
@@ -59,12 +58,7 @@ class GetCurrentRecordsDurationInteractor @Inject constructor(
             shift = 0,
             firstDayOfWeek = firstDayOfWeek,
             startOfDayShift = startOfDayShift,
-        ).let { (start, end) ->
-            Range(
-                timeStarted = start,
-                timeEnded = end
-            )
-        }
+        )
     }
 
     data class Result(

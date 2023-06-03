@@ -487,6 +487,7 @@ class SettingsViewModel @Inject constructor(
             val newValue = prefsInteractor.getStartOfDayShift() * -1
             prefsInteractor.setStartOfDayShift(newValue)
             widgetInteractor.updateWidgets(listOf(WidgetType.STATISTICS_CHART))
+            notificationTypeInteractor.updateNotifications()
             notificationGoalTimeInteractor.checkAndReschedule()
             updateStartOfDayViewData()
         }
@@ -844,6 +845,7 @@ class SettingsViewModel @Inject constructor(
                 val newValue = settingsMapper.toStartOfDayShift(timestamp, wasPositive)
                 prefsInteractor.setStartOfDayShift(newValue)
                 widgetInteractor.updateWidgets(listOf(WidgetType.STATISTICS_CHART))
+                notificationTypeInteractor.updateNotifications()
                 notificationGoalTimeInteractor.checkAndReschedule()
                 updateStartOfDayViewData()
             }

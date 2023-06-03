@@ -99,6 +99,9 @@
         <action
             android:id="@+id/action_recordsAllFragment_to_changeRecordFragment"
             app:destination="@id/changeRecordFragment" />
+        <action
+            android:id="@+id/action_recordsAllFragment_to_changeRunningRecordFragment"
+            app:destination="@id/changeRunningRecordFragment" />
     </fragment>
     <fragment
         android:id="@+id/categoriesFragment"

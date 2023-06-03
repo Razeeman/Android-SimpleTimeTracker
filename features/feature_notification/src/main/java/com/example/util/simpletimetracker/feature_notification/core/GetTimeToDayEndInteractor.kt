@@ -19,7 +19,7 @@ class GetTimeToDayEndInteractor @Inject constructor(
                 firstDayOfWeek = DayOfWeek.MONDAY, // not needed.
                 startOfDayShift = 0, // not needed.
             )
-            .second
+            .timeEnded
             .let { it - current }
             .takeIf { it > 0 }
             ?: current

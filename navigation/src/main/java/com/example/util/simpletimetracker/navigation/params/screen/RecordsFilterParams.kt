@@ -9,5 +9,6 @@ data class RecordsFilterParams(
     val title: String = "",
     val dateSelectionAvailable: Boolean = true,
     val untrackedSelectionAvailable: Boolean = true,
+    val addRunningRecords: Boolean = true,
     val filters: List<RecordsFilterParam> = emptyList(),
 ) : ScreenParams, Parcelable

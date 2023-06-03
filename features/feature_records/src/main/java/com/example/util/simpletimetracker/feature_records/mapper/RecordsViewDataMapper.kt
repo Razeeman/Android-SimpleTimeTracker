@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.feature_records.mapper
 import com.example.util.simpletimetracker.core.mapper.RecordViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
@@ -25,14 +26,13 @@ class RecordsViewDataMapper @Inject constructor(
         record: Record,
         recordType: RecordType,
         recordTags: List<RecordTag>,
-        rangeStart: Long,
-        rangeEnd: Long,
+        range: Range,
         isDarkTheme: Boolean,
         useMilitaryTime: Boolean,
         useProportionalMinutes: Boolean,
         showSeconds: Boolean,
     ): RecordViewData.Tracked {
-        val (timeStarted, timeEnded) = clampToRange(record, rangeStart, rangeEnd)
+        val (timeStarted, timeEnded) = clampToRange(record, range)
 
         return recordViewDataMapper.map(
             record = record,
@@ -49,14 +49,13 @@ class RecordsViewDataMapper @Inject constructor(
 
     fun mapToUntracked(
         record: Record,
-        rangeStart: Long,
-        rangeEnd: Long,
+        range: Range,
         isDarkTheme: Boolean,
         useMilitaryTime: Boolean,
         useProportionalMinutes: Boolean,
         showSeconds: Boolean,
     ): RecordViewData.Untracked {
-        val (timeStarted, timeEnded) = clampToRange(record, rangeStart, rangeEnd)
+        val (timeStarted, timeEnded) = clampToRange(record, range)
 
         return recordViewDataMapper.mapToUntracked(
             timeStarted = timeStarted,
@@ -100,20 +99,19 @@ class RecordsViewDataMapper @Inject constructor(
 
     private fun clampToRange(
         record: Record,
-        rangeStart: Long,
-        rangeEnd: Long,
-    ): Pair<Long, Long> {
-        val timeStarted = if (rangeStart != 0L) {
-            max(record.timeStarted, rangeStart)
+        range: Range,
+    ): Range {
+        val timeStarted = if (range.timeStarted != 0L) {
+            max(record.timeStarted, range.timeStarted)
         } else {
             record.timeStarted
         }
-        val timeEnded = if (rangeEnd != 0L) {
-            min(record.timeEnded, rangeEnd)
+        val timeEnded = if (range.timeEnded != 0L) {
+            min(record.timeEnded, range.timeEnded)
         } else {
             record.timeEnded
         }
 
-        return timeStarted to timeEnded
+        return Range(timeStarted, timeEnded)
     }
 }

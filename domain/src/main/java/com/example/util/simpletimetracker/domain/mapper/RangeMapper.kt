@@ -11,9 +11,9 @@ import kotlin.math.min
 class RangeMapper @Inject constructor() {
 
     fun getRecordsFromRange(
-        records: List<Record>,
+        records: List<RecordBase>,
         range: Range,
-    ): List<Record> {
+    ): List<RecordBase> {
         return records.filter { it.isInRange(range) }
     }
 
@@ -25,25 +25,33 @@ class RangeMapper @Inject constructor() {
     }
 
     fun clampToRange(
-        record: Record,
-        rangeStart: Long,
-        rangeEnd: Long,
+        record: RecordBase,
+        range: Range,
     ): Range {
         return Range(
-            timeStarted = max(record.timeStarted, rangeStart),
-            timeEnded = min(record.timeEnded, rangeEnd)
+            timeStarted = max(record.timeStarted, range.timeStarted),
+            timeEnded = min(record.timeEnded, range.timeEnded)
         )
     }
 
     fun clampRecordToRange(
-        record: Record,
+        record: RecordBase,
         range: Range,
-    ): Record {
+    ): RecordBase {
         return if (!record.isCompletelyRange(range)) {
-            record.copy(
-                timeStarted = max(record.timeStarted, range.timeStarted),
-                timeEnded = min(record.timeEnded, range.timeEnded)
-            )
+            when (record) {
+                is Record -> record.copy(
+                    timeStarted = max(record.timeStarted, range.timeStarted),
+                    timeEnded = min(record.timeEnded, range.timeEnded)
+                )
+                is RunningRecord -> Record(
+                    typeId = record.typeId,
+                    timeStarted = max(record.timeStarted, range.timeStarted),
+                    timeEnded = min(record.timeEnded, range.timeEnded),
+                    comment = record.comment,
+                    tagIds = record.tagIds,
+                )
+            }
         } else {
             record
         }
@@ -59,7 +67,7 @@ class RangeMapper @Inject constructor() {
         return this.timeStarted < range.timeEnded && this.timeEnded > range.timeStarted
     }
 
-    private fun Record.isCompletelyRange(
+    private fun RecordBase.isCompletelyRange(
         range: Range,
     ): Boolean {
         return this.timeStarted >= range.timeStarted && this.timeEnded <= range.timeEnded

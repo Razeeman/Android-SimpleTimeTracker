@@ -1,15 +1,15 @@
 package com.example.util.simpletimetracker.feature_statistics_detail.interactor
 
 import com.example.util.simpletimetracker.core.extension.setToStartOfDay
-import com.example.util.simpletimetracker.domain.mapper.RangeMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
+import com.example.util.simpletimetracker.domain.mapper.RangeMapper
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RangeLength
-import com.example.util.simpletimetracker.domain.model.Record
+import com.example.util.simpletimetracker.domain.model.RecordBase
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_statistics_detail.R
 import com.example.util.simpletimetracker.feature_statistics_detail.customView.SeriesView
@@ -48,8 +48,8 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
     }
 
     suspend fun getStreaksViewData(
-        records: List<Record>,
-        compareRecords: List<Record>,
+        records: List<RecordBase>,
+        compareRecords: List<RecordBase>,
         showComparison: Boolean,
         rangeLength: RangeLength,
         rangePosition: Int,
@@ -63,9 +63,7 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
             shift = rangePosition,
             firstDayOfWeek = firstDayOfWeek,
             startOfDayShift = startOfDayShift
-        ).let {
-            Range(timeStarted = it.first, timeEnded = it.second)
-        }
+        )
 
         val (maxStreak, currentStreak, data) = mapStatsData(
             range = range,
@@ -149,7 +147,7 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
 
     private fun mapStatsData(
         range: Range,
-        records: List<Record>,
+        records: List<RecordBase>,
         rangeLength: RangeLength,
         firstDayOfWeek: DayOfWeek,
         startOfDayShift: Long,
@@ -180,7 +178,7 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
 
     private fun calculate(
         range: Range,
-        records: List<Record>,
+        records: List<RecordBase>,
         firstDayOfWeek: DayOfWeek,
         startOfDayShift: Long,
         streaksType: StreaksType,
@@ -203,8 +201,10 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
             ).map {
                 rangeMapper.clampToRange(
                     record = it,
-                    rangeStart = day.timeStarted,
-                    rangeEnd = day.timeEnded,
+                    range = Range(
+                        timeStarted = day.timeStarted,
+                        timeEnded = day.timeEnded,
+                    )
                 )
             }.sumOf {
                 it.duration

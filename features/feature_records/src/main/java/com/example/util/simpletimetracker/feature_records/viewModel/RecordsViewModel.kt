@@ -21,6 +21,7 @@ import com.example.util.simpletimetracker.feature_records.model.RecordsState
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordFromMainParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordParams
+import com.example.util.simpletimetracker.navigation.params.screen.ChangeRunningRecordFromMainParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRunningRecordParams
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -58,26 +59,27 @@ class RecordsViewModel @Inject constructor(
     }
 
     fun onRunningRecordClick(item: RunningRecordViewData, sharedElements: Pair<Any, String>? = null) {
+        val params = ChangeRunningRecordParams(
+            transitionName = sharedElements?.second.orEmpty(),
+            id = item.id,
+            from = ChangeRunningRecordParams.From.Records,
+            preview = ChangeRunningRecordParams.Preview(
+                name = item.name,
+                tagName = item.tagName,
+                timeStarted = item.timeStarted,
+                duration = item.timer,
+                durationTotal = item.timerTotal,
+                goalTime = item.goalTime.toParams(),
+                goalTime2 = item.goalTime2.toParams(),
+                goalTime3 = item.goalTime3.toParams(),
+                goalTime4 = item.goalTime4.toParams(),
+                iconId = item.iconId.toParams(),
+                color = item.color,
+                comment = item.comment
+            )
+        )
         router.navigate(
-            data = ChangeRunningRecordParams(
-                transitionName = sharedElements?.second.orEmpty(),
-                id = item.id,
-                from = ChangeRunningRecordParams.From.Records,
-                preview = ChangeRunningRecordParams.Preview(
-                    name = item.name,
-                    tagName = item.tagName,
-                    timeStarted = item.timeStarted,
-                    duration = item.timer,
-                    durationTotal = item.timerTotal,
-                    goalTime = item.goalTime.toParams(),
-                    goalTime2 = item.goalTime2.toParams(),
-                    goalTime3 = item.goalTime3.toParams(),
-                    goalTime4 = item.goalTime4.toParams(),
-                    iconId = item.iconId.toParams(),
-                    color = item.color,
-                    comment = item.comment
-                )
-            ),
+            data = ChangeRunningRecordFromMainParams(params),
             sharedElements = sharedElements?.let(::mapOf) ?: emptyMap()
         )
     }

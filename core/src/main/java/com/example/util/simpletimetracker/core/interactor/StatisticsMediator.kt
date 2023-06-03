@@ -38,7 +38,7 @@ class StatisticsMediator @Inject constructor(
         val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
         val startOfDayShift = prefsInteractor.getStartOfDayShift()
 
-        val (start, end) = timeMapper.getRangeStartAndEnd(
+        val range = timeMapper.getRangeStartAndEnd(
             rangeLength = rangeLength,
             shift = shift,
             firstDayOfWeek = firstDayOfWeek,
@@ -47,7 +47,7 @@ class StatisticsMediator @Inject constructor(
 
         return getFromRange(
             filterType = filterType,
-            range = Range(start, end),
+            range = range,
             addUntracked = !filteredIds.contains(UNTRACKED_ITEM_ID),
             addUncategorized = !filteredIds.contains(UNCATEGORIZED_ITEM_ID),
         )
