@@ -62,6 +62,7 @@ class DataEditTest : BaseUiTest() {
         onView(withText(coreR.string.data_edit_button_change)).check(matches(isNotEnabled()))
 
         clickOnViewWithText(coreR.string.data_edit_select_records)
+        clickOnViewWithText(coreR.string.activity_hint)
         clickOnView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name2)))
         pressBack()
         onView(withText(coreR.string.data_edit_button_change)).check(matches(isNotEnabled()))
@@ -120,6 +121,7 @@ class DataEditTest : BaseUiTest() {
         NavUtils.openSettingsScreen()
         NavUtils.openDataEditScreen()
         clickOnViewWithText(coreR.string.data_edit_select_records)
+        clickOnViewWithText(coreR.string.activity_hint)
         clickOnView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1)))
         pressBack()
 
@@ -216,6 +218,7 @@ class DataEditTest : BaseUiTest() {
         NavUtils.openSettingsScreen()
         NavUtils.openDataEditScreen()
         clickOnViewWithText(coreR.string.data_edit_select_records)
+        clickOnViewWithText(coreR.string.activity_hint)
         clickOnView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1)))
         pressBack()
 
@@ -306,6 +309,7 @@ class DataEditTest : BaseUiTest() {
         NavUtils.openSettingsScreen()
         NavUtils.openDataEditScreen()
         clickOnViewWithText(coreR.string.data_edit_select_records)
+        clickOnViewWithText(coreR.string.activity_hint)
         clickOnView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1)))
         pressBack()
 
@@ -403,6 +407,7 @@ class DataEditTest : BaseUiTest() {
         NavUtils.openSettingsScreen()
         NavUtils.openDataEditScreen()
         clickOnViewWithText(coreR.string.data_edit_select_records)
+        clickOnViewWithText(coreR.string.activity_hint)
         clickOnView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1)))
         pressBack()
 
@@ -500,6 +505,7 @@ class DataEditTest : BaseUiTest() {
         NavUtils.openSettingsScreen()
         NavUtils.openDataEditScreen()
         clickOnViewWithText(coreR.string.data_edit_select_records)
+        clickOnViewWithText(coreR.string.activity_hint)
         clickOnView(allOf(isDescendantOfA(withId(R.id.viewRecordTypeItem)), withText(name1)))
         pressBack()
 

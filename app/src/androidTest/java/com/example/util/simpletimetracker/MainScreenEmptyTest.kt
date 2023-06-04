@@ -21,6 +21,7 @@ import com.example.util.simpletimetracker.utils.longClickOnViewWithId
 import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.typeTextIntoView
 import dagger.hilt.android.testing.HiltAndroidTest
+import java.util.concurrent.TimeUnit
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.allOf
 import org.junit.Test
@@ -60,6 +61,11 @@ class MainScreenEmptyTest : BaseUiTest() {
 
     @Test
     fun recordsEmpty() {
+        val name = "name"
+        testUtils.addActivity(name)
+        val timestamp = System.currentTimeMillis() - TimeUnit.DAYS.toMillis(7)
+        testUtils.addRecord(name, timeStarted = timestamp, timeEnded = timestamp)
+
         runBlocking { prefsInteractor.setShowUntrackedInRecords(true) }
 
         NavUtils.openRecordsScreen()
@@ -90,6 +96,11 @@ class MainScreenEmptyTest : BaseUiTest() {
 
     @Test
     fun statisticsEmpty() {
+        val name = "name"
+        testUtils.addActivity(name)
+        val timestamp = System.currentTimeMillis() - TimeUnit.DAYS.toMillis(500)
+        testUtils.addRecord(name, timeStarted = timestamp, timeEnded = timestamp)
+
         NavUtils.openStatisticsScreen()
         checkRanges()
 

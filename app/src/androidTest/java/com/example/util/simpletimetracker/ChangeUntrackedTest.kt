@@ -19,6 +19,7 @@ import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.withCardColor
 import com.example.util.simpletimetracker.utils.withTag
 import dagger.hilt.android.testing.HiltAndroidTest
+import java.util.concurrent.TimeUnit
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.Matcher
@@ -42,6 +43,8 @@ class ChangeUntrackedTest : BaseUiTest() {
         // Add activity
         runBlocking { prefsInteractor.setShowUntrackedInRecords(true) }
         testUtils.addActivity(name = name, color = color, icon = icon)
+        val yesterday = System.currentTimeMillis() - TimeUnit.DAYS.toMillis(1)
+        testUtils.addRecord(typeName = name, timeStarted = yesterday, timeEnded = yesterday)
 
         // Open edit view
         NavUtils.openRecordsScreen()

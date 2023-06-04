@@ -31,6 +31,7 @@ import org.hamcrest.Matcher
 import org.junit.Test
 import org.junit.runner.RunWith
 import com.example.util.simpletimetracker.core.R as coreR
+import com.example.util.simpletimetracker.feature_base_adapter.R as baseR
 import com.example.util.simpletimetracker.feature_categories.R as categoriesR
 import com.example.util.simpletimetracker.feature_change_record.R as changeRecordR
 import com.example.util.simpletimetracker.feature_change_record_tag.R as changeRecordTagR
@@ -273,7 +274,7 @@ class AddRecordTagTest : BaseUiTest() {
         // Add data
         testUtils.addActivity(typeName)
         tryAction { clickOnViewWithText(typeName) }
-        longClickOnView(allOf(isDescendantOfA(withId(changeRecordTagR.id.viewRunningRecordItem)), withText(typeName)))
+        longClickOnView(allOf(isDescendantOfA(withId(baseR.id.viewRunningRecordItem)), withText(typeName)))
 
         // Add category
         clickOnViewWithId(changeRecordR.id.fieldChangeRecordCategory)
