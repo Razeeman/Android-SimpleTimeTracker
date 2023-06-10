@@ -73,9 +73,14 @@ class RecordInteractor @Inject constructor(
     }
 
     suspend fun add(record: Record) {
-        val recordId = recordRepo.add(record)
+        // Drop milliseconds.
+        val adjustedRecord = record.copy(
+            timeStarted = record.timeStarted / 1000 * 1000,
+            timeEnded = record.timeEnded / 1000 * 1000,
+        )
+        val recordId = recordRepo.add(adjustedRecord)
         recordToRecordTagRepo.removeAllByRecordId(recordId)
-        recordToRecordTagRepo.addRecordTags(recordId, record.tagIds)
+        recordToRecordTagRepo.addRecordTags(recordId, adjustedRecord.tagIds)
     }
 
     suspend fun remove(id: Long) {
