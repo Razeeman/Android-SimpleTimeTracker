@@ -59,12 +59,15 @@ class RecordView @JvmOverloads constructor(
     var itemTimeStarted: String = ""
         set(value) {
             binding.tvRecordItemTimeStarted.text = value
+            binding.tvRecordItemTimeStarted.visible = value.isNotEmpty()
+            binding.tvRecordItemTimeSeparator.visible = value.isNotEmpty()
             field = value
         }
 
     var itemTimeEnded: String = ""
         set(value) {
             binding.tvRecordItemTimeFinished.text = value
+            binding.tvRecordItemTimeFinished.visible = value.isNotEmpty()
             field = value
         }
 

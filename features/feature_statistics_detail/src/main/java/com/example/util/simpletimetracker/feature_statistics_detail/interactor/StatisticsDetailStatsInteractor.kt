@@ -305,7 +305,9 @@ class StatisticsDetailStatsInteractor @Inject constructor(
         val activities: MutableMap<Long, MutableList<RecordBase>> = mutableMapOf()
 
         records.forEach { record ->
-            activities.getOrPut(record.typeId) { mutableListOf() }.add(record)
+            record.typeIds.forEach { typeId ->
+                activities.getOrPut(typeId) { mutableListOf() }.add(record)
+            }
         }
 
         val durations = activities

@@ -115,6 +115,10 @@ fun List<RecordsFilter>.hasUntrackedFilter(): Boolean {
     return any { it is RecordsFilter.Untracked }
 }
 
+fun List<RecordsFilter>.hasMultitaskFilter(): Boolean {
+    return any { it is RecordsFilter.Multitask }
+}
+
 fun List<RecordsFilter>.hasActivityFilter(): Boolean {
     return any { it is RecordsFilter.Activity }
 }

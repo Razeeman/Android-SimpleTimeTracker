@@ -1,7 +1,7 @@
 package com.example.util.simpletimetracker.domain.model
 
 sealed interface RecordBase {
-    val typeId: Long
+    val typeIds: List<Long>
     val timeStarted: Long
     val timeEnded: Long
     val comment: String

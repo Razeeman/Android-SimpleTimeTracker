@@ -14,6 +14,7 @@ import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.multitaskRecord.createMultitaskRecordAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.record.createRecordAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.recordsDateDivider.createRecordsDateDividerAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.runningRecord.createRunningRecordAdapterDelegate
@@ -49,6 +50,7 @@ class RecordsAllFragment : BaseFragment<Binding>() {
                 onItemClick = throttle(viewModel::onRunningRecordClick),
             ),
             createRecordAdapterDelegate(throttle(viewModel::onRecordClick)),
+            createMultitaskRecordAdapterDelegate(),
             createRecordsDateDividerAdapterDelegate(),
             createEmptyAdapterDelegate(),
             createLoaderAdapterDelegate()

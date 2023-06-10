@@ -6,10 +6,12 @@ import com.example.util.simpletimetracker.core.interactor.RecordFilterInteractor
 import com.example.util.simpletimetracker.core.mapper.CategoryViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.DateDividerViewDataMapper
+import com.example.util.simpletimetracker.core.mapper.MultitaskRecordViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.RecordViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.domain.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.domain.extension.getAllTypeIds
 import com.example.util.simpletimetracker.domain.extension.getCategoryIds
 import com.example.util.simpletimetracker.domain.extension.getCategoryItems
@@ -25,6 +27,7 @@ import com.example.util.simpletimetracker.domain.extension.getTaggedIds
 import com.example.util.simpletimetracker.domain.extension.getTimeOfDay
 import com.example.util.simpletimetracker.domain.extension.hasCategoryFilter
 import com.example.util.simpletimetracker.domain.extension.hasManuallyFiltered
+import com.example.util.simpletimetracker.domain.extension.hasMultitaskFilter
 import com.example.util.simpletimetracker.domain.extension.hasUncategorizedItem
 import com.example.util.simpletimetracker.domain.extension.hasUntaggedItem
 import com.example.util.simpletimetracker.domain.extension.hasUntrackedFilter
@@ -32,6 +35,7 @@ import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
+import com.example.util.simpletimetracker.domain.model.MultitaskRecord
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordTag
@@ -69,6 +73,7 @@ class RecordsFilterViewDataInteractor @Inject constructor(
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
     private val categoryViewDataMapper: CategoryViewDataMapper,
     private val recordViewDataMapper: RecordViewDataMapper,
+    private val multitaskRecordViewDataMapper: MultitaskRecordViewDataMapper,
     private val getRunningRecordViewDataMediator: GetRunningRecordViewDataMediator,
     private val dateDividerViewDataMapper: DateDividerViewDataMapper,
     private val colorMapper: ColorMapper,
@@ -157,13 +162,12 @@ class RecordsFilterViewDataInteractor @Inject constructor(
 
         var count: Int
         val viewData = records
-            .map { record ->
-                val type = recordTypes[record.typeId]
-                val viewData = if (type != null) {
-                    when (record) {
-                        is Record -> recordViewDataMapper.map(
+            .mapNotNull { record ->
+                val viewData = when (record) {
+                    is Record -> if (record.typeId != UNTRACKED_ITEM_ID) {
+                        recordViewDataMapper.map(
                             record = record,
-                            recordType = type,
+                            recordType = recordTypes[record.typeId] ?: return@mapNotNull null,
                             recordTags = recordTags.filter { it.id in record.tagIds },
                             timeStarted = record.timeStarted,
                             timeEnded = record.timeEnded,
@@ -172,23 +176,32 @@ class RecordsFilterViewDataInteractor @Inject constructor(
                             useProportionalMinutes = useProportionalMinutes,
                             showSeconds = showSeconds,
                         )
-                        is RunningRecord -> getRunningRecordViewDataMediator.execute(
-                            type = type,
-                            tags = recordTags.filter { it.id in record.tagIds },
-                            record = record,
-                            nowIconVisible = true,
-                            goalsVisible = false,
-                            totalDurationVisible = false,
+                    } else {
+                        recordViewDataMapper.mapToUntracked(
+                            timeStarted = record.timeStarted,
+                            timeEnded = record.timeEnded,
                             isDarkTheme = isDarkTheme,
                             useMilitaryTime = useMilitaryTime,
                             useProportionalMinutes = useProportionalMinutes,
                             showSeconds = showSeconds,
                         )
                     }
-                } else {
-                    recordViewDataMapper.mapToUntracked(
-                        timeStarted = record.timeStarted,
-                        timeEnded = record.timeEnded,
+                    is RunningRecord -> getRunningRecordViewDataMediator.execute(
+                        type = recordTypes[record.id] ?: return@mapNotNull null,
+                        tags = recordTags.filter { it.id in record.tagIds },
+                        record = record,
+                        nowIconVisible = true,
+                        goalsVisible = false,
+                        totalDurationVisible = false,
+                        isDarkTheme = isDarkTheme,
+                        useMilitaryTime = useMilitaryTime,
+                        useProportionalMinutes = useProportionalMinutes,
+                        showSeconds = showSeconds,
+                    )
+                    is MultitaskRecord -> multitaskRecordViewDataMapper.map(
+                        multitaskRecord = record,
+                        recordTypes = recordTypes,
+                        recordTags = recordTags,
                         isDarkTheme = isDarkTheme,
                         useMilitaryTime = useMilitaryTime,
                         useProportionalMinutes = useProportionalMinutes,
@@ -222,22 +235,24 @@ class RecordsFilterViewDataInteractor @Inject constructor(
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
         val hasUntracked = filters.hasUntrackedFilter()
+        val hasMultitask = filters.hasMultitaskFilter()
 
         val availableFilters = listOfNotNull(
             when {
                 hasUntracked -> RecordFilterViewData.Type.UNTRACKED
+                hasMultitask -> RecordFilterViewData.Type.MULTITASK
                 filters.hasCategoryFilter() -> RecordFilterViewData.Type.CATEGORY
                 else -> RecordFilterViewData.Type.ACTIVITY
             },
-            RecordFilterViewData.Type.COMMENT.takeUnless { hasUntracked },
+            RecordFilterViewData.Type.COMMENT.takeUnless { hasUntracked || hasMultitask },
             RecordFilterViewData.Type.DATE.takeIf { extra.dateSelectionAvailable },
-            RecordFilterViewData.Type.SELECTED_TAGS.takeUnless { hasUntracked },
-            RecordFilterViewData.Type.FILTERED_TAGS.takeUnless { hasUntracked },
+            RecordFilterViewData.Type.SELECTED_TAGS.takeUnless { hasUntracked || hasMultitask },
+            RecordFilterViewData.Type.FILTERED_TAGS.takeUnless { hasUntracked || hasMultitask },
             RecordFilterViewData.Type.DAYS_OF_WEEK,
             RecordFilterViewData.Type.TIME_OF_DAY,
             RecordFilterViewData.Type.DURATION,
             RecordFilterViewData.Type.MANUALLY_FILTERED.takeIf {
-                filters.hasManuallyFiltered() && !hasUntracked
+                filters.hasManuallyFiltered() && !hasUntracked && !hasMultitask
             }
         )
 
@@ -323,10 +338,23 @@ class RecordsFilterViewDataInteractor @Inject constructor(
             HintViewData(resourceRepo.getString(R.string.record_types_empty)).let(result::add)
         }
 
-        if (extra.untrackedSelectionAvailable) {
+        if (
+            extra.untrackedSelectionAvailable ||
+            extra.multitaskSelectionAvailable
+        ) {
             DividerViewData(2).let(result::add)
+        }
+
+        if (extra.untrackedSelectionAvailable) {
             categoryViewDataMapper.mapToTagUntrackedItem(
                 isFiltered = !filters.hasUntrackedFilter(),
+                isDarkTheme = isDarkTheme,
+            ).let(result::add)
+        }
+
+        if (extra.multitaskSelectionAvailable) {
+            categoryViewDataMapper.mapToMultitaskItem(
+                isFiltered = !filters.hasMultitaskFilter(),
                 isDarkTheme = isDarkTheme,
             ).let(result::add)
         }

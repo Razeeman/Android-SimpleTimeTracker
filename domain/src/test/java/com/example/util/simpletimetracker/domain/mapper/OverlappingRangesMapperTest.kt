@@ -14,13 +14,24 @@ class OverlappingRangesMapperTest(
 
     private val subject = OverlappingRangesMapper()
 
+    private data class Id(val value: Long) : OverlappingRangesMapper.Id
+
     @Suppress("UNCHECKED_CAST")
     @Test
     fun map() {
+        val expected = output.map {
+            it.first.sorted().map(::Id) to it.second
+        }
+        val actual = subject.map(
+            segments = input.map { Id(it.first) to it.second }
+        ).map {
+            it.first.sortedBy { id -> (id as Id).value } to it.second
+        }
+
         assertEquals(
             "Test failed for params $input",
-            output.map { it.first.sorted() to it.second },
-            subject.map(segments = input).map { it.first.sorted() to it.second },
+            expected,
+            actual,
         )
     }
 

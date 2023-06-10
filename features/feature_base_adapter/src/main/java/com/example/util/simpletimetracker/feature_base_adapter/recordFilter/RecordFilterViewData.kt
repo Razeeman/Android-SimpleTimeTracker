@@ -19,6 +19,7 @@ data class RecordFilterViewData(
 
     enum class Type {
         UNTRACKED,
+        MULTITASK,
         ACTIVITY,
         CATEGORY,
         COMMENT,

@@ -2,7 +2,10 @@ package com.example.util.simpletimetracker.domain.model
 
 sealed interface RecordsFilter {
 
+    // Incompatible with Activity, Category, Comment, SelectedTags, FilteredTags, ManuallyFiltered.
     object Untracked : RecordsFilter
+
+    object Multitask: RecordsFilter
 
     data class Activity(val typeIds: List<Long>) : RecordsFilter
 

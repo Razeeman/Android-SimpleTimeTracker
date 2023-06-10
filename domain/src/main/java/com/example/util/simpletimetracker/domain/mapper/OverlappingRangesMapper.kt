@@ -5,7 +5,9 @@ import javax.inject.Inject
 
 class OverlappingRangesMapper @Inject constructor() {
 
-    fun map(segments: List<Pair<Long, Range>>): List<Pair<List<Long>, Range>> {
+    interface Id
+
+    fun map(segments: List<Pair<Id, Range>>): List<Pair<List<Id>, Range>> {
         if (segments.isEmpty()) return emptyList()
 
         val n = segments.size
@@ -13,7 +15,7 @@ class OverlappingRangesMapper @Inject constructor() {
         // Create a list to store starting and ending points
         // Segment start marked with false.
         // range id, range value, is closing.
-        val points: MutableList<Triple<Long, Long, Boolean>> = mutableListOf()
+        val points: MutableList<Triple<Id, Long, Boolean>> = mutableListOf()
         var secondIsHigher: Boolean
         for (i in (0 until n)) {
             // Reverse segments if needed
@@ -26,11 +28,11 @@ class OverlappingRangesMapper @Inject constructor() {
         points.sortWith(compareBy({ it.second }, { it.third }))
 
         // Initialize result
-        val result = mutableListOf<Pair<List<Long>, Range>>()
+        val result = mutableListOf<Pair<List<Id>, Range>>()
 
         // To keep track of counts of current open segments
         // (Starting point is processed, but ending point is not)
-        val counter = mutableListOf<Long>()
+        val counter = mutableListOf<Id>()
 
         // Traverse through all points
         for (i in (0 until points.size)) {
@@ -42,8 +44,7 @@ class OverlappingRangesMapper @Inject constructor() {
                     ?.let { result.add(counter.toList() to it) }
             }
 
-            // If this is an ending point, reduce, count of
-            // open points.
+            // If this is an ending point, reduce count of open points.
             if (points[i].third) counter.remove(points[i].first) else counter.add(points[i].first)
         }
 

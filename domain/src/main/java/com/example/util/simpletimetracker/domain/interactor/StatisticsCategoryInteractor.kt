@@ -62,7 +62,7 @@ class StatisticsCategoryInteractor @Inject constructor(
             .mapValues { it.value.map(RecordTypeCategory::recordTypeId) }
 
         return recordTypeCategories
-            .mapValues { (_, typeIds) -> allRecords.filter { it.typeId in typeIds } }
+            .mapValues { (_, typeIds) -> allRecords.filter { it.typeIds.any { it in typeIds } } }
             .filterValues(List<RecordBase>::isNotEmpty)
     }
 
@@ -71,6 +71,6 @@ class StatisticsCategoryInteractor @Inject constructor(
     ): List<RecordBase> {
         val recordTypeCategories = recordTypeCategoryInteractor.getAll().map { it.recordTypeId }
 
-        return allRecords.filter { it.typeId !in recordTypeCategories }
+        return allRecords.filter { it.typeIds.all { it !in recordTypeCategories } }
     }
 }

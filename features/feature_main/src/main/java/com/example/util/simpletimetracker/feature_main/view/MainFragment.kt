@@ -13,12 +13,12 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.extension.addOnPageChangeCallback
-import com.example.util.simpletimetracker.core.extension.getThemedAttr
 import com.example.util.simpletimetracker.core.model.NavigationTab
 import com.example.util.simpletimetracker.core.sharedViewModel.MainTabsViewModel
 import com.example.util.simpletimetracker.core.utils.SHORTCUT_NAVIGATION_KEY
 import com.example.util.simpletimetracker.core.view.SafeFragmentStateAdapter
 import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.feature_base_adapter.extensions.getThemedAttr
 import com.example.util.simpletimetracker.feature_main.R
 import com.example.util.simpletimetracker.feature_main.adapter.MainContentAdapter
 import com.example.util.simpletimetracker.feature_main.mapper.MainMapper

@@ -5,6 +5,7 @@ import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.domain.MULTITASK_ITEM_ID
 import com.example.util.simpletimetracker.domain.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.extension.rotateLeft
@@ -162,6 +163,23 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             },
             name = resourceRepo.getString(R.string.untracked_time_name),
             iconId = RecordTypeIcon.Image(R.drawable.unknown),
+            color = colorMapper.toUntrackedColor(isDarkTheme)
+        )
+    }
+
+    fun mapMultitaskPreview(
+        isDarkTheme: Boolean,
+        isForComparison: Boolean,
+    ): StatisticsDetailPreviewViewData {
+        return StatisticsDetailPreviewViewData(
+            id = MULTITASK_ITEM_ID,
+            type = if (isForComparison) {
+                StatisticsDetailPreviewViewData.Type.COMPARISON
+            } else {
+                StatisticsDetailPreviewViewData.Type.FILTER
+            },
+            name = resourceRepo.getString(R.string.multitask_time_name),
+            iconId = RecordTypeIcon.Image(R.drawable.multitask),
             color = colorMapper.toUntrackedColor(isDarkTheme)
         )
     }

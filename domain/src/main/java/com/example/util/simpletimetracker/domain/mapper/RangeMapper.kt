@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.domain.mapper
 
+import com.example.util.simpletimetracker.domain.model.MultitaskRecord
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordBase
@@ -45,11 +46,19 @@ class RangeMapper @Inject constructor() {
                     timeEnded = min(record.timeEnded, range.timeEnded)
                 )
                 is RunningRecord -> Record(
-                    typeId = record.typeId,
+                    typeId = record.id,
                     timeStarted = max(record.timeStarted, range.timeStarted),
                     timeEnded = min(record.timeEnded, range.timeEnded),
                     comment = record.comment,
                     tagIds = record.tagIds,
+                )
+                is MultitaskRecord -> MultitaskRecord(
+                    records = record.records.map {
+                        it.copy(
+                            timeStarted = max(it.timeStarted, range.timeStarted),
+                            timeEnded = min(it.timeEnded, range.timeEnded)
+                        )
+                    }
                 )
             }
         } else {

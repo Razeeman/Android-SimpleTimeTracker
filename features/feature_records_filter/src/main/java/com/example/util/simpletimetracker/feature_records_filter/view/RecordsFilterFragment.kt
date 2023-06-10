@@ -25,6 +25,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.divider.createDiv
 import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.hint.createHintAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.multitaskRecord.createMultitaskRecordAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.record.createRecordAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.recordFilter.createRecordFilterAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.createRecordTypeAdapterDelegate
@@ -89,7 +90,8 @@ class RecordsFilterFragment :
             createEmptyAdapterDelegate(),
             createRecordsDateDividerAdapterDelegate(),
             createRunningRecordAdapterDelegate("", { _, _ -> }),
-            createRecordAdapterDelegate(viewModel::onRecordClick)
+            createRecordAdapterDelegate(viewModel::onRecordClick),
+            createMultitaskRecordAdapterDelegate(),
         )
     }
     private val params: RecordsFilterParams by fragmentArgumentDelegate(

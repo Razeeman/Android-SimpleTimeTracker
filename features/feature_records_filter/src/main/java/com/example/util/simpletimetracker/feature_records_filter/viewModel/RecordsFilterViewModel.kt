@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.core.extension.addOrRemove
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.extension.toModel
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
+import com.example.util.simpletimetracker.domain.MULTITASK_ITEM_ID
 import com.example.util.simpletimetracker.domain.UNCATEGORIZED_ITEM_ID
 import com.example.util.simpletimetracker.domain.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.domain.extension.getAllTypeIds
@@ -23,6 +24,7 @@ import com.example.util.simpletimetracker.domain.extension.getTimeOfDay
 import com.example.util.simpletimetracker.domain.extension.getTypeIds
 import com.example.util.simpletimetracker.domain.extension.getTypeIdsFromCategories
 import com.example.util.simpletimetracker.domain.extension.hasManuallyFiltered
+import com.example.util.simpletimetracker.domain.extension.hasMultitaskFilter
 import com.example.util.simpletimetracker.domain.extension.hasUntrackedFilter
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -173,10 +175,10 @@ class RecordsFilterViewModel @Inject constructor(
             is CategoryViewData.Category -> {
                 handleCategoryClick(item.id)
             }
-            is CategoryViewData.Record -> if (item.id == UNTRACKED_ITEM_ID) {
-                handleUntrackedClick()
-            } else {
-                handleTagClick(item)
+            is CategoryViewData.Record -> when (item.id) {
+                UNTRACKED_ITEM_ID -> handleUntrackedClick()
+                MULTITASK_ITEM_ID -> handleMultitaskClick()
+                else -> handleTagClick(item)
             }
         }
 
@@ -305,6 +307,7 @@ class RecordsFilterViewModel @Inject constructor(
         filters.removeAll { it is RecordsFilter.Activity }
         filters.removeAll { it is RecordsFilter.Category }
         filters.removeAll { it is RecordsFilter.Untracked }
+        filters.removeAll { it is RecordsFilter.Multitask }
         if (newIds.isNotEmpty()) filters.add(RecordsFilter.Activity(newIds))
     }
 
@@ -322,6 +325,7 @@ class RecordsFilterViewModel @Inject constructor(
         filters.removeAll { it is RecordsFilter.Activity }
         filters.removeAll { it is RecordsFilter.Category }
         filters.removeAll { it is RecordsFilter.Untracked }
+        filters.removeAll { it is RecordsFilter.Multitask }
         if (newItems.isNotEmpty()) filters.add(RecordsFilter.Category(newItems))
 
         checkTagFilterConsistency()
@@ -346,6 +350,28 @@ class RecordsFilterViewModel @Inject constructor(
             filters.add(RecordsFilter.Untracked)
         } else {
             filters.removeAll { it is RecordsFilter.Untracked }
+        }
+    }
+
+    private fun handleMultitaskClick() {
+        val hasMultitaskFilter = filters.hasMultitaskFilter()
+
+        filterSelectionState = RecordsFilterSelectionState.Visible(RecordFilterViewData.Type.MULTITASK)
+
+        if (!hasMultitaskFilter) {
+            val filtersAvailableWithMultitaskFilter = listOf(
+                RecordsFilter.Date::class.java,
+                RecordsFilter.DaysOfWeek::class.java,
+                RecordsFilter.TimeOfDay::class.java,
+                RecordsFilter.Duration::class.java,
+            )
+            filters.removeAll {
+                it::class.java !in filtersAvailableWithMultitaskFilter
+            }
+
+            filters.add(RecordsFilter.Multitask)
+        } else {
+            filters.removeAll { it is RecordsFilter.Multitask }
         }
     }
 
@@ -393,6 +419,7 @@ class RecordsFilterViewModel @Inject constructor(
         }.let { currentTags.toMutableList().apply { addOrRemove(it) } }
 
         filters.removeAll { it is RecordsFilter.Untracked }
+        filters.removeAll { it is RecordsFilter.Multitask }
         when (currentState) {
             RecordFilterViewData.Type.SELECTED_TAGS -> {
                 filters.removeAll { it is RecordsFilter.SelectedTags }
@@ -679,6 +706,7 @@ class RecordsFilterViewModel @Inject constructor(
 
         return when (type) {
             RecordFilterViewData.Type.UNTRACKED,
+            RecordFilterViewData.Type.MULTITASK,
             RecordFilterViewData.Type.ACTIVITY,
             RecordFilterViewData.Type.CATEGORY -> {
                 viewDataInteractor.getActivityFilterSelectionViewData(

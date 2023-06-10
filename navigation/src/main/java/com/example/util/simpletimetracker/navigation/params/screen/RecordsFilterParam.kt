@@ -10,6 +10,9 @@ sealed interface RecordsFilterParam : Parcelable {
     object Untracked : RecordsFilterParam
 
     @Parcelize
+    object Multitask : RecordsFilterParam
+
+    @Parcelize
     data class Activity(val typeIds: List<Long>) : RecordsFilterParam
 
     @Parcelize

@@ -15,9 +15,12 @@ import com.example.util.simpletimetracker.domain.extension.getTimeOfDay
 import com.example.util.simpletimetracker.domain.extension.getTypeIds
 import com.example.util.simpletimetracker.domain.extension.hasAnyComment
 import com.example.util.simpletimetracker.domain.extension.hasCategoryFilter
+import com.example.util.simpletimetracker.domain.extension.hasMultitaskFilter
 import com.example.util.simpletimetracker.domain.extension.hasNoComment
 import com.example.util.simpletimetracker.domain.extension.hasUntaggedItem
 import com.example.util.simpletimetracker.domain.extension.hasUntrackedFilter
+import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.domain.interactor.GetMultitaskRecordsInteractor
 import com.example.util.simpletimetracker.domain.interactor.GetUntrackedRecordsInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
@@ -31,6 +34,7 @@ import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordBase
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
+import com.example.util.simpletimetracker.domain.model.RunningRecord
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -43,6 +47,7 @@ class RecordFilterInteractor @Inject constructor(
     private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
     private val getUntrackedRecordsInteractor: GetUntrackedRecordsInteractor,
+    private val getMultitaskRecordsInteractor: GetMultitaskRecordsInteractor,
     private val timeMapper: TimeMapper,
     private val rangeMapper: RangeMapper,
     private val prefsInteractor: PrefsInteractor,
@@ -106,13 +111,14 @@ class RecordFilterInteractor @Inject constructor(
         val records: List<RecordBase> = when {
             filters.hasUntrackedFilter() -> {
                 val range = ranges.firstOrNull() ?: Range(0, 0)
-                val records = if (range.timeStarted == 0L && range.timeEnded == 0L) {
-                    interactor.getAll() + runningRecords
-                } else {
-                    interactor.getFromRange(range) +
-                        rangeMapper.getRunningRecordsFromRange(runningRecords, range)
-                }.map { Range(it.timeStarted, it.timeEnded) }
+                val records = getAllRecords(range, runningRecords)
+                    .map { Range(it.timeStarted, it.timeEnded) }
                 getUntrackedRecordsInteractor.get(range, records)
+            }
+            filters.hasMultitaskFilter() -> {
+                val range = ranges.firstOrNull() ?: Range(0, 0)
+                val records = getAllRecords(range, runningRecords)
+                getMultitaskRecordsInteractor.get(records)
             }
             typeIds.isNotEmpty() && ranges.isNotEmpty() -> {
                 val result = mutableMapOf<Long, Record>()
@@ -149,11 +155,17 @@ class RecordFilterInteractor @Inject constructor(
             }
             else -> interactor.getAll()
         }.let {
-            if (filters.hasUntrackedFilter()) it else it + runningRecords
+            if (filters.hasUntrackedFilter() || filters.hasMultitaskFilter()) {
+                it
+            } else {
+                it + runningRecords
+            }
         }
 
+        // TODO multitask filters.
+
         fun RecordBase.selectedByActivity(): Boolean {
-            return typeIds.isEmpty() || typeId in typeIds
+            return typeIds.isEmpty() || typeIds.firstOrNull().orZero() in typeIds
         }
 
         fun RecordBase.selectedByComment(): Boolean {
@@ -276,6 +288,19 @@ class RecordFilterInteractor @Inject constructor(
                 record.selectedByTimeOfDay() &&
                 record.selectedByDuration()
         }
+    }
+
+    private suspend fun getAllRecords(
+        range: Range,
+        runningRecords: List<RunningRecord>
+    ): List<RecordBase> {
+        val records = if (range.timeStarted == 0L && range.timeEnded == 0L) {
+            interactor.getAll() + runningRecords
+        } else {
+            interactor.getFromRange(range) +
+                rangeMapper.getRunningRecordsFromRange(runningRecords, range)
+        }
+        return records
     }
 
     companion object {

@@ -3,10 +3,13 @@ package com.example.util.simpletimetracker.feature_records_all.interactor
 import com.example.util.simpletimetracker.core.interactor.GetRunningRecordViewDataMediator
 import com.example.util.simpletimetracker.core.interactor.RecordFilterInteractor
 import com.example.util.simpletimetracker.core.mapper.DateDividerViewDataMapper
+import com.example.util.simpletimetracker.core.mapper.MultitaskRecordViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.RecordViewDataMapper
+import com.example.util.simpletimetracker.domain.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
+import com.example.util.simpletimetracker.domain.model.MultitaskRecord
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
 import com.example.util.simpletimetracker.domain.model.RunningRecord
@@ -23,6 +26,7 @@ class RecordsAllViewDataInteractor @Inject constructor(
     private val recordFilterInteractor: RecordFilterInteractor,
     private val recordViewDataMapper: RecordViewDataMapper,
     private val getRunningRecordViewDataMediator: GetRunningRecordViewDataMediator,
+    private val multitaskRecordViewDataMapper: MultitaskRecordViewDataMapper,
     private val dateDividerViewDataMapper: DateDividerViewDataMapper,
 ) {
 
@@ -44,13 +48,12 @@ class RecordsAllViewDataInteractor @Inject constructor(
             .let { recordFilterInteractor.getByFilter(it) }
 
         return@withContext records
-            .map { record ->
-                val type = recordTypes[record.typeId]
-                val viewData = if (type != null) {
-                    when (record) {
-                        is Record -> recordViewDataMapper.map(
+            .mapNotNull { record ->
+                val viewData = when (record) {
+                    is Record -> if (record.typeId != UNTRACKED_ITEM_ID) {
+                        recordViewDataMapper.map(
                             record = record,
-                            recordType = type,
+                            recordType = recordTypes[record.typeId] ?: return@mapNotNull null,
                             recordTags = recordTags.filter { it.id in record.tagIds },
                             timeStarted = record.timeStarted,
                             timeEnded = record.timeEnded,
@@ -59,23 +62,32 @@ class RecordsAllViewDataInteractor @Inject constructor(
                             useProportionalMinutes = useProportionalMinutes,
                             showSeconds = showSeconds,
                         )
-                        is RunningRecord -> getRunningRecordViewDataMediator.execute(
-                            type = type,
-                            tags = recordTags.filter { it.id in record.tagIds },
-                            record = record,
-                            nowIconVisible = true,
-                            goalsVisible = false,
-                            totalDurationVisible = false,
+                    } else {
+                        recordViewDataMapper.mapToUntracked(
+                            timeStarted = record.timeStarted,
+                            timeEnded = record.timeEnded,
                             isDarkTheme = isDarkTheme,
                             useMilitaryTime = useMilitaryTime,
                             useProportionalMinutes = useProportionalMinutes,
                             showSeconds = showSeconds,
                         )
                     }
-                } else {
-                    recordViewDataMapper.mapToUntracked(
-                        timeStarted = record.timeStarted,
-                        timeEnded = record.timeEnded,
+                    is RunningRecord -> getRunningRecordViewDataMediator.execute(
+                        type = recordTypes[record.id] ?: return@mapNotNull null,
+                        tags = recordTags.filter { it.id in record.tagIds },
+                        record = record,
+                        nowIconVisible = true,
+                        goalsVisible = false,
+                        totalDurationVisible = false,
+                        isDarkTheme = isDarkTheme,
+                        useMilitaryTime = useMilitaryTime,
+                        useProportionalMinutes = useProportionalMinutes,
+                        showSeconds = showSeconds,
+                    )
+                    is MultitaskRecord -> multitaskRecordViewDataMapper.map(
+                        multitaskRecord = record,
+                        recordTypes = recordTypes,
+                        recordTags = recordTags,
                         isDarkTheme = isDarkTheme,
                         useMilitaryTime = useMilitaryTime,
                         useProportionalMinutes = useProportionalMinutes,

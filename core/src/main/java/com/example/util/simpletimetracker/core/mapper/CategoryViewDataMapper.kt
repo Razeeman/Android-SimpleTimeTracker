@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.core.mapper
 
 import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.domain.MULTITASK_ITEM_ID
 import com.example.util.simpletimetracker.domain.UNCATEGORIZED_ITEM_ID
 import com.example.util.simpletimetracker.domain.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.domain.model.AppColor
@@ -122,6 +123,27 @@ class CategoryViewDataMapper @Inject constructor(
             name = R.string.untracked_time_name
                 .let(resourceRepo::getString),
             icon = RecordTypeIcon.Image(R.drawable.unknown),
+            iconColor = getTextColor(
+                isDarkTheme = isDarkTheme,
+                isFiltered = isFiltered
+            ),
+            color = if (isFiltered) {
+                colorMapper.toFilteredColor(isDarkTheme)
+            } else {
+                colorMapper.toUntrackedColor(isDarkTheme)
+            },
+        )
+    }
+
+    fun mapToMultitaskItem(
+        isFiltered: Boolean,
+        isDarkTheme: Boolean
+    ): CategoryViewData {
+        return CategoryViewData.Record.Tagged(
+            id = MULTITASK_ITEM_ID,
+            name = R.string.multitask_time_name
+                .let(resourceRepo::getString),
+            icon = RecordTypeIcon.Image(R.drawable.multitask),
             iconColor = getTextColor(
                 isDarkTheme = isDarkTheme,
                 isFiltered = isFiltered

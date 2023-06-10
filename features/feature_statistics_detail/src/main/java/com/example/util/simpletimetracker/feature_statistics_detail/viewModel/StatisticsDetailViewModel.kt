@@ -156,35 +156,18 @@ class StatisticsDetailViewModel @Inject constructor(
     }
 
     fun onFilterClick() = viewModelScope.launch {
-        val dateFilter = recordFilterInteractor.mapDateFilter(rangeLength, rangePosition)
-            ?.let(::listOf).orEmpty()
-
-        router.navigate(
-            RecordsFilterParams(
-                tag = FILTER_TAG,
-                title = resourceRepo.getString(R.string.chart_filter_hint),
-                dateSelectionAvailable = false,
-                untrackedSelectionAvailable = true,
-                filters = filter
-                    .plus(dateFilter)
-                    .map(RecordsFilter::toParams).toList(),
-            )
+        openFilter(
+            tag = FILTER_TAG,
+            title = resourceRepo.getString(R.string.chart_filter_hint),
+            filters = filter,
         )
     }
 
     fun onCompareClick() = viewModelScope.launch {
-        val dateFilter = recordFilterInteractor.mapDateFilter(rangeLength, rangePosition)
-            ?.let(::listOf).orEmpty()
-
-        router.navigate(
-            RecordsFilterParams(
-                tag = COMPARE_TAG,
-                title = resourceRepo.getString(R.string.types_compare_hint),
-                dateSelectionAvailable = false,
-                filters = comparisonFilter
-                    .plus(dateFilter)
-                    .map(RecordsFilter::toParams).toList(),
-            )
+        openFilter(
+            tag = COMPARE_TAG,
+            title = resourceRepo.getString(R.string.types_compare_hint),
+            filters = comparisonFilter,
         )
     }
 
@@ -362,6 +345,28 @@ class StatisticsDetailViewModel @Inject constructor(
             ).let(RangeLength::Custom)
             is StatisticsDetailParams.RangeLengthParams.Last -> RangeLength.Last
         }
+    }
+
+    private suspend fun openFilter(
+        tag: String,
+        title: String,
+        filters: List<RecordsFilter>,
+    ) {
+        val dateFilter = recordFilterInteractor.mapDateFilter(rangeLength, rangePosition)
+            ?.let(::listOf).orEmpty()
+
+        router.navigate(
+            RecordsFilterParams(
+                tag = tag,
+                title = title,
+                dateSelectionAvailable = false,
+                untrackedSelectionAvailable = true,
+                multitaskSelectionAvailable = true,
+                filters = filters
+                    .plus(dateFilter)
+                    .map(RecordsFilter::toParams).toList(),
+            )
+        )
     }
 
     private suspend fun loadRecordsCache() {

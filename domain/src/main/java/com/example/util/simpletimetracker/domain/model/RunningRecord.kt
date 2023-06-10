@@ -7,6 +7,6 @@ data class RunningRecord(
     override val tagIds: List<Long> = emptyList(),
 ) : RecordBase {
 
-    override val typeId: Long = id
+    override val typeIds: List<Long> = listOf(id)
     override val timeEnded: Long get() = System.currentTimeMillis()
 }

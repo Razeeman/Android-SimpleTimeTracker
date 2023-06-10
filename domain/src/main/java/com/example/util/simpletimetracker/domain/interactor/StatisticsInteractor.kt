@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.domain.interactor
 
 import com.example.util.simpletimetracker.domain.UNTRACKED_ITEM_ID
+import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.mapper.RangeMapper
 import com.example.util.simpletimetracker.domain.mapper.StatisticsMapper
 import com.example.util.simpletimetracker.domain.model.Range
@@ -25,7 +26,7 @@ class StatisticsInteractor @Inject constructor(
         val records = getRecords(range)
 
         records
-            .groupBy { it.typeId }
+            .groupBy { it.typeIds.firstOrNull().orZero() } // Multitask is not available in statistics.
             .let {
                 getStatistics(range, it)
             }
