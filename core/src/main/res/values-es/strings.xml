@@ -45,6 +45,7 @@
 
     <string name="untracked_time_name">Sin seguimiento</string>
     <string name="uncategorized_time_name">Sin categorizar</string>
+    <string name="multitask_time_name">Tarea múltiple</string>
     <string name="running_record_goal_time">objetivo %s</string>
     <string name="record_types_empty">No se añadieron actividades</string>
     <string name="record_tag_selection_hint">Seleccione etiqueta</string>

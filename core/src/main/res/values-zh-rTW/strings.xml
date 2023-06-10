@@ -45,6 +45,7 @@
 
     <string name="untracked_time_name">不追蹤</string>
     <string name="uncategorized_time_name">未分類</string>
+    <string name="multitask_time_name">多任務</string>
     <string name="running_record_goal_time">目標 %s</string>
     <string name="record_types_empty">未有已加入的活動</string>
     <string name="record_tag_selection_hint">選擇記錄標記</string>

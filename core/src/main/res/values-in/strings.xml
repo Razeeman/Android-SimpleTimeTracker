@@ -45,6 +45,7 @@
 
     <string name="untracked_time_name">Tidak dilacak</string>
     <string name="uncategorized_time_name">Tidak dikategorikan</string>
+    <string name="multitask_time_name">Multitugas</string>
     <string name="running_record_goal_time">tujuan %s</string>
     <string name="record_types_empty">Tidak ada kegiatan yang ditambahkan</string>
     <string name="record_tag_selection_hint">Pilih label rekaman</string>

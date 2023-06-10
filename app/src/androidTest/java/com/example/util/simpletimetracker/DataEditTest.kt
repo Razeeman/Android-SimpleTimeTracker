@@ -94,11 +94,11 @@ class DataEditTest : BaseUiTest() {
         testUtils.addRecordTag(tag2, name2)
         testUtils.addRecordTag(tag3)
 
-        testUtils.addRecord(name2, tagNames = listOf(tag2, tag3), comment = comment2)
-        testUtils.addRecord(name2, tagNames = listOf(tag2, tag3), comment = comment2)
-        testUtils.addRecord(name2, tagNames = listOf(tag2, tag3), comment = comment2)
         testUtils.addRecord(name1, tagNames = listOf(tag1, tag3), comment = comment1)
         testUtils.addRecord(name1, tagNames = listOf(tag1, tag3), comment = comment1)
+        testUtils.addRecord(name2, tagNames = listOf(tag2, tag3), comment = comment2)
+        testUtils.addRecord(name2, tagNames = listOf(tag2, tag3), comment = comment2)
+        testUtils.addRecord(name2, tagNames = listOf(tag2, tag3), comment = comment2)
 
         // Check before
         NavUtils.openRecordsScreen()
@@ -191,11 +191,11 @@ class DataEditTest : BaseUiTest() {
         testUtils.addRecordTag(tag2, name2)
         testUtils.addRecordTag(tag3)
 
-        testUtils.addRecord(name2, tagNames = listOf(tag2, tag3), comment = comment2)
-        testUtils.addRecord(name2, tagNames = listOf(tag2, tag3), comment = comment2)
-        testUtils.addRecord(name2, tagNames = listOf(tag2, tag3), comment = comment2)
         testUtils.addRecord(name1, tagNames = listOf(tag1, tag3), comment = comment1)
         testUtils.addRecord(name1, tagNames = listOf(tag1, tag3), comment = comment1)
+        testUtils.addRecord(name2, tagNames = listOf(tag2, tag3), comment = comment2)
+        testUtils.addRecord(name2, tagNames = listOf(tag2, tag3), comment = comment2)
+        testUtils.addRecord(name2, tagNames = listOf(tag2, tag3), comment = comment2)
 
         // Check before
         NavUtils.openRecordsScreen()
@@ -282,11 +282,11 @@ class DataEditTest : BaseUiTest() {
         testUtils.addRecordTag(tag2, name2)
         testUtils.addRecordTag(tag3)
 
-        testUtils.addRecord(name2, tagNames = listOf(tag2, tag3), comment = comment2)
-        testUtils.addRecord(name2, tagNames = listOf(tag2, tag3), comment = comment2)
-        testUtils.addRecord(name2, tagNames = listOf(tag2, tag3), comment = comment2)
         testUtils.addRecord(name1, comment = comment1)
         testUtils.addRecord(name1, comment = comment1)
+        testUtils.addRecord(name2, tagNames = listOf(tag2, tag3), comment = comment2)
+        testUtils.addRecord(name2, tagNames = listOf(tag2, tag3), comment = comment2)
+        testUtils.addRecord(name2, tagNames = listOf(tag2, tag3), comment = comment2)
 
         // Check before
         NavUtils.openRecordsScreen()
@@ -380,11 +380,11 @@ class DataEditTest : BaseUiTest() {
         testUtils.addRecordTag(tag2, name2)
         testUtils.addRecordTag(tag3)
 
-        testUtils.addRecord(name2, tagNames = listOf(tag2, tag3), comment = comment2)
-        testUtils.addRecord(name2, tagNames = listOf(tag2, tag3), comment = comment2)
-        testUtils.addRecord(name2, tagNames = listOf(tag2, tag3), comment = comment2)
         testUtils.addRecord(name1, tagNames = listOf(tag1, tag3), comment = comment1)
         testUtils.addRecord(name1, tagNames = listOf(tag1, tag3), comment = comment1)
+        testUtils.addRecord(name2, tagNames = listOf(tag2, tag3), comment = comment2)
+        testUtils.addRecord(name2, tagNames = listOf(tag2, tag3), comment = comment2)
+        testUtils.addRecord(name2, tagNames = listOf(tag2, tag3), comment = comment2)
 
         // Check before
         NavUtils.openRecordsScreen()
@@ -478,11 +478,11 @@ class DataEditTest : BaseUiTest() {
         testUtils.addRecordTag(tag2, name2)
         testUtils.addRecordTag(tag3)
 
-        testUtils.addRecord(name2, tagNames = listOf(tag2, tag3), comment = comment2)
-        testUtils.addRecord(name2, tagNames = listOf(tag2, tag3), comment = comment2)
-        testUtils.addRecord(name2, tagNames = listOf(tag2, tag3), comment = comment2)
         testUtils.addRecord(name1, tagNames = listOf(tag1, tag3), comment = comment1)
         testUtils.addRecord(name1, tagNames = listOf(tag1, tag3), comment = comment1)
+        testUtils.addRecord(name2, tagNames = listOf(tag2, tag3), comment = comment2)
+        testUtils.addRecord(name2, tagNames = listOf(tag2, tag3), comment = comment2)
+        testUtils.addRecord(name2, tagNames = listOf(tag2, tag3), comment = comment2)
 
         // Check before
         NavUtils.openRecordsScreen()

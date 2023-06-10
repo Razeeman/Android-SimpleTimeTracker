@@ -45,6 +45,7 @@
 
     <string name="untracked_time_name">未計測</string>
     <string name="uncategorized_time_name">未分類</string>
+    <string name="multitask_time_name">マルチタスク</string>
     <string name="running_record_goal_time">ゴール %s</string>
     <string name="record_types_empty">アクティビティがありません</string>
     <string name="record_tag_selection_hint">計測タグを選択</string>

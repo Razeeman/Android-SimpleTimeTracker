@@ -45,6 +45,7 @@
 
     <string name="untracked_time_name">Без отслеживания</string>
     <string name="uncategorized_time_name">Без категории</string>
+    <string name="multitask_time_name">Многозадачность</string>
     <string name="running_record_goal_time">цель %s</string>
     <string name="record_types_empty">Активности не добавлены</string>
     <string name="record_tag_selection_hint">Выберите тег для записи</string>

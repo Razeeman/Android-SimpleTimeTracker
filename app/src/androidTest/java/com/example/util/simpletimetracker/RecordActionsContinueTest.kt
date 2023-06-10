@@ -100,6 +100,8 @@ class RecordActionsContinueTest : BaseUiTest() {
         val timeRangePreview = (current - startOfDay).formatInterval()
 
         testUtils.addActivity(name)
+        val yesterday = System.currentTimeMillis() - TimeUnit.DAYS.toMillis(1)
+        testUtils.addRecord(typeName = name, timeStarted = yesterday, timeEnded = yesterday)
         runBlocking { prefsInteractor.setShowUntrackedInRecords(true) }
         NavUtils.openRecordsScreen()
 
