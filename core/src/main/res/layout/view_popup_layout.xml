@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="?appInactiveColor"
+    app:cardCornerRadius="@dimen/widget_universal_corner_radius"
+    app:cardElevation="0dp">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvPopupText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="16dp"
+        android:textColor="?appLightTextColor"
+        tools:text="I'm a popup!" />
+
+</androidx.cardview.widget.CardView>

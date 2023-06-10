@@ -4,6 +4,8 @@ import android.content.res.ColorStateList
 import android.graphics.Typeface
 import android.util.TypedValue
 import androidx.core.view.ViewCompat
+import com.example.util.simpletimetracker.core.extension.getCoordinates
+import com.example.util.simpletimetracker.domain.model.Coordinates
 import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.extensions.getThemedAttr
 import com.example.util.simpletimetracker.feature_statistics_detail.R
@@ -15,7 +17,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.viewData.Sta
 fun createStatisticsDetailCardAdapterDelegate(
     titleTextSize: Int,
     subtitleTextSize: Int,
-    onItemClick: () -> Unit
+    onItemClick: (ViewData.ClickableType, Coordinates) -> Unit
 ) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
     Binding::inflate
 ) { binding, item, _ ->
@@ -58,9 +60,13 @@ fun createStatisticsDetailCardAdapterDelegate(
                 ivStatisticsDetailCardIcon,
                 ColorStateList.valueOf(item.icon.iconColor)
             )
-            root.setOnClick(onItemClick)
         } else {
             cardStatisticsDetailCardIcon.visible = false
+        }
+
+        if (item.clickable != null) {
+            root.setOnClick { onItemClick(item.clickable, root.getCoordinates()) }
+        } else {
             root.isClickable = false
         }
     }

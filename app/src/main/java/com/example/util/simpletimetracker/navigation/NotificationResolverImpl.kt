@@ -3,35 +3,42 @@ package com.example.util.simpletimetracker.navigation
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.graphics.Color
+import android.graphics.Rect
 import android.view.View
+import android.view.View.MeasureSpec
+import android.view.ViewGroup
+import android.widget.PopupWindow
 import android.widget.TextView
 import android.widget.Toast
+import com.example.util.simpletimetracker.core.databinding.ViewPopupLayoutBinding
 import com.example.util.simpletimetracker.feature_views.extension.setMargins
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.navigation.params.notification.NotificationParams
+import com.example.util.simpletimetracker.navigation.params.notification.PopupParams
 import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
 import com.example.util.simpletimetracker.navigation.params.notification.ToastParams
 import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_INDEFINITE
 import com.google.android.material.snackbar.Snackbar
+import java.lang.Integer.max
 import javax.inject.Inject
 
 class NotificationResolverImpl @Inject constructor() : NotificationResolver {
 
     override fun show(activity: Activity?, data: NotificationParams, anchor: Any?) {
+        if (activity == null) return
         when (data) {
             is ToastParams -> showSystemMessage(activity, data)
             is SnackBarParams -> showSnackBar(activity, data, anchor)
+            is PopupParams -> showPopup(activity, data)
         }
     }
 
-    private fun showSystemMessage(activity: Activity?, data: ToastParams) {
-        Toast.makeText(activity?.applicationContext, data.message, Toast.LENGTH_LONG).show()
+    private fun showSystemMessage(activity: Activity, data: ToastParams) {
+        Toast.makeText(activity.applicationContext, data.message, Toast.LENGTH_LONG).show()
     }
 
     @SuppressLint("WrongConstant")
-    private fun showSnackBar(activity: Activity?, data: SnackBarParams, anchor: Any?) {
-        if (activity == null) return
-
+    private fun showSnackBar(activity: Activity, data: SnackBarParams, anchor: Any?) {
         val snackBar = Snackbar.make(
             activity.findViewById(android.R.id.content),
             data.message,
@@ -83,6 +90,57 @@ class NotificationResolverImpl @Inject constructor() : NotificationResolver {
         }
 
         snackBar.show()
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun showPopup(activity: Activity, data: PopupParams) {
+        val parent = activity.window.decorView
+
+        val view = ViewPopupLayoutBinding.inflate(activity.layoutInflater)
+        view.tvPopupText.text = data.message
+        val popupView = PopupWindow(
+            view.root,
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        popupView.apply {
+            isFocusable = false
+            isTouchable = true
+            isOutsideTouchable = true
+        }
+        view.root.setOnTouchListener { _, _ ->
+            popupView.dismiss()
+            true
+        }
+
+        view.root.measure(
+            MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
+            MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
+        )
+        val viewWidth = view.root.measuredWidth
+        val viewHeight = view.root.measuredHeight
+        val availableSpace = Rect()
+        parent.getWindowVisibleDisplayFrame(availableSpace)
+
+        val canShowAtBottom = viewHeight <= availableSpace.bottom - data.anchorCoordinates.bottom
+        val offsetX = data.anchorCoordinates.right - data.anchorCoordinates.width / 2 - viewWidth / 2
+        val offsetY = if (canShowAtBottom) {
+            data.anchorCoordinates.bottom
+        } else {
+            data.anchorCoordinates.top - viewHeight
+        }
+
+        popupView.showAsDropDown(
+            parent,
+            offsetX.coerceIn(
+                availableSpace.left,
+                max(availableSpace.left, availableSpace.right - viewWidth),
+            ),
+            offsetY.coerceIn(
+                availableSpace.top,
+                max(availableSpace.top, availableSpace.bottom - viewHeight),
+            ),
+        )
     }
 
     companion object {

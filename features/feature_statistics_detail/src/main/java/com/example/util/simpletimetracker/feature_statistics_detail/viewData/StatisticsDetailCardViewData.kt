@@ -10,6 +10,7 @@ data class StatisticsDetailCardViewData(
     val secondValue: String,
     val description: String,
     val icon: Icon? = null,
+    val clickable: ClickableType? = null,
     val accented: Boolean = false,
 ) : ViewHolderType {
 
@@ -29,4 +30,6 @@ data class StatisticsDetailCardViewData(
             @ColorInt val color: Int,
         ) : ValueChange
     }
+
+    interface ClickableType
 }

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.widget.FrameLayout
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.updatePadding
+import com.example.util.simpletimetracker.domain.model.Coordinates
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_views.extension.dpToPx
 import com.example.util.simpletimetracker.feature_views.extension.spToPx
@@ -30,7 +31,7 @@ class StatisticsDetailCardView @JvmOverloads constructor(
     defStyleAttr
 ) {
 
-    var listener: (() -> Unit)? = null
+    var listener: (StatisticsDetailCardViewData.ClickableType, Coordinates) -> Unit = { _, _ -> }
     var itemsDescription: String = ""
         set(value) {
             binding.tvStatisticsDetailCardDescription.text = value
@@ -121,8 +122,11 @@ class StatisticsDetailCardView @JvmOverloads constructor(
         }
     }
 
-    private fun onItemClick() {
-        listener?.invoke()
+    private fun onItemClick(
+        type: StatisticsDetailCardViewData.ClickableType,
+        coordinates: Coordinates
+    ) {
+        listener(type, coordinates)
     }
 
     companion object {

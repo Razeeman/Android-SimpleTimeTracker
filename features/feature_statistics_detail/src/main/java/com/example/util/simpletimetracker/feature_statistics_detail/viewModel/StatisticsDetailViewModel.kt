@@ -17,6 +17,7 @@ import com.example.util.simpletimetracker.core.viewData.RangesViewData
 import com.example.util.simpletimetracker.core.viewData.SelectDateViewData
 import com.example.util.simpletimetracker.core.viewData.SelectRangeViewData
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
+import com.example.util.simpletimetracker.domain.model.Coordinates
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.RecordBase
@@ -37,6 +38,9 @@ import com.example.util.simpletimetracker.feature_statistics_detail.viewData.Sta
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartCompositeViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartLengthViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailClickableLongest
+import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailClickableShortest
+import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailClickableTracked
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailGroupingViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewCompositeViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewViewData
@@ -46,6 +50,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.viewData.Sta
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStreaksViewData
 import com.example.util.simpletimetracker.feature_views.spinner.CustomSpinner
 import com.example.util.simpletimetracker.navigation.Router
+import com.example.util.simpletimetracker.navigation.params.notification.PopupParams
 import com.example.util.simpletimetracker.navigation.params.screen.CustomRangeSelectionParams
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogType
@@ -225,15 +230,26 @@ class StatisticsDetailViewModel @Inject constructor(
         updateSplitChartViewData()
     }
 
-    fun onRecordsClick() {
-        viewModelScope.launch {
-            val dateFilter = recordFilterInteractor.mapDateFilter(rangeLength, rangePosition)
-                ?.let(::listOf).orEmpty()
-            val finalFilters = filter
-                .plus(dateFilter)
-                .map(RecordsFilter::toParams).toList()
-
-            router.navigate(RecordsAllParams(finalFilters))
+    fun onCardClick(
+        type: StatisticsDetailCardViewData.ClickableType,
+        coordinates: Coordinates,
+    ) {
+        when (type) {
+            is StatisticsDetailClickableTracked -> {
+                onRecordsClick()
+            }
+            is StatisticsDetailClickableShortest -> {
+                PopupParams(
+                    message = type.message,
+                    anchorCoordinates = coordinates,
+                ).let(router::show)
+            }
+            is StatisticsDetailClickableLongest -> {
+                PopupParams(
+                    message = type.message,
+                    anchorCoordinates = coordinates,
+                ).let(router::show)
+            }
         }
     }
 
@@ -281,6 +297,18 @@ class StatisticsDetailViewModel @Inject constructor(
     fun onCustomRangeSelected(range: Range) {
         rangeLength = RangeLength.Custom(range)
         onRangeChanged()
+    }
+
+    private fun onRecordsClick() {
+        viewModelScope.launch {
+            val dateFilter = recordFilterInteractor.mapDateFilter(rangeLength, rangePosition)
+                ?.let(::listOf).orEmpty()
+            val finalFilters = filter
+                .plus(dateFilter)
+                .map(RecordsFilter::toParams).toList()
+
+            router.navigate(RecordsAllParams(finalFilters))
+        }
     }
 
     private fun onSelectDateClick() = viewModelScope.launch {

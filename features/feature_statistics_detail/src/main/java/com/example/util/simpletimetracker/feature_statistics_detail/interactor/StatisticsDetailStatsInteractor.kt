@@ -20,6 +20,9 @@ import com.example.util.simpletimetracker.feature_base_adapter.hint.HintViewData
 import com.example.util.simpletimetracker.feature_base_adapter.statisticsTag.StatisticsTagViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.R
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailCardViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailClickableLongest
+import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailClickableShortest
+import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailClickableTracked
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStatsViewData
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import javax.inject.Inject
@@ -93,10 +96,12 @@ class StatisticsDetailStatsInteractor @Inject constructor(
             timesTrackedIcon = null,
             shortestRecord = "",
             compareShortestRecord = "",
+            shortestRecordDate = "",
             averageRecord = "",
             compareAverageRecord = "",
             longestRecord = "",
             compareLongestRecord = "",
+            longestRecordDate = "",
             firstRecord = "",
             compareFirstRecord = "",
             lastRecord = "",
@@ -116,11 +121,15 @@ class StatisticsDetailStatsInteractor @Inject constructor(
         useProportionalMinutes: Boolean,
         showSeconds: Boolean,
     ): StatisticsDetailStatsViewData {
+        val typesMap = types.associateBy { it.id }
         val recordsSorted = records.sortedBy { it.timeStarted }
         val durations = records.map(RecordBase::duration)
 
         val compareRecordsSorted = compareRecords.sortedBy { it.timeStarted }
         val compareDurations = compareRecords.map(RecordBase::duration)
+
+        val shortestRecord = records.minByOrNull(RecordBase::duration)
+        val longestRecord = records.maxByOrNull(RecordBase::duration)
 
         val emptyValue by lazy {
             resourceRepo.getString(R.string.statistics_detail_empty)
@@ -135,14 +144,14 @@ class StatisticsDetailStatsInteractor @Inject constructor(
         )
         val activitySplitData = mapActivities(
             records = records,
-            typesMap = types.associateBy { it.id },
+            typesMap = typesMap,
             isDarkTheme = isDarkTheme,
             useProportionalMinutes = useProportionalMinutes,
             showSeconds = showSeconds,
         )
         val tagSplitData = mapTags(
             records = records,
-            typesMap = types.associateBy { it.id },
+            typesMap = typesMap,
             tagsMap = tags.associateBy { it.id },
             isDarkTheme = isDarkTheme,
             useProportionalMinutes = useProportionalMinutes,
@@ -178,6 +187,26 @@ class StatisticsDetailStatsInteractor @Inject constructor(
                 .orEmpty()
         }
 
+        fun processLengthHint(value: RecordBase?): String {
+            value ?: return emptyValue
+
+            val result = StringBuilder()
+            value.typeIds
+                .mapNotNull(typesMap::get)
+                .map(RecordType::name)
+                .takeUnless { it.isEmpty() }
+                ?.joinToString()
+                ?.let {
+                    result.append(it)
+                    result.append("\n")
+                }
+            value.timeStarted
+                .let(::formatDateTimeYear)
+                .let { result.append(it) }
+
+            return result.toString()
+        }
+
         return mapToStatsViewData(
             totalDuration = durations.sum()
                 .let(::formatInterval),
@@ -188,21 +217,25 @@ class StatisticsDetailStatsInteractor @Inject constructor(
             compareTimesTracked = compareRecords.size.toString()
                 .let(::processComparisonString),
             timesTrackedIcon = recordsAllIcon,
-            shortestRecord = durations.minOrNull()
+            shortestRecord = shortestRecord?.duration
                 .let(::formatInterval),
             compareShortestRecord = compareDurations.minOrNull()
                 .let(::formatInterval)
                 .let(::processComparisonString),
+            shortestRecordDate = shortestRecord
+                .let(::processLengthHint),
             averageRecord = getAverage(durations)
                 .let(::formatInterval),
             compareAverageRecord = getAverage(compareDurations)
                 .let(::formatInterval)
                 .let(::processComparisonString),
-            longestRecord = durations.maxOrNull()
+            longestRecord = longestRecord?.duration
                 .let(::formatInterval),
             compareLongestRecord = compareDurations.maxOrNull()
                 .let(::formatInterval)
                 .let(::processComparisonString),
+            longestRecordDate = longestRecord
+                .let(::processLengthHint),
             firstRecord = recordsSorted.firstOrNull()?.timeStarted
                 .let(::formatDateTimeYear),
             compareFirstRecord = compareRecordsSorted.firstOrNull()?.timeStarted
@@ -225,10 +258,12 @@ class StatisticsDetailStatsInteractor @Inject constructor(
         timesTrackedIcon: StatisticsDetailCardViewData.Icon?,
         shortestRecord: String,
         compareShortestRecord: String,
+        shortestRecordDate: String,
         averageRecord: String,
         compareAverageRecord: String,
         longestRecord: String,
         compareLongestRecord: String,
+        longestRecordDate: String,
         firstRecord: String,
         compareFirstRecord: String,
         lastRecord: String,
@@ -254,6 +289,7 @@ class StatisticsDetailStatsInteractor @Inject constructor(
                         R.plurals.statistics_detail_times_tracked, timesTracked.orZero()
                     ),
                     icon = timesTrackedIcon,
+                    clickable = StatisticsDetailClickableTracked,
                     accented = true,
                 )
             ),
@@ -262,7 +298,8 @@ class StatisticsDetailStatsInteractor @Inject constructor(
                     value = shortestRecord,
                     valueChange = StatisticsDetailCardViewData.ValueChange.None,
                     secondValue = compareShortestRecord,
-                    description = resourceRepo.getString(R.string.statistics_detail_shortest_record)
+                    description = resourceRepo.getString(R.string.statistics_detail_shortest_record),
+                    clickable = StatisticsDetailClickableShortest(shortestRecordDate),
                 ),
                 StatisticsDetailCardViewData(
                     value = averageRecord,
@@ -274,7 +311,8 @@ class StatisticsDetailStatsInteractor @Inject constructor(
                     value = longestRecord,
                     valueChange = StatisticsDetailCardViewData.ValueChange.None,
                     secondValue = compareLongestRecord,
-                    description = resourceRepo.getString(R.string.statistics_detail_longest_record)
+                    description = resourceRepo.getString(R.string.statistics_detail_longest_record),
+                    clickable = StatisticsDetailClickableLongest(longestRecordDate),
                 )
             ),
             datesTracked = listOf(

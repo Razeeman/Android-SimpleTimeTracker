@@ -1,10 +1,13 @@
 package com.example.util.simpletimetracker.core.extension
 
 import android.content.BroadcastReceiver
+import android.graphics.Rect
 import android.os.StrictMode
+import android.view.View
 import androidx.lifecycle.LifecycleOwner
 import androidx.viewpager2.widget.ViewPager2
 import com.example.util.simpletimetracker.core.utils.getLifecycleObserverAdapter
+import com.example.util.simpletimetracker.domain.model.Coordinates
 import java.util.Calendar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -82,4 +85,15 @@ fun ViewPager2.addOnPageChangeCallback(
     getLifecycleObserverAdapter(
         onDestroy = { unregisterOnPageChangeCallback(callback) }
     ).let(lifecycleOwner.lifecycle::addObserver)
+}
+
+fun View.getCoordinates(): Coordinates {
+    val rect = Rect()
+    getGlobalVisibleRect(rect)
+    return Coordinates(
+        left = rect.left,
+        top = rect.top,
+        right = rect.right,
+        bottom = rect.bottom,
+    )
 }
