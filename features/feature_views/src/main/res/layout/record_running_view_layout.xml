@@ -242,7 +242,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="start"
-            app:constraint_referenced_ids="tvRunningRecordItemTimer, tvRunningRecordItemGoalTime, tvRunningRecordItemGoalTime2, tvRunningRecordItemGoalTime3, tvRunningRecordItemGoalTime4" />
+            app:constraint_referenced_ids="tvRunningRecordItemTimer, tvRunningRecordItemTimerTotal, tvRunningRecordItemGoalTime, tvRunningRecordItemGoalTime2, tvRunningRecordItemGoalTime3, tvRunningRecordItemGoalTime4" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvRunningRecordItemComment"

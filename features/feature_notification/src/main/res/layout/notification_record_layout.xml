@@ -63,15 +63,17 @@
                 android:id="@+id/timerNotification"
                 style="@style/TextAppearance.Compat.Notification.Title"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:textSize="13sp" />
 
             <Chronometer
                 android:id="@+id/timerNotificationTotal"
                 style="@style/TextAppearance.Compat.Notification.Info"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
                 android:visibility="gone"
-                tools:visibility="visible"
-                android:layout_height="wrap_content" />
+                tools:visibility="visible" />
 
             <TextView
                 android:id="@+id/tvNotificationGoalTime"

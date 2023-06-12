@@ -35,29 +35,29 @@ class RangeMapper @Inject constructor() {
         )
     }
 
+    fun mapRunningRecordToRecord(
+        record: RunningRecord,
+    ): Record {
+        return Record(
+            typeId = record.id,
+            timeStarted = record.timeStarted,
+            timeEnded = record.timeEnded,
+            comment = record.comment,
+            tagIds = record.tagIds,
+        )
+    }
+
     fun clampRecordToRange(
         record: RecordBase,
         range: Range,
     ): RecordBase {
         return if (!record.isCompletelyRange(range)) {
             when (record) {
-                is Record -> record.copy(
-                    timeStarted = max(record.timeStarted, range.timeStarted),
-                    timeEnded = min(record.timeEnded, range.timeEnded)
-                )
-                is RunningRecord -> Record(
-                    typeId = record.id,
-                    timeStarted = max(record.timeStarted, range.timeStarted),
-                    timeEnded = min(record.timeEnded, range.timeEnded),
-                    comment = record.comment,
-                    tagIds = record.tagIds,
-                )
+                is Record -> clampNormalRecordToRange(record, range)
+                is RunningRecord -> clampNormalRecordToRange(mapRunningRecordToRecord(record), range)
                 is MultitaskRecord -> MultitaskRecord(
                     records = record.records.map {
-                        it.copy(
-                            timeStarted = max(it.timeStarted, range.timeStarted),
-                            timeEnded = min(it.timeEnded, range.timeEnded)
-                        )
+                        clampNormalRecordToRange(it, range)
                     }
                 )
             }
@@ -68,6 +68,16 @@ class RangeMapper @Inject constructor() {
 
     fun mapToDuration(ranges: List<Range>): Long {
         return ranges.sumOf { it.duration }
+    }
+
+    private fun clampNormalRecordToRange(
+        record: Record,
+        range: Range,
+    ): Record {
+        return record.copy(
+            timeStarted = max(record.timeStarted, range.timeStarted),
+            timeEnded = min(record.timeEnded, range.timeEnded)
+        )
     }
 
     private fun RecordBase.isInRange(

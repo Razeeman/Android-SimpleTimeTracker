@@ -36,9 +36,15 @@ class GetMultitaskRecordsInteractor @Inject constructor(
         val overlappedSegments = overlappingRangesMapper.map(segments)
 
         return overlappedSegments.mapNotNull { (ids, range) ->
-            segments
-                .filter { it.first in ids }
-                .mapNotNull { (id, _) -> recordsMap[id] }
+            ids
+                .mapNotNull { id -> recordsMap[id] }
+                .map {
+                    if (it is RunningRecord) {
+                        rangeMapper.mapRunningRecordToRecord(it)
+                    } else {
+                        it
+                    }
+                }
                 .map { rangeMapper.clampRecordToRange(it, range) }
                 .filterIsInstance<Record>()
                 .takeUnless(List<RecordBase>::isEmpty)

@@ -131,8 +131,7 @@ class RecordsFilterViewModel @Inject constructor(
     fun init(extra: RecordsFilterParams) {
         this.extra = extra
 
-        filters.firstOrNull()
-            ?.let { recordsFilterViewDataMapper.mapToViewData(it::class.java) }
+        recordsFilterViewDataMapper.mapInitialFilter(extra, filters)
             ?.let(RecordsFilterSelectionState::Visible)
             ?.let(this::filterSelectionState::set)
     }

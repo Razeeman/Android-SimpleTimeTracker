@@ -20,6 +20,23 @@ class RecordsFilterViewDataMapper @Inject constructor(
     private val colorMapper: ColorMapper,
 ) {
 
+    fun mapInitialFilter(
+        extra: RecordsFilterParams,
+        filters: List<RecordsFilter>,
+    ): RecordFilterViewData.Type? {
+        return filters
+            .firstOrNull {
+                when (it) {
+                    is RecordsFilter.Date -> extra.dateSelectionAvailable
+                    is RecordsFilter.Untracked -> extra.untrackedSelectionAvailable
+                    is RecordsFilter.Multitask -> extra.multitaskSelectionAvailable
+                    else -> true
+                }
+            }
+            ?.let { mapToViewData(it::class.java) }
+
+    }
+
     fun mapRecordsCount(
         extra: RecordsFilterParams,
         count: Int,
