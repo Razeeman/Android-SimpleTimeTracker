@@ -21,6 +21,7 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
+import java.util.concurrent.TimeUnit
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.equalTo
@@ -43,6 +44,8 @@ class RecordsRangesTest : BaseUiTest() {
 
         // Add activity
         NavUtils.addActivity(name)
+        val before = System.currentTimeMillis() - TimeUnit.DAYS.toMillis(7)
+        testUtils.addRecord(name, timeStarted = before, timeEnded = before)
 
         // Start timer
         clickOnViewWithText(name)

@@ -1,7 +1,6 @@
 package com.example.util.simpletimetracker.core.extension
 
 import android.content.Context
-import android.util.TypedValue
 import androidx.appcompat.app.AppCompatActivity
 
 inline fun <reified T> Context.findListener(): T? {

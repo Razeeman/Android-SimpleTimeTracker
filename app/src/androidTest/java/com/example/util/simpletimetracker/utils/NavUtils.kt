@@ -58,6 +58,10 @@ object NavUtils {
         onView(withText(coreR.string.settings_additional_title)).perform(nestedScrollTo(), click())
     }
 
+    fun openSettingsBackup() {
+        onView(withText(coreR.string.settings_backup_title)).perform(nestedScrollTo(), click())
+    }
+
     fun openCategoriesScreen() {
         onView(withText(coreR.string.settings_edit_categories)).perform(nestedScrollTo(), click())
     }

@@ -76,6 +76,7 @@ class RecordsFilterTest : BaseUiTest() {
         checkRecordsCard(0)
 
         clickOnViewWithId(statisticsDetailR.id.cardStatisticsDetailFilter)
+        clickOnView(withSubstring(getString(coreR.string.activity_hint)))
         clickOnView(allOf(isDescendantOfA(withId(baseR.id.viewRecordTypeItem)), withText(name1)))
         clickOnView(allOf(isDescendantOfA(withId(baseR.id.viewRecordTypeItem)), withText(name2)))
         pressBack()
@@ -130,6 +131,7 @@ class RecordsFilterTest : BaseUiTest() {
         checkRecordsCard(0)
 
         clickOnViewWithId(statisticsDetailR.id.cardStatisticsDetailFilter)
+        clickOnView(withSubstring(getString(coreR.string.activity_hint)))
         clickOnView(
             allOf(isDescendantOfA(withId(baseR.id.viewCategoryItem)), withText(coreR.string.uncategorized_time_name))
         )
@@ -183,25 +185,21 @@ class RecordsFilterTest : BaseUiTest() {
         checkRecordsCard(1)
 
         clickOnViewWithId(statisticsDetailR.id.cardStatisticsDetailFilter)
-        clickOnView(withSubstring(getString(coreR.string.change_record_comment_field)))
         clickOnViewWithText(coreR.string.records_filter_any_comment)
         pressBack()
         checkRecordsCard(5)
 
         clickOnViewWithId(statisticsDetailR.id.cardStatisticsDetailFilter)
-        clickOnView(withSubstring(getString(coreR.string.change_record_comment_field)))
         typeTextIntoView(recordsFilterR.id.etRecordsFilterCommentItem, "CoMm")
         pressBack()
         checkRecordsCard(5)
 
         clickOnViewWithId(statisticsDetailR.id.cardStatisticsDetailFilter)
-        clickOnView(withSubstring(getString(coreR.string.change_record_comment_field)))
         typeTextIntoView(recordsFilterR.id.etRecordsFilterCommentItem, comment1)
         pressBack()
         checkRecordsCard(2)
 
         clickOnViewWithId(statisticsDetailR.id.cardStatisticsDetailFilter)
-        clickOnView(withSubstring(getString(coreR.string.change_record_comment_field)))
         typeTextIntoView(recordsFilterR.id.etRecordsFilterCommentItem, comment2)
         pressBack()
         checkRecordsCard(3)

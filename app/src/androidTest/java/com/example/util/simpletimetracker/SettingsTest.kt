@@ -67,6 +67,8 @@ class SettingsTest : BaseUiTest() {
 
         // Add activity
         testUtils.addActivity(name = name, color = color, icon = icon)
+        val before = System.currentTimeMillis() - TimeUnit.DAYS.toMillis(1)
+        testUtils.addRecord(name, timeStarted = before, timeEnded = before)
 
         // Untracked is not shown
         NavUtils.openRecordsScreen()
@@ -354,7 +356,9 @@ class SettingsTest : BaseUiTest() {
         clickOnViewWithId(dialogsR.id.tvNumberKeyboard0)
         clickOnViewWithId(dialogsR.id.tvNumberKeyboard0)
         clickOnViewWithText(coreR.string.duration_dialog_save)
-        checkViewIsDisplayed(withText("1$minuteString"))
+        checkViewIsDisplayed(
+            allOf(withText("1$minuteString"), withId(settingsR.id.tvSettingsInactivityReminderTime))
+        )
         onView(withId(settingsR.id.checkboxSettingsInactivityReminderRecurrent)).perform(nestedScrollTo())
         checkViewIsDisplayed(withId(settingsR.id.checkboxSettingsInactivityReminderRecurrent))
 
@@ -452,7 +456,9 @@ class SettingsTest : BaseUiTest() {
         clickOnViewWithId(dialogsR.id.tvNumberKeyboard0)
         clickOnViewWithId(dialogsR.id.tvNumberKeyboard0)
         clickOnViewWithText(coreR.string.duration_dialog_save)
-        checkViewIsDisplayed(withText("1$minuteString"))
+        checkViewIsDisplayed(
+            allOf(withText("1$minuteString"), withId(settingsR.id.tvSettingsActivityReminderTime))
+        )
         onView(withId(settingsR.id.checkboxSettingsActivityReminderRecurrent)).perform(nestedScrollTo())
         checkViewIsDisplayed(withId(settingsR.id.checkboxSettingsActivityReminderRecurrent))
 
@@ -834,20 +840,17 @@ class SettingsTest : BaseUiTest() {
         NavUtils.openRecordsScreen()
         clickOnViewWithId(recordsR.id.btnRecordsContainerPrevious)
         clickOnViewWithId(recordsR.id.btnRecordsContainerPrevious)
-        clickOnViewWithId(recordsR.id.btnRecordsContainerPrevious)
-        checkRecord(
-            nameResId = coreR.string.untracked_time_name, timeStart = startOfDayPreview, timeEnd = startOfDayPreview,
-        )
-        clickOnViewWithId(recordsR.id.btnRecordsContainerNext)
         checkRecord(name = name, timeStart = timeStartedPreview, timeEnd = startOfDayPreview)
         clickOnViewWithId(recordsR.id.btnRecordsContainerNext)
+        checkRecord(
+            nameResId = coreR.string.untracked_time_name, timeStart = timeEndedPreview, timeEnd = startOfDayPreview,
+        )
         checkRecord(name = name, timeStart = startOfDayPreview, timeEnd = timeEndedPreview)
 
         // Check statistics
         NavUtils.openStatisticsScreen()
         clickOnViewWithId(statisticsR.id.btnStatisticsContainerPrevious)
         clickOnViewWithId(statisticsR.id.btnStatisticsContainerPrevious)
-        checkStatisticsItem(nameResId = coreR.string.untracked_time_name, hours = 22)
         checkStatisticsItem(name = name, hours = 2)
         clickOnViewWithId(statisticsR.id.btnStatisticsContainerNext)
         checkStatisticsItem(nameResId = coreR.string.untracked_time_name, hours = 22)
@@ -891,13 +894,11 @@ class SettingsTest : BaseUiTest() {
         longClickOnViewWithId(recordsR.id.btnRecordsContainerToday)
         clickOnViewWithId(recordsR.id.btnRecordsContainerPrevious)
         clickOnViewWithId(recordsR.id.btnRecordsContainerPrevious)
-        clickOnViewWithId(recordsR.id.btnRecordsContainerPrevious)
-        checkRecord(
-            nameResId = coreR.string.untracked_time_name, timeStart = startOfDayPreview, timeEnd = startOfDayPreview,
-        )
-        clickOnViewWithId(recordsR.id.btnRecordsContainerNext)
         checkRecord(name = name, timeStart = timeStartedPreview, timeEnd = startOfDayPreview)
         clickOnViewWithId(recordsR.id.btnRecordsContainerNext)
+        checkRecord(
+            nameResId = coreR.string.untracked_time_name, timeStart = timeEndedPreview, timeEnd = startOfDayPreview,
+        )
         checkRecord(name = name, timeStart = startOfDayPreview, timeEnd = timeEndedPreview)
 
         // Check statistics
@@ -905,7 +906,6 @@ class SettingsTest : BaseUiTest() {
         longClickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
         clickOnViewWithId(statisticsR.id.btnStatisticsContainerPrevious)
         clickOnViewWithId(statisticsR.id.btnStatisticsContainerPrevious)
-        checkStatisticsItem(nameResId = coreR.string.untracked_time_name, hours = 21)
         checkStatisticsItem(name = name, hours = 3)
         clickOnViewWithId(statisticsR.id.btnStatisticsContainerNext)
         checkStatisticsItem(nameResId = coreR.string.untracked_time_name, hours = 23)
@@ -942,13 +942,11 @@ class SettingsTest : BaseUiTest() {
         longClickOnViewWithId(recordsR.id.btnRecordsContainerToday)
         clickOnViewWithId(recordsR.id.btnRecordsContainerPrevious)
         clickOnViewWithId(recordsR.id.btnRecordsContainerPrevious)
-        clickOnViewWithId(recordsR.id.btnRecordsContainerPrevious)
-        checkRecord(
-            nameResId = coreR.string.untracked_time_name, timeStart = startOfDayPreview, timeEnd = startOfDayPreview,
-        )
-        clickOnViewWithId(recordsR.id.btnRecordsContainerNext)
         checkRecord(name = name, timeStart = timeStartedPreview, timeEnd = startOfDayPreview)
         clickOnViewWithId(recordsR.id.btnRecordsContainerNext)
+        checkRecord(
+            nameResId = coreR.string.untracked_time_name, timeStart = timeEndedPreview, timeEnd = startOfDayPreview,
+        )
         checkRecord(name = name, timeStart = startOfDayPreview, timeEnd = timeEndedPreview)
 
         // Check statistics
@@ -956,7 +954,6 @@ class SettingsTest : BaseUiTest() {
         longClickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
         clickOnViewWithId(statisticsR.id.btnStatisticsContainerPrevious)
         clickOnViewWithId(statisticsR.id.btnStatisticsContainerPrevious)
-        checkStatisticsItem(nameResId = coreR.string.untracked_time_name, hours = 23)
         checkStatisticsItem(name = name, hours = 1)
         clickOnViewWithId(statisticsR.id.btnStatisticsContainerNext)
         checkStatisticsItem(nameResId = coreR.string.untracked_time_name, hours = 21)
@@ -995,22 +992,17 @@ class SettingsTest : BaseUiTest() {
         longClickOnViewWithId(recordsR.id.btnRecordsContainerToday)
         clickOnViewWithId(recordsR.id.btnRecordsContainerPrevious)
         clickOnViewWithId(recordsR.id.btnRecordsContainerPrevious)
-        clickOnViewWithId(recordsR.id.btnRecordsContainerPrevious)
-        checkRecord(
-            nameResId = coreR.string.untracked_time_name, timeStart = startOfDayPreview, timeEnd = startOfDayPreview,
-        )
-        clickOnViewWithId(recordsR.id.btnRecordsContainerNext)
         checkRecord(name = name, timeStart = timeStartedPreview, timeEnd = timeEndedPreview)
         clickOnViewWithId(recordsR.id.btnRecordsContainerNext)
         checkRecord(
             nameResId = coreR.string.untracked_time_name, timeStart = startOfDayPreview, timeEnd = startOfDayPreview,
         )
+
         // Check statistics
         NavUtils.openStatisticsScreen()
         longClickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
         clickOnViewWithId(statisticsR.id.btnStatisticsContainerPrevious)
         clickOnViewWithId(statisticsR.id.btnStatisticsContainerPrevious)
-        checkStatisticsItem(nameResId = coreR.string.untracked_time_name, hours = 20)
         checkStatisticsItem(name = name, hours = 4)
         clickOnViewWithId(statisticsR.id.btnStatisticsContainerNext)
         checkStatisticsItem(nameResId = coreR.string.untracked_time_name, hours = 24)
@@ -1226,6 +1218,7 @@ class SettingsTest : BaseUiTest() {
     @Test
     fun csvExportSettings() {
         NavUtils.openSettingsScreen()
+        NavUtils.openSettingsBackup()
         onView(withId(settingsR.id.layoutSettingsExportCsv)).perform(nestedScrollTo(), click())
 
         // View is set up

@@ -18,6 +18,7 @@ import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.withCardColor
 import com.example.util.simpletimetracker.utils.withTag
 import dagger.hilt.android.testing.HiltAndroidTest
+import java.util.concurrent.TimeUnit
 import org.hamcrest.CoreMatchers.allOf
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -42,6 +43,8 @@ class StatisticsTest : BaseUiTest() {
         NavUtils.openRecordsScreen()
         testUtils.addRecord(name)
         testUtils.addRecord(newName)
+        val before = System.currentTimeMillis() - TimeUnit.DAYS.toMillis(365 * 10)
+        testUtils.addRecord(name, timeStarted = before, timeEnded = before)
 
         NavUtils.openStatisticsScreen()
 
@@ -73,8 +76,17 @@ class StatisticsTest : BaseUiTest() {
         clickOnViewWithText(coreR.string.range_overall)
         Thread.sleep(1000)
 
-        checkViewIsDisplayed(allOf(withText(coreR.string.untracked_time_name), isCompletelyDisplayed()))
-        checkViewDoesNotExist(allOf(withText("1$hourString 0m"), isCompletelyDisplayed()))
+        checkViewIsDisplayed(
+            allOf(
+                withId(baseR.id.viewStatisticsItem),
+                hasDescendant(withText(coreR.string.untracked_time_name)),
+                hasDescendant(withSubstring("100%")),
+                isCompletelyDisplayed()
+            )
+        )
+        clickOnViewWithIdOnPager(statisticsR.id.btnStatisticsChartFilter)
+        clickOnViewWithText(coreR.string.untracked_time_name)
+        pressBack()
         checkViewIsDisplayed(
             allOf(
                 withId(baseR.id.viewStatisticsItem),
@@ -92,14 +104,6 @@ class StatisticsTest : BaseUiTest() {
                 hasDescendant(withTag(lastIcon)),
                 hasDescendant(withText(newName)),
                 hasDescendant(withSubstring("50%")),
-                isCompletelyDisplayed()
-            )
-        )
-        checkViewIsDisplayed(
-            allOf(
-                withId(baseR.id.viewStatisticsItem),
-                hasDescendant(withText(coreR.string.untracked_time_name)),
-                hasDescendant(withSubstring("<1%")),
                 isCompletelyDisplayed()
             )
         )
@@ -151,6 +155,8 @@ class StatisticsTest : BaseUiTest() {
         testUtils.addRecord(typeName3)
         testUtils.addRecord(typeName4)
         testUtils.addRecord(typeName5)
+        val before = System.currentTimeMillis() - TimeUnit.DAYS.toMillis(365 * 10)
+        testUtils.addRecord(typeName1, timeStarted = before, timeEnded = before)
 
         NavUtils.openStatisticsScreen()
         clickOnViewWithIdOnPager(statisticsR.id.btnStatisticsChartFilter)
@@ -187,7 +193,17 @@ class StatisticsTest : BaseUiTest() {
         clickOnViewWithText(coreR.string.range_overall)
         Thread.sleep(1000)
 
-        checkViewDoesNotExist(allOf(withText("3$hourString 0$minuteString"), isCompletelyDisplayed()))
+        checkViewIsDisplayed(
+            allOf(
+                withId(baseR.id.viewStatisticsItem),
+                hasDescendant(withText(coreR.string.untracked_time_name)),
+                hasDescendant(withSubstring("100%")),
+                isCompletelyDisplayed()
+            )
+        )
+        clickOnViewWithIdOnPager(statisticsR.id.btnStatisticsChartFilter)
+        clickOnViewWithText(coreR.string.untracked_time_name)
+        pressBack()
         checkViewIsDisplayed(
             allOf(
                 withId(baseR.id.viewStatisticsItem),
@@ -211,14 +227,6 @@ class StatisticsTest : BaseUiTest() {
                 withId(baseR.id.viewStatisticsItem),
                 hasDescendant(withText(coreR.string.uncategorized_time_name)),
                 hasDescendant(withSubstring("17%")),
-                isCompletelyDisplayed()
-            )
-        )
-        checkViewIsDisplayed(
-            allOf(
-                withId(baseR.id.viewStatisticsItem),
-                hasDescendant(withText(coreR.string.untracked_time_name)),
-                hasDescendant(withSubstring("<1%")),
                 isCompletelyDisplayed()
             )
         )
@@ -274,6 +282,8 @@ class StatisticsTest : BaseUiTest() {
         testUtils.addRecord(typeName3, tagNames = listOf(tagName2))
         testUtils.addRecord(typeName1, tagNames = listOf(tagName1, tagName2))
         testUtils.addRecord(typeName4)
+        val before = System.currentTimeMillis() - TimeUnit.DAYS.toMillis(365 * 10)
+        testUtils.addRecord(typeName1, timeStarted = before, timeEnded = before)
 
         NavUtils.openStatisticsScreen()
         clickOnViewWithIdOnPager(statisticsR.id.btnStatisticsChartFilter)
@@ -310,7 +320,17 @@ class StatisticsTest : BaseUiTest() {
         clickOnViewWithText(coreR.string.range_overall)
         Thread.sleep(1000)
 
-        checkViewDoesNotExist(allOf(withText("3$hourString 0$minuteString"), isCompletelyDisplayed()))
+        checkViewIsDisplayed(
+            allOf(
+                withId(baseR.id.viewStatisticsItem),
+                hasDescendant(withText(coreR.string.untracked_time_name)),
+                hasDescendant(withSubstring("100%")),
+                isCompletelyDisplayed()
+            )
+        )
+        clickOnViewWithIdOnPager(statisticsR.id.btnStatisticsChartFilter)
+        clickOnViewWithText(coreR.string.untracked_time_name)
+        pressBack()
         checkViewIsDisplayed(
             allOf(
                 withId(baseR.id.viewStatisticsItem),
@@ -334,14 +354,6 @@ class StatisticsTest : BaseUiTest() {
                 withId(baseR.id.viewStatisticsItem),
                 hasDescendant(withText(coreR.string.change_record_untagged)),
                 hasDescendant(withSubstring("17%")),
-                isCompletelyDisplayed()
-            )
-        )
-        checkViewIsDisplayed(
-            allOf(
-                withId(baseR.id.viewStatisticsItem),
-                hasDescendant(withText(coreR.string.untracked_time_name)),
-                hasDescendant(withSubstring("<1%")),
                 isCompletelyDisplayed()
             )
         )
